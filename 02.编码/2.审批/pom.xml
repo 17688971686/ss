@@ -5,7 +5,7 @@
 	<artifactId>framework</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>framework Maven Webapp</name>
+	<name>光明新区投资项目在线审批监管平台-审批系统</name>
 	<url>http://maven.apache.org</url>
 
 	<dependencies>
