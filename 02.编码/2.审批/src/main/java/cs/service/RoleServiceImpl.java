@@ -60,7 +60,7 @@ public class RoleServiceImpl implements RoleService {
 		pageModelDto.setCount(odataObj.getCount());
 		pageModelDto.setValue(roleDtoList);
 
-		logger.info("²éÑ¯½ÇÉ«Êı¾İ");
+		logger.info("æŸ¥è¯¢è§’è‰²æ•°æ®");
 		return pageModelDto;
 	}
 
@@ -68,7 +68,7 @@ public class RoleServiceImpl implements RoleService {
 	@Transactional
 	public void createRole(RoleDto roleDto) {		
 		boolean isRoleExist=roleRepository.isRoleExist(roleDto.getRoleName());
-		if(!isRoleExist){//½ÇÉ«²»´æÔÚ		
+		if(!isRoleExist){//è§’è‰²ä¸å­˜åœ¨		
 			Role role = new Role();
 			role.setComment(roleDto.getComment());
 			role.setRoleName(roleDto.getRoleName());
@@ -84,9 +84,9 @@ public class RoleServiceImpl implements RoleService {
 		}
 
 		roleRepository.save(role);		
-		logger.info(String.format("´´½¨½ÇÉ«,½ÇÉ«Ãû:%s", roleDto.getRoleName()));
+		logger.info(String.format("åˆ›å»ºè§’è‰²,è§’è‰²å:%s", roleDto.getRoleName()));
 		}else{
-			throw new IllegalArgumentException(String.format("½ÇÉ«Ãû£º%s ÒÑ¾­´æÔÚ,ÇëÖØĞÂÊäÈë£¡",	roleDto.getRoleName()));
+			throw new IllegalArgumentException(String.format("è§’è‰²åï¼š%s å·²ç»å­˜åœ¨,è¯·é‡æ–°è¾“å…¥ï¼",	roleDto.getRoleName()));
 		}
 	}
 
@@ -97,7 +97,7 @@ public class RoleServiceImpl implements RoleService {
 		role.setComment(roleDto.getComment());
 		role.setModifiedBy(currentUser.getLoginName());
 
-		//Çå³ıÒÑÓĞresource
+		//æ¸…é™¤å·²æœ‰resource
 		role.getResources().clear();
 		
 		// resource
@@ -110,7 +110,7 @@ public class RoleServiceImpl implements RoleService {
 		}
 		
 		roleRepository.save(role);
-		logger.info(String.format("¸üĞÂ½ÇÉ«,½ÇÉ«Ãû:%s", roleDto.getRoleName()));
+		logger.info(String.format("æ›´æ–°è§’è‰²,è§’è‰²å:%s", roleDto.getRoleName()));
 	}
 
 	@Override
@@ -119,12 +119,12 @@ public class RoleServiceImpl implements RoleService {
 		Role role = roleRepository.findById(id);
 		if (role != null) {
 			List<User> users=role.getUsers();
-			for (User user : users) {//°Ñ½ÇÉ«ÀïµÄÓÃ»§ÒÆ³ö²ÅÄÜÉ¾³ı
+			for (User user : users) {//æŠŠè§’è‰²é‡Œçš„ç”¨æˆ·ç§»å‡ºæ‰èƒ½åˆ é™¤
 				user.getRoles().remove(role);
 			}
-			if(!role.getRoleName().equals("³¬¼¶¹ÜÀíÔ±")){
+			if(!role.getRoleName().equals("è¶…çº§ç®¡ç†å‘˜")){
 				roleRepository.delete(role);
-				logger.info(String.format("É¾³ı½ÇÉ«,½ÇÉ«Ãû:%s", role.getRoleName()));
+				logger.info(String.format("åˆ é™¤è§’è‰²,è§’è‰²å:%s", role.getRoleName()));
 			}
 			
 		}
@@ -138,6 +138,6 @@ public class RoleServiceImpl implements RoleService {
 		for (String id : ids) {
 			this.deleteRole(id);
 		}
-		logger.info("ÅúÁ¿É¾³ı½ÇÉ«");
+		logger.info("æ‰¹é‡åˆ é™¤è§’è‰²");
 	}
 }

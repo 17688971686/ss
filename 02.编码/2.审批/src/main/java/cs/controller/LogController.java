@@ -17,14 +17,14 @@ import cs.repository.odata.ODataObj;
 import cs.service.LogService;
 
 @Controller
-@RequestMapping(name = "日志", path = "log")
+@RequestMapping(name = "鏃ュ織", path = "log")
 public class LogController {
 	private String ctrlName = "log";
 	@Autowired
 	private LogService logService;
 
 	@RequiresPermissions("log##get")	
-	@RequestMapping(name = "获取日志数据", path = "", method = RequestMethod.GET)
+	@RequestMapping(name = "鑾峰彇鏃ュ織鏁版嵁", path = "", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<LogDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<LogDto> logDtos = logService.get(odataObj);
@@ -34,7 +34,7 @@ public class LogController {
 
 	// begin#html
 	@RequiresPermissions("log#html/list#get")	
-	@RequestMapping(name = "日志列表页面", path = "html/list", method = RequestMethod.GET)
+	@RequestMapping(name = "鏃ュ織鍒楄〃椤甸潰", path = "html/list", method = RequestMethod.GET)
 	public String list() {
 		return ctrlName + "/list";
 	}

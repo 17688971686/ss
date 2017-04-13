@@ -20,14 +20,14 @@ import cs.repository.odata.ODataObj;
 import cs.service.RoleService;
 
 @Controller
-@RequestMapping(name = "角色", path = "role")
+@RequestMapping(name = "瑙掕壊", path = "role")
 public class RoleController {
 	private String ctrlName="role";
 	@Autowired
 	private RoleService roleService;
 	
 	@RequiresPermissions("role##get")
-	@RequestMapping(name = "获取角色数据", path = "",method=RequestMethod.GET)	
+	@RequestMapping(name = "鑾峰彇瑙掕壊鏁版嵁", path = "",method=RequestMethod.GET)	
 	public @ResponseBody PageModelDto<RoleDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj=new ODataObj(request);
 		PageModelDto<RoleDto> roleDtos=roleService.get(odataObj);
@@ -37,21 +37,21 @@ public class RoleController {
 	
 	
 	@RequiresPermissions("role##post")
-	@RequestMapping(name = "创建角色", path = "",method=RequestMethod.POST)	
+	@RequestMapping(name = "鍒涘缓瑙掕壊", path = "",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  post(@RequestBody RoleDto roleDto)  {		
 		roleService.createRole(roleDto);		
 	}
 	
 	@RequiresPermissions("role##put")
-	@RequestMapping(name = "更新角色", path = "",method=RequestMethod.PUT)	
+	@RequestMapping(name = "鏇存柊瑙掕壊", path = "",method=RequestMethod.PUT)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  update(@RequestBody RoleDto roleDto) throws Exception  {	
 		roleService.updateRole(roleDto);		
 	}
 	
 	@RequiresPermissions("role##delete")
-	@RequestMapping(name = "删除角色", path = "",method=RequestMethod.DELETE)	
+	@RequestMapping(name = "鍒犻櫎瑙掕壊", path = "",method=RequestMethod.DELETE)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  delete(@RequestBody String id)  {
 		String[] ids=id.split(",");
@@ -66,13 +66,13 @@ public class RoleController {
 	//begin#html
 	
 	@RequiresPermissions("role#html/list#get")
-	@RequestMapping(name="角色列表页面",path="html/list",method=RequestMethod.GET)
+	@RequestMapping(name="瑙掕壊鍒楄〃椤甸潰",path="html/list",method=RequestMethod.GET)
 	public String list(){
 		return ctrlName + "/list";
 	}
 	
 	@RequiresPermissions("role#html/edit#get")
-	@RequestMapping(name="编辑角色页面",path="html/edit",method=RequestMethod.GET)
+	@RequestMapping(name="缂栬緫瑙掕壊椤甸潰",path="html/edit",method=RequestMethod.GET)
 	public String edit(){
 		return ctrlName + "/edit";
 	}
