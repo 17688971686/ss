@@ -26,7 +26,7 @@ public class AdminController {
 	private UserService userService;
 	
 
-	@RequiresPermissions("admin#index#get")
+	//@RequiresPermissions("admin#index#get")
 	@RequestMapping(name = "首页", path = "index")
 	public String index(Model model) {
 
@@ -34,7 +34,14 @@ public class AdminController {
 		return ctrlName + "/index";
 	}
 
-	@RequiresPermissions("admin#welcome#get")
+	@RequestMapping(name = "申报首页", path = "")
+	public String admin(Model model) {
+
+		model.addAttribute("user", currentUser.getLoginName());
+		return ctrlName + "/admin";
+	}
+	
+	//@RequiresPermissions("admin#welcome#get")
 	@RequestMapping(name = "欢迎页", path = "welcome")
 	public String welcome(Model model) {
 		User user=userService.findUserByName( currentUser.getLoginName());

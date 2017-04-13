@@ -1,0 +1,70 @@
+body{
+	background:#d8eaf0 url(/contents/admin/style/images/bg1.jpg) repeat-x;
+}
+
+ul{
+	padding:0px;
+	margin-bottom:0px;
+
+}
+ul li{
+	list-style:none;
+}
+.wrap-960{
+	width:960px;
+	margin:0 auto;
+	
+}
+.user_icon{
+	background: url(/contents/admin/style/images/user_icon.jpg) no-repeat left bottom;
+	width:200px;
+	height:29px;
+	padding-left:30px;	
+}
+
+.logo{
+	background:url(images/logo.jpg) no-repeat;
+	width:403px;
+	height:101px;
+}
+.contact{
+	background:url(images/contact.jpg) no-repeat;
+	width:262px;
+	height:101px;
+	
+}
+.menu{
+	background:#0b8d39;
+}
+
+.menu li{
+	float:left;
+	margin-left:50px;
+	list-style:none;
+	line-height:45px;
+	
+}
+
+.menu a:link{
+	color:white;
+	text-decoration:none;
+	font-size:14px;
+	font-weight:bold;
+}
+.menu a:visited{
+	color:white;
+	text-decoration:none;
+}
+.menu a:hover{
+	color:yellow;
+}
+.process{
+	background:url(images/process.jpg) no-repeat;
+	width:960px;
+	height:40px;
+}
+/* .bg_pic{
+	background:url(images/bgpic.jpg) no-repeat   center bottom;
+	margin:0 auto;
+	min-height:900px;
+} */
