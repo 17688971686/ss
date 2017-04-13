@@ -5,11 +5,11 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class Resource {	
-	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '资源名称'")
+	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '璧勬簮鍚嶇О'")
 	private String name;
-	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '路径'")
+	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '璺緞'")
 	private String path;	
-	@Column(columnDefinition="varchar(255)  COMMENT '请求方式'")
+	@Column(columnDefinition="varchar(255)  COMMENT '璇锋眰鏂瑰紡'")
 	private String method;
 
 	public String getName() {

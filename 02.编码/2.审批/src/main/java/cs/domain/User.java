@@ -15,19 +15,19 @@ import javax.persistence.Table;
 public class User extends DomainBase {
 	@Id	
 	private String id;
-	@Column(columnDefinition="varchar(255) NOT NULL COMMENT 'µÇÂ¼Ãû'")
+	@Column(columnDefinition="varchar(255) NOT NULL COMMENT 'ç™»å½•å'")
 	private String loginName;
-	@Column(columnDefinition="varchar(255) NOT NULL COMMENT 'ÃÜÂë'")
+	@Column(columnDefinition="varchar(255) NOT NULL COMMENT 'å¯†ç '")
 	private String password;
-	@Column(columnDefinition="varchar(255)  COMMENT 'ÏÔÊ¾Ãû'")
+	@Column(columnDefinition="varchar(255)  COMMENT 'æ˜¾ç¤ºå'")
 	private String displayName;
 	
-	@Column(columnDefinition="varchar(255)  COMMENT '±¸×¢'")
+	@Column(columnDefinition="varchar(255)  COMMENT 'å¤‡æ³¨'")
 	private String comment;
 	
-	@Column(columnDefinition="int(11) COMMENT 'µÇÂ¼Ê§°Ü´ÎÊı'")
+	@Column(columnDefinition="int(11) COMMENT 'ç™»å½•å¤±è´¥æ¬¡æ•°'")
 	private int loginFailCount;
-	@Column(columnDefinition="datetime  COMMENT '×îºóÒ»´ÎµÇÂ¼Ê±¼ä'")
+	@Column(columnDefinition="datetime  COMMENT 'æœ€åä¸€æ¬¡ç™»å½•æ—¶é—´'")
 	private Date lastLoginDate;
 
 	
