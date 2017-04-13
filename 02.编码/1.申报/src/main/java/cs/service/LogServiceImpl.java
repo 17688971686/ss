@@ -44,7 +44,7 @@ public class LogServiceImpl implements LogService {
 		pageModelDto.setCount(odataObj.getCount());
 		pageModelDto.setValue(logDtoList);
 
-		logger.info("查询日志数据");		
+		logger.info("鏌ヨ鏃ュ織鏁版嵁");		
 		return pageModelDto;
 	}
 }

@@ -55,18 +55,18 @@ public class OrgServiceImpl implements OrgService {
 		pageModelDto.setCount(odataObj.getCount());
 		pageModelDto.setValue(orgDtoList);
 
-		logger.info("²éÑ¯²¿ÃÅÊı¾İ");		
+		logger.info("æŸ¥è¯¢éƒ¨é—¨æ•°æ®");		
 		return pageModelDto;
 	}
 
 	@Override
 	@Transactional
 	public void createOrg(OrgDto orgDto) {
-		// ÅĞ¶Ï²¿ÃÅÊÇ·ñÒÑ¾­´æÔÚ
+		// åˆ¤æ–­éƒ¨é—¨æ˜¯å¦å·²ç»å­˜åœ¨
 		Criteria criteria = orgRepo.getSession().createCriteria(Org.class);
 		criteria.add(Restrictions.eq("orgIdentity", orgDto.getOrgIdentity()));
 		List<Org> orgs = criteria.list();
-		if (orgs.isEmpty()) {// ²¿ÃÅ²»´æÔÚ
+		if (orgs.isEmpty()) {// éƒ¨é—¨ä¸å­˜åœ¨
 			Org org = new Org();
 			org.setComment(orgDto.getComment());
 			org.setName(orgDto.getName());
@@ -76,11 +76,11 @@ public class OrgServiceImpl implements OrgService {
 
 			orgRepo.save(org);
 
-			logger.info(String.format("´´½¨²¿ÃÅ,²¿ÃÅÃû:%s", orgDto.getOrgIdentity()));
+			logger.info(String.format("åˆ›å»ºéƒ¨é—¨,éƒ¨é—¨å:%s", orgDto.getOrgIdentity()));
 		} else
 
 		{
-			throw new IllegalArgumentException(String.format("²¿ÃÅ±êÊ¶£º%s ÒÑ¾­´æÔÚ,ÇëÖØĞÂÊäÈë£¡", orgDto.getOrgIdentity()));
+			throw new IllegalArgumentException(String.format("éƒ¨é—¨æ ‡è¯†ï¼š%s å·²ç»å­˜åœ¨,è¯·é‡æ–°è¾“å…¥ï¼", orgDto.getOrgIdentity()));
 		}
 	}
 
@@ -93,7 +93,7 @@ public class OrgServiceImpl implements OrgService {
 		org.setModifiedBy(currentUser.getLoginName());
 
 		orgRepo.save(org);
-		logger.info(String.format("¸üĞÂ²¿ÃÅ,²¿ÃÅÃû:%s", orgDto.getName()));
+		logger.info(String.format("æ›´æ–°éƒ¨é—¨,éƒ¨é—¨å:%s", orgDto.getName()));
 	}
 
 	@Override
@@ -103,11 +103,11 @@ public class OrgServiceImpl implements OrgService {
 		if (org != null) {
 			
 			List<User> users=org.getUsers();
-			for (User user : users) {//°Ñ²¿ÃÅÀïµÄÓÃ»§ÒÆ³ö²ÅÄÜÉ¾³ı
+			for (User user : users) {//æŠŠéƒ¨é—¨é‡Œçš„ç”¨æˆ·ç§»å‡ºæ‰èƒ½åˆ é™¤
 				user.getOrgs().remove(org);
 			}
 			orgRepo.delete(org);
-			logger.info(String.format("É¾³ı²¿ÃÅ,²¿ÃÅidentity:%s", org.getOrgIdentity()));
+			logger.info(String.format("åˆ é™¤éƒ¨é—¨,éƒ¨é—¨identity:%s", org.getOrgIdentity()));
 		}
 
 	}
@@ -118,7 +118,7 @@ public class OrgServiceImpl implements OrgService {
 		for (String id : ids) {
 			this.deleteOrg(id);
 		}
-		logger.info("ÅúÁ¿É¾³ı²¿ÃÅ");
+		logger.info("æ‰¹é‡åˆ é™¤éƒ¨é—¨");
 	}
 
 	@Override
@@ -139,7 +139,7 @@ public class OrgServiceImpl implements OrgService {
 			});
 			pageModelDto.setValue(userDtos);
 			pageModelDto.setCount(userDtos.size());
-			logger.info(String.format("²éÕÒ²¿ÃÅÓÃ»§£¬²¿ÃÅ%s", org.getOrgIdentity()));
+			logger.info(String.format("æŸ¥æ‰¾éƒ¨é—¨ç”¨æˆ·ï¼Œéƒ¨é—¨%s", org.getOrgIdentity()));
 		}
 
 		return pageModelDto;
@@ -171,7 +171,7 @@ public class OrgServiceImpl implements OrgService {
 			pageModelDto.setValue(userDtos);
 			pageModelDto.setCount(userDtos.size());
 
-			logger.info(String.format("²éÕÒ·Ç²¿ÃÅÓÃ»§,²¿ÃÅ%s", org.getOrgIdentity()));
+			logger.info(String.format("æŸ¥æ‰¾ééƒ¨é—¨ç”¨æˆ·,éƒ¨é—¨%s", org.getOrgIdentity()));
 		}
 
 		return pageModelDto;
@@ -187,7 +187,7 @@ public class OrgServiceImpl implements OrgService {
 				user.getOrgs().add(org);
 			}
 			userRepo.save(user);
-			logger.info(String.format("Ìí¼ÓÓÃ»§µ½²¿ÃÅ,²¿ÃÅ%s,ÓÃ»§:%s", org.getOrgIdentity(), user.getLoginName()
+			logger.info(String.format("æ·»åŠ ç”¨æˆ·åˆ°éƒ¨é—¨,éƒ¨é—¨%s,ç”¨æˆ·:%s", org.getOrgIdentity(), user.getLoginName()
 					));
 			
 		}
@@ -204,7 +204,7 @@ public class OrgServiceImpl implements OrgService {
 				user.getOrgs().remove(org);
 			}
 			userRepo.save(user);
-			logger.info(String.format("´Ó²¿ÃÅÒÆ³ıÓÃ»§,²¿ÃÅ%s,ÓÃ»§:%s", org.getOrgIdentity(), user.getLoginName()));
+			logger.info(String.format("ä»éƒ¨é—¨ç§»é™¤ç”¨æˆ·,éƒ¨é—¨%s,ç”¨æˆ·:%s", org.getOrgIdentity(), user.getLoginName()));
 		}
 
 	}
@@ -217,7 +217,7 @@ public class OrgServiceImpl implements OrgService {
 			for (String id : userIds) {
 				this.removeOrgUser(id,orgId);
 			}
-			logger.info(String.format("ÅúÁ¿É¾³ı²¿ÃÅÓÃ»§,²¿ÃÅ%s", org.getOrgIdentity()));
+			logger.info(String.format("æ‰¹é‡åˆ é™¤éƒ¨é—¨ç”¨æˆ·,éƒ¨é—¨%s", org.getOrgIdentity()));
 		}
 	}
 
