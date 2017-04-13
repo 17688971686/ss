@@ -126,7 +126,7 @@ desired effect
 				<!-- Sidebar Menu -->
 				<ul class="sidebar-menu">
 					<li class="header"></li>
-
+									
 
 					<li class="treeview active"><a href="javascript:void(0)">
 							<img style="width: 20px; height: 20px"
@@ -137,14 +137,55 @@ desired effect
 						</span>
 					</a>
 						<ul class="treeview-menu">
-							<li><a href="javascript:void(0)"> <i
-									class="fa fa-envelope-o"></i>消息通知 <span
-									class="label label-success">4</span>
-							</a></li>
-							<li><a href="javascript:void(0)"> <i
-									class="fa fa-flag-o"></i>待办事项 <span class="label label-danger">0</span>
-							</a></li>
-						</ul></li>
+							<li>
+								<a href="javascript:void(0)"> <i
+									class="fa fa-envelope-o"></i>个人待办
+									<span class="label label-success">4</span>
+									<span class="pull-right-container">
+							 			<i class="fa fa-angle-left pull-right"></i>
+									</span>
+								</a>
+								<ul class="treeview-menu">
+										<li><a href="javascript:void(0)" ui-sref="planPreFee">规划前期费</a></li>
+										<li><a href="javascript:void(0)" ui-sref="prePlanPreFee">前期计划前期费</a></li>
+										<li><a href="javascript:void(0)" ui-sref="newStartPlan">新开工计划</a></li>
+										<li><a href="javascript:void(0)" ui-sref="constructionPlan">续建计划</a></li>
+										<li><a href="javascript:void(0)" ui-sref="entrustAudit">委托审计</a></li>
+										<li><a href="javascript:void(0)" ui-sref="auditAccountFunds">审计决算资金</a></li>
+										<li><a href="javascript:void(0)" ui-sref="nextYearPlan">下一年度计划</a></li>
+								</ul>
+							</li>
+							<li><a href="javascript:void(0)" ui-sref="perHasDone">个人已办 </a></li>
+							<li><a href="javascript:void(0)" ui-sref="concernedProject">关注的项目 </a></li>
+							<li><a href="javascript:void(0)" ui-sref="deptProjectQuery">部门项目查询</a></li>
+						</ul>
+					</li>
+					
+					<li class="treeview">
+						<a href="javascript:void(0)"> <i
+							class="fa fa-link"></i> <span>项目进度管理</span> <span
+							class="pull-right-container"> <i
+							class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="javascript:void(0)" ui-sref="monthReport">月报</a></li>
+							<li><a href="javascript:void(0)" ui-sref="reminders">催办</a></li>
+						</ul>
+					</li>
+					<li class="treeview">
+						<a href="javascript:void(0)"> <i
+							class="fa fa-link"></i> <span>决策辅助系统</span> <span
+							class="pull-right-container"> <i
+							class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="javascript:void(0)" ui-sref="statisticalAnalysis">统计分析</a></li>
+							<li><a href="javascript:void(0)" ui-sref="projectGeographicalDistribution">项目地理分布</a></li>
+							<li><a href="javascript:void(0)" ui-sref="projectProcess">项目全流程</a></li>
+						</ul>
+					</li>
 					<li class="treeview"><a href="javascript:void(0)"> <i
 							class="fa fa-link"></i> <span>用户部门管理</span> <span
 							class="pull-right-container"> <i
@@ -268,7 +309,52 @@ desired effect
 	<!-- demo -->
 	<script src="/contents/app/demo/demo.ctrl.js"></script>
 	<script src="/contents/app/demo/demo.svc.js"></script>
+	<!-- planPreFee(规划前期费) -->
+	<script src="/contents/app/myWorkbench/personToDo/planPreFee/planPreFee.ctrl.js"></script>
+	<script src="/contents/app/myWorkbench/personToDo/planPreFee/planPreFee.svc.js"></script>
+	<!-- prePlanPreFee（前期计划前期费） -->
+	<script src="/contents/app/myWorkbench/personToDo/prePlanPreFee/prePlanPreFee.ctrl.js"></script>
+	<script src="/contents/app/myWorkbench/personToDo/prePlanPreFee/prePlanPreFee.svc.js"></script>
+	<!-- newStartPlan（新开工计划） -->
+	<script src="/contents/app/myWorkbench/personToDo/newStartPlan/newStartPlan.ctrl.js"></script>
+	<script src="/contents/app/myWorkbench/personToDo/newStartPlan/newStartPlan.svc.js"></script>
+	<!-- constructionPlan（续建计划） -->
+	<script src="/contents/app/myWorkbench/personToDo/constructionPlan/constructionPlan.ctrl.js"></script>
+	<script src="/contents/app/myWorkbench/personToDo/constructionPlan/constructionPlan.svc.js"></script>
+	<!-- entrustAudit（委托审计） -->
+	<script src="/contents/app/myWorkbench/personToDo/entrustAudit/entrustAudit.ctrl.js"></script>
+	<script src="/contents/app/myWorkbench/personToDo/entrustAudit/entrustAudit.svc.js"></script>
+	<!-- auditAccountFunds（审计决算资金） -->
+	<script src="/contents/app/myWorkbench/personToDo/auditAccountFunds/auditAccountFunds.ctrl.js"></script>
+	<script src="/contents/app/myWorkbench/personToDo/auditAccountFunds/auditAccountFunds.svc.js"></script>
+	<!-- nextYearPlan（下一年度计划） -->
+	<script src="/contents/app/myWorkbench/personToDo/nextYearPlan/nextYearPlan.ctrl.js"></script>
+	<script src="/contents/app/myWorkbench/personToDo/nextYearPlan/nextYearPlan.svc.js"></script>
+	<!-- perHasDone（个人已办） -->
+	<script src="/contents/app/myWorkbench/perHasDone/perHasDone.ctrl.js"></script>
+	<script src="/contents/app/myWorkbench/perHasDone/perHasDone.svc.js"></script>
+	<!-- concernedProject（关注的项目） -->
+	<script src="/contents/app/myWorkbench/concernedProject/concernedProject.ctrl.js"></script>
+	<script src="/contents/app/myWorkbench/concernedProject/concernedProject.svc.js"></script>
+	<!-- deptProjectQuery（部门项目查询） -->
+	<script src="/contents/app/myWorkbench/deptProjectQuery/deptProjectQuery.ctrl.js"></script>
+	<script src="/contents/app/myWorkbench/deptProjectQuery/deptProjectQuery.svc.js"></script>
+	<!-- monthReport（月报） -->
+	<script src="/contents/app/projectScheduleMange/monthReport/monthReport.svc.js"></script>
+	<script src="/contents/app/projectScheduleMange/monthReport/monthReport.ctrl.js"></script>
 	
+	<!-- reminders（催办） -->
+	<script src="/contents/app/projectScheduleMange/reminders/reminders.ctrl.js"></script>
+	<script src="/contents/app/projectScheduleMange/reminders/reminders.svc.js"></script>
+	<!-- statisticalAnalysis（统计分析） -->
+	<script src="/contents/app/decisionAidSystem/statisticalAnalysis/statisticalAnalysis.ctrl.js"></script>
+	<script src="/contents/app/decisionAidSystem/statisticalAnalysis/statisticalAnalysis.svc.js"></script>
+	<!-- projectGeographicalDistribution（项目地理分布） -->
+	<script src="/contents/app/decisionAidSystem/projectGeographicalDistribution/projectGeographicalDistribution.ctrl.js"></script>
+	<script src="/contents/app/decisionAidSystem/projectGeographicalDistribution/projectGeographicalDistribution.svc.js"></script>
+	<!-- projectProcess -->
+	<script src="/contents/app/decisionAidSystem/projectProcess/projectProcess.ctrl.js"></script>
+	<script src="/contents/app/decisionAidSystem/projectProcess/projectProcess.svc.js"></script>
 	<!-- End:自定义Js-->
 </body>
 </html>

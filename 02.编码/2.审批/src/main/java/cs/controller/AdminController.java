@@ -16,7 +16,7 @@ import cs.service.HomeService;
 import cs.service.UserService;
 
 @Controller
-@RequestMapping(name = "¹ÜÀí½çÃæ", path = "admin")
+@RequestMapping(name = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", path = "admin")
 public class AdminController {
 	private String ctrlName = "admin";
 	private static Logger logger = Logger.getLogger(AdminController.class.getName());
@@ -26,16 +26,16 @@ public class AdminController {
 	private UserService userService;
 	
 
-	@RequiresPermissions("admin#index#get")
-	@RequestMapping(name = "Ê×Ò³", path = "index")
+	//@RequiresPermissions("admin#index#get")
+	@RequestMapping(name = "ï¿½ï¿½Ò³", path = "index")
 	public String index(Model model) {
 
 		model.addAttribute("user", currentUser.getLoginName());
 		return ctrlName + "/index";
 	}
 
-	@RequiresPermissions("admin#welcome#get")
-	@RequestMapping(name = "»¶Ó­Ò³", path = "welcome")
+	//@RequiresPermissions("admin#welcome#get")
+	@RequestMapping(name = "ï¿½ï¿½Ó­Ò³", path = "welcome")
 	public String welcome(Model model) {
 		User user=userService.findUserByName( currentUser.getLoginName());
 		if(user!=null){

@@ -92,6 +92,69 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#home
+	        
+	        //begin#projectMonthReport（项目月报）
+	        .state('projectMonthReport', {
+	            url: '/projectMonthReport',
+	            templateUrl: '/contents/app/projectMonthReport/html/list.html',
+	            controller: 'projectMonthReportCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#projectMonthReport
+	        
+	         //begin#problemCoordinition（问题协调）
+	        .state('problemCoordinition', {
+	            url: '/problemCoordinition',
+	            templateUrl: '/contents/app/problemCoordinition/html/list.html',
+	            controller: 'problemCoordinitionCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#problemCoordinition
+	        
+	        //begin#suggestFeedback（建议反馈）
+	        .state('suggestFeedback', {
+	            url: '/suggestFeedback',
+	            templateUrl: '/contents/app/suggestFeedback/html/list.html',
+	            controller: 'suggestFeedbackCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#suggestFeedback
+	        
+	        //begin#deptInfoMaintain（单位信息维护）
+	        .state('deptInfoMaintain', {
+	            url: '/deptInfoMaintain',
+	            templateUrl: '/contents/app/deptInfoMaintain/html/list.html',
+	            controller: 'deptInfoMaintainCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#deptInfoMaintain
+	        
+	        //begin#operationRecord（操作记录）
+	        .state('operationRecord', {
+	            url: '/operationRecord',
+	            templateUrl: '/contents/app/managementHomePage/operationRecord/html/list.html',
+	            controller: 'operationRecordCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#operationRecord
+	        
+	        //begin#tips（温馨提示）
+	        .state('tips', {
+	            url: '/tips',
+	            templateUrl: '/contents/app/managementHomePage/tips/html/list.html',
+	            controller: 'tipsCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#tips
+	          
+	      //begin#projectDetais（项目详情）
+	        .state('projectDetais', {
+	            url: '/projectDetais/:id',
+	            templateUrl: '/contents/app/projectMonthReport/html/projectDetais.html',
+	            controller: 'projectDetaisCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#projectDetais
     }]);
     
 })();

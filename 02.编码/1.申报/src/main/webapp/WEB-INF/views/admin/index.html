@@ -126,9 +126,21 @@ desired effect
 				<!-- Sidebar Menu -->
 				<ul class="sidebar-menu">
 					<li class="header"></li>
+					
+					<li class="treeview active">
+						<a href="javascript:void(0)"> 
+						<i class="glyphicon glyphicon-home"></i> <span>管理端首页</span>
+							<span class="pull-right-container">
+							 	<i class="fa fa-angle-left pull-right"></i>	
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="javascript:void(0)" ui-sref="tips"><i class="glyphicon glyphicon-comment"></i>温馨提示（消息中心）</a></li>
+							<li><a href="javascript:void(0)" ui-sref="operationRecord"><i class="glyphicon glyphicon-list-alt"></i>操作记录</a></li>
+						</ul>
+					</li>
 
-
-					<li class="treeview active"><a href="javascript:void(0)">
+					<li class="treeview"><a href="javascript:void(0)">
 							<img style="width: 20px; height: 20px"
 							src="/contents/images/user_icon.png" class="user-image"
 							alt="User Image"> <span>我的工作台</span> <span
@@ -168,6 +180,28 @@ desired effect
 							<li><a href="javascript:void(0)" ui-sref="log">日志管理</a></li>
 							<li><a href="javascript:void(0)" ui-sref="workflow">工作流管理(下个版本加入)</a></li>
 						</ul></li>
+						
+					<li class="treeview">
+						<a href="javascript:void(0)" ui-sref="deptInfoMaintain">
+							 <i class="glyphicon glyphicon-wrench"></i> <span>单位信息维护</span>
+						</a>
+					</li>
+					<li class="treeview">
+						<a href="javascript:void(0)" ui-sref="projectMonthReport"> 
+							<i class="glyphicon glyphicon-file"></i> <span>项目月报</span>
+						</a>
+					</li>
+					<li class="treeview">
+						<a href="javascript:void(0)" ui-sref="problemCoordinition"> 
+							<i class="glyphicon glyphicon-globe"></i> <span>问题协调</span> 
+						</a>
+					</li>
+					<li class="treeview">
+						<a href="javascript:void(0)" ui-sref="suggestFeedback"> 
+							<i class="glyphicon glyphicon-exclamation-sign"></i> <span>建议反馈</span> 
+						</a>
+					</li>
+					
 					<li class="treeview"><a href="javascript:void(0)"> <i
 							class="fa fa-link"></i> <span>Demo</span> <span
 							class="pull-right-container"> <i
@@ -268,7 +302,18 @@ desired effect
 	<!-- demo -->
 	<script src="/contents/app/demo/demo.ctrl.js"></script>
 	<script src="/contents/app/demo/demo.svc.js"></script>
-	
+	 <!-- deptInfoMaintain -->
+	<script src="/contents/app/deptInfoMaintain/deptInfoMaintain.ctrl.js"></script>
+	<script src="/contents/app/deptInfoMaintain/deptInfoMaintain.svc.js"></script>
+	projectMonthReport
+	<script src="/contents/app/projectMonthReport/projectMonthReport.ctrl.js"></script>
+	<script src="/contents/app/projectMonthReport/projectMonthReport.svc.js"></script>
+	problemCoordinition
+	<script src="/contents/app/problemCoordinition/problemCoordinition.ctrl.js"></script>
+	<script src="/contents/app/problemCoordinition/problemCoordinition.svc.js"></script>
+	suggestFeedback
+	<script src="/contents/app/suggestFeedback/suggestFeedback.ctrl.js"></script>
+	<script src="/contents/app/suggestFeedback/suggestFeedback.svc.js"></script>
 	<!-- End:自定义Js-->
 </body>
 </html>
