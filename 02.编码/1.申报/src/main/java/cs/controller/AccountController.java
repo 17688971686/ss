@@ -15,27 +15,27 @@ import cs.model.UserDto;
 import cs.service.UserService;
 
 @Controller
-@RequestMapping(name = "ÕË»§", path = "account")
+@RequestMapping(name = "è´¦æˆ·", path = "account")
 public class AccountController {
 	private String ctrlName = "account";
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(name = "µÇÂ¼", path = "login", method = RequestMethod.POST)
+	@RequestMapping(name = "ç™»å½•", path = "login", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public @ResponseBody Response post(@RequestBody UserDto userDto) {
 		Response loginResult= userService.Login(userDto.getLoginName(), userDto.getPassword());
 		
 		return loginResult;
 	}
-	@RequestMapping(name = "ÍË³ö", path = "logout", method = RequestMethod.GET)
+	@RequestMapping(name = "é€€å‡º", path = "logout", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	public   String logout() {
 		userService.logout();
 		return "forward:/";
 	}
 	
-	@RequestMapping(name = "ĞŞ¸ÄÃÜÂë", path = "password", method = RequestMethod.PUT)
+	@RequestMapping(name = "ä¿®æ”¹å¯†ç ", path = "password", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
 	public  @ResponseBody Response password(@RequestBody String password) {
 		userService.changePwd(password);
@@ -46,7 +46,7 @@ public class AccountController {
 	
 
 	// begin#html
-	@RequestMapping(name = "ĞŞ¸ÄÃÜÂëÒ³Ãæ", path = "html/changePwd", method = RequestMethod.GET)
+	@RequestMapping(name = "ä¿®æ”¹å¯†ç é¡µé¢", path = "html/changePwd", method = RequestMethod.GET)
 	public String list() {
 		return ctrlName + "/changePwd";
 	}

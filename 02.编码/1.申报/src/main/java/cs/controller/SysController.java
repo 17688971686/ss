@@ -16,20 +16,20 @@ import cs.common.sysResource.SysResourceDto;
 import cs.service.SysService;
 
 @Controller
-@RequestMapping(name = "ÏµÍ³×ÊÔ´", path = "sys")
+@RequestMapping(name = "ç³»ç»Ÿèµ„æº", path = "sys")
 public class SysController {
 	@Autowired
 	private SysService sysService;
 
 	@RequiresPermissions("sys#resource#get")
-	@RequestMapping(name = "»ñÈ¡ÏµÍ³×ÊÔ´Êı¾İ", path = "resource", method = RequestMethod.GET)
+	@RequestMapping(name = "è·å–ç³»ç»Ÿèµ„æºæ•°æ®", path = "resource", method = RequestMethod.GET)
 	public @ResponseBody List<SysResourceDto> get(HttpServletRequest request) {
 		List<SysResourceDto> ZTreeList = sysService.get();
 		return ZTreeList;
 	}
 
 	
-	@RequestMapping(name = "ÏµÍ³³õÊ¼»¯", path = "init", method = RequestMethod.GET)
+	@RequestMapping(name = "ç³»ç»Ÿåˆå§‹åŒ–", path = "init", method = RequestMethod.GET)
 	public @ResponseBody String init(HttpServletRequest request) {
 		Response response = sysService.SysInit();
 		if(response.isSuccess()){

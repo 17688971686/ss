@@ -9,7 +9,7 @@ public class HomeController {
 	private String ctrlName = "home";
 	private static Logger logger = Logger.getLogger(HomeController.class.getName());
 
-	@RequestMapping(name = "µÇÂ¼", path = "/")
+	@RequestMapping(name = "ç™»å½•", path = "/")
 	public String login() {
 
 		return this.ctrlName + "/login";
