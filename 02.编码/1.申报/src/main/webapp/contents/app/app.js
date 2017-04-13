@@ -92,6 +92,7 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#home
+<<<<<<< HEAD
 	        //begin#inform
 	        .state('inform', {
 	        	url: '/inform', 
@@ -124,6 +125,71 @@
 	        	controllerAs: 'vm'
 	        }) 
 	        //end#form
+=======
+	        
+	        //begin#projectMonthReport（项目月报）
+	        .state('projectMonthReport', {
+	            url: '/projectMonthReport',
+	            templateUrl: '/contents/app/projectMonthReport/html/list.html',
+	            controller: 'projectMonthReportCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#projectMonthReport
+	        
+	         //begin#problemCoordinition（问题协调）
+	        .state('problemCoordinition', {
+	            url: '/problemCoordinition',
+	            templateUrl: '/contents/app/problemCoordinition/html/list.html',
+	            controller: 'problemCoordinitionCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#problemCoordinition
+	        
+	        //begin#suggestFeedback（建议反馈）
+	        .state('suggestFeedback', {
+	            url: '/suggestFeedback',
+	            templateUrl: '/contents/app/suggestFeedback/html/list.html',
+	            controller: 'suggestFeedbackCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#suggestFeedback
+	        
+	        //begin#deptInfoMaintain（单位信息维护）
+	        .state('deptInfoMaintain', {
+	            url: '/deptInfoMaintain',
+	            templateUrl: '/contents/app/deptInfoMaintain/html/list.html',
+	            controller: 'deptInfoMaintainCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#deptInfoMaintain
+	        
+	        //begin#operationRecord（操作记录）
+	        .state('operationRecord', {
+	            url: '/operationRecord',
+	            templateUrl: '/contents/app/managementHomePage/operationRecord/html/list.html',
+	            controller: 'operationRecordCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#operationRecord
+	        
+	        //begin#tips（温馨提示）
+	        .state('tips', {
+	            url: '/tips',
+	            templateUrl: '/contents/app/managementHomePage/tips/html/list.html',
+	            controller: 'tipsCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#tips
+	          
+	      //begin#projectDetais（项目详情）
+	        .state('projectDetais', {
+	            url: '/projectDetais/:id',
+	            templateUrl: '/contents/app/projectMonthReport/html/projectDetais.html',
+	            controller: 'projectDetaisCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#projectDetais
+>>>>>>> branch 'develop' of http://119.23.22.237/tfs/DefaultCollection/_git/%E5%85%89%E6%98%8E%E6%96%B0%E5%8C%BA%E6%8A%95%E8%B5%84%E9%A1%B9%E7%9B%AE%E5%9C%A8%E7%BA%BF%E5%AE%A1%E6%89%B9%E7%9B%91%E7%AE%A1%E5%B9%B3%E5%8F%B0
     }]);
     
 })();
