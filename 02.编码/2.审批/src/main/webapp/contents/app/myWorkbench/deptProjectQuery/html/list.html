@@ -1,0 +1,35 @@
+<meta charset="UTF-8">
+<div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+        <li><a href="#/projectprocess">部门项目查询</a></li>
+        <li class="active">{{vm.title}}</li>
+    </ol>
+	<ul id="myTab" class="nav nav-tabs">
+            <li class="active"><a href="#toDo" data-toggle="tab">待办项目</a></li>
+            <li><a href="#hasDone" data-toggle="tab">已办项目</a></li>
+    </ul>
+    <div class="tab-content">
+    	<div class="tab-pane fade in active" id="toDo">
+    		<form id="form" name="form">          
+         		<div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+    		</form>
+    	</div>
+    	<div class="tab-pane fade" id="hasDone">
+    		<form id="form" name="form">          
+         		<div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+    		</form>
+    	</div>
+    	
+    </div>
+    
+</div>
+<script>
+$(function(){
+	$('#myTab a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+});
+</script>

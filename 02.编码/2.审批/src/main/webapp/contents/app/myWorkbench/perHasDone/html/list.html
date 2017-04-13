@@ -1,0 +1,63 @@
+<meta charset="UTF-8">
+<div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
+
+<!--     <div>
+        <div>
+            <label>项目名称：</label>
+            <div>
+                <div><input></div>
+            </div>
+        </div>
+        
+        <div>
+            <label>建设单位：</label>
+            <div>
+                <div><input></div>
+            </div>
+        </div>
+        
+        <div>
+            <label>收文编号：</label>
+            <div>
+                <div><input></div>
+            </div>
+        </div>
+        
+        <div>
+            <label>项目阶段：</label>
+            <div>
+                <select>
+                    <option>请选择</option>
+                        <option value="前期工作计划（立项）">前期工作计划（立项）</option>
+                        <option value="项目建议书">项目建议书</option>
+                        <option value="可行性研究报告">可行性研究报告</option>
+                        <option value="项目总概算">项目总概算</option>
+                        <option value="规划设计前期费">规划设计前期费</option>
+                        <option value="前期计划（前期费）">前期计划（前期费）</option>
+                        <option value="新开工计划">新开工计划</option>
+                        <option value="续建计划">续建计划</option>
+                        <option value="下一年度计划">下一年度计划</option>
+                        <option value="年度调整计划">年度调整计划</option>
+                        <option value="前期储备项目">前期储备项目</option>
+                        <option value="委托审计">委托审计</option>
+                        <option value="审计决算资金">审计决算资金</option>
+                </select>
+        	</div>
+        </div>
+        
+        <div>
+            <img>
+            <a>查询</a>
+        </div>
+     </div> -->
+     <div class="well well-sm" style="background:white;">
+	    <ol class="breadcrumb">
+	        <li><a href="#/perhasdone">个人已办</a></li>
+	        <li class="active">{{vm.title}}</li>
+	    </ol>
+     	<form id="form" name="form">          
+         	<div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+    	</form>
+     </div>
+        
