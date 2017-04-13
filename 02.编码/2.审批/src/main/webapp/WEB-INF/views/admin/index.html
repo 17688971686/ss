@@ -141,10 +141,77 @@ desired effect
 									class="fa fa-envelope-o"></i>消息通知 <span
 									class="label label-success">4</span>
 							</a></li>
-							<li><a href="javascript:void(0)"> <i
-									class="fa fa-flag-o"></i>待办事项 <span class="label label-danger">0</span>
-							</a></li>
+							<li><a href="javascript:void(0)"> 
+									<i class="fa fa-flag-o"></i>待办事项 <span class="label label-danger">0</span>
+								</a>
+							</li>
+							
+							<li class="treeview"><a href="javascript:void(0)"> <i
+							class="fa fa-link"></i> <span>个人待办</span> <span
+							class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li><a href="javascript:void(0)" ui-sref="prophaseWorkPlan">前期工作计划</a></li>
+							<li><a href="javascript:void(0)" ui-sref="projectProposal">项目建议书</a></li>
+							<li><a href="javascript:void(0)" ui-sref="feasibilityStudyReport">可行性研究报告</a></li>
+							<li><a href="javascript:void(0)" ui-sref="initialDeviseScheme">初步设计方案</a></li>
+						</ul>
+					</li>
+						</ul>
+						
+					</li>
+					<li class="treeview"><a href="javascript:void(0)"> <i
+							class="fa fa-link"></i> <span>年度计划管理</span> <span
+							class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li><a href="javascript:void(0)" ui-sref="planProject">年度计划项目库</a></li>
+							<li><a href="javascript:void(0)" ui-sref="planFormation">年度计划编制</a></li>
+							<li><a href="javascript:void(0)" ui-sref="planCollect">年度计划汇总</a></li>
+							
+
 						</ul></li>
+					<li class="treeview"><a href="javascript:void(0)"> <i
+							class="fa fa-link"></i> <span>项目评审管理</span> <span
+							class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li><a href="javascript:void(0)" ui-sref="expertPlan">专家安排</a></li>
+							<li><a href="javascript:void(0)" ui-sref="reviewPlan">评审安排</a></li>
+						</ul>
+					</li>
+					<li class="treeview"><a href="javascript:void(0)"> <i
+							class="fa fa-link"></i> <span>项目综合管理</span> <span
+							class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li><a href="javascript:void(0)" ui-sref="stressMonitorProject">重点监控项目</a></li>
+							<li><a href="javascript:void(0)" ui-sref="projectBank">项目库</a></li>
+						</ul>
+					</li>
+					<li class="treeview"><a href="javascript:void(0)"> <i
+							class="fa fa-link"></i> <span>统一门户管理</span> <span
+							class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li><a href="javascript:void(0)" ui-sref="inform">通知通告</a></li>
+							<li><a href="javascript:void(0)" ui-sref="policy">政策法规</a></li>
+							<li><a href="javascript:void(0)" ui-sref="workGuide">办事指南</a></li>
+							<li><a href="javascript:void(0)" ui-sref="form">常用表格</a></li>
+							<li><a href="javascript:void(0)" ui-sref="suggestFeedback">建议反馈</a></li>
+							<li><a href="javascript:void(0)" ui-sref="problemConcert">问题协调</a></li>
+						</ul>
+					</li>
 					<li class="treeview"><a href="javascript:void(0)"> <i
 							class="fa fa-link"></i> <span>用户部门管理</span> <span
 							class="pull-right-container"> <i
@@ -158,7 +225,7 @@ desired effect
 
 						</ul></li>
 					<li class="treeview"><a href="javascript:void(0)"> <i
-							class="fa fa-link"></i> <span>系统管理</span> <span
+							class="fa fa-link"></i> <span>系统管理</span> <span	
 							class="pull-right-container"> <i
 								class="fa fa-angle-left pull-right"></i>
 						</span>
@@ -268,6 +335,33 @@ desired effect
 	<!-- demo -->
 	<script src="/contents/app/demo/demo.ctrl.js"></script>
 	<script src="/contents/app/demo/demo.svc.js"></script>
+	<!-- planProject -->
+	<script src="/contents/app/yearPlanManage/planProject/planProject.ctrl.js"></script>
+	<script src="/contents/app/yearPlanManage/planProject/planProject.svc.js"></script>
+	<!-- planFormation -->
+	<script src="/contents/app/yearPlanManage/planFormation/planFormation.ctrl.js"></script>
+	<script src="/contents/app/yearPlanManage/planFormation/planFormation.svc.js"></script>
+	<!-- planCollect -->
+	<script src="/contents/app/yearPlanManage/planCollect/planCollect.ctrl.js"></script>
+	<script src="/contents/app/yearPlanManage/planCollect/planCollect.svc.js"></script>
+	<!-- inform -->
+	<script src="/contents/app/uniteDoorManage/inform/inform.ctrl.js"></script>
+	<script src="/contents/app/uniteDoorManage/inform/inform.svc.js"></script>
+	<!-- policy -->
+	<script src="/contents/app/uniteDoorManage/policy/policy.ctrl.js"></script>
+	<script src="/contents/app/uniteDoorManage/policy/policy.svc.js"></script>
+	<!-- form -->
+	<script src="/contents/app/uniteDoorManage/form/form.ctrl.js"></script>
+	<script src="/contents/app/uniteDoorManage/form/form.svc.js"></script>
+	<!-- workGuide -->
+	<script src="/contents/app/uniteDoorManage/workGuide/workGuide.ctrl.js"></script>
+	<script src="/contents/app/uniteDoorManage/workGuide/workGuide.svc.js"></script>
+	<!-- suggestFeedback -->
+	<script src="/contents/app/uniteDoorManage/suggestFeedback/suggestFeedback.ctrl.js"></script>
+	<script src="/contents/app/uniteDoorManage/suggestFeedback/suggestFeedback.svc.js"></script>
+	<!-- problemConcert -->
+	<script src="/contents/app/uniteDoorManage/problemConcert/problemConcert.ctrl.js"></script>
+	<script src="/contents/app/uniteDoorManage/problemConcert/problemConcert.svc.js"></script>
 	
 	<!-- End:自定义Js-->
 </body>

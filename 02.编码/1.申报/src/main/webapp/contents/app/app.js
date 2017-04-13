@@ -92,6 +92,38 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#home
+	        //begin#inform
+	        .state('inform', {
+	        	url: '/inform', 
+	        	templateUrl: '/contents/app/inform/html/list.html',
+	        	controller: 'informCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#inform
+	        //begin#policy
+	        .state('policy', {
+	        	url: '/policy', 
+	        	templateUrl: '/contents/app/policy/html/list.html',
+	        	controller: 'policyCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#policy
+	        //begin#workGuide
+	        .state('workGuide', {
+	        	url: '/workGuide', 
+	        	templateUrl: '/contents/app/workGuide/html/list.html',
+	        	controller: 'workGuideCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#policy
+	        //begin#form
+	        .state('form', {
+	        	url: '/form', 
+	        	templateUrl: '/contents/app/form/html/list.html',
+	        	controller: 'formCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#form
     }]);
     
 })();
