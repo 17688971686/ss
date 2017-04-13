@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping(name = "Home")
 public class HomeController {
 	private String ctrlName = "home";
 	private static Logger logger = Logger.getLogger(HomeController.class.getName());
@@ -14,5 +15,11 @@ public class HomeController {
 
 		return this.ctrlName + "/login";
 	}
+	@RequestMapping(name = "申报", path = "/shenbao")
+	public String shenbao() {
+
+		return this.ctrlName + "/shenbao";
+	}
+	
 
 }

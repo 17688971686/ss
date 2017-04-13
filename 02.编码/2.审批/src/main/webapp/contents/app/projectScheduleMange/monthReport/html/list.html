@@ -1,0 +1,17 @@
+<meta charset="UTF-8">
+<div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+        <li><a href="#/monthReport">项目月报管理</a></li>
+        <li class="active">{{vm.title}}</li>
+    </ol>
+    <script type="text/template" id="columnBtns">
+			<button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-file"></span>是否填写月报</button>
+	</script>
+    <form id="form" name="form">          
+         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+    </form>
+    <button type="button" class="btn-sm btn-info">批量添加填报月报</button>
+    <button type="button" class="btn-sm btn-info">批量取消填报月报</button>
+</div>

@@ -1,0 +1,55 @@
+<meta charset="UTF-8">
+<div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+	  <ol class="breadcrumb">
+	      <li><a href="#/perhasdone">项目月报</a></li>
+	      <li class="active">{{vm.title}}</li>
+	  </ol>
+	  <script type="text/template" id="columnBtns">
+	  		<button class="btn btn-xs btn-danger"  ng-click="{0}"><span class="glyphicon glyphicon-pencil"></span>填报</button>
+	  </script>
+	  <div>
+	  	<div style="display:inline">
+	  		<span>项目名称：</span>
+	  		<input/>
+	  	</div>
+	  	<div style="display:inline">
+	  		<span>申报阶段：</span>
+	  		<select>
+	  			<option>请选择</option>
+				<option>项目建议书</option>
+				<option>可行性研究报告</option>
+				<option>项目总概算</option>
+				<option>前期计划（前期费）</option>
+				<option>新开工计划</option>
+				<option>续建计划</option>
+				<option>下一年度计划</option>
+				<option>前期工作计划（立项）</option>
+				<option>委托审计</option>
+				<option>前期储备项目</option>
+				<option>年度调整计划</option>
+				<option>规划设计前期费</option>
+				<option>审计决算资金</option>
+	  		</select>
+	  	</div>
+	  	<div style="display:inline">
+	  		<span>年度：</span>
+	  		<input id="time"/>
+	  	</div>
+	  	<div style="display:inline">
+	  		<button><span></span>查找</button>
+	  		
+	  	</div>
+	  </div>
+	  <div class="toolbar">
+	         
+	  </div>
+     <form id="form" name="form">          
+         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+    </form>
+</div>
+
+
+

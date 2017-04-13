@@ -115,6 +115,7 @@
 				<prop key="hibernate.show_sql">true</prop>
 				<!-- update,create,create-drop -->
 				<prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+		
 			</props>
 		</property>
 

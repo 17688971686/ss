@@ -1,0 +1,59 @@
+<meta charset="UTF-8">
+
+<div>通知公告</div>
+<table ng-repeat="x in vm.article_announcement"
+	<tr>
+		<td><a href="#/details/{{x.id}}">{{x.titleName}}</a></td>
+		<td>{{x.releaseTime}}</td>
+	</tr>
+</table>
+
+<div>政策法规</div>
+<table ng-repeat="x in vm.article_policy">
+	<tr>
+		<td>
+			<a href="#/details/{{x.id}}">{{x.titleName}}</a>
+		</td>
+		<td>{{x.releaseTime}}</td>
+	</tr>
+</table>
+
+<div>办事指南</div>
+<table ng-repeat="x in vm.article_workGuide">
+	<tr>
+		<td>
+			<a href="#/details/{{x.id}}">{{x.titleName}}</a>
+		</td>
+		<td>{{x.releaseTime}}</td>
+	</tr>
+</table>
+
+<div>常用表格</div>
+<table ng-repeat="x in vm.article_form">
+	<tr>
+		<td>
+			<a href="#/details/{{x.id}}">{{x.titleName}}</a>
+		</td>
+		<td>{{x.releaseTime}}</td>
+	</tr>
+</table>
+
+
+<div>login</div>
+ <div class="form">
+            <h2>用户名：</h2>
+                <input type="text" class="username" />
+                     <h2>密&nbsp;&nbsp; &nbsp;码：</h2>
+                <input type="password" id="txtLoginPwd" class="password" />
+                <h2>验证码：</h2>
+                <div >                                    
+                    
+                    <input   <img alt="看不清？点击更换" /></div>               
+                <input type="submit" value="登录" />
+                <input class="btn" value="忘记密码" />
+                
+            </div>
+          
+        </div>
+
+

@@ -1,0 +1,31 @@
+<meta charset="UTF-8">
+<div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+        <li><a href="#/workGuide">办事指南</a></li>
+        <li class="active">{{vm.title}}</li>
+    </ol>
+    <form id="form" name="form">
+        <div class="toolbar">
+        	<@shiro.hasPermission name="workGuide##post"> 
+            	<a class="btn btn-sm btn-primary" href="#/workGuideEdit/"><span class="glyphicon glyphicon-plus"></span>新增</a> 
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="workGuide##delete">           
+            <button class="btn btn-sm btn-danger" ng-click="vm.dels()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-remove"></span>批量删除</button>
+        	</@shiro.hasPermission>
+        </div>
+        <script type="text/template" id="columnBtns">
+		<@shiro.hasPermission name="workGuide##delete">
+			<button class="btn btn-xs btn-danger"  ng-click="{0}" ><span class="glyphicon glyphicon-remove"></span>删除</button>
+		</@shiro.hasPermission>
+		<@shiro.hasPermission name="workGuide##put">
+	        <a class="btn btn-xs btn-primary" href="#/workGuideEdit/{1}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+		</@shiro.hasPermission>
+		</script>
+        
+         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+    </form>
+</div>
+

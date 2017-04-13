@@ -1,0 +1,20 @@
+<meta charset="UTF-8">
+<div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+        <li><a href="#/planFormation">年度计划编制</a></li>
+        <li class="active">{{vm.title}}</li>
+    </ol>
+    <form id="form" name="form">
+    	<a class="btn btn-sm btn-primary" href="#/addPlanVersion/"><span class="glyphicon glyphicon-plus"></span>添加计划版本</a> 
+    	<a class="btn btn-sm btn-primary" href="#/addPlanProject/"><span class="glyphicon glyphicon-plus"></span>添加计划项目</a> 
+        <script type="text/template" id="columnBtns">
+			<button class="btn btn-xs btn-primary"  ng-click="{0}" ><span class="glyphicon glyphicon-remove"></span>编制</button>
+		</script>
+        
+         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+    </form>
+</div>
+

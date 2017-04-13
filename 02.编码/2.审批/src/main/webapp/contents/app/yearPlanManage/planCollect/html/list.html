@@ -1,0 +1,19 @@
+<meta charset="UTF-8">
+<div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+        <li><a href="#/planCollect">年度计划汇总</a></li>
+        <li class="active">{{vm.title}}</li>
+    </ol>
+    <form id="form" name="form">
+    	<div class="toolbar">
+	    	<a class="btn btn-sm btn-primary" href="#/projectExport/"><span class="glyphicon glyphicon-plus"></span>项目导出</a> 
+	    	<a class="btn btn-sm btn-primary" href="#/tradeExport/"><span class="glyphicon glyphicon-plus"></span>按行业导出</a> 
+	    	<a class="btn btn-sm btn-primary" href="#/unitExport/"><span class="glyphicon glyphicon-plus"></span>按单位导出</a> 
+    	</div>
+         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+    </form>
+</div>
+
