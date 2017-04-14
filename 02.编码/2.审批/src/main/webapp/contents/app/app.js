@@ -164,6 +164,186 @@
 	        	controllerAs: 'vm'
 	        }) 
 	        //end#problemConcert
+	        //begin#prophaseWorkPlan(前期工作计划)
+	        .state('prophaseWorkPlan', {
+	        	url: '/prophaseWorkPlan',
+	        	templateUrl: '/contents/app/myWorkbench/prophaseWorkPlan/html/list.html',
+	        	controller: 'prophaseWorkPlanCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#prophaseWorkPlan
+	        //begin#prophaseWorkPlan(前期工作计划-编辑页面)
+	        .state('projectInfoEdit', {
+	        	url: '/projectInfoEdit/:id',
+	        	templateUrl: '/contents/app/myWorkbench/prophaseWorkPlan/html/detais.html',
+	        	controller: 'projectInfoEditCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#prophaseWorkPlan
+	        
+	        
+	        //begin#projectBasicMessage(前期工作计划-项目基本信息)
+	        .state('projectBasicMessage', {
+	        	url: '/projectBasicMessage',
+	        	templateUrl: '/contents/app/myWorkbench/prophaseWorkPlan/html/projectBasicMessage.html',
+	        	controller: 'projectBasicMessageCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#prophaseWorkPlan
+	        //begin#projectUnitMessage(前期工作计划-项目单位信息)
+	        .state('projectUnitMessage', {
+	        	url: '/projectUnitMessage',
+	        	templateUrl: '/contents/app/myWorkbench/prophaseWorkPlan/html/projectUnitMessage.html',
+	        	controller: 'projectUnitMessageCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#projectUnitMessage
+	        
+	        //begin#declareMaterialInventory(前期工作计划-申报材料清单)
+	        .state('declareMaterialInventory', {
+	        	url: '/declareMaterialInventory',
+	        	templateUrl: '/contents/app/myWorkbench/prophaseWorkPlan/html/declareMaterialInventory.html',
+	        	controller: 'declareMaterialInventoryCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#declareMaterialInventory
+	        //begin#declareMessageAffirm(前期工作计划-申报信息确认)
+	        .state('declareMessageAffirm', {
+	        	url: '/declareMessageAffirm',
+	        	templateUrl: '/contents/app/myWorkbench/prophaseWorkPlan/html/declareMessageAffirm.html',
+	        	controller: 'declareMessageAffirmCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#declareMessageAffirm
+	        //begin#projectProposal(项目建议书)
+	        .state('projectProposal', {
+	        	url: '/projectProposal',
+	        	templateUrl: '/contents/app/myWorkbench/projectProposal/html/list2.html',
+	        	controller: 'projectProposalCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#projectProposal
+	        //begin#projectBasicMessage2(项目建议书-项目基本信息)
+	        .state('projectBasicMessage2', {
+	        	url: '/projectBasicMessage2',
+	        	templateUrl: '/contents/app/myWorkbench/projectProposal/html/projectBasicMessage2.html',
+	        	controller: 'projectBasicMessage2Ctrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#projectBasicMessage2
+	        //begin#projectUnitMessage2(项目建议书-项目单位信息)
+	        .state('projectUnitMessage2', {
+	        	url: '/projectUnitMessage2',
+	        	templateUrl: '/contents/app/myWorkbench/projectProposal/html/projectUnitMessage2.html',
+	        	controller: 'projectUnitMessage2Ctrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#projectUnitMessage2
+	        //begin#declareMaterialInventory2(项目建议书-申报材料清单)
+	        .state('declareMaterialInventory2', {
+	        	url: '/declareMaterialInventory2',
+	        	templateUrl: '/contents/app/myWorkbench/projectProposal/html/declareMaterialInventory2.html',
+	        	controller: 'declareMaterialInventory2Ctrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#declareMaterialInventory2
+	        //begin#declareMessageAffirm2(项目建议书-申报信息确认)
+	        .state('declareMessageAffirm2', {
+	        	url: '/declareMessageAffirm2',
+	        	templateUrl: '/contents/app/myWorkbench/projectProposal/html/declareMessageAffirm2.html',
+	        	controller: 'declareMessageAffirm2Ctrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#declareMessageAffirm2
+	        
+	        
+	        //begin#feasibilityStudyReport(可行性研究报告)
+	        .state('feasibilityStudyReport', {
+	        	url: '/feasibilityStudyReport',
+	        	templateUrl: '/contents/app/myWorkbench/feasibilityStudyReport/html/list2.html',
+	        	controller: 'feasibilityStudyReportCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#feasibilityStudyReport
+	        //begin#projectBasicMessage3(可行性研究报告-项目基本信息)
+	        .state('projectBasicMessage3', {
+	        	url: '/projectBasicMessage3',
+	        	templateUrl: '/contents/app/myWorkbench/feasibilityStudyReport/html/projectBasicMessage3.html',
+	        	controller: 'projectBasicMessage3Ctrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#projectBasicMessage3
+	        //begin#projectUnitMessage3(可行性研究报告-项目单位信息)
+	        .state('projectUnitMessage3', {
+	        	url: '/projectUnitMessage3',
+	        	templateUrl: '/contents/app/myWorkbench/feasibilityStudyReport/html/projectUnitMessage3.html',
+	        	controller: 'projectUnitMessage3Ctrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#projectUnitMessage3
+	        //begin#declareMaterialInventory3(可行性研究报告-申报材料清单)
+	        .state('declareMaterialInventory3', {
+	        	url: '/declareMaterialInventory3',
+	        	templateUrl: '/contents/app/myWorkbench/feasibilityStudyReport/html/declareMaterialInventory3.html',
+	        	controller: 'declareMaterialInventory3Ctrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#declareMaterialInventory3
+	        //begin#declareMessageAffirm3(可行性研究报告-申报信息确认)
+	        .state('declareMessageAffirm3', {
+	        	url: '/declareMessageAffirm3',
+	        	templateUrl: '/contents/app/myWorkbench/feasibilityStudyReport/html/declareMessageAffirm3.html',
+	        	controller: 'declareMessageAffirm3Ctrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#declareMessageAffirm3
+	        
+	        
+	        //begin#initialDeviseScheme(初步设计方案)
+	        .state('initialDeviseScheme', {
+	        	url: '/initialDeviseScheme',
+	        	templateUrl: '/contents/app/myWorkbench/initialDeviseScheme/html/list2.html',
+	        	controller: 'initialDeviseSchemeCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#initialDeviseScheme
+	        //begin#projectBasicMessage4(初步设计方案-项目基本信息)
+	        .state('projectBasicMessage4', {
+	        	url: '/projectBasicMessage4',
+	        	templateUrl: '/contents/app/myWorkbench/initialDeviseScheme/html/projectBasicMessage4.html',
+	        	controller: 'projectBasicMessage4Ctrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#projectBasicMessage4
+	        //begin#projectUnitMessage4(初步设计方案-项目单位信息)
+	        .state('projectUnitMessage4', {
+	        	url: '/projectUnitMessage4',
+	        	templateUrl: '/contents/app/myWorkbench/initialDeviseScheme/html/projectUnitMessage4.html',
+	        	controller: 'projectUnitMessage4Ctrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#projectUnitMessage4
+	        //begin#declareMaterialInventory4(初步设计方案-申报材料清单)
+	        .state('declareMaterialInventory4', {
+	        	url: '/declareMaterialInventory4',
+	        	templateUrl: '/contents/app/myWorkbench/initialDeviseScheme/html/declareMaterialInventory4.html',
+	        	controller: 'declareMaterialInventory4Ctrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#declareMaterialInventory4
+	        //begin#declareMessageAffirm4(初步设计方案-申报信息确认)
+	        .state('declareMessageAffirm4', {
+	        	url: '/declareMessageAffirm4',
+	        	templateUrl: '/contents/app/myWorkbench/initialDeviseScheme/html/declareMessageAffirm4.html',
+	        	controller: 'declareMessageAffirm4Ctrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#declareMessageAffirm4
+	        
+	        
+	        
+	        
+	        
 	        
 	        //begin#cx
 	        

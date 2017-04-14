@@ -80,7 +80,7 @@
 						title : "操作",
 						width : 180,
 						template : function(item) {
-							return common.problemConcertat($('#columnBtns').html(),
+							return common.format($('#columnBtns').html(),
 									"vm.del('" + item.id + "')", item.id);
 
 						}

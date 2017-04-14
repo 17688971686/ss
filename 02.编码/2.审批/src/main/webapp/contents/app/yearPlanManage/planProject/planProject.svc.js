@@ -32,7 +32,7 @@
 				}),
 				serverPaging : true,
 				serverSorting : true,
-				serverFiltering : true,
+				serverFiltering : false,
 				pageSize : 10,
 				sort : {
 					field : "createdDate",
