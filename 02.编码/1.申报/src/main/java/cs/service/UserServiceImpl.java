@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
 			userDto.setComment(item.getComment());
 			userDto.setCreatedDate(item.getCreatedDate());
 
-			// ²éÑ¯Ïà¹Ø½ÇÉ«
+			// æŸ¥è¯¢ç›¸å…³è§’è‰²
 			List<RoleDto> roleDtoList = new ArrayList<>();
 			for (Role role : item.getRoles()) {
 				RoleDto roleDto = new RoleDto();
@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
 		pageModelDto.setCount(odataObj.getCount());
 		pageModelDto.setValue(userDtoList);
 
-		logger.info("²éÑ¯ÓÃ»§Êı¾İ");
+		logger.info("æŸ¥è¯¢ç”¨æˆ·æ•°æ®");
 		return pageModelDto;
 	}
 
@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public void createUser(UserDto userDto) {
 		User findUser=userRepo.findUserByName(userDto.getLoginName());
-		if (findUser==null) {// ÓÃ»§²»´æÔÚ
+		if (findUser==null) {// ç”¨æˆ·ä¸å­˜åœ¨
 			User user = new User();
 			user.setComment(userDto.getComment());
 			user.setLoginName(userDto.getLoginName());
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
 			user.setCreatedBy(currentUser.getLoginName());
 			user.setPassword(userDto.getPassword());
 
-			// ¼ÓÈë½ÇÉ«
+			// åŠ å…¥è§’è‰²
 			for (RoleDto roleDto : userDto.getRoles()) {
 				Role role = roleRepo.findById(roleDto.getId());
 				if (role != null) {
@@ -103,9 +103,9 @@ public class UserServiceImpl implements UserService {
 			}
 
 			userRepo.save(user);
-			logger.info(String.format("´´½¨ÓÃ»§,µÇÂ¼Ãû:%s", userDto.getLoginName()));
+			logger.info(String.format("åˆ›å»ºç”¨æˆ·,ç™»å½•å:%s", userDto.getLoginName()));
 		} else {
-			throw new IllegalArgumentException(String.format("ÓÃ»§£º%s ÒÑ¾­´æÔÚ,ÇëÖØĞÂÊäÈë£¡", userDto.getLoginName()));
+			throw new IllegalArgumentException(String.format("ç”¨æˆ·ï¼š%s å·²ç»å­˜åœ¨,è¯·é‡æ–°è¾“å…¥ï¼", userDto.getLoginName()));
 		}
 
 	}
@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService {
 		if (user != null) {
 			if(!user.getLoginName().equals("admin")){
 				userRepo.delete(user);
-				logger.info(String.format("É¾³ıÓÃ»§,ÓÃ»§Ãû:%s", user.getLoginName()));
+				logger.info(String.format("åˆ é™¤ç”¨æˆ·,ç”¨æˆ·å:%s", user.getLoginName()));
 			}
 			
 		}
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
 		for (String id : ids) {
 			this.deleteUser(id);
 		}
-		logger.info("ÅúÁ¿É¾³ıÓÃ»§");
+		logger.info("æ‰¹é‡åˆ é™¤ç”¨æˆ·");
 	}
 
 	@Override
@@ -140,10 +140,10 @@ public class UserServiceImpl implements UserService {
 		user.setDisplayName(userDto.getDisplayName());
 		user.setModifiedBy(currentUser.getLoginName());
 
-		// Çå³ıÒÑÓĞrole
+		// æ¸…é™¤å·²æœ‰role
 		user.getRoles().clear();
 
-		// ¼ÓÈë½ÇÉ«
+		// åŠ å…¥è§’è‰²
 		for (RoleDto roleDto : userDto.getRoles()) {
 			Role role = roleRepo.findById(roleDto.getId());
 			if (role != null) {
@@ -152,7 +152,7 @@ public class UserServiceImpl implements UserService {
 		}
 
 		userRepo.save(user);
-		logger.info(String.format("¸üĞÂÓÃ»§,ÓÃ»§Ãû:%s", userDto.getLoginName()));
+		logger.info(String.format("æ›´æ–°ç”¨æˆ·,ç”¨æˆ·å:%s", userDto.getLoginName()));
 	}
 	@Override
 	@Transactional
@@ -161,8 +161,8 @@ public class UserServiceImpl implements UserService {
 		Response response =new Response();
 		if(user!=null){
 			if(user.getLoginFailCount()>5&&user.getLastLoginDate().getDay()==(new Date()).getDay()){	
-				response.setMessage("µÇÂ¼Ê§°Ü´ÎÊı¹ı¶à,ÇëÃ÷ÌìÔÙÊÔ!");
-				logger.warn(String.format("µÇÂ¼Ê§°Ü´ÎÊı¹ı¶à,ÓÃ»§Ãû:%s", userName));
+				response.setMessage("ç™»å½•å¤±è´¥æ¬¡æ•°è¿‡å¤š,è¯·æ˜å¤©å†è¯•!");
+				logger.warn(String.format("ç™»å½•å¤±è´¥æ¬¡æ•°è¿‡å¤š,ç”¨æˆ·å:%s", userName));
 			}
 			else if(password!=null&&password.equals(user.getPassword())){
 				currentUser.setLoginName(user.getLoginName());
@@ -175,15 +175,15 @@ public class UserServiceImpl implements UserService {
 				currentUser.login(token);
 				
 				response.setSuccess(true);
-				logger.info(String.format("µÇÂ¼³É¹¦,ÓÃ»§Ãû:%s", userName));
+				logger.info(String.format("ç™»å½•æˆåŠŸ,ç”¨æˆ·å:%s", userName));
 			}else{
 				user.setLoginFailCount(user.getLoginFailCount()+1);	
 				user.setLastLoginDate(new Date());
-				response.setMessage("ÓÃ»§Ãû»òÃÜÂë´íÎó!");
+				response.setMessage("ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯!");
 			}
 			userRepo.save(user);
 		}else{
-			response.setMessage("ÓÃ»§Ãû»òÃÜÂë´íÎó!");
+			response.setMessage("ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯!");
 		}
 		
 		return response;
@@ -191,7 +191,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public Set<String> getCurrentUserPermissions(){
-		//logger.info(String.format("²éÑ¯µ±Ç°ÓÃ»§È¨ÏŞ,ÓÃ»§Ãû:%s", currentUser.getLoginName()));
+		//logger.info(String.format("æŸ¥è¯¢å½“å‰ç”¨æˆ·æƒé™,ç”¨æˆ·å:%s", currentUser.getLoginName()));
 		return  userRepo.getUserPermission(currentUser.getLoginName());
 		
 	}
@@ -200,7 +200,7 @@ public class UserServiceImpl implements UserService {
 		Subject currentUser = SecurityUtils.getSubject();
 		if(currentUser!=null){
 			currentUser.logout();
-			logger.info(String.format("ÍË³öµÇÂ¼,ÓÃ»§Ãû:%s", currentUser.getPrincipal()));
+			logger.info(String.format("é€€å‡ºç™»å½•,ç”¨æˆ·å:%s", currentUser.getPrincipal()));
 		}
 		
 	}
@@ -212,7 +212,7 @@ public class UserServiceImpl implements UserService {
 		if(user!=null){
 			user.setPassword(password);
 			userRepo.save(user);
-			logger.info(String.format("ĞŞ¸ÄÃÜÂë,ÓÃ»§Ãû:%s", userName));
+			logger.info(String.format("ä¿®æ”¹å¯†ç ,ç”¨æˆ·å:%s", userName));
 		}
 	}
 	@Transactional

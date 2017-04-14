@@ -92,7 +92,7 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#home
-<<<<<<< HEAD
+
 	        //begin#inform
 	        .state('inform', {
 	        	url: '/inform', 
@@ -125,7 +125,7 @@
 	        	controllerAs: 'vm'
 	        }) 
 	        //end#form
-=======
+
 	        
 	        //begin#projectMonthReport（项目月报）
 	        .state('projectMonthReport', {
@@ -189,7 +189,6 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#projectDetais
->>>>>>> branch 'develop' of http://119.23.22.237/tfs/DefaultCollection/_git/%E5%85%89%E6%98%8E%E6%96%B0%E5%8C%BA%E6%8A%95%E8%B5%84%E9%A1%B9%E7%9B%AE%E5%9C%A8%E7%BA%BF%E5%AE%A1%E6%89%B9%E7%9B%91%E7%AE%A1%E5%B9%B3%E5%8F%B0
     }]);
     
 })();

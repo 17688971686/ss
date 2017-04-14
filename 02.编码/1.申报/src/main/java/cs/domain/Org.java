@@ -14,12 +14,12 @@ import javax.persistence.Table;
 public class Org extends DomainBase {
 	@Id
 	private String id;
-	@Column(columnDefinition="varchar(255)  COMMENT '名字'")
+	@Column(columnDefinition="varchar(255)  COMMENT '鍚嶅瓧'")
 	private String name;
-	@Column(columnDefinition="varchar(255)  COMMENT '备注'")
+	@Column(columnDefinition="varchar(255)  COMMENT '澶囨敞'")
 	private String comment;
 	
-	@Column(columnDefinition="varchar(255)  COMMENT '部门标识'")
+	@Column(columnDefinition="varchar(255)  COMMENT '閮ㄩ棬鏍囪瘑'")
 	private String orgIdentity;
 	
 	

@@ -14,15 +14,15 @@ public class Log {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;	
-	@Column(columnDefinition = "varchar(255) NOT NULL  COMMENT '用户ID'")
+	@Column(columnDefinition = "varchar(255) NOT NULL  COMMENT '鐢ㄦ埛ID'")
 	private String userId;
-	@Column(columnDefinition = "datetime NOT NULL COMMENT '创建时间'")
+	@Column(columnDefinition = "datetime NOT NULL COMMENT '鍒涘缓鏃堕棿'")
 	private Date createdDate;
-	@Column(columnDefinition = "varchar(255)  COMMENT '日志对象'")
+	@Column(columnDefinition = "varchar(255)  COMMENT '鏃ュ織瀵硅薄'")
 	private String logger;
-	@Column(columnDefinition = "varchar(255)  COMMENT '日志级别'")
+	@Column(columnDefinition = "varchar(255)  COMMENT '鏃ュ織绾у埆'")
 	private String level;
-	@Column(columnDefinition = "varchar(1000)  COMMENT '日志内容'")
+	@Column(columnDefinition = "varchar(1000)  COMMENT '鏃ュ織鍐呭'")
 	private String message;
 
 	public String getUserId() {

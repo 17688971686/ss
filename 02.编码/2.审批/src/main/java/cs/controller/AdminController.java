@@ -16,7 +16,7 @@ import cs.service.HomeService;
 import cs.service.UserService;
 
 @Controller
-@RequestMapping(name = "�������", path = "admin")
+@RequestMapping(name = "管理界面", path = "admin")
 public class AdminController {
 	private String ctrlName = "admin";
 	private static Logger logger = Logger.getLogger(AdminController.class.getName());
@@ -27,7 +27,7 @@ public class AdminController {
 	
 
 	//@RequiresPermissions("admin#index#get")
-	@RequestMapping(name = "��ҳ", path = "index")
+	@RequestMapping(name = "首页", path = "index")
 	public String index(Model model) {
 
 		model.addAttribute("user", currentUser.getLoginName());
@@ -35,8 +35,8 @@ public class AdminController {
 	}
 
 	//@RequiresPermissions("admin#welcome#get")
-	@RequestMapping(name = "��ӭҳ", path = "welcome")
-	public String welcome(Model model) {
+	@RequestMapping(name = "欢迎页", path = "welcome")
+public String welcome(Model model) {
 		User user=userService.findUserByName( currentUser.getLoginName());
 		if(user!=null){
 			model.addAttribute("user", user.getLoginName());

@@ -5,7 +5,7 @@
 	
 	details.$inject = ['$http'];
 	function details($http){
-		var use_article = "/contents/home/details/data/article.js";
+		var url_article = "/contents/home/details/data/article.js";
 		var service  = {
 			getArticle:getArticle	
 		};
@@ -14,7 +14,7 @@
 		function getArticle(vm,id){
 			var httpOptions = {
 				method:'get',
-				url:user_article,
+				url:url_article,
 				data:vm.model
 			}
 			var httpSuccess = function success(response){

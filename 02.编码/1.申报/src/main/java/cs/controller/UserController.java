@@ -20,7 +20,7 @@ import cs.repository.odata.ODataObj;
 import cs.service.UserService;
 
 @Controller
-@RequestMapping(name = "用户", path = "user")
+@RequestMapping(name = "鐢ㄦ埛", path = "user")
 public class UserController {
 	private String ctrlName = "user";
 	@Autowired
@@ -28,7 +28,7 @@ public class UserController {
 
 	
 	@RequiresPermissions("user##get")	
-	@RequestMapping(name = "获取用户数据", path = "", method = RequestMethod.GET)
+	@RequestMapping(name = "鑾峰彇鐢ㄦ埛鏁版嵁", path = "", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<UserDto> userDtos = userService.get(odataObj);
@@ -36,13 +36,13 @@ public class UserController {
 		return userDtos;
 	}
 	@RequiresPermissions("user##post")
-	@RequestMapping(name = "创建用户", path = "",method=RequestMethod.POST)	
+	@RequestMapping(name = "鍒涘缓鐢ㄦ埛", path = "",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  post(@RequestBody UserDto userDto)  {		
 		userService.createUser(userDto);		
 	}
 	@RequiresPermissions("user##delete")
-	@RequestMapping(name = "删除用户", path = "",method=RequestMethod.DELETE)	
+	@RequestMapping(name = "鍒犻櫎鐢ㄦ埛", path = "",method=RequestMethod.DELETE)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  delete(@RequestBody String id)  {		
 		String[] ids=id.split(",");
@@ -53,7 +53,7 @@ public class UserController {
 		}		
 	}
 	@RequiresPermissions("user##put")
-	@RequestMapping(name = "更新用户", path = "",method=RequestMethod.PUT)	
+	@RequestMapping(name = "鏇存柊鐢ㄦ埛", path = "",method=RequestMethod.PUT)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  put(@RequestBody UserDto userDto)  {		
 		userService.updateUser(userDto);	
@@ -61,12 +61,12 @@ public class UserController {
 	
 	// begin#html
 	@RequiresPermissions("user#html/list#get")
-	@RequestMapping(name = "用户列表页面", path = "html/list", method = RequestMethod.GET)
+	@RequestMapping(name = "鐢ㄦ埛鍒楄〃椤甸潰", path = "html/list", method = RequestMethod.GET)
 	public String list() {
 		return ctrlName + "/list";
 	}
 	@RequiresPermissions("user#html/edit#get")
-	@RequestMapping(name = "编辑用户页面", path = "html/edit", method = RequestMethod.GET)
+	@RequestMapping(name = "缂栬緫鐢ㄦ埛椤甸潰", path = "html/edit", method = RequestMethod.GET)
 	public String edit() {
 		return ctrlName + "/edit";
 	}

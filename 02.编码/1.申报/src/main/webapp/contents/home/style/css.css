@@ -1,0 +1,78 @@
+
+ul{
+	padding:0px;
+}
+ul li{
+	list-style:none;
+}
+.wrap-960{
+	width:960px;
+	margin:0 auto;
+	
+}
+
+body{
+	background:#f5fafb url(images/bg_pic.jpg) no-repeat center top;
+}
+.logo{
+	background:url(images/logo.jpg) no-repeat;
+	width:358px;
+	height:52px;
+}
+.contact{
+	background:url(images/contact.jpg) no-repeat;
+	width:262px;
+	height:51px;
+	
+}
+.column{
+	background:url(images/column_bg.jpg) repeat-x;
+	height:254px
+}
+
+.column .title li{
+	float:left;
+	margin-left:10px;
+	line-height:30px;
+	font-size:14px;	
+	color:#098d02;
+	cursor:pointer;
+}
+.column .focus{
+	font-weight:bold;
+	color:#055ab2;
+}
+
+.column table .item {
+	padding-left:10px;
+	height:30px;
+}
+.column table .date{
+	color:#aaa;
+}
+.column table a:link,.column table a:visited{
+	color:#666;
+}
+.column table a:hover{
+	color:#666;
+	text-decoration:underline;
+}
+
+.loginBox{
+	background:url(images/login_box.jpg) repeat-x;
+	width:381px;
+	height:253px;
+	position:relative;
+	
+}
+.loginBox .boxWrap{
+	padding:50px 30px 50px 30px;	
+}
+.loginBox input{
+	margin-bottom:30px;
+	height:35px;
+}
+.loginBtn{
+	width:323px;
+}
+

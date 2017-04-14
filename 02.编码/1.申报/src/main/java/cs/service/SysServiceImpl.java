@@ -85,19 +85,19 @@ public class SysServiceImpl implements SysService {
 		Response response = new Response();
 		List<SysConfig> sysConfigs = sysConfigRepo.findAll();
 		SysConfig sysConfig;
-		// ¸üĞÂsysConfig
+		// æ›´æ–°sysConfig
 
-		if (sysConfigs.size() > 0) {// ÒÑ¾­±»³õÊ¼»¯
-			response.setMessage("ÒÑ¾­´æÔÚ³õÊ¼»¯Êı¾İ£¬´Ë´Î²Ù×÷ÎŞĞ§");
-			logger.warn("ÒÑ¾­´æÔÚ³õÊ¼»¯Êı¾İ£¬´Ë´Î²Ù×÷ÎŞĞ§");
+		if (sysConfigs.size() > 0) {// å·²ç»è¢«åˆå§‹åŒ–
+			response.setMessage("å·²ç»å­˜åœ¨åˆå§‹åŒ–æ•°æ®ï¼Œæ­¤æ¬¡æ“ä½œæ— æ•ˆ");
+			logger.warn("å·²ç»å­˜åœ¨åˆå§‹åŒ–æ•°æ®ï¼Œæ­¤æ¬¡æ“ä½œæ— æ•ˆ");
 
-		} else {// Î´±»³õÊ¼»¯
+		} else {// æœªè¢«åˆå§‹åŒ–
 
-			// ³õÊ¼»¯½ÇÉ«
+			// åˆå§‹åŒ–è§’è‰²
 			Role role = new Role();
-			role.setRoleName("³¬¼¶¹ÜÀíÔ±");
+			role.setRoleName("è¶…çº§ç®¡ç†å‘˜");
 			role.setId(UUID.randomUUID().toString());
-			role.setComment("ÏµÍ³³õÊ¼»¯´´½¨,²»¿ÉÉ¾³ı");
+			role.setComment("ç³»ç»Ÿåˆå§‹åŒ–åˆ›å»º,ä¸å¯åˆ é™¤");
 
 			List<SysResourceDto> resourceDtos = this.get();
 			List<Resource> resources = new ArrayList<>();
@@ -116,26 +116,26 @@ public class SysServiceImpl implements SysService {
 
 			roleRepo.save(role);
 
-			// ³õÊ¼»¯ÓÃ»§
+			// åˆå§‹åŒ–ç”¨æˆ·
 			User user = new User();
 			user.setLoginName("admin");
 			user.setId(UUID.randomUUID().toString());
 			user.setPassword("admin");
-			user.setComment("ÏµÍ³³õÊ¼»¯´´½¨,²»¿ÉÉ¾³ı");
-			user.setDisplayName("³¬¼¶¹ÜÀíÔ±");
+			user.setComment("ç³»ç»Ÿåˆå§‹åŒ–åˆ›å»º,ä¸å¯åˆ é™¤");
+			user.setDisplayName("è¶…çº§ç®¡ç†å‘˜");
 			user.getRoles().add(role);
 			userRepo.save(user);
 
-			// ¸üĞÂsysConfig
+			// æ›´æ–°sysConfig
 			sysConfig = new SysConfig();
 			sysConfig.setInit(true);
 			sysConfig.setId(UUID.randomUUID().toString());
 			sysConfigRepo.save(sysConfig);
 
-			response.setMessage("³õÊ¼»¯³É¹¦");
+			response.setMessage("åˆå§‹åŒ–æˆåŠŸ");
 			response.setSuccess(true);
 			
-			logger.info("ÏµÍ³³õÊ¼»¯³É¹¦!");
+			logger.info("ç³»ç»Ÿåˆå§‹åŒ–æˆåŠŸ!");
 
 		}
 		return response;

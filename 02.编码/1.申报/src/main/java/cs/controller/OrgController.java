@@ -22,14 +22,14 @@ import cs.repository.odata.ODataObj;
 import cs.service.OrgService;
 
 @Controller
-@RequestMapping(name = "≤ø√≈", path = "org")
+@RequestMapping(name = "ÈÉ®Èó®", path = "org")
 public class OrgController {
 	private String ctrlName = "org";
 	@Autowired
 	private OrgService orgService;
 
 	@RequiresPermissions("org##get")	
-	@RequestMapping(name = "ªÒ»°≤ø√≈ ˝æ›", path = "", method = RequestMethod.GET)
+	@RequestMapping(name = "Ëé∑ÂèñÈÉ®Èó®Êï∞ÊçÆ", path = "", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<OrgDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<OrgDto> orgDtos = orgService.get(odataObj);
@@ -38,21 +38,21 @@ public class OrgController {
 	}
 
 	@RequiresPermissions("org##post")	
-	@RequestMapping(name = "¥¥Ω®≤ø√≈", path = "", method = RequestMethod.POST)
+	@RequestMapping(name = "ÂàõÂª∫ÈÉ®Èó®", path = "", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void post(@RequestBody OrgDto orgDto) {
 		orgService.createOrg(orgDto);
 	}
 
 	@RequiresPermissions("org##put")	
-	@RequestMapping(name = "∏¸–¬≤ø√≈", path = "", method = RequestMethod.PUT)
+	@RequestMapping(name = "Êõ¥Êñ∞ÈÉ®Èó®", path = "", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void update(@RequestBody OrgDto orgDto) {
 		orgService.updateOrg(orgDto);
 	}
 
 	@RequiresPermissions("org##delete")	
-	@RequestMapping(name = "…æ≥˝≤ø√≈", path = "", method = RequestMethod.DELETE)
+	@RequestMapping(name = "Âà†Èô§ÈÉ®Èó®", path = "", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void delete(@RequestBody String id) {
 		String[] ids = id.split(",");
@@ -63,30 +63,30 @@ public class OrgController {
 		}
 	}
 
-	@RequiresPermissions("org#orgId/users#get")	
-	@RequestMapping(name = "≤ø√≈”√ªß", path = "{orgId}/users", method = RequestMethod.GET)
+	@RequiresPermissions("org#{orgId}/users#get")	
+	@RequestMapping(name = "ÈÉ®Èó®Áî®Êà∑", path = "{orgId}/users", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserDto> orgUsers(@PathVariable String orgId) {
 
 		return orgService.getOrgUsers(orgId);
 	}
 	
-	@RequiresPermissions("org#orgId/userNotIn#get")	
-	@RequestMapping(name = "∑«≤ø√≈”√ªß", path = "{orgId}/userNotIn", method = RequestMethod.GET)
+	@RequiresPermissions("org#{orgId}/userNotIn#get")	
+	@RequestMapping(name = "ÈùûÈÉ®Èó®Áî®Êà∑", path = "{orgId}/userNotIn", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserDto> userNotIn(@PathVariable String orgId,HttpServletRequest request) throws ParseException {
 
 		ODataObj odataObj = new ODataObj(request);
 		return orgService.getUsersNotInOrg(orgId, odataObj);
 	}
 	
-	@RequiresPermissions("org#orgId/users#post")	
-	@RequestMapping(name = "ÃÌº””√ªßµΩ≤ø√≈", path = "{orgId}/users", method = RequestMethod.POST)
+	@RequiresPermissions("org#{orgId}/users#post")	
+	@RequestMapping(name = "Ê∑ªÂä†Áî®Êà∑Âà∞ÈÉ®Èó®", path = "{orgId}/users", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void postUserToOrg(@PathVariable String orgId,@RequestBody String userId) {
 		orgService.addUserToOrg(userId, orgId);
 	}
 	
-	@RequiresPermissions("org#orgId/users#delete")
-	@RequestMapping(name = "¥”≤ø√≈“∆≥˝”√ªß", path = "{orgId}/users", method = RequestMethod.DELETE)
+	@RequiresPermissions("org#{orgId}/users#delete")
+	@RequestMapping(name = "‰ªéÈÉ®Èó®ÁßªÈô§Áî®Êà∑", path = "{orgId}/users", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteUserFromOrg(@PathVariable String orgId,@RequestBody String userId) {
 		String[] ids = userId.split(",");
@@ -102,19 +102,19 @@ public class OrgController {
 	// begin#html
 	
 	@RequiresPermissions("org#html/list#get")
-	@RequestMapping(name = "≤ø√≈¡–±Ì“≥√Ê", path = "html/list", method = RequestMethod.GET)
+	@RequestMapping(name = "ÈÉ®Èó®ÂàóË°®È°µÈù¢", path = "html/list", method = RequestMethod.GET)
 	public String list() {
 		return ctrlName + "/list";
 	}
 
 	@RequiresPermissions("org#html/edit#get")
-	@RequestMapping(name = "±‡º≠≤ø√≈“≥√Ê", path = "html/edit", method = RequestMethod.GET)
+	@RequestMapping(name = "ÁºñËæëÈÉ®Èó®È°µÈù¢", path = "html/edit", method = RequestMethod.GET)
 	public String edit() {
 		return ctrlName + "/edit";
 	}
 
 	@RequiresPermissions("org#html/orgUser#get")
-	@RequestMapping(name = "≤ø√≈”√ªß¡–±Ì“≥√Ê", path = "html/orgUser", method = RequestMethod.GET)
+	@RequestMapping(name = "ÈÉ®Èó®Áî®Êà∑ÂàóË°®È°µÈù¢", path = "html/orgUser", method = RequestMethod.GET)
 	public String listUser() {
 		return ctrlName + "/list_user";
 	}

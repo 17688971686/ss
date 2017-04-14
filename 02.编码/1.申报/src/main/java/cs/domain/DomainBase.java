@@ -12,18 +12,18 @@ import javax.persistence.TemporalType;
 @MappedSuperclass
 public abstract class DomainBase {
 	@Temporal(TemporalType.TIMESTAMP)	
-	@Column(updatable=false,nullable=false,columnDefinition="datetime  COMMENT '´´½¨Ê±¼ä'")
+	@Column(updatable=false,nullable=false,columnDefinition="datetime  COMMENT 'åˆ›å»ºæ—¶é—´'")
 	private Date createdDate=new Date();
-	@Column(updatable=false,nullable=false,columnDefinition="varchar(255)  COMMENT '´´½¨Õß'")
+	@Column(updatable=false,nullable=false,columnDefinition="varchar(255)  COMMENT 'åˆ›å»ºè€…'")
 	private String createdBy="";
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(nullable=false,columnDefinition="datetime  COMMENT '¸üĞÂÊ±¼ä'")
+	@Column(nullable=false,columnDefinition="datetime  COMMENT 'æ›´æ–°æ—¶é—´'")
 	private Date modifiedDate=new Date();
-	@Column(nullable=false,columnDefinition="varchar(255)  COMMENT '¸üĞÂÕß'")
+	@Column(nullable=false,columnDefinition="varchar(255)  COMMENT 'æ›´æ–°è€…'")
 	private String modifiedBy="";
 	
-	@Column(columnDefinition="int(11)  COMMENT 'ÅÅĞò'")
+	@Column(columnDefinition="int(11)  COMMENT 'æ’åº'")
 	private int itemOrder;
 	
 	public Date getModifiedDate() {

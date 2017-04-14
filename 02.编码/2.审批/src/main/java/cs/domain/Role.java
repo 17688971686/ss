@@ -19,10 +19,10 @@ import javax.persistence.Table;
 public class Role extends DomainBase {
 	@Id	
 	private String id;
-	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '½ÇÉ«Ãû'")
+	@Column(columnDefinition="varchar(255) NOT NULL COMMENT 'è§’è‰²å'")
 	
 	private String roleName;
-	@Column(columnDefinition="varchar(255)  COMMENT '±¸×¢'")
+	@Column(columnDefinition="varchar(255)  COMMENT 'å¤‡æ³¨'")
 	private String comment;
 	
 	@ElementCollection

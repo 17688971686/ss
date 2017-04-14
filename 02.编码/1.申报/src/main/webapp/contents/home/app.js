@@ -15,8 +15,8 @@
 				controllerAs:'vm'
 			})
 			.state('details',{
-				url:'/',
-				templateUrl:'/contents/home/details/html/index.html',
+				url:'/details/:id',
+				templateUrl:'/contents/home/details/html/details.html',
 				controller:'detailsCtrl',
 				controllerAs:'vm'
 			})

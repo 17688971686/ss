@@ -38,7 +38,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <link href="/contents/shared/css.css" rel="stylesheet" />
 
 <!--Begin:自定义css-->
+<style>
 
+.main-header .navbar{
+margin-left:400px;
+}
+</style>
 <!--End:自定义css -->
 
 </head>
@@ -66,11 +71,11 @@ desired effect
 	<div class="wrapper">
 		<!-- Main Header -->
 		<header class="main-header">
-			<!-- Logo -->
-			<a href="/admin" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
-				<span class="logo-mini">平台</span> <!-- logo for regular state and mobile devices -->
-				<span class="logo-lg">系统管理平台</span>
-			</a>
+			<div class="pull-left" style="width:100px;">
+				<a href="/admin/index">
+					<img src="/contents/images/logo.jpg" />
+				</a>
+			</div>
 			<!-- Header Navbar -->
 			<nav class="navbar navbar-static-top" role="navigation">
 				<!-- Sidebar toggle button-->
