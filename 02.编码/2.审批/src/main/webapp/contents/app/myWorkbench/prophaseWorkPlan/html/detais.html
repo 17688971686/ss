@@ -1,0 +1,56 @@
+<div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
+
+
+<div style="border-bottom:2px solid #ccc;">
+   <ul class="tab clearfix ">
+      <li ng-click="vm.tab(1)" >
+      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==1?'white':'black'}" ng-class="{'btn-success':vm.tabActive==1}">项目基本信息</button>
+      </li>
+      <li>
+      	<span class="glyphicon glyphicon-chevron-right"  ></span>
+      </li>
+      <li ng-click="vm.tab(2)">
+      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==2?'white':'black'}" ng-class="{'btn-success':vm.tabActive==2}">项目单位信息</button>
+      </li>
+      <li>
+      	<span class="glyphicon glyphicon-chevron-right"  ></span>
+      </li>
+      <li ng-click="vm.tab(3)">
+      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==3?'white':'black'}" ng-class="{'btn-success':vm.tabActive==3}">申报材料清单</button>
+      </li>
+      <li>
+      	<span class="glyphicon glyphicon-chevron-right"  ></span>
+      </li>
+      <li ng-click="vm.tab(4)">
+      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==4?'white':'black'}" ng-class="{'btn-success':vm.tabActive==4}">申报信息确认</button>
+      </li>
+    </ul>
+</div>
+
+
+
+<div>
+      <div ng-show="vm.tabActive==1" ng-include src="'/contents/app/myWorkbench/prophaseWorkPlan/html/projectBasicMessage.html'">
+      	<!--  項目基本信息頁面 -->
+		<!-- <div ng-include src="'/contents/app/projectDetais/html/projectUnitMessage.html'"></div> -->
+      </div>
+      	
+      <div ng-show="vm.tabActive==2" ng-include src="'/contents/app/myWorkbench/prophaseWorkPlan/html/projectUnitMessage.html'">
+      	<!-- 项目单位信息頁面 -->
+      	<!-- <div ng-include src="'/contents/app/projectDetais/html/projectBasicMessage.html'"></div> -->
+      </div>
+      
+      <div ng-show="vm.tabActive==3" ng-include src="'/contents/app/myWorkbench/prophaseWorkPlan/html/declareMaterialInventory.html'">
+      	<!-- 項目申報材料清單 -->
+		<!-- <div ng-include src="'/contents/app/projectDetais/html/declareMaterialList.html'"></div> -->
+      </div>
+
+      <div ng-show="vm.tabActive==4" ng-include src="'/contents/app/myWorkbench/prophaseWorkPlan/html/declareMessageAffirm.html'">
+      	<!-- 項目申報信息確認 -->
+		<!-- <div ng-include src="'/contents/app/projectDetais/html/declareMessageConfirm.html'"></div> -->
+      </div>
+ </div>
+
+
+

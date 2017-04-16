@@ -1,27 +1,28 @@
 (function() {
 	'use strict';
 
-	angular.module('app').factory('planProjectSvc', planProject);
+	angular.module('app').factory('projectProposalSvc', projectProposal);
 
-	planProject.$inject = [ '$http' ];
+	projectProposal.$inject = [ '$http' ];
 
-	function planProject($http) {
-		var url_planProject = "/contents/app/yearPlanManage/planProject/data/planProject.list.json";
-		var url_back = '#/planProject';
+	function projectProposal($http) {
+		var url_projectProposal = "/contents/app/myWorkbench/projectProposal/data/projectProposal.list.json";
+		var url_back = '#/projectProposal';
 		var url_role = "/role";
 		var service = {
-			grid : grid,
-			 
+			grid : grid
 		};
 
 		return service;
- 
+
+		 
+		// begin#grid
 		function grid(vm) {
 
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_planProject),
+				transport : common.kendoGridConfig().transport(url_projectProposal),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
 					fields : {
@@ -45,76 +46,59 @@
 			// Begin:column
 			var columns = [
 					{
-						field : "",
-						title : "序号",
-						width : 50,
-						filterable : false
-					},
-					{
 						field : "projectName",
 						title : "项目名称",
 						width : 200,
 						filterable : true,
-						remplate:function(data){
-							return "<a href='#//"+data.id+"'>"+data.projectName+"</a>";
+						template:function(data){
+							return "<a href='#/proposalDetais/"+data.id+"'>"+data.projectName+"</a>";
 						}
 					},
 					{
-						field : "buildUnit",
-						title : "建设单位",
+						field : "declareType",
+						title : "申报类型",
 						width : 200,
 						filterable : true
 					},
 					{
-						field : "buildNature",
-						title : "建设性质",
-						width : 180,
-						filterable : true
-						
+						field : "theIndustry",
+						title : "所属行业",
+						width : 200,
+						filterable : false,
 					},
 					{
-						field : "planYear",
-						title : "计划年度",
+						field : "totalInvestment",
+						title : "总投资/申报经费（万元）",
+						width : 200,
+						filterable : false,
+					},
+					{
+						field : "year",
+						title : "年度",
 						width : 180,
-						filterable : true
+						format : "{0:yyyy/MM/dd HH:mm:ss}",
+						filterable : false
+					},
+					{
+						field : "state",
+						title : "状态",
+						width : 180,
+						filterable : false
+					},
+					{
+						field : "",
+						title : "操作",
+						width : 180,
+						template : function(item) {
+							return common.format($('#columnBtns').html(),
+									"vm.projectInfoDel('" + item.id + "')",
+									"vm.projectInfoEdit('" + item.id + "')");
 
-					},
-					{
-						field : "tradeSort",
-						title : "行业类别",
-						width : 180,
-						filterable : true
-						
-					},
-					{
-						field : "projectSort",
-						title : "项目类别",
-						width : 180,
-						filterable : true
-						
-					},
-					{
-						field : "totalInvest",
-						title : "总投资",
-						width : 180,
-						filterable : false
-						
-					},
-					{
-						field : "yearInvest",
-						title : "申请年度投资",
-						width : 180,
-						filterable : false
-						
-					},
-					{
-						field : "whetherAddPlanYear",
-						title : "是否纳入年度计划",
-						width : 180,
-						filterable : true
-						
+						}
+
 					}
-];
+
+			];
 			// End:column
 
 			vm.gridOptions = {
@@ -128,5 +112,6 @@
 
 		}// end fun grid
 
+		 
 	}
 })();

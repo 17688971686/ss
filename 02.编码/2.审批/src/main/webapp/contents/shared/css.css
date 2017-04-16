@@ -123,3 +123,12 @@ form table td {
 	height:30px;
 	border:1px solid #ddd;
 }
+.tab {
+        padding:5px;
+      }
+ .tab  li{
+        list-style: none;
+        float:left ;
+        margin-left:5px;
+        line-height: 30px;
+      }
