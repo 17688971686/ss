@@ -3,15 +3,106 @@
 <div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
 <div class="well well-sm" style="background:white;">
     <ol class="breadcrumb">
-        <li><a href="#/monthReport">统计分析</a></li>
+        <li><a href="#/monthReport">决策辅助系统</a></li>
         <li class="active">{{vm.title}}</li>
     </ol>
-     <script type="text/template" id="columnBtns">
-			<button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-bell"></span>催办</button>
-	        <button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-remove"></span>取消催办</a>
-	</script>
-    <form id="form" name="form">          
-         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
-    </form>
     
+   <!-- 以下為echarts圖  项目阶段分布图-->
+   <div id="main" style="width: 600px;height:400px;"></div>
+   <!-- 项目资金折线图   -->
+   
 </div>
+
+<script type="text/javascript">
+        //基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById("main"));
+        //指定图表的配置项和数据
+        
+        var option = {
+        		title: {
+                    text: '项目阶段分布图',
+                    subtext: '纯属虚构',
+                    x: 'center'
+                },	
+                tooltip: { //？
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: { //设置图例组件相关的行为
+                    //orient: 'vertical',//设置排布为竖向，默认为横向
+                    //left: 'left',//位置为左
+                    bottom: 0,
+                    data: ['初步设计及概算', '项目建议书', '可行性研究报告', '前期计划（前期费）', '委托审计', '审计决算资金', '规划设计前期费', '前期工作计划（立项）']
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: {show: true},
+                        dataView: {show: true, readOnly: false},
+                        magicType: {
+                            show: true,
+                            type: ['pie', 'funnel']
+                        },
+                        restore: {show: true},
+                        saveAsImage: {show: true}
+                    }
+                },
+                series : [//设置数据
+                    {
+                        name: '阶段分布',
+                        type: 'pie',//饼状图
+                        radius : '55%',//饼状图的大小
+                        center: ['50%', '50%'],//饼状图占图形区域的大小
+                        data: [
+                            {value: 400, name: '初步设计及概算',
+                                itemStyle: {//这是设置每个扇形的颜色
+                                    normal: {
+                                        color: 'rgba(30,20,200,100)'
+                                     }
+                                }
+                            },
+                            {value: 335, name: '项目建议书'},
+                            {value: 310, name: '可行性研究报告'},
+                            {value: 274, name: '前期计划（前期费）'},
+                            {value: 235, name: '委托审计'},
+                            {value: 200, name: '审计决算资金'},
+                            {value: 135, name: '规划设计前期费'},
+                            {value: 235, name: '前期工作计划（立项）'}
+                        ],
+                        itemStyle: {//设置图形的阴影，明亮度，颜色等
+                            emphasis: {//鼠标hover时
+                                shadowBlur: 10,//阴影的大小
+                                shadowOffsetX: 0,//阴影水平方向上的偏移
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'//阴影的颜色
+                            }
+                        }
+                    }
+                ]
+        };
+        myChart.setOption(option);
+         
+      //设置一个定时器
+        var currentIndex = -1;
+        setInterval(function () {
+            var dataLen = option.series[0].data.length;
+            // 取消之前高亮的图形
+            myChart.dispatchAction({
+                type: 'downplay',
+                seriesIndex: 0,
+                dataIndex: currentIndex
+            });
+            currentIndex = (currentIndex + 1) % dataLen;
+            // 高亮当前图形
+            myChart.dispatchAction({
+                type: 'highlight',
+                seriesIndex: 0,
+                dataIndex: currentIndex
+            });
+            // 显示 tooltip
+            myChart.dispatchAction({
+                type: 'showTip',
+                seriesIndex: 0,
+                dataIndex: currentIndex
+            });
+        }, 1000);
+</script>    

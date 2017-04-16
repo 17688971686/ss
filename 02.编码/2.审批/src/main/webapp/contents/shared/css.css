@@ -138,4 +138,10 @@ form table td {
         margin-left:5px;
         line-height: 30px;
       }
-
+/* 自定义样式--cx */
+.table-td-center{
+	text-align: center;
+}
+.table-td-right{
+	text-align: right;
+}

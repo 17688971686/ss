@@ -8,12 +8,12 @@
 		var url_statisticalAnalysis = "/contents/app/decisionAidSystem/statisticalAnalysis/data/list.json";
 		var url_back = '#/statisticalAnalysis';
 			
-		var service = {
+/*		var service = {
 			grid : grid			
 		};		
-		return service;	
+		return service;	*/
 		
-		function grid(vm) {
+		/*function grid(vm) {
 
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
@@ -71,7 +71,7 @@
 				};
 			
 		}// end fun grid
-
+*/
 		
 		
 		

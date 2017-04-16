@@ -29,7 +29,7 @@
 				}),
 				serverPaging : true,
 				serverSorting : true,
-				serverFiltering : true,			
+				serverFiltering : false,			
 				pageSize: 10,
 				sort : {
 					field : "createdDate",
@@ -43,14 +43,14 @@
 			var columns = [
 					  {
 						field : "id",
-						title : "ID",
-						width : 36,						
+						title : "序号",
+						width : 50,						
 						filterable : false
 					},{
 						field : "projectName",
 						title : "项目名称",
 						template:function(data){
-							return "<a href='#/getProjectDetais?projectId="+data.id+"'>"+data.projectName+"</a>";
+							return "<a href='#/projectDetais/"+data.projectId+"'>"+data.projectName+"</a>";
 						},
 						width:220,
 						filterable : true
@@ -88,13 +88,13 @@
 					{
 						field : "ismonthReport",
 						title : "是否月报",
-						template:function(data){
+						/*template:function(data){
 							if(data.isMonthReport){
 								return "是";
 							}else{
 								return "否"
 							}
-						},
+						},*/
 						filterable : false
 					},
 					{
