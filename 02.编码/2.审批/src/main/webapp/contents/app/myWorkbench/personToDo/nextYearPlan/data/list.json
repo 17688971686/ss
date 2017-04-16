@@ -1,1 +1,5 @@
-{"value":[{"id":1,"projectName":"光明大道高架桥修建","constructionUnit":"深圳市建设一局","declareYear":"2016","constructionCharacter":"续建","itemCategory":"A","industryCategory":"道路交通","totalInvestment":3000.00,"arrangeFunds":2856.00}],"count":1}
+{"value":[
+	{"id":1,"projectId":"SZ-20170413-0001","projectName":"光明新区地铁修建一期","applicantType":"下一年度计划","industry":"交通","totalInvestment":"20000.00","year":"2017","state":"已确认"},
+	{"id":2,"projectId":"SZ-20170413-0002","projectName":"光明新区地铁修建二期","applicantType":"下一年度计划","industry":"交通","totalInvestment":"20000.00","year":"2017","state":"正在确认中"},
+	{"id":3,"projectId":"SZ-20170413-0003","projectName":"光明新区地铁修建三期","applicantType":"下一年度计划","industry":"交通","totalInvestment":"20000.00","year":"2017","state":"未确认信息"}
+],"count":3}

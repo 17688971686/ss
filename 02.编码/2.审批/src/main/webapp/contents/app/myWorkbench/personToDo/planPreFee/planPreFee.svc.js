@@ -29,7 +29,7 @@
 				}),
 				serverPaging : true,
 				serverSorting : true,
-				serverFiltering : true,			
+				serverFiltering : false,			
 				pageSize: 10,
 				sort : {
 					field : "createdDate",
@@ -41,22 +41,57 @@
 
 			// Begin:column
 			var columns = [
-					  {
-						field : "id",
-						title : "ID",
-						width : 80,						
-						filterable : false
-					},{
-						field : "step",
-						title : "步骤",
-						width : 100,
-						filterable : true
-					} ,{
-						field : "message",
-						title : "内容",
-						filterable : false
-					}
-
+				{
+					field : "id",
+					title : "序号",
+					width : 50,						
+					filterable : false
+				},{
+					field : "projectName",
+					title : "项目名称",
+					template:function(data){
+						return "<a href='#/projectDetais/"+data.projectId+"'>"+data.projectName+"</a>";
+					},
+					filterable : true
+				} ,{
+					field : "applicantType",
+					title : "申报类型",
+					filterable : true
+				},
+				{
+					field : "industry",
+					title : "所属行业",
+					filterable : false
+				},
+				{
+					field : "totalInvestment",
+					title : "总投资/申报经费（万）",
+					filterable : false
+				},
+				{
+					field : "year",
+					title : "年度",
+					filterable : true
+				},
+				{
+					field : "state",
+					title : "状态",
+					filterable : true
+				},
+				{
+					field : "",
+					title : "操作",
+					template:function(data){
+						return  common.format($('#columnBtns').html(),"vm.del('" + data.projectId + "')", data.projectId);	
+					},
+					filterable : false
+				},
+				{
+					field : "",
+					title : "导出",
+					filterable : false
+				}
+				
 
 			];
 			// End:column
