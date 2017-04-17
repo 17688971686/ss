@@ -56,7 +56,7 @@
 						width : 200,
 						filterable : true,
 						remplate:function(data){
-							return "<a href='#//"+data.id+"'>"+data.projectName+"</a>";
+							return "<a href='#/"+data.id+"' onclick='fun()'>"+data.projectName+"</a>";
 						}
 					},
 					{
