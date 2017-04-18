@@ -89,26 +89,27 @@ desired effect
 	</div>
 	
 <ul class="menu clearfix">
-		<li><a href="#">管理中心</a></li>
-		<li><a href="#">单位信息维护</a></li>		
-		<li><a href="#">项目申报</a></li>	
-		<li><a href="#">项目月报</a></li>
-		<li><a href="#">问题协调</a></li>
-		<li><a href="#">建议反馈</a></li>
+		<li><a href="javascript:void(0)" ui-sref="index">管理中心</a></li>
+		<li><a href="javascript:void(0)" ui-sref="deptInfoMaintain">单位信息维护</a></li>		
+		<li><a href="javascript:void(0)" ui-sref="">项目申报</a></li>	
+		<li><a href="javascript:void(0)" ui-sref="projectMonthReport">项目月报</a></li>
+		<li><a href="javascript:void(0)" ui-sref="problemCoordinition">问题协调</a></li>
+		<li><a href="javascript:void(0)" ui-sref="suggestFeedback">建议反馈</a></li>
 	</ul>
 
 	
 	</div>
 	
 	<div class="wrap-960" style="background: #fff;">
-		<div style="padding:5px;">
-		<ol class="breadcrumb" style="background: #e2f0e7;">
-			<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
-	        <li><a href="/admin">首页</a></li>
-	        <li class="active">申报中心</li>
-	    </ol>
-		</div>
 		<div ui-view style="min-height:600px;"></div>
+		<footer>
+			<!-- To the right -->
+			<div class="pull-right hidden-xs"></div>
+			<!-- Default to the left -->
+			<strong>Copyright &copy; 2016 <a href="javascript:void(0)">
+			</a>
+			</strong> 版权所有.
+		</footer>
 	</div>
 	
 	
@@ -155,6 +156,27 @@ desired effect
 	<script src="/contents/admin/index/index.ctrl.js"></script>
 	<script src="/contents/admin/index/index.svc.js"></script>
 	
+<!-- begin cx -->
+	<!-- deptInfoMaintain(单位信息管理) -->
+	<script src="/contents/app/deptInfoMaintain/deptInfoMaintain.ctrl.js"></script>
+	<script src="/contents/app/deptInfoMaintain/deptInfoMaintain.svc.js"></script>
+	<!-- projectMonthReport(项目月报) -->
+	<script src="/contents/app/projectMonthReport/projectMonthReport.ctrl.js"></script>
+	<script src="/contents/app/projectMonthReport/projectMonthReport.svc.js"></script>
+	<!-- problemCoordinition(问题协调) -->
+	<script src="/contents/app/problemCoordinition/problemCoordinition.ctrl.js"></script>
+	<script src="/contents/app/problemCoordinition/problemEdit.ctrl.js"></script>
+	<script src="/contents/app/problemCoordinition/problemCoordinition.svc.js"></script>
+	<!-- suggestFeedback(建议反馈) -->
+	<script src="/contents/app/suggestFeedback/suggestFeedback.ctrl.js"></script>
+	<script src="/contents/app/suggestFeedback/suggestFeedback.edit.ctrl.js"></script>
+	<script src="/contents/app/suggestFeedback/suggestFeedback.svc.js"></script>
+
+	
+	<!-- projectDetais(项目信息) -->
+	<script src="/contents/projectDetais/project.detais.ctrl.js"></script>
+	<script src="/contents/projectDetais/project.detais.svc.js"></script>
+<!-- end cx -->	
 	<!-- End:自定义Js-->
 </body>
 </html>
