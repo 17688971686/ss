@@ -41,51 +41,56 @@
 
 			// Begin:column
 			var columns = [
-					  {
-						field : "id",
-						title : "ID",
-						width:50,
-						filterable : false
-					},{
-						field : "projectName",
-						title : "项目名称",
-						filterable : true
-					} ,{
-						field : "constructionUnit",
-						title : "建设单位",
-						filterable : false
+				{
+					field : "id",
+					title : "序号",
+					width : 50,						
+					filterable : false
+				},{
+					field : "projectName",
+					title : "项目名称",
+					template:function(data){
+						return "<a href='#/projectDetais/"+data.projectId+"'>"+data.projectName+"</a>";
 					},
-					{
-						field : "declareYear",
-						title : "申报年度",
-						filterable : false
+					filterable : true
+				} ,{
+					field : "applicantType",
+					title : "申报类型",
+					filterable : true
+				},
+				{
+					field : "industry",
+					title : "所属行业",
+					filterable : false
+				},
+				{
+					field : "totalInvestment",
+					title : "总投资/申报经费（万）",
+					filterable : false
+				},
+				{
+					field : "year",
+					title : "年度",
+					filterable : true
+				},
+				{
+					field : "state",
+					title : "状态",
+					filterable : true
+				},
+				{
+					field : "",
+					title : "操作",
+					template:function(data){
+						return  common.format($('#columnBtns').html(),"vm.del('" + data.projectId + "')",data.projectId);	
 					},
-					{
-						field : "constructionCharacter",
-						title : "建设性质",
-						filterable : false
-					},
-					{
-						field : "itemCategory",
-						title : "项目类别",
-						filterable : false
-					},
-					{
-						field : "industryCategory",
-						title : "行业类别",
-						filterable : false
-					},
-					{
-						field : "totalInvestment",
-						title : "总投资（万）",
-						filterable : false
-					},
-					{
-						field : "arrangeFunds",
-						title : "安排资金",
-						filterable : false
-					}
-
+					filterable : false
+				},
+				{
+					field : "",
+					title : "导出",
+					filterable : false
+				}
 
 			];
 			// End:column

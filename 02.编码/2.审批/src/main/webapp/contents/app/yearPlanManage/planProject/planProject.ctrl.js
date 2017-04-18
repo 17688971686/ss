@@ -16,5 +16,9 @@
         function activate() {
             planProjectSvc.grid(vm);
         }
+        
+        vm.fun = function(id){
+        	alert("000");
+        }
     }
 })();

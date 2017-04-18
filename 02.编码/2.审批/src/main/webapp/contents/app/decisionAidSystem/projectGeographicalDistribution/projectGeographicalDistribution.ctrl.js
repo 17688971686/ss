@@ -10,7 +10,7 @@
     function projectGeographicalDistribution($location, projectGeographicalDistributionSvc) {
         /* jshint validthis:true */
         var vm = this;
-        vm.title = '项目全流程列表';
+        vm.title = '项目地理分布图';
         
 
        

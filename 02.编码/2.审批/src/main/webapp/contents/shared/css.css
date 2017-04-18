@@ -123,7 +123,13 @@ form table td {
 	height:30px;
 	border:1px solid #ddd;
 }
-.tab {
+.text-overflow{  
+  overflow:hidden;
+  display:inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+ .tab {
         padding:5px;
       }
  .tab  li{
@@ -132,3 +138,10 @@ form table td {
         margin-left:5px;
         line-height: 30px;
       }
+/* 自定义样式--cx */
+.table-td-center{
+	text-align: center;
+}
+.table-td-right{
+	text-align: right;
+}

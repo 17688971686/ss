@@ -29,7 +29,7 @@
 				}),
 				serverPaging : true,
 				serverSorting : true,
-				serverFiltering : true,			
+				serverFiltering : false,			
 				pageSize: 10,
 				sort : {
 					field : "createdDate",
@@ -62,7 +62,7 @@
 						title : "项目名称",
 						width : 334,
 						template:function(data){
-							return "<a href='#' onclick='vm.projectDetais('"+data.id+"')'>"+data.projectName+"</a>";
+							return "<a href='#/projectHandForm/"+data.projectId+"'>"+data.projectName+"</a>";
 						},
 						filterable : false
 					},

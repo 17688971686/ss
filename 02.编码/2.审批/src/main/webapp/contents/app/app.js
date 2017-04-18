@@ -92,10 +92,18 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#home
-	        //begin#planProject
+	        //begin#planProject(年度计划项目库)
 	        .state('planProject', {
 	        	url: '/planProject',
 	        	templateUrl: '/contents/app/yearPlanManage/planProject/html/list.html',
+	        	controller: 'planProjectCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#planProject
+	        //begin#planProject(年度计划项目库-查看项目)
+	        .state('checkProject', {
+	        	url: '/checkProject/:id',
+	        	templateUrl: '/contents/app/yearPlanManage/planProject/html/checkProject.html',
 	        	controller: 'planProjectCtrl',
 	        	controllerAs: 'vm'
 	        }) 
@@ -388,6 +396,33 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#projectProcess
+	        
+	       //begin#projectDetais（项目详情頁面查看）
+	        .state('projectDetais', {
+	            url: '/projectDetais/:id',
+	            templateUrl: '/contents/app/projectDetais/html/projectDetais.html',
+	            controller: 'projectDetaisCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#projectDetais
+	        
+	        //begin#projectInfoEdit（项目信息编辑）
+	        .state('projectInfoEdit', {
+	            url: '/projectInfoEdit/:id',
+	            templateUrl: '/contents/app/projectDetais/html/projectDetais.html',
+	            controller: 'projectEditCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#projectInfoEdit
+	        
+	        //begin#projectHandForm（项目处理表单）
+	        .state('projectHandForm', {
+	            url: '/projectHandForm/:id',
+	            templateUrl: '/contents/app/projectDetais/html/projectHandle.html',
+	            controller: 'projectHandFormCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#projectHandForm
 	        
 //end#cx
 	        

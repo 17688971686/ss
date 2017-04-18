@@ -10,9 +10,22 @@
     function planPreFee($location, planPreFeeSvc) {
         /* jshint validthis:true */
         var vm = this;
-        vm.title = '项目全流程列表';
+        vm.title = '规划前期费列表';
         
-
+      //规划前期费数据删除
+        vm.del = function(id){
+        	//alert("这是规划前期费数据删除触发："+id); //--测试用 
+        	common.confirm({
+              	 vm:vm,
+              	 title:"",
+              	 msg:"确认删除数据吗？",
+              	 fn:function () {
+                    	$('.confirmDialog').modal('hide');             	
+                    	planPreFeeSvc.deletePlanPreFee(vm,id);  //此处的方法没有写
+                   }
+               })
+        }
+        
        
         activate();
         function activate() {

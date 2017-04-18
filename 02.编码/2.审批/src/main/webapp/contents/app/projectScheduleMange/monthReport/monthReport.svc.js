@@ -55,34 +55,32 @@
 					},
 					  {
 						field : "id",
-						title : "ID",
-						width : 80,						
+						title : "序号",
+						width : 50,						
 						filterable : false
 					},
 					{
 						field : "projectName",
 						title : "项目名称",
+						template:function(data){
+							return "<a href='#/projectDetais/"+data.projectId+"'>"+data.projectName+"</a>";
+						},
 						filterable : true
 					},
 					{
 						field : "constructionUnit",
 						title : "建设单位",
-						filterable : false
-					},
-					{
-						field : "receiptNumber",
-						title : "收文编号",
-						filterable : false
-					},
-					{
-						field : "receiptDate",
-						title : "收文日期",
-						filterable : false
+						filterable : true
 					},
 					{
 						field : "industry",
 						title : "所属行业",
-						filterable : false
+						filterable : true
+					},
+					{
+						field : "time",
+						title : "月报时间",
+						filterable : true
 					},
 					{
 						field : "totalInvestment",
@@ -90,22 +88,27 @@
 						filterable : false
 					},
 					{
+						field : "uploadMonthReportTerm",
+						title : "上传月报的期限（天）",
+						filterable : true
+					},
+					{
 						field : "isMonthReport",
 						title : "是否月报",
-						template:function(data){
+						/*template:function(data){
 							if(data.isMonthReport){
 								return "是"
 							}else{
 								return "否"
 							}
-						},
-						filterable : false
+						},*/
+						filterable : true
 					},
 					{
 						field : "",
 						title : "操作",
 						template:function(data){
-							return common.format($('#columnBtns').html(),data.id);
+							return common.format($('#columnBtns').html(),"vm.remind('"+data.projectId+"')","vm.edit('"+data.projectId+"')");
 						},
 						filterable : false
 					}
