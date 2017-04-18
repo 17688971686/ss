@@ -43,8 +43,8 @@
 			var columns = [
 					  {
 						field : "id",
-						title : "ID",
-						width : 36,						
+						title : "序号",
+						width : 45,						
 						filterable : false
 					},{
 						field : "handleState",

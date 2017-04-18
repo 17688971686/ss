@@ -257,7 +257,7 @@
 	        }) 
 	        //end#deptProjectQuery
 	        
-	         //begin#monthReport（月报）
+	         //begin#monthReport（月报（项目列表））
 	        .state('monthReport', {
 	            url: '/monthReport',
 	            templateUrl: '/contents/app/projectScheduleMange/monthReport/html/list.html',
@@ -265,6 +265,27 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#monthReport
+	        
+	        //begin#monthReportSelect（月报（月报月份选择））
+	        .state('monthReportSelect', {
+	            url: '/monthReportSelect/:id',
+	            templateUrl: '/contents/app/projectScheduleMange/monthReport/html/monthReport.select.html',
+	            controller: 'monthReportCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#monthReportSelect
+	        
+	         //begin#monthReportDetais（月报（月报详细信息））
+	        .state('monthReportDetais', {
+	            url: '/monthReportDetais/:id',
+	            templateUrl: '/contents/app/projectScheduleMange/monthReport/html/monthReport.detail.html',
+	            controller: 'monthReportCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#monthReportDetais
+	        
+	        
+	        
 	        
 	         //begin#reminders（催办）
 	        .state('reminders', {

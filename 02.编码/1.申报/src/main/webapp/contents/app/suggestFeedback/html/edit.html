@@ -1,70 +1,38 @@
-<div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
-<div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
-
 <div class="well well-sm" style="border:0;background:white;">
 	  <ol class="breadcrumb">
 	  	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
 	  	<li><a href="/admin">首页</a></li>
-	    <li><a href="#/problemCoordinition">问题协调</a></li>
+	    <li><a href="#/suggestFeedback">建议反馈</a></li>
 	    <li class="active">{{vm.title}}</li>
 	  </ol>
-
-
-	<div>	 
-     <form id="form" name="form">
-	      <div class="toolbar">
-	      		<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus"></span>新增</button>
-	      </div>
-	      <script type="text/template" id="columnBtns">
-	  		<button class="btn btn-xs btn-primary"  ng-click="{0}"><span class="glyphicon glyphicon-pencil"></span>编辑</button>
-			<button class="btn btn-xs btn-danger"  ng-click="{1}"><span class="glyphicon glyphicon-remove"></span>删除</button>
-	  	 </script>          
-         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
-   	 </form>
-	</div>
-</div>
-
-<!-- 新增模态框 -->
-<div class="modal fade" id="myModal"> 
-	<div class="modal-dialog"> 
-		<div class="modal-content" style="height:550px;width:750px"> 
-			<div class="modal-header bg-primary">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			
-				<h4 class="modal-title" id="myModalLabel">添加问题</h4> 
-			</div> 
-			<div class="modal-body" style="height:420px;overflow-y:scroll">
+	 		
+			<div style="padding:10px;margin:0 10px 10px 10px;">
 				<form role="form" class="form-horizontal">
 					<div class="form-group">
 						<label for="projectId" class="col-sm-3 control-label">相关项目:<span class="required">(*)</span></label>
 						<div class="col-sm-4">
-							<select id="projectId" class="form-control">
-								<option value="">--请选择--</option>
-								<option value="SZ-GM-20170114-0001">光明新区地铁修建阶段一</option>
-								<option value="SZ-GM-20170114-0002">光明新区地铁修建阶段二</option>
-								<option value="SZ-GM-20170114-0003">光明新区地铁修建阶段三</option>
-								<option value="SZ-GM-20170114-0004">光明新区地铁修建阶段四</option>
-							</select>
+							<input type="text" class="form-control" id="problemTitle" placeholder="光明大道高架桥修建三期" disabled>
 						</div> 						
 					</div>
 					<div class="form-group">
 						<label for="problemTitle" class="col-sm-3 control-label">标题:<span class="required">(*)</span></label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control" id="problemTitle" placeholder="请输入问题标题">
+							<input type="text" class="form-control" id="problemTitle" placeholder="光明大道高架桥修建噪音解决方案">
 						</div> 						
 					</div>
 					<div class="form-group">
-						<label for="problemType" class="col-sm-3 control-label">问题类型:<span class="required">(*)</span></label>
+						<label for="problemType" class="col-sm-3 control-label">信息来源:<span class="required">(*)</span></label>
 						<div class="col-sm-4">
 							<select id="problemType" class="form-control">
 								<option value="">--请选择--</option>
-								<option value="生活环境">生活环境</option>
-								<option value="出行安全">出行安全</option>
-								<option value="空气污染">空气污染</option>
+								<option value="微信公众号">微信公众号</option>
+								<option value="政府公网">政府公网</option>
+								<option value="投诉建议办事处">投诉建议办事处</option>
 							</select>
 						</div> 						
 					</div>
 					<div class="form-group">
-						<label for="problemDescribe" class="col-sm-3 control-label">存在问题描述:<span class="required">(*)</span></label>
+						<label for="problemDescribe" class="col-sm-3 control-label">建议反馈描述:<span class="required">(*)</span></label>
 						<div class="col-sm-9">
 							<textarea class="form-control" rows="3" id="problemDescribe" placeholder="问题描述（300字符以内）"></textarea> 
 						</div> 						
@@ -80,7 +48,7 @@
 								</tr>
 								<tr>
 									<td style="text-align: center">
-										<select style="width:140px;">
+										<select style="width:140px;height:26px;">
 											<option>请选择</option>
 											<option>发改局</option>
 											<option>财政局</option>
@@ -98,7 +66,7 @@
 						</div> 						
 					</div>
 					<div class="form-group">
-						<label for="coordinationMetting" class="col-sm-3 control-label">市区领导协调情况:<br><span class="required" style="font-size:12px;">(xx市领导xx年xx月xx日召开会议)(*)</span></label>
+						<label for="coordinationMetting" class="col-sm-3 control-label">领导意见:<br><span class="required" style="font-size:12px;">(xx市领导xx年xx月xx日召开会议)(*)</span></label>
 						<div class="col-sm-9">
 							<textarea class="form-control" rows="3" id="coordinationMetting"></textarea> 
 						</div> 						
@@ -116,12 +84,10 @@
 						</div> 						
 					</div>
 				</form>
-			</div>
-			<div class="modal-footer"> 
-				<button type="button" class="btn btn-success">确定</button> 			
-				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button> 
+				<div class="pull-right"> 
+				<button type="button" class="btn btn-success">确认</button> 			
+				<button type="button" class="btn btn-default">取消</button> 
 			</div> 
 		</div>
-	</div>
-</div>	
-	
+			
+</div>
