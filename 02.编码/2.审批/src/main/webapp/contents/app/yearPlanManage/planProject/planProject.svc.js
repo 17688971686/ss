@@ -55,7 +55,7 @@
 						title : "项目名称",
 						width : 200,
 						filterable : true,
-						remplate:function(data){
+						template:function(data){
 							return "<a href='#/checkProject/"+data.id+"'>"+data.projectName+"</a>";
 						}
 					},

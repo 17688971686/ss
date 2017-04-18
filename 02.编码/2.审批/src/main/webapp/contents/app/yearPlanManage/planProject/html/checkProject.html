@@ -1,0 +1,130 @@
+<meta charset="UTF-8">
+<div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="toolbar">
+	<button class="btn btn-sm btn-primary"
+		onclick="javascript:window.history.back(-1)">
+		<span class="glyphicon glyphicon-list"></span>&nbsp; 返回列表
+	</button>
+</div>
+<div>
+	<form>
+		<input type="hidden" name="ProjectID" id="ProjectID">
+		<div>
+			<h3 style="text-align: center">深圳市光明新区发展和改革局项目处理表</h3>
+			<p>政府投资项目审批</p>
+			<table class="table table-bordered table-hover"
+				style="background: #f9f9f9; margin-top: 10px;">
+				<tbody>
+					<tr>
+						<td width="150" class="table-td-center">项目名称</td>
+						<td colspan="3">沙荷路-盐排高速立交工程</td>
+					</tr>
+					<tr>
+						<td class="table-td-center">项目代码</td>
+						<td>SZ-20170413-0001</td>
+						<td class="table-td-center">申报单位</td>
+						<td>建筑工务局</td>
+					</tr>
+					<tr>
+						<td class="table-td-center">收文日期</td>
+						<td>2016-07-26</td>
+						<td class="table-td-center">收文编号</td>
+						<td>A20161828</td>
+					</tr>
+					<tr>
+						<td class="table-td-center">项目阶段</td>
+						<td>项目总概算</td>
+						<td class="table-td-center">行业归口</td>
+						<td>其他</td>
+					</tr>
+					<tr>
+						<td class="table-td-center">项目地址</td>
+						<td>龙岗区横岗街道</td>
+						<td class="table-td-center">投资总额</td>
+						<td>14926.41</td>
+					</tr>
+					<tr>
+						<td class="table-td-center">项目简介</td>
+						<td colspan="3">两条匝道（二车道、其中A匝道长约667.6米、B匝道长约427.3米）、连接线（双向7车道、长约317.1米）及沙荷路-平安大道路口（平面交叉部分），涉及道路、桥梁、给水、雨水、交通疏解等工程</td>
+					</tr>
+					<tr>
+						<td class="table-td-center">申报材料</td>
+						<td colspan="3" style="line-height: 25px;"><a
+							href="http://192.168.0.106:8026/UploadFiles/OldAttachment/2016/7/22/5aeb635bcb094591837cc13ca67cc1c8.pdf"
+							target="_blank" class="line">关于申请沙荷盐排概算评审的函.pdf</a> <br> <a
+							href="http://192.168.0.106:8026/UploadFiles/OldAttachment/2016/7/22/f20e84a60a4a4db5a8f5bfc933bd35db.doc"
+							target="_blank" class="line">关于申报沙荷路—盐排高速立交工程概算评审的函.doc</a> <br>
+						</td>
+					</tr>
+					<tr>
+						<td class="table-td-center">申报表</td>
+						<td colspan="3"><a class="btn btn-primary btn-sm"
+							data-toggle="modal" data-target="#myModal-checkDeclare">查看申报表</a>&nbsp;
+							<a class="btn  btn-primary btn-sm" data-toggle="modal"
+							data-target="#myModal-inspectDeclare">复核申报表</a></td>
+					</tr>
+					<tr>
+						<td colspan="4" class="table-td-center">以上信息为项目单位填报</td>
+					</tr>
+					<tr>
+						<td class="table-td-center" style="vertical-align: middle">补充项目相关附件</td>
+						<td colspan="3">
+							<div style="height: 30px; width: 120px;">
+								<object id="SWFUpload_0" type="application/x-shockwave-flash"
+									data="" width="120" height="30"
+									style="position: absolute; z-index: 1;"
+									title="Adobe Flash Player">
+									<param name="wmode" value="transparent">
+									<param name="movie"
+										value="/Scripts/uploadify/uploadify.swf?preventswfcaching=1492151185971">
+									<param name="quality" value="high">
+									<param name="menu" value="false">
+									<param name="allowScriptAccess" value="always">
+									<param name="flashvars" value="">
+								</object>
+								<div id="uploadify-button"
+									style="height: 30px; line-height: 30px; width: 120px;">
+									<span>添加相关附件</span>
+								</div>
+							</div>
+							<div id="uploadify-queue" class="uploadify-queue"></div>
+							<div id="fileQueue"></div>
+						</td>
+					</tr>
+					<tr>
+						<td class="table-td-center" style="vertical-align: middle"><span>人秘科分办意见</span>
+						</td>
+						<td colspan="3">
+							<table width="98%">
+								<tbody>
+									<tr>
+										<td>转请投资科处理。</td>
+									</tr>
+									<tr>
+										<td style="text-align: right">张聪<br>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<p style="text-align: right; padding: 10px;">
+				<a class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#myModal-projectDispose">打印项目处理表</a> 
+				<a class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#myModal-flowProjectPrint">流程打印预览</a> 
+				<a class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#myModal-checkFlow">查看流转情况</a> 
+				<a class="btn btn-primary btn-sm" href="/contents/app/yearPlanManage/planProject/html/checkProjectBank.html" >查看项目库</a>
+			</p>
+		</div>
+	</form>
+</div>
+
+
+
+
+
+
