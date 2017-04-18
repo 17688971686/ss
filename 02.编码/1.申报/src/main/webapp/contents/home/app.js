@@ -20,5 +20,6 @@
 				controller:'detailsCtrl',
 				controllerAs:'vm'
 			})
+			
 	}]);
 })();

@@ -29,7 +29,7 @@
 				}),
 				serverPaging : true,
 				serverSorting : true,
-				serverFiltering : true,			
+				serverFiltering : false,			
 				pageSize: 10,
 				sort : {
 					field : "createdDate",
@@ -44,13 +44,13 @@
 					  {
 						field : "id",
 						title : "序号",
-						width : 36,						
+						width : 45,						
 						filterable : false
 					},
 					{
 						field : "projectName",
 						title : "项目名称",
-						width : 334,
+						width : 200,
 						template:function(data){
 							return "<a href='#/projectDetais/"+data.projectId+"'>"+data.projectName+"</a>";
 						},
@@ -72,7 +72,7 @@
 						field : "industry",
 						title : "所属行业",
 						width : 165,
-						filterable : false
+						filterable : true
 					},
 					{
 						field : "totalInvestment",
@@ -86,7 +86,6 @@
 						template:function(data){
 							return common.format($('#columnBtns').html(),"vm.fill('" + data.projectId + "')");		
 						},
-						width : 180,
 						filterable : false
 					}
 

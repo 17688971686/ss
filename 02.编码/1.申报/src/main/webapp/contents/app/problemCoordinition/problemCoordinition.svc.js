@@ -29,7 +29,7 @@
 				}),
 				serverPaging : true,
 				serverSorting : true,
-				serverFiltering : true,			
+				serverFiltering : false,			
 				pageSize: 10,
 				sort : {
 					field : "createdDate",
@@ -43,27 +43,30 @@
 			var columns = [
 					  {
 						field : "id",
-						title : "序号",					
+						title : "序号",
+						width:45,
 						filterable : false
 					},{
 						field : "problemTitle",
 						title : "标题",
+						width:200,
 						filterable : true
-					} ,{
+					} ,
+					{
+						field : "projectName",
+						title : "项目名称",
+						width : 200,
+						template:function(data){
+							return "<a href='#/projectDetais/"+data.projectId+"'>"+data.projectName+"</a>";
+						},
+						filterable : false
+					},{
 						field : "problemType",
 						title : "问题类型",
 						width : 156,
 						filterable : true
 					},
-					{
-						field : "projectName",
-						title : "项目名称",
-						width : 334,
-						template:function(data){
-							return "<a href='#' onclick='vm.projectDetais('"+data.projectId+"')'>"+data.projectName+"</a>";
-						},
-						filterable : false
-					},
+					
 					{
 						field : "problemState",
 						title : "状态",
@@ -74,7 +77,7 @@
 						field : "",
 						title : "操作",
 						template:function(data){
-							return common.format($('#columnBtns').html(),"vm.edit('" + data.problemId + "')", data.problemId);
+							return common.format($('#columnBtns').html(),"vm.edit('" + data.problemId + "')", "vm.del('"+data.problemId+"')");
 						},
 						width : 180,
 						filterable : false

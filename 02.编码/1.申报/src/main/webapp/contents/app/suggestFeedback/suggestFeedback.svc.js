@@ -29,7 +29,7 @@
 				}),
 				serverPaging : true,
 				serverSorting : true,
-				serverFiltering : true,			
+				serverFiltering : false,			
 				pageSize: 10,
 				sort : {
 					field : "createdDate",
@@ -43,53 +43,39 @@
 			var columns = [
 					  {
 						field : "id",
-						title : "序号",					
+						title : "序号",
+						width:45,
 						filterable : false
 					},{
 						field : "suggestTitle",
 						title : "标题",
-						template:function(data){
-							return "<a href='#' onclick='vm.suggestDetais('"+data.suggestId+"')'>"+data.suggestTitle+"</a>";
-						},
+						width:200,
 						filterable : true
 					} ,
 					{
+						field : "projectName",
+						title : "项目名称",
+						width : 200,
+						template:function(data){
+							return "<a href='#/projectDetais/"+data.projectId+"'>"+data.projectName+"</a>";
+						},
+						filterable : true
+					},
+					{
 						field : "suggestFrom",
 						title : "来源",
-						width : 156,
 						filterable : true
 					},{
 						field : "suggestState",
 						title : "状态",
-						width : 156,
 						filterable : true
-					},
-					{
-						field : "projectName",
-						title : "项目名称",
-						width : 334,
-						template:function(data){
-							return "<a href='#' onclick='vm.projectDetais('"+data.projectId+"')'>"+data.projectName+"</a>";
-						},
-						filterable : true
-					},
-					{
-						field : "industry",
-						title : "所属行业",
-						width : 165,
-						filterable : true
-					},
-					{
-						field : "totalInvestment",
-						title : "总投资（万）",
-						width : 100,
-						filterable : false
-					},
+					},	
 					{
 						field : "",
 						title : "操作",
+						width:170,
 						template:function(data){
-							return common.format($('#columnBtns').html(),"vm.fill('" + data.projectId + "')", data.projectId);		
+							return common.format($('#columnBtns').html(),"vm.edit('" + data.suggestId + "')", "vm.look('" + data.suggestId + "')","vm.del('" + data.suggestId + "')");		
 						},
 						filterable : false
 					}

@@ -111,6 +111,8 @@ form table td {
 .selected {
     background: #FCF3E3;
 }
+
+/* begin cx */
 .table-bordered>thead>tr>th, 
 .table-bordered>tbody>tr>th, 
 .table-bordered>tfoot>tr>th, 
@@ -118,6 +120,7 @@ form table td {
 .table-bordered>tbody>tr>td, 
 .table-bordered>tfoot>tr>td {
     border: 1px solid #ddd;
+    vertical-align:middle
 }
 .form-select{
 	height:30px;
@@ -138,10 +141,37 @@ form table td {
         margin-left:5px;
         line-height: 30px;
       }
-/* 自定义样式--cx */
-.table-td-center{
-	text-align: center;
+      
+.x{
+	border-top: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-bottom: 0px solid #ddd; 
 }
-.table-td-right{
-	text-align: right;
+.y{
+	border-top: 0px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	padding: 10px 20px;
+    line-height: 150%; 
 }
+.form-text{
+	border: #f2f2f2 1px solid;
+    border-top-color: #c8c8c8;
+    border-right-color: #c8c8c8;
+    padding: 0 0px;
+    font-size: 12px;
+    color: #0E6CAD;
+}
+.tip{
+	background: #ee0101;
+    position: relative;
+    color: #fff;
+    width: 150px;
+    font-size: 11px;
+    border: 2px solid #ddd;
+    padding: 4px 10px 4px 10px;   
+}
+
+/* end cx */

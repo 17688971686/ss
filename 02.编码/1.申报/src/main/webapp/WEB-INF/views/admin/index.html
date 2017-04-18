@@ -9,22 +9,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>系统后端管理平台</title>
 <!-- Tell the browser to be responsive to screen width -->
-<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
 	name="viewport">
 <!-- Bootstrap 3.3.6 -->
-<link rel="stylesheet" href="/contents/libs/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="/contents/libs/bootstrap/dist/css/bootstrap.min.css">
 <!-- Font Awesome -->
-<link rel="stylesheet" href="/contents/libs/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="/contents/libs/font-awesome/css/font-awesome.min.css">
 <!-- Ionicons -->
-<link rel="stylesheet" href="/contents/libs/ionicons/css/ionicons.min.css">
+<link rel="stylesheet"
+	href="/contents/libs/ionicons/css/ionicons.min.css">
 <!-- Theme style -->
-<link rel="stylesheet" href="/contents/libs/adminLTE/dist/css/AdminLTE.min.css">
+<link rel="stylesheet"
+	href="/contents/libs/adminLTE/dist/css/AdminLTE.min.css">
 <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
           page. However, you can choose any other skin. Make sure you
           apply the skin class to the body tag so the changes take effect.
     -->
 <!--<link rel="stylesheet" href="/contents/libs/adminLTE/dist/css/skins/skin-blue.min.css">-->
-<link href="/contents/libs/adminLTE/dist/css/skins/skin-green.min.css" rel="stylesheet" />
+<link href="/contents/libs/adminLTE/dist/css/skins/skin-green.min.css"
+	rel="stylesheet" />
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -32,8 +38,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-<link href="/contents/libs/kendoui/kendo.common.min.css" rel="stylesheet" />
-<link href="/contents/libs/kendoui/kendo.blueopal.min.css" rel="stylesheet" />
+<link href="/contents/libs/kendoui/kendo.common.min.css"
+	rel="stylesheet" />
+<link href="/contents/libs/kendoui/kendo.blueopal.min.css"
+	rel="stylesheet" />
 <link href="/contents/shared/css.css" rel="stylesheet" />
 
 <!--Begin:自定义css-->
@@ -136,7 +144,9 @@ desired effect
 							</a></li>
 							<li><a href="javascript:void(0)"> <i
 									class="fa fa-flag-o"></i>待办事项 <span class="label label-danger">0</span>
-							</a></li>
+							</a></li>	
+							<li><a href="javascript:void(0)" ui-sref="tips"><i class="glyphicon glyphicon-comment"></i>温馨提示（消息中心）</a></li>
+							<li><a href="javascript:void(0)" ui-sref="operationRecord"><i class="glyphicon glyphicon-list-alt"></i>操作记录</a></li>
 						</ul></li>
 					<li class="treeview"><a href="javascript:void(0)"> <i
 							class="fa fa-link"></i> <span>用户部门管理</span> <span
@@ -171,6 +181,26 @@ desired effect
 							<li><a href="javascript:void(0)" ui-sref="demo">demo</a></li>
 
 						</ul></li>
+					<li class="treeview">
+						<a href="javascript:void(0)" ui-sref="deptInfoMaintain">
+							 <i class="glyphicon glyphicon-wrench"></i> <span>单位信息维护</span>
+						</a>
+					</li>
+					<li class="treeview">
+						<a href="javascript:void(0)" ui-sref="projectMonthReport"> 
+							<i class="glyphicon glyphicon-file"></i> <span>项目月报</span>
+						</a>
+					</li>
+					<li class="treeview">
+						<a href="javascript:void(0)" ui-sref="problemCoordinition"> 
+							<i class="glyphicon glyphicon-globe"></i> <span>问题协调</span> 
+						</a>
+					</li>
+					<li class="treeview">
+						<a href="javascript:void(0)" ui-sref="suggestFeedback"> 
+							<i class="glyphicon glyphicon-exclamation-sign"></i> <span>建议反馈</span> 
+						</a>
+					</li>	
 					<li class="treeview"><a href="javascript:void(0)"> <i
 							class="fa fa-link"></i> <span>月报系统</span> <span
 							class="pull-right-container"> <i
@@ -287,195 +317,20 @@ desired effect
 	<!-- form -->
 	<script src="/contents/app/form/form.ctrl.js"></script>
 	<script src="/contents/app/form/form.svc.js"></script>
-=======
-					
-					<li class="treeview active">
-						<a href="javascript:void(0)"> 
-						<i class="glyphicon glyphicon-home"></i> <span>管理端首页</span>
-							<span class="pull-right-container">
-							 	<i class="fa fa-angle-left pull-right"></i>	
-							</span>
-						</a>
-						<ul class="treeview-menu">
-							<li><a href="javascript:void(0)" ui-sref="tips"><i class="glyphicon glyphicon-comment"></i>温馨提示（消息中心）</a></li>
-							<li><a href="javascript:void(0)" ui-sref="operationRecord"><i class="glyphicon glyphicon-list-alt"></i>操作记录</a></li>
-						</ul>
-					</li>
-
-					<li class="treeview"><a href="javascript:void(0)">
-							<img style="width: 20px; height: 20px"
-							src="/contents/images/user_icon.png" class="user-image"
-							alt="User Image"> <span>我的工作台</span> <span
-							class="pull-right-container"> <i
-								class="fa fa-angle-left pull-right"></i>
-						</span>
-					</a>
-						<ul class="treeview-menu">
-							<li><a href="javascript:void(0)"> <i
-									class="fa fa-envelope-o"></i>消息通知 <span
-									class="label label-success">4</span>
-							</a></li>
-							<li><a href="javascript:void(0)"> <i
-									class="fa fa-flag-o"></i>待办事项 <span class="label label-danger">0</span>
-							</a></li>
-						</ul></li>
-					<li class="treeview"><a href="javascript:void(0)"> <i
-							class="fa fa-link"></i> <span>用户部门管理</span> <span
-							class="pull-right-container"> <i
-								class="fa fa-angle-left pull-right"></i>
-						</span>
-					</a>
-						<ul class="treeview-menu">
-							<li><a href="javascript:void(0)" ui-sref="user">用户管理</a></li>
-							<li><a href="javascript:void(0)" ui-sref="org">部门管理</a></li>
-							
-
-						</ul></li>
-					<li class="treeview"><a href="javascript:void(0)"> <i
-							class="fa fa-link"></i> <span>系统管理</span> <span
-							class="pull-right-container"> <i
-								class="fa fa-angle-left pull-right"></i>
-						</span>
-					</a>
-						<ul class="treeview-menu">
-							<li><a href="javascript:void(0)" ui-sref="role">角色管理</a></li>
-							<li><a href="javascript:void(0)" ui-sref="log">日志管理</a></li>
-							<li><a href="javascript:void(0)" ui-sref="workflow">工作流管理(下个版本加入)</a></li>
-						</ul></li>
-						
-					<li class="treeview">
-						<a href="javascript:void(0)" ui-sref="deptInfoMaintain">
-							 <i class="glyphicon glyphicon-wrench"></i> <span>单位信息维护</span>
-						</a>
-					</li>
-					<li class="treeview">
-						<a href="javascript:void(0)" ui-sref="projectMonthReport"> 
-							<i class="glyphicon glyphicon-file"></i> <span>项目月报</span>
-						</a>
-					</li>
-					<li class="treeview">
-						<a href="javascript:void(0)" ui-sref="problemCoordinition"> 
-							<i class="glyphicon glyphicon-globe"></i> <span>问题协调</span> 
-						</a>
-					</li>
-					<li class="treeview">
-						<a href="javascript:void(0)" ui-sref="suggestFeedback"> 
-							<i class="glyphicon glyphicon-exclamation-sign"></i> <span>建议反馈</span> 
-						</a>
-					</li>
-					
-					<li class="treeview"><a href="javascript:void(0)"> <i
-							class="fa fa-link"></i> <span>Demo</span> <span
-							class="pull-right-container"> <i
-								class="fa fa-angle-left pull-right"></i>
-						</span>
-					</a>
-						<ul class="treeview-menu">
-							<li><a href="javascript:void(0)" ui-sref="demo">demo</a></li>
-
-						</ul></li>
-
-				</ul>
-				<!-- /.sidebar-menu -->
-			</section>
-			<!-- /.sidebar -->
-		</aside>
-		<!-- Content Wrapper. Contains page content -->
-		<div class="content-wrapper">
-			<!-- Main content -->
-			<section class="content">
-				<!-- Your Page Content Here -->
-				<div ui-view></div>
-
-
-			</section>
-			<!-- /.content -->
-		</div>
-		<!-- /.content-wrapper -->
-		<!-- Main Footer -->
-		<footer class="main-footer">
-			<!-- To the right -->
-			<div class="pull-right hidden-xs"></div>
-			<!-- Default to the left -->
-			<strong>Copyright &copy; 2016 <a href="javascript:void(0)">
-			</a>.
-			</strong> 版权所有.
-		</footer>
-		<!-- Control Sidebar -->
-
-		<!-- /.control-sidebar -->
-		<!-- Add the sidebar's background. This div must be placed
-             immediately after the control sidebar -->
-		<div class="control-sidebar-bg"></div>
-	</div>
-
-
-
-	<!-- ./wrapper -->
-	<!-- REQUIRED JS SCRIPTS -->
-	<script src="/contents/libs/jquery/jquery.js"></script>
-	<script src="/contents/libs/bootstrap/customize/js/bootstrap.js"></script>
-	<script src="/contents/libs/angular/angular.js"></script>
-	<script src="/contents/libs/angular/sanitize.js"></script>
-	<script src="/contents/libs/angular/angular-ui-router.js"></script>
-	<script src="/contents/libs/boilerplate/plugins.js"></script>
-	<script src="/contents/libs/jquery-validation/jquery.validate.js"></script>
-	<script
-		src="/contents/libs/jquery-validation/jquery.validate.unobtrusive.js"></script>
-
-	<script src="/contents/libs/kendoui/kendo.all.min.js"></script>
-	<script src="/contents/libs/kendoui/kendo.message.zh-CN.js"></script>
-	<script src="/contents/libs/kendoui/kendo.culture.zh-CN.min.js"></script>
-	<script src="/contents/libs/jsLinq/jslinq.min.js"></script>
-	<!-- AdminLTE App -->
-	<script src="/contents/libs/adminLTE/dist/js/app.js"></script>
-	<!-- Optionally, you can add Slimscroll and FastClick plugins.
-         Both of these plugins are recommended to enhance the
-         user experience. Slimscroll is required when using the
-         fixed layout. -->
-
-
-
-
-
-	<!-- Begin:自定义Js -->
-	<script src="/contents/app/common/common.js"></script>
-	<script src="/contents/app/app.js"></script>
-	<!-- Role -->
-	<script src="/contents/app/role/role.svc.js"></script>
-	<script src="/contents/app/role/role.ctrl.js"></script>
-	<script src="/contents/app/role/role.edit.ctrl.js"></script>
-	<!-- User -->
-	<script src="/contents/app/user/user.svc.js"></script>
-	<script src="/contents/app/user/user.ctrl.js"></script>
-	<script src="/contents/app/user/user.edit.ctrl.js"></script>
-	<!-- Org-->
-	<script src="/contents/app/org/org.svc.js"></script>
-	<script src="/contents/app/org/org.ctrl.js"></script>
-	<script src="/contents/app/org/org.edit.ctrl.js"></script>
-	<script src="/contents/app/org/orgUser.ctrl.js"></script>
-	<script src="/contents/app/org/orgUser.svc.js"></script>
-	<!-- log -->
-	<script src="/contents/app/log/log.ctrl.js"></script>
-	<script src="/contents/app/log/log.svc.js"></script>
-	<!-- home -->
-	<script src="/contents/app/home/home.ctrl.js"></script>
-	<script src="/contents/app/home/home.svc.js"></script>
-	<!-- demo -->
-	<script src="/contents/app/demo/demo.ctrl.js"></script>
-	<script src="/contents/app/demo/demo.svc.js"></script>
-	 <!-- deptInfoMaintain -->
+<!-- begin cx -->
+	<!-- deptInfoMaintain(单位信息管理) -->
 	<script src="/contents/app/deptInfoMaintain/deptInfoMaintain.ctrl.js"></script>
 	<script src="/contents/app/deptInfoMaintain/deptInfoMaintain.svc.js"></script>
-	<!-- projectMonthReport -->
+	<!-- projectMonthReport(项目月报) -->
 	<script src="/contents/app/projectMonthReport/projectMonthReport.ctrl.js"></script>
 	<script src="/contents/app/projectMonthReport/projectMonthReport.svc.js"></script>
-	<!-- problemCoordinition -->
+	<!-- problemCoordinition(问题协调) -->
 	<script src="/contents/app/problemCoordinition/problemCoordinition.ctrl.js"></script>
 	<script src="/contents/app/problemCoordinition/problemCoordinition.svc.js"></script>
-	<!-- suggestFeedback -->
+	<!-- suggestFeedback(建议反馈) -->
 	<script src="/contents/app/suggestFeedback/suggestFeedback.ctrl.js"></script>
 	<script src="/contents/app/suggestFeedback/suggestFeedback.svc.js"></script>
-	<!-- End:自定义Js-->
+<!-- end cx -->
+					
 </body>
 </html>

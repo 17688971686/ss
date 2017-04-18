@@ -1,0 +1,133 @@
+<div class="well" style="border:0;background:white;">
+	  <ol class="breadcrumb">
+	  	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+	  	<li><a href="/admin">首页</a></li>
+	    <li><a href="#/deptInfoMaintain">单位信息维护</a></li>
+	    <li class="active">{{vm.title}}</li>
+	  </ol>
+<div>
+
+<div>
+	<table width="100%" class="table table-hover table-bordered">
+		<tbody>
+			<tr>
+				<td  width="120">单位名称<span class="required ">(*)</span></td>
+				<td colspan="4" class="RborderNone">
+					<input type="text" value="住房和建设局" maxlength="50"  style="width: 690px;">
+				</td>
+			</tr>
+			<tr>
+				<td>组织机构代码</td>
+  				<td colspan="2"><span>1</span></td>
+			    <td width="100">电话号码<span class="required">(*)</span></td>
+			    <td>
+			    	<input type="text" value="28589811"  data-validation-placeholder="格式：0755-86153000-888" placeholder="格式：0755-86153000-888">
+			    </td>
+		   </tr>
+		   <tr>
+		        <td>电子邮箱<span class="required">(*)</span></td>
+		        <td colspan="2">
+		        	<input  type="text" value="zfjsj@126.com"  style="width: 214px; height: 22px; line-height: 19px;"></td>
+		        <td>传真号码<span class="required">(*)</span></td>
+		        <td>
+		        	<input type="text" value="28589989"  data-validation-placeholder="格式：0755-86153000-888" placeholder="格式：0755-86153000-888">
+		        </td>
+		   </tr>
+		   <tr>
+		        <td colspan="5">常用申报信息</td>
+		   </tr>
+		  <tr>
+		    <td>单位性质<span class="required">(*)</span></td>
+		    <td colspan="4">
+		    	<select style="width: 185px; height: 22px;">
+					<option selected="selected" value="党政机关">党政机关</option>
+					<option value="全额事业单位">全额事业单位</option>
+					<option value="差额事业单位">差额事业单位</option>
+					<option value="企业化管理事业单位">企业化管理事业单位</option>
+					<option value="全民所有制企业">全民所有制企业</option>
+					<option value="集体所有制企业">集体所有制企业</option>
+					<option value="其他">其他</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+		    <td>单位地址<span class="required">(*)</span></td>
+		    <td colspan="4">
+			    <select style="width:80px;height: 26px;">
+			    	<option>光明新区</option>
+			    </select>
+			    <select style="width:100px;height: 26px;">
+					<option value="">--请选择--</option>
+					<option value="37">平湖街道</option>
+					<option value="38">布吉街道</option>
+					<option value="42">坂田街道</option>
+					<option value="41">南湾街道</option>
+					<option value="39">横岗街道</option>
+					<option value="36">龙岗街道</option>
+					<option selected="selected" value="35">龙城街道</option>
+					<option value="40">坪地街道</option>
+					<option value="43">大鹏新区</option>
+					<option value="44">坪山新区</option>
+				</select>
+				<input type="text" value="龙岗中心城建设路建设大厦12楼" maxlength="50"  style="width: 439px;">（路）
+			</td>
+	  </tr>
+	  <tr>
+	    <td rowspan="2">单位负责人<span class="required">(*)</span></td>
+	    <td width="60">姓名</td>
+	    <td>
+	    	<input type="text" value="罗伟南" maxlength="50" style="width: 214px;">
+	    </td>
+	    <td>电话号码</td>
+	    <td>
+	    	<input type="text" value="28589898"  data-validation-placeholder="格式：0755-86153000-888" placeholder="格式：0755-86153000-888">
+	    </td>
+	  </tr>
+	  <tr>
+	    <td>手机</td>	   
+	    <td>
+	    	<input type="text" value="13808801998" style="width: 214px;">
+	    </td>
+	    <td>传真号码</td>
+	    <td>
+	    	<input type="text" value="28589878"  data-validation-placeholder="格式：0755-86153000" placeholder="格式：0755-86153000">
+	    </td>
+	  </tr>
+	  <tr>
+	    <td rowspan="3">单位联系人<span class="required">(*)</span></td>
+	    <td>姓名</td>
+	    <td>
+	    	<input type="text" value="吴廷荣" maxlength="50" style="width: 214px;">
+	    </td>
+	    <td>电话号码</td>
+	    <td>
+	    	<input type="text" value="28589920"  data-validation-placeholder="格式：0755-86153000-888" placeholder="格式：0755-86153000-888">
+	    </td>
+	  </tr>
+	  <tr>
+	    <td>手机</td>
+	
+	    <td>
+	    	<input type="text" value="13802583323" style="width: 214px;">
+	    </td>
+	    <td>传真号码</td>
+	    <td>
+	    	<input type="text" value="28589920"  data-validation-placeholder="格式：0755-86153000-888" placeholder="格式：0755-86153000-888">
+	    </td>
+	  </tr>
+	  <tr>
+	    <td>Email</td>
+	    <td colspan="3">
+	    	<input type="text" value="2798809792@qq.com" style="width: 214px;">
+	    </td>
+	  </tr>
+	  <tr>
+		<td colspan="5" style="padding-top: 11px; padding-bottom: 30px; text-align: center;border-bottom:none" class="RborderNone">
+			<input type="submit"  class="btn_save submit" value="提交">
+	    </td>
+	  </tr>
+	</tbody>
+</table>
+
+</div>
+

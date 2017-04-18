@@ -10,7 +10,7 @@
     function deptInfoMaintain($location, deptInfoMaintainSvc) {
         /* jshint validthis:true */
         var vm = this;
-        vm.title = '单位信息管理';
+        vm.title = '单位基本信息';
         
         activate();
         function activate() {
