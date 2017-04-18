@@ -32,7 +32,7 @@
 				}),
 				serverPaging : true,
 				serverSorting : true,
-				serverFiltering : true,
+				serverFiltering : false,
 				pageSize : 10,
 				sort : {
 					field : "createdDate",
@@ -54,11 +54,15 @@
 						field : "projectName",
 						title : "项目名称",
 						width : 200,
-						filterable : true
+						filterable : true,
+						template:function(data){
+							return "<a href='#/checkProject/"+data.id+"'>"+data.projectName+"</a>";
+						}
 					},
 					{
 						field : "buildUnit",
 						title : "建设单位",
+						width : 200,
 						filterable : true
 					},
 					{

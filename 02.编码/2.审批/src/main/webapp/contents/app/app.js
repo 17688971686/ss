@@ -92,7 +92,7 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#home
-	        //begin#planProject
+	        //begin#planProject(年度计划项目库)
 	        .state('planProject', {
 	        	url: '/planProject',
 	        	templateUrl: '/contents/app/yearPlanManage/planProject/html/list.html',
@@ -100,7 +100,15 @@
 	        	controllerAs: 'vm'
 	        }) 
 	        //end#planProject
-	        //begin#planFormation
+	        //begin#planProject(年度计划项目库-查看项目)
+	        .state('checkProject', {
+	        	url: '/checkProject/:id',
+	        	templateUrl: '/contents/app/yearPlanManage/planProject/html/checkProject.html',
+	        	controller: 'planProjectCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#planProject
+	        //begin#planFormation(年度计划编制)
 	        .state('planFormation', {
 	        	url: '/planFormation',
 	        	templateUrl: '/contents/app/yearPlanManage/planFormation/html/list.html',
@@ -108,6 +116,16 @@
 	        	controllerAs: 'vm'
 	        }) 
 	        //end#planFormation
+	        //begin#planFormation(年度计划编制-项目编制)
+	        .state('projectFormation', {
+	        	url: '/projectFormation/:id',
+	        	templateUrl: '/contents/app/yearPlanManage/planFormation/html/projectFormation.html',
+	        	controller: 'planFormationCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#planFormation
+	        
+	        
 	        //begin#planCollect
 	        .state('planCollect', {
 	        	url: '/planCollect',
@@ -164,6 +182,83 @@
 	        	controllerAs: 'vm'
 	        }) 
 	        //end#problemConcert
+	        //begin#prophaseWorkPlan(前期工作计划)
+	        .state('prophaseWorkPlan', {
+	        	url: '/prophaseWorkPlan',
+	        	templateUrl: '/contents/app/myWorkbench/prophaseWorkPlan/html/list.html',
+	        	controller: 'prophaseWorkPlanCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#prophaseWorkPlan
+	        //begin#detais(前期工作计划-编辑页面)
+	        .state('detais', {
+	        	url: '/detais/:id',
+	        	templateUrl: '/contents/app/myWorkbench/prophaseWorkPlan/html/detais.html',
+	        	controller: 'prophaseWorkPlanCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#detais
+	        
+	        
+	         
+	        //begin#projectProposal(项目建议书)
+	        .state('projectProposal', {
+	        	url: '/projectProposal',
+	        	templateUrl: '/contents/app/myWorkbench/projectProposal/html/list.html',
+	        	controller: 'projectProposalCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#projectProposal
+	        //begin#detais(项目建议书-编辑页面)
+	        .state('proposalDetais', {
+	        	url: '/proposalDetais/:id',
+	        	templateUrl: '/contents/app/myWorkbench/projectProposal/html/proposalDetais.html',
+	        	controller: 'projectProposalCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#detais
+	         
+	        
+	        
+	        //begin#feasibilityStudyReport(可行性研究报告)
+	        .state('feasibilityStudyReport', {
+	        	url: '/feasibilityStudyReport',
+	        	templateUrl: '/contents/app/myWorkbench/feasibilityStudyReport/html/list.html',
+	        	controller: 'feasibilityStudyReportCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#feasibilityStudyReport
+	        //begin#feasibilityStudyReportDetais(可行性研究报告-编辑页面)
+	        .state('feasibilityStudyReportDetais', {
+	        	url: '/feasibilityStudyReportDetais/:id',
+	        	templateUrl: '/contents/app/myWorkbench/feasibilityStudyReport/html/feasibilityStudyReportDetais.html',
+	        	controller: 'feasibilityStudyReportCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#feasibilityStudyReportDetais
+	        
+	        
+	        
+	        //begin#initialDeviseScheme(初步设计方案)
+	        .state('initialDeviseScheme', {
+	        	url: '/initialDeviseScheme',
+	        	templateUrl: '/contents/app/myWorkbench/initialDeviseScheme/html/list.html',
+	        	controller: 'initialDeviseSchemeCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //begin#initialDeviseScheme(初步设计方案-编辑页面)
+	        .state('deviseSchemeDetais', {
+	        	url: '/deviseSchemeDetais/:id',
+	        	templateUrl: '/contents/app/myWorkbench/initialDeviseScheme/html/deviseSchemeDetais.html',
+	        	controller: 'initialDeviseSchemeCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	       
+	        
+	        
+	        
+	        
+	        
 	        
 	        //begin#cx
 	        

@@ -1,0 +1,63 @@
+<meta charset="UTF-8">
+<div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
+
+
+<div style="border-bottom:2px solid #ccc;">
+   <ul class="tab clearfix ">
+      <li ng-click="vm.tab(1)" >
+      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==1?'white':'black'}" ng-class="{'btn-success':vm.tabActive==1}">申报信息</button>
+      </li>
+      <li>
+      	<span class="glyphicon glyphicon-chevron-right"  ></span>
+      </li>
+      <li ng-click="vm.tab(2)">
+      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==2?'white':'black'}" ng-class="{'btn-success':vm.tabActive==2}">审核信息</button>
+      </li>
+      <li>
+      	<span class="glyphicon glyphicon-chevron-right"  ></span>
+      </li>
+      <li ng-click="vm.tab(3)">
+      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==3?'white':'black'}" ng-class="{'btn-success':vm.tabActive==3}">审批意见</button>
+      </li>
+      <li>
+      	<span class="glyphicon glyphicon-chevron-right"  ></span>
+      </li>
+      <li ng-click="vm.tab(4)">
+      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==4?'white':'black'}" ng-class="{'btn-success':vm.tabActive==4}">流转情况</button>
+      </li>
+      <li>
+      	<span class="glyphicon glyphicon-chevron-right"  ></span>
+      </li>
+      <li ng-click="vm.tab(5)">
+      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==4?'white':'black'}" ng-class="{'btn-success':vm.tabActive==5}">相关文件</button>
+      </li>
+    </ul>
+</div>
+
+
+
+<div>
+      <div ng-show="vm.tabActive==1" ng-include src="'/contents/app/yearPlanManage/planProject/html/declareMessage.html'">
+      	<!--  申报信息页面 -->
+      </div>
+      	
+      <div ng-show="vm.tabActive==2" ng-include src="'/contents/app/yearPlanManage/planProject/html/inspectMessage.html'">
+      	<!-- 审核信息页面 -->
+      </div>
+      
+      <div ng-show="vm.tabActive==3" ng-include src="'/contents/app/yearPlanManage/planProject/html/ExaminationAndApprovalIdea.html'">
+      	<!-- 审批意见 -->
+      </div>
+
+      <div ng-show="vm.tabActive==4" ng-include src="'/contents/app/yearPlanManage/planProject/html/flowCase.html'">
+      	<!-- 流转情况页面 -->
+      </div>
+      
+      <div ng-show="vm.tabActive==5" ng-include src="'/contents/app/yearPlanManage/planProject/html/relevanceFile.html'">
+      	<!-- 相关文件页面 -->
+      </div>
+ </div>
+
+
+

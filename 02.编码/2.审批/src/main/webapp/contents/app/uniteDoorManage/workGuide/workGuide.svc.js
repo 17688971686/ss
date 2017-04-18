@@ -93,7 +93,8 @@
 						width : 180,
 						template : function(item) {
 							return common.format($('#columnBtns').html(),
-									"vm.del('" + item.id + "')", item.id);
+									"vm.projectInfoDel('"+item.id+"')",
+									"vm.projectInfoEdit('"+item.id+"')");
 
 						}
 
