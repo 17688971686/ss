@@ -1,0 +1,49 @@
+<div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
+<div class="well well-sm" style="background:white;">
+	 <ol class="breadcrumb">
+	  	 <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+	     <li><a href="#/projectDeclaration">项目申报</a></li>
+	     <li class="active">{{vm.titleDeclarationEdit}}</li>
+	 </ol>
+	 
+	<div style="border-bottom:2px solid #ccc;">
+	   <ul class="tab clearfix ">
+	      <li ng-click="vm.tab(1)" >
+	      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==1?'white':'black'}" ng-class="{'btn-success':vm.tabActive==1}">单位基本信息</button>
+	      </li>
+	      <li>
+	      	<span class="glyphicon glyphicon-chevron-right"  ></span>
+	      </li>
+	      <li ng-click="vm.tab(2)">
+	      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==2?'white':'black'}" ng-class="{'btn-success':vm.tabActive==2}">项目基本信息</button>
+	      </li>
+	      <li>
+	      	<span class="glyphicon glyphicon-chevron-right"  ></span>
+	      </li>
+	      <li ng-click="vm.tab(3)">
+	      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==3?'white':'black'}" ng-class="{'btn-success':vm.tabActive==3}">申报材料清单</button>
+	      </li>
+	      <li>
+	      	<span class="glyphicon glyphicon-chevron-right"  ></span>
+	      </li>
+	      <li ng-click="vm.tab(4)">
+	      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==4?'white':'black'}" ng-class="{'btn-success':vm.tabActive==4}">申报信息确认</button>
+	      </li>
+	    </ul>
+	</div>
+
+
+
+	<div style="height:500px;overflow-y:scroll">
+		<!--  項目單位基本信息(編輯)頁面 -->
+      <div ng-show="vm.tabActive==1" ng-include src="'/contents/projectDetais/html/project.edit/projectUnitMessage.edit.html'"></div>
+      	<!-- 項目基本信息(編輯)頁面 -->
+      <div ng-show="vm.tabActive==2" ng-include src="'/contents/projectDetais/html/project.edit/projectBasicMessage.edit.html'"></div>
+      <!-- 項目申報材料清單 (編輯)頁面-->
+      <div ng-show="vm.tabActive==3" ng-include src="'/contents/projectDetais/html/project.edit/declareMaterialList.edit.html'"></div>
+		<!-- 項目申報信息確認(編輯)頁面 -->
+      <div ng-show="vm.tabActive==4" ng-include src="'/contents/projectDetais/html/project.edit/declareMessageConfirm.edit.html'"></div>
+ 	</div>
+</div>	  
+	  

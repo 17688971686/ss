@@ -185,7 +185,7 @@
 	        //begin#prophaseWorkPlan(前期工作计划)
 	        .state('prophaseWorkPlan', {
 	        	url: '/prophaseWorkPlan',
-	        	templateUrl: '/contents/app/myWorkbench/prophaseWorkPlan/html/list.html',
+	        	templateUrl: '/contents/app/myWorkbench/personToD/prophaseWorkPlan/html/list.html',
 	        	controller: 'prophaseWorkPlanCtrl',
 	        	controllerAs: 'vm'
 	        }) 

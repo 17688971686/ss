@@ -19,12 +19,44 @@
                  controller: 'indexCtrl',
                  controllerAs: 'vm'
              })
+             
+             //begin#projectDetais（项目--详情查看）
               .state('projectDetais', {
                  url: '/projectDetais/:id',
-                 templateUrl:  '/contents/projectDetais/html/projectDetailInfo.html',
+                 templateUrl:  '/contents/projectDetais/html/project.look/projectDetailInfo.html',
                  controller: 'projectDetaisCtrl',
                  controllerAs: 'vm'
              })
+             //end#projectDetais
+             
+             //begin#projectInfoEdit（项目申報--编辑--信息編輯）
+	        .state('projectInfoEdit', {
+	            url: '/projectInfoEdit/:id',
+	            templateUrl: '/contents/projectDetais/html/project.edit/projectInfo.edit.html',
+	            controller: 'projectDeclarationCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#projectInfoEdit
+             
+             //begin#projectDeclaration（项目申报--项目列表）
+              .state('projectDeclaration', {
+                 url: '/projectDeclaration',
+                 templateUrl:  '/contents/app/projectDeclaration/html/project.list.html',
+                 controller: 'projectDeclarationCtrl',
+                 controllerAs: 'vm'
+             })
+             //end#projectDeclaration
+             
+             //begin#projectDeclarationInfoFill（项目申报--项目新增--信息填寫）
+              .state('projectDeclarationInfoFill', {
+                 url: '/projectDeclarationInfoFill',
+                 templateUrl:  '/contents/projectDetais/html/project.add/projectInfo.add.html',
+                 controller: 'projectDeclarationCtrl',
+                 controllerAs: 'vm'
+             })
+             //end#projectDeclarationInfoFill
+             
+             
              //begin#projectMonthReport（项目月报）
 	        .state('projectMonthReport', {
 	            url: '/projectMonthReport',
@@ -34,7 +66,7 @@
 	        }) 
 	        //end#projectMonthReport
 	        
-	        //begin#projectMonthReportFill（项目月报填报月份选择）
+	        //begin#projectMonthReportFill（项目月报填报--月份选择）
 	        .state('projectMonthReportFill', {
 	            url: '/projectMonthReportFill/:id',
 	            templateUrl: '/contents/app/projectMonthReport/html/fill.html',
@@ -43,7 +75,7 @@
 	        }) 
 	        //end#projectMonthReportFill
 	        
-	        //begin#projectMonthReportInfoFill（项目月报填报月份选择）
+	        //begin#projectMonthReportInfoFill（项目月报填报--具体信息填写）
 	        .state('projectMonthReportInfoFill', {
 	            url: '/projectMonthReportInfoFill/:type',
 	            templateUrl: '/contents/app/projectMonthReport/html/fillInfo.html',
@@ -64,7 +96,7 @@
 	        }) 
 	        //end#problemCoordinition
 	        
-	        //begin#problemCoordinition（问题编辑）
+	        //begin#problemCoordinition（问题协调--编辑）
 	        .state('problemInfoEdit', {
 	            url: '/problemInfoEdit/:id',
 	            templateUrl: '/contents/app/problemCoordinition/html/edit.html',
@@ -86,7 +118,7 @@
 	        }) 
 	        //end#suggestFeedback
 	        
-	         //begin#suggestInfoEdit（建议反馈编辑）
+	         //begin#suggestInfoEdit（建议反馈--编辑）
 	        .state('suggestInfoEdit', {
 	            url: '/suggestInfoEdit/:id',
 	            templateUrl: '/contents/app/suggestFeedback/html/edit.html',
@@ -95,7 +127,7 @@
 	        }) 
 	        //end#suggestInfoEdit
 	        
-	         //begin#suggestInfoLook（建议反馈详情）
+	         //begin#suggestInfoLook（建议反馈--详情）
 	        .state('suggestInfoLook', {
 	            url: '/suggestInfoLook/:id',
 	            templateUrl: '/contents/app/suggestFeedback/html/details.html',

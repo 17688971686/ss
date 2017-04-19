@@ -45,6 +45,13 @@
 
 			// Begin:column
 			var columns = [
+				{
+					field : "id",
+					title : "序号",
+					width : 45,
+					filterable : false,
+					
+				},
 					{
 						field : "projectName",
 						title : "项目名称",
