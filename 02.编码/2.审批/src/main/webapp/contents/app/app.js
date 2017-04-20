@@ -260,7 +260,7 @@
 	        //begin#prophaseWorkPlan(前期工作计划)
 	        .state('prophaseWorkPlan', {
 	        	url: '/prophaseWorkPlan',
-	        	templateUrl: '/contents/app/myWorkbench/prophaseWorkPlan/html/list.html',
+	        	templateUrl: '/contents/app/myWorkbench/personToD/prophaseWorkPlan/html/list.html',
 	        	controller: 'prophaseWorkPlanCtrl',
 	        	controllerAs: 'vm'
 	        }) 
@@ -400,7 +400,16 @@
 	        }) 
 	        //end#nextYearPlan
 	        
-	         //begin#perHasDone（个人已办）
+	        //begin#perToDo（我的工作台--个人待办）
+	        .state('perToDo', {
+	            url: '/perToDo',
+	            templateUrl: '/contents/app/myWorkbench/perToDo/html/list.html',
+	            controller: 'perToDoCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#perToDo
+	        
+	         //begin#perHasDone（我的工作台--个人待办）
 	        .state('perHasDone', {
 	            url: '/perHasDone',
 	            templateUrl: '/contents/app/myWorkbench/perHasDone/html/list.html',
@@ -409,7 +418,7 @@
 	        }) 
 	        //end#perHasDone
 	        
-	         //begin#concernedProject（关注的项目）
+	         //begin#concernedProject（我的工作台--关注的项目）
 	        .state('concernedProject', {
 	            url: '/concernedProject',
 	            templateUrl: '/contents/app/myWorkbench/concernedProject/html/list.html',
@@ -418,7 +427,7 @@
 	        }) 
 	        //end#concernedProject
 	        
-	          //begin#deptProjectQuery（部门项目查询）
+	          //begin#deptProjectQuery（我的工作台--部门项目查询）
 	        .state('deptProjectQuery', {
 	            url: '/deptProjectQuery',
 	            templateUrl: '/contents/app/myWorkbench/deptProjectQuery/html/list.html',
@@ -427,7 +436,7 @@
 	        }) 
 	        //end#deptProjectQuery
 	        
-	         //begin#monthReport（月报）
+	         //begin#monthReport（月报（项目列表））
 	        .state('monthReport', {
 	            url: '/monthReport',
 	            templateUrl: '/contents/app/projectScheduleMange/monthReport/html/list.html',
@@ -435,6 +444,27 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#monthReport
+	        
+	        //begin#monthReportSelect（月报（月报月份选择））
+	        .state('monthReportSelect', {
+	            url: '/monthReportSelect/:id',
+	            templateUrl: '/contents/app/projectScheduleMange/monthReport/html/monthReport.select.html',
+	            controller: 'monthReportCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#monthReportSelect
+	        
+	         //begin#monthReportDetais（月报（月报详细信息））
+	        .state('monthReportDetais', {
+	            url: '/monthReportDetais/:id',
+	            templateUrl: '/contents/app/projectScheduleMange/monthReport/html/monthReport.detail.html',
+	            controller: 'monthReportCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#monthReportDetais
+	        
+	        
+	        
 	        
 	         //begin#reminders（催办）
 	        .state('reminders', {
@@ -498,6 +528,18 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#projectHandForm
+/***************************个人已办-不同的办理进度对应不同的项目处理表单-Strat******************************/	        
+	        //begin#projectHandForm（项目处理表单）
+	        .state('projectHandForm', {
+	            url: '/projectHandForm/:id',
+	            templateUrl: '/contents/app/projectDetais/html/projectHandle.html',
+	            controller: 'projectHandFormCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#projectHandForm
+/***************************个人已办-不同的办理进度对应不同的项目处理表单-End******************************/	 	        
+	        
+	        
 	        
 //end#cx
 	        

@@ -44,7 +44,7 @@
 					  {
 						field : "id",
 						title : "序号",
-						width : 50,						
+						width : 45,						
 						filterable : false
 					},{
 						field : "projectName",
@@ -85,18 +85,7 @@
 						title : "总投资",
 						filterable : false
 					},
-					{
-						field : "ismonthReport",
-						title : "是否月报",
-						/*template:function(data){
-							if(data.isMonthReport){
-								return "是";
-							}else{
-								return "否"
-							}
-						},*/
-						filterable : false
-					},
+					
 					{
 						field : "projectNowNode",
 						title : "项目现节点",
@@ -115,7 +104,7 @@
 						field : "",
 						title : "操作",
 						template:function(data){
-							return common.format($('#columnBtns').html(),data.id);
+							return common.format($('#columnBtns').html(),"vm.cancleReminders('"+data.projectId+"')");
 						},
 						width:150,
 						filterable : false

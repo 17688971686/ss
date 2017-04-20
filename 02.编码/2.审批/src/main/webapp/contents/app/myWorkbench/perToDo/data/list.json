@@ -1,0 +1,6 @@
+{"value":[
+	{"id":1,"handleState":"已完结","projectPhase":"前期计划（前期费）","projectId":"SZ-GM-20170416-001","projectName":"光明大道高架桥修建","applicantUnitName":"深圳市建设一局","receiptDate":"2017-2-10","receiptNumber":"201702100001","industry":"政府项目","totalInvestment":3000,"dispatchNumber":"深龙发改〔2017〕001号","auditType":1},
+	{"id":2,"handleState":"正在办理中","projectPhase":"规划设计前期费","projectId":"SZ-GM-20170416-002","projectName":"光明大道高架桥修建阶段二","applicantUnitName":"深圳市建设一局","receiptDate":"2017-2-10","receiptNumber":"201702100001","industry":"政府项目","totalInvestment":3000,"dispatchNumber":"深龙发改〔2017〕002号","auditType":1},
+	{"id":3,"handleState":"待办理","projectPhase":"项目建议书","projectId":"SZ-GM-20170416-003","projectName":"光明大道高架桥修建阶段三","applicantUnitName":"深圳市建设一局","receiptDate":"2017-2-10","receiptNumber":"201702100001","industry":"政府项目","totalInvestment":3000,"dispatchNumber":"深龙发改〔2017〕003号","auditType":1}
+	
+],"count":3}

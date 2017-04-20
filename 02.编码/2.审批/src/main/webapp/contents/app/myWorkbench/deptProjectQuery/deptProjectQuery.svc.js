@@ -97,14 +97,25 @@
 					}
 			];
 			// End:column
-			vm.gridOptions={
-					dataSource : common.gridDataSource(dataSource),
-					filterable : common.kendoGridConfig().filterable,
-					pageable : common.kendoGridConfig().pageable,
-					noRecords:common.kendoGridConfig().noRecordMessage,
-					columns : columns,
-					resizable: true
-				};
+			if(type=='toDo'){
+				vm.gridOptions={
+						dataSource : common.gridDataSource(dataSource),
+						filterable : common.kendoGridConfig().filterable,
+						pageable : common.kendoGridConfig().pageable,
+						noRecords:common.kendoGridConfig().noRecordMessage,
+						columns : columns,
+						resizable: true
+					};
+			}else{			
+				vm.gridOptions2={
+						dataSource : common.gridDataSource(dataSource),
+						filterable : common.kendoGridConfig().filterable,
+						pageable : common.kendoGridConfig().pageable,
+						noRecords:common.kendoGridConfig().noRecordMessage,
+						columns : columns,
+						resizable: true
+					};
+			}
 		}
 		//End fun getListData
 		

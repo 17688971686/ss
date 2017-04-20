@@ -3,7 +3,9 @@
 <div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
 <div class="well well-sm" style="background:white;">
     <ol class="breadcrumb">
-        <li><a href="#/projectprocess">部门项目查询</a></li>
+    	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+    	<li>我的工作台</li>
+        <li><a href="#/deptProjectQuery">部门项目查询</a></li>
         <li class="active">{{vm.title}}</li>
     </ol>
 	<ul id="myTab" class="nav nav-tabs">
@@ -15,7 +17,7 @@
          	<div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>	
     	</div>
     	<div class="tab-pane fade" id="hasDone">      
-         	<div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+         	<div class="grid" kendo-grid="grid" k-options="vm.gridOptions2"></div>
     	</div>
     	
     </div>

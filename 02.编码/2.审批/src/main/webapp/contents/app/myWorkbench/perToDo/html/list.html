@@ -1,0 +1,90 @@
+<div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
+
+ <div class="well well-sm" style="background:white;">
+	<ol class="breadcrumb">
+		<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		<li>我的工作台</li>
+	  	<li><a href="#/perToDo">个人待办</a></li>
+	   	<li class="active">{{vm.title}}</li>
+	</ol>
+    <form id="form" name="form">          
+        <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+   	</form>
+   	<div style="margin-top:10px;">
+   		<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal">批量处理年度计划</button>
+   	</div>
+</div>
+
+<!-- 批量处理年度计划模态框 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> 
+	<div class="modal-dialog"> 
+		<div class="modal-content"> 
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			
+				<h4 class="modal-title" id="myModalLabel">批量审批年度计划</h4> 
+			</div> 
+			<div class="modal-body">
+					<table class="table table-bordered">
+						<tr>
+							<td class="col-sm-3" style="text-align:center;vertical-align: middle;">所属行业:</td>
+							<td>
+								<select class="form-control input-xlarge">
+								<option>--请选择--</option>
+								<option>文体卫教</option>
+								<option>城市建设</option>
+								<option>其他零星工程</option>
+								<option>市容环境提升</option>
+								<option>农林水</option>
+								<option>道路交通</option>
+								<option>消防基础设施</option>
+								<option>防洪排涝</option>
+							</select>
+							</td>
+						</tr>
+						<tr rowspan=2>
+							<td style="text-align:center;vertical-align: middle;">填写意见:</td>
+							<td colspan=2>
+								<div style="margin-buttom:10px;">
+									<div class="pull-left">
+										<span>个人自定义意见:</span>
+									</div>
+									<div style="display:inline">
+										<select class="col-sm-6">
+											<option>--请选择--</option>
+											<option>请NO2办理</option>
+											<option>请NO3办理</option>
+											<option>请NO4办理</option>
+										</select>
+									</div>
+								</div>
+								<div style="margin-top:20px;">
+									<textarea class="form-control col-sm-9" rows="3"></textarea>
+								</div>
+								
+								
+								
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align:center;vertical-align: middle;">下一操作步骤:</td>
+							<td	colspan=2>
+								<input type="checkbox" >经办人办理
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align:center;vertical-align: middle;">处理人:</td>
+							<td colspan=2>
+								主办人员：
+							</td>
+						</tr>
+					</table> 			
+			</div> 
+			<div class="modal-footer"> 
+				<button type="button" class="btn btn-success">确定</button> 			
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button> 
+			</div> 
+		</div><!-- /.modal-content -->
+ 	</div>
+ </div>
+        

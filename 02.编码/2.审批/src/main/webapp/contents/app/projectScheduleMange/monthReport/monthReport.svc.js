@@ -41,35 +41,37 @@
 
 			// Begin:column
 			var columns = [
-					{
-						template : function(item) {
-							return kendo
-									.format(
-											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox' />",
-											item.id)
-						},
-						field : "",
-						width : 40,
-						title : "<input id='checkboxAll' type='checkbox' class='checkbox'>",
-						filterable : false
-					},
 					  {
 						field : "id",
 						title : "序号",
-						width : 50,						
+						width : 45,						
 						filterable : false
 					},
 					{
 						field : "projectName",
 						title : "项目名称",
+						width:200,
 						template:function(data){
-							return "<a href='#/projectDetais/"+data.projectId+"'>"+data.projectName+"</a>";
+							return "<a href='#/monthReportSelect/"+data.projectId+"'>"+data.projectName+"</a>";
 						},
 						filterable : true
 					},
 					{
 						field : "constructionUnit",
 						title : "建设单位",
+						width:200,
+						filterable : true
+					},
+					{
+						field : "projectPhase",
+						title : "申报阶段",
+						width : 165,
+						filterable : true
+					},
+					{
+						field : "annualYear",
+						title : "申报年度",
+						width : 165,
 						filterable : true
 					},
 					{
@@ -77,24 +79,16 @@
 						title : "所属行业",
 						filterable : true
 					},
-					{
-						field : "time",
-						title : "月报时间",
-						filterable : true
-					},
+					
 					{
 						field : "totalInvestment",
 						title : "总投资（万）",
 						filterable : false
 					},
-					{
-						field : "uploadMonthReportTerm",
-						title : "上传月报的期限（天）",
-						filterable : true
-					},
+					
 					{
 						field : "isMonthReport",
-						title : "是否月报",
+						title : "是否需要月报",
 						/*template:function(data){
 							if(data.isMonthReport){
 								return "是"
@@ -108,7 +102,7 @@
 						field : "",
 						title : "操作",
 						template:function(data){
-							return common.format($('#columnBtns').html(),"vm.remind('"+data.projectId+"')","vm.edit('"+data.projectId+"')");
+							return common.format($('#columnBtns').html(),"vm.remind('"+data.projectId+"')");
 						},
 						filterable : false
 					}
