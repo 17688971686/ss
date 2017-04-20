@@ -11,6 +11,7 @@
         /* jshint validthis:true */
         var vm = this;
         vm.title = '項目詳情';
+        vm.titleDeclarationLook = '项目申报信息查看页面';
         
       vm.tabActive=2;
       

@@ -13,7 +13,8 @@
         vm.title = '项目列表';
         vm.titleDeclarationEdit = '项目申报信息编辑页面';
         vm.titleDeclarationAdd = '项目申报信息新增页面';
-        vm.titleFillInfo = '项目月报填报信息录入';
+        
+       
         
         
         vm.del = function(id){
@@ -32,10 +33,12 @@
          * 用於項目列表中信息編輯（不同的申報階段對應不同的頁面）
          */
         vm.edit = function(id){
-        	//根据项目id查询出项目的申报阶段
-        	/*var model = ?;
+        	//暂时模拟
+        	location.href = "#/projectDeclarationInfoEdit_prePlan/"+id;
+        	//TODO 根据项目id查询出项目的申报阶段 
+        	
         	//根据申报阶段弹出对应的编辑页面
-        	if(model.declarationStage == "前期计划（前期费）"){
+        	/*if(model.declarationStage == "前期计划（前期费）"){
         		location.href = "#/projectDeclarationInfoEdit_prePlan/"+model;
         	}else if(model.declarationStage == "规划设计前期费"){
         		location.href = "#/projectDeclarationInfoEdit_planDesign/"+model;

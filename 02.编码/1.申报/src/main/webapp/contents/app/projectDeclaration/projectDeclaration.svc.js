@@ -80,7 +80,7 @@
 						title : "项目名称",
 						width : 200,
 						template:function(data){
-							return "<a href='#/projectDetais/"+data.projectId+"'>"+data.projectName+"</a>";
+							return "<a href='#/projectDetais/"+data.projectId+"&"+data.declarationStage+"'>"+data.projectName+"</a>";
 						},
 						filterable : true
 					},

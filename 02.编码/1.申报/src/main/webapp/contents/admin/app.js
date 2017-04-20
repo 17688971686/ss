@@ -21,9 +21,10 @@
              })
              
              //begin#projectDetais（项目--详情查看(暂时没有分别申报阶段的不同)）
+             //TODO 怎么来判断传递的参数 来确认申报项目的阶段来返回不同的页面
               .state('projectDetais', {
                  url: '/projectDetais/:id',
-                 templateUrl:  '/contents/projectDetais/html/project.look/nextYearPlan/projectDetailInfo.html',
+                 templateUrl:  '/contents/projectDetais/html/project.look/constructionPlan/declareMessageConfirm.html',
                  controller: 'projectDetaisCtrl',
                  controllerAs: 'vm'
              })
@@ -135,7 +136,7 @@
              
              //begin#projectDeclarationInfoFill_newStratPlan（项目申报--项目新增--新开工计划 信息填寫）
               .state('projectDeclarationInfoFill_newStratPlan', {
-                 url: '/projectDeclarationInfoFill_planDesign',
+                 url: '/projectDeclarationInfoFill_newStratPlan',
                  templateUrl:  '/contents/projectDetais/html/project.add/newStratPlan/projectInfo.add.html',
                  controller: 'projectDeclarationCtrl',
                  controllerAs: 'vm'

@@ -1,11 +1,11 @@
 <div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
 
-<body>
-	<form id="form" name="form">
-		<div class="bg-danger text-danger"
-			style="padding: 10px; margin-bottom: 10px">申报材料清单</div>
-		<div>
+
+		<div class="bg-danger text-danger" style="padding: 10px; margin-bottom: 10px">
+			申报材料清单
+		</div>
+		<div class="content">
 			<table class="table table-bordered">
 				<tr>
 					<td>
@@ -31,7 +31,7 @@
 								<td>待上传</td>
 
 								<td  style="text-align:center">
-									<button class="btn btn-link"  data-toggle="modal" data-target="#myModal" onclick="chose('申请报告(pdf版，加盖公章)')">附件上传</button>
+									<button class="btn btn-link" data-toggle="modal" href="#myModal">附件上传</button>
 								</td>
 
 								<td><span>-</span></td>
@@ -46,7 +46,7 @@
 								<td>待上传</td>
 
 								<td style="text-align:center">
-									<button class="btn btn-link" onclick="chose('申请报告(Word版)')">附件上传</button>
+									<button class="btn btn-link" data-toggle="modal" href="#myModal">附件上传</button>
 								</td>
 
 								<td><span>-</span></td>
@@ -55,12 +55,12 @@
 							</tr>
 
 							<tr>
-								<td><span>项目计划书</span></td>
+								<td><span>项目计划书</span><span class="required">(*)</span></td>
 
 								<td>待上传</td>
 
 								<td style="text-align:center">
-									<button class="btn btn-link" onclick="chose('项目计划书')">附件上传</button>
+									<button class="btn btn-link" data-toggle="modal" href="#myModal">附件上传</button>
 								</td>
 
 								<td><span>-</span></td>
@@ -75,7 +75,7 @@
 								<td>待上传</td>
 
 								<td style="text-align:center">
-									<button class="btn btn-link" onclick="chose('其他资料')">附件上传</button>
+									<button class="btn btn-link" data-toggle="modal" href="#myModal">附件上传</button>
 								</td>
 
 								<td><span>-</span></td>
@@ -89,12 +89,13 @@
 				</tr>
 				</div>
 			</table>
-	</form>
-	
-</body>
+	</div>>
 <script type="text/javascript">
+
 	$('input[id=upload]').change(function() {  
 	$('#attachmentUpload').val($(this).val());
+	}
+	
 </script>
 <!-- 添加附件模态框 -->
 <div class="modal fade" id="myModal">
@@ -141,8 +142,4 @@
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button> 
 			</div> 
 	</div>
-	<script type="text/javascript">
-		
-		
-	</script>
 </div>
