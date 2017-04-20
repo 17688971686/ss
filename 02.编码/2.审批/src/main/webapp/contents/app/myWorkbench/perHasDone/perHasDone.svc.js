@@ -49,7 +49,7 @@
 					},{
 						field : "handleState",
 						title : "办理状态",
-						width : 100,
+						width : 150,
 						filterable : true
 					} ,{
 						field : "projectPhase",
@@ -60,9 +60,9 @@
 					{
 						field : "projectName",
 						title : "项目名称",
-						width : 334,
+						width : 200,
 						template:function(data){
-							return "<a href='#/projectHandForm/"+data.projectId+"'>"+data.projectName+"</a>";
+							return "<a href='#/projectHandForm/"+data.projectId+"&"+data.auditType+"'>"+data.projectName+"</a>";
 						},
 						filterable : false
 					},

@@ -1,0 +1,393 @@
+<meta charset="UTF-8">
+<div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
+<div class="well well-sm" style="background: white;">
+
+	<ol class="breadcrumb">
+		<li><a href="#/user">项目申报</a></li>
+		<li class="active">布吉甘坑垃圾填埋场渗滤液处理站升级改造工程</li>
+	</ol>
+	<form id="form" name="form">
+		<div class="bg-danger text-danger" style="padding: 10px; margin-bottom: 10px">
+			项目总概算 <span>金额：万元 , 面积：平方米</span>
+		</div>
+
+		<div>
+			<table class="table table-bordered">
+				<tr>
+					<td style="width: 200px;" class="formAlignRight">项目阶段：</td>
+					<td><span>项目建议书</span></td>
+					<td class="formAlignRight">申报时间：</td>
+					<td><span>2017</span></td>
+				</tr>
+				<tr>
+					<td class="formAlignRight">项目名称：<span class="errors">(*)</span></td>
+					<td><input type="text" value="区妇幼保健院门诊立体车库及智能停车系统工程" maxlength="200" value=""
+						class="form-control input-sm" /></td>
+					<td class="formAlignRight">投资类型：<span class="errors">(*)</span></td>
+					<td><select class="form-select" class="form-select">
+							<option value="-1">--请选择--</option>
+							<option value="市投市建">市投市建</option>
+							<option value="市投区建">市投区建</option>
+							<option value="区投区建">区投区建</option>
+							<option value="市、区共投">市、区共投</option>
+							<option value="市、区政府及社会投资组合类">市、区政府及社会投资组合类</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td class="formAlignRight">申报单位名称：<span class="errors">(*)</span></td>
+					<td><input type="text" value="住房和建设局" class="form-control input-sm" /></td>
+					<td class="formAlignRight">项目分类：<span class="errors">(*)</span></td>
+					<td><select class="form-select" class="form-select">
+							<option value="-1">--请选择--</option>
+							<option value="政府投资房建类">政府投资房建类</option>
+							<option value="政府投资市政类">政府投资市政类</option>
+							<option value="社会投资房建类">社会投资房建类</option>
+							<option value="社会投资市政类">社会投资市政类</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td class="formAlignRight">国民经济行业分类：<span class="errors">(*)</span></td>
+					<td colspan="3"><select class="form-select" class="form-select">
+							<option selected="selected" value="-1">--请选择--</option>
+							<option value="1">农、林、牧、渔业</option>
+							<option value="2">采矿业</option>
+							<option value="3">制造业</option>
+							<option value="4">电力、热力、燃气及水生产和供应业</option>
+							<option value="5">建筑业</option>
+							<option value="6">批发和零售业</option>
+							<option value="7">交通运输、仓储和邮政业</option>
+							<option value="8">住宿和餐饮业</option>
+							<option value="9">信息传输、软件和信息技术服务业</option>
+							<option value="10">金融业</option>
+							<option value="11">房地产业</option>
+							<option value="12">租赁和商务服务业</option>
+							<option value="13">科学研究和技术服务业</option>
+							<option value="14">水利、环境和公共设施管理业</option>
+							<option value="15">居民服务、修理和其他服务业</option>
+							<option value="16">教育</option>
+							<option value="17">卫生和社会工作</option>
+							<option value="18">文化、体育和娱乐业</option>
+							<option value="19">公共管理、社会保障和社会组织</option>
+							<option value="20">国际组织</option>
+					</select> <select class="form-select" class="form-select">
+							<option value="-1">--请选择--</option>
+					</select></td>
+				</tr>
+
+				<tr>
+					<td class="formAlignRight">项目行业归口：<span class="errors">(*)</span></td>
+					<td colspan="3"><select class="form-select" class="form-select">
+							<option selected="selected" value="-1">--请选择--</option>
+							<option value="1">文体卫教</option>
+							<option value="2">城市建设</option>
+							<option value="3">党政机关</option>
+							<option value="4">市容环境提升</option>
+							<option value="5">农林水</option>
+							<option value="6">道路交通</option>
+							<option value="7">规划前期费</option>
+							<option value="8">轨道规划前期费</option>
+							<option value="29">其他</option>
+							<option value="33">征收补偿安置</option>
+							<option value="34">项目审计决算资金</option>
+							<option value="35">项目前期费</option>
+					</select> <select class="form-select" class="form-select">
+							<option value="-1">--请选择--</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td class="formAlignRight">项目类型：<span class="errors">(*)</span></td>
+					<td colspan="3"><span
+						style="display: inline-block; border-style: None; height: 45px; width: 700px; border: 0px;">
+							<input type="checkbox" value="2016年前期项目" /> <label>2016年前期项目</label> <input type="checkbox"
+							value="2016年度计划A类" /> <label>2016年度计划A类</label> <input type="checkbox" value="2014年调整计划" />
+							<label>2014年调整计划</label> <input type="checkbox" value="2015年调整计划" /> <label>2015年调整计划</label>
+							<input type="checkbox" value="市重大项目" /> <label>市重大项目</label> <input type="checkbox"
+							value="区重大项目" /> <label>区重大项目</label> <input type="checkbox" value="区重大民生项目" /> <label>区重大民生项目</label>
+							<input type="checkbox" value="市十二项重大民生项目" /> <label>市十二项重大民生项目</label> <input
+							type="checkbox" value="重点区域项目" /> <label>重点区域项目</label> <input type="checkbox"
+							value="2014年度计划A类" /> <label>2014年度计划A类</label> <input type="checkbox" value="2015年度计划A类" />
+							<label>2015年度计划A类</label> <input type="checkbox" value="2015年前期项目" /> <label>2015年前期项目</label>
+							<input type="checkbox" value="其他" /> <label>其他</label>
+					</span></td>
+				</tr>
+				<tr>
+					<td class="formAlignRight" style="height: 50px;" rowspan="2">项目建设地址：<span class="errors">(*)</span></td>
+					<td colspan="3"><span
+						style="display: inline-block; border-style: None; height: 45px; width: 600px; border: 0px;">
+							<input type="checkbox" value="平湖街道" /> <label>平湖街道</label> <input type="checkbox"
+							value="布吉街道" /> <label>布吉街道</label> <input type="checkbox" value="坂田街道" /> <label>坂田街道</label>
+							<input type="checkbox" value="南湾街道" /> <label>南湾街道</label> <input type="checkbox"
+							value="横岗街道" /> <label>横岗街道</label> <input type="checkbox" value="龙岗街道" /> <label>龙岗街道</label>
+							<input type="checkbox" value="龙城街道" /> <label>龙城街道</label> <input type="checkbox"
+							value="坪地街道" /> <label>坪地街道</label> <input type="checkbox" value="大鹏新区" /> <label>大鹏新区</label>
+							<input type="checkbox" value="坪山新区" /> <label>坪山新区</label>
+					</span></td>
+				</tr>
+				<tr>
+					<td colspan="3"><input type="text" maxlength="50" value="深圳市龙岗区爱龙东路6号 " /> &nbsp;
+						
+				</tr>
+				<tr>
+					<td class="formAlignRight">项目总投资(万元)：<span class="errors">(*)</span></td>
+					<td colspan="3" style="padding-left: 0"><table border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td><span style="display: inline-block; width: 75px;"></span> <input type="hidden" /></td>
+								<td>建安费</td>
+								<td><input type="text" maxlength="10" value="2329.86" style="width: 120px;" /></td>
+								<td>工程建设其他费</td>
+								<td><input type="text" maxlength="10" value="250.32" style="width: 120px;" /></td>
+								<td>基本预备费</td>
+								<td><input type="text" maxlength="10" value="129.01" style="width: 120px;" /></td>
+							</tr>
+						</table></td>
+				</tr>
+				<tr>
+					<td class="formAlignRight">资金筹措方案（万元）：<span class="errors">(*)</span><br /> <span></span></td>
+					<td colspan="3" style="padding-left: 0"><table border="0" cellspacing="0" cellpadding="0"
+							class="Mtable3">
+							<tr>
+								<td>市财政</td>
+								<td>区财政</td>
+								<td>社会投资</td>
+								<td>国土资金</td>
+								<td>专项资金</td>
+								<td>中央投资</td>
+								<td>部省</td>
+								<td>自筹</td>
+								<td>政府统筹</td>
+								<td>教育费附加</td>
+								<td>其他</td>
+							</tr>
+							<tr>
+								<td><input type="text" maxlength="10" value="0" style="width: 55px;" /></td>
+								<td><input type="text" maxlength="10" value="2709.19" style="width: 55px;" /></td>
+								<td><input type="text" maxlength="10" value="0" style="width: 55px;" /></td>
+								<td><input type="text" maxlength="10" value="0" style="width: 55px;" /></td>
+								<td><input type="text" maxlength="10" value="0" style="width: 55px;" /></td>
+								<td><input type="text" maxlength="10" value="0" style="width: 55px;" /></td>
+								<td><input type="text" maxlength="10" value="0" style="width: 55px;" /></td>
+								<td><input type="text" maxlength="10" value="0" style="width: 55px;" /></td>
+								<td><input type="text" maxlength="10" value="0" style="width: 55px;" /></td>
+								<td><input type="text" maxlength="10" value="0" style="width: 55px;" /></td>
+								<td><input type="text" maxlength="10" value="0" style="width: 55px;" /></td>
+							</tr>
+							<tr>
+								<td>资金总计</td>
+								<td colspan="10" align="left" style="padding-left: 20px;"><span value="0"></span> <input
+									type="hidden" /></td>
+							</tr>
+							<tr>
+								<td colspan="2">"其他"的来源途径说明</td>
+								<td colspan="9" style="padding: 0;"><input type="text" style="width: 530px;" /></td>
+							</tr>
+						</table></td>
+				</tr>
+				<tr>
+					<td class="formAlignRight">项目简介：<span class="errors">(*)</span></td>
+					<td colspan="3"><textarea  class="form-control" rows="2" cols="20" mark_maxlength="500" value=""
+							style="height: 121px; width: 640px;">本工程在原有室外篮球场地建设，需对篮球场及原单层后勤用房拆除；基础为旋挖桩、十三层框架结构、外贴陶瓷面砖饰面，主要工程内容：室外建构筑物、室外地坪拆除、室外管线迁改、绿化移植、桩基础、主体结构、室外内给排水、强弱电。消防、管网敷设、电缆引入工程（不包括智能停车系统设备工程）。
+</textarea></td>
+				</tr>
+				<tr>
+					<td class="formAlignRight">建设规模：<span class="errors">(*)</span></td>
+					<td colspan="3"><textarea  class="form-control" value="" rows="2" cols="20" mark_maxlength="200"
+							style="height: 80px; width: 640px;">位于龙城街道区妇幼保健院内，新建13层立体停车库，共提供576个车位，占地1000㎡，设计建筑面积约15685.12㎡
+</textarea></td>
+				</tr>
+				<tr>
+					<td class="formAlignRight">项目必要性和依据：<span class="errors">(*)</span></td>
+					<td colspan="3"><textarea class="form-control" mark_maxlength="200" value=""
+							style="height: 80px; width: 640px;">医院停车位紧张，早晚高峰期没有停车位，导致院内交通拥堵，不方便医患就医。
+</textarea></td>
+				</tr>
+				<tr>
+					<td class="formAlignRight">推荐方案介绍：</span></td>
+					<td colspan="3"><textarea class="form-control" mark_maxlength="200" value=""
+							style="height: 80px; width: 640px;">本工程在原有室外篮球场地建设，需对篮球场及原单层后勤用房拆除；基础为旋挖桩、十三层框架结构、外贴陶瓷面砖饰面，主要工程内容：室外建构筑物、室外地坪拆除、室外管线迁改、绿化移植、桩基础、主体结构、室外内给排水、强弱电。消防、管网敷设、电缆引入工程（不包括智能停车系统设备工程）。
+</textarea></td>
+				</tr>
+				<tr>
+					<td class="formAlignRight">社会及经济效益评价：</span></td>
+					<td colspan="3"><textarea class="form-control" mark_maxlength="200" value=""
+							style="height: 80px; width: 640px;">本工程在原有室外篮球场地建设，需对篮球场及原单层后勤用房拆除；基础为旋挖桩、十三层框架结构、外贴陶瓷面砖饰面，主要工程内容：室外建构筑物、室外地坪拆除、室外管线迁改、绿化移植、桩基础、主体结构、室外内给排水、强弱电。消防、管网敷设、电缆引入工程（不包括智能停车系统设备工程）。
+</textarea></td>
+				</tr>
+			</table>
+	<div class="bg-danger text-danger" style="padding: 10px; margin-bottom: 10px">
+			项目单位信息 <span></span>
+		</div>
+  <div  style="width: 100%;">
+    <table  class="table table-bordered">
+      <tr>
+        <td class="formAlignRight"> 申报单位组织机构代码：<span class="errors">(*)</span></td>
+        <td colspan="2" style="padding-left: 10px;  border-left: #c3e5f8 1px solid;"><span >1</span></td>
+        <td class="formAlignRight"> 申报单位性质：<span class="errors">(*)</span></td>
+        <td style="padding-left: 10px;  border-left: #c3e5f8 1px solid;"><select class="form-select">
+            <option value="">--请选择--</option>
+            <option selected="selected" value="党政机关">党政机关</option>
+            <option value="全额事业单位">全额事业单位</option>
+            <option value="差额事业单位">差额事业单位</option>
+            <option value="企业化管理事业单位">企业化管理事业单位</option>
+            <option value="全民所有制企业">全民所有制企业</option>
+            <option value="集体所有制企业">集体所有制企业</option>
+            <option value="其他">其他</option>
+          </select></td>
+      </tr>
+      <tr>
+        <td class="formAlignRight"> 申报单位地址：<span class="errors">(*)</span></td>
+        <td colspan="4" style="padding-left: 10px;  border-left: #c3e5f8 1px solid;"><select class="form-select">
+            <option selected="selected" value="5">龙岗区</option>
+          </select>
+          <select  class="form-select">
+            <option value="">--请选择--</option>
+            <option value="37">平湖街道</option>
+            <option value="38">布吉街道</option>
+            <option value="42">坂田街道</option>
+            <option value="41">南湾街道</option>
+            <option value="39">横岗街道</option>
+            <option value="36">龙岗街道</option>
+            <option selected="selected" value="35">龙城街道</option>
+            <option value="40">坪地街道</option>
+            <option value="43">大鹏新区</option>
+            <option value="44">坪山新区</option>
+          </select>
+          <input  type="text" value="龙岗中心城建设路建设大厦12楼" maxlength="50" class="form-control input-sm" /></td>
+      </tr>
+      <tr>
+        <td  rowspan="2" class="formAlignRight"> 申报单位负责人 </td>
+        <td class="formAlignRight"> 姓名：<span class="errors">(*)</span></td>
+        <td><input type="text" value="罗伟南" maxlength="50" class="form-control input-sm" /></td>
+        <td class="formAlignRight"> 电话：<span class="errors">(*)</span></td>
+        <td><input  type="text" value="28589898" maxlength="50"  class="form-control input-sm"/></td>
+      </tr>
+      <tr>
+        <td class="formAlignRight"> 手机：<span class="errors">(*)</span></td>
+        <td><input type="text" value="13808801998" maxlength="50"  class="form-control input-sm"/></td>
+        <td class="formAlignRight"> 传真： </td>
+        <td><input  type="text" value="28589878" maxlength="50" class="form-control input-sm" /></td>
+      </tr>
+      <tr>
+        <td  rowspan="3" class="formAlignRight"> 申报单位联系人</td>
+        <td class="formAlignRight"> 姓名：<span class="errors">(*)</span></td>
+        <td><input type="text" value="吴廷荣" maxlength="50" class="form-control input-sm"/></td>
+        <td class="formAlignRight"> 电话：<span class="errors">(*)</span></td>
+        <td><input  type="text" value="28589920" maxlength="50" class="form-control input-sm"/></td>
+      </tr>
+      <tr>
+        <td class="formAlignRight"> 手机：<span class="errors">(*)</span></td>
+        <td><input  type="text" value="13802583323" maxlength="50"  class="form-control input-sm" /></td>
+        <td class="formAlignRight"> 传真： </td>
+        <td><input  type="text" value="28589920" maxlength="50"  class="form-control input-sm"/></td>
+      </tr>
+      <tr>
+        <td class="formAlignRight"> Email：</td>
+        <td colspan="3"><input  type="text" value="2798809792@qq.com" maxlength="50"  class="form-control input-sm" /></td>
+      </tr>
+      <tr >
+        <td class="formAlignRight"> 编制单位名称：<span class="errors" >(*)</span></td>
+        <td colspan="2" style="padding-left: 10px;  border-left: #c3e5f8 1px solid;"><input  type="text" maxlength="40" class="form-control input-sm"  value="深圳市众鑫工程造价咨询有限公司  " /></td>
+        <td class="formAlignRight"> 编制单位资质等级： </td>
+        <td style="padding-left: 10px;  border-left: #c3e5f8 1px solid;"><select class="form-select">
+            <option value="">--请选择--</option>
+            <option value="甲级">甲级</option>
+            <option value="乙级">乙级</option>
+            <option value="丙级">丙级</option>
+          </select></td>
+      </tr>
+      <tr >
+        <td  rowspan="2" class="formAlignRight"> 编制单位负责人</td>
+        <td class="formAlignRight"> 姓名：<span class="errors">(*)</span></td>
+        <td><input  type="text" maxlength="50" value="郭邵斌 "  class="form-control input-sm"/></td>
+        <td class="formAlignRight"> 电话：<span class="errors">(*)</span></td>
+        <td><input  type="text" maxlength="50"  class="form-control input-sm" value="0755-28983581"/></td>
+      </tr>
+      <tr >
+        <td class="formAlignRight"> 手机：<span class="errors">(*)</span></td>
+        <td><input type="text" maxlength="50"  class="form-control input-sm" value="13509635104"/></td>
+        <td class="formAlignRight"> 传真： </td>
+        <td><input type="text"  class="form-control input-sm" maxlength="50"  /></td>
+      </tr>
+      <tr >
+        <td  rowspan="3" class="formAlignRight"> 编制单位联系人</td>
+        <td class="formAlignRight"> 姓名：<span class="errors">(*)</span></td>
+        <td><input type="text" maxlength="50" value="刘建华"  class="form-control input-sm"/></td>
+        <td class="formAlignRight"> 电话：<span class="errors">(*)</span></td>
+        <td><input type="text" maxlength="50"  value="0755-28983581"  class="form-control input-sm"/></td>
+      </tr>
+      <tr >
+        <td class="formAlignRight"> 手机：<span class="errors">(*)</span></td>
+        <td><input  type="text" maxlength="50"   class="form-control input-sm"/></td>
+        <td class="formAlignRight"> 传真： </td>
+        <td><input  type="text" maxlength="50"   class="form-control input-sm"/></td>
+      </tr>
+      <tr >
+        <td class="formAlignRight"> Email：</td>
+        <td colspan="3"><input  type="text" maxlength="50"  class="form-control input-sm" /></td>
+      </tr>
+    </table>
+  </div>
+  <div class="bg-danger text-danger" style="padding: 10px; margin-bottom: 10px">
+			项目材料清单 <span></span>
+		</div>
+<table class="table table-bordered">
+        <tr >
+          <th width="25%" align="center" scope="col"> 附件类型 </th>
+          <th width="8%" align="center" scope="col"> 是否上传 </th>
+          <th width="10%" align="center" scope="col"> 附件上传 </th>
+          <th width="22%" align="center" scope="col"> 附件名称 </th>
+          <th width="15%" align="center" scope="col"> 上传时间 </th>
+          <th width="10%" align="center" scope="col"> 操作 </th>
+        </tr>
+          <tr>
+        	<td      align="center" scope="col">申请报告(pdf版，加盖公章) (*)</td>
+        	<td      align="center" scope="col">待上传</td>
+        	<td      align="center" scope="col"><a>附件上传</a></td>
+        	<td      align="center" scope="col"><a>-</a></td>
+        	<td      align="center" scope="col"><a>-</a></td>
+        	<td      align="center" scope="col"><a>删除</a></td>
+        </tr>
+         <tr>
+        	<td      align="center" scope="col">申请报告(Word版) (*)</td>
+        	<td      align="center" scope="col">待上传</td>
+        	<td      align="center" scope="col"><a>附件上传</a></td>
+        	<td      align="center" scope="col"><a>-</a></td>
+        	<td      align="center" scope="col"><a>-</a></td>
+        	<td      align="center" scope="col"><a>删除</a></td>
+        </tr>
+         <tr>
+        	<td      align="center" scope="col">项目建议书(或前期工作计划)、可行性研究报告</td>
+        	<td      align="center" scope="col">待上传</td>
+        	<td      align="center" scope="col"><a>附件上传</a></td>
+        	<td      align="center" scope="col"><a>-</a></td>
+        	<td      align="center" scope="col"><a>-</a></td>
+        	<td      align="center" scope="col"><a>-</a></td>
+        </tr>
+         <tr>
+        	<td      align="center" scope="col">初步设计及项目总概算材料（项目单位须委托有相应资质的咨询机编制项目总概算）</td>
+        	<td      align="center" scope="col">待上传</td>
+        	<td      align="center" scope="col"><a>附件上传</a></td>
+        	<td      align="center" scope="col"><a>-</a></td>
+        	<td      align="center" scope="col"><a>-</a></td>
+        	<td      align="center" scope="col"><a>-</a></td>
+        </tr>
+         <tr>
+        	<td      align="center" scope="col">用地规划许可证扫描件</td>
+        	<td      align="center" scope="col">待上传</td>
+        	<td      align="center" scope="col"><a>附件上传</a></td>
+        	<td      align="center" scope="col"><a>-</a></td>
+        	<td      align="center" scope="col"><a>-</a></td>
+        	<td      align="center" scope="col"><a>-</a></td>
+        </tr>
+         <tr>
+        	<td      align="center" scope="col">其他资料</td>
+        	<td      align="center" scope="col">待上传</td>
+        	<td      align="center" scope="col"><a>附件上传</a></td>
+        	<td      align="center" scope="col"><a>-</a></td>
+        	<td      align="center" scope="col"><a>-</a></td>
+        	<td      align="center" scope="col"><a>-</a></td>
+        </tr>
+
+</table>
+	</form>
+</div>

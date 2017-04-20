@@ -20,23 +20,15 @@
                  controllerAs: 'vm'
              })
              
-             //begin#projectDetais（项目--详情查看）
+             //begin#projectDetais（项目--详情查看(暂时没有分别申报阶段的不同)）
               .state('projectDetais', {
                  url: '/projectDetais/:id',
-                 templateUrl:  '/contents/projectDetais/html/project.look/projectDetailInfo.html',
+                 templateUrl:  '/contents/projectDetais/html/project.look/nextYearPlan/projectDetailInfo.html',
                  controller: 'projectDetaisCtrl',
                  controllerAs: 'vm'
              })
              //end#projectDetais
-             
-             //begin#projectInfoEdit（项目申報--编辑--信息編輯）
-	        .state('projectInfoEdit', {
-	            url: '/projectInfoEdit/:id',
-	            templateUrl: '/contents/projectDetais/html/project.edit/projectInfo.edit.html',
-	            controller: 'projectDeclarationCtrl',
-	            controllerAs: 'vm'
-	        }) 
-	        //end#projectInfoEdit
+
              
              //begin#projectDeclaration（项目申报--项目列表）
               .state('projectDeclaration', {
@@ -46,16 +38,155 @@
                  controllerAs: 'vm'
              })
              //end#projectDeclaration
-             
-             //begin#projectDeclarationInfoFill（项目申报--项目新增--信息填寫）
-              .state('projectDeclarationInfoFill', {
-                 url: '/projectDeclarationInfoFill',
-                 templateUrl:  '/contents/projectDetais/html/project.add/projectInfo.add.html',
+/***************************项目申报编辑项目信息- Strat**************************************************/                                      
+             //begin#projectDeclarationInfoEdit_prePlan（项目申報--前期计划（前期费）--信息編輯）
+	        .state('projectDeclarationInfoEdit_prePlan', {
+	            url: '/projectDeclarationInfoEdit_prePlan/:id',
+	            templateUrl: '/contents/projectDetais/html/project.edit/prePlan/projectInfo.edit.html',
+	            controller: 'projectDeclarationCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#projectDeclarationInfoEdit_prePlan
+	        
+	        //begin#projectDeclarationInfoEdit_planDesign（项目申報--规划设计前期费--信息編輯）
+	        .state('projectDeclarationInfoEdit_planDesign', {
+	            url: '/projectDeclarationInfoEdit_planDesign/:id',
+	            templateUrl: '/contents/projectDetais/html/project.edit/planDesign/projectInfo.edit.html',
+	            controller: 'projectDeclarationCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#projectDeclarationInfoEdit_planDesign
+	        
+	        //begin#projectDeclarationInfoEdit_newStratPlan（项目申報--新开工计划--信息編輯）
+	        .state('projectDeclarationInfoEdit_newStratPlan', {
+	            url: '/projectDeclarationInfoEdit_newStratPlan/:id',
+	            templateUrl: '/contents/projectDetais/html/project.edit/newStratPlan/projectInfo.edit.html',
+	            controller: 'projectDeclarationCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#projectDeclarationInfoEdit_newStratPlan
+	        
+	        //begin#projectDeclarationInfoEdit_constructionPlan（项目申報--续建计划--信息編輯）
+	        .state('projectDeclarationInfoEdit_constructionPlan', {
+	            url: '/projectDeclarationInfoEdit_constructionPlan/:id',
+	            templateUrl: '/contents/projectDetais/html/project.edit/constructionPlan/projectInfo.edit.html',
+	            controller: 'projectDeclarationCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#projectDeclarationInfoEdit_constructionPlan
+	        
+	        //begin#projectDeclarationInfoEdit_prePlan（项目申報--下一年度计划--信息編輯）
+	        .state('projectDeclarationInfoEdit_nextYearPlan', {
+	            url: '/projectDeclarationInfoEdit_nextYearPlan/:id',
+	            templateUrl: '/contents/projectDetais/html/project.edit/nextYearPlan/projectInfo.edit.html',
+	            controller: 'projectDeclarationCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#projectDeclarationInfoEdit_prePlan
+	        
+	        //begin#projectDeclarationInfoEdit_yearPlanAdjust（项目申報--年度计划调整--信息編輯）
+	        .state('projectDeclarationInfoEdit_yearPlanAdjust', {
+	            url: '/projectDeclarationInfoEdit_yearPlanAdjust/:id',
+	            templateUrl: '/contents/projectDetais/html/project.edit/yearPlanAdjust/projectInfo.edit.html',
+	            controller: 'projectDeclarationCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#projectDeclarationInfoEdit_yearPlanAdjust
+	        
+	        //begin#projectDeclarationInfoEdit_entrustAudit（项目申報--委托审计--信息編輯）
+	        .state('projectDeclarationInfoEdit_entrustAudit', {
+	            url: '/projectDeclarationInfoEdit_entrustAudit/:id',
+	            templateUrl: '/contents/projectDetais/html/project.edit/entrustAudit/projectInfo.edit.html',
+	            controller: 'projectDeclarationCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#projectDeclarationInfoEdit_entrustAudit
+	        
+	        //begin#projectDeclarationInfoEdit_auditAccountFunds（项目申報--审计决算资金--信息編輯）
+	        .state('projectDeclarationInfoEdit_auditAccountFunds', {
+	            url: '/projectDeclarationInfoEdit_auditAccountFunds/:id',
+	            templateUrl: '/contents/projectDetais/html/project.edit/auditAccountFunds/projectInfo.edit.html',
+	            controller: 'projectDeclarationCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#projectDeclarationInfoEdit_auditAccountFunds
+/***************************项目申报编辑项目信息- End**************************************************/	        
+	        
+	        
+	        
+/***************************项目申报新增项目信息的填写- Strat**************************************************/             
+             //begin#projectDeclarationInfoFill_prePlan（项目申报--项目新增--前期计划（前期费）信息填寫）
+              .state('projectDeclarationInfoFill_prePlan', {
+                 url: '/projectDeclarationInfoFill_prePlan',
+                 templateUrl:  '/contents/projectDetais/html/project.add/prePlan/projectInfo.add.html',
                  controller: 'projectDeclarationCtrl',
                  controllerAs: 'vm'
              })
-             //end#projectDeclarationInfoFill
+             //end#projectDeclarationInfoFill_prePlan
              
+             //begin#projectDeclarationInfoFill_planDesign（项目申报--项目新增--规划设计前期费 信息填寫）
+              .state('projectDeclarationInfoFill_planDesign', {
+                 url: '/projectDeclarationInfoFill_planDesign',
+                 templateUrl:  '/contents/projectDetais/html/project.add/planDesign/projectInfo.add.html',
+                 controller: 'projectDeclarationCtrl',
+                 controllerAs: 'vm'
+             })
+             //end#projectDeclarationInfoFill_planDesign
+             
+             //begin#projectDeclarationInfoFill_newStratPlan（项目申报--项目新增--新开工计划 信息填寫）
+              .state('projectDeclarationInfoFill_newStratPlan', {
+                 url: '/projectDeclarationInfoFill_planDesign',
+                 templateUrl:  '/contents/projectDetais/html/project.add/newStratPlan/projectInfo.add.html',
+                 controller: 'projectDeclarationCtrl',
+                 controllerAs: 'vm'
+             })
+             //end#projectDeclarationInfoFill_newStratPlan
+             
+             //begin#projectDeclarationInfoFill_constructionPlan（项目申报--项目新增--续建计划 信息填寫）
+              .state('projectDeclarationInfoFill_constructionPlan', {
+                 url: '/projectDeclarationInfoFill_constructionPlan',
+                 templateUrl:  '/contents/projectDetais/html/project.add/constructionPlan/projectInfo.add.html',
+                 controller: 'projectDeclarationCtrl',
+                 controllerAs: 'vm'
+             })
+             //end#projectDeclarationInfoFill_constructionPlan
+             
+            //begin#projectDeclarationInfoFill_nextYearPlan（项目申报--项目新增--下一年度计划 信息填寫）
+              .state('projectDeclarationInfoFill_nextYearPlan', {
+                 url: '/projectDeclarationInfoFill_nextYearPlan',
+                 templateUrl:  '/contents/projectDetais/html/project.add/nextYearPlan/projectInfo.add.html',
+                 controller: 'projectDeclarationCtrl',
+                 controllerAs: 'vm'
+             })
+             //end#projectDeclarationInfoFill_nextYearPlan
+             
+             //begin#projectDeclarationInfoFill_yearPlanAdjust（项目申报--项目新增--年度计划调整 信息填寫）
+              .state('projectDeclarationInfoFill_yearPlanAdjust', {
+                 url: '/projectDeclarationInfoFill_yearPlanAdjust',
+                 templateUrl:  '/contents/projectDetais/html/project.add/yearPlanAdjust/projectInfo.add.html',
+                 controller: 'projectDeclarationCtrl',
+                 controllerAs: 'vm'
+             })
+             //end#projectDeclarationInfoFill_yearPlanAdjust
+             
+              //begin#projectDeclarationInfoFill_entrustAudit（项目申报--项目新增--委托审计 信息填寫）
+              .state('projectDeclarationInfoFill_entrustAudit', {
+                 url: '/projectDeclarationInfoFill_entrustAudit',
+                 templateUrl:  '/contents/projectDetais/html/project.add/entrustAudit/projectInfo.add.html',
+                 controller: 'projectDeclarationCtrl',
+                 controllerAs: 'vm'
+             })
+             //end#projectDeclarationInfoFill_entrustAudit
+             
+              //begin#projectDeclarationInfoFill_auditAccountFunds（项目申报--项目新增--审计决算资金 信息填寫）
+              .state('projectDeclarationInfoFill_auditAccountFunds', {
+                 url: '/projectDeclarationInfoFill_auditAccountFunds',
+                 templateUrl:  '/contents/projectDetais/html/project.add/auditAccountFunds/projectInfo.add.html',
+                 controller: 'projectDeclarationCtrl',
+                 controllerAs: 'vm'
+             })
+             //end#projectDeclarationInfoFill_auditAccountFunds
+/***************************项目申报新增项目信息的填写- End**************************************************/              
              
              //begin#projectMonthReport（项目月报）
 	        .state('projectMonthReport', {

@@ -9,9 +9,37 @@
 //		var url_back = '#/projectprocess';
 			
 		var service = {
-			grid : grid			
+			grid : grid	,
+			queryById:queryById
 		};		
 		return service;	
+		
+		function queryById(vm,id){
+			var httpOptions = {
+					method : 'queryById',
+					url : url_projectDeclaration,
+					data : id
+				}
+				var httpSuccess = function success(response) {
+
+					common.requestSuccess({
+						vm : vm,
+						response : response,
+						fn : function() {
+							return response;
+						}
+
+					});
+
+				}
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+			
+		}
 		
 		function grid(vm) {
 
@@ -91,7 +119,7 @@
 						title : "操作",
 						width:150,
 						template:function(data){
-							return common.format($('#columnBtns').html(),"vm.del('" + data.projectId + "')",data.projectId,"vm.edit('"+data.projectId+"')");		
+							return common.format($('#columnBtns').html(),"vm.del('" + data.projectId + "')","vm.edit('"+data.projectId+"')");		
 						},
 						filterable : false
 					},

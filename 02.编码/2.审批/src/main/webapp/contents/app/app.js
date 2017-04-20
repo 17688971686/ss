@@ -325,7 +325,16 @@
 	        }) 
 	        //end#nextYearPlan
 	        
-	         //begin#perHasDone（个人已办）
+	        //begin#perToDo（我的工作台--个人待办）
+	        .state('perToDo', {
+	            url: '/perToDo',
+	            templateUrl: '/contents/app/myWorkbench/perToDo/html/list.html',
+	            controller: 'perToDoCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#perToDo
+	        
+	         //begin#perHasDone（我的工作台--个人待办）
 	        .state('perHasDone', {
 	            url: '/perHasDone',
 	            templateUrl: '/contents/app/myWorkbench/perHasDone/html/list.html',
@@ -334,7 +343,7 @@
 	        }) 
 	        //end#perHasDone
 	        
-	         //begin#concernedProject（关注的项目）
+	         //begin#concernedProject（我的工作台--关注的项目）
 	        .state('concernedProject', {
 	            url: '/concernedProject',
 	            templateUrl: '/contents/app/myWorkbench/concernedProject/html/list.html',
@@ -343,7 +352,7 @@
 	        }) 
 	        //end#concernedProject
 	        
-	          //begin#deptProjectQuery（部门项目查询）
+	          //begin#deptProjectQuery（我的工作台--部门项目查询）
 	        .state('deptProjectQuery', {
 	            url: '/deptProjectQuery',
 	            templateUrl: '/contents/app/myWorkbench/deptProjectQuery/html/list.html',
@@ -444,6 +453,18 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#projectHandForm
+/***************************个人已办-不同的办理进度对应不同的项目处理表单-Strat******************************/	        
+	        //begin#projectHandForm（项目处理表单）
+	        .state('projectHandForm', {
+	            url: '/projectHandForm/:id',
+	            templateUrl: '/contents/app/projectDetais/html/projectHandle.html',
+	            controller: 'projectHandFormCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#projectHandForm
+/***************************个人已办-不同的办理进度对应不同的项目处理表单-End******************************/	 	        
+	        
+	        
 	        
 //end#cx
 	        
