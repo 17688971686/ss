@@ -2,41 +2,183 @@
 <div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
 
-<div class="well well-sm" style="background:white;">
-    <form id="form" name="form">
-	    <div class="bg-danger text-danger formAlignRight"
-				style="padding: 10px; margin-bottom: 10px">
-				版本名称 :<span> 光明新区2017年政府投资项目计划</span>
-		</div>
-		
-		<div>
-			<table>
-				<tr>
-					<td  width="110px" rowspan="2">项目总数</td>
-					<td rowspan="2">
-						<label style="color:black;" >...</label>
-					</td>
-					<td width="100px">前期计划</td>
-					<td>
-						<label style="color:black;">...</label>
-					</td>
-					<td width="100px">新开工计划</td>
-					<td>...</td>
-					<td width="120px">续建计划</td>
-					<td>...</td>
-					<td width="100px" rowspan="2">项目总投资</td>					
-					<td rowspan="2">...</td>
-					<td width="100px" rowspan="2">申请资金总额</td>
-					<td rowspan="2">...</td>
-				</tr>
-				<tr>
-					<td>A类</td>...<td>
-					<td>B类</td>...<td>
-					<td>C类</td>...<td>
-					
-				</tr>
-			</table>
-		</div>
-    </form>
+<table class="table table-bordered">
+	<tbody>
+		<tr>
+			<th>版本名称:<label>光明新区2017年政府投资项目计划</label></th>
+		</tr>
+	</tbody>
+</table>
+<div>
+	<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<td rowspan="2">项目总数</td>
+				<td rowspan="2"><label>2000</label></td>
+				<td>前期计划</td>
+				<td><label>500</label></td>
+				<td>新开工计划</td>
+				<td><label>500</label></td>
+				<td>续建计划</td>
+				<td><label>1000</label></td>
+				<td rowspan="2">项目总数</td>
+				<td rowspan="2"><label>11528280.941909</label></td>
+				<td rowspan="2">申请资金总额</td>
+				<td rowspan="2"><label>1788993.284885</label></td>
+			</tr>
+			<tr>
+				<td>A类</td>
+				<td><label>500</label></td>
+				<td>B类</td>
+				<td><label>500</label></td>
+				<td>C类</td>
+				<td><label>500</label></td>
+			</tr>
+
+
+			<tr>
+				<td rowspan="2">计划总规模</td>
+				<td rowspan="2"><label>20</label></td>
+				<td>区财政性资金</td>
+				<td><label></label></td>
+				<td>区国土基金</td>
+				<td><label>500</label></td>
+				<td>政府统筹（其他）</td>
+				<td><label>1000</label></td>
+				<td>区住房基金</td>
+				<td><label>11528280.941909</label></td>
+				<td>教育费附加</td>
+				<td><label>1788993.284885</label></td>
+			</tr>
+			<tr>
+				<td>A类</td>
+				<td colspan="3"><label></label></td>
+				<td>B类</td>
+				<td colspan="3"><label></label></td>
+				<td>C类</td>
+				<td><label></label></td>
+			</tr>
+
+
+			<tr>
+				<td rowspan="2">已下达计划</td>
+				<td rowspan="2"><label></label></td>
+				<td>区财政性资金</td>
+				<td><label></label></td>
+				<td>区国土基金</td>
+				<td><label>500</label></td>
+				<td>政府统筹（其他）</td>
+				<td><label>1000</label></td>
+				<td>区住房基金</td>
+				<td><label>11528280.941909</label></td>
+				<td>教育费附加</td>
+				<td><label>1788993.284885</label></td>
+			</tr>
+			<tr>
+				<td>A类</td>
+				<td colspan="3"><label></label></td>
+				<td>B类</td>
+				<td colspan="3"><label></label></td>
+				<td>C类</td>
+				<td><label></label></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<table class="table table-bordered">
+	<tbody>
+		<tr>
+			<th class="borderBottomNone tititle">选中的投资计划：
+				<p style="text-align: right;">
+					<a class="btn btn-primary btn-sm" data-toggle="modal"
+						data-target="#myModal-addPlan">添加计划</a> <a
+						class="btn btn-primary btn-sm" data-toggle="modal"
+						data-target="#myModal-">移除</a> <a
+						class="btn btn-primary btn-sm" data-toggle="modal"
+						data-target="#myModal-">统计</a> <a
+						class="btn btn-primary btn-sm" href="#/checkProjectBank">打印</a> <a
+						class="btn btn-primary btn-sm" href="#/checkProjectBank">查看下达明细</a>
+				</p>
+			</th>
+		</tr>
+	</tbody>
+</table>
+
+
+<div class="well well-sm" style="background: white;">
+	<form id="form" name="form">
+		<div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+	</form>
 </div>
 
+
+<!-- 添加计划的模态框 -->
+	<div class="modal fade" id="myModal-addPlan" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content" style="height: 500px; width: 800px">
+				<div class="modal-header bg-primary">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">添加计划</h4>
+				</div>
+				<div class="modal-body" >
+					<form class="form-horizontal" role="form">
+						<div class="form-group pull-left" style="width:49%">
+							<label class="col-sm-4 control-label">项目名称:</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control input-sm" style="height: 35px;"
+									placeholder="请输入项目名称">
+							</div>
+						</div>
+						<div class="form-group pull-right" style="width:49%">
+							<label class="col-sm-4 control-label">建设单位:</label>
+							<div class="col-sm-6">
+								<input type="text"  class="form-control input-sm" style="height: 35px;"
+									placeholder="请输入建设单位">
+							</div>
+						</div>
+						<div class="form-group pull-left" style="width:49%">
+							<label class="col-sm-4 control-label">项目代码:</label>
+							<div class="col-sm-6">
+								<input type="text"  class="form-control input-sm" style="height: 35px;"
+									placeholder="请输入项目代码">
+							</div>
+						</div>
+						
+						<div class="form-group pull-right" style="width:49%">
+							<label class="col-sm-4 control-label">请选择申报阶段:</label>
+							<div class="col-sm-6">
+								<select class="form-control" style="height: 35px;width: 158px">
+									<option class="active" >--请选择--</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group pull-left" style="width:49%">
+							<label class="col-sm-4 control-label">建设类型:</label>
+							<div class="col-sm-6">
+								<select class="form-control" style="height: 35px;width: 158px">
+									<option class="active" >--请选择--</option>
+									<option value="1">前期</option>
+									<option value="2">新开工</option>
+									<option value="3">续建</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group pull-right" style="width:49%">
+							<button type="button" class="btn btn-primary">查询</button>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer" style="height:50px">
+					<button type="button" class="btn btn-primary">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>

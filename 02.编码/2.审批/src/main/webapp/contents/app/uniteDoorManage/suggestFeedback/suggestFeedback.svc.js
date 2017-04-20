@@ -46,18 +46,46 @@
 			// Begin:column
 			var columns = [
 					{
+						field : "",
+						title : "序号",
+						width : 50,
+						filterable : false
+					}, 
+					{
 						field : "titleName",
 						title : "标题",
 						width : 200,
-						filterable : true
+						filterable : false
+					}, 
+					{
+						field : "issueType",
+						title : "问题类型",
+						width : 200,
+						filterable : false
+					}, 
+					{
+						field : "projectName",
+						title : "项目名称",
+						width : 200,
+						filterable : false,
+						template:function(data){
+							return "<a href='#/suggestDetails/"+data.id+"'>"+data.projectName+"</a>";
+						}
+					}, 
+					{
+						field : "state",
+						title : "状态",
+						width : 200,
+						filterable : false
 					}, 
 					{
 						field : "",
 						title : "操作",
 						width : 180,
 						template : function(item) {
-							return common.suggestFeedbackat($('#columnBtns').html(),
+							return common.format($('#columnBtns').html(),
 									"vm.projectInfoDel('"+item.id+"')",
+									"vm.projectInfoDetails('"+item.id+"')",
 									"vm.projectInfoEdit('"+item.id+"')");
 
 						}

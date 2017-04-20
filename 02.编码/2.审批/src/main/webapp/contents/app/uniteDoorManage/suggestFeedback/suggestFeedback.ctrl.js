@@ -17,6 +17,17 @@
             suggestFeedbackSvc.grid(vm);
         }
         
+        //建议反馈编辑
+        vm.projectInfoEdit = function(id){
+        	location.herf = "#/suggestEdit/"+id;
+        }
+        
+        //建议反馈详情页面
+        vm.projectInfoDetails = function(id){
+        	location.href = "#/suggestDetails/"+id;
+        }
+        
+        
         vm.projectInfoDel = function(id){
         	common.confirm({
         		vm:vm,

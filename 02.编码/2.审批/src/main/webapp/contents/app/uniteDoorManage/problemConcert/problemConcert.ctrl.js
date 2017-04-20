@@ -17,6 +17,16 @@
             problemConcertSvc.grid(vm);
         }
         
+        //问题协调的编辑页面
+        vm.projectInfoEdit = function(id){
+        	location.href = "#/problemEdit/"+id;
+        }
+
+        //问题协调的详情页面
+        vm.projectInfoDetails = function(id){
+        	location.href = "#/problemDetails/"+id;
+        }
+        
         vm.projectInfoDel = function(id){
         	common.confirm({
         		vm:vm,
