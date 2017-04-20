@@ -67,7 +67,10 @@
 						field : "projectName",
 						title : "项目名称",
 						width : 200,
-						filterable : false
+						filterable : false,
+						template:function(data){
+							return "<a href='#/problemDetails/"+data.id+"'>"+data.projectName+"</a>";
+						}
 					}, 
 					{
 						field : "state",
@@ -82,6 +85,7 @@
 						template : function(item) {
 							return common.format($('#columnBtns').html(),
 									"vm.projectInfoDel('"+item.id+"')",
+									"vm.projectInfoDetails('"+item.id+"')",
 									"vm.projectInfoEdit('"+item.id+"')");
 
 						}

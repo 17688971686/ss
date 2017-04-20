@@ -1,0 +1,159 @@
+<meta charset="UTF-8">
+<div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
+
+<div>
+	<form action="">
+		<div>
+			<h3 style="text-align: center;">
+				<b>添加年度计划项目</b>
+			</h3>
+		</div>
+		<div>
+			<table class="table table-bordered">
+				<tbody>
+					<tr>
+						<td class="formAlignRight">关联项目名称:</td>
+						<td colspan="3"><select class="form-select">
+								<option value="-1">--请选择--</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td class="formAlignRight">项目名称:<span class="errors">(*)</span></td>
+						<td><input type="text" value="000" style="width: 300px;"
+							class="form-control input-sm" /></td>
+					</tr>
+					<tr>
+						<td class="formAlignRight">开工日期:</td>
+						<td><input value="" style="width: 300px;"
+							class="form-control input-sm" /></td>
+						<td class="formAlignRight">竣工日期:</td>
+						<td><input value="" style="width: 300px;"
+							class="form-control input-sm" /></td>
+					</tr>
+
+					<tr>
+						<td class="formAlignRight">申报单位:<span class="errors">(*)</span></td>
+						<td><select class="form-select">
+								<option value="-1">--请选择--</option>
+						</select></td>
+						<td class="formAlignRight">项目行业归口:<span class="errors">(*)</span></td>
+						<td><select class="form-select">
+								<option value="-1">--请选择--</option>
+								<option selected="selected" value="-1">--请选择--</option>
+								<option value="1">文体卫教</option>
+								<option value="2">城市建设</option>
+								<option value="3">党政机关</option>
+								<option value="4">市容环境提升</option>
+								<option value="5">农林水</option>
+								<option value="6">道路交通</option>
+								<option value="7">规划前期费</option>
+								<option value="8">轨道规划前期费</option>
+								<option value="9">其他</option>
+								<option value="10">征收补偿安置</option>
+								<option value="11">项目审计决算资金</option>
+								<option value="12">项目前期费</option>
+						</select> <select class="form-select">
+								<option value="-1">--请选择--</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td class="formAlignRight">建设性质:<span class="errors">(*)</span></td>
+						<td><select class="form-select">
+								<option value="-1" selected="selected">--请选择--</option>
+								<option value="24">前期</option>
+								<option value="25">新开工</option>
+								<option value="26">续建</option>
+						</select></td>
+						<td class="formAlignRight">项目类别:<span class="errors">(*)</span></td>
+						<td><select class="form-select">
+								<option selected="selected" value="-1">--请选择--</option>
+								<option value="A">A</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+						</select></td>
+					</tr>
+
+					<tr>
+						<td class="formAlignRight">总概算批复文号:</td>
+						<td><input type="text" value="" style="width: 300px;"
+							class="form-control input-sm" /></td>
+						<td class="formAlignRight">最近一次资金计划下达文号:</td>
+						<td><input type="text" value="" style="width: 300px;"
+							class="form-control input-sm" /></td>
+					</tr>
+					<tr>
+						<td class="formAlignRight">累计安排投资:</td>
+						<td><input type="text" value="" style="width: 300px;"
+							class="form-control input-sm" /></td>
+						<td class="formAlignRight"  >申请年度投资:</td>
+						<td><input type="text" value="" style="width: 300px;"
+							class="form-control input-sm" /></td>
+					</tr>
+
+					<tr>
+						<td class="formAlignRight">项目总投资:</td>
+						<td><input type="text" value="" style="width: 300px;"
+							class="form-control input-sm" /></td>
+						<td class="formAlignRight">计划年度:</td>
+						<td><input value="" style="width: 300px;"
+							class="form-control input-sm" /></td>
+					</tr>
+					<tr>
+						<td class="formAlignRight">本年度主要建设内容：</td>
+						<td colspan="3"><textarea value="" class="form-control"
+								mark_maxlength="500" style="height: 80px; width: 640px;">注： (500字符以内)
+											</textarea></td>
+					</tr>
+					<tr>
+						<td class="formAlignRight">项目简介：</td>
+						<td colspan="3"><textarea value="" class="form-control"
+								mark_maxlength="500" style="height: 80px; width: 640px;">注：(500字符以内)
+											</textarea></td>
+					</tr>
+					<tr>
+						<td class="formAlignRight">建设规模：</td>
+						<td colspan="3"><textarea value="" class="form-control"
+								mark_maxlength="500" style="height: 80px; width: 640px;">注： (500字符以内)
+											</textarea></td>
+					</tr>
+					<tr>
+						<td class="formAlignRight">报告期工程期形象进度：</td>
+						<td colspan="3"><textarea value="" class="form-control"
+								mark_maxlength="500" style="height: 80px; width: 640px;">注：(500字符以内)
+											</textarea></td>
+					</tr>
+					<tr>
+						<td class="formAlignRight">项目设计总拆迁面积及拆迁资金估算：</td>
+						<td colspan="3"><textarea value="" class="form-control"
+								mark_maxlength="500" style="height: 80px; width: 640px;">注：(500字符以内)
+											</textarea></td>
+					</tr>
+					<tr>
+						<td class="formAlignRight">年度拆迁面积及资金需求：<span class="errors">(*)</span></td>
+						<td colspan="3"><textarea value="" class="form-control"
+								mark_maxlength="500" style="height: 80px; width: 640px;">注：(500字符以内)
+											</textarea></td>
+					</tr>
+					<tr>
+						<td class="formAlignRight">备注：</td>
+						<td colspan="3"><textarea value="" class="form-control"
+								mark_maxlength="500" style="height: 80px; width: 640px;">注：(500字符以内)
+											</textarea></td>
+					</tr>
+					
+					<tr>
+						<td colspan="4"
+							style="padding-top: 11px; padding-bottom: 30px; text-align: center;">
+							<button type="button" class="btn btn-success">保存</button>
+							<button type="button" class="btn btn-success" onclick="javascript:window.history.back(-1)">
+								 返回
+							</button>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+	</form>
+</div>

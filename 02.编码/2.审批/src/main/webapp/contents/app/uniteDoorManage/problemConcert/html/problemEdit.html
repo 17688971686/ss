@@ -1,0 +1,93 @@
+<div class="well well-sm" style="border:0;background:white;">
+	  <ol class="breadcrumb">
+	  	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+	  	<li><a href="/admin">首页</a></li>
+	    <li><a href="#/problemCoordinition">问题协调</a></li>
+	    <li class="active">{{vm.title}}</li>
+	  </ol>
+	 		
+			<div style="padding:10px;margin:0 10px 10px 10px;">
+				<form role="form" class="form-horizontal">
+					<div class="form-group">
+						<label for="projectId" class="col-sm-3 control-label">相关项目:<span class="required">(*)</span></label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" id="problemTitle" placeholder="光明大道高架桥修建三期" disabled>
+						</div> 						
+					</div>
+					<div class="form-group">
+						<label for="problemTitle" class="col-sm-3 control-label">标题:<span class="required">(*)</span></label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" id="problemTitle" placeholder="光明大道高架桥修建噪音投诉三">
+						</div> 						
+					</div>
+					<div class="form-group">
+						<label for="problemType" class="col-sm-3 control-label">问题类型:<span class="required">(*)</span></label>
+						<div class="col-sm-4">
+							<select id="problemType" class="form-control">
+								<option value="">--请选择--</option>
+								<option value="生活环境">生活环境</option>
+								<option value="出行安全">出行安全</option>
+								<option value="空气污染">空气污染</option>
+							</select>
+						</div> 						
+					</div>
+					<div class="form-group">
+						<label for="problemDescribe" class="col-sm-3 control-label">存在问题描述:<span class="required">(*)</span></label>
+						<div class="col-sm-9">
+							<textarea class="form-control" rows="3" id="problemDescribe" placeholder="问题描述（300字符以内）"></textarea> 
+						</div> 						
+					</div>
+					<div class="form-group">
+						<label for="relatedUnit" class="col-sm-3 control-label">涉及单位:<span class="required">(*)</span></label>
+						<div class="col-sm-9">
+							<table class="table table-bordered" id="relatedUnit">
+								<tr>
+									<td style="text-align: center">单位名称</td>
+									<td style="text-align: center">部门名称</td>
+									<td style="text-align: center"><button class="btn btn-xs btn-primary">增加</button></td>
+								</tr>
+								<tr>
+									<td style="text-align: center">
+										<select style="width:140px;height:26px;">
+											<option>请选择</option>
+											<option>发改局</option>
+											<option>财政局</option>
+											<option>城管局</option>
+										</select>
+									</td>
+									<td style="text-align: center">
+										<input type="text">
+									</td>
+									<td style="text-align: center">
+										<button class="btn btn-xs btn-danger">删除</button>
+									</td>
+								</tr>
+							</table> 
+						</div> 						
+					</div>
+					<div class="form-group">
+						<label for="coordinationMetting" class="col-sm-3 control-label">市区领导协调情况:<br><span class="required" style="font-size:12px;">(xx市领导xx年xx月xx日召开会议)(*)</span></label>
+						<div class="col-sm-9">
+							<textarea class="form-control" rows="3" id="coordinationMetting"></textarea> 
+						</div> 						
+					</div>
+					<div class="form-group">
+						<div class="col-sm-3 control-label">
+							<label for="inputfile">相关附件:<br><span class="required" style="font-size:12px;">此类型附件仅支持(*.doc,*.docx,*.xls,*.xlsx,<br>*.rar,*.7z,*.jpg,*.jpeg,*.png,<br>*.gif,*.pdf,*.zip)(*)</span></label>
+						</div>
+						
+						<div class="col-sm-9">
+							<input type="text" class="form-control bg-info" placeholder="选择文件" style="text-align:center;border:0" disabled>
+							<br>
+							<input type="text" class="pull-left">
+							<input type="file" id="inputfile"> 
+						</div> 						
+					</div>
+				</form>
+				<div class="pull-right"> 
+				<button type="button" class="btn btn-success">确认</button> 			
+				<button type="button" class="btn btn-default">取消</button> 
+			</div> 
+		</div>
+			
+</div>

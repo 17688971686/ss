@@ -108,6 +108,15 @@
 	        	controllerAs: 'vm'
 	        }) 
 	        //end#planProject
+	        //begin#planProject(年度计划项目库-查看项目库)
+	        .state('checkProjectBank', {
+	        	url: '/checkProjectBank',
+	        	templateUrl: '/contents/app/yearPlanManage/planProject/html/checkProjectBank.html',
+	        	controller: 'planProjectCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#planProject
+	        
 	        //begin#planFormation(年度计划编制)
 	        .state('planFormation', {
 	        	url: '/planFormation',
@@ -124,9 +133,25 @@
 	        	controllerAs: 'vm'
 	        }) 
 	        //end#planFormation
+	        //begin#planFormation(年度计划编制-添加年度计划项目)
+	        .state('addPlanProject', {
+	        	url: '/addPlanProject',
+	        	templateUrl: '/contents/app/yearPlanManage/planFormation/html/addPlanProject.html',
+	        	controller: 'planFormationCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#planFormation
+	        //begin#planFormation(年度计划编制-查看项目)
+	        .state('checkPlanProject', {
+	        	url: '/checkPlanProject',
+	        	templateUrl: '/contents/app/yearPlanManage/planFormation/html/checkPlanProject.html',
+	        	controller: 'planFormationCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#planFormation
 	        
 	        
-	        //begin#planCollect
+	        //begin#planCollect(年度计划项目库)
 	        .state('planCollect', {
 	        	url: '/planCollect',
 	        	templateUrl: '/contents/app/yearPlanManage/planCollect/html/list.html',
@@ -134,6 +159,16 @@
 	        	controllerAs: 'vm'
 	        }) 
 	        //end#planCollect
+	        //begin#planCollect(年度计划项目库-查看项目)
+	        .state('collectCheckProject', {
+	        	url: '/collectCheckProject/:id',
+	        	templateUrl: '/contents/app/yearPlanManage/planCollect/html/collectCheckProject.html',
+	        	controller: 'planCollectCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#planCollect
+	        
+	        
 	        //begin#inform
 	        .state('inform', {
 	        	url: '/inform',
@@ -166,7 +201,9 @@
 	        	controllerAs: 'vm'
 	        }) 
 	        //end#workGuide
-	        //begin#suggestFeedback
+	        
+	        //begin---------------------------------------------------------
+	        //begin#suggestFeedback(建议反馈)
 	        .state('suggestFeedback', {
 	        	url: '/suggestFeedback',
 	        	templateUrl: '/contents/app/uniteDoorManage/suggestFeedback/html/list.html',
@@ -174,7 +211,26 @@
 	        	controllerAs: 'vm'
 	        }) 
 	        //end#suggestFeedback
-	        //begin#problemConcert
+	        //begin#suggestEdit(建议反馈-编辑页面)
+	        .state('suggestEdit', {
+	        	url: '/suggestEdit/:id',
+	        	templateUrl: '/contents/app/uniteDoorManage/suggestFeedback/html/suggestEdit.html',
+	        	controller: 'suggestFeedbackCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#suggestEdit
+	        //begin#suggestDetails(建议反馈-详情页面)
+	        .state('suggestDetails', {
+	        	url: '/suggestDetails/:id',
+	        	templateUrl: '/contents/app/uniteDoorManage/suggestFeedback/html/suggestDetails.html',
+	        	controller: 'suggestFeedbackCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#suggestDetails
+	        //end----------------------------------------------------------
+	        
+	        //begin---------------------------------------------------------
+	        //begin#problemConcert(问题协调列表)
 	        .state('problemConcert', {
 	        	url: '/problemConcert',
 	        	templateUrl: '/contents/app/uniteDoorManage/problemConcert/html/list.html',
@@ -182,6 +238,25 @@
 	        	controllerAs: 'vm'
 	        }) 
 	        //end#problemConcert
+	        //begin#problemEdit(问题协调-编辑页面)
+	        .state('problemEdit', {
+	        	url: '/problemEdit/:id',
+	        	templateUrl: '/contents/app/uniteDoorManage/problemConcert/html/problemEdit.html',
+	        	controller: 'problemConcertCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#problemEdit
+	        //begin#problemEdit(问题协调-详情页面)
+	        .state('problemDetails', {
+	        	url: '/problemDetails/:id',
+	        	templateUrl: '/contents/app/uniteDoorManage/problemConcert/html/problemDetails.html',
+	        	controller: 'problemConcertCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#problemDetails
+	        //end------------------------------------------------------------
+	        
+	        
 	        //begin#prophaseWorkPlan(前期工作计划)
 	        .state('prophaseWorkPlan', {
 	        	url: '/prophaseWorkPlan',

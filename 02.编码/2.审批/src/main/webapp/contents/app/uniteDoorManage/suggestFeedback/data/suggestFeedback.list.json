@@ -1,5 +1,4 @@
-{"value":[{"id":1,"titleName":"通知11","classify":"分类11","releaseTime":"2017/4/12 3:30:30"
-	,"source":"来源11","content":"内容11","accessory":"附件11"},
-	{"id":2,"titleName":"通知22","classify":"分类22","releaseTime":"2017/4/12 13:30:30"
-	,"source":"来源22","content":"内容22","accessory":"附件22"}
-	],"count":2}
+{"value":[{"id":1,"titleName":"问题123","issueType":"问题类型123","projectName":"项目名称123"
+	,"state":"状态123"},
+	{"id":2,"titleName":"问题456","issueType":"问题类型456","projectName":"项目名称456"
+	,"state":"状态456"}],"count":2}

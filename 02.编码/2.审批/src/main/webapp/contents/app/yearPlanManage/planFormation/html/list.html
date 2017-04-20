@@ -2,19 +2,144 @@
 <div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
 
-<div class="well well-sm" style="background:white;">
-    <ol class="breadcrumb">
-        <li><a href="#/planFormation">年度计划编制</a></li>
-        <li class="active">{{vm.title}}</li>
-    </ol>
-    <form id="form" name="form">
-    	<a class="btn btn-sm btn-primary" href="#/addPlanVersion/"><span class="glyphicon glyphicon-plus"></span>添加计划版本</a> 
-    	<a class="btn btn-sm btn-primary" href="#/addPlanProject/"><span class="glyphicon glyphicon-plus"></span>添加计划项目</a> 
-        <script type="text/template" id="columnBtns">
-			<button class="btn btn-xs btn-primary"  href="#/projectFormation/{1}" ><span class="glyphicon glyphicon-pencil"></span>编制</button>
+<div class="well well-sm" style="background: white;">
+	<ol class="breadcrumb">
+		<li><a href="#/planFormation">年度计划编制</a></li>
+		<li class="active">{{vm.title}}</li>
+	</ol>
+	<form id="form" name="form">
+		<div class="toolbar">
+			<button class="btn btn-sm btn-primary" data-toggle="modal"
+				data-target="#myModal-addPlanVersion">
+				<span class="glyphicon glyphicon-plus"></span>添加计划版本
+			</button>
+			<a class="btn btn-primary btn-sm" href="#/addPlanProject" >
+				<span class="glyphicon glyphicon-plus"></span>添加计划项目
+			</a>
+		</div>
+		<script type="text/template" id="columnBtns">
+			<button class="btn btn-xs btn-primary" ng-click="{0}"><span class="glyphicon glyphicon-pencil"></span>编制</button>
 		</script>
-        
-         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
-    </form>
+
+		<div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+	</form>
+
+	<!-- 添加计划版本模态框 -->
+	<div class="modal fade" id="myModal-addPlanVersion" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content" style="width:900px;height:600px;">
+				<div class="modal-header bg-primary">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">添加版本</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+							<label class="col-sm-4 control-label">年度:</label>
+							<div class="col-sm-6">
+								<input class="form-control input-sm" value="" maxlength="200" style="width: 300px;"  />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label">名称:</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control input-sm" value="1411" maxlength="200" style="width: 300px;"  />
+							</div>
+						</div>
+
+						<div>
+							<label class="col-sm-4 control-label">计划版本类型:</label>
+							<div class="col-sm-6">
+								<input value="年度投资计划" type="radio"><span>年度投资计划</span> 
+								<input  value="年度调整计划" type="radio"><span>年度调整计划</span>
+							</div>
+						</div>
+						<div>
+							<label class="col-sm-4 control-label">是否正式版本:</label>
+							<div class="col-sm-6">
+								<input value="是" type="radio"><span>是</span> 
+								<input value="否" type="radio"><span>否</span>
+							</div>
+						</div>
+						
+						<div>
+							<label class="col-sm-4 control-label">备注:</label>
+							<div class="col-sm-6">
+								<textarea value="" class="form-control" 
+									mark_maxlength="200" style="height: 80px; width: 500px;">注：(200字符以内)
+								</textarea>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-4 control-label">预计安排资金总额(万元):</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control input-sm" value="1411" maxlength="200" style="width: 300px;"  />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-4 control-label">区财政性资金:</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control input-sm" value="1411" maxlength="200" style="width: 300px;"  />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">区国土资金:</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control input-sm" value="1411" maxlength="200" style="width: 300px;"  />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">政府统筹(其他):</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control input-sm" value="1411" maxlength="200" style="width: 300px;"  />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">区住房资金:</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control input-sm" value="1411" maxlength="200" style="width: 300px;" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">教育费附加:</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control input-sm" value="1411" maxlength="200" style="width: 300px;"  />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">A类:</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control input-sm" value="1411" maxlength="200" style="width: 300px;"  />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">B类:</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control input-sm" value="1411" maxlength="200" style="width: 300px;"  />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">C类:</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control input-sm" value="1411" maxlength="200" style="width: 300px;"  />
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>
+
 </div>
 

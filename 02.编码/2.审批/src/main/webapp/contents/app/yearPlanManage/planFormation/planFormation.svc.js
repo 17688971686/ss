@@ -60,7 +60,10 @@
 						field : "projectName",
 						title : "名称",
 						width:200,
-						filterable : true
+						filterable : true,
+						template:function(data){
+							return "<a href='#/projectFormation/"+data.id+"'>"+data.projectName+"</a>";
+						}
 					},
 					{
 						field : "projectSum",
@@ -108,6 +111,7 @@
 						field : "foundTime",
 						title : "创建时间",
 						width : 150,
+						format : "{0:yyyy/MM/dd HH:mm:ss}",
 						filterable : false
 						
 					},
@@ -117,7 +121,7 @@
 						width : 200,
 						template : function(item) {
 							return common.format($('#columnBtns').html(),
-									"vm.del('" + item.id + "')", item.id);
+									"vm.projectInfoEdit('" + item.id + "')", item.id);
 							/*return "<button type='button' class='btn-sm btn-infoo' onclick=\"formation('"+data.id+"')\">编制</button>";*/
 						}
 
