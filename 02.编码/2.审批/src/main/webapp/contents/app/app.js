@@ -129,11 +129,11 @@
 	        .state('projectFormation', {
 	        	url: '/projectFormation/:id',
 	        	templateUrl: '/contents/app/yearPlanManage/planFormation/html/projectFormation.html',
-	        	controller: 'projectFormationCtrl',
+	        	controller: 'planFormationCtrl',
 	        	controllerAs: 'vm'
 	        }) 
 	        //end#planFormation
-	        //begin#planFormation(年度计划编制-添加计划项目)
+	        //begin#planFormation(年度计划编制-添加年度计划项目)
 	        .state('addPlanProject', {
 	        	url: '/addPlanProject',
 	        	templateUrl: '/contents/app/yearPlanManage/planFormation/html/addPlanProject.html',
@@ -143,9 +143,9 @@
 	        //end#planFormation
 	        //begin#planFormation(年度计划编制-查看项目)
 	        .state('checkPlanProject', {
-	        	url: '/checkPlanProject/:id',
+	        	url: '/checkPlanProject',
 	        	templateUrl: '/contents/app/yearPlanManage/planFormation/html/checkPlanProject.html',
-	        	controller: 'projectFormationCtrl',
+	        	controller: 'planFormationCtrl',
 	        	controllerAs: 'vm'
 	        }) 
 	        //end#planFormation
@@ -519,23 +519,16 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#projectInfoEdit
-	        
-	       /* //begin#projectHandForm（项目处理表单）
+
+/***************************个人已办-不同的办理进度对应不同的项目处理表单-Strat******************************/	        
+	        //begin#projectHandForm（项目处理表单）
+	        //TODO 这里需要怎样判断不同的审批阶段来跳转不同的处理表单  这里只是一个模板
 	        .state('projectHandForm', {
 	            url: '/projectHandForm/:id',
-	            templateUrl: '/contents/app/projectDetais/html/projectHandle.html',
-	            controller: 'projectHandFormCtrl',
+	            templateUrl: '/contents/app/projectDetais/html/projectForm/projectHandle.html',
+	            controller: 'projectDetaisCtrl',
 	            controllerAs: 'vm'
 	        }) 
-	        //end#projectHandForm
-*//***************************个人已办-不同的办理进度对应不同的项目处理表单-Strat******************************/	        
-	        //begin#projectHandForm（项目处理表单）
-	        /*.state('projectHandForm', {
-	            url: '/projectHandForm/:id',
-	            templateUrl: '/contents/app/projectDetais/html/projectHandle.html',
-	            controller: 'projectHandFormCtrl',
-	            controllerAs: 'vm'
-	        }) */
 	        //end#projectHandForm
 /***************************个人已办-不同的办理进度对应不同的项目处理表单-End******************************/	 	        
 	        

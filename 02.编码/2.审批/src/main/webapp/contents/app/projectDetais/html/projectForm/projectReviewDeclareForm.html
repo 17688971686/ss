@@ -1,19 +1,20 @@
-<meta charset="UTF-8">
-<div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
-<div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
-<div class="well well-sm" style="background: white;">
+<div class="modal-header bg-primary">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+		</button>
+		<span class="modal-title" style="font-size:14px;"><strong>复核申报表</strong></span>
+</div>
 
-	<ol class="breadcrumb">
-		<li><a href="#/user">项目申报</a></li>
-		<li class="active">布吉甘坑垃圾填埋场渗滤液处理站升级改造工程</li>
-	</ol>
-	<form id="form" name="form">
+<div class="modal-body" style="height:750px;overflow-y:scroll">
+	<h4 style="text-align:center"><strong>光明新区政府投资项目复核申报表</strong></h4>
 		<div class="bg-danger text-danger" style="padding: 10px; margin-bottom: 10px">
-			项目总概算 <span>金额：万元 , 面积：平方米</span>
+				&nbsp;
+				<span style="float:left;display:inline">项目基本信息</span>
+				<span style="float:right;display:inline">金额：万元 , 面积：平方米</span>
 		</div>
 
 		<div>
-			<table class="table table-bordered">
+			<table class="table table-bordered table-striped table-hover">
 				<tr>
 					<td style="width: 200px;" class="formAlignRight">项目阶段：</td>
 					<td><span>项目建议书</span></td>
@@ -218,7 +219,7 @@
 			项目单位信息 <span></span>
 		</div>
   <div  style="width: 100%;">
-    <table  class="table table-bordered">
+    <table  class="table table-bordered table-striped table-hover">
       <tr>
         <td class="formAlignRight"> 申报单位组织机构代码：<span class="errors">(*)</span></td>
         <td colspan="2" style="padding-left: 10px;  border-left: #c3e5f8 1px solid;"><span >1</span></td>
@@ -330,7 +331,7 @@
   <div class="bg-danger text-danger" style="padding: 10px; margin-bottom: 10px">
 			项目材料清单 <span></span>
 		</div>
-<table class="table table-bordered">
+<table class="table table-bordered table-striped table-hover">
         <tr >
           <th width="25%" align="center" scope="col"> 附件类型 </th>
           <th width="8%" align="center" scope="col"> 是否上传 </th>
@@ -387,7 +388,11 @@
         	<td      align="center" scope="col"><a>-</a></td>
         	<td      align="center" scope="col"><a>-</a></td>
         </tr>
-
 </table>
 	</form>
+</div>
+
+<div class="modal-footer">
+	<button class="btn btn-success">保存</button> 
+	<button class="btn btn-default" data-dismiss="modal">返回</button> 
 </div>

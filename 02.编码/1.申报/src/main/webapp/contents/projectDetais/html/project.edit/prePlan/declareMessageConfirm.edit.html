@@ -5,10 +5,10 @@
 	<form id="form" name="form">
 		<div class="bg-danger text-danger" style="padding: 10px; margin-bottom: 10px">项目基本信息</div>
 		<div>
-			<table class="table table-bordered">
+			<table class="table table-bordered table-striped">
 				<tr>
 					<td class="formAlignRight" width="18%">项目阶段：</td>
-					<td style="padding-left: 10px; border-left: #c3e5f8 1px solid;"><span>项目总概算</span>&nbsp;
+					<td style="padding-left: 10px; border-left: #c3e5f8 1px solid;"><span>前期计划（前期费）</span>&nbsp;
 						<input type="hidden" value="1" /> &nbsp;</td>
 					<td class="formAlignRight">申报时间：</td>
 					<td style="padding-left: 10px; border-left: #c3e5f8 1px solid;"><span>2017</span>&nbsp;</td>
@@ -23,6 +23,12 @@
 					<td class="formAlignRight">国民经济分类：</td>
 					<td colspan="3" style="padding-left: 10px; border-left: #c3e5f8 1px solid;"><span>-</span>&nbsp;
 					</td>
+				</tr>
+				<tr>
+					<td class="formAlignRight">开工日期：</td>
+					<td style="padding-left: 10px; border-left: #c3e5f8 1px solid;"><span>-</span>&nbsp;</td>
+					<td class="formAlignRight">竣工日期：</td>
+					<td style="padding-left: 10px; border-left: #c3e5f8 1px solid;"><span>-</span>&nbsp;</td>
 				</tr>
 				<div>
 					<tr>
@@ -39,93 +45,183 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="formAlignRight">项目类型：</td>
-						<td colspan="3" style="padding-left: 10px; border-left: #c3e5f8 1px solid;"><span>其他 </span>&nbsp;
+						<td class="formAlignRight">申报经费：</td>
+						<td colspan="3" style="padding-left: 10px; border-left: #c3e5f8 1px solid;"><span></span>&nbsp;
 						</td>
 					</tr>
 					<tr>
-						<td class="formAlignRight">项目建设地址：</td>
-						<td colspan="3" style="padding-left: 10px; border-left: #c3e5f8 1px solid;"><span>坪地街道,坪地街道办事处 </span>&nbsp;
+						<td class="formAlignRight">计划年度：</td>
+						<td colspan="3" style="padding-left: 10px; border-left: #c3e5f8 1px solid;"><span></span>&nbsp;
 						</td>
 					</tr>
 					<tr>
-						<td class="formAlignRight">项目总投资：</td>
-						<td colspan="3" style="padding: 0">
-						<table class="table table-bordered">
+						<td class="formAlignRight">资金筹措方案(万元)：<span class="required"  >(*)</span></td>
+						<td colspan="3" style="padding-left: 0">
+							<table class="table table-bordered table-striped">
 								<tr>
-									<td style="width: 120px;"><span>200</span></td>
-									<td>建安费</td>
-									<td style="width: 120px;"><span>168</span></td>
-									<td>工程建设其他费</td>
-									<td style="width: 120px;"><span>20</span></td>
-									<td>基本预备费</td>
-									<td style="width: 120px;"><span>12</span></td>
+									<td class="text-primary" style="font-size:12px;">市财政</td>
+									<td class="text-primary" style="font-size:12px;">区财政</td>
+									<td class="text-primary" style="font-size:12px;">社会投资</td>
+									<td class="text-primary" style="font-size:12px;">国土资金</td>
+									<td class="text-primary" style="font-size:12px;">专项资金</td>
+									<td class="text-primary" style="font-size:12px;">中央投资</td>
+									<td class="text-primary" style="font-size:12px;">部省</td>
+									<td class="text-primary" style="font-size:12px;">自筹</td>
+									<td class="text-primary" style="font-size:12px;">政府统筹</td>
+									<td class="text-primary" style="font-size:12px;">教育费附加</td>
+									<td class="text-primary" style="font-size:12px;">其他</td>
 								</tr>
-							</table></td>
+								<tr>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>	
+								</tr>
+								<tr>
+									<td colspan="2">资金总计</td>
+									<td colspan="9" align="left" style="padding-left: 20px;"><span
+										value="0"></span> <input type="hidden" /></td>
+								</tr>
+								<tr>
+									<td colspan="3" class="text-danger">"其他"的来源途径说明</td>
+									<td colspan="8" style="padding: 0;">
+										<span style="width: 300px;height:25px;margin-left:10px;" class="form-contro"></span>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>																	
+						<td class="formAlignRight">至上年度累计下达(万元)：<span class="required"  >(*)</span></td>
+						<td colspan="3" style="padding-left: 0">
+							<table class="table table-bordered table-striped">
+								<tr>
+									<td class="text-primary" style="font-size:12px;">市财政</td>
+									<td class="text-primary" style="font-size:12px;">区财政</td>
+									<td class="text-primary" style="font-size:12px;">社会投资</td>
+									<td class="text-primary" style="font-size:12px;">国土资金</td>
+									<td class="text-primary" style="font-size:12px;">专项资金</td>
+									<td class="text-primary" style="font-size:12px;">中央投资</td>
+									<td class="text-primary" style="font-size:12px;">部省</td>
+									<td class="text-primary" style="font-size:12px;">自筹</td>
+									<td class="text-primary" style="font-size:12px;">政府统筹</td>
+									<td class="text-primary" style="font-size:12px;">教育费附加</td>
+									<td class="text-primary" style="font-size:12px;">其他</td>
+								</tr>
+								<tr>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>	
+								</tr>
+								<tr>
+									<td colspan="2">资金总计</td>
+									<td colspan="9" align="left" style="padding-left: 20px;">
+										<span value="0"></span>
+										<input type="hidden" />
+									</td>		
+								</tr>
+								<tr>
+									<td colspan="3" class="text-danger">"其他"的来源途径说明</td>
+									<td colspan="8" style="padding: 0;">
+										<span style="width: 300px;height:25px;margin-left:10px;" class="form-contro"></span>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>																	
+						<td class="formAlignRight">年度投资计划(万元)：<span class="required"  >(*)</span></td>
+						<td colspan="3" style="padding-left: 0">
+							<table class="table table-bordered table-striped">
+								<tr>
+									<td class="text-primary" style="font-size:12px;">市财政</td>
+									<td class="text-primary" style="font-size:12px;">区财政</td>
+									<td class="text-primary" style="font-size:12px;">社会投资</td>
+									<td class="text-primary" style="font-size:12px;">国土资金</td>
+									<td class="text-primary" style="font-size:12px;">专项资金</td>
+									<td class="text-primary" style="font-size:12px;">中央投资</td>
+									<td class="text-primary" style="font-size:12px;">部省</td>
+									<td class="text-primary" style="font-size:12px;">自筹</td>
+									<td class="text-primary" style="font-size:12px;">政府统筹</td>
+									<td class="text-primary" style="font-size:12px;">教育费附加</td>
+									<td class="text-primary" style="font-size:12px;">其他</td>
+								</tr>
+								<tr>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>
+									<td><span class="form-control" style="width: 45px;height:25px;"></span></td>	
+								</tr>
+								<tr>
+									<td colspan="2">资金总计</td>
+									<td colspan="9" align="left" style="padding-left: 20px;">
+										<span value="0"></span>
+										<input type="hidden" />
+									</td>		
+								</tr>
+								<tr>
+									<td colspan="3" class="text-danger">"其他"的来源途径说明</td>
+									<td colspan="8" style="padding: 0;">
+										<span style="width: 300px;height:25px;margin-left:10px;" class="form-contro"/></span>
+									</td>
+								</tr>
+							</table>
+						</td>
 					</tr>
 					<tr>
-						<td class="formAlignRight">资金筹措方案：</td>
+						<td class="formAlignRight">主要建设内容：</td>
 						<td colspan="3" >
-						<table class="table table-bordered">
-								<tr>
-									<td>市财政</td>
-									<td>区财政</td>
-									<td>社会投资</td>
-									<td>国土资金</td>
-									<td>专项资金</td>
-									<td>中央投资</td>
-									<td>部省</td>
-									<td>自筹</td>
-									<td>政府统筹</td>
-									<td>教育费附加</td>
-									<td>其他</td>
-								</tr>
-								<tr>
-									<td><span>0</span></td>
-									<td><span>200</span></td>
-									<td><span>0</span></td>
-									<td><span>0</span></td>
-									<td><span>0</span></td>
-									<td><span>0</span></td>
-									<td><span>0</span></td>
-									<td><span>0</span></td>
-									<td><span>0</span></td>
-									<td><span>0</span></td>
-									<td><span>0</span></td>
-								</tr>
-								<tr>
-									<td>资金总计</td>
-									<td  colspan="10" ><span>200</span></td>
-								</tr>
-								<tr>
-									<td colspan="2">"其他"的来源途径说明</td>
-									<td colspan="9"><span></span></td>
-								</tr>
-							</table></td>
+							<div style="height:80px;">
+							********
+							</div>
+						</td>
+							
 					</tr>
 					<tr>
 						<td class="formAlignRight">项目简介：</td>
-						<td colspan="3" ><span
-							>占地面积约6000平方米，建筑面积6000平方米，增加174个停车位</span></td>
+						<td colspan="3" >
+							<div style="height:80px;">
+							********
+							</div>
+						</td>	
 					</tr>
 					<tr>
 						<td class="formAlignRight">建设规模：</td>
-						<td colspan="3" ><span
-							>占地面积约6000平方米，建筑面积6000平方米，增加174个停车位</span></td>
+						<td colspan="3" >
+							<div style="height:80px;">
+							********
+							</div>
+						</td>
 					</tr>
 					<tr>
 						<td class="formAlignRight">项目必要性和依据：</td>
-						<td colspan="3" ><span>占地面积约6000平方米，建筑面积6000平方米，增加174个停车位</span></td>
-					</tr>
-					<tr>
-						<td class="formAlignRight">推荐方案介绍：</td>
-						<td colspan="3" ><span
-							>占地面积约6000平方米，建筑面积6000平方米，增加174个停车位</span></td>
-					</tr>
-					<tr>
-						<td class="formAlignRight">社会及经济效益评价：</td>
-						<td colspan="3" ><span
-							>占地面积约6000平方米，建筑面积6000平方米，增加174个停车位</span></td>
+						<td colspan="3" >
+							<div style="height:80px;">
+							********
+							</div>
+						</td>
 					</tr>
 				</div>
 			</table>
@@ -133,7 +229,7 @@
 
 		<div class="bg-danger text-danger" style="padding: 10px; margin-bottom: 10px">项目单位信息</div>
 		<div>
-			<table class="table table-bordered">
+			<table class="table table-bordered table-striped">
 				<tr>
 					<td class="formAlignRight">申报单位组织机构代码：</td>
 					<td colspan="2" style="border-left: #c3e5f8 1px solid;"><span>1</span></td>
@@ -175,50 +271,14 @@
 					<td class="formAlignRight">Email：</td>
 					<td colspan="3" style="border-bottom: 1px solid #C3E5F8;"><span>2798809792@qq.com</span></td>
 				</tr>
-				<tr>
-					<td class="formAlignRight">编制单位名称：</td>
-					<td colspan="2" style="border-left: #c3e5f8 1px solid;"><span></span></td>
-					<td class="formAlignRight">编制单位资质等级：</td>
-					<td style="border-left: #c3e5f8 1px solid;"><span></span></td>
-				</tr>
-				<tr>
-					<td rowspan="2" class="formAlignRight">编制单位负责人</td>
-					<td class="formAlignRight">姓名：</td>
-					<td><span></span></td>
-					<td class="formAlignRight">电话：</td>
-					<td><span></span></td>
-				</tr>
-				<tr>
-					<td class="formAlignRight">手机：</td>
-					<td><span></span></td>
-					<td class="formAlignRight">传真：</td>
-					<td><span></span></td>
-				</tr>
-				<tr>
-					<td rowspan="3" class="formAlignRight">
-						编制单位联系人</td>
-					<td class="formAlignRight">姓名：</td>
-					<td><span></span></td>
-					<td class="formAlignRight">电话：</td>
-					<td><span></span></td>
-				</tr>
-				<tr>
-					<td class="formAlignRight">手机：</td>
-					<td><span></span></td>
-					<td class="formAlignRight">传真：</td>
-					<td><span></span></td>
-				</tr>
-				<tr>
-					<td class="formAlignRight">Email：</td>
-					<td colspan="3" style="border-bottom: 1px solid #C3E5F8"><span></span></td>
-				</tr>
+				
 			</table>
 		</div>
 		<div class="bg-danger text-danger" style="padding: 10px; margin-bottom: 10px">项目材料清单</div>
 		<div>
 			<table class="table table-bordered">
 				<tr>
-					<td><table class="table table-bordered">
+					<td><table class="table table-bordered table-striped">
 							<tr>
 								<th width="25%" align="center" scope="col">附件类型</th>
 								<th width="8%" align="center" scope="col">是否上传</th>
@@ -238,23 +298,12 @@
 								<td><span>2017年4月13日</span></td>
 							</tr>
 							<tr>
-								<td rowspan="1"><span>项目建议书(或前期工作计划)、可行性研究报告</span> <span>(*)</span></td>
+								<td rowspan="1"><span>项目计划书(word版)</span> <span>(*)</span></td>
 								<td align="center" rowspan="1">未上传</td>
 								<td></td>
 								<td><span>-</span></td>
 							</tr>
-							<tr>
-								<td rowspan="1"><span>初步设计及项目总概算材料（项目单位须委托有相应资质的咨询机编制项目总概算）</span></td>
-								<td align="center" rowspan="1">未上传</td>
-								<td></td>
-								<td><span>-</span></td>
-							</tr>
-							<tr>
-								<td rowspan="1"><span>用地规划许可证扫描件</span></td>
-								<td align="center" rowspan="1">未上传</td>
-								<td></td>
-								<td><span>-</span></td>
-							</tr>
+							
 							<tr>
 								<td rowspan="1"><span>其他资料</span></td>
 								<td align="center" rowspan="1">未上传</td>
@@ -270,7 +319,7 @@
 		</div>
 		<div>
 			<div style="text-align: center; padding: 20px;">
-				<a href="#"> <button class="btn btn-success">提交</button>
+				<a href="#"> <button class="btn btn-success">确认</button>
 				</a>
 			</div>
 		</div>

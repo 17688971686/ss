@@ -1,13 +1,17 @@
-<div class="toolbar">
-	 <button class="btn btn-sm btn-primary" onclick="javascript:window.history.back(-1)"><span class="glyphicon glyphicon-list"></span>&nbsp 返回列表</button>
-</div>   
+<div class="well well-sm" style="background:white;">
+	<ol class="breadcrumb">
+		<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		<li>我的工作台</li>
+	  	<li><a href="#/perToDo">个人待办</a></li>
+	   	<li class="active">{{vm.titleProjectHandle}}</li>
+	</ol>
+  
 <div>
-	<form>
     <input type="hidden" name="ProjectID" id="ProjectID">
     <div>
         <h3 style="text-align: center">深圳市光明新区发展和改革局项目处理表</h3>
-        <p>政府投资项目审批</p>
-        <table class="table table-bordered table-hover" style="background: #f9f9f9; margin-top: 10px;">
+        <h5>政府投资项目审批</h5>
+        <table class="table table-bordered table-hover table-striped" style=" margin-top: 10px;">
             <tbody>
 	            <tr>
 	                <td width="150" class="table-td-center">项目名称</td>
@@ -53,8 +57,9 @@
                 <tr>
                     <td class="table-td-center">申报表</td>
                     <td colspan="3">
-                    	<a class="btn btn-primary btn-sm" href="/contents/app/projectDetais/html/projectDeclare.html" data-toggle="modal" data-target="#myModal-projectDeclare" >查看申报表</a>&nbsp;
-                    	<a href="#" class="btn  btn-primary btn-sm">复核申报表</a>
+                    	<!-- <a class="btn btn-primary btn-sm" href="/contents/app/projectDetais/html/projectDeclare.html" data-toggle="modal" data-target="#myModal-projectDeclare" >查看申报表</a>&nbsp; -->
+                    	<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal-projectDeclare" >查看申报表</button>&nbsp;
+                    	<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal-projectReview" >复核申报表</a>
                     </td>
                 </tr>
                 <tr>
@@ -128,7 +133,7 @@
                             <tbody>
                                	<tr>
                                     <td>
-                                        <table  class="table table-bordered table-hover" style="background: #f9f9f9; margin-top: 10px; width: 100%;">
+                                        <table  class="table table-bordered table-hover table-striped" style="background: #f9f9f9; margin-top: 10px; width: 100%;">
                                             <tbody>
                                             	<tr>
                                                 	<td  width="150" class="table-td-center">项目建设依据</td>
@@ -149,7 +154,7 @@
 	                                            <tr>
 	                                                <td class="table-td-center">文件打印</td>
 	                                                <td >
-	                                                   <a class="btn  btn-primary btn-sm">项目评审报批单</a>
+	                                                   <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal-projectApporval">项目评审报批单</button>
 	                                                </td>
 	                                            </tr>
                                         	</tbody>
@@ -184,21 +189,69 @@
            	<a href="javascript:;" target="rightIframe" class="btn  btn-primary btn-sm" style="display:none;">撤回</a>
            	<a href="javascript:;" target="rightIframe" class="btn  btn-primary btn-sm" style="display:none;">撤回下达资金</a>
            	<a href="javascript:;" target="rightIframe" class="btn  btn-primary btn-sm">添加关注</a>
-            <a href="javascript:;" target="rightIframe" class="btn  btn-primary btn-sm">打印项目处理表</a>
-            <a href="javascript:;" target="rightIframe" class="btn  btn-primary btn-sm">流程打印预览</a>
-            <a href="javascript:;" target="rightIframe" class="btn  btn-primary btn-sm">查看流转情况</a>
+            <button class="btn  btn-primary btn-sm" data-toggle="modal" data-target="#myModal-projectHandleFormPrint">打印项目处理表</button >
+            <button class="btn  btn-primary btn-sm" data-toggle="modal" data-target="#myModal-projectFlowPrint">流程打印预览</button >
+            <button class="btn  btn-primary btn-sm" data-toggle="modal" data-target="#myModal-projectFlowSituation">查看流转情况</button>
             <a href="" target="rightIframe" class="btn  btn-primary btn-sm">查看项目库</a> 
         </p>
     </div>
-</form>
+</div>
 </div>
 
-<!-- 项目申请模态框 -->
+<!-- 项目申请表模态框 -->
 <div class="modal fade" id="myModal-projectDeclare" role="basic" aria-hidden="true">                                      
    <div class="modal-dialog">  
-      <div class="modal-content" style="width:980px;height:750px;overflow-y:scroll"></div>  
-        
+      <div class="modal-content" style="width:980px;">  
+        <div ng-include src="'/contents/app/projectDetais/html/projectForm/projectDeclare.html'"></div>
+      </div>
    </div>
-</div>  
+</div> 
+
+<!-- 项目复核申报表模态框 -->
+<div class="modal fade" id="myModal-projectReview" role="basic" aria-hidden="true">                                      
+   <div class="modal-dialog">  
+      <div class="modal-content" style="width:980px;">  
+        <div ng-include src="'/contents/app/projectDetais/html/projectForm/projectReviewDeclareForm.html'"></div>
+      </div>
+   </div>
+</div>
+
+<!-- 项目评审报批单模态框 -->
+<div class="modal fade" id="myModal-projectApporval" role="basic" aria-hidden="true">                                      
+   <div class="modal-dialog">  
+      <div class="modal-content" style="width:980px;">  
+        <div ng-include src="'/contents/app/projectDetais/html/projectForm/projectApproval.html'"></div>
+      </div>
+   </div>
+</div>
+
+<!--打印项目处理表模态框 -->
+<div class="modal fade" id="myModal-projectHandleFormPrint" role="basic" aria-hidden="true">                                      
+   <div class="modal-dialog">  
+      <div class="modal-content" style="width:980px;">  
+        <div ng-include src="'/contents/app/projectDetais/html/projectForm/projectHandleFormPrint.html'"></div>
+      </div>
+   </div>
+</div>
+
+<!-- 流程打印预览模态框 -->
+<div class="modal fade" id="myModal-projectFlowPrint" role="basic" aria-hidden="true">                                      
+   <div class="modal-dialog">  
+      <div class="modal-content" style="width:980px;">  
+        <div ng-include src="'/contents/app/projectDetais/html/projectForm/projectFlowPrint.html'"></div>
+      </div>
+   </div>
+</div>
+
+<!-- 查看流转情况模态框 -->
+<div class="modal fade" id="myModal-projectFlowSituation" role="basic" aria-hidden="true">                                      
+   <div class="modal-dialog">  
+      <div class="modal-content" style="width:980px;">  
+        <div ng-include src="'/contents/app/projectDetais/html/projectForm/projectFlowSituation.html'"></div>
+      </div>
+   </div>
+</div>
+
+ 
 
 

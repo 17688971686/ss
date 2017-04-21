@@ -1,29 +1,29 @@
-<meta charset="UTF-8">
-<div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
-<div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
-<div class="well well-sm" style="background: white;">
+<div class="modal-header bg-primary">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+		</button>
+		<span class="modal-title" style="font-size:14px;"><strong>项目评审报批表</strong></span>
+</div>
 
-
-	<form id="form" name="form" >
-  <h2 align="center">项目评审报批单</h2>
+<div class="modal-body" style="height:750px;overflow-y:scroll">
   <div > <span >日期： </span><span >2016</span><span>年</span><span>12</span><span >月</span><span >27</span><span >日</span> </div>
-  <table border="2">
+  <table border="2" class="table-hover">
     <tr>
-      <td    width="300px;" height="80px;" class="formAlignRight" >项目名称</td>
+      <td width="300px;" height="80px;" class="table-td-center" >项目名称</td>
       <td colspan="3"   width="900px;"   >南湾街道南岭小学运动场修缮改造工程</td>
     </tr>
     <tr>
-      <td     height="80px;" class="formAlignRight">建设单位</td>
+      <td     height="80px;" class="table-td-center">建设单位</td>
       <td colspan="3"     >南湾街道南岭小学</td>
     </tr>
     <tr>
-      <td    height="80px;" class="formAlignRight" >编制部门</td>
+      <td    height="80px;" class="table-td-center" >编制部门</td>
       <td colspan="3"     ><input type="text"  value="北京蓝图工程设计有限公司" /></td>
     </tr>
     <tr>
-      <td    height="80px;"  class="formAlignRight">报评类别</td>
-      <td    height="80px;"  class="formAlignRight">概算</td>
-      <td      width="150" class="formAlignRight">报送投资</td>
+      <td    height="80px;"  class="table-td-center">报评类别</td>
+      <td    height="80px;"  class="table-td-center">概算</td>
+      <td      width="150" class="table-td-center">报送投资</td>
       <td     ><input type="text" = value="250.3" />
         万元 </td>
     </tr>
@@ -31,7 +31,7 @@
       <td align="center" colspan="4" ><h3>送审资料情况</h3></td>
     </tr>
     <tr>
-      <td class="formAlignRight">经办人</td>
+      <td class="table-td-center">经办人</td>
       <td colspan="3"><table >
           <tr>                                            
             <td><textarea class="form-control" rows="2" cols="20" mark_maxlength="500" value=""
@@ -52,7 +52,7 @@
       <td colspan="4"align="center"  ><h3>审批情况</h3></td>
     </tr>
     <tr>
-      <td     height="180px;" class="formAlignRight">科长复核意见</td>
+      <td     height="180px;" class="table-td-center">科长复核意见</td>
       <td colspan="3"     ><table >
           <tr>
             <td  colspan="2">
@@ -71,7 +71,7 @@
         </table></td>
     </tr>
     <tr>
-      <td      height="180px;" class="formAlignRight">分管领导意见</td>
+      <td height="180px;" class="table-td-center">分管领导意见</td>
       <td colspan="3"     ><table >
           <tr>
             <td  colspan="2">
@@ -90,5 +90,5 @@
         </table></td>
     </tr>
   </table>
- </form>
+</div>
 </div>

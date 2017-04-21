@@ -10,27 +10,24 @@
 			
 		var service = {
 			grid : grid	,
-			queryById:queryById
+			queryById:queryById,
+			
 		};		
 		return service;	
 		
 		function queryById(vm,id){
 			var httpOptions = {
-					method : 'queryById',
+					method : 'get',
 					url : url_projectDeclaration,
 					data : id
 				}
 				var httpSuccess = function success(response) {
-
-					common.requestSuccess({
-						vm : vm,
-						response : response,
-						fn : function() {
-							return response;
-						}
-
-					});
-
+					var data=response.data.value;
+					vm.model=$linq(data).where(function(x) {
+						return x.projectId == id;
+					}).select(function(x) {
+						return x;
+					}).toArray();				
 				}
 				common.http({
 					vm : vm,
@@ -80,7 +77,7 @@
 						title : "项目名称",
 						width : 200,
 						template:function(data){
-							return "<a href='#/projectDetais/"+data.projectId+"'>"+data.projectName+"</a>";
+							return "<a href='#/projectDetais/"+data.projectId+"&"+data.declarationStage+"'>"+data.projectName+"</a>";
 						},
 						filterable : true
 					},
