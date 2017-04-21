@@ -1,11 +1,10 @@
+<meta charset="UTF-8">
 <div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
 
 
 	<div class="well well-sm" style="background: white;">
 		<form id="form" name="form">
-
-
 			<div class="bg-danger text-danger" style="padding: 10px; margin-bottom: 10px">
 				&nbsp;
 				<span style="float:left;display:inline">项目基本信息</span>
@@ -13,17 +12,20 @@
 			</div>
 
 			<div>
-				<table class="table table-bordered">
+				<table class="table table-bordered table-striped">
 					<tr>
-						<td   class="formAlignRight">项目阶段：</td>
-						<td><span>规划设计前期费</span></td>
+						<td class="formAlignRight">项目阶段：</td>
+						<td>
+							<!-- <span>{{vm.declarationStage}}</span> -->
+							<span>规划设计前期费</span>
+						</td>
 						<td class="formAlignRight">申报时间：</td>
 						<td><span>2017</span></td>
 					</tr>
 					<tr>
 						<td class="formAlignRight">项目名称：<span class="required">(*)</span></td>
 						<td>
-							<input type="text" maxlength="200" class="form-text" style="width: 300px;height:28px;" />						
+							<input type="text" maxlength="200" class="form-text" style="width: 300px;height:28px;" placehodler = ""{{vm.projectName}}""/>						
 						</td>
 							
 						<td class="formAlignRight">投资类型：<span class="required">(*)</span></td>
@@ -39,7 +41,7 @@
 					<tr>
 						<td class="formAlignRight">申报单位名称：<span class="required">(*)</span></td>
 						<td>
-							<input type="text" value="住房和建设局" style="width: 300px;height:28px;" class="form-text" />
+							<input type="text" value="住房和建设局" style="width: 300px;height:28px;" class="form-text" value=""{{vm.projectName}}""/>
 						</td>
 						<td class="formAlignRight">项目分类：<span class="required">(*)</span></td>
 						<td><select class="form-select">
@@ -165,7 +167,7 @@
 					<tr>
 						<td class="formAlignRight">资金筹措方案(万元)：<span class="required"  >(*)</span></td>
 						<td colspan="3" style="padding-left: 0">
-							<table class="table table-bordered">
+							<table class="table table-bordered table-striped">
 								<tr>
 									<td class="text-primary" style="font-size:12px;">市财政</td>
 									<td class="text-primary" style="font-size:12px;">区财政</td>
@@ -209,7 +211,7 @@
 					<tr>																	
 						<td class="formAlignRight">至上年度累计下达(万元)：<span class="required"  >(*)</span></td>
 						<td colspan="3" style="padding-left: 0">
-							<table class="table table-bordered">
+							<table class="table table-bordered table-striped">
 								<tr>
 									<td class="text-primary" style="font-size:12px;">市财政</td>
 									<td class="text-primary" style="font-size:12px;">区财政</td>
@@ -255,7 +257,7 @@
 					<tr>																	
 						<td class="formAlignRight">年度投资计划(万元)：<span class="required"  >(*)</span></td>
 						<td colspan="3" style="padding-left: 0">
-							<table class="table table-bordered">
+							<table class="table table-bordered table-striped">
 								<tr>
 									<td class="text-primary" style="font-size:12px;">市财政</td>
 									<td class="text-primary" style="font-size:12px;">区财政</td>

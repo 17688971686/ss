@@ -1,3 +1,4 @@
+<meta charset="UTF-8">
 <div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
 
@@ -13,17 +14,20 @@
 			</div>
 
 			<div>
-				<table class="table table-bordered">
+				<table class="table table-bordered table-striped">
 					<tr>
-						<td   class="formAlignRight">项目阶段：</td>
-						<td><span>续建计划</span></td>
+						<td class="formAlignRight">项目阶段：</td>
+						<td>
+							<!-- <span>{{vm.declarationStage}}</span> -->
+							<span>续建计划</span>
+						</td>
 						<td class="formAlignRight">申报时间：</td>
 						<td><span>2017</span></td>
 					</tr>
 					<tr>
 						<td class="formAlignRight">项目名称：<span class="required">(*)</span></td>
-						<td>
-							<input type="text" maxlength="200" class="form-text" style="width: 300px;height:28px;" />						
+						<td>	
+							<input type="text" maxlength="200" class="form-text" style="width: 300px;height:28px;" value=""{{vm.projectName}}""/>						
 						</td>
 							
 						<td class="formAlignRight">投资类型：<span class="required">(*)</span></td>
@@ -165,7 +169,7 @@
 					<tr>
 						<td class="formAlignRight">资金筹措方案(万元)：<span class="required"  >(*)</span></td>
 						<td colspan="3" style="padding-left: 0">
-							<table class="table table-bordered">
+							<table class="table table-bordered table-striped">
 								<tr>
 									<td class="text-primary" style="font-size:12px;">市财政</td>
 									<td class="text-primary" style="font-size:12px;">区财政</td>
@@ -209,7 +213,7 @@
 					<tr>																	
 						<td class="formAlignRight">至上年度累计下达(万元)：<span class="required"  >(*)</span></td>
 						<td colspan="3" style="padding-left: 0">
-							<table class="table table-bordered">
+							<table class="table table-bordered table-striped">
 								<tr>
 									<td class="text-primary" style="font-size:12px;">市财政</td>
 									<td class="text-primary" style="font-size:12px;">区财政</td>
@@ -255,7 +259,7 @@
 					<tr>																	
 						<td class="formAlignRight">年度投资计划(万元)：<span class="required"  >(*)</span></td>
 						<td colspan="3" style="padding-left: 0">
-							<table class="table table-bordered">
+							<table class="table table-bordered table-striped">
 								<tr>
 									<td class="text-primary" style="font-size:12px;">市财政</td>
 									<td class="text-primary" style="font-size:12px;">区财政</td>

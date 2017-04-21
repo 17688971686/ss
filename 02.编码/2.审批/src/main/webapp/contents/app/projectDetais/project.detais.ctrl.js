@@ -11,6 +11,7 @@
         /* jshint validthis:true */
         var vm = this;
         vm.title = '項目詳情';
+        vm.titleProjectHandle = '项目处理表单';
         
       vm.tabActive=2;
       

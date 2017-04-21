@@ -1,9 +1,16 @@
-<meta charset="UTF-8">
 <div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
-<div class="well well-sm" style="background: white;">
-	<h2 align="center">查看流转情况表</h2>
-	<table class="table table-bordered">
+
+<div class="modal-header bg-primary">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+				&times;
+	</button>
+	<span class="modal-title" style="font-size:14px;"><strong>查看流转情况表</strong></span>
+</div>
+
+<div class="modal-body" style="height:750px;overflow-y:scroll">
+	<h3 style="text-align:center"><strong>查看流转情况表</strong></h3>
+	<table class="table table-bordered table-hover table-striped">
 		<tr>
 			<td height="75">项目名称</td>
 			<td colspan="3">布吉甘坑垃圾填埋场渗滤液处理站升级改造工程</td>
@@ -130,5 +137,6 @@
 
 	</table>
 </div>
-
+<div class="modal-footer">
+	<button class="btn btn-info" data-dismiss="modal">关闭</button> 
 </div>

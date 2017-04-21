@@ -1,10 +1,16 @@
-<meta charset="UTF-8">
 <div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
-<div class="well well-sm" style="background: white;">
-	<div style="text-align: center; width: 840px; margin: 30px auto 0;">
-		<h2 align="center">深圳市龙岗区发展和改革局文件处理表</h2>
-		<table class="table table-bordered">
+
+<div class="modal-header bg-primary">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+				&times;
+	</button>
+	<span class="modal-title" style="font-size:14px;"><strong>打印项目处理表</strong></span>
+</div>
+
+<div class="modal-body" style="height:750px;overflow-y:scroll">
+	<h3 style="text-align:center"><strong>深圳市光明新区区发展和改革局文件处理表</strong></h3>
+		<table class="table table-bordered	table-hover table-striped">
 			<tr>
 				<td width="160">来文单位</td>
 				<td width="250">龙岗区城管局</td>
@@ -34,7 +40,7 @@
 			<tr>
 				<td width="150">姓名/科室</td>
 				<td colspan="5" width="720">
-					<table class="table table-bordered">
+					<table class="table table-bordered table-hover table-striped">
 						<tr>
 							<td width="144">张聪 /</td>
 							<td width="144">谢云涛 / 投资计划科</td>
@@ -48,7 +54,7 @@
 			<tr>
 				<td width="150">退回时间</td>
 				<td colspan="5" width="720">
-					<table class="table table-bordered">
+					<table class="table table-bordered table-hover table-striped">
 						<tr>
 
 							<td width="144">2016-04-01</td>
@@ -63,7 +69,7 @@
 
 			<tr>
 				<td height="229" colspan="6">
-					<table height="229" width="100%" class="table table-bordered">
+					<table height="229" width="100%" class="table table-bordered table-hover table-striped">
 						<tr>
 							<td height="40px" colspan="2">拟办意见：</td>
 						</tr>
@@ -84,7 +90,7 @@
 			</tr>
 			<tr>
 				<td height="229" colspan="6">
-					<table height="229" width="100%" class="table table-bordered">
+					<table height="229" width="100%" class="table table-bordered table-hover table-striped">
 						<tr>
 							<td height="40px" colspan="2">领导批示：</td>
 						</tr>
@@ -117,7 +123,7 @@
 				</td>
 			</tr>
 		</table>
-		<table width="100%" class="table table-bordered">
+		<table width="100%" class="table table-bordered table-hover table-striped">
 			<tr>
 				<td width="100">经办：</td>
 				<td width="370"></td>
@@ -128,5 +134,9 @@
 			</tr>
 		</table>
 
-	</div>
+</div>
+
+<div class="modal-footer">
+	<button class="btn btn-info">打印</button>
+	<button class="btn btn-default" data-dismiss="modal">关闭</button> 
 </div>

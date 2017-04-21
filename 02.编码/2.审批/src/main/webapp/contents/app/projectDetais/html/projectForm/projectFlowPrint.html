@@ -1,10 +1,16 @@
-<meta charset="UTF-8">
 <div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
-<div class="well well-sm" style="background: white;">
-	<div>
-		<h2 align="center">深圳市龙岗区发展和改革局流程情况表</h2>
-		<table class="table table-bordered" width="100%" border="0" cellspacing="0" cellpadding="0"
+
+<div class="modal-header bg-primary">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+				&times;
+	</button>
+	<span class="modal-title" style="font-size:14px;"><strong>流程打印预览</strong></span>
+</div>
+
+<div class="modal-body" style="height:750px;overflow-y:scroll">
+	<h3 style="text-align:center"><strong>深圳市光明新区发展和改革局流程情况表</strong></h3>
+		<table class="table table-bordered table-hover table-striped" width="100%" border="0" cellspacing="0" cellpadding="0"
 			>
 			<tr>
 				<td width="150">项目名称</td>
@@ -23,14 +29,14 @@
 				<td>2016-04-01</td>
 			</tr>
 			<tr>
-				<td colspan="4"><table class="table table-bordered" width="100%">
+				<td colspan="4"><table class="table table-bordered table-hover table-striped" width="100%">
 						<tr>
 							<td colspan="3" style="text-align: center">流程处理意见</td>
 						</tr>
 					</table></td>
 			</tr>
 			<tr>
-				<td colspan="4" height="150px"><table class="table table-bordered" height="150px"
+				<td colspan="4" height="150px"><table class="table table-bordered table-hover table-striped" height="150px"
 						width="100%">
 						<tr>
 							<td width="150">张聪</td>
@@ -44,7 +50,7 @@
 					</table></td>
 			</tr>
 			<tr>
-				<td colspan="4" height="150px"><table class="table table-bordered" height="150px"
+				<td colspan="4" height="150px"><table class="table table-bordered table-hover table-striped" height="150px"
 						width="100%">
 						<tr>
 							<td width="150">谢云涛</td>
@@ -58,7 +64,7 @@
 					</table></td>
 			</tr>
 			<tr>
-				<td colspan="4" height="150px"><table class="table table-bordered" height="150px"
+				<td colspan="4" height="150px"><table class="table table-bordered table-hover table-striped" height="150px"
 						width="100%">
 						<tr>
 							<td width="150">范怡</td>
@@ -73,7 +79,7 @@
 					</table></td>
 			</tr>
 			<tr>
-				<td colspan="4" height="150px"><table class="table table-bordered" height="150px"
+				<td colspan="4" height="150px"><table class="table table-bordered table-hover table-striped" height="150px"
 						width="100%">
 						<tr>
 							<td width="150">唐铭希</td>
@@ -88,7 +94,7 @@
 					</table></td>
 			</tr>
 			<tr>
-				<td colspan="4" height="150px"><table class="table table-bordered" height="150px"
+				<td colspan="4" height="150px"><table class="table table-bordered table-hover table-striped" height="150px"
 						width="100%">
 						<tr>
 							<td width="150">谢云涛</td>
@@ -102,7 +108,7 @@
 					</table></td>
 			</tr>
 			<tr>
-				<td colspan="4" height="150px"><table class="table table-bordered" height="150px"
+				<td colspan="4" height="150px"><table class="table table-bordered table-hover table-striped" height="150px"
 						width="100%">
 						<tr>
 							<td width="150">廖少达</td>
@@ -116,7 +122,7 @@
 					</table></td>
 			</tr>
 			<tr>
-				<td colspan="4" height="150px"><table class="table table-bordered" height="150px"
+				<td colspan="4" height="150px"><table class="table table-bordered table-hover table-striped" height="150px"
 						width="100%">
 						<tr>
 							<td width="150">唐铭希</td>
@@ -131,7 +137,7 @@
 					</table></td>
 			</tr>
 			<tr>
-				<td colspan="4" height="150px"><table class="table table-bordered" height="150px"
+				<td colspan="4" height="150px"><table class="table table-bordered table-hover table-striped" height="150px"
 						width="100%">
 						<tr>
 							<td width="150">吕思思</td>
@@ -146,7 +152,7 @@
 					</table></td>
 			</tr>
 			<tr>
-				<td colspan="4" height="150px"><table class="table table-bordered" height="150px"
+				<td colspan="4" height="150px"><table class="table table-bordered table-hover table-striped" height="150px"
 						width="100%">
 						<tr>
 							<td width="150">唐铭希</td>
@@ -160,7 +166,7 @@
 					</table></td>
 			</tr>
 			<tr>
-				<td colspan="4" height="150px"><table class="table table-bordered" height="150px"
+				<td colspan="4" height="150px"><table class="table table-bordered table-hover table-striped" height="150px"
 						width="100%">
 						<tr>
 							<td width="150">谢云涛</td>
@@ -176,4 +182,7 @@
 			</tr>
 		</table>
 	</div>
+<div class="modal-footer">
+	<button class="btn btn-success">打印</button>
+	<button class="btn btn-default" data-dismiss="modal">关闭</button> 
 </div>

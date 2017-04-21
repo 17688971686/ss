@@ -267,11 +267,7 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#suggestInfoLook
-	        
-	        
-	        
-	         
-	        
+	        	        
 	        //begin#deptInfoMaintain（单位信息维护）
 	        .state('deptInfoMaintain', {
 	            url: '/deptInfoMaintain',

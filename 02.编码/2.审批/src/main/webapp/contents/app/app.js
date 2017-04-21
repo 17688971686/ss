@@ -519,21 +519,14 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#projectInfoEdit
-	        
-	        //begin#projectHandForm（项目处理表单）
-	        .state('projectHandForm', {
-	            url: '/projectHandForm/:id',
-	            templateUrl: '/contents/app/projectDetais/html/projectHandle.html',
-	            controller: 'projectHandFormCtrl',
-	            controllerAs: 'vm'
-	        }) 
-	        //end#projectHandForm
+
 /***************************个人已办-不同的办理进度对应不同的项目处理表单-Strat******************************/	        
 	        //begin#projectHandForm（项目处理表单）
+	        //TODO 这里需要怎样判断不同的审批阶段来跳转不同的处理表单  这里只是一个模板
 	        .state('projectHandForm', {
 	            url: '/projectHandForm/:id',
-	            templateUrl: '/contents/app/projectDetais/html/projectHandle.html',
-	            controller: 'projectHandFormCtrl',
+	            templateUrl: '/contents/app/projectDetais/html/projectForm/projectHandle.html',
+	            controller: 'projectDetaisCtrl',
 	            controllerAs: 'vm'
 	        }) 
 	        //end#projectHandForm

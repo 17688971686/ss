@@ -32,11 +32,14 @@
         /**
          * 用於項目列表中信息編輯（不同的申報階段對應不同的頁面）
          */
-        vm.edit = function(id){
+        
+        vm.edit = function(vm,id){
         	//暂时模拟
         	location.href = "#/projectDeclarationInfoEdit_prePlan/"+id;
         	//TODO 根据项目id查询出项目的申报阶段 
         	
+        	//projectDeclarationSvc.queryById(id);
+        	//console.log(vm.model);
         	//根据申报阶段弹出对应的编辑页面
         	/*if(model.declarationStage == "前期计划（前期费）"){
         		location.href = "#/projectDeclarationInfoEdit_prePlan/"+model;
@@ -55,6 +58,7 @@
         	}else if(model.declarationStage == "审计决算资金"){
         		location.href = "#/projectDeclarationInfoEdit_auditAccountFunds/"+model;
         	}*/
+        	
         }
         
         /**
@@ -68,18 +72,17 @@
         /**
          * 用於添加新項目申報(不同的选项（申报阶段）对应不同的填写页面)
          */
-       
+       //TODO 此处乱码？
         vm.goFillDeclarationInfo = function(){
-        	
-        	$(".modal-backdrop").remove(); //去掉背面的阴影
+        	$(".modal-backdrop").remove(); //去掉背面的阴影        	
         	if(vm.declarationStage == "前期计划（前期费）"){
-        		location.href = "#/projectDeclarationInfoFill_prePlan";
+        		location.href = common.format("#/projectDeclarationInfoFill_prePlan?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
         	}else if(vm.declarationStage == "规划设计前期费"){
-        		location.href = "#/projectDeclarationInfoFill_planDesign";
+        		location.href = common.format("#/projectDeclarationInfoFill_planDesign?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
         	}else if(vm.declarationStage == "新开工计划"){
-        		location.href = "#/projectDeclarationInfoFill_newStratPlan";
+        		location.href = common.format("#/projectDeclarationInfoFill_newStratPlan?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
         	}else if(vm.declarationStage == "续建计划"){
-        		location.href = "#/projectDeclarationInfoFill_constructionPlan";
+        		location.href = common.format("#/projectDeclarationInfoFill_constructionPlan?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
         	}else if(vm.declarationStage == "下一年度计划"){
         		location.href = "#/projectDeclarationInfoFill_nextYearPlan";
         	}else if(vm.declarationStage == "年度计划调整"){
@@ -94,6 +97,9 @@
         
         activate();
         function activate() {
+        	
+        	vm.declarationStage=common.getQuerystring('declarationStage');
+        	vm.projectName=common.getQuerystring('projectName');    
         	projectDeclarationSvc.grid(vm);
         }
     }

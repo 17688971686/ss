@@ -1,8 +1,10 @@
 <div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
 
+
 <div class="bg-danger text-danger"
-	style="padding: 10px; margin-bottom: 10px">申报材料清单</div>
+	style="padding: 10px; margin-bottom: 10px">申报材料清单
+</div>
 <div>
 	<table class="table table-bordered table-striped">
 		<tr>
@@ -53,14 +55,25 @@
 				</tr>
 
 				<tr>
-					<td><span>上一年度计划批文复印文件</span><span class="required">(*)</span></td>
+					<td><span>概算批复扫描件</span><span class="required">(*)</span></td>
 
 					<td>待上传</td>
 
 					<td style="text-align:center">
 						<button class="btn btn-link" data-toggle="modal" href="#myModal">附件上传</button>
 					</td>
+					<td><span>-</span></td>
+					<td><span>-</span></td>
+					<td><span>-</span></td>
+				</tr>
+				<tr>
+					<td><span>工程规划许可文件扫描件</span><span class="required">(*)</span></td>
 
+					<td>待上传</td>
+
+					<td style="text-align:center">
+						<button class="btn btn-link" data-toggle="modal" href="#myModal">附件上传</button>
+					</td>
 					<td><span>-</span></td>
 					<td><span>-</span></td>
 					<td><span>-</span></td>
@@ -81,7 +94,7 @@
 					<td><span>-</span></td>
 				</tr>
 				<tr>
-					<td><span>全部已下达计划批复文件扫描件</span> <span class="required" >(*)</span></td>
+					<td><span>全部已下达计划批复文件扫描件</span><span class="required">(*)</span></td>
 
 					<td>待上传</td>
 
@@ -98,16 +111,14 @@
 	</tr>
 	<tr>
 		<td></td>
-	</tr>
-	</div>
-</table>
-
+	</tr>				
+</table>		
+</div>
 <script type="text/javascript">
-	$('input[id=upload]').change(function(){  
+	$('input[id=upload]').change(function() {  
 	$('#attachmentUpload').val($(this).val());
 	});
 </script>
-
 <!-- 添加附件模态框 -->
 <div class="modal fade" id="myModal">
 	<div class="modal-dialog"> 
@@ -153,5 +164,8 @@
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button> 
 			</div> 
 	</div>
-
+	<script type="text/javascript">
+		
+		
+	</script>
 </div>
