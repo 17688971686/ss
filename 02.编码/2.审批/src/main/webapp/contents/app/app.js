@@ -129,11 +129,11 @@
 	        .state('projectFormation', {
 	        	url: '/projectFormation/:id',
 	        	templateUrl: '/contents/app/yearPlanManage/planFormation/html/projectFormation.html',
-	        	controller: 'planFormationCtrl',
+	        	controller: 'projectFormationCtrl',
 	        	controllerAs: 'vm'
 	        }) 
 	        //end#planFormation
-	        //begin#planFormation(年度计划编制-添加年度计划项目)
+	        //begin#planFormation(年度计划编制-添加计划项目)
 	        .state('addPlanProject', {
 	        	url: '/addPlanProject',
 	        	templateUrl: '/contents/app/yearPlanManage/planFormation/html/addPlanProject.html',
@@ -143,9 +143,9 @@
 	        //end#planFormation
 	        //begin#planFormation(年度计划编制-查看项目)
 	        .state('checkPlanProject', {
-	        	url: '/checkPlanProject',
+	        	url: '/checkPlanProject/:id',
 	        	templateUrl: '/contents/app/yearPlanManage/planFormation/html/checkPlanProject.html',
-	        	controller: 'planFormationCtrl',
+	        	controller: 'projectFormationCtrl',
 	        	controllerAs: 'vm'
 	        }) 
 	        //end#planFormation
@@ -520,7 +520,7 @@
 	        }) 
 	        //end#projectInfoEdit
 	        
-	        //begin#projectHandForm（项目处理表单）
+	       /* //begin#projectHandForm（项目处理表单）
 	        .state('projectHandForm', {
 	            url: '/projectHandForm/:id',
 	            templateUrl: '/contents/app/projectDetais/html/projectHandle.html',
@@ -528,14 +528,14 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#projectHandForm
-/***************************个人已办-不同的办理进度对应不同的项目处理表单-Strat******************************/	        
+*//***************************个人已办-不同的办理进度对应不同的项目处理表单-Strat******************************/	        
 	        //begin#projectHandForm（项目处理表单）
-	        .state('projectHandForm', {
+	        /*.state('projectHandForm', {
 	            url: '/projectHandForm/:id',
 	            templateUrl: '/contents/app/projectDetais/html/projectHandle.html',
 	            controller: 'projectHandFormCtrl',
 	            controllerAs: 'vm'
-	        }) 
+	        }) */
 	        //end#projectHandForm
 /***************************个人已办-不同的办理进度对应不同的项目处理表单-End******************************/	 	        
 	        

@@ -10,40 +10,48 @@
 	<div style="border-bottom:2px solid #ccc;">
 	   <ul class="tab clearfix ">
 	      <li ng-click="vm.tab(1)" >
-	      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==1?'white':'black'}" ng-class="{'btn-success':vm.tabActive==1}">单位基本信息</button>
+	      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==1?'white':'black'}" ng-class="{'btn-success':vm.tabActive==1}">项目关联信息</button>
 	      </li>
 	      <li>
 	      	<span class="glyphicon glyphicon-chevron-right"  ></span>
 	      </li>
-	      <li ng-click="vm.tab(2)">
-	      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==2?'white':'black'}" ng-class="{'btn-success':vm.tabActive==2}">项目基本信息</button>
+	      <li ng-click="vm.tab(2)" >
+	      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==2?'white':'black'}" ng-class="{'btn-success':vm.tabActive==2}">单位基本信息</button>
 	      </li>
 	      <li>
 	      	<span class="glyphicon glyphicon-chevron-right"  ></span>
 	      </li>
 	      <li ng-click="vm.tab(3)">
-	      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==3?'white':'black'}" ng-class="{'btn-success':vm.tabActive==3}">申报材料清单</button>
+	      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==3?'white':'black'}" ng-class="{'btn-success':vm.tabActive==3}">项目基本信息</button>
 	      </li>
 	      <li>
 	      	<span class="glyphicon glyphicon-chevron-right"  ></span>
 	      </li>
 	      <li ng-click="vm.tab(4)">
-	      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==4?'white':'black'}" ng-class="{'btn-success':vm.tabActive==4}">申报信息确认</button>
+	      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==4?'white':'black'}" ng-class="{'btn-success':vm.tabActive==4}">申报材料清单</button>
+	      </li>
+	      <li>
+	      	<span class="glyphicon glyphicon-chevron-right"  ></span>
+	      </li>
+	      <li ng-click="vm.tab(5)">
+	      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==5?'white':'black'}" ng-class="{'btn-success':vm.tabActive==5}">申报信息确认</button>
 	      </li>
 	    </ul>
 	</div>
 
-
+	<!-- 审计决算资金 -->
 
 	<div style="height:500px;overflow-y:scroll">
+		<!--  項目关联信息(新增)頁面 -->
+      <div ng-show="vm.tabActive==1" ng-include src="'/contents/projectDetais/html/project.add/auditAccountFunds/projectRelatedInfo.add.html'"></div>
 		<!--  項目單位基本信息(新增)頁面 -->
-      <div ng-show="vm.tabActive==1" ng-include src="'/contents/projectDetais/html/project.add/projectUnitMessage.add.html'"></div>
+      <div ng-show="vm.tabActive==2" ng-include src="'/contents/projectDetais/html/project.add/auditAccountFunds/projectUnitMessage.add.html'"></div>
       	<!-- 項目基本信息(新增)頁面 -->
-      <div ng-show="vm.tabActive==2" ng-include src="'/contents/projectDetais/html/project.add/projectBasicMessage.add.html'"></div>
+      <div ng-show="vm.tabActive==3" ng-include src="'/contents/projectDetais/html/project.add/auditAccountFunds/projectBasicMessage.add.html'"></div>
       <!-- 項目申報材料清單 (新增)頁面-->
-      <div ng-show="vm.tabActive==3" ng-include src="'/contents/projectDetais/html/project.add/declareMaterialList.add.html'"></div>
+      <div ng-show="vm.tabActive==4" ng-include src="'/contents/projectDetais/html/project.add/auditAccountFunds/declareMaterialList.add.html'"></div>
 		<!-- 項目申報信息確認(新增)頁面 -->
-      <div ng-show="vm.tabActive==4" ng-include src="'/contents/projectDetais/html/project.add/declareMessageConfirm.add.html'"></div>
+      <div ng-show="vm.tabActive==5" ng-include src="'/contents/projectDetais/html/project.add/auditAccountFunds/declareMessageConfirm.add.html'"></div>
  	</div>
 </div>	  
 	  
