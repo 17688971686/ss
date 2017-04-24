@@ -16,7 +16,7 @@
 	</tbody>
 </table>
 <div>
-	<table class="table table-bordered">
+	<table  class="table table-bordered table-striped table-hover">
 		<tbody>
 			<tr>
 				<td rowspan="2">项目总数</td>
@@ -91,15 +91,14 @@
 		</tbody>
 	</table>
 </div>
-<table class="table table-bordered">
+<table   class="table table-bordered table-striped table-hover">
 	<tbody>
 		<tr>
 			<th class="borderBottomNone tititle">选中的投资计划：
 				<p style="text-align: right;">
 					<a class="btn btn-primary btn-sm" data-toggle="modal"
 						data-target="#myModal-addPlan">添加计划</a> <a
-						class="btn btn-primary btn-sm" data-toggle="modal"
-						data-target="#myModal-">移除</a> <a
+						class="btn btn-primary btn-sm" ng-click="vm.planDel(1)">移除</a> <a
 						class="btn btn-primary btn-sm" data-toggle="modal"
 						data-target="#myModal-">统计</a> <a
 						class="btn btn-primary btn-sm" href="#/checkProjectBank">打印</a> <a

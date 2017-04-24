@@ -17,6 +17,7 @@
         	location.href = "#/projectFormation/"+id;
         }
         
+        
         activate();
         function activate() {
             planFormationSvc.grid(vm);

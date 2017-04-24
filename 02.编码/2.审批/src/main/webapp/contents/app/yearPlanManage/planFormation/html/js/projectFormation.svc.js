@@ -96,21 +96,21 @@
 						field : "projectSort",
 						title : "项目类别",
 						width : 150,
-						filterable : false
+						filterable : true
 						
 					},
 					{
 						field : "buildNature",
 						title : "建设性质",
 						width : 150,
-						filterable : false
+						filterable : true
 						
 					},
 					{
 						field : "industry",
 						title : "归口行业",
 						width : 150,
-						filterable : false
+						filterable : true
 						
 					}
 ];

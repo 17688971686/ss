@@ -1,0 +1,96 @@
+<meta charset="UTF-8">
+<div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+        <li><a href="#/reviewPlan">评审安排</a></li>
+        <li class="active">{{vm.title}}</li>
+    </ol>
+    <form id="form" name="form">
+        <div class="toolbar">
+        	<button class="btn btn-sm btn-primary" data-toggle="modal"
+				data-target="#myModal-addreviewPlan">
+				<span class="glyphicon glyphicon-plus"></span>评审安排
+			</button>
+        </div>
+        <script type="text/template" id="columnBtns">
+			<button class="btn btn-xs btn-danger"  ng-click="{0}" ><span class="glyphicon glyphicon-remove"></span>删除</button>
+	        <a class="btn btn-xs btn-primary" href="#/reviewPlanEdit/{1}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+		</script>
+        
+         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+    </form>
+    
+    
+    
+	<!-- 添加评审安排模态框 -->
+	<div class="modal fade" id="myModal-addreviewPlan" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content" >
+				<div class="modal-header bg-primary">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">项目评审安排</h4>
+				</div>
+				<div class="modal-body" >
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+							<label class="col-sm-4 control-label">项目名称:</label>
+							<div class="col-sm-6">
+								<select class="form-select" style="width: 250px">
+									<option value="-1">--请选择--</option>
+									<option value="1">项目1</option>
+									<option value="2">项目2</option>
+									<option value="3">项目3</option>
+									<option value="4">项目4</option>
+									<option value="5">项目5</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label">评审专家:</label>
+							<div class="col-sm-6" >
+								<input value="1" type="radio" ><span>常*</span> 
+								<input value="2" type="radio"><span>张**</span>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-4 control-label">评审时间:</label>
+							<div class="col-sm-6">
+								<input type="text" id="reviewDate" class="form-control input-sm" value="2017-04-12" maxlength="200" style="width: 250px;"  />
+							</div>
+						</div>
+						
+						
+						<div class="form-group">
+							<label class="col-sm-4 control-label">会议室:</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control input-sm" value="2栋2号" maxlength="200" style="width: 250px;"  />
+							</div>
+						</div>
+						
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>
+
+</div>
+
+<script type="text/javascript">
+$("#reviewDate").kendoDatePicker({
+	culture:"zh-CN", /* 设置本地化，即设置时间显示为中文 （私有设置）*/
+	format:"yyyy-MM-dd",
+	depth:"year"/* 设置导航深度 */
+});
+</script>

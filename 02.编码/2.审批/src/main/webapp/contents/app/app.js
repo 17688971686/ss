@@ -129,7 +129,7 @@
 	        .state('projectFormation', {
 	        	url: '/projectFormation/:id',
 	        	templateUrl: '/contents/app/yearPlanManage/planFormation/html/projectFormation.html',
-	        	controller: 'planFormationCtrl',
+	        	controller: 'projectFormationCtrl',
 	        	controllerAs: 'vm'
 	        }) 
 	        //end#planFormation
@@ -143,15 +143,23 @@
 	        //end#planFormation
 	        //begin#planFormation(年度计划编制-查看项目)
 	        .state('checkPlanProject', {
-	        	url: '/checkPlanProject',
+	        	url: '/checkPlanProject/:id',
 	        	templateUrl: '/contents/app/yearPlanManage/planFormation/html/checkPlanProject.html',
-	        	controller: 'planFormationCtrl',
+	        	controller: 'projectFormationCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#planFormation
+	        //begin#planFormation(年度计划编制-查看项目库)
+	        .state('planFormationCheckProjectBank', {
+	        	url: '/planFormationCheckProjectBank',
+	        	templateUrl: '/contents/app/yearPlanManage/planFormation/html/planFormationCheckProjectBank.html',
+	        	controller: 'projectFormationCtrl',
 	        	controllerAs: 'vm'
 	        }) 
 	        //end#planFormation
 	        
 	        
-	        //begin#planCollect(年度计划项目库)
+	        //begin#planCollect(年度计划汇总)
 	        .state('planCollect', {
 	        	url: '/planCollect',
 	        	templateUrl: '/contents/app/yearPlanManage/planCollect/html/list.html',
@@ -159,7 +167,7 @@
 	        	controllerAs: 'vm'
 	        }) 
 	        //end#planCollect
-	        //begin#planCollect(年度计划项目库-查看项目)
+	        //begin#planCollect(年度计划汇总-查看项目)
 	        .state('collectCheckProject', {
 	        	url: '/collectCheckProject/:id',
 	        	templateUrl: '/contents/app/yearPlanManage/planCollect/html/collectCheckProject.html',
@@ -167,6 +175,36 @@
 	        	controllerAs: 'vm'
 	        }) 
 	        //end#planCollect
+	        //begin#planCollect(年度计划汇总-查看项目库)
+	        .state('collectCheckProjectBank', {
+	        	url: '/collectCheckProjectBank',
+	        	templateUrl: '/contents/app/yearPlanManage/planCollect/html/collectCheckProjectBank.html',
+	        	controller: 'planCollectCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#planCollect
+	        
+	        //=================================================================================================
+	        //begin#planCollect(项目评审管理-评审安排)
+	        .state('reviewPlan', {
+	        	url: '/reviewPlan',
+	        	templateUrl: '/contents/app/projectReviewManage/reviewPlan/html/list.html',
+	        	controller: 'reviewPlanCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#planCollect
+	        //begin#planCollect(项目评审管理-查看项目)
+	        .state('reviewDetails', {
+	        	url: '/reviewDetails/:id',
+	        	templateUrl: '/contents/app/projectReviewManage/reviewPlan/html/reviewDetails.html',
+	        	controller: 'reviewPlanCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#planCollect
+	        
+	        //=================================================================================================
+	        
+	        
 	        
 	        
 	        //begin#inform
