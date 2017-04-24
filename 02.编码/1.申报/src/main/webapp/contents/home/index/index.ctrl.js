@@ -33,7 +33,7 @@
         	location.href="/admin";
         }
         vm.forgetCode = function(){
-        	location.href = "/contents/home/index/html/forgetCode.html";
+        	location.href = "#/forgetCode";
         }
        
         activate();

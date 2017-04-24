@@ -14,8 +14,7 @@
 					<tr>
 						<td class="formAlignRight">项目阶段：</td>
 						<td>
-							<!-- <span>{{vm.declarationStage}}</span> -->
-							<span>新开工计划</span>
+							<span>{{vm.declarationStage}}</span>
 						</td>
 						<td class="formAlignRight">申报时间：</td>
 						<td><span>2017</span></td>
@@ -39,7 +38,7 @@
 					<tr>
 						<td class="formAlignRight">申报单位名称：<span class="required">(*)</span></td>
 						<td>
-							<input type="text" value="住房和建设局" style="width: 300px;height:28px;" class="form-text" value=""{{vm.projectName}}""/>
+							<input type="text" value="住房和建设局" style="width: 300px;height:28px;" class="form-text" ng-model="vm.projectName"/>
 						</td>
 						<td class="formAlignRight">项目分类：<span class="required">(*)</span></td>
 						<td><select class="form-select">

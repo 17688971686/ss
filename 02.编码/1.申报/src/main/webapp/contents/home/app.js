@@ -20,6 +20,13 @@
 				controller:'detailsCtrl',
 				controllerAs:'vm'
 			})
+			//修改密码页面
+			.state('forgetCode',{
+				url:'/forgetCode',
+				templateUrl:'/contents/home/index/html/forgetCode.html',
+				controller:'detailsCtrl',
+				controllerAs:'vm'
+			})
 			
 	}]);
 })();

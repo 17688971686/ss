@@ -12,15 +12,18 @@
 	<div>
 		<table class="table table-bordered table-striped">
 			<tr>
-				<td   class="formAlignRight">项目阶段：</td>
-				<td><span>前期计划（前期费）</span></td>
+				<td class="formAlignRight">项目阶段：</td>
+				<td>
+					<span>前期计划（前期费）</span>
+					<!-- <span>{{vm.model}}</span> -->
+				</td>
 				<td class="formAlignRight">申报时间：</td>
 				<td><span>2017</span></td>
 			</tr>
 			<tr>
 				<td class="formAlignRight">项目名称：<span class="required">(*)</span></td>
 				<td>
-					<input type="text" maxlength="200" class="form-text" style="width: 300px;height:28px;" />						
+					<input type="text" maxlength="200" class="form-text" style="width: 300px;height:28px;" ng-model="vm.model.projectName"/>						
 				</td>
 					
 				<td class="formAlignRight">投资类型：<span class="required">(*)</span></td>

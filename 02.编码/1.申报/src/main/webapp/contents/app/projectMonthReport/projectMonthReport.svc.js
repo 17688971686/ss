@@ -51,13 +51,42 @@
 						field : "projectName",
 						title : "项目名称",
 						width : 200,
-						template:function(data){
+						/*template:function(data){
 							return "<a href='#/projectDetais/"+data.projectId+"'>"+data.projectName+"</a>";
+						},*/
+						template:function(data){
+							if(data.declarationStage=="前期计划（前期费）"){
+								vm.declarationStage = data.declarationStage;
+								vm.projectName = data.projectName;
+								return "<a href='#/projectDetais/prePlan/"+data.projectId+"'>"+data.projectName+"</a>";
+							}
+							if(data.declarationStage=="规划设计前期费"){						
+								return "<a href='#/projectDetais/planDesign/"+data.projectId+"'>"+data.projectName+"</a>";
+							}
+							if(data.declarationStage=="新开工计划"){
+								return "<a href='#/projectDetais/newStratPlan/"+data.projectId+"'>"+data.projectName+"</a>";
+							}
+							if(data.declarationStage=="续建计划"){
+								return "<a href='#/projectDetais/constructionPlan/"+data.projectId+"'>"+data.projectName+"</a>";
+							}
+							if(data.declarationStage=="下一年度计划"){
+								return "<a href='#/projectDetais/nextYearPlan/"+data.projectId+"'>"+data.projectName+"</a>";
+							}
+							if(data.declarationStage=="年度调整计划"){
+								return "<a href='#/projectDetais/yearPlanAdjust/"+data.projectId+"'>"+data.projectName+"</a>";
+							}
+							if(data.declarationStage=="委托审计"){
+								return "<a href='#/projectDetais/entrustAudit/"+data.projectId+"'>"+data.projectName+"</a>";
+							}
+							if(data.declarationStage=="审计决算资金"){
+								return "<a href='#/projectDetais/auditAccountFunds/"+data.projectId+"'>"+data.projectName+"</a>";
+							}
+							
 						},
 						filterable : true
 					},
 					{
-						field : "projectPhase",
+						field : "declarationStage",
 						title : "申报阶段",
 						width : 165,
 						filterable : true

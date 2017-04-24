@@ -55,7 +55,7 @@
 					{
 						field : "projectName",
 						title : "项目名称",
-						width : 200,
+						width : 250,
 						template:function(data){
 							return "<a href='#/projectDetais/"+data.projectId+"'>"+data.projectName+"</a>";
 						},
@@ -63,14 +63,14 @@
 					},{
 						field : "problemType",
 						title : "问题类型",
-						width : 156,
+
 						filterable : true
 					},
 					
 					{
 						field : "problemState",
 						title : "状态",
-						width : 200,
+						width : 180,
 						filterable : false
 					},
 					{
@@ -79,7 +79,7 @@
 						template:function(data){
 							return common.format($('#columnBtns').html(),"vm.edit('" + data.problemId + "')", "vm.del('"+data.problemId+"')");
 						},
-						width : 180,
+
 						filterable : false
 					}
 

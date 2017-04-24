@@ -19,17 +19,89 @@
                  controller: 'indexCtrl',
                  controllerAs: 'vm'
              })
-             
-             //begin#projectDetais（项目--详情查看(暂时没有分别申报阶段的不同)）
-             //TODO 怎么来判断传递的参数 来确认申报项目的阶段来返回不同的页面
-              .state('projectDetais', {
+/***************************项目申报--项目信息查看- Strat**************************************************/              
+             //begin#projectDetais（项目--详情查看(暂时没有分别申报阶段的不同)）             
+             .state('projectDetais', {
                  url: '/projectDetais/:id',
+                 templateUrl:  '/contents/projectDetais/html/project.look/prePlan/declareMessageConfirm.html',
+                 controller: 'projectDetaisCtrl',
+                 controllerAs: 'vm'
+             })
+             //End#projectDetais
+             
+             //不同的申报项目的阶段来返回不同的页面
+             //begin#projectDetais_prePlan（项目申报--前期计划（前期费）--信息查看）
+              .state('projectDetais_prePlan', {
+                 url: '/projectDetais/prePlan/:id',
+                 templateUrl:  '/contents/projectDetais/html/project.look/prePlan/declareMessageConfirm.html',
+                 controller: 'projectDetaisCtrl',
+                 controllerAs: 'vm'
+             })
+             //end#projectDetais_prePlan
+             
+             //begin#projectDetais_planDesign（项目申报--规划设计前期费--信息查看）
+              .state('projectDetais_planDesign', {
+                 url: '/projectDetais/planDesign/:id',
+                 templateUrl:  '/contents/projectDetais/html/project.look/planDesign/declareMessageConfirm.html',
+                 controller: 'projectDetaisCtrl',
+                 controllerAs: 'vm'
+             })
+             //end#projectDetais_planDesign
+             
+             //begin#projectDetais_newStratPlan（项目申报--新开工计划--信息查看）
+              .state('projectDetais_newStratPlan', {
+                 url: '/projectDetais/newStratPlan/:id',
+                 templateUrl:  '/contents/projectDetais/html/project.look/newStratPlan/declareMessageConfirm.html',
+                 controller: 'projectDetaisCtrl',
+                 controllerAs: 'vm'
+             })
+             //end#projectDetais_newStratPlan
+             
+             //begin#projectDetais_constructionPlan（项目申报--续建计划--信息查看）
+              .state('projectDetais_constructionPlan', {
+                 url: '/projectDetais/constructionPlan/:id',
                  templateUrl:  '/contents/projectDetais/html/project.look/constructionPlan/declareMessageConfirm.html',
                  controller: 'projectDetaisCtrl',
                  controllerAs: 'vm'
              })
-             //end#projectDetais
-
+             //end#projectDetais_constructionPlan
+             
+                //begin#projectDetais_nextYearPlan（项目申报--下一年度计划--信息查看）
+              .state('projectDetais_nextYearPlan', {
+                 url: '/projectDetais/nextYearPlan/:id',
+                 templateUrl:  '/contents/projectDetais/html/project.look/nextYearPlan/declareMessageConfirm.html',
+                 controller: 'projectDetaisCtrl',
+                 controllerAs: 'vm'
+             })
+             //end#projectDetais_nextYearPlan
+             
+             //begin#projectDetais_yearPlanAdjust（项目申报--年度计划调整--信息查看）
+              .state('projectDetais_yearPlanAdjust', {
+                 url: '/projectDetais/yearPlanAdjust/:id',
+                 templateUrl:  '/contents/projectDetais/html/project.look/yearPlanAdjust/declareMessageConfirm.html',
+                 controller: 'projectDetaisCtrl',
+                 controllerAs: 'vm'
+             })
+             //end#projectDetais_yearPlanAdjust
+             
+              //begin#projectDetais_entrustAudit（项目申报--委托审计--信息查看）
+              .state('projectDetais_entrustAudit', {
+                 url: '/projectDetais/entrustAudit/:id',
+                 templateUrl:  '/contents/projectDetais/html/project.look/entrustAudit/declareMessageConfirm.html',
+                 controller: 'projectDetaisCtrl',
+                 controllerAs: 'vm'
+             })
+             //end#projectDetais_entrustAudit
+             
+              //begin#projectDetais_auditAccountFunds（项目申报--审计决算资金--信息查看）
+              .state('projectDetais_auditAccountFunds', {
+                 url: '/projectDetais/auditAccountFunds/:id',
+                 templateUrl:  '/contents/projectDetais/html/project.look/auditAccountFunds/declareMessageConfirm.html',
+                 controller: 'projectDetaisCtrl',
+                 controllerAs: 'vm'
+             })
+             //end#projectDetais_auditAccountFunds
+/***************************项目申报--项目信息查看- End**************************************************/
              
              //begin#projectDeclaration（项目申报--项目列表）
               .state('projectDeclaration', {
@@ -42,7 +114,7 @@
 /***************************项目申报编辑项目信息- Strat**************************************************/                                      
              //begin#projectDeclarationInfoEdit_prePlan（项目申報--前期计划（前期费）--信息編輯）
 	        .state('projectDeclarationInfoEdit_prePlan', {
-	            url: '/projectDeclarationInfoEdit_prePlan/:id',
+	            url: '/projectDeclarationInfoEdit_prePlan',
 	            templateUrl: '/contents/projectDetais/html/project.edit/prePlan/projectInfo.edit.html',
 	            controller: 'projectDeclarationCtrl',
 	            controllerAs: 'vm'
@@ -51,7 +123,7 @@
 	        
 	        //begin#projectDeclarationInfoEdit_planDesign（项目申報--规划设计前期费--信息編輯）
 	        .state('projectDeclarationInfoEdit_planDesign', {
-	            url: '/projectDeclarationInfoEdit_planDesign/:id',
+	            url: '/projectDeclarationInfoEdit_planDesign',
 	            templateUrl: '/contents/projectDetais/html/project.edit/planDesign/projectInfo.edit.html',
 	            controller: 'projectDeclarationCtrl',
 	            controllerAs: 'vm'
@@ -60,7 +132,7 @@
 	        
 	        //begin#projectDeclarationInfoEdit_newStratPlan（项目申報--新开工计划--信息編輯）
 	        .state('projectDeclarationInfoEdit_newStratPlan', {
-	            url: '/projectDeclarationInfoEdit_newStratPlan/:id',
+	            url: '/projectDeclarationInfoEdit_newStratPlan',
 	            templateUrl: '/contents/projectDetais/html/project.edit/newStratPlan/projectInfo.edit.html',
 	            controller: 'projectDeclarationCtrl',
 	            controllerAs: 'vm'
@@ -69,7 +141,7 @@
 	        
 	        //begin#projectDeclarationInfoEdit_constructionPlan（项目申報--续建计划--信息編輯）
 	        .state('projectDeclarationInfoEdit_constructionPlan', {
-	            url: '/projectDeclarationInfoEdit_constructionPlan/:id',
+	            url: '/projectDeclarationInfoEdit_constructionPlan',
 	            templateUrl: '/contents/projectDetais/html/project.edit/constructionPlan/projectInfo.edit.html',
 	            controller: 'projectDeclarationCtrl',
 	            controllerAs: 'vm'
@@ -78,7 +150,7 @@
 	        
 	        //begin#projectDeclarationInfoEdit_prePlan（项目申報--下一年度计划--信息編輯）
 	        .state('projectDeclarationInfoEdit_nextYearPlan', {
-	            url: '/projectDeclarationInfoEdit_nextYearPlan/:id',
+	            url: '/projectDeclarationInfoEdit_nextYearPlan',
 	            templateUrl: '/contents/projectDetais/html/project.edit/nextYearPlan/projectInfo.edit.html',
 	            controller: 'projectDeclarationCtrl',
 	            controllerAs: 'vm'
@@ -87,7 +159,7 @@
 	        
 	        //begin#projectDeclarationInfoEdit_yearPlanAdjust（项目申報--年度计划调整--信息編輯）
 	        .state('projectDeclarationInfoEdit_yearPlanAdjust', {
-	            url: '/projectDeclarationInfoEdit_yearPlanAdjust/:id',
+	            url: '/projectDeclarationInfoEdit_yearPlanAdjust',
 	            templateUrl: '/contents/projectDetais/html/project.edit/yearPlanAdjust/projectInfo.edit.html',
 	            controller: 'projectDeclarationCtrl',
 	            controllerAs: 'vm'
@@ -96,7 +168,7 @@
 	        
 	        //begin#projectDeclarationInfoEdit_entrustAudit（项目申報--委托审计--信息編輯）
 	        .state('projectDeclarationInfoEdit_entrustAudit', {
-	            url: '/projectDeclarationInfoEdit_entrustAudit/:id',
+	            url: '/projectDeclarationInfoEdit_entrustAudit',
 	            templateUrl: '/contents/projectDetais/html/project.edit/entrustAudit/projectInfo.edit.html',
 	            controller: 'projectDeclarationCtrl',
 	            controllerAs: 'vm'
@@ -105,7 +177,7 @@
 	        
 	        //begin#projectDeclarationInfoEdit_auditAccountFunds（项目申報--审计决算资金--信息編輯）
 	        .state('projectDeclarationInfoEdit_auditAccountFunds', {
-	            url: '/projectDeclarationInfoEdit_auditAccountFunds/:id',
+	            url: '/projectDeclarationInfoEdit_auditAccountFunds',
 	            templateUrl: '/contents/projectDetais/html/project.edit/auditAccountFunds/projectInfo.edit.html',
 	            controller: 'projectDeclarationCtrl',
 	            controllerAs: 'vm'

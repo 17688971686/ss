@@ -11,10 +11,11 @@
      <form id="form" name="form"> 
      	<script type="text/template" id="columnBtns">
 	  		<button class="btn btn-xs btn-danger"  ng-click="{0}"><span class="glyphicon glyphicon-remove"></span>删除</button>
-	  		<button class="btn btn-xs btn-primary" ng-click="{1}"><span class="glyphicon glyphicon-pencil"></span>编辑</button>			
+	  		<button class="btn btn-xs btn-primary" ng-click="{1}"><span class="glyphicon glyphicon-pencil"></span>编辑</button>
+			<button class="btn btn-xs btn-primary" ng-click="{2}"><span class="glyphicon glyphicon-export"></span>导出</button>			
 	  	</script>
 		<div class="toolbar">
-			<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus"></span>添加新项目</button>
+			<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus"></span>添加新项目</button>
 	    </div>         
          <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
     </form>
@@ -41,14 +42,14 @@
 						<div class="col-sm-6">
 							<select class="form-control" ng-model="vm.declarationStage"> 
 								<option>--请选择--</option>
-								<option>前期计划（前期费）</option>
-								<option>规划设计前期费</option>
-								<option>新开工计划</option>
-								<option>续建计划</option>
-								<option>下一年度计划</option>
-								<option>年度计划调整</option>
-								<option>委托审计</option>
-								<option>审计决算资金</option>
+								<option value="1">前期计划（前期费）</option>
+								<option value="2">规划设计前期费</option>
+								<option value="3">新开工计划</option>
+								<option value="4">续建计划</option>
+								<option value="5">下一年度计划</option>
+								<option value="6">年度计划调整</option>
+								<option value="7">委托审计</option>
+								<option value="8">审计决算资金</option>
 							</select> 
 						</div>
 					</div>	
