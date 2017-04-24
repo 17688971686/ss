@@ -4,7 +4,8 @@
 <div class="well well-sm" style="background: white;">
 	<ol class="breadcrumb">
 	  	 <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
-	     <li><a href="#/projectDeclaration">项目申报</a></li>
+	  	 <li><a href="/admin">首页</a></li>
+	     <!-- <li><a href="#/projectDeclaration">项目申报</a></li> -->
 	     <li class="active">{{vm.titleDeclarationLook}}</li>
 	 </ol>
 	 
@@ -59,14 +60,14 @@
 			<table class="table table-bordered table-striped">
 				<tr>
 					<td class="formAlignRight" width="18%">项目阶段：</td>
-					<td style="padding-left: 10px; border-left: #c3e5f8 1px solid;"><span>前期计划（前期费）</span>&nbsp;
+					<td style="padding-left: 10px; border-left: #c3e5f8 1px solid;">{{vm.declarationStage}}</span>&nbsp;
 						<input type="hidden" value="1" /> &nbsp;</td>
 					<td class="formAlignRight">申报时间：</td>
 					<td style="padding-left: 10px; border-left: #c3e5f8 1px solid;"><span>2017</span>&nbsp;</td>
 				</tr>
 				<tr>
 					<td class="formAlignRight">项目名称：</td>
-					<td style="padding-left: 10px; border-left: #c3e5f8 1px solid;"><span>坪地街道办事处地下停车场及人防工程 </span>&nbsp;</td>
+					<td style="padding-left: 10px; border-left: #c3e5f8 1px solid;"><span>{{vm.projectName}}</span>&nbsp;</td>
 					<td class="formAlignRight">投资类型：</td>
 					<td style="padding-left: 10px; border-left: #c3e5f8 1px solid;"><span></span>&nbsp;</td>
 				</tr>

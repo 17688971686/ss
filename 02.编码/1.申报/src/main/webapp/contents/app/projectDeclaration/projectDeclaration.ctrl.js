@@ -33,32 +33,16 @@
          * 用於項目列表中信息編輯（不同的申報階段對應不同的頁面）
          */
         
-        vm.edit = function(vm,id){
+        vm.edit = function(id){
+        	//alert("项目申报编辑："+id); //--测试用
         	//暂时模拟
-        	location.href = "#/projectDeclarationInfoEdit_prePlan/"+id;
+        	//location.href = "#/projectDeclarationInfoEdit_prePlan/"+id;
         	//TODO 根据项目id查询出项目的申报阶段 
         	
-        	//projectDeclarationSvc.queryById(id);
-        	//console.log(vm.model);
-        	//根据申报阶段弹出对应的编辑页面
-        	/*if(model.declarationStage == "前期计划（前期费）"){
-        		location.href = "#/projectDeclarationInfoEdit_prePlan/"+model;
-        	}else if(model.declarationStage == "规划设计前期费"){
-        		location.href = "#/projectDeclarationInfoEdit_planDesign/"+model;
-        	}else if(model.declarationStage == "新开工计划"){
-        		location.href = "#/projectDeclarationInfoEdit_newStratPlan/"+model;
-        	}else if(model.declarationStage == "续建计划"){
-        		location.href = "#/projectDeclarationInfoEdit_constructionPlan/"+model;
-        	}else if(model.declarationStage == "下一年度计划"){
-        		location.href = "#/projectDeclarationInfoEdit_nextYearPlan/"+model;
-        	}else if(model.declarationStage == "年度计划调整"){
-        		location.href = "#/projectDeclarationInfoEdit_yearPlanAdjust/"+model;
-        	}else if(model.declarationStage == "委托审计"){
-        		location.href = "#/projectDeclarationInfoEdit_entrustAudit/"+model;
-        	}else if(model.declarationStage == "审计决算资金"){
-        		location.href = "#/projectDeclarationInfoEdit_auditAccountFunds/"+model;
-        	}*/
-        	
+        	projectDeclarationSvc.queryById(vm,id);        	
+        }
+        vm.goToLook = function(id){
+        	alert(id);
         }
         
         /**
@@ -72,24 +56,32 @@
         /**
          * 用於添加新項目申報(不同的选项（申报阶段）对应不同的填写页面)
          */
-       //TODO 此处乱码？
         vm.goFillDeclarationInfo = function(){
-        	$(".modal-backdrop").remove(); //去掉背面的阴影        	
-        	if(vm.declarationStage == "前期计划（前期费）"){
+        	$(".modal-backdrop").remove(); //去掉背面的阴影  
+        	//alert(vm.declarationStage); //--测试用
+        	if(vm.declarationStage == "1"){
+        		vm.declarationStage = "前期计划（前期费）";
         		location.href = common.format("#/projectDeclarationInfoFill_prePlan?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
-        	}else if(vm.declarationStage == "规划设计前期费"){
+        	}else if(vm.declarationStage == "2"){
+        		vm.declarationStage = "规划设计前期费";
         		location.href = common.format("#/projectDeclarationInfoFill_planDesign?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
-        	}else if(vm.declarationStage == "新开工计划"){
+        	}else if(vm.declarationStage == "3"){
+        		vm.declarationStage = "新开工计划";
         		location.href = common.format("#/projectDeclarationInfoFill_newStratPlan?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
-        	}else if(vm.declarationStage == "续建计划"){
+        	}else if(vm.declarationStage == "4"){
+        		vm.declarationStage = "续建计划";
         		location.href = common.format("#/projectDeclarationInfoFill_constructionPlan?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
-        	}else if(vm.declarationStage == "下一年度计划"){
+        	}else if(vm.declarationStage == "5"){
+        		vm.declarationStage = "下一年度计划";
         		location.href = "#/projectDeclarationInfoFill_nextYearPlan";
-        	}else if(vm.declarationStage == "年度计划调整"){
+        	}else if(vm.declarationStage == "6"){
+        		vm.declarationStage = "年度计划调整";
         		location.href = "#/projectDeclarationInfoFill_yearPlanAdjust";
-        	}else if(vm.declarationStage == "委托审计"){
+        	}else if(vm.declarationStage == "7"){
+        		vm.declarationStage = "委托审计";
         		location.href = "#/projectDeclarationInfoFill_entrustAudit";
-        	}else if(vm.declarationStage == "审计决算资金"){
+        	}else if(vm.declarationStage == "8"){
+        		vm.declarationStage = "审计决算资金";
         		location.href = "#/projectDeclarationInfoFill_auditAccountFunds";
         	}
         	
@@ -97,9 +89,9 @@
         
         activate();
         function activate() {
+        	vm.declarationStage=decodeURI(common.getQuerystring('declarationStage'));//对申报的阶段进行解码
+        	vm.projectName=decodeURI(common.getQuerystring('projectName'));//对传递的项目名称进行解码
         	
-        	vm.declarationStage=common.getQuerystring('declarationStage');
-        	vm.projectName=common.getQuerystring('projectName');    
         	projectDeclarationSvc.grid(vm);
         }
     }

@@ -44,7 +44,7 @@
 								<tr>
 									<td style="text-align: center">单位名称</td>
 									<td style="text-align: center">部门名称</td>
-									<td style="text-align: center"><button class="btn btn-xs btn-primary">增加</button></td>
+									<td style="text-align: center"><button class="btn btn-xs btn-primary" id="btnAdd">增加</button></td>
 								</tr>
 								<tr>
 									<td style="text-align: center">
@@ -89,5 +89,30 @@
 				<button type="button" class="btn btn-default">取消</button> 
 			</div> 
 		</div>
-			
+		<script type="text/javascript">
+	//模态框中涉及部门新增按钮的实现
+	$("#btnAdd").click(function () {
+        var table1 = $('#relatedUnit');
+        var row = $("<tr></tr>");
+        var td = $("<td style='text-align: center'></td>");
+        td.append('<select style="width:140px;height:26px;"><option value=-1>--请选择--</option><option value=1>发改局</option><option value=3>财政局</option><option value=2>城管局</option></select>');
+        row.append(td);
+
+        var td4 = $("<td style='text-align: center'></td>");
+        td4.append($("<input type='text'/>"));
+        row.append(td4);
+
+        var td3 = $("<td style='text-align: center'></td>");
+        td3.append($("<button class='btn btn-xs btn-danger'>删除</button>"));
+        row.append(td3);
+
+        table1.append(row);
+     //模态框中涉及部门删除按钮的实现
+       $(".btn-danger").click(function () {
+           if ($("#relatedUnit tbody tr").length > 2) {
+               $(this).parent().parent().remove();
+           }
+       });
+   });  
+	</script>
 </div>

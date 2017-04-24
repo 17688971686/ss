@@ -1,6 +1,10 @@
 {"value":[
-	{"id":1,"projectId":"SZ-20170413-0001","projectName":"光明新区地铁修建一期","declarationStage":"审计决算资金","industry":"交通","totalInvestment":"20000.00","declarationYear":"2016","state":"已确认"},
-	{"id":2,"projectId":"SZ-20170413-0002","projectName":"光明新区地铁修建二期","declarationStage":"审计决算资金","industry":"交通","totalInvestment":"20000.00","declarationYear":"2016","state":"正在确认中"},
-	{"id":3,"projectId":"SZ-20170413-0003","projectName":"光明新区地铁修建三期","declarationStage":"审计决算资金","industry":"交通","totalInvestment":"20000.00","declarationYear":"2016","state":"未确认信息"},
-	{"id":4,"projectId":"SZ-20170420-0004","projectName":"光明新区地铁修建si期","declarationStage":"委托审计","industry":"交通","totalInvestment":"60000.00","declarationYear":"2016/12/12","state":"未确认信息"}
-],"count":10}
+	{"id":1,"projectId":"SZ-20170413-0001","projectName":"光明新区地铁修建一期","declarationStage":"规划设计前期费","industry":"道路交通","totalInvestment":"20000.00","declarationYear":"2016","state":"已确认"},
+	{"id":2,"projectId":"SZ-20170413-0002","projectName":"光明新区地铁修建二期","declarationStage":"前期计划（前期费）","industry":"道路交通","totalInvestment":"20000.00","declarationYear":"2016","state":"正在确认中"},
+	{"id":3,"projectId":"SZ-20170413-0003","projectName":"光明新区地铁修建三期","declarationStage":"新开工计划","industry":"道路交通","totalInvestment":"20000.00","declarationYear":"2016","state":"未确认信息"},
+	{"id":4,"projectId":"SZ-20170413-0004","projectName":"光明新区地铁修建四期","declarationStage":"续建计划","industry":"道路交通","totalInvestment":"20000.00","declarationYear":"2016","state":"未确认信息"},
+	{"id":5,"projectId":"SZ-20170413-0005","projectName":"光明新区地铁修建五期","declarationStage":"委托审计","industry":"道路交通","totalInvestment":"20000.00","declarationYear":"2017","state":"未确认信息"},
+	{"id":6,"projectId":"SZ-20170413-0006","projectName":"光明新区地铁修建六期","declarationStage":"审计决算资金","industry":"道路交通","totalInvestment":"20000.00","declarationYear":"2017","state":"未确认信息"},
+	{"id":7,"projectId":"SZ-20170413-0007","projectName":"光明新区地铁修建七期","declarationStage":"下一年度计划","industry":"道路交通","totalInvestment":"20000.00","declarationYear":"2017","state":"未确认信息"},
+	{"id":8,"projectId":"SZ-20170413-0008","projectName":"光明新区地铁修建八期","declarationStage":"年度调整计划","industry":"道路交通","totalInvestment":"20000.00","declarationYear":"2017","state":"未确认信息"}
+],"count":8}
