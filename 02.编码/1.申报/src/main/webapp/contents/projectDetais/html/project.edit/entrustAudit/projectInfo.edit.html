@@ -2,9 +2,9 @@
 <div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
 <div class="well well-sm" style="background:white;">
 	 <ol class="breadcrumb">
-	  	 <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+	  	 <li style="color:#0b8d39;pediting-left:15px;"> 当前位置：</li>
 	     <li><a href="#/projectDeclaration">项目申报</a></li>
-	     <li class="active">{{vm.titleDeclarationEdit}}</li>
+	     <li class="active">{{vm.titleDeclarationedit}}</li>
 	 </ol>
 	 
 	<div style="border-bottom:2px solid #ccc;">
@@ -33,17 +33,17 @@
 	    </ul>
 	</div>
 
-
+	<!-- 委托审计 -->
 
 	<div style="height:500px;overflow-y:scroll">
-		<!--  項目單位基本信息(編輯)頁面 -->
-      <div ng-show="vm.tabActive==1" ng-include src="'/contents/projectDetais/html/project.edit/projectUnitMessage.edit.html'"></div>
-      	<!-- 項目基本信息(編輯)頁面 -->
-      <div ng-show="vm.tabActive==2" ng-include src="'/contents/projectDetais/html/project.edit/projectBasicMessage.edit.html'"></div>
-      <!-- 項目申報材料清單 (編輯)頁面-->
-      <div ng-show="vm.tabActive==3" ng-include src="'/contents/projectDetais/html/project.edit/declareMaterialList.edit.html'"></div>
-		<!-- 項目申報信息確認(編輯)頁面 -->
-      <div ng-show="vm.tabActive==4" ng-include src="'/contents/projectDetais/html/project.edit/declareMessageConfirm.edit.html'"></div>
+		<!--  項目單位基本信息(新增)頁面 -->
+      <div ng-show="vm.tabActive==1" ng-include src="'/contents/projectDetais/html/project.edit/entrustAudit/projectUnitMessage.edit.html'"></div>
+      	<!-- 項目基本信息(新增)頁面 -->
+      <div ng-show="vm.tabActive==2" ng-include src="'/contents/projectDetais/html/project.edit/entrustAudit/projectBasicMessage.edit.html'"></div>
+      <!-- 項目申報材料清單 (新增)頁面-->
+      <div ng-show="vm.tabActive==3" ng-include src="'/contents/projectDetais/html/project.edit/entrustAudit/declareMaterialList.edit.html'"></div>
+		<!-- 項目申報信息確認(新增)頁面 -->
+      <div ng-show="vm.tabActive==4" ng-include src="'/contents/projectDetais/html/project.edit/entrustAudit/declareMessageConfirm.edit.html'"></div>
  	</div>
 </div>	  
 	  

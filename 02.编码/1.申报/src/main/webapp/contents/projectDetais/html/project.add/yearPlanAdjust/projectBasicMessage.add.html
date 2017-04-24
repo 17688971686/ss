@@ -16,14 +16,14 @@
 				<table class="table table-bordered">
 					<tr>
 						<td   class="formAlignRight">项目阶段：</td>
-						<td><span>项目建议书</span></td>
+						<td><span>年度计划调整</span></td>
 						<td class="formAlignRight">申报时间：</td>
 						<td><span>2017</span></td>
 					</tr>
 					<tr>
 						<td class="formAlignRight">项目名称：<span class="required">(*)</span></td>
 						<td>
-							<input type="text" ng-bind="vm.projectName" maxlength="200"  class="form-control input-sm" style="width: 300px;"/>							
+							<input type="text" maxlength="200" class="form-text" style="width: 300px;height:28px;" />						
 						</td>
 							
 						<td class="formAlignRight">投资类型：<span class="required">(*)</span></td>
@@ -38,7 +38,9 @@
 					</tr>
 					<tr>
 						<td class="formAlignRight">申报单位名称：<span class="required">(*)</span></td>
-						<td><input type="text" value="住房和建设局" style="width: 300px;" class="form-control input-sm" /></td>
+						<td>
+							<input type="text" value="住房和建设局" style="width: 300px;height:28px;" class="form-text" />
+						</td>
 						<td class="formAlignRight">项目分类：<span class="required">(*)</span></td>
 						<td><select class="form-select">
 								<option value="-1">--请选择--</option>
@@ -78,7 +80,16 @@
 								<option value="-1">--请选择--</option>
 						</select></td>
 					</tr>
-
+					<tr>
+						<td class="formAlignRight">开工日期</td>
+						<td>
+							<input type="text" id="startTime">
+						</td>
+						<td class="formAlignRight">竣工日期</td>
+						<td>
+							<input type="text" id="endTime">
+						</td>
+					</tr>
 					<tr>
 						<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
 						<td colspan="3"><select class="form-select">
@@ -118,119 +129,150 @@
 								<input type="checkbox" value="其他" /> <label>其他</label>
 						</span></td>
 					</tr>
-					<tr>
-						<td  class="formAlignRight" style="height: 50px;" rowspan="2">项目建设地址：<span class="required" >(*)</span></td>
-						<td colspan="3"><span
-							style="display: inline-block; border-style: None; height: 45px; width: 600px; border: 0px;">
-								<input type="checkbox" value="街道" /> <label>街道</label> <input
-								type="checkbox" value="街道" /> <label>道街</label> <input
-								type="checkbox" value="街道" /> <label>街道</label> <input
-								type="checkbox" value="街道" /> <label>街道</label> <input
-								type="checkbox" value="街道" /> <label>街道</label> <input
-								type="checkbox" value="街道" /> <label>街道</label> <input
-								type="checkbox" value="街道" /> <label>街道</label> <input
-								type="checkbox" value="街道" /> <label>街道</label> <input
-						</span></td>
+					 
+				 	<tr>
+						<td class="formAlignRight">建设性质：<span class="required">(*)</span></td>
+						<td><select class="form-select">
+								<option value="-1">--请选择--</option>
+								<option value="前期">前期</option>
+								<option value="新开工">新开工</option>
+								<option value="续建">续建</option>
+							</select>
+						</td>
+						<td class="formAlignRight">项目类别：<span class="required">(*)</span></td>
+						<td><select class="form-select">
+								<option value="-1">--请选择--</option>
+								<option value="A">A</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+							</select>
+						</td>
 					</tr>
-					<tr>
-						<td colspan="3"><input type="text" maxlength="50"
-							value="..." style="width: 300px;" class="form-control input-sm" /> &nbsp; <input
-							type="button" value='设置坐标' /></td>
-					</tr>
+				 
+				 	<tr>
+				 		<td class="formAlignRight">总概算批复文号：</td>
+						<td>
+							<input type="text" maxlength="200" class="form-text" style="width: 300px;height:28px;" />						
+						</td>
+				 		<td class="formAlignRight">最近一次资金计划下达文号：</td>
+						<td>
+							<input type="text" maxlength="200" class="form-text" style="width: 300px;height:28px;" />						
+						</td>
+				 	</tr>
+				 	<tr>
+				 		<td class="formAlignRight">至年底前还可拨付资金（万元）：</td>
+						<td colspan="3">
+							<input type="text" maxlength="200" class="form-text" style="width: 300px;height:28px;" />						
+						</td>
+				 	</tr>
+				 
+				 	<tr>
+				 		<td class="formAlignRight">累计安排投资(万元)：<span class="required">(*)</span></td>
+						<td>
+							<input type="text" maxlength="200" class="form-text" style="width: 300px;height:28px;" />						
+						</td>
+				 		<td class="formAlignRight">申请年度投资(万元)：<span class="required">(*)</span></td>
+						<td>
+							<input type="text" maxlength="200" class="form-text" style="width: 300px;height:28px;" />						
+						</td>
+				 	</tr>
+				 
 					<tr>
 						<td class="formAlignRight" >项目总投资(万元)：<span class="required" >(*)</span></td>
-						<td colspan="3" style="padding-left: 0"><table border="0"
-								cellspacing="0" cellpadding="0">
-								<tr>
-									<td>&nbsp;&nbsp;200</td>
-									<td><span style="display: inline-block; width: 75px;"></span>
-										<input type="hidden" /></td>
-									<td>建安费</td>
-									<td><input type="text" maxlength="10" value="168"
-										style="width: 120px;" class="form-control input-sm" /></td>
-									<td>工程建设其他费</td>
-									<td><input type="text" maxlength="10" value="20"
-										style="width: 120px;" class="form-control input-sm" /></td>
-									<td>基本预备费</td>
-									<td><input type="text" maxlength="10" value="12"
-										style="width: 120px;" class="form-control input-sm" /></td>
-								</tr>
-							</table></td>
+						<td colspan="3" style="padding-left: 0">
+							<input class="form-text" style="margin-left:20px;height:28px;">
+						</td>
 					</tr>
 					<tr>
-						<td class="formAlignRight">资金筹措方案(万元)：<span class="required"  >(*)</span></td>
-						<td colspan="3" style="padding-left: 0"><table border="0"
-								cellspacing="0" cellpadding="0" class="Mtable3">
-								<tr>
-									<td>&nbsp; 市财政</td>
-									<td>&nbsp; 区财政</td>
-									<td>社会投资</td>
-									<td>国土资金</td>
-									<td>专项资金</td>
-									<td>中央投资</td>
-									<td>部省</td>
-									<td>自筹</td>
-									<td>政府统筹</td>
-									<td>教育费附加</td>
-									<td>其他</td>
-								</tr>
-								<tr>
-									<td><input type="text" maxlength="10" value="0"
-										style="width: 55px;" class="form-control input-sm" /></td>
-									<td><input type="text" maxlength="10" value="2709.19"
-										style="width: 55px;" class="form-control input-sm" /></td>
-									<td><input type="text" maxlength="10" value="0"
-										style="width: 55px;" class="form-control input-sm" /></td>
-									<td><input type="text" maxlength="10" value="0"
-										style="width: 55px;" class="form-control input-sm" /></td>
-									<td><input type="text" maxlength="10" value="0"
-										style="width: 55px;" class="form-control input-sm" /></td>
-									<td><input type="text" maxlength="10" value="0"
-										style="width: 55px;" class="form-control input-sm" /></td>
-									<td><input type="text" maxlength="10" value="0"
-										style="width: 55px;" class="form-control input-sm" /></td>
-									<td><input type="text" maxlength="10" value="0"
-										style="width: 55px;" class="form-control input-sm" /></td>
-									<td><input type="text" maxlength="10" value="0"
-										style="width: 55px;" class="form-control input-sm" /></td>
-									<td><input type="text" maxlength="10" value="0"
-										style="width: 55px;" class="form-control input-sm" /></td>
-									<td><input type="text" maxlength="10" value="0"
-										style="width: 55px;" class="form-control input-sm" /></td>
-								</tr>
-								<tr>
-									<td>资金总计</td>
-									<td colspan="10" align="left" style="padding-left: 20px;"><span
-										value="0"></span> <input type="hidden" /></td>
-								</tr>
-								<tr>
-									<td colspan="2">"其他"的来源途径说明</td>
-									<td colspan="9" style="padding: 0;"><input style="width: 300px;" class="form-control input-sm"  /></td>
-								</tr>
-							</table></td>
+						<td class="formAlignRight">计划年度：<span class="required" >(*)</span></td>
+						<td colspan="3">
+							<input type="text" id="planTime">
+						</td>
+					</tr>
+					 
+					<tr>
+						<td class="formAlignRight">本年度主要建设内容：<span class="required" >(*)</span></td>
+						<td colspan="3">
+							<div>
+								<span class="label label-danger pull-right">*这里不能为空</span>
+								<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 640px;" placeholder="注：仅填写申报计划年度拟实施的主要内容。（200字符以内）">	
+									
+								</textarea>
+								<span>您还可以输入200个字符！</span>
+							</div>
+							
+						</td>
 					</tr>
 					<tr>
 						<td class="formAlignRight">项目简介：<span class="required" >(*)</span></td>
-						<td colspan="3"><textarea class="form-control"
-								mark_maxlength="500" value=""
-								style="height: 121px; width: 640px;">项目简介(500字符以内)
-							</textarea>
+						<td colspan="3">
+							<div>
+								<span class="label label-danger pull-right">*这里不能为空</span>
+								<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 640px;" placeholder="项目简介（500字符以内）">	
+									
+								</textarea>
+								<span>您还可以输入500个字符！</span>
+							</div>
 						</td>
 					</tr>
 					<tr>
 						<td class="formAlignRight">建设规模：<span class="required" >(*)</span></td>
-						<td colspan="3"><textarea value="" class="form-control" 
-								mark_maxlength="200" style="height: 80px; width: 640px;">注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。以此类推。(200字符以内)
-							</textarea>
+						<td colspan="3">
+							<div>
+								<span class="label label-danger pull-right">*这里不能为空</span>
+								<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 640px;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（200字符以内）">	
+									
+								</textarea>
+								<span>您还可以输入200个字符！</span>
+							</div>
 						</td>
 					</tr>
 					<tr>
-						<td class="formAlignRight">项目必要性和依据：<span class="required" >(*)</span></td>
+						<td class="formAlignRight">形象进度：<span class="required" >(*)</span></td>
 						<td colspan="3">
-							<textarea class="form-control"
-								mark_maxlength="200" value=""
-								style="height: 80px; width: 640px;">项目必要性和依据(200字符以内)
-							</textarea>
+							<div>
+								<span class="label label-danger pull-right">*这里不能为空</span>
+								<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 640px;" placeholder="项目必要性和依据（200字符以内）">	
+									
+								</textarea>
+								<span>您还可以输入200个字符！</span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="formAlignRight">项目涉及总拆迁面积及拆迁资金估算：<span class="required" >(*)</span></td>
+						<td colspan="3">
+							<div>
+								<span class="label label-danger pull-right">*这里不能为空</span>
+								<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 640px;" placeholder="项目必要性和依据（200字符以内）">	
+									
+								</textarea>
+								<span>您还可以输入200个字符！</span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="formAlignRight">年度拆迁面积及资金需求：<span class="required" >(*)</span></td>
+						<td colspan="3">
+							<div>
+								<span class="label label-danger pull-right">*这里不能为空</span>
+								<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 640px;" placeholder="项目必要性和依据（200字符以内）">	
+									
+								</textarea>
+								<span>您还可以输入200个字符！</span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="formAlignRight">备注：<span class="required" >(*)</span></td>
+						<td colspan="3">
+							<div>
+								<span class="label label-danger pull-right">*这里不能为空</span>
+								<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 640px;" placeholder="项目必要性和依据（200字符以内）">	
+									
+								</textarea>
+								<span>您还可以输入200个字符！</span>
+							</div>
 						</td>
 					</tr>
 					</div>
@@ -249,5 +291,29 @@
 
 		</form>
 	</div>
+	
 </body>
+<script type="text/javascript">
+$("#startTime").kendoDatePicker({
+	culture:"zh-CN", /* 设置本地化，即设置时间显示为中文 （私有设置）*/
+	format:"yyyy",
+	depth:"year"/* 设置导航深度 */
+});
+
+$("#endTime").kendoDatePicker({
+	culture:"zh-CN", /* 设置本地化，即设置时间显示为中文 （私有设置）*/
+	format:"yyyy",
+	depth:"year"/* 设置导航深度 */
+});
+
+$("#planTime").kendoDatePicker({
+	culture:"zh-CN", /* 设置本地化，即设置时间显示为中文 （私有设置）*/
+	format:"yyyy",
+	depth:"year"/* 设置导航深度 */
+});
+
+$("#btnSetMap").click(function () {
+	alert("设置坐标");  
+});
+</script>
 </html>

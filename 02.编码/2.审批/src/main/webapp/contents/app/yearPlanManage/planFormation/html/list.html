@@ -28,13 +28,13 @@
 	<div class="modal fade" id="myModal-addPlanVersion" tabindex="-1"
 		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
-			<div class="modal-content" style="width:900px;height:600px;">
+			<div class="modal-content" style="width:980px;">
 				<div class="modal-header bg-primary">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="myModalLabel">添加版本</h4>
+					<h4 class="modal-title" id="myModalLabel">添加计划版本</h4>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body" style="height: 600px; overflow-y:scroll; ">
 					<form class="form-horizontal" role="form">
 						<div class="form-group">
 							<label class="col-sm-4 control-label">年度:</label>
@@ -50,14 +50,14 @@
 							</div>
 						</div>
 
-						<div>
+						<div class="form-group">
 							<label class="col-sm-4 control-label">计划版本类型:</label>
 							<div class="col-sm-6">
 								<input value="年度投资计划" type="radio"><span>年度投资计划</span> 
 								<input  value="年度调整计划" type="radio"><span>年度调整计划</span>
 							</div>
 						</div>
-						<div>
+						<div class="form-group">
 							<label class="col-sm-4 control-label">是否正式版本:</label>
 							<div class="col-sm-6">
 								<input value="是" type="radio"><span>是</span> 
@@ -65,7 +65,7 @@
 							</div>
 						</div>
 						
-						<div>
+						<div class="form-group">
 							<label class="col-sm-4 control-label">备注:</label>
 							<div class="col-sm-6">
 								<textarea value="" class="form-control" 

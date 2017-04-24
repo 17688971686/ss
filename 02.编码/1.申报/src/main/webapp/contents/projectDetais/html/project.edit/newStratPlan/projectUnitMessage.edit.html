@@ -2,11 +2,14 @@
 <div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
 <div class="well well-sm" style="background: white;">
 
-	<div class="bg-danger text-danger" style="padding: 10px; margin-bottom: 10px">
-		项目单位信息 <span></span>
-	</div>
+	<form id="form" name="form" >
+
+
+		<div class="bg-danger text-danger" style="padding: 10px; margin-bottom: 10px">
+			项目单位信息 <span></span>
+		</div>
   <div  style="width: 100%;">
-    <table  class="table table-bordered table-striped">
+    <table  class="table table-bordered">
       <tr>
         <td class="formAlignRight"> 申报单位组织机构代码：<span class="errors">(*)</span></td>
         <td colspan="2" style="padding-left: 10px;  border-left: #c3e5f8 1px solid;"><span >1</span></td>
@@ -79,5 +82,5 @@
       </tr>
     </table>
   </div>
-
+  </form>
 </div>
