@@ -8,11 +8,85 @@
         <li class="active">{{vm.title}}</li>
     </ol>
     <script type="text/template" id="columnBtns">
-		<button class="btn btn-xs btn-danger" ng-click="{0}"><span class="glyphicon glyphicon-bell"></span>催办</button>
+		<button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#myModal-remind"><span class="glyphicon glyphicon-bell"></span>催办</button>
+		<button class="btn btn-xs btn-info" data-toggle="modal" data-target="#myModal-isMonthReport">是否填写月报</button>
 	</script>
     <form id="form" name="form">
-    	<div class="toolbar"></div>         
+    	<div class="toolbar">
+    		<button class="btn btn-sm btn-info" ng-click="vm.batchAddFillMonthReport()">批量添加填写月报</button>
+    		<button class="btn btn-sm btn-info" ng-click="vm.batchRemoveFillMonthReport()">批量取消填写月报</button>
+    	</div>         
         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
     </form>
+</div>
 
+<!-- 是否填写月报设置模态框 -->
+<div class="modal fade" id="myModal-isMonthReport" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog"> 
+		<div class="modal-content"> 
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			
+				<h4 class="modal-title" id="myModalLabel">是否月报</h4> 
+			</div>
+			<div class="modal-body">
+				是否月报：
+				<input type="radio" name="isMonthReport" ng-model="vm.isMonthReport">需月报
+				<input type="radio" name="isMonthReport" ng-model="vm.isMonthReport">不需月报
+			</div> 
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary">确定</button>			
+ 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+ 			</div>
+ 		</div>
+ 	</div>			  
+</div>
+
+<!--催办月报模态框 -->
+<div class="modal fade" id="myModal-remind" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog"> 
+		<div class="modal-content"> 
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			
+				<h4 class="modal-title" id="myModalLabel">月报催办</h4> 
+			</div>
+			<div class="modal-body" style="height:500px;overflow-y:scroll">
+				<table class="table table-hover table-bordered table-striped" id="monthList" style="text-align:center">
+					<tr>
+						<th style="text-align:center">月份</th>
+						<th style="text-align:center">填报时间</th>
+						<th style="text-align:center">状态</th>
+						<th style="text-align:center">操作</th>
+					</tr>
+				</table>
+			</div> 
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary">确定</button>			
+ 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+ 			</div>
+ 		</div>
+ 	</div>
+ 	<script>
+ 		//获取当前的月份
+ 		var myDate = new Date();
+ 		var month = myDate.getMonth()+1;
+ 		//根据月份来构建表格的行数
+ 		var html = "";
+ 		for(var i=1;i<=month;i++){
+ 			html += "<tr>"+
+ 						"<td>"+i+"</td>"+
+ 						"<td>2017年"+i+"月30日</td>";
+ 						
+ 			if(i==month){
+ 				html += "<td>未上传</td>";
+ 				html += "<td><button class='btn btn-xs btn-danger' ng-click='vm.remind("+i+")'><span class='glyphicon glyphicon-bell'></span>催办</button></td>";
+ 			}else{
+ 				html += "<td>已上传</td>";
+ 				html += "<td><button class='btn btn-xs btn-danger' disabled ng-click='vm.remind("+i+")><span class='glyphicon glyphicon-bell'></span>催办</button></td>";
+ 			}
+ 			
+			html += "</tr>";
+ 								 				
+ 		}
+ 		$("#monthList").append(html);	
+ 	</script>			  
 </div>
