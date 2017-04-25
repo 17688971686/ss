@@ -199,20 +199,20 @@
 			// End:column
 			var column_relevance = [
 				  {
-					field : "",
+					field : "id",
 					title : "序号",
 					width:45,
 					filterable : false
 				},{
 					field : "projectName",
 					title : "项目名称",
-					width:200,
+				
 					filterable : true
 				} ,
 				{
 					field : "projectStage",
 					title : "项目阶段",
-					width : 200 ,
+					
 					filterable : false
 				},
 				{
@@ -222,12 +222,13 @@
 				},{
 					field : "buildUnit",
 					title : "建立单位",
+					
 					filterable : true
 				},	
 				{
 					field : "",
 					title : "操作",
-					width:170,
+					width:100,
 					template:function(data){
 						return common.format($('#columnBtns').html(),
 								"vm.projectRelevance('"+data.id+"')");
@@ -237,6 +238,9 @@
 
 
 		];
+		
+			
+			
 		
 			vm.gridOptions={
 					dataSource : common.gridDataSource(dataSource),
@@ -254,6 +258,15 @@
 					columns : column_relevance,
 					resizable: true
 				};
+			//续建计划关联项目列表(因数据可能不同所以这里要分开)
+			vm.gridOptions_relatedInfo_constructionPlan={
+					dataSource : common.gridDataSource(dataSource_relevance),
+					filterable : common.kendoGridConfig().filterable,
+					pageable : common.kendoGridConfig().pageable,
+					noRecords:common.kendoGridConfig().noRecordMessage,
+					columns : column_relevance,
+					resizable: true	
+			}
 			
 		}// end fun grid
 
