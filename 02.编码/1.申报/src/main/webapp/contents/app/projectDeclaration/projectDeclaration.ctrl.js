@@ -73,16 +73,16 @@
         		location.href = common.format("#/projectDeclarationInfoFill_constructionPlan?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
         	}else if(vm.declarationStage == "5"){
         		vm.declarationStage = "下一年度计划";
-        		location.href = "#/projectDeclarationInfoFill_nextYearPlan";
+        		location.href = common.format("#/projectDeclarationInfoFill_nextYearPlan?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
         	}else if(vm.declarationStage == "6"){
-        		vm.declarationStage = "年度计划调整";
-        		location.href = "#/projectDeclarationInfoFill_yearPlanAdjust";
+        		vm.declarationStage = "年度调整计划";
+        		location.href = common.format("#/projectDeclarationInfoFill_yearPlanAdjust?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
         	}else if(vm.declarationStage == "7"){
         		vm.declarationStage = "委托审计";
-        		location.href = "#/projectDeclarationInfoFill_entrustAudit";
+        		location.href = common.format("#/projectDeclarationInfoFill_entrustAudit?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
         	}else if(vm.declarationStage == "8"){
         		vm.declarationStage = "审计决算资金";
-        		location.href = "#/projectDeclarationInfoFill_auditAccountFunds";
+        		location.href = common.format("#/projectDeclarationInfoFill_auditAccountFunds?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
         	}
         	
         }

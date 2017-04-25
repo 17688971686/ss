@@ -165,6 +165,20 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#projectDeclarationInfoEdit_yearPlanAdjust
+	        //begin#projectRelevanceList（项目申報--年度计划调整--项目关联信息）
+	        .state('projectRelatedInfoAdd', {
+	        	url: '/projectRelatedInfoAdd',
+	        	templateUrl: '/contents/projectDetais/html/project.add/yearPlanAdjust/html/projectRelevanceList.html',
+	        	controller: 'projectRelatedInfoAddCtrl',
+	        	controllerAs: 'vm'
+	        })
+	        //end#projectRelevanceList
+	        
+	        
+	        
+	        
+	        
+	        
 	        
 	        //begin#projectDeclarationInfoEdit_entrustAudit（项目申報--委托审计--信息編輯）
 	        .state('projectDeclarationInfoEdit_entrustAudit', {

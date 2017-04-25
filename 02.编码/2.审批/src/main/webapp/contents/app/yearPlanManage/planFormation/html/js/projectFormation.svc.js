@@ -88,7 +88,10 @@
 					{
 						field : "planFund",
 						title : "安排资金",
-						width : 150,
+						width : 100,
+						template:function(data){
+							return common.format($('#columnBtns').html());
+						},
 						filterable : false
 						
 					},

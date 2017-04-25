@@ -109,11 +109,39 @@
 	</tbody>
 </table>
 
+<div class="well well-sm" style="background: white;z-index:98;position:relative">
 
-<div class="well well-sm" style="background: white;">
 	<form id="form" name="form">
+		<script id="columnBtns" type="text/template">
+			<input type="text" style="width:70px;z-index:99;" class="sdf">		
+		</script>
+		<div style="display:show;border:1px solid red;width:185px;height:200px;z-index:100;position:absolute;top:77px;left:835px;" id="sdf">
+			<table>
+				<tr>
+					<td>1</td>
+				</tr>
+				<tr>
+					<td>1</td>
+				</tr>
+			</table>
+		</div>
+		
+		<script type="text/javascript">
+			/* $(".sdf").click(function(){alert(1);}); */
+			//绑定单机事件不行
+			$(".sdf").bind('click',function(){
+				alert(11);
+			});
+			
+			
+		</script>
+		
+		
+		
 		<div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+		
 	</form>
+	
 </div>
 
 

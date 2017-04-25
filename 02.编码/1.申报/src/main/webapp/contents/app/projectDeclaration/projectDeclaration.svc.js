@@ -43,7 +43,7 @@
 		        	}else if(model[0].declarationStage == "下一年度计划"){
 		        		vm.model = model[0];
 		        		location.href = "#/projectDeclarationInfoEdit_nextYearPlan";
-		        	}else if(model[0].declarationStage == "年度计划调整"){
+		        	}else if(model[0].declarationStage == "年度调整计划"){
 		        		vm.model = model[0];
 		        		location.href = "#/projectDeclarationInfoEdit_yearPlanAdjust";
 		        	}else if(model[0].declarationStage == "委托审计"){
