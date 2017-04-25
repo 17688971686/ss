@@ -81,7 +81,12 @@
 				<h4 class="modal-title" id="myModalLabel">关联项目</h4>
 			</div>
 			<div class="modal-body"  >
-				 <div ng-include src="'/contents/projectDetais/html/project.add/yearPlanAdjust/html/projectRelevanceList.html'"></div>
+				 <form id="form" name="form">
+					<script type="text/template" id="columnBtns">
+						<button class="btn btn-xs btn-primary" ng-click="{0}"><span class="glyphicon glyphicon-pencil"></span>关联项目</button>
+					</script>
+					<div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+				</form>
 			</div>
 			<div class="modal-footer">
 				<button type="submit" class="btn btn-success"
