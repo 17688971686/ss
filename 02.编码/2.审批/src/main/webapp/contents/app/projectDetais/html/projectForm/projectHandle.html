@@ -1,8 +1,7 @@
 <div class="well well-sm" style="background:white;">
 	<ol class="breadcrumb">
 		<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
-		<li>我的工作台</li>
-	  	<li><a href="#/perToDo">个人待办</a></li>
+		<li><buttton class="btn btn-link" onclick="javascript:window.history.back(-1)">返回上一级</buttton></li>	  	
 	   	<li class="active">{{vm.titleProjectHandle}}</li>
 	</ol>
   
@@ -67,22 +66,9 @@
                 </tr>
 	            <tr>
 	                <td class="table-td-center" style="vertical-align:middle">补充项目相关附件</td>
-	                <td colspan="3" >
-	                    <div  style="height: 30px; width: 120px;">
-	                    	<object id="SWFUpload_0" type="application/x-shockwave-flash" data="" width="120" height="30"  style="position: absolute; z-index: 1;" title="Adobe Flash Player">
-	                    		<param name="wmode" value="transparent">
-	                    		<param name="movie" value="/Scripts/uploadify/uploadify.swf?preventswfcaching=1492151185971">
-	                    		<param name="quality" value="high">
-	                    		<param name="menu" value="false">
-	                    		<param name="allowScriptAccess" value="always">
-	                    		<param name="flashvars" value="">
-	                    	</object>
-	                    	<div id="uploadify-button"  style="height: 30px; line-height: 30px; width: 120px;">
-	                    		<span>添加相关附件</span>
-	                    	</div>
-	                    </div>
-	                    <div id="uploadify-queue" class="uploadify-queue"></div>
-	                    <div id="fileQueue"></div>   
+	                <td colspan="3">
+	                	<input type="file">
+	                  
 	                </td>
 	            </tr>
                 <tr>

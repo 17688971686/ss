@@ -30,6 +30,8 @@
 					}).toArray();				
 					if(model[0].declarationStage == "前期计划（前期费）"){
 						vm.model = model[0];
+						vm.projectName = vm.model.projectName;
+						vm.declarationStage = vm.model.declarationStage;
 		        		location.href = "#/projectDeclarationInfoEdit_prePlan";
 		        	}else if(model[0].declarationStage == "规划设计前期费"){
 		        		vm.model = model[0];
@@ -104,8 +106,8 @@
 						width : 200,
 						template:function(data){
 							if(data.declarationStage=="前期计划（前期费）"){
-								vm.declarationStage = data.declarationStage;
-								vm.projectName = data.projectName;
+								//vm.declarationStage = data.declarationStage;
+								//vm.projectName = data.projectName;
 								return "<a href='#/projectDetais/prePlan/"+data.projectId+"'>"+data.projectName+"</a>";
 							}
 							if(data.declarationStage=="规划设计前期费"){						

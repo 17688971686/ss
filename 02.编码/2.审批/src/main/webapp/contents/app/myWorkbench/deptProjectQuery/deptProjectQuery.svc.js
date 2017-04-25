@@ -43,7 +43,7 @@
 					  {
 						field : "id",
 						title : "序号",
-						width : 50,						
+						width : 45,						
 						filterable : false
 					},{
 						field : "projectPhase",
@@ -56,25 +56,25 @@
 						template:function(data){
 							return "<a href='#/projectHandForm/"+data.projectId+"'>"+data.projectName+"</a>";
 						},
-						width : 334,
+						width : 200,
 						filterable : true
 					},
 					{
 						field : "applicantUnitName",
 						title : "申报单位名称",
-						width : 334,
+						width : 200,
 						filterable : true
 					},
 					{
 						field : "projectState",
 						title : "项目状态",
-						width : 156,
+						width : 120,
 						filterable : true
 					},
 					{
 						field : "receiptDate",
 						title : "收文日期",
-						width : 165,
+						width : 120,
 						filterable : false
 					},
 					{

@@ -41,6 +41,17 @@
 
 			// Begin:column
 			var columns = [
+					{
+						template : function(data) {
+							return kendo
+									.format(
+											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox' />",
+											data.projectId)
+						},
+						filterable : false,
+						width : 40,
+						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"						
+					},
 					  {
 						field : "id",
 						title : "序号",
@@ -88,7 +99,7 @@
 					
 					{
 						field : "isMonthReport",
-						title : "是否需要月报",
+						title : "是否填写月报",
 						/*template:function(data){
 							if(data.isMonthReport){
 								return "是"
