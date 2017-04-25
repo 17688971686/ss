@@ -2,6 +2,12 @@
 <div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
 
 <div class="well well-sm" style="background: white;">
+	<ol class="breadcrumb">
+	  	 <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+	  	 <li><a href="/admin">首页</a></li>
+	     <li><buttton class="btn btn-link" onclick="javascript:window.history.back(-1)">返回上一级</buttton></li>
+	     <li class="active">{{vm.titleDeclarationLook}}</li>
+	 </ol>
 	<form id="form" name="form">
 		<div class="bg-danger text-danger" style="padding: 10px; margin-bottom: 10px">项目基本信息</div>
 		<div>
