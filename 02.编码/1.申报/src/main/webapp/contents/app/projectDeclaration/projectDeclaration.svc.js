@@ -6,6 +6,7 @@
 	projectDeclaration.$inject = [ '$http','$compile' ];	
 	function projectDeclaration($http,$compile) {	
 		var url_projectDeclaration = "/contents/app/projectDeclaration/data/list.json";
+		var url_projectDeclaration_relevance = "/contents/projectDetais/html/project.add/yearPlanAdjust/js/projectRelatedInfoAdd.list.json"
 //		var url_back = '#/projectprocess';
 			
 		var service = {
@@ -91,6 +92,26 @@
 			});
 
 			// End:dataSource
+			var dataSource_relevance = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url_projectDeclaration_relevance),
+				schema : common.kendoGridConfig().schema({
+					id : "id",
+					fields : {
+						createdDate : {
+							type : "date"
+						}
+					}
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : false,			
+				pageSize: 10,
+				sort : {
+					field : "createdDate",
+					dir : "desc"
+				}
+			});
 
 			// Begin:column
 			var columns = [
@@ -176,6 +197,46 @@
 
 			];
 			// End:column
+			var column_relevance = [
+				  {
+					field : "",
+					title : "序号",
+					width:45,
+					filterable : false
+				},{
+					field : "projectName",
+					title : "项目名称",
+					width:200,
+					filterable : true
+				} ,
+				{
+					field : "projectStage",
+					title : "项目阶段",
+					width : 200 ,
+					filterable : false
+				},
+				{
+					field : "projectCode",
+					title : "项目代码",
+					filterable : false
+				},{
+					field : "buildUnit",
+					title : "建立单位",
+					filterable : true
+				},	
+				{
+					field : "",
+					title : "操作",
+					width:170,
+					template:function(data){
+						return common.format($('#columnBtns').html(),
+								"vm.projectRelevance('"+data.id+"')");
+					},
+					filterable : false
+				}
+
+
+		];
 		
 			vm.gridOptions={
 					dataSource : common.gridDataSource(dataSource),
@@ -183,6 +244,14 @@
 					pageable : common.kendoGridConfig().pageable,
 					noRecords:common.kendoGridConfig().noRecordMessage,
 					columns : columns,
+					resizable: true
+				};
+			vm.gridOptions_relevance={
+					dataSource : common.gridDataSource(dataSource_relevance),
+					filterable : common.kendoGridConfig().filterable,
+					pageable : common.kendoGridConfig().pageable,
+					noRecords:common.kendoGridConfig().noRecordMessage,
+					columns : column_relevance,
 					resizable: true
 				};
 			
