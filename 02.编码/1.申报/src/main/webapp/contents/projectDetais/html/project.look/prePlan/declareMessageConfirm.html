@@ -9,9 +9,9 @@
 	     <li class="active">{{vm.titleDeclarationLook}}</li>
 	 </ol>
 	 
-	 <div style="height:500px;overflow-y:scroll">
+	 <div>
 	 	<div class="bg-danger text-danger" style="padding: 10px; margin-bottom: 10px">项目关联信息</div>
-	 	<table class="table table-bordered table-striped">
+	 	<table class="table table-bordered table-striped table-hover">
 	 		<tr>
 	 			<td>是否批复项目建议书：<span>否</span></td>
 	 			
@@ -25,7 +25,7 @@
 	 		</tr>
 	 		<tr>
 	 			<td>
-	 				<table class="table table-bordered table-striped" style="text-align:center">
+	 				<table class="table table-bordered table-striped table-hover" style="text-align:center">
 	 					<tr>
 	 						<td rowspan="2">次数</td>
 	 						<td rowspan="2">事项名称</td>
@@ -57,7 +57,7 @@
 	 	
 		<div class="bg-danger text-danger" style="padding: 10px; margin-bottom: 10px">项目基本信息</div>
 		<div>
-			<table class="table table-bordered table-striped">
+			<table class="table table-bordered table-striped table-hover">
 				<tr>
 					<td class="formAlignRight" width="18%">项目阶段：</td>
 					<td style="padding-left: 10px; border-left: #c3e5f8 1px solid;">{{vm.declarationStage}}</span>&nbsp;
@@ -115,7 +115,7 @@
 					<tr>
 						<td class="formAlignRight">资金筹措方案：</td>
 						<td colspan="3" >
-						<table class="table table-bordered table-striped">
+						<table class="table table-bordered table-striped table-hover">
 								<tr>
 									<td>市财政</td>
 									<td>区财政</td>
@@ -155,7 +155,7 @@
 					<tr>
 						<td class="formAlignRight">至上年底累计下达：</td>
 						<td colspan="3" >
-						<table class="table table-bordered table-striped">
+						<table class="table table-bordered table-striped table-hover">
 								<tr>
 									<td>市财政</td>
 									<td>区财政</td>
@@ -195,7 +195,7 @@
 					<tr>
 						<td class="formAlignRight">年度投资计划：</td>
 						<td colspan="3" >
-						<table class="table table-bordered table-striped">
+						<table class="table table-bordered table-striped table-hover">
 								<tr>
 									<td>市财政</td>
 									<td>区财政</td>
@@ -271,7 +271,7 @@
 
 		<div class="bg-danger text-danger" style="padding: 10px; margin-bottom: 10px">项目单位信息</div>
 		<div>
-			<table class="table table-bordered table-striped">
+			<table class="table table-bordered table-striped table-hover">
 				<tr>
 					<td class="formAlignRight">申报单位组织机构代码：</td>
 					<td colspan="2" style="border-left: #c3e5f8 1px solid;"><span>1</span></td>
@@ -318,9 +318,9 @@
 		</div>
 		<div class="bg-danger text-danger" style="padding: 10px; margin-bottom: 10px">项目材料清单</div>
 		<div>
-			<table class="table table-bordered table-striped">
+			<table class="table table-bordered table-striped table-hover">
 				<tr>
-					<td><table class="table table-bordered table-striped">
+					<td><table class="table table-bordered table-striped table-hover">
 							<tr>
 								<th width="25%" align="center" scope="col">附件类型</th>
 								<th width="8%" align="center" scope="col">是否上传</th>
@@ -359,7 +359,9 @@
 				</tr>
 			</table>
 		</div>
-		
+			<div style="text-align: center; padding: 20px;">
+				<a href="javascript:void(0)"> <button class="btn btn-success">确认</button></a>				
+			</div>
 	 </div>
 	
 </div>

@@ -1,5 +1,10 @@
 <div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
+<style>
+	.modal-open{
+		overflow:auto
+	}
+</style>
 <div class="well well-sm" style="background:white;">
 	  <ol class="breadcrumb">
 	  	 <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
@@ -42,7 +47,7 @@
 
 	<!-- 年度计划调整 -->
 
-	<div style="height:500px;overflow-y:scroll">
+	<div>
 		<!--  項目关联信息(新增)頁面 -->
       <div ng-show="vm.tabActive==1" ng-include src="'/contents/projectDetais/html/project.add/yearPlanAdjust/projectRelatedInfoAdd.html'"></div>
 		<!--  項目单位信息(新增)頁面 -->
