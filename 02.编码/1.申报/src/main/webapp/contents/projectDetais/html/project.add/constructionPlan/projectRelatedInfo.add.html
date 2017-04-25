@@ -8,19 +8,21 @@
 <div style="margin-top:50px;text-align:center">
 	<button class="btn btn-sm btn-success">保存</button>
 </div>
+
 <!-- 关联项目模态框 -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> 
 	<div class="modal-dialog"> 
-		<div class="modal-content"> 
+		<div class="modal-content" style="width:730px;"> 
 			<div class="modal-header bg-primary">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			
 				<h4 class="modal-title" id="myModalLabel">关联项目</h4> 
 			</div> 
 			<div class="modal-body">
-				<div>
-					<lable>项目名称</lable>
-				</div>
-			</div>
+				<script id="columnBtns" type="text/template">
+					<button class="btn btn-sm btn-info">关联项目</button>
+				</script>
+				<div class="grid" kendo-grid="grid" k-options="vm.gridOptions_relevance"></div>
+			</div>	
 			<div class="modal-footer"> 
 				<button type="submit" class="btn btn-success"  ng-click="vm.goFillDeclarationInfo()">确定</button> 			
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button> 

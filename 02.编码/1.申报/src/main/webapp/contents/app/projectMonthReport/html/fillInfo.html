@@ -418,10 +418,12 @@
 kendo.init($("#contain"));
 kendo.culture("zh-CN"); /* 设置本地化，即设置时间显示为中文 （全局设置）*/
 
+//删除问题
 function DeleteProblem(trProblem) {
             $(trProblem).parent().parent().remove();
             Sort();
         }
+//添加问题        
 function CreateProblem() {
             var length = $("#tblProblem").find("tr").length;
             var html = "<tr><td><span>" + length + "</span></td>"
@@ -431,6 +433,7 @@ function CreateProblem() {
             $("#tblProblem").append(html);
             Sort();
         }
+//排序        
 function Sort() {
     $("#tblProblem").find("tr").each(function () {
         if ($(this).index() != 0) {
