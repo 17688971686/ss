@@ -8,7 +8,24 @@
         <li><a href="#/concernedProject">关注的项目</a></li>
         <li class="active">{{vm.title}}</li>
     </ol>
-    <form id="form" name="form">
-         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
-    </form>
+
+   	<br/>
+   	<br/>
+   	<div style="position:relative">
+   		<div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+   		<div style="width:315px;height:35px;position:absolute;right:0;top:-32px;">
+   		<span style="display:line">
+   			<i class="icon-circle" style="color:blue"></i>
+   			暂停项目
+   		</span>
+   		<span style="display:line">
+   			<i class="icon-circle" style="color:green"></i>
+   			少于3个工作日
+   		</span>
+   		<span>
+   			<i class="icon-circle" style="color:red"></i>
+   			到期或超期项目
+   		</span>
+   	</div>
+   	</div>  
 </div>

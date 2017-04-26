@@ -11,6 +11,7 @@
         /* jshint validthis:true */
         var vm = this;
         vm.title = '日志列表';
+        vm.titleLookOpration = "查看操作日志";
         
 
        

@@ -294,7 +294,7 @@
 	        //end#problemDetails
 	        //end------------------------------------------------------------
 	        
-	        
+	       /* 
 	        //begin#prophaseWorkPlan(前期工作计划)
 	        .state('prophaseWorkPlan', {
 	        	url: '/prophaseWorkPlan',
@@ -375,7 +375,7 @@
 	        
 	        //begin#cx
 	        
-	         //begin#planPreFee(规划前期费)
+ 			//begin#planPreFee(规划前期费)
 	        .state('planPreFee', {
 	            url: '/planPreFee',
 	            templateUrl: '/contents/app/myWorkbench/personToDo/planPreFee/html/list.html',
@@ -437,7 +437,7 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#nextYearPlan
-	        
+*/	        
 	        //begin#perToDo（我的工作台--个人待办）
 	        .state('perToDo', {
 	            url: '/perToDo',

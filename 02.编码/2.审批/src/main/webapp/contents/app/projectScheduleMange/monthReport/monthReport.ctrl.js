@@ -20,10 +20,20 @@
         	location.href = "#/monthReportDetais/"+month;
         }
         
+        /**
+         * 用於月报信息頁面中的tab切換
+         */
+        vm.tabActive=1;
+        vm.tab = function(tabActive){
+          vm.tabActive=tabActive;
+        }
+        
+        //月报列表催办
         vm.remind = function(id){
         	alert("项目月报催辦："+id);  //--測試用
         }
         
+        //月报列表批量添加填写月报
         vm.batchAddFillMonthReport = function(){
         	var selectIds = common.getKendoCheckId('.grid');
         	if (selectIds.length == 0) {
@@ -41,6 +51,7 @@
             }   
         }
         
+      //月报列表批量取消填写月报
         vm.batchRemoveFillMonthReport = function(){
         	var selectIds = common.getKendoCheckId('.grid');
         	if (selectIds.length == 0) {

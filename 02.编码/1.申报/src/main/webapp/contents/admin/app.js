@@ -19,6 +19,12 @@
                  controller: 'indexCtrl',
                  controllerAs: 'vm'
              })
+               .state('log', {
+                 url: '/oprationLog/:id',
+                 templateUrl:  '/contents/app/log/html/list.html',
+                 controller: 'logCtrl',
+                 controllerAs: 'vm'
+             })
 /***************************项目申报--项目信息查看- Strat**************************************************/              
              //begin#projectDetais（项目--详情查看(暂时没有分别申报阶段的不同)）             
              .state('projectDetais', {

@@ -41,10 +41,24 @@
 
 			// Begin:column
 			var columns = [
-					  {
+					 /* {
 						field : "id",
 						title : "序号",
 						width : 50,						
+						filterable : false
+					}*/{
+						field : "projectState",
+						title : "项目状态",
+						width : 80,
+						template:function(data){
+							if(data.projectState == "1"){
+								return "<i class='icon-circle' style='color:blue'></i>";
+							}if(data.projectState == "2"){
+								return "<i class='icon-circle' style='color:green'></i>";
+							}if(data.projectState == "3"){
+								return "<i class='icon-circle' style='color:red'></i>";
+							}
+						},
 						filterable : false
 					},{
 						field : "projectPhase",
