@@ -202,6 +202,15 @@
 	        }) 
 	        //end#planCollect
 	        
+	        //begin#planCollect(项目评审管理-查看评审结果)
+	        .state('checkReviewResult', {
+	        	url: '/checkReviewResult/:id',
+	        	templateUrl: '/contents/app/projectReviewManage/reviewPlan/html/checkReviewResult.html',
+	        	controller: 'reviewPlanCtrl',
+	        	controllerAs: 'vm'
+	        }) 
+	        //end#planCollect
+	        
 	        //=================================================================================================
 	        
 	        

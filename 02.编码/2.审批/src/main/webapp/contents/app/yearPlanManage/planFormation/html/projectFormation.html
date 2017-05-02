@@ -96,13 +96,10 @@
 		<tr>
 			<th class="borderBottomNone tititle">选中的投资计划：
 				<p style="text-align: right;">
-					<a class="btn btn-primary btn-sm" data-toggle="modal"
-						data-target="#myModal-addPlan">添加计划</a> <a
-						class="btn btn-primary btn-sm" ng-click="vm.planDel(1)">移除</a> <a
-						class="btn btn-primary btn-sm" data-toggle="modal"
-						data-target="#myModal-">统计</a> <a
-						class="btn btn-primary btn-sm" href="#/checkProjectBank">打印</a> <a
-						class="btn btn-primary btn-sm" href="#/checkProjectBank">查看下达明细</a>
+					<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal-addPlan">添加计划</a> 
+					<a class="btn btn-primary btn-sm" ng-click="vm.planDel(1)">移除</a> 
+					<!-- <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal-">统计</a> 
+					<a class="btn btn-primary btn-sm" href="#/checkProjectBank">查看下达明细</a> -->
 				</p>
 			</th>
 		</tr>
@@ -115,7 +112,7 @@
 		<script id="columnBtns" type="text/template">
 			<input type="text" style="width:70px;z-index:99;" class="sdf">		
 		</script>
-		<div style="display:show;border:1px solid red;width:185px;height:200px;z-index:100;position:absolute;top:77px;left:835px;" id="sdf">
+		<!-- <div style="display:show;border:1px solid red;width:185px;height:200px;z-index:100;position:absolute;top:77px;left:835px;" id="sdf">
 			<table>
 				<tr>
 					<td>1</td>
@@ -124,7 +121,7 @@
 					<td>1</td>
 				</tr>
 			</table>
-		</div>
+		</div> -->
 		
 		<script type="text/javascript">
 			/* $(".sdf").click(function(){alert(1);}); */
@@ -149,60 +146,50 @@
 	<div class="modal fade" id="myModal-addPlan" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
-			<div class="modal-content" style="width: 800px">
+			<div class="modal-content" style="width: 850px">
 				<div class="modal-header bg-primary">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
 					<h4 class="modal-title" id="myModalLabel">添加计划</h4>
 				</div>
-				<div class="modal-body" style="height: 500px;" >
+				<div class="modal-body" style="height: 500px; overflow-y: scroll;" >
 					<form class="form-horizontal" role="form">
-						<div class="form-group pull-left" style="width:49%">
-							<label class="col-sm-4 control-label">项目名称:</label>
-							<div class="col-sm-6">
-								<input type="text" class="form-control input-sm" style="height: 35px;"
-									placeholder="请输入项目名称">
-							</div>
-						</div>
-						<div class="form-group pull-right" style="width:49%">
-							<label class="col-sm-4 control-label">建设单位:</label>
-							<div class="col-sm-6">
-								<input type="text"  class="form-control input-sm" style="height: 35px;"
-									placeholder="请输入建设单位">
-							</div>
-						</div>
-						<div class="form-group pull-left" style="width:49%">
-							<label class="col-sm-4 control-label">项目代码:</label>
-							<div class="col-sm-6">
-								<input type="text"  class="form-control input-sm" style="height: 35px;"
-									placeholder="请输入项目代码">
-							</div>
-						</div>
 						
-						<div class="form-group pull-right" style="width:49%">
-							<label class="col-sm-4 control-label">请选择申报阶段:</label>
-							<div class="col-sm-6">
-								<select class="form-control" style="height: 35px;width: 158px">
-									<option class="active" >--请选择--</option>
-									<option value="A">A</option>
-									<option value="B">B</option>
-									<option value="C">C</option>
-								</select>
+						<div>
+							<div style="border-bottom:2px solid #ccc;">
+							   <ul class="tab clearfix ">
+							      <li ng-click="vm.tab(1)" >
+							      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==1?'white':'black'}" ng-class="{'btn-success':vm.tabActive==1}">未安排计划项目</button>
+							      </li>
+							      <li>
+							      	<span class="glyphicon glyphicon-chevron-right"  ></span>
+							      </li>
+							      <li ng-click="vm.tab(2)">
+							      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==2?'white':'black'}" ng-class="{'btn-success':vm.tabActive==2}">手动添加的项目</button>
+							      </li>
+							      <li>
+							      	<span class="glyphicon glyphicon-chevron-right"  ></span>
+							      </li>
+							      <li ng-click="vm.tab(3)">
+							      	<button class="btn btn-default btn-sm" ng-style="{color:vm.tabActive==3?'white':'black'}" ng-class="{'btn-success':vm.tabActive==3}">未通过审核的项目</button>
+							      </li>
+							    </ul>
+							    
 							</div>
-						</div>
-						<div class="form-group pull-left" style="width:49%">
-							<label class="col-sm-4 control-label">建设类型:</label>
-							<div class="col-sm-6">
-								<select class="form-control" style="height: 35px;width: 158px">
-									<option class="active" >--请选择--</option>
-									<option value="1">前期</option>
-									<option value="2">新开工</option>
-									<option value="3">续建</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group pull-right" style="width:49%">
-							<button type="button" class="btn btn-primary">查询</button>
+						 	
+						 <div>
+						      <div ng-show="vm.tabActive==1" ng-include src="'/contents/app/yearPlanManage/planFormation/addPlanList/noPlanArrangeProject.html'">
+						      	<!--  未安排计划项目 -->
+						      </div>
+						      	
+						      <div ng-show="vm.tabActive==2" ng-include src="'/contents/app/yearPlanManage/planFormation/addPlanList/manualAddProject.html'">
+						      	<!-- 手动添加的项目 -->
+						      </div>
+						      
+						      <div ng-show="vm.tabActive==3" ng-include src="'/contents/app/yearPlanManage/planFormation/addPlanList/noAdoptAuditProject.html'">
+						      	<!-- 未通过审核的项目 -->
+						      </div>
+						 </div>
 						</div>
 					</form>
 				</div>
