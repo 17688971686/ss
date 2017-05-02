@@ -46,7 +46,7 @@
 								return kendo
 										.format(
 												"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox' />",
-												item.id)
+												item.projectId)
 							},
 							filterable : false,
 							width : 30,

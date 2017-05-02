@@ -1,5 +1,5 @@
 {"value":[
-	{"id":1,"projectPhase":"项目建议书","projectId":"SZ-GM-20170416-001","projectName":"光明大道高架桥修建","applicantUnitName":"深圳市建设一局","receiptDate":"2017-2-10","receiptNumber":"201702100001","industry":"政府项目","remainWorkDays":3},
-	{"id":2,"projectPhase":"项目建议书","projectId":"SZ-GM-20170416-002","projectName":"光明大道高架桥修建二期","applicantUnitName":"深圳市建设一局","receiptDate":"2017-2-10","receiptNumber":"201702100001","industry":"政府项目","remainWorkDays":0},
-	{"id":3,"projectPhase":"项目建议书","projectId":"SZ-GM-20170416-003","projectName":"光明大道高架桥修建三期","applicantUnitName":"深圳市建设一局","receiptDate":"2017-2-10","receiptNumber":"201702100001","industry":"政府项目","remainWorkDays":-1}
+	{"id":1,"projectState":"1","projectPhase":"项目建议书","projectId":"SZ-GM-20170416-001","projectName":"光明大道高架桥修建","applicantUnitName":"深圳市建设一局","receiptDate":"2017-2-10","receiptNumber":"201702100001","industry":"政府项目","remainWorkDays":3},
+	{"id":2,"projectState":"2","projectPhase":"项目建议书","projectId":"SZ-GM-20170416-002","projectName":"光明大道高架桥修建二期","applicantUnitName":"深圳市建设一局","receiptDate":"2017-2-10","receiptNumber":"201702100001","industry":"政府项目","remainWorkDays":0},
+	{"id":3,"projectState":"3","projectPhase":"项目建议书","projectId":"SZ-GM-20170416-003","projectName":"光明大道高架桥修建三期","applicantUnitName":"深圳市建设一局","receiptDate":"2017-2-10","receiptNumber":"201702100001","industry":"政府项目","remainWorkDays":-1}
 ],"count":3}
