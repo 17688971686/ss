@@ -1,0 +1,56 @@
+<div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+	  <ol class="breadcrumb">
+		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		  <li><a href="/admin">首页</a></li>
+	      <li><a href="#/projectMonthReport">项目月报</a></li>
+	      <li class="active">{{vm.title}}</li>
+	  </ol>
+	  <script type="text/template" id="columnBtns">
+	  		<button class="btn btn-xs btn-primary"  ng-click="{0}"><span class="glyphicon glyphicon-pencil"></span>填报</button>
+	  </script>
+	  <div class="toolbar">
+	       <!-- <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus"></span>添加新项目</button>  --> 
+	  </div>
+     <form id="form" name="form">          
+         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+    </form>
+</div>
+
+<!-- 添加新项目模态框 -->
+<!-- <div class="modal fade" id="myModal"> 
+	<div class="modal-dialog"> 
+		<div class="modal-content"> 
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			
+				<h4 class="modal-title" id="myModalLabel">添加新项目</h4> 
+			</div> 
+			<div class="modal-body">
+				<form role="form" class="form-horizontal">
+					<div class="form-group">
+						<label for="projectId" class="col-sm-3 control-label">相关项目:<span class="required">(*)</span></label>
+						<div class="col-sm-6">
+							<select id="projectId" class="form-control">
+								<option value="">--请选择--</option>
+								<option value="SZ-GM-20170114-0001">光明新区地铁修建阶段一</option>
+								<option value="SZ-GM-20170114-0002">光明新区地铁修建阶段二</option>
+								<option value="SZ-GM-20170114-0003">光明新区地铁修建阶段三</option>
+								<option value="SZ-GM-20170114-0004">光明新区地铁修建阶段四</option>
+							</select>
+						</div> 						
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer"> 
+				<button type="button" class="btn btn-success">确认</button>		
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button> 
+			</div> 
+		</div>
+	</div>
+</div>			 -->
+
+
+
+

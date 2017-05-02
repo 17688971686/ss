@@ -1,0 +1,43 @@
+<div ng-include src="'/contents/shenbao/shared/shenbao_head.html'"></div>
+
+<div class="wrap-960 clearfix" style="margin-top:110px;">
+<div class="pull-left" style="width:540px;height: 318px;">
+	<div class="column">
+			
+		<ul class="title clearfix">
+			<li class="focus article_1" ng-click="vm.article(1)">通知公告</li>
+			<li>/</li>
+			<li class="article_2" ng-click="vm.article(2)">政策法规</li>
+			<li>/</li>
+			<li class="article_3" ng-click="vm.article(3)">办事指南</li>
+			<li>/</li>
+			<li class="article_4" ng-click="vm.article(4)">常用表格</li>
+		</ul>
+		
+		<table style="width:100%" ng-repeat="x in vm.articles">
+			<tr>
+				<td class="item" >
+					<a href="#/details/1" ng-bind="x.title"></a>
+				</td>
+				<td style="width:100px" class="date" ng-bind="x.createdDate">
+				</td>
+			</tr>
+		</table>
+	
+	</div>
+</div>
+
+
+<div class="pull-right">
+	<div class="loginBox">
+		<div class="boxWrap" style="height: 318px;">
+			<div><input type="text" class="form-control input-sm" placeholder="请输入用户名称" /></div>
+			<div><input type="password" class="form-control input-sm" placeholder="请输入用户密码" /></div>
+			<div><button class="btn btn-success loginBtn" ng-click="vm.submit()">登录系统 </button></div></br>
+			<!-- <div><button class="btn btn-success loginBtn" ng-click="vm.forgetCode()">忘记密码 </button></div> -->
+		</div>
+		
+	</div>
+</div>
+
+</div>

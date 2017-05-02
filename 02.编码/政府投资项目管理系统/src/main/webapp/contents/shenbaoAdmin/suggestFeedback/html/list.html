@@ -1,0 +1,161 @@
+<meta charset="UTF-8">
+<div ng-include src="'/contents/app/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/app/common/dialog-confirm.tmpl.html'"></div>
+<div class="well well-sm" style="background:white;">
+	  <ol class="breadcrumb">
+	  	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+	  	<li><a href="/admin">首页</a></li>
+	    <li><a href="#/suggestFeedback">建议反馈</a></li>
+	    <li class="active">{{vm.title}}</li>
+	  </ol>
+	 
+     <form id="form" name="form">
+	      <div class="toolbar">
+	           	<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus"></span>新增</button>
+	      </div>
+	      <script type="text/template" id="columnBtns">
+	  		<button class="btn btn-xs btn-primary"  ng-click="{0}"><span class="glyphicon glyphicon-pencil"></span>编辑</button>
+			<button class="btn btn-xs btn-primary"  ng-click="{1}"><span class="glyphicon glyphicon-eye-open"></span>详情</button>
+			<button class="btn btn-xs btn-danger"  ng-click="{2}"><span class="glyphicon glyphicon-remove"></span>删除</button>
+	  	 </script>          
+         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+    </form>
+</div>
+
+<!-- 新增模态框 -->
+<div class="modal fade" id="myModal"> 
+	<div class="modal-dialog"> 
+		<div class="modal-content" style="height:550px;width:750px"> 
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			
+				<h4 class="modal-title" id="myModalLabel">添加建议反馈</h4> 
+			</div> 
+			<div class="modal-body" style="height:420px;overflow-y:scroll">
+				<form role="form" class="form-horizontal">
+					<div class="form-group">
+						<label for="projectId" class="col-sm-3 control-label">相关项目:<span class="required">(*)</span></label>
+						<div class="col-sm-4">
+							<select id="projectId" class="form-control">
+								<option value="">--请选择--</option>
+								<option value="SZ-GM-20170114-0001">光明新区地铁修建阶段一</option>
+								<option value="SZ-GM-20170114-0002">光明新区地铁修建阶段二</option>
+								<option value="SZ-GM-20170114-0003">光明新区地铁修建阶段三</option>
+								<option value="SZ-GM-20170114-0004">光明新区地铁修建阶段四</option>
+							</select>
+						</div> 						
+					</div>
+					<div class="form-group">
+						<label for="suggestTitle" class="col-sm-3 control-label">标题:<span class="required">(*)</span></label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" id="suggestTitle" placeholder="请输入问题标题">
+						</div> 						
+					</div>
+					<div class="form-group">
+						<label for="suggestFrom" class="col-sm-3 control-label">信息来源:<span class="required">(*)</span></label>
+						<div class="col-sm-4">
+							<select id="suggestFrom" class="form-control">
+								<option value="">--请选择--</option>
+								<option value="微信公众号">微信公众号</option>
+								<option value="政府公网">政府公网</option>
+								<option value="投诉建议办事处">投诉建议办事处</option>
+							</select>
+						</div> 						
+					</div>
+					<div class="form-group">
+						<label for="problemDescribe" class="col-sm-3 control-label">建议反馈描述:<span class="required">(*)</span></label>
+						<div class="col-sm-9">
+							<textarea class="form-control" rows="3" id="problemDescribe" placeholder="信息描述（300字符以内）"></textarea> 
+						</div> 						
+					</div>
+					<div class="form-group">
+						<label for="suggestState" class="col-sm-3 control-label">状态:<span class="required">(*)</span></label>
+						<div class="col-sm-4">
+							<select id="suggestState" class="form-control">
+								<option value="">--请选择--</option>
+								<option value="已处理">已处理</option>
+								<option value="待确认">待确认</option>
+								<option value="正在处理中">正在处理中</option>
+							</select>
+						</div> 									
+					</div>
+					<div class="form-group">
+						<label for="relatedUnit" class="col-sm-3 control-label">涉及单位:<span class="required">(*)</span></label>
+						<div class="col-sm-9">
+							<table class="table table-bordered table-striped table-hover" id="relatedUnit">
+								<tr>
+									<td style="text-align: center">单位名称</td>
+									<td style="text-align: center">部门名称</td>
+									<td style="text-align: center"><button class="btn btn-xs btn-primary" id="btnAdd">增加</button></td>
+								</tr>
+								<tr>
+									<td style="text-align: center">
+										<select style="width:140px;height:26px;">
+											<option>--请选择--</option>
+											<option>发改局</option>
+											<option>财政局</option>
+											<option>城管局</option>
+										</select>
+									</td>
+									<td style="text-align: center">
+										<input type="text">
+									</td>
+									<td style="text-align: center">
+										<button class="btn btn-xs btn-danger">删除</button>
+									</td>
+								</tr>
+							</table> 
+						</div> 						
+					</div>
+					<div class="form-group">
+						<label for="suggestMetting" class="col-sm-3 control-label">领导意见情况:<br><span class="required" style="font-size:12px;">(xx市领导xx年xx月xx日召开会议)(*)</span></label>
+						<div class="col-sm-9">
+							<textarea class="form-control" rows="3" id="suggestMetting"></textarea> 
+						</div> 						
+					</div>
+					<div class="form-group">
+						<div class="col-sm-3 control-label">
+							<label for="inputfile">相关附件:<br><span class="required" style="font-size:12px;">此类型附件仅支持(*.doc,*.docx,*.xls,*.xlsx,<br>*.rar,*.7z,*.jpg,*.jpeg,*.png,<br>*.gif,*.pdf,*.zip)(*)</span></label>
+						</div>
+						
+						<div class="col-sm-9">
+							<input type="text" class="form-control bg-info" placeholder="选择文件" style="text-align:center;border:0" disabled>
+							<br>
+							<input type="text" class="pull-left">
+							<input type="file" id="inputfile"> 
+						</div> 						
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer"> 
+				<button type="button" class="btn btn-success">确定</button> 			
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button> 
+			</div> 
+		</div>
+	</div>
+	<script type="text/javascript">
+	//模态框中涉及部门新增按钮的实现
+	$("#btnAdd").click(function () {
+        var table1 = $('#relatedUnit');
+        var row = $("<tr></tr>");
+        var td = $("<td style='text-align: center'></td>");
+        td.append('<select style="width:140px;height:26px;"><option value=-1>--请选择--</option><option value=1>发改局</option><option value=3>财政局</option><option value=2>城管局</option></select>');
+        row.append(td);
+
+        var td4 = $("<td style='text-align: center'></td>");
+        td4.append($("<input type='text'/>"));
+        row.append(td4);
+
+        var td3 = $("<td style='text-align: center'></td>");
+        td3.append($("<button class='btn btn-xs btn-danger'>删除</button>"));
+        row.append(td3);
+
+        table1.append(row);
+     //模态框中涉及部门删除按钮的实现
+       $(".btn-danger").click(function () {
+           if ($("#relatedUnit tbody tr").length > 2) {
+               $(this).parent().parent().remove();
+           }
+       });
+   });  
+	</script>
+</div>	

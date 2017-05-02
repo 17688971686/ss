@@ -1,0 +1,87 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+ <div class="well well-sm" style="background:white;">
+	  <ol class="breadcrumb">
+	  	  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+	  	  <li><a href="/admin">首页</a></li>
+	      <li><a href="#/projectDeclaration">项目申报</a></li>
+	      <li class="active">{{vm.title}}</li>
+	  </ol>
+	   
+     <form id="form" name="form"> 
+     	<script type="text/template" id="columnBtns">
+	  		<button class="btn btn-xs btn-danger"  ng-click="{0}"><span class="glyphicon glyphicon-remove"></span>删除</button>
+	  		<button class="btn btn-xs btn-primary" ng-click="{1}"><span class="glyphicon glyphicon-pencil"></span>编辑</button>
+			<button class="btn btn-xs btn-primary" ng-click="{2}"><span class="glyphicon glyphicon-export"></span>导出</button>			
+	  	</script>
+		<div class="toolbar">
+			<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus"></span>添加新项目</button>
+	    </div>         
+         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+    </form>
+ </div>
+ 
+ <!-- 添加新项目模态框 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> 
+	<div class="modal-dialog"> 
+		<div class="modal-content"> 
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			
+				<h4 class="modal-title" id="myModalLabel">添加新项目</h4> 
+			</div> 
+			<div class="modal-body">
+				<form class="form-horizontal" role="form"> 
+					<div class="form-group">
+						<label class="col-sm-4 control-label">项目名称:<span class="errors">(*)</span></label> 
+						<div class="col-sm-6">
+							<input type="text"  class="form-control" placeholder="请输入项目名称" ng-model="vm.projectName">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label">请选择申报阶段:<span class="errors">(*)</span></label>
+						<div class="col-sm-6">
+							<select class="form-control" ng-model="vm.declarationStage" id="sb" onchange="gradeChange()"> 
+								<option value="0">--请选择--</option>
+								<option value="1">前期计划（前期费）</option>
+								<option value="2">规划设计前期费</option>
+								<option value="3">新开工计划</option>
+								<option value="4">续建计划</option>
+								<option value="5">下一年度计划</option>
+								<option value="6">年度计划调整</option>
+								<option value="7">委托审计</option>
+								<option value="8">审计决算资金</option>
+							</select> 
+						</div>
+					</div>
+					<div class="form-group" style="display: none" id="sq">
+						<label class="col-sm-4 control-label">请选择年度计划项目类型:<span class="errors">(*)</span></label>
+						<div class="col-sm-6">
+							<select class="form-control"> 
+								<option>--请选择--</option>
+								<option value="A">A</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+							</select> 
+						</div>
+					</div>	
+				</form>
+			</div> 
+			<div class="modal-footer"> 
+				<button type="submit" class="btn btn-success"  ng-click="vm.goFillDeclarationInfo()">确定</button> 			
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button> 
+			</div> 
+	</div><!-- /.modal-content -->
+ </div><!-- /.modal --> 
+</div>
+<script type="text/javascript">
+		  function gradeChange(){
+		        var objS = document.getElementById("sb");
+		        var val = objS.options[objS.selectedIndex].value;
+		        if(val == "5"){
+		        	$("#sq").show();
+		        }else{
+		        	$("#sq").hide();
+		        }
+		       }
+	
+</script>
