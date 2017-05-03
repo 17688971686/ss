@@ -4,7 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+/**
+ * 基础数据表
+ *
+ *
+ */
 @Entity
 @Table(name="cs_basicData")
 public class BasicData extends DomainBase {

@@ -5,6 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * 附件表
+ *
+ *
+ */
 @Entity
 @Table(name="cs_attachment")
 public class Attachment {
