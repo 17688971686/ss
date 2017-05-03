@@ -170,4 +170,444 @@ public class MonthReport extends DomainBase{
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<Attachment> attachments=new ArrayList<>();
 	//end#关联信息
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
+
+	public String getFillName() {
+		return fillName;
+	}
+
+	public void setFillName(String fillName) {
+		this.fillName = fillName;
+	}
+
+	public String getFillMobile() {
+		return fillMobile;
+	}
+
+	public void setFillMobile(String fillMobile) {
+		this.fillMobile = fillMobile;
+	}
+
+	public String getMonRepManagerName() {
+		return monRepManagerName;
+	}
+
+	public void setMonRepManagerName(String monRepManagerName) {
+		this.monRepManagerName = monRepManagerName;
+	}
+
+	public String getMonRepManagerTel() {
+		return monRepManagerTel;
+	}
+
+	public void setMonRepManagerTel(String monRepManagerTel) {
+		this.monRepManagerTel = monRepManagerTel;
+	}
+
+	public String getMonRepManagerFax() {
+		return monRepManagerFax;
+	}
+
+	public void setMonRepManagerFax(String monRepManagerFax) {
+		this.monRepManagerFax = monRepManagerFax;
+	}
+
+	public String getMonRepManagUnitName() {
+		return monRepManagUnitName;
+	}
+
+	public void setMonRepManagUnitName(String monRepManagUnitName) {
+		this.monRepManagUnitName = monRepManagUnitName;
+	}
+
+	public String getRespUnitManagerName() {
+		return respUnitManagerName;
+	}
+
+	public void setRespUnitManagerName(String respUnitManagerName) {
+		this.respUnitManagerName = respUnitManagerName;
+	}
+
+	public String getRespUnitManagerTel() {
+		return respUnitManagerTel;
+	}
+
+	public void setRespUnitManagerTel(String respUnitManagerTel) {
+		this.respUnitManagerTel = respUnitManagerTel;
+	}
+
+	public Date getProposalsReplyDate() {
+		return proposalsReplyDate;
+	}
+
+	public void setProposalsReplyDate(Date proposalsReplyDate) {
+		this.proposalsReplyDate = proposalsReplyDate;
+	}
+
+	public Date getFeaStyRepoReplyDate() {
+		return feaStyRepoReplyDate;
+	}
+
+	public void setFeaStyRepoReplyDate(Date feaStyRepoReplyDate) {
+		this.feaStyRepoReplyDate = feaStyRepoReplyDate;
+	}
+
+	public Date getAllEstimateReplyDate() {
+		return allEstimateReplyDate;
+	}
+
+	public void setAllEstimateReplyDate(Date allEstimateReplyDate) {
+		this.allEstimateReplyDate = allEstimateReplyDate;
+	}
+
+	public Date getPrePlanReplyDate() {
+		return prePlanReplyDate;
+	}
+
+	public void setPrePlanReplyDate(Date prePlanReplyDate) {
+		this.prePlanReplyDate = prePlanReplyDate;
+	}
+
+	public Integer getProposalsType() {
+		return proposalsType;
+	}
+
+	public void setProposalsType(Integer proposalsType) {
+		this.proposalsType = proposalsType;
+	}
+
+	public Date getProposalsYear() {
+		return proposalsYear;
+	}
+
+	public void setProposalsYear(Date proposalsYear) {
+		this.proposalsYear = proposalsYear;
+	}
+
+	public String getProposalsNum() {
+		return proposalsNum;
+	}
+
+	public void setProposalsNum(String proposalsNum) {
+		this.proposalsNum = proposalsNum;
+	}
+
+	public Integer getReportType() {
+		return reportType;
+	}
+
+	public void setReportType(Integer reportType) {
+		this.reportType = reportType;
+	}
+
+	public Date getReportYear() {
+		return reportYear;
+	}
+
+	public void setReportYear(Date reportYear) {
+		this.reportYear = reportYear;
+	}
+
+	public String getReportNum() {
+		return reportNum;
+	}
+
+	public void setReportNum(String reportNum) {
+		this.reportNum = reportNum;
+	}
+
+	public Integer getAllEstimateType() {
+		return allEstimateType;
+	}
+
+	public void setAllEstimateType(Integer allEstimateType) {
+		this.allEstimateType = allEstimateType;
+	}
+
+	public Date getAllEstimateYear() {
+		return allEstimateYear;
+	}
+
+	public void setAllEstimateYear(Date allEstimateYear) {
+		this.allEstimateYear = allEstimateYear;
+	}
+
+	public String getAllEstimateNum() {
+		return allEstimateNum;
+	}
+
+	public void setAllEstimateNum(String allEstimateNum) {
+		this.allEstimateNum = allEstimateNum;
+	}
+
+	public Integer getPrePlanType() {
+		return prePlanType;
+	}
+
+	public void setPrePlanType(Integer prePlanType) {
+		this.prePlanType = prePlanType;
+	}
+
+	public Date getPrePlanYear() {
+		return prePlanYear;
+	}
+
+	public void setPrePlanYear(Date prePlanYear) {
+		this.prePlanYear = prePlanYear;
+	}
+
+	public String getPrePlanNum() {
+		return prePlanNum;
+	}
+
+	public void setPrePlanNum(String prePlanNum) {
+		this.prePlanNum = prePlanNum;
+	}
+
+	public Date getCommencementDate() {
+		return commencementDate;
+	}
+
+	public void setCommencementDate(Date commencementDate) {
+		this.commencementDate = commencementDate;
+	}
+
+	public Date getActuallyDate() {
+		return actuallyDate;
+	}
+
+	public void setActuallyDate(Date actuallyDate) {
+		this.actuallyDate = actuallyDate;
+	}
+
+	public Date getCompletedDate() {
+		return completedDate;
+	}
+
+	public void setCompletedDate(Date completedDate) {
+		this.completedDate = completedDate;
+	}
+
+	public BigDecimal getInvertPlanTotal() {
+		return invertPlanTotal;
+	}
+
+	public void setInvertPlanTotal(BigDecimal invertPlanTotal) {
+		this.invertPlanTotal = invertPlanTotal;
+	}
+
+	public BigDecimal getActuallyFinishiInvestment() {
+		return actuallyFinishiInvestment;
+	}
+
+	public void setActuallyFinishiInvestment(BigDecimal actuallyFinishiInvestment) {
+		this.actuallyFinishiInvestment = actuallyFinishiInvestment;
+	}
+
+	public BigDecimal getSinceLastYearCompletInvestment() {
+		return sinceLastYearCompletInvestment;
+	}
+
+	public void setSinceLastYearCompletInvestment(BigDecimal sinceLastYearCompletInvestment) {
+		this.sinceLastYearCompletInvestment = sinceLastYearCompletInvestment;
+	}
+
+	public BigDecimal getThisYearPlanInvestment() {
+		return thisYearPlanInvestment;
+	}
+
+	public void setThisYearPlanInvestment(BigDecimal thisYearPlanInvestment) {
+		this.thisYearPlanInvestment = thisYearPlanInvestment;
+	}
+
+	public BigDecimal getThisMonthInvestTotal() {
+		return thisMonthInvestTotal;
+	}
+
+	public void setThisMonthInvestTotal(BigDecimal thisMonthInvestTotal) {
+		this.thisMonthInvestTotal = thisMonthInvestTotal;
+	}
+
+	public BigDecimal getBuildAndInstallInvest() {
+		return buildAndInstallInvest;
+	}
+
+	public void setBuildAndInstallInvest(BigDecimal buildAndInstallInvest) {
+		this.buildAndInstallInvest = buildAndInstallInvest;
+	}
+
+	public BigDecimal getEquipmentInvest() {
+		return equipmentInvest;
+	}
+
+	public void setEquipmentInvest(BigDecimal equipmentInvest) {
+		this.equipmentInvest = equipmentInvest;
+	}
+
+	public BigDecimal getOtherInvest() {
+		return otherInvest;
+	}
+
+	public void setOtherInvest(BigDecimal otherInvest) {
+		this.otherInvest = otherInvest;
+	}
+
+	public BigDecimal getThisYearAccumulatedInvestment() {
+		return thisYearAccumulatedInvestment;
+	}
+
+	public void setThisYearAccumulatedInvestment(BigDecimal thisYearAccumulatedInvestment) {
+		this.thisYearAccumulatedInvestment = thisYearAccumulatedInvestment;
+	}
+
+	public String getProjectApprovalProgress() {
+		return projectApprovalProgress;
+	}
+
+	public void setProjectApprovalProgress(String projectApprovalProgress) {
+		this.projectApprovalProgress = projectApprovalProgress;
+	}
+
+	public String getProjectImageProgress() {
+		return projectImageProgress;
+	}
+
+	public void setProjectImageProgress(String projectImageProgress) {
+		this.projectImageProgress = projectImageProgress;
+	}
+
+	public Integer getSelfReview() {
+		return selfReview;
+	}
+
+	public void setSelfReview(Integer selfReview) {
+		this.selfReview = selfReview;
+	}
+
+	public BigDecimal getFirstQuarCompInvestment() {
+		return firstQuarCompInvestment;
+	}
+
+	public void setFirstQuarCompInvestment(BigDecimal firstQuarCompInvestment) {
+		this.firstQuarCompInvestment = firstQuarCompInvestment;
+	}
+
+	public BigDecimal getSecondQuarCompInvestment() {
+		return secondQuarCompInvestment;
+	}
+
+	public void setSecondQuarCompInvestment(BigDecimal secondQuarCompInvestment) {
+		this.secondQuarCompInvestment = secondQuarCompInvestment;
+	}
+
+	public BigDecimal getThirdQuarCompInvestment() {
+		return thirdQuarCompInvestment;
+	}
+
+	public void setThirdQuarCompInvestment(BigDecimal thirdQuarCompInvestment) {
+		this.thirdQuarCompInvestment = thirdQuarCompInvestment;
+	}
+
+	public BigDecimal getFourthQuarCompInvestment() {
+		return fourthQuarCompInvestment;
+	}
+
+	public void setFourthQuarCompInvestment(BigDecimal fourthQuarCompInvestment) {
+		this.fourthQuarCompInvestment = fourthQuarCompInvestment;
+	}
+
+	public String getWorkTargets() {
+		return workTargets;
+	}
+
+	public void setWorkTargets(String workTargets) {
+		this.workTargets = workTargets;
+	}
+
+	public BigDecimal getRequisitionLandArea() {
+		return requisitionLandArea;
+	}
+
+	public void setRequisitionLandArea(BigDecimal requisitionLandArea) {
+		this.requisitionLandArea = requisitionLandArea;
+	}
+
+	public BigDecimal getDemolitionArea() {
+		return demolitionArea;
+	}
+
+	public void setDemolitionArea(BigDecimal demolitionArea) {
+		this.demolitionArea = demolitionArea;
+	}
+
+	public Date getSubmitMonth() {
+		return submitMonth;
+	}
+
+	public void setSubmitMonth(Date submitMonth) {
+		this.submitMonth = submitMonth;
+	}
+
+	public Date getSubmitDate() {
+		return submitDate;
+	}
+
+	public void setSubmitDate(Date submitDate) {
+		this.submitDate = submitDate;
+	}
+
+	public Date getApprovalDate() {
+		return approvalDate;
+	}
+
+	public void setApprovalDate(Date approvalDate) {
+		this.approvalDate = approvalDate;
+	}
+
+	public Integer getIsCompletion() {
+		return isCompletion;
+	}
+
+	public void setIsCompletion(Integer isCompletion) {
+		this.isCompletion = isCompletion;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public List<MonthReportProblem> getMonthReportProblems() {
+		return monthReportProblems;
+	}
+
+	public void setMonthReportProblems(List<MonthReportProblem> monthReportProblems) {
+		this.monthReportProblems = monthReportProblems;
+	}
+
+	public List<Attachment> getAttachments() {
+		return attachments;
+	}
+
+	public void setAttachments(List<Attachment> attachments) {
+		this.attachments = attachments;
+	}
 }

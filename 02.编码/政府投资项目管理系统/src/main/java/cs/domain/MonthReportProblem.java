@@ -40,5 +40,45 @@ public class MonthReportProblem extends DomainBase {
 	@JoinColumn(name="monthReport_id",insertable=false,updatable=false)
 	private MonthReport monthReport=new MonthReport();
 	//end#关联信息
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getProblemIntroduction() {
+		return problemIntroduction;
+	}
+
+	public void setProblemIntroduction(String problemIntroduction) {
+		this.problemIntroduction = problemIntroduction;
+	}
+
+	public String getSolutionsAndSuggest() {
+		return solutionsAndSuggest;
+	}
+
+	public void setSolutionsAndSuggest(String solutionsAndSuggest) {
+		this.solutionsAndSuggest = solutionsAndSuggest;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public MonthReport getMonthReport() {
+		return monthReport;
+	}
+
+	public void setMonthReport(MonthReport monthReport) {
+		this.monthReport = monthReport;
+	}
 	
 }
