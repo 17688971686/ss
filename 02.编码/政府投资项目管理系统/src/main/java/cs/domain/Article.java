@@ -23,7 +23,7 @@ public class Article extends DomainBase {
 	private String content;
 	
 	
-	//申报门户：1-通知公告，2-政策法规,3-办事指南,4-常用表格,5-问题协调，6-建议反馈	
+	//申报门户：1-通知公告，2-政策法规,3-办事指南,4-常用表格，5-建议反馈	
 	@Column(columnDefinition="varchar(255) not NULL COMMENT '类型'")
 	private String type;
 	

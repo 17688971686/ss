@@ -15,7 +15,7 @@ public class ArticleComment extends DomainBase {
 	
 	@ManyToOne
 	@JoinColumn(name="article_id",insertable=false,updatable=false)
-	private Article article;
+	private Article article=new Article();
 	
 	@Column(columnDefinition="varchar(1000) NOT NULL COMMENT '内容'")
 	private String content;
