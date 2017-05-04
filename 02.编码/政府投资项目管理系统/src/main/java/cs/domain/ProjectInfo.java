@@ -216,9 +216,11 @@ public class ProjectInfo extends DomainBase{
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<Attachment> attachments=new ArrayList<>();
 	
+	//申报单位
 	@OneToOne(cascade=CascadeType.ALL)
 	private UnitInfo shenBaoUnit=new UnitInfo();
 	
+	//编制单位
 	@OneToOne(cascade=CascadeType.ALL)
 	private UnitInfo BianZhiUnit=new UnitInfo();
 	//end#关联信息
