@@ -54,9 +54,23 @@
 
 	<div class="well well-sm ">
 		<p class="text-danger ">上传：（请参考kendoui）</p>
-
-		<div class="demo-section k-content">
-			<input name="files" id="files" type="file" />
+	
+		<div>
+		<input name="file" id="files" type="file" />
+		</div>
+		
+		<p class="text-danger ">修改样式后：</p>
+			<style>
+		#uploadBox .k-upload-status{display: none;}
+		#uploadBox .k-header{
+			background: transparent;
+			border:0px;
+		}
+		#uploadBox em{display: none;}
+		#uploadBox .k-dropzone{padding:0px;margin: 0px;}
+		</style>
+		<div style="width: 100px;" id="uploadBox">
+			<input name="file" id="files2" type="file" />
 		</div>
 
 	</div>

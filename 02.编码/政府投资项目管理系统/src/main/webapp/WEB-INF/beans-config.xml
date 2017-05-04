@@ -128,6 +128,10 @@
 
 	<!-- Step 4: Enable configuration of transactional behavior based on annotations -->
 	<tx:annotation-driven transaction-manager="myTransactionManager" />
-
+ <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
+	       <property name="maxUploadSize" value="10000000" />
+	        <property name="defaultEncoding" value="UTF-8" />
+	        <property name="uploadTempDir" value="fileUploadTemp" />
+	</bean>
 
 </beans>
