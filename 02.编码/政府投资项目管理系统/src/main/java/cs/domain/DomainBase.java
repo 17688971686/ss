@@ -24,7 +24,7 @@ public abstract class DomainBase {
 	private String modifiedBy="";
 	
 	@Column(columnDefinition="int(11)  COMMENT '排序'")
-	private int itemOrder;
+	private Integer itemOrder;
 	
 	public Date getModifiedDate() {
 		return modifiedDate;
@@ -58,13 +58,15 @@ public abstract class DomainBase {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public int getItemOrder() {
+	public Integer getItemOrder() {
 		return itemOrder;
 	}
 
-	public void setItemOrder(int itemOrder) {
+	public void setItemOrder(Integer itemOrder) {
 		this.itemOrder = itemOrder;
 	}
+
+	
 
 	
 	
