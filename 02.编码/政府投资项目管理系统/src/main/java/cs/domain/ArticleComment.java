@@ -7,6 +7,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * 文章评论表
+ *
+ *
+ */
 @Entity
 @Table(name="cs_articleComment")
 public class ArticleComment extends DomainBase {

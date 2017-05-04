@@ -11,6 +11,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * 文章表
+ *
+ *
+ */
 @Entity
 @Table(name="cs_article")
 public class Article extends DomainBase {
