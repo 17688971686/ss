@@ -4,7 +4,8 @@
     angular.module('app', [
         // Angular modules 
        "ui.router",
-       "kendo.directives"
+       "kendo.directives",
+       'textAngular'
        
         // Custom modules 
 

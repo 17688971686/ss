@@ -40,6 +40,20 @@
                      autoUpload: true
                  }
              });
+        	 $("#files2").kendoUpload({
+                 async: {
+                     saveUrl: "/demo/save",
+                     removeUrl: "/demo/remove",
+                     autoUpload: true
+                 },
+                 showFileList:false,
+                 success:function(e){
+                	 console.log(e);
+                 },
+                 localization: {
+                     select: "选择文件"
+                 }
+             });
         }
         
         vm.setCookie=function(){
@@ -51,6 +65,10 @@
         	var value2=common.cookie().get('myCookie','password'); 
         	alert(common.format("用户名:{0},密码:{1}",value1,value2));
         };
+        
+        vm.textSubmit=function(){
+        	alert(vm.content);
+        }
        
         activate();
         function activate() {

@@ -1,4 +1,6 @@
-<meta charset="UTF-8">
+
+
+
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
 
@@ -159,6 +161,14 @@ orderby desc:   http://localhost/Products?$orderby=Price desc
 					}).select(function(x) {
 						return x;
 					}).firstOrDefault();
+	</div>
+	
+	
+	
+	<div class="well well-sm ">
+		<p class="text-danger ">编辑器</p>
+		<div text-angular ng-model="vm.content"></div>
+		<button class="btn btn-primary" ng-click="vm.textSubmit()">提交</button>
 	</div>
 	
 </div>
