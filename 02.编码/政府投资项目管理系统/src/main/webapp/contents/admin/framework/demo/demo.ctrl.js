@@ -42,13 +42,22 @@
              });
         	 $("#files2").kendoUpload({
                  async: {
-                     saveUrl: "/demo/save",
-                     removeUrl: "/demo/remove",
+                     saveUrl: "/common/save",
+                     removeUrl: "/common/remove",
                      autoUpload: true
                  },
                  showFileList:false,
-                 success:function(e){
+                 select:function(e){
+                	 console.log("select:");
                 	 console.log(e);
+                 },
+                 error:function(e){
+                	 console.log("error:");
+                	 console.log(e);
+                	 if(e.XMLHttpRequest.status==200){
+                		 var fileName=e.XMLHttpRequest.response;
+                		 alert("文件名："+fileName);
+                	 }
                  },
                  localization: {
                      select: "选择文件"

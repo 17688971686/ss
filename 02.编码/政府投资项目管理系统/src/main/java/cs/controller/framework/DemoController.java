@@ -24,12 +24,13 @@ public class DemoController {
 	//@RequiresPermissions("demo#save#post")
 	@RequestMapping(name = "上传文件", path = "save", method = RequestMethod.POST)
 	public @ResponseBody String Save(@RequestParam("file") MultipartFile file){
+		String randomName="";
 		if (!file.isEmpty()) {  
             try {  
             	//文件名：
             	String fileName=file.getOriginalFilename();
             	//随机名
-            	String randomName=Util.generateFileName(fileName);
+            	randomName=Util.generateFileName(fileName);
                 // 文件保存路径  
                 String filePath = request.getSession().getServletContext().getRealPath("/") + "contents/upload/"  
                         + randomName;  
@@ -39,7 +40,8 @@ public class DemoController {
                 e.printStackTrace();  
             }  
         }  
-		return "true";
+		//return "true";
+		return randomName;
 	}
 	@RequestMapping(name = "删除上传文件", path = "remove", method = RequestMethod.POST)
 	public @ResponseBody String remove(HttpServletRequest request){
