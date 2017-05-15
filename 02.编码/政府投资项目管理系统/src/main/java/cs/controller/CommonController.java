@@ -1,11 +1,13 @@
 package cs.controller;
 
 import java.io.File;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import cs.common.Util;
+import cs.model.BasicDataDto;
+import cs.service.common.BasicDataService;
 
 @Controller
 @RequestMapping(name = "common", path = "common")
@@ -20,9 +24,17 @@ public class CommonController {
 	private String ctrlName = "framework/common";
 	
 	@Autowired  
-    private HttpServletRequest request;  
-	//@RequiresPermissions("demo#save#post")
-	@RequestMapping(name = "上传文件", path = "save", method = RequestMethod.POST)
+    private HttpServletRequest request;
+	@Autowired
+	private BasicDataService basicDataService;
+	
+	
+	@RequestMapping(name="查询基础数据",path="basicData/{identity}",method=RequestMethod.GET)
+	public @ResponseBody List<BasicDataDto> getBasicData(@PathVariable("identity") String identity){
+		return basicDataService.queryByIdentity(identity);
+	}
+	
+	@RequestMapping(name = "上传文件", path = "save", method = RequestMethod.POST,produces ="application/json;charset=UTF-8")
 	public @ResponseBody String Save(@RequestParam("file") MultipartFile file){
 		String randomName="";
 		if (!file.isEmpty()) {  
@@ -40,7 +52,6 @@ public class CommonController {
                 e.printStackTrace();  
             }  
         }  
-		//return "true";
 		return randomName;
 	}
 	@RequestMapping(name = "删除上传文件", path = "remove", method = RequestMethod.POST)
