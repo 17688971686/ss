@@ -6,12 +6,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(name = "申报", path = "shenbao")
+@RequestMapping(name = "申报", path = "")
 public class ShenBaoHomeController {
 	private String ctrlName = "shenbao/home";
 	private static Logger logger = Logger.getLogger(ShenBaoHomeController.class.getName());
 
-	@RequestMapping(name = "首页", path = "/home")
+	@RequestMapping(name = "首页", path = "/")
 	public String index() {
 
 		return this.ctrlName + "/index";

@@ -93,6 +93,16 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#home
+	        
+	        //begin#portal
+	        .state('portalManagement', {
+	            url: '/portalManagement/:type',
+	            templateUrl: '/portalManagement/html/list.html',
+	            controller: 'portalCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        
+	        //end#portal
     }]);
     
 })();
