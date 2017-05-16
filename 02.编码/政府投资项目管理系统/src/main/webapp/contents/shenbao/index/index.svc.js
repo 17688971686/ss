@@ -5,7 +5,7 @@
 
 	index.$inject = [ '$http' ];	
 	function index($http) {	
-		var user_article="/contents/shenbao/index/data/article_";
+		var data_url="/indexData";
 		var service = {
 				getArticle:getArticle
 		};		
@@ -15,15 +15,14 @@
 		function getArticle(vm,type){
 			var httpOptions = {
 					method : 'get',
-					url : user_article+type+'.js',
+					url : data_url,
 					data : vm.model
 				}
 
 				var httpSuccess = function success(response) {
-					vm["article_"+type]=response.data;
-					if(type=="announcement"){
-						vm.articles=response.data;
-					}
+					vm.model=response.data;
+					vm.articles=vm.model.article_tzgg;
+					console.log(vm.model);
 				}
 
 				common.http({

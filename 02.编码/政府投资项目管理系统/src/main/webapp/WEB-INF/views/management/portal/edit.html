@@ -48,19 +48,15 @@
 						<input name="files" id="files" type="file" />
 					</div>
 					<table style="width:100%;margin:5px;" class="table table-bordered" ng-show="vm.files.length>0" >
-						<thead>
 							<tr class="bg-info" style="font-weight:bold">
 								<td>文件名</td>					
 								<td style="width:100px;">操作</td>
 							</tr>
-						</thead>
-						<tbody  ng-repeat="x in vm.files">
-							<tr>
+							<tr ng-repeat="x in vm.files">
 								<td ><a href="/contents/upload/{{x}}" target="_blank" ng-bind="x.split('_')[2]"></a></td>						
 								<td ><button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button></td>
 							</tr>
 							
-							</tbody>
 					</table>
                 </td>
                 <td>

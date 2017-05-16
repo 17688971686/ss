@@ -1,13 +1,12 @@
 (function(){
 	'use strict';
-	angular.module('app').controller('detailsCtrl',details);
+	angular.module('app').controller('listCtrl',list);
 	
-	details.$inject = ['$location','$state','detailsSvc'];
+	list.$inject = ['$location','$state','listSvc'];
 	
-	function details($location,$state,detailsSvc){
+	function list($location,$state,listSvc){
 		var vm = this;
-		var id = $state.params.id;
-		vm.type=$state.params.type;
+		vm.type= $state.params.type;
 		vm.init=function(){   
         	//title
         	switch (vm.type) {
@@ -30,8 +29,8 @@
 		
 		activate();
 		function activate () {
-			detailsSvc.getById(vm,id);
 			vm.init();
+			listSvc.getData(vm);
 		}
 	}
 })();

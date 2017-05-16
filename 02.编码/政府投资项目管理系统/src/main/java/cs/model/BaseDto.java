@@ -9,6 +9,8 @@ public class BaseDto {
 	private String createdBy;
 	private String modifiedDate;
 	private String modifiedBy;
+	private Integer itemOrder;
+	
 	public String getCreatedDate() {
 		return createdDate;
 	}
@@ -32,5 +34,17 @@ public class BaseDto {
 	}
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
+	}
+	public Integer getItemOrder() {
+		return itemOrder;
+	}
+	public void setItemOrder(Integer itemOrder) {
+		this.itemOrder = itemOrder;
+	}
+	public void setCreatedDate(String createdDate) {
+		this.createdDate = createdDate;
+	}
+	public void setModifiedDate(String modifiedDate) {
+		this.modifiedDate = modifiedDate;
 	}
 }

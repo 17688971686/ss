@@ -15,9 +15,15 @@
 				controllerAs:'vm'
 			})
 			.state('details',{
-				url:'/details/:id',
+				url:'/details/:type/:id',
 				templateUrl:'/contents/shenbao/details/html/details.html',
 				controller:'detailsCtrl',
+				controllerAs:'vm'
+			})
+			.state('list',{
+				url:'/list/:type',
+				templateUrl:'/contents/shenbao/list/html/list.html',
+				controller:'listCtrl',
 				controllerAs:'vm'
 			})
 			//修改密码页面

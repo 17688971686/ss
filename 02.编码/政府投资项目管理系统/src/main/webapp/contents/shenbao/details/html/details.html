@@ -1,21 +1,46 @@
 
-<div ng-include src="'/contents/home/shared/shenbao_head.html'"></div>
+<div ng-include src="'/contents/shenbao/shared/shenbao_head.html'"></div>
 
-<div class="wrap-960 clearfix" style="background:#fff; min-height: 700px;" >
-<ol class="breadcrumb" style="background: #fff;margin-top:10px;">
-	<li style="color:#666;padding-left:15px;"> 当前位置：</li>
-        <li><a href="#/shenbao">首页</a></li>
-        <li class="active">详情</li>
-    </ol>
-	<div style="padding:0px 20px;">
-	
-    
-   <div class="bg-info" style="padding:5px;margin-bottom:10px;">标题:
-   		{{vm.model.title}}
-   </div>
-    <div >内容:{{vm.model.content}}</div>
+<div class="wrap-960 clearfix"
+	style="background: #fff; min-height: 700px;">
+	<ol class="breadcrumb" style="background: #fff; margin-top: 10px;">
+		<li style="color: #666; padding-left: 15px;">当前位置：</li>
+		<li><a href="#/shenbao">首页</a></li>
+		<li><a href="#/list/{{vm.type}}" ng-bind="vm.title"></a></li>
+		<li class="active">详情</li>
+	</ol>
+	<div style="padding: 0px 20px;">
+
+
+		<div class="bg-info" style="padding: 5px; margin-bottom: 10px;"
+			ng-bind="vm.model.title"></div>
+		<div ng-bind="vm.model.content"></div>
+
+		<div ng-show="vm.files.length>0"
+			style="font-weight: bold; margin-top: 10px;">相关文件：</div>
+
+		<table style="width: 100%; margin: 5px;" class="table table-bordered"
+			ng-show="vm.files.length>0">
+
+			<tr class="bg-default" style="font-weight: bold">
+				<td>文件名</td>
+				<td style="width: 100px;">操作</td>
+			</tr>
+
+			<tr ng-repeat="x in vm.files">
+				<td><a href="/contents/upload/{{x}}" target="_blank"
+					ng-bind="x.split('_')[2]"></a></td>
+				<td><a href="/contents/upload/{{x}}" target="_blank"
+					class="btn btn-success btn-xs">下载</a></td>
+			</tr>
+		</table>
+
+
 	</div>
-	
-	
+
+
+
+
+
 </div>
 

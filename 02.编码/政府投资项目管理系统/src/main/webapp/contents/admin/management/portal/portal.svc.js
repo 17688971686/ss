@@ -161,7 +161,10 @@
 			}
 			var httpSuccess = function success(response) {
 				vm.model = response.data.value[0];	
-				vm.files=vm.model.files.split(';');
+				if(vm.model.files){
+					vm.files=vm.model.files.split(';');
+				}
+				
 			}
 			
 			common.http({

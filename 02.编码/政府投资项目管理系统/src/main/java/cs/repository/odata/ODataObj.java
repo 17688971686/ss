@@ -28,7 +28,7 @@ public class ODataObj {
 	
 
 	@SuppressWarnings("rawtypes")
-	private List<ODataFilterItem> filter;
+	private List<ODataFilterItem> filter=new ArrayList<>();
 
 	public String getOrderby() {
 		return orderby;
@@ -131,7 +131,7 @@ public class ODataObj {
 
 					String[] filterItems = filterItem.split(" ");
 					if (filterItems.length == 3) {
-						if (filterItems[2].toLowerCase().contains("datetime")) {// Èç¹ûÊÇdatetime
+						if (filterItems[2].toLowerCase().contains("datetime")) {// ï¿½ï¿½ï¿½ï¿½ï¿½datetime
 							ODataFilterItem<Date> oDataFilterItem = new ODataFilterItem<Date>();
 
 							oDataFilterItem.setField(filterItems[0]);
@@ -141,7 +141,7 @@ public class ODataObj {
 							oDataFilterItem.setValue(dateFormat.parse(date));
 							filterItemsList.add(oDataFilterItem);
 						} 
-						else if(filterItems[2].toLowerCase().contains("guid")){//Èç¹ûÊÇguid
+						else if(filterItems[2].toLowerCase().contains("guid")){//ï¿½ï¿½ï¿½ï¿½ï¿½guid
 							ODataFilterItem<UUID> oDataFilterItem = new ODataFilterItem<UUID>();
 
 							oDataFilterItem.setField(filterItems[0]);
@@ -151,14 +151,14 @@ public class ODataObj {
 							oDataFilterItem.setValue(id);
 							filterItemsList.add(oDataFilterItem);
 						}
-						else if (filterItems[2].contains("'")) {// Èç¹ûÊÇstring
+						else if (filterItems[2].contains("'")) {// ï¿½ï¿½ï¿½ï¿½ï¿½string
 							ODataFilterItem<String> oDataFilterItem = new ODataFilterItem<String>();
 
 							oDataFilterItem.setField(filterItems[0]);
 							oDataFilterItem.setOperator(filterItems[1]);
 							oDataFilterItem.setValue(filterItems[2].replaceAll("'", ""));
 							filterItemsList.add(oDataFilterItem);
-						} else {// ÆäËüÎªint
+						} else {// ï¿½ï¿½ï¿½ï¿½Îªint
 							ODataFilterItem<Integer> oDataFilterItem = new ODataFilterItem<Integer>();
 
 							oDataFilterItem.setField(filterItems[0]);
@@ -180,7 +180,7 @@ public class ODataObj {
 	public Criteria buildQuery(Criteria criteria) {
 		logger.debug("begin:buildQuery");
 		
-		// ´¦Àífilter
+		// ï¿½ï¿½ï¿½ï¿½filter
 		if (filter != null) {
 			for (ODataFilterItem oDataFilterItem : filter) {
 				String field = oDataFilterItem.getField();
@@ -214,7 +214,7 @@ public class ODataObj {
 				}
 			}
 		}
-		//Í³¼Æ×ÜÊý
+		//Í³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if(this.isCount){		
 			
 			Integer totalResult = ((Number)criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
@@ -222,12 +222,12 @@ public class ODataObj {
 			criteria.setProjection(null);
 			logger.debug("count:"+totalResult);
 		}
-		// ´¦Àí·ÖÒ³
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ò³
 		if (this.top != 0) {
 			criteria.setFirstResult(this.skip);
 			criteria.setMaxResults(this.top);
 		}
-		// ´¦Àíorderby
+		// ï¿½ï¿½ï¿½ï¿½orderby
 		if (this.orderby != null && !this.orderby.isEmpty()) {
 			if (this.isOrderbyDesc()) {
 				criteria.addOrder(Property.forName(this.orderby).desc());
@@ -237,6 +237,38 @@ public class ODataObj {
 		}
 		logger.debug("end:buildQuery");
 		return criteria;
+	}
+
+	public void setOrderby(String orderby) {
+		this.orderby = orderby;
+	}
+
+	public void setOrderbyDesc(boolean orderbyDesc) {
+		this.orderbyDesc = orderbyDesc;
+	}
+
+	public void setSelect(String[] select) {
+		this.select = select;
+	}
+
+	public void setSkip(int skip) {
+		this.skip = skip;
+	}
+
+	public void setTop(int top) {
+		this.top = top;
+	}
+
+	public void setCount(boolean isCount) {
+		this.isCount = isCount;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	public void setFilter(List<ODataFilterItem> filter) {
+		this.filter = filter;
 	}
 
 }

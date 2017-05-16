@@ -5,20 +5,29 @@
 	
 	details.$inject = ['$http'];
 	function details($http){
-		var url_article = "/contents/home/details/data/article.js";
+		var url_article = "/article";
 		var service  = {
-			getArticle:getArticle	
+			getById:getById	
 		};
 		return service;
 		
-		function getArticle(vm,id){
+		function getById(vm,id){
 			var httpOptions = {
 				method:'get',
-				url:url_article,
+				url:url_article+common.format("?$filter=id eq '{0}'",id),
 				data:vm.model
 			}
 			var httpSuccess = function success(response){
-				vm.model=response.data;
+				if(response.data.value.length>0){
+					vm.model=response.data.value[0];
+					console.log(vm.model)
+					if(vm.model.files){
+						vm.files=vm.model.files.split(';');
+					}
+					
+				}
+				
+				console.log(response.data)
 				
 			}
 			common.http({

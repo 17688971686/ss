@@ -1,6 +1,7 @@
 package cs.service.management;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,9 +46,7 @@ public class ArticleServiceImpl implements ArticleService {
 			articleDto.setModifiedDate(x.getModifiedDate());
 			articleDto.setModifiedBy(x.getModifiedBy());
 			articleDto.setPreviewImg(x.getPreviewImg());
-			if(!x.getArticleComments().isEmpty()){
-				articleDto.setArticleComments(x.getArticleComments());
-			}			
+					
 			articleDtoList.add(articleDto);
 		});
 
@@ -68,13 +67,11 @@ public class ArticleServiceImpl implements ArticleService {
 			Article article=new Article();
 			article.setType(dto.getType());
 			article.setCreatedBy(currentUser.getLoginName());
-			article.setContent(dto.getContent());
-			article.setCreatedDate(dto.getCreatedDate());
+			article.setContent(dto.getContent());			
 			article.setTitle(dto.getTitle());
 			article.setId(id);
 			article.setItemOrder(dto.getItemOrder());
-			article.setFiles(dto.getFiles());
-			article.setModifiedDate(dto.getModifiedDate());
+			article.setFiles(dto.getFiles());	
 			article.setModifiedBy(currentUser.getLoginName());
 			article.setPreviewImg(dto.getPreviewImg());
 			articleRepo.save(article);
@@ -111,7 +108,7 @@ public class ArticleServiceImpl implements ArticleService {
 		entity.setTitle(dto.getTitle());	
 		entity.setItemOrder(dto.getItemOrder());
 		entity.setFiles(dto.getFiles());
-		entity.setModifiedDate(dto.getModifiedDate());
+		entity.setModifiedDate(new Date());
 		entity.setModifiedBy(dto.getModifiedBy());
 		entity.setPreviewImg(dto.getPreviewImg());
 

@@ -14,14 +14,26 @@
 			<li class="article_4" ng-click="vm.article(4)">常用表格</li>
 		</ul>
 		
-		<table style="width:100%" ng-repeat="x in vm.articles">
+		<table style="width:100%" ng-show="vm.articles.length>0">
+			<tbody ng-repeat="x in vm.articles">
+				<tr>
+					<td class="item" >
+						<a href="#/details/{{vm.type}}/{{x.id}}" ng-bind="x.title"></a>
+					</td>
+					<td style="width:100px" class="date" ng-bind="x.createdDate.split(' ')[0]">
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
 			<tr>
-				<td class="item" >
-					<a href="#/details/1" ng-bind="x.title"></a>
-				</td>
-				<td style="width:100px" class="date" ng-bind="x.createdDate">
-				</td>
-			</tr>
+					<td class="item" >
+						
+					</td>
+					<td >
+						<a class="btn btn-xs btn-info"  href="#/list/{{vm.type}}" >更多>></a>
+					</td>
+				</tr>
+			</tfoot>
 		</table>
 	
 	</div>

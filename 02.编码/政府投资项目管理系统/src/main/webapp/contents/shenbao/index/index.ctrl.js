@@ -10,20 +10,25 @@
     function index($location, indexSvc) {
         /* jshint validthis:true */
         var vm = this;
+        vm.type='tzgg';
         
         vm.article=function(type){
         	switch(type){
         		case 1:
-        			vm.articles=vm.article_announcement;
+        			vm.articles=vm.model.article_tzgg;
+        			vm.type='tzgg';
         		break;
         		case 2:
-        			vm.articles=vm.article_policy;
+        			vm.articles=vm.model.article_zcfg;
+        			vm.type='zcfg';
             	break;
         		case 3:
-        			vm.articles=vm.article_workGuide;
+        			vm.articles=vm.model.article_bszn;
+        			vm.type='bszn';
         		break;
         		case 4:
-        			vm.articles=vm.article_form;
+        			vm.articles=vm.model.article_cybg;
+        			vm.type='cybg';
         	}
         	$('.column .title li').removeClass('focus');
         	$('.article_'+type).addClass('focus');
@@ -38,10 +43,7 @@
        
         activate();
         function activate() {
-        	indexSvc.getArticle(vm,'announcement');
-        	indexSvc.getArticle(vm,'policy');
-        	indexSvc.getArticle(vm,'workGuide');
-        	indexSvc.getArticle(vm,'form');
+        	indexSvc.getArticle(vm);        	
         }
     }
 })();
