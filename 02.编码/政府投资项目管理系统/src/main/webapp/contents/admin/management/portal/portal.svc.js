@@ -5,16 +5,15 @@
 
 	portal.$inject = [ '$http','$compile' ];	
 	function portal($http,$compile) {	
-		var url_portal = "/portal";
-		var url_back = '#/portal';
-		var url_user='/user';
+		var url_portal = "/management/portal";
+		var url_back = '#/portal/';
 			
 		var service = {
 			grid : grid,
-			createportal : createportal,			
-			getportalById : getportalById,
-			updateportal:updateportal,
-			deleteportal:deleteportal			
+			create : create,			
+			getById : getById,
+			update:update,
+			del:del			
 		};		
 		return service;	
 		
@@ -41,6 +40,11 @@
 				sort : {
 					field : "createdDate",
 					dir : "desc"
+				},
+				filter:{
+					field:'type',
+					operator:'eq',
+					value:vm.type
 				}
 			});
 
@@ -60,18 +64,9 @@
 						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'  />"
 						
 					},  {
-						field : "portalIdentity",
-						title : "部门标识",
-						width : 200,						
-						filterable : false
-					}, {
-						field : "name",
-						title : "部门名称",
-						width : 200,						
-						filterable : false
-					},{
-						field : "comment",
-						title : "描述",
+						field : "title",
+						title : "标题",
+											
 						filterable : false
 					}, {
 						field : "createdDate",
@@ -83,9 +78,9 @@
 					},  {
 						field : "",
 						title : "操作",
-						width : 280,
+						width : 180,
 						template:function(item){							
-							return common.format($('#columnBtns').html(),"vm.del('"+item.id+"')",item.id);
+							return common.format($('#columnBtns').html(),item.id);
 							
 						}
 						
@@ -106,14 +101,13 @@
 			
 		}// end fun grid
 
-		function createportal(vm) {
+		function create(vm) {
 			common.initJqValidation();
 			var isValid = $('form').valid();
-			if (isValid && vm.isportalExist == false) {
+			if (isValid) {
 				vm.isSubmit = true;
-				
-		
-	               
+	            vm.model.type=vm.type;
+	            vm.model.files=vm.files.join(';');
 				var httpOptions = {
 					method : 'post',
 					url : url_portal,
@@ -134,7 +128,7 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 									$('.modal-backdrop').remove();
-									location.href = url_back;
+									location.href = url_back+vm.type;
 								}
 							})
 						}
@@ -156,20 +150,18 @@
 //					msg:"您填写的信息不正确,请核对后提交!"
 //				})
 			}
-		}// end fun createportal
+		}// end func create
 
 		
 
-		function getportalById(vm) {
+		function getById(vm) {
 			var httpOptions = {
 				method : 'get',
 				url : common.format(url_portal + "?$filter=id eq '{0}'", vm.id)
 			}
 			var httpSuccess = function success(response) {
-				vm.model = response.data.value[0];
-				if (vm.isUpdate) {
-					//initZtreeClient(vm);
-				}
+				vm.model = response.data.value[0];	
+				vm.files=vm.model.files.split(';');
 			}
 			
 			common.http({
@@ -180,15 +172,12 @@
 			});
 		}// end fun getportalById
 		
-		function updateportal(vm){
-			common.initJqValidation();			
+		function update(vm){
 			var isValid = $('form').valid();
-			if (isValid && vm.isportalExist == false) {
+			if (isValid) {
 				vm.isSubmit = true;
 				vm.model.id=vm.id;// id
-				
-			
-               
+				vm.model.files=vm.files.join(';');
 				var httpOptions = {
 					method : 'put',
 					url : url_portal,
@@ -230,7 +219,7 @@
 			}
 		}// end fun updateportal
 		
-		function deleteportal(vm,id) {
+		function del(vm,id) {
             vm.isSubmit = true;
             var httpOptions = {
                 method: 'delete',

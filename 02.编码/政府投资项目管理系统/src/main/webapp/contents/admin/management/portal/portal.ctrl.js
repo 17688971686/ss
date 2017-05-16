@@ -5,28 +5,80 @@
         .module('app')
         .controller('portalCtrl', portal);
 
-    portal.$inject = ['$location','portalSvc','$state']; 
+    portal.$inject = ['$location','portalSvc','$state','$scope']; 
 
-    function portal($location, portalSvc,$state) {
+    function portal($location, portalSvc,$state,$scope) {
         /* jshint validthis:true */
-    	var vm = this;
-        var initTitle=function(){
-        	var type=$state.params.type;
-        	switch (type) {
-			case "1":
+    	var vm = this;    	
+    	vm.type=$state.params.type;
+    	vm.id=$state.params.id; 
+        vm.init=function(){   
+        	//title
+        	switch (vm.type) {
+			case "tzgg":
 				vm.title="通知公告";
 				break;
-			case "2":
+			case "zcfg":
 				vm.title="政策法规";
 				break;
-			case "3":
+			case "bszn":
 				vm.title="办事指南";
 				break;
-			case "4":
+			case "cybg":
 				vm.title="常用表格";
-				break;
-			
+				break;			
 			}
+        	//page
+        	switch (vm.id) {
+			case undefined:
+				vm.page="list";
+				break;
+			case "":
+				vm.page="create";
+			break;
+			default:
+				vm.page="update";
+				break;
+			} 
+        	
+        }//end init
+        
+        vm.init_upload=function(){
+        	vm.files=[];
+        	//upload
+        	$("#files").kendoUpload({
+                async: {
+                    saveUrl: "/common/save",
+                    removeUrl: "/common/remove",
+                    autoUpload: true
+                },
+                showFileList:false,
+                select:function(e){
+               	 console.log("select:");
+               	 console.log(e);
+                },
+                success:function(e){
+                	
+                },
+                error:function(e){
+               	 console.log("error:");
+               	 console.log(e);
+               	 if(e.XMLHttpRequest.status==200){
+               		 var fileName=e.XMLHttpRequest.response;
+               		 $scope.$apply(function(){               			 
+               			vm.files.push(fileName);               			
+               		 });
+               		 
+               	 }
+                },
+                localization: {
+                    select: "上传文件"
+                }
+            });
+        }//end init_upload
+       
+        vm.delFile=function(idx){
+        	vm.files.splice(idx,1);
         }
         
 
@@ -38,7 +90,7 @@
             	 msg:"确认删除数据吗？",
             	 fn:function () {
                   	$('.confirmDialog').modal('hide');             	
-                    portalSvc.deleteportal(vm,id);
+                    portalSvc.del(vm,id);
                  }
              })
         }
@@ -59,9 +111,27 @@
                 vm.del(idStr);
             }   
        }
+        
+        vm.create=function(){
+        	portalSvc.create(vm);
+        }
+        vm.update=function(){
+        	portalSvc.update(vm);
+        }
         activate();
         function activate() {
-            portalSvc.grid(vm);
+        	vm.init();
+        	if(vm.page=='list'){
+        		portalSvc.grid(vm);
+        	}
+        	if(vm.page=='update'){
+        		portalSvc.getById(vm);
+        	}
+        	if(vm.page=='create'||vm.page=='update'){
+        		vm.init_upload();
+        	}
+            
+            
         }
     }
 })();

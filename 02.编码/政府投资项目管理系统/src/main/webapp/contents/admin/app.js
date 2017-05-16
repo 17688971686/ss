@@ -95,13 +95,19 @@
 	        //end#home
 	        
 	        //begin#portal
-	        .state('portalManagement', {
-	            url: '/portalManagement/:type',
-	            templateUrl: '/portalManagement/html/list.html',
+	        .state('portal', {
+	            url: '/portal/:type',
+	            templateUrl: '/management/portal/html/list',
 	            controller: 'portalCtrl',
 	            controllerAs: 'vm'
 	        }) 
-	        
+	      //begin#portal
+	        .state('portalEdit', {
+	            url: '/portal/:type/:id',
+	            templateUrl: '/management/portal/html/edit',
+	            controller: 'portalCtrl',
+	            controllerAs: 'vm'
+	        }) 
 	        //end#portal
     }]);
     

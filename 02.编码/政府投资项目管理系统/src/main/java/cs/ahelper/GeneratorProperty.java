@@ -29,7 +29,7 @@ public class GeneratorProperty {
 					
 		}
 		for (String string : methods2) {
-			System.out.println(String.format("articleDto.set%s(x.get%s());", string,string));
+			System.out.println(String.format("entity.set%s(dto.get%s());", string,string));
 		}
 	}
 

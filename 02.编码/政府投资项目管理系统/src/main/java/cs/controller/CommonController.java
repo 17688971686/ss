@@ -35,7 +35,7 @@ public class CommonController {
 	}
 	
 	@RequestMapping(name = "上传文件", path = "save", method = RequestMethod.POST,produces ="application/json;charset=UTF-8")
-	public @ResponseBody String Save(@RequestParam("file") MultipartFile file){
+	public @ResponseBody String Save(@RequestParam("files") MultipartFile file){
 		String randomName="";
 		if (!file.isEmpty()) {  
             try {  

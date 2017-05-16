@@ -1,0 +1,81 @@
+
+	 <style>
+					#uploadBox .k-upload-status{display: none;}
+					#uploadBox .k-header{
+						background: transparent;
+						border:0px;
+					}
+					#uploadBox em{display: none;}
+					#uploadBox .k-dropzone{padding:0px;margin: 0px;}
+					.table>tbody>tr>td{
+						padding:2px;
+					}
+					</style>
+
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+        <li>统一门户管理</li>       
+        <li class="active">{{vm.title}}</li>
+    </ol>
+    <form id="form" name="form">
+        <div class="toolbar">
+            <a class="btn btn-sm btn-primary" href="#/portal/{{vm.type}}"><span class="glyphicon glyphicon-chevron-left"></span>返回</a>
+            <button class="btn btn-sm btn-success" ng-click="vm.create()" ng-disabled="vm.isSubmit" ng-show="vm.page=='create'"><span class="glyphicon glyphicon-ok"></span>创建</button>
+            <button class="btn btn-sm btn-success" ng-click="vm.update()" ng-disabled="vm.isSubmit" ng-show="vm.page=='update'"><span class="glyphicon glyphicon-ok"></span>更新</button>
+         </div>
+        <table style="width:100%">
+            <tr>
+                <td class="formAlignRight" style="width:150px;"></td>
+                <td ><span class="errors">{{vm.message}}</span></td>
+                <td style="width:200px;"></td>
+            </tr>
+
+            <tr>
+                <td class="formAlignRight">标题： <span class="required">*</span></td>
+                <td>
+                    <input  type="text" maxlength="200" class="form-control input-sm" ng-disabled="vm.isUpdate"  ng-model="vm.model.title " id="title" name="title" data-val="true" data-val-required="必填">
+                </td>
+                <td><span data-valmsg-for="title" data-valmsg-replace="true" class="errors"></span>
+                    </td>
+            </tr>
+           <tr>
+                <td class="formAlignRight">文件： <span class="required">*</span></td>
+                <td>
+               
+					<div style="width: 100px;" id="uploadBox">
+						<input name="files" id="files" type="file" />
+					</div>
+					<table style="width:100%;margin:5px;" class="table table-bordered" ng-show="vm.files.length>0" >
+						<thead>
+							<tr class="bg-info" style="font-weight:bold">
+								<td>文件名</td>					
+								<td style="width:100px;">操作</td>
+							</tr>
+						</thead>
+						<tbody  ng-repeat="x in vm.files">
+							<tr>
+								<td ><a href="/contents/upload/{{x}}" target="_blank" ng-bind="x.split('_')[2]"></a></td>						
+								<td ><button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button></td>
+							</tr>
+							
+							</tbody>
+					</table>
+                </td>
+                <td>
+                    </td>
+            </tr>
+            
+            <tr>
+                <td class="formAlignRight">内容： </td>
+                <td>
+                 <textarea kendo-editor k-ng-model="vm.model.content" id="content" name="content"></textarea>
+               
+                </td>
+                <td><span data-valmsg-for="content" data-valmsg-replace="true" class="errors"></span></td>
+            </tr>
+            
+        </table>
+    </form>
+</div>
