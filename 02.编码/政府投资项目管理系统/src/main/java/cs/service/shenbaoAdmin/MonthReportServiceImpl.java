@@ -105,7 +105,14 @@ public class MonthReportServiceImpl implements MonthReportService {
 				monthReport.setCreatedBy(currentUser.getLoginName());		
 				monthReport.setCreatedDate(new Date());
 				
-				monthReportRepo.save(monthReport);
+				
+				//monthReportRepo.save(monthReport);
+				
+				//从项目表进行保存
+				ProjectInfo projectInfo=projectInfoRepo.findById(monthReportDto.getProjectId());
+				projectInfo.getMonthReports().add(monthReport);				
+				projectInfoRepo.save(projectInfo);
+				
 				logger.info("创建月报数据");
 	}
 	

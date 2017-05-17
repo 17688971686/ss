@@ -117,4 +117,6 @@ form table td {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
+.k-icon.k-filter {
+    background-position: -48px -240px;
+}

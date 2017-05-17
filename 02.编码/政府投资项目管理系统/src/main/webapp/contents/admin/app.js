@@ -101,7 +101,7 @@
 	            controller: 'portalCtrl',
 	            controllerAs: 'vm'
 	        }) 
-	      //begin#portal
+	    
 	        .state('portalEdit', {
 	            url: '/portal/:type/:id',
 	            templateUrl: '/management/portal/html/edit',
@@ -109,6 +109,15 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#portal
+	        
+	        //begin#monthReport
+	        .state('monthReport', {
+	            url: '/monthReport',
+	            templateUrl: '/management/monthReport/html/list',
+	            controller: 'monthReportCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //end#monthReport
     }]);
     
 })();

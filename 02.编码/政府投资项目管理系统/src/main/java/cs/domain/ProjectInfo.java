@@ -230,7 +230,6 @@ public class ProjectInfo extends DomainBase{
 	
 	//项目月报
 	@OneToMany(cascade=CascadeType.ALL)
-//	@JoinColumn(name="projectInfo_Id",nullable=false)
 	private List<MonthReport> monthReports = new ArrayList<>();
 	
 	//end#关联信息

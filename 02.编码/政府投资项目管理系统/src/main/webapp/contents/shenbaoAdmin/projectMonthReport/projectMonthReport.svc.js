@@ -206,7 +206,7 @@
 						filterable : false
 					},
 					{
-						field : "",
+						field : "projectName",
 						title : "项目名称",
 						width : 200,
 						template:function(data){
@@ -220,19 +220,19 @@
 						field : "projectStageValue",
 						title : "申报阶段",
 						width : 165,
-						filterable : true
+						filterable : false
 					},
 					{
 						field : "shenBaoYear",
 						title : "申报年度",
 						width : 80,
-						filterable : true
+						filterable : false
 					},
 					{
 						field : "projectIndustryValue",
 						title : "所属行业",
 						width : 100,
-						filterable : true
+						filterable : false
 					},
 					{
 						field : "investTypeValue",

@@ -1,0 +1,31 @@
+<meta charset="UTF-8">
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+        <li>项目进度管理</li>       
+        <li class="active">月报</li>
+    </ol>
+    <form id="form" name="form">
+       
+        <script type="text/template" id="columnBtns">
+
+		<button class="btn btn-xs">01月</button> 
+		<button class="btn btn-xs">02月</button> 
+		<button class="btn btn-xs">03月</button> 
+		<button class="btn btn-xs">04月</button> 
+		<button class="btn btn-xs">05月</button> 
+		<button class="btn btn-xs">06月</button> 
+		<button class="btn btn-xs">07月</button> 
+		<button class="btn btn-xs">08月</button> 
+		<button class="btn btn-xs">09月</button> 
+		<button class="btn btn-xs">10月</button> 
+		<button class="btn btn-xs">11月</button> 
+		<button class="btn btn-xs">12月</button> 
+		</script>
+        
+         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+    </form>
+</div>
+
