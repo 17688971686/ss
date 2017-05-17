@@ -1,9 +1,7 @@
-<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
-<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
- <div class="well well-sm" style="background:white;">
+<div class="well well-sm" style="background:white;">
 	  <ol class="breadcrumb">
 	  	  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
-	  	  <li><a href="/admin">首页</a></li>
+	  	  <li><a href="#/">首页</a></li>
 	      <li><a href="#/projectDeclaration">项目申报</a></li>
 	      <li class="active">{{vm.title}}</li>
 	  </ol>
@@ -42,14 +40,14 @@
 						<div class="col-sm-6">
 							<select class="form-control" ng-model="vm.declarationStage" id="sb" onchange="gradeChange()"> 
 								<option value="0">--请选择--</option>
-								<option value="1">前期计划（前期费）</option>
-								<option value="2">规划设计前期费</option>
-								<option value="3">新开工计划</option>
-								<option value="4">续建计划</option>
-								<option value="5">下一年度计划</option>
-								<option value="6">年度计划调整</option>
-								<option value="7">委托审计</option>
-								<option value="8">审计决算资金</option>
+								<option value="0001">前期计划（前期费）</option>
+								<option value="0002">规划设计前期费</option>
+								<option value="0003">新开工计划</option>
+								<option value="0004">续建计划</option>
+								<option value="0007">下一年度计划</option>
+								<option value="0008">年度计划调整</option>
+								<option value="0005">委托审计</option>
+								<option value="0006">审计决算资金</option>
 							</select> 
 						</div>
 					</div>

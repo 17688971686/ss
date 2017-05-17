@@ -12,15 +12,19 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="cs_attachment")
-public class Attachment {
+public class Attachment extends DomainBase{
 	@Id	
 	private String id;
-	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '标题'")
+	@Column(columnDefinition="varchar(255)  COMMENT '标题'")
 	private String name;
-	@Column(columnDefinition="varchar(255) NOT NULL COMMENT 'url地址'")
+	@Column(columnDefinition="varchar(255) COMMENT 'url地址'")
 	private String url;
-	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '备注'")
+	@Column(columnDefinition="varchar(255)  COMMENT '备注'")
 	private String comment;
+	@Column(columnDefinition="varchar(50) COMMENT '附件类型'")
+	private String type;
+	@Column(columnDefinition="bit(1) COMMENT '是否上传'")
+	private Integer isUpload;
 	public String getId() {
 		return id;
 	}
@@ -45,4 +49,18 @@ public class Attachment {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public Integer getIsUpload() {
+		return isUpload;
+	}
+	public void setIsUpload(Integer isUpload) {
+		this.isUpload = isUpload;
+	}
+	
+	
 }

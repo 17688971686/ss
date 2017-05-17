@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cs.domain.BasicData;
 import cs.domain.BasicData_;
-import cs.model.BasicDataDto;
+import cs.model.management.BasicDataDto;
 import cs.repository.common.BasicDataRepo;
 
 @Service

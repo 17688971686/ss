@@ -12,15 +12,15 @@ import javax.persistence.TemporalType;
 @MappedSuperclass
 public abstract class DomainBase {
 	@Temporal(TemporalType.TIMESTAMP)	
-	@Column(updatable=false,nullable=false,columnDefinition="datetime  COMMENT '创建时间'")
+	@Column(updatable=false,columnDefinition="datetime  COMMENT '创建时间'")
 	private Date createdDate=new Date();
-	@Column(updatable=false,nullable=false,columnDefinition="varchar(255)  COMMENT '创建者'")
+	@Column(updatable=false,columnDefinition="varchar(255)  COMMENT '创建者'")
 	private String createdBy="";
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(nullable=false,columnDefinition="datetime  COMMENT '更新时间'")
+	@Column(columnDefinition="datetime  COMMENT '更新时间'")
 	private Date modifiedDate=new Date();
-	@Column(nullable=false,columnDefinition="varchar(255)  COMMENT '更新者'")
+	@Column(columnDefinition="varchar(255)  COMMENT '更新者'")
 	private String modifiedBy="";
 	
 	@Column(columnDefinition="int(11)  COMMENT '排序'")

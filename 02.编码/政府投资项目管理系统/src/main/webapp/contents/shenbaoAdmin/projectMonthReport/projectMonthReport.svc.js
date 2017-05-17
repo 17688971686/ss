@@ -4,22 +4,181 @@
 	angular.module('app').factory('projectMonthReportSvc', projectMonthReport);
 
 	projectMonthReport.$inject = [ '$http','$compile' ];	
-	function projectMonthReport($http,$compile) {	
-		var url_projectMonthReport = "/contents/app/projectMonthReport/data/list.json";
-//		var url_back = '#/projectprocess';
+	function projectMonthReport($http,$compile) {
+		var url_projectInfo = "/projectInfo";//获取申报的项目的列表数据
+		var url_projectMonthReport = "/shenbaoAdmin/projectMonthReport";//获取月报数据
+		var url_basicData = "/common/basicData";//获取基础数据
+		var url_monthReportProblem = "/monthReportProblem";//获取月报问题
+		var url_projectMonthReportFill = "/shenbaoAdmin/projectMonthReport/save";
+		var url_saveAttachment = "/attachment/save"	;
+
 			
 		var service = {
-			grid : grid			
+			grid : grid,	
+			saveAttachment:saveAttachment,
+			getMonthReportInfo:getMonthReportInfo,
+			getBasicData:getBasicData,
+			getMonthReportProblem:getMonthReportProblem,
+			submitMonthReport:submitMonthReport
 		};		
 		return service;	
+				
 		
-		function grid(vm) {
+		/**
+		 * 查询月报数据
+		 */
+		function getMonthReportInfo(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_projectMonthReport + "?$filter=projectId eq '{0}' and submitMonth eq '{1}'", vm.projectId,vm.currentYear+vm.month),
+				}
+				var httpSuccess = function success(response) {
+					if(response.data.value.length>0){
+						vm.isReportExist=true;
+					}else{
+						vm.isReportExist=false;
+					}
+					console.log(vm.isReportExist);
+					vm.model = response.data.value[0]||{};
+					vm.model.projectId=vm.projectId;
+			     	vm.model.submitMonth=vm.currentYear+vm.month;
+			     	
+				}
+				
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+		}
+		
+		/**
+		 * 查询月报问题
+		 */
+		function getMonthReportProblem(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_monthReportProblem),
+				}
+				var httpSuccess = function success(response) {					
+					vm.monthReportProblem = response.data;
+					console.log("查询月报问题数据："); //--测试用
+					console.log(vm.monthReportProblem); //--测试用
+				}				
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+		}
+		
+		/**
+		 * 查询基础数据
+		 */
+		function getBasicData(vm,identity){
+			var httpOptions = {
+					method : 'get',
+					url : url_basicData+"/"+identity,
+				}
+				var httpSuccess = function success(response) {					
+					vm.basicData[identity] = response.data;
+					console.log("查询基础数据："); //--测试用
+					console.log(vm.basicData[identity]); //--测试用
+				}				
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+		}
+		
+		/**
+		 * 提交附件到数据库
+		 */
+		function saveAttachment(vm){
+			console.log("月报上附件");
+			console.log();
+			var httpOptions = {
+					method : 'get',
+					url : common.format(),
+					data:vm.uploadFileName
+				}
+				var httpSuccess = function success(response) {
+					vm.isSaveAttachment = true;					
+				}
+				
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+			
+		}
+		
+		
+		/**
+		 * 提交项目月报信息到数据库
+		 */
+		function submitMonthReport(vm){
+			//验证表单信息
+			common.initJqValidation();
+			var isValid = $('form').valid();
+			//验证通过
+			if(isValid){
+				console.log("月报信息的提交");
+				console.log(vm.model);
+				//提交表单信息
+				vm.isSubmit = true;
+				//发送请求
+				
+				var httpOptions = {
+						method : 'post',//请求类型
+						url : url_projectMonthReportFill,//请求地址
+						data : vm.model//请求数据(页面封装的vm.model)
+					}
+				
+				var httpSuccess = function success(response) {
 
+					common.requestSuccess({
+						vm : vm,
+						response : response,
+						fn : function() {
+							common.alert({
+								vm : vm,
+								msg : "操作成功",
+								fn : function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');
+									location.reload();
+								}
+							})
+						}
+
+					})
+				}
+
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+			}			
+		}
+		
+		/**
+		 * 月报列表页数据查询以及列表设计（申报的项目）
+		 */
+		function grid(vm) {
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_projectMonthReport),
-				schema : common.kendoGridConfig().schema({
+				transport : common.kendoGridConfig().transport(url_projectInfo), //获取数据
+				schema : common.kendoGridConfig().schema({ //返回的数据的处理
 					id : "id",
 					fields : {
 						createdDate : {
@@ -29,83 +188,55 @@
 				}),
 				serverPaging : true,
 				serverSorting : true,
-				serverFiltering : false,			
+				serverFiltering : true,			
 				pageSize: 10,
 				sort : {
 					field : "createdDate",
 					dir : "desc"
 				}
 			});
-
 			// End:dataSource
 
 			// Begin:column
 			var columns = [
 					  {
 						field : "id",
-						title : "序号",
-						width : 45,						
+						title : "项目代码",
+						width : 180,						
 						filterable : false
 					},
 					{
-						field : "projectName",
+						field : "",
 						title : "项目名称",
 						width : 200,
-						/*template:function(data){
-							return "<a href='#/projectDetais/"+data.projectId+"'>"+data.projectName+"</a>";
-						},*/
 						template:function(data){
-							if(data.declarationStage=="前期计划（前期费）"){
-								vm.declarationStage = data.declarationStage;
-								vm.projectName = data.projectName;
-								return "<a href='#/projectDetais/prePlan/"+data.projectId+"'>"+data.projectName+"</a>";
-							}
-							if(data.declarationStage=="规划设计前期费"){						
-								return "<a href='#/projectDetais/planDesign/"+data.projectId+"'>"+data.projectName+"</a>";
-							}
-							if(data.declarationStage=="新开工计划"){
-								return "<a href='#/projectDetais/newStratPlan/"+data.projectId+"'>"+data.projectName+"</a>";
-							}
-							if(data.declarationStage=="续建计划"){
-								return "<a href='#/projectDetais/constructionPlan/"+data.projectId+"'>"+data.projectName+"</a>";
-							}
-							if(data.declarationStage=="下一年度计划"){
-								return "<a href='#/projectDetais/nextYearPlan/"+data.projectId+"'>"+data.projectName+"</a>";
-							}
-							if(data.declarationStage=="年度调整计划"){
-								return "<a href='#/projectDetais/yearPlanAdjust/"+data.projectId+"'>"+data.projectName+"</a>";
-							}
-							if(data.declarationStage=="委托审计"){
-								return "<a href='#/projectDetais/entrustAudit/"+data.projectId+"'>"+data.projectName+"</a>";
-							}
-							if(data.declarationStage=="审计决算资金"){
-								return "<a href='#/projectDetais/auditAccountFunds/"+data.projectId+"'>"+data.projectName+"</a>";
-							}
-							
+							//根据不同的申报阶段点击项目链接跳转到不同的详情页面
+							return "<a href='#/projectDetails/"+data.id+"'>"+data.projectName+"</a>";							
 						},
 						filterable : true
 					},
+					
 					{
-						field : "declarationStage",
+						field : "projectStageValue",
 						title : "申报阶段",
 						width : 165,
 						filterable : true
 					},
 					{
-						field : "annualYear",
+						field : "shenBaoYear",
 						title : "申报年度",
-						width : 165,
+						width : 80,
 						filterable : true
 					},
 					{
-						field : "industry",
+						field : "projectIndustryValue",
 						title : "所属行业",
-						width : 165,
+						width : 100,
 						filterable : true
 					},
 					{
-						field : "totalInvestment",
-						title : "总投资（万）",
+						field : "investTypeValue",
+						title : "投资类型",
 						width : 100,
 						filterable : false
 					},
@@ -113,12 +244,12 @@
 						field : "",
 						title : "操作",
 						template:function(data){
-							return common.format($('#columnBtns').html(),"vm.fill('" + data.projectId + "')");		
+							//不同的投资类型返回不同的填报页面；政府投资类型还要分为两种情况然后返回不同的页面
+							return common.format($('#columnBtns').html(),data.id,data.projectName,data.projectBuildStage);		
 						},
+						width:80,
 						filterable : false
-					}
-
-
+					}															
 			];
 			// End:column
 		

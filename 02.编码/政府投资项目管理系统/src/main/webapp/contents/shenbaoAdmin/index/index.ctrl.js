@@ -7,7 +7,7 @@
 
     index.$inject = ['$location','indexSvc']; 
 
-    function index($location, indexSvc) {
+    function index($location , indexSvc) {
         /* jshint validthis:true */
         var vm = this;
         
@@ -27,11 +27,20 @@
         vm.submit=function(){
         	location.href="/admin/index";
         }
+        
+        /**
+         * 查看项目详情
+         * @param id 项目代码
+         */
+        vm.projectDetails = function(id){
+        	//不同的申报阶段然后跳转不同的项目查看页面
+        	location.href = "#/projectDetails/"+id;
+        }
        
         activate();
         function activate() {
-        	indexSvc.getArticle(vm,'announcement');
-        	indexSvc.getArticle(vm,'policy');
+        	indexSvc.getDeclareProjects(vm);//获取申报的项目信息
+        	indexSvc.getOprationRecords(vm);//获取操作记录的信息
         }
     }
 })();

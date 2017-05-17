@@ -58,31 +58,30 @@
          */
         vm.goFillDeclarationInfo = function(){
         	$(".modal-backdrop").remove(); //去掉背面的阴影  
-        	//alert(vm.declarationStage); //--测试用
-        	if(vm.declarationStage == "1"){
-        		vm.declarationStage = "前期计划（前期费）";
-        		location.href = common.format("#/projectDeclarationInfoFill_prePlan?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
-        	}else if(vm.declarationStage == "2"){
+        	if(vm.declarationStage == "0001"){
+        		vm.declarationStage = "前期计划（前期费）";        	
+        		location.href = common.format("#/projectDeclarationAdd/prePlan?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
+        	}else if(vm.declarationStage == "0002"){
         		vm.declarationStage = "规划设计前期费";
-        		location.href = common.format("#/projectDeclarationInfoFill_planDesign?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
-        	}else if(vm.declarationStage == "3"){
+        		location.href = common.format("#/projectDeclarationAdd/planDesign?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
+        	}else if(vm.declarationStage == "0003"){
         		vm.declarationStage = "新开工计划";
-        		location.href = common.format("#/projectDeclarationInfoFill_newStratPlan?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
-        	}else if(vm.declarationStage == "4"){
+        		location.href = common.format("#/projectDeclarationAdd/newStratPlan?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
+        	}else if(vm.declarationStage == "0004"){
         		vm.declarationStage = "续建计划";
-        		location.href = common.format("#/projectDeclarationInfoFill_constructionPlan?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
-        	}else if(vm.declarationStage == "5"){
+        		location.href = common.format("#/projectDeclarationAdd/constructionPlan?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
+        	}else if(vm.declarationStage == "0007"){
         		vm.declarationStage = "下一年度计划";
-        		location.href = common.format("#/projectDeclarationInfoFill_nextYearPlan?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
-        	}else if(vm.declarationStage == "6"){
+        		location.href = common.format("#/projectDeclarationAdd/nextYearPlan?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
+        	}else if(vm.declarationStage == "0008"){
         		vm.declarationStage = "年度调整计划";
-        		location.href = common.format("#/projectDeclarationInfoFill_yearPlanAdjust?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
-        	}else if(vm.declarationStage == "7"){
+        		location.href = common.format("#/projectDeclarationAdd/yearPlanAdjust?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
+        	}else if(vm.declarationStage == "0005"){
         		vm.declarationStage = "委托审计";
-        		location.href = common.format("#/projectDeclarationInfoFill_entrustAudit?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
-        	}else if(vm.declarationStage == "8"){
+        		location.href = common.format("#/projectDeclarationAdd/entrustAudit?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
+        	}else if(vm.declarationStage == "0006"){
         		vm.declarationStage = "审计决算资金";
-        		location.href = common.format("#/projectDeclarationInfoFill_auditAccountFunds?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
+        		location.href = common.format("#/projectDeclarationAdd/auditAccountFunds?declarationStage={0}&projectName={1}",vm.declarationStage,vm.projectName);
         	}
         	
         }

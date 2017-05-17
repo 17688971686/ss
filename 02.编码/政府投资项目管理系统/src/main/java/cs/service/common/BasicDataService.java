@@ -2,7 +2,7 @@ package cs.service.common;
 
 import java.util.List;
 
-import cs.model.BasicDataDto;
+import cs.model.management.BasicDataDto;
 
 public interface BasicDataService {
 	String queryValueById(String id);

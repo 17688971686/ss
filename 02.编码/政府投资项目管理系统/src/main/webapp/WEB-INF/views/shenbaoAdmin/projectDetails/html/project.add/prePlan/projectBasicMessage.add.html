@@ -1,0 +1,349 @@
+<div class="well well-sm" style="background: white;">
+	<form id="form" name="form">
+		<div class="bg-danger text-danger" style="padding: 10px; margin-bottom: 10px">
+			&nbsp;
+			<span style="float:left;display:inline">项目基本信息</span>
+			<span style="float:right;display:inline">金额：万元 , 面积：平方米</span>
+		</div>
+	
+		<div>
+		<table class="table table-bordered table-striped table-hover">
+			<tr>
+				<td class="formAlignRight">项目阶段：</td>
+				
+				<td style="width:300px;">
+					<span>{{vm.declarationStage}}</span>					
+				</td>
+				<td class="formAlignRight">申报时间：</td>
+				<td><span>2017</span></td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">项目名称：<span class="required">(*)</span></td>
+				<td>
+					<input type="text" maxlength="200" class="form-text" style="width: 300px;height:28px;" ng-model="vm.projectName"/>						
+				</td>
+					
+				<td class="formAlignRight">投资类型：<span class="required">(*)</span></td>
+				<td><select class="form-select">
+						<option value="-1">--请选择--</option>
+						<option value="市投市建">市投市建</option>
+						<option value="市投区建">市投区建</option>
+						<option value="区投区建">区投区建</option>
+						<option value="市、区共投">市、区共投</option>
+						<option value="市、区政府及社会投资组合类">市、区政府及社会投资组合类</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">申报单位名称：<span class="required">(*)</span></td>
+				<td>
+					<input type="text" value="住房和建设局" style="width: 300px;height:28px;" class="form-text" />
+				</td>
+				<td class="formAlignRight">项目分类：<span class="required">(*)</span></td>
+				<td><select class="form-select">
+						<option value="-1">--请选择--</option>
+						<option value="政府投资房建类">政府投资房建类</option>
+						<option value="政府投资市政类">政府投资市政类</option>
+						<option value="社会投资房建类">社会投资房建类</option>
+						<option value="社会投资市政类">社会投资市政类</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">国民经济行业分类：<span class="required">(*)</span></td>
+				<td colspan="3">
+					<select class="form-select" >
+						<option selected="selected" value="-1">--请选择--</option>
+						<option value="1">农、林、牧、渔业</option>
+						<option value="2">采矿业</option>
+						<option value="3">制造业</option>
+						<option value="4">电力、热力、燃气及水生产和供应业</option>
+						<option value="5">建筑业</option>
+						<option value="6">批发和零售业</option>
+						<option value="7">交通运输、仓储和邮政业</option>
+						<option value="8">住宿和餐饮业</option>
+						<option value="9">信息传输、软件和信息技术服务业</option>
+						<option value="10">金融业</option>
+						<option value="11">房地产业</option>
+						<option value="12">租赁和商务服务业</option>
+						<option value="13">科学研究和技术服务业</option>
+						<option value="14">水利、环境和公共设施管理业</option>
+						<option value="15">居民服务、修理和其他服务业</option>
+						<option value="16">教育</option>
+						<option value="17">卫生和社会工作</option>
+						<option value="18">文化、体育和娱乐业</option>
+						<option value="19">公共管理、社会保障和社会组织</option>
+						<option value="20">国际组织</option>
+				</select> <select class="form-select" >
+						<option value="-1">--请选择--</option>
+				</select></td>
+			</tr>
+
+			<tr>
+				<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
+				<td colspan="3"><select class="form-select">
+						<option selected="selected" value="-1">--请选择--</option>
+						<option value="1">文体卫教</option>
+						<option value="2">城市建设</option>
+						<option value="3">党政机关</option>
+						<option value="4">市容环境提升</option>
+						<option value="5">农林水</option>
+						<option value="6">道路交通</option>
+						<option value="7">规划前期费</option>
+						<option value="8">轨道规划前期费</option>
+						<option value="29">其他</option>
+						<option value="33">征收补偿安置</option>
+						<option value="34">项目审计决算资金</option>
+						<option value="35">项目前期费</option>
+				</select> <select class="form-select">
+						<option value="-1">--请选择--</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">项目类型：<span class="required" >(*)</span></td>
+				<td colspan="3"><span
+					style="display: inline-block; border-style: None; height: 45px; width: 700px; border: 0px;">
+						<input type="checkbox" value="2016年前期项目" /> <label>2016年前期项目</label>
+						<input type="checkbox" value="2016年度计划A类" /> <label>2016年度计划A类</label>
+						<input type="checkbox" value="2014年调整计划" /> <label>2014年调整计划</label>
+						<input type="checkbox" value="2015年调整计划" /> <label>2015年调整计划</label>
+						<input type="checkbox" value="市重大项目" /> <label>市重大项目</label> <input
+						type="checkbox" value="区重大项目" /> <label>区重大项目</label> <input
+						type="checkbox" value="区重大民生项目" /> <label>区重大民生项目</label> <input
+						type="checkbox" value="市十二项重大民生项目" /> <label>市十二项重大民生项目</label>
+						<input type="checkbox" value="重点区域项目" /> <label>重点区域项目</label>
+						<input type="checkbox" value="2014年度计划A类" /> <label>2014年度计划A类</label>
+						<input type="checkbox" value="2015年度计划A类" /> <label>2015年度计划A类</label>
+						<input type="checkbox" value="2015年前期项目" /> <label>2015年前期项目</label>
+						<input type="checkbox" value="其他" /> <label>其他</label>
+				</span></td>
+			</tr>
+			<tr>
+				<td  class="formAlignRight" style="height: 50px;" rowspan="2">项目建设地址：<span class="required" >(*)</span></td>
+				<td colspan="3"><span
+					style="display: inline-block; border-style: None; height: 45px; width: 600px; border: 0px;">
+						<input type="checkbox" value="街道" /> <label>街道</label> <input
+						type="checkbox" value="街道" /> <label>道街</label> <input
+						type="checkbox" value="街道" /> <label>街道</label> <input
+						type="checkbox" value="街道" /> <label>街道</label> <input
+						type="checkbox" value="街道" /> <label>街道</label> <input
+						type="checkbox" value="街道" /> <label>街道</label> <input
+						type="checkbox" value="街道" /> <label>街道</label> <input
+						type="checkbox" value="街道" /> <label>街道</label> <input
+				</span></td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<input type="text" maxlength="50" value="..." style="width: 300px;" class="form-control input-sm pull-left" /> &nbsp; 
+					
+					<input type="button" id="btnSetMap" value='设置坐标'/>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight" >项目总投资(万元)：<span class="required" >(*)</span></td>
+				<td colspan="3" style="padding-left: 0">
+					<input class="form-text" style="margin-left:20px;height:28px;">
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">资金筹措方案(万元)：<span class="required"  >(*)</span></td>
+				<td colspan="3" style="padding-left: 0">
+					<table class="table table-bordered table-striped table-hover">
+						<tr>
+							<td class="text-primary" style="font-size:12px;">市财政</td>
+							<td class="text-primary" style="font-size:12px;">区财政</td>
+							<td class="text-primary" style="font-size:12px;">社会投资</td>
+							<td class="text-primary" style="font-size:12px;">国土资金</td>
+							<td class="text-primary" style="font-size:12px;">专项资金</td>
+							<td class="text-primary" style="font-size:12px;">中央投资</td>
+							<td class="text-primary" style="font-size:12px;">部省</td>
+							<td class="text-primary" style="font-size:12px;">自筹</td>
+							<td class="text-primary" style="font-size:12px;">政府统筹</td>
+							<td class="text-primary" style="font-size:12px;">教育费附加</td>
+							<td class="text-primary" style="font-size:12px;">其他</td>
+						</tr>
+						<tr>
+							<td><input type="text" class="form-text" style="width: 45px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 45px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 55px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 55px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 50px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 55px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 45px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 45px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 55px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 60px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 45px;height:25px;"/></td>	
+						</tr>
+						<tr>
+							<td colspan="2">资金总计</td>
+							<td colspan="9" align="left" style="padding-left: 20px;"><span
+								value="0"></span> <input type="hidden" /></td>
+						</tr>
+						<tr>
+							<td colspan="3" class="text-danger">"其他"的来源途径说明</td>
+							<td colspan="8" style="padding: 0;">
+								<input style="width: 300px;height:25px;margin-left:10px;" class="form-text"/>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>																	
+				<td class="formAlignRight">至上年度累计下达(万元)：<span class="required"  >(*)</span></td>
+				<td colspan="3" style="padding-left: 0">
+					<table class="table table-bordered table-striped table-hover">
+						<tr>
+							<td class="text-primary" style="font-size:12px;">市财政</td>
+							<td class="text-primary" style="font-size:12px;">区财政</td>
+							<td class="text-primary" style="font-size:12px;">社会投资</td>
+							<td class="text-primary" style="font-size:12px;">国土资金</td>
+							<td class="text-primary" style="font-size:12px;">专项资金</td>
+							<td class="text-primary" style="font-size:12px;">中央投资</td>
+							<td class="text-primary" style="font-size:12px;">部省</td>
+							<td class="text-primary" style="font-size:12px;">自筹</td>
+							<td class="text-primary" style="font-size:12px;">政府统筹</td>
+							<td class="text-primary" style="font-size:12px;">教育费附加</td>
+							<td class="text-primary" style="font-size:12px;">其他</td>
+						</tr>
+						<tr>
+							<td><input type="text" class="form-text" style="width: 45px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 45px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 55px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 55px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 50px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 55px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 45px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 45px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 55px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 60px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 45px;height:25px;"/></td>	
+						</tr>
+						<tr>
+							<td colspan="2">资金总计</td>
+							<td colspan="9" align="left" style="padding-left: 20px;">
+								<span value="0"></span>
+								<input type="hidden" />
+							</td>		
+						</tr>
+						<tr>
+							<td colspan="3" class="text-danger">"其他"的来源途径说明</td>
+							<td colspan="8" style="padding: 0;">
+								<input style="width: 300px;height:25px;margin-left:10px;" class="form-text"/>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>																	
+				<td class="formAlignRight">年度投资计划(万元)：<span class="required"  >(*)</span></td>
+				<td colspan="3" style="padding-left: 0">
+					<table class="table table-bordered table-striped table-hover">
+						<tr>
+							<td class="text-primary" style="font-size:12px;">市财政</td>
+							<td class="text-primary" style="font-size:12px;">区财政</td>
+							<td class="text-primary" style="font-size:12px;">社会投资</td>
+							<td class="text-primary" style="font-size:12px;">国土资金</td>
+							<td class="text-primary" style="font-size:12px;">专项资金</td>
+							<td class="text-primary" style="font-size:12px;">中央投资</td>
+							<td class="text-primary" style="font-size:12px;">部省</td>
+							<td class="text-primary" style="font-size:12px;">自筹</td>
+							<td class="text-primary" style="font-size:12px;">政府统筹</td>
+							<td class="text-primary" style="font-size:12px;">教育费附加</td>
+							<td class="text-primary" style="font-size:12px;">其他</td>
+						</tr>
+						<tr>
+							<td><input type="text" class="form-text" style="width: 45px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 45px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 55px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 55px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 50px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 55px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 45px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 45px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 55px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 60px;height:25px;"/></td>
+							<td><input type="text" class="form-text" style="width: 45px;height:25px;"/></td>	
+						</tr>
+						<tr>
+							<td colspan="2">资金总计</td>
+							<td colspan="9" align="left" style="padding-left: 20px;">
+								<span value="0"></span>
+								<input type="hidden" />
+							</td>		
+						</tr>
+						<tr>
+							<td colspan="3" class="text-danger">"其他"的来源途径说明</td>
+							<td colspan="8" style="padding: 0;">
+								<input style="width: 300px;height:25px;margin-left:10px;" class="form-text"/>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">本年度主要建设内容：<span class="required" >(*)</span></td>
+				<td colspan="3">
+					<div>
+						<span class="label label-danger pull-right">*这里不能为空</span>
+						<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 640px;" placeholder="注：仅填写申报计划年度拟实施的主要内容。（200字符以内）">	
+							
+						</textarea>
+						<span>您还可以输入200个字符！</span>
+					</div>
+					
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">项目简介：<span class="required" >(*)</span></td>
+				<td colspan="3">
+					<div>
+						<span class="label label-danger pull-right">*这里不能为空</span>
+						<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 640px;" placeholder="项目简介（500字符以内）">	
+							
+						</textarea>
+						<span>您还可以输入500个字符！</span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">建设规模：<span class="required" >(*)</span></td>
+				<td colspan="3">
+					<div>
+						<span class="label label-danger pull-right">*这里不能为空</span>
+						<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 640px;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（200字符以内）">	
+							
+						</textarea>
+						<span>您还可以输入200个字符！</span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">项目必要性和依据：<span class="required" >(*)</span></td>
+				<td colspan="3">
+					<div>
+						<span class="label label-danger pull-right">*这里不能为空</span>
+						<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 640px;" placeholder="项目必要性和依据（200字符以内）">	
+							
+						</textarea>
+						<span>您还可以输入200个字符！</span>
+					</div>
+				</td>
+			</tr>
+			</div>
+			<tr>
+				<td colspan="4"
+					style="padding-top: 11px; padding-bottom: 30px; text-align: center;">
+							<button type="button" class="btn btn-success">保存</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+	</form>
+</div>	
+
+<script type="text/javascript">
+$("#btnSetMap").click(function () {
+	alert("设置坐标");  
+});
+</script>
+

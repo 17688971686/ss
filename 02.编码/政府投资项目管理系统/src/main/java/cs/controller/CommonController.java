@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import cs.common.Util;
-import cs.model.BasicDataDto;
+import cs.model.management.BasicDataDto;
 import cs.service.common.BasicDataService;
 
 @Controller

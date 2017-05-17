@@ -3,14 +3,14 @@ package cs.domain;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -49,6 +49,10 @@ public class ProjectInfo extends DomainBase{
 	private String projectAddress;
 	@Column(columnDefinition="varchar(50) NULL COMMENT '项目坐标'")
 	private String projectLocation;
+	@Column(columnDefinition="varchar(50) NULL COMMENT '项目状态'")//未提交、已提交、收件
+	private String projectStatus;
+	@Column(columnDefinition="varchar(50) NULL COMMENT '建设阶段'")//前期、在建、决算
+	private String projectBuildStage;
 	//end#项目基本信息
 	
 	//begin#项目投资信息	
@@ -83,7 +87,7 @@ public class ProjectInfo extends DomainBase{
 	@Column(columnDefinition="decimal(9,2) NULL COMMENT '资金筹措方案-其他'")
 	private BigDecimal capitalOther;
 	@Column(columnDefinition="varchar(500) NULL COMMENT '资金筹措方案（其他） 的来源途径说明'")
-	private BigDecimal capitalOtherExplain;
+	private String capitalOtherExplain;
 	//end#项目投资信息	
 	
 	//begin#项目描述	
@@ -139,7 +143,7 @@ public class ProjectInfo extends DomainBase{
 	@Column(columnDefinition="decimal(9,2) NULL COMMENT '至上年底累计下达-其他'")
 	private BigDecimal capital2Other;
 	@Column(columnDefinition="varchar(500) NULL COMMENT '至上年底累计下达（其他） 的来源途径说明'")
-	private BigDecimal capital2OtherExplain;
+	private String capital2OtherExplain;
 	
 
 	@Column(columnDefinition="decimal(9,2) NULL COMMENT '年度投资计划-市财政'")
@@ -165,7 +169,7 @@ public class ProjectInfo extends DomainBase{
 	@Column(columnDefinition="decimal(9,2) NULL COMMENT '年度投资计划-其他'")
 	private BigDecimal capital3Other;
 	@Column(columnDefinition="varchar(500) NULL COMMENT '年度投资计划（其他） 的来源途径说明'")
-	private BigDecimal capital3OtherExplain;
+	private String capital3OtherExplain;
 	
 	
 	@Column(columnDefinition="varchar(500) NULL COMMENT '本年度主要建设内容'")
@@ -223,6 +227,12 @@ public class ProjectInfo extends DomainBase{
 	//编制单位
 	@OneToOne(cascade=CascadeType.ALL)
 	private UnitInfo BianZhiUnit=new UnitInfo();
+	
+	//项目月报
+	@OneToMany(cascade=CascadeType.ALL)
+//	@JoinColumn(name="projectInfo_Id",nullable=false)
+	private List<MonthReport> monthReports = new ArrayList<>();
+	
 	//end#关联信息
 
 	public String getId() {
@@ -441,11 +451,11 @@ public class ProjectInfo extends DomainBase{
 		this.capitalOther = capitalOther;
 	}
 
-	public BigDecimal getCapitalOtherExplain() {
+	public String getCapitalOtherExplain() {
 		return capitalOtherExplain;
 	}
 
-	public void setCapitalOtherExplain(BigDecimal capitalOtherExplain) {
+	public void setCapitalOtherExplain(String capitalOtherExplain) {
 		this.capitalOtherExplain = capitalOtherExplain;
 	}
 
@@ -462,7 +472,7 @@ public class ProjectInfo extends DomainBase{
 	}
 
 	public void setProjectGuiMo(String projectGuiMo) {
-		ProjectGuiMo = projectGuiMo;
+		this.ProjectGuiMo = projectGuiMo;
 	}
 
 	public String getProjectBiYaoXingAndYiJu() {
@@ -470,7 +480,7 @@ public class ProjectInfo extends DomainBase{
 	}
 
 	public void setProjectBiYaoXingAndYiJu(String projectBiYaoXingAndYiJu) {
-		ProjectBiYaoXingAndYiJu = projectBiYaoXingAndYiJu;
+		this.ProjectBiYaoXingAndYiJu = projectBiYaoXingAndYiJu;
 	}
 
 	public String getProjectTuiJianFangAnJieShao() {
@@ -478,7 +488,7 @@ public class ProjectInfo extends DomainBase{
 	}
 
 	public void setProjectTuiJianFangAnJieShao(String projectTuiJianFangAnJieShao) {
-		ProjectTuiJianFangAnJieShao = projectTuiJianFangAnJieShao;
+		this.ProjectTuiJianFangAnJieShao = projectTuiJianFangAnJieShao;
 	}
 
 	public String getProjectSheHuiJingJiXiaoYiPingGu() {
@@ -486,7 +496,7 @@ public class ProjectInfo extends DomainBase{
 	}
 
 	public void setProjectSheHuiJingJiXiaoYiPingGu(String projectSheHuiJingJiXiaoYiPingGu) {
-		ProjectSheHuiJingJiXiaoYiPingGu = projectSheHuiJingJiXiaoYiPingGu;
+		this.ProjectSheHuiJingJiXiaoYiPingGu = projectSheHuiJingJiXiaoYiPingGu;
 	}
 
 	public String getRemark() {
@@ -617,11 +627,11 @@ public class ProjectInfo extends DomainBase{
 		this.capital2Other = capital2Other;
 	}
 
-	public BigDecimal getCapital2OtherExplain() {
+	public String getCapital2OtherExplain() {
 		return capital2OtherExplain;
 	}
 
-	public void setCapital2OtherExplain(BigDecimal capital2OtherExplain) {
+	public void setCapital2OtherExplain(String capital2OtherExplain) {
 		this.capital2OtherExplain = capital2OtherExplain;
 	}
 
@@ -713,11 +723,11 @@ public class ProjectInfo extends DomainBase{
 		this.capital3Other = capital3Other;
 	}
 
-	public BigDecimal getCapital3OtherExplain() {
+	public String getCapital3OtherExplain() {
 		return capital3OtherExplain;
 	}
 
-	public void setCapital3OtherExplain(BigDecimal capital3OtherExplain) {
+	public void setCapital3OtherExplain(String capital3OtherExplain) {
 		this.capital3OtherExplain = capital3OtherExplain;
 	}
 
@@ -840,5 +850,46 @@ public class ProjectInfo extends DomainBase{
 	public void setAttachments(List<Attachment> attachments) {
 		this.attachments = attachments;
 	}
+
+	public List<MonthReport> getMonthReports() {
+		return monthReports;
+	}
+
+	public void setMonthReports(List<MonthReport> monthReports) {
+		this.monthReports = monthReports;
+	}
+
+	public UnitInfo getShenBaoUnit() {
+		return shenBaoUnit;
+	}
+
+	public void setShenBaoUnit(UnitInfo shenBaoUnit) {
+		this.shenBaoUnit = shenBaoUnit;
+	}
+
+	public UnitInfo getBianZhiUnit() {
+		return BianZhiUnit;
+	}
+
+	public void setBianZhiUnit(UnitInfo bianZhiUnit) {
+		BianZhiUnit = bianZhiUnit;
+	}
+
+	public String getProjectStatus() {
+		return projectStatus;
+	}
+
+	public void setProjectStatus(String projectStatus) {
+		this.projectStatus = projectStatus;
+	}
+
+	public String getProjectBuildStage() {
+		return projectBuildStage;
+	}
+
+	public void setProjectBuildStage(String projectBuildStage) {
+		this.projectBuildStage = projectBuildStage;
+	}
+	
 	
 }

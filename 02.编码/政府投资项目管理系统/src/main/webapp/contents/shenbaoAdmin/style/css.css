@@ -68,3 +68,59 @@ ul li{
 	margin:0 auto;
 	min-height:900px;
 } */
+
+/* begin cx */
+.table-bordered>thead>tr>th, 
+.table-bordered>tbody>tr>th, 
+.table-bordered>tfoot>tr>th, 
+.table-bordered>thead>tr>td, 
+.table-bordered>tbody>tr>td, 
+.table-bordered>tfoot>tr>td {
+    border: 1px solid #ddd;
+    vertical-align:middle
+}
+.form-select{
+  height:30px;
+  border:1px solid #ddd;
+}
+.text-overflow{  
+  overflow:hidden;
+  display:inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+ .tab {
+        padding:5px;
+      }
+ .tab  li{
+        list-style: none;
+        float:left ;
+        margin-left:5px;
+        line-height: 30px;
+      }
+      
+.td_bottom{
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 0px solid #ddd; 
+}
+.td_top{
+  border-top: 0px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 20px;
+    line-height: 150%; 
+}
+.form-text{
+  border: #f2f2f2 1px solid;
+    border-top-color: #c8c8c8;
+    border-right-color: #c8c8c8;
+    padding: 0 0px;
+    font-size: 12px;
+    color: #0E6CAD;
+}
+
+
+/* end cx */

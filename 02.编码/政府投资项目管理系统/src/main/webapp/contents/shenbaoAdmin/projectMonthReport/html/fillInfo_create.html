@@ -1,0 +1,446 @@
+<form id="form" name="form">
+			<table class="table table-hover table-bordered table-striped"
+				align="center">
+				<tbody>
+					<tr>
+						<td width="188px;">项目名称:</td>
+						<td colspan="2"><span ng-bind="vm.projectName"></span> <input
+							type="text" ng-model="vm.model.projectId" style="display: none" />
+							<input type="text" ng-model="vm.model.id" style="display: none" />
+						</td>
+						<td width="175px;">填报月份：</td>
+						<td width="335px;"><span ng-bind="vm.month"></span> 月 份</td>
+					</tr>
+					<tr>
+						<td>填报人姓名：<span class="required">(*)</span>
+						</td>
+						<td colspan="2"><input class="form-control input-sm " type="text"
+							ng-model="vm.model.fillName"
+							style="width: 214px; height: 25px; line-height: 25px;"></td>
+						<td>填报人手机：<span class="required">(*)</span>
+						</td>
+						<td><input class="form-control input-sm " type="text"
+							ng-model="vm.model.fillMobile"
+							style="width: 214px; height: 25px; line-height: 25px;"></td>
+					</tr>
+					<tr>
+						<td>月报负责人姓名：<span class="required">(*)</span>
+						</td>
+						<td colspan="2"><input class="form-control input-sm " type="text"
+							ng-model="vm.model.monRepManagerName"
+							style="width: 214px; height: 25px; line-height: 25px;"></td>
+						<td>月报负责人手机：<span class="required">(*)</span>
+						</td>
+						<td><input class="form-control input-sm " type="text"
+							ng-model="vm.model.monRepManagerTel"
+							style="width: 214px; height: 25px; line-height: 25px;"></td>
+					</tr>
+					<tr ng-hide="vm.SHTZ">
+						<td>月报负责人传真：</td>
+						<td colspan="2"><input class="form-control input-sm " type="text"
+							ng-model="vm.model.monRepManagerFax"
+							style="width: 214px; height: 25px; line-height: 25px;"></td>
+						<td>月报责任单位名称：</td>
+						<td><input class="form-control input-sm " type="text"
+							ng-model="vm.model.monRepManagUnitName"
+							style="width: 214px; height: 25px; line-height: 25px;"></td>
+					</tr>
+					<tr ng-hide="vm.SHTZ">
+						<td>责任单位负责人：</td>
+						<td colspan="2"><input class="form-control input-sm " type="text"
+							ng-model="vm.model.respUnitManagerName"
+							style="width: 214px; height: 25px; line-height: 25px;"></td>
+						<td>责任单位负责人电话：</td>
+						<td><input class="form-control input-sm " type="text"
+							ng-model="vm.model.respUnitManagerTel"
+							style="width: 214px; height: 25px; line-height: 25px;"></td>
+					</tr>
+					<tr ng-hide="vm.SHTZ">
+						<td>前期工作计划批复日期：</td>
+						<td colspan="2"><input id="prePlanReplyDate"
+							ng-model="vm.model.prePlanReplyDate" style="width: 140px;"><br>						
+						</td>
+						<td>前期工作计划批文号：</td>
+						<td><select id="prePlanType" ng-model="vm.model.prePlanType"
+							class="form-select" >
+								<option value="">---请选择---</option>
+								<option ng-repeat="x in vm.basicData.approvalType"
+									value="{{x.id}}">{{x.description}}</option>
+						</select> 
+						
+						<select ng-model="vm.model.prePlanYear" class="form-select" >
+							<option ng-repeat="x in vm.years" value="{{x}}" ng-selected="x==vm.currentYear">{{x}}</option>
+						</select>						
+						年 
+							
+							<input id="prePlanNum"
+							ng-model="vm.model.prePlanNum" class="form-control input-sm " type="text"
+							style="width: 80px; height: 28px">号</td>
+					</tr>
+					<tr>
+						<td>项目建议书批复日期：</td>
+						<td colspan="2"><input id="proposalsReplyDate"
+							ng-model="vm.model.proposalsReplyDate" style="width: 140px;">
+						</td>
+						<td>项目建议书批文号：</td>
+						<td><select id="proposalsType"
+							ng-model="vm.model.proposalsType" class="form-select" >
+								<option value="">---请选择---</option>
+								<option ng-repeat="x in vm.basicData.approvalType"
+									value="{{x.id}}">{{x.description}}</option>
+						</select> 
+						<select ng-model="vm.model.proposalsYear" class="form-select" >
+							<option ng-repeat="x in vm.years" value="{{x}}" ng-selected="x==vm.currentYear">{{x}}</option>
+						</select>						
+						年 
+						
+							<input id="proposalsNum"
+							ng-model="vm.model.proposalsNum" class="form-control input-sm " type="text"
+							style="width: 80px; height: 28px">号</td>
+					</tr>
+					<tr ng-hide="vm.SHTZ">
+						<td>可行性研究报告批复日期：</td>
+						<td colspan="2"><input id="feaStyRepoReplyDate"
+							ng-model="vm.model.feaStyRepoReplyDate" style="width: 140px;">
+						</td>
+						<td>可行性研究报告批文号：</td>
+						<td><select id="reportType" ng-model="vm.model.reportType"
+							class="form-select" >
+								<option value="">---请选择---</option>
+								<option ng-repeat="x in vm.basicData.approvalType"
+									value="{{x.id}}">{{x.description}}</option>
+						</select> 
+						<select ng-model="vm.model.reportYear" class="form-select" >
+							<option ng-repeat="x in vm.years" value="{{x}}" ng-selected="x==vm.currentYear">{{x}}</option>
+						</select>						
+						年 
+						
+							
+							<input id="reportNum"
+							ng-model="vm.model.reportNum" class="form-control input-sm " type="text"
+							style="width: 80px; height: 28px">号</td>
+					</tr>
+					<tr ng-hide="vm.SHTZ">
+						<td>项目总概算批复日期：</td>
+						<td colspan="2"><input id="allEstimateReplyDate"
+							ng-model="vm.model.allEstimateReplyDate" style="width: 140px;">
+						</td>
+						<td>项目总概算批复文号：</td>
+						<td><select id="allEstimateType"
+							ng-model="vm.model.allEstimateType" class="form-select" >
+								<option value="">---请选择---</option>
+								<option ng-repeat="x in vm.basicData.approvalType"
+									value="{{x.id}}">{{x.description}}</option>
+						</select> 
+						<select ng-model="vm.model.allEstimateYear" class="form-select" >
+							<option ng-repeat="x in vm.years" value="{{x}}" ng-selected="x==vm.currentYear">{{x}}</option>
+						</select>						
+						年 
+						
+							
+							<input id="allEstimateNum"
+							ng-model="vm.model.allEstimateNum" class="form-control input-sm " type="text"
+							style="width: 80px; height: 28px">号</td>
+					</tr>
+					<tr>
+						<td>开工日期：<span class="required">(*)</span>
+						</td>
+						<td colspan="4">
+							<!-- 此处引用的是实际开工日期 --> <input id="actuallyDate"
+							ng-model="vm.model.actuallyDate" style="width: 140px;">
+						</td>
+					</tr>
+					<tr>
+						<td>项目总投资：<span class="required">(*)</span>
+						</td>
+						<td colspan="2">
+							<!-- 此处引用的是计划总投资 --> <input id="invertPlanTotal"
+							ng-model="vm.model.invertPlanTotal" class="form-control input-sm" type="text"
+							 style="width: 150px;" />&nbsp;（万元）
+						</td>
+
+						<td>至今完成投资：</td>
+						<td colspan="2"><input id="sinceLastYearCompletInvestment"
+							ng-model="vm.model.sinceLastYearCompletInvestment"
+							class="form-control input-sm " type="text" style="width: 150px;">（万元）
+						</td>
+					</tr>
+					<tr>
+						<td>本年度计划完成投资：<span class="required">(*)</span>
+						</td>
+						<td colspan="2"><input id="thisYearPlanInvestment"
+							ng-model="vm.model.thisYearPlanInvestment" class="form-control input-sm "
+							type="text" style="width: 150px;">&nbsp;（万元）
+						</td>
+						<td>本月完成投资：<span class="required">(*)</span>
+						</td>
+						<td><input id="thisMonthInvestTotal"
+							ng-model="vm.model.thisMonthInvestTotal" class="form-control input-sm "
+							type="text" style="width: 150px;">&nbsp;（万元）
+						</td>
+					</tr>
+					<tr>
+						<td>征转地面积：<span class="required"></span>
+						</td>
+						<td colspan="2"><input id="requisitionLandArea"
+							ng-model="vm.model.requisitionLandArea" class="form-control input-sm "
+							type="text" style="width: 150px;">&nbsp;<span
+							style="font-size: 12px;">（平方米）</span></td>
+						<td>拆迁面积：<span class="required"></span>
+						</td>
+						<td><input id="demolitionArea"
+							ng-model="vm.model.demolitionArea" class="form-control input-sm " type="text"
+							style="width: 150px;">&nbsp;<span
+							style="font-size: 12px;">（平方米）</span></td>
+					</tr>
+				
+					<tr ng-show="vm.isJueSuan">
+						<td rowspan="6">工程结算情况：<span class="required">(*)</span>
+						</td>
+					</tr>
+					<tr ng-show="vm.isJueSuan">
+						<td colspan="4">第一份结算报告送审计日期： <input
+							id="firstAccountReportSendAuditDate"
+							ng-model="vm.model.firstAccountReportSendAuditDate"
+							style="width: 140px;">
+						</td>
+					</tr>
+					<tr ng-show="vm.isJueSuan">
+						<td colspan="4">第一份结算报告审计日期： <input
+							id="firstAccountReportAuditDate"
+							ng-model="vm.model.firstAccountReportAuditDate"
+							style="width: 140px;">
+						</td>
+					</tr>
+					<tr ng-show="vm.isJueSuan">
+						<td colspan="4">最新结算报告送审计日期： <input
+							id="newestAccountReportSendAuditDate"
+							ng-model="vm.model.newestAccountReportSendAuditDate"
+							style="width: 140px;">
+						</td>
+					</tr>
+					<tr ng-show="vm.isJueSuan">
+						<td colspan="4">最新结算报告审计日期： <input
+							id="newestAccountReportAuditDate"
+							ng-model="vm.model.newestAccountReportAuditDate"
+							style="width: 140px;">
+						</td>
+					</tr>
+					<tr ng-show="vm.isJueSuan">
+						<td colspan="4">已完成审计的结算审定金额： <input
+							id="completedAuditAccountAuthorizedAmount"
+							ng-model="vm.model.completedAuditAccountAuthorizedAmount"
+							class="form-control input-sm" 
+							type="text" style="width: 150px;">&nbsp;(万元)
+						</td>
+					</tr>
+					<tr ng-show="vm.isJueSuan">
+						<td rowspan="4">竣工决算情况：<span class="required">(*)</span>
+						</td>
+					</tr>
+					<tr ng-show="vm.isJueSuan">
+						<td colspan="4">决算报告送审日期： <input
+							id="accountReportSendAuditDate"
+							ng-model="vm.model.accountReportSendAuditDate"
+							style="width: 140px;">
+						</td>
+					</tr>
+					<tr ng-show="vm.isJueSuan">
+						<td colspan="4">完成决算审计日期： <input
+							id="completeAccountAuditDate"
+							ng-model="vm.model.completeAccountAuditDate"
+							style="width: 140px;">
+						</td>
+					</tr>
+					<tr ng-show="vm.isJueSuan">
+						<td colspan="4">决算审定金额： <input id="accountAuthorizedAmount"
+							ng-model="vm.model.accountAuthorizedAmount" type="text"
+							 class="form-control input-sm" 
+							 style="width: 150px;">&nbsp;(万元)
+						</td>
+					</tr>
+					<tr ng-show="vm.isJueSuan">
+						<td>备注：</td>
+						<td colspan="4"><textarea ng-model="vm.model.remark" rows="3"
+								cols="20" mark_maxlength="200"
+								mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
+								data-validation-placeholder="" placeholder=""
+								style="height: 120px; width: 640px; color: rgb(169, 169, 169);"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td>项目审批进度：</td>
+						<td colspan="4" style="padding: 10px;"> <textarea
+								ng-model="vm.model.projectApprovalProgress" rows="3" cols="20"
+								mark_maxlength="200"
+								mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
+								data-validation-placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。"
+								placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。"
+								style="height: 120px; width: 640px; color: rgb(169, 169, 169);"></textarea>
+					</tr>
+					<tr>
+						<td style="line-height: 18px">工程形象进度或<br>项目进度情况：<span
+							class="required">(*)</span>
+
+						</td>
+						<td colspan="4" style="padding: 10px;">
+							<div>
+								
+								<textarea ng-model="vm.model.projectImageProgress" rows="3"
+									cols="20" mark_maxlength="200"
+									mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
+									data-validation-placeholder="工程形象进度或项目进度情况(200字符以内)"
+									placeholder="工程形象进度或项目进度情况(200字符以内)"
+									style="height: 120px; width: 640px; color: rgb(169, 169, 169);"></textarea>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="line-height: 18px">年度工作目标：<span class="required">(*)</span>
+						</td>
+						<td colspan="4" style="padding: 10px;"><textarea
+								ng-model="vm.model.workTargets" rows="3" cols="20"
+								mark_maxlength="200"
+								mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
+								data-validation-placeholder="年度工作目标(200字符以内)"
+								placeholder="年度工作目标(200字符以内)"
+								style="height: 120px; width: 640px;"></textarea>
+					</tr>
+					<tr>
+						<td rowspan="5">进度安排<span class="required">(*)</span>
+						</td>
+						<td><select id="selfReview" ng-model="vm.model.selfReview"
+							class="form-select" >
+								<option value="">---请选择---</option>
+								<option ng-repeat="y in vm.basicData.projectProgress"
+									value="{{y.id}}">{{y.description}}</option>
+						</select></td>
+						<td colspan="2">是否完成竣工决算</td>
+						<td><span class="radioList_text"> <input type="radio"
+								name="isCompletion" ng-model="vm.model.isCompletion" value="1"><label>是</label>
+								<input type="radio" name="isCompletion"
+								ng-model="vm.model.isCompletion" value="0" checked="checked"><label>否</label>
+						</span></td>
+					</tr>
+					<tr>
+						<td colspan="4">
+							<p>
+								预计1到3月份完成投资（万元）： <input id="firstQuarCompInvestment"
+									ng-model="vm.model.firstQuarCompInvestment" class="form-control input-sm "
+									type="text" style="width: 80px; height: 28px">
+							</p>
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4">
+							<p>
+								预计1到6月份完成投资（万元）： <input id="secondQuarCompInvestment"
+									ng-model="vm.model.secondQuarCompInvestment" class="form-control input-sm "
+									type="text" style="width: 80px; height: 28px">
+							</p>
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4">
+							<p>
+								预计1到9月份完成投资（万元）： <input id="thirdQuarCompInvestment"
+									ng-model="vm.model.thirdQuarCompInvestment" class="form-control input-sm "
+									type="text" style="width: 80px; height: 28px">
+							</p>
+							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4">
+							<p>
+								预计1到12月份完成投资（万元）： <input id="fourthQuarCompInvestment"
+									ng-model="vm.model.fourthQuarCompInvestment" class="form-control input-sm "
+									type="text" style="width: 80px; height: 28px">
+							</p>
+							
+						</td>
+					</tr>
+					<tr>
+						<td>项目存在问题：</td>
+						<td colspan="4" style="padding-left: 0">
+							<table border="0" cellspacing="0"
+								style="width: 100%; border-left: none !important;"
+								cellpadding="0" id="tblProblem">
+								<tbody>
+									<tr>
+										<td>序号</td>
+										<td>问题简介</td>
+										<td>解决措施及建议</td>
+										<td><input class="btn btn-success btn-xs" type="button"
+											ng-click="vm.createProblem()" value="添加问题"></td>
+									</tr>
+									<tr ng-repeat="x in vm.model.monthReportProblems">
+										<td><span>{{$index+1}}</span></td>
+										<td><textarea style='height: 102px; width: 307px;'
+												placeholder='填写项目所存在的问题。'
+												data-validation-placeholder='填写项目所存在的问题。' cols='20' rows='2' ng-model="vm.model.monthReportProblems[$index].problemIntroduction"></textarea>
+										</td>
+										<td><textarea style='height: 102px; width: 307px;'
+												placeholder='填写项目所存在的问题。'
+												data-validation-placeholder='填写项目所存在的问题。' cols='20' rows='2' ng-model="vm.model.monthReportProblems[$index].solutionsAndSuggest"></textarea>
+										</td>
+										<td><input class='btn btn-xs btn-danger' type='button'
+											ng-click='vm.deleteProblem($index)' value='删除问题' /></td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div style="display: block;">
+				<table width="100%"
+					class="table table-striped table-bordered table-hover">
+					<tbody>
+						<tr>
+							<td><span
+								style="padding: 10px 15px; line-height: 24px; display: inline-block; color: #09F;">
+									注意：请严格按照以下附件类型上传正确的文件，否则将会对您的申报造成影响;<br>
+									允许上传的文件类型：图片(.jpg,.gif,.png)<br>
+							</span>
+								<table style="width: 98%;"
+									class="table table-hover table-bordered table-striped">
+									<tbody>
+										<tr>
+											<th width="10%" align="center" scope="col">附件类型</th>
+											<th width="10%" align="center" scope="col">附件上传</th>
+											<th width="30%" align="center" scope="col">附件名称</th>	
+										</tr>
+										<tr>
+											<td rowspan="1"><span>现场图片</span></td>
+											<td rowspan="1">
+												<div id="uploadBox">
+													<input name="files" id="files" type="file" />
+												</div>
+											</td>
+											<td >
+											 <div  ng-repeat="x in vm.model.attachments" style="margin:3px;">
+												 <a href="/contents/upload/{{x.url}}" target="_blank" ng-bind="x.name"></a>
+												<button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button>
+											 </div>
+											
+											</td>						
+											
+										</tr>
+									</tbody>
+								</table></td>
+						</tr>
+						
+					</tbody>
+				</table>
+			</div>
+
+			<div style="text-align: center">
+				<button class="btn btn-success" ng-disabled="vm.isSubmit || vm.isReportExist" ng-click="vm.submit()">确认提交</button>
+				<span class="text-danger" ng-show="vm.isReportExist">(月报已提交！)</span>
+			</div>
+		</form>
+	

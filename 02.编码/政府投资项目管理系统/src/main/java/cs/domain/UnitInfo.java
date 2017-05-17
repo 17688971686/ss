@@ -23,9 +23,9 @@ public class UnitInfo {
 	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '组织机构代码'")
 	private String orgCode;
 	@Column(columnDefinition="varchar(255) COMMENT '所属行政区划'")
-	private Integer divisionId;
-	@Column(columnDefinition="varchar(50) COMMENT '资质等级'")
-	private Integer qualifiedLeval;
+	private String divisionId;
+	@Column(columnDefinition="varchar(255) COMMENT '资质等级'")
+	private String qualifiedLeval;
 	@Column(columnDefinition="varchar(50) COMMENT '电话号码'")
 	private String unitTel;
 	@Column(columnDefinition="varchar(50) COMMENT '电子邮箱'")
@@ -33,7 +33,7 @@ public class UnitInfo {
 	@Column(columnDefinition="varchar(50) COMMENT '传真号码'")
 	private String unitFax;
 	@Column(columnDefinition="varchar(50) COMMENT '单位性质'")
-	private Integer unitProperty;
+	private String unitProperty;
 	@Column(columnDefinition="varchar(255) COMMENT '单位地址'")
 	private String unitAddress;
 	@Column(columnDefinition="varchar(255) COMMENT '法人名称'")
@@ -66,4 +66,156 @@ public class UnitInfo {
 	private Integer isSubmit;
 	@Column(columnDefinition="varchar(225) COMMENT '备注'")
 	private String remark;
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getUnitName() {
+		return unitName;
+	}
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
+	}
+	public String getOrgCode() {
+		return orgCode;
+	}
+	public void setOrgCode(String orgCode) {
+		this.orgCode = orgCode;
+	}
+	public String getDivisionId() {
+		return divisionId;
+	}
+	public void setDivisionId(String divisionId) {
+		this.divisionId = divisionId;
+	}
+	public String getQualifiedLeval() {
+		return qualifiedLeval;
+	}
+	public void setQualifiedLeval(String qualifiedLeval) {
+		this.qualifiedLeval = qualifiedLeval;
+	}
+	public String getUnitTel() {
+		return unitTel;
+	}
+	public void setUnitTel(String unitTel) {
+		this.unitTel = unitTel;
+	}
+	public String getUnitEmail() {
+		return unitEmail;
+	}
+	public void setUnitEmail(String unitEmail) {
+		this.unitEmail = unitEmail;
+	}
+	public String getUnitFax() {
+		return unitFax;
+	}
+	public void setUnitFax(String unitFax) {
+		this.unitFax = unitFax;
+	}
+	public String getUnitProperty() {
+		return unitProperty;
+	}
+	public void setUnitProperty(String unitProperty) {
+		this.unitProperty = unitProperty;
+	}
+	public String getUnitAddress() {
+		return unitAddress;
+	}
+	public void setUnitAddress(String unitAddress) {
+		this.unitAddress = unitAddress;
+	}
+	public String getLegalName() {
+		return legalName;
+	}
+	public void setLegalName(String legalName) {
+		this.legalName = legalName;
+	}
+	public String getLegalTel() {
+		return legalTel;
+	}
+	public void setLegalTel(String legalTel) {
+		this.legalTel = legalTel;
+	}
+	public String getUnitResPerson() {
+		return unitResPerson;
+	}
+	public void setUnitResPerson(String unitResPerson) {
+		this.unitResPerson = unitResPerson;
+	}
+	public String getUnitContactPerson() {
+		return unitContactPerson;
+	}
+	public void setUnitContactPerson(String unitContactPerson) {
+		this.unitContactPerson = unitContactPerson;
+	}
+	public String getResPersonTel() {
+		return resPersonTel;
+	}
+	public void setResPersonTel(String resPersonTel) {
+		this.resPersonTel = resPersonTel;
+	}
+	public String getResPersonMobile() {
+		return resPersonMobile;
+	}
+	public void setResPersonMobile(String resPersonMobile) {
+		this.resPersonMobile = resPersonMobile;
+	}
+	public String getResPersonEmail() {
+		return resPersonEmail;
+	}
+	public void setResPersonEmail(String resPersonEmail) {
+		this.resPersonEmail = resPersonEmail;
+	}
+	public String getResPersonFax() {
+		return resPersonFax;
+	}
+	public void setResPersonFax(String resPersonFax) {
+		this.resPersonFax = resPersonFax;
+	}
+	public String getContactPersonTel() {
+		return contactPersonTel;
+	}
+	public void setContactPersonTel(String contactPersonTel) {
+		this.contactPersonTel = contactPersonTel;
+	}
+	public String getContactPersonMobile() {
+		return contactPersonMobile;
+	}
+	public void setContactPersonMobile(String contactPersonMobile) {
+		this.contactPersonMobile = contactPersonMobile;
+	}
+	public String getContactPersonEmail() {
+		return contactPersonEmail;
+	}
+	public void setContactPersonEmail(String contactPersonEmail) {
+		this.contactPersonEmail = contactPersonEmail;
+	}
+	public String getContactPersonFax() {
+		return contactPersonFax;
+	}
+	public void setContactPersonFax(String contactPersonFax) {
+		this.contactPersonFax = contactPersonFax;
+	}
+	public Integer getIsFinish() {
+		return isFinish;
+	}
+	public void setIsFinish(Integer isFinish) {
+		this.isFinish = isFinish;
+	}
+	public Integer getIsSubmit() {
+		return isSubmit;
+	}
+	public void setIsSubmit(Integer isSubmit) {
+		this.isSubmit = isSubmit;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	
+	
 }

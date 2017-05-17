@@ -6,7 +6,7 @@
 	projectDeclaration.$inject = [ '$http','$compile' ];	
 	function projectDeclaration($http,$compile) {	
 		var url_projectDeclaration = "/contents/shenbaoAdmin/projectDeclaration/data/list.json";
-		var url_projectDeclaration_relevance = "/contents/shenbaoAdmin/projectDetais/html/project.add/yearPlanAdjust/js/projectRelatedInfoAdd.list.json"
+		var url_projectDeclaration_relevance = "/contents/shenbaoAdmin/projectDetails/html/project.add/yearPlanAdjust/js/projectRelatedInfoAdd.list.json"
 //		var url_back = '#/projectprocess';
 			
 		var service = {

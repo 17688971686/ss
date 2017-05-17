@@ -61,28 +61,28 @@ public class MonthReport extends DomainBase{
 	
 	//文号
 	@Column(columnDefinition="varchar(50) COMMENT '项目建议书批复类型'")
-	private Integer proposalsType;
+	private String proposalsType;
 	@Column(columnDefinition="datetime COMMENT '项目建议书批复年份'")
 	private Date proposalsYear;
 	@Column(columnDefinition="varchar(50) COMMENT '项目建议书批复文号'")
 	private String proposalsNum;
 	
 	@Column(columnDefinition="varchar(50) COMMENT '可行性研究报告批复类型'")
-	private Integer reportType;
+	private String reportType;
 	@Column(columnDefinition="datetime  COMMENT '可行性研究报告批复年份'")
 	private Date reportYear;
 	@Column(columnDefinition="varchar(50) COMMENT '可行性研究报告批复文号'")
 	private String reportNum;
 	
 	@Column(columnDefinition="varchar(50) COMMENT '项目总概算批复类型'")
-	private Integer allEstimateType;
+	private String allEstimateType;
 	@Column(columnDefinition="datetime COMMENT '项目总概算批复年份'")
 	private Date allEstimateYear;
 	@Column(columnDefinition="varchar(50) COMMENT '项目总概算批复文号'")
 	private String allEstimateNum;
 	
 	@Column(columnDefinition="varchar(50) COMMENT '前期工作计划批复类型'")
-	private Integer prePlanType;
+	private String prePlanType;
 	@Column(columnDefinition="datetime COMMENT '前期工作计划批复年份'")
 	private Date prePlanYear;
 	@Column(columnDefinition="varchar(50) COMMENT '前期工作计划批复文号'")
@@ -126,7 +126,7 @@ public class MonthReport extends DomainBase{
 	@Column(columnDefinition="varchar(2000) COMMENT '工程形象进度或项目进展情况'")
 	private String projectImageProgress;
 	@Column(columnDefinition="varchar(50) COMMENT '项目进度'")
-	private Integer selfReview;
+	private String selfReview;
 	@Column(columnDefinition="decimal(9,2) COMMENT '预计第一季度完成投资'")
 	private BigDecimal firstQuarCompInvestment;
 	@Column(columnDefinition="decimal(9,2) COMMENT '预计第二季度完成投资'")
@@ -148,8 +148,8 @@ public class MonthReport extends DomainBase{
 	//end#拆迁情况
 	
 	
-	@Column(columnDefinition="datetime COMMENT '提交月'")
-	private Date submitMonth;
+	@Column(columnDefinition="varchar(50) COMMENT '提交月'")
+	private String submitMonth;
 	@Column(columnDefinition="datetime COMMENT '提交日期'")
 	private Date submitDate;
 	@Column(columnDefinition="datetime COMMENT '立项日期'")
@@ -160,15 +160,48 @@ public class MonthReport extends DomainBase{
 	@Column(columnDefinition="varchar(255) COMMENT '备注'")
 	private String remark;
 	
+	//begin#工程结算情况
+	@Column(columnDefinition="datetime COMMENT '第一份结算报告送审计日期'")
+	private Date firstAccountReportSendAuditDate;
+	@Column(columnDefinition="datetime COMMENT '第一份结算报告审计日期'")
+	private Date firstAccountReportAuditDate;
+	@Column(columnDefinition="datetime COMMENT '最新结算报告送审计日期'")
+	private Date newestAccountReportSendAuditDate;
+	@Column(columnDefinition="datetime COMMENT '最新结算报告审计日期'")
+	private Date newestAccountReportAuditDate;
+	@Column(columnDefinition="decimal(9,6) COMMENT '已完成审计的结算审定金额'")
+	private BigDecimal completedAuditAccountAuthorizedAmount;
+	//End#工程结算情况
+	
+	
+	//begin#竣工决算情况	
+	@Column(columnDefinition="datetime COMMENT '决算报告送审日期'")
+	private Date accountReportSendAuditDate;
+	@Column(columnDefinition="datetime COMMENT '完成决算审计日期'")
+	private Date completeAccountAuditDate;
+	@Column(columnDefinition="decimal(9,6) COMMENT '决算审定金额'")
+	private BigDecimal accountAuthorizedAmount;
+	//End#竣工决算情况
+	
+	//begin#项目信息
+		private String projectBuildStage;//项目建设阶段
+		//end#项目信息
+	
+	
 	//begin#关联信息
 	//月报问题
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="monthReport_id",nullable=false)
+	@JoinColumn(name="monthReport_id")
 	private List<MonthReportProblem> monthReportProblems=new ArrayList<>();
 	
 	//月报附件
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(cascade=CascadeType.ALL)	
 	private List<Attachment> attachments=new ArrayList<>();
+	
+	//项目信息
+//	@ManyToOne(cascade=CascadeType.ALL)
+//	@JoinColumn(name="projectInfo_Id",insertable=false,updatable=false)
+//	private ProjectInfo projectInfo = new ProjectInfo();
 	//end#关联信息
 
 	public String getId() {
@@ -283,13 +316,7 @@ public class MonthReport extends DomainBase{
 		this.prePlanReplyDate = prePlanReplyDate;
 	}
 
-	public Integer getProposalsType() {
-		return proposalsType;
-	}
-
-	public void setProposalsType(Integer proposalsType) {
-		this.proposalsType = proposalsType;
-	}
+	
 
 	public Date getProposalsYear() {
 		return proposalsYear;
@@ -307,11 +334,11 @@ public class MonthReport extends DomainBase{
 		this.proposalsNum = proposalsNum;
 	}
 
-	public Integer getReportType() {
+	public String getReportType() {
 		return reportType;
 	}
 
-	public void setReportType(Integer reportType) {
+	public void setReportType(String reportType) {
 		this.reportType = reportType;
 	}
 
@@ -331,13 +358,7 @@ public class MonthReport extends DomainBase{
 		this.reportNum = reportNum;
 	}
 
-	public Integer getAllEstimateType() {
-		return allEstimateType;
-	}
-
-	public void setAllEstimateType(Integer allEstimateType) {
-		this.allEstimateType = allEstimateType;
-	}
+	
 
 	public Date getAllEstimateYear() {
 		return allEstimateYear;
@@ -355,13 +376,7 @@ public class MonthReport extends DomainBase{
 		this.allEstimateNum = allEstimateNum;
 	}
 
-	public Integer getPrePlanType() {
-		return prePlanType;
-	}
-
-	public void setPrePlanType(Integer prePlanType) {
-		this.prePlanType = prePlanType;
-	}
+	
 
 	public Date getPrePlanYear() {
 		return prePlanYear;
@@ -491,13 +506,6 @@ public class MonthReport extends DomainBase{
 		this.projectImageProgress = projectImageProgress;
 	}
 
-	public Integer getSelfReview() {
-		return selfReview;
-	}
-
-	public void setSelfReview(Integer selfReview) {
-		this.selfReview = selfReview;
-	}
 
 	public BigDecimal getFirstQuarCompInvestment() {
 		return firstQuarCompInvestment;
@@ -555,11 +563,11 @@ public class MonthReport extends DomainBase{
 		this.demolitionArea = demolitionArea;
 	}
 
-	public Date getSubmitMonth() {
+	public String getSubmitMonth() {
 		return submitMonth;
 	}
 
-	public void setSubmitMonth(Date submitMonth) {
+	public void setSubmitMonth(String submitMonth) {
 		this.submitMonth = submitMonth;
 	}
 
@@ -610,4 +618,119 @@ public class MonthReport extends DomainBase{
 	public void setAttachments(List<Attachment> attachments) {
 		this.attachments = attachments;
 	}
+
+//	public ProjectInfo getProjectInfo() {
+//		return projectInfo;
+//	}
+//
+//	public void setProjectInfo(ProjectInfo projectInfo) {
+//		this.projectInfo = projectInfo;
+//	}
+
+	public Date getFirstAccountReportSendAuditDate() {
+		return firstAccountReportSendAuditDate;
+	}
+
+	public void setFirstAccountReportSendAuditDate(Date firstAccountReportSendAuditDate) {
+		this.firstAccountReportSendAuditDate = firstAccountReportSendAuditDate;
+	}
+
+	public Date getFirstAccountReportAuditDate() {
+		return firstAccountReportAuditDate;
+	}
+
+	public void setFirstAccountReportAuditDate(Date firstAccountReportAuditDate) {
+		this.firstAccountReportAuditDate = firstAccountReportAuditDate;
+	}
+
+	public Date getNewestAccountReportSendAuditDate() {
+		return newestAccountReportSendAuditDate;
+	}
+
+	public void setNewestAccountReportSendAuditDate(Date newestAccountReportSendAuditDate) {
+		this.newestAccountReportSendAuditDate = newestAccountReportSendAuditDate;
+	}
+
+	public Date getNewestAccountReportAuditDate() {
+		return newestAccountReportAuditDate;
+	}
+
+	public void setNewestAccountReportAuditDate(Date newestAccountReportAuditDate) {
+		this.newestAccountReportAuditDate = newestAccountReportAuditDate;
+	}
+
+	public BigDecimal getCompletedAuditAccountAuthorizedAmount() {
+		return completedAuditAccountAuthorizedAmount;
+	}
+
+	public void setCompletedAuditAccountAuthorizedAmount(BigDecimal completedAuditAccountAuthorizedAmount) {
+		this.completedAuditAccountAuthorizedAmount = completedAuditAccountAuthorizedAmount;
+	}
+
+	public Date getAccountReportSendAuditDate() {
+		return accountReportSendAuditDate;
+	}
+
+	public void setAccountReportSendAuditDate(Date accountReportSendAuditDate) {
+		this.accountReportSendAuditDate = accountReportSendAuditDate;
+	}
+
+	public Date getCompleteAccountAuditDate() {
+		return completeAccountAuditDate;
+	}
+
+	public void setCompleteAccountAuditDate(Date completeAccountAuditDate) {
+		this.completeAccountAuditDate = completeAccountAuditDate;
+	}
+
+	public BigDecimal getAccountAuthorizedAmount() {
+		return accountAuthorizedAmount;
+	}
+
+	public void setAccountAuthorizedAmount(BigDecimal accountAuthorizedAmount) {
+		this.accountAuthorizedAmount = accountAuthorizedAmount;
+	}
+
+	public String getProjectBuildStage() {
+		return projectBuildStage;
+	}
+
+	public void setProjectBuildStage(String projectBuildStage) {
+		this.projectBuildStage = projectBuildStage;
+	}
+
+	public String getProposalsType() {
+		return proposalsType;
+	}
+
+	public void setProposalsType(String proposalsType) {
+		this.proposalsType = proposalsType;
+	}
+
+	public String getAllEstimateType() {
+		return allEstimateType;
+	}
+
+	public void setAllEstimateType(String allEstimateType) {
+		this.allEstimateType = allEstimateType;
+	}
+
+	public String getPrePlanType() {
+		return prePlanType;
+	}
+
+	public void setPrePlanType(String prePlanType) {
+		this.prePlanType = prePlanType;
+	}
+
+	public String getSelfReview() {
+		return selfReview;
+	}
+
+	public void setSelfReview(String selfReview) {
+		this.selfReview = selfReview;
+	}
+	
+	
+	
 }

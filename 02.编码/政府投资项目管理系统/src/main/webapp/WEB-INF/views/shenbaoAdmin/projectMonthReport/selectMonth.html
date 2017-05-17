@@ -1,0 +1,118 @@
+<div class="well well-sm" style="background:white;">
+	  <ol class="breadcrumb">
+		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		  <li><a href="#/managerCenter">首页</a></li>
+	      <li><a href="#/projectMonthReport">项目月报</a></li>
+	      <li class="active">{{vm.titleFillSelect}}</li>
+	  </ol>
+	  
+	  
+        <div>
+            <table style="width: 850px;" height="430" border="0" cellpadding="0" cellspacing="0" align="center">
+                <tbody>
+	                <tr style="height:50px;">
+	                    <td width="100" style="font-size:15px;">
+	                       	 <strong>项目名称：</strong>
+	                    </td>
+	                    <td width="388px;" colspan="2">					
+	                        <span ng-bind="vm.projectName"></span>
+	                    </td>
+	                    <td width="50" style="font-size:15px;">
+	                        &nbsp;<strong>年份：</strong>
+	                    </td>
+	                    <td colspan="2">
+	                       <span>${year}</span> 年
+	                    </td>        
+	                </tr>
+	                <tr style="height:42px;">
+	                    <td colspan="6" class="bg-info" valign="center">
+	                        <p class="text-warning" style="font-size:15px;margin-top:10px;"><strong>注:点击月份进行查看或填报</strong></p>       	
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td colspan="6" valign="center" class="bg-success">
+	                        <div>
+	                            <table cellpadding="0" width="100%" style="margin-bottom: 50px">
+	                                <tbody>
+		                                <tr style="height:80px;">
+		                                    <td style="text-align: center;">
+		                                        <button id="1" class="btn btn-lg btn-info" style="font-size:30px;" ng-click="vm.fillReport('01')">&nbsp;&nbsp;01&nbsp;&nbsp;</button>
+		                                    </td>
+		                                    <td style="text-align: center">
+		                                        <button id="2" class="btn btn-lg btn-info" style="font-size:30px;" ng-click="vm.fillReport('02')">&nbsp;&nbsp;02&nbsp;&nbsp;</button>
+		                                    </td>
+		                                    <td style="text-align: center">
+		                                        <button id="3" class="btn btn-lg btn-info" style="font-size:30px;" ng-click="vm.fillReport('03')">&nbsp;&nbsp;03&nbsp;&nbsp;</button>
+		                                    </td>
+		                                    <td style="text-align: center">
+		                                        <button id="4" class="btn btn-lg btn-info" style="font-size:30px;" ng-click="vm.fillReport('04')">&nbsp;&nbsp;04&nbsp;&nbsp;</button>
+		                                    </td>
+		                                    <td style="text-align: center">
+		                                        <button id="5" class="btn btn-lg btn-info" style="font-size:30px;" ng-click="vm.fillReport('05')">&nbsp;&nbsp;05&nbsp;&nbsp;</button>
+		                                    </td>
+		                                    <td style="text-align: center">
+		                                        <button id="6" class="btn btn-lg btn-info" style="font-size:30px;" ng-click="vm.fillReport('06')">&nbsp;&nbsp;06&nbsp;&nbsp;</button>
+		                                    </td>
+		                                    
+		                                </tr>
+		                                
+		                                <tr style="height:80px;">
+		                                    <td style="text-align: center">
+		                                        <button id="7" class="btn btn-lg btn-info" style="font-size:30px;" ng-click="vm.fillReport('07')">&nbsp;&nbsp;07&nbsp;&nbsp;</button>
+		                                    </td>
+		                                    <td style="text-align: center">
+		                                        <button id="8" class="btn btn-lg btn-info" style="font-size:30px;" ng-click="vm.fillReport('08')">&nbsp;&nbsp;08&nbsp;&nbsp;</button>
+		                                    </td>
+		                                    <td style="text-align: center">
+		                                        <button id="9" class="btn btn-lg btn-info" style="font-size:30px;" ng-click="vm.fillReport('09')">&nbsp;&nbsp;09&nbsp;&nbsp;</button>
+		                                    </td>
+		                                    <td style="text-align: center">
+		                                        <button id="10" class="btn btn-lg btn-info" style="font-size:30px;" ng-click="vm.fillReport('10')">&nbsp;&nbsp;10&nbsp;&nbsp;</button>
+		                                    </td>
+		                                    <td style="text-align: center">
+		                                        <button id="11" class="btn btn-lg btn-info" style="font-size:30px;" ng-click="vm.fillReport('11')">&nbsp;&nbsp;11&nbsp;&nbsp;</button>
+		                                    </td>
+		                                    <td style="text-align: center">
+		                                        <button id="12" class="btn btn-lg btn-info" style="font-size:30px;" ng-click="vm.fillReport('12')">&nbsp;&nbsp;12&nbsp;&nbsp;</button>
+		                                    </td>
+		                                    
+		                                </tr>
+                                
+                            	</tbody>
+                            </table>
+                           
+                        </div>
+                    </td>
+                </tr>               
+            </tbody>
+           </table>
+        </div>
+    
+</div>
+<style type="text/css">
+	.active{
+		background-color:bule;
+	}
+</style>
+<script type="text/javascript">
+	$("#datepicker").kendoDatePicker({
+		culture:"zh-CN", /* 设置本地化，即设置时间显示为中文 （私有设置）*/
+		format:"yyyy",  /* 设置时间的输出格式 */
+		value:new Date(), /* 设置输入框中的初始值为当前时间 */
+		start:"decade",
+		depth: "month"
+	});
+	$(function(){
+		//获取当前时间的月份
+		var myDate = new Date();
+		var month = myDate.getMonth()+1;
+		//根据月份来使得按钮的背景颜色得到改变，启用和不启用
+		$(".btn-info").addClass("disabled");
+		$(".btn-info").prop("disabled",true);
+		
+		$("#"+month).removeClass("disabled");
+		$("#"+month).addClass("active");
+		$("#"+month).prop("disabled",false);
+		
+	});
+</script>

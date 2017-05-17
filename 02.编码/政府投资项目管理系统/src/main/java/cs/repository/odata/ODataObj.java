@@ -77,6 +77,9 @@ public class ODataObj {
 		BuildObj(filter, orderby, select, skip, top, inlinecount);
 
 	}
+	public ODataObj(){
+		
+	}
 
 	@SuppressWarnings("rawtypes")
 	public void BuildObj(String filter, String orderby, String select, String skip, String top, String inlinecount)
