@@ -117,6 +117,12 @@
 	            controller: 'monthReportCtrl',
 	            controllerAs: 'vm'
 	        })
+	        .state('monthReport_details', {
+	            url: '/monthReport/:id',
+	            templateUrl: '/management/monthReport/html/details',
+	            controller: 'monthReportCtrl',
+	            controllerAs: 'vm'
+	        })
 	        //end#monthReport
     }]);
     

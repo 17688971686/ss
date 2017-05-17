@@ -14,6 +14,7 @@ import cs.model.BaseDto;
 public class MonthReportDto extends BaseDto{
 	private String id;
 	private String projectId;//关联项目代码
+	private String projectName;
 	
 	//begin#联系人信息
 	private String fillName;//填报人姓名
@@ -35,18 +36,22 @@ public class MonthReportDto extends BaseDto{
 	
 	//文号
 	private String proposalsType;//项目建议书批复类型
+	private String proposalsTypeDisplay;//项目建议书批复类型
 	private Date proposalsYear;//项目建议书批复年份
 	private String proposalsNum;//项目建议书批复文号
 	
 	private String reportType;//可行性研究报告批复类型
+	private String reportTypeDisplay;//可行性研究报告批复类型
 	private Date reportYear;//可行性研究报告批复年份
 	private String reportNum;//可行性研究报告批复文号
 	
 	private String allEstimateType;//项目总概算批复类型
+	private String allEstimateTypeDisplay;//可行性研究报告批复类型
 	private Date allEstimateYear;//项目总概算批复年份
 	private String allEstimateNum;//项目总概算批复文号
 	
 	private String prePlanType;//前期工作计划批复类型
+	private String prePlanTypeDisplay;//前期工作计划批复类型
 	private Date prePlanYear;//前期工作计划批复年份
 	private String prePlanNum;//前期工作计划批复文号
 	//end#批文日期和文号
@@ -74,6 +79,7 @@ public class MonthReportDto extends BaseDto{
 	private String projectApprovalProgress;//项目审批进度
 	private String projectImageProgress;//工程形象进度或项目进展情况
 	private String selfReview;//项目进度
+	private String selfReviewDisplay;//项目进度
 	private BigDecimal firstQuarCompInvestment;//预计第一季度完成投资
 	private BigDecimal secondQuarCompInvestment;//预计第二季度完成投资
 	private BigDecimal thirdQuarCompInvestment;//预计第三季度完成投资
@@ -649,6 +655,56 @@ public class MonthReportDto extends BaseDto{
 
 	public void setSelfReview(String selfReview) {
 		this.selfReview = selfReview;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
+	public String getProposalsTypeDisplay() {
+		return proposalsTypeDisplay;
+	}
+
+	public void setProposalsTypeDisplay(String proposalsTypeDisplay) {
+		this.proposalsTypeDisplay = proposalsTypeDisplay;
+	}
+
+	public String getReportTypeDisplay() {
+		return reportTypeDisplay;
+	}
+
+	public void setReportTypeDisplay(String reportTypeDisplay) {
+		this.reportTypeDisplay = reportTypeDisplay;
+	}
+
+	
+
+	public String getPrePlanTypeDisplay() {
+		return prePlanTypeDisplay;
+	}
+
+	public void setPrePlanTypeDisplay(String prePlanTypeDisplay) {
+		this.prePlanTypeDisplay = prePlanTypeDisplay;
+	}
+
+	public String getAllEstimateTypeDisplay() {
+		return allEstimateTypeDisplay;
+	}
+
+	public void setAllEstimateTypeDisplay(String allEstimateTypeDisplay) {
+		this.allEstimateTypeDisplay = allEstimateTypeDisplay;
+	}
+
+	public String getSelfReviewDisplay() {
+		return selfReviewDisplay;
+	}
+
+	public void setSelfReviewDisplay(String selfReviewDisplay) {
+		this.selfReviewDisplay = selfReviewDisplay;
 	}
 
 	

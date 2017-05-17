@@ -5,16 +5,32 @@
 
 	monthReport.$inject = [ '$http','$compile' ];	
 	function monthReport($http,$compile) {	
-		var url_projectInfo = "/projectInfo";
-		var url_back = '#/monthReport/';
-			
+		var url_projectInfo = "/projectInfo";		
+		var url_projectMonthReport = "/shenbaoAdmin/projectMonthReport";//获取月报数据
+		
 		var service = {
-			grid : grid
-				
+			grid : grid,
+			getMonthReportInfo:getMonthReportInfo
 		};		
 		return service;	
 		
-		
+		function getMonthReportInfo(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_projectMonthReport + "?$filter=id eq '{0}'", vm.id),
+				}
+				var httpSuccess = function success(response) {
+					vm.model = response.data.value[0]||{};
+					vm.isJueSuan=vm.model.projectBuildStage=="projectBuildStage_03";
+				}
+				
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+		}//getMonthReportInfo
 		
 		function grid(vm) {
 			// Begin:dataSource
@@ -70,8 +86,29 @@
 						field : "",
 						title : "填报月份",
 						template:function(data){
-							//不同的投资类型返回不同的填报页面；政府投资类型还要分为两种情况然后返回不同的页面
-							return common.format($('#columnBtns').html(),data.id,data.projectName,data.projectBuildStage);		
+							var returnStr="";
+							for(var i=1;i<=12;i++){
+								var month="0";
+								if(i<10){
+									month+=i+"";
+								}else{
+									month=i;
+								}
+								if(data.monthReportDtos.length>0){
+									data.monthReportDtos.forEach(function(e,idx){
+										if(e.submitMonth==data.shenBaoYear+month){
+											returnStr+=common.format('<a class="btn btn-xs btn-success" href="#/monthReport/{1}">{0}月</a> ',month,e.id);
+										}else{
+											returnStr+=common.format('<button class="btn btn-xs">{0}月</button> ',month);
+										}										
+									});
+								}
+								else{
+									returnStr+=common.format('<button class="btn btn-xs">{0}月</button> ',month);
+								}
+							}
+							return returnStr;
+							//return common.format($('#columnBtns').html(),data.id,data.projectName,data.projectBuildStage);		
 						},
 						width:400,
 						filterable : false

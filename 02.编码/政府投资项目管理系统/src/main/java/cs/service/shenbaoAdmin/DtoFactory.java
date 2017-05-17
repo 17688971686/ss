@@ -344,13 +344,7 @@ public class DtoFactory {
 			monthReportDto.setProjectBuildStage(monthReport.getProjectBuildStage());//项目建设阶段
 			
 			//end#项目信息
-			
-			//项目信息
-//			ProjectInfo projectInfo= monthReport.getProjectInfo();
-//			//将项目信息进行转换
-//			ProjectInfoDto projectInfoDto = new ProjectInfoDto();
-//			
-//			monthReportDto.setProjectInfoDto(projectInfoDto);	
+
 //											
 			monthReportDto.setModifiedBy(monthReport.getModifiedBy());
 			monthReportDto.setCreatedBy(monthReport.getCreatedBy());			

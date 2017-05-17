@@ -3,8 +3,10 @@ package cs.service.shenbaoAdmin;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cs.common.BasicDataIdentity;
 import cs.common.ICurrentUser;
 import cs.common.Util;
 import cs.domain.Attachment;
@@ -24,6 +27,7 @@ import cs.domain.UnitInfo;
 import cs.domain.framework.User_;
 import cs.model.PageModelDto;
 import cs.model.management.AttachmentDto;
+import cs.model.management.BasicDataDto;
 import cs.model.management.MonthReportDto;
 import cs.model.management.MonthReportProblemDto;
 import cs.model.management.ProjectInfoDto;
@@ -59,7 +63,35 @@ public class MonthReportServiceImpl implements MonthReportService {
 		List<MonthReportDto> monthReportDtoList = new ArrayList<MonthReportDto>(); //将月报数据用实体类集合封装
 		if(monthReportList !=null && monthReportList.size()>0){//如果有月报数据
 			for (MonthReport monthReport : monthReportList) {
-				MonthReportDto monthReportDto =DtoFactory.monthReportTomonthReportDto(monthReport);				
+				MonthReportDto monthReportDto =DtoFactory.monthReportTomonthReportDto(monthReport);		
+				
+				//begin#关联信息
+				//项目
+				ProjectInfo projectInfo=projectInfoRepo.findById(monthReport.getProjectId());
+				monthReportDto.setProjectName(projectInfo.getProjectName());
+				
+				//基础数据:approvalType
+				List<BasicDataDto> basicDataDtos_approvalType=basicDataService.queryByIdentity(BasicDataIdentity.approvalType);
+				Map<String, String> basicDataMap_approvalType=basicDataDtos_approvalType.stream()
+						.collect(Collectors.toMap(
+								x->x.getId(),
+								x->x.getDescription()
+								));				
+				monthReportDto.setAllEstimateTypeDisplay(basicDataMap_approvalType.get(monthReport.getAllEstimateType()));
+				monthReportDto.setPrePlanTypeDisplay(basicDataMap_approvalType.get(monthReport.getPrePlanType()));
+				monthReportDto.setProposalsTypeDisplay(basicDataMap_approvalType.get(monthReport.getProposalsType()));
+				monthReportDto.setReportTypeDisplay(basicDataMap_approvalType.get(monthReport.getReportType()));
+				//基础数据：projectProgress
+				List<BasicDataDto> basicDataDtos_projectProgress=basicDataService.queryByIdentity(BasicDataIdentity.projectProgress);
+				Map<String, String> basicDataMap_projectProgress=basicDataDtos_projectProgress.stream()
+						.collect(Collectors.toMap(
+								x->x.getId(),
+								x->x.getDescription()
+								));	
+				//end#关联信息
+				monthReportDto.setSelfReviewDisplay(basicDataMap_projectProgress.get(monthReport.getSelfReview()));
+				
+				
 				monthReportDtoList.add(monthReportDto);
 			}
 			

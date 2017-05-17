@@ -19,5 +19,10 @@ public class MonthReportController {
 
 		return this.ctrlName + "/list";
 	}
-	
+	//@RequiresPermissions("management/monthReport#html/details#get")
+	@RequestMapping(name = "详情页面", path = "html/details", method = RequestMethod.GET)	
+	public String details() {
+
+		return this.ctrlName + "/details";
+	}
 }
