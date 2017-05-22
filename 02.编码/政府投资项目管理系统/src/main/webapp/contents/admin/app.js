@@ -123,6 +123,39 @@
 	            controller: 'monthReportCtrl',
 	            controllerAs: 'vm'
 	        })
+	         //(项目管理)
+	        //列表页
+	        .state('projectManagement', {
+	            url: '/projectManagement',
+	            templateUrl: '/projectManagement/html/list.html',
+	            controller: 'projectManagementCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //编辑页
+	        .state('projectManagementEdit', {
+	            url: '/projectManagementEdit/:id',
+	            templateUrl: '/projectManagement/html/edit.html',
+	            controller: 'projectManagementEditCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	       
+	        
+	        //(单位管理)
+	      //列表页
+	        .state('unitManagement', {
+	            url: '/unitManagement',
+	            templateUrl: '/unitManagement/html/list.html',
+	            controller: 'unitManagementCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	      //编辑页
+	        .state('unitManagementEdit', {
+	            url: '/unitManagementEdit/:id',
+	            templateUrl: '/unitManagement/html/edit.html',
+	            controller: 'unitManagementEditCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	      
 	        //end#monthReport
     }]);
     

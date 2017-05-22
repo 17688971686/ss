@@ -2,6 +2,7 @@ package cs.service.shenbaoAdmin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import cs.domain.Attachment;
 import cs.domain.MonthReport;
@@ -174,6 +175,142 @@ public class DtoFactory {
 		return projectInfoDto;
 }
 	
+
+	public static ProjectInfo projectInfoDtoToprojectInfo(ProjectInfoDto projectInfoDto){
+		ProjectInfo projectInfo = new ProjectInfo();
+		//判断参数是否为空
+		if(projectInfoDto != null){
+			//进行数据的转换
+			projectInfo.setId(UUID.randomUUID().toString());
+			
+			projectInfo.setProjectNumber(projectInfoDto.getProjectNumber());
+			//获取以下信息用于列表展示
+			projectInfo.setProjectStage(projectInfoDto.getProjectStage());//项目阶段(代码)					
+			projectInfo.setShenBaoYear(projectInfoDto.getShenBaoYear());//申报年度
+			projectInfo.setProjectName(projectInfoDto.getProjectName());//项目名称
+			projectInfo.setInvestType(projectInfoDto.getInvestType());//投资类型(代码)			
+			projectInfo.setProjectStatus(projectInfoDto.getProjectStatus());//项目状态
+			
+		
+			//获取以下信息用于详情展示
+			//begin#项目基本信息																														
+			projectInfo.setUnitName(projectInfoDto.getUnitName());//申报单位名称
+			projectInfo.setProjectClassify(projectInfoDto.getProjectClassify());//项目分类(代码)
+			projectInfo.setProjectType(projectInfoDto.getProjectType());//项目类型(代码)			
+			projectInfo.setProjectAddress(projectInfoDto.getProjectAddress());//项目建设地址
+			projectInfo.setProjectLocation(projectInfoDto.getProjectLocation());//项目坐标
+			projectInfo.setProjectStatus(projectInfoDto.getProjectStatus());//项目状态			
+			//end#项目基本信息
+			
+			//begin#项目投资信息
+			projectInfo.setInvestSum(projectInfoDto.getInvestSum());//项目总投资
+			projectInfo.setInvestJianAnFei(projectInfoDto.getInvestJianAnFei());//项目总投资-建安费
+			projectInfo.setInvestGongChengJianSheQiTaFei(projectInfoDto.getInvestGongChengJianSheQiTaFei());//项目总投资-工程建设其他费
+			projectInfo.setInvestJiBenYuBeiFei(projectInfoDto.getInvestJiBenYuBeiFei());//项目总投资-基本预备费
+			projectInfo.setCapitalShiCaiZheng(projectInfoDto.getCapitalShiCaiZheng());//资金筹措方案-市财政
+			projectInfo.setCapitalQuCaiZheng(projectInfoDto.getCapitalQuCaiZheng());//资金筹措方案-区财政
+			projectInfo.setCapitalSheHuiTouZi(projectInfoDto.getCapitalSheHuiTouZi());//资金筹措方案-社会投资
+			projectInfo.setCapitalGuoTuZiJin(projectInfoDto.getCapitalGuoTuZiJin());//资金筹措方案-国土资金
+			projectInfo.setCapitalZhuanXiangZiJin(projectInfoDto.getCapitalZhuanXiangZiJin());//资金筹措方案-专项资金
+			projectInfo.setCapitalZhongYangTouZi(projectInfoDto.getCapitalZhongYangTouZi());//资金筹措方案-中央投资
+			projectInfo.setCapitalShengBu(projectInfoDto.getCapitalShengBu());//资金筹措方案-部省
+			projectInfo.setCapitalZiChou(projectInfoDto.getCapitalZiChou());//资金筹措方案-自筹
+			projectInfo.setCapitalZhengFuTongChou(projectInfoDto.getCapitalZhengFuTongChou());//资金筹措方案-政府统筹
+			projectInfo.setCapitalJiaoYuFuJia(projectInfoDto.getCapitalJiaoYuFuJia());//资金筹措方案-教育费附加
+			projectInfo.setCapitalOther(projectInfoDto.getCapitalOther());//资金筹措方案-其他
+			projectInfo.setCapitalOtherExplain(projectInfoDto.getCapitalOtherExplain());//资金筹措方案（其他） 的来源途径说明
+			//end#项目投资信息
+			
+			//begin#项目描述
+			projectInfo.setProjectSummary(projectInfoDto.getProjectSummary());//项目简介
+			projectInfo.setProjectGuiMo(projectInfoDto.getProjectGuiMo());//建设规模
+			projectInfo.setProjectBiYaoXingAndYiJu(projectInfoDto.getProjectBiYaoXingAndYiJu());//项目必要性和依据
+			projectInfo.setProjectTuiJianFangAnJieShao(projectInfoDto.getProjectTuiJianFangAnJieShao());//推荐方案介绍
+			projectInfo.setProjectSheHuiJingJiXiaoYiPingGu(projectInfoDto.getProjectSheHuiJingJiXiaoYiPingGu());//社会及经济效益评价
+			projectInfo.setRemark(projectInfoDto.getRemark());//备注
+			//end#项目描述
+			
+			//begin#资金申请
+			projectInfo.setProjectStartDate(projectInfoDto.getProjectStartDate());//开工日期
+			projectInfo.setProjectCompleteDate(projectInfoDto.getProjectCompleteDate());//竣工日期
+			projectInfo.setPlanYear(projectInfoDto.getPlanYear());//计划年度
+			projectInfo.setShenBaoJingFei(projectInfoDto.getShenBaoJingFei());//申报经费
+			projectInfo.setCapital2ShiCaiZheng(projectInfoDto.getCapital2ShiCaiZheng());//至上年底累计下达-市财政
+			projectInfo.setCapital2QuCaiZheng(projectInfoDto.getCapital2QuCaiZheng());//至上年底累计下达-区财政
+			projectInfo.setCapital2SheHuiTouZi(projectInfoDto.getCapital2SheHuiTouZi());//至上年底累计下达-社会投资
+			projectInfo.setCapital2GuoTuZiJin(projectInfoDto.getCapital2GuoTuZiJin());//至上年底累计下达-国土资金
+			projectInfo.setCapital2ZhuanXiangZiJin(projectInfoDto.getCapital2ZhuanXiangZiJin());//至上年底累计下达-专项资金
+			projectInfo.setCapital2ZhongYangTouZi(projectInfoDto.getCapital2ZhongYangTouZi());//至上年底累计下达-中央投资
+			projectInfo.setCapital2ShengBu(projectInfoDto.getCapital2ShengBu());//至上年底累计下达-部省
+			projectInfo.setCapital2ZiChou(projectInfoDto.getCapital2ZiChou());//至上年底累计下达-自筹
+			projectInfo.setCapital2ZhengFuTongChou(projectInfoDto.getCapital2ZhengFuTongChou());//至上年底累计下达-政府统筹
+			projectInfo.setCapital2JiaoYuFuJia(projectInfoDto.getCapital2JiaoYuFuJia());//至上年底累计下达-教育费附加
+			projectInfo.setCapital2Other(projectInfoDto.getCapital2Other());//至上年底累计下达-其他	
+			projectInfo.setCapital2OtherExplain(projectInfoDto.getCapital2OtherExplain());//至上年底累计下达（其他） 的来源途径说明
+			//end#资金申请
+			
+			//begin#年度投资计划
+			projectInfo.setCapital3ShiCaiZheng(projectInfoDto.getCapital3ShiCaiZheng());//年度投资计划-市财政
+			projectInfo.setCapital3QuCaiZheng(projectInfoDto.getCapital3QuCaiZheng());//年度投资计划-区财政
+			projectInfo.setCapital3SheHuiTouZi(projectInfoDto.getCapital3SheHuiTouZi());//年度投资计划-社会投资
+			projectInfo.setCapital3GuoTuZiJin(projectInfoDto.getCapital3GuoTuZiJin());//年度投资计划-国土资金
+			projectInfo.setCapital3ZhuanXiangZiJin(projectInfoDto.getCapital3ZhuanXiangZiJin());//年度投资计划-专项资金
+			projectInfo.setCapital3ZhongYangTouZi(projectInfoDto.getCapital3ZhongYangTouZi());//年度投资计划-中央投资
+			projectInfo.setCapital3ShengBu(projectInfoDto.getCapital3ShengBu());//年度投资计划-部省
+			projectInfo.setCapital3ZiChou(projectInfoDto.getCapital3ZiChou());//年度投资计划-自筹
+			projectInfo.setCapital3ZhengFuTongChou(projectInfoDto.getCapital3ZhengFuTongChou());//年度投资计划-政府统筹
+			projectInfo.setCapital3JiaoYuFuJia(projectInfoDto.getCapital3JiaoYuFuJia());//年度投资计划-教育费附加
+			projectInfo.setCapital3Other(projectInfoDto.getCapital3Other());//年度投资计划-其他
+			projectInfo.setCapital3OtherExplain(projectInfoDto.getCapital3OtherExplain());//年度投资计划（其他） 的来源途径说明
+			//end#年度投资计划
+			
+			projectInfo.setCurrentYearMainBuild(projectInfoDto.getCurrentYearMainBuild());//本年度主要建设内容
+			projectInfo.setLastYearXingXiangJinDu(projectInfoDto.getLastYearXingXiangJinDu());//上年度项目形象进度
+			projectInfo.setXingXiangJinDu(projectInfoDto.getXingXiangJinDu());//形象进度
+			
+			//begin#下一年度计划
+			projectInfo.setJianSheXingZhi(projectInfoDto.getJianSheXingZhi());//建设性质（代码）			
+			projectInfo.setGaiSuanPiWenNum(projectInfoDto.getGaiSuanPiWenNum());//总概算批复文号
+			projectInfo.setRecentCapitalXiaDaPiWenNum(projectInfoDto.getRecentCapitalXiaDaPiWenNum());//最近一次资金计划下达文号
+			projectInfo.setNianDiQianHaiKeBoFuZiJing(projectInfoDto.getNianDiQianHaiKeBoFuZiJing());//至年底前还可拨付资金
+			projectInfo.setLeiJiAnPaiTouZi(projectInfoDto.getLeiJiAnPaiTouZi());//累计安排投资
+			projectInfo.setShenQingNianDuTouZi(projectInfoDto.getShenQingNianDuTouZi());//申请年度投资
+			projectInfo.setZongChaiQianMianJiAndCapital(projectInfoDto.getZongChaiQianMianJiAndCapital());//项目涉及总拆迁面积及拆迁资金估算
+			projectInfo.setNianDuChaiQianMianJiAndCapitalXuQiu(projectInfoDto.getNianDuChaiQianMianJiAndCapitalXuQiu());//年度拆迁面积及资金需求
+			//end#下一年度计划
+			
+			//begin#委托审计
+			projectInfo.setAuditTitle(projectInfoDto.getAuditTitle());//委托审计-标题
+			projectInfo.setAuditContent(projectInfoDto.getAuditContent());//委托审计-内容
+			projectInfo.setAuditSongShenZaoJia(projectInfoDto.getAuditSongShenZaoJia());//委托审计-送审造价
+			//end#委托审计
+			
+			//begin#关联信息 
+			//编制单位&申报单位
+			UnitInfoDto unitInfoDto_bianZhi = projectInfoDto.getBianZhiUnit();
+			UnitInfoDto unitInfoDto_shenBao = projectInfoDto.getShenBaoUnit();
+			//进行数据的转换
+			UnitInfo unitInfo_bianZhi = DtoFactory.unitInfoDtoTounitInfo(unitInfoDto_bianZhi);
+			UnitInfo unitInfo_shenBao = DtoFactory.unitInfoDtoTounitInfo(unitInfoDto_shenBao);
+	
+			projectInfo.setBianZhiUnit(unitInfo_bianZhi);
+			projectInfo.setShenBaoUnit(unitInfo_shenBao);
+				//附件
+					List<AttachmentDto> attachmentDtos = projectInfoDto.getAttachmentDtos();
+					List<Attachment> attachments = new ArrayList<>();
+					if(attachmentDtos !=null && attachmentDtos.size()>0){
+						attachmentDtos.forEach(x->{
+							Attachment attachment = DtoFactory.attachmentDtoToattachment(x);
+							attachments.add(attachment);
+						});
+					}
+					projectInfo.setAttachments(attachments);
+			//end#关联信息
+	
+		}	
+		return projectInfo;
+}
+	
 	public static UnitInfoDto unitInfoTounitInfoDto(UnitInfo unitInfo){
 		UnitInfoDto unitInfoDto = new UnitInfoDto();
 		if(unitInfo != null){
@@ -210,6 +347,45 @@ public class DtoFactory {
 	
 	}
 	
+	public static UnitInfo unitInfoDtoTounitInfo(UnitInfoDto unitInfoDto){
+		UnitInfo unitInfo = new UnitInfo();
+		if(unitInfoDto != null){
+			if(unitInfoDto.getId() ==null || unitInfoDto.getId().isEmpty()){
+				unitInfo.setId(UUID.randomUUID().toString());
+			}else{
+				unitInfo.setId(unitInfoDto.getId());
+				
+			}			
+			unitInfo.setUnitName(unitInfoDto.getUnitName());//单位名称
+			unitInfo.setOrgCode(unitInfoDto.getOrgCode());//组织机构代码
+			unitInfo.setDivisionId(unitInfoDto.getDivisionId());//行政区划编号
+			unitInfo.setQualifiedLeval(unitInfoDto.getQualifiedLeval());//资质等级
+			unitInfo.setUnitTel(unitInfoDto.getUnitTel());//电话号码
+			unitInfo.setUnitEmail(unitInfoDto.getUnitEmail());//电子邮箱
+			unitInfo.setUnitFax(unitInfoDto.getUnitFax());//传真号码
+			unitInfo.setUnitProperty(unitInfoDto.getUnitProperty());//单位性质
+			unitInfo.setUnitAddress(unitInfoDto.getUnitAddress());//单位地址
+			unitInfo.setLegalName(unitInfoDto.getLegalName());//法人名称
+			unitInfo.setLegalTel(unitInfoDto.getLegalTel());//法人电话
+			
+			unitInfo.setUnitResPerson(unitInfoDto.getUnitResPerson());//单位负责人名称
+			unitInfo.setResPersonTel(unitInfoDto.getResPersonTel());//负责人电话
+			unitInfo.setResPersonMobile(unitInfoDto.getResPersonMobile());//负责人手机
+			unitInfo.setResPersonFax(unitInfoDto.getResPersonFax());//负责人传真
+			unitInfo.setResPersonEmail(unitInfoDto.getResPersonEmail());//负责人邮箱
+			
+			unitInfo.setUnitContactPerson(unitInfoDto.getUnitContactPerson());//单位联系人名称
+			unitInfo.setContactPersonMobile(unitInfoDto.getContactPersonMobile());//单位联系人手机
+			unitInfo.setContactPersonEmail(unitInfoDto.getContactPersonEmail());//单位联系人邮箱
+			unitInfo.setContactPersonTel(unitInfoDto.getContactPersonTel());//单位联系人电话
+			unitInfo.setContactPersonFax(unitInfoDto.getContactPersonFax());//单位联系人传真
+			
+			unitInfo.setRemark(unitInfoDto.getRemark());//备注
+			unitInfo.setIsSubmit(unitInfoDto.getIsSubmit());//是否提交			
+			unitInfo.setIsFinish(unitInfoDto.getIsFinish());//是否完成
+		}
+		return unitInfo;
+	}
 	public static AttachmentDto attachmentToattachmentDto(Attachment attachment){
 		AttachmentDto attachmentDto = new AttachmentDto();
 		if(attachment != null){
@@ -226,6 +402,23 @@ public class DtoFactory {
 		}
 		return 	attachmentDto;						
 		
+	}
+	public static Attachment attachmentDtoToattachment(AttachmentDto attachmentDto){
+		Attachment attachment = new Attachment();
+		if(attachmentDto != null){
+			if(attachmentDto.getId() !=null && !"".equals(attachmentDto.getId())){
+				attachment.setId(attachmentDto.getId());
+			}else{
+				attachment.setId(UUID.randomUUID().toString());
+			}
+			
+			attachment.setComment(attachmentDto.getComment());
+			attachment.setName(attachmentDto.getName());
+			attachment.setUrl(attachmentDto.getUrl());
+			attachment.setIsUpload(attachmentDto.getIsUpload());
+			attachment.setType(attachmentDto.getType());
+		}
+		return 	attachment;			
 	}
 
 	public static MonthReportDto monthReportTomonthReportDto(MonthReport monthReport){
@@ -375,4 +568,5 @@ public class DtoFactory {
 		}
 		return monthReportProblemDto;
 	}
+	
 }

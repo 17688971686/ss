@@ -2,15 +2,20 @@ package cs.service.shenbaoAdmin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.log4j.Logger;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cs.common.ICurrentUser;
 import cs.common.Util;
 import cs.domain.Attachment;
 import cs.domain.ProjectInfo;
+import cs.domain.ProjectInfo_;
 import cs.domain.UnitInfo;
 import cs.model.PageModelDto;
 import cs.model.management.AttachmentDto;
@@ -36,7 +41,8 @@ public class ProjectInfoServiceImpl implements ProjectInfoService{
 	private ProjectInfoRepo projectInfoRepo;
 	@Autowired
 	private BasicDataService basicDataService;
-	
+	@Autowired
+	private ICurrentUser currentUser;
 	
 	/**
 	 * 查询项目的信息集合
@@ -80,5 +86,87 @@ public class ProjectInfoServiceImpl implements ProjectInfoService{
 		pageModelDto.setValue(projectInfoDtoList);
 		return pageModelDto;		
 	}
-	
+
+	/**
+	 * @descripted 删除项目信息
+	 * @param id 项目编号
+	 * @author cx
+	 * @date 2017-05-17
+	 */
+	@Override
+	@Transactional
+	public void deleteProjectInfo(String id) {
+		ProjectInfo projectInfo = projectInfoRepo.findById(id);
+		if (projectInfo != null) {			
+				projectInfoRepo.delete(projectInfo);
+				logger.info("删除项目信息");
+			}					
+	}
+
+	/**
+	 * @descripted 批量删除项目信息
+	 * @param ids 项目编号
+	 * @author cx
+	 * @date 2017-05-17
+	 */
+	@Override
+	@Transactional
+	public void deleteProjectInfos(String[] ids) {
+		for (String id : ids) {
+			this.deleteProjectInfo(id);
+		}
+		logger.info("批量删除项目信息");		
+	}
+
+	/**
+	 * @descripted 更新项目信息
+	 * @param projectInfoDto 项目数据对象
+	 * @author cx
+	 * @date 2017-05-17
+	 */
+	@Override
+	@Transactional
+	public void updateProjectInfo(ProjectInfoDto projectInfoDto) {
+		ProjectInfo projectInfo = projectInfoRepo.findById(projectInfoDto.getId());		
+		
+//		//进行数据的转换
+//		projectInfo = DtoFactory.projectInfoDtoToprojectInfo(projectInfoDto);
+//		projectInfo.setIndustry(projectInfoDto.getIndustry());//国民经济行业分类(代码)		
+//		projectInfo.setProjectIndustry(projectInfoDto.getProjectIndustry());//项目行业归口(代码)
+//		//获取当前登录用户设置修改人
+//		projectInfo.setModifiedBy(currentUser.getLoginName());
+		projectInfoRepo.save(projectInfo);
+		logger.info("更新项目信息");
+	}
+
+	/**
+	 * @descripted 创建项目信息
+	 * @param projectInfoDto 项目数据对象
+	 * @author cx
+	 * @date 2017-05-17
+	 */
+	@Override
+	@Transactional
+	public void createProjectInfo(ProjectInfoDto projectInfoDto) {
+		//通过项目代码查找项目
+		Criterion criterion=Restrictions.eq(ProjectInfo_.projectNumber.getName(), projectInfoDto.getId());
+		Optional<ProjectInfo> findProjectInfo = projectInfoRepo.findByCriteria(criterion).stream().findFirst();
+		if(findProjectInfo.isPresent()){
+			throw new IllegalArgumentException(String.format("项目：%s 已经存在,请重新输入！", projectInfoDto.getProjectName()));
+		}else{
+			ProjectInfo projectInfo = new ProjectInfo();
+			//进行数据转换
+			projectInfo = DtoFactory.projectInfoDtoToprojectInfo(projectInfoDto);
+			projectInfo.setIndustry(projectInfoDto.getIndustry());//国民经济行业分类(代码)		
+			projectInfo.setProjectIndustry(projectInfoDto.getProjectIndustry());//项目行业归口(代码)
+			//设置创建人和修改人
+			String longinName = currentUser.getLoginName();
+			projectInfo.setCreatedBy(longinName);
+			projectInfo.setModifiedBy(longinName);
+			//保存数据
+			projectInfoRepo.save(projectInfo);
+			logger.info("创建项目信息");
+		}
+		
+	}
 }

@@ -18,9 +18,9 @@ public class UnitInfo {
 
 	@Id
 	private String id;	
-	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '单位名称'")
+	@Column(columnDefinition="varchar(255)  COMMENT '单位名称'")
 	private String unitName;
-	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '组织机构代码'")
+	@Column(columnDefinition="varchar(255)  COMMENT '组织机构代码'")
 	private String orgCode;
 	@Column(columnDefinition="varchar(255) COMMENT '所属行政区划'")
 	private String divisionId;

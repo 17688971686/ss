@@ -56,20 +56,22 @@ public class BasicDataServiceImpl implements BasicDataService {
 			List<BasicData> basicDatas = basicDataRepo.findByCriteria(criterion);
 
 			basicDatas.forEach(item -> {
-				BasicDataDto basicDataDto = new BasicDataDto();
-				basicDataDto.setComment(item.getComment());
-				basicDataDto.setDescription(item.getDescription());
-				basicDataDto.setCreatedBy(item.getCreatedBy());
-				basicDataDto.setCreatedDate(item.getCreatedDate());
-				basicDataDto.setpId(item.getpId());
-				basicDataDto.setId(item.getId());
-				basicDataDto.setIdentity(item.getIdentity());
-				basicDataDto.setModifiedDate(item.getModifiedDate());
-				basicDataDto.setModifiedBy(item.getModifiedBy());
-				//查找孩子
-				List<BasicDataDto> children=queryByParentId(item.getId());
-				basicDataDto.setChildren(children);
-				basicDataDtos.add(basicDataDto);
+				if(item.getpId() == null || "".equals(item.getpId())){//没有父Id，第一级
+					BasicDataDto basicDataDto = new BasicDataDto();
+					basicDataDto.setComment(item.getComment());
+					basicDataDto.setDescription(item.getDescription());
+					basicDataDto.setCreatedBy(item.getCreatedBy());
+					basicDataDto.setCreatedDate(item.getCreatedDate());
+					basicDataDto.setpId(item.getpId());
+					basicDataDto.setId(item.getId());
+					basicDataDto.setIdentity(item.getIdentity());
+					basicDataDto.setModifiedDate(item.getModifiedDate());
+					basicDataDto.setModifiedBy(item.getModifiedBy());
+					//查找孩子以此id为父Id的，第二级
+					List<BasicDataDto> children=queryByParentId(item.getId());
+					basicDataDto.setChildren(children);
+					basicDataDtos.add(basicDataDto);
+				}				
 			});
 
 		}
@@ -80,30 +82,25 @@ public class BasicDataServiceImpl implements BasicDataService {
 	@Override
 	@Transactional
 	public List<BasicDataDto> queryByParentId(String pId) {
-
-		Criterion criterion = Restrictions.eq(BasicData_.pId.getName(), pId);
-		List<BasicData> basicDataList = basicDataRepo.findByCriteria(criterion);
 		List<BasicDataDto> basicDataDtoList = new ArrayList<>();
-		basicDataList.forEach(x -> {
-			BasicDataDto basicDataDto = new BasicDataDto();
+		if(pId != null){
+			Criterion criterion = Restrictions.eq(BasicData_.pId.getName(), pId);
+			List<BasicData> basicDataList = basicDataRepo.findByCriteria(criterion);
+			basicDataList.forEach(x -> {
+				BasicDataDto basicDataDto = new BasicDataDto();
 
-			basicDataDto.setComment(x.getComment());
-			basicDataDto.setDescription(x.getDescription());
-			basicDataDto.setCreatedBy(x.getCreatedBy());
-			basicDataDto.setCreatedDate(x.getCreatedDate());
-			basicDataDto.setpId(x.getpId());
-			basicDataDto.setId(x.getId());
-			basicDataDto.setIdentity(x.getIdentity());
-			basicDataDto.setModifiedDate(x.getModifiedDate());
-			basicDataDto.setModifiedBy(x.getModifiedBy());
-
-			//查找孩子
-			List<BasicDataDto> children=queryByParentId(x.getId());
-			basicDataDto.setChildren(children);			
-			basicDataDtoList.add(basicDataDto);
-
-		});
-
+				basicDataDto.setComment(x.getComment());
+				basicDataDto.setDescription(x.getDescription());
+				basicDataDto.setCreatedBy(x.getCreatedBy());
+				basicDataDto.setCreatedDate(x.getCreatedDate());
+				basicDataDto.setpId(x.getpId());
+				basicDataDto.setId(x.getId());
+				basicDataDto.setIdentity(x.getIdentity());
+				basicDataDto.setModifiedDate(x.getModifiedDate());
+				basicDataDto.setModifiedBy(x.getModifiedBy());
+				basicDataDtoList.add(basicDataDto);
+			});
+		}
 		return basicDataDtoList;
 	}
 
