@@ -9,4 +9,5 @@ public interface SysService {
 
 	List<SysResourceDto> get();
 	 Response SysInit();
+	 Response SysInitBasicData();
 }

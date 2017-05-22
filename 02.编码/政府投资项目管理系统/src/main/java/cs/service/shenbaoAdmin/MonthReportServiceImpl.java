@@ -221,12 +221,25 @@ public class MonthReportServiceImpl implements MonthReportService {
 		monthReport.setSecondQuarCompInvestment(monthReportDto.getSecondQuarCompInvestment());
 		monthReport.setThirdQuarCompInvestment(monthReportDto.getThirdQuarCompInvestment());
 		monthReport.setFourthQuarCompInvestment(monthReportDto.getFourthQuarCompInvestment());
+		monthReport.setWorkTargets(monthReportDto.getWorkTargets());
 		//end#进度情况
 		
 		//begin#拆迁情况
 		monthReport.setRequisitionLandArea(monthReportDto.getRequisitionLandArea());
 		monthReport.setDemolitionArea(monthReportDto.getDemolitionArea());
 		//end#拆迁情况
+		
+		//begin#竣工决算
+		monthReport.setFirstAccountReportSendAuditDate(monthReportDto.getFirstAccountReportSendAuditDate());
+		monthReport.setFirstAccountReportAuditDate(monthReportDto.getFirstAccountReportAuditDate());
+		monthReport.setNewestAccountReportSendAuditDate(monthReportDto.getNewestAccountReportSendAuditDate());
+		monthReport.setNewestAccountReportAuditDate(monthReportDto.getNewestAccountReportAuditDate());
+		monthReport.setCompletedAuditAccountAuthorizedAmount(monthReportDto.getCompletedAuditAccountAuthorizedAmount());
+		monthReport.setAccountReportSendAuditDate(monthReportDto.getAccountReportSendAuditDate());
+		monthReport.setCompleteAccountAuditDate(monthReportDto.getCompleteAccountAuditDate());
+		monthReport.setAccountAuthorizedAmount(monthReportDto.getAccountAuthorizedAmount());
+		
+		//end#竣工决算
 		
 		monthReport.setSubmitMonth(monthReportDto.getSubmitMonth());
 		monthReport.setSubmitDate(monthReportDto.getSubmitDate());

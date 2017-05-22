@@ -27,6 +27,9 @@ public class ProjectInfo extends DomainBase{
 	private String id;
 	
 	//begin#项目基本信息
+	@Column(columnDefinition="varchar(255) NULL COMMENT '项目代码'")
+	private String projectNumber;
+	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目阶段'")
 	private String projectStage;
 	@Column(columnDefinition="int(10) NULL COMMENT '申报年度'")
@@ -888,6 +891,14 @@ public class ProjectInfo extends DomainBase{
 
 	public void setProjectBuildStage(String projectBuildStage) {
 		this.projectBuildStage = projectBuildStage;
+	}
+
+	public String getProjectNumber() {
+		return projectNumber;
+	}
+
+	public void setProjectNumber(String projectNumber) {
+		this.projectNumber = projectNumber;
 	}
 	
 	

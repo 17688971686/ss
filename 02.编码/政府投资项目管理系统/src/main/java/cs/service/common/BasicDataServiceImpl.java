@@ -1,7 +1,9 @@
 package cs.service.common;
 
+import java.security.cert.PKIXRevocationChecker.Option;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
@@ -14,6 +16,7 @@ import cs.domain.BasicData;
 import cs.domain.BasicData_;
 import cs.model.management.BasicDataDto;
 import cs.repository.common.BasicDataRepo;
+import cs.repository.odata.ODataObj;
 
 @Service
 public class BasicDataServiceImpl implements BasicDataService {
@@ -102,6 +105,39 @@ public class BasicDataServiceImpl implements BasicDataService {
 		});
 
 		return basicDataDtoList;
+	}
+
+	@Override
+	public List<BasicDataDto> Get(ODataObj odataObj) {
+		List<BasicData> basicDatas=basicDataRepo.findByOdata(odataObj);
+		List<BasicDataDto> basicDataDtos=new ArrayList<>();
+		basicDatas.forEach(x->{
+			BasicDataDto basicDataDto = new BasicDataDto();
+
+			basicDataDto.setComment(x.getComment());
+			basicDataDto.setDescription(x.getDescription());
+			basicDataDto.setCreatedBy(x.getCreatedBy());
+			basicDataDto.setCreatedDate(x.getCreatedDate());
+			basicDataDto.setpId(x.getpId());
+			basicDataDto.setId(x.getId());
+			basicDataDto.setIdentity(x.getIdentity());
+			basicDataDto.setModifiedDate(x.getModifiedDate());
+			basicDataDto.setModifiedBy(x.getModifiedBy());
+			basicDataDtos.add(basicDataDto);
+		});
+		return basicDataDtos;
+	}
+
+	@Override
+	public String GetDescriptionById(List<BasicDataDto> data, String id) {
+		String result=null;
+		Optional<BasicDataDto> optional= data.stream()
+				.filter(x->x.getId().equals(id))
+				.findFirst();			
+		if(optional.isPresent()){
+			result=optional.get().getDescription();
+		}
+		return result;
 	}
 
 }

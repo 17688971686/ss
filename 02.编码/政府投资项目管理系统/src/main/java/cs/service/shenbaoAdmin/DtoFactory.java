@@ -31,7 +31,8 @@ public class DtoFactory {
 			
 		
 			//获取以下信息用于详情展示
-			//begin#项目基本信息																														
+			//begin#项目基本信息				
+			projectInfoDto.setProjectNumber(projectInfo.getProjectNumber());
 			projectInfoDto.setUnitName(projectInfo.getUnitName());//申报单位名称
 			projectInfoDto.setProjectClassify(projectInfo.getProjectClassify());//项目分类(代码)			
 			projectInfoDto.setIndustry(projectInfo.getIndustry());//国民经济行业分类(代码)		
@@ -129,34 +130,39 @@ public class DtoFactory {
 			//begin#关联信息 
 			//将编制单位信息进行处理
 			UnitInfo unitInfoBZ = projectInfo.getBianZhiUnit();//编制单位
-			UnitInfoDto unitInfoDtoBZ = DtoFactory.unitInfoTounitInfoDto(unitInfoBZ);
-			projectInfoDto.setBianZhiUnit(unitInfoDtoBZ);
+			if(unitInfoBZ!=null){
+				UnitInfoDto unitInfoDtoBZ = DtoFactory.unitInfoTounitInfoDto(unitInfoBZ);
+				projectInfoDto.setBianZhiUnit(unitInfoDtoBZ);
+			}
+			
 			
 			//将申报单位信息进行处理
 			UnitInfo unitInfo = projectInfo.getShenBaoUnit();
-			UnitInfoDto unitInfoDto = DtoFactory.unitInfoTounitInfoDto(unitInfo);
-			projectInfoDto.setShenBaoUnit(unitInfoDto);
+			if(unitInfo!=null){
+				UnitInfoDto unitInfoDto = DtoFactory.unitInfoTounitInfoDto(unitInfo);
+				projectInfoDto.setShenBaoUnit(unitInfoDto);
+			}
+			
 			
 			//将附件信息进行处理
 			List<Attachment> attachments = projectInfo.getAttachments();
 			List<AttachmentDto> attachmentDtos = new ArrayList<>();
-			if(attachments != null && attachments.size()>0){				
-				for(Attachment attachment : attachments){
-					AttachmentDto attachmentDto = DtoFactory.attachmentToattachmentDto(attachment);
-					attachmentDtos.add(attachmentDto);
-				}
-			}	
+			attachments.forEach(x->{
+				AttachmentDto attachmentDto = DtoFactory.attachmentToattachmentDto(x);
+				attachmentDtos.add(attachmentDto);
+				
+			});
 			projectInfoDto.setAttachmentDtos(attachmentDtos);
+			
+			
 			
 			//将月报信息进行处理
 			List<MonthReport> monthReports = projectInfo.getMonthReports();
 			List<MonthReportDto> monthReportDtos = new ArrayList<>();
-			if(monthReports !=null && monthReports.size()>0){
-				for(MonthReport monthReport:monthReports){
-					MonthReportDto monthReportDto = DtoFactory.monthReportTomonthReportDto(monthReport);
-					monthReportDtos.add(monthReportDto);
-				}
-			}
+			monthReports.forEach(x->{
+				MonthReportDto monthReportDto = DtoFactory.monthReportTomonthReportDto(x);
+				monthReportDtos.add(monthReportDto);
+			});			
 			projectInfoDto.setMonthReportDtos(monthReportDtos);
 			//end#关联信息
 			
@@ -290,6 +296,7 @@ public class DtoFactory {
 			monthReportDto.setSecondQuarCompInvestment(monthReport.getSecondQuarCompInvestment());//预计第二季度完成投资
 			monthReportDto.setThirdQuarCompInvestment(monthReport.getThirdQuarCompInvestment());//预计第三季度完成投资
 			monthReportDto.setFourthQuarCompInvestment(monthReport.getFourthQuarCompInvestment());//预计第四季度完成投资
+			monthReportDto.setWorkTargets(monthReport.getWorkTargets());//年度工作目标
 			//end#进度情况
 			
 			//begin#拆迁情况

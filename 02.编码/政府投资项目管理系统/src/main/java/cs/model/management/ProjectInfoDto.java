@@ -17,6 +17,7 @@ public class ProjectInfoDto extends BaseDto{
 	private String id;
 	
 	//begin#项目基本信息
+	private String projectNumber; //项目代码
 	private String projectStage;//项目阶段(代码)
 	private String projectStageValue;//项目阶段(名称)
 	private Integer shenBaoYear;//申报年度
@@ -141,9 +142,9 @@ public class ProjectInfoDto extends BaseDto{
 	
 	private List<AttachmentDto> attachmentDtos=new ArrayList<>();
 	
-	private UnitInfo shenBaoUnit=new UnitInfo();//申报单位
+	private UnitInfoDto shenBaoUnit=new UnitInfoDto();//申报单位
 	
-	private UnitInfo BianZhiUnit=new UnitInfo();
+	private UnitInfoDto BianZhiUnit=new UnitInfoDto();
 	
 	private List<MonthReportDto> monthReportDtos = new ArrayList<>();
 	//end#关联信息
@@ -764,21 +765,7 @@ public class ProjectInfoDto extends BaseDto{
 		this.attachmentDtos = attachments;
 	}
 
-	public UnitInfo getShenBaoUnit() {
-		return shenBaoUnit;
-	}
-
-	public void setShenBaoUnit(UnitInfo shenBaoUnit) {
-		this.shenBaoUnit = shenBaoUnit;
-	}
-
-	public UnitInfo getBianZhiUnit() {
-		return BianZhiUnit;
-	}
-
-	public void setBianZhiUnit(UnitInfo bianZhiUnit) {
-		BianZhiUnit = bianZhiUnit;
-	}
+	
 
 	public List<MonthReportDto> getMonthReportDtos() {
 		return monthReportDtos;
@@ -866,6 +853,30 @@ public class ProjectInfoDto extends BaseDto{
 
 	public void setProjectBuildStage(String projectBuildStage) {
 		this.projectBuildStage = projectBuildStage;
+	}
+
+	public UnitInfoDto getShenBaoUnit() {
+		return shenBaoUnit;
+	}
+
+	public void setShenBaoUnit(UnitInfoDto shenBaoUnit) {
+		this.shenBaoUnit = shenBaoUnit;
+	}
+
+	public UnitInfoDto getBianZhiUnit() {
+		return BianZhiUnit;
+	}
+
+	public void setBianZhiUnit(UnitInfoDto bianZhiUnit) {
+		BianZhiUnit = bianZhiUnit;
+	}
+
+	public String getProjectNumber() {
+		return projectNumber;
+	}
+
+	public void setProjectNumber(String projectNumber) {
+		this.projectNumber = projectNumber;
 	}
 	
 	

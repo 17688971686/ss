@@ -50,13 +50,13 @@ display:inline;
 		<li><a href="#/managerCenter">首页</a></li>
 		<li><a href="#/projectMonthReport">项目月报</a></li>
 		<li><a
-			href="#/projectMonthReportFill/{{vm.projectId}}/{{vm.projectName}}/{{vm.projectBuildStage}}">{{vm.titleFillSelect}}</a></li>
+			href="#/projectMonthReportFill/{{vm.projectId}}">{{vm.titleFillSelect}}</a></li>
 		<li class="active">{{vm.titleFillInfo}}</li>
 	</ol>
 
 	<div style="margin-left: 5px; margin-right: 5px;">
-		<div  ng-include onload="vm.page_fillReport_init()" src="'/contents/shenbaoAdmin/projectMonthReport/html/fillInfo_create.html'"></div>
-		<!-- <div ng-show="vm.isReportExist" ng-include  src="'/contents/shenbaoAdmin/projectMonthReport/html/fillInfo_read.html'"></div> -->
+		<div  ng-hide="vm.isReportExist" ng-include onload="vm.page_fillReport_init()" src="'/contents/shenbaoAdmin/projectMonthReport/html/fillInfo_create.html'"></div>
+		<div ng-show="vm.isReportExist" ng-include  src="'/contents/shenbaoAdmin/projectMonthReport/html/fillInfo_read.html'"></div>
 	</div>
 </div>
 

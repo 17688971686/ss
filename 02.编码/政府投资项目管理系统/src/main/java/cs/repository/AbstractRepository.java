@@ -32,7 +32,7 @@ public class AbstractRepository<T,ID extends Serializable> implements IRepositor
 	@Override
 	public T findById(ID id) {
 		logger.debug("findById");		
-		return getSession().load(this.getPersistentClass(), id);		
+		return getSession().get(this.getPersistentClass(), id);		
 		
 	}
 	
@@ -60,8 +60,11 @@ public class AbstractRepository<T,ID extends Serializable> implements IRepositor
 	public List<T> findByOdata(ODataObj oDataObj){
 		logger.debug("findByOdata");		
 		Criteria crit = this.getSession().createCriteria(this.getPersistentClass());
-		List<T> list=oDataObj.buildQuery(crit).list();	
-		return list;
+		if(oDataObj!=null){
+			return oDataObj.buildQuery(crit).list();	
+		}else{
+			return crit.list();
+		}
 	}
 	@Override
 	public T save(T entity) {

@@ -106,7 +106,7 @@ public class ProjectMonthReportController {
 	 * @author cx
 	 * @Date 2017-05-08 
 	 */
-	@RequestMapping(name = "月份选择页面", path = "html/fill",method=RequestMethod.GET)
+	@RequestMapping(name = "月份选择页面", path = "html/selectMonth",method=RequestMethod.GET)
 	public String fill(Model model) {
 		model.addAttribute("year", new SimpleDateFormat("yyyy").format(new Date()));
 		return this.ctrlName + "/selectMonth";

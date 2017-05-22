@@ -87,6 +87,9 @@
 						title : "填报月份",
 						template:function(data){
 							var returnStr="";
+							//return $('#columnBtns').html();
+							
+							
 							for(var i=1;i<=12;i++){
 								var month="0";
 								if(i<10){
@@ -95,13 +98,19 @@
 									month=i;
 								}
 								if(data.monthReportDtos.length>0){
+									var isExist=false;
+									var monthId=""
 									data.monthReportDtos.forEach(function(e,idx){
 										if(e.submitMonth==data.shenBaoYear+month){
-											returnStr+=common.format('<a class="btn btn-xs btn-success" href="#/monthReport/{1}">{0}月</a> ',month,e.id);
-										}else{
-											returnStr+=common.format('<button class="btn btn-xs">{0}月</button> ',month);
+											isExist=true;
+											monthId=e.id;
 										}										
 									});
+									if(isExist){
+										returnStr+=common.format('<a class="btn btn-xs btn-success" href="#/monthReport/{1}">{0}月</a> ',month,monthId);
+									}else{
+										returnStr+=common.format('<button class="btn btn-xs">{0}月</button> ',month);
+									}
 								}
 								else{
 									returnStr+=common.format('<button class="btn btn-xs">{0}月</button> ',month);
@@ -110,7 +119,7 @@
 							return returnStr;
 							//return common.format($('#columnBtns').html(),data.id,data.projectName,data.projectBuildStage);		
 						},
-						width:400,
+						width:250,
 						filterable : false
 					}															
 			];

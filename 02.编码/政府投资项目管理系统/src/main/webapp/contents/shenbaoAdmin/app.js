@@ -84,8 +84,8 @@
 	        
 	        //begin#projectMonthReportFill（项目月报填报--月份选择）
 	        .state('projectMonthReportFill', {
-	            url: '/projectMonthReportFill/:id/:name/:projectBuildStage',
-	            templateUrl: '/shenbaoAdmin/projectMonthReport/html/fill.html',   	            	 	           
+	            url: '/projectMonthReportFill/:projectId',
+	            templateUrl: '/shenbaoAdmin/projectMonthReport/html/selectMonth',   	            	 	           
 	            controller: 'projectMonthReportCtrl',
 	            controllerAs: 'vm'
 	        })	        
@@ -93,7 +93,7 @@
 	        
 	        //begin#projectMonthReportInfoFill（项目月报填报--具体信息填写）
 	        .state('projectMonthReportInfoFill', {
-	            url: '/projectMonthReportInfoFill/:id/:name/:projectBuildStage/:month',
+	            url: '/projectMonthReportInfoFill/:projectId/:month',
 	            templateUrl:'/shenbaoAdmin/projectMonthReport/html/fillInfo/',           
 	            controller: 'projectMonthReportCtrl',
 	            controllerAs: 'vm'

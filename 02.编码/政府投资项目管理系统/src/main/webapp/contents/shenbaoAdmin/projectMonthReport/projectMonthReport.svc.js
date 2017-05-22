@@ -19,10 +19,42 @@
 			getMonthReportInfo:getMonthReportInfo,
 			getBasicData:getBasicData,
 			getMonthReportProblem:getMonthReportProblem,
-			submitMonthReport:submitMonthReport
+			submitMonthReport:submitMonthReport,
+			getProjectInfo:getProjectInfo
 		};		
 		return service;	
+	
+		/**
+		 * 查询项目数据
+		 */
+		function getProjectInfo(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_projectInfo + "?$filter=id eq '{0}'", vm.projectId),
+				}
+				var httpSuccess = function success(response) {					
+					vm.model.projectInfo = response.data.value[0]||{};	
+					vm.isJueSuan=vm.model.projectInfo.projectBuildStage=='projectBuildStage_03';
+					if(vm.page=='selectMonth'){
+						vm.monthExist=$linq(vm.model.projectInfo.monthReportDtos)
+						.select(function(x){return x.submitMonth;});
+						vm.monthExist.foreach(function(x){
+							$("."+x).removeClass("disabled");
+							$("."+x).addClass("active");
+							$("."+x).prop("disabled",false);
+						});
+						
+					}
+					
+				}
 				
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+		}
 		
 		/**
 		 * 查询月报数据
@@ -200,7 +232,7 @@
 			// Begin:column
 			var columns = [
 					  {
-						field : "id",
+						field : "projectNumber",
 						title : "项目代码",
 						width : 180,						
 						filterable : false
@@ -245,7 +277,7 @@
 						title : "操作",
 						template:function(data){
 							//不同的投资类型返回不同的填报页面；政府投资类型还要分为两种情况然后返回不同的页面
-							return common.format($('#columnBtns').html(),data.id,data.projectName,data.projectBuildStage);		
+							return common.format($('#columnBtns').html(),data.id);		
 						},
 						width:80,
 						filterable : false
