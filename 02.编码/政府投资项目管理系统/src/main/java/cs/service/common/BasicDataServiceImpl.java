@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cs.domain.BasicData;
 import cs.domain.BasicData_;
-import cs.model.management.BasicDataDto;
+import cs.model.DomainDto.BasicDataDto;
 import cs.repository.common.BasicDataRepo;
 import cs.repository.odata.ODataObj;
 

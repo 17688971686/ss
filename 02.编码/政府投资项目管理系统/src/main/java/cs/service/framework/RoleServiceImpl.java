@@ -16,8 +16,8 @@ import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.framework.ResourceDto;
 import cs.model.framework.RoleDto;
+import cs.repository.framework.RoleRepo;
 import cs.repository.odata.ODataObj;
-import cs.repository.repositoryImpl.framework.RoleRepo;
 
 @Service
 public class RoleServiceImpl implements RoleService {

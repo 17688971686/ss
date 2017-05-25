@@ -2,7 +2,7 @@ package cs.service.common;
 
 import java.util.List;
 
-import cs.model.management.BasicDataDto;
+import cs.model.DomainDto.BasicDataDto;
 import cs.repository.odata.ODataObj;
 
 public interface BasicDataService {

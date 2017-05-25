@@ -9,12 +9,8 @@
 
     function projectMonthReport($location, projectMonthReportSvc,$state,$scope) {
         /* jshint validthis:true */
-        var vm = this;        
-        vm.title = '项目列表';
-        vm.titleFillSelect = '月报填报月份选择';
-        vm.titleFillInfo = '项目月报填报信息录入';
-        vm.model={};
-        
+        var vm = this;
+        vm.model={};        
         vm.page='list';
         vm.init=function(){
         	vm.projectId = $state.params.projectId;

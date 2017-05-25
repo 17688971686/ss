@@ -1,209 +1,133 @@
-package cs.domain;
-
+package cs.model.DomainDto;
+/**
+ * 月报实体类
+ * @author cx
+ * @Date 2017-05-03
+ */
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-/**
- * 月报表
- *
- *
- */
-@Entity
-@Table(name="cs_monthReport")
-public class MonthReport extends DomainBase{
+import cs.model.BaseDto;
 
-	@Id
-	private String id;	
-	@Column(columnDefinition="varchar(255)  COMMENT '关联项目代码'")
-	private String projectId;
+public class MonthReportDto extends BaseDto{
+	private String id;
+	private String projectId;//关联项目代码
+	private String projectName;
 	
 	//begin#联系人信息
-
-	@Column(columnDefinition="varchar(255) COMMENT '填报人姓名'")
-	private String fillName;
-	@Column(columnDefinition="varchar(50) COMMENT '填报人手机号'")
-	private String fillMobile;
-	@Column(columnDefinition="varchar(255) COMMENT '月报负责人姓名'")
-	private String monRepManagerName;
-	@Column(columnDefinition="varchar(50) COMMENT '月报负责人手机号'")
-	private String monRepManagerTel;
-	@Column(columnDefinition="varchar(50) COMMENT '月报负责人传真号'")
-	private String monRepManagerFax;
-	@Column(columnDefinition="varchar(255) COMMENT '月报负责单位名称'")
-	private String monRepManagUnitName;
-	@Column(columnDefinition="varchar(255) COMMENT '责任单位负责人名称'")
-	private String respUnitManagerName;
-	@Column(columnDefinition="varchar(50) COMMENT '责任单位负责人电话'")
-	private String respUnitManagerTel;
-	
+	private String fillName;//填报人姓名
+	private String fillMobile;//填报人手机号
+	private String monRepManagerName;//月报负责人姓名
+	private String monRepManagerTel;//月报负责人手机号
+	private String monRepManagerFax;//月报负责人传真号
+	private String monRepManagUnitName;//月报负责单位名称
+	private String respUnitManagerName;//责任单位负责人名称
+	private String respUnitManagerTel;//责任单位负责人电话
 	//end#联系人信息
 	
 	//begin#批文日期和文号
 	//日期
-	@Column(columnDefinition="datetime COMMENT '项目建议书批复日期'")
-	private Date proposalsReplyDate;
-	@Column(columnDefinition="datetime COMMENT '可行性研究报告批复日期'")
-	private Date feaStyRepoReplyDate;
-	@Column(columnDefinition="datetime COMMENT '项目总概算批复日期'")
-	private Date allEstimateReplyDate;
-	@Column(columnDefinition="datetime COMMENT '前期工作计划批复日期'")
-	private Date prePlanReplyDate;
+	private Date proposalsReplyDate;//项目建议书批复日期
+	private Date feaStyRepoReplyDate;//可行性研究报告批复日期
+	private Date allEstimateReplyDate;//项目总概算批复日期
+	private Date prePlanReplyDate;//前期工作计划批复日期
 	
 	//文号
-	@Column(columnDefinition="varchar(50) COMMENT '项目建议书批复类型'")
-	private String proposalsType;
-	@Column(columnDefinition="datetime COMMENT '项目建议书批复年份'")
-	private Date proposalsYear;
-	@Column(columnDefinition="varchar(50) COMMENT '项目建议书批复文号'")
-	private String proposalsNum;
+	private String proposalsType;//项目建议书批复类型
+	private String proposalsTypeDisplay;//项目建议书批复类型
+	private Date proposalsYear;//项目建议书批复年份
+	private String proposalsNum;//项目建议书批复文号
 	
-	@Column(columnDefinition="varchar(50) COMMENT '可行性研究报告批复类型'")
-	private String reportType;
-	@Column(columnDefinition="datetime  COMMENT '可行性研究报告批复年份'")
-	private Date reportYear;
-	@Column(columnDefinition="varchar(50) COMMENT '可行性研究报告批复文号'")
-	private String reportNum;
+	private String reportType;//可行性研究报告批复类型
+	private String reportTypeDisplay;//可行性研究报告批复类型
+	private Date reportYear;//可行性研究报告批复年份
+	private String reportNum;//可行性研究报告批复文号
 	
-	@Column(columnDefinition="varchar(50) COMMENT '项目总概算批复类型'")
-	private String allEstimateType;
-	@Column(columnDefinition="datetime COMMENT '项目总概算批复年份'")
-	private Date allEstimateYear;
-	@Column(columnDefinition="varchar(50) COMMENT '项目总概算批复文号'")
-	private String allEstimateNum;
+	private String allEstimateType;//项目总概算批复类型
+	private String allEstimateTypeDisplay;//可行性研究报告批复类型
+	private Date allEstimateYear;//项目总概算批复年份
+	private String allEstimateNum;//项目总概算批复文号
 	
-	@Column(columnDefinition="varchar(50) COMMENT '前期工作计划批复类型'")
-	private String prePlanType;
-	@Column(columnDefinition="datetime COMMENT '前期工作计划批复年份'")
-	private Date prePlanYear;
-	@Column(columnDefinition="varchar(50) COMMENT '前期工作计划批复文号'")
-	private String prePlanNum;
+	private String prePlanType;//前期工作计划批复类型
+	private String prePlanTypeDisplay;//前期工作计划批复类型
+	private Date prePlanYear;//前期工作计划批复年份
+	private String prePlanNum;//前期工作计划批复文号
 	//end#批文日期和文号
 	
 	//begin#开工时间
-	@Column(columnDefinition="datetime COMMENT '预计开工日期'")
-	private Date commencementDate;
-	@Column(columnDefinition="datetime COMMENT '实际开工日期'")
-	private Date actuallyDate;
-	@Column(columnDefinition="datetime COMMENT '竣工日期'")
-	private Date completedDate;
+	private Date commencementDate;//预计开工日期
+	private Date actuallyDate;//实际开工日期
+	private Date completedDate;//竣工日期
 	//end#开工时间
 	
 	//begin#投资情况
-	@Column(columnDefinition="decimal(9,2) COMMENT '计划总投资'")
-	private BigDecimal invertPlanTotal;
-	@Column(columnDefinition="decimal(9,2) COMMENT '实际完成投资'")
-	private BigDecimal actuallyFinishiInvestment;	
-	@Column(columnDefinition="decimal(9,2) COMMENT '自开工至上年底完成投资'")
-	private BigDecimal sinceLastYearCompletInvestment;
-	@Column(columnDefinition="decimal(9,2) COMMENT '本年计划投资'")
-	private BigDecimal thisYearPlanInvestment;
-	@Column(columnDefinition="decimal(9,2) COMMENT '本月完成投资'")
-	private BigDecimal thisMonthInvestTotal;
-	@Column(columnDefinition="decimal(9,2) COMMENT '建筑安装工程投资'")
-	private BigDecimal buildAndInstallInvest;
-	@Column(columnDefinition="decimal(9,2) COMMENT '设备投资'")
-	private BigDecimal equipmentInvest;
-	@Column(columnDefinition="decimal(9,2) COMMENT '其他投资'")
-	private BigDecimal otherInvest;
-	@Column(columnDefinition="decimal(9,2) COMMENT '本年度累计完成投资'")
-	private BigDecimal thisYearAccumulatedInvestment;
+	private BigDecimal invertPlanTotal;//计划总投资
+	private BigDecimal actuallyFinishiInvestment;//实际完成投资	
+	private BigDecimal sinceLastYearCompletInvestment;//自开工至上年底完成投资
+	private BigDecimal thisYearPlanInvestment;//本年计划投资
+	private BigDecimal thisMonthInvestTotal;//本月完成投资
+	private BigDecimal buildAndInstallInvest;//建筑安装工程投资
+	private BigDecimal equipmentInvest;//设备投资
+	private BigDecimal otherInvest;//其他投资
+	private BigDecimal thisYearAccumulatedInvestment;//本年度累计完成投资
 	//end#投资情况
 	
 	
 	//begin#进度情况
-	@Column(columnDefinition="varchar(2000) COMMENT '项目审批进度'")
-	private String projectApprovalProgress;
-	@Column(columnDefinition="varchar(2000) COMMENT '工程形象进度或项目进展情况'")
-	private String projectImageProgress;
-	@Column(columnDefinition="varchar(50) COMMENT '项目进度'")
-	private String selfReview;
-	@Column(columnDefinition="decimal(9,2) COMMENT '预计第一季度完成投资'")
-	private BigDecimal firstQuarCompInvestment;
-	@Column(columnDefinition="decimal(9,2) COMMENT '预计第二季度完成投资'")
-	private BigDecimal secondQuarCompInvestment;
-	@Column(columnDefinition="decimal(9,2) COMMENT '预计第三季度完成投资'")
-	private BigDecimal thirdQuarCompInvestment;
-	@Column(columnDefinition="decimal(9,2) COMMENT '预计第四季度完成投资'")
-	private BigDecimal fourthQuarCompInvestment;	
-	@Column(columnDefinition="varchar(2000) COMMENT '工作目标'")
-	private String workTargets;
+	private String projectApprovalProgress;//项目审批进度
+	private String projectImageProgress;//工程形象进度或项目进展情况
+	private String selfReview;//项目进度
+	private String selfReviewDisplay;//项目进度
+	private BigDecimal firstQuarCompInvestment;//预计第一季度完成投资
+	private BigDecimal secondQuarCompInvestment;//预计第二季度完成投资
+	private BigDecimal thirdQuarCompInvestment;//预计第三季度完成投资
+	private BigDecimal fourthQuarCompInvestment;//预计第四季度完成投资	
+	private String workTargets;//工作目标
 	
 	//end#进度情况
 	
 	//begin#拆迁情况
-	@Column(columnDefinition="decimal(9,6) COMMENT '征用土地面积'")
-	private BigDecimal requisitionLandArea;
-	@Column(columnDefinition="decimal(9,6) COMMENT '拆迁面积'")
-	private BigDecimal demolitionArea;
+	private BigDecimal requisitionLandArea;//征用土地面积
+	private BigDecimal demolitionArea;//拆迁面积
 	//end#拆迁情况
 	
-	@Column(columnDefinition="varchar(50) COMMENT '提交年份'")
-	private String submitYear;
 	
-	@Column(columnDefinition="varchar(50) COMMENT '提交月份'")
-	private String submitMonth;
-	@Column(columnDefinition="datetime COMMENT '提交日期'")
-	private Date submitDate;
-	@Column(columnDefinition="datetime COMMENT '立项日期'")
-	private Date approvalDate;	
+	private String submitMonth;//提交月
+	private Date submitDate;//提交日期
+	private Date approvalDate;//立项日期	
 	
-	@Column(columnDefinition="bit(1)  COMMENT '是否完工'")
-	private Integer isCompletion;
-	@Column(columnDefinition="varchar(255) COMMENT '备注'")
-	private String remark;
+	private Integer isCompletion;//是否完工
+	private String remark;//备注
 	
 	//begin#工程结算情况
-	@Column(columnDefinition="datetime COMMENT '第一份结算报告送审计日期'")
-	private Date firstAccountReportSendAuditDate;
-	@Column(columnDefinition="datetime COMMENT '第一份结算报告审计日期'")
-	private Date firstAccountReportAuditDate;
-	@Column(columnDefinition="datetime COMMENT '最新结算报告送审计日期'")
-	private Date newestAccountReportSendAuditDate;
-	@Column(columnDefinition="datetime COMMENT '最新结算报告审计日期'")
-	private Date newestAccountReportAuditDate;
-	@Column(columnDefinition="decimal(9,6) COMMENT '已完成审计的结算审定金额'")
-	private BigDecimal completedAuditAccountAuthorizedAmount;
+	private Date firstAccountReportSendAuditDate;//第一份结算报告送审计日期
+	private Date firstAccountReportAuditDate;//第一份结算报告审计日期
+	private Date newestAccountReportSendAuditDate;//最新结算报告送审计日期
+	private Date newestAccountReportAuditDate;//最新结算报告审计日期
+	private BigDecimal completedAuditAccountAuthorizedAmount;//已完成审计的结算审定金额
 	//End#工程结算情况
-	
-	
+		
+		
 	//begin#竣工决算情况	
-	@Column(columnDefinition="datetime COMMENT '决算报告送审日期'")
-	private Date accountReportSendAuditDate;
-	@Column(columnDefinition="datetime COMMENT '完成决算审计日期'")
-	private Date completeAccountAuditDate;
-	@Column(columnDefinition="decimal(9,6) COMMENT '决算审定金额'")
-	private BigDecimal accountAuthorizedAmount;
+	private Date accountReportSendAuditDate;//决算报告送审日期
+	private Date completeAccountAuditDate;//完成决算审计日期
+	private BigDecimal accountAuthorizedAmount;//决算审定金额
 	//End#竣工决算情况
 	
 	//begin#项目信息
-		private String projectBuildStage;//项目建设阶段
-		//end#项目信息
-	
+	private String projectBuildStage;//项目建设阶段
+	//end#项目信息
 	
 	//begin#关联信息
 	//月报问题
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="monthReport_id")
-	private List<MonthReportProblem> monthReportProblems=new ArrayList<>();
+	private List<MonthReportProblemDto> monthReportProblems=new ArrayList<>();
 	
 	//月报附件
-	@OneToMany(cascade=CascadeType.ALL)	
-	private List<Attachment> attachments=new ArrayList<>();
+	private List<AttachmentDto> attachments=new ArrayList<>();
 	
-	//项目信息
-//	@ManyToOne(cascade=CascadeType.ALL)
-//	@JoinColumn(name="projectInfo_Id",insertable=false,updatable=false)
-//	private ProjectInfo projectInfo = new ProjectInfo();
+	
 	//end#关联信息
 
 	public String getId() {
@@ -605,29 +529,29 @@ public class MonthReport extends DomainBase{
 		this.remark = remark;
 	}
 
-	public List<MonthReportProblem> getMonthReportProblems() {
+	public List<MonthReportProblemDto> getMonthReportProblems() {
 		return monthReportProblems;
 	}
 
-	public void setMonthReportProblems(List<MonthReportProblem> monthReportProblems) {
+	public void setMonthReportProblems(List<MonthReportProblemDto> monthReportProblems) {
 		this.monthReportProblems = monthReportProblems;
 	}
 
-	public List<Attachment> getAttachments() {
+	public List<AttachmentDto> getAttachments() {
 		return attachments;
 	}
 
-	public void setAttachments(List<Attachment> attachments) {
+	public void setAttachments(List<AttachmentDto> attachments) {
 		this.attachments = attachments;
 	}
 
-//	public ProjectInfo getProjectInfo() {
-//		return projectInfo;
-//	}
-//
-//	public void setProjectInfo(ProjectInfo projectInfo) {
-//		this.projectInfo = projectInfo;
-//	}
+	/*public ProjectInfoDto getProjectInfoDto() {
+		return ProjectInfoDto;
+	}
+
+	public void setProjectInfoDto(ProjectInfoDto projectInfoDto) {
+		ProjectInfoDto = projectInfoDto;
+	}*/
 
 	public Date getFirstAccountReportSendAuditDate() {
 		return firstAccountReportSendAuditDate;
@@ -733,13 +657,58 @@ public class MonthReport extends DomainBase{
 		this.selfReview = selfReview;
 	}
 
-	public String getSubmitYear() {
-		return submitYear;
+	public String getProjectName() {
+		return projectName;
 	}
 
-	public void setSubmitYear(String submitYear) {
-		this.submitYear = submitYear;
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
 	}
+
+	public String getProposalsTypeDisplay() {
+		return proposalsTypeDisplay;
+	}
+
+	public void setProposalsTypeDisplay(String proposalsTypeDisplay) {
+		this.proposalsTypeDisplay = proposalsTypeDisplay;
+	}
+
+	public String getReportTypeDisplay() {
+		return reportTypeDisplay;
+	}
+
+	public void setReportTypeDisplay(String reportTypeDisplay) {
+		this.reportTypeDisplay = reportTypeDisplay;
+	}
+
+	
+
+	public String getPrePlanTypeDisplay() {
+		return prePlanTypeDisplay;
+	}
+
+	public void setPrePlanTypeDisplay(String prePlanTypeDisplay) {
+		this.prePlanTypeDisplay = prePlanTypeDisplay;
+	}
+
+	public String getAllEstimateTypeDisplay() {
+		return allEstimateTypeDisplay;
+	}
+
+	public void setAllEstimateTypeDisplay(String allEstimateTypeDisplay) {
+		this.allEstimateTypeDisplay = allEstimateTypeDisplay;
+	}
+
+	public String getSelfReviewDisplay() {
+		return selfReviewDisplay;
+	}
+
+	public void setSelfReviewDisplay(String selfReviewDisplay) {
+		this.selfReviewDisplay = selfReviewDisplay;
+	}
+
+	
+	
 	
 	
 	

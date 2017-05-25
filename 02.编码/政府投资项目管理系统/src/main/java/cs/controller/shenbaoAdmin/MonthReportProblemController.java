@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cs.model.PageModelDto;
-import cs.model.management.MonthReportProblemDto;
+import cs.model.DomainDto.MonthReportProblemDto;
 import cs.repository.odata.ODataObj;
-import cs.service.shenbaoAdmin.MonthReportProblemService;
+import cs.service.interfaces.MonthReportProblemService;
 
 /**
  * 月报问题控制层

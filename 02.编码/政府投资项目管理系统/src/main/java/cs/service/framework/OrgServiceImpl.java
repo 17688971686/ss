@@ -17,9 +17,9 @@ import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.framework.OrgDto;
 import cs.model.framework.UserDto;
+import cs.repository.framework.OrgRepo;
+import cs.repository.framework.UserRepo;
 import cs.repository.odata.ODataObj;
-import cs.repository.repositoryImpl.framework.OrgRepo;
-import cs.repository.repositoryImpl.framework.UserRepo;
 
 @Service
 public class OrgServiceImpl implements OrgService {

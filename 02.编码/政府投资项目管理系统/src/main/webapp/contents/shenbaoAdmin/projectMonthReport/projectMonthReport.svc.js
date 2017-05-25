@@ -34,10 +34,10 @@
 				}
 				var httpSuccess = function success(response) {					
 					vm.model.projectInfo = response.data.value[0]||{};	
-					vm.isJueSuan=vm.model.projectInfo.projectBuildStage=='projectBuildStage_03';
+					
 					if(vm.page=='selectMonth'){
 						vm.monthExist=$linq(vm.model.projectInfo.monthReportDtos)
-						.select(function(x){return x.submitMonth;});
+						.select(function(x){return x.submitYear+x.submitMonth;});
 						vm.monthExist.foreach(function(x){
 							$("."+x).removeClass("disabled");
 							$("."+x).addClass("active");

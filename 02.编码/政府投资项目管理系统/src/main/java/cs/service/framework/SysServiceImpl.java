@@ -22,9 +22,9 @@ import cs.domain.framework.Role;
 import cs.domain.framework.SysConfig;
 import cs.domain.framework.User;
 import cs.repository.common.BasicDataRepo;
-import cs.repository.repositoryImpl.framework.RoleRepoImpl;
-import cs.repository.repositoryImpl.framework.SysConfigRepoImpl;
-import cs.repository.repositoryImpl.framework.UserRepoImpl;
+import cs.repository.framework.RoleRepoImpl;
+import cs.repository.framework.SysConfigRepoImpl;
+import cs.repository.framework.UserRepoImpl;
 
 @Service
 public class SysServiceImpl implements SysService {

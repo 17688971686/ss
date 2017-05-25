@@ -2,7 +2,9 @@
 	.month{
 		width:100px;
 	}
-	
+	.selectMonth{
+		text-align: center;
+	}
 </style>
 
 <div class="well well-sm" style="background:white;">
@@ -10,7 +12,7 @@
 		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
 		  <li><a href="#/managerCenter">首页</a></li>
 	      <li><a href="#/projectMonthReport">项目月报</a></li>
-	      <li class="active">{{vm.titleFillSelect}}</li>
+	      <li class="active">月份选择</li>
 	  </ol>
 	  
 	  
@@ -42,47 +44,57 @@
 	                            <table cellpadding="0" width="100%" style="margin-bottom: 50px">
 	                                <tbody>
 		                                <tr style="height:80px;">
-		                                    <td style="text-align: center;">
-		                                        <button id="1" class="btn btn-lg btn-info month ${year}01"  ng-click="vm.fillReport('01')">一月</button>
-		                                        
+		                                    <td  class="selectMonth ${year}01">
+		                                        <button  class="btn btn-lg btn-info month "  ng-click="vm.fillReport('01')">一月</button>
+		                                        <p class="isFill text-danger">未填</p>
 		                                    </td>
-		                                    <td style="text-align: center">
-		                                        <button id="2" class="btn btn-lg btn-info month ${year}02"  ng-click="vm.fillReport('02')">二月</button>
-		                                    
+		                                    <td  class="selectMonth ${year}02">
+		                                        <button  class="btn btn-lg btn-info month"  ng-click="vm.fillReport('02')">二月</button>
+		                                    	<p class="isFill text-danger">未填</p>
 		                                    </td>
-		                                    <td style="text-align: center">
-		                                        <button id="3" class="btn btn-lg btn-info month ${year}03"  ng-click="vm.fillReport('03')">三月</button>
+		                                    <td  class="selectMonth ${year}03">
+		                                        <button  class="btn btn-lg btn-info month "  ng-click="vm.fillReport('03')">三月</button>
+		                                    	<p class="isFill text-danger">未填</p>
 		                                    </td>
-		                                    <td style="text-align: center">
-		                                        <button id="4" class="btn btn-lg btn-info month ${year}04"  ng-click="vm.fillReport('04')">四月</button>
+		                                    <td  class="selectMonth ${year}04">
+		                                        <button  class="btn btn-lg btn-info month "  ng-click="vm.fillReport('04')">四月</button>
+		                                    	<p class="isFill text-danger">未填</p>
 		                                    </td>
-		                                    <td style="text-align: center">
-		                                        <button id="5" class="btn btn-lg btn-info month ${year}05"  ng-click="vm.fillReport('05')">五月</button>
+		                                    <td  class="selectMonth  ${year}05">
+		                                        <button  class="btn btn-lg btn-info month "  ng-click="vm.fillReport('05')">五月</button>
+		                                    	<p class="isFill text-danger">未填</p>
 		                                    </td>
-		                                    <td style="text-align: center">
-		                                        <button id="6" class="btn btn-lg btn-info month ${year}06"  ng-click="vm.fillReport('06')">六月</button>
+		                                    <td  class="selectMonth ${year}06">
+		                                        <button  class="btn btn-lg btn-info month "  ng-click="vm.fillReport('06')">六月</button>
+		                                    	<p class="isFill text-danger">未填</p>
 		                                    </td>
 		                                    
 		                                </tr>
 		                                
 		                                <tr style="height:80px;">
-		                                    <td style="text-align: center">
-		                                        <button id="7" class="btn btn-lg btn-info month ${year}07"  ng-click="vm.fillReport('07')">七月</button>
+		                                    <td class="selectMonth ${year}07">
+		                                        <button  class="btn btn-lg btn-info month ${year}07"  ng-click="vm.fillReport('07')">七月</button>
+		                                    	<p class="isFill text-danger">未填</p>
 		                                    </td>
-		                                    <td style="text-align: center">
-		                                        <button id="8" class="btn btn-lg btn-info month ${year}08"  ng-click="vm.fillReport('08')">八月</button>
+		                                    <td class="selectMonth ${year}08">
+		                                        <button  class="btn btn-lg btn-info month ${year}08"  ng-click="vm.fillReport('08')">八月</button>
+		                                    	<p class="isFill text-danger">未填</p>
 		                                    </td>
-		                                    <td style="text-align: center">
-		                                        <button id="9" class="btn btn-lg btn-info month ${year}09"  ng-click="vm.fillReport('09')">九月</button>
+		                                    <td class="selectMonth ${year}09">
+		                                        <button  class="btn btn-lg btn-info month ${year}09"  ng-click="vm.fillReport('09')">九月</button>
+		                                    	<p class="isFill text-danger">未填</p>
 		                                    </td>
-		                                    <td style="text-align: center">
-		                                        <button id="10" class="btn btn-lg btn-info month ${year}10"  ng-click="vm.fillReport('10')">十月</button>
+		                                    <td class="selectMonth ${year}10">
+		                                        <button  class="btn btn-lg btn-info month ${year}10"  ng-click="vm.fillReport('10')">十月</button>
+		                                    	<p class="isFill text-danger">未填</p>
 		                                    </td>
-		                                    <td style="text-align: center">
-		                                        <button id="11" class="btn btn-lg btn-info month ${year}11"  ng-click="vm.fillReport('11')">十一月</button>
+		                                    <td class="selectMonth ${year}11">
+		                                        <button  class="btn btn-lg btn-info month ${year}11"  ng-click="vm.fillReport('11')">十一月</button>
+		                                    	<p class="isFill text-danger">未填</p>
 		                                    </td>
-		                                    <td style="text-align: center">
-		                                        <button id="12" class="btn btn-lg btn-info month ${year}11"  ng-click="vm.fillReport('12')">十二月</button>
+		                                    <td class="selectMonth ${year}12">
+		                                        <button  class="btn btn-lg btn-info month ${year}11"  ng-click="vm.fillReport('12')">十二月</button>
+		                                    	<p class="isFill text-danger">未填</p>
 		                                    </td>
 		                                    
 		                                </tr>
@@ -98,19 +110,4 @@
         </div>
     
 </div>
-<script type="text/javascript">
-	
-	$(function(){
-		//获取当前时间的月份
-		var myDate = new Date();
-		var month = myDate.getMonth()+1;
-		//根据月份来使得按钮的背景颜色得到改变，启用和不启用
-		$(".btn-info").addClass("disabled");
-		$(".btn-info").prop("disabled",true);
-		
-		$("#"+month).removeClass("disabled");
-		$("#"+month).addClass("active");
-		$("#"+month).prop("disabled",false);
-		
-	});
-</script>
+

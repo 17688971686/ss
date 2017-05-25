@@ -18,7 +18,7 @@ import cs.model.Portal.ArticleDto;
 import cs.model.shenbao.IndexDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
-import cs.service.management.ArticleService;
+import cs.service.interfaces.ArticleService;
 
 @Controller
 @RequestMapping(name = "申报", path = "")

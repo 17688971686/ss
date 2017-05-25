@@ -1,17 +1,9 @@
 package cs.repository.common;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import cs.domain.BasicData;
-import cs.domain.BasicData_;
-import cs.repository.AbstractRepository;
+import cs.repository.impl.AbstractRepository;
 
 
 /**

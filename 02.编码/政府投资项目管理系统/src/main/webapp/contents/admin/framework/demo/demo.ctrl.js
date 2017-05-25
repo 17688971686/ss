@@ -83,7 +83,7 @@
         function activate() {
         	datetimePicker();
         	upload();
-        	
+        	demoSvc.treeList(vm);
         	
         }
     }

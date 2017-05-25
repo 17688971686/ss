@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Single;
-
 import cs.common.ICurrentUser;
 import cs.common.Response;
 import cs.domain.framework.Role;
@@ -23,9 +21,9 @@ import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.framework.RoleDto;
 import cs.model.framework.UserDto;
+import cs.repository.framework.RoleRepo;
+import cs.repository.framework.UserRepo;
 import cs.repository.odata.ODataObj;
-import cs.repository.repositoryImpl.framework.RoleRepo;
-import cs.repository.repositoryImpl.framework.UserRepo;
 
 @Service
 public class UserServiceImpl implements UserService {

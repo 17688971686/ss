@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.model.PageModelDto;
 import cs.model.Portal.ArticleDto;
 import cs.repository.odata.ODataObj;
-import cs.service.management.ArticleService;
+import cs.service.interfaces.ArticleService;
 
 
 

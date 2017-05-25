@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import cs.domain.framework.Log;
 import cs.model.PageModelDto;
 import cs.model.framework.LogDto;
+import cs.repository.framework.LogRepo;
 import cs.repository.odata.ODataObj;
-import cs.repository.repositoryImpl.framework.LogRepo;
 
 @Service
 public class LogServiceImpl implements LogService {

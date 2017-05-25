@@ -9,10 +9,55 @@
 		var url_account_password = "/account/password";
 		
 		var service = {			
-			upload : upload
+			upload : upload,
+			treeList:treeList
 		};
 
 		return service;
+		
+		function treeList(vm){			
+			var crudServiceBaseUrl = "https://demos.telerik.com/kendo-ui/service";
+			var dataSource={
+                    transport: {
+                        read:  {
+                            url: crudServiceBaseUrl + "/EmployeeDirectory/All",
+                            dataType: "jsonp"
+                        }
+                    },
+                    schema: {
+                        model: {
+                            id: "EmployeeId",
+                            parentId: "ReportsTo",
+                            fields: {
+                                EmployeeId: { type: "number", editable: false, nullable: false },
+                                ReportsTo: { nullable: true, type: "number" },
+                                FirstName: { validation: { required: true } },
+                                LastName: { validation: { required: true } },
+                                HireDate: { type: "date" },
+                                Phone: { type: "string" },
+                                HireDate: { type: "date" },
+                                BirthDate: { type: "date" },
+                                Extension: { type: "number", validation: { min: 0, required: true } },
+                                Position: { type: "string" }
+                            }
+                        }
+                    }
+			}
+			var columns=[
+                { field: "FirstName", title: "First Name", width: "150px" },
+                { field: "LastName", title: "Last Name", width: "150px" },
+                { field: "Position" },
+                { title: "Location",
+                  template: "{{ dataItem.City }}, {{ dataItem.Country }}"
+                },
+                { command: ["edit"] }
+            ];
+			vm.treelistOptions ={
+					dataSource:dataSource,
+					columns:columns
+			};
+                    
+		}
 
 		// begin#updatedemo
 		function upload(vm) {

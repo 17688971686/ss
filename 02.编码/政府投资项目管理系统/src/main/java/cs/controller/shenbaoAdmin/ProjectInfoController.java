@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cs.model.PageModelDto;
-import cs.model.management.ProjectInfoDto;
+import cs.model.DomainDto.ProjectInfoDto;
 import cs.repository.odata.ODataObj;
-import cs.service.shenbaoAdmin.ProjectInfoService;
+import cs.service.interfaces.ProjectInfoService;
 
 /**
  * @description 项目信息控制层
