@@ -3,7 +3,9 @@ package cs.controller.shenbaoAdmin;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -104,7 +106,13 @@ public class ProjectMonthReportController {
 	 */
 	@RequestMapping(name = "月份选择页面", path = "html/selectMonth",method=RequestMethod.GET)
 	public String fill(Model model) {
-		model.addAttribute("year", new SimpleDateFormat("yyyy").format(new Date()));
+		List<String> years=new ArrayList<>();
+		Integer currentYear=Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+		for (int i = 0; i < 5; i++) {
+			years.add(Integer.toString(currentYear-i));
+		}		
+		model.addAttribute("years", years);
+		model.addAttribute("currentYear", Integer.toString(currentYear));
 		return this.ctrlName + "/selectMonth";
 	}
 	

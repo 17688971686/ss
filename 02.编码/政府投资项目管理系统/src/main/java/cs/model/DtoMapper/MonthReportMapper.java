@@ -91,6 +91,7 @@ public class MonthReportMapper {
 			// end#拆迁情况
 
 			monthReportDto.setSubmitMonth(monthReport.getSubmitMonth());// 提交月
+			monthReportDto.setSubmitYear(monthReport.getSubmitYear());// 提交月
 			monthReportDto.setSubmitDate(monthReport.getSubmitDate());// 提交日期
 			monthReportDto.setApprovalDate(monthReport.getApprovalDate());// 立项日期
 
@@ -241,6 +242,7 @@ public class MonthReportMapper {
 			// end#竣工决算
 
 			monthReport.setSubmitMonth(monthReportDto.getSubmitMonth());
+			monthReport.setSubmitYear(monthReportDto.getSubmitYear());
 			monthReport.setSubmitDate(monthReportDto.getSubmitDate());
 			monthReport.setApprovalDate(monthReportDto.getApprovalDate());
 

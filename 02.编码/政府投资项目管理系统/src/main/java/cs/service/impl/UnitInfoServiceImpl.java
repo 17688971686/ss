@@ -44,7 +44,7 @@ public class UnitInfoServiceImpl implements UnitInfoService {
 				UnitInfoDto unitInfoDto = UnitInfoMapper.toDto(unitInfo);
 				
 				//一些名称需要在这里进行获取
-				unitInfoDto.setUnitPropertyValue(basicDataService.queryValueById(unitInfo.getUnitProperty()));//单位性质名称
+				unitInfoDto.setUnitPropertyValue(basicDataService.getDescriptionById(unitInfo.getUnitProperty()));//单位性质名称
 				
 				unitInfoDtos.add(unitInfoDto);
 			} 

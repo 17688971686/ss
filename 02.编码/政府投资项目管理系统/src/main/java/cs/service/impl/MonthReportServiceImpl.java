@@ -65,7 +65,7 @@ public class MonthReportServiceImpl implements MonthReportService {
 
 			// 基础数据:approvalType
 			List<BasicDataDto> basicDataDtos_approvalType = basicDataService
-					.queryByIdentity(BasicDataIdentity.approvalType);
+					.getByIdentity(BasicDataIdentity.approvalType);
 			Map<String, String> basicDataMap_approvalType = basicDataDtos_approvalType.stream()
 					.collect(Collectors.toMap(x -> x.getId(), x -> x.getDescription()));
 			monthReportDto.setAllEstimateTypeDisplay(basicDataMap_approvalType.get(monthReport.getAllEstimateType()));
@@ -74,7 +74,7 @@ public class MonthReportServiceImpl implements MonthReportService {
 			monthReportDto.setReportTypeDisplay(basicDataMap_approvalType.get(monthReport.getReportType()));
 			// 基础数据：projectProgress
 			List<BasicDataDto> basicDataDtos_projectProgress = basicDataService
-					.queryByIdentity(BasicDataIdentity.projectProgress);
+					.getByIdentity(BasicDataIdentity.projectProgress);
 			Map<String, String> basicDataMap_projectProgress = basicDataDtos_projectProgress.stream()
 					.collect(Collectors.toMap(x -> x.getId(), x -> x.getDescription()));
 			// end#关联信息

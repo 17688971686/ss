@@ -17,7 +17,7 @@
 	  
 	  
         <div>
-            <table style="width: 850px;" height="430" border="0" cellpadding="0" cellspacing="0" align="center">
+            <table id="monthTable" style="width: 850px;" height="430" border="0" cellpadding="0" cellspacing="0" align="center">
                 <tbody>
 	                <tr style="height:50px;">
 	                    <td width="100" style="font-size:15px;">
@@ -30,7 +30,12 @@
 	                        &nbsp;<strong>年份：</strong>
 	                    </td>
 	                    <td colspan="2">
-	                       <span>${year}</span> 年
+	                    
+	                    <select ng-model="vm.submitYear" ng-change="vm.setMonthSelected()">
+	                    	<#list years as item>
+							   <option value="${item}">${item}</option>
+							</#list>
+	                    </select>
 	                    </td>        
 	                </tr>
 	                <tr style="height:42px;">
@@ -43,59 +48,27 @@
 	                        <div>
 	                            <table cellpadding="0" width="100%" style="margin-bottom: 50px">
 	                                <tbody>
+	                                
+	                                
 		                                <tr style="height:80px;">
-		                                    <td  class="selectMonth ${year}01">
-		                                        <button  class="btn btn-lg btn-info month "  ng-click="vm.fillReport('01')">一月</button>
-		                                        <p class="isFill text-danger">未填</p>
+		                               
+		                                    <td ng-repeat="x in vm.monthRow1"  class="selectMonth">
+		                                        <button  class="btn btn-lg month " ng-class="vm.submitYearMonth['m{{$index+1}}']?'btn-success':'btn-info'"  ng-click="vm.fillReport($index)">{{vm.monthRow1[$index]}}</button>
+		                                        <p class="isFill text-danger" ng-hide="vm.submitYearMonth['m{{$index+1}}']">未填</p>
+		                                    	<p class="isFill text-success" ng-show="vm.submitYearMonth['m{{$index+1}}']">已填</p>
 		                                    </td>
-		                                    <td  class="selectMonth ${year}02">
-		                                        <button  class="btn btn-lg btn-info month"  ng-click="vm.fillReport('02')">二月</button>
-		                                    	<p class="isFill text-danger">未填</p>
-		                                    </td>
-		                                    <td  class="selectMonth ${year}03">
-		                                        <button  class="btn btn-lg btn-info month "  ng-click="vm.fillReport('03')">三月</button>
-		                                    	<p class="isFill text-danger">未填</p>
-		                                    </td>
-		                                    <td  class="selectMonth ${year}04">
-		                                        <button  class="btn btn-lg btn-info month "  ng-click="vm.fillReport('04')">四月</button>
-		                                    	<p class="isFill text-danger">未填</p>
-		                                    </td>
-		                                    <td  class="selectMonth  ${year}05">
-		                                        <button  class="btn btn-lg btn-info month "  ng-click="vm.fillReport('05')">五月</button>
-		                                    	<p class="isFill text-danger">未填</p>
-		                                    </td>
-		                                    <td  class="selectMonth ${year}06">
-		                                        <button  class="btn btn-lg btn-info month "  ng-click="vm.fillReport('06')">六月</button>
-		                                    	<p class="isFill text-danger">未填</p>
-		                                    </td>
+		                               
 		                                    
 		                                </tr>
 		                                
-		                                <tr style="height:80px;">
-		                                    <td class="selectMonth ${year}07">
-		                                        <button  class="btn btn-lg btn-info month ${year}07"  ng-click="vm.fillReport('07')">七月</button>
-		                                    	<p class="isFill text-danger">未填</p>
+		                              <tr style="height:80px;">
+		                               
+		                                    <td ng-repeat="x in vm.monthRow2"  class="selectMonth">
+		                                        <button  class="btn btn-lg month " ng-class="vm.submitYearMonth['m{{$index+7}}']?'btn-success':'btn-info'"  ng-click="vm.fillReport($index)">{{vm.monthRow2[$index]}}</button>
+		                                        <p class="isFill text-danger" ng-hide="vm.submitYearMonth['m{{$index+7}}']">未填</p>
+		                                    	<p class="isFill text-success" ng-show="vm.submitYearMonth['m{{$index+7}}']">已填</p>
 		                                    </td>
-		                                    <td class="selectMonth ${year}08">
-		                                        <button  class="btn btn-lg btn-info month ${year}08"  ng-click="vm.fillReport('08')">八月</button>
-		                                    	<p class="isFill text-danger">未填</p>
-		                                    </td>
-		                                    <td class="selectMonth ${year}09">
-		                                        <button  class="btn btn-lg btn-info month ${year}09"  ng-click="vm.fillReport('09')">九月</button>
-		                                    	<p class="isFill text-danger">未填</p>
-		                                    </td>
-		                                    <td class="selectMonth ${year}10">
-		                                        <button  class="btn btn-lg btn-info month ${year}10"  ng-click="vm.fillReport('10')">十月</button>
-		                                    	<p class="isFill text-danger">未填</p>
-		                                    </td>
-		                                    <td class="selectMonth ${year}11">
-		                                        <button  class="btn btn-lg btn-info month ${year}11"  ng-click="vm.fillReport('11')">十一月</button>
-		                                    	<p class="isFill text-danger">未填</p>
-		                                    </td>
-		                                    <td class="selectMonth ${year}12">
-		                                        <button  class="btn btn-lg btn-info month ${year}11"  ng-click="vm.fillReport('12')">十二月</button>
-		                                    	<p class="isFill text-danger">未填</p>
-		                                    </td>
+		                               
 		                                    
 		                                </tr>
                                 

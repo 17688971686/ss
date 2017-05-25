@@ -36,13 +36,7 @@
 					vm.model.projectInfo = response.data.value[0]||{};	
 					
 					if(vm.page=='selectMonth'){
-						vm.monthExist=$linq(vm.model.projectInfo.monthReportDtos)
-						.select(function(x){return x.submitYear+x.submitMonth;});
-						vm.monthExist.foreach(function(x){
-							$("."+x).removeClass("disabled");
-							$("."+x).addClass("active");
-							$("."+x).prop("disabled",false);
-						});
+						vm.setMonthSelected();
 						
 					}
 					

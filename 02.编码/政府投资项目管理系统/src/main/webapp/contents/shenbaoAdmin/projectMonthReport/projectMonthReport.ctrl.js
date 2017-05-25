@@ -32,8 +32,25 @@
              	//跳转到月报信息填写页面
              	location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+month;
              } 
+        	 var date=new Date()
+        	 vm.submitYear=date.getFullYear();
+        	 vm.submitYearMonth={};
+        	 vm.monthRow1=['一月','二月','三月','四月','五月','六月'];
+        	 vm.monthRow2=['七月','八月','九月','十月','十一月','十二月'];
         	 
-        	
+        	 vm.setMonthSelected=function(){ 
+        		 for (var i =1; i <= 12; i++) {
+            		 vm.submitYearMonth['m'+i]=false;	
+    			}
+        		 var monthExist=$linq(vm.model.projectInfo.monthReportDtos)
+        		 	.where(function(x){return x.submitYear==vm.submitYear;})
+					.select(function(x){return x.submitMonth;});
+        		 
+					monthExist.foreach(function(x){		
+						vm.submitYearMonth['m'+x]=true;						
+					});
+					
+        	 }
         }
         
         vm.page_fillReport=function(){        	       

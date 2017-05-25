@@ -52,28 +52,25 @@ public class ProjectInfoServiceImpl implements ProjectInfoService{
 		//通过条件查询出申报项目的信息
 		 List<ProjectInfo> projectInfoList = projectInfoRepo.findByOdata(odataObj);
 		 List<ProjectInfoDto> projectInfoDtoList = new ArrayList<>();
-		 List<BasicDataDto> basicDataDtos=basicDataService.Get(null);
-		 
-		 
 		 projectInfoList.forEach(x->{
 			ProjectInfoDto projectInfoDto = ProjectInfoMapper.toDto(x);
-			projectInfoDto.setProjectStageValue(basicDataService.GetDescriptionById(basicDataDtos,x.getProjectStage()));//获取申报阶段的名称
-			projectInfoDto.setInvestTypeValue(basicDataService.GetDescriptionById(basicDataDtos,x.getInvestType()));//获取投资类型的名称
-			projectInfoDto.setProjectStatusValue(basicDataService.GetDescriptionById(basicDataDtos,x.getProjectStatus()));//获取项目状态的名称
-			projectInfoDto.setProjectClassifyValue(basicDataService.GetDescriptionById(basicDataDtos,x.getProjectClassify()));//获取项目分类的名称
-			projectInfoDto.setIndustryValue(basicDataService.GetDescriptionById(basicDataDtos,x.getIndustry()));//获取国民经济分类的名称
-			projectInfoDto.setProjectIndustryValue(basicDataService.GetDescriptionById(basicDataDtos,x.getProjectIndustry()));//获取项目行业归口名称
-			projectInfoDto.setProjectTypeValue(basicDataService.GetDescriptionById(basicDataDtos,x.getProjectType()));//获取项目类型的名称
-			projectInfoDto.setProjectStatusValue(basicDataService.GetDescriptionById(basicDataDtos,x.getProjectStatus()));//获取项目状态的名称
-			projectInfoDto.setJianSheXingZhiValue(basicDataService.GetDescriptionById(basicDataDtos,x.getJianSheXingZhi()));//获取建设性质的名称
+			projectInfoDto.setProjectStageValue(basicDataService.getDescriptionById(x.getProjectStage()));//获取申报阶段的名称
+			projectInfoDto.setInvestTypeValue(basicDataService.getDescriptionById(x.getInvestType()));//获取投资类型的名称
+			projectInfoDto.setProjectStatusValue(basicDataService.getDescriptionById(x.getProjectStatus()));//获取项目状态的名称
+			projectInfoDto.setProjectClassifyValue(basicDataService.getDescriptionById(x.getProjectClassify()));//获取项目分类的名称
+			projectInfoDto.setIndustryValue(basicDataService.getDescriptionById(x.getIndustry()));//获取国民经济分类的名称
+			projectInfoDto.setProjectIndustryValue(basicDataService.getDescriptionById(x.getProjectIndustry()));//获取项目行业归口名称
+			projectInfoDto.setProjectTypeValue(basicDataService.getDescriptionById(x.getProjectType()));//获取项目类型的名称
+			projectInfoDto.setProjectStatusValue(basicDataService.getDescriptionById(x.getProjectStatus()));//获取项目状态的名称
+			projectInfoDto.setJianSheXingZhiValue(basicDataService.getDescriptionById(x.getJianSheXingZhi()));//获取建设性质的名称
 			
 			UnitInfoDto shenBaoUnit =projectInfoDto.getShenBaoUnit();			
-			shenBaoUnit.setUnitPropertyValue(basicDataService.GetDescriptionById(basicDataDtos,shenBaoUnit.getUnitProperty()));//获取单位性质的名称
+			shenBaoUnit.setUnitPropertyValue(basicDataService.getDescriptionById(shenBaoUnit.getUnitProperty()));//获取单位性质的名称
 			
 			
 			List<AttachmentDto> attachmentDtos = projectInfoDto.getAttachmentDtos();
 			attachmentDtos.forEach(y->{				
-				y.setTypeValue(basicDataService.GetDescriptionById(basicDataDtos,y.getType()));//获取附件类型名称
+				y.setTypeValue(basicDataService.getDescriptionById(y.getType()));//获取附件类型名称
 			});			
 				
 			projectInfoDtoList.add(projectInfoDto);

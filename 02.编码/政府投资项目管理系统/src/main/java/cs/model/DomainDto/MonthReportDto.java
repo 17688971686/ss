@@ -95,6 +95,7 @@ public class MonthReportDto extends BaseDto{
 	
 	
 	private String submitMonth;//提交月
+	private String submitYear;//提交月
 	private Date submitDate;//提交日期
 	private Date approvalDate;//立项日期	
 	
@@ -705,6 +706,14 @@ public class MonthReportDto extends BaseDto{
 
 	public void setSelfReviewDisplay(String selfReviewDisplay) {
 		this.selfReviewDisplay = selfReviewDisplay;
+	}
+
+	public String getSubmitYear() {
+		return submitYear;
+	}
+
+	public void setSubmitYear(String submitYear) {
+		this.submitYear = submitYear;
 	}
 
 	

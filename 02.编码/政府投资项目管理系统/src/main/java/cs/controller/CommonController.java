@@ -31,7 +31,7 @@ public class CommonController {
 	
 	@RequestMapping(name="查询基础数据",path="basicData/{identity}",method=RequestMethod.GET)
 	public @ResponseBody List<BasicDataDto> getBasicData(@PathVariable("identity") String identity){
-		return basicDataService.queryByIdentity(identity);
+		return basicDataService.getByIdentity(identity);
 	}
 	
 	@RequestMapping(name = "上传文件", path = "save", method = RequestMethod.POST,produces ="application/json;charset=UTF-8")
