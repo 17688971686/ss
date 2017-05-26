@@ -6,19 +6,11 @@
 	projectMonthReport.$inject = [ '$http','$compile' ];	
 	function projectMonthReport($http,$compile) {
 		var url_projectInfo = "/projectInfo";//获取申报的项目的列表数据
-		var url_projectMonthReport = "/shenbaoAdmin/projectMonthReport";//获取月报数据
 		var url_basicData = "/common/basicData";//获取基础数据
-		var url_monthReportProblem = "/monthReportProblem";//获取月报问题
-		var url_projectMonthReportFill = "/shenbaoAdmin/projectMonthReport/save";
-		var url_saveAttachment = "/attachment/save"	;
-
-			
+		
+		
 		var service = {
-			grid : grid,	
-			saveAttachment:saveAttachment,
-			getMonthReportInfo:getMonthReportInfo,
-			getBasicData:getBasicData,
-			getMonthReportProblem:getMonthReportProblem,
+			grid : grid,
 			submitMonthReport:submitMonthReport,
 			getProjectInfo:getProjectInfo
 		};		
@@ -39,6 +31,16 @@
 						vm.setMonthSelected();
 						
 					}
+					if(vm.page=='fillReport'){
+						var report=$linq(vm.model.projectInfo.monthReportDtos)
+											.where(function(x){return x.submitYear==vm.year && x.submitMonth==vm.month;})
+											.toArray();
+						if(report.length>0){
+							vm.isReportExist=true;
+							vm.model=report[0];
+						}
+						
+					}
 					
 				}
 				
@@ -50,100 +52,12 @@
 				});
 		}
 		
-		/**
-		 * 查询月报数据
-		 */
-		function getMonthReportInfo(vm){
-			var httpOptions = {
-					method : 'get',
-					url : common.format(url_projectMonthReport + "?$filter=projectId eq '{0}' and submitMonth eq '{1}'", vm.projectId,vm.currentYear+vm.month),
-				}
-				var httpSuccess = function success(response) {
-					if(response.data.value.length>0){
-						vm.isReportExist=true;
-					}else{
-						vm.isReportExist=false;
-					}
-					console.log(vm.isReportExist);
-					vm.model = response.data.value[0]||{};
-					vm.model.projectId=vm.projectId;
-			     	vm.model.submitMonth=vm.currentYear+vm.month;
-			     	
-				}
-				
-				common.http({
-					vm:vm,
-					$http:$http,
-					httpOptions:httpOptions,
-					success:httpSuccess
-				});
-		}
 		
-		/**
-		 * 查询月报问题
-		 */
-		function getMonthReportProblem(vm){
-			var httpOptions = {
-					method : 'get',
-					url : common.format(url_monthReportProblem),
-				}
-				var httpSuccess = function success(response) {					
-					vm.monthReportProblem = response.data;
-					console.log("查询月报问题数据："); //--测试用
-					console.log(vm.monthReportProblem); //--测试用
-				}				
-				common.http({
-					vm:vm,
-					$http:$http,
-					httpOptions:httpOptions,
-					success:httpSuccess
-				});
-		}
 		
-		/**
-		 * 查询基础数据
-		 */
-		function getBasicData(vm,identity){
-			var httpOptions = {
-					method : 'get',
-					url : url_basicData+"/"+identity,
-				}
-				var httpSuccess = function success(response) {					
-					vm.basicData[identity] = response.data;
-					console.log("查询基础数据："); //--测试用
-					console.log(vm.basicData[identity]); //--测试用
-				}				
-				common.http({
-					vm:vm,
-					$http:$http,
-					httpOptions:httpOptions,
-					success:httpSuccess
-				});
-		}
 		
-		/**
-		 * 提交附件到数据库
-		 */
-		function saveAttachment(vm){
-			console.log("月报上附件");
-			console.log();
-			var httpOptions = {
-					method : 'get',
-					url : common.format(),
-					data:vm.uploadFileName
-				}
-				var httpSuccess = function success(response) {
-					vm.isSaveAttachment = true;					
-				}
-				
-				common.http({
-					vm:vm,
-					$http:$http,
-					httpOptions:httpOptions,
-					success:httpSuccess
-				});
-			
-		}
+		
+		
+		
 		
 		
 		/**
@@ -154,17 +68,14 @@
 			common.initJqValidation();
 			var isValid = $('form').valid();
 			//验证通过
-			if(isValid){
-				console.log("月报信息的提交");
-				console.log(vm.model);
-				//提交表单信息
+			if(isValid){				
+				vm.submitYear=vm.year;
+				vm.submitMonth=vm.month;
 				vm.isSubmit = true;
-				//发送请求
-				
 				var httpOptions = {
-						method : 'post',//请求类型
-						url : url_projectMonthReportFill,//请求地址
-						data : vm.model//请求数据(页面封装的vm.model)
+						method : 'post',
+						url : url_projectMonthReport,
+						data : vm.model
 					}
 				
 				var httpSuccess = function success(response) {

@@ -148,10 +148,10 @@ public class MonthReport extends DomainBase{
 	//end#拆迁情况
 	
 	@Column(columnDefinition="varchar(50) COMMENT '提交年份'")
-	private String submitYear;
+	private Integer submitYear;
 	
 	@Column(columnDefinition="varchar(50) COMMENT '提交月份'")
-	private String submitMonth;
+	private Integer submitMonth;
 	@Column(columnDefinition="datetime COMMENT '提交日期'")
 	private Date submitDate;
 	@Column(columnDefinition="datetime COMMENT '立项日期'")
@@ -162,32 +162,6 @@ public class MonthReport extends DomainBase{
 	@Column(columnDefinition="varchar(255) COMMENT '备注'")
 	private String remark;
 	
-	//begin#工程结算情况
-	@Column(columnDefinition="datetime COMMENT '第一份结算报告送审计日期'")
-	private Date firstAccountReportSendAuditDate;
-	@Column(columnDefinition="datetime COMMENT '第一份结算报告审计日期'")
-	private Date firstAccountReportAuditDate;
-	@Column(columnDefinition="datetime COMMENT '最新结算报告送审计日期'")
-	private Date newestAccountReportSendAuditDate;
-	@Column(columnDefinition="datetime COMMENT '最新结算报告审计日期'")
-	private Date newestAccountReportAuditDate;
-	@Column(columnDefinition="decimal(9,6) COMMENT '已完成审计的结算审定金额'")
-	private BigDecimal completedAuditAccountAuthorizedAmount;
-	//End#工程结算情况
-	
-	
-	//begin#竣工决算情况	
-	@Column(columnDefinition="datetime COMMENT '决算报告送审日期'")
-	private Date accountReportSendAuditDate;
-	@Column(columnDefinition="datetime COMMENT '完成决算审计日期'")
-	private Date completeAccountAuditDate;
-	@Column(columnDefinition="decimal(9,6) COMMENT '决算审定金额'")
-	private BigDecimal accountAuthorizedAmount;
-	//End#竣工决算情况
-	
-	//begin#项目信息
-		private String projectBuildStage;//项目建设阶段
-		//end#项目信息
 	
 	
 	//begin#关联信息
@@ -200,10 +174,7 @@ public class MonthReport extends DomainBase{
 	@OneToMany(cascade=CascadeType.ALL)	
 	private List<Attachment> attachments=new ArrayList<>();
 	
-	//项目信息
-//	@ManyToOne(cascade=CascadeType.ALL)
-//	@JoinColumn(name="projectInfo_Id",insertable=false,updatable=false)
-//	private ProjectInfo projectInfo = new ProjectInfo();
+	
 	//end#关联信息
 
 	public String getId() {
@@ -565,13 +536,7 @@ public class MonthReport extends DomainBase{
 		this.demolitionArea = demolitionArea;
 	}
 
-	public String getSubmitMonth() {
-		return submitMonth;
-	}
-
-	public void setSubmitMonth(String submitMonth) {
-		this.submitMonth = submitMonth;
-	}
+	
 
 	public Date getSubmitDate() {
 		return submitDate;
@@ -621,85 +586,8 @@ public class MonthReport extends DomainBase{
 		this.attachments = attachments;
 	}
 
-//	public ProjectInfo getProjectInfo() {
-//		return projectInfo;
-//	}
-//
-//	public void setProjectInfo(ProjectInfo projectInfo) {
-//		this.projectInfo = projectInfo;
-//	}
 
-	public Date getFirstAccountReportSendAuditDate() {
-		return firstAccountReportSendAuditDate;
-	}
 
-	public void setFirstAccountReportSendAuditDate(Date firstAccountReportSendAuditDate) {
-		this.firstAccountReportSendAuditDate = firstAccountReportSendAuditDate;
-	}
-
-	public Date getFirstAccountReportAuditDate() {
-		return firstAccountReportAuditDate;
-	}
-
-	public void setFirstAccountReportAuditDate(Date firstAccountReportAuditDate) {
-		this.firstAccountReportAuditDate = firstAccountReportAuditDate;
-	}
-
-	public Date getNewestAccountReportSendAuditDate() {
-		return newestAccountReportSendAuditDate;
-	}
-
-	public void setNewestAccountReportSendAuditDate(Date newestAccountReportSendAuditDate) {
-		this.newestAccountReportSendAuditDate = newestAccountReportSendAuditDate;
-	}
-
-	public Date getNewestAccountReportAuditDate() {
-		return newestAccountReportAuditDate;
-	}
-
-	public void setNewestAccountReportAuditDate(Date newestAccountReportAuditDate) {
-		this.newestAccountReportAuditDate = newestAccountReportAuditDate;
-	}
-
-	public BigDecimal getCompletedAuditAccountAuthorizedAmount() {
-		return completedAuditAccountAuthorizedAmount;
-	}
-
-	public void setCompletedAuditAccountAuthorizedAmount(BigDecimal completedAuditAccountAuthorizedAmount) {
-		this.completedAuditAccountAuthorizedAmount = completedAuditAccountAuthorizedAmount;
-	}
-
-	public Date getAccountReportSendAuditDate() {
-		return accountReportSendAuditDate;
-	}
-
-	public void setAccountReportSendAuditDate(Date accountReportSendAuditDate) {
-		this.accountReportSendAuditDate = accountReportSendAuditDate;
-	}
-
-	public Date getCompleteAccountAuditDate() {
-		return completeAccountAuditDate;
-	}
-
-	public void setCompleteAccountAuditDate(Date completeAccountAuditDate) {
-		this.completeAccountAuditDate = completeAccountAuditDate;
-	}
-
-	public BigDecimal getAccountAuthorizedAmount() {
-		return accountAuthorizedAmount;
-	}
-
-	public void setAccountAuthorizedAmount(BigDecimal accountAuthorizedAmount) {
-		this.accountAuthorizedAmount = accountAuthorizedAmount;
-	}
-
-	public String getProjectBuildStage() {
-		return projectBuildStage;
-	}
-
-	public void setProjectBuildStage(String projectBuildStage) {
-		this.projectBuildStage = projectBuildStage;
-	}
 
 	public String getProposalsType() {
 		return proposalsType;
@@ -733,13 +621,23 @@ public class MonthReport extends DomainBase{
 		this.selfReview = selfReview;
 	}
 
-	public String getSubmitYear() {
+	public Integer getSubmitYear() {
 		return submitYear;
 	}
 
-	public void setSubmitYear(String submitYear) {
+	public void setSubmitYear(Integer submitYear) {
 		this.submitYear = submitYear;
 	}
+
+	public Integer getSubmitMonth() {
+		return submitMonth;
+	}
+
+	public void setSubmitMonth(Integer submitMonth) {
+		this.submitMonth = submitMonth;
+	}
+
+	
 	
 	
 	

@@ -99,19 +99,7 @@ public class MonthReportMapper {
 																			// 0：未完工)
 			monthReportDto.setRemark(monthReport.getRemark());// 备注
 
-			// begin#工程结算情况
-			monthReportDto.setFirstAccountReportSendAuditDate(monthReport.getFirstAccountReportSendAuditDate());// 第一份结算报告送审计日期
-			monthReportDto.setFirstAccountReportAuditDate(monthReport.getFirstAccountReportAuditDate());// 第一份结算报告审计日期
-			monthReportDto.setNewestAccountReportSendAuditDate(monthReport.getNewestAccountReportSendAuditDate());// 最新结算报告送审计日期
-			monthReportDto.setNewestAccountReportAuditDate(monthReport.getNewestAccountReportAuditDate());// 最新结算报告审计日期
-			monthReportDto
-					.setCompletedAuditAccountAuthorizedAmount(monthReport.getCompletedAuditAccountAuthorizedAmount());// 已完成审计的结算审定金额
-			// End#工程结算情况
-
-			// begin#竣工决算情况
-			monthReportDto.setAccountReportSendAuditDate(monthReport.getAccountReportSendAuditDate());// 决算报告送审日期
-			monthReportDto.setCompleteAccountAuditDate(monthReport.getCompleteAccountAuditDate());// 完成决算审计日期
-			monthReportDto.setAccountAuthorizedAmount(monthReport.getAccountAuthorizedAmount());// 决算审定金额
+			
 
 			// 月报问题
 			// 将月报问题进行数据转换
@@ -123,7 +111,7 @@ public class MonthReportMapper {
 					monthReportProblemDtos.add(monthReportProblemDto);
 				}
 			}
-			monthReportDto.setMonthReportProblems(monthReportProblemDtos);
+			monthReportDto.setMonthReportProblemsDto(monthReportProblemDtos);
 
 			// 月报附件
 			// 将月报附件进行数据格式转换
@@ -135,13 +123,10 @@ public class MonthReportMapper {
 					attachmentDtos.add(attachmentDto);
 				}
 			}
-			monthReportDto.setAttachments(attachmentDtos);
-			// begin#项目信息
-			monthReportDto.setProjectBuildStage(monthReport.getProjectBuildStage());// 项目建设阶段
+			monthReportDto.setAttachmentsDto(attachmentDtos);
+		
 
-			// end#项目信息
-
-			//
+			
 			monthReportDto.setModifiedBy(monthReport.getModifiedBy());
 			monthReportDto.setCreatedBy(monthReport.getCreatedBy());
 			monthReportDto.setCreatedDate(monthReport.getCreatedDate());
@@ -228,18 +213,7 @@ public class MonthReportMapper {
 			monthReport.setDemolitionArea(monthReportDto.getDemolitionArea());
 			// end#拆迁情况
 
-			// begin#竣工决算
-			monthReport.setFirstAccountReportSendAuditDate(monthReportDto.getFirstAccountReportSendAuditDate());
-			monthReport.setFirstAccountReportAuditDate(monthReportDto.getFirstAccountReportAuditDate());
-			monthReport.setNewestAccountReportSendAuditDate(monthReportDto.getNewestAccountReportSendAuditDate());
-			monthReport.setNewestAccountReportAuditDate(monthReportDto.getNewestAccountReportAuditDate());
-			monthReport.setCompletedAuditAccountAuthorizedAmount(
-					monthReportDto.getCompletedAuditAccountAuthorizedAmount());
-			monthReport.setAccountReportSendAuditDate(monthReportDto.getAccountReportSendAuditDate());
-			monthReport.setCompleteAccountAuditDate(monthReportDto.getCompleteAccountAuditDate());
-			monthReport.setAccountAuthorizedAmount(monthReportDto.getAccountAuthorizedAmount());
-
-			// end#竣工决算
+			
 
 			monthReport.setSubmitMonth(monthReportDto.getSubmitMonth());
 			monthReport.setSubmitYear(monthReportDto.getSubmitYear());

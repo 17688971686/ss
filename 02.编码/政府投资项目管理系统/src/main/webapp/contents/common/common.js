@@ -19,7 +19,8 @@
         appPath: "",//app路径
         http: http,//http请求    
         gridDataSource: gridDataSource,//gridDataSource
-        loginUrl: '/home/login'        
+        loginUrl: '/home/login',
+        getBasicData:getBasicData
     };
 
     window.common = service;
@@ -304,7 +305,19 @@
          return dataSource;
     }
 
-    
+    function getBasicData(){   
+    	if(window.global_basicData){ 
+    		return window.global_basicData;
+    	}
+    	$.ajax({
+    		url:'/common/basicData/all',
+    		async:false,
+    		success:function(response){
+    			window.global_basicData=response;    			
+    		}
+    	});
+    	return window.global_basicData;
+    }
 
 
     //init

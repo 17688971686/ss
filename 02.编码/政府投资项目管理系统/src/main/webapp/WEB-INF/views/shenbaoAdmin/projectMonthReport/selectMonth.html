@@ -53,7 +53,7 @@
 		                                <tr style="height:80px;">
 		                               
 		                                    <td ng-repeat="x in vm.monthRow1"  class="selectMonth">
-		                                        <button  class="btn btn-lg month " ng-class="vm.submitYearMonth['m{{$index+1}}']?'btn-success':'btn-info'"  ng-click="vm.fillReport($index)">{{vm.monthRow1[$index]}}</button>
+		                                        <button  class="btn btn-lg month " ng-class="vm.submitYearMonth['m{{$index+1}}']?'btn-success':'btn-info'"  ng-click="vm.fillReport($index+1)">{{vm.monthRow1[$index]}}</button>
 		                                        <p class="isFill text-danger" ng-hide="vm.submitYearMonth['m{{$index+1}}']">未填</p>
 		                                    	<p class="isFill text-success" ng-show="vm.submitYearMonth['m{{$index+1}}']">已填</p>
 		                                    </td>
@@ -64,7 +64,7 @@
 		                              <tr style="height:80px;">
 		                               
 		                                    <td ng-repeat="x in vm.monthRow2"  class="selectMonth">
-		                                        <button  class="btn btn-lg month " ng-class="vm.submitYearMonth['m{{$index+7}}']?'btn-success':'btn-info'"  ng-click="vm.fillReport($index)">{{vm.monthRow2[$index]}}</button>
+		                                        <button  class="btn btn-lg month " ng-class="vm.submitYearMonth['m{{$index+7}}']?'btn-success':'btn-info'"  ng-click="vm.fillReport($index+7)">{{vm.monthRow2[$index]}}</button>
 		                                        <p class="isFill text-danger" ng-hide="vm.submitYearMonth['m{{$index+7}}']">未填</p>
 		                                    	<p class="isFill text-success" ng-show="vm.submitYearMonth['m{{$index+7}}']">已填</p>
 		                                    </td>

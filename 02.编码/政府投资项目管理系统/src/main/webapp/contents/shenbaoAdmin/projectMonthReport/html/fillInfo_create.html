@@ -44,37 +44,16 @@
 							style="width: 214px; height: 25px; line-height: 25px;"></td>
 					</tr>
 					<tr ng-hide="vm.SHTZ">
-						<td>责任单位负责人：</td>
+						<td>项目责任单位负责人：</td>
 						<td colspan="2"><input class="form-control input-sm " type="text"
 							ng-model="vm.model.respUnitManagerName"
 							style="width: 214px; height: 25px; line-height: 25px;"></td>
-						<td>责任单位负责人电话：</td>
+						<td>项目责任单位负责人电话：</td>
 						<td><input class="form-control input-sm " type="text"
 							ng-model="vm.model.respUnitManagerTel"
 							style="width: 214px; height: 25px; line-height: 25px;"></td>
 					</tr>
-					<tr ng-hide="vm.SHTZ">
-						<td>前期工作计划批复日期：</td>
-						<td colspan="2"><input id="prePlanReplyDate"
-							ng-model="vm.model.prePlanReplyDate" style="width: 140px;"><br>						
-						</td>
-						<td>前期工作计划批文号：</td>
-						<td><select id="prePlanType" ng-model="vm.model.prePlanType"
-							class="form-select" >
-								<option value="">---请选择---</option>
-								<option ng-repeat="x in vm.basicData.approvalType"
-									value="{{x.id}}">{{x.description}}</option>
-						</select> 
-						
-						<select ng-model="vm.model.prePlanYear" class="form-select" >
-							<option ng-repeat="x in vm.years" value="{{x}}" ng-selected="x==vm.currentYear">{{x}}</option>
-						</select>						
-						年 
-							
-							<input id="prePlanNum"
-							ng-model="vm.model.prePlanNum" class="form-control input-sm " type="text"
-							style="width: 80px; height: 28px">号</td>
-					</tr>
+					
 					<tr>
 						<td>项目建议书批复日期：</td>
 						<td colspan="2"><input id="proposalsReplyDate"
@@ -84,7 +63,7 @@
 						<td><select id="proposalsType"
 							ng-model="vm.model.proposalsType" class="form-select" >
 								<option value="">---请选择---</option>
-								<option ng-repeat="x in vm.basicData.approvalType"
+								<option ng-repeat="x in vm.basicData_approvalType"
 									value="{{x.id}}">{{x.description}}</option>
 						</select> 
 						<select ng-model="vm.model.proposalsYear" class="form-select" >
@@ -105,7 +84,7 @@
 						<td><select id="reportType" ng-model="vm.model.reportType"
 							class="form-select" >
 								<option value="">---请选择---</option>
-								<option ng-repeat="x in vm.basicData.approvalType"
+								<option ng-repeat="x in vm.basicData_approvalType"
 									value="{{x.id}}">{{x.description}}</option>
 						</select> 
 						<select ng-model="vm.model.reportYear" class="form-select" >
@@ -127,7 +106,7 @@
 						<td><select id="allEstimateType"
 							ng-model="vm.model.allEstimateType" class="form-select" >
 								<option value="">---请选择---</option>
-								<option ng-repeat="x in vm.basicData.approvalType"
+								<option ng-repeat="x in vm.basicData_approvalType"
 									value="{{x.id}}">{{x.description}}</option>
 						</select> 
 						<select ng-model="vm.model.allEstimateYear" class="form-select" >
@@ -143,8 +122,14 @@
 					<tr>
 						<td>开工日期：<span class="required">(*)</span>
 						</td>
-						<td colspan="4">
-							<!-- 此处引用的是实际开工日期 --> <input id="actuallyDate"
+						<td  colspan="2">
+							<input id="actuallyDate"
+							ng-model="vm.model.actuallyDate" style="width: 140px;">
+						</td>
+						<td>竣工日期：<span class="required"></span>
+						</td>
+						<td  colspan="2">
+							<input id="actuallyDate"
 							ng-model="vm.model.actuallyDate" style="width: 140px;">
 						</td>
 					</tr>
@@ -152,7 +137,7 @@
 						<td>项目总投资：<span class="required">(*)</span>
 						</td>
 						<td colspan="2">
-							<!-- 此处引用的是计划总投资 --> <input id="invertPlanTotal"
+							 <input id="invertPlanTotal"
 							ng-model="vm.model.invertPlanTotal" class="form-control input-sm" type="text"
 							 style="width: 150px;" />&nbsp;（万元）
 						</td>
@@ -170,102 +155,35 @@
 							ng-model="vm.model.thisYearPlanInvestment" class="form-control input-sm "
 							type="text" style="width: 150px;">&nbsp;（万元）
 						</td>
-						<td>本月完成投资：<span class="required">(*)</span>
+						<td>本年度已完成投资：<span class="required">(*)</span>
 						</td>
 						<td><input id="thisMonthInvestTotal"
 							ng-model="vm.model.thisMonthInvestTotal" class="form-control input-sm "
 							type="text" style="width: 150px;">&nbsp;（万元）
 						</td>
 					</tr>
+					
+				<tr>
+						
+						<td>本月完成投资：<span class="required">(*)</span>
+						</td>
+						<td colspan="4"><input id="thisMonthInvestTotal"
+							ng-model="vm.model.thisMonthInvestTotal" class="form-control input-sm "
+							type="text" style="width: 150px;">&nbsp;（万元）
+						</td>
+					</tr>
 					<tr>
-						<td>征转地面积：<span class="required"></span>
+						<td style="line-height: 18px">年度工作目标：<span class="required">(*)</span>
 						</td>
-						<td colspan="2"><input id="requisitionLandArea"
-							ng-model="vm.model.requisitionLandArea" class="form-control input-sm "
-							type="text" style="width: 150px;">&nbsp;<span
-							style="font-size: 12px;">（平方米）</span></td>
-						<td>拆迁面积：<span class="required"></span>
-						</td>
-						<td><input id="demolitionArea"
-							ng-model="vm.model.demolitionArea" class="form-control input-sm " type="text"
-							style="width: 150px;">&nbsp;<span
-							style="font-size: 12px;">（平方米）</span></td>
-					</tr>
-				
-					<tr ng-show="vm.isJueSuan">
-						<td rowspan="6">工程结算情况：<span class="required">(*)</span>
-						</td>
-					</tr>
-					<tr ng-show="vm.isJueSuan">
-						<td colspan="4">第一份结算报告送审计日期： <input
-							id="firstAccountReportSendAuditDate"
-							ng-model="vm.model.firstAccountReportSendAuditDate"
-							style="width: 140px;">
-						</td>
-					</tr>
-					<tr ng-show="vm.isJueSuan">
-						<td colspan="4">第一份结算报告审计日期： <input
-							id="firstAccountReportAuditDate"
-							ng-model="vm.model.firstAccountReportAuditDate"
-							style="width: 140px;">
-						</td>
-					</tr>
-					<tr ng-show="vm.isJueSuan">
-						<td colspan="4">最新结算报告送审计日期： <input
-							id="newestAccountReportSendAuditDate"
-							ng-model="vm.model.newestAccountReportSendAuditDate"
-							style="width: 140px;">
-						</td>
-					</tr>
-					<tr ng-show="vm.isJueSuan">
-						<td colspan="4">最新结算报告审计日期： <input
-							id="newestAccountReportAuditDate"
-							ng-model="vm.model.newestAccountReportAuditDate"
-							style="width: 140px;">
-						</td>
-					</tr>
-					<tr ng-show="vm.isJueSuan">
-						<td colspan="4">已完成审计的结算审定金额： <input
-							id="completedAuditAccountAuthorizedAmount"
-							ng-model="vm.model.completedAuditAccountAuthorizedAmount"
-							class="form-control input-sm" 
-							type="text" style="width: 150px;">&nbsp;(万元)
-						</td>
-					</tr>
-					<tr ng-show="vm.isJueSuan">
-						<td rowspan="4">竣工决算情况：<span class="required">(*)</span>
-						</td>
-					</tr>
-					<tr ng-show="vm.isJueSuan">
-						<td colspan="4">决算报告送审日期： <input
-							id="accountReportSendAuditDate"
-							ng-model="vm.model.accountReportSendAuditDate"
-							style="width: 140px;">
-						</td>
-					</tr>
-					<tr ng-show="vm.isJueSuan">
-						<td colspan="4">完成决算审计日期： <input
-							id="completeAccountAuditDate"
-							ng-model="vm.model.completeAccountAuditDate"
-							style="width: 140px;">
-						</td>
-					</tr>
-					<tr ng-show="vm.isJueSuan">
-						<td colspan="4">决算审定金额： <input id="accountAuthorizedAmount"
-							ng-model="vm.model.accountAuthorizedAmount" type="text"
-							 class="form-control input-sm" 
-							 style="width: 150px;">&nbsp;(万元)
-						</td>
-					</tr>
-					<tr ng-show="vm.isJueSuan">
-						<td>备注：</td>
-						<td colspan="4"><textarea ng-model="vm.model.remark" rows="3"
-								cols="20" mark_maxlength="200"
+						<td colspan="4" style="padding: 10px;"><textarea
+								ng-model="vm.model.workTargets" rows="3" cols="20"
+								mark_maxlength="200"
 								mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
-								data-validation-placeholder="" placeholder=""
-								style="height: 120px; width: 640px; color: rgb(169, 169, 169);"></textarea>
-						</td>
+								data-validation-placeholder="年度工作目标(200字符以内)"
+								placeholder="年度工作目标(200字符以内)"
+								style="height: 120px; width: 640px;"></textarea>
 					</tr>
+					
 					<tr>
 						<td>项目审批进度：</td>
 						<td colspan="4" style="padding: 10px;"> <textarea
@@ -293,32 +211,17 @@
 							</div>
 						</td>
 					</tr>
-					<tr>
-						<td style="line-height: 18px">年度工作目标：<span class="required">(*)</span>
-						</td>
-						<td colspan="4" style="padding: 10px;"><textarea
-								ng-model="vm.model.workTargets" rows="3" cols="20"
-								mark_maxlength="200"
-								mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
-								data-validation-placeholder="年度工作目标(200字符以内)"
-								placeholder="年度工作目标(200字符以内)"
-								style="height: 120px; width: 640px;"></textarea>
-					</tr>
+					
 					<tr>
 						<td rowspan="5">进度安排<span class="required">(*)</span>
 						</td>
-						<td><select id="selfReview" ng-model="vm.model.selfReview"
+						<td colspan="4"><select id="selfReview" ng-model="vm.model.selfReview"
 							class="form-select" >
 								<option value="">---请选择---</option>
-								<option ng-repeat="y in vm.basicData.projectProgress"
+								<option ng-repeat="y in vm.basicData_projectProgress"
 									value="{{y.id}}">{{y.description}}</option>
 						</select></td>
-						<td colspan="2">是否完成竣工决算</td>
-						<td><span class="radioList_text"> <input type="radio"
-								name="isCompletion" ng-model="vm.model.isCompletion" value="1"><label>是</label>
-								<input type="radio" name="isCompletion"
-								ng-model="vm.model.isCompletion" value="0" checked="checked"><label>否</label>
-						</span></td>
+					
 					</tr>
 					<tr>
 						<td colspan="4">
@@ -360,6 +263,15 @@
 							
 						</td>
 					</tr>
+					<tr >
+						<td>备注：</td>
+						<td colspan="4"><textarea ng-model="vm.model.remark" rows="3"
+								cols="20" mark_maxlength="200"
+								mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
+								data-validation-placeholder="" placeholder=""
+								style="height: 120px; width: 640px; color: rgb(169, 169, 169);"></textarea>
+						</td>
+					</tr>
 					<tr>
 						<td>项目存在问题：</td>
 						<td colspan="4" style="padding-left: 0">
@@ -374,7 +286,7 @@
 										<td><input class="btn btn-success btn-xs" type="button"
 											ng-click="vm.createProblem()" value="添加问题"></td>
 									</tr>
-									<tr ng-repeat="x in vm.model.monthReportProblems">
+									<tr ng-repeat="x in vm.model.monthReportProblemsDto">
 										<td><span>{{$index+1}}</span></td>
 										<td><textarea style='height: 102px; width: 307px;'
 												placeholder='填写项目所存在的问题。'
@@ -412,16 +324,27 @@
 											<th width="10%" align="center" scope="col">附件上传</th>
 											<th width="30%" align="center" scope="col">附件名称</th>	
 										</tr>
-										<tr>
-											<td rowspan="1"><span>现场图片</span></td>
+										<tr ng-repeat="x in vm.uploadType">
+											<td rowspan="1"><span>{{x[1]}}</span></td>
 											<td rowspan="1">
-												<div id="uploadBox">
-													<input name="files" id="files" type="file" />
+												<div class="uploadBox"  data-type="{{x[0]}}">
+												  <input name="files"
+									                   type="file"
+									                   kendo-upload
+									                   k-async="{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true}"
+									                   k-error="vm.uploadSuccess"
+									                   k-localization="{select:'上传文件'}"
+									                   k-showFileList="false"
+									                  
+									                   />
 												</div>
 											</td>
 											<td >
-											 <div  ng-repeat="x in vm.model.attachments" style="margin:3px;">
-												 <a href="/contents/upload/{{x.url}}" target="_blank" ng-bind="x.name"></a>
+											 <div style="margin:3px;" 
+											 	  ng-repeat="y in vm.model.attachmentsDto" 
+											 	  ng-show="y.type=='{{x[0]}}'"
+											 		>
+												 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
 												<button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button>
 											 </div>
 											

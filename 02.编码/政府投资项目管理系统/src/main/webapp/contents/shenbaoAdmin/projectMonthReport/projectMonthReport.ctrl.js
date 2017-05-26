@@ -14,7 +14,8 @@
         vm.page='list';
         vm.init=function(){
         	vm.projectId = $state.params.projectId;
-            vm.month = $state.params.month;          
+            vm.month = $state.params.month;
+            vm.year=$state.params.year;
             if(vm.projectId){
             	vm.page='selectMonth';
             }
@@ -30,7 +31,7 @@
         vm.page_selectMonth=function(){
         	 vm.fillReport = function(month){
              	//跳转到月报信息填写页面
-             	location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+month;
+             	location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+vm.submitYear+"/"+month;
              } 
         	 var date=new Date()
         	 vm.submitYear=date.getFullYear();
@@ -53,65 +54,44 @@
         	 }
         }
         
-        vm.page_fillReport=function(){        	       
-        	vm.basicData={};
-        	vm.upload_files=[];
-     	   
+        vm.page_fillReport=function(){  
+           
+        	//begin#下拉选择年份
      	   vm.years=[];
-     	   vm.currentYear=(new Date()).getFullYear();
-     	   
+     	   vm.currentYear=(new Date()).getFullYear();     	   
      	   vm.years.push(vm.currentYear);
      	   for(var i=1;i<=5;i++){
      		   vm.years.push(vm.currentYear+i);
      		   vm.years.push(vm.currentYear-i);
      	   }
      	   vm.years=vm.years.sort();
-     	  
-     	   
-     	   
+     	  //begin#日期处理
+       	 vm.date=function(dateStr){
+       		return new Date(dateStr);
+       	 }
+     	   //begin#提交月报
      	  vm.submit = function(){
           	projectMonthReportSvc.submitMonthReport(vm);
           }
      	  
-     	 vm.date=function(dateStr){
-     		return new Date(dateStr);
-     	}
-     	  
+     	  //begin#ng-include load后触发
      	 vm.page_fillReport_init=function(){
-         	//upload
-         	$("#files").kendoUpload({
-                 async: {
-                     saveUrl: "/common/save",
-                     removeUrl: "/common/remove",
-                     autoUpload: true
-                 },
-                 showFileList:false,
-                 select:function(e){
-                	 console.log("select:");
-                	 console.log(e);
-                 },
-                 success:function(e){
-                 	
-                 },
-                 error:function(e){
-                	 console.log("error:");
-                	 console.log(e);
-                	 if(e.XMLHttpRequest.status==200){
-                		 var fileName=e.XMLHttpRequest.response;
-                		 $scope.$apply(function(){
-                			 if(vm.model.attachments){
-                				 vm.model.attachments.push({name:fileName.split('_')[2],url:fileName});
-                			 }else{
-                				 vm.model.attachments=[{name:fileName.split('_')[2],url:fileName}];
-                			 }                			           			
-                		 });
-                		 
-                	 }
-                 },
-                 localization: {
-                     select: "上传文件"
-                 }
-             });
+     		 
+     		 vm.uploadSuccess=function(e){
+     			var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
+	           	 if(e.XMLHttpRequest.status==200){
+	           		 var fileName=e.XMLHttpRequest.response;
+	           		 $scope.$apply(function(){
+	           			 if(vm.model.attachmentsDto){
+	           				 vm.model.attachmentsDto.push({name:fileName.split('_')[2],url:fileName,type:type});
+	           			 }else{
+	           				 vm.model.attachmentsDto=[{name:fileName.split('_')[2],url:fileName,type:type}];
+	           			 }                			           			
+	           		 });
+	           		 console.log(vm.model.attachmentsDto);
+	           	 }
+     		 }
+         	
          	
          	//日期
          	$("#prePlanReplyDate,\
@@ -135,24 +115,37 @@
          	
      	 }//end init_page_fillReport
      	 
-     	
+     	//begin#删除文件
          vm.delFile=function(idx){
-        	 vm.model.attachments.splice(idx,1);
+        	 vm.model.attachmentsDto.splice(idx,1);
          }
          
      	 
         
-         
+       //begin#创建问题和删除问题
      	vm.createProblem=function(){
-        	if(vm.model.monthReportProblems){
-        		vm.model.monthReportProblems.push({problemIntroduction:'',solutionsAndSuggest:''});
+        	if(vm.model.monthReportProblemsDto){
+        		vm.model.monthReportProblemsDto.push({problemIntroduction:'',solutionsAndSuggest:''});
         	}else{
-        		vm.model.monthReportProblems=[{problemIntroduction:'',solutionsAndSuggest:''}];
+        		vm.model.monthReportProblemsDto=[{problemIntroduction:'',solutionsAndSuggest:''}];
         	}
         }
+     	
      	 vm.deleteProblem = function(idx){
-     		vm.model.monthReportProblems.splice(idx,1);        	
+     		vm.model.monthReportProblemsDto.splice(idx,1);        	
           }
+     	 //begin#基础数据
+     	vm.basicData_approvalType=$linq(common.getBasicData())
+		  .where(function(x){return x.identity=='approvalType';})
+		  .toArray();
+     	
+     	vm.basicData_projectProgress=$linq(common.getBasicData())
+		  .where(function(x){return x.identity=='projectProgress';})
+		  .toArray();
+     	
+     	//begin#上传类型
+     	vm.uploadType=[['scenePicture','现场图片'],['other','其它材料']];
+     	
       }//page_fillReport
         
        
@@ -174,10 +167,11 @@
         	if(vm.page=='fillReport'){//如果填报信息
         		//查询基础数据
         		vm.page_fillReport();
+        		        		
         		
-        		projectMonthReportSvc.getBasicData(vm,'approvalType');
-        		projectMonthReportSvc.getBasicData(vm,'projectProgress');
-        		projectMonthReportSvc.getMonthReportInfo(vm);//查询月报信息 
+        		//projectMonthReportSvc.getBasicData(vm,'approvalType');
+        		//projectMonthReportSvc.getBasicData(vm,'projectProgress');
+        		//projectMonthReportSvc.getMonthReportInfo(vm);//查询月报信息 
         		
         	}
         	

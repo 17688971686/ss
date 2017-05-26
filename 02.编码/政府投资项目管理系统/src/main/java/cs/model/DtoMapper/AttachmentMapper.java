@@ -30,8 +30,7 @@ public class AttachmentMapper {
 			
 			attachment.setComment(attachmentDto.getComment());
 			attachment.setName(attachmentDto.getName());
-			attachment.setUrl(attachmentDto.getUrl());
-			attachment.setIsUpload(attachmentDto.getIsUpload());
+			attachment.setUrl(attachmentDto.getUrl());			
 			attachment.setType(attachmentDto.getType());
 		}
 	}

@@ -58,21 +58,22 @@ public class BasicDataServiceImpl implements BasicDataService {
 		if (basicDataDtos == null) {
 			InitData();
 		}
-		List<BasicDataDto> basicDataDtos = new ArrayList<>();
+		List<BasicDataDto> basicDataDtosResult = new ArrayList<>();
 
 		if (identity != null && !identity.isEmpty()) {
 
-			basicDataDtos = basicDataDtos.stream().filter(x -> {
+			basicDataDtosResult = basicDataDtos.stream().filter(x -> {
 				return identity.equals(x.getIdentity());
 			}).collect(Collectors.toList());
-			return basicDataDtos;
+			return basicDataDtosResult;
 
 		}
 
-		return basicDataDtos;
+		return basicDataDtosResult;
 	}
 
 	@Override
+	@Transactional
 	public List<BasicDataDto> Get() {
 		if (basicDataDtos == null) {
 			InitData();
@@ -81,6 +82,7 @@ public class BasicDataServiceImpl implements BasicDataService {
 	}
 
 	@Override
+	@Transactional
 	public void reloadData() {
 		this.InitData();
 

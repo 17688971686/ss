@@ -64,7 +64,7 @@ public class ProjectInfoServiceImpl implements ProjectInfoService{
 			projectInfoDto.setProjectStatusValue(basicDataService.getDescriptionById(x.getProjectStatus()));//获取项目状态的名称
 			projectInfoDto.setJianSheXingZhiValue(basicDataService.getDescriptionById(x.getJianSheXingZhi()));//获取建设性质的名称
 			
-			UnitInfoDto shenBaoUnit =projectInfoDto.getShenBaoUnit();			
+			UnitInfoDto shenBaoUnit =projectInfoDto.getShenBaoUnitDto();			
 			shenBaoUnit.setUnitPropertyValue(basicDataService.getDescriptionById(shenBaoUnit.getUnitProperty()));//获取单位性质的名称
 			
 			

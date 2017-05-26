@@ -53,7 +53,7 @@
 	        
 	        //begin#projectMonthReportInfoFill（项目月报填报--具体信息填写）
 	        .state('projectMonthReportInfoFill', {
-	            url: '/projectMonthReportInfoFill/:projectId/:month',
+	            url: '/projectMonthReportInfoFill/:projectId/:year/:month',
 	            templateUrl:'/shenbaoAdmin/projectMonthReport/html/fillInfo/',           
 	            controller: 'projectMonthReportCtrl',
 	            controllerAs: 'vm'

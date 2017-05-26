@@ -287,8 +287,8 @@ public class ProjectInfoMapper {
 			
 			//begin#关联信息 
 			//编制单位&申报单位
-			UnitInfoDto unitInfoDto_bianZhi = projectInfoDto.getBianZhiUnit();
-			UnitInfoDto unitInfoDto_shenBao = projectInfoDto.getShenBaoUnit();
+			UnitInfoDto unitInfoDto_bianZhi = projectInfoDto.getBianZhiUnitDto();
+			UnitInfoDto unitInfoDto_shenBao = projectInfoDto.getShenBaoUnitDto();
 			//进行数据的转换
 			UnitInfo unitInfo_bianZhi = new UnitInfo();
 			UnitInfoMapper.buildEntity(unitInfoDto_bianZhi,unitInfo_bianZhi);

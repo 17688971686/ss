@@ -23,8 +23,7 @@ public class Attachment extends DomainBase{
 	private String comment;
 	@Column(columnDefinition="varchar(50) COMMENT '附件类型'")
 	private String type;
-	@Column(columnDefinition="bit(1) COMMENT '是否上传'")
-	private Integer isUpload;
+	
 	public String getId() {
 		return id;
 	}
@@ -55,12 +54,7 @@ public class Attachment extends DomainBase{
 	public void setType(String type) {
 		this.type = type;
 	}
-	public Integer getIsUpload() {
-		return isUpload;
-	}
-	public void setIsUpload(Integer isUpload) {
-		this.isUpload = isUpload;
-	}
+	
 	
 	
 }

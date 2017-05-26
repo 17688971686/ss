@@ -35,30 +35,12 @@
 						<td ng-bind="vm.model.monRepManagUnitName"></td>
 					</tr>
 					<tr ng-hide="vm.SHTZ">
-						<td class="formAlignRight">责任单位负责人：</td>
+						<td class="formAlignRight">项目责任单位负责人：</td>
 						<td colspan="2" ng-bind="vm.model.respUnitManagerName"></td>
-						<td class="formAlignRight">责任单位负责人电话：</td>
+						<td class="formAlignRight">项目责任单位负责人电话：</td>
 						<td ng-bind="vm.model.respUnitManagerTel"></td>
 					</tr>
-					<tr ng-hide="vm.SHTZ">
-						<td class="formAlignRight">前期工作计划批复日期：</td>
-						<td colspan="2" ng-bind="vm.date(vm.model.prePlanReplyDate) | date:'yyyy-MM-dd'"><br>						
-						</td>
-						<td class="formAlignRight">前期工作计划批文号：</td>
-						<td>
-						{{vm.model.prePlanTypeDisplay}} {{vm.model.prePlanYear}} 年 {{vm.model.prePlanNum}} 号
-						</td>
-					</tr>
-					<tr>
-						<td class="formAlignRight">项目建议书批复日期：</td>
-						<td colspan="2" ng-bind="vm.date(vm.model.proposalsReplyDate) | date:'yyyy-MM-dd'">
-						</td>
-						<td class="formAlignRight">项目建议书批文号：</td>
-						<td>
-						{{vm.model.proposalsTypeDisplay}} {{vm.model.proposalsYear}} 年 {{vm.model.proposalsNum}} 号
-						</td>
-						
-					</tr>
+					
 					<tr ng-hide="vm.SHTZ">
 						<td class="formAlignRight">可行性研究报告批复日期：</td>
 						<td colspan="2" ng-bind="vm.date(vm.model.feaStyRepoReplyDate) | date:'yyyy-MM-dd'">
@@ -83,7 +65,12 @@
 					<tr>
 						<td class="formAlignRight">开工日期：<span class="required">(*)</span>
 						</td>
-						<td colspan="4" ng-bind="vm.date(vm.model.actuallyDate) | date:'yyyy-MM-dd'">
+						<td colspan="2" ng-bind="vm.date(vm.model.actuallyDate) | date:'yyyy-MM-dd'">
+							
+						</td>
+						<td class="formAlignRight">竣工日期：<span class="required">(*)</span>
+						</td>
+						<td colspan="2" ng-bind="vm.date(vm.model.actuallyDate) | date:'yyyy-MM-dd'">
 							
 						</td>
 					</tr>
@@ -103,70 +90,23 @@
 						</td>
 						<td colspan="2">{{vm.model.thisYearPlanInvestment}}（万元）
 						</td>
-						<td class="formAlignRight">本月完成投资：<span class="required">(*)</span>
+						<td class="formAlignRight">本年度已完成投资：<span class="required">(*)</span>
 						</td>
 						<td>{{vm.model.thisMonthInvestTotal}}（万元）
 						</td>
 					</tr>
+					
+				<tr>
+						
+						<td class="formAlignRight">本月完成投资：<span class="required">(*)</span>
+						</td>
+						<td  colspan="4">{{vm.model.thisMonthInvestTotal}}（万元）
+						</td>
+					</tr>
 					<tr>
-						<td class="formAlignRight">征转地面积：<span class="required"></span>
+						<td style="line-height: 18px" class="formAlignRight">年度工作目标：<span class="required">(*)</span>
 						</td>
-						<td colspan="2">{{vm.model.requisitionLandArea}}（平方米）</span></td>
-						<td class="formAlignRight" class="formAlignRight">拆迁面积：<span class="required"></span>
-						</td>
-						<td>{{vm.model.demolitionArea}}（平方米）</span></td>
-					</tr>
-				
-					<tr ng-show="vm.isJueSuan">
-						<td rowspan="6" class="formAlignRight">工程结算情况：<span class="required">(*)</span>
-						</td>
-					</tr>
-					<tr ng-show="vm.isJueSuan">
-						<td colspan="4">第一份结算报告送审计日期： 
-						<span ng-bind="vm.date(vm.model.firstAccountReportSendAuditDate) | date:'yyyy-MM-dd'"></span>
-						</td>
-					</tr>
-					<tr ng-show="vm.isJueSuan">
-						<td colspan="4">第一份结算报告审计日期：
-						<span ng-bind="vm.date(vm.model.firstAccountReportAuditDate) | date:'yyyy-MM-dd'"></span>
-						</td>
-					</tr>
-					<tr ng-show="vm.isJueSuan">
-						<td colspan="4">最新结算报告送审计日期：
-						<span ng-bind="vm.date(vm.model.newestAccountReportSendAuditDate) | date:'yyyy-MM-dd'"></span>
-						</td>
-					</tr>
-					<tr ng-show="vm.isJueSuan">
-						<td colspan="4">最新结算报告审计日期： 
-						<span ng-bind="vm.date(vm.model.newestAccountReportAuditDate) | date:'yyyy-MM-dd'"></span>
-						</td>
-					</tr>
-					<tr ng-show="vm.isJueSuan">
-						<td colspan="4">已完成审计的结算审定金额： {{vm.model.completedAuditAccountAuthorizedAmount}} (万元)
-						</td>
-					</tr>
-					<tr ng-show="vm.isJueSuan">
-						<td rowspan="4" class="formAlignRight">竣工决算情况：<span class="required">(*)</span>
-						</td>
-					</tr>
-					<tr ng-show="vm.isJueSuan">
-						<td colspan="4">决算报告送审日期： 
-						<span ng-bind="vm.date(vm.model.accountReportSendAuditDate) | date:'yyyy-MM-dd'"></span>
-						</td>
-					</tr>
-					<tr ng-show="vm.isJueSuan">
-						<td colspan="4">完成决算审计日期： 
-						<span ng-bind="vm.date(vm.model.completeAccountAuditDate) | date:'yyyy-MM-dd'"></span>
-						</td>
-					</tr>
-					<tr ng-show="vm.isJueSuan">
-						<td colspan="4">决算审定金额：{{vm.model.accountAuthorizedAmount}}(万元)
-						</td>
-					</tr>
-					<tr ng-show="vm.isJueSuan">
-						<td class="formAlignRight">备注：</td>
-						<td colspan="4">{{vm.model.remark}}
-						</td>
+						<td colspan="4" style="padding: 10px;">{{vm.model.workTargets}}</td>
 					</tr>
 					<tr>
 						<td class="formAlignRight">项目审批进度：</td>
@@ -183,17 +123,12 @@
 							</div>
 						</td>
 					</tr>
-					<tr>
-						<td style="line-height: 18px" class="formAlignRight">年度工作目标：<span class="required">(*)</span>
-						</td>
-						<td colspan="4" style="padding: 10px;">{{vm.model.workTargets}}</td>
-					</tr>
+					
 					<tr>
 						<td rowspan="5" class="formAlignRight">进度安排<span class="required">(*)</span>
 						</td>
-						<td>{{vm.model.selfReviewDisplay}}</td>
-						<td colspan="2">是否完成竣工决算:</td>
-						<td>{{vm.model.isCompletion}}</td>
+						<td colspan="4">{{vm.model.selfReviewDisplay}}</td>
+					
 					</tr>
 					<tr>
 						<td colspan="4">
@@ -227,6 +162,11 @@
 							
 						</td>
 					</tr>
+					<tr >
+						<td class="formAlignRight">备注：</td>
+						<td colspan="4">{{vm.model.remark}}
+						</td>
+					</tr>
 					<tr>
 						<td class="formAlignRight">项目存在问题：</td>
 						<td colspan="4" style="padding-left: 0">
@@ -240,7 +180,7 @@
 										<td>解决措施及建议</td>
 										
 									</tr>
-									<tr ng-repeat="x in vm.model.monthReportProblems">
+									<tr ng-repeat="x in vm.model.monthReportProblemsDto">
 										<td><span>{{$index+1}}</span></td>
 										<td>
 										{{x.problemIntroduction}}
@@ -271,12 +211,14 @@
 									
 											<th  align="center" scope="col">附件名称</th>	
 										</tr>
-										<tr>
-											<td rowspan="1"><span>现场图片</span></td>
+										<tr ng-repeat="x in vm.uploadType">
+											<td rowspan="1"><span>{{x[1]}}</span></td>
 											
 											<td >
-											 <div  ng-repeat="x in vm.model.attachments" style="margin:3px;">
-												 <a href="/contents/upload/{{x.url}}" target="_blank" ng-bind="x.name"></a>
+											 <div  ng-repeat="y in vm.model.attachmentsDto" 
+											       style="margin:3px;"
+											       ng-show="y.type=='{{x[0]}}'" >
+												 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
 											
 											 </div>
 											

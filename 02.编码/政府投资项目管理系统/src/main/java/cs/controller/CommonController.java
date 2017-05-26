@@ -31,6 +31,10 @@ public class CommonController {
 	
 	@RequestMapping(name="查询基础数据",path="basicData/{identity}",method=RequestMethod.GET)
 	public @ResponseBody List<BasicDataDto> getBasicData(@PathVariable("identity") String identity){
+		System.out.println(identity);
+		if(identity.equals("all")){
+			return basicDataService.Get();
+		}
 		return basicDataService.getByIdentity(identity);
 	}
 	
