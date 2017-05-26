@@ -35,8 +35,7 @@ public class UnitInfoMapper {
 			unitInfoDto.setContactPersonFax(unitInfo.getContactPersonFax());// 单位联系人传真
 
 			unitInfoDto.setRemark(unitInfo.getRemark());// 备注
-			unitInfoDto.setIsSubmit(unitInfo.getIsSubmit());// 是否提交
-			unitInfoDto.setIsFinish(unitInfo.getIsFinish());// 是否完成
+			
 		}
 		return unitInfoDto;
 	}
@@ -71,8 +70,7 @@ public class UnitInfoMapper {
 			unitInfo.setContactPersonFax(unitInfoDto.getContactPersonFax());//单位联系人传真
 			
 			unitInfo.setRemark(unitInfoDto.getRemark());//备注
-			unitInfo.setIsSubmit(unitInfoDto.getIsSubmit());//是否提交			
-			unitInfo.setIsFinish(unitInfoDto.getIsFinish());//是否完成
+			
 		}
 	}
 }

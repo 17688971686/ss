@@ -1,45 +1,36 @@
 package cs.domain;
 
-
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/**
- * 单位表
- * 
- *
- */
 @Entity
-@Table(name="cs_unitInfo")
-public class UnitInfo {
-
+@Table(name="cs_userUnitInfo")
+public class UserUnitInfo extends DomainBase {
 	@Id
 	private String id;	
+	
+	private String userName;
+	//begin#单位基本信息
 	@Column(columnDefinition="varchar(255)  COMMENT '单位名称'")
 	private String unitName;
 	@Column(columnDefinition="varchar(255)  COMMENT '组织机构代码'")
-	private String orgCode;
-	@Column(columnDefinition="varchar(255) COMMENT '所属行政区划'")
-	private String divisionId;
-	@Column(columnDefinition="varchar(255) COMMENT '资质等级'")
-	private String qualifiedLeval;
+	private String orgCode;	
+	@Column(columnDefinition="varchar(50) COMMENT '单位性质'")
+	private String unitProperty;
 	@Column(columnDefinition="varchar(50) COMMENT '电话号码'")
 	private String unitTel;
 	@Column(columnDefinition="varchar(50) COMMENT '电子邮箱'")
 	private String unitEmail;
 	@Column(columnDefinition="varchar(50) COMMENT '传真号码'")
 	private String unitFax;
-	@Column(columnDefinition="varchar(50) COMMENT '单位性质'")
-	private String unitProperty;
+	@Column(columnDefinition="varchar(255) COMMENT '所属行政区划'")
+	private String divisionId;
 	@Column(columnDefinition="varchar(255) COMMENT '单位地址'")
 	private String unitAddress;
-	@Column(columnDefinition="varchar(255) COMMENT '法人名称'")
-	private String legalName;
-	@Column(columnDefinition="varchar(50) COMMENT '法人电话'")
-	private String legalTel;
+
+	//begin#联系人信息
 	@Column(columnDefinition="varchar(255) COMMENT '单位负责人名称'")
 	private String unitResPerson;
 	@Column(columnDefinition="varchar(225) COMMENT '单位联系人名称'")
@@ -60,7 +51,6 @@ public class UnitInfo {
 	private String contactPersonEmail;
 	@Column(columnDefinition="varchar(50) COMMENT '联系人传真'")
 	private String contactPersonFax;
-
 	@Column(columnDefinition="varchar(225) COMMENT '备注'")
 	private String remark;
 	public String getId() {
@@ -81,17 +71,11 @@ public class UnitInfo {
 	public void setOrgCode(String orgCode) {
 		this.orgCode = orgCode;
 	}
-	public String getDivisionId() {
-		return divisionId;
+	public String getUnitProperty() {
+		return unitProperty;
 	}
-	public void setDivisionId(String divisionId) {
-		this.divisionId = divisionId;
-	}
-	public String getQualifiedLeval() {
-		return qualifiedLeval;
-	}
-	public void setQualifiedLeval(String qualifiedLeval) {
-		this.qualifiedLeval = qualifiedLeval;
+	public void setUnitProperty(String unitProperty) {
+		this.unitProperty = unitProperty;
 	}
 	public String getUnitTel() {
 		return unitTel;
@@ -111,29 +95,17 @@ public class UnitInfo {
 	public void setUnitFax(String unitFax) {
 		this.unitFax = unitFax;
 	}
-	public String getUnitProperty() {
-		return unitProperty;
+	public String getDivisionId() {
+		return divisionId;
 	}
-	public void setUnitProperty(String unitProperty) {
-		this.unitProperty = unitProperty;
+	public void setDivisionId(String divisionId) {
+		this.divisionId = divisionId;
 	}
 	public String getUnitAddress() {
 		return unitAddress;
 	}
 	public void setUnitAddress(String unitAddress) {
 		this.unitAddress = unitAddress;
-	}
-	public String getLegalName() {
-		return legalName;
-	}
-	public void setLegalName(String legalName) {
-		this.legalName = legalName;
-	}
-	public String getLegalTel() {
-		return legalTel;
-	}
-	public void setLegalTel(String legalTel) {
-		this.legalTel = legalTel;
 	}
 	public String getUnitResPerson() {
 		return unitResPerson;
@@ -195,13 +167,17 @@ public class UnitInfo {
 	public void setContactPersonFax(String contactPersonFax) {
 		this.contactPersonFax = contactPersonFax;
 	}
-	
 	public String getRemark() {
 		return remark;
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	
 }
