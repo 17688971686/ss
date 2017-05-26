@@ -176,4 +176,18 @@ orderby desc:   http://localhost/Products?$orderby=Price desc
 		<kendo-tree-list k-options="vm.treelistOptions"></kendo-tree-list>
 	</div>
 	
+	<div class="well well-sm ">
+		<p class="text-danger ">联动</p>
+		<div>项目行业分类:</div>
+		<select ng-model="vm.parentCategory" ng-change="vm.parentChange()">
+		 <option value="">---请选择---</option>
+		 <option value="{{x.id}}" ng-repeat="x in vm.parentList">{{x.description}}</option>
+		</select>
+		
+		<select ng-model="vm.childCategory">
+		 <option value="">---请选择---</option>
+		 <option value="{{x.id}}" ng-repeat="x in vm.childList">{{x.description}}</option>
+		</select>
+	</div>
+	
 </div>

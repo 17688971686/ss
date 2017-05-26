@@ -78,13 +78,26 @@
         vm.textSubmit=function(){
         	alert(vm.content);
         }
+        
+        vm.init_select=function(){
+        	vm.parentCategory="";
+        	vm.childCategory="";
+        	var basicData=common.getBasicData();
+        	vm.parentList=$linq(basicData).where(function(x){return x.identity=='projectIndustry'&&x.pId=="";})
+        							  .toArray();
+        	vm.parentChange=function(){
+        		vm.childList=$linq(basicData).where(function(x){return x.pId==vm.parentCategory;})
+				  .toArray();
+        	}
+        	console.log(basicData)
+        }
        
         activate();
         function activate() {
         	datetimePicker();
         	upload();
         	demoSvc.treeList(vm);
-        	
+        	vm.init_select();
         }
     }
 })();
