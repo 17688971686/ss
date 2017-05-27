@@ -170,11 +170,6 @@
         	if(vm.page=='fillReport'){//如果填报信息
         		//查询基础数据
         		vm.page_fillReport();
-        		        		
-        		
-        		//projectMonthReportSvc.getBasicData(vm,'approvalType');
-        		//projectMonthReportSvc.getBasicData(vm,'projectProgress');
-        		//projectMonthReportSvc.getMonthReportInfo(vm);//查询月报信息 
         		
         	}
         	

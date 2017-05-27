@@ -222,6 +222,7 @@ public class MonthReportMapper {
 				Attachment attachment = new Attachment();
 				attachment.setId(UUID.randomUUID().toString());
 				attachment.setName(x.getName());
+				attachment.setType(x.getType());
 				attachment.setUrl(x.getUrl());
 
 				monthReport.getAttachments().add(attachment);
