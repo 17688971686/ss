@@ -56,6 +56,9 @@
         
         vm.page_fillReport=function(){  
            
+        	//begin#init
+        	vm.model.monthReport={};
+        	
         	//begin#下拉选择年份
      	   vm.years=[];
      	   vm.currentYear=(new Date()).getFullYear();     	   
@@ -82,13 +85,12 @@
 	           	 if(e.XMLHttpRequest.status==200){
 	           		 var fileName=e.XMLHttpRequest.response;
 	           		 $scope.$apply(function(){
-	           			 if(vm.model.attachmentsDto){
-	           				 vm.model.attachmentsDto.push({name:fileName.split('_')[2],url:fileName,type:type});
+	           			 if(vm.model.monthReport.attachmentsDto){
+	           				 vm.model.monthReport.attachmentsDto.push({name:fileName.split('_')[2],url:fileName,type:type});
 	           			 }else{
-	           				 vm.model.attachmentsDto=[{name:fileName.split('_')[2],url:fileName,type:type}];
+	           				 vm.model.monthReport.attachmentsDto=[{name:fileName.split('_')[2],url:fileName,type:type}];
 	           			 }                			           			
 	           		 });
-	           		 console.log(vm.model.attachmentsDto);
 	           	 }
      		 }
          	
@@ -98,6 +100,7 @@
         			#proposalsReplyDate,\
         			#allEstimateReplyDate,\
         			#actuallyDate,\
+        			#completedDate,\
         			#feaStyRepoReplyDate,\
         			#firstAccountReportSendAuditDate,\
         			#firstAccountReportAuditDate,\
@@ -117,22 +120,22 @@
      	 
      	//begin#删除文件
          vm.delFile=function(idx){
-        	 vm.model.attachmentsDto.splice(idx,1);
+        	 vm.model.monthReport.attachmentsDto.splice(idx,1);
          }
          
      	 
         
        //begin#创建问题和删除问题
      	vm.createProblem=function(){
-        	if(vm.model.monthReportProblemsDto){
-        		vm.model.monthReportProblemsDto.push({problemIntroduction:'',solutionsAndSuggest:''});
+        	if(vm.model.monthReport.monthReportProblemsDto){
+        		vm.model.monthReport.monthReportProblemsDto.push({problemIntroduction:'',solutionsAndSuggest:''});
         	}else{
-        		vm.model.monthReportProblemsDto=[{problemIntroduction:'',solutionsAndSuggest:''}];
+        		vm.model.monthReport.monthReportProblemsDto=[{problemIntroduction:'',solutionsAndSuggest:''}];
         	}
         }
      	
      	 vm.deleteProblem = function(idx){
-     		vm.model.monthReportProblemsDto.splice(idx,1);        	
+     		vm.model.monthReport.monthReportProblemsDto.splice(idx,1);        	
           }
      	 //begin#基础数据
      	vm.basicData_approvalType=$linq(common.getBasicData())

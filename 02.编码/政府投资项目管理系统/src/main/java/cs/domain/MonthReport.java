@@ -103,20 +103,17 @@ public class MonthReport extends DomainBase{
 	private BigDecimal invertPlanTotal;
 	@Column(columnDefinition="decimal(9,2) COMMENT '实际完成投资'")
 	private BigDecimal actuallyFinishiInvestment;	
-	@Column(columnDefinition="decimal(9,2) COMMENT '自开工至上年底完成投资'")
-	private BigDecimal sinceLastYearCompletInvestment;
+
 	@Column(columnDefinition="decimal(9,2) COMMENT '本年计划投资'")
 	private BigDecimal thisYearPlanInvestment;
-	@Column(columnDefinition="decimal(9,2) COMMENT '本月完成投资'")
-	private BigDecimal thisMonthInvestTotal;
-	@Column(columnDefinition="decimal(9,2) COMMENT '建筑安装工程投资'")
-	private BigDecimal buildAndInstallInvest;
-	@Column(columnDefinition="decimal(9,2) COMMENT '设备投资'")
-	private BigDecimal equipmentInvest;
-	@Column(columnDefinition="decimal(9,2) COMMENT '其他投资'")
-	private BigDecimal otherInvest;
 	@Column(columnDefinition="decimal(9,2) COMMENT '本年度累计完成投资'")
 	private BigDecimal thisYearAccumulatedInvestment;
+	@Column(columnDefinition="decimal(9,2) COMMENT '本月完成投资'")
+	private BigDecimal thisMonthInvestTotal;
+
+	@Column(columnDefinition="bit(1)  COMMENT '是否完工'")
+	private Integer isCompletion;
+
 	//end#投资情况
 	
 	
@@ -140,12 +137,7 @@ public class MonthReport extends DomainBase{
 	
 	//end#进度情况
 	
-	//begin#拆迁情况
-	@Column(columnDefinition="decimal(9,6) COMMENT '征用土地面积'")
-	private BigDecimal requisitionLandArea;
-	@Column(columnDefinition="decimal(9,6) COMMENT '拆迁面积'")
-	private BigDecimal demolitionArea;
-	//end#拆迁情况
+
 	
 	@Column(columnDefinition="varchar(50) COMMENT '提交年份'")
 	private Integer submitYear;
@@ -157,8 +149,7 @@ public class MonthReport extends DomainBase{
 	@Column(columnDefinition="datetime COMMENT '立项日期'")
 	private Date approvalDate;	
 	
-	@Column(columnDefinition="bit(1)  COMMENT '是否完工'")
-	private Integer isCompletion;
+	
 	@Column(columnDefinition="varchar(255) COMMENT '备注'")
 	private String remark;
 	
@@ -407,13 +398,7 @@ public class MonthReport extends DomainBase{
 		this.actuallyFinishiInvestment = actuallyFinishiInvestment;
 	}
 
-	public BigDecimal getSinceLastYearCompletInvestment() {
-		return sinceLastYearCompletInvestment;
-	}
-
-	public void setSinceLastYearCompletInvestment(BigDecimal sinceLastYearCompletInvestment) {
-		this.sinceLastYearCompletInvestment = sinceLastYearCompletInvestment;
-	}
+	
 
 	public BigDecimal getThisYearPlanInvestment() {
 		return thisYearPlanInvestment;
@@ -431,29 +416,7 @@ public class MonthReport extends DomainBase{
 		this.thisMonthInvestTotal = thisMonthInvestTotal;
 	}
 
-	public BigDecimal getBuildAndInstallInvest() {
-		return buildAndInstallInvest;
-	}
-
-	public void setBuildAndInstallInvest(BigDecimal buildAndInstallInvest) {
-		this.buildAndInstallInvest = buildAndInstallInvest;
-	}
-
-	public BigDecimal getEquipmentInvest() {
-		return equipmentInvest;
-	}
-
-	public void setEquipmentInvest(BigDecimal equipmentInvest) {
-		this.equipmentInvest = equipmentInvest;
-	}
-
-	public BigDecimal getOtherInvest() {
-		return otherInvest;
-	}
-
-	public void setOtherInvest(BigDecimal otherInvest) {
-		this.otherInvest = otherInvest;
-	}
+	
 
 	public BigDecimal getThisYearAccumulatedInvestment() {
 		return thisYearAccumulatedInvestment;
@@ -520,21 +483,7 @@ public class MonthReport extends DomainBase{
 		this.workTargets = workTargets;
 	}
 
-	public BigDecimal getRequisitionLandArea() {
-		return requisitionLandArea;
-	}
-
-	public void setRequisitionLandArea(BigDecimal requisitionLandArea) {
-		this.requisitionLandArea = requisitionLandArea;
-	}
-
-	public BigDecimal getDemolitionArea() {
-		return demolitionArea;
-	}
-
-	public void setDemolitionArea(BigDecimal demolitionArea) {
-		this.demolitionArea = demolitionArea;
-	}
+	
 
 	
 

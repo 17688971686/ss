@@ -1,3 +1,6 @@
+
+
+
 <div ng-include src="'/contents/shenbao/shared/shenbao_head.html'"></div>
 
 <div class="wrap-960 clearfix" style="margin-top:110px;">
@@ -42,13 +45,23 @@
 
 <div class="pull-right">
 	<div class="loginBox">
+	<form ng-keypress="vm.keyEnter($event)">
 		<div class="boxWrap" style="height: 318px;">
-			<div><input type="text" class="form-control input-sm" placeholder="请输入用户名称" /></div>
-			<div><input type="password" class="form-control input-sm" placeholder="请输入用户密码" /></div>
+		<span ng-show="vm.message" class="errors" ng-bind="vm.message" ></span>	
+			<div>
+			<input type="text" class="form-control input-sm" placeholder="请输入用户名称" 
+			maxlength="100" name="loginName" id="loginName" ng-model="vm.model.loginName" 
+			data-val="true" data-val-required="用户名必填" />
+			</div>
+			<div>
+			<input type="password" class="form-control input-sm" placeholder="请输入用户密码"  
+			maxlength="100"  name="password" id="password" ng-model="vm.model.password" 
+			data-val="true" data-val-required="密码必填" /></div>
+			
 			<div><button class="btn btn-success loginBtn" ng-click="vm.submit()">登录系统 </button></div></br>
 			<!-- <div><button class="btn btn-success loginBtn" ng-click="vm.forgetCode()">忘记密码 </button></div> -->
 		</div>
-		
+	</form>	
 	</div>
 </div>
 

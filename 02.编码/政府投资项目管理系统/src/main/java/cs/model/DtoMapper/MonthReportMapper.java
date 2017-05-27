@@ -65,12 +65,8 @@ public class MonthReportMapper {
 			// begin#投资情况
 			monthReportDto.setInvertPlanTotal(monthReport.getInvertPlanTotal());// 对应页面的项目总投资
 			monthReportDto.setActuallyFinishiInvestment(monthReport.getActuallyFinishiInvestment());// 实际完成投资
-			monthReportDto.setSinceLastYearCompletInvestment(monthReport.getSinceLastYearCompletInvestment());// 对应页面至今完成投资
 			monthReportDto.setThisYearPlanInvestment(monthReport.getThisYearPlanInvestment());// 本年计划投资
 			monthReportDto.setThisMonthInvestTotal(monthReport.getThisMonthInvestTotal());// 本月完成投资
-			monthReportDto.setBuildAndInstallInvest(monthReport.getBuildAndInstallInvest());// 建筑安装工程投资
-			monthReportDto.setEquipmentInvest(monthReport.getEquipmentInvest());// 设备投资
-			monthReportDto.setOtherInvest(monthReport.getOtherInvest());// 其他投资
 			monthReportDto.setThisYearAccumulatedInvestment(monthReport.getThisYearAccumulatedInvestment());// 本年度累计完成投资
 			// end#投资情况
 
@@ -85,10 +81,7 @@ public class MonthReportMapper {
 			monthReportDto.setWorkTargets(monthReport.getWorkTargets());// 年度工作目标
 			// end#进度情况
 
-			// begin#拆迁情况
-			monthReportDto.setRequisitionLandArea(monthReport.getRequisitionLandArea());// 征用土地面积
-			monthReportDto.setDemolitionArea(monthReport.getDemolitionArea());// 拆迁面积
-			// end#拆迁情况
+		
 
 			monthReportDto.setSubmitMonth(monthReport.getSubmitMonth());// 提交月
 			monthReportDto.setSubmitYear(monthReport.getSubmitYear());// 提交月
@@ -188,12 +181,9 @@ public class MonthReportMapper {
 			// begin#投资情况
 			monthReport.setInvertPlanTotal(monthReportDto.getInvertPlanTotal());// 对应页面的项目总投资
 			monthReport.setActuallyFinishiInvestment(monthReportDto.getActuallyFinishiInvestment());
-			monthReport.setSinceLastYearCompletInvestment(monthReportDto.getSinceLastYearCompletInvestment());// 对应页面至今完成投资
 			monthReport.setThisYearPlanInvestment(monthReportDto.getThisYearPlanInvestment());
 			monthReport.setThisMonthInvestTotal(monthReportDto.getThisMonthInvestTotal());
-			monthReport.setBuildAndInstallInvest(monthReportDto.getBuildAndInstallInvest());
-			monthReport.setEquipmentInvest(monthReportDto.getEquipmentInvest());
-			monthReport.setOtherInvest(monthReportDto.getOtherInvest());
+	
 			monthReport.setThisYearAccumulatedInvestment(monthReportDto.getThisYearAccumulatedInvestment());
 			// end#投资情况
 
@@ -208,11 +198,7 @@ public class MonthReportMapper {
 			monthReport.setWorkTargets(monthReportDto.getWorkTargets());
 			// end#进度情况
 
-			// begin#拆迁情况
-			monthReport.setRequisitionLandArea(monthReportDto.getRequisitionLandArea());
-			monthReport.setDemolitionArea(monthReportDto.getDemolitionArea());
-			// end#拆迁情况
-
+		
 			
 
 			monthReport.setSubmitMonth(monthReportDto.getSubmitMonth());

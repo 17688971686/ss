@@ -7,7 +7,7 @@
 	function projectMonthReport($http,$compile) {
 		var url_projectInfo = "/projectInfo";//获取申报的项目的列表数据
 		var url_basicData = "/common/basicData";//获取基础数据
-		
+		var url_projectMonthReport="/shenbaoAdmin/projectMonthReport";
 		
 		var service = {
 			grid : grid,
@@ -37,7 +37,7 @@
 											.toArray();
 						if(report.length>0){
 							vm.isReportExist=true;
-							vm.model=report[0];
+							vm.model.monthReport=report[0];
 						}
 						
 					}
@@ -69,13 +69,14 @@
 			var isValid = $('form').valid();
 			//验证通过
 			if(isValid){				
-				vm.submitYear=vm.year;
-				vm.submitMonth=vm.month;
+				vm.model.monthReport.submitYear=vm.year;
+				vm.model.monthReport.submitMonth=vm.month;
+				vm.model.monthReport.projectId=vm.projectId;
 				vm.isSubmit = true;
 				var httpOptions = {
 						method : 'post',
 						url : url_projectMonthReport,
-						data : vm.model
+						data : vm.model.monthReport
 					}
 				
 				var httpSuccess = function success(response) {

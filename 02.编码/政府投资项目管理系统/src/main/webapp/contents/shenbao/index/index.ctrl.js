@@ -35,10 +35,12 @@
         	
         }
         vm.submit=function(){
-        	location.href="/shenbaoAdmin/home";
+        	indexSvc.submit(vm);
         }
-        vm.forgetCode = function(){
-        	location.href = "#/forgetCode";
+        vm.keyEnter = function (e) {
+            if (e.which === 13) {
+                vm.submit()
+            }
         }
        
         activate();

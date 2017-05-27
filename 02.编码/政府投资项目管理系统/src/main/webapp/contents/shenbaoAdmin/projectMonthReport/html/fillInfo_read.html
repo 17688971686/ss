@@ -1,5 +1,5 @@
  
- <div class="bg-danger text-danger" style="padding:10px 0;margin:5px 0; text-align: center; font-weight:bold;">您已填报<span ng-bind="vm.model.submitMonth"></span>月数据!</div>
+ <div class="bg-danger text-danger" style="padding:10px 0;margin:5px 0; text-align: center; font-weight:bold;">您已填报<span ng-bind="vm.model.monthReport.submitMonth"></span>月数据!</div>
  
 <form id="form" name="form">
 			<table class="table table-hover table-bordered table-striped"
@@ -7,57 +7,57 @@
 				<tbody>
 					<tr>
 						<td width="188px;" class="formAlignRight">项目名称:</td>
-						<td colspan="2"><span ng-bind="vm.model.projectName"></span> 
+						<td colspan="2"><span ng-bind="vm.model.projectInfo.projectName"></span> 
 						</td>
 						<td width="175px;" class="formAlignRight">填报月份：</td>
-						<td width="335px;"><span ng-bind="vm.model.submitMonth"></span> </td>
+						<td width="335px;"><span ng-bind="vm.model.monthReport.submitMonth"></span> </td>
 					</tr>
 					<tr>
 						<td class="formAlignRight">填报人姓名：<span class="required">(*)</span>
 						</td>
-						<td colspan="2" ng-bind="vm.model.fillName"></td>
+						<td colspan="2" ng-bind="vm.model.monthReport.fillName"></td>
 						<td class="formAlignRight">填报人手机：<span class="required">(*)</span>
 						</td>
-						<td ng-bind="vm.model.fillMobile"></td>
+						<td ng-bind="vm.model.monthReport.fillMobile"></td>
 					</tr>
 					<tr>
 						<td class="formAlignRight">月报负责人姓名：<span class="required">(*)</span>
 						</td>
-						<td colspan="2" ng-bind="vm.model.monRepManagerName"></td>
+						<td colspan="2" ng-bind="vm.model.monthReport.monRepManagerName"></td>
 						<td class="formAlignRight">月报负责人手机：<span class="required">(*)</span>
 						</td>
-						<td ng-bind="vm.model.monRepManagerTel"></td>
+						<td ng-bind="vm.model.monthReport.monRepManagerTel"></td>
 					</tr>
 					<tr ng-hide="vm.SHTZ">
 						<td class="formAlignRight">月报负责人传真：</td>
-						<td colspan="2" ng-bind="vm.model.monRepManagerFax"></td>
+						<td colspan="2" ng-bind="vm.model.monthReport.monRepManagerFax"></td>
 						<td class="formAlignRight">月报责任单位名称：</td>
-						<td ng-bind="vm.model.monRepManagUnitName"></td>
+						<td ng-bind="vm.model.monthReport.monRepManagUnitName"></td>
 					</tr>
 					<tr ng-hide="vm.SHTZ">
 						<td class="formAlignRight">项目责任单位负责人：</td>
-						<td colspan="2" ng-bind="vm.model.respUnitManagerName"></td>
+						<td colspan="2" ng-bind="vm.model.monthReport.respUnitManagerName"></td>
 						<td class="formAlignRight">项目责任单位负责人电话：</td>
-						<td ng-bind="vm.model.respUnitManagerTel"></td>
+						<td ng-bind="vm.model.monthReport.respUnitManagerTel"></td>
 					</tr>
 					
 					<tr ng-hide="vm.SHTZ">
 						<td class="formAlignRight">可行性研究报告批复日期：</td>
-						<td colspan="2" ng-bind="vm.date(vm.model.feaStyRepoReplyDate) | date:'yyyy-MM-dd'">
+						<td colspan="2" ng-bind="vm.date(vm.model.monthReport.feaStyRepoReplyDate) | date:'yyyy-MM-dd'">
 						</td >
 						<td class="formAlignRight">可行性研究报告批文号：</td>
 						<td>
-						{{vm.model.reportTypeDisplay}} {{vm.model.reportYear}} 年 {{vm.model.reportNum}} 号
+						{{vm.model.monthReport.reportTypeDisplay}} {{vm.model.monthReport.reportYear}} 年 {{vm.model.monthReport.reportNum}} 号
 						</td>
 						
 					</tr>
 					<tr ng-hide="vm.SHTZ">
 						<td class="formAlignRight">项目总概算批复日期：</td>
-						<td colspan="2" ng-bind="vm.date(vm.model.allEstimateReplyDate) | date:'yyyy-MM-dd'">
+						<td colspan="2" ng-bind="vm.date(vm.model.monthReport.allEstimateReplyDate) | date:'yyyy-MM-dd'">
 						</td>
 						<td class="formAlignRight">项目总概算批复文号：</td>
 						<td>
-						{{vm.model.allEstimateTypeDisplay}} {{vm.model.allEstimateYear}} 年 {{vm.model.allEstimateNum}} 号
+						{{vm.model.monthReport.allEstimateTypeDisplay}} {{vm.model.monthReport.allEstimateYear}} 年 {{vm.model.monthReport.allEstimateNum}} 号
 						</td>
 						
 						
@@ -65,12 +65,12 @@
 					<tr>
 						<td class="formAlignRight">开工日期：<span class="required">(*)</span>
 						</td>
-						<td colspan="2" ng-bind="vm.date(vm.model.actuallyDate) | date:'yyyy-MM-dd'">
+						<td colspan="2" ng-bind="vm.date(vm.model.monthReport.actuallyDate) | date:'yyyy-MM-dd'">
 							
 						</td>
 						<td class="formAlignRight">竣工日期：<span class="required">(*)</span>
 						</td>
-						<td colspan="2" ng-bind="vm.date(vm.model.actuallyDate) | date:'yyyy-MM-dd'">
+						<td colspan="2" ng-bind="vm.date(vm.model.monthReport.actuallyDate) | date:'yyyy-MM-dd'">
 							
 						</td>
 					</tr>
@@ -78,21 +78,21 @@
 						<td class="formAlignRight">项目总投资：<span class="required">(*)</span>
 						</td>
 						<td colspan="2" >
-							{{vm.model.invertPlanTotal}}（万元）
+							{{vm.model.monthReport.invertPlanTotal}}（万元）
 						</td>
 
 						<td class="formAlignRight">至今完成投资：</td>
-						<td colspan="2">{{vm.model.sinceLastYearCompletInvestment}}（万元）
+						<td colspan="2">{{vm.model.monthReport.sinceLastYearCompletInvestment}}（万元）
 						</td>
 					</tr>
 					<tr>
 						<td class="formAlignRight">本年度计划完成投资：<span class="required">(*)</span>
 						</td>
-						<td colspan="2">{{vm.model.thisYearPlanInvestment}}（万元）
+						<td colspan="2">{{vm.model.monthReport.thisYearPlanInvestment}}（万元）
 						</td>
 						<td class="formAlignRight">本年度已完成投资：<span class="required">(*)</span>
 						</td>
-						<td>{{vm.model.thisMonthInvestTotal}}（万元）
+						<td>{{vm.model.monthReport.thisMonthInvestTotal}}（万元）
 						</td>
 					</tr>
 					
@@ -100,17 +100,17 @@
 						
 						<td class="formAlignRight">本月完成投资：<span class="required">(*)</span>
 						</td>
-						<td  colspan="4">{{vm.model.thisMonthInvestTotal}}（万元）
+						<td  colspan="4">{{vm.model.monthReport.thisMonthInvestTotal}}（万元）
 						</td>
 					</tr>
 					<tr>
 						<td style="line-height: 18px" class="formAlignRight">年度工作目标：<span class="required">(*)</span>
 						</td>
-						<td colspan="4" style="padding: 10px;">{{vm.model.workTargets}}</td>
+						<td colspan="4" style="padding: 10px;">{{vm.model.monthReport.workTargets}}</td>
 					</tr>
 					<tr>
 						<td class="formAlignRight">项目审批进度：</td>
-						<td colspan="4" style="padding: 10px;"> {{vm.model.projectApprovalProgress}}
+						<td colspan="4" style="padding: 10px;"> {{vm.model.monthReport.projectApprovalProgress}}
 					</tr>
 					<tr>
 						<td style="line-height: 18px" class="formAlignRight">工程形象进度或<br>项目进度情况：<span
@@ -119,7 +119,7 @@
 						</td>
 						<td colspan="4" style="padding: 10px;">
 							<div>
-								{{vm.model.projectImageProgress}}
+								{{vm.model.monthReport.projectImageProgress}}
 							</div>
 						</td>
 					</tr>
@@ -127,13 +127,13 @@
 					<tr>
 						<td rowspan="5" class="formAlignRight">进度安排<span class="required">(*)</span>
 						</td>
-						<td colspan="4">{{vm.model.selfReviewDisplay}}</td>
+						<td colspan="4">{{vm.model.monthReport.selfReviewDisplay}}</td>
 					
 					</tr>
 					<tr>
 						<td colspan="4">
 							<p>
-								预计1到3月份完成投资（万元）： {{vm.model.firstQuarCompInvestment}}
+								预计1到3月份完成投资（万元）： {{vm.model.monthReport.firstQuarCompInvestment}}
 							</p>
 							
 						</td>
@@ -141,7 +141,7 @@
 					<tr>
 						<td colspan="4">
 							<p>
-								预计1到6月份完成投资（万元）：{{vm.model.secondQuarCompInvestment}}
+								预计1到6月份完成投资（万元）：{{vm.model.monthReport.secondQuarCompInvestment}}
 							</p>
 							
 						</td>
@@ -149,7 +149,7 @@
 					<tr>
 						<td colspan="4">
 							<p>
-								预计1到9月份完成投资（万元）： {{vm.model.thirdQuarCompInvestment}}
+								预计1到9月份完成投资（万元）： {{vm.model.monthReport.thirdQuarCompInvestment}}
 							</p>
 							
 						</td>
@@ -157,14 +157,14 @@
 					<tr>
 						<td colspan="4">
 							<p>
-								预计1到12月份完成投资（万元）： {{vm.model.fourthQuarCompInvestment}}
+								预计1到12月份完成投资（万元）： {{vm.model.monthReport.fourthQuarCompInvestment}}
 							</p>
 							
 						</td>
 					</tr>
 					<tr >
 						<td class="formAlignRight">备注：</td>
-						<td colspan="4">{{vm.model.remark}}
+						<td colspan="4">{{vm.model.monthReport.remark}}
 						</td>
 					</tr>
 					<tr>
@@ -180,7 +180,7 @@
 										<td>解决措施及建议</td>
 										
 									</tr>
-									<tr ng-repeat="x in vm.model.monthReportProblemsDto">
+									<tr ng-repeat="x in vm.model.monthReport.monthReportProblemsDto">
 										<td><span>{{$index+1}}</span></td>
 										<td>
 										{{x.problemIntroduction}}
@@ -215,7 +215,7 @@
 											<td rowspan="1"><span>{{x[1]}}</span></td>
 											
 											<td >
-											 <div  ng-repeat="y in vm.model.attachmentsDto" 
+											 <div  ng-repeat="y in vm.model.monthReport.attachmentsDto" 
 											       style="margin:3px;"
 											       ng-show="y.type=='{{x[0]}}'" >
 												 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>

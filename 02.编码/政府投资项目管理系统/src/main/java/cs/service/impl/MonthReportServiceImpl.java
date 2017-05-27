@@ -96,10 +96,14 @@ public class MonthReportServiceImpl implements MonthReportService {
 	@Transactional
 	public void saveMonthReport(MonthReportDto monthReportDto) {
 		// 判断数据库是否存在月报
-		Criterion criterion1 = Restrictions.eq(MonthReport_.submitMonth.getName(), monthReportDto.getSubmitMonth());
-		Criterion criterion2 = Restrictions.eq(MonthReport_.projectId.getName(), monthReportDto.getProjectId());
+		
+		Criterion criterion1 = Restrictions.eq(MonthReport_.projectId.getName(), monthReportDto.getProjectId());
+		Criterion criterion2 = Restrictions.eq(MonthReport_.submitYear.getName(), monthReportDto.getSubmitYear());
+		Criterion criterion3 = Restrictions.eq(MonthReport_.submitMonth.getName(), monthReportDto.getSubmitMonth());
 		MonthReport monthReport;
-		Optional<MonthReport> monthReportQuery = monthReportRepo.findByCriteria(criterion1, criterion2).stream()
+		Optional<MonthReport> monthReportQuery = monthReportRepo
+				.findByCriteria(criterion1, criterion2,criterion3)
+				.stream()
 				.findFirst();
 		if (!monthReportQuery.isPresent()) {// 不存在则创建
 			monthReport = new MonthReport();
@@ -111,8 +115,7 @@ public class MonthReportServiceImpl implements MonthReportService {
 
 	}
 
-	private void createMonthReport(MonthReportDto monthReportDto, MonthReport monthReport) {
-		monthReport.setId(UUID.randomUUID().toString());
+	private void createMonthReport(MonthReportDto monthReportDto, MonthReport monthReport) {		
 		MonthReportMapper.buildEntity(monthReportDto, monthReport);
 		monthReport.setCreatedBy(currentUser.getLoginName());
 		monthReport.setCreatedDate(new Date());
