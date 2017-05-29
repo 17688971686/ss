@@ -1,5 +1,7 @@
 package cs.model.DtoMapper;
 
+import java.util.UUID;
+
 import cs.domain.UserUnitInfo;
 import cs.model.DomainDto.UserUnitInfoDto;
 
@@ -36,5 +38,36 @@ public class UserUnitInfoMapper {
 
 		}
 		return userUnitInfoDto;
+	}
+	public static void buildEntity(UserUnitInfoDto unitInfoDto,UserUnitInfo userUnitInfo){
+		if(userUnitInfo!=null&&unitInfoDto!=null){
+			if(userUnitInfo.getId()==null||userUnitInfo.getId().isEmpty()){
+				userUnitInfo.setId(UUID.randomUUID().toString());
+			}
+			userUnitInfo.setUnitEmail(unitInfoDto.getUnitEmail());
+			userUnitInfo.setResPersonFax(unitInfoDto.getResPersonFax());
+			userUnitInfo.setResPersonEmail(unitInfoDto.getResPersonEmail());
+			userUnitInfo.setModifiedDate(unitInfoDto.getModifiedDate());
+			userUnitInfo.setModifiedBy(unitInfoDto.getModifiedBy());
+			userUnitInfo.setDivisionId(unitInfoDto.getDivisionId());
+			userUnitInfo.setResPersonTel(unitInfoDto.getResPersonTel());
+			userUnitInfo.setRemark(unitInfoDto.getRemark());
+			userUnitInfo.setContactPersonMobile(unitInfoDto.getContactPersonMobile());
+			userUnitInfo.setUnitProperty(unitInfoDto.getUnitProperty());
+			userUnitInfo.setUnitAddress(unitInfoDto.getUnitAddress());
+			userUnitInfo.setContactPersonEmail(unitInfoDto.getContactPersonEmail());
+			userUnitInfo.setUnitContactPerson(unitInfoDto.getUnitContactPerson());
+			userUnitInfo.setResPersonMobile(unitInfoDto.getResPersonMobile());
+			userUnitInfo.setUserName(unitInfoDto.getUserName());
+			userUnitInfo.setUnitName(unitInfoDto.getUnitName());
+			userUnitInfo.setItemOrder(unitInfoDto.getItemOrder());
+			userUnitInfo.setOrgCode(unitInfoDto.getOrgCode());
+			userUnitInfo.setUnitTel(unitInfoDto.getUnitTel());
+			userUnitInfo.setUnitResPerson(unitInfoDto.getUnitResPerson());
+			userUnitInfo.setContactPersonTel(unitInfoDto.getContactPersonTel());
+			userUnitInfo.setContactPersonFax(unitInfoDto.getContactPersonFax());
+			userUnitInfo.setUnitFax(unitInfoDto.getUnitFax());
+
+		}
 	}
 }

@@ -31,4 +31,21 @@ public class UserUnitInfoServiceImpl implements UserUnitInfoService {
 		return null;
 	}
 
+	@Override
+	@Transactional
+	public void save(String userName,UserUnitInfoDto unitInfoDto) {
+		UserUnitInfo userUnitInfo;
+		Criterion criterion=Restrictions.eq(UserUnitInfo_.userName.getName(), userName);
+		Optional<UserUnitInfo>	query_userUnitInfo =userUnitInfoRepo.findByCriteria(criterion).stream().findFirst();
+		if(query_userUnitInfo.isPresent()){
+			userUnitInfo=query_userUnitInfo.get();
+		}else{
+			userUnitInfo=new UserUnitInfo();
+		}
+		
+		unitInfoDto.setUserName(userName);
+		UserUnitInfoMapper.buildEntity(unitInfoDto, userUnitInfo);
+		userUnitInfoRepo.save(userUnitInfo);
+	}
+
 }

@@ -10,11 +10,25 @@
     function deptInfoMaintain($location, deptInfoMaintainSvc) {
         /* jshint validthis:true */
         var vm = this;
-        vm.title = '单位基本信息';
+        vm.model={
+        		unitProperty:"",
+        		divisionId:""
+        };
         
+        vm.basicData_unitProperty=$linq(common.getBasicData())
+        							.where(function(x){return x.identity=='unitProperty';})
+        							.toArray();
+        
+        vm.basicData_area_Street=$linq(common.getBasicData())
+								.where(function(x){return x.identity=='area'&&x.pId=='area_01';})
+								.toArray();
+        
+        vm.submit=function(){
+        	deptInfoMaintainSvc.save(vm);
+        }
         activate();
         function activate() {
-        	deptInfoMaintainSvc.grid(vm);
+        	deptInfoMaintainSvc.getDeptInfo(vm);
         }
     }
 })();

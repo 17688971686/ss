@@ -123,7 +123,8 @@
 	            controller: 'monthReportCtrl',
 	            controllerAs: 'vm'
 	        })
-	         //(项目管理)
+	         //end#monthReport
+	         //begin#项目管理
 	        //列表页
 	        .state('projectManagement', {
 	            url: '/projectManagement',
@@ -138,9 +139,9 @@
 	            controller: 'projectManagementEditCtrl',
 	            controllerAs: 'vm'
 	        }) 
-	       
+	       //end#项目管理
 	        
-	        //(单位管理)
+	        //begin#单位管理	       
 	      //列表页
 	        .state('unitManagement', {
 	            url: '/unitManagement',
@@ -156,7 +157,16 @@
 	            controllerAs: 'vm'
 	        }) 
 	      
-	        //end#monthReport
+	       //end#单位管理
+	        
+	        //begin#基础数据管理
+	         .state('basicData', {
+	            url: '/basicData',
+	            templateUrl: '/management/basicData/html/index',
+	            controller: 'basicDataCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //end#基础数据管理
     }]);
     
 })();

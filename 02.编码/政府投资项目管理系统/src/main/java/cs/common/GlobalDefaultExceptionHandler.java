@@ -30,7 +30,7 @@ public class GlobalDefaultExceptionHandler {
 	@ExceptionHandler(value ={ UnauthenticatedException.class,AuthorizationException.class})
 	@ResponseStatus(value = HttpStatus.UNAUTHORIZED)
 	public String unAuthErrorHandler(HttpServletRequest req, Exception e) throws Exception {			
-		logger.warn("��¼��ϢʧЧ����û��Ȩ��,�����µ�¼");
+		logger.warn("无权限访问");
 		return "forward:/";
 	}
 	@ExceptionHandler(value = Exception.class)

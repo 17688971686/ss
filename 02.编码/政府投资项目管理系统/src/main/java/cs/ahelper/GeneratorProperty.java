@@ -32,7 +32,7 @@ public class GeneratorProperty {
 					
 		}
 		for (String string : methods2) {
-			System.out.println(String.format("userUnitInfoDto.set%s(unitInfo.get%s());", string,string));
+			System.out.println(String.format("userUnitInfo.set%s(unitInfoDto.get%s());", string,string));
 		}
 	}
 

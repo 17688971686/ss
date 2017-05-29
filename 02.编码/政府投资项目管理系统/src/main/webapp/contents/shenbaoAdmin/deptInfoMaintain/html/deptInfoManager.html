@@ -1,133 +1,140 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+
+<style>
+.title{
+padding:5px;
+font-weight: bold;
+
+}
+</style>
+
 <div class="well" style="border:0;background:white;">
 	  <ol class="breadcrumb">
 	  	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
 	  	<li><a href="#/">首页</a></li>
 	    <li><a href="#/deptInfoMaintain">单位信息维护</a></li>
-	    <li class="active">{{vm.title}}</li>
+	    <li class="active">单位基本信息</li>
 	  </ol>
 <div>
 
-<div>
+<form>
+<div class="bg-info text-info title">
+单位基本信息
+</div>
 	<table width="100%" class="table table-hover table-bordered table-striped">
-		<tbody>
 			<tr>
 				<td  width="120">单位名称<span class="required ">(*)</span></td>
 				<td colspan="4" class="RborderNone">
-					<input class="form-text" type="text" value="住房和建设局" maxlength="50"  style="width: 300px;height:28px;">
+					<input class="form-control input-sm "  type="text" maxlength="50" ng-model="vm.model.unitName" ng-model="vm.model.unitName"  />
 				</td>
 			</tr>
 			<tr>
 				<td>组织机构代码</td>
-  				<td colspan="2"><span>1</span></td>
+  				<td colspan="2">
+  				<input class="form-control input-sm "  type="text" maxlength="50" ng-model="vm.model.orgCode"  />
+  				</td>
 			    <td width="100">电话号码<span class="required">(*)</span></td>
 			    <td>
-			    	<input class="form-text" style="height:28px;" type="text" value="28589811"  data-validation-placeholder="格式：0755-86153000-888" placeholder="格式：0755-86153000-888">
+			    <input class="form-control input-sm "  type="text" maxlength="50" ng-model="vm.model.unitTel"  />
 			    </td>
 		   </tr>
 		   <tr>
 		        <td>电子邮箱<span class="required">(*)</span></td>
 		        <td colspan="2">
-		        	<input class="form-text" type="text" value="zfjsj@126.com"  style="width: 214px; height: 28px; line-height: 19px;"></td>
+		        <input class="form-control input-sm "  type="text" maxlength="50" ng-model="vm.model.unitEmail"  />
 		        <td>传真号码<span class="required">(*)</span></td>
 		        <td>
-		        	<input class="form-text" style="height:28px;" type="text" value="28589989"  data-validation-placeholder="格式：0755-86153000-888" placeholder="格式：0755-86153000-888">
+		        <input class="form-control input-sm "  type="text" maxlength="50" ng-model="vm.model.unitFax"  />
 		        </td>
 		   </tr>
-		   <tr>
-		        <td colspan="5">常用申报信息</td>
-		   </tr>
+		   </table>
+		   
+		   <div class="bg-info text-info title">
+常用申报信息
+</div>
+		   <table width="100%" class="table table-hover table-bordered table-striped">		
 		  <tr>
 		    <td>单位性质<span class="required">(*)</span></td>
 		    <td colspan="4">
-		    	<select style="width: 185px; height: 26px;">
-					<option selected="selected" value="党政机关">党政机关</option>
-					<option value="全额事业单位">全额事业单位</option>
-					<option value="差额事业单位">差额事业单位</option>
-					<option value="企业化管理事业单位">企业化管理事业单位</option>
-					<option value="全民所有制企业">全民所有制企业</option>
-					<option value="集体所有制企业">集体所有制企业</option>
-					<option value="其他">其他</option>
+		    	<select ng-model="vm.model.unitProperty" class="form-select">
+		    		<option value="">---请选择---</option>
+					<option ng-repeat="x in vm.basicData_unitProperty" value="{{x.id}}">{{x.description}}</option>
 				</select>
 			</td>
 		</tr>
 		<tr>
 		    <td>单位地址<span class="required">(*)</span></td>
 		    <td colspan="4">
-			    <select style="width:80px;height: 26px;">
+			    <select class="form-select">
 			    	<option>光明新区</option>
 			    </select>
-			    <select style="width:100px;height: 26px;">
-					<option value="">--请选择--</option>
-					<option value="37">平湖街道</option>
-					<option value="38">布吉街道</option>
-					<option value="42">坂田街道</option>
-					<option value="41">南湾街道</option>
-					<option value="39">横岗街道</option>
-					<option value="36">龙岗街道</option>
-					<option selected="selected" value="35">龙城街道</option>
-					<option value="40">坪地街道</option>
-					<option value="43">大鹏新区</option>
-					<option value="44">坪山新区</option>
+			    <select ng-model="vm.model.divisionId" class="form-select">
+			    	<option value="">---请选择---</option>
+					<option ng-repeat="x in vm.basicData_area_Street" value="{{x.id}}">{{x.description}}</option>
 				</select>
-				<input class="form-text" type="text" value="龙岗中心城建设路建设大厦12楼" maxlength="50"  style="width: 439px;height:25px;">（路）
+				 <input style="margin-top:3px;" class="form-control input-sm "  type="text" maxlength="50" ng-model="vm.model.unitAddress"  />
 			</td>
 	  </tr>
 	  <tr>
-	    <td rowspan="2">单位负责人<span class="required">(*)</span></td>
+	    <td rowspan="3">单位负责人<span class="required">(*)</span></td>
 	    <td width="60">姓名</td>
 	    <td>
-	    	<input class="form-text" type="text" value="罗伟南" maxlength="50" style="width: 214px;height:28px;">
+	    	 <input class="form-control input-sm "  type="text" maxlength="50" ng-model="vm.model.unitResPerson"  />
 	    </td>
 	    <td>电话号码</td>
 	    <td>
-	    	<input class="form-text" style="height:28px;" type="text" value="28589898"  data-validation-placeholder="格式：0755-86153000-888" placeholder="格式：0755-86153000-888">
+	     <input class="form-control input-sm "  type="text" maxlength="50" ng-model="vm.model.resPersonTel"  />
 	    </td>
 	  </tr>
 	  <tr>
 	    <td>手机</td>	   
 	    <td>
-	    	<input class="form-text" type="text" value="13808801998" style="width: 214px;height:28px;">
+	     <input class="form-control input-sm "  type="text" maxlength="50" ng-model="vm.model.resPersonMobile"  />
 	    </td>
 	    <td>传真号码</td>
 	    <td>
-	    	<input class="form-text" style="height:28px;" type="text" value="28589878"  data-validation-placeholder="格式：0755-86153000" placeholder="格式：0755-86153000">
+	     <input class="form-control input-sm "  type="text" maxlength="50" ng-model="vm.model.resPersonFax"  />
 	    </td>
 	  </tr>
+	   <tr>
+	    <td>Email</td>
+	    <td colspan="3">
+	     <input class="form-control input-sm "  type="text" maxlength="50" ng-model="vm.model.resPersonEmail"  />
+	    </td>
+	  </tr>	
 	  <tr>
 	    <td rowspan="3">单位联系人<span class="required">(*)</span></td>
 	    <td>姓名</td>
 	    <td>
-	    	<input class="form-text" type="text" value="吴廷荣" maxlength="50" style="width: 214px;height:28px;">
+	     <input class="form-control input-sm "  type="text" maxlength="50" ng-model="vm.model.unitContactPerson"  />
 	    </td>
 	    <td>电话号码</td>
 	    <td>
-	    	<input class="form-text" style="height:28px;" type="text" value="28589920"  data-validation-placeholder="格式：0755-86153000-888" placeholder="格式：0755-86153000-888">
+	     <input class="form-control input-sm "  type="text" maxlength="50" ng-model="vm.model.contactPersonTel"  />
 	    </td>
 	  </tr>
 	  <tr>
 	    <td>手机</td>
 	
 	    <td>
-	    	<input class="form-text" type="text" value="13802583323" style="width: 214px;height:28px;">
+	     <input class="form-control input-sm "  type="text" maxlength="50" ng-model="vm.model.contactPersonMobile"  />
 	    </td>
 	    <td>传真号码</td>
 	    <td>
-	    	<input class="form-text" style="height:28px;" type="text" value="28589920"  data-validation-placeholder="格式：0755-86153000-888" placeholder="格式：0755-86153000-888">
+	     <input class="form-control input-sm "  type="text" maxlength="50" ng-model="vm.model.contactPersonFax"  />
 	    </td>
 	  </tr>
 	  <tr>
 	    <td>Email</td>
 	    <td colspan="3">
-	    	<input class="form-text" type="text" value="2798809792@qq.com" style="width: 214px;height:28px;">
+	     <input class="form-control input-sm "  type="text" maxlength="50" ng-model="vm.model.contactPersonEmail"  />
 	    </td>
-	  </tr>
-	  <tr>
-		<td colspan="5" style="padding-top: 11px; padding-bottom: 30px; text-align:center;border-bottom:none">
-			<button class="btn btn-success">提交</button>
-	    </td>
-	  </tr>
-	</tbody>
+	  </tr>	
 </table>
 
+
+<div style="text-align:center;">
+<button class="btn btn-success" ng-click="vm.submit()">确认提交</button>
 </div>
+</form>
 

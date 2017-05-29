@@ -5,7 +5,7 @@
 	
     <error-page>
         <error-code>404</error-code>
-        <location>/</location>
+        <location>/error/404</location>
     </error-page>
 	<servlet>
 		<servlet-name>framework</servlet-name>
