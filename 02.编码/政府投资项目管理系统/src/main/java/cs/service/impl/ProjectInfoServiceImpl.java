@@ -17,6 +17,7 @@ import cs.domain.ProjectInfo_;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.BasicDataDto;
+import cs.model.DomainDto.MonthReportDto;
 import cs.model.DomainDto.ProjectInfoDto;
 import cs.model.DomainDto.UnitInfoDto;
 import cs.model.DtoMapper.ProjectInfoMapper;
@@ -67,6 +68,14 @@ public class ProjectInfoServiceImpl implements ProjectInfoService{
 			UnitInfoDto shenBaoUnit =projectInfoDto.getShenBaoUnitDto();			
 			shenBaoUnit.setUnitPropertyValue(basicDataService.getDescriptionById(shenBaoUnit.getUnitProperty()));//获取单位性质的名称
 			
+			//获取月报相关类型的名称
+			List<MonthReportDto> monthReportDtos = projectInfoDto.getMonthReportDtos();
+			monthReportDtos.forEach(y->{
+				y.setProposalsTypeDisplay(basicDataService.getDescriptionById(y.getProposalsType()));//获取项目建议书批复类型名称
+				y.setReportTypeDisplay(basicDataService.getDescriptionById(y.getReportType()));//获取可行性研究报告批复类型名称
+				y.setAllEstimateTypeDisplay(basicDataService.getDescriptionById(y.getAllEstimateType()));//获取总概算批复类型名称
+				y.setSelfReviewDisplay(basicDataService.getDescriptionById(y.getSelfReview()));//获取项目进度安排名称
+			});
 			
 			List<AttachmentDto> attachmentDtos = projectInfoDto.getAttachmentDtos();
 			attachmentDtos.forEach(y->{				
