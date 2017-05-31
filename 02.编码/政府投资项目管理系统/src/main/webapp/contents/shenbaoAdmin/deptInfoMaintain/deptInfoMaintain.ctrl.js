@@ -16,7 +16,7 @@
         };
         
         vm.basicData_unitProperty=$linq(common.getBasicData())
-        							.where(function(x){return x.identity=='unitProperty';})
+        							.where(function(x){return x.identity=='unitProperty'&&x.pId=='unitProperty';})
         							.toArray();
         
         vm.basicData_area_Street=$linq(common.getBasicData())

@@ -139,11 +139,11 @@
           }
      	 //begin#基础数据
      	vm.basicData_approvalType=$linq(common.getBasicData())
-		  .where(function(x){return x.identity=='approvalType';})
+		  .where(function(x){return x.identity=='approvalType'&&x.pId=='approvalType';})
 		  .toArray();
      	
      	vm.basicData_projectProgress=$linq(common.getBasicData())
-		  .where(function(x){return x.identity=='projectProgress';})
+		  .where(function(x){return x.identity=='projectProgress'&&x.pId=='projectProgress';})
 		  .toArray();
      	
      	//begin#上传类型
