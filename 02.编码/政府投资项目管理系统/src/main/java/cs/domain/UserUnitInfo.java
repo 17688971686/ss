@@ -11,6 +11,7 @@ public class UserUnitInfo extends DomainBase {
 	@Id
 	private String id;	
 	
+	@Column(columnDefinition="varchar(255)  COMMENT '和单位信息关联的用户名'")
 	private String userName;
 	//begin#单位基本信息
 	@Column(columnDefinition="varchar(255)  COMMENT '单位名称'")

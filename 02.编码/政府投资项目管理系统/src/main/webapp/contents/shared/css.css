@@ -123,3 +123,6 @@ form table td {
 .input-validation-error{
 	border:1px solid red;
 }
+.form-control{
+	display:inline;
+}

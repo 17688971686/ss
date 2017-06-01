@@ -124,22 +124,23 @@
 	            controllerAs: 'vm'
 	        })
 	         //end#monthReport
-	         //begin#项目管理
+	        
+	         //begin#project
 	        //列表页
-	        .state('projectManagement', {
-	            url: '/projectManagement',
-	            templateUrl: '/projectManagement/html/list.html',
-	            controller: 'projectManagementCtrl',
+	        .state('project', {
+	            url: '/project',
+	            templateUrl: '/management/project/html/list.html',
+	            controller: 'projectCtrl',
 	            controllerAs: 'vm'
 	        })
 	        //编辑页
-	        .state('projectManagementEdit', {
-	            url: '/projectManagementEdit/:id',
-	            templateUrl: '/projectManagement/html/edit.html',
-	            controller: 'projectManagementEditCtrl',
+	        .state('projectEdit', {
+	            url: '/projectEdit/:id',
+	            templateUrl: '/management/project/html/edit.html',
+	            controller: 'projectCtrl',
 	            controllerAs: 'vm'
 	        }) 
-	       //end#项目管理
+	       //end#project
 	        
 	        //begin#单位管理	       
 	      //列表页

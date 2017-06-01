@@ -15,24 +15,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.model.PageModelDto;
-import cs.model.DomainDto.ProjectInfoDto;
+import cs.model.DomainDto.ProjectDto;
 import cs.repository.odata.ODataObj;
-import cs.service.interfaces.ProjectInfoService;
+import cs.service.interfaces.ProjectService;
 
 @Controller
-@RequestMapping(name="项目管理",path="projectManagement")
-public class ProjectManagementController {
-	private String ctrlName = "management/monthReport/projectManagement";
-	private static Logger logger = Logger.getLogger(ProjectManagementController.class.getName());
+@RequestMapping(name="项目管理",path="management/project")
+public class ProjectController {
+	private String ctrlName = "management/project";
+	private static Logger logger = Logger.getLogger(ProjectController.class.getName());
 	
 	@Autowired
-	private ProjectInfoService projectInfoService;
+	private ProjectService ProjectService;
 	
 	@RequestMapping(name = "获取项目信息", path = "",method=RequestMethod.GET)
-	public @ResponseBody PageModelDto<ProjectInfoDto> get(HttpServletRequest request) throws ParseException {
+	public @ResponseBody PageModelDto<ProjectDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
-		PageModelDto<ProjectInfoDto> projectInfoDtos = projectInfoService.get(odataObj);		
-		return projectInfoDtos;
+		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);		
+		return ProjectDtos;
 	}
 	
 	@RequestMapping(name = "删除项目信息", path = "",method=RequestMethod.DELETE)
@@ -40,26 +40,27 @@ public class ProjectManagementController {
 	public void  delete(@RequestBody String id){
 		String[] ids=id.split(",");
 		if(ids.length>1){
-			projectInfoService.deleteProjectInfos(ids);	
+			ProjectService.deleteProjects(ids);	
 		}else{
-			projectInfoService.deleteProjectInfo(id);	
+			ProjectService.deleteProject(id);	
 		}		
 		
 	}
 	
 	@RequestMapping(name = "更新项目信息", path = "",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void  update(@RequestBody ProjectInfoDto projectInfoDto){		
-		projectInfoService.updateProjectInfo(projectInfoDto);		
+	public void  update(@RequestBody ProjectDto ProjectDto){		
+		ProjectService.updateProject(ProjectDto);		
 	}
 	
 	@RequestMapping(name = "创建项目信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void  create(@RequestBody ProjectInfoDto projectInfoDto){
+	public void  create(@RequestBody ProjectDto ProjectDto){
 		System.out.println("创建项目信息");
-		projectInfoService.createProjectInfo(projectInfoDto);		
+		ProjectService.createProject(ProjectDto);		
 	}
 	
+	//begin#html
 	@RequestMapping(name = "列表页", path = "html/list")
 	public String list() {
 		return this.ctrlName + "/list";
