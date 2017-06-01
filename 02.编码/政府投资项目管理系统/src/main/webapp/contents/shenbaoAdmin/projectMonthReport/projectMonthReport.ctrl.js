@@ -68,9 +68,24 @@
      		   vm.years.push(vm.currentYear-i);
      	   }
      	   vm.years=vm.years.sort();
+     	  vm.model.monthReport.proposalsYear=vm.currentYear;
+     	  vm.model.monthReport.reportYear=vm.currentYear;
+     	  vm.model.monthReport.allEstimateYear=vm.currentYear;
      	  //begin#日期处理
        	 vm.date=function(dateStr){
-       		return new Date(dateStr);
+       		if(dateStr){
+       			return new Date(dateStr);
+       		 }else{
+       			 return null;
+       		 }
+       	 }
+       //begin#金额处理
+       	 vm.money = function(money){
+       		 if(money){
+       			 return money;
+       		 }else{
+       			 return 0;
+       		 }
        	 }
      	   //begin#提交月报
      	  vm.submit = function(){
