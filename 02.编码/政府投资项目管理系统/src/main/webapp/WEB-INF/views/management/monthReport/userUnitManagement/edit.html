@@ -1,0 +1,140 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+        <li><a href="#/">首页</a></li>
+        <li>项目进度管理</li>
+        <li>用户单位管理</li>         
+        <li class="active" >{{vm.title}}</li>
+    </ol>
+    <form id="form" name="form">
+        <div class="toolbar">
+            <a class="btn btn-sm btn-primary" href="#/userUnitManagement"><span class="glyphicon glyphicon-chevron-left"></span>返回</a>
+            <button class="btn btn-sm btn-success" ng-click="vm.create()" ng-disabled="vm.isSubmit" ng-hide="vm.isUpdate"><span class="glyphicon glyphicon-ok"></span>创建</button>
+            <button class="btn btn-sm btn-success" ng-click="vm.update()" ng-disabled="vm.isSubmit" ng-show="vm.isUpdate"><span class="glyphicon glyphicon-ok"></span>更新</button>
+        </div>
+          
+        <div style="margin-left:5%;margin-right:5%">      
+	        <div class="bg-danger text-danger" style="padding: 10px; margin-bottom: 10px">单位信息 <span></span></div>	
+		  	<div>
+		    	<table class="table table-bordered table-striped table-hover">
+			    	<tr>
+				        <td class="formAlignRight" width="20%" style="vertical-align: middle;">单位编号：<span class="required">(*)</span></td>		
+				        <td colspan="2" width="30%">
+				        	<input type="text" class="form-control input-sm" id="id" name="id" ng-model="vm.model.id" ng-disabled="vm.isUpdate"/> 
+				        	<span data-valmsg-for="id" data-valmsg-replace="true" class="errors"></span>      	
+				        </td>			        				        
+				        <td class="formAlignRight" style="vertical-align: middle;">单位组织机构代码：<span class="required">(*)</span></td>		    		
+			    		<td>
+			    			<input type="text" class="form-control input-sm" id="orgCode" name="orgCode" ng-model="vm.model.orgCode" ng-disabled="vm.isUpdate" data-val="true" data-val-required="必填"/>
+			    			<span data-valmsg-for="orgCode" data-valmsg-replace="true" class="errors"></span>
+			    		</td>
+				    </tr>
+			    	<tr>
+			    		<td class="formAlignRight" width="20%" style="vertical-align: middle;">单位名称：<span class="required">(*)</span></td>		       
+				        <td colspan="2">
+				        	<input type="text" class="form-control input-sm"  id="unitName" name="unitName" ng-model="vm.model.unitName" data-val="true" data-val-required="必填"/>
+				        	<span data-valmsg-for="unitName" data-valmsg-replace="true" class="errors"></span>
+				        </td>
+			    		<td class="formAlignRight" style="vertical-align: middle;">单位性质：<span class="required">(*)</span></td>		    	
+			    		<td style="padding-left: 10px;">
+			    			<select class="form-select" style="height:30px;" id="unitProperty" name="unitProperty" ng-model="vm.model.unitProperty" data-val="false" data-val-required="必选">
+			    				<option value="">--请选择--</option>
+					           	<option ng-repeat="x in vm.basicData_unitProperty" value="{{x.id}}">{{x.description}}</option>
+			    			</select>
+			    			<span data-valmsg-for="unitProperty" data-valmsg-replace="true" class="errors"></span>
+			    		</td>
+			      	</tr>
+			      	<tr>
+			        	<td class="formAlignRight" style="vertical-align: middle;">单位地址：<span class="required">(*)</span></td>
+			        	<td colspan="2">
+					    	<input type="text" class="form-control input-sm" id="unitAddress" name="unitAddress" placeholder="单位详细地址" ng-model="vm.model.unitAddress" data-val="true" data-val-required="必填"/>			      		
+			      			<span data-valmsg-for="unitAddress" data-valmsg-replace="true" class="required"></span>
+			      		</td>
+			      		<td class="formAlignRight" style="vertical-align: middle;">单位所属行政区划：<span class="required">(*)</span></td>
+			    		<td>
+			    			<select id="divisionId" name="divisionId" style="height:30px;" ng-model="vm.model.divisionId" data-val="false" data-val-required="必选">
+			    				<option value="">--请选择--</option>
+			    				<option ng-repeat="x in vm.basicData_division" value="{{x.id}}">{{x.description}}</option>
+			    			</select>
+			    			<span data-valmsg-for="divisionId" data-valmsg-replace="true" class="errors"></span>
+			    		</td>
+			      	</tr>
+			      	<tr>			       
+				        <td class="formAlignRight" style="vertical-align: middle;">单位电话：<span class="required">(*)</span></td>
+				        <td colspan="2">
+				        	<input type="text" class="form-control input-sm" id="unitTel" name="unitTel" ng-model="vm.model.unitTel" data-val="true" data-val-required="必填"/>
+				        	<span data-valmsg-for="unitTel" data-valmsg-replace="true" class="errors"></span>
+				        </td>
+				         <td class="formAlignRight" style="vertical-align: middle;">单位传真：</td>
+				        <td>
+				        	<input type="text" class="form-control input-sm" id="unitFax" name="unitFax" ng-model="vm.model.unitFax"/>	
+				        </td>
+				    </tr>			    			        			       			 		    
+				    <tr>
+			        	<td class="formAlignRight" style="vertical-align: middle;">单位邮箱：</td>
+			        	<td colspan="4">
+			        		<input type="email" class="form-control input-sm" style="width:400px;" id="unitEmail" name="unitEmail" ng-model="vm.model.unitEmail"/>
+			        		<span ng-show="form.unitEmail.$error.email" class="errors">请输入合法邮箱！</span>
+			        	</td>	  	
+			        </tr>
+				    <tr>
+				        <td  rowspan="2" class="formAlignRight" style="vertical-align: middle;">单位负责人 </td>
+				        <td class="formAlignRight" style="vertical-align: middle;">姓名：<span class="required">(*)</span></td>
+				        <td>
+				        	<input type="text" class="form-control input-sm" id="unitResPerson" name="unitResPerson" ng-model="vm.model.unitResPerson" data-val="true" data-val-required="必填"/>
+				        	<span data-valmsg-for="unitResPerson" data-valmsg-replace="true" class="errors"></span>
+				        </td>
+				        <td class="formAlignRight" style="vertical-align: middle;">电话：</span></td>
+				        <td>
+				        	<input type="text" class="form-control input-sm" ng-model="vm.model.resPersonTel"/>
+				        </td>
+				    </tr>
+			        <tr>
+			        	<td class="formAlignRight" style="vertical-align: middle;">手机：<span class="required">(*)</span></td>
+			        	<td>
+			        		<input type="text" class="form-control input-sm" id="resPersonMobile" name="resPersonMobile" ng-model="vm.model.resPersonMobile" data-val="true" data-val-required="必填"/>
+			        		<span data-valmsg-for="resPersonMobile" data-valmsg-replace="true" class="errors"></span>
+			        	</td>
+			        	<td class="formAlignRight" style="vertical-align: middle;">传真： </td>
+			        	<td><input  type="text" class="form-control input-sm" maxlength="50" ng-model="vm.model.resPersonFax"/></td>
+			        </tr>
+			        <tr>
+			        	<td rowspan="3" class="formAlignRight" style="vertical-align: middle;">单位联系人</td>
+			        	<td class="formAlignRight" style="vertical-align: middle;">姓名：<span class="required">(*)</span></td>
+			        	<td>
+			        		<input type="text" class="form-control input-sm" id="unitContactPerson" name="unitContactPerson" ng-model="vm.model.unitContactPerson" data-val="true" data-val-required="必填"/>
+			        		<span data-valmsg-for="unitContactPerson" data-valmsg-replace="true" class="errors"></span>
+			        	</td>
+			        	<td class="formAlignRight" style="vertical-align: middle;">电话：</td>
+			        	<td>
+			        		<input type="text" class="form-control input-sm" ng-model="vm.model.contactPersonTel"/>	
+			        	</td>
+			        </tr>
+			        <tr>
+			        	<td class="formAlignRight" style="vertical-align: middle;">手机：<span class="required">(*)</span></td>
+			       		<td>
+			       			<input type="text" class="form-control input-sm" id="contactPersonMobile" name="contactPersonMobile" ng-model="vm.model.contactPersonMobile" data-val="true" data-val-required="必填"/>
+			       			<span data-valmsg-for="contactPersonMobile" data-valmsg-replace="true" class="errors"></span>
+			       		</td>
+			        	<td class="formAlignRight" style="vertical-align: middle;">传真： </td>
+			        	<td><input type="text" class="form-control input-sm" maxlength="50" ng-model="vm.model.contactPersonFax"/></td>
+			        </tr>
+			        <tr>
+			        	<td class="formAlignRight" style="vertical-align: middle;">Email：</td>
+			        	<td colspan="3">
+			        		<input type="email" class="form-control input-sm" style="width:400px;" id="contactPersonEmail" name="contactPersonEmail" ng-model="vm.model.contactPersonEmail"/>
+			        		<span ng-show="form.contactPersonEmail.$error.email" class="errors">请输入合法邮箱！</span>
+			        	</td>
+			        </tr>
+			        <tr>
+			        	<td class="formAlignRight" style="vertical-align: middle;">备注：</td>
+			        	<td colspan="4">
+			        		<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：200字符以内"  ng-model="vm.model.remark"></textarea>
+			        	</td>
+			        </tr>
+		    </table>
+		  	</div>
+	  </div>        
+    </form>
+</div>
