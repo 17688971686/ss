@@ -20,7 +20,8 @@
         http: http,//http请求    
         gridDataSource: gridDataSource,//gridDataSource
         loginUrl: '/home/login',
-        getBasicData:getBasicData
+        getBasicData:getBasicData,
+        toDate:toDate
     };
 
     window.common = service;
@@ -319,6 +320,13 @@
     	return window.global_basicData;
     }
 
+    function toDate(dateStr){
+    	if(dateStr){
+   			return new Date(dateStr);
+   		 }else{
+   			 return null;
+   		 }
+    }
 
     //init
     init();

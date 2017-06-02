@@ -5,7 +5,6 @@
 
 	projectMonthReport.$inject = [ '$http','$compile' ];	
 	function projectMonthReport($http,$compile) {
-		var url_projectInfo = "/projectInfo";//获取申报的项目的列表数据
 		var url_project = "/shenbaoAdmin/project";
 		var url_basicData = "/common/basicData";//获取基础数据
 		var url_projectMonthReport="/shenbaoAdmin/projectMonthReport";
@@ -13,17 +12,17 @@
 		var service = {
 			grid : grid,
 			submitMonthReport:submitMonthReport,
-			getProjectInfo:getProjectInfo
+			getProjectById:getProjectById
 		};		
 		return service;	
 	
 		/**
 		 * 查询项目数据
 		 */
-		function getProjectInfo(vm){
+		function getProjectById(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_projectInfo + "?$filter=id eq '{0}'", vm.projectId),
+					url : common.format(url_project + "?$filter=id eq '{0}'", vm.projectId),
 				}
 				var httpSuccess = function success(response) {					
 					vm.model.projectInfo = response.data.value[0]||{};	
@@ -41,6 +40,9 @@
 							vm.model.monthReport=report[0];
 						}
 						
+						vm.model.projectInfo.pifuJYS_date=common.toDate(vm.model.projectInfo.pifuJYS_date);
+						vm.model.projectInfo.pifuKXXYJBG_date=common.toDate(vm.model.projectInfo.pifuKXXYJBG_date);
+						vm.model.projectInfo.pifuCBSJYGS_date=common.toDate(vm.model.projectInfo.pifuCBSJYGS_date);
 					}
 					
 				}

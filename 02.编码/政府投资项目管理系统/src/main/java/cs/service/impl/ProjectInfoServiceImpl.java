@@ -71,10 +71,10 @@ public class ProjectInfoServiceImpl implements ProjectInfoService{
 			//获取月报相关类型的名称
 			List<MonthReportDto> monthReportDtos = projectInfoDto.getMonthReportDtos();
 			monthReportDtos.forEach(y->{
-				y.setProposalsTypeDisplay(basicDataService.getDescriptionById(y.getProposalsType()));//获取项目建议书批复类型名称
-				y.setReportTypeDisplay(basicDataService.getDescriptionById(y.getReportType()));//获取可行性研究报告批复类型名称
-				y.setAllEstimateTypeDisplay(basicDataService.getDescriptionById(y.getAllEstimateType()));//获取总概算批复类型名称
-				y.setSelfReviewDisplay(basicDataService.getDescriptionById(y.getSelfReview()));//获取项目进度安排名称
+//				y.setProposalsTypeDisplay(basicDataService.getDescriptionById(y.getProposalsType()));//获取项目建议书批复类型名称
+//				y.setReportTypeDisplay(basicDataService.getDescriptionById(y.getReportType()));//获取可行性研究报告批复类型名称
+//				y.setAllEstimateTypeDisplay(basicDataService.getDescriptionById(y.getAllEstimateType()));//获取总概算批复类型名称
+//				y.setSelfReviewDisplay(basicDataService.getDescriptionById(y.getSelfReview()));//获取项目进度安排名称
 			});
 			
 			List<AttachmentDto> attachmentDtos = projectInfoDto.getAttachmentDtos();
