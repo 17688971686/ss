@@ -129,7 +129,21 @@
 					url : common.format(url_project + "?$filter=id eq '{0}'", vm.id)
 				}
 				var httpSuccess = function success(response) {
-					vm.model = response.data.value[0];					
+					vm.model = response.data.value[0];
+					if(vm.page=='update'){
+						//日期展示
+						vm.model.beginDate=common.toDate(vm.model.beginDate);//开工日期
+						vm.model.endDate=common.toDate(vm.model.endDate);//竣工日期
+						vm.model.pifuJYS_date=common.toDate(vm.model.pifuJYS_date);//项目建议书批复日期			
+						vm.model.pifuKXXYJBG_date=common.toDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
+						vm.model.pifuCBSJYGS_date=common.toDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期
+		        		//项目行业归口
+						var child = $linq(common.getBasicData())
+		        		.where(function(x){return x.id==vm.model.projectIndustry})
+		        		.toArray()[0];
+		        		vm.model.projectIndustryParent=child.pId;
+		        		vm.projectIndustryChange();			        		
+					}
 				}
 				common.http({
 					vm : vm,

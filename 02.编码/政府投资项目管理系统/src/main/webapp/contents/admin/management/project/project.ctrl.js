@@ -10,6 +10,7 @@
     function project($location, projectSvc,$state,$scope) {
         /* jshint validthis:true */
     	var vm = this;
+    	vm.title = "新增项目";
     	vm.model={};
         vm.id=$state.params.id;        
     	vm.page="list";
@@ -25,6 +26,8 @@
     	init();    	
     	activate();
         function activate() {
+        	
+        	
         	if(vm.page=='list'){
         		init_list();
         	}
@@ -70,8 +73,7 @@
           
     	}//init_list
     	
-    	function init_create(){
-    		
+    	function init_create(){ 
     		//begin#基础数据
     		vm.basicData={};    
     		//项目阶段
@@ -91,7 +93,6 @@
         		vm.basicData.projectIndustryChildren=$linq(common.getBasicData())
         		.where(function(x){return x.identity=='projectIndustry'&&x.pId==vm.model.projectIndustryParent;})
         		.toArray();
-        		console.log(vm.basicData.projectIndustryChildren)
     		}
     		//投资类型
     		vm.basicData.projectInvestmentType=$linq(common.getBasicData())
@@ -135,20 +136,23 @@
     			 		+ (parseFloat(vm.model.capitalOther)||0) ;
     		 }
 	        
-    		 vm.create = function () {               
-    		     projectSvc.createProject(vm);
+    		 vm.create = function () {    			 
+    		     projectSvc.createProject(vm);    		     
     		 }
+    		 
+    		 
     			 
     		 
     	}//init_create
     	
     	function init_update(){
-    		//todo
-    		
-    	}//init_update
-       
-        
-        
-        
+    		vm.title = "编辑项目"
+    		//获取项目信息
+    		projectSvc.getProjectById(vm);
+    		//更新项目
+    		vm.update = function(){
+    			projectSvc.updateProject(vm);
+    		}   	   		
+    	}//init_update        
     }
 })();
