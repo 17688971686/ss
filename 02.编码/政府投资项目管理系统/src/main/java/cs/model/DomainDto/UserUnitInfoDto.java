@@ -3,15 +3,14 @@ package cs.model.DomainDto;
 import cs.domain.UserUnitInfo;
 
 public class UserUnitInfoDto extends UserUnitInfo {
-	private String unitPropertyDisplay;
+	private String unitPropertyDesc;
 
-	public String getUnitPropertyDisplay() {
-		return unitPropertyDisplay;
+	public String getUnitPropertyDesc() {
+		return unitPropertyDesc;
 	}
 
-	public void setUnitPropertyDisplay(String unitPropertyDisplay) {
-		this.unitPropertyDisplay = unitPropertyDisplay;
+	public void setUnitPropertyDesc(String unitPropertyDesc) {
+		this.unitPropertyDesc = unitPropertyDesc;
 	}
-	
-	
+
 }
