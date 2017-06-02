@@ -26,6 +26,8 @@ public class ProjectInfo extends DomainBase{
 	@Id
 	private String id;
 	
+	@Column(columnDefinition="varchar(255)  COMMENT '和单位信息关联的用户名，从而知道项目所属单位'")
+	private String userName;
 	//begin#项目基本信息
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目代码'")
 	private String projectNumber;
@@ -899,6 +901,14 @@ public class ProjectInfo extends DomainBase{
 
 	public void setProjectNumber(String projectNumber) {
 		this.projectNumber = projectNumber;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 	

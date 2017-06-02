@@ -1,85 +1,87 @@
 (function() {
 	'use strict';
 
-	angular.module('app').factory('projectMonthReportSvc', projectMonthReport);
+	angular.module('app').factory('projectSvc', project);
 
-	projectMonthReport.$inject = [ '$http','$compile' ];	
-	function projectMonthReport($http,$compile) {
-		var url_projectInfo = "/projectInfo";//获取申报的项目的列表数据
-		var url_project = "/shenbaoAdmin/project";
-		var url_basicData = "/common/basicData";//获取基础数据
-		var url_projectMonthReport="/shenbaoAdmin/projectMonthReport";
-		
+	project.$inject = [ '$http' ];
+
+	function project($http) {
+		var url_project = "/management/project";//获取项目信息数据		
+		var url_back = "#/project";
 		var service = {
-			grid : grid,
-			submitMonthReport:submitMonthReport,
-			getProjectInfo:getProjectInfo
-		};		
-		return service;	
-	
+			grid : grid,			
+			getProjectById:getProjectById,
+			updateProject:updateProject,
+			createProject:createProject
+		};
+
+		return service;
+		
 		/**
-		 * 查询项目数据
-		 */
-		function getProjectInfo(vm){
-			var httpOptions = {
-					method : 'get',
-					url : common.format(url_projectInfo + "?$filter=id eq '{0}'", vm.projectId),
+		 * 创建项目
+		 */		
+		function createProject(vm){
+		    console.log(vm.model);		   
+			common.initJqValidation();
+			var isValid = $('form').valid();        
+			if (isValid) {
+				vm.isSubmit = true;				
+				var httpOptions = {
+					method : 'post',
+					url : url_project,
+					data : vm.model
 				}
-				var httpSuccess = function success(response) {					
-					vm.model.projectInfo = response.data.value[0]||{};	
-					
-					if(vm.page=='selectMonth'){
-						vm.setMonthSelected();
-						
-					}
-					if(vm.page=='fillReport'){
-						var report=$linq(vm.model.projectInfo.monthReportDtos)
-											.where(function(x){return x.submitYear==vm.year && x.submitMonth==vm.month;})
-											.toArray();
-						if(report.length>0){
-							vm.isReportExist=true;
-							vm.model.monthReport=report[0];
+
+				var httpSuccess = function success(response) {
+
+					common.requestSuccess({
+						vm : vm,
+						response : response,
+						fn : function() {
+
+							common.alert({
+								vm : vm,
+								msg : "操作成功",
+								fn : function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');
+									$('.modal-backdrop').remove();
+									location.href = url_back;
+								}
+							})
 						}
-						
-					}
-					
+
+					});
+
 				}
-				
+
 				common.http({
-					vm:vm,
-					$http:$http,
-					httpOptions:httpOptions,
-					success:httpSuccess
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
 				});
+
+			}
 		}
-		
-		
-		
-		
-		
-		
-		
-		
+		//end#createProject
 		
 		/**
-		 * 提交项目月报信息到数据库
+		 * 更新项目信息
 		 */
-		function submitMonthReport(vm){
-			//验证表单信息
+		//begin#updateProject
+		function updateProject(vm){
 			common.initJqValidation();
 			var isValid = $('form').valid();
-			//验证通过
-			if(isValid){				
-				vm.model.monthReport.submitYear=vm.year;
-				vm.model.monthReport.submitMonth=vm.month;
-				vm.model.monthReport.projectId=vm.projectId;
+			if (isValid) {
 				vm.isSubmit = true;
+
 				var httpOptions = {
-						method : 'post',
-						url : url_projectMonthReport,
-						data : vm.model.monthReport
-					}
-				
+					method : 'put',
+					url : url_project,
+					data : vm.model
+				}
+
 				var httpSuccess = function success(response) {
 
 					common.requestSuccess({
@@ -92,7 +94,6 @@
 								fn : function() {
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
-									location.reload();
 								}
 							})
 						}
@@ -106,12 +107,41 @@
 					httpOptions : httpOptions,
 					success : httpSuccess
 				});
-			}			
+
+			} else {
+				 common.alert({
+				 vm:vm,
+				 msg:"您填写的信息不正确,请核对后提交!"
+				 })
+			}
 		}
+		//end#updateProject
+		
+		
 		
 		/**
-		 * 月报列表页数据查询以及列表设计（申报的项目）
+		 * 通过项目代码查询项目信息
 		 */
+		//begin#getProjectById
+		function getProjectById(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_project + "?$filter=id eq '{0}'", vm.id)
+				}
+				var httpSuccess = function success(response) {
+					vm.model = response.data.value[0];					
+				}
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+		}
+		//end#getProjectById
+		
+		
+		// begin#grid
 		function grid(vm) {
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
@@ -198,13 +228,5 @@
 			};
 
 		}// end fun grid
-
-		
-		
-		
-
 	}
-	
-	
-	
 })();

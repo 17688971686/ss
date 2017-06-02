@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
+import cs.domain.Project;
 import cs.domain.UserUnitInfo;
 import cs.domain.framework.Role_;
 import cs.model.DomainDto.BasicDataDto;
@@ -18,7 +19,7 @@ public class GeneratorProperty {
 		//System.out.println("roleName:"+Role_.roleName.getName());
 	
 		
-		Class<?> dto=UserUnitInfo.class;
+		Class<?> dto=Project.class;
 		
 		Method[] methods=dto.getMethods();
 		Set<String> methods2=new HashSet<>();
@@ -32,7 +33,7 @@ public class GeneratorProperty {
 					
 		}
 		for (String string : methods2) {
-			System.out.println(String.format("userUnitInfo.set%s(unitInfoDto.get%s());", string,string));
+			System.out.println(String.format("project.set%s(projectDto.get%s());", string,string));
 		}
 	}
 

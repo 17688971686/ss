@@ -28,7 +28,7 @@ public class BasicData extends DomainBase {
 	private String comment;
 	
 	@Column(columnDefinition="bit  COMMENT '是否默认'")
-	private Boolean isDefault;
+	private Boolean canEdit;
 
 	public String getId() {
 		return id;
@@ -70,11 +70,13 @@ public class BasicData extends DomainBase {
 		this.comment = comment;
 	}
 
-	public Boolean getIsDefault() {
-		return isDefault;
+	public Boolean getCanEdit() {
+		return canEdit;
 	}
 
-	public void setIsDefault(Boolean isDefault) {
-		this.isDefault = isDefault;
+	public void setCanEdit(Boolean canEdit) {
+		this.canEdit = canEdit;
 	}
+
+	
 }

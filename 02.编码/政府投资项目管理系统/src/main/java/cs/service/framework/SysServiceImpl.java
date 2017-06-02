@@ -17,6 +17,7 @@ import cs.common.Response;
 import cs.common.sysResource.ClassFinder;
 import cs.common.sysResource.SysResourceDto;
 import cs.domain.BasicData;
+import cs.domain.BasicData_;
 import cs.domain.framework.Resource;
 import cs.domain.framework.Role;
 import cs.domain.framework.SysConfig;
@@ -154,10 +155,10 @@ public class SysServiceImpl implements SysService {
 			sysConfig.setId("init_basicData");
 			sysConfigRepo.save(sysConfig);
 		}
-		//删除历史基础数据
-		basicDataRepo.clear();
-
-		//初始化基础数据
+		//删除历史基础数据		
+		basicDataRepo.getSession().createQuery(String.format("delete from %s",BasicData_.class.getName())).executeUpdate();
+//
+//		//初始化基础数据
 		this.createBasicData("approvalType","" , "approvalType", "批复类型分类", "");
 		this.createBasicData("approvalType_01","approvalType" , "approvalType", "深发改", "");
 		this.createBasicData("approvalType_02","approvalType" , "approvalType", "深发改函", "");
@@ -253,11 +254,14 @@ public class SysServiceImpl implements SysService {
 		this.createBasicData("problemType_05","problemType" , "problemType", "中央及省部级部门审批问题", "");
 		this.createBasicData("problemType_06","problemType" , "problemType", "其他", "");
 		
-		this.createBasicData("projectClassifiy","" , "projectClassifiy", "项目分类", "");
-		this.createBasicData("projectClassifiy_01","projectClassifiy" , "projectClassifiy", "政府投资房建类", "");
-		this.createBasicData("projectClassifiy_02","projectClassifiy" , "projectClassifiy", "政府投资市政类", "");
-		this.createBasicData("projectClassifiy_03","projectClassifiy" , "projectClassifiy", "社会投资房建类", "");
-		this.createBasicData("projectClassifiy_04","projectClassifiy" , "projectClassifiy", "社会投资市政类", "");
+		this.createBasicData("projectClassify","" , "projectClassify", "项目分类", "");
+		this.createBasicData("projectClassify_01","projectClassify" , "projectClassify", "政府投资房建类", "");
+		this.createBasicData("projectClassify_02","projectClassify" , "projectClassify", "政府投资市政类", "");
+		this.createBasicData("projectClassify_03","projectClassify" , "projectClassify", "政府投资水务类", "");
+		this.createBasicData("projectClassify_04","projectClassify" , "projectClassify", "社会投资房建类", "");
+		this.createBasicData("projectClassify_05","projectClassify" , "projectClassify", "社会投资市政类", "");
+		this.createBasicData("projectClassify_06","projectClassify" , "projectClassify", "社会投资水务类", "");
+		this.createBasicData("projectClassify_07","projectClassify" , "projectClassify", "其它", "");
 		
 		this.createBasicData("projectConstrChar","" , "projectConstrChar", "项目建设性质分类", "");
 		this.createBasicData("projectConstrChar_01","projectConstrChar" , "projectConstrChar", "新建", "");
@@ -348,20 +352,20 @@ public class SysServiceImpl implements SysService {
 		this.createBasicData("projectProgress_02","projectProgress" , "projectProgress", "进展略滞后于计划", "项目进度分类");
 		this.createBasicData("projectProgress_03","projectProgress" , "projectProgress", "进展大幅滞后于计划", "项目进度分类");
 		
-		this.createBasicData("projectStage","" , "projectStage", "项目申报阶段分类", "项目申报阶段分类");
-		this.createBasicData("projectStage_01","projectStage" , "projectStage", "前期计划(前期费)", "项目申报阶段分类");
-		this.createBasicData("projectStage_02","projectStage" , "projectStage", "规划设计前期费", "项目申报阶段分类");
-		this.createBasicData("projectStage_03","projectStage" , "projectStage", "新开工计划", "项目申报阶段分类");
-		this.createBasicData("projectStage_04","projectStage" , "projectStage", "续建计划", "项目申报阶段分类");
-		this.createBasicData("projectStage_05","projectStage" , "projectStage", "委托审计", "项目申报阶段分类");
-		this.createBasicData("projectStage_06","projectStage" , "projectStage", "审计决算资金", "项目申报阶段分类");
-		this.createBasicData("projectStage_07","projectStage" , "projectStage", "下一年度计划", "项目申报阶段分类");
-		this.createBasicData("projectStage_08","projectStage" , "projectStage", "年度调整计划", "项目申报阶段分类");
-		this.createBasicData("projectStage_09","projectStage" , "projectStage", "项目建议书", "项目申报阶段分类");
-		this.createBasicData("projectStage_10","projectStage" , "projectStage", "可行性研究报告", "项目申报阶段分类");
-		this.createBasicData("projectStage_11","projectStage" , "projectStage", "初步设计概算", "项目申报阶段分类");
-		this.createBasicData("projectStage_12","projectStage" , "projectStage", "核准", "项目申报阶段分类");
-		this.createBasicData("projectStage_13","projectStage" , "projectStage", "备案", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage","" , "projectShenBaoStage", "项目申报阶段分类", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_01","projectShenBaoStage" , "projectShenBaoStage", "前期计划(前期费)", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_02","projectShenBaoStage" , "projectShenBaoStage", "规划设计前期费", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_03","projectShenBaoStage" , "projectShenBaoStage", "新开工计划", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_04","projectShenBaoStage" , "projectShenBaoStage", "续建计划", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_05","projectShenBaoStage" , "projectShenBaoStage", "委托审计", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_06","projectShenBaoStage" , "projectShenBaoStage", "审计决算资金", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_07","projectShenBaoStage" , "projectShenBaoStage", "下一年度计划", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_08","projectShenBaoStage" , "projectShenBaoStage", "年度调整计划", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_09","projectShenBaoStage" , "projectShenBaoStage", "项目建议书", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_10","projectShenBaoStage" , "projectShenBaoStage", "可行性研究报告", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_11","projectShenBaoStage" , "projectShenBaoStage", "初步设计概算", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_12","projectShenBaoStage" , "projectShenBaoStage", "核准", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_13","projectShenBaoStage" , "projectShenBaoStage", "备案", "项目申报阶段分类");
 		
 		this.createBasicData("projectStatus","" , "projectStatus", "项目状态分类", "项目状态分类");
 		this.createBasicData("projectStatus_01","projectStatus" , "projectStatus", "未提交", "项目状态分类");
@@ -408,7 +412,16 @@ public class SysServiceImpl implements SysService {
 		this.createBasicData("area_01_04","area_01" , "area", "凤凰街道", "行政区域-街道");
 		this.createBasicData("area_01_05","area_01" , "area", "玉塘街道", "行政区域-街道");
 		this.createBasicData("area_01_06","area_01" , "area", "马田街道", "行政区域-街道");
-				
+		
+		this.createBasicData("projectStage","" , "projectStage", "项目阶段", "项目阶段");		
+		this.createBasicData("projectStage_01","projectStage" , "projectStage", "前期储备阶段", "");
+		this.createBasicData("projectStage_02","projectStage" , "projectStage", "前期阶段", "");
+		this.createBasicData("projectStage_03","projectStage" , "projectStage", "施工阶段", "");
+		this.createBasicData("projectStage_04","projectStage" , "projectStage", "停工阶段", "");
+		this.createBasicData("projectStage_05","projectStage" , "projectStage", "竣工阶段", "");
+		this.createBasicData("projectStage_06","projectStage" , "projectStage", "固定资产登记阶段", "");
+		
+		
 	
 				
 		response.setMessage("基础数据初始化成功");
@@ -424,7 +437,10 @@ public class SysServiceImpl implements SysService {
 		basicData.setIdentity(identity);
 		basicData.setDescription(description);
 		//basicData.setComment(comment);
-		basicData.setIsDefault(true);
+		basicData.setCanEdit(false);
+		if(identity.equals("projectType")){
+			basicData.setCanEdit(true);
+		}
 		basicDataRepo.save(basicData);
 		return basicData;
 	}
