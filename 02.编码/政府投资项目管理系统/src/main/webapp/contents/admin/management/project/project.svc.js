@@ -9,8 +9,7 @@
 		var url_project = "/management/project";//获取项目信息数据		
 		var url_back = "#/project";
 		var service = {
-			grid : grid,
-			deleteProject:deleteProject,
+			grid : grid,			
 			getProjectById:getProjectById,
 			updateProject:updateProject,
 			createProject:createProject
@@ -141,39 +140,6 @@
 		}
 		//end#getProjectById
 		
-		/**
-		 * 删除项目
-		 */
-		//beigin#deleteProject
-		function deleteProject(vm,id){
-			vm.isSubmit = true;
-			var httpOptions = {
-				method : 'delete',
-				url : url_project,
-				data : id
-			}
-			var httpSuccess = function success(response) {
-
-				common.requestSuccess({
-					vm : vm,
-					response : response,
-					fn : function() {
-						vm.isSubmit = false;
-						vm.gridOptions.dataSource.read();
-					}
-
-				});
-
-			}
-			common.http({
-				vm : vm,
-				$http : $http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});
-		}
-		
-		//end#deleteProject
 		
 		// begin#grid
 		function grid(vm) {

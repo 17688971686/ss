@@ -6,6 +6,7 @@
 	projectMonthReport.$inject = [ '$http','$compile' ];	
 	function projectMonthReport($http,$compile) {
 		var url_projectInfo = "/projectInfo";//获取申报的项目的列表数据
+		var url_project = "/shenbaoAdmin/project";
 		var url_basicData = "/common/basicData";//获取基础数据
 		var url_projectMonthReport="/shenbaoAdmin/projectMonthReport";
 		
@@ -115,8 +116,8 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_projectInfo), //获取数据
-				schema : common.kendoGridConfig().schema({ //返回的数据的处理
+				transport : common.kendoGridConfig().transport(url_project),
+				schema : common.kendoGridConfig().schema({
 					id : "id",
 					fields : {
 						createdDate : {
@@ -126,8 +127,8 @@
 				}),
 				serverPaging : true,
 				serverSorting : true,
-				serverFiltering : true,			
-				pageSize: 10,
+				serverFiltering : true,
+				pageSize : 10,
 				sort : {
 					field : "createdDate",
 					dir : "desc"
@@ -137,7 +138,19 @@
 
 			// Begin:column
 			var columns = [
-					  {
+					{
+						template : function(item) {
+							return kendo
+									.format(
+											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+											item.id)
+						},
+						filterable : false,
+						width : 40,
+						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+
+					},
+					 {
 						field : "projectNumber",
 						title : "项目代码",
 						width : 180,						
@@ -145,61 +158,45 @@
 					},
 					{
 						field : "projectName",
-						title : "项目名称",
-						width : 200,
-						template:function(data){
-							//根据不同的申报阶段点击项目链接跳转到不同的详情页面
-							return "<a href='#/projectDetails/"+data.id+"'>"+data.projectName+"</a>";							
-						},
+						title : "项目名称",						
 						filterable : true
 					},
-					
 					{
-						field : "projectStageValue",
-						title : "申报阶段",
-						width : 165,
+						field : "projectStageDesc",
+						title : "项目阶段",
+						width : 150,
 						filterable : false
 					},
 					{
-						field : "shenBaoYear",
-						title : "申报年度",
-						width : 80,
-						filterable : false
-					},
-					{
-						field : "projectIndustryValue",
-						title : "所属行业",
-						width : 100,
-						filterable : false
-					},
-					{
-						field : "investTypeValue",
-						title : "投资类型",
-						width : 100,
+						field : "projectClassifyDesc",
+						title : "项目分类",
+						width : 150,
 						filterable : false
 					},
 					{
 						field : "",
 						title : "操作",
-						template:function(data){
-							//不同的投资类型返回不同的填报页面；政府投资类型还要分为两种情况然后返回不同的页面
-							return common.format($('#columnBtns').html(),data.id);		
-						},
-						width:80,
-						filterable : false
-					}															
+						width : 180,
+						template : function(item) {
+							return common.format($('#columnBtns').html(),item.id,"vm.del('" + item.id + "')");
+									 
+
+						}
+
+					}
+
 			];
 			// End:column
-		
-			vm.gridOptions={
-					dataSource : common.gridDataSource(dataSource),
-					filterable : common.kendoGridConfig().filterable,
-					pageable : common.kendoGridConfig().pageable,
-					noRecords:common.kendoGridConfig().noRecordMessage,
-					columns : columns,
-					resizable: true
-				};
-			
+
+			vm.gridOptions = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true
+			};
+
 		}// end fun grid
 
 		
