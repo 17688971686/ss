@@ -1,22 +1,10 @@
 package cs.service.interfaces;
 
-import cs.model.PageModelDto;
 import cs.model.DomainDto.UserUnitInfoDto;
-import cs.repository.odata.ODataObj;
 
-public interface UserUnitInfoService {
-	PageModelDto<UserUnitInfoDto> get(ODataObj odataObj);
-	
+public interface UserUnitInfoService {	
 	UserUnitInfoDto getByUserName(String userName);
 	
 	void save(String userName,UserUnitInfoDto unitInfoDto);
 		
-	void deleteUserUnitInfo(String id);
-	
-	void deleteUserUnitInfos(String[] ids);
-	
-	void updateUserUnitInfo(UserUnitInfoDto unitInfoDto);
-	
-	void createUserUnitInfo(UserUnitInfoDto unitInfoDto);
-
 }

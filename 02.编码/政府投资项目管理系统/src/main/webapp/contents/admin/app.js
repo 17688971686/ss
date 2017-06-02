@@ -142,41 +142,25 @@
 	        }) 
 	       //end#project
 	        
-//	        //begin#单位管理	       
-//	      //列表页
-//	        .state('unitManagement', {
-//	            url: '/unitManagement',
-//	            templateUrl: '/unitManagement/html/list.html',
-//	            controller: 'unitManagementCtrl',
-//	            controllerAs: 'vm'
-//	        }) 
-//	      //编辑页
-//	        .state('unitManagementEdit', {
-//	            url: '/unitManagementEdit/:id',
-//	            templateUrl: '/unitManagement/html/edit.html',
-//	            controller: 'unitManagementEditCtrl',
-//	            controllerAs: 'vm'
-//	        }) 
-//	      
-//	       //end#单位管理
-	        
-	      //begin#用户单位管理	       
+	        //begin#单位管理	       
 	      //列表页
-	        .state('userUnitManagement', {
-	            url: '/userUnitManagement',
-	            templateUrl: '/userUnitManagement/html/list.html',
-	            controller: 'userUnitManagementCtrl',
+	        .state('unitManagement', {
+	            url: '/unitManagement',
+	            templateUrl: '/unitManagement/html/list.html',
+	            controller: 'unitManagementCtrl',
 	            controllerAs: 'vm'
 	        }) 
 	      //编辑页
-	        .state('userUnitManagementEdit', {
-	            url: '/userUnitManagementEdit/:id',
-	            templateUrl: '/userUnitManagement/html/edit.html',
-	            controller: 'userUnitManagementEditCtrl',
+	        .state('unitManagementEdit', {
+	            url: '/unitManagementEdit/:id',
+	            templateUrl: '/unitManagement/html/edit.html',
+	            controller: 'unitManagementEditCtrl',
 	            controllerAs: 'vm'
 	        }) 
 	      
-	       //end#用户单位管理
+	       //end#单位管理
+	        
+	      
 	        
 	        //begin#基础数据管理
 	         .state('basicData', {
