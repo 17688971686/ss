@@ -18,7 +18,7 @@ public class MonthReportMapper {
 		if (monthReport != null) {
 
 			monthReportDto.setId(monthReport.getId());// 获取月报id
-			monthReportDto.setProjectId(monthReport.getProjectId());// 获取项目id
+			monthReportDto.setProjectNumber(monthReport.getProjectNumber());// 获取项目代码
 			monthReportDto.setInvertPlanTotal(monthReport.getInvertPlanTotal());// 获取计划总投资
 
 			// begin#月报联系人信息
@@ -33,33 +33,20 @@ public class MonthReportMapper {
 			// end#联系人信息
 
 			// begin#批文日期和文号
-			// 日期
-			monthReportDto.setProposalsReplyDate(monthReport.getProposalsReplyDate());// 项目建议书批复日期
-			monthReportDto.setFeaStyRepoReplyDate(monthReport.getFeaStyRepoReplyDate());// 可行性研究报告批复日期
-			monthReportDto.setAllEstimateReplyDate(monthReport.getAllEstimateReplyDate());// 项目总概算批复日期
-			monthReportDto.setPrePlanReplyDate(monthReport.getPrePlanReplyDate());// 前期工作计划批复日期
-			// 文号
-			monthReportDto.setProposalsType(monthReport.getProposalsType());// 项目建议书批复类型
-			monthReportDto.setProposalsYear(monthReport.getProposalsYear());// 项目建议书批复年份
-			monthReportDto.setProposalsNum(monthReport.getProposalsNum());// 项目建议书批复文号
-
-			monthReportDto.setReportType(monthReport.getReportType());// 可行性研究报告批复类型
-			monthReportDto.setReportYear(monthReport.getReportYear());// 可行性研究报告批复年份
-			monthReportDto.setReportNum(monthReport.getReportNum());// 可行性研究报告批复文号
-
-			monthReportDto.setAllEstimateType(monthReport.getAllEstimateType());// 项目总概算批复类型
-			monthReportDto.setAllEstimateYear(monthReport.getAllEstimateYear());// 项目总概算批复年份
-			monthReportDto.setAllEstimateNum(monthReport.getAllEstimateNum());// 项目总概算批复文号
-
-			monthReportDto.setPrePlanType(monthReport.getPrePlanType());// 前期工作计划批复类型
-			monthReportDto.setPrePlanYear(monthReport.getPrePlanYear());// 前期工作计划批复年份
-			monthReportDto.setPrePlanNum(monthReport.getPrePlanNum());// 前期工作计划批复文号
+			monthReportDto.setPifuJYS_date(monthReport.getPifuJYS_date());					
+			monthReportDto.setPifuKXXYJBG_date(monthReport.getPifuKXXYJBG_date());
+			monthReportDto.setPifuCBSJYGS_date(monthReport.getPifuCBSJYGS_date());	
+			
+			monthReportDto.setPifuJYS_wenhao(monthReport.getPifuJYS_wenhao());
+			monthReportDto.setPifuKXXYJBG_wenhao(monthReport.getPifuKXXYJBG_wenhao());
+			monthReportDto.setPifuCBSJYGS_wenhao(monthReport.getPifuCBSJYGS_wenhao());
+			
+			
 			// end#批文日期和文号
 
 			// begin#开工时间
-			monthReportDto.setCommencementDate(monthReport.getCommencementDate());// 预计开工日期没有
-			monthReportDto.setActuallyDate(monthReport.getActuallyDate());// 对应页面的开工日期
-			monthReportDto.setCompletedDate(monthReport.getCompletedDate());// 竣工日期
+			monthReportDto.setBeginDate(monthReport.getBeginDate());
+			monthReportDto.setEndDate(monthReport.getEndDate());
 			// end#开工时间
 
 			// begin#投资情况
@@ -85,10 +72,9 @@ public class MonthReportMapper {
 
 			monthReportDto.setSubmitMonth(monthReport.getSubmitMonth());// 提交月
 			monthReportDto.setSubmitYear(monthReport.getSubmitYear());// 提交月
-			monthReportDto.setSubmitDate(monthReport.getSubmitDate());// 提交日期
-			monthReportDto.setApprovalDate(monthReport.getApprovalDate());// 立项日期
+			monthReportDto.setSubmitDate(monthReport.getSubmitDate());// 提交日期		
 
-			monthReportDto.setIsCompletion(monthReport.getIsCompletion());// 是否完工(1:完工
+			monthReportDto.setCompletion(monthReport.isCompletion());// 是否完工(1:完工
 																			// 0：未完工)
 			monthReportDto.setRemark(monthReport.getRemark());// 备注
 
@@ -104,7 +90,7 @@ public class MonthReportMapper {
 					monthReportProblemDtos.add(monthReportProblemDto);
 				}
 			}
-			monthReportDto.setMonthReportProblemsDto(monthReportProblemDtos);
+			monthReportDto.setMonthReportProblemDtos(monthReportProblemDtos);
 
 			// 月报附件
 			// 将月报附件进行数据格式转换
@@ -116,7 +102,7 @@ public class MonthReportMapper {
 					attachmentDtos.add(attachmentDto);
 				}
 			}
-			monthReportDto.setAttachmentsDto(attachmentDtos);
+			monthReportDto.setAttachmentDtos(attachmentDtos);
 		
 
 			
@@ -135,7 +121,7 @@ public class MonthReportMapper {
 			if(monthReport.getId() ==null || monthReport.getId().isEmpty()){
 				monthReport.setId(UUID.randomUUID().toString());
 			}
-			monthReport.setProjectId(monthReportDto.getProjectId());
+			monthReport.setProjectNumber(monthReportDto.getProjectNumber());
 
 			// begin#联系人信息
 			monthReport.setFillName(monthReportDto.getFillName());
@@ -149,33 +135,18 @@ public class MonthReportMapper {
 			// end#联系人信息
 
 			// begin#批文日期和文号
-			// 日期
-			monthReport.setProposalsReplyDate(monthReportDto.getProposalsReplyDate());
-			monthReport.setFeaStyRepoReplyDate(monthReportDto.getFeaStyRepoReplyDate());
-			monthReport.setAllEstimateReplyDate(monthReportDto.getAllEstimateReplyDate());
-			monthReport.setPrePlanReplyDate(monthReportDto.getPrePlanReplyDate());
-			// 文号
-			monthReport.setProposalsType(monthReportDto.getProposalsType());
-			monthReport.setProposalsYear(monthReportDto.getProposalsYear());
-			monthReport.setProposalsNum(monthReportDto.getProposalsNum());
-
-			monthReport.setReportType(monthReportDto.getReportType());
-			monthReport.setReportYear(monthReportDto.getReportYear());
-			monthReport.setReportNum(monthReportDto.getReportNum());
-
-			monthReport.setAllEstimateType(monthReportDto.getAllEstimateType());
-			monthReport.setAllEstimateYear(monthReportDto.getAllEstimateYear());
-			monthReport.setAllEstimateNum(monthReportDto.getAllEstimateNum());
-
-			monthReport.setPrePlanType(monthReportDto.getPrePlanType());
-			monthReport.setPrePlanYear(monthReportDto.getPrePlanYear());
-			monthReport.setPrePlanNum(monthReportDto.getPrePlanNum());
+			monthReport.setPifuCBSJYGS_date(monthReportDto.getPifuCBSJYGS_date());
+			monthReport.setPifuJYS_date(monthReportDto.getPifuJYS_date());
+			monthReport.setPifuKXXYJBG_wenhao(monthReportDto.getPifuKXXYJBG_wenhao());
+			monthReport.setPifuCBSJYGS_wenhao(monthReportDto.getPifuCBSJYGS_wenhao());
+			monthReport.setPifuJYS_wenhao(monthReportDto.getPifuJYS_wenhao());
+			monthReport.setPifuKXXYJBG_date(monthReportDto.getPifuKXXYJBG_date());
 			// end#批文日期和文号
 
 			// begin#开工时间
-			monthReport.setCommencementDate(monthReportDto.getCommencementDate());// 预计开工日期没有
-			monthReport.setActuallyDate(monthReportDto.getActuallyDate());// 对应页面的开工日期
-			monthReport.setCompletedDate(monthReportDto.getCompletedDate());
+			monthReport.setBeginDate(monthReportDto.getBeginDate());
+			monthReport.setEndDate(monthReportDto.getEndDate());
+			
 			// end#开工时间
 
 			// begin#投资情况
@@ -204,9 +175,9 @@ public class MonthReportMapper {
 			monthReport.setSubmitMonth(monthReportDto.getSubmitMonth());
 			monthReport.setSubmitYear(monthReportDto.getSubmitYear());
 			monthReport.setSubmitDate(monthReportDto.getSubmitDate());
-			monthReport.setApprovalDate(monthReportDto.getApprovalDate());
+			
 
-			monthReport.setIsCompletion(monthReportDto.getIsCompletion());
+			monthReport.setCompletion(monthReportDto.isCompletion());
 			monthReport.setRemark(monthReportDto.getRemark());
 
 			monthReportDto.getMonthReportProblems().forEach(x -> {

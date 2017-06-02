@@ -15,8 +15,7 @@ public class ProjectMapper {
 			projectDto.setCapitalSCZ_gtzj(project.getCapitalSCZ_gtzj());
 			projectDto.setPifuCBSJYGS_date(project.getPifuCBSJYGS_date());
 			projectDto.setModifiedDate(project.getModifiedDate());
-			projectDto.setModifiedBy(project.getModifiedBy());
-			projectDto.setAttachments(project.getAttachments());
+			projectDto.setModifiedBy(project.getModifiedBy());			
 			projectDto.setCapitalSHTZ(project.getCapitalSHTZ());
 			projectDto.setRemark(project.getRemark());
 			projectDto.setCapitalSCZ_zxzj(project.getCapitalSCZ_zxzj());
@@ -48,7 +47,11 @@ public class ProjectMapper {
 			//begin#关联信息
 			//附件
 			project.getAttachments().stream().forEach(x->{
-				projectDto.getAttachmentDto().add(AttachmentMapper.toDto(x));				
+				projectDto.getAttachmentDtos().add(AttachmentMapper.toDto(x));				
+			});
+			//月报
+			project.getMonthReports().stream().forEach(x->{
+				projectDto.getMonthReportDtos().add(MonthReportMapper.toDto(x));
 			});
 			
 		}
@@ -97,7 +100,7 @@ public class ProjectMapper {
 			
 			//begin#关联信息
 			//附件			
-			projectDto.getAttachmentDto().stream().forEach(x->{
+			projectDto.getAttachmentDtos().stream().forEach(x->{
 				Attachment attachment=new Attachment();
 				AttachmentMapper.buildEntity(x, attachment);
 				project.getAttachments().add(attachment);

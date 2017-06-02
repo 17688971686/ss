@@ -24,11 +24,32 @@
             }
         }
         
-        vm.page_list=function(){        	 
-            
+        activate();
+        function activate() {
+        	vm.init();
+        	if(vm.page=='list'){
+        		//列表页
+        		page_list();
+        	}
+        	if(vm.page=='selectMonth'){
+        		page_selectMonth();        		
+        	}
+        	
+        	if(vm.page=='fillReport'){//如果填报信息
+        		//查询基础数据
+        		page_fillReport();        		
+        	}
+        	
+        
         }
         
-        vm.page_selectMonth=function(){
+       function page_list(){      
+    	   projectMonthReportSvc.grid(vm);
+        }//end page_list
+        
+       function page_selectMonth(){
+        	projectMonthReportSvc.getProjectById(vm);
+        	
         	 vm.fillReport = function(month){
              	//跳转到月报信息填写页面
              	location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+vm.submitYear+"/"+month;
@@ -52,10 +73,9 @@
 					});
 					
         	 }
-        }
+        }//end page_selectMonth
         
-        vm.page_fillReport=function(){  
-           
+        function page_fillReport(){ 
         	//begin#init
         	vm.model.monthReport={};
         	
@@ -100,10 +120,10 @@
 	           	 if(e.XMLHttpRequest.status==200){
 	           		 var fileName=e.XMLHttpRequest.response;
 	           		 $scope.$apply(function(){
-	           			 if(vm.model.monthReport.attachmentsDto){
-	           				 vm.model.monthReport.attachmentsDto.push({name:fileName.split('_')[2],url:fileName,type:type});
+	           			 if(vm.model.monthReport.attachmentDtos){
+	           				 vm.model.monthReport.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
 	           			 }else{
-	           				 vm.model.monthReport.attachmentsDto=[{name:fileName.split('_')[2],url:fileName,type:type}];
+	           				 vm.model.monthReport.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
 	           			 }                			           			
 	           		 });
 	           	 }
@@ -129,13 +149,13 @@
         	});
          	
          	
-         	projectMonthReportSvc.getProjectInfo(vm);
+         	projectMonthReportSvc.getProjectById(vm);
          	
      	 }//end init_page_fillReport
      	 
      	//begin#删除文件
          vm.delFile=function(idx){
-        	 vm.model.monthReport.attachmentsDto.splice(idx,1);
+        	 vm.model.monthReport.attachmentDtos.splice(idx,1);
          }
          
      	 
@@ -169,26 +189,6 @@
        
         
                 
-        activate();
-        function activate() {
-        	vm.init();
-        	if(vm.page=='list'){
-        		//列表页
-        		vm.page_list();
-            	projectMonthReportSvc.grid(vm);
-        	}
-        	if(vm.page=='selectMonth'){
-        		vm.page_selectMonth();
-        		projectMonthReportSvc.getProjectInfo(vm);
-        	}
-        	
-        	if(vm.page=='fillReport'){//如果填报信息
-        		//查询基础数据
-        		vm.page_fillReport();
-        		
-        	}
-        	
         
-        }
     }
 })();

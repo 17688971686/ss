@@ -19,9 +19,11 @@ public class ProjectDto extends Project {
 	
 	//begin#关联信息
 	//附件信息
-	private List<AttachmentDto> attachmentDto=new ArrayList<>();
-
-
+	private List<AttachmentDto> attachmentDtos=new ArrayList<>();
+	
+	//月报
+	private List<MonthReportDto> monthReportDtos=new ArrayList<>();
+	
 	public String getProjectStageDesc() {
 		return projectStageDesc;
 	}
@@ -54,11 +56,21 @@ public class ProjectDto extends Project {
 		this.projectClassifyDesc = projectClassifyDesc;
 	}
 
-	public List<AttachmentDto> getAttachmentDto() {
-		return attachmentDto;
+	public List<AttachmentDto> getAttachmentDtos() {
+		return attachmentDtos;
 	}
 
-	public void setAttachmentDto(List<AttachmentDto> attachmentDto) {
-		this.attachmentDto = attachmentDto;
+	public void setAttachmentDtos(List<AttachmentDto> attachmentDtos) {
+		this.attachmentDtos = attachmentDtos;
 	}
+
+	public List<MonthReportDto> getMonthReportDtos() {
+		return monthReportDtos;
+	}
+
+	public void setMonthReportDtos(List<MonthReportDto> monthReportDtos) {
+		this.monthReportDtos = monthReportDtos;
+	}
+
+	
 }

@@ -60,25 +60,11 @@ public class MonthReportServiceImpl implements MonthReportService {
 
 			// begin#关联信息
 			// 项目
-			ProjectInfo projectInfo = projectInfoRepo.findById(monthReport.getProjectId());
-			monthReportDto.setProjectName(projectInfo.getProjectName());
+			//ProjectInfo projectInfo = projectInfoRepo.findById(monthReport.getProjectId());
+			//monthReportDto.setProjectName(projectInfo.getProjectName());
 
-			// 基础数据:approvalType
-			List<BasicDataDto> basicDataDtos_approvalType = basicDataService
-					.getByIdentity(BasicDataIdentity.approvalType);
-			Map<String, String> basicDataMap_approvalType = basicDataDtos_approvalType.stream()
-					.collect(Collectors.toMap(x -> x.getId(), x -> x.getDescription()));
-			monthReportDto.setAllEstimateTypeDisplay(basicDataMap_approvalType.get(monthReport.getAllEstimateType()));
-			monthReportDto.setPrePlanTypeDisplay(basicDataMap_approvalType.get(monthReport.getPrePlanType()));
-			monthReportDto.setProposalsTypeDisplay(basicDataMap_approvalType.get(monthReport.getProposalsType()));
-			monthReportDto.setReportTypeDisplay(basicDataMap_approvalType.get(monthReport.getReportType()));
-			// 基础数据：projectProgress
-			List<BasicDataDto> basicDataDtos_projectProgress = basicDataService
-					.getByIdentity(BasicDataIdentity.projectProgress);
-			Map<String, String> basicDataMap_projectProgress = basicDataDtos_projectProgress.stream()
-					.collect(Collectors.toMap(x -> x.getId(), x -> x.getDescription()));
 			// end#关联信息
-			monthReportDto.setSelfReviewDisplay(basicDataMap_projectProgress.get(monthReport.getSelfReview()));
+	
 
 			monthReportDtoList.add(monthReportDto);
 
@@ -97,7 +83,7 @@ public class MonthReportServiceImpl implements MonthReportService {
 	public void saveMonthReport(MonthReportDto monthReportDto) {
 		// 判断数据库是否存在月报
 		
-		Criterion criterion1 = Restrictions.eq(MonthReport_.projectId.getName(), monthReportDto.getProjectId());
+		Criterion criterion1 = Restrictions.eq(MonthReport_.projectNumber.getName(), monthReportDto.getProjectNumber());
 		Criterion criterion2 = Restrictions.eq(MonthReport_.submitYear.getName(), monthReportDto.getSubmitYear());
 		Criterion criterion3 = Restrictions.eq(MonthReport_.submitMonth.getName(), monthReportDto.getSubmitMonth());
 		MonthReport monthReport;
@@ -121,7 +107,7 @@ public class MonthReportServiceImpl implements MonthReportService {
 		monthReport.setCreatedDate(new Date());
 
 		// 从项目表进行保存
-		ProjectInfo projectInfo = projectInfoRepo.findById(monthReportDto.getProjectId());
+		ProjectInfo projectInfo = projectInfoRepo.findById(monthReportDto.getProjectNumber());
 		projectInfo.getMonthReports().add(monthReport);
 		projectInfoRepo.save(projectInfo);
 

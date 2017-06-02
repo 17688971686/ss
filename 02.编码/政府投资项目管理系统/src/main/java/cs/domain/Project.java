@@ -45,28 +45,28 @@ public class Project extends DomainBase {
 	private String projectAddress;
 	
 	@Column(columnDefinition="double(10,2) NULL COMMENT '项目总投资'")
-	private double projectInvestSum;
+	private Double projectInvestSum;
 	
 	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-市财政-公共预算'")
-	private double capitalSCZ_ggys;
+	private Double capitalSCZ_ggys;
 	
 	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-市财政-国土资金'")
-	private double capitalSCZ_gtzj;
+	private Double capitalSCZ_gtzj;
 	
 	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-市财政-专项资金'")
-	private double capitalSCZ_zxzj;
+	private Double capitalSCZ_zxzj;
 	
 	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-区财政-公共预算'")
-	private double capitalQCZ_ggys;
+	private Double capitalQCZ_ggys;
 	
 	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-区财政-国土资金'")
-	private double capitalQCZ_gtzj;
+	private Double capitalQCZ_gtzj;
 	
 	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-社会投资'")
-	private double capitalSHTZ;
+	private Double capitalSHTZ;
 	
 	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-其它'")
-	private double capitalOther;
+	private Double capitalOther;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '资金筹措方案-其它-说明'")
 	private String capitalOtherDescription;
@@ -98,8 +98,14 @@ public class Project extends DomainBase {
 	@Column(columnDefinition="varchar(255) NULL COMMENT '批复-初步设计与概算-文号'")
 	private String pifuCBSJYGS_wenhao;
 	
+	//begin#关联信息
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<Attachment> attachments=new ArrayList<>();
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<MonthReport> monthReports=new ArrayList<>();
+	
+	//end#关联信息
 
 	public String getId() {
 		return id;
@@ -181,69 +187,6 @@ public class Project extends DomainBase {
 		this.projectAddress = projectAddress;
 	}
 
-	public double getProjectInvestSum() {
-		return projectInvestSum;
-	}
-
-	public void setProjectInvestSum(double projectInvestSum) {
-		this.projectInvestSum = projectInvestSum;
-	}
-
-	public double getCapitalSCZ_ggys() {
-		return capitalSCZ_ggys;
-	}
-
-	public void setCapitalSCZ_ggys(double capitalSCZ_ggys) {
-		this.capitalSCZ_ggys = capitalSCZ_ggys;
-	}
-
-	public double getCapitalSCZ_gtzj() {
-		return capitalSCZ_gtzj;
-	}
-
-	public void setCapitalSCZ_gtzj(double capitalSCZ_gtzj) {
-		this.capitalSCZ_gtzj = capitalSCZ_gtzj;
-	}
-
-	public double getCapitalSCZ_zxzj() {
-		return capitalSCZ_zxzj;
-	}
-
-	public void setCapitalSCZ_zxzj(double capitalSCZ_zxzj) {
-		this.capitalSCZ_zxzj = capitalSCZ_zxzj;
-	}
-
-	public double getCapitalQCZ_ggys() {
-		return capitalQCZ_ggys;
-	}
-
-	public void setCapitalQCZ_ggys(double capitalQCZ_ggys) {
-		this.capitalQCZ_ggys = capitalQCZ_ggys;
-	}
-
-	public double getCapitalQCZ_gtzj() {
-		return capitalQCZ_gtzj;
-	}
-
-	public void setCapitalQCZ_gtzj(double capitalQCZ_gtzj) {
-		this.capitalQCZ_gtzj = capitalQCZ_gtzj;
-	}
-
-	public double getCapitalSHTZ() {
-		return capitalSHTZ;
-	}
-
-	public void setCapitalSHTZ(double capitalSHTZ) {
-		this.capitalSHTZ = capitalSHTZ;
-	}
-
-	public double getCapitalOther() {
-		return capitalOther;
-	}
-
-	public void setCapitalOther(double capitalOther) {
-		this.capitalOther = capitalOther;
-	}
 
 	public String getCapitalOtherDescription() {
 		return capitalOtherDescription;
@@ -331,6 +274,78 @@ public class Project extends DomainBase {
 
 	public void setAttachments(List<Attachment> attachments) {
 		this.attachments = attachments;
+	}
+
+	public Double getProjectInvestSum() {
+		return projectInvestSum;
+	}
+
+	public void setProjectInvestSum(Double projectInvestSum) {
+		this.projectInvestSum = projectInvestSum;
+	}
+
+	public Double getCapitalSCZ_ggys() {
+		return capitalSCZ_ggys;
+	}
+
+	public void setCapitalSCZ_ggys(Double capitalSCZ_ggys) {
+		this.capitalSCZ_ggys = capitalSCZ_ggys;
+	}
+
+	public Double getCapitalSCZ_gtzj() {
+		return capitalSCZ_gtzj;
+	}
+
+	public void setCapitalSCZ_gtzj(Double capitalSCZ_gtzj) {
+		this.capitalSCZ_gtzj = capitalSCZ_gtzj;
+	}
+
+	public Double getCapitalSCZ_zxzj() {
+		return capitalSCZ_zxzj;
+	}
+
+	public void setCapitalSCZ_zxzj(Double capitalSCZ_zxzj) {
+		this.capitalSCZ_zxzj = capitalSCZ_zxzj;
+	}
+
+	public Double getCapitalQCZ_ggys() {
+		return capitalQCZ_ggys;
+	}
+
+	public void setCapitalQCZ_ggys(Double capitalQCZ_ggys) {
+		this.capitalQCZ_ggys = capitalQCZ_ggys;
+	}
+
+	public Double getCapitalQCZ_gtzj() {
+		return capitalQCZ_gtzj;
+	}
+
+	public void setCapitalQCZ_gtzj(Double capitalQCZ_gtzj) {
+		this.capitalQCZ_gtzj = capitalQCZ_gtzj;
+	}
+
+	public Double getCapitalSHTZ() {
+		return capitalSHTZ;
+	}
+
+	public void setCapitalSHTZ(Double capitalSHTZ) {
+		this.capitalSHTZ = capitalSHTZ;
+	}
+
+	public Double getCapitalOther() {
+		return capitalOther;
+	}
+
+	public void setCapitalOther(Double capitalOther) {
+		this.capitalOther = capitalOther;
+	}
+
+	public List<MonthReport> getMonthReports() {
+		return monthReports;
+	}
+
+	public void setMonthReports(List<MonthReport> monthReports) {
+		this.monthReports = monthReports;
 	}
 	
 }
