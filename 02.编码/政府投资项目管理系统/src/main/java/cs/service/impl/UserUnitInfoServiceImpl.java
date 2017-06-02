@@ -1,36 +1,20 @@
 package cs.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
-import org.apache.log4j.Logger;
+import java.util.Optional;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import cs.common.ICurrentUser;
-import cs.domain.ProjectInfo;
-import cs.domain.ProjectInfo_;
-import cs.domain.UnitInfo;
 import cs.domain.UserUnitInfo;
 import cs.domain.UserUnitInfo_;
-import cs.model.PageModelDto;
-import cs.model.DomainDto.UnitInfoDto;
 import cs.model.DomainDto.UserUnitInfoDto;
-import cs.model.DtoMapper.ProjectInfoMapper;
-import cs.model.DtoMapper.UnitInfoMapper;
 import cs.model.DtoMapper.UserUnitInfoMapper;
 import cs.repository.interfaces.UserUnitInfoRepo;
-import cs.repository.odata.ODataObj;
-import cs.service.common.BasicDataService;
 import cs.service.interfaces.UserUnitInfoService;
 @Service
 public class UserUnitInfoServiceImpl implements UserUnitInfoService {
-	private static Logger logger = Logger.getLogger(UserUnitInfoServiceImpl.class);
-
 	@Autowired
 	private UserUnitInfoRepo userUnitInfoRepo;
 
