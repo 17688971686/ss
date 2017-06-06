@@ -5,23 +5,35 @@
 
 	monthReport.$inject = [ '$http','$compile' ];	
 	function monthReport($http,$compile) {	
-		var url_projectInfo = "/projectInfo";		
-		var url_projectMonthReport = "/shenbaoAdmin/projectMonthReport";//获取月报数据
+		var url_project = "/management/project";		
+	
 		
 		var service = {
 			grid : grid,
-			getMonthReportInfo:getMonthReportInfo
+			getProjectById:getProjectById
 		};		
 		return service;	
 		
-		function getMonthReportInfo(vm){
+		function getProjectById(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_projectMonthReport + "?$filter=id eq '{0}'", vm.id),
+					url : common.format(url_project + "?$filter=id eq '{0}'", vm.projectId),
 				}
-				var httpSuccess = function success(response) {
-					vm.model = response.data.value[0]||{};
-					vm.isJueSuan=vm.model.projectBuildStage=="projectBuildStage_03";
+				var httpSuccess = function success(response) {					
+					vm.model.projectInfo = response.data.value[0]||{};	
+					
+					
+					if(vm.page=='details'){	
+						//根据年，月查到月报数据
+						var report=$linq(vm.model.projectInfo.monthReportDtos)
+						.where(function(x){return x.submitYear==vm.year && x.submitMonth==vm.month;})
+						.toArray();
+						if(report.length>0){
+							vm.isReportExist=true;
+							vm.model.monthReport=report[0];
+						}
+					}
+					
 				}
 				
 				common.http({
@@ -30,13 +42,13 @@
 					httpOptions:httpOptions,
 					success:httpSuccess
 				});
-		}//getMonthReportInfo
+		}
 		
 		function grid(vm) {
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_projectInfo), //获取数据
+				transport : common.kendoGridConfig().transport(url_project), //获取数据
 				schema : common.kendoGridConfig().schema({ //返回的数据的处理
 					id : "id",
 					fields : {
@@ -61,65 +73,26 @@
 					  
 					{
 						field : "projectName",
-						title : "项目名称",
-						width : 200,
-						template:function(data){
-							//根据不同的申报阶段点击项目链接跳转到不同的详情页面
-							return "<a href='#/projectDetails/"+data.id+"'>"+data.projectName+"</a>";							
+						title : "项目名称",						
+						template:function(data){							
+							return "<a href='#/projectEdit/"+data.id+"'>"+data.projectName+"</a>";							
 						},
 						filterable : true
-					},
-					
-					{
-						field : "projectStageValue",
-						title : "申报阶段",
-						width : 165,
-						filterable : false
-					},
-					{
-						field : "shenBaoYear",
-						title : "申报年度",
-						width : 80,
-						filterable : false
 					},
 					{
 						field : "",
 						title : "填报月份",
 						template:function(data){
 							var returnStr="";
-							//return $('#columnBtns').html();
-							
-							
-							for(var i=1;i<=12;i++){
-								var month="0";
-								if(i<10){
-									month+=i+"";
-								}else{
-									month=i;
-								}
-								if(data.monthReportDtos.length>0){
-									var isExist=false;
-									var monthId=""
-									data.monthReportDtos.forEach(function(e,idx){
-										if(e.submitMonth==data.shenBaoYear+month){
-											isExist=true;
-											monthId=e.id;
-										}										
-									});
-									if(isExist){
-										returnStr+=common.format('<a class="btn btn-xs btn-success" href="#/monthReport/{1}">{0}月</a> ',month,monthId);
-									}else{
-										returnStr+=common.format('<button class="btn btn-xs">{0}月</button> ',month);
-									}
-								}
-								else{
-									returnStr+=common.format('<button class="btn btn-xs">{0}月</button> ',month);
-								}
-							}
+							data.monthReportDtos.forEach(function(e,idx){
+								returnStr+=common.format('<a class="btn btn-xs btn-success" href="#/monthReport/{0}/{1}/{2}">{1}年{2}月</a> '
+										,e.projectId,e.submitYear,e.submitMonth);
+																		
+							});
 							return returnStr;
-							//return common.format($('#columnBtns').html(),data.id,data.projectName,data.projectBuildStage);		
+							
 						},
-						width:250,
+						width:800,
 						filterable : false
 					}															
 			];
