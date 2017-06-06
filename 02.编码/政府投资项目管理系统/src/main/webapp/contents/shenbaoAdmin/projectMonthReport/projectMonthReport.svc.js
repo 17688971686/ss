@@ -178,28 +178,14 @@
 
 			// Begin:column
 			var columns = [
-					{
-						template : function(item) {
-							return kendo
-									.format(
-											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
-											item.id)
-						},
-						filterable : false,
-						width : 40,
-						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
-
-					},
-					 {
-						field : "projectNumber",
-						title : "项目代码",
-						width : 180,						
-						filterable : false
-					},
+					
 					{
 						field : "projectName",
 						title : "项目名称",						
-						filterable : true
+						filterable : true,
+						template:function(item){
+							return common.format('<a href="#/projectMonthReport/projectInfo/{0}">{1}</a>',item.id,item.projectName);
+						}
 					},
 					{
 						field : "projectStageDesc",

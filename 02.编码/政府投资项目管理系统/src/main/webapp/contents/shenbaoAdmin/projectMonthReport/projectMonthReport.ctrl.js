@@ -22,6 +22,9 @@
             if(vm.month){
             	vm.page='fillReport';
             }
+            if($state.current.name=='projectMonthReport_projectInfo'){
+            	vm.page='projectInfo';
+            }
         }
         
         activate();
@@ -38,6 +41,9 @@
         	if(vm.page=='fillReport'){//如果填报信息
         		//查询基础数据
         		page_fillReport();        		
+        	}
+        	if(vm.page=='projectInfo'){
+        		//todo
         	}
         	
         

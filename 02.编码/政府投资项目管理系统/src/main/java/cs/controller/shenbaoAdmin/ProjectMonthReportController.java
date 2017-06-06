@@ -71,4 +71,9 @@ public class ProjectMonthReportController {
 		return this.ctrlName + "/fillInfo";
 	}
 	
+	@RequestMapping(name = "项目信息", path = "html/projectInfo",method=RequestMethod.GET)
+	public String projectInfo()  {
+		
+		return this.ctrlName + "/projectInfo";
+	}
 }

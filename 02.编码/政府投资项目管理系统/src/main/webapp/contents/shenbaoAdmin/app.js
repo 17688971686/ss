@@ -31,33 +31,33 @@
 	        //end#deptInfoMaintain
              
  /**********************************************begin#月报*********************************/
-              //begin#projectMonthReport（项目月报）
-	        //列表页
              .state('projectMonthReport', {
-	            url: '/projectMonthReport', //匹配规则
-	            templateUrl: '/shenbaoAdmin/projectMonthReport/html/list.html',//此处对应列表页面地址-controller里面的请求地址
+	            url: '/projectMonthReport', 
+	            templateUrl: '/shenbaoAdmin/projectMonthReport/html/list.html',
 	            controller: 'projectMonthReportCtrl',
 	            controllerAs: 'vm'
 	        }) 
-	        //end#projectMonthReport
 	        
 	        
-	        //begin#projectMonthReportFill（项目月报填报--月份选择）
 	        .state('projectMonthReportFill', {
 	            url: '/projectMonthReportFill/:projectId',
 	            templateUrl: '/shenbaoAdmin/projectMonthReport/html/selectMonth',   	            	 	           
 	            controller: 'projectMonthReportCtrl',
 	            controllerAs: 'vm'
 	        })	        
-	        //end#projectMonthReportFill
 	        
-	        //begin#projectMonthReportInfoFill（项目月报填报--具体信息填写）
 	        .state('projectMonthReportInfoFill', {
 	            url: '/projectMonthReportInfoFill/:projectId/:year/:month',
 	            templateUrl:'/shenbaoAdmin/projectMonthReport/html/fillInfo/',           
 	            controller: 'projectMonthReportCtrl',
 	            controllerAs: 'vm'
-	        })        
+	        })    
+	        .state('projectMonthReport_projectInfo', {
+	            url: '/projectMonthReport/projectInfo/:projectId', 
+	            templateUrl: '/shenbaoAdmin/projectMonthReport/html/projectInfo.html',
+	            controller: 'projectMonthReportCtrl',
+	            controllerAs: 'vm'
+	        }) 
 /**********************************************end#月报*********************************/
 	       
 	        
