@@ -52,8 +52,8 @@
 					url : common.format(url_project + "?$filter=id eq '{0}'", vm.projectId),
 				}
 				var httpSuccess = function success(response) {					
-					vm.model.projectInfo = response.data.value[0]||{};	
-					
+					vm.model.projectInfo = response.data.value[0]||{};
+										
 					if(vm.page=='selectMonth'){
 						vm.setMonthSelected();
 						
@@ -65,7 +65,7 @@
 											.toArray();
 						if(report.length>0){
 							vm.isReportExist=true;
-							vm.model.monthReport=report[0];
+							vm.model.monthReport=report[0];					
 						}
 						
 						vm.model.monthReport.pifuJYS_date=common.toDate(vm.model.projectInfo.pifuJYS_date);
@@ -82,6 +82,24 @@
 						//单位信息
 						getUserUnitInfo(vm);
 					}
+					if(vm.page=='projectInfo'){
+						vm.model.projectInfo.beginDate = common.toDate(vm.model.projectInfo.beginDate);
+						vm.model.projectInfo.endDate = common.toDate(vm.model.projectInfo.endDate);
+						//计算资金筹措总计
+						vm.capitalTotal=function(){
+				  			 return (parseFloat(vm.model.projectInfo.capitalSCZ_ggys)||0 )
+				  			 		+ (parseFloat(vm.model.projectInfo.capitalSCZ_gtzj)||0 )
+				  			 		+ (parseFloat(vm.model.projectInfo.capitalSCZ_zxzj)||0 )
+				  			 		+ (parseFloat(vm.model.projectInfo.capitalQCZ_ggys)||0 )
+				  			 		+ (parseFloat(vm.model.projectInfo.capitalQCZ_gtzj)||0 )
+				  			 		+ (parseFloat(vm.model.projectInfo.capitalSHTZ)||0 )
+				  			 		+ (parseFloat(vm.model.projectInfo.capitalOther)||0) ;
+				  		 }
+						//批复信息时间处理
+						vm.model.projectInfo.pifuJYS_date=common.toDate(vm.model.projectInfo.pifuJYS_date);
+						vm.model.projectInfo.pifuKXXYJBG_date=common.toDate(vm.model.projectInfo.pifuKXXYJBG_date);
+						vm.model.projectInfo.pifuCBSJYGS_date=common.toDate(vm.model.projectInfo.pifuCBSJYGS_date);
+					}
 					
 				}
 				
@@ -92,14 +110,6 @@
 					success:httpSuccess
 				});
 		}
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		/**
 		 * 提交项目月报信息到数据库

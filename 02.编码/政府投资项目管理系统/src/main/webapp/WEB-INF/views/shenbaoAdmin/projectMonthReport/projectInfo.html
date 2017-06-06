@@ -8,28 +8,6 @@
     border: 1px solid #ddd;
     vertical-align: middle;
 }
-label{font-weight:normal;}
-
-.uploadBox .k-upload-status {
-	display: none;
-}
-
-.uploadBox .k-header {
-	background: transparent;
-	border: 0px;
-}
-
-.uploadBox em {
-	display: none;
-}
-
-.uploadBox .k-dropzone {
-	padding: 0px;
-	margin: 0px;
-}
-.uploadBox .k-upload-files{
-display:none;
-}
 </style>
 
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
@@ -48,94 +26,62 @@ display:none;
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目代码：<span class="required">(*)</span></td>
 		<td style="width:350px;">
-			<input type="text" id="id" name="id" ng-model="vm.model.id" style="display:none"/>
-			<input type="text" class="form-control input-sm"  id="projectNumber" name="projectNumber" ng-model="vm.model.projectNumber" data-val="true" data-val-required="必填"/>
-			<span data-valmsg-for="projectNumber" data-valmsg-replace="true" class="required"></span>
+			<span ng-bind="vm.model.projectInfo.id" style="display:none"></span>
+			<span ng-bind="vm.model.projectInfo.projectNumber"></span>			
 		</td>
 		<td class="formAlignRight" style="width:150px;">项目名称：<span class="required">(*)</span></td>
 		<td >
-			<input type="text" class="form-control input-sm" id="projectName" name="projectName" ng-model="vm.model.projectName" data-val="true" data-val-required="必填"/>
-			<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
+			<span ng-bind="vm.model.projectInfo.projectName"></span>			
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">项目阶段：<span class="required">(*)</span></td>
-		<td >
-			<select id="projectStage" name="projectStage" style="height:30px;" ng-model="vm.model.projectStage" data-val="true" data-val-required="必选">
-				<option value="">---请选择---</option>
-				<option ng-repeat="stage in vm.basicData.projectStage" value="{{stage.id}}">{{stage.description}}</option>
-			</select>
-			<span data-valmsg-for="projectStage" data-valmsg-replace="true" class="required"></span>
+		<td>
+			<span ng-bind="vm.model.projectInfo.projectStageDesc"></span>	
 		</td>
 		<td class="formAlignRight">项目类型：</td>
-		<td >
-			<label ng-repeat="x in vm.basicData.projectType" for="projectType{{$index}}">
-				<input type="radio" name="projectType" id="projectType{{$index}}" value="{{x.id}}" ng-model="vm.model.projectType"/>{{x.description}}&nbsp;&nbsp;
-			</label>					
+		<td>
+			<span ng-bind="vm.model.projectInfo.projectTypeDesc"></span>				
 		</td>
 	</tr>
 	
 	<tr>
 		<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
 		<td>
-			<select id="projectIndustry" name="projectIndustry" style="height:30px;" ng-model="vm.model.projectIndustryParent"  ng-change="vm.projectIndustryChange()"
-			 data-val="true" data-val-required="必选">
-				<option value="">---请选择---</option>
-				<option ng-repeat="x in vm.basicData.projectIndustry" value="{{x.id}}" ng-bind="x.description"></option>
-			</select>
-			<span data-valmsg-for="projectIndustry" data-valmsg-replace="true" class="required"></span>
-			
-			<select id="industry" name="industry"  style="height:30px;" ng-model="vm.model.projectIndustry"  data-val="true" data-val-required="必选">
-				<option value="">---请选择---</option>	
-				<option ng-repeat="x in vm.basicData.projectIndustryChildren" ng-selected="vm.model.projectIndustry==x.id" value="{{x.id}}" ng-bind="x.description"></option>
-			</select>
-			<span data-valmsg-for="industry" data-valmsg-replace="true" class="required"></span>	
+			<span ng-bind="vm.model.projectInfo.projectIndustryDesc"></span>	
 		</td>
 		<td class="formAlignRight">项目分类：<span class="required">(*)</span></td>
 		<td >
-			<select id="projectClassify" name="projectClassify"  style="height:30px;" ng-model="vm.model.projectClassify" data-val="true" data-val-required="必选">
-				<option value="">---请选择---</option>
-				<option ng-repeat="x in vm.basicData.projectClassify" value="{{x.id}}">{{x.description}}</option>
-			</select>
-			<span data-valmsg-for="projectClassify" data-valmsg-replace="true" class="required"></span>
+			<span ng-bind="vm.model.projectInfo.projectClassifyDesc"></span>
 		</td>
 	</tr>
 		
 	<tr>
 		<td class="formAlignRight">项目开工日期：</td>
-		<td >
-			<input type="text" id="beginDate" name="beginDate"
-			 ng-model="vm.model.beginDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>		 						
+		<td>
+			<span ng-bind="vm.model.projectInfo.beginDate | date:'yyyy-MM-dd'"></span>
 		</td>
 		<td class="formAlignRight">项目竣工日期：</td>
 		<td >
-			<input type="text" id="endDate" name="endDate"
-			 ng-model="vm.model.endDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>									
+			<span ng-bind="vm.model.projectInfo.endDate | date:'yyyy-MM-dd'"></span>
 		</td>
 	</tr>
 	
 	<tr>
 		<td class="formAlignRight">项目建设地址：<span class="required">(*)</span></td>
-		<td colspan="3">
-			<textarea rows="2" cols="" class="form-control" ng-model="vm.model.projectAddress"
-			 id="projectAddress" data-val="true" data-val-required="必填" name="projectAddress"></textarea>
-			<span data-valmsg-for="projectAddress" data-valmsg-replace="true" class="required"></span>
-		</td>		
+		<td colspan="3" ng-bind="vm.model.projectInfo.projectAddress"></td>							
 	</tr>
 	
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
 		<td colspan="3">
-			<input type="text" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/> (万元)
-			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>
+			<span ng-bind="vm.model.projectInfo.projectInvestSum"></span>&nbsp;(万元)
 		</td>
 	</tr>
 					
 	<tr>
 		<td class="formAlignRight">资金筹措方案：</td>
-		<td colspan="3" >
-		
-		
+		<td colspan="3" >		
 			<table class="table table-bordered table-striped table-hover" >
 				<tr class="text-primary text-center">
 					<td>市财政</td>
@@ -147,14 +93,14 @@ display:none;
 					<td style="padding:0px;border: 0px;">
 						<table class="table table-bordered" style="margin:0px">
 							<tr>
-								<td >公共预算</td>
+								<td>公共预算</td>
 								<td>国土资金</td>
 								<td>专项资金</td>
 							</tr>
 							<tr>
-								<td ><input type="text" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys" /></td>
-								<td><input type="text" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj"  /></td>
-								<td><input type="text" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_zxzj" /></td>
+								<td ng-bind="vm.model.projectInfo.capitalSCZ_ggys"></td>
+								<td ng-bind="vm.model.projectInfo.capitalSCZ_gtzj"></td>
+								<td ng-bind="vm.model.projectInfo.capitalSCZ_zxzj"></td>
 							</tr>
 						</table>
 					</td>
@@ -166,32 +112,28 @@ display:none;
 								
 							</tr>
 							<tr>
-								<td><input type="text" class="form-control input-sm" ng-model="vm.model.capitalQCZ_ggys"  /></td>
-								<td><input type="text" class="form-control input-sm" ng-model="vm.model.capitalQCZ_gtzj"  /></td>
+								<td ng-bind="vm.model.projectInfo.capitalQCZ_ggys"></td>
+								<td ng-bind="vm.model.projectInfo.capitalQCZ_gtzj"></td>
 							</tr>
 						</table>
 					</td>
 					<td style="padding:0px;border: 0px;">
 						<table class="table table-bordered" style="margin:0px">
 							<tr>
-								<td>-</td>
-						
-								
+								<td>-</td>				
 							</tr>
 							<tr>
-								<td><input type="text" class="form-control input-sm" ng-model="vm.model.capitalSHTZ"  /></td>
+								<td ng-bind="vm.model.projectInfo.capitalSHTZ"></td>
 							</tr>
 						</table>
 					</td>
 					<td style="padding:0px;border: 0px;">
 						<table class="table table-bordered" style="margin:0px">
 							<tr>
-								<td>-</td>
-							
-								
+								<td>-</td>															
 							</tr>
 							<tr>
-								<td><input type="text" class="form-control input-sm" ng-model="vm.model.capitalOther"  /></td>
+								<td ng-bind="vm.model.projectInfo.capitalOther"></td>
 							</tr>
 						</table>
 					</td>
@@ -200,9 +142,7 @@ display:none;
 				<table class="table table-bordered ">
 				<tr>
 					<td class="text-center" style="width:100px;" >"其他"的来源途径说明：</td>
-					<td >
-						<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.capitalOtherDescription" placeholder="注：200字符以内"></textarea>									
-					</td>
+					<td ng-bind="vm.model.projectInfo.capitalOtherDescription"></td>																				
 				</tr>
 				<tr>
 					<td>资金总计：</td>
@@ -216,98 +156,85 @@ display:none;
 	
 	<tr>
 		<td class="formAlignRight">项目简介：</td>
-		<td colspan="3" >
-			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：项目简介（500字符以内）" ng-model="vm.model.projectIntro"></textarea>													
-		</td>
+		<td colspan="3" ng-bind="vm.model.projectInfo.projectIntro"></td>	
 	</tr>
 	<tr>
 		<td class="formAlignRight">建设规模：</td>
-		<td colspan="3" >
-			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（200字符以内）" ng-model="vm.model.projectGuiMo"></textarea>													
-		</td>
+		<td colspan="3" ng-bind="vm.model.projectInfo.projectGuiMo"></td>
 	</tr>
 	
 	<tr>
 		<td class="formAlignRight">备注：</td>
-		<td colspan="3" >
-			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（200字符以内）" ng-model="vm.model.remark"></textarea>												
-		</td>
+		<td colspan="3" ng-bind="vm.model.projectInfo.remark"></td>																	
 	</tr>				
 	</div>
 </table>
 
 <div class="bg-info text-info" style="padding: 10px; margin-bottom: 10px">项目批复信息</div>
 <table class="table table-bordered table-striped ">
-<tr>
-<td style="width:180px;">批复名称</td>
-<td style="width:180px;">批复时间</td>
-<td style="width:180px;">批复文号</td>
-<td >文件上传</td>
-</tr>
-<tr ng-repeat="x in vm.uploadType">
-<td >{{x[1]}}</td>
-<td >
-	<input type="text"  kendo-date-picker ng-model="vm.model['pifu'+x[0]+'_date']" k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>	
-</td>
-<td><input type="text" ng-model="vm.model['pifu'+x[0]+'_wenhao']" /></td>
-<td class="clearfix">
-<div class="uploadBox pull-left"  data-type="{{x[0]}}">
- <input name="files"
-        type="file"
-        kendo-upload
-        k-async="{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true}"
-        k-error="vm.uploadSuccess"
-        k-localization="{select:'上传文件'}"
-        k-showFileList="false"   
-        k-multiple="false"    
-        />
-        </div>
-         <div style="margin:3px;"  class="pull-left"
-		 	  ng-repeat="y in vm.model.attachmentDtos" 
-		 	  ng-show="y.type=='{{x[0]}}'"
-		 		>
-			 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
-			<button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button>
-		 </div>
-</td>
-</tr>
+	<tr>
+		<td style="width:180px;">批复名称</td>
+		<td style="width:180px;">批复时间</td>
+		<td style="width:180px;">批复文号</td>
+		<td>文件上传</td>
+	</tr>
+	<tr>
+		<td>项目建议书</td>
+		<td ng-bind="vm.model.projectInfo.pifuJYS_date | date:'yyyy-MM-dd'"></td>
+		<td ng-bind="vm.model.projectInfo.pifuJYS_wenhao"></td>
+		<td>
+			<div style="margin:3px;"  
+			 	  ng-repeat="y in vm.model.projectInfo.attachmentDtos" 
+			 	  ng-show="y.type=='JYS'"
+			 		>
+				 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+		 	</div>
+		</td>
+	</tr>
+	<tr>
+		<td>可行性研究报告</td>
+		<td ng-bind="vm.model.projectInfo.pifuKXXYJBG_date | date:'yyyy-MM-dd'"></td>
+		<td ng-bind="vm.model.projectInfo.pifuKXXYJBG_wenhao"></td>
+		<td>
+			<div style="margin:3px;"  
+			 	  ng-repeat="y in vm.model.projectInfo.attachmentDtos" 
+			 	  ng-show="y.type=='KXXYJBG'"
+			 		>
+				 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+		 	</div>
+		</td>
+	</tr>
+	<tr>
+		<td>项目总概算</td>
+		<td ng-bind="vm.model.projectInfo.pifuCBSJYGS_date | date:'yyyy-MM-dd'"></td>
+		<td ng-bind="vm.model.projectInfo.pifuCBSJYGS_wenhao"></td>
+		<td>
+			<div style="margin:3px;"  
+			 	  ng-repeat="y in vm.model.projectInfo.attachmentDtos" 
+			 	  ng-show="y.type=='CBSJYGS'"
+			 		>
+				 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+		 	</div>
+		</td>
+	</tr>	
 </table>
 
 <div class="bg-info text-info" style="padding: 10px; margin-bottom: 10px">相关附件</div>
-<table class="table table-bordered table-striped ">
-<tr>
-<td style="width:180px;">文件上传</td>
-<td>操作</td>
-</tr>
-<tr>
-<td><div class="uploadBox" data-type="other">
- <input name="files"
-        type="file"
-        kendo-upload
-        k-async="{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true}"
-        k-error="vm.uploadSuccess"
-        k-localization="{select:'上传文件'}"
-        k-showFileList="false"   
-        k-multiple="true"    
-        />
-        </div>
-        </td>
-
-<td>
-
-         <div style="margin:3px;"  
-		 	  ng-repeat="y in vm.model.attachmentDtos" 
-		 	  ng-show="y.type=='other'"
-		 		>
-			 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
-			<button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button>
-		 </div>
-</td>
-</tr>
-</table>
-
-
-
-
-    
+	<table class="table table-bordered table-striped ">
+		<tr>
+			<td style="width:180px;">文件类型</td>
+			<td>文件上传</td>
+		</tr>
+		<tr>
+			<td>其他文件</td>				        	
+			<td>			
+	         <div style="margin:3px;"  
+			 	  ng-repeat="y in vm.model.projectInfo.attachmentDtos" 
+			 	  ng-show="y.type=='other'"
+			 		>
+				 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+			 </div>
+			</td>
+		</tr>
+	</table> 
 </div>

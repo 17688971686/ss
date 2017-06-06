@@ -43,7 +43,8 @@
         		page_fillReport();        		
         	}
         	if(vm.page=='projectInfo'){
-        		//todo
+        		//查询项目信息
+        		page_projectInfo();
         	}
         	
         
@@ -165,9 +166,9 @@
      	
       }//page_fillReport
         
-       
-        
-                
+      function page_projectInfo(){
+    	  projectMonthReportSvc.getProjectById(vm);      	  
+      }//end#page_projectInfo
         
     }
 })();
