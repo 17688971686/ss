@@ -156,8 +156,7 @@
 	            templateUrl: '/unitManagement/html/edit.html',
 	            controller: 'unitManagementEditCtrl',
 	            controllerAs: 'vm'
-	        }) 
-	      
+	        }) 	      
 	       //end#单位管理
 	        
 	        //begin#基础数据管理

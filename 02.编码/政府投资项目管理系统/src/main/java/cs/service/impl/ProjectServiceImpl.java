@@ -1,6 +1,7 @@
 package cs.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cs.common.ICurrentUser;
+import cs.common.Util;
 import cs.domain.Project;
 import cs.domain.ProjectInfo;
 import cs.domain.ProjectInfo_;
@@ -76,15 +78,23 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	@Transactional
 	public void updateProject(ProjectDto projectDto) {
-		// TODO Auto-generated method stub
-		
+		Project project = projectRepo.findById(projectDto.getId());
+		//进行数据转换
+		project.getAttachments().clear();
+		ProjectMapper.buildEntity(projectDto,project);
+		//设置修改人
+		String longinName = currentUser.getLoginName();
+		project.setModifiedBy(longinName);
+		project.setModifiedDate(new Date());
+		//保存数据
+		projectRepo.save(project);
+		logger.info(String.format("编辑项目,项目名称 %s",projectDto.getProjectName()));
+				
 	}
 
 	@Override
 	@Transactional
-	public void createProject(ProjectDto projectDto) {
-		// TODO Auto-generated method stub
-		
+	public void createProject(ProjectDto projectDto) {		
 		Criterion criterion=Restrictions.eq(Project_.projectNumber.getName(), projectDto.getProjectNumber());
 		Optional<Project> findProject = projectRepo.findByCriteria(criterion).stream().findFirst();
 		if(findProject.isPresent()){

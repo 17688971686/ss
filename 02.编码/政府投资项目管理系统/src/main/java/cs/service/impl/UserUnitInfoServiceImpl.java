@@ -1,13 +1,12 @@
 package cs.service.impl;
 
-import java.util.Optional;
 
+import java.util.Optional;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import cs.domain.UserUnitInfo;
 import cs.domain.UserUnitInfo_;
 import cs.model.DomainDto.UserUnitInfoDto;
@@ -16,9 +15,9 @@ import cs.repository.interfaces.UserUnitInfoRepo;
 import cs.service.interfaces.UserUnitInfoService;
 @Service
 public class UserUnitInfoServiceImpl implements UserUnitInfoService {
-
 	@Autowired
 	private UserUnitInfoRepo userUnitInfoRepo;
+
 	
 	@Override
 	@Transactional

@@ -14,15 +14,15 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="formAlignRight" >项目阶段：<span class="required">(*)</span></td>
+		<td class="formAlignRight">项目阶段：<span class="required">(*)</span></td>
 		<td >
-			<select id="projectStage" name="projectStage"  ng-model="vm.model.projectStage" data-val="true" data-val-required="必选">
+			<select id="projectStage" name="projectStage" style="height:30px;" ng-model="vm.model.projectStage" data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>
 				<option ng-repeat="stage in vm.basicData.projectStage" value="{{stage.id}}">{{stage.description}}</option>
 			</select>
 			<span data-valmsg-for="projectStage" data-valmsg-replace="true" class="required"></span>
 		</td>
-		<td class="formAlignRight" >项目类型：</td>
+		<td class="formAlignRight">项目类型：</td>
 		<td >
 			<label ng-repeat="x in vm.basicData.projectType" for="projectType{{$index}}">
 				<input type="radio" name="projectType" id="projectType{{$index}}" value="{{x.id}}" ng-model="vm.model.projectType"/>{{x.description}}&nbsp;&nbsp;
@@ -31,24 +31,24 @@
 	</tr>
 	
 	<tr>
-		<td class="formAlignRight" >项目行业归口：<span class="required">(*)</span></td>
+		<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
 		<td>
-			<select id="projectIndustry" name="projectIndustry" ng-model="vm.model.projectIndustryParent"  ng-change="vm.projectIndustryChange()"
+			<select id="projectIndustry" name="projectIndustry" style="height:30px;" ng-model="vm.model.projectIndustryParent"  ng-change="vm.projectIndustryChange()"
 			 data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.projectIndustry" value="{{x.id}}" ng-bind="x.description"></option>
 			</select>
 			<span data-valmsg-for="projectIndustry" data-valmsg-replace="true" class="required"></span>
 			
-			<select id="industry" name="industry"  ng-model="vm.model.projectIndustry"  data-val="true" data-val-required="必选">
+			<select id="industry" name="industry"  style="height:30px;" ng-model="vm.model.projectIndustry"  data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>	
-				<option ng-repeat="x in vm.basicData.projectIndustryChildren" value="{{x.id}}" ng-bind="x.description"></option>
+				<option ng-repeat="x in vm.basicData.projectIndustryChildren" ng-selected="vm.model.projectIndustry==x.id" value="{{x.id}}" ng-bind="x.description"></option>
 			</select>
 			<span data-valmsg-for="industry" data-valmsg-replace="true" class="required"></span>	
 		</td>
-		<td class="formAlignRight" >项目分类：<span class="required">(*)</span></td>
+		<td class="formAlignRight">项目分类：<span class="required">(*)</span></td>
 		<td >
-			<select id="projectClassify" name="projectClassify"  ng-model="vm.model.projectClassify" data-val="true" data-val-required="必选">
+			<select id="projectClassify" name="projectClassify"  style="height:30px;" ng-model="vm.model.projectClassify" data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.projectClassify" value="{{x.id}}">{{x.description}}</option>
 			</select>
@@ -57,38 +57,37 @@
 	</tr>
 		
 	<tr>
-		<td class="formAlignRight" >项目开工日期：</td>
+		<td class="formAlignRight">项目开工日期：</td>
 		<td >
-			<input   type="text" id="beginDate" name="beginDate"
-			 ng-model="vm.model.beginDate"  kendo-date-picker  k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" />						
+			<input type="text" id="beginDate" name="beginDate"
+			 ng-model="vm.model.beginDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>		 						
 		</td>
-		<td class="formAlignRight" >项目竣工日期：</td>
+		<td class="formAlignRight">项目竣工日期：</td>
 		<td >
-			<input  type="text" id="endDate" name="endDate"
-			 ng-model="vm.model.endDate" kendo-date-picker  k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" />						
+			<input type="text" id="endDate" name="endDate"
+			 ng-model="vm.model.endDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>									
 		</td>
 	</tr>
 	
 	<tr>
-		<td class="formAlignRight" >项目建设地址：<span class="required">(*)</span></td>
+		<td class="formAlignRight">项目建设地址：<span class="required">(*)</span></td>
 		<td colspan="3">
 			<textarea rows="2" cols="" class="form-control" ng-model="vm.model.projectAddress"
 			 id="projectAddress" data-val="true" data-val-required="必填" name="projectAddress"></textarea>
 			<span data-valmsg-for="projectAddress" data-valmsg-replace="true" class="required"></span>
-		</td>
-		
+		</td>		
 	</tr>
 	
 	<tr>
-		<td class="formAlignRight" >项目总投资：<span class="required">(*)</span></td>
-		<td colspan="3" >
+		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
+		<td colspan="3">
 			<input type="text" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/> (万元)
-						<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>
+			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
 					
 	<tr>
-		<td class="formAlignRight" >资金筹措方案：</td>
+		<td class="formAlignRight">资金筹措方案：</td>
 		<td colspan="3" >
 		
 		
@@ -171,20 +170,20 @@
 	</tr>
 	
 	<tr>
-		<td class="formAlignRight" >项目简介：</td>
+		<td class="formAlignRight">项目简介：</td>
 		<td colspan="3" >
 			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：项目简介（500字符以内）" ng-model="vm.model.projectIntro"></textarea>													
 		</td>
 	</tr>
 	<tr>
-		<td class="formAlignRight" >建设规模：</td>
+		<td class="formAlignRight">建设规模：</td>
 		<td colspan="3" >
-			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（200字符以内）" ng-model="vm.model.ProjectGuiMo"></textarea>													
+			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（200字符以内）" ng-model="vm.model.projectGuiMo"></textarea>													
 		</td>
 	</tr>
 	
 	<tr>
-		<td class="formAlignRight" >备注：</td>
+		<td class="formAlignRight">备注：</td>
 		<td colspan="3" >
 			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（200字符以内）" ng-model="vm.model.remark"></textarea>												
 		</td>
@@ -202,10 +201,12 @@
 </tr>
 <tr ng-repeat="x in vm.uploadType">
 <td >{{x[1]}}</td>
-<td ><input  type="text"  kendo-date-picker ng-model="vm.model['pifu'+x[0]+'_date']" k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" /></td>
-<td ><input  type="text" ng-model="vm.model['pifu'+x[0]+'_wenhao']" /></td>
+<td >
+	<input type="text"  kendo-date-picker ng-model="vm.model['pifu'+x[0]+'_date']" k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>	
+</td>
+<td><input type="text" ng-model="vm.model['pifu'+x[0]+'_wenhao']" /></td>
 <td class="clearfix">
-<div class="uploadBox pull-left"  data-type="{{x[0]}}" >
+<div class="uploadBox pull-left"  data-type="{{x[0]}}">
  <input name="files"
         type="file"
         kendo-upload
@@ -217,7 +218,7 @@
         />
         </div>
          <div style="margin:3px;"  class="pull-left"
-		 	  ng-repeat="y in vm.model.attachmentDto" 
+		 	  ng-repeat="y in vm.model.attachmentDtos" 
 		 	  ng-show="y.type=='{{x[0]}}'"
 		 		>
 			 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
@@ -231,10 +232,10 @@
 <table class="table table-bordered table-striped ">
 <tr>
 <td style="width:180px;">文件上传</td>
-<td >操作</td>
+<td>操作</td>
 </tr>
-<tr >
-<td ><div class="uploadBox"  data-type="other" >
+<tr>
+<td><div class="uploadBox" data-type="other">
  <input name="files"
         type="file"
         kendo-upload
@@ -247,10 +248,10 @@
         </div>
         </td>
 
-<td >
+<td>
 
          <div style="margin:3px;"  
-		 	  ng-repeat="y in vm.model.attachmentDto" 
+		 	  ng-repeat="y in vm.model.attachmentDtos" 
 		 	  ng-show="y.type=='other'"
 		 		>
 			 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
@@ -259,4 +260,6 @@
 </td>
 </tr>
 </table>
+
+
 
