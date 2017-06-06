@@ -118,7 +118,7 @@
 	            controllerAs: 'vm'
 	        })
 	        .state('monthReport_details', {
-	            url: '/monthReport/:id',
+	            url: '/monthReport/:projectId/:year/:month',
 	            templateUrl: '/management/monthReport/html/details',
 	            controller: 'monthReportCtrl',
 	            controllerAs: 'vm'

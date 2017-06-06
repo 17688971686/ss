@@ -10,21 +10,16 @@
     function monthReport($location, monthReportSvc,$state,$scope) {
         /* jshint validthis:true */
     	var vm = this;
-    	vm.id=$state.params.id;
+    	vm.model={};    
     	vm.page='list';
         vm.init=function(){   
-        	if(vm.id){
+        	if($state.current.name=='monthReport_details'){
         		vm.page='details';
+        		vm.projectId=$state.params.projectId;
+        		vm.year=$state.params.year;
+        		vm.month=$state.params.month;
         	}
         }//end init
-        
-        vm.page_details_init=function(){
-        	
-        	vm.date=function(dateStr){
-        		return new Date(dateStr);
-        	}
-        	
-        }
         
         activate();
         function activate() {
@@ -32,11 +27,17 @@
         	if(vm.page=='list'){
         		monthReportSvc.grid(vm);
         	}
-        	if(vm.page=='details'){
-        		monthReportSvc.getMonthReportInfo(vm);
-        		vm.page_details_init();
+        	if(vm.page=='details'){        		
+        		page_details();
         	}
             
         }
+        
+        function page_details(){
+        	//todo
+        	monthReportSvc.getProjectById(vm);
+        }
+        
+        
     }
 })();
