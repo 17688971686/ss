@@ -114,16 +114,16 @@
 	           	 if(e.XMLHttpRequest.status==200){
 	           		 var fileName=e.XMLHttpRequest.response;
 	           		 $scope.$apply(function(){
-	           			 if(vm.model.attachmentDto){
-	           				 vm.model.attachmentDto.push({name:fileName.split('_')[2],url:fileName,type:type});
+	           			 if(vm.model.attachmentDtos){
+	           				 vm.model.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
 	           			 }else{
-	           				 vm.model.attachmentDto=[{name:fileName.split('_')[2],url:fileName,type:type}];
+	           				 vm.model.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
 	           			 }                			           			
 	           		 });
 	           	 }
     		}
     		 vm.delFile=function(idx){
-            	 vm.model.attachmentDto.splice(idx,1);
+            	 vm.model.attachmentDtos.splice(idx,1);
              }
     		 
     		 vm.capitalTotal=function(){

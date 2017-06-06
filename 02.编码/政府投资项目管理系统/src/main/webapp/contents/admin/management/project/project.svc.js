@@ -46,7 +46,7 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 									$('.modal-backdrop').remove();
-									location.href = url_back;
+									location.href = url_back;									
 								}
 							})
 						}
