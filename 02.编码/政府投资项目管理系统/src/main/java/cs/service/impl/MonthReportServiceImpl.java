@@ -21,6 +21,7 @@ import cs.domain.Attachment;
 import cs.domain.MonthReport;
 import cs.domain.MonthReportProblem;
 import cs.domain.MonthReport_;
+import cs.domain.Project;
 import cs.domain.ProjectInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.BasicDataDto;
@@ -28,6 +29,7 @@ import cs.model.DomainDto.MonthReportDto;
 import cs.model.DtoMapper.MonthReportMapper;
 import cs.repository.interfaces.MonthReportRepo;
 import cs.repository.interfaces.ProjectInfoRepo;
+import cs.repository.interfaces.ProjectRepo;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.framework.UserServiceImpl;
@@ -42,7 +44,7 @@ public class MonthReportServiceImpl implements MonthReportService {
 	@Autowired
 	private BasicDataService basicDataService;
 	@Autowired
-	private ProjectInfoRepo projectInfoRepo;
+	private ProjectRepo projectRepo;
 	@Autowired
 	private ICurrentUser currentUser;
 
@@ -83,7 +85,7 @@ public class MonthReportServiceImpl implements MonthReportService {
 	public void saveMonthReport(MonthReportDto monthReportDto) {
 		// 判断数据库是否存在月报
 		
-		Criterion criterion1 = Restrictions.eq(MonthReport_.projectNumber.getName(), monthReportDto.getProjectNumber());
+		Criterion criterion1 = Restrictions.eq(MonthReport_.projectId.getName(), monthReportDto.getProjectId());
 		Criterion criterion2 = Restrictions.eq(MonthReport_.submitYear.getName(), monthReportDto.getSubmitYear());
 		Criterion criterion3 = Restrictions.eq(MonthReport_.submitMonth.getName(), monthReportDto.getSubmitMonth());
 		MonthReport monthReport;
@@ -107,9 +109,9 @@ public class MonthReportServiceImpl implements MonthReportService {
 		monthReport.setCreatedDate(new Date());
 
 		// 从项目表进行保存
-		ProjectInfo projectInfo = projectInfoRepo.findById(monthReportDto.getProjectNumber());
-		projectInfo.getMonthReports().add(monthReport);
-		projectInfoRepo.save(projectInfo);
+		Project project = projectRepo.findById(monthReportDto.getProjectId());
+		project.getMonthReports().add(monthReport);
+		projectRepo.save(project);
 
 		logger.info("创建月报数据");
 	}

@@ -72,57 +72,35 @@
 			<td>项目建议书批复日期：</td>
 			<td colspan="2">
 			<input   type="text" 
-			 ng-model="vm.model.projectInfo.pifuJYS_date"  kendo-date-picker  k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" />
+			 ng-model="vm.model.monthReport.pifuJYS_date"  kendo-date-picker  k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" />
 			</td>
 			<td>项目建议书批文号：</td>
 			<td>			
-				<input 
-				ng-model="vm.model.projectInfo.pifuJYS_wenhao" class="form-control input-sm " type="text"
-				></td>
+				<input 	ng-model="vm.model.monthReport.pifuJYS_wenhao" class="form-control input-sm " type="text" />
+			</td>
 		</tr>
 		<tr ng-hide="vm.SHTZ">
 			<td>可行性研究报告批复日期：</td>
-			<td colspan="2"><input id="feaStyRepoReplyDate"
-				ng-model="vm.model.monthReport.feaStyRepoReplyDate" style="width: 140px;">
+			<td colspan="2">
+			<input   type="text" 
+			 ng-model="vm.model.monthReport.pifuKXXYJBG_date"  kendo-date-picker  k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" />
+			
 			</td>
 			<td>可行性研究报告批文号：</td>
-			<td><select id="reportType" ng-model="vm.model.monthReport.reportType"
-				class="form-select" >
-					<option value="">---请选择---</option>
-					<option ng-repeat="x in vm.basicData_approvalType"
-						value="{{x.id}}">{{x.description}}</option>
-			</select> 
-			<select ng-model="vm.model.monthReport.reportYear" class="form-select" >
-				<option ng-repeat="x in vm.years" value="{{x}}" ng-selected="x==vm.currentYear">{{x}}</option>
-			</select>						
-			年 
-			
-				
-				<input id="reportNum"
-				ng-model="vm.model.monthReport.reportNum" class="form-control input-sm " type="text"
-				style="width: 80px; height: 28px">号</td>
+			<td>
+			<input 	ng-model="vm.model.monthReport.pifuKXXYJBG_wenhao" class="form-control input-sm " type="text" />
+			</td>
 		</tr>
 		<tr ng-hide="vm.SHTZ">
 			<td>项目总概算批复日期：</td>
-			<td colspan="2"><input id="allEstimateReplyDate"
-				ng-model="vm.model.monthReport.allEstimateReplyDate" style="width: 140px;">
+			<td colspan="2">
+			<input   type="text" 
+			 ng-model="vm.model.monthReport.pifuCBSJYGS_date"  kendo-date-picker  k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" />
 			</td>
 			<td>项目总概算批复文号：</td>
-			<td><select id="allEstimateType"
-				ng-model="vm.model.monthReport.allEstimateType" class="form-select" >
-					<option value="">---请选择---</option>
-					<option ng-repeat="x in vm.basicData_approvalType"
-						value="{{x.id}}">{{x.description}}</option>
-			</select> 
-			<select ng-model="vm.model.monthReport.allEstimateYear" class="form-select" >
-				<option ng-repeat="x in vm.years" value="{{x}}" ng-selected="x==vm.currentYear">{{x}}</option>
-			</select>						
-			年 
-			
-				
-				<input id="allEstimateNum"
-				ng-model="vm.model.monthReport.allEstimateNum" class="form-control input-sm " type="text"
-				style="width: 80px; height: 28px">号</td>
+			<td>
+			<input 	ng-model="vm.model.monthReport.pifuCBSJYGS_wenhao" class="form-control input-sm " type="text" />
+			</td>
 		</tr>
 	</table>
 	
@@ -132,15 +110,19 @@
 			<td>开工日期：<span class="required">(*)</span>
 			</td>
 			<td  colspan="2">
-				<input id="actuallyDate" name="actuallyDate" ng-model="vm.model.monthReport.actuallyDate" 
-					style="width: 140px;" data-val="true" data-val-required="必填"/>
-				<span data-valmsg-for="actuallyDate" data-valmsg-replace="true" class="required"></span>
+			<input   type="text"   
+			 ng-model="vm.model.monthReport.beginDate"  kendo-date-picker  k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" />
+			 
+			 <input type="text"  ng-model="vm.model.monthReport.beginDate" style="visibility: hidden;width:1px;" 
+			 id="beginDate" name="beginDate" data-val="true" data-val-required="必填" />
+				<span data-valmsg-for="beginDate" data-valmsg-replace="true" class="required"></span>
 			</td>
-			<td>竣工日期：<span class="required"></span>
+			<td>预计竣工日期：
 			</td>
 			<td  colspan="2">
-				<input id="completedDate"
-				ng-model="vm.model.monthReport.completedDate" style="width: 140px;">
+				<input   type="text"  id="endDate" name="endDate" 
+			 ng-model="vm.model.monthReport.endDate"  kendo-date-picker  k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" />
+				
 			</td>
 		</tr>
 		<tr>
@@ -184,10 +166,10 @@
 				<span data-valmsg-for="thisMonthInvestTotal" data-valmsg-replace="true" class="required"></span>
 			</td>
 			<td >是否完成竣工决算</td>
-			<td><span class="radioList_text"> <input type="radio"
-					name="isCompletion" ng-model="vm.model.monthReport.isCompletion" value="1"><label>是</label>
-					<input type="radio" name="isCompletion"
-					ng-model="vm.model.monthReport.isCompletion" value="0" checked="checked"><label>否</label>
+			<td><span class="radioList_text"> <label><input type="radio"
+					name="isCompletion" ng-model="vm.model.monthReport.isCompletion" value="1">是</label>
+					<label><input type="radio" name="isCompletion"
+					ng-model="vm.model.monthReport.isCompletion" value="0" >否</label>
 			</span></td>
 		</tr>
 		<tr>
@@ -303,15 +285,15 @@
 							<td><input class="btn btn-success btn-xs" type="button"
 								ng-click="vm.createProblem()" value="添加问题"></td>
 						</tr>
-						<tr ng-repeat="x in vm.model.monthReport.monthReportProblemsDto">
+						<tr ng-repeat="x in vm.model.monthReport.monthReportProblemDtos">
 							<td><span>{{$index+1}}</span></td>
 							<td><textarea style='height: 102px; width: 307px;'
 									placeholder='填写项目所存在的问题。'
-									data-validation-placeholder='填写项目所存在的问题。' cols='20' rows='2' ng-model="vm.model.monthReport.monthReportProblemsDto[$index].problemIntroduction"></textarea>
+									data-validation-placeholder='填写项目所存在的问题。' cols='20' rows='2' ng-model="vm.model.monthReport.monthReportProblemDtos[$index].problemIntroduction"></textarea>
 							</td>
 							<td><textarea style='height: 102px; width: 307px;'
 									placeholder='填写项目所存在的问题。'
-									data-validation-placeholder='填写项目所存在的问题。' cols='20' rows='2' ng-model="vm.model.monthReport.monthReportProblemsDto[$index].solutionsAndSuggest"></textarea>
+									data-validation-placeholder='填写项目所存在的问题。' cols='20' rows='2' ng-model="vm.model.monthReport.monthReportProblemDtos[$index].solutionsAndSuggest"></textarea>
 							</td>
 							<td><input class='btn btn-xs btn-danger' type='button'
 								ng-click='vm.deleteProblem($index)' value='删除问题' /></td>
@@ -366,7 +348,7 @@
 									</td>
 									<td >
 									 <div style="margin:3px;" 
-									 	  ng-repeat="y in vm.model.monthReport.attachmentsDto" 
+									 	  ng-repeat="y in vm.model.monthReport.attachmentDtos" 
 									 	  ng-show="y.type=='{{x[0]}}'"
 									 		>
 										 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>

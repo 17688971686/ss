@@ -8,14 +8,41 @@
 		var url_project = "/shenbaoAdmin/project";
 		var url_basicData = "/common/basicData";//获取基础数据
 		var url_projectMonthReport="/shenbaoAdmin/projectMonthReport";
+		var url_userUnitInfo="/shenbaoAdmin/userUnitInfo";
 		
 		var service = {
 			grid : grid,
 			submitMonthReport:submitMonthReport,
 			getProjectById:getProjectById
+			
 		};		
 		return service;	
 	
+		
+		//begin#getUserUnitInfo
+		function getUserUnitInfo(vm){
+			var httpOptions = {
+					method : 'get',
+					url : url_userUnitInfo,
+				}
+				var httpSuccess = function success(response) {					
+					vm.model.userUnitInfo=response.data;
+					vm.model.monthReport.fillName=vm.model.userUnitInfo.unitContactPerson;
+					vm.model.monthReport.fillMobile=vm.model.userUnitInfo.contactPersonMobile;
+					vm.model.monthReport.monRepManagerName=vm.model.userUnitInfo.unitResPerson;
+					vm.model.monthReport.monRepManagerTel=vm.model.userUnitInfo.resPersonTel;
+					vm.model.monthReport.monRepManagerFax=vm.model.userUnitInfo.resPersonFax;
+					vm.model.monthReport.monRepManagUnitName=vm.model.userUnitInfo.unitName;					
+				}
+				
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+		}
+		
 		/**
 		 * 查询项目数据
 		 */
@@ -32,6 +59,7 @@
 						
 					}
 					if(vm.page=='fillReport'){
+						
 						var report=$linq(vm.model.projectInfo.monthReportDtos)
 											.where(function(x){return x.submitYear==vm.year && x.submitMonth==vm.month;})
 											.toArray();
@@ -40,9 +68,19 @@
 							vm.model.monthReport=report[0];
 						}
 						
-						vm.model.projectInfo.pifuJYS_date=common.toDate(vm.model.projectInfo.pifuJYS_date);
-						vm.model.projectInfo.pifuKXXYJBG_date=common.toDate(vm.model.projectInfo.pifuKXXYJBG_date);
-						vm.model.projectInfo.pifuCBSJYGS_date=common.toDate(vm.model.projectInfo.pifuCBSJYGS_date);
+						vm.model.monthReport.pifuJYS_date=common.toDate(vm.model.projectInfo.pifuJYS_date);
+						vm.model.monthReport.pifuKXXYJBG_date=common.toDate(vm.model.projectInfo.pifuKXXYJBG_date);
+						vm.model.monthReport.pifuCBSJYGS_date=common.toDate(vm.model.projectInfo.pifuCBSJYGS_date);
+						
+						vm.model.monthReport.pifuJYS_wenhao=vm.model.projectInfo.pifuJYS_wenhao;
+						vm.model.monthReport.pifuKXXYJBG_wenhao=vm.model.projectInfo.pifuKXXYJBG_wenhao;
+						vm.model.monthReport.pifuCBSJYGS_wenhao=vm.model.projectInfo.pifuCBSJYGS_wenhao;
+						
+						vm.model.monthReport.beginDate=common.toDate(vm.model.monthReport.beginDate);
+						vm.model.monthReport.endDate=common.toDate(vm.model.monthReport.endDate);
+						
+						//单位信息
+						getUserUnitInfo(vm);
 					}
 					
 				}

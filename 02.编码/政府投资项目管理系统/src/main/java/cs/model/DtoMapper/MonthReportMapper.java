@@ -18,6 +18,7 @@ public class MonthReportMapper {
 		if (monthReport != null) {
 
 			monthReportDto.setId(monthReport.getId());// 获取月报id
+			monthReportDto.setProjectId(monthReport.getProjectId());//项目ID
 			monthReportDto.setProjectNumber(monthReport.getProjectNumber());// 获取项目代码
 			monthReportDto.setInvertPlanTotal(monthReport.getInvertPlanTotal());// 获取计划总投资
 
@@ -122,6 +123,7 @@ public class MonthReportMapper {
 				monthReport.setId(UUID.randomUUID().toString());
 			}
 			monthReport.setProjectNumber(monthReportDto.getProjectNumber());
+			monthReport.setProjectId(monthReportDto.getProjectId());
 
 			// begin#联系人信息
 			monthReport.setFillName(monthReportDto.getFillName());
@@ -180,7 +182,7 @@ public class MonthReportMapper {
 			monthReport.setCompletion(monthReportDto.isCompletion());
 			monthReport.setRemark(monthReportDto.getRemark());
 
-			monthReportDto.getMonthReportProblems().forEach(x -> {
+			monthReportDto.getMonthReportProblemDtos().forEach(x -> {
 				MonthReportProblem monthReportProblem = new MonthReportProblem();
 				monthReportProblem.setId(UUID.randomUUID().toString());
 				monthReportProblem.setProblemIntroduction(x.getProblemIntroduction());
@@ -189,7 +191,7 @@ public class MonthReportMapper {
 				monthReport.getMonthReportProblems().add(monthReportProblem);
 			});
 
-			monthReportDto.getAttachments().forEach(x -> {
+			monthReportDto.getAttachmentDtos().forEach(x -> {
 				Attachment attachment = new Attachment();
 				attachment.setId(UUID.randomUUID().toString());
 				attachment.setName(x.getName());

@@ -35,14 +35,6 @@ public class ProjectMonthReportController {
 	
 	private String ctrlName = "shenbaoAdmin/projectMonthReport";
 	
-	//查询月报数据
-	//@RequiresPermissions("projectMonthReport##get")	
-	@RequestMapping(name = "获取月报数据", path = "", method = RequestMethod.GET)
-	public @ResponseBody PageModelDto<MonthReportDto> get(HttpServletRequest request) throws ParseException {
-		ODataObj odataObj = new ODataObj(request);
-		PageModelDto<MonthReportDto> monthReportDtos = monthReportService.get(odataObj);		
-		return monthReportDtos;
-	}
 	
 	
 	@RequestMapping(name = "保存月报信息",path="",method=RequestMethod.POST)
@@ -51,6 +43,8 @@ public class ProjectMonthReportController {
 		monthReportService.saveMonthReport(monthReportDto);
 				
 	}
+	
+	//begin#html
 	
 	//@RequiresPermissions("projectMonthReport#html/list#get")
 	@RequestMapping(name = "项目列表页", path = "html/list",method=RequestMethod.GET)

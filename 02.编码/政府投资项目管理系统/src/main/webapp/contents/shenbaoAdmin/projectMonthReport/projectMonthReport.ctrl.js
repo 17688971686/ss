@@ -91,14 +91,7 @@
      	  vm.model.monthReport.proposalsYear=vm.currentYear;
      	  vm.model.monthReport.reportYear=vm.currentYear;
      	  vm.model.monthReport.allEstimateYear=vm.currentYear;
-     	  //begin#日期处理
-       	 vm.date=function(dateStr){
-       		if(dateStr){
-       			return new Date(dateStr);
-       		 }else{
-       			 return null;
-       		 }
-       	 }
+     	 
        //begin#金额处理
        	 vm.money = function(money){
        		 if(money){
@@ -129,26 +122,6 @@
 	           	 }
      		 }
          	
-         	
-         	//日期
-         	$("#prePlanReplyDate,\
-        			#proposalsReplyDate,\
-        			#allEstimateReplyDate,\
-        			#actuallyDate,\
-        			#completedDate,\
-        			#feaStyRepoReplyDate,\
-        			#firstAccountReportSendAuditDate,\
-        			#firstAccountReportAuditDate,\
-        			#newestAccountReportSendAuditDate,\
-        			#newestAccountReportAuditDate,\
-        			#newestAccountReportAuditDate,\
-        			#accountReportSendAuditDate,\
-        			#completeAccountAuditDate").kendoDatePicker({
-        		culture : "zh-CN", /* 设置本地化，即设置时间显示为中文 （私有设置）*/
-        		format : "yyyy-MM-dd"/* 设置时间的输出格式 */
-        	});
-         	
-         	
          	projectMonthReportSvc.getProjectById(vm);
          	
      	 }//end init_page_fillReport
@@ -162,15 +135,15 @@
         
        //begin#创建问题和删除问题
      	vm.createProblem=function(){
-        	if(vm.model.monthReport.monthReportProblemsDto){
-        		vm.model.monthReport.monthReportProblemsDto.push({problemIntroduction:'',solutionsAndSuggest:''});
+        	if(vm.model.monthReport.monthReportProblemDtos){
+        		vm.model.monthReport.monthReportProblemDtos.push({problemIntroduction:'',solutionsAndSuggest:''});
         	}else{
-        		vm.model.monthReport.monthReportProblemsDto=[{problemIntroduction:'',solutionsAndSuggest:''}];
+        		vm.model.monthReport.monthReportProblemDtos=[{problemIntroduction:'',solutionsAndSuggest:''}];
         	}
         }
      	
      	 vm.deleteProblem = function(idx){
-     		vm.model.monthReport.monthReportProblemsDto.splice(idx,1);        	
+     		vm.model.monthReport.monthReportProblemDtos.splice(idx,1);        	
           }
      	 //begin#基础数据
      	vm.basicData_approvalType=$linq(common.getBasicData())

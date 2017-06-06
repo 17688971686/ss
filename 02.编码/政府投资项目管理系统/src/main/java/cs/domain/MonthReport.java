@@ -22,6 +22,9 @@ public class MonthReport extends DomainBase{
 
 	@Id
 	private String id;	
+	@Column(columnDefinition="varchar(255)  COMMENT '项目ID'")
+	private String projectId;
+	
 	@Column(columnDefinition="varchar(255)  COMMENT '关联项目代码'")
 	private String projectNumber;
 	
@@ -441,6 +444,14 @@ public class MonthReport extends DomainBase{
 
 	public void setAttachments(List<Attachment> attachments) {
 		this.attachments = attachments;
+	}
+
+	public String getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
 	}
 	
 	
