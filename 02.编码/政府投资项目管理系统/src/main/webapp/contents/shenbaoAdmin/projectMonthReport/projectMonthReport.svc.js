@@ -68,6 +68,7 @@
 							vm.model.monthReport=report[0];					
 						}
 						
+						//项目批复信息的获取
 						vm.model.monthReport.pifuJYS_date=common.toDate(vm.model.projectInfo.pifuJYS_date);
 						vm.model.monthReport.pifuKXXYJBG_date=common.toDate(vm.model.projectInfo.pifuKXXYJBG_date);
 						vm.model.monthReport.pifuCBSJYGS_date=common.toDate(vm.model.projectInfo.pifuCBSJYGS_date);
@@ -75,11 +76,12 @@
 						vm.model.monthReport.pifuJYS_wenhao=vm.model.projectInfo.pifuJYS_wenhao;
 						vm.model.monthReport.pifuKXXYJBG_wenhao=vm.model.projectInfo.pifuKXXYJBG_wenhao;
 						vm.model.monthReport.pifuCBSJYGS_wenhao=vm.model.projectInfo.pifuCBSJYGS_wenhao;
-						
-						vm.model.monthReport.beginDate=common.toDate(vm.model.monthReport.beginDate);
-						vm.model.monthReport.endDate=common.toDate(vm.model.monthReport.endDate);
-						
-						//单位信息
+						//项目开工以及竣工日期的获取
+						vm.model.monthReport.beginDate=common.toDate(vm.model.projectInfo.beginDate);
+						vm.model.monthReport.endDate=common.toDate(vm.model.projectInfo.endDate);
+						//项目总投资的获取
+						vm.model.monthReport.invertPlanTotal=common.toMoney(vm.model.projectInfo.projectInvestSum);				
+						//获取用户单位信息
 						getUserUnitInfo(vm);
 					}
 					if(vm.page=='projectInfo'){				
@@ -243,10 +245,6 @@
 			};
 
 		}// end fun grid
-
-		
-		
-		
 
 	}
 	

@@ -21,8 +21,7 @@
 				}
 				var httpSuccess = function success(response) {					
 					vm.model.projectInfo = response.data.value[0]||{};	
-					
-					
+								
 					if(vm.page=='details'){	
 						//根据年，月查到月报数据
 						var report=$linq(vm.model.projectInfo.monthReportDtos)
@@ -30,7 +29,24 @@
 						.toArray();
 						if(report.length>0){
 							vm.isReportExist=true;
-							vm.model.monthReport=report[0];
+							vm.model.monthReport=report[0];						
+							//批复时间处理
+							vm.model.monthReport.pifuJYS_date=common.toDate(vm.model.projectInfo.pifuJYS_date);
+							vm.model.monthReport.pifuKXXYJBG_date=common.toDate(vm.model.projectInfo.pifuKXXYJBG_date);
+							vm.model.monthReport.pifuCBSJYGS_date=common.toDate(vm.model.projectInfo.pifuCBSJYGS_date);
+							//开工日期&竣工日期处理
+							vm.model.monthReport.beginDate=common.toDate(vm.model.monthReport.beginDate);
+							vm.model.monthReport.endDate=common.toDate(vm.model.monthReport.endDate);
+							//金钱处理
+							vm.model.monthReport.invertPlanTotal=common.toMoney(vm.model.monthReport.invertPlanTotal);//项目总投资
+							vm.model.monthReport.actuallyFinishiInvestment=common.toMoney(vm.model.monthReport.actuallyFinishiInvestment);//至今完成投资
+							vm.model.monthReport.thisYearPlanInvestment=common.toMoney(vm.model.monthReport.thisYearPlanInvestment);//本年度计划完成投资
+							vm.model.monthReport.thisYearAccumulatedInvestment=common.toMoney(vm.model.monthReport.thisYearAccumulatedInvestment);//本年度已完成投资
+							vm.model.monthReport.thisMonthInvestTotal=common.toMoney(vm.model.monthReport.thisMonthInvestTotal);//本月完成投资
+							vm.model.monthReport.firstQuarCompInvestment=common.toMoney(vm.model.monthReport.firstQuarCompInvestment);
+							vm.model.monthReport.secondQuarCompInvestment=common.toMoney(vm.model.monthReport.secondQuarCompInvestment);
+							vm.model.monthReport.thirdQuarCompInvestment=common.toMoney(vm.model.monthReport.thirdQuarCompInvestment);
+							vm.model.monthReport.fourthQuarCompInvestment=common.toMoney(vm.model.monthReport.fourthQuarCompInvestment);
 						}
 					}
 					
