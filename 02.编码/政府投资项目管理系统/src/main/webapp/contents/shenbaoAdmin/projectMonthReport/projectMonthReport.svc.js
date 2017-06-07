@@ -82,9 +82,16 @@
 						//单位信息
 						getUserUnitInfo(vm);
 					}
-					if(vm.page=='projectInfo'){
-						vm.model.projectInfo.beginDate = common.toDate(vm.model.projectInfo.beginDate);
-						vm.model.projectInfo.endDate = common.toDate(vm.model.projectInfo.endDate);
+					if(vm.page=='projectInfo'){				
+						//资金处理
+						vm.model.projectInfo.projectInvestSum=common.toMoney(vm.model.projectInfo.projectInvestSum);//项目总投资
+						vm.model.projectInfo.capitalSCZ_ggys=common.toMoney(vm.model.projectInfo.capitalSCZ_ggys);//市财政-公共预算
+						vm.model.projectInfo.capitalSCZ_gtzj=common.toMoney(vm.model.projectInfo.capitalSCZ_gtzj);//市财政-国土资金
+						vm.model.projectInfo.capitalSCZ_zxzj=common.toMoney(vm.model.projectInfo.capitalSCZ_zxzj);//市财政-专项资金
+						vm.model.projectInfo.capitalQCZ_ggys=common.toMoney(vm.model.projectInfo.capitalQCZ_ggys);//区财政-公共预算
+						vm.model.projectInfo.capitalQCZ_gtzj=common.toMoney(vm.model.projectInfo.capitalQCZ_gtzj);//区财政-国土资金
+						vm.model.projectInfo.capitalSHTZ=common.toMoney(vm.model.projectInfo.capitalSHTZ);//社会投资
+						vm.model.projectInfo.capitalOther=common.toMoney(vm.model.projectInfo.capitalOther);//其他
 						//计算资金筹措总计
 						vm.capitalTotal=function(){
 				  			 return (parseFloat(vm.model.projectInfo.capitalSCZ_ggys)||0 )
@@ -95,7 +102,9 @@
 				  			 		+ (parseFloat(vm.model.projectInfo.capitalSHTZ)||0 )
 				  			 		+ (parseFloat(vm.model.projectInfo.capitalOther)||0) ;
 				  		 }
-						//批复信息时间处理
+						//日期处理
+						vm.model.projectInfo.beginDate = common.toDate(vm.model.projectInfo.beginDate);
+						vm.model.projectInfo.endDate = common.toDate(vm.model.projectInfo.endDate);
 						vm.model.projectInfo.pifuJYS_date=common.toDate(vm.model.projectInfo.pifuJYS_date);
 						vm.model.projectInfo.pifuKXXYJBG_date=common.toDate(vm.model.projectInfo.pifuKXXYJBG_date);
 						vm.model.projectInfo.pifuCBSJYGS_date=common.toDate(vm.model.projectInfo.pifuCBSJYGS_date);
