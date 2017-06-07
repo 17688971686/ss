@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.domain.framework.Resource;
 import cs.domain.framework.Role;
@@ -122,7 +123,7 @@ public class RoleServiceImpl implements RoleService {
 			for (User user : users) {//把角色里的用户移出才能删除
 				user.getRoles().remove(role);
 			}
-			if(!role.getRoleName().equals("超级管理员")){
+			if(!role.getRoleName().equals(BasicDataConfig.role_admin)){
 				roleRepository.delete(role);
 				logger.info(String.format("删除角色,角色名:%s", role.getRoleName()));
 			}

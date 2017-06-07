@@ -1,5 +1,7 @@
 package cs.common;
 
+import java.util.Date;
+
 public interface ICurrentUser {
 
 	String getLoginName();
@@ -9,5 +11,8 @@ public interface ICurrentUser {
 	String getDisplayName();
 
 	void setDisplayName(String displayName);
+	
+	Date getLastLoginDate();
+	void setLastLoginDate(Date lastLoginDate);
 
 }

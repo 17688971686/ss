@@ -19,7 +19,7 @@
         appPath: "",//app路径
         http: http,//http请求    
         gridDataSource: gridDataSource,//gridDataSource
-        loginUrl: '/home/login',
+        loginUrl: '/',
         getBasicData:getBasicData,
         toDate:toDate
     };

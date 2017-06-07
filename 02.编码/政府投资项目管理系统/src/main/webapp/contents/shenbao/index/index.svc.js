@@ -32,7 +32,7 @@
                             var isSuccess = response.data.isSuccess;
                             if (isSuccess) {
                                 vm.message = "";
-                                location.href = "/shenbaoAdmin/home";
+                                location.href = "/shenbaoAdmin";
                             } else {
                                 
                                 vm.message=response.data.message

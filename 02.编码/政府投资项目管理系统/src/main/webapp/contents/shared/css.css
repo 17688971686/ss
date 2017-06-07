@@ -126,3 +126,6 @@ form table td {
 .form-control{
 	display:inline;
 }
+label{
+	font-weight:normal;
+}
