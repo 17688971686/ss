@@ -103,7 +103,8 @@ public class UserServiceImpl implements UserService {
 				if (role != null) {
 					user.getRoles().add(role);
 					if(role.getRoleName().equals(BasicDataConfig.role_unit)){//如果是建设单位，往建设单位表里添加数据
-						UserUnitInfoDto userUnitInfoDto=new UserUnitInfoDto();						
+						UserUnitInfoDto userUnitInfoDto=new UserUnitInfoDto();
+						userUnitInfoDto.setUnitName(user.getLoginName());
 						userUnitInfoService.save(user.getLoginName(), userUnitInfoDto);
 					}
 				}

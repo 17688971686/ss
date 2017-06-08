@@ -1,6 +1,8 @@
 package cs.service.impl;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -9,15 +11,40 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import cs.domain.UserUnitInfo;
 import cs.domain.UserUnitInfo_;
+import cs.model.PageModelDto;
+import cs.model.DomainDto.ProjectDto;
 import cs.model.DomainDto.UserUnitInfoDto;
+import cs.model.DtoMapper.ProjectMapper;
 import cs.model.DtoMapper.UserUnitInfoMapper;
 import cs.repository.interfaces.UserUnitInfoRepo;
+import cs.repository.odata.ODataObj;
+import cs.service.common.BasicDataService;
 import cs.service.interfaces.UserUnitInfoService;
 @Service
 public class UserUnitInfoServiceImpl implements UserUnitInfoService {
 	@Autowired
 	private UserUnitInfoRepo userUnitInfoRepo;
+	@Autowired
+	private BasicDataService basicDataService;
 
+	
+	@Override
+	@Transactional
+	public PageModelDto<UserUnitInfoDto> get(ODataObj odataObj) {
+		List<UserUnitInfoDto> userUnitInfoDtos=new ArrayList<>();
+		userUnitInfoRepo.findByOdata(odataObj).forEach(x->{
+			UserUnitInfoDto userUnitInfoDto = UserUnitInfoMapper.toDto(x);
+			userUnitInfoDto.setDivisionDesc(basicDataService.getDescriptionById(x.getDivisionId()));
+			userUnitInfoDto.setUnitPropertyDesc(basicDataService.getDescriptionById(x.getUnitProperty()));
+			
+			userUnitInfoDtos.add(userUnitInfoDto);
+		});
+		PageModelDto<UserUnitInfoDto> pageModelDto = new PageModelDto<>();
+		pageModelDto.setCount(odataObj.getCount());
+		pageModelDto.setValue(userUnitInfoDtos);
+		return pageModelDto;	
+	}
+	
 	
 	@Override
 	@Transactional

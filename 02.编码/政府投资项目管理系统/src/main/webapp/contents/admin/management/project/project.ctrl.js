@@ -73,7 +73,9 @@
           
     	}//init_list
     	
-    	function init_create(){ 
+    	function init_create(){
+    		//建设单位信息
+    		projectSvc.getUserUnits(vm);
     		//begin#基础数据
     		vm.basicData={};    
     		//项目阶段
