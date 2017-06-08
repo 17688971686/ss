@@ -42,7 +42,7 @@ public class CommonController {
 	public @ResponseBody String Save(@RequestParam("files") MultipartFile file){
 		String randomName="";
 		if (!file.isEmpty()) {  
-            try {  
+            try { 
             	//文件名：
             	String fileName=file.getOriginalFilename();
             	//随机名

@@ -6,16 +6,37 @@
 	project.$inject = [ '$http' ];
 
 	function project($http) {
-		var url_project = "/management/project";//获取项目信息数据		
+		var url_project = "/management/project";//获取项目信息数据
+		var url_userUnit = "/management/userUnit";//获取建设单位信息
 		var url_back = "#/project";
 		var service = {
 			grid : grid,			
 			getProjectById:getProjectById,
 			updateProject:updateProject,
-			createProject:createProject
+			createProject:createProject,
+			getUserUnits:getUserUnits
 		};
 
 		return service;
+		
+		/**
+		 * 获取建设单位
+		 */
+		function getUserUnits(vm){
+			var httpOptions = {
+					method : 'get',
+					url : url_userUnit
+				}
+				var httpSuccess = function success(response) {
+					vm.userUnits = response.data;
+				}
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+		}
 		
 		/**
 		 * 创建项目
