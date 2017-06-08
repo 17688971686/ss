@@ -29,8 +29,6 @@
 				}
 				var httpSuccess = function success(response) {
 					vm.userUnits = response.data
-					console.log("获取建设单位");
-					console.log(vm.userUnits);
 				}
 				common.http({
 					vm : vm,

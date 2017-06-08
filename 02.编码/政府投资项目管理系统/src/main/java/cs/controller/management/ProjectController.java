@@ -55,8 +55,7 @@ public class ProjectController {
 	
 	@RequestMapping(name = "创建项目信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void  create(@RequestBody ProjectDto ProjectDto){
-		System.out.println("创建项目信息");
+	public void  create(@RequestBody ProjectDto ProjectDto){		
 		ProjectService.createProject(ProjectDto);		
 	}
 	
