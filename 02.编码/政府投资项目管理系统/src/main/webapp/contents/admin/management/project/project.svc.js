@@ -28,7 +28,7 @@
 					url : url_userUnit
 				}
 				var httpSuccess = function success(response) {
-					vm.userUnits = response.data
+					vm.userUnits = response.data;
 				}
 				common.http({
 					vm : vm,

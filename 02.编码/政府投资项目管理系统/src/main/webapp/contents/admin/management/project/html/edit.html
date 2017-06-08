@@ -6,7 +6,7 @@
 		<td>
 			<select style="height:30px;" id="unitName" name="unitName" ng-model="vm.model.unitName" data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>
-				<option ng-repeat="name in vm.userUnits" value="{{name.unitName}}">{{name.unitName}}</option>				
+				<option ng-repeat="name in vm.userUnits" ng-selected="vm.model.unitName==name.unitName" value="{{name.unitName}}">{{name.unitName}}</option>				
 			</select>
 			<span data-valmsg-for="unitName" data-valmsg-replace="true" class="required"></span>
 		</td>
