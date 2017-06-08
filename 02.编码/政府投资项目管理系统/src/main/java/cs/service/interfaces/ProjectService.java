@@ -14,4 +14,9 @@ public interface ProjectService {
 	void updateProject(ProjectDto projectDto);
 	
 	void createProject(ProjectDto projectDto);
+	
+	//begin#单位相关操作
+	PageModelDto<ProjectDto> getUnitProject(ODataObj odataObj);
+	void updateUnitProject(ProjectDto projectDto);	
+	void createUnitProject(ProjectDto projectDto);
 }
