@@ -16,7 +16,7 @@
         	//首页-管理中心
         	.state('index', {
         		url: '/',
-        		templateUrl: '/managerCenter/html/tmpl.html',
+        		templateUrl: '/shenbaoAdmin/html/welcome',
         		controller: 'indexCtrl',
         		controllerAs: 'vm'
         	})            

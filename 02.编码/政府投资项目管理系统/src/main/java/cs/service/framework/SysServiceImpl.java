@@ -6,13 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.criteria.CommonAbstractCriteria;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import cs.common.BasicDataConfig;
 import cs.common.Response;
 import cs.common.sysResource.ClassFinder;
 import cs.common.sysResource.SysResourceDto;
@@ -20,7 +24,9 @@ import cs.domain.BasicData;
 import cs.domain.BasicData_;
 import cs.domain.framework.Resource;
 import cs.domain.framework.Role;
+import cs.domain.framework.Role_;
 import cs.domain.framework.SysConfig;
+import cs.domain.framework.SysConfig_;
 import cs.domain.framework.User;
 import cs.repository.common.BasicDataRepo;
 import cs.repository.framework.RoleRepoImpl;
@@ -88,57 +94,77 @@ public class SysServiceImpl implements SysService {
 	public Response SysInit() {
 		Response response = new Response();
 		SysConfig sysConfig = sysConfigRepo.findById("init_userAndRole");
-		if (sysConfig!=null) {// 已经被初始化
-			response.setMessage("已经存在初始化数据，此次操作无效");
-			logger.warn("已经存在初始化数据，此次操作无效");
+		
+		//begin#删除历史数据
+		if(sysConfig!=null){
+			sysConfigRepo.delete(sysConfig);
+		}
+		Criterion criterion=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.role_admin);
+		Criterion criterion2=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.role_unit);
+		Criterion criterionOr=Restrictions.or(criterion,criterion2);
+		
+		List<Role> roles=roleRepo.findByCriteria(criterionOr);
+		
+		roles.forEach(x->{
+			x.getUsers().forEach(y->{
+				y.getRoles().clear();
+				userRepo.delete(y);
+			});			
+			roleRepo.delete(x);
+		});
+		
+		//end
+		
+		
+		// 初始化角色
+		Role role = new Role();
+		role.setRoleName(BasicDataConfig.role_admin);
+		role.setId(UUID.randomUUID().toString());
+		role.setComment("系统初始化创建,不可删除");
+		
+		Role role2 = new Role();
+		role2.setRoleName(BasicDataConfig.role_unit);
+		role2.setId(UUID.randomUUID().toString());
+		role2.setComment("系统初始化创建,不可删除");
 
-		} else {// 未被初始化
-
-			// 初始化角色
-			Role role = new Role();
-			role.setRoleName("超级管理员");
-			role.setId(UUID.randomUUID().toString());
-			role.setComment("系统初始化创建,不可删除");
-
-			List<SysResourceDto> resourceDtos = this.get();
-			List<Resource> resources = new ArrayList<>();
-			resourceDtos.forEach(x -> {
-				x.getChildren().forEach(y -> {
-					Resource resource = new Resource();
-					resource.setMethod(y.getMethod());
-					resource.setName(y.getName());
-					resource.setPath(y.getPath());
-					resources.add(resource);
-
-				});
+		List<SysResourceDto> resourceDtos = this.get();
+		List<Resource> resources = new ArrayList<>();
+		resourceDtos.forEach(x -> {
+			x.getChildren().forEach(y -> {
+				Resource resource = new Resource();
+				resource.setMethod(y.getMethod());
+				resource.setName(y.getName());
+				resource.setPath(y.getPath());
+				resources.add(resource);
 
 			});
-			role.setResources(resources);
 
-			roleRepo.save(role);
+		});
+		role.setResources(resources);
 
-			// 初始化用户
-			User user = new User();
-			user.setLoginName("admin");
-			user.setId(UUID.randomUUID().toString());
-			user.setPassword("admin");
-			user.setComment("系统初始化创建,不可删除");
-			user.setDisplayName("超级管理员");
-			user.getRoles().add(role);
-			userRepo.save(user);
+		roleRepo.save(role);
+		roleRepo.save(role2);
 
-			// 更新sysConfig
-			sysConfig = new SysConfig();
-			sysConfig.setInit(true);
-			sysConfig.setId("UserAndRoleInit");
-			sysConfigRepo.save(sysConfig);
+		// 初始化用户
+		User user = new User();
+		user.setLoginName("admin");
+		user.setId(UUID.randomUUID().toString());
+		user.setPassword("admin");
+		user.setComment("系统初始化创建,不可删除");
+		user.setDisplayName("超级管理员");
+		user.getRoles().add(role);
+		userRepo.save(user);
 
-			response.setMessage("初始化成功");
-			response.setSuccess(true);
-			
-			logger.info("系统初始化成功!");
+		// 更新sysConfig
+		sysConfig = new SysConfig();
+		sysConfig.setInit(true);
+		sysConfig.setId("UserAndRoleInit");
+		sysConfigRepo.save(sysConfig);
 
-		}
+		response.setMessage("初始化成功");
+		response.setSuccess(true);
+		
+		logger.info("系统初始化成功!");
 		return response;
 
 	}

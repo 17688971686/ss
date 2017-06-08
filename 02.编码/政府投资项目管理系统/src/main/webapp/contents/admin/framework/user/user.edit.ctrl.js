@@ -10,6 +10,7 @@
     function user($location, userSvc,$state) {
         /* jshint validthis:true */
         var vm = this;
+        vm.model={};
         vm.title = '添加用户';
         vm.isuserExist=false;
         vm.id = $state.params.id;
@@ -24,6 +25,18 @@
         vm.update = function () {
         	userSvc.updateUser(vm);
         };      
+        
+        vm.initPassword=function(e){
+        	var isChecked=$('#initPassword').is(":checked");
+        	if(isChecked){
+        		vm.model.password="888888";
+            	vm.model.passwordConfirm="888888";
+        	}else{
+        		vm.model.password="";
+            	vm.model.passwordConfirm="";
+        	}
+        	
+        }
 
         activate();
         function activate() {

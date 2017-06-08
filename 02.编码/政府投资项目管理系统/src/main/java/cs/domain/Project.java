@@ -17,6 +17,9 @@ public class Project extends DomainBase {
 	@Id
 	private String id;
 	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '单位名'")
+	private String unitName;	
+	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目代码'")
 	private String projectNumber;	
 	
@@ -346,6 +349,14 @@ public class Project extends DomainBase {
 
 	public void setMonthReports(List<MonthReport> monthReports) {
 		this.monthReports = monthReports;
+	}
+
+	public String getUnitName() {
+		return unitName;
+	}
+
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
 	}
 	
 }

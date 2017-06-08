@@ -14,16 +14,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.common.Response;
 import cs.domain.framework.Role;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
+import cs.model.DomainDto.UserUnitInfoDto;
 import cs.model.framework.RoleDto;
 import cs.model.framework.UserDto;
 import cs.repository.framework.RoleRepo;
 import cs.repository.framework.UserRepo;
 import cs.repository.odata.ODataObj;
+import cs.service.interfaces.UserUnitInfoService;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -34,7 +37,10 @@ public class UserServiceImpl implements UserService {
 	private RoleRepo roleRepo;
 	@Autowired
 	private ICurrentUser currentUser;
+	@Autowired
+	private UserUnitInfoService userUnitInfoService;
 
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -96,6 +102,10 @@ public class UserServiceImpl implements UserService {
 				Role role = roleRepo.findById(roleDto.getId());
 				if (role != null) {
 					user.getRoles().add(role);
+					if(role.getRoleName().equals(BasicDataConfig.role_unit)){//如果是建设单位，往建设单位表里添加数据
+						UserUnitInfoDto userUnitInfoDto=new UserUnitInfoDto();						
+						userUnitInfoService.save(user.getLoginName(), userUnitInfoDto);
+					}
 				}
 
 			}
@@ -165,6 +175,10 @@ public class UserServiceImpl implements UserService {
 			else if(password!=null&&password.equals(user.getPassword())){
 				currentUser.setLoginName(user.getLoginName());
 				currentUser.setDisplayName(user.getDisplayName());
+				Date lastLoginDate=user.getLastLoginDate();
+				if(lastLoginDate!=null){
+					currentUser.setLastLoginDate(user.getLastLoginDate());
+				}				
 				user.setLoginFailCount(0);
 				user.setLastLoginDate(new Date());
 				//shiro

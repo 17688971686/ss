@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cs.common.BasicDataIdentity;
+import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.domain.Attachment;
 import cs.domain.MonthReport;
