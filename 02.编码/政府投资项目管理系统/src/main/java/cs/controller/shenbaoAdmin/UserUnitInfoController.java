@@ -23,8 +23,7 @@ public class UserUnitInfoController {
 	
 	//@RequiresPermissions("shenbaoAdmin/userUnitInfo##get")	
 	@RequestMapping(name = "获取当前用户的单位数据", path = "", method = RequestMethod.GET)
-	public @ResponseBody UserUnitInfoDto get()  {
-		
+	public @ResponseBody UserUnitInfoDto get()  {		
 		return userUnitInfoService.getByUserName(currentUser.getLoginName());
 	}
 	

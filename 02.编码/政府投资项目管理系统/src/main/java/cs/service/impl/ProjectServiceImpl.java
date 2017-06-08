@@ -24,6 +24,7 @@ import cs.model.DomainDto.ProjectDto;
 import cs.model.DtoMapper.ProjectInfoMapper;
 import cs.model.DtoMapper.ProjectMapper;
 import cs.repository.interfaces.ProjectRepo;
+import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.interfaces.ProjectService;
@@ -116,20 +117,31 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
+	@Transactional
 	public PageModelDto<ProjectDto> getUnitProject(ODataObj odataObj) {
-		// TODO Auto-generated method stub
-		return null;
+		//获取当前登录用户（单位）
+		String longinName = currentUser.getLoginName();
+		List<ODataFilterItem> filters = odataObj.getFilter();
+		ODataFilterItem filter = new ODataFilterItem();
+		filter.setField("unitName");
+		filter.setOperator("eq");
+		filter.setValue(longinName);
+		filters.add(filter);
+		odataObj.setFilter(filters);
+		PageModelDto<ProjectDto> pageModelDto = this.get(odataObj);
+		return pageModelDto;
 	}
 
 	@Override
+	@Transactional
 	public void updateUnitProject(ProjectDto projectDto) {
-		// TODO Auto-generated method stub
-		
+		this.updateProject(projectDto);	
 	}
 
 	@Override
+	@Transactional
 	public void createUnitProject(ProjectDto projectDto) {
-		// TODO Auto-generated method stub
+		this.createProject(projectDto);	
 		
 	}
 

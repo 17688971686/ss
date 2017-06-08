@@ -33,7 +33,39 @@ public class ShenBaoAdminProjectController {
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);		
 		return ProjectDtos;
-	}	
+	}
+	
+	//@RequiresPermissions("shenbaoAdmin/project/unitProject##get")
+	@RequestMapping(name = "获取单位项目信息", path = "unitProject",method=RequestMethod.GET)
+	public @ResponseBody PageModelDto<ProjectDto> getUnitProject(HttpServletRequest request) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);
+		PageModelDto<ProjectDto> ProjectDtos = ProjectService.getUnitProject(odataObj);		
+		return ProjectDtos;
+	}
+	
+	//@RequiresPermissions("shenbaoAdmin/project/unitProject##post")
+	@RequestMapping(name = "创建项目信息", path = "unitProject",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void  createUnitProject(@RequestBody ProjectDto ProjectDto){		
+		ProjectService.createUnitProject(ProjectDto);		
+	}
+	
+	//@RequiresPermissions("shenbaoAdmin/project/unitProject##put")
+	@RequestMapping(name = "更新项目信息", path = "unitProject",method=RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void  updateUserProject(@RequestBody ProjectDto ProjectDto){		
+		ProjectService.updateUnitProject(ProjectDto);		
+	}
+	
+	@RequestMapping(name = "列表页", path = "html/list")
+	public String list() {
+		return this.ctrlName + "/list";
+	}
+	
+	@RequestMapping(name = "编辑页", path = "html/edit")
+	public String edit() {
+		return this.ctrlName + "/edit";
+	}
 	
 	
 }

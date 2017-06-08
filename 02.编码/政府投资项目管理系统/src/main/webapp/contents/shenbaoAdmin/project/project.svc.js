@@ -3,93 +3,24 @@
 
 	angular.module('app').factory('projectSvc', project);
 
-	project.$inject = [ '$http' ];
-
-	function project($http) {
-		var url_project = "/management/project";//获取项目信息数据
-		var url_userUnit = "/management/userUnit";//获取建设单位信息
+	project.$inject = ['$http','$compile'];	
+	function project($http,$compile) {
+		var url_project = "/shenbaoAdmin/project/unitProject";
+		var url_userUnit　= "/shenbaoAdmin/userUnitInfo";
 		var url_back = "#/project";
+		
 		var service = {
-			grid : grid,			
-			getProjectById:getProjectById,
-			updateProject:updateProject,
+			grid : grid,
 			createProject:createProject,
-			getUserUnits:getUserUnits
-		};
-
+			getUserUnit:getUserUnit,
+			getProjectById:getProjectById,
+			updateProject:updateProject
+		};		
 		return service;
 		
 		/**
-		 * 获取建设单位
-		 */
-		function getUserUnits(vm){
-			var httpOptions = {
-					method : 'get',
-					url : url_userUnit
-				}
-				var httpSuccess = function success(response) {
-					vm.userUnits = response.data;
-				}
-				common.http({
-					vm : vm,
-					$http : $http,
-					httpOptions : httpOptions,
-					success : httpSuccess
-				});
-		}
-		
-		/**
-		 * 创建项目
-		 */		
-		function createProject(vm){		 		   
-			common.initJqValidation();
-			var isValid = $('form').valid();        
-			if (isValid) {
-				vm.isSubmit = true;				
-				var httpOptions = {
-					method : 'post',
-					url : url_project,
-					data : vm.model
-				}
-
-				var httpSuccess = function success(response) {
-
-					common.requestSuccess({
-						vm : vm,
-						response : response,
-						fn : function() {
-
-							common.alert({
-								vm : vm,
-								msg : "操作成功",
-								fn : function() {
-									vm.isSubmit = false;
-									$('.alertDialog').modal('hide');
-									$('.modal-backdrop').remove();
-									location.href = url_back;									
-								}
-							})
-						}
-
-					});
-
-				}
-
-				common.http({
-					vm : vm,
-					$http : $http,
-					httpOptions : httpOptions,
-					success : httpSuccess
-				});
-
-			}
-		}
-		//end#createProject
-		
-		/**
 		 * 更新项目信息
-		 */
-		//begin#updateProject
+		 */		
 		function updateProject(vm){
 			common.initJqValidation();
 			var isValid = $('form').valid();
@@ -135,14 +66,11 @@
 				 })
 			}
 		}
-		//end#updateProject
-		
-		
+
 		
 		/**
 		 * 通过项目代码查询项目信息
 		 */
-		//begin#getProjectById
 		function getProjectById(vm){
 			var httpOptions = {
 					method : 'get',
@@ -172,10 +100,78 @@
 					success : httpSuccess
 				});
 		}
-		//end#getProjectById
 		
+		/**
+		 * 获取当前用户的单位信息
+		 */
+		function getUserUnit(vm){
+			var httpOptions = {
+					method : 'get',
+					url : url_userUnit
+				}
+				var httpSuccess = function success(response) {
+					vm.userUnit = response.data;
+					vm.model.unitName = vm.userUnit.userName;
+				}
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+		}
 		
-		// begin#grid
+		/**
+		 * 创建项目
+		 */		
+		function createProject(vm){		   
+			common.initJqValidation();
+			var isValid = $('form').valid();        
+			if (isValid) {
+				vm.isSubmit = true;				
+				var httpOptions = {
+					method : 'post',
+					url : url_project,
+					data : vm.model
+				}
+
+				var httpSuccess = function success(response) {
+
+					common.requestSuccess({
+						vm : vm,
+						response : response,
+						fn : function() {
+
+							common.alert({
+								vm : vm,
+								msg : "操作成功",
+								fn : function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');
+									$('.modal-backdrop').remove();
+									location.href = url_back;									
+								}
+							})
+						}
+
+					});
+
+				}
+
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+
+			}
+		}
+	
+
+		/**
+		 * 项目列表数据获取
+		 */
 		function grid(vm) {
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
@@ -202,28 +198,14 @@
 
 			// Begin:column
 			var columns = [
-					{
-						template : function(item) {
-							return kendo
-									.format(
-											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
-											item.id)
-						},
-						filterable : false,
-						width : 40,
-						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
-
-					},
-					 {
-						field : "projectNumber",
-						title : "项目代码",
-						width : 180,						
-						filterable : false
-					},
+					
 					{
 						field : "projectName",
 						title : "项目名称",						
-						filterable : true
+						filterable : true,
+						template:function(item){
+							return common.format('<a href="#/project/projectInfo/{0}">{1}</a>',item.id,item.projectName);
+						}
 					},
 					{
 						field : "projectStageDesc",
@@ -243,8 +225,6 @@
 						width : 180,
 						template : function(item) {
 							return common.format($('#columnBtns').html(),item.id,"vm.del('" + item.id + "')");
-									 
-
 						}
 
 					}
@@ -262,5 +242,9 @@
 			};
 
 		}// end fun grid
+
 	}
+	
+	
+	
 })();
