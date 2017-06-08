@@ -20,7 +20,7 @@ import cs.repository.odata.ODataObj;
 import cs.service.interfaces.UnitInfoService;
 
 /**
- * @Description: 用户单位管理控制层
+ * @Description: 单位管理控制层
  * @author: cx
  * @Date：2017年5月17日
  * @version：0.1
@@ -34,14 +34,14 @@ public class UnitManagementController {
 	@Autowired
 	private UnitInfoService unitInfoService;
 	
-	@RequestMapping(name = "获取用户单位信息", path = "",method = RequestMethod.GET)
+	@RequestMapping(name = "获取单位信息", path = "",method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UnitInfoDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<UnitInfoDto> unitInfoDtos = unitInfoService.get(odataObj);		
 		return unitInfoDtos;
 	}
 	
-	@RequestMapping(name = "删除用户单位信息", path = "",method=RequestMethod.DELETE)
+	@RequestMapping(name = "删除单位信息", path = "",method=RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  delete(@RequestBody String id){
 		String[] ids=id.split(",");
@@ -53,13 +53,13 @@ public class UnitManagementController {
 		
 	}
 	
-	@RequestMapping(name = "更新用户单位信息", path = "",method=RequestMethod.PUT)
+	@RequestMapping(name = "更新单位信息", path = "",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  update(@RequestBody UnitInfoDto unitInfoDto){
 		unitInfoService.updateUnitInfo(unitInfoDto);		
 	}
 	
-	@RequestMapping(name = "创建用户单位信息", path = "",method=RequestMethod.POST)
+	@RequestMapping(name = "创建单位信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  create(@RequestBody UnitInfoDto unitInfoDto){		
 		unitInfoService.createUnitInfo(unitInfoDto);		
