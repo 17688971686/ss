@@ -10,6 +10,7 @@ public class ProjectMapper {
 	public static ProjectDto toDto(Project project){
 		ProjectDto projectDto=new ProjectDto();
 		if(project!=null){
+			projectDto.setUnitName(project.getUnitName());
 			projectDto.setProjectName(project.getProjectName());
 			projectDto.setCapitalQCZ_gtzj(project.getCapitalQCZ_gtzj());
 			projectDto.setCapitalSCZ_gtzj(project.getCapitalSCZ_gtzj());
@@ -63,7 +64,7 @@ public class ProjectMapper {
 			if(project.getId()==null||project.getId().isEmpty()){
 				project.setId(UUID.randomUUID().toString());
 			}
-			
+			project.setUnitName(projectDto.getUnitName());
 			project.setProjectName(projectDto.getProjectName());
 			project.setCapitalQCZ_gtzj(projectDto.getCapitalQCZ_gtzj());
 			project.setCapitalSCZ_gtzj(projectDto.getCapitalSCZ_gtzj());
