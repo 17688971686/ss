@@ -21,7 +21,8 @@
         gridDataSource: gridDataSource,//gridDataSource
         loginUrl: '/',
         getBasicData:getBasicData,
-        toDate:toDate
+        toDate:toDate,
+        toMoney:toMoney
     };
 
     window.common = service;
@@ -326,6 +327,14 @@
    		 }else{
    			 return null;
    		 }
+    }
+    
+    function toMoney(money){
+    	if(money){
+  			 return money;
+  		 }else{
+  			 return 0;
+  		 }
     }
 
     //init

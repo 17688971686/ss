@@ -34,7 +34,8 @@
         }
         
         function page_details(){
-        	//todo
+        	//begin#上传类型
+         	vm.uploadType=[['scenePicture','现场图片'],['other','其它材料']];
         	monthReportSvc.getProjectById(vm);
         }
         

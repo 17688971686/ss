@@ -52,8 +52,8 @@
 					url : common.format(url_project + "?$filter=id eq '{0}'", vm.projectId),
 				}
 				var httpSuccess = function success(response) {					
-					vm.model.projectInfo = response.data.value[0]||{};	
-					
+					vm.model.projectInfo = response.data.value[0]||{};
+										
 					if(vm.page=='selectMonth'){
 						vm.setMonthSelected();
 						
@@ -65,9 +65,10 @@
 											.toArray();
 						if(report.length>0){
 							vm.isReportExist=true;
-							vm.model.monthReport=report[0];
+							vm.model.monthReport=report[0];					
 						}
 						
+						//项目批复信息的获取
 						vm.model.monthReport.pifuJYS_date=common.toDate(vm.model.projectInfo.pifuJYS_date);
 						vm.model.monthReport.pifuKXXYJBG_date=common.toDate(vm.model.projectInfo.pifuKXXYJBG_date);
 						vm.model.monthReport.pifuCBSJYGS_date=common.toDate(vm.model.projectInfo.pifuCBSJYGS_date);
@@ -75,12 +76,40 @@
 						vm.model.monthReport.pifuJYS_wenhao=vm.model.projectInfo.pifuJYS_wenhao;
 						vm.model.monthReport.pifuKXXYJBG_wenhao=vm.model.projectInfo.pifuKXXYJBG_wenhao;
 						vm.model.monthReport.pifuCBSJYGS_wenhao=vm.model.projectInfo.pifuCBSJYGS_wenhao;
-						
-						vm.model.monthReport.beginDate=common.toDate(vm.model.monthReport.beginDate);
-						vm.model.monthReport.endDate=common.toDate(vm.model.monthReport.endDate);
-						
-						//单位信息
+						//项目开工以及竣工日期的获取
+						vm.model.monthReport.beginDate=common.toDate(vm.model.projectInfo.beginDate);
+						vm.model.monthReport.endDate=common.toDate(vm.model.projectInfo.endDate);
+						//项目总投资的获取
+						vm.model.monthReport.invertPlanTotal=common.toMoney(vm.model.projectInfo.projectInvestSum);				
+						//获取用户单位信息
 						getUserUnitInfo(vm);
+					}
+					if(vm.page=='projectInfo'){				
+						//资金处理
+						vm.model.projectInfo.projectInvestSum=common.toMoney(vm.model.projectInfo.projectInvestSum);//项目总投资
+						vm.model.projectInfo.capitalSCZ_ggys=common.toMoney(vm.model.projectInfo.capitalSCZ_ggys);//市财政-公共预算
+						vm.model.projectInfo.capitalSCZ_gtzj=common.toMoney(vm.model.projectInfo.capitalSCZ_gtzj);//市财政-国土资金
+						vm.model.projectInfo.capitalSCZ_zxzj=common.toMoney(vm.model.projectInfo.capitalSCZ_zxzj);//市财政-专项资金
+						vm.model.projectInfo.capitalQCZ_ggys=common.toMoney(vm.model.projectInfo.capitalQCZ_ggys);//区财政-公共预算
+						vm.model.projectInfo.capitalQCZ_gtzj=common.toMoney(vm.model.projectInfo.capitalQCZ_gtzj);//区财政-国土资金
+						vm.model.projectInfo.capitalSHTZ=common.toMoney(vm.model.projectInfo.capitalSHTZ);//社会投资
+						vm.model.projectInfo.capitalOther=common.toMoney(vm.model.projectInfo.capitalOther);//其他
+						//计算资金筹措总计
+						vm.capitalTotal=function(){
+				  			 return (parseFloat(vm.model.projectInfo.capitalSCZ_ggys)||0 )
+				  			 		+ (parseFloat(vm.model.projectInfo.capitalSCZ_gtzj)||0 )
+				  			 		+ (parseFloat(vm.model.projectInfo.capitalSCZ_zxzj)||0 )
+				  			 		+ (parseFloat(vm.model.projectInfo.capitalQCZ_ggys)||0 )
+				  			 		+ (parseFloat(vm.model.projectInfo.capitalQCZ_gtzj)||0 )
+				  			 		+ (parseFloat(vm.model.projectInfo.capitalSHTZ)||0 )
+				  			 		+ (parseFloat(vm.model.projectInfo.capitalOther)||0) ;
+				  		 }
+						//日期处理
+						vm.model.projectInfo.beginDate = common.toDate(vm.model.projectInfo.beginDate);
+						vm.model.projectInfo.endDate = common.toDate(vm.model.projectInfo.endDate);
+						vm.model.projectInfo.pifuJYS_date=common.toDate(vm.model.projectInfo.pifuJYS_date);
+						vm.model.projectInfo.pifuKXXYJBG_date=common.toDate(vm.model.projectInfo.pifuKXXYJBG_date);
+						vm.model.projectInfo.pifuCBSJYGS_date=common.toDate(vm.model.projectInfo.pifuCBSJYGS_date);
 					}
 					
 				}
@@ -92,14 +121,6 @@
 					success:httpSuccess
 				});
 		}
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		/**
 		 * 提交项目月报信息到数据库
@@ -224,10 +245,6 @@
 			};
 
 		}// end fun grid
-
-		
-		
-		
 
 	}
 	
