@@ -67,5 +67,10 @@ public class ShenBaoAdminProjectController {
 		return this.ctrlName + "/edit";
 	}
 	
+	@RequestMapping(name = "项目详情页", path = "html/projectInfo")
+	public String projectInfo() {
+		return this.ctrlName + "/projectInfo";
+	}
+	
 	
 }

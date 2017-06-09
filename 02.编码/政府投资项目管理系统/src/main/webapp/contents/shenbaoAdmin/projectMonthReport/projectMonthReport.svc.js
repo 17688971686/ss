@@ -5,7 +5,7 @@
 
 	projectMonthReport.$inject = [ '$http','$compile' ];	
 	function projectMonthReport($http,$compile) {
-		var url_project = "/shenbaoAdmin/project";
+		var url_project = "/shenbaoAdmin/project/unitProject";
 		var url_basicData = "/common/basicData";//获取基础数据
 		var url_projectMonthReport="/shenbaoAdmin/projectMonthReport";
 		var url_userUnitInfo="/shenbaoAdmin/userUnitInfo";

@@ -21,6 +21,9 @@
     		if(vm.id){
     			vm.page='update';
     		}
+    		if($state.current.name=='project_projectInfo'){
+            	vm.page='projectInfo';
+            }
         }
         
         activate();
@@ -38,6 +41,10 @@
         		//编辑
         		page_create(); 
         		page_update();        		
+        	}
+        	if(vm.page=='projectInfo'){
+        		//查询项目信息
+        		page_projectInfo();
         	}
         }
         
@@ -121,6 +128,11 @@
    			projectSvc.updateProject(vm);
    		}   	   		
        }//end#page_update
+       
+       function page_projectInfo(){
+    	   projectSvc.getProjectById(vm);
+       }//end#page_projectInfo
+		
               
     }
 })();

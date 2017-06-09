@@ -73,6 +73,13 @@
 	            templateUrl: '/shenbaoAdmin/project/html/edit.html',
 	            controller: 'projectCtrl',
 	            controllerAs: 'vm'
+	        })
+	        //项目详情页面
+	        .state('project_projectInfo', {
+	            url: '/project/projectInfo/:id', 
+	            templateUrl: '/shenbaoAdmin/project/html/projectInfo.html',
+	            controller: 'projectCtrl',
+	            controllerAs: 'vm'
 	        }) 
 	        
 	        	        
