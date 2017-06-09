@@ -15,15 +15,17 @@
         		<ul id="zTree" class="ztree"></ul>
         	</div>
         	<div class="pull-left">
-        	<table class="table table-bordered table-strip " style="width:500px">
+        	<div class="bg-info text-info" style="padding:5px;"><strong>父节点</strong></div>
+        	<table class="table table-bordered table-striped " style="width:300px">
         	<tr>
-        	 <td  style="width:100px;" class="formAlignRight">类别： </td>
+        	 <td  style="width:100px;" class="formAlignRight">描述： </td>
                 <td>
                     <input  type="text" maxlength="200" class="form-control input-sm "
                       ng-model="vm.model.description" id="description" name="description" 
                       data-val="false" data-val-required="必填">
+                      <span data-valmsg-for="description" data-valmsg-replace="true" class="errors"></span>
                 </td>
-                <td><span data-valmsg-for="description" data-valmsg-replace="true" class="errors"></span>
+                
         	</tr>
         	<tr>
         	 <td class="formAlignRight">类别标识： </td>
@@ -31,8 +33,9 @@
                     <input  type="text" maxlength="200" class="form-control input-sm "
                       ng-model="vm.model.identity" id="identity" name="identity" 
                       data-val="false" data-val-required="必填">
+                       <span data-valmsg-for="identity" data-valmsg-replace="true" class="errors"></span>
                 </td>
-                <td><span data-valmsg-for="identity" data-valmsg-replace="true" class="errors"></span>
+              
         	</tr>
         	 <tr>        	 
                 
@@ -41,8 +44,9 @@
                     <input  type="text" maxlength="200" class="form-control input-sm "
                       ng-model="vm.model.id" id="id" name="id" 
                       data-val="false" data-val-required="必填">
+                      <span data-valmsg-for="id" data-valmsg-replace="true" class="errors"></span>
                 </td>
-                <td><span data-valmsg-for="id" data-valmsg-replace="true" class="errors"></span>
+              
             </tr>
              <tr>        	 
                 
@@ -51,10 +55,78 @@
                     <input  type="text" maxlength="200" class="form-control input-sm "
                       ng-model="vm.model.pId" id="pId" name="pId" 
                       data-val="false" data-val-required="必填">
+                      <span data-valmsg-for="pId" data-valmsg-replace="true" class="errors"></span>
                 </td>
-                <td><span data-valmsg-for="pId" data-valmsg-replace="true" class="errors"></span>
+               
+            </tr>
+            <tr>        	 
+                
+                
+                <td colspan="2">
+                   <button class="btn btn-success btn-sm">更新父节点</button>
+                </td>
+               
             </tr>
         	</table>
+        	
+        	
+        	</div>
+        	
+        	<div class="pull-left" style="margin-left:5px;">
+        	<div class="bg-info text-info" style="padding:5px;"><strong>创建子节点</strong></div>
+        	<table class="table table-bordered table-striped " style="width:300px">
+        	<tr>
+        	 <td  style="width:100px;" class="formAlignRight">描述： </td>
+                <td>
+                    <input  type="text" maxlength="200" class="form-control input-sm "
+                      ng-model="vm.model.description" id="description" name="description" 
+                      data-val="false" data-val-required="必填">
+                      <span data-valmsg-for="description" data-valmsg-replace="true" class="errors"></span>
+                </td>
+                
+        	</tr>
+        	<tr>
+        	 <td class="formAlignRight">类别标识： </td>
+                <td>
+                    <input  type="text" maxlength="200" class="form-control input-sm "
+                      ng-model="vm.model.identity" id="identity" name="identity"  disabled="disabled"
+                      data-val="false" data-val-required="必填">
+                       <span data-valmsg-for="identity" data-valmsg-replace="true" class="errors"></span>
+                </td>
+              
+        	</tr>
+        	 <tr>        	 
+                
+                <td class="formAlignRight">id： </td>
+                <td>
+                    <input  type="text" maxlength="200" class="form-control input-sm "
+                      ng-model="vm.model.id" id="id" name="id" 
+                      data-val="false" data-val-required="必填">
+                      <span data-valmsg-for="id" data-valmsg-replace="true" class="errors"></span>
+                </td>
+              
+            </tr>
+             <tr>        	 
+                
+                <td class="formAlignRight">父Id： </td>
+                <td>
+                    <input  type="text" maxlength="200" class="form-control input-sm " disabled="disabled"
+                      ng-model="vm.model.pId" id="pId" name="pId" 
+                      data-val="false" data-val-required="必填">
+                      <span data-valmsg-for="pId" data-valmsg-replace="true" class="errors"></span>
+                </td>
+               
+            </tr>
+            <tr>        	 
+                
+                
+                <td colspan="2">
+                   <button class="btn btn-success btn-sm">创建子节点</button>
+                </td>
+               
+            </tr>
+        	</table>
+        	
         	
         	</div>
         </div>

@@ -18,9 +18,11 @@
         
         function init_ztree(){
         	var basicData=common.getBasicData();
+        	console.log(basicData);
         	var zTreeObj;
 			var setting = {
-				callback:{
+					view:{nameIsHTML:true},
+					callback:{
 					onClick:function(e,id,node){
 						$scope.$apply(function(){
 							vm.model.id=node.id;
@@ -36,7 +38,7 @@
 			var  findChildren=function(pId){
 				return $linq(basicData)
 				.where(function(x){return x.pId==pId;})
-				.select(function(x){return {id:x.id,name:x.description,pId:x.pId,identity:x.identity,children:findChildren(x.id)};})
+				.select(function(x){return {id:x.id,name:x.description,pId:x.pId,identity:x.identity,cenEdit:x.canEdit,children:findChildren(x.id)};})
 				.toArray()
 			}
 			var zNodes = $linq(basicData)
@@ -45,8 +47,9 @@
 					function(x) {
 						return {
 							id : x.id,
-							name : x.description,
+							name :common.format('{0}{1}',x.description,x.canEdit?'':'<span style="color:red">[不可编辑]</span>'),
 							pId:x.pId,
+							canEdit:x.canEdit,
 							identity:x.identity,
 							children:findChildren(x.id)
 						};

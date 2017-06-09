@@ -1,5 +1,6 @@
 package cs.service.framework;
 
+import java.io.Console;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -182,9 +183,10 @@ public class SysServiceImpl implements SysService {
 			sysConfigRepo.save(sysConfig);
 		}
 		//删除历史基础数据		
-		basicDataRepo.getSession().createQuery(String.format("delete from %s",BasicData_.class.getName())).executeUpdate();
-//
-//		//初始化基础数据
+		basicDataRepo.getSession().createQuery(String.format("delete from %s",BasicData.class.getSimpleName())).executeUpdate();
+		
+
+		//初始化基础数据
 		this.createBasicData("approvalType","" , "approvalType", "批复类型分类", "");
 		this.createBasicData("approvalType_01","approvalType" , "approvalType", "深发改", "");
 		this.createBasicData("approvalType_02","approvalType" , "approvalType", "深发改函", "");
@@ -439,13 +441,13 @@ public class SysServiceImpl implements SysService {
 		this.createBasicData("area_01_05","area_01" , "area", "玉塘街道", "行政区域-街道");
 		this.createBasicData("area_01_06","area_01" , "area", "马田街道", "行政区域-街道");
 		
-		this.createBasicData("projectStage","" , "projectStage", "项目阶段", "项目阶段");		
-		this.createBasicData("projectStage_01","projectStage" , "projectStage", "前期储备阶段", "");
-		this.createBasicData("projectStage_02","projectStage" , "projectStage", "前期阶段", "");
-		this.createBasicData("projectStage_03","projectStage" , "projectStage", "施工阶段", "");
-		this.createBasicData("projectStage_04","projectStage" , "projectStage", "停工阶段", "");
-		this.createBasicData("projectStage_05","projectStage" , "projectStage", "竣工阶段", "");
-		this.createBasicData("projectStage_06","projectStage" , "projectStage", "固定资产登记阶段", "");
+		this.createBasicData("projectStage","" , "projectStage", "项目阶段", "项目阶段",false);		
+		this.createBasicData("projectStage_01","projectStage" , "projectStage", "前期储备阶段", "",false);
+		this.createBasicData("projectStage_02","projectStage" , "projectStage", "前期阶段", "",false);
+		this.createBasicData("projectStage_03","projectStage" , "projectStage", "施工阶段", "",false);
+		this.createBasicData("projectStage_04","projectStage" , "projectStage", "停工阶段", "",false);
+		this.createBasicData("projectStage_05","projectStage" , "projectStage", "竣工阶段", "",false);
+		this.createBasicData("projectStage_06","projectStage" , "projectStage", "固定资产登记阶段", "",false);
 		
 		
 	
@@ -456,19 +458,31 @@ public class SysServiceImpl implements SysService {
 		return response;
 
 	}
-	public BasicData createBasicData(String id,String pid,String identity,String description,String comment){
+	private BasicData createBasicData(String id,String pid,String identity,String description,String comment){
 		BasicData basicData = new BasicData();
 		basicData.setId(id);
 		basicData.setpId(pid);
 		basicData.setIdentity(identity);
 		basicData.setDescription(description);
-		//basicData.setComment(comment);
-		basicData.setCanEdit(false);
-		if(identity.equals("projectType")){
-			basicData.setCanEdit(true);
-		}
+		basicData.setCanEdit(true);
+		//basicData.setComment(comment);				
 		basicDataRepo.save(basicData);
 		return basicData;
 	}
-	
+	private BasicData createBasicData(String id,
+			String pid,
+			String identity,
+			String description,
+			String comment,
+			boolean canEdit){
+		BasicData basicData = new BasicData();
+		basicData.setId(id);
+		basicData.setpId(pid);
+		basicData.setIdentity(identity);
+		basicData.setDescription(description);
+		basicData.setCanEdit(canEdit);
+		//basicData.setComment(comment);				
+		basicDataRepo.save(basicData);
+		return basicData;
+	}
 }

@@ -17,6 +17,7 @@ public class BasicDataMapper {
 			basicDataDto.setIdentity(basicData.getIdentity());
 			basicDataDto.setModifiedDate(basicData.getModifiedDate());
 			basicDataDto.setModifiedBy(basicData.getModifiedBy());
+			basicDataDto.setCanEdit(basicData.getCanEdit());
 		}
 		return  basicDataDto;
 		
