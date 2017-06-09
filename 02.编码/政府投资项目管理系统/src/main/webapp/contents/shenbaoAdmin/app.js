@@ -59,10 +59,30 @@
 	            controllerAs: 'vm'
 	        }) 
 /**********************************************end#月报*********************************/
-	       
+	        //项目管理
+	        //列表页
+	        .state('project', {
+	            url: '/project', 
+	            templateUrl: '/shenbaoAdmin/project/html/list.html',
+	            controller: 'projectCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //编辑页
+	        .state('projectEdit', {
+	            url: '/projectEdit/:id', 
+	            templateUrl: '/shenbaoAdmin/project/html/edit.html',
+	            controller: 'projectCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //项目详情页面
+	        .state('project_projectInfo', {
+	            url: '/project/projectInfo/:id', 
+	            templateUrl: '/shenbaoAdmin/project/html/projectInfo.html',
+	            controller: 'projectCtrl',
+	            controllerAs: 'vm'
+	        }) 
 	        
-	        
-	        
+	        	        
     }]);
     
 })();

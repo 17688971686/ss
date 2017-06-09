@@ -4,11 +4,8 @@
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目所属单位：<span class="required">(*)</span></td>
 		<td>
-			<select style="height:30px;" id="unitName" name="unitName" ng-model="vm.model.unitName" data-val="true" data-val-required="必选">
-				<option value="">---请选择---</option>
-				<option ng-repeat="name in vm.userUnits" ng-selected="vm.model.unitName==name.userName" value="{{name.userName}}">{{name.unitName}}</option>				
-			</select>
-			<span data-valmsg-for="unitName" data-valmsg-replace="true" class="required"></span>
+			<span ng-bind="vm.model.unitName" style="display:none"></span>
+			<span ng-bind="vm.userUnit.unitName"></span>
 		</td>
 	</tr>
 	</table>
@@ -17,13 +14,13 @@
 <table class="table table-bordered table-striped ">
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目代码：<span class="required">(*)</span></td>
-		<td style="width:350px;">
+		<td style="width:250px;">
 			<input type="text" id="id" name="id" ng-model="vm.model.id" style="display:none"/>
 			<input type="text" class="form-control input-sm"  id="projectNumber" name="projectNumber" ng-model="vm.model.projectNumber" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="projectNumber" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight" style="width:150px;">项目名称：<span class="required">(*)</span></td>
-		<td >
+		<td>
 			<input type="text" class="form-control input-sm" id="projectName" name="projectName" ng-model="vm.model.projectName" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
 		</td>
@@ -264,7 +261,6 @@
         </td>
 
 <td>
-
          <div style="margin:3px;"  
 		 	  ng-repeat="y in vm.model.attachmentDtos" 
 		 	  ng-show="y.type=='other'"
