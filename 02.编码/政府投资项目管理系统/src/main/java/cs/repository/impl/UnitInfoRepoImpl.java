@@ -2,7 +2,7 @@ package cs.repository.impl;
 
 import org.springframework.stereotype.Repository;
 
-import cs.domain.UnitInfo;
+import cs.domain.ShenBaoUnitInfo;
 import cs.repository.interfaces.UnitInfoRepo;
 
 
@@ -13,7 +13,7 @@ import cs.repository.interfaces.UnitInfoRepo;
  * @version：0.1
  */
 @Repository
-public class UnitInfoRepoImpl extends AbstractRepository<UnitInfo, String>implements UnitInfoRepo {
+public class UnitInfoRepoImpl extends AbstractRepository<ShenBaoUnitInfo, String>implements UnitInfoRepo {
 
 	
 	

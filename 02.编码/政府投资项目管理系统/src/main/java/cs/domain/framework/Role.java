@@ -12,13 +12,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import cs.domain.DomainBase;
+import cs.domain.BaseEntity;
 
 
 
 @Entity
 @Table(name = "cs_role")
-public class Role extends DomainBase {
+public class Role extends BaseEntity {
 	@Id	
 	private String id;
 	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '角色名'")

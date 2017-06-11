@@ -10,6 +10,11 @@ ul{
 ul li{
 	list-style:none;
 }
+.wrap-1160{
+	width:1160px;
+	margin:0 auto;
+	
+}
 .wrap-960{
 	width:960px;
 	margin:0 auto;

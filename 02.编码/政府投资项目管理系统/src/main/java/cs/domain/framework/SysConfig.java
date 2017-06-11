@@ -10,7 +10,7 @@ import javax.persistence.Table;
 public class SysConfig {
 	@Id
 	private String id;
-	@Column(columnDefinition = "boolean COMMENT '是否已初始化'")
+	@Column(columnDefinition = "bit COMMENT '是否已初始化'")
 	private boolean isInit;
 	public String getId() {
 		return id;

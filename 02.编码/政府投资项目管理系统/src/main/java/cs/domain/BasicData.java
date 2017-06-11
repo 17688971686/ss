@@ -11,7 +11,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="cs_basicData")
-public class BasicData extends DomainBase {
+public class BasicData extends BaseEntity {
 	@Id	
 	private String id;
 	

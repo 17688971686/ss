@@ -10,7 +10,7 @@ import javax.persistence.TemporalType;
 
 
 @MappedSuperclass
-public abstract class DomainBase {
+public abstract class BaseEntity {
 	@Temporal(TemporalType.TIMESTAMP)	
 	@Column(updatable=false,columnDefinition="datetime  COMMENT '创建时间'")
 	private Date createdDate=new Date();

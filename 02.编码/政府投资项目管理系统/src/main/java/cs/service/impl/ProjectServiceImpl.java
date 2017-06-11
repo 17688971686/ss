@@ -14,14 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cs.common.ICurrentUser;
-import cs.common.Util;
 import cs.domain.Project;
-import cs.domain.ProjectInfo;
-import cs.domain.ProjectInfo_;
 import cs.domain.Project_;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ProjectDto;
-import cs.model.DtoMapper.ProjectInfoMapper;
 import cs.model.DtoMapper.ProjectMapper;
 import cs.repository.interfaces.ProjectRepo;
 import cs.repository.odata.ODataFilterItem;

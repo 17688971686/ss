@@ -18,7 +18,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="cs_monthReport")
-public class MonthReport extends DomainBase{
+public class MonthReport extends BaseEntity{
 
 	@Id
 	private String id;	

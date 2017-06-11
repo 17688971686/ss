@@ -1,6 +1,6 @@
 package cs.repository.interfaces;
 
-import cs.domain.UnitInfo;
+import cs.domain.ShenBaoUnitInfo;
 
-public interface UnitInfoRepo extends IRepository<UnitInfo,String>{
+public interface UnitInfoRepo extends IRepository<ShenBaoUnitInfo,String>{
 }

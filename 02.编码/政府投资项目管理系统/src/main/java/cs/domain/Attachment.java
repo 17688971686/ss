@@ -12,7 +12,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="cs_attachment")
-public class Attachment extends DomainBase{
+public class Attachment extends BaseEntity{
 	@Id	
 	private String id;
 	@Column(columnDefinition="varchar(255)  COMMENT '标题'")

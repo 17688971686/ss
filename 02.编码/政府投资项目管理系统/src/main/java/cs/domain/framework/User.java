@@ -10,11 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import cs.domain.DomainBase;
+import cs.domain.BaseEntity;
 
 @Entity
 @Table(name="cs_user")
-public class User extends DomainBase {
+public class User extends BaseEntity {
 	@Id	
 	private String id;
 	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '登录名'")
