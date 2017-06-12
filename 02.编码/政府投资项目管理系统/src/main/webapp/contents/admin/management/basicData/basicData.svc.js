@@ -5,20 +5,89 @@
 
 	basicData.$inject = [ '$http','$compile' ];	
 	function basicData($http,$compile) {	
-		//var url_basicData = "/management/basicData";
+		var url_basicData = "/management/basicData";
 	
 			
 		var service = {
-					
+			createBasicData:createBasicData,
+			deleteBasicData:deleteBasicData,
+			updateBasicData:updateBasicData
 		};		
-		return service;	
+		return service;
 		
-		
-		
-		
+		/**
+		 * 更新基础数据
+		 */
+		function updateBasicData(vm){
+			var httpOptions = {
+					method : 'put',
+					url : url_basicData,
+					data : vm.model
+				}
+				var httpSuccess = function success(response) {
+					common.requestSuccess({
+						vm : vm,
+						response : response
+					});
 
-	}
+				}
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+		}
+		
+		/**
+		 * 删除基础数据
+		 */
+		function deleteBasicData(vm,id){
+			var httpOptions = {
+					method : 'delete',
+					url : url_basicData,
+					data : id
+				}
+				var httpSuccess = function success(response) {
+					common.requestSuccess({
+						vm : vm,
+						response : response
+					});
+
+				}
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+		}
+		
+		/**
+		 * 创建基础数据
+		 */
+		function createBasicData(vm){									
+			var httpOptions = {
+				method : 'post',
+				url : url_basicData,
+				data : vm.model
+			}
+
+			var httpSuccess = function success(response) {	
+				common.requestSuccess({
+					vm : vm,
+					response : response					
+				});
 	
-	
-	
+			}
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+
+				
+			}
+	}	
 })();

@@ -9,7 +9,7 @@
 
     function basicData($location, basicDataSvc,$state,$scope) {
         /* jshint validthis:true */
-    	var vm = this; 
+    	var vm = this;
         vm.init=function(){  
         	vm.model={};
         	init_ztree();
@@ -18,27 +18,101 @@
         
         function init_ztree(){
         	var basicData=common.getBasicData();
-        	console.log(basicData);
         	var zTreeObj;
 			var setting = {
-					view:{nameIsHTML:true},
+					view:{
+						nameIsHTML:true,
+						addHoverDom: function(treeId, treeNode){
+							if(!treeNode.level == 0 && treeNode.canEdit){//新增按钮最高级没有,不可编辑也没有
+								//添加新增按钮
+								var sObj = $("#" + treeNode.tId + "_span");
+								if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
+								var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+								+ "' title='添加子节点' onfocus='this.blur();'></span>";
+								sObj.after(addStr);
+								var btn = $("#addBtn_"+treeNode.tId);
+								//监听新增按钮
+								if (btn) btn.bind("click", function(){
+									window.global_basicData = null;
+									basicData=common.getBasicData();
+									
+									var zTree = $.fn.zTree.getZTreeObj("zTree");
+									//新增按钮触发时新节点的设置
+									//获取父节点下的所有子节点的id的尾数的最大值
+									var childIds = $linq(basicData)
+									.where(function(x){return x.pId==treeNode.id;})
+									.select(function(x){return {id:x.id}})
+									.toArray();						
+									if(childIds.length>0){//有子代代表新点击对象为父级新增										
+										var idNum = new Array();
+										var index = 0;
+										for(var i=0;i<childIds.length;i++){
+											var id = childIds[i].id;
+											var idSplit = id.split("_");
+											idNum[index+i] = parseInt(idSplit[idSplit.length-1]);										
+										}
+										//设置新增子级id的数值 数组中的最大值+1
+										//获取数组中的最大值
+										var idNumMax = Math.max.apply(null, idNum);
+										//替换掉最后的数值
+										var oldId = childIds[0].id;
+										var newId = oldId.replace(oldId[oldId.length-1],idNumMax+1);										
+									}else{//代表点击对象为子级新增按钮										
+										var oldId = treeNode.id;
+										var newId = oldId+"_1";							
+									}									
+									var newnode={id:newId,name:"请编辑命名",identity:treeNode.identity,pId:treeNode.id,canEdit:true};
+									zTree.addNodes(treeNode,newnode);
+									//将新增的数据存放到数据库
+									vm.model.id=newnode.id;
+									vm.model.description=newnode.name;
+									vm.model.identity=newnode.identity;
+									vm.model.pId=newnode.pId;
+									vm.model.canEdit = newnode.canEdit;
+									basicDataSvc.createBasicData(vm);		
+								})
+							}
+						},
+						removeHoverDom: function(treeId, treeNode){
+							$("#addBtn_"+treeNode.tId).unbind().remove(); 
+						},
+						showIcon: true,
+						selectedMulti: true
+						},
+					edit:{
+						enable: true,
+						showRenameBtn: function(treeId, treeNode){//最高一级没有编辑按钮,不可编辑也没有
+							if(treeNode.level == 0 || !treeNode.canEdit) return false;
+							else return true;
+						},
+						showRemoveBtn: function(treeId, treeNode){//只有最子级才有删除按钮,不可编辑也没有
+							if(treeNode.isParent || !treeNode.canEdit) return false;
+							else return true;	 											              							
+						},
+						removeTitle : "删除",
+						renameTitle : "编辑"
+					},	
 					callback:{
-					onClick:function(e,id,node){
-						$scope.$apply(function(){
-							vm.model.id=node.id;
-							vm.model.description=node.name;
-							vm.model.identity=node.identity;
-							vm.model.pId=node.pId;
-							
-						});
-						
+						onRename: function(e,treeId,treeNode){
+							vm.model.id=treeNode.id;
+							vm.model.description=treeNode.name;
+							vm.model.identity=treeNode.identity;
+							vm.model.pId=treeNode.pId;
+							basicDataSvc.updateBasicData(vm)
+						},
+						onRemove: function(e,treeId, treeNode){							
+							basicDataSvc.deleteBasicData(vm,treeNode.id);				                				        
+						},
 					}
-				}
+									
 			};
-			var  findChildren=function(pId){
+			 
+			
+						
+			var findChildren=function(pId){
 				return $linq(basicData)
 				.where(function(x){return x.pId==pId;})
-				.select(function(x){return {id:x.id,name:x.description,pId:x.pId,identity:x.identity,cenEdit:x.canEdit,children:findChildren(x.id)};})
+				.select(function(x){return {id:x.id,name:x.description,pId:x.pId,identity:x.identity,canEdit:x.canEdit,children:findChildren(x.id)};})
 				.toArray()
 			}
 			var zNodes = $linq(basicData)
@@ -59,11 +133,10 @@
 					name : '基础数据',
 					children : zNodes
 				};
-			zTreeObj = $.fn.zTree.init($("#zTree"), setting,
-					rootNode);
-			console.log(zNodes);
+			zTreeObj = $.fn.zTree.init($("#zTree"), setting,rootNode);					
         }
         
+  
         
         activate();
         function activate() {

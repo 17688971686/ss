@@ -11,4 +11,10 @@ public interface BasicDataService {
 	List<BasicDataDto> Get();
 	void reloadData();
 	
+	void createBasicData(BasicDataDto basicDataDto);
+	
+	void deleteBasicData(String id);
+	
+	void updateBasicData(BasicDataDto basicDataDto);
+	
 }

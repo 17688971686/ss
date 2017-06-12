@@ -22,4 +22,20 @@ public class BasicDataMapper {
 		return  basicDataDto;
 		
 	}
+	
+	public static void buildEntity(BasicDataDto basicDataDto,BasicData basicData){
+		if(basicDataDto !=null && basicData !=null){
+			basicData.setComment(basicDataDto.getComment());
+			basicData.setDescription(basicDataDto.getDescription());
+			basicData.setCreatedBy(basicDataDto.getCreatedBy());
+			basicData.setCreatedDate(basicDataDto.getCreatedDate());
+			basicData.setpId(basicDataDto.getpId());
+			basicData.setId(basicDataDto.getId());	
+			basicData.setItemOrder(basicDataDto.getItemOrder());
+			basicData.setIdentity(basicDataDto.getIdentity());
+			basicData.setModifiedDate(basicDataDto.getModifiedDate());
+			basicData.setModifiedBy(basicDataDto.getModifiedBy());
+			basicData.setCanEdit(basicDataDto.getCanEdit());
+		}
+	}
 }
