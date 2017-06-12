@@ -40,6 +40,9 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="double(10,2) NULL COMMENT '项目总投资'")
 	private Double projectInvestSum;
 	
+	@Column(columnDefinition="double(10,2) NULL COMMENT '项目累计投资'")
+	private Double projectInvestAccuSum;
+	
 	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-市财政-公共预算'")
 	private Double capitalSCZ_ggys;
 	

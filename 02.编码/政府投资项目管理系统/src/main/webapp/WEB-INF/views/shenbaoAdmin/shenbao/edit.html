@@ -1,0 +1,88 @@
+<style>
+.table-bordered>thead>tr>th, 
+.table-bordered>tbody>tr>th, 
+.table-bordered>tfoot>tr>th, 
+.table-bordered>thead>tr>td, 
+.table-bordered>tbody>tr>td, 
+.table-bordered>tfoot>tr>td {
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+label{font-weight:normal;}
+
+.uploadBox .k-upload-status {
+	display: none;
+}
+
+.uploadBox .k-header {
+	background: transparent;
+	border: 0px;
+}
+
+.uploadBox em {
+	display: none;
+}
+
+.uploadBox .k-dropzone {
+	padding: 0px;
+	margin: 0px;
+}
+.uploadBox .k-upload-files{
+display:none;
+}
+input.input-sm{height:30px; margin:0px; padding:0px;}
+textarea.form-control {
+	margin:0px; padding:0px;
+}
+.tab_content{
+	padding:20px;
+}
+</style>
+
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+
+<div class="well-sm" style="background:white;">
+    <ol class="breadcrumb">
+        <li><a href="#/managerCenter">首页</a></li>       
+         <li><a href="#/shenbao">项目申报</a></li>	        
+        <li class="active">{{vm.title}}</li>
+    </ol>
+    
+   
+         
+  	<form>
+  		<div kendo-tab-strip k-options="vm.tabStripOptions"	 	>
+              <!-- tab list -->
+              <ul >
+                <li class="k-state-active">项目基本信息</li>
+                <li>年度计划信息</li>                
+                <li>项目材料清单</li>
+                <li>项目单位信息</li>
+                <li>申报信息确认</li>
+              </ul>
+          
+              <div class="tab_content">
+               <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/basicInfo.html'"></div>
+               <div style="text-align: center"><button class="btn btn-sm btn-primary">下一步  
+               <span class="glyphicon glyphicon-forward"></span>
+               </button></div>
+              </div>
+          	<div class="tab_content">
+                <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/stage/yearPlan.html'"></div>
+              </div>
+             
+               <div class="tab_content">
+              <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/materialsInfo.html'"></div>
+              </div>
+              
+               <div class="tab_content">
+                <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/unitInfo.html'"></div>
+              </div>
+          
+              <div class="tab_content">
+                <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/confirmInfo.html'"></div>
+                 <div style="text-align: center"><button class="btn btn-sm btn-success">确认提交  </div>
+            </div>
+    </form>
+    
+</div>

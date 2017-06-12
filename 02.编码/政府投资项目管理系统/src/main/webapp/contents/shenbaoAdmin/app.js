@@ -59,7 +59,7 @@
 	            controllerAs: 'vm'
 	        }) 
 /**********************************************end#月报*********************************/
-	        //项目管理
+	        //begin#项目管理
 	        //列表页
 	        .state('project', {
 	            url: '/project', 
@@ -81,8 +81,21 @@
 	            controller: 'projectCtrl',
 	            controllerAs: 'vm'
 	        }) 
+	        //end#项目管理
 	        
-	        	        
+	        //begin#项目申报
+	         .state('shenbao', {
+	            url: '/shenbao', 
+	            templateUrl: '/shenbaoAdmin/shenbao/html/list.html',
+	            controller: 'shenbaoCtrl',
+	            controllerAs: 'vm'
+	        })	 
+	         .state('shenbao_edit', {
+	            url: '/shenbao/:id', 
+	            templateUrl: '/shenbaoAdmin/shenbao/html/edit.html',
+	            controller: 'shenbaoCtrl',
+	            controllerAs: 'vm'
+	        })
     }]);
     
 })();

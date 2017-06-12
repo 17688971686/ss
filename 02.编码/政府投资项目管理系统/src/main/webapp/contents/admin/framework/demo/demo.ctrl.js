@@ -91,6 +91,8 @@
         	}
         	console.log(basicData)
         }
+        
+       
        
         activate();
         function activate() {
@@ -98,6 +100,7 @@
         	upload();
         	demoSvc.treeList(vm);
         	vm.init_select();
+        	
         }
     }
 })();
