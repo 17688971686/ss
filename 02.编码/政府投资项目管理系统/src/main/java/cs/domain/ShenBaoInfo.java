@@ -16,6 +16,12 @@ public class ShenBaoInfo extends BaseProject{
 	@Id
 	private String id;
 	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '项目ID'")
+	private String projectId;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '申报阶段'")
+	private String projectShenBaoStage;
+	
 	//begin#年度计划相关
 	@Column(columnDefinition="int NULL COMMENT '计划年度'")
 	private Integer planYear;
