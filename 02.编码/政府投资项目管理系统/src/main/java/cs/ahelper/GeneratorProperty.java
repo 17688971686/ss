@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import cs.domain.Project;
+import cs.domain.ShenBaoInfo;
 import cs.domain.UserUnitInfo;
 import cs.domain.framework.Role_;
 import cs.model.DomainDto.BasicDataDto;
@@ -20,7 +21,7 @@ public class GeneratorProperty {
 		//System.out.println("roleName:"+Role_.roleName.getName());
 	
 		
-		Class<?> dto=MonthReportDto.class;
+		Class<?> dto=ShenBaoInfo.class;
 		
 		Method[] methods=dto.getMethods();
 		Set<String> methods2=new HashSet<>();
@@ -34,7 +35,7 @@ public class GeneratorProperty {
 					
 		}
 		for (String string : methods2) {
-			System.out.println(String.format("monthReport.set%s(monthReportDto.get%s());", string,string));
+			System.out.println(String.format("shenBaoInfoDto.set%s(entity.get%s());", string,string));
 		}
 	}
 

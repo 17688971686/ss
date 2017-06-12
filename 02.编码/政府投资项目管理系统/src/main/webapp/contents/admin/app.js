@@ -167,6 +167,15 @@
 	            controllerAs: 'vm'
 	        })
 	        //end#基础数据管理
+	        
+	        //begin#年度计划编制
+	         .state('yearPlanList', {
+	            url: '/yearPlanList',
+	            templateUrl: '/management/yearPlan/html/planList',
+	            controller: 'yearPlanCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //end#年度计划编制
     }]);
     
 })();
