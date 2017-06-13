@@ -51,6 +51,12 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 		return  shenBaoInfoDto;
 	}
 
+	@Override
+	public void buildEntity(ShenBaoInfoDto dto, ShenBaoInfo entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 }
