@@ -52,7 +52,9 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setPifuJYS_wenhao(entity.getPifuJYS_wenhao());
 			shenBaoInfoDto.setProjectGuiMo(entity.getProjectGuiMo());
 			shenBaoInfoDto.setPifuKXXYJBG_date(entity.getPifuKXXYJBG_date());
-
+			
+			//begin关联信息
+			//todo
 
 		}
 		return  shenBaoInfoDto;
