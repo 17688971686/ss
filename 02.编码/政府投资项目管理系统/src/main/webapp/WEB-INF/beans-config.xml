@@ -114,7 +114,7 @@
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<!-- update,create,create-drop,validate -->
-				<prop key="hibernate.hbm2ddl.auto">validate</prop>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
 			</props>
 		</property>
 

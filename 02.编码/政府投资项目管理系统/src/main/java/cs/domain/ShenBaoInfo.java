@@ -22,11 +22,14 @@ public class ShenBaoInfo extends BaseProject{
 	@Column(columnDefinition="varchar(255) NULL COMMENT '申报阶段'")
 	private String projectShenBaoStage;
 	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '项目建设性质分类'")
+	private String projectConstrChar;
+	
 	//begin#年度计划相关
 	@Column(columnDefinition="int NULL COMMENT '计划年度'")
 	private Integer planYear;
 	@Column(columnDefinition="double(10,2) NULL COMMENT '申请年度投资'")
-	private Double applyYearInvest;
+	private Double applyYearInvest;	
 	//end#年度计划相关
 	
 	@OneToOne
