@@ -32,10 +32,65 @@ public class ShenBaoInfo extends BaseProject{
 	private Double applyYearInvest;	
 	//end#年度计划相关
 	
+	//begin#关联信息
 	@OneToOne
 	private ShenBaoUnitInfo bianZhiUnitInfo=new ShenBaoUnitInfo();
 	@OneToOne
 	private ShenBaoUnitInfo shenBaoUnitInfo=new ShenBaoUnitInfo();
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<Attachment> attachments=new ArrayList<>();
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getProjectId() {
+		return projectId;
+	}
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
+	public String getProjectShenBaoStage() {
+		return projectShenBaoStage;
+	}
+	public void setProjectShenBaoStage(String projectShenBaoStage) {
+		this.projectShenBaoStage = projectShenBaoStage;
+	}
+	public String getProjectConstrChar() {
+		return projectConstrChar;
+	}
+	public void setProjectConstrChar(String projectConstrChar) {
+		this.projectConstrChar = projectConstrChar;
+	}
+	public Integer getPlanYear() {
+		return planYear;
+	}
+	public void setPlanYear(Integer planYear) {
+		this.planYear = planYear;
+	}
+	public Double getApplyYearInvest() {
+		return applyYearInvest;
+	}
+	public void setApplyYearInvest(Double applyYearInvest) {
+		this.applyYearInvest = applyYearInvest;
+	}
+	public ShenBaoUnitInfo getBianZhiUnitInfo() {
+		return bianZhiUnitInfo;
+	}
+	public void setBianZhiUnitInfo(ShenBaoUnitInfo bianZhiUnitInfo) {
+		this.bianZhiUnitInfo = bianZhiUnitInfo;
+	}
+	public ShenBaoUnitInfo getShenBaoUnitInfo() {
+		return shenBaoUnitInfo;
+	}
+	public void setShenBaoUnitInfo(ShenBaoUnitInfo shenBaoUnitInfo) {
+		this.shenBaoUnitInfo = shenBaoUnitInfo;
+	}
+	public List<Attachment> getAttachments() {
+		return attachments;
+	}
+	public void setAttachments(List<Attachment> attachments) {
+		this.attachments = attachments;
+	}
 }
