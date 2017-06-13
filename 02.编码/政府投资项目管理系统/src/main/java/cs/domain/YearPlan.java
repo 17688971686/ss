@@ -27,5 +27,45 @@ public class YearPlan extends BaseEntity{
 	//begin#关联信息
 	@OneToMany
 	private List<YearPlanCapital> yearPlanCapitals=new ArrayList<>();
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public List<YearPlanCapital> getYearPlanCapitals() {
+		return yearPlanCapitals;
+	}
+
+	public void setYearPlanCapitals(List<YearPlanCapital> yearPlanCapitals) {
+		this.yearPlanCapitals = yearPlanCapitals;
+	}
 	
 }

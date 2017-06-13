@@ -4,12 +4,15 @@
 	  <ol class="breadcrumb">
 		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
 		  <li><a href="#/">首页</a></li>
-	      <li><a href="#/yearPlanList">年度计划管理</a></li>	 
+	      <li><a href="#/yearPlanBZList">年度计划编制</a></li>	 
 	      <li class="active">项目列表</li>
 	  </ol>
-	  
+	  <script type="text/template" id="columnBtns">
+			<a class="btn btn-xs btn-primary" href="#/yearPlan/planEdit/{0}"><span class="glyphicon glyphicon-pencil"></span>编辑</a> 
+			<a class="btn btn-xs btn-success" href="#/yearPlan/planBZ/{0}"><span class="glyphicon glyphicon-pencil"></span>编制计划</a>
+	  </script>
 	  <div class="toolbar">
-	  	<a class="btn btn-sm btn-primary" href="#/projectEdit/"><span class="glyphicon glyphicon-plus"></span>新增项目</a>
+	  	<a class="btn btn-sm btn-primary" href="#/yearPlan/planEdit/"><span class="glyphicon glyphicon-plus"></span>新增计划</a>
 	  </div> 
      <form id="form" name="form">          
          <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
