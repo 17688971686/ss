@@ -94,6 +94,7 @@
 					}if(vm.page=='projectInfo'){				
 						//资金处理
 						vm.model.projectInvestSum=common.toMoney(vm.model.projectInvestSum);//项目总投资
+						vm.model.projectInvestAccuSum=common.toMoney(vm.model.projectInvestAccuSum);//累计完成投资
 						vm.model.capitalSCZ_ggys=common.toMoney(vm.model.capitalSCZ_ggys);//市财政-公共预算
 						vm.model.capitalSCZ_gtzj=common.toMoney(vm.model.capitalSCZ_gtzj);//市财政-国土资金
 						vm.model.capitalSCZ_zxzj=common.toMoney(vm.model.capitalSCZ_zxzj);//市财政-专项资金

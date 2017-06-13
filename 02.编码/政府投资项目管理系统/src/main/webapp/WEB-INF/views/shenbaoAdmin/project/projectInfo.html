@@ -74,8 +74,12 @@
 	
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
-		<td colspan="3">
+		<td>
 			<span ng-bind="vm.model.projectInvestSum | number:2"></span>&nbsp;(万元)
+		</td>
+		<td class="formAlignRight">累计完成投资：<span class="required">(*)</span></td>
+		<td>
+			<span ng-bind="vm.model.projectInvestAccuSum | number:2"></span>&nbsp;(万元)
 		</td>
 	</tr>
 					

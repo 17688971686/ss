@@ -1,7 +1,10 @@
 package cs.model.DtoMapper;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Component;
 
+import cs.domain.Attachment;
 import cs.domain.ShenBaoInfo;
 import cs.model.DomainDto.ShenBaoInfoDto;
 
@@ -52,8 +55,49 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 	}
 
 	@Override
-	public void buildEntity(ShenBaoInfoDto dto, ShenBaoInfo entity) {
-		// TODO Auto-generated method stub
+	public void buildEntity(ShenBaoInfoDto shenBaoInfoDto, ShenBaoInfo shenBaoInfo) {
+		if(shenBaoInfoDto !=null && shenBaoInfo !=null){
+			if(shenBaoInfo.getId() == null || shenBaoInfo.getId().isEmpty()){
+				shenBaoInfo.setId(UUID.randomUUID().toString());
+			}
+			shenBaoInfo.setCapitalQCZ_gtzj(shenBaoInfoDto.getCapitalQCZ_gtzj());
+			shenBaoInfo.setProjectName(shenBaoInfoDto.getProjectName());
+			shenBaoInfo.setCapitalSCZ_gtzj(shenBaoInfoDto.getCapitalSCZ_gtzj());
+			shenBaoInfo.setPifuCBSJYGS_date(shenBaoInfoDto.getPifuCBSJYGS_date());
+			shenBaoInfo.setModifiedDate(shenBaoInfoDto.getModifiedDate());
+			shenBaoInfo.setModifiedBy(shenBaoInfoDto.getModifiedBy());
+			shenBaoInfo.setCapitalSCZ_zxzj(shenBaoInfoDto.getCapitalSCZ_zxzj());
+			shenBaoInfo.setCapitalSHTZ(shenBaoInfoDto.getCapitalSHTZ());
+			shenBaoInfo.setRemark(shenBaoInfoDto.getRemark());
+			shenBaoInfo.setCapitalOther(shenBaoInfoDto.getCapitalOther());
+			shenBaoInfo.setProjectInvestSum(shenBaoInfoDto.getProjectInvestSum());
+			shenBaoInfo.setProjectAddress(shenBaoInfoDto.getProjectAddress());
+			shenBaoInfo.setPifuJYS_date(shenBaoInfoDto.getPifuJYS_date());
+			shenBaoInfo.setCapitalQCZ_ggys(shenBaoInfoDto.getCapitalQCZ_ggys());
+			shenBaoInfo.setProjectIntro(shenBaoInfoDto.getProjectIntro());
+			shenBaoInfo.setCreatedBy(shenBaoInfoDto.getCreatedBy());
+			shenBaoInfo.setProjectNumber(shenBaoInfoDto.getProjectNumber());
+			shenBaoInfo.setProjectStage(shenBaoInfoDto.getProjectStage());
+			shenBaoInfo.setProjectClassify(shenBaoInfoDto.getProjectClassify());
+			shenBaoInfo.setPifuKXXYJBG_wenhao(shenBaoInfoDto.getPifuKXXYJBG_wenhao());
+			shenBaoInfo.setUnitName(shenBaoInfoDto.getUnitName());
+			shenBaoInfo.setItemOrder(shenBaoInfoDto.getItemOrder());
+			shenBaoInfo.setCapitalSCZ_ggys(shenBaoInfoDto.getCapitalSCZ_ggys());
+			shenBaoInfo.setEndDate(shenBaoInfoDto.getEndDate());
+			shenBaoInfo.setBeginDate(shenBaoInfoDto.getBeginDate());
+			shenBaoInfo.setProjectIndustry(shenBaoInfoDto.getProjectIndustry());
+			shenBaoInfo.setPifuCBSJYGS_wenhao(shenBaoInfoDto.getPifuCBSJYGS_wenhao());
+			shenBaoInfo.setProjectType(shenBaoInfoDto.getProjectType());
+			shenBaoInfo.setCreatedDate(shenBaoInfoDto.getCreatedDate());
+			shenBaoInfo.setCapitalOtherDescription(shenBaoInfoDto.getCapitalOtherDescription());
+			shenBaoInfo.setPifuJYS_wenhao(shenBaoInfoDto.getPifuJYS_wenhao());
+			shenBaoInfo.setPifuKXXYJBG_date(shenBaoInfoDto.getPifuKXXYJBG_date());
+			shenBaoInfo.setProjectGuiMo(shenBaoInfoDto.getProjectGuiMo());
+			
+			//begin#关联信息
+			//附件
+			
+		}
 		
 	}
 

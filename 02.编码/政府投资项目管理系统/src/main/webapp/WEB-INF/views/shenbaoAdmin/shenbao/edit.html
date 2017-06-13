@@ -51,37 +51,46 @@ textarea.form-control {
    
          
   	<form>
-  		<div kendo-tab-strip k-options="vm.tabStripOptions"	 	>
+  		<div id="tabStrip" kendo-tab-strip k-options="vm.tabStripOptions">
               <!-- tab list -->
               <ul >
-                <li class="k-state-active">项目基本信息</li>
-                <li>年度计划信息</li>                
-                <li>项目材料清单</li>
-                <li>项目单位信息</li>
-                <li>申报信息确认</li>
+                <li id="tab1" class="k-state-active">项目基本信息</li>
+                <li id="tab2" ng-show="vm.isYearPlan">年度计划信息</li>                
+                <li id="tab3">项目材料清单</li>
+                <li id="tab4">项目单位信息</li>
+                <li id="tab5">申报信息确认</li>
               </ul>
           
-              <div class="tab_content">
-               <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/basicInfo.html'"></div>
-               <div style="text-align: center"><button class="btn btn-sm btn-primary">下一步  
-               <span class="glyphicon glyphicon-forward"></span>
-               </button></div>
-              </div>
-          	<div class="tab_content">
-                <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/stage/yearPlan.html'"></div>
-              </div>
+				<div class="tab_content">
+					<div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/basicInfo.html'"></div>
+					<div style="text-align: center">
+					<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(2)">下一步 <span class="glyphicon glyphicon-forward"></span></button>               
+					</div>
+				</div>
+				<div class="tab_content" ng-show="vm.isYearPlan">
+				     <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/stage/yearPlan.html'"></div>
+				     <div style="text-align: center">
+				     	<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(3)">下一步 <span class="glyphicon glyphicon-forward"></span></button>               
+				     </div>
+				</div>
              
                <div class="tab_content">
-              <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/materialsInfo.html'"></div>
+	              	<div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/materialsInfo.html'"></div>
+	               	<div style="text-align: center">
+				     	<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(4)">下一步 <span class="glyphicon glyphicon-forward"></span></button>               
+				    </div>
               </div>
               
                <div class="tab_content">
-                <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/unitInfo.html'"></div>
+                	<div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/unitInfo.html'"></div>
+              		<div style="text-align: center">
+				     	<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(5)">下一步 <span class="glyphicon glyphicon-forward"></span></button>               
+				    </div>
               </div>
           
               <div class="tab_content">
                 <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/confirmInfo.html'"></div>
-                 <div style="text-align: center"><button class="btn btn-sm btn-success">确认提交  </div>
+                 <div style="text-align: center"><button class="btn btn-sm btn-success" ng-click="vm.submit()" ng-disabled="vm.isSubmit">确认提交  </div>
             </div>
     </form>
     

@@ -42,4 +42,13 @@ public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 		return pageModelDto;	
 	}
 
+	@Override
+	@Transactional
+	public void createShenBaoInfo(ShenBaoInfoDto shenBaoInfoDto) {
+		
+		
+	}
+	
+	
+
 }

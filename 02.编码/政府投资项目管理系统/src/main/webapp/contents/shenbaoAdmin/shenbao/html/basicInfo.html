@@ -5,7 +5,7 @@
 		<td class="formAlignRight" style="width:150px;">项目所属单位：<span class="required">(*)</span></td>
 		<td>
 			<span ng-bind="vm.model.unitName" style="display:none"></span>
-			<span ng-bind="vm.userUnit.unitName"></span>
+			<span ng-bind="vm.model.shenBaoUnitInfo.unitName"></span>
 		</td>
 	</tr>
 	</table>
@@ -62,7 +62,7 @@
 		<td >
 			<select id="projectClassify" name="projectClassify"  style="height:30px;" ng-model="vm.model.projectClassify" data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>
-				<option ng-repeat="x in vm.basicData.projectClassify" value="{{x.id}}">{{x.description}}</option>
+				<option ng-repeat="x in vm.basicData.projectClassify" ng-selected="vm.model.projectClassify==x.id" value="{{x.id}}">{{x.description}}</option>
 			</select>
 			<span data-valmsg-for="projectClassify" data-valmsg-replace="true" class="required"></span>
 		</td>
@@ -92,9 +92,14 @@
 	
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
-		<td colspan="3">
+		<td>
 			<input type="text" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/> (万元)
 			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>
+		</td>
+		<td class="formAlignRight">累计完成投资：<span class="required">(*)</span></td>
+		<td>
+			<input type="text" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.projectInvestAccuSum" data-val="true" data-val-required="必填"/> (万元)
+			<span data-valmsg-for="projectInvestAccuSum" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
 					

@@ -91,7 +91,7 @@
 	            controllerAs: 'vm'
 	        })	 
 	         .state('shenbao_edit', {
-	            url: '/shenbao/:id', 
+	            url: '/shenbao/:id/:stage', 
 	            templateUrl: '/shenbaoAdmin/shenbao/html/edit.html',
 	            controller: 'shenbaoCtrl',
 	            controllerAs: 'vm'
