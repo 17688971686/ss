@@ -239,6 +239,7 @@
 				  			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
 				  			 		+ (parseFloat(vm.model.capitalOther)||0) ;
 				  		 }
+						vm.model.projectId = vm.model.id;
 					}
 					vm.model.projectShenBaoStage = vm.stage;
 					getDeptInfo(vm);

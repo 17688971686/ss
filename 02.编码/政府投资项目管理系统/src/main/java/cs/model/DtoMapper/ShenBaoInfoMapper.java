@@ -83,7 +83,6 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			if(shenBaoInfo.getId() == null || shenBaoInfo.getId().isEmpty()){
 				shenBaoInfo.setId(UUID.randomUUID().toString());
 			}
-			shenBaoInfo.setId(shenBaoInfoDto.getId());
 			shenBaoInfo.setProjectName(shenBaoInfoDto.getProjectName());
 			shenBaoInfo.setProjectType(shenBaoInfoDto.getProjectType());
 			
