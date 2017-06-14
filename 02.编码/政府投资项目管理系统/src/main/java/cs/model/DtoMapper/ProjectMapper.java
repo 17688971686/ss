@@ -22,6 +22,7 @@ public class ProjectMapper {
 			projectDto.setCapitalSCZ_zxzj(project.getCapitalSCZ_zxzj());
 			projectDto.setCapitalOther(project.getCapitalOther());
 			projectDto.setProjectInvestSum(project.getProjectInvestSum());
+			projectDto.setProjectInvestAccuSum(project.getProjectInvestAccuSum());
 			projectDto.setProjectAddress(project.getProjectAddress());
 			projectDto.setPifuJYS_date(project.getPifuJYS_date());
 			projectDto.setProjectIntro(project.getProjectIntro());
@@ -77,6 +78,7 @@ public class ProjectMapper {
 			project.setCapitalSCZ_zxzj(projectDto.getCapitalSCZ_zxzj());
 			project.setCapitalOther(projectDto.getCapitalOther());
 			project.setProjectInvestSum(projectDto.getProjectInvestSum());
+			project.setProjectInvestAccuSum(projectDto.getProjectInvestAccuSum());
 			project.setProjectAddress(projectDto.getProjectAddress());
 			project.setPifuJYS_date(projectDto.getPifuJYS_date());
 			project.setProjectIntro(projectDto.getProjectIntro());

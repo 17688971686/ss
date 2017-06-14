@@ -6,6 +6,19 @@ import java.util.List;
 import cs.domain.ShenBaoInfo;
 
 public class ShenBaoInfoDto extends ShenBaoInfo {
+	//项目阶段
+	private String projectStageDesc;
+	//项目类型
+	private String projectTypeDesc;
+	//所属行业
+	private String projectIndustryDesc;
+	//项目分类
+	private String projectClassifyDesc;
+	//项目申报阶段
+	private String projectShenBaoStageDesc;
+	//项目建设性质
+	private String projectConstrCharDesc;
+	
 	private ShenBaoUnitInfoDto bianZhiUnitInfoDto=new ShenBaoUnitInfoDto();
 	private ShenBaoUnitInfoDto shenBaoUnitInfoDto=new ShenBaoUnitInfoDto();
 	private List<AttachmentDto> attachmentDtos=new ArrayList<>();
@@ -26,5 +39,42 @@ public class ShenBaoInfoDto extends ShenBaoInfo {
 	}
 	public void setAttachmentDtos(List<AttachmentDto> attachmentDtos) {
 		this.attachmentDtos = attachmentDtos;
+	}	
+	public String getProjectShenBaoStageDesc() {
+		return projectShenBaoStageDesc;
 	}
+	public void setProjectShenBaoStageDesc(String projectShenBaoStageDesc) {
+		this.projectShenBaoStageDesc = projectShenBaoStageDesc;
+	}
+	public String getProjectConstrCharDesc() {
+		return projectConstrCharDesc;
+	}
+	public void setProjectConstrCharDesc(String projectConstrCharDesc) {
+		this.projectConstrCharDesc = projectConstrCharDesc;
+	}
+	public String getProjectStageDesc() {
+		return projectStageDesc;
+	}
+	public void setProjectStageDesc(String projectStageDesc) {
+		this.projectStageDesc = projectStageDesc;
+	}
+	public String getProjectTypeDesc() {
+		return projectTypeDesc;
+	}
+	public void setProjectTypeDesc(String projectTypeDesc) {
+		this.projectTypeDesc = projectTypeDesc;
+	}
+	public String getProjectIndustryDesc() {
+		return projectIndustryDesc;
+	}
+	public void setProjectIndustryDesc(String projectIndustryDesc) {
+		this.projectIndustryDesc = projectIndustryDesc;
+	}
+	public String getProjectClassifyDesc() {
+		return projectClassifyDesc;
+	}
+	public void setProjectClassifyDesc(String projectClassifyDesc) {
+		this.projectClassifyDesc = projectClassifyDesc;
+	}
+	
 }

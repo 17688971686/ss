@@ -33,9 +33,9 @@ public class ShenBaoInfo extends BaseProject{
 	//end#年度计划相关
 	
 	//begin#关联信息
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	private ShenBaoUnitInfo bianZhiUnitInfo=new ShenBaoUnitInfo();
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	private ShenBaoUnitInfo shenBaoUnitInfo=new ShenBaoUnitInfo();
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<Attachment> attachments=new ArrayList<>();

@@ -1,7 +1,57 @@
-<div class="bg-info text-info" style="padding: 10px; ">项目所属单位</div>
-<table class="table table-bordered table-striped ">
-	<tr>
-		<td class="formAlignRight" style="width:150px;">项目所属单位：<span class="required">(*)</span></td>
+<style>
+.table-bordered>thead>tr>th, 
+.table-bordered>tbody>tr>th, 
+.table-bordered>tfoot>tr>th, 
+.table-bordered>thead>tr>td, 
+.table-bordered>tbody>tr>td, 
+.table-bordered>tfoot>tr>td {
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+label{font-weight:normal;}
+
+.uploadBox .k-upload-status {
+	display: none;
+}
+
+.uploadBox .k-header {
+	background: transparent;
+	border: 0px;
+}
+
+.uploadBox em {
+	display: none;
+}
+
+.uploadBox .k-dropzone {
+	padding: 0px;
+	margin: 0px;
+}
+.uploadBox .k-upload-files{
+display:none;
+}
+input.input-sm{height:30px; margin:0px; padding:0px;}
+textarea.form-control {
+	margin:0px; padding:0px;
+}
+.tab_content{
+	padding:20px;
+}
+</style>
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+<div class="well well-sm" style="background:white;">
+	<ol class="breadcrumb">
+		<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		<li><a href="#/managerCenter">首页</a></li>
+		<li><a href="#/shenbao">项目申报</a></li>
+		<li><a href="#/shenbao_records">申报记录</a></li>	 
+		<li class="active">记录详情</li>
+	</ol>
+	<div class="bg-info text-info" style="padding: 10px; ">项目所属单位</div>
+	<table class="table table-bordered table-striped ">
+		<tr>
+			<td class="formAlignRight" style="width:150px;">项目所属单位：<span class="required">(*)</span></td>
 		<td>
 			<span ng-bind="vm.model.unitName" style="display:none"></span>
 			<span ng-bind="vm.model.shenBaoUnitInfoDto.unitName"></span>
@@ -13,11 +63,11 @@
 <table class="table table-bordered table-striped ">
 	<tr>
 		<span ng-bind="vm.model.projectShenBaoStage" style="display:none"></span>
-		<span ng-bind="vm.model.projectId" style="display:none"></span>
 	</tr>
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目代码：<span class="required">(*)</span></td>
 		<td style="width:250px;">
+			<span id="id" name="id" ng-bind="vm.model.id" style="display:none"></span>
 			<span id="projectNumber" name="projectNumber" ng-bind="vm.model.projectNumber"></span>
 		</td>
 		<td class="formAlignRight" style="width:150px;">项目名称：<span class="required">(*)</span></td>
@@ -386,3 +436,4 @@
 		</td>
 	</tr>
 </table>
+</div>

@@ -317,4 +317,13 @@ public class BaseProject extends BaseEntity
 	public void setPifuCBSJYGS_wenhao(String pifuCBSJYGS_wenhao) {
 		this.pifuCBSJYGS_wenhao = pifuCBSJYGS_wenhao;
 	}
+
+	public Double getProjectInvestAccuSum() {
+		return projectInvestAccuSum;
+	}
+
+	public void setProjectInvestAccuSum(Double projectInvestAccuSum) {
+		this.projectInvestAccuSum = projectInvestAccuSum;
+	}
+	
 }

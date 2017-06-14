@@ -58,7 +58,10 @@ public class UserUnitInfoServiceImpl implements UserUnitInfoService {
 		Criterion criterion=Restrictions.eq(UserUnitInfo_.userName.getName(), userName);
 		Optional<UserUnitInfo> userUnitInfo= userUnitInfoRepo.findByCriteria(criterion).stream().findFirst();
 		if(userUnitInfo.isPresent()){
-			return UserUnitInfoMapper.toDto(userUnitInfo.get());
+			 UserUnitInfoDto userUnitInfoDto  = UserUnitInfoMapper.toDto(userUnitInfo.get());
+			userUnitInfoDto.setDivisionDesc(basicDataService.getDescriptionById(userUnitInfo.get().getDivisionId()));
+			userUnitInfoDto.setUnitPropertyDesc(basicDataService.getDescriptionById(userUnitInfo.get().getUnitProperty()));
+			return userUnitInfoDto;
 		}
 		return null;
 	}
@@ -76,7 +79,11 @@ public class UserUnitInfoServiceImpl implements UserUnitInfoService {
 		}
 		
 		unitInfoDto.setUserName(userName);
-		UserUnitInfoMapper.buildEntity(unitInfoDto, userUnitInfo);		
+		UserUnitInfoMapper.buildEntity(unitInfoDto, userUnitInfo);
+		String loginName = currentUser.getLoginName();
+		
+		userUnitInfo.setCreatedBy(loginName);
+		userUnitInfo.setModifiedBy(loginName);
 		userUnitInfoRepo.save(userUnitInfo);
 		logger.info(String.format("创建单位信息:%s", userName));
 	}

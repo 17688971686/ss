@@ -14,6 +14,7 @@
 
 <div class="well well-sm" style="background:white;">
     <ol class="breadcrumb">
+    	 <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
         <li><a href="#/">首页</a></li>       
          <li><a href="#/projectMonthReport">项目月报</a></li>	        
         <li class="active">项目详情</li>
@@ -74,8 +75,12 @@
 	
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
-		<td colspan="3">
+		<td>
 			<span ng-bind="vm.model.projectInfo.projectInvestSum | number:2"></span>&nbsp;(万元)
+		</td>
+		<td class="formAlignRight">累计完成投资：<span class="required">(*)</span></td>
+		<td>
+			<span id="projectInvestAccuSum" name="projectInvestAccuSum" ng-bind="vm.model.projectInfo.projectInvestAccuSum | number:2"></span>(万元)
 		</td>
 	</tr>
 					

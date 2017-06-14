@@ -17,7 +17,9 @@ import cs.common.ICurrentUser;
 import cs.domain.Project;
 import cs.domain.Project_;
 import cs.model.PageModelDto;
+import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ProjectDto;
+import cs.model.DtoMapper.AttachmentMapper;
 import cs.model.DtoMapper.ProjectMapper;
 import cs.repository.interfaces.ProjectRepo;
 import cs.repository.odata.ODataFilterItem;
@@ -48,7 +50,11 @@ public class ProjectServiceImpl implements ProjectService {
 			projectDto.setProjectTypeDesc(basicDataService.getDescriptionById(x.getProjectType()));
 			projectDto.setProjectIndustryDesc(basicDataService.getDescriptionById(x.getProjectIndustry()));
 			projectDto.setProjectClassifyDesc(basicDataService.getDescriptionById(x.getProjectClassify()));
-			
+			//获取月报中项目进度的名称
+			projectDto.getMonthReportDtos().forEach(y->{
+				y.setSelfReviewDesc(basicDataService.getDescriptionById(y.getSelfReview()));
+			});
+						
 			projectDtos.add(projectDto);	
 			
 		});

@@ -1,0 +1,19 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+<div class="well well-sm" style="background:white;">
+	  <ol class="breadcrumb">
+		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		  <li><a href="#/managerCenter">首页</a></li>
+	      <li><a href="#/shenbao">项目申报</a></li>	 
+	      <li class="active">项目申报记录列表</li>
+	  </ol>	
+	  <script type="text/template" id="columnBtns">
+		<a class="btn btn-xs btn-primary" href="#/shenbao_record/{0}/{1}"><span class="glyphicon glyphicon-eye-open"></span>申报详情</a>
+		<a class="btn btn-xs btn-primary" href="#/shenbao_record_edit/{0}/{1}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+	  </script> 
+     <form id="form" name="form">          
+         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions_records"></div>
+    </form>
+</div>
+
+

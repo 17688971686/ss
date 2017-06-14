@@ -900,8 +900,6 @@ if (typeof jQuery === 'undefined') {
     $.fn.dropdown = old
     return this
   }
-
-
   // APPLY TO STANDARD DROPDOWN ELEMENTS
   // ===================================
 

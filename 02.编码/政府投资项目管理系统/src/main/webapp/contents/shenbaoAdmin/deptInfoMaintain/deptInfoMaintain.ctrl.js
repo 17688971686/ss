@@ -20,7 +20,7 @@
         							.toArray();
         
         vm.basicData_area_Street=$linq(common.getBasicData())
-								.where(function(x){return x.identity=='area'&&x.pId=='area_01';})
+								.where(function(x){return x.identity=='area'&&x.pId=='area_1';})
 								.toArray();
         
         vm.submit=function(){

@@ -1,5 +1,7 @@
 package cs.model.DtoMapper;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Component;
 
 import cs.domain.ShenBaoUnitInfo;
@@ -43,7 +45,37 @@ public class ShenBaoUnitInfoMapper implements IMapper<ShenBaoUnitInfoDto, ShenBa
 
 	@Override
 	public void buildEntity(ShenBaoUnitInfoDto dto, ShenBaoUnitInfo entity) {
-		// TODO Auto-generated method stub
+		if(dto !=null && entity !=null){
+			if(entity.getId() == null || entity.getId().isEmpty()){
+				entity.setId(UUID.randomUUID().toString());
+			}			
+			entity.setUnitEmail(dto.getUnitEmail());
+			entity.setUnitName(dto.getUnitName());
+			entity.setOrgCode(dto.getOrgCode());
+			entity.setUnitTel(dto.getUnitTel());
+			entity.setUnitFax(dto.getUnitFax());
+			entity.setUnitProperty(dto.getUnitProperty());
+			entity.setDivisionId(dto.getDivisionId());
+			entity.setUnitAddress(dto.getUnitAddress());
+			entity.setRemark(dto.getRemark());
+			
+			entity.setUnitResPerson(dto.getUnitResPerson());
+			entity.setResPersonFax(dto.getResPersonFax());
+			entity.setResPersonEmail(dto.getResPersonEmail());
+			entity.setResPersonTel(dto.getResPersonTel());
+			entity.setResPersonMobile(dto.getResPersonMobile());
+			entity.setUnitContactPerson(dto.getUnitContactPerson());
+			entity.setContactPersonTel(dto.getContactPersonTel());
+			entity.setContactPersonFax(dto.getContactPersonFax());
+			entity.setContactPersonEmail(dto.getContactPersonEmail());
+			entity.setContactPersonMobile(dto.getContactPersonMobile());
+					
+			entity.setCreatedDate(dto.getCreatedDate());
+			entity.setModifiedDate(dto.getModifiedDate());
+			entity.setModifiedBy(dto.getModifiedBy());
+			entity.setItemOrder(dto.getItemOrder());
+			entity.setCreatedBy(dto.getCreatedBy());	
+		}
 		
 	}
 
