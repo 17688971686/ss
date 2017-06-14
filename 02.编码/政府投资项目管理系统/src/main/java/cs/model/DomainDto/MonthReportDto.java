@@ -9,6 +9,8 @@ public class MonthReportDto extends MonthReport{
 		
 	private String projectProgressDescription;//项目进度
 	
+	private String selfReviewDesc;//项目进度安排
+	
 	private String projectName; //项目名称
 	
 	
@@ -55,11 +57,15 @@ public class MonthReportDto extends MonthReport{
 	public void setAttachmentDtos(List<AttachmentDto> attachmentDtos) {
 		this.attachmentDtos = attachmentDtos;
 	}
+
+	public String getSelfReviewDesc() {
+		return selfReviewDesc;
+	}
+
+	public void setSelfReviewDesc(String selfReviewDesc) {
+		this.selfReviewDesc = selfReviewDesc;
+	}
 	
 	//end#关联信息
-	
-	
-	
-	
-	
+
 }

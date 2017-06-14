@@ -65,7 +65,7 @@
 											.toArray();
 						if(report.length>0){
 							vm.isReportExist=true;
-							vm.model.monthReport=report[0];					
+							vm.model.monthReport=report[0];
 						}
 						
 						//项目批复信息的获取
@@ -87,6 +87,7 @@
 					if(vm.page=='projectInfo'){				
 						//资金处理
 						vm.model.projectInfo.projectInvestSum=common.toMoney(vm.model.projectInfo.projectInvestSum);//项目总投资
+						vm.model.projectInfo.projectInvestAccuSum=common.toMoney(vm.model.projectInfo.projectInvestAccuSum);//累计完成投资
 						vm.model.projectInfo.capitalSCZ_ggys=common.toMoney(vm.model.projectInfo.capitalSCZ_ggys);//市财政-公共预算
 						vm.model.projectInfo.capitalSCZ_gtzj=common.toMoney(vm.model.projectInfo.capitalSCZ_gtzj);//市财政-国土资金
 						vm.model.projectInfo.capitalSCZ_zxzj=common.toMoney(vm.model.projectInfo.capitalSCZ_zxzj);//市财政-专项资金

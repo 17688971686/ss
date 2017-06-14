@@ -49,8 +49,9 @@ public class MonthReportServiceImpl implements MonthReportService {
 		List<MonthReportDto> monthReportDtoList = new ArrayList<MonthReportDto>();
 
 		monthReportList.forEach(monthReport -> {
-			MonthReportDto monthReportDto = MonthReportMapper.toDto(monthReport);
-
+			MonthReportDto monthReportDto = MonthReportMapper.toDto(monthReport);			
+			//获取相关类型的名称
+			monthReportDto.setSelfReviewDesc(basicDataService.getDescriptionById(monthReport.getSelfReview()));
 			// begin#关联信息
 			// 项目
 			//ProjectInfo projectInfo = projectInfoRepo.findById(monthReport.getProjectId());
