@@ -6,8 +6,8 @@
 	yearPlan.$inject = [ '$http' ];
 
 	function yearPlan($http) {
-		var url_yearPlan = "/management/yearPlan";//获取申报数据
-		var url_back = "#/yearPlan";
+		var url_yearPlan = "/management/shenbao";//获取申报数据
+		var url_back_yearPlanList = "#/yearPlanList";
 		var service = {
 			grid : grid	
 		};
@@ -61,14 +61,37 @@
 						filterable : true
 					},
 					{
-						field : "projectStageDesc",
-						title : "项目阶段",
+						field : "projectConstrChar",
+						title : "建设性质",
+						width : 150,
+						filterable : false
+					},
+					{
+						field : "planYear",
+						title : "计划年度",
 						width : 150,
 						filterable : false
 					},
 					{
 						field : "projectClassifyDesc",
 						title : "项目分类",
+						width : 150,
+						filterable : false
+					}
+					,
+					{
+						field : "projectClassifyDesc",
+						title : "项目分类",
+						width : 150,
+						filterable : false
+					},{
+						field : "projectInvestSum",
+						title : "总投资",
+						width : 150,
+						filterable : false
+					},{
+						field : "applyYearInvest",
+						title : "申请年度投资",
 						width : 150,
 						filterable : false
 					},

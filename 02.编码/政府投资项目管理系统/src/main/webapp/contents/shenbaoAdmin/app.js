@@ -96,6 +96,18 @@
 	            controller: 'shenbaoCtrl',
 	            controllerAs: 'vm'
 	        })
+	        .state('shenbao_records', {
+	            url: '/shenbao_records', 
+	            templateUrl: '/shenbaoAdmin/shenbao/html/records.html',
+	            controller: 'shenbaoCtrl',
+	            controllerAs: 'vm'
+	        })
+	        .state('shenbao_record', {
+	            url: '/shenbao_record/:id/:stage', 
+	            templateUrl: '/shenbaoAdmin/shenbao/html/shenBaoInfo.html',
+	            controller: 'shenbaoCtrl',
+	            controllerAs: 'vm'
+	        })
     }]);
     
 })();

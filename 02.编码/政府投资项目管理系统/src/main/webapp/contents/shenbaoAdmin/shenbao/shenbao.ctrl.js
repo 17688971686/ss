@@ -10,7 +10,8 @@
     function shenbao($location, shenbaoSvc,$state,$scope) {
         /* jshint validthis:true */
         var vm = this;        
-        vm.id=$state.params.id;    
+        vm.id=$state.params.id;
+        vm.stage=$state.params.stage;
         vm.model={}; 
         vm.basicData={};  
         vm.page='list';
@@ -19,6 +20,12 @@
         	if($state.current.name=='shenbao_edit'){
     			vm.page='edit';
     		}
+        	if($state.current.name=='shenbao_records'){
+        		vm.page='records';
+        	}
+        	if($state.current.name=='shenbao_record'){
+        		vm.page='record';
+        	}
         }
         
         activate();
@@ -32,7 +39,15 @@
         		//编辑
         		page_edit();        		
         	}
-        	
+        	if(vm.page=='records'){
+        		//申报记录
+        		page_records();
+        	}
+        	if(vm.page=='record'){
+        		//申报详情
+        		page_edit();
+        		page_record();
+        	}
         }
         
        function page_list(){
@@ -58,8 +73,7 @@
     	   };
     	   //判断tab显示
     	   var init_tab_show=function(){
-    		   var stage=$state.params.stage;
-    		   vm.isYearPlan=stage=='projectShenBaoStage_7';
+    		   vm.isYearPlan=vm.stage=='projectShenBaoStage_7';
     		   if(vm.isYearPlan){
     			   vm.materialsType=[['XXJD','项目工程形象进度及年度资金需求情况'],['WCJSNR','年度完成建设内容及各阶段工作内容完成时间表'],
 	   					['TTJH','历年政府投资计划下大文件(*)'],['GCXKZ','建设工程规划许可证'],['TDQK','土地落实情况、征地拆迁有关情况'],
@@ -86,6 +100,7 @@
 	       		vm.basicData.projectIndustryChildren=$linq(common.getBasicData())
 	       		.where(function(x){return x.identity=='projectIndustry'&&x.pId==vm.model.projectIndustryParent;})
 	       		.toArray();
+	   		}
 	       	//投资类型
 	   		vm.basicData.projectInvestmentType=$linq(common.getBasicData())
 	   		.where(function(x){return x.identity=='projectInvestmentType'&&x.pId=='projectInvestmentType';})
@@ -94,12 +109,12 @@
 	   		vm.basicData.projectClassify=$linq(common.getBasicData())
 	   		.where(function(x){return x.identity=='projectClassify'&&x.pId=='projectClassify';})
 	   		.toArray();
-	   		}
+	   		
 	   		//项目建设性质
 	   		vm.basicData.projectConstrChar=$linq(common.getBasicData())
 	   		.where(function(x){return x.identity=='projectConstrChar'&&x.pId=='projectConstrChar';})
 	   		.toArray();
-	   		}
+	   		
 	   		//单位性质
 	   		vm.basicData.unitProperty=$linq(common.getBasicData())
 	   		.where(function(x){return x.identity=='unitProperty'&&x.pId=='unitProperty';})
@@ -137,8 +152,15 @@
   		 //确认提交
     	vm.submit = function(){
     		shenbaoSvc.createShenBaoInfo(vm);
-    	}
-  	   
-       //end#page_edit         
-    }
+    	}               
+    }//end#page_edit
+       
+       function page_records(){
+    	   shenbaoSvc.recordsGird(vm);
+       }//page_records
+       
+       function page_record(){
+    	   shenbaoSvc.getShenBaoInfoById(vm);
+       }
+   }
 })();

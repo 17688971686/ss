@@ -79,7 +79,11 @@ public class UserUnitInfoServiceImpl implements UserUnitInfoService {
 		}
 		
 		unitInfoDto.setUserName(userName);
-		UserUnitInfoMapper.buildEntity(unitInfoDto, userUnitInfo);		
+		UserUnitInfoMapper.buildEntity(unitInfoDto, userUnitInfo);
+		String loginName = currentUser.getLoginName();
+		
+		userUnitInfo.setCreatedBy(loginName);
+		userUnitInfo.setModifiedBy(loginName);
 		userUnitInfoRepo.save(userUnitInfo);
 		logger.info(String.format("创建单位信息:%s", userName));
 	}

@@ -3,30 +3,30 @@
 		<tr>
 			<td  width="120">单位名称<span class="required ">(*)</span></td>
 			<td colspan="4" class="RborderNone">
-				<input type="text" class="form-control input-sm" id="unitName" name="unitName" ng-model="vm.model.shenBaoUnitInfo.unitName" data-val="true" data-val-required="必填"/>
+				<input type="text" class="form-control input-sm" id="unitName" name="unitName" ng-model="vm.model.shenBaoUnitInfoDto.unitName" data-val="true" data-val-required="必填"/>
 				<span data-valmsg-for="unitName" data-valmsg-replace="true" class="errors"></span>
 			</td>
 		</tr>
 		<tr>
 			<td>组织机构代码</td>
  				<td colspan="2">
- 				<input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.shenBaoUnitInfo.orgCode"  />
+ 				<input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.shenBaoUnitInfoDto.orgCode"  />
  				</td>
 		    <td width="100">电话号码<span class="required">(*)</span></td>
 		    <td>
-		    <input type="text" class="form-control input-sm" id="unitTel" name="unitTel" ng-model="vm.model.shenBaoUnitInfo.unitTel" data-val="true" data-val-required="必填"/>
+		    <input type="text" class="form-control input-sm" id="unitTel" name="unitTel" ng-model="vm.model.shenBaoUnitInfoDto.unitTel" data-val="true" data-val-required="必填"/>
 		    <span data-valmsg-for="unitTel" data-valmsg-replace="true" class="errors"></span>
 		    </td>
 	   </tr>
 	   <tr>
 	        <td>电子邮箱<span class="required">(*)</span></td>
 	        <td colspan="2">
-	        <input type="email" class="form-control input-sm" id="email" name="unitEmail" ng-model="vm.model.shenBaoUnitInfo.unitEmail" data-val="true" data-val-required="必填"/>
+	        <input type="email" class="form-control input-sm" id="email" name="unitEmail" ng-model="vm.model.shenBaoUnitInfoDto.unitEmail" data-val="true" data-val-required="必填"/>
 	        <span data-valmsg-for="unitEmail" data-valmsg-replace="true" class="errors"></span>
 	        <span ng-show="myForm.unitEmail.$error.email" class="errors">请输入合法邮箱地址</span>
 	        <td>传真号码<span class="required">(*)</span></td>
 	        <td>
-	        <input type="text" class="form-control input-sm" id="unitFax" name="unitFax" ng-model="vm.model.shenBaoUnitInfo.unitFax" data-val="true" data-val-required="必填"/>
+	        <input type="text" class="form-control input-sm" id="unitFax" name="unitFax" ng-model="vm.model.shenBaoUnitInfoDto.unitFax" data-val="true" data-val-required="必填"/>
 	        <span data-valmsg-for="unitFax" data-valmsg-replace="true" class="errors"></span>
 	        </td>
 	   </tr>
@@ -37,7 +37,7 @@
 		<tr>
 			<td>单位性质<span class="required">(*)</span></td>
 			<td colspan="4">
-				<select id="unitProperty" name="unitProperty" class="form-select" ng-model="vm.model.shenBaoUnitInfo.unitProperty" data-val="true" data-val-required="必选">
+				<select id="unitProperty" name="unitProperty" class="form-select" ng-model="vm.model.shenBaoUnitInfoDto.unitProperty" data-val="true" data-val-required="必选">
 					<option value="">---请选择---</option>
 					<option ng-repeat="x in vm.basicData.unitProperty" value="{{x.id}}">{{x.description}}</option>
 				</select>
@@ -50,12 +50,12 @@
 		    <select class="form-select">
 		    	<option>光明新区</option>
 		    </select>
-		    <select class="form-select" id="divisionId" name="divisionId" ng-model="vm.model.shenBaoUnitInfo.divisionId" data-val="true" data-val-required="必选">
+		    <select class="form-select" id="divisionId" name="divisionId" ng-model="vm.model.shenBaoUnitInfoDto.divisionId" data-val="true" data-val-required="必选">
 		    	<option value="">---请选择---</option>
-				<option ng-repeat="x in vm.basicData.area_Street" ng-selected="vm.model.shenBaoUnitInfo.divisionId==x.id" value="{{x.id}}">{{x.description}}</option>
+				<option ng-repeat="x in vm.basicData.area_Street" ng-selected="vm.model.shenBaoUnitInfoDto.divisionId==x.id" value="{{x.id}}">{{x.description}}</option>
 			</select>
 			<span data-valmsg-for="divisionId" data-valmsg-replace="true" class="errors"></span>
-			 <input type="text" class="form-control input-sm" style="margin-top:3px;" id="unitAddress" name="unitAddress" ng-model="vm.model.shenBaoUnitInfo.unitAddress" data-val="true" data-val-required="必填"/>
+			 <input type="text" class="form-control input-sm" style="margin-top:3px;" id="unitAddress" name="unitAddress" ng-model="vm.model.shenBaoUnitInfoDto.unitAddress" data-val="true" data-val-required="必填"/>
 			 <span data-valmsg-for="unitAddress" data-valmsg-replace="true" class="errors"></span>
 			</td>
 	  </tr>
@@ -63,30 +63,30 @@
 	    <td rowspan="3">单位负责人<span class="required">(*)</span></td>
 	    <td width="60">姓名</td>
 	    <td>
-	    	 <input class="form-control input-sm" type="text" id="unitResPerson" name="unitResPerson" ng-model="vm.model.shenBaoUnitInfo.unitResPerson" data-val="true" data-val-required="必填"/>
+	    	 <input class="form-control input-sm" type="text" id="unitResPerson" name="unitResPerson" ng-model="vm.model.shenBaoUnitInfoDto.unitResPerson" data-val="true" data-val-required="必填"/>
 	    	<span data-valmsg-for="unitResPerson" data-valmsg-replace="true" class="errors"></span>
 	    </td>
 	    <td>电话号码</td>
 	    <td>
-	     	<input class="form-control input-sm" type="text" id="resPersonTel" name="resPersonTel" ng-model="vm.model.shenBaoUnitInfo.resPersonTel" data-val="true" data-val-required="必填"/>
+	     	<input class="form-control input-sm" type="text" id="resPersonTel" name="resPersonTel" ng-model="vm.model.shenBaoUnitInfoDto.resPersonTel" data-val="true" data-val-required="必填"/>
 	    	<span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="errors"></span>
 	    </td>
 	  </tr>
 	  <tr>
 	    <td>手机</td>	   
 	    <td>
-	     	<input class="form-control input-sm" type="text" id="resPersonMobile" name="resPersonMobile" ng-model="vm.model.shenBaoUnitInfo.resPersonMobile" data-val="true" data-val-required="必填"/>
+	     	<input class="form-control input-sm" type="text" id="resPersonMobile" name="resPersonMobile" ng-model="vm.model.shenBaoUnitInfoDto.resPersonMobile" data-val="true" data-val-required="必填"/>
 	    	<span data-valmsg-for="resPersonMobile" data-valmsg-replace="true" class="errors"></span>
 	    </td>
 	    <td>传真号码</td>
 	    <td>
-	     <input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.shenBaoUnitInfo.resPersonFax"  />
+	     <input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.shenBaoUnitInfoDto.resPersonFax"  />
 	    </td>
 	  </tr>
 	   <tr>
 	    <td>Email</td>
 	    <td colspan="3">
-	     <input type="email" class="form-control input-sm" id="resPersonEmail" name="resPersonEmail" ng-model="vm.model.shenBaoUnitInfo.resPersonEmail" data-val="true" data-val-required="必填"/>
+	     <input type="email" class="form-control input-sm" id="resPersonEmail" name="resPersonEmail" ng-model="vm.model.shenBaoUnitInfoDto.resPersonEmail" data-val="true" data-val-required="必填"/>
 	    	 <span data-valmsg-for="resPersonEmail" data-valmsg-replace="true" class="errors"></span>
 	    	 <span ng-show="myForm.resPersonEmail.$error.email" class="errors">请输入合法邮箱地址</span>
 	    </td>
@@ -95,12 +95,12 @@
 	    <td rowspan="3">填报联系人<span class="required">(*)</span></td>
 	    <td>姓名</td>
 	    <td>
-	     <input class="form-control input-sm" type="text" id="unitContactPerson" name="unitContactPerson" ng-model="vm.model.shenBaoUnitInfo.unitContactPerson" data-val="true" data-val-required="必填"/>
+	     <input class="form-control input-sm" type="text" id="unitContactPerson" name="unitContactPerson" ng-model="vm.model.shenBaoUnitInfoDto.unitContactPerson" data-val="true" data-val-required="必填"/>
 	    	<span data-valmsg-for="unitContactPerson" data-valmsg-replace="true" class="errors"></span>
 	    </td>
 	    <td>电话号码</td>
 	    <td>
-	     <input class="form-control input-sm" type="text" id="contactPersonTel" name="contactPersonTel" ng-model="vm.model.shenBaoUnitInfo.contactPersonTel" data-val="true" data-val-required="必填"/>
+	     <input class="form-control input-sm" type="text" id="contactPersonTel" name="contactPersonTel" ng-model="vm.model.shenBaoUnitInfoDto.contactPersonTel" data-val="true" data-val-required="必填"/>
 	    	<span data-valmsg-for="contactPersonTel" data-valmsg-replace="true" class="errors"></span>
 	    </td>
 	  </tr>
@@ -108,18 +108,18 @@
 	    <td>手机</td>
 	
 	    <td>
-	     <input class="form-control input-sm" type="text" id="contactPersonMobile" name="contactPersonMobile" ng-model="vm.model.shenBaoUnitInfo.contactPersonMobile" data-val="true" data-val-required="必填"/>
+	     <input class="form-control input-sm" type="text" id="contactPersonMobile" name="contactPersonMobile" ng-model="vm.model.shenBaoUnitInfoDto.contactPersonMobile" data-val="true" data-val-required="必填"/>
 	   	 <span data-valmsg-for="contactPersonMobile" data-valmsg-replace="true" class="errors"></span>
 	    </td>
 	    <td>传真号码</td>
 	    <td>
-	     <input class="form-control input-sm "  type="text" maxlength="50" ng-model="vm.model.shenBaoUnitInfo.contactPersonFax"/>	    	
+	     <input class="form-control input-sm "  type="text" maxlength="50" ng-model="vm.model.shenBaoUnitInfoDto.contactPersonFax"/>	    	
 	    </td>
 	  </tr>
 	  <tr>
 	    <td>Email</td>
 	    <td colspan="3">
-	     <input type="email" class="form-control input-sm" id="contactPersonEmail" name="contactPersonEmail" ng-model="vm.model.shenBaoUnitInfo.contactPersonEmail" data-val="true" data-val-required="必填"/>
+	     <input type="email" class="form-control input-sm" id="contactPersonEmail" name="contactPersonEmail" ng-model="vm.model.shenBaoUnitInfoDto.contactPersonEmail" data-val="true" data-val-required="必填"/>
 	    	<span data-valmsg-for="contactPersonEmail" data-valmsg-replace="true" class="errors"></span>
 	    	 <span ng-show="myForm.contactPersonEmail.$error.email" class="errors">请输入合法邮箱地址</span>
 	    </td>

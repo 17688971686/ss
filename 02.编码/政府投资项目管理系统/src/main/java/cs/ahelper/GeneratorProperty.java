@@ -6,10 +6,13 @@ import java.util.Set;
 
 import cs.domain.Project;
 import cs.domain.ShenBaoInfo;
+import cs.domain.ShenBaoUnitInfo;
 import cs.domain.UserUnitInfo;
 import cs.domain.framework.Role_;
 import cs.model.DomainDto.BasicDataDto;
 import cs.model.DomainDto.MonthReportDto;
+import cs.model.DomainDto.ShenBaoInfoDto;
+import cs.model.DomainDto.ShenBaoUnitInfoDto;
 import cs.model.DomainDto.UnitInfoDto;
 import cs.model.Portal.ArticleDto;
 import cs.model.framework.RoleDto;
@@ -21,7 +24,7 @@ public class GeneratorProperty {
 		//System.out.println("roleName:"+Role_.roleName.getName());
 	
 		
-		Class<?> dto=ShenBaoInfo.class;
+		Class<?> dto=ShenBaoInfoDto.class;
 		
 		Method[] methods=dto.getMethods();
 		Set<String> methods2=new HashSet<>();

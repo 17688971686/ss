@@ -291,14 +291,10 @@ public class SysServiceImpl implements SysService {
 		this.createBasicData("projectClassify_6","projectClassify" , "projectClassify", "社会投资水务类", "");
 		this.createBasicData("projectClassify_7","projectClassify" , "projectClassify", "其它", "");
 		
-		this.createBasicData("projectConstrChar","" , "projectConstrChar", "项目建设性质分类", "");
-		this.createBasicData("projectConstrChar_1","projectConstrChar" , "projectConstrChar", "新建", "");
-		this.createBasicData("projectConstrChar_2","projectConstrChar" , "projectConstrChar", "扩建", "");
-		this.createBasicData("projectConstrChar_3","projectConstrChar" , "projectConstrChar", "迁建", "");
-		this.createBasicData("projectConstrChar_4","projectConstrChar" , "projectConstrChar", "改建", "");
-		this.createBasicData("projectConstrChar_5","projectConstrChar" , "projectConstrChar", "前期", "");
-		this.createBasicData("projectConstrChar_6","projectConstrChar" , "projectConstrChar", "新开工", "");
-		this.createBasicData("projectConstrChar_7","projectConstrChar" , "projectConstrChar", "续建", "");
+		this.createBasicData("projectConstrChar","" , "projectConstrChar", "项目建设性质分类", "");		
+		this.createBasicData("projectConstrChar_1","projectConstrChar" , "projectConstrChar", "前期", "");
+		this.createBasicData("projectConstrChar_2","projectConstrChar" , "projectConstrChar", "新开工", "");
+		this.createBasicData("projectConstrChar_3","projectConstrChar" , "projectConstrChar", "续建", "");
 		
 		this.createBasicData("projectIndustry","" , "projectIndustry", "项目行业分类", "");
 		this.createBasicData("projectIndustry_1","projectIndustry" , "projectIndustry", "农业水利", "");

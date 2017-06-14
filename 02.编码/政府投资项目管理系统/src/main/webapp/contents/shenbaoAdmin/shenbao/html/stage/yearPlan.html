@@ -1,9 +1,10 @@
+<form class="form">
 <div class="bg-info text-info" style="padding: 10px;">年度计划信息</div>
 <table class="table table-bordered table-striped ">
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目建设性质</td>
 		<td colspan="3">
-			<select style="height:30px;">
+			<select style="height:30px;" ng-model="vm.model.projectConstrChar">
 				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.projectConstrChar" value="{{x.id}}">{{x.description}}</option>
 			</select>
@@ -12,7 +13,8 @@
 	<tr>
 		<td class="formAlignRight" style="width:150px;">计划年度：<span class="required">(*)</span></td>
 		<td style="width:250px;">
-			<input class="Wdate form-control input-sm" style="width:180px;" type="text" id="d15" onFocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy'})" ng-model="vm.model.planYear"/>
+			<input class="Wdate form-control input-sm" style="width:180px;" type="text" id="planYear"
+			 onFocus="WdatePicker({dateFmt:'yyyy'})" onChange="" ng-model="vm.model.planYear"/>
 		</td>
 		<td class="formAlignRight" style="width:150px;">申请年度投资：<span class="required">(*)</span></td>
 		<td >
@@ -32,3 +34,4 @@
 		</td>
 	</tr>	
 </table>
+</form>
