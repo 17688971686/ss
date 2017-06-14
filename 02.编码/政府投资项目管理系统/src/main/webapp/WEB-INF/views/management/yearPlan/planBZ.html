@@ -1,0 +1,127 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+<div class="well well-sm" style="background:white;">
+	 <ol class="breadcrumb">
+		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		  <li><a href="#/">首页</a></li>
+	      <li><a href="#/yearPlan/planList">年度计划</a></li>	 
+	      <li class="active">编辑</li>
+	  </ol>
+	 
+     <form id="form" name="form">          
+        <div class="bg-info text-info" style="padding: 10px; "><strong>基本信息</strong></div>
+		<table class="table table-bordered table-striped ">
+				<tr>
+				<td class="formAlignRight" style="width:150px;">名称：<span class="required">(*)</span></td>
+				<td style="width:350px;" ng-bind="vm.model.name">
+					
+				</td>
+				<td class="formAlignRight" style="width:150px;">计划年度：<span class="required">(*)</span></td>
+				<td ng-bind="vm.model.name">
+				
+				</td>
+			</tr>
+			<tr>
+			<td class="formAlignRight">备注：</td>
+			<td colspan="3" ng-bind="vm.model.remark">
+			</td>
+			</tr>
+		</table>
+		 <div class="bg-info text-info" style="padding: 10px; "><strong>项目计划列表</strong></div>
+		 <table class="table table-bordered table-striped ">
+			<tr>
+				<td class="formAlignRight" style="width:150px;">项目总数：</td>
+				<td style="width:80px;"></td>
+				<td class="formAlignRight" style="width:150px;">前期：</td>
+				<td style="width:80px;"></td>
+				<td class="formAlignRight" style="width:150px;">新开工：</td>
+				<td style="width:80px;"></td>
+				<td class="formAlignRight" style="width:150px;">继建：</td>
+				<td style="width:80px;" colspan="6"></td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">项目总投资：</td>
+				<td style="width:80px;"></td>
+				<td class="formAlignRight" >申请资金金额：</td>
+				<td style="width:80px;" colspan="5"></td>				
+			</tr>
+			<tr>
+				<td class="formAlignRight">计划总规模：</td>
+				<td style="width:80px;"></td>
+				<td style="width:80px;" colspan="6">
+				<table class="table table-bordered" style="margin:0px">
+				<tr class="text-primary text-center">
+					<td>市财政</td>
+					<td>区财政</td>
+					<td>社会投资</td>					
+					<td>其他</td>
+				</tr>
+				<tr class="text-center">
+					<td style="padding:0px;border: 0px;">
+						<table class="table table-bordered" style="margin:0px">
+							<tr>
+								<td >公共预算</td>
+								<td>国土资金</td>
+								<td>专项资金</td>
+							</tr>
+							<tr>
+								<td ng-bind="vm.model.capitalSCZ_ggys" ></td>
+								<td ng-bind="vm.model.capitalSCZ_gtzj"></td>
+								<td ng-bind="vm.model.capitalSCZ_zxzj"></td>
+							</tr>
+						</table>
+					</td>
+					<td style="padding:0px;border: 0px;">
+						<table class="table table-bordered " style="margin:0px">
+							<tr>
+								<td>公共预算</td>
+								<td>国土资金</td>
+								
+							</tr>
+							<tr>
+								<td ng-bind="vm.model.capitalQCZ_ggys"></td>
+								<td ng-bind="vm.model.capitalQCZ_gtzj"></td>
+							</tr>
+						</table>
+					</td>
+					<td style="padding:0px;border: 0px;">
+						<table class="table table-bordered" style="margin:0px">
+							<tr>
+								<td>-</td>
+						
+								
+							</tr>
+							<tr>
+								<td ng-bind="vm.model.capitalSHTZ"></td>
+							</tr>
+						</table>
+					</td>
+					<td style="padding:0px;border: 0px;">
+						<table class="table table-bordered" style="margin:0px">
+							<tr>
+								<td>-</td>
+							
+								
+							</tr>
+							<tr>
+								<td ng-bind="vm.model.capitalOther"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				</table>
+				
+					
+				</td>
+					
+			</tr>
+		</table>
+		 <div class="toolbar">
+	  	<a class="btn btn-xs btn-success" href="#"><span class="glyphicon glyphicon-plus"></span>新增计划</a> 
+	  	<button class="btn btn-primary btn-xs" ng-click="vm.grid.saveAsExcel()"><span class="glyphicon glyphicon-download-alt"></span> 导出Excel</button>
+	  </div> 
+     <form id="form" name="form">          
+         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+    </form>
+    </form>
+</div>

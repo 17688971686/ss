@@ -169,9 +169,27 @@
 	        //end#基础数据管理
 	        
 	        //begin#年度计划编制
-	         .state('yearPlanList', {
-	            url: '/yearPlanList',
+	         .state('yearPlan_shenbaoInfoList', {
+	            url: '/yearPlan/shenbaoInfoList',
+	            templateUrl: '/management/yearPlan/html/shenbaoInfoList',
+	            controller: 'yearPlanCtrl',
+	            controllerAs: 'vm'
+	        })
+	        .state('yearPlan_planList', {
+	            url: '/yearPlan/planList',
 	            templateUrl: '/management/yearPlan/html/planList',
+	            controller: 'yearPlanCtrl',
+	            controllerAs: 'vm'
+	        })
+	        .state('yearPlan_planEdit', {
+	            url: '/yearPlan/planEdit/:id',
+	            templateUrl: '/management/yearPlan/html/planEdit',
+	            controller: 'yearPlanCtrl',
+	            controllerAs: 'vm'
+	        })
+	        .state('yearPlan_planBZ', {
+	            url: '/yearPlan/planBZ/:id',
+	            templateUrl: '/management/yearPlan/html/planBZ',
 	            controller: 'yearPlanCtrl',
 	            controllerAs: 'vm'
 	        })

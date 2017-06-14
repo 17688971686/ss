@@ -42,4 +42,24 @@ public class YearPlanServiceImpl implements YearPlanService {
 		return pageModelDto;
 	}
 
+	@Override
+	@Transactional
+	public void create(YearPlanDto dto) {
+		YearPlan entity=new YearPlan();
+		yearPlanMapper.buildEntity(dto, entity);
+		yearPlanRepo.save(entity);
+		logger.info(String.format("创建年度计划,名称：%s",dto.getName()));
+	}
+
+	@Override
+	public void update(YearPlanDto dto) {
+		YearPlan entity=yearPlanRepo.findById(dto.getId());
+		if(entity!=null){
+			yearPlanMapper.buildEntity(dto, entity);
+			yearPlanRepo.save(entity);
+			logger.info(String.format("更新年度计划,名称：%s",dto.getName()));
+		}
+		
+	}
+
 }
