@@ -1,6 +1,7 @@
 package cs.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -72,6 +73,26 @@ public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 		shenBaoInfoRepo.save(shenBaoInfo);
 		logger.info(String.format("创建申报信息,项目名称 %s",shenBaoInfoDto.getProjectName()));		
 	}
+
+	@Override
+	@Transactional
+	public void updateShenBaoInfo(ShenBaoInfoDto shenBaoInfoDto) {
+		//根据id查找到到此申报信息
+		ShenBaoInfo findShenBaoInfo = shenBaoInfoRepo.findById(shenBaoInfoDto.getId());
+		//清空附件
+		findShenBaoInfo.getAttachments().clear();
+		//进行数据转换
+		shenbaoMapper.buildEntity(shenBaoInfoDto, findShenBaoInfo);
+		//设置修改人
+		String longinName = currentUser.getLoginName();
+		findShenBaoInfo.setModifiedBy(longinName);
+		findShenBaoInfo.setModifiedDate(new Date());
+		//保存数据
+		shenBaoInfoRepo.save(findShenBaoInfo);
+		logger.info(String.format("更新申报信息,项目名称 %s",shenBaoInfoDto.getProjectName()));
+	}
+	
+	
 	
 	
 

@@ -15,12 +15,62 @@
 			getProjectById:getProjectById,			
 			createShenBaoInfo:createShenBaoInfo,
 			recordsGird:recordsGird,
-			getShenBaoInfoById:getShenBaoInfoById
+			getShenBaoInfoById:getShenBaoInfoById,
+			updateShenBaoInfo:updateShenBaoInfo
 		};		
 		return service;
 		
 		function editShenBao(vm){
 			
+		}
+		
+		/**
+		 * 更新申报信息
+		 */
+		function updateShenBaoInfo(vm){
+			common.initJqValidation();
+			var isValid = $('form').valid();
+			if (isValid) {
+				vm.isSubmit = true;
+
+				var httpOptions = {
+					method : 'put',
+					url : url_shenbao,
+					data : vm.model
+				}
+
+				var httpSuccess = function success(response) {
+
+					common.requestSuccess({
+						vm : vm,
+						response : response,
+						fn : function() {
+							common.alert({
+								vm : vm,
+								msg : "操作成功",
+								fn : function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');
+								}
+							})
+						}
+
+					})
+				}
+
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+
+			} else {
+				 common.alert({
+				 vm:vm,
+				 msg:"您填写的信息不正确,请核对后提交!"
+				 })
+			}
 		}
 		
 		/**
@@ -33,7 +83,6 @@
 				}
 				var httpSuccess = function success(response) {
 					vm.model = response.data.value[0]||{};
-					if(vm.page=='record'){
 						//日期展示
 						vm.model.beginDate=common.toDate(vm.model.beginDate);//开工日期
 						vm.model.endDate=common.toDate(vm.model.endDate);//竣工日期
@@ -66,8 +115,7 @@
 				  			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
 				  			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
 				  			 		+ (parseFloat(vm.model.capitalOther)||0) ;
-				  		 }
-					}				
+				  		 }				
 				}
 				common.http({
 					vm : vm,

@@ -43,8 +43,10 @@ textarea.form-control {
 
 <div class="well-sm" style="background:white;">
     <ol class="breadcrumb">
+    	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
         <li><a href="#/managerCenter">首页</a></li>       
-         <li><a href="#/shenbao">项目申报</a></li>	        
+        <li><a href="#/shenbao">项目申报</a></li>
+        <li ng-show="vm.isRecordEdit"><a href="#/shenbao_records">申报记录</a></li>	        
         <li class="active">{{vm.title}}</li>
     </ol>
     
@@ -90,7 +92,10 @@ textarea.form-control {
           
               <div class="tab_content">
                 <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/confirmInfo.html'"></div>
-                 <div style="text-align: center"><button class="btn btn-sm btn-success" ng-click="vm.submit()" ng-disabled="vm.isSubmit">确认提交  </div>
+                 <div style="text-align: center">
+                 	<button class="btn btn-sm btn-success" ng-hide="vm.isRecordEdit" ng-click="vm.submit()" ng-disabled="vm.isSubmit">确认提交 </button>
+                 	<button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit" ng-click="vm.update()" ng-disabled="vm.isSubmit">确认更新 </button>
+                 </div>
             </div>
     </form>
     

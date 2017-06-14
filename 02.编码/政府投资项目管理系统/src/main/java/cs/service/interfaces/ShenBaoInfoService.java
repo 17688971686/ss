@@ -9,4 +9,6 @@ public interface ShenBaoInfoService {
 	PageModelDto<ShenBaoInfoDto> get(ODataObj odataObj);
 	
 	void createShenBaoInfo(ShenBaoInfoDto shenBaoInfoDto);
+	
+	void updateShenBaoInfo(ShenBaoInfoDto shenBaoInfoDto);
 }

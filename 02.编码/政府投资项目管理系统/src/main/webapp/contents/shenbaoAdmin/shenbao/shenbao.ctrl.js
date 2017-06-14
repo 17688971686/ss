@@ -15,6 +15,7 @@
         vm.model={}; 
         vm.basicData={};  
         vm.page='list';
+        vm.title='申报信息录入';
         $scope.animationsEnabled = true;
         vm.init=function(){
         	if($state.current.name=='shenbao_edit'){
@@ -25,6 +26,9 @@
         	}
         	if($state.current.name=='shenbao_record'){
         		vm.page='record';
+        	}
+        	if($state.current.name=='shenbao_record_edit'){
+        		vm.page='record_edit';
         	}
         }
         
@@ -44,7 +48,14 @@
         		page_records();
         	}
         	if(vm.page=='record'){
-        		//申报详情
+        		//申报信息详情
+        		page_edit();
+        		page_record();
+        	}
+        	if(vm.page=='record_edit'){
+        		//申报信息编辑
+        		vm.isRecordEdit = true;
+        		vm.title = "申报信息编辑";
         		page_edit();
         		page_record();
         	}
@@ -141,9 +152,10 @@
   		 vm.delFile=function(idx){
           	 vm.model.attachmentDtos.splice(idx,1);
   		 }
-  		 
-  		 //获取项目信息
-  		 shenbaoSvc.getProjectById(vm);
+  		 if(vm.page=='edit'){
+  			//获取项目信息
+  	  		 shenbaoSvc.getProjectById(vm); 
+  		 }  		 
   		 //tab切换
   		 vm.tabChange = function(tabId){
      			var activeTab = $("#tab"+tabId);
@@ -161,6 +173,9 @@
        
        function page_record(){
     	   shenbaoSvc.getShenBaoInfoById(vm);
+    	   vm.update = function(){
+    		   shenbaoSvc.updateShenBaoInfo(vm);
+    	   }
        }
    }
 })();

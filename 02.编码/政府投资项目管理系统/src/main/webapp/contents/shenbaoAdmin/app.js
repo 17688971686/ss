@@ -83,31 +83,43 @@
 	        }) 
 	        //end#项目管理
 	        
-	        //begin#项目申报
+ /**********************************************begin#项目申报*********************************/
+	        //单位项目列表页
 	         .state('shenbao', {
 	            url: '/shenbao', 
 	            templateUrl: '/shenbaoAdmin/shenbao/html/list.html',
 	            controller: 'shenbaoCtrl',
 	            controllerAs: 'vm'
-	        })	 
+	        })
+	        //项目申报页
 	         .state('shenbao_edit', {
 	            url: '/shenbao/:id/:stage', 
 	            templateUrl: '/shenbaoAdmin/shenbao/html/edit.html',
 	            controller: 'shenbaoCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //申报记录列表页
 	        .state('shenbao_records', {
 	            url: '/shenbao_records', 
 	            templateUrl: '/shenbaoAdmin/shenbao/html/records.html',
 	            controller: 'shenbaoCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //申报记录详情页
 	        .state('shenbao_record', {
 	            url: '/shenbao_record/:id/:stage', 
 	            templateUrl: '/shenbaoAdmin/shenbao/html/shenBaoInfo.html',
 	            controller: 'shenbaoCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //申报记录编辑页
+	        .state('shenbao_record_edit', {
+	            url: '/shenbao_record_edit/:id/:stage', 
+	            templateUrl: '/shenbaoAdmin/shenbao/html/edit.html',
+	            controller: 'shenbaoCtrl',
+	            controllerAs: 'vm'
+	        })
+/**********************************************end#项目申报*********************************/	        
     }]);
     
 })();

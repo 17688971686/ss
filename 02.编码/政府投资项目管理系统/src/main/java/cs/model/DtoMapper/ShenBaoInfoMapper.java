@@ -140,14 +140,28 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			});
 			//申报单位
 			ShenBaoUnitInfoDto shenBaoUnitInfoDto = shenBaoInfoDto.getShenBaoUnitInfoDto();
-			ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
-			shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
-			shenBaoInfo.setShenBaoUnitInfo(shenBaoUnitInfo);
+			if(shenBaoInfo.getShenBaoUnitInfo() != null){
+				ShenBaoUnitInfo shenBaoUnitInfo = shenBaoInfo.getShenBaoUnitInfo();
+				shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
+				shenBaoInfo.setShenBaoUnitInfo(shenBaoUnitInfo);
+			}else{
+				ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
+				shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
+				shenBaoInfo.setShenBaoUnitInfo(shenBaoUnitInfo);
+			}
+			
 			//编制单位
 			ShenBaoUnitInfoDto bianZhiUnitInfoDto = shenBaoInfoDto.getBianZhiUnitInfoDto();
-			ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
-			shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
-			shenBaoInfo.setBianZhiUnitInfo(bianZhiUnitInfo);
+			if(shenBaoInfo.getBianZhiUnitInfo() != null){
+				ShenBaoUnitInfo bianZhiUnitInfo = shenBaoInfo.getBianZhiUnitInfo();
+				shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
+				shenBaoInfo.setBianZhiUnitInfo(bianZhiUnitInfo);
+			}else{
+				ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
+				shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
+				shenBaoInfo.setBianZhiUnitInfo(bianZhiUnitInfo);
+			}
+			
 		}
 		
 	}
