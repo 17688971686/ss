@@ -120,7 +120,7 @@
 	  	<button class="btn btn-xs btn-success" ng-click="vm.dialog_addPlan()"><span class="glyphicon glyphicon-plus"></span>新增项目计划</button> 
 	  	<button class="btn btn-primary btn-xs" ng-click="vm.grid.saveAsExcel()"><span class="glyphicon glyphicon-download-alt"></span> 导出Excel</button>
 	  </div> 
-         <div class="grid" kendo-grid="grid" k-options="vm.planGridOptions"></div>
+         <div class="grid" kendo-grid="vm.planGrid" k-options="vm.planGridOptions"></div>
     </form>
 </div>
 
