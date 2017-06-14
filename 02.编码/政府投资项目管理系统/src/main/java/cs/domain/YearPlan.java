@@ -25,6 +25,7 @@ public class YearPlan extends BaseEntity{
 	private String remark;
 	
 	//begin#关联信息
+	
 	@OneToMany
 	private List<YearPlanCapital> yearPlanCapitals=new ArrayList<>();
 
@@ -67,5 +68,9 @@ public class YearPlan extends BaseEntity{
 	public void setYearPlanCapitals(List<YearPlanCapital> yearPlanCapitals) {
 		this.yearPlanCapitals = yearPlanCapitals;
 	}
+
+	
+
+	
 	
 }

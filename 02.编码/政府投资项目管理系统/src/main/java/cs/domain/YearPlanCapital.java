@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="cs_yearPlanCapital")
-public class YearPlanCapital {
+public class YearPlanCapital extends BaseEntity {
 	@Id
 	private String id;
 	
@@ -34,4 +34,76 @@ public class YearPlanCapital {
 	
 	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-其它'")
 	private Double capitalOther;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getShenbaoInfoId() {
+		return shenbaoInfoId;
+	}
+
+	public void setShenbaoInfoId(String shenbaoInfoId) {
+		this.shenbaoInfoId = shenbaoInfoId;
+	}
+
+	public Double getCapitalSCZ_ggys() {
+		return capitalSCZ_ggys;
+	}
+
+	public void setCapitalSCZ_ggys(Double capitalSCZ_ggys) {
+		this.capitalSCZ_ggys = capitalSCZ_ggys;
+	}
+
+	public Double getCapitalSCZ_gtzj() {
+		return capitalSCZ_gtzj;
+	}
+
+	public void setCapitalSCZ_gtzj(Double capitalSCZ_gtzj) {
+		this.capitalSCZ_gtzj = capitalSCZ_gtzj;
+	}
+
+	public Double getCapitalSCZ_zxzj() {
+		return capitalSCZ_zxzj;
+	}
+
+	public void setCapitalSCZ_zxzj(Double capitalSCZ_zxzj) {
+		this.capitalSCZ_zxzj = capitalSCZ_zxzj;
+	}
+
+	public Double getCapitalQCZ_ggys() {
+		return capitalQCZ_ggys;
+	}
+
+	public void setCapitalQCZ_ggys(Double capitalQCZ_ggys) {
+		this.capitalQCZ_ggys = capitalQCZ_ggys;
+	}
+
+	public Double getCapitalQCZ_gtzj() {
+		return capitalQCZ_gtzj;
+	}
+
+	public void setCapitalQCZ_gtzj(Double capitalQCZ_gtzj) {
+		this.capitalQCZ_gtzj = capitalQCZ_gtzj;
+	}
+
+	public Double getCapitalSHTZ() {
+		return capitalSHTZ;
+	}
+
+	public void setCapitalSHTZ(Double capitalSHTZ) {
+		this.capitalSHTZ = capitalSHTZ;
+	}
+
+	public Double getCapitalOther() {
+		return capitalOther;
+	}
+
+	public void setCapitalOther(Double capitalOther) {
+		this.capitalOther = capitalOther;
+	}
 }

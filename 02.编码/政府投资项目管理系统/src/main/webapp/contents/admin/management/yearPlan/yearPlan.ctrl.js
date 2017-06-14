@@ -5,9 +5,9 @@
         .module('app')
         .controller('yearPlanCtrl', yearPlan);
 
-    yearPlan.$inject = ['$location','yearPlanSvc','$state','$scope']; 
+    yearPlan.$inject = ['$location','yearPlanSvc','$state','$scope','$sce']; 
 
-    function yearPlan($location, yearPlanSvc,$state,$scope) {
+    function yearPlan($location, yearPlanSvc,$state,$scope,$sce) {
         /* jshint validthis:true */
     	var vm = this;    	
     	vm.model={};
@@ -23,6 +23,10 @@
     		if($state.current.name=='yearPlan_planEdit'&&vm.id){
     			vm.page='plan_update';
     		}
+    		if($state.current.name=='yearPlan_planBZ'){
+    			vm.page='planBZ';
+    		}
+    		
     	}
     	init();    	
     	activate();
@@ -37,6 +41,9 @@
         	}
         	if(vm.page=='plan_create'){
         		init_planCreate();
+        	}
+        	if(vm.page=='planBZ'){
+        		init_planBZ();
         	}
         }
     	
@@ -53,5 +60,19 @@
     			yearPlanSvc.plan_create(vm)
     		};
     	}//init_planBZList 
+    	
+    	function init_planBZ(){    		
+    		vm.dialog_addPlan=function(){
+    			 $('#addPlanList').modal({
+                     backdrop: 'static',
+                     keyboard:false
+                 });
+    			 
+    		}
+    		yearPlanSvc.getPlanById(vm);
+    		yearPlanSvc.grid_yearPlan_shenbaoInfoList(vm)
+    		yearPlanSvc.grid_yearPlan_addShenbaoInfoList(vm)
+    		
+    	}
     }
 })();

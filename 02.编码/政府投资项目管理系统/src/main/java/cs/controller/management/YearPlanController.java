@@ -1,12 +1,14 @@
 package cs.controller.management;
 
 import java.text.ParseException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.model.PageModelDto;
+import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.YearPlanDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.YearPlanService;
@@ -30,6 +33,12 @@ public class YearPlanController {
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<YearPlanDto>  yearPlanDtos= yearPlanService.get(odataObj);		
 		return yearPlanDtos;
+	}
+	@RequestMapping(name = "获取年度计划项目列表数据", path = "{id}/projectList",method=RequestMethod.GET)
+	public @ResponseBody PageModelDto<ShenBaoInfoDto> getShenBaoInfo(HttpServletRequest request,@PathVariable String id) throws ParseException {
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos=new PageModelDto();
+		shenBaoInfoDtos.setValue(yearPlanService.getYearPlanShenBaoInfo(id));
+		return shenBaoInfoDtos;
 	}
 	@RequestMapping(name="添加年度计划",path="",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)

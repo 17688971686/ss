@@ -13,21 +13,21 @@
 		<table class="table table-bordered table-striped ">
 				<tr>
 				<td class="formAlignRight" style="width:150px;">名称：<span class="required">(*)</span></td>
-				<td style="width:350px;" ng-bind="vm.model.name">
+				<td style="width:350px;" ng-bind="vm.model.plan.name">
 					
 				</td>
 				<td class="formAlignRight" style="width:150px;">计划年度：<span class="required">(*)</span></td>
-				<td ng-bind="vm.model.name">
+				<td ng-bind="vm.model.plan.year">
 				
 				</td>
 			</tr>
 			<tr>
 			<td class="formAlignRight">备注：</td>
-			<td colspan="3" ng-bind="vm.model.remark">
+			<td colspan="3" ng-bind="vm.model.plan.remark">
 			</td>
 			</tr>
 		</table>
-		 <div class="bg-info text-info" style="padding: 10px; "><strong>项目计划列表</strong></div>
+		 <div class="bg-info text-info" style="padding: 10px; "><strong>数据汇总</strong></div>
 		 <table class="table table-bordered table-striped ">
 			<tr>
 				<td class="formAlignRight" style="width:150px;">项目总数：</td>
@@ -117,11 +117,35 @@
 			</tr>
 		</table>
 		 <div class="toolbar">
-	  	<a class="btn btn-xs btn-success" href="#"><span class="glyphicon glyphicon-plus"></span>新增计划</a> 
+	  	<button class="btn btn-xs btn-success" ng-click="vm.dialog_addPlan()"><span class="glyphicon glyphicon-plus"></span>新增项目计划</button> 
 	  	<button class="btn btn-primary btn-xs" ng-click="vm.grid.saveAsExcel()"><span class="glyphicon glyphicon-download-alt"></span> 导出Excel</button>
 	  </div> 
-     <form id="form" name="form">          
-         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
-    </form>
+         <div class="grid" kendo-grid="grid" k-options="vm.planGridOptions"></div>
     </form>
 </div>
+
+	<div id="addPlanList" class="myDialog modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog"
+				style="margin: 80px auto; width: 80%; max-width: 800px;">
+				<div class="modal-content">
+					<div class="modal-header bg-primary" style="height:30px;padding:5px;">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<span class="modal-title">添加项目计划</span>
+					</div>
+					<div class="modal-body text-danger">
+						<div class="grid" kendo-grid="grid" k-options="vm.addPlanGridOptions"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" ng-click="vm.dialogConfirmSubmit()"
+							class="btn btn-info btn-sm">确认</button>
+						<button type="button" class="btn btn-info btn-sm" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+		<!-- /.modal -->
