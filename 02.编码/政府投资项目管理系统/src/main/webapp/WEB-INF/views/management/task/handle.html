@@ -136,7 +136,7 @@ textarea.form-control {
 	<tr>
 		<td class="formAlignRight">填写处理意见：</td>
 		<td >
-			<textarea rows="3" class="form-control" id="vm.processModel.processSuggestion" ></textarea>
+			<textarea rows="3" class="form-control" id="vm.model.taskRecord.processSuggestion" ></textarea>
 		</td>
 		
 	</tr>
@@ -151,7 +151,7 @@ textarea.form-control {
 	<tr>
 		<td class="formAlignRight">操作：</td>
 		<td >
-			<button class="btn btn-success btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-ok"></span>签收</button> 
+			<button ng-click="vm.handle(vm.processState_qianShou)" class="btn btn-success btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-ok"></span>签收</button> 
 			<button class="btn btn-danger btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-remove"></span>退文</button>
 		
 		</td>

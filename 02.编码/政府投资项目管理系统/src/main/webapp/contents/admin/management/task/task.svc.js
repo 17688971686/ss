@@ -10,8 +10,53 @@
 		var url_back = "#/task";
 		var service = {
 			grid : grid,
-			getTaskById:getTaskById
+			getTaskById:getTaskById,
+			handle:handle
 		};
+		
+		function handle(vm){
+			common.initJqValidation();
+			var isValid = $('form').valid();
+			if (isValid) {
+				vm.isSubmit = true;
+				var httpOptions = {
+					method : 'put',
+					url : url_task+"/"+vm.taskId,
+					data : vm.model.taskRecord
+				}
+
+				var httpSuccess = function success(response) {
+
+					common.requestSuccess({
+						vm : vm,
+						response : response,
+						fn : function() {
+
+							common.alert({
+								vm : vm,
+								msg : "操作成功",
+								fn : function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');
+									$('.modal-backdrop').remove();
+									location.href = url_back;
+								}
+							})
+						}
+
+					});
+
+				}
+
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+
+			}
+		}//handle
 
 		function getTaskById(vm){
 			var httpOptions = {
@@ -20,7 +65,10 @@
 				}
 				var httpSuccess = function success(response) {
 					vm.model.task = response.data.value[0];
-					vm.model.task.taskTypeDesc=common.getBasicDataDesc(vm.model.task.taskType);
+					if(vm.model.task){
+						vm.model.task.taskTypeDesc=common.getBasicDataDesc(vm.model.task.taskType);
+					}
+					
 				}
 				
 				common.http({

@@ -9,9 +9,15 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cs.common.BasicDataConfig;
+import cs.domain.TaskHead;
+import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.TaskHeadDto;
+import cs.model.DomainDto.TaskRecordDto;
+import cs.model.DtoMapper.IMapper;
 import cs.model.DtoMapper.TaskHeadMapper;
+import cs.model.DtoMapper.TaskRecordMapper;
 import cs.repository.interfaces.TaskHeadRepo;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.TaskHeadService;
@@ -21,9 +27,15 @@ public class TaskHeadServiceImpl implements TaskHeadService {
 	private static Logger logger = Logger.getLogger(TaskHeadServiceImpl.class);
 	
 	@Autowired
-	TaskHeadMapper taskHeadMapper;
+	IMapper<TaskHeadDto, TaskHead> taskHeadMapper;
+	
+	@Autowired
+	IMapper<TaskRecordDto, TaskRecord> taskRecordMapper;
+	
 	@Autowired
 	TaskHeadRepo taskHeadRepo;
+	
+	
 	@Override
 	@Transactional
 	public PageModelDto<TaskHeadDto> get(ODataObj odataObj) {
@@ -54,5 +66,34 @@ public class TaskHeadServiceImpl implements TaskHeadService {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	@Transactional
+	public void handle(String taskId, TaskRecordDto dto) {
+		// TODO Auto-generated method stub
+		TaskHead taskHead=taskHeadRepo.findById(taskId);
+		if(taskHead!=null){
+			TaskRecord entity=new TaskRecord();
+			taskRecordMapper.buildEntity(dto, entity);
+			taskHead.getTaskRecords().add(entity);
+			String processState=dto.getProcessState();
+			
+			//设置完成
+			setComplete(taskHead,processState);
+			taskHeadRepo.save(taskHead);
+		}
+	}
+	private void setComplete(TaskHead taskHead,String processState){
+		if(BasicDataConfig.processState_qianShou.equals(processState)||
+				BasicDataConfig.processState_tuiWen.equals(processState)||
+				BasicDataConfig.processState_banJie.equals(processState)
+				){//签收
+			taskHead.setComplete(true);
+			taskHead.setProcessState(processState);
+			
+		}
+	}
+	
+	
 
 }

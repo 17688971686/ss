@@ -24,7 +24,8 @@
         getBasicDataDesc:getBasicDataDesc,
         toDate:toDate,
         toMoney:toMoney,
-        formatDate:formatDate
+        formatDate:formatDate,
+        basicDataConfig:basicDataConfig
     };
 
     window.common = service;
@@ -350,6 +351,13 @@
     }
     function formatDate(dateStr){    	
     	return kendo.toString(new Date(dateStr),"yyyy/MM/dd HH:mm:ss");
+    }
+    function basicDataConfig(){
+    	return {
+    		processState_qianShou:"processState_2",
+    		processState_banJie:"processState_7",
+    		processState_tuiWen:"processState_11"
+    	};
     }
 
     //init

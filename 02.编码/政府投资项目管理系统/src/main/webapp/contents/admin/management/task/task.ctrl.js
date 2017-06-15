@@ -44,6 +44,8 @@
         	taskSvc.grid(vm);
         }//init_todoList
     	function init_handle(){
+    	   vm.model.taskRecord={};
+    	   vm.processState_qianShou=common.basicDataConfig().processState_qianShou;
     	   taskSvc.getTaskById(vm);    	   
     	   vm.dialog_shenbaoInfo=function(){
     		   $('#shenbaoInfo').modal({
@@ -54,6 +56,13 @@
          	   vm.tabStripOptions={
          			//TODO
          	   };         	   
+    	   }//dialog
+    	   
+    	   //签收
+    	   vm.handle=function(processState){
+    		   console.log(processState)
+    		   vm.model.taskRecord.processState=processState;
+    		   taskSvc.handle(vm);
     	   }
     		
     	}//init_handle
