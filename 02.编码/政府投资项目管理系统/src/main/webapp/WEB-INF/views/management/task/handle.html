@@ -57,7 +57,7 @@ textarea.form-control {
   		<table class="table table-bordered table-striped ">
 	<tr>
 		<td class="formAlignRight" style="width:150px;">办理事项：</td>
-		<td style="width:250px;" ng-bind="vm.model.task.taskTypeDesc">
+		<td style="width:250px;" ng-bind="vm.task.taskTypeDesc">
 			
 		<td class="formAlignRight" style="width:150px;">项目名称：</td>
 		<td ng-bind="vm.model.projectName">
@@ -66,28 +66,25 @@ textarea.form-control {
 	</tr>
 	<tr>
 		<td class="formAlignRight">项目阶段：</td>
-		<td ng-bind="vm.model.projectStage">
+		<td ng-bind="vm.model.projectStageDesc">
 			
 		</td>
 		<td class="formAlignRight">项目类型：</td>
-		<td ng-bind="vm.basicData.projectType">
+		<td ng-bind="vm.model.projectTypeDesc">
 							
 		</td>
 	</tr>
 	
 	<tr>
 		<td class="formAlignRight">项目行业归口：</td>
-		<td ng-bind="vm.basicData.projectIndustry">
+		<td ng-bind="vm.model.projectIndustryDesc">
 			
 		</td>
 		<td class="formAlignRight">项目分类：</td>
-		<td ng-bind="vm.model.projectClassify">
+		<td ng-bind="vm.model.projectClassifyDesc">
 		
 		</td>
 	</tr>
-		
-	
-	
 	<tr>
 		<td class="formAlignRight">项目建设地址：</td>
 		<td colspan="3" ng-bind="vm.model.projectAddress">
@@ -97,12 +94,12 @@ textarea.form-control {
 	
 	<tr>
 		<td class="formAlignRight">项目总投资：</td>
-		<td ng-bind="vm.model.projectInvestSum">
-		
+		<td>
+			<span ng-bind="vm.model.projectInvestSum | number:2"></span>(万元)
 		</td>
 		<td class="formAlignRight">累计完成投资：</td>
-		<td ng-bind="vm.model.projectInvestAccuSum">
-		
+		<td>
+			<span ng-bind="vm.model.projectInvestAccuSum | number:2"></span>(万元)
 		</td>
 	</tr>
 					

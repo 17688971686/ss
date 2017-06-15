@@ -46,7 +46,9 @@
     	function init_handle(){
     	   vm.model.taskRecord={};
     	   vm.processState_qianShou=common.basicDataConfig().processState_qianShou;
-    	   taskSvc.getTaskById(vm);    	   
+    	   taskSvc.getTaskById(vm);
+    	   taskSvc.getShenBaoInfoById(vm);
+    	 
     	   vm.dialog_shenbaoInfo=function(){
     		   $('#shenbaoInfo').modal({
                    backdrop: 'static',
@@ -55,7 +57,8 @@
     		   //初始化tab
          	   vm.tabStripOptions={
          			//TODO
-         	   };         	   
+         	   };
+         	   
     	   }//dialog
     	   
     	   //签收

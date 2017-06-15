@@ -268,7 +268,7 @@
 					},
 					{
 						field : "projectName",
-						title : "项目名称",						
+						title : "项目名称",											
 						filterable : true
 					},
 					{
@@ -333,7 +333,7 @@
 				columns : columns,
 				resizable : true
 			};
-		}//end grid_shenbaoInfoList
+		}//end grid_yearPlan_shenbaoInfoList
 		
 		/**
 		 * 年度计划编制新增项目申报列表
@@ -644,6 +644,9 @@
 					{
 						field : "projectName",
 						title : "项目名称",
+						template:function(item){
+							return common.format('<a href="javascript:void(0)" ng-click="vm.dialog_shenbaoInfo()">{1}</a>',item.id,item.projectName);
+						},
 						filterable : true
 					},
 					{

@@ -7,12 +7,66 @@
 
 	function task($http) {
 		var url_task = "/management/task";
+		var url_shenbao = "/management/shenbao"
 		var url_back = "#/task";
 		var service = {
 			grid : grid,
-			getTaskById:getTaskById,
+			getTaskById:getTaskById,//根据id获取任务信息
+			getShenBaoInfoById:getShenBaoInfoById,//根据id获取申报信息
 			handle:handle
 		};
+		
+		/**
+		 * 根据id获取申报信息
+		 */
+		function getShenBaoInfoById(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_shenbao + "?$filter=id eq '{0}'", vm.relId)				
+				}
+				var httpSuccess = function success(response) {
+					vm.model= response.data.value[0]||{};
+					//日期展示
+					vm.model.beginDate=common.toDate(vm.model.beginDate);//开工日期
+					vm.model.endDate=common.toDate(vm.model.endDate);//竣工日期
+					vm.model.pifuJYS_date=common.toDate(vm.model.pifuJYS_date);//项目建议书批复日期			
+					vm.model.pifuKXXYJBG_date=common.toDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
+					vm.model.pifuCBSJYGS_date=common.toDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期
+					//资金处理
+					vm.model.projectInvestSum=common.toMoney(vm.model.projectInvestSum);//项目总投资
+					vm.model.projectInvestAccuSum=common.toMoney(vm.model.projectInvestAccuSum);//累计完成投资
+					vm.model.capitalSCZ_ggys=common.toMoney(vm.model.capitalSCZ_ggys);//市财政-公共预算
+					vm.model.capitalSCZ_gtzj=common.toMoney(vm.model.capitalSCZ_gtzj);//市财政-国土资金
+					vm.model.capitalSCZ_zxzj=common.toMoney(vm.model.capitalSCZ_zxzj);//市财政-专项资金
+					vm.model.capitalQCZ_ggys=common.toMoney(vm.model.capitalQCZ_ggys);//区财政-公共预算
+					vm.model.capitalQCZ_gtzj=common.toMoney(vm.model.capitalQCZ_gtzj);//区财政-国土资金
+					vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
+					vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
+					//计算资金筹措总计
+					vm.capitalTotal=function(){
+			  			 return (parseFloat(vm.model.capitalSCZ_ggys)||0 )
+			  			 		+ (parseFloat(vm.model.capitalSCZ_gtzj)||0 )
+			  			 		+ (parseFloat(vm.model.capitalSCZ_zxzj)||0 )
+			  			 		+ (parseFloat(vm.model.capitalQCZ_ggys)||0 )
+			  			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
+			  			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
+			  			 		+ (parseFloat(vm.model.capitalOther)||0) ;
+			  		 }
+					if(vm.model.projectShenBaoStage == 'projectShenBaoStage_7'){
+						 vm.materialsType=[['XXJD','项目工程形象进度及年度资金需求情况'],['WCJSNR','年度完成建设内容及各阶段工作内容完成时间表'],
+			   					['TTJH','历年政府投资计划下大文件(*)'],['GCXKZ','建设工程规划许可证'],['TDQK','土地落实情况、征地拆迁有关情况'],
+			   					['XMJZ','项目进展情况相关资料'],['QQGZJH','前期工作计划文件'],['XMSSYJ','项目实施依据文件'],['HYJY','会议纪要']];
+		    			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+					}
+				}
+
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+		}//end getShenBaoInfoById
 		
 		function handle(vm){
 			common.initJqValidation();
@@ -64,9 +118,9 @@
 					url : common.format(url_task + "?$filter=id eq '{0}'", vm.taskId)
 				}
 				var httpSuccess = function success(response) {
-					vm.model.task = response.data.value[0];
-					if(vm.model.task){
-						vm.model.task.taskTypeDesc=common.getBasicDataDesc(vm.model.task.taskType);
+					vm.task = response.data.value[0];
+					if(vm.task){
+						vm.task.taskTypeDesc=common.getBasicDataDesc(vm.task.taskType);
 					}
 					
 				}
