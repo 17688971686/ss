@@ -92,7 +92,20 @@
         	console.log(basicData)
         }
         
-       
+       vm.popOver=function(e){
+    	   vm.isPopOver=true;
+    	   vm.popStyle={
+    			   border:'1px solid blue',
+    			   height:'200px',
+    			   width:'120px',
+    			   position:'absolute',
+    			   background:'white',
+    			   left:e.pageX+'px',
+    			   top:e.pageY+'px'
+    	   };  
+    	   vm.content="内容";
+    	   console.log(e);
+       }
        
         activate();
         function activate() {

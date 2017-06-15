@@ -194,6 +194,20 @@
 	            controllerAs: 'vm'
 	        })
 	        //end#年度计划编制
+	        //begin#工作台
+	         .state('task_todo', {
+	            url: '/task/todo',
+	            templateUrl: '/management/task/html/todo',
+	            controller: 'taskCtrl',
+	            controllerAs: 'vm'
+	        })
+	        .state('task_handle', {
+	            url: '/task/todo/:id',
+	            templateUrl: '/management/task/html/handle',
+	            controller: 'taskCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //end#工作台
     }]);
     
 })();

@@ -200,7 +200,14 @@ orderby desc:   http://localhost/Products?$orderby=Price desc
 		 <option value="{{x.id}}" ng-repeat="x in vm.childList">{{x.description}}</option>
 		</select>
 	</div>
-	
+	<div class="well well-sm ">
+	<button ng-click="vm.popOver($event)">弹出1</button> <button ng-click="vm.popOver($event)" style="margin-left:200px">弹出2</button>
+		
+	</div>
+	<div ng-style="vm.popStyle" ng-show="vm.isPopOver">
+			<span class="glyphicon glyphicon-remove pull-right" ng-click="vm.isPopOver=false"></span>
+			<span ng-bind="vm.content"></span>
+		</div>
 </div>
 
 

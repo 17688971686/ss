@@ -1,0 +1,61 @@
+<style>
+.table-bordered>thead>tr>th, 
+.table-bordered>tbody>tr>th, 
+.table-bordered>tfoot>tr>th, 
+.table-bordered>thead>tr>td, 
+.table-bordered>tbody>tr>td, 
+.table-bordered>tfoot>tr>td {
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+label{font-weight:normal;}
+
+.uploadBox .k-upload-status {
+	display: none;
+}
+
+.uploadBox .k-header {
+	background: transparent;
+	border: 0px;
+}
+
+.uploadBox em {
+	display: none;
+}
+
+.uploadBox .k-dropzone {
+	padding: 0px;
+	margin: 0px;
+}
+.uploadBox .k-upload-files{
+display:none;
+}
+input.input-sm{height:30px; margin:0px; padding:0px;}
+textarea.form-control {
+	margin:0px; padding:0px;
+}
+.tab_content{
+	padding:20px;
+}
+</style>
+
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+   <ol class="breadcrumb">
+		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		  <li><a href="#/">首页</a></li>
+	       <li><a href="#/task/todo">代办列表</a></li>	 
+	      <li class="active">办理</li>
+	  </ol>
+    
+   
+         
+  	<form>
+  		<div ng-include  src="'/contents/admin/management/task/html/yearPlan/master.html'"></div>              
+    </form>
+     <div class="toolbar" style="text-align: center;">
+	    <button class="btn btn-sm btn-success" ng-click="vm.create()" ng-disabled="vm.isSubmit" ng-show="vm.page=='create'"><span class="glyphicon glyphicon-ok"></span>创建项目</button>
+	    <button class="btn btn-sm btn-success" ng-click="vm.update()" ng-disabled="vm.isSubmit" ng-show="vm.page=='update'"><span class="glyphicon glyphicon-ok"></span>更新项目</button>
+    </div>
+</div>

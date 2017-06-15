@@ -458,7 +458,9 @@ public class SysServiceImpl implements SysService {
 		this.createBasicData("processState_10","processState" , "processState", "退回重办", "",false);
 		this.createBasicData("processState_11","processState" , "processState", "退文", "",false);
 
-	
+		this.createBasicData("taskType","" , "taskType", "任务类型", "任务类型",false);		
+		this.createBasicData("taskType_1","taskType" , "taskType", "月报填报", "",false);
+		this.createBasicData("taskType_2","taskType" , "taskType", "下一年度计划", "",false);
 				
 		response.setMessage("基础数据初始化成功");
 		response.setSuccess(true);		

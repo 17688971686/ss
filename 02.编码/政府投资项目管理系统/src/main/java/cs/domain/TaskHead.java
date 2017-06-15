@@ -10,7 +10,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="cs_taskList")
+@Table(name="cs_taskHead")
 public class TaskHead extends BaseEntity {
 	@Id
 	private String id;
