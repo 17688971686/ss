@@ -4,6 +4,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,11 +29,16 @@ public class AccountController {
 		
 		return loginResult;
 	}
-	@RequestMapping(name = "退出", path = "logout", method = RequestMethod.GET)
+	@RequestMapping(name = "退出", path = "logout/{sys}", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
-	public   String logout() {
+	public   String logout(@PathVariable String sys) {
 		userService.logout();
-		return "forward:/";
+		String url="forward:/";
+		
+		if(sys!=null&&sys.equals("sysAdmin")){
+			url="forward:/adminLogin";
+		}
+		return url;
 	}
 	
 	@RequestMapping(name = "修改密码", path = "password", method = RequestMethod.PUT)

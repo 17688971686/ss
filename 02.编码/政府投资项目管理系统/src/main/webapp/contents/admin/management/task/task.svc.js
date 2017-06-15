@@ -6,12 +6,30 @@
 	task.$inject = [ '$http' ];
 
 	function task($http) {
-		var url_task = "/management/task";//获取项目信息数据	
+		var url_task = "/management/task";
 		var url_back = "#/task";
 		var service = {
-			grid : grid
+			grid : grid,
+			getTaskById:getTaskById
 		};
 
+		function getTaskById(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_task + "?$filter=id eq '{0}'", vm.taskId)
+				}
+				var httpSuccess = function success(response) {
+					vm.model.task = response.data.value[0];
+					vm.model.task.taskTypeDesc=common.getBasicDataDesc(vm.model.task.taskType);
+				}
+				
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+		}//getTaskById
 		return service;
 		
 		
@@ -55,7 +73,7 @@
 						title : "标题",						
 						filterable : true,
 						template:function(item){
-							return common.format("<a href='#/task/todo/{1}'>{0}</a>",item.title,item.id);
+							return common.format("<a href='#/task/todo/{1}/{2}'>{0}</a>",item.title,item.id,item.relId);
 						}
 					},
 					 {

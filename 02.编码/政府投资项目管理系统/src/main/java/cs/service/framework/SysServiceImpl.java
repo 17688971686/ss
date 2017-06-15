@@ -446,8 +446,8 @@ public class SysServiceImpl implements SysService {
 		this.createBasicData("projectStage_6","projectStage" , "projectStage", "固定资产登记阶段", "",false);
 		
 		this.createBasicData("processState","" , "processState", "处理状态", "处理状态",false);		
-		this.createBasicData("processState_1","processState" , "processState", "已提交", "",false);
-		this.createBasicData("processState_2","processState" , "processState", "已签收", "",false);
+		this.createBasicData("processState_1","processState" , "processState", "建设单位填报", "",false);
+		this.createBasicData("processState_2","processState" , "processState", "签收", "",false);
 		this.createBasicData("processState_3","processState" , "processState", "部门承办", "",false);
 		this.createBasicData("processState_4","processState" , "processState", "经办人办理", "",false);
 		this.createBasicData("processState_5","processState" , "processState", "科长审核", "",false);

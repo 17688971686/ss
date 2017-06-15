@@ -21,8 +21,10 @@
         gridDataSource: gridDataSource,//gridDataSource
         loginUrl: '/',
         getBasicData:getBasicData,
+        getBasicDataDesc:getBasicDataDesc,
         toDate:toDate,
-        toMoney:toMoney
+        toMoney:toMoney,
+        formatDate:formatDate
     };
 
     window.common = service;
@@ -320,7 +322,17 @@
     	});
     	return window.global_basicData;
     }
-
+    
+    function getBasicDataDesc(id){
+    	var data=$linq(common.getBasicData())
+		.where(function(x){return x.id==id;}).firstOrDefault();    	
+    	if(data){
+    		return data.description;
+    	}else{
+    		return "";
+    	}
+    }
+    
     function toDate(dateStr){
     	if(dateStr){
    			return new Date(dateStr);
@@ -335,6 +347,9 @@
   		 }else{
   			 return 0;
   		 }
+    }
+    function formatDate(dateStr){    	
+    	return kendo.toString(new Date(dateStr),"yyyy/MM/dd HH:mm:ss");
     }
 
     //init

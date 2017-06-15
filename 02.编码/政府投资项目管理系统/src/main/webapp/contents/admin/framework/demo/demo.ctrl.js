@@ -95,7 +95,7 @@
        vm.popOver=function(e){
     	   vm.isPopOver=true;
     	   vm.popStyle={
-    			   border:'1px solid blue',
+    			   border:'1px solid #ccc',
     			   height:'200px',
     			   width:'120px',
     			   position:'absolute',
@@ -103,8 +103,7 @@
     			   left:e.pageX+'px',
     			   top:e.pageY+'px'
     	   };  
-    	   vm.content="内容";
-    	   console.log(e);
+    	   vm.content="内容";    	
        }
        
         activate();

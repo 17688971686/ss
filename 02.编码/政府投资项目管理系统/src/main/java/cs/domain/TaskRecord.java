@@ -21,6 +21,8 @@ public class TaskRecord extends BaseEntity {
 	@Column(columnDefinition="varchar(255) NULL COMMENT '相关ID'")
 	private String relId;
 	
+	
+	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '所属用户名'")
 	private String userName;
 	@Column(columnDefinition="varchar(255) NULL COMMENT '处理状态'")

@@ -202,7 +202,7 @@
 	            controllerAs: 'vm'
 	        })
 	        .state('task_handle', {
-	            url: '/task/todo/:id',
+	            url: '/task/todo/:taskId/:relId',
 	            templateUrl: '/management/task/html/handle',
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'

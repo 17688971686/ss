@@ -12,7 +12,8 @@
     	var vm = this;
     	vm.title = "";
     	vm.model={};
-        vm.id=$state.params.id;        
+        vm.taskId=$state.params.taskId;        
+        vm.relId=$state.params.relId;        
     	vm.page="todoList";
     	function init(){    		
     		if($state.current.name=='task_todo'){
@@ -20,6 +21,12 @@
     		}
     		if($state.current.name=='task_handle'){
     			vm.page='handle'
+    		}
+    		vm.formatDate=function(str){
+    			return common.formatDate(str);
+    		}
+    		vm.getBasicDataDesc=function(str){
+    			return common.getBasicDataDesc(str);
     		}
     	}
     	   	
@@ -37,10 +44,18 @@
         	taskSvc.grid(vm);
         }//init_todoList
     	function init_handle(){
-    		 //初始化tab
-     	   vm.tabStripOptions={
-     			//TODO
-     	   };
+    	   taskSvc.getTaskById(vm);    	   
+    	   vm.dialog_shenbaoInfo=function(){
+    		   $('#shenbaoInfo').modal({
+                   backdrop: 'static',
+                   keyboard:false
+               });
+    		   //初始化tab
+         	   vm.tabStripOptions={
+         			//TODO
+         	   };         	   
+    	   }
+    		
     	}//init_handle
     }
 })();
