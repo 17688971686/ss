@@ -35,6 +35,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setProjectConstrChar(entity.getProjectConstrChar());
 			shenBaoInfoDto.setProjectShenBaoStage(entity.getProjectShenBaoStage());
 			shenBaoInfoDto.setApplyYearInvest(entity.getApplyYearInvest());
+			shenBaoInfoDto.setYearInvestApproval(entity.getYearInvestApproval());
 			shenBaoInfoDto.setBeginDate(entity.getBeginDate());
 			shenBaoInfoDto.setEndDate(entity.getEndDate());
 			shenBaoInfoDto.setUnitName(entity.getUnitName());
@@ -88,6 +89,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			
 			shenBaoInfo.setProjectInvestSum(shenBaoInfoDto.getProjectInvestSum());
 			shenBaoInfo.setApplyYearInvest(shenBaoInfoDto.getApplyYearInvest());
+			shenBaoInfo.setYearInvestApproval(shenBaoInfoDto.getYearInvestApproval());
 			shenBaoInfo.setProjectAddress(shenBaoInfoDto.getProjectAddress());
 			shenBaoInfo.setProjectNumber(shenBaoInfoDto.getProjectNumber());
 			shenBaoInfo.setProjectStage(shenBaoInfoDto.getProjectStage());

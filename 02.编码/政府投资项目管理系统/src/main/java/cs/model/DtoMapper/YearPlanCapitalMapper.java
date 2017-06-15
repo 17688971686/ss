@@ -31,6 +31,7 @@ public class YearPlanCapitalMapper implements IMapper<YearPlanCapitalDto, YearPl
 		yearPlanCapitalDto.setCapitalOther(entity.getCapitalOther());
 		yearPlanCapitalDto.setCreatedDate(entity.getCreatedDate());
 		yearPlanCapitalDto.setId(entity.getId());
+		yearPlanCapitalDto.setCapitalSum(entity.getCapitalSum());
 
 
 		return yearPlanCapitalDto;
@@ -54,7 +55,7 @@ public class YearPlanCapitalMapper implements IMapper<YearPlanCapitalDto, YearPl
 		entity.setCapitalSHTZ(dto.getCapitalSHTZ());
 		entity.setCapitalOther(dto.getCapitalOther());
 		entity.setCreatedDate(dto.getCreatedDate());
-		
+		entity.setCapitalSum(dto.getCapitalSum());
 	}
 
 }

@@ -34,6 +34,17 @@ public class YearPlanCapital extends BaseEntity {
 	
 	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-其它'")
 	private Double capitalOther;
+	
+	@Column(columnDefinition="double(10,2) NULL COMMENT '资金总和'")
+	private Double capitalSum;
+	
+	public Double getCapitalSum() {
+		return capitalSum;
+	}
+
+	public void setCapitalSum(Double capitalSum) {
+		this.capitalSum = capitalSum;
+	}
 
 	public String getId() {
 		return id;
