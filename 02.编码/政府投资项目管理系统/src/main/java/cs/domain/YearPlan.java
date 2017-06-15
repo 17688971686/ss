@@ -3,6 +3,7 @@ package cs.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -26,7 +27,7 @@ public class YearPlan extends BaseEntity{
 	
 	//begin#关联信息
 	
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	private List<YearPlanCapital> yearPlanCapitals=new ArrayList<>();
 
 	public String getId() {

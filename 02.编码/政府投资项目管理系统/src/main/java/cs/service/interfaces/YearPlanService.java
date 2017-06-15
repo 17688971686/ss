@@ -12,4 +12,6 @@ public interface YearPlanService {
 	void create(YearPlanDto dto);
 	void update(YearPlanDto dto);
 	List<ShenBaoInfoDto> getYearPlanShenBaoInfo(String planId);
+	void addYearPlanCapitals(String planId,String[] ids);
+	void addYearPlanCapital(String planId,String shenBaoId);
 }

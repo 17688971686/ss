@@ -1,5 +1,6 @@
 package cs.controller.management;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -40,6 +42,19 @@ public class YearPlanController {
 		shenBaoInfoDtos.setValue(yearPlanService.getYearPlanShenBaoInfo(id));
 		return shenBaoInfoDtos;
 	}
+	
+	@RequestMapping(name="添加年度计划项目编制",path="addCapital",method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void addCapital(@RequestParam String planId,@RequestParam String shenBaoId){		
+		String[] ids=shenBaoId.split(",");
+		if(ids.length>1){
+			yearPlanService.addYearPlanCapitals(planId,ids);
+		}else{
+			yearPlanService.addYearPlanCapital(planId,shenBaoId);
+		}	
+		
+	}
+	
 	@RequestMapping(name="添加年度计划",path="",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void post(@RequestBody YearPlanDto dto){

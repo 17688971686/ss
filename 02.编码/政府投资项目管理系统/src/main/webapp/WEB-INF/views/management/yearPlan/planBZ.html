@@ -1,3 +1,17 @@
+<!-- <style>
+.capitaltable>thead>tr>th, 
+.capitaltable>tbody>tr>th, 
+.capitaltable>tfoot>tr>th, 
+.capitaltable>thead>tr>td, 
+.capitaltable>tbody>tr>td, 
+.capitaltable>tfoot>tr>td {
+   
+    line-height: 1.42857143;
+    /* vertical-align: top; */
+    border-top: 1px solid #ddd;
+
+</style> -->
+
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
 <div class="well well-sm" style="background:white;">
@@ -11,7 +25,7 @@
      <form id="form" name="form">          
         <div class="bg-info text-info" style="padding: 10px; "><strong>基本信息</strong></div>
 		<table class="table table-bordered table-striped ">
-				<tr>
+			<tr>
 				<td class="formAlignRight" style="width:150px;">名称：<span class="required">(*)</span></td>
 				<td style="width:350px;" ng-bind="vm.model.plan.name">
 					
@@ -22,28 +36,27 @@
 				</td>
 			</tr>
 			<tr>
-			<td class="formAlignRight">备注：</td>
-			<td colspan="3" ng-bind="vm.model.plan.remark">
-			</td>
+				<td class="formAlignRight">备注：</td>
+				<td colspan="3" ng-bind="vm.model.plan.remark"></td>				
 			</tr>
 		</table>
 		 <div class="bg-info text-info" style="padding: 10px; "><strong>数据汇总</strong></div>
 		 <table class="table table-bordered table-striped ">
 			<tr>
 				<td class="formAlignRight" style="width:150px;">项目总数：</td>
-				<td style="width:80px;"></td>
+				<td style="width:80px;" ng-bind="vm.model.shenBaoInfoTotal"></td>
 				<td class="formAlignRight" style="width:150px;">前期：</td>
-				<td style="width:80px;"></td>
+				<td style="width:80px;" ng-bind="vm.model.QianQiTotal"></td>
 				<td class="formAlignRight" style="width:150px;">新开工：</td>
-				<td style="width:80px;"></td>
+				<td style="width:80px;" ng-bind="vm.model.NewStratTotal"></td>
 				<td class="formAlignRight" style="width:150px;">继建：</td>
-				<td style="width:80px;" colspan="6"></td>
+				<td style="width:80px;" colspan="6" ng-bind="vm.model.XuJianTotal"></td>
 			</tr>
 			<tr>
 				<td class="formAlignRight">项目总投资：</td>
-				<td style="width:80px;"></td>
-				<td class="formAlignRight" >申请资金金额：</td>
-				<td style="width:80px;" colspan="5"></td>				
+				<td style="width:80px;" ng-bind="vm.model.projectInvestSumTotal"></td>
+				<td class="formAlignRight">申请资金金额：</td>
+				<td style="width:80px;" colspan="5" ng-bind="vm.model.applyYearInvestTotal"></td>				
 			</tr>
 			<tr>
 				<td class="formAlignRight">计划总规模：</td>
@@ -65,9 +78,9 @@
 								<td>专项资金</td>
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalSCZ_ggys" ></td>
-								<td ng-bind="vm.model.capitalSCZ_gtzj"></td>
-								<td ng-bind="vm.model.capitalSCZ_zxzj"></td>
+								<td ng-bind="vm.model.capitalSCZ_ggysTotal" ></td>
+								<td ng-bind="vm.model.capitalSCZ_gtzjTotal"></td>
+								<td ng-bind="vm.model.capitalSCZ_zxzjTotal"></td>
 							</tr>
 						</table>
 					</td>
@@ -79,8 +92,8 @@
 								
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalQCZ_ggys"></td>
-								<td ng-bind="vm.model.capitalQCZ_gtzj"></td>
+								<td ng-bind="vm.model.capitalQCZ_ggysTotal"></td>
+								<td ng-bind="vm.model.capitalQCZ_gtzjTotal"></td>
 							</tr>
 						</table>
 					</td>
@@ -92,7 +105,7 @@
 								
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalSHTZ"></td>
+								<td ng-bind="vm.model.capitalSHTZTotal"></td>
 							</tr>
 						</table>
 					</td>
@@ -104,7 +117,7 @@
 								
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalOther"></td>
+								<td ng-bind="vm.model.capitalOtherTotal"></td>
 							</tr>
 						</table>
 					</td>
@@ -118,8 +131,102 @@
 		</table>
 		 <div class="toolbar">
 	  	<button class="btn btn-xs btn-success" ng-click="vm.dialog_addPlan()"><span class="glyphicon glyphicon-plus"></span>新增项目计划</button> 
-	  	<button class="btn btn-primary btn-xs" ng-click="vm.grid.saveAsExcel()"><span class="glyphicon glyphicon-download-alt"></span> 导出Excel</button>
-	  </div> 
+	  	<button class="btn btn-primary btn-xs" ng-click="vm.planGrid.saveAsExcel()"><span class="glyphicon glyphicon-download-alt"></span> 导出Excel</button>
+	  </div>
+	  	<script type="text/template" id="input">
+			<input style="width:100px" ng-click="vm.popOver($event,'{0}')" value="{1}"/>
+		</script>
+		<div ng-style="vm.popStyle" ng-show="vm.isPopOver" 
+		style="z-index:100;font-size:12px; 
+		border:1px solid #ccc; position:absolute; width:200px;  background:white;">
+			<div class="bg-info" style="padding:3px;text-align:right;">
+				<span class="glyphicon glyphicon-remove" ng-click="vm.isPopOver=false"></span>			
+			</div>
+	
+				<div >
+					<span ng-bind="vm.model.capital.id" style="display:none"></span>
+					<table class="table-bordered table-striped" style="text-align:center;width:100%">
+						<tbody>
+							<tr>
+								<th rowspan="4"   style="text-align:center">市财政</th>
+							</tr>
+							<tr>
+								<td style="width:80px;">公共预算</td>
+								<td>
+									<input type="text" style="width:75px;" ng-model="vm.model.capital.capitalSCZ_ggys"/>
+								</td>
+							</tr>
+							<tr>
+								<td>国土资金</td>
+								<td>
+									<input type="text" style="width:75px;" ng-model="vm.model.capital.capitalSCZ_gtzj"/>
+								</td>
+							</tr>
+							<tr>
+								<td>专项资金</td>
+								<td>
+									<input type="text" style="width:75px;" ng-model="vm.model.capital.capitalSCZ_zxzj"/>
+								</td> 
+							</tr>
+							<tr>
+								<th rowspan="3" style="text-align:center">区财政</th>
+							</tr>
+							<tr>
+								<td>公共预算</td>
+								<td>
+									<input type="text" style="width:75px;" ng-model="vm.model.capital.capitalQCZ_ggys"/>
+								</td>
+							</tr>
+							<tr>
+								<td>国土资金</td>
+								<td>
+									<input type="text" style="width:75px;" ng-model="vm.model.capital.capitalQCZ_gtzj"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="text-align:center">社会投资</th>
+								<td>-</td>
+								<td >
+									<input type="text" style="width:75px;" ng-model="vm.model.capital.capitalSHTZ"/>
+								</td>
+							</tr>
+							
+							<tr>
+								<th style="text-align:center">其他</th>
+								<td>-</td>
+								<td>
+									<input type="text" style="width:75px;" ng-model="vm.model.capital.capitalOther"/>
+								</td>
+							</tr>
+							
+						</tbody>
+					</table>
+					<div style="text-align:right;padding:3px;">
+						<button class="btn btn-success btn-xs" ng-click="vm.updateCapital()">确认</button>
+						<button class="btn btn-info btn-xs" ng-click="vm.isPopOver=false">取消</button>
+					</div>
+					
+					<!-- <span>市财政</span>
+					<div class="form-group"> 
+						<label class="col-sm-6 control-label">公共预算:</label> 					 
+						<input type="text" class="col-sm-6 input-xs"/> 					 
+					</div>
+					<div class="form-group"> 
+						<label class="col-sm-6 control-label">国土资金:</label> 					 
+						<input type="text" class="col-sm-6 input-xs"/> 					 
+					</div>
+					<div class="form-group"> 
+						<label class="col-sm-6 control-label">专项资金:</label> 					 
+						<input type="text" class="col-sm-6 input-xs"/> 					 
+					</div> -->
+				</div>
+				
+				<!-- <div class="form-group"> 
+					<label class="col-sm-6 control-label">公共预算:</label> 					 
+					<input type="text" class="col-sm-6 input-xs"/> 					 
+				</div>  -->
+		
+		</div> 
          <div class="grid" kendo-grid="vm.planGrid" k-options="vm.planGridOptions"></div>
     </form>
 </div>
@@ -149,3 +256,4 @@
 			<!-- /.modal-dialog -->
 		</div>
 		<!-- /.modal -->
+

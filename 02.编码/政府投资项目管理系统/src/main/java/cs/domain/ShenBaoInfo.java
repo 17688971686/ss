@@ -30,11 +30,19 @@ public class ShenBaoInfo extends BaseProject{
 	private Integer planYear;
 	@Column(columnDefinition="double(10,2) NULL COMMENT '申请年度投资'")
 	private Double applyYearInvest;	
+	@Column(columnDefinition="double(10,2) NULL COMMENT '安排年度投资'")
+	private Double yearInvestApproval;	
 	//end#年度计划相关
 	
 	//begin#关联信息
 	@OneToOne(cascade=CascadeType.ALL)
 	private ShenBaoUnitInfo bianZhiUnitInfo=new ShenBaoUnitInfo();
+	public Double getYearInvestApproval() {
+		return yearInvestApproval;
+	}
+	public void setYearInvestApproval(Double yearInvestApproval) {
+		this.yearInvestApproval = yearInvestApproval;
+	}
 	@OneToOne(cascade=CascadeType.ALL)
 	private ShenBaoUnitInfo shenBaoUnitInfo=new ShenBaoUnitInfo();
 	@OneToMany(cascade=CascadeType.ALL)

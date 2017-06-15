@@ -1,7 +1,10 @@
 package cs.service.impl;
 
+import java.time.Year;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.management.Query;
@@ -11,18 +14,23 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cs.common.ICurrentUser;
 import cs.common.SQLConfig;
 import cs.domain.BasicData;
 import cs.domain.ShenBaoInfo;
 import cs.domain.YearPlan;
+import cs.domain.YearPlanCapital;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.YearPlanDto;
 import cs.model.DtoMapper.IMapper;
 import cs.model.DtoMapper.ShenBaoInfoMapper;
 import cs.repository.interfaces.ShenBaoInfoRepo;
+import cs.repository.interfaces.YearPlanCapitalRepo;
 import cs.repository.interfaces.YearPlanRepo;
 import cs.repository.odata.ODataObj;
+import cs.service.common.BasicDataService;
+import cs.service.interfaces.YearPlanCapitalService;
 import cs.service.interfaces.YearPlanService;
 
 @Service
@@ -31,7 +39,13 @@ public class YearPlanServiceImpl implements YearPlanService {
 	@Autowired
 	private YearPlanRepo yearPlanRepo;
 	@Autowired
+	private YearPlanCapitalRepo yearPlanCapitalRepo;
+	@Autowired
 	private ShenBaoInfoRepo shenbaoInfoRepo;
+	@Autowired
+	private ICurrentUser currentUser;
+	@Autowired
+	private BasicDataService basicDataService;
 	
 	@Autowired
 	private IMapper<YearPlanDto, YearPlan> yearPlanMapper;
@@ -60,6 +74,10 @@ public class YearPlanServiceImpl implements YearPlanService {
 	public void create(YearPlanDto dto) {
 		YearPlan entity=new YearPlan();
 		yearPlanMapper.buildEntity(dto, entity);
+		//设置创建人和修改人
+		String loginName = currentUser.getLoginName();
+		entity.setCreatedBy(loginName);
+		entity.setModifiedBy(loginName);
 		yearPlanRepo.save(entity);
 		logger.info(String.format("创建年度计划,名称：%s",dto.getName()));
 	}
@@ -69,7 +87,11 @@ public class YearPlanServiceImpl implements YearPlanService {
 	public void update(YearPlanDto dto) {
 		YearPlan entity=yearPlanRepo.findById(dto.getId());
 		if(entity!=null){
+			entity.getYearPlanCapitals().clear();
 			yearPlanMapper.buildEntity(dto, entity);
+			//设置修改人和修改时间
+			entity.setModifiedBy(currentUser.getLoginName());
+			entity.setModifiedDate(new Date());
 			yearPlanRepo.save(entity);
 			logger.info(String.format("更新年度计划,名称：%s",dto.getName()));
 		}
@@ -89,13 +111,70 @@ public class YearPlanServiceImpl implements YearPlanService {
 					.addEntity(ShenBaoInfo.class)
 					.getResultList();
 			shenBaoInfos.forEach(x->{
-				shenBaoInfoDtos.add(shenbaoInfoMapper.toDto(x));
+				ShenBaoInfoDto shenBaoInfoDto = shenbaoInfoMapper.toDto(x);
+				//获取项目相关类型的名称
+				shenBaoInfoDto.setProjectClassifyDesc(basicDataService.getDescriptionById(x.getProjectClassify()));
+				shenBaoInfoDto.setProjectIndustryDesc(basicDataService.getDescriptionById(x.getProjectIndustry()));
+				shenBaoInfoDto.setProjectTypeDesc(basicDataService.getDescriptionById(x.getProjectType()));
+				shenBaoInfoDto.setProjectStageDesc(basicDataService.getDescriptionById(x.getProjectStage()));
+				shenBaoInfoDto.setProjectConstrCharDesc(basicDataService.getDescriptionById(x.getProjectConstrChar()));
+				shenBaoInfoDto.setProjectShenBaoStageDesc(basicDataService.getDescriptionById(x.getProjectShenBaoStage()));
+				shenBaoInfoDtos.add(shenBaoInfoDto);
 			});
 			
 			return shenBaoInfoDtos;
-		}	
-		
+		}			
 		return null;
 	}
 
+	@Override
+	@Transactional
+	public void addYearPlanCapitals(String planId,String[] ids) {
+		//根据年度计划id查找到年度计划
+		YearPlan yearPlan=yearPlanRepo.findById(planId);
+		//根据申报信息id创建年度计划资金
+		for (String id : ids) {
+			this.addYearPlanCapital(planId,id);
+		}
+		logger.info(String.format("添加年度计划资金,名称：%s",yearPlan.getName()));	
+	}
+
+	@Override
+	@Transactional
+	public void addYearPlanCapital(String planId,String shenBaoId) {
+		Boolean hasShenBaoInfo = false;
+		//根据年度计划id查找到年度计划
+		YearPlan yearPlan=yearPlanRepo.findById(planId);
+		//判断年度计划编制中是否已有该项目申报
+		List<YearPlanCapital> capitals = yearPlan.getYearPlanCapitals();
+		for(YearPlanCapital capital:capitals){
+			if(capital.getShenbaoInfoId().equals(shenBaoId)){
+				hasShenBaoInfo = true;
+			}
+		}
+		if(hasShenBaoInfo){
+			//通过申报信息id获取项目名称
+			String projectName = shenbaoInfoRepo.findById(shenBaoId).getProjectName();
+			throw new IllegalArgumentException(String.format("申报项目：%s 已经存在编制计划中,请重新选择！", projectName));
+		}else{
+			//根据申报信息id创建年度计划资金
+			YearPlanCapital entity = new YearPlanCapital();
+				entity.setId(UUID.randomUUID().toString());
+				//设置关联的申报信息id
+				entity.setShenbaoInfoId(shenBaoId);
+				//设置创建人和修改人
+				String loginName = currentUser.getLoginName();
+				entity.setCreatedBy(loginName);
+				entity.setModifiedBy(loginName);
+			//将新创建的计划资金对象保存到计划中
+			if(yearPlan.getYearPlanCapitals() !=null){
+				yearPlan.getYearPlanCapitals().add(entity);
+			}else{
+				List<YearPlanCapital> yearPlanCapitals = new ArrayList<>();
+				yearPlanCapitals.add(entity);
+			}		
+			yearPlanRepo.save(yearPlan);
+			logger.info(String.format("添加年度计划资金,名称：%s",yearPlan.getName()));	
+		}			
+	}
 }
