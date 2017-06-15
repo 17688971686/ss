@@ -22,6 +22,9 @@
     		if($state.current.name=='task_handle'){
     			vm.page='handle'
     		}
+    		if($state.current.name=='task_history'){
+    			vm.page='history'
+    		}
     		vm.formatDate=function(str){
     			return common.formatDate(str);
     		}
@@ -39,13 +42,16 @@
         	if(vm.page=='handle'){
         		init_handle();
         	}
+        	if(vm.page=='history'){
+        		init_history();
+        	}
         }
         function init_todoList(){
         	taskSvc.grid(vm);
         }//init_todoList
     	function init_handle(){
-    	   vm.model.taskRecord={};
     	   vm.processState_qianShou=common.basicDataConfig().processState_qianShou;
+    	   vm.processState_tuiWen=common.basicDataConfig().processState_tuiWen;
     	   taskSvc.getTaskById(vm);
     	   taskSvc.getShenBaoInfoById(vm);
     	 
@@ -64,10 +70,14 @@
     	   //签收
     	   vm.handle=function(processState){
     		   console.log(processState)
-    		   vm.model.taskRecord.processState=processState;
+    		   vm.taskRecord.processState=processState;
     		   taskSvc.handle(vm);
     	   }
     		
     	}//init_handle
+    	
+    	function init_history(){    		
+    		taskSvc.historyGrid(vm);
+    	}//init_history
     }
 })();

@@ -121,7 +121,7 @@ textarea.form-control {
   		<div class="bg-info text-info" style="padding: 10px;">处理流转信息</div>
   		
 <table class="table table-bordered table-striped ">
-	<tr ng-repeat="x in vm.model.task.taskRecordDtos">
+	<tr ng-repeat="x in vm.task.taskRecordDtos">
 		<td class="formAlignRight"   ng-bind="vm.getBasicDataDesc(x.processState)"></td>
 		<td >
 			<div ng-bind="x.processSuggestion"></div>
@@ -130,15 +130,15 @@ textarea.form-control {
 		</td>
 		
 	</tr>
-	<tr>
+	<tr ng-hide="vm.task.isComplete">
 		<td class="formAlignRight">填写处理意见：</td>
 		<td >
-			<textarea rows="3" class="form-control" ng-model="vm.model.taskRecord.processSuggestion" id="processSuggestion" ></textarea>
+			<textarea rows="3" class="form-control" ng-model="vm.taskRecord.processSuggestion" id="processSuggestion" ></textarea>
 		</td>
 		
 	</tr>
 	
-	<tr>
+	<tr ng-hide="vm.task.isComplete">
 		<td class="formAlignRight">下一办理环节：</td>
 		<td >
 			
@@ -148,8 +148,11 @@ textarea.form-control {
 	<tr>
 		<td class="formAlignRight" style="width:150px;">操作：</td>
 		<td >
+			<div ng-hide="vm.task.isComplete">
 			<button ng-click="vm.handle(vm.processState_qianShou)" class="btn btn-success btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-ok"></span>签收</button> 
-			<button class="btn btn-danger btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-remove"></span>退文</button>
+			<button ng-click="vm.handle(vm.processState_tuiWen)" class="btn btn-danger btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-remove"></span>退文</button>
+			</div>
+			<div ng-show="vm.task.isComplete" class="text-danger">已完结</div>
 		
 		</td>
 		

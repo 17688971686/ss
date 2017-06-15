@@ -134,7 +134,7 @@ public class ODataObj {
 
 					String[] filterItems = filterItem.split(" ");
 					if (filterItems.length == 3) {
-						if (filterItems[2].toLowerCase().contains("datetime")) {// �����datetime
+						if (filterItems[2].toLowerCase().contains("datetime")) {// datetime
 							ODataFilterItem<Date> oDataFilterItem = new ODataFilterItem<Date>();
 
 							oDataFilterItem.setField(filterItems[0]);
@@ -144,7 +144,7 @@ public class ODataObj {
 							oDataFilterItem.setValue(dateFormat.parse(date));
 							filterItemsList.add(oDataFilterItem);
 						} 
-						else if(filterItems[2].toLowerCase().contains("guid")){//�����guid
+						else if(filterItems[2].toLowerCase().contains("guid")){//guid
 							ODataFilterItem<UUID> oDataFilterItem = new ODataFilterItem<UUID>();
 
 							oDataFilterItem.setField(filterItems[0]);
@@ -154,14 +154,22 @@ public class ODataObj {
 							oDataFilterItem.setValue(id);
 							filterItemsList.add(oDataFilterItem);
 						}
-						else if (filterItems[2].contains("'")) {// �����string
+						else if (filterItems[2].contains("'")) {// string
 							ODataFilterItem<String> oDataFilterItem = new ODataFilterItem<String>();
 
 							oDataFilterItem.setField(filterItems[0]);
 							oDataFilterItem.setOperator(filterItems[1]);
 							oDataFilterItem.setValue(filterItems[2].replaceAll("'", ""));
 							filterItemsList.add(oDataFilterItem);
-						} else {// ����Ϊint
+						} else if(filterItems[2].equalsIgnoreCase("false")||filterItems[2].equalsIgnoreCase("true")){//boolean
+							ODataFilterItem<Boolean> oDataFilterItem = new ODataFilterItem<Boolean>();
+
+							oDataFilterItem.setField(filterItems[0]);
+							oDataFilterItem.setOperator(filterItems[1]);
+							oDataFilterItem.setValue(Boolean.parseBoolean(filterItems[2]));
+							filterItemsList.add(oDataFilterItem);
+						}
+						else {// int
 							ODataFilterItem<Integer> oDataFilterItem = new ODataFilterItem<Integer>();
 
 							oDataFilterItem.setField(filterItems[0]);

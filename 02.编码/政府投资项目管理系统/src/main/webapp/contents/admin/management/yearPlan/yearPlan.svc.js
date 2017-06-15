@@ -92,7 +92,11 @@
 					url : common.format(url_shenbaoInfoList + "?$filter=id eq '{0}'", id)
 				}
 				var httpSuccess = function success(response) {
-					vm.model.shenBaoInfo = response.data.value[0]||{};
+					if(vm.page=='shenbaoInfoList'){
+						vm.model = response.data.value[0]||{};	
+						return ;
+					}
+					vm.model.shenBaoInfo = response.data.value[0]||{};					
 					if(vm.model.shenBaoInfo.projectInvestSum){
 						return vm.model.shenBaoInfo.projectInvestSum
 					}else{
@@ -393,12 +397,6 @@
 						filterable : false
 					},
 					{
-						field : "projectClassifyDesc",
-						title : "项目分类",
-						width : 150,
-						filterable : false
-					},
-					{
 						field : "projectInvestSum",
 						title : "总投资",
 						width : 150,
@@ -408,13 +406,6 @@
 						title : "申请年度投资",
 						width : 150,
 						filterable : false
-					},
-					{
-						field : "createdDate",
-						title : "创建日期",
-						width : 180,
-						filterable : false,
-						template:function(item){return kendo.toString(new Date(item.createdDate), "yyyy/MM/dd HH:mm:ss");}
 					}
 
 			];
@@ -645,7 +636,7 @@
 						field : "projectName",
 						title : "项目名称",
 						template:function(item){
-							return common.format('<a href="javascript:void(0)" ng-click="vm.dialog_shenbaoInfo()">{1}</a>',item.id,item.projectName);
+							return common.format('<a href="javascript:void(0)" ng-click="vm.dialog_shenbaoInfo({0})">{1}</a>',"'"+item.id+"'",item.projectName);
 						},
 						filterable : true
 					},

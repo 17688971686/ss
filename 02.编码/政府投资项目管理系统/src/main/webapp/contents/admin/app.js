@@ -207,6 +207,12 @@
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'
 	        })
+	        .state('task_history', {
+	            url: '/task/history',
+	            templateUrl: '/management/task/html/history',
+	            controller: 'taskCtrl',
+	            controllerAs: 'vm'
+	        })
 	        //end#工作台
     }]);
     
