@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cs.common.BasicDataConfig;
+import cs.common.CurrentUser;
+import cs.common.ICurrentUser;
 import cs.domain.TaskHead;
 import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
@@ -34,6 +36,9 @@ public class TaskHeadServiceImpl implements TaskHeadService {
 	
 	@Autowired
 	TaskHeadRepo taskHeadRepo;
+	
+	@Autowired
+	ICurrentUser currentUser;
 	
 	
 	@Override
@@ -74,6 +79,11 @@ public class TaskHeadServiceImpl implements TaskHeadService {
 		TaskHead taskHead=taskHeadRepo.findById(taskId);
 		if(taskHead!=null){
 			TaskRecord entity=new TaskRecord();
+			dto.setUserName(currentUser.getLoginName());
+			dto.setRelId(taskHead.getRelId());
+			dto.setTaskType(entity.getTaskType());
+			dto.setTitle(entity.getTitle());
+			
 			taskRecordMapper.buildEntity(dto, entity);
 			taskHead.getTaskRecords().add(entity);
 			String processState=dto.getProcessState();

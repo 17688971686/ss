@@ -3,11 +3,14 @@ package cs.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name="cs_taskHead")
@@ -33,7 +36,8 @@ public class TaskHead extends BaseEntity {
 	@Column(columnDefinition="bit NULL COMMENT '是否完成'")
 	private boolean isComplete;
 	
-	@OneToMany
+	//begin#关联
+	@OneToMany(cascade=CascadeType.ALL)
 	private List<TaskRecord> taskRecords=new ArrayList<>();
 
 	public String getId() {

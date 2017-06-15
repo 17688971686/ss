@@ -125,7 +125,7 @@ textarea.form-control {
   		
 <table class="table table-bordered table-striped ">
 	<tr ng-repeat="x in vm.model.task.taskRecordDtos">
-		<td class="formAlignRight" style="width:150px;"  ng-bind="vm.getBasicDataDesc(x.processState)"></td>
+		<td class="formAlignRight"   ng-bind="vm.getBasicDataDesc(x.processState)"></td>
 		<td >
 			<div ng-bind="x.processSuggestion"></div>
 			<div class="text-right" ng-bind="x.userName">住房和建设局</div>
@@ -136,7 +136,7 @@ textarea.form-control {
 	<tr>
 		<td class="formAlignRight">填写处理意见：</td>
 		<td >
-			<textarea rows="3" class="form-control" id="vm.model.taskRecord.processSuggestion" ></textarea>
+			<textarea rows="3" class="form-control" ng-model="vm.model.taskRecord.processSuggestion" id="processSuggestion" ></textarea>
 		</td>
 		
 	</tr>
@@ -149,7 +149,7 @@ textarea.form-control {
 		
 	</tr>
 	<tr>
-		<td class="formAlignRight">操作：</td>
+		<td class="formAlignRight" style="width:150px;">操作：</td>
 		<td >
 			<button ng-click="vm.handle(vm.processState_qianShou)" class="btn btn-success btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-ok"></span>签收</button> 
 			<button class="btn btn-danger btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-remove"></span>退文</button>

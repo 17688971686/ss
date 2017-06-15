@@ -3,6 +3,7 @@ package cs.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -10,15 +11,21 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.domain.ShenBaoInfo;
+import cs.domain.TaskHead;
+import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
+import cs.model.DomainDto.TaskHeadDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.ShenBaoInfoRepo;
+import cs.repository.interfaces.TaskHeadRepo;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.interfaces.ShenBaoInfoService;
+import cs.service.interfaces.TaskHeadService;
 
 @Service
 public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
@@ -31,6 +38,8 @@ public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 	private BasicDataService basicDataService;
 	@Autowired
 	private ICurrentUser currentUser;
+	@Autowired
+	TaskHeadRepo taskHeadRepo;
 	
 	@Override
 	@Transactional
@@ -71,7 +80,44 @@ public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 		shenBaoInfo.setCreatedBy(loginName);
 		shenBaoInfo.setModifiedBy(loginName);
 		shenBaoInfoRepo.save(shenBaoInfo);
+		
+		initWorkFlow(shenBaoInfo);
+		
 		logger.info(String.format("创建申报信息,项目名称 %s",shenBaoInfoDto.getProjectName()));		
+	}
+	private String getTaskType(String shenbaoStage){
+		if(shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)){//如果是下一年度计划
+			return BasicDataConfig.taskType_nextYearPlan;
+		}
+		return "";
+	}
+	
+	private void initWorkFlow(ShenBaoInfo shenBaoInfo){
+		//创建工作流
+				TaskHead taskHead=new TaskHead();		
+				taskHead.setUserName("admin");
+				taskHead.setCreatedBy(currentUser.getLoginName());	
+				taskHead.setRelId(shenBaoInfo.getId());
+				taskHead.setTitle(shenBaoInfo.getProjectName());
+				taskHead.setProcessState(BasicDataConfig.processState_tianBao);
+				taskHead.setTaskType(this.getTaskType(shenBaoInfo.getProjectShenBaoStage()));
+				taskHead.setCreatedDate(new Date());
+				taskHead.setId(UUID.randomUUID().toString());
+				
+				//record
+				TaskRecord taskRecord=new TaskRecord();
+				taskRecord.setUserName(currentUser.getLoginName());
+				taskRecord.setCreatedBy(currentUser.getLoginName());	
+				taskRecord.setRelId(shenBaoInfo.getId());
+				taskRecord.setTitle(shenBaoInfo.getProjectName());
+				taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
+				taskRecord.setTaskType(this.getTaskType(shenBaoInfo.getProjectShenBaoStage()));
+				taskRecord.setCreatedDate(new Date());
+				taskRecord.setId(UUID.randomUUID().toString());
+				taskRecord.setProcessSuggestion("材料填报");
+
+				taskHead.getTaskRecords().add(taskRecord);
+				taskHeadRepo.save(taskHead);
 	}
 
 	@Override
@@ -89,6 +135,7 @@ public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 		findShenBaoInfo.setModifiedDate(new Date());
 		//保存数据
 		shenBaoInfoRepo.save(findShenBaoInfo);
+		initWorkFlow(findShenBaoInfo);
 		logger.info(String.format("更新申报信息,项目名称 %s",shenBaoInfoDto.getProjectName()));
 	}
 	
