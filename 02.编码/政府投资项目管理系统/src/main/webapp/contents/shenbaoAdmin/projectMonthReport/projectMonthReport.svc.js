@@ -27,12 +27,14 @@
 				}
 				var httpSuccess = function success(response) {					
 					vm.model.userUnitInfo=response.data;
-					vm.model.monthReport.fillName=vm.model.userUnitInfo.unitContactPerson;
-					vm.model.monthReport.fillMobile=vm.model.userUnitInfo.contactPersonMobile;
-					vm.model.monthReport.monRepManagerName=vm.model.userUnitInfo.unitResPerson;
-					vm.model.monthReport.monRepManagerTel=vm.model.userUnitInfo.resPersonTel;
-					vm.model.monthReport.monRepManagerFax=vm.model.userUnitInfo.resPersonFax;
-					vm.model.monthReport.monRepManagUnitName=vm.model.userUnitInfo.unitName;					
+//					vm.model.monthReport.fillName=vm.model.userUnitInfo.unitContactPerson;
+//					vm.model.monthReport.fillMobile=vm.model.userUnitInfo.contactPersonMobile;
+//					vm.model.monthReport.monRepManagerName=vm.model.userUnitInfo.unitResPerson;
+//					vm.model.monthReport.monRepManagerTel=vm.model.userUnitInfo.resPersonTel;
+//					vm.model.monthReport.monRepManagerFax=vm.model.userUnitInfo.resPersonFax;
+//					vm.model.monthReport.monRepManagUnitName=vm.model.userUnitInfo.unitName;
+					vm.model.monthReport.respUnitManagerName = vm.model.userUnitInfo.unitResPerson;
+					vm.model.monthReport.respUnitManagerTel = vm.model.userUnitInfo.resPersonMobile;
 				}
 				
 				common.http({
@@ -67,12 +69,13 @@
 							vm.isReportExist=true;
 							vm.model.monthReport=report[0];
 						}
-						
+						//关联上项目
+						vm.model.monthReport.projectId=vm.model.projectInfo.id;
+						vm.model.monthReport.projectNumber=vm.model.projectInfo.projectNumber;
 						//项目批复信息的获取
 						vm.model.monthReport.pifuJYS_date=common.toDate(vm.model.projectInfo.pifuJYS_date);
 						vm.model.monthReport.pifuKXXYJBG_date=common.toDate(vm.model.projectInfo.pifuKXXYJBG_date);
-						vm.model.monthReport.pifuCBSJYGS_date=common.toDate(vm.model.projectInfo.pifuCBSJYGS_date);
-						
+						vm.model.monthReport.pifuCBSJYGS_date=common.toDate(vm.model.projectInfo.pifuCBSJYGS_date);						
 						vm.model.monthReport.pifuJYS_wenhao=vm.model.projectInfo.pifuJYS_wenhao;
 						vm.model.monthReport.pifuKXXYJBG_wenhao=vm.model.projectInfo.pifuKXXYJBG_wenhao;
 						vm.model.monthReport.pifuCBSJYGS_wenhao=vm.model.projectInfo.pifuCBSJYGS_wenhao;
@@ -80,7 +83,18 @@
 						vm.model.monthReport.beginDate=common.toDate(vm.model.projectInfo.beginDate);
 						vm.model.monthReport.endDate=common.toDate(vm.model.projectInfo.endDate);
 						//项目总投资的获取
-						vm.model.monthReport.invertPlanTotal=common.toMoney(vm.model.projectInfo.projectInvestSum);				
+						vm.model.monthReport.invertPlanTotal=common.toMoney(vm.model.projectInfo.projectInvestSum);
+						//TODO 至今完成投资、本年度已完成投资计算、本年度批复投资获取？
+						vm.model.monthReport.actuallyFinishiInvestment=common.toMoney(vm.model.monthReport.actuallyFinishiInvestment);
+						vm.model.monthReport.thisYearAccumulatedInvestment=common.toMoney(vm.model.monthReport.thisYearAccumulatedInvestment);
+						//资金处理
+						vm.model.monthReport.thisYearPlanInvestment=common.toMoney(vm.model.monthReport.thisYearPlanInvestment);//本年度计划完成投资
+						vm.model.monthReport.thisYearAccumulatedInvestment=common.toMoney(vm.model.monthReport.thisYearAccumulatedInvestment);//本年度已完成投资
+						vm.model.monthReport.thisMonthInvestTotal=common.toMoney(vm.model.monthReport.thisMonthInvestTotal);//本月完成投资
+						vm.model.monthReport.firstQuarCompInvestment=common.toMoney(vm.model.monthReport.firstQuarCompInvestment)//1到3月份完成投资
+						vm.model.monthReport.secondQuarCompInvestment=common.toMoney(vm.model.monthReport.secondQuarCompInvestment)//1到6月份完成投资
+						vm.model.monthReport.thirdQuarCompInvestment=common.toMoney(vm.model.monthReport.thirdQuarCompInvestment)//1到9月份完成投资
+						vm.model.monthReport.fourthQuarCompInvestment=common.toMoney(vm.model.monthReport.fourthQuarCompInvestment)//1到12月份完成投资
 						//获取用户单位信息
 						getUserUnitInfo(vm);
 					}
