@@ -268,16 +268,49 @@
 					},
 					{
 						field : "projectName",
-						title : "项目名称",											
+						title : "项目名称",
+						template:function(item){
+							return common.format('<a href="#/projectDetails/{0}" >{1}</a>',item.projectId,item.projectName);
+						},
 						filterable : true
 					},
 					{
-						field : "projectConstrChar",
+						field : "projectConstrCharDesc",
 						title : "建设性质",
 						width : 150,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectConstrChar);
 						},
+						filterable : false
+					},					
+					{
+						field : "projectClassifyDesc",
+						title : "项目分类",
+						width : 150,
+						filterable : false
+					},
+					{
+						field : "projectCategoryDesc",
+						title : "项目类别",
+						width : 150,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectCategory);
+						},
+						filterable : false
+					},
+					{
+						field : "projectIndustryDesc",
+						title : "行业领域",
+						width : 150,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectIndustry);
+						},
+						filterable : false	
+					},
+					{
+						field : "projectInvestSum",
+						title : "总投资（万元）",
+						width : 150,
 						filterable : false
 					},
 					{
@@ -287,25 +320,14 @@
 						filterable : false
 					},
 					{
-						field : "projectClassifyDesc",
-						title : "项目分类",
-						width : 150,
-						filterable : false
-					},
-					{
-						field : "projectInvestSum",
-						title : "总投资",
-						width : 150,
-						filterable : false
-					},{
 						field : "applyYearInvest",
-						title : "申请年度投资",
+						title : "申请年度投资（万元）",
 						width : 150,
 						filterable : false
 					},
 					{
 						field : "yearInvestApproval",
-						title : "安排资金",
+						title : "安排资金（万元）",
 						width : 150,
 						template :function(item){					
 							return common.format($('#input').html(),item.id,item.yearInvestApproval||0);
@@ -377,13 +399,17 @@
 					},
 					{
 						field : "projectName",
-						title : "项目名称",						
+						title : "项目名称",
+						width:200,
 						filterable : true
 					},
 					{
 						field : "projectConstrCharDesc",
 						title : "建设性质",
 						width : 150,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectConstrChar);
+						},
 						filterable : false
 					},
 					{
@@ -395,17 +421,20 @@
 					{
 						field : "projectClassifyDesc",
 						title : "项目分类",
+						template:function(item){
+							return common.getBasicDataDesc(item.projectClassify);
+						},
 						width : 150,
 						filterable : false
 					},
 					{
 						field : "projectInvestSum",
-						title : "总投资",
+						title : "总投资（万元）",
 						width : 150,
 						filterable : false
 					},{
 						field : "applyYearInvest",
-						title : "申请年度投资",
+						title : "申请年度投资（万元）",
 						width : 150,
 						filterable : false
 					},
@@ -645,7 +674,7 @@
 						field : "projectName",
 						title : "项目名称",
 						template:function(item){
-							return common.format('<a href="javascript:void(0)" ng-click="vm.dialog_shenbaoInfo()">{1}</a>',item.id,item.projectName);
+							return common.format('<a href="#/projectDetails/{0}" >{1}</a>',item.projectId,item.projectName);
 						},
 						filterable : true
 					},

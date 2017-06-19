@@ -162,7 +162,17 @@
 		        		.where(function(x){return x.id==vm.model.projectIndustry})
 		        		.toArray()[0];
 		        		vm.model.projectIndustryParent=child.pId;
-		        		vm.projectIndustryChange();			        		
+		        		vm.projectIndustryChange();
+		        		//金额处理
+		        		vm.model.projectInvestSum=common.toMoney(vm.model.projectInvestSum);//项目总投资
+						vm.model.projectInvestAccuSum=common.toMoney(vm.model.projectInvestAccuSum);//累计完成投资
+						vm.model.capitalSCZ_ggys=common.toMoney(vm.model.capitalSCZ_ggys);//市财政-公共预算
+						vm.model.capitalSCZ_gtzj=common.toMoney(vm.model.capitalSCZ_gtzj);//市财政-国土资金
+						vm.model.capitalSCZ_zxzj=common.toMoney(vm.model.capitalSCZ_zxzj);//市财政-专项资金
+						vm.model.capitalQCZ_ggys=common.toMoney(vm.model.capitalQCZ_ggys);//区财政-公共预算
+						vm.model.capitalQCZ_gtzj=common.toMoney(vm.model.capitalQCZ_gtzj);//区财政-国土资金
+						vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
+						vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
 					}
 				}
 				common.http({
@@ -222,7 +232,10 @@
 					},
 					{
 						field : "projectName",
-						title : "项目名称",						
+						title : "项目名称",
+						template:function(item){
+							return common.format("<a href='#/projectDetails/{0}'>{1}</a>",item.id,item.projectName);
+						},
 						filterable : true
 					},
 					{

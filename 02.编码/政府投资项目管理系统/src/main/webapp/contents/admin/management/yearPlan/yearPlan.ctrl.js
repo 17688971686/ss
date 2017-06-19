@@ -77,7 +77,7 @@
     		}
     	}//init_planUpadte
     	
-    	function init_planBZ(){    		
+    	function init_planBZ(){
     		vm.dialog_addPlan=function(){
     			 $('#addPlanList').modal({
                      backdrop: 'static',

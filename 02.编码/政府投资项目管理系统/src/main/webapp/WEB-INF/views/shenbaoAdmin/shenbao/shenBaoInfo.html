@@ -82,8 +82,14 @@ overflow: scroll !important;
 			<span id="projectStage" name="projectStage" ng-bind="vm.model.projectStage" style="display:none"></span>
 			<span ng-bind="vm.model.projectStageDesc"></span>			
 		</td>
+		<td class="formAlignRight">项目类别：</td>
+		<td>
+			<span ng-bind="vm.model.projectCategoryDesc"></span>				
+		</td>		
+	</tr>
+	<tr>
 		<td class="formAlignRight">项目类型：</td>
-		<td >
+		<td colspan="3">
 			<span id="projectType" name="projectType" ng-bind="vm.model.projectType" style="display:none"></span>
 			<span ng-bind="vm.model.projectTypeDesc"></span>					
 		</td>
