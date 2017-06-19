@@ -10,6 +10,8 @@ public class ShenBaoInfoDto extends ShenBaoInfo {
 	private String projectStageDesc;
 	//项目类型
 	private String projectTypeDesc;
+	//项目类别
+	private String projectCategoryDesc;
 	//所属行业
 	private String projectIndustryDesc;
 	//项目分类
@@ -18,6 +20,8 @@ public class ShenBaoInfoDto extends ShenBaoInfo {
 	private String projectShenBaoStageDesc;
 	//项目建设性质
 	private String projectConstrCharDesc;
+	//资金其他来源类型
+	private String capitalOtherTypeDesc;
 	
 	private ShenBaoUnitInfoDto bianZhiUnitInfoDto=new ShenBaoUnitInfoDto();
 	private ShenBaoUnitInfoDto shenBaoUnitInfoDto=new ShenBaoUnitInfoDto();
@@ -76,5 +80,19 @@ public class ShenBaoInfoDto extends ShenBaoInfo {
 	public void setProjectClassifyDesc(String projectClassifyDesc) {
 		this.projectClassifyDesc = projectClassifyDesc;
 	}
+	public String getCapitalOtherTypeDesc() {
+		return capitalOtherTypeDesc;
+	}
+	public void setCapitalOtherTypeDesc(String capitalOtherTypeDesc) {
+		this.capitalOtherTypeDesc = capitalOtherTypeDesc;
+	}
+	public String getProjectCategoryDesc() {
+		return projectCategoryDesc;
+	}
+	public void setProjectCategoryDesc(String projectCategoryDesc) {
+		this.projectCategoryDesc = projectCategoryDesc;
+	}
+	
+	
 	
 }

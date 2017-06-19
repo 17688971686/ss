@@ -408,6 +408,15 @@ public class SysServiceImpl implements SysService {
 		this.createBasicData("projectType_9","projectType" , "projectType", "2017年前期项目", "项目类型分类");
 		this.createBasicData("projectType_10","projectType" , "projectType", "其他", "项目类型分类");
 		
+		this.createBasicData("projectCategory","", "projectCategory", "项目类别分类", "项目类别分类");
+		this.createBasicData("projectCategory_1", "projectCategory", "projectCategory", "A类", "项目类别分类");
+		this.createBasicData("projectCategory_2", "projectCategory", "projectCategory", "B类", "项目类别分类");
+		this.createBasicData("projectCategory_3", "projectCategory", "projectCategory", "C类", "项目类别分类");
+		this.createBasicData("projectCategory_4", "projectCategory", "projectCategory", "D类", "项目类别分类");
+		
+		this.createBasicData("capitalOtherType", "", "capitalOtherType", "资金其他来源类型", "资金其他来源类型");
+		this.createBasicData("capitalOtherType_1", "capitalOtherType", "capitalOtherType", "海绵资金", "资金其他来源类型");
+		
 		this.createBasicData("qualifiyLevel","" , "qualifiyLevel", "编制单位资质分类", "编制单位资质分类");
 		this.createBasicData("qualifiyLevel_1","qualifiyLevel" , "qualifiyLevel", "甲级", "编制单位资质分类");
 		this.createBasicData("qualifiyLevel_2","qualifiyLevel" , "qualifiyLevel", "乙级", "编制单位资质分类");

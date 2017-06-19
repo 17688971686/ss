@@ -8,12 +8,14 @@
     border: 1px solid #ddd;
     vertical-align: middle;
 }
+overflow: scroll !important;
 </style>
 
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 
 <div class="well well-sm" style="background:white;">
     <ol class="breadcrumb">
+    	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
         <li><a href="#/">首页</a></li>       
          <li><a href="#/project">项目管理</a></li>	        
         <li class="active">项目详情</li>
@@ -39,12 +41,17 @@
 		<td>
 			<span ng-bind="vm.model.projectStageDesc"></span>	
 		</td>
-		<td class="formAlignRight">项目类型：</td>
+		<td class="formAlignRight">项目类别：</td>
 		<td>
-			<span ng-bind="vm.model.projectTypeDesc"></span>				
+			<span ng-bind="vm.model.projectCategoryDesc"></span>				
 		</td>
 	</tr>
-	
+	<tr>
+		<td class="formAlignRight">项目类型：</td>
+		<td colspan="3">
+			<span ng-bind="vm.model.projectTypeDesc"></span>				
+		</td>
+	</tr>	
 	<tr>
 		<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
 		<td>
@@ -69,7 +76,9 @@
 	
 	<tr>
 		<td class="formAlignRight">项目建设地址：<span class="required">(*)</span></td>
-		<td colspan="3" ng-bind="vm.model.projectAddress"></td>							
+		<td colspan="3">
+			<textarea rows="2" cols="20" class="form-control" style="width: 99%;" ng-bind="vm.model.projectAddress" disabled></textarea>
+		</td>							
 	</tr>
 	
 	<tr>
@@ -134,7 +143,7 @@
 					<td style="padding:0px;border: 0px;">
 						<table class="table table-bordered" style="margin:0px">
 							<tr>
-								<td>-</td>															
+								<td><span ng-bind="vm.model.capitalOtherTypeDesc"></span></td>															
 							</tr>
 							<tr>
 								<td ng-bind="vm.model.capitalOther | number:2"></td>
@@ -146,12 +155,14 @@
 				<table class="table table-bordered ">
 				<tr>
 					<td class="text-center" style="width:100px;" >"其他"的来源途径说明：</td>
-					<td ng-bind="vm.model.capitalOtherDescription"></td>																				
+					<td>
+						<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.capitalOtherDescription" placeholder="注：200字符以内" disabled></textarea>																				
+					</td>
 				</tr>
 				<tr>
 					<td>资金总计：</td>
 					<td >
-						<span id="capitalTotal" ng-bind="vm.capitalTotal() | number:2"></span>
+						<span id="capitalTotal" ng-bind="vm.capitalTotal() | number:2"></span>&nbsp;(万元)
 					</td>								
 				</tr>
 			</table>
@@ -160,16 +171,22 @@
 	
 	<tr>
 		<td class="formAlignRight">项目简介：</td>
-		<td colspan="3" ng-bind="vm.model.projectIntro"></td>	
+		<td colspan="3">
+			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：项目简介（500字符以内）" ng-model="vm.model.projectIntro" disabled></textarea>
+		</td>	
 	</tr>
 	<tr>
 		<td class="formAlignRight">建设规模：</td>
-		<td colspan="3" ng-bind="vm.model.projectGuiMo"></td>
+		<td colspan="3">
+			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（200字符以内）" ng-model="vm.model.projectGuiMo" disabled></textarea>
+		</td>
 	</tr>
 	
 	<tr>
 		<td class="formAlignRight">备注：</td>
-		<td colspan="3" ng-bind="vm.model.remark"></td>																	
+		<td colspan="3">
+			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（200字符以内）" ng-model="vm.model.remark" disabled></textarea>
+		</td>																	
 	</tr>				
 	</div>
 </table>

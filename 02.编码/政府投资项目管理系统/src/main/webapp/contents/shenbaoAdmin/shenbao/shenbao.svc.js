@@ -83,6 +83,7 @@
 				}
 				var httpSuccess = function success(response) {
 					vm.model = response.data.value[0]||{};
+					console.log(vm.model);
 						//日期展示
 						vm.model.beginDate=common.toDate(vm.model.beginDate);//开工日期
 						vm.model.endDate=common.toDate(vm.model.endDate);//竣工日期
@@ -106,6 +107,7 @@
 						vm.model.capitalQCZ_gtzj=common.toMoney(vm.model.capitalQCZ_gtzj);//区财政-国土资金
 						vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
 						vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
+						vm.model.applyYearInvest=common.toMoney(vm.model.applyYearInvest);//申请年度投资
 						//计算资金筹措总计
 						vm.capitalTotal=function(){
 				  			 return (parseFloat(vm.model.capitalSCZ_ggys)||0 )
@@ -130,8 +132,6 @@
 		 * 创建申报信息
 		 */
 		function createShenBaoInfo(vm){
-			console.log("创建申报信息");
-			console.log(vm.model);
 			common.initJqValidation();
 			var isValid = $('form').valid();        
 			if (isValid) {
@@ -229,6 +229,7 @@
 						vm.model.capitalQCZ_gtzj=common.toMoney(vm.model.capitalQCZ_gtzj);//区财政-国土资金
 						vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
 						vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
+						vm.model.applyYearInvest=common.toMoney(vm.model.applyYearInvest);//申请年度投资
 						//计算资金筹措总计
 						vm.capitalTotal=function(){
 				  			 return (parseFloat(vm.model.capitalSCZ_ggys)||0 )

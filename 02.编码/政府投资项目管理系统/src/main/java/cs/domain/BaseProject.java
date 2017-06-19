@@ -22,6 +22,9 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目类型'")
 	private String projectType;
 	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '项目类别'")
+	private String projectCategory;
+	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目所属行业'")
 	private String projectIndustry;
 	
@@ -63,6 +66,9 @@ public class BaseProject extends BaseEntity
 	
 	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-其它'")
 	private Double capitalOther;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '资金筹措方案-其它来源类型'")
+	private String capitalOtherType;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '资金筹措方案-其它-说明'")
 	private String capitalOtherDescription;
@@ -325,5 +331,24 @@ public class BaseProject extends BaseEntity
 	public void setProjectInvestAccuSum(Double projectInvestAccuSum) {
 		this.projectInvestAccuSum = projectInvestAccuSum;
 	}
+
+	public String getCapitalOtherType() {
+		return capitalOtherType;
+	}
+
+	public void setCapitalOtherType(String capitalOtherType) {
+		this.capitalOtherType = capitalOtherType;
+	}
+
+	public String getProjectCategory() {
+		return projectCategory;
+	}
+
+	public void setProjectCategory(String projectCategory) {
+		this.projectCategory = projectCategory;
+	}
+	
+	
+	
 	
 }

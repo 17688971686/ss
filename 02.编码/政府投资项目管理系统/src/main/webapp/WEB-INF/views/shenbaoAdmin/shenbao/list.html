@@ -39,7 +39,7 @@
 					<label class="control-label col-sm-3" for="projectShenBaoStage">项目申报阶段:</label>
 					<select class="form-select" ng-model="vm.projectShenBaoStage">
 						<option value="">---请选择---</option>
-						<option value="projectShenBaoStage_7">下一年度计划</option>
+						<option ng-repeat="x in vm.basicData.projectStage" value="{{x.id}}">{{x.description}}</option>
 					</select>
 				</div>								
 			</div>

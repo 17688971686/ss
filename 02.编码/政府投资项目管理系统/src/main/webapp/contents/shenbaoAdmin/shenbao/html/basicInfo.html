@@ -1,4 +1,3 @@
-
 <div class="bg-info text-info" style="padding: 10px; ">项目所属单位</div>
 <table class="table table-bordered table-striped ">
 	<tr>
@@ -33,14 +32,22 @@
 			</select>
 			<span data-valmsg-for="projectStage" data-valmsg-replace="true" class="required"></span>
 		</td>
+		<td class="formAlignRight">项目类别：</td>
+		<td>
+			<select style="height:30px;" ng-model="vm.model.projectCategory">
+				<option value="">---请选择---</option>
+				<option ng-repeat="x in vm.basicData.projectCategory" ng-selected="vm.model.projectCategory==x.id" value="{{x.id}}">{{x.description}}</option>		
+			</select>					
+		</td>
+	</tr>
+	<tr>
 		<td class="formAlignRight">项目类型：</td>
-		<td >
+		<td colspan="3">
 			<label ng-repeat="x in vm.basicData.projectType" for="projectType{{$index}}">
 				<input type="radio" name="projectType" id="projectType{{$index}}" value="{{x.id}}" ng-model="vm.model.projectType"/>{{x.description}}&nbsp;&nbsp;
 			</label>					
 		</td>
-	</tr>
-	
+	</tr>	
 	<tr>
 		<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
 		<td>
@@ -157,12 +164,15 @@
 					<td style="padding:0px;border: 0px;">
 						<table class="table table-bordered" style="margin:0px">
 							<tr>
-								<td>-</td>
-							
-								
+								<td>
+									<select style="height:30px;" ng-model="vm.model.capitalOtherType">
+										<option value="">---请选择---</option>
+										<option ng-repeat="x in vm.basicData.capitalOther" ng-selected="vm.model.capitalOtherType==x.id" value="{{x.id}}">{{x.description}}</option>
+									</select>
+								</td>
 							</tr>
 							<tr>
-								<td><input type="text" class="form-control input-sm" ng-model="vm.model.capitalOther"  /></td>
+								<td><input type="text" class="form-control input-sm" ng-model="vm.model.capitalOther"/></td>
 							</tr>
 						</table>
 					</td>

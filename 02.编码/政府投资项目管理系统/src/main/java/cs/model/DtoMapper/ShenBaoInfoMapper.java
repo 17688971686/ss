@@ -27,6 +27,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setProjectStage(entity.getProjectStage());
 			shenBaoInfoDto.setProjectAddress(entity.getProjectAddress());
 			shenBaoInfoDto.setProjectType(entity.getProjectType());
+			shenBaoInfoDto.setProjectCategory(entity.getProjectCategory());
 			shenBaoInfoDto.setProjectIndustry(entity.getProjectIndustry());
 			shenBaoInfoDto.setProjectClassify(entity.getProjectClassify());
 			shenBaoInfoDto.setProjectIntro(entity.getProjectIntro());
@@ -34,8 +35,11 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setPlanYear(entity.getPlanYear());
 			shenBaoInfoDto.setProjectConstrChar(entity.getProjectConstrChar());
 			shenBaoInfoDto.setProjectShenBaoStage(entity.getProjectShenBaoStage());
+						
 			shenBaoInfoDto.setApplyYearInvest(entity.getApplyYearInvest());
 			shenBaoInfoDto.setYearInvestApproval(entity.getYearInvestApproval());
+			shenBaoInfoDto.setYearConstructionContent(entity.getYearConstructionContent());
+			
 			shenBaoInfoDto.setBeginDate(entity.getBeginDate());
 			shenBaoInfoDto.setEndDate(entity.getEndDate());
 			shenBaoInfoDto.setUnitName(entity.getUnitName());
@@ -50,6 +54,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setCapitalSCZ_ggys(entity.getCapitalSCZ_ggys());
 			shenBaoInfoDto.setCapitalSHTZ(entity.getCapitalSHTZ());
 			shenBaoInfoDto.setCapitalOther(entity.getCapitalOther());
+			shenBaoInfoDto.setCapitalOtherType(entity.getCapitalOtherType());
 			shenBaoInfoDto.setCapitalOtherDescription(entity.getCapitalOtherDescription());
 			
 			shenBaoInfoDto.setPifuJYS_date(entity.getPifuJYS_date());
@@ -86,7 +91,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			}
 			shenBaoInfo.setProjectName(shenBaoInfoDto.getProjectName());
 			shenBaoInfo.setProjectType(shenBaoInfoDto.getProjectType());
-			
+			shenBaoInfo.setProjectCategory(shenBaoInfoDto.getProjectCategory());
 			shenBaoInfo.setProjectInvestSum(shenBaoInfoDto.getProjectInvestSum());
 			shenBaoInfo.setApplyYearInvest(shenBaoInfoDto.getApplyYearInvest());
 			shenBaoInfo.setYearInvestApproval(shenBaoInfoDto.getYearInvestApproval());
@@ -108,8 +113,9 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setCapitalSCZ_zxzj(shenBaoInfoDto.getCapitalSCZ_zxzj());
 			shenBaoInfo.setCapitalSHTZ(shenBaoInfoDto.getCapitalSHTZ());
 			shenBaoInfo.setCapitalOther(shenBaoInfoDto.getCapitalOther());
+			shenBaoInfo.setCapitalOtherType(shenBaoInfoDto.getCapitalOtherType());
 			shenBaoInfo.setCapitalOtherDescription(shenBaoInfoDto.getCapitalOtherDescription());
-			
+						
 			shenBaoInfo.setBeginDate(shenBaoInfoDto.getBeginDate());
 			shenBaoInfo.setEndDate(shenBaoInfoDto.getEndDate());
 					
@@ -131,6 +137,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setProjectShenBaoStage(shenBaoInfoDto.getProjectShenBaoStage());
 			shenBaoInfo.setProjectInvestAccuSum(shenBaoInfoDto.getProjectInvestAccuSum());
 			shenBaoInfo.setProjectConstrChar(shenBaoInfoDto.getProjectConstrChar());
+			shenBaoInfo.setYearConstructionContent(shenBaoInfoDto.getYearConstructionContent());
 						
 			//begin#关联信息
 			//附件

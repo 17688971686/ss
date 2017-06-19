@@ -46,10 +46,12 @@ public class ProjectServiceImpl implements ProjectService {
 		projectRepo.findByOdata(odataObj).forEach(x->{
 			
 			ProjectDto projectDto=ProjectMapper.toDto(x);
-			projectDto.setProjectStageDesc(basicDataService.getDescriptionById(x.getProjectStage()));
-			projectDto.setProjectTypeDesc(basicDataService.getDescriptionById(x.getProjectType()));
-			projectDto.setProjectIndustryDesc(basicDataService.getDescriptionById(x.getProjectIndustry()));
-			projectDto.setProjectClassifyDesc(basicDataService.getDescriptionById(x.getProjectClassify()));
+			projectDto.setProjectStageDesc(basicDataService.getDescriptionById(x.getProjectStage()));//项目阶段名称
+			projectDto.setProjectTypeDesc(basicDataService.getDescriptionById(x.getProjectType()));//项目类型名称
+			projectDto.setProjectCategoryDesc(basicDataService.getDescriptionById(x.getProjectCategory()));//项目类别名称
+			projectDto.setProjectIndustryDesc(basicDataService.getDescriptionById(x.getProjectIndustry()));//项目行业领域名称
+			projectDto.setProjectClassifyDesc(basicDataService.getDescriptionById(x.getProjectClassify()));//项目分类名称
+			projectDto.setCapitalOtherTypeDesc(basicDataService.getDescriptionById(x.getCapitalOtherType()));//资金其他来源名称
 			//获取月报中项目进度的名称
 			projectDto.getMonthReportDtos().forEach(y->{
 				y.setSelfReviewDesc(basicDataService.getDescriptionById(y.getSelfReview()));
