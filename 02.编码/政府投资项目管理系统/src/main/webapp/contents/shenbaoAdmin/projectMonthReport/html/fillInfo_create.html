@@ -1,317 +1,292 @@
 <form id="form" name="form">
 <div class="bg-info text-info title">项目名称</div>
-	<table class="table  table-bordered table-striped">				
-		<tr>
-			<td width="120px;">项目名称：</td>
-			<td colspan="2"><span ng-bind="vm.model.projectInfo.projectName"></span>
-			</td>
-			<td width="120px;">填报月份：</td>
-			<td width="80px;"><span ng-bind="vm.month"></span> 月 份</td>
-		</tr>
-	</table>				
+<table class="table  table-bordered table-striped">
+	<tr>
+		<td width="120px;">项目名称：</td>
+		<td>
+			<span ng-bind="vm.model.projectInfo.projectName"></span>
+		</td>
+		<td width="120px;">填报月份：</td>
+		<td width="80px;"><span ng-bind="vm.month"></span> 月 份</td>
+	</tr>
+</table>				
 
 <div class="bg-info text-info title">项目联系人信息</div>
-	<table class="table  table-bordered table-striped">
-		<tr>
-			<td>填报人姓名：<span class="required">(*)</span>
-			</td>
-			<td colspan="2">
-				<input class="form-control input-sm " type="text" id="fillName" name="fillName" ng-model="vm.model.monthReport.fillName"
-					style="width: 214px; height: 25px; line-height: 25px;" data-val="true" data-val-required="必填"/>
-				<span data-valmsg-for="fillName" data-valmsg-replace="true" class="required"></span>
-			</td>
-			<td>填报人手机：<span class="required">(*)</span>
-			</td>
-			<td>
-				<input class="form-control input-sm " type="text" id="fillMobile" name="fillMobile" ng-model="vm.model.monthReport.fillMobile"				
-					style="width: 214px; height: 25px; line-height: 25px;" data-val="true" data-val-required="必填"/>
-				<span data-valmsg-for="fillMobile" data-valmsg-replace="true" class="required"></span>
-			</td>
-		</tr>
-		<tr>
-			<td>月报负责人姓名：<span class="required">(*)</span>
-			</td>
-			<td colspan="2">
-				<input class="form-control input-sm " type="text" id="monRepManagerName" name="monRepManagerName" ng-model="vm.model.monthReport.monRepManagerName"				
-					style="width: 214px; height: 25px; line-height: 25px;" data-val="true" data-val-required="必填"/>
-				<span data-valmsg-for="monRepManagerName" data-valmsg-replace="true" class="required"></span>
-			</td>
-			<td>月报负责人手机：<span class="required">(*)</span>
-			</td>
-			<td>
-				<input class="form-control input-sm " type="text" id="monRepManagerTel" name="monRepManagerTel" ng-model="vm.model.monthReport.monRepManagerTel"				
-					style="width: 214px; height: 25px; line-height: 25px;" data-val="true" data-val-required="必填"/>
-				<span data-valmsg-for="monRepManagerTel" data-valmsg-replace="true" class="required"></span>		
-			</td>
-		</tr>
-		<tr ng-hide="vm.SHTZ">
-			<td>月报负责人传真：</td>
-			<td colspan="2"><input class="form-control input-sm " type="text"
-				ng-model="vm.model.monthReport.monRepManagerFax"
-				style="width: 214px; height: 25px; line-height: 25px;"></td>
-			<td>月报责任单位名称：</td>
-			<td><input class="form-control input-sm " type="text"
-				ng-model="vm.model.monthReport.monRepManagUnitName"
-				style="width: 214px; height: 25px; line-height: 25px;"></td>
-		</tr>
-		<tr ng-hide="vm.SHTZ">
-			<td>项目责任单位负责人：</td>
-			<td colspan="2"><input class="form-control input-sm " type="text"
-				ng-model="vm.model.monthReport.respUnitManagerName"
-				style="width: 214px; height: 25px; line-height: 25px;"></td>
-			<td>项目责任单位负责人电话：</td>
-			<td><input class="form-control input-sm " type="text"
-				ng-model="vm.model.monthReport.respUnitManagerTel"
-				style="width: 214px; height: 25px; line-height: 25px;"></td>
-		</tr>
-	</table>
+<table class="table  table-bordered table-striped">
+	<tr>
+		<td width="20%">填报人姓名：<span class="required">(*)</span></td>		
+		<td>
+			<input class="form-control input-sm " type="text" id="fillName" name="fillName" ng-model="vm.model.monthReport.fillName"
+				style="width: 214px; height: 25px; line-height: 25px;" data-val="true" data-val-required="必填"/>
+			<span data-valmsg-for="fillName" data-valmsg-replace="true" class="required"></span>
+		</td>
+		<td width="20%">填报人手机：<span class="required">(*)</span></td>		
+		<td width="30%">
+			<input class="form-control input-sm " type="text" id="fillMobile" name="fillMobile" ng-model="vm.model.monthReport.fillMobile"				
+				style="width: 214px; height: 25px; line-height: 25px;" data-val="true" data-val-required="必填" data-val-number="请填写正确的号码！"/>
+			<span data-valmsg-for="fillMobile" data-valmsg-replace="true" class="required"></span>
+		</td>
+	</tr>
+	<tr>
+		<td>月报负责人姓名：<span class="required">(*)</span></td>		
+		<td>
+			<input class="form-control input-sm " type="text" id="monRepManagerName" name="monRepManagerName" ng-model="vm.model.monthReport.monRepManagerName"				
+				style="width: 214px; height: 25px; line-height: 25px;" data-val="true" data-val-required="必填"/>
+			<span data-valmsg-for="monRepManagerName" data-valmsg-replace="true" class="required"></span>
+		</td>
+		<td>月报负责人手机：<span class="required">(*)</span></td>		
+		<td>
+			<input class="form-control input-sm " type="text" id="monRepManagerTel" name="monRepManagerTel" ng-model="vm.model.monthReport.monRepManagerTel"				
+				style="width: 214px; height: 25px; line-height: 25px;" data-val="true" data-val-required="必填"/>
+			<span data-valmsg-for="monRepManagerTel" data-valmsg-replace="true" class="required"></span>		
+		</td>
+	</tr>
+	<tr ng-hide="vm.SHTZ">
+		<td>月报负责人传真：</td>
+		<td>
+			<input class="form-control input-sm " type="text" ng-model="vm.model.monthReport.monRepManagerFax"			
+			style="width: 214px; height: 25px; line-height: 25px;">
+		</td>
+		<td>月报责任单位名称：</td>
+		<td>
+			<input class="form-control input-sm " type="text" ng-model="vm.model.monthReport.monRepManagUnitName"			
+			style="width: 214px; height: 25px; line-height: 25px;">
+		</td>
+	</tr>
+	<tr>
+		<td>项目责任单位负责人：</td>
+		<td>
+			<span ng-bind="vm.model.monthReport.respUnitManagerName"></span>
+		</td>
+		<td>项目责任单位负责人手机：</td>
+		<td>
+			<span ng-bind="vm.model.monthReport.respUnitManagerTel"></span>
+		</td>
+	</tr>
+</table>
 
 <div class="bg-info text-info title">项目批复信息</div>
-	<table class="table  table-bordered table-striped">
-		<tr>
-			<td>项目建议书批复日期：</td>
-			<td colspan="2">
-			<input   type="text" 
-			 ng-model="vm.model.monthReport.pifuJYS_date"  kendo-date-picker  k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" />
-			</td>
-			<td>项目建议书批文号：</td>
-			<td>			
-				<input 	ng-model="vm.model.monthReport.pifuJYS_wenhao" class="form-control input-sm " type="text" />
-			</td>
-		</tr>
-		<tr ng-hide="vm.SHTZ">
-			<td>可行性研究报告批复日期：</td>
-			<td colspan="2">
-			<input   type="text" 
-			 ng-model="vm.model.monthReport.pifuKXXYJBG_date"  kendo-date-picker  k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" />
-			
-			</td>
-			<td>可行性研究报告批文号：</td>
-			<td>
-			<input 	ng-model="vm.model.monthReport.pifuKXXYJBG_wenhao" class="form-control input-sm " type="text" />
-			</td>
-		</tr>
-		<tr ng-hide="vm.SHTZ">
-			<td>项目总概算批复日期：</td>
-			<td colspan="2">
-			<input   type="text" 
-			 ng-model="vm.model.monthReport.pifuCBSJYGS_date"  kendo-date-picker  k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" />
-			</td>
-			<td>项目总概算批复文号：</td>
-			<td>
-			<input 	ng-model="vm.model.monthReport.pifuCBSJYGS_wenhao" class="form-control input-sm " type="text" />
-			</td>
-		</tr>
-	</table>
+<table class="table  table-bordered table-striped">
+	<tr>
+		<td width="20%">项目建议书批复日期：</td>
+		<td>
+		 	<span ng-bind="vm.model.monthReport.pifuJYS_date | date:'yyyy-MM-dd'"></span>
+		</td>
+		<td width="20%">项目建议书批文号：</td>
+		<td width="30%">			
+			<span ng-bind="vm.model.monthReport.pifuJYS_wenhao"></span>
+		</td>
+	</tr>
+	<tr>
+		<td>可行性研究报告批复日期：</td>
+		<td>
+			<span ng-bind="vm.model.monthReport.pifuKXXYJBG_date | date:'yyyy-MM-dd'"></span>
+		</td>
+		<td>可行性研究报告批文号：</td>
+		<td>
+			<span ng-bind="vm.model.monthReport.pifuKXXYJBG_wenhao"></span>
+		</td>
+	</tr>
+	<tr>
+		<td>项目总概算批复日期：</td>
+		<td>
+			<span ng-bind="vm.model.monthReport.pifuCBSJYGS_date | date:'yyyy-MM-dd'"></span>
+		</td>
+		<td>项目总概算批复文号：</td>
+		<td>
+			<span ng-bind="vm.model.monthReport.pifuCBSJYGS_wenhao"></span>
+		</td>
+	</tr>
+</table>
 	
 <div class="bg-info text-info title">项目进度信息</div>
-	<table class="table  table-bordered table-striped">
-		<tr>
-			<td>开工日期：<span class="required">(*)</span>
-			</td>
-			<td  colspan="2">
-			<input   type="text"   
-			 ng-model="vm.model.monthReport.beginDate"  kendo-date-picker  k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" />
-			 
-			 <input type="text"  ng-model="vm.model.monthReport.beginDate" style="visibility: hidden;width:1px;" 
-			 id="beginDate" name="beginDate" data-val="true" data-val-required="必填" />
-				<span data-valmsg-for="beginDate" data-valmsg-replace="true" class="required"></span>
-			</td>
-			<td>预计竣工日期：
-			</td>
-			<td  colspan="2">
-				<input   type="text"  id="endDate" name="endDate" 
-			 ng-model="vm.model.monthReport.endDate"  kendo-date-picker  k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" />
-				
-			</td>
-		</tr>
-		<tr>
-			<td>项目总投资：<span class="required">(*)</span>
-			</td>
-			<td colspan="2">
-				 <input type="number" id="invertPlanTotal" name="invertPlanTotal" ng-model="vm.model.monthReport.invertPlanTotal"
-				 class="form-control input-sm" style="width: 150px;" data-val="true" data-val-required="必填"/>&nbsp;（万元）
-				 <span data-valmsg-for="invertPlanTotal" data-valmsg-replace="true" class="required"></span>
-			</td>
-
-			<td>至今完成投资：<span class="required">(*)</span></td>
-			<td colspan="2">
-				<input type="number" id="actuallyFinishiInvestment" name="actuallyFinishiInvestment" ng-model="vm.model.monthReport.actuallyFinishiInvestment"				
-				class="form-control input-sm" style="width: 150px;" data-val="true" data-val-required="必填"/>（万元）
-				<span data-valmsg-for="actuallyFinishiInvestment" data-valmsg-replace="true" class="required"></span>
-			</td>
-		</tr>
-		<tr>
-			<td>本年度计划完成投资：<span class="required">(*)</span>
-			</td>
-			<td colspan="2">
-				<input type="number" id="thisYearPlanInvestment" name="thisYearPlanInvestment" ng-model="vm.model.monthReport.thisYearPlanInvestment"
-				 class="form-control input-sm" style="width: 150px;" data-val="true" data-val-required="必填"/>&nbsp;（万元）
-				<span data-valmsg-for="thisYearPlanInvestment" data-valmsg-replace="true" class="required"></span>
-			</td>
-			<td>本年度已完成投资：<span class="required">(*)</span>
-			</td>
-			<td>
-				<input type="number" id="thisYearAccumulatedInvestment" name="thisYearAccumulatedInvestment" ng-model="vm.model.monthReport.thisYearAccumulatedInvestment"
-				 class="form-control input-sm" style="width: 150px;" data-val="true" data-val-required="必填"/>&nbsp;（万元）
-				<span data-valmsg-for="thisYearAccumulatedInvestment" data-valmsg-replace="true" class="required"></span>
-			</td>
-		</tr>		
-		<tr>			
-			<td>本月完成投资：<span class="required">(*)</span>
-			</td>
-			<td colspan="2">
-				<input type="number" id="thisMonthInvestTotal" name="thisMonthInvestTotal" ng-model="vm.model.monthReport.thisMonthInvestTotal"
-				 class="form-control input-sm" style="width: 150px;" data-val="true" data-val-required="必填"/>&nbsp;（万元）
-				<span data-valmsg-for="thisMonthInvestTotal" data-valmsg-replace="true" class="required"></span>
-			</td>
-			<td >是否完成竣工决算</td>
-			<td><span class="radioList_text"> <label><input type="radio"
-					name="isCompletion" ng-model="vm.model.monthReport.isCompletion" value="1">是</label>
-					<label><input type="radio" name="isCompletion"
-					ng-model="vm.model.monthReport.isCompletion" value="0" >否</label>
-			</span></td>
-		</tr>
-		<tr>
-			<td style="line-height: 18px">年度工作目标：<span class="required">(*)</span>
-			</td>
-			<td colspan="4" style="padding: 10px;">
-				<textarea id="workTargets" name="workTargets" ng-model="vm.model.monthReport.workTargets"
-					rows="3" cols="20"
-					mark_maxlength="200"
-					mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
-					data-validation-placeholder="年度工作目标(200字符以内)"
-					placeholder="年度工作目标(200字符以内)"
-					style="height: 120px; width: 640px;" data-val="true" data-val-required="必填"></textarea>
-				<span data-valmsg-for="workTargets" data-valmsg-replace="true" class="required"></span>	
-		</tr>
-		
-		<tr>
-			<td>项目审批进度：</td>
-			<td colspan="4" style="padding: 10px;"> <textarea
-					ng-model="vm.model.monthReport.projectApprovalProgress" rows="3" cols="20"
-					mark_maxlength="200"
-					mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
-					data-validation-placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。"
-					placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。"
-					style="height: 120px; width: 640px; color: rgb(169, 169, 169);"></textarea>
-		</tr>
-		<tr>
-			<td style="line-height: 18px">工程形象进度或<br>项目进度情况：<span
-				class="required">(*)</span>
-
-			</td>
-			<td colspan="4" style="padding: 10px;">
-				<div>					
-					<textarea id="projectImageProgress" name="projectImageProgress" ng-model="vm.model.monthReport.projectImageProgress" 
-						rows="3"
-						cols="20" mark_maxlength="200"
-						mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
-						data-validation-placeholder="工程形象进度或项目进度情况(200字符以内)"
-						placeholder="工程形象进度或项目进度情况(200字符以内)"
-						style="height: 120px; width: 640px; color: rgb(169, 169, 169);" data-val="true" data-val-required="必填"></textarea>
-					<span data-valmsg-for="projectImageProgress" data-valmsg-replace="true" class="required"></span>
-				</div>
-			</td>
-		</tr>
-		
-		<tr>
-			<td rowspan="5">进度安排<span class="required">(*)</span>
-			</td>
-			<td colspan="4">
-				<select id="selfReview" name="selfReview" ng-model="vm.model.monthReport.selfReview"
-					class="form-select" data-val="true" data-val-required="必选">
-						<option value="">---请选择---</option>
-						<option ng-repeat="y in vm.basicData_projectProgress"
-							value="{{y.id}}">{{y.description}}</option>
-				</select>
-				<span data-valmsg-for="selfReview" data-valmsg-replace="true" class="required"></span>
-			</td>
-		
-		</tr>
-		<tr>
-			<td colspan="4">
-				<p>
-					预计1到3月份完成投资（万元）： <input type="number" id="firstQuarCompInvestment"
-						ng-model="vm.model.monthReport.firstQuarCompInvestment" class="form-control input-sm "
-						style="width: 80px; height: 28px">
-				</p>
-				
-			</td>
-		</tr>
-		<tr>
-			<td colspan="4">
-				<p>
-					预计1到6月份完成投资（万元）： <input type="number" id="secondQuarCompInvestment"
-						ng-model="vm.model.monthReport.secondQuarCompInvestment" class="form-control input-sm "
-						style="width: 80px; height: 28px">
-				</p>
-				
-			</td>
-		</tr>
-		<tr>
-			<td colspan="4">
-				<p>
-					预计1到9月份完成投资（万元）： <input type="number" id="thirdQuarCompInvestment"
-						ng-model="vm.model.monthReport.thirdQuarCompInvestment" class="form-control input-sm "
-						style="width: 80px; height: 28px">
-				</p>
-				
-			</td>
-		</tr>
-		<tr>
-			<td colspan="4">
-				<p>
-					预计1到12月份完成投资（万元）： <input type="number" id="fourthQuarCompInvestment"
-						ng-model="vm.model.monthReport.fourthQuarCompInvestment" class="form-control input-sm "
-						style="width: 80px; height: 28px">
-				</p>
-				
-			</td>
-		</tr>
-	</table>
-
-<div class="bg-info text-info title">问题与备注</div>
-	<table class="table  table-bordered table-striped">
-		<tr>
-			<td>项目存在问题：</td>
-			<td colspan="4" style="padding:5px;">
-				<table class="table  table-bordered table-striped" >
-					<tbody>
-						<tr class="bg-info" style="font-weight:bold">
-							<td>序号</td>
-							<td>问题简介</td>
-							<td>解决措施及建议</td>
-							<td><input class="btn btn-success btn-xs" type="button"
-								ng-click="vm.createProblem()" value="添加问题"></td>
-						</tr>
-						<tr ng-repeat="x in vm.model.monthReport.monthReportProblemDtos">
-							<td><span>{{$index+1}}</span></td>
-							<td><textarea style='height: 102px; width: 307px;'
-									placeholder='填写项目所存在的问题。'
-									data-validation-placeholder='填写项目所存在的问题。' cols='20' rows='2' ng-model="vm.model.monthReport.monthReportProblemDtos[$index].problemIntroduction"></textarea>
-							</td>
-							<td><textarea style='height: 102px; width: 307px;'
-									placeholder='填写项目所存在的问题。'
-									data-validation-placeholder='填写项目所存在的问题。' cols='20' rows='2' ng-model="vm.model.monthReport.monthReportProblemDtos[$index].solutionsAndSuggest"></textarea>
-							</td>
-							<td><input class='btn btn-xs btn-danger' type='button'
-								ng-click='vm.deleteProblem($index)' value='删除问题' /></td>
-						</tr>
-					</tbody>
-				</table>
-			</td>
-		</tr>
-		<tr >
-			<td>备注：</td>
-			<td colspan="4"><textarea ng-model="vm.model.monthReport.remark" rows="3"
+<table class="table table-bordered table-striped">
+	<tr>
+		<td width="20%">开工日期：</td>			
+		<td>	
+		 	<span ng-bind="vm.model.monthReport.beginDate | date:'yyyy-MM-dd'"></span>		
+		</td>
+		<td width="20%">预计竣工日期：<span class="required">(*)</span></td>			
+		<td>
+			<input type="text" id="endDate" name="endDate" 
+		 		ng-model="vm.model.monthReport.endDate"  kendo-date-picker  k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" />				
+		</td>
+	</tr>
+	<tr>
+		<td>项目总投资：</td>		
+		<td>
+			 <span ng-bind="vm.model.monthReport.invertPlanTotal | number:2"></span>&nbsp;（万元）
+		</td>
+		<td>至今完成投资：</td>
+		<td>
+			<span ng-bind="vm.model.monthReport.actuallyFinishiInvestment | number:2"></span>&nbsp;（万元）
+		</td>
+	</tr>
+	<tr>
+		<td>本年度批复投资：</td>
+		<td>
+			<span></span>
+		</td>
+		<td>本年度计划完成投资：<span class="required">(*)</span></td>		
+		<td>
+			<input type="number" id="thisYearPlanInvestment" name="thisYearPlanInvestment" ng-model="vm.model.monthReport.thisYearPlanInvestment"
+			 class="form-control input-sm" style="width: 150px;" data-val="true" data-val-required="必填"/>&nbsp;（万元）
+			<span data-valmsg-for="thisYearPlanInvestment" data-valmsg-replace="true" class="required"></span>
+		</td>
+	</tr>
+	<tr>
+		<td>本年度已完成投资：</td>		
+		<td>
+			<span ng-bind="vm.model.monthReport.thisYearAccumulatedInvestment | number:2"></span>&nbsp;（万元）
+		</td>
+		<td>本月完成投资：<span class="required">(*)</span></td>		
+		<td>
+			<input type="number" id="thisMonthInvestTotal" name="thisMonthInvestTotal" ng-model="vm.model.monthReport.thisMonthInvestTotal"
+			 class="form-control input-sm" style="width: 150px;" data-val="true" data-val-required="必填"/>&nbsp;（万元）
+			<span data-valmsg-for="thisMonthInvestTotal" data-valmsg-replace="true" class="required"></span>
+		</td>
+	</tr>		
+	<tr>					
+		<td>是否完成竣工决算</td>
+		<td colspan="3">
+			<span class="radioList_text"> 
+				<label><input type="radio" name="isCompletion" ng-model="vm.model.monthReport.isCompletion" value="1">是</label>									
+				<label><input type="radio" name="isCompletion" ng-model="vm.model.monthReport.isCompletion" value="0" >否</label>				
+			</span>
+		</td>
+	</tr>
+	<tr>
+		<td style="line-height: 18px">年度工作目标：<span class="required">(*)</span></td>		
+		<td colspan="3" style="padding: 10px;">
+			<textarea id="workTargets" name="workTargets" ng-model="vm.model.monthReport.workTargets"
+				rows="3" cols="20"
+				mark_maxlength="200"
+				mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
+				data-validation-placeholder="年度工作目标(200字符以内)"
+				placeholder="年度工作目标(200字符以内)"
+				style="height: 120px; width: 640px;" data-val="true" data-val-required="必填"></textarea>
+			<span data-valmsg-for="workTargets" data-valmsg-replace="true" class="required"></span>
+		</td>		
+	</tr>	
+	<tr>
+		<td>项目审批进度：</td>
+		<td colspan="3" style="padding: 10px;"> <textarea
+				ng-model="vm.model.monthReport.projectApprovalProgress" rows="3" cols="20"
+				mark_maxlength="200"
+				mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
+				data-validation-placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。"
+				placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。"
+				style="height: 120px; width: 640px; color: rgb(169, 169, 169);"></textarea>
+		</td>		
+	</tr>
+	<tr>
+		<td style="line-height: 18px">工程形象进度或<br>项目进度情况：<span
+			class="required">(*)</span>
+		</td>
+		<td colspan="3" style="padding: 10px;">
+			<div>					
+				<textarea id="projectImageProgress" name="projectImageProgress" ng-model="vm.model.monthReport.projectImageProgress" 
+					rows="3"
 					cols="20" mark_maxlength="200"
 					mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
-					data-validation-placeholder="" placeholder=""
-					style="height: 120px; width: 640px; color: rgb(169, 169, 169);"></textarea>
-			</td>
-		</tr>
-	</table>
+					data-validation-placeholder="工程形象进度或项目进度情况(200字符以内)"
+					placeholder="工程形象进度或项目进度情况(200字符以内)"
+					style="height: 120px; width: 640px; color: rgb(169, 169, 169);" data-val="true" data-val-required="必填"></textarea>
+				<span data-valmsg-for="projectImageProgress" data-valmsg-replace="true" class="required"></span>
+			</div>
+		</td>
+	</tr>	
+	<tr>
+		<td rowspan="5">进度安排<span class="required">(*)</span></td>		
+		<td colspan="4">
+			<select id="selfReview" name="selfReview" ng-model="vm.model.monthReport.selfReview"
+				class="form-select" data-val="true" data-val-required="必选">
+					<option value="">---请选择---</option>
+					<option ng-repeat="y in vm.basicData_projectProgress"
+						value="{{y.id}}">{{y.description}}</option>
+			</select>
+			<span data-valmsg-for="selfReview" data-valmsg-replace="true" class="required"></span>
+		</td>	
+	</tr>
+	<tr>
+		<td colspan="3">
+			<p>
+				预计1到3月份完成投资（万元）： <input type="number" id="firstQuarCompInvestment"
+					ng-model="vm.model.monthReport.firstQuarCompInvestment" class="form-control input-sm "
+					style="width: 80px; height: 28px">
+			</p>			
+		</td>
+	</tr>
+	<tr>
+		<td colspan="4">
+			<p>
+				预计1到6月份完成投资（万元）： <input type="number" id="secondQuarCompInvestment"
+					ng-model="vm.model.monthReport.secondQuarCompInvestment" class="form-control input-sm "
+					style="width: 80px; height: 28px">
+			</p>			
+		</td>
+	</tr>
+	<tr>
+		<td colspan="4">
+			<p>
+				预计1到9月份完成投资（万元）： <input type="number" id="thirdQuarCompInvestment"
+					ng-model="vm.model.monthReport.thirdQuarCompInvestment" class="form-control input-sm "
+					style="width: 80px; height: 28px">
+			</p>			
+		</td>
+	</tr>
+	<tr>
+		<td colspan="4">
+			<p>
+				预计1到12月份完成投资（万元）： <input type="number" id="fourthQuarCompInvestment"
+					ng-model="vm.model.monthReport.fourthQuarCompInvestment" class="form-control input-sm "
+					style="width: 80px; height: 28px">
+			</p>			
+		</td>
+	</tr>
+</table>
+
+<div class="bg-info text-info title">问题与备注</div>
+<table class="table  table-bordered table-striped">
+	<tr>
+		<td width="20%">项目存在问题：</td>
+		<td style="padding:5px;">
+			<table class="table  table-bordered table-striped" >
+				<tbody>
+					<tr class="bg-info" style="font-weight:bold">
+						<td>序号</td>
+						<td>问题简介</td>
+						<td>解决措施及建议</td>
+						<td><input class="btn btn-success btn-xs" type="button"
+							ng-click="vm.createProblem()" value="添加问题"></td>
+					</tr>
+					<tr ng-repeat="x in vm.model.monthReport.monthReportProblemDtos">
+						<td><span>{{$index+1}}</span></td>
+						<td><textarea style='height: 102px; width: 307px;'
+								placeholder='填写项目所存在的问题。'
+								data-validation-placeholder='填写项目所存在的问题。' cols='20' rows='2' ng-model="vm.model.monthReport.monthReportProblemDtos[$index].problemIntroduction"></textarea>
+						</td>
+						<td><textarea style='height: 102px; width: 307px;'
+								placeholder='填写项目所存在的问题。'
+								data-validation-placeholder='填写项目所存在的问题。' cols='20' rows='2' ng-model="vm.model.monthReport.monthReportProblemDtos[$index].solutionsAndSuggest"></textarea>
+						</td>
+						<td><input class='btn btn-xs btn-danger' type='button'
+							ng-click='vm.deleteProblem($index)' value='删除问题' /></td>
+					</tr>
+				</tbody>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>备注：</td>
+		<td><textarea ng-model="vm.model.monthReport.remark" rows="3"
+				cols="20" mark_maxlength="200"
+				mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
+				data-validation-placeholder="" placeholder=""
+				style="height: 120px; width: 640px; color: rgb(169, 169, 169);"></textarea>
+		</td>
+	</tr>
+</table>
 
 <div class="bg-info text-info title">文件上传</div>
 	<div style="display: block;">
@@ -360,8 +335,7 @@
 								</tr>
 							</tbody>
 						</table></td>
-				</tr>
-				
+				</tr>				
 			</tbody>
 		</table>
 	</div>

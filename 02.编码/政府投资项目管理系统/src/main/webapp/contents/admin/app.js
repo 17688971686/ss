@@ -140,6 +140,13 @@
 	            controller: 'projectCtrl',
 	            controllerAs: 'vm'
 	        }) 
+	        //详情页
+	        .state('projectDetails', {
+	            url: '/projectDetails/:id',
+	            templateUrl: '/management/project/html/details.html',
+	            controller: 'projectCtrl',
+	            controllerAs: 'vm'
+	        }) 
 	       //end#project
 	        
 	        //begin#单位管理	       

@@ -62,9 +62,14 @@
         }
         
        function page_list(){
+    	   
     	   vm.shenbaoBtn=function(id,name){
            	vm.projectId = id;
            	vm.projectName=name;
+           	//获取申报阶段基础数据用于模态框
+           	vm.basicData.projectStage=$linq(common.getBasicData())
+	   		.where(function(x){return x.identity=='projectShenBaoStage'&&x.pId=='projectShenBaoStage';})
+	   		.toArray();
    	   		//展示模态框
            	 $('#myModal').modal('show'); 
            }
@@ -72,7 +77,6 @@
            vm.confirm = function(){  
            	$(".modal-backdrop").remove(); //去掉模态框背面的阴影
            	location.href = "#/shenbao/"+vm.projectId+"/"+vm.projectShenBaoStage;
-           	location.reload();
            }
     	   shenbaoSvc.grid(vm);
         }//end#page_list
@@ -84,7 +88,7 @@
     	   };
     	   //判断tab显示
     	   var init_tab_show=function(){
-    		   vm.isYearPlan=vm.stage=='projectShenBaoStage_7';
+    		   vm.isYearPlan=vm.stage=='projectShenBaoStage_7';//申报阶段为下一年度计划
     		   if(vm.isYearPlan){
     			   vm.materialsType=[['XXJD','项目工程形象进度及年度资金需求情况'],['WCJSNR','年度完成建设内容及各阶段工作内容完成时间表'],
 	   					['TTJH','历年政府投资计划下大文件(*)'],['GCXKZ','建设工程规划许可证'],['TDQK','土地落实情况、征地拆迁有关情况'],
@@ -120,7 +124,10 @@
 	   		vm.basicData.projectClassify=$linq(common.getBasicData())
 	   		.where(function(x){return x.identity=='projectClassify'&&x.pId=='projectClassify';})
 	   		.toArray();
-	   		
+	   		//项目类别
+	   		vm.basicData.projectCategory=$linq(common.getBasicData())
+	   		.where(function(x){return x.identity=='projectCategory'&&x.pId=='projectCategory';})
+	   		.toArray();
 	   		//项目建设性质
 	   		vm.basicData.projectConstrChar=$linq(common.getBasicData())
 	   		.where(function(x){return x.identity=='projectConstrChar'&&x.pId=='projectConstrChar';})
@@ -134,6 +141,10 @@
 	   		vm.basicData.area_Street=$linq(common.getBasicData())
 	 			.where(function(x){return x.identity=='area'&&x.pId=='area_1';})
 	 			.toArray();
+	   		//资金其他来源类型
+	   		vm.basicData.capitalOther=$linq(common.getBasicData())
+ 			.where(function(x){return x.identity=='capitalOtherType'&&x.pId=='capitalOtherType';})
+ 			.toArray();
     	  
 	   		//文件上传
     	   vm.uploadSuccess=function(e){

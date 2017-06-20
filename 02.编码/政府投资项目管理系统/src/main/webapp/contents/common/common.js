@@ -356,7 +356,8 @@
     	return {
     		processState_qianShou:"processState_2",
     		processState_banJie:"processState_7",
-    		processState_tuiWen:"processState_11"
+    		processState_tuiWen:"processState_11",
+    		projectShenBaoStage_nextYearPlan:"projectShenBaoStage_7"
     	};
     }
 

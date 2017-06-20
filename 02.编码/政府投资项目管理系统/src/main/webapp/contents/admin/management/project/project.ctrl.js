@@ -86,6 +86,10 @@
     		vm.basicData.projectType=$linq(common.getBasicData())
     		.where(function(x){return x.identity=='projectType'&&x.pId=='projectType';})
     		.toArray();
+    		//项目类别
+    		vm.basicData.projectCategory=$linq(common.getBasicData())
+    		.where(function(x){return x.identity=='projectCategory'&&x.pId=='projectCategory';})
+    		.toArray();
     		//行业归口
     		vm.basicData.projectIndustry=$linq(common.getBasicData())
     		.where(function(x){return x.identity=='projectIndustry'&&x.pId=='projectIndustry';})
@@ -103,7 +107,11 @@
     		//项目分类
     		vm.basicData.projectClassify=$linq(common.getBasicData())
     		.where(function(x){return x.identity=='projectClassify'&&x.pId=='projectClassify';})
-    		.toArray(); 
+    		.toArray();
+    		//资金其他来源类型
+	   		vm.basicData.capitalOther=$linq(common.getBasicData())
+ 			.where(function(x){return x.identity=='capitalOtherType'&&x.pId=='capitalOtherType';})
+ 			.toArray();
     		//end#基础数据
     		
     		//批复文件上传

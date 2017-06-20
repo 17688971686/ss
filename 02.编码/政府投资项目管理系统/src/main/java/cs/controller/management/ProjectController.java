@@ -70,4 +70,9 @@ public class ProjectController {
 		return this.ctrlName + "/edit";
 	}
 	
+	@RequestMapping(name = "详情页", path = "html/details")
+	public String details() {
+		return this.ctrlName + "/details";
+	}
+	
 }

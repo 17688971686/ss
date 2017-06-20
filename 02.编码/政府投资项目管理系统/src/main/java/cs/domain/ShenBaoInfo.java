@@ -31,7 +31,9 @@ public class ShenBaoInfo extends BaseProject{
 	@Column(columnDefinition="double(10,2) NULL COMMENT '申请年度投资'")
 	private Double applyYearInvest;	
 	@Column(columnDefinition="double(10,2) NULL COMMENT '安排年度投资'")
-	private Double yearInvestApproval;	
+	private Double yearInvestApproval;
+	@Column(columnDefinition="varchar(500) NULL COMMENT '年度建设内容'")
+	private String yearConstructionContent;
 	//end#年度计划相关
 	
 	//begin#关联信息
@@ -101,4 +103,11 @@ public class ShenBaoInfo extends BaseProject{
 	public void setAttachments(List<Attachment> attachments) {
 		this.attachments = attachments;
 	}
+	public String getYearConstructionContent() {
+		return yearConstructionContent;
+	}
+	public void setYearConstructionContent(String yearConstructionContent) {
+		this.yearConstructionContent = yearConstructionContent;
+	}
+	
 }
