@@ -16,13 +16,36 @@
 			createShenBaoInfo:createShenBaoInfo,
 			recordsGird:recordsGird,
 			getShenBaoInfoById:getShenBaoInfoById,
-			updateShenBaoInfo:updateShenBaoInfo
+			updateShenBaoInfo:updateShenBaoInfo,
+			queryShenBaoInfo:queryShenBaoInfo,
 		};		
 		return service;
-		
-		function editShenBao(vm){
-			
-		}
+
+		/**
+		 * 根据项目id和申报阶段查询申报信息
+		 */
+		function queryShenBaoInfo(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_shenbao + "?$filter=projectId eq '{0}' and projectShenBaoStage eq '{1}'", vm.projectId,vm.projectShenBaoStage),
+				}
+				var httpSuccess = function success(response) {
+				vm.model.shenBaoInfoDto = response.data.value;
+					if(vm.model.shenBaoInfoDto.length>0){
+						vm.isStageExist = true;
+						vm.isConfirm = true;
+					}else{
+						vm.isStageExist = false;
+						vm.isConfirm = false;
+					}
+				}				
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+		}//end#queryShenBaoInfo
 		
 		/**
 		 * 更新申报信息
@@ -71,7 +94,7 @@
 				 msg:"您填写的信息不正确,请核对后提交!"
 				 })
 			}
-		}
+		}//end#updateShenBaoInfo
 		
 		/**
 		 * 根据id获取申报信息
@@ -131,10 +154,7 @@
 		/**
 		 * 创建申报信息
 		 */
-		function createShenBaoInfo(vm){
-			common.initJqValidation();
-			var isValid = $('form').valid();        
-			if (isValid) {
+		function createShenBaoInfo(vm){			        		
 				vm.isSubmit = true;				
 				var httpOptions = {
 					method : 'post',
@@ -143,7 +163,6 @@
 				}
 
 				var httpSuccess = function success(response) {
-
 					common.requestSuccess({
 						vm : vm,
 						response : response,
@@ -162,9 +181,7 @@
 						}
 
 					});
-
-				}
-
+				
 				common.http({
 					vm : vm,
 					$http : $http,

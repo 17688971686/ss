@@ -62,30 +62,46 @@
         }
         
        function page_list(){
-    	   
+    	   shenbaoSvc.grid(vm);
+    	   //点击列表中的申报按钮
     	   vm.shenbaoBtn=function(id,name){
-           	vm.projectId = id;
-           	vm.projectName=name;
-           	//获取申报阶段基础数据用于模态框
-           	vm.basicData.projectStage=$linq(common.getBasicData())
-	   		.where(function(x){return x.identity=='projectShenBaoStage'&&x.pId=='projectShenBaoStage';})
-	   		.toArray();
-   	   		//展示模态框
-           	 $('#myModal').modal('show'); 
+	           	vm.projectId = id;
+	           	vm.projectName=name;
+	           	vm.isConfirm = false;
+	           	//获取申报阶段基础数据用于模态框
+	           	vm.basicData.projectStage=$linq(common.getBasicData())
+		   		.where(function(x){return x.identity=='projectShenBaoStage'&&x.pId=='projectShenBaoStage';})
+		   		.toArray();
+	   	   		//展示模态框
+	           	 $('#myModal').modal('show');
+	           //监听申报阶段进行查询判端此项目此阶段是否已有申报信息
+	             $scope.$watch('vm.projectShenBaoStage',function(newValue,oldValue, scope){
+	             	if(newValue){
+	             		shenbaoSvc.queryShenBaoInfo(vm);
+	             	}
+	             });
            }
-           
-           vm.confirm = function(){  
+    	   //点击模态框的确认按钮
+           vm.confirm = function(){
            	$(".modal-backdrop").remove(); //去掉模态框背面的阴影
            	location.href = "#/shenbao/"+vm.projectId+"/"+vm.projectShenBaoStage;
-           }
-    	   shenbaoSvc.grid(vm);
+           }    	   
         }//end#page_list
        
-       function page_edit(){ 
+       function page_edit(){
+    	   
     	   //初始化tab
     	   vm.tabStripOptions={
-    			//TODO
-    	   };
+    			 select:function(e){
+    				 //验证表单
+    				 common.initJqValidation();
+    				var isValid = $('form').valid();
+    				 if(!isValid){    					 
+						var tab=vm.tabStrip.select();
+	                  	vm.tabStrip.activateTab(tab);							                  	    		           		
+    				 }
+    			 }
+    	   }
     	   //判断tab显示
     	   var init_tab_show=function(){
     		   vm.isYearPlan=vm.stage=='projectShenBaoStage_7';//申报阶段为下一年度计划
@@ -167,10 +183,15 @@
   			//获取项目信息
   	  		 shenbaoSvc.getProjectById(vm); 
   		 }  		 
-  		 //tab切换
+  		 //tab切换(下一步)
   		 vm.tabChange = function(tabId){
-     			var activeTab = $("#tab"+tabId);
-     			$("#tabStrip").kendoTabStrip().data("kendoTabStrip").activateTab(activeTab);
+     			//验证表单
+     			common.initJqValidation();
+    			var isValid = $('form').valid();
+    			var activeTab = $("#tab"+tabId);
+    			if(isValid){//通过则跳转到下一页面
+    				vm.tabStrip.activateTab(activeTab);
+    			}
      		} 
   		 //确认提交
     	vm.submit = function(){

@@ -42,149 +42,133 @@ textarea.form-control {
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 
 <div class="well well-sm" style="background:white;">
-   <ol class="breadcrumb">
-		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
-		  <li><a href="#/">首页</a></li>
-	       <li><a href="#/task/todo">代办列表</a></li>	 
-	      <li class="active">办理</li>
-	  </ol>
-    
-   
-         
-  	<form>
-  		<div class="bg-info text-info" style="padding: 10px;">项目基本信息</div>
-  		
-  		<table class="table table-bordered table-striped ">
-	<tr>
-		<td class="formAlignRight" style="width:150px;">办理事项：</td>
-		<td style="width:250px;" ng-bind="vm.task.taskTypeDesc">
-			
-		<td class="formAlignRight" style="width:150px;">项目名称：</td>
-		<td ng-bind="vm.model.projectName">
-		
-		</td>
-	</tr>
-	<tr>
-		<td class="formAlignRight">项目阶段：</td>
-		<td ng-bind="vm.model.projectStageDesc">
-			
-		</td>
-		<td class="formAlignRight">项目类型：</td>
-		<td ng-bind="vm.model.projectTypeDesc">
-							
-		</td>
-	</tr>
-	
-	<tr>
-		<td class="formAlignRight">项目行业归口：</td>
-		<td ng-bind="vm.model.projectIndustryDesc">
-			
-		</td>
-		<td class="formAlignRight">项目分类：</td>
-		<td ng-bind="vm.model.projectClassifyDesc">
-		
-		</td>
-	</tr>
-	<tr>
-		<td class="formAlignRight">项目建设地址：</td>
-		<td colspan="3" ng-bind="vm.model.projectAddress">
-			
-		</td>		
-	</tr>
-	
-	<tr>
-		<td class="formAlignRight">项目总投资：</td>
-		<td>
-			<span ng-bind="vm.model.projectInvestSum | number:2"></span>(万元)
-		</td>
-		<td class="formAlignRight">累计完成投资：</td>
-		<td>
-			<span ng-bind="vm.model.projectInvestAccuSum | number:2"></span>(万元)
-		</td>
-	</tr>
+	<ol class="breadcrumb">
+		<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		<li><a href="#/">首页</a></li>
+		<li><a href="#/task/todo">代办列表</a></li>	 
+		<li class="active">办理</li>
+	</ol>                
+ 	<form id="form" name="form">
+ 		<div class="bg-info text-info" style="padding: 10px;">项目基本信息</div>  		
+ 		<table class="table table-bordered table-striped ">
+			<tr>
+				<td class="formAlignRight" style="width:150px;">办理事项：</td>
+				<td style="width:250px;" ng-bind="vm.task.taskTypeDesc">
 					
-	
-	<tr>
-		<td class="formAlignRight">项目简介：</td>
-		<td colspan="3" ng-bind="vm.model.projectIntro" >
-		</td>
-	</tr>
-		<tr>
-		<td class="formAlignRight">详细信息：</td>
-		<td colspan="3" >
-			<button class="btn btn-success btn-xs" ng-click="vm.dialog_shenbaoInfo()" >查看详细信息</button>
-		</td>
-	</tr>	
-	
-</table>
-  		
-  		<div class="bg-info text-info" style="padding: 10px;">处理流转信息</div>
-  		
-<table class="table table-bordered table-striped ">
-	<tr ng-repeat="x in vm.model.task.taskRecordDtos">
-		<td class="formAlignRight" style="width:150px;"  ng-bind="vm.getBasicDataDesc(x.processState)"></td>
-		<td >
-			<div ng-bind="x.processSuggestion"></div>
-			<div class="text-right" ng-bind="x.userName">住房和建设局</div>
-			<div class="text-right" ng-bind="vm.formatDate(x.createdDate)">2017-06-16</div>
-		</td>
-		
-	</tr>
-	<tr>
-		<td class="formAlignRight">填写处理意见：</td>
-		<td >
-			<textarea rows="3" class="form-control" id="vm.model.taskRecord.processSuggestion" ></textarea>
-		</td>
-		
-	</tr>
-	
-	<tr>
-		<td class="formAlignRight">下一办理环节：</td>
-		<td >
+				<td class="formAlignRight" style="width:150px;">项目名称：</td>
+				<td ng-bind="vm.model.shenBaoInfo.projectName">
+				
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">项目阶段：</td>
+				<td ng-bind="vm.model.shenBaoInfo.projectStageDesc">
+					
+				</td>
+				<td class="formAlignRight">项目类型：</td>
+				<td ng-bind="vm.model.shenBaoInfo.projectTypeDesc">
+									
+				</td>
+			</tr>	
+			<tr>
+				<td class="formAlignRight">项目行业归口：</td>
+				<td ng-bind="vm.model.shenBaoInfo.projectIndustryDesc">
+					
+				</td>
+				<td class="formAlignRight">项目分类：</td>
+				<td ng-bind="vm.model.shenBaoInfo.projectClassifyDesc">
+				
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">项目建设地址：</td>
+				<td colspan="3" ng-bind="vm.model.shenBaoInfo.projectAddress">
+					
+				</td>		
+			</tr>	
+			<tr>
+				<td class="formAlignRight">项目总投资：</td>
+				<td>
+					<span ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:2"></span>(万元)
+				</td>
+				<td class="formAlignRight">累计完成投资：</td>
+				<td>
+					<span ng-bind="vm.model.shenBaoInfo.projectInvestAccuSum | number:2"></span>(万元)
+				</td>
+			</tr>	
+			<tr>
+				<td class="formAlignRight">项目简介：</td>
+				<td colspan="3" ng-bind="vm.model.shenBaoInfo.projectIntro" >
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">详细信息：</td>
+				<td colspan="3" >
+					<button class="btn btn-success btn-xs" ng-click="vm.dialog_shenbaoInfo()" >查看详细信息</button>
+				</td>
+			</tr>		
+	</table>
+	  		
+  		<div class="bg-info text-info" style="padding: 10px;">处理流转信息</div>  		
+		<table class="table table-bordered table-striped ">
+			<tr ng-repeat="x in vm.model.task.taskRecordDtos">
+				<td class="formAlignRight" style="width:150px;"  ng-bind="vm.getBasicDataDesc(x.processState)"></td>
+				<td >
+					<div ng-bind="x.processSuggestion"></div>
+					<div class="text-right" ng-bind="x.userName"></div>
+					<div class="text-right" ng-bind="vm.formatDate(x.createdDate)"></div>
+				</td>
+				
+			</tr>
+			<tr>
+				<td class="formAlignRight" style="width:150px;">填写处理意见：</td>
+				<td >
+					<textarea rows="3" class="form-control" id="vm.model.taskRecord.processSuggestion" ></textarea>
+				</td>
+				
+			</tr>
 			
-		</td>
-		
-	</tr>
-	<tr>
-		<td class="formAlignRight">操作：</td>
-		<td >
-			<button ng-click="vm.handle(vm.processState_qianShou)" class="btn btn-success btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-ok"></span>签收</button> 
-			<button class="btn btn-danger btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-remove"></span>退文</button>
-		
-		</td>
-		
-	</tr>
-			
-	
-</table>
+			<tr>
+				<td class="formAlignRight">下一办理环节：</td>
+				<td>
+					<div>
+						<span>下一步操作</span>
+						
+					</div>
+				</td>
+				
+			</tr>
+			<tr>
+				<td class="formAlignRight">操作：</td>
+				<td >
+					<button ng-click="vm.handle(vm.processState_qianShou)" class="btn btn-success btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-ok"></span>签收</button> 
+					<button ng-click="vm.handle(vm.processState_tuiWen)" class="btn btn-danger btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-remove"></span>退文</button>
+				
+				</td>
+				
+			</tr>						
+		</table>
   		
-  		<div id="shenbaoInfo" class="modal fade" tabindex="-1" role="dialog">
+		<div id="shenbaoInfo" class="modal fade" tabindex="-1" role="dialog">
 			<div class="modal-dialog"
 				style="margin: 80px auto; width: 80%; max-width: 1000px;">
 				<div class="modal-content">
 					<div class="modal-header bg-primary" style="height:30px;padding:5px;">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<span class="modal-title">详细信息</span>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<span class="modal-title">详细信息</span>
 					</div>
 					<div class="modal-body text-danger">
 						<div ng-include  src="'/contents/admin/management/task/html/yearPlan/master.html'"></div>  
 					</div>
 					<div class="modal-footer">
 						<button type="button" ng-click="vm.dialogConfirmSubmit()"
-							class="btn btn-info btn-sm">确认</button>
+							class="btn btn-info btn-sm" data-dismiss="modal">确认</button>
 						<button type="button" class="btn btn-info btn-sm" data-dismiss="modal">取消</button>
 					</div>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal-dialog -->
-		</div>
-		<!-- /.modal -->
-  		
-  		         
-    </form>
-    
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->  	  		         
+    </form>   
 </div>

@@ -48,7 +48,8 @@ public class TaskRecordMapper implements IMapper<TaskRecordDto, TaskRecord> {
 		entity.setTitle(dto.getTitle());
 		entity.setItemOrder(dto.getItemOrder());
 		entity.setModifiedDate(dto.getModifiedDate());
-		entity.setModifiedBy(dto.getModifiedBy());
+		//entity.setModifiedBy(dto.getModifiedBy());
+		entity.setModifiedBy(currentUser.getLoginName());
 
 	}
 

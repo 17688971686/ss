@@ -3,27 +3,27 @@
 	<tr>
 		<td width="120">单位名称<span class="required ">(*)</span></td>
 		<td colspan="4" class="RborderNone">
-			<span id="unitName" name="unitName" ng-bind="vm.model.shenBaoUnitInfoDto.unitName"></span>
+			<span id="unitName" name="unitName" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitName"></span>
 		</td>
 	</tr>
 	<tr>
 		<td>组织机构代码</td>
 				<td colspan="2">
-					<span id="orgCode" name="orgCode" ng-bind="vm.model.shenBaoUnitInfoDto.orgCode"></span>			
+					<span id="orgCode" name="orgCode" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.orgCode"></span>			
 				</td>
 	    <td width="100">电话号码<span class="required">(*)</span></td>
 	    <td>
-	    	<span id="unitTel" name="unitTel" ng-bind="vm.model.shenBaoUnitInfoDto.unitTel"></span>
+	    	<span id="unitTel" name="unitTel" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitTel"></span>
 	    </td>
    </tr>
    <tr>
         <td>电子邮箱<span class="required">(*)</span></td>
         <td colspan="2">
-        	<span id="unitEmail" name="unitEmail" ng-bind="vm.model.shenBaoUnitInfoDto.unitEmail"></span>
+        	<span id="unitEmail" name="unitEmail" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitEmail"></span>
         </td>
         <td>传真号码<span class="required">(*)</span></td>
         <td>
-        	<span id="unitFax" name="unitFax" ng-bind="vm.model.shenBaoUnitInfoDto.unitFax"></span>
+        	<span id="unitFax" name="unitFax" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitFax"></span>
         </td>
    </tr>
 </table>
@@ -33,71 +33,71 @@
 	<tr>
 		<td width="20%">单位性质<span class="required">(*)</span></td>
 		<td colspan="4">
-			<span id="unitProperty" name="unitProperty" ng-bind="vm.model.shenBaoUnitInfoDto.unitProperty" style="display:none"></span>
-			<span ng-bind="vm.model.shenBaoUnitInfoDto.unitPropertyDesc"></span>
+			<span id="unitProperty" name="unitProperty" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitProperty" style="display:none"></span>
+			<span ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitPropertyDesc"></span>
 		</td>
 	</tr>
 	<tr>
 	    <td>单位地址<span class="required">(*)</span></td>
 	    <td colspan="4">
 		    <span>光明新区</span>
-		    <span id="divisionId" name="divisionId" ng-bind="vm.model.shenBaoUnitInfoDto.divisionId" style="display:none"></span>
-		    <span ng-bind="vm.model.shenBaoUnitInfoDto.divisionDesc"></span>
-		    <span id="unitAddress" name="unitAddress" ng-bind="vm.model.shenBaoUnitInfoDto.unitAddress"></span>
+		    <span id="divisionId" name="divisionId" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.divisionId" style="display:none"></span>
+		    <span ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.divisionDesc"></span>
+		    <span id="unitAddress" name="unitAddress" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitAddress"></span>
 		</td>
 	 </tr>
 	 <tr>
 	    <td rowspan="3">单位负责人<span class="required">(*)</span></td>
 	    <td width="60">姓名</td>
 	    <td>
-	    	<span id="unitResPerson" name="unitResPerson" ng-bind="vm.model.shenBaoUnitInfoDto.unitResPerson"></span>
+	    	<span id="unitResPerson" name="unitResPerson" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitResPerson"></span>
 	    </td>
 	    <td>电话号码</td>
 	    <td>
-	    	<span id="resPersonTel" name="resPersonTel" ng-bind="vm.model.shenBaoUnitInfoDto.resPersonTel"></span>
+	    	<span id="resPersonTel" name="resPersonTel" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonTel"></span>
 	    </td>
 	 </tr>
 	 <tr>
 	    <td>手机</td>	   
 	    <td>
-	    	<span id="resPersonMobile" name="resPersonMobile" ng-bind="vm.model.shenBaoUnitInfoDto.resPersonMobile"></span>
+	    	<span id="resPersonMobile" name="resPersonMobile" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonMobile"></span>
 	    </td>
 	    <td>传真号码</td>
 	    <td>
-	    	<span id="resPersonFax" name="resPersonFax" ng-bind="vm.model.shenBaoUnitInfoDto.resPersonFax"></span>
+	    	<span id="resPersonFax" name="resPersonFax" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonFax"></span>
 	    </td>
 	 </tr>
 	  <tr>
 	    <td>Email</td>
 	    <td colspan="3">
-	    	<span id="resPersonEmail" name="resPersonEmail" ng-bind="vm.model.shenBaoUnitInfoDto.resPersonEmail"></span>		     
+	    	<span id="resPersonEmail" name="resPersonEmail" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonEmail"></span>		     
 	    </td>
 	 </tr>	
 	<tr>
-	  <td rowspan="3">填报联系人<span class="required">(*)</span></td>
+	  <td rowspan="3">项目联系人<span class="required">(*)</span></td>
 	  <td>姓名</td>
 	  <td>
-	  	<span id="unitContactPerson" name="unitContactPerson" ng-bind="vm.model.shenBaoUnitInfoDto.unitContactPerson"></span>
+	  	<span id="unitContactPerson" name="unitContactPerson" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitContactPerson"></span>
 	  </td>
 	  <td>电话号码</td>
 	  <td>
-	  	<span id="contactPersonTel" name="contactPersonTel" ng-bind="vm.model.shenBaoUnitInfoDto.contactPersonTel"></span>
+	  	<span id="contactPersonTel" name="contactPersonTel" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.contactPersonTel"></span>
 	  </td>
 	</tr>
 	<tr>
 	  <td>手机</td>	
 	  <td>
-	  	<span id="contactPersonMobile" name="contactPersonMobile" ng-bind="vm.model.shenBaoUnitInfoDto.contactPersonMobile"></span>
+	  	<span id="contactPersonMobile" name="contactPersonMobile" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.contactPersonMobile"></span>
 	  </td>
 	  <td>传真号码</td>
 	  <td>
-	  	<span id="contactPersonFax" name="contactPersonFax" ng-bind="vm.model.shenBaoUnitInfoDto.contactPersonFax"></span>	    	
+	  	<span id="contactPersonFax" name="contactPersonFax" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.contactPersonFax"></span>	    	
 	  </td>
 	</tr>
 	<tr>
 	  <td>Email</td>
 	  <td colspan="3">
-	  	<span id="contactPersonEmail" name="contactPersonEmail" ng-bind="vm.model.shenBaoUnitInfoDto.contactPersonEmail"></span>
+	  	<span id="contactPersonEmail" name="contactPersonEmail" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.contactPersonEmail"></span>
 	  </td>
 	</tr>	
 </table>

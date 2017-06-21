@@ -4,28 +4,34 @@
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目建设性质</td>
 		<td colspan="3">
-			<span id="projectConstrChar" name="projectConstrChar" ng-bind="vm.model.projectConstrCharDesc"></span>
+			<span id="projectConstrChar" name="projectConstrChar" ng-bind="vm.model.shenBaoInfo.projectConstrCharDesc"></span>
+		</td>
+	</tr>	
+	<tr>
+		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
+		<td>
+			<span id="projectInvestSum" name="projectInvestSum" ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:2"></span>&nbsp;(万元)
+			
+		</td>
+		<td class="formAlignRight">累计投资：<span class="required">(*)</span></td>
+		<td >
+			<span id="projectInvestAccuSum" name="projectInvestAccuSum" ng-bind="vm.model.shenBaoInfo.projectInvestAccuSum | number:2"></span>&nbsp;(万元)			
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight" style="width:150px;">计划年度：<span class="required">(*)</span></td>
 		<td style="width:250px;">
-			<span ng-bind="vm.model.planYear"></span>
+			<span ng-bind="vm.model.shenBaoInfo.planYear"></span>
 		</td>
 		<td class="formAlignRight" style="width:150px;">申请年度投资：<span class="required">(*)</span></td>
 		<td >
-			<span id="applyYearInvest" name="applyYearInvest" ng-bind="vm.model.applyYearInvest | number:2"></span>(万元)
+			<span id="applyYearInvest" name="applyYearInvest" ng-bind="vm.model.shenBaoInfo.applyYearInvest | number:2"></span>&nbsp;(万元)
 		</td>
 	</tr>
 	<tr>
-		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
-		<td>
-			<span id="projectInvestSum" name="projectInvestSum" ng-bind="vm.model.projectInvestSum | number:2"></span> (万元)
-			
-		</td>
-		<td class="formAlignRight">累计投资：<span class="required">(*)</span></td>
-		<td >
-			<span id="projectInvestAccuSum" name="projectInvestAccuSum" ng-bind="vm.model.projectInvestAccuSum | number:2"></span>(万元)			
+		<td class="formAlignRight">年度建设内容：<span class="required">(*)</span></td>
+		<td colspan="3">
+			<textarea rows="3" cols="20" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.shenBaoInfo.yearConstructionContent" disabled></textarea>
 		</td>
 	</tr>	
 </table>

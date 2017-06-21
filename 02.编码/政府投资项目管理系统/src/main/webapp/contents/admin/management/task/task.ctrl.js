@@ -46,8 +46,10 @@
     	function init_handle(){
     	   vm.model.taskRecord={};
     	   vm.processState_qianShou=common.basicDataConfig().processState_qianShou;
-    	   taskSvc.getTaskById(vm);
-    	   taskSvc.getShenBaoInfoById(vm);
+    	   vm.processState_tuiWen=common.basicDataConfig().processState_tuiWen;
+    	   taskSvc.getTaskById(vm);//查询任务信息
+    	   taskSvc.getShenBaoInfoById(vm);//查询申报信息
+    	   taskSvc.getUser(vm);//查询下一处理环节的人员
     	 
     	   vm.dialog_shenbaoInfo=function(){
     		   $('#shenbaoInfo').modal({
@@ -57,16 +59,15 @@
     		   //初始化tab
          	   vm.tabStripOptions={
          			//TODO
-         	   };
-         	   
+         	   };         	   
     	   }//dialog
     	   
     	   //签收
     	   vm.handle=function(processState){
-    		   console.log(processState)
     		   vm.model.taskRecord.processState=processState;
     		   taskSvc.handle(vm);
     	   }
+    	   
     		
     	}//init_handle
     }
