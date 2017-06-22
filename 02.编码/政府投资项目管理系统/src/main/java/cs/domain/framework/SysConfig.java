@@ -1,27 +1,41 @@
 package cs.domain.framework;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import cs.domain.BaseEntity;
+
 @Entity
 @Table(name = "cs_sysConfig")
-public class SysConfig {
+public class SysConfig extends BaseEntity {
 	@Id
 	private String id;
-	@Column(columnDefinition = "bit COMMENT '是否已初始化'")
-	private boolean isInit;
+	private String configType;//对应数据字典类型
+	private String configName;
+	private String configValue;
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
-	public boolean isInit() {
-		return isInit;
+	public String getConfigName() {
+		return configName;
 	}
-	public void setInit(boolean isInit) {
-		this.isInit = isInit;
+	public void setConfigName(String configName) {
+		this.configName = configName;
+	}
+	public String getConfigValue() {
+		return configValue;
+	}
+	public void setConfigValue(String configValue) {
+		this.configValue = configValue;
+	}
+	public String getConfigType() {
+		return configType;
+	}
+	public void setConfigType(String configType) {
+		this.configType = configType;
 	}
 }

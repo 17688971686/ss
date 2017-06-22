@@ -214,9 +214,17 @@
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'
 	        })
+
 	        .state('task_complete', {
 	            url: '/task/complete',
 	            templateUrl: '/management/task/html/complete',
+	            controller: 'taskCtrl',
+	            controllerAs: 'vm'
+	        })
+
+	        .state('task_history', {
+	            url: '/task/history',
+	            templateUrl: '/management/task/html/history',
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'
 	        })

@@ -117,7 +117,7 @@ form table td {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.k-icon.k-i-filter{
+.k-icon.k-i-filter,.k-filter, .k-i-funnel {
     background-position: -48px -240px;
 }
 .input-validation-error{

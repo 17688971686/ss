@@ -51,12 +51,16 @@
     	
     	function init_shenbaoInfoList(){
     		yearPlanSvc.grid_shenbaoInfoList(vm);
-    		vm.dialog_shenbaoInfo = function(){
-    			//yearPlanSvc.getShenBaoInfoById(vm,id);
+    		vm.dialog_shenbaoInfo = function(id){
+    			yearPlanSvc.getShenBaoInfoById(vm,id);
     			$('#shenbaoInfo').modal({
                     backdrop: 'static',
                     keyboard:false
                 });
+    			//初始化tab
+          	   vm.tabStripOptions={
+          			//TODO
+          	   };
     		}
     		
     	}//init_planList

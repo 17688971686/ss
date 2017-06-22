@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+
 @Entity
 @Table(name="cs_taskHead")
 public class TaskHead extends BaseEntity {
@@ -32,8 +34,9 @@ public class TaskHead extends BaseEntity {
 	private String processState;
 	
 	@Column(columnDefinition="bit NULL COMMENT '是否完成'")
-	private boolean isComplete = false;
+	private boolean isComplete;
 	
+	//begin#关联
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<TaskRecord> taskRecords=new ArrayList<>();
 

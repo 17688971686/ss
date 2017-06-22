@@ -3,6 +3,7 @@ package cs.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -18,9 +19,9 @@ import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.TaskHeadDto;
-import cs.model.DomainDto.TaskRecordDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.ShenBaoInfoRepo;
+import cs.repository.interfaces.TaskHeadRepo;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.interfaces.ShenBaoInfoService;
@@ -30,15 +31,15 @@ import cs.service.interfaces.TaskHeadService;
 public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 	private static Logger logger = Logger.getLogger(ShenBaoInfoServiceImpl.class);
 	@Autowired
-	private IMapper<ShenBaoInfoDto, ShenBaoInfo> shenbaoMapper;	
+	private IMapper<ShenBaoInfoDto, ShenBaoInfo> shenbaoMapper;
 	@Autowired
 	private ShenBaoInfoRepo shenBaoInfoRepo;
 	@Autowired
 	private BasicDataService basicDataService;
 	@Autowired
-	private TaskHeadService taskHeadService;
-	@Autowired
 	private ICurrentUser currentUser;
+	@Autowired
+	TaskHeadRepo taskHeadRepo;
 	
 	@Override
 	@Transactional
@@ -76,40 +77,49 @@ public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 		//进行数据转换
 		ShenBaoInfo shenBaoInfo = new ShenBaoInfo();
 		shenbaoMapper.buildEntity(shenBaoInfoDto, shenBaoInfo);
-		String loginName = currentUser.getLoginName();		
+		String loginName = currentUser.getLoginName();
+		
 		shenBaoInfo.setCreatedBy(loginName);
 		shenBaoInfo.setModifiedBy(loginName);
-		
-		//创建一条申报信息的同时新建一条任务
-		TaskHeadDto taskHeadDto = new TaskHeadDto();
-		taskHeadDto.setCreatedBy(loginName);
-		taskHeadDto.setModifiedBy(loginName);
-		taskHeadDto.setProcessState(BasicDataConfig.processState_JSDWTB);//设置任务的状态为建设单位填报
-		taskHeadDto.setRelId(shenBaoInfo.getId());//同步关联上申报信息的id
-		//TODO 根据申报阶段设置任务类型
-		if(BasicDataConfig.projectShenBaoStage_nextYearPlan.equals(shenBaoInfoDto.getProjectShenBaoStage())){
-			taskHeadDto.setTaskType(BasicDataConfig.task_yearPlan);//设置任务类型
-		}		
-		taskHeadDto.setTitle("申报信息："+shenBaoInfo.getProjectName()+"--"+basicDataService.getDescriptionById(shenBaoInfoDto.getProjectShenBaoStage()));
-		taskHeadDto.setUserName("admin");//TODO 设置下一处理人
-		
-		//给新建的任务创建一条流转记录
-		TaskRecordDto taskRecordDto = new TaskRecordDto();
-		taskRecordDto.setCreatedBy(loginName);
-		taskRecordDto.setModifiedBy(loginName);
-		taskRecordDto.setProcessState(BasicDataConfig.processState_JSDWTB);
-		taskRecordDto.setProcessSuggestion("建设单位填报信息");
-		taskRecordDto.setRelId(shenBaoInfo.getId());
-		taskRecordDto.setTaskType(taskHeadDto.getTaskType());
-		taskRecordDto.setTitle(taskHeadDto.getTitle());
-		taskRecordDto.setUserName("admin");//TODO 设置下一处理人
-		
-		taskHeadDto.getTaskRecordDtos().add(taskRecordDto);
-		
-		taskHeadService.create(taskHeadDto);
-		
 		shenBaoInfoRepo.save(shenBaoInfo);
+		
+		initWorkFlow(shenBaoInfo);
+		
 		logger.info(String.format("创建申报信息,项目名称 %s",shenBaoInfoDto.getProjectName()));		
+	}
+	private String getTaskType(String shenbaoStage){
+		if(shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)){//如果是下一年度计划
+			return BasicDataConfig.taskType_nextYearPlan;
+		}
+		return "";
+	}
+	
+	private void initWorkFlow(ShenBaoInfo shenBaoInfo){
+		//创建工作流
+				TaskHead taskHead=new TaskHead();		
+				taskHead.setUserName("admin");
+				taskHead.setCreatedBy(currentUser.getLoginName());	
+				taskHead.setRelId(shenBaoInfo.getId());
+				taskHead.setTitle(shenBaoInfo.getProjectName());
+				taskHead.setProcessState(BasicDataConfig.processState_tianBao);
+				taskHead.setTaskType(this.getTaskType(shenBaoInfo.getProjectShenBaoStage()));
+				taskHead.setCreatedDate(new Date());
+				taskHead.setId(UUID.randomUUID().toString());
+				
+				//record
+				TaskRecord taskRecord=new TaskRecord();
+				taskRecord.setUserName(currentUser.getLoginName());
+				taskRecord.setCreatedBy(currentUser.getLoginName());	
+				taskRecord.setRelId(shenBaoInfo.getId());
+				taskRecord.setTitle(shenBaoInfo.getProjectName());
+				taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
+				taskRecord.setTaskType(this.getTaskType(shenBaoInfo.getProjectShenBaoStage()));
+				taskRecord.setCreatedDate(new Date());
+				taskRecord.setId(UUID.randomUUID().toString());
+				taskRecord.setProcessSuggestion("材料填报");
+
+				taskHead.getTaskRecords().add(taskRecord);
+				taskHeadRepo.save(taskHead);
 	}
 
 	@Override
@@ -127,6 +137,7 @@ public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 		findShenBaoInfo.setModifiedDate(new Date());
 		//保存数据
 		shenBaoInfoRepo.save(findShenBaoInfo);
+		initWorkFlow(findShenBaoInfo);
 		logger.info(String.format("更新申报信息,项目名称 %s",shenBaoInfoDto.getProjectName()));
 	}
 	
