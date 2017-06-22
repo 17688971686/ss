@@ -20,6 +20,8 @@ import cs.service.framework.SysService;
 public class SysController {
 	@Autowired
 	private SysService sysService;
+	
+	private String ctrl="management/sysConfig";
 
 	@RequiresPermissions("sys#resource#get")
 	@RequestMapping(name = "获取系统资源数据", path = "resource", method = RequestMethod.GET)
@@ -36,10 +38,9 @@ public class SysController {
 			return "Init system success";
 		}else{
 			return "Init system fail";
-		}
-		
-		
+		}				
 	}
+	
 	@RequestMapping(name = "基础数据初始化", path = "initBasicData", method = RequestMethod.GET)
 	public @ResponseBody String initBasicData(HttpServletRequest request) {
 		Response response = sysService.SysInitBasicData();
@@ -47,8 +48,11 @@ public class SysController {
 			return "Init basicData success";
 		}else{
 			return "Init basicData fail";
-		}
-		
-		
+		}	
+	}
+	
+	@RequestMapping(name = "系统配置主页", path = "html/index", method = RequestMethod.GET)
+	public String index(){
+		return ctrl+"/index";
 	}
 }

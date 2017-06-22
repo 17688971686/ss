@@ -24,6 +24,7 @@
     		}
     		if($state.current.name=='task_complete'){
     			vm.page='complete'
+    		}
 
     		if($state.current.name=='task_history'){
     			vm.page='history'

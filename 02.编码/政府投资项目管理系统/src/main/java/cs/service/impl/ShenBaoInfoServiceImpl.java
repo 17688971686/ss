@@ -24,6 +24,7 @@ import cs.repository.interfaces.ShenBaoInfoRepo;
 import cs.repository.interfaces.TaskHeadRepo;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
+import cs.service.framework.SysService;
 import cs.service.interfaces.ShenBaoInfoService;
 import cs.service.interfaces.TaskHeadService;
 
@@ -36,6 +37,8 @@ public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 	private ShenBaoInfoRepo shenBaoInfoRepo;
 	@Autowired
 	private BasicDataService basicDataService;
+	@Autowired
+	private SysService sysService;
 	@Autowired
 	private ICurrentUser currentUser;
 	@Autowired
@@ -83,6 +86,7 @@ public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 		shenBaoInfo.setModifiedBy(loginName);
 		shenBaoInfoRepo.save(shenBaoInfo);
 		
+		//初始化工作流
 		initWorkFlow(shenBaoInfo);
 		
 		logger.info(String.format("创建申报信息,项目名称 %s",shenBaoInfoDto.getProjectName()));		
@@ -95,31 +99,34 @@ public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 	}
 	
 	private void initWorkFlow(ShenBaoInfo shenBaoInfo){
+		//获取系统配置中工作流类型的第一处理人
+		String configValue = sysService.getConfigValue(
+				this.getTaskType(shenBaoInfo.getProjectShenBaoStage())).getConfigValue();
 		//创建工作流
-				TaskHead taskHead=new TaskHead();		
-				taskHead.setUserName("admin");
-				taskHead.setCreatedBy(currentUser.getLoginName());	
-				taskHead.setRelId(shenBaoInfo.getId());
-				taskHead.setTitle(shenBaoInfo.getProjectName());
-				taskHead.setProcessState(BasicDataConfig.processState_tianBao);
-				taskHead.setTaskType(this.getTaskType(shenBaoInfo.getProjectShenBaoStage()));
-				taskHead.setCreatedDate(new Date());
-				taskHead.setId(UUID.randomUUID().toString());
+		TaskHead taskHead=new TaskHead();		
+		taskHead.setUserName(configValue);//设置下一处理人
+		taskHead.setCreatedBy(currentUser.getLoginName());
+		taskHead.setModifiedBy(currentUser.getLoginName());
+		taskHead.setRelId(shenBaoInfo.getId());
+		taskHead.setTitle("项目申报："+shenBaoInfo.getProjectName());
+		taskHead.setProcessState(BasicDataConfig.processState_tianBao);//设置工作流的状态
+		taskHead.setTaskType(this.getTaskType(shenBaoInfo.getProjectShenBaoStage()));//设置工作流的类型
+		taskHead.setId(UUID.randomUUID().toString());
 				
-				//record
-				TaskRecord taskRecord=new TaskRecord();
-				taskRecord.setUserName(currentUser.getLoginName());
-				taskRecord.setCreatedBy(currentUser.getLoginName());	
-				taskRecord.setRelId(shenBaoInfo.getId());
-				taskRecord.setTitle(shenBaoInfo.getProjectName());
-				taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
-				taskRecord.setTaskType(this.getTaskType(shenBaoInfo.getProjectShenBaoStage()));
-				taskRecord.setCreatedDate(new Date());
-				taskRecord.setId(UUID.randomUUID().toString());
-				taskRecord.setProcessSuggestion("材料填报");
+		//record
+		TaskRecord taskRecord=new TaskRecord();
+		taskRecord.setUserName(currentUser.getLoginName());
+		taskRecord.setCreatedBy(currentUser.getLoginName());
+		taskRecord.setModifiedBy(currentUser.getLoginName());
+		taskRecord.setRelId(shenBaoInfo.getId());
+		taskRecord.setTitle("项目申报："+shenBaoInfo.getProjectName());
+		taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
+		taskRecord.setTaskType(this.getTaskType(shenBaoInfo.getProjectShenBaoStage()));
+		taskRecord.setId(UUID.randomUUID().toString());
+		taskRecord.setProcessSuggestion("材料填报");
 
-				taskHead.getTaskRecords().add(taskRecord);
-				taskHeadRepo.save(taskHead);
+		taskHead.getTaskRecords().add(taskRecord);
+		taskHeadRepo.save(taskHead);
 	}
 
 	@Override
