@@ -25,10 +25,6 @@
     		if($state.current.name=='task_complete'){
     			vm.page='complete'
     		}
-
-    		if($state.current.name=='task_history'){
-    			vm.page='history'
-    		}
     		vm.formatDate=function(str){
     			return common.formatDate(str);
     		}
@@ -49,9 +45,6 @@
 
         	if(vm.page=='complete'){
         		init_completeList();
-        	}
-        	if(vm.page=='history'){
-        		init_history();
         	}
         }
         
@@ -92,9 +85,6 @@
     	   
     		
     	}//init_handle
-    	
-    	function init_history(){    		
-    		taskSvc.historyGrid(vm);
-    	}//init_history
+
     }
 })();

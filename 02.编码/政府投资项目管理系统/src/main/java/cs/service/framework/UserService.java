@@ -12,8 +12,6 @@ import cs.repository.odata.ODataObj;
 public interface UserService {
 
 	PageModelDto<UserDto> get(ODataObj odataObj);
-	
-	List<UserDto> getAll();
 
 	void createUser(UserDto userDto);
 

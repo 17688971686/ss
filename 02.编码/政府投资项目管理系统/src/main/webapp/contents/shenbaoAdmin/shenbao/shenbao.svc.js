@@ -165,40 +165,67 @@
 		 */
 		function createShenBaoInfo(vm){
 			common.initJqValidation();
-			var isValid = $('form').valid();
-			if (isValid) {
-				vm.isSubmit = true;				
-				var httpOptions = {
-					method : 'post',
-					url : url_shenbao,
-					data : vm.model
-				}
-
-				var httpSuccess = function success(response) {
-					common.requestSuccess({
-						vm : vm,
-						response : response,
-						fn : function() {
-							common.alert({
-								vm : vm,
-								msg : "操作成功",
-								fn : function() {
-									vm.isSubmit = false;
-									$('.alertDialog').modal('hide');
-									$('.modal-backdrop').remove();
-									location.href = url_back;									
-								}
-							});
+			//var isValid = $('form').valid();
+			//todo
+			var isValid=function(){
+				var validFields=[
+					['projectName','required','项目基本信息-项目名称必填'],
+					['projectStage','required','项目基本信息-项目阶段必填']
+				];
+				vm.validMessage=[];
+				$.each(validFields,function(idx,item){
+					var value=vm.model[item[0]];
+					var msg=item[2];					
+					if(item[1]=='required'){				
+						var isExist=value&&value.trim()!=""					
+						if(!isExist){
+							vm.validMessage.push(msg);
 						}
-					});
-				}
+						
+					}
+					
+				});
+				$('#validMsgDialog').modal({
+	                 backdrop: 'static',
+	                 keyboard:false
+	             });
 				
-				common.http({
-					vm : vm,
-					$http : $http,
-					httpOptions : httpOptions,
-					success : httpSuccess
-				});			
+				return false;
+			}
+			
+			if (isValid()) {
+//				vm.isSubmit = true;				
+//				var httpOptions = {
+//					method : 'post',
+//					url : url_shenbao,
+//					data : vm.model
+//				}
+//
+//				var httpSuccess = function success(response) {
+//					common.requestSuccess({
+//						vm : vm,
+//						response : response,
+//						fn : function() {
+//							common.alert({
+//								vm : vm,
+//								msg : "操作成功",
+//								fn : function() {
+//									vm.isSubmit = false;
+//									$('.alertDialog').modal('hide');
+//									$('.modal-backdrop').remove();
+//									location.href = url_back;									
+//								}
+//							});
+//						}
+//					});
+//				}
+//				
+//				common.http({
+//					vm : vm,
+//					$http : $http,
+//					httpOptions : httpOptions,
+//					success : httpSuccess
+//				});			
 			}
 		}
 		

@@ -45,7 +45,8 @@ public class TaskController {
 		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.get(odataObj);
 		return taskHeadDtos;
 	}
-	@RequestMapping(name = "个人已办", path = "history")
+	
+	@RequestMapping(name = "个人已办", path = "complete")
 	public @ResponseBody PageModelDto<TaskHeadDto> history(HttpServletRequest request) throws ParseException {
 		//todo
 		//从taskrecord 表里取数据
@@ -69,12 +70,9 @@ public class TaskController {
 		return ctrl + "/complete";
 	}
 	
-	@RequestMapping(name = "代办处理", path = "html/handle", method = RequestMethod.GET)
+	@RequestMapping(name = "待办处理", path = "html/handle", method = RequestMethod.GET)
 	public String handle() {
 		return ctrl + "/handle";
 	}
-	@RequestMapping(name = "已办列表页", path = "html/history", method = RequestMethod.GET)
-	public String history() {
-		return ctrl + "/history";
-	}
+
 }

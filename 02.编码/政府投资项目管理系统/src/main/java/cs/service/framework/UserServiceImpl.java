@@ -84,42 +84,6 @@ public class UserServiceImpl implements UserService {
 		return pageModelDto;
 	}
 	
-	
-
-	@Override
-	@Transactional
-	public List<UserDto> getAll() {
-		List<UserDto> userDtos = new ArrayList<>();
-		List<User> users = userRepo.findAll();
-		
-		users.stream().forEach(x->{
-			UserDto userDto = new UserDto();
-			
-			userDto.setId(x.getId());
-			userDto.setLoginName(x.getLoginName());
-			userDto.setDisplayName(x.getDisplayName());
-			userDto.setPassword(x.getPassword());
-			userDto.setComment(x.getComment());
-			userDto.setCreatedDate(x.getCreatedDate());			
-			// 查询相关角色
-				List<RoleDto> roleDtoList = new ArrayList<>();
-				for (Role role : x.getRoles()) {
-					RoleDto roleDto = new RoleDto();
-					roleDto.setComment(role.getComment());
-					roleDto.setRoleName(role.getRoleName());
-					roleDto.setCreatedDate(role.getCreatedDate());
-					roleDto.setId(role.getId());
-
-					roleDtoList.add(roleDto);
-				}
-				userDto.setRoles(roleDtoList);
-				userDtos.add(userDto);			
-		});	
-		return userDtos;
-	}
-
-
-
 	@Override
 	@Transactional
 	public void createUser(UserDto userDto) {

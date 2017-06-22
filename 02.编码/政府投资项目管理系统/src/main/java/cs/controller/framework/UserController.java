@@ -37,14 +37,6 @@ public class UserController {
 		return userDtos;
 	}
 	
-	//@RequiresPermissions("user#all#get")	
-	@RequestMapping(name = "获取所有用户数据", path = "all", method = RequestMethod.GET)
-	public @ResponseBody List<UserDto> getAll(){
-		System.out.println(111);
-		List<UserDto> userDtos = userService.getAll();
-		return userDtos;
-	}
-	
 	@RequiresPermissions("user##post")
 	@RequestMapping(name = "创建用户", path = "",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.CREATED)

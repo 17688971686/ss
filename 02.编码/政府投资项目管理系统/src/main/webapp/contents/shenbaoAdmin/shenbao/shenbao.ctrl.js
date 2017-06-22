@@ -90,17 +90,17 @@
        
        function page_edit(){    	   
     	   //初始化tab
-    	   vm.tabStripOptions={
-    			 select:function(e){
-    				 //验证表单
-    				 common.initJqValidation();
-    				var isValid = $('form').valid();
-    				 if(!isValid){    					 
-						var tab=vm.tabStrip.select();
-	                  	vm.tabStrip.activateTab(tab);							                  	    		           		
-    				 }
-    			 }
-    	   }
+//    	   vm.tabStripOptions={
+//    			 select:function(e){
+//    				 //验证表单
+//    				 common.initJqValidation();
+//    				var isValid = $('form').valid();
+//    				 if(!isValid){    					 
+//						var tab=vm.tabStrip.select();
+//	                  	vm.tabStrip.activateTab(tab);							                  	    		           		
+//    				 }
+//    			 }
+//    	   }
     	   //判断tab显示
     	   var init_tab_show=function(){
     		   vm.isYearPlan=vm.stage==common.basicDataConfig().projectShenBaoStage_nextYearPlan;//申报阶段为下一年度计划
