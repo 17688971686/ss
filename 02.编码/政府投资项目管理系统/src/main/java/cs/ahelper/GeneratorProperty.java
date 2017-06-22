@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import cs.domain.TaskHead;
+import cs.model.DomainDto.SysConfigDto;
 
 public class GeneratorProperty {
 
@@ -13,7 +14,7 @@ public class GeneratorProperty {
 		//System.out.println("roleName:"+Role_.roleName.getName());
 	
 		
-		Class<?> dto=TaskHead.class;
+		Class<?> dto=SysConfigDto.class;
 		
 		Method[] methods=dto.getMethods();
 		Set<String> methods2=new HashSet<>();
@@ -27,7 +28,7 @@ public class GeneratorProperty {
 					
 		}
 		for (String string : methods2) {
-			System.out.println(String.format("taskHeadDto.set%s(dto.get%s());", string,string));
+			System.out.println(String.format("dto.set%s(entity.get%s());", string,string));
 		}
 	}
 

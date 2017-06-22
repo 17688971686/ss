@@ -1,13 +1,11 @@
 package cs.service.framework;
 
-import java.io.Console;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.criteria.CommonAbstractCriteria;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
@@ -22,12 +20,9 @@ import cs.common.Response;
 import cs.common.sysResource.ClassFinder;
 import cs.common.sysResource.SysResourceDto;
 import cs.domain.BasicData;
-import cs.domain.BasicData_;
 import cs.domain.framework.Resource;
 import cs.domain.framework.Role;
 import cs.domain.framework.Role_;
-import cs.domain.framework.SysConfig;
-import cs.domain.framework.SysConfig_;
 import cs.domain.framework.User;
 import cs.repository.common.BasicDataRepo;
 import cs.repository.framework.RoleRepoImpl;
@@ -94,12 +89,7 @@ public class SysServiceImpl implements SysService {
 	@Transactional
 	public Response SysInit() {
 		Response response = new Response();
-		SysConfig sysConfig = sysConfigRepo.findById("init_userAndRole");
 		
-		//begin#删除历史数据
-		if(sysConfig!=null){
-			sysConfigRepo.delete(sysConfig);
-		}
 		Criterion criterion=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.role_admin);
 		Criterion criterion2=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.role_unit);
 		Criterion criterionOr=Restrictions.or(criterion,criterion2);
@@ -156,11 +146,6 @@ public class SysServiceImpl implements SysService {
 		user.getRoles().add(role);
 		userRepo.save(user);
 
-		// 更新sysConfig
-		sysConfig = new SysConfig();
-		sysConfig.setInit(true);
-		sysConfig.setId("UserAndRoleInit");
-		sysConfigRepo.save(sysConfig);
 
 		response.setMessage("初始化成功");
 		response.setSuccess(true);
@@ -173,15 +158,7 @@ public class SysServiceImpl implements SysService {
 	@Transactional
 	public Response SysInitBasicData() {
 		Response response = new Response();
-		SysConfig sysConfig = sysConfigRepo.findById("init_basicData");
 		
-		
-		if(sysConfig==null){
-			sysConfig=new SysConfig();
-			sysConfig.setInit(true);
-			sysConfig.setId("init_basicData");
-			sysConfigRepo.save(sysConfig);
-		}
 		//删除历史基础数据		
 		basicDataRepo.getSession().createQuery(String.format("delete from %s",BasicData.class.getSimpleName())).executeUpdate();
 		
