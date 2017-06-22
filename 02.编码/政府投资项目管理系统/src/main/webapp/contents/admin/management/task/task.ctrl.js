@@ -22,6 +22,9 @@
     		if($state.current.name=='task_handle'){
     			vm.page='handle'
     		}
+    		if($state.current.name=='task_complete'){
+    			vm.page='complete'
+    		}
     		vm.formatDate=function(str){
     			return common.formatDate(str);
     		}
@@ -39,17 +42,27 @@
         	if(vm.page=='handle'){
         		init_handle();
         	}
+        	if(vm.page=='complete'){
+        		init_completeList();
+        	}
         }
+        
         function init_todoList(){
         	taskSvc.grid(vm);
-        }//init_todoList
+        }//end init_todoList
+        
+        function init_completeList(){
+        	taskSvc.completeGird(vm);
+        }//end init_completeList
+        
+        
     	function init_handle(){
     	   vm.model.taskRecord={};
     	   vm.processState_qianShou=common.basicDataConfig().processState_qianShou;
     	   vm.processState_tuiWen=common.basicDataConfig().processState_tuiWen;
     	   taskSvc.getTaskById(vm);//查询任务信息
     	   taskSvc.getShenBaoInfoById(vm);//查询申报信息
-    	   taskSvc.getUser(vm);//查询下一处理环节的人员
+    	   //taskSvc.getUser(vm);//查询下一处理环节的人员
     	 
     	   vm.dialog_shenbaoInfo=function(){
     		   $('#shenbaoInfo').modal({
@@ -62,7 +75,7 @@
          	   };         	   
     	   }//dialog
     	   
-    	   //签收
+    	   //处理操作
     	   vm.handle=function(processState){
     		   vm.model.taskRecord.processState=processState;
     		   taskSvc.handle(vm);

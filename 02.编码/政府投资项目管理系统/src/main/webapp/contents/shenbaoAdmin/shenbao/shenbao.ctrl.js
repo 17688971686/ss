@@ -18,16 +18,16 @@
         vm.title='申报信息录入';
         $scope.animationsEnabled = true;
         vm.init=function(){
-        	if($state.current.name=='shenbao_edit'){
+        	if($state.current.name=='shenbao_edit'){//申报信息
     			vm.page='edit';
     		}
-        	if($state.current.name=='shenbao_records'){
+        	if($state.current.name=='shenbao_records'){//申报信息记录
         		vm.page='records';
         	}
-        	if($state.current.name=='shenbao_record'){
+        	if($state.current.name=='shenbao_record'){//申报信息详情
         		vm.page='record';
         	}
-        	if($state.current.name=='shenbao_record_edit'){
+        	if($state.current.name=='shenbao_record_edit'){//申报信息编辑
         		vm.page='record_edit';
         	}
         }
@@ -49,7 +49,6 @@
         	}
         	if(vm.page=='record'){
         		//申报信息详情
-        		page_edit();
         		page_record();
         	}
         	if(vm.page=='record_edit'){
@@ -66,18 +65,19 @@
     	   //点击列表中的申报按钮
     	   vm.shenbaoBtn=function(id,name){
 	           	vm.projectId = id;
-	           	vm.projectName=name;
+	           	vm.projectName=name;//绑定项目名称用于模态框显示
+	           	vm.projectShenBaoStage='';//清空下拉选选中的值
 	           	vm.isConfirm = false;
 	           	//获取申报阶段基础数据用于模态框
 	           	vm.basicData.projectStage=$linq(common.getBasicData())
-		   		.where(function(x){return x.identity=='projectShenBaoStage'&&x.pId=='projectShenBaoStage';})
+		   		.where(function(x){return x.identity==common.basicDataConfig().projectShenBaoStage&&x.pId==common.basicDataConfig().projectShenBaoStage;})
 		   		.toArray();
 	   	   		//展示模态框
 	           	 $('#myModal').modal('show');
 	           //监听申报阶段进行查询判端此项目此阶段是否已有申报信息
 	             $scope.$watch('vm.projectShenBaoStage',function(newValue,oldValue, scope){
 	             	if(newValue){
-	             		shenbaoSvc.queryShenBaoInfo(vm);
+	             		shenbaoSvc.isHadShenBaoInfo(vm);
 	             	}
 	             });
            }
@@ -88,8 +88,7 @@
            }    	   
         }//end#page_list
        
-       function page_edit(){
-    	   
+       function page_edit(){    	   
     	   //初始化tab
     	   vm.tabStripOptions={
     			 select:function(e){
@@ -104,7 +103,7 @@
     	   }
     	   //判断tab显示
     	   var init_tab_show=function(){
-    		   vm.isYearPlan=vm.stage=='projectShenBaoStage_7';//申报阶段为下一年度计划
+    		   vm.isYearPlan=vm.stage==common.basicDataConfig().projectShenBaoStage_nextYearPlan;//申报阶段为下一年度计划
     		   if(vm.isYearPlan){
     			   vm.materialsType=[['XXJD','项目工程形象进度及年度资金需求情况'],['WCJSNR','年度完成建设内容及各阶段工作内容完成时间表'],
 	   					['TTJH','历年政府投资计划下大文件(*)'],['GCXKZ','建设工程规划许可证'],['TDQK','土地落实情况、征地拆迁有关情况'],
@@ -201,13 +200,13 @@
        
        function page_records(){
     	   shenbaoSvc.recordsGird(vm);
-       }//page_records
+       }//end#page_records
        
        function page_record(){
     	   shenbaoSvc.getShenBaoInfoById(vm);
     	   vm.update = function(){
     		   shenbaoSvc.updateShenBaoInfo(vm);
     	   }
-       }
+       }//end#page_record
    }
 })();

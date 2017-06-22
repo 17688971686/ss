@@ -17,14 +17,14 @@
 			recordsGird:recordsGird,
 			getShenBaoInfoById:getShenBaoInfoById,
 			updateShenBaoInfo:updateShenBaoInfo,
-			queryShenBaoInfo:queryShenBaoInfo,
+			isHadShenBaoInfo:isHadShenBaoInfo,
 		};		
 		return service;
 
 		/**
 		 * 根据项目id和申报阶段查询申报信息
 		 */
-		function queryShenBaoInfo(vm){
+		function isHadShenBaoInfo(vm){
 			var httpOptions = {
 					method : 'get',
 					url : common.format(url_shenbao + "?$filter=projectId eq '{0}' and projectShenBaoStage eq '{1}'", vm.projectId,vm.projectShenBaoStage),
@@ -106,20 +106,29 @@
 				}
 				var httpSuccess = function success(response) {
 					vm.model = response.data.value[0]||{};
-					console.log(vm.model);
 						//日期展示
 						vm.model.beginDate=common.toDate(vm.model.beginDate);//开工日期
 						vm.model.endDate=common.toDate(vm.model.endDate);//竣工日期
 						vm.model.pifuJYS_date=common.toDate(vm.model.pifuJYS_date);//项目建议书批复日期			
 						vm.model.pifuKXXYJBG_date=common.toDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
 						vm.model.pifuCBSJYGS_date=common.toDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期
-		        		//项目行业归口
-						var child = $linq(common.getBasicData())
-		        		.where(function(x){return x.id==vm.model.projectIndustry})
-		        		.toArray()[0];
-		        		vm.model.projectIndustryParent=child.pId;
-		        		vm.projectIndustryChange();			        		
-									
+						if(vm.page=='record'){
+							if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){
+								vm.isYearPlan = true;
+								vm.materialsType=[['XXJD','项目工程形象进度及年度资金需求情况'],['WCJSNR','年度完成建设内容及各阶段工作内容完成时间表'],
+				   					['TTJH','历年政府投资计划下大文件(*)'],['GCXKZ','建设工程规划许可证'],['TDQK','土地落实情况、征地拆迁有关情况'],
+				   					['XMJZ','项目进展情况相关资料'],['QQGZJH','前期工作计划文件'],['XMSSYJ','项目实施依据文件'],['HYJY','会议纪要']];
+			    			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+							}
+						}
+		        		if(vm.page=='record_edit'){
+		        			//项目行业归口
+							var child = $linq(common.getBasicData())
+			        		.where(function(x){return x.id==vm.model.projectIndustry})
+			        		.toArray()[0];
+			        		vm.model.projectIndustryParent=child.pId;
+			        		vm.projectIndustryChange();	
+		        		}									
 						//资金处理
 						vm.model.projectInvestSum=common.toMoney(vm.model.projectInvestSum);//项目总投资
 						vm.model.projectInvestAccuSum=common.toMoney(vm.model.projectInvestAccuSum);//累计完成投资
@@ -154,7 +163,10 @@
 		/**
 		 * 创建申报信息
 		 */
-		function createShenBaoInfo(vm){			        		
+		function createShenBaoInfo(vm){
+			common.initJqValidation();
+			var isValid = $('form').valid();
+			if (isValid) {
 				vm.isSubmit = true;				
 				var httpOptions = {
 					method : 'post',
@@ -167,7 +179,6 @@
 						vm : vm,
 						response : response,
 						fn : function() {
-
 							common.alert({
 								vm : vm,
 								msg : "操作成功",
@@ -177,18 +188,17 @@
 									$('.modal-backdrop').remove();
 									location.href = url_back;									
 								}
-							})
+							});
 						}
-
 					});
+				}
 				
 				common.http({
 					vm : vm,
 					$http : $http,
 					httpOptions : httpOptions,
 					success : httpSuccess
-				});
-
+				});			
 			}
 		}
 		
@@ -271,13 +281,13 @@
 		}
 		
 		/**
-		 * 申报记录列表数据获取
+		 * 单位申报记录列表数据获取
 		 */
 		function recordsGird(vm){
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_shenbao),
+				transport : common.kendoGridConfig().transport(url_shenbao+"/unit"),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
 					fields : {
@@ -302,7 +312,7 @@
 						field : "",
 						title : "项目名称",
 						template:function(item){
-							return common.format('<a href="#/project/projectInfo/{0}">{1}</a>',item.id,item.projectName);
+							return common.format('<a href="#/project/projectInfo/{0}">{1}</a>',item.projectId,item.projectName);
 						},
 						filterable : true,
 						

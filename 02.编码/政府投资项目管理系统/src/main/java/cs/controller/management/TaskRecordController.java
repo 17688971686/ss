@@ -22,19 +22,19 @@ import cs.model.DomainDto.TaskRecordDto;
 import cs.model.DomainDto.YearPlanDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
-import cs.service.interfaces.TaskHeadService;
+import cs.service.interfaces.TaskRecordService;
 
 @Controller
-@RequestMapping(name = "工作台管理", path = "management/task")
-public class TaskController {
-	private String ctrl = "management/task";
+@RequestMapping(name = "任务流程", path = "management/taskRecord")
+public class TaskRecordController {
+	private String ctrl = "management/taskRecord";
 	@Autowired
-	TaskHeadService taskHeadService;
+	TaskRecordService taskRecordService;
 	@Autowired
 	ICurrentUser currentUser;
 
-	@RequestMapping(name = "获取任务", path = "")
-	public @ResponseBody PageModelDto<TaskHeadDto> getToDo(HttpServletRequest request) throws ParseException {
+	@RequestMapping(name = "获取任务流程", path = "")
+	public @ResponseBody PageModelDto<TaskRecordDto> getToDo(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
 		//设置过滤条件
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
@@ -42,29 +42,7 @@ public class TaskController {
 		filterItem.setOperator("eq");
 		filterItem.setValue(currentUser.getLoginName());
 		odataObj.getFilter().add(filterItem);
-		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.get(odataObj);
-		return taskHeadDtos;
-	}
-	
-	@RequestMapping(name="处理",path="{taskId}",method=RequestMethod.PUT)
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void put(@RequestBody TaskRecordDto dto,@PathVariable String taskId){
-		taskHeadService.handle(taskId, dto);
-	}
-	
-	// begin#html
-	@RequestMapping(name = "待办列表页", path = "html/todo", method = RequestMethod.GET)
-	public String todo() {
-		return ctrl + "/todo";
-	}
-	
-	@RequestMapping(name = "已办列表页", path = "html/complete", method = RequestMethod.GET)
-	public String complete() {
-		return ctrl + "/complete";
-	}
-	
-	@RequestMapping(name = "代办处理", path = "html/handle", method = RequestMethod.GET)
-	public String handle() {
-		return ctrl + "/handle";
-	}
+		PageModelDto<TaskRecordDto> taskRecordDtos = taskRecordService.get(odataObj);
+		return taskRecordDtos;
+	}	
 }

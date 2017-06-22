@@ -3,6 +3,7 @@ package cs.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -31,9 +32,9 @@ public class TaskHead extends BaseEntity {
 	private String processState;
 	
 	@Column(columnDefinition="bit NULL COMMENT '是否完成'")
-	private boolean isComplete;
+	private boolean isComplete = false;
 	
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	private List<TaskRecord> taskRecords=new ArrayList<>();
 
 	public String getId() {

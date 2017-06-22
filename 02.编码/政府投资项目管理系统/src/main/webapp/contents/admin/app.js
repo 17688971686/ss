@@ -174,7 +174,7 @@
 	            controllerAs: 'vm'
 	        })
 	        //end#基础数据管理
-	        
+	        	        
 	        //begin#年度计划编制
 	         .state('yearPlan_shenbaoInfoList', {
 	            url: '/yearPlan/shenbaoInfoList',
@@ -211,6 +211,12 @@
 	        .state('task_handle', {
 	            url: '/task/todo/:taskId/:relId',
 	            templateUrl: '/management/task/html/handle',
+	            controller: 'taskCtrl',
+	            controllerAs: 'vm'
+	        })
+	        .state('task_complete', {
+	            url: '/task/complete',
+	            templateUrl: '/management/task/html/complete',
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'
 	        })

@@ -10,7 +10,8 @@
 		var url_shenbao = "/management/shenbao"
 		var url_back = "#/task";
 		var service = {
-			grid : grid,
+			grid : grid,//待办任务列表
+			completeGird:completeGird,//已办任务列表
 			getTaskById:getTaskById,//根据id获取任务信息
 			getShenBaoInfoById:getShenBaoInfoById,//根据id获取申报信息
 			handle:handle
@@ -52,11 +53,13 @@
 			  			 		+ (parseFloat(vm.model.shenBaoInfo.capitalSHTZ)||0 )
 			  			 		+ (parseFloat(vm.model.shenBaoInfo.capitalOther)||0) ;
 			  		 }
-					if(vm.model.shenBaoInfo.projectShenBaoStage == 'projectShenBaoStage_7'){
+					//如果申报信息的申报阶段为下一年度计划
+					if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){
 						 vm.materialsType=[['XXJD','项目工程形象进度及年度资金需求情况'],['WCJSNR','年度完成建设内容及各阶段工作内容完成时间表'],
 			   					['TTJH','历年政府投资计划下大文件(*)'],['GCXKZ','建设工程规划许可证'],['TDQK','土地落实情况、征地拆迁有关情况'],
 			   					['XMJZ','项目进展情况相关资料'],['QQGZJH','前期工作计划文件'],['XMSSYJ','项目实施依据文件'],['HYJY','会议纪要']];
 		    			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+		    			   vm.isYearPlan = true;
 					}
 				}
 
@@ -69,6 +72,7 @@
 		}//end getShenBaoInfoById
 		
 		function handle(vm){
+			console.log(vm.model.taskRecord);
 			common.initJqValidation();
 			var isValid = $('form').valid();
 			if (isValid) {
@@ -80,12 +84,10 @@
 				}
 
 				var httpSuccess = function success(response) {
-
 					common.requestSuccess({
 						vm : vm,
 						response : response,
 						fn : function() {
-
 							common.alert({
 								vm : vm,
 								msg : "操作成功",
@@ -95,11 +97,9 @@
 									$('.modal-backdrop').remove();
 									location.href = url_back;
 								}
-							})
+							});
 						}
-
 					});
-
 				}
 
 				common.http({
@@ -108,7 +108,6 @@
 					httpOptions : httpOptions,
 					success : httpSuccess
 				});
-
 			}
 		}//handle
 
@@ -121,6 +120,9 @@
 					vm.task = response.data.value[0];
 					if(vm.task){
 						vm.task.taskTypeDesc=common.getBasicDataDesc(vm.task.taskType);
+						if(vm.task.isComplete){
+							vm.isComplete=true;
+						}
 					}
 					
 				}
@@ -133,8 +135,6 @@
 				});
 		}//getTaskById
 		return service;
-		
-		
 		
 		// begin#grid
 		function grid(vm) {
@@ -152,7 +152,12 @@
 				sort : {
 					field : "createdDate",
 					dir : "desc"
-				}
+				},
+				filter:{
+				field:'isComplete',
+				operator:'eq',
+				value:false
+			}
 			});
 			// End:dataSource
 
@@ -205,6 +210,89 @@
 			// End:column
 
 			vm.gridOptions = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true
+			};
+
+		}// end fun grid
+				
+		function completeGird(vm) {
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url_task),
+				schema : common.kendoGridConfig().schema({
+					id : "id"					
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "createdDate",
+					dir : "desc"
+				},
+				filter:{
+					field:'isComplete',
+					operator:'eq',
+					value:true
+				}
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+					{
+						template : function(item) {
+							return kendo
+									.format(
+											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+											item.id)
+						},
+						filterable : false,
+						width : 40,
+						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+
+					},
+					{
+						field : "title",
+						title : "标题",						
+						filterable : true,
+						template:function(item){
+							return common.format("<a href='#/task/todo/{1}/{2}'>{0}</a>",item.title,item.id,item.relId);
+						}
+					},
+					 {
+						field : "taskType",
+						title : "任务类型",
+						width : 180,						
+						filterable : false,
+						template:function(item){						
+							var value=$linq(common.getBasicData()).where(function(x){return x.id==item.taskType}).firstOrDefault();
+							if(value){
+								return value.description;
+							}
+							return "";
+						}
+					},
+					{
+						field : "",
+						title : "创建日期",
+						width : 180,
+						template : function(item) {
+							return kendo.toString(new Date(item.createdDate),"yyyy/MM/dd HH:mm:ss");
+						}
+
+					}
+
+			];
+			// End:column
+
+			vm.gridOptions_complete = {
 				dataSource : common.gridDataSource(dataSource),
 				filterable : common.kendoGridConfig().filterable,
 				pageable : common.kendoGridConfig().pageable,

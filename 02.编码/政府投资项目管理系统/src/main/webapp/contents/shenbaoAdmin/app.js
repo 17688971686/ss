@@ -107,7 +107,7 @@
 	        })
 	        //申报记录详情页
 	        .state('shenbao_record', {
-	            url: '/shenbao_record/:id/:stage', 
+	            url: '/shenbao_record/:id', 
 	            templateUrl: '/shenbaoAdmin/shenbao/html/shenBaoInfo.html',
 	            controller: 'shenbaoCtrl',
 	            controllerAs: 'vm'

@@ -161,7 +161,14 @@ public class ODataObj {
 							oDataFilterItem.setOperator(filterItems[1]);
 							oDataFilterItem.setValue(filterItems[2].replaceAll("'", ""));
 							filterItemsList.add(oDataFilterItem);
-						} else {// ����Ϊint
+						} else if(filterItems[2].equalsIgnoreCase("false")||filterItems[2].equalsIgnoreCase("true")){//boolean
+							ODataFilterItem<Boolean> oDataFilterItem = new ODataFilterItem<Boolean>();
+
+							oDataFilterItem.setField(filterItems[0]);
+							oDataFilterItem.setOperator(filterItems[1]);
+							oDataFilterItem.setValue(Boolean.parseBoolean(filterItems[2]));
+							filterItemsList.add(oDataFilterItem);
+						}else {// ����Ϊint
 							ODataFilterItem<Integer> oDataFilterItem = new ODataFilterItem<Integer>();
 
 							oDataFilterItem.setField(filterItems[0]);
