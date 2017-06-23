@@ -18,6 +18,8 @@ public class ProjectMapper {
 			projectDto.setProjectIndustry(project.getProjectIndustry());
 			projectDto.setProjectType(project.getProjectType());
 			projectDto.setProjectCategory(project.getProjectCategory());
+			projectDto.setProjectFunctionClassify(project.getProjectFunctionClassify());
+			projectDto.setProjectGoverEconClassify(project.getProjectGoverEconClassify());
 			projectDto.setProjectInvestSum(project.getProjectInvestSum());
 			projectDto.setProjectInvestAccuSum(project.getProjectInvestAccuSum());
 			projectDto.setProjectAddress(project.getProjectAddress());			
@@ -71,16 +73,21 @@ public class ProjectMapper {
 			if(project.getId()==null||project.getId().isEmpty()){
 				project.setId(UUID.randomUUID().toString());
 			}
+			//TODO 需要完成项目代码的格式设计
+			if(project.getProjectNumber()==null||project.getProjectNumber().isEmpty()){
+				project.setProjectNumber(UUID.randomUUID().toString());
+			}
 			project.setUnitName(projectDto.getUnitName());
 			project.setProjectName(projectDto.getProjectName());
 			project.setProjectInvestSum(projectDto.getProjectInvestSum());
 			project.setProjectInvestAccuSum(projectDto.getProjectInvestAccuSum());
-			project.setProjectAddress(projectDto.getProjectAddress());			
-			project.setProjectNumber(projectDto.getProjectNumber());
+			project.setProjectAddress(projectDto.getProjectAddress());
 			project.setProjectStage(projectDto.getProjectStage());
 			project.setProjectClassify(projectDto.getProjectClassify());
 			project.setProjectIndustry(projectDto.getProjectIndustry());
 			project.setProjectType(projectDto.getProjectType());
+			project.setProjectFunctionClassify(projectDto.getProjectFunctionClassify());
+			project.setProjectGoverEconClassify(projectDto.getProjectGoverEconClassify());
 			project.setProjectCategory(projectDto.getProjectCategory());
 			project.setProjectIntro(projectDto.getProjectIntro());
 			project.setProjectGuiMo(projectDto.getProjectGuiMo());			

@@ -10,52 +10,64 @@
 			<span ng-bind="vm.userUnit.unitName"></span>
 		</td>
 	</tr>
-	</table>
+</table>
 
 <div class="bg-info text-info" style="padding: 10px;">项目基本信息</div>
 <table class="table table-bordered table-striped ">
 	<tr>
-		<td class="formAlignRight" style="width:150px;">项目代码：<span class="required">(*)</span></td>
-		<td style="width:250px;">
-			<input type="text" id="id" name="id" ng-model="vm.model.id" style="display:none"/>
-			<input type="text" class="form-control input-sm"  id="projectNumber" name="projectNumber" ng-model="vm.model.projectNumber" data-val="true" data-val-required="必填"/>
-			<span data-valmsg-for="projectNumber" data-valmsg-replace="true" class="required"></span>
-		</td>
 		<td class="formAlignRight" style="width:150px;">项目名称：<span class="required">(*)</span></td>
 		<td>
 			<input type="text" class="form-control input-sm" id="projectName" name="projectName" ng-model="vm.model.projectName" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
 		</td>
-	</tr>
-	<tr>
-		<td class="formAlignRight">项目阶段：<span class="required">(*)</span></td>
-		<td >
+		<td class="formAlignRight" style="width:180px;">项目阶段：<span class="required">(*)</span></td>
+		<td>
 			<select id="projectStage" name="projectStage" style="height:30px;" ng-model="vm.model.projectStage" data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>
 				<option ng-repeat="stage in vm.basicData.projectStage" value="{{stage.id}}">{{stage.description}}</option>
 			</select>
 			<span data-valmsg-for="projectStage" data-valmsg-replace="true" class="required"></span>
 		</td>
-		<td class="formAlignRight">项目类别：</td>
+	</tr>
+	<tr>		
+		<td class="formAlignRight">项目类别：<span class="required">(*)</span></td>
 		<td>
-			<select style="height:30px;" ng-model="vm.model.projectCategory">
+			<select style="height:30px;" id="projectCategory" name="projectCategory" ng-model="vm.model.projectCategory" data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.projectCategory" ng-selected="vm.model.projectCategory==x.id" value="{{x.id}}">{{x.description}}</option>		
-			</select>					
+			</select>
+			<span data-valmsg-for="projectCategory" data-valmsg-replace="true" class="required"></span>					
+		</td>
+		<td class="formAlignRight">项目分类：<span class="required">(*)</span></td>
+		<td >
+			<select id="projectClassify" name="projectClassify"  style="height:30px;" ng-model="vm.model.projectClassify" data-val="true" data-val-required="必选">
+				<option value="">---请选择---</option>
+				<option ng-repeat="x in vm.basicData.projectClassify" value="{{x.id}}">{{x.description}}</option>
+			</select>
+			<span data-valmsg-for="projectClassify" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
 	<tr>
-		<td class="formAlignRight">项目类型：</td>
-		<td colspan="3">
-			<label ng-repeat="x in vm.basicData.projectType" for="projectType{{$index}}">
-				<input type="radio" name="projectType" id="projectType{{$index}}" value="{{x.id}}" ng-model="vm.model.projectType"/>{{x.description}}&nbsp;&nbsp;
-			</label>					
+		<td class="formAlignRight">功能分类科目：<span class="required">(*)</span></td>
+		<td>
+			<select style="height:30px;" id="projectFunctionClassify" name="projectFunctionClassify" ng-model="vm.model.projectFunctionClassify" data-val="true" data-val-required="必选">
+				<option value="">---请选择---</option>
+				<option ng-repeat="x in vm.basicData.projectFunctionClassify" value="{{x.id}}">{{x.description}}</option>
+			</select>
+			<span data-valmsg-for="projectFunctionClassify" data-valmsg-replace="true" class="required"></span>
+		</td>
+		<td class="formAlignRight">政府经济分类科目：<span class="required">(*)</span></td>
+		<td>
+			<select style="height:30px;" id="projectGoverEconClassify" name="projectGoverEconClassify" ng-model="vm.model.projectGoverEconClassify" data-val="true" data-val-required="必选">
+				<option value="">---请选择---</option>
+				<option ng-repeat="x in vm.basicData.projectGoverEconClassify" value="{{x.id}}">{{x.description}}</option>
+			</select>
+			<span data-valmsg-for="projectGoverEconClassify" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
-	
 	<tr>
 		<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
-		<td>
+		<td colspan="3">
 			<select id="projectIndustry" name="projectIndustry" style="height:30px;" ng-model="vm.model.projectIndustryParent"  ng-change="vm.projectIndustryChange()"
 			 data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>
@@ -68,17 +80,16 @@
 				<option ng-repeat="x in vm.basicData.projectIndustryChildren" ng-selected="vm.model.projectIndustry==x.id" value="{{x.id}}" ng-bind="x.description"></option>
 			</select>
 			<span data-valmsg-for="industry" data-valmsg-replace="true" class="required"></span>	
-		</td>
-		<td class="formAlignRight">项目分类：<span class="required">(*)</span></td>
-		<td >
-			<select id="projectClassify" name="projectClassify"  style="height:30px;" ng-model="vm.model.projectClassify" data-val="true" data-val-required="必选">
-				<option value="">---请选择---</option>
-				<option ng-repeat="x in vm.basicData.projectClassify" value="{{x.id}}">{{x.description}}</option>
-			</select>
-			<span data-valmsg-for="projectClassify" data-valmsg-replace="true" class="required"></span>
+		</td>		
+	</tr>
+	<tr>
+		<td class="formAlignRight">项目类型：</td>
+		<td colspan="3">
+			<label ng-repeat="x in vm.basicData.projectType" for="projectType{{$index}}">
+				<input type="radio" name="projectType" id="projectType{{$index}}" value="{{x.id}}" ng-model="vm.model.projectType"/>{{x.description}}&nbsp;&nbsp;
+			</label>					
 		</td>
 	</tr>
-		
 	<tr>
 		<td class="formAlignRight">项目开工日期：</td>
 		<td >
@@ -135,9 +146,9 @@
 								<td>专项资金</td>
 							</tr>
 							<tr>
-								<td ><input type="text" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys" /></td>
-								<td><input type="text" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj"  /></td>
-								<td><input type="text" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_zxzj" /></td>
+								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys" /></td>
+								<td><input type="number" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj"  /></td>
+								<td><input type="number" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_zxzj" /></td>
 							</tr>
 						</table>
 					</td>
@@ -149,8 +160,8 @@
 								
 							</tr>
 							<tr>
-								<td><input type="text" class="form-control input-sm" ng-model="vm.model.capitalQCZ_ggys"  /></td>
-								<td><input type="text" class="form-control input-sm" ng-model="vm.model.capitalQCZ_gtzj"  /></td>
+								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalQCZ_ggys"  /></td>
+								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalQCZ_gtzj"  /></td>
 							</tr>
 						</table>
 					</td>
@@ -162,7 +173,7 @@
 								
 							</tr>
 							<tr>
-								<td><input type="text" class="form-control input-sm" ng-model="vm.model.capitalSHTZ"  /></td>
+								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalSHTZ"  /></td>
 							</tr>
 						</table>
 					</td>
@@ -177,7 +188,7 @@
 								</td>															
 							</tr>
 							<tr>
-								<td><input type="text" class="form-control input-sm" ng-model="vm.model.capitalOther"  /></td>
+								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalOther"/></td>
 							</tr>
 						</table>
 					</td>

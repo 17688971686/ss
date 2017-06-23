@@ -21,13 +21,15 @@
     		if(vm.id){
     			vm.page='update';
     		}
+    		if($state.current.name=='projectDetails'){
+    			vm.page='details';
+    		}
     		
     	}
     	init();    	
     	activate();
         function activate() {
-        	
-        	
+        	        	
         	if(vm.page=='list'){
         		init_list();
         	}
@@ -37,6 +39,9 @@
         	if(vm.page=='update'){
         		init_create();
         		init_update();
+        	}
+        	if(vm.page=='details'){
+        		init_details();
         	}
         }
     	
@@ -163,6 +168,10 @@
     		vm.update = function(){
     			projectSvc.updateProject(vm);
     		}   	   		
-    	}//init_update        
+    	}//init_update
+    	
+    	function init_details(){
+    		projectSvc.getProjectById(vm);
+    	}
     }
 })();

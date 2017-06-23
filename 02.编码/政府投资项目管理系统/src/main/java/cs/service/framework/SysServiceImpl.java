@@ -402,6 +402,14 @@ public class SysServiceImpl implements SysService {
 		this.createBasicData("projectCategory_3", "projectCategory", "projectCategory", "C类", "项目类别分类");
 		this.createBasicData("projectCategory_4", "projectCategory", "projectCategory", "D类", "项目类别分类");
 		
+		this.createBasicData("projectFunctionClassify","", "projectFunctionClassify", "项目功能分类科目", "项目功能分类科目");
+		this.createBasicData("projectFunctionClassify_1", "projectFunctionClassify", "projectFunctionClassify", "功能1", "项目功能分类科目");
+		this.createBasicData("projectFunctionClassify_2", "projectFunctionClassify", "projectFunctionClassify", "功能2", "项目功能分类科目");
+		
+		this.createBasicData("projectGoverEconClassify","", "projectGoverEconClassify", "项目政府经济分类科目", "项目政府经济分类科目");
+		this.createBasicData("projectGoverEconClassify_1", "projectGoverEconClassify", "projectGoverEconClassify", "经济分类1", "项目政府经济分类科目");
+		this.createBasicData("projectGoverEconClassify_2", "projectGoverEconClassify", "projectGoverEconClassify", "经济分类2", "项目政府经济分类科目");
+		
 		this.createBasicData("capitalOtherType", "", "capitalOtherType", "资金其他来源类型", "资金其他来源类型");
 		this.createBasicData("capitalOtherType_1", "capitalOtherType", "capitalOtherType", "海绵资金", "资金其他来源类型");
 		

@@ -6,10 +6,10 @@
 	index.$inject = [ '$http' ];	
 
 	function index($http) {	
-		var url_taskRecord="/management/taskRecord";
+		var url_taskRecord="/shenbaoAdmin/taskRecord";
 		var url_unitShenBao="/shenbaoAdmin/shenbao";
 		var service = {
-			getTaskRecords:getTaskRecords, //获取任务消息
+			getTaskRecords:getTaskRecords, //获取任务流程消息
 			getUnitShenBaoInfos:getUnitShenBaoInfos,//获取单位申报信息
 		};		
 		return service;

@@ -17,12 +17,10 @@ import cs.common.ICurrentUser;
 import cs.domain.Project;
 import cs.domain.Project_;
 import cs.model.PageModelDto;
-import cs.model.DomainDto.AttachmentDto;
+
 import cs.model.DomainDto.ProjectDto;
-import cs.model.DtoMapper.AttachmentMapper;
 import cs.model.DtoMapper.ProjectMapper;
 import cs.repository.interfaces.ProjectRepo;
-import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.interfaces.ProjectService;
@@ -51,6 +49,8 @@ public class ProjectServiceImpl implements ProjectService {
 			projectDto.setProjectCategoryDesc(basicDataService.getDescriptionById(x.getProjectCategory()));//项目类别名称
 			projectDto.setProjectIndustryDesc(basicDataService.getDescriptionById(x.getProjectIndustry()));//项目行业领域名称
 			projectDto.setProjectClassifyDesc(basicDataService.getDescriptionById(x.getProjectClassify()));//项目分类名称
+			projectDto.setProjectFunctionClassifyDesc(basicDataService.getDescriptionById(x.getProjectFunctionClassify()));//功能分类科目名称
+			projectDto.setProjectGoverEconClassifyDesc(basicDataService.getDescriptionById(x.getProjectGoverEconClassify()));//政府经济分类科目名称
 			projectDto.setCapitalOtherTypeDesc(basicDataService.getDescriptionById(x.getCapitalOtherType()));//资金其他来源名称
 			//获取月报中项目进度的名称
 			projectDto.getMonthReportDtos().forEach(y->{

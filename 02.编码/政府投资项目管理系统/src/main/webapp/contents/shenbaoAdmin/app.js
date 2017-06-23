@@ -13,14 +13,22 @@
     ]).config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/');
         $stateProvider
+/**********************************************begin#管理首页*********************************/        
         	//首页-管理中心
         	.state('index', {
         		url: '/',
         		templateUrl: '/shenbaoAdmin/html/welcome',
         		controller: 'indexCtrl',
         		controllerAs: 'vm'
-        	})            
-            
+        	})
+        	//任务流程记录
+        	.state('task_records', {
+        		url: '/task_records',
+        		templateUrl: '/shenbaoAdmin/taskRecord/html/list',
+        		controller: 'indexCtrl',
+        		controllerAs: 'vm'
+        	})
+/**********************************************end#管理首页*********************************/           
              //begin#deptInfoMaintain（单位信息维护）
 	        .state('deptInfoMaintain', {
 	            url: '/deptInfoMaintain',

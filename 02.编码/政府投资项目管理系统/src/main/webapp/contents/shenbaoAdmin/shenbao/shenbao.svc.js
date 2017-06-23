@@ -165,67 +165,91 @@
 		 */
 		function createShenBaoInfo(vm){
 			common.initJqValidation();
-			//var isValid = $('form').valid();
-			//todo
 			var isValid=function(){
 				var validFields=[
-					['projectName','required','项目基本信息-项目名称必填'],
-					['projectStage','required','项目基本信息-项目阶段必填']
+					['projectConstrChar','required','年度计划信息-项目建设性质必选'],
+					['planYear','required','年度计划信息-计划年度必填'],
+					['applyYearInvest','required','年度计划信息-申请年度投资必填'],
+					['yearConstructionContent','required','年度计划信息-年度建设内容必填'],					
+					['shenBaoUnitInfoDto.unitName','required','项目单位信息-单位名称必填'],
+					['shenBaoUnitInfoDto.unitTel','required','项目单位信息-单位电话必填'],
+					['shenBaoUnitInfoDto.unitEmail','required','项目单位信息-单位邮箱必填'],					
+					['shenBaoUnitInfoDto.unitProperty','required','项目单位信息-单位性质必选'],
+					['shenBaoUnitInfoDto.divisionId','required','项目单位信息-单位区域必选'],
+					['shenBaoUnitInfoDto.unitAddress','required','项目单位信息-单位地址必填'],
+					['shenBaoUnitInfoDto.unitResPerson','required','项目单位信息-单位负责人名称必填'],
+					['shenBaoUnitInfoDto.resPersonTel','required','项目单位信息-单位负责人电话必填'],
+					['shenBaoUnitInfoDto.resPersonMobile','required','项目单位信息-单位负责人手机必填'],
+					['shenBaoUnitInfoDto.resPersonEmail','required','项目单位信息-单位负责人邮箱必填'],
+					['shenBaoUnitInfoDto.unitContactPerson','required','项目单位信息-项目联系人名称必填'],
+					['shenBaoUnitInfoDto.contactPersonTel','required','项目单位信息-项目联系人电话必填'],
+					['shenBaoUnitInfoDto.contactPersonMobile','required','项目单位信息-项目联系人手机必填'],
+					['shenBaoUnitInfoDto.contactPersonEmail','required','项目单位信息-项目联系人邮箱必填']					
 				];
 				vm.validMessage=[];
 				$.each(validFields,function(idx,item){
-					var value=vm.model[item[0]];
+					console.log(item[0]);
+					var value='';
+					if(item[0].indexOf('.')>0){
+						var fields=item[0].split('.');
+						value=vm.model[fields[0]][fields[1]];
+					}
+					else{
+						value=vm.model[item[0]];
+					}
+							
 					var msg=item[2];					
 					if(item[1]=='required'){				
 						var isExist=value&&value.trim()!=""					
 						if(!isExist){
 							vm.validMessage.push(msg);
-						}
-						
+						}						
 					}
 					
 				});
-				$('#validMsgDialog').modal({
-	                 backdrop: 'static',
-	                 keyboard:false
-	             });
-				
-				return false;
+				if(vm.validMessage.length>0){
+					$('#validMsgDialog').modal({
+		                 backdrop: 'static',
+		                 keyboard:false
+		             });
+				}else{
+					return true;
+				}												
 			}
 			
 			if (isValid()) {
-//				vm.isSubmit = true;				
-//				var httpOptions = {
-//					method : 'post',
-//					url : url_shenbao,
-//					data : vm.model
-//				}
-//
-//				var httpSuccess = function success(response) {
-//					common.requestSuccess({
-//						vm : vm,
-//						response : response,
-//						fn : function() {
-//							common.alert({
-//								vm : vm,
-//								msg : "操作成功",
-//								fn : function() {
-//									vm.isSubmit = false;
-//									$('.alertDialog').modal('hide');
-//									$('.modal-backdrop').remove();
-//									location.href = url_back;									
-//								}
-//							});
-//						}
-//					});
-//				}
-//				
-//				common.http({
-//					vm : vm,
-//					$http : $http,
-//					httpOptions : httpOptions,
-//					success : httpSuccess
-//				});			
+				vm.isSubmit = true;				
+				var httpOptions = {
+					method : 'post',
+					url : url_shenbao,
+					data : vm.model
+				}
+
+				var httpSuccess = function success(response) {
+					common.requestSuccess({
+						vm : vm,
+						response : response,
+						fn : function() {
+							common.alert({
+								vm : vm,
+								msg : "操作成功",
+								fn : function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');
+									$('.modal-backdrop').remove();
+									location.href = url_back;									
+								}
+							});
+						}
+					});
+				}
+				
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});			
 			}
 		}
 		
@@ -263,9 +287,9 @@
 						//日期展示
 						vm.model.beginDate=common.toDate(vm.model.beginDate);//开工日期
 						vm.model.endDate=common.toDate(vm.model.endDate);//竣工日期
-						vm.model.pifuJYS_date=common.toDate(vm.model.pifuJYS_date);//项目建议书批复日期			
-						vm.model.pifuKXXYJBG_date=common.toDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
-						vm.model.pifuCBSJYGS_date=common.toDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期
+						vm.model.pifuJYS_date=common.formatDate(vm.model.pifuJYS_date);//项目建议书批复日期			
+						vm.model.pifuKXXYJBG_date=common.formatDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
+						vm.model.pifuCBSJYGS_date=common.formatDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期
 		        		//项目行业归口
 						var child = $linq(common.getBasicData())
 		        		.where(function(x){return x.id==vm.model.projectIndustry})

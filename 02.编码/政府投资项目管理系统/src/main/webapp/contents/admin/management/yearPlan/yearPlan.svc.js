@@ -275,60 +275,77 @@
 						filterable : true
 					},
 					{
-						field : "projectConstrCharDesc",
-						title : "建设性质",
-						width : 150,
-						template:function(item){
-							return common.getBasicDataDesc(item.projectConstrChar);
-						},
-						filterable : false
-					},					
-					{
-						field : "projectClassifyDesc",
-						title : "项目分类",
-						width : 150,
-						filterable : false
+						field : "unitName",
+						title : "建设单位",
+						filterable : true
 					},
 					{
-						field : "projectCategoryDesc",
-						title : "项目类别",
-						width : 150,
+						field : "projectFunctionClassifyDesc",
+						title : "功能分类科目",
 						template:function(item){
-							return common.getBasicDataDesc(item.projectCategory);
+							return common.getBasicDataDesc(item.projectFunctionClassify);
 						},
-						filterable : false
+						filterable : true
+					},
+					{
+						field : "projectGoverEconClassifyDesc",
+						title : "政府经济分类科目",
+						template:function(item){
+							return common.getBasicDataDesc(item.projectGoverEconClassify);
+						},
+						filterable : true
 					},
 					{
 						field : "projectIndustryDesc",
 						title : "行业领域",
-						width : 150,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectIndustry);
 						},
 						filterable : false	
 					},
 					{
+						field : "projectCategoryDesc",
+						title : "项目类别",
+						width : 80,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectCategory);
+						},
+						filterable : false
+					},
+					{
+						field : "projectConstrCharDesc",
+						title : "建设性质",
+						width : 100,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectConstrChar);
+						},
+						filterable : false
+					},					
+//					{
+//						field : "projectClassifyDesc",
+//						title : "项目分类",
+//						width : 150,
+//						filterable : false
+//					},
+//										
+					{
 						field : "projectInvestSum",
 						title : "总投资（万元）",
-						width : 150,
 						filterable : false
 					},
 					{
 						field : "planYear",
 						title : "计划年度",
-						width : 150,
 						filterable : false
 					},
 					{
 						field : "applyYearInvest",
 						title : "申请年度投资（万元）",
-						width : 150,
 						filterable : false
 					},
 					{
 						field : "yearInvestApproval",
 						title : "安排资金（万元）",
-						width : 150,
 						template :function(item){					
 							return common.format($('#input').html(),item.id,item.yearInvestApproval||0);
 						},
@@ -337,7 +354,7 @@
 					{
 						field : "createdDate",
 						title : "创建日期",
-						width : 180,
+						width : 150,
 						filterable : false,
 						template:function(item){return kendo.toString(new Date(item.createdDate), "yyyy/MM/dd HH:mm:ss");}
 					}

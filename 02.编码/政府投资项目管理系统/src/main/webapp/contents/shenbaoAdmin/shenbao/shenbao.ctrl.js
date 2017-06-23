@@ -88,23 +88,12 @@
            }    	   
         }//end#page_list
        
-       function page_edit(){    	   
-    	   //初始化tab
-//    	   vm.tabStripOptions={
-//    			 select:function(e){
-//    				 //验证表单
-//    				 common.initJqValidation();
-//    				var isValid = $('form').valid();
-//    				 if(!isValid){    					 
-//						var tab=vm.tabStrip.select();
-//	                  	vm.tabStrip.activateTab(tab);							                  	    		           		
-//    				 }
-//    			 }
-//    	   }
+       function page_edit(){
     	   //判断tab显示
     	   var init_tab_show=function(){
     		   vm.isYearPlan=vm.stage==common.basicDataConfig().projectShenBaoStage_nextYearPlan;//申报阶段为下一年度计划
     		   if(vm.isYearPlan){
+    			   //初始化项目材料清单
     			   vm.materialsType=[['XXJD','项目工程形象进度及年度资金需求情况'],['WCJSNR','年度完成建设内容及各阶段工作内容完成时间表'],
 	   					['TTJH','历年政府投资计划下大文件(*)'],['GCXKZ','建设工程规划许可证'],['TDQK','土地落实情况、征地拆迁有关情况'],
 	   					['XMJZ','项目进展情况相关资料'],['QQGZJH','前期工作计划文件'],['XMSSYJ','项目实施依据文件'],['HYJY','会议纪要']];
@@ -115,51 +104,32 @@
     	   
     	   //获取基础数据
     	   	//项目阶段
-	   		vm.basicData.projectStage=$linq(common.getBasicData())
-	   		.where(function(x){return x.identity=='projectStage'&&x.pId=='projectStage';})
-	   		.toArray();
+    	   	vm.basicData.projectStage = common.getBacicDataByIndectity(common.basicDataConfig().projectStage);    	  
 	   		//项目类型
-	   		vm.basicData.projectType=$linq(common.getBasicData())
-	   		.where(function(x){return x.identity=='projectType'&&x.pId=='projectType';})
-	   		.toArray();
+	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);	   		
 	   		//行业归口
-	   		vm.basicData.projectIndustry=$linq(common.getBasicData())
-	   		.where(function(x){return x.identity=='projectIndustry'&&x.pId=='projectIndustry';})
-	   		.toArray();
+	   		vm.basicData.projectIndustry=common.getBacicDataByIndectity(common.basicDataConfig().projectIndustry);
 	   		vm.projectIndustryChange=function(){    		
 	       		vm.basicData.projectIndustryChildren=$linq(common.getBasicData())
-	       		.where(function(x){return x.identity=='projectIndustry'&&x.pId==vm.model.projectIndustryParent;})
+	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.model.projectIndustryParent;})
 	       		.toArray();
 	   		}
 	       	//投资类型
-	   		vm.basicData.projectInvestmentType=$linq(common.getBasicData())
-	   		.where(function(x){return x.identity=='projectInvestmentType'&&x.pId=='projectInvestmentType';})
-	   		.toArray(); 
+	   		vm.basicData.projectInvestmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);
 	   		//项目分类
-	   		vm.basicData.projectClassify=$linq(common.getBasicData())
-	   		.where(function(x){return x.identity=='projectClassify'&&x.pId=='projectClassify';})
-	   		.toArray();
+	   		vm.basicData.projectClassify=common.getBacicDataByIndectity(common.basicDataConfig().projectClassify);	   		
 	   		//项目类别
-	   		vm.basicData.projectCategory=$linq(common.getBasicData())
-	   		.where(function(x){return x.identity=='projectCategory'&&x.pId=='projectCategory';})
-	   		.toArray();
+	   		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);
 	   		//项目建设性质
-	   		vm.basicData.projectConstrChar=$linq(common.getBasicData())
-	   		.where(function(x){return x.identity=='projectConstrChar'&&x.pId=='projectConstrChar';})
-	   		.toArray();
-	   		
+	   		vm.basicData.projectConstrChar=common.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);	   		
 	   		//单位性质
-	   		vm.basicData.unitProperty=$linq(common.getBasicData())
-	   		.where(function(x){return x.identity=='unitProperty'&&x.pId=='unitProperty';})
-	   		.toArray();
+	   		vm.basicData.unitProperty=common.getBacicDataByIndectity(common.basicDataConfig().unitProperty);	   		
 	   		//行政区划街道
 	   		vm.basicData.area_Street=$linq(common.getBasicData())
 	 			.where(function(x){return x.identity=='area'&&x.pId=='area_1';})
 	 			.toArray();
 	   		//资金其他来源类型
-	   		vm.basicData.capitalOther=$linq(common.getBasicData())
- 			.where(function(x){return x.identity=='capitalOtherType'&&x.pId=='capitalOtherType';})
- 			.toArray();
+	   		vm.basicData.capitalOther=common.getBacicDataByIndectity(common.basicDataConfig().capitalOtherType);
     	  
 	   		//文件上传
     	   vm.uploadSuccess=function(e){
@@ -175,6 +145,7 @@
 	           		 });
 	           	 }
   		}
+    	   //删除上传文件
   		 vm.delFile=function(idx){
           	 vm.model.attachmentDtos.splice(idx,1);
   		 }
@@ -191,7 +162,8 @@
     			if(isValid){//通过则跳转到下一页面
     				vm.tabStrip.activateTab(activeTab);
     			}
-     		} 
+     		}
+  		
   		 //确认提交
     	vm.submit = function(){
     		shenbaoSvc.createShenBaoInfo(vm);
