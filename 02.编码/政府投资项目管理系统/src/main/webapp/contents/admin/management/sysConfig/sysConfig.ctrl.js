@@ -12,14 +12,36 @@
     	var vm = this;
     	vm.title = "";
     	vm.model={};
-       
+    	vm.userList={};
     	activate();
-    	function init(){
-    		
-    	}
+    	
         function activate() {        	
-        	init();
+        	init_getAllTask();
+        	init_getAllUser();
         }
         
+        /**
+		 * 系统配置：查询所有username
+		 * @return usernameList
+		 */
+        function init_getAllUser(){
+        	sysConfigSvc.getAllUser(vm);
+        }
+        
+        /**
+		 * 系统配置：查询所有task
+		 * @return taskList
+		 */
+        function init_getAllTask(){
+        	sysConfigSvc.getAllTask(vm);
+        }
+        
+        /**
+		 * 系统配置：更新task签收人
+		 * @return taskList
+		 */
+        vm.create = function(){
+        	sysConfigSvc.createTaskUser(vm);
+        }
     }    
 })();

@@ -11,6 +11,10 @@ public interface SysService {
 	List<SysResourceDto> get();
 	 Response SysInit();
 	 Response SysInitBasicData();
-	 
 	 SysConfigDto getConfigValue(String configType);
+	 /**
+	  * 创建task签收人
+	  * @param sysConfigDto
+	  */
+	 void createTaskUser(SysConfigDto sysConfigDto);
 }
