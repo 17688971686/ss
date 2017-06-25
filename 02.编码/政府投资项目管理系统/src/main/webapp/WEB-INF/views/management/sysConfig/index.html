@@ -1,0 +1,38 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+    	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		<li><a href="#/">首页</a></li>
+        <li>系统管理</li>       
+        <li class="active">系统配置</li>
+    </ol>
+    <form id="form" name="form">
+       <div>
+       	<table class="table table-bordered table-striped" style="width:30%">
+       		<tr>
+       			<th colspan="2">签收人</th>
+       		</tr>
+       		<tr>
+       			<td>下一年度计划</td>
+       			<td>
+       				<select style="height:30px;">
+						<option value="">---请选择---</option>
+						<option ng-repeat="x in vm.userList" value="{{x.id}}">{{x.displayName}}</option>
+					</select>
+       			</td>
+       		</tr>
+       		<tr>
+       			<td>月报</td>
+       			<td>
+					<select style="height:30px;">
+						<option>---请选择---</option>
+					</select>
+       			</td>
+       		</tr>
+       	</table>
+	</div>
+        
+    </form>
+</div>

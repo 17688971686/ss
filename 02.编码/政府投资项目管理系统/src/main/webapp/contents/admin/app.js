@@ -175,6 +175,15 @@
 	        })
 	        //end#基础数据管理
 	        
+	        //begin#系统配置
+	        .state('sysConfig', {
+	            url: '/sysConfig',
+	            templateUrl: '/sys/html/index',
+	            controller: 'sysConfigCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //end#系统配置
+	        	        
 	        //begin#年度计划编制
 	         .state('yearPlan_shenbaoInfoList', {
 	            url: '/yearPlan/shenbaoInfoList',
@@ -214,12 +223,13 @@
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'
 	        })
-	        .state('task_history', {
-	            url: '/task/history',
-	            templateUrl: '/management/task/html/history',
+
+	        .state('task_complete', {
+	            url: '/task/complete',
+	            templateUrl: '/management/task/html/complete',
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'
-	        })
+	        })	        
 	        //end#工作台
     }]);
     

@@ -3,6 +3,7 @@
 .modal-open {
        overflow: scroll !important;
     }
+ overflow: scroll !important;
 .table-bordered>thead>tr>th, 
 .table-bordered>tbody>tr>th, 
 .table-bordered>tfoot>tr>th, 
@@ -44,6 +45,7 @@ textarea.form-control {
 </style>
 
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
 
 <div class="well-sm" style="background:white;">
     <ol class="breadcrumb">
@@ -55,7 +57,7 @@ textarea.form-control {
     </ol>
              
   	<form id="form" name="form">
-  		<div id="tabStrip" kendo-tab-strip k-options="vm.tabStripOptions">
+  		<div id="tabStrip" kendo-tab-strip="vm.tabStrip" k-options="vm.tabStripOptions">
               <!-- tab list -->
               <ul >
                 <li id="tab1" class="k-state-active">项目基本信息</li>
@@ -99,6 +101,32 @@ textarea.form-control {
                  	<button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit" ng-click="vm.update()" ng-disabled="vm.isSubmit">确认更新 </button>
                  </div>
             </div>
-    </form>
-    
+    </form>   
 </div>
+
+<div id="validMsgDialog" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog"
+				style="margin: 80px auto; width: 80%; max-width: 600px;">
+				<div class="modal-content">
+					<div class="modal-header bg-primary" style="height:30px;padding:5px;">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<span class="modal-title">详细信息</span>
+					</div>
+					<div class="modal-body text-danger">
+						<ul>
+							<li ng-repeat="x in vm.validMessage">{{x}}</li>
+						</ul>
+					</div>
+					<div class="modal-footer">
+						
+						<button type="button" class="btn btn-info btn-sm" data-dismiss="modal">确认</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+
+	</div>

@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -20,10 +21,16 @@ import cs.common.Response;
 import cs.common.sysResource.ClassFinder;
 import cs.common.sysResource.SysResourceDto;
 import cs.domain.BasicData;
+import cs.domain.Project;
+import cs.domain.Project_;
 import cs.domain.framework.Resource;
 import cs.domain.framework.Role;
 import cs.domain.framework.Role_;
+import cs.domain.framework.SysConfig;
+import cs.domain.framework.SysConfig_;
 import cs.domain.framework.User;
+import cs.model.DomainDto.SysConfigDto;
+import cs.model.DtoMapper.IMapper;
 import cs.repository.common.BasicDataRepo;
 import cs.repository.framework.RoleRepoImpl;
 import cs.repository.framework.SysConfigRepoImpl;
@@ -41,6 +48,10 @@ public class SysServiceImpl implements SysService {
 	private SysConfigRepoImpl sysConfigRepo;
 	@Autowired
 	private BasicDataRepo basicDataRepo;
+	@Autowired
+	private IMapper<SysConfigDto,SysConfig> sysConfigMapper;
+	
+	
 	@Override
 	public List<SysResourceDto> get() {
 
@@ -481,4 +492,21 @@ public class SysServiceImpl implements SysService {
 		basicDataRepo.save(basicData);
 		return basicData;
 	}
+
+	/**
+	 * @Description 通过类型查询出配置的信息
+	 */
+	@Override
+	@Transactional
+	public SysConfigDto getConfigValue(String configType) {
+		SysConfigDto sysConfigDto = new SysConfigDto();
+		Criterion criterion=Restrictions.eq(SysConfig_.configType.getName(), configType);
+		Optional<SysConfig> sysConfig = sysConfigRepo.findByCriteria(criterion).stream().findFirst();		
+		if(sysConfig.isPresent()){		
+			sysConfigDto = sysConfigMapper.toDto(sysConfig.get());
+		}
+		return sysConfigDto;
+	}
+	
+	
 }

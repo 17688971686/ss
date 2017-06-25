@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cs.common.BasicDataConfig;
-import cs.common.CurrentUser;
-import cs.common.ICurrentUser;
 import cs.domain.TaskHead;
 import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
@@ -37,9 +35,6 @@ public class TaskHeadServiceImpl implements TaskHeadService {
 	@Autowired
 	TaskHeadRepo taskHeadRepo;
 	
-	@Autowired
-	ICurrentUser currentUser;
-	
 	
 	@Override
 	@Transactional
@@ -61,8 +56,10 @@ public class TaskHeadServiceImpl implements TaskHeadService {
 	@Override
 	@Transactional
 	public void create(TaskHeadDto dto) {
-		// TODO Auto-generated method stub
-		
+		TaskHead taskHead = new TaskHead();
+		taskHeadMapper.buildEntity(dto, taskHead);
+		taskHeadRepo.save(taskHead);
+		logger.info(String.format("创建任务信息,任务标题 %s",dto.getTitle()));		
 	}
 
 	@Override
@@ -75,18 +72,20 @@ public class TaskHeadServiceImpl implements TaskHeadService {
 	@Override
 	@Transactional
 	public void handle(String taskId, TaskRecordDto dto) {
-		// TODO Auto-generated method stub
-		TaskHead taskHead=taskHeadRepo.findById(taskId);
+		TaskHead taskHead=taskHeadRepo.findById(taskId); 
 		if(taskHead!=null){
 			TaskRecord entity=new TaskRecord();
-			dto.setUserName(currentUser.getLoginName());
 			dto.setRelId(taskHead.getRelId());
-			dto.setTaskType(entity.getTaskType());
-			dto.setTitle(entity.getTitle());
-			
+			dto.setTaskType(taskHead.getTaskType());
+			dto.setTitle(taskHead.getTitle());
+			String processState=dto.getProcessState();
+			//判断处理状态
+			if(dto.getUserName()==null && BasicDataConfig.processState_tuiWen.equals(processState)){//如果为退文
+				//设置任务的下一处理人为创建人
+				dto.setUserName(taskHead.getCreatedBy());
+			}
 			taskRecordMapper.buildEntity(dto, entity);
 			taskHead.getTaskRecords().add(entity);
-			String processState=dto.getProcessState();
 			
 			//设置完成
 			setComplete(taskHead,processState);

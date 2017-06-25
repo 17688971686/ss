@@ -4,8 +4,8 @@
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目所属单位：<span class="required">(*)</span></td>
 		<td>
-			<span ng-bind="vm.model.unitName" style="display:none"></span>
-			<span ng-bind="vm.model.shenBaoUnitInfoDto.unitName"></span>
+			<span ng-bind="vm.model.shenBaoInfo.unitName" style="display:none"></span>
+			<span ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitName"></span>
 		</td>
 	</tr>
 	</table>
@@ -15,61 +15,66 @@
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目代码：<span class="required">(*)</span></td>
 		<td style="width:250px;">
-			<span id="projectNumber" name="projectNumber" ng-bind="vm.model.projectNumber"></span>
+			<span id="projectNumber" name="projectNumber" ng-bind="vm.model.shenBaoInfo.projectNumber"></span>
 		</td>
 		<td class="formAlignRight" style="width:150px;">项目名称：<span class="required">(*)</span></td>
 		<td>
-			<span id="projectName" name="projectName" ng-bind="vm.model.projectName"></span>
+			<span id="projectName" name="projectName" ng-bind="vm.model.shenBaoInfo.projectName"></span>
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">项目阶段：<span class="required">(*)</span></td>
 		<td >
-			<span ng-bind="vm.model.projectStageDesc"></span>
+			<span ng-bind="vm.model.shenBaoInfo.projectStageDesc"></span>
 		</td>
-		<td class="formAlignRight">项目类型：</td>
-		<td >
-			<span ng-bind="vm.model.projectTypeDesc"></span>				
-		</td>
+		<td class="formAlignRight">项目类别：</td>
+		<td>
+			<span ng-bind="vm.model.shenBaoInfo.projectCategoryDesc"></span>				
+		</td>		
 	</tr>
-	
+	<tr>
+		<td class="formAlignRight">项目类型：</td>
+		<td colspan="3">
+			<span ng-bind="vm.model.shenBaoInfo.projectTypeDesc"></span>				
+		</td>
+	</tr>	
 	<tr>
 		<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
 		<td>
-			<span ng-bind="vm.model.projectIndustryDesc"></span>
+			<span ng-bind="vm.model.shenBaoInfo.projectIndustryDesc"></span>
 		</td>
 		<td class="formAlignRight">项目分类：<span class="required">(*)</span></td>
 		<td>
-			<span ng-bind="vm.model.projectClassifyDesc"></span>
+			<span ng-bind="vm.model.shenBaoInfo.projectClassifyDesc"></span>
 		</td>
 	</tr>
 		
 	<tr>
 		<td class="formAlignRight">项目开工日期：</td>
 		<td >
-			<span id="beginDate" name="beginDate" ng-bind="vm.model.beginDate | date:'yyyy-MM-dd'"></span>		 						
+			<span id="beginDate" name="beginDate" ng-bind="vm.model.shenBaoInfo.beginDate | date:'yyyy-MM-dd'"></span>		 						
 		</td>
 		<td class="formAlignRight">项目竣工日期：</td>
 		<td >
-			<span id="endDate" name="endDate" ng-bind="vm.model.endDate | date:'yyyy-MM-dd'"></span>									
+			<span id="endDate" name="endDate" ng-bind="vm.model.shenBaoInfo.endDate | date:'yyyy-MM-dd'"></span>									
 		</td>
 	</tr>
 	
 	<tr>
 		<td class="formAlignRight">项目建设地址：<span class="required">(*)</span></td>
 		<td colspan="3">
-			<textarea id="projectAddress" name="projectAddress" rows="2" cols="" class="form-control" ng-model="vm.model.projectAddress" disabled></textarea>
+			<textarea id="projectAddress" name="projectAddress" rows="2" cols="" class="form-control" ng-model="vm.model.shenBaoInfo.projectAddress" disabled></textarea>
 		</td>		
 	</tr>
 	
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
 		<td>
-			<span id="projectInvestSum" name="projectInvestSum" ng-bind="vm.model.projectInvestSum | number:2"></span>(万元)
+			<span id="projectInvestSum" name="projectInvestSum" ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:2"></span>&nbsp;(万元)
 		</td>
 		<td class="formAlignRight">累计完成投资：<span class="required">(*)</span></td>
 		<td>
-			<span id="projectInvestAccuSum" name="projectInvestAccuSum" ng-bind="vm.model.projectInvestAccuSum | number:2"></span>(万元)
+			<span id="projectInvestAccuSum" name="projectInvestAccuSum" ng-bind="vm.model.shenBaoInfo.projectInvestAccuSum | number:2"></span>&nbsp;(万元)
 		</td>
 	</tr>
 					
@@ -94,9 +99,9 @@
 								<td>专项资金</td>
 							</tr>
 							<tr>
-								<td><span ng-bind="vm.model.capitalSCZ_ggys | number:2"></span></td>
-								<td><span ng-bind="vm.model.capitalSCZ_gtzj | number:2"></span></td>
-								<td><span ng-bind="vm.model.capitalSCZ_zxzj | number:2"></span></td>
+								<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_ggys | number:2"></span></td>
+								<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_gtzj | number:2"></span></td>
+								<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_zxzj | number:2"></span></td>
 							</tr>
 						</table>
 					</td>
@@ -108,8 +113,8 @@
 								
 							</tr>
 							<tr>
-								<td><span ng-bind="vm.model.capitalQCZ_ggys | number:2"></span></td>
-								<td><span ng-bind="vm.model.capitalQCZ_gtzj | number:2"></span></td>
+								<td><span ng-bind="vm.model.shenBaoInfo.capitalQCZ_ggys | number:2"></span></td>
+								<td><span ng-bind="vm.model.shenBaoInfo.capitalQCZ_gtzj | number:2"></span></td>
 							</tr>
 						</table>
 					</td>
@@ -121,19 +126,17 @@
 								
 							</tr>
 							<tr>
-								<td><span ng-bind="vm.model.capitalSHTZ | number:2"></span></td>
+								<td><span ng-bind="vm.model.shenBaoInfo.capitalSHTZ | number:2"></span></td>
 							</tr>
 						</table>
 					</td>
 					<td style="padding:0px;border: 0px;">
 						<table class="table table-bordered" style="margin:0px">
 							<tr>
-								<td>-</td>
-							
-								
+								<td><span ng-bind="vm.model.shenBaoInfo.capitalOtherTypeDesc"></span></td>																
 							</tr>
 							<tr>
-								<td><span ng-bind="vm.model.capitalOther | number:2"></span></td>
+								<td><span ng-bind="vm.model.shenBaoInfo.capitalOther | number:2"></span></td>
 							</tr>
 						</table>
 					</td>
@@ -143,7 +146,7 @@
 				<tr>
 					<td class="text-center" style="width:100px;" >"其他"的来源途径说明：</td>
 					<td >
-						<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.capitalOtherDescription" placeholder="注：200字符以内" disabled></textarea>
+						<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.shenBaoInfo.capitalOtherDescription" placeholder="注：200字符以内" disabled></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -159,20 +162,20 @@
 	<tr>
 		<td class="formAlignRight">项目简介：</td>
 		<td colspan="3" >
-			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：项目简介（500字符以内）" ng-model="vm.model.projectIntro" disabled></textarea>													
+			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：项目简介（500字符以内）" ng-model="vm.model.shenBaoInfo.projectIntro" disabled></textarea>													
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">建设规模：</td>
 		<td colspan="3" >
-			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（200字符以内）" ng-model="vm.model.projectGuiMo" disabled></textarea>													
+			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（200字符以内）" ng-model="vm.model.shenBaoInfo.projectGuiMo" disabled></textarea>													
 		</td>
 	</tr>
 	
 	<tr>
 		<td class="formAlignRight">备注：</td>
 		<td colspan="3" >
-			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（200字符以内）" ng-model="vm.model.remark" disabled></textarea>												
+			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（200字符以内）" ng-model="vm.model.shenBaoInfo.remark" disabled></textarea>												
 		</td>
 	</tr>				
 	</div>

@@ -1,23 +1,20 @@
 <div id="tabStrip" kendo-tab-strip k-options="vm.tabStripOptions">
               <!-- tab list -->
-              <ul >
+              <ul>
                 <li id="tab1" class="k-state-active">项目基本信息</li>
                 <li id="tab2">年度计划信息</li>                
                 <li id="tab3">项目材料清单</li>
                 <li id="tab4">项目单位信息</li>
               </ul>
-          
 				<div class="tab_content">
 					<div ng-include  src="'/contents/admin/management/task/html/basicInfo.html'"></div>
 				</div>
 				<div class="tab_content" >
 				     <div ng-include  src="'/contents/admin/management/task/html/yearPlan/yearPlan.html'"></div>
 				</div>
-             
                <div class="tab_content">
 	              	<div ng-include  src="'/contents/admin/management/task/html/materialsInfo.html'"></div>
               </div>
-              
                <div class="tab_content">
                 	<div ng-include  src="'/contents/admin/management/task/html/unitInfo.html'"></div>
               </div>

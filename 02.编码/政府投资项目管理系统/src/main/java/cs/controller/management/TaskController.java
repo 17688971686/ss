@@ -36,6 +36,7 @@ public class TaskController {
 	@RequestMapping(name = "获取任务", path = "")
 	public @ResponseBody PageModelDto<TaskHeadDto> getToDo(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
+		//设置过滤条件
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 		filterItem.setField("userName");
 		filterItem.setOperator("eq");
@@ -44,7 +45,8 @@ public class TaskController {
 		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.get(odataObj);
 		return taskHeadDtos;
 	}
-	@RequestMapping(name = "个人已办", path = "history")
+	
+	@RequestMapping(name = "个人已办", path = "complete")
 	public @ResponseBody PageModelDto<TaskHeadDto> history(HttpServletRequest request) throws ParseException {
 		//todo
 		//从taskrecord 表里取数据
@@ -58,16 +60,19 @@ public class TaskController {
 	}
 	
 	// begin#html
-	@RequestMapping(name = "代办列表页", path = "html/todo", method = RequestMethod.GET)
+	@RequestMapping(name = "待办列表页", path = "html/todo", method = RequestMethod.GET)
 	public String todo() {
 		return ctrl + "/todo";
 	}
-	@RequestMapping(name = "代办处理", path = "html/handle", method = RequestMethod.GET)
+	
+	@RequestMapping(name = "已办列表页", path = "html/complete", method = RequestMethod.GET)
+	public String complete() {
+		return ctrl + "/complete";
+	}
+	
+	@RequestMapping(name = "待办处理", path = "html/handle", method = RequestMethod.GET)
 	public String handle() {
 		return ctrl + "/handle";
 	}
-	@RequestMapping(name = "已办列表页", path = "html/history", method = RequestMethod.GET)
-	public String history() {
-		return ctrl + "/history";
-	}
+
 }

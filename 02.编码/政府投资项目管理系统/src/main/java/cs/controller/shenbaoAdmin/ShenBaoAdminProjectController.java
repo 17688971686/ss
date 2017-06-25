@@ -1,6 +1,7 @@
 package cs.controller.shenbaoAdmin;
 
 import java.text.ParseException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import cs.common.ICurrentUser;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ProjectDto;
+import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ProjectService;
 
@@ -27,6 +30,8 @@ public class ShenBaoAdminProjectController {
 	
 	@Autowired
 	private ProjectService ProjectService;
+	@Autowired
+	ICurrentUser currentUser;
 	
 	@RequestMapping(name = "获取项目信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> get(HttpServletRequest request) throws ParseException {
@@ -38,8 +43,14 @@ public class ShenBaoAdminProjectController {
 	//@RequiresPermissions("shenbaoAdmin/project/unitProject##get")
 	@RequestMapping(name = "获取单位项目信息", path = "unitProject",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> getUnitProject(HttpServletRequest request) throws ParseException {
-		ODataObj odataObj = new ODataObj(request);
-		PageModelDto<ProjectDto> ProjectDtos = ProjectService.getUnitProject(odataObj);		
+		ODataObj odataObj = new ODataObj(request);	
+		//设置过滤条件
+		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
+		filterItem.setField("unitName");
+		filterItem.setOperator("eq");
+		filterItem.setValue(currentUser.getLoginName());
+		odataObj.getFilter().add(filterItem);
+		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);		
 		return ProjectDtos;
 	}
 	

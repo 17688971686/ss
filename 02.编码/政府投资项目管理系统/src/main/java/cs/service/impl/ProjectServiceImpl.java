@@ -122,23 +122,6 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	@Transactional
-	public PageModelDto<ProjectDto> getUnitProject(ODataObj odataObj) {
-		//获取当前登录用户（单位）
-		String longinName = currentUser.getLoginName();
-		//添加一个过滤，只获取当前单位所拥有的项目
-		List<ODataFilterItem> filters = odataObj.getFilter();
-		ODataFilterItem filter = new ODataFilterItem();
-		filter.setField("unitName");
-		filter.setOperator("eq");
-		filter.setValue(longinName);
-		filters.add(filter);
-		odataObj.setFilter(filters);
-		PageModelDto<ProjectDto> pageModelDto = this.get(odataObj);
-		return pageModelDto;
-	}
-
-	@Override
-	@Transactional
 	public void updateUnitProject(ProjectDto projectDto) {
 		this.updateProject(projectDto);	
 	}

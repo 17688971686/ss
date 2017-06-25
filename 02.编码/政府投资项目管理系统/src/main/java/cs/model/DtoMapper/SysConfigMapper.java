@@ -2,9 +2,12 @@ package cs.model.DtoMapper;
 
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+
 import cs.domain.framework.SysConfig;
 import cs.model.DomainDto.SysConfigDto;
 
+@Component
 public class SysConfigMapper implements IMapper<SysConfigDto, SysConfig> {
 
 	@Override

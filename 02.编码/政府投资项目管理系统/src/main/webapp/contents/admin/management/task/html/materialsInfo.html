@@ -10,12 +10,12 @@
 	<tr ng-repeat="x in vm.uploadType">
 		<td>{{x[1]}}</td>
 		<td>
-			<span ng-bind="vm.model['pifu'+x[0]+'_date'] | date:'yyyy-MM-dd'"></span>
+			<span ng-bind="vm.model.shenBaoInfo['pifu'+x[0]+'_date'] | date:'yyyy-MM-dd'"></span>
 		</td>
-		<td><span ng-bind="vm.model['pifu'+x[0]+'_wenhao']"></span></td>
+		<td><span ng-bind="vm.model.shenBaoInfo['pifu'+x[0]+'_wenhao']"></span></td>
 		<td class="clearfix">		
          <div style="margin:3px;"  class="pull-left"
-		 	  ng-repeat="y in vm.model.attachmentDtos" 
+		 	  ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos" 
 		 	  ng-show="y.type=='{{x[0]}}'"
 		 		>
 			 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>			
@@ -34,7 +34,7 @@
 		<td>{{x[1]}}</td>
 		<td>			
 	      <div style="margin:3px;"  class="pull-left"
-		 	  ng-repeat="y in vm.model.attachmentDtos" 
+		 	  ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos" 
 		 	  ng-show="y.type=='{{x[0]}}'"
 		 		>
 			 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>			

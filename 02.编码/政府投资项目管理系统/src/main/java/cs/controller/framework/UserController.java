@@ -1,6 +1,7 @@
 package cs.controller.framework;
 
 import java.text.ParseException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,6 +36,7 @@ public class UserController {
 
 		return userDtos;
 	}
+	
 	@RequiresPermissions("user##post")
 	@RequestMapping(name = "创建用户", path = "",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.CREATED)

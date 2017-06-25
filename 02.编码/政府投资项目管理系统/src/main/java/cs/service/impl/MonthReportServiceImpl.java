@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
@@ -12,17 +13,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.domain.MonthReport;
 import cs.domain.MonthReport_;
 import cs.domain.Project;
+import cs.domain.ShenBaoInfo;
+import cs.domain.TaskHead;
+import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.MonthReportDto;
 import cs.model.DtoMapper.MonthReportMapper;
 import cs.repository.interfaces.MonthReportRepo;
 import cs.repository.interfaces.ProjectRepo;
+import cs.repository.interfaces.TaskHeadRepo;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
+import cs.service.framework.SysService;
 import cs.service.framework.UserServiceImpl;
 import cs.service.interfaces.MonthReportService;
 
@@ -35,7 +42,11 @@ public class MonthReportServiceImpl implements MonthReportService {
 	@Autowired
 	private BasicDataService basicDataService;
 	@Autowired
+	private SysService sysService;
+	@Autowired
 	private ProjectRepo projectRepo;
+	@Autowired
+	private TaskHeadRepo taskHeadRepo;
 	@Autowired
 	private ICurrentUser currentUser;
 
@@ -98,12 +109,16 @@ public class MonthReportServiceImpl implements MonthReportService {
 	private void createMonthReport(MonthReportDto monthReportDto, MonthReport monthReport) {		
 		MonthReportMapper.buildEntity(monthReportDto, monthReport);
 		monthReport.setCreatedBy(currentUser.getLoginName());
+		monthReport.setModifiedBy(currentUser.getLoginName());
 		monthReport.setCreatedDate(new Date());
 
 		// 从项目表进行保存
 		Project project = projectRepo.findById(monthReportDto.getProjectId());
 		project.getMonthReports().add(monthReport);
 		projectRepo.save(project);
+		
+		//初始化工作流
+		initWorkFlow(project,monthReport);
 
 		logger.info("创建月报数据");
 	}
@@ -116,5 +131,35 @@ public class MonthReportServiceImpl implements MonthReportService {
 		monthReportRepo.save(monthReport);
 		logger.info("更新月报数据");
 	}
+	
+	private void initWorkFlow(Project project,MonthReport monthReport){
+		//获取系统配置中工作流类型的第一处理人
+		String configValue = sysService.getConfigValue(BasicDataConfig.taskType_monthReport).getConfigValue();
+				
+		//创建工作流
+		TaskHead taskHead=new TaskHead();		
+		taskHead.setUserName(configValue);//设置下一处理人
+		taskHead.setCreatedBy(currentUser.getLoginName());
+		taskHead.setModifiedBy(currentUser.getLoginName());
+		taskHead.setRelId(monthReport.getId());
+		taskHead.setTitle("项目月报："+project.getProjectName());
+		taskHead.setProcessState(BasicDataConfig.processState_tianBao);//设置工作流的状态
+		taskHead.setTaskType(BasicDataConfig.taskType_monthReport);//设置工作流的类型
+		taskHead.setId(UUID.randomUUID().toString());
+				
+		//record
+		TaskRecord taskRecord=new TaskRecord();
+		taskRecord.setUserName(currentUser.getLoginName());
+		taskRecord.setCreatedBy(currentUser.getLoginName());
+		taskRecord.setModifiedBy(currentUser.getLoginName());
+		taskRecord.setRelId(monthReport.getId());
+		taskRecord.setTitle("项目申报："+project.getProjectName());
+		taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
+		taskRecord.setTaskType(BasicDataConfig.taskType_monthReport);
+		taskRecord.setId(UUID.randomUUID().toString());
+		taskRecord.setProcessSuggestion("材料填报");
 
+		taskHead.getTaskRecords().add(taskRecord);
+		taskHeadRepo.save(taskHead);
+	}
 }

@@ -6,13 +6,61 @@
 	index.$inject = [ '$http' ];	
 
 	function index($http) {	
-		var declareProjects="/projectInfo";
-		var oprationRecords="/log";
+		var url_taskRecord="/management/taskRecord";
+		var url_unitShenBao="/shenbaoAdmin/shenbao";
 		var service = {
-			getDeclareProjects:getDeclareProjects,
-			getOprationRecords:getOprationRecords
+			getTaskRecords:getTaskRecords, //获取任务消息
+			getUnitShenBaoInfos:getUnitShenBaoInfos,//获取单位申报信息
 		};		
-		return service;	
+		return service;
+		
+		/**
+		 * 获取单位申报信息
+		 */
+		function getUnitShenBaoInfos(vm){
+			var httpOptions = {
+					method : 'get',
+					url : url_unitShenBao+"/unit",
+				}
+
+				var httpSuccess = function success(response) {
+					vm.model.shenBaoInfo = response.data.value;	
+				}
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+		}
+		
+		/**
+		 * 获取当前用户申报项目任务流转消息
+		 */
+		function getTaskRecords(vm){
+			var httpOptions = {
+					method : 'get',
+					url : url_taskRecord
+				}
+
+				var httpSuccess = function success(response) {
+					vm.model.taskRecord = response.data.value;
+					if(vm.model.taskRecord.length>0){
+						for(var i=0;i<vm.model.taskRecord.length;i++){
+							var model = vm.model.taskRecord[i];
+							model.createdDate = common.toDate(model.createdDate);
+						}
+					}
+						
+					
+				}
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+		}
 		
 		/**
 		 * 查询申报的项目信息

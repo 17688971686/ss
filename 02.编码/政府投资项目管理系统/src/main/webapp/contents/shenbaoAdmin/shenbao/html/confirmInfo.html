@@ -7,7 +7,7 @@
 			<span ng-bind="vm.model.shenBaoUnitInfoDto.unitName"></span>
 		</td>
 	</tr>
-	</table>
+</table>
 
 <div class="bg-info text-info" style="padding: 10px;">项目基本信息</div>
 <table class="table table-bordered table-striped ">
@@ -16,29 +16,23 @@
 		<span ng-bind="vm.model.projectId" style="display:none"></span>
 	</tr>
 	<tr>
-		<td class="formAlignRight" style="width:150px;">项目代码：<span class="required">(*)</span></td>
-		<td style="width:250px;">
-			<span id="projectNumber" name="projectNumber" ng-bind="vm.model.projectNumber"></span>
-		</td>
 		<td class="formAlignRight" style="width:150px;">项目名称：<span class="required">(*)</span></td>
 		<td>
 			<span id="projectName" name="projectName" ng-bind="vm.model.projectName"></span>		
 		</td>
-	</tr>
-	<tr>
 		<td class="formAlignRight">项目阶段：<span class="required">(*)</span></td>
 		<td>
 			<span id="projectStage" name="projectStage" ng-bind="vm.model.projectStage" style="display:none"></span>
 			<span ng-bind="vm.model.projectStageDesc"></span>			
 		</td>
+	</tr>
+	<tr>		
 		<td class="formAlignRight">项目类别：</td>
 		<td>
 			<span ng-bind="vm.model.projectCategoryDesc"></span>				
 		</td>
-	</tr>
-	<tr>
 		<td class="formAlignRight">项目类型：</td>
-		<td colspan="3">
+		<td>
 			<span id="projectType" name="projectType" ng-bind="vm.model.projectType" style="display:none"></span>
 			<span ng-bind="vm.model.projectTypeDesc"></span>					
 		</td>
@@ -54,8 +48,7 @@
 			<span id="projectClassify" name="projectClassify" ng-bind="vm.model.projectClassify" style="display:none"></span>
 			<span ng-bind="vm.model.projectClassifyDesc"></span>
 		</td>
-	</tr>
-		
+	</tr>		
 	<tr>
 		<td class="formAlignRight">项目开工日期：</td>
 		<td>

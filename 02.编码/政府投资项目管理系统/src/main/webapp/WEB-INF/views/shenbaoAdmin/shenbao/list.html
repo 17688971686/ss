@@ -41,10 +41,11 @@
 						<option value="">---请选择---</option>
 						<option ng-repeat="x in vm.basicData.projectStage" value="{{x.id}}">{{x.description}}</option>
 					</select>
+					<span ng-show="vm.isStageExist" class="errors">该申报阶段信息已存在,请重新选择!</span>
 				</div>								
 			</div>
 			<div class="modal-footer"> 
-				<button type="button" class="btn btn-success" ng-click="vm.confirm()">确定</button> 			
+				<button type="button" class="btn btn-success" ng-disabled="vm.isConfirm" ng-click="vm.confirm()">确定</button> 			
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button> 
 			</div> 
 		</div>
