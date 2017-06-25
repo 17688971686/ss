@@ -12,14 +12,11 @@ import org.springframework.stereotype.Service;
 
 import cs.common.ICurrentUser;
 import cs.domain.ShenBaoInfo;
-import cs.domain.YearPlan;
 import cs.domain.YearPlanCapital;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.YearPlanCapitalDto;
-import cs.model.DomainDto.YearPlanDto;
 import cs.model.DtoMapper.IMapper;
-import cs.repository.interfaces.ShenBaoInfoRepo;
-import cs.repository.interfaces.YearPlanCapitalRepo;
+import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.YearPlanCapitalService;
 
@@ -28,7 +25,7 @@ public class YearPlanCapitalServiceImpl implements YearPlanCapitalService {
 	private static Logger logger = Logger.getLogger(YearPlanCapitalServiceImpl.class);
 	
 	@Autowired
-	private YearPlanCapitalRepo yearPlanCapitalRepo;
+	private IRepository<YearPlanCapital, String> yearPlanCapitalRepo;
 	
 	@Autowired
 	private IMapper<YearPlanCapitalDto, YearPlanCapital> yearPlanCapitalMapper;
@@ -37,7 +34,7 @@ public class YearPlanCapitalServiceImpl implements YearPlanCapitalService {
 	private ICurrentUser currentUser;
 	
 	@Autowired
-	private ShenBaoInfoRepo shenBaoInfoRepo;
+	private IRepository<ShenBaoInfo, String> shenBaoInfoRepo;
 
 	@Override
 	@Transactional

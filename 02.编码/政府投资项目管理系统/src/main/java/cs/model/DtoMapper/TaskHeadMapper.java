@@ -42,7 +42,7 @@ public class TaskHeadMapper implements IMapper<TaskHeadDto, TaskHead> {
 	}
 
 	@Override
-	public void buildEntity(TaskHeadDto dto, TaskHead entity) {
+	public TaskHead buildEntity(TaskHeadDto dto, TaskHead entity) {
 		if(entity.getId()==null||entity.getId().isEmpty()){
 			entity.setId(UUID.randomUUID().toString());
 		}
@@ -64,6 +64,8 @@ public class TaskHeadMapper implements IMapper<TaskHeadDto, TaskHead> {
 			taskRecordMapper.buildEntity(x, taskRecord);
 			entity.getTaskRecords().add(taskRecord);
 		});
+		
+		return entity;
 	}
 
 }

@@ -17,9 +17,7 @@ import cs.model.PageModelDto;
 import cs.model.DomainDto.TaskHeadDto;
 import cs.model.DomainDto.TaskRecordDto;
 import cs.model.DtoMapper.IMapper;
-import cs.model.DtoMapper.TaskHeadMapper;
-import cs.model.DtoMapper.TaskRecordMapper;
-import cs.repository.interfaces.TaskHeadRepo;
+import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.TaskHeadService;
 
@@ -34,7 +32,7 @@ public class TaskHeadServiceImpl implements TaskHeadService {
 	IMapper<TaskRecordDto, TaskRecord> taskRecordMapper;
 	
 	@Autowired
-	TaskHeadRepo taskHeadRepo;
+	IRepository<TaskHead, String> taskHeadRepo;
 	
 	@Autowired
 	ICurrentUser currentUser;

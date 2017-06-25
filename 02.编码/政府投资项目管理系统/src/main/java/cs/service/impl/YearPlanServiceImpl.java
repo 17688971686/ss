@@ -1,13 +1,10 @@
 package cs.service.impl;
 
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-import javax.management.Query;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
@@ -16,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import cs.common.ICurrentUser;
 import cs.common.SQLConfig;
-import cs.domain.BasicData;
 import cs.domain.ShenBaoInfo;
 import cs.domain.YearPlan;
 import cs.domain.YearPlanCapital;
@@ -24,24 +20,20 @@ import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.YearPlanDto;
 import cs.model.DtoMapper.IMapper;
-import cs.model.DtoMapper.ShenBaoInfoMapper;
-import cs.repository.interfaces.ShenBaoInfoRepo;
-import cs.repository.interfaces.YearPlanCapitalRepo;
-import cs.repository.interfaces.YearPlanRepo;
+import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
-import cs.service.interfaces.YearPlanCapitalService;
 import cs.service.interfaces.YearPlanService;
 
 @Service
 public class YearPlanServiceImpl implements YearPlanService {
 	private static Logger logger = Logger.getLogger(YearPlanServiceImpl.class);
 	@Autowired
-	private YearPlanRepo yearPlanRepo;
+	private IRepository<YearPlan, String> yearPlanRepo;
 	@Autowired
-	private YearPlanCapitalRepo yearPlanCapitalRepo;
+	private IRepository<YearPlanCapital, String> yearPlanCapitalRepo;
 	@Autowired
-	private ShenBaoInfoRepo shenbaoInfoRepo;
+	private IRepository<ShenBaoInfo, String> shenbaoInfoRepo;
 	@Autowired
 	private ICurrentUser currentUser;
 	@Autowired

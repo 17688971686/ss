@@ -18,15 +18,13 @@ import cs.common.ICurrentUser;
 import cs.domain.MonthReport;
 import cs.domain.MonthReport_;
 import cs.domain.Project;
-import cs.domain.ShenBaoInfo;
 import cs.domain.TaskHead;
 import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.MonthReportDto;
+import cs.model.DtoMapper.IMapper;
 import cs.model.DtoMapper.MonthReportMapper;
-import cs.repository.interfaces.MonthReportRepo;
-import cs.repository.interfaces.ProjectRepo;
-import cs.repository.interfaces.TaskHeadRepo;
+import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.framework.SysService;
@@ -38,17 +36,20 @@ public class MonthReportServiceImpl implements MonthReportService {
 	private static Logger logger = Logger.getLogger(UserServiceImpl.class);
 	// 依赖注入持久层
 	@Autowired
-	private MonthReportRepo monthReportRepo;
+	private  IRepository<MonthReport, String> monthReportRepo;
 	@Autowired
 	private BasicDataService basicDataService;
 	@Autowired
 	private SysService sysService;
 	@Autowired
-	private ProjectRepo projectRepo;
+	private IRepository<Project, String> projectRepo;
 	@Autowired
-	private TaskHeadRepo taskHeadRepo;
+	private IRepository<TaskHead, String> taskHeadRepo;
 	@Autowired
 	private ICurrentUser currentUser;
+	
+	@Autowired
+	IMapper<MonthReportDto, MonthReport> monthReportMapper;
 
 	/**
 	 * 分页查询月报数据
@@ -60,7 +61,7 @@ public class MonthReportServiceImpl implements MonthReportService {
 		List<MonthReportDto> monthReportDtoList = new ArrayList<MonthReportDto>();
 
 		monthReportList.forEach(monthReport -> {
-			MonthReportDto monthReportDto = MonthReportMapper.toDto(monthReport);			
+			MonthReportDto monthReportDto = monthReportMapper.toDto(monthReport);			
 			//获取相关类型的名称
 			monthReportDto.setSelfReviewDesc(basicDataService.getDescriptionById(monthReport.getSelfReview()));
 			// begin#关联信息
@@ -107,7 +108,7 @@ public class MonthReportServiceImpl implements MonthReportService {
 	}
 
 	private void createMonthReport(MonthReportDto monthReportDto, MonthReport monthReport) {		
-		MonthReportMapper.buildEntity(monthReportDto, monthReport);
+		monthReportMapper.buildEntity(monthReportDto, monthReport);
 		monthReport.setCreatedBy(currentUser.getLoginName());
 		monthReport.setModifiedBy(currentUser.getLoginName());
 		monthReport.setCreatedDate(new Date());
@@ -127,7 +128,7 @@ public class MonthReportServiceImpl implements MonthReportService {
 		monthReport.getAttachments().clear();
 		monthReport.getMonthReportProblems().clear();
 
-		MonthReportMapper.buildEntity(monthReportDto, monthReport);
+		monthReportMapper.buildEntity(monthReportDto, monthReport);
 		monthReportRepo.save(monthReport);
 		logger.info("更新月报数据");
 	}

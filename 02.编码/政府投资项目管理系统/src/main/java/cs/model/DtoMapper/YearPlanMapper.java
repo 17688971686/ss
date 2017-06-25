@@ -2,6 +2,7 @@ package cs.model.DtoMapper;
 
 import java.util.UUID;
 
+import org.hibernate.loader.plan.exec.process.spi.ReturnReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -41,7 +42,7 @@ public class YearPlanMapper implements IMapper<YearPlanDto, YearPlan> {
 	}
 
 	@Override
-	public void buildEntity(YearPlanDto dto, YearPlan entity) {
+	public YearPlan buildEntity(YearPlanDto dto, YearPlan entity) {
 		if(entity.getId()==null||entity.getId().isEmpty()){
 			entity.setId(UUID.randomUUID().toString());
 		}
@@ -59,7 +60,8 @@ public class YearPlanMapper implements IMapper<YearPlanDto, YearPlan> {
 			yearPlanCapitalMapper.buildEntity(x,yearPlanCapital);
 			entity.getYearPlanCapitals().add(yearPlanCapital);
 		});
-
+		
+		return entity;
 	}
 
 }

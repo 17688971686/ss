@@ -1,8 +1,10 @@
 package cs.model.DtoMapper;
 
+import org.springframework.stereotype.Component;
+
 import cs.domain.BasicData;
 import cs.model.DomainDto.BasicDataDto;
-
+@Component
 public class BasicDataMapper {
 	public static  BasicDataDto toDto(BasicData basicData){
 		BasicDataDto basicDataDto=new BasicDataDto();

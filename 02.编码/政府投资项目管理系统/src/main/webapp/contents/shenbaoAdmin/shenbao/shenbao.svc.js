@@ -3,12 +3,12 @@
 
 	angular.module('app').factory('shenbaoSvc', shenbao);
 
-	shenbao.$inject = ['$http','$compile'];	
-	function shenbao($http,$compile) {
+	shenbao.$inject = ['$http','$compile','$location'];	
+	function shenbao($http,$compile,$location) {
 		var url_project = "/shenbaoAdmin/project/unitProject";
 		var url_userUnit　= "/shenbaoAdmin/userUnitInfo";
 		var url_shenbao = "/shenbaoAdmin/shenbao";
-		var url_back = "#/shenbao";
+		var url_back = "/shenbao";
 		
 		var service = {
 			grid : grid,
@@ -236,8 +236,8 @@
 								fn : function() {
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
-									$('.modal-backdrop').remove();
-									location.href = url_back;									
+									$('.modal-backdrop').remove();									
+									$location.path(url_back);
 								}
 							});
 						}

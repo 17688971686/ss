@@ -20,11 +20,16 @@
 			getPlanById:getPlanById,//根据年度计划id查找计划信息
 			grid_yearPlan_shenbaoInfoList:grid_yearPlan_shenbaoInfoList,//年度计划编制信息列表
 			grid_yearPlan_addShenbaoInfoList:grid_yearPlan_addShenbaoInfoList,//年度计划编制新增项目申报列表
-			addShenBaoInfoconfirm:addShenBaoInfoconfirm,//年度计划新增项目申报
+			addShenBaoInfoconfirm:addShenBaoInfoconfirm,//年度计划新增项目申报			
 			getShenBaoInfoById:getShenBaoInfoById,//根据申报id查找申报信息
 			getYearPlanCapitalByShenBaoId:getYearPlanCapitalByShenBaoId,//根据申报id查找年度计划编制信息
-			updateYearPlanCapital:updateYearPlanCapital//更新年度计划编制信息			
+			updateYearPlanCapital:updateYearPlanCapital,//更新年度计划编制信息	
+			removeShenBaoInfo:removeShenBaoInfo//移除申报项目
 		};
+		
+		function removeShenBaoInfo(vm){
+			
+		}
 		
 		/**
 		 * 更新年度计划编制信息

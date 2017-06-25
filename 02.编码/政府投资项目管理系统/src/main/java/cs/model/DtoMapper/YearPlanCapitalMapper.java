@@ -38,7 +38,7 @@ public class YearPlanCapitalMapper implements IMapper<YearPlanCapitalDto, YearPl
 	}
 
 	@Override
-	public void buildEntity(YearPlanCapitalDto dto, YearPlanCapital entity) {
+	public YearPlanCapital buildEntity(YearPlanCapitalDto dto, YearPlanCapital entity) {
 		if(entity.getId()==null||entity.getId().isEmpty()){
 			entity.setId(UUID.randomUUID().toString());
 		}
@@ -56,6 +56,8 @@ public class YearPlanCapitalMapper implements IMapper<YearPlanCapitalDto, YearPl
 		entity.setCapitalOther(dto.getCapitalOther());
 		entity.setCreatedDate(dto.getCreatedDate());
 		entity.setCapitalSum(dto.getCapitalSum());
+		return entity;
 	}
+	
 
 }

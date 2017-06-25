@@ -365,19 +365,19 @@ public class SysServiceImpl implements SysService {
 		this.createBasicData("projectProgress_3","projectProgress" , "projectProgress", "进展大幅滞后于计划", "项目进度分类");
 		
 		this.createBasicData("projectShenBaoStage","" , "projectShenBaoStage", "项目申报阶段分类", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_1","projectShenBaoStage" , "projectShenBaoStage", "前期计划(前期费)", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_2","projectShenBaoStage" , "projectShenBaoStage", "规划设计前期费", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_3","projectShenBaoStage" , "projectShenBaoStage", "新开工计划", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_4","projectShenBaoStage" , "projectShenBaoStage", "续建计划", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_5","projectShenBaoStage" , "projectShenBaoStage", "委托审计", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_6","projectShenBaoStage" , "projectShenBaoStage", "审计决算资金", "项目申报阶段分类");
+//		this.createBasicData("projectShenBaoStage_1","projectShenBaoStage" , "projectShenBaoStage", "前期计划(前期费)", "项目申报阶段分类");
+//		this.createBasicData("projectShenBaoStage_2","projectShenBaoStage" , "projectShenBaoStage", "规划设计前期费", "项目申报阶段分类");
+//		this.createBasicData("projectShenBaoStage_3","projectShenBaoStage" , "projectShenBaoStage", "新开工计划", "项目申报阶段分类");
+//		this.createBasicData("projectShenBaoStage_4","projectShenBaoStage" , "projectShenBaoStage", "续建计划", "项目申报阶段分类");
+//		this.createBasicData("projectShenBaoStage_5","projectShenBaoStage" , "projectShenBaoStage", "委托审计", "项目申报阶段分类");
+//		this.createBasicData("projectShenBaoStage_6","projectShenBaoStage" , "projectShenBaoStage", "审计决算资金", "项目申报阶段分类");
 		this.createBasicData("projectShenBaoStage_7","projectShenBaoStage" , "projectShenBaoStage", "下一年度计划", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_8","projectShenBaoStage" , "projectShenBaoStage", "年度调整计划", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_9","projectShenBaoStage" , "projectShenBaoStage", "项目建议书", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_10","projectShenBaoStage" , "projectShenBaoStage", "可行性研究报告", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_11","projectShenBaoStage" , "projectShenBaoStage", "初步设计概算", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_12","projectShenBaoStage" , "projectShenBaoStage", "核准", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_13","projectShenBaoStage" , "projectShenBaoStage", "备案", "项目申报阶段分类");
+//		this.createBasicData("projectShenBaoStage_8","projectShenBaoStage" , "projectShenBaoStage", "年度调整计划", "项目申报阶段分类");
+//		this.createBasicData("projectShenBaoStage_9","projectShenBaoStage" , "projectShenBaoStage", "项目建议书", "项目申报阶段分类");
+//		this.createBasicData("projectShenBaoStage_10","projectShenBaoStage" , "projectShenBaoStage", "可行性研究报告", "项目申报阶段分类");
+//		this.createBasicData("projectShenBaoStage_11","projectShenBaoStage" , "projectShenBaoStage", "初步设计概算", "项目申报阶段分类");
+//		this.createBasicData("projectShenBaoStage_12","projectShenBaoStage" , "projectShenBaoStage", "核准", "项目申报阶段分类");
+//		this.createBasicData("projectShenBaoStage_13","projectShenBaoStage" , "projectShenBaoStage", "备案", "项目申报阶段分类");
 		
 		this.createBasicData("projectStatus","" , "projectStatus", "项目状态分类", "项目状态分类");
 		this.createBasicData("projectStatus_1","projectStatus" , "projectStatus", "未提交", "项目状态分类");

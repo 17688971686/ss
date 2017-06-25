@@ -3,11 +3,11 @@
 
 	angular.module('app').factory('projectSvc', project);
 
-	project.$inject = ['$http','$compile'];	
-	function project($http,$compile) {
+	project.$inject = ['$http','$compile','$location'];	
+	function project($http,$compile,$location) {
 		var url_project = "/shenbaoAdmin/project/unitProject";
 		var url_userUnit　= "/shenbaoAdmin/userUnitInfo";
-		var url_back = "#/project";
+		var url_back = "/project";
 		
 		var service = {
 			grid : grid,
@@ -170,7 +170,7 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 									$('.modal-backdrop').remove();
-									location.href = url_back;									
+									$location.path(url_back);								
 								}
 							})
 						}

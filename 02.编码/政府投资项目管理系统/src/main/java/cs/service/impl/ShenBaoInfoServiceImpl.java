@@ -19,8 +19,7 @@ import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DtoMapper.IMapper;
-import cs.repository.interfaces.ShenBaoInfoRepo;
-import cs.repository.interfaces.TaskHeadRepo;
+import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.framework.SysService;
@@ -33,7 +32,7 @@ public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 	@Autowired
 	private IMapper<ShenBaoInfoDto, ShenBaoInfo> shenbaoMapper;
 	@Autowired
-	private ShenBaoInfoRepo shenBaoInfoRepo;
+	private IRepository<ShenBaoInfo, String> shenBaoInfoRepo;
 	@Autowired
 	private BasicDataService basicDataService;
 	@Autowired
@@ -41,7 +40,7 @@ public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 	@Autowired
 	private ICurrentUser currentUser;
 	@Autowired
-	TaskHeadRepo taskHeadRepo;
+	IRepository<TaskHead, String> taskHeadRepo;
 	
 	@Override
 	@Transactional

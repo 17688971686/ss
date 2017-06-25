@@ -44,7 +44,7 @@ public class ShenBaoUnitInfoMapper implements IMapper<ShenBaoUnitInfoDto, ShenBa
 	}
 
 	@Override
-	public void buildEntity(ShenBaoUnitInfoDto dto, ShenBaoUnitInfo entity) {
+	public ShenBaoUnitInfo buildEntity(ShenBaoUnitInfoDto dto, ShenBaoUnitInfo entity) {
 		if(dto !=null && entity !=null){
 			if(entity.getId() == null || entity.getId().isEmpty()){
 				entity.setId(UUID.randomUUID().toString());
@@ -76,6 +76,7 @@ public class ShenBaoUnitInfoMapper implements IMapper<ShenBaoUnitInfoDto, ShenBa
 			entity.setItemOrder(dto.getItemOrder());
 			entity.setCreatedBy(dto.getCreatedBy());	
 		}
+		return entity;
 		
 	}
 

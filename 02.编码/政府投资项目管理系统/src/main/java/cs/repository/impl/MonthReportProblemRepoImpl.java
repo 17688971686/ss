@@ -3,7 +3,6 @@ package cs.repository.impl;
 import org.springframework.stereotype.Repository;
 
 import cs.domain.MonthReportProblem;
-import cs.repository.interfaces.MonthReportProblemRepo;
 
 /**
  * @Description:月报问题持久层 
@@ -12,6 +11,6 @@ import cs.repository.interfaces.MonthReportProblemRepo;
  * @version：0.1
  */
 @Repository
-public class MonthReportProblemRepoImpl extends AbstractRepository<MonthReportProblem, String>implements MonthReportProblemRepo {
+public class MonthReportProblemRepoImpl extends AbstractRepository<MonthReportProblem, String> {
 	
 }
