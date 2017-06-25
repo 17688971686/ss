@@ -17,7 +17,6 @@
         	 homeSvc.changePwd(vm);
           
         }
-       
         activate();
         function activate() {
         }

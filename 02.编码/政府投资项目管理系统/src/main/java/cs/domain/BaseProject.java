@@ -14,8 +14,14 @@ public class BaseProject extends BaseEntity
 	private String projectNumber;	
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目名称'")
-	private String projectName;	
+	private String projectName;
 	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '功能分类科目'")
+	private String projectFunctionClassify;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '政府经济分类科目'")
+	private String projectGoverEconClassify;
+
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目阶段'")
 	private String projectStage;
 	
@@ -347,8 +353,21 @@ public class BaseProject extends BaseEntity
 	public void setProjectCategory(String projectCategory) {
 		this.projectCategory = projectCategory;
 	}
-	
-	
-	
-	
+
+	public String getProjectFunctionClassify() {
+		return projectFunctionClassify;
+	}
+
+	public void setProjectFunctionClassify(String projectFunctionClassify) {
+		this.projectFunctionClassify = projectFunctionClassify;
+	}
+
+	public String getProjectGoverEconClassify() {
+		return projectGoverEconClassify;
+	}
+
+	public void setProjectGoverEconClassify(String projectGoverEconClassify) {
+		this.projectGoverEconClassify = projectGoverEconClassify;
+	}
+
 }

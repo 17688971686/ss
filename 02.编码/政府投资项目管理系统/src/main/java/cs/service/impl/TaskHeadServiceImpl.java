@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cs.common.BasicDataConfig;
+import cs.common.ICurrentUser;
 import cs.domain.TaskHead;
 import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
@@ -34,6 +35,9 @@ public class TaskHeadServiceImpl implements TaskHeadService {
 	
 	@Autowired
 	TaskHeadRepo taskHeadRepo;
+	
+	@Autowired
+	ICurrentUser currentUser;
 	
 	
 	@Override
@@ -78,16 +82,13 @@ public class TaskHeadServiceImpl implements TaskHeadService {
 			dto.setRelId(taskHead.getRelId());
 			dto.setTaskType(taskHead.getTaskType());
 			dto.setTitle(taskHead.getTitle());
-			String processState=dto.getProcessState();
-			//判断处理状态
-			if(dto.getUserName()==null && BasicDataConfig.processState_tuiWen.equals(processState)){//如果为退文
-				//设置任务的下一处理人为创建人
-				dto.setUserName(taskHead.getCreatedBy());
-			}
+			dto.setUserName(currentUser.getLoginName());								
 			taskRecordMapper.buildEntity(dto, entity);
+			entity.setModifiedBy(currentUser.getLoginName());
 			taskHead.getTaskRecords().add(entity);
 			
 			//设置完成
+			String processState=dto.getProcessState();
 			setComplete(taskHead,processState);
 			taskHeadRepo.save(taskHead);
 		}

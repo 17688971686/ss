@@ -79,11 +79,11 @@
 				var httpSuccess = function success(response) {
 					vm.model = response.data.value[0]||{};
 						//日期展示
-						vm.model.beginDate=common.toDate(vm.model.beginDate);//开工日期
-						vm.model.endDate=common.toDate(vm.model.endDate);//竣工日期
-						vm.model.pifuJYS_date=common.toDate(vm.model.pifuJYS_date);//项目建议书批复日期			
-						vm.model.pifuKXXYJBG_date=common.toDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
-						vm.model.pifuCBSJYGS_date=common.toDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期
+						vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
+						vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
+						vm.model.pifuJYS_date=common.formatDate(vm.model.pifuJYS_date);//项目建议书批复日期			
+						vm.model.pifuKXXYJBG_date=common.formatDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
+						vm.model.pifuCBSJYGS_date=common.formatDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期
 						//资金处理
 						vm.model.projectInvestSum=common.toMoney(vm.model.projectInvestSum);//项目总投资
 						vm.model.projectInvestAccuSum=common.toMoney(vm.model.projectInvestAccuSum);//累计完成投资
@@ -94,7 +94,7 @@
 						vm.model.capitalQCZ_gtzj=common.toMoney(vm.model.capitalQCZ_gtzj);//区财政-国土资金
 						vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
 						vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他					
-					if(vm.page=='update'){						
+					if(vm.page=='update'){					
 		        		//项目行业归口
 						var child = $linq(common.getBasicData())
 		        		.where(function(x){return x.id==vm.model.projectIndustry})

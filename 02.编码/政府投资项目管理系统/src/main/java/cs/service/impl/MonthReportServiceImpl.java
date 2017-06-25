@@ -153,7 +153,7 @@ public class MonthReportServiceImpl implements MonthReportService {
 		taskRecord.setCreatedBy(currentUser.getLoginName());
 		taskRecord.setModifiedBy(currentUser.getLoginName());
 		taskRecord.setRelId(monthReport.getId());
-		taskRecord.setTitle("项目申报："+project.getProjectName());
+		taskRecord.setTitle("项目月报："+project.getProjectName());
 		taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
 		taskRecord.setTaskType(BasicDataConfig.taskType_monthReport);
 		taskRecord.setId(UUID.randomUUID().toString());

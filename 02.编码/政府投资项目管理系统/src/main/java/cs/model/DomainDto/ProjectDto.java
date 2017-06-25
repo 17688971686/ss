@@ -14,6 +14,10 @@ public class ProjectDto extends Project {
 	private String projectTypeDesc;
 	//项目类别
 	private String projectCategoryDesc;
+	//功能分类科目
+	private String projectFunctionClassifyDesc;
+	//政府经济分类
+	private String projectGoverEconClassifyDesc;
 	//所属行业
 	private String projectIndustryDesc;
 	//项目分类
@@ -91,6 +95,23 @@ public class ProjectDto extends Project {
 	public void setProjectCategoryDesc(String projectCategoryDesc) {
 		this.projectCategoryDesc = projectCategoryDesc;
 	}
+
+	public String getProjectFunctionClassifyDesc() {
+		return projectFunctionClassifyDesc;
+	}
+
+	public void setProjectFunctionClassifyDesc(String projectFunctionClassifyDesc) {
+		this.projectFunctionClassifyDesc = projectFunctionClassifyDesc;
+	}
+
+	public String getProjectGoverEconClassifyDesc() {
+		return projectGoverEconClassifyDesc;
+	}
+
+	public void setProjectGoverEconClassifyDesc(String projectGoverEconClassifyDesc) {
+		this.projectGoverEconClassifyDesc = projectGoverEconClassifyDesc;
+	}
+	
 	
 		
 }
