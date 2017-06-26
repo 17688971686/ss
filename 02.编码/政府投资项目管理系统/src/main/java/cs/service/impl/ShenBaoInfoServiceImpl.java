@@ -3,6 +3,7 @@ package cs.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -18,6 +19,7 @@ import cs.domain.TaskHead;
 import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
+import cs.model.DomainDto.SysConfigDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
@@ -100,11 +102,22 @@ public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 	
 	private void initWorkFlow(ShenBaoInfo shenBaoInfo){
 		//获取系统配置中工作流类型的第一处理人
-		String configValue = sysService.getConfigValue(
-				this.getTaskType(shenBaoInfo.getProjectShenBaoStage())).getConfigValue();
+		 String startUser="";
+		 List<SysConfigDto> configDtos=sysService.getSysConfigs();
+		  Optional<SysConfigDto> systemConfigDto=	configDtos.stream().filter((x)->
+		  			BasicDataConfig.taskType.equals(x.getConfigType())
+					&&getTaskType(shenBaoInfo.getProjectShenBaoStage()).equals(x.getConfigName()
+							)
+					).findFirst();
+		  
+		   if(systemConfigDto.isPresent()){
+			   startUser=systemConfigDto.get().getConfigValue();
+		   }
+		   
+		
 		//创建工作流
 		TaskHead taskHead=new TaskHead();		
-		taskHead.setUserName(configValue);//设置下一处理人
+		taskHead.setUserName(startUser);//设置下一处理人
 		taskHead.setCreatedBy(currentUser.getLoginName());
 		taskHead.setModifiedBy(currentUser.getLoginName());
 		taskHead.setRelId(shenBaoInfo.getId());
