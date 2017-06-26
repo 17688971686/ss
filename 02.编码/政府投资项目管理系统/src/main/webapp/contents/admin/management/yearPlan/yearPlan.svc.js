@@ -22,43 +22,47 @@
 			grid_yearPlan_addShenbaoInfoList:grid_yearPlan_addShenbaoInfoList,//年度计划编制新增项目申报列表
 			addShenBaoInfoconfirm:addShenBaoInfoconfirm,//年度计划新增项目申报			
 			getShenBaoInfoById:getShenBaoInfoById,//根据申报id查找申报信息
-			getYearPlanCapitalByShenBaoId:getYearPlanCapitalByShenBaoId,//根据申报id查找年度计划编制信息
+			getYearPlanCapitalById:getYearPlanCapitalById,//根据申报id查找年度计划编制信息
 			updateYearPlanCapital:updateYearPlanCapital,//更新年度计划编制信息	
-			removeShenBaoInfo:removeShenBaoInfo//移除申报项目
+			removeYearPlanCapital:removeYearPlanCapital//移除申报项目
 		};
 		
-		function removeShenBaoInfo(vm){
-			
-		}
+		function removeYearPlanCapital(vm,id){
+			var httpOptions = {
+					method : 'post',
+					url : common.format(url_planList+"/removeCapital?planId={0}&yearPlanCapitalId={1}",vm.id,id)
+				}
+				var httpSuccess = function success(response) {
+				location.reload();
+				}
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});	
+		}//removeYearPlanCapital
 		
 		/**
 		 * 更新年度计划编制信息
 		 */
 		function updateYearPlanCapital(vm){
+			vm.model.capital.capitalSum=parseFloat(vm.model.capital.capitalSCZ_ggys||0)
+									   +parseFloat(vm.model.capital.capitalSCZ_gtzj||0)
+									   +parseFloat(vm.model.capital.capitalSCZ_zxzj||0)
+									   +parseFloat(vm.model.capital.capitalQCZ_ggys||0)
+									   +parseFloat(vm.model.capital.capitalQCZ_gtzj||0)
+									   +parseFloat(vm.model.capital.capitalSHTZ||0)
+									   +parseFloat(vm.model.capital.capitalOther||0);
 			var httpOptions = {
 					method : 'put',
 					url : url_planCapital,
 					data:vm.model.capital
 				}
 				var httpSuccess = function success(response) {
-					common.requestSuccess({
-						vm : vm,
-						response : response,
-						fn : function() {
-						common.alert({
-							vm : vm,
-							msg : "操作成功",
-							fn : function() {								
-								$('.alertDialog').modal('hide');
-								$('.modal-backdrop').remove();
-								//关闭弹出框
-								vm.isPopOver = false;
-								//刷新页面
-								location.reload();
-							}
-						});
-					}					
-				});
+					getPlanById(vm);
+					$('#capitalSum_'+vm.currentCapitalId).val(vm.model.capital.capitalSum);
+					vm.isPopOver = false;
 			}
 			common.http({
 				vm:vm,
@@ -71,10 +75,10 @@
 		/**
 		 * 根据申报id查找年度计划编制信息
 		 */
-		function getYearPlanCapitalByShenBaoId(vm,id){
+		function getYearPlanCapitalById(vm,id){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_planCapital + "?$filter=shenbaoInfoId eq '{0}'", id)
+					url : common.format(url_planCapital + "?$filter=id eq '{0}'", id)
 				}
 				var httpSuccess = function success(response) {
 					vm.model.capital = response.data.value[0]||{};
@@ -86,7 +90,7 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		}//end getYearPlanCapitalByShenBaoId
+		}//end getYearPlanCapitalById
 		
 		/**
 		 * 根据id获取申报信息
@@ -131,11 +135,9 @@
 							fn : function() {								
 								$('.alertDialog').modal('hide');
 								$('.modal-backdrop').remove();
-								//vm.planGridOptions.dataSource.read();//刷新编制列表
-								//刷新页面
-								location.reload();
-								//this.getPlanById(vm);
-								//location.href = url_back;									
+								//vm.planGridOptions.dataSource.read();//刷新编制列表	
+								//getPlanById(vm);
+								location.reload();						
 							}
 						});
 					}					
@@ -244,7 +246,7 @@
 				type : 'odata',
 				transport : common.kendoGridConfig().transport(url_planList+"/"+vm.id+"/projectList"),
 				schema : common.kendoGridConfig().schema({
-					id : "id"
+					id : "yearPlanCapitalId"
 				}),
 				serverPaging : true,
 				serverSorting : true,

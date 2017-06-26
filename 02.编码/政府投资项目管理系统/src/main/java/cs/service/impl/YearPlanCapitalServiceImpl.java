@@ -86,29 +86,9 @@ public class YearPlanCapitalServiceImpl implements YearPlanCapitalService {
 			//设置修改人和修改时间
 			entity.setModifiedBy(currentUser.getLoginName());
 			entity.setModifiedDate(new Date());
+			
 			yearPlanCapitalRepo.save(entity);
-			//更新安排资金
-			ShenBaoInfo shenbaoInfo=shenBaoInfoRepo.findById(entity.getShenbaoInfoId());
-			if(shenbaoInfo!=null){
-				//计算年度计划编制安排资金
-				Double yearInvestApproval = 0.00;
-				if(dto.getCapitalSCZ_ggys()!=null){
-					yearInvestApproval +=dto.getCapitalSCZ_gtzj();
-				}if(dto.getCapitalSCZ_zxzj() != null){
-					yearInvestApproval +=dto.getCapitalSCZ_zxzj();
-				}if(dto.getCapitalSCZ_gtzj() != null){
-					yearInvestApproval += dto.getCapitalSCZ_gtzj();
-				}if(dto.getCapitalQCZ_ggys() !=null){
-					yearInvestApproval += dto.getCapitalQCZ_ggys();
-				}if(dto.getCapitalQCZ_gtzj() !=null){
-					yearInvestApproval +=dto.getCapitalQCZ_gtzj();
-				}if(dto.getCapitalSHTZ() !=null){
-					yearInvestApproval += dto.getCapitalSHTZ();
-				}if(dto.getCapitalOther() !=null){
-					yearInvestApproval += dto.getCapitalOther();
-				}
-				shenbaoInfo.setYearInvestApproval(yearInvestApproval);
-			}
+			
 			logger.info("更新年度计划编制信息");
 		}	
 	}

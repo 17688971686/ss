@@ -4,7 +4,7 @@ import cs.model.PageModelDto;
 import cs.model.DomainDto.YearPlanCapitalDto;
 import cs.repository.odata.ODataObj;
 
-public interface YearPlanCapitalService {
+public interface YearPlanCapitalService  {
 	
 	PageModelDto<YearPlanCapitalDto> get(ODataObj odataObj);
 	

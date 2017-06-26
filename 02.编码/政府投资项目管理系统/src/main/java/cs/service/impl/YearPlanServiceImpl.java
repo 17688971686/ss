@@ -3,6 +3,7 @@ package cs.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -172,5 +173,26 @@ public class YearPlanServiceImpl implements YearPlanService {
 			yearPlanRepo.save(yearPlan);
 			logger.info(String.format("添加年度计划资金,名称：%s",yearPlan.getName()));	
 		}			
+	}
+
+	@Override
+	@Transactional
+	public void removeYearPlanCapital(String planId, String[] yearPlanCapitalId) {
+		YearPlan yearPlan=yearPlanRepo.findById(planId);
+		if(yearPlan!=null){
+			List<YearPlanCapital> yearPlanCapitals=yearPlan.getYearPlanCapitals();
+			List<YearPlanCapital> removeItems=new ArrayList<>();
+			yearPlanCapitals.forEach(x->{
+				for (String capitalId : yearPlanCapitalId) {
+					if(x.getId().equals(capitalId)){
+						removeItems.add(x);						
+					}
+				}
+			});
+			yearPlanCapitals.removeAll(removeItems);
+					
+		}
+		yearPlanRepo.save(yearPlan);
+		
 	}
 }

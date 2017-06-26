@@ -51,6 +51,12 @@ public class YearPlanController {
 			yearPlanService.addYearPlanCapital(planId,shenBaoId);
 		}
 	}
+	@RequestMapping(name="移除年度计划项目",path="removeCapital",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void removeCapital(@RequestParam String planId,@RequestParam String yearPlanCapitalId){		
+		String[] ids=yearPlanCapitalId.split(",");
+		yearPlanService.removeYearPlanCapital(planId, ids);
+	}
 	
 	@RequestMapping(name="添加年度计划",path="",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)

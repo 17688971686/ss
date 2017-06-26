@@ -107,7 +107,8 @@
     		}
     		 vm.popOver=function(e,id){
     			 //根据申报信息id查询出年度计划编制
-    			 yearPlanSvc.getYearPlanCapitalByShenBaoId(vm,id);
+    			 vm.currentCapitalId=id;
+    			 yearPlanSvc.getYearPlanCapitalById(vm,id);
     	    	   vm.isPopOver=true;
     	    	   var minClick=$(document).height()-50-230;
     	    	   if(e.pageY>minClick){
@@ -117,14 +118,32 @@
     	    			   left:e.pageX+'px',
     	    			   top:e.pageY+'px',
     	    	   };  
-    	       }
-    		 vm.updateCapital = function(){
+    	       }//popOver
+    		 vm.updateCapital = function(id){
     			 yearPlanSvc.updateYearPlanCapital(vm);
     		 }
+    		 
+    		 vm.removeYearPlanCapital=function(){
+    	    		var selectIds = common.getKendoCheckId('.yearPlanCapitalGrid');
+    	            if (selectIds.length == 0) {
+    	            	return;
+    	            } else {
+    	            	var ids=[];
+    	                for (var i = 0; i < selectIds.length; i++) {
+    	                	ids.push(selectIds[i].value);
+    					}
+    	                var idStr=ids.join(',');  
+    	                yearPlanSvc.removeYearPlanCapital(vm,idStr);
+    	            }
+    	    	}//removeYearPlanCapital
 
     		yearPlanSvc.getPlanById(vm);//查询年度计划信息
     		yearPlanSvc.grid_yearPlan_shenbaoInfoList(vm);//查询年度计划编制申报的信息列表
     		yearPlanSvc.grid_yearPlan_addShenbaoInfoList(vm);//查询所有的申报信息列表  		
-    	}
-    }
+    	}//init_planBZ
+    	
+    	
+    	
+    	
+    } //yearPlan
 })();
