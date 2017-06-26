@@ -22,6 +22,7 @@ import cs.domain.TaskHead;
 import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.MonthReportDto;
+import cs.model.DomainDto.SysConfigDto;
 import cs.model.DtoMapper.IMapper;
 import cs.model.DtoMapper.MonthReportMapper;
 import cs.repository.interfaces.IRepository;
@@ -135,11 +136,20 @@ public class MonthReportServiceImpl implements MonthReportService {
 	
 	private void initWorkFlow(Project project,MonthReport monthReport){
 		//获取系统配置中工作流类型的第一处理人
-		String configValue = sysService.getConfigValue(BasicDataConfig.taskType_monthReport).getConfigValue();
+	   String startUser="";
+	  Optional<SysConfigDto> systemConfigDto=	sysService.getSysConfigs().stream().filter((x)->
+	  			BasicDataConfig.taskType.equals(x.getConfigType())		
+	  			&&BasicDataConfig.taskType_monthReport.equals(x.getConfigName())
+				).findFirst();
+	  
+	   if(systemConfigDto.isPresent()){
+		   startUser=systemConfigDto.get().getConfigValue();
+	   }
+		
 				
 		//创建工作流
 		TaskHead taskHead=new TaskHead();		
-		taskHead.setUserName(configValue);//设置下一处理人
+		taskHead.setUserName(startUser);//设置下一处理人
 		taskHead.setCreatedBy(currentUser.getLoginName());
 		taskHead.setModifiedBy(currentUser.getLoginName());
 		taskHead.setRelId(monthReport.getId());

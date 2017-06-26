@@ -32,7 +32,7 @@ public class SysController {
 	@RequiresPermissions("sys#resource#get")
 	@RequestMapping(name = "获取系统资源数据", path = "resource", method = RequestMethod.GET)
 	public @ResponseBody List<SysResourceDto> get(HttpServletRequest request) {
-		List<SysResourceDto> ZTreeList = sysService.get();
+		List<SysResourceDto> ZTreeList = sysService.getSysResources();
 		return ZTreeList;
 	}
 	
