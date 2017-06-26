@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
+import cs.domain.ShenBaoInfo;
 import cs.domain.TaskHead;
 import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
@@ -33,6 +34,9 @@ public class TaskHeadServiceImpl implements TaskHeadService {
 	
 	@Autowired
 	IRepository<TaskHead, String> taskHeadRepo;
+	
+	@Autowired
+	IRepository<ShenBaoInfo, String> shenBaoInfoRepo;
 	
 	@Autowired
 	ICurrentUser currentUser;
@@ -88,6 +92,21 @@ public class TaskHeadServiceImpl implements TaskHeadService {
 			//设置完成
 			String processState=dto.getProcessState();
 			setComplete(taskHead,processState);
+			
+			//设置shenbaoInfo状态
+			String taskType=dto.getTaskType();
+			if(!taskType.equals(BasicDataConfig.taskType_monthReport)){//不是月报
+				String shenbaoId=dto.getRelId();
+				if(shenbaoId!=null&&!shenbaoId.isEmpty()){
+					ShenBaoInfo shenBaoInfo=shenBaoInfoRepo.findById(shenbaoId);
+					if(shenBaoInfo!=null){
+						shenBaoInfo.setProcessState(processState);
+						shenBaoInfoRepo.save(shenBaoInfo);
+					}
+					
+				}
+				
+			}
 			taskHeadRepo.save(taskHead);
 		}
 	}

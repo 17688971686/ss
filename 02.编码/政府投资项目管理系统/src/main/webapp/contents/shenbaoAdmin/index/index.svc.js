@@ -157,7 +157,7 @@
 		function getTaskRecords(vm){
 			var httpOptions = {
 					method : 'get',
-					url : url_taskRecord
+					url : url_taskRecord+"?$orderby=createdDate desc"
 				}
 
 				var httpSuccess = function success(response) {

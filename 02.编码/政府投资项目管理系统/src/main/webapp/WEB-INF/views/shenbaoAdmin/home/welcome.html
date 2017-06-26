@@ -40,14 +40,14 @@
 			<button class="btn btn-primary btn-sm">最新动态</button>
 		</div>
 		<div class="div_border_bottom">
-			<table class="table table-striped table-bordered" style="font-size:12px;">
-				<tr>
+			<table class="table table-bordered" style="font-size:12px;">
+				<tr class="bg-info">
 					<th>名称</th>					
 					<th>信息</th>
 					<th width="100px;">状态</th>
 					<th width="132px;">时间</th>
 				</tr>
-				<tr ng-repeat="x in vm.model.taskRecord | limitTo :2">
+				<tr ng-repeat="x in vm.model.taskRecord | limitTo :2" style="background: white;">
 					<td ng-if="x.taskType == vm.taskType_yearPlan">
 						<a href="#/shenbao_record/{{x.relId}}">{{x.title}}</a>
 					</td>
@@ -60,7 +60,7 @@
 					<td ng-bind="vm.formatDateTime(x.createdDate)"></td>
 				</tr>
 			</table>
-			<a href="#/task_records" class="btn btn-default btn-xs pull-right">更多>></a>
+			<a href="#/task_records" class="btn btn-info btn-xs pull-right">更多>></a>
 		</div>
 	</div>
 	<div class="div_border_right pull-right">
@@ -68,23 +68,25 @@
 			<button class="btn btn-primary btn-sm">我的申报</button>
 		</div>
 		<div class="div_border_bottom">
-			<table class="table table-striped table-bordered" style="font-size:12px;">
+			<table class="table table-bordered" style="font-size:12px;">
 				<tbody>
-					<tr>
+					<tr class="bg-info">
 						<th>项目名称</th>
 						<th>申报类型</th>	
+						<th>状态</th>
 						<th width="132px;">申报时间</th>
 					</tr>
-   					<tr ng-repeat="x in vm.model.shenBaoInfo | limitTo :3">
+   					<tr ng-repeat="x in vm.model.shenBaoInfo | limitTo :3" style="background: white;">
    						<td>
    							<a href="#/project/projectInfo/{{x.projectId}}">{{x.projectName}}</a>
    						</td>
    						<td ng-bind="vm.getBasicDataDesc(x.projectShenBaoStage)"></td>
+   						<td ng-bind="vm.getBasicDataDesc(x.processState)"></td>
    						<td ng-bind="vm.formatDate(x.createdDate)"></td>
    					</tr>   					   				                    
                  </tbody>
             </table>
-            <a href="#/shenbao_records" class="btn btn-default btn-xs pull-right">更多>></a>
+            <a href="#/shenbao_records" class="btn btn-info btn-xs pull-right">更多>></a>
 		</div>
 	</div>
 	<!-- <div class="div_border_left pull-left">

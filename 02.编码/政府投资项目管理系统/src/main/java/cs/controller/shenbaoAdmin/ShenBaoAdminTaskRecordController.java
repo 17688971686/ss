@@ -27,13 +27,7 @@ public class ShenBaoAdminTaskRecordController {
 	
 	@RequestMapping(name = "获取任务流程", path = "")
 	public @ResponseBody PageModelDto<TaskRecordDto> getToDo(HttpServletRequest request) throws ParseException {
-		ODataObj odataObj = new ODataObj(request);
-		//设置过滤条件
-		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
-		filterItem.setField("userName");
-		filterItem.setOperator("eq");
-		filterItem.setValue(currentUser.getLoginName());
-		odataObj.getFilter().add(filterItem);
+		ODataObj odataObj = new ODataObj(request);		
 		PageModelDto<TaskRecordDto> taskRecordDtos = taskRecordService.get(odataObj);
 		return taskRecordDtos;
 	}
