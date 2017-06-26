@@ -34,6 +34,9 @@
         	$('.article_'+type).addClass('focus');
         	
         }
+        vm.formatDate = function(datStr){
+        	return common.formatDate(datStr);
+        }
         vm.submit=function(){
         	indexSvc.submit(vm);
         }

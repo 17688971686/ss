@@ -8,12 +8,63 @@
 	function index($http) {	
 		var url_taskRecord="/shenbaoAdmin/taskRecord";
 		var url_unitShenBao="/shenbaoAdmin/shenbao";
+		var url_account_password="/account/password";
 		var service = {
 			getTaskRecords:getTaskRecords, //获取任务流程最新动态
 			getUnitShenBaoInfos:getUnitShenBaoInfos,//获取单位申报信息
 			taskRecordList:taskRecordList,//任务流程列表
+			changePwd:changePwd,//修改密码
 		};		
 		return service;
+		
+		/**
+		 * 修改密码
+		 */
+		function changePwd(vm) {
+			common.initJqValidation();
+			var isValid = $('form').valid();
+			if (isValid) {
+				vm.isSubmit = true;
+				var httpOptions = {
+					method : 'put',
+					url : url_account_password,
+					data : vm.model.password
+				}
+
+				var httpSuccess = function success(response) {
+
+					common.requestSuccess({
+						vm : vm,
+						response : response,
+						fn : function() {
+
+							common.alert({
+								vm : vm,
+								msg : "操作成功",
+								fn : function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');
+								}
+							})
+						}
+
+					})
+				}
+
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+
+			} else {
+				// common.alert({
+				// vm:vm,
+				// msg:"您填写的信息不正确,请核对后提交!"
+				// })
+			}
+		}
 		
 		/**
 		 * 任务流程列表

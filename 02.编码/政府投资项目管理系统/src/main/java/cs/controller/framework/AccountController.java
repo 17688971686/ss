@@ -56,6 +56,11 @@ public class AccountController {
 	public String list() {
 		return ctrlName + "/changePwd";
 	}
+	
+	@RequestMapping(name = "前端修改密码页面", path = "html/changePwdQ", method = RequestMethod.GET)
+	public String changePwdQ() {
+		return ctrlName + "/changePwdQ";
+	}
 
 	// end#html
 }

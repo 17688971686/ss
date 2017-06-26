@@ -116,7 +116,7 @@ public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 		   
 		
 		//创建工作流
-		TaskHead taskHead=new TaskHead();		
+		TaskHead taskHead=new TaskHead();
 		taskHead.setUserName(startUser);//设置下一处理人
 		taskHead.setCreatedBy(currentUser.getLoginName());
 		taskHead.setModifiedBy(currentUser.getLoginName());

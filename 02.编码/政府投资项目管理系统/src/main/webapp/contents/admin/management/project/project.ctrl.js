@@ -48,6 +48,21 @@
     	function init_list(){
     		projectSvc.grid(vm);
     		
+    		vm.isMonthReport=function(id,isMonthReport){
+    			vm.model.isMonthReport = isMonthReport;
+    			vm.model.id=id;
+    			//弹出模态框
+    			$("#myModal").modal({
+                    backdrop: 'static',
+                    keyboard:false
+                });   			
+    		}
+    		
+    		//更新项目是否填报状态
+    		vm.updateIsMonthReport = function(){
+    			projectSvc.updateIsMonthReport(vm);
+    		}  
+    		
     		vm.del = function (id) {
                 common.confirm({
                	 vm:vm,
@@ -59,6 +74,7 @@
                     }
                 })
            }//del
+    		
     		vm.dels = function(){
             	var selectIds = common.getKendoCheckId('.grid');
                 if (selectIds.length == 0) {

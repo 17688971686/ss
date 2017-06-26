@@ -17,10 +17,9 @@ public class Project extends BaseProject {
 	@Id
 	private String id;
 	
-		
-	
-	
-	
+	@Column(columnDefinition="bit(1) NULL COMMENT '是否需要填报'")
+	private Boolean isMonthReport = true;
+
 	//begin#关联信息
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<Attachment> attachments=new ArrayList<>();
@@ -53,5 +52,14 @@ public class Project extends BaseProject {
 	public void setMonthReports(List<MonthReport> monthReports) {
 		this.monthReports = monthReports;
 	}
+
+	public Boolean getIsMonthReport() {
+		return isMonthReport;
+	}
+
+	public void setIsMonthReport(Boolean isMonthReport) {
+		this.isMonthReport = isMonthReport;
+	}
+	
 
 }

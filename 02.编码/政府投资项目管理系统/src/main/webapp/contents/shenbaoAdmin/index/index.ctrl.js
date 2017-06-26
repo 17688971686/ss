@@ -17,8 +17,10 @@
         if($state.current.name=='task_records'){
         	vm.page='recordList';
         }
-        
-        
+        if($state.current.name=='accountPwd'){
+        	vm.page='changePwd';
+        }
+                
        function init(){       	          
 	       vm.formatDate=function(str){
 	  			return common.formatDate(str);
@@ -29,19 +31,24 @@
 	   	   vm.getBasicDataDesc=function(str){
 	  			return common.getBasicDataDesc(str);
 	  			}
+	   	  vm.changePwd = function(){
+        	 indexSvc.changePwd(vm);         
+	   	  		}
 	   	   vm.taskType_yearPlan=common.basicDataConfig().taskType_yearPlan;
-	   	   vm.taskType_monthReport=common.basicDataConfig().taskType_monthReport;
+	   	   vm.taskType_monthReport=common.basicDataConfig().taskType_monthReport;	   	   
 	   	   if(vm.page == 'recordList'){
 	   		   init_taskRecord();
 	   	   }
-	   	   indexSvc.getTaskRecords(vm);//获取最新动态
-	   	   indexSvc.getUnitShenBaoInfos(vm);//获取单位申报信息
+	   	   if(vm.page=='index'){
+	   		indexSvc.getTaskRecords(vm);//获取最新动态
+		   	   indexSvc.getUnitShenBaoInfos(vm);//获取单位申报信息 
+	   	   }	   	   
        }
        
        function init_taskRecord(){
     	   indexSvc.taskRecordList(vm);
        }
-       
+              
         activate();
         function activate() {
         	init();

@@ -13,6 +13,8 @@ public interface ProjectService {
 	
 	void updateProject(ProjectDto projectDto);
 	
+	void updateProjectByIsMonthReport(ProjectDto projectDto);
+	
 	void createProject(ProjectDto projectDto);
 	
 	//begin#单位相关操作

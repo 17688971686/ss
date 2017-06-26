@@ -23,7 +23,8 @@
 					<td class="item" >
 						<a href="#/details/{{vm.type}}/{{x.id}}" ng-bind="x.title"></a>
 					</td>
-					<td style="width:100px" class="date" ng-bind="x.createdDate.split(' ')[0]">
+					<!-- <td style="width:100px" class="date" ng-bind="x.createdDate.split(' ')[0]"> -->
+					<td style="width:100px" class="date" ng-bind="vm.formatDate(x.createdDate)">
 					</td>
 				</tr>
 			</tbody>

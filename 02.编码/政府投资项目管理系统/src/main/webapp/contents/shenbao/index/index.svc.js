@@ -61,7 +61,6 @@
 				var httpSuccess = function success(response) {
 					vm.model=response.data;
 					vm.articles=vm.model.article_tzgg;
-					console.log(vm.model);
 				}
 
 				common.http({

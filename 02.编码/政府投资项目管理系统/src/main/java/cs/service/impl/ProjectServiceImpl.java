@@ -99,6 +99,22 @@ public class ProjectServiceImpl implements ProjectService {
 		logger.info(String.format("编辑项目,项目名称 %s",projectDto.getProjectName()));
 				
 	}
+	
+	
+
+	@Override
+	@Transactional
+	public void updateProjectByIsMonthReport(ProjectDto projectDto) {		
+		Project project = projectRepo.findById(projectDto.getId());
+		project.setIsMonthReport(projectDto.getIsMonthReport());
+		//设置修改人
+		String longinName = currentUser.getLoginName();
+		project.setModifiedBy(longinName);
+		project.setModifiedDate(new Date());
+		//保存数据
+		projectRepo.save(project);
+		logger.info(String.format("修改项目是否月报,项目名称 %s",project.getProjectName()));
+	}
 
 	@Override
 	@Transactional

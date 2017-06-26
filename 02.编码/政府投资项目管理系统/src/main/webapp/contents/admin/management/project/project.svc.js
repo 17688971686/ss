@@ -15,6 +15,7 @@
 			updateProject:updateProject,
 			createProject:createProject,
 			getUserUnits:getUserUnits,
+			updateIsMonthReport:updateIsMonthReport,
 			
 		};
 
@@ -89,12 +90,39 @@
 		//end#createProject
 		
 		/**
+		 * 更新是否填写月报
+		 */
+		function updateIsMonthReport(vm){
+			var httpOptions = {
+					method : 'put',
+					url : url_project+"/isMonthReport",
+					data : vm.model
+				}
+
+				var httpSuccess = function success(response) {
+					//关闭模态框
+					$("#myModal").modal('hide');
+					//刷新表格数据
+					vm.gridOptions.dataSource.read(); 					
+				}
+
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+
+			} 
+		
+		/**
 		 * 更新项目信息
 		 */
 		//begin#updateProject
 		function updateProject(vm){
 			common.initJqValidation();
 			var isValid = $('form').valid();
+			console.log(vm.model);
 			if (isValid) {
 				vm.isSubmit = true;
 
@@ -187,6 +215,7 @@
 		}
 		//end#getProjectById
 		
+	
 		
 		// begin#grid
 		function grid(vm) {
@@ -254,11 +283,24 @@
 						filterable : false
 					},
 					{
+						field : "isMonthReport",
+						title : "是否月报",
+						template : function(item) {
+							if(item.isMonthReport){
+								return "是";
+							}else if(!item.isMonthReport){
+								return "否";
+							}								 
+						},
+						width : 150,
+						filterable : false
+					},
+					{
 						field : "",
 						title : "操作",
 						width : 180,
 						template : function(item) {
-							return common.format($('#columnBtns').html(),item.id,"vm.del('" + item.id + "')");
+							return common.format($('#columnBtns').html(),item.id,"vm.isMonthReport('" +item.id+ "','"+item.isMonthReport+"')");
 									 
 
 						}

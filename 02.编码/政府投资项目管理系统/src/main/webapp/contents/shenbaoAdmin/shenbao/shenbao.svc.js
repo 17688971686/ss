@@ -187,25 +187,22 @@
 					['shenBaoUnitInfoDto.contactPersonEmail','required','项目单位信息-项目联系人邮箱必填']					
 				];
 				vm.validMessage=[];
-				$.each(validFields,function(idx,item){
-					console.log(item[0]);
+				$.each(validFields,function(idx,item){					
 					var value='';
 					if(item[0].indexOf('.')>0){
 						var fields=item[0].split('.');
 						value=vm.model[fields[0]][fields[1]];
-					}
-					else{
+					}else{
 						value=vm.model[item[0]];
 					}
-							
+												
 					var msg=item[2];					
-					if(item[1]=='required'){				
-						var isExist=value&&value.trim()!=""					
+					if(item[1]=='required'){
+						var isExist=value&&value.trim()!=""	
 						if(!isExist){
 							vm.validMessage.push(msg);
 						}						
-					}
-					
+					}					
 				});
 				if(vm.validMessage.length>0){
 					$('#validMsgDialog').modal({
@@ -261,8 +258,8 @@
 					method : 'get',
 					url : url_userUnit,
 				}
-				var httpSuccess = function success(response) {					
-					vm.model.shenBaoUnitInfoDto = response.data;
+				var httpSuccess = function success(response) {
+					vm.model.shenBaoUnitInfoDto = response.data||{};					
 				}
 				
 				common.http({
@@ -321,6 +318,7 @@
 						vm.model.projectId = vm.model.id;
 					}
 					vm.model.projectShenBaoStage = vm.stage;
+					//获取当前登录用户的单位信息
 					getDeptInfo(vm);
 				}
 				common.http({

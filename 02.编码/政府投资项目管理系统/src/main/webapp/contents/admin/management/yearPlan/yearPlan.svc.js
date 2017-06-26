@@ -160,7 +160,7 @@
 						vm.model.XuJianTotal = 0;//续建
 						vm.model.projectInvestSumTotal = 0;//项目总投资
 						vm.model.applyYearInvestTotal = 0;//申请资金总额
-						vm.model.approvalYearInvestTotal = 0;//安排资金总计
+						vm.model.yearInvestApprovalTotal = 0;//安排资金总计
 						for(var j=0;j<shenBaoInfoList.length;j++){
 							var obj = shenBaoInfoList[j];
 							if(obj.projectConstrChar && obj.projectConstrChar == 'projectConstrChar_1'){
@@ -178,9 +178,9 @@
 							if(obj.applyYearInvest){
 								vm.model.applyYearInvestTotal += obj.applyYearInvest;
 							}
-//							if(){
-//								
-//							}
+							if(obj.yearInvestApproval){
+								vm.model.yearInvestApprovalTotal += obj.yearInvestApproval;
+							}
 						}
 						//计划总规模						
 						vm.model.capitalSCZ_ggysTotal = 0;
@@ -264,9 +264,12 @@
 
 					},
 					{
-						field : "unitName",
+						field : "",
 						title : "建设单位",
 						width:120,
+						template:function(item){
+							return common.format(item.shenBaoUnitInfo.unitName);
+						},
 						filterable : true
 					},
 					{

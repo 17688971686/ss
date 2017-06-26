@@ -65,6 +65,7 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			projectDto.setCreatedBy(project.getCreatedBy());
 			projectDto.setCreatedDate(project.getCreatedDate());
 			projectDto.setItemOrder(project.getItemOrder());
+			projectDto.setIsMonthReport(project.getIsMonthReport());
 						
 			//begin#关联信息
 			//附件
@@ -129,6 +130,7 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setCreatedBy(projectDto.getCreatedBy());
 			project.setCreatedDate(projectDto.getCreatedDate());
 			project.setItemOrder(projectDto.getItemOrder());
+			project.setIsMonthReport(projectDto.getIsMonthReport());
 			
 			project.setAttachments(projectDto.getAttachments());
 						
