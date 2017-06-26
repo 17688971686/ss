@@ -53,6 +53,12 @@ public class ProjectController {
 		ProjectService.updateProject(ProjectDto);		
 	}
 	
+	@RequestMapping(name = "更新项目是否填报状态", path = "isMonthReport",method=RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void  updateByIsMonthReport(@RequestBody ProjectDto ProjectDto){		
+		ProjectService.updateProjectByIsMonthReport(ProjectDto);	
+	}
+	
 	@RequestMapping(name = "创建项目信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  create(@RequestBody ProjectDto ProjectDto){		

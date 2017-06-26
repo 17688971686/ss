@@ -28,6 +28,13 @@
         		controller: 'indexCtrl',
         		controllerAs: 'vm'
         	})
+        	//修改密码
+        	.state('accountPwd', {
+        		url: '/accountPwd',
+        		templateUrl: '/account/html/changePwdQ.html',
+        		controller: 'indexCtrl',
+        		controllerAs: 'vm'
+        	})        	
 /**********************************************end#管理首页*********************************/           
              //begin#deptInfoMaintain（单位信息维护）
 	        .state('deptInfoMaintain', {
@@ -45,8 +52,7 @@
 	            controller: 'projectMonthReportCtrl',
 	            controllerAs: 'vm'
 	        }) 
-	        
-	        
+	        	        
 	        .state('projectMonthReportFill', {
 	            url: '/projectMonthReportFill/:projectId',
 	            templateUrl: '/shenbaoAdmin/projectMonthReport/html/selectMonth',   	            	 	           

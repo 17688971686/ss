@@ -173,6 +173,7 @@ public class UserServiceImpl implements UserService {
 	public Response Login(String userName, String password){
 		User user=userRepo.findUserByName(userName);
 		Response response =new Response();
+		
 		if(user!=null){
 			if(user.getLoginFailCount()>5&&user.getLastLoginDate().getDay()==(new Date()).getDay()){	
 				response.setMessage("登录失败次数过多,请明天再试!");

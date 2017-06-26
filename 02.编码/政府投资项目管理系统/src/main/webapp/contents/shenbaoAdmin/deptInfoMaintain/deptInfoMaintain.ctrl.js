@@ -15,14 +15,10 @@
         		divisionId:""
         };
         
-        vm.basicData_unitProperty=$linq(common.getBasicData())
-        							.where(function(x){return x.identity=='unitProperty'&&x.pId=='unitProperty';})
-        							.toArray();
-        
+        vm.basicData_unitProperty=common.getBacicDataByIndectity(common.basicDataConfig().unitProperty);        	
         vm.basicData_area_Street=$linq(common.getBasicData())
-								.where(function(x){return x.identity=='area'&&x.pId=='area_1';})
-								.toArray();
-        
+								.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
+								.toArray();        
         vm.submit=function(){
         	deptInfoMaintainSvc.save(vm);
         }

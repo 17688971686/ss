@@ -50,12 +50,12 @@ public class SysController {
 		
 	}
 	
-//	@RequestMapping(name = "系统初始化", path = "initUser", method = RequestMethod.GET)
-//	public @ResponseBody List<SysResourceDto> initUser() {
-//		List<SysResourceDto> list = sysService.
-//		return list;
-//				
-//	}
+	@RequestMapping(name = "系统初始化签收人", path = "getSysConfigs", method = RequestMethod.GET)
+	public @ResponseBody List<SysConfigDto> initUser() {
+		List<SysConfigDto> list = sysService.getSysConfigs();
+		return list;
+				
+	}
 	
 	@RequestMapping(name = "系统初始化", path = "init", method = RequestMethod.GET)
 	public @ResponseBody String init(HttpServletRequest request) {
@@ -76,7 +76,7 @@ public class SysController {
 			return "Init basicData fail";
 		}	
 	}
-	
+	//begin#html
 	@RequestMapping(name = "系统配置主页", path = "html/index", method = RequestMethod.GET)
 	public String index(){
 		return ctrl+"/index";

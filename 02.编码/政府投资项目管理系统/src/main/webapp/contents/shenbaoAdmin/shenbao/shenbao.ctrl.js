@@ -126,7 +126,7 @@
 	   		vm.basicData.unitProperty=common.getBacicDataByIndectity(common.basicDataConfig().unitProperty);	   		
 	   		//行政区划街道
 	   		vm.basicData.area_Street=$linq(common.getBasicData())
-	 			.where(function(x){return x.identity=='area'&&x.pId=='area_1';})
+	 			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 	 			.toArray();
 	   		//资金其他来源类型
 	   		vm.basicData.capitalOther=common.getBacicDataByIndectity(common.basicDataConfig().capitalOtherType);

@@ -78,7 +78,8 @@ desired effect
 			<span style="color:#0b8d39;">当前日期：${date}</span>
 			<div class="pull-right user_icon">
 				<span style="color:#ee6c03">${userName}</span>
-				<a style="color:#0b8d39; cursor: pointer;margin-left:20px;" href="/">退出</a>
+				<a style="color:#0b8d39; cursor: pointer;margin-left:20px;" href="#/accountPwd">修改密码</a>
+				<a style="color:#0b8d39; cursor: pointer;margin-left:10px;" href="/">退出</a>
 			</div>
 		</div>
 	
@@ -88,14 +89,12 @@ desired effect
 		<div class="clearfix"></div>
 	</div>
 	
-<ul class="menu clearfix">
+	<ul class="menu clearfix">
 		<li><a href="javascript:void(0)" ui-sref="index">管理首页</a></li>
 		<li><a href="javascript:void(0)" ui-sref="deptInfoMaintain">单位信息维护</a></li>		
 		<li><a href="javascript:void(0)" ui-sref="project">项目管理</a></li>	
 		<li><a href="#/shenbao" >项目申报</a></li>
 		<li><a href="javascript:void(0)" ui-sref="projectMonthReport">项目月报</a></li>
-		<!-- <li><a href="javascript:void(0)" ui-sref="problemCoordinition">问题协调</a></li>
-		<li><a href="javascript:void(0)" ui-sref="suggestFeedback">建议反馈</a></li> -->
 	</ul>
 
 	
@@ -113,8 +112,6 @@ desired effect
 		</footer>
 	</div>
 </div>
-
-
 
 
 	<!-- ./wrapper -->
@@ -140,10 +137,6 @@ desired effect
          Both of these plugins are recommended to enhance the
          user experience. Slimscroll is required when using the
          fixed layout. -->
-
-
-
-
 
 	<!-- Begin:自定义Js -->
 	<script src="/contents/common/common.js"></script>

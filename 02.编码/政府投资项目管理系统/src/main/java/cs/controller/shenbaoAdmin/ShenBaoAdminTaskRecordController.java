@@ -18,7 +18,7 @@ import cs.service.interfaces.TaskRecordService;
 
 @Controller
 @RequestMapping(name="任务流程",path="shenbaoAdmin/taskRecord")
-public class ShenBaoAdminTaskController {
+public class ShenBaoAdminTaskRecordController {
 	private String ctrlName = "shenbaoAdmin/taskRecord";
 	
 	@Autowired TaskRecordService taskRecordService;
@@ -37,8 +37,7 @@ public class ShenBaoAdminTaskController {
 		PageModelDto<TaskRecordDto> taskRecordDtos = taskRecordService.get(odataObj);
 		return taskRecordDtos;
 	}
-	
-		
+			
 	//begin#html
 	@RequestMapping(name = "列表页", path = "html/list")
 	public String list() {

@@ -148,8 +148,7 @@
 						vm.model=response.data.value[0];
 					}					
 					if(vm.page=='planBZ'){//用于年度计划的编制
-						vm.model.plan=response.data.value[0];
-						console.log(vm.model.plan);//--测试所用
+						vm.model.plan=response.data.value[0];						
 						//数据汇总数据计算
 						var Capitals = vm.model.plan.yearPlanCapitalDtos;
 						//属于该年度计划编制的申报项目信息
@@ -161,6 +160,7 @@
 						vm.model.XuJianTotal = 0;//续建
 						vm.model.projectInvestSumTotal = 0;//项目总投资
 						vm.model.applyYearInvestTotal = 0;//申请资金总额
+						vm.model.yearInvestApprovalTotal = 0;//安排资金总计
 						for(var j=0;j<shenBaoInfoList.length;j++){
 							var obj = shenBaoInfoList[j];
 							if(obj.projectConstrChar && obj.projectConstrChar == 'projectConstrChar_1'){
@@ -177,6 +177,9 @@
 							}
 							if(obj.applyYearInvest){
 								vm.model.applyYearInvestTotal += obj.applyYearInvest;
+							}
+							if(obj.yearInvestApproval){
+								vm.model.yearInvestApprovalTotal += obj.yearInvestApproval;
 							}
 						}
 						//计划总规模						
@@ -261,25 +264,31 @@
 
 					},
 					{
+						field : "shenBaoUnitInfoDto.unitName",
+						title : "建设单位",
+						width:120,
+						template:function(item){
+							return common.format(item.shenBaoUnitInfoDto.unitName);
+						},
+						filterable : false
+					},
+					{
 						field : "projectName",
 						title : "项目名称",
 						template:function(item){
 							return common.format('<a href="#/projectDetails/{0}" >{1}</a>',item.projectId,item.projectName);
 						},
-						filterable : true
-					},
-					{
-						field : "unitName",
-						title : "建设单位",
-						filterable : true
-					},
+						width:200,
+						filterable : false
+					},					
 					{
 						field : "projectFunctionClassifyDesc",
 						title : "功能分类科目",
 						template:function(item){
 							return common.getBasicDataDesc(item.projectFunctionClassify);
 						},
-						filterable : true
+						width:110,
+						filterable : false
 					},
 					{
 						field : "projectGoverEconClassifyDesc",
@@ -287,7 +296,8 @@
 						template:function(item){
 							return common.getBasicDataDesc(item.projectGoverEconClassify);
 						},
-						filterable : true
+						width:140,
+						filterable : false
 					},
 					{
 						field : "projectIndustryDesc",
@@ -295,6 +305,7 @@
 						template:function(item){
 							return common.getBasicDataDesc(item.projectIndustry);
 						},
+						width:100,
 						filterable : false	
 					},
 					{
@@ -308,28 +319,61 @@
 					},
 					{
 						field : "projectConstrCharDesc",
-						title : "建设性质",
-						width : 100,
+						title : "建设性质",						
 						template:function(item){
 							return common.getBasicDataDesc(item.projectConstrChar);
 						},
+						width : 80,
 						filterable : false
-					},					
-//					{
-//						field : "projectClassifyDesc",
-//						title : "项目分类",
-//						width : 150,
-//						filterable : false
-//					},
-//										
+					},
+					{
+						field : "projectConstrCharDesc",
+						title : "开工/竣工时间",
+						width : 100,
+						template:function(item){
+							if(item.projectCategory==common.basicDataConfig().projectCategory_A){
+								return common.formatDate(item.beginDate);
+							}else if(item.projectCategory==common.basicDataConfig().projectCategory_B || 
+									item.projectCategory==common.basicDataConfig().projectCategory_C){
+								return common.formatDate(item.endDate);
+							}
+						},
+						filterable : false
+					},
+					{
+						field : "projectGuiMo",
+						title : "建设规模及主要建设内容",
+						width:120,
+						filterable : false
+					},
+					{
+						field : "yearConstructionTask",
+						title : "本年度建设任务",
+						width:120,
+						filterable : false
+					},
 					{
 						field : "projectInvestSum",
 						title : "总投资（万元）",
+						width:120,
+						filterable : false
+					},
+					{
+						field : "projectInvestAccuSum",
+						title : "已拨付资金（万元）",
+						width:145,
 						filterable : false
 					},
 					{
 						field : "planYear",
 						title : "计划年度",
+						width:100,
+						filterable : false
+					},
+					{
+						field : "yearConstructionContent",
+						title : "本年度建设内容",
+						width:120,
 						filterable : false
 					},
 					{
@@ -343,14 +387,14 @@
 						template :function(item){					
 							return common.format($('#input').html(),item.id,item.yearInvestApproval||0);
 						},
+						width:130,
 						filterable : false
 					},
 					{
-						field : "createdDate",
-						title : "创建日期",
+						field : "remark",
+						title : "备注",
 						width : 150,
-						filterable : false,
-						template:function(item){return kendo.toString(new Date(item.createdDate), "yyyy/MM/dd HH:mm:ss");}
+						filterable : false				
 					}
 
 			];

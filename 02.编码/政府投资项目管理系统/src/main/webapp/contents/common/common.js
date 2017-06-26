@@ -362,11 +362,21 @@
   			 return 0;
   		 }
     }
-    function formatDate(dateStr){    	
-    	return kendo.toString(new Date(dateStr),"yyyy-MM-dd");
+    function formatDate(dateStr){
+    	if(dateStr){
+    		return kendo.toString(new Date(dateStr),"yyyy-MM-dd");
+    	}else{
+    		return "";
+    	}
+    	
     }
-    function formatDateTime(dateStr){    	
-    	return kendo.toString(new Date(dateStr),"yyyy-MM-dd HH:mm:ss");
+    function formatDateTime(dateStr){
+    	if(dateStr){
+    		return kendo.toString(new Date(dateStr),"yyyy-MM-dd HH:mm:ss");
+    	}else{
+    		return "";
+    	}
+    	
     }
     function basicDataConfig(){
     	return {
@@ -376,17 +386,31 @@
     		processState_tuiWen:"processState_11",
     		projectShenBaoStage:"projectShenBaoStage",
     		projectShenBaoStage_nextYearPlan:"projectShenBaoStage_7",
-    		projectStage:"projectStage",//项目阶段
-    		projectType:"projectType",//项目类型
-    		projectIndustry:"projectIndustry",//项目行业
-    		projectInvestmentType:"projectInvestmentType",//投资类型
-    		projectClassify:"projectClassify",//项目分类
+    		
     		projectCategory:"projectCategory",//项目类别
+    		projectCategory_A:"projectCategory_1",//A类
+    		projectCategory_B:"projectCategory_2",//B类
+    		projectCategory_C:"projectCategory_3",//C类
+    		projectCategory_D:"projectCategory_4",//D类
+    		projectClassify:"projectClassify",//项目分类
+    		projectConstrChar:"projectConstrChar",//项目建设性质
     		projectFunctionClassify:"projectFunctionClassify",//功能分类科目
     		projectGoverEconClassify:"projectGoverEconClassify",//政府经济分类科目
-    		projectConstrChar:"projectConstrChar",//项目建设性质
+    		projectIndustry:"projectIndustry",//项目行业
+    		projectInvestmentType:"projectInvestmentType",//投资类型
+    		projectProgress:"projectProgress",//项目进度
+    		projectStage:"projectStage",//项目阶段
+    		projectType:"projectType",//项目类型
+    		
+    		approvalType:"approvalType",//批复类型
     		unitProperty:"unitProperty",//单位性质
+    		area:"area",//行政区划
+    		area_GM:"area_1",//光明新区
     		capitalOtherType:"capitalOtherType",//资金其他来源分类
+    		taskType_monthReport:"taskType_1",//任务类型-月报
+    		taskType_yearPlan:"taskType_2",//任务类型-下一年度计划
+    		
+    		
     	};
     }
 
