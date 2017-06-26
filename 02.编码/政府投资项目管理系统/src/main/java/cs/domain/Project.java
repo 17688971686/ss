@@ -18,7 +18,7 @@ public class Project extends BaseProject {
 	private String id;
 	
 	@Column(columnDefinition="bit(1) NULL COMMENT '是否需要填报'")
-	private Boolean isMonthReport = true;
+	private Boolean isMonthReport = false;
 
 	//begin#关联信息
 	@OneToMany(cascade=CascadeType.ALL)

@@ -430,11 +430,15 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:{
+				filter:[{
 					field:'projectShenBaoStage',
 					operator:'eq',
-					value:'projectShenBaoStage_7'
-				}
+					value:common.basicDataConfig().projectShenBaoStage_nextYearPlan
+				},{
+					field:'processState',
+					operator:'eq',
+					value:common.basicDataConfig().processState_qianShou
+				}]
 			});
 			// End:dataSource
 
@@ -703,11 +707,15 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:{
+				filter:[{
 					field:'projectShenBaoStage',
 					operator:'eq',
-					value:'projectShenBaoStage_7'
-				}
+					value:common.basicDataConfig().projectShenBaoStage_nextYearPlan
+				},{
+					field:'processState',
+					operator:'eq',
+					value:common.basicDataConfig().processState_qianShou
+				}]
 			});
 			// End:dataSource
 

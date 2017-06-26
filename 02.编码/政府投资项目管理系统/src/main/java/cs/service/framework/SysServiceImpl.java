@@ -414,6 +414,7 @@ public class SysServiceImpl implements SysService {
 		
 		this.createBasicData("capitalOtherType", "", "capitalOtherType", "资金其他来源类型", "资金其他来源类型");
 		this.createBasicData("capitalOtherType_1", "capitalOtherType", "capitalOtherType", "海绵资金", "资金其他来源类型");
+		this.createBasicData("capitalOtherType_2", "capitalOtherType", "capitalOtherType", "海绵资金2", "资金其他来源类型");
 		
 		this.createBasicData("qualifiyLevel","" , "qualifiyLevel", "编制单位资质分类", "编制单位资质分类");
 		this.createBasicData("qualifiyLevel_1","qualifiyLevel" , "qualifiyLevel", "甲级", "编制单位资质分类");

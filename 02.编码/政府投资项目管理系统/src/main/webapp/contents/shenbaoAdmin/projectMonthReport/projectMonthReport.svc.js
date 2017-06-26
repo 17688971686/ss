@@ -27,12 +27,12 @@
 				}
 				var httpSuccess = function success(response) {					
 					vm.model.userUnitInfo=response.data;
-//					vm.model.monthReport.fillName=vm.model.userUnitInfo.unitContactPerson;
-//					vm.model.monthReport.fillMobile=vm.model.userUnitInfo.contactPersonMobile;
-//					vm.model.monthReport.monRepManagerName=vm.model.userUnitInfo.unitResPerson;
-//					vm.model.monthReport.monRepManagerTel=vm.model.userUnitInfo.resPersonTel;
-//					vm.model.monthReport.monRepManagerFax=vm.model.userUnitInfo.resPersonFax;
-//					vm.model.monthReport.monRepManagUnitName=vm.model.userUnitInfo.unitName;
+					vm.model.monthReport.fillName=vm.model.userUnitInfo.unitContactPerson;
+					vm.model.monthReport.fillMobile=vm.model.userUnitInfo.contactPersonMobile;
+					vm.model.monthReport.monRepManagerName=vm.model.userUnitInfo.unitResPerson;
+					vm.model.monthReport.monRepManagerTel=vm.model.userUnitInfo.resPersonTel;
+					vm.model.monthReport.monRepManagerFax=vm.model.userUnitInfo.resPersonFax;
+					vm.model.monthReport.monRepManagUnitName=vm.model.userUnitInfo.unitName;
 					vm.model.monthReport.respUnitManagerName = vm.model.userUnitInfo.unitResPerson;
 					vm.model.monthReport.respUnitManagerTel = vm.model.userUnitInfo.resPersonMobile;
 				}
@@ -208,6 +208,10 @@
 				sort : {
 					field : "createdDate",
 					dir : "desc"
+				},filter:{
+					field:'isMonthReport',
+					operator:'eq',
+					value:true
 				}
 			});
 			// End:dataSource

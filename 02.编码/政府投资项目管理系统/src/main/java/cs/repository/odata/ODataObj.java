@@ -68,6 +68,11 @@ public class ODataObj {
 	public ODataObj(HttpServletRequest request) throws ParseException {
 		// get parameter
 		String filter = request.getParameter("$filter");
+		if(filter!=null){//去除filter的前后括号
+			if(filter.startsWith("(")){
+				filter=filter.substring(1,filter.length()-1);
+			}			
+		}
 		String orderby = request.getParameter("$orderby");
 		String select = request.getParameter("$select");
 		String skip = request.getParameter("$skip");

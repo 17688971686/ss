@@ -8,7 +8,7 @@
 		var url_project = "/shenbaoAdmin/project/unitProject";
 		var url_userUnit　= "/shenbaoAdmin/userUnitInfo";
 		var url_shenbao = "/shenbaoAdmin/shenbao";
-		var url_back = "/shenbao";
+		var url_back = "/shenbao_records";
 		
 		var service = {
 			grid : grid,
@@ -232,7 +232,7 @@
 						fn : function() {
 							common.alert({
 								vm : vm,
-								msg : "操作成功",
+								msg : "操作成功,等待管理员签收！",
 								fn : function() {
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');

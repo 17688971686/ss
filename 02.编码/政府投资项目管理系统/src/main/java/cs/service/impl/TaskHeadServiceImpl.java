@@ -1,5 +1,6 @@
 package cs.service.impl;
 
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
+import cs.domain.MonthReport;
 import cs.domain.ShenBaoInfo;
 import cs.domain.TaskHead;
 import cs.domain.TaskRecord;
@@ -37,6 +39,9 @@ public class TaskHeadServiceImpl implements TaskHeadService {
 	
 	@Autowired
 	IRepository<ShenBaoInfo, String> shenBaoInfoRepo;
+	
+	@Autowired
+	IRepository<MonthReport, String> monthReportRepo;
 	
 	@Autowired
 	ICurrentUser currentUser;
@@ -95,17 +100,26 @@ public class TaskHeadServiceImpl implements TaskHeadService {
 			
 			//设置shenbaoInfo状态
 			String taskType=dto.getTaskType();
-			if(!taskType.equals(BasicDataConfig.taskType_monthReport)){//不是月报
-				String shenbaoId=dto.getRelId();
-				if(shenbaoId!=null&&!shenbaoId.isEmpty()){
-					ShenBaoInfo shenBaoInfo=shenBaoInfoRepo.findById(shenbaoId);
+			String relId=dto.getRelId();
+			if(taskType.equals(BasicDataConfig.taskType_monthReport)){//月报
+				if(relId!=null&&!relId.isEmpty()){
+					MonthReport monthReport=monthReportRepo.findById(relId);
+					if(monthReport!=null){
+						monthReport.setProcessState(processState);
+						monthReportRepo.save(monthReport);
+					}
+				}
+				
+			}else{//申报
+				
+				if(relId!=null&&!relId.isEmpty()){
+					ShenBaoInfo shenBaoInfo=shenBaoInfoRepo.findById(relId);
 					if(shenBaoInfo!=null){
 						shenBaoInfo.setProcessState(processState);
 						shenBaoInfoRepo.save(shenBaoInfo);
 					}
 					
 				}
-				
 			}
 			taskHeadRepo.save(taskHead);
 		}

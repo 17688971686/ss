@@ -130,7 +130,10 @@ public class MonthReport extends BaseEntity{
 	@Column(columnDefinition="varchar(255) COMMENT '备注'")
 	private String remark;
 	
-	
+	//begin#审批相关
+		@Column(columnDefinition="varchar(500) NULL COMMENT '审批状态'")
+		private String processState;
+		//end
 	
 	//begin#关联信息
 	//月报问题
@@ -452,6 +455,14 @@ public class MonthReport extends BaseEntity{
 
 	public void setProjectId(String projectId) {
 		this.projectId = projectId;
+	}
+
+	public String getProcessState() {
+		return processState;
+	}
+
+	public void setProcessState(String processState) {
+		this.processState = processState;
 	}
 	
 	

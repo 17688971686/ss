@@ -10,47 +10,37 @@
 		<td width="80px;"><span ng-bind="vm.month"></span> 月 份</td>
 	</tr>
 </table>				
-
+	
 <div class="bg-info text-info title">项目联系人信息</div>
 <table class="table  table-bordered table-striped">
 	<tr>
-		<td width="20%">填报人姓名：<span class="required">(*)</span></td>		
+		<td width="20%">填报人姓名：<span class="required">(*)</span></td>				
 		<td>
-			<input class="form-control input-sm " type="text" id="fillName" name="fillName" ng-model="vm.model.monthReport.fillName"
-				style="width: 214px; height: 25px; line-height: 25px;" data-val="true" data-val-required="必填"/>
-			<span data-valmsg-for="fillName" data-valmsg-replace="true" class="required"></span>
-		</td>
+			<span ng-bind="vm.model.monthReport.fillName"></span>
+		</td>											
 		<td width="20%">填报人手机：<span class="required">(*)</span></td>		
 		<td width="30%">
-			<input class="form-control input-sm " type="text" id="fillMobile" name="fillMobile" ng-model="vm.model.monthReport.fillMobile"				
-				style="width: 214px; height: 25px; line-height: 25px;" data-val="true" data-val-required="必填" data-val-number="请填写正确的号码！"/>
-			<span data-valmsg-for="fillMobile" data-valmsg-replace="true" class="required"></span>
+			<span ng-bind="vm.model.monthReport.fillMobile"></span>
 		</td>
 	</tr>
 	<tr>
-		<td>月报负责人姓名：<span class="required">(*)</span></td>		
+		<td>月报负责人姓名：<span class="required">(*)</span></td>				
 		<td>
-			<input class="form-control input-sm " type="text" id="monRepManagerName" name="monRepManagerName" ng-model="vm.model.monthReport.monRepManagerName"				
-				style="width: 214px; height: 25px; line-height: 25px;" data-val="true" data-val-required="必填"/>
-			<span data-valmsg-for="monRepManagerName" data-valmsg-replace="true" class="required"></span>
+			<span ng-bind="vm.model.monthReport.monRepManagerName"></span>
 		</td>
-		<td>月报负责人手机：<span class="required">(*)</span></td>		
+		<td>月报负责人手机：<span class="required">(*)</span></td>				
 		<td>
-			<input class="form-control input-sm " type="text" id="monRepManagerTel" name="monRepManagerTel" ng-model="vm.model.monthReport.monRepManagerTel"				
-				style="width: 214px; height: 25px; line-height: 25px;" data-val="true" data-val-required="必填"/>
-			<span data-valmsg-for="monRepManagerTel" data-valmsg-replace="true" class="required"></span>		
+			<span ng-bind="vm.model.monthReport.monRepManagerTel"></span>
 		</td>
 	</tr>
-	<tr ng-hide="vm.SHTZ">
+	<tr>
 		<td>月报负责人传真：</td>
 		<td>
-			<input class="form-control input-sm " type="text" ng-model="vm.model.monthReport.monRepManagerFax"			
-			style="width: 214px; height: 25px; line-height: 25px;">
+			<span ng-bind="vm.model.monthReport.monRepManagerFax"></span>
 		</td>
 		<td>月报责任单位名称：</td>
 		<td>
-			<input class="form-control input-sm " type="text" ng-model="vm.model.monthReport.monRepManagUnitName"			
-			style="width: 214px; height: 25px; line-height: 25px;">
+			<span ng-bind="vm.model.monthReport.monRepManagUnitName"></span>
 		</td>
 	</tr>
 	<tr>
@@ -58,12 +48,13 @@
 		<td>
 			<span ng-bind="vm.model.monthReport.respUnitManagerName"></span>
 		</td>
-		<td>项目责任单位负责人手机：</td>
+		<td>项目责任单位负责人电话：</td>
 		<td>
 			<span ng-bind="vm.model.monthReport.respUnitManagerTel"></span>
 		</td>
 	</tr>
 </table>
+			
 
 <div class="bg-info text-info title">项目批复信息</div>
 <table class="table  table-bordered table-striped">
@@ -119,7 +110,10 @@
 		</td>
 		<td>至今完成投资：</td>
 		<td>
-			<span ng-bind="vm.model.monthReport.actuallyFinishiInvestment | number:2"></span>&nbsp;（万元）
+		<input type="number" id="actuallyFinishiInvestment" name="actuallyFinishiInvestment" ng-model="vm.model.monthReport.actuallyFinishiInvestment"
+			 class="form-control input-sm" style="width: 150px;" data-val="true" data-val-required="必填"/>&nbsp;（万元）
+			<span data-valmsg-for="actuallyFinishiInvestment" data-valmsg-replace="true" class="required"></span>
+			
 		</td>
 	</tr>
 	<tr>
@@ -137,7 +131,9 @@
 	<tr>
 		<td>本年度已完成投资：</td>		
 		<td>
-			<span ng-bind="vm.model.monthReport.thisYearAccumulatedInvestment | number:2"></span>&nbsp;（万元）
+		<input type="number" id="thisYearAccumulatedInvestment" name="thisYearAccumulatedInvestment" ng-model="vm.model.monthReport.thisYearAccumulatedInvestment"
+			 class="form-control input-sm" style="width: 150px;" data-val="true" data-val-required="必填"/>&nbsp;（万元）
+			<span data-valmsg-for="thisYearAccumulatedInvestment" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td>本月完成投资：<span class="required">(*)</span></td>		
 		<td>

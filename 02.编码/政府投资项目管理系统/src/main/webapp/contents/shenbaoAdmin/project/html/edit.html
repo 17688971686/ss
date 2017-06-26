@@ -180,8 +180,8 @@
 					<td style="padding:0px;border: 0px;">
 						<table class="table table-bordered" style="margin:0px">
 							<tr>
-								<td>
-									<select style="height:30px;" ng-model="vm.model.capitalOtherType">
+								<td  style="padding:7px;">
+									<select  ng-model="vm.model.capitalOtherType">
 										<option value="">---请选择---</option>
 										<option ng-repeat="x in vm.basicData.capitalOther" ng-selected="vm.model.capitalOtherType==x.id" value="{{x.id}}">{{x.description}}</option>
 									</select>

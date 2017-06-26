@@ -85,7 +85,9 @@ public class MonthReportMapper implements IMapper<MonthReportDto, MonthReport> {
 																			// 0：未完工)
 			monthReportDto.setRemark(monthReport.getRemark());// 备注
 
-			
+			//begin#审批状态
+			monthReportDto.setProcessState(monthReport.getProcessState());
+		
 
 			// 月报问题
 			// 将月报问题进行数据转换
@@ -177,7 +179,8 @@ public class MonthReportMapper implements IMapper<MonthReportDto, MonthReport> {
 			monthReport.setWorkTargets(monthReportDto.getWorkTargets());
 			// end#进度情况
 
-		
+			//begin#审批状态
+			monthReport.setProcessState(monthReportDto.getProcessState());
 			
 
 			monthReport.setSubmitMonth(monthReportDto.getSubmitMonth());
