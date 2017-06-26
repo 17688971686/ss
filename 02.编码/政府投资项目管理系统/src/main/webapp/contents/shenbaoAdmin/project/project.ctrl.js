@@ -58,39 +58,26 @@
 	   		//begin#基础数据
 	   		vm.basicData={};    
 	   		//项目阶段
-	   		vm.basicData.projectStage=$linq(common.getBasicData())
-	   		.where(function(x){return x.identity=='projectStage'&&x.pId=='projectStage';})
-	   		.toArray();
+	   		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);
 	   		//项目类型
-	   		vm.basicData.projectType=$linq(common.getBasicData())
-	   		.where(function(x){return x.identity=='projectType'&&x.pId=='projectType';})
-	   		.toArray();
+	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);
 	   		//项目类别
-	   		vm.basicData.projectCategory=$linq(common.getBasicData())
-	   		.where(function(x){return x.identity=='projectCategory'&&x.pId=='projectCategory';})
-	   		.toArray();
+	   		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);
+	   		//项目分类
+	   		vm.basicData.projectClassify=common.getBacicDataByIndectity(common.basicDataConfig().projectClassify);
+	   		//功能分类科目
+	   		vm.basicData.projectFunctionClassify=common.getBacicDataByIndectity(common.basicDataConfig().projectFunctionClassify);
+	   		//政府经济分类科目
+	   		vm.basicData.projectGoverEconClassify=common.getBacicDataByIndectity(common.basicDataConfig().projectGoverEconClassify);
+	   		//资金其他来源类型
+	   		vm.basicData.capitalOther=common.getBacicDataByIndectity(common.basicDataConfig().capitalOtherType);
 	   		//行业归口
-	   		vm.basicData.projectIndustry=$linq(common.getBasicData())
-	   		.where(function(x){return x.identity=='projectIndustry'&&x.pId=='projectIndustry';})
-	   		.toArray();    		
-	   		
+	   		vm.basicData.projectIndustry=common.getBacicDataByIndectity(common.basicDataConfig().projectIndustry);	   		   			   		
 	   		vm.projectIndustryChange=function(){    		
 	       		vm.basicData.projectIndustryChildren=$linq(common.getBasicData())
-	       		.where(function(x){return x.identity=='projectIndustry'&&x.pId==vm.model.projectIndustryParent;})
+	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.model.projectIndustryParent;})
 	       		.toArray();
-	   		}
-	   		//投资类型
-	   		vm.basicData.projectInvestmentType=$linq(common.getBasicData())
-	   		.where(function(x){return x.identity=='projectInvestmentType'&&x.pId=='projectInvestmentType';})
-	   		.toArray(); 
-	   		//项目分类
-	   		vm.basicData.projectClassify=$linq(common.getBasicData())
-	   		.where(function(x){return x.identity=='projectClassify'&&x.pId=='projectClassify';})
-	   		.toArray();
-	   		//资金其他来源类型
-	   		vm.basicData.capitalOther=$linq(common.getBasicData())
- 			.where(function(x){return x.identity=='capitalOtherType'&&x.pId=='capitalOtherType';})
- 			.toArray();
+	   		}	   		 	   			   					
 	   		//end#基础数据
 	   		
 	   		//批复文件上传
@@ -138,6 +125,7 @@
        }//end#page_update
        
        function page_projectInfo(){
+    	   projectSvc.getUserUnit(vm);
     	   projectSvc.getProjectById(vm);
        }//end#page_projectInfo
 		

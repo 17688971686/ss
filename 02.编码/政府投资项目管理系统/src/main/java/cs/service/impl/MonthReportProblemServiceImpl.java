@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cs.domain.MonthReportProblem;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.MonthReportProblemDto;
-import cs.repository.interfaces.MonthReportProblemRepo;
+import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.framework.UserServiceImpl;
 import cs.service.interfaces.MonthReportProblemService;
@@ -21,7 +21,7 @@ public class MonthReportProblemServiceImpl implements MonthReportProblemService 
 	private static Logger logger = Logger.getLogger(UserServiceImpl.class);
 	//依赖注入持久层
 	@Autowired
-	private MonthReportProblemRepo monthReportProblemRepo;
+	private  IRepository<MonthReportProblem, String> monthReportProblemRepo;
 
 	
 	/**

@@ -27,7 +27,7 @@ public class SysConfigMapper implements IMapper<SysConfigDto, SysConfig> {
 	}
 
 	@Override
-	public void buildEntity(SysConfigDto dto, SysConfig entity) {
+	public SysConfig buildEntity(SysConfigDto dto, SysConfig entity) {
 		if(entity.getId()==null||entity.getId().isEmpty()){
 			entity.setId(UUID.randomUUID().toString());
 		}
@@ -39,6 +39,7 @@ public class SysConfigMapper implements IMapper<SysConfigDto, SysConfig> {
 		entity.setModifiedDate(dto.getModifiedDate());
 		entity.setModifiedBy(dto.getModifiedBy());
 		entity.setConfigType(dto.getConfigType());
+		return entity;
 	}
 
 }

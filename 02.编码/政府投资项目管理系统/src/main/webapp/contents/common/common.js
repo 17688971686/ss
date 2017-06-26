@@ -22,9 +22,11 @@
         loginUrl: '/',
         getBasicData:getBasicData,
         getBasicDataDesc:getBasicDataDesc,
+        getBacicDataByIndectity:getBacicDataByIndectity,
         toDate:toDate,
         toMoney:toMoney,
         formatDate:formatDate,
+        formatDateTime:formatDateTime,
         basicDataConfig:basicDataConfig
     };
 
@@ -334,6 +336,17 @@
     	}
     }
     
+    function getBacicDataByIndectity(identity){
+    	var data = $linq(this.getBasicData())
+   		.where(function(x){return x.identity==identity&&x.pId==identity;})
+   		.toArray();
+    	if(data){
+    		return data;
+    	}else{
+    		return "";
+    	}
+    }
+    
     function toDate(dateStr){
     	if(dateStr){
    			return new Date(dateStr);
@@ -350,7 +363,10 @@
   		 }
     }
     function formatDate(dateStr){    	
-    	return kendo.toString(new Date(dateStr),"yyyy/MM/dd HH:mm:ss");
+    	return kendo.toString(new Date(dateStr),"yyyy-MM-dd");
+    }
+    function formatDateTime(dateStr){    	
+    	return kendo.toString(new Date(dateStr),"yyyy-MM-dd HH:mm:ss");
     }
     function basicDataConfig(){
     	return {
@@ -358,7 +374,18 @@
     		processState_banJie:"processState_7",
     		processState_tuiWen:"processState_11",
     		projectShenBaoStage:"projectShenBaoStage",
-    		projectShenBaoStage_nextYearPlan:"projectShenBaoStage_7"
+    		projectShenBaoStage_nextYearPlan:"projectShenBaoStage_7",
+    		projectStage:"projectStage",//项目阶段
+    		projectType:"projectType",//项目类型
+    		projectIndustry:"projectIndustry",//项目行业
+    		projectInvestmentType:"projectInvestmentType",//投资类型
+    		projectClassify:"projectClassify",//项目分类
+    		projectCategory:"projectCategory",//项目类别
+    		projectFunctionClassify:"projectFunctionClassify",//功能分类科目
+    		projectGoverEconClassify:"projectGoverEconClassify",//政府经济分类科目
+    		projectConstrChar:"projectConstrChar",//项目建设性质
+    		unitProperty:"unitProperty",//单位性质
+    		capitalOtherType:"capitalOtherType",//资金其他来源分类
     	};
     }
 

@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import cs.domain.Article;
 import cs.model.PageModelDto;
-import cs.model.Portal.ArticleDto;
+import cs.model.DomainDto.ArticleDto;
 import cs.repository.odata.ODataObj;
-import cs.service.interfaces.ArticleService;
+import cs.service.interfaces.IService;
 
 
 
@@ -26,7 +27,7 @@ public class PortalController {
 	private String ctrlName = "management/portal";
 	
 	@Autowired
-	private ArticleService articleService;
+	private IService<ArticleDto, Article, String> articleService;
 
 	//@RequiresPermissions("management/portal##get")	
 	@RequestMapping(name = "获取文章数据", path = "", method = RequestMethod.GET)
@@ -41,14 +42,14 @@ public class PortalController {
 	@RequestMapping(name = "创建文章", path = "", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void post(@RequestBody ArticleDto dto) {
-		articleService.createArticle(dto);
+		articleService.create(dto);
 	}
 	
 	//@RequiresPermissions("management/portal##put")	
 	@RequestMapping(name = "更新文章", path = "", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void update(@RequestBody ArticleDto dto) {
-		articleService.updateArticle(dto);
+		articleService.update(dto,dto.getId());
 	}
 	
 	//@RequiresPermissions("management/portal##delete")	
@@ -57,9 +58,9 @@ public class PortalController {
 	public void delete(@RequestBody String id) {
 		String[] ids = id.split(",");
 		if (ids.length > 1) {
-			articleService.deleteArticles(ids);
+			articleService.deletes(ids);
 		} else {
-			articleService.deleteArticle(id);
+			articleService.delete(id);
 		}
 	}
 	

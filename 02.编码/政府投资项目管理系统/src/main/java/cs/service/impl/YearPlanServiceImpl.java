@@ -1,13 +1,11 @@
 package cs.service.impl;
 
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-import javax.management.Query;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import cs.common.ICurrentUser;
 import cs.common.SQLConfig;
-import cs.domain.BasicData;
 import cs.domain.ShenBaoInfo;
 import cs.domain.YearPlan;
 import cs.domain.YearPlanCapital;
@@ -24,24 +21,20 @@ import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.YearPlanDto;
 import cs.model.DtoMapper.IMapper;
-import cs.model.DtoMapper.ShenBaoInfoMapper;
-import cs.repository.interfaces.ShenBaoInfoRepo;
-import cs.repository.interfaces.YearPlanCapitalRepo;
-import cs.repository.interfaces.YearPlanRepo;
+import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
-import cs.service.interfaces.YearPlanCapitalService;
 import cs.service.interfaces.YearPlanService;
 
 @Service
 public class YearPlanServiceImpl implements YearPlanService {
 	private static Logger logger = Logger.getLogger(YearPlanServiceImpl.class);
 	@Autowired
-	private YearPlanRepo yearPlanRepo;
+	private IRepository<YearPlan, String> yearPlanRepo;
 	@Autowired
-	private YearPlanCapitalRepo yearPlanCapitalRepo;
+	private IRepository<YearPlanCapital, String> yearPlanCapitalRepo;
 	@Autowired
-	private ShenBaoInfoRepo shenbaoInfoRepo;
+	private IRepository<ShenBaoInfo, String> shenbaoInfoRepo;
 	@Autowired
 	private ICurrentUser currentUser;
 	@Autowired
@@ -116,6 +109,8 @@ public class YearPlanServiceImpl implements YearPlanService {
 				shenBaoInfoDto.setProjectClassifyDesc(basicDataService.getDescriptionById(x.getProjectClassify()));
 				shenBaoInfoDto.setProjectIndustryDesc(basicDataService.getDescriptionById(x.getProjectIndustry()));
 				shenBaoInfoDto.setProjectTypeDesc(basicDataService.getDescriptionById(x.getProjectType()));
+				shenBaoInfoDto.setProjectFunctionClassifyDesc(basicDataService.getDescriptionById(x.getProjectFunctionClassify()));//功能分类科目名称
+				shenBaoInfoDto.setProjectGoverEconClassifyDesc(basicDataService.getDescriptionById(x.getProjectGoverEconClassify()));//政府经济分类科目名称
 				shenBaoInfoDto.setProjectCategoryDesc(basicDataService.getDescriptionById(x.getProjectCategory()));
 				shenBaoInfoDto.setProjectStageDesc(basicDataService.getDescriptionById(x.getProjectStage()));
 				shenBaoInfoDto.setProjectConstrCharDesc(basicDataService.getDescriptionById(x.getProjectConstrChar()));
@@ -178,5 +173,26 @@ public class YearPlanServiceImpl implements YearPlanService {
 			yearPlanRepo.save(yearPlan);
 			logger.info(String.format("添加年度计划资金,名称：%s",yearPlan.getName()));	
 		}			
+	}
+
+	@Override
+	@Transactional
+	public void removeYearPlanCapital(String planId, String[] yearPlanCapitalId) {
+		YearPlan yearPlan=yearPlanRepo.findById(planId);
+		if(yearPlan!=null){
+			List<YearPlanCapital> yearPlanCapitals=yearPlan.getYearPlanCapitals();
+			List<YearPlanCapital> removeItems=new ArrayList<>();
+			yearPlanCapitals.forEach(x->{
+				for (String capitalId : yearPlanCapitalId) {
+					if(x.getId().equals(capitalId)){
+						removeItems.add(x);						
+					}
+				}
+			});
+			yearPlanCapitals.removeAll(removeItems);
+					
+		}
+		yearPlanRepo.save(yearPlan);
+		
 	}
 }

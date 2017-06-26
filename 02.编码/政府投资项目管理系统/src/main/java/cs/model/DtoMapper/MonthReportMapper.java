@@ -5,15 +5,21 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import cs.domain.Attachment;
 import cs.domain.MonthReport;
 import cs.domain.MonthReportProblem;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.MonthReportDto;
 import cs.model.DomainDto.MonthReportProblemDto;
-
-public class MonthReportMapper {
-	public static MonthReportDto toDto(MonthReport monthReport) {
+@Component
+public class MonthReportMapper implements IMapper<MonthReportDto, MonthReport> {
+	@Autowired
+	IMapper<AttachmentDto, Attachment> attachmentMapper;
+	
+	public  MonthReportDto toDto(MonthReport monthReport) {
 		MonthReportDto monthReportDto = new MonthReportDto();
 		if (monthReport != null) {
 
@@ -99,7 +105,7 @@ public class MonthReportMapper {
 			List<AttachmentDto> attachmentDtos = new ArrayList<>();
 			if (attachments != null && attachments.size() > 0) {
 				for (Attachment attachment : attachments) {
-					AttachmentDto attachmentDto = AttachmentMapper.toDto(attachment);
+					AttachmentDto attachmentDto =attachmentMapper.toDto(attachment);
 					attachmentDtos.add(attachmentDto);
 				}
 			}
@@ -116,7 +122,7 @@ public class MonthReportMapper {
 
 	}
 
-	public static void buildEntity(MonthReportDto monthReportDto, MonthReport monthReport) {
+	public  MonthReport buildEntity(MonthReportDto monthReportDto, MonthReport monthReport) {
 		if (monthReportDto != null && monthReport != null) {
 			
 			if(monthReport.getId() ==null || monthReport.getId().isEmpty()){
@@ -202,6 +208,7 @@ public class MonthReportMapper {
 			});
 			monthReport.setModifiedDate(new Date());
 		}
+		return monthReport;
 
 	}
 

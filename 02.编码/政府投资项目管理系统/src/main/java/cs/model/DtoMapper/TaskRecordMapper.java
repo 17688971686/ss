@@ -34,7 +34,7 @@ public class TaskRecordMapper implements IMapper<TaskRecordDto, TaskRecord> {
 	}
 
 	@Override
-	public void buildEntity(TaskRecordDto dto, TaskRecord entity) {
+	public TaskRecord buildEntity(TaskRecordDto dto, TaskRecord entity) {
 		if(entity.getId()==null||entity.getId().isEmpty()){
 			entity.setId(UUID.randomUUID().toString());
 		}
@@ -48,8 +48,9 @@ public class TaskRecordMapper implements IMapper<TaskRecordDto, TaskRecord> {
 		entity.setTitle(dto.getTitle());
 		entity.setItemOrder(dto.getItemOrder());
 		entity.setModifiedDate(dto.getModifiedDate());
-		//entity.setModifiedBy(dto.getModifiedBy());
-		entity.setModifiedBy(currentUser.getLoginName());
+		entity.setModifiedBy(dto.getModifiedBy());
+		
+		return entity;
 
 	}
 

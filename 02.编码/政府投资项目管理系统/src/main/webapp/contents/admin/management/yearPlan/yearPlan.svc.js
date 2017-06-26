@@ -20,40 +20,49 @@
 			getPlanById:getPlanById,//根据年度计划id查找计划信息
 			grid_yearPlan_shenbaoInfoList:grid_yearPlan_shenbaoInfoList,//年度计划编制信息列表
 			grid_yearPlan_addShenbaoInfoList:grid_yearPlan_addShenbaoInfoList,//年度计划编制新增项目申报列表
-			addShenBaoInfoconfirm:addShenBaoInfoconfirm,//年度计划新增项目申报
+			addShenBaoInfoconfirm:addShenBaoInfoconfirm,//年度计划新增项目申报			
 			getShenBaoInfoById:getShenBaoInfoById,//根据申报id查找申报信息
-			getYearPlanCapitalByShenBaoId:getYearPlanCapitalByShenBaoId,//根据申报id查找年度计划编制信息
-			updateYearPlanCapital:updateYearPlanCapital//更新年度计划编制信息			
+			getYearPlanCapitalById:getYearPlanCapitalById,//根据申报id查找年度计划编制信息
+			updateYearPlanCapital:updateYearPlanCapital,//更新年度计划编制信息	
+			removeYearPlanCapital:removeYearPlanCapital//移除申报项目
 		};
+		
+		function removeYearPlanCapital(vm,id){
+			var httpOptions = {
+					method : 'post',
+					url : common.format(url_planList+"/removeCapital?planId={0}&yearPlanCapitalId={1}",vm.id,id)
+				}
+				var httpSuccess = function success(response) {
+				location.reload();
+				}
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});	
+		}//removeYearPlanCapital
 		
 		/**
 		 * 更新年度计划编制信息
 		 */
 		function updateYearPlanCapital(vm){
+			vm.model.capital.capitalSum=parseFloat(vm.model.capital.capitalSCZ_ggys||0)
+									   +parseFloat(vm.model.capital.capitalSCZ_gtzj||0)
+									   +parseFloat(vm.model.capital.capitalSCZ_zxzj||0)
+									   +parseFloat(vm.model.capital.capitalQCZ_ggys||0)
+									   +parseFloat(vm.model.capital.capitalQCZ_gtzj||0)
+									   +parseFloat(vm.model.capital.capitalSHTZ||0)
+									   +parseFloat(vm.model.capital.capitalOther||0);
 			var httpOptions = {
 					method : 'put',
 					url : url_planCapital,
 					data:vm.model.capital
 				}
 				var httpSuccess = function success(response) {
-					common.requestSuccess({
-						vm : vm,
-						response : response,
-						fn : function() {
-						common.alert({
-							vm : vm,
-							msg : "操作成功",
-							fn : function() {								
-								$('.alertDialog').modal('hide');
-								$('.modal-backdrop').remove();
-								//关闭弹出框
-								vm.isPopOver = false;
-								//刷新页面
-								location.reload();
-							}
-						});
-					}					
-				});
+					getPlanById(vm);
+					$('#capitalSum_'+vm.currentCapitalId).val(vm.model.capital.capitalSum);
+					vm.isPopOver = false;
 			}
 			common.http({
 				vm:vm,
@@ -66,10 +75,10 @@
 		/**
 		 * 根据申报id查找年度计划编制信息
 		 */
-		function getYearPlanCapitalByShenBaoId(vm,id){
+		function getYearPlanCapitalById(vm,id){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_planCapital + "?$filter=shenbaoInfoId eq '{0}'", id)
+					url : common.format(url_planCapital + "?$filter=id eq '{0}'", id)
 				}
 				var httpSuccess = function success(response) {
 					vm.model.capital = response.data.value[0]||{};
@@ -81,7 +90,7 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		}//end getYearPlanCapitalByShenBaoId
+		}//end getYearPlanCapitalById
 		
 		/**
 		 * 根据id获取申报信息
@@ -126,11 +135,9 @@
 							fn : function() {								
 								$('.alertDialog').modal('hide');
 								$('.modal-backdrop').remove();
-								//vm.planGridOptions.dataSource.read();//刷新编制列表
-								//刷新页面
-								location.reload();
-								//this.getPlanById(vm);
-								//location.href = url_back;									
+								//vm.planGridOptions.dataSource.read();//刷新编制列表	
+								//getPlanById(vm);
+								location.reload();						
 							}
 						});
 					}					
@@ -239,7 +246,7 @@
 				type : 'odata',
 				transport : common.kendoGridConfig().transport(url_planList+"/"+vm.id+"/projectList"),
 				schema : common.kendoGridConfig().schema({
-					id : "id"
+					id : "yearPlanCapitalId"
 				}),
 				serverPaging : true,
 				serverSorting : true,
@@ -275,60 +282,77 @@
 						filterable : true
 					},
 					{
-						field : "projectConstrCharDesc",
-						title : "建设性质",
-						width : 150,
-						template:function(item){
-							return common.getBasicDataDesc(item.projectConstrChar);
-						},
-						filterable : false
-					},					
-					{
-						field : "projectClassifyDesc",
-						title : "项目分类",
-						width : 150,
-						filterable : false
+						field : "unitName",
+						title : "建设单位",
+						filterable : true
 					},
 					{
-						field : "projectCategoryDesc",
-						title : "项目类别",
-						width : 150,
+						field : "projectFunctionClassifyDesc",
+						title : "功能分类科目",
 						template:function(item){
-							return common.getBasicDataDesc(item.projectCategory);
+							return common.getBasicDataDesc(item.projectFunctionClassify);
 						},
-						filterable : false
+						filterable : true
+					},
+					{
+						field : "projectGoverEconClassifyDesc",
+						title : "政府经济分类科目",
+						template:function(item){
+							return common.getBasicDataDesc(item.projectGoverEconClassify);
+						},
+						filterable : true
 					},
 					{
 						field : "projectIndustryDesc",
 						title : "行业领域",
-						width : 150,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectIndustry);
 						},
 						filterable : false	
 					},
 					{
+						field : "projectCategoryDesc",
+						title : "项目类别",
+						width : 80,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectCategory);
+						},
+						filterable : false
+					},
+					{
+						field : "projectConstrCharDesc",
+						title : "建设性质",
+						width : 100,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectConstrChar);
+						},
+						filterable : false
+					},					
+//					{
+//						field : "projectClassifyDesc",
+//						title : "项目分类",
+//						width : 150,
+//						filterable : false
+//					},
+//										
+					{
 						field : "projectInvestSum",
 						title : "总投资（万元）",
-						width : 150,
 						filterable : false
 					},
 					{
 						field : "planYear",
 						title : "计划年度",
-						width : 150,
 						filterable : false
 					},
 					{
 						field : "applyYearInvest",
 						title : "申请年度投资（万元）",
-						width : 150,
 						filterable : false
 					},
 					{
 						field : "yearInvestApproval",
 						title : "安排资金（万元）",
-						width : 150,
 						template :function(item){					
 							return common.format($('#input').html(),item.id,item.yearInvestApproval||0);
 						},
@@ -337,7 +361,7 @@
 					{
 						field : "createdDate",
 						title : "创建日期",
-						width : 180,
+						width : 150,
 						filterable : false,
 						template:function(item){return kendo.toString(new Date(item.createdDate), "yyyy/MM/dd HH:mm:ss");}
 					}

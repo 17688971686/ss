@@ -1,8 +1,6 @@
 package cs.controller.management;
 
-import java.io.IOException;
 import java.text.ParseException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -43,7 +41,7 @@ public class YearPlanController {
 		return shenBaoInfoDtos;
 	}
 	
-	@RequestMapping(name="添加年度计划项目编制",path="addCapital",method=RequestMethod.GET)
+	@RequestMapping(name="添加年度计划项目",path="addCapital",method=RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void addCapital(@RequestParam String planId,@RequestParam String shenBaoId){		
 		String[] ids=shenBaoId.split(",");
@@ -51,8 +49,13 @@ public class YearPlanController {
 			yearPlanService.addYearPlanCapitals(planId,ids);
 		}else{
 			yearPlanService.addYearPlanCapital(planId,shenBaoId);
-		}	
-		
+		}
+	}
+	@RequestMapping(name="移除年度计划项目",path="removeCapital",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void removeCapital(@RequestParam String planId,@RequestParam String yearPlanCapitalId){		
+		String[] ids=yearPlanCapitalId.split(",");
+		yearPlanService.removeYearPlanCapital(planId, ids);
 	}
 	
 	@RequestMapping(name="添加年度计划",path="",method=RequestMethod.POST)

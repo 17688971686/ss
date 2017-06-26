@@ -1,7 +1,7 @@
 <div class="bg-info text-info" style="padding: 10px; ">项目所属单位</div>
 <table class="table table-bordered table-striped ">
 	<tr>
-		<td class="formAlignRight" style="width:150px;">项目所属单位：<span class="required">(*)</span></td>
+		<td class="formAlignRight" style="width:150px;">项目所属单位：</td>
 		<td>
 			<span ng-bind="vm.model.unitName" style="display:none"></span>
 			<span ng-bind="vm.model.shenBaoUnitInfoDto.unitName"></span>
@@ -16,7 +16,7 @@
 		<td>
 			<span ng-bind="vm.model.projectName"></span>
 		</td>
-		<td class="formAlignRight">项目阶段：</td>
+		<td class="formAlignRight" style="width:180px;">项目阶段：</td>
 		<td>
 			<span ng-bind="vm.model.projectStageDesc"></span>
 			<span ng-bind="vm.model.projectStage" style="display:none"></span>
@@ -28,10 +28,21 @@
 			<span ng-bind="vm.model.projectCategoryDesc"></span>
 			<span ng-bind="vm.model.projectCategory" style="display:none"></span>				
 		</td>
-		<td class="formAlignRight">项目类型：</td>
+		<td class="formAlignRight">项目分类：</td>
 		<td>
-			<span ng-bind="vm.model.projectTypeDesc"></span>
-			<span ng-bind="vm.model.projectType" style="display:none"></span>					
+			<span ng-bind="vm.model.projectClassifyDesc"></span>
+			<span ng-bind="vm.model.projectClassify" style="display:none"></span>
+		</td>
+		
+	</tr>
+	<tr>
+		<td class="formAlignRight">功能分类科目：</td>
+		<td>
+			<span ng-bind="vm.model.projectFunctionClassifyDesc"></span>
+		</td>
+		<td class="formAlignRight">政府经济分类科目：</td>
+		<td>
+			<span ng-bind="vm.model.projectGoverEconClassifyDesc"></span>
 		</td>
 	</tr>	
 	<tr>
@@ -40,11 +51,11 @@
 			<span ng-bind="vm.model.projectIndustryDesc"></span>
 			<span ng-bind="vm.model.projectIndustry" style="display:none"></span>
 		</td>
-		<td class="formAlignRight">项目分类：</td>
+		<td class="formAlignRight">项目类型：</td>
 		<td>
-			<span ng-bind="vm.model.projectClassifyDesc"></span>
-			<span ng-bind="vm.model.projectClassify" style="display:none"></span>
-		</td>
+			<span ng-bind="vm.model.projectTypeDesc"></span>
+			<span ng-bind="vm.model.projectType" style="display:none"></span>					
+		</td>		
 	</tr>
 		
 	<tr>

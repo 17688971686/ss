@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cs.common.ICurrentUser;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.UserUnitInfoDto;
 import cs.repository.odata.ODataObj;
@@ -25,6 +26,8 @@ public class UserUnitController {
 	
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
+	@Autowired
+	ICurrentUser currentUser;
 	
 	//@RequiresPermissions("management/userUnit##get")
 	@RequestMapping(name = "获取单位信息", path = "",method=RequestMethod.GET)

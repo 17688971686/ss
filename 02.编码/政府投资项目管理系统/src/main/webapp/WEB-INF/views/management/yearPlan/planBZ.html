@@ -130,11 +130,12 @@
 			</tr>
 		</table>
 		 <div class="toolbar">
-	  	<button class="btn btn-xs btn-success" ng-click="vm.dialog_addPlan()"><span class="glyphicon glyphicon-plus"></span>新增项目计划</button> 
+	  	<button class="btn btn-xs btn-success" ng-click="vm.dialog_addPlan()"><span class="glyphicon glyphicon-plus"></span>添加项目计划</button> 
+	  	<button class="btn btn-xs btn-danger" ng-click="vm.removeYearPlanCapital()"><span class="glyphicon "></span>移除项目计划</button>
 	  	<button class="btn btn-primary btn-xs" ng-click="vm.planGrid.saveAsExcel()"><span class="glyphicon glyphicon-download-alt"></span> 导出Excel</button>
 	  </div>
 	  	<script type="text/template" id="input">
-			<input style="width:100px" ng-click="vm.popOver($event,'{0}')" value="{1}"/>
+			<input style="width:100px" id="capitalSum_{0}" ng-click="vm.popOver($event,'{0}')" value="{1}"/>
 		</script>
 		<div ng-style="vm.popStyle" ng-show="vm.isPopOver" 
 		style="z-index:100;font-size:12px; 
@@ -206,7 +207,7 @@
 					</div>									
 				</div>										
 		</div> 
-         <div class="grid" kendo-grid="vm.planGrid" k-options="vm.planGridOptions"></div>
+         <div class="yearPlanCapitalGrid" kendo-grid="vm.planGrid" k-options="vm.planGridOptions"></div>
     </form>
 </div>
 

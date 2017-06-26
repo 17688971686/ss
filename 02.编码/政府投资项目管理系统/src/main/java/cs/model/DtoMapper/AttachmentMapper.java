@@ -2,11 +2,13 @@ package cs.model.DtoMapper;
 
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+
 import cs.domain.Attachment;
 import cs.model.DomainDto.AttachmentDto;
-
-public class AttachmentMapper {
-	public static AttachmentDto toDto(Attachment attachment){
+@Component
+public class AttachmentMapper implements IMapper<AttachmentDto, Attachment>  {
+	public  AttachmentDto toDto(Attachment attachment){
 		AttachmentDto attachmentDto = new AttachmentDto();
 		if(attachment != null){
 			attachmentDto.setId(attachment.getId());
@@ -22,7 +24,7 @@ public class AttachmentMapper {
 		}
 		return 	attachmentDto;		
 	}
-	public static void buildEntity(AttachmentDto attachmentDto,Attachment attachment){	
+	public  Attachment buildEntity(AttachmentDto attachmentDto,Attachment attachment){	
 		if(attachmentDto != null&&attachment!=null){
 			if(attachment.getId() ==null || attachment.getId().isEmpty()){
 				attachment.setId(UUID.randomUUID().toString());
@@ -33,5 +35,6 @@ public class AttachmentMapper {
 			attachment.setUrl(attachmentDto.getUrl());			
 			attachment.setType(attachmentDto.getType());
 		}
+		return attachment;
 	}
 }

@@ -3,7 +3,7 @@ package cs.model.shenbao;
 import java.util.ArrayList;
 import java.util.List;
 
-import cs.model.Portal.ArticleDto;
+import cs.model.DomainDto.ArticleDto;
 
 public class IndexDto {
 	private List<ArticleDto> article_tzgg =new ArrayList<>();

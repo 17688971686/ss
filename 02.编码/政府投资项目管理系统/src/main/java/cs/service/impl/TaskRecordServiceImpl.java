@@ -13,7 +13,7 @@ import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.TaskRecordDto;
 import cs.model.DtoMapper.IMapper;
-import cs.repository.interfaces.TaskRecordRepo;
+import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.interfaces.TaskRecordService;
@@ -28,7 +28,7 @@ public class TaskRecordServiceImpl implements TaskRecordService {
 	BasicDataService basicDataService;
 	
 	@Autowired
-	TaskRecordRepo taskRecordRepo;
+	IRepository<TaskRecord, String> taskRecordRepo;
 
 	@Override
 	@Transactional

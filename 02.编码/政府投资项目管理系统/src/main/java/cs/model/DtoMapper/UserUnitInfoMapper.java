@@ -2,9 +2,11 @@ package cs.model.DtoMapper;
 
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+
 import cs.domain.UserUnitInfo;
 import cs.model.DomainDto.UserUnitInfoDto;
-
+@Component
 public class UserUnitInfoMapper {
 	public static UserUnitInfoDto toDto(UserUnitInfo unitInfo) {
 		UserUnitInfoDto userUnitInfoDto =new UserUnitInfoDto();

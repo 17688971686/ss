@@ -73,7 +73,6 @@
 		}//end getShenBaoInfoById
 		
 		function handle(vm){
-			console.log(vm.model.taskRecord);
 			common.initJqValidation();
 			var isValid = $('form').valid();
 			if (isValid) {
@@ -81,7 +80,7 @@
 				var httpOptions = {
 					method : 'put',
 					url : url_task+"/"+vm.taskId,
-					data : vm.taskRecord
+					data : vm.model.taskRecord
 				}
 
 				var httpSuccess = function success(response) {

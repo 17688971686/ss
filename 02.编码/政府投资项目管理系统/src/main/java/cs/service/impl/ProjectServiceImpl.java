@@ -17,12 +17,10 @@ import cs.common.ICurrentUser;
 import cs.domain.Project;
 import cs.domain.Project_;
 import cs.model.PageModelDto;
-import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ProjectDto;
-import cs.model.DtoMapper.AttachmentMapper;
+import cs.model.DtoMapper.IMapper;
 import cs.model.DtoMapper.ProjectMapper;
-import cs.repository.interfaces.ProjectRepo;
-import cs.repository.odata.ODataFilterItem;
+import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.interfaces.ProjectService;
@@ -32,9 +30,12 @@ public class ProjectServiceImpl implements ProjectService {
 	private static Logger logger = Logger.getLogger(ProjectServiceImpl.class);
 	
 	@Autowired
-	private ProjectRepo projectRepo;
+	private IRepository<Project, String> projectRepo;
 	@Autowired
 	private BasicDataService basicDataService;
+	
+	@Autowired
+	IMapper<ProjectDto, Project> projectMapper;
 	
 	@Autowired
 	private ICurrentUser currentUser;
@@ -45,12 +46,14 @@ public class ProjectServiceImpl implements ProjectService {
 		List<ProjectDto> projectDtos=new ArrayList<>();
 		projectRepo.findByOdata(odataObj).forEach(x->{
 			
-			ProjectDto projectDto=ProjectMapper.toDto(x);
+			ProjectDto projectDto=projectMapper.toDto(x);
 			projectDto.setProjectStageDesc(basicDataService.getDescriptionById(x.getProjectStage()));//项目阶段名称
 			projectDto.setProjectTypeDesc(basicDataService.getDescriptionById(x.getProjectType()));//项目类型名称
 			projectDto.setProjectCategoryDesc(basicDataService.getDescriptionById(x.getProjectCategory()));//项目类别名称
 			projectDto.setProjectIndustryDesc(basicDataService.getDescriptionById(x.getProjectIndustry()));//项目行业领域名称
 			projectDto.setProjectClassifyDesc(basicDataService.getDescriptionById(x.getProjectClassify()));//项目分类名称
+			projectDto.setProjectFunctionClassifyDesc(basicDataService.getDescriptionById(x.getProjectFunctionClassify()));//功能分类科目名称
+			projectDto.setProjectGoverEconClassifyDesc(basicDataService.getDescriptionById(x.getProjectGoverEconClassify()));//政府经济分类科目名称
 			projectDto.setCapitalOtherTypeDesc(basicDataService.getDescriptionById(x.getCapitalOtherType()));//资金其他来源名称
 			//获取月报中项目进度的名称
 			projectDto.getMonthReportDtos().forEach(y->{
@@ -86,7 +89,7 @@ public class ProjectServiceImpl implements ProjectService {
 		Project project = projectRepo.findById(projectDto.getId());
 		//进行数据转换
 		project.getAttachments().clear();
-		ProjectMapper.buildEntity(projectDto,project);
+		projectMapper.buildEntity(projectDto,project);
 		//设置修改人
 		String longinName = currentUser.getLoginName();
 		project.setModifiedBy(longinName);
@@ -107,7 +110,7 @@ public class ProjectServiceImpl implements ProjectService {
 		}else{
 			Project project = new Project();
 			//进行数据转换
-			ProjectMapper.buildEntity(projectDto,project);
+			projectMapper.buildEntity(projectDto,project);
 			
 			//设置创建人和修改人
 			String longinName = currentUser.getLoginName();

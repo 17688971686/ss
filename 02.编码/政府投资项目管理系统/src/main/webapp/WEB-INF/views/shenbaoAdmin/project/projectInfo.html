@@ -23,46 +23,59 @@ overflow: scroll !important;
     
    
          
-  <div class="bg-info text-info" style="padding: 10px; margin-bottom: 10px">项目基本信息</div>
+<div class="bg-info text-info" style="padding: 10px; ">项目所属单位</div>
 <table class="table table-bordered table-striped ">
 	<tr>
-		<td class="formAlignRight" style="width:150px;">项目代码：<span class="required">(*)</span></td>
-		<td style="width:350px;">
-			<span ng-bind="vm.model.id" style="display:none"></span>
-			<span ng-bind="vm.model.projectNumber"></span>			
-		</td>
-		<td class="formAlignRight" style="width:150px;">项目名称：<span class="required">(*)</span></td>
-		<td >
-			<span ng-bind="vm.model.projectName"></span>			
+		<td class="formAlignRight" style="width:150px;">项目所属单位：</td>
+		<td>
+			<span ng-bind="vm.model.unitName" style="display:none"></span>
+			<span ng-bind="vm.userUnit.unitName"></span>
 		</td>
 	</tr>
+</table>
+
+<div class="bg-info text-info" style="padding: 10px; margin-bottom: 10px">项目基本信息</div>
+<table class="table table-bordered table-striped ">
 	<tr>
-		<td class="formAlignRight">项目阶段：<span class="required">(*)</span></td>
+		<td class="formAlignRight" style="width:150px;">项目名称：</td>
+		<td>
+			<span ng-bind="vm.model.projectName"></span>			
+		</td>
+		<td class="formAlignRight" style="width:180px;">项目阶段：</td>
 		<td>
 			<span ng-bind="vm.model.projectStageDesc"></span>	
 		</td>
+	</tr>
+	<tr>		
 		<td class="formAlignRight">项目类别：</td>
 		<td>
 			<span ng-bind="vm.model.projectCategoryDesc"></span>				
 		</td>
-	</tr>
-	<tr>
-		<td class="formAlignRight">项目类型：</td>
-		<td colspan="3">
-			<span ng-bind="vm.model.projectTypeDesc"></span>				
-		</td>
-	</tr>	
-	<tr>
-		<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
-		<td>
-			<span ng-bind="vm.model.projectIndustryDesc"></span>	
-		</td>
-		<td class="formAlignRight">项目分类：<span class="required">(*)</span></td>
+		<td class="formAlignRight">项目分类：</td>
 		<td >
 			<span ng-bind="vm.model.projectClassifyDesc"></span>
 		</td>
 	</tr>
-		
+	<tr>
+		<td class="formAlignRight">功能分类科目：</td>
+		<td>
+			<span ng-bind="vm.model.projectFunctionClassifyDesc"></span>
+		</td>
+		<td class="formAlignRight">政府经济分类科目：</td>
+		<td>
+			<span ng-bind="vm.model.projectGoverEconClassifyDesc"></span>
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">项目行业归口：</td>
+		<td>
+			<span ng-bind="vm.model.projectIndustryDesc"></span>	
+		</td>
+		<td class="formAlignRight">项目类型：</td>
+		<td>
+			<span ng-bind="vm.model.projectTypeDesc"></span>				
+		</td>
+	</tr>			
 	<tr>
 		<td class="formAlignRight">项目开工日期：</td>
 		<td>
@@ -75,18 +88,18 @@ overflow: scroll !important;
 	</tr>
 	
 	<tr>
-		<td class="formAlignRight">项目建设地址：<span class="required">(*)</span></td>
+		<td class="formAlignRight">项目建设地址：</td>
 		<td colspan="3">
 			<textarea rows="2" cols="20" class="form-control" style="width: 99%;" ng-bind="vm.model.projectAddress" disabled></textarea>
 		</td>							
 	</tr>
 	
 	<tr>
-		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
+		<td class="formAlignRight">项目总投资：</td>
 		<td>
 			<span ng-bind="vm.model.projectInvestSum | number:2"></span>&nbsp;(万元)
 		</td>
-		<td class="formAlignRight">累计完成投资：<span class="required">(*)</span></td>
+		<td class="formAlignRight">累计完成投资：</td>
 		<td>
 			<span ng-bind="vm.model.projectInvestAccuSum | number:2"></span>&nbsp;(万元)
 		</td>

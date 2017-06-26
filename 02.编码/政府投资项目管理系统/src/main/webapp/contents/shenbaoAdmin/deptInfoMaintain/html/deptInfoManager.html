@@ -18,17 +18,18 @@ font-weight: bold;
 <div>
 
 <form name="myForm" novalidate>
+<div class="text-success bg-success" style="padding:5px; margin:5px 0;">温馨提示：填写相关信息后，在项目申报时就不用重复填写了！</div>
 <div class="bg-info text-info title">单位基本信息</div>
 	<table width="100%" class="table  table-bordered table-striped">
 		<tr>
-			<td  width="120">单位名称<span class="required ">(*)</span></td>
+			<td  width="150px;" class="formAlignRight">单位名称：<span class="required ">(*)</span></td>
 			<td colspan="4" class="RborderNone">
 				<input type="text" class="form-control input-sm" id="unitName" name="unitName" ng-model="vm.model.unitName" data-val="true" data-val-required="必填"/>
 				<span data-valmsg-for="unitName" data-valmsg-replace="true" class="errors"></span>
 			</td>
 		</tr>
 		<tr>
-			<td>组织机构代码</td>
+			<td class="formAlignRight">组织机构代码：</td>
  				<td colspan="2">
  				<input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.orgCode"  />
  				</td>
@@ -39,7 +40,7 @@ font-weight: bold;
 		    </td>
 	   </tr>
 	   <tr>
-	        <td>电子邮箱<span class="required">(*)</span></td>
+	        <td class="formAlignRight">电子邮箱：<span class="required">(*)</span></td>
 	        <td colspan="2">
 	        <input type="email" class="form-control input-sm" id="email" name="unitEmail" ng-model="vm.model.unitEmail" data-val="true" data-val-required="必填"/>
 	        <span data-valmsg-for="unitEmail" data-valmsg-replace="true" class="errors"></span>
@@ -55,7 +56,7 @@ font-weight: bold;
 <div class="bg-info text-info title">常用申报信息</div>
 	<table width="100%" class="table  table-bordered table-striped">		
 		<tr>
-			<td>单位性质<span class="required">(*)</span></td>
+			<td width="150px;" class="formAlignRight">单位性质：<span class="required">(*)</span></td>
 			<td colspan="4">
 				<select id="unitProperty" name="unitProperty" class="form-select" ng-model="vm.model.unitProperty" data-val="true" data-val-required="必选">
 					<option value="">---请选择---</option>
@@ -65,7 +66,7 @@ font-weight: bold;
 			</td>
 		</tr>
 	<tr>
-	    <td>单位地址<span class="required">(*)</span></td>
+	    <td class="formAlignRight">单位地址<span class="required">(*)</span></td>
 	    <td colspan="4">
 		    <select class="form-select">
 		    	<option>光明新区</option>
@@ -80,13 +81,13 @@ font-weight: bold;
 			</td>
 	  </tr>
 	  <tr>
-	    <td rowspan="3">单位负责人<span class="required">(*)</span></td>
-	    <td width="60">姓名</td>
+	    <td rowspan="3" class="formAlignRight">单位负责人<span class="required">(*)</span></td>
+	    <td width="100px;">姓名</td>
 	    <td>
 	    	 <input class="form-control input-sm" type="text" id="unitResPerson" name="unitResPerson" ng-model="vm.model.unitResPerson" data-val="true" data-val-required="必填"/>
 	    	<span data-valmsg-for="unitResPerson" data-valmsg-replace="true" class="errors"></span>
 	    </td>
-	    <td>电话号码</td>
+	    <td width="100px;">电话号码</td>
 	    <td>
 	     	<input class="form-control input-sm" type="text" id="resPersonTel" name="resPersonTel" ng-model="vm.model.resPersonTel" data-val="true" data-val-required="必填"/>
 	    	<span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="errors"></span>
@@ -112,7 +113,7 @@ font-weight: bold;
 	    </td>
 	  </tr>	
 	  <tr>
-	    <td rowspan="3">填报联系人<span class="required">(*)</span></td>
+	    <td rowspan="3" class="formAlignRight">单位联系人<span class="required">(*)</span></td>
 	    <td>姓名</td>
 	    <td>
 	     <input class="form-control input-sm" type="text" id="unitContactPerson" name="unitContactPerson" ng-model="vm.model.unitContactPerson" data-val="true" data-val-required="必填"/>

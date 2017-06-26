@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cs.domain.Article;
 import cs.model.PageModelDto;
-import cs.model.Portal.ArticleDto;
+import cs.model.DomainDto.ArticleDto;
 import cs.model.shenbao.IndexDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
-import cs.service.interfaces.ArticleService;
+import cs.service.interfaces.IService;
 
 @Controller
 @RequestMapping(name = "申报", path = "")
@@ -26,7 +27,7 @@ public class ShenBaoHomeController {
 	private String ctrlName = "shenbao/home";
 	private static Logger logger = Logger.getLogger(ShenBaoHomeController.class.getName());
 	@Autowired
-	private ArticleService articleService;
+	private IService<ArticleDto, Article, String> articleService;
 	
 	@RequestMapping(name = "首页", path = "/")
 	public String index() {

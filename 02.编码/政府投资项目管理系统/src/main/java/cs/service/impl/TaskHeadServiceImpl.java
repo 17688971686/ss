@@ -10,15 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cs.common.BasicDataConfig;
+import cs.common.ICurrentUser;
 import cs.domain.TaskHead;
 import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.TaskHeadDto;
 import cs.model.DomainDto.TaskRecordDto;
 import cs.model.DtoMapper.IMapper;
-import cs.model.DtoMapper.TaskHeadMapper;
-import cs.model.DtoMapper.TaskRecordMapper;
-import cs.repository.interfaces.TaskHeadRepo;
+import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.TaskHeadService;
 
@@ -33,7 +32,10 @@ public class TaskHeadServiceImpl implements TaskHeadService {
 	IMapper<TaskRecordDto, TaskRecord> taskRecordMapper;
 	
 	@Autowired
-	TaskHeadRepo taskHeadRepo;
+	IRepository<TaskHead, String> taskHeadRepo;
+	
+	@Autowired
+	ICurrentUser currentUser;
 	
 	
 	@Override
@@ -78,16 +80,13 @@ public class TaskHeadServiceImpl implements TaskHeadService {
 			dto.setRelId(taskHead.getRelId());
 			dto.setTaskType(taskHead.getTaskType());
 			dto.setTitle(taskHead.getTitle());
-			String processState=dto.getProcessState();
-			//判断处理状态
-			if(dto.getUserName()==null && BasicDataConfig.processState_tuiWen.equals(processState)){//如果为退文
-				//设置任务的下一处理人为创建人
-				dto.setUserName(taskHead.getCreatedBy());
-			}
+			dto.setUserName(currentUser.getLoginName());								
 			taskRecordMapper.buildEntity(dto, entity);
+			entity.setModifiedBy(currentUser.getLoginName());
 			taskHead.getTaskRecords().add(entity);
 			
 			//设置完成
+			String processState=dto.getProcessState();
 			setComplete(taskHead,processState);
 			taskHeadRepo.save(taskHead);
 		}

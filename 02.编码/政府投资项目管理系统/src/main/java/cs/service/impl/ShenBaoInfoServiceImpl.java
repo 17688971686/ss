@@ -18,15 +18,13 @@ import cs.domain.TaskHead;
 import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
-import cs.model.DomainDto.TaskHeadDto;
 import cs.model.DtoMapper.IMapper;
-import cs.repository.interfaces.ShenBaoInfoRepo;
-import cs.repository.interfaces.TaskHeadRepo;
+import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.framework.SysService;
 import cs.service.interfaces.ShenBaoInfoService;
-import cs.service.interfaces.TaskHeadService;
+
 
 @Service
 public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
@@ -34,7 +32,7 @@ public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 	@Autowired
 	private IMapper<ShenBaoInfoDto, ShenBaoInfo> shenbaoMapper;
 	@Autowired
-	private ShenBaoInfoRepo shenBaoInfoRepo;
+	private IRepository<ShenBaoInfo, String> shenBaoInfoRepo;
 	@Autowired
 	private BasicDataService basicDataService;
 	@Autowired
@@ -42,7 +40,7 @@ public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 	@Autowired
 	private ICurrentUser currentUser;
 	@Autowired
-	TaskHeadRepo taskHeadRepo;
+	IRepository<TaskHead, String> taskHeadRepo;
 	
 	@Override
 	@Transactional
@@ -55,6 +53,8 @@ public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 			shenBaoInfoDto.setProjectIndustryDesc(basicDataService.getDescriptionById(x.getProjectIndustry()));//项目行业领域名称
 			shenBaoInfoDto.setProjectTypeDesc(basicDataService.getDescriptionById(x.getProjectType()));//项目类型名称
 			shenBaoInfoDto.setProjectCategoryDesc(basicDataService.getDescriptionById(x.getProjectCategory()));//项目类别名称
+			shenBaoInfoDto.setProjectFunctionClassifyDesc(basicDataService.getDescriptionById(x.getProjectFunctionClassify()));//功能分类科目名称
+			shenBaoInfoDto.setProjectGoverEconClassifyDesc(basicDataService.getDescriptionById(x.getProjectGoverEconClassify()));//政府经济分类科目名称
 			shenBaoInfoDto.setProjectStageDesc(basicDataService.getDescriptionById(x.getProjectStage()));//项目阶段名称
 			shenBaoInfoDto.setProjectConstrCharDesc(basicDataService.getDescriptionById(x.getProjectConstrChar()));//项目建设性质名称
 			shenBaoInfoDto.setProjectShenBaoStageDesc(basicDataService.getDescriptionById(x.getProjectShenBaoStage()));//项目申报阶段名称

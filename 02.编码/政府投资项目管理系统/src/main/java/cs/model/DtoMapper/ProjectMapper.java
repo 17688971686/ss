@@ -2,12 +2,24 @@ package cs.model.DtoMapper;
 
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import cs.domain.Attachment;
+import cs.domain.MonthReport;
 import cs.domain.Project;
+import cs.model.DomainDto.AttachmentDto;
+import cs.model.DomainDto.MonthReportDto;
 import cs.model.DomainDto.ProjectDto;
 
-public class ProjectMapper {
-	public static ProjectDto toDto(Project project){
+@Component
+public class ProjectMapper implements IMapper<ProjectDto, Project> {
+	@Autowired
+	IMapper<AttachmentDto, Attachment> attachmentMapper;
+	@Autowired
+	IMapper<MonthReportDto, MonthReport> monthReportMapper;
+	
+	public  ProjectDto toDto(Project project){
 		ProjectDto projectDto=new ProjectDto();
 		if(project!=null){
 			projectDto.setId(project.getId());
@@ -18,6 +30,8 @@ public class ProjectMapper {
 			projectDto.setProjectIndustry(project.getProjectIndustry());
 			projectDto.setProjectType(project.getProjectType());
 			projectDto.setProjectCategory(project.getProjectCategory());
+			projectDto.setProjectFunctionClassify(project.getProjectFunctionClassify());
+			projectDto.setProjectGoverEconClassify(project.getProjectGoverEconClassify());
 			projectDto.setProjectInvestSum(project.getProjectInvestSum());
 			projectDto.setProjectInvestAccuSum(project.getProjectInvestAccuSum());
 			projectDto.setProjectAddress(project.getProjectAddress());			
@@ -55,32 +69,37 @@ public class ProjectMapper {
 			//begin#关联信息
 			//附件
 			project.getAttachments().stream().forEach(x->{
-				projectDto.getAttachmentDtos().add(AttachmentMapper.toDto(x));				
+				projectDto.getAttachmentDtos().add(attachmentMapper.toDto(x));				
 			});
 			//月报
 			project.getMonthReports().stream().forEach(x->{
-				projectDto.getMonthReportDtos().add(MonthReportMapper.toDto(x));
+				projectDto.getMonthReportDtos().add(monthReportMapper.toDto(x));
 			});
 			
 		}
 		return projectDto;
 	}
 	
-	public static void buildEntity(ProjectDto projectDto,Project project){
+	public Project  buildEntity(ProjectDto projectDto,Project project){
 		if(projectDto!=null&&project!=null){
 			if(project.getId()==null||project.getId().isEmpty()){
 				project.setId(UUID.randomUUID().toString());
+			}
+			//TODO 需要完成项目代码的格式设计
+			if(project.getProjectNumber()==null||project.getProjectNumber().isEmpty()){
+				project.setProjectNumber(UUID.randomUUID().toString());
 			}
 			project.setUnitName(projectDto.getUnitName());
 			project.setProjectName(projectDto.getProjectName());
 			project.setProjectInvestSum(projectDto.getProjectInvestSum());
 			project.setProjectInvestAccuSum(projectDto.getProjectInvestAccuSum());
-			project.setProjectAddress(projectDto.getProjectAddress());			
-			project.setProjectNumber(projectDto.getProjectNumber());
+			project.setProjectAddress(projectDto.getProjectAddress());
 			project.setProjectStage(projectDto.getProjectStage());
 			project.setProjectClassify(projectDto.getProjectClassify());
 			project.setProjectIndustry(projectDto.getProjectIndustry());
 			project.setProjectType(projectDto.getProjectType());
+			project.setProjectFunctionClassify(projectDto.getProjectFunctionClassify());
+			project.setProjectGoverEconClassify(projectDto.getProjectGoverEconClassify());
 			project.setProjectCategory(projectDto.getProjectCategory());
 			project.setProjectIntro(projectDto.getProjectIntro());
 			project.setProjectGuiMo(projectDto.getProjectGuiMo());			
@@ -117,9 +136,11 @@ public class ProjectMapper {
 			//附件			
 			projectDto.getAttachmentDtos().stream().forEach(x->{
 				Attachment attachment=new Attachment();
-				AttachmentMapper.buildEntity(x, attachment);
+				attachmentMapper.buildEntity(x, attachment);
 				project.getAttachments().add(attachment);
-			});			
+			});	
+			
 		}
+		return project;
 	}
 }

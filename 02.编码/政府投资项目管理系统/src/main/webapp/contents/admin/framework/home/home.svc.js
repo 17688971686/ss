@@ -9,11 +9,11 @@
 		var url_account_password = "/account/password";
 		
 		var service = {			
-			changePwd : changePwd
+			changePwd : changePwd			
 		};
 
 		return service;
-
+				
 		// begin#updatehome
 		function changePwd(vm) {
 			common.initJqValidation();

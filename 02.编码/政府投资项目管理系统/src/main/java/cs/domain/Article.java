@@ -28,20 +28,48 @@ public class Article extends BaseEntity {
 	private String content;
 	
 	
-	//申报门户：1-通知公告，2-政策法规,3-办事指南,4-常用表格	
+	//基础数据
 	@Column(columnDefinition="varchar(255) not NULL COMMENT '类型'")
 	private String type;
 	
 	@Column(columnDefinition="varchar(500)  NULL COMMENT '缩略图'")
 	private String previewImg;
 	
-	//多个附件用；分开
-	@Column(columnDefinition="varchar(1000)  NULL COMMENT '附件'")
-	private String files;
+	@Column(columnDefinition="varchar(500)  NULL COMMENT '幻灯图'")
+	private String slideImg;
 	
+	//begin#关联
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="article_id",nullable=false)
-	private List<ArticleComment> ArticleComments=new ArrayList<>();
+	private List<ArticleComment> articleComments =new ArrayList<>();
+
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<Attachment> attachments=new ArrayList<>();
+	
+	public String getSlideImg() {
+		return slideImg;
+	}
+
+	public void setSlideImg(String slideImg) {
+		this.slideImg = slideImg;
+	}
+
+	public List<ArticleComment> getArticleComments() {
+		return articleComments;
+	}
+
+	public void setArticleComments(List<ArticleComment> articleComments) {
+		this.articleComments = articleComments;
+	}
+
+	public List<Attachment> getAttachments() {
+		return attachments;
+	}
+
+	public void setAttachments(List<Attachment> attachments) {
+		this.attachments = attachments;
+	}
+
 
 	public String getId() {
 		return id;
@@ -83,19 +111,4 @@ public class Article extends BaseEntity {
 		this.previewImg = previewImg;
 	}
 
-	public String getFiles() {
-		return files;
-	}
-
-	public void setFiles(String files) {
-		this.files = files;
-	}
-
-	public List<ArticleComment> getArticleComments() {
-		return ArticleComments;
-	}
-
-	public void setArticleComments(List<ArticleComment> articleComments) {
-		ArticleComments = articleComments;
-	}
 }

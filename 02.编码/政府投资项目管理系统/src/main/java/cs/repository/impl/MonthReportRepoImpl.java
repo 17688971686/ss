@@ -3,7 +3,6 @@ package cs.repository.impl;
 import org.springframework.stereotype.Repository;
 
 import cs.domain.MonthReport;
-import cs.repository.interfaces.MonthReportRepo;
 
 /**
  * @Description:月报持久层 
@@ -12,7 +11,7 @@ import cs.repository.interfaces.MonthReportRepo;
  * @version：0.1
  */
 @Repository
-public class MonthReportRepoImpl extends AbstractRepository<MonthReport, String>implements MonthReportRepo {
+public class MonthReportRepoImpl extends AbstractRepository<MonthReport, String> {
 	
 	
 	

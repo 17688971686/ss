@@ -1,8 +1,10 @@
 package cs.model.DtoMapper;
 
+import org.springframework.stereotype.Component;
+
 import cs.domain.MonthReportProblem;
 import cs.model.DomainDto.MonthReportProblemDto;
-
+@Component
 public class MonthReportProblemMapper {
 	public static MonthReportProblemDto toDto(MonthReportProblem monthReportProblem){
 		MonthReportProblemDto monthReportProblemDto = new MonthReportProblemDto();

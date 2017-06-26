@@ -18,7 +18,7 @@ import cs.domain.UserUnitInfo_;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.UserUnitInfoDto;
 import cs.model.DtoMapper.UserUnitInfoMapper;
-import cs.repository.interfaces.UserUnitInfoRepo;
+import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.interfaces.UserUnitInfoService;
@@ -26,7 +26,7 @@ import cs.service.interfaces.UserUnitInfoService;
 public class UserUnitInfoServiceImpl implements UserUnitInfoService {
 	private static Logger logger = Logger.getLogger(UserUnitInfoServiceImpl.class);
 	@Autowired
-	private UserUnitInfoRepo userUnitInfoRepo;
+	private IRepository<UserUnitInfo, String> userUnitInfoRepo;
 	@Autowired
 	private BasicDataService basicDataService;
 	@Autowired

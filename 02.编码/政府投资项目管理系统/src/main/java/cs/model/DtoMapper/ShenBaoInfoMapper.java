@@ -8,13 +8,18 @@ import org.springframework.stereotype.Component;
 import cs.domain.Attachment;
 import cs.domain.ShenBaoInfo;
 import cs.domain.ShenBaoUnitInfo;
+import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.ShenBaoUnitInfoDto;
 
 @Component
 public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
+	@Autowired
+	IMapper<ShenBaoUnitInfoDto, ShenBaoUnitInfo> shenBaoUnitInfoMapper;
+	@Autowired
+	IMapper<AttachmentDto, Attachment> attachmentMapper;
 	
-	@Autowired ShenBaoUnitInfoMapper shenBaoUnitInfoMapper;
+	
 	
 	@Override
 	public ShenBaoInfoDto toDto(ShenBaoInfo entity) {
@@ -30,15 +35,19 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setProjectCategory(entity.getProjectCategory());
 			shenBaoInfoDto.setProjectIndustry(entity.getProjectIndustry());
 			shenBaoInfoDto.setProjectClassify(entity.getProjectClassify());
+			shenBaoInfoDto.setProjectFunctionClassify(entity.getProjectFunctionClassify());
+			shenBaoInfoDto.setProjectGoverEconClassify(entity.getProjectGoverEconClassify());
 			shenBaoInfoDto.setProjectIntro(entity.getProjectIntro());
 			shenBaoInfoDto.setProjectGuiMo(entity.getProjectGuiMo());
 			shenBaoInfoDto.setPlanYear(entity.getPlanYear());
 			shenBaoInfoDto.setProjectConstrChar(entity.getProjectConstrChar());
 			shenBaoInfoDto.setProjectShenBaoStage(entity.getProjectShenBaoStage());
 						
+			//begin#年度计划
 			shenBaoInfoDto.setApplyYearInvest(entity.getApplyYearInvest());
 			shenBaoInfoDto.setYearInvestApproval(entity.getYearInvestApproval());
 			shenBaoInfoDto.setYearConstructionContent(entity.getYearConstructionContent());
+			shenBaoInfoDto.setYearPlanCapitalId(entity.getYearPlanCapitalId());
 			
 			shenBaoInfoDto.setBeginDate(entity.getBeginDate());
 			shenBaoInfoDto.setEndDate(entity.getEndDate());
@@ -73,7 +82,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			//begin关联信息
 			//附件
 			entity.getAttachments().stream().forEach(x->{
-				shenBaoInfoDto.getAttachmentDtos().add(AttachmentMapper.toDto(x));				
+				shenBaoInfoDto.getAttachmentDtos().add(attachmentMapper.toDto(x));				
 			});
 			//申报单位
 			shenBaoInfoDto.setShenBaoUnitInfoDto(shenBaoUnitInfoMapper.toDto(entity.getShenBaoUnitInfo()));
@@ -84,7 +93,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 	}
 
 	@Override
-	public void buildEntity(ShenBaoInfoDto shenBaoInfoDto, ShenBaoInfo shenBaoInfo) {
+	public ShenBaoInfo buildEntity(ShenBaoInfoDto shenBaoInfoDto, ShenBaoInfo shenBaoInfo) {
 		if(shenBaoInfoDto !=null && shenBaoInfo !=null){
 			if(shenBaoInfo.getId() == null || shenBaoInfo.getId().isEmpty()){
 				shenBaoInfo.setId(UUID.randomUUID().toString());
@@ -100,7 +109,9 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setProjectStage(shenBaoInfoDto.getProjectStage());
 			shenBaoInfo.setProjectId(shenBaoInfoDto.getProjectId());//?
 			shenBaoInfo.setUnitName(shenBaoInfoDto.getUnitName());
-			shenBaoInfo.setProjectClassify(shenBaoInfoDto.getProjectClassify());			
+			shenBaoInfo.setProjectClassify(shenBaoInfoDto.getProjectClassify());
+			shenBaoInfo.setProjectFunctionClassify(shenBaoInfoDto.getProjectFunctionClassify());
+			shenBaoInfo.setProjectGoverEconClassify(shenBaoInfoDto.getProjectGoverEconClassify());
 			shenBaoInfo.setProjectIndustry(shenBaoInfoDto.getProjectIndustry());
 			shenBaoInfo.setProjectIntro(shenBaoInfoDto.getProjectIntro());
 			shenBaoInfo.setProjectGuiMo(shenBaoInfoDto.getProjectGuiMo());			
@@ -143,7 +154,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			//附件
 			shenBaoInfoDto.getAttachmentDtos().stream().forEach(x->{
 				Attachment attachment=new Attachment();
-				AttachmentMapper.buildEntity(x, attachment);
+				attachmentMapper.buildEntity(x, attachment);
 				shenBaoInfo.getAttachments().add(attachment);
 			});
 			//申报单位
@@ -171,6 +182,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			}
 			
 		}
+		return shenBaoInfo;
 		
 	}
 
