@@ -34,6 +34,8 @@ public class ShenBaoInfo extends BaseProject{
 	private Double yearInvestApproval;
 	@Column(columnDefinition="varchar(255) NULL COMMENT '安排年度投资Id'")
 	private String yearPlanCapitalId;
+	@Column(columnDefinition="varchar(500) NULL COMMENT '年度建设任务'")
+	private String yearConstructionTask;
 	@Column(columnDefinition="varchar(500) NULL COMMENT '年度建设内容'")
 	private String yearConstructionContent;
 	//end#年度计划相关
@@ -117,6 +119,13 @@ public class ShenBaoInfo extends BaseProject{
 	public void setYearPlanCapitalId(String yearPlanCapitalId) {
 		this.yearPlanCapitalId = yearPlanCapitalId;
 	}
+	public String getYearConstructionTask() {
+		return yearConstructionTask;
+	}
+	public void setYearConstructionTask(String yearConstructionTask) {
+		this.yearConstructionTask = yearConstructionTask;
+	}
+	
 	
 	
 }

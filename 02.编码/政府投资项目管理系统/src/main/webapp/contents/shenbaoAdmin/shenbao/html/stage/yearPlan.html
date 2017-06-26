@@ -16,8 +16,9 @@
 			<span id="projectInvestSum" name="projectInvestSum" ng-bind="vm.model.projectInvestSum | number:2"></span>&nbsp;(万元)			
 		</td>
 		<td class="formAlignRight">累计投资：<span class="required">(*)</span></td>
-		<td >
-			<span id="projectInvestAccuSum" name="projectInvestAccuSum" ng-bind="vm.model.projectInvestAccuSum | number:2"></span>&nbsp;(万元)			
+		<td>
+			<input type="number" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.projectInvestAccuSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<span data-valmsg-for="projectInvestAccuSum" data-valmsg-replace="true" class="required"></span>			
 		</td>
 	</tr>
 	<tr>
@@ -29,8 +30,15 @@
 		</td>
 		<td class="formAlignRight" style="width:150px;">申请年度投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" style="width:100px" class="form-control input-sm" id="applyYearInvest" name="applyYearInvest" ng-model="vm.model.applyYearInvest" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" style="width:100px" class="form-control input-sm" id="applyYearInvest" name="applyYearInvest" ng-model="vm.model.applyYearInvest" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="applyYearInvest" data-valmsg-replace="true" class="required"></span>
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">本年度建设任务：<span class="required">(*)</span></td>
+		<td colspan="3">
+			<textarea rows="3" cols="20" style="height:121px;width: 99%;" id="yearConstructionTask" name="yearConstructionTask" placeholder="请简要概述年度计划建设的任务：备注（500字符以内）" ng-model="vm.model.yearConstructionTask" data-val="true" data-val-required="必填"></textarea>
+			<span data-valmsg-for="yearConstructionTask" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
 	<tr>

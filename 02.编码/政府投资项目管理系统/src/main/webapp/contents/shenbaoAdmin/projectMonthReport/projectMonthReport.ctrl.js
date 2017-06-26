@@ -137,9 +137,7 @@
          vm.delFile=function(idx){
         	 vm.model.monthReport.attachmentDtos.splice(idx,1);
          }
-         
-     	 
-        
+                 
        //begin#创建问题和删除问题
      	vm.createProblem=function(){
         	if(vm.model.monthReport.monthReportProblemDtos){
@@ -153,14 +151,11 @@
      		vm.model.monthReport.monthReportProblemDtos.splice(idx,1);        	
           }
      	 //begin#基础数据
-     	vm.basicData_approvalType=$linq(common.getBasicData())
-		  .where(function(x){return x.identity=='approvalType'&&x.pId=='approvalType';})
-		  .toArray();
-     	
-     	vm.basicData_projectProgress=$linq(common.getBasicData())
-		  .where(function(x){return x.identity=='projectProgress'&&x.pId=='projectProgress';})
-		  .toArray();
-     	
+     	 //批复类型
+     	vm.basicData_approvalType=common.getBacicDataByIndectity(common.basicDataConfig().approvalType);
+     	//项目进度
+     	vm.basicData_projectProgress=common.getBacicDataByIndectity(common.basicDataConfig().projectProgress)
+     		    	
      	//begin#上传类型
      	vm.uploadType=[['scenePicture','现场图片'],['other','其它材料']];
      	

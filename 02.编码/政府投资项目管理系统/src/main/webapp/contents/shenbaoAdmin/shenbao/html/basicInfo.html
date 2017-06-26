@@ -134,10 +134,10 @@
 					<td style="padding:0px;border: 0px;">
 						<table class="table table-bordered" style="margin:0px">
 							<tr>
-								<td>
-									<span ng-bind="vm.model.capitalOtherTypeDesc"></span>
-									<span ng-bind="vm.model.capitalOtherType" style="display:none"></span>
+								<td ng-if="vm.model.capitalOtherType">
+									<span ng-bind="vm.model.capitalOtherTypeDesc"></span>									
 								</td>
+								<td ng-if="!vm.model.capitalOtherType">-</td>
 							</tr>
 							<tr>
 								<td><span ng-bind="vm.model.capitalOther | number:2"></span></td>

@@ -9,10 +9,76 @@
 		var url_taskRecord="/shenbaoAdmin/taskRecord";
 		var url_unitShenBao="/shenbaoAdmin/shenbao";
 		var service = {
-			getTaskRecords:getTaskRecords, //获取任务流程消息
+			getTaskRecords:getTaskRecords, //获取任务流程最新动态
 			getUnitShenBaoInfos:getUnitShenBaoInfos,//获取单位申报信息
+			taskRecordList:taskRecordList,//任务流程列表
 		};		
 		return service;
+		
+		/**
+		 * 任务流程列表
+		 */
+		function taskRecordList(vm){
+			//begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url_taskRecord),
+				schema : common.kendoGridConfig().schema({
+					id : "id"
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "createdDate",
+					dir : "desc"
+				}
+			});
+			// End:dataSource
+			// Begin:column
+			var columns = [					
+					{
+						field : "title",
+						title : "名称",
+						template:function(item){
+							if(item.taskType == vm.taskType_yearPlan){
+								return common.format('<a href="#/shenbao_record/{0}">{1}</a>',item.relId,item.title);
+							}else if(item.taskType == vm.taskType_monthReport){
+								return item.title;
+							}							
+						},
+						filterable : false,
+						
+					},
+					{
+						field : "processSuggestion",
+						title : "信息",						
+						filterable : true,
+					},
+					{
+						field : "processStateDesc",
+						title : "状态",						
+						filterable : true,
+					},
+					{
+						field : "createdDate",
+						title : "创建时间",
+						template:function(item){
+							return vm.formatDateTime(item.createdDate);
+						}
+					}
+			];
+			// End:column
+			vm.gridOptions = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true
+			};
+		}
 		
 		/**
 		 * 获取单位申报信息
@@ -45,14 +111,6 @@
 
 				var httpSuccess = function success(response) {
 					vm.model.taskRecord = response.data.value;
-					if(vm.model.taskRecord.length>0){
-						for(var i=0;i<vm.model.taskRecord.length;i++){
-							var model = vm.model.taskRecord[i];
-							model.createdDate = common.toDate(model.createdDate);
-						}
-					}
-						
-					
 				}
 				common.http({
 					vm : vm,
@@ -73,8 +131,6 @@
 
 				var httpSuccess = function success(response) {
 					vm.modelLists = response.data.value;
-					console.log("管理中心页面申报项目查询:");
-					console.log(vm.modelLists);
 				}
 
 				common.http({

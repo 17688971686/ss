@@ -13,26 +13,34 @@
         vm.model={};
         vm.page="index";
         
+        //任务流程列表
         if($state.current.name=='task_records'){
         	vm.page='recordList';
         }
         
         
-       function init(){
-    	   
-    	   
+       function init(){       	          
+	       vm.formatDate=function(str){
+	  			return common.formatDate(str);
+	  			}
+	       vm.formatDateTime=function(str){
+	  			return common.formatDateTime(str);
+	  			}
+	   	   vm.getBasicDataDesc=function(str){
+	  			return common.getBasicDataDesc(str);
+	  			}
+	   	   vm.taskType_yearPlan=common.basicDataConfig().taskType_yearPlan;
+	   	   vm.taskType_monthReport=common.basicDataConfig().taskType_monthReport;
+	   	   if(vm.page == 'recordList'){
+	   		   init_taskRecord();
+	   	   }
+	   	   indexSvc.getTaskRecords(vm);//获取最新动态
+	   	   indexSvc.getUnitShenBaoInfos(vm);//获取单位申报信息
        }
-       vm.formatDate=function(str){
-  			return common.formatDate(str);
-  			}
-   	   vm.getBasicDataDesc=function(str){
-  			return common.getBasicDataDesc(str);
-  			}
-   	   if(vm.page == 'recordList'){
-   		   init_taskRecord();
-   	   }
-   	   indexSvc.getTaskRecords(vm);
-   	   indexSvc.getUnitShenBaoInfos(vm);
+       
+       function init_taskRecord(){
+    	   indexSvc.taskRecordList(vm);
+       }
        
         activate();
         function activate() {

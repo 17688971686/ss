@@ -45,8 +45,7 @@
 	            controller: 'projectMonthReportCtrl',
 	            controllerAs: 'vm'
 	        }) 
-	        
-	        
+	        	        
 	        .state('projectMonthReportFill', {
 	            url: '/projectMonthReportFill/:projectId',
 	            templateUrl: '/shenbaoAdmin/projectMonthReport/html/selectMonth',   	            	 	           
