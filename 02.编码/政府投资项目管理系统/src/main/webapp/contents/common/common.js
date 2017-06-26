@@ -370,6 +370,7 @@
     }
     function basicDataConfig(){
     	return {
+    		processState_waitQianShou:"processState_1",
     		processState_qianShou:"processState_2",
     		processState_banJie:"processState_7",
     		processState_tuiWen:"processState_11",

@@ -360,29 +360,45 @@
 			// Begin:column
 			var columns = [					
 					{
-						field : "",
+						field : "projectName",
 						title : "项目名称",
 						template:function(item){
 							return common.format('<a href="#/project/projectInfo/{0}">{1}</a>',item.projectId,item.projectName);
 						},
-						filterable : true,
+						filterable : true
 						
 					},
 					{
+						field : "processState",
+						title : "审批状态",
+						width : 150,
+						filterable : false,
+						template:function(item){
+							var processStateDesc=common.getBasicDataDesc(item.processState);
+							var css='text-danger';
+							return common.format("<span class='{1}'>{0}</span>",processStateDesc,css);
+						}
+					},
+					{
 						field : "projectShenBaoStageDesc",
-						title : "申报阶段",						
-						filterable : true,
+						title : "申报阶段",	
+						width : 150,
+						filterable : false
 					},
 					{
 						field : "planYear",
-						title : "计划年度",						
-						filterable : true,
+						title : "计划年度",	
+						width : 100,
+						filterable : false
 					},
 					{
 						field : "",
 						title : "操作",
+						width : 150,
 						template : function(item) {
-							return common.format($('#columnBtns').html(),item.id,item.projectShenBaoStage);
+							var isShow=item.processState==common.basicDataConfig().processState_waitQianShou
+									   ||item.processState==common.basicDataConfig().processState_tuiWen;
+							return common.format($('#columnBtns').html(),item.id,item.projectShenBaoStage,isShow?'':'display:none');
 						}
 					}
 			];

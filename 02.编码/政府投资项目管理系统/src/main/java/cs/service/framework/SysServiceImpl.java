@@ -453,17 +453,17 @@ public class SysServiceImpl implements SysService {
 		this.createBasicData("projectStage_6","projectStage" , "projectStage", "固定资产登记阶段", "",false);
 		
 		this.createBasicData("processState","" , "processState", "处理状态", "处理状态",false);		
-		this.createBasicData("processState_1","processState" , "processState", "建设单位填报", "",false);
-		this.createBasicData("processState_2","processState" , "processState", "签收", "",false);
+		this.createBasicData("processState_1","processState" , "processState", "等待签收", "",false);
+		this.createBasicData("processState_2","processState" , "processState", "已签收", "",false);
 		this.createBasicData("processState_3","processState" , "processState", "部门承办", "",false);
 		this.createBasicData("processState_4","processState" , "processState", "经办人办理", "",false);
 		this.createBasicData("processState_5","processState" , "processState", "科长审核", "",false);
 		this.createBasicData("processState_6","processState" , "processState", "局长审核", "",false);
-		this.createBasicData("processState_7","processState" , "processState", "办结", "",false);
+		this.createBasicData("processState_7","processState" , "processState", "已办结", "",false);
 		this.createBasicData("processState_8","processState" , "processState", "协办", "",false);
 		this.createBasicData("processState_9","processState" , "processState", "结束协办", "",false);
 		this.createBasicData("processState_10","processState" , "processState", "退回重办", "",false);
-		this.createBasicData("processState_11","processState" , "processState", "退文", "",false);
+		this.createBasicData("processState_11","processState" , "processState", "已退文", "",false);
 
 		this.createBasicData("taskType","" , "taskType", "任务类型", "任务类型",false);		
 		this.createBasicData("taskType_1","taskType" , "taskType", "月报填报", "",false);

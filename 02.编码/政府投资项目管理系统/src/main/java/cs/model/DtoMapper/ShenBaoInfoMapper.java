@@ -78,6 +78,9 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setModifiedBy(entity.getModifiedBy());
 			shenBaoInfoDto.setCreatedBy(entity.getCreatedBy());
 			shenBaoInfoDto.setItemOrder(entity.getItemOrder());
+			
+			//begin#审批相关
+			shenBaoInfoDto.setProcessState(entity.getProcessState());
 						
 			//begin关联信息
 			//附件
@@ -149,6 +152,9 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setProjectInvestAccuSum(shenBaoInfoDto.getProjectInvestAccuSum());
 			shenBaoInfo.setProjectConstrChar(shenBaoInfoDto.getProjectConstrChar());
 			shenBaoInfo.setYearConstructionContent(shenBaoInfoDto.getYearConstructionContent());
+			
+			//begin#审批相关
+			shenBaoInfo.setProcessState(shenBaoInfoDto.getProcessState());
 						
 			//begin#关联信息
 			//附件

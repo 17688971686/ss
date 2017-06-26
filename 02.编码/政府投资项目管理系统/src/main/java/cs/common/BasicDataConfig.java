@@ -7,7 +7,7 @@ public class BasicDataConfig {
 	
 	//process
 	public static String processState="processState";
-	public static String processState_tianBao="processState_1";//建设单位填报
+	public static String processState_tianBao="processState_1";//等待签收
 	public static String processState_qianShou="processState_2";//签收
 	public static String processState_banJie="processState_7";//办结
 	public static String processState_tuiWen="processState_11";//退文

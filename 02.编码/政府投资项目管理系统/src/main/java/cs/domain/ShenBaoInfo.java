@@ -38,6 +38,11 @@ public class ShenBaoInfo extends BaseProject{
 	private String yearConstructionContent;
 	//end#年度计划相关
 	
+	//begin#审批相关
+	@Column(columnDefinition="varchar(500) NULL COMMENT '审批状态'")
+	private String processState;
+	//end
+	
 	//begin#关联信息
 	@OneToOne(cascade=CascadeType.ALL)
 	private ShenBaoUnitInfo bianZhiUnitInfo=new ShenBaoUnitInfo();
@@ -116,6 +121,12 @@ public class ShenBaoInfo extends BaseProject{
 	}
 	public void setYearPlanCapitalId(String yearPlanCapitalId) {
 		this.yearPlanCapitalId = yearPlanCapitalId;
+	}
+	public String getProcessState() {
+		return processState;
+	}
+	public void setProcessState(String processState) {
+		this.processState = processState;
 	}
 	
 	

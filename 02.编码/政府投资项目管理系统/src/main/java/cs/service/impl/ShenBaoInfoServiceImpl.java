@@ -82,10 +82,10 @@ public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 		//进行数据转换
 		ShenBaoInfo shenBaoInfo = new ShenBaoInfo();
 		shenbaoMapper.buildEntity(shenBaoInfoDto, shenBaoInfo);
-		String loginName = currentUser.getLoginName();
-		
+		String loginName = currentUser.getLoginName();		
 		shenBaoInfo.setCreatedBy(loginName);
 		shenBaoInfo.setModifiedBy(loginName);
+		shenBaoInfo.setProcessState(BasicDataConfig.processState_tianBao);
 		shenBaoInfoRepo.save(shenBaoInfo);
 		
 		//初始化工作流
