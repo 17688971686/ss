@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import javax.security.auth.x500.X500Principal;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
@@ -53,7 +55,7 @@ public class SysServiceImpl implements SysService {
 	ICurrentUser currentUser;
 	
 	@Override
-	public List<SysResourceDto> get() {
+	public List<SysResourceDto> getSysResources() {
 
 		List<SysResourceDto> resources = new ArrayList<SysResourceDto>();
 		List<Class<?>> classes = ClassFinder.find("cs.controller");
@@ -129,7 +131,7 @@ public class SysServiceImpl implements SysService {
 		role2.setId(UUID.randomUUID().toString());
 		role2.setComment("系统初始化创建,不可删除");
 
-		List<SysResourceDto> resourceDtos = this.get();
+		List<SysResourceDto> resourceDtos = this.getSysResources();
 		List<Resource> resources = new ArrayList<>();
 		resourceDtos.forEach(x -> {
 			x.getChildren().forEach(y -> {
@@ -506,14 +508,10 @@ public class SysServiceImpl implements SysService {
 	 */
 	@Override
 	@Transactional
-	public SysConfigDto getConfigValue(String configType) {
-		SysConfigDto sysConfigDto = new SysConfigDto();
-		Criterion criterion=Restrictions.eq(SysConfig_.configType.getName(), configType);
-		Optional<SysConfig> sysConfig = sysConfigRepo.findByCriteria(criterion).stream().findFirst();		
-		if(sysConfig.isPresent()){		
-			sysConfigDto = sysConfigMapper.toDto(sysConfig.get());
-		}
-		return sysConfigDto;
+	public List<SysConfigDto> getSysConfigs() {
+		return sysConfigRepo.findAll().stream().map((x)->{
+			return sysConfigMapper.toDto(x);
+		}).collect(Collectors.toList());
 	}
 
 	/**
@@ -522,17 +520,31 @@ public class SysServiceImpl implements SysService {
 	@Override
 	@Transactional
 	public void createTaskUser(SysConfigDto sysConfigDto) {
-		SysConfig sysconfig = new SysConfig();
-		String uid = (String) UUID.randomUUID().toString();
-		
-		sysconfig.setId(uid);
-		sysconfig.setConfigName(sysConfigDto.getConfigName());
-		sysconfig.setConfigValue(sysConfigDto.getConfigValue());
-		sysconfig.setCreatedBy(currentUser.getLoginName());
-		sysconfig.setModifiedBy(currentUser.getLoginName());
-		sysconfig.setConfigType(sysConfigDto.getConfigType());
-		
-		sysConfigRepo.save(sysconfig);
+		//查询数据库有没有
+		if(sysConfigDto.getConfigValue()!=null&&sysConfigDto.getConfigName()!=null){
+			return;
+		}
+	 	Optional<SysConfig> isExist= sysConfigRepo.findAll().stream().filter((x)->{
+			return sysConfigDto.getConfigValue().equals(x.getConfigType())
+					&&sysConfigDto.getConfigName().equals(x.getConfigName());
+		}).findFirst();
+	 	
+		if(isExist.isPresent()){//更新
+			SysConfig entity=isExist.get();
+			entity.setConfigValue(sysConfigDto.getConfigValue());
+			sysConfigRepo.save(entity);
+		}else{//创建
+			SysConfig sysconfig = new SysConfig();
+			String uid = (String) UUID.randomUUID().toString();			
+			sysconfig.setId(uid);
+			sysconfig.setConfigName(sysConfigDto.getConfigName());
+			sysconfig.setConfigValue(sysConfigDto.getConfigValue());
+			sysconfig.setCreatedBy(currentUser.getLoginName());
+			sysconfig.setModifiedBy(currentUser.getLoginName());
+			sysconfig.setConfigType(sysConfigDto.getConfigType());
+			
+			sysConfigRepo.save(sysconfig);
+		}
 	}
 
 	@Override

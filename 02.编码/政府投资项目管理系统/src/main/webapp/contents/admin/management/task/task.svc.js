@@ -154,10 +154,13 @@
 					dir : "desc"
 				},
 				filter:{
-				field:'isComplete',
-				operator:'eq',
-				value:false
-			}
+					field:'isComplete',
+					operator:'eq',
+					value:false
+				},
+				requestEnd:function(e){						
+					$('#todoNumber').html(e.response.count);					
+				}
 			});
 			// End:dataSource
 

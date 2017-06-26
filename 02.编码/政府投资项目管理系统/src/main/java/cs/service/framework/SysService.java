@@ -8,10 +8,10 @@ import cs.model.DomainDto.SysConfigDto;
 
 public interface SysService {
 
-	List<SysResourceDto> get();
+	List<SysResourceDto> getSysResources();
 	 Response SysInit();
 	 Response SysInitBasicData();
-	 SysConfigDto getConfigValue(String configType);
+	 List<SysConfigDto> getSysConfigs();
 	 /**
 	  * 创建task签收人
 	  * @param sysConfigDto
