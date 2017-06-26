@@ -264,13 +264,13 @@
 
 					},
 					{
-						field : "",
+						field : "shenBaoUnitInfoDto.unitName",
 						title : "建设单位",
 						width:120,
 						template:function(item){
 							return common.format(item.shenBaoUnitInfoDto.unitName);
 						},
-						filterable : true
+						filterable : false
 					},
 					{
 						field : "projectName",
@@ -279,7 +279,7 @@
 							return common.format('<a href="#/projectDetails/{0}" >{1}</a>',item.projectId,item.projectName);
 						},
 						width:200,
-						filterable : true
+						filterable : false
 					},					
 					{
 						field : "projectFunctionClassifyDesc",
@@ -288,7 +288,7 @@
 							return common.getBasicDataDesc(item.projectFunctionClassify);
 						},
 						width:110,
-						filterable : true
+						filterable : false
 					},
 					{
 						field : "projectGoverEconClassifyDesc",
@@ -297,7 +297,7 @@
 							return common.getBasicDataDesc(item.projectGoverEconClassify);
 						},
 						width:140,
-						filterable : true
+						filterable : false
 					},
 					{
 						field : "projectIndustryDesc",
