@@ -13,10 +13,7 @@
     	vm.title = "";
     	vm.model={};
     	vm.model.config=[];
-    	vm.model={};
-    	vm.userList={};
     	vm.model.checkedButton = [];
-    	vm.model.checked = false;
     	activate();
     	
         function activate() {        	
@@ -25,14 +22,16 @@
         	init()
         }
         
+
+		/**
+		 * 初始化任务签收人
+		 */
 		function init(){
-			sysConfigSvc.init(vm);	
-			for (var int = 0; int < vm.model.taskList.length; int++) {
-				
-				vm.model.checkedButton[int] = true;
-			
+			sysConfigSvc.getSysConfigs(vm);	
+			for (var i = 0; i < vm.model.taskList.length; i++) {
+				vm.model.checkedButton[i] = true;
+			}
 		}
-				}
         
         /**
 		 * 系统配置：查询所有username

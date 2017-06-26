@@ -550,26 +550,4 @@ public class SysServiceImpl implements SysService {
 		}
 	}
 
-	@Override
-	@Transactional
-	public List<SysConfigDto> getInitUser() {
-		List<SysConfig> list = sysConfigRepo.findAll();
-		List<SysConfigDto> sysConfigDto = new ArrayList<SysConfigDto>();
-
-		for (int i = 0; i < list.size(); i++) {
-			SysConfigDto sysConfigDto2 = new SysConfigDto();
-			
-			sysConfigDto2.setConfigName(list.get(i).getConfigName());
-			sysConfigDto2.setConfigType(list.get(i).getConfigType());
-			sysConfigDto2.setConfigValue(list.get(i).getConfigValue());
-			
-			sysConfigDto.add(i, sysConfigDto2);
-		}
-		
-	
-		return sysConfigDto;
-	}
-	
-	
-	
 }
