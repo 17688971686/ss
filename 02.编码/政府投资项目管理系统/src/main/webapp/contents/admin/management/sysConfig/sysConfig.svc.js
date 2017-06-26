@@ -30,7 +30,15 @@
 					data : vm.model
 				}
 				var httpSuccess = function success(response) {
-					vm.userList = response.data.value;
+				vm.userTaskList = response.data;
+				for (var int = 0; int < vm.userTaskList.length; int++) {
+					for (var i = 0; i < vm.model.taskList.length; i++) {
+						if(vm.userTaskList[int].configName == vm.model.taskList[i].id &&vm.userTaskList[int].configType =="taskType"){
+							vm.model.taskList[i].taskUser = vm.userTaskList[int].configValue;
+						}
+					}
+				}
+			
 				}
 				common.http({
 					vm : vm,

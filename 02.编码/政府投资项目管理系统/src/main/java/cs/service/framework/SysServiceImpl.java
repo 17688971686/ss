@@ -520,12 +520,15 @@ public class SysServiceImpl implements SysService {
 	@Override
 	@Transactional
 	public void createTaskUser(SysConfigDto sysConfigDto) {
-		//查询数据库有没有
-		if(sysConfigDto.getConfigValue()!=null&&sysConfigDto.getConfigName()!=null){
+		//查询数据库有没有		
+		if(sysConfigDto.getConfigType()==null
+				||sysConfigDto.getConfigName()==null
+				|| (sysConfigDto.getConfigValue()==null||sysConfigDto.getConfigValue().isEmpty())
+				){
 			return;
 		}
 	 	Optional<SysConfig> isExist= sysConfigRepo.findAll().stream().filter((x)->{
-			return sysConfigDto.getConfigValue().equals(x.getConfigType())
+			return sysConfigDto.getConfigType().equals(x.getConfigType())
 					&&sysConfigDto.getConfigName().equals(x.getConfigName());
 		}).findFirst();
 	 	

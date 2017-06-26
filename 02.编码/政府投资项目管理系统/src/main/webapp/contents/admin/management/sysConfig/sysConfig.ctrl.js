@@ -15,6 +15,8 @@
     	vm.model.config=[];
     	vm.model={};
     	vm.userList={};
+    	vm.model.checkedButton = [];
+    	vm.model.checked = false;
     	activate();
     	
         function activate() {        	
@@ -24,7 +26,12 @@
         }
         
 		function init(){
-			sysConfigSvc.init(vm);		
+			sysConfigSvc.init(vm);	
+			for (var int = 0; int < vm.model.taskList.length; int++) {
+				
+				vm.model.checkedButton[int] = true;
+			
+		}
 				}
         
         /**
@@ -49,6 +56,13 @@
 		 */
         vm.create = function(){
         	sysConfigSvc.createTaskUser(vm);
+        }
+        
+        vm.checked = function(index){
+        	for (var int = 0; int < vm.model.checkedButton.length; int++) {
+				if(index == int)
+					vm.model.checkedButton[int] = false;
+			}
         }
     }    
 })();
