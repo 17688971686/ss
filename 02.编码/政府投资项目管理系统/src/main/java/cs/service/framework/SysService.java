@@ -17,4 +17,5 @@ public interface SysService {
 	  * @param sysConfigDto
 	  */
 	 void createTaskUser(SysConfigDto sysConfigDto);
+	 List<SysConfigDto> getInitUser();
 }
