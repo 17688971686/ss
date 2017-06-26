@@ -137,7 +137,7 @@
     	            }
     	    	}//removeYearPlanCapital
 
-    		yearPlanSvc.getPlanById(vm);//查询年度计划信息
+    		
     		yearPlanSvc.grid_yearPlan_shenbaoInfoList(vm);//查询年度计划编制申报的信息列表
     		yearPlanSvc.grid_yearPlan_addShenbaoInfoList(vm);//查询所有的申报信息列表  		
     	}//init_planBZ
