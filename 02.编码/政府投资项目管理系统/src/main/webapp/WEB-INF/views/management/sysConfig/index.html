@@ -12,22 +12,24 @@
 		<div>
 			<table class="table table-bordered table-striped" style="width: 30%">
 				<tr>
-					<th colspan="2">签收人</th>
+					<th colspan="3">签收人</th>
 				</tr>
-
-
 				<tr ng-repeat="x in vm.model.taskList">
 					<td ng-bind="x.description"></td>
+					<td><span>当前签收人：{{x.taskUser}}</span></td>
 					<td><input type="hidden"
 						ng-init="vm.model.config[$index].configName=x.id" /> <select
+						ng-show="vm.model.checkedButton[$index] == false"
 						style="height: 30px;" id="allUsername" name="allUsername"
 						ng-model="vm.model.config[$index].configValue" data-val="true"
 						data-val-required="必填">
 							<option value="">---请选择---</option>
-							<option ng-repeat="x in vm.userList" value="{{x.loginName}}">{{x.displayName}}</option>
+							<option ng-repeat="x in vm.userList" value="{{x.loginName}}">{{x.loginName}}</option>
 					</select> <span data-valmsg-for="allUsername" data-valmsg-replace="true"
-						class="required"></span></td>
-
+						class="required"></span>
+						<button ng-show="vm.model.checkedButton[$index] == true"
+							class="btn btn-sm btn-warning" ng-click="vm.checked($index)">
+							修改</button></td>
 				</tr>
 				<tr>
 					<th colspan="3"><button class="btn btn-sm btn-success"

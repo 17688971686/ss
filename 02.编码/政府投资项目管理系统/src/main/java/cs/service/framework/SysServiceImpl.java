@@ -520,18 +520,34 @@ public class SysServiceImpl implements SysService {
 	@Override
 	@Transactional
 	public void createTaskUser(SysConfigDto sysConfigDto) {
-		SysConfig sysconfig = new SysConfig();
-		String uid = (String) UUID.randomUUID().toString();
-		
-		sysconfig.setId(uid);
-		sysconfig.setConfigName(sysConfigDto.getConfigName());
-		sysconfig.setConfigValue(sysConfigDto.getConfigValue());
-		sysconfig.setCreatedBy(currentUser.getLoginName());
-		sysconfig.setModifiedBy(currentUser.getLoginName());
-		sysconfig.setConfigType(sysConfigDto.getConfigType());
-		
-		sysConfigRepo.save(sysconfig);
+		//查询数据库有没有		
+		if(sysConfigDto.getConfigType()==null
+				||sysConfigDto.getConfigName()==null
+				|| (sysConfigDto.getConfigValue()==null||sysConfigDto.getConfigValue().isEmpty())
+				){
+			return;
+		}
+	 	Optional<SysConfig> isExist= sysConfigRepo.findAll().stream().filter((x)->{
+			return sysConfigDto.getConfigType().equals(x.getConfigType())
+					&&sysConfigDto.getConfigName().equals(x.getConfigName());
+		}).findFirst();
+	 	
+		if(isExist.isPresent()){//更新
+			SysConfig entity=isExist.get();
+			entity.setConfigValue(sysConfigDto.getConfigValue());
+			sysConfigRepo.save(entity);
+		}else{//创建
+			SysConfig sysconfig = new SysConfig();
+			String uid = (String) UUID.randomUUID().toString();			
+			sysconfig.setId(uid);
+			sysconfig.setConfigName(sysConfigDto.getConfigName());
+			sysconfig.setConfigValue(sysConfigDto.getConfigValue());
+			sysconfig.setCreatedBy(currentUser.getLoginName());
+			sysconfig.setModifiedBy(currentUser.getLoginName());
+			sysconfig.setConfigType(sysConfigDto.getConfigType());
+			
+			sysConfigRepo.save(sysconfig);
+		}
 	}
-	
-	
+
 }
