@@ -10,32 +10,50 @@
 		var url_user = "/user";//获取所有的user
 		var url_task = "/management/task";//获取需要设置的task
 		var url_taskUser = "/sys/create";//设置task签收人
+		var url_init = "/sys/initUser";
 		
 		
 		var service = {
 			getAllUser : getAllUser,
 			getAllTask : getAllTask,
-			createTaskUser : createTaskUser
+			createTaskUser : createTaskUser,
+			init : init
 		};
 
 		return service;
 
+		
+		function init(vm){
+			var httpOptions = {
+					method : 'get',
+					url : url_init,
+					data : vm.model
+				}
+				var httpSuccess = function success(response) {
+					vm.userList = response.data.value;
+				}
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+		}
+		
+		
 		/**
 		 * 系统配置：查询所有username
 		 * @return usernameList
 		 */
 		function createTaskUser(vm){
-			vm.model.configType = "";
-			for(var i =0;i<vm.model.taskList.length;i++){
-				if(vm.model.taskList[i].description == vm.model.configName){
-					vm.model.configType = vm.model.taskList[i].id;
-				}
-			}
-			
+			var data=[];
+		    for(var i in vm.model.config){		    
+		    	data.push({configName:vm.model.config[i].configName,configValue:vm.model.config[i].configValue});
+		    }
 			var httpOptions = {
 					method : 'post',
 					url : url_taskUser,
-					data : vm.model
+					data : data
 				}
 			
 				var httpSuccess = function success(response) {
@@ -50,7 +68,7 @@
 								vm.isSubmit = false;
 								$('.alertDialog').modal('hide');
 								$('.modal-backdrop').remove();
-								location.href = url_back+vm.type;
+								location.reload();
 							}
 						})
 					}

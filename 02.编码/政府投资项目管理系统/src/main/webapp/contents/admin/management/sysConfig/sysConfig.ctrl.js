@@ -12,13 +12,20 @@
     	var vm = this;
     	vm.title = "";
     	vm.model={};
+    	vm.model.config=[];
+    	vm.model={};
     	vm.userList={};
     	activate();
     	
         function activate() {        	
         	init_getAllTask();
         	init_getAllUser();
+        	init()
         }
+        
+		function init(){
+			sysConfigSvc.init(vm);		
+				}
         
         /**
 		 * 系统配置：查询所有username
