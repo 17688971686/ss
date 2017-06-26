@@ -33,7 +33,7 @@
 					url : common.format(url_planList+"/removeCapital?planId={0}&yearPlanCapitalId={1}",vm.id,id)
 				}
 				var httpSuccess = function success(response) {
-				location.reload();
+				vm.planGridOptions.dataSource.read();
 				}
 				common.http({
 					vm:vm,
@@ -125,24 +125,8 @@
 					url : common.format(url_planList+"/addCapital?planId={0}&shenBaoId={1}",vm.id,id),
 				}
 				var httpSuccess = function success(response) {
-					common.requestSuccess({
-						vm : vm,
-						response : response,
-						fn : function() {
-						common.alert({
-							vm : vm,
-							msg : "操作成功",
-							fn : function() {								
-								$('.alertDialog').modal('hide');
-								$('.modal-backdrop').remove();
-								//vm.planGridOptions.dataSource.read();//刷新编制列表	
-								//getPlanById(vm);
-								location.reload();						
-							}
-						});
-					}					
-				});
-			}
+					vm.planGridOptions.dataSource.read();
+				}
 				common.http({
 					vm:vm,
 					$http:$http,
@@ -254,10 +238,13 @@
 				serverPaging : true,
 				serverSorting : true,
 				serverFiltering : true,
-				pageSize : 10,
+				pageSize : 1000,
 				sort : {
 					field : "createdDate",
 					dir : "desc"
+				},
+				requestEnd:function(){
+					getPlanById(vm);
 				}
 			});
 			// End:dataSource

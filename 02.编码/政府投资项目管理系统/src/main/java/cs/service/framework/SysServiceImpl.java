@@ -17,12 +17,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import cs.common.BasicDataConfig;
+import cs.common.ICurrentUser;
 import cs.common.Response;
 import cs.common.sysResource.ClassFinder;
 import cs.common.sysResource.SysResourceDto;
 import cs.domain.BasicData;
-import cs.domain.Project;
-import cs.domain.Project_;
 import cs.domain.framework.Resource;
 import cs.domain.framework.Role;
 import cs.domain.framework.Role_;
@@ -50,7 +49,8 @@ public class SysServiceImpl implements SysService {
 	private BasicDataRepo basicDataRepo;
 	@Autowired
 	private IMapper<SysConfigDto,SysConfig> sysConfigMapper;
-	
+	@Autowired
+	ICurrentUser currentUser;
 	
 	@Override
 	public List<SysResourceDto> get() {
@@ -283,7 +283,7 @@ public class SysServiceImpl implements SysService {
 		this.createBasicData("projectConstrChar_1","projectConstrChar" , "projectConstrChar", "前期", "");
 		this.createBasicData("projectConstrChar_2","projectConstrChar" , "projectConstrChar", "新开工", "");
 		this.createBasicData("projectConstrChar_3","projectConstrChar" , "projectConstrChar", "续建", "");
-		
+ 		
 		this.createBasicData("projectIndustry","" , "projectIndustry", "项目行业分类", "");
 		this.createBasicData("projectIndustry_1","projectIndustry" , "projectIndustry", "农业水利", "");
 		this.createBasicData("projectIndustry_1_1","projectIndustry_1" , "projectIndustry", "农业", "项目行业分类-农业水利");
@@ -514,6 +514,25 @@ public class SysServiceImpl implements SysService {
 			sysConfigDto = sysConfigMapper.toDto(sysConfig.get());
 		}
 		return sysConfigDto;
+	}
+
+	/**
+	 * @Description 创建task签收人
+	 */
+	@Override
+	@Transactional
+	public void createTaskUser(SysConfigDto sysConfigDto) {
+		SysConfig sysconfig = new SysConfig();
+		String uid = (String) UUID.randomUUID().toString();
+		
+		sysconfig.setId(uid);
+		sysconfig.setConfigName(sysConfigDto.getConfigName());
+		sysconfig.setConfigValue(sysConfigDto.getConfigValue());
+		sysconfig.setCreatedBy(currentUser.getLoginName());
+		sysconfig.setModifiedBy(currentUser.getLoginName());
+		sysconfig.setConfigType(sysConfigDto.getConfigType());
+		
+		sysConfigRepo.save(sysconfig);
 	}
 	
 	

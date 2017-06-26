@@ -1,18 +1,24 @@
 package cs.controller.framework;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
+import cs.common.BasicDataConfig;
 import cs.common.Response;
 import cs.common.sysResource.SysResourceDto;
+import cs.model.DomainDto.SysConfigDto;
 import cs.service.framework.SysService;
 
 @Controller
@@ -29,7 +35,27 @@ public class SysController {
 		List<SysResourceDto> ZTreeList = sysService.get();
 		return ZTreeList;
 	}
-
+	
+	@RequestMapping(name = "设置task签收人", path = "create", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public  void create(@RequestBody List<SysConfigDto> sysConfigDtos) {		
+		sysConfigDtos.forEach(x->{
+			SysConfigDto sysConfigDto=new SysConfigDto();
+			sysConfigDto.setId(UUID.randomUUID().toString());
+			sysConfigDto.setConfigType(BasicDataConfig.taskType);
+			sysConfigDto.setConfigName(x.getConfigName());
+			sysConfigDto.setConfigValue(x.getConfigValue());
+			sysService.createTaskUser(sysConfigDto);
+		});
+		
+	}
+	
+//	@RequestMapping(name = "系统初始化", path = "initUser", method = RequestMethod.GET)
+//	public @ResponseBody List<SysResourceDto> initUser() {
+//		List<SysResourceDto> list = sysService.
+//		return list;
+//				
+//	}
 	
 	@RequestMapping(name = "系统初始化", path = "init", method = RequestMethod.GET)
 	public @ResponseBody String init(HttpServletRequest request) {
