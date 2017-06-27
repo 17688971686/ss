@@ -19,6 +19,7 @@ import cs.model.DomainDto.ArticleDto;
 import cs.model.shenbao.IndexDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
+import cs.service.interfaces.ArticleService;
 import cs.service.interfaces.IService;
 
 @Controller
@@ -27,7 +28,7 @@ public class ShenBaoHomeController {
 	private String ctrlName = "shenbao/home";
 	private static Logger logger = Logger.getLogger(ShenBaoHomeController.class.getName());
 	@Autowired
-	private IService<ArticleDto, Article, String> articleService;
+	private ArticleService articleService;
 	
 	@RequestMapping(name = "首页", path = "/")
 	public String index() {

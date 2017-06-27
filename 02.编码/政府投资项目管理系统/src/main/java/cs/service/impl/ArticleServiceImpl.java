@@ -13,9 +13,10 @@ import cs.model.DomainDto.AttachmentDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
+import cs.service.interfaces.ArticleService;
 
 @Service
-public class ArticleServiceImpl extends AbstractServiceImpl<ArticleDto, Article, String> {
+public class ArticleServiceImpl extends AbstractServiceImpl<ArticleDto, Article, String> implements ArticleService {
 
 	private static Logger logger = Logger.getLogger(ArticleServiceImpl.class);
 	@Autowired

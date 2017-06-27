@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.common.CurrentUser;
 import cs.common.ICurrentUser;
+import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.TaskHeadDto;
 import cs.model.DomainDto.TaskRecordDto;
 import cs.model.DomainDto.YearPlanDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
+import cs.service.interfaces.IService;
 import cs.service.interfaces.TaskRecordService;
 
 @Controller
@@ -29,7 +31,7 @@ import cs.service.interfaces.TaskRecordService;
 public class TaskRecordController {
 	private String ctrl = "management/taskRecord";
 	@Autowired
-	TaskRecordService taskRecordService;
+	IService<TaskRecordDto, TaskRecord, String> taskRecordService;
 	@Autowired
 	ICurrentUser currentUser;
 

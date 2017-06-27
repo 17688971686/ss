@@ -2,7 +2,6 @@ package cs.service.impl;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -15,7 +14,7 @@ import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.IService;
 
-public abstract class AbstractServiceImpl<Dto, Entity, ID> implements IService<Dto, Entity, ID> {
+public abstract class AbstractServiceImpl<Dto, Entity, ID > implements IService<Dto, Entity, ID > {
 	@Autowired
 	public IRepository<Entity, ID> repository;
 	@Autowired
