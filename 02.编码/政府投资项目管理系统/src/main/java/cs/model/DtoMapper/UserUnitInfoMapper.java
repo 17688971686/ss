@@ -4,11 +4,13 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
+import cs.domain.Attachment;
 import cs.domain.UserUnitInfo;
+import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.UserUnitInfoDto;
 @Component
-public class UserUnitInfoMapper {
-	public static UserUnitInfoDto toDto(UserUnitInfo unitInfo) {
+public class UserUnitInfoMapper implements IMapper<UserUnitInfoDto, UserUnitInfo>{
+	public UserUnitInfoDto toDto(UserUnitInfo unitInfo) {
 		UserUnitInfoDto userUnitInfoDto =new UserUnitInfoDto();
 		if(unitInfo!=null){
 			userUnitInfoDto.setUserName(unitInfo.getUserName());
@@ -41,7 +43,7 @@ public class UserUnitInfoMapper {
 		}
 		return userUnitInfoDto;
 	}
-	public static void buildEntity(UserUnitInfoDto unitInfoDto,UserUnitInfo userUnitInfo){
+	public UserUnitInfo buildEntity(UserUnitInfoDto unitInfoDto,UserUnitInfo userUnitInfo){
 		if(userUnitInfo!=null&&unitInfoDto!=null){
 			if(userUnitInfo.getId()==null||userUnitInfo.getId().isEmpty()){
 				userUnitInfo.setId(UUID.randomUUID().toString());
@@ -69,7 +71,7 @@ public class UserUnitInfoMapper {
 			userUnitInfo.setContactPersonTel(unitInfoDto.getContactPersonTel());
 			userUnitInfo.setContactPersonFax(unitInfoDto.getContactPersonFax());
 			userUnitInfo.setUnitFax(unitInfoDto.getUnitFax());
-
 		}
+		return userUnitInfo;
 	}
 }

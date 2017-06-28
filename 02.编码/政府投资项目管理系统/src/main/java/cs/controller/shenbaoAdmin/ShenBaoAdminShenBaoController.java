@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.common.ICurrentUser;
 import cs.model.PageModelDto;
-import cs.model.DomainDto.ProjectDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
@@ -72,14 +71,14 @@ public class ShenBaoAdminShenBaoController {
 	@RequestMapping(name = "创建申报信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  create(@RequestBody ShenBaoInfoDto shenBaoInfoDto){
-		shenBaoInfoService.createShenBaoInfo(shenBaoInfoDto);	
+		shenBaoInfoService.create(shenBaoInfoDto);	
 	}
 	
 	//@RequiresPermissions("shenbaoAdmin/shenbao##put")
 	@RequestMapping(name = "更新申报信息", path = "",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  update(@RequestBody ShenBaoInfoDto shenBaoInfoDto){
-		shenBaoInfoService.updateShenBaoInfo(shenBaoInfoDto);	
+		shenBaoInfoService.update(shenBaoInfoDto,shenBaoInfoDto.getId());	
 	}
 		
 	//begin#html

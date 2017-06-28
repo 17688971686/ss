@@ -156,39 +156,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setYearConstructionContent(shenBaoInfoDto.getYearConstructionContent());
 			
 			//begin#审批相关
-			shenBaoInfo.setProcessState(shenBaoInfoDto.getProcessState());
-						
-			//begin#关联信息
-			//附件
-			shenBaoInfoDto.getAttachmentDtos().stream().forEach(x->{
-				Attachment attachment=new Attachment();
-				attachmentMapper.buildEntity(x, attachment);
-				shenBaoInfo.getAttachments().add(attachment);
-			});
-			//申报单位
-			ShenBaoUnitInfoDto shenBaoUnitInfoDto = shenBaoInfoDto.getShenBaoUnitInfoDto();
-			if(shenBaoInfo.getShenBaoUnitInfo() != null){
-				ShenBaoUnitInfo shenBaoUnitInfo = shenBaoInfo.getShenBaoUnitInfo();
-				shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
-				shenBaoInfo.setShenBaoUnitInfo(shenBaoUnitInfo);
-			}else{
-				ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
-				shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
-				shenBaoInfo.setShenBaoUnitInfo(shenBaoUnitInfo);
-			}
-			
-			//编制单位
-			ShenBaoUnitInfoDto bianZhiUnitInfoDto = shenBaoInfoDto.getBianZhiUnitInfoDto();
-			if(shenBaoInfo.getBianZhiUnitInfo() != null){
-				ShenBaoUnitInfo bianZhiUnitInfo = shenBaoInfo.getBianZhiUnitInfo();
-				shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
-				shenBaoInfo.setBianZhiUnitInfo(bianZhiUnitInfo);
-			}else{
-				ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
-				shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
-				shenBaoInfo.setBianZhiUnitInfo(bianZhiUnitInfo);
-			}
-			
+			shenBaoInfo.setProcessState(shenBaoInfoDto.getProcessState());		
 		}
 		return shenBaoInfo;
 		

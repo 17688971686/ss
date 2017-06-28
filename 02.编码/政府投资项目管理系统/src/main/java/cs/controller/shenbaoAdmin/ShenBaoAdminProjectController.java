@@ -1,11 +1,8 @@
 package cs.controller.shenbaoAdmin;
 
 import java.text.ParseException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -26,7 +23,6 @@ import cs.service.interfaces.ProjectService;
 @RequestMapping(name="项目管理",path="shenbaoAdmin/project")
 public class ShenBaoAdminProjectController {
 	private String ctrlName = "shenbaoAdmin/project";
-	private static Logger logger = Logger.getLogger(ShenBaoAdminProjectController.class.getName());
 	
 	@Autowired
 	private ProjectService ProjectService;
@@ -58,14 +54,14 @@ public class ShenBaoAdminProjectController {
 	@RequestMapping(name = "创建项目信息", path = "unitProject",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  createUnitProject(@RequestBody ProjectDto ProjectDto){		
-		ProjectService.createUnitProject(ProjectDto);		
+		ProjectService.create(ProjectDto);		
 	}
 	
 	//@RequiresPermissions("shenbaoAdmin/project/unitProject##put")
 	@RequestMapping(name = "更新项目信息", path = "unitProject",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  updateUserProject(@RequestBody ProjectDto ProjectDto){		
-		ProjectService.updateUnitProject(ProjectDto);		
+		ProjectService.update(ProjectDto,ProjectDto.getId());		
 	}
 	
 	@RequestMapping(name = "列表页", path = "html/list")

@@ -8,7 +8,7 @@ import cs.domain.Project;
 public class ProjectDto extends Project {
 	
 	//basicData描述信息
-	//项目阶段
+	//项目阶段（前期、施工、竣工）
 	private String projectStageDesc;
 	//项目类型
 	private String projectTypeDesc;
@@ -24,7 +24,8 @@ public class ProjectDto extends Project {
 	private String projectClassifyDesc;
 	//资金其他来源类型
 	private String capitalOtherTypeDesc;
-	
+	//项目投资类型（政府投资/社会投资）
+	private String projectInvestmentTypeDesc; 
 	//begin#关联信息
 	//附件信息
 	private List<AttachmentDto> attachmentDtos=new ArrayList<>();
@@ -111,6 +112,16 @@ public class ProjectDto extends Project {
 	public void setProjectGoverEconClassifyDesc(String projectGoverEconClassifyDesc) {
 		this.projectGoverEconClassifyDesc = projectGoverEconClassifyDesc;
 	}
+
+	public String getProjectInvestmentTypeDesc() {
+		return projectInvestmentTypeDesc;
+	}
+
+	public void setProjectInvestmentTypeDesc(String projectInvestmentTypeDesc) {
+		this.projectInvestmentTypeDesc = projectInvestmentTypeDesc;
+	}
+	
+	
 	
 	
 		

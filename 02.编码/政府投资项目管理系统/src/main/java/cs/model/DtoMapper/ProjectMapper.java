@@ -132,16 +132,7 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setItemOrder(projectDto.getItemOrder());
 			project.setIsMonthReport(projectDto.getIsMonthReport());
 			
-			project.setAttachments(projectDto.getAttachments());
-						
-			//begin#关联信息
-			//附件			
-			projectDto.getAttachmentDtos().stream().forEach(x->{
-				Attachment attachment=new Attachment();
-				attachmentMapper.buildEntity(x, attachment);
-				project.getAttachments().add(attachment);
-			});	
-			
+			project.setAttachments(projectDto.getAttachments());			
 		}
 		return project;
 	}

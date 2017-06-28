@@ -14,11 +14,15 @@ import org.springframework.stereotype.Service;
 
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
+import cs.domain.Attachment;
 import cs.domain.ShenBaoInfo;
+import cs.domain.ShenBaoUnitInfo;
 import cs.domain.TaskHead;
 import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
+import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
+import cs.model.DomainDto.ShenBaoUnitInfoDto;
 import cs.model.DomainDto.SysConfigDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
@@ -37,7 +41,11 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@Autowired
 	private ICurrentUser currentUser;
 	@Autowired
-	IRepository<TaskHead, String> taskHeadRepo;
+	private IRepository<TaskHead, String> taskHeadRepo;
+	@Autowired
+	private IMapper<AttachmentDto, Attachment> attachmentMapper;
+	@Autowired
+	private IRepository<Attachment, String> attachmentRepo;
 	
 	@Override
 	@Transactional
@@ -50,7 +58,40 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@Transactional
 	public ShenBaoInfo create(ShenBaoInfoDto dto) {
 		ShenBaoInfo entity=super.create(dto);
-		//todo
+		//处理关联信息
+		//begin#关联信息
+		//附件
+		entity.getAttachments().forEach(x -> {//删除历史附件
+			attachmentRepo.delete(x);
+		});
+		entity.getAttachments().clear();
+		dto.getAttachmentDtos().forEach(x -> {//添加新附件
+			dto.getAttachments().add(attachmentMapper.buildEntity(x, new Attachment()));
+		});
+		//申报单位
+//		ShenBaoUnitInfoDto shenBaoUnitInfoDto = dto.getShenBaoUnitInfoDto();
+//		if(shenBaoInfo.getShenBaoUnitInfo() != null){
+//			ShenBaoUnitInfo shenBaoUnitInfo = shenBaoInfo.getShenBaoUnitInfo();
+//			shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
+//			shenBaoInfo.setShenBaoUnitInfo(shenBaoUnitInfo);
+//		}else{
+//			ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
+//			shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
+//			shenBaoInfo.setShenBaoUnitInfo(shenBaoUnitInfo);
+//		}
+//		
+//		//编制单位
+//		ShenBaoUnitInfoDto bianZhiUnitInfoDto = shenBaoInfoDto.getBianZhiUnitInfoDto();
+//		if(shenBaoInfo.getBianZhiUnitInfo() != null){
+//			ShenBaoUnitInfo bianZhiUnitInfo = shenBaoInfo.getBianZhiUnitInfo();
+//			shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
+//			shenBaoInfo.setBianZhiUnitInfo(bianZhiUnitInfo);
+//		}else{
+//			ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
+//			shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
+//			shenBaoInfo.setBianZhiUnitInfo(bianZhiUnitInfo);
+//		}
+
 		
 		super.repository.save(entity);
 		//初始化工作流

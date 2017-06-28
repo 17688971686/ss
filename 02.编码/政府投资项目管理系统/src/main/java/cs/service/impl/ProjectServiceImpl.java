@@ -8,18 +8,34 @@ import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cs.domain.Attachment;
+import cs.domain.MonthReport;
 import cs.domain.Project;
 import cs.domain.Project_;
 import cs.model.PageModelDto;
+import cs.model.DomainDto.AttachmentDto;
+import cs.model.DomainDto.MonthReportDto;
 import cs.model.DomainDto.ProjectDto;
+import cs.model.DtoMapper.IMapper;
+import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ProjectService;
 
 @Service
 public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project, String> implements ProjectService {
 	private static Logger logger = Logger.getLogger(ProjectServiceImpl.class);
+	
+	@Autowired
+	private IMapper<AttachmentDto, Attachment> attachmentMapper;
+	@Autowired
+	private IRepository<Attachment, String> attachmentRepo;
+	@Autowired
+	private IMapper<MonthReportDto, MonthReport> monthReportMapper;
+	@Autowired
+	private IRepository<MonthReport, String> monthReportRepo;
 	
 	@Override
 	@Transactional
@@ -30,11 +46,25 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 
 	@Override
 	@Transactional
-	public Project update(ProjectDto projectDto,String id) {
-		
+	public Project update(ProjectDto projectDto,String id) {		
 		Project project = super.update(projectDto,id);		
 		//处理关联信息
-		//todo
+		//附件
+		project.getAttachments().forEach(x -> {//删除历史附件
+			attachmentRepo.delete(x);
+		});
+		project.getAttachments().clear();
+		projectDto.getAttachmentDtos().forEach(x -> {//添加新附件
+			project.getAttachments().add(attachmentMapper.buildEntity(x, new Attachment()));
+		});
+		//月报
+		project.getMonthReports().forEach(x -> {//删除历史月报
+			monthReportRepo.delete(x);
+		});
+		project.getMonthReports().clear();
+		projectDto.getMonthReportDtos().forEach(x -> {//添加新月报
+			project.getMonthReports().add(monthReportMapper.buildEntity(x, new MonthReport()));
+		});
 		
 		//保存数据
 		super.repository.save(project);
@@ -68,7 +98,22 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		}else{			
 			Project project = super.create(projectDto);		
 			//处理关联信息
-			//todo
+			//附件
+			project.getAttachments().forEach(x -> {//删除历史附件
+				attachmentRepo.delete(x);
+			});
+			project.getAttachments().clear();
+			projectDto.getAttachmentDtos().forEach(x -> {//添加新附件
+				project.getAttachments().add(attachmentMapper.buildEntity(x, new Attachment()));
+			});
+			//月报
+			project.getMonthReports().forEach(x -> {//删除历史月报
+				monthReportRepo.delete(x);
+			});
+			project.getMonthReports().clear();
+			projectDto.getMonthReportDtos().forEach(x -> {//添加新月报
+				project.getMonthReports().add(monthReportMapper.buildEntity(x, new MonthReport()));
+			});
 			
 			//保存数据
 			super.repository.save(project);

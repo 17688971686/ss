@@ -4,7 +4,6 @@ import java.text.ParseException;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -23,7 +22,6 @@ import cs.service.interfaces.ProjectService;
 @RequestMapping(name="项目管理",path="management/project")
 public class ProjectController {
 	private String ctrlName = "management/project";
-	private static Logger logger = Logger.getLogger(ProjectController.class.getName());
 	
 	@Autowired
 	private ProjectService ProjectService;
@@ -40,9 +38,9 @@ public class ProjectController {
 	public void  delete(@RequestBody String id){
 		String[] ids=id.split(",");
 		if(ids.length>1){
-			ProjectService.deleteProjects(ids);	
+			ProjectService.deletes(ids);	
 		}else{
-			ProjectService.deleteProject(id);	
+			ProjectService.delete(id);	
 		}		
 		
 	}
@@ -50,7 +48,7 @@ public class ProjectController {
 	@RequestMapping(name = "更新项目信息", path = "",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  update(@RequestBody ProjectDto ProjectDto){		
-		ProjectService.updateProject(ProjectDto);		
+		ProjectService.update(ProjectDto,ProjectDto.getId());		
 	}
 	
 	@RequestMapping(name = "更新项目是否填报状态", path = "isMonthReport",method=RequestMethod.PUT)
@@ -62,7 +60,7 @@ public class ProjectController {
 	@RequestMapping(name = "创建项目信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  create(@RequestBody ProjectDto ProjectDto){		
-		ProjectService.createProject(ProjectDto);		
+		ProjectService.create(ProjectDto);		
 	}
 	
 	//begin#html

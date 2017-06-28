@@ -35,9 +35,8 @@ public class UserUnitInfoServiceImpl extends AbstractServiceImpl<UserUnitInfoDto
 	
 	@Override
 	@Transactional
-	public PageModelDto<UserUnitInfoDto> get(ODataObj odataObj) {
-		
-		logger.info(String.format("查询单位信息"));
+	public PageModelDto<UserUnitInfoDto> get(ODataObj odataObj) {		
+		logger.info("查询单位信息");
 		return super.get(odataObj);	
 	}
 	
