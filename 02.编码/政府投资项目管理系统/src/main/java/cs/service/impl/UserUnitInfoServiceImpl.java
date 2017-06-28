@@ -13,10 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cs.common.ICurrentUser;
+import cs.domain.ShenBaoInfo;
 import cs.domain.UserUnitInfo;
 import cs.domain.UserUnitInfo_;
 import cs.model.PageModelDto;
+import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.UserUnitInfoDto;
+import cs.model.DtoMapper.IMapper;
 import cs.model.DtoMapper.UserUnitInfoMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
@@ -29,6 +32,8 @@ public class UserUnitInfoServiceImpl extends AbstractServiceImpl<UserUnitInfoDto
 	private IRepository<UserUnitInfo, String> userUnitInfoRepo;
 	@Autowired
 	private BasicDataService basicDataService;
+	@Autowired
+	private IMapper<UserUnitInfoDto, UserUnitInfo> userUnitInfoMapper;
 	@Autowired
 	private ICurrentUser currentUser;
 
@@ -53,7 +58,7 @@ public class UserUnitInfoServiceImpl extends AbstractServiceImpl<UserUnitInfoDto
 		}
 		
 		unitInfoDto.setUserName(userName);
-		UserUnitInfoMapper.buildEntity(unitInfoDto, userUnitInfo);
+		userUnitInfoMapper.buildEntity(unitInfoDto, userUnitInfo);
 		String loginName = currentUser.getLoginName();
 		
 		userUnitInfo.setCreatedBy(loginName);

@@ -46,6 +46,10 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private IMapper<AttachmentDto, Attachment> attachmentMapper;
 	@Autowired
 	private IRepository<Attachment, String> attachmentRepo;
+	@Autowired
+	private IMapper<ShenBaoInfoDto, ShenBaoInfo> shenBaoInfoMapper;
+	@Autowired
+	private IRepository<ShenBaoInfo, String> shenBaoInfoRepo;
 	
 	@Override
 	@Transactional
@@ -69,6 +73,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			dto.getAttachments().add(attachmentMapper.buildEntity(x, new Attachment()));
 		});
 		//申报单位
+//		entity.getShenBaoUnitInfo()
 //		ShenBaoUnitInfoDto shenBaoUnitInfoDto = dto.getShenBaoUnitInfoDto();
 //		if(shenBaoInfo.getShenBaoUnitInfo() != null){
 //			ShenBaoUnitInfo shenBaoUnitInfo = shenBaoInfo.getShenBaoUnitInfo();
