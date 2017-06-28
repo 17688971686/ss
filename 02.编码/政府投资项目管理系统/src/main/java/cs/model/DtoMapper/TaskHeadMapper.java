@@ -2,8 +2,6 @@ package cs.model.DtoMapper;
 
 import java.util.UUID;
 
-import javax.security.auth.x500.X500Principal;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +14,7 @@ import cs.model.DomainDto.TaskRecordDto;
 public class TaskHeadMapper implements IMapper<TaskHeadDto, TaskHead> {
 
 	@Autowired
-	IMapper<TaskRecordDto, TaskRecord> taskRecordMapper;
+	private IMapper<TaskRecordDto, TaskRecord> taskRecordMapper;
 	
 	@Override
 	public TaskHeadDto toDto(TaskHead entity) {
@@ -57,14 +55,7 @@ public class TaskHeadMapper implements IMapper<TaskHeadDto, TaskHead> {
 		entity.setModifiedDate(dto.getModifiedDate());
 		entity.setModifiedBy(dto.getModifiedBy());
 		entity.setComplete(dto.isComplete());
-		
-		//begin#关联信息
-		dto.getTaskRecordDtos().forEach(x->{
-			TaskRecord taskRecord=new TaskRecord();
-			taskRecordMapper.buildEntity(x, taskRecord);
-			entity.getTaskRecords().add(taskRecord);
-		});
-		
+				
 		return entity;
 	}
 

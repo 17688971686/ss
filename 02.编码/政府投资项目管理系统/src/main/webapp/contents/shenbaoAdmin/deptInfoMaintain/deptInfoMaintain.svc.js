@@ -62,7 +62,7 @@
 					url : url_userUnitInfo,
 				}
 				var httpSuccess = function success(response) {					
-					vm.model=response.data;					
+					vm.model=response.data.value[0] || {};
 				}
 				
 				common.http({

@@ -64,14 +64,12 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		project.getMonthReports().clear();
 		projectDto.getMonthReportDtos().forEach(x -> {//添加新月报
 			project.getMonthReports().add(monthReportMapper.buildEntity(x, new MonthReport()));
-		});
-		
+		});				
 		//保存数据
 		super.repository.save(project);
 		logger.info(String.format("编辑项目,项目名称 %s",projectDto.getProjectName()));
 		return project;		
 	}
-	
 	
 
 	@Override

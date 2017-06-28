@@ -35,8 +35,7 @@ public class ArticleServiceImpl extends AbstractServiceImpl<ArticleDto, Article,
 	@Transactional
 	public Article create(ArticleDto dto) {
 		Article entity = super.create(dto);
-		// begin#关联信息
-
+		// begin#关联信息附件
 		dto.getAttachmentDtos().forEach(x -> {
 			entity.getAttachments().add(attachmentMapper.buildEntity(x, new Attachment()));
 		});
@@ -49,7 +48,6 @@ public class ArticleServiceImpl extends AbstractServiceImpl<ArticleDto, Article,
 	@Override
 	@Transactional
 	public void delete(String id) {
-		// TODO Auto-generated method stub
 		super.delete(id);
 		logger.info(String.format("删除文章,ID:%s", id));
 	}
@@ -58,20 +56,18 @@ public class ArticleServiceImpl extends AbstractServiceImpl<ArticleDto, Article,
 	@Transactional
 	public Article update(ArticleDto dto, String id) {
 		Article entity = super.update(dto, id);
-
-		// begin#关联信息
-		entity.getAttachments().forEach(x -> {// 删除历史附件
+		// begin#关联信息附件
+		entity.getAttachments().forEach(x -> {//删除历史附件
 			attachmentRepo.delete(x);
 		});
 		entity.getAttachments().clear();
 
-		dto.getAttachmentDtos().forEach(x -> {// 添加新附件
+		dto.getAttachmentDtos().forEach(x -> {//添加新附件
 			entity.getAttachments().add(attachmentMapper.buildEntity(x, new Attachment()));
 		});
 		super.repository.save(entity);
 		logger.info(String.format("更新文章,Id:%s", entity.getId()));
 		return entity;
-
 	}
 
 }

@@ -66,7 +66,7 @@ public class YearPlanController {
 	@RequestMapping(name="更新年度计划",path="",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void put(@RequestBody YearPlanDto dto){
-		yearPlanService.update(dto);
+		yearPlanService.update(dto,dto.getId());
 	}
 	//begin#html
 	@RequestMapping(name="年度计划项目申报列表页",path="html/shenbaoInfoList",method=RequestMethod.GET)

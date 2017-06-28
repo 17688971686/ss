@@ -1,11 +1,6 @@
 package cs.service.impl;
 
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.transaction.Transactional;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,23 +24,13 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 	private static Logger logger = Logger.getLogger(TaskHeadServiceImpl.class);
 	
 	@Autowired
-	IMapper<TaskHeadDto, TaskHead> taskHeadMapper;
-	
+	private IMapper<TaskRecordDto, TaskRecord> taskRecordMapper;	
 	@Autowired
-	IMapper<TaskRecordDto, TaskRecord> taskRecordMapper;
-	
+	private IRepository<ShenBaoInfo, String> shenBaoInfoRepo;	
 	@Autowired
-	IRepository<TaskHead, String> taskHeadRepo;
-	
+	private IRepository<MonthReport, String> monthReportRepo;	
 	@Autowired
-	IRepository<ShenBaoInfo, String> shenBaoInfoRepo;
-	
-	@Autowired
-	IRepository<MonthReport, String> monthReportRepo;
-	
-	@Autowired
-	ICurrentUser currentUser;
-	
+	private ICurrentUser currentUser;	
 	
 	@Override
 	@Transactional
@@ -58,8 +43,13 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 	@Transactional
 	public TaskHead create(TaskHeadDto dto) {
 		TaskHead entity=super.create(dto);
-		//todo
-		
+		//关联信息流程记录
+		dto.getTaskRecordDtos().forEach(x->{
+			TaskRecord taskRecord=new TaskRecord();
+			taskRecordMapper.buildEntity(x, taskRecord);
+			entity.getTaskRecords().add(taskRecord);
+		});
+						
 		super.repository.save(entity);
 		logger.info(String.format("创建任务信息,任务标题 %s",dto.getTitle()));	
 		return entity;
@@ -69,7 +59,7 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 	@Override
 	@Transactional
 	public void handle(String taskId, TaskRecordDto dto) {
-		TaskHead taskHead=taskHeadRepo.findById(taskId); 
+		TaskHead taskHead=super.repository.findById(taskId);
 		if(taskHead!=null){
 			TaskRecord entity=new TaskRecord();
 			dto.setRelId(taskHead.getRelId());
@@ -107,7 +97,7 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 					
 				}
 			}
-			taskHeadRepo.save(taskHead);
+			super.repository.save(taskHead);
 		}
 	}
 	private void setComplete(TaskHead taskHead,String processState){
