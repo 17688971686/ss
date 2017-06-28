@@ -12,7 +12,7 @@ import cs.model.DomainDto.TaskRecordDto;
 @Component
 public class TaskRecordMapper implements IMapper<TaskRecordDto, TaskRecord> {
 	@Autowired
-	ICurrentUser currentUser;
+	private ICurrentUser currentUser;
 	
 	@Override
 	public TaskRecordDto toDto(TaskRecord entity) {

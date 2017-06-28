@@ -56,7 +56,7 @@
 						{{x.title}}
 					</td>				
 					<td ng-bind="x.processSuggestion"></td>
-					<td ng-bind="x.processStateDesc"></td>
+					<td ng-bind="vm.getBasicDataDesc(x.processState)"></td>
 					<td ng-bind="vm.formatDateTime(x.createdDate)"></td>
 				</tr>
 			</table>

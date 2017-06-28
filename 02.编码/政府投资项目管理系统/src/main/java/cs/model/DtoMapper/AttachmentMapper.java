@@ -28,8 +28,7 @@ public class AttachmentMapper implements IMapper<AttachmentDto, Attachment>  {
 		if(attachmentDto != null&&attachment!=null){
 			if(attachment.getId() ==null || attachment.getId().isEmpty()){
 				attachment.setId(UUID.randomUUID().toString());
-			}
-			
+			}			
 			attachment.setComment(attachmentDto.getComment());
 			attachment.setName(attachmentDto.getName());
 			attachment.setUrl(attachmentDto.getUrl());			

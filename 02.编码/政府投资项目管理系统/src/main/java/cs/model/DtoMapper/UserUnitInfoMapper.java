@@ -4,9 +4,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import cs.domain.Attachment;
 import cs.domain.UserUnitInfo;
-import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.UserUnitInfoDto;
 @Component
 public class UserUnitInfoMapper implements IMapper<UserUnitInfoDto, UserUnitInfo>{

@@ -1,9 +1,7 @@
 package cs.service.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -14,11 +12,13 @@ import org.springframework.stereotype.Service;
 
 import cs.common.ICurrentUser;
 import cs.common.SQLConfig;
+import cs.domain.Attachment;
 import cs.domain.ShenBaoInfo;
 import cs.domain.YearPlan;
 import cs.domain.YearPlanCapital;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
+import cs.model.DomainDto.YearPlanCapitalDto;
 import cs.model.DomainDto.YearPlanDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
@@ -27,7 +27,7 @@ import cs.service.common.BasicDataService;
 import cs.service.interfaces.YearPlanService;
 
 @Service
-public class YearPlanServiceImpl implements YearPlanService {
+public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPlan, String>implements YearPlanService {
 	private static Logger logger = Logger.getLogger(YearPlanServiceImpl.class);
 	@Autowired
 	private IRepository<YearPlan, String> yearPlanRepo;
@@ -39,62 +39,54 @@ public class YearPlanServiceImpl implements YearPlanService {
 	private ICurrentUser currentUser;
 	@Autowired
 	private BasicDataService basicDataService;
-	
 	@Autowired
-	private IMapper<YearPlanDto, YearPlan> yearPlanMapper;
+	private IMapper<YearPlanCapitalDto, YearPlanCapital> yearPlanCapitalMapper;
 	@Autowired
 	private IMapper<ShenBaoInfoDto, ShenBaoInfo> shenbaoInfoMapper;
 
 	@Override
 	@Transactional
-	public PageModelDto<YearPlanDto> get(ODataObj odataObj) {
-		List<YearPlanDto> yearPlanDtos=new ArrayList<>();
-		yearPlanRepo.findByOdata(odataObj).forEach(x->{
-			
-			YearPlanDto yearPlanDto=yearPlanMapper.toDto(x);			
-			yearPlanDtos.add(yearPlanDto);	
-			
-		});
-		PageModelDto<YearPlanDto> pageModelDto = new PageModelDto<>();
-		pageModelDto.setCount(odataObj.getCount());
-		pageModelDto.setValue(yearPlanDtos);
+	public PageModelDto<YearPlanDto> get(ODataObj odataObj){
 		logger.info("查询年度计划数据");
-		return pageModelDto;
+		return super.get(odataObj);
 	}
 
 	@Override
 	@Transactional
-	public void create(YearPlanDto dto) {
-		YearPlan entity=new YearPlan();
-		yearPlanMapper.buildEntity(dto, entity);
-		//设置创建人和修改人
-		String loginName = currentUser.getLoginName();
-		entity.setCreatedBy(loginName);
-		entity.setModifiedBy(loginName);
-		yearPlanRepo.save(entity);
+	public YearPlan create (YearPlanDto dto){		
+		YearPlan entity = super.create(dto);
+		//关联信息资金安排
+		dto.getYearPlanCapitalDtos().stream().forEach(x->{
+			YearPlanCapital yearPlanCapital = new YearPlanCapital();
+			yearPlanCapitalMapper.buildEntity(x,yearPlanCapital);
+			entity.getYearPlanCapitals().add(yearPlanCapital);
+		});
 		logger.info(String.format("创建年度计划,名称：%s",dto.getName()));
+		super.repository.save(entity);
+		return entity;				
 	}
 
 	@Override
 	@Transactional
-	public void update(YearPlanDto dto) {
-		YearPlan entity=yearPlanRepo.findById(dto.getId());
-		if(entity!=null){
-			entity.getYearPlanCapitals().clear();
-			yearPlanMapper.buildEntity(dto, entity);
-			//设置修改人和修改时间
-			entity.setModifiedBy(currentUser.getLoginName());
-			entity.setModifiedDate(new Date());
-			yearPlanRepo.save(entity);
-			logger.info(String.format("更新年度计划,名称：%s",dto.getName()));
-		}
-		
+	public YearPlan update(YearPlanDto dto,String id) {		
+		YearPlan entity =  super.update(dto, id);
+		//关联信息资金安排
+		entity.getYearPlanCapitals().forEach(x->{//删除历史资金安排记录
+			yearPlanCapitalRepo.delete(x);
+		});
+		entity.getYearPlanCapitals().clear();
+		dto.getYearPlanCapitalDtos().forEach(x->{//添加新的资金安排记录
+			entity.getYearPlanCapitals().add(yearPlanCapitalMapper.buildEntity(x, new YearPlanCapital()));
+		});
+		logger.info(String.format("更新年度计划,名称：%s",dto.getName()));
+		super.repository.save(entity);
+		return entity;		
 	}
 
 	@Override
 	@Transactional
 	public List<ShenBaoInfoDto> getYearPlanShenBaoInfo(String planId) {	
-		YearPlan yearPlan=yearPlanRepo.findById(planId);
+		YearPlan yearPlan=super.repository.findById(planId);
 		if(yearPlan!=null){
 			List<ShenBaoInfoDto> shenBaoInfoDtos=new ArrayList<>();
 			
@@ -128,7 +120,7 @@ public class YearPlanServiceImpl implements YearPlanService {
 	@Transactional
 	public void addYearPlanCapitals(String planId,String[] ids) {
 		//根据年度计划id查找到年度计划
-		YearPlan yearPlan=yearPlanRepo.findById(planId);
+		YearPlan yearPlan=super.repository.findById(planId);
 		//根据申报信息id创建年度计划资金
 		for (String id : ids) {
 			this.addYearPlanCapital(planId,id);
@@ -141,7 +133,7 @@ public class YearPlanServiceImpl implements YearPlanService {
 	public void addYearPlanCapital(String planId,String shenBaoId) {
 		Boolean hasShenBaoInfo = false;
 		//根据年度计划id查找到年度计划
-		YearPlan yearPlan=yearPlanRepo.findById(planId);
+		YearPlan yearPlan=super.repository.findById(planId);
 		//判断年度计划编制中是否已有该项目申报
 		List<YearPlanCapital> capitals = yearPlan.getYearPlanCapitals();
 		for(YearPlanCapital capital:capitals){
@@ -178,7 +170,7 @@ public class YearPlanServiceImpl implements YearPlanService {
 	@Override
 	@Transactional
 	public void removeYearPlanCapital(String planId, String[] yearPlanCapitalId) {
-		YearPlan yearPlan=yearPlanRepo.findById(planId);
+		YearPlan yearPlan=super.repository.findById(planId);
 		if(yearPlan!=null){
 			List<YearPlanCapital> yearPlanCapitals=yearPlan.getYearPlanCapitals();
 			List<YearPlanCapital> removeItems=new ArrayList<>();
@@ -192,7 +184,7 @@ public class YearPlanServiceImpl implements YearPlanService {
 			yearPlanCapitals.removeAll(removeItems);
 					
 		}
-		yearPlanRepo.save(yearPlan);
+		super.repository.save(yearPlan);
 		
 	}
 }

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.common.ICurrentUser;
-import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.UserUnitInfoDto;
 import cs.repository.odata.ODataFilterItem;
@@ -35,8 +34,9 @@ public class UserUnitInfoController {
 		ODataObj odataObj = new ODataObj(request);
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 		filterItem.setField("userName");
-		filterItem.setOperator("eq");
+		filterItem.setOperator("eq");		
 		filterItem.setValue(currentUser.getLoginName());
+		odataObj.getFilter().add(filterItem);
 		return userUnitInfoService.get(odataObj);
 	}
 	

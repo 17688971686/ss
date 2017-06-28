@@ -1,7 +1,5 @@
 package cs.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,7 +25,6 @@ import cs.model.DomainDto.SysConfigDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
-import cs.service.common.BasicDataService;
 import cs.service.framework.SysService;
 import cs.service.interfaces.ShenBaoInfoService;
 
@@ -47,9 +44,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@Autowired
 	private IRepository<Attachment, String> attachmentRepo;
 	@Autowired
-	private IMapper<ShenBaoInfoDto, ShenBaoInfo> shenBaoInfoMapper;
+	private IMapper<ShenBaoUnitInfoDto, ShenBaoUnitInfo> shenBaoUnitInfoMapper;
 	@Autowired
-	private IRepository<ShenBaoInfo, String> shenBaoInfoRepo;
+	private IRepository<ShenBaoUnitInfo, String> shenBaoUnitInfoRepo;
 	
 	@Override
 	@Transactional
@@ -65,38 +62,19 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		//处理关联信息
 		//begin#关联信息
 		//附件
-		entity.getAttachments().forEach(x -> {//删除历史附件
-			attachmentRepo.delete(x);
-		});
-		entity.getAttachments().clear();
-		dto.getAttachmentDtos().forEach(x -> {//添加新附件
-			dto.getAttachments().add(attachmentMapper.buildEntity(x, new Attachment()));
+		dto.getAttachmentDtos().forEach(x -> {
+			entity.getAttachments().add(attachmentMapper.buildEntity(x, new Attachment()));
 		});
 		//申报单位
-//		entity.getShenBaoUnitInfo()
-//		ShenBaoUnitInfoDto shenBaoUnitInfoDto = dto.getShenBaoUnitInfoDto();
-//		if(shenBaoInfo.getShenBaoUnitInfo() != null){
-//			ShenBaoUnitInfo shenBaoUnitInfo = shenBaoInfo.getShenBaoUnitInfo();
-//			shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
-//			shenBaoInfo.setShenBaoUnitInfo(shenBaoUnitInfo);
-//		}else{
-//			ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
-//			shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
-//			shenBaoInfo.setShenBaoUnitInfo(shenBaoUnitInfo);
-//		}
-//		
-//		//编制单位
-//		ShenBaoUnitInfoDto bianZhiUnitInfoDto = shenBaoInfoDto.getBianZhiUnitInfoDto();
-//		if(shenBaoInfo.getBianZhiUnitInfo() != null){
-//			ShenBaoUnitInfo bianZhiUnitInfo = shenBaoInfo.getBianZhiUnitInfo();
-//			shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
-//			shenBaoInfo.setBianZhiUnitInfo(bianZhiUnitInfo);
-//		}else{
-//			ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
-//			shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
-//			shenBaoInfo.setBianZhiUnitInfo(bianZhiUnitInfo);
-//		}
-
+		ShenBaoUnitInfoDto shenBaoUnitInfoDto = dto.getShenBaoUnitInfoDto();
+		ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
+		shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
+		entity.setShenBaoUnitInfo(shenBaoUnitInfo);
+		//编制单位
+		ShenBaoUnitInfoDto bianZhiUnitInfoDto = dto.getBianZhiUnitInfoDto();
+		ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
+		shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
+		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
 		
 		super.repository.save(entity);
 		//初始化工作流
@@ -105,6 +83,40 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		return entity;
 		
 	}
+	
+	@Override
+	@Transactional
+	public ShenBaoInfo update(ShenBaoInfoDto dto,String id) {
+		ShenBaoInfo entity=super.update(dto,id);
+		//处理关联信息
+		//附件
+		entity.getAttachments().forEach(x -> {//删除历史附件
+			attachmentRepo.delete(x);
+		});
+		entity.getAttachments().clear();
+		dto.getAttachmentDtos().forEach(x -> {//添加新附件
+			entity.getAttachments().add(attachmentMapper.buildEntity(x, new Attachment()));
+		});
+		//申报单位
+		shenBaoUnitInfoRepo.delete(entity.getShenBaoUnitInfo());//删除申报单位
+		ShenBaoUnitInfoDto shenBaoUnitInfoDto = dto.getShenBaoUnitInfoDto();
+		ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
+		shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
+		entity.setShenBaoUnitInfo(shenBaoUnitInfo);
+		//编制单位
+		shenBaoUnitInfoRepo.delete(entity.getBianZhiUnitInfo());//删除申报单位
+		ShenBaoUnitInfoDto bianZhiUnitInfoDto = dto.getBianZhiUnitInfoDto();
+		ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
+		shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
+		entity.setShenBaoUnitInfo(bianZhiUnitInfo);
+			
+		super.repository.save(entity);
+		initWorkFlow(entity);
+		logger.info(String.format("更新申报信息,项目名称 %s",entity.getProjectName()));			
+		return entity;		
+	}
+	
+	
 	private String getTaskType(String shenbaoStage){
 		if(shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)){//如果是下一年度计划
 			return BasicDataConfig.taskType_nextYearPlan;
@@ -153,21 +165,4 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskHead.getTaskRecords().add(taskRecord);
 		taskHeadRepo.save(taskHead);
 	}
-
-	@Override
-	@Transactional
-	public ShenBaoInfo update(ShenBaoInfoDto dto,String id) {
-		ShenBaoInfo entity=super.update(dto,id);
-		//todo
-		
-		super.repository.save(entity);
-		initWorkFlow(entity);
-		logger.info(String.format("更新申报信息,项目名称 %s",entity.getProjectName()));			
-		return entity;		
-	}
-	
-	
-	
-	
-
 }

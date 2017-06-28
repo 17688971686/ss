@@ -8,16 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import cs.common.ICurrentUser;
-import cs.domain.Article;
-import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
-import cs.model.DomainDto.ArticleDto;
 import cs.model.DomainDto.TaskRecordDto;
-import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
-import cs.service.interfaces.IService;
 import cs.service.interfaces.TaskRecordService;
 
 @Controller

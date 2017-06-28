@@ -5,28 +5,24 @@ import java.text.ParseException;
 import java.util.function.Function;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import cs.domain.Article;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ArticleDto;
 import cs.model.shenbao.IndexDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ArticleService;
-import cs.service.interfaces.IService;
+
 
 @Controller
 @RequestMapping(name = "申报", path = "")
 public class ShenBaoHomeController {
 	private String ctrlName = "shenbao/home";
-	private static Logger logger = Logger.getLogger(ShenBaoHomeController.class.getName());
+
 	@Autowired
 	private ArticleService articleService;
 	
@@ -43,7 +39,7 @@ public class ShenBaoHomeController {
 			ODataObj odataOb;
 			try {
 				odataOb = new ODataObj(request);
-				ODataFilterItem<String> filterItem=new ODataFilterItem();
+				ODataFilterItem<String> filterItem= new ODataFilterItem();
 				filterItem.setField("type");
 				filterItem.setOperator("eq");
 				filterItem.setValue(type);		

@@ -68,15 +68,15 @@ font-weight: bold;
 	<tr>
 	    <td class="formAlignRight">单位地址<span class="required">(*)</span></td>
 	    <td colspan="4">
-		    <select class="form-select">
+		    <select class="form-select pull-left" style="margin-right:10px;">
 		    	<option>光明新区</option>
 		    </select>
-		    <select class="form-select" id="divisionId" name="divisionId" ng-model="vm.model.divisionId" data-val="true" data-val-required="必选">
+		    <select class="form-select pull-left" style="margin-right:10px;" id="divisionId" name="divisionId" ng-model="vm.model.divisionId" data-val="true" data-val-required="必选">
 		    	<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData_area_Street" value="{{x.id}}">{{x.description}}</option>
 			</select>
 			<span data-valmsg-for="divisionId" data-valmsg-replace="true" class="errors"></span>
-			 <input type="text" class="form-control input-sm" style="margin-top:3px;" id="unitAddress" name="unitAddress" ng-model="vm.model.unitAddress" data-val="true" data-val-required="必填"/>
+			 <input type="text" class="form-control input-sm pull-left" style="width:500px;" id="unitAddress" name="unitAddress" ng-model="vm.model.unitAddress" data-val="true" data-val-required="必填"/>
 			 <span data-valmsg-for="unitAddress" data-valmsg-replace="true" class="errors"></span>
 			</td>
 	  </tr>
@@ -112,7 +112,7 @@ font-weight: bold;
 	    	 <span ng-show="myForm.resPersonEmail.$error.email" class="errors">请输入合法邮箱地址</span>
 	    </td>
 	  </tr>	
-	  <tr>
+	  <!-- <tr>
 	    <td rowspan="3" class="formAlignRight">单位联系人<span class="required">(*)</span></td>
 	    <td>姓名</td>
 	    <td>
@@ -144,7 +144,7 @@ font-weight: bold;
 	    	<span data-valmsg-for="contactPersonEmail" data-valmsg-replace="true" class="errors"></span>
 	    	 <span ng-show="myForm.contactPersonEmail.$error.email" class="errors">请输入合法邮箱地址</span>
 	    </td>
-	  </tr>	
+	  </tr> -->	
 </table>
 
 
