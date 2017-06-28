@@ -33,13 +33,12 @@ import cs.service.framework.UserServiceImpl;
 import cs.service.interfaces.MonthReportService;
 
 @Service
-public class MonthReportServiceImpl implements MonthReportService {
+public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, MonthReport, String> implements MonthReportService {
 	private static Logger logger = Logger.getLogger(UserServiceImpl.class);
 	// 依赖注入持久层
 	@Autowired
 	private  IRepository<MonthReport, String> monthReportRepo;
-	@Autowired
-	private BasicDataService basicDataService;
+
 	@Autowired
 	private SysService sysService;
 	@Autowired
@@ -58,31 +57,8 @@ public class MonthReportServiceImpl implements MonthReportService {
 	@Override
 	@Transactional
 	public PageModelDto<MonthReportDto> get(ODataObj odataObj) {
-		List<MonthReport> monthReportList = monthReportRepo.findByOdata(odataObj);
-		List<MonthReportDto> monthReportDtoList = new ArrayList<MonthReportDto>();
-
-		monthReportList.forEach(monthReport -> {
-			MonthReportDto monthReportDto = monthReportMapper.toDto(monthReport);			
-			//获取相关类型的名称
-			monthReportDto.setSelfReviewDesc(basicDataService.getDescriptionById(monthReport.getSelfReview()));
-			// begin#关联信息
-			// 项目
-			//ProjectInfo projectInfo = projectInfoRepo.findById(monthReport.getProjectId());
-			//monthReportDto.setProjectName(projectInfo.getProjectName());
-
-			// end#关联信息
-	
-
-			monthReportDtoList.add(monthReportDto);
-
-		});
-
-		PageModelDto<MonthReportDto> pageModelDto = new PageModelDto<MonthReportDto>();
-		pageModelDto.setCount(odataObj.getCount());
-		pageModelDto.setValue(monthReportDtoList);
-
 		logger.info("查询月报数据");
-		return pageModelDto;
+		return super.get(odataObj);		
 	}
 
 	@Override

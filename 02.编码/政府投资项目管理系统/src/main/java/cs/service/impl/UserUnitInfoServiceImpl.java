@@ -23,7 +23,7 @@ import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.interfaces.UserUnitInfoService;
 @Service
-public class UserUnitInfoServiceImpl implements UserUnitInfoService {
+public class UserUnitInfoServiceImpl extends AbstractServiceImpl<UserUnitInfoDto, UserUnitInfo, String> implements UserUnitInfoService {
 	private static Logger logger = Logger.getLogger(UserUnitInfoServiceImpl.class);
 	@Autowired
 	private IRepository<UserUnitInfo, String> userUnitInfoRepo;
@@ -36,36 +36,11 @@ public class UserUnitInfoServiceImpl implements UserUnitInfoService {
 	@Override
 	@Transactional
 	public PageModelDto<UserUnitInfoDto> get(ODataObj odataObj) {
-		List<UserUnitInfoDto> userUnitInfoDtos=new ArrayList<>();
-		userUnitInfoRepo.findByOdata(odataObj).forEach(x->{
-			UserUnitInfoDto userUnitInfoDto = UserUnitInfoMapper.toDto(x);
-			userUnitInfoDto.setDivisionDesc(basicDataService.getDescriptionById(x.getDivisionId()));
-			userUnitInfoDto.setUnitPropertyDesc(basicDataService.getDescriptionById(x.getUnitProperty()));
-			
-			userUnitInfoDtos.add(userUnitInfoDto);
-		});
-		PageModelDto<UserUnitInfoDto> pageModelDto = new PageModelDto<>();
-		pageModelDto.setCount(odataObj.getCount());
-		pageModelDto.setValue(userUnitInfoDtos);
-		logger.info(String.format("查询单位信息:%s", currentUser.getLoginName()));
-		return pageModelDto;	
+		
+		logger.info(String.format("查询单位信息"));
+		return super.get(odataObj);	
 	}
 	
-	
-	@Override
-	@Transactional
-	public UserUnitInfoDto getByUserName(String userName) {
-		Criterion criterion=Restrictions.eq(UserUnitInfo_.userName.getName(), userName);
-		Optional<UserUnitInfo> userUnitInfo= userUnitInfoRepo.findByCriteria(criterion).stream().findFirst();
-		if(userUnitInfo.isPresent()){
-			 UserUnitInfoDto userUnitInfoDto  = UserUnitInfoMapper.toDto(userUnitInfo.get());
-			userUnitInfoDto.setDivisionDesc(basicDataService.getDescriptionById(userUnitInfo.get().getDivisionId()));
-			userUnitInfoDto.setUnitPropertyDesc(basicDataService.getDescriptionById(userUnitInfo.get().getUnitProperty()));
-			return userUnitInfoDto;
-		}
-		return null;
-	}
-
 	@Override
 	@Transactional
 	public void save(String userName,UserUnitInfoDto unitInfoDto) {

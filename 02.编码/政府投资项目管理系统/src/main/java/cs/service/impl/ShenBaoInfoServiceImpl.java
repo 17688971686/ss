@@ -29,14 +29,9 @@ import cs.service.interfaces.ShenBaoInfoService;
 
 
 @Service
-public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
+public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, ShenBaoInfo, String> implements ShenBaoInfoService {
 	private static Logger logger = Logger.getLogger(ShenBaoInfoServiceImpl.class);
-	@Autowired
-	private IMapper<ShenBaoInfoDto, ShenBaoInfo> shenbaoMapper;
-	@Autowired
-	private IRepository<ShenBaoInfo, String> shenBaoInfoRepo;
-	@Autowired
-	private BasicDataService basicDataService;
+	
 	@Autowired
 	private SysService sysService;
 	@Autowired
@@ -47,51 +42,22 @@ public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 	@Override
 	@Transactional
 	public PageModelDto<ShenBaoInfoDto> get(ODataObj odataObj) {
-		List<ShenBaoInfoDto> shenBaoInfoDtos=new ArrayList<>();
-		shenBaoInfoRepo.findByOdata(odataObj).forEach(x->{			
-			ShenBaoInfoDto shenBaoInfoDto=shenbaoMapper.toDto(x);
-			//获取项目相关类型的名称
-			shenBaoInfoDto.setProjectClassifyDesc(basicDataService.getDescriptionById(x.getProjectClassify()));//项目分类名称
-			shenBaoInfoDto.setProjectIndustryDesc(basicDataService.getDescriptionById(x.getProjectIndustry()));//项目行业领域名称
-			shenBaoInfoDto.setProjectTypeDesc(basicDataService.getDescriptionById(x.getProjectType()));//项目类型名称
-			shenBaoInfoDto.setProjectCategoryDesc(basicDataService.getDescriptionById(x.getProjectCategory()));//项目类别名称
-			shenBaoInfoDto.setProjectFunctionClassifyDesc(basicDataService.getDescriptionById(x.getProjectFunctionClassify()));//功能分类科目名称
-			shenBaoInfoDto.setProjectGoverEconClassifyDesc(basicDataService.getDescriptionById(x.getProjectGoverEconClassify()));//政府经济分类科目名称
-			shenBaoInfoDto.setProjectStageDesc(basicDataService.getDescriptionById(x.getProjectStage()));//项目阶段名称
-			shenBaoInfoDto.setProjectConstrCharDesc(basicDataService.getDescriptionById(x.getProjectConstrChar()));//项目建设性质名称
-			shenBaoInfoDto.setProjectShenBaoStageDesc(basicDataService.getDescriptionById(x.getProjectShenBaoStage()));//项目申报阶段名称
-			shenBaoInfoDto.setCapitalOtherTypeDesc(basicDataService.getDescriptionById(x.getCapitalOtherType()));//资金其他来源名称
-			//获取单位相关类型的名称
-			shenBaoInfoDto.getShenBaoUnitInfoDto().setUnitPropertyDesc(basicDataService.getDescriptionById(x.getShenBaoUnitInfo().getUnitProperty()));
-			shenBaoInfoDto.getShenBaoUnitInfoDto().setDivisionDesc(basicDataService.getDescriptionById(x.getShenBaoUnitInfo().getDivisionId()));
-			shenBaoInfoDto.getBianZhiUnitInfoDto().setUnitPropertyDesc(basicDataService.getDescriptionById(x.getBianZhiUnitInfo().getUnitProperty()));
-			shenBaoInfoDto.getBianZhiUnitInfoDto().setDivisionDesc(basicDataService.getDescriptionById(x.getBianZhiUnitInfo().getDivisionId()));
-			
-			shenBaoInfoDtos.add(shenBaoInfoDto);			
-		});
-		PageModelDto<ShenBaoInfoDto> pageModelDto = new PageModelDto<>();
-		pageModelDto.setCount(odataObj.getCount());
-		pageModelDto.setValue(shenBaoInfoDtos);
 		logger.info("查询申报数据");
-		return pageModelDto;	
+		return super.get(odataObj);				
 	}
 
 	@Override
 	@Transactional
-	public void createShenBaoInfo(ShenBaoInfoDto shenBaoInfoDto) {
-		//进行数据转换
-		ShenBaoInfo shenBaoInfo = new ShenBaoInfo();
-		shenbaoMapper.buildEntity(shenBaoInfoDto, shenBaoInfo);
-		String loginName = currentUser.getLoginName();		
-		shenBaoInfo.setCreatedBy(loginName);
-		shenBaoInfo.setModifiedBy(loginName);
-		shenBaoInfo.setProcessState(BasicDataConfig.processState_tianBao);
-		shenBaoInfoRepo.save(shenBaoInfo);
+	public ShenBaoInfo create(ShenBaoInfoDto dto) {
+		ShenBaoInfo entity=super.create(dto);
+		//todo
 		
+		super.repository.save(entity);
 		//初始化工作流
-		initWorkFlow(shenBaoInfo);
+		initWorkFlow(entity);
+		logger.info(String.format("创建申报信息,项目名称 %s",entity.getProjectName()));		
+		return entity;
 		
-		logger.info(String.format("创建申报信息,项目名称 %s",shenBaoInfoDto.getProjectName()));		
 	}
 	private String getTaskType(String shenbaoStage){
 		if(shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)){//如果是下一年度计划
@@ -144,21 +110,14 @@ public class ShenBaoInfoServiceImpl implements ShenBaoInfoService {
 
 	@Override
 	@Transactional
-	public void updateShenBaoInfo(ShenBaoInfoDto shenBaoInfoDto) {
-		//根据id查找到到此申报信息
-		ShenBaoInfo findShenBaoInfo = shenBaoInfoRepo.findById(shenBaoInfoDto.getId());
-		//清空附件
-		findShenBaoInfo.getAttachments().clear();
-		//进行数据转换
-		shenbaoMapper.buildEntity(shenBaoInfoDto, findShenBaoInfo);
-		//设置修改人
-		String longinName = currentUser.getLoginName();
-		findShenBaoInfo.setModifiedBy(longinName);
-		findShenBaoInfo.setModifiedDate(new Date());
-		//保存数据
-		shenBaoInfoRepo.save(findShenBaoInfo);
-		initWorkFlow(findShenBaoInfo);
-		logger.info(String.format("更新申报信息,项目名称 %s",shenBaoInfoDto.getProjectName()));
+	public ShenBaoInfo update(ShenBaoInfoDto dto,String id) {
+		ShenBaoInfo entity=super.update(dto,id);
+		//todo
+		
+		super.repository.save(entity);
+		initWorkFlow(entity);
+		logger.info(String.format("更新申报信息,项目名称 %s",entity.getProjectName()));			
+		return entity;		
 	}
 	
 	

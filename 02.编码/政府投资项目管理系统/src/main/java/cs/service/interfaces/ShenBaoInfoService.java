@@ -1,14 +1,11 @@
 package cs.service.interfaces;
 
+import cs.domain.ShenBaoInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ProjectDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.repository.odata.ODataObj;
 
-public interface ShenBaoInfoService {
-	PageModelDto<ShenBaoInfoDto> get(ODataObj odataObj);
+public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo, String> {
 	
-	void createShenBaoInfo(ShenBaoInfoDto shenBaoInfoDto);
-	
-	void updateShenBaoInfo(ShenBaoInfoDto shenBaoInfoDto);
 }

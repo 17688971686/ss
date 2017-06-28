@@ -18,15 +18,7 @@ import cs.service.interfaces.TaskRecordService;
 @Service
 public class TaskRecordServiceImpl extends AbstractServiceImpl<TaskRecordDto, TaskRecord, String> implements TaskRecordService {
 	private static Logger logger = Logger.getLogger(TaskRecordServiceImpl.class);
-	@Autowired
-	IMapper<TaskRecordDto, TaskRecord> taskRecordMapper;
 	
-	@Autowired
-	BasicDataService basicDataService;
-	
-	@Autowired
-	IRepository<TaskRecord, String> taskRecordRepo;
-
 	@Override
 	@Transactional
 	public PageModelDto<TaskRecordDto> get(ODataObj odataObj) {

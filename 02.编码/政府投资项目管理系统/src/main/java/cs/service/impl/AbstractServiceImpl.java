@@ -1,6 +1,7 @@
 package cs.service.impl;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,18 +9,22 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import cs.common.ICurrentUser;
+import cs.domain.BaseEntity;
 import cs.model.PageModelDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.IService;
 
-public abstract class AbstractServiceImpl<Dto, Entity, ID > implements IService<Dto, Entity, ID > {
+public abstract class AbstractServiceImpl<Dto, Entity extends BaseEntity, ID > implements IService<Dto, Entity, ID > {
 	@Autowired
 	public IRepository<Entity, ID> repository;
 	@Autowired
 	public IMapper<Dto, Entity> mapper;
-
+	@Autowired
+	public ICurrentUser currentUser;
+	
 	@Override
 	public PageModelDto<Dto> get(ODataObj odataObj) {
 		List<Dto> dtos = repository.findByOdata(odataObj).stream().map((x) -> {
@@ -51,6 +56,8 @@ public abstract class AbstractServiceImpl<Dto, Entity, ID > implements IService<
 			}
 			if(entity!=null){
 				mapper.buildEntity(dto, entity);	
+				entity.setCreatedBy(currentUser.getLoginName());
+				entity.setModifiedBy(currentUser.getLoginName());
 			}					
 		}
 		return entity;
@@ -59,7 +66,11 @@ public abstract class AbstractServiceImpl<Dto, Entity, ID > implements IService<
 	@Override
 	public Entity update(Dto dto,ID id) {
 		Entity entity=repository.findById(id);
-		mapper.buildEntity(dto, entity);
+		if(entity!=null){
+			mapper.buildEntity(dto, entity);		
+			entity.setModifiedBy(currentUser.getLoginName());
+			
+		}		
 		return entity;
 	}
 	

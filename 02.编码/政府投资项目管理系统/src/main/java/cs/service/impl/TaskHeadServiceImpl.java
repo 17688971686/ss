@@ -25,7 +25,7 @@ import cs.repository.odata.ODataObj;
 import cs.service.interfaces.TaskHeadService;
 
 @Service
-public class TaskHeadServiceImpl implements TaskHeadService {
+public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHead, String> implements TaskHeadService {
 	private static Logger logger = Logger.getLogger(TaskHeadServiceImpl.class);
 	
 	@Autowired
@@ -49,36 +49,22 @@ public class TaskHeadServiceImpl implements TaskHeadService {
 	
 	@Override
 	@Transactional
-	public PageModelDto<TaskHeadDto> get(ODataObj odataObj) {
-		List<TaskHeadDto> taskHeadDtos=new ArrayList<>();
-		taskHeadRepo.findByOdata(odataObj).forEach(x->{
-			
-			TaskHeadDto taskHeadDto=taskHeadMapper.toDto(x);			
-			taskHeadDtos.add(taskHeadDto);	
-			
-		});
-		PageModelDto<TaskHeadDto> pageModelDto = new PageModelDto<>();
-		pageModelDto.setCount(odataObj.getCount());
-		pageModelDto.setValue(taskHeadDtos);
+	public PageModelDto<TaskHeadDto> get(ODataObj odataObj) {		
 		logger.info("查询工作台任务数据");
-		return pageModelDto;
+		return super.get(odataObj);
 	}
 
 	@Override
 	@Transactional
-	public void create(TaskHeadDto dto) {
-		TaskHead taskHead = new TaskHead();
-		taskHeadMapper.buildEntity(dto, taskHead);
-		taskHeadRepo.save(taskHead);
-		logger.info(String.format("创建任务信息,任务标题 %s",dto.getTitle()));		
-	}
-
-	@Override
-	@Transactional
-	public void update(TaskHeadDto dto) {
-		// TODO Auto-generated method stub
+	public TaskHead create(TaskHeadDto dto) {
+		TaskHead entity=super.create(dto);
+		//todo
 		
+		super.repository.save(entity);
+		logger.info(String.format("创建任务信息,任务标题 %s",dto.getTitle()));	
+		return entity;
 	}
+
 
 	@Override
 	@Transactional
