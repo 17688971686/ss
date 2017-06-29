@@ -16,10 +16,6 @@
         vm.page='list';
         vm.model.projectType=[];
         
-        vm.basicData_area_Street=$linq(common.getBasicData())
-		.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
-		.toArray(); 
-        
         vm.init=function(){
         	if($state.current.name=='projectEdit'){
     			vm.page='create';
@@ -63,6 +59,10 @@
     	   	projectSvc.getUserUnit(vm);
 	   		//begin#基础数据
 	   		vm.basicData={};    
+	   		//获取街道信息
+	   		vm.basicData_area_Street=$linq(common.getBasicData())
+			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
+			.toArray(); 
 	   		//项目阶段
 	   		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);
 	   		//项目类型
