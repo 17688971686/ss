@@ -88,11 +88,12 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 
 	@Override
 	@Transactional
-	public Project create(ProjectDto projectDto) {		
-		Criterion criterion=Restrictions.eq(Project_.projectNumber.getName(), projectDto.getProjectNumber());
+	public Project create(ProjectDto projectDto) {
+		//根据项目名称来判断创建的项目是否已存在
+		Criterion criterion=Restrictions.eq(Project_.projectName.getName(), projectDto.getProjectName());
 		Optional<Project> findProject = super.repository.findByCriteria(criterion).stream().findFirst();
 		if(findProject.isPresent()){
-			throw new IllegalArgumentException(String.format("项目代码：%s 已经存在,请重新输入！", projectDto.getProjectNumber()));
+			throw new IllegalArgumentException(String.format("项目名称：%s 已经存在,请重新输入！", projectDto.getProjectName()));
 		}else{			
 			Project project = super.create(projectDto);		
 			//处理关联信息

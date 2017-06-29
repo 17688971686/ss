@@ -37,6 +37,12 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目所属行业'")
 	private String projectIndustry;
 	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '项目负责人姓名'")
+	private String projectRepName;
+	
+	@Column(columnDefinition="varchar(50) NULL COMMENT '项目负责人电话'")
+	private String projectRepMobile;
+	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目分类'")
 	private String projectClassify;
 	
@@ -380,6 +386,21 @@ public class BaseProject extends BaseEntity
 	public void setProjectInvestmentType(String projectInvestmentType) {
 		this.projectInvestmentType = projectInvestmentType;
 	}
-	
 
+	public String getProjectRepName() {
+		return projectRepName;
+	}
+
+	public void setProjectRepName(String projectRepName) {
+		this.projectRepName = projectRepName;
+	}
+
+	public String getProjectRepMobile() {
+		return projectRepMobile;
+	}
+
+	public void setProjectRepMobile(String projectRepMobile) {
+		this.projectRepMobile = projectRepMobile;
+	}
+	
 }

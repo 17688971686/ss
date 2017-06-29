@@ -5,6 +5,21 @@ public class BasicDataConfig {
 	public static String approvalType ="approvalType";
 	public static String projectProgress ="projectProgress";
 	
+	//projectInvestmentType
+	public static String projectInvestmentType="projectInvestmentType";
+	public static String projectInvestmentType_ZF="projectInvestmentType_1";//政府投资
+	public static String projectInvestmentType_SH="projectInvestmentType_2";//社会投资
+	
+	//projectStage
+	public static String projectStage="projectStage";
+	public static String projectStage_qianqichubei="projectStage_1";//前期储备阶段
+	public static String projectStage_qianqi="projectStage_2";//前期阶段
+	public static String projectStage_shigong="projectStage_3";//施工阶段
+	public static String projectStage_tinggong="projectStage_4";//停工阶段
+	public static String projectStage_jungong="projectStage_5";//竣工阶段
+	public static String projectStage_gudingzicandengji="projectStage_6";//固定资产登记阶段
+	
+	
 	//process
 	public static String processState="processState";
 	public static String processState_tianBao="processState_1";//等待签收

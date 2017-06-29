@@ -12,7 +12,8 @@
 		
 		var service = {
 			grid : grid,
-			getProjectById:getProjectById,			
+			getProjectById:getProjectById,
+			getShenBaoRecordsByProjectId:getShenBaoRecordsByProjectId,
 			createShenBaoInfo:createShenBaoInfo,
 			recordsGird:recordsGird,
 			getShenBaoInfoById:getShenBaoInfoById,
@@ -20,6 +21,98 @@
 			isHadShenBaoInfo:isHadShenBaoInfo,
 		};		
 		return service;
+		
+		/**
+		 * 根据项目id查询申报记录
+		 */
+		function getShenBaoRecordsByProjectId(vm,id){
+			console.log(id);
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url_shenbao),						
+				schema : common.kendoGridConfig().schema({
+					id : "id",
+					fields : {
+						createdDate : {
+							type : "date"
+						}
+					}
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "createdDate",
+					dir : "desc"
+				},
+				filter:{
+					field:'projectId',
+					operator:'eq',
+					value:id
+				}				
+			});
+			// End:dataSource
+			// Begin:column
+			var columns = [					
+					{
+						field : "projectName",
+						title : "项目名称",
+						template:function(item){
+							return common.format('<a href="#/project/projectInfo/{0}">{1}</a>',item.projectId,item.projectName);
+						},
+						filterable : true
+						
+					},
+					{
+						field : "processState",
+						title : "审批状态",
+						width : 150,
+						filterable : false,
+						template:function(item){
+							var processStateDesc=common.getBasicDataDesc(item.processState);
+							var css='text-danger';
+							return common.format("<span class='{1}'>{0}</span>",processStateDesc,css);
+						}
+					},
+					{
+						field : "projectShenBaoStage",
+						title : "申报阶段",	
+						width : 150,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectShenBaoStage);
+						},
+						filterable : false
+					},
+					{
+						field : "planYear",
+						title : "计划年度",	
+						width : 100,
+						filterable : false
+					},
+					{
+						field : "",
+						title : "操作",
+						width : 150,
+						template : function(item) {
+							var isShow=item.processState==common.basicDataConfig().processState_waitQianShou
+									   ||item.processState==common.basicDataConfig().processState_tuiWen;
+							return common.format($('#columnBtns').html(),item.id,item.projectShenBaoStage,isShow?'':'display:none');
+						}
+					}
+			];
+			// End:column
+
+			vm.gridOptions_shenBaoRecords = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true
+			};
+		}
 
 		/**
 		 * 根据项目id和申报阶段查询申报信息
@@ -380,9 +473,12 @@
 						}
 					},
 					{
-						field : "projectShenBaoStageDesc",
+						field : "projectShenBaoStage",
 						title : "申报阶段",	
 						width : 150,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectShenBaoStage);
+						},
 						filterable : false
 					},
 					{
@@ -442,8 +538,7 @@
 			// End:dataSource
 
 			// Begin:column
-			var columns = [
-					
+			var columns = [					
 					{
 						field : "projectName",
 						title : "项目名称",						
@@ -453,15 +548,21 @@
 						}
 					},
 					{
-						field : "projectStageDesc",
+						field : "projectStage",
 						title : "项目阶段",
 						width : 150,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectStage);
+						},
 						filterable : false
 					},
 					{
-						field : "projectClassifyDesc",
+						field : "projectClassify",
 						title : "项目分类",
 						width : 150,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectClassify);
+						},
 						filterable : false
 					},
 					{

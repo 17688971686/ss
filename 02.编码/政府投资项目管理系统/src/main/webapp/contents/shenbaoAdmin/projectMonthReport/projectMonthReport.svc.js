@@ -72,13 +72,15 @@
 						//关联上项目
 						vm.model.monthReport.projectId=vm.model.projectInfo.id;
 						vm.model.monthReport.projectNumber=vm.model.projectInfo.projectNumber;
+						vm.model.monthReport.projectRepName=vm.model.projectInfo.projectRepName;
+						vm.model.monthReport.projectRepMobile=vm.model.projectInfo.projectRepMobile;
 						//项目批复信息的获取
-						vm.model.monthReport.pifuJYS_date=common.toDate(vm.model.projectInfo.pifuJYS_date);
-						vm.model.monthReport.pifuKXXYJBG_date=common.toDate(vm.model.projectInfo.pifuKXXYJBG_date);
-						vm.model.monthReport.pifuCBSJYGS_date=common.toDate(vm.model.projectInfo.pifuCBSJYGS_date);						
-						vm.model.monthReport.pifuJYS_wenhao=vm.model.projectInfo.pifuJYS_wenhao;
-						vm.model.monthReport.pifuKXXYJBG_wenhao=vm.model.projectInfo.pifuKXXYJBG_wenhao;
-						vm.model.monthReport.pifuCBSJYGS_wenhao=vm.model.projectInfo.pifuCBSJYGS_wenhao;
+//						vm.model.monthReport.pifuJYS_date=common.toDate(vm.model.projectInfo.pifuJYS_date);
+//						vm.model.monthReport.pifuKXXYJBG_date=common.toDate(vm.model.projectInfo.pifuKXXYJBG_date);
+//						vm.model.monthReport.pifuCBSJYGS_date=common.toDate(vm.model.projectInfo.pifuCBSJYGS_date);						
+//						vm.model.monthReport.pifuJYS_wenhao=vm.model.projectInfo.pifuJYS_wenhao;
+//						vm.model.monthReport.pifuKXXYJBG_wenhao=vm.model.projectInfo.pifuKXXYJBG_wenhao;
+//						vm.model.monthReport.pifuCBSJYGS_wenhao=vm.model.projectInfo.pifuCBSJYGS_wenhao;
 						//项目开工以及竣工日期的获取
 						vm.model.monthReport.beginDate=common.toDate(vm.model.projectInfo.beginDate);
 						vm.model.monthReport.endDate=common.toDate(vm.model.projectInfo.endDate);
@@ -96,7 +98,7 @@
 						vm.model.monthReport.thirdQuarCompInvestment=common.toMoney(vm.model.monthReport.thirdQuarCompInvestment)//1到9月份完成投资
 						vm.model.monthReport.fourthQuarCompInvestment=common.toMoney(vm.model.monthReport.fourthQuarCompInvestment)//1到12月份完成投资
 						//获取用户单位信息
-						getUserUnitInfo(vm);
+						//getUserUnitInfo(vm);
 					}
 					if(vm.page=='projectInfo'){				
 						//资金处理

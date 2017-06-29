@@ -83,7 +83,7 @@
 	        })
 	        //编辑页
 	        .state('projectEdit', {
-	            url: '/projectEdit/:id', 
+	            url: '/projectEdit/:projectInvestmentType/:id', 
 	            templateUrl: '/shenbaoAdmin/project/html/edit.html',
 	            controller: 'projectCtrl',
 	            controllerAs: 'vm'

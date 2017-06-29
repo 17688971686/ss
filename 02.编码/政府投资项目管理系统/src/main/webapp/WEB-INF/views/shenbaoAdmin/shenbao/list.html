@@ -8,12 +8,11 @@
 	      <li class="active">项目列表</li>
 	  </ol>
 	  <script type="text/template" id="columnBtns">
-			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.shenbaoBtn('{0}','{1}')"><span class="glyphicon glyphicon-pencil"></span>申报</a>
+			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.shenbaoBtn('{0}','{1}')"><span class="glyphicon glyphicon-pencil"></span>申报</button>
+			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.checkShenBaoRecords('{0}')"><span class="glyphicon glyphicon-th-list"></span>申报记录</button>
 	  </script>
 	  <div class="toolbar">
 	  	<div class="bg-danger text-danger" style="padding:10px;">
-	  		<strong>需要有项目才能进行申报哦，还没项目？</strong> 	  	
-	  		<a class="btn btn-xs btn-danger" href="#/projectEdit/"><span class="glyphicon glyphicon-plus"></span>点击新建项目</a>
 	  		<a class="btn btn-xs btn-info" href="#/shenbao_records"><span class="glyphicon glyphicon-eye-open"></span>查看申报记录</a>
 	  	</div>
 	  </div> 
@@ -44,11 +43,28 @@
 					<span ng-show="vm.isStageExist" class="errors">该申报阶段信息已存在,请重新选择!</span>
 				</div>								
 			</div>
-			<div class="modal-footer"> 
-				<button type="button" class="btn btn-success" ng-disabled="vm.isConfirm" ng-click="vm.confirm()">确定</button> 			
-				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button> 
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
+				<button type="button" class="btn btn-success" ng-disabled="vm.isConfirm" ng-click="vm.confirm()">确定</button>	
 			</div> 
 		</div>
 	</div>
 </div>
-
+<!-- 项目申报记录模态框 -->
+<div class="modal fade" id="shenBaoRecords"> 
+	<div class="modal-dialog"> 
+		<div class="modal-content"> 
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			
+				<h4 class="modal-title" id="myModalLabel">项目申报记录列表</h4> 
+			</div> 
+			<div class="modal-body">
+				<div class="grid" kendo-grid="grid" k-options="vm.gridOptions_shenBaoRecords"></div>			
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
+				<button type="button" class="btn btn-success" data-dismiss="modal">确定</button>	
+			</div> 
+		</div>
+	</div>
+</div>

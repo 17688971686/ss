@@ -229,14 +229,20 @@
 						}
 					},
 					{
-						field : "projectStageDesc",
+						field : "projectStage",
 						title : "项目阶段",
+						template:function(item){
+							return common.getBasicDataDesc(item.projectStage);
+						},
 						width : 150,
 						filterable : false
 					},
 					{
-						field : "projectClassifyDesc",
+						field : "projectClassify",
 						title : "项目分类",
+						template:function(item){
+							return common.getBasicDataDesc(item.projectClassify);
+						},
 						width : 150,
 						filterable : false
 					},
@@ -245,7 +251,7 @@
 						title : "操作",
 						width : 180,
 						template : function(item) {
-							return common.format($('#columnBtns').html(),item.id,"vm.del('" + item.id + "')");
+							return common.format($('#columnBtns').html(),item.projectInvestmentType,item.id,"vm.del('" + item.id + "')");
 						}
 
 					}

@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import cs.common.Util;
 import cs.domain.Attachment;
 import cs.domain.MonthReport;
 import cs.domain.Project;
@@ -37,6 +38,9 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			projectDto.setProjectAddress(project.getProjectAddress());			
 			projectDto.setProjectIntro(project.getProjectIntro());
 			projectDto.setProjectGuiMo(project.getProjectGuiMo());
+			projectDto.setProjectInvestmentType(project.getProjectInvestmentType());//项目投资类型
+			projectDto.setProjectRepName(project.getProjectRepName());//项目负责人名称
+			projectDto.setProjectRepMobile(project.getProjectRepMobile());//项目负责人电话
 			projectDto.setRemark(project.getRemark());
 			projectDto.setEndDate(project.getEndDate());
 			projectDto.setBeginDate(project.getBeginDate());
@@ -88,7 +92,7 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			}
 			//TODO 需要完成项目代码的格式设计
 			if(project.getProjectNumber()==null||project.getProjectNumber().isEmpty()){
-				project.setProjectNumber(UUID.randomUUID().toString());
+				project.setProjectNumber(Util.getProjectNumber(projectDto.getProjectInvestmentType(), projectDto.getProjectStage()));
 			}
 			project.setUnitName(projectDto.getUnitName());
 			project.setProjectName(projectDto.getProjectName());
@@ -103,7 +107,10 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setProjectGoverEconClassify(projectDto.getProjectGoverEconClassify());
 			project.setProjectCategory(projectDto.getProjectCategory());
 			project.setProjectIntro(projectDto.getProjectIntro());
-			project.setProjectGuiMo(projectDto.getProjectGuiMo());			
+			project.setProjectGuiMo(projectDto.getProjectGuiMo());
+			project.setProjectInvestmentType(projectDto.getProjectInvestmentType());//项目投资类型
+			project.setProjectRepName(projectDto.getProjectRepName());//项目负责人名称
+			project.setProjectRepMobile(projectDto.getProjectRepMobile());//项目负责人电话
 			project.setEndDate(projectDto.getEndDate());
 			project.setBeginDate(projectDto.getBeginDate());
 			project.setRemark(projectDto.getRemark());
