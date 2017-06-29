@@ -16,6 +16,8 @@
         vm.model={};
         vm.basicData={};
         vm.page='list';
+        vm.model.projectType=[];
+        
         vm.init=function(){
         	if($state.current.name=='projectEdit'){
     			vm.page='create';
@@ -80,8 +82,7 @@
  		   }
     	   	//设置单位信息
     	   	projectSvc.getUserUnit(vm);
-	   		//begin#基础数据	   		    
-	   		
+	   		//begin#基础数据	   		    	   		
 	   		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
 	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类型
 	   		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别
@@ -89,7 +90,11 @@
 	   		vm.basicData.projectFunctionClassify=common.getBacicDataByIndectity(common.basicDataConfig().projectFunctionClassify);//功能分类科目
 	   		vm.basicData.projectGoverEconClassify=common.getBacicDataByIndectity(common.basicDataConfig().projectGoverEconClassify);//政府经济分类科目	   		
 	   		vm.basicData.capitalOther=common.getBacicDataByIndectity(common.basicDataConfig().capitalOtherType);//资金其他来源类型	   		
-	   		vm.basicData.projectIndustry=common.getBacicDataByIndectity(common.basicDataConfig().projectIndustry);//行业归口	   		   			   		
+	   		vm.basicData.projectIndustry=common.getBacicDataByIndectity(common.basicDataConfig().projectIndustry);//行业归口
+	   		vm.basicData_area_Street=$linq(common.getBasicData())
+			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
+			.toArray();//获取街道信息
+
 	   		vm.projectIndustryChange=function(){    		
 	       		vm.basicData.projectIndustryChildren=$linq(common.getBasicData())
 	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.model.projectIndustryParent;})
@@ -126,12 +131,23 @@
 	   			 		+ (parseFloat(vm.model.capitalQCZ_ggys)||0 )
 	   			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
 	   			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
+	   			 		+ (parseFloat(vm.model.capitalZYYS)||0 )
 	   			 		+ (parseFloat(vm.model.capitalOther)||0) ;
 	   		 }
 		        
 	   		 vm.create = function () {    			 
 	   		     projectSvc.createProject(vm);    		     
 	   		 }
+	   		 
+	   		 //获取项目类型， 多选
+	   		vm.updateSelection = function(id){
+	        	var index =  vm.model.projectType.indexOf(id);
+	        	if(index == -1){
+	        		vm.model.projectType.push(id);
+		       	}else{
+		       		vm.model.projectType.splice(index,1);
+		       	}
+	        }
        }//end#page_create
        
        function page_update(){
@@ -148,6 +164,5 @@
     	   projectSvc.getProjectById(vm);
        }//end#page_projectInfo
 		
-              
     }
 })();

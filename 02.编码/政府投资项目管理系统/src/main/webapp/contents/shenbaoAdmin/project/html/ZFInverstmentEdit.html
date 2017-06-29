@@ -50,7 +50,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="formAlignRight">功能分类科目：<span class="required">(*)</span></td>
+		<!-- <td class="formAlignRight">功能分类科目：<span class="required">(*)</span></td>
 		<td>
 			<select style="height:30px;" id="projectFunctionClassify" name="projectFunctionClassify" ng-model="vm.model.projectFunctionClassify" data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>
@@ -65,7 +65,7 @@
 				<option ng-repeat="x in vm.basicData.projectGoverEconClassify" value="{{x.id}}">{{x.description}}</option>
 			</select>
 			<span data-valmsg-for="projectGoverEconClassify" data-valmsg-replace="true" class="required"></span>
-		</td>
+		</td> -->
 	</tr>
 	<tr>
 		<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
@@ -88,7 +88,8 @@
 		<td class="formAlignRight">项目类型：</td>
 		<td colspan="3">
 			<label ng-repeat="x in vm.basicData.projectType" for="projectType{{$index}}">
-				<input type="radio" name="projectType" id="projectType{{$index}}" value="{{x.id}}" ng-model="vm.model.projectType"/>{{x.description}}&nbsp;&nbsp;
+				<input type="checkbox" name="projectType"  ng-click="vm.updateSelection(x.id)"
+				 />{{x.description}}&nbsp;&nbsp;
 			</label>					
 		</td>
 	</tr>
@@ -107,11 +108,23 @@
 	
 	<tr>
 		<td class="formAlignRight">项目建设地址：<span class="required">(*)</span></td>
-		<td colspan="3">
+		<!-- <td colspan="3">
 			<textarea rows="2" cols="" class="form-control" ng-model="vm.model.projectAddress"
 			 id="projectAddress" data-val="true" data-val-required="必填" name="projectAddress"></textarea>
 			<span data-valmsg-for="projectAddress" data-valmsg-replace="true" class="required"></span>
-		</td>		
+		</td>	 -->	
+		 <td colspan="3">
+		    <select class="form-select pull-left" style="margin-right:10px;">
+		    	<option>光明新区</option>
+		    </select>
+		    <select class="form-select pull-left" style="margin-right:10px;" id="divisionId" name="divisionId" ng-model="vm.model.divisionId" data-val="true" data-val-required="必选">
+		    	<option value="">---请选择---</option>
+				<option ng-repeat="x in vm.basicData_area_Street" value="{{x.id}}">{{x.description}}</option>
+			</select>
+			<span data-valmsg-for="divisionId" data-valmsg-replace="true" class="errors"></span>
+			 <input type="text" class="form-control input-sm pull-left" style="width:500px;" id="unitAddress" name="unitAddress" ng-model="vm.model.unitAddress" data-val="true" data-val-required="必填"/>
+			 <span data-valmsg-for="unitAddress" data-valmsg-replace="true" class="errors"></span>
+			</td>
 	</tr>
 	
 	<tr>
@@ -128,7 +141,7 @@
 	</tr>
 					
 	<tr>
-		<td class="formAlignRight">资金筹措方案：</td>
+		<td class="formAlignRight">资金来源：</td>
 		<td colspan="3" >
 		
 		
@@ -136,6 +149,7 @@
 				<tr class="text-primary text-center">
 					<td>市财政</td>
 					<td>区财政</td>
+					<td>中央预算</td>
 					<td>社会投资</td>					
 					<td>其他</td>
 				</tr>
@@ -168,11 +182,19 @@
 						</table>
 					</td>
 					<td style="padding:0px;border: 0px;">
+						<table class="table table-bordered " style="margin:0px">
+							<tr>
+								<td>-</td>
+							</tr>
+							<tr>
+								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitaZYYS"  /></td>
+							</tr>
+						</table>
+					</td>
+					<td style="padding:0px;border: 0px;">
 						<table class="table table-bordered" style="margin:0px">
 							<tr>
 								<td>-</td>
-						
-								
 							</tr>
 							<tr>
 								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalSHTZ"  /></td>
