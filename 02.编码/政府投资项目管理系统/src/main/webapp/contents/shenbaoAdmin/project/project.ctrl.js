@@ -14,6 +14,8 @@
         vm.id=$state.params.id;
         vm.model={};        
         vm.page='list';
+        vm.model.projectType=[];
+        
         vm.init=function(){
         	if($state.current.name=='projectEdit'){
     			vm.page='create';
@@ -57,6 +59,10 @@
     	   	projectSvc.getUserUnit(vm);
 	   		//begin#基础数据
 	   		vm.basicData={};    
+	   		//获取街道信息
+	   		vm.basicData_area_Street=$linq(common.getBasicData())
+			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
+			.toArray(); 
 	   		//项目阶段
 	   		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);
 	   		//项目类型
@@ -107,12 +113,23 @@
 	   			 		+ (parseFloat(vm.model.capitalQCZ_ggys)||0 )
 	   			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
 	   			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
+	   			 		+ (parseFloat(vm.model.capitalZYYS)||0 )
 	   			 		+ (parseFloat(vm.model.capitalOther)||0) ;
 	   		 }
 		        
 	   		 vm.create = function () {    			 
 	   		     projectSvc.createProject(vm);    		     
 	   		 }
+	   		 
+	   		 //获取项目类型， 多选
+	   		vm.updateSelection = function(id){
+	        	var index =  vm.model.projectType.indexOf(id);
+	        	if(index == -1){
+	        		vm.model.projectType.push(id);
+		       	}else{
+		       		vm.model.projectType.splice(index,1);
+		       	}
+	        }
        }//end#page_create
        
        function page_update(){
@@ -129,6 +146,5 @@
     	   projectSvc.getProjectById(vm);
        }//end#page_projectInfo
 		
-              
     }
 })();

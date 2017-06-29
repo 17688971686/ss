@@ -389,14 +389,10 @@ public class SysServiceImpl implements SysService {
 		this.createBasicData("projectType","" , "projectType", "项目类型分类", "项目类型分类");
 		this.createBasicData("projectType_1","projectType" , "projectType", "市重大项目", "项目类型分类");
 		this.createBasicData("projectType_2","projectType" , "projectType", "区重大项目", "项目类型分类");
-		this.createBasicData("projectType_3","projectType" , "projectType", "区重大民生项目", "项目类型分类");
-		this.createBasicData("projectType_4","projectType" , "projectType", "市十二项重大民生项目", "项目类型分类");
-		this.createBasicData("projectType_5","projectType" , "projectType", "重点区域项目", "项目类型分类");
-		this.createBasicData("projectType_6","projectType" , "projectType", "2014年度计划A类", "项目类型分类");
-		this.createBasicData("projectType_7","projectType" , "projectType", "2015年度计划A类", "项目类型分类");
-		this.createBasicData("projectType_8","projectType" , "projectType", "2016年度计划A类", "项目类型分类");
-		this.createBasicData("projectType_9","projectType" , "projectType", "2017年前期项目", "项目类型分类");
-		this.createBasicData("projectType_10","projectType" , "projectType", "其他", "项目类型分类");
+		this.createBasicData("projectType_3","projectType" , "projectType", "凤凰城项目", "项目类型分类");
+		this.createBasicData("projectType_4","projectType" , "projectType", "海绵项目", "项目类型分类");
+		this.createBasicData("projectType_5","projectType" , "projectType", "治水项目", "项目类型分类");
+		this.createBasicData("projectType_6","projectType" , "projectType", "其他", "项目类型分类");
 		
 		this.createBasicData("projectCategory","", "projectCategory", "项目类别分类", "项目类别分类");
 		this.createBasicData("projectCategory_1", "projectCategory", "projectCategory", "A类", "项目类别分类");
