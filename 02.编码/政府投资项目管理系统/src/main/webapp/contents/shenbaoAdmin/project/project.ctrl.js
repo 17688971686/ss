@@ -14,6 +14,21 @@
         vm.id=$state.params.id;
         vm.model={};        
         vm.page='list';
+        vm.model.projectType=[];
+        
+        vm.basicData_area_Street=$linq(common.getBasicData())
+		.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
+		.toArray(); 
+        
+        vm.updateSelection = function(id){
+        	var index =  vm.model.projectType.indexOf(id);
+        	if(index == -1){
+        		vm.model.projectType.push(id);
+	       	}else{
+	       		vm.model.projectType.splice(index,1);
+	       	}
+        }
+        
         vm.init=function(){
         	if($state.current.name=='projectEdit'){
     			vm.page='create';
@@ -107,6 +122,7 @@
 	   			 		+ (parseFloat(vm.model.capitalQCZ_ggys)||0 )
 	   			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
 	   			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
+	   			 		+ (parseFloat(vm.model.capitalZYYS)||0 )
 	   			 		+ (parseFloat(vm.model.capitalOther)||0) ;
 	   		 }
 		        
@@ -129,6 +145,5 @@
     	   projectSvc.getProjectById(vm);
        }//end#page_projectInfo
 		
-              
     }
 })();
