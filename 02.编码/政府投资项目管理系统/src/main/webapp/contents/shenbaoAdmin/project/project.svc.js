@@ -133,7 +133,7 @@
 					url : url_userUnit
 				}
 				var httpSuccess = function success(response) {
-					vm.userUnit = response.data;
+					vm.userUnit = response.data.value[0] || {};
 					vm.model.unitName = vm.userUnit.userName;
 				}
 				common.http({
@@ -149,7 +149,8 @@
 		 */		
 		function createProject(vm){		   
 			common.initJqValidation();
-			var isValid = $('form').valid();        
+			var isValid = $('form').valid();
+			console.log(vm.model);
 			if (isValid) {
 				vm.isSubmit = true;				
 				var httpOptions = {

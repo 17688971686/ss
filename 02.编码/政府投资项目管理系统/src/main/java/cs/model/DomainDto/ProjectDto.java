@@ -25,7 +25,9 @@ public class ProjectDto extends Project {
 	//资金其他来源类型
 	private String capitalOtherTypeDesc;
 	//项目投资类型（政府投资/社会投资）
-	private String projectInvestmentTypeDesc; 
+	private String projectInvestmentTypeDesc;
+	//项目建设区域
+	private String divisionIdDesc;
 	//begin#关联信息
 	//附件信息
 	private List<AttachmentDto> attachmentDtos=new ArrayList<>();
@@ -120,9 +122,14 @@ public class ProjectDto extends Project {
 	public void setProjectInvestmentTypeDesc(String projectInvestmentTypeDesc) {
 		this.projectInvestmentTypeDesc = projectInvestmentTypeDesc;
 	}
+
+	public String getDivisionIdDesc() {
+		return divisionIdDesc;
+	}
+
+	public void setDivisionIdDesc(String divisionIdDesc) {
+		this.divisionIdDesc = divisionIdDesc;
+	}
 	
 	
-	
-	
-		
 }

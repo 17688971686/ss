@@ -16,7 +16,7 @@
         vm.model={};
         vm.basicData={};
         vm.page='list';
-        vm.model.projectType=[];
+        vm.projectTypes=[];
         
         vm.init=function(){
         	if($state.current.name=='projectEdit'){
@@ -75,8 +75,9 @@
         }//end#page_list
        
        function page_create(){
+    	   vm.model.projectInvestmentType = vm.projectInvestmentType;
     	   if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
- 			  vm.isZFInvestment = true; 
+ 			  vm.isZFInvestment = true; 			  
  		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资
  			  vm.isSHInvestment = true;
  		   }
@@ -94,12 +95,22 @@
 	   		vm.basicData_area_Street=$linq(common.getBasicData())
 			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 			.toArray();//获取街道信息
-
+	   		
 	   		vm.projectIndustryChange=function(){    		
 	       		vm.basicData.projectIndustryChildren=$linq(common.getBasicData())
 	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.model.projectIndustryParent;})
 	       		.toArray();
-	   		}	   		 	   			   					
+	   		}
+	   		//获取项目类型， 多选
+	   		vm.updateSelection = function(id){
+	        	var index = vm.projectTypes.indexOf(id);
+	        	if(index == -1){
+	        		vm.projectTypes.push(id);
+		       	}else{
+		       		vm.projectTypes.splice(index,1);
+		       	}	        	
+	        	vm.model.projectType = vm.projectTypes.join(",");
+	        }
 	   		//end#基础数据
 	   		
 	   		//批复文件上传
@@ -139,15 +150,7 @@
 	   		     projectSvc.createProject(vm);    		     
 	   		 }
 	   		 
-	   		 //获取项目类型， 多选
-	   		vm.updateSelection = function(id){
-	        	var index =  vm.model.projectType.indexOf(id);
-	        	if(index == -1){
-	        		vm.model.projectType.push(id);
-		       	}else{
-		       		vm.model.projectType.splice(index,1);
-		       	}
-	        }
+	   		 
        }//end#page_create
        
        function page_update(){

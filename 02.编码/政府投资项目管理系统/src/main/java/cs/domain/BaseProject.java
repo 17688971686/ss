@@ -52,6 +52,9 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="date NULL COMMENT '竣工日期'")
 	private Date endDate;
 	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '项目建设区域'")
+	private String divisionId;
+	
 	@Column(columnDefinition="varchar(500) NULL COMMENT '项目建设地址'")
 	private String projectAddress;
 	
@@ -61,31 +64,34 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="double(10,2) NULL COMMENT '项目累计投资'")
 	private Double projectInvestAccuSum;
 	
-	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-市财政-公共预算'")
+	@Column(columnDefinition="double(10,2) NULL COMMENT '资金来源方案-市财政-公共预算'")
 	private Double capitalSCZ_ggys;
 	
-	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-市财政-国土资金'")
+	@Column(columnDefinition="double(10,2) NULL COMMENT '资金来源方案-市财政-国土资金'")
 	private Double capitalSCZ_gtzj;
 	
-	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-市财政-专项资金'")
+	@Column(columnDefinition="double(10,2) NULL COMMENT '资金来源方案-市财政-专项资金'")
 	private Double capitalSCZ_zxzj;
 	
-	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-区财政-公共预算'")
+	@Column(columnDefinition="double(10,2) NULL COMMENT '资金来源方案-区财政-公共预算'")
 	private Double capitalQCZ_ggys;
 	
-	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-区财政-国土资金'")
+	@Column(columnDefinition="double(10,2) NULL COMMENT '资金来源方案-区财政-国土资金'")
 	private Double capitalQCZ_gtzj;
 	
-	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-社会投资'")
+	@Column(columnDefinition="double(10,2) NULL COMMENT '资金来源方案-区财政-中央预算'")
+	private Double capitalZYYS;
+	
+	@Column(columnDefinition="double(10,2) NULL COMMENT '资金来源方案-社会投资'")
 	private Double capitalSHTZ;
 	
-	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-其它'")
+	@Column(columnDefinition="double(10,2) NULL COMMENT '资金来源方案-其它'")
 	private Double capitalOther;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '资金筹措方案-其它来源类型'")
+	@Column(columnDefinition="varchar(255) NULL COMMENT '资金来源方案-其它来源类型'")
 	private String capitalOtherType;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '资金筹措方案-其它-说明'")
+	@Column(columnDefinition="varchar(255) NULL COMMENT '资金来源方案-其它-说明'")
 	private String capitalOtherDescription;
 	
 	@Column(columnDefinition="varchar(500) NULL COMMENT '项目简介'")
@@ -241,6 +247,14 @@ public class BaseProject extends BaseEntity
 
 	public void setCapitalQCZ_gtzj(Double capitalQCZ_gtzj) {
 		this.capitalQCZ_gtzj = capitalQCZ_gtzj;
+	}
+	
+	public Double getCapitalZYYS() {
+		return capitalZYYS;
+	}
+
+	public void setCapitalZYYS(Double capitalZYYS) {
+		this.capitalZYYS = capitalZYYS;
 	}
 
 	public Double getCapitalSHTZ() {
@@ -402,5 +416,15 @@ public class BaseProject extends BaseEntity
 	public void setProjectRepMobile(String projectRepMobile) {
 		this.projectRepMobile = projectRepMobile;
 	}
+
+	public String getDivisionId() {
+		return divisionId;
+	}
+
+	public void setDivisionId(String divisionId) {
+		this.divisionId = divisionId;
+	}
+	
+	
 	
 }

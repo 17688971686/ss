@@ -24,6 +24,7 @@ public class ArticleServiceImpl extends AbstractServiceImpl<ArticleDto, Article,
 	@Autowired
 	private IRepository<Attachment, String> attachmentRepo;
 
+	
 	@Override
 	@Transactional
 	public PageModelDto<ArticleDto> get(ODataObj odataObj) {

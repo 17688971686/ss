@@ -1,7 +1,6 @@
 package cs.domain;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -25,8 +24,7 @@ public class Project extends BaseProject {
 	private List<Attachment> attachments=new ArrayList<>();
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	private List<MonthReport> monthReports=new ArrayList<>();
-	
+	private List<MonthReport> monthReports=new ArrayList<>();	
 	//end#关联信息
 
 	public String getId() {
@@ -60,6 +58,4 @@ public class Project extends BaseProject {
 	public void setIsMonthReport(Boolean isMonthReport) {
 		this.isMonthReport = isMonthReport;
 	}
-	
-
 }

@@ -24,7 +24,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 	@Override
 	public ShenBaoInfoDto toDto(ShenBaoInfo entity) {
 		ShenBaoInfoDto shenBaoInfoDto=new ShenBaoInfoDto();
-		if(shenBaoInfoDto!=null){
+		if(entity!=null){
 			shenBaoInfoDto.setId(entity.getId());
 			shenBaoInfoDto.setProjectId(entity.getProjectId());
 			shenBaoInfoDto.setProjectNumber(entity.getProjectNumber());
