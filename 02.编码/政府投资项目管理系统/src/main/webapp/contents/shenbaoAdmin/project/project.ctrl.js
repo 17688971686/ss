@@ -26,7 +26,7 @@
     		if($state.current.name=='project_projectInfo'){
             	vm.page='projectInfo';
             }
-        }
+        };
         
         activate();
         function activate() {
@@ -83,7 +83,7 @@
 	       		vm.basicData.projectIndustryChildren=$linq(common.getBasicData())
 	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.model.projectIndustryParent;})
 	       		.toArray();
-	   		}	   		 	   			   					
+	   		};	   		 	   			   					
 	   		//end#基础数据
 	   		
 	   		//批复文件上传
@@ -101,10 +101,10 @@
 		           			 }                			           			
 		           		 });
 		           	 }
-	   		}
+	   		};
 	   		 vm.delFile=function(idx){
 	           	 vm.model.attachmentDtos.splice(idx,1);
-	            }
+	            };
 	   		 
 	   		 vm.capitalTotal=function(){
 	   			 return (parseFloat(vm.model.capitalSCZ_ggys)||0 )
@@ -115,11 +115,11 @@
 	   			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
 	   			 		+ (parseFloat(vm.model.capitalZYYS)||0 )
 	   			 		+ (parseFloat(vm.model.capitalOther)||0) ;
-	   		 }
+	   		 };
 		        
 	   		 vm.create = function () {    			 
 	   		     projectSvc.createProject(vm);    		     
-	   		 }
+	   		 };
 	   		 
 	   		 //获取项目类型， 多选
 	   		vm.updateSelection = function(id){
@@ -129,7 +129,7 @@
 		       	}else{
 		       		vm.model.projectType.splice(index,1);
 		       	}
-	        }
+	        };
        }//end#page_create
        
        function page_update(){
@@ -138,7 +138,7 @@
    		//更新项目
    		vm.update = function(){
    			projectSvc.updateProject(vm);
-   		}   	   		
+   		};   	   		
        }//end#page_update
        
        function page_projectInfo(){

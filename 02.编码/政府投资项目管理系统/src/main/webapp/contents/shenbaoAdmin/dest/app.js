@@ -571,7 +571,7 @@
 	            templateUrl: '/shenbaoAdmin/shenbao/html/edit.html',
 	            controller: 'shenbaoCtrl',
 	            controllerAs: 'vm'
-	        })
+	        });
 /**********************************************end#项目申报*********************************/	        
     }]);
     
@@ -601,16 +601,16 @@
        function init(){       	          
 	       vm.formatDate=function(str){
 	  			return common.formatDate(str);
-	  			}
+	  			};
 	       vm.formatDateTime=function(str){
 	  			return common.formatDateTime(str);
-	  			}
+	  			};
 	   	   vm.getBasicDataDesc=function(str){
 	  			return common.getBasicDataDesc(str);
-	  			}
+	  			};
 	   	  vm.changePwd = function(){
         	 indexSvc.changePwd(vm);         
-	   	  		}
+	   	  		};
 	   	   vm.taskType_yearPlan=common.basicDataConfig().taskType_yearPlan;
 	   	   vm.taskType_monthReport=common.basicDataConfig().taskType_monthReport;	   	   
 	   	   if(vm.page == 'recordList'){
@@ -647,7 +647,7 @@
 			getTaskRecords:getTaskRecords, //获取任务流程最新动态
 			getUnitShenBaoInfos:getUnitShenBaoInfos,//获取单位申报信息
 			taskRecordList:taskRecordList,//任务流程列表
-			changePwd:changePwd,//修改密码
+			changePwd:changePwd//修改密码
 		};		
 		return service;
 		
@@ -663,7 +663,7 @@
 					method : 'put',
 					url : url_account_password,
 					data : vm.model.password
-				}
+				};
 
 				var httpSuccess = function success(response) {
 
@@ -679,11 +679,11 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 								}
-							})
+							});
 						}
 
-					})
-				}
+					});
+				};
 
 				common.http({
 					vm : vm,
@@ -733,18 +733,18 @@
 								return item.title;
 							}							
 						},
-						filterable : false,
+						filterable : false
 						
 					},
 					{
 						field : "processSuggestion",
 						title : "信息",						
-						filterable : true,
+						filterable : true
 					},
 					{
 						field : "processStateDesc",
 						title : "状态",						
-						filterable : true,
+						filterable : true
 					},
 					{
 						field : "createdDate",
@@ -771,12 +771,12 @@
 		function getUnitShenBaoInfos(vm){
 			var httpOptions = {
 					method : 'get',
-					url : url_unitShenBao+"/unit",
-				}
+					url : url_unitShenBao+"/unit"
+				};
 
 				var httpSuccess = function success(response) {
 					vm.model.shenBaoInfo = response.data.value;	
-				}
+				};
 				common.http({
 					vm : vm,
 					$http : $http,
@@ -792,11 +792,11 @@
 			var httpOptions = {
 					method : 'get',
 					url : url_taskRecord+"?$orderby=createdDate desc"
-				}
+				};
 
 				var httpSuccess = function success(response) {
 					vm.model.taskRecord = response.data.value;
-				}
+				};
 				common.http({
 					vm : vm,
 					$http : $http,
@@ -812,11 +812,11 @@
 			var httpOptions = {
 					method : 'get',
 					url : declareProjects
-				}
+				};
 
 				var httpSuccess = function success(response) {
 					vm.modelLists = response.data.value;
-				}
+				};
 
 				common.http({
 					vm : vm,
@@ -833,11 +833,11 @@
 			var httpOptions = {
 					method : 'get',
 					url : common.format("{0}?filter=userId eq '{1}'",oprationRecords,global_userName)
-				}
+				};
 
 				var httpSuccess = function success(response) {
 					vm.modelOprationLists = response.data.value;
-				}
+				};
 
 				common.http({
 					vm : vm,
@@ -853,14 +853,14 @@
 					method : 'get',
 					url : user_article+type+'.js',
 					data : vm.model
-				}
+				};
 
 				var httpSuccess = function success(response) {
 					vm["article_"+type]=response.data;
 					if(type=="announcement"){
 						vm.articles=response.data;
 					}
-				}
+				};
 
 				common.http({
 					vm : vm,
@@ -904,7 +904,7 @@
 								.toArray();        
         vm.submit=function(){
         	deptInfoMaintainSvc.save(vm);
-        }
+        };
         activate();
         function activate() {
         	deptInfoMaintainSvc.getDeptInfo(vm);
@@ -937,7 +937,7 @@
 						method : 'post',
 						url : url_userUnitInfo,
 						data : vm.model
-					}
+					};
 				
 				var httpSuccess = function success(response) {
 
@@ -953,11 +953,11 @@
 									$('.alertDialog').modal('hide');
 									location.reload();
 								}
-							})
+							});
 						}
 
-					})
-				}
+					});
+				};
 
 				common.http({
 					vm : vm,
@@ -971,11 +971,11 @@
 		function getDeptInfo(vm){
 			var httpOptions = {
 					method : 'get',
-					url : url_userUnitInfo,
-				}
+					url : url_userUnitInfo
+				};
 				var httpSuccess = function success(response) {					
 					vm.model=response.data.value[0] || {};
-				}
+				};
 				
 				common.http({
 					vm:vm,
@@ -1016,7 +1016,7 @@
             if($state.current.name=='projectMonthReport_projectInfo'){
             	vm.page='projectInfo';
             }
-        }
+        };
         
         activate();
         function activate() {
@@ -1051,8 +1051,8 @@
         	 vm.fillReport = function(month){
              	//跳转到月报信息填写页面
              	location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+vm.submitYear+"/"+month;
-             } 
-        	 var date=new Date()
+             };
+        	 var date=new Date();
         	 vm.submitYear=date.getFullYear();
         	 vm.submitYearMonth={};
         	 vm.monthRow1=['一月','二月','三月','四月','五月','六月'];
@@ -1070,7 +1070,7 @@
 						vm.submitYearMonth['m'+x]=true;						
 					});
 					
-        	 }
+        	 };
         }//end page_selectMonth
         
         function page_fillReport(){ 
@@ -1097,11 +1097,11 @@
        		 }else{
        			 return 0;
        		 }
-       	 }
+       	 };
      	   //begin#提交月报
      	  vm.submit = function(){
           	projectMonthReportSvc.submitMonthReport(vm);
-          }
+          };
      	  
      	  //begin#ng-include load后触发
      	 vm.page_fillReport_init=function(){
@@ -1118,16 +1118,16 @@
 	           			 }                			           			
 	           		 });
 	           	 }
-     		 }
+     		 };
          	
          	projectMonthReportSvc.getProjectById(vm);
          	
-     	 }//end init_page_fillReport
+     	 };//end init_page_fillReport
      	 
      	//begin#删除文件
          vm.delFile=function(idx){
         	 vm.model.monthReport.attachmentDtos.splice(idx,1);
-         }
+         };
                  
        //begin#创建问题和删除问题
      	vm.createProblem=function(){
@@ -1136,16 +1136,16 @@
         	}else{
         		vm.model.monthReport.monthReportProblemDtos=[{problemIntroduction:'',solutionsAndSuggest:''}];
         	}
-        }
+        };
      	
      	 vm.deleteProblem = function(idx){
      		vm.model.monthReport.monthReportProblemDtos.splice(idx,1);        	
-          }
+          };
      	 //begin#基础数据
      	 //批复类型
      	vm.basicData_approvalType=common.getBacicDataByIndectity(common.basicDataConfig().approvalType);
      	//项目进度
-     	vm.basicData_projectProgress=common.getBacicDataByIndectity(common.basicDataConfig().projectProgress)
+     	vm.basicData_projectProgress=common.getBacicDataByIndectity(common.basicDataConfig().projectProgress);
      		    	
      	//begin#上传类型
      	vm.uploadType=[['scenePicture','现场图片'],['other','其它材料']];
@@ -1182,8 +1182,8 @@
 		function getUserUnitInfo(vm){
 			var httpOptions = {
 					method : 'get',
-					url : url_userUnitInfo,
-				}
+					url : url_userUnitInfo
+				};
 				var httpSuccess = function success(response) {					
 					vm.model.userUnitInfo=response.data;
 					vm.model.monthReport.fillName=vm.model.userUnitInfo.unitContactPerson;
@@ -1194,7 +1194,7 @@
 					vm.model.monthReport.monRepManagUnitName=vm.model.userUnitInfo.unitName;
 					vm.model.monthReport.respUnitManagerName = vm.model.userUnitInfo.unitResPerson;
 					vm.model.monthReport.respUnitManagerTel = vm.model.userUnitInfo.resPersonMobile;
-				}
+				};
 				
 				common.http({
 					vm:vm,
@@ -1210,8 +1210,8 @@
 		function getProjectById(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_project + "?$filter=id eq '{0}'", vm.projectId),
-				}
+					url : common.format(url_project + "?$filter=id eq '{0}'", vm.projectId)
+				};
 				var httpSuccess = function success(response) {					
 					vm.model.projectInfo = response.data.value[0]||{};
 										
@@ -1250,10 +1250,10 @@
 						vm.model.monthReport.thisYearPlanInvestment=common.toMoney(vm.model.monthReport.thisYearPlanInvestment);//本年度计划完成投资
 						vm.model.monthReport.thisYearAccumulatedInvestment=common.toMoney(vm.model.monthReport.thisYearAccumulatedInvestment);//本年度已完成投资
 						vm.model.monthReport.thisMonthInvestTotal=common.toMoney(vm.model.monthReport.thisMonthInvestTotal);//本月完成投资
-						vm.model.monthReport.firstQuarCompInvestment=common.toMoney(vm.model.monthReport.firstQuarCompInvestment)//1到3月份完成投资
-						vm.model.monthReport.secondQuarCompInvestment=common.toMoney(vm.model.monthReport.secondQuarCompInvestment)//1到6月份完成投资
-						vm.model.monthReport.thirdQuarCompInvestment=common.toMoney(vm.model.monthReport.thirdQuarCompInvestment)//1到9月份完成投资
-						vm.model.monthReport.fourthQuarCompInvestment=common.toMoney(vm.model.monthReport.fourthQuarCompInvestment)//1到12月份完成投资
+						vm.model.monthReport.firstQuarCompInvestment=common.toMoney(vm.model.monthReport.firstQuarCompInvestment);//1到3月份完成投资
+						vm.model.monthReport.secondQuarCompInvestment=common.toMoney(vm.model.monthReport.secondQuarCompInvestment);//1到6月份完成投资
+						vm.model.monthReport.thirdQuarCompInvestment=common.toMoney(vm.model.monthReport.thirdQuarCompInvestment);//1到9月份完成投资
+						vm.model.monthReport.fourthQuarCompInvestment=common.toMoney(vm.model.monthReport.fourthQuarCompInvestment);//1到12月份完成投资
 						//获取用户单位信息
 						getUserUnitInfo(vm);
 					}
@@ -1277,7 +1277,7 @@
 				  			 		+ (parseFloat(vm.model.projectInfo.capitalQCZ_gtzj)||0 )
 				  			 		+ (parseFloat(vm.model.projectInfo.capitalSHTZ)||0 )
 				  			 		+ (parseFloat(vm.model.projectInfo.capitalOther)||0) ;
-				  		 }
+				  		 };
 						//日期处理
 						vm.model.projectInfo.beginDate = common.toDate(vm.model.projectInfo.beginDate);
 						vm.model.projectInfo.endDate = common.toDate(vm.model.projectInfo.endDate);
@@ -1286,7 +1286,7 @@
 						vm.model.projectInfo.pifuCBSJYGS_date=common.toDate(vm.model.projectInfo.pifuCBSJYGS_date);
 					}
 					
-				}
+				};
 				
 				common.http({
 					vm:vm,
@@ -1313,7 +1313,7 @@
 						method : 'post',
 						url : url_projectMonthReport,
 						data : vm.model.monthReport
-					}
+					};
 				
 				var httpSuccess = function success(response) {
 
@@ -1329,11 +1329,11 @@
 									$('.alertDialog').modal('hide');
 									location.reload();
 								}
-							})
+							});
 						}
 
-					})
-				}
+					});
+				};
 
 				common.http({
 					vm : vm,
@@ -1444,6 +1444,8 @@
         vm.id=$state.params.id;
         vm.model={};        
         vm.page='list';
+        vm.model.projectType=[];
+        
         vm.init=function(){
         	if($state.current.name=='projectEdit'){
     			vm.page='create';
@@ -1454,7 +1456,7 @@
     		if($state.current.name=='project_projectInfo'){
             	vm.page='projectInfo';
             }
-        }
+        };
         
         activate();
         function activate() {
@@ -1487,6 +1489,10 @@
     	   	projectSvc.getUserUnit(vm);
 	   		//begin#基础数据
 	   		vm.basicData={};    
+	   		//获取街道信息
+	   		vm.basicData_area_Street=$linq(common.getBasicData())
+			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
+			.toArray(); 
 	   		//项目阶段
 	   		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);
 	   		//项目类型
@@ -1507,7 +1513,7 @@
 	       		vm.basicData.projectIndustryChildren=$linq(common.getBasicData())
 	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.model.projectIndustryParent;})
 	       		.toArray();
-	   		}	   		 	   			   					
+	   		};	   		 	   			   					
 	   		//end#基础数据
 	   		
 	   		//批复文件上传
@@ -1525,10 +1531,10 @@
 		           			 }                			           			
 		           		 });
 		           	 }
-	   		}
+	   		};
 	   		 vm.delFile=function(idx){
 	           	 vm.model.attachmentDtos.splice(idx,1);
-	            }
+	            };
 	   		 
 	   		 vm.capitalTotal=function(){
 	   			 return (parseFloat(vm.model.capitalSCZ_ggys)||0 )
@@ -1537,12 +1543,23 @@
 	   			 		+ (parseFloat(vm.model.capitalQCZ_ggys)||0 )
 	   			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
 	   			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
+	   			 		+ (parseFloat(vm.model.capitalZYYS)||0 )
 	   			 		+ (parseFloat(vm.model.capitalOther)||0) ;
-	   		 }
+	   		 };
 		        
 	   		 vm.create = function () {    			 
 	   		     projectSvc.createProject(vm);    		     
-	   		 }
+	   		 };
+	   		 
+	   		 //获取项目类型， 多选
+	   		vm.updateSelection = function(id){
+	        	var index =  vm.model.projectType.indexOf(id);
+	        	if(index == -1){
+	        		vm.model.projectType.push(id);
+		       	}else{
+		       		vm.model.projectType.splice(index,1);
+		       	}
+	        };
        }//end#page_create
        
        function page_update(){
@@ -1551,7 +1568,7 @@
    		//更新项目
    		vm.update = function(){
    			projectSvc.updateProject(vm);
-   		}   	   		
+   		};   	   		
        }//end#page_update
        
        function page_projectInfo(){
@@ -1559,7 +1576,6 @@
     	   projectSvc.getProjectById(vm);
        }//end#page_projectInfo
 		
-              
     }
 })();;(function() {
 	'use strict';
@@ -1594,7 +1610,7 @@
 					method : 'put',
 					url : url_project,
 					data : vm.model
-				}
+				};
 
 				var httpSuccess = function success(response) {
 
@@ -1609,11 +1625,11 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 								}
-							})
+							});
 						}
 
-					})
-				}
+					});
+				};
 
 				common.http({
 					vm : vm,
@@ -1626,7 +1642,7 @@
 				 common.alert({
 				 vm:vm,
 				 msg:"您填写的信息不正确,请核对后提交!"
-				 })
+				 });
 			}
 		}
 
@@ -1638,7 +1654,7 @@
 			var httpOptions = {
 					method : 'get',
 					url : common.format(url_project + "?$filter=id eq '{0}'", vm.id)
-				}
+				};
 				var httpSuccess = function success(response) {
 					vm.model = response.data.value[0]||{};
 						//日期展示
@@ -1655,13 +1671,14 @@
 						vm.model.capitalSCZ_zxzj=common.toMoney(vm.model.capitalSCZ_zxzj);//市财政-专项资金
 						vm.model.capitalQCZ_ggys=common.toMoney(vm.model.capitalQCZ_ggys);//区财政-公共预算
 						vm.model.capitalQCZ_gtzj=common.toMoney(vm.model.capitalQCZ_gtzj);//区财政-国土资金
+						vm.model.capitalZYYS=common.toMoney(vm.model.capitalZYYS);//中央预算
 						vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
 						vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他					
-					if(vm.page=='update'){					
+					if(vm.page=='update'){			
+						
+						
 		        		//项目行业归口
-						var child = $linq(common.getBasicData())
-		        		.where(function(x){return x.id==vm.model.projectIndustry})
-		        		.toArray()[0];
+						var child = $linq(common.getBasicData()).where(function(x){return x.id==vm.model.projectIndustry}).toArray()[0];
 		        		vm.model.projectIndustryParent=child.pId;
 		        		vm.projectIndustryChange();			        		
 					}if(vm.page=='projectInfo'){										
@@ -1673,10 +1690,11 @@
 				  			 		+ (parseFloat(vm.model.capitalQCZ_ggys)||0 )
 				  			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
 				  			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
-				  			 		+ (parseFloat(vm.model.capitalOther)||0) ;
-				  		 }						
+				  			 		+ (parseFloat(vm.model.capitalZYYS)||0 )
+				  			 		+ (parseFloat(vm.model.capitalOther)||0);
+				  		 };						
 					}
-				}
+				};
 				common.http({
 					vm : vm,
 					$http : $http,
@@ -1692,11 +1710,11 @@
 			var httpOptions = {
 					method : 'get',
 					url : url_userUnit
-				}
+				};
 				var httpSuccess = function success(response) {
 					vm.userUnit = response.data;
 					vm.model.unitName = vm.userUnit.userName;
-				}
+				};
 				common.http({
 					vm : vm,
 					$http : $http,
@@ -1717,7 +1735,7 @@
 					method : 'post',
 					url : url_project,
 					data : vm.model
-				}
+				};
 
 				var httpSuccess = function success(response) {
 
@@ -1735,12 +1753,12 @@
 									$('.modal-backdrop').remove();
 									$location.path(url_back);								
 								}
-							})
+							});
 						}
 
 					});
 
-				}
+				};
 
 				common.http({
 					vm : vm,
@@ -1863,7 +1881,7 @@
         	if($state.current.name=='shenbao_record_edit'){//申报信息编辑
         		vm.page='record_edit';
         	}
-        }
+        };
         
         activate();
         function activate() {
@@ -1913,12 +1931,12 @@
 	             		shenbaoSvc.isHadShenBaoInfo(vm);
 	             	}
 	             });
-           }
+           };
     	   //点击模态框的确认按钮
            vm.confirm = function(){
            	$(".modal-backdrop").remove(); //去掉模态框背面的阴影
            	location.href = "#/shenbao/"+vm.projectId+"/"+vm.projectShenBaoStage;
-           }    	   
+           };    	   
         }//end#page_list
        
        function page_edit(){
@@ -1932,7 +1950,7 @@
 	   					['XMJZ','项目进展情况相关资料'],['QQGZJH','前期工作计划文件'],['XMSSYJ','项目实施依据文件'],['HYJY','会议纪要']];
     			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
     		   }
-    	   }
+    	   };
     	   init_tab_show();
     	   
     	   //获取基础数据
@@ -1946,7 +1964,7 @@
 	       		vm.basicData.projectIndustryChildren=$linq(common.getBasicData())
 	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.model.projectIndustryParent;})
 	       		.toArray();
-	   		}
+	   		};
 	       	//投资类型
 	   		vm.basicData.projectInvestmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);
 	   		//项目分类
@@ -1958,9 +1976,9 @@
 	   		//单位性质
 	   		vm.basicData.unitProperty=common.getBacicDataByIndectity(common.basicDataConfig().unitProperty);	   		
 	   		//行政区划街道
-	   		vm.basicData.area_Street=$linq(common.getBasicData())
-	 			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
-	 			.toArray();
+	   		vm.basicData.area_Street=$linq(common.getBasicData()).where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;}).toArray();
+	   		
+	   		
 	   		//资金其他来源类型
 	   		vm.basicData.capitalOther=common.getBacicDataByIndectity(common.basicDataConfig().capitalOtherType);
     	  
@@ -1977,11 +1995,11 @@
 	           			 }                			           			
 	           		 });
 	           	 }
-  		}
+  		};
     	   //删除上传文件
   		 vm.delFile=function(idx){
           	 vm.model.attachmentDtos.splice(idx,1);
-  		 }
+  		 };
   		 if(vm.page=='edit'){
   			//获取项目信息
   	  		 shenbaoSvc.getProjectById(vm); 
@@ -1995,12 +2013,12 @@
     			if(isValid){//通过则跳转到下一页面
     				vm.tabStrip.activateTab(activeTab);
     			}
-     		}
+     		};
   		
   		 //确认提交
     	vm.submit = function(){
     		shenbaoSvc.createShenBaoInfo(vm);
-    	}               
+    	};             
     }//end#page_edit
        
        function page_records(){
@@ -2011,7 +2029,7 @@
     	   shenbaoSvc.getShenBaoInfoById(vm);
     	   vm.update = function(){
     		   shenbaoSvc.updateShenBaoInfo(vm);
-    	   }
+    	   };
        }//end#page_record
    }
 })();;(function() {
@@ -2033,7 +2051,7 @@
 			recordsGird:recordsGird,
 			getShenBaoInfoById:getShenBaoInfoById,
 			updateShenBaoInfo:updateShenBaoInfo,
-			isHadShenBaoInfo:isHadShenBaoInfo,
+			isHadShenBaoInfo:isHadShenBaoInfo
 		};		
 		return service;
 
@@ -2043,8 +2061,8 @@
 		function isHadShenBaoInfo(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_shenbao + "?$filter=projectId eq '{0}' and projectShenBaoStage eq '{1}'", vm.projectId,vm.projectShenBaoStage),
-				}
+					url : common.format(url_shenbao + "?$filter=projectId eq '{0}' and projectShenBaoStage eq '{1}'", vm.projectId,vm.projectShenBaoStage)
+				};
 				var httpSuccess = function success(response) {
 				vm.model.shenBaoInfoDto = response.data.value;
 					if(vm.model.shenBaoInfoDto.length>0){
@@ -2054,7 +2072,7 @@
 						vm.isStageExist = false;
 						vm.isConfirm = false;
 					}
-				}				
+				};				
 				common.http({
 					vm:vm,
 					$http:$http,
@@ -2076,7 +2094,7 @@
 					method : 'put',
 					url : url_shenbao,
 					data : vm.model
-				}
+				};
 
 				var httpSuccess = function success(response) {
 
@@ -2091,11 +2109,11 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 								}
-							})
+							});
 						}
 
-					})
-				}
+					});
+				};
 
 				common.http({
 					vm : vm,
@@ -2108,7 +2126,7 @@
 				 common.alert({
 				 vm:vm,
 				 msg:"您填写的信息不正确,请核对后提交!"
-				 })
+				 });
 			}
 		}//end#updateShenBaoInfo
 		
@@ -2119,7 +2137,7 @@
 			var httpOptions = {
 					method : 'get',
 					url : common.format(url_shenbao + "?$filter=id eq '{0}'", vm.id)
-				}
+				};
 				var httpSuccess = function success(response) {
 					vm.model = response.data.value[0]||{};
 						//日期展示
@@ -2139,9 +2157,7 @@
 						}
 		        		if(vm.page=='record_edit'){
 		        			//项目行业归口
-							var child = $linq(common.getBasicData())
-			        		.where(function(x){return x.id==vm.model.projectIndustry})
-			        		.toArray()[0];
+							var child = $linq(common.getBasicData()).where(function(x){return x.id==vm.model.projectIndustry}).toArray()[0];
 			        		vm.model.projectIndustryParent=child.pId;
 			        		vm.projectIndustryChange();	
 		        		}									
@@ -2165,8 +2181,8 @@
 				  			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
 				  			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
 				  			 		+ (parseFloat(vm.model.capitalOther)||0) ;
-				  		 }				
-				}
+				  		 };				
+				};
 				common.http({
 					vm : vm,
 					$http : $http,
@@ -2216,7 +2232,7 @@
 							
 					var msg=item[2];					
 					if(item[1]=='required'){				
-						var isExist=value&&value.trim()!=""					
+						var isExist=value&&value.trim()!="";					
 						if(!isExist){
 							vm.validMessage.push(msg);
 						}						
@@ -2231,7 +2247,7 @@
 				}else{
 					return true;
 				}												
-			}
+			};
 			
 			if (isValid()) {
 				vm.isSubmit = true;				
@@ -2239,7 +2255,7 @@
 					method : 'post',
 					url : url_shenbao,
 					data : vm.model
-				}
+				};
 
 				var httpSuccess = function success(response) {
 					common.requestSuccess({
@@ -2258,7 +2274,7 @@
 							});
 						}
 					});
-				}
+				};
 				
 				common.http({
 					vm : vm,
@@ -2275,11 +2291,11 @@
 		function getDeptInfo(vm){
 			var httpOptions = {
 					method : 'get',
-					url : url_userUnit,
-				}
+					url : url_userUnit
+				};
 				var httpSuccess = function success(response) {					
 					vm.model.shenBaoUnitInfoDto = response.data;
-				}
+				};
 				
 				common.http({
 					vm:vm,
@@ -2296,7 +2312,7 @@
 			var httpOptions = {
 					method : 'get',
 					url : common.format(url_project + "?$filter=id eq '{0}'", vm.id)
-				}
+				};
 				var httpSuccess = function success(response) {
 					vm.model = response.data.value[0]||{};
 					if(vm.page=='edit'){
@@ -2307,9 +2323,7 @@
 						vm.model.pifuKXXYJBG_date=common.formatDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
 						vm.model.pifuCBSJYGS_date=common.formatDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期
 		        		//项目行业归口
-						var child = $linq(common.getBasicData())
-		        		.where(function(x){return x.id==vm.model.projectIndustry})
-		        		.toArray()[0];
+						var child = $linq(common.getBasicData()).where(function(x){return x.id==vm.model.projectIndustry}).toArray()[0];
 		        		vm.model.projectIndustryParent=child.pId;
 		        		vm.projectIndustryChange();			        		
 									
@@ -2333,12 +2347,12 @@
 				  			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
 				  			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
 				  			 		+ (parseFloat(vm.model.capitalOther)||0) ;
-				  		 }
+				  		 };
 						vm.model.projectId = vm.model.id;
 					}
 					vm.model.projectShenBaoStage = vm.stage;
 					getDeptInfo(vm);
-				}
+				};
 				common.http({
 					vm : vm,
 					$http : $http,

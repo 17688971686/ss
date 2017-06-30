@@ -13,7 +13,7 @@
 			getTaskRecords:getTaskRecords, //获取任务流程最新动态
 			getUnitShenBaoInfos:getUnitShenBaoInfos,//获取单位申报信息
 			taskRecordList:taskRecordList,//任务流程列表
-			changePwd:changePwd,//修改密码
+			changePwd:changePwd//修改密码
 		};		
 		return service;
 		
@@ -29,7 +29,7 @@
 					method : 'put',
 					url : url_account_password,
 					data : vm.model.password
-				}
+				};
 
 				var httpSuccess = function success(response) {
 
@@ -45,11 +45,11 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 								}
-							})
+							});
 						}
 
-					})
-				}
+					});
+				};
 
 				common.http({
 					vm : vm,
@@ -99,18 +99,18 @@
 								return item.title;
 							}							
 						},
-						filterable : false,
+						filterable : false
 						
 					},
 					{
 						field : "processSuggestion",
 						title : "信息",						
-						filterable : true,
+						filterable : true
 					},
 					{
 						field : "processStateDesc",
 						title : "状态",						
-						filterable : true,
+						filterable : true
 					},
 					{
 						field : "createdDate",
@@ -137,12 +137,12 @@
 		function getUnitShenBaoInfos(vm){
 			var httpOptions = {
 					method : 'get',
-					url : url_unitShenBao+"/unit",
-				}
+					url : url_unitShenBao+"/unit"
+				};
 
 				var httpSuccess = function success(response) {
 					vm.model.shenBaoInfo = response.data.value;	
-				}
+				};
 				common.http({
 					vm : vm,
 					$http : $http,
@@ -158,11 +158,11 @@
 			var httpOptions = {
 					method : 'get',
 					url : url_taskRecord+"?$orderby=createdDate desc"
-				}
+				};
 
 				var httpSuccess = function success(response) {
 					vm.model.taskRecord = response.data.value;
-				}
+				};
 				common.http({
 					vm : vm,
 					$http : $http,
@@ -178,11 +178,11 @@
 			var httpOptions = {
 					method : 'get',
 					url : declareProjects
-				}
+				};
 
 				var httpSuccess = function success(response) {
 					vm.modelLists = response.data.value;
-				}
+				};
 
 				common.http({
 					vm : vm,
@@ -199,11 +199,11 @@
 			var httpOptions = {
 					method : 'get',
 					url : common.format("{0}?filter=userId eq '{1}'",oprationRecords,global_userName)
-				}
+				};
 
 				var httpSuccess = function success(response) {
 					vm.modelOprationLists = response.data.value;
-				}
+				};
 
 				common.http({
 					vm : vm,
@@ -219,14 +219,14 @@
 					method : 'get',
 					url : user_article+type+'.js',
 					data : vm.model
-				}
+				};
 
 				var httpSuccess = function success(response) {
 					vm["article_"+type]=response.data;
 					if(type=="announcement"){
 						vm.articles=response.data;
 					}
-				}
+				};
 
 				common.http({
 					vm : vm,

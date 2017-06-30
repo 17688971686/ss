@@ -25,7 +25,7 @@
             if($state.current.name=='projectMonthReport_projectInfo'){
             	vm.page='projectInfo';
             }
-        }
+        };
         
         activate();
         function activate() {
@@ -60,8 +60,8 @@
         	 vm.fillReport = function(month){
              	//跳转到月报信息填写页面
              	location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+vm.submitYear+"/"+month;
-             } 
-        	 var date=new Date()
+             };
+        	 var date=new Date();
         	 vm.submitYear=date.getFullYear();
         	 vm.submitYearMonth={};
         	 vm.monthRow1=['一月','二月','三月','四月','五月','六月'];
@@ -79,7 +79,7 @@
 						vm.submitYearMonth['m'+x]=true;						
 					});
 					
-        	 }
+        	 };
         }//end page_selectMonth
         
         function page_fillReport(){ 
@@ -106,11 +106,11 @@
        		 }else{
        			 return 0;
        		 }
-       	 }
+       	 };
      	   //begin#提交月报
      	  vm.submit = function(){
           	projectMonthReportSvc.submitMonthReport(vm);
-          }
+          };
      	  
      	  //begin#ng-include load后触发
      	 vm.page_fillReport_init=function(){
@@ -127,16 +127,16 @@
 	           			 }                			           			
 	           		 });
 	           	 }
-     		 }
+     		 };
          	
          	projectMonthReportSvc.getProjectById(vm);
          	
-     	 }//end init_page_fillReport
+     	 };//end init_page_fillReport
      	 
      	//begin#删除文件
          vm.delFile=function(idx){
         	 vm.model.monthReport.attachmentDtos.splice(idx,1);
-         }
+         };
                  
        //begin#创建问题和删除问题
      	vm.createProblem=function(){
@@ -145,16 +145,16 @@
         	}else{
         		vm.model.monthReport.monthReportProblemDtos=[{problemIntroduction:'',solutionsAndSuggest:''}];
         	}
-        }
+        };
      	
      	 vm.deleteProblem = function(idx){
      		vm.model.monthReport.monthReportProblemDtos.splice(idx,1);        	
-          }
+          };
      	 //begin#基础数据
      	 //批复类型
      	vm.basicData_approvalType=common.getBacicDataByIndectity(common.basicDataConfig().approvalType);
      	//项目进度
-     	vm.basicData_projectProgress=common.getBacicDataByIndectity(common.basicDataConfig().projectProgress)
+     	vm.basicData_projectProgress=common.getBacicDataByIndectity(common.basicDataConfig().projectProgress);
      		    	
      	//begin#上传类型
      	vm.uploadType=[['scenePicture','现场图片'],['other','其它材料']];

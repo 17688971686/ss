@@ -31,7 +31,7 @@
 					method : 'put',
 					url : url_project,
 					data : vm.model
-				}
+				};
 
 				var httpSuccess = function success(response) {
 
@@ -46,11 +46,11 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 								}
-							})
+							});
 						}
 
-					})
-				}
+					});
+				};
 
 				common.http({
 					vm : vm,
@@ -63,7 +63,7 @@
 				 common.alert({
 				 vm:vm,
 				 msg:"您填写的信息不正确,请核对后提交!"
-				 })
+				 });
 			}
 		}
 
@@ -75,7 +75,7 @@
 			var httpOptions = {
 					method : 'get',
 					url : common.format(url_project + "?$filter=id eq '{0}'", vm.id)
-				}
+				};
 				var httpSuccess = function success(response) {
 					vm.model = response.data.value[0]||{};
 						//日期展示
@@ -95,11 +95,11 @@
 						vm.model.capitalZYYS=common.toMoney(vm.model.capitalZYYS);//中央预算
 						vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
 						vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他					
-					if(vm.page=='update'){					
+					if(vm.page=='update'){			
+						
+						
 		        		//项目行业归口
-						var child = $linq(common.getBasicData())
-		        		.where(function(x){return x.id==vm.model.projectIndustry})
-		        		.toArray()[0];
+						var child = $linq(common.getBasicData()).where(function(x){return x.id==vm.model.projectIndustry}).toArray()[0];
 		        		vm.model.projectIndustryParent=child.pId;
 		        		vm.projectIndustryChange();			        		
 					}if(vm.page=='projectInfo'){										
@@ -112,10 +112,10 @@
 				  			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
 				  			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
 				  			 		+ (parseFloat(vm.model.capitalZYYS)||0 )
-				  			 		+ (parseFloat(vm.model.capitalOther)||0) ;
-				  		 }						
+				  			 		+ (parseFloat(vm.model.capitalOther)||0);
+				  		 };						
 					}
-				}
+				};
 				common.http({
 					vm : vm,
 					$http : $http,
@@ -131,11 +131,11 @@
 			var httpOptions = {
 					method : 'get',
 					url : url_userUnit
-				}
+				};
 				var httpSuccess = function success(response) {
 					vm.userUnit = response.data;
 					vm.model.unitName = vm.userUnit.userName;
-				}
+				};
 				common.http({
 					vm : vm,
 					$http : $http,
@@ -156,7 +156,7 @@
 					method : 'post',
 					url : url_project,
 					data : vm.model
-				}
+				};
 
 				var httpSuccess = function success(response) {
 
@@ -174,12 +174,12 @@
 									$('.modal-backdrop').remove();
 									$location.path(url_back);								
 								}
-							})
+							});
 						}
 
 					});
 
-				}
+				};
 
 				common.http({
 					vm : vm,

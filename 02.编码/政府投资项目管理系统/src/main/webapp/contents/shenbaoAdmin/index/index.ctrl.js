@@ -24,16 +24,16 @@
        function init(){       	          
 	       vm.formatDate=function(str){
 	  			return common.formatDate(str);
-	  			}
+	  			};
 	       vm.formatDateTime=function(str){
 	  			return common.formatDateTime(str);
-	  			}
+	  			};
 	   	   vm.getBasicDataDesc=function(str){
 	  			return common.getBasicDataDesc(str);
-	  			}
+	  			};
 	   	  vm.changePwd = function(){
         	 indexSvc.changePwd(vm);         
-	   	  		}
+	   	  		};
 	   	   vm.taskType_yearPlan=common.basicDataConfig().taskType_yearPlan;
 	   	   vm.taskType_monthReport=common.basicDataConfig().taskType_monthReport;	   	   
 	   	   if(vm.page == 'recordList'){

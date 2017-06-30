@@ -21,7 +21,7 @@
 								.toArray();        
         vm.submit=function(){
         	deptInfoMaintainSvc.save(vm);
-        }
+        };
         activate();
         function activate() {
         	deptInfoMaintainSvc.getDeptInfo(vm);
