@@ -33,18 +33,18 @@
         	$('.column .title li').removeClass('focus');
         	$('.article_'+type).addClass('focus');
         	
-        }
+        };
         vm.formatDate = function(datStr){
         	return common.formatDate(datStr);
-        }
+        };
         vm.submit=function(){
         	indexSvc.submit(vm);
-        }
+        };
         vm.keyEnter = function (e) {
             if (e.which === 13) {
-                vm.submit()
+                vm.submit();
             }
-        }
+        };
        
         activate();
         function activate() {

@@ -32,7 +32,7 @@
 				templateUrl:'/contents/shenbao/index/html/forgetCode.html',
 				controller:'detailsCtrl',
 				controllerAs:'vm'
-			})
+			});
 			
 	}]);
 })();

@@ -18,6 +18,7 @@
         vm.page='list';
         vm.projectTypes=[];
         
+        
         vm.init=function(){
         	if($state.current.name=='projectEdit'){
     			vm.page='create';
@@ -154,6 +155,9 @@
        
        function page_update(){
     	   vm.title = "编辑项目";
+    	   for (var i = 0; i < vm.basicData.projectType.length; i++) {
+    		   vm.basicData.projectType[i].checked=false; 
+    	   }
     	   projectSvc.getProjectById(vm);
    		//更新项目
    		vm.update = function(){

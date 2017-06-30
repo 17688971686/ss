@@ -16,7 +16,7 @@
 				method:'get',
 				url:url_article+common.format("?$filter=id eq '{0}'",id),
 				data:vm.model
-			}
+			};
 			var httpSuccess = function success(response){
 				if(response.data.value.length>0){
 					vm.model=response.data.value[0];
@@ -26,15 +26,15 @@
 					
 				}
 				
-				console.log(response.data)
+				console.log(response.data);
 				
-			}
+			};
 			common.http({
 				vm:vm,
 				$http:$http,
 				httpOptions : httpOptions,
 				success : httpSuccess
-			})
+			});
 		}
 	}
 })();
