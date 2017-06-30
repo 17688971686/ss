@@ -11,7 +11,7 @@ public class BaseProject extends BaseEntity
 	private String unitName;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目代码'")
-	private String projectNumber;	
+	private String projectNumber;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目名称'")
 	private String projectName;
@@ -19,11 +19,11 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目投资类型'")
 	private String projectInvestmentType ;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '功能分类科目'")
-	private String projectFunctionClassify;
+//	@Column(columnDefinition="varchar(255) NULL COMMENT '功能科目'")
+//	private String projectFunctionClassify;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '政府经济分类科目'")
-	private String projectGoverEconClassify;
+//	@Column(columnDefinition="varchar(255) NULL COMMENT '政府经济分类科目'")
+//	private String projectGoverEconClassify;
 
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目阶段'")
 	private String projectStage;
@@ -377,21 +377,21 @@ public class BaseProject extends BaseEntity
 		this.projectCategory = projectCategory;
 	}
 
-	public String getProjectFunctionClassify() {
-		return projectFunctionClassify;
-	}
-
-	public void setProjectFunctionClassify(String projectFunctionClassify) {
-		this.projectFunctionClassify = projectFunctionClassify;
-	}
-
-	public String getProjectGoverEconClassify() {
-		return projectGoverEconClassify;
-	}
-
-	public void setProjectGoverEconClassify(String projectGoverEconClassify) {
-		this.projectGoverEconClassify = projectGoverEconClassify;
-	}
+//	public String getProjectFunctionClassify() {
+//		return projectFunctionClassify;
+//	}
+//
+//	public void setProjectFunctionClassify(String projectFunctionClassify) {
+//		this.projectFunctionClassify = projectFunctionClassify;
+//	}
+//
+//	public String getProjectGoverEconClassify() {
+//		return projectGoverEconClassify;
+//	}
+//
+//	public void setProjectGoverEconClassify(String projectGoverEconClassify) {
+//		this.projectGoverEconClassify = projectGoverEconClassify;
+//	}
 
 	public String getProjectInvestmentType() {
 		return projectInvestmentType;
@@ -424,7 +424,4 @@ public class BaseProject extends BaseEntity
 	public void setDivisionId(String divisionId) {
 		this.divisionId = divisionId;
 	}
-	
-	
-	
 }

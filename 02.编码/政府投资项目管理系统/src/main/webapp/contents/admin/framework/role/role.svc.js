@@ -7,7 +7,7 @@
 	function role($http,$compile) {	
 		var url_role = "/role";
 		var url_back = '#/role';
-		var url_resource="/sys/resource"
+		var url_resource="/sys/resource";
 			
 		var service = {
 			grid : grid,
@@ -41,7 +41,6 @@
 		// end common fun
 		
 		function grid(vm) {
-
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
@@ -73,7 +72,7 @@
 							return kendo
 									.format(
 											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox' />",
-											item.id)
+											item.id);
 						},
 						filterable : false,
 						width : 40,
@@ -100,13 +99,9 @@
 						title : "操作",
 						width : 180,
 						template:function(item){							
-							return common.format($('#columnBtns').html(),"vm.del('"+item.id+"')",item.id);
-							
-						}
-						
-
+							return common.format($('#columnBtns').html(),"vm.del('"+item.id+"')",item.id);							
+						}						
 					}
-
 			];
 			// End:column
 		
@@ -117,9 +112,8 @@
 					noRecords:common.kendoGridConfig().noRecordMessage,
 					columns : columns,
 					resizable: true
-				};
-			
-		}// end fun grid
+				};			
+			}// end fun grid
 
 		function createRole(vm) {
 			common.initJqValidation();
@@ -136,15 +130,13 @@
 					method : 'post',
 					url : url_role,
 					data : vm.model
-				}
+				};
 
 				var httpSuccess = function success(response) {				
-					
 					common.requestSuccess({
 						vm:vm,
 						response:response,
-						fn:function() {							
-							
+						fn:function() {													
 							common.alert({
 								vm:vm,
 								msg:"操作成功",
@@ -154,12 +146,10 @@
 									$('.modal-backdrop').remove();
 									location.href = url_back;
 								}
-							})
-						}
-						
+							});
+						}						
 					});
-
-				}
+				};
 
 				common.http({
 					vm:vm,
@@ -167,7 +157,6 @@
 					httpOptions:httpOptions,
 					success:httpSuccess
 				});
-
 			} else {				
 //				common.alert({
 //					vm:vm,
@@ -181,16 +170,18 @@
 		}// end fun checkRole
 
 		function getRoleById(vm) {
+			
 			var httpOptions = {
 				method : 'get',
 				url : common.format(url_role + "?$filter=id eq '{0}'", vm.id)
-			}
+			};
+			
 			var httpSuccess = function success(response) {
 				vm.model = response.data.value[0];
 				if (vm.isUpdate) {
 					initZtreeClient(vm);
 				}
-			}
+			};
 			
 			common.http({
 				vm:vm,
@@ -216,15 +207,13 @@
 					method : 'put',
 					url : url_role,
 					data : vm.model
-				}
+				};
 
-				var httpSuccess = function success(response) {
-					
+				var httpSuccess = function success(response) {					
 					common.requestSuccess({
 						vm:vm,
 						response:response,
-						fn:function() {
-							
+						fn:function() {							
 							common.alert({
 								vm:vm,
 								msg:"操作成功",
@@ -232,11 +221,10 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');							
 								}
-							})
-						}
-						
-					})
-				}
+							});
+						}						
+					});
+				};
 
 				common.http({
 					vm:vm,
@@ -255,25 +243,24 @@
 		
 		function deleteRole(vm,id) {
             vm.isSubmit = true;
+            
             var httpOptions = {
                 method: 'delete',
                 url:url_role,
-                data:id
-                
-            }
-            var httpSuccess = function success(response) {
-                
+                data:id               
+            };
+            
+            var httpSuccess = function success(response) {              
                 common.requestSuccess({
 					vm:vm,
 					response:response,
 					fn:function () {
 	                    vm.isSubmit = false;
 	                    vm.gridOptions.dataSource.read();
-	                }
-					
+	                }					
 				});
-
-            }
+            };
+            
             common.http({
 				vm:vm,
 				$http:$http,
@@ -286,46 +273,35 @@
 			var httpOptions = {
 	                method: 'get',
 	                url: url_resource
-	            }
-	            var httpSuccess = function success(response) {
-	              
-	                
-	                common.requestSuccess({
-						vm:vm,
-						response:response,
-						fn:function () {
-		                    var zTreeObj;
-		                    var setting = {
-		                        check: {
-		                            chkboxType: { "Y": "ps", "N": "ps" },
-		                            enable: true
-		                        }
-		                    };
-		                    var zNodes = response.data;
-		                    
-		                    zTreeObj = $.fn.zTree.init($("#zTree"), setting, zNodes);
-		                    if (vm.isUpdate) {
-		                         updateZtree(vm);
-
-		                    }
-		                }
-						
-					});
-	                
-
-	            }
+	            };
+			
+            var httpSuccess = function success(response) {                             
+                common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function () {
+	                    var zTreeObj;
+	                    var setting = {
+	                        check: {
+	                            chkboxType: { "Y": "ps", "N": "ps" },
+	                            enable: true
+	                        }
+	                    };
+	                    var zNodes = response.data;	                    
+	                    zTreeObj = $.fn.zTree.init($("#zTree"), setting, zNodes);
+	                    if (vm.isUpdate) {
+	                         updateZtree(vm);
+	                    }
+	                }					
+				});
+            };
+            
 			common.http({
 				vm:vm,
 				$http:$http,
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		}// end fun initZtreeClient
-		
-		
-
-	}
-	
-	
-	
+		}// end fun initZtreeClient				
+	}	
 })();

@@ -12,9 +12,8 @@
     	var vm = this;
         vm.init=function(){  
         	vm.model={};
-        	init_ztree();
-        	
-        }//end init
+        	init_ztree();      	
+        };//end init
         
         function init_ztree(){
         	var basicData=common.getBasicData();
@@ -23,7 +22,7 @@
 					view:{
 						nameIsHTML:true,
 						addHoverDom: function(treeId, treeNode){
-							if(!treeNode.level == 0 && treeNode.canEdit){//新增按钮最高级没有,不可编辑也没有
+							if(treeNode.level != 0 && treeNode.canEdit){//新增按钮最高级没有,不可编辑也没有
 								//添加新增按钮
 								var sObj = $("#" + treeNode.tId + "_span");
 								if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
@@ -42,9 +41,9 @@
 									var childIds = $linq(basicData)
 									.where(function(x){return x.pId==treeNode.id;})
 									.select(function(x){return {id:x.id}})
-									.toArray();						
+									.toArray();				
 									if(childIds.length>0){//有子代代表新点击对象为父级新增										
-										var idNum = new Array();
+										var idNum = [];
 										var index = 0;
 										for(var i=0;i<childIds.length;i++){
 											var id = childIds[i].id;
@@ -70,7 +69,7 @@
 									vm.model.pId=newnode.pId;
 									vm.model.canEdit = newnode.canEdit;
 									basicDataSvc.createBasicData(vm);		
-								})
+								});
 							}
 						},
 						removeHoverDom: function(treeId, treeNode){
@@ -98,13 +97,12 @@
 							vm.model.description=treeNode.name;
 							vm.model.identity=treeNode.identity;
 							vm.model.pId=treeNode.pId;
-							basicDataSvc.updateBasicData(vm)
+							basicDataSvc.updateBasicData(vm);
 						},
 						onRemove: function(e,treeId, treeNode){							
 							basicDataSvc.deleteBasicData(vm,treeNode.id);				                				        
-						},
-					}
-									
+						}
+					}									
 			};
 			 
 			
@@ -113,8 +111,9 @@
 				return $linq(basicData)
 				.where(function(x){return x.pId==pId;})
 				.select(function(x){return {id:x.id,name:x.description,pId:x.pId,identity:x.identity,canEdit:x.canEdit,children:findChildren(x.id)};})
-				.toArray()
-			}
+				.toArray();
+			};
+			
 			var zNodes = $linq(basicData)
 				.where(function(x){return x.pId=="";})
 				.select(
@@ -128,11 +127,13 @@
 							children:findChildren(x.id)
 						};
 					}).toArray();
+			
 			var rootNode = {
 					id : '',
 					name : '基础数据',
 					children : zNodes
 				};
+			
 			zTreeObj = $.fn.zTree.init($("#zTree"), setting,rootNode);					
         }
         

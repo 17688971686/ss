@@ -24,21 +24,19 @@
             var httpOptions = {
                 method: 'delete',
                 url:common.format(url_orgUsers,vm.id),
-                data:userId
-                
-            }
-            var httpSuccess = function success(response) {
-                
+                data:userId               
+            };
+            
+            var httpSuccess = function success(response) {               
                 common.requestSuccess({
 					vm:vm,
 					response:response,
 					fn:function () {						
 	                    vm.gridOptions.dataSource.read();	                   
-	                }
-					
+	                }					
 				});
-
-            }
+            };
+            
             common.http({
 				vm:vm,
 				$http:$http,
@@ -53,22 +51,20 @@
             var httpOptions = {
                 method: 'post',
                 url:common.format(url_orgUsers,vm.id),
-                data:userId
-                
-            }
-            var httpSuccess = function success(response) {
-                
+                data:userId               
+            };
+            
+            var httpSuccess = function success(response) {               
                 common.requestSuccess({
 					vm:vm,
 					response:response,
 					fn:function () {
 						vm.orgUserGrid.dataSource.read();
 	                    vm.gridOptions.dataSource.read();	                   
-	                }
-					
+	                }					
 				});
-
-            }
+            };
+            
             common.http({
 				vm:vm,
 				$http:$http,
@@ -182,7 +178,7 @@
 							return kendo
 									.format(
 											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox' />",
-											item.id)
+											item.id);
 						},
 						filterable : false,
 						width : 40,
@@ -230,14 +226,5 @@
 				resizable : true
 			};
 		}
-		
-		
-		
-		
-		
-
-	}
-	
-	
-	
+	}		
 })();

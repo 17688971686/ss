@@ -393,6 +393,8 @@
     		projectCategory_C:"projectCategory_3",//C类
     		projectCategory_D:"projectCategory_4",//D类
     		projectClassify:"projectClassify",//项目分类
+    		projectClassify_ZF:"projectClassify_1",//政府投资项目分类
+    		projectClassify_SH:"projectClassify_2",//社会投资项目分类
     		projectConstrChar:"projectConstrChar",//项目建设性质
     		projectFunctionClassify:"projectFunctionClassify",//功能分类科目
     		projectGoverEconClassify:"projectGoverEconClassify",//政府经济分类科目

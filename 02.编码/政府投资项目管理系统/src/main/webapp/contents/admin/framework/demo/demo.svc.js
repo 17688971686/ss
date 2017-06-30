@@ -34,15 +34,14 @@
                                 FirstName: { validation: { required: true } },
                                 LastName: { validation: { required: true } },
                                 HireDate: { type: "date" },
-                                Phone: { type: "string" },
-                                HireDate: { type: "date" },
+                                Phone: { type: "string" },                               
                                 BirthDate: { type: "date" },
                                 Extension: { type: "number", validation: { min: 0, required: true } },
                                 Position: { type: "string" }
                             }
                         }
                     }
-			}
+			};
 			var columns=[
                 { field: "FirstName", title: "First Name", width: "150px" },
                 { field: "LastName", title: "Last Name", width: "150px" },
@@ -71,10 +70,9 @@
 					method : 'put',
 					url : url_account_password,
 					data : vm.model.password
-				}
+				};
 
 				var httpSuccess = function success(response) {
-
 					common.requestSuccess({
 						vm : vm,
 						response : response,
@@ -87,11 +85,10 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 								}
-							})
+							});
 						}
-
-					})
-				}
+					});
+				};
 
 				common.http({
 					vm : vm,
@@ -106,8 +103,6 @@
 				// msg:"您填写的信息不正确,请核对后提交!"
 				// })
 			}
-
 		}
-
 	}
 })();

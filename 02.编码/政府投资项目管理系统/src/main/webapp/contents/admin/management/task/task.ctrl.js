@@ -17,20 +17,20 @@
     	vm.page="todoList";
     	function init(){    		
     		if($state.current.name=='task_todo'){
-    			vm.page='todoList'
+    			vm.page='todoList';
     		}
     		if($state.current.name=='task_handle'){
-    			vm.page='handle'
+    			vm.page='handle';
     		}
     		if($state.current.name=='task_complete'){
-    			vm.page='complete'
+    			vm.page='complete';
     		}
     		vm.formatDate=function(str){
     			return common.formatDate(str);
-    		}
+    		};
     		vm.getBasicDataDesc=function(str){
     			return common.getBasicDataDesc(str);
-    		}
+    		};
     	}
     	   	
     	activate();
@@ -42,7 +42,6 @@
         	if(vm.page=='handle'){
         		init_handle();
         	}
-
         	if(vm.page=='complete'){
         		init_completeList();
         	}
@@ -74,16 +73,13 @@
          	   vm.tabStripOptions={
          			//TODO
          	   };         	   
-    	   }//dialog
+    	   };//dialog
     	   
     	   //处理操作
     	   vm.handle=function(processState){
     		   vm.model.taskRecord.processState=processState;
     		   taskSvc.handle(vm);
-    	   }
-    	   
-    		
+    	   };    		
     	}//init_handle
-
     }
 })();

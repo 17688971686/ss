@@ -24,30 +24,31 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 		ProjectDto projectDto=new ProjectDto();
 		if(project!=null){
 			projectDto.setId(project.getId());
-			projectDto.setProjectName(project.getProjectName());
-			projectDto.setProjectNumber(project.getProjectNumber());
-			projectDto.setProjectStage(project.getProjectStage());
-			projectDto.setProjectClassify(project.getProjectClassify());
-			projectDto.setProjectIndustry(project.getProjectIndustry());
-			projectDto.setProjectType(project.getProjectType());
-			projectDto.setProjectCategory(project.getProjectCategory());
-			projectDto.setProjectFunctionClassify(project.getProjectFunctionClassify());
-			projectDto.setProjectGoverEconClassify(project.getProjectGoverEconClassify());
-			projectDto.setProjectInvestSum(project.getProjectInvestSum());
-			projectDto.setProjectInvestAccuSum(project.getProjectInvestAccuSum());
-			projectDto.setDivisionId(project.getDivisionId());//项目建设区域
-			projectDto.setProjectAddress(project.getProjectAddress());			
-			projectDto.setProjectIntro(project.getProjectIntro());
-			projectDto.setProjectGuiMo(project.getProjectGuiMo());
+			projectDto.setProjectNumber(project.getProjectNumber());//项目代码
+			projectDto.setProjectName(project.getProjectName());//项目名称
+			projectDto.setIsLatestVersion(project.getIsLatestVersion());//是否是最新版本
+			projectDto.setIsMonthReport(project.getIsMonthReport());//是否月报
 			projectDto.setProjectInvestmentType(project.getProjectInvestmentType());//项目投资类型
+			projectDto.setProjectStage(project.getProjectStage());//项目阶段
+			projectDto.setProjectClassify(project.getProjectClassify());//项目分类
+			projectDto.setProjectIndustry(project.getProjectIndustry());//项目行业
+			projectDto.setProjectType(project.getProjectType());//项目类型
+			projectDto.setProjectCategory(project.getProjectCategory());//项目类别
+//			projectDto.setProjectFunctionClassify(project.getProjectFunctionClassify());//项目功能科目
+//			projectDto.setProjectGoverEconClassify(project.getProjectGoverEconClassify());
+			projectDto.setProjectInvestSum(project.getProjectInvestSum());//项目总投资
+			projectDto.setProjectInvestAccuSum(project.getProjectInvestAccuSum());//项目累计投资
+			projectDto.setDivisionId(project.getDivisionId());//项目建设区域
+			projectDto.setProjectAddress(project.getProjectAddress());//项目建设地址		
+			projectDto.setProjectIntro(project.getProjectIntro());//项目简介
+			projectDto.setProjectGuiMo(project.getProjectGuiMo());//项目规模			
 			projectDto.setProjectRepName(project.getProjectRepName());//项目负责人名称
 			projectDto.setProjectRepMobile(project.getProjectRepMobile());//项目负责人电话
-			projectDto.setRemark(project.getRemark());
-			projectDto.setEndDate(project.getEndDate());
-			projectDto.setBeginDate(project.getBeginDate());
-			projectDto.setUnitName(project.getUnitName());
-			
-			
+			projectDto.setRemark(project.getRemark());//备注
+			projectDto.setEndDate(project.getEndDate());//开工时间
+			projectDto.setBeginDate(project.getBeginDate());//竣工时间
+			projectDto.setUnitName(project.getUnitName());//项目所属单位名称-对应用户单位中的userName
+						
 			projectDto.setCapitalQCZ_gtzj(project.getCapitalQCZ_gtzj());
 			projectDto.setCapitalQCZ_ggys(project.getCapitalQCZ_ggys());
 			projectDto.setCapitalSCZ_gtzj(project.getCapitalSCZ_gtzj());
@@ -71,7 +72,7 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			projectDto.setCreatedBy(project.getCreatedBy());
 			projectDto.setCreatedDate(project.getCreatedDate());
 			projectDto.setItemOrder(project.getItemOrder());
-			projectDto.setIsMonthReport(project.getIsMonthReport());
+			
 						
 			//begin#关联信息
 			//附件
@@ -98,26 +99,28 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			}
 			project.setUnitName(projectDto.getUnitName());
 			project.setProjectName(projectDto.getProjectName());
+			project.setIsLatestVersion(projectDto.getIsLatestVersion());
+			project.setIsMonthReport(projectDto.getIsMonthReport());
+			project.setProjectStage(projectDto.getProjectStage());
+			project.setProjectInvestmentType(projectDto.getProjectInvestmentType());//项目投资类型
+			project.setProjectClassify(projectDto.getProjectClassify());
+			project.setProjectIndustry(projectDto.getProjectIndustry());
+			project.setProjectType(projectDto.getProjectType());
+			project.setProjectCategory(projectDto.getProjectCategory());
 			project.setProjectInvestSum(projectDto.getProjectInvestSum());
 			project.setProjectInvestAccuSum(projectDto.getProjectInvestAccuSum());
 			project.setDivisionId(projectDto.getDivisionId());//项目建设区域
 			project.setProjectAddress(projectDto.getProjectAddress());
-			project.setProjectStage(projectDto.getProjectStage());
-			project.setProjectClassify(projectDto.getProjectClassify());
-			project.setProjectIndustry(projectDto.getProjectIndustry());
-			project.setProjectType(projectDto.getProjectType());
-			project.setProjectFunctionClassify(projectDto.getProjectFunctionClassify());
-			project.setProjectGoverEconClassify(projectDto.getProjectGoverEconClassify());
-			project.setProjectCategory(projectDto.getProjectCategory());
 			project.setProjectIntro(projectDto.getProjectIntro());
 			project.setProjectGuiMo(projectDto.getProjectGuiMo());
-			project.setProjectInvestmentType(projectDto.getProjectInvestmentType());//项目投资类型
 			project.setProjectRepName(projectDto.getProjectRepName());//项目负责人名称
 			project.setProjectRepMobile(projectDto.getProjectRepMobile());//项目负责人电话
 			project.setEndDate(projectDto.getEndDate());
 			project.setBeginDate(projectDto.getBeginDate());
-			project.setRemark(projectDto.getRemark());
-			
+			project.setRemark(projectDto.getRemark());			
+//			project.setProjectFunctionClassify(projectDto.getProjectFunctionClassify());
+//			project.setProjectGoverEconClassify(projectDto.getProjectGoverEconClassify());
+						
 			project.setCapitalQCZ_gtzj(projectDto.getCapitalQCZ_gtzj());
 			project.setCapitalQCZ_ggys(projectDto.getCapitalQCZ_ggys());
 			project.setCapitalSCZ_gtzj(projectDto.getCapitalSCZ_gtzj());
@@ -141,9 +144,8 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setCreatedBy(projectDto.getCreatedBy());
 			project.setCreatedDate(projectDto.getCreatedDate());
 			project.setItemOrder(projectDto.getItemOrder());
-			project.setIsMonthReport(projectDto.getIsMonthReport());
-			
-			project.setAttachments(projectDto.getAttachments());			
+						
+//			project.setAttachments(projectDto.getAttachments());			
 		}
 		return project;
 	}

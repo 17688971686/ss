@@ -18,6 +18,9 @@ public class Project extends BaseProject {
 	
 	@Column(columnDefinition="bit(1) NULL COMMENT '是否需要填报'")
 	private Boolean isMonthReport = false;
+	
+	@Column(columnDefinition="bit(1) NULL COMMENT '是否是最新的版本'")
+	private Boolean isLatestVersion = true;
 
 	//begin#关联信息
 	@OneToMany(cascade=CascadeType.ALL)
@@ -57,5 +60,13 @@ public class Project extends BaseProject {
 
 	public void setIsMonthReport(Boolean isMonthReport) {
 		this.isMonthReport = isMonthReport;
+	}
+
+	public Boolean getIsLatestVersion() {
+		return isLatestVersion;
+	}
+
+	public void setIsLatestVersion(Boolean isLatestVersion) {
+		this.isLatestVersion = isLatestVersion;
 	}
 }

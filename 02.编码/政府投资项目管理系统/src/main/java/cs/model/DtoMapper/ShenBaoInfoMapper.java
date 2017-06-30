@@ -35,8 +35,8 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setProjectCategory(entity.getProjectCategory());
 			shenBaoInfoDto.setProjectIndustry(entity.getProjectIndustry());
 			shenBaoInfoDto.setProjectClassify(entity.getProjectClassify());
-			shenBaoInfoDto.setProjectFunctionClassify(entity.getProjectFunctionClassify());
-			shenBaoInfoDto.setProjectGoverEconClassify(entity.getProjectGoverEconClassify());
+//			shenBaoInfoDto.setProjectFunctionClassify(entity.getProjectFunctionClassify());
+//			shenBaoInfoDto.setProjectGoverEconClassify(entity.getProjectGoverEconClassify());
 			shenBaoInfoDto.setProjectIntro(entity.getProjectIntro());
 			shenBaoInfoDto.setProjectGuiMo(entity.getProjectGuiMo());
 			shenBaoInfoDto.setPlanYear(entity.getPlanYear());
@@ -114,8 +114,8 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setProjectId(shenBaoInfoDto.getProjectId());//?
 			shenBaoInfo.setUnitName(shenBaoInfoDto.getUnitName());
 			shenBaoInfo.setProjectClassify(shenBaoInfoDto.getProjectClassify());
-			shenBaoInfo.setProjectFunctionClassify(shenBaoInfoDto.getProjectFunctionClassify());
-			shenBaoInfo.setProjectGoverEconClassify(shenBaoInfoDto.getProjectGoverEconClassify());
+//			shenBaoInfo.setProjectFunctionClassify(shenBaoInfoDto.getProjectFunctionClassify());
+//			shenBaoInfo.setProjectGoverEconClassify(shenBaoInfoDto.getProjectGoverEconClassify());
 			shenBaoInfo.setProjectIndustry(shenBaoInfoDto.getProjectIndustry());
 			shenBaoInfo.setProjectIntro(shenBaoInfoDto.getProjectIntro());
 			shenBaoInfo.setProjectGuiMo(shenBaoInfoDto.getProjectGuiMo());			

@@ -13,8 +13,7 @@
         vm.title = '用户列表';
         
 
-        vm.del = function (id) {        	
-        	 
+        vm.del = function (id) {        	       	 
              common.confirm({
             	 vm:vm,
             	 title:"",
@@ -23,15 +22,15 @@
                   	$('.confirmDialog').modal('hide');             	
                     userSvc.deleteUser(vm,id);
                  }
-             })
-        }
+             });
+        };
+        
         vm.dels = function () {     
         	var selectIds = common.getKendoCheckId('.grid');
             if (selectIds.length == 0) {
             	common.alert({
                 	vm:vm,
-                	msg:'请选择数据'
-                	
+                	msg:'请选择数据'              	
                 });
             } else {
             	var ids=[];
@@ -41,7 +40,8 @@
                 var idStr=ids.join(',');
                 vm.del(idStr);
             }   
-       }
+       };
+       
         activate();
         function activate() {
             userSvc.grid(vm);

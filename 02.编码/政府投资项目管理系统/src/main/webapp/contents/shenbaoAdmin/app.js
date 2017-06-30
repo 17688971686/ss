@@ -35,7 +35,9 @@
         		controller: 'indexCtrl',
         		controllerAs: 'vm'
         	})        	
-/**********************************************end#管理首页*********************************/           
+/**********************************************end#管理首页*********************************/
+
+/**********************************************begin#单位信息维护****************************/        	
              //begin#deptInfoMaintain（单位信息维护）
 	        .state('deptInfoMaintain', {
 	            url: '/deptInfoMaintain',
@@ -44,6 +46,33 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#deptInfoMaintain
+/**********************************************end#单位信息维护****************************/
+	        
+/**********************************************begin#项目信息维护**************************/
+	        //begin#项目管理
+	        //列表页
+	        .state('project', {
+	            url: '/project', 
+	            templateUrl: '/shenbaoAdmin/project/html/list.html',
+	            controller: 'projectCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //编辑页
+	        .state('projectEdit', {
+	            url: '/projectEdit/:id/:projectInvestmentType', 
+	            templateUrl: '/shenbaoAdmin/project/html/edit.html',
+	            controller: 'projectCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //项目详情页面
+	        .state('project_projectInfo', {
+	            url: '/project/projectInfo/:id/:projectInvestmentType', 
+	            templateUrl: '/shenbaoAdmin/project/html/projectInfo.html',
+	            controller: 'projectCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //end#项目管理
+/**********************************************end#项目信息维护**************************/	        
              
  /**********************************************begin#月报*********************************/
              .state('projectMonthReport', {
@@ -73,31 +102,8 @@
 	            controllerAs: 'vm'
 	        }) 
 /**********************************************end#月报*********************************/
-	        //begin#项目管理
-	        //列表页
-	        .state('project', {
-	            url: '/project', 
-	            templateUrl: '/shenbaoAdmin/project/html/list.html',
-	            controller: 'projectCtrl',
-	            controllerAs: 'vm'
-	        })
-	        //编辑页
-	        .state('projectEdit', {
-	            url: '/projectEdit/:projectInvestmentType/:id', 
-	            templateUrl: '/shenbaoAdmin/project/html/edit.html',
-	            controller: 'projectCtrl',
-	            controllerAs: 'vm'
-	        })
-	        //项目详情页面
-	        .state('project_projectInfo', {
-	            url: '/project/projectInfo/:id', 
-	            templateUrl: '/shenbaoAdmin/project/html/projectInfo.html',
-	            controller: 'projectCtrl',
-	            controllerAs: 'vm'
-	        }) 
-	        //end#项目管理
-	        
- /**********************************************begin#项目申报*********************************/
+	        	        	        
+ /**********************************************begin#项目申报****************************/
 	        //单位项目列表页
 	         .state('shenbao', {
 	            url: '/shenbao', 

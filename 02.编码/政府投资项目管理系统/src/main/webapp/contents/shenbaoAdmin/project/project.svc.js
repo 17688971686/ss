@@ -78,6 +78,9 @@
 				};
 				var httpSuccess = function success(response) {
 					vm.model = response.data.value[0]||{};
+						//项目类型的处理
+						vm.projectTypes = vm.model.projectType.split(",");
+						
 						//日期展示
 					vm.model.projectType = vm.model.projectType.split(",");
 					for (var i = 0; i < vm.basicData.projectType.length; i++) {
@@ -105,15 +108,15 @@
 						vm.model.capitalQCZ_gtzj=common.toMoney(vm.model.capitalQCZ_gtzj);//区财政-国土资金
 						vm.model.capitalZYYS=common.toMoney(vm.model.capitalZYYS);//中央预算
 						vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
-						vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他					
-					if(vm.page=='update'){			
-						
-						
+						vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他				
+					if(vm.page=='update'){
 		        		//项目行业归口
 						var child = $linq(common.getBasicData()).where(function(x){return x.id==vm.model.projectIndustry}).toArray()[0];
 		        		vm.model.projectIndustryParent=child.pId;
-		        		vm.projectIndustryChange();			        		
-					}if(vm.page=='projectInfo'){										
+		        		vm.projectIndustryChange();		        		
+					}if(vm.page=='projectInfo'){
+						//查询项目的所属单位的单位名称
+					   	getProjectUnit(vm);
 						//计算资金筹措总计
 						vm.capitalTotal=function(){
 				  			 return (parseFloat(vm.model.capitalSCZ_ggys)||0 )
@@ -136,7 +139,29 @@
 		}
 		
 		/**
-		 * 获取当前用户的单位信息
+		 *获取项目单位信息 
+		 */
+		function getProjectUnit(vm){
+			
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_userUnit + "?$filter=userName eq '{0}'", vm.model.unitName)
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.userUnit = response.data.value[0] || {};
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
+		
+		/**
+		 * 获取当前登录用户用户的单位信息
 		 */
 		function getUserUnit(vm){
 			var httpOptions = {
@@ -227,6 +252,11 @@
 				sort : {
 					field : "createdDate",
 					dir : "desc"
+				},
+				filter:{
+					field:'isLatestVersion',
+					operator:'eq',
+					value:true
 				}
 			});
 			// End:dataSource
@@ -239,7 +269,7 @@
 						title : "项目名称",						
 						filterable : true,
 						template:function(item){
-							return common.format('<a href="#/project/projectInfo/{0}">{1}</a>',item.id,item.projectName);
+							return common.format('<a href="#/project/projectInfo/{0}/{1}">{2}</a>',item.id,item.projectInvestmentType,item.projectName);
 						}
 					},
 					{
@@ -265,9 +295,8 @@
 						title : "操作",
 						width : 180,
 						template : function(item) {
-							return common.format($('#columnBtns').html(),item.projectInvestmentType,item.id,"vm.del('" + item.id + "')");
+							return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,"vm.del('" + item.id + "')");
 						}
-
 					}
 
 			];

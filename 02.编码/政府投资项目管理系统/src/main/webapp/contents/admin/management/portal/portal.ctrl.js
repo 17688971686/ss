@@ -41,7 +41,7 @@
 				break;
 			} 
         	
-        }//end init
+        };//end init
         
         vm.init_upload=function(){
         	vm.files=[];
@@ -75,15 +75,13 @@
                     select: "上传文件"
                 }
             });
-        }//end init_upload
+        };//end init_upload
        
         vm.delFile=function(idx){
         	vm.files.splice(idx,1);
-        }
+        };
         
-
-        vm.del = function (id) {        	
-        	 
+        vm.del = function (id) {        	 
              common.confirm({
             	 vm:vm,
             	 title:"",
@@ -92,15 +90,15 @@
                   	$('.confirmDialog').modal('hide');             	
                     portalSvc.del(vm,id);
                  }
-             })
-        }
+             });
+        };
+        
         vm.dels = function () {     
         	var selectIds = common.getKendoCheckId('.grid');
             if (selectIds.length == 0) {
             	common.alert({
                 	vm:vm,
-                	msg:'请选择数据'
-                	
+                	msg:'请选择数据'               	
                 });
             } else {
             	var ids=[];
@@ -110,14 +108,14 @@
                 var idStr=ids.join(',');
                 vm.del(idStr);
             }   
-       }
+       };
         
         vm.create=function(){
         	portalSvc.create(vm);
-        }
+        };
         vm.update=function(){
         	portalSvc.update(vm);
-        }
+        };
         activate();
         function activate() {
         	vm.init();
@@ -129,9 +127,7 @@
         	}
         	if(vm.page=='create'||vm.page=='update'){
         		vm.init_upload();
-        	}
-            
-            
+        	}                        
         }
     }
 })();

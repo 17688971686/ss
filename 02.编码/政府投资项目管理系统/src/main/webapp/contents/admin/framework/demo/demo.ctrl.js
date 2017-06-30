@@ -15,7 +15,7 @@
         
         vm.tab=function(tabActive){
         	vm.tabActive=tabActive;        	
-        }
+        };
         
         
         vm.showDialog=function(){
@@ -24,7 +24,7 @@
                  backdrop: 'static',
                  keyboard:false
              });
-        }
+        };
         
         function datetimePicker(){
         	$("#datepicker").kendoDatePicker({
@@ -77,7 +77,7 @@
         
         vm.textSubmit=function(){
         	alert(vm.content);
-        }
+        };
         
         vm.init_select=function(){
         	vm.parentCategory="";
@@ -88,9 +88,8 @@
         	vm.parentChange=function(){
         		vm.childList=$linq(basicData).where(function(x){return x.pId==vm.parentCategory;})
 				  .toArray();
-        	}
-        	console.log(basicData)
-        }
+        	};
+        };
         
        vm.popOver=function(e){
     	   vm.isPopOver=true;
@@ -104,15 +103,14 @@
     			   top:e.pageY+'px'
     	   };  
     	   vm.content="内容";    	
-       }
+       };
        
         activate();
         function activate() {
         	datetimePicker();
         	upload();
         	demoSvc.treeList(vm);
-        	vm.init_select();
-        	
+        	vm.init_select();        	
         }
     }
 })();
