@@ -17,11 +17,8 @@
 			deleteOrg:deleteOrg			
 		};		
 		return service;	
-		
-		
-		
+						
 		function grid(vm) {
-
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
@@ -53,7 +50,7 @@
 							return kendo
 									.format(
 											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox' />",
-											item.id)
+											item.id);
 						},
 						filterable : false,
 						width : 40,
@@ -111,17 +108,14 @@
 			var isValid = $('form').valid();
 			if (isValid && vm.isorgExist == false) {
 				vm.isSubmit = true;
-				
-		
-	               
+						               
 				var httpOptions = {
 					method : 'post',
 					url : url_org,
 					data : vm.model
-				}
+				};
 
-				var httpSuccess = function success(response) {				
-					
+				var httpSuccess = function success(response) {									
 					common.requestSuccess({
 						vm:vm,
 						response:response,
@@ -136,12 +130,10 @@
 									$('.modal-backdrop').remove();
 									location.href = url_back;
 								}
-							})
-						}
-						
+							});
+						}						
 					});
-
-				}
+				};
 
 				common.http({
 					vm:vm,
@@ -164,13 +156,14 @@
 			var httpOptions = {
 				method : 'get',
 				url : common.format(url_org + "?$filter=id eq '{0}'", vm.id)
-			}
+			};
+			
 			var httpSuccess = function success(response) {
-				vm.model = response.data.value[0];
+				vm.model = response.data.value[0] || {};
 				if (vm.isUpdate) {
 					//initZtreeClient(vm);
 				}
-			}
+			};
 			
 			common.http({
 				vm:vm,
@@ -186,22 +179,18 @@
 			if (isValid && vm.isorgExist == false) {
 				vm.isSubmit = true;
 				vm.model.id=vm.id;// id
-				
-			
-               
+							               
 				var httpOptions = {
 					method : 'put',
 					url : url_org,
 					data : vm.model
-				}
+				};
 
-				var httpSuccess = function success(response) {
-					
+				var httpSuccess = function success(response) {					
 					common.requestSuccess({
 						vm:vm,
 						response:response,
-						fn:function() {
-							
+						fn:function() {							
 							common.alert({
 								vm:vm,
 								msg:"操作成功",
@@ -209,11 +198,10 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');							
 								}
-							})
-						}
-						
-					})
-				}
+							});
+						}						
+					});
+				};
 
 				common.http({
 					vm:vm,
@@ -232,39 +220,30 @@
 		
 		function deleteOrg(vm,id) {
             vm.isSubmit = true;
+            
             var httpOptions = {
                 method: 'delete',
                 url:url_org,
-                data:id
-                
-            }
-            var httpSuccess = function success(response) {
-                
+                data:id              
+            };
+            
+            var httpSuccess = function success(response) {               
                 common.requestSuccess({
 					vm:vm,
 					response:response,
 					fn:function () {
 	                    vm.isSubmit = false;
 	                    vm.gridOptions.dataSource.read();
-	                }
-					
+	                }					
 				});
-
-            }
+            };
+            
             common.http({
 				vm:vm,
 				$http:$http,
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-        }// end fun deleteorg
-		
-		
-		
-		
-
-	}
-	
-	
-	
+        }// end fun deleteorg				
+	}	
 })();

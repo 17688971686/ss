@@ -19,10 +19,9 @@
         function activate() {        	
         	init_getAllTask();
         	init_getAllUser();
-        	init()
+        	init();
         }
         
-
 		/**
 		 * 初始化任务签收人
 		 */
@@ -55,13 +54,13 @@
 		 */
         vm.create = function(){
         	sysConfigSvc.createTaskUser(vm);
-        }
+        };
         
         vm.checked = function(index){
-        	for (var int = 0; int < vm.model.checkedButton.length; int++) {
-				if(index == int)
-					vm.model.checkedButton[int] = false;
+        	for (var i = 0; i < vm.model.checkedButton.length; i++) {
+				if(index == i)
+					vm.model.checkedButton[i] = false;
 			}
-        }
+        };
     }    
 })();

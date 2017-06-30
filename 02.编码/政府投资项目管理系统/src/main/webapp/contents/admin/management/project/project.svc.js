@@ -15,8 +15,7 @@
 			updateProject:updateProject,
 			createProject:createProject,
 			getUserUnits:getUserUnits,
-			updateIsMonthReport:updateIsMonthReport,
-			
+			updateIsMonthReport:updateIsMonthReport			
 		};
 
 		return service;
@@ -29,16 +28,18 @@
 			var httpOptions = {
 					method : 'get',
 					url : url_userUnit
-				}
-				var httpSuccess = function success(response) {
-					vm.userUnits = response.data;
-				}
-				common.http({
-					vm : vm,
-					$http : $http,
-					httpOptions : httpOptions,
-					success : httpSuccess
-				});
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.userUnits = response.data;
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
 		}
 		
 		/**
@@ -48,20 +49,19 @@
 			common.initJqValidation();
 			var isValid = $('form').valid();        
 			if (isValid) {
-				vm.isSubmit = true;				
+				vm.isSubmit = true;	
+				
 				var httpOptions = {
 					method : 'post',
 					url : url_project,
 					data : vm.model
-				}
+				};
 
 				var httpSuccess = function success(response) {
-
 					common.requestSuccess({
 						vm : vm,
 						response : response,
 						fn : function() {
-
 							common.alert({
 								vm : vm,
 								msg : "操作成功",
@@ -71,12 +71,10 @@
 									$('.modal-backdrop').remove();
 									location.href = url_back;									
 								}
-							})
+							});
 						}
-
 					});
-
-				}
+				};
 
 				common.http({
 					vm : vm,
@@ -84,7 +82,6 @@
 					httpOptions : httpOptions,
 					success : httpSuccess
 				});
-
 			}
 		}
 		//end#createProject
@@ -97,14 +94,14 @@
 					method : 'put',
 					url : url_project+"/isMonthReport",
 					data : vm.model
-				}
+				};
 
 				var httpSuccess = function success(response) {
 					//关闭模态框
 					$("#myModal").modal('hide');
 					//刷新表格数据
 					vm.gridOptions.dataSource.read(); 					
-				}
+				};
 
 				common.http({
 					vm : vm,
@@ -112,7 +109,6 @@
 					httpOptions : httpOptions,
 					success : httpSuccess
 				});
-
 			} 
 		
 		/**
@@ -122,7 +118,6 @@
 		function updateProject(vm){
 			common.initJqValidation();
 			var isValid = $('form').valid();
-			console.log(vm.model);
 			if (isValid) {
 				vm.isSubmit = true;
 
@@ -130,10 +125,9 @@
 					method : 'put',
 					url : url_project,
 					data : vm.model
-				}
+				};
 
 				var httpSuccess = function success(response) {
-
 					common.requestSuccess({
 						vm : vm,
 						response : response,
@@ -145,11 +139,10 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 								}
-							})
+							});
 						}
-
-					})
-				}
+					});
+				};
 
 				common.http({
 					vm : vm,
@@ -162,7 +155,7 @@
 				 common.alert({
 				 vm:vm,
 				 msg:"您填写的信息不正确,请核对后提交!"
-				 })
+				 });
 			}
 		}
 		//end#updateProject
@@ -174,44 +167,47 @@
 		 */
 		//begin#getProjectById
 		function getProjectById(vm){
+			
 			var httpOptions = {
 					method : 'get',
 					url : common.format(url_project + "?$filter=id eq '{0}'", vm.id)
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.model = response.data.value[0]||{};
+				//日期展示
+				vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
+				vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
+				vm.model.pifuJYS_date=common.formatDate(vm.model.pifuJYS_date);//项目建议书批复日期			
+				vm.model.pifuKXXYJBG_date=common.formatDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
+				vm.model.pifuCBSJYGS_date=common.formatDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期
+				
+				//金额处理
+        		vm.model.projectInvestSum=common.toMoney(vm.model.projectInvestSum);//项目总投资
+				vm.model.projectInvestAccuSum=common.toMoney(vm.model.projectInvestAccuSum);//累计完成投资
+				vm.model.capitalSCZ_ggys=common.toMoney(vm.model.capitalSCZ_ggys);//市财政-公共预算
+				vm.model.capitalSCZ_gtzj=common.toMoney(vm.model.capitalSCZ_gtzj);//市财政-国土资金
+				vm.model.capitalSCZ_zxzj=common.toMoney(vm.model.capitalSCZ_zxzj);//市财政-专项资金
+				vm.model.capitalQCZ_ggys=common.toMoney(vm.model.capitalQCZ_ggys);//区财政-公共预算
+				vm.model.capitalQCZ_gtzj=common.toMoney(vm.model.capitalQCZ_gtzj);//区财政-国土资金
+				vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
+				vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
+				if(vm.page=='update'){						
+	        		//项目行业归口
+					var child = $linq(common.getBasicData())
+	        		.where(function(x){return x.id==vm.model.projectIndustry})
+	        		.toArray()[0];
+	        		vm.model.projectIndustryParent=child.pId;
+	        		vm.projectIndustryChange();		        		
 				}
-				var httpSuccess = function success(response) {
-					vm.model = response.data.value[0]||{};
-					//日期展示
-					vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
-					vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
-					vm.model.pifuJYS_date=common.formatDate(vm.model.pifuJYS_date);//项目建议书批复日期			
-					vm.model.pifuKXXYJBG_date=common.formatDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
-					vm.model.pifuCBSJYGS_date=common.formatDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期
-					
-					//金额处理
-	        		vm.model.projectInvestSum=common.toMoney(vm.model.projectInvestSum);//项目总投资
-					vm.model.projectInvestAccuSum=common.toMoney(vm.model.projectInvestAccuSum);//累计完成投资
-					vm.model.capitalSCZ_ggys=common.toMoney(vm.model.capitalSCZ_ggys);//市财政-公共预算
-					vm.model.capitalSCZ_gtzj=common.toMoney(vm.model.capitalSCZ_gtzj);//市财政-国土资金
-					vm.model.capitalSCZ_zxzj=common.toMoney(vm.model.capitalSCZ_zxzj);//市财政-专项资金
-					vm.model.capitalQCZ_ggys=common.toMoney(vm.model.capitalQCZ_ggys);//区财政-公共预算
-					vm.model.capitalQCZ_gtzj=common.toMoney(vm.model.capitalQCZ_gtzj);//区财政-国土资金
-					vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
-					vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
-					if(vm.page=='update'){						
-		        		//项目行业归口
-						var child = $linq(common.getBasicData())
-		        		.where(function(x){return x.id==vm.model.projectIndustry})
-		        		.toArray()[0];
-		        		vm.model.projectIndustryParent=child.pId;
-		        		vm.projectIndustryChange();		        		
-					}
-				}
-				common.http({
-					vm : vm,
-					$http : $http,
-					httpOptions : httpOptions,
-					success : httpSuccess
-				});
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
 		}
 		//end#getProjectById
 		
@@ -249,7 +245,7 @@
 							return kendo
 									.format(
 											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
-											item.id)
+											item.id);
 						},
 						filterable : false,
 						width : 40,

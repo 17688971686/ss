@@ -23,20 +23,21 @@
 					method : 'put',
 					url : url_basicData,
 					data : vm.model
-				}
-				var httpSuccess = function success(response) {
-					common.requestSuccess({
-						vm : vm,
-						response : response
-					});
-
-				}
-				common.http({
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
 					vm : vm,
-					$http : $http,
-					httpOptions : httpOptions,
-					success : httpSuccess
+					response : response
 				});
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
 		}
 		
 		/**
@@ -47,20 +48,21 @@
 					method : 'delete',
 					url : url_basicData,
 					data : id
-				}
-				var httpSuccess = function success(response) {
-					common.requestSuccess({
-						vm : vm,
-						response : response
-					});
-
-				}
-				common.http({
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
 					vm : vm,
-					$http : $http,
-					httpOptions : httpOptions,
-					success : httpSuccess
+					response : response
 				});
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
 		}
 		
 		/**
@@ -71,23 +73,21 @@
 				method : 'post',
 				url : url_basicData,
 				data : vm.model
-			}
+			};
 
 			var httpSuccess = function success(response) {	
 				common.requestSuccess({
 					vm : vm,
 					response : response					
 				});
-	
-			}
+			};
+			
 			common.http({
 				vm : vm,
 				$http : $http,
 				httpOptions : httpOptions,
 				success : httpSuccess
-			});
-
-				
-			}
+			});				
+		}
 	}	
 })();

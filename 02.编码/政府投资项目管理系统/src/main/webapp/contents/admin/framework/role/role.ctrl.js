@@ -12,7 +12,6 @@
         var vm = this;
         vm.title = '角色列表';
         
-
         vm.del = function (id) {        	
         	 
              common.confirm({
@@ -23,8 +22,9 @@
                   	$('.confirmDialog').modal('hide');             	
                     roleSvc.deleteRole(vm,id);
                  }
-             })
-        }
+             });
+        };
+        
         vm.dels = function () {     
         	var selectIds = common.getKendoCheckId('.grid');
             if (selectIds.length == 0) {
@@ -41,7 +41,7 @@
                 var idStr=ids.join(',');
                 vm.del(idStr);
             }   
-       }
+       };
         activate();
         function activate() {
             roleSvc.grid(vm);

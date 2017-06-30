@@ -30,24 +30,25 @@
 					method : 'get',
 					url : url_getSysConfigs,
 					data : vm.model
-				}
-				var httpSuccess = function success(response) {
+				};
+			
+			var httpSuccess = function success(response) {
 				vm.userTaskList = response.data;
-				for (var int = 0; int < vm.userTaskList.length; int++) {
+				for (var j = 0; j < vm.userTaskList.length; j++) {
 					for (var i = 0; i < vm.model.taskList.length; i++) {
-						if(vm.userTaskList[int].configName == vm.model.taskList[i].id &&vm.userTaskList[int].configType =="taskType"){
-							vm.model.taskList[i].taskUser = vm.userTaskList[int].configValue;
+						if(vm.userTaskList[j].configName == vm.model.taskList[i].id &&vm.userTaskList[j].configType =="taskType"){
+							vm.model.taskList[i].taskUser = vm.userTaskList[j].configValue;
 						}
 					}
-				}
+				}		
+			};
 			
-				}
-				common.http({
-					vm : vm,
-					$http : $http,
-					httpOptions : httpOptions,
-					success : httpSuccess
-				});
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
 		}
 		
 		
@@ -64,9 +65,9 @@
 					method : 'post',
 					url : url_taskUser,
 					data : data
-				}
+				};
 			
-				var httpSuccess = function success(response) {
+			var httpSuccess = function success(response) {
 				common.requestSuccess({
 					vm:vm,
 					response:response,
@@ -80,17 +81,17 @@
 								$('.modal-backdrop').remove();
 								location.reload();
 							}
-						})
-					}
-					
+						});
+					}					
 				});
-				}
-				common.http({
-					vm : vm,
-					$http : $http,
-					httpOptions : httpOptions,
-					success : httpSuccess
-				});
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
 		}
 		
 		/**
@@ -98,14 +99,17 @@
 		 * 
 		 */
 		function getAllUser(vm) {
+			
 			var httpOptions = {
 				method : 'get',
 				url : url_user,
 				data : vm.model
-			}
+			};
+			
 			var httpSuccess = function success(response) {
 				vm.userList = response.data.value;
-			}
+			};
+			
 			common.http({
 				vm : vm,
 				$http : $http,
@@ -123,19 +127,22 @@
 		}
 		
 		function updateTaskUser(){
+			
 			var httpOptions = {
 					method : 'put',
 					url : url_user
-				}
-				var httpSuccess = function success(response) {
-					vm.userList = response.data.value;
-				}
-				common.http({
-					vm : vm,
-					$http : $http,
-					httpOptions : httpOptions,
-					success : httpSuccess
-				});
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.userList = response.data.value;
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
 		}
 	}
 })();

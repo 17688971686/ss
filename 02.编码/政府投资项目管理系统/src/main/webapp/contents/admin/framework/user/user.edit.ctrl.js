@@ -36,7 +36,7 @@
             	vm.model.passwordConfirm="";
         	}
         	
-        }
+        };
 
         activate();
         function activate() {

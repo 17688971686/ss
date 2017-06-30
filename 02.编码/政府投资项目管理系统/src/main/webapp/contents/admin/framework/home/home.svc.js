@@ -21,15 +21,13 @@
 			if (isValid) {
 				vm.isSubmit = true;
 				
-
 				var httpOptions = {
 					method : 'put',
 					url : url_account_password,
 					data : vm.model.password
-				}
+				};
 
 				var httpSuccess = function success(response) {
-
 					common.requestSuccess({
 						vm : vm,
 						response : response,
@@ -42,11 +40,10 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 								}
-							})
+							});
 						}
-
-					})
-				}
+					});
+				};
 
 				common.http({
 					vm : vm,
@@ -54,15 +51,12 @@
 					httpOptions : httpOptions,
 					success : httpSuccess
 				});
-
 			} else {
 				// common.alert({
 				// vm:vm,
 				// msg:"您填写的信息不正确,请核对后提交!"
 				// })
 			}
-
 		}
-
 	}
 })();

@@ -12,11 +12,10 @@
     	var vm = this;
         vm.title = '';
         
-
         vm.changePwd = function () {        	
-        	 homeSvc.changePwd(vm);
-          
-        }
+        	 homeSvc.changePwd(vm);          
+        };
+        
         activate();
         function activate() {
         }

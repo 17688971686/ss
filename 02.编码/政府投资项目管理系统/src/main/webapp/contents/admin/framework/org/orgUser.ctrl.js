@@ -23,7 +23,7 @@
         vm.closeAddUserDialog=function(){
         	$('.addUser').modal('hide');		
         	
-        }
+        };
         vm.add = function (userId) {
         	orgUserSvc.add(vm,userId);
         };
@@ -46,7 +46,7 @@
                 var idStr=ids.join(',');
                 vm.remove(idStr);
             }   
-       }
+       };
 
         activate();
         function activate() {

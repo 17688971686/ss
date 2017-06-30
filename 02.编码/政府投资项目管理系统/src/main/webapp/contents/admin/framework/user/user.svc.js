@@ -44,15 +44,13 @@
 					method : 'put',
 					url : url_user,
 					data : vm.model
-				}
+				};
 
 				var httpSuccess = function success(response) {
-
 					common.requestSuccess({
 						vm : vm,
 						response : response,
 						fn : function() {
-
 							common.alert({
 								vm : vm,
 								msg : "操作成功",
@@ -60,11 +58,10 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 								}
-							})
+							});
 						}
-
-					})
-				}
+					});
+				};
 
 				common.http({
 					vm : vm,
@@ -85,14 +82,14 @@
 		// begin#deleteUser
 		function deleteUser(vm, id) {
 			vm.isSubmit = true;
+			
 			var httpOptions = {
 				method : 'delete',
 				url : url_user,
 				data : id
-
-			}
+			};
+			
 			var httpSuccess = function success(response) {
-
 				common.requestSuccess({
 					vm : vm,
 					response : response,
@@ -102,8 +99,8 @@
 					}
 
 				});
-
-			}
+			};
+			
 			common.http({
 				vm : vm,
 				$http : $http,
@@ -135,15 +132,13 @@
 					method : 'post',
 					url : url_user,
 					data : vm.model
-				}
+				};
 
 				var httpSuccess = function success(response) {
-
 					common.requestSuccess({
 						vm : vm,
 						response : response,
 						fn : function() {
-
 							common.alert({
 								vm : vm,
 								msg : "操作成功",
@@ -153,12 +148,11 @@
 									$('.modal-backdrop').remove();
 									location.href = url_back;
 								}
-							})
+							});
 						}
-
 					});
 
-				}
+				};
 
 				common.http({
 					vm : vm,
@@ -166,7 +160,6 @@
 					httpOptions : httpOptions,
 					success : httpSuccess
 				});
-
 			}
 		}
 
@@ -175,9 +168,9 @@
 			var httpOptions = {
 				method : 'get',
 				url : url_role
-			}
+			};
+			
 			var httpSuccess = function success(response) {
-
 				common.requestSuccess({
 					vm : vm,
 					response : response,
@@ -213,8 +206,8 @@
 					}
 
 				});
-
-			}
+			};
+			
 			common.http({
 				vm : vm,
 				$http : $http,
@@ -228,13 +221,14 @@
 			var httpOptions = {
 				method : 'get',
 				url : common.format(url_user + "?$filter=id eq '{0}'", vm.id)
-			}
+			};
+			
 			var httpSuccess = function success(response) {
 				vm.model = response.data.value[0];
 				if (vm.isUpdate) {
 					initZtreeClient(vm);
 				}
-			}
+			};
 
 			common.http({
 				vm : vm,
@@ -245,7 +239,6 @@
 		}
 		// begin#grid
 		function grid(vm) {
-
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
@@ -277,7 +270,7 @@
 							return kendo
 									.format(
 											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox' />",
-											item.id)
+											item.id);
 						},
 						filterable : false,
 						width : 40,

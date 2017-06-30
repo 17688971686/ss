@@ -19,7 +19,7 @@
         		vm.year=$state.params.year;
         		vm.month=$state.params.month;
         	}
-        }//end init
+        };//end init
         
         activate();
         function activate() {

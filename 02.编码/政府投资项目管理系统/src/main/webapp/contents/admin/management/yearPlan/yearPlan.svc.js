@@ -8,7 +8,7 @@
 	function yearPlan($http) {
 		var url_shenbaoInfoList = "/management/shenbao";
 		var url_planList="/management/yearPlan";
-		var url_planCapital="/management/yearPlanCapital"
+		var url_planCapital="/management/yearPlanCapital";
 		var url_back_planList="#/yearPlan/planList";
 
 		
@@ -31,16 +31,18 @@
 			var httpOptions = {
 					method : 'post',
 					url : common.format(url_planList+"/removeCapital?planId={0}&yearPlanCapitalId={1}",vm.id,id)
-				}
-				var httpSuccess = function success(response) {
+				};
+			
+			var httpSuccess = function success(response) {
 				vm.planGridOptions.dataSource.read();
-				}
-				common.http({
-					vm:vm,
-					$http:$http,
-					httpOptions:httpOptions,
-					success:httpSuccess
-				});	
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});	
 		}//removeYearPlanCapital
 		
 		/**
@@ -58,12 +60,13 @@
 					method : 'put',
 					url : url_planCapital,
 					data:vm.model.capital
-				}
-				var httpSuccess = function success(response) {
-					getPlanById(vm);
-					$('#capitalSum_'+vm.currentCapitalId).val(vm.model.capital.capitalSum);
-					vm.isPopOver = false;
-			}
+				};
+			var httpSuccess = function success(response) {
+				getPlanById(vm);
+				$('#capitalSum_'+vm.currentCapitalId).val(vm.model.capital.capitalSum);
+				vm.isPopOver = false;
+			};
+			
 			common.http({
 				vm:vm,
 				$http:$http,
@@ -79,11 +82,12 @@
 			var httpOptions = {
 					method : 'get',
 					url : common.format(url_planCapital + "?$filter=id eq '{0}'", id)
-				}
-				var httpSuccess = function success(response) {
-					vm.model.capital = response.data.value[0]||{};
-					
-			}
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.model.capital = response.data.value[0]||{};				
+			};
+			
 			common.http({
 				vm:vm,
 				$http:$http,
@@ -99,15 +103,17 @@
 			var httpOptions = {
 					method : 'get',
 					url : common.format(url_shenbaoInfoList + "?$filter=id eq '{0}'", id)
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.model.shenBaoInfo = response.data.value[0]||{};
+				if(vm.model.shenBaoInfo.projectInvestSum){
+					return vm.model.shenBaoInfo.projectInvestSum;
+				}else{
+					return 0;
 				}
-				var httpSuccess = function success(response) {
-					vm.model.shenBaoInfo = response.data.value[0]||{};
-					if(vm.model.shenBaoInfo.projectInvestSum){
-						return vm.model.shenBaoInfo.projectInvestSum
-					}else{
-						return 0;
-					}
-			}
+			};
+			
 			common.http({
 				vm:vm,
 				$http:$http,
@@ -122,17 +128,19 @@
 		function addShenBaoInfoconfirm(vm,id){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_planList+"/addCapital?planId={0}&shenBaoId={1}",vm.id,id),
-				}
-				var httpSuccess = function success(response) {
-					vm.planGridOptions.dataSource.read();
-				}
-				common.http({
-					vm:vm,
-					$http:$http,
-					httpOptions:httpOptions,
-					success:httpSuccess
-				});			
+					url : common.format(url_planList+"/addCapital?planId={0}&shenBaoId={1}",vm.id,id)
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.planGridOptions.dataSource.read();
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});			
 		}//end addShenBaoInfoconfirm
 		
 		/**
@@ -142,87 +150,89 @@
 			var httpOptions = {
 					method : 'get',
 					url : common.format(url_planList + "?$filter=id eq '{0}'", vm.id)					
-				}
-				var httpSuccess = function success(response) {
-					if(vm.page=='plan_update'){//用于年度计划基本信息的编辑
-						vm.model=response.data.value[0];
-					}					
-					if(vm.page=='planBZ'){//用于年度计划的编制
-						vm.model.plan=response.data.value[0];						
-						//数据汇总数据计算
-						var Capitals = vm.model.plan.yearPlanCapitalDtos;
-						//属于该年度计划编制的申报项目信息
-						var shenBaoInfoList = vm.planGridOptions.dataSource._data;
-						//项目总数
-						vm.model.shenBaoInfoTotal = shenBaoInfoList.length;
-						vm.model.QianQiTotal = 0;//前期
-						vm.model.NewStratTotal = 0;//新开工
-						vm.model.XuJianTotal = 0;//续建
-						vm.model.projectInvestSumTotal = 0;//项目总投资
-						vm.model.applyYearInvestTotal = 0;//申请资金总额
-						vm.model.yearInvestApprovalTotal = 0;//安排资金总计
-						for(var j=0;j<shenBaoInfoList.length;j++){
-							var obj = shenBaoInfoList[j];
-							if(obj.projectConstrChar && obj.projectConstrChar == 'projectConstrChar_1'){
-								vm.model.QianQiTotal ++;
-							}
-							if(obj.projectConstrChar && obj.projectConstrChar == 'projectConstrChar_2'){
-								vm.model.NewStratTotal ++;
-							}
-							if(obj.projectConstrChar && obj.projectConstrChar == 'projectConstrChar_3'){
-								vm.model.XuJianTotal ++;
-							}
-							if(obj.projectInvestSum){
-								vm.model.projectInvestSumTotal += obj.projectInvestSum;
-							}
-							if(obj.applyYearInvest){
-								vm.model.applyYearInvestTotal += obj.applyYearInvest;
-							}
-							if(obj.yearInvestApproval){
-								vm.model.yearInvestApprovalTotal += obj.yearInvestApproval;
-							}
+				};
+			
+			var httpSuccess = function success(response) {
+				if(vm.page=='plan_update'){//用于年度计划基本信息的编辑
+					vm.model=response.data.value[0];
+				}					
+				if(vm.page=='planBZ'){//用于年度计划的编制
+					vm.model.plan=response.data.value[0];						
+					//数据汇总数据计算
+					var Capitals = vm.model.plan.yearPlanCapitalDtos;
+					//属于该年度计划编制的申报项目信息
+					var shenBaoInfoList = vm.planGridOptions.dataSource._data;
+					//项目总数
+					vm.model.shenBaoInfoTotal = shenBaoInfoList.length;
+					vm.model.QianQiTotal = 0;//前期
+					vm.model.NewStratTotal = 0;//新开工
+					vm.model.XuJianTotal = 0;//续建
+					vm.model.projectInvestSumTotal = 0;//项目总投资
+					vm.model.applyYearInvestTotal = 0;//申请资金总额
+					vm.model.yearInvestApprovalTotal = 0;//安排资金总计
+					for(var j=0;j<shenBaoInfoList.length;j++){
+						var obj = shenBaoInfoList[j];
+						if(obj.projectConstrChar && obj.projectConstrChar == 'projectConstrChar_1'){
+							vm.model.QianQiTotal ++;
 						}
-						//计划总规模						
-						vm.model.capitalSCZ_ggysTotal = 0;
-						vm.model.capitalSCZ_gtzjTotal = 0;
-						vm.model.capitalSCZ_zxzjTotal = 0;
-						vm.model.capitalQCZ_ggysTotal = 0;
-						vm.model.capitalQCZ_gtzjTotal = 0;
-						vm.model.capitalSHTZTotal = 0;
-						vm.model.capitalOtherTotal = 0;
-						for(var i=0;i<Capitals.length;i++){
-							
-							if(Capitals[i].capitalSCZ_ggys){
-								vm.model.capitalSCZ_ggysTotal += Capitals[i].capitalSCZ_ggys;
-							}
-							if(Capitals[i].capitalSCZ_gtzj){
-								vm.model.capitalSCZ_gtzjTotal += Capitals[i].capitalSCZ_gtzj;
-							}
-							if(Capitals[i].capitalSCZ_zxzj){
-								vm.model.capitalSCZ_zxzjTotal += Capitals[i].capitalSCZ_zxzj;
-							}
-							if(Capitals[i].capitalQCZ_ggys){
-								vm.model.capitalQCZ_ggysTotal += Capitals[i].capitalQCZ_ggys;
-							}
-							if(Capitals[i].capitalQCZ_gtzj){
-								vm.model.capitalQCZ_gtzjTotal += Capitals[i].capitalQCZ_gtzj;
-							}
-							if(Capitals[i].capitalSHTZ){
-								vm.model.capitalSHTZTotal += Capitals[i].capitalSHTZ;
-							}
-							if(Capitals[i].capitalOther){
-								vm.model.capitalOtherTotal += Capitals[i].capitalOther;
-							}							
+						if(obj.projectConstrChar && obj.projectConstrChar == 'projectConstrChar_2'){
+							vm.model.NewStratTotal ++;
+						}
+						if(obj.projectConstrChar && obj.projectConstrChar == 'projectConstrChar_3'){
+							vm.model.XuJianTotal ++;
+						}
+						if(obj.projectInvestSum){
+							vm.model.projectInvestSumTotal += obj.projectInvestSum;
+						}
+						if(obj.applyYearInvest){
+							vm.model.applyYearInvestTotal += obj.applyYearInvest;
+						}
+						if(obj.yearInvestApproval){
+							vm.model.yearInvestApprovalTotal += obj.yearInvestApproval;
 						}
 					}
-					
+					//计划总规模						
+					vm.model.capitalSCZ_ggysTotal = 0;
+					vm.model.capitalSCZ_gtzjTotal = 0;
+					vm.model.capitalSCZ_zxzjTotal = 0;
+					vm.model.capitalQCZ_ggysTotal = 0;
+					vm.model.capitalQCZ_gtzjTotal = 0;
+					vm.model.capitalSHTZTotal = 0;
+					vm.model.capitalOtherTotal = 0;
+					for(var i=0;i<Capitals.length;i++){
+						
+						if(Capitals[i].capitalSCZ_ggys){
+							vm.model.capitalSCZ_ggysTotal += Capitals[i].capitalSCZ_ggys;
+						}
+						if(Capitals[i].capitalSCZ_gtzj){
+							vm.model.capitalSCZ_gtzjTotal += Capitals[i].capitalSCZ_gtzj;
+						}
+						if(Capitals[i].capitalSCZ_zxzj){
+							vm.model.capitalSCZ_zxzjTotal += Capitals[i].capitalSCZ_zxzj;
+						}
+						if(Capitals[i].capitalQCZ_ggys){
+							vm.model.capitalQCZ_ggysTotal += Capitals[i].capitalQCZ_ggys;
+						}
+						if(Capitals[i].capitalQCZ_gtzj){
+							vm.model.capitalQCZ_gtzjTotal += Capitals[i].capitalQCZ_gtzj;
+						}
+						if(Capitals[i].capitalSHTZ){
+							vm.model.capitalSHTZTotal += Capitals[i].capitalSHTZ;
+						}
+						if(Capitals[i].capitalOther){
+							vm.model.capitalOtherTotal += Capitals[i].capitalOther;
+						}							
+					}
 				}
-				common.http({
-					vm:vm,
-					$http:$http,
-					httpOptions:httpOptions,
-					success:httpSuccess
-				});
+				
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
 		}//end getPlanById
 		
 		/**
@@ -256,7 +266,7 @@
 							return kendo
 									.format(
 											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
-											item.id)
+											item.id);
 						},
 						filterable : false,
 						width : 40,
@@ -449,7 +459,7 @@
 							return kendo
 									.format(
 											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
-											item.id)
+											item.id);
 						},
 						filterable : false,
 						width : 40,
@@ -525,12 +535,14 @@
 			common.initJqValidation();
 			var isValid = $('form').valid();
 			if (isValid) {
-				vm.isSubmit = true;	               
+				vm.isSubmit = true;
+				
 				var httpOptions = {
 					method : 'post',
 					url : url_planList,
 					data : vm.model
-				}
+				};
+				
 				var httpSuccess = function success(response) {	
 					common.requestSuccess({
 						vm:vm,
@@ -545,12 +557,10 @@
 									$('.modal-backdrop').remove();
 									location.href = url_back_planList;
 								}
-							})
-						}
-						
+							});
+						}						
 					});
-
-				}
+				};
 
 				common.http({
 					vm:vm,
@@ -568,12 +578,14 @@
 			common.initJqValidation();
 			var isValid = $('form').valid();
 			if (isValid) {
-				vm.isSubmit = true;	               
+				vm.isSubmit = true;
+				
 				var httpOptions = {
 					method : 'put',
 					url : url_planList,
 					data : vm.model
-				}
+				};
+				
 				var httpSuccess = function success(response) {	
 					common.requestSuccess({
 						vm:vm,
@@ -588,12 +600,10 @@
 									$('.modal-backdrop').remove();
 									location.href = url_back_planList;
 								}
-							})
-						}
-						
+							});
+						}						
 					});
-
-				}
+				};
 
 				common.http({
 					vm:vm,
@@ -635,7 +645,7 @@
 							return kendo
 									.format(
 											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
-											item.id)
+											item.id);
 						},
 						filterable : false,
 						width : 40,
@@ -726,7 +736,7 @@
 							return kendo
 									.format(
 											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
-											item.id)
+											item.id);
 						},
 						filterable : false,
 						width : 40,

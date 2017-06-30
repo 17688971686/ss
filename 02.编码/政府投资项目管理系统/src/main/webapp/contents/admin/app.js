@@ -229,7 +229,7 @@
 	            templateUrl: '/management/task/html/complete',
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'
-	        })	        
+	        });      
 	        //end#工作台
     }]);
     
