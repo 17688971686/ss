@@ -23,8 +23,8 @@
 		function getUserUnitInfo(vm){
 			var httpOptions = {
 					method : 'get',
-					url : url_userUnitInfo,
-				}
+					url : url_userUnitInfo
+				};
 				var httpSuccess = function success(response) {					
 					vm.model.userUnitInfo=response.data;
 					vm.model.monthReport.fillName=vm.model.userUnitInfo.unitContactPerson;
@@ -35,7 +35,7 @@
 					vm.model.monthReport.monRepManagUnitName=vm.model.userUnitInfo.unitName;
 					vm.model.monthReport.respUnitManagerName = vm.model.userUnitInfo.unitResPerson;
 					vm.model.monthReport.respUnitManagerTel = vm.model.userUnitInfo.resPersonMobile;
-				}
+				};
 				
 				common.http({
 					vm:vm,
@@ -51,8 +51,8 @@
 		function getProjectById(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_project + "?$filter=id eq '{0}'", vm.projectId),
-				}
+					url : common.format(url_project + "?$filter=id eq '{0}'", vm.projectId)
+				};
 				var httpSuccess = function success(response) {					
 					vm.model.projectInfo = response.data.value[0]||{};
 										
@@ -93,10 +93,10 @@
 						vm.model.monthReport.thisYearPlanInvestment=common.toMoney(vm.model.monthReport.thisYearPlanInvestment);//本年度计划完成投资
 						vm.model.monthReport.thisYearAccumulatedInvestment=common.toMoney(vm.model.monthReport.thisYearAccumulatedInvestment);//本年度已完成投资
 						vm.model.monthReport.thisMonthInvestTotal=common.toMoney(vm.model.monthReport.thisMonthInvestTotal);//本月完成投资
-						vm.model.monthReport.firstQuarCompInvestment=common.toMoney(vm.model.monthReport.firstQuarCompInvestment)//1到3月份完成投资
-						vm.model.monthReport.secondQuarCompInvestment=common.toMoney(vm.model.monthReport.secondQuarCompInvestment)//1到6月份完成投资
-						vm.model.monthReport.thirdQuarCompInvestment=common.toMoney(vm.model.monthReport.thirdQuarCompInvestment)//1到9月份完成投资
-						vm.model.monthReport.fourthQuarCompInvestment=common.toMoney(vm.model.monthReport.fourthQuarCompInvestment)//1到12月份完成投资
+						vm.model.monthReport.firstQuarCompInvestment=common.toMoney(vm.model.monthReport.firstQuarCompInvestment);//1到3月份完成投资
+						vm.model.monthReport.secondQuarCompInvestment=common.toMoney(vm.model.monthReport.secondQuarCompInvestment);//1到6月份完成投资
+						vm.model.monthReport.thirdQuarCompInvestment=common.toMoney(vm.model.monthReport.thirdQuarCompInvestment);//1到9月份完成投资
+						vm.model.monthReport.fourthQuarCompInvestment=common.toMoney(vm.model.monthReport.fourthQuarCompInvestment);//1到12月份完成投资
 						//获取用户单位信息
 						//getUserUnitInfo(vm);
 					}
@@ -120,7 +120,7 @@
 				  			 		+ (parseFloat(vm.model.projectInfo.capitalQCZ_gtzj)||0 )
 				  			 		+ (parseFloat(vm.model.projectInfo.capitalSHTZ)||0 )
 				  			 		+ (parseFloat(vm.model.projectInfo.capitalOther)||0) ;
-				  		 }
+				  		 };
 						//日期处理
 						vm.model.projectInfo.beginDate = common.toDate(vm.model.projectInfo.beginDate);
 						vm.model.projectInfo.endDate = common.toDate(vm.model.projectInfo.endDate);
@@ -129,7 +129,7 @@
 						vm.model.projectInfo.pifuCBSJYGS_date=common.toDate(vm.model.projectInfo.pifuCBSJYGS_date);
 					}
 					
-				}
+				};
 				
 				common.http({
 					vm:vm,
@@ -156,7 +156,7 @@
 						method : 'post',
 						url : url_projectMonthReport,
 						data : vm.model.monthReport
-					}
+					};
 				
 				var httpSuccess = function success(response) {
 
@@ -172,11 +172,11 @@
 									$('.alertDialog').modal('hide');
 									location.reload();
 								}
-							})
+							});
 						}
 
-					})
-				}
+					});
+				};
 
 				common.http({
 					vm : vm,

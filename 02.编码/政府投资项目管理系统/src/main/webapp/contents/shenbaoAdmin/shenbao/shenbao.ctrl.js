@@ -30,7 +30,7 @@
         	if($state.current.name=='shenbao_record_edit'){//申报信息编辑
         		vm.page='record_edit';
         	}
-        }
+        };
         
         activate();
         function activate() {
@@ -80,12 +80,13 @@
 	             		shenbaoSvc.isHadShenBaoInfo(vm);
 	             	}
 	             });
-           }
+           };
     	   //点击模态框的确认按钮
            vm.confirm = function(){
            	$(".modal-backdrop").remove(); //去掉模态框背面的阴影
            	location.href = "#/shenbao/"+vm.projectId+"/"+vm.projectShenBaoStage;
-           }
+           };    	   
+           
            //点击列表中的申报记录按钮
            vm.checkShenBaoRecords = function(id){
         	   //展示模态框
@@ -109,7 +110,7 @@
 	   					['XMJZ','项目进展情况相关资料'],['QQGZJH','前期工作计划文件'],['XMSSYJ','项目实施依据文件'],['HYJY','会议纪要']];
     			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
     		   }
-    	   }
+    	   };
     	   init_tab_show();
     	   
     	   //获取基础数据
@@ -123,7 +124,7 @@
 	       		vm.basicData.projectIndustryChildren=$linq(common.getBasicData())
 	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.model.projectIndustryParent;})
 	       		.toArray();
-	   		}
+	   		};
 	       	//投资类型
 	   		vm.basicData.projectInvestmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);
 	   		//项目分类
@@ -135,9 +136,9 @@
 	   		//单位性质
 	   		vm.basicData.unitProperty=common.getBacicDataByIndectity(common.basicDataConfig().unitProperty);	   		
 	   		//行政区划街道
-	   		vm.basicData.area_Street=$linq(common.getBasicData())
-	 			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
-	 			.toArray();
+	   		vm.basicData.area_Street=$linq(common.getBasicData()).where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;}).toArray();
+	   		
+	   		
 	   		//资金其他来源类型
 	   		vm.basicData.capitalOther=common.getBacicDataByIndectity(common.basicDataConfig().capitalOtherType);
     	  
@@ -154,11 +155,11 @@
 	           			 }                			           			
 	           		 });
 	           	 }
-  		}
+  		};
     	   //删除上传文件
   		 vm.delFile=function(idx){
           	 vm.model.attachmentDtos.splice(idx,1);
-  		 }
+  		 };
   		 if(vm.page=='edit'){
   			//获取项目信息
   	  		 shenbaoSvc.getProjectById(vm); 
@@ -172,12 +173,12 @@
     			if(isValid){//通过则跳转到下一页面
     				vm.tabStrip.activateTab(activeTab);
     			}
-     		}
+     		};
   		
   		 //确认提交
     	vm.submit = function(){
     		shenbaoSvc.createShenBaoInfo(vm);
-    	}               
+    	};             
     }//end#page_edit
        
        function page_records(){
@@ -188,7 +189,7 @@
     	   shenbaoSvc.getShenBaoInfoById(vm);
     	   vm.update = function(){
     		   shenbaoSvc.updateShenBaoInfo(vm);
-    	   }
+    	   };
        }//end#page_record
    }
 })();

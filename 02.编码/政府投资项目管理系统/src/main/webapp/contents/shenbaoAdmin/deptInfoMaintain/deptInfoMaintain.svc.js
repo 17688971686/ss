@@ -25,7 +25,7 @@
 						method : 'post',
 						url : url_userUnitInfo,
 						data : vm.model
-					}
+					};
 				
 				var httpSuccess = function success(response) {
 
@@ -41,11 +41,11 @@
 									$('.alertDialog').modal('hide');
 									location.reload();
 								}
-							})
+							});
 						}
 
-					})
-				}
+					});
+				};
 
 				common.http({
 					vm : vm,
@@ -59,11 +59,11 @@
 		function getDeptInfo(vm){
 			var httpOptions = {
 					method : 'get',
-					url : url_userUnitInfo,
-				}
+					url : url_userUnitInfo
+				};
 				var httpSuccess = function success(response) {					
 					vm.model=response.data.value[0] || {};
-				}
+				};
 				
 				common.http({
 					vm:vm,

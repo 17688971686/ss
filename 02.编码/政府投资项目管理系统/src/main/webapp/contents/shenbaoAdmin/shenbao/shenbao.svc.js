@@ -18,7 +18,7 @@
 			recordsGird:recordsGird,
 			getShenBaoInfoById:getShenBaoInfoById,
 			updateShenBaoInfo:updateShenBaoInfo,
-			isHadShenBaoInfo:isHadShenBaoInfo,
+			isHadShenBaoInfo:isHadShenBaoInfo
 		};		
 		return service;
 		
@@ -120,8 +120,8 @@
 		function isHadShenBaoInfo(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_shenbao + "?$filter=projectId eq '{0}' and projectShenBaoStage eq '{1}'", vm.projectId,vm.projectShenBaoStage),
-				}
+					url : common.format(url_shenbao + "?$filter=projectId eq '{0}' and projectShenBaoStage eq '{1}'", vm.projectId,vm.projectShenBaoStage)
+				};
 				var httpSuccess = function success(response) {
 				vm.model.shenBaoInfoDto = response.data.value;
 					if(vm.model.shenBaoInfoDto.length>0){
@@ -131,7 +131,7 @@
 						vm.isStageExist = false;
 						vm.isConfirm = false;
 					}
-				}				
+				};				
 				common.http({
 					vm:vm,
 					$http:$http,
@@ -153,7 +153,7 @@
 					method : 'put',
 					url : url_shenbao,
 					data : vm.model
-				}
+				};
 
 				var httpSuccess = function success(response) {
 
@@ -168,11 +168,11 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 								}
-							})
+							});
 						}
 
-					})
-				}
+					});
+				};
 
 				common.http({
 					vm : vm,
@@ -185,7 +185,7 @@
 				 common.alert({
 				 vm:vm,
 				 msg:"您填写的信息不正确,请核对后提交!"
-				 })
+				 });
 			}
 		}//end#updateShenBaoInfo
 		
@@ -196,7 +196,7 @@
 			var httpOptions = {
 					method : 'get',
 					url : common.format(url_shenbao + "?$filter=id eq '{0}'", vm.id)
-				}
+				};
 				var httpSuccess = function success(response) {
 					vm.model = response.data.value[0]||{};
 						//日期展示
@@ -216,9 +216,7 @@
 						}
 		        		if(vm.page=='record_edit'){
 		        			//项目行业归口
-							var child = $linq(common.getBasicData())
-			        		.where(function(x){return x.id==vm.model.projectIndustry})
-			        		.toArray()[0];
+							var child = $linq(common.getBasicData()).where(function(x){return x.id==vm.model.projectIndustry}).toArray()[0];
 			        		vm.model.projectIndustryParent=child.pId;
 			        		vm.projectIndustryChange();	
 		        		}									
@@ -242,8 +240,8 @@
 				  			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
 				  			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
 				  			 		+ (parseFloat(vm.model.capitalOther)||0) ;
-				  		 }				
-				}
+				  		 };				
+				};
 				common.http({
 					vm : vm,
 					$http : $http,
@@ -293,7 +291,7 @@
 							
 					var msg=item[2];					
 					if(item[1]=='required'){				
-						var isExist=value&&value.trim()!=""					
+						var isExist=value&&value.trim()!="";					
 						if(!isExist){
 							vm.validMessage.push(msg);
 						}						
@@ -308,7 +306,7 @@
 				}else{
 					return true;
 				}												
-			}
+			};
 			
 			if (isValid()) {
 				vm.isSubmit = true;				
@@ -316,7 +314,7 @@
 					method : 'post',
 					url : url_shenbao,
 					data : vm.model
-				}
+				};
 
 				var httpSuccess = function success(response) {
 					common.requestSuccess({
@@ -335,7 +333,7 @@
 							});
 						}
 					});
-				}
+				};
 				
 				common.http({
 					vm : vm,
@@ -352,11 +350,11 @@
 		function getDeptInfo(vm){
 			var httpOptions = {
 					method : 'get',
-					url : url_userUnit,
-				}
+					url : url_userUnit
+				};
 				var httpSuccess = function success(response) {					
 					vm.model.shenBaoUnitInfoDto = response.data;
-				}
+				};
 				
 				common.http({
 					vm:vm,
@@ -373,7 +371,7 @@
 			var httpOptions = {
 					method : 'get',
 					url : common.format(url_project + "?$filter=id eq '{0}'", vm.id)
-				}
+				};
 				var httpSuccess = function success(response) {
 					vm.model = response.data.value[0]||{};
 					if(vm.page=='edit'){
@@ -384,9 +382,7 @@
 						vm.model.pifuKXXYJBG_date=common.formatDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
 						vm.model.pifuCBSJYGS_date=common.formatDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期
 		        		//项目行业归口
-						var child = $linq(common.getBasicData())
-		        		.where(function(x){return x.id==vm.model.projectIndustry})
-		        		.toArray()[0];
+						var child = $linq(common.getBasicData()).where(function(x){return x.id==vm.model.projectIndustry}).toArray()[0];
 		        		vm.model.projectIndustryParent=child.pId;
 		        		vm.projectIndustryChange();			        		
 									
@@ -410,12 +406,12 @@
 				  			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
 				  			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
 				  			 		+ (parseFloat(vm.model.capitalOther)||0) ;
-				  		 }
+				  		 };
 						vm.model.projectId = vm.model.id;
 					}
 					vm.model.projectShenBaoStage = vm.stage;
 					getDeptInfo(vm);
-				}
+				};
 				common.http({
 					vm : vm,
 					$http : $http,

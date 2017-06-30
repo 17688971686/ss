@@ -138,7 +138,7 @@
 	            templateUrl: '/shenbaoAdmin/shenbao/html/edit.html',
 	            controller: 'shenbaoCtrl',
 	            controllerAs: 'vm'
-	        })
+	        });
 /**********************************************end#项目申报*********************************/	        
     }]);
     

@@ -28,10 +28,11 @@
     		if($state.current.name=='project_projectInfo'){
             	vm.page='projectInfo';
             }
+
     		vm.getBasicDataDesc = function(str){
     			return common.getBasicDataDesc(str);
     		}   		
-        }
+        };
         
         activate();
         function activate() {
@@ -137,10 +138,10 @@
 		           			 }                			           			
 		           		 });
 		           	 }
-	   		}
+	   		};
 	   		 vm.delFile=function(idx){
 	           	 vm.model.attachmentDtos.splice(idx,1);
-	            }
+	            };
 	   		 
 	   		 vm.capitalTotal=function(){
 	   			 return (parseFloat(vm.model.capitalSCZ_ggys)||0 )
@@ -151,13 +152,11 @@
 	   			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
 	   			 		+ (parseFloat(vm.model.capitalZYYS)||0 )
 	   			 		+ (parseFloat(vm.model.capitalOther)||0) ;
-	   		 }
+	   		 };
 		        
 	   		 vm.create = function () {    			 
 	   		     projectSvc.createProject(vm);    		     
-	   		 }
-	   		 
-	   		 
+	   		 };
        }//end#page_create
        
        function page_update(){
@@ -166,7 +165,7 @@
    		//更新项目
    		vm.update = function(){
    			projectSvc.updateProject(vm);
-   		}   	   		
+   		};   	   		
        }//end#page_update
        
        function page_projectInfo(){
