@@ -14,10 +14,10 @@ public class ProjectDto extends Project {
 	private String projectTypeDesc;
 	//项目类别
 	private String projectCategoryDesc;
-	//功能分类科目
-	private String projectFunctionClassifyDesc;
+	//功能科目
+//	private String projectFunctionClassifyDesc;
 	//政府经济分类
-	private String projectGoverEconClassifyDesc;
+//	private String projectGoverEconClassifyDesc;
 	//所属行业
 	private String projectIndustryDesc;
 	//项目分类
@@ -28,6 +28,7 @@ public class ProjectDto extends Project {
 	private String projectInvestmentTypeDesc;
 	//项目建设区域
 	private String divisionIdDesc;
+	
 	//begin#关联信息
 	//附件信息
 	private List<AttachmentDto> attachmentDtos=new ArrayList<>();
@@ -99,21 +100,21 @@ public class ProjectDto extends Project {
 		this.projectCategoryDesc = projectCategoryDesc;
 	}
 
-	public String getProjectFunctionClassifyDesc() {
-		return projectFunctionClassifyDesc;
-	}
-
-	public void setProjectFunctionClassifyDesc(String projectFunctionClassifyDesc) {
-		this.projectFunctionClassifyDesc = projectFunctionClassifyDesc;
-	}
-
-	public String getProjectGoverEconClassifyDesc() {
-		return projectGoverEconClassifyDesc;
-	}
-
-	public void setProjectGoverEconClassifyDesc(String projectGoverEconClassifyDesc) {
-		this.projectGoverEconClassifyDesc = projectGoverEconClassifyDesc;
-	}
+//	public String getProjectFunctionClassifyDesc() {
+//		return projectFunctionClassifyDesc;
+//	}
+//
+//	public void setProjectFunctionClassifyDesc(String projectFunctionClassifyDesc) {
+//		this.projectFunctionClassifyDesc = projectFunctionClassifyDesc;
+//	}
+//
+//	public String getProjectGoverEconClassifyDesc() {
+//		return projectGoverEconClassifyDesc;
+//	}
+//
+//	public void setProjectGoverEconClassifyDesc(String projectGoverEconClassifyDesc) {
+//		this.projectGoverEconClassifyDesc = projectGoverEconClassifyDesc;
+//	}
 
 	public String getProjectInvestmentTypeDesc() {
 		return projectInvestmentTypeDesc;

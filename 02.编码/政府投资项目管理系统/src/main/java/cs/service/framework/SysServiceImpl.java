@@ -273,13 +273,16 @@ public class SysServiceImpl implements SysService {
 		this.createBasicData("problemType_6","problemType" , "problemType", "其他", "");
 		
 		this.createBasicData("projectClassify","" , "projectClassify", "项目分类", "");
-		this.createBasicData("projectClassify_1","projectClassify" , "projectClassify", "政府投资房建类", "");
-		this.createBasicData("projectClassify_2","projectClassify" , "projectClassify", "政府投资市政类", "");
-		this.createBasicData("projectClassify_3","projectClassify" , "projectClassify", "政府投资水务类", "");
-		this.createBasicData("projectClassify_4","projectClassify" , "projectClassify", "社会投资房建类", "");
-		this.createBasicData("projectClassify_5","projectClassify" , "projectClassify", "社会投资市政类", "");
-		this.createBasicData("projectClassify_6","projectClassify" , "projectClassify", "社会投资水务类", "");
-		this.createBasicData("projectClassify_7","projectClassify" , "projectClassify", "其它", "");
+		this.createBasicData("projectClassify_1","projectClassify" , "projectClassify", "政府投资项目分类", "");
+			this.createBasicData("projectClassify_1_1","projectClassify_1" , "projectClassify", "政府投资房建类", "");
+			this.createBasicData("projectClassify_1_2","projectClassify_1" , "projectClassify", "政府投资市政类", "");
+			this.createBasicData("projectClassify_1_3","projectClassify_1" , "projectClassify", "政府投资水务类", "");
+			this.createBasicData("projectClassify_1_4","projectClassify_1" , "projectClassify", "其它", "");
+		this.createBasicData("projectClassify_2","projectClassify" , "projectClassify", "社会投资项目分类", "");		
+			this.createBasicData("projectClassify_2_1","projectClassify_2" , "projectClassify", "社会投资房建类", "");
+			this.createBasicData("projectClassify_2_2","projectClassify_2" , "projectClassify", "社会投资市政类", "");
+			this.createBasicData("projectClassify_2_3","projectClassify_2" , "projectClassify", "社会投资水务类", "");
+			this.createBasicData("projectClassify_2_4","projectClassify_2" , "projectClassify", "其它", "");
 		
 		this.createBasicData("projectConstrChar","" , "projectConstrChar", "项目建设性质分类", "");		
 		this.createBasicData("projectConstrChar_1","projectConstrChar" , "projectConstrChar", "前期", "");
@@ -354,12 +357,7 @@ public class SysServiceImpl implements SysService {
 		
 		this.createBasicData("projectInvestmentType","" , "projectInvestmentType", "项目投资类型分类", "项目投资类型分类");
 		this.createBasicData("projectInvestmentType_1","projectInvestmentType" , "projectInvestmentType", "政府投资项目", "项目投资类型分类");
-//		this.createBasicData("projectInvestmentType_1_1","projectInvestmentType_1" , "projectInvestmentType", "市投市建项目", "项目行业分类-政府投资");
-//		this.createBasicData("projectInvestmentType_1_2","projectInvestmentType_1" , "projectInvestmentType", "市投区建项目", "项目行业分类-政府投资");
-//		this.createBasicData("projectInvestmentType_1_3","projectInvestmentType_1" , "projectInvestmentType", "市、区共投项目", "项目行业分类-政府投资");
-
 		this.createBasicData("projectInvestmentType_2","projectInvestmentType" , "projectInvestmentType", "社会投资项目", "项目投资类型分类");
-//		this.createBasicData("projectInvestmentType_2_1","projectInvestmentType_2" , "projectInvestmentType", "市、区政府及社会投资组合类", "项目行业分类-社会投资");
 
 		this.createBasicData("projectProgress","" , "projectProgress", "项目进度分类", "项目进度分类");
 		this.createBasicData("projectProgress_1","projectProgress" , "projectProgress", "进展顺利", "项目进度分类");

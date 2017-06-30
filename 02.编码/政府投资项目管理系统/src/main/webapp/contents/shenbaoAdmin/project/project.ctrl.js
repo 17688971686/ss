@@ -70,15 +70,23 @@
     	   //点击模态框确认按钮跳转不同的信息录入页面
     	   vm.confirmInvestmentType=function(){
     		   $(".modal-backdrop").remove();
-    		   $location.path("/projectEdit/"+vm.model.projectInvestmentType+"/");
+    		   $location.path("/projectEdit//"+vm.model.projectInvestmentType);
     	   }
         }//end#page_list
        
        function page_create(){
-    	   vm.model.projectInvestmentType = vm.projectInvestmentType;
+    	   vm.model.projectInvestmentType = vm.projectInvestmentType;//项目投资类型用于数据收集
     	   if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
+    		   //基础数据项目分类
+    		  vm.basicData.projectClassify=$linq(common.getBasicData())
+	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
+	       		.toArray();
  			  vm.isZFInvestment = true; 			  
  		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资
+ 			  //基础数据项目分类
+ 			  vm.basicData.projectClassify=$linq(common.getBasicData())
+	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
+	       		.toArray();
  			  vm.isSHInvestment = true;
  		   }
     	   	//设置单位信息
@@ -86,8 +94,7 @@
 	   		//begin#基础数据	   		    	   		
 	   		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
 	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类型
-	   		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别
-	   		vm.basicData.projectClassify=common.getBacicDataByIndectity(common.basicDataConfig().projectClassify);//项目分类
+	   		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别	   		
 	   		vm.basicData.projectFunctionClassify=common.getBacicDataByIndectity(common.basicDataConfig().projectFunctionClassify);//功能分类科目
 	   		vm.basicData.projectGoverEconClassify=common.getBacicDataByIndectity(common.basicDataConfig().projectGoverEconClassify);//政府经济分类科目	   		
 	   		vm.basicData.capitalOther=common.getBacicDataByIndectity(common.basicDataConfig().capitalOtherType);//资金其他来源类型	   		
@@ -163,8 +170,20 @@
        }//end#page_update
        
        function page_projectInfo(){
-    	   projectSvc.getUserUnit(vm);
     	   projectSvc.getProjectById(vm);
+    	   if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
+    		   //基础数据项目分类
+    		  vm.basicData.projectClassify=$linq(common.getBasicData())
+	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
+	       		.toArray();
+ 			  vm.isZFInvestment = true; 			  
+ 		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资
+ 			  //基础数据项目分类
+ 			  vm.basicData.projectClassify=$linq(common.getBasicData())
+	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
+	       		.toArray();
+ 			  vm.isSHInvestment = true;
+ 		   }
        }//end#page_projectInfo
 		
     }

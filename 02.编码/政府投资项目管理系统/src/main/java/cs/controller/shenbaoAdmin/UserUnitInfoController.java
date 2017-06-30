@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.common.ICurrentUser;
 import cs.model.PageModelDto;
+import cs.model.DomainDto.BasicDataDto;
 import cs.model.DomainDto.UserUnitInfoDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
@@ -29,8 +30,15 @@ public class UserUnitInfoController {
 	private UserUnitInfoService userUnitInfoService;
 	
 	//@RequiresPermissions("shenbaoAdmin/userUnitInfo##get")	
-	@RequestMapping(name = "获取当前用户的单位数据", path = "", method = RequestMethod.GET)
-	public @ResponseBody PageModelDto<UserUnitInfoDto> get(HttpServletRequest request) throws ParseException{
+	@RequestMapping(name = "获取用户的单位数据", path = "userName", method = RequestMethod.GET)
+	public @ResponseBody PageModelDto<UserUnitInfoDto> getProjectUnit(HttpServletRequest request) throws ParseException{
+		ODataObj odataObj = new ODataObj(request);
+		return userUnitInfoService.get(odataObj);
+	}
+	
+	//@RequiresPermissions("shenbaoAdmin/userUnitInfo##get")	
+	@RequestMapping(name = "获取当前登录用户的单位数据", path = "", method = RequestMethod.GET)
+	public @ResponseBody PageModelDto<UserUnitInfoDto> getUserUnit(HttpServletRequest request) throws ParseException{
 		ODataObj odataObj = new ODataObj(request);
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 		filterItem.setField("userName");
