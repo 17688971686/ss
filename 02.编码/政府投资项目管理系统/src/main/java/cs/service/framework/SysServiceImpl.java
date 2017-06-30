@@ -353,13 +353,13 @@ public class SysServiceImpl implements SysService {
 		this.createBasicData("projectIndustry_12","projectIndustry" , "projectIndustry", "境外投资", "");
 		
 		this.createBasicData("projectInvestmentType","" , "projectInvestmentType", "项目投资类型分类", "项目投资类型分类");
-		this.createBasicData("projectInvestmentType_1","projectInvestmentType" , "projectInvestmentType", "政府投资", "项目投资类型分类");
-		this.createBasicData("projectInvestmentType_1_1","projectInvestmentType_1" , "projectInvestmentType", "市投市建", "项目行业分类-政府投资");
-		this.createBasicData("projectInvestmentType_1_2","projectInvestmentType_1" , "projectInvestmentType", "市投区建", "项目行业分类-政府投资");
-		this.createBasicData("projectInvestmentType_1_3","projectInvestmentType_1" , "projectInvestmentType", "市、区共投", "项目行业分类-政府投资");
+		this.createBasicData("projectInvestmentType_1","projectInvestmentType" , "projectInvestmentType", "政府投资项目", "项目投资类型分类");
+//		this.createBasicData("projectInvestmentType_1_1","projectInvestmentType_1" , "projectInvestmentType", "市投市建项目", "项目行业分类-政府投资");
+//		this.createBasicData("projectInvestmentType_1_2","projectInvestmentType_1" , "projectInvestmentType", "市投区建项目", "项目行业分类-政府投资");
+//		this.createBasicData("projectInvestmentType_1_3","projectInvestmentType_1" , "projectInvestmentType", "市、区共投项目", "项目行业分类-政府投资");
 
-		this.createBasicData("projectInvestmentType_2","projectInvestmentType" , "projectInvestmentType", "社会投资", "项目投资类型分类");
-		this.createBasicData("projectInvestmentType_2_1","projectInvestmentType_2" , "projectInvestmentType", "市、区政府及社会投资组合类", "项目行业分类-社会投资");
+		this.createBasicData("projectInvestmentType_2","projectInvestmentType" , "projectInvestmentType", "社会投资项目", "项目投资类型分类");
+//		this.createBasicData("projectInvestmentType_2_1","projectInvestmentType_2" , "projectInvestmentType", "市、区政府及社会投资组合类", "项目行业分类-社会投资");
 
 		this.createBasicData("projectProgress","" , "projectProgress", "项目进度分类", "项目进度分类");
 		this.createBasicData("projectProgress_1","projectProgress" , "projectProgress", "进展顺利", "项目进度分类");

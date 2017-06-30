@@ -11,10 +11,12 @@
         /* jshint validthis:true */
         var vm = this;
         vm.title = "新增项目";
-        vm.id=$state.params.id;
-        vm.model={};        
+        vm.id=$state.params.id;//请求中的id参数
+        vm.projectInvestmentType=$state.params.projectInvestmentType;//请求中的projectInvestmentType参数
+        vm.model={};
+        vm.basicData={};
         vm.page='list';
-        vm.model.projectType=[];
+        vm.projectTypes=[];
         
         vm.init=function(){
         	if($state.current.name=='projectEdit'){
@@ -26,6 +28,10 @@
     		if($state.current.name=='project_projectInfo'){
             	vm.page='projectInfo';
             }
+
+    		vm.getBasicDataDesc = function(str){
+    			return common.getBasicDataDesc(str);
+    		}   		
         };
         
         activate();
@@ -50,44 +56,68 @@
         	}
         }
         
-       function page_list(){      
+       function page_list(){
+    	   //加载单位项目信息列表
     	   projectSvc.grid(vm);
+    	   //基础数据--项目投资类型
+    	   vm.basicData.investmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);
+    	   //点击新增项目弹出模态框
+    	   vm.addProject = function(){
+    		  $("#myModal").modal({
+			        backdrop: 'static',
+			        keyboard:false  			  
+    		  });
+    	   }
+    	   //点击模态框确认按钮跳转不同的信息录入页面
+    	   vm.confirmInvestmentType=function(){
+    		   $(".modal-backdrop").remove();
+    		   $location.path("/projectEdit/"+vm.model.projectInvestmentType+"/");
+    	   }
         }//end#page_list
        
        function page_create(){
+    	   vm.model.projectInvestmentType = vm.projectInvestmentType;
+    	   if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
+ 			  vm.isZFInvestment = true; 			  
+ 		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资
+ 			  vm.isSHInvestment = true;
+ 		   }
     	   	//设置单位信息
     	   	projectSvc.getUserUnit(vm);
-	   		//begin#基础数据
-	   		vm.basicData={};    
-	   		//获取街道信息
+	   		//begin#基础数据	   		    	   		
+	   		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
+	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类型
+	   		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别
+	   		vm.basicData.projectClassify=common.getBacicDataByIndectity(common.basicDataConfig().projectClassify);//项目分类
+	   		vm.basicData.projectFunctionClassify=common.getBacicDataByIndectity(common.basicDataConfig().projectFunctionClassify);//功能分类科目
+	   		vm.basicData.projectGoverEconClassify=common.getBacicDataByIndectity(common.basicDataConfig().projectGoverEconClassify);//政府经济分类科目	   		
+	   		vm.basicData.capitalOther=common.getBacicDataByIndectity(common.basicDataConfig().capitalOtherType);//资金其他来源类型	   		
+	   		vm.basicData.projectIndustry=common.getBacicDataByIndectity(common.basicDataConfig().projectIndustry);//行业归口
 	   		vm.basicData_area_Street=$linq(common.getBasicData())
 			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
-			.toArray(); 
-	   		//项目阶段
-	   		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);
-	   		//项目类型
-	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);
-	   		//项目类别
-	   		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);
-	   		//项目分类
-	   		vm.basicData.projectClassify=common.getBacicDataByIndectity(common.basicDataConfig().projectClassify);
-	   		//功能分类科目
-	   		vm.basicData.projectFunctionClassify=common.getBacicDataByIndectity(common.basicDataConfig().projectFunctionClassify);
-	   		//政府经济分类科目
-	   		vm.basicData.projectGoverEconClassify=common.getBacicDataByIndectity(common.basicDataConfig().projectGoverEconClassify);
-	   		//资金其他来源类型
-	   		vm.basicData.capitalOther=common.getBacicDataByIndectity(common.basicDataConfig().capitalOtherType);
-	   		//行业归口
-	   		vm.basicData.projectIndustry=common.getBacicDataByIndectity(common.basicDataConfig().projectIndustry);	   		   			   		
+			.toArray();//获取街道信息
+	   		
 	   		vm.projectIndustryChange=function(){    		
 	       		vm.basicData.projectIndustryChildren=$linq(common.getBasicData())
 	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.model.projectIndustryParent;})
 	       		.toArray();
-	   		};	   		 	   			   					
+	   		}
+	   		//获取项目类型， 多选
+	   		vm.updateSelection = function(id){
+	        	var index = vm.projectTypes.indexOf(id);
+	        	if(index == -1){
+	        		vm.projectTypes.push(id);
+		       	}else{
+		       		vm.projectTypes.splice(index,1);
+		       	}	        	
+	        	vm.model.projectType = vm.projectTypes.join(",");
+	        }
 	   		//end#基础数据
 	   		
 	   		//批复文件上传
 	   		vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+	   		//相关附件文件上传文件种类
+	   		vm.relatedType=[['QQGZJH','前期工作计划文件'],['HYJY','会议纪要']];
 
 	   		vm.uploadSuccess=function(e){
 	    			var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
@@ -120,16 +150,6 @@
 	   		 vm.create = function () {    			 
 	   		     projectSvc.createProject(vm);    		     
 	   		 };
-	   		 
-	   		 //获取项目类型， 多选
-	   		vm.updateSelection = function(id){
-	        	var index =  vm.model.projectType.indexOf(id);
-	        	if(index == -1){
-	        		vm.model.projectType.push(id);
-		       	}else{
-		       		vm.model.projectType.splice(index,1);
-		       	}
-	        };
        }//end#page_create
        
        function page_update(){

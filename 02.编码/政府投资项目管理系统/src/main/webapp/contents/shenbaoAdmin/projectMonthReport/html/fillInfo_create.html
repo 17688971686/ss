@@ -16,47 +16,32 @@
 	<tr>
 		<td width="20%">填报人姓名：<span class="required">(*)</span></td>				
 		<td>
-			<span ng-bind="vm.model.monthReport.fillName"></span>
+			<input type="text" class="form-control input-sm" style="width:200px;" ng-model="vm.model.monthReport.fillName"
+				id="fillName" name="fillName" data-val="true" data-val-required="必填"/>
+			<span data-valmsg-for="fillName" data-valmsg-replace="true" class="required"></span>
 		</td>											
-		<td width="20%">填报人手机：<span class="required">(*)</span></td>		
+		<td width="20%">填报人电话：<span class="required">(*)</span></td>		
 		<td width="30%">
-			<span ng-bind="vm.model.monthReport.fillMobile"></span>
+			<input type="text" class="form-control input-sm" style="width:200px;" ng-model="vm.model.monthReport.fillMobile"
+				id="fillMobile" name="fillMobile"  data-val="true" data-val-required="必填" placeholder="填写固话或手机号"
+				data-val-regex="号码不合理！" data-val-regex-pattern="^((0\d{2,3}-\d{7,8})|(\d{7,8})|(1[3|4|5|8][0-9]\d{4,8}))$"/>
+			<span data-valmsg-for="fillMobile" data-valmsg-replace="true" class="required"></span>	
 		</td>
-	</tr>
+	</tr>	
 	<tr>
-		<td>月报负责人姓名：<span class="required">(*)</span></td>				
+		<td>项目负责人：</td>
 		<td>
-			<span ng-bind="vm.model.monthReport.monRepManagerName"></span>
+			<span ng-bind="vm.model.monthReport.projectRepName"></span>
 		</td>
-		<td>月报负责人手机：<span class="required">(*)</span></td>				
+		<td>项目负责人电话：</td>
 		<td>
-			<span ng-bind="vm.model.monthReport.monRepManagerTel"></span>
-		</td>
-	</tr>
-	<tr>
-		<td>月报负责人传真：</td>
-		<td>
-			<span ng-bind="vm.model.monthReport.monRepManagerFax"></span>
-		</td>
-		<td>月报责任单位名称：</td>
-		<td>
-			<span ng-bind="vm.model.monthReport.monRepManagUnitName"></span>
-		</td>
-	</tr>
-	<tr>
-		<td>项目责任单位负责人：</td>
-		<td>
-			<span ng-bind="vm.model.monthReport.respUnitManagerName"></span>
-		</td>
-		<td>项目责任单位负责人电话：</td>
-		<td>
-			<span ng-bind="vm.model.monthReport.respUnitManagerTel"></span>
+			<span ng-bind="vm.model.monthReport.projectRepMobile"></span>
 		</td>
 	</tr>
 </table>
 			
 
-<div class="bg-info text-info title">项目批复信息</div>
+<!-- <div class="bg-info text-info title">项目批复信息</div>
 <table class="table  table-bordered table-striped">
 	<tr>
 		<td width="20%">项目建议书批复日期：</td>
@@ -88,7 +73,7 @@
 			<span ng-bind="vm.model.monthReport.pifuCBSJYGS_wenhao"></span>
 		</td>
 	</tr>
-</table>
+</table> -->
 	
 <div class="bg-info text-info title">项目进度信息</div>
 <table class="table table-bordered table-striped">
@@ -108,15 +93,45 @@
 		<td>
 			 <span ng-bind="vm.model.monthReport.invertPlanTotal | number:2"></span>&nbsp;（万元）
 		</td>
-		<td>至今完成投资：</td>
+		<td>截止上年底累计下达计划：</td>
+		<td>
+			<span></span>&nbsp;（万元）
+		</td>
+		<!-- <td>至今完成投资：</td>
 		<td>
 		<input type="number" id="actuallyFinishiInvestment" name="actuallyFinishiInvestment" ng-model="vm.model.monthReport.actuallyFinishiInvestment"
 			 class="form-control input-sm" style="width: 150px;" data-val="true" data-val-required="必填"/>&nbsp;（万元）
 			<span data-valmsg-for="actuallyFinishiInvestment" data-valmsg-replace="true" class="required"></span>
 			
+		</td> -->
+	</tr>
+	<tr>
+		<td>本年度安排计划：</td>
+		<td>
+			<span></span>&nbsp;（万元）
+		</td>
+		<td>本年度已下达计划：</td>
+		<td>
+			<span></span>&nbsp;（万元）
 		</td>
 	</tr>
 	<tr>
+		<td>累计完成投资：</td>
+		<td colspan="3">
+			<span></span>&nbsp;（万元）
+		</td>
+	</tr>
+	<tr>
+		<td>本月计划完成投资：<span class="required">(*)</span></td>
+		<td>
+			<input type="number" class="form-control input-sm" style="width:200px;"/>&nbsp;（万元）
+		</td>
+		<td>本月已完成投资：<span class="required">(*)</span></td>
+		<td>
+			<input type="number" class="form-control input-sm" style="width:200px;"/>&nbsp;（万元）
+		</td>
+	</tr>
+	<!-- <tr>
 		<td>本年度批复投资：</td>
 		<td>
 			<span></span>
@@ -127,8 +142,8 @@
 			 class="form-control input-sm" style="width: 150px;" data-val="true" data-val-required="必填"/>&nbsp;（万元）
 			<span data-valmsg-for="thisYearPlanInvestment" data-valmsg-replace="true" class="required"></span>
 		</td>
-	</tr>
-	<tr>
+	</tr> -->
+	<!-- <tr>
 		<td>本年度已完成投资：</td>		
 		<td>
 		<input type="number" id="thisYearAccumulatedInvestment" name="thisYearAccumulatedInvestment" ng-model="vm.model.monthReport.thisYearAccumulatedInvestment"
@@ -141,7 +156,7 @@
 			 class="form-control input-sm" style="width: 150px;" data-val="true" data-val-required="必填"/>&nbsp;（万元）
 			<span data-valmsg-for="thisMonthInvestTotal" data-valmsg-replace="true" class="required"></span>
 		</td>
-	</tr>		
+	</tr>	 -->	
 	<tr>					
 		<td>是否完成竣工决算</td>
 		<td colspan="3">
@@ -151,47 +166,6 @@
 			</span>
 		</td>
 	</tr>
-	<tr>
-		<td style="line-height: 18px">年度工作目标：<span class="required">(*)</span></td>		
-		<td colspan="3" style="padding: 10px;">
-			<textarea id="workTargets" name="workTargets" ng-model="vm.model.monthReport.workTargets"
-				rows="3" cols="20"
-				mark_maxlength="200"
-				mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
-				data-validation-placeholder="年度工作目标(200字符以内)"
-				placeholder="年度工作目标(200字符以内)"
-				style="height: 120px; width: 640px;" data-val="true" data-val-required="必填"></textarea>
-			<span data-valmsg-for="workTargets" data-valmsg-replace="true" class="required"></span>
-		</td>		
-	</tr>	
-	<tr>
-		<td>项目审批进度：</td>
-		<td colspan="3" style="padding: 10px;"> <textarea
-				ng-model="vm.model.monthReport.projectApprovalProgress" rows="3" cols="20"
-				mark_maxlength="200"
-				mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
-				data-validation-placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。"
-				placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。"
-				style="height: 120px; width: 640px; color: rgb(169, 169, 169);"></textarea>
-		</td>		
-	</tr>
-	<tr>
-		<td style="line-height: 18px">工程形象进度或<br>项目进度情况：<span
-			class="required">(*)</span>
-		</td>
-		<td colspan="3" style="padding: 10px;">
-			<div>					
-				<textarea id="projectImageProgress" name="projectImageProgress" ng-model="vm.model.monthReport.projectImageProgress" 
-					rows="3"
-					cols="20" mark_maxlength="200"
-					mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
-					data-validation-placeholder="工程形象进度或项目进度情况(200字符以内)"
-					placeholder="工程形象进度或项目进度情况(200字符以内)"
-					style="height: 120px; width: 640px; color: rgb(169, 169, 169);" data-val="true" data-val-required="必填"></textarea>
-				<span data-valmsg-for="projectImageProgress" data-valmsg-replace="true" class="required"></span>
-			</div>
-		</td>
-	</tr>	
 	<tr>
 		<td rowspan="5">进度安排<span class="required">(*)</span></td>		
 		<td colspan="4">
@@ -240,6 +214,48 @@
 			</p>			
 		</td>
 	</tr>
+	<tr>
+		<td style="line-height: 18px">年度工作目标：<span class="required">(*)</span></td>		
+		<td colspan="3" style="padding: 10px;">
+			<textarea id="workTargets" name="workTargets" ng-model="vm.model.monthReport.workTargets"
+				rows="3" cols="20"
+				mark_maxlength="200"
+				mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
+				data-validation-placeholder="年度工作目标(200字符以内)"
+				placeholder="年度工作目标(200字符以内)"
+				style="height: 120px; width: 640px;" data-val="true" data-val-required="必填"></textarea>
+			<span data-valmsg-for="workTargets" data-valmsg-replace="true" class="required"></span>
+		</td>		
+	</tr>	
+	<tr>
+		<td>项目审批进度：</td>
+		<td colspan="3" style="padding: 10px;"> <textarea
+				ng-model="vm.model.monthReport.projectApprovalProgress" rows="3" cols="20"
+				mark_maxlength="200"
+				mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
+				data-validation-placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。"
+				placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。"
+				style="height: 120px; width: 640px; color: rgb(169, 169, 169);"></textarea>
+		</td>		
+	</tr>
+	<tr>
+		<td style="line-height: 18px">工程形象进度或<br>项目进度情况：<span
+			class="required">(*)</span>
+		</td>
+		<td colspan="3" style="padding: 10px;">
+			<div>					
+				<textarea id="projectImageProgress" name="projectImageProgress" ng-model="vm.model.monthReport.projectImageProgress" 
+					rows="3"
+					cols="20" mark_maxlength="200"
+					mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
+					data-validation-placeholder="工程形象进度或项目进度情况(200字符以内)"
+					placeholder="工程形象进度或项目进度情况(200字符以内)"
+					style="height: 120px; width: 640px; color: rgb(169, 169, 169);" data-val="true" data-val-required="必填"></textarea>
+				<span data-valmsg-for="projectImageProgress" data-valmsg-replace="true" class="required"></span>
+			</div>
+		</td>
+	</tr>	
+	
 </table>
 
 <div class="bg-info text-info title">问题与备注</div>

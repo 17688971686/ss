@@ -35,6 +35,7 @@ public class UserUnitInfoServiceImpl extends AbstractServiceImpl<UserUnitInfoDto
 	@Transactional
 	public void save(String userName,UserUnitInfoDto unitInfoDto) {
 		UserUnitInfo userUnitInfo;
+		//根据用户名来判断是有有该用户单位这条记录
 		Criterion criterion=Restrictions.eq(UserUnitInfo_.userName.getName(), userName);
 		Optional<UserUnitInfo>	query_userUnitInfo =super.repository.findByCriteria(criterion).stream().findFirst();
 		if(query_userUnitInfo.isPresent()){
@@ -43,10 +44,8 @@ public class UserUnitInfoServiceImpl extends AbstractServiceImpl<UserUnitInfoDto
 			userUnitInfo=new UserUnitInfo();
 		}
 		unitInfoDto.setUserName(userName);
-		userUnitInfoMapper.buildEntity(unitInfoDto, userUnitInfo);
-		
-		String loginName = currentUser.getLoginName();
-		
+		userUnitInfoMapper.buildEntity(unitInfoDto, userUnitInfo);		
+		String loginName = currentUser.getLoginName();		
 		userUnitInfo.setCreatedBy(loginName);
 		userUnitInfo.setModifiedBy(loginName);
 		super.repository.save(userUnitInfo);

@@ -53,7 +53,7 @@ public class ShenBaoAdminProjectController {
 	//@RequiresPermissions("shenbaoAdmin/project/unitProject##post")
 	@RequestMapping(name = "创建项目信息", path = "unitProject",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void  createUnitProject(@RequestBody ProjectDto ProjectDto){		
+	public void createUnitProject(@RequestBody ProjectDto ProjectDto){		
 		ProjectService.create(ProjectDto);		
 	}
 	

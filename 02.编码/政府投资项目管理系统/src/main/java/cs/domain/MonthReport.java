@@ -34,18 +34,22 @@ public class MonthReport extends BaseEntity{
 	private String fillName;
 	@Column(columnDefinition="varchar(50) COMMENT '填报人手机号'")
 	private String fillMobile;
-	@Column(columnDefinition="varchar(255) COMMENT '月报负责人姓名'")
-	private String monRepManagerName;
-	@Column(columnDefinition="varchar(50) COMMENT '月报负责人手机号'")
-	private String monRepManagerTel;
-	@Column(columnDefinition="varchar(50) COMMENT '月报负责人传真号'")
-	private String monRepManagerFax;
-	@Column(columnDefinition="varchar(255) COMMENT '月报负责单位名称'")
-	private String monRepManagUnitName;
-	@Column(columnDefinition="varchar(255) COMMENT '责任单位负责人名称'")
-	private String respUnitManagerName;
-	@Column(columnDefinition="varchar(50) COMMENT '责任单位负责人电话'")
-	private String respUnitManagerTel;
+	@Column(columnDefinition="varchar(255) COMMENT '项目负责人姓名'")
+	private String projectRepName;
+	@Column(columnDefinition="varchar(50) COMMENT '项目负责人手机号'")
+	private String projectRepMobile;
+//	@Column(columnDefinition="varchar(255) COMMENT '月报负责人姓名'")
+//	private String monRepManagerName;
+//	@Column(columnDefinition="varchar(50) COMMENT '月报负责人手机号'")
+//	private String monRepManagerTel;
+//	@Column(columnDefinition="varchar(50) COMMENT '月报负责人传真号'")
+//	private String monRepManagerFax;
+//	@Column(columnDefinition="varchar(255) COMMENT '月报负责单位名称'")
+//	private String monRepManagUnitName;
+//	@Column(columnDefinition="varchar(255) COMMENT '责任单位负责人名称'")
+//	private String respUnitManagerName;
+//	@Column(columnDefinition="varchar(50) COMMENT '责任单位负责人电话'")
+//	private String respUnitManagerTel;
 	
 	//end#联系人信息
 	
@@ -176,53 +180,69 @@ public class MonthReport extends BaseEntity{
 	public void setFillMobile(String fillMobile) {
 		this.fillMobile = fillMobile;
 	}
+	
+//	public String getMonRepManagerName() {
+//		return monRepManagerName;
+//	}
+//
+//	public void setMonRepManagerName(String monRepManagerName) {
+//		this.monRepManagerName = monRepManagerName;
+//	}
+//
+//	public String getMonRepManagerTel() {
+//		return monRepManagerTel;
+//	}
+//
+//	public void setMonRepManagerTel(String monRepManagerTel) {
+//		this.monRepManagerTel = monRepManagerTel;
+//	}
+//
+//	public String getMonRepManagerFax() {
+//		return monRepManagerFax;
+//	}
+//
+//	public void setMonRepManagerFax(String monRepManagerFax) {
+//		this.monRepManagerFax = monRepManagerFax;
+//	}
+//
+//	public String getMonRepManagUnitName() {
+//		return monRepManagUnitName;
+//	}
+//
+//	public void setMonRepManagUnitName(String monRepManagUnitName) {
+//		this.monRepManagUnitName = monRepManagUnitName;
+//	}
+//
+//	public String getRespUnitManagerName() {
+//		return respUnitManagerName;
+//	}
+//
+//	public void setRespUnitManagerName(String respUnitManagerName) {
+//		this.respUnitManagerName = respUnitManagerName;
+//	}
+//
+//	public String getRespUnitManagerTel() {
+//		return respUnitManagerTel;
+//	}
+//
+//	public void setRespUnitManagerTel(String respUnitManagerTel) {
+//		this.respUnitManagerTel = respUnitManagerTel;
+//	}
 
-	public String getMonRepManagerName() {
-		return monRepManagerName;
+	public String getProjectRepName() {
+		return projectRepName;
 	}
 
-	public void setMonRepManagerName(String monRepManagerName) {
-		this.monRepManagerName = monRepManagerName;
+	public void setProjectRepName(String projectRepName) {
+		this.projectRepName = projectRepName;
 	}
 
-	public String getMonRepManagerTel() {
-		return monRepManagerTel;
+	public String getProjectRepMobile() {
+		return projectRepMobile;
 	}
 
-	public void setMonRepManagerTel(String monRepManagerTel) {
-		this.monRepManagerTel = monRepManagerTel;
-	}
-
-	public String getMonRepManagerFax() {
-		return monRepManagerFax;
-	}
-
-	public void setMonRepManagerFax(String monRepManagerFax) {
-		this.monRepManagerFax = monRepManagerFax;
-	}
-
-	public String getMonRepManagUnitName() {
-		return monRepManagUnitName;
-	}
-
-	public void setMonRepManagUnitName(String monRepManagUnitName) {
-		this.monRepManagUnitName = monRepManagUnitName;
-	}
-
-	public String getRespUnitManagerName() {
-		return respUnitManagerName;
-	}
-
-	public void setRespUnitManagerName(String respUnitManagerName) {
-		this.respUnitManagerName = respUnitManagerName;
-	}
-
-	public String getRespUnitManagerTel() {
-		return respUnitManagerTel;
-	}
-
-	public void setRespUnitManagerTel(String respUnitManagerTel) {
-		this.respUnitManagerTel = respUnitManagerTel;
+	public void setProjectRepMobile(String projectRepMobile) {
+		this.projectRepMobile = projectRepMobile;
 	}
 
 	public Date getPifuJYS_date() {

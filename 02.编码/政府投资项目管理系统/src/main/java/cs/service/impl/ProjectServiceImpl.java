@@ -36,6 +36,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	private IMapper<MonthReportDto, MonthReport> monthReportMapper;
 	@Autowired
 	private IRepository<MonthReport, String> monthReportRepo;
+
 	
 	@Override
 	@Transactional
@@ -64,7 +65,8 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		project.getMonthReports().clear();
 		projectDto.getMonthReportDtos().forEach(x -> {//添加新月报
 			project.getMonthReports().add(monthReportMapper.buildEntity(x, new MonthReport()));
-		});				
+		});
+		
 		//保存数据
 		super.repository.save(project);
 		logger.info(String.format("编辑项目,项目名称 %s",projectDto.getProjectName()));
@@ -88,31 +90,22 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 
 	@Override
 	@Transactional
-	public Project create(ProjectDto projectDto) {		
-		Criterion criterion=Restrictions.eq(Project_.projectNumber.getName(), projectDto.getProjectNumber());
+	public Project create(ProjectDto projectDto) {
+		//根据项目名称来判断创建的项目是否已存在
+		Criterion criterion=Restrictions.eq(Project_.projectName.getName(), projectDto.getProjectName());
 		Optional<Project> findProject = super.repository.findByCriteria(criterion).stream().findFirst();
 		if(findProject.isPresent()){
-			throw new IllegalArgumentException(String.format("项目代码：%s 已经存在,请重新输入！", projectDto.getProjectNumber()));
+			throw new IllegalArgumentException(String.format("项目名称：%s 已经存在,请重新输入！", projectDto.getProjectName()));
 		}else{			
 			Project project = super.create(projectDto);		
 			//处理关联信息
-			//附件
-			project.getAttachments().forEach(x -> {//删除历史附件
-				attachmentRepo.delete(x);
-			});
-			project.getAttachments().clear();
 			projectDto.getAttachmentDtos().forEach(x -> {//添加新附件
 				project.getAttachments().add(attachmentMapper.buildEntity(x, new Attachment()));
 			});
 			//月报
-			project.getMonthReports().forEach(x -> {//删除历史月报
-				monthReportRepo.delete(x);
-			});
-			project.getMonthReports().clear();
 			projectDto.getMonthReportDtos().forEach(x -> {//添加新月报
 				project.getMonthReports().add(monthReportMapper.buildEntity(x, new MonthReport()));
-			});
-			
+			});			
 			//保存数据
 			super.repository.save(project);
 			logger.info(String.format("创建项目,项目名称 %s",projectDto.getProjectName()));

@@ -31,12 +31,14 @@ public class MonthReportMapper implements IMapper<MonthReportDto, MonthReport> {
 			// begin#月报联系人信息
 			monthReportDto.setFillName(monthReport.getFillName());// 填报人名称
 			monthReportDto.setFillMobile(monthReport.getFillMobile());// 填报人手机
-			monthReportDto.setMonRepManagerName(monthReport.getMonRepManagerName());// 月报负责人姓名
-			monthReportDto.setMonRepManagerTel(monthReport.getMonRepManagerTel());// 月报负责人手机号
-			monthReportDto.setMonRepManagerFax(monthReport.getMonRepManagerFax());// 月报负责人传真号
-			monthReportDto.setMonRepManagUnitName(monthReport.getMonRepManagUnitName());// 月报负责单位名称
-			monthReportDto.setRespUnitManagerName(monthReport.getRespUnitManagerName());// 责任单位负责人名称
-			monthReportDto.setRespUnitManagerTel(monthReport.getRespUnitManagerTel());// 责任单位负责人电话
+			monthReportDto.setProjectRepName(monthReport.getProjectRepName());//项目负责人名称
+			monthReportDto.setProjectRepMobile(monthReport.getProjectRepMobile());//项目负责人手机
+//			monthReportDto.setMonRepManagerName(monthReport.getMonRepManagerName());// 月报负责人姓名
+//			monthReportDto.setMonRepManagerTel(monthReport.getMonRepManagerTel());// 月报负责人手机号
+//			monthReportDto.setMonRepManagerFax(monthReport.getMonRepManagerFax());// 月报负责人传真号
+//			monthReportDto.setMonRepManagUnitName(monthReport.getMonRepManagUnitName());// 月报负责单位名称
+//			monthReportDto.setRespUnitManagerName(monthReport.getRespUnitManagerName());// 责任单位负责人名称
+//			monthReportDto.setRespUnitManagerTel(monthReport.getRespUnitManagerTel());// 责任单位负责人电话
 			// end#联系人信息
 
 			// begin#批文日期和文号
@@ -136,12 +138,14 @@ public class MonthReportMapper implements IMapper<MonthReportDto, MonthReport> {
 			// begin#联系人信息
 			monthReport.setFillName(monthReportDto.getFillName());
 			monthReport.setFillMobile(monthReportDto.getFillMobile());
-			monthReport.setMonRepManagerName(monthReportDto.getMonRepManagerName());
-			monthReport.setMonRepManagerTel(monthReportDto.getMonRepManagerTel());
-			monthReport.setMonRepManagerFax(monthReportDto.getMonRepManagerFax());
-			monthReport.setMonRepManagUnitName(monthReportDto.getMonRepManagUnitName());
-			monthReport.setRespUnitManagerName(monthReportDto.getRespUnitManagerName());
-			monthReport.setRespUnitManagerTel(monthReportDto.getRespUnitManagerTel());
+			monthReport.setProjectRepName(monthReportDto.getProjectRepName());
+			monthReport.setProjectRepMobile(monthReportDto.getProjectRepMobile());
+//			monthReport.setMonRepManagerName(monthReportDto.getMonRepManagerName());
+//			monthReport.setMonRepManagerTel(monthReportDto.getMonRepManagerTel());
+//			monthReport.setMonRepManagerFax(monthReportDto.getMonRepManagerFax());
+//			monthReport.setMonRepManagUnitName(monthReportDto.getMonRepManagUnitName());
+//			monthReport.setRespUnitManagerName(monthReportDto.getRespUnitManagerName());
+//			monthReport.setRespUnitManagerTel(monthReportDto.getRespUnitManagerTel());
 			// end#联系人信息
 
 			// begin#批文日期和文号

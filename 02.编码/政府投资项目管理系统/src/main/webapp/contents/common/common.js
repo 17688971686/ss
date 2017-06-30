@@ -396,6 +396,9 @@
     		projectConstrChar:"projectConstrChar",//项目建设性质
     		projectFunctionClassify:"projectFunctionClassify",//功能分类科目
     		projectGoverEconClassify:"projectGoverEconClassify",//政府经济分类科目
+    		projectInvestmentType:"projectInvestmentType",//项目投资类型
+    		projectInvestmentType_ZF:"projectInvestmentType_1",//政府投资
+    		projectInvestmentType_SH:"projectInvestmentType_2",//社会投资
     		projectIndustry:"projectIndustry",//项目行业
     		projectInvestmentType:"projectInvestmentType",//投资类型
     		projectProgress:"projectProgress",//项目进度

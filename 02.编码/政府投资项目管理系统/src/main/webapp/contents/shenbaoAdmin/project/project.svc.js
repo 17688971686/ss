@@ -133,7 +133,7 @@
 					url : url_userUnit
 				};
 				var httpSuccess = function success(response) {
-					vm.userUnit = response.data;
+					vm.userUnit = response.data.value[0] || {};
 					vm.model.unitName = vm.userUnit.userName;
 				};
 				common.http({
@@ -149,7 +149,8 @@
 		 */		
 		function createProject(vm){		   
 			common.initJqValidation();
-			var isValid = $('form').valid();        
+			var isValid = $('form').valid();
+			console.log(vm.model);
 			if (isValid) {
 				vm.isSubmit = true;				
 				var httpOptions = {
@@ -231,14 +232,20 @@
 						}
 					},
 					{
-						field : "projectStageDesc",
+						field : "projectStage",
 						title : "项目阶段",
+						template:function(item){
+							return common.getBasicDataDesc(item.projectStage);
+						},
 						width : 150,
 						filterable : false
 					},
 					{
-						field : "projectClassifyDesc",
+						field : "projectClassify",
 						title : "项目分类",
+						template:function(item){
+							return common.getBasicDataDesc(item.projectClassify);
+						},
 						width : 150,
 						filterable : false
 					},
@@ -247,7 +254,7 @@
 						title : "操作",
 						width : 180,
 						template : function(item) {
-							return common.format($('#columnBtns').html(),item.id,"vm.del('" + item.id + "')");
+							return common.format($('#columnBtns').html(),item.projectInvestmentType,item.id,"vm.del('" + item.id + "')");
 						}
 
 					}

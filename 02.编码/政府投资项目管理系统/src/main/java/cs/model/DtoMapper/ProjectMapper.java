@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import cs.common.Util;
 import cs.domain.Attachment;
 import cs.domain.MonthReport;
 import cs.domain.Project;
@@ -34,9 +35,13 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			projectDto.setProjectGoverEconClassify(project.getProjectGoverEconClassify());
 			projectDto.setProjectInvestSum(project.getProjectInvestSum());
 			projectDto.setProjectInvestAccuSum(project.getProjectInvestAccuSum());
+			projectDto.setDivisionId(project.getDivisionId());//项目建设区域
 			projectDto.setProjectAddress(project.getProjectAddress());			
 			projectDto.setProjectIntro(project.getProjectIntro());
 			projectDto.setProjectGuiMo(project.getProjectGuiMo());
+			projectDto.setProjectInvestmentType(project.getProjectInvestmentType());//项目投资类型
+			projectDto.setProjectRepName(project.getProjectRepName());//项目负责人名称
+			projectDto.setProjectRepMobile(project.getProjectRepMobile());//项目负责人电话
 			projectDto.setRemark(project.getRemark());
 			projectDto.setEndDate(project.getEndDate());
 			projectDto.setBeginDate(project.getBeginDate());
@@ -48,6 +53,7 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			projectDto.setCapitalSCZ_gtzj(project.getCapitalSCZ_gtzj());
 			projectDto.setCapitalSCZ_ggys(project.getCapitalSCZ_ggys());
 			projectDto.setCapitalSCZ_zxzj(project.getCapitalSCZ_zxzj());
+			projectDto.setCapitalZYYS(project.getCapitalZYYS());//中央预算
 			projectDto.setCapitalSHTZ(project.getCapitalSHTZ());			
 			projectDto.setCapitalOther(project.getCapitalOther());
 			projectDto.setCapitalOtherType(project.getCapitalOtherType());
@@ -88,12 +94,13 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			}
 			//TODO 需要完成项目代码的格式设计
 			if(project.getProjectNumber()==null||project.getProjectNumber().isEmpty()){
-				project.setProjectNumber(UUID.randomUUID().toString());
+				project.setProjectNumber(Util.getProjectNumber(projectDto.getProjectInvestmentType(), projectDto.getProjectStage()));
 			}
 			project.setUnitName(projectDto.getUnitName());
 			project.setProjectName(projectDto.getProjectName());
 			project.setProjectInvestSum(projectDto.getProjectInvestSum());
 			project.setProjectInvestAccuSum(projectDto.getProjectInvestAccuSum());
+			project.setDivisionId(projectDto.getDivisionId());//项目建设区域
 			project.setProjectAddress(projectDto.getProjectAddress());
 			project.setProjectStage(projectDto.getProjectStage());
 			project.setProjectClassify(projectDto.getProjectClassify());
@@ -103,7 +110,10 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setProjectGoverEconClassify(projectDto.getProjectGoverEconClassify());
 			project.setProjectCategory(projectDto.getProjectCategory());
 			project.setProjectIntro(projectDto.getProjectIntro());
-			project.setProjectGuiMo(projectDto.getProjectGuiMo());			
+			project.setProjectGuiMo(projectDto.getProjectGuiMo());
+			project.setProjectInvestmentType(projectDto.getProjectInvestmentType());//项目投资类型
+			project.setProjectRepName(projectDto.getProjectRepName());//项目负责人名称
+			project.setProjectRepMobile(projectDto.getProjectRepMobile());//项目负责人电话
 			project.setEndDate(projectDto.getEndDate());
 			project.setBeginDate(projectDto.getBeginDate());
 			project.setRemark(projectDto.getRemark());
@@ -113,6 +123,7 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setCapitalSCZ_gtzj(projectDto.getCapitalSCZ_gtzj());
 			project.setCapitalSCZ_ggys(projectDto.getCapitalSCZ_ggys());
 			project.setCapitalSCZ_zxzj(projectDto.getCapitalSCZ_zxzj());
+			project.setCapitalZYYS(projectDto.getCapitalZYYS());//中央预算
 			project.setCapitalSHTZ(projectDto.getCapitalSHTZ());			
 			project.setCapitalOther(projectDto.getCapitalOther());
 			project.setCapitalOtherType(projectDto.getCapitalOtherType());

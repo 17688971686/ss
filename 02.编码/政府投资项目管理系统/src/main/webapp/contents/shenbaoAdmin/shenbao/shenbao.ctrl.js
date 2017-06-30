@@ -86,6 +86,17 @@
            	$(".modal-backdrop").remove(); //去掉模态框背面的阴影
            	location.href = "#/shenbao/"+vm.projectId+"/"+vm.projectShenBaoStage;
            };    	   
+           
+           //点击列表中的申报记录按钮
+           vm.checkShenBaoRecords = function(id){
+        	   //展示模态框
+        	   $("#shenBaoRecords").modal({
+			        backdrop: 'static',
+			        keyboard:false  			  
+        	   });
+        	   //根据项目id查询项目的申报记录
+        	   shenbaoSvc.getShenBaoRecordsByProjectId(vm,id);
+           }
         }//end#page_list
        
        function page_edit(){
