@@ -98,7 +98,9 @@
 						vm.model.capitalZYYS=common.toMoney(vm.model.capitalZYYS);//中央预算
 						vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
 						vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他				
-					if(vm.page=='update'){
+					if(vm.page=='update'){			
+						
+						
 		        		//项目行业归口
 						var child = $linq(common.getBasicData()).where(function(x){return x.id==vm.model.projectIndustry}).toArray()[0];
 		        		vm.model.projectIndustryParent=child.pId;
@@ -131,22 +133,19 @@
 		 *获取项目单位信息 
 		 */
 		function getProjectUnit(vm){
-			
 			var httpOptions = {
 					method : 'get',
 					url : common.format(url_userUnit + "?$filter=userName eq '{0}'", vm.model.unitName)
-				};
-			
-			var httpSuccess = function success(response) {
-				vm.userUnit = response.data.value[0] || {};
-			};
-			
-			common.http({
-				vm : vm,
-				$http : $http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});
+				}
+				var httpSuccess = function success(response) {
+					vm.userUnit = response.data.value[0] || {};
+				}
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
 		}
 		
 		/**
