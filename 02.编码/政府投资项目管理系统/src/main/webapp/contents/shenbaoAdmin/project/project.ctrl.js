@@ -16,8 +16,6 @@
         vm.model={};
         vm.basicData={};
         vm.page='list';
-        vm.projectTypes=[];
-        
         
         vm.init=function(){
         	if($state.current.name=='projectEdit'){
@@ -159,6 +157,7 @@
 	   		 vm.create = function () {    	
 	   			vm.model.projectType =vm.model.projectType.join(",");
 	   		     projectSvc.createProject(vm); 
+	   		     
 	   		 };
        }//end#page_create
        
@@ -187,6 +186,8 @@
 	       		.toArray();
  			  vm.isSHInvestment = true;
  		   }
+    	 //相关附件文件上传文件种类
+	   		vm.relatedType=[['QQGZJH','前期工作计划文件'],['HYJY','会议纪要']];
        }//end#page_projectInfo
 		
     }

@@ -15,44 +15,52 @@
 <table class="table table-bordered table-striped ">
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目名称：</td>
-		<td>
+		<td width = "33%">
 			<span ng-bind="vm.model.projectName"></span>			
 		</td>
 		<td class="formAlignRight" style="width:180px;">项目阶段：</td>
 		<td>
-			<span ng-bind="vm.model.projectStageDesc"></span>	
+			<span ng-bind="vm.getBasicDataDesc(vm.model.projectStage)"></span>	
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight" style="width:150px;">项目负责人名称：</td>
+		<td>
+			<span ng-bind="vm.model.projectRepName"></span>
+		</td>
+		<td class="formAlignRight" style="width:180px;">项目负责人电话：</td>
+		<td>
+			<span ng-bind="vm.model.projectRepMobile"></span>	
 		</td>
 	</tr>
 	<tr>		
 		<td class="formAlignRight">项目类别：</td>
 		<td>
-			<span ng-bind="vm.model.projectCategoryDesc"></span>				
+			<span ng-bind="vm.getBasicDataDesc(vm.model.projectCategory)"></span>				
 		</td>
 		<td class="formAlignRight">项目分类：</td>
 		<td >
-			<span ng-bind="vm.model.projectClassifyDesc"></span>
-		</td>
-	</tr>
-	<tr>
-		<td class="formAlignRight">功能分类科目：</td>
-		<td>
-			<span ng-bind="vm.model.projectFunctionClassifyDesc"></span>
-		</td>
-		<td class="formAlignRight">政府经济分类科目：</td>
-		<td>
-			<span ng-bind="vm.model.projectGoverEconClassifyDesc"></span>
+			<span ng-bind="vm.getBasicDataDesc(vm.model.projectClassify)"></span>
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">项目行业归口：</td>
 		<td>
-			<span ng-bind="vm.model.projectIndustryDesc"></span>	
+			<span ng-bind="vm.getBasicDataDesc(vm.model.projectIndustry)"></span>	
 		</td>
 		<td class="formAlignRight">项目类型：</td>
 		<td>
-			<span ng-bind="vm.model.projectTypeDesc"></span>				
+			<span ng-repeat="x in vm.model.projectType" ng-bind="vm.getBasicDataDesc(x) +' '"></span>		
 		</td>
-	</tr>			
+	</tr>	
+ 	<tr>
+		<td>项目建设地址：</td>	
+		<td colspan="3">
+		光明新区
+			 <span ng-bind="vm.getBasicDataDesc(vm.model.divisionId)"></span>						
+			 <span ng-bind="vm.model.projectAddress"></span>				
+		</td>
+	</tr> 
 	<tr>
 		<td class="formAlignRight">项目开工日期：</td>
 		<td>
@@ -63,13 +71,13 @@
 			<span ng-bind="vm.model.endDate | date:'yyyy-MM-dd'"></span>
 		</td>
 	</tr>
-	
+	<!-- 
 	<tr>
 		<td class="formAlignRight">项目建设地址：</td>
 		<td colspan="3">
 			<textarea rows="2" cols="20" class="form-control" style="width: 99%;" ng-bind="vm.model.projectAddress" disabled></textarea>
 		</td>							
-	</tr>
+	</tr> -->
 	
 	<tr>
 		<td class="formAlignRight">项目总投资：</td>
@@ -89,6 +97,7 @@
 				<tr class="text-primary text-center">
 					<td>市财政</td>
 					<td>区财政</td>
+					<td>中央预算</td>
 					<td>社会投资</td>					
 					<td>其他</td>
 				</tr>
@@ -121,6 +130,16 @@
 						</table>
 					</td>
 					<td style="padding:0px;border: 0px;">
+						<table class="table table-bordered " style="margin:0px">
+							<tr>
+								<td>-</td>
+							</tr>
+							<tr>
+								<td ng-bind="vm.model.capitalZYYS | number:2"></td>
+							</tr>
+						</table>
+					</td>
+					<td style="padding:0px;border: 0px;">
 						<table class="table table-bordered" style="margin:0px">
 							<tr>
 								<td>-</td>				
@@ -133,7 +152,7 @@
 					<td style="padding:0px;border: 0px;">
 						<table class="table table-bordered" style="margin:0px">
 							<tr>
-								<td ng-if="vm.model.capitalOtherType"><span ng-bind="vm.model.capitalOtherTypeDesc"></span></td>															
+								<td ng-if="vm.model.capitalOtherType"><span ng-bind="vm.getBasicDataDesc(vm.model.capitalOtherType)"></span></td>															
 								<td ng-if="!vm.model.capitalOtherType">-</td>
 							</tr>
 							<tr>
@@ -234,19 +253,22 @@
 <div class="bg-info text-info" style="padding: 10px; margin-bottom: 10px">相关附件</div>
 	<table class="table table-bordered table-striped ">
 		<tr>
-			<td style="width:180px;">文件类型</td>
-			<td>文件上传</td>
-		</tr>
-		<tr>
-			<td>其他文件</td>				        	
-			<td>			
-	         <div style="margin:3px;"  
-			 	  ng-repeat="y in vm.model.attachmentDtos" 
-			 	  ng-show="y.type=='other'"
-			 		>
-				 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
-			 </div>
-			</td>
-		</tr>
+<td style="width:180px;">文件类型</td>
+<td style="width:180px;">文件上传</td>
+</tr>
+<tr ng-repeat="x in vm.relatedType">
+	<td>
+		{{x[1]}}
+	</td>
+	<td>
+         <div style="margin:3px;"  
+		 	  ng-repeat="y in vm.model.attachmentDtos" 
+		 	  ng-show="y.type=='{{x[0]}}'"
+		 		>
+			 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+			<!-- <button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button> -->
+		 </div>
+	</td>
+</tr>
 	</table> 
 </div>
