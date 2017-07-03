@@ -24,6 +24,11 @@
 		function updateProject(vm){
 			common.initJqValidation();
 			var isValid = $('form').valid();
+			/*for (var i = 0; i < vm.basicData.projectType.length; i++) {
+				if(vm.basicData.projectType[i].checked == true){
+					vm.model.projectType += "," +vm.basicData.projectType[i].id;
+				}
+			}*/
 			if (isValid) {
 				vm.isSubmit = true;
 
@@ -79,16 +84,11 @@
 				var httpSuccess = function success(response) {
 					vm.model = response.data.value[0]||{};
 						//项目类型的处理
-						vm.projectTypes = vm.model.projectType.split(",");
-						
-						//多选框回显
-						vm.model.projectType = vm.model.projectType.split(",");
-						for (var i = 0; i < vm.basicData.projectType.length; i++) {
-							for (var j = 0; j < vm.model.projectType.length; j++) {
-								if(vm.basicData.projectType[i].id==vm.model.projectType[j]){
-									vm.basicData.projectType[i].checked = true;
-								}
-							}
+						//多选框回显						
+						if(vm.model.projectType != ""){
+							vm.model.projectType = vm.model.projectType.split(",");
+						}else{
+							vm.model.projectType =[];
 						}
 						//日期展示
 						vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期

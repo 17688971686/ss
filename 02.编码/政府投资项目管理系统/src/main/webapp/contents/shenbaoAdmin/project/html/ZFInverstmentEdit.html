@@ -85,7 +85,7 @@
 		<td class="formAlignRight">项目类型：</td>
 		<td colspan="3">
 			<label ng-repeat="x in vm.basicData.projectType" for="projectType{{$index}}">
-				<input type="checkbox" name="projectType" ng-checked="x.checked == true" ng-click="vm.updateSelection(x.id)"
+				<input type="checkbox" name="projectType" ng-checked="vm.model.projectType.indexOf(x.id) != -1" ng-click="vm.updateSelection(x.id)"
 				 />{{x.description}}&nbsp;&nbsp;
 			</label>					
 		</td>

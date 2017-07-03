@@ -43,6 +43,8 @@
         		page_list();
         	}
         	if(vm.page=='create'){
+        		//初始化CheckBox
+        		vm.model.projectType =[];
         		//新增
         		page_create();        		
         	}
@@ -81,7 +83,7 @@
     	   if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
     		   //基础数据项目分类
     		  vm.basicData.projectClassify=$linq(common.getBasicData())
-	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
+	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.id==common.basicDataConfig().projectClassify_ZF;})
 	       		.toArray();
  			  vm.isZFInvestment = true; 			  
  		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资
@@ -112,13 +114,12 @@
 	   		}
 	   		//获取项目类型， 多选
 	   		vm.updateSelection = function(id){
-	        	var index = vm.projectTypes.indexOf(id);
+	        	var index = vm.model.projectType.indexOf(id);
 	        	if(index == -1){
-	        		vm.projectTypes.push(id);
+	        		vm.model.projectType.push(id);
 		       	}else{
-		       		vm.projectTypes.splice(index,1);
+		       		vm.model.projectType.splice(index,1);
 		       	}	        	
-	        	vm.model.projectType = vm.projectTypes.join(",");
 	        }
 	   		//end#基础数据
 	   		
@@ -155,19 +156,18 @@
 	   			 		+ (parseFloat(vm.model.capitalOther)||0) ;
 	   		 };
 		        
-	   		 vm.create = function () {    			 
-	   		     projectSvc.createProject(vm);    		     
+	   		 vm.create = function () {    	
+	   			vm.model.projectType =vm.model.projectType.join(",");
+	   		     projectSvc.createProject(vm); 
 	   		 };
        }//end#page_create
        
        function page_update(){
     	   vm.title = "编辑项目";
-    	   for (var i = 0; i < vm.basicData.projectType.length; i++) {
-    		   vm.basicData.projectType[i].checked=false; 
-    	   }
     	   projectSvc.getProjectById(vm);
    		//更新项目
    		vm.update = function(){
+   			vm.model.projectType =vm.model.projectType.join(",");
    			projectSvc.updateProject(vm);
    		};   	   		
        }//end#page_update
