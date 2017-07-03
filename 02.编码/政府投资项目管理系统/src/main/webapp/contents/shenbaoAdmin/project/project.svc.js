@@ -39,7 +39,7 @@
 				};
 
 				var httpSuccess = function success(response) {
-
+					vm.model.projectType =vm.model.projectType.split(",");
 					common.requestSuccess({
 						vm : vm,
 						response : response,
@@ -65,6 +65,7 @@
 				});
 
 			} else {
+				vm.model.projectType =vm.model.projectType.split(",");
 				 common.alert({
 				 vm:vm,
 				 msg:"您填写的信息不正确,请核对后提交!"
@@ -222,6 +223,8 @@
 					success : httpSuccess
 				});
 
+			}else{
+				vm.model.projectType =vm.model.projectType.split(",")
 			}
 		}
 	

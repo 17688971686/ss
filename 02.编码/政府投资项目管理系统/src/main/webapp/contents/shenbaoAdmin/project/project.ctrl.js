@@ -16,8 +16,6 @@
         vm.model={};
         vm.basicData={};
         vm.page='list';
-        vm.projectTypes=[];
-        
         
         vm.init=function(){
         	if($state.current.name=='projectEdit'){
@@ -83,7 +81,7 @@
     	   if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
     		   //基础数据项目分类
     		  vm.basicData.projectClassify=$linq(common.getBasicData())
-	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.id==common.basicDataConfig().projectClassify_ZF;})
+	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
 	       		.toArray();
  			  vm.isZFInvestment = true; 			  
  		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资
@@ -159,6 +157,7 @@
 	   		 vm.create = function () {    	
 	   			vm.model.projectType =vm.model.projectType.join(",");
 	   		     projectSvc.createProject(vm); 
+	   		     
 	   		 };
        }//end#page_create
        
@@ -187,6 +186,8 @@
 	       		.toArray();
  			  vm.isSHInvestment = true;
  		   }
+    	 //相关附件文件上传文件种类
+	   		vm.relatedType=[['QQGZJH','前期工作计划文件'],['HYJY','会议纪要']];
        }//end#page_projectInfo
 		
     }
