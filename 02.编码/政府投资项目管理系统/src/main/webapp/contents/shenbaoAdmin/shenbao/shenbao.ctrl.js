@@ -26,6 +26,7 @@
         	}
         	if($state.current.name=='shenbao_record'){//申报信息详情
         		vm.page='record';
+        		$(".modal-backdrop").remove();//去除模态框跳转页面之后遗留背景色
         	}
         	if($state.current.name=='shenbao_record_edit'){//申报信息编辑
         		vm.page='record_edit';
@@ -193,7 +194,7 @@
        }//end#page_records
        
        function page_record(){
-    	   shenbaoSvc.getShenBaoInfoById(vm);
+    	   shenbaoSvc.getShenBaoInfoById(vm);//获取申报信息
     	   vm.update = function(){
     		   shenbaoSvc.updateShenBaoInfo(vm);
     	   };

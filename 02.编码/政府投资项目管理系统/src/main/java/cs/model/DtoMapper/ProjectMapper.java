@@ -94,8 +94,14 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 				project.setId(UUID.randomUUID().toString());
 			}
 			//TODO 需要完成项目代码的格式设计
-			if(project.getProjectNumber()==null||project.getProjectNumber().isEmpty()){
-				project.setProjectNumber(Util.getProjectNumber(projectDto.getProjectInvestmentType(), projectDto.getProjectStage()));
+			if(projectDto.getProjectNumber() == null ||projectDto.getProjectNumber().isEmpty()){
+				if(project.getProjectNumber()==null||project.getProjectNumber().isEmpty()){
+					project.setProjectNumber(Util.getProjectNumber(projectDto.getProjectInvestmentType(), projectDto.getProjectStage()));
+				}
+			}else{
+				if(project.getProjectNumber()==null||project.getProjectNumber().isEmpty()){
+					project.setProjectNumber(projectDto.getProjectNumber());
+				}			
 			}
 			project.setUnitName(projectDto.getUnitName());
 			project.setProjectName(projectDto.getProjectName());

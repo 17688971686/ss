@@ -24,11 +24,6 @@
 		function updateProject(vm){
 			common.initJqValidation();
 			var isValid = $('form').valid();
-			/*for (var i = 0; i < vm.basicData.projectType.length; i++) {
-				if(vm.basicData.projectType[i].checked == true){
-					vm.model.projectType += "," +vm.basicData.projectType[i].id;
-				}
-			}*/
 			if (isValid) {
 				vm.isSubmit = true;
 
@@ -266,7 +261,7 @@
 					
 					{
 						field : "projectName",
-						title : "项目名称",						
+						title : "项目名称",
 						filterable : true,
 						template:function(item){
 							return common.format('<a href="#/project/projectInfo/{0}/{1}">{2}</a>',item.id,item.projectInvestmentType,item.projectName);

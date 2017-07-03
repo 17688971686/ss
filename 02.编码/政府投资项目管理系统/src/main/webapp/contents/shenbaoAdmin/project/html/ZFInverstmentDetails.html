@@ -50,7 +50,7 @@
 		</td>
 		<td class="formAlignRight">项目类型：</td>
 		<td>
-			<span ng-repeat="x in vm.model.projectType" ng-bind="vm.getBasicDataDesc(x) +' '"></span>		
+			<span ng-repeat="x in vm.model.projectType" ng-bind="vm.getBasicDataDesc(x)+' '"></span>		
 		</td>
 	</tr>	
  	<tr>
@@ -71,14 +71,6 @@
 			<span ng-bind="vm.model.endDate | date:'yyyy-MM-dd'"></span>
 		</td>
 	</tr>
-	<!-- 
-	<tr>
-		<td class="formAlignRight">项目建设地址：</td>
-		<td colspan="3">
-			<textarea rows="2" cols="20" class="form-control" style="width: 99%;" ng-bind="vm.model.projectAddress" disabled></textarea>
-		</td>							
-	</tr> -->
-	
 	<tr>
 		<td class="formAlignRight">项目总投资：</td>
 		<td>
