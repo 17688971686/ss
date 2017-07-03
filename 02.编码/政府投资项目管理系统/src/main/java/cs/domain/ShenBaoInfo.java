@@ -39,6 +39,13 @@ public class ShenBaoInfo extends BaseProject{
 	@Column(columnDefinition="varchar(500) NULL COMMENT '年度建设内容'")
 	private String yearConstructionContent;
 	//end#年度计划相关
+
+   //begin#财政相关
+	@Column(columnDefinition="varchar(500) NULL COMMENT '功能科目'")
+	private String functionSubjects;
+	@Column(columnDefinition="varchar(500) NULL COMMENT '经济分类科目'")
+	private String econClassSubjects;
+	//end#财政相关
 	
 	//begin#审批相关
 	@Column(columnDefinition="varchar(500) NULL COMMENT '审批状态'")
@@ -136,7 +143,16 @@ public class ShenBaoInfo extends BaseProject{
 	public void setProcessState(String processState) {
 		this.processState = processState;
 	}
-	
-	
-	
+	public String getFunctionSubjects() {
+		return functionSubjects;
+	}
+	public void setFunctionSubjects(String functionSubjects) {
+		this.functionSubjects = functionSubjects;
+	}
+	public String getEconClassSubjects() {
+		return econClassSubjects;
+	}
+	public void setEconClassSubjects(String econClassSubjects) {
+		this.econClassSubjects = econClassSubjects;
+	}
 }

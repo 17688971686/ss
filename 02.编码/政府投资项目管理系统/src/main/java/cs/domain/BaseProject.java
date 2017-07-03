@@ -19,12 +19,6 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目投资类型'")
 	private String projectInvestmentType ;
 	
-//	@Column(columnDefinition="varchar(255) NULL COMMENT '功能科目'")
-//	private String projectFunctionClassify;
-	
-//	@Column(columnDefinition="varchar(255) NULL COMMENT '政府经济分类科目'")
-//	private String projectGoverEconClassify;
-
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目阶段'")
 	private String projectStage;
 	

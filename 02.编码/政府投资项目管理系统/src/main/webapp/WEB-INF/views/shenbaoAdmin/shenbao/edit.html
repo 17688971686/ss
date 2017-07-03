@@ -1,9 +1,4 @@
 <style>
-.modal{overflow-y:auto}
-.modal-open {
-       overflow: scroll !important;
-    }
- overflow: scroll !important;
 .table-bordered>thead>tr>th, 
 .table-bordered>tbody>tr>th, 
 .table-bordered>tfoot>tr>th, 
@@ -42,6 +37,12 @@ textarea.form-control {
 .tab_content{
 	padding:20px;
 }
+.modal{
+	overflow-y:auto
+	}
+.modal-open {
+       overflow: scroll !important;
+    }
 </style>
 
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
@@ -64,7 +65,6 @@ textarea.form-control {
                 <li id="tab2">项目单位信息</li>                
                 <li id="tab3">项目材料清单</li>
                 <li id="tab4" ng-show="vm.isYearPlan">年度计划信息</li>
-               <!--  <li id="tab5">申报信息确认</li> -->
               </ul>
           
 				<div class="tab_content">
@@ -85,15 +85,7 @@ textarea.form-control {
 	               	<div style="text-align: center">
 				     	<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(4)">下一步 <span class="glyphicon glyphicon-forward"></span></button>               
 				    </div>
-              </div>
-              
-             <!--   <div class="tab_content">
-                	<div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/unitInfo.html'"></div>
-              		<div style="text-align: center">
-				     	<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(5)">下一步 <span class="glyphicon glyphicon-forward"></span></button>               
-				    </div>
-              </div> -->
-          
+              </div>                   
               <div class="tab_content" ng-show="vm.isYearPlan">
                 <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/stage/yearPlan.html'"></div>
                  <div style="text-align: center">
@@ -128,5 +120,4 @@ textarea.form-control {
 				<!-- /.modal-content -->
 			</div>
 			<!-- /.modal-dialog -->
-
 	</div>

@@ -30,6 +30,9 @@
         	if($state.current.name=='shenbao_record_edit'){//申报信息编辑
         		vm.page='record_edit';
         	}
+        	vm.getBasicDataDesc = function(Str){
+        		return common.getBasicDataDesc(Str);
+        	};
         };
         
         activate();
@@ -61,7 +64,8 @@
         }
         
        function page_list(){
-    	   shenbaoSvc.grid(vm);
+    	   //获取项目列表
+    	   shenbaoSvc.grid(vm);    	   
     	   //点击列表中的申报按钮
     	   vm.shenbaoBtn=function(id,name){
 	           	vm.projectId = id;
@@ -74,13 +78,8 @@
 		   		.toArray();
 	   	   		//展示模态框
 	           	 $('#myModal').modal('show');
-	           //监听申报阶段进行查询判端此项目此阶段是否已有申报信息
-	             $scope.$watch('vm.projectShenBaoStage',function(newValue,oldValue, scope){
-	             	if(newValue){
-	             		shenbaoSvc.isHadShenBaoInfo(vm);
-	             	}
-	             });
            };
+           
     	   //点击模态框的确认按钮
            vm.confirm = function(){
            	$(".modal-backdrop").remove(); //去掉模态框背面的阴影
@@ -88,15 +87,17 @@
            };    	   
            
            //点击列表中的申报记录按钮
-           vm.checkShenBaoRecords = function(id){
+           vm.checkShenBaoRecords = function(projectNumber){
         	   //展示模态框
         	   $("#shenBaoRecords").modal({
 			        backdrop: 'static',
 			        keyboard:false  			  
         	   });
-        	   //根据项目id查询项目的申报记录
-        	   shenbaoSvc.getShenBaoRecordsByProjectId(vm,id);
+        	   vm.projectNumber = projectNumber;
            }
+           
+         //根据项目代码查询项目的申报记录 	  
+    	   shenbaoSvc.projectShenBaoRecordsGird(vm);
         }//end#page_list
        
        function page_edit(){
@@ -127,8 +128,6 @@
 	   		};
 	       	//投资类型
 	   		vm.basicData.projectInvestmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);
-	   		//项目分类
-	   		vm.basicData.projectClassify=common.getBacicDataByIndectity(common.basicDataConfig().projectClassify);	   		
 	   		//项目类别
 	   		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);
 	   		//项目建设性质
@@ -136,11 +135,19 @@
 	   		//单位性质
 	   		vm.basicData.unitProperty=common.getBacicDataByIndectity(common.basicDataConfig().unitProperty);	   		
 	   		//行政区划街道
-	   		vm.basicData.area_Street=$linq(common.getBasicData()).where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;}).toArray();
-	   		
-	   		
+	   		vm.basicData.area_Street=$linq(common.getBasicData()).where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;}).toArray();	   			   		
 	   		//资金其他来源类型
 	   		vm.basicData.capitalOther=common.getBacicDataByIndectity(common.basicDataConfig().capitalOtherType);
+	   		
+	   		//获取项目类型， 多选
+	   		vm.updateSelection = function(id){
+	        	var index = vm.model.projectType.indexOf(id);
+	        	if(index == -1){
+	        		vm.model.projectType.push(id);
+		       	}else{
+		       		vm.model.projectType.splice(index,1);
+		       	}	        	
+	        };
     	  
 	   		//文件上传
     	   vm.uploadSuccess=function(e){
