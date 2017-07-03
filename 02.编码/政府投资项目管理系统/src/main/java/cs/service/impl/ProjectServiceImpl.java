@@ -92,11 +92,11 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	@Transactional
 	public Project create(ProjectDto projectDto) {
 		//根据项目名称来判断创建的项目是否已存在
-		Criterion criterion=Restrictions.eq(Project_.projectName.getName(), projectDto.getProjectName());
-		Optional<Project> findProject = super.repository.findByCriteria(criterion).stream().findFirst();
-		if(findProject.isPresent()){
-			throw new IllegalArgumentException(String.format("项目名称：%s 已经存在,请重新输入！", projectDto.getProjectName()));
-		}else{			
+//		Criterion criterion=Restrictions.eq(Project_.projectName.getName(), projectDto.getProjectName());
+//		Optional<Project> findProject = super.repository.findByCriteria(criterion).stream().findFirst();
+//		if(findProject.isPresent()){
+//			throw new IllegalArgumentException(String.format("项目名称：%s 已经存在,请重新输入！", projectDto.getProjectName()));
+//		}else{			
 			Project project = super.create(projectDto);		
 			//处理关联信息
 			projectDto.getAttachmentDtos().forEach(x -> {//添加新附件
@@ -110,7 +110,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 			super.repository.save(project);
 			logger.info(String.format("创建项目,项目名称 %s",projectDto.getProjectName()));
 			return project;		
-		}	
+//		}	
 	}
 	 
 }

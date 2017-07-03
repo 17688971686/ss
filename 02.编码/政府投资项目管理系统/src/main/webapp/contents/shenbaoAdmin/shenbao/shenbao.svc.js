@@ -11,22 +11,21 @@
 		var url_back = "/shenbao_records";
 		
 		var service = {
-			grid : grid,
-			getProjectById:getProjectById,
-			getShenBaoRecordsByProjectId:getShenBaoRecordsByProjectId,
-			createShenBaoInfo:createShenBaoInfo,
-			recordsGird:recordsGird,
-			getShenBaoInfoById:getShenBaoInfoById,
-			updateShenBaoInfo:updateShenBaoInfo,
-			isHadShenBaoInfo:isHadShenBaoInfo
+			grid : grid,//项目列表
+			getProjectById:getProjectById,//根据id查询项目信息
+			projectShenBaoRecordsGird:projectShenBaoRecordsGird,//根据项目代码查询项目申报信息列表
+			createShenBaoInfo:createShenBaoInfo,//创建申报信息
+			recordsGird:recordsGird,//所有的申报记录列表
+			getShenBaoInfoById:getShenBaoInfoById,//根据id查询项目申报信息
+			updateShenBaoInfo:updateShenBaoInfo//更新申报信息
+//			isHadShenBaoInfo:isHadShenBaoInfo
 		};		
 		return service;
 		
 		/**
 		 * 根据项目id查询申报记录
 		 */
-		function getShenBaoRecordsByProjectId(vm,id){
-			console.log(id);
+		function projectShenBaoRecordsGird(vm,projectNumber){
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
@@ -48,10 +47,10 @@
 					dir : "desc"
 				},
 				filter:{
-					field:'projectId',
+					field:'projectNumber',
 					operator:'eq',
-					value:id
-				}				
+					value:projectNumber
+				}			
 			});
 			// End:dataSource
 			// Begin:column
@@ -59,11 +58,11 @@
 					{
 						field : "projectName",
 						title : "项目名称",
+						width:200,
 						template:function(item){
-							return common.format('<a href="#/project/projectInfo/{0}">{1}</a>',item.projectId,item.projectName);
+							return common.format('<a href="#/project/projectInfo/{0}/{1}">{2}</a>',item.projectId,item.projectInvestmentType,item.projectName);
 						},
-						filterable : true
-						
+						filterable : false						
 					},
 					{
 						field : "processState",
@@ -95,10 +94,8 @@
 						field : "",
 						title : "操作",
 						width : 150,
-						template : function(item) {
-							var isShow=item.processState==common.basicDataConfig().processState_waitQianShou
-									   ||item.processState==common.basicDataConfig().processState_tuiWen;
-							return common.format($('#columnBtns').html(),item.id,item.projectShenBaoStage,isShow?'':'display:none');
+						template : function(item) {							
+							return common.format($('#columnBtns_Record').html(),item.id);
 						}
 					}
 			];
@@ -117,28 +114,28 @@
 		/**
 		 * 根据项目id和申报阶段查询申报信息
 		 */
-		function isHadShenBaoInfo(vm){
-			var httpOptions = {
-					method : 'get',
-					url : common.format(url_shenbao + "?$filter=projectId eq '{0}' and projectShenBaoStage eq '{1}'", vm.projectId,vm.projectShenBaoStage)
-				};
-				var httpSuccess = function success(response) {
-				vm.model.shenBaoInfoDto = response.data.value;
-					if(vm.model.shenBaoInfoDto.length>0){
-						vm.isStageExist = true;
-						vm.isConfirm = true;
-					}else{
-						vm.isStageExist = false;
-						vm.isConfirm = false;
-					}
-				};				
-				common.http({
-					vm:vm,
-					$http:$http,
-					httpOptions:httpOptions,
-					success:httpSuccess
-				});
-		}//end#queryShenBaoInfo
+//		function isHadShenBaoInfo(vm){
+//			var httpOptions = {
+//					method : 'get',
+//					url : common.format(url_shenbao + "?$filter=projectId eq '{0}' and projectShenBaoStage eq '{1}'", vm.projectId,vm.projectShenBaoStage)
+//				};
+//				var httpSuccess = function success(response) {
+//				vm.model.shenBaoInfoDto = response.data.value;
+//					if(vm.model.shenBaoInfoDto.length>0){
+//						vm.isStageExist = true;
+//						vm.isConfirm = true;
+//					}else{
+//						vm.isStageExist = false;
+//						vm.isConfirm = false;
+//					}
+//				};				
+//				common.http({
+//					vm:vm,
+//					$http:$http,
+//					httpOptions:httpOptions,
+//					success:httpSuccess
+//				});
+//		}//end#queryShenBaoInfo
 		
 		/**
 		 * 更新申报信息
@@ -200,11 +197,11 @@
 				var httpSuccess = function success(response) {
 					vm.model = response.data.value[0]||{};
 						//日期展示
-						vm.model.beginDate=common.toDate(vm.model.beginDate);//开工日期
-						vm.model.endDate=common.toDate(vm.model.endDate);//竣工日期
-						vm.model.pifuJYS_date=common.toDate(vm.model.pifuJYS_date);//项目建议书批复日期			
-						vm.model.pifuKXXYJBG_date=common.toDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
-						vm.model.pifuCBSJYGS_date=common.toDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期
+						vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
+						vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
+						vm.model.pifuJYS_date=common.formatDate(vm.model.pifuJYS_date);//项目建议书批复日期			
+						vm.model.pifuKXXYJBG_date=common.formatDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
+						vm.model.pifuCBSJYGS_date=common.formatDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期
 						if(vm.page=='record'){
 							if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){
 								vm.isYearPlan = true;
@@ -228,6 +225,7 @@
 						vm.model.capitalSCZ_zxzj=common.toMoney(vm.model.capitalSCZ_zxzj);//市财政-专项资金
 						vm.model.capitalQCZ_ggys=common.toMoney(vm.model.capitalQCZ_ggys);//区财政-公共预算
 						vm.model.capitalQCZ_gtzj=common.toMoney(vm.model.capitalQCZ_gtzj);//区财政-国土资金
+						vm.model.capitalZYYS=common.toMoney(vm.model.capitalZYYS);//中央预算
 						vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
 						vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
 						vm.model.applyYearInvest=common.toMoney(vm.model.applyYearInvest);//申请年度投资
@@ -271,11 +269,7 @@
 					['shenBaoUnitInfoDto.unitResPerson','required','项目单位信息-单位负责人名称必填'],
 					['shenBaoUnitInfoDto.resPersonTel','required','项目单位信息-单位负责人电话必填'],
 					['shenBaoUnitInfoDto.resPersonMobile','required','项目单位信息-单位负责人手机必填'],
-					['shenBaoUnitInfoDto.resPersonEmail','required','项目单位信息-单位负责人邮箱必填'],
-					['shenBaoUnitInfoDto.unitContactPerson','required','项目单位信息-项目联系人名称必填'],
-					['shenBaoUnitInfoDto.contactPersonTel','required','项目单位信息-项目联系人电话必填'],
-					['shenBaoUnitInfoDto.contactPersonMobile','required','项目单位信息-项目联系人手机必填'],
-					['shenBaoUnitInfoDto.contactPersonEmail','required','项目单位信息-项目联系人邮箱必填']					
+					['shenBaoUnitInfoDto.resPersonEmail','required','项目单位信息-单位负责人邮箱必填']					
 				];
 				vm.validMessage=[];
 				$.each(validFields,function(idx,item){
@@ -345,24 +339,43 @@
 		}
 		
 		/**
-		 * 获取单位信息
+		 *获取项目单位信息 
 		 */
-		function getDeptInfo(vm){
+		function getProjectUnit(vm){
 			var httpOptions = {
 					method : 'get',
-					url : url_userUnit
-				};
-				var httpSuccess = function success(response) {					
-					vm.model.shenBaoUnitInfoDto = response.data;
-				};
-				
+					url : common.format(url_userUnit + "?$filter=userName eq '{0}'", vm.model.unitName)
+				}
+				var httpSuccess = function success(response) {
+					vm.model.shenBaoUnitInfoDto = response.data.value[0] || {};
+				}
 				common.http({
-					vm:vm,
-					$http:$http,
-					httpOptions:httpOptions,
-					success:httpSuccess
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
 				});
 		}
+		
+		/**
+		 * 获取单位信息
+		 */
+//		function getDeptInfo(vm){
+//			var httpOptions = {
+//					method : 'get',
+//					url : url_userUnit
+//				};
+//				var httpSuccess = function success(response) {					
+//					vm.model.shenBaoUnitInfoDto = response.data;
+//				};
+//				
+//				common.http({
+//					vm:vm,
+//					$http:$http,
+//					httpOptions:httpOptions,
+//					success:httpSuccess
+//				});
+//		}
 		
 		/**
 		 * 通过项目代码查询项目信息
@@ -376,8 +389,8 @@
 					vm.model = response.data.value[0]||{};
 					if(vm.page=='edit'){
 						//日期展示
-						vm.model.beginDate=common.toDate(vm.model.beginDate);//开工日期
-						vm.model.endDate=common.toDate(vm.model.endDate);//竣工日期
+						vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
+						vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
 						vm.model.pifuJYS_date=common.formatDate(vm.model.pifuJYS_date);//项目建议书批复日期			
 						vm.model.pifuKXXYJBG_date=common.formatDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
 						vm.model.pifuCBSJYGS_date=common.formatDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期
@@ -394,6 +407,7 @@
 						vm.model.capitalSCZ_zxzj=common.toMoney(vm.model.capitalSCZ_zxzj);//市财政-专项资金
 						vm.model.capitalQCZ_ggys=common.toMoney(vm.model.capitalQCZ_ggys);//区财政-公共预算
 						vm.model.capitalQCZ_gtzj=common.toMoney(vm.model.capitalQCZ_gtzj);//区财政-国土资金
+						vm.model.capitalZYYS=common.toMoney(vm.model.capitalZYYS);//中央预算
 						vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
 						vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
 						vm.model.applyYearInvest=common.toMoney(vm.model.applyYearInvest);//申请年度投资
@@ -405,12 +419,26 @@
 				  			 		+ (parseFloat(vm.model.capitalQCZ_ggys)||0 )
 				  			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
 				  			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
+				  			 		+ (parseFloat(vm.model.capitalZYYS)||0 )
 				  			 		+ (parseFloat(vm.model.capitalOther)||0) ;
 				  		 };
+				  		//项目分类
+				  		 if(vm.model.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
+				    		   //基础数据项目分类
+				    		  vm.basicData.projectClassify=$linq(common.getBasicData())
+					       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
+					       		.toArray();			  
+				 		   }else if(vm.model.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资
+				 			  //基础数据项目分类
+				 			  vm.basicData.projectClassify=$linq(common.getBasicData())
+					       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
+					       		.toArray();
+				 		   }
 						vm.model.projectId = vm.model.id;
 					}
 					vm.model.projectShenBaoStage = vm.stage;
-					getDeptInfo(vm);
+					//获取项目单位信息
+					getProjectUnit(vm);
 				};
 				common.http({
 					vm : vm,
@@ -507,7 +535,7 @@
 		}//End recordsGird
 		
 		/**
-		 * 项目列表数据获取
+		 * 项目最新版本列表数据获取
 		 */
 		function grid(vm) {
 			// Begin:dataSource
@@ -529,6 +557,11 @@
 				sort : {
 					field : "createdDate",
 					dir : "desc"
+				},
+				filter:{
+					field:'isLatestVersion',
+					operator:'eq',
+					value:true
 				}
 			});
 			// End:dataSource
@@ -540,7 +573,7 @@
 						title : "项目名称",						
 						filterable : true,
 						template:function(item){
-							return common.format('<a href="#/project/projectInfo/{0}">{1}</a>',item.id,item.projectName);
+							return common.format('<a href="#/project/projectInfo/{0}/{1}">{2}</a>',item.id,item.projectInvestmentType,item.projectName);
 						}
 					},
 					{
@@ -566,7 +599,7 @@
 						title : "操作",
 						width : 180,
 						template : function(item) {
-							return common.format($('#columnBtns').html(),item.id,item.projectName);
+							return common.format($('#columnBtns').html(),item.id,item.projectName,item.projectNumber);
 						}
 
 					}

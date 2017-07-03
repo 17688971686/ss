@@ -9,19 +9,19 @@
 	  </ol>
 	  <script type="text/template" id="columnBtns">
 			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.shenbaoBtn('{0}','{1}')"><span class="glyphicon glyphicon-pencil"></span>申报</button>
-			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.checkShenBaoRecords('{0}')"><span class="glyphicon glyphicon-th-list"></span>申报记录</button>
-	  </script>
-	  <div class="toolbar">
-	  	<div class="bg-danger text-danger" style="padding:10px;">
-	  		<a class="btn btn-xs btn-info" href="#/shenbao_records"><span class="glyphicon glyphicon-eye-open"></span>查看申报记录</a>
-	  	</div>
-	  </div> 
+			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.checkShenBaoRecords('{2}')"><span class="glyphicon glyphicon-th-list"></span>申报记录</button>
+	  </script>	  
      <form id="form" name="form">          
          <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
     </form>
+    <div class="toolbar">
+	  	<div style="margin-top:10px;">
+	  		<a class="btn btn-sm btn-info" href="#/shenbao_records"></span>查看所有申报记录</a>
+	  	</div>
+	</div> 
 </div>
 <!-- 项目申报选择项目申报阶段分类 模态框-->
-<div class="modal fade" id="myModal"> 
+<div class="modal fade" id="myModal">
 	<div class="modal-dialog"> 
 		<div class="modal-content"> 
 			<div class="modal-header bg-primary">
@@ -68,3 +68,6 @@
 		</div>
 	</div>
 </div>
+<script type="text/template" id="columnBtns_Record">
+	<a class="btn btn-xs btn-primary" href="#/shenbao_record/{0}"><span class="glyphicon glyphicon-eye-open"></span>申报详情</a>
+</script> 

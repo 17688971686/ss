@@ -101,7 +101,7 @@
 	   		vm.basicData.projectGoverEconClassify=common.getBacicDataByIndectity(common.basicDataConfig().projectGoverEconClassify);//政府经济分类科目	   		
 	   		vm.basicData.capitalOther=common.getBacicDataByIndectity(common.basicDataConfig().capitalOtherType);//资金其他来源类型	   		
 	   		vm.basicData.projectIndustry=common.getBacicDataByIndectity(common.basicDataConfig().projectIndustry);//行业归口
-	   		vm.basicData_area_Street=$linq(common.getBasicData())
+	   		vm.basicData.area_Street=$linq(common.getBasicData())
 			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 			.toArray();//获取街道信息
 	   		
@@ -109,7 +109,7 @@
 	       		vm.basicData.projectIndustryChildren=$linq(common.getBasicData())
 	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.model.projectIndustryParent;})
 	       		.toArray();
-	   		}
+	   		};
 	   		//获取项目类型， 多选
 	   		vm.updateSelection = function(id){
 	        	var index = vm.model.projectType.indexOf(id);
@@ -118,7 +118,7 @@
 		       	}else{
 		       		vm.model.projectType.splice(index,1);
 		       	}	        	
-	        }
+	        };
 	   		//end#基础数据
 	   		
 	   		//批复文件上传
