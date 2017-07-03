@@ -81,6 +81,15 @@
 						//项目类型的处理
 						vm.projectTypes = vm.model.projectType.split(",");
 						
+						//多选框回显
+						vm.model.projectType = vm.model.projectType.split(",");
+						for (var i = 0; i < vm.basicData.projectType.length; i++) {
+							for (var j = 0; j < vm.model.projectType.length; j++) {
+								if(vm.basicData.projectType[i].id==vm.model.projectType[j]){
+									vm.basicData.projectType[i].checked = true;
+								}
+							}
+						}
 						//日期展示
 						vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
 						vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期

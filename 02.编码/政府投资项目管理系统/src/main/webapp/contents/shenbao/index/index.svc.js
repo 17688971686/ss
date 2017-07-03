@@ -21,7 +21,7 @@
                     method: 'post',
                     url: '/account/login',
                     data: vm.model
-                }
+                };
                 var httpSuccess = function success(response) {
                     vm.isSubmit = false;                        
                     common.requestSuccess({
@@ -35,12 +35,12 @@
                                 location.href = "/shenbaoAdmin";
                             } else {
                                 
-                                vm.message=response.data.message
+                                vm.message=response.data.message;
                             }
                     	}
                     });
 
-                }
+                };
                 common.http({
                 	vm:vm,
                 	$http:$http,
@@ -56,12 +56,12 @@
 					method : 'get',
 					url : data_url,
 					data : vm.model
-				}
+				};
 
 				var httpSuccess = function success(response) {
 					vm.model=response.data;
 					vm.articles=vm.model.article_tzgg;
-				}
+				};
 
 				common.http({
 					vm : vm,

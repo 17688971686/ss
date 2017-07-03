@@ -25,7 +25,7 @@
 				break;			
 			}
         	
-        }//end init
+        };//end init
 		
 		
 		activate();
