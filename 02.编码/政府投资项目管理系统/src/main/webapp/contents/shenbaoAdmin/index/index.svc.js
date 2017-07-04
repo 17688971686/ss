@@ -105,18 +105,21 @@
 					{
 						field : "processSuggestion",
 						title : "信息",						
-						filterable : true
+						filterable : false
 					},
 					{
-						field : "processStateDesc",
-						title : "状态",						
-						filterable : true
+						field : "processState",
+						title : "状态",
+						template:function(item){
+							return common.getBasicDataDesc(item.processState);
+						},
+						filterable : false
 					},
 					{
 						field : "createdDate",
 						title : "创建时间",
 						template:function(item){
-							return vm.formatDateTime(item.createdDate);
+							return common.formatDateTime(item.createdDate);
 						}
 					}
 			];

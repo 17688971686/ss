@@ -139,7 +139,7 @@
 	   		vm.basicData.area_Street=$linq(common.getBasicData()).where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;}).toArray();	   			   		
 	   		//资金其他来源类型
 	   		vm.basicData.capitalOther=common.getBacicDataByIndectity(common.basicDataConfig().capitalOtherType);
-	   		
+
 	   		//获取项目类型， 多选
 	   		vm.updateSelection = function(id){
 	        	var index = vm.model.projectType.indexOf(id);

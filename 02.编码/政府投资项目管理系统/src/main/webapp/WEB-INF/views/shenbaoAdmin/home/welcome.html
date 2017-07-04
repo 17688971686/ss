@@ -78,7 +78,7 @@
 					</tr>
    					<tr ng-repeat="x in vm.model.shenBaoInfo | limitTo :3" style="background: white;">
    						<td>
-   							<a href="#/project/projectInfo/{{x.projectId}}">{{x.projectName}}</a>
+   							<a href="#/project/projectInfo/{{x.projectId}}/{{x.projectInvestmentType}}">{{x.projectName}}</a>
    						</td>
    						<td ng-bind="vm.getBasicDataDesc(x.projectShenBaoStage)"></td>
    						<td ng-bind="vm.getBasicDataDesc(x.processState)"></td>

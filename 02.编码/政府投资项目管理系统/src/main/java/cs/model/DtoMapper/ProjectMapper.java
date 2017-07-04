@@ -34,8 +34,6 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			projectDto.setProjectIndustry(project.getProjectIndustry());//项目行业
 			projectDto.setProjectType(project.getProjectType());//项目类型
 			projectDto.setProjectCategory(project.getProjectCategory());//项目类别
-//			projectDto.setProjectFunctionClassify(project.getProjectFunctionClassify());//项目功能科目
-//			projectDto.setProjectGoverEconClassify(project.getProjectGoverEconClassify());
 			projectDto.setProjectInvestSum(project.getProjectInvestSum());//项目总投资
 			projectDto.setProjectInvestAccuSum(project.getProjectInvestAccuSum());//项目累计投资
 			projectDto.setDivisionId(project.getDivisionId());//项目建设区域
@@ -123,9 +121,7 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setProjectRepMobile(projectDto.getProjectRepMobile());//项目负责人电话
 			project.setEndDate(projectDto.getEndDate());
 			project.setBeginDate(projectDto.getBeginDate());
-			project.setRemark(projectDto.getRemark());			
-//			project.setProjectFunctionClassify(projectDto.getProjectFunctionClassify());
-//			project.setProjectGoverEconClassify(projectDto.getProjectGoverEconClassify());
+			project.setRemark(projectDto.getRemark());
 						
 			project.setCapitalQCZ_gtzj(projectDto.getCapitalQCZ_gtzj());
 			project.setCapitalQCZ_ggys(projectDto.getCapitalQCZ_ggys());
@@ -149,9 +145,7 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setModifiedBy(projectDto.getModifiedBy());
 			project.setCreatedBy(projectDto.getCreatedBy());
 			project.setCreatedDate(projectDto.getCreatedDate());
-			project.setItemOrder(projectDto.getItemOrder());
-						
-//			project.setAttachments(projectDto.getAttachments());			
+			project.setItemOrder(projectDto.getItemOrder());		
 		}
 		return project;
 	}

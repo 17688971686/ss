@@ -74,16 +74,9 @@
 						vm.model.monthReport.projectNumber=vm.model.projectInfo.projectNumber;
 						vm.model.monthReport.projectRepName=vm.model.projectInfo.projectRepName;
 						vm.model.monthReport.projectRepMobile=vm.model.projectInfo.projectRepMobile;
-						//项目批复信息的获取
-//						vm.model.monthReport.pifuJYS_date=common.toDate(vm.model.projectInfo.pifuJYS_date);
-//						vm.model.monthReport.pifuKXXYJBG_date=common.toDate(vm.model.projectInfo.pifuKXXYJBG_date);
-//						vm.model.monthReport.pifuCBSJYGS_date=common.toDate(vm.model.projectInfo.pifuCBSJYGS_date);						
-//						vm.model.monthReport.pifuJYS_wenhao=vm.model.projectInfo.pifuJYS_wenhao;
-//						vm.model.monthReport.pifuKXXYJBG_wenhao=vm.model.projectInfo.pifuKXXYJBG_wenhao;
-//						vm.model.monthReport.pifuCBSJYGS_wenhao=vm.model.projectInfo.pifuCBSJYGS_wenhao;
 						//项目开工以及竣工日期的获取
-						vm.model.monthReport.beginDate=common.toDate(vm.model.projectInfo.beginDate);
-						vm.model.monthReport.endDate=common.toDate(vm.model.projectInfo.endDate);
+						vm.model.monthReport.beginDate=common.formatDate(vm.model.projectInfo.beginDate);
+						vm.model.monthReport.endDate=common.formatDate(vm.model.projectInfo.endDate);
 						//项目总投资的获取
 						vm.model.monthReport.invertPlanTotal=common.toMoney(vm.model.projectInfo.projectInvestSum);
 						//TODO 至今完成投资、本年度已完成投资计算、本年度批复投资获取？
@@ -210,11 +203,15 @@
 				sort : {
 					field : "createdDate",
 					dir : "desc"
-				},filter:{
+				},filter:[{
 					field:'isMonthReport',
 					operator:'eq',
 					value:true
-				}
+				},{
+					field:'isLatestVersion',
+					operator:'eq',
+					value:true
+				}]
 			});
 			// End:dataSource
 
@@ -226,7 +223,7 @@
 						title : "项目名称",						
 						filterable : true,
 						template:function(item){
-							return common.format('<a href="#/projectMonthReport/projectInfo/{0}">{1}</a>',item.id,item.projectName);
+							return common.format('<a href="#/project/projectInfo/{0}/{1}">{2}</a>',item.id,item.projectInvestmentType,item.projectName);
 						}
 					},
 					{
@@ -253,8 +250,6 @@
 						width : 180,
 						template : function(item) {
 							return common.format($('#columnBtns').html(),item.id,"vm.del('" + item.id + "')");
-									 
-
 						}
 
 					}

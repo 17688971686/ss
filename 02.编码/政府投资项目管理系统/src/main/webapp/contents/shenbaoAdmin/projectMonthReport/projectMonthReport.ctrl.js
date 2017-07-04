@@ -99,14 +99,6 @@
      	  vm.model.monthReport.reportYear=vm.currentYear;
      	  vm.model.monthReport.allEstimateYear=vm.currentYear;
      	 
-       //begin#金额处理
-       	 vm.money = function(money){
-       		 if(money){
-       			 return money;
-       		 }else{
-       			 return 0;
-       		 }
-       	 };
      	   //begin#提交月报
      	  vm.submit = function(){
           	projectMonthReportSvc.submitMonthReport(vm);
