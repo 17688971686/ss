@@ -45,6 +45,8 @@
 								fn : function() {
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
+									$('.modal-backdrop').remove();
+									$location.path(url_back);		
 								}
 							});
 						}

@@ -89,6 +89,14 @@ public abstract class AbstractServiceImpl<Dto, Entity extends BaseEntity, ID > i
 		}
 	}
 
+	@Override
+	@Transactional
+	public Entity findById(ID id) {
+		Entity entity=repository.findById(id);
+		return entity;
+	}
+
+	
 	
 
 }

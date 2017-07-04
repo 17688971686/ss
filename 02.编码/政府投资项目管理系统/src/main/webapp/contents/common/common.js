@@ -366,7 +366,7 @@
     	if(dateStr){
     		return kendo.toString(new Date(dateStr),"yyyy-MM-dd");
     	}else{
-    		return "";
+    		return null;
     	}
     	
     }

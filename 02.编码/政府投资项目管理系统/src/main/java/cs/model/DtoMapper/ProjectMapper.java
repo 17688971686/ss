@@ -123,7 +123,8 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setProjectRepMobile(projectDto.getProjectRepMobile());//项目负责人电话
 			project.setEndDate(projectDto.getEndDate());
 			project.setBeginDate(projectDto.getBeginDate());
-			project.setRemark(projectDto.getRemark());			
+			project.setRemark(projectDto.getRemark());
+			project.setIsLatestVersion(projectDto.getIsLatestVersion());
 //			project.setProjectFunctionClassify(projectDto.getProjectFunctionClassify());
 //			project.setProjectGoverEconClassify(projectDto.getProjectGoverEconClassify());
 						
