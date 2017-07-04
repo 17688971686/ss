@@ -1,5 +1,7 @@
 package cs.model.DtoMapper;
 
+
+import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,16 +93,20 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			if(project.getId()==null||project.getId().isEmpty()){
 				project.setId(UUID.randomUUID().toString());
 			}
-			//TODO 需要完成项目代码的格式设计
-			if(projectDto.getProjectNumber() == null ||projectDto.getProjectNumber().isEmpty()){
-				if(project.getProjectNumber()==null||project.getProjectNumber().isEmpty()){
-					project.setProjectNumber(Util.getProjectNumber(projectDto.getProjectInvestmentType(), projectDto.getProjectStage()));
-				}
-			}else{
-				if(project.getProjectNumber()==null||project.getProjectNumber().isEmpty()){
-					project.setProjectNumber(projectDto.getProjectNumber());
-				}			
-			}
+//			if(projectDto.getProjectNumber() == null ||projectDto.getProjectNumber().isEmpty()){//新创建
+//				if(project.getProjectNumber()==null||project.getProjectNumber().isEmpty()){
+//					project.setProjectNumber(Util.getProjectNumber(projectDto.getProjectInvestmentType(), projectDto.getProjectStage()));
+//				}
+//			}else{
+//				if(project.getProjectNumber()==null||project.getProjectNumber().isEmpty()){//编辑更改项目阶段创建
+//					project.setProjectNumber(projectDto.getProjectNumber());
+//					project.setCreatedDate(new Date());
+//					project.setModifiedDate(new Date());
+//				}else{//正常编辑本条数据
+//					project.setModifiedDate(projectDto.getModifiedDate());
+//				}
+//			}
+			project.setProjectNumber(projectDto.getProjectNumber());
 			project.setUnitName(projectDto.getUnitName());
 			project.setProjectName(projectDto.getProjectName());
 			project.setIsLatestVersion(projectDto.getIsLatestVersion());
@@ -141,11 +147,11 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setPifuKXXYJBG_wenhao(projectDto.getPifuKXXYJBG_wenhao());
 			project.setPifuCBSJYGS_wenhao(projectDto.getPifuCBSJYGS_wenhao());
 			
+			project.setCreatedDate(projectDto.getCreatedDate());
 			project.setModifiedDate(projectDto.getModifiedDate());
 			project.setModifiedBy(projectDto.getModifiedBy());
 			project.setCreatedBy(projectDto.getCreatedBy());
-			project.setCreatedDate(projectDto.getCreatedDate());
-			project.setItemOrder(projectDto.getItemOrder());		
+			project.setItemOrder(projectDto.getItemOrder());
 		}
 		return project;
 	}

@@ -67,18 +67,12 @@
 	<tr>
 		<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
 		<td colspan="3">
-			<select id="projectIndustry" name="projectIndustry" style="height:30px;" ng-model="vm.model.projectIndustryParent"  ng-change="vm.projectIndustryChange()"
+			<select id="projectIndustry" name="projectIndustry" style="height:30px;" ng-model="vm.model.projectIndustry"
 			 data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.projectIndustry" value="{{x.id}}" ng-bind="x.description"></option>
 			</select>
-			<span data-valmsg-for="projectIndustry" data-valmsg-replace="true" class="required"></span>
-			
-			<select id="industry" name="industry"  style="height:30px;" ng-model="vm.model.projectIndustry"  data-val="true" data-val-required="必选">
-				<option value="">---请选择---</option>	
-				<option ng-repeat="x in vm.basicData.projectIndustryChildren" ng-selected="vm.model.projectIndustry==x.id" value="{{x.id}}" ng-bind="x.description"></option>
-			</select>
-			<span data-valmsg-for="industry" data-valmsg-replace="true" class="required"></span>	
+			<span data-valmsg-for="projectIndustry" data-valmsg-replace="true" class="required"></span>							
 		</td>		
 	</tr>
 	<tr>

@@ -1,8 +1,14 @@
-package cs.controller.shenbaoAdmin;
+   package cs.controller.shenbaoAdmin;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -13,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.common.ICurrentUser;
+import cs.domain.Project;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ProjectDto;
 import cs.repository.odata.ODataFilterItem;
@@ -60,8 +67,36 @@ public class ShenBaoAdminProjectController {
 	//@RequiresPermissions("shenbaoAdmin/project/unitProject##put")
 	@RequestMapping(name = "更新项目信息", path = "unitProject",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void  updateUserProject(@RequestBody ProjectDto ProjectDto){		
-		ProjectService.update(ProjectDto,ProjectDto.getId());		
+	public void  updateUserProject(@RequestBody ProjectDto ProjectDto){
+		Project entity = ProjectService.findById(ProjectDto.getId());	
+		if(entity.getProjectStage().equals(ProjectDto.getProjectStage())){//项目阶段没有发生变化
+			ProjectService.update(ProjectDto,ProjectDto.getId());
+		}else{//项目阶段发生变化
+			//根据number查询
+			List<ProjectDto> ProjectDtosForNumber = ProjectService.getProjectByNumber(ProjectDto.getProjectNumber());			
+			Map<String,String> map = new HashMap<String,String>();
+			ProjectDtosForNumber.stream().forEach(x->{
+				map.put(x.getProjectStage(),x.getId());				
+			});
+			//遍历map
+			Boolean hasProject = false;
+			Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
+			while(it.hasNext()){  
+				Map.Entry<String, String> entry = it.next();  
+	            if(ProjectDto.getProjectStage().equals(entry.getKey())){//如果之前就存在更改后的阶段
+	            	hasProject = true;
+	            	ProjectService.update(ProjectDto, entry.getValue());//更新之前的数据
+	            }
+			}
+			//如果之前不存在更改后的阶段
+			if(!hasProject){
+				ProjectService.create(ProjectDto);//创建一条新数据
+				ProjectDto.setIsLatestVersion(false);
+				ProjectDto.setProjectStage(entity.getProjectStage());
+            	ProjectService.update(ProjectDto, ProjectDto.getId());//更新本条数据的版本           	
+			}
+		}
+
 	}
 	
 	@RequestMapping(name = "列表页", path = "html/list")

@@ -1,6 +1,8 @@
 package cs.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -11,7 +13,9 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cs.common.Util;
 import cs.domain.Attachment;
+import cs.domain.BasicData;
 import cs.domain.MonthReport;
 import cs.domain.Project;
 import cs.domain.Project_;
@@ -36,6 +40,10 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	private IMapper<MonthReportDto, MonthReport> monthReportMapper;
 	@Autowired
 	private IRepository<MonthReport, String> monthReportRepo;
+	@Autowired
+	private IMapper<ProjectDto, Project> projectMapper;
+	@Autowired
+	private IRepository<BasicData, String> basicDataRepo;
 
 	
 	@Override
@@ -91,12 +99,15 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	@Override
 	@Transactional
 	public Project create(ProjectDto projectDto) {
-		//根据项目名称来判断创建的项目是否已存在
-//		Criterion criterion=Restrictions.eq(Project_.projectName.getName(), projectDto.getProjectName());
-//		Optional<Project> findProject = super.repository.findByCriteria(criterion).stream().findFirst();
-//		if(findProject.isPresent()){
-//			throw new IllegalArgumentException(String.format("项目名称：%s 已经存在,请重新输入！", projectDto.getProjectName()));
-//		}else{			
+			//生成项目代码
+			if(projectDto.getProjectNumber() == null || projectDto.getProjectNumber().isEmpty()){
+				//根据基础数据id查询出基础数据
+				BasicData basicData = basicDataRepo.findById(projectDto.getProjectIndustry());
+				String number = Util.getProjectNumber(projectDto.getProjectInvestmentType(), basicData);
+				projectDto.setProjectNumber(number);
+				//行业项目统计累加
+				basicData.setCount(basicData.getCount()+1);
+			}
 			Project project = super.create(projectDto);		
 			//处理关联信息
 			projectDto.getAttachmentDtos().forEach(x -> {//添加新附件
@@ -109,8 +120,22 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 			//保存数据
 			super.repository.save(project);
 			logger.info(String.format("创建项目,项目名称 %s",projectDto.getProjectName()));
-			return project;		
-//		}	
+			return project;	
+	}
+	
+	@Override
+	@Transactional
+	public List<ProjectDto> getProjectByNumber(String number) {
+		//根据项目代码来获取项目信息
+		Criterion criterion=Restrictions.eq(Project_.projectNumber.getName(), number);
+		List<Project> findProjects = super.repository.findByCriteria(criterion);
+		List<ProjectDto> projectDtos = new ArrayList<>();
+		findProjects.stream().forEach(x->{
+			ProjectDto dto = new ProjectDto();
+			projectMapper.buildEntity(dto, x);
+			projectDtos.add(dto);
+		});
+		return projectDtos;
 	}
 	 
 }

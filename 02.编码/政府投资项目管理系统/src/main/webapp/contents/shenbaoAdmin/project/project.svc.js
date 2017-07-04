@@ -45,6 +45,8 @@
 								fn : function() {
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
+									$('.modal-backdrop').remove();
+									$location.path(url_back);		
 								}
 							});
 						}
@@ -103,9 +105,7 @@
 						vm.model.capitalZYYS=common.toMoney(vm.model.capitalZYYS);//中央预算
 						vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
 						vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他				
-					if(vm.page=='update'){			
-						
-						
+					if(vm.page=='update'){											
 		        		//项目行业归口
 						var child = $linq(common.getBasicData()).where(function(x){return x.id==vm.model.projectIndustry}).toArray()[0];
 		        		vm.model.projectIndustryParent=child.pId;
@@ -176,7 +176,8 @@
 		/**
 		 * 创建项目
 		 */		
-		function createProject(vm){		   
+		function createProject(vm){
+			console.log(vm.model);
 			common.initJqValidation();
 			var isValid = $('form').valid();
 			console.log(vm.model);

@@ -290,70 +290,95 @@ public class SysServiceImpl implements SysService {
 		this.createBasicData("projectConstrChar_3","projectConstrChar" , "projectConstrChar", "续建", "");
  		
 		this.createBasicData("projectIndustry","" , "projectIndustry", "项目行业分类", "");
-		this.createBasicData("projectIndustry_1","projectIndustry" , "projectIndustry", "农业水利", "");
-		this.createBasicData("projectIndustry_1_1","projectIndustry_1" , "projectIndustry", "农业", "项目行业分类-农业水利");
-		this.createBasicData("projectIndustry_1_2","projectIndustry_1" , "projectIndustry", "水库", "项目行业分类-农业水利");
-		this.createBasicData("projectIndustry_1_3","projectIndustry_1" , "projectIndustry", "其他水事工程", "项目行业分类-农业水利");
-		
-		this.createBasicData("projectIndustry_2","projectIndustry" , "projectIndustry", "能源", "");
-		this.createBasicData("projectIndustry_2_1","projectIndustry_2" , "projectIndustry", "水电站", "项目行业分类-能源");
-		this.createBasicData("projectIndustry_2_2","projectIndustry_2" , "projectIndustry", "抽水蓄能电站", "项目行业分类-能源");
-		this.createBasicData("projectIndustry_2_3","projectIndustry_2" , "projectIndustry", "火电站", "项目行业分类-能源");
-		this.createBasicData("projectIndustry_2_4","projectIndustry_2" , "projectIndustry", "热电站", "项目行业分类-能源");
-		this.createBasicData("projectIndustry_2_5","projectIndustry_2" , "projectIndustry", "风电站", "项目行业分类-能源");
-		this.createBasicData("projectIndustry_2_6","projectIndustry_2" , "projectIndustry", "核电站", "项目行业分类-能源");
-		this.createBasicData("projectIndustry_2_7","projectIndustry_2" , "projectIndustry", "电网工程", "项目行业分类-能源");
-		this.createBasicData("projectIndustry_2_8","projectIndustry_2" , "projectIndustry", "煤矿", "项目行业分类-能源");
-		this.createBasicData("projectIndustry_2_9","projectIndustry_2" , "projectIndustry", "煤制燃料", "项目行业分类-能源");
-		this.createBasicData("projectIndustry_2_10","projectIndustry_2" , "projectIndustry", "液化石油气接收、存储设施(不含油气田、炼油厂的配套项目)", "项目行业分类-能源");
-		this.createBasicData("projectIndustry_2_11","projectIndustry_2" , "projectIndustry", "进口液化天然气接收、储运设施", "项目行业分类-能源");
-		this.createBasicData("projectIndustry_2_12","projectIndustry_2" , "projectIndustry", "输油管网", "项目行业分类-能源");
-		this.createBasicData("projectIndustry_2_13","projectIndustry_2" , "projectIndustry", "输气管网", "项目行业分类-能源");
-		this.createBasicData("projectIndustry_2_14","projectIndustry_2" , "projectIndustry", "炼油", "项目行业分类-能源");
-		this.createBasicData("projectIndustry_2_15","projectIndustry_2" , "projectIndustry", "变性燃料乙醇", "项目行业分类-能源");
-
-		this.createBasicData("projectIndustry_3","projectIndustry" , "projectIndustry", "交通运输", "");
-		this.createBasicData("projectIndustry_3_1","projectIndustry_3" , "projectIndustry", "新建(含增建)铁路", "项目行业分类-交通运输");
-		this.createBasicData("projectIndustry_3_2","projectIndustry_3" , "projectIndustry", "公路", "项目行业分类-交通运输");
-		this.createBasicData("projectIndustry_3_3","projectIndustry_3" , "projectIndustry", "独立公(铁)路桥梁、隧道", "项目行业分类-交通运输");
-		this.createBasicData("projectIndustry_3_4","projectIndustry_3" , "projectIndustry", "煤炭、矿石、油气专用泊位", "项目行业分类-交通运输");
-		this.createBasicData("projectIndustry_3_5","projectIndustry_3" , "projectIndustry", "集装箱专用码头", "项目行业分类-交通运输");
-		this.createBasicData("projectIndustry_3_6","projectIndustry_3" , "projectIndustry", "内河航运", "项目行业分类-交通运输");
-		this.createBasicData("projectIndustry_3_7","projectIndustry_3" , "projectIndustry", "民航", "项目行业分类-交通运输");
-
-		this.createBasicData("projectIndustry_4","projectIndustry" , "projectIndustry", "信息产业", "");
-		this.createBasicData("projectIndustry_4_1","projectIndustry_4" , "projectIndustry", "电信", "项目行业分类-信息产业");
-		
-		this.createBasicData("projectIndustry_5","projectIndustry" , "projectIndustry", "原材料", "");
-		this.createBasicData("projectIndustry_5_1","projectIndustry_5" , "projectIndustry", "稀土、铁矿、有色矿山开发", "项目行业分类-原材料");
-		this.createBasicData("projectIndustry_5_2","projectIndustry_5" , "projectIndustry", "石化", "项目行业分类-原材料");
-		this.createBasicData("projectIndustry_5_3","projectIndustry_5" , "projectIndustry", "化工", "项目行业分类-原材料");
-		this.createBasicData("projectIndustry_5_4","projectIndustry_5" , "projectIndustry", "稀土", "项目行业分类-原材料");
-		this.createBasicData("projectIndustry_5_5","projectIndustry_5" , "projectIndustry", "黄金", "项目行业分类-原材料");
-		
-		this.createBasicData("projectIndustry_6","projectIndustry" , "projectIndustry", "机械制造", "");
-		this.createBasicData("projectIndustry_6_1","projectIndustry_6" , "projectIndustry", "汽车", "项目行业分类-机械制造");
-		
-		this.createBasicData("projectIndustry_7","projectIndustry" , "projectIndustry", "轻工", "");
-		this.createBasicData("projectIndustry_7_1","projectIndustry_7" , "projectIndustry", "烟草", "项目行业分类-轻工");
-		
-		this.createBasicData("projectIndustry_8","projectIndustry" , "projectIndustry", "高新技术", "");
-		this.createBasicData("projectIndustry_8_1","projectIndustry_8" , "projectIndustry", "民用航空航天", "项目行业分类-高新技术");
-		
-		this.createBasicData("projectIndustry_9","projectIndustry" , "projectIndustry", "城建", "");
-		this.createBasicData("projectIndustry_9_1","projectIndustry_9" , "projectIndustry", "城市快速轨道交通项目", "项目行业分类-城建");
-		this.createBasicData("projectIndustry_9_2","projectIndustry_9" , "projectIndustry", "城市道路桥梁、隧道", "项目行业分类-城建");
-		this.createBasicData("projectIndustry_9_3","projectIndustry_9" , "projectIndustry", "其他城建项目", "项目行业分类-城建");
-		
-		this.createBasicData("projectIndustry_10","projectIndustry" , "projectIndustry", "社会事业", "");
-		this.createBasicData("projectIndustry_10_1","projectIndustry_10" , "projectIndustry", "主题公园", "项目行业分类-社会事业");
-		this.createBasicData("projectIndustry_10_2","projectIndustry_10" , "projectIndustry", "旅游", "项目行业分类-社会事业");
-		this.createBasicData("projectIndustry_10_3","projectIndustry_10" , "projectIndustry", "其他社会事业项目", "项目行业分类-社会事业");
-
-		this.createBasicData("projectIndustry_11","projectIndustry" , "projectIndustry", "外商投资", "");
-		this.createBasicData("projectIndustry_11_1","projectIndustry_11" , "projectIndustry", "外商投资民航业项目", "项目行业分类-外商投资");
-		
-		this.createBasicData("projectIndustry_12","projectIndustry" , "projectIndustry", "境外投资", "");
+			this.createBasicData("projectIndustry_1","projectIndustry" , "projectIndustry", "政府投资项目行业分类", "");			
+				this.createBasicData("projectIndustry_1_1","projectIndustry_1" , "projectIndustry", "农业", "NY",0);
+				this.createBasicData("projectIndustry_1_2","projectIndustry_1" , "projectIndustry", "林业", "LY",0);
+				this.createBasicData("projectIndustry_1_3","projectIndustry_1" , "projectIndustry", "水利", "SL",0);
+				this.createBasicData("projectIndustry_1_4","projectIndustry_1" , "projectIndustry", "体育", "TY",0);
+				this.createBasicData("projectIndustry_1_5","projectIndustry_1" , "projectIndustry", "城市建设", "CJ",0);				
+				this.createBasicData("projectIndustry_1_6","projectIndustry_1" , "projectIndustry", "党政机关", "DZ",0);
+				this.createBasicData("projectIndustry_1_7","projectIndustry_1" , "projectIndustry", "社会团体", "ST",0);
+				this.createBasicData("projectIndustry_1_8","projectIndustry_1" , "projectIndustry", "工业", "GY",0);				
+				this.createBasicData("projectIndustry_1_9","projectIndustry_1" , "projectIndustry", "运输", "YS",0);
+				this.createBasicData("projectIndustry_1_10","projectIndustry_1" , "projectIndustry", "邮电", "YD",0);				
+				this.createBasicData("projectIndustry_1_11","projectIndustry_1" , "projectIndustry", "商粮贸", "SM",0);
+				this.createBasicData("projectIndustry_1_12","projectIndustry_1" , "projectIndustry", "物资", "WZ",0);				
+				this.createBasicData("projectIndustry_1_13","projectIndustry_1" , "projectIndustry", "财政", "CZ",0);
+				this.createBasicData("projectIndustry_1_14","projectIndustry_1" , "projectIndustry", "金融", "JR",0);
+				this.createBasicData("projectIndustry_1_15","projectIndustry_1" , "projectIndustry", "科研", "KY",0);
+				this.createBasicData("projectIndustry_1_16","projectIndustry_1" , "projectIndustry", "文化", "WH",0);
+				this.createBasicData("projectIndustry_1_17","projectIndustry_1" , "projectIndustry", "教育", "JY",0);
+				this.createBasicData("projectIndustry_1_18","projectIndustry_1" , "projectIndustry", "卫生", "WS",0);
+				this.createBasicData("projectIndustry_1_19","projectIndustry_1" , "projectIndustry", "其他行业", "QT",0);
+			this.createBasicData("projectIndustry_2","projectIndustry" , "projectIndustry", "社会投资项目行业分类", "");
+				this.createBasicData("projectIndustry_2_1","projectIndustry_2" , "projectIndustry", "农、林、牧、渔业", "");
+					this.createBasicData("projectIndustry_2_1_1","projectIndustry_2_1" , "projectIndustry", "农业", "A01",0);
+					this.createBasicData("projectIndustry_2_1_2","projectIndustry_2_1" , "projectIndustry", "林业", "A02",0);
+					this.createBasicData("projectIndustry_2_1_3","projectIndustry_2_1" , "projectIndustry", "畜牧业", "A03",0);
+					this.createBasicData("projectIndustry_2_1_4","projectIndustry_2_1" , "projectIndustry", "渔业", "A04",0);
+					this.createBasicData("projectIndustry_2_1_5","projectIndustry_2_1" , "projectIndustry", "...", "A05",0);
+//			this.createBasicData("projectIndustry_2","projectIndustry" , "projectIndustry", "社会投资项目国民经济行业分类", "");
+//		
+//		
+//		this.createBasicData("projectIndustry_2","projectIndustry" , "projectIndustry", "能源", "");
+//		this.createBasicData("projectIndustry_2_1","projectIndustry_2" , "projectIndustry", "水电站", "项目行业分类-能源");
+//		this.createBasicData("projectIndustry_2_2","projectIndustry_2" , "projectIndustry", "抽水蓄能电站", "项目行业分类-能源");
+//		this.createBasicData("projectIndustry_2_3","projectIndustry_2" , "projectIndustry", "火电站", "项目行业分类-能源");
+//		this.createBasicData("projectIndustry_2_4","projectIndustry_2" , "projectIndustry", "热电站", "项目行业分类-能源");
+//		this.createBasicData("projectIndustry_2_5","projectIndustry_2" , "projectIndustry", "风电站", "项目行业分类-能源");
+//		this.createBasicData("projectIndustry_2_6","projectIndustry_2" , "projectIndustry", "核电站", "项目行业分类-能源");
+//		this.createBasicData("projectIndustry_2_7","projectIndustry_2" , "projectIndustry", "电网工程", "项目行业分类-能源");
+//		this.createBasicData("projectIndustry_2_8","projectIndustry_2" , "projectIndustry", "煤矿", "项目行业分类-能源");
+//		this.createBasicData("projectIndustry_2_9","projectIndustry_2" , "projectIndustry", "煤制燃料", "项目行业分类-能源");
+//		this.createBasicData("projectIndustry_2_10","projectIndustry_2" , "projectIndustry", "液化石油气接收、存储设施(不含油气田、炼油厂的配套项目)", "项目行业分类-能源");
+//		this.createBasicData("projectIndustry_2_11","projectIndustry_2" , "projectIndustry", "进口液化天然气接收、储运设施", "项目行业分类-能源");
+//		this.createBasicData("projectIndustry_2_12","projectIndustry_2" , "projectIndustry", "输油管网", "项目行业分类-能源");
+//		this.createBasicData("projectIndustry_2_13","projectIndustry_2" , "projectIndustry", "输气管网", "项目行业分类-能源");
+//		this.createBasicData("projectIndustry_2_14","projectIndustry_2" , "projectIndustry", "炼油", "项目行业分类-能源");
+//		this.createBasicData("projectIndustry_2_15","projectIndustry_2" , "projectIndustry", "变性燃料乙醇", "项目行业分类-能源");
+//
+//		this.createBasicData("projectIndustry_3","projectIndustry" , "projectIndustry", "交通运输", "");
+//		this.createBasicData("projectIndustry_3_1","projectIndustry_3" , "projectIndustry", "新建(含增建)铁路", "项目行业分类-交通运输");
+//		this.createBasicData("projectIndustry_3_2","projectIndustry_3" , "projectIndustry", "公路", "项目行业分类-交通运输");
+//		this.createBasicData("projectIndustry_3_3","projectIndustry_3" , "projectIndustry", "独立公(铁)路桥梁、隧道", "项目行业分类-交通运输");
+//		this.createBasicData("projectIndustry_3_4","projectIndustry_3" , "projectIndustry", "煤炭、矿石、油气专用泊位", "项目行业分类-交通运输");
+//		this.createBasicData("projectIndustry_3_5","projectIndustry_3" , "projectIndustry", "集装箱专用码头", "项目行业分类-交通运输");
+//		this.createBasicData("projectIndustry_3_6","projectIndustry_3" , "projectIndustry", "内河航运", "项目行业分类-交通运输");
+//		this.createBasicData("projectIndustry_3_7","projectIndustry_3" , "projectIndustry", "民航", "项目行业分类-交通运输");
+//
+//		this.createBasicData("projectIndustry_4","projectIndustry" , "projectIndustry", "信息产业", "");
+//		this.createBasicData("projectIndustry_4_1","projectIndustry_4" , "projectIndustry", "电信", "项目行业分类-信息产业");
+//		
+//		this.createBasicData("projectIndustry_5","projectIndustry" , "projectIndustry", "原材料", "");
+//		this.createBasicData("projectIndustry_5_1","projectIndustry_5" , "projectIndustry", "稀土、铁矿、有色矿山开发", "项目行业分类-原材料");
+//		this.createBasicData("projectIndustry_5_2","projectIndustry_5" , "projectIndustry", "石化", "项目行业分类-原材料");
+//		this.createBasicData("projectIndustry_5_3","projectIndustry_5" , "projectIndustry", "化工", "项目行业分类-原材料");
+//		this.createBasicData("projectIndustry_5_4","projectIndustry_5" , "projectIndustry", "稀土", "项目行业分类-原材料");
+//		this.createBasicData("projectIndustry_5_5","projectIndustry_5" , "projectIndustry", "黄金", "项目行业分类-原材料");
+//		
+//		this.createBasicData("projectIndustry_6","projectIndustry" , "projectIndustry", "机械制造", "");
+//		this.createBasicData("projectIndustry_6_1","projectIndustry_6" , "projectIndustry", "汽车", "项目行业分类-机械制造");
+//		
+//		this.createBasicData("projectIndustry_7","projectIndustry" , "projectIndustry", "轻工", "");
+//		this.createBasicData("projectIndustry_7_1","projectIndustry_7" , "projectIndustry", "烟草", "项目行业分类-轻工");
+//		
+//		this.createBasicData("projectIndustry_8","projectIndustry" , "projectIndustry", "高新技术", "");
+//		this.createBasicData("projectIndustry_8_1","projectIndustry_8" , "projectIndustry", "民用航空航天", "项目行业分类-高新技术");
+//		
+//		this.createBasicData("projectIndustry_9","projectIndustry" , "projectIndustry", "城建", "");
+//		this.createBasicData("projectIndustry_9_1","projectIndustry_9" , "projectIndustry", "城市快速轨道交通项目", "项目行业分类-城建");
+//		this.createBasicData("projectIndustry_9_2","projectIndustry_9" , "projectIndustry", "城市道路桥梁、隧道", "项目行业分类-城建");
+//		this.createBasicData("projectIndustry_9_3","projectIndustry_9" , "projectIndustry", "其他城建项目", "项目行业分类-城建");
+//		
+//		this.createBasicData("projectIndustry_10","projectIndustry" , "projectIndustry", "社会事业", "");
+//		this.createBasicData("projectIndustry_10_1","projectIndustry_10" , "projectIndustry", "主题公园", "项目行业分类-社会事业");
+//		this.createBasicData("projectIndustry_10_2","projectIndustry_10" , "projectIndustry", "旅游", "项目行业分类-社会事业");
+//		this.createBasicData("projectIndustry_10_3","projectIndustry_10" , "projectIndustry", "其他社会事业项目", "项目行业分类-社会事业");
+//
+//		this.createBasicData("projectIndustry_11","projectIndustry" , "projectIndustry", "外商投资", "");
+//		this.createBasicData("projectIndustry_11_1","projectIndustry_11" , "projectIndustry", "外商投资民航业项目", "项目行业分类-外商投资");
+//		
+//		this.createBasicData("projectIndustry_12","projectIndustry" , "projectIndustry", "境外投资", "");
 		
 		this.createBasicData("projectInvestmentType","" , "projectInvestmentType", "项目投资类型分类", "项目投资类型分类");
 		this.createBasicData("projectInvestmentType_1","projectInvestmentType" , "projectInvestmentType", "政府投资项目", "项目投资类型分类");
@@ -470,6 +495,32 @@ public class SysServiceImpl implements SysService {
 		return response;
 
 	}
+	/**
+	 * 
+	 * @Description：创建默认为可编辑的行业基础数据
+	 * @author： cx
+	 * @Date： 2017年7月4日
+	 * @version: 0.1
+	 */
+	private BasicData createBasicData(String id,String pid,String identity,String description,String comment,Integer count){
+		BasicData basicData = new BasicData();
+		basicData.setId(id);
+		basicData.setpId(pid);
+		basicData.setIdentity(identity);
+		basicData.setDescription(description);
+		basicData.setCanEdit(true);
+		basicData.setComment(comment);
+		basicData.setCount(count);
+		basicDataRepo.save(basicData);
+		return basicData;
+	}
+	/**
+	 * 
+	 * @Description：创建默认为可编辑的基础数据
+	 * @author： cx
+	 * @Date： 2017年7月4日
+	 * @version: 0.1
+	 */
 	private BasicData createBasicData(String id,String pid,String identity,String description,String comment){
 		BasicData basicData = new BasicData();
 		basicData.setId(id);
@@ -477,10 +528,16 @@ public class SysServiceImpl implements SysService {
 		basicData.setIdentity(identity);
 		basicData.setDescription(description);
 		basicData.setCanEdit(true);
-		//basicData.setComment(comment);				
 		basicDataRepo.save(basicData);
 		return basicData;
 	}
+	/**
+	 * 
+	 * @Description：创建基础数据
+	 * @author： cx
+	 * @Date： 2017年7月4日
+	 * @version: 0.1
+	 */
 	private BasicData createBasicData(String id,
 			String pid,
 			String identity,

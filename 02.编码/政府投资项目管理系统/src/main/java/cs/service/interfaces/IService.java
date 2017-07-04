@@ -14,5 +14,5 @@ public interface IService<Dto,Entity,ID> {
 
 	void deletes(ID[] ids);
 	
-	
+	Entity findById(ID id);	
 }

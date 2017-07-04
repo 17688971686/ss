@@ -402,6 +402,8 @@
     		projectInvestmentType_ZF:"projectInvestmentType_1",//政府投资
     		projectInvestmentType_SH:"projectInvestmentType_2",//社会投资
     		projectIndustry:"projectIndustry",//项目行业
+    		projectIndustry_ZF:"projectIndustry_1",//政府投资项目行业
+    		projectIndustry_SH:"projectIndustry_2",//社会投资项目行业
     		projectInvestmentType:"projectInvestmentType",//投资类型
     		projectProgress:"projectProgress",//项目进度
     		projectStage:"projectStage",//项目阶段
