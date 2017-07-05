@@ -3,10 +3,7 @@ package cs.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-
 import javax.transaction.Transactional;
-
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -64,7 +61,10 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		});
 		project.getAttachments().clear();
 		projectDto.getAttachmentDtos().forEach(x -> {//添加新附件
-			project.getAttachments().add(attachmentMapper.buildEntity(x, new Attachment()));
+			Attachment attachment = new Attachment();
+			attachment.setCreatedBy(project.getCreatedBy());
+			attachment.setModifiedBy(project.getModifiedBy());
+			project.getAttachments().add(attachmentMapper.buildEntity(x, attachment));
 		});
 		//月报
 		project.getMonthReports().forEach(x -> {//删除历史月报
@@ -72,7 +72,10 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		});
 		project.getMonthReports().clear();
 		projectDto.getMonthReportDtos().forEach(x -> {//添加新月报
-			project.getMonthReports().add(monthReportMapper.buildEntity(x, new MonthReport()));
+			MonthReport monthReport = new MonthReport();
+			monthReport.setCreatedBy(project.getCreatedBy());
+			monthReport.setModifiedBy(project.getModifiedBy());
+			project.getMonthReports().add(monthReportMapper.buildEntity(x, monthReport));
 		});
 		
 		//保存数据
@@ -99,7 +102,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	@Override
 	@Transactional
 	public Project create(ProjectDto projectDto) {
-			//生成项目代码
+			//判断是否存在项目代码--生成项目代码
 			if(projectDto.getProjectNumber() == null || projectDto.getProjectNumber().isEmpty()){
 				//根据基础数据id查询出基础数据
 				BasicData basicData = basicDataRepo.findById(projectDto.getProjectIndustry());
@@ -111,11 +114,17 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 			Project project = super.create(projectDto);		
 			//处理关联信息
 			projectDto.getAttachmentDtos().forEach(x -> {//添加新附件
-				project.getAttachments().add(attachmentMapper.buildEntity(x, new Attachment()));
+				Attachment attachment = new Attachment();
+				attachment.setCreatedBy(project.getCreatedBy());
+				attachment.setModifiedBy(project.getModifiedBy());
+				project.getAttachments().add(attachmentMapper.buildEntity(x, attachment));
 			});
 			//月报
 			projectDto.getMonthReportDtos().forEach(x -> {//添加新月报
-				project.getMonthReports().add(monthReportMapper.buildEntity(x, new MonthReport()));
+				MonthReport monthReport = new MonthReport();
+				monthReport.setCreatedBy(project.getCreatedBy());
+				monthReport.setModifiedBy(project.getModifiedBy());
+				project.getMonthReports().add(monthReportMapper.buildEntity(x, monthReport));
 			});			
 			//保存数据
 			super.repository.save(project);
@@ -131,8 +140,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		List<Project> findProjects = super.repository.findByCriteria(criterion);
 		List<ProjectDto> projectDtos = new ArrayList<>();
 		findProjects.stream().forEach(x->{
-			ProjectDto dto = new ProjectDto();
-			projectMapper.buildEntity(dto, x);
+			ProjectDto dto = projectMapper.toDto(x);			
 			projectDtos.add(dto);
 		});
 		return projectDtos;

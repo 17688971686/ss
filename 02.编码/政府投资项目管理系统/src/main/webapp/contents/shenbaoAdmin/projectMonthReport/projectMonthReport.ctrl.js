@@ -21,10 +21,7 @@
             }
             if(vm.month){
             	vm.page='fillReport';
-            }
-            if($state.current.name=='projectMonthReport_projectInfo'){
-            	vm.page='projectInfo';
-            }
+            }           
         };
         
         activate();
@@ -41,13 +38,7 @@
         	if(vm.page=='fillReport'){//如果填报信息
         		//查询基础数据
         		page_fillReport();        		
-        	}
-        	if(vm.page=='projectInfo'){
-        		//查询项目信息
-        		page_projectInfo();
-        	}
-        	
-        
+        	}           
         }
         
        function page_list(){      
@@ -56,11 +47,7 @@
         
        function page_selectMonth(){
         	projectMonthReportSvc.getProjectById(vm);
-        	
-        	 vm.fillReport = function(month){
-             	//跳转到月报信息填写页面
-             	location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+vm.submitYear+"/"+month;
-             };
+       	 
         	 var date=new Date();
         	 vm.submitYear=date.getFullYear();
         	 vm.submitYearMonth={};
@@ -80,6 +67,11 @@
 					});
 					
         	 };
+        	 
+        	 vm.fillReport = function(month){
+              	//跳转到月报信息填写页面
+              	location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+vm.submitYear+"/"+month;
+              };
         }//end page_selectMonth
         
         function page_fillReport(){ 
@@ -98,6 +90,8 @@
      	  vm.model.monthReport.proposalsYear=vm.currentYear;
      	  vm.model.monthReport.reportYear=vm.currentYear;
      	  vm.model.monthReport.allEstimateYear=vm.currentYear;
+     	  
+     	 projectMonthReportSvc.getProjectById(vm);
      	 
      	   //begin#提交月报
      	  vm.submit = function(){
@@ -119,10 +113,7 @@
 	           			 }                			           			
 	           		 });
 	           	 }
-     		 };
-         	
-         	projectMonthReportSvc.getProjectById(vm);
-         	
+     		 };        	
      	 };//end init_page_fillReport
      	 
      	//begin#删除文件
@@ -149,13 +140,7 @@
      	vm.basicData_projectProgress=common.getBacicDataByIndectity(common.basicDataConfig().projectProgress);
      		    	
      	//begin#上传类型
-     	vm.uploadType=[['scenePicture','现场图片'],['other','其它材料']];
-     	
+     	vm.uploadType=[['scenePicture','现场图片'],['other','其它材料']];    	
       }//page_fillReport
-        
-      function page_projectInfo(){
-    	  projectMonthReportSvc.getProjectById(vm);      	  
-      }//end#page_projectInfo
-        
     }
 })();

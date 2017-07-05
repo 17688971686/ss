@@ -19,10 +19,6 @@ import cs.service.interfaces.UserUnitInfoService;
 @Service
 public class UserUnitInfoServiceImpl extends AbstractServiceImpl<UserUnitInfoDto, UserUnitInfo, String> implements UserUnitInfoService {
 	private static Logger logger = Logger.getLogger(UserUnitInfoServiceImpl.class);
-	@Autowired
-	private IMapper<UserUnitInfoDto, UserUnitInfo> userUnitInfoMapper;
-	@Autowired
-	private ICurrentUser currentUser;
 	
 	@Override
 	@Transactional
@@ -38,16 +34,12 @@ public class UserUnitInfoServiceImpl extends AbstractServiceImpl<UserUnitInfoDto
 		//根据用户名来判断是有有该用户单位这条记录
 		Criterion criterion=Restrictions.eq(UserUnitInfo_.userName.getName(), userName);
 		Optional<UserUnitInfo>	query_userUnitInfo =super.repository.findByCriteria(criterion).stream().findFirst();
-		if(query_userUnitInfo.isPresent()){
-			userUnitInfo=query_userUnitInfo.get();
-		}else{
-			userUnitInfo=new UserUnitInfo();
+		if(query_userUnitInfo.isPresent()){//如果存在更新这一条数据
+			 userUnitInfo = super.update(unitInfoDto, unitInfoDto.getId());
+		}else{//如果不存在创建一条新数据
+			unitInfoDto.setUserName(userName);
+			userUnitInfo = super.create(unitInfoDto);
 		}
-		unitInfoDto.setUserName(userName);
-		userUnitInfoMapper.buildEntity(unitInfoDto, userUnitInfo);		
-		String loginName = currentUser.getLoginName();		
-		userUnitInfo.setCreatedBy(loginName);
-		userUnitInfo.setModifiedBy(loginName);
 		super.repository.save(userUnitInfo);
 		logger.info(String.format("创建单位信息:%s", userName));
 	}

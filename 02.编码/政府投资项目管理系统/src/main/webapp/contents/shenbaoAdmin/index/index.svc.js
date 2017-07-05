@@ -99,8 +99,7 @@
 								return item.title;
 							}							
 						},
-						filterable : false
-						
+						filterable : false						
 					},
 					{
 						field : "processSuggestion",
@@ -135,7 +134,7 @@
 		}
 		
 		/**
-		 * 获取单位申报信息
+		 * 获取单位项目申报信息
 		 */
 		function getUnitShenBaoInfos(vm){
 			var httpOptions = {
@@ -143,15 +142,16 @@
 					url : url_unitShenBao+"/unit"
 				};
 
-				var httpSuccess = function success(response) {
-					vm.model.shenBaoInfo = response.data.value;	
-				};
-				common.http({
-					vm : vm,
-					$http : $http,
-					httpOptions : httpOptions,
-					success : httpSuccess
-				});
+			var httpSuccess = function success(response) {
+				vm.model.shenBaoInfo = response.data.value;	
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
 		}
 		
 		/**
@@ -163,15 +163,16 @@
 					url : url_taskRecord+"?$orderby=createdDate desc"
 				};
 
-				var httpSuccess = function success(response) {
-					vm.model.taskRecord = response.data.value;
-				};
-				common.http({
-					vm : vm,
-					$http : $http,
-					httpOptions : httpOptions,
-					success : httpSuccess
-				});
+			var httpSuccess = function success(response) {
+				vm.model.taskRecord = response.data.value;
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
 		}
 		
 		/**
@@ -239,15 +240,6 @@
 				});
 
 		}
-		//end#getArticle
-		
-
-		
-		
-		
-
-	}
-	
-	
-	
+		//end#getArticle								
+	}			
 })();

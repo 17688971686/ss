@@ -23,7 +23,7 @@ import cs.service.interfaces.UserUnitInfoService;
 
 @Controller
 @RequestMapping(name = "用户单位信息", path = "shenbaoAdmin/userUnitInfo")
-public class UserUnitInfoController {
+public class ShenBaoAdminUserUnitInfoController {
 	@Autowired
 	private ICurrentUser currentUser;
 	@Autowired

@@ -21,7 +21,7 @@ import cs.service.interfaces.MonthReportService;
 
 @Controller
 @RequestMapping(name = "月报管理", path = "shenbaoAdmin/projectMonthReport")
-public class ProjectMonthReportController {
+public class ShenBaoAdminProjectMonthReportController {
 	//依赖注入服务层
 	@Autowired
 	private MonthReportService monthReportService;

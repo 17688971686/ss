@@ -114,6 +114,8 @@ public class BaseProject extends BaseEntity
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '批复-初步设计与概算-文号'")
 	private String pifuCBSJYGS_wenhao;
+	
+
 
 	public String getUnitName() {
 		return unitName;
@@ -371,22 +373,6 @@ public class BaseProject extends BaseEntity
 		this.projectCategory = projectCategory;
 	}
 
-//	public String getProjectFunctionClassify() {
-//		return projectFunctionClassify;
-//	}
-//
-//	public void setProjectFunctionClassify(String projectFunctionClassify) {
-//		this.projectFunctionClassify = projectFunctionClassify;
-//	}
-//
-//	public String getProjectGoverEconClassify() {
-//		return projectGoverEconClassify;
-//	}
-//
-//	public void setProjectGoverEconClassify(String projectGoverEconClassify) {
-//		this.projectGoverEconClassify = projectGoverEconClassify;
-//	}
-
 	public String getProjectInvestmentType() {
 		return projectInvestmentType;
 	}
@@ -418,4 +404,6 @@ public class BaseProject extends BaseEntity
 	public void setDivisionId(String divisionId) {
 		this.divisionId = divisionId;
 	}
+	
+
 }

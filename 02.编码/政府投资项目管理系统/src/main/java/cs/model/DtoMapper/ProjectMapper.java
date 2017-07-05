@@ -1,13 +1,8 @@
 package cs.model.DtoMapper;
 
-
-import java.util.Date;
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import cs.common.Util;
 import cs.domain.Attachment;
 import cs.domain.MonthReport;
 import cs.domain.Project;
@@ -90,22 +85,10 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 	
 	public Project  buildEntity(ProjectDto projectDto,Project project){
 		if(projectDto!=null&&project!=null){
+			//项目基本信息
 			if(project.getId()==null||project.getId().isEmpty()){
 				project.setId(UUID.randomUUID().toString());
 			}
-//			if(projectDto.getProjectNumber() == null ||projectDto.getProjectNumber().isEmpty()){//新创建
-//				if(project.getProjectNumber()==null||project.getProjectNumber().isEmpty()){
-//					project.setProjectNumber(Util.getProjectNumber(projectDto.getProjectInvestmentType(), projectDto.getProjectStage()));
-//				}
-//			}else{
-//				if(project.getProjectNumber()==null||project.getProjectNumber().isEmpty()){//编辑更改项目阶段创建
-//					project.setProjectNumber(projectDto.getProjectNumber());
-//					project.setCreatedDate(new Date());
-//					project.setModifiedDate(new Date());
-//				}else{//正常编辑本条数据
-//					project.setModifiedDate(projectDto.getModifiedDate());
-//				}
-//			}
 			project.setProjectNumber(projectDto.getProjectNumber());
 			project.setUnitName(projectDto.getUnitName());
 			project.setProjectName(projectDto.getProjectName());
@@ -128,7 +111,7 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setEndDate(projectDto.getEndDate());
 			project.setBeginDate(projectDto.getBeginDate());
 			project.setRemark(projectDto.getRemark());
-						
+			//资金来源			
 			project.setCapitalQCZ_gtzj(projectDto.getCapitalQCZ_gtzj());
 			project.setCapitalQCZ_ggys(projectDto.getCapitalQCZ_ggys());
 			project.setCapitalSCZ_gtzj(projectDto.getCapitalSCZ_gtzj());
@@ -139,14 +122,14 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setCapitalOther(projectDto.getCapitalOther());
 			project.setCapitalOtherType(projectDto.getCapitalOtherType());
 			project.setCapitalOtherDescription(projectDto.getCapitalOtherDescription());
-			
+			//批复信息
 			project.setPifuCBSJYGS_date(projectDto.getPifuCBSJYGS_date());
 			project.setPifuJYS_date(projectDto.getPifuJYS_date());			
 			project.setPifuKXXYJBG_date(projectDto.getPifuKXXYJBG_date());
 			project.setPifuJYS_wenhao(projectDto.getPifuJYS_wenhao());
 			project.setPifuKXXYJBG_wenhao(projectDto.getPifuKXXYJBG_wenhao());
 			project.setPifuCBSJYGS_wenhao(projectDto.getPifuCBSJYGS_wenhao());
-			
+			//基础信息
 			project.setCreatedDate(projectDto.getCreatedDate());
 			project.setModifiedDate(projectDto.getModifiedDate());
 			project.setModifiedBy(projectDto.getModifiedBy());

@@ -38,41 +38,7 @@ public class MonthReport extends BaseEntity{
 	private String projectRepName;
 	@Column(columnDefinition="varchar(50) COMMENT '项目负责人手机号'")
 	private String projectRepMobile;
-//	@Column(columnDefinition="varchar(255) COMMENT '月报负责人姓名'")
-//	private String monRepManagerName;
-//	@Column(columnDefinition="varchar(50) COMMENT '月报负责人手机号'")
-//	private String monRepManagerTel;
-//	@Column(columnDefinition="varchar(50) COMMENT '月报负责人传真号'")
-//	private String monRepManagerFax;
-//	@Column(columnDefinition="varchar(255) COMMENT '月报负责单位名称'")
-//	private String monRepManagUnitName;
-//	@Column(columnDefinition="varchar(255) COMMENT '责任单位负责人名称'")
-//	private String respUnitManagerName;
-//	@Column(columnDefinition="varchar(50) COMMENT '责任单位负责人电话'")
-//	private String respUnitManagerTel;
-	
 	//end#联系人信息
-	
-	//begin#批文日期和文号
-	@Column(columnDefinition="date NULL COMMENT '批复-项目建议书-时间'")
-	private Date pifuJYS_date;
-	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '批复-项目建议书-文号'")
-	private String pifuJYS_wenhao;
-	
-	@Column(columnDefinition="date NULL COMMENT '批复-可行性研究报告-时间'")
-	private Date pifuKXXYJBG_date;
-	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '批复-可行性研究报告-文号'")
-	private String pifuKXXYJBG_wenhao;
-	
-	@Column(columnDefinition="date NULL COMMENT '批复-初步设计与概算-时间'")
-	private Date pifuCBSJYGS_date;
-	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '批复-初步设计与概算-文号'")
-	private String pifuCBSJYGS_wenhao;
-	
-	//end#批文日期和文号
 	
 	//begin#开工时间
 	@Column(columnDefinition="date COMMENT '预计开工日期'")
@@ -85,19 +51,30 @@ public class MonthReport extends BaseEntity{
 	//begin#投资情况
 	@Column(columnDefinition="double(10,2) COMMENT '计划总投资'")
 	private Double invertPlanTotal;
+	
+	@Column(columnDefinition="double(10,2) COMMENT '截止上年底累计下达计划'")
+	private Double releasePlanTotal;
+	
+	@Column(columnDefinition="double(10,2) COMMENT '本年度安排计划投资'")
+	private Double thisYearPlanInvestment;
+	
+	@Column(columnDefinition="double(10,2) COMMENT '本年度已下达计划'")
+	private Double thisYearPlanHasInvestment;
+	
 	@Column(columnDefinition="double(10,2) COMMENT '实际完成投资'")
 	private Double actuallyFinishiInvestment;	
 
-	@Column(columnDefinition="double(10,2) COMMENT '本年计划投资'")
-	private Double thisYearPlanInvestment;
 	@Column(columnDefinition="double(10,2) COMMENT '本年度累计完成投资'")
 	private Double thisYearAccumulatedInvestment;
+	
+	@Column(columnDefinition="double(10,2) COMMENT '本月计划完成投资'")
+	private Double thisMonthPlanInvestTotal;
+	
 	@Column(columnDefinition="double(10,2) COMMENT '本月完成投资'")
 	private Double thisMonthInvestTotal;
 
 	@Column(columnDefinition="bit  COMMENT '是否完工'")
 	private boolean isCompletion;
-
 	//end#投资情况
 	
 	
@@ -117,8 +94,7 @@ public class MonthReport extends BaseEntity{
 	@Column(columnDefinition="double(10,2) COMMENT '预计第四季度完成投资'")
 	private Double fourthQuarCompInvestment;	
 	@Column(columnDefinition="varchar(2000) COMMENT '工作目标'")
-	private String workTargets;
-	
+	private String workTargets;	
 	//end#进度情况
 	
 
@@ -148,6 +124,7 @@ public class MonthReport extends BaseEntity{
 	//月报附件
 	@OneToMany(cascade=CascadeType.ALL)	
 	private List<Attachment> attachments=new ArrayList<>();
+	//end#关联信息
 
 	public String getId() {
 		return id;
@@ -181,54 +158,6 @@ public class MonthReport extends BaseEntity{
 		this.fillMobile = fillMobile;
 	}
 	
-//	public String getMonRepManagerName() {
-//		return monRepManagerName;
-//	}
-//
-//	public void setMonRepManagerName(String monRepManagerName) {
-//		this.monRepManagerName = monRepManagerName;
-//	}
-//
-//	public String getMonRepManagerTel() {
-//		return monRepManagerTel;
-//	}
-//
-//	public void setMonRepManagerTel(String monRepManagerTel) {
-//		this.monRepManagerTel = monRepManagerTel;
-//	}
-//
-//	public String getMonRepManagerFax() {
-//		return monRepManagerFax;
-//	}
-//
-//	public void setMonRepManagerFax(String monRepManagerFax) {
-//		this.monRepManagerFax = monRepManagerFax;
-//	}
-//
-//	public String getMonRepManagUnitName() {
-//		return monRepManagUnitName;
-//	}
-//
-//	public void setMonRepManagUnitName(String monRepManagUnitName) {
-//		this.monRepManagUnitName = monRepManagUnitName;
-//	}
-//
-//	public String getRespUnitManagerName() {
-//		return respUnitManagerName;
-//	}
-//
-//	public void setRespUnitManagerName(String respUnitManagerName) {
-//		this.respUnitManagerName = respUnitManagerName;
-//	}
-//
-//	public String getRespUnitManagerTel() {
-//		return respUnitManagerTel;
-//	}
-//
-//	public void setRespUnitManagerTel(String respUnitManagerTel) {
-//		this.respUnitManagerTel = respUnitManagerTel;
-//	}
-
 	public String getProjectRepName() {
 		return projectRepName;
 	}
@@ -243,54 +172,6 @@ public class MonthReport extends BaseEntity{
 
 	public void setProjectRepMobile(String projectRepMobile) {
 		this.projectRepMobile = projectRepMobile;
-	}
-
-	public Date getPifuJYS_date() {
-		return pifuJYS_date;
-	}
-
-	public void setPifuJYS_date(Date pifuJYS_date) {
-		this.pifuJYS_date = pifuJYS_date;
-	}
-
-	public String getPifuJYS_wenhao() {
-		return pifuJYS_wenhao;
-	}
-
-	public void setPifuJYS_wenhao(String pifuJYS_wenhao) {
-		this.pifuJYS_wenhao = pifuJYS_wenhao;
-	}
-
-	public Date getPifuKXXYJBG_date() {
-		return pifuKXXYJBG_date;
-	}
-
-	public void setPifuKXXYJBG_date(Date pifuKXXYJBG_date) {
-		this.pifuKXXYJBG_date = pifuKXXYJBG_date;
-	}
-
-	public String getPifuKXXYJBG_wenhao() {
-		return pifuKXXYJBG_wenhao;
-	}
-
-	public void setPifuKXXYJBG_wenhao(String pifuKXXYJBG_wenhao) {
-		this.pifuKXXYJBG_wenhao = pifuKXXYJBG_wenhao;
-	}
-
-	public Date getPifuCBSJYGS_date() {
-		return pifuCBSJYGS_date;
-	}
-
-	public void setPifuCBSJYGS_date(Date pifuCBSJYGS_date) {
-		this.pifuCBSJYGS_date = pifuCBSJYGS_date;
-	}
-
-	public String getPifuCBSJYGS_wenhao() {
-		return pifuCBSJYGS_wenhao;
-	}
-
-	public void setPifuCBSJYGS_wenhao(String pifuCBSJYGS_wenhao) {
-		this.pifuCBSJYGS_wenhao = pifuCBSJYGS_wenhao;
 	}
 
 	public Date getBeginDate() {
@@ -484,12 +365,28 @@ public class MonthReport extends BaseEntity{
 	public void setProcessState(String processState) {
 		this.processState = processState;
 	}
-	
-	
-	//end#关联信息
 
-	
-	
-	
-	
+	public Double getReleasePlanTotal() {
+		return releasePlanTotal;
+	}
+
+	public void setReleasePlanTotal(Double releasePlanTotal) {
+		this.releasePlanTotal = releasePlanTotal;
+	}
+
+	public Double getThisYearPlanHasInvestment() {
+		return thisYearPlanHasInvestment;
+	}
+
+	public void setThisYearPlanHasInvestment(Double thisYearPlanHasInvestment) {
+		this.thisYearPlanHasInvestment = thisYearPlanHasInvestment;
+	}
+
+	public Double getThisMonthPlanInvestTotal() {
+		return thisMonthPlanInvestTotal;
+	}
+
+	public void setThisMonthPlanInvestTotal(Double thisMonthPlanInvestTotal) {
+		this.thisMonthPlanInvestTotal = thisMonthPlanInvestTotal;
+	}	
 }

@@ -1,14 +1,11 @@
    package cs.controller.shenbaoAdmin;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -81,10 +78,11 @@ public class ShenBaoAdminProjectController {
 			//遍历map
 			Boolean hasProject = false;
 			Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
-			while(it.hasNext()){  
+			while(it.hasNext()){
 				Map.Entry<String, String> entry = it.next();  
 	            if(ProjectDto.getProjectStage().equals(entry.getKey())){//如果之前就存在更改后的阶段
 	            	hasProject = true;
+	            	ProjectDto.setIsLatestVersion(false);
 	            	ProjectService.update(ProjectDto, entry.getValue());//更新之前的数据
 	            }
 			}
