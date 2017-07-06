@@ -9,7 +9,7 @@
 	<tr ng-repeat="x in vm.uploadType">
 		<td>{{x[1]}}</td>
 		<td>
-			<input type="text"  kendo-date-picker ng-model="vm.model['pifu'+x[0]+'_date']" k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>	
+			<input type="text"  kendo-date-picker ng-model="vm.model['pifu'+x[0]+'_date']" k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" onkeydown="return false;"/>	
 		</td>
 		<td><input type="text" ng-model="vm.model['pifu'+x[0]+'_wenhao']" /></td>
 		<td class="clearfix">

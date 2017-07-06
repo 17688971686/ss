@@ -99,24 +99,26 @@
 								return item.title;
 							}							
 						},
-						filterable : false
-						
+						filterable : false						
 					},
 					{
 						field : "processSuggestion",
 						title : "信息",						
-						filterable : true
+						filterable : false
 					},
 					{
-						field : "processStateDesc",
-						title : "状态",						
-						filterable : true
+						field : "processState",
+						title : "状态",
+						template:function(item){
+							return common.getBasicDataDesc(item.processState);
+						},
+						filterable : false
 					},
 					{
 						field : "createdDate",
 						title : "创建时间",
 						template:function(item){
-							return vm.formatDateTime(item.createdDate);
+							return common.formatDateTime(item.createdDate);
 						}
 					}
 			];
@@ -132,7 +134,7 @@
 		}
 		
 		/**
-		 * 获取单位申报信息
+		 * 获取单位项目申报信息
 		 */
 		function getUnitShenBaoInfos(vm){
 			var httpOptions = {
@@ -140,15 +142,16 @@
 					url : url_unitShenBao+"/unit"
 				};
 
-				var httpSuccess = function success(response) {
-					vm.model.shenBaoInfo = response.data.value;	
-				};
-				common.http({
-					vm : vm,
-					$http : $http,
-					httpOptions : httpOptions,
-					success : httpSuccess
-				});
+			var httpSuccess = function success(response) {
+				vm.model.shenBaoInfo = response.data.value;	
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
 		}
 		
 		/**
@@ -160,15 +163,16 @@
 					url : url_taskRecord+"?$orderby=createdDate desc"
 				};
 
-				var httpSuccess = function success(response) {
-					vm.model.taskRecord = response.data.value;
-				};
-				common.http({
-					vm : vm,
-					$http : $http,
-					httpOptions : httpOptions,
-					success : httpSuccess
-				});
+			var httpSuccess = function success(response) {
+				vm.model.taskRecord = response.data.value;
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
 		}
 		
 		/**
@@ -236,15 +240,6 @@
 				});
 
 		}
-		//end#getArticle
-		
-
-		
-		
-		
-
-	}
-	
-	
-	
+		//end#getArticle								
+	}			
 })();

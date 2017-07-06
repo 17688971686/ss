@@ -10,6 +10,7 @@ public class BasicDataMapper {
 		BasicDataDto basicDataDto=new BasicDataDto();
 		if(basicData!=null){			
 			basicDataDto.setComment(basicData.getComment());
+			basicDataDto.setCount(basicData.getCount());
 			basicDataDto.setDescription(basicData.getDescription());
 			basicDataDto.setCreatedBy(basicData.getCreatedBy());
 			basicDataDto.setCreatedDate(basicData.getCreatedDate());
@@ -28,6 +29,7 @@ public class BasicDataMapper {
 	public static void buildEntity(BasicDataDto basicDataDto,BasicData basicData){
 		if(basicDataDto !=null && basicData !=null){
 			basicData.setComment(basicDataDto.getComment());
+			basicData.setCount(basicDataDto.getCount());
 			basicData.setDescription(basicDataDto.getDescription());
 			basicData.setCreatedBy(basicDataDto.getCreatedBy());
 			basicData.setCreatedDate(basicDataDto.getCreatedDate());

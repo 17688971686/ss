@@ -27,6 +27,9 @@ public class BasicData extends BaseEntity {
 	@Column(columnDefinition="varchar(255)  COMMENT '备注'")
 	private String comment;
 	
+	@Column(columnDefinition="int(4)  COMMENT '数量'")
+	private Integer count;
+	
 	@Column(columnDefinition="bit  COMMENT '是否默认'")
 	private Boolean canEdit;
 
@@ -78,5 +81,11 @@ public class BasicData extends BaseEntity {
 		this.canEdit = canEdit;
 	}
 
-	
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}	
 }

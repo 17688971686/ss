@@ -366,7 +366,7 @@
     	if(dateStr){
     		return kendo.toString(new Date(dateStr),"yyyy-MM-dd");
     	}else{
-    		return "";
+    		return null;
     	}
     	
     }
@@ -374,7 +374,7 @@
     	if(dateStr){
     		return kendo.toString(new Date(dateStr),"yyyy-MM-dd HH:mm:ss");
     	}else{
-    		return "";
+    		return null;
     	}
     	
     }
@@ -393,6 +393,8 @@
     		projectCategory_C:"projectCategory_3",//C类
     		projectCategory_D:"projectCategory_4",//D类
     		projectClassify:"projectClassify",//项目分类
+    		projectClassify_ZF:"projectClassify_1",//政府投资项目分类
+    		projectClassify_SH:"projectClassify_2",//社会投资项目分类
     		projectConstrChar:"projectConstrChar",//项目建设性质
     		projectFunctionClassify:"projectFunctionClassify",//功能分类科目
     		projectGoverEconClassify:"projectGoverEconClassify",//政府经济分类科目
@@ -400,6 +402,8 @@
     		projectInvestmentType_ZF:"projectInvestmentType_1",//政府投资
     		projectInvestmentType_SH:"projectInvestmentType_2",//社会投资
     		projectIndustry:"projectIndustry",//项目行业
+    		projectIndustry_ZF:"projectIndustry_1",//政府投资项目行业
+    		projectIndustry_SH:"projectIndustry_2",//社会投资项目行业
     		projectInvestmentType:"projectInvestmentType",//投资类型
     		projectProgress:"projectProgress",//项目进度
     		projectStage:"projectStage",//项目阶段
@@ -2628,8 +2632,8 @@
 										var oldId = childIds[0].id;
 										var newId = oldId.replace(oldId[oldId.length-1],idNumMax+1);										
 									}else{//代表点击对象为子级新增按钮										
-										oldId = treeNode.id;
-										newId = oldId+"_1";							
+										var oldId = treeNode.id;
+										var newId = oldId+"_1";							
 									}									
 									var newnode={id:newId,name:"请编辑命名",identity:treeNode.identity,pId:treeNode.id,canEdit:true};
 									zTree.addNodes(treeNode,newnode);

@@ -68,7 +68,8 @@ textarea.form-control {
               </ul>
           
 				<div class="tab_content">
-					<div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/basicInfo.html'"></div>
+					<div ng-show="vm.isZFInvestment" ng-include  src="'/contents/shenbaoAdmin/shenbao/html/basicInfo_ZF.html'"></div>
+					<div ng-show="vm.isSHInvestment" ng-include  src="'/contents/shenbaoAdmin/shenbao/html/basicInfo_SH.html'"></div>
 					<div style="text-align: center">
 					<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(2)">下一步 <span class="glyphicon glyphicon-forward"></span></button>               
 					</div>

@@ -17,33 +17,6 @@
 			
 		};		
 		return service;	
-	
-		
-		//begin#getUserUnitInfo
-		function getUserUnitInfo(vm){
-			var httpOptions = {
-					method : 'get',
-					url : url_userUnitInfo
-				};
-				var httpSuccess = function success(response) {					
-					vm.model.userUnitInfo=response.data;
-					vm.model.monthReport.fillName=vm.model.userUnitInfo.unitContactPerson;
-					vm.model.monthReport.fillMobile=vm.model.userUnitInfo.contactPersonMobile;
-					vm.model.monthReport.monRepManagerName=vm.model.userUnitInfo.unitResPerson;
-					vm.model.monthReport.monRepManagerTel=vm.model.userUnitInfo.resPersonTel;
-					vm.model.monthReport.monRepManagerFax=vm.model.userUnitInfo.resPersonFax;
-					vm.model.monthReport.monRepManagUnitName=vm.model.userUnitInfo.unitName;
-					vm.model.monthReport.respUnitManagerName = vm.model.userUnitInfo.unitResPerson;
-					vm.model.monthReport.respUnitManagerTel = vm.model.userUnitInfo.resPersonMobile;
-				};
-				
-				common.http({
-					vm:vm,
-					$http:$http,
-					httpOptions:httpOptions,
-					success:httpSuccess
-				});
-		}
 		
 		/**
 		 * 查询项目数据
@@ -74,60 +47,25 @@
 						vm.model.monthReport.projectNumber=vm.model.projectInfo.projectNumber;
 						vm.model.monthReport.projectRepName=vm.model.projectInfo.projectRepName;
 						vm.model.monthReport.projectRepMobile=vm.model.projectInfo.projectRepMobile;
-						//项目批复信息的获取
-//						vm.model.monthReport.pifuJYS_date=common.toDate(vm.model.projectInfo.pifuJYS_date);
-//						vm.model.monthReport.pifuKXXYJBG_date=common.toDate(vm.model.projectInfo.pifuKXXYJBG_date);
-//						vm.model.monthReport.pifuCBSJYGS_date=common.toDate(vm.model.projectInfo.pifuCBSJYGS_date);						
-//						vm.model.monthReport.pifuJYS_wenhao=vm.model.projectInfo.pifuJYS_wenhao;
-//						vm.model.monthReport.pifuKXXYJBG_wenhao=vm.model.projectInfo.pifuKXXYJBG_wenhao;
-//						vm.model.monthReport.pifuCBSJYGS_wenhao=vm.model.projectInfo.pifuCBSJYGS_wenhao;
 						//项目开工以及竣工日期的获取
-						vm.model.monthReport.beginDate=common.toDate(vm.model.projectInfo.beginDate);
-						vm.model.monthReport.endDate=common.toDate(vm.model.projectInfo.endDate);
-						//项目总投资的获取
-						vm.model.monthReport.invertPlanTotal=common.toMoney(vm.model.projectInfo.projectInvestSum);
-						//TODO 至今完成投资、本年度已完成投资计算、本年度批复投资获取？
-						vm.model.monthReport.actuallyFinishiInvestment=common.toMoney(vm.model.monthReport.actuallyFinishiInvestment);
-						vm.model.monthReport.thisYearAccumulatedInvestment=common.toMoney(vm.model.monthReport.thisYearAccumulatedInvestment);
+						vm.model.monthReport.beginDate=common.formatDate(vm.model.projectInfo.beginDate);
+						vm.model.monthReport.endDate=common.formatDate(vm.model.projectInfo.endDate);
+						//项目相关资金获取
+						vm.model.monthReport.invertPlanTotal=common.toMoney(vm.model.projectInfo.projectInvestSum);//项目总投资
 						//资金处理
+						vm.model.monthReport.releasePlanTotal = common.toMoney(vm.model.monthReport.releasePlanTotal);//截止上年底累计下达计划
 						vm.model.monthReport.thisYearPlanInvestment=common.toMoney(vm.model.monthReport.thisYearPlanInvestment);//本年度计划完成投资
-						vm.model.monthReport.thisYearAccumulatedInvestment=common.toMoney(vm.model.monthReport.thisYearAccumulatedInvestment);//本年度已完成投资
+						vm.model.monthReport.thisYearPlanHasInvestment=common.toMoney(vm.model.monthReport.thisYearPlanHasInvestment);//本年度已下达计划
+						vm.model.monthReport.actuallyFinishiInvestment=common.toMoney(vm.model.monthReport.actuallyFinishiInvestment);//累计完成投资
+						vm.model.monthReport.thisYearAccumulatedInvestment=common.toMoney(vm.model.monthReport.thisYearAccumulatedInvestment);				
+						vm.model.monthReport.thisMonthPlanInvestTotal=common.toMoney(vm.model.monthReport.thisMonthPlanInvestTotal);//本月计划完成投资
 						vm.model.monthReport.thisMonthInvestTotal=common.toMoney(vm.model.monthReport.thisMonthInvestTotal);//本月完成投资
+						vm.model.monthReport.thisYearAccumulatedInvestment=common.toMoney(vm.model.monthReport.thisYearAccumulatedInvestment);//本年度已完成投资						
 						vm.model.monthReport.firstQuarCompInvestment=common.toMoney(vm.model.monthReport.firstQuarCompInvestment);//1到3月份完成投资
 						vm.model.monthReport.secondQuarCompInvestment=common.toMoney(vm.model.monthReport.secondQuarCompInvestment);//1到6月份完成投资
 						vm.model.monthReport.thirdQuarCompInvestment=common.toMoney(vm.model.monthReport.thirdQuarCompInvestment);//1到9月份完成投资
 						vm.model.monthReport.fourthQuarCompInvestment=common.toMoney(vm.model.monthReport.fourthQuarCompInvestment);//1到12月份完成投资
-						//获取用户单位信息
-						//getUserUnitInfo(vm);
-					}
-					if(vm.page=='projectInfo'){				
-						//资金处理
-						vm.model.projectInfo.projectInvestSum=common.toMoney(vm.model.projectInfo.projectInvestSum);//项目总投资
-						vm.model.projectInfo.projectInvestAccuSum=common.toMoney(vm.model.projectInfo.projectInvestAccuSum);//累计完成投资
-						vm.model.projectInfo.capitalSCZ_ggys=common.toMoney(vm.model.projectInfo.capitalSCZ_ggys);//市财政-公共预算
-						vm.model.projectInfo.capitalSCZ_gtzj=common.toMoney(vm.model.projectInfo.capitalSCZ_gtzj);//市财政-国土资金
-						vm.model.projectInfo.capitalSCZ_zxzj=common.toMoney(vm.model.projectInfo.capitalSCZ_zxzj);//市财政-专项资金
-						vm.model.projectInfo.capitalQCZ_ggys=common.toMoney(vm.model.projectInfo.capitalQCZ_ggys);//区财政-公共预算
-						vm.model.projectInfo.capitalQCZ_gtzj=common.toMoney(vm.model.projectInfo.capitalQCZ_gtzj);//区财政-国土资金
-						vm.model.projectInfo.capitalSHTZ=common.toMoney(vm.model.projectInfo.capitalSHTZ);//社会投资
-						vm.model.projectInfo.capitalOther=common.toMoney(vm.model.projectInfo.capitalOther);//其他
-						//计算资金筹措总计
-						vm.capitalTotal=function(){
-				  			 return (parseFloat(vm.model.projectInfo.capitalSCZ_ggys)||0 )
-				  			 		+ (parseFloat(vm.model.projectInfo.capitalSCZ_gtzj)||0 )
-				  			 		+ (parseFloat(vm.model.projectInfo.capitalSCZ_zxzj)||0 )
-				  			 		+ (parseFloat(vm.model.projectInfo.capitalQCZ_ggys)||0 )
-				  			 		+ (parseFloat(vm.model.projectInfo.capitalQCZ_gtzj)||0 )
-				  			 		+ (parseFloat(vm.model.projectInfo.capitalSHTZ)||0 )
-				  			 		+ (parseFloat(vm.model.projectInfo.capitalOther)||0) ;
-				  		 };
-						//日期处理
-						vm.model.projectInfo.beginDate = common.toDate(vm.model.projectInfo.beginDate);
-						vm.model.projectInfo.endDate = common.toDate(vm.model.projectInfo.endDate);
-						vm.model.projectInfo.pifuJYS_date=common.toDate(vm.model.projectInfo.pifuJYS_date);
-						vm.model.projectInfo.pifuKXXYJBG_date=common.toDate(vm.model.projectInfo.pifuKXXYJBG_date);
-						vm.model.projectInfo.pifuCBSJYGS_date=common.toDate(vm.model.projectInfo.pifuCBSJYGS_date);
-					}
+					}		
 					
 				};
 				
@@ -210,11 +148,15 @@
 				sort : {
 					field : "createdDate",
 					dir : "desc"
-				},filter:{
+				},filter:[{
 					field:'isMonthReport',
 					operator:'eq',
 					value:true
-				}
+				},{
+					field:'isLatestVersion',
+					operator:'eq',
+					value:true
+				}]
 			});
 			// End:dataSource
 
@@ -226,7 +168,7 @@
 						title : "项目名称",						
 						filterable : true,
 						template:function(item){
-							return common.format('<a href="#/projectMonthReport/projectInfo/{0}">{1}</a>',item.id,item.projectName);
+							return common.format('<a href="#/project/projectInfo/{0}/{1}">{2}</a>',item.id,item.projectInvestmentType,item.projectName);
 						}
 					},
 					{
@@ -253,8 +195,6 @@
 						width : 180,
 						template : function(item) {
 							return common.format($('#columnBtns').html(),item.id,"vm.del('" + item.id + "')");
-									 
-
 						}
 
 					}

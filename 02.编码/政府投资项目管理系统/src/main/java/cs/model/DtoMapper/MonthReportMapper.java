@@ -35,25 +35,7 @@ public class MonthReportMapper implements IMapper<MonthReportDto, MonthReport> {
 			monthReportDto.setFillMobile(monthReport.getFillMobile());// 填报人手机
 			monthReportDto.setProjectRepName(monthReport.getProjectRepName());//项目负责人名称
 			monthReportDto.setProjectRepMobile(monthReport.getProjectRepMobile());//项目负责人手机
-//			monthReportDto.setMonRepManagerName(monthReport.getMonRepManagerName());// 月报负责人姓名
-//			monthReportDto.setMonRepManagerTel(monthReport.getMonRepManagerTel());// 月报负责人手机号
-//			monthReportDto.setMonRepManagerFax(monthReport.getMonRepManagerFax());// 月报负责人传真号
-//			monthReportDto.setMonRepManagUnitName(monthReport.getMonRepManagUnitName());// 月报负责单位名称
-//			monthReportDto.setRespUnitManagerName(monthReport.getRespUnitManagerName());// 责任单位负责人名称
-//			monthReportDto.setRespUnitManagerTel(monthReport.getRespUnitManagerTel());// 责任单位负责人电话
 			// end#联系人信息
-
-			// begin#批文日期和文号
-			monthReportDto.setPifuJYS_date(monthReport.getPifuJYS_date());					
-			monthReportDto.setPifuKXXYJBG_date(monthReport.getPifuKXXYJBG_date());
-			monthReportDto.setPifuCBSJYGS_date(monthReport.getPifuCBSJYGS_date());	
-			
-			monthReportDto.setPifuJYS_wenhao(monthReport.getPifuJYS_wenhao());
-			monthReportDto.setPifuKXXYJBG_wenhao(monthReport.getPifuKXXYJBG_wenhao());
-			monthReportDto.setPifuCBSJYGS_wenhao(monthReport.getPifuCBSJYGS_wenhao());
-			
-			
-			// end#批文日期和文号
 
 			// begin#开工时间
 			monthReportDto.setBeginDate(monthReport.getBeginDate());
@@ -62,10 +44,13 @@ public class MonthReportMapper implements IMapper<MonthReportDto, MonthReport> {
 
 			// begin#投资情况
 			monthReportDto.setInvertPlanTotal(monthReport.getInvertPlanTotal());// 对应页面的项目总投资
-			monthReportDto.setActuallyFinishiInvestment(monthReport.getActuallyFinishiInvestment());// 实际完成投资
-			monthReportDto.setThisYearPlanInvestment(monthReport.getThisYearPlanInvestment());// 本年计划投资
-			monthReportDto.setThisMonthInvestTotal(monthReport.getThisMonthInvestTotal());// 本月完成投资
-			monthReportDto.setThisYearAccumulatedInvestment(monthReport.getThisYearAccumulatedInvestment());// 本年度累计完成投资
+			monthReportDto.setReleasePlanTotal(monthReport.getReleasePlanTotal());//截止上年底累计下达计划
+			monthReportDto.setThisYearPlanInvestment(monthReport.getThisYearPlanInvestment());//本年度计划安排投资
+			monthReportDto.setThisYearPlanHasInvestment(monthReport.getThisYearPlanHasInvestment());//本年度已下达计划
+			monthReportDto.setActuallyFinishiInvestment(monthReport.getActuallyFinishiInvestment());//实际(累计)完成投资	
+			monthReportDto.setThisMonthPlanInvestTotal(monthReport.getThisMonthPlanInvestTotal());//本月计划完成投资
+			monthReportDto.setThisMonthInvestTotal(monthReport.getThisMonthInvestTotal());//本月完成投资
+			monthReportDto.setThisYearAccumulatedInvestment(monthReport.getThisYearAccumulatedInvestment());//本年度累计完成投资
 			// end#投资情况
 
 			// begin#进度情况
@@ -144,22 +129,7 @@ public class MonthReportMapper implements IMapper<MonthReportDto, MonthReport> {
 			monthReport.setFillMobile(monthReportDto.getFillMobile());
 			monthReport.setProjectRepName(monthReportDto.getProjectRepName());
 			monthReport.setProjectRepMobile(monthReportDto.getProjectRepMobile());
-//			monthReport.setMonRepManagerName(monthReportDto.getMonRepManagerName());
-//			monthReport.setMonRepManagerTel(monthReportDto.getMonRepManagerTel());
-//			monthReport.setMonRepManagerFax(monthReportDto.getMonRepManagerFax());
-//			monthReport.setMonRepManagUnitName(monthReportDto.getMonRepManagUnitName());
-//			monthReport.setRespUnitManagerName(monthReportDto.getRespUnitManagerName());
-//			monthReport.setRespUnitManagerTel(monthReportDto.getRespUnitManagerTel());
 			// end#联系人信息
-
-			// begin#批文日期和文号
-			monthReport.setPifuCBSJYGS_date(monthReportDto.getPifuCBSJYGS_date());
-			monthReport.setPifuJYS_date(monthReportDto.getPifuJYS_date());
-			monthReport.setPifuKXXYJBG_wenhao(monthReportDto.getPifuKXXYJBG_wenhao());
-			monthReport.setPifuCBSJYGS_wenhao(monthReportDto.getPifuCBSJYGS_wenhao());
-			monthReport.setPifuJYS_wenhao(monthReportDto.getPifuJYS_wenhao());
-			monthReport.setPifuKXXYJBG_date(monthReportDto.getPifuKXXYJBG_date());
-			// end#批文日期和文号
 
 			// begin#开工时间
 			monthReport.setBeginDate(monthReportDto.getBeginDate());
@@ -169,11 +139,13 @@ public class MonthReportMapper implements IMapper<MonthReportDto, MonthReport> {
 
 			// begin#投资情况
 			monthReport.setInvertPlanTotal(monthReportDto.getInvertPlanTotal());// 对应页面的项目总投资
-			monthReport.setActuallyFinishiInvestment(monthReportDto.getActuallyFinishiInvestment());
-			monthReport.setThisYearPlanInvestment(monthReportDto.getThisYearPlanInvestment());
-			monthReport.setThisMonthInvestTotal(monthReportDto.getThisMonthInvestTotal());
-	
-			monthReport.setThisYearAccumulatedInvestment(monthReportDto.getThisYearAccumulatedInvestment());
+			monthReport.setReleasePlanTotal(monthReportDto.getReleasePlanTotal());//截止上年底累计下达计划
+			monthReport.setThisYearPlanInvestment(monthReportDto.getThisYearPlanInvestment());//本年度计划安排投资
+			monthReport.setThisYearPlanHasInvestment(monthReportDto.getThisYearPlanHasInvestment());//本年度已下达计划
+			monthReport.setActuallyFinishiInvestment(monthReportDto.getActuallyFinishiInvestment());//实际(累计)完成投资	
+			monthReport.setThisMonthPlanInvestTotal(monthReportDto.getThisMonthPlanInvestTotal());//本月计划完成投资
+			monthReport.setThisMonthInvestTotal(monthReportDto.getThisMonthInvestTotal());//本月完成投资
+			monthReport.setThisYearAccumulatedInvestment(monthReportDto.getThisYearAccumulatedInvestment());//本年度累计完成投资
 			// end#投资情况
 
 			// begin#进度情况

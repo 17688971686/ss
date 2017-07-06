@@ -1,6 +1,7 @@
 package cs.service.impl;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,7 +69,7 @@ public abstract class AbstractServiceImpl<Dto, Entity extends BaseEntity, ID > i
 		if(entity!=null){
 			mapper.buildEntity(dto, entity);		
 			entity.setModifiedBy(currentUser.getLoginName());
-			
+			entity.setModifiedDate(new Date());
 		}		
 		return entity;
 	}

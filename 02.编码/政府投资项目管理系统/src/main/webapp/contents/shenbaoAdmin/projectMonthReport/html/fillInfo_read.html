@@ -23,77 +23,24 @@
 			<span ng-bind="vm.model.monthReport.fillMobile"></span>
 		</td>
 	</tr>
+	
 	<tr>
-		<td>月报负责人姓名：<span class="required">(*)</span></td>				
+		<td>项目负责人：</td>
 		<td>
-			<span ng-bind="vm.model.monthReport.monRepManagerName"></span>
+			<span ng-bind="vm.model.monthReport.projectRepName"></span>
 		</td>
-		<td>月报负责人手机：<span class="required">(*)</span></td>				
+		<td>项目负责人电话：</td>
 		<td>
-			<span ng-bind="vm.model.monthReport.monRepManagerTel"></span>
-		</td>
-	</tr>
-	<tr>
-		<td>月报负责人传真：</td>
-		<td>
-			<span ng-bind="vm.model.monthReport.monRepManagerFax"></span>
-		</td>
-		<td>月报责任单位名称：</td>
-		<td>
-			<span ng-bind="vm.model.monthReport.monRepManagUnitName"></span>
-		</td>
-	</tr>
-	<tr>
-		<td>项目责任单位负责人：</td>
-		<td>
-			<span ng-bind="vm.model.monthReport.respUnitManagerName"></span>
-		</td>
-		<td>项目责任单位负责人电话：</td>
-		<td>
-			<span ng-bind="vm.model.monthReport.respUnitManagerTel"></span>
+			<span ng-bind="vm.model.monthReport.projectRepMobile"></span>
 		</td>
 	</tr>
 </table>
-			
-<div class="bg-info text-info title">项目批复信息</div>
-<table class="table  table-bordered table-striped">
-	<tr>
-		<td width="20%">项目建议书批复日期：</td>
-		<td>
-			<span ng-bind="vm.model.monthReport.pifuJYS_date | date:'yyyy-MM-dd'"></span>
-		</td>
-		<td width="20%">项目建议书批文号：</td>
-		<td width="30%">
-			<span ng-bind="vm.model.monthReport.pifuJYS_wenhao"></span>			
-		</td>
-	</tr>									
-	<tr>
-		<td>可行性研究报告批复日期：</td>
-		<td>
-			<span ng-bind="vm.model.monthReport.pifuKXXYJBG_date | date:'yyyy-MM-dd'"></span>
-		</td>
-		<td>可行性研究报告批文号：</td>
-		<td>
-			<span ng-bind="vm.model.monthReport.pifuKXXYJBG_wenhao"></span>
-		</td>
-	</tr>
-	<tr>
-		<td>项目总概算批复日期：</td>
-		<td>
-			<span ng-bind="vm.model.monthReport.pifuCBSJYGS_date | date:'yyyy-MM-dd'"></span>
-		</td>
-		<td>项目总概算批复文号：</td>
-		<td>
-			<span ng-bind="vm.model.monthReport.pifuCBSJYGS_wenhao"></span>												
-		</td>
-	</tr>
-</table>
-		
+	
 <div class="bg-info text-info title">项目进度信息</div>	
 <table class="table  table-bordered table-striped">
 	<tr>
 		<td width="20%">开工日期：</td>
-		<td>
+		<td width="30%">
 			<span ng-bind="vm.model.monthReport.beginDate | date:'yyyy-MM-dd'"></span>
 		</td>					
 		<td width="20%">竣工日期：<span class="required">(*)</span></td>				
@@ -106,28 +53,34 @@
 		<td>
 			<span ng-bind="vm.model.monthReport.invertPlanTotal | number:2"></span>&nbsp;（万元）					
 		</td>
-		<td>至今完成投资：</td>
+		<td>截止上年底累计下达计划：</td>
 		<td>
-			<span ng-bind="vm.model.monthReport.actuallyFinishiInvestment | number:2"></span>&nbsp;（万元）
+			<span ng-bind="vm.model.monthReport.releasePlanTotal | number:2"></span>&nbsp;（万元）
+		</td>
+	</tr>
+	
+	<tr>
+		<td>本年度安排计划：</td>
+		<td>
+			<span ng-bind="vm.model.monthReport.thisYearPlanInvestment | number:2"></span>&nbsp;（万元）
+		</td>
+		<td>本年度已下达计划：</td>
+		<td>
+			<span ng-bind="vm.model.monthReport.thisYearPlanHasInvestment | number:2"></span>&nbsp;（万元）
 		</td>
 	</tr>
 	<tr>
-		<td>本年度批复投资：</td>
-		<td>
-			<span></span>
+		<td>累计完成投资：</td>
+		<td colspan="3">
+			<span ng-bind="vm.model.monthReport.actuallyFinishiInvestment | number:2"></span>&nbsp;（万元）
 		</td>
-		<td>本年度计划完成投资：<span class="required">(*)</span></td>		
-		<td>
-			<span ng-bind="vm.model.monthReport.thisYearPlanInvestment | number:2"></span>&nbsp;（万元）					
-		</td>
-	</tr>
+	</tr>	
 	<tr>	
-		<td>本年度已完成投资：<span class="required">(*)</span>
-		</td>
+		<td>本月计划完成投资：<span class="required">(*)</span></td>		
 		<td>
-			<span ng-bind="vm.model.monthReport.thisYearAccumulatedInvestment | number:2"></span>&nbsp;（万元）					
+			<span ng-bind="vm.model.monthReport.thisMonthPlanInvestTotal | number:2"></span>&nbsp;（万元）					
 		</td>
-		<td>本月完成投资：<span class="required">(*)</span></td>				
+		<td>本月已完成投资：<span class="required">(*)</span></td>				
 		<td>
 			<span ng-bind="vm.model.monthReport.thisMonthInvestTotal | number:2"></span>&nbsp;（万元）					
 		</td>

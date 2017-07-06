@@ -44,7 +44,7 @@
 				<tr class="bg-info">
 					<th>名称</th>					
 					<th>信息</th>
-					<th width="100px;">状态</th>
+					<th width="120px;">状态</th>
 					<th width="132px;">时间</th>
 				</tr>
 				<tr ng-repeat="x in vm.model.taskRecord | limitTo :2" style="background: white;">
@@ -76,9 +76,9 @@
 						<th>状态</th>
 						<th width="132px;">申报时间</th>
 					</tr>
-   					<tr ng-repeat="x in vm.model.shenBaoInfo | limitTo :3" style="background: white;">
+   					<tr ng-repeat="x in vm.model.shenBaoInfo | limitTo :2" style="background: white;">
    						<td>
-   							<a href="#/project/projectInfo/{{x.projectId}}">{{x.projectName}}</a>
+   							<a href="#/project/projectInfo/{{x.projectId}}/{{x.projectInvestmentType}}">{{x.projectName}}</a>
    						</td>
    						<td ng-bind="vm.getBasicDataDesc(x.projectShenBaoStage)"></td>
    						<td ng-bind="vm.getBasicDataDesc(x.processState)"></td>

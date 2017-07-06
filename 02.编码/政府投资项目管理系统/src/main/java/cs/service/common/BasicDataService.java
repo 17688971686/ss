@@ -2,8 +2,9 @@ package cs.service.common;
 
 import java.util.List;
 
+import cs.domain.BasicData;
 import cs.model.DomainDto.BasicDataDto;
-import cs.repository.odata.ODataObj;
+import cs.service.interfaces.IService;
 
 public interface BasicDataService {
 	String getDescriptionById(String id);
@@ -16,5 +17,7 @@ public interface BasicDataService {
 	void deleteBasicData(String id);
 	
 	void updateBasicData(BasicDataDto basicDataDto);
+	
+	BasicData findById(String id);
 	
 }

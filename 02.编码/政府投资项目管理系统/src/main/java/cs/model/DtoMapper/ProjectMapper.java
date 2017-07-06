@@ -1,11 +1,8 @@
 package cs.model.DtoMapper;
 
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import cs.common.Util;
 import cs.domain.Attachment;
 import cs.domain.MonthReport;
 import cs.domain.Project;
@@ -34,8 +31,6 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			projectDto.setProjectIndustry(project.getProjectIndustry());//项目行业
 			projectDto.setProjectType(project.getProjectType());//项目类型
 			projectDto.setProjectCategory(project.getProjectCategory());//项目类别
-//			projectDto.setProjectFunctionClassify(project.getProjectFunctionClassify());//项目功能科目
-//			projectDto.setProjectGoverEconClassify(project.getProjectGoverEconClassify());
 			projectDto.setProjectInvestSum(project.getProjectInvestSum());//项目总投资
 			projectDto.setProjectInvestAccuSum(project.getProjectInvestAccuSum());//项目累计投资
 			projectDto.setDivisionId(project.getDivisionId());//项目建设区域
@@ -90,19 +85,11 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 	
 	public Project  buildEntity(ProjectDto projectDto,Project project){
 		if(projectDto!=null&&project!=null){
+			//项目基本信息
 			if(project.getId()==null||project.getId().isEmpty()){
 				project.setId(UUID.randomUUID().toString());
 			}
-			//TODO 需要完成项目代码的格式设计
-			if(projectDto.getProjectNumber() == null ||projectDto.getProjectNumber().isEmpty()){
-				if(project.getProjectNumber()==null||project.getProjectNumber().isEmpty()){
-					project.setProjectNumber(Util.getProjectNumber(projectDto.getProjectInvestmentType(), projectDto.getProjectStage()));
-				}
-			}else{
-				if(project.getProjectNumber()==null||project.getProjectNumber().isEmpty()){
-					project.setProjectNumber(projectDto.getProjectNumber());
-				}			
-			}
+			project.setProjectNumber(projectDto.getProjectNumber());
 			project.setUnitName(projectDto.getUnitName());
 			project.setProjectName(projectDto.getProjectName());
 			project.setIsLatestVersion(projectDto.getIsLatestVersion());
@@ -124,10 +111,7 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setEndDate(projectDto.getEndDate());
 			project.setBeginDate(projectDto.getBeginDate());
 			project.setRemark(projectDto.getRemark());
-			project.setIsLatestVersion(projectDto.getIsLatestVersion());
-//			project.setProjectFunctionClassify(projectDto.getProjectFunctionClassify());
-//			project.setProjectGoverEconClassify(projectDto.getProjectGoverEconClassify());
-						
+			//资金来源			
 			project.setCapitalQCZ_gtzj(projectDto.getCapitalQCZ_gtzj());
 			project.setCapitalQCZ_ggys(projectDto.getCapitalQCZ_ggys());
 			project.setCapitalSCZ_gtzj(projectDto.getCapitalSCZ_gtzj());
@@ -138,21 +122,19 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setCapitalOther(projectDto.getCapitalOther());
 			project.setCapitalOtherType(projectDto.getCapitalOtherType());
 			project.setCapitalOtherDescription(projectDto.getCapitalOtherDescription());
-			
+			//批复信息
 			project.setPifuCBSJYGS_date(projectDto.getPifuCBSJYGS_date());
 			project.setPifuJYS_date(projectDto.getPifuJYS_date());			
 			project.setPifuKXXYJBG_date(projectDto.getPifuKXXYJBG_date());
 			project.setPifuJYS_wenhao(projectDto.getPifuJYS_wenhao());
 			project.setPifuKXXYJBG_wenhao(projectDto.getPifuKXXYJBG_wenhao());
 			project.setPifuCBSJYGS_wenhao(projectDto.getPifuCBSJYGS_wenhao());
-			
+			//基础信息
+			project.setCreatedDate(projectDto.getCreatedDate());
 			project.setModifiedDate(projectDto.getModifiedDate());
 			project.setModifiedBy(projectDto.getModifiedBy());
 			project.setCreatedBy(projectDto.getCreatedBy());
-			project.setCreatedDate(projectDto.getCreatedDate());
 			project.setItemOrder(projectDto.getItemOrder());
-						
-//			project.setAttachments(projectDto.getAttachments());			
 		}
 		return project;
 	}

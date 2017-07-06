@@ -1,5 +1,6 @@
 package cs.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -59,21 +60,34 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@Transactional
 	public ShenBaoInfo create(ShenBaoInfoDto dto) {
 		ShenBaoInfo entity=super.create(dto);
+		entity.setCreatedDate(new Date());
+		entity.setModifiedDate(new Date());
 		//处理关联信息
 		//begin#关联信息
 		//附件
 		dto.getAttachmentDtos().forEach(x -> {
-			entity.getAttachments().add(attachmentMapper.buildEntity(x, new Attachment()));
+			Attachment attachment = new Attachment();
+			attachment.setCreatedBy(entity.getCreatedBy());
+			attachment.setModifiedBy(entity.getModifiedBy());
+			entity.getAttachments().add(attachmentMapper.buildEntity(x, attachment));
 		});
 		//申报单位
 		ShenBaoUnitInfoDto shenBaoUnitInfoDto = dto.getShenBaoUnitInfoDto();
 		ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
 		shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
+		shenBaoUnitInfo.setCreatedBy(entity.getCreatedBy());
+		shenBaoUnitInfo.setModifiedBy(entity.getModifiedBy());
+		shenBaoUnitInfo.setModifiedDate(entity.getModifiedDate());
+		shenBaoUnitInfo.setCreatedDate(entity.getCreatedDate());
 		entity.setShenBaoUnitInfo(shenBaoUnitInfo);
 		//编制单位
 		ShenBaoUnitInfoDto bianZhiUnitInfoDto = dto.getBianZhiUnitInfoDto();
 		ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
 		shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
+		bianZhiUnitInfo.setCreatedBy(entity.getCreatedBy());
+		bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
+		bianZhiUnitInfo.setModifiedDate(entity.getModifiedDate());
+		bianZhiUnitInfo.setCreatedDate(entity.getCreatedDate());
 		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
 		
 		super.repository.save(entity);

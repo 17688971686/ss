@@ -48,7 +48,8 @@ public class ShenBaoUnitInfoMapper implements IMapper<ShenBaoUnitInfoDto, ShenBa
 		if(dto !=null && entity !=null){
 			if(entity.getId() == null || entity.getId().isEmpty()){
 				entity.setId(UUID.randomUUID().toString());
-			}			
+			}
+			//单位基本信息
 			entity.setUnitEmail(dto.getUnitEmail());
 			entity.setUnitName(dto.getUnitName());
 			entity.setOrgCode(dto.getOrgCode());
@@ -58,7 +59,7 @@ public class ShenBaoUnitInfoMapper implements IMapper<ShenBaoUnitInfoDto, ShenBa
 			entity.setDivisionId(dto.getDivisionId());
 			entity.setUnitAddress(dto.getUnitAddress());
 			entity.setRemark(dto.getRemark());
-			
+			//单位联系人和负责人
 			entity.setUnitResPerson(dto.getUnitResPerson());
 			entity.setResPersonFax(dto.getResPersonFax());
 			entity.setResPersonEmail(dto.getResPersonEmail());
@@ -69,7 +70,7 @@ public class ShenBaoUnitInfoMapper implements IMapper<ShenBaoUnitInfoDto, ShenBa
 			entity.setContactPersonFax(dto.getContactPersonFax());
 			entity.setContactPersonEmail(dto.getContactPersonEmail());
 			entity.setContactPersonMobile(dto.getContactPersonMobile());
-					
+			//基础数据		
 			entity.setCreatedDate(dto.getCreatedDate());
 			entity.setModifiedDate(dto.getModifiedDate());
 			entity.setModifiedBy(dto.getModifiedBy());

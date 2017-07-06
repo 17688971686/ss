@@ -21,6 +21,7 @@
 			//验证通过
 			if(isValid){
 				vm.isSubmit = true;
+				
 				var httpOptions = {
 						method : 'post',
 						url : url_userUnitInfo,
@@ -28,7 +29,6 @@
 					};
 				
 				var httpSuccess = function success(response) {
-
 					common.requestSuccess({
 						vm : vm,
 						response : response,
@@ -43,7 +43,6 @@
 								}
 							});
 						}
-
 					});
 				};
 
@@ -55,23 +54,27 @@
 				});
 			}		
 		}
+		
+		/**
+		 * 获取单位的基本信息
+		 */
 		//begin#getDeptInfo
 		function getDeptInfo(vm){
 			var httpOptions = {
 					method : 'get',
 					url : url_userUnitInfo
 				};
-				var httpSuccess = function success(response) {					
-					vm.model=response.data.value[0] || {};
-				};
+			
+			var httpSuccess = function success(response) {					
+				vm.model=response.data.value[0] || {};
+			};
 				
-				common.http({
-					vm:vm,
-					$http:$http,
-					httpOptions:httpOptions,
-					success:httpSuccess
-				});
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
 		}
-
 	}
 })();

@@ -94,13 +94,7 @@
 	            templateUrl:'/shenbaoAdmin/projectMonthReport/html/fillInfo/',           
 	            controller: 'projectMonthReportCtrl',
 	            controllerAs: 'vm'
-	        })    
-	        .state('projectMonthReport_projectInfo', {
-	            url: '/projectMonthReport/projectInfo/:projectId', 
-	            templateUrl: '/shenbaoAdmin/projectMonthReport/html/projectInfo.html',
-	            controller: 'projectMonthReportCtrl',
-	            controllerAs: 'vm'
-	        }) 
+	        })	   
 /**********************************************end#月报*********************************/
 	        	        	        
  /**********************************************begin#项目申报****************************/
@@ -113,7 +107,7 @@
 	        })
 	        //项目申报页
 	         .state('shenbao_edit', {
-	            url: '/shenbao/:id/:stage', 
+	            url: '/shenbao/:id/:projectInvestmentType/:stage', 
 	            templateUrl: '/shenbaoAdmin/shenbao/html/edit.html',
 	            controller: 'shenbaoCtrl',
 	            controllerAs: 'vm'

@@ -18,6 +18,7 @@ import cs.domain.BasicData_;
 import cs.model.DomainDto.BasicDataDto;
 import cs.model.DtoMapper.BasicDataMapper;
 import cs.repository.common.BasicDataRepo;
+import cs.service.impl.AbstractServiceImpl;
 
 
 @Service
@@ -151,6 +152,16 @@ public class BasicDataServiceImpl implements BasicDataService {
 		logger.info(String.format("更新基础数据,用户名:%s", loginName));
 		
 	}
+
+	@Override
+	@Transactional
+	public BasicData findById(String id) {		
+		return basicDataRepo.findById(id);
+	}
+	
+	
+	
+	
 	
 	
 	
