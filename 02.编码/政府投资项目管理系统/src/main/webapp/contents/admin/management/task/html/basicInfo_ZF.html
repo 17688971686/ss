@@ -18,39 +18,57 @@
 		</td>
 		<td class="formAlignRight" style="width:180px;">项目阶段：<span class="required">(*)</span></td>
 		<td >
-			<span ng-bind="vm.model.shenBaoInfo.projectStageDesc"></span>
+			<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectStage)"></span>
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight" style="width:150px;">项目负责人名称：</td>
+		<td>
+			<span ng-bind="vm.model.shenBaoInfo.projectRepName"></span>
+		</td>
+		<td class="formAlignRight" style="width:180px;">项目负责人电话：</td>
+		<td>
+			<span ng-bind="vm.model.shenBaoInfo.projectRepMobile"></span>	
 		</td>
 	</tr>
 	<tr>		
 		<td class="formAlignRight">项目类别：</td>
 		<td>
-			<span ng-bind="vm.model.shenBaoInfo.projectCategoryDesc"></span>				
+			<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectCategory)"></span>				
 		</td>
 		<td class="formAlignRight">项目分类：<span class="required">(*)</span></td>
 		<td>
-			<span ng-bind="vm.model.shenBaoInfo.projectClassifyDesc"></span>
+			<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectClassify)"></span>
 		</td>		
+	</tr>
+	<tr>
+		<td class="formAlignRight">项目行业归口：</td>
+		<td>			
+			<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectIndustry)"></span>
+		</td>
+		<td class="formAlignRight">项目类型：</td>
+		<td>
+			<span ng-repeat="x in vm.model.shenBaoInfo.projectType" ng-bind="vm.getBasicDataDesc(x)+' '"></span>					
+		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">功能分类科目：</td>
 		<td>
-			<span ng-bind="vm.model.shenBaoInfo.projectFunctionClassifyDesc"></span>
+			<span ng-bind="vm.model.shenBaoInfo.functionSubjects"></span>
 		</td>
 		<td class="formAlignRight">政府经济分类科目：</td>
 		<td>
-			<span ng-bind="vm.model.shenBaoInfo.projectGoverEconClassifyDesc"></span>
+			<span ng-bind="vm.model.shenBaoInfo.econClassSubjects"></span>
 		</td>
-	</tr>	
+	</tr>
 	<tr>
-		<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
-		<td>
-			<span ng-bind="vm.model.shenBaoInfo.projectIndustryDesc"></span>
-		</td>
-		<td class="formAlignRight">项目类型：</td>
+		<td class="formAlignRight">项目建设地址：<span class="required">(*)</span></td>
 		<td colspan="3">
-			<span ng-bind="vm.model.shenBaoInfo.projectTypeDesc"></span>				
+			光明新区
+			 <span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.divisionId)"></span>						
+			 <span ng-bind="vm.model.shenBaoInfo.projectAddress"></span>
 		</td>		
-	</tr>		
+	</tr>
 	<tr>
 		<td class="formAlignRight">项目开工日期：</td>
 		<td >
@@ -60,15 +78,7 @@
 		<td >
 			<span id="endDate" name="endDate" ng-bind="vm.model.shenBaoInfo.endDate | date:'yyyy-MM-dd'"></span>									
 		</td>
-	</tr>
-	
-	<tr>
-		<td class="formAlignRight">项目建设地址：<span class="required">(*)</span></td>
-		<td colspan="3">
-			<textarea id="projectAddress" name="projectAddress" rows="2" cols="" class="form-control" ng-model="vm.model.shenBaoInfo.projectAddress" disabled></textarea>
-		</td>		
-	</tr>
-	
+	</tr>	
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
 		<td>
@@ -81,7 +91,7 @@
 	</tr>
 					
 	<tr>
-		<td class="formAlignRight">资金筹措方案：</td>
+		<td class="formAlignRight">资金来源：</td>
 		<td colspan="3" >
 		
 		
@@ -89,6 +99,7 @@
 				<tr class="text-primary text-center">
 					<td>市财政</td>
 					<td>区财政</td>
+					<td>中央预算</td>
 					<td>社会投资</td>					
 					<td>其他</td>
 				</tr>
@@ -96,7 +107,7 @@
 					<td style="padding:0px;border: 0px;">
 						<table class="table table-bordered" style="margin:0px">
 							<tr>
-								<td >公共预算</td>
+								<td>公共预算</td>
 								<td>国土资金</td>
 								<td>专项资金</td>
 							</tr>
@@ -117,6 +128,16 @@
 							<tr>
 								<td><span ng-bind="vm.model.shenBaoInfo.capitalQCZ_ggys | number:2"></span></td>
 								<td><span ng-bind="vm.model.shenBaoInfo.capitalQCZ_gtzj | number:2"></span></td>
+							</tr>
+						</table>
+					</td>
+					<td style="padding:0px;border: 0px;">
+						<table class="table table-bordered " style="margin:0px">
+							<tr>
+								<td>-</td>
+							</tr>
+							<tr>
+								<td ng-bind="vm.model.shenBaoInfo.capitalZYYS | number:2"></td>
 							</tr>
 						</table>
 					</td>

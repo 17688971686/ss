@@ -124,8 +124,7 @@
 	            controllerAs: 'vm'
 	        })
 	         //end#monthReport
-	        
-	         //begin#project
+/**********************begin#project***************************************/
 	        //列表页
 	        .state('project', {
 	            url: '/project',
@@ -135,19 +134,19 @@
 	        })
 	        //编辑页
 	        .state('projectEdit', {
-	            url: '/projectEdit/:id',
+	            url: '/projectEdit/:id/:projectInvestmentType',
 	            templateUrl: '/management/project/html/edit.html',
 	            controller: 'projectCtrl',
 	            controllerAs: 'vm'
 	        }) 
 	        //详情页
 	        .state('projectDetails', {
-	            url: '/projectDetails/:id',
+	            url: '/projectDetails/:id/:projectInvestmentType',
 	            templateUrl: '/management/project/html/details.html',
 	            controller: 'projectCtrl',
 	            controllerAs: 'vm'
 	        }) 
-	       //end#project
+/**********************end#project***************************************/
 	        
 	        //begin#单位管理	       
 	      //列表页
@@ -210,7 +209,7 @@
 	            controllerAs: 'vm'
 	        })
 	        //end#年度计划编制
-	        //begin#工作台
+/**********************begin#工作台***************************************/
 	         .state('task_todo', {
 	            url: '/task/todo',
 	            templateUrl: '/management/task/html/todo',
@@ -229,8 +228,8 @@
 	            templateUrl: '/management/task/html/complete',
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'
-	        });      
-	        //end#工作台
+	        });
+/**********************end#工作台***************************************/        
     }]);
     
 })();

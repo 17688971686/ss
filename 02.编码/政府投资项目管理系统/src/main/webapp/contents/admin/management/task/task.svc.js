@@ -7,7 +7,7 @@
 
 	function task($http) {
 		var url_task = "/management/task";
-		var url_task_history = "/management/task/history";
+		var url_taskRecord = "/management/taskRecord";
 		var url_shenbao = "/management/shenbao";
 		var url_back = "#/task/todo";
 		var service = {
@@ -29,12 +29,24 @@
 			
 			var httpSuccess = function success(response) {
 				vm.model.shenBaoInfo= response.data.value[0]||{};
+				//项目类型的显示
+				if(vm.model.shenBaoInfo.projectType != ""){
+					vm.model.shenBaoInfo.projectType = vm.model.shenBaoInfo.projectType.split(",");
+				}else{
+					vm.model.shenBaoInfo.projectType =[];
+				}
+				//判断项目的投资类型
+				if(vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_SH){//社会投资
+					vm.isSHInvestment = true;
+				}else if(vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_ZF){//政府投资
+					vm.isZFInvestment = true;
+				}
 				//日期展示
-				vm.model.shenBaoInfo.beginDate=common.toDate(vm.model.shenBaoInfo.beginDate);//开工日期
-				vm.model.shenBaoInfo.endDate=common.toDate(vm.model.shenBaoInfo.endDate);//竣工日期
-				vm.model.shenBaoInfo.pifuJYS_date=common.toDate(vm.model.shenBaoInfo.pifuJYS_date);//项目建议书批复日期			
-				vm.model.shenBaoInfo.pifuKXXYJBG_date=common.toDate(vm.model.shenBaoInfo.pifuKXXYJBG_date);//可行性研究报告批复日期
-				vm.model.shenBaoInfo.pifuCBSJYGS_date=common.toDate(vm.model.shenBaoInfo.pifuCBSJYGS_date);//初步设计与概算批复日期
+				vm.model.shenBaoInfo.beginDate=common.formatDate(vm.model.shenBaoInfo.beginDate);//开工日期
+				vm.model.shenBaoInfo.endDate=common.formatDate(vm.model.shenBaoInfo.endDate);//竣工日期
+				vm.model.shenBaoInfo.pifuJYS_date=common.formatDate(vm.model.shenBaoInfo.pifuJYS_date);//项目建议书批复日期			
+				vm.model.shenBaoInfo.pifuKXXYJBG_date=common.formatDate(vm.model.shenBaoInfo.pifuKXXYJBG_date);//可行性研究报告批复日期
+				vm.model.shenBaoInfo.pifuCBSJYGS_date=common.formatDate(vm.model.shenBaoInfo.pifuCBSJYGS_date);//初步设计与概算批复日期
 				//资金处理
 				vm.model.shenBaoInfo.projectInvestSum=common.toMoney(vm.model.shenBaoInfo.projectInvestSum);//项目总投资
 				vm.model.shenBaoInfo.projectInvestAccuSum=common.toMoney(vm.model.shenBaoInfo.projectInvestAccuSum);//累计完成投资
@@ -43,6 +55,7 @@
 				vm.model.shenBaoInfo.capitalSCZ_zxzj=common.toMoney(vm.model.shenBaoInfo.capitalSCZ_zxzj);//市财政-专项资金
 				vm.model.shenBaoInfo.capitalQCZ_ggys=common.toMoney(vm.model.shenBaoInfo.capitalQCZ_ggys);//区财政-公共预算
 				vm.model.shenBaoInfo.capitalQCZ_gtzj=common.toMoney(vm.model.shenBaoInfo.capitalQCZ_gtzj);//区财政-国土资金
+				vm.model.shenBaoInfo.capitalZYYS=common.toMoney(vm.model.shenBaoInfo.capitalZYYS);//中央预算
 				vm.model.shenBaoInfo.capitalSHTZ=common.toMoney(vm.model.shenBaoInfo.capitalSHTZ);//社会投资
 				vm.model.shenBaoInfo.capitalOther=common.toMoney(vm.model.shenBaoInfo.capitalOther);//其他
 				//计算资金筹措总计
@@ -53,6 +66,7 @@
 		  			 		+ (parseFloat(vm.model.shenBaoInfo.capitalQCZ_ggys)||0 )
 		  			 		+ (parseFloat(vm.model.shenBaoInfo.capitalQCZ_gtzj)||0 )
 		  			 		+ (parseFloat(vm.model.shenBaoInfo.capitalSHTZ)||0 )
+		  			 		+ (parseFloat(vm.model.shenBaoInfo.capitalZYYS)||0 )
 		  			 		+ (parseFloat(vm.model.shenBaoInfo.capitalOther)||0) ;
 		  		 };
 				//如果申报信息的申报阶段为下一年度计划
@@ -120,14 +134,13 @@
 				};
 			
 			var httpSuccess = function success(response) {
-				vm.task = response.data.value[0];
+				vm.task = response.data.value[0] || {};
 				if(vm.task){
 					vm.task.taskTypeDesc=common.getBasicDataDesc(vm.task.taskType);
 					if(vm.task.isComplete){
 						vm.isComplete=true;
 					}
-				}
-				
+				}	
 			};
 				
 			common.http({
@@ -230,7 +243,7 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_task),
+				transport : common.kendoGridConfig().transport(url_taskRecord),
 				schema : common.kendoGridConfig().schema({
 					id : "id"					
 				}),
@@ -241,12 +254,7 @@
 				sort : {
 					field : "createdDate",
 					dir : "desc"
-				},
-				filter:{
-					field:'isComplete',
-					operator:'eq',
-					value:true
-				}
+				}				
 			});
 			// End:dataSource
 
