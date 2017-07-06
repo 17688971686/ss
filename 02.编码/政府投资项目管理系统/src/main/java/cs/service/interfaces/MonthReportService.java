@@ -7,4 +7,5 @@ import cs.repository.odata.ODataObj;
 
 public interface MonthReportService extends IService<MonthReportDto, MonthReport, String> {	
 	void saveMonthReport(MonthReportDto monthReportDto);
+	void changeMonthReport(MonthReportDto monthReportDto);
 }

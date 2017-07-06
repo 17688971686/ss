@@ -28,6 +28,9 @@ public class MonthReport extends BaseEntity{
 	@Column(columnDefinition="varchar(255)  COMMENT '关联项目代码'")
 	private String projectNumber;
 	
+	@Column(columnDefinition="bit(1) NULL COMMENT '是否是最新的版本'")
+	private Boolean isLatestVersion = true;
+	
 	//begin#联系人信息
 
 	@Column(columnDefinition="varchar(255) COMMENT '填报人姓名'")
@@ -483,6 +486,14 @@ public class MonthReport extends BaseEntity{
 
 	public void setProcessState(String processState) {
 		this.processState = processState;
+	}
+
+	public Boolean getIsLatestVersion() {
+		return isLatestVersion;
+	}
+
+	public void setIsLatestVersion(Boolean isLatestVersion) {
+		this.isLatestVersion = isLatestVersion;
 	}
 	
 	
