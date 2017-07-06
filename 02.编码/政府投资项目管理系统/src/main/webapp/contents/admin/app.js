@@ -109,27 +109,29 @@
 	            controllerAs: 'vm'
 	        }) 
 	        //end#portal
-	        
-	        //begin#monthReport
+/**********************begin#monthReport***************************************/
+	        //列表页
 	        .state('monthReport', {
 	            url: '/monthReport',
 	            templateUrl: '/management/monthReport/html/list',
 	            controller: 'monthReportCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //修改页
 	           .state('monthReportChange', {
 	            url: '/monthReportChange/:projectId/:year/:month',
 	            templateUrl: '/management/monthReport/html/changeDetails',
 	            controller: 'monthReportCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //详情页
 	        .state('monthReport_details', {
 	            url: '/monthReport/:projectId/:year/:month',
 	            templateUrl: '/management/monthReport/html/details',
 	            controller: 'monthReportCtrl',
 	            controllerAs: 'vm'
 	        })
-	         //end#monthReport
+/**********************end#monthReport***************************************/
 /**********************begin#project***************************************/
 	        //列表页
 	        .state('project', {

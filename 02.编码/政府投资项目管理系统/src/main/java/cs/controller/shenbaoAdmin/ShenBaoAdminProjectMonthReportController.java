@@ -27,9 +27,7 @@ public class ShenBaoAdminProjectMonthReportController {
 	private MonthReportService monthReportService;
 	
 	private String ctrlName = "shenbaoAdmin/projectMonthReport";
-	
-	
-	
+			
 	@RequestMapping(name = "保存月报信息",path="",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  saveMonthReport(@RequestBody MonthReportDto monthReportDto){
@@ -37,15 +35,13 @@ public class ShenBaoAdminProjectMonthReportController {
 				
 	}
 	
-	//begin#html
-	
+	//begin#html	
 	//@RequiresPermissions("projectMonthReport#html/list#get")
 	@RequestMapping(name = "项目列表页", path = "html/list",method=RequestMethod.GET)
 	public String index() {
 		return this.ctrlName + "/list";
 	}
-	
-	
+		
 	@RequestMapping(name = "月份选择页面", path = "html/selectMonth",method=RequestMethod.GET)
 	public String fill(Model model) {
 		List<String> years=new ArrayList<>();

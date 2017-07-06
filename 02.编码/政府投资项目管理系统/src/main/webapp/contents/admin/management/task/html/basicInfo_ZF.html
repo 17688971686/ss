@@ -97,9 +97,9 @@
 		
 			<table class="table table-bordered table-striped table-hover" >
 				<tr class="text-primary text-center">
-					<td>市财政</td>
-					<td>区财政</td>
-					<td>中央预算</td>
+					<td>市投资</td>
+					<td>区投资</td>
+					<td>中央预算内投资</td>
 					<td>社会投资</td>					
 					<td>其他</td>
 				</tr>
@@ -108,8 +108,8 @@
 						<table class="table table-bordered" style="margin:0px">
 							<tr>
 								<td>公共预算</td>
-								<td>国土资金</td>
-								<td>专项资金</td>
+								<td>国土基金</td>
+								<td>专项基金</td>
 							</tr>
 							<tr>
 								<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_ggys | number:2"></span></td>
@@ -122,7 +122,7 @@
 						<table class="table table-bordered " style="margin:0px">
 							<tr>
 								<td>公共预算</td>
-								<td>国土资金</td>
+								<td>国土基金</td>
 								
 							</tr>
 							<tr>
@@ -156,7 +156,7 @@
 					<td style="padding:0px;border: 0px;">
 						<table class="table table-bordered" style="margin:0px">
 							<tr>
-								<td ng-if="vm.model.shenBaoInfo.capitalOtherType"><span ng-bind="vm.model.shenBaoInfo.capitalOtherTypeDesc"></span></td>
+								<td ng-if="vm.model.shenBaoInfo.capitalOtherType"><span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.capitalOtherType)"></span></td>
 								<td ng-if="!vm.model.shenBaoInfo.capitalOtherType">-</td>																
 							</tr>
 							<tr>

@@ -199,7 +199,11 @@
 						title : "标题",						
 						filterable : true,
 						template:function(item){
-							return common.format("<a href='#/task/todo/{1}/{2}'>{0}</a>",item.title,item.id,item.relId);
+							if(item.taskType == common.basicDataConfig().taskType_yearPlan){//如果为申报
+								return common.format("<a href='#/task/todo/{1}/{2}'>{0}</a>",item.title,item.id,item.relId);
+							}else if(item.taskType == common.basicDataConfig().taskType_monthReport){//如果为月报
+								return item.title;
+							}				
 						}
 					},
 					 {
@@ -208,11 +212,7 @@
 						width : 180,						
 						filterable : false,
 						template:function(item){						
-							var value=$linq(common.getBasicData()).where(function(x){return x.id==item.taskType}).firstOrDefault();
-							if(value){
-								return value.description;
-							}
-							return "";
+							return common.getBasicDataDesc(item.taskType);
 						}
 					},
 					{

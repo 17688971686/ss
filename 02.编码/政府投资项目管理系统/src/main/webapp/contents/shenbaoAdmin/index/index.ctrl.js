@@ -61,7 +61,9 @@
        }
        
        function page_changePwd(){
-    	   indexSvc.changePwd(vm);//修改密码
+    	   vm.changePwd = function(){
+    		   indexSvc.changePwd(vm);//修改密码 
+    	   };  	  
        }
     }
 })();

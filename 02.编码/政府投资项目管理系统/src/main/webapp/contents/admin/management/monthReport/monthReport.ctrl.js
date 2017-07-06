@@ -14,7 +14,7 @@
     	vm.page='list';
     	vm.model.display = false;
     	
-        vm.init=function(){   
+        vm.init=function(){
         	if($state.current.name=='monthReport_details'){
         		vm.page='details';
         		vm.projectId=$state.params.projectId;
@@ -26,6 +26,10 @@
         		vm.year=$state.params.year;
         		vm.month=$state.params.month;
         	}
+        	
+        	vm.getBasicDataDesc = function(Str){
+        		return common.getBasicDataDesc(Str);
+        	};
         };//end init
         
         activate();
@@ -97,18 +101,18 @@
         	
         	  //begin#提交月报
        	  	vm.submit = function(){
-       	  	monthReportSvc.submitMonthReport(vm);
+       	  		monthReportSvc.submitMonthReport(vm);
             };
             
             //begin#月报修改
             vm.change = function(vm){
             	location.href="#/monthReportChange/"+vm.projectId+"/"+vm.year+"/"+vm.month;
-            }
+            };
             //begin#月报原数据
             vm.befor = function(vm,sum){
             	vm.model.display = true;
             	monthReportSvc.getProjectBeforById(vm);
-            }
+            };
             
             vm.back = function(vm){
             	location.href="#/monthReport";

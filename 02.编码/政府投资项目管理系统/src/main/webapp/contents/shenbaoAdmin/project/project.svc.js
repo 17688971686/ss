@@ -213,11 +213,31 @@
 					});
 				};
 
+				var error = function error(response){
+					common.requestError({
+						vm : vm,
+						response : response,
+						fn : function() {
+							common.alert({
+								vm : vm,
+								msg : "操作失败",
+								fn : function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');
+									$('.modal-backdrop').remove();
+									vm.model.projectType =vm.model.projectType.split(",");						
+								}
+							});
+						}
+					});
+					
+				}
 				common.http({
 					vm : vm,
 					$http : $http,
 					httpOptions : httpOptions,
-					success : httpSuccess
+					success : httpSuccess,
+					error : error
 				});
 			}else{//表单验证失败
 				vm.model.projectType =vm.model.projectType.split(",");

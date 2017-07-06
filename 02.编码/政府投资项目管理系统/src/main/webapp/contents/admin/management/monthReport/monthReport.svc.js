@@ -192,11 +192,13 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:{
-						field:'isMonthReport',
+				filter:
+					{
+						field:'isLatestVersion',
 						operator:'eq',
 						value:true
-					}
+					},
+				
 			});
 			// End:dataSource
 
@@ -206,8 +208,8 @@
 					{
 						field : "projectName",
 						title : "项目名称",						
-						template:function(data){							
-							return "<a href='#/projectEdit/"+data.id+"'>"+data.projectName+"</a>";							
+						template:function(item){							
+							return common.format('<a href="#/projectDetails/{0}/{1}">{2}</a>',item.id,item.projectInvestmentType,item.projectName);							
 						},
 						filterable : true
 					},

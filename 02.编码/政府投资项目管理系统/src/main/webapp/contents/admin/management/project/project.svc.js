@@ -115,7 +115,7 @@
 
 				var httpSuccess = function success(response) {
 					//关闭模态框
-					$("#myModal").modal('hide');
+					$("#myModal_edit").modal('hide');
 					//刷新表格数据
 					vm.gridOptions.dataSource.read(); 					
 				};
