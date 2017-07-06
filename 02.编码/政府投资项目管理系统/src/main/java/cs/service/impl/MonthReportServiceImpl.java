@@ -24,10 +24,8 @@ import cs.model.PageModelDto;
 import cs.model.DomainDto.MonthReportDto;
 import cs.model.DomainDto.SysConfigDto;
 import cs.model.DtoMapper.IMapper;
-import cs.model.DtoMapper.MonthReportMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
-import cs.service.common.BasicDataService;
 import cs.service.framework.SysService;
 import cs.service.framework.UserServiceImpl;
 import cs.service.interfaces.MonthReportService;
@@ -147,5 +145,57 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 
 		taskHead.getTaskRecords().add(taskRecord);
 		taskHeadRepo.save(taskHead);
+	}
+
+	@Override
+	@Transactional
+	public void changeMonthReport(MonthReportDto monthReportDto) {
+		
+		Criterion criterion1 = Restrictions.eq(MonthReport_.projectId.getName(), monthReportDto.getProjectId());
+		Criterion criterion2 = Restrictions.eq(MonthReport_.submitYear.getName(), monthReportDto.getSubmitYear());
+		Criterion criterion3 = Restrictions.eq(MonthReport_.submitMonth.getName(), monthReportDto.getSubmitMonth());
+		MonthReport monthReport;
+		Object[] monthReportQuery = super.repository
+				.findByCriteria(criterion1, criterion2,criterion3)
+				.stream()
+				.toArray();
+		
+		Project project = projectRepo.findById(monthReportDto.getProjectId());
+		if(monthReportQuery.length == 1){//只有一条数据修改时，新增一条
+			Optional<MonthReport> monthReportQuerys = super.repository
+					.findByCriteria(criterion1, criterion2,criterion3)
+					.stream()
+					.findFirst();
+			//begin#修改
+			monthReport = monthReportQuerys.get();
+			monthReport.setIsLatestVersion(false);
+					
+			monthReportRepo.save(monthReport);
+			
+			//begin#新增
+			monthReport = new MonthReport();
+			monthReportDto.setIsLatestVersion(true);
+			monthReportMapper.buildEntity(monthReportDto, monthReport);
+			monthReport.setCreatedBy(currentUser.getLoginName());
+			monthReport.setModifiedBy(currentUser.getLoginName());
+			monthReport.setCreatedDate(new Date());
+
+			// 从项目表进行保存
+	
+			project.getMonthReports().add(monthReport);
+			projectRepo.save(project);
+			
+			//end#修改上条数据
+		}else{                                 //再次点击修改时，有两条数据，修改状态为1的
+			project.getMonthReports().forEach(x->{
+				if(x.getIsLatestVersion() ==true&&x.getProjectId().equals(monthReportDto.getProjectId()) && x.getSubmitYear().equals(monthReportDto.getSubmitYear())&&x.getSubmitMonth().equals(monthReportDto.getSubmitMonth())){
+					x.getAttachments().clear();
+					x.getMonthReportProblems().clear();
+
+					monthReportMapper.buildEntity(monthReportDto, x);
+					monthReportRepo.save(x);
+				}
+			});
+		}
 	}
 }

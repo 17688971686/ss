@@ -25,7 +25,8 @@ font-weight: bold;
         <li ><a href="#/monthReport">月报</a></li>
         <li class="active">详情</li>
     </ol>
-   
+   		<button class="btn btn-success" ng-click="vm.change(vm)">修改</button>
+   		<button class="btn btn-success" ng-click="vm.befor(vm)">原数据</button>
 	<form id="form" name="form">
 		<div class="bg-info text-info title">项目名称</div>
 		<table class="table  table-bordered table-striped">				
@@ -49,34 +50,17 @@ font-weight: bold;
 				
 				</td>
 			</tr>
+			
 			<tr>
-				<td>月报负责人姓名：<span class="required">(*)</span></td>				
-				<td colspan="2" ng-bind="vm.model.monthReport.monRepManagerName">
-				
+				<td>项目负责人：</td>
+				<td colspan="2" ng-bind="vm.model.monthReport.projectRepName">
 				</td>
-				<td>月报负责人手机：<span class="required">(*)</span></td>				
-				<td ng-bind="vm.model.monthReport.monRepManagerTel">
-				
-				</td>
-			</tr>
-			<tr>
-				<td>月报负责人传真：</td>
-				<td colspan="2" ng-bind="vm.model.monthReport.monRepManagerFax">
-				</td>
-				<td>月报责任单位名称：</td>
-				<td ng-bind="vm.model.monthReport.monRepManagUnitName">
-				</td>
-			</tr>
-			<tr>
-				<td>项目责任单位负责人：</td>
-				<td colspan="2" ng-bind="vm.model.monthReport.respUnitManagerName">
-				</td>
-				<td>项目责任单位负责人电话：</td>
-				<td ng-bind="vm.model.monthReport.respUnitManagerTel">
+				<td>项目负责人电话：</td>
+				<td ng-bind="vm.model.monthReport.projectRepMobile">
 				</td>
 			</tr>
 		</table>
-			
+		<!-- 	
 		<div class="bg-info text-info title">项目批复信息</div>
 		<table class="table  table-bordered table-striped">
 			<tr>
@@ -105,7 +89,7 @@ font-weight: bold;
 																	
 				</td>
 			</tr>
-		</table>
+		</table> -->
 		
 	<div class="bg-info text-info title">项目进度信息</div>	
 		<table class="table  table-bordered table-striped">
@@ -120,25 +104,25 @@ font-weight: bold;
 				<td colspan="2">
 					<span ng-bind="vm.model.monthReport.invertPlanTotal | number:2"></span>&nbsp;（万元）					
 				</td>
-				<td>至今完成投资：<span class="required">(*)</span></td>
+				<td>截止上年底累计下达计划：<span class="required">(*)</span></td>
 				<td colspan="2">
 					<span ng-bind="vm.model.monthReport.actuallyFinishiInvestment | number:2"></span>&nbsp;（万元）
 				</td>
 			</tr>
 			<tr>
-				<td>本年度计划完成投资：<span class="required">(*)</span>
+				<td>本年度安排计划：<span class="required">(*)</span>
 				</td>
 				<td colspan="2">
 					<span ng-bind="vm.model.monthReport.thisYearPlanInvestment | number:2"></span>&nbsp;（万元）					
 				</td>
-				<td>本年度已完成投资：<span class="required">(*)</span>
+				<td>本年度已下达计划：<span class="required">(*)</span>
 				</td>
 				<td>
 					<span ng-bind="vm.model.monthReport.thisYearAccumulatedInvestment | number:2"></span>&nbsp;（万元）					
 				</td>
 			</tr>					
 			<tr>					
-				<td>本月完成投资：<span class="required">(*)</span></td>				
+				<td>累计完成投资：<span class="required">(*)</span></td>				
 				<td colspan="2">
 					<span ng-bind="vm.model.monthReport.thisMonthInvestTotal | number:2"></span>&nbsp;（万元）					
 				</td>
@@ -148,26 +132,6 @@ font-weight: bold;
 					<span ng-if="vm.model.monthReport.isCompletion == '0'">否</span>
 				</td>
 			</tr>
-			<tr>
-				<td style="line-height: 18px">年度工作目标：<span class="required">(*)</span>
-				</td>
-				<td colspan="4" style="padding: 10px;" ng-bind="vm.model.monthReport.workTargets">
-				
-			</tr>
-			<tr>
-				<td>项目审批进度：</td>
-				<td colspan="4" style="padding: 10px;" ng-bind="vm.model.monthReport.projectApprovalProgress"> 
-				
-			</tr>
-			<tr>
-				<td style="line-height: 18px">工程形象进度或<br>项目进度情况：<span
-					class="required">(*)</span>
-
-				</td>
-				<td colspan="4" style="padding: 10px;" ng-bind="vm.model.monthReport.projectImageProgress">
-					
-				</td>
-			</tr>					
 			<tr>
 				<td rowspan="5">进度安排<span class="required">(*)</span>
 				</td>
@@ -211,6 +175,27 @@ font-weight: bold;
 					
 				</td>
 			</tr>
+			<tr>
+				<td style="line-height: 18px">年度工作目标：<span class="required">(*)</span>
+				</td>
+				<td colspan="4" style="padding: 10px;" ng-bind="vm.model.monthReport.workTargets">
+				
+			</tr>
+			<tr>
+				<td>项目审批进度：</td>
+				<td colspan="4" style="padding: 10px;" ng-bind="vm.model.monthReport.projectApprovalProgress"> 
+				
+			</tr>
+			<tr>
+				<td style="line-height: 18px">工程形象进度或<br>项目进度情况：<span
+					class="required">(*)</span>
+
+				</td>
+				<td colspan="4" style="padding: 10px;" ng-bind="vm.model.monthReport.projectImageProgress">
+					
+				</td>
+			</tr>					
+			
 		</table>
 		
 	<div class="bg-info text-info title">问题与备注</div>
@@ -277,6 +262,7 @@ font-weight: bold;
 			</tbody>
 		</table>
 		</div>
+	 	<div style="text-align: center;"><button class="btn btn-success" ng-show="vm.model.display" ng-click="vm.back(vm)">返回</button></div> 
 		</form>
 	
 </div>

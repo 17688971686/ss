@@ -28,6 +28,8 @@ public class MonthReportMapper implements IMapper<MonthReportDto, MonthReport> {
 			monthReportDto.setProjectNumber(monthReport.getProjectNumber());// 获取项目代码
 			monthReportDto.setInvertPlanTotal(monthReport.getInvertPlanTotal());// 获取计划总投资
 
+			//是否是更新版月报
+			monthReportDto.setIsLatestVersion(monthReport.getIsLatestVersion());
 			// begin#月报联系人信息
 			monthReportDto.setFillName(monthReport.getFillName());// 填报人名称
 			monthReportDto.setFillMobile(monthReport.getFillMobile());// 填报人手机
@@ -120,6 +122,8 @@ public class MonthReportMapper implements IMapper<MonthReportDto, MonthReport> {
 			monthReport.setProjectNumber(monthReportDto.getProjectNumber());
 			monthReport.setProjectId(monthReportDto.getProjectId());
 
+			//是否是更新版月报
+			monthReport.setIsLatestVersion(monthReportDto.getIsLatestVersion());
 			// begin#联系人信息
 			monthReport.setFillName(monthReportDto.getFillName());
 			monthReport.setFillMobile(monthReportDto.getFillMobile());
