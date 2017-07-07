@@ -9,14 +9,71 @@
 		var url_task = "/management/task";
 		var url_taskRecord = "/management/taskRecord";
 		var url_shenbao = "/management/shenbao";
+		var url_monthReport = "/management/monthReport";
+		var url_project = "/management/project";
 		var url_back = "#/task/todo";
 		var service = {
 			grid : grid,//待办任务列表
 			completeGird:completeGird,//已办任务列表
-			getTaskById:getTaskById,//根据id获取任务信息
+			getTaskById:getTaskById,//根据任务id获取任务信息
 			getShenBaoInfoById:getShenBaoInfoById,//根据id获取申报信息
+			getMonthReportById:getMonthReportById,//根据id获取月报信息
 			handle:handle
 		};
+		
+		/**
+		 * 根据id获取项目信息
+		 */
+		function getProjectById(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_project + "?$filter=id eq '{0}'", vm.model.monthReport.projectId)				
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.model.project= response.data.value[0]||{};
+				//项目类型的显示
+				if(vm.model.project.projectType != ""){
+					vm.model.project.projectType = vm.model.project.projectType.split(",");
+				}else{
+					vm.model.project.projectType =[];
+				}				
+			};
+
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
+		
+		/**
+		 * 根据id获取月报信息
+		 */
+		function getMonthReportById(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_monthReport + "?$filter=id eq '{0}'", vm.relId)				
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.model.monthReport= response.data.value[0]||{};
+				getProjectById(vm);//根据关联的项目id获取项目信息
+				//处理数据
+				vm.model.monthReport.beginDate = common.formatDate(vm.model.monthReport.beginDate);
+				vm.model.monthReport.endDate = common.formatDate(vm.model.monthReport.endDate);
+				//上传文件类型
+				vm.uploadType=[['scenePicture','现场图片'],['other','其它材料']];
+			};
+
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
 		
 		/**
 		 * 根据id获取申报信息
@@ -127,6 +184,9 @@
 			}
 		}//handle
 
+		/**
+		 * 根据任务id查询任务信息
+		 */
 		function getTaskById(vm){
 			var httpOptions = {
 					method : 'get',
@@ -199,11 +259,7 @@
 						title : "标题",						
 						filterable : true,
 						template:function(item){
-							if(item.taskType == common.basicDataConfig().taskType_yearPlan){//如果为申报
-								return common.format("<a href='#/task/todo/{1}/{2}'>{0}</a>",item.title,item.id,item.relId);
-							}else if(item.taskType == common.basicDataConfig().taskType_monthReport){//如果为月报
-								return item.title;
-							}				
+							return common.format("<a href='#/task/todo/{1}/{2}/{3}'>{0}</a>",item.title,item.taskType,item.id,item.relId);			
 						}
 					},
 					 {
@@ -277,7 +333,7 @@
 						title : "标题",						
 						filterable : true,
 						template:function(item){
-							return common.format("<a href='#/task/todo/{1}/{2}'>{0}</a>",item.title,item.id,item.relId);
+							return common.format("<a href='#/task/todo/{1}/{2}/{3}'>{0}</a>",item.title,item.taskType,item.taskId,item.relId);
 						}
 					},
 					 {

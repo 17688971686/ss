@@ -64,16 +64,24 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			//新增一条处理流程记录
 			TaskRecord entity=new TaskRecord();
 			dto.setRelId(taskHead.getRelId());
+			dto.setTaskId(taskHead.getId());//设置任务Id
 			dto.setTaskType(taskHead.getTaskType());
 			dto.setTitle(taskHead.getTitle());
-			dto.setUserName(currentUser.getLoginName());
+			dto.setCreatedBy(currentUser.getLoginName());//设置创建人
 			dto.setModifiedBy(currentUser.getLoginName());
+			//判断任务是否完成
+			String processState = dto.getProcessState();
+			if(isComplete(processState)){//如果已完成
+				taskHead.setComplete(true);		
+				dto.setNextUser(taskHead.getCreatedBy());//设置流程的下一处理人为之前任务的创建人
+			}else{//如果没有完成 TODO
+				
+			}
 			taskRecordMapper.buildEntity(dto, entity);			
 			taskHead.getTaskRecords().add(entity);
-			
-			//设置完成&状态&下一处理人 TODO 如果不是结束状态需要设置相关的状态人员
-			String processState=dto.getProcessState();
-			setComplete(taskHead,processState);
+			//更新任务
+			taskHead.setProcessState(processState);//状态
+			taskHead.setProcessSuggestion(dto.getProcessSuggestion());//处理意见
 			
 			//设置shenbaoInfo状态
 			String taskType=dto.getTaskType();
@@ -101,14 +109,14 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			super.repository.save(taskHead);
 		}
 	}
-	private void setComplete(TaskHead taskHead,String processState){
+	private Boolean isComplete(String processState){
 		if(BasicDataConfig.processState_qianShou.equals(processState)||
 				BasicDataConfig.processState_tuiWen.equals(processState)||
 				BasicDataConfig.processState_banJie.equals(processState)
-				){//签收
-			taskHead.setComplete(true);
-			taskHead.setProcessState(processState);
-			taskHead.setUserName(taskHead.getCreatedBy());
+				){
+			return true;
+		}else{
+			return false;
 		}
 	}
 }

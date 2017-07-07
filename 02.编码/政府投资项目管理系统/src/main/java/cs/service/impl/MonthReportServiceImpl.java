@@ -1,8 +1,6 @@
 package cs.service.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -122,21 +120,23 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 				
 		//创建工作流
 		TaskHead taskHead=new TaskHead();		
-		taskHead.setUserName(startUser);//设置下一处理人
+		taskHead.setNextUser(startUser);//设置下一处理人
 		taskHead.setCreatedBy(currentUser.getLoginName());
 		taskHead.setModifiedBy(currentUser.getLoginName());
 		taskHead.setRelId(monthReport.getId());
 		taskHead.setTitle("项目月报："+project.getProjectName());
+		taskHead.setProcessSuggestion("材料填报");
 		taskHead.setProcessState(BasicDataConfig.processState_tianBao);//设置工作流的状态
 		taskHead.setTaskType(BasicDataConfig.taskType_monthReport);//设置工作流的类型
 		taskHead.setId(UUID.randomUUID().toString());
 				
 		//record
 		TaskRecord taskRecord=new TaskRecord();
-		taskRecord.setUserName(currentUser.getLoginName());
+		taskRecord.setNextUser(startUser);//设置下一处理人
 		taskRecord.setCreatedBy(currentUser.getLoginName());
 		taskRecord.setModifiedBy(currentUser.getLoginName());
 		taskRecord.setRelId(monthReport.getId());
+		taskRecord.setTaskId(taskHead.getId());//设置任务Id
 		taskRecord.setTitle("项目月报："+project.getProjectName());
 		taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
 		taskRecord.setTaskType(BasicDataConfig.taskType_monthReport);

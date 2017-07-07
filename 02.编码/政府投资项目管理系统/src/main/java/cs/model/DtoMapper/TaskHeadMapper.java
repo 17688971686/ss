@@ -19,19 +19,22 @@ public class TaskHeadMapper implements IMapper<TaskHeadDto, TaskHead> {
 	@Override
 	public TaskHeadDto toDto(TaskHead entity) {
 		TaskHeadDto dto=new TaskHeadDto();
+		//任务信息
+		dto.setId(entity.getId());
+		dto.setTitle(entity.getTitle());
 		dto.setProcessState(entity.getProcessState());
-		dto.setUserName(entity.getUserName());
-		dto.setCreatedBy(entity.getCreatedBy());
+		dto.setProcessSuggestion(entity.getProcessSuggestion());
 		dto.setTaskType(entity.getTaskType());
 		dto.setRelId(entity.getRelId());
-		dto.setCreatedDate(entity.getCreatedDate());
-		dto.setTitle(entity.getTitle());
-		dto.setId(entity.getId());
-		dto.setItemOrder(entity.getItemOrder());
-		dto.setModifiedDate(entity.getModifiedDate());
-		dto.setModifiedBy(entity.getModifiedBy());
 		dto.setComplete(entity.isComplete());
-		
+		dto.setNextUser(entity.getNextUser());
+		//基础信息
+		dto.setItemOrder(entity.getItemOrder());
+		dto.setCreatedDate(entity.getCreatedDate());
+		dto.setModifiedDate(entity.getModifiedDate());
+		dto.setCreatedBy(entity.getCreatedBy());
+		dto.setModifiedBy(entity.getModifiedBy());
+				
 		//begin#关联信息
 		entity.getTaskRecords().forEach(x->{
 			dto.getTaskRecordDtos().add(taskRecordMapper.toDto(x));
@@ -44,17 +47,19 @@ public class TaskHeadMapper implements IMapper<TaskHeadDto, TaskHead> {
 		if(entity.getId()==null||entity.getId().isEmpty()){
 			entity.setId(UUID.randomUUID().toString());
 		}
+		entity.setTitle(dto.getTitle());
 		entity.setProcessState(dto.getProcessState());
-		entity.setUserName(dto.getUserName());
-		entity.setCreatedBy(dto.getCreatedBy());
+		entity.setProcessSuggestion(dto.getProcessSuggestion());
 		entity.setTaskType(dto.getTaskType());
 		entity.setRelId(dto.getRelId());
-		entity.setCreatedDate(dto.getCreatedDate());
-		entity.setTitle(dto.getTitle());	
-		entity.setItemOrder(dto.getItemOrder());
+		entity.setComplete(dto.isComplete());
+		entity.setNextUser(dto.getNextUser());
+		//基础信息
+		entity.setCreatedBy(dto.getCreatedBy());
+		entity.setCreatedDate(dto.getCreatedDate());	
 		entity.setModifiedDate(dto.getModifiedDate());
 		entity.setModifiedBy(dto.getModifiedBy());
-		entity.setComplete(dto.isComplete());
+		entity.setItemOrder(dto.getItemOrder());
 				
 		return entity;
 	}

@@ -35,7 +35,7 @@ public class TaskController {
 		ODataObj odataObj = new ODataObj(request);
 		//设置过滤条件
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
-		filterItem.setField("userName");
+		filterItem.setField("nextUser");
 		filterItem.setOperator("eq");
 		filterItem.setValue(currentUser.getLoginName());
 		odataObj.getFilter().add(filterItem);

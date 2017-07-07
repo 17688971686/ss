@@ -28,7 +28,7 @@ public class TaskRecordController {
 		ODataObj odataObj = new ODataObj(request);
 		//设置过滤条件
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
-		filterItem.setField("userName");
+		filterItem.setField("createdBy");
 		filterItem.setOperator("eq");
 		filterItem.setValue(currentUser.getLoginName());
 		odataObj.getFilter().add(filterItem);
