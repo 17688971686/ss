@@ -218,25 +218,27 @@
 	        })
 	        //end#年度计划编制
 /**********************begin#工作台***************************************/
-	         .state('task_todo', {
+	        //待办列表页(taskHead)
+	        .state('task_todo', {
 	            url: '/task/todo',
 	            templateUrl: '/management/task/html/todo',
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //任务处理页
 	        .state('task_handle', {
-	            url: '/task/todo/:taskId/:relId',
+	            url: '/task/todo/:taskType/:taskId/:relId',
 	            templateUrl: '/management/task/html/handle',
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'
 	        })
-
+	        //已办列表页(taskRecord)
 	        .state('task_complete', {
 	            url: '/task/complete',
 	            templateUrl: '/management/task/html/complete',
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'
-	        });
+	        });	
 /**********************end#工作台***************************************/        
     }]);
     

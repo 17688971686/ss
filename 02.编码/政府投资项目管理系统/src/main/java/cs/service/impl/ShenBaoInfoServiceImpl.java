@@ -142,7 +142,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		//获取系统配置中工作流类型的第一处理人
 		 String startUser="";
 		 List<SysConfigDto> configDtos=sysService.getSysConfigs();
-		  Optional<SysConfigDto> systemConfigDto=	configDtos.stream().filter((x)->
+		  Optional<SysConfigDto> systemConfigDto=configDtos.stream().filter((x)->
 		  			BasicDataConfig.taskType.equals(x.getConfigType())
 					&&getTaskType(shenBaoInfo.getProjectShenBaoStage()).equals(x.getConfigName()
 							)
@@ -155,21 +155,23 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		
 		//创建工作流
 		TaskHead taskHead=new TaskHead();
-		taskHead.setUserName(startUser);//设置下一处理人
+		taskHead.setNextUser(startUser);//设置下一处理人
 		taskHead.setCreatedBy(currentUser.getLoginName());
 		taskHead.setModifiedBy(currentUser.getLoginName());
 		taskHead.setRelId(shenBaoInfo.getId());
 		taskHead.setTitle("项目申报："+shenBaoInfo.getProjectName());
 		taskHead.setProcessState(BasicDataConfig.processState_tianBao);//设置工作流的状态
+		taskHead.setProcessSuggestion("材料填报");//设置处理意见
 		taskHead.setTaskType(this.getTaskType(shenBaoInfo.getProjectShenBaoStage()));//设置工作流的类型
 		taskHead.setId(UUID.randomUUID().toString());
 				
 		//record
 		TaskRecord taskRecord=new TaskRecord();
-		taskRecord.setUserName(currentUser.getLoginName());
+		taskRecord.setNextUser(startUser);//设置下一处理人
 		taskRecord.setCreatedBy(currentUser.getLoginName());
 		taskRecord.setModifiedBy(currentUser.getLoginName());
 		taskRecord.setRelId(shenBaoInfo.getId());
+		taskRecord.setTaskId(taskHead.getId());//设置任务Id
 		taskRecord.setTitle("项目申报："+shenBaoInfo.getProjectName());
 		taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
 		taskRecord.setTaskType(this.getTaskType(shenBaoInfo.getProjectShenBaoStage()));

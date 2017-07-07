@@ -10,26 +10,27 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-
 @Entity
 @Table(name="cs_taskHead")
 public class TaskHead extends BaseEntity {
 	@Id
 	private String id;
+	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '标题'")
 	private String title;	
-	
 		
-	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '任务类型'")
 	private String taskType;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '相关ID'")
 	private String relId;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '所属用户名'")
-	private String userName;
+	@Column(columnDefinition="varchar(255) NULL COMMENT '处理意见'")
+	private String processSuggestion;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '下一处理人'")
+	private String nextUser;
+	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '处理状态'")
 	private String processState;
 	
@@ -72,12 +73,12 @@ public class TaskHead extends BaseEntity {
 		this.relId = relId;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getNextUser() {
+		return nextUser;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setNextUser(String nextUser) {
+		this.nextUser = nextUser;
 	}
 
 	public String getProcessState() {
@@ -104,7 +105,11 @@ public class TaskHead extends BaseEntity {
 		this.isComplete = isComplete;
 	}
 
-	
+	public String getProcessSuggestion() {
+		return processSuggestion;
+	}
 
-	
+	public void setProcessSuggestion(String processSuggestion) {
+		this.processSuggestion = processSuggestion;
+	}
 }

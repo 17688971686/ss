@@ -21,10 +21,10 @@
         		controller: 'indexCtrl',
         		controllerAs: 'vm'
         	})
-        	//任务流程记录
-        	.state('task_records', {
-        		url: '/task_records',
-        		templateUrl: '/shenbaoAdmin/taskRecord/html/list',
+        	//任务流程记录列表
+        	.state('task', {
+        		url: '/task',
+        		templateUrl: '/shenbaoAdmin/task/html/list',
         		controller: 'indexCtrl',
         		controllerAs: 'vm'
         	})
@@ -34,7 +34,14 @@
         		templateUrl: '/account/html/changePwdQ.html',
         		controller: 'indexCtrl',
         		controllerAs: 'vm'
-        	})        	
+        	})
+        	//月报详情页面
+	        .state('monthReportDetails', {
+	            url: '/monthReportDetails/:monthReportId',
+	            templateUrl:'/shenbaoAdmin/projectMonthReport/html/details.html',           
+	            controller: 'indexCtrl',
+	            controllerAs: 'vm'
+	        })
 /**********************************************end#管理首页*********************************/
 
 /**********************************************begin#单位信息维护****************************/        	
@@ -75,26 +82,27 @@
 /**********************************************end#项目信息维护**************************/	        
              
  /**********************************************begin#月报*********************************/
-             .state('projectMonthReport', {
+            //需要填报项目列表 页面
+	        .state('projectMonthReport', {
 	            url: '/projectMonthReport', 
 	            templateUrl: '/shenbaoAdmin/projectMonthReport/html/list.html',
 	            controller: 'projectMonthReportCtrl',
 	            controllerAs: 'vm'
 	        }) 
-	        	        
+	        //填报月份选择页面	        
 	        .state('projectMonthReportFill', {
 	            url: '/projectMonthReportFill/:projectId',
 	            templateUrl: '/shenbaoAdmin/projectMonthReport/html/selectMonth',   	            	 	           
 	            controller: 'projectMonthReportCtrl',
 	            controllerAs: 'vm'
 	        })	        
-	        
+	        //填报信息录入页面
 	        .state('projectMonthReportInfoFill', {
 	            url: '/projectMonthReportInfoFill/:projectId/:year/:month',
 	            templateUrl:'/shenbaoAdmin/projectMonthReport/html/fillInfo/',           
 	            controller: 'projectMonthReportCtrl',
 	            controllerAs: 'vm'
-	        })	   
+	        })	        
 /**********************************************end#月报*********************************/
 	        	        	        
  /**********************************************begin#项目申报****************************/

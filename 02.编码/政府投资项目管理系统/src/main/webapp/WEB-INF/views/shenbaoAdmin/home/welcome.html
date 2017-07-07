@@ -47,20 +47,19 @@
 					<th width="120px;">状态</th>
 					<th width="132px;">时间</th>
 				</tr>
-				<tr ng-repeat="x in vm.model.taskRecord | limitTo :2" style="background: white;">
+				<tr ng-repeat="x in vm.model.task | limitTo :2" style="background: white;">
 					<td ng-if="x.taskType == vm.taskType_yearPlan">
 						<a href="#/shenbao_record/{{x.relId}}">{{x.title}}</a>
 					</td>
 					<td ng-if="x.taskType == vm.taskType_monthReport">
-						<!-- <a href="#/monthReport_details/{{x.relId}}">{{x.title}}</a> -->
-						{{x.title}}
+						<a href="#/monthReportDetails/{{x.relId}}">{{x.title}}</a>
 					</td>				
 					<td ng-bind="x.processSuggestion"></td>
 					<td ng-bind="vm.getBasicDataDesc(x.processState)"></td>
 					<td ng-bind="vm.formatDateTime(x.createdDate)"></td>
 				</tr>
 			</table>
-			<a href="#/task_records" class="btn btn-info btn-xs pull-right">更多>></a>
+			<a href="#/task" class="btn btn-info btn-xs pull-right">更多>></a>
 		</div>
 	</div>
 	<div class="div_border_right pull-right">

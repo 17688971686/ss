@@ -12,19 +12,21 @@
     	var vm = this;
     	vm.title = "";
     	vm.model={};
-        vm.taskId=$state.params.taskId;        
+    	vm.taskType=$state.params.taskType;
+        vm.taskId=$state.params.taskId;
         vm.relId=$state.params.relId;        
     	vm.page="todoList";
-    	function init(){    		
-    		if($state.current.name=='task_todo'){
+    	function init(){   		
+    		if($state.current.name=='task_todo'){//待办列表
     			vm.page='todoList';
     		}
-    		if($state.current.name=='task_handle'){
+    		if($state.current.name=='task_handle'){//任务处理
     			vm.page='handle';
     		}
-    		if($state.current.name=='task_complete'){
+    		if($state.current.name=='task_complete'){//已办列表
     			vm.page='complete';
     		}
+    		
     		vm.formatDate=function(str){
     			return common.formatDate(str);
     		};
@@ -61,9 +63,15 @@
     	   vm.processState_tuiWen=common.basicDataConfig().processState_tuiWen;
 
     	   taskSvc.getTaskById(vm);//查询任务信息
-    	   taskSvc.getShenBaoInfoById(vm);//查询申报信息
-    	   //taskSvc.getUser(vm);//查询下一处理环节的人员
-
+    	   
+    	   if(vm.taskType == common.basicDataConfig().taskType_yearPlan){//如果为下一年度计划申报
+    		   vm.isYearPlan = true;
+    		   taskSvc.getShenBaoInfoById(vm);//查询申报信息
+    	   }else if(vm.taskType == common.basicDataConfig().taskType_monthReport){//如果为月报
+    		   vm.isMonthReport = true;
+    		   taskSvc.getMonthReportById(vm);//查询月报信息
+    	   }
+    	   
     	   vm.dialog_shenbaoInfo=function(){
     		   $('#shenbaoInfo').modal({
                    backdrop: 'static',
@@ -73,7 +81,8 @@
 	     	   vm.tabStripOptions={
 	     			//TODO
 	     	   };
-    	   }; 
+    	   };
+    	   
     	   //处理操作
     	   vm.handle=function(processState){
     		   vm.model.taskRecord.processState=processState;

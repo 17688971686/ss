@@ -20,15 +20,19 @@ public class TaskRecord extends BaseEntity {
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '相关ID'")
 	private String relId;
+			
+	@Column(columnDefinition="varchar(255) NULL COMMENT '下一处理人'")
+	private String nextUser;
 	
-	
-	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '所属用户名'")
-	private String userName;
 	@Column(columnDefinition="varchar(255) NULL COMMENT '处理状态'")
 	private String processState;
+	
 	@Column(columnDefinition="varchar(500) NULL COMMENT '处理意见'")
 	private String processSuggestion;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '任务Id'")
+	private String taskId;
+	
 	public String getId() {
 		return id;
 	}
@@ -53,22 +57,32 @@ public class TaskRecord extends BaseEntity {
 	public void setRelId(String relId) {
 		this.relId = relId;
 	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+
 	public String getProcessState() {
 		return processState;
 	}
+	
 	public void setProcessState(String processState) {
 		this.processState = processState;
+	}
+	
+	
+	public String getNextUser() {
+		return nextUser;
+	}
+	public void setNextUser(String nextUser) {
+		this.nextUser = nextUser;
 	}
 	public String getProcessSuggestion() {
 		return processSuggestion;
 	}
 	public void setProcessSuggestion(String processSuggestion) {
 		this.processSuggestion = processSuggestion;
+	}
+	public String getTaskId() {
+		return taskId;
+	}
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
 	}
 }

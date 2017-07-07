@@ -296,7 +296,7 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 									$('.modal-backdrop').remove();									
-									$location.path(url_project);
+									$location.path("/shenbao");
 								}
 							});
 						}
