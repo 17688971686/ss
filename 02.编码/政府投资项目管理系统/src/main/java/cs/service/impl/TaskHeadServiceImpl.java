@@ -61,16 +61,17 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 	public void handle(String taskId, TaskRecordDto dto) {
 		TaskHead taskHead=super.repository.findById(taskId);
 		if(taskHead!=null){
+			//新增一条处理流程记录
 			TaskRecord entity=new TaskRecord();
 			dto.setRelId(taskHead.getRelId());
 			dto.setTaskType(taskHead.getTaskType());
 			dto.setTitle(taskHead.getTitle());
-			dto.setUserName(currentUser.getLoginName());								
-			taskRecordMapper.buildEntity(dto, entity);
-			entity.setModifiedBy(currentUser.getLoginName());
+			dto.setUserName(currentUser.getLoginName());
+			dto.setModifiedBy(currentUser.getLoginName());
+			taskRecordMapper.buildEntity(dto, entity);			
 			taskHead.getTaskRecords().add(entity);
 			
-			//设置完成
+			//设置完成&状态&下一处理人 TODO 如果不是结束状态需要设置相关的状态人员
 			String processState=dto.getProcessState();
 			setComplete(taskHead,processState);
 			
@@ -107,10 +108,7 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 				){//签收
 			taskHead.setComplete(true);
 			taskHead.setProcessState(processState);
-			
+			taskHead.setUserName(taskHead.getCreatedBy());
 		}
 	}
-	
-	
-
 }
