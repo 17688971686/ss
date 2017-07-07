@@ -7,7 +7,8 @@
                 <li id="tab4">项目单位信息</li>
               </ul>
 				<div class="tab_content">
-					<div ng-include  src="'/contents/admin/management/task/html/basicInfo.html'"></div>
+					<div ng-show="vm.isZFInvestment" ng-include  src="'/contents/admin/management/task/html/basicInfo_ZF.html'"></div>
+					<div ng-show="vm.isSHInvestment" ng-include  src="'/contents/admin/management/task/html/basicInfo_SH.html'"></div>
 				</div>
 				<div class="tab_content" >
 				     <div ng-include  src="'/contents/admin/management/task/html/yearPlan/yearPlan.html'"></div>

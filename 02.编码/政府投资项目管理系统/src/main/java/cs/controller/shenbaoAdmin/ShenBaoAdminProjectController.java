@@ -71,27 +71,28 @@ public class ShenBaoAdminProjectController {
 		}else{//项目阶段发生变化
 			//根据number查询
 			List<ProjectDto> ProjectDtosForNumber = ProjectService.getProjectByNumber(ProjectDto.getProjectNumber());			
-			Map<String,String> map = new HashMap<String,String>();
+			Map<String,ProjectDto> map = new HashMap<String,ProjectDto>();
 			ProjectDtosForNumber.stream().forEach(x->{
-				map.put(x.getProjectStage(),x.getId());				
+				map.put(x.getProjectStage(),x);				
 			});
 			//遍历map
 			Boolean hasProject = false;
-			Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
+			Iterator<Map.Entry<String, ProjectDto>> it = map.entrySet().iterator();
 			while(it.hasNext()){
-				Map.Entry<String, String> entry = it.next();  
+				Map.Entry<String, ProjectDto> entry = it.next();  
 	            if(ProjectDto.getProjectStage().equals(entry.getKey())){//如果之前就存在更改后的阶段
 	            	hasProject = true;
-	            	ProjectDto.setIsLatestVersion(false);
-	            	ProjectService.update(ProjectDto, entry.getValue());//更新之前的数据
+	            	ProjectDto.setIsLatestVersion(entry.getValue().getIsLatestVersion());
+	            	ProjectDto.setIsMonthReport(entry.getValue().getIsMonthReport());
+	            	ProjectService.update(ProjectDto, entry.getValue().getId());//更新之前的数据
 	            }
 			}
 			//如果之前不存在更改后的阶段
 			if(!hasProject){
+				//默认新增的项目为不填写月报
+				ProjectDto.setIsMonthReport(false);
 				ProjectService.create(ProjectDto);//创建一条新数据
-				ProjectDto.setIsLatestVersion(false);
-				ProjectDto.setProjectStage(entity.getProjectStage());
-            	ProjectService.update(ProjectDto, ProjectDto.getId());//更新本条数据的版本           	
+            	ProjectService.updateVersion(ProjectDto.getId(), false);//更新本条数据的版本            	
 			}
 		}
 

@@ -69,12 +69,11 @@
                    backdrop: 'static',
                    keyboard:false
                });
-    		   //初始化tab
-         	   vm.tabStripOptions={
-         			//TODO
-         	   };         	   
-    	   };//dialog
-    	   
+			   //初始化tab
+	     	   vm.tabStripOptions={
+	     			//TODO
+	     	   };
+    	   }; 
     	   //处理操作
     	   vm.handle=function(processState){
     		   vm.model.taskRecord.processState=processState;

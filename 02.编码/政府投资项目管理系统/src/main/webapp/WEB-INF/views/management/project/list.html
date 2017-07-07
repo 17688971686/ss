@@ -8,19 +8,40 @@
 	      <li class="active">项目列表</li>
 	  </ol>
 	  <script type="text/template" id="columnBtns">
-			<a class="btn btn-xs btn-primary" href="#/projectEdit/{0}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
-			<button class="btn btn-xs btn-primary" ng-click="{1}"><span class="glyphicon glyphicon-question-sign"></span>是否填报</button>
+			<a class="btn btn-xs btn-primary" href="#/projectEdit/{0}/{1}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+			<button class="btn btn-xs btn-primary" ng-click="{2}"><span class="glyphicon glyphicon-question-sign"></span>是否填报</button>
 	  </script>
 	  <div class="toolbar">
-	  	<a class="btn btn-sm btn-primary" href="#/projectEdit/"><span class="glyphicon glyphicon-plus"></span>新增项目</a>
+	  	<button class="btn btn-sm btn-primary" ng-click="vm.addProject()"><span class="glyphicon glyphicon-plus"></span>新增项目</a>
 	  </div> 
      <form id="form" name="form">          
          <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
     </form>
 </div>
 
+<!-- 选择投资类型模态框 -->
+<div class="modal fade" id="myModal_add" tabindex="-1" role="dialog"> 
+	<div class="modal-dialog"> 
+		<div class="modal-content"> 
+			<div class="modal-header bg-primary"> 
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button> 
+				<h4 class="modal-title" id="myModalLabel">选择投资类型</h4> 
+			</div> 
+			<div class="modal-body">
+				<label ng-repeat="x in vm.basicData.investmentType">
+					<input name="investmentType" type="radio" value="{{x.id}}" ng-checked="false" ng-model="vm.model.projectInvestmentType"/>{{x.description}}&nbsp;&nbsp;
+				</label>
+			</div> 
+			<div class="modal-footer"> 
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>			
+		 		<button type="button" class="btn btn-success" ng-click="vm.confirmInvestmentType()">确认</button> 
+			</div> 
+		</div><!-- /.modal-content --> 
+	</div><!-- /.modal --> 
+</div>
+
 <!-- 设置是否填报模态框 -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog"> 
+<div class="modal fade" id="myModal_edit" tabindex="-1" role="dialog"> 
 	<div class="modal-dialog"> 
 		<div class="modal-content"> 
 			<div class="modal-header bg-primary"> 

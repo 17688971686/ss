@@ -63,28 +63,30 @@ textarea.form-control {
 			</tr>
 			<tr>
 				<td class="formAlignRight">项目阶段：</td>
-				<td ng-bind="vm.model.shenBaoInfo.projectStageDesc">
+				<td ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectStage)">
 					
 				</td>
 				<td class="formAlignRight">项目类型：</td>
-				<td ng-bind="vm.model.shenBaoInfo.projectTypeDesc">
-									
+				<td>
+					<span ng-repeat="x in vm.model.shenBaoInfo.projectType" ng-bind="vm.getBasicDataDesc(x)+' '"></span>			
 				</td>
 			</tr>	
 			<tr>
 				<td class="formAlignRight">项目行业归口：</td>
-				<td ng-bind="vm.model.shenBaoInfo.projectIndustryDesc">
+				<td ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectIndustry)">
 					
 				</td>
 				<td class="formAlignRight">项目分类：</td>
-				<td ng-bind="vm.model.shenBaoInfo.projectClassifyDesc">
+				<td ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectClassify)">
 				
 				</td>
 			</tr>
 			<tr>
 				<td class="formAlignRight">项目建设地址：</td>
-				<td colspan="3" ng-bind="vm.model.shenBaoInfo.projectAddress">
-					
+				<td colspan="3">
+					光明新区
+			 		<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.divisionId)"></span>						
+			 		<span ng-bind="vm.model.shenBaoInfo.projectAddress"></span>
 				</td>		
 			</tr>	
 			<tr>

@@ -4,7 +4,7 @@
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目建设性质</td>
 		<td colspan="3">
-			<span id="projectConstrChar" name="projectConstrChar" ng-bind="vm.model.shenBaoInfo.projectConstrCharDesc"></span>
+			<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectConstrChar)"></span>
 		</td>
 	</tr>	
 	<tr>
@@ -28,6 +28,12 @@
 			<span id="applyYearInvest" name="applyYearInvest" ng-bind="vm.model.shenBaoInfo.applyYearInvest | number:2"></span>&nbsp;(万元)
 		</td>
 	</tr>
+	<tr>
+		<td class="formAlignRight">年度建设任务：<span class="required">(*)</span></td>
+		<td colspan="3">
+			<textarea rows="3" cols="20" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的任务：备注（500字符以内）" ng-model="vm.model.shenBaoInfo.yearConstructionTask" disabled></textarea>
+		</td>
+		</tr>
 	<tr>
 		<td class="formAlignRight">年度建设内容：<span class="required">(*)</span></td>
 		<td colspan="3">

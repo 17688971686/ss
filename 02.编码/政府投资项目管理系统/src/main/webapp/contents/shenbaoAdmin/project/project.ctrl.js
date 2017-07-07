@@ -73,7 +73,7 @@
     	   vm.confirmInvestmentType=function(){
     		   $(".modal-backdrop").remove();
     		   $location.path("/projectEdit//"+vm.model.projectInvestmentType);
-    	   }
+    	   };
         }//end#page_list
        
        function page_create(){
@@ -132,7 +132,9 @@
 	   		//批复文件上传
 	   		vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
 	   		//相关附件文件上传文件种类
-	   		vm.relatedType=[['QQGZJH','前期工作计划文件'],['HYJY','会议纪要']];
+	   		vm.relatedType=[['XMJYSPF','项目建议书批复文件'],['KXXYJBGPF','可行性研究报告批复文件'],['ZGSPFTZ','总概算批复及调整文件'],
+	   						['HYJY','会议纪要'],['GHYJ','规划依据'],['SJXGT','设计效果图'],
+	   						['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']];
 
 	   		vm.uploadSuccess=function(e){
 	    			var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
@@ -183,20 +185,14 @@
     	   $(".modal-backdrop").remove();
     	   projectSvc.getProjectById(vm);
     	   if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
-    		   //基础数据--项目分类
-    		  vm.basicData.projectClassify=$linq(common.getBasicData())
-	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
-	       		.toArray();
  			  vm.isZFInvestment = true; 			  
- 		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资
- 			  //基础数据--项目分类
- 			  vm.basicData.projectClassify=$linq(common.getBasicData())
-	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
-	       		.toArray(); 			  
+ 		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资			  
  			  vm.isSHInvestment = true;
  		   }
     	 //相关附件文件上传文件种类
-	   		vm.relatedType=[['QQGZJH','前期工作计划文件'],['HYJY','会议纪要']];
+    	   vm.relatedType=[['XMJYSPF','项目建议书批复文件'],['KXXYJBGPF','可行性研究报告批复文件'],['ZGSPFTZ','总概算批复及调整文件'],
+					['HYJY','会议纪要'],['GHYJ','规划依据'],['SJXGT','设计效果图'],
+					['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']];
        }//end#page_projectInfo
 		
     }

@@ -145,5 +145,16 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		});
 		return projectDtos;
 	}
+
+	@Override
+	@Transactional
+	public void updateVersion(String id, Boolean isLatestVersion) {
+		Project project = super.repository.findById(id);
+		project.setIsLatestVersion(isLatestVersion);
+		super.repository.save(project);
+		logger.info(String.format("修改项目版本,项目名称 %s",project.getProjectName()));
+	}
+	
+	
 	 
 }

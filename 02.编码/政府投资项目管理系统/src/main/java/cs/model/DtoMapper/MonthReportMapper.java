@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import cs.domain.Attachment;
 import cs.domain.MonthReport;
 import cs.domain.MonthReportProblem;
@@ -174,6 +173,8 @@ public class MonthReportMapper implements IMapper<MonthReportDto, MonthReport> {
 			monthReportDto.getMonthReportProblemDtos().forEach(x -> {
 				MonthReportProblem monthReportProblem = new MonthReportProblem();
 				monthReportProblem.setId(UUID.randomUUID().toString());
+				monthReportProblem.setCreatedBy(monthReportDto.getFillName());
+				monthReportProblem.setModifiedBy(monthReportDto.getFillName());
 				monthReportProblem.setProblemIntroduction(x.getProblemIntroduction());
 				monthReportProblem.setSolutionsAndSuggest(x.getSolutionsAndSuggest());
 				monthReportProblem.setMonthReport(monthReport);
@@ -186,7 +187,8 @@ public class MonthReportMapper implements IMapper<MonthReportDto, MonthReport> {
 				attachment.setName(x.getName());
 				attachment.setType(x.getType());
 				attachment.setUrl(x.getUrl());
-
+				attachment.setCreatedBy(monthReportDto.getFillName());
+				attachment.setModifiedBy(monthReportDto.getFillName());
 				monthReport.getAttachments().add(attachment);
 			});
 			monthReport.setModifiedDate(new Date());
