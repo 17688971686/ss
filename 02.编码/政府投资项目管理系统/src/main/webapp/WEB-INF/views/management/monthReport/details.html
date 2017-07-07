@@ -16,6 +16,7 @@ font-weight: bold;
 padding:5px;
 font-weight: bold;
 }
+overflow: scroll !important;
 </style>
 
 <div class="well well-sm" style="background:white;">
@@ -25,8 +26,8 @@ font-weight: bold;
         <li ><a href="#/monthReport">月报</a></li>
         <li class="active">详情</li>
     </ol>
-   		<button class="btn btn-success" ng-click="vm.change(vm)">修改</button>
-   		<button class="btn btn-success" ng-click="vm.befor(vm)">原数据</button>
+   		<button class="btn btn-success" ng-click="vm.change()">修改</button>
+   		<button class="btn btn-success" ng-click="vm.befor()">原数据</button>
 	<form id="form" name="form">
 		<div class="bg-info text-info title">项目名称</div>
 		<table class="table  table-bordered table-striped">				

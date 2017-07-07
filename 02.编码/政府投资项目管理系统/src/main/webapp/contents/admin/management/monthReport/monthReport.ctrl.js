@@ -105,11 +105,11 @@
             };
             
             //begin#月报修改
-            vm.change = function(vm){
+            vm.change = function(){
             	location.href="#/monthReportChange/"+vm.projectId+"/"+vm.year+"/"+vm.month;
             };
             //begin#月报原数据
-            vm.befor = function(vm,sum){
+            vm.befor = function(){
             	vm.model.display = true;
             	monthReportSvc.getProjectBeforById(vm);
             };

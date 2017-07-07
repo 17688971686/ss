@@ -51,7 +51,7 @@ display:none;
 		<table class="table  table-bordered table-striped">				
 			<tr>
 				<td width="15%">项目名称：</td>
-				<td colspan="2" width="35%"><span ng-bind="vm.model.projectInfo.projectName"></span>
+				<td width="35%"><span ng-bind="vm.model.projectInfo.projectName"></span>
 				</td>
 				<td width="15%">填报月份：</td>
 				<td width="80px;"><span ng-bind="vm.month"></span> 月 份</td>
@@ -61,7 +61,7 @@ display:none;
 		<table class="table table-bordered table-striped">
 			<tr>
 				<td width="15%">填报人姓名：<span class="required">(*)</span></td>				
-				<td colspan="2" width="35%">
+				<td width="35%">
 				<input type="text" class="form-control input-sm" style="width:200px;" ng-model="vm.model.monthReport.fillName"
 				id="fillName" name="fillName" data-val="true" data-val-required="必填">					
 				</td>					
@@ -76,7 +76,7 @@ display:none;
 			</tr>
 			<tr>
 				<td>项目负责人：</td>
-				<td colspan="2">
+				<td>
 					<input type="text" class="form-control input-sm" style="width:200px;" ng-model="vm.model.monthReport.projectRepName"
 					id="projectRepName" name="projectRepName">	
 				</td>
@@ -93,13 +93,13 @@ display:none;
 		<table class="table  table-bordered table-striped">
 			<tr>
 				<td width="15%">开工日期：<span class="required">(*)</span></td>
-				<td colspan="2" width="35%">
+				<td width="35%">
 					<input type="text" id="beginDate" name="beginDate" onkeydown="return false;"
 				 	ng-model="vm.model.monthReport.beginDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>
 				 	<span data-valmsg-for="beginDate" data-valmsg-replace="true" class="required"></span>
 				</td>					
 				<td width="15%">竣工日期：<span class="required">(*)</span></td>				
-				<td colspan="2" width="35%">
+				<td width="35%">
 					<input type="text" id="endDate" name="c" onkeydown="return false;"
 				 	ng-model="vm.model.monthReport.endDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>
 				 	<span data-valmsg-for="endDate" data-valmsg-replace="true" class="required"></span>
@@ -107,54 +107,54 @@ display:none;
 			</tr>
 			 <tr>
 				<td>项目总投资：<span class="required">(*)</span></td>				
-				<td colspan="2">
+				<td>
 					<input type="number" style="width:100px" class="form-control input-sm" id="invertPlanTotal" name="invertPlanTotal" ng-model="vm.model.monthReport.invertPlanTotal" data-val="true" data-val-required="必填"/> (万元)
 					<span data-valmsg-for="invertPlanTotal" data-valmsg-replace="true" class="required"></span>					
 				</td>
 				<td>截止上年底累计下达计划：<span class="required">(*)</span></td>
-				<td colspan="2">
-					<input type="number" style="width:100px" class="form-control input-sm" id="actuallyFinishiInvestment" name="actuallyFinishiInvestment" ng-model="vm.model.monthReport.actuallyFinishiInvestment" data-val="true" data-val-required="必填"/> (万元)
-					<span data-valmsg-for="actuallyFinishiInvestment" data-valmsg-replace="true" class="required"></span>	
+				<td>
+					<input type="number" style="width:100px" class="form-control input-sm" id="releasePlanTotal" name="releasePlanTotal" ng-model="vm.model.monthReport.releasePlanTotal" data-val="true" data-val-required="必填"/> (万元)
+					<span data-valmsg-for="releasePlanTotal" data-valmsg-replace="true" class="required"></span>	
 				</td>
 			</tr>
 			<tr>
 				<td>本年度安排计划：<span class="required">(*)</span>
 				</td>
-				<td colspan="2">
+				<td>
 					<input type="number" style="width:100px" class="form-control input-sm" id="thisYearPlanInvestment" name="thisYearPlanInvestment" ng-model="vm.model.monthReport.thisYearPlanInvestment" data-val="true" data-val-required="必填"/> (万元)
 					<span data-valmsg-for="thisYearPlanInvestment" data-valmsg-replace="true" class="required"></span>					
 				</td>
 				<td>本年度已下达计划：<span class="required">(*)</span>
 				</td>
 				<td>
-					<input type="number" style="width:100px" class="form-control input-sm" id="thisYearAccumulatedInvestment" name="thisYearAccumulatedInvestment" ng-model="vm.model.monthReport.thisYearAccumulatedInvestment" data-val="true" data-val-required="必填"/> (万元)
-					<span data-valmsg-for="thisYearAccumulatedInvestment" data-valmsg-replace="true" class="required"></span>					
+					<input type="number" style="width:100px" class="form-control input-sm" id="thisYearPlanHasInvestment" name="thisYearPlanHasInvestment" ng-model="vm.model.monthReport.thisYearPlanHasInvestment" data-val="true" data-val-required="必填"/> (万元)
+					<span data-valmsg-for="thisYearPlanHasInvestment" data-valmsg-replace="true" class="required"></span>					
 				</td>
 			</tr>	
 			<tr>
 				<td>累计完成投资：</td>
-				<td colspan="4">
-					<input type="number" style="width:100px" class="form-control input-sm"/> (万元)
+				<td colspan="3">
+					<input type="number" style="width:100px" class="form-control input-sm" id="actuallyFinishiInvestment" name="actuallyFinishiInvestment" ng-model="vm.model.monthReport.actuallyFinishiInvestment" data-val="true" data-val-required="必填"/> (万元)
+					<span data-valmsg-for="actuallyFinishiInvestment" data-valmsg-replace="true" class="required"></span>
 				</td>
 			</tr>				
-			<tr>					
-				<!-- <td>本月完成投资：<span class="required">(*)</span></td>				
-				<td colspan="2">
-					<input type="number" style="width:100px" class="form-control input-sm" id="thisMonthInvestTotal" name="thisMonthInvestTotal" ng-model="vm.model.monthReport.thisMonthInvestTotal" data-val="true" data-val-required="必填"/> (万元)
-					<span data-valmsg-for="thisMonthInvestTotal" data-valmsg-replace="true" class="required"></span>										
-				</td> -->
+			<tr>
 				 <td>本月计划完成投资：<span class="required">(*)</span></td>
-				<td colspan="2">
-					<input type="number" class="form-control input-sm" style="width:100px;"/>&nbsp;（万元）
+				<td>
+					<input type="number" class="form-control input-sm" style="width:200px;" id="thisMonthPlanInvestTotal" name="thisMonthPlanInvestTotal"
+					ng-model="vm.model.monthReport.thisMonthPlanInvestTotal" data-val="true" data-val-required="必填"/>&nbsp;（万元）
+					<span data-valmsg-for="thisMonthPlanInvestTotal" data-valmsg-replace="true" class="required"></span>
 				</td>
 				<td>本月已完成投资：<span class="required">(*)</span></td>
-				<td colspan="2">
-					<input type="number" class="form-control input-sm" style="width:100px;"/>&nbsp;（万元）
+				<td>
+					<input type="number" class="form-control input-sm" style="width:200px;" id="thisMonthInvestTotal" name="thisMonthInvestTotal"
+					ng-model="vm.model.monthReport.thisMonthInvestTotal" data-val="true" data-val-required="必填"/>&nbsp;（万元）
+					<span data-valmsg-for="thisMonthInvestTotal" data-valmsg-replace="true" class="required"></span>
 				</td>
 			</tr> 
 			<tr>					
 				<td>是否完成竣工决算</td>
-				<td colspan="4">
+				<td colspan="3">
 					<span class="radioList_text"> 
 						<label><input type="radio" name="isCompletion" ng-model="vm.model.monthReport.isCompletion" value="1">是</label>									
 						<label><input type="radio" name="isCompletion" ng-model="vm.model.monthReport.isCompletion" value="0" >否</label>				
@@ -164,8 +164,8 @@ display:none;
 			<tr>
 				<td rowspan="5">进度安排<span class="required">(*)</span>
 				</td>
-				<td colspan="4">
-					<select id="selfReview" name="selfReview" ng-model="vm.model.monthReport.selfReview"
+				<td colspan="3">
+					<select id="selfReview" name="selfReview" style="height:30px;" ng-model="vm.model.monthReport.selfReview"
 						class="form-select" data-val="true" data-val-required="必选">
 							<option value="">---请选择---</option>
 							<option ng-repeat="y in vm.basicData_projectProgress"
@@ -175,7 +175,7 @@ display:none;
 				</td>			
 			</tr>
 			<tr>
-				<td colspan="4">
+				<td colspan="3">
 					<p>
 						预计1到3月份完成投资（万元）：
 						<input type="number" id="firstQuarCompInvestment"
@@ -186,7 +186,7 @@ display:none;
 				</td>
 			</tr>
 			<tr>
-				<td colspan="4">
+				<td colspan="3">
 					<p>
 						预计1到6月份完成投资（万元）： <input type="number" id="secondQuarCompInvestment"
 					ng-model="vm.model.monthReport.secondQuarCompInvestment" class="form-control input-sm "
@@ -196,7 +196,7 @@ display:none;
 				</td>
 			</tr>
 			<tr>
-				<td colspan="4">
+				<td colspan="3">
 					<p>
 						预计1到9月份完成投资（万元）： <input type="number" id="thirdQuarCompInvestment"
 					ng-model="vm.model.monthReport.thirdQuarCompInvestment" class="form-control input-sm "
@@ -206,7 +206,7 @@ display:none;
 				</td>
 			</tr>
 			<tr>
-				<td colspan="4">
+				<td colspan="3">
 					<p>
 						预计1到12月份完成投资（万元）： <input type="number" id="fourthQuarCompInvestment"
 					ng-model="vm.model.monthReport.fourthQuarCompInvestment" class="form-control input-sm "
@@ -218,40 +218,40 @@ display:none;
 			<tr>
 				<td style="line-height: 18px">年度工作目标：<span class="required">(*)</span>
 				</td>
-				<td colspan="4" style="padding: 10px;">
+				<td colspan="3" style="padding: 10px;">
 					<textarea id="workTargets" name="workTargets" ng-model="vm.model.monthReport.workTargets"
 						rows="3" cols="20"
 						mark_maxlength="200"
 						mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
 						data-validation-placeholder="年度工作目标(200字符以内)"
 						placeholder="年度工作目标(200字符以内)"
-						style="height: 120px; width: 640px;" data-val="true" data-val-required="必填"></textarea>
+						style="height: 120px; width: 99%;" data-val="true" data-val-required="必填"></textarea>
 					<span data-valmsg-for="workTargets" data-valmsg-replace="true" class="required"></span>
 				</tr>
 			<tr>
 				<td>项目审批进度：</td>
-				<td colspan="4" style="padding: 10px;"> 
+				<td colspan="3" style="padding: 10px;"> 
 					<textarea id="projectApprovalProgress" name="projectApprovalProgress" ng-model="vm.model.monthReport.projectApprovalProgress"
 						rows="3" cols="20"
 						mark_maxlength="200"
 						mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
 						data-validation-placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。"
 						placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。"
-						style="height: 120px; width: 640px;" data-val="true" data-val-required="必填"></textarea>
+						style="height: 120px; width: 99%;" data-val="true" data-val-required="必填"></textarea>
 				</tr>
 			<tr>
 				<td style="line-height: 18px">工程形象进度或<br>项目进度情况：<span
 					class="required">(*)</span>
 
 				</td>
-				<td colspan="4" style="padding: 10px;">
+				<td colspan="3" style="padding: 10px;">
 					<textarea id="projectImageProgress" name="projectImageProgress" ng-model="vm.model.monthReport.projectImageProgress" 
 					rows="3"
 					cols="20" mark_maxlength="200"
 					mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
 					data-validation-placeholder="工程形象进度或项目进度情况(200字符以内)"
 					placeholder="工程形象进度或项目进度情况(200字符以内)"
-					style="height: 120px; width: 640px; color: rgb(169, 169, 169);" data-val="true" data-val-required="必填"></textarea>
+					style="height: 120px; width: 99%; color: rgb(169, 169, 169);" data-val="true" data-val-required="必填"></textarea>
 					<span data-valmsg-for="projectImageProgress" data-valmsg-replace="true" class="required"></span>
 				</td>
 			</tr>					
@@ -262,7 +262,7 @@ display:none;
 		<table class="table  table-bordered table-striped">
 			<tr>
 				<td style="width:180px;">项目存在问题：</td>
-				<td colspan="4" style="padding:5px;">
+				<td colspan="3" style="padding:5px;">
 					<table class="table  table-bordered table-striped" >
 						<tbody>
 							<tr class="bg-info" style="font-weight:bold">
@@ -274,11 +274,11 @@ display:none;
 							</tr>
 							<tr ng-repeat="x in vm.model.monthReport.monthReportProblemDtos">
 								<td><span>{{$index+1}}</span></td>
-								<td><textarea style='height: 102px; width: 307px;'
+								<td><textarea style='height: 102px; width: 99%;'
 								placeholder='填写项目所存在的问题。'
 								data-validation-placeholder='填写项目所存在的问题。' cols='20' rows='2' ng-model="vm.model.monthReport.monthReportProblemDtos[$index].problemIntroduction"></textarea>
 						</td>
-						<td><textarea style='height: 102px; width: 307px;'
+						<td><textarea style='height: 102px; width: 99%;'
 								placeholder='填写项目所存在的问题。'
 								data-validation-placeholder='填写项目所存在的问题。' cols='20' rows='2' ng-model="vm.model.monthReport.monthReportProblemDtos[$index].solutionsAndSuggest"></textarea>
 						</td>
@@ -291,7 +291,7 @@ display:none;
 			</tr>
 			<tr>
 				<td>备注：</td>
-				<td colspan="4" ng-bind="vm.model.monthReport.remark">				
+				<td colspan="3" ng-bind="vm.model.monthReport.remark">				
 			</tr>
 		</table>
 		
@@ -323,7 +323,6 @@ display:none;
 							                   k-error="vm.uploadSuccess"
 							                   k-localization="{select:'上传文件'}"
 							                   k-showFileList="false"
-							                  
 							                   />
 										</div>
 									</td>
