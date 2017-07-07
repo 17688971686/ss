@@ -17,9 +17,9 @@ public class ShenBaoInfoDto extends ShenBaoInfo {
 	//项目分类
 	private String projectClassifyDesc;
 	//功能分类科目
-	private String projectFunctionClassifyDesc;
+	private String functionSubjectsDesc;
 	//政府经济分类
-	private String projectGoverEconClassifyDesc;
+	private String econClassSubjectsDesc;
 	//项目申报阶段
 	private String projectShenBaoStageDesc;
 	//项目建设性质
@@ -96,19 +96,19 @@ public class ShenBaoInfoDto extends ShenBaoInfo {
 	public void setProjectCategoryDesc(String projectCategoryDesc) {
 		this.projectCategoryDesc = projectCategoryDesc;
 	}
-	public String getProjectFunctionClassifyDesc() {
-		return projectFunctionClassifyDesc;
+	public String getFunctionSubjectsDesc() {
+		return functionSubjectsDesc;
 	}
-	public void setProjectFunctionClassifyDesc(String projectFunctionClassifyDesc) {
-		this.projectFunctionClassifyDesc = projectFunctionClassifyDesc;
+	public void setFunctionSubjectsDesc(String functionSubjectsDesc) {
+		this.functionSubjectsDesc = functionSubjectsDesc;
 	}
-	public String getProjectGoverEconClassifyDesc() {
-		return projectGoverEconClassifyDesc;
+	public String getEconClassSubjectsDesc() {
+		return econClassSubjectsDesc;
 	}
-	public void setProjectGoverEconClassifyDesc(String projectGoverEconClassifyDesc) {
-		this.projectGoverEconClassifyDesc = projectGoverEconClassifyDesc;
+	public void setEconClassSubjectsDesc(String econClassSubjectsDesc) {
+		this.econClassSubjectsDesc = econClassSubjectsDesc;
 	}
-	
+
 	
 	
 	

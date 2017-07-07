@@ -55,6 +55,7 @@
 									   +parseFloat(vm.model.capital.capitalQCZ_ggys||0)
 									   +parseFloat(vm.model.capital.capitalQCZ_gtzj||0)
 									   +parseFloat(vm.model.capital.capitalSHTZ||0)
+									   +parseFloat(vm.model.capital.capitalZYYS||0)
 									   +parseFloat(vm.model.capital.capitalOther||0);
 			var httpOptions = {
 					method : 'put',
@@ -197,6 +198,7 @@
 					vm.model.capitalSCZ_zxzjTotal = 0;
 					vm.model.capitalQCZ_ggysTotal = 0;
 					vm.model.capitalQCZ_gtzjTotal = 0;
+					vm.model.capitalZYYSTotal = 0;
 					vm.model.capitalSHTZTotal = 0;
 					vm.model.capitalOtherTotal = 0;
 					for(var i=0;i<Capitals.length;i++){
@@ -218,6 +220,9 @@
 						}
 						if(Capitals[i].capitalSHTZ){
 							vm.model.capitalSHTZTotal += Capitals[i].capitalSHTZ;
+						}
+						if(Capitals[i].capitalZYYS){
+							vm.model.capitalZYYSTotal += Capitals[i].capitalZYYS;
 						}
 						if(Capitals[i].capitalOther){
 							vm.model.capitalOtherTotal += Capitals[i].capitalOther;
@@ -292,19 +297,19 @@
 						filterable : false
 					},					
 					{
-						field : "projectFunctionClassifyDesc",
+						field : "functionSubjectsDesc",
 						title : "功能分类科目",
 						template:function(item){
-							return common.getBasicDataDesc(item.projectFunctionClassify);
+							return common.getBasicDataDesc(item.functionSubjects);
 						},
 						width:110,
 						filterable : false
 					},
 					{
-						field : "projectGoverEconClassifyDesc",
+						field : "econClassSubjectsDesc",
 						title : "政府经济分类科目",
 						template:function(item){
-							return common.getBasicDataDesc(item.projectGoverEconClassify);
+							return common.getBasicDataDesc(item.econClassSubjects);
 						},
 						width:140,
 						filterable : false

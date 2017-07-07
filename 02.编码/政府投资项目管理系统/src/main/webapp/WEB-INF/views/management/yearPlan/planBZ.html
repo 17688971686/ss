@@ -67,6 +67,7 @@
 				<tr class="text-primary text-center">
 					<td>市投资</td>
 					<td>区投资</td>
+					<td>中央预算内投资</td>
 					<td>社会投资</td>					
 					<td>其他</td>
 				</tr>
@@ -102,8 +103,16 @@
 						<table class="table table-bordered" style="margin:0px">
 							<tr>
 								<td>-</td>
-						
-								
+							</tr>
+							<tr>
+								<td ng-bind="vm.model.capitalZYYSTotal"></td>
+							</tr>
+						</table>
+					</td>
+					<td style="padding:0px;border: 0px;">
+						<table class="table table-bordered" style="margin:0px">
+							<tr>
+								<td>-</td>
 							</tr>
 							<tr>
 								<td ng-bind="vm.model.capitalSHTZTotal"></td>
@@ -183,6 +192,13 @@
 								<td>国土资金</td>
 								<td>
 									<input type="text" style="width:75px;" ng-model="vm.model.capital.capitalQCZ_gtzj"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="text-align:center">中央预算内投资</th>
+								<td>-</td>
+								<td >
+									<input type="text" style="width:75px;" ng-model="vm.model.capital.capitalZYYS"/>
 								</td>
 							</tr>
 							<tr>
