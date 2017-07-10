@@ -33,7 +33,7 @@
 			var httpSuccess = function success(response) {
 				vm.model.project= response.data.value[0]||{};
 				//项目类型的显示
-				if(vm.model.project.projectType != ""){
+				if(vm.model.project.projectType != "" && vm.model.project.projectType != undefined){
 					vm.model.project.projectType = vm.model.project.projectType.split(",");
 				}else{
 					vm.model.project.projectType =[];
@@ -345,8 +345,9 @@
 							var value=$linq(common.getBasicData()).where(function(x){return x.id==item.taskType}).firstOrDefault();
 							if(value){
 								return value.description;
+							}else{
+								return "";
 							}
-							return "";
 						}
 					},
 					{

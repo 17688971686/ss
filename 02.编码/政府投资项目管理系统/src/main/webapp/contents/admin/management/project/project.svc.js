@@ -99,6 +99,8 @@
 					httpOptions : httpOptions,
 					success : httpSuccess
 				});
+			}else{
+				vm.model.projectType =vm.model.projectType.split(",");
 			}
 		}
 		//end#createProject
@@ -171,6 +173,7 @@
 				});
 
 			} else {
+				 vm.model.projectType =vm.model.projectType.split(",");
 				 common.alert({
 				 vm:vm,
 				 msg:"您填写的信息不正确,请核对后提交!"
