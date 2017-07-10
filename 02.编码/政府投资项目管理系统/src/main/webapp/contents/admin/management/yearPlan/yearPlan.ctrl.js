@@ -81,7 +81,10 @@
     		};
     	}//init_planUpadte
     	
-    	function init_planBZ(){
+    	function init_planBZ(){   		
+    		yearPlanSvc.grid_yearPlan_shenbaoInfoList(vm);//查询年度计划编制中的申报信息列表
+    		yearPlanSvc.grid_yearPlan_addShenbaoInfoList(vm);//查询所有的可添加的申报信息列表 
+    		
     		//添加项目计划弹出模态框
     		vm.dialog_addPlan=function(){
     			 $('#addPlanList').modal({
@@ -103,14 +106,15 @@
     				}
                     var idStr=ids.join(',');                  
                     $('#addPlanList').modal('toggle');//关闭模态框
-                    yearPlanSvc.addShenBaoInfoconfirm(vm,idStr);
-                   
+                    yearPlanSvc.addShenBaoInfoconfirm(vm,idStr);//添加申报信息到计划中                  
                 }   
     		};
+    		//编制计划中的申报信息
     		 vm.popOver=function(e,id){
     			 //根据申报信息id查询出年度计划编制
     			 vm.currentCapitalId=id;
     			 yearPlanSvc.getYearPlanCapitalById(vm,id);
+    			 //编制信息输入显示
     	    	   vm.isPopOver=true;
     	    	   var minClick=$(document).height()-50-230;
     	    	   if(e.pageY>minClick){
@@ -121,14 +125,18 @@
     	    			   top:e.pageY+'px'
     	    	   };  
     	       };//popOver
+    	     //更新编制信息  
     		 vm.updateCapital = function(id){
     			 yearPlanSvc.updateYearPlanCapital(vm);
     		 };
-    		 
+    		 //移除计划中的申报信息
     		 vm.removeYearPlanCapital=function(){
     	    		var selectIds = common.getKendoCheckId('.yearPlanCapitalGrid');
     	            if (selectIds.length == 0) {
-    	            	return;
+    	            	common.alert({
+    	                	vm:vm,
+    	                	msg:'请选择数据'              	
+    	                });
     	            } else {
     	            	var ids=[];
     	                for (var i = 0; i < selectIds.length; i++) {
@@ -137,11 +145,7 @@
     	                var idStr=ids.join(',');  
     	                yearPlanSvc.removeYearPlanCapital(vm,idStr);
     	            }
-    	    	};//removeYearPlanCapital
-
-    		
-    		yearPlanSvc.grid_yearPlan_shenbaoInfoList(vm);//查询年度计划编制申报的信息列表
-    		yearPlanSvc.grid_yearPlan_addShenbaoInfoList(vm);//查询所有的申报信息列表  		
+    	    	};//removeYearPlanCapital   			
     	}//init_planBZ   	    	    	   	
     } //yearPlan
 })();

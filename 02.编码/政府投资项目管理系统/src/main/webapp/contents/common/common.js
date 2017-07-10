@@ -392,15 +392,23 @@
     		projectCategory_B:"projectCategory_2",//B类
     		projectCategory_C:"projectCategory_3",//C类
     		projectCategory_D:"projectCategory_4",//D类
+    		
     		projectClassify:"projectClassify",//项目分类
     		projectClassify_ZF:"projectClassify_1",//政府投资项目分类
     		projectClassify_SH:"projectClassify_2",//社会投资项目分类
+    		
     		projectConstrChar:"projectConstrChar",//项目建设性质
+    		projectConstrChar_qianqi:"projectConstrChar_1",//前期
+    		projectConstrChar_xinkaigong:"projectConstrChar_2",//新开工
+    		projectConstrChar_xujian:"projectConstrChar_3",//续建
+    		
     		projectFunctionClassify:"projectFunctionClassify",//功能分类科目
     		projectGoverEconClassify:"projectGoverEconClassify",//政府经济分类科目
+    		
     		projectInvestmentType:"projectInvestmentType",//项目投资类型
     		projectInvestmentType_ZF:"projectInvestmentType_1",//政府投资
     		projectInvestmentType_SH:"projectInvestmentType_2",//社会投资
+    		
     		projectIndustry:"projectIndustry",//项目行业
     		projectIndustry_ZF:"projectIndustry_1",//政府投资项目行业
     		projectIndustry_SH:"projectIndustry_2",//社会投资项目行业
