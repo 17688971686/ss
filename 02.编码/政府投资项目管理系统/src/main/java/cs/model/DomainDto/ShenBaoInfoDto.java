@@ -16,9 +16,9 @@ public class ShenBaoInfoDto extends ShenBaoInfo {
 	private String projectIndustryDesc;
 	//项目分类
 	private String projectClassifyDesc;
-	//功能分类科目
+	//功能科目
 	private String functionSubjectsDesc;
-	//政府经济分类
+	//经济分类科目
 	private String econClassSubjectsDesc;
 	//项目申报阶段
 	private String projectShenBaoStageDesc;
@@ -107,9 +107,5 @@ public class ShenBaoInfoDto extends ShenBaoInfo {
 	}
 	public void setEconClassSubjectsDesc(String econClassSubjectsDesc) {
 		this.econClassSubjectsDesc = econClassSubjectsDesc;
-	}
-
-	
-	
-	
+	}	
 }

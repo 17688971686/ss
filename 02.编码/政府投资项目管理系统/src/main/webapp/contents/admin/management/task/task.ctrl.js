@@ -85,6 +85,9 @@
     	   
     	   //处理操作
     	   vm.handle=function(processState){
+    		   vm.model.taskRecord = {
+    				   processState:  ''
+    		   };
     		   vm.model.taskRecord.processState=processState;
     		   taskSvc.handle(vm);
     	   };    		

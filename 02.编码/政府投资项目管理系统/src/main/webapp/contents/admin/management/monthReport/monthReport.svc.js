@@ -219,8 +219,8 @@
 						template:function(data){
 							var returnStr="";
 							data.monthReportDtos.forEach(function(e,idx){
-								returnStr+=common.format('<a class="btn btn-xs btn-success" href="#/monthReport/{0}/{1}/{2}">{1}年{2}月</a> ',
-										e.projectId,e.submitYear,e.submitMonth);
+								returnStr+=common.format('<a class="btn btn-xs btn-success" ng-show="{3}" href="#/monthReport/{0}/{1}/{2}">{1}年{2}月</a> ',
+										e.projectId,e.submitYear,e.submitMonth,e.isLatestVersion);
 																		
 							});
 							return returnStr;					
