@@ -190,33 +190,38 @@
 	            controllerAs: 'vm'
 	        })
 	        //end#系统配置
-	        	        
-	        //begin#年度计划编制
+	        
+/**********************begin#年度计划编制***************************************/
+	        //年度计划项目库列表（被签收的申报信息）
 	         .state('yearPlan_shenbaoInfoList', {
 	            url: '/yearPlan/shenbaoInfoList',
 	            templateUrl: '/management/yearPlan/html/shenbaoInfoList',
 	            controller: 'yearPlanCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //年度计划编制列表
 	        .state('yearPlan_planList', {
 	            url: '/yearPlan/planList',
 	            templateUrl: '/management/yearPlan/html/planList',
 	            controller: 'yearPlanCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //编辑年度计划页面
 	        .state('yearPlan_planEdit', {
 	            url: '/yearPlan/planEdit/:id',
 	            templateUrl: '/management/yearPlan/html/planEdit',
 	            controller: 'yearPlanCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //编制计划页面
 	        .state('yearPlan_planBZ', {
 	            url: '/yearPlan/planBZ/:id',
 	            templateUrl: '/management/yearPlan/html/planBZ',
 	            controller: 'yearPlanCtrl',
 	            controllerAs: 'vm'
-	        })
-	        //end#年度计划编制
+	        })	        
+/**********************end#年度计划编制***************************************/
+	        
 /**********************begin#工作台***************************************/
 	        //待办列表页(taskHead)
 	        .state('task_todo', {

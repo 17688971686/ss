@@ -29,6 +29,9 @@ public class YearPlanCapital extends BaseEntity {
 	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-区财政-国土资金'")
 	private Double capitalQCZ_gtzj;
 	
+	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-中央预算内投资'")
+	private Double capitalZYYS;
+	
 	@Column(columnDefinition="double(10,2) NULL COMMENT '资金筹措方案-社会投资'")
 	private Double capitalSHTZ;
 	
@@ -117,4 +120,14 @@ public class YearPlanCapital extends BaseEntity {
 	public void setCapitalOther(Double capitalOther) {
 		this.capitalOther = capitalOther;
 	}
+
+	public Double getCapitalZYYS() {
+		return capitalZYYS;
+	}
+
+	public void setCapitalZYYS(Double capitalZYYS) {
+		this.capitalZYYS = capitalZYYS;
+	}
+	
+	
 }

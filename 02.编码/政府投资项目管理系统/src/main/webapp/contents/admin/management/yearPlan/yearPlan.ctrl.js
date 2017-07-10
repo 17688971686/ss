@@ -82,6 +82,7 @@
     	}//init_planUpadte
     	
     	function init_planBZ(){
+    		//添加项目计划弹出模态框
     		vm.dialog_addPlan=function(){
     			 $('#addPlanList').modal({
                      backdrop: 'static',
@@ -89,6 +90,7 @@
                  });
     			 
     		};
+    		//模态框点击确认
     		vm.dialogConfirmSubmit=function(){
     			//获取选中的申报信息的id
     			var selectIds = common.getKendoCheckId('.grid');

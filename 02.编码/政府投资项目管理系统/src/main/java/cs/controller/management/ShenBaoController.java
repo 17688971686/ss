@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.repository.odata.ODataObj;
+import cs.service.common.BasicDataService;
 import cs.service.interfaces.ShenBaoInfoService;
 
 @Controller
@@ -22,10 +23,24 @@ public class ShenBaoController {
 	@Autowired
 	private ShenBaoInfoService shenBaoInfoService;
 	
+	@Autowired
+	private BasicDataService basicDataService;
+	
 	@RequestMapping(name = "获取申报数据", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
-		PageModelDto<ShenBaoInfoDto>  shenbaoInfoDtos= shenBaoInfoService.get(odataObj);		
+		PageModelDto<ShenBaoInfoDto>  shenbaoInfoDtos= shenBaoInfoService.get(odataObj);
+		shenbaoInfoDtos.getValue().forEach(x->{	
+			//获取项目相关类型的名称
+			x.setProjectClassifyDesc(basicDataService.getDescriptionById(x.getProjectClassify()));//项目分类名称
+			x.setProjectIndustryDesc(basicDataService.getDescriptionById(x.getProjectIndustry()));//项目行业领域名称
+			x.setProjectTypeDesc(basicDataService.getDescriptionById(x.getProjectType()));//项目类型名称
+			x.setProjectCategoryDesc(basicDataService.getDescriptionById(x.getProjectCategory()));//项目类别名称
+			x.setProjectStageDesc(basicDataService.getDescriptionById(x.getProjectStage()));//项目阶段名称
+			x.setProjectConstrCharDesc(basicDataService.getDescriptionById(x.getProjectConstrChar()));//项目建设性质名称
+			x.setProjectShenBaoStageDesc(basicDataService.getDescriptionById(x.getProjectShenBaoStage()));//项目申报阶段名称
+			x.setCapitalOtherTypeDesc(basicDataService.getDescriptionById(x.getCapitalOtherType()));//资金其他来源名称					
+		});
 		return shenbaoInfoDtos;
 	}
 }

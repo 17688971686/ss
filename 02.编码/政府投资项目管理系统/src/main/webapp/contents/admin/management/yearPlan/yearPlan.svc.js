@@ -192,12 +192,13 @@
 						}
 					}
 					//计划总规模						
-					vm.model.capitalSCZ_ggysTotal = 0;
-					vm.model.capitalSCZ_gtzjTotal = 0;
-					vm.model.capitalSCZ_zxzjTotal = 0;
-					vm.model.capitalQCZ_ggysTotal = 0;
-					vm.model.capitalQCZ_gtzjTotal = 0;
-					vm.model.capitalSHTZTotal = 0;
+					vm.model.capitalSCZ_ggysTotal = 0;//市投资-公共预算
+					vm.model.capitalSCZ_gtzjTotal = 0;//市投资-国土基金
+					vm.model.capitalSCZ_zxzjTotal = 0;//市投资-专项基金
+					vm.model.capitalQCZ_ggysTotal = 0;//区投资-公共预算
+					vm.model.capitalQCZ_gtzjTotal = 0;//区投资-国土基金
+					vm.model.capitalZYYSTotal = 0;//中央预算内投资
+					vm.model.capitalSHTZTotal = 0;//社会投资
 					vm.model.capitalOtherTotal = 0;
 					for(var i=0;i<Capitals.length;i++){
 						
@@ -215,6 +216,9 @@
 						}
 						if(Capitals[i].capitalQCZ_gtzj){
 							vm.model.capitalQCZ_gtzjTotal += Capitals[i].capitalQCZ_gtzj;
+						}
+						if(Capitals[i].capitalZYYS){
+							vm.model.capitalZYYSTotal += Capitals[i].capitalZYYS;
 						}
 						if(Capitals[i].capitalSHTZ){
 							vm.model.capitalSHTZTotal += Capitals[i].capitalSHTZ;
@@ -286,26 +290,26 @@
 						field : "projectName",
 						title : "项目名称",
 						template:function(item){
-							return common.format('<a href="#/projectDetails/{0}" >{1}</a>',item.projectId,item.projectName);
+							return common.format('<a href="#/projectDetails/{0}/{1}" >{2}</a>',item.projectId,item.projectInvestmentType,item.projectName);
 						},
 						width:200,
 						filterable : false
 					},					
 					{
-						field : "projectFunctionClassifyDesc",
-						title : "功能分类科目",
-						template:function(item){
-							return common.getBasicDataDesc(item.projectFunctionClassify);
-						},
+						field : "functionSubjects",
+						title : "功能科目",
+//						template:function(item){
+//							return common.getBasicDataDesc(item.functionSubjects);
+//						},
 						width:110,
 						filterable : false
 					},
 					{
-						field : "projectGoverEconClassifyDesc",
-						title : "政府经济分类科目",
-						template:function(item){
-							return common.getBasicDataDesc(item.projectGoverEconClassify);
-						},
+						field : "econClassSubjects",
+						title : "经济分类科目",
+//						template:function(item){
+//							return common.getBasicDataDesc(item.econClassSubjects);
+//						},
 						width:140,
 						filterable : false
 					},
@@ -337,16 +341,17 @@
 						filterable : false
 					},
 					{
-						field : "projectConstrCharDesc",
+						field : "",
 						title : "开工/竣工时间",
 						width : 100,
 						template:function(item){
 							if(item.projectCategory==common.basicDataConfig().projectCategory_A){
-								return common.formatDate(item.beginDate);
-							}else if(item.projectCategory==common.basicDataConfig().projectCategory_B || 
-									item.projectCategory==common.basicDataConfig().projectCategory_C){
 								return common.formatDate(item.endDate);
-							}
+							}else if(item.projectCategory==common.basicDataConfig().projectCategory_B || 
+									item.projectCategory==common.basicDataConfig().projectCategory_C ||
+									item.projectCategory==common.basicDataConfig().projectCategory_D){
+								return common.formatDate(item.beginDate);
+							}					
 						},
 						filterable : false
 					},
@@ -409,6 +414,15 @@
 
 			];
 			// End:column
+			
+			var excelExport = function(e) {
+				    var sheet = e.workbook.sheets[0];
+
+				    for (var i = 1; i < sheet.rows.length; i++) {
+				      var row = sheet.rows[i];							    
+					  row.cells[7].value = common.formatDate(row.cells[7].value);			      
+				    }
+				  };
 
 			vm.planGridOptions = {
 					 excel: {
@@ -418,7 +432,8 @@
 				filterable : common.kendoGridConfig().filterable,				
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
-				resizable : true
+				resizable : true,
+				excelExport:excelExport
 			};
 		}//end grid_yearPlan_shenbaoInfoList
 		
@@ -747,7 +762,7 @@
 						field : "projectName",
 						title : "项目名称",
 						template:function(item){
-							return common.format('<a href="#/projectDetails/{0}" >{1}</a>',item.projectId,item.projectName);
+							return common.format('<a href="#/projectDetails/{0}/{1}" >{2}</a>',item.projectId,item.projectInvestmentType,item.projectName);
 						},
 						filterable : true
 					},
@@ -755,6 +770,9 @@
 						field : "projectConstrCharDesc",
 						title : "建设性质",
 						width : 150,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectConstrChar);
+						},
 						filterable : false
 					},
 					{
@@ -767,6 +785,9 @@
 						field : "projectClassifyDesc",
 						title : "项目分类",
 						width : 150,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectClassify);
+						},
 						filterable : false
 					},
 					{
@@ -790,6 +811,14 @@
 
 			];
 			// End:column
+			var excelExport = function(e) {
+			    var sheet = e.workbook.sheets[0];
+
+			    for (var i = 1; i < sheet.rows.length; i++) {
+			      var row = sheet.rows[i];							    
+				  row.cells[6].value = common.formatDateTime(row.cells[6].value);			      
+			    }
+			  };
 
 			vm.gridOptions = {					
 		            excel: {
@@ -800,6 +829,7 @@
 				pageable : common.kendoGridConfig().pageable,
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
+				excelExport:excelExport,
 				resizable : true
 			};
 

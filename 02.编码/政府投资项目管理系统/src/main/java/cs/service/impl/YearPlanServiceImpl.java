@@ -101,8 +101,8 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 				shenBaoInfoDto.setProjectClassifyDesc(basicDataService.getDescriptionById(x.getProjectClassify()));
 				shenBaoInfoDto.setProjectIndustryDesc(basicDataService.getDescriptionById(x.getProjectIndustry()));
 				shenBaoInfoDto.setProjectTypeDesc(basicDataService.getDescriptionById(x.getProjectType()));
-//				shenBaoInfoDto.setProjectFunctionClassifyDesc(basicDataService.getDescriptionById(x.getProjectFunctionClassify()));//功能分类科目名称
-//				shenBaoInfoDto.setProjectGoverEconClassifyDesc(basicDataService.getDescriptionById(x.getProjectGoverEconClassify()));//政府经济分类科目名称
+//				shenBaoInfoDto.setFunctionSubjectsDesc(basicDataService.getDescriptionById(x.getFunctionSubjects()));//功能分类科目名称
+//				shenBaoInfoDto.setEconClassSubjectsDesc(basicDataService.getDescriptionById(x.getEconClassSubjects()));//政府经济分类科目名称
 				shenBaoInfoDto.setProjectCategoryDesc(basicDataService.getDescriptionById(x.getProjectCategory()));
 				shenBaoInfoDto.setProjectStageDesc(basicDataService.getDescriptionById(x.getProjectStage()));
 				shenBaoInfoDto.setProjectConstrCharDesc(basicDataService.getDescriptionById(x.getProjectConstrChar()));
@@ -162,7 +162,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 				List<YearPlanCapital> yearPlanCapitals = new ArrayList<>();
 				yearPlanCapitals.add(entity);
 			}		
-			yearPlanRepo.save(yearPlan);
+			super.repository.save(yearPlan);
 			logger.info(String.format("添加年度计划资金,名称：%s",yearPlan.getName()));	
 		}			
 	}
