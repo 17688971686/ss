@@ -40,5 +40,6 @@ public class BasicDataConfig {
 	
 	public static String role_admin="超级管理员";
 	public static String role_unit="建设单位";
+	public static String role_manage="管理员";
 	
 }

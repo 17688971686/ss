@@ -170,7 +170,7 @@ public class UserServiceImpl implements UserService {
 	}
 	@Override
 	@Transactional
-	public Response Login(String userName, String password){
+	public Response Login(String userName, String password,String roleName){
 		User user=userRepo.findUserByName(userName);
 		Response response =new Response();
 		
@@ -180,21 +180,37 @@ public class UserServiceImpl implements UserService {
 				logger.warn(String.format("登录失败次数过多,用户名:%s", userName));
 			}
 			else if(password!=null&&password.equals(user.getPassword())){
-				currentUser.setLoginName(user.getLoginName());
-				currentUser.setDisplayName(user.getDisplayName());
-				Date lastLoginDate=user.getLastLoginDate();
-				if(lastLoginDate!=null){
-					currentUser.setLastLoginDate(user.getLastLoginDate());
-				}				
-				user.setLoginFailCount(0);
-				user.setLastLoginDate(new Date());
-				//shiro
-				UsernamePasswordToken token = new UsernamePasswordToken(user.getLoginName(), user.getPassword());
-				Subject currentUser = SecurityUtils.getSubject();
-				currentUser.login(token);
+				//判断用户角色
+				Boolean hasRole = false;
+				List<Role> roles = user.getRoles();
+				for(Role x:roles){
+					if(x.getRoleName().equals(roleName) || x.getRoleName().equals("超级管理员")){//如果有对应的角色则允许登录
+						hasRole = true;
+						break;
+					}else{
+						hasRole = false;
+					}
+				}
+				if(hasRole){
+					currentUser.setLoginName(user.getLoginName());
+					currentUser.setDisplayName(user.getDisplayName());
+					Date lastLoginDate=user.getLastLoginDate();
+					if(lastLoginDate!=null){
+						currentUser.setLastLoginDate(user.getLastLoginDate());
+					}				
+					user.setLoginFailCount(0);
+					user.setLastLoginDate(new Date());
+					//shiro
+					UsernamePasswordToken token = new UsernamePasswordToken(user.getLoginName(), user.getPassword());
+					Subject currentUser = SecurityUtils.getSubject();
+					currentUser.login(token);
+					
+					response.setSuccess(true);
+					logger.info(String.format("登录成功,用户名:%s", userName));
+				}else{
+					response.setMessage("权限不足，请联系管理员!");
+				}
 				
-				response.setSuccess(true);
-				logger.info(String.format("登录成功,用户名:%s", userName));
 			}else{
 				user.setLoginFailCount(user.getLoginFailCount()+1);	
 				user.setLastLoginDate(new Date());

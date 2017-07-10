@@ -98,7 +98,7 @@
 			<input type="text" class="form-control input-sm" placeholder="请输入用户名称" maxlength="100" name="loginName" id="loginName" ng-model="vm.model.loginName" data-val="true" data-val-required="用户名必填" />
 			</div>
 			<div><input type="password" class="form-control input-sm" placeholder="请输入用户密码" maxlength="100"  name="password" id="password" ng-model="vm.model.password" data-val="true" data-val-required="密码必填" /></div>
-			<div><button class="btn btn-success loginBtn" ng-click="vm.submit()" ng-disabled="vm.isSubmit">登录系统 </button></div>
+			<div><button class="btn btn-success loginBtn" ng-click="vm.submit('manage')" ng-disabled="vm.isSubmit">登录系统 </button></div>
 		</div>
 </form>		
 	</div>
@@ -148,16 +148,18 @@
             vm.title = 'controller';
 
            
-            vm.submit = function () {
+            vm.submit = function (str) {
+            	var role = str;
                 common.initJqValidation();
                 var isValid = $('form').valid();
                 if (isValid) {
                     vm.isSubmit = true;
                     var httpOptions = {
                         method: 'post',
-                        url: '/account/login',
+                        url: '/account/login?role='+role,
                         data: vm.model
-                    }
+                    };
+                    
                     var httpSuccess = function success(response) {
                         vm.isSubmit = false;                        
                         common.requestSuccess({
@@ -177,7 +179,8 @@
                         	}
                         });
 
-                    }
+                    };
+                    
                     common.http({
                     	vm:vm,
                     	$http:$http,
@@ -185,15 +188,13 @@
                     	success:httpSuccess
                     });
                 }
-
-                
-
             }
+            
             vm.keyEnter = function (e) {
                 if (e.which === 13) {
                     vm.submit()
                 }
-            }
+            };
 
             activate();
             function activate() { }
