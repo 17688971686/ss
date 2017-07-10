@@ -128,6 +128,4 @@ public class YearPlanCapital extends BaseEntity {
 	public void setCapitalZYYS(Double capitalZYYS) {
 		this.capitalZYYS = capitalZYYS;
 	}
-	
-	
 }

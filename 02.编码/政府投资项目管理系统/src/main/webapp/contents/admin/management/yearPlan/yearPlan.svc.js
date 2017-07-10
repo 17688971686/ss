@@ -194,6 +194,7 @@
 						}
 					}
 					//计划总规模						
+
 					vm.model.capitalSCZ_ggysTotal = 0;//市投资-公共预算
 					vm.model.capitalSCZ_gtzjTotal = 0;//市投资-国土基金
 					vm.model.capitalSCZ_zxzjTotal = 0;//市投资-专项基金
@@ -201,6 +202,7 @@
 					vm.model.capitalQCZ_gtzjTotal = 0;//区投资-国土基金
 					vm.model.capitalZYYSTotal = 0;//中央预算内投资
 					vm.model.capitalSHTZTotal = 0;//社会投资
+
 					vm.model.capitalOtherTotal = 0;
 					for(var i=0;i<Capitals.length;i++){						
 						if(Capitals[i].capitalSCZ_ggys){
@@ -223,6 +225,9 @@
 						}
 						if(Capitals[i].capitalSHTZ){
 							vm.model.capitalSHTZTotal += Capitals[i].capitalSHTZ;
+						}
+						if(Capitals[i].capitalZYYS){
+							vm.model.capitalZYYSTotal += Capitals[i].capitalZYYS;
 						}
 						if(Capitals[i].capitalOther){
 							vm.model.capitalOtherTotal += Capitals[i].capitalOther;

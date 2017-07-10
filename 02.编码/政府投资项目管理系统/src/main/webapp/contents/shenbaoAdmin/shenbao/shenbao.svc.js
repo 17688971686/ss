@@ -309,6 +309,8 @@
 					httpOptions : httpOptions,
 					success : httpSuccess
 				});			
+			}else{
+				vm.model.projectType = vm.model.projectType.split(",");
 			}
 		}
 		

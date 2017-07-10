@@ -67,6 +67,4 @@ public class YearPlanCapitalMapper implements IMapper<YearPlanCapitalDto, YearPl
 		
 		return entity;
 	}
-	
-
 }

@@ -188,7 +188,12 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 			//end#修改上条数据
 		}else{                                 //再次点击修改时，有两条数据，修改状态为1的
 			project.getMonthReports().forEach(x->{
-				if(x.getIsLatestVersion() ==true&&x.getProjectId().equals(monthReportDto.getProjectId()) && x.getSubmitYear().equals(monthReportDto.getSubmitYear())&&x.getSubmitMonth().equals(monthReportDto.getSubmitMonth())){
+				if(x.getIsLatestVersion() == true 
+						&& x.getProjectId().equals(monthReportDto.getProjectId()) 
+						&& x.getSubmitYear().equals(monthReportDto.getSubmitYear())
+						&&x.getSubmitMonth().equals(monthReportDto.getSubmitMonth())
+						&&project.getIsLatestVersion() ==true)
+				{
 					x.getAttachments().clear();
 					x.getMonthReportProblems().clear();
 
