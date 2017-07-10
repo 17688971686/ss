@@ -1,6 +1,5 @@
 package cs.service.impl;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -28,26 +27,30 @@ import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.framework.SysService;
 import cs.service.interfaces.ShenBaoInfoService;
-
-
+/**
+ * @Description: 申报信息服务层
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @Service
 public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, ShenBaoInfo, String> implements ShenBaoInfoService {
 	private static Logger logger = Logger.getLogger(ShenBaoInfoServiceImpl.class);
-	
+		
+	@Autowired
+	private IRepository<TaskHead, String> taskHeadRepo;
+	@Autowired
+	private IRepository<Attachment, String> attachmentRepo;
+	@Autowired
+	private IRepository<ShenBaoUnitInfo, String> shenBaoUnitInfoRepo;
+	@Autowired
+	private IMapper<AttachmentDto, Attachment> attachmentMapper;
+	@Autowired
+	private IMapper<ShenBaoUnitInfoDto, ShenBaoUnitInfo> shenBaoUnitInfoMapper;
 	@Autowired
 	private SysService sysService;
 	@Autowired
 	private ICurrentUser currentUser;
-	@Autowired
-	private IRepository<TaskHead, String> taskHeadRepo;
-	@Autowired
-	private IMapper<AttachmentDto, Attachment> attachmentMapper;
-	@Autowired
-	private IRepository<Attachment, String> attachmentRepo;
-	@Autowired
-	private IMapper<ShenBaoUnitInfoDto, ShenBaoUnitInfo> shenBaoUnitInfoMapper;
-	@Autowired
-	private IRepository<ShenBaoUnitInfo, String> shenBaoUnitInfoRepo;
 	
 	@Override
 	@Transactional
@@ -60,8 +63,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@Transactional
 	public ShenBaoInfo create(ShenBaoInfoDto dto) {
 		ShenBaoInfo entity=super.create(dto);
-		entity.setCreatedDate(new Date());
-		entity.setModifiedDate(new Date());
 		//处理关联信息
 		//begin#关联信息
 		//附件
@@ -77,8 +78,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
 		shenBaoUnitInfo.setCreatedBy(entity.getCreatedBy());
 		shenBaoUnitInfo.setModifiedBy(entity.getModifiedBy());
-		shenBaoUnitInfo.setModifiedDate(entity.getModifiedDate());
-		shenBaoUnitInfo.setCreatedDate(entity.getCreatedDate());
 		entity.setShenBaoUnitInfo(shenBaoUnitInfo);
 		//编制单位
 		ShenBaoUnitInfoDto bianZhiUnitInfoDto = dto.getBianZhiUnitInfoDto();
@@ -86,8 +85,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
 		bianZhiUnitInfo.setCreatedBy(entity.getCreatedBy());
 		bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
-		bianZhiUnitInfo.setModifiedDate(entity.getModifiedDate());
-		bianZhiUnitInfo.setCreatedDate(entity.getCreatedDate());
 		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
 		
 		super.repository.save(entity);
@@ -116,12 +113,16 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		ShenBaoUnitInfoDto shenBaoUnitInfoDto = dto.getShenBaoUnitInfoDto();
 		ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
 		shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
+		shenBaoUnitInfo.setCreatedBy(entity.getCreatedBy());
+		shenBaoUnitInfo.setModifiedBy(entity.getCreatedBy());
 		entity.setShenBaoUnitInfo(shenBaoUnitInfo);
 		//编制单位
 		shenBaoUnitInfoRepo.delete(entity.getBianZhiUnitInfo());//删除申报单位
 		ShenBaoUnitInfoDto bianZhiUnitInfoDto = dto.getBianZhiUnitInfoDto();
 		ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
 		shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
+		bianZhiUnitInfo.setCreatedBy(entity.getCreatedBy());
+		bianZhiUnitInfo.setModifiedBy(entity.getCreatedBy());
 		entity.setShenBaoUnitInfo(bianZhiUnitInfo);
 			
 		super.repository.save(entity);

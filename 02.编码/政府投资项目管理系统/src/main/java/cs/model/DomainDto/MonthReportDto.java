@@ -3,10 +3,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cs.domain.MonthReport;
-
+/**
+ * @Description: 月报实体类
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 public class MonthReportDto extends MonthReport{
-	
-		
+			
 	private String projectProgressDescription;//项目进度
 	
 	private String selfReviewDesc;//项目进度安排
@@ -23,9 +27,6 @@ public class MonthReportDto extends MonthReport{
 
 	//end#关联信息
 	
-
-	
-
 	public String getProjectName() {
 		return projectName;
 	}
@@ -66,6 +67,4 @@ public class MonthReportDto extends MonthReport{
 		this.selfReviewDesc = selfReviewDesc;
 	}
 	
-	//end#关联信息
-
 }

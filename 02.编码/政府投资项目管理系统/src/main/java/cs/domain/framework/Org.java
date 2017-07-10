@@ -10,7 +10,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import cs.domain.BaseEntity;
-
+/**
+ * @Description: 部门表
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @Entity
 @Table(name="cs_org")
 public class Org extends BaseEntity {

@@ -1,7 +1,12 @@
 package cs.model.DomainDto;
 
 import cs.domain.TaskRecord;
-
+/**
+ * @Description: 任务处理流程实体类
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 public class TaskRecordDto extends TaskRecord {
 	private String taskTypeDesc;
 	private String processStateDesc;

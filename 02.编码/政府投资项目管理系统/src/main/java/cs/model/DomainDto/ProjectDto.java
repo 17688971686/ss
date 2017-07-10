@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cs.domain.Project;
-
+/**
+ * @Description: 项目信息实体类
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 public class ProjectDto extends Project {
 	
 	//basicData描述信息

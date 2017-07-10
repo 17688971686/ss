@@ -18,11 +18,11 @@
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目名称：</td>
 		<td>
-			<span id="projectName" name="projectName" ng-bind="vm.model.projectName"></span>		
+			<span id="projectName" ng-bind="vm.model.projectName"></span>		
 		</td>
 		<td class="formAlignRight" style="width:180px;">项目阶段：</td>
 		<td>
-			<span id="projectStage" name="projectStage" ng-bind="vm.model.projectStage" style="display:none"></span>
+			<span id="projectStage" ng-bind="vm.model.projectStage" style="display:none"></span>
 			<span ng-bind="vm.model.projectStageDesc"></span>			
 		</td>
 	</tr>
@@ -33,7 +33,7 @@
 		</td>
 		<td class="formAlignRight">项目分类：</td>
 		<td>
-			<span id="projectClassify" name="projectClassify" ng-bind="vm.model.projectClassify" style="display:none"></span>
+			<span id="projectClassify" ng-bind="vm.model.projectClassify" style="display:none"></span>
 			<span ng-bind="vm.model.projectClassifyDesc"></span>
 		</td>
 	</tr>
@@ -52,23 +52,23 @@
 	<tr>
 		<td class="formAlignRight">项目行业归口：</td>
 		<td>
-			<span id="projectIndustry" name="projectIndustry" ng-bind="vm.model.projectIndustry" style="display:none"></span>
+			<span id="projectIndustry" ng-bind="vm.model.projectIndustry" style="display:none"></span>
 			<span ng-bind="vm.model.projectIndustryDesc"></span>
 		</td>
 		<td class="formAlignRight">项目类型：</td>
 		<td>
-			<span id="projectType" name="projectType" ng-bind="vm.model.projectType" style="display:none"></span>
+			<span id="projectType" ng-bind="vm.model.projectType" style="display:none"></span>
 			<span ng-bind="vm.model.projectTypeDesc"></span>					
 		</td>		
 	</tr>		
 	<tr>
 		<td class="formAlignRight">项目开工日期：</td>
 		<td>
-			<span id="beginDate" name="beginDate" ng-bind="vm.model.beginDate | date:'yyyy-MM-dd'"></span>
+			<span id="beginDate" ng-bind="vm.model.beginDate | date:'yyyy-MM-dd'"></span>
 		</td>
 		<td class="formAlignRight">项目竣工日期：</td>
 		<td>
-			<span id="endDate" name="endDate" ng-bind="vm.model.endDate | date:'yyyy-MM-dd'"></span>
+			<span id="endDate" ng-bind="vm.model.endDate | date:'yyyy-MM-dd'"></span>
 		</td>
 	</tr>
 	
@@ -82,11 +82,11 @@
 	<tr>
 		<td class="formAlignRight">项目总投资：</td>
 		<td>
-			<span id="projectInvestSum" name="projectInvestSum" ng-bind="vm.model.projectInvestSum | number:2"></span>&nbsp;(万元)
+			<span id="projectInvestSum" ng-bind="vm.model.projectInvestSum | number:2"></span>&nbsp;(万元)
 		</td>
 		<td class="formAlignRight">累计完成投资：</td>
 		<td>
-			<span id="projectInvestAccuSum" name="projectInvestAccuSum" ng-bind="vm.model.projectInvestAccuSum | number:2"></span>&nbsp;(万元)
+			<span id="projectInvestAccuSum" ng-bind="vm.model.projectInvestAccuSum | number:2"></span>&nbsp;(万元)
 		</td>
 	</tr>
 					
@@ -187,8 +187,7 @@
 		<td colspan="3" >
 			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（200字符以内）" ng-model="vm.model.remark" disabled></textarea>												
 		</td>
-	</tr>				
-	</div>
+	</tr>
 </table>
 
 <div ng-show="vm.isYearPlan">
@@ -221,7 +220,7 @@
 			</td>
 			<td class="formAlignRight" style="width:150px;">申请年度投资：<span class="required">(*)</span></td>
 			<td>
-				<span id="applyYearInvest" name="applyYearInvest" ng-bind="vm.model.applyYearInvest | number:2"></span>&nbsp;(万元)
+				<span id="applyYearInvest" ng-bind="vm.model.applyYearInvest | number:2"></span>&nbsp;(万元)
 			</td>
 		</tr>
 		<tr>
@@ -238,37 +237,37 @@
 	<tr>
 		<td style="width:150px;" class="formAlignRight">单位名称：<span class="required ">(*)</span></td>
 		<td colspan="4" class="RborderNone">
-			<span id="unitName" name="unitName" ng-bind="vm.model.shenBaoUnitInfoDto.unitName"></span>
+			<span id="unitName" ng-bind="vm.model.shenBaoUnitInfoDto.unitName"></span>
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">组织机构代码：</td>
 		<td colspan="2">
-			<span id="orgCode" name="orgCode" ng-bind="vm.model.shenBaoUnitInfoDto.orgCode"></span>			
+			<span id="orgCode" ng-bind="vm.model.shenBaoUnitInfoDto.orgCode"></span>			
 		</td>
 	    <td width="100" class="formAlignRight">电话号码：<span class="required">(*)</span></td>
 	    <td>
-	    	<span id="unitTel" name="unitTel" ng-bind="vm.model.shenBaoUnitInfoDto.unitTel"></span>
+	    	<span id="unitTel" ng-bind="vm.model.shenBaoUnitInfoDto.unitTel"></span>
 	    </td>
    </tr>
    <tr>
         <td class="formAlignRight">电子邮箱：<span class="required">(*)</span></td>
         <td colspan="2">
-        	<span id="unitEmail" name="unitEmail" ng-bind="vm.model.shenBaoUnitInfoDto.unitEmail"></span>
+        	<span id="unitEmail" ng-bind="vm.model.shenBaoUnitInfoDto.unitEmail"></span>
         </td>
         <td class="formAlignRight">传真号码：</td>
         <td>
-        	<span id="unitFax" name="unitFax" ng-bind="vm.model.shenBaoUnitInfoDto.unitFax"></span>
+        	<span id="unitFax" ng-bind="vm.model.shenBaoUnitInfoDto.unitFax"></span>
         </td>
    </tr>
 </table>
 		   
 <div class="bg-info text-info" style="padding: 10px;">常用申报信息</div>
-<table width="100%" class="table  table-bordered table-striped">		
+<table style="width:100%;" class="table  table-bordered table-striped">		
 	<tr>
 		<td width="150px;" class="formAlignRight">单位性质：<span class="required">(*)</span></td>
 		<td colspan="4">
-			<span id="unitProperty" name="unitProperty" ng-bind="vm.model.shenBaoUnitInfoDto.unitProperty" style="display:none"></span>
+			<span id="unitProperty" ng-bind="vm.model.shenBaoUnitInfoDto.unitProperty" style="display:none"></span>
 			<span ng-bind="vm.model.shenBaoUnitInfoDto.unitPropertyDesc"></span>
 		</td>
 	</tr>
@@ -276,63 +275,63 @@
 	    <td class="formAlignRight">单位地址：<span class="required">(*)</span></td>
 	    <td colspan="4">
 		    <span>光明新区</span>
-		    <span id="divisionId" name="divisionId" ng-bind="vm.model.shenBaoUnitInfoDto.divisionId" style="display:none"></span>
+		    <span id="divisionId" ng-bind="vm.model.shenBaoUnitInfoDto.divisionId" style="display:none"></span>
 		    <span ng-bind="vm.model.shenBaoUnitInfoDto.divisionDesc"></span>
-		    <span id="unitAddress" name="unitAddress" ng-bind="vm.model.shenBaoUnitInfoDto.unitAddress"></span>
+		    <span id="unitAddress" ng-bind="vm.model.shenBaoUnitInfoDto.unitAddress"></span>
 		</td>
 	 </tr>
 	 <tr>
 	    <td rowspan="3" class="formAlignRight">单位负责人：<span class="required">(*)</span></td>
 	    <td width="100px;">姓名</td>
 	    <td>
-	    	<span id="unitResPerson" name="unitResPerson" ng-bind="vm.model.shenBaoUnitInfoDto.unitResPerson"></span>
+	    	<span id="unitResPerson" ng-bind="vm.model.shenBaoUnitInfoDto.unitResPerson"></span>
 	    </td>
 	    <td width="100px;">电话号码</td>
 	    <td>
-	    	<span id="resPersonTel" name="resPersonTel" ng-bind="vm.model.shenBaoUnitInfoDto.resPersonTel"></span>
+	    	<span id="resPersonTel" ng-bind="vm.model.shenBaoUnitInfoDto.resPersonTel"></span>
 	    </td>
 	 </tr>
 	 <tr>
 	    <td>手机</td>	   
 	    <td>
-	    	<span id="resPersonMobile" name="resPersonMobile" ng-bind="vm.model.shenBaoUnitInfoDto.resPersonMobile"></span>
+	    	<span id="resPersonMobile" ng-bind="vm.model.shenBaoUnitInfoDto.resPersonMobile"></span>
 	    </td>
 	    <td>传真号码</td>
 	    <td>
-	    	<span id="resPersonFax" name="resPersonFax" ng-bind="vm.model.shenBaoUnitInfoDto.resPersonFax"></span>
+	    	<span id="resPersonFax" ng-bind="vm.model.shenBaoUnitInfoDto.resPersonFax"></span>
 	    </td>
 	 </tr>
 	  <tr>
 	    <td>Email</td>
 	    <td colspan="3">
-	    	<span id="resPersonEmail" name="resPersonEmail" ng-bind="vm.model.shenBaoUnitInfoDto.resPersonEmail"></span>		     
+	    	<span id="resPersonEmail" ng-bind="vm.model.shenBaoUnitInfoDto.resPersonEmail"></span>		     
 	    </td>
 	 </tr>	
 	<tr>
 	  <td rowspan="3" class="formAlignRight">项目联系人：<span class="required">(*)</span></td>
 	  <td>姓名</td>
 	  <td>
-	  	<span id="unitContactPerson" name="unitContactPerson" ng-bind="vm.model.shenBaoUnitInfoDto.unitContactPerson"></span>
+	  	<span id="unitContactPerson" ng-bind="vm.model.shenBaoUnitInfoDto.unitContactPerson"></span>
 	  </td>
 	  <td>电话号码</td>
 	  <td>
-	  	<span id="contactPersonTel" name="contactPersonTel" ng-bind="vm.model.shenBaoUnitInfoDto.contactPersonTel"></span>
+	  	<span id="contactPersonTel" ng-bind="vm.model.shenBaoUnitInfoDto.contactPersonTel"></span>
 	  </td>
 	</tr>
 	<tr>
 	  <td>手机</td>	
 	  <td>
-	  	<span id="contactPersonMobile" name="contactPersonMobile" ng-bind="vm.model.shenBaoUnitInfoDto.contactPersonMobile"></span>
+	  	<span id="contactPersonMobile" ng-bind="vm.model.shenBaoUnitInfoDto.contactPersonMobile"></span>
 	  </td>
 	  <td>传真号码</td>
 	  <td>
-	  	<span id="contactPersonFax" name="contactPersonFax" ng-bind="vm.model.shenBaoUnitInfoDto.contactPersonFax"></span>	    	
+	  	<span id="contactPersonFax" ng-bind="vm.model.shenBaoUnitInfoDto.contactPersonFax"></span>	    	
 	  </td>
 	</tr>
 	<tr>
 	  <td>Email</td>
 	  <td colspan="3">
-	  	<span id="contactPersonEmail" name="contactPersonEmail" ng-bind="vm.model.shenBaoUnitInfoDto.contactPersonEmail"></span>
+	  	<span id="contactPersonEmail" ng-bind="vm.model.shenBaoUnitInfoDto.contactPersonEmail"></span>
 	  </td>
 	</tr>	
 </table>

@@ -12,9 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 /**
- * 月报表
- *
- *
+ * @Description: 月报表
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
  */
 @Entity
 @Table(name="cs_monthReport")

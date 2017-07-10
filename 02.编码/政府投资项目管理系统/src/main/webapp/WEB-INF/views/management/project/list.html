@@ -12,7 +12,7 @@
 			<button class="btn btn-xs btn-primary" ng-click="{2}"><span class="glyphicon glyphicon-question-sign"></span>是否填报</button>
 	  </script>
 	  <div class="toolbar">
-	  	<button class="btn btn-sm btn-primary" ng-click="vm.addProject()"><span class="glyphicon glyphicon-plus"></span>新增项目</a>
+	  	<button class="btn btn-sm btn-primary" ng-click="vm.addProject()"><span class="glyphicon glyphicon-plus"></span>新增项目</button>
 	  </div> 
      <form id="form" name="form">          
          <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
@@ -50,9 +50,9 @@
 			</div> 
 			<div class="modal-body">
 				<span style="display:none" ng-bind="vm.model.id"></span>
-				<lable>是</lable>
+				<label>是</label>
 				<input type="radio" name="isMonthReport" value="true" ng-checked="vm.model.isMonthReport==1" ng-model="vm.model.isMonthReport"/>
-				<lable>否</lable>
+				<label>否</label>
 				<input type="radio" name="isMonthReport" value="false" ng-checked="vm.model.isMonthReport==0" ng-model="vm.model.isMonthReport"/>
 			</div> 
 			<div class="modal-footer"> 

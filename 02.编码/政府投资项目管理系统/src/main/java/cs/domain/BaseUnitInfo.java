@@ -2,6 +2,12 @@ package cs.domain;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+/**
+ * @Description:单位的基本信息 
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @MappedSuperclass
 public class BaseUnitInfo extends BaseEntity {
 		//begin#单位基本信息

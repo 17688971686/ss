@@ -10,6 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+/**
+ * @Description: 申报信息表
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @Entity
 @Table(name="cs_shenBaoInfo")
 public class ShenBaoInfo extends BaseProject{

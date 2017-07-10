@@ -9,7 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
+/**
+ * @Description: 项目信息表
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @Entity
 @Table(name="cs_project")
 public class Project extends BaseProject {

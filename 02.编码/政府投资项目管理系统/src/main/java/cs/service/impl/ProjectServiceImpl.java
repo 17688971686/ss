@@ -24,24 +24,29 @@ import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ProjectService;
-
+/**
+ * @Description: 项目信息服务层
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @Service
 public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project, String> implements ProjectService {
 	private static Logger logger = Logger.getLogger(ProjectServiceImpl.class);
-	
-	@Autowired
-	private IMapper<AttachmentDto, Attachment> attachmentMapper;
+		
 	@Autowired
 	private IRepository<Attachment, String> attachmentRepo;
 	@Autowired
-	private IMapper<MonthReportDto, MonthReport> monthReportMapper;
+	private IRepository<BasicData, String> basicDataRepo;
 	@Autowired
 	private IRepository<MonthReport, String> monthReportRepo;
 	@Autowired
-	private IMapper<ProjectDto, Project> projectMapper;
+	private IMapper<AttachmentDto, Attachment> attachmentMapper;
 	@Autowired
-	private IRepository<BasicData, String> basicDataRepo;
-
+	private IMapper<MonthReportDto, MonthReport> monthReportMapper;
+	@Autowired
+	private IMapper<ProjectDto, Project> projectMapper;
+	
 	
 	@Override
 	@Transactional
@@ -50,6 +55,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		return super.get(odataObj);		
 	}
 
+	
 	@Override
 	@Transactional
 	public Project update(ProjectDto projectDto,String id) {		

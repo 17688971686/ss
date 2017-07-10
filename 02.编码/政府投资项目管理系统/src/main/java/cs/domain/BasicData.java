@@ -5,9 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 /**
- * 基础数据表
- *
- *
+ * @Description: 基础数据表
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
  */
 @Entity
 @Table(name="cs_basicData")
@@ -27,7 +28,7 @@ public class BasicData extends BaseEntity {
 	@Column(columnDefinition="varchar(255)  COMMENT '备注'")
 	private String comment;
 	
-	@Column(columnDefinition="int(4)  COMMENT '数量'")
+	@Column(columnDefinition="int(4)  COMMENT '该行业申报项目数量'")
 	private Integer count;
 	
 	@Column(columnDefinition="bit  COMMENT '是否默认'")

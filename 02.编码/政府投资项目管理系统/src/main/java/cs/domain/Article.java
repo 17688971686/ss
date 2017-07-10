@@ -10,11 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 /**
- * 文章表
- *
- *
+ * @Description:文章表 
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
  */
 @Entity
 @Table(name="cs_article")

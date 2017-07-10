@@ -7,7 +7,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+/**
+ * @Description: 日志表
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @Entity
 @Table(name="cs_log")
 public class Log {

@@ -5,7 +5,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import cs.domain.BaseEntity;
-
+/**
+ * @Description: 系统配置表
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @Entity
 @Table(name = "cs_sysConfig")
 public class SysConfig extends BaseEntity {

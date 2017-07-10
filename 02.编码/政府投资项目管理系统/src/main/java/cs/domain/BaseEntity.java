@@ -6,20 +6,25 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-
-
+/**
+ * @Description: 基础数据
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @MappedSuperclass
 public abstract class BaseEntity {
 	@Temporal(TemporalType.TIMESTAMP)	
 	@Column(updatable=false,columnDefinition="datetime  COMMENT '创建时间'")
 	private Date createdDate=new Date();
+	
 	@Column(updatable=false,columnDefinition="varchar(255)  COMMENT '创建者'")
 	private String createdBy="";
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(columnDefinition="datetime  COMMENT '更新时间'")
 	private Date modifiedDate=new Date();
+	
 	@Column(columnDefinition="varchar(255)  COMMENT '更新者'")
 	private String modifiedBy="";
 	

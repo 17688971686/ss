@@ -14,7 +14,12 @@ import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ArticleService;
-
+/**
+ * @Description:文章服务层 
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @Service
 public class ArticleServiceImpl extends AbstractServiceImpl<ArticleDto, Article, String> implements ArticleService {
 

@@ -10,7 +10,12 @@ import cs.model.PageModelDto;
 import cs.model.DomainDto.TaskRecordDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.TaskRecordService;
-
+/**
+ * @Description: 任务流程记录信息服务层
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @Service
 public class TaskRecordServiceImpl extends AbstractServiceImpl<TaskRecordDto, TaskRecord, String> implements TaskRecordService {
 	private static Logger logger = Logger.getLogger(TaskRecordServiceImpl.class);

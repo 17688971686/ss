@@ -18,17 +18,22 @@ import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.TaskHeadService;
-
+/**
+ * @Description: 任务信息服务层
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @Service
 public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHead, String> implements TaskHeadService {
 	private static Logger logger = Logger.getLogger(TaskHeadServiceImpl.class);
 	
 	@Autowired
-	private IMapper<TaskRecordDto, TaskRecord> taskRecordMapper;	
-	@Autowired
 	private IRepository<ShenBaoInfo, String> shenBaoInfoRepo;	
 	@Autowired
-	private IRepository<MonthReport, String> monthReportRepo;	
+	private IRepository<MonthReport, String> monthReportRepo;
+	@Autowired
+	private IMapper<TaskRecordDto, TaskRecord> taskRecordMapper;
 	@Autowired
 	private ICurrentUser currentUser;	
 	

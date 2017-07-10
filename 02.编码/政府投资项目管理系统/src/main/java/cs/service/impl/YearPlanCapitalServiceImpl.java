@@ -10,7 +10,12 @@ import cs.model.PageModelDto;
 import cs.model.DomainDto.YearPlanCapitalDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.YearPlanCapitalService;
-
+/**
+ * @Description: 年度计划编制服务层
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @Service
 public class YearPlanCapitalServiceImpl extends AbstractServiceImpl<YearPlanCapitalDto,YearPlanCapital,String> implements YearPlanCapitalService {
 	private static Logger logger = Logger.getLogger(YearPlanCapitalServiceImpl.class);

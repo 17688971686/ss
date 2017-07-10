@@ -37,13 +37,12 @@ public class AbstractRepository<T,ID extends Serializable> implements IRepositor
 		
 	}
 	
-	
-	
 	@Override
 	public List<T> findAll() {
 		logger.debug("findAll");
 		return this.findByCriteria();
 	}
+	
 	@Override
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	public List<T> findByCriteria(Criterion ... criterion){
@@ -56,6 +55,7 @@ public class AbstractRepository<T,ID extends Serializable> implements IRepositor
 		return crit.list();
 		
 	}
+	
 	@Override
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	public List<T> findByOdata(ODataObj oDataObj){
@@ -67,6 +67,7 @@ public class AbstractRepository<T,ID extends Serializable> implements IRepositor
 			return crit.list();
 		}
 	}
+	
 	@Override
 	public T save(T entity) {
 		logger.debug("save");

@@ -1,7 +1,5 @@
 package cs.model.DtoMapper;
 
-
-
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +11,14 @@ import cs.domain.Attachment;
 import cs.model.DomainDto.ArticleCommentDto;
 import cs.model.DomainDto.ArticleDto;
 import cs.model.DomainDto.AttachmentDto;
+/**
+ * @Description: 文章实体类与数据库资源转换类
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @Component
 public class ArticleMapper implements IMapper<ArticleDto,Article> {
-
 	@Autowired
 	IMapper<ArticleCommentDto, ArticleComment> articleCommentMapper;
 	@Autowired
@@ -23,49 +26,55 @@ public class ArticleMapper implements IMapper<ArticleDto,Article> {
 	
 	@Override
 	public ArticleDto toDto(Article entity) {
-		// TODO Auto-generated method stub
 		ArticleDto dto=new ArticleDto();
-		dto.setCreatedBy(entity.getCreatedBy());
-		dto.setTitle(entity.getTitle());
-		dto.setItemOrder(entity.getItemOrder());
-		dto.setModifiedDate(entity.getModifiedDate());
-		dto.setModifiedBy(entity.getModifiedBy());
-		dto.setSlideImg(entity.getSlideImg());	
-		dto.setPreviewImg(entity.getPreviewImg());
-		dto.setType(entity.getType());
-		dto.setContent(entity.getContent());
-		dto.setCreatedDate(entity.getCreatedDate());
-		dto.setId(entity.getId());
-		
-		//begin#关联
-		entity.getAttachments().forEach(x->{
-			dto.getAttachmentDtos().add(attachmentMapper.toDto(x));
-		});
-		entity.getArticleComments().forEach(x->{
-			dto.getArticleCommentDtos().add(articleCommentMapper.toDto(x));
-		});
-		
+		if(entity !=null){
+			//文章信息
+			dto.setId(entity.getId());
+			dto.setTitle(entity.getTitle());
+			dto.setType(entity.getType());
+			dto.setContent(entity.getContent());
+			dto.setSlideImg(entity.getSlideImg());	
+			dto.setPreviewImg(entity.getPreviewImg());		
+			//基础信息
+			dto.setCreatedDate(entity.getCreatedDate());
+			dto.setModifiedDate(entity.getModifiedDate());
+			dto.setCreatedBy(entity.getCreatedBy());
+			dto.setModifiedBy(entity.getModifiedBy());
+			dto.setItemOrder(entity.getItemOrder());
+			
+			//begin#关联信息
+			//附件
+			entity.getAttachments().forEach(x->{
+				dto.getAttachmentDtos().add(attachmentMapper.toDto(x));
+			});
+			//文章评论
+			entity.getArticleComments().forEach(x->{
+				dto.getArticleCommentDtos().add(articleCommentMapper.toDto(x));
+			});
+		}	
 		return dto;
 	}
 
 	@Override
-	public Article buildEntity(ArticleDto dto, Article entity) {	
-		if(entity.getId()==null||entity.getId().isEmpty()){
-			entity.setId(UUID.randomUUID().toString());			
+	public Article buildEntity(ArticleDto dto, Article entity) {
+		if(dto !=null && entity !=null){
+			if(entity.getId()==null||entity.getId().isEmpty()){
+				entity.setId(UUID.randomUUID().toString());			
+			}
+			//文章信息
+			entity.setTitle(dto.getTitle());
+			entity.setSlideImg(dto.getSlideImg());	
+			entity.setPreviewImg(dto.getPreviewImg());
+			entity.setType(dto.getType());
+			entity.setContent(dto.getContent());
+			//基础信息
+			entity.setCreatedDate(dto.getCreatedDate());
+			entity.setModifiedDate(dto.getModifiedDate());
+			entity.setModifiedBy(dto.getModifiedBy());
+			entity.setCreatedBy(dto.getCreatedBy());
+			entity.setItemOrder(dto.getItemOrder());
+			//begin#关联信息：外部根据需要自己创建			
 		}
-		entity.setCreatedBy(dto.getCreatedBy());
-		entity.setTitle(dto.getTitle());
-		entity.setItemOrder(dto.getItemOrder());
-		entity.setModifiedDate(dto.getModifiedDate());
-		entity.setModifiedBy(dto.getModifiedBy());
-		entity.setSlideImg(dto.getSlideImg());	
-		entity.setPreviewImg(dto.getPreviewImg());
-		entity.setType(dto.getType());
-		entity.setContent(dto.getContent());
-		entity.setCreatedDate(dto.getCreatedDate());
-		
-		//begin#关联信息：外部根据需要自己创建
-		return entity;
+		return entity;		
 	}
-
 }

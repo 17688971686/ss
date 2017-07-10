@@ -4,18 +4,20 @@ import java.util.Optional;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import cs.common.ICurrentUser;
 import cs.domain.UserUnitInfo;
 import cs.domain.UserUnitInfo_;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.UserUnitInfoDto;
-import cs.model.DtoMapper.IMapper;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.UserUnitInfoService;
+/**
+ * @Description: 用户单位信息服务层
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @Service
 public class UserUnitInfoServiceImpl extends AbstractServiceImpl<UserUnitInfoDto, UserUnitInfo, String> implements UserUnitInfoService {
 	private static Logger logger = Logger.getLogger(UserUnitInfoServiceImpl.class);

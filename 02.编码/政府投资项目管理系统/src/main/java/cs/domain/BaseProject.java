@@ -4,6 +4,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+/**
+ * @Description: 项目的基础信息
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @MappedSuperclass
 public class BaseProject extends BaseEntity
 {

@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cs.domain.YearPlan;
-
-
+/**
+ * @Description: 年度计划实体类
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 public class YearPlanDto extends YearPlan {
 	List<YearPlanCapitalDto> yearPlanCapitalDtos=new ArrayList<>();
 

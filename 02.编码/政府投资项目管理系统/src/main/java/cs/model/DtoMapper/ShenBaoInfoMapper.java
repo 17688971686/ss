@@ -11,16 +11,19 @@ import cs.domain.ShenBaoUnitInfo;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.ShenBaoUnitInfoDto;
-
+/**
+ * @Description: 申报信息实体类与数据库资源转换类
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @Component
 public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 	@Autowired
 	IMapper<ShenBaoUnitInfoDto, ShenBaoUnitInfo> shenBaoUnitInfoMapper;
 	@Autowired
 	IMapper<AttachmentDto, Attachment> attachmentMapper;
-	
-	
-	
+		
 	@Override
 	public ShenBaoInfoDto toDto(ShenBaoInfo entity) {
 		ShenBaoInfoDto shenBaoInfoDto=new ShenBaoInfoDto();
@@ -49,7 +52,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setEndDate(entity.getEndDate());
 			shenBaoInfoDto.setUnitName(entity.getUnitName());
 			shenBaoInfoDto.setRemark(entity.getRemark());
-			
+			//资金来源
 			shenBaoInfoDto.setCapitalQCZ_ggys(entity.getCapitalQCZ_ggys());
 			shenBaoInfoDto.setCapitalQCZ_gtzj(entity.getCapitalQCZ_gtzj());
 			shenBaoInfoDto.setCapitalSCZ_gtzj(entity.getCapitalSCZ_gtzj());
@@ -60,14 +63,13 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setCapitalOther(entity.getCapitalOther());
 			shenBaoInfoDto.setCapitalOtherType(entity.getCapitalOtherType());
 			shenBaoInfoDto.setCapitalOtherDescription(entity.getCapitalOtherDescription());
-			
+			//批复信心
 			shenBaoInfoDto.setPifuJYS_date(entity.getPifuJYS_date());
 			shenBaoInfoDto.setPifuKXXYJBG_date(entity.getPifuKXXYJBG_date());
 			shenBaoInfoDto.setPifuCBSJYGS_date(entity.getPifuCBSJYGS_date());
 			shenBaoInfoDto.setPifuKXXYJBG_wenhao(entity.getPifuKXXYJBG_wenhao());
 			shenBaoInfoDto.setPifuCBSJYGS_wenhao(entity.getPifuCBSJYGS_wenhao());
-			shenBaoInfoDto.setPifuJYS_wenhao(entity.getPifuJYS_wenhao());			
-												
+			shenBaoInfoDto.setPifuJYS_wenhao(entity.getPifuJYS_wenhao());															
 			//begin#年度计划
 			shenBaoInfoDto.setProjectConstrChar(entity.getProjectConstrChar());
 			shenBaoInfoDto.setPlanYear(entity.getPlanYear());
@@ -76,16 +78,14 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setYearConstructionTask(entity.getYearConstructionTask());
 			shenBaoInfoDto.setYearConstructionContent(entity.getYearConstructionContent());
 			shenBaoInfoDto.setYearPlanCapitalId(entity.getYearPlanCapitalId());
-						
+			//基础数据		
 			shenBaoInfoDto.setCreatedDate(entity.getCreatedDate());
 			shenBaoInfoDto.setModifiedDate(entity.getModifiedDate());
 			shenBaoInfoDto.setModifiedBy(entity.getModifiedBy());
 			shenBaoInfoDto.setCreatedBy(entity.getCreatedBy());
-			shenBaoInfoDto.setItemOrder(entity.getItemOrder());
-			
+			shenBaoInfoDto.setItemOrder(entity.getItemOrder());			
 			//begin#审批相关
-			shenBaoInfoDto.setProcessState(entity.getProcessState());
-			
+			shenBaoInfoDto.setProcessState(entity.getProcessState());			
 			//begin#财政局
 			shenBaoInfoDto.setFunctionSubjects(entity.getFunctionSubjects());
 			shenBaoInfoDto.setEconClassSubjects(entity.getEconClassSubjects());
@@ -132,7 +132,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setEndDate(shenBaoInfoDto.getEndDate());		
 			shenBaoInfo.setUnitName(shenBaoInfoDto.getUnitName());
 			shenBaoInfo.setRemark(shenBaoInfoDto.getRemark());
-			
+			//资金来源
 			shenBaoInfo.setCapitalQCZ_gtzj(shenBaoInfoDto.getCapitalQCZ_gtzj());
 			shenBaoInfo.setCapitalQCZ_ggys(shenBaoInfoDto.getCapitalQCZ_ggys());
 			shenBaoInfo.setCapitalSCZ_gtzj(shenBaoInfoDto.getCapitalSCZ_gtzj());
@@ -143,21 +143,14 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setCapitalOther(shenBaoInfoDto.getCapitalOther());
 			shenBaoInfo.setCapitalOtherType(shenBaoInfoDto.getCapitalOtherType());
 			shenBaoInfo.setCapitalOtherDescription(shenBaoInfoDto.getCapitalOtherDescription());
-			
+			//批复信息
 			shenBaoInfo.setPifuCBSJYGS_date(shenBaoInfoDto.getPifuCBSJYGS_date());
 			shenBaoInfo.setPifuCBSJYGS_wenhao(shenBaoInfoDto.getPifuCBSJYGS_wenhao());
 			shenBaoInfo.setPifuKXXYJBG_date(shenBaoInfoDto.getPifuKXXYJBG_date());			
 			shenBaoInfo.setPifuKXXYJBG_wenhao(shenBaoInfoDto.getPifuKXXYJBG_wenhao());			
 			shenBaoInfo.setPifuJYS_wenhao(shenBaoInfoDto.getPifuJYS_wenhao());
 			shenBaoInfo.setPifuJYS_date(shenBaoInfoDto.getPifuJYS_date());
-			shenBaoInfo.setModifiedDate(shenBaoInfoDto.getModifiedDate());
-																																		
-			shenBaoInfo.setModifiedBy(shenBaoInfoDto.getModifiedBy());
-			shenBaoInfo.setCreatedBy(shenBaoInfoDto.getCreatedBy());
-			shenBaoInfo.setCreatedDate(shenBaoInfoDto.getCreatedDate());
-			shenBaoInfo.setModifiedDate(shenBaoInfoDto.getModifiedDate());
-			shenBaoInfo.setItemOrder(shenBaoInfoDto.getItemOrder());
-									
+			shenBaoInfo.setModifiedDate(shenBaoInfoDto.getModifiedDate());								
 			//begin#年度计划
 			shenBaoInfo.setProjectConstrChar(shenBaoInfoDto.getProjectConstrChar());
 			shenBaoInfo.setPlanYear(shenBaoInfoDto.getPlanYear());			
@@ -165,14 +158,19 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setYearInvestApproval(shenBaoInfoDto.getYearInvestApproval());//安排年度投资
 			shenBaoInfo.setYearPlanCapitalId(shenBaoInfoDto.getYearPlanCapitalId());//安排年度投资Id
 			shenBaoInfo.setYearConstructionTask(shenBaoInfoDto.getYearConstructionTask());
-			shenBaoInfo.setYearConstructionContent(shenBaoInfoDto.getYearConstructionContent());
-			
+			shenBaoInfo.setYearConstructionContent(shenBaoInfoDto.getYearConstructionContent());			
 			//begin#审批相关
 			shenBaoInfo.setProcessState(shenBaoInfoDto.getProcessState());
-			
 			//begin#财政相关
 			shenBaoInfo.setFunctionSubjects(shenBaoInfoDto.getFunctionSubjects());
 			shenBaoInfo.setEconClassSubjects(shenBaoInfoDto.getEconClassSubjects());
+			//基础数据																														
+			shenBaoInfo.setModifiedBy(shenBaoInfoDto.getModifiedBy());
+			shenBaoInfo.setCreatedBy(shenBaoInfoDto.getCreatedBy());
+			shenBaoInfo.setCreatedDate(shenBaoInfoDto.getCreatedDate());
+			shenBaoInfo.setModifiedDate(shenBaoInfoDto.getModifiedDate());
+			shenBaoInfo.setItemOrder(shenBaoInfoDto.getItemOrder());
+			//begin#关联信息：外部根据需要自己创建
 		}
 		return shenBaoInfo;
 		

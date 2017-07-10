@@ -27,29 +27,30 @@ import cs.repository.odata.ODataObj;
 import cs.service.framework.SysService;
 import cs.service.framework.UserServiceImpl;
 import cs.service.interfaces.MonthReportService;
-
+/**
+ * @Description: 月报服务层
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @Service
 public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, MonthReport, String> implements MonthReportService {
 	private static Logger logger = Logger.getLogger(UserServiceImpl.class);
 	// 依赖注入持久层
 	@Autowired
 	private  IRepository<MonthReport, String> monthReportRepo;
-
-	@Autowired
-	private SysService sysService;
 	@Autowired
 	private IRepository<Project, String> projectRepo;
 	@Autowired
 	private IRepository<TaskHead, String> taskHeadRepo;
 	@Autowired
+	private IMapper<MonthReportDto, MonthReport> monthReportMapper;
+	@Autowired
+	private SysService sysService;
+	@Autowired
 	private ICurrentUser currentUser;
 	
-	@Autowired
-	IMapper<MonthReportDto, MonthReport> monthReportMapper;
-
-	/**
-	 * 分页查询月报数据
-	 */
+	
 	@Override
 	@Transactional
 	public PageModelDto<MonthReportDto> get(ODataObj odataObj) {
@@ -70,8 +71,7 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 				.stream()
 				.findFirst();
 		if (!monthReportQuery.isPresent()) {// 不存在则创建
-			monthReport = new MonthReport();
-			createMonthReport(monthReportDto, monthReport);
+			createMonthReport(monthReportDto);
 		} else {
 			monthReport = monthReportQuery.get();
 			updateMonthReport(monthReportDto, monthReport);
@@ -79,12 +79,8 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 
 	}
 
-	private void createMonthReport(MonthReportDto monthReportDto, MonthReport monthReport) {
-		monthReportMapper.buildEntity(monthReportDto, monthReport);
-		monthReport.setCreatedBy(currentUser.getLoginName());
-		monthReport.setModifiedBy(currentUser.getLoginName());
-		monthReport.setCreatedDate(new Date());
-
+	private void createMonthReport(MonthReportDto monthReportDto) {
+		MonthReport monthReport = super.create(monthReportDto);
 		// 从项目表进行保存
 		Project project = projectRepo.findById(monthReportDto.getProjectId());
 		project.getMonthReports().add(monthReport);
@@ -101,6 +97,8 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 		monthReport.getMonthReportProblems().clear();
 
 		monthReportMapper.buildEntity(monthReportDto, monthReport);
+		monthReport.setModifiedBy(currentUser.getLoginName());
+		monthReport.setModifiedDate(new Date());
 		monthReportRepo.save(monthReport);
 		logger.info("更新月报数据");
 	}
@@ -149,8 +147,7 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 
 	@Override
 	@Transactional
-	public void changeMonthReport(MonthReportDto monthReportDto) {
-		
+	public void changeMonthReport(MonthReportDto monthReportDto) {		
 		Criterion criterion1 = Restrictions.eq(MonthReport_.projectId.getName(), monthReportDto.getProjectId());
 		Criterion criterion2 = Restrictions.eq(MonthReport_.submitYear.getName(), monthReportDto.getSubmitYear());
 		Criterion criterion3 = Restrictions.eq(MonthReport_.submitMonth.getName(), monthReportDto.getSubmitMonth());
@@ -170,7 +167,7 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 			monthReport = monthReportQuerys.get();
 			monthReport.setIsLatestVersion(false);
 					
-			monthReportRepo.save(monthReport);
+			super.repository.save(monthReport);
 			
 			//begin#新增
 			monthReport = new MonthReport();
@@ -186,7 +183,7 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 			projectRepo.save(project);
 			
 			//end#修改上条数据
-		}else{                                 //再次点击修改时，有两条数据，修改状态为1的
+		}else{//再次点击修改时，有两条数据，修改状态为1的
 			project.getMonthReports().forEach(x->{
 				if(x.getIsLatestVersion() == true 
 						&& x.getProjectId().equals(monthReportDto.getProjectId()) 
@@ -198,7 +195,8 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 					x.getMonthReportProblems().clear();
 
 					monthReportMapper.buildEntity(monthReportDto, x);
-					monthReportRepo.save(x);
+					super.repository.save(x);
+					logger.info("更新月报数据");
 				}
 			});
 		}

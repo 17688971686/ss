@@ -11,7 +11,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import cs.domain.BaseEntity;
-
+/**
+ * @Description: 用户表
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @Entity
 @Table(name="cs_user")
 public class User extends BaseEntity {

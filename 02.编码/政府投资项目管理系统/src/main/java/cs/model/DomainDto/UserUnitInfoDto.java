@@ -1,7 +1,12 @@
 package cs.model.DomainDto;
 
 import cs.domain.UserUnitInfo;
-
+/**
+ * @Description:用户单位信息实体类 
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 public class UserUnitInfoDto extends UserUnitInfo {
 	private String unitPropertyDesc;
 	private String divisionDesc;

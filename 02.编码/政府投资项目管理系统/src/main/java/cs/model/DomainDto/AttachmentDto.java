@@ -1,11 +1,11 @@
 package cs.model.DomainDto;
 
 import cs.domain.Attachment;
-
 /**
- * 附件实体类
- * @author cx
- * @Date 2017-05-03
+ * @Description: 附件实体类
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
  */
 public class AttachmentDto extends Attachment{
 	

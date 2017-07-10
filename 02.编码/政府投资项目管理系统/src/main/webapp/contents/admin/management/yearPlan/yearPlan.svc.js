@@ -347,7 +347,7 @@
 						filterable : false
 					},
 					{
-						field : "",
+						field : "beginDate",
 						title : "开工/竣工时间",
 						width : 100,
 						template:function(item){
@@ -422,12 +422,17 @@
 			// End:column
 			
 			var excelExport = function(e) {
-				    var sheet = e.workbook.sheets[0];
-
-				    for (var i = 1; i < sheet.rows.length; i++) {
-				      var row = sheet.rows[i];							    
-					  row.cells[7].value = common.formatDate(row.cells[7].value);			      
-				    }
+					var data = e.data;
+					var sheet = e.workbook.sheets[0];
+					var template = this.columns[8].template;
+					
+					for(var j=0;j<data.length;j++){
+						var timeFormat = template(data[j]);
+						for (var i = 1; i < sheet.rows.length; i++) {
+						      var row = sheet.rows[i];
+							  row.cells[7].value = 	timeFormat;		      
+						    }
+					}				    
 				  };
 
 			vm.planGridOptions = {

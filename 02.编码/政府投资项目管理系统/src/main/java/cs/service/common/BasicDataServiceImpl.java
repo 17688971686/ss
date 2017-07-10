@@ -18,8 +18,6 @@ import cs.domain.BasicData_;
 import cs.model.DomainDto.BasicDataDto;
 import cs.model.DtoMapper.BasicDataMapper;
 import cs.repository.common.BasicDataRepo;
-import cs.service.impl.AbstractServiceImpl;
-
 
 @Service
 public class BasicDataServiceImpl implements BasicDataService {

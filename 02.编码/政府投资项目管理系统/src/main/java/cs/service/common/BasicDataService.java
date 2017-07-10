@@ -1,10 +1,8 @@
 package cs.service.common;
 
 import java.util.List;
-
 import cs.domain.BasicData;
 import cs.model.DomainDto.BasicDataDto;
-import cs.service.interfaces.IService;
 
 public interface BasicDataService {
 	String getDescriptionById(String id);

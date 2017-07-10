@@ -22,7 +22,6 @@ public class ShenBaoController {
 	private String ctrl ="management/shenbao";
 	@Autowired
 	private ShenBaoInfoService shenBaoInfoService;
-	
 	@Autowired
 	private BasicDataService basicDataService;
 	

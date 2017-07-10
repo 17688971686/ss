@@ -9,7 +9,12 @@ import cs.domain.Project;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.MonthReportDto;
 import cs.model.DomainDto.ProjectDto;
-
+/**
+ * @Description: 项目信息实体类与数据库资源转换类
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @Component
 public class ProjectMapper implements IMapper<ProjectDto, Project> {
 	@Autowired
@@ -17,9 +22,11 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 	@Autowired
 	IMapper<MonthReportDto, MonthReport> monthReportMapper;
 	
+	@Override
 	public  ProjectDto toDto(Project project){
 		ProjectDto projectDto=new ProjectDto();
 		if(project!=null){
+			//项目信息
 			projectDto.setId(project.getId());
 			projectDto.setProjectNumber(project.getProjectNumber());//项目代码
 			projectDto.setProjectName(project.getProjectName());//项目名称
@@ -43,7 +50,7 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			projectDto.setEndDate(project.getEndDate());//开工时间
 			projectDto.setBeginDate(project.getBeginDate());//竣工时间
 			projectDto.setUnitName(project.getUnitName());//项目所属单位名称-对应用户单位中的userName
-						
+			//资金来源			
 			projectDto.setCapitalQCZ_gtzj(project.getCapitalQCZ_gtzj());
 			projectDto.setCapitalQCZ_ggys(project.getCapitalQCZ_ggys());
 			projectDto.setCapitalSCZ_gtzj(project.getCapitalSCZ_gtzj());
@@ -54,21 +61,20 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			projectDto.setCapitalOther(project.getCapitalOther());
 			projectDto.setCapitalOtherType(project.getCapitalOtherType());
 			projectDto.setCapitalOtherDescription(project.getCapitalOtherDescription());
-			
+			//批复信息
 			projectDto.setPifuCBSJYGS_date(project.getPifuCBSJYGS_date());
 			projectDto.setPifuKXXYJBG_date(project.getPifuKXXYJBG_date());
 			projectDto.setPifuJYS_date(project.getPifuJYS_date());
 			projectDto.setPifuCBSJYGS_wenhao(project.getPifuCBSJYGS_wenhao());
 			projectDto.setPifuKXXYJBG_wenhao(project.getPifuKXXYJBG_wenhao());
 			projectDto.setPifuJYS_wenhao(project.getPifuJYS_wenhao());
-			
+			//基础数据
 			projectDto.setModifiedDate(project.getModifiedDate());
 			projectDto.setModifiedBy(project.getModifiedBy());
 			projectDto.setCreatedBy(project.getCreatedBy());
 			projectDto.setCreatedDate(project.getCreatedDate());
 			projectDto.setItemOrder(project.getItemOrder());
-			
-						
+								
 			//begin#关联信息
 			//附件
 			project.getAttachments().stream().forEach(x->{
@@ -83,12 +89,13 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 		return projectDto;
 	}
 	
+	@Override
 	public Project  buildEntity(ProjectDto projectDto,Project project){
-		if(projectDto!=null&&project!=null){
-			//项目基本信息
+		if(projectDto!=null&&project!=null){			
 			if(project.getId()==null||project.getId().isEmpty()){
 				project.setId(UUID.randomUUID().toString());
 			}
+			//项目基本信息
 			project.setProjectNumber(projectDto.getProjectNumber());
 			project.setUnitName(projectDto.getUnitName());
 			project.setProjectName(projectDto.getProjectName());
@@ -135,6 +142,7 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setModifiedBy(projectDto.getModifiedBy());
 			project.setCreatedBy(projectDto.getCreatedBy());
 			project.setItemOrder(projectDto.getItemOrder());
+			//begin#关联信息：外部根据需要自己创建
 		}
 		return project;
 	}

@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cs.domain.ShenBaoInfo;
-
+/**
+ * @Description: 申报信息实体类
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 public class ShenBaoInfoDto extends ShenBaoInfo {
 	//项目阶段
 	private String projectStageDesc;

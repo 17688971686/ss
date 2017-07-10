@@ -6,6 +6,12 @@ import org.springframework.stereotype.Component;
 
 import cs.domain.UserUnitInfo;
 import cs.model.DomainDto.UserUnitInfoDto;
+/**
+ * @Description: 用户单位信息实体类与数据库资源转换类
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @Component
 public class UserUnitInfoMapper implements IMapper<UserUnitInfoDto, UserUnitInfo>{
 	public UserUnitInfoDto toDto(UserUnitInfo unitInfo) {

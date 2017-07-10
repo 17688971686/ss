@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import cs.common.ICurrentUser;
 import cs.common.SQLConfig;
-import cs.domain.Attachment;
 import cs.domain.ShenBaoInfo;
 import cs.domain.YearPlan;
 import cs.domain.YearPlanCapital;
@@ -25,24 +24,29 @@ import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.interfaces.YearPlanService;
-
+/**
+ * @Description: 年度计划服务层
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @Service
 public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPlan, String>implements YearPlanService {
 	private static Logger logger = Logger.getLogger(YearPlanServiceImpl.class);
-	@Autowired
-	private IRepository<YearPlan, String> yearPlanRepo;
+
 	@Autowired
 	private IRepository<YearPlanCapital, String> yearPlanCapitalRepo;
 	@Autowired
 	private IRepository<ShenBaoInfo, String> shenbaoInfoRepo;
 	@Autowired
-	private ICurrentUser currentUser;
-	@Autowired
-	private BasicDataService basicDataService;
-	@Autowired
 	private IMapper<YearPlanCapitalDto, YearPlanCapital> yearPlanCapitalMapper;
 	@Autowired
 	private IMapper<ShenBaoInfoDto, ShenBaoInfo> shenbaoInfoMapper;
+	@Autowired
+	private ICurrentUser currentUser;
+	@Autowired
+	private BasicDataService basicDataService;
+	
 
 	@Override
 	@Transactional

@@ -2,7 +2,12 @@ package cs.domain.framework;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-
+/**
+ * @Description: 请求权限的封装
+ * @author: cx
+ * @Date：2017年7月10日
+ * @version：0.1
+ */
 @Embeddable
 public class Resource {	
 	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '资源名称'")
