@@ -1,22 +1,30 @@
 package cs.service.impl;
 
+
 import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
+import cs.common.Util;
 import cs.domain.MonthReport;
 import cs.domain.ShenBaoInfo;
 import cs.domain.TaskHead;
 import cs.domain.TaskRecord;
+import cs.domain.framework.SysConfig;
+import cs.domain.framework.SysConfig_;
 import cs.model.PageModelDto;
+import cs.model.SendMsg;
 import cs.model.DomainDto.TaskHeadDto;
 import cs.model.DomainDto.TaskRecordDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
+import cs.service.common.BasicDataService;
 import cs.service.interfaces.TaskHeadService;
 /**
  * @Description: 任务信息服务层
@@ -33,9 +41,13 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 	@Autowired
 	private IRepository<MonthReport, String> monthReportRepo;
 	@Autowired
+	private IRepository<SysConfig, String> sysConfigRepo;
+	@Autowired
 	private IMapper<TaskRecordDto, TaskRecord> taskRecordMapper;
 	@Autowired
-	private ICurrentUser currentUser;	
+	private ICurrentUser currentUser;
+	@Autowired
+	private BasicDataService basicDataService;
 	
 	@Override
 	@Transactional
@@ -64,6 +76,14 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 	@Override
 	@Transactional
 	public void handle(String taskId, TaskRecordDto dto) {
+		//查询系统配置是否需要发送短信
+		Criterion criterion = Restrictions.eq(SysConfig_.configName.getName(), BasicDataConfig.taskType_sendMesg);
+		SysConfig entityQuery = sysConfigRepo.findByCriteria(criterion).stream().findFirst().get();
+		Boolean isSendMesg = false;
+		if(entityQuery.getEnable()){
+			isSendMesg = true;
+		}
+				
 		TaskHead taskHead=super.repository.findById(taskId);
 		if(taskHead!=null){
 			//新增一条处理流程记录
@@ -88,7 +108,7 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			taskHead.setProcessState(processState);//状态
 			taskHead.setProcessSuggestion(dto.getProcessSuggestion());//处理意见
 			
-			//设置shenbaoInfo状态
+			//设置相应信息的状态
 			String taskType=dto.getTaskType();
 			String relId=dto.getRelId();
 			if(taskType.equals(BasicDataConfig.taskType_monthReport)){//月报
@@ -97,6 +117,17 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 					if(monthReport!=null){
 						monthReport.setProcessState(processState);
 						monthReportRepo.save(monthReport);
+						if(isSendMesg){
+							//发送短信
+							SendMsg sendMsg = new SendMsg();
+							sendMsg.setMobile(monthReport.getFillMobile());
+							String content = dto.getTitle()+":"+basicDataService.getDescriptionById(processState);
+							if(processState.equals(BasicDataConfig.processState_tuiWen)){//如果为退文
+								content += ";处理意见："+dto.getProcessSuggestion();
+							}
+							sendMsg.setContent(content);
+							Util.sendShortMessage(sendMsg);
+						}
 					}
 				}
 				
@@ -107,11 +138,23 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 					if(shenBaoInfo!=null){
 						shenBaoInfo.setProcessState(processState);
 						shenBaoInfoRepo.save(shenBaoInfo);
+						if(isSendMesg){
+							//发送短信
+							SendMsg sendMsg = new SendMsg();
+							sendMsg.setMobile(shenBaoInfo.getProjectRepMobile());
+							String content = dto.getTitle()+":"+basicDataService.getDescriptionById(processState);
+							if(processState.equals(BasicDataConfig.processState_tuiWen)){//如果为退文
+								content += ";处理意见："+dto.getProcessSuggestion();
+							}
+							sendMsg.setContent(content);
+							Util.sendShortMessage(sendMsg);
+						}		
 					}
-					
 				}
 			}
 			super.repository.save(taskHead);
+			
+			
 		}
 	}
 	private Boolean isComplete(String processState){

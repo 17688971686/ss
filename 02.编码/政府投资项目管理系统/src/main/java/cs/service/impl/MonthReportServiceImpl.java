@@ -122,7 +122,7 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 		taskHead.setCreatedBy(currentUser.getLoginName());
 		taskHead.setModifiedBy(currentUser.getLoginName());
 		taskHead.setRelId(monthReport.getId());
-		taskHead.setTitle("项目月报："+project.getProjectName());
+		taskHead.setTitle("项目月报-"+project.getProjectName()+"("+monthReport.getSubmitYear()+"-"+monthReport.getSubmitMonth()+")");
 		taskHead.setProcessSuggestion("材料填报");
 		taskHead.setProcessState(BasicDataConfig.processState_tianBao);//设置工作流的状态
 		taskHead.setTaskType(BasicDataConfig.taskType_monthReport);//设置工作流的类型

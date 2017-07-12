@@ -45,6 +45,7 @@ public class SysController {
 			sysConfigDto.setConfigType(BasicDataConfig.taskType);
 			sysConfigDto.setConfigName(x.getConfigName());
 			sysConfigDto.setConfigValue(x.getConfigValue());
+			sysConfigDto.setEnable(x.getEnable());
 			sysService.createTaskUser(sysConfigDto);
 		});
 		

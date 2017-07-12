@@ -85,11 +85,13 @@
     	   
     	   //处理操作
     	   vm.handle=function(processState){
-    		   vm.model.taskRecord = {
-    				   processState:  ''
-    		   };
-    		   vm.model.taskRecord.processState=processState;
-    		   taskSvc.handle(vm);
+    		   common.initJqValidation();
+   			   var isValid = $('form').valid();
+	   			if (isValid) {
+	   				vm.isSubmit = true;
+	   				vm.model.taskRecord.processState=processState;
+	     		   taskSvc.handle(vm);
+	   			}
     	   };    		
     	}//init_handle
     }

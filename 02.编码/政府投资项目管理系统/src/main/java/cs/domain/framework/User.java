@@ -33,7 +33,7 @@ public class User extends BaseEntity {
 	private String comment;
 	
 	@Column(columnDefinition="int(11) COMMENT '登录失败次数'")
-	private int loginFailCount;
+	private int loginFailCount = 0;
 	@Column(columnDefinition="datetime  COMMENT '最后一次登录时间'")
 	private Date lastLoginDate;
 
