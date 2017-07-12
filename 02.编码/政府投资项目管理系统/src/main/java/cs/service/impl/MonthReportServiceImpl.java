@@ -17,6 +17,7 @@ import cs.domain.MonthReport;
 import cs.domain.MonthReport_;
 import cs.domain.Project;
 import cs.domain.TaskHead;
+import cs.domain.TaskHead_;
 import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.MonthReportDto;
@@ -96,6 +97,16 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 		monthReport.getAttachments().clear();
 		monthReport.getMonthReportProblems().clear();
 
+		Criterion criterion1 = Restrictions.eq(TaskHead_.relId.getName(), monthReportDto.getId());
+		//taskHeadRepo.findByCriteria(criterion1)
+		
+		Optional<TaskHead> task = taskHeadRepo
+		.findByCriteria(criterion1)
+		.stream()
+		.findFirst();
+		task.get().setComplete(false);
+		
+		taskHeadRepo.save(task.get());
 		monthReportMapper.buildEntity(monthReportDto, monthReport);
 		monthReport.setModifiedBy(currentUser.getLoginName());
 		monthReport.setModifiedDate(new Date());

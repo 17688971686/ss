@@ -24,7 +24,7 @@
 		function getProjectById(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_project + "?$filter=id eq '{0}'", vm.projectId)
+					url : common.format(url_project + "?$filter=id eq '{0}' ", vm.projectId)
 				};
 				var httpSuccess = function success(response) {					
 					vm.model.projectInfo = response.data.value[0]||{};
@@ -33,12 +33,15 @@
 						vm.setMonthSelected();
 						
 					}
-					if(vm.page=='fillReport'){
+					if(vm.page=='fillReport' || vm.page=="update"){
 						
 						var report=$linq(vm.model.projectInfo.monthReportDtos)
 											.where(function(x){return x.submitYear==vm.year && x.submitMonth==vm.month;})
 											.toArray();
-						if(report.length>0){
+						if(report.length>0 && vm.page=="update"){
+							vm.isReportExist=false;
+							vm.model.monthReport=report[0];
+						}else if(report.length>0 ){
 							vm.isReportExist=true;
 							vm.model.monthReport=report[0];
 						}
@@ -97,7 +100,6 @@
 					};
 				
 				var httpSuccess = function success(response) {
-
 					common.requestSuccess({
 						vm : vm,
 						response : response,
