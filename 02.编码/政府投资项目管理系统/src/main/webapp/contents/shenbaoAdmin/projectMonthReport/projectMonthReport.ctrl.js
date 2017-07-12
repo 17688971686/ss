@@ -16,12 +16,16 @@
         	vm.projectId = $state.params.projectId;
             vm.month = $state.params.month;
             vm.year=$state.params.year;
+            vm.processState=$state.params.processState;
             if(vm.projectId){
             	vm.page='selectMonth';
             }
             if(vm.month){
             	vm.page='fillReport';
             }           
+            if(vm.processState =="processState_11"){
+            	vm.page='update'
+            }
         };
         
         activate();
@@ -38,7 +42,11 @@
         	if(vm.page=='fillReport'){//如果填报信息
         		//查询基础数据
         		page_fillReport();        		
-        	}           
+        	}  
+        	if(vm.page=='update'){//如果退回修改
+        		//查询基础数据
+        		page_fillReport();        		
+        	} 
         }
         
        function page_list(){      
@@ -47,7 +55,9 @@
         
        function page_selectMonth(){
         	projectMonthReportSvc.getProjectById(vm);
-       	 
+        	
+			
+
         	 var date=new Date();
         	 vm.submitYear=date.getFullYear();
         	 vm.submitYearMonth={};
@@ -58,19 +68,31 @@
         		 for (var i =1; i <= 12; i++) {
             		 vm.submitYearMonth['m'+i]=false;	
     			}
+        		
         		 var monthExist=$linq(vm.model.projectInfo.monthReportDtos)
         		 	.where(function(x){return x.submitYear==vm.submitYear;})
 					.select(function(x){return x.submitMonth;});
         		 
 					monthExist.foreach(function(x){		
-						vm.submitYearMonth['m'+x]=true;						
+						vm.submitYearMonth['m'+x]=true;	
 					});
 					
         	 };
         	 
         	 vm.fillReport = function(month){
               	//跳转到月报信息填写页面
-              	location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+vm.submitYear+"/"+month;
+        		var monthReports = vm.model.projectInfo.monthReportDtos;
+        		for (var i = 0; i < monthReports.length; i++) {
+					var monthReport = monthReports[i];
+					if(monthReport.submitMonth == month && monthReport.processState == "processState_11"){
+						vm.processState = monthReport.processState;
+						break;
+					}else{
+						vm.processState =null;
+					}
+				}
+                   	location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+vm.submitYear+"/"+month+"/"+vm.processState;
+        		
               };
         }//end page_selectMonth
         

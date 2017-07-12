@@ -98,7 +98,7 @@
 	        })	        
 	        //填报信息录入页面
 	        .state('projectMonthReportInfoFill', {
-	            url: '/projectMonthReportInfoFill/:projectId/:year/:month',
+	            url: '/projectMonthReportInfoFill/:projectId/:year/:month/:processState',
 	            templateUrl:'/shenbaoAdmin/projectMonthReport/html/fillInfo/',           
 	            controller: 'projectMonthReportCtrl',
 	            controllerAs: 'vm'

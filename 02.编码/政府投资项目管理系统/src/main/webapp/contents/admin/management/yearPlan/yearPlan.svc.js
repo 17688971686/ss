@@ -226,9 +226,6 @@
 						if(Capitals[i].capitalSHTZ){
 							vm.model.capitalSHTZTotal += Capitals[i].capitalSHTZ;
 						}
-						if(Capitals[i].capitalZYYS){
-							vm.model.capitalZYYSTotal += Capitals[i].capitalZYYS;
-						}
 						if(Capitals[i].capitalOther){
 							vm.model.capitalOtherTotal += Capitals[i].capitalOther;
 						}							
