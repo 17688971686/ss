@@ -34,7 +34,7 @@ import cs.repository.framework.SysConfigRepoImpl;
 import cs.repository.framework.UserRepoImpl;
 
 @Service
-public class SysServiceImpl implements SysService {
+public class SysServiceImpl implements SysService{
 	private static Logger logger = Logger.getLogger(SysServiceImpl.class);
 
 	@Autowired
@@ -490,6 +490,7 @@ public class SysServiceImpl implements SysService {
 		this.createBasicData("taskType","" , "taskType", "任务类型", "任务类型",false);		
 		this.createBasicData("taskType_1","taskType" , "taskType", "月报填报", "",false);
 		this.createBasicData("taskType_2","taskType" , "taskType", "下一年度计划", "",false);
+		this.createBasicData("taskType_3","taskType" , "taskType", "是否发送短信", "",false);
 				
 		response.setMessage("基础数据初始化成功");
 		response.setSuccess(true);		
@@ -574,13 +575,6 @@ public class SysServiceImpl implements SysService {
 	@Override
 	@Transactional
 	public void createTaskUser(SysConfigDto sysConfigDto) {
-		//查询数据库有没有		
-		if(sysConfigDto.getConfigType()==null
-				||sysConfigDto.getConfigName()==null
-				|| (sysConfigDto.getConfigValue()==null||sysConfigDto.getConfigValue().isEmpty())
-				){
-			return;
-		}
 	 	Optional<SysConfig> isExist= sysConfigRepo.findAll().stream().filter((x)->{
 			return sysConfigDto.getConfigType().equals(x.getConfigType())
 					&&sysConfigDto.getConfigName().equals(x.getConfigName());
@@ -589,6 +583,7 @@ public class SysServiceImpl implements SysService {
 		if(isExist.isPresent()){//更新
 			SysConfig entity=isExist.get();
 			entity.setConfigValue(sysConfigDto.getConfigValue());
+			entity.setEnable(sysConfigDto.getEnable());
 			sysConfigRepo.save(entity);
 		}else{//创建
 			SysConfig sysconfig = new SysConfig();
@@ -596,6 +591,7 @@ public class SysServiceImpl implements SysService {
 			sysconfig.setId(uid);
 			sysconfig.setConfigName(sysConfigDto.getConfigName());
 			sysconfig.setConfigValue(sysConfigDto.getConfigValue());
+			sysconfig.setEnable(sysConfigDto.getEnable());
 			sysconfig.setCreatedBy(currentUser.getLoginName());
 			sysconfig.setModifiedBy(currentUser.getLoginName());
 			sysconfig.setConfigType(sysConfigDto.getConfigType());

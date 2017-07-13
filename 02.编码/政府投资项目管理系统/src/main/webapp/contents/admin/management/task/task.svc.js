@@ -21,6 +21,8 @@
 			handle:handle
 		};
 		
+		return service;
+		
 		/**
 		 * 根据id获取项目信息
 		 */
@@ -145,44 +147,38 @@
 		}//end getShenBaoInfoById
 		
 		function handle(vm){
-			common.initJqValidation();
-			var isValid = $('form').valid();
-			if (isValid) {
-				vm.isSubmit = true;
-				
-				var httpOptions = {
-					method : 'put',
-					url : url_task+"/"+vm.taskId,
-					data : vm.model.taskRecord
-				};
+			var httpOptions = {
+				method : 'put',
+				url : url_task+"/"+vm.taskId,
+				data : vm.model.taskRecord
+			};
 
-				var httpSuccess = function success(response) {
-					common.requestSuccess({
-						vm : vm,
-						response : response,
-						fn : function() {
-							common.alert({
-								vm : vm,
-								msg : "操作成功",
-								fn : function() {
-									vm.isSubmit = false;
-									$('.alertDialog').modal('hide');
-									$('.modal-backdrop').remove();
-									location.href = url_back;
-								}
-							});
-						}
-					});
-				};
-
-				common.http({
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
 					vm : vm,
-					$http : $http,
-					httpOptions : httpOptions,
-					success : httpSuccess
+					response : response,
+					fn : function() {
+						common.alert({
+							vm : vm,
+							msg : "操作成功",
+							fn : function() {
+								vm.isSubmit = false;
+								$('.alertDialog').modal('hide');
+								$('.modal-backdrop').remove();
+								location.href = url_back;
+							}
+						});
+					}
 				});
-			}
-		}//handle
+			};
+
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});		
+	}//handle
 
 		/**
 		 * 根据任务id查询任务信息
@@ -210,7 +206,6 @@
 				success:httpSuccess
 			});
 		}//getTaskById
-		return service;
 		
 		// begin#grid
 		function grid(vm) {
@@ -373,5 +368,5 @@
 			};
 
 		}// end fun grid
-	}
+	}	
 })();

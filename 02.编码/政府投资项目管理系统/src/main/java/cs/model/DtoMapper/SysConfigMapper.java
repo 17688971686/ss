@@ -23,6 +23,7 @@ public class SysConfigMapper implements IMapper<SysConfigDto, SysConfig> {
 			dto.setConfigValue(entity.getConfigValue());
 			dto.setConfigName(entity.getConfigName());
 			dto.setConfigType(entity.getConfigType());
+			dto.setEnable(entity.getEnable());
 			//基础信息
 			dto.setCreatedBy(entity.getCreatedBy());
 			dto.setCreatedDate(entity.getCreatedDate());
@@ -43,6 +44,7 @@ public class SysConfigMapper implements IMapper<SysConfigDto, SysConfig> {
 			entity.setConfigType(dto.getConfigType());
 			entity.setConfigValue(dto.getConfigValue());
 			entity.setConfigName(dto.getConfigName());
+			entity.setEnable(dto.getEnable());
 			
 			entity.setCreatedBy(dto.getCreatedBy());
 			entity.setCreatedDate(dto.getCreatedDate());

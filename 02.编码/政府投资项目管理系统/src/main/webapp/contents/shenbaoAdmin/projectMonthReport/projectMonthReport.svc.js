@@ -29,21 +29,24 @@
 				var httpSuccess = function success(response) {					
 					vm.model.projectInfo = response.data.value[0]||{};
 										
-					if(vm.page=='selectMonth'){
-						vm.setMonthSelected();
-						
+					if(vm.page=='selectMonth'){//如果为月份选择页面
+						vm.setMonthSelected();//设置月份选择按钮的状态
 					}
-					if(vm.page=='fillReport' || vm.page=="update"){
-						
+					if(vm.page=='fillReport'){//如果为月报填报页面
+						vm.isReportTuiWen = false;
+						//判断是否有月报
 						var report=$linq(vm.model.projectInfo.monthReportDtos)
 											.where(function(x){return x.submitYear==vm.year && x.submitMonth==vm.month;})
 											.toArray();
-						if(report.length>0 && vm.page=="update"){
-							vm.isReportExist=false;
-							vm.model.monthReport=report[0];
-						}else if(report.length>0 ){
+						if(report.length>0){//有月报
 							vm.isReportExist=true;
 							vm.model.monthReport=report[0];
+							if(vm.model.monthReport.processState == common.basicDataConfig().processState_tuiWen){//如果是退文
+								vm.isReportExist=false;
+								vm.isReportTuiWen = true;
+		        			}
+						}else{//没有月报
+							vm.isReportExist=false;
 						}
 						//关联上项目
 						vm.model.monthReport.projectId=vm.model.projectInfo.id;
@@ -150,7 +153,8 @@
 				sort : {
 					field : "createdDate",
 					dir : "desc"
-				},filter:[{
+				},
+				filter:[{
 					field:'isMonthReport',
 					operator:'eq',
 					value:true
@@ -158,7 +162,7 @@
 					field:'isLatestVersion',
 					operator:'eq',
 					value:true
-				}]
+				}],
 			});
 			// End:dataSource
 
@@ -203,6 +207,23 @@
 
 			];
 			// End:column
+			var dataBound = function(e){
+				var dataSource = e.sender._data;
+				for(var i=0;i<dataSource.length;i++){
+					var model = dataSource[i];
+					var monthReports = model.monthReportDtos;
+					var number = 0;
+					for(var j=0;j<monthReports.length;j++){
+						var monthReport = monthReports[j];
+						if(monthReport.processState == common.basicDataConfig().processState_tuiWen){//如果是退文
+							number += 1;
+						}
+					}
+					if(number>0){
+						$("#tuiwenNumber"+model.id).html(number);//添加提示徽章
+					}
+				}
+			}
 
 			vm.gridOptions = {
 				dataSource : common.gridDataSource(dataSource),
@@ -210,6 +231,7 @@
 				pageable : common.kendoGridConfig().pageable,
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
+				dataBound:dataBound,
 				resizable : true
 			};
 

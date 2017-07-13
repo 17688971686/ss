@@ -22,9 +22,6 @@
             }
             if(vm.month){
             	vm.page='fillReport';
-            }           
-            if(vm.processState =="processState_11"){
-            	vm.page='update'
             }
         };
         
@@ -43,10 +40,6 @@
         		//查询基础数据
         		page_fillReport();        		
         	}  
-        	if(vm.page=='update'){//如果退回修改
-        		//查询基础数据
-        		page_fillReport();        		
-        	} 
         }
         
        function page_list(){      
@@ -54,46 +47,41 @@
         }//end page_list
         
        function page_selectMonth(){
-        	projectMonthReportSvc.getProjectById(vm);
+        	projectMonthReportSvc.getProjectById(vm);//获取项目的基本信息
         	
-			
-
         	 var date=new Date();
         	 vm.submitYear=date.getFullYear();
         	 vm.submitYearMonth={};
+        	 vm.tuiwenYearMonth={};
         	 vm.monthRow1=['一月','二月','三月','四月','五月','六月'];
         	 vm.monthRow2=['七月','八月','九月','十月','十一月','十二月'];
-        	 
-        	 vm.setMonthSelected=function(){ 
+        	 //当填报年份发生变化时触发
+        	 vm.setMonthSelected=function(){
+        		//将月份暂时全部设为未填状态
         		 for (var i =1; i <= 12; i++) {
-            		 vm.submitYearMonth['m'+i]=false;	
+            		 vm.submitYearMonth['m'+i]=false;
+            		 vm.tuiwenYearMonth['m'+i]=false;
     			}
         		
-        		 var monthExist=$linq(vm.model.projectInfo.monthReportDtos)
-        		 	.where(function(x){return x.submitYear==vm.submitYear;})
-					.select(function(x){return x.submitMonth;});
-        		 
-					monthExist.foreach(function(x){		
-						vm.submitYearMonth['m'+x]=true;	
-					});
-					
+        		//获取项目当前年份现有月报
+        		 var monthReports=$linq(vm.model.projectInfo.monthReportDtos)
+     		 		.where(function(x){return x.submitYear==vm.submitYear;});
+        		//设置按钮状态
+        		 monthReports.foreach(function(x){
+        			 if(x.processState != null){//有状态则代表已有填写月报
+        				 if(x.processState == common.basicDataConfig().processState_tuiWen){//如果为退文状态
+        					 vm.tuiwenYearMonth['m'+x.submitMonth]=true;
+        				 }else{//如果为其他状态
+        					 vm.submitYearMonth['m'+x.submitMonth]=true;
+        				 }
+        			 }
+        		 });
         	 };
-        	 
+        	 //月份按钮被触发
         	 vm.fillReport = function(month){
-              	//跳转到月报信息填写页面
-        		var monthReports = vm.model.projectInfo.monthReportDtos;
-        		for (var i = 0; i < monthReports.length; i++) {
-					var monthReport = monthReports[i];
-					if(monthReport.submitMonth == month && monthReport.processState == "processState_11"){
-						vm.processState = monthReport.processState;
-						break;
-					}else{
-						vm.processState =null;
-					}
-				}
-                   	location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+vm.submitYear+"/"+month+"/"+vm.processState;
-        		
-              };
+        		//跳转到月报信息填写页面
+               	location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+vm.submitYear+"/"+month;	
+			}
         }//end page_selectMonth
         
         function page_fillReport(){ 
@@ -108,7 +96,9 @@
      		   vm.years.push(vm.currentYear+i);
      		   vm.years.push(vm.currentYear-i);
      	   }
-     	   vm.years=vm.years.sort();
+     	  vm.years=vm.years.sort();
+     	  //end#下拉选择年份
+     	  
      	  vm.model.monthReport.proposalsYear=vm.currentYear;
      	  vm.model.monthReport.reportYear=vm.currentYear;
      	  vm.model.monthReport.allEstimateYear=vm.currentYear;

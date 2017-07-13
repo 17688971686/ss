@@ -33,14 +33,19 @@
 				};
 			
 			var httpSuccess = function success(response) {
-				vm.userTaskList = response.data;
+				vm.userTaskList = response.data;//所有的配置
 				for (var j = 0; j < vm.userTaskList.length; j++) {
 					for (var i = 0; i < vm.model.taskList.length; i++) {
-						if(vm.userTaskList[j].configName == vm.model.taskList[i].id &&vm.userTaskList[j].configType =="taskType"){
-							vm.model.taskList[i].taskUser = vm.userTaskList[j].configValue;
+						if(vm.userTaskList[j].configName == vm.model.taskList[i].id && vm.userTaskList[j].configType ==common.basicDataConfig().taskType){
+							if(vm.userTaskList[j].configName == common.basicDataConfig().taskType_monthReport 
+									|| vm.userTaskList[j].configName == common.basicDataConfig().taskType_yearPlan){//如果为月报、下一年度计划系统配置
+								vm.model.taskList[i].taskUser = vm.userTaskList[j].configValue;
+							}else if(vm.userTaskList[j].configName == common.basicDataConfig().taskType_sendMesg){//如果为发送短信系统配置
+								vm.model.taskList[i].taskEnable = vm.userTaskList[j].enable;
+							}
 						}
 					}
-				}		
+				}	
 			};
 			
 			common.http({
@@ -58,9 +63,10 @@
 		 */
 		function createTaskUser(vm){
 			var data=[];
-		    for(var i in vm.model.config){		    
-		    	data.push({configName:vm.model.config[i].configName,configValue:vm.model.config[i].configValue});
+		    for(var i in vm.model.taskList){		    
+		    	data.push({configName:vm.model.taskList[i].id,configValue:vm.model.taskList[i].taskUser,enable:vm.model.config[i].enable});
 		    }
+		   
 			var httpOptions = {
 					method : 'post',
 					url : url_taskUser,
@@ -123,7 +129,7 @@
 		 * @return taskList
 		 */
 		function getAllTask(vm){
-			vm.model.taskList = $linq(common.getBasicData()).where(function(x){return x.identity=="taskType" && x.pId=="taskType"}).toArray();
+			vm.model.taskList = common.getBacicDataByIndectity(common.basicDataConfig().taskType);				
 		}
 		
 		function updateTaskUser(){

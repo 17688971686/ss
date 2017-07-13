@@ -50,16 +50,18 @@
 	                                <tbody>
 		                                <tr style="height:80px;">
 		                                    <td ng-repeat="x in vm.monthRow1"  class="selectMonth">
-		                                        <button  class="btn btn-lg month " ng-class="vm.submitYearMonth['m{{$index+1}}']?'btn-success':'btn-info'"  ng-click="vm.fillReport($index+1)">{{vm.monthRow1[$index]}}</button>
-		                                        <p class="isFill text-danger" ng-hide="vm.submitYearMonth['m{{$index+1}}']">未填</p>
+		                                        <button  class="btn btn-lg month " ng-class="vm.submitYearMonth['m{{$index+1}}']?'btn-success':(vm.tuiwenYearMonth['m{{$index+1}}']?'btn-danger':'btn-info')"  ng-click="vm.fillReport($index+1)">{{vm.monthRow1[$index]}}</button>
+		                                        <p class="isFill text-danger" ng-hide="vm.submitYearMonth['m{{$index+1}}'] || vm.tuiwenYearMonth['m{{$index+1}}']">未填</p>
 		                                    	<p class="isFill text-success" ng-show="vm.submitYearMonth['m{{$index+1}}']">已填</p>
+		                                    	<p class="isFill text-danger" ng-show="vm.tuiwenYearMonth['m{{$index+1}}']">退文！请处理</p>
 		                                    </td>
 		                                </tr>
 			                            <tr style="height:80px;">
 		                                    <td ng-repeat="x in vm.monthRow2"  class="selectMonth">
-		                                        <button  class="btn btn-lg month " ng-class="vm.submitYearMonth['m{{$index+7}}']?'btn-success':'btn-info'"  ng-click="vm.fillReport($index+7)">{{vm.monthRow2[$index]}}</button>
-		                                        <p class="isFill text-danger" ng-hide="vm.submitYearMonth['m{{$index+7}}']">未填</p>
+		                                        <button  class="btn btn-lg month " ng-class="vm.submitYearMonth['m{{$index+7}}']?'btn-success':(vm.tuiwenYearMonth['m{{$index+7}}']?'btn-danger':'btn-info')"  ng-click="vm.fillReport($index+7)">{{vm.monthRow2[$index]}}</button>
+		                                        <p class="isFill text-danger" ng-hide="vm.submitYearMonth['m{{$index+7}}'] || vm.tuiwenYearMonth['m{{$index+7}}']">未填</p>
 		                                    	<p class="isFill text-success" ng-show="vm.submitYearMonth['m{{$index+7}}']">已填</p>
+		                                    	<p class="isFill text-danger" ng-show="vm.tuiwenYearMonth['m{{$index+7}}']">退文！请处理</p>
 		                                    </td>
 		                                </tr>
                             		</tbody>

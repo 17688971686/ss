@@ -30,6 +30,25 @@
 			for (var i = 0; i < vm.model.taskList.length; i++) {
 				vm.model.checkedButton[i] = true;
 			}
+			
+			//修改按钮
+			vm.checked = function(index){
+				//设置修改按钮隐藏、下拉选显示
+	        	for (var i = 0; i < vm.model.checkedButton.length; i++) {
+					if(index == i)
+						vm.model.checkedButton[i] = false;
+				}
+	        };
+			//下拉选发生变化
+			 vm.userChange = function(index,userName){
+				 vm.model.taskList[index].taskUser = userName;
+				 //设置确认按钮可操作
+				 vm.hasChange = true
+			 };
+			//系统配置：更新
+			 vm.create = function(){
+	        	sysConfigSvc.createTaskUser(vm);
+	        };
 		}
         
         /**
@@ -48,19 +67,5 @@
         	sysConfigSvc.getAllTask(vm);
         }
         
-        /**
-		 * 系统配置：更新task签收人
-		 * @return taskList
-		 */
-        vm.create = function(){
-        	sysConfigSvc.createTaskUser(vm);
-        };
-        
-        vm.checked = function(index){
-        	for (var i = 0; i < vm.model.checkedButton.length; i++) {
-				if(index == i)
-					vm.model.checkedButton[i] = false;
-			}
-        };
     }    
 })();

@@ -7,6 +7,8 @@ import java.util.UUID;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import cs.domain.Attachment;
 import cs.domain.ShenBaoInfo;
 import cs.domain.ShenBaoUnitInfo;
 import cs.domain.TaskHead;
+import cs.domain.TaskHead_;
 import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.AttachmentDto;
@@ -98,7 +101,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@Override
 	@Transactional
 	public ShenBaoInfo update(ShenBaoInfoDto dto,String id) {
-		
 		ShenBaoInfo entity=super.update(dto,id);
 		
 		//处理关联信息
@@ -128,9 +130,44 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		bianZhiUnitInfo.setModifiedBy(entity.getCreatedBy());
 		entity.setShenBaoUnitInfo(bianZhiUnitInfo);
 		*/	
-		entity.setProcessState(BasicDataConfig.processState);
+		entity.setProcessState(BasicDataConfig.processState_tianBao);
 		super.repository.save(entity);
-		initWorkFlow(entity);
+		//查找到对应的任务
+		Criterion criterion = Restrictions.eq(TaskHead_.relId.getName(), entity.getId());
+		TaskHead taskHead = taskHeadRepo.findByCriteria(criterion).stream().findFirst().get();
+				
+		//添加一条流转记录
+		//获取系统配置中工作流类型的第一处理人
+		String startUser="";
+	    List<SysConfigDto> configDtos=sysService.getSysConfigs();
+	    Optional<SysConfigDto> systemConfigDto=configDtos.stream().filter((x)->
+	  			BasicDataConfig.taskType.equals(x.getConfigType())
+				&&getTaskType(entity.getProjectShenBaoStage()).equals(x.getConfigName()
+							)
+					).findFirst();
+		  
+		   if(systemConfigDto.isPresent()){
+			   startUser=systemConfigDto.get().getConfigValue();
+		   }
+				
+		TaskRecord taskRecord=new TaskRecord();
+		taskRecord.setNextUser(startUser);//设置下一处理人
+		taskRecord.setCreatedBy(currentUser.getLoginName());
+		taskRecord.setModifiedBy(currentUser.getLoginName());
+		taskRecord.setRelId(entity.getId());
+		taskRecord.setTaskId(taskHead.getId());//设置任务Id
+		taskRecord.setTitle(taskHead.getTitle());
+		taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
+		taskRecord.setTaskType(this.getTaskType(entity.getProjectShenBaoStage()));
+		taskRecord.setId(UUID.randomUUID().toString());
+		taskRecord.setProcessSuggestion("材料填报");
+				
+		taskHead.getTaskRecords().add(taskRecord);
+		//更新任务的状态以及是否完成
+		taskHead.setComplete(false);
+		taskHead.setProcessState(BasicDataConfig.processState_tianBao);
+		taskHeadRepo.save(taskHead);
+//		initWorkFlow(entity);
 		logger.info(String.format("更新申报信息,项目名称 %s",entity.getProjectName()));		
 		return entity;		
 	}

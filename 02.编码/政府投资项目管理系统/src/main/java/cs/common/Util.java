@@ -1,16 +1,20 @@
 package cs.common;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
-
+import org.apache.commons.io.IOUtils;
+import com.alibaba.fastjson.JSONObject;
 import cs.domain.BasicData;
-import cs.model.DomainDto.BasicDataDto;
+import cs.model.ActionResult;
+import cs.model.SendMsg;
+
 
 public class Util {
-	
-
-	
+		
 	public static String formatDate(Date date) {
 		String dateStr="";
 		if(date!=null){
@@ -67,15 +71,14 @@ public class Util {
         return rend;
     }
   
-  public static String getFiveRandom(){
-      Random random = new Random();
-      String fiveRandom = random.nextInt(100000) + "";
-      int randLength = fiveRandom.length();
-      if(randLength<5){
-        for(int i=1; i<=5-randLength; i++)
-        	fiveRandom = "0" + fiveRandom  ;
-    }
-      return fiveRandom;
+  public static String getFiveRandom(Integer count){
+	  String rend = String.valueOf(count);
+	  int randLength = rend.length();
+        if(randLength<5){
+          for(int i=1; i<=5-randLength; i++)
+        	  rend = "0" + rend  ;
+      }     
+        return rend;
   } 
 	
   	/**
@@ -105,11 +108,44 @@ public class Util {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy"); // 时间字符串产生方式
 			number += format.format(new Date());
 			//行业
-			number += "HYH";//TODO 怎样实现行业的分类
+			number += basicData.getComment();
 			//该行业申报数量的系列号
-			number += getFiveRandom();//TODO 怎样实现数字不同?
+			number += getFiveRandom(basicData.getCount()+1);
 		}				
 		return number;
 	}
 	
+	/**
+	 * 网络POST请求发送短信
+	 * 
+	 */
+	public static ActionResult sendShortMessage(SendMsg sendMsg){
+		ActionResult result = new ActionResult();
+		try{
+			//请求地址
+			URL url=new URL(ConfigUtil.msgUrl);
+			HttpURLConnection connection=(HttpURLConnection) url.openConnection();
+			connection.setDoInput(true);
+			connection.setDoOutput(true);
+			connection.setRequestMethod("POST");
+			//设置请求参数/返回信息的格式
+			connection.setRequestProperty("Accept", "application/json");
+	        connection.setRequestProperty("Content-Type", "application/json");
+			
+			OutputStream os=connection.getOutputStream();
+			//请求体
+			String soap = "{Pin:'"+ConfigUtil.msgPid+"',mobile:'"+sendMsg.getMobile()+"',content:'"+sendMsg.getContent()+"',formUser:'"+sendMsg.getFromUser()+"'}";
+			os.write(soap.getBytes("UTF-8"));
+			os.flush();
+			InputStream is=connection.getInputStream();
+			//将返回的数据转换为java对象
+			JSONObject jsStr = JSONObject.parseObject(IOUtils.toString(is));
+			result = (ActionResult) JSONObject.toJavaObject(jsStr,ActionResult.class);
+			is.close();
+			os.close();
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		return result;	
+	}
 }

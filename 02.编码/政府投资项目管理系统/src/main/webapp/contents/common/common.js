@@ -422,8 +422,11 @@
     		area:"area",//行政区划
     		area_GM:"area_1",//光明新区
     		capitalOtherType:"capitalOtherType",//资金其他来源分类
+    		//任务类型
+    		taskType:"taskType",
     		taskType_monthReport:"taskType_1",//任务类型-月报
     		taskType_yearPlan:"taskType_2",//任务类型-下一年度计划
+    		taskType_sendMesg:"taskType_3"//任务类型-发送短信
     		
     		
     	};

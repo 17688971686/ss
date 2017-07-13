@@ -17,8 +17,9 @@ public class SysConfig extends BaseEntity {
 	@Id
 	private String id;
 	private String configType;//对应数据字典类型
-	private String configName;
+	private String configName;//对应数据字典id
 	private String configValue;
+	private Boolean enable = true;//是否启用（默认启用）
 	public String getId() {
 		return id;
 	}
@@ -42,5 +43,11 @@ public class SysConfig extends BaseEntity {
 	}
 	public void setConfigType(String configType) {
 		this.configType = configType;
+	}
+	public Boolean getEnable() {
+		return enable;
+	}
+	public void setEnable(Boolean enable) {
+		this.enable = enable;
 	}
 }

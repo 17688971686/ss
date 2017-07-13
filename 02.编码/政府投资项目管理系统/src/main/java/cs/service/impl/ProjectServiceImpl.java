@@ -9,7 +9,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import cs.common.ICurrentUser;
 import cs.common.Util;
 import cs.domain.Attachment;
 import cs.domain.BasicData;
@@ -46,7 +46,8 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	private IMapper<MonthReportDto, MonthReport> monthReportMapper;
 	@Autowired
 	private IMapper<ProjectDto, Project> projectMapper;
-	
+	@Autowired
+	private ICurrentUser currentUser;
 	
 	@Override
 	@Transactional
@@ -117,7 +118,8 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 				//行业项目统计累加
 				basicData.setCount(basicData.getCount()+1);
 			}
-			Project project = super.create(projectDto);		
+			Project project = super.create(projectDto);	
+			project.setModifiedDate(new Date());//设置修改时间
 			//处理关联信息
 			projectDto.getAttachmentDtos().forEach(x -> {//添加新附件
 				Attachment attachment = new Attachment();
@@ -157,6 +159,8 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	public void updateVersion(String id, Boolean isLatestVersion) {
 		Project project = super.repository.findById(id);
 		project.setIsLatestVersion(isLatestVersion);
+		project.setModifiedDate(new Date());//设置修改时间
+		project.setModifiedBy(currentUser.getLoginName());//设置修改人
 		super.repository.save(project);
 		logger.info(String.format("修改项目版本,项目名称 %s",project.getProjectName()));
 	}

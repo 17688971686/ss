@@ -1,3 +1,18 @@
+<style>
+	.btn-xs .badge, .btn-group-xs>.btn .badge {
+	    top: -11px;
+	    right: -13px;
+	    padding: 1px 4px;
+	}
+	.btn-primary .badge {
+	 	color: #f4f4f4;
+	 	background-color: #dd4b39;
+	 }
+	.badge:empty {
+	 display: none;
+	} 
+
+</style>
 <div class="well well-sm" style="background:white;">
 	  <ol class="breadcrumb">
 		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
@@ -6,9 +21,10 @@
 	      <li class="active">项目列表</li>
 	  </ol>
 	  <script type="text/template" id="columnBtns">
-	  		<a class="btn btn-xs btn-primary"  href="#/projectMonthReportFill/{0}" ><span class="glyphicon glyphicon-pencil"></span>填报</a>
+	  	<a class="btn btn-xs btn-primary"  href="#/projectMonthReportFill/{0}" ><span class="glyphicon glyphicon-pencil"></span>填报<span id="tuiwenNumber{0}"class="badge"></span></a>
+		
 	  </script>
-	  <div class="toolbar"></div> 
+	  <div class="toolbar"> </div>
      <form id="form" name="form">          
          <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
     </form>
