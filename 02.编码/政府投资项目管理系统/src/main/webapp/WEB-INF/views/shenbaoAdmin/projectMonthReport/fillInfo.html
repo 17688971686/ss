@@ -63,7 +63,8 @@ font-weight: bold;
 	</ol>
 
 	<div style="margin-left: 5px; margin-right: 5px;">
-		<div ng-hide="vm.isReportExist" ng-include onload="vm.page_fillReport_init()" src="'/contents/shenbaoAdmin/projectMonthReport/html/fillInfo_create.html'"></div>
+		<div ng-if="vm.isReportTuiWen" ng-include onload="vm.page_fillReport_init()" src="'/contents/shenbaoAdmin/projectMonthReport/html/fillInfo_create.html'"></div>
+		<div ng-hide="vm.isReportExist || vm.isReportTuiWen" ng-include onload="vm.page_fillReport_init()" src="'/contents/shenbaoAdmin/projectMonthReport/html/fillInfo_create.html'"></div>
 		<div ng-show="vm.isReportExist" ng-include  src="'/contents/shenbaoAdmin/projectMonthReport/html/fillInfo_read.html'"></div>
 	</div>
 </div>

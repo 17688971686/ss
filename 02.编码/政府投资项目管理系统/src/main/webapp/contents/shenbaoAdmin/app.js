@@ -82,7 +82,7 @@
 /**********************************************end#项目信息维护**************************/	        
              
  /**********************************************begin#月报*********************************/
-            //需要填报项目列表 页面
+            //需要填报项目列表页面
 	        .state('projectMonthReport', {
 	            url: '/projectMonthReport', 
 	            templateUrl: '/shenbaoAdmin/projectMonthReport/html/list.html',
@@ -98,8 +98,8 @@
 	        })	        
 	        //填报信息录入页面
 	        .state('projectMonthReportInfoFill', {
-	            url: '/projectMonthReportInfoFill/:projectId/:year/:month/:processState',
-	            templateUrl:'/shenbaoAdmin/projectMonthReport/html/fillInfo/',           
+	            url: '/projectMonthReportInfoFill/:projectId/:year/:month',
+	            templateUrl:'/shenbaoAdmin/projectMonthReport/html/fillInfo',           
 	            controller: 'projectMonthReportCtrl',
 	            controllerAs: 'vm'
 	        })	        

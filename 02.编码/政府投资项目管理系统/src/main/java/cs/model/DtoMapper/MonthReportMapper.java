@@ -157,36 +157,13 @@ public class MonthReportMapper implements IMapper<MonthReportDto, MonthReport> {
 			monthReport.setSubmitDate(monthReportDto.getSubmitDate());
 			monthReport.setCompletion(monthReportDto.isCompletion());
 			monthReport.setRemark(monthReportDto.getRemark());
-			//关联信息
-			//问题
-			monthReportDto.getMonthReportProblemDtos().forEach(x -> {
-				MonthReportProblem monthReportProblem = new MonthReportProblem();
-				monthReportProblem.setId(UUID.randomUUID().toString());
-				monthReportProblem.setCreatedBy(monthReportDto.getFillName());
-				monthReportProblem.setModifiedBy(monthReportDto.getFillName());
-				monthReportProblem.setProblemIntroduction(x.getProblemIntroduction());
-				monthReportProblem.setSolutionsAndSuggest(x.getSolutionsAndSuggest());
-				monthReportProblem.setMonthReport(monthReport);
-				monthReport.getMonthReportProblems().add(monthReportProblem);
-			});
-			//附件
-			monthReportDto.getAttachmentDtos().forEach(x -> {
-				Attachment attachment = new Attachment();
-				attachment.setId(UUID.randomUUID().toString());
-				attachment.setName(x.getName());
-				attachment.setType(x.getType());
-				attachment.setUrl(x.getUrl());
-				attachment.setCreatedBy(monthReportDto.getFillName());
-				attachment.setModifiedBy(monthReportDto.getFillName());
-				monthReport.getAttachments().add(attachment);
-			});
-			monthReport.setModifiedDate(new Date());
 			//基础数据
 			monthReport.setModifiedBy(monthReportDto.getModifiedBy());
 			monthReport.setCreatedBy(monthReportDto.getCreatedBy());
 			monthReport.setCreatedDate(monthReportDto.getCreatedDate());
 			monthReport.setModifiedDate(monthReportDto.getModifiedDate());
 			monthReport.setItemOrder(monthReportDto.getItemOrder());
+			//关联信息#根据需求在外面添加
 		}
 		return monthReport;
 
