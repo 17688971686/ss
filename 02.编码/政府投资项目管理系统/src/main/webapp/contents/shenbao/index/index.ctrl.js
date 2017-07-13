@@ -37,8 +37,8 @@
         vm.formatDate = function(datStr){
         	return common.formatDate(datStr);
         };
-        vm.submit=function(){
-        	indexSvc.submit(vm);
+        vm.submit=function(str){
+        	indexSvc.submit(vm,str);
         };
         vm.keyEnter = function (e) {
             if (e.which === 13) {

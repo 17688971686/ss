@@ -12,14 +12,15 @@
 		};		
 		return service;	
 		//begin#submit
-		function submit(vm){
+		function submit(vm,str){
+			var role = str;
 			common.initJqValidation();
             var isValid = $('form').valid();
             if (isValid) {
                 vm.isSubmit = true;
                 var httpOptions = {
                     method: 'post',
-                    url: '/account/login',
+                    url: '/account/login?role='+role,
                     data: vm.model
                 };
                 var httpSuccess = function success(response) {
@@ -33,8 +34,7 @@
                             if (isSuccess) {
                                 vm.message = "";
                                 location.href = "/shenbaoAdmin";
-                            } else {
-                                
+                            } else {                                
                                 vm.message=response.data.message;
                             }
                     	}

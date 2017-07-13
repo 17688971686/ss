@@ -7,10 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
-import javax.security.auth.x500.X500Principal;
 import javax.transaction.Transactional;
-
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -28,7 +25,6 @@ import cs.domain.framework.Resource;
 import cs.domain.framework.Role;
 import cs.domain.framework.Role_;
 import cs.domain.framework.SysConfig;
-import cs.domain.framework.SysConfig_;
 import cs.domain.framework.User;
 import cs.model.DomainDto.SysConfigDto;
 import cs.model.DtoMapper.IMapper;
@@ -130,6 +126,11 @@ public class SysServiceImpl implements SysService {
 		role2.setRoleName(BasicDataConfig.role_unit);
 		role2.setId(UUID.randomUUID().toString());
 		role2.setComment("系统初始化创建,不可删除");
+		
+		Role role3 = new Role();
+		role3.setRoleName(BasicDataConfig.role_manage);
+		role3.setId(UUID.randomUUID().toString());
+		role3.setComment("系统初始化创建,不可删除");
 
 		List<SysResourceDto> resourceDtos = this.getSysResources();
 		List<Resource> resources = new ArrayList<>();
@@ -148,6 +149,7 @@ public class SysServiceImpl implements SysService {
 
 		roleRepo.save(role);
 		roleRepo.save(role2);
+		roleRepo.save(role3);
 
 		// 初始化用户
 		User user = new User();

@@ -21,7 +21,7 @@ public interface UserService {
 	
 	void updateUser(UserDto userDto);
 	
-	Response Login(String userName, String password);
+	Response Login(String userName, String password,String role);
 	Set<String> getCurrentUserPermissions();
 	void logout();
 	void changePwd(String password);

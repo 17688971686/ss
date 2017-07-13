@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -24,8 +25,14 @@ public class AccountController {
 	
 	@RequestMapping(name = "登录", path = "login", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public @ResponseBody Response post(@RequestBody UserDto userDto) {
-		Response loginResult= userService.Login(userDto.getLoginName(), userDto.getPassword());
+	public @ResponseBody Response post(@RequestBody UserDto userDto,@RequestParam String role) {
+		String roleName = "";
+		if("manage".equals(role)){
+			roleName = "管理员";
+		}else if("unit".equals(role)){
+			roleName = "建设单位";
+		}
+		Response loginResult= userService.Login(userDto.getLoginName(), userDto.getPassword(), roleName);
 		
 		return loginResult;
 	}
