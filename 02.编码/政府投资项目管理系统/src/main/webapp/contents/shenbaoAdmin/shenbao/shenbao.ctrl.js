@@ -102,6 +102,8 @@
 					value:vm.projectNumber
 				});
         	   vm.gridOptions_shenBaoRecords.dataSource.read();
+        	   //定义退文状态
+        	   vm.processState = common.basicDataConfig().processState_tuiWen;
            }
            shenbaoSvc.projectShenBaoRecordsGird(vm);     
         }//end#page_list

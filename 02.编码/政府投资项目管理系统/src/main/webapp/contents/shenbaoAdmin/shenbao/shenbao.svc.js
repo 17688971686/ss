@@ -22,7 +22,40 @@
 		return service;
 		
 		/**
-		 * 根据项目id查询申报记录
+		 * 根据项目代码查询项目的申报记录
+		 */
+		function getShenBaoRecordsByProjectNumber(vm,projectNumber,id){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_shenbao + "?$filter=projectNumber eq '{0}'", projectNumber)
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.model.shenBaoRecords = response.data.value;
+				if(vm.model.shenBaoRecords.length>0){
+					var number = 0;
+					for(var i=0;i<vm.model.shenBaoRecords.length;i++){
+						var shenBaoRecord = vm.model.shenBaoRecords[i];
+						if(shenBaoRecord.processState == common.basicDataConfig().processState_tuiWen){//如果是退文
+							number += 1;
+						}
+					}
+					if(number>0){
+						$("#tuiwenNumber"+id).html(number);//添加提示徽章
+					}
+				}
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
+		
+		/**
+		 * 查询申报记录列表
 		 */
 		function projectShenBaoRecordsGird(vm){
 			// Begin:dataSource
@@ -87,8 +120,8 @@
 					{
 						field : "",
 						title : "操作",
-						width : 150,
-						template : function(item) {							
+						width : 200,
+						template : function(item) {						
 							return common.format($('#columnBtns_Record').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,item.processState);
 						}
 					}
@@ -235,7 +268,6 @@
 		 * 创建申报信息
 		 */
 		function createShenBaoInfo(vm){
-			console.log(vm.model);
 			common.initJqValidation();
 			var isValid=function(){
 				var validFields=[
@@ -329,16 +361,18 @@
 			var httpOptions = {
 					method : 'get',
 					url : common.format(url_userUnit + "?$filter=userName eq '{0}'", vm.model.unitName)
-				}
-				var httpSuccess = function success(response) {
-					vm.model.shenBaoUnitInfoDto = response.data.value[0] || {};
-				}
-				common.http({
-					vm : vm,
-					$http : $http,
-					httpOptions : httpOptions,
-					success : httpSuccess
-				});
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.model.shenBaoUnitInfoDto = response.data.value[0] || {};
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
 		}
 				
 		/**
@@ -570,6 +604,15 @@
 
 			];
 			// End:column
+			var dataBound = function(e){
+				var dataSource = e.sender._data;
+				for(var i=0;i<dataSource.length;i++){
+					var model = dataSource[i];
+					//根据项目代码获取其申报记录根据情况添加徽章
+					getShenBaoRecordsByProjectNumber(vm,model.projectNumber,model.id);				
+				}
+			};
+
 
 			vm.gridOptions = {
 				dataSource : common.gridDataSource(dataSource),
@@ -577,13 +620,11 @@
 				pageable : common.kendoGridConfig().pageable,
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
+				dataBound:dataBound,
 				resizable : true
 			};
 
 		}// end fun grid
 
 	}
-	
-	
-	
 })();
