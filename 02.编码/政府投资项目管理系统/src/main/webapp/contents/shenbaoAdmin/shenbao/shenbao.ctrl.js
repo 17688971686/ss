@@ -122,7 +122,7 @@
     	   
     	   if(vm.page=='edit'){
    	  		 shenbaoSvc.getProjectById(vm); 
-   		 	}
+   		 	}	
     	   
     	   if(vm.investmentType == common.basicDataConfig().projectInvestmentType_ZF){//如果为政府投资
     		   vm.isZFInvestment = true; 
@@ -217,6 +217,8 @@
        
        function page_record(){
     	   shenbaoSvc.getShenBaoInfoById(vm);//获取申报信息
+    	   $(".modal-backdrop").remove();
+
     	   vm.update = function(){
     		   shenbaoSvc.updateShenBaoInfo(vm);
     	   };

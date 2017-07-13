@@ -89,7 +89,7 @@
 						title : "操作",
 						width : 150,
 						template : function(item) {							
-							return common.format($('#columnBtns_Record').html(),item.id);
+							return common.format($('#columnBtns_Record').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,item.processState);
 						}
 					}
 			];
@@ -114,6 +114,11 @@
 			if (isValid) {
 				vm.isSubmit = true;
 
+				if(vm.model.projectType != "" && vm.model.projectType != undefined){
+					vm.model.projectType = vm.model.projectType.join(",");
+				}else{
+					vm.model.projectType =[];
+				}
 				var httpOptions = {
 					method : 'put',
 					url : url_shenbao,
@@ -131,6 +136,8 @@
 								fn : function() {
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
+									$(".modal-backdrop").remove();
+									$location.path("/shenbao");
 								}
 							});
 						}
@@ -146,6 +153,7 @@
 				});
 
 			} else {
+				vm.model.projectType = vm.model.projectType.split(",");
 				 common.alert({
 				 vm:vm,
 				 msg:"您填写的信息不正确,请核对后提交!"
@@ -206,7 +214,7 @@
 			    			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
 							}
 						}
-		        		if(vm.page=='record_edit'){
+		        		if(vm.page=='record_edit' && vm.model.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){
 		        			//项目行业归口
 							var child = $linq(common.getBasicData()).where(function(x){return x.id==vm.model.projectIndustry}).toArray()[0];
 			        		vm.model.projectIndustryParent=child.pId;
@@ -349,7 +357,7 @@
 				
 				if(vm.page=='edit'){
 					//多选框回显						
-					if(vm.model.projectType != ""){
+					if(vm.model.projectType != "" && vm.model.projectType !=undefined){
 						vm.model.projectType = vm.model.projectType.split(",");
 					}else{
 						vm.model.projectType =[];
