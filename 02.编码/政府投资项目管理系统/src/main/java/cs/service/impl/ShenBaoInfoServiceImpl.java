@@ -98,7 +98,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@Override
 	@Transactional
 	public ShenBaoInfo update(ShenBaoInfoDto dto,String id) {
+		
 		ShenBaoInfo entity=super.update(dto,id);
+		
 		//处理关联信息
 		//附件
 		entity.getAttachments().forEach(x -> {//删除历史附件
@@ -108,6 +110,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		dto.getAttachmentDtos().forEach(x -> {//添加新附件
 			entity.getAttachments().add(attachmentMapper.buildEntity(x, new Attachment()));
 		});
+		
 		//申报单位
 		shenBaoUnitInfoRepo.delete(entity.getShenBaoUnitInfo());//删除申报单位
 		ShenBaoUnitInfoDto shenBaoUnitInfoDto = dto.getShenBaoUnitInfoDto();
@@ -117,17 +120,18 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		shenBaoUnitInfo.setModifiedBy(entity.getCreatedBy());
 		entity.setShenBaoUnitInfo(shenBaoUnitInfo);
 		//编制单位
-		shenBaoUnitInfoRepo.delete(entity.getBianZhiUnitInfo());//删除申报单位
+		/*shenBaoUnitInfoRepo.delete(entity.getBianZhiUnitInfo());//删除申报单位
 		ShenBaoUnitInfoDto bianZhiUnitInfoDto = dto.getBianZhiUnitInfoDto();
 		ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
 		shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
 		bianZhiUnitInfo.setCreatedBy(entity.getCreatedBy());
 		bianZhiUnitInfo.setModifiedBy(entity.getCreatedBy());
 		entity.setShenBaoUnitInfo(bianZhiUnitInfo);
-			
+		*/	
+		entity.setProcessState(BasicDataConfig.processState);
 		super.repository.save(entity);
 		initWorkFlow(entity);
-		logger.info(String.format("更新申报信息,项目名称 %s",entity.getProjectName()));			
+		logger.info(String.format("更新申报信息,项目名称 %s",entity.getProjectName()));		
 		return entity;		
 	}
 	

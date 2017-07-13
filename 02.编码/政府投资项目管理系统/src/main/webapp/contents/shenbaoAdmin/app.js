@@ -136,7 +136,7 @@
 	        })
 	        //申报记录编辑页
 	        .state('shenbao_record_edit', {
-	            url: '/shenbao_record_edit/:id/:stage', 
+	            url: '/shenbao_record_edit/:id/:projectInvestmentType/:stage', 
 	            templateUrl: '/shenbaoAdmin/shenbao/html/edit.html',
 	            controller: 'shenbaoCtrl',
 	            controllerAs: 'vm'
