@@ -13,7 +13,7 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class BaseProject extends BaseEntity
 {
-	@Column(columnDefinition="varchar(255) NULL COMMENT '单位名'")
+	@Column(columnDefinition="varchar(255) NULL COMMENT '现阶段责任单位名'")
 	private String unitName;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目代码'")
@@ -97,7 +97,7 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="varchar(500) NULL COMMENT '项目简介'")
 	private String projectIntro;
 	
-	@Column(columnDefinition="varchar(500) NULL COMMENT '项目建设规模'")
+	@Column(columnDefinition="varchar(500) NULL COMMENT '项目建设规模及内容'")
 	private String projectGuiMo;
 	
 	@Column(columnDefinition="varchar(500) NULL COMMENT '备注'")
@@ -121,7 +121,15 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="varchar(255) NULL COMMENT '批复-初步设计与概算-文号'")
 	private String pifuCBSJYGS_wenhao;
 	
-
+	@Column(columnDefinition="varchar(255) NULL COMMENT '建设周期'")
+	private String constructionCycle;
+	
+	@Column(columnDefinition="double(10,2) NULL COMMENT '决算金额'")
+	private Double finalAmount;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '财政项目代码'")
+	private String financeProjectNumber;
+	
 
 	public String getUnitName() {
 		return unitName;
@@ -410,6 +418,29 @@ public class BaseProject extends BaseEntity
 	public void setDivisionId(String divisionId) {
 		this.divisionId = divisionId;
 	}
-	
 
+	public String getConstructionCycle() {
+		return constructionCycle;
+	}
+
+	public void setConstructionCycle(String constructionCycle) {
+		this.constructionCycle = constructionCycle;
+	}
+
+	public Double getFinalAmount() {
+		return finalAmount;
+	}
+
+	public void setFinalAmount(Double finalAmount) {
+		this.finalAmount = finalAmount;
+	}
+
+	public String getFinanceProjectNumber() {
+		return financeProjectNumber;
+	}
+
+	public void setFinanceProjectNumber(String financeProjectNumber) {
+		this.financeProjectNumber = financeProjectNumber;
+	}
+	
 }

@@ -7,6 +7,7 @@
 	function monthReport($http,$compile,$location) {	
 		var url_project = "/management/project";	
 		var url_projectMonthReport="/management/monthReport";
+		var url_back = "/monthReport"
 	
 		
 		var service = {
@@ -153,7 +154,7 @@
 								fn : function() {
 									$('.alertDialog').modal('hide');
 									$('.modal-backdrop').remove();
-									location.href="#/monthReport";
+									$location.path(url_back);//创建成功返回到列表页
 								}
 							});
 						}

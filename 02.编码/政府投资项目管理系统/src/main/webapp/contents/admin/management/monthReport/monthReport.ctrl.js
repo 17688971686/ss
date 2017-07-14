@@ -10,6 +10,9 @@
     function monthReport($location, monthReportSvc,$state,$scope) {
         /* jshint validthis:true */
     	var vm = this;
+    	vm.projectId=$state.params.projectId;
+		vm.year=$state.params.year;
+		vm.month=$state.params.month;
     	vm.model={};    
     	vm.page='list';
     	vm.model.display = false;
@@ -17,14 +20,8 @@
         vm.init=function(){
         	if($state.current.name=='monthReport_details'){
         		vm.page='details';
-        		vm.projectId=$state.params.projectId;
-        		vm.year=$state.params.year;
-        		vm.month=$state.params.month;
         	}else if($state.current.name=='monthReportChange'){
         		vm.page='changeDetails';
-        		vm.projectId=$state.params.projectId;
-        		vm.year=$state.params.year;
-        		vm.month=$state.params.month;
         	}
         	
         	vm.getBasicDataDesc = function(Str){
@@ -48,6 +45,7 @@
         }
         
         function page_details(){
+        	monthReportSvc.getProjectById(vm);
         	//begin#基础数据
         	vm.model.isReportExist = false;
         	//begin#创建问题和删除问题
@@ -69,18 +67,17 @@
         		 
         		 vm.uploadSuccess=function(e){
         			var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
-   	           	 if(e.XMLHttpRequest.status==200){
-   	           		 var fileName=e.XMLHttpRequest.response;
-   	           		 $scope.$apply(function(){
-   	           			 if(vm.model.monthReport.attachmentDtos){
-   	           				 vm.model.monthReport.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
-   	           			 }else{
-   	           				 vm.model.monthReport.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
-   	           			 }                			           			
-   	           		 });
-   	           	 }
-   	          monthReportSvc.getProjectById(vm);
-        		 }            	
+	   	           	 if(e.XMLHttpRequest.status==200){
+	   	           		 var fileName=e.XMLHttpRequest.response;
+	   	           		 $scope.$apply(function(){
+	   	           			 if(vm.model.monthReport.attachmentDtos){
+	   	           				 vm.model.monthReport.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
+	   	           			 }else{
+	   	           				 vm.model.monthReport.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
+	   	           			 }                			           			
+	   	           		 });
+	   	           	 }
+        		 };            	
         	 };//end init_page_fillReport
             
             //begin#删除文件
@@ -97,7 +94,6 @@
     		  .toArray();
         	//begin#上传类型
          	vm.uploadType=[['scenePicture','现场图片'],['other','其它材料']];
-        	monthReportSvc.getProjectById(vm);
         	
         	  //begin#提交月报
        	  	vm.submit = function(){
