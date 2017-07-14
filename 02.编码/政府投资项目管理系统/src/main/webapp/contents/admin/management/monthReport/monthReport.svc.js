@@ -9,12 +9,10 @@
 		var url_projectMonthReport="/management/monthReport";
 		var url_back = "/monthReport"
 	
-		
 		var service = {
 			grid : grid,
 			getProjectById:getProjectById,
-			submitMonthReport:submitMonthReport,
-			getProjectBeforById:getProjectBeforById
+			submitMonthReport:submitMonthReport
 		};		
 		return service;	
 		

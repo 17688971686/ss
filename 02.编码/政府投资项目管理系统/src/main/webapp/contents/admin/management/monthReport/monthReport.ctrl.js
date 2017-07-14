@@ -63,23 +63,20 @@
 
 
           //begin#ng-include load后触发
-        	 vm.page_fillReport_init=function(){
-        		 
-        		 vm.uploadSuccess=function(e){
-        			var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
-	   	           	 if(e.XMLHttpRequest.status==200){
-	   	           		 var fileName=e.XMLHttpRequest.response;
-	   	           		 $scope.$apply(function(){
-	   	           			 if(vm.model.monthReport.attachmentDtos){
-	   	           				 vm.model.monthReport.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
-	   	           			 }else{
-	   	           				 vm.model.monthReport.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
-	   	           			 }                			           			
-	   	           		 });
-	   	           	 }
-        		 };            	
-        	 };//end init_page_fillReport
-            
+    		 vm.uploadSuccess=function(e){
+    			var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
+   	           	 if(e.XMLHttpRequest.status==200){
+   	           		 var fileName=e.XMLHttpRequest.response;
+   	           		 $scope.$apply(function(){
+   	           			 if(vm.model.monthReport.attachmentDtos){
+   	           				 vm.model.monthReport.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
+   	           			 }else{
+   	           				 vm.model.monthReport.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
+   	           			 }                			           			
+   	           		 });
+   	           	 }
+    		 };            	
+        	
             //begin#删除文件
             vm.delFile=function(idx){
            	 vm.model.monthReport.attachmentDtos.splice(idx,1);
