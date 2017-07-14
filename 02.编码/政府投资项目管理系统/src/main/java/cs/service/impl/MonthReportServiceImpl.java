@@ -95,29 +95,22 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 		
 		//关联信息
 		//附件
-//		monthReportDto.getAttachmentDtos().stream().forEach(x -> {//添加新附件
-//			System.out.println("附件");
-//			Attachment attachment = new Attachment();
-//			attachment.setCreatedBy(monthReportDto.getFillName());
-//			attachment.setModifiedBy(monthReportDto.getFillName());
-//			monthReport.getAttachments().add(attachmentMapper.buildEntity(x, attachment));
-//		});
-//		//问题
-//		monthReportDto.getMonthReportProblemDtos().stream().forEach(x -> {//添加新问题
-//			System.out.println("问题");
-//			MonthReportProblem monthReportProblem = new MonthReportProblem();
-//			monthReportProblem.setCreatedBy(monthReportDto.getFillName());
-//			monthReportProblem.setModifiedBy(monthReportDto.getFillName());
-//			monthReportProblemMapper.buildEntity(x, monthReportProblem);
-//			monthReportProblemRepo.save(monthReportProblem);
-//			monthReport.getMonthReportProblems().add(monthReportProblem);
-//		});
-		monthReportRepo.save(monthReport);
-		MonthReportProblem monthReportProblem = new MonthReportProblem();
-		monthReportProblem.setId(UUID.randomUUID().toString());
-		monthReportProblem.setCreatedBy(monthReportDto.getFillName());
-		monthReportProblem.setModifiedBy(monthReportDto.getFillName());		
-		monthReport.getMonthReportProblems().add(monthReportProblem);
+		monthReportDto.getAttachmentDtos().forEach(x -> {//添加新附件
+			Attachment attachment = new Attachment();
+			attachmentMapper.buildEntity(x, attachment);
+			attachment.setCreatedBy(monthReportDto.getFillName());
+			attachment.setModifiedBy(monthReportDto.getFillName());
+			monthReport.getAttachments().add(attachment);
+		});
+		//问题
+		monthReportDto.getMonthReportProblemDtos().forEach(x -> {//添加新问题
+			MonthReportProblem monthReportProblem = new MonthReportProblem();
+			monthReportProblemMapper.buildEntity(x, monthReportProblem);
+			monthReportProblem.setCreatedBy(monthReportDto.getFillName());
+			monthReportProblem.setModifiedBy(monthReportDto.getFillName());
+			monthReportProblem.setMonthReport(monthReport);//月报问题与月报之间为多对一关系
+			monthReport.getMonthReportProblems().add(monthReportProblem);
+		});
 		//设置月报的状态
 		monthReport.setProcessState(BasicDataConfig.processState_tianBao);
 		

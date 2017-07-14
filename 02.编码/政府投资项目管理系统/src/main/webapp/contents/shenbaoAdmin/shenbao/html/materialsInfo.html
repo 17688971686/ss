@@ -43,8 +43,8 @@
 	</tr>
 	<tr ng-repeat="x in vm.materialsType">
 		<td>{{x[1]}}</td>
-		<td>
-			<div class="uploadBox" data-type="{{x[0]}}">
+		<td class="clearfix">
+			<div class="uploadBox pull-left" data-type="{{x[0]}}">
 				 <input name="files"
 				        type="file"
 				        kendo-upload
@@ -55,7 +55,7 @@
 				        k-multiple="true"    
 				        />
 		      </div>
-		      <div style="margin:3px;"  class="pull-left"
+		      <div style="margin:3px;" class="pull-left"
 			 	  ng-repeat="y in vm.model.attachmentDtos" 
 			 	  ng-show="y.type=='{{x[0]}}'"
 			 		>

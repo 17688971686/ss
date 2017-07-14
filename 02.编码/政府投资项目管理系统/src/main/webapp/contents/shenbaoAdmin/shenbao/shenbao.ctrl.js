@@ -19,13 +19,13 @@
         vm.title='申报信息录入';
         $scope.animationsEnabled = true;
         vm.init=function(){
-        	if($state.current.name=='shenbao_edit'){//申报信息
+        	if($state.current.name=='shenbao_edit'){//申报信息填写
     			vm.page='edit';
     		}
-        	if($state.current.name=='shenbao_records'){//申报信息记录
+        	if($state.current.name=='shenbao_records'){//所有的申报信息记录
         		vm.page='records';
         	}
-        	if($state.current.name=='shenbao_record'){//申报信息详情
+        	if($state.current.name=='shenbao_record'){//单条申报信息详情
         		vm.page='record';
         		$(".modal-backdrop").remove();//去除模态框跳转页面之后遗留背景色
         	}

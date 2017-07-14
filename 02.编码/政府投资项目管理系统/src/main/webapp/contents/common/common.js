@@ -380,12 +380,13 @@
     }
     function basicDataConfig(){
     	return {
-    		processState_waitQianShou:"processState_1",
-    		processState_qianShou:"processState_2",
-    		processState_banJie:"processState_7",
-    		processState_tuiWen:"processState_11",
-    		projectShenBaoStage:"projectShenBaoStage",
-    		projectShenBaoStage_nextYearPlan:"projectShenBaoStage_7",
+    		processState_waitQianShou:"processState_1",//等待签收
+    		processState_qianShou:"processState_2",//已签收
+    		processState_banJie:"processState_7",//已办结
+    		processState_tuiWen:"processState_11",//已退文
+    		
+    		projectShenBaoStage:"projectShenBaoStage",//申报阶段
+    		projectShenBaoStage_nextYearPlan:"projectShenBaoStage_7",//下一年度计划
     		
     		projectCategory:"projectCategory",//项目类别
     		projectCategory_A:"projectCategory_1",//A类

@@ -69,9 +69,10 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		project.getAttachments().clear();
 		projectDto.getAttachmentDtos().forEach(x -> {//添加新附件
 			Attachment attachment = new Attachment();
+			attachmentMapper.buildEntity(x, attachment);
 			attachment.setCreatedBy(project.getCreatedBy());
 			attachment.setModifiedBy(project.getModifiedBy());
-			project.getAttachments().add(attachmentMapper.buildEntity(x, attachment));
+			project.getAttachments().add(attachment);
 		});
 		//月报
 		project.getMonthReports().forEach(x -> {//删除历史月报
@@ -80,9 +81,10 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		project.getMonthReports().clear();
 		projectDto.getMonthReportDtos().forEach(x -> {//添加新月报
 			MonthReport monthReport = new MonthReport();
+			monthReportMapper.buildEntity(x, monthReport);
 			monthReport.setCreatedBy(project.getCreatedBy());
 			monthReport.setModifiedBy(project.getModifiedBy());
-			project.getMonthReports().add(monthReportMapper.buildEntity(x, monthReport));
+			project.getMonthReports().add(monthReport);
 		});
 		
 		//保存数据
@@ -123,16 +125,18 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 			//处理关联信息
 			projectDto.getAttachmentDtos().forEach(x -> {//添加新附件
 				Attachment attachment = new Attachment();
+				attachmentMapper.buildEntity(x, attachment);
 				attachment.setCreatedBy(project.getCreatedBy());
 				attachment.setModifiedBy(project.getModifiedBy());
-				project.getAttachments().add(attachmentMapper.buildEntity(x, attachment));
+				project.getAttachments().add(attachment);
 			});
 			//月报
 			projectDto.getMonthReportDtos().forEach(x -> {//添加新月报
 				MonthReport monthReport = new MonthReport();
+				monthReportMapper.buildEntity(x, monthReport);
 				monthReport.setCreatedBy(project.getCreatedBy());
 				monthReport.setModifiedBy(project.getModifiedBy());
-				project.getMonthReports().add(monthReportMapper.buildEntity(x, monthReport));
+				project.getMonthReports().add(monthReport);
 			});			
 			//保存数据
 			super.repository.save(project);

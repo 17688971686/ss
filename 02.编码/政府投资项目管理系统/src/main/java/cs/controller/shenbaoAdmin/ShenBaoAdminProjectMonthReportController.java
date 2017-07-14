@@ -45,7 +45,6 @@ public class ShenBaoAdminProjectMonthReportController {
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  saveMonthReport(@RequestBody MonthReportDto monthReportDto){
 		monthReportService.saveMonthReport(monthReportDto);
-				
 	}
 	
 	//begin#html	

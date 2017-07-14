@@ -121,8 +121,10 @@
 						field : "",
 						title : "操作",
 						width : 200,
-						template : function(item) {						
-							return common.format($('#columnBtns_Record').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,item.processState);
+						template : function(item) {					
+							var isShow=item.processState==common.basicDataConfig().processState_waitQianShou
+							   ||item.processState==common.basicDataConfig().processState_tuiWen;
+							return common.format($('#columnBtns_Record').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShow?'':'display:none');
 						}
 					}
 			];
@@ -516,7 +518,7 @@
 						template : function(item) {
 							var isShow=item.processState==common.basicDataConfig().processState_waitQianShou
 									   ||item.processState==common.basicDataConfig().processState_tuiWen;
-							return common.format($('#columnBtns').html(),item.id,item.projectShenBaoStage,isShow?'':'display:none');
+							return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShow?'':'display:none');
 						}
 					}
 			];
