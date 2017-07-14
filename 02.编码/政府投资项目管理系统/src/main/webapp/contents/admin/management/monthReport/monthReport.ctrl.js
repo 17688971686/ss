@@ -111,7 +111,7 @@
             //begin#月报原数据
             vm.befor = function(){
             	vm.model.display = true;
-            	monthReportSvc.getProjectBeforById(vm);
+            	monthReportSvc.getProjectById(vm);
             };
             
             vm.back = function(vm){
