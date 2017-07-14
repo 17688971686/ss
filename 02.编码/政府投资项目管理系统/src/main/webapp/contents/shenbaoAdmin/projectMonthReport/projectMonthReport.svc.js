@@ -33,7 +33,7 @@
 						vm.setMonthSelected();//设置月份选择按钮的状态
 					}
 					if(vm.page=='fillReport'){//如果为月报填报页面
-						vm.isReportTuiWen = false;
+						//vm.isReportTuiWen = false; 此块用于月报的退文（暂时不需要）
 						//判断是否有月报
 						var report=$linq(vm.model.projectInfo.monthReportDtos)
 											.where(function(x){return x.submitYear==vm.year && x.submitMonth==vm.month;})
@@ -41,10 +41,11 @@
 						if(report.length>0){//有月报
 							vm.isReportExist=true;
 							vm.model.monthReport=report[0];
-							if(vm.model.monthReport.processState == common.basicDataConfig().processState_tuiWen){//如果是退文
-								vm.isReportExist=false;
-								vm.isReportTuiWen = true;
-		        			}
+							//TODO 此块用于月报的退文（暂时不需要）
+//							if(vm.model.monthReport.processState == common.basicDataConfig().processState_tuiWen){//如果是退文
+//								vm.isReportExist=false;
+//								vm.isReportTuiWen = true;
+//		        			}
 						}else{//没有月报
 							vm.isReportExist=false;
 						}
@@ -58,11 +59,11 @@
 						vm.model.monthReport.endDate=common.formatDate(vm.model.projectInfo.endDate);
 						//项目相关资金获取
 						vm.model.monthReport.invertPlanTotal=common.toMoney(vm.model.projectInfo.projectInvestSum);//项目总投资
+						vm.model.monthReport.actuallyFinishiInvestment=common.toMoney(vm.model.projectInfo.projectInvestAccuSum);//累计完成投资
 						//资金处理
 						vm.model.monthReport.releasePlanTotal = common.toMoney(vm.model.monthReport.releasePlanTotal);//截止上年底累计下达计划
 						vm.model.monthReport.thisYearPlanInvestment=common.toMoney(vm.model.monthReport.thisYearPlanInvestment);//本年度计划完成投资
 						vm.model.monthReport.thisYearPlanHasInvestment=common.toMoney(vm.model.monthReport.thisYearPlanHasInvestment);//本年度已下达计划
-						vm.model.monthReport.actuallyFinishiInvestment=common.toMoney(vm.model.monthReport.actuallyFinishiInvestment);//累计完成投资
 						vm.model.monthReport.thisYearAccumulatedInvestment=common.toMoney(vm.model.monthReport.thisYearAccumulatedInvestment);				
 						vm.model.monthReport.thisMonthPlanInvestTotal=common.toMoney(vm.model.monthReport.thisMonthPlanInvestTotal);//本月计划完成投资
 						vm.model.monthReport.thisMonthInvestTotal=common.toMoney(vm.model.monthReport.thisMonthInvestTotal);//本月完成投资
@@ -207,23 +208,24 @@
 
 			];
 			// End:column
-			var dataBound = function(e){
-				var dataSource = e.sender._data;
-				for(var i=0;i<dataSource.length;i++){
-					var model = dataSource[i];
-					var monthReports = model.monthReportDtos;
-					var number = 0;
-					for(var j=0;j<monthReports.length;j++){
-						var monthReport = monthReports[j];
-						if(monthReport.processState == common.basicDataConfig().processState_tuiWen){//如果是退文
-							number += 1;
-						}
-					}
-					if(number>0){
-						$("#tuiwenNumber"+model.id).html(number);//添加提示徽章
-					}
-				}
-			}
+			//TODO 此块用于月报的退文（暂时不需要）
+//			var dataBound = function(e){
+//				var dataSource = e.sender._data;
+//				for(var i=0;i<dataSource.length;i++){
+//					var model = dataSource[i];
+//					var monthReports = model.monthReportDtos;
+//					var number = 0;
+//					for(var j=0;j<monthReports.length;j++){
+//						var monthReport = monthReports[j];
+//						if(monthReport.processState == common.basicDataConfig().processState_tuiWen){//如果是退文
+//							number += 1;
+//						}
+//					}
+//					if(number>0){
+//						$("#tuiwenNumber"+model.id).html(number);//添加提示徽章
+//					}
+//				}
+//			}
 
 			vm.gridOptions = {
 				dataSource : common.gridDataSource(dataSource),
@@ -231,7 +233,7 @@
 				pageable : common.kendoGridConfig().pageable,
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
-				dataBound:dataBound,
+//				dataBound:dataBound,
 				resizable : true
 			};
 

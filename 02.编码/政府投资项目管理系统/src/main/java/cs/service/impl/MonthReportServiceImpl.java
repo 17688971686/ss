@@ -78,83 +78,64 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 		Criterion criterion1 = Restrictions.eq(MonthReport_.projectId.getName(), monthReportDto.getProjectId());
 		Criterion criterion2 = Restrictions.eq(MonthReport_.submitYear.getName(), monthReportDto.getSubmitYear());
 		Criterion criterion3 = Restrictions.eq(MonthReport_.submitMonth.getName(), monthReportDto.getSubmitMonth());
-		MonthReport monthReport;
+		
 		Optional<MonthReport> monthReportQuery = super.repository
 				.findByCriteria(criterion1, criterion2,criterion3)
 				.stream()
 				.findFirst();
 		if (!monthReportQuery.isPresent()) {// 不存在则创建
 			createMonthReport(monthReportDto);
-		} else {
-			monthReport = monthReportQuery.get();
-			updateMonthReport(monthReportDto, monthReport);
+		}else {//存在则更新
+			updateMonthReport(monthReportDto);
 		}
-
 	}
 
 	private void createMonthReport(MonthReportDto monthReportDto) {
 		MonthReport monthReport = super.create(monthReportDto);
+		
 		//关联信息
 		//附件
-		monthReportDto.getAttachmentDtos().forEach(x -> {//添加新附件
-			Attachment attachment = new Attachment();
-			attachment.setCreatedBy(monthReportDto.getFillName());
-			attachment.setModifiedBy(monthReportDto.getFillName());
-			monthReport.getAttachments().add(attachmentMapper.buildEntity(x, attachment));
-		});
-		//问题
-		monthReportDto.getMonthReportProblemDtos().forEach(x -> {//添加新问题
-			MonthReportProblem monthReportProblem = new MonthReportProblem();
-			monthReportProblem.setCreatedBy(monthReportDto.getFillName());
-			monthReportProblem.setModifiedBy(monthReportDto.getFillName());
-			monthReport.getMonthReportProblems().add(monthReportProblemMapper.buildEntity(x, monthReportProblem));
-		});
+//		monthReportDto.getAttachmentDtos().stream().forEach(x -> {//添加新附件
+//			System.out.println("附件");
+//			Attachment attachment = new Attachment();
+//			attachment.setCreatedBy(monthReportDto.getFillName());
+//			attachment.setModifiedBy(monthReportDto.getFillName());
+//			monthReport.getAttachments().add(attachmentMapper.buildEntity(x, attachment));
+//		});
+//		//问题
+//		monthReportDto.getMonthReportProblemDtos().stream().forEach(x -> {//添加新问题
+//			System.out.println("问题");
+//			MonthReportProblem monthReportProblem = new MonthReportProblem();
+//			monthReportProblem.setCreatedBy(monthReportDto.getFillName());
+//			monthReportProblem.setModifiedBy(monthReportDto.getFillName());
+//			monthReportProblemMapper.buildEntity(x, monthReportProblem);
+//			monthReportProblemRepo.save(monthReportProblem);
+//			monthReport.getMonthReportProblems().add(monthReportProblem);
+//		});
+		monthReportRepo.save(monthReport);
+		MonthReportProblem monthReportProblem = new MonthReportProblem();
+		monthReportProblem.setId(UUID.randomUUID().toString());
+		monthReportProblem.setCreatedBy(monthReportDto.getFillName());
+		monthReportProblem.setModifiedBy(monthReportDto.getFillName());		
+		monthReport.getMonthReportProblems().add(monthReportProblem);
 		//设置月报的状态
 		monthReport.setProcessState(BasicDataConfig.processState_tianBao);
-		// 从项目表进行保存
+		
+		//从项目表进行保存
 		Project project = projectRepo.findById(monthReportDto.getProjectId());
 		project.getMonthReports().add(monthReport);
+		
 		projectRepo.save(project);
 		
-		//初始化工作流
-		initWorkFlow(project,monthReport);
+		//初始化工作流(暂时不需要流)
+		//initWorkFlow(project,monthReport);
 
 		logger.info("创建月报数据");
 	}
 
-	private void updateMonthReport(MonthReportDto monthReportDto, MonthReport monthReport) {
-		//查找到对应的任务
-		Criterion criterion = Restrictions.eq(TaskHead_.relId.getName(), monthReportDto.getId());
-		TaskHead taskHead = taskHeadRepo.findByCriteria(criterion).stream().findFirst().get();
-		
-		//添加一条流转记录
-		//获取系统配置中工作流类型的第一处理人
-		   String startUser="";
-		  Optional<SysConfigDto> systemConfigDto=	sysService.getSysConfigs().stream().filter((x)->
-		  			BasicDataConfig.taskType.equals(x.getConfigType())		
-		  			&&BasicDataConfig.taskType_monthReport.equals(x.getConfigName())
-					).findFirst();
-		
-		TaskRecord taskRecord=new TaskRecord();
-		taskRecord.setNextUser(startUser);//设置下一处理人
-		taskRecord.setCreatedBy(currentUser.getLoginName());
-		taskRecord.setModifiedBy(currentUser.getLoginName());
-		taskRecord.setRelId(monthReport.getId());
-		taskRecord.setTaskId(taskHead.getId());//设置任务Id
-		taskRecord.setTitle(taskHead.getTitle());
-		taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
-		taskRecord.setTaskType(BasicDataConfig.taskType_monthReport);
-		taskRecord.setId(UUID.randomUUID().toString());
-		taskRecord.setProcessSuggestion("材料填报");
-		
-		taskHead.getTaskRecords().add(taskRecord);
-		//更新任务的状态以及是否完成
-		taskHead.setComplete(false);
-		taskHead.setProcessState(BasicDataConfig.processState_tianBao);
-		taskHeadRepo.save(taskHead);
-		
+	private void updateMonthReport(MonthReportDto monthReportDto) {
+		MonthReport monthReport = super.update(monthReportDto, monthReportDto.getId());
 		//更新月报信息
-		monthReportMapper.buildEntity(monthReportDto, monthReport);
 		//关联信息
 		//附件
 		monthReport.getAttachments().forEach(x -> {//删除历史附件
@@ -163,8 +144,8 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 		monthReport.getAttachments().clear();
 		monthReportDto.getAttachmentDtos().forEach(x -> {//添加新附件
 			Attachment attachment = new Attachment();
-			attachment.setCreatedBy(monthReportDto.getFillName());
-			attachment.setModifiedBy(monthReportDto.getFillName());
+			attachment.setCreatedBy(monthReport.getFillName());
+			attachment.setModifiedBy(monthReport.getFillName());
 			monthReport.getAttachments().add(attachmentMapper.buildEntity(x, attachment));
 		});
 		//问题
@@ -174,60 +155,19 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 		monthReport.getMonthReportProblems().clear();
 		monthReportDto.getMonthReportProblemDtos().forEach(x -> {
 			MonthReportProblem monthReportProblem = new MonthReportProblem();
-			monthReportProblem.setCreatedBy(monthReportDto.getFillName());
-			monthReportProblem.setModifiedBy(monthReportDto.getFillName());
+			monthReportProblem.setCreatedBy(monthReport.getFillName());
+			monthReportProblem.setModifiedBy(monthReport.getFillName());
 			monthReport.getMonthReportProblems().add(monthReportProblemMapper.buildEntity(x, monthReportProblem));
 		});
-	
-		monthReport.setModifiedBy(currentUser.getLoginName());
-		monthReport.setModifiedDate(new Date());
+		//设置月报的状态
 		monthReport.setProcessState(BasicDataConfig.processState_tianBao);
 		monthReportRepo.save(monthReport);
+		//更新工作流（暂时不需要）
+//		updateWorkFlow(monthReport);
+		
 		logger.info("更新月报数据");
 	}
 	
-	private void initWorkFlow(Project project,MonthReport monthReport){
-		//获取系统配置中工作流类型的第一处理人
-	   String startUser="";
-	  Optional<SysConfigDto> systemConfigDto=sysService.getSysConfigs().stream().filter((x)->
-	  			BasicDataConfig.taskType.equals(x.getConfigType())		
-	  			&&BasicDataConfig.taskType_monthReport.equals(x.getConfigName())
-				).findFirst();
-	  
-	   if(systemConfigDto.isPresent()){
-		   startUser=systemConfigDto.get().getConfigValue();
-	   }
-		
-				
-		//创建工作流
-		TaskHead taskHead=new TaskHead();		
-		taskHead.setNextUser(startUser);//设置下一处理人
-		taskHead.setCreatedBy(currentUser.getLoginName());
-		taskHead.setModifiedBy(currentUser.getLoginName());
-		taskHead.setRelId(monthReport.getId());
-		taskHead.setTitle("项目月报-"+project.getProjectName()+"("+monthReport.getSubmitYear()+"-"+monthReport.getSubmitMonth()+")");
-		taskHead.setProcessSuggestion("材料填报");
-		taskHead.setProcessState(BasicDataConfig.processState_tianBao);//设置工作流的状态
-		taskHead.setTaskType(BasicDataConfig.taskType_monthReport);//设置工作流的类型
-		taskHead.setId(UUID.randomUUID().toString());
-				
-		//record
-		TaskRecord taskRecord=new TaskRecord();
-		taskRecord.setNextUser(startUser);//设置下一处理人
-		taskRecord.setCreatedBy(currentUser.getLoginName());
-		taskRecord.setModifiedBy(currentUser.getLoginName());
-		taskRecord.setRelId(monthReport.getId());
-		taskRecord.setTaskId(taskHead.getId());//设置任务Id
-		taskRecord.setTitle("项目月报："+project.getProjectName());
-		taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
-		taskRecord.setTaskType(BasicDataConfig.taskType_monthReport);
-		taskRecord.setId(UUID.randomUUID().toString());
-		taskRecord.setProcessSuggestion("材料填报");
-
-		taskHead.getTaskRecords().add(taskRecord);
-		taskHeadRepo.save(taskHead);
-	}
-
 	@Override
 	@Transactional
 	public void changeMonthReport(MonthReportDto monthReportDto) {		
@@ -283,5 +223,83 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 				}
 			});
 		}
+	}
+	
+	private void initWorkFlow(Project project,MonthReport monthReport){
+		//获取系统配置中工作流类型的第一处理人
+	   String startUser="";
+	  Optional<SysConfigDto> systemConfigDto=sysService.getSysConfigs().stream().filter((x)->
+	  			BasicDataConfig.taskType.equals(x.getConfigType())		
+	  			&&BasicDataConfig.taskType_monthReport.equals(x.getConfigName())
+				).findFirst();
+	  
+	   if(systemConfigDto.isPresent()){
+		   startUser=systemConfigDto.get().getConfigValue();
+	   }
+		
+				
+		//创建工作流
+		TaskHead taskHead=new TaskHead();		
+		taskHead.setNextUser(startUser);//设置下一处理人
+		taskHead.setCreatedBy(currentUser.getLoginName());
+		taskHead.setModifiedBy(currentUser.getLoginName());
+		taskHead.setRelId(monthReport.getId());
+		taskHead.setTitle("项目月报-"+project.getProjectName()+"("+monthReport.getSubmitYear()+"-"+monthReport.getSubmitMonth()+")");
+		taskHead.setProcessSuggestion("材料填报");
+		taskHead.setProcessState(BasicDataConfig.processState_tianBao);//设置工作流的状态
+		taskHead.setTaskType(BasicDataConfig.taskType_monthReport);//设置工作流的类型
+		taskHead.setId(UUID.randomUUID().toString());
+				
+		//record
+		TaskRecord taskRecord=new TaskRecord();
+		taskRecord.setNextUser(startUser);//设置下一处理人
+		taskRecord.setCreatedBy(currentUser.getLoginName());
+		taskRecord.setModifiedBy(currentUser.getLoginName());
+		taskRecord.setRelId(monthReport.getId());
+		taskRecord.setTaskId(taskHead.getId());//设置任务Id
+		taskRecord.setTitle("项目月报："+project.getProjectName());
+		taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
+		taskRecord.setTaskType(BasicDataConfig.taskType_monthReport);
+		taskRecord.setId(UUID.randomUUID().toString());
+		taskRecord.setProcessSuggestion("材料填报");
+
+		taskHead.getTaskRecords().add(taskRecord);
+		taskHeadRepo.save(taskHead);
+	}
+	
+	private void updateWorkFlow(MonthReport monthReport){
+		//查找到对应的任务
+				Criterion criterion = Restrictions.eq(TaskHead_.relId.getName(), monthReport.getId());
+				TaskHead taskHead = taskHeadRepo.findByCriteria(criterion).stream().findFirst().get();
+				
+				//添加一条流转记录
+				//获取系统配置中工作流类型的第一处理人
+				   String startUser="";
+				  Optional<SysConfigDto> systemConfigDto=sysService.getSysConfigs().stream().filter((x)->
+				  			BasicDataConfig.taskType.equals(x.getConfigType())		
+				  			&&BasicDataConfig.taskType_monthReport.equals(x.getConfigName())
+							).findFirst();
+				  
+				  if(systemConfigDto.isPresent()){
+					   startUser=systemConfigDto.get().getConfigValue();
+				   }
+				
+				TaskRecord taskRecord=new TaskRecord();
+				taskRecord.setNextUser(startUser);//设置下一处理人
+				taskRecord.setCreatedBy(currentUser.getLoginName());
+				taskRecord.setModifiedBy(currentUser.getLoginName());
+				taskRecord.setRelId(monthReport.getId());
+				taskRecord.setTaskId(taskHead.getId());//设置任务Id
+				taskRecord.setTitle(taskHead.getTitle());
+				taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
+				taskRecord.setTaskType(BasicDataConfig.taskType_monthReport);
+				taskRecord.setId(UUID.randomUUID().toString());
+				taskRecord.setProcessSuggestion("材料填报");
+				
+				taskHead.getTaskRecords().add(taskRecord);
+				//更新任务的状态以及是否完成
+				taskHead.setComplete(false);
+				taskHead.setProcessState(BasicDataConfig.processState_tianBao);
+				taskHeadRepo.save(taskHead);
 	}
 }
