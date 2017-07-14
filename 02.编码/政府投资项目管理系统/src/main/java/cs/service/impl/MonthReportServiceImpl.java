@@ -1,6 +1,7 @@
 package cs.service.impl;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -169,28 +170,21 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 		Criterion criterion2 = Restrictions.eq(MonthReport_.submitYear.getName(), monthReportDto.getSubmitYear());
 		Criterion criterion3 = Restrictions.eq(MonthReport_.submitMonth.getName(), monthReportDto.getSubmitMonth());
 		MonthReport monthReport;
-		Object[] monthReportQuery = super.repository
-				.findByCriteria(criterion1, criterion2,criterion3)
-				.stream()
-				.toArray();
-		
-		Project project = projectRepo.findById(monthReportDto.getProjectId());
-		if(monthReportQuery.length == 1){//只有一条数据修改时，新增一条
-			Optional<MonthReport> monthReportQuerys = super.repository
-					.findByCriteria(criterion1, criterion2,criterion3)
-					.stream()
-					.findFirst();
+	
+		List<MonthReport> monthReportQuery = super.repository
+				.findByCriteria(criterion1, criterion2,criterion3);
+				
+		if(monthReportQuery.size() == 1){//只有一条数据修改时，新增一条
 			//begin#修改
-			monthReport = monthReportQuerys.get();
+			monthReport = monthReportQuery.get(0);
 			monthReport.setIsLatestVersion(false);
-					
 			super.repository.save(monthReport);
+			//end#修改上条数据
 			
-			//begin#新增
+			//begin#新增一条数据
 			createMonthReport(monthReportDto);
 			
-			//end#修改上条数据
-		}else{//再次点击修改时
+		}else if(monthReportQuery.size() > 1){//再次点击修改时
 			updateMonthReport(monthReportDto);
 		}
 	}
