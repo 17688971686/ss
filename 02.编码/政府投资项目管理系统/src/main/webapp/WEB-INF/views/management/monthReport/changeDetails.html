@@ -35,6 +35,7 @@ font-weight: bold;
 }
 .uploadBox .k-upload-files{
 display:none;
+overflow: scroll !important;
 }
 </style>
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
@@ -291,7 +292,12 @@ display:none;
 			</tr>
 			<tr>
 				<td>备注：</td>
-				<td colspan="3" ng-bind="vm.model.monthReport.remark">				
+				<td colspan="3">
+				<textarea  rows="3" cols="20" mark_maxlength="200"				
+						data-validation-placeholder=""  ng-model="vm.model.monthReport.remark"				
+						style="height: 120px; width: 99%; color: rgb(169, 169, 169);">
+					</textarea>
+				</td>				
 			</tr>
 		</table>
 		

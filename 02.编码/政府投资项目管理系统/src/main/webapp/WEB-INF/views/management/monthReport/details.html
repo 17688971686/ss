@@ -195,12 +195,12 @@ overflow: scroll !important;
 								<td><span>{{$index+1}}</span></td>
 								<td>
 									<textarea style='height: 102px; width: 99%;' cols='20' rows='2' data-validation-placeholder='填写项目所存在的问题。'							
-								 		 ng-bind="vm.model.monthReport.monthReportProblemDtos[$index].problemIntroduction">
+								 		 ng-bind="vm.model.monthReport.monthReportProblemDtos[$index].problemIntroduction" disabled>
 								 	</textarea>
 								</td>
 								<td>
 									<textarea style='height: 102px; width: 99%;' cols='20' rows='2' data-validation-placeholder='填写问题的解决措施或建议'							
-								 		 ng-bind="vm.model.monthReport.monthReportProblemDtos[$index].solutionsAndSuggest">
+								 		 ng-bind="vm.model.monthReport.monthReportProblemDtos[$index].solutionsAndSuggest" disabled>
 								 	</textarea>
 								</td>							
 							</tr>
@@ -213,7 +213,7 @@ overflow: scroll !important;
 				<td colspan="4" >
 					<textarea  rows="3" cols="20" mark_maxlength="200"				
 						data-validation-placeholder=""  ng-bind="vm.model.monthReport.remark"				
-						style="height: 120px; width: 99%; color: rgb(169, 169, 169);">
+						style="height: 120px; width: 99%; color: rgb(169, 169, 169);" disabled>
 					</textarea>
 				</td>				
 			</tr>
