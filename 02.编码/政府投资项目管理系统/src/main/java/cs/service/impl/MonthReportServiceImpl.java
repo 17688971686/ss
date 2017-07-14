@@ -150,6 +150,7 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 			MonthReportProblem monthReportProblem = new MonthReportProblem();
 			monthReportProblem.setCreatedBy(monthReport.getFillName());
 			monthReportProblem.setModifiedBy(monthReport.getFillName());
+			monthReportProblem.setMonthReport(monthReport);//月报问题与月报之间为多对一关系
 			monthReport.getMonthReportProblems().add(monthReportProblemMapper.buildEntity(x, monthReportProblem));
 		});
 		//设置月报的状态
@@ -186,35 +187,11 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 			super.repository.save(monthReport);
 			
 			//begin#新增
-			monthReport = new MonthReport();
-			monthReportDto.setIsLatestVersion(true);
-			monthReportMapper.buildEntity(monthReportDto, monthReport);
-			monthReport.setCreatedBy(currentUser.getLoginName());
-			monthReport.setModifiedBy(currentUser.getLoginName());
-			monthReport.setCreatedDate(new Date());
-
-			// 从项目表进行保存
-	
-			project.getMonthReports().add(monthReport);
-			projectRepo.save(project);
+			createMonthReport(monthReportDto);
 			
 			//end#修改上条数据
-		}else{//再次点击修改时，有两条数据，修改状态为1的
-			project.getMonthReports().forEach(x->{
-				if(x.getIsLatestVersion() == true 
-						&& x.getProjectId().equals(monthReportDto.getProjectId()) 
-						&& x.getSubmitYear().equals(monthReportDto.getSubmitYear())
-						&&x.getSubmitMonth().equals(monthReportDto.getSubmitMonth())
-						&&project.getIsLatestVersion() ==true)
-				{
-					x.getAttachments().clear();
-					x.getMonthReportProblems().clear();
-
-					monthReportMapper.buildEntity(monthReportDto, x);
-					super.repository.save(x);
-					logger.info("更新月报数据");
-				}
-			});
+		}else{//再次点击修改时
+			updateMonthReport(monthReportDto);
 		}
 	}
 	
