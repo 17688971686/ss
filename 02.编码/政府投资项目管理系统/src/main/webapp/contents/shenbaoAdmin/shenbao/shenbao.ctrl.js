@@ -18,6 +18,7 @@
         vm.page='list';
         vm.title='申报信息录入';
         $scope.animationsEnabled = true;
+
         vm.init=function(){
         	if($state.current.name=='shenbao_edit'){//申报信息
     			vm.page='edit';
@@ -109,6 +110,11 @@
         }//end#page_list
        
        function page_edit(){
+    	   //禁止点击Tab切换
+		   document.getElementById("tab1").setAttribute("disabled","disabled");
+		   document.getElementById("tab2").setAttribute("disabled","disabled");
+		   document.getElementById("tab3").setAttribute("disabled","disabled");
+		   document.getElementById("tab4").setAttribute("disabled","disabled");
     	   //判断tab显示
     	   var init_tab_show=function(){
     		   vm.isYearPlan=vm.stage==common.basicDataConfig().projectShenBaoStage_nextYearPlan;//申报阶段为下一年度计划
@@ -195,6 +201,12 @@
           	 vm.model.attachmentDtos.splice(idx,1);
   		 };
   		 	 
+  		 //tab切换(上一步)
+  		 vm.tabReturn = function(tabId){
+    			var activeTab = $("#tab"+tabId);
+				vm.tabStrip.activateTab(activeTab);
+     		};
+  		
   		 //tab切换(下一步)
   		 vm.tabChange = function(tabId){
      			//验证表单
