@@ -260,11 +260,7 @@
 										  <input name="files"
 							                   type="file"
 							                   kendo-upload
-							                   k-async="{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true}"
-							                   k-error="vm.uploadSuccess"
-							                   k-localization="{select:'上传文件'}"
-							                   k-showFileList="false"
-							                  
+							                   k-options="vm.uploadOptions"
 							                   />
 										</div>
 									</td>

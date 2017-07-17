@@ -380,6 +380,8 @@
     }
     function basicDataConfig(){
     	return {
+    		uploadSize:2097152,
+    		
     		processState_waitQianShou:"processState_1",//等待签收
     		processState_qianShou:"processState_2",//已签收
     		processState_banJie:"processState_7",//已办结
@@ -423,8 +425,8 @@
     		area:"area",//行政区划
     		area_GM:"area_1",//光明新区
     		capitalOtherType:"capitalOtherType",//资金其他来源分类
-    		//任务类型
-    		taskType:"taskType",
+    		
+    		taskType:"taskType",//任务类型
     		taskType_monthReport:"taskType_1",//任务类型-月报
     		taskType_yearPlan:"taskType_2",//任务类型-下一年度计划
     		taskType_sendMesg:"taskType_3"//任务类型-发送短信

@@ -138,19 +138,45 @@
 	   						['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']];
 
 	   		vm.uploadSuccess=function(e){
-	   			
-	    			var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
-		           	 if(e.XMLHttpRequest.status==200){
-		           		 var fileName=e.XMLHttpRequest.response;
-		           		 $scope.$apply(function(){
-		           			 if(vm.model.attachmentDtos){
-		           				 vm.model.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
-		           			 }else{
-		           				 vm.model.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
-		           			 }                			           			
-		           		 });
-		           	 }
+    			var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
+	           	 if(e.XMLHttpRequest.status==200){
+	           		 var fileName=e.XMLHttpRequest.response;
+	           		 $scope.$apply(function(){
+	           			 if(vm.model.attachmentDtos){
+	           				 vm.model.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
+	           			 }else{
+	           				 vm.model.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
+	           			 }                			           			
+	           		 });
+	           	 }
 	   		};
+	   	
+	   		vm.onSelect=function(e){
+	   			$.each(e.files, function (index, value) {
+	   	            if(value.size > common.basicDataConfig().uploadSize){
+	   	            	$scope.$apply(function(){
+	   		   				common.alert({
+	   			        		vm : vm,
+	   							msg : "上传文件过大！"
+	   			            });               			           			
+	   	          		 });
+	   	            }
+	   	            
+	   	        });
+	   		};
+	   		
+	   		vm.uploadOptions={
+	   				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
+	   				error:vm.uploadSuccess,	   				
+	   				localization:{select:'上传文件'},
+	   				showFileList:false,
+	   				multiple:true,
+	   				validation: {
+	   	                maxFileSize: common.basicDataConfig().uploadSize
+	   	            },
+	   	            select:vm.onSelect
+	   		};
+	   		
 	   		
 	   		 vm.delFile=function(idx){
 	           	 vm.model.attachmentDtos.splice(idx,1);
