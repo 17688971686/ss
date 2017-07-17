@@ -138,6 +138,7 @@
 	   						['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']];
 
 	   		vm.uploadSuccess=function(e){
+	   			
 	    			var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
 		           	 if(e.XMLHttpRequest.status==200){
 		           		 var fileName=e.XMLHttpRequest.response;

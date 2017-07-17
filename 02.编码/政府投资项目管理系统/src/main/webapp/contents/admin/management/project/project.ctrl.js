@@ -69,6 +69,7 @@
      		   $(".modal-backdrop").remove();
      		   $location.path("/projectEdit//"+vm.model.projectInvestmentType);
      	   };
+     	  vm.model.projectInvestmentType = common.basicDataConfig().projectInvestmentType_ZF;//默认为政府投资项目
     		
     		vm.isMonthReport=function(id,isMonthReport){
     			vm.model.isMonthReport = isMonthReport;

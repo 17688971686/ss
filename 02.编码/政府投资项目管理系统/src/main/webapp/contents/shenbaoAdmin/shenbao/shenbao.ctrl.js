@@ -90,7 +90,7 @@
            
            //点击列表中的申报记录按钮
            vm.checkShenBaoRecords = function(projectNumber){
-        	   //展示模态框
+        	  //展示模态框
         	   $("#shenBaoRecords").modal({
 			        backdrop: 'static',
 			        keyboard:false  			  

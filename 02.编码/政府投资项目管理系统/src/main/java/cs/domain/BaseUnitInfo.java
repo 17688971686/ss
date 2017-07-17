@@ -13,7 +13,7 @@ public class BaseUnitInfo extends BaseEntity {
 		//begin#单位基本信息
 		@Column(columnDefinition="varchar(255)  COMMENT '单位名称'")
 		private String unitName;
-		@Column(columnDefinition="varchar(255)  COMMENT '组织机构代码'")
+		@Column(columnDefinition="varchar(255) COMMENT '组织机构代码'")
 		private String orgCode;	
 		@Column(columnDefinition="varchar(50) COMMENT '单位性质'")
 		private String unitProperty;
