@@ -74,6 +74,10 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			projectDto.setCreatedBy(project.getCreatedBy());
 			projectDto.setCreatedDate(project.getCreatedDate());
 			projectDto.setItemOrder(project.getItemOrder());
+			//为保存客户提供的数据添加字段
+			projectDto.setConstructionCycle(project.getConstructionCycle());//建设周期
+			projectDto.setFinalAmount(project.getFinalAmount());//决算金额
+			projectDto.setFinanceProjectNumber(project.getFinanceProjectNumber());//财政项目代码
 								
 			//begin#关联信息
 			//附件
@@ -142,6 +146,10 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setModifiedBy(projectDto.getModifiedBy());
 			project.setCreatedBy(projectDto.getCreatedBy());
 			project.setItemOrder(projectDto.getItemOrder());
+			//为保存客户提供的数据添加字段
+			project.setConstructionCycle(projectDto.getConstructionCycle());//建设周期
+			project.setFinalAmount(projectDto.getFinalAmount());//决算金额
+			project.setFinanceProjectNumber(projectDto.getFinanceProjectNumber());//财政项目代码
 			//begin#关联信息：外部根据需要自己创建
 		}
 		return project;

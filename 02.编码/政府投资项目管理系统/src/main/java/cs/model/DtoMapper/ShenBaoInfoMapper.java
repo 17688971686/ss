@@ -89,6 +89,10 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			//begin#财政局
 			shenBaoInfoDto.setFunctionSubjects(entity.getFunctionSubjects());
 			shenBaoInfoDto.setEconClassSubjects(entity.getEconClassSubjects());
+			//为保存客户提供的数据添加字段
+			shenBaoInfoDto.setConstructionCycle(entity.getConstructionCycle());//建设周期
+			shenBaoInfoDto.setFinalAmount(entity.getFinalAmount());//决算金额
+			shenBaoInfoDto.setFinanceProjectNumber(entity.getFinanceProjectNumber());//财政项目代码
 						
 			//begin关联信息
 			//附件
@@ -171,6 +175,10 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setModifiedDate(shenBaoInfoDto.getModifiedDate());
 			shenBaoInfo.setItemOrder(shenBaoInfoDto.getItemOrder());
 			//begin#关联信息：外部根据需要自己创建
+			//为保存客户提供的数据添加字段
+			shenBaoInfo.setConstructionCycle(shenBaoInfoDto.getConstructionCycle());//建设周期
+			shenBaoInfo.setFinalAmount(shenBaoInfoDto.getFinalAmount());//决算金额
+			shenBaoInfo.setFinanceProjectNumber(shenBaoInfoDto.getFinanceProjectNumber());//财政项目代码
 		}
 		return shenBaoInfo;
 		

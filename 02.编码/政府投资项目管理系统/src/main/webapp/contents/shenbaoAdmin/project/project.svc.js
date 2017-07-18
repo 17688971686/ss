@@ -87,7 +87,7 @@
 			   	getProjectUnit(vm);
 			   	
 				//项目类型的处理--多选框回显					
-				if(vm.model.projectType != ""){
+				if(vm.model.projectType != "" && vm.model.projectType != null){
 					vm.model.projectType = vm.model.projectType.split(",");
 				}else{
 					vm.model.projectType =[];
