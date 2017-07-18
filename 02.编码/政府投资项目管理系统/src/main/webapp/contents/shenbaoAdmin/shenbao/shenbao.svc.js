@@ -124,7 +124,7 @@
 						template : function(item) {					
 							var isShow=item.processState==common.basicDataConfig().processState_waitQianShou
 							   ||item.processState==common.basicDataConfig().processState_tuiWen;
-							return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShow?'':'display:none');
+							return common.format($('#columnBtns_Record').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShow?'':'display:none');
 						}
 					}
 			];

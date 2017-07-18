@@ -126,33 +126,37 @@
 	           		 });
 	           	 }
      		 };
+     		 
+     		vm.onSelect=function(e){
+       			$.each(e.files, function (index, value) {
+       	            if(value.size > common.basicDataConfig().uploadSize){
+       	            	$scope.$apply(function(){
+       		   				common.alert({
+       			        		vm : vm,
+       							msg : "上传文件过大！"
+       			            });	
+       	          		 });
+       	            }
+       	            
+       	        });
+       		};
+       		
+       		vm.uploadOptions={
+       				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
+       				error:vm.uploadSuccess,	   				
+       				localization:{select:'上传文件'},
+       				showFileList:false,
+       				multiple:true,
+       				validation: {
+       	                maxFileSize: common.basicDataConfig().uploadSize
+       	            },
+       	            select:vm.onSelect
+       		};
      	 };//end init_page_fillReport
      	 
-     	vm.onSelect=function(e){
-   			$.each(e.files, function (index, value) {
-   	            if(value.size > common.basicDataConfig().uploadSize){
-   	            	$scope.$apply(function(){
-   		   				common.alert({
-   			        		vm : vm,
-   							msg : "上传文件过大！"
-   			            });               			           			
-   	          		 });
-   	            }
-   	            
-   	        });
-   		};
+     	
    		
-   		vm.uploadOptions={
-   				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
-   				error:vm.uploadSuccess,	   				
-   				localization:{select:'上传文件'},
-   				showFileList:false,
-   				multiple:true,
-   				validation: {
-   	                maxFileSize: common.basicDataConfig().uploadSize
-   	            },
-   	            select:vm.onSelect
-   		};
+   		
      	 
      	//begin#删除文件
          vm.delFile=function(idx){
