@@ -141,7 +141,7 @@ textarea.form-control {
 			<tr ng-hide="vm.isComplete">
 				<td class="formAlignRight" style="width:150px;">填写处理意见：</td>
 				<td>
-					<textarea rows="3" class="form-control" id="processSuggestion" name="processSuggestion" 
+					<textarea rows="3" class="form-control" id="processSuggestion" maxlength="500" name="processSuggestion" 
 						ng-model="vm.model.taskRecord.processSuggestion" data-val="true" data-val-required="必填"></textarea>
 					<span data-valmsg-for="processSuggestion" data-valmsg-replace="true" class="required"></span>						
 				</td>

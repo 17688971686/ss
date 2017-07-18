@@ -214,7 +214,7 @@
 				<tr>
 					<td class="text-center" style="width:100px;" >"其他"的来源途径说明：</td>
 					<td >
-						<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.capitalOtherDescription" placeholder="注：200字符以内"></textarea>									
+						<textarea class="form-control input-sm" maxlength="200" style="width:99%;" ng-model="vm.model.capitalOtherDescription" placeholder="注：200字符以内"></textarea>									
 					</td>
 				</tr>
 				<tr>
@@ -229,19 +229,19 @@
 	<tr>
 		<td class="formAlignRight">项目简介：</td>
 		<td colspan="3" >
-			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：项目简介（500字符以内）" ng-bind="vm.model.projectIntro" disabled></textarea>													
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：项目简介（500字符以内）" ng-bind="vm.model.projectIntro" disabled></textarea>													
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">建设规模：</td>
 		<td colspan="3" >
-			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（200字符以内）" ng-bind="vm.model.projectGuiMo" disabled></textarea>													
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（200字符以内）" ng-bind="vm.model.projectGuiMo" disabled></textarea>													
 		</td>
 	</tr>	
 	<tr>
 		<td class="formAlignRight">备注：</td>
 		<td colspan="3" >
-			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（200字符以内）" ng-bind="vm.model.remark"></textarea>												
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（200字符以内）" ng-bind="vm.model.remark"></textarea>												
 		</td>
 	</tr>
 </table>

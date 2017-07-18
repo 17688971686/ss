@@ -138,7 +138,7 @@ overflow: scroll !important;
 				
 				<td colspan="4" style="padding: 10px;">
 					<textarea ng-bind="vm.model.monthReport.workTargets" rows="3" cols="20"				
-						mark_maxlength="200" data-validation-placeholder="年度工作目标(200字符以内)"						
+						maxlength="200" data-validation-placeholder="年度工作目标(200字符以内)"						
 						style="height: 120px; width: 99%;" disabled>
 					</textarea>
 				</td>				
@@ -146,7 +146,7 @@ overflow: scroll !important;
 			<tr>
 				<td>项目审批进度：</td>
 				<td colspan="4" style="padding: 10px;">
-					<textarea ng-bind="vm.model.monthReport.projectApprovalProgress" rows="3" cols="20"	mark_maxlength="200"			
+					<textarea ng-bind="vm.model.monthReport.projectApprovalProgress" rows="3" cols="20"		
 						 data-validation-placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。"						
 						style="height: 120px; width: 99%;" disabled>
 					</textarea>
@@ -155,7 +155,7 @@ overflow: scroll !important;
 			<tr>
 				<td style="line-height: 18px">工程形象进度或<br>项目进度情况：<span class="required">(*)</span></td>
 				<td colspan="4" style="padding: 10px;">
-					<textarea ng-bind="vm.model.monthReport.projectImageProgress" rows="3" cols="20"	mark_maxlength="200"			
+					<textarea ng-bind="vm.model.monthReport.projectImageProgress" rows="3" cols="20"			
 						 data-validation-placeholder="工程形象进度或项目进度情况(200字符以内)"						
 						style="height: 120px; width: 99%;" disabled>
 					</textarea>
@@ -196,7 +196,7 @@ overflow: scroll !important;
 			<tr>
 				<td>备注：</td>
 				<td colspan="4" >
-					<textarea  rows="3" cols="20" mark_maxlength="200"				
+					<textarea  rows="3" cols="20" maxlength="200"					
 						data-validation-placeholder=""  ng-bind="vm.model.monthReport.remark"				
 						style="height: 120px; width: 99%; color: rgb(169, 169, 169);">
 					</textarea>
