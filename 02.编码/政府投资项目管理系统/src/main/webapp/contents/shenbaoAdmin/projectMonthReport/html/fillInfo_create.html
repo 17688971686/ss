@@ -155,7 +155,7 @@
 		<td colspan="3" style="padding: 10px;">
 			<textarea id="workTargets" name="workTargets" ng-model="vm.model.monthReport.workTargets"
 				rows="3" cols="20"
-				mark_maxlength="200"
+				maxlength="200"
 				mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
 				data-validation-placeholder="年度工作目标(200字符以内)"
 				placeholder="年度工作目标(200字符以内)"
@@ -167,7 +167,7 @@
 		<td>项目审批进度：</td>
 		<td colspan="3" style="padding: 10px;"> <textarea
 				ng-model="vm.model.monthReport.projectApprovalProgress" rows="3" cols="20"
-				mark_maxlength="200"
+				maxlength="200"
 				mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
 				data-validation-placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。"
 				placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。"
@@ -182,7 +182,7 @@
 			<div>					
 				<textarea id="projectImageProgress" name="projectImageProgress" ng-model="vm.model.monthReport.projectImageProgress" 
 					rows="3"
-					cols="20" mark_maxlength="200"
+					cols="20" maxlength="200"
 					mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
 					data-validation-placeholder="工程形象进度或项目进度情况(200字符以内)"
 					placeholder="工程形象进度或项目进度情况(200字符以内)"
@@ -211,11 +211,11 @@
 						<td><span>{{$index+1}}</span></td>
 						<td><textarea style='height: 102px; width: 307px;'
 								placeholder='填写项目所存在的问题。'
-								data-validation-placeholder='填写项目所存在的问题。' cols='20' rows='2' ng-model="vm.model.monthReport.monthReportProblemDtos[$index].problemIntroduction"></textarea>
+								data-validation-placeholder='填写项目所存在的问题。' maxlength="500" cols='20' rows='2' ng-model="vm.model.monthReport.monthReportProblemDtos[$index].problemIntroduction"></textarea>
 						</td>
 						<td><textarea style='height: 102px; width: 307px;'
 								placeholder='填写问题的解决措施或建议'
-								data-validation-placeholder='填写问题的解决措施或建议' cols='20' rows='2' ng-model="vm.model.monthReport.monthReportProblemDtos[$index].solutionsAndSuggest"></textarea>
+								data-validation-placeholder='填写问题的解决措施或建议' maxlength="500" cols='20' rows='2' ng-model="vm.model.monthReport.monthReportProblemDtos[$index].solutionsAndSuggest"></textarea>
 						</td>
 						<td><input class='btn btn-xs btn-danger' type='button'
 							ng-click='vm.deleteProblem($index)' value='删除问题' /></td>
@@ -227,7 +227,7 @@
 	<tr>
 		<td>备注：</td>
 		<td><textarea ng-model="vm.model.monthReport.remark" rows="3"
-				cols="20" mark_maxlength="200"
+				cols="20" maxlength="200"
 				mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
 				data-validation-placeholder="" placeholder=""
 				style="height: 120px; width: 99%; color: rgb(169, 169, 169);"></textarea>
