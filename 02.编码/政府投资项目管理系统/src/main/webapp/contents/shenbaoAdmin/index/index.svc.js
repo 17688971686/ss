@@ -156,11 +156,16 @@
 								return common.format('<a href="#/monthReportDetails/{0}">{1}</a>',item.relId,item.title);
 							}							
 						},
+						width:305,
 						filterable : false						
 					},
 					{
 						field : "processSuggestion",
-						title : "信息",						
+						title : "信息",
+						width:441,
+						template:function(item){
+							return common.format('<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:441px;" title="{0}">{0}</span>',item.processSuggestion);
+						},
 						filterable : false
 					},
 					{
@@ -169,14 +174,17 @@
 						template:function(item){
 							return common.getBasicDataDesc(item.processState);
 						},
+						width:210,
 						filterable : false
 					},
 					{
 						field : "createdDate",
 						title : "创建时间",
+						width:165,
 						template:function(item){
 							return common.formatDateTime(item.createdDate);
-						}
+						},
+						filterable : false
 					}
 			];
 			// End:column

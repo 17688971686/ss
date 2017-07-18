@@ -2,7 +2,34 @@
 	.modal-open {
        overflow: scroll !important;
     }
+    .tipfont{
+    	color:red;
+    }
 </style>
+<script type="text/javascript">
+                function cls(obj,max,v){
+                        var reg=/[^x00-xff]/gm;
+                        var str=obj.value.replace(reg,'aa');//全换成单字节字符计算
+                        var v=document.getElementById('v');
+                        var s=document.getElementById('s');
+                        s.style.display="none";
+                        var x=document.getByClass("tipafter");
+                        x.style.display="none";
+                        
+                        if(str.length>max){
+                                var n=0,strr=[];
+                                for(var i=0;i<obj.value.length;i++){//得到50字节以内的字符
+                                        /[^x00-xff]/.test(obj.value.charAt(i))?n+=2:n+=1;
+                                        if(n>max)break;
+                                        strr.push(obj.value.charAt(i));
+                                }
+                                obj.value=strr.join('');
+                                v.innerHTML=0;
+                        }else{
+                                v.innerHTML=max-str.length;
+                        }
+                }
+        </script>
 <div class="bg-info text-info" style="padding: 10px; ">项目所属单位</div>
 <table class="table table-bordered table-striped ">
 	<tr>
@@ -204,9 +231,18 @@
 				<table class="table table-bordered ">
 				<tr>
 					<td class="text-center" style="width:100px;" >"其他"的来源途径说明：</td>
-					<td >
-						<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.capitalOtherDescription" placeholder="注：200字符以内"></textarea>									
-					</td>
+					<td>
+						<textarea class="form-control input-sm textLimit" style="width:99%;" ng-model="vm.model.capitalOtherDescription" 
+							 id="capitalOtherDescription" name="capitalOtherDescription" onkeyup="cls(this,200,'v')" oncontextmenu="cls(this,200,'v')"
+							 data-validation-placeholder="注：200字符以内" placeholder="注：200字符以内">
+						</textarea>
+						<div class="tipfont" >
+							您还可以输入<font size="5">
+							<span id="s">200</span>
+							<span id="v"></span>
+							</font>个字符!
+						</div>
+					</td> 
 				</tr>
 				<tr>
 					<td>资金总计：</td>
@@ -221,7 +257,14 @@
 	<tr>
 		<td class="formAlignRight">项目简介：</td>
 		<td colspan="3" >
-			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" placeholder="注：项目简介（500字符以内）" ng-model="vm.model.projectIntro"></textarea>													
+			<textarea class="form-control" mark_maxlength="500" style="height:121px;width: 99%;" ng-model="vm.model.projectIntro"
+				placeholder="注：项目简介（500字符以内）"  onkeyup="cls(this,500,'s')" oncontextmenu="cls(this,500,'s')"></textarea>
+				<div class="tipfont" >
+					您还可以输入<font size="5">
+					<span class="tipafter">500</span>
+					<span id="s"></span>
+					</font>个字符!
+				</div>													
 		</td>
 	</tr>
 	<tr>
@@ -306,6 +349,7 @@
 	</td>
 </tr>
 </table>
+
 
 
 
