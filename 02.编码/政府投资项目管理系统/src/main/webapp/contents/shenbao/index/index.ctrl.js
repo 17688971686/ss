@@ -48,10 +48,12 @@
       
         activate();
         function activate() {
-        	indexSvc.getArticle(vm);        	
+        	indexSvc.getArticle(vm);
+        	if(getExplorerInfo().type == "IE" ){
+        		vm.isIE = true;
+        	}
         }
-        //检查浏览器及其版本
-        getExplorerInfo();
+        
 		function getExplorerInfo() {
 			var explorer = window.navigator.userAgent.toLowerCase();
 			//ie 
@@ -95,12 +97,6 @@
 				};
 			}
 
-		}
-		//判断IE浏览器版本
-    	if(getExplorerInfo().type=="IE" && getExplorerInfo().version<10 ){
-    		//$location.path(url_back);
-    		vm.isIE = true;
-    	}
-        
+		}       
     }
 })();
