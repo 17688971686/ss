@@ -54,7 +54,7 @@
 					<td ng-if="x.taskType == vm.taskType_monthReport">
 						<a href="#/monthReportDetails/{{x.relId}}">{{x.title}}</a>
 					</td>				
-					<td ng-bind="x.processSuggestion"></td>
+					<td ng-bind="x.processSuggestion" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="{{x.processSuggestion}}"></td>
 					<td ng-bind="vm.getBasicDataDesc(x.processState)"></td>
 					<td ng-bind="vm.formatDateTime(x.createdDate)"></td>
 				</tr>

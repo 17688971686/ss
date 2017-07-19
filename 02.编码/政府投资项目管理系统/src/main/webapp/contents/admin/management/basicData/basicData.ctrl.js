@@ -41,7 +41,8 @@
 									var childIds = $linq(basicData)
 									.where(function(x){return x.pId==treeNode.id;})
 									.select(function(x){return {id:x.id}})
-									.toArray();				
+									.toArray();	
+									var oldId, newId;
 									if(childIds.length>0){//有子代代表新点击对象为父级新增										
 										var idNum = [];
 										var index = 0;
@@ -54,11 +55,11 @@
 										//获取数组中的最大值
 										var idNumMax = Math.max.apply(null, idNum);
 										//替换掉最后的数值
-										var oldId = childIds[0].id;
-										var newId = oldId.replace(oldId[oldId.length-1],idNumMax+1);										
+										 oldId = childIds[0].id;
+										 newId = oldId.replace(oldId[oldId.length-1],idNumMax+1);										
 									}else{//代表点击对象为子级新增按钮										
-										var oldId = treeNode.id;
-										var newId = oldId+"_1";							
+										 oldId = treeNode.id;
+										 newId = oldId+"_1";							
 									}									
 									var newnode={id:newId,name:"请编辑命名",identity:treeNode.identity,pId:treeNode.id,canEdit:true};
 									zTree.addNodes(treeNode,newnode);

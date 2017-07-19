@@ -33,6 +33,9 @@
     		vm.getBasicDataDesc=function(str){
     			return common.getBasicDataDesc(str);
     		};
+    		vm.checkLength = function(obj,max,id){
+      			 common.checkLength(obj,max,id);
+           	};
     	}
     	   	
     	activate();

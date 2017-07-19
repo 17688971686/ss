@@ -157,8 +157,8 @@ overflow: scroll !important;
 				<td>是否完成竣工决算</td>
 				<td colspan="3">
 					<span class="radioList_text"> 
-						<label><input type="radio" name="isCompletion" ng-model="vm.model.monthReport.isCompletion" value="1">是</label>									
-						<label><input type="radio" name="isCompletion" ng-model="vm.model.monthReport.isCompletion" value="0" >否</label>				
+						<label><input type="radio" name="isCompletion" ng-model="vm.model.monthReport.isCompletion" ng-checked="vm.model.monthReport.isCompletion == true" value="true">是</label>									
+						<label><input type="radio" name="isCompletion" ng-model="vm.model.monthReport.isCompletion" ng-checked="vm.model.monthReport.isCompletion == false" value="false" >否</label>				
 					</span>
 				</td>
 			</tr>
@@ -220,40 +220,32 @@ overflow: scroll !important;
 				<td style="line-height: 18px">年度工作目标：<span class="required">(*)</span>
 				</td>
 				<td colspan="3" style="padding: 10px;">
-					<textarea id="workTargets" name="workTargets" ng-model="vm.model.monthReport.workTargets"
-						rows="3" cols="20"
-						mark_maxlength="200"
-						mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
-						data-validation-placeholder="年度工作目标(200字符以内)"
-						placeholder="年度工作目标(200字符以内)"
-						style="height: 120px; width: 99%;" data-val="true" data-val-required="必填"></textarea>
+					<textarea id="workTargets" name="workTargets" rows="3" cols="20" maxlength="500" ng-model="vm.model.monthReport.workTargets"
+						placeholder="年度工作目标(500字符以内)" style="height: 120px; width: 99%;" data-val="true" data-val-required="必填"
+						ng-change="vm.checkLength(vm.model.monthReport.workTargets,500,'workTargetsTips')"></textarea>
 					<span data-valmsg-for="workTargets" data-valmsg-replace="true" class="required"></span>
+					<div class="tipfont">您还可以输入<span id="workTargetsTips"><font size="5">500</font></span>个字符!</div>
 				</tr>
 			<tr>
 				<td>项目审批进度：</td>
 				<td colspan="3" style="padding: 10px;"> 
-					<textarea id="projectApprovalProgress" name="projectApprovalProgress" ng-model="vm.model.monthReport.projectApprovalProgress"
-						rows="3" cols="20"
-						mark_maxlength="200"
-						mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
-						data-validation-placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。"
-						placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。"
-						style="height: 120px; width: 99%;" data-val="true" data-val-required="必填"></textarea>
+					<textarea id="projectApprovalProgress" name="projectApprovalProgress" rows="3" cols="20" maxlength="500" ng-model="vm.model.monthReport.projectApprovalProgress"
+						placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。(500字符内)" style="height: 120px; width: 99%;"
+						ng-change="vm.checkLength(vm.model.monthReport.projectApprovalProgress,500,'projectApprovalProgressTips')">
+					</textarea>
+					<div class="tipfont">您还可以输入<span id="projectApprovalProgressTips"><font size="5">500</font></span>个字符!</div>
 				</tr>
 			<tr>
 				<td style="line-height: 18px">工程形象进度或<br>项目进度情况：<span
 					class="required">(*)</span>
-
 				</td>
 				<td colspan="3" style="padding: 10px;">
-					<textarea id="projectImageProgress" name="projectImageProgress" ng-model="vm.model.monthReport.projectImageProgress" 
-					rows="3"
-					cols="20" mark_maxlength="200"
-					mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
-					data-validation-placeholder="工程形象进度或项目进度情况(200字符以内)"
-					placeholder="工程形象进度或项目进度情况(200字符以内)"
-					style="height: 120px; width: 99%; color: rgb(169, 169, 169);" data-val="true" data-val-required="必填"></textarea>
+					<textarea id="projectImageProgress" name="projectImageProgress" rows="3" cols="20" maxlength="500" ng-model="vm.model.monthReport.projectImageProgress" 
+						placeholder="工程形象进度或项目进度情况(500字符以内)" style="height: 120px; width: 99%; data-val="true" data-val-required="必填"
+					 	ng-change="vm.checkLength(vm.model.monthReport.projectImageProgress,500,'projectImageProgressTips')">
+					 </textarea>
 					<span data-valmsg-for="projectImageProgress" data-valmsg-replace="true" class="required"></span>
+					<div class="tipfont">您还可以输入<span id="projectImageProgressTips"><font size="5">500</font></span>个字符!</div>
 				</td>
 			</tr>					
 			
@@ -275,16 +267,19 @@ overflow: scroll !important;
 							</tr>
 							<tr ng-repeat="x in vm.model.monthReport.monthReportProblemDtos">
 								<td><span>{{$index+1}}</span></td>
-								<td><textarea style='height: 102px; width: 99%;'
-								placeholder='填写项目所存在的问题。'
-								data-validation-placeholder='填写项目所存在的问题。' cols='20' rows='2' ng-model="vm.model.monthReport.monthReportProblemDtos[$index].problemIntroduction"></textarea>
-						</td>
-						<td><textarea style='height: 102px; width: 99%;'
-								placeholder='填写项目所存在的问题。'
-								data-validation-placeholder='填写项目所存在的问题。' cols='20' rows='2' ng-model="vm.model.monthReport.monthReportProblemDtos[$index].solutionsAndSuggest"></textarea>
-						</td>
-						<td><input class='btn btn-xs btn-danger' type='button'
-							ng-click='vm.deleteProblem($index)' value='删除问题' /></td>
+								<td>
+									<textarea style='height: 102px; width: 99%;' cols='20' rows='2' maxlength="500" placeholder='填写项目所存在的问题。(500字符以内)'
+								  		ng-model="vm.model.monthReport.monthReportProblemDtos[$index].problemIntroduction">
+								  	</textarea>
+								</td>
+								<td>
+									<textarea style='height: 102px; width: 99%;' maxlength="500" cols='20' rows='2' placeholder='填写项目所存在的问题。(500字符以内)'
+										ng-model="vm.model.monthReport.monthReportProblemDtos[$index].solutionsAndSuggest">
+									</textarea>
+								</td>
+								<td>
+									<input class='btn btn-xs btn-danger' type='button' ng-click='vm.deleteProblem($index)' value='删除问题'/>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -293,10 +288,10 @@ overflow: scroll !important;
 			<tr>
 				<td>备注：</td>
 				<td colspan="3">
-				<textarea  rows="3" cols="20" mark_maxlength="200"				
-						data-validation-placeholder=""  ng-model="vm.model.monthReport.remark"				
-						style="height: 120px; width: 99%; color: rgb(169, 169, 169);">
+					<textarea  rows="3" cols="20" maxlength="200" placeholder="注：（200字符以内）" ng-model="vm.model.monthReport.remark"			
+						style="height: 120px; width: 99%;" ng-change="vm.checkLength(vm.model.monthReport.remark,200,'remarkTips')">
 					</textarea>
+					<div class="tipfont">您还可以输入<span id="remarkTips"><font size="5">200</font></span>个字符!</div>
 				</td>				
 			</tr>
 		</table>
@@ -322,14 +317,7 @@ overflow: scroll !important;
 									<td rowspan="1"><span>{{x[1]}}</span></td>
 									<td rowspan="1">
 										<div class="uploadBox"  data-type="{{x[0]}}">
-										  <input name="files"
-							                   type="file"
-							                   kendo-upload
-							                   k-async="{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true}"
-							                   k-error="vm.uploadSuccess"
-							                   k-localization="{select:'上传文件'}"
-							                   k-showFileList="false"
-							                   />
+										  <input name="files" type="file" kendo-upload k-options="vm.uploadOptions"/>
 										</div>
 									</td>
 									<td >

@@ -138,3 +138,6 @@ label{
 .table-bordered>tfoot>tr>td{
 	border:1px solid #ddd;
 }
+.tipfont{
+    	color:#af8585;
+    }

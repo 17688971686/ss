@@ -141,9 +141,12 @@ textarea.form-control {
 			<tr ng-hide="vm.isComplete">
 				<td class="formAlignRight" style="width:150px;">填写处理意见：</td>
 				<td>
-					<textarea rows="3" class="form-control" id="processSuggestion" name="processSuggestion" 
-						ng-model="vm.model.taskRecord.processSuggestion" data-val="true" data-val-required="必填"></textarea>
-					<span data-valmsg-for="processSuggestion" data-valmsg-replace="true" class="required"></span>						
+					<textarea class="form-control" id="processSuggestion" name="processSuggestion"  maxlength="500" rows="3" 
+						ng-model="vm.model.taskRecord.processSuggestion" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+						ng-change="vm.checkLength(vm.model.taskRecord.processSuggestion,500,'processSuggestionTips')">
+					</textarea>
+					<span data-valmsg-for="processSuggestion" data-valmsg-replace="true" class="required"></span>
+					<div class="tipfont">您还可以输入<span id="processSuggestionTips"><font size="5">500</font></span>个字符!</div>						
 				</td>
 				
 			</tr>

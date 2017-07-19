@@ -13,24 +13,16 @@
 		</td>
 		<td><input type="text" ng-model="vm.model['pifu'+x[0]+'_wenhao']" /></td>
 		<td class="clearfix">
-		<div class="uploadBox pull-left"  data-type="{{x[0]}}">
-		 <input name="files"
-		        type="file"
-		        kendo-upload
-		        k-async="{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true}"
-		        k-error="vm.uploadSuccess"
-		        k-localization="{select:'上传文件'}"
-		        k-showFileList="false"   
-		        k-multiple="false"    
-		        />
-		        </div>
-		         <div style="margin:3px;"  class="pull-left"
-				 	  ng-repeat="y in vm.model.attachmentDtos" 
-				 	  ng-show="y.type=='{{x[0]}}'"
-				 		>
-					 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
-					<button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button>
-				 </div>
+			<div class="uploadBox pull-left"  data-type="{{x[0]}}">
+			 	<input name="files" type="file" kendo-upload k-options="vm.uploadOptions_pifu"/>
+	        </div>
+	         <div style="margin:3px;"  class="pull-left"
+			 	  ng-repeat="y in vm.model.attachmentDtos" 
+			 	  ng-show="y.type=='{{x[0]}}'"
+			 		>
+				 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+				<button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button>
+			 </div>
 		</td>
 	</tr>
 </table>
@@ -45,19 +37,12 @@
 		<td>{{x[1]}}</td>
 		<td class="clearfix">
 			<div class="uploadBox pull-left" data-type="{{x[0]}}">
-				 <input name="files"
-				        type="file"
-				        kendo-upload
-				        k-options="vm.uploadOptions" 
-				        />
-		      </div>
-		      <div style="margin:3px;" class="pull-left"
-			 	  ng-repeat="y in vm.model.attachmentDtos" 
-			 	  ng-show="y.type=='{{x[0]}}'"
-			 		>
-				 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+				<input name="files" type="file" kendo-upload  k-options="vm.uploadOptions"/>
+			</div>
+			<div style="margin:3px;" class="pull-left" ng-repeat="y in vm.model.attachmentDtos" ng-show="y.type=='{{x[0]}}'">
+				<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
 				<button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button>
-			 </div>
+			</div>
 		</td>
 	</tr>
 </table>

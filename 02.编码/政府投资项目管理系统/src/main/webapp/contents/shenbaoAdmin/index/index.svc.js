@@ -3,7 +3,7 @@
 
 	angular.module('app').factory('indexSvc', index);
 
-	index.$inject = [ '$http' ];	
+	index.$inject = ['$http'];	
 
 	function index($http) {	
 		var url_task="/shenbaoAdmin/task";
@@ -11,6 +11,7 @@
 		var url_account_password="/account/password";
 		var url_monthReport = "/shenbaoAdmin/projectMonthReport";
 		var url_project = "/shenbaoAdmin/project";
+		var url_login = "/";
 		var service = {
 			getTask:getTask, //获取任务最新动态
 			getUnitShenBaoInfos:getUnitShenBaoInfos,//获取单位申报信息
@@ -101,6 +102,8 @@
 								fn : function() {
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
+									//跳转到登录页面进行重新登录
+									location.href=url_login;
 								}
 							});
 						}
@@ -119,7 +122,7 @@
 				 common.alert({
 				 vm:vm,
 				 msg:"您填写的信息不正确,请核对后提交!"
-				 })
+				 });
 			}
 		}
 		
@@ -156,11 +159,16 @@
 								return common.format('<a href="#/monthReportDetails/{0}">{1}</a>',item.relId,item.title);
 							}							
 						},
+						width:305,
 						filterable : false						
 					},
 					{
 						field : "processSuggestion",
-						title : "信息",						
+						title : "信息",
+						width:441,
+						template:function(item){
+							return common.format('<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:441px;" title="{0}">{0}</span>',item.processSuggestion);
+						},
 						filterable : false
 					},
 					{
@@ -169,14 +177,17 @@
 						template:function(item){
 							return common.getBasicDataDesc(item.processState);
 						},
+						width:210,
 						filterable : false
 					},
 					{
 						field : "createdDate",
 						title : "创建时间",
+						width:165,
 						template:function(item){
 							return common.formatDateTime(item.createdDate);
-						}
+						},
+						filterable : false
 					}
 			];
 			// End:column

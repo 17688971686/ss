@@ -1,6 +1,5 @@
 package cs.service.impl;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -53,8 +52,6 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 	private IRepository<Attachment, String> attachmentRepo;
 	@Autowired
 	private IRepository<MonthReportProblem, String> monthReportProblemRepo;
-	@Autowired
-	private IMapper<MonthReportDto, MonthReport> monthReportMapper;
 	@Autowired
 	private IMapper<AttachmentDto, Attachment> attachmentMapper;
 	@Autowired

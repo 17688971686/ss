@@ -23,6 +23,10 @@
             if(vm.month){
             	vm.page='fillReport';
             }
+            
+            vm.checkLength = function(obj,max,id){
+   			 common.checkLength(obj,max,id);
+            };
         };
         
         activate();
@@ -81,7 +85,7 @@
         	 vm.fillReport = function(month){
         		//跳转到月报信息填写页面
                	location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+vm.submitYear+"/"+month;	
-			}
+			};
         }//end page_selectMonth
         
         function page_fillReport(){ 

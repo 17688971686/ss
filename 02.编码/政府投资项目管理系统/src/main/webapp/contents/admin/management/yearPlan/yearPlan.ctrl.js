@@ -27,6 +27,10 @@
     			vm.page='planBZ';
     		}
     		
+    		vm.checkLength = function(obj,max,id){
+      			 common.checkLength(obj,max,id);
+           	};
+    		
     	}
     	init();    	
     	activate();
