@@ -27,7 +27,8 @@
         toMoney:toMoney,
         formatDate:formatDate,
         formatDateTime:formatDateTime,
-        basicDataConfig:basicDataConfig
+        basicDataConfig:basicDataConfig,
+        checkLength:checkLength
     };
 
     window.common = service;
@@ -380,7 +381,7 @@
     }
     function basicDataConfig(){
     	return {
-    		uploadSize:2097152,
+    		uploadSize:5242880,
     		
     		processState_waitQianShou:"processState_1",//等待签收
     		processState_qianShou:"processState_2",//已签收
@@ -433,6 +434,19 @@
     		
     		
     	};
+    }
+    
+    function checkLength(obj,max,id){
+    	if(obj){
+    		var length = obj.length;
+    		if(length>max){
+    			$("#"+id).html("<font size='5'>"+0+"</font>");
+    		}else if(length<=max){
+    			$("#"+id).html("<font size='5'>"+(max-length)+"</font>");
+    		}
+    	}else{
+    		$("#"+id).html("<font size='5'>"+max+"</font>");
+    	}
     }
 
     //init

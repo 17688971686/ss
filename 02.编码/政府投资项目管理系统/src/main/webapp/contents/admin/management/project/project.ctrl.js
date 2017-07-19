@@ -30,6 +30,10 @@
     		vm.getBasicDataDesc = function(Str){
     			return common.getBasicDataDesc(Str);
     		};
+    		
+    		vm.checkLength = function(obj,max,id){
+   			 common.checkLength(obj,max,id);
+    		};
     	}
     	init();    	
     	activate();
@@ -188,6 +192,44 @@
 	           		 });
 	           	 }
     		};
+    		//文件选择触发验证文件大小
+    		vm.onSelect=function(e){
+	   			$.each(e.files, function (index, value) {
+	   	            if(value.size > common.basicDataConfig().uploadSize){
+	   	            	$scope.$apply(function(){
+	   		   				common.alert({
+	   			        		vm : vm,
+	   							msg : "上传文件过大！"
+	   			            });               			           			
+	   	          		 });
+	   	            }
+	   	            
+	   	        });
+	   		};
+	   		//批复文件上传配置
+	   		vm.uploadOptions_pifu={
+	   				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
+	   				error:vm.uploadSuccess,	   				
+	   				localization:{select:'上传文件'},
+	   				showFileList:false,
+	   				multiple:false,
+	   				validation: {
+	   	                maxFileSize: common.basicDataConfig().uploadSize
+	   	            },
+	   	            select:vm.onSelect
+	   		};
+	   		//相关附件上传配置
+	   		vm.uploadOptions={
+	   				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
+	   				error:vm.uploadSuccess,	   				
+	   				localization:{select:'上传文件'},
+	   				showFileList:false,
+	   				multiple:true,
+	   				validation: {
+	   	                maxFileSize: common.basicDataConfig().uploadSize
+	   	            },
+	   	            select:vm.onSelect
+	   		};
     		
     	   vm.delFile=function(idx){
         	 vm.model.attachmentDtos.splice(idx,1);

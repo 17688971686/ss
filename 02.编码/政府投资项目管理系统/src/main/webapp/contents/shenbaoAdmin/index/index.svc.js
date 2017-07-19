@@ -3,7 +3,7 @@
 
 	angular.module('app').factory('indexSvc', index);
 
-	index.$inject = [ '$http' ];	
+	index.$inject = ['$http'];	
 
 	function index($http) {	
 		var url_task="/shenbaoAdmin/task";
@@ -11,6 +11,7 @@
 		var url_account_password="/account/password";
 		var url_monthReport = "/shenbaoAdmin/projectMonthReport";
 		var url_project = "/shenbaoAdmin/project";
+		var url_login = "/";
 		var service = {
 			getTask:getTask, //获取任务最新动态
 			getUnitShenBaoInfos:getUnitShenBaoInfos,//获取单位申报信息
@@ -101,6 +102,8 @@
 								fn : function() {
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
+									//跳转到登录页面进行重新登录
+									location.href=url_login;
 								}
 							});
 						}

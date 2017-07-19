@@ -154,24 +154,20 @@
 		<td style="line-height: 18px">年度工作目标：<span class="required">(*)</span></td>		
 		<td colspan="3" style="padding: 10px;">
 			<textarea id="workTargets" name="workTargets" ng-model="vm.model.monthReport.workTargets"
-				rows="3" cols="20"
-				maxlength="200"
-				mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
-				data-validation-placeholder="年度工作目标(200字符以内)"
-				placeholder="年度工作目标(200字符以内)"
+				rows="3" cols="20" maxlength="500" placeholder="年度工作目标(500字符以内)" ng-change="vm.checkLength(vm.model.monthReport.workTargets,500,'workTargetsTips')"
 				style="height: 120px; width: 99%;" data-val="true" data-val-required="必填"></textarea>
 			<span data-valmsg-for="workTargets" data-valmsg-replace="true" class="required"></span>
+			<div class="tipfont">您还可以输入<span id="workTargetsTips"><font size="5">500</font></span>个字符!</div>
 		</td>		
 	</tr>	
 	<tr>
 		<td>项目审批进度：</td>
-		<td colspan="3" style="padding: 10px;"> <textarea
-				ng-model="vm.model.monthReport.projectApprovalProgress" rows="3" cols="20"
-				maxlength="200"
-				mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
-				data-validation-placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。"
-				placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。"
-				style="height: 120px; width: 99%;"></textarea>
+		<td colspan="3" style="padding: 10px;"> 
+			<textarea ng-model="vm.model.monthReport.projectApprovalProgress" rows="3" cols="20" maxlength="500"
+				placeholder="填写项目涉及到的选址、用地、规划、消防、人防、环评、项目建议书、可行性研究报告、概算等重要审批环节的审批进度。(500字符以内)"  style="height: 120px; width: 99%;"
+				ng-change="vm.checkLength(vm.model.monthReport.projectApprovalProgress,500,'projectApprovalProgressTips')">
+			</textarea>
+			<div class="tipfont">您还可以输入<span id="projectApprovalProgressTips"><font size="5">500</font></span>个字符!</div>
 		</td>		
 	</tr>
 	<tr>
@@ -179,16 +175,13 @@
 			class="required">(*)</span>
 		</td>
 		<td colspan="3" style="padding: 10px;">
-			<div>					
-				<textarea id="projectImageProgress" name="projectImageProgress" ng-model="vm.model.monthReport.projectImageProgress" 
-					rows="3"
-					cols="20" maxlength="200"
-					mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
-					data-validation-placeholder="工程形象进度或项目进度情况(200字符以内)"
-					placeholder="工程形象进度或项目进度情况(200字符以内)"
-					style="height: 120px; width: 99%;" data-val="true" data-val-required="必填"></textarea>
-				<span data-valmsg-for="projectImageProgress" data-valmsg-replace="true" class="required"></span>
-			</div>
+			<textarea id="projectImageProgress" name="projectImageProgress" ng-model="vm.model.monthReport.projectImageProgress" 
+				rows="3" cols="20" maxlength="500" placeholder="工程形象进度或项目进度情况(500字符以内)"
+				style="height: 120px; width: 99%;" data-val="true" data-val-required="必填"
+				ng-change="vm.checkLength(vm.model.monthReport.projectImageProgress,500,'projectImageProgressTips')">
+			</textarea>
+			<span data-valmsg-for="projectImageProgress" data-valmsg-replace="true" class="required"></span>
+			<div class="tipfont">您还可以输入<span id="projectImageProgressTips"><font size="5">500</font></span>个字符!</div>
 		</td>
 	</tr>
 </table>
@@ -209,13 +202,15 @@
 					</tr>
 					<tr ng-repeat="x in vm.model.monthReport.monthReportProblemDtos">
 						<td><span>{{$index+1}}</span></td>
-						<td><textarea style='height: 102px; width: 307px;'
-								placeholder='填写项目所存在的问题。'
-								data-validation-placeholder='填写项目所存在的问题。' maxlength="500" cols='20' rows='2' ng-model="vm.model.monthReport.monthReportProblemDtos[$index].problemIntroduction"></textarea>
+						<td>
+							<textarea style='height: 102px; width: 307px;' cols='20' rows='2' placeholder='填写项目所存在的问题。(500字符以内)' maxlength="500" 
+								 ng-model="vm.model.monthReport.monthReportProblemDtos[$index].problemIntroduction">
+							</textarea>
 						</td>
-						<td><textarea style='height: 102px; width: 307px;'
-								placeholder='填写问题的解决措施或建议'
-								data-validation-placeholder='填写问题的解决措施或建议' maxlength="500" cols='20' rows='2' ng-model="vm.model.monthReport.monthReportProblemDtos[$index].solutionsAndSuggest"></textarea>
+						<td>
+							<textarea style='height: 102px; width: 307px;' cols='20' rows='2' placeholder='填写问题的解决措施或建议(500字符以内)' maxlength="500"
+								ng-model="vm.model.monthReport.monthReportProblemDtos[$index].solutionsAndSuggest">
+							</textarea>
 						</td>
 						<td><input class='btn btn-xs btn-danger' type='button'
 							ng-click='vm.deleteProblem($index)' value='删除问题' /></td>
@@ -226,11 +221,11 @@
 	</tr>
 	<tr>
 		<td>备注：</td>
-		<td><textarea ng-model="vm.model.monthReport.remark" rows="3"
-				cols="20" maxlength="200"
-				mark_tip="您还可以输入<font size='5'>{0}</font>个字符！"
-				data-validation-placeholder="" placeholder=""
-				style="height: 120px; width: 99%; color: rgb(169, 169, 169);"></textarea>
+		<td>
+			<textarea ng-model="vm.model.monthReport.remark" rows="2" cols="20" maxlength="200" placeholder="注：（200字符以内）"
+				style="height: 90px; width: 99%;" ng-change="vm.checkLength(vm.model.monthReport.remark,200,'remarkTips')">
+			</textarea>
+			<div class="tipfont">您还可以输入<span id="remarkTips"><font size="5">200</font></span>个字符!</div>
 		</td>
 	</tr>
 </table>
@@ -257,11 +252,7 @@
 									<td rowspan="1"><span>{{x[1]}}</span></td>
 									<td rowspan="1">
 										<div class="uploadBox"  data-type="{{x[0]}}">
-										  <input name="files"
-							                   type="file"
-							                   kendo-upload
-							                   k-options="vm.uploadOptions"
-							                   />
+										  <input name="files" type="file" kendo-upload k-options="vm.uploadOptions"/>
 										</div>
 									</td>
 									<td >

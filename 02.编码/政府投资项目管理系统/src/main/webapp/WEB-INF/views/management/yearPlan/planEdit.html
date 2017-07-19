@@ -29,7 +29,8 @@
 			<tr>
 			<td class="formAlignRight">备注：</td>
 			<td colspan="3">
-				<textarea rows="3" cols="" maxlength="500" class="form-control" data-val="false" id="remark" name="remark" ng-model="vm.model.remark"></textarea>
+				<textarea rows="3" cols="" maxlength="500" class="form-control" data-val="false" id="remark" name="remark" ng-model="vm.model.remark" ng-change="vm.checkLength(vm.model.remark,500,'remarkTips')"></textarea>
+				<div class="tipfont">您还可以输入<span id="remarkTips"><font size="5">500</font></span>个字符!</div>
 			</td>
 			</tr>
 		</table>

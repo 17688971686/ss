@@ -23,6 +23,10 @@
             if(vm.month){
             	vm.page='fillReport';
             }
+            
+            vm.checkLength = function(obj,max,id){
+   			 common.checkLength(obj,max,id);
+            };
         };
         
         activate();

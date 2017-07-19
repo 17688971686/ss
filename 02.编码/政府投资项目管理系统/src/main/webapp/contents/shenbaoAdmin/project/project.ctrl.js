@@ -30,7 +30,11 @@
 
     		vm.getBasicDataDesc = function(str){
     			return common.getBasicDataDesc(str);
-    		}   		
+    		};
+    		
+    		vm.checkLength = function(obj,max,id){
+    			 common.checkLength(obj,max,id);
+    		};
         };
         
         activate();
@@ -164,7 +168,19 @@
 	   	            
 	   	        });
 	   		};
-	   		
+	   		//批复文件上传配置
+	   		vm.uploadOptions_pifu={
+	   				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
+	   				error:vm.uploadSuccess,	   				
+	   				localization:{select:'上传文件'},
+	   				showFileList:false,
+	   				multiple:false,
+	   				validation: {
+	   	                maxFileSize: common.basicDataConfig().uploadSize
+	   	            },
+	   	            select:vm.onSelect
+	   		};
+	   		//相关附件上传配置
 	   		vm.uploadOptions={
 	   				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
 	   				error:vm.uploadSuccess,	   				

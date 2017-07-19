@@ -207,8 +207,9 @@
 				<table class="table table-bordered ">
 				<tr>
 					<td class="text-center" style="width:100px;" >"其他"的来源途径说明：</td>
-					<td >
-						<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.capitalOtherDescription" maxlength="200" placeholder="注：200字符以内"></textarea>									
+					<td>
+						<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.capitalOtherDescription" maxlength="200" placeholder="注：200字符以内" ng-change="vm.checkLength(vm.model.capitalOtherDescription,200,'capitalOtherDescriptionTips')"></textarea>									
+						<div class="tipfont">您还可以输入<span id="capitalOtherDescriptionTips"><font size="5">200</font></span>个字符!</div>
 					</td>
 				</tr>
 				<tr>
@@ -224,20 +225,23 @@
 	<tr>
 		<td class="formAlignRight">项目简介：</td>
 		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：项目简介（500字符以内）" ng-model="vm.model.projectIntro"></textarea>													
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：项目简介（500字符以内）" ng-model="vm.model.projectIntro" ng-change="vm.checkLength(vm.model.projectIntro,500,'projectIntroTips')"></textarea>													
+			<div class="tipfont">您还可以输入<span id="projectIntroTips"><font size="5">500</font></span>个字符!</div>
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">建设规模：</td>
 		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（200字符以内）" ng-model="vm.model.projectGuiMo"></textarea>													
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（200字符以内）" ng-model="vm.model.projectGuiMo" ng-change="vm.checkLength(vm.model.projectGuiMo,500,'projectGuiMoTips')"></textarea>													
+			<div class="tipfont">您还可以输入<span id="projectGuiMoTips"><font size="5">500</font></span>个字符!</div>
 		</td>
 	</tr>
 	
 	<tr>
 		<td class="formAlignRight">备注：</td>
 		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（200字符以内）" ng-model="vm.model.remark"></textarea>												
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（500字符以内）" ng-model="vm.model.remark" ng-change="vm.checkLength(vm.model.remark,500,'remarkTips')"></textarea>												
+			<div class="tipfont">您还可以输入<span id="remarkTips"><font size="5">500</font></span>个字符!</div>
 		</td>
 	</tr>
 </table>
@@ -258,13 +262,7 @@
 		<td><input type="text" ng-model="vm.model['pifu'+x[0]+'_wenhao']" /></td>
 		<td class="clearfix">
 			<div class="uploadBox pull-left"  data-type="{{x[0]}}">
- 				<input name="files" type="file" kendo-upload       
-			        k-async="{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true}"
-			        k-error="vm.uploadSuccess"
-			        k-localization="{select:'上传文件'}"
-			        k-showFileList="false"   
-			        k-multiple="false"    
-       			 />
+ 				<input name="files" type="file" kendo-upload k-options="vm.uploadOptions_pifu"/>      
        		</div>
 	        <div style="margin:3px;"  class="pull-left"
 			 	  ng-repeat="y in vm.model.attachmentDtos" 
@@ -288,13 +286,7 @@
 		<td>{{x[1]}}</td>					
 		<td>
 			<div class="uploadBox" data-type="{{x[0]}}">
-		 		<input name="files" type="file" kendo-upload
-			        k-async="{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true}"
-			        k-error="vm.uploadSuccess"
-			        k-localization="{select:'上传文件'}"
-			        k-showFileList="false"   
-			        k-multiple="true"    
-		        />
+		 		<input name="files" type="file" kendo-upload k-options="vm.uploadOptions"/>
 		    </div>
 		</td>	
 		<td>
