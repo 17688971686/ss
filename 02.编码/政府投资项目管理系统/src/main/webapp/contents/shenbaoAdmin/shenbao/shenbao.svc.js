@@ -152,7 +152,7 @@
 				if(vm.model.projectType != "" && vm.model.projectType != undefined){
 					vm.model.projectType = vm.model.projectType.join(",");
 				}else{
-					vm.model.projectType =[];
+					vm.model.projectType ="";
 				}
 				var httpOptions = {
 					method : 'put',
