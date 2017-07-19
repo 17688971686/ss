@@ -316,7 +316,7 @@
 							return kendo
 									.format(
 											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
-											item.id)
+											item.id);
 						},
 						filterable : false,
 						width : 40,

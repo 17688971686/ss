@@ -67,7 +67,7 @@
  			        backdrop: 'static',
  			        keyboard:false  			  
      		  });
-     	   }
+     	   };
      	   //点击模态框确认按钮跳转不同的信息录入页面
      	   vm.confirmInvestmentType=function(){
      		   $(".modal-backdrop").remove();

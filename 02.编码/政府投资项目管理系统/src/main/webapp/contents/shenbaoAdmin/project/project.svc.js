@@ -148,10 +148,10 @@
 			var httpOptions = {
 					method : 'get',
 					url : common.format(url_userUnit + "?$filter=userName eq '{0}'", vm.model.unitName)
-				}
+				};
 				var httpSuccess = function success(response) {
 					vm.userUnit = response.data.value[0] || {};
-				}
+				};
 				common.http({
 					vm : vm,
 					$http : $http,
@@ -231,7 +231,7 @@
 						}
 					});
 					
-				}
+				};
 				common.http({
 					vm : vm,
 					$http : $http,

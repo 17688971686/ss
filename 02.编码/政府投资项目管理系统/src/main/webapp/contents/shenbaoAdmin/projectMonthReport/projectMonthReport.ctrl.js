@@ -85,7 +85,7 @@
         	 vm.fillReport = function(month){
         		//跳转到月报信息填写页面
                	location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+vm.submitYear+"/"+month;	
-			}
+			};
         }//end page_selectMonth
         
         function page_fillReport(){ 

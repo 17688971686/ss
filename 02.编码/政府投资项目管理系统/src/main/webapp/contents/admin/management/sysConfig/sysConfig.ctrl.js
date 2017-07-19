@@ -43,7 +43,7 @@
 			 vm.userChange = function(index,userName){
 				 vm.model.taskList[index].taskUser = userName;
 				 //设置确认按钮可操作
-				 vm.hasChange = true
+				 vm.hasChange = true;
 			 };
 			//系统配置：更新
 			 vm.create = function(){

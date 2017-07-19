@@ -7,7 +7,7 @@
 	function monthReport($http,$compile,$location) {	
 		var url_project = "/management/project";	
 		var url_projectMonthReport="/management/monthReport";
-		var url_back = "/monthReport"
+		var url_back = "/monthReport";
 	
 		var service = {
 			grid : grid,
@@ -39,9 +39,9 @@
 								}
 							}
 						}else{//新数据
-							for (var i = 0; i < report.length; i++) {
-								if(report[i].isLatestVersion == true){
-									vm.model.monthReport=report[i];	
+							for (var j = 0; j < report.length; j++) {
+								if(report[j].isLatestVersion == true){
+									vm.model.monthReport=report[j];	
 								}
 							}
 						}
@@ -153,7 +153,7 @@
 						field:'isLatestVersion',
 						operator:'eq',
 						value:true
-					},
+					}
 				
 			});
 			// End:dataSource

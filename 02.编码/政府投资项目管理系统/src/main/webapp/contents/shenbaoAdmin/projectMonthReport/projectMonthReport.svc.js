@@ -163,7 +163,7 @@
 					field:'isLatestVersion',
 					operator:'eq',
 					value:true
-				}],
+				}]
 			});
 			// End:dataSource
 
@@ -194,7 +194,7 @@
 						filterable : false,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectClassify);
-						},
+						}
 					},
 					{
 						field : "",
