@@ -78,7 +78,7 @@ public class MonthReport extends BaseEntity{
 	private Double thisMonthInvestTotal;
 
 	@Column(columnDefinition="bit  COMMENT '是否完工'")
-	private boolean isCompletion;
+	private Boolean isCompletion;
 	//end#投资情况
 	
 	
@@ -234,11 +234,11 @@ public class MonthReport extends BaseEntity{
 		this.thisMonthInvestTotal = thisMonthInvestTotal;
 	}
 
-	public boolean isCompletion() {
+	public Boolean getIsCompletion() {
 		return isCompletion;
 	}
 
-	public void setCompletion(boolean isCompletion) {
+	public void setIsCompletion(Boolean isCompletion) {
 		this.isCompletion = isCompletion;
 	}
 

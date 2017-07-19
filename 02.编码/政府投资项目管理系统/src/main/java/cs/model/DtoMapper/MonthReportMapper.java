@@ -69,7 +69,7 @@ public class MonthReportMapper implements IMapper<MonthReportDto, MonthReport> {
 			monthReportDto.setSubmitMonth(monthReport.getSubmitMonth());// 提交月
 			monthReportDto.setSubmitYear(monthReport.getSubmitYear());// 提交月
 			monthReportDto.setSubmitDate(monthReport.getSubmitDate());// 提交日期		
-			monthReportDto.setCompletion(monthReport.isCompletion());// 是否完工(1:完工，0：未完工)
+			monthReportDto.setIsCompletion(monthReport.getIsCompletion());// 是否完工(1:完工，0：未完工)
 			monthReportDto.setRemark(monthReport.getRemark());// 备注
 
 			//begin#审批状态
@@ -154,7 +154,7 @@ public class MonthReportMapper implements IMapper<MonthReportDto, MonthReport> {
 			monthReport.setSubmitMonth(monthReportDto.getSubmitMonth());
 			monthReport.setSubmitYear(monthReportDto.getSubmitYear());
 			monthReport.setSubmitDate(monthReportDto.getSubmitDate());
-			monthReport.setCompletion(monthReportDto.isCompletion());
+			monthReport.setIsCompletion(monthReportDto.getIsCompletion());
 			monthReport.setRemark(monthReportDto.getRemark());
 			//基础数据
 			monthReport.setModifiedBy(monthReportDto.getModifiedBy());
