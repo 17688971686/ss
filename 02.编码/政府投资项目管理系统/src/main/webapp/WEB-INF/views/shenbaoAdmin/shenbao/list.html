@@ -25,6 +25,11 @@
 	      <li><a href="#/shenbao">项目申报</a></li>	 
 	      <li class="active">项目列表</li>
 	  </ol>
+	  <div class="toolbar">
+	  	<div style="margin-top:10px;">
+	  		<a class="btn btn-sm btn-info" href="#/shenbao_records"></span>查看所有申报记录</a>
+	  	</div>
+	</div>
 	  <script type="text/template" id="columnBtns">
 			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.shenbaoBtn('{0}','{1}','{2}')"><span class="glyphicon glyphicon-pencil"></span>申报</button>
 			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.checkShenBaoRecords('{3}')"><span class="glyphicon glyphicon-th-list"></span>申报记录<span id="tuiwenNumber{0}"class="badge"></span></button>
@@ -32,11 +37,6 @@
      <form id="form" name="form">          
          <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
     </form>
-    <div class="toolbar">
-	  	<div style="margin-top:10px;">
-	  		<a class="btn btn-sm btn-info" href="#/shenbao_records"></span>查看所有申报记录</a>
-	  	</div>
-	</div> 
 </div>
 <!-- 项目申报选择项目申报阶段分类 模态框-->
 <div class="modal fade" id="myModal">
