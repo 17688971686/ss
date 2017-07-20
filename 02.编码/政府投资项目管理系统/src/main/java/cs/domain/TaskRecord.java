@@ -38,6 +38,13 @@ public class TaskRecord extends BaseEntity {
 	@Column(columnDefinition="varchar(255) NULL COMMENT '任务Id'")
 	private String taskId;
 	
+	//begin#添加筛选字段
+	@Column(columnDefinition="varchar(255) NULL COMMENT '项目行业'")
+	private String projectIndustry;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '建设单位名称'")
+	private String unitName;
+	
 	public String getId() {
 		return id;
 	}
@@ -71,7 +78,6 @@ public class TaskRecord extends BaseEntity {
 		this.processState = processState;
 	}
 	
-	
 	public String getNextUser() {
 		return nextUser;
 	}
@@ -90,4 +96,17 @@ public class TaskRecord extends BaseEntity {
 	public void setTaskId(String taskId) {
 		this.taskId = taskId;
 	}
+	public String getProjectIndustry() {
+		return projectIndustry;
+	}
+	public void setProjectIndustry(String projectIndustry) {
+		this.projectIndustry = projectIndustry;
+	}
+	public String getUnitName() {
+		return unitName;
+	}
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
+	}
+	
 }

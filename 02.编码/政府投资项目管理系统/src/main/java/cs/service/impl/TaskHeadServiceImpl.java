@@ -51,7 +51,7 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 	
 	@Override
 	@Transactional
-	public PageModelDto<TaskHeadDto> get(ODataObj odataObj) {		
+	public PageModelDto<TaskHeadDto> get(ODataObj odataObj) {	
 		logger.info("查询工作台任务数据");
 		return super.get(odataObj);
 	}
@@ -92,7 +92,9 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			dto.setTaskId(taskHead.getId());//设置任务Id
 			dto.setTaskType(taskHead.getTaskType());
 			dto.setTitle(taskHead.getTitle());
-			dto.setCreatedBy(currentUser.getLoginName());//设置创建人
+			dto.setUnitName(taskHead.getUnitName());
+			dto.setProjectIndustry(taskHead.getProjectIndustry());
+			dto.setCreatedBy(currentUser.getLoginName());//设置创建人(这是重点)
 			dto.setModifiedBy(currentUser.getLoginName());
 			//判断任务是否完成
 			String processState = dto.getProcessState();

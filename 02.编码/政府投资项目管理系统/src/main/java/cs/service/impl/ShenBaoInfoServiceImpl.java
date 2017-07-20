@@ -173,28 +173,33 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		
 		//创建工作流
 		TaskHead taskHead=new TaskHead();
+		taskHead.setId(UUID.randomUUID().toString());
+		//设置任务标题格式为：“项目申报：项目名称--申报阶段”
+		taskHead.setTitle("项目申报："+shenBaoInfo.getProjectName()+"--"+basicDataService.getDescriptionById(shenBaoInfo.getProjectShenBaoStage()));
 		taskHead.setNextUser(startUser);//设置下一处理人
-		taskHead.setCreatedBy(currentUser.getLoginName());
-		taskHead.setModifiedBy(currentUser.getLoginName());
-		taskHead.setRelId(shenBaoInfo.getId());
-		taskHead.setTitle("项目申报："+shenBaoInfo.getProjectName()+"-"+basicDataService.getDescriptionById(shenBaoInfo.getProjectShenBaoStage()));
+		taskHead.setRelId(shenBaoInfo.getId());//设置关联的id
 		taskHead.setProcessState(BasicDataConfig.processState_tianBao);//设置工作流的状态
 		taskHead.setProcessSuggestion("材料填报");//设置处理意见
 		taskHead.setTaskType(this.getTaskType(shenBaoInfo.getProjectShenBaoStage()));//设置工作流的类型
-		taskHead.setId(UUID.randomUUID().toString());
+		taskHead.setUnitName(shenBaoInfo.getUnitName());//设置建设单位
+		taskHead.setProjectIndustry(shenBaoInfo.getProjectIndustry());//设置项目行业
+		taskHead.setCreatedBy(currentUser.getLoginName());
+		taskHead.setModifiedBy(currentUser.getLoginName());
 				
 		//record
 		TaskRecord taskRecord=new TaskRecord();
+		taskRecord.setId(UUID.randomUUID().toString());
+		taskRecord.setTitle(taskHead.getTitle());
 		taskRecord.setNextUser(startUser);//设置下一处理人
+		taskRecord.setRelId(taskHead.getRelId());//设置关联id
+		taskRecord.setTaskId(taskHead.getId());//设置任务Id
+		taskRecord.setProcessState(taskHead.getProcessState());//设置工作流的状态
+		taskRecord.setTaskType(taskHead.getTaskType());//设置工作流的类型
+		taskRecord.setProcessSuggestion("材料填报");//设置处理意见
+		taskRecord.setUnitName(taskHead.getUnitName());//设置建设单位
+		taskRecord.setProjectIndustry(taskHead.getProjectIndustry());//设置项目行业
 		taskRecord.setCreatedBy(currentUser.getLoginName());
 		taskRecord.setModifiedBy(currentUser.getLoginName());
-		taskRecord.setRelId(taskHead.getRelId());
-		taskRecord.setTaskId(taskHead.getId());//设置任务Id
-		taskRecord.setTitle(taskHead.getTitle());
-		taskRecord.setProcessState(taskHead.getProcessState());
-		taskRecord.setTaskType(taskHead.getTaskType());
-		taskRecord.setId(UUID.randomUUID().toString());
-		taskRecord.setProcessSuggestion("材料填报");
 
 		taskHead.getTaskRecords().add(taskRecord);
 		taskHeadRepo.save(taskHead);
@@ -220,16 +225,18 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	   }
 						
 		TaskRecord taskRecord=new TaskRecord();
+		taskRecord.setId(UUID.randomUUID().toString());
+		taskRecord.setTitle(taskHead.getTitle());
 		taskRecord.setNextUser(startUser);//设置下一处理人
-		taskRecord.setCreatedBy(currentUser.getLoginName());
-		taskRecord.setModifiedBy(currentUser.getLoginName());
 		taskRecord.setRelId(entity.getId());
 		taskRecord.setTaskId(taskHead.getId());//设置任务Id
-		taskRecord.setTitle(taskHead.getTitle());
 		taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
 		taskRecord.setTaskType(this.getTaskType(entity.getProjectShenBaoStage()));
-		taskRecord.setId(UUID.randomUUID().toString());
 		taskRecord.setProcessSuggestion("材料填报");
+		taskRecord.setUnitName(entity.getUnitName());
+		taskRecord.setProjectIndustry(entity.getProjectIndustry());
+		taskRecord.setCreatedBy(currentUser.getLoginName());
+		taskRecord.setModifiedBy(currentUser.getLoginName());
 						
 		taskHead.getTaskRecords().add(taskRecord);
 		//更新任务的状态以及是否完成

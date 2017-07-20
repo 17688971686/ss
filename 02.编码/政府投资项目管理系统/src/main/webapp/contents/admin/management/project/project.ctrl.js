@@ -173,9 +173,9 @@
     		//end#基础数据
     		
     		//批复文件上传
-    		vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+    		vm.uploadType=[['JYS','项目建议书批复'],['KXXYJBG','可行性研究报告批复'],['CBSJYGS','初步设计与概算批复']];
     		//相关附件文件上传文件种类
-    		vm.relatedType=[['XMJYSPF','项目建议书批复文件'],['KXXYJBGPF','可行性研究报告批复文件'],['ZGSPFTZ','总概算批复及调整文件'],
+    		vm.relatedType=[['XMJYSPF','项目建议书文本'],['KXXYJBGPF','可行性研究报告文本'],['ZGSPFTZ','总概算及调整文本'],
 				['HYJY','会议纪要'],['GHYJ','规划依据'],['SJXGT','设计效果图'],
 				['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']];
 	   		

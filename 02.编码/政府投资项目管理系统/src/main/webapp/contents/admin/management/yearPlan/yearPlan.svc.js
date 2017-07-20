@@ -457,7 +457,12 @@
 				type : 'odata',
 				transport : common.kendoGridConfig().transport(url_shenbaoInfoList),
 				schema : common.kendoGridConfig().schema({
-					id : "id"
+					id : "id",
+					fields : {
+						planYear : {
+							type : "number"
+						}
+					}
 				}),
 				serverPaging : true,
 				serverSorting : true,
@@ -494,6 +499,12 @@
 
 					},
 					{
+						field : "planYear",
+						title : "计划年度",
+						width : 150,
+						filterable : true
+					},
+					{
 						field : "projectName",
 						title : "项目名称",
 						width:200,
@@ -506,12 +517,6 @@
 						template:function(item){
 							return common.getBasicDataDesc(item.projectConstrChar);
 						},
-						filterable : false
-					},
-					{
-						field : "planYear",
-						title : "计划年度",
-						width : 150,
 						filterable : false
 					},
 					{

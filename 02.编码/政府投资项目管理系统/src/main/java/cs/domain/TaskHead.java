@@ -41,6 +41,12 @@ public class TaskHead extends BaseEntity {
 	
 	@Column(columnDefinition="bit NULL COMMENT '是否完成'")
 	private boolean isComplete;
+	//begin#添加筛选字段
+	@Column(columnDefinition="varchar(255) NULL COMMENT '项目行业'")
+	private String projectIndustry;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '建设单位名称'")
+	private String unitName;
 	
 	//begin#关联
 	@OneToMany(cascade=CascadeType.ALL)
@@ -117,4 +123,22 @@ public class TaskHead extends BaseEntity {
 	public void setProcessSuggestion(String processSuggestion) {
 		this.processSuggestion = processSuggestion;
 	}
+
+	public String getProjectIndustry() {
+		return projectIndustry;
+	}
+
+	public void setProjectIndustry(String projectIndustry) {
+		this.projectIndustry = projectIndustry;
+	}
+
+	public String getUnitName() {
+		return unitName;
+	}
+
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
+	}
+	
+	
 }

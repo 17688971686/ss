@@ -258,6 +258,32 @@
 						}
 					},
 					 {
+						field : "unitName",
+						title : "建设单位",
+						width : 400,						
+						filterable : true
+					},
+					{
+						field : "projectIndustry",
+						title : "项目行业",
+						width : 200,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectIndustry);
+						},
+						filterable : {
+							 ui: function(element){
+			                        element.kendoDropDownList({
+			                            valuePrimitive: true,
+			                            dataSource: $linq(common.getBasicData())
+			             	       					.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
+			             	       					.toArray(),
+			                            dataTextField: "description",
+			                            dataValueField: "id"
+			                        });
+			                    }
+						}
+					},
+					 {
 						field : "taskType",
 						title : "任务类型",
 						width : 180,						
@@ -332,17 +358,38 @@
 						}
 					},
 					 {
+						field : "unitName",
+						title : "建设单位",
+						width : 400,						
+						filterable : true
+					},
+					{
+						field : "projectIndustry",
+						title : "项目行业",
+						width : 200,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectIndustry);
+						},
+						filterable : {
+							 ui: function(element){
+			                        element.kendoDropDownList({
+			                            valuePrimitive: true,
+			                            dataSource: $linq(common.getBasicData())
+			             	       					.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
+			             	       					.toArray(),
+			                            dataTextField: "description",
+			                            dataValueField: "id"
+			                        });
+			                    }
+						}
+					},
+					 {
 						field : "taskType",
 						title : "任务类型",
 						width : 180,						
 						filterable : false,
 						template:function(item){						
-							var value=$linq(common.getBasicData()).where(function(x){return x.id==item.taskType}).firstOrDefault();
-							if(value){
-								return value.description;
-							}else{
-								return "";
-							}
+							return common.getBasicDataDesc(item.taskType);
 						}
 					},
 					{

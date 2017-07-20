@@ -30,15 +30,16 @@ public class TaskController {
 	@Autowired
 	ICurrentUser currentUser;
 
-	@RequestMapping(name = "获取任务", path = "")
+	@RequestMapping(name = "获取所有任务", path = "")
 	public @ResponseBody PageModelDto<TaskHeadDto> getToDo(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
 		//设置过滤条件
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
-		filterItem.setField("nextUser");
-		filterItem.setOperator("eq");
-		filterItem.setValue(currentUser.getLoginName());
-		odataObj.getFilter().add(filterItem);
+		//此为设置过滤条件：获取当前登录用户的任务（暂时不需要）
+//		filterItem.setField("nextUser");
+//		filterItem.setOperator("eq");
+//		filterItem.setValue(currentUser.getLoginName());
+//		odataObj.getFilter().add(filterItem);
 		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.get(odataObj);
 		return taskHeadDtos;
 	}
