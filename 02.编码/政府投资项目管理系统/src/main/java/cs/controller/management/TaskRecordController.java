@@ -2,9 +2,12 @@ package cs.controller.management;
 
 import java.text.ParseException;
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import cs.common.ICurrentUser;
 import cs.domain.TaskRecord;
@@ -23,7 +26,8 @@ public class TaskRecordController {
 	@Autowired
 	ICurrentUser currentUser;
 
-	@RequestMapping(name = "获取任务流程", path = "")
+	@RequiresPermissions("management/taskRecord##get")
+	@RequestMapping(name = "获取任务流程", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<TaskRecordDto> getToDo(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
 		//设置过滤条件

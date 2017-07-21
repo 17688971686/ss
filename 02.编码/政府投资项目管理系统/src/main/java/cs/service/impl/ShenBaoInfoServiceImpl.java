@@ -1,5 +1,6 @@
 package cs.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -69,6 +70,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@Transactional
 	public ShenBaoInfo create(ShenBaoInfoDto dto) {
 		ShenBaoInfo entity=super.create(dto);
+		dto.setCreatedDate(new Date());
+		dto.setModifiedDate(new Date());
 		//处理关联信息
 		//begin#关联信息
 		//附件

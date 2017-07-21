@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,7 @@ public class ProjectController {
 	@Autowired
 	private ProjectService ProjectService;
 	
+	@RequiresPermissions("management/project##get")
 	@RequestMapping(name = "获取项目信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
@@ -38,6 +40,7 @@ public class ProjectController {
 		return ProjectDtos;
 	}
 	
+	@RequiresPermissions("management/project##delete")
 	@RequestMapping(name = "删除项目信息", path = "",method=RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  delete(@RequestBody String id){
@@ -50,6 +53,7 @@ public class ProjectController {
 		
 	}
 	
+	@RequiresPermissions("management/project##put")
 	@RequestMapping(name = "更新项目信息", path = "",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  update(@RequestBody ProjectDto ProjectDto){		
@@ -85,12 +89,14 @@ public class ProjectController {
 		}		
 	}
 	
+	@RequiresPermissions("management/project#isMonthReport#put")
 	@RequestMapping(name = "更新项目是否填报状态", path = "isMonthReport",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  updateByIsMonthReport(@RequestBody ProjectDto ProjectDto){		
 		ProjectService.updateProjectByIsMonthReport(ProjectDto);	
 	}
 	
+	@RequiresPermissions("management/project##post")
 	@RequestMapping(name = "创建项目信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  create(@RequestBody ProjectDto ProjectDto){		
@@ -98,16 +104,19 @@ public class ProjectController {
 	}
 	
 	//begin#html
+	@RequiresPermissions("management/project#html/list#get")
 	@RequestMapping(name = "列表页", path = "html/list")
 	public String list() {
 		return this.ctrlName + "/list";
 	}
 	
+	@RequiresPermissions("management/project#html/edit#get")
 	@RequestMapping(name = "编辑页", path = "html/edit")
 	public String edit() {
 		return this.ctrlName + "/edit";
 	}
 	
+	@RequiresPermissions("management/project#html/details#get")
 	@RequestMapping(name = "详情页", path = "html/details")
 	public String details() {
 		return this.ctrlName + "/details";

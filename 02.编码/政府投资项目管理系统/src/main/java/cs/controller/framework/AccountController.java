@@ -35,6 +35,7 @@ public class AccountController {
 		
 		return loginResult;
 	}
+	
 	@RequestMapping(name = "退出", path = "logout/{sys}", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	public   String logout(@PathVariable String sys) {

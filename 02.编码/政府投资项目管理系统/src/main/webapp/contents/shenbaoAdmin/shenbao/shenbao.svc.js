@@ -387,7 +387,7 @@
 				};
 			
 			var httpSuccess = function success(response) {
-				vm.model = response.data.value[0]||{};				
+				vm.model = response.data.value[0]||{};
 				//获取项目单位信息
 				getProjectUnit(vm);
 				

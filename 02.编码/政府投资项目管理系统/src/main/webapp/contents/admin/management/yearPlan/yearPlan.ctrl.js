@@ -95,8 +95,16 @@
                      backdrop: 'static',
                      keyboard:false
                  });
-    			 
     		};
+    		//年度筛选
+    		vm.search=function(){
+    			vm.addPlanGridOptions.dataSource.filter([
+    				{field:"projectShenBaoStage",operator:"eq",value:common.basicDataConfig().projectShenBaoStage_nextYearPlan},
+    				{field:"processState",operator:"eq",value:common.basicDataConfig().processState_qianShou},
+    				{field:"planYear",operator:"eq",value:parseInt(vm.planYearSearch)}
+    			]);
+    			vm.addPlanGridOptions.dataSource.read();
+    		}
     		//模态框点击确认
     		vm.dialogConfirmSubmit=function(){
     			//获取选中的申报信息的id

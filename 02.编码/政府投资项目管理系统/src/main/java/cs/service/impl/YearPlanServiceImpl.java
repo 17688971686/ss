@@ -123,13 +123,11 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 	@Override
 	@Transactional
 	public void addYearPlanCapitals(String planId,String[] ids) {
-		//根据年度计划id查找到年度计划
-		YearPlan yearPlan=super.repository.findById(planId);
 		//根据申报信息id创建年度计划资金
 		for (String id : ids) {
 			this.addYearPlanCapital(planId,id);
 		}
-		logger.info(String.format("添加年度计划资金,名称：%s",yearPlan.getName()));	
+		
 	}
 
 	@Override
