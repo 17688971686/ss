@@ -792,13 +792,22 @@
 						filterable : true
 					},
 					{
-						field : "projectConstrCharDesc",
+						field : "projectConstrChar",
 						title : "建设性质",
 						width : 150,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectConstrChar);
 						},
-						filterable : false
+						filterable : {
+							ui: function(element){
+			                    element.kendoDropDownList({
+			                        valuePrimitive: true,
+			                        dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar),
+			                        dataTextField: "description",
+			                        dataValueField: "id"
+			                    });
+			                }
+						}
 					},
 					{
 						field : "planYear",
@@ -840,7 +849,8 @@
 			    var sheet = e.workbook.sheets[0];
 
 			    for (var i = 1; i < sheet.rows.length; i++) {
-			      var row = sheet.rows[i];							    
+			      var row = sheet.rows[i];
+			      row.cells[1].value = common.getBasicDataDesc(row.cells[1].value);
 				  row.cells[6].value = common.formatDateTime(row.cells[6].value);			      
 			    }
 			  };

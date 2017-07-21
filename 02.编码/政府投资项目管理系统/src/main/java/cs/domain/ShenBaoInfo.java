@@ -34,9 +34,9 @@ public class ShenBaoInfo extends BaseProject{
 	//begin#年度计划相关
 	@Column(columnDefinition="int NULL COMMENT '计划年度'")
 	private Integer planYear;
-	@Column(columnDefinition="double(10,2) NULL COMMENT '申请年度投资'")
+	@Column(columnDefinition="double(10,4) NULL COMMENT '申请年度投资'")
 	private Double applyYearInvest;	
-	@Column(columnDefinition="double(10,2) NULL COMMENT '安排年度投资'")
+	@Column(columnDefinition="double(10,4) NULL COMMENT '安排年度投资'")
 	private Double yearInvestApproval;
 	@Column(columnDefinition="varchar(255) NULL COMMENT '安排年度投资Id'")
 	private String yearPlanCapitalId;

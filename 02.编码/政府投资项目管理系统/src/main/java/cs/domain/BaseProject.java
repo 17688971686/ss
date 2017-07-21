@@ -58,34 +58,34 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="varchar(500) NULL COMMENT '项目建设地址'")
 	private String projectAddress;
 	
-	@Column(columnDefinition="double(10,2) NULL COMMENT '项目总投资'")
+	@Column(columnDefinition="double(10,4) NULL COMMENT '项目总投资'")
 	private Double projectInvestSum;
 	
-	@Column(columnDefinition="double(10,2) NULL COMMENT '项目累计投资'")
+	@Column(columnDefinition="double(10,4) NULL COMMENT '项目累计投资'")
 	private Double projectInvestAccuSum;
 	
-	@Column(columnDefinition="double(10,2) NULL COMMENT '资金来源方案-市财政-公共预算'")
+	@Column(columnDefinition="double(10,4) NULL COMMENT '资金来源方案-市财政-公共预算'")
 	private Double capitalSCZ_ggys;
 	
-	@Column(columnDefinition="double(10,2) NULL COMMENT '资金来源方案-市财政-国土资金'")
+	@Column(columnDefinition="double(10,4) NULL COMMENT '资金来源方案-市财政-国土资金'")
 	private Double capitalSCZ_gtzj;
 	
-	@Column(columnDefinition="double(10,2) NULL COMMENT '资金来源方案-市财政-专项资金'")
+	@Column(columnDefinition="double(10,4) NULL COMMENT '资金来源方案-市财政-专项资金'")
 	private Double capitalSCZ_zxzj;
 	
-	@Column(columnDefinition="double(10,2) NULL COMMENT '资金来源方案-区财政-公共预算'")
+	@Column(columnDefinition="double(10,4) NULL COMMENT '资金来源方案-区财政-公共预算'")
 	private Double capitalQCZ_ggys;
 	
-	@Column(columnDefinition="double(10,2) NULL COMMENT '资金来源方案-区财政-国土资金'")
+	@Column(columnDefinition="double(10,4) NULL COMMENT '资金来源方案-区财政-国土资金'")
 	private Double capitalQCZ_gtzj;
 	
-	@Column(columnDefinition="double(10,2) NULL COMMENT '资金来源方案-区财政-中央预算'")
+	@Column(columnDefinition="double(10,4) NULL COMMENT '资金来源方案-区财政-中央预算'")
 	private Double capitalZYYS;
 	
-	@Column(columnDefinition="double(10,2) NULL COMMENT '资金来源方案-社会投资'")
+	@Column(columnDefinition="double(10,4) NULL COMMENT '资金来源方案-社会投资'")
 	private Double capitalSHTZ;
 	
-	@Column(columnDefinition="double(10,2) NULL COMMENT '资金来源方案-其它'")
+	@Column(columnDefinition="double(10,4) NULL COMMENT '资金来源方案-其它'")
 	private Double capitalOther;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '资金来源方案-其它来源类型'")
@@ -124,7 +124,7 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="varchar(255) NULL COMMENT '建设周期'")
 	private String constructionCycle;
 	
-	@Column(columnDefinition="double(10,2) NULL COMMENT '决算金额'")
+	@Column(columnDefinition="double(10,4) NULL COMMENT '决算金额'")
 	private Double finalAmount;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '财政项目代码'")

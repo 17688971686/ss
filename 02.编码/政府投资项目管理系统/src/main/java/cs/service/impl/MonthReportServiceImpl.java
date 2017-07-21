@@ -1,5 +1,6 @@
 package cs.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -90,7 +91,7 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 
 	private void createMonthReport(MonthReportDto monthReportDto) {
 		MonthReport monthReport = super.create(monthReportDto);
-		
+		monthReport.setModifiedDate(new Date());
 		//关联信息
 		//附件
 		monthReportDto.getAttachmentDtos().forEach(x -> {//添加新附件

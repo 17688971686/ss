@@ -321,6 +321,12 @@
 						filterable : true
 					},
 					{
+						field : "unitName",
+						title : "建设单位",
+						width : 150,
+						filterable : true
+					},
+					{
 						field : "projectStage",
 						title : "项目阶段",
 						width : 150,
