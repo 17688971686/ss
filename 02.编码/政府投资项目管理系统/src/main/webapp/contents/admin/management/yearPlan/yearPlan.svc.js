@@ -127,14 +127,27 @@
 		/**
 		 * 年度计划新增项目申报
 		 */
-		function addShenBaoInfoconfirm(vm,id){
+		function addShenBaoInfoconfirm(vm,ids){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_planList+"/addCapital?planId={0}&shenBaoId={1}",vm.id,id)
+					url : common.format(url_planList+"/addCapital?planId={0}&shenBaoId={1}",vm.id,ids)
 				};
 			
 			var httpSuccess = function success(response) {
-				vm.planGridOptions.dataSource.read();//编制申报信息列表数据刷新
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function() {
+						common.alert({
+							vm : vm,
+							msg : "操作成功",
+							fn : function() {
+								$('.alertDialog').modal('hide');
+								vm.planGridOptions.dataSource.read();//编制申报信息列表数据刷新								
+							}
+						});
+					}
+				});
 			};
 			
 			common.http({
@@ -361,7 +374,7 @@
 					{
 						field : "projectGuiMo",
 						title : "建设规模及主要建设内容",
-						width:120,
+						width:200,
 						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.projectGuiMo); },
 						filterable : false
 					},
@@ -457,12 +470,7 @@
 				type : 'odata',
 				transport : common.kendoGridConfig().transport(url_shenbaoInfoList),
 				schema : common.kendoGridConfig().schema({
-					id : "id",
-					fields : {
-						planYear : {
-							type : "number"
-						}
-					}
+					id : "id"
 				}),
 				serverPaging : true,
 				serverSorting : true,
@@ -502,7 +510,7 @@
 						field : "planYear",
 						title : "计划年度",
 						width : 150,
-						filterable : true
+						filterable : false
 					},
 					{
 						field : "projectName",

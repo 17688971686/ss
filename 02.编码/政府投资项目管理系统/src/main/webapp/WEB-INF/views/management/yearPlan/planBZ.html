@@ -1,3 +1,14 @@
+<style>
+.search input{
+    height: 30px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    padding: 0 10px;
+	}
+.content_change {
+    margin: 0 10px 0 10px;
+    }
+</style>
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
 <div class="well well-sm" style="background:white;">
@@ -40,11 +51,11 @@
 			</tr>
 			<tr>
 				<td class="formAlignRight">项目总投资(万元)：</td>
-				<td style="width:80px;" ng-bind="vm.model.projectInvestSumTotal"></td>
+				<td style="width:80px;" ng-bind="vm.model.projectInvestSumTotal | number:4"></td>
 				<td class="formAlignRight" colspan="2">申请资金金额(万元)：</td>
-				<td style="width:80px;" ng-bind="vm.model.applyYearInvestTotal"></td>
+				<td style="width:80px;" ng-bind="vm.model.applyYearInvestTotal | number:4"></td>
 				<td class="formAlignRight"  colspan="2">安排资金金额(万元)：</td>
-				<td style="width:80px;" colspan="2" ng-bind="vm.model.yearInvestApprovalTotal"></td>					
+				<td style="width:80px;" colspan="2" ng-bind="vm.model.yearInvestApprovalTotal | number:4"></td>					
 			</tr>
 			<tr>
 				<td class="formAlignRight" style="vertical-align: middle;">计划总规模(万元)：</td>
@@ -66,9 +77,9 @@
 								<td>专项基金</td>
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalSCZ_ggysTotal" ></td>
-								<td ng-bind="vm.model.capitalSCZ_gtzjTotal"></td>
-								<td ng-bind="vm.model.capitalSCZ_zxzjTotal"></td>
+								<td ng-bind="vm.model.capitalSCZ_ggysTotal | number:4" ></td>
+								<td ng-bind="vm.model.capitalSCZ_gtzjTotal | number:4"></td>
+								<td ng-bind="vm.model.capitalSCZ_zxzjTotal | number:4"></td>
 							</tr>
 						</table>
 					</td>
@@ -80,8 +91,8 @@
 								
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalQCZ_ggysTotal"></td>
-								<td ng-bind="vm.model.capitalQCZ_gtzjTotal"></td>
+								<td ng-bind="vm.model.capitalQCZ_ggysTotal | number:4"></td>
+								<td ng-bind="vm.model.capitalQCZ_gtzjTotal | number:4"></td>
 							</tr>
 						</table>
 					</td>
@@ -91,7 +102,7 @@
 								<td>-</td>
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalZYYSTotal"></td>
+								<td ng-bind="vm.model.capitalZYYSTotal | number:4"></td>
 							</tr>
 						</table>
 					</td>
@@ -103,7 +114,7 @@
 								
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalSHTZTotal"></td>
+								<td ng-bind="vm.model.capitalSHTZTotal | number:4"></td>
 							</tr>
 						</table>
 					</td>
@@ -115,7 +126,7 @@
 								
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalOtherTotal"></td>
+								<td ng-bind="vm.model.capitalOtherTotal | number:4"></td>
 							</tr>
 						</table>
 					</td>
@@ -216,7 +227,7 @@
     </form>
 </div>
 
-	<div id="addPlanList" class="myDialog modal fade" tabindex="-1" role="dialog">
+	<div id="addPlanList" class="myDialog modal fade" role="dialog">
 			<div class="modal-dialog"
 				style="margin: 80px auto; width: 80%; max-width: 1000px;">
 				<div class="modal-content">
@@ -227,7 +238,12 @@
 						</button>
 						<span class="modal-title">添加项目计划</span>
 					</div>
-					<div class="modal-body text-danger">
+					<div class="modal-body">
+						<div class="toolbar search">
+							<label>年度筛选：</label>
+							<input type="text" style="width:186px;" class="Wdate form-control input-sm content_change" onFocus="WdatePicker({dateFmt:'yyyy'})" onChange="" ng-model="vm.planYearSearch"/>
+							<button class="btn btn-success btn-sm" ng-click="vm.search()"><span class="glyphicon glyphicon-search"></span>确定</button>
+						</div>
 						<div class="grid" kendo-grid="grid" k-options="vm.addPlanGridOptions"></div>
 					</div>
 					<div class="modal-footer">

@@ -144,11 +144,11 @@ overflow: scroll !important;
 	<tr>
 		<td class="formAlignRight">项目总投资：</td>
 		<td>
-			<span id="projectInvestSum" ng-bind="vm.model.projectInvestSum | number:2"></span>&nbsp;(万元)
+			<span id="projectInvestSum" ng-bind="vm.model.projectInvestSum | number:4"></span>&nbsp;(万元)
 		</td>
 		<td class="formAlignRight">累计完成投资：</td>
 		<td>
-			<span id="projectInvestAccuSum" ng-bind="vm.model.projectInvestAccuSum | number:2"></span>&nbsp;(万元)
+			<span id="projectInvestAccuSum" ng-bind="vm.model.projectInvestAccuSum | number:4"></span>&nbsp;(万元)
 		</td>
 	</tr>
 					
@@ -172,9 +172,9 @@ overflow: scroll !important;
 								<td>专项基金</td>
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalSCZ_ggys | number:2"></td>
-								<td ng-bind="vm.model.capitalSCZ_gtzj | number:2"></td>
-								<td ng-bind="vm.model.capitalSCZ_zxzj | number:2"></td>
+								<td ng-bind="vm.model.capitalSCZ_ggys | number:4"></td>
+								<td ng-bind="vm.model.capitalSCZ_gtzj | number:4"></td>
+								<td ng-bind="vm.model.capitalSCZ_zxzj | number:4"></td>
 							</tr>
 						</table>
 					</td>
@@ -186,8 +186,8 @@ overflow: scroll !important;
 								
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalQCZ_ggys | number:2"></td>
-								<td ng-bind="vm.model.capitalQCZ_gtzj | number:2"></td>
+								<td ng-bind="vm.model.capitalQCZ_ggys | number:4"></td>
+								<td ng-bind="vm.model.capitalQCZ_gtzj | number:4"></td>
 							</tr>
 						</table>
 					</td>
@@ -197,7 +197,7 @@ overflow: scroll !important;
 								<td>-</td>
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalZYYS | number:2"></td>
+								<td ng-bind="vm.model.capitalZYYS | number:4"></td>
 							</tr>
 						</table>
 					</td>
@@ -207,7 +207,7 @@ overflow: scroll !important;
 								<td>-</td>				
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalSHTZ | number:2"></td>
+								<td ng-bind="vm.model.capitalSHTZ | number:4"></td>
 							</tr>
 						</table>
 					</td>
@@ -218,7 +218,7 @@ overflow: scroll !important;
 								<td ng-if="!vm.model.capitalOtherType">-</td>
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalOther | number:2"></td>
+								<td ng-bind="vm.model.capitalOther | number:4"></td>
 							</tr>
 						</table>
 					</td>
@@ -234,7 +234,7 @@ overflow: scroll !important;
 				<tr>
 					<td>资金总计：</td>
 					<td >
-						<span id="capitalTotal" ng-bind="vm.capitalTotal() | number:2"></span>&nbsp;(万元)
+						<span id="capitalTotal" ng-bind="vm.capitalTotal() | number:4"></span>&nbsp;(万元)
 					</td>								
 				</tr>
 			</table>
@@ -275,11 +275,11 @@ overflow: scroll !important;
 		<tr>
 			<td class="formAlignRight">项目总投资：</td>
 			<td>
-				<span ng-bind="vm.model.projectInvestSum | number:2"></span>&nbsp;(万元)			
+				<span ng-bind="vm.model.projectInvestSum | number:4"></span>&nbsp;(万元)			
 			</td>
 			<td class="formAlignRight">累计投资：</td>
 			<td>
-				<span ng-bind="vm.model.projectInvestAccuSum | number:2"></span>&nbsp;(万元)
+				<span ng-bind="vm.model.projectInvestAccuSum | number:4"></span>&nbsp;(万元)
 			</td>
 		</tr>
 		<tr>
@@ -289,7 +289,7 @@ overflow: scroll !important;
 			</td>
 			<td class="formAlignRight" style="width:150px;">申请年度投资：</td>
 			<td>
-				<span id="applyYearInvest" name="applyYearInvest" ng-bind="vm.model.applyYearInvest | number:2"></span>&nbsp;(万元)
+				<span id="applyYearInvest" name="applyYearInvest" ng-bind="vm.model.applyYearInvest | number:4"></span>&nbsp;(万元)
 			</td>
 		</tr>
 		<tr>

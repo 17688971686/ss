@@ -60,29 +60,29 @@ overflow: scroll !important;
 			<tr>
 				<td>项目总投资：<span class="required">(*)</span></td>				
 				<td colspan="2">
-					<span ng-bind="vm.model.monthReport.invertPlanTotal | number:2"></span>&nbsp;（万元）					
+					<span ng-bind="vm.model.monthReport.invertPlanTotal | number:4"></span>&nbsp;（万元）					
 				</td>
 				<td>截止上年底累计下达计划：<span class="required">(*)</span></td>
 				<td colspan="2">
-					<span ng-bind="vm.model.monthReport.actuallyFinishiInvestment | number:2"></span>&nbsp;（万元）
+					<span ng-bind="vm.model.monthReport.actuallyFinishiInvestment | number:4"></span>&nbsp;（万元）
 				</td>
 			</tr>
 			<tr>
 				<td>本年度安排计划：<span class="required">(*)</span>
 				</td>
 				<td colspan="2">
-					<span ng-bind="vm.model.monthReport.thisYearPlanInvestment | number:2"></span>&nbsp;（万元）					
+					<span ng-bind="vm.model.monthReport.thisYearPlanInvestment | number:4"></span>&nbsp;（万元）					
 				</td>
 				<td>本年度已下达计划：<span class="required">(*)</span>
 				</td>
 				<td>
-					<span ng-bind="vm.model.monthReport.thisYearAccumulatedInvestment | number:2"></span>&nbsp;（万元）					
+					<span ng-bind="vm.model.monthReport.thisYearAccumulatedInvestment | number:4"></span>&nbsp;（万元）					
 				</td>
 			</tr>					
 			<tr>					
 				<td>累计完成投资：<span class="required">(*)</span></td>				
 				<td colspan="2">
-					<span ng-bind="vm.model.monthReport.thisMonthInvestTotal | number:2"></span>&nbsp;（万元）					
+					<span ng-bind="vm.model.monthReport.thisMonthInvestTotal | number:4"></span>&nbsp;（万元）					
 				</td>
 				<td>是否完成竣工决算</td>
 				<td>
@@ -101,7 +101,7 @@ overflow: scroll !important;
 				<td colspan="4">
 					<p>
 						预计1到3月份完成投资（万元）：
-						<span ng-bind="vm.model.monthReport.firstQuarCompInvestment | number:2"></span>						 
+						<span ng-bind="vm.model.monthReport.firstQuarCompInvestment | number:4"></span>						 
 					</p>
 					
 				</td>
@@ -110,7 +110,7 @@ overflow: scroll !important;
 				<td colspan="4">
 					<p>
 						预计1到6月份完成投资（万元）： 
-						<span ng-bind="vm.model.monthReport.secondQuarCompInvestment | number:2"></span>
+						<span ng-bind="vm.model.monthReport.secondQuarCompInvestment | number:4"></span>
 					</p>
 					
 				</td>
@@ -119,7 +119,7 @@ overflow: scroll !important;
 				<td colspan="4">
 					<p>
 						预计1到9月份完成投资（万元）： 
-						<span ng-bind="vm.model.monthReport.thirdQuarCompInvestment | number:2"></span>
+						<span ng-bind="vm.model.monthReport.thirdQuarCompInvestment | number:4"></span>
 					</p>
 					
 				</td>
@@ -128,7 +128,7 @@ overflow: scroll !important;
 				<td colspan="4">
 					<p>
 						预计1到12月份完成投资（万元）： 
-						<span ng-bind="vm.model.monthReport.fourthQuarCompInvestment | number:2"></span>
+						<span ng-bind="vm.model.monthReport.fourthQuarCompInvestment | number:4"></span>
 					</p>
 					
 				</td>
@@ -198,7 +198,7 @@ overflow: scroll !important;
 				<td colspan="4" >
 					<textarea  rows="3" cols="20" maxlength="200"					
 						placeholder=""  ng-bind="vm.model.monthReport.remark"				
-						style="height: 120px; width: 99%; color: rgb(169, 169, 169);">
+						style="height: 120px; width: 99%;">
 					</textarea>
 				</td>				
 			</tr>
@@ -206,11 +206,11 @@ overflow: scroll !important;
 		
 		<div class="bg-info text-info title">文件上传</div>
 		<div style="display: block;">
-		<table width="100%" class="table table-striped table-bordered ">					
+		<table style="width:100%;" class="table table-striped table-bordered ">					
 			<tbody>
 				<tr>
-					<td>						
-						<table style="width: 98%;" class="table table-bordered table-striped">									
+					<td>
+						<table style="width:98%;" class="table table-bordered table-striped">									
 							<tbody>
 								<tr>
 									<th style="width:180px;" align="center" scope="col">附件类型</th>

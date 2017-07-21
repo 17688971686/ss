@@ -73,11 +73,11 @@
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
 		<td>
-			<span id="projectInvestSum" name="projectInvestSum" ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:2"></span>&nbsp;(万元)
+			<span id="projectInvestSum" name="projectInvestSum" ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:4"></span>&nbsp;(万元)
 		</td>
 		<td class="formAlignRight">累计完成投资：<span class="required">(*)</span></td>
 		<td>
-			<span id="projectInvestAccuSum" name="projectInvestAccuSum" ng-bind="vm.model.shenBaoInfo.projectInvestAccuSum | number:2"></span>&nbsp;(万元)
+			<span id="projectInvestAccuSum" name="projectInvestAccuSum" ng-bind="vm.model.shenBaoInfo.projectInvestAccuSum | number:4"></span>&nbsp;(万元)
 		</td>
 	</tr>
 					
@@ -102,9 +102,9 @@
 								<td>专项资金</td>
 							</tr>
 							<tr>
-								<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_ggys | number:2"></span></td>
-								<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_gtzj | number:2"></span></td>
-								<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_zxzj | number:2"></span></td>
+								<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_ggys | number:4"></span></td>
+								<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_gtzj | number:4"></span></td>
+								<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_zxzj | number:4"></span></td>
 							</tr>
 						</table>
 					</td>
@@ -116,8 +116,8 @@
 								
 							</tr>
 							<tr>
-								<td><span ng-bind="vm.model.shenBaoInfo.capitalQCZ_ggys | number:2"></span></td>
-								<td><span ng-bind="vm.model.shenBaoInfo.capitalQCZ_gtzj | number:2"></span></td>
+								<td><span ng-bind="vm.model.shenBaoInfo.capitalQCZ_ggys | number:4"></span></td>
+								<td><span ng-bind="vm.model.shenBaoInfo.capitalQCZ_gtzj | number:4"></span></td>
 							</tr>
 						</table>
 					</td>
@@ -129,7 +129,7 @@
 								
 							</tr>
 							<tr>
-								<td><span ng-bind="vm.model.shenBaoInfo.capitalSHTZ | number:2"></span></td>
+								<td><span ng-bind="vm.model.shenBaoInfo.capitalSHTZ | number:4"></span></td>
 							</tr>
 						</table>
 					</td>
@@ -140,7 +140,7 @@
 								<td ng-if="!vm.model.shenBaoInfo.capitalOtherType">-</td>																
 							</tr>
 							<tr>
-								<td><span ng-bind="vm.model.shenBaoInfo.capitalOther | number:2"></span></td>
+								<td><span ng-bind="vm.model.shenBaoInfo.capitalOther | number:4"></span></td>
 							</tr>
 						</table>
 					</td>
@@ -156,7 +156,7 @@
 				<tr>
 					<td>资金总计：</td>
 					<td >
-						<span id="capitalTotal" ng-bind="vm.capitalTotal() | number:2"></span>
+						<span id="capitalTotal" ng-bind="vm.capitalTotal() | number:4"></span>
 					</td>								
 				</tr>
 			</table>

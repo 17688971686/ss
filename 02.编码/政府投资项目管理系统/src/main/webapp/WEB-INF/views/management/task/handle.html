@@ -99,17 +99,17 @@ textarea.form-control {
 			<tr>
 				<td class="formAlignRight">项目总投资：</td>
 				<td ng-show="vm.isYearPlan">
-					<span  ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:2"></span>&nbsp;(万元)		
+					<span  ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:4"></span>&nbsp;(万元)		
 				</td>
 				<td ng-show="vm.isMonthReport">
-					<span  ng-bind="vm.model.project.projectInvestSum | number:2"></span>&nbsp;(万元)
+					<span  ng-bind="vm.model.project.projectInvestSum | number:4"></span>&nbsp;(万元)
 				</td>
 				<td class="formAlignRight">累计完成投资：</td>
 				<td ng-show="vm.isYearPlan">
-					<span ng-bind="vm.model.shenBaoInfo.projectInvestAccuSum | number:2"></span>&nbsp;(万元)				
+					<span ng-bind="vm.model.shenBaoInfo.projectInvestAccuSum | number:4"></span>&nbsp;(万元)				
 				</td>
 				<td ng-show="vm.isMonthReport">
-					<span ng-bind="vm.model.project.projectInvestAccuSum | number:2"></span>&nbsp;(万元)
+					<span ng-bind="vm.model.project.projectInvestAccuSum | number:4"></span>&nbsp;(万元)
 				</td>
 			</tr>	
 			<tr>
