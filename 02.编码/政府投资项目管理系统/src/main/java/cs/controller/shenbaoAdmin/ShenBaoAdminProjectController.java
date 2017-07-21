@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -33,6 +35,7 @@ public class ShenBaoAdminProjectController {
 	@Autowired
 	ICurrentUser currentUser;
 	
+	@RequiresPermissions("shenbaoAdmin/project##get")
 	@RequestMapping(name = "获取项目信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
@@ -40,7 +43,7 @@ public class ShenBaoAdminProjectController {
 		return ProjectDtos;
 	}
 	
-	//@RequiresPermissions("shenbaoAdmin/project/unitProject##get")
+	@RequiresPermissions("shenbaoAdmin/project/#unitProject#get")
 	@RequestMapping(name = "获取单位项目信息", path = "unitProject",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> getUnitProject(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);	
@@ -54,14 +57,14 @@ public class ShenBaoAdminProjectController {
 		return ProjectDtos;
 	}
 	
-	//@RequiresPermissions("shenbaoAdmin/project/unitProject##post")
+	@RequiresPermissions("shenbaoAdmin/project/#unitProject#post")
 	@RequestMapping(name = "创建项目信息", path = "unitProject",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void createUnitProject(@RequestBody ProjectDto ProjectDto){		
 		ProjectService.create(ProjectDto);		
 	}
 	
-	//@RequiresPermissions("shenbaoAdmin/project/unitProject##put")
+	@RequiresPermissions("shenbaoAdmin/project/#unitProject#put")
 	@RequestMapping(name = "更新项目信息", path = "unitProject",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  updateUserProject(@RequestBody ProjectDto ProjectDto){
@@ -98,16 +101,19 @@ public class ShenBaoAdminProjectController {
 
 	}
 	
+	@RequiresPermissions("shenbaoAdmin/project/#html/list#get")
 	@RequestMapping(name = "列表页", path = "html/list")
 	public String list() {
 		return this.ctrlName + "/list";
 	}
 	
+	@RequiresPermissions("shenbaoAdmin/project/#html/edit#get")
 	@RequestMapping(name = "编辑页", path = "html/edit")
 	public String edit() {
 		return this.ctrlName + "/edit";
 	}
 	
+	@RequiresPermissions("shenbaoAdmin/project/#html/projectInfo#get")
 	@RequestMapping(name = "项目详情页", path = "html/projectInfo")
 	public String projectInfo() {
 		return this.ctrlName + "/projectInfo";

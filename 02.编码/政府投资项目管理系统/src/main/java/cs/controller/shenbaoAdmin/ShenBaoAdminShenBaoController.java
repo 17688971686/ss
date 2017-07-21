@@ -4,6 +4,7 @@ import java.text.ParseException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -33,7 +34,7 @@ public class ShenBaoAdminShenBaoController {
 	@Autowired
 	private BasicDataService basicDataService;
 	
-	//@RequiresPermissions("shenbaoAdmin/shenbao##get")
+	@RequiresPermissions("shenbaoAdmin/shenbao##get")
 	@RequestMapping(name = "获取申报信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> get(HttpServletRequest request) throws ParseException{
 		ODataObj odataObj = new ODataObj(request);
@@ -52,6 +53,7 @@ public class ShenBaoAdminShenBaoController {
 		return shenBaoInfoDtos;	
 	}
 	
+	@RequiresPermissions("shenbaoAdmin/shenbao#unit#get")
 	@RequestMapping(name = "获取单位申报信息", path = "unit",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getByUnit(HttpServletRequest request) throws ParseException{
 		ODataObj odataObj = new ODataObj(request);
@@ -65,14 +67,14 @@ public class ShenBaoAdminShenBaoController {
 		return shenBaoInfoDtos;	
 	}
 	
-	//@RequiresPermissions("shenbaoAdmin/shenbao##post")
+	@RequiresPermissions("shenbaoAdmin/shenbao##post")
 	@RequestMapping(name = "创建申报信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  create(@RequestBody ShenBaoInfoDto shenBaoInfoDto){
 		shenBaoInfoService.create(shenBaoInfoDto);	
 	}
 	
-	//@RequiresPermissions("shenbaoAdmin/shenbao##put")
+	@RequiresPermissions("shenbaoAdmin/shenbao##put")
 	@RequestMapping(name = "更新申报信息", path = "",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  update(@RequestBody ShenBaoInfoDto shenBaoInfoDto){
@@ -80,21 +82,25 @@ public class ShenBaoAdminShenBaoController {
 	}
 		
 	//begin#html
+	@RequiresPermissions("shenbaoAdmin/shenbao#html/list#get")
 	@RequestMapping(name = "列表页", path = "html/list")
 	public String list() {
 		return this.ctrlName + "/list";
 	}
 	
+	@RequiresPermissions("shenbaoAdmin/shenbao#html/edit#get")
 	@RequestMapping(name = "申报页", path = "html/edit")
 	public String create() {
 		return this.ctrlName + "/edit";
 	}
 	
+	@RequiresPermissions("shenbaoAdmin/shenbao#html/records#get")
 	@RequestMapping(name = "申报记录列表页", path = "html/records")
 	public String records() {
 		return this.ctrlName + "/records";
 	}
 	
+	@RequiresPermissions("shenbaoAdmin/shenbao#html/shenBaoInfo#get")
 	@RequestMapping(name = "申报记录详情页", path = "html/shenBaoInfo")
 	public String shenBaoInfo() {
 		return this.ctrlName + "/shenBaoInfo";

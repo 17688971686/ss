@@ -2,6 +2,7 @@ package cs.controller.shenbaoAdmin;
 
 import java.util.Date;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,7 @@ public class ShenBaoAdminController {
 		model.addAttribute("date", dateStr);		
 		return this.ctrlName + "/index";
 	}
+	@RequiresPermissions("shenbaoAdmin#html/welcome#get")
 	@RequestMapping(name = "管理中心页面", path = "html/welcome",method=RequestMethod.GET)
 	public String welcome(Model model) {
 		String lastLoginDate="";
