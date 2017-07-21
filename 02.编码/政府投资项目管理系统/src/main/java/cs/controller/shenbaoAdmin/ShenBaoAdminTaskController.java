@@ -4,6 +4,7 @@ import java.text.ParseException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ public class ShenBaoAdminTaskController {
 	@Autowired
 	ICurrentUser currentUser;
 	
+	@RequiresPermissions("shenbaoAdmin/task##get")
 	@RequestMapping(name = "获取当前用户所有的任务流程", path = "")
 	public @ResponseBody PageModelDto<TaskHeadDto> getToDo(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
@@ -39,6 +41,7 @@ public class ShenBaoAdminTaskController {
 	}
 				
 	//begin#html
+	@RequiresPermissions("shenbaoAdmin/task#html/list#get")
 	@RequestMapping(name = "列表页", path = "html/list")
 	public String list() {
 		return this.ctrlName + "/list";

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +29,7 @@ public class CommonController {
 	@Autowired
 	private BasicDataService basicDataService;
 	
-	
+	@RequiresPermissions("common#basicData/{identity}#get")
 	@RequestMapping(name="查询基础数据",path="basicData/{identity}",method=RequestMethod.GET)
 	public @ResponseBody List<BasicDataDto> getBasicData(@PathVariable("identity") String identity){
 		System.out.println(identity);
@@ -38,6 +39,7 @@ public class CommonController {
 		return basicDataService.getByIdentity(identity);
 	}
 	
+	@RequiresPermissions("common#save#post")
 	@RequestMapping(name = "上传文件", path = "save", method = RequestMethod.POST,produces ="application/json;charset=UTF-8")
 	public @ResponseBody String Save(@RequestParam("files") MultipartFile file){
 		String randomName="";
@@ -58,6 +60,8 @@ public class CommonController {
         }  
 		return randomName;
 	}
+	
+	@RequiresPermissions("common#remove#post")
 	@RequestMapping(name = "删除上传文件", path = "remove", method = RequestMethod.POST)
 	public @ResponseBody String remove(HttpServletRequest request){
 		return "true";

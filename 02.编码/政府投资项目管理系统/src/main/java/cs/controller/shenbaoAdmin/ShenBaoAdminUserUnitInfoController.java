@@ -4,6 +4,7 @@ import java.text.ParseException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -29,14 +30,14 @@ public class ShenBaoAdminUserUnitInfoController {
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
 	
-	//@RequiresPermissions("shenbaoAdmin/userUnitInfo##get")	
+	@RequiresPermissions("shenbaoAdmin/userUnitInfo#userName#get")
 	@RequestMapping(name = "获取用户的单位数据", path = "userName", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserUnitInfoDto> getProjectUnit(HttpServletRequest request) throws ParseException{
 		ODataObj odataObj = new ODataObj(request);
 		return userUnitInfoService.get(odataObj);
 	}
 	
-	//@RequiresPermissions("shenbaoAdmin/userUnitInfo##get")	
+	@RequiresPermissions("shenbaoAdmin/userUnitInfo##get")	
 	@RequestMapping(name = "获取当前登录用户的单位数据", path = "", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserUnitInfoDto> getUserUnit(HttpServletRequest request) throws ParseException{
 		ODataObj odataObj = new ODataObj(request);
@@ -48,7 +49,7 @@ public class ShenBaoAdminUserUnitInfoController {
 		return userUnitInfoService.get(odataObj);
 	}
 	
-	//@RequiresPermissions("shenbaoAdmin/userUnitInfo##post")	
+	@RequiresPermissions("shenbaoAdmin/userUnitInfo##post")	
 	@RequestMapping(name = "保存当前用户的单位数据", path = "", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public @ResponseBody void post(@RequestBody UserUnitInfoDto userUnitInfoDto){		

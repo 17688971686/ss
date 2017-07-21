@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -34,13 +35,15 @@ public class ShenBaoAdminProjectMonthReportController {
 	
 	private String ctrlName = "shenbaoAdmin/projectMonthReport";
 	
+	@RequiresPermissions("shenbaoAdmin/projectMonthReport##get")
 	@RequestMapping(name = "获取月报信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<MonthReportDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<MonthReportDto> monthReports = monthReportService.get(odataObj);
 		return monthReports;
 	}
-			
+	
+	@RequiresPermissions("shenbaoAdmin/projectMonthReport##post")
 	@RequestMapping(name = "保存月报信息",path="",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  saveMonthReport(@RequestBody MonthReportDto monthReportDto){
@@ -48,12 +51,13 @@ public class ShenBaoAdminProjectMonthReportController {
 	}
 	
 	//begin#html	
-	//@RequiresPermissions("projectMonthReport#html/list#get")
+	@RequiresPermissions("shenbaoAdmin/projectMonthReport#html/list#get")
 	@RequestMapping(name = "项目列表页", path = "html/list",method=RequestMethod.GET)
 	public String index() {
 		return this.ctrlName + "/list";
 	}
-		
+	
+	@RequiresPermissions("shenbaoAdmin/projectMonthReport#html/selectMonth#get")
 	@RequestMapping(name = "月份选择页面", path = "html/selectMonth",method=RequestMethod.GET)
 	public String fill(Model model) {
 		List<String> years=new ArrayList<>();
@@ -66,18 +70,21 @@ public class ShenBaoAdminProjectMonthReportController {
 		return this.ctrlName + "/selectMonth";
 	}
 	
+	@RequiresPermissions("shenbaoAdmin/projectMonthReport#html/fillInfo#get")
 	@RequestMapping(name = "月报信息填写页面", path = "html/fillInfo",method=RequestMethod.GET)
 	public String fillInfo()  {
 		
 		return this.ctrlName + "/fillInfo";
 	}
 	
+	@RequiresPermissions("shenbaoAdmin/projectMonthReport#html/projectInfo#get")
 	@RequestMapping(name = "项目信息", path = "html/projectInfo",method=RequestMethod.GET)
 	public String projectInfo()  {
 		
 		return this.ctrlName + "/projectInfo";
 	}
 	
+	@RequiresPermissions("shenbaoAdmin/projectMonthReport#html/details#get")
 	@RequestMapping(name = "月报信息页面", path = "html/details",method=RequestMethod.GET)
 	public String details()  {
 		
