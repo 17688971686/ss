@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.util.function.Function;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +33,7 @@ public class ShenBaoHomeController {
 
 		return this.ctrlName + "/index";
 	}
+	
 	
 	@RequestMapping(name = "获取首页数据", path = "/indexData", method = RequestMethod.GET)
 	public @ResponseBody IndexDto indexData(HttpServletRequest request) throws ParseException {

@@ -26,7 +26,7 @@ public class AdminController {
 	private UserService userService;
 	
 
-	//@RequiresPermissions("admin#index#get")
+	@RequiresPermissions("admin#index#get")
 	@RequestMapping(name = "首页", path = "index")
 	public String index(Model model) {
 
@@ -42,7 +42,6 @@ public class AdminController {
 			model.addAttribute("user", user.getLoginName());
 			model.addAttribute("lastLoginDate", Util.formatDate( user.getLastLoginDate()));
 		}
-		
 		return ctrlName + "/welcome";
 	}
 }

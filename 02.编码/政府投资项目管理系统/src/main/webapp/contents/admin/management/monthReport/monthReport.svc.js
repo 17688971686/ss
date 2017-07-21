@@ -148,13 +148,16 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:
-					{
-						field:'isLatestVersion',
-						operator:'eq',
-						value:true
-					}
-				
+				filter:[{
+					field:'isLatestVersion',
+					operator:'eq',
+					value:true
+				},
+				{
+					field:'isMonthReport',
+					operator:'eq',
+					value:true
+				}]
 			});
 			// End:dataSource
 

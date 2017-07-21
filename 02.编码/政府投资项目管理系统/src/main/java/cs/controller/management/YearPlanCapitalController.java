@@ -4,6 +4,7 @@ import java.text.ParseException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ public class YearPlanCapitalController {
 	@Autowired
 	private YearPlanCapitalService yearPlanCapitalService;
 	
+	@RequiresPermissions("management/yearPlanCapital##get")
 	@RequestMapping(name="获取年度计划编制信息",path="",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<YearPlanCapitalDto> get(HttpServletRequest request) throws ParseException{
 		ODataObj odataObj = new ODataObj(request);
@@ -31,12 +33,14 @@ public class YearPlanCapitalController {
 		return yearPlanCapitalDtos;
 	}
 	
+	@RequiresPermissions("management/yearPlanCapital##put")
 	@RequestMapping(name="更新年度计划编制信息",path="",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void put(@RequestBody YearPlanCapitalDto dto){
 		yearPlanCapitalService.update(dto,dto.getId());
 	}
 	
+	@RequiresPermissions("management/yearPlanCapital##post")
 	@RequestMapping(name="添加年度计划编制资金",path="",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void post(@RequestBody String id){

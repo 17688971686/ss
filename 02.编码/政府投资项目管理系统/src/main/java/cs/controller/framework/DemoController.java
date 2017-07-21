@@ -4,6 +4,7 @@ import java.io.File;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +21,9 @@ public class DemoController {
 	private String ctrlName = "framework/demo";
 	
 	@Autowired  
-    private HttpServletRequest request;  
-	//@RequiresPermissions("demo#save#post")
+    private HttpServletRequest request;
+	
+	@RequiresPermissions("demo#save#post")
 	@RequestMapping(name = "上传文件", path = "save", method = RequestMethod.POST)
 	public @ResponseBody String Save(@RequestParam("file") MultipartFile file){
 		String randomName="";
@@ -43,12 +45,14 @@ public class DemoController {
 		//return "true";
 		return randomName;
 	}
+	
+	@RequiresPermissions("demo#remove#post")
 	@RequestMapping(name = "删除上传文件", path = "remove", method = RequestMethod.POST)
 	public @ResponseBody String remove(HttpServletRequest request){
 		return "true";
 	}
 	// begin#html
-	//@RequiresPermissions("demo#html/list#get")
+	@RequiresPermissions("demo#html/list#get")
 	@RequestMapping(name = "DemoList页面", path = "html/list", method = RequestMethod.GET)
 	public String list() {
 		return ctrlName + "/list";

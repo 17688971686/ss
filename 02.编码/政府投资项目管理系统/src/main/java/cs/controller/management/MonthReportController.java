@@ -4,6 +4,7 @@ import java.text.ParseException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.model.PageModelDto;
 import cs.model.DomainDto.MonthReportDto;
-import cs.model.DomainDto.ProjectDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.MonthReportService;
 
@@ -29,6 +29,7 @@ public class MonthReportController {
 	@Autowired
 	private MonthReportService monthReportService;
 	
+	@RequiresPermissions("management/monthReport##get")
 	@RequestMapping(name = "获取月报信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<MonthReportDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
@@ -36,6 +37,7 @@ public class MonthReportController {
 		return monthReports;
 	}
 	
+	@RequiresPermissions("management/monthReport##post")
 	@RequestMapping(name = "保存月报信息",path="",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  saveMonthReport(@RequestBody MonthReportDto monthReportDto){
@@ -43,23 +45,22 @@ public class MonthReportController {
 				
 	}
 	
-	//@RequiresPermissions("management/monthReport#html/list#get")
+	@RequiresPermissions("management/monthReport#html/list#get")
 	@RequestMapping(name = "列表页面", path = "html/list", method = RequestMethod.GET)	
 	public String list() {
 
 		return this.ctrlName + "/list";
 	}
-	//@RequiresPermissions("management/monthReport#html/details#get")
+	
+	@RequiresPermissions("management/monthReport#html/details#get")
 	@RequestMapping(name = "详情页面", path = "html/details", method = RequestMethod.GET)	
 	public String details() {
-
 		return this.ctrlName + "/details";
 	}
 	
-	//@RequiresPermissions("management/monthReport#html/details#get")
-		@RequestMapping(name = "修改页面", path = "html/changeDetails", method = RequestMethod.GET)	
-		public String changeDetails() {
-
-			return this.ctrlName + "/changeDetails";
-		}
+	@RequiresPermissions("management/monthReport#html/changeDetails#get")
+	@RequestMapping(name = "修改页面", path = "html/changeDetails", method = RequestMethod.GET)	
+	public String changeDetails() {
+		return this.ctrlName + "/changeDetails";
+	}
 }

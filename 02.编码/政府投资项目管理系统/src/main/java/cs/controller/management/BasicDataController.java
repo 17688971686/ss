@@ -1,5 +1,6 @@
 package cs.controller.management;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,7 @@ public class BasicDataController {
 	
 	private String ctrl ="management/basicData";
 
-	//@RequiresPermissions("management/basicData##post")
+	@RequiresPermissions("management/basicData##post")
 	@RequestMapping(name="创建基础数据",path="",method=RequestMethod.POST)
 	@ResponseStatus(value=HttpStatus.CREATED)
 	public void post(@RequestBody BasicDataDto basicDataDto){
@@ -28,7 +29,7 @@ public class BasicDataController {
 		basicDataService.reloadData();
 	}
 	
-	//@RequiresPermissions("management/basicData##delete")
+	@RequiresPermissions("management/basicData##delete")
 	@RequestMapping(name="删除基础数据",path="",method=RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void delete(@RequestBody String id){			
@@ -36,7 +37,7 @@ public class BasicDataController {
 		basicDataService.reloadData();
 	}
 	
-	//@RequiresPermissions("management/basicData##put")
+	@RequiresPermissions("management/basicData##put")
 	@RequestMapping(name="更新基础数据",path="",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void update(@RequestBody BasicDataDto basicDataDto){			
@@ -45,6 +46,7 @@ public class BasicDataController {
 	}
 	
 	//begin#html
+	@RequiresPermissions("management/basicData#html/index#get")
 	@RequestMapping(name="基础数据管理页面",path="html/index",method=RequestMethod.GET)
 	public String index(){
 		return ctrl+"/index";

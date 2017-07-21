@@ -4,6 +4,7 @@ import java.text.ParseException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -30,11 +31,12 @@ public class TaskController {
 	@Autowired
 	ICurrentUser currentUser;
 
-	@RequestMapping(name = "获取所有任务", path = "")
+	@RequiresPermissions("management/task##get")
+	@RequestMapping(name = "获取所有任务", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<TaskHeadDto> getToDo(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
 		//设置过滤条件
-		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
+//		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 		//此为设置过滤条件：获取当前登录用户的任务（暂时不需要）
 //		filterItem.setField("nextUser");
 //		filterItem.setOperator("eq");
@@ -44,13 +46,15 @@ public class TaskController {
 		return taskHeadDtos;
 	}
 	
-	@RequestMapping(name = "个人已办", path = "complete")
+	@RequiresPermissions("management/task#complete#get")
+	@RequestMapping(name = "个人已办", path = "complete",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<TaskHeadDto> history(HttpServletRequest request) throws ParseException {
 		//todo
 		//从taskrecord 表里取数据
 		return null;
 	}
 	
+	@RequiresPermissions("management/task#{taskId}#put")
 	@RequestMapping(name="处理",path="{taskId}",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void put(@RequestBody TaskRecordDto dto,@PathVariable String taskId){
@@ -58,16 +62,19 @@ public class TaskController {
 	}
 	
 	// begin#html
+	@RequiresPermissions("management/task#html/todo#get")
 	@RequestMapping(name = "待办列表页", path = "html/todo", method = RequestMethod.GET)
 	public String todo() {
 		return ctrl + "/todo";
 	}
 	
+	@RequiresPermissions("management/task#html/complete#get")
 	@RequestMapping(name = "已办列表页", path = "html/complete", method = RequestMethod.GET)
 	public String complete() {
 		return ctrl + "/complete";
 	}
 	
+	@RequiresPermissions("management/task#html/handle#get")
 	@RequestMapping(name = "待办处理", path = "html/handle", method = RequestMethod.GET)
 	public String handle() {
 		return ctrl + "/handle";
