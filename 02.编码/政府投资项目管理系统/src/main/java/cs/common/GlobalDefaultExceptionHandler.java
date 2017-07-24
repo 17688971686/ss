@@ -31,7 +31,14 @@ public class GlobalDefaultExceptionHandler {
 	@ResponseStatus(value = HttpStatus.UNAUTHORIZED)
 	public String unAuthErrorHandler(HttpServletRequest req, Exception e) throws Exception {			
 		logger.warn("无权限访问");
-		return "forward:/";
+		//获取当前的请求url
+		String url = req.getServletPath();
+		String[] urls = url.split("\\/");
+		if(urls[1].equals("management")){
+			return "forward:/adminLogin";
+		}else{
+			return "forward:/";
+		}
 	}
 	@ExceptionHandler(value = Exception.class)
 	public void  errorHandler(HttpServletRequest req, Exception e) throws Exception {

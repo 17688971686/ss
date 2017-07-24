@@ -37,7 +37,7 @@ public class YearPlanController {
 		return yearPlanDtos;
 	}
 	
-	@RequiresPermissions("management/yearPlan#{id}/projectList#get")
+	@RequiresPermissions("management/yearPlan#id/projectList#get")
 	@RequestMapping(name = "获取年度计划项目列表数据", path = "{id}/projectList",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getShenBaoInfo(HttpServletRequest request,@PathVariable String id) throws ParseException {
 		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos=new PageModelDto<ShenBaoInfoDto>();

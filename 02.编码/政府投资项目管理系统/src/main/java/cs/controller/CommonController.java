@@ -29,7 +29,7 @@ public class CommonController {
 	@Autowired
 	private BasicDataService basicDataService;
 	
-	//@RequiresPermissions("common#basicData/{identity}#get")
+	//@RequiresPermissions("common#basicData/identity#get")
 	@RequestMapping(name="查询基础数据",path="basicData/{identity}",method=RequestMethod.GET)
 	public @ResponseBody List<BasicDataDto> getBasicData(@PathVariable("identity") String identity){
 		System.out.println(identity);
