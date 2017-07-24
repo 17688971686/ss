@@ -36,6 +36,7 @@ public class SysController {
 		return ZTreeList;
 	}
 	
+	@RequiresPermissions("sys#create#post")
 	@RequestMapping(name = "设置task签收人", path = "create", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public  void create(@RequestBody List<SysConfigDto> sysConfigDtos) {		
@@ -51,6 +52,7 @@ public class SysController {
 		
 	}
 	
+	@RequiresPermissions("sys#getSysConfigs#get")
 	@RequestMapping(name = "系统初始化签收人", path = "getSysConfigs", method = RequestMethod.GET)
 	public @ResponseBody List<SysConfigDto> initUser() {
 		List<SysConfigDto> list = sysService.getSysConfigs();
@@ -78,6 +80,7 @@ public class SysController {
 		}	
 	}
 	//begin#html
+	@RequiresPermissions("sys#html/index#get")
 	@RequestMapping(name = "系统配置主页", path = "html/index", method = RequestMethod.GET)
 	public String index(){
 		return ctrl+"/index";

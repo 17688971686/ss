@@ -18,7 +18,7 @@ import cs.service.common.BasicDataService;
 import cs.service.interfaces.ShenBaoInfoService;
 
 @Controller
-@RequestMapping(name="申报信息管理", path="management/shenbao")
+@RequestMapping(name="后台管理--申报信息管理", path="management/shenbao")
 public class ShenBaoController {
 	private String ctrl ="management/shenbao";
 	@Autowired

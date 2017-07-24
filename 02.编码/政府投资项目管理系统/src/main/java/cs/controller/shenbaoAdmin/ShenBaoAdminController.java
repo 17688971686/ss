@@ -13,16 +13,16 @@ import cs.common.ICurrentUser;
 import cs.common.Util;
 
 @Controller
-@RequestMapping(name = "申报管理端", path = "shenbaoAdmin")
+@RequestMapping(name = "申报端--申报管理端", path = "shenbaoAdmin")
 public class ShenBaoAdminController {
 	@Autowired
 	private ICurrentUser currentUser;
 	
 	private String ctrlName = "shenbaoAdmin/home";
 	
-	@RequestMapping(name = "首页", path = "")
+	@RequiresPermissions("shenbaoAdmin##get")
+	@RequestMapping(name = "首页", path = "",method=RequestMethod.GET)
 	public String index(Model model) {				
-		
 		Date date=new Date();
 		String dateStr=String.format("%s %s",Util.formatDate(date, "yyyy/MM/dd"),Util.getDay(date));
 		model.addAttribute("userName", currentUser.getLoginName());

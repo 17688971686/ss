@@ -20,7 +20,7 @@ import cs.service.interfaces.YearPlanCapitalService;
 
 
 @Controller
-@RequestMapping(name="年度计划资金管理", path="management/yearPlanCapital")
+@RequestMapping(name="后台管理--年度计划资金管理", path="management/yearPlanCapital")
 public class YearPlanCapitalController {
 	@Autowired
 	private YearPlanCapitalService yearPlanCapitalService;

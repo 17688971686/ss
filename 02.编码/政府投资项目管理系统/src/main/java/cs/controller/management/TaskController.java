@@ -18,12 +18,11 @@ import cs.common.ICurrentUser;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.TaskHeadDto;
 import cs.model.DomainDto.TaskRecordDto;
-import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.TaskHeadService;
 
 @Controller
-@RequestMapping(name = "工作台管理", path = "management/task")
+@RequestMapping(name = "后台管理--工作台管理", path = "management/task")
 public class TaskController {
 	private String ctrl = "management/task";
 	@Autowired
@@ -35,13 +34,6 @@ public class TaskController {
 	@RequestMapping(name = "获取所有任务", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<TaskHeadDto> getToDo(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
-		//设置过滤条件
-//		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
-		//此为设置过滤条件：获取当前登录用户的任务（暂时不需要）
-//		filterItem.setField("nextUser");
-//		filterItem.setOperator("eq");
-//		filterItem.setValue(currentUser.getLoginName());
-//		odataObj.getFilter().add(filterItem);
 		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.get(odataObj);
 		return taskHeadDtos;
 	}
@@ -55,7 +47,7 @@ public class TaskController {
 	}
 	
 	@RequiresPermissions("management/task#{taskId}#put")
-	@RequestMapping(name="处理",path="{taskId}",method=RequestMethod.PUT)
+	@RequestMapping(name="处理任务",path="{taskId}",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void put(@RequestBody TaskRecordDto dto,@PathVariable String taskId){
 		taskHeadService.handle(taskId, dto);

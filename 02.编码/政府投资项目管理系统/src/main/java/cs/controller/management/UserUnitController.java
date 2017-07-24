@@ -17,7 +17,7 @@ import cs.repository.odata.ODataObj;
 import cs.service.interfaces.UserUnitInfoService;
 
 @Controller
-@RequestMapping(name="单位管理",path="management/userUnit")
+@RequestMapping(name="后台管理--用户单位管理",path="management/userUnit")
 public class UserUnitController {
 	private String ctrlName = "management/userUnit";
 	

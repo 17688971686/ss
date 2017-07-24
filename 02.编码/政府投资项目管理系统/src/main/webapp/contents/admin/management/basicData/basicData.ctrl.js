@@ -42,24 +42,26 @@
 									.where(function(x){return x.pId==treeNode.id;})
 									.select(function(x){return {id:x.id}})
 									.toArray();	
-									var oldId, newId;
-									if(childIds.length>0){//有子代代表新点击对象为父级新增										
+									var oldId, newId,oldIdSplit;
+									if(childIds.length>0){//有子级代表新点击对象为父级新增										
 										var idNum = [];
 										var index = 0;
 										for(var i=0;i<childIds.length;i++){
 											var id = childIds[i].id;
 											var idSplit = id.split("_");
-											idNum[index+i] = parseInt(idSplit[idSplit.length-1]);										
+											idNum[index+i] = parseInt(idSplit[idSplit.length-1]);//获取所有子级id最后的一组数字									
 										}
 										//设置新增子级id的数值 数组中的最大值+1
 										//获取数组中的最大值
 										var idNumMax = Math.max.apply(null, idNum);
 										//替换掉最后的数值
 										 oldId = childIds[0].id;
-										 newId = oldId.replace(oldId[oldId.length-1],idNumMax+1);										
+										 oldIdSplit = oldId.split("_");
+										 oldIdSplit[oldIdSplit.length-1] = idNumMax+1;//将最后的一个元素的值变更为最大值+1
+										 newId = oldIdSplit.join("_");
 									}else{//代表点击对象为子级新增按钮										
 										 oldId = treeNode.id;
-										 newId = oldId+"_1";							
+										 newId = oldId+"_1";
 									}									
 									var newnode={id:newId,name:"请编辑命名",identity:treeNode.identity,pId:treeNode.id,canEdit:true};
 									zTree.addNodes(treeNode,newnode);

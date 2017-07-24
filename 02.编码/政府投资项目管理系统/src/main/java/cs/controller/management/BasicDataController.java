@@ -14,7 +14,7 @@ import cs.service.common.BasicDataService;
 
 
 @Controller
-@RequestMapping(name="基础数据管理", path="management/basicData")
+@RequestMapping(name="后台管理--基础数据管理", path="management/basicData")
 public class BasicDataController {
 	@Autowired
 	private BasicDataService basicDataService;

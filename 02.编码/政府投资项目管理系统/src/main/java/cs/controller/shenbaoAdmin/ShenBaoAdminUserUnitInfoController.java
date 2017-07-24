@@ -16,14 +16,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.common.ICurrentUser;
 import cs.model.PageModelDto;
-import cs.model.DomainDto.BasicDataDto;
 import cs.model.DomainDto.UserUnitInfoDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.UserUnitInfoService;
 
 @Controller
-@RequestMapping(name = "用户单位信息", path = "shenbaoAdmin/userUnitInfo")
+@RequestMapping(name = "申报端--用户单位信息", path = "shenbaoAdmin/userUnitInfo")
 public class ShenBaoAdminUserUnitInfoController {
 	@Autowired
 	private ICurrentUser currentUser;

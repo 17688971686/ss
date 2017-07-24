@@ -25,7 +25,7 @@ import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ProjectService;
 
 @Controller
-@RequestMapping(name="项目管理",path="management/project")
+@RequestMapping(name="后台管理--项目管理",path="management/project")
 public class ProjectController {
 	private String ctrlName = "management/project";
 	
@@ -105,19 +105,19 @@ public class ProjectController {
 	
 	//begin#html
 	@RequiresPermissions("management/project#html/list#get")
-	@RequestMapping(name = "列表页", path = "html/list")
+	@RequestMapping(name = "列表页", path = "html/list",method=RequestMethod.GET)
 	public String list() {
 		return this.ctrlName + "/list";
 	}
 	
 	@RequiresPermissions("management/project#html/edit#get")
-	@RequestMapping(name = "编辑页", path = "html/edit")
+	@RequestMapping(name = "编辑页", path = "html/edit",method=RequestMethod.GET)
 	public String edit() {
 		return this.ctrlName + "/edit";
 	}
 	
 	@RequiresPermissions("management/project#html/details#get")
-	@RequestMapping(name = "详情页", path = "html/details")
+	@RequestMapping(name = "详情页", path = "html/details",method=RequestMethod.GET)
 	public String details() {
 		return this.ctrlName + "/details";
 	}

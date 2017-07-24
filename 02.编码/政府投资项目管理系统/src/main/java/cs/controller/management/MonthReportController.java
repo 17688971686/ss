@@ -22,7 +22,7 @@ import cs.service.interfaces.MonthReportService;
 
 
 @Controller
-@RequestMapping(name = "项目进度管理", path = "management/monthReport")
+@RequestMapping(name = "后台管理--项目进度管理", path = "management/monthReport")
 public class MonthReportController {
 	private String ctrlName = "management/monthReport";
 	
