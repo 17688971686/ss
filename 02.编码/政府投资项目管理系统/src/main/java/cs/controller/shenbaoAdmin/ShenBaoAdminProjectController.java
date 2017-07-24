@@ -1,4 +1,4 @@
-   package cs.controller.shenbaoAdmin;
+ package cs.controller.shenbaoAdmin;
 
 import java.text.ParseException;
 import java.util.HashMap;
@@ -26,7 +26,7 @@ import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ProjectService;
 
 @Controller
-@RequestMapping(name="项目管理",path="shenbaoAdmin/project")
+@RequestMapping(name="申报端--项目管理",path="shenbaoAdmin/project")
 public class ShenBaoAdminProjectController {
 	private String ctrlName = "shenbaoAdmin/project";
 	
@@ -58,14 +58,14 @@ public class ShenBaoAdminProjectController {
 	}
 	
 	@RequiresPermissions("shenbaoAdmin/project/#unitProject#post")
-	@RequestMapping(name = "创建项目信息", path = "unitProject",method=RequestMethod.POST)
+	@RequestMapping(name = "创建单位项目信息", path = "unitProject",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void createUnitProject(@RequestBody ProjectDto ProjectDto){		
 		ProjectService.create(ProjectDto);		
 	}
 	
 	@RequiresPermissions("shenbaoAdmin/project/#unitProject#put")
-	@RequestMapping(name = "更新项目信息", path = "unitProject",method=RequestMethod.PUT)
+	@RequestMapping(name = "更新单位项目信息", path = "unitProject",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  updateUserProject(@RequestBody ProjectDto ProjectDto){
 		Project entity = ProjectService.findById(ProjectDto.getId());	
@@ -102,19 +102,19 @@ public class ShenBaoAdminProjectController {
 	}
 	
 	@RequiresPermissions("shenbaoAdmin/project/#html/list#get")
-	@RequestMapping(name = "列表页", path = "html/list")
+	@RequestMapping(name = "列表页", path = "html/list",method=RequestMethod.GET)
 	public String list() {
 		return this.ctrlName + "/list";
 	}
 	
 	@RequiresPermissions("shenbaoAdmin/project/#html/edit#get")
-	@RequestMapping(name = "编辑页", path = "html/edit")
+	@RequestMapping(name = "编辑页", path = "html/edit",method=RequestMethod.GET)
 	public String edit() {
 		return this.ctrlName + "/edit";
 	}
 	
 	@RequiresPermissions("shenbaoAdmin/project/#html/projectInfo#get")
-	@RequestMapping(name = "项目详情页", path = "html/projectInfo")
+	@RequestMapping(name = "详情页", path = "html/projectInfo",method=RequestMethod.GET)
 	public String projectInfo() {
 		return this.ctrlName + "/projectInfo";
 	}

@@ -23,7 +23,7 @@ import cs.service.common.BasicDataService;
 import cs.service.interfaces.ShenBaoInfoService;
 
 @Controller
-@RequestMapping(name="项目申报",path="shenbaoAdmin/shenbao")
+@RequestMapping(name="申报端--项目申报",path="shenbaoAdmin/shenbao")
 public class ShenBaoAdminShenBaoController {
 	private String ctrlName = "shenbaoAdmin/shenbao";
 	
@@ -83,25 +83,25 @@ public class ShenBaoAdminShenBaoController {
 		
 	//begin#html
 	@RequiresPermissions("shenbaoAdmin/shenbao#html/list#get")
-	@RequestMapping(name = "列表页", path = "html/list")
+	@RequestMapping(name = "项目列表页面", path = "html/list",method=RequestMethod.GET)
 	public String list() {
 		return this.ctrlName + "/list";
 	}
 	
 	@RequiresPermissions("shenbaoAdmin/shenbao#html/edit#get")
-	@RequestMapping(name = "申报页", path = "html/edit")
+	@RequestMapping(name = "申报信息编辑页面", path = "html/edit",method=RequestMethod.GET)
 	public String create() {
 		return this.ctrlName + "/edit";
 	}
 	
 	@RequiresPermissions("shenbaoAdmin/shenbao#html/records#get")
-	@RequestMapping(name = "申报记录列表页", path = "html/records")
+	@RequestMapping(name = "申报记录列表页", path = "html/records",method=RequestMethod.GET)
 	public String records() {
 		return this.ctrlName + "/records";
 	}
 	
 	@RequiresPermissions("shenbaoAdmin/shenbao#html/shenBaoInfo#get")
-	@RequestMapping(name = "申报记录详情页", path = "html/shenBaoInfo")
+	@RequestMapping(name = "申报记录详情页", path = "html/shenBaoInfo",method=RequestMethod.GET)
 	public String shenBaoInfo() {
 		return this.ctrlName + "/shenBaoInfo";
 	}

@@ -18,7 +18,7 @@ import cs.repository.odata.ODataObj;
 import cs.service.interfaces.IService;
 
 @Controller
-@RequestMapping(name = "任务流程", path = "management/taskRecord")
+@RequestMapping(name = "后台管理--任务流程", path = "management/taskRecord")
 public class TaskRecordController {
 	private String ctrl = "management/taskRecord";
 	@Autowired

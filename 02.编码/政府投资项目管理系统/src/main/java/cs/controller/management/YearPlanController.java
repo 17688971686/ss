@@ -23,7 +23,7 @@ import cs.repository.odata.ODataObj;
 import cs.service.interfaces.YearPlanService;
 
 @Controller
-@RequestMapping(name="年度计划管理", path="management/yearPlan")
+@RequestMapping(name="后台管理--年度计划管理", path="management/yearPlan")
 public class YearPlanController {
 	private String ctrl ="management/yearPlan";
 	@Autowired
@@ -40,7 +40,7 @@ public class YearPlanController {
 	@RequiresPermissions("management/yearPlan#{id}/projectList#get")
 	@RequestMapping(name = "获取年度计划项目列表数据", path = "{id}/projectList",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getShenBaoInfo(HttpServletRequest request,@PathVariable String id) throws ParseException {
-		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos=new PageModelDto();
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos=new PageModelDto<ShenBaoInfoDto>();
 		shenBaoInfoDtos.setValue(yearPlanService.getYearPlanShenBaoInfo(id));
 		return shenBaoInfoDtos;
 	}

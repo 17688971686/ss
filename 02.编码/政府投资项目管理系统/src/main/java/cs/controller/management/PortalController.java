@@ -23,7 +23,7 @@ import cs.service.interfaces.IService;
 
 
 @Controller
-@RequestMapping(name = "统一门户管理", path = "management/portal")
+@RequestMapping(name = "后台管理--统一门户管理", path = "management/portal")
 public class PortalController {
 	private String ctrlName = "management/portal";
 	
@@ -73,7 +73,7 @@ public class PortalController {
 	}
 	
 	@RequiresPermissions("management/portal#html/edit#get")
-	@RequestMapping(name = "编辑页", path = "html/edit", method = RequestMethod.GET)	
+	@RequestMapping(name = "编辑页面", path = "html/edit", method = RequestMethod.GET)	
 	public String edit() {
 		return this.ctrlName + "/edit";
 	}

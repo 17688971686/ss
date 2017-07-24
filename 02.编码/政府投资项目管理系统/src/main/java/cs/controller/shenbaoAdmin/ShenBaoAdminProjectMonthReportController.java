@@ -27,7 +27,7 @@ import cs.service.interfaces.MonthReportService;
 
 
 @Controller
-@RequestMapping(name = "月报管理", path = "shenbaoAdmin/projectMonthReport")
+@RequestMapping(name = "申报端--月报管理", path = "shenbaoAdmin/projectMonthReport")
 public class ShenBaoAdminProjectMonthReportController {
 	//依赖注入服务层
 	@Autowired
@@ -78,7 +78,7 @@ public class ShenBaoAdminProjectMonthReportController {
 	}
 	
 	@RequiresPermissions("shenbaoAdmin/projectMonthReport#html/projectInfo#get")
-	@RequestMapping(name = "项目信息", path = "html/projectInfo",method=RequestMethod.GET)
+	@RequestMapping(name = "项目信息页面", path = "html/projectInfo",method=RequestMethod.GET)
 	public String projectInfo()  {
 		
 		return this.ctrlName + "/projectInfo";
