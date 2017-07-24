@@ -43,7 +43,7 @@ public class ShenBaoAdminProjectController {
 		return ProjectDtos;
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/project/#unitProject#get")
+	@RequiresPermissions("shenbaoAdmin/project#unitProject#get")
 	@RequestMapping(name = "获取单位项目信息", path = "unitProject",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> getUnitProject(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);	
@@ -57,14 +57,14 @@ public class ShenBaoAdminProjectController {
 		return ProjectDtos;
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/project/#unitProject#post")
+	@RequiresPermissions("shenbaoAdmin/project#unitProject#post")
 	@RequestMapping(name = "创建单位项目信息", path = "unitProject",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void createUnitProject(@RequestBody ProjectDto ProjectDto){		
 		ProjectService.create(ProjectDto);		
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/project/#unitProject#put")
+	@RequiresPermissions("shenbaoAdmin/project#unitProject#put")
 	@RequestMapping(name = "更新单位项目信息", path = "unitProject",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  updateUserProject(@RequestBody ProjectDto ProjectDto){
@@ -101,19 +101,19 @@ public class ShenBaoAdminProjectController {
 
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/project/#html/list#get")
+	@RequiresPermissions("shenbaoAdmin/project#html/list#get")
 	@RequestMapping(name = "列表页", path = "html/list",method=RequestMethod.GET)
 	public String list() {
 		return this.ctrlName + "/list";
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/project/#html/edit#get")
+	@RequiresPermissions("shenbaoAdmin/project#html/edit#get")
 	@RequestMapping(name = "编辑页", path = "html/edit",method=RequestMethod.GET)
 	public String edit() {
 		return this.ctrlName + "/edit";
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/project/#html/projectInfo#get")
+	@RequiresPermissions("shenbaoAdmin/project#html/projectInfo#get")
 	@RequestMapping(name = "详情页", path = "html/projectInfo",method=RequestMethod.GET)
 	public String projectInfo() {
 		return this.ctrlName + "/projectInfo";

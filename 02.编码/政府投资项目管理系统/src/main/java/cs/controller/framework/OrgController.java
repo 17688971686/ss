@@ -63,14 +63,14 @@ public class OrgController {
 		}
 	}
 
-	@RequiresPermissions("org#{orgId}/users#get")	
+	@RequiresPermissions("org#orgId/users#get")	
 	@RequestMapping(name = "部门用户", path = "{orgId}/users", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserDto> orgUsers(@PathVariable String orgId) {
 
 		return orgService.getOrgUsers(orgId);
 	}
 	
-	@RequiresPermissions("org#{orgId}/userNotIn#get")	
+	@RequiresPermissions("org#orgId/userNotIn#get")	
 	@RequestMapping(name = "非部门用户", path = "{orgId}/userNotIn", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserDto> userNotIn(@PathVariable String orgId,HttpServletRequest request) throws ParseException {
 
@@ -78,14 +78,14 @@ public class OrgController {
 		return orgService.getUsersNotInOrg(orgId, odataObj);
 	}
 	
-	@RequiresPermissions("org#{orgId}/users#post")	
+	@RequiresPermissions("org#orgId/users#post")	
 	@RequestMapping(name = "添加用户到部门", path = "{orgId}/users", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void postUserToOrg(@PathVariable String orgId,@RequestBody String userId) {
 		orgService.addUserToOrg(userId, orgId);
 	}
 	
-	@RequiresPermissions("org#{orgId}/users#delete")
+	@RequiresPermissions("org#orgId/users#delete")
 	@RequestMapping(name = "从部门移除用户", path = "{orgId}/users", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteUserFromOrg(@PathVariable String orgId,@RequestBody String userId) {
