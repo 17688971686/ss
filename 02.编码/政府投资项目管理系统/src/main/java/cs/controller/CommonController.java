@@ -66,4 +66,5 @@ public class CommonController {
 	public @ResponseBody String remove(HttpServletRequest request){
 		return "true";
 	}
+
 }
