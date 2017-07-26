@@ -8,13 +8,15 @@
 		var url_project = "/shenbaoAdmin/project/unitProject";
 		var url_userUnit　= "/shenbaoAdmin/userUnitInfo";
 		var url_back = "/project";
+		var url_document="/shenbaoAdmin/replyFile";
 		
 		var service = {
 			grid : grid,
 			createProject:createProject,
 			getUserUnit:getUserUnit,
 			getProjectById:getProjectById,
-			updateProject:updateProject
+			updateProject:updateProject,
+			documentRecordsGird:documentRecordsGird
 		};		
 		return service;
 		
@@ -244,6 +246,51 @@
 			}
 		}
 	
+		function documentRecordsGird(vm){
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url_document),						
+				schema : common.kendoGridConfig().schema({
+					id : "id"
+					
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+					
+			});
+			// End:dataSource
+			// Begin:column
+			var columns = [					
+					{
+						field : "number",
+						title : "文号",
+						width:100,
+						
+						filterable : true						
+					},
+					{
+						field : "name",
+						title : "文件名",
+						width : 550,
+						filterable : true
+						
+					}
+					
+			];
+			// End:column
+
+			vm.gridOptions_documentRecords = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true
+			};
+		}
 
 		/**
 		 * 项目列表数据获取

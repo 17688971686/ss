@@ -154,6 +154,18 @@
 	           		 });
 	           	 }
 	   		};
+	   		
+	   		vm.choseDocument = function(){
+	   		 //展示模态框
+	        	   $("#documentRecords").modal({
+				        backdrop: 'static',
+				        keyboard:false  			  
+	        	   });
+	        	   
+	        	   vm.gridOptions_documentRecords.dataSource.read();
+	   		}
+	   		
+	   		projectSvc.documentRecordsGird();
 	   	
 	   		vm.onSelect=function(e){
 	   			$.each(e.files, function (index, value) {
