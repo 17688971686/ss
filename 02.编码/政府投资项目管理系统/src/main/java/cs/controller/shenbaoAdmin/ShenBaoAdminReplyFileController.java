@@ -18,7 +18,7 @@ import cs.service.interfaces.ReplyFileService;
 
 @Controller
 @RequestMapping(name="申报端--批复文件管理",path="shenbaoAdmin/replyFile")
-public class ReplyFileController {
+public class ShenBaoAdminReplyFileController {
 	@Autowired
 	private ReplyFileService replyFileService;
 	

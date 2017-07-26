@@ -29,30 +29,35 @@ public class ReplyFileServiceImpl extends AbstractServiceImpl<ReplyFileDto, Repl
 	}
 
 	@Override
+	@Transactional
 	public ReplyFile create(ReplyFileDto dto) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
+	@Transactional
 	public ReplyFile update(ReplyFileDto dto, String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
+	@Transactional
 	public void delete(String id) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
+	@Transactional
 	public void deletes(String[] ids) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
+	@Transactional
 	public ReplyFile findById(String id) {
 		// TODO Auto-generated method stub
 		return null;
