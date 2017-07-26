@@ -2,6 +2,8 @@ package cs.model.DtoMapper;
 
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+
 import cs.domain.ReplyFile;
 import cs.model.DomainDto.ReplyFileDto;
 /**
@@ -10,6 +12,7 @@ import cs.model.DomainDto.ReplyFileDto;
  * @Date：2017年7月26日
  * @version：0.1
  */
+@Component
 public class ReplyFileMapper implements IMapper<ReplyFileDto, ReplyFile> {
 
 	@Override
