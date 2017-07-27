@@ -1,8 +1,12 @@
 package cs.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -106,7 +110,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		//初始化工作流
 		initWorkFlow(entity);
 		//处理批复文件库
-		handPiFuFile(entity);
+		handlePiFuFile(entity);
 		logger.info(String.format("创建申报信息,项目名称 %s",entity.getProjectName()));		
 		return entity;
 		
@@ -253,13 +257,40 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskHeadRepo.save(taskHead);
 	}
 	
-	private void handPiFuFile(ShenBaoInfo entity){
-//		//获取文件库中的所有批复文件
-//		List<ReplyFile> replyFiles = replyFileRepo.findAll();
-//		//获取批复信息中的批复文件
-//		List<Attachment> attachments = entity.getAttachments();
-//		List<Attachment> pifus = new ArratList<>();
-//		//判断申报信息中的批复文件库中是否存在
-//		//更新批复文件库
-	}
+	private void handlePiFuFile(ShenBaoInfo entity){
+		//获取项目中批复文件以及文号
+				Map<String,Attachment> pifus = new HashMap<>();
+				entity.getAttachments().stream().forEach(x->{
+					if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs) ||
+							x.getType().equals(BasicDataConfig.attachment_type_jys) ||
+							x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)
+							){
+						if(x.getType().equals(BasicDataConfig.attachment_type_jys)){
+							pifus.put(entity.getPifuJYS_wenhao(), x);
+						}
+						else if(x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)){
+							pifus.put(entity.getPifuKXXYJBG_wenhao(), x);
+						}
+						else if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)){
+							pifus.put(entity.getPifuCBSJYGS_wenhao(), x);
+						}
+					}
+				});
+				//判断项目中批复文件在文件库中是否存在
+				//更新文件库
+				Set<String> keSet=pifus.keySet();
+				for (Iterator<String> iterator = keSet.iterator(); iterator.hasNext();) {
+					String string = iterator.next();
+					ReplyFile replyfile = new ReplyFile();
+					replyfile.setId(UUID.randomUUID().toString());
+					replyfile.setCreatedBy(pifus.get(string).getCreatedBy());
+					replyfile.setName(pifus.get(string).getName());
+					replyfile.setFullName(pifus.get(string).getUrl());
+					replyfile.setItemOrder(pifus.get(string).getItemOrder());
+					replyfile.setModifiedBy(pifus.get(string).getModifiedBy());
+					replyfile.setNumber(string);
+					replyfile.setType(pifus.get(string).getType());
+					replyFileRepo.save(replyfile);//更新文件库
+				}
+		}
 }
