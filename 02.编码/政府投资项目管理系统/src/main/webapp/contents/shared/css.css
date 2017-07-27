@@ -117,8 +117,8 @@ form table td {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.k-icon.k-i-filter,.k-filter, .k-i-funnel {
-    background-position: -48px -240px;
+.k-i-filter:before {
+   content:'\e13e'
 }
 .input-validation-error{
 	border:1px solid red;
