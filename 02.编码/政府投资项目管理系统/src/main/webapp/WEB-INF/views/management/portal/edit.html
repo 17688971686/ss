@@ -47,12 +47,12 @@
 					<div style="width: 100px;" id="uploadBox">
 						<input name="files" id="files" type="file"/>
 					</div>
-					<table style="width:100%;margin:5px;" class="table table-bordered" ng-show="vm.files.length>0" >
+					<table style="width:100%;margin:5px;" class="table table-bordered" ng-show="vm.model.attachmentDtos.length>0" >
 							<tr class="bg-info" style="font-weight:bold">
 								<td>文件名</td>					
 								<td style="width:100px;">操作</td>
 							</tr>
-							<tr ng-repeat="x in vm.files">
+							<tr ng-repeat="x in vm.model.attachmentDtos">
 								<td ><a href="/contents/upload/{{x}}" target="_blank" ng-bind="x.name"></a></td>						
 								<td ><button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button></td>
 							</tr>

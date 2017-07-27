@@ -107,7 +107,6 @@
 			if (isValid) {
 				vm.isSubmit = true;
 	            vm.model.type=vm.type;
-	            vm.model.attachmentDtos = vm.files;
 				var httpOptions = {
 					method : 'post',
 					url : url_portal,

@@ -44,7 +44,6 @@
         };//end init
         
         vm.init_upload=function(){
-        	vm.files=[];
         	vm.onSelect=function(e){
 	   			$.each(e.files, function (index, value) {
 	   	            if(value.size > common.basicDataConfig().uploadSize){
@@ -74,10 +73,10 @@
                	 if(e.XMLHttpRequest.status==200){
                		 var fileName=e.XMLHttpRequest.response;
                		 $scope.$apply(function(){
-               			 if(vm.files){
-               				vm.files.push({name:fileName.split('_')[2],url:fileName,type:vm.type});
+               			 if(vm.model.attachmentDtos){
+               				vm.model.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:vm.type});
 	           			 }else{
-	           				vm.files=[{name:fileName.split('_')[2],url:fileName,type:vm.type}];
+	           				vm.model.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:vm.type}];
 	           			 }             			
                		 });
                	 }
@@ -92,7 +91,7 @@
         };//end init_upload
        
         vm.delFile=function(idx){
-        	vm.files.splice(idx,1);
+        	vm.model.attachmentDtos.splice(idx,1);
         };
         
         vm.del = function (id) {        	 
