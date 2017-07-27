@@ -3,12 +3,16 @@ package cs.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+
 import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.common.Util;
 import cs.domain.Attachment;
@@ -16,10 +20,12 @@ import cs.domain.BasicData;
 import cs.domain.MonthReport;
 import cs.domain.Project;
 import cs.domain.Project_;
+import cs.domain.ReplyFile;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.MonthReportDto;
 import cs.model.DomainDto.ProjectDto;
+import cs.model.DomainDto.ReplyFileDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
@@ -37,11 +43,15 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	@Autowired
 	private IRepository<Attachment, String> attachmentRepo;
 	@Autowired
+	private IRepository<ReplyFile, String> replyFileRepo;
+	@Autowired
 	private IRepository<BasicData, String> basicDataRepo;
 	@Autowired
 	private IRepository<MonthReport, String> monthReportRepo;
 	@Autowired
 	private IMapper<AttachmentDto, Attachment> attachmentMapper;
+	@Autowired
+	private IMapper<ReplyFileDto, ReplyFile> replyFileMapper;
 	@Autowired
 	private IMapper<MonthReportDto, MonthReport> monthReportMapper;
 	@Autowired
@@ -129,6 +139,41 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 				attachment.setCreatedBy(project.getCreatedBy());
 				attachment.setModifiedBy(project.getModifiedBy());
 				project.getAttachments().add(attachment);
+			});
+			//将文件保存replyFile
+			projectDto.getAttachmentDtos().forEach(x -> {//添加新附件
+				if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs) ||
+						x.getType().equals(BasicDataConfig.attachment_type_jys) ||
+						x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)
+						){
+					
+					ReplyFile replyfile = new ReplyFile();
+					
+					if("pifu"+x.getType()+"_wenhao" == "pifuJYS_wenhao"){
+						replyfile.setNumber(projectDto.getPifuJYS_wenhao());
+						replyfile.setCreatedDate(projectDto.getPifuJYS_date());
+						
+					}else if("pifu"+x.getType()+"_wenhao" == "pifuKXXYJBG_wenhao"){
+						replyfile.setNumber(projectDto.getPifuKXXYJBG_wenhao());
+						replyfile.setCreatedDate(projectDto.getPifuKXXYJBG_date());
+						
+					}else if("pifu"+x.getType()+"_wenhao" == "pifuCBSJYGS_wenhao"){
+						replyfile.setNumber(projectDto.getPifuCBSJYGS_wenhao());
+						replyfile.setCreatedDate(projectDto.getPifuCBSJYGS_date());
+					}
+					
+					String id = UUID.randomUUID().toString();
+					replyfile.setId(id);
+					replyfile.setCreatedBy(x.getCreatedBy());
+					//replyfile.setCreatedDate(x.getCreatedDate());
+					replyfile.setFullName(x.getName());
+					replyfile.setItemOrder(x.getItemOrder());
+					replyfile.setModifiedBy(x.getModifiedBy());
+					replyfile.setModifiedDate(x.getModifiedDate());
+					replyfile.setType(x.getType());
+					replyFileRepo.save(replyfile);
+					
+				}
 			});
 			//月报
 			projectDto.getMonthReportDtos().forEach(x -> {//添加新月报

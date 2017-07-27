@@ -19,12 +19,9 @@ public class ReplyFile extends BaseEntity{
 	
 	@Column(columnDefinition="varchar(500) NULL COMMENT '文号'")
 	private String number;
-	
-	@Column(columnDefinition="varchar(500) NULL COMMENT '名称'")
-	private Boolean name;
-	
+
 	@Column(columnDefinition="varchar(500) NULL COMMENT '全名'")
-	private Boolean fullName;
+	private String fullName;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '类型'")
 	private String type;
@@ -45,14 +42,6 @@ public class ReplyFile extends BaseEntity{
 		this.number = number;
 	}
 
-	public Boolean getName() {
-		return name;
-	}
-
-	public void setName(Boolean name) {
-		this.name = name;
-	}
-
 	public String getType() {
 		return type;
 	}
@@ -61,11 +50,11 @@ public class ReplyFile extends BaseEntity{
 		this.type = type;
 	}
 
-	public Boolean getFullName() {
+	public String getFullName() {
 		return fullName;
 	}
 
-	public void setFullName(Boolean fullName) {
+	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
 	

@@ -165,7 +165,7 @@
 	        	   vm.gridOptions_documentRecords.dataSource.read();
 	   		}
 	   		
-	   		projectSvc.documentRecordsGird();
+	   		projectSvc.documentRecordsGird(vm);
 	   	
 	   		vm.onSelect=function(e){
 	   			$.each(e.files, function (index, value) {
