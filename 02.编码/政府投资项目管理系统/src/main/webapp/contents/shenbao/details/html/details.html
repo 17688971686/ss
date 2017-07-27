@@ -11,23 +11,23 @@
 	<div style="padding: 0px 20px;">
 		<div class="bg-info" style="padding: 5px; margin-bottom: 10px;"
 			ng-bind="vm.model.title"></div>
-		<div ng-bind="vm.model.content"></div>
+		<div ng-bind-html="vm.html(vm.model.content)"></div>
 
-		<div ng-show="vm.files.length>0"
+		<div ng-show="vm.model.attachmentDtos.length>0"
 			style="font-weight: bold; margin-top: 10px;">相关文件：</div>
 
 		<table style="width: 100%; margin: 5px;" class="table table-bordered"
-			ng-show="vm.files.length>0">
+			ng-show="vm.model.attachmentDtos.length>0">
 
 			<tr class="bg-default" style="font-weight: bold">
 				<td>文件名</td>
 				<td style="width: 100px;">操作</td>
 			</tr>
 
-			<tr ng-repeat="x in vm.files">
-				<td><a href="/contents/upload/{{x}}" target="_blank"
-					ng-bind="x.split('_')[2]"></a></td>
-				<td><a href="/contents/upload/{{x}}" target="_blank"
+			<tr ng-repeat="x in vm.model.attachmentDtos">
+				<td><a href="/contents/upload/{{x.url}}" target="_blank"
+					ng-bind="x.name"></a></td>
+				<td><a href="/contents/upload/{{x.url}}" target="_blank"
 					class="btn btn-success btn-xs">下载</a></td>
 			</tr>
 		</table>

@@ -18,16 +18,7 @@
 				data:vm.model
 			};
 			var httpSuccess = function success(response){
-				if(response.data.value.length>0){
-					vm.model=response.data.value[0];
-					if(vm.model.files){
-						vm.files=vm.model.files.split(';');
-					}
-					
-				}
-				
-				console.log(response.data);
-				
+				vm.model=response.data.value[0] || {};
 			};
 			common.http({
 				vm:vm,

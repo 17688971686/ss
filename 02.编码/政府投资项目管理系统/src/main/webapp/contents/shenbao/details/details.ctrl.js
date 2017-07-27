@@ -2,9 +2,9 @@
 	'use strict';
 	angular.module('app').controller('detailsCtrl',details);
 	
-	details.$inject = ['$location','$state','detailsSvc'];
+	details.$inject = ['$location','$state','$sce','detailsSvc'];
 	
-	function details($location,$state,detailsSvc){
+	function details($location,$state,$sce,detailsSvc){
 		var vm = this;
 		var id = $state.params.id;
 		vm.type=$state.params.type;
@@ -24,6 +24,10 @@
 				vm.title="常用表格";
 				break;			
 			}
+        	
+        	vm.html = function(val){
+        		return $sce.trustAsHtml(val);
+        	};
         	
         };//end init
 		
