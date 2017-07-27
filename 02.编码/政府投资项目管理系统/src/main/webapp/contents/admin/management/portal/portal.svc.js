@@ -35,7 +35,7 @@
 				}),
 				serverPaging : true,
 				serverSorting : true,
-				serverFiltering : true,			
+				serverFiltering : true,
 				pageSize: 10,
 				sort : {
 					field : "createdDate",
@@ -61,19 +61,21 @@
 						},
 						filterable : false,
 						width : 40,
-						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'  />"
+						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
 						
 					},  {
 						field : "title",
 						title : "标题",
-											
 						filterable : false
 					}, {
 						field : "createdDate",
 						title : "创建时间",
 						width : 180,
-						filterable : false,
-						format : "{0:yyyy/MM/dd HH:mm:ss}"
+//						template:function(item){
+//							return common.formatDateTime(item.createdDate);
+//						},
+						filterable : true,
+						format : "{0:yyyy-MM-dd HH:mm:ss}"
 
 					},  {
 						field : "",
@@ -83,8 +85,6 @@
 							return common.format($('#columnBtns').html(),item.id);
 							
 						}
-						
-
 					}
 
 			];
@@ -107,7 +107,7 @@
 			if (isValid) {
 				vm.isSubmit = true;
 	            vm.model.type=vm.type;
-	            vm.model.files=vm.files.join(';');
+	            vm.model.attachmentDtos = vm.files;
 				var httpOptions = {
 					method : 'post',
 					url : url_portal,
@@ -144,10 +144,10 @@
 				});
 
 			} else {				
-//				common.alert({
-//					vm:vm,
-//					msg:"您填写的信息不正确,请核对后提交!"
-//				})
+				common.alert({
+					vm:vm,
+					msg:"您填写的信息不正确,请核对后提交!"
+				})
 			}
 		}// end func create
 

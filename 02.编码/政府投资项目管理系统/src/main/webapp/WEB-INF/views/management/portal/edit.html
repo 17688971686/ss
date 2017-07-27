@@ -1,16 +1,16 @@
+<style>
+	#uploadBox .k-upload-status{display: none;}
+	#uploadBox .k-header{
+		background: transparent;
+		border:0px;
+	}
+	#uploadBox em{display: none;}
+	#uploadBox .k-dropzone{padding:0px;margin: 0px;}
+	.table>tbody>tr>td{
+		padding:2px;
+	}
 
-	 <style>
-					#uploadBox .k-upload-status{display: none;}
-					#uploadBox .k-header{
-						background: transparent;
-						border:0px;
-					}
-					#uploadBox em{display: none;}
-					#uploadBox .k-dropzone{padding:0px;margin: 0px;}
-					.table>tbody>tr>td{
-						padding:2px;
-					}
-					</style>
+</style>
 
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 
@@ -45,7 +45,7 @@
                 <td>
                
 					<div style="width: 100px;" id="uploadBox">
-						<input name="files" id="files" type="file" />
+						<input name="files" id="files" type="file"/>
 					</div>
 					<table style="width:100%;margin:5px;" class="table table-bordered" ng-show="vm.files.length>0" >
 							<tr class="bg-info" style="font-weight:bold">
@@ -53,7 +53,7 @@
 								<td style="width:100px;">操作</td>
 							</tr>
 							<tr ng-repeat="x in vm.files">
-								<td ><a href="/contents/upload/{{x}}" target="_blank" ng-bind="x.split('_')[2]"></a></td>						
+								<td ><a href="/contents/upload/{{x}}" target="_blank" ng-bind="x.name"></a></td>						
 								<td ><button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button></td>
 							</tr>
 							

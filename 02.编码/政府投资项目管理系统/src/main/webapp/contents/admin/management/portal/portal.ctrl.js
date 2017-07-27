@@ -11,7 +11,7 @@
         /* jshint validthis:true */
     	var vm = this;    	
     	vm.type=$state.params.type;
-    	vm.id=$state.params.id; 
+    	vm.id=$state.params.id;
         vm.init=function(){   
         	//title
         	switch (vm.type) {
@@ -45,6 +45,19 @@
         
         vm.init_upload=function(){
         	vm.files=[];
+        	vm.onSelect=function(e){
+	   			$.each(e.files, function (index, value) {
+	   	            if(value.size > common.basicDataConfig().uploadSize){
+	   	            	$scope.$apply(function(){
+	   		   				common.alert({
+	   			        		vm : vm,
+	   							msg : "上传文件过大！"
+	   			            });               			           			
+	   	          		 });
+	   	            }
+	   	            
+	   	        });
+	   		};
         	//upload
         	$("#files").kendoUpload({
                 async: {
@@ -53,27 +66,28 @@
                     autoUpload: true
                 },
                 showFileList:false,
-                select:function(e){
-               	 console.log("select:");
-               	 console.log(e);
-                },
-                success:function(e){
-                	
-                },
+                select:vm.onSelect,
+                success:function(e){},
                 error:function(e){
                	 console.log("error:");
                	 console.log(e);
                	 if(e.XMLHttpRequest.status==200){
                		 var fileName=e.XMLHttpRequest.response;
-               		 $scope.$apply(function(){               			 
-               			vm.files.push(fileName);               			
+               		 $scope.$apply(function(){
+               			 if(vm.files){
+               				vm.files.push({name:fileName.split('_')[2],url:fileName,type:vm.type});
+	           			 }else{
+	           				vm.files=[{name:fileName.split('_')[2],url:fileName,type:vm.type}];
+	           			 }             			
                		 });
-               		 
                	 }
                 },
                 localization: {
                     select: "上传文件"
-                }
+                },
+                validation: {
+   	                maxFileSize: common.basicDataConfig().uploadSize
+   	            }
             });
         };//end init_upload
        

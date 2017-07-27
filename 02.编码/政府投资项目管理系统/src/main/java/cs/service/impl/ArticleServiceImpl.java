@@ -1,10 +1,13 @@
 package cs.service.impl;
 
+import java.util.Date;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cs.common.ICurrentUser;
 import cs.domain.Article;
 import cs.domain.Attachment;
 import cs.model.PageModelDto;
@@ -28,6 +31,8 @@ public class ArticleServiceImpl extends AbstractServiceImpl<ArticleDto, Article,
 	private IMapper<AttachmentDto, Attachment> attachmentMapper;
 	@Autowired
 	private IRepository<Attachment, String> attachmentRepo;
+	@Autowired
+	private ICurrentUser currentUser;
 
 	
 	@Override
@@ -43,7 +48,11 @@ public class ArticleServiceImpl extends AbstractServiceImpl<ArticleDto, Article,
 		Article entity = super.create(dto);
 		// begin#关联信息附件
 		dto.getAttachmentDtos().forEach(x -> {
-			entity.getAttachments().add(attachmentMapper.buildEntity(x, new Attachment()));
+			Attachment attachment = new Attachment();
+			attachmentMapper.buildEntity(x, attachment);
+			attachment.setCreatedBy(currentUser.getLoginName());
+			attachment.setModifiedBy(currentUser.getLoginName());
+			entity.getAttachments().add(attachment);
 		});
 		super.repository.save(entity);
 		logger.info(String.format("创建文章,Id:%s", entity.getId()));
