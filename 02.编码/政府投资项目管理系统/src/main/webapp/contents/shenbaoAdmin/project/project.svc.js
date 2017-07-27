@@ -253,7 +253,6 @@
 				transport : common.kendoGridConfig().transport(url_document),						
 				schema : common.kendoGridConfig().schema({
 					id : "id"
-					
 				}),
 				serverPaging : true,
 				serverSorting : true,
@@ -263,16 +262,27 @@
 			});
 			// End:dataSource
 			// Begin:column
-			var columns = [					
+			var columns = [
+					{
+						template : function(item) {
+							return kendo
+									.format(
+											"<input type='radio'  relId='{0}' name='checkbox'/>",
+											item.fullName);
+						},
+						filterable : false,
+						width : 40,
+						title : ""
+					},
 					{
 						field : "number",
 						title : "文号",
-						width:100,
+						width:180,
 						
-						filterable : true						
+						filterable : true
 					},
 					{
-						field : "name",
+						field : "fullName",
 						title : "文件名",
 						width : 550,
 						filterable : true

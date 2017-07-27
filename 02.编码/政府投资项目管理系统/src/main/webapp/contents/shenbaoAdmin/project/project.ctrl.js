@@ -155,18 +155,32 @@
 	           	 }
 	   		};
 	   		
+	   		//展示批复文件选择模态框
 	   		vm.choseDocument = function(){
-	   		 //展示模态框
-	        	   $("#documentRecords").modal({
-				        backdrop: 'static',
-				        keyboard:false  			  
-	        	   });
-	        	   
-	        	   vm.gridOptions_documentRecords.dataSource.read();
+        	   $("#documentRecords").modal({
+			        backdrop: 'static',
+			        keyboard:false  			  
+        	   });
+        	   vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
 	   		}
+	   		projectSvc.documentRecordsGird(vm);//查询批复文件
 	   		
-	   		projectSvc.documentRecordsGird();
-	   	
+	   		//批复文件选择模态框确认
+	   		vm.pifuChoseConfirm = function(){
+	   			//关闭模态框
+	   			$("#documentRecords").modal('hide');
+	   			$(".modal-backdrop").remove();
+	   			//获取选择框中的信息
+	   			var select = common.getKendoCheckId('.grid');
+            	var fileName = select[0].value;
+            	var type=$('.uploadBox').attr('data-type');
+   			    if(vm.model.attachmentDtos){
+   				  vm.model.attachmentDtos.push({name:fileName,url:fileName,type:type});
+   			    }else{
+   				  vm.model.attachmentDtos=[{name:fileName,url:fileName,type:type}];
+   			    }    			          		
+	        }
+	   		
 	   		vm.onSelect=function(e){
 	   			$.each(e.files, function (index, value) {
 	   	            if(value.size > common.basicDataConfig().uploadSize){

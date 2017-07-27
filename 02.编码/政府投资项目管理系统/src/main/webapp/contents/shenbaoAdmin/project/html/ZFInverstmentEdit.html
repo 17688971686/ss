@@ -258,9 +258,9 @@
 </td>
 <td><input type="text" ng-model="vm.model['pifu'+x[0]+'_wenhao']" /></td>
 <td class="clearfix">
-	<div class="uploadBox pull-left"  data-type="{{x[0]}}">
-		<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.choseDocument()">选择文件</button>
- 		<input name="files"  type="file" kendo-upload  k-options="vm.uploadOptions_pifu"/>
+	<div class="uploadBox pull-left" data-type="{{x[0]}}">
+		<button class="btn btn-sm btn-primary" style="margin-right:10px;" data-toggle="modal" ng-click="vm.choseDocument()">选择文件</button>
+ 		<input name="files" type="file" kendo-upload  k-options="vm.uploadOptions_pifu"/>
     </div>
     <div style="margin:3px;"  class="pull-left"  ng-repeat="y in vm.model.attachmentDtos" ng-show="y.type=='{{x[0]}}'">
  		<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
@@ -299,18 +299,18 @@
 </table>
 <!-- 文件选择模态框 -->
 <div class="modal fade" id="documentRecords"> 
-	<div class="modal-dialog"> 
-		<div class="modal-content"> 
+	<div class="modal-dialog">
+		<div class="modal-content" style="width:850px;"> 
 			<div class="modal-header bg-primary">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			
-				<h4 class="modal-title" id="myModalLabel">项目申报记录列表</h4> 
+				<h4 class="modal-title" id="myModalLabel">批复文件列表</h4> 
 			</div> 
 			<div class="modal-body">
 				<div class="grid" kendo-grid="vm.grid_documentRecords" k-options="vm.gridOptions_documentRecords"></div>			
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
-				<button type="button" class="btn btn-success" data-dismiss="modal">确定</button>	
+				<button type="button" class="btn btn-success" ng-click="vm.pifuChoseConfirm()">确定</button>	
 			</div> 
 		</div>
 	</div>
