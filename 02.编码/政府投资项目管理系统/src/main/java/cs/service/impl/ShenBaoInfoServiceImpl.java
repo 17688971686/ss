@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.domain.Attachment;
+import cs.domain.ReplyFile;
 import cs.domain.ShenBaoInfo;
 import cs.domain.ShenBaoUnitInfo;
 import cs.domain.TaskHead;
@@ -48,6 +49,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private IRepository<Attachment, String> attachmentRepo;
 	@Autowired
 	private IRepository<ShenBaoUnitInfo, String> shenBaoUnitInfoRepo;
+	@Autowired
+	private IRepository<ReplyFile, String> replyFileRepo;
 	@Autowired
 	private IMapper<AttachmentDto, Attachment> attachmentMapper;
 	@Autowired
@@ -102,6 +105,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		super.repository.save(entity);
 		//初始化工作流
 		initWorkFlow(entity);
+		//处理批复文件库
+		handPiFuFile(entity);
 		logger.info(String.format("创建申报信息,项目名称 %s",entity.getProjectName()));		
 		return entity;
 		
@@ -246,5 +251,15 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskHead.setComplete(false);
 		taskHead.setProcessState(BasicDataConfig.processState_tianBao);
 		taskHeadRepo.save(taskHead);
+	}
+	
+	private void handPiFuFile(ShenBaoInfo entity){
+//		//获取文件库中的所有批复文件
+//		List<ReplyFile> replyFiles = replyFileRepo.findAll();
+//		//获取批复信息中的批复文件
+//		List<Attachment> attachments = entity.getAttachments();
+//		List<Attachment> pifus = new ArratList<>();
+//		//判断申报信息中的批复文件库中是否存在
+//		//更新批复文件库
 	}
 }

@@ -134,7 +134,6 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 				}
 				
 			}else{//申报
-				
 				if(relId!=null&&!relId.isEmpty()){
 					ShenBaoInfo shenBaoInfo=shenBaoInfoRepo.findById(relId);
 					if(shenBaoInfo!=null){
@@ -155,8 +154,6 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 				}
 			}
 			super.repository.save(taskHead);
-			
-			
 		}
 	}
 	private Boolean isComplete(String processState){

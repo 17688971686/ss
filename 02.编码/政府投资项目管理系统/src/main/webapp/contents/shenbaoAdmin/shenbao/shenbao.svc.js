@@ -9,6 +9,7 @@
 		var url_userUnit　= "/shenbaoAdmin/userUnitInfo";
 		var url_shenbao = "/shenbaoAdmin/shenbao";
 		var url_back = "/shenbao_records";
+		var url_document="/shenbaoAdmin/replyFile";
 		
 		var service = {
 			grid : grid,//项目列表
@@ -17,7 +18,8 @@
 			createShenBaoInfo:createShenBaoInfo,//创建申报信息
 			recordsGird:recordsGird,//所有的申报记录列表
 			getShenBaoInfoById:getShenBaoInfoById,//根据id查询项目申报信息
-			updateShenBaoInfo:updateShenBaoInfo//更新申报信息
+			updateShenBaoInfo:updateShenBaoInfo,//更新申报信息
+			documentRecordsGird:documentRecordsGird//批复文件列表
 		};		
 		return service;
 		
@@ -627,6 +629,63 @@
 			};
 
 		}// end fun grid
+		
+		function documentRecordsGird(vm){
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url_document),						
+				schema : common.kendoGridConfig().schema({
+					id : "id"
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+					
+			});
+			// End:dataSource
+			// Begin:column
+			var columns = [
+					{
+						template : function(item) {
+							return kendo
+									.format(
+											"<input type='radio'  relId='{0}' name='checkbox'/>",
+											item.fullName);
+						},
+						filterable : false,
+						width : 40,
+						title : ""
+					},
+					{
+						field : "number",
+						title : "文号",
+						width:180,
+						
+						filterable : true
+					},
+					{
+						field : "fullName",
+						title : "文件名",
+						width : 550,
+						filterable : true
+						
+					}
+					
+			];
+			// End:column
+
+			vm.gridOptions_documentRecords = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true
+			};
+		}
+
 
 	}
 })();

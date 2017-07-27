@@ -185,6 +185,32 @@
 		       		vm.model.projectType.splice(index,1);
 		       	}	        	
 	        };
+	      //展示批复文件选择模态框
+	   		vm.choseDocument = function(e){
+	   			vm.pifuType=$(e.target).parents('.uploadBox').attr('data-type');
+        	   $("#documentRecords").modal({
+			        backdrop: 'static',
+			        keyboard:false  			  
+        	   });
+        	   vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
+	   		}
+	   		shenbaoSvc.documentRecordsGird(vm);//查询批复文件
+	   		
+	   		//批复文件选择模态框确认
+	   		vm.pifuChoseConfirm = function(){
+	   			//关闭模态框
+	   			$("#documentRecords").modal('hide');
+	   			$(".modal-backdrop").remove();
+	   			//获取选择框中的信息
+	   			var select = common.getKendoCheckId('.grid');
+            	var fileName = select[0].value;
+            	
+   			    if(vm.model.attachmentDtos){
+   				  vm.model.attachmentDtos.push({name:fileName,url:fileName,type:vm.pifuType});
+   			    }else{
+   				  vm.model.attachmentDtos=[{name:fileName,url:fileName,type:vm.pifuType}];
+   			    }    			          		
+	        }
     	  
 	   		//文件上传
     	   vm.uploadSuccess=function(e){
