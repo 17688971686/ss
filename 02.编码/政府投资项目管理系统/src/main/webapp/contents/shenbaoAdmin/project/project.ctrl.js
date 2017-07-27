@@ -156,7 +156,8 @@
 	   		};
 	   		
 	   		//展示批复文件选择模态框
-	   		vm.choseDocument = function(){
+	   		vm.choseDocument = function(e){
+	   			vm.pifuType=$(e.target).parents('.uploadBox').attr('data-type');
         	   $("#documentRecords").modal({
 			        backdrop: 'static',
 			        keyboard:false  			  
@@ -173,11 +174,11 @@
 	   			//获取选择框中的信息
 	   			var select = common.getKendoCheckId('.grid');
             	var fileName = select[0].value;
-            	var type=$('.uploadBox').attr('data-type');
+            	
    			    if(vm.model.attachmentDtos){
-   				  vm.model.attachmentDtos.push({name:fileName,url:fileName,type:type});
+   				  vm.model.attachmentDtos.push({name:fileName,url:fileName,type:vm.pifuType});
    			    }else{
-   				  vm.model.attachmentDtos=[{name:fileName,url:fileName,type:type}];
+   				  vm.model.attachmentDtos=[{name:fileName,url:fileName,type:vm.pifuType}];
    			    }    			          		
 	        }
 	   		

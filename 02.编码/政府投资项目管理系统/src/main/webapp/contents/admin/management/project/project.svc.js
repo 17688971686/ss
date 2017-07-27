@@ -280,23 +280,34 @@
 			});
 			// End:dataSource
 			// Begin:column
-			var columns = [					
-					{
-						field : "number",
-						title : "文号",
-						width:100,
-						
-						filterable : true						
+			var columns = [
+				{
+					template : function(item) {
+						return kendo
+								.format(
+										"<input type='radio'  relId='{0}' name='checkbox'/>",
+										item.fullName);
 					},
-					{
-						field : "name",
-						title : "文件名",
-						width : 550,
-						filterable : true
-						
-					}
+					filterable : false,
+					width : 40,
+					title : ""
+				},
+				{
+					field : "number",
+					title : "文号",
+					width:180,
 					
-			];
+					filterable : true
+				},
+				{
+					field : "fullName",
+					title : "文件名",
+					width : 550,
+					filterable : true
+					
+				}
+				
+		];
 			// End:column
 
 			vm.gridOptions_documentRecords = {
