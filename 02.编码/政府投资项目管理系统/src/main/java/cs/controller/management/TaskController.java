@@ -46,7 +46,7 @@ public class TaskController {
 		return null;
 	}
 	
-	@RequiresPermissions("management/task#{taskId}#put")
+	@RequiresPermissions("management/task#taskId#put")
 	@RequestMapping(name="处理任务",path="{taskId}",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void put(@RequestBody TaskRecordDto dto,@PathVariable String taskId){

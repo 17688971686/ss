@@ -192,6 +192,19 @@
 	           		 });
 	           	 }
     		};
+    		
+    		vm.choseDocument = function(){
+   	   		 //展示模态框
+   	        	   $("#documentRecords").modal({
+   				        backdrop: 'static',
+   				        keyboard:false  			  
+   	        	   });
+   	        	   
+   	        	   vm.gridOptions_documentRecords.dataSource.read();
+   	   		}
+   	   		
+   	   		projectSvc.documentRecordsGird(vm);
+   	   		
     		//文件选择触发验证文件大小
     		vm.onSelect=function(e){
 	   			$.each(e.files, function (index, value) {

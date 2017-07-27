@@ -9,13 +9,15 @@
 		var url_project = "/management/project";//获取项目信息数据
 		var url_userUnit = "/management/userUnit";//获取单位信息
 		var url_back = "#/project";
+		var url_document="/shenbaoAdmin/replyFile";
 		var service = {
 			grid : grid,			
 			getProjectById:getProjectById,
 			getUserUnits:getUserUnits,
 			updateProject:updateProject,
 			createProject:createProject,
-			updateIsMonthReport:updateIsMonthReport			
+			updateIsMonthReport:updateIsMonthReport,
+			documentRecordsGird:documentRecordsGird
 		};
 
 		return service;
@@ -260,6 +262,52 @@
 		}
 		//end#getProjectById
 		
+		//文件选择模态框
+		function documentRecordsGird(vm){
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url_document),						
+				schema : common.kendoGridConfig().schema({
+					id : "id"
+					
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+					
+			});
+			// End:dataSource
+			// Begin:column
+			var columns = [					
+					{
+						field : "number",
+						title : "文号",
+						width:100,
+						
+						filterable : true						
+					},
+					{
+						field : "name",
+						title : "文件名",
+						width : 550,
+						filterable : true
+						
+					}
+					
+			];
+			// End:column
+
+			vm.gridOptions_documentRecords = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true
+			};
+		}
 	
 		
 		// begin#grid
