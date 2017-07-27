@@ -73,7 +73,7 @@ public class SysController {
 				return "Init system fail";
 			}				
 		}else{
-			return null;
+			return "can not init sys！";
 		}
 	}
 	
@@ -87,7 +87,7 @@ public class SysController {
 				return "Init basicData fail";
 			}	
 		}else{
-			return null;
+			return "can not init basicData！";
 		}
 	}
 	//begin#html
