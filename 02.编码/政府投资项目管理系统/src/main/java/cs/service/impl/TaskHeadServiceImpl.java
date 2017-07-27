@@ -78,12 +78,12 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 	public void handle(String taskId, TaskRecordDto dto) {
 		//查询系统配置是否需要发送短信
 		Criterion criterion = Restrictions.eq(SysConfig_.configName.getName(), BasicDataConfig.taskType_sendMesg);
-		SysConfig entityQuery = sysConfigRepo.findByCriteria(criterion).stream().findFirst().get();
+		//SysConfig entityQuery = sysConfigRepo.findByCriteria(criterion).stream().findFirst().get();
 		Boolean isSendMesg = false;
-		if(entityQuery.getEnable()){
-			isSendMesg = true;
-		}
-				
+//		if(entityQuery.getEnable()){
+//			isSendMesg = true;
+//		}
+//				
 		TaskHead taskHead=super.repository.findById(taskId);
 		if(taskHead!=null){
 			//新增一条处理流程记录

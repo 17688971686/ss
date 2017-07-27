@@ -40,7 +40,12 @@
 											.toArray();
 						if(report.length>0){//有月报
 							vm.isReportExist=true;
-							vm.model.monthReport=report[0];
+							for (var i = 0; i < report.length; i++) {
+								if(report[i].isLatestVersion == true){
+									vm.model.monthReport=report[i];
+								}
+							}
+							
 							//TODO 此块用于月报的退文（暂时不需要）
 //							if(vm.model.monthReport.processState == common.basicDataConfig().processState_tuiWen){//如果是退文
 //								vm.isReportExist=false;

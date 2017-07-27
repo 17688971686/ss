@@ -57,7 +57,10 @@
 						title : "时间",
 						width : 180,
 						filterable : false,
-						format : "{0:yyyy/MM/dd HH:mm:ss}"
+						template:function(item){
+							return common.formatDateTime(item.modifiedDate);
+						}
+						//format : "{0:yyyy/MM/dd HH:mm:ss}"
 					}
 
 			];
