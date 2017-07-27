@@ -65,22 +65,30 @@ public class SysController {
 	
 	@RequestMapping(name = "系统初始化", path = "init", method = RequestMethod.GET)
 	public @ResponseBody String init(HttpServletRequest request) {
-		Response response = sysService.SysInit();
-		if(response.isSuccess()){
-			return "Init system success";
+		if(env.equals("dubug")){
+			Response response = sysService.SysInit();
+			if(response.isSuccess()){
+				return "Init system success";
+			}else{
+				return "Init system fail";
+			}				
 		}else{
-			return "Init system fail";
-		}				
+			return null;
+		}
 	}
 	
 	@RequestMapping(name = "基础数据初始化", path = "initBasicData", method = RequestMethod.GET)
 	public @ResponseBody String initBasicData(HttpServletRequest request) {
-		Response response = sysService.SysInitBasicData();
-		if(response.isSuccess()){
-			return "Init basicData success";
+		if(env.equals("dubug")){
+			Response response = sysService.SysInitBasicData();
+			if(response.isSuccess()){
+				return "Init basicData success";
+			}else{
+				return "Init basicData fail";
+			}	
 		}else{
-			return "Init basicData fail";
-		}	
+			return null;
+		}
 	}
 	//begin#html
 	@RequiresPermissions("sys#html/index#get")
