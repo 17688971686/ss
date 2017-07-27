@@ -35,7 +35,9 @@ public class BasicDataConfig {
 	public static String taskType_monthReport="taskType_1";//月报填报
 	public static String taskType_sendMesg="taskType_3";//发送短信
 	
-	
+	public static String attachment_type_jys="JYS"; 
+	public static String attachment_type_kxxyjbg="KXXYJBG"; 
+	public static String attachment_type_cbsjygs="CBSJYGS"; 
 	//end#basicData
 	
 	public static String role_admin="超级管理员";
