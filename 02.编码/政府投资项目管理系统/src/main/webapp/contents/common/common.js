@@ -430,7 +430,9 @@
     		taskType:"taskType",//任务类型
     		taskType_monthReport:"taskType_1",//任务类型-月报
     		taskType_yearPlan:"taskType_2",//任务类型-下一年度计划
-    		taskType_sendMesg:"taskType_3"//任务类型-发送短信
+    		taskType_sendMesg:"taskType_3",//任务类型-发送短信
+    			
+    		management:"管理员"
     		
     		
     	};

@@ -118,10 +118,10 @@
 				for (var i = 0; i < vm.userList.length; i++) {
 					var roles = vm.userList[i].roles;
 					for (var j = 0; j < roles.length; j++) {
-						if(roles[j].roleName == "管理员"){
+						if(roles[j].roleName == common.basicDataConfig().management){
 							vm.user.push(vm.userList[i]);
 						}
-					}{}
+					}
 				}
 			};
 			
