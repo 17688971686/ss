@@ -65,7 +65,7 @@ public class SysController {
 	
 	@RequestMapping(name = "系统初始化", path = "init", method = RequestMethod.GET)
 	public @ResponseBody String init(HttpServletRequest request) {
-		if(env.equals("dubug")){
+		if(env.equals("debug")){
 			Response response = sysService.SysInit();
 			if(response.isSuccess()){
 				return "Init system success";
@@ -79,7 +79,7 @@ public class SysController {
 	
 	@RequestMapping(name = "基础数据初始化", path = "initBasicData", method = RequestMethod.GET)
 	public @ResponseBody String initBasicData(HttpServletRequest request) {
-		if(env.equals("dubug")){
+		if(env.equals("debug")){
 			Response response = sysService.SysInitBasicData();
 			if(response.isSuccess()){
 				return "Init basicData success";
