@@ -114,6 +114,15 @@
 			
 			var httpSuccess = function success(response) {
 				vm.userList = response.data.value;
+				vm.user=[];
+				for (var i = 0; i < vm.userList.length; i++) {
+					var roles = vm.userList[i].roles;
+					for (var j = 0; j < roles.length; j++) {
+						if(roles[j].roleName == "管理员"){
+							vm.user.push(vm.userList[i]);
+						}
+					}{}
+				}
 			};
 			
 			common.http({
