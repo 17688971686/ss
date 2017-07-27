@@ -27,11 +27,11 @@
 				transport : common.kendoGridConfig().transport(url_portal),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
-					fields : {
-						createdDate : {
-							type : "date"
-						}
-					}
+//					fields : {
+//						createdDate : {
+//							type : "date"
+//						}
+//					}
 				}),
 				serverPaging : true,
 				serverSorting : true,
@@ -71,12 +71,10 @@
 						field : "createdDate",
 						title : "创建时间",
 						width : 180,
-//						template:function(item){
-//							return common.formatDateTime(item.createdDate);
-//						},
-						filterable : true,
-						format : "{0:yyyy-MM-dd HH:mm:ss}"
-
+						template:function(item){
+							return common.formatDateTime(item.createdDate);
+						},
+						filterable : false
 					},  {
 						field : "",
 						title : "操作",
@@ -178,7 +176,6 @@
 			if (isValid) {
 				vm.isSubmit = true;
 				vm.model.id=vm.id;// id
-				vm.model.files=vm.files.join(';');
 				var httpOptions = {
 					method : 'put',
 					url : url_portal,
@@ -195,7 +192,9 @@
 								msg:"操作成功",
 								fn:function() {
 									vm.isSubmit = false;
-									$('.alertDialog').modal('hide');							
+									$('.alertDialog').modal('hide');
+									$('.modal-backdrop').remove();
+									location.href = url_back+vm.type;
 								}
 							});
 						}						

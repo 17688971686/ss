@@ -78,7 +78,11 @@ public class ArticleServiceImpl extends AbstractServiceImpl<ArticleDto, Article,
 		entity.getAttachments().clear();
 
 		dto.getAttachmentDtos().forEach(x -> {//添加新附件
-			entity.getAttachments().add(attachmentMapper.buildEntity(x, new Attachment()));
+			Attachment attachment = new Attachment();
+			attachmentMapper.buildEntity(x, attachment);
+			attachment.setCreatedBy(currentUser.getLoginName());
+			attachment.setModifiedBy(currentUser.getLoginName());
+			entity.getAttachments().add(attachment);
 		});
 		super.repository.save(entity);
 		logger.info(String.format("更新文章,Id:%s", entity.getId()));
