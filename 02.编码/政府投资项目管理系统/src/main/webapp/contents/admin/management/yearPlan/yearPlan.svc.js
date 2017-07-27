@@ -184,7 +184,7 @@
 					vm.model.XuJianTotal = 0;//续建
 					vm.model.projectInvestSumTotal = 0;//项目总投资
 					vm.model.applyYearInvestTotal = 0;//申请资金总额
-					vm.model.yearInvestApprovalTotal = 0;//安排资金总计
+					
 					for(var j=0;j<shenBaoInfoList.length;j++){
 						var obj = shenBaoInfoList[j];
 						if(obj.projectConstrChar && obj.projectConstrChar == common.basicDataConfig().projectConstrChar_qianqi){//前期
@@ -202,12 +202,12 @@
 						if(obj.applyYearInvest){//年度申请资金
 							vm.model.applyYearInvestTotal += obj.applyYearInvest;
 						}
-						if(obj.yearInvestApproval){//年度安排资金
-							vm.model.yearInvestApprovalTotal += obj.yearInvestApproval;
-						}
+//						if(obj.yearInvestApproval){//年度安排资金
+//							vm.model.yearInvestApprovalTotal += obj.yearInvestApproval;
+//						}
 					}
 					//计划总规模						
-
+					vm.model.yearInvestApprovalTotal = 0;//安排资金总计
 					vm.model.capitalSCZ_ggysTotal = 0;//市投资-公共预算
 					vm.model.capitalSCZ_gtzjTotal = 0;//市投资-国土基金
 					vm.model.capitalSCZ_zxzjTotal = 0;//市投资-专项基金
@@ -241,7 +241,10 @@
 						}
 						if(Capitals[i].capitalOther){
 							vm.model.capitalOtherTotal += Capitals[i].capitalOther;
-						}							
+						}
+						if(Capitals[i].capitalSum){//年度安排资金
+							vm.model.yearInvestApprovalTotal += Capitals[i].capitalSum;
+						}
 					}
 				}
 				
