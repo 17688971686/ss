@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +25,8 @@ import cs.service.framework.SysService;
 @Controller
 @RequestMapping(name = "系统资源", path = "sys")
 public class SysController {
+	@Value("${env}")
+	private String env;
 	@Autowired
 	private SysService sysService;
 	

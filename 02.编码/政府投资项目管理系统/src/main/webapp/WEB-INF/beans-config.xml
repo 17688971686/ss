@@ -19,6 +19,7 @@
 	<mvc:resources location="/contents/" mapping="/contents/**" />
 
 	<context:component-scan base-package="cs"></context:component-scan>
+	<context:property-placeholder location="classpath:application.properties"/>
 <mvc:interceptors>
 		<bean class="cs.common.ApiFilter" />
 	</mvc:interceptors> 
