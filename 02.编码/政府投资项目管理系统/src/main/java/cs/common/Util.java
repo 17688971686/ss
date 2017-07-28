@@ -5,9 +5,16 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.io.IOUtils;
 import com.alibaba.fastjson.JSONObject;
+
+import cs.domain.Attachment;
 import cs.domain.BasicData;
 import cs.model.ActionResult;
 import cs.model.SendMsg;
@@ -148,4 +155,38 @@ public class Util {
 		}
 		return result;	
 	}
+	
+	/**
+	 * Map数据比较
+	 * @param map1 需要进行判断的map
+	 * @param map2 进行比较的参照map
+	 * @return 最终不同的结果map
+	 */
+	public static List<Map<String,Object>> getCheck(Map<String,Attachment> map1,Map<String,Object> map2){
+		List<Map<String,Object>> listMap = new ArrayList<Map<String,Object>>();
+		Boolean isSame = false;
+		for (String key1 : map1.keySet()) {
+			for(String key2 : map2.keySet()){
+				if(key2.equals(key1)){//判断key是否相同--如果相同
+					if(map2.get(key2).equals(map1.get(key1).getName())){//判断value是否相同--如果相同
+						isSame = true;
+					}else{//判断value是否相同--如果不同
+						isSame = false;
+					}
+				}else{//判断key是否相同--如果不同
+					isSame = false;
+				}
+				if(isSame){//如果已有相同，则结束循环
+					break;
+				}
+			}
+			if(!isSame){
+				Map<String,Object> mapObj = new HashMap<>();
+				mapObj.put(key1, map1.get(key1));
+				listMap.add(mapObj);
+			}
+		}
+		return listMap;
+	}
 }
+
