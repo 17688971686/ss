@@ -28,16 +28,12 @@ public class User extends BaseEntity {
 	private String password;
 	@Column(columnDefinition="varchar(255)  COMMENT '显示名'")
 	private String displayName;
-	
 	@Column(columnDefinition="varchar(255)  COMMENT '备注'")
 	private String comment;
-	
 	@Column(columnDefinition="int(11) COMMENT '登录失败次数'")
 	private int loginFailCount = 0;
 	@Column(columnDefinition="datetime  COMMENT '最后一次登录时间'")
 	private Date lastLoginDate;
-
-	
 
 	@ManyToMany
 	private List<Role> roles=new ArrayList<>();
@@ -82,7 +78,6 @@ public class User extends BaseEntity {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	
 	
 	public List<Org> getOrgs() {
 		return orgs;

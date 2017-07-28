@@ -1,6 +1,7 @@
 package cs.service.framework;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ import cs.repository.framework.UserRepo;
 import cs.repository.odata.ODataObj;
 
 @Service
-public class OrgServiceImpl implements OrgService {
+public class OrgServiceImpl implements OrgService{
 	private static Logger logger = Logger.getLogger(UserServiceImpl.class);
 	@Autowired
 	private UserRepo userRepo;
@@ -31,11 +32,6 @@ public class OrgServiceImpl implements OrgService {
 	@Autowired
 	private ICurrentUser currentUser;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see cs.service.OrgService#get(cs.repository.odata.ODataObj)
-	 */
 	@Override
 	@Transactional
 	public PageModelDto<OrgDto> get(ODataObj odataObj) {
@@ -72,6 +68,7 @@ public class OrgServiceImpl implements OrgService {
 			org.setName(orgDto.getName());
 			org.setId(UUID.randomUUID().toString());
 			org.setCreatedBy(currentUser.getLoginName());
+			org.setModifiedBy(currentUser.getLoginName());
 			org.setOrgIdentity(orgDto.getOrgIdentity());
 
 			orgRepo.save(org);
@@ -91,6 +88,7 @@ public class OrgServiceImpl implements OrgService {
 		org.setComment(orgDto.getComment());
 		org.setName(orgDto.getName());
 		org.setModifiedBy(currentUser.getLoginName());
+		org.setModifiedDate(new Date());
 
 		orgRepo.save(org);
 		logger.info(String.format("更新部门,部门名:%s", orgDto.getName()));
