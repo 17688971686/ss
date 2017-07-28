@@ -19,7 +19,7 @@
 				type : 'odata',
 				transport : common.kendoGridConfig().transport(url_article),
 				schema : common.kendoGridConfig().schema({
-					id : "id",
+					id : "id"
 //					fields : {
 //						createdDate : {
 //							type : "date"

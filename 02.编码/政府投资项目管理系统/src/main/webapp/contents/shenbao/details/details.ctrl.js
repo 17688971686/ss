@@ -5,6 +5,7 @@
 	details.$inject = ['$location','$state','$sce','detailsSvc'];
 	
 	function details($location,$state,$sce,detailsSvc){
+		/* jshint validthis:true */
 		var vm = this;
 		var id = $state.params.id;
 		vm.type=$state.params.type;

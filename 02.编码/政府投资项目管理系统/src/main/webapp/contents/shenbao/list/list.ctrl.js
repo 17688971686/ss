@@ -5,6 +5,7 @@
 	list.$inject = ['$location','$state','listSvc'];
 	
 	function list($location,$state,listSvc){
+		/* jshint validthis:true */
 		var vm = this;
 		vm.type= $state.params.type;
 		vm.init=function(){   
