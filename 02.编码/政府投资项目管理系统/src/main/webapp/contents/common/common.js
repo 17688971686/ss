@@ -171,7 +171,7 @@
             schema: function (model) {
                 return {
                     data: "value",
-                    total: function (data) { return data['count']; },
+                    total: function (data) { return data.count; },
                     model: model
                 };
             },
@@ -186,16 +186,16 @@
                             req.setRequestHeader('Token', service.getToken());
                         }
                     }
-                }
+                };
             },
             noRecordMessage: {
 			    template: '暂时没有数据.'
 			  }
-        }
+        };
     }
 
     function getKendoCheckId($id) {
-        var checkbox = $($id).find('tr td:nth-child(1)').find('input:checked')
+        var checkbox = $($id).find('tr td:nth-child(1)').find('input:checked');
         var data = [];
         checkbox.each(function () {
             var id = $(this).attr('relId');
@@ -231,7 +231,7 @@
                 cookieValue = null,
                 result = {};
                 if (cookieStart > -1) {
-                    var cookieEnd = document.cookie.indexOf(";", cookieStart)
+                    var cookieEnd = document.cookie.indexOf(";", cookieStart);
                     if (cookieEnd == -1) {
                         cookieEnd = document.cookie.length;
                     }
@@ -254,7 +254,7 @@
             },
             setAll: function (name, subcookies, expires, path, domain, secure) {
                 var cookieText = encodeURIComponent(name) + "=";
-                var subcookieParts = new Array();
+                var subcookieParts = [];
                 for (var subName in subcookies) {
                     if (subName.length > 0 && subcookies.hasOwnProperty(subName)) {
                         subcookieParts.push(encodeURIComponent(subName) + "=" + encodeURIComponent(subcookies[subName]));
@@ -338,7 +338,7 @@
     }
     
     function getBacicDataByIndectity(identity){
-    	var data = $linq(this.getBasicData())
+    	var data = $linq(getBasicData())
    		.where(function(x){return x.identity==identity&&x.pId==identity;})
    		.toArray();
     	if(data){
@@ -416,7 +416,6 @@
     		projectIndustry:"projectIndustry",//项目行业
     		projectIndustry_ZF:"projectIndustry_1",//政府投资项目行业
     		projectIndustry_SH:"projectIndustry_2",//社会投资项目行业
-    		projectInvestmentType:"projectInvestmentType",//投资类型
     		projectProgress:"projectProgress",//项目进度
     		projectStage:"projectStage",//项目阶段
     		projectType:"projectType",//项目类型
@@ -467,7 +466,7 @@
             $(this).addClass('selected');
             //$(this).find('td:nth-child(1)').find('input').prop('checked', true);
             //$(this).find('td:nth-child(2)').find('input').prop('checked', true);
-        })
+        });
         
         //end#grid 处理
         

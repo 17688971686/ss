@@ -38,12 +38,13 @@ module.exports = function (grunt) {
     grunt.initConfig({		
         jshint: {
         	all: [
-                '../../src/main/webapp/contents/admin/**/*.js',
+                '../../src/main/webapp/contents/admin/**/*.js','../../src/main/webapp/contents/common/common.js',
                 '!../../src/main/webapp/contents/admin/dest/*.js'
             ],
 			options:{
-				es3:true,//多余的逗号会提示错误
-				laxbreak:true
+				es3:true,//多余的逗号会提示错误				
+				laxbreak:true,
+				strict:true
 			}
 
         },

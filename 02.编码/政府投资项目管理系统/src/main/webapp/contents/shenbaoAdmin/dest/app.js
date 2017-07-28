@@ -381,7 +381,7 @@
     }
     function basicDataConfig(){
     	return {
-    		uploadSize:5242880,
+    		uploadSize:10485760,//本地文件上传大小限制
     		
     		processState_waitQianShou:"processState_1",//等待签收
     		processState_qianShou:"processState_2",//已签收
@@ -430,7 +430,9 @@
     		taskType:"taskType",//任务类型
     		taskType_monthReport:"taskType_1",//任务类型-月报
     		taskType_yearPlan:"taskType_2",//任务类型-下一年度计划
-    		taskType_sendMesg:"taskType_3"//任务类型-发送短信
+    		taskType_sendMesg:"taskType_3",//任务类型-发送短信
+    			
+    		management:"管理员"
     		
     		
     	};
@@ -1362,7 +1364,12 @@
 											.toArray();
 						if(report.length>0){//有月报
 							vm.isReportExist=true;
-							vm.model.monthReport=report[0];
+							for (var i = 0; i < report.length; i++) {
+								if(report[i].isLatestVersion == true){
+									vm.model.monthReport=report[i];
+								}
+							}
+							
 							//TODO 此块用于月报的退文（暂时不需要）
 //							if(vm.model.monthReport.processState == common.basicDataConfig().processState_tuiWen){//如果是退文
 //								vm.isReportExist=false;
@@ -1702,9 +1709,9 @@
 	   		//end#基础数据
 	   		
 	   		//批复文件上传
-	   		vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+	   		vm.uploadType=[['JYS','项目建议书批复'],['KXXYJBG','可行性研究报告批复'],['CBSJYGS','初步设计与概算批复']];
 	   		//相关附件文件上传文件种类
-	   		vm.relatedType=[['XMJYSPF','项目建议书批复文件'],['KXXYJBGPF','可行性研究报告批复文件'],['ZGSPFTZ','总概算批复及调整文件'],
+	   		vm.relatedType=[['XMJYSPF','项目建议书文本'],['KXXYJBGPF','可行性研究报告文本'],['ZGSPFTZ','总概算及调整文本'],
 	   						['HYJY','会议纪要'],['GHYJ','规划依据'],['SJXGT','设计效果图'],
 	   						['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']];
 
@@ -1721,7 +1728,34 @@
 	           		 });
 	           	 }
 	   		};
-	   	
+	   		
+	   		//展示批复文件选择模态框
+	   		vm.choseDocument = function(e){
+	   			vm.pifuType=$(e.target).parents('.uploadBox').attr('data-type');
+        	   $("#documentRecords").modal({
+			        backdrop: 'static',
+			        keyboard:false  			  
+        	   });
+        	   vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
+	   		}
+	   		projectSvc.documentRecordsGird(vm);//查询批复文件
+	   		
+	   		//批复文件选择模态框确认
+	   		vm.pifuChoseConfirm = function(){
+	   			//关闭模态框
+	   			$("#documentRecords").modal('hide');
+	   			$(".modal-backdrop").remove();
+	   			//获取选择框中的信息
+	   			var select = common.getKendoCheckId('.grid');
+            	var fileName = select[0].value;
+            	
+   			    if(vm.model.attachmentDtos){
+   				  vm.model.attachmentDtos.push({name:fileName,url:fileName,type:vm.pifuType});
+   			    }else{
+   				  vm.model.attachmentDtos=[{name:fileName,url:fileName,type:vm.pifuType}];
+   			    }    			          		
+	        }
+	   		
 	   		vm.onSelect=function(e){
 	   			$.each(e.files, function (index, value) {
 	   	            if(value.size > common.basicDataConfig().uploadSize){
@@ -1817,13 +1851,15 @@
 		var url_project = "/shenbaoAdmin/project/unitProject";
 		var url_userUnit　= "/shenbaoAdmin/userUnitInfo";
 		var url_back = "/project";
+		var url_document="/shenbaoAdmin/replyFile";
 		
 		var service = {
 			grid : grid,
 			createProject:createProject,
 			getUserUnit:getUserUnit,
 			getProjectById:getProjectById,
-			updateProject:updateProject
+			updateProject:updateProject,
+			documentRecordsGird:documentRecordsGird
 		};		
 		return service;
 		
@@ -2053,6 +2089,61 @@
 			}
 		}
 	
+		function documentRecordsGird(vm){
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url_document),						
+				schema : common.kendoGridConfig().schema({
+					id : "id"
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+					
+			});
+			// End:dataSource
+			// Begin:column
+			var columns = [
+					{
+						template : function(item) {
+							return kendo
+									.format(
+											"<input type='radio'  relId='{0}' name='checkbox'/>",
+											item.fullName);
+						},
+						filterable : false,
+						width : 40,
+						title : ""
+					},
+					{
+						field : "number",
+						title : "文号",
+						width:180,
+						
+						filterable : true
+					},
+					{
+						field : "fullName",
+						title : "文件名",
+						width : 550,
+						filterable : true
+						
+					}
+					
+			];
+			// End:column
+
+			vm.gridOptions_documentRecords = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true
+			};
+		}
 
 		/**
 		 * 项目列表数据获取
@@ -2324,6 +2415,32 @@
 		       		vm.model.projectType.splice(index,1);
 		       	}	        	
 	        };
+	      //展示批复文件选择模态框
+	   		vm.choseDocument = function(e){
+	   			vm.pifuType=$(e.target).parents('.uploadBox').attr('data-type');
+        	   $("#documentRecords").modal({
+			        backdrop: 'static',
+			        keyboard:false  			  
+        	   });
+        	   vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
+	   		}
+	   		shenbaoSvc.documentRecordsGird(vm);//查询批复文件
+	   		
+	   		//批复文件选择模态框确认
+	   		vm.pifuChoseConfirm = function(){
+	   			//关闭模态框
+	   			$("#documentRecords").modal('hide');
+	   			$(".modal-backdrop").remove();
+	   			//获取选择框中的信息
+	   			var select = common.getKendoCheckId('.grid');
+            	var fileName = select[0].value;
+            	
+   			    if(vm.model.attachmentDtos){
+   				  vm.model.attachmentDtos.push({name:fileName,url:fileName,type:vm.pifuType});
+   			    }else{
+   				  vm.model.attachmentDtos=[{name:fileName,url:fileName,type:vm.pifuType}];
+   			    }    			          		
+	        }
     	  
 	   		//文件上传
     	   vm.uploadSuccess=function(e){
@@ -2431,6 +2548,7 @@
 		var url_userUnit　= "/shenbaoAdmin/userUnitInfo";
 		var url_shenbao = "/shenbaoAdmin/shenbao";
 		var url_back = "/shenbao_records";
+		var url_document="/shenbaoAdmin/replyFile";
 		
 		var service = {
 			grid : grid,//项目列表
@@ -2439,7 +2557,8 @@
 			createShenBaoInfo:createShenBaoInfo,//创建申报信息
 			recordsGird:recordsGird,//所有的申报记录列表
 			getShenBaoInfoById:getShenBaoInfoById,//根据id查询项目申报信息
-			updateShenBaoInfo:updateShenBaoInfo//更新申报信息
+			updateShenBaoInfo:updateShenBaoInfo,//更新申报信息
+			documentRecordsGird:documentRecordsGird//批复文件列表
 		};		
 		return service;
 		
@@ -2574,7 +2693,7 @@
 				if(vm.model.projectType != "" && vm.model.projectType != undefined){
 					vm.model.projectType = vm.model.projectType.join(",");
 				}else{
-					vm.model.projectType =[];
+					vm.model.projectType ="";
 				}
 				var httpOptions = {
 					method : 'put',
@@ -2809,7 +2928,7 @@
 				};
 			
 			var httpSuccess = function success(response) {
-				vm.model = response.data.value[0]||{};				
+				vm.model = response.data.value[0]||{};
 				//获取项目单位信息
 				getProjectUnit(vm);
 				
@@ -3049,6 +3168,63 @@
 			};
 
 		}// end fun grid
+		
+		function documentRecordsGird(vm){
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url_document),						
+				schema : common.kendoGridConfig().schema({
+					id : "id"
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+					
+			});
+			// End:dataSource
+			// Begin:column
+			var columns = [
+					{
+						template : function(item) {
+							return kendo
+									.format(
+											"<input type='radio'  relId='{0}' name='checkbox'/>",
+											item.fullName);
+						},
+						filterable : false,
+						width : 40,
+						title : ""
+					},
+					{
+						field : "number",
+						title : "文号",
+						width:180,
+						
+						filterable : true
+					},
+					{
+						field : "fullName",
+						title : "文件名",
+						width : 550,
+						filterable : true
+						
+					}
+					
+			];
+			// End:column
+
+			vm.gridOptions_documentRecords = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true
+			};
+		}
+
 
 	}
 })();
