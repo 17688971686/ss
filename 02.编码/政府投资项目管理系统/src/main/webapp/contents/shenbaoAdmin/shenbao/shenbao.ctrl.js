@@ -88,8 +88,9 @@
            
     	   //点击模态框的确认按钮
            vm.confirm = function(){
-           	$(".modal-backdrop").remove(); //去掉模态框背面的阴影
-           	location.href = "#/shenbao/"+vm.projectId+"/"+vm.projectInvestmentType+"/"+vm.projectShenBaoStage;
+        	   $('#myModal').modal('hide');
+           	   $(".modal-backdrop").remove(); //去掉模态框背面的阴影
+           	   location.href = "#/shenbao/"+vm.projectId+"/"+vm.projectInvestmentType+"/"+vm.projectShenBaoStage;
            };    	   
            
            //点击列表中的申报记录按钮
@@ -114,23 +115,40 @@
         }//end#page_list
        
        function page_edit(){
-    	   //禁止点击Tab切换
-		   document.getElementById("tab1").setAttribute("disabled","disabled");
-		   document.getElementById("tab2").setAttribute("disabled","disabled");
-		   document.getElementById("tab3").setAttribute("disabled","disabled");
-		   document.getElementById("tab4").setAttribute("disabled","disabled");
-    	   //判断tab显示
-    	   var init_tab_show=function(){
-    		   vm.isYearPlan=vm.stage==common.basicDataConfig().projectShenBaoStage_nextYearPlan;//申报阶段为下一年度计划
-    		   if(vm.isYearPlan){
-    			   //初始化项目材料清单
-    			   vm.materialsType=[['XXJD','项目工程形象进度及年度资金需求情况'],['WCJSNR','年度完成建设内容及各阶段工作内容完成时间表'],
-	   					['TTJH','历年政府投资计划下大文件(*)'],['GCXKZ','建设工程规划许可证'],['TDQK','土地落实情况、征地拆迁有关情况'],
-	   					['XMJZ','项目进展情况相关资料'],['QQGZJH','前期工作计划文件'],['XMSSYJ','项目实施依据文件'],['HYJY','会议纪要']];
+    	   //页面初始化
+    	   var init_page=function(){
+    		   vm.isYearPlan=vm.stage==common.basicDataConfig().projectShenBaoStage_nextYearPlan;//申报阶段为:下一年度计划
+    		   vm.isProjectProposal=vm.stage==common.basicDataConfig().projectShenBaoStage_projectProposal;//申报阶段为:项目建议书
+    		   vm.isKXXYJBG=vm.stage==common.basicDataConfig().projectShenBaoStage_KXXYJBG;//申报阶段为:可行性研究报告
+    		   vm.isCBSJYGS=vm.stage==common.basicDataConfig().projectShenBaoStage_CBSJYGS;//申报阶段为:初步设计与概算
+    		   
+    		   //申报材料初始化
+    		   if(vm.isYearPlan){//下一年度计划上传文件类型
+    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_YearPlan;
     			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
     		   }
-    	   };
-    	   init_tab_show();
+    		   if(vm.isProjectProposal){//项目建议书上传文件类型
+    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_projectProposal;
+    			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+    		   }
+    		   if(vm.isKXXYJBG){//可行性研究报告上传文件类型
+    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_KXXYJBG;
+    			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+    		   }
+    		   if(vm.isCBSJYGS){//初步设计与概算上传文件类型
+    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_CBSJYGS;
+    			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+    		   }
+    		   
+    		   //初始化tab
+        	   //禁止点击Tab切换
+    		   $("#tab1").attr("disabled","true");
+    		   $("#tab2").attr("disabled","true");
+    		   $("#tab3").attr("disabled","true");
+    		   $("#tab4").attr("disabled","true");
+    	   }
+    	  
+    	   init_page();
     	   
     	   if(vm.page=='edit'){
    	  		 shenbaoSvc.getProjectById(vm); 

@@ -28,7 +28,8 @@
         formatDate:formatDate,
         formatDateTime:formatDateTime,
         basicDataConfig:basicDataConfig,
-        checkLength:checkLength
+        checkLength:checkLength,
+        uploadFileTypeConfig:uploadFileTypeConfig
     };
 
     window.common = service;
@@ -390,6 +391,9 @@
     		
     		projectShenBaoStage:"projectShenBaoStage",//申报阶段
     		projectShenBaoStage_nextYearPlan:"projectShenBaoStage_7",//下一年度计划
+    		projectShenBaoStage_projectProposal:"projectShenBaoStage_9",//项目建议书
+    		projectShenBaoStage_KXXYJBG:"projectShenBaoStage_10",//可行性研究报告
+    		projectShenBaoStage_CBSJYGS:"projectShenBaoStage_11",//初步设计与概算
     		
     		projectCategory:"projectCategory",//项目类别
     		projectCategory_A:"projectCategory_1",//A类
@@ -448,6 +452,21 @@
     		}
     	}else{
     		$("#"+id).html("<font size='5'>"+max+"</font>");
+    	}
+    }
+    
+    function uploadFileTypeConfig(){
+    	return {
+    		projectShenBaoStage_projectProposal:[['ApplyReport_pdf','申请报告（pdf版，加盖公章）'],['ApplyReport_word','申请报告（Word版）'],['HYJY','会议纪要'],
+    			['Project_ProPosal','项目建议书（需委托有相应资质的咨询机构按照规范编写）'],['other','其他资料']],
+    		projectShenBaoStage_KXXYJBG:[['ApplyReport_pdf','申请报告（pdf版，加盖公章）'],['ApplyReport_word','申请报告（Word版）'],['ProjectProPosal_Reply','项目建议书（或前期工作计划）批复扫描件'],
+    			['KXXYJ_Report','项目可行性研究报告（包括项目建设、管养、招投标等内容）'],['GHXZProposal_Scanning','规划选址意见书扫描件'],['YDYS_Scanning','用地预审扫描件'],['HPPW_Scanning','环评批文扫描件'],
+    			['other','其他资料']],
+			projectShenBaoStage_CBSJYGS:[['ApplyReport_pdf','申请报告（pdf版，加盖公章）'],['ApplyReport_word','申请报告（Word版）'],['ProjectProPosal_Reply','项目建议书（或前期工作计划）、可行性研究报告'],
+				['YDGHXKZ_Scanning','用地规划许可证扫描件'],['other','其他资料']]	,
+			projectShenBaoStage_YearPlan:[['XXJD','项目工程形象进度及年度资金需求情况'],['WCJSNR','年度完成建设内容及各阶段工作内容完成时间表'],['TTJH','历年政府投资计划下大文件(*)'],
+					['GCXKZ','建设工程规划许可证'],['TDQK','土地落实情况、征地拆迁有关情况'],['XMJZ','项目进展情况相关资料'],['QQGZJH','前期工作计划文件'],['XMSSYJ','项目实施依据文件'],['HYJY','会议纪要']]
+   					
     	}
     }
 
