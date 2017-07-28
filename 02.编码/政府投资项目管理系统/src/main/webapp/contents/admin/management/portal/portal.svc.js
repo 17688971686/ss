@@ -26,7 +26,7 @@
 				type : 'odata',
 				transport : common.kendoGridConfig().transport(url_portal),
 				schema : common.kendoGridConfig().schema({
-					id : "id",
+					id : "id"
 //					fields : {
 //						createdDate : {
 //							type : "date"
@@ -144,7 +144,7 @@
 				common.alert({
 					vm:vm,
 					msg:"您填写的信息不正确,请核对后提交!"
-				})
+				});
 			}
 		}// end func create
 

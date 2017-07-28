@@ -171,7 +171,7 @@
             schema: function (model) {
                 return {
                     data: "value",
-                    total: function (data) { return data['count']; },
+                    total: function (data) { return data.count; },
                     model: model
                 };
             },
@@ -186,16 +186,16 @@
                             req.setRequestHeader('Token', service.getToken());
                         }
                     }
-                }
+                };
             },
             noRecordMessage: {
 			    template: '暂时没有数据.'
 			  }
-        }
+        };
     }
 
     function getKendoCheckId($id) {
-        var checkbox = $($id).find('tr td:nth-child(1)').find('input:checked')
+        var checkbox = $($id).find('tr td:nth-child(1)').find('input:checked');
         var data = [];
         checkbox.each(function () {
             var id = $(this).attr('relId');
@@ -231,7 +231,7 @@
                 cookieValue = null,
                 result = {};
                 if (cookieStart > -1) {
-                    var cookieEnd = document.cookie.indexOf(";", cookieStart)
+                    var cookieEnd = document.cookie.indexOf(";", cookieStart);
                     if (cookieEnd == -1) {
                         cookieEnd = document.cookie.length;
                     }
@@ -254,7 +254,7 @@
             },
             setAll: function (name, subcookies, expires, path, domain, secure) {
                 var cookieText = encodeURIComponent(name) + "=";
-                var subcookieParts = new Array();
+                var subcookieParts = [];
                 for (var subName in subcookies) {
                     if (subName.length > 0 && subcookies.hasOwnProperty(subName)) {
                         subcookieParts.push(encodeURIComponent(subName) + "=" + encodeURIComponent(subcookies[subName]));
@@ -338,7 +338,7 @@
     }
     
     function getBacicDataByIndectity(identity){
-    	var data = $linq(this.getBasicData())
+    	var data = $linq(getBasicData())
    		.where(function(x){return x.identity==identity&&x.pId==identity;})
    		.toArray();
     	if(data){
@@ -416,7 +416,6 @@
     		projectIndustry:"projectIndustry",//项目行业
     		projectIndustry_ZF:"projectIndustry_1",//政府投资项目行业
     		projectIndustry_SH:"projectIndustry_2",//社会投资项目行业
-    		projectInvestmentType:"projectInvestmentType",//投资类型
     		projectProgress:"projectProgress",//项目进度
     		projectStage:"projectStage",//项目阶段
     		projectType:"projectType",//项目类型
@@ -467,7 +466,7 @@
             $(this).addClass('selected');
             //$(this).find('td:nth-child(1)').find('input').prop('checked', true);
             //$(this).find('td:nth-child(2)').find('input').prop('checked', true);
-        })
+        });
         
         //end#grid 处理
         
@@ -1737,7 +1736,7 @@
 			        keyboard:false  			  
         	   });
         	   vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
-	   		}
+	   		};
 	   		projectSvc.documentRecordsGird(vm);//查询批复文件
 	   		
 	   		//批复文件选择模态框确认
@@ -1754,7 +1753,7 @@
    			    }else{
    				  vm.model.attachmentDtos=[{name:fileName,url:fileName,type:vm.pifuType}];
    			    }    			          		
-	        }
+	        };
 	   		
 	   		vm.onSelect=function(e){
 	   			$.each(e.files, function (index, value) {
@@ -1958,7 +1957,7 @@
 				if(vm.page=='update'){
 					if(vm.model.projectInvestmentType == common.basicDataConfig().projectInvestmentType_SH){//社会投资项目
 						//项目行业归口
-						var child = $linq(common.getBasicData()).where(function(x){return x.id==vm.model.projectIndustry}).toArray()[0];
+						var child = $linq(common.getBasicData()).where(function(x){return x.id==vm.model.projectIndustry;}).toArray()[0];
 		        		vm.model.projectIndustryParent=child.pId;
 		        		vm.projectIndustryChange();	
 					}	        			        		
@@ -2100,7 +2099,7 @@
 				serverPaging : true,
 				serverSorting : true,
 				serverFiltering : true,
-				pageSize : 10,
+				pageSize : 10
 					
 			});
 			// End:dataSource
@@ -2423,7 +2422,7 @@
 			        keyboard:false  			  
         	   });
         	   vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
-	   		}
+	   		};
 	   		shenbaoSvc.documentRecordsGird(vm);//查询批复文件
 	   		
 	   		//批复文件选择模态框确认
@@ -2440,7 +2439,7 @@
    			    }else{
    				  vm.model.attachmentDtos=[{name:fileName,url:fileName,type:vm.pifuType}];
    			    }    			          		
-	        }
+	        };
     	  
 	   		//文件上传
     	   vm.uploadSuccess=function(e){
@@ -2792,7 +2791,7 @@
 						}
 		        		if(vm.page=='record_edit' && vm.model.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){
 		        			//项目行业归口
-							var child = $linq(common.getBasicData()).where(function(x){return x.id==vm.model.projectIndustry}).toArray()[0];
+							var child = $linq(common.getBasicData()).where(function(x){return x.id==vm.model.projectIndustry;}).toArray()[0];
 			        		vm.model.projectIndustryParent=child.pId;
 			        		vm.projectIndustryChange();			        	
 		        		}									
@@ -2971,7 +2970,7 @@
 			  		//基础数据--行业归口
 			  		  if(vm.model.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资			 			  
 			 			var child = $linq(common.getBasicData())
-			 				.where(function(x){return x.id==vm.model.projectIndustry})
+			 				.where(function(x){return x.id==vm.model.projectIndustry;})
 			 				.toArray()[0];
 		        		vm.model.projectIndustryParent=child.pId;
 		        		vm.projectIndustryChange();
@@ -3180,7 +3179,7 @@
 				serverPaging : true,
 				serverSorting : true,
 				serverFiltering : true,
-				pageSize : 10,
+				pageSize : 10
 					
 			});
 			// End:dataSource
