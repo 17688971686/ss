@@ -30,7 +30,7 @@ public class ShenBaoController {
 	@RequestMapping(name = "获取申报数据", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
-		PageModelDto<ShenBaoInfoDto>  shenbaoInfoDtos= shenBaoInfoService.get(odataObj);
+		PageModelDto<ShenBaoInfoDto> shenbaoInfoDtos= shenBaoInfoService.get(odataObj);
 		shenbaoInfoDtos.getValue().forEach(x->{	
 			//获取项目相关类型的名称
 			x.setProjectClassifyDesc(basicDataService.getDescriptionById(x.getProjectClassify()));//项目分类名称

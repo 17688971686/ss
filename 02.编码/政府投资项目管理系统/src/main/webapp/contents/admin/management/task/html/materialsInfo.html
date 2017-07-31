@@ -1,37 +1,38 @@
-
-<div class="bg-info text-info" style="padding: 10px;">项目批复信息</div>
-<table class="table table-bordered table-striped ">
-	<tr>
-		<td style="width:180px;">批复名称</td>
-		<td style="width:180px;">批复时间</td>
-		<td style="width:180px;">批复文号</td>
-		<td>文件上传</td>
-	</tr>
-	<tr ng-repeat="x in vm.uploadType">
-		<td>{{x[1]}}</td>
-		<td>
-			<span ng-bind="vm.model.shenBaoInfo['pifu'+x[0]+'_date'] | date:'yyyy-MM-dd'"></span>
-		</td>
-		<td><span ng-bind="vm.model.shenBaoInfo['pifu'+x[0]+'_wenhao']"></span></td>
-		<td class="clearfix">		
-         <div style="margin:3px;"  class="pull-left"
-		 	  ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos" 
-		 	  ng-show="y.type=='{{x[0]}}'"
-		 		>
-			 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>			
-		 </div>
-		</td>
-	</tr>
-</table>
+<div ng-show="vm.isYearPlan">
+	<div class="bg-info text-info" style="padding: 10px;">项目批复信息</div>
+	<table class="table table-bordered table-striped ">
+		<tr>
+			<td style="width:180px;">批复名称</td>
+			<td style="width:180px;">批复时间</td>
+			<td style="width:180px;">批复文号</td>
+			<td>文件上传</td>
+		</tr>
+		<tr ng-repeat="x in vm.uploadType">
+			<td>{{x[1]}}</td>
+			<td>
+				<span ng-bind="vm.model.shenBaoInfo['pifu'+x[0]+'_date'] | date:'yyyy-MM-dd'"></span>
+			</td>
+			<td><span ng-bind="vm.model.shenBaoInfo['pifu'+x[0]+'_wenhao']"></span></td>
+			<td class="clearfix">		
+	         <div style="margin:3px;"  class="pull-left"
+			 	  ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos" 
+			 	  ng-show="y.type=='{{x[0]}}'"
+			 		>
+				 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>			
+			 </div>
+			</td>
+		</tr>
+	</table>
+</div>
 
 <div class="bg-info text-info" style="padding: 10px;">相关附件</div>
 <table class="table table-bordered table-striped ">
 	<tr>
-		<td style="width:350px">附件类型</td>
+		<td style="width:400px">附件类型</td>
 		<td>文件上传</td>
 	</tr>
 	<tr ng-repeat="x in vm.materialsType">
-		<td>{{x[1]}}</td>
+		<td ng-bind-html="vm.html(x[1])"></td>
 		<td>			
 	      <div style="margin:3px;"  class="pull-left"
 		 	  ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos" 

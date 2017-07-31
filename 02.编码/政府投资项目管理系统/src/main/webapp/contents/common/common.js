@@ -435,6 +435,9 @@
     		taskType_monthReport:"taskType_1",//任务类型-月报
     		taskType_yearPlan:"taskType_2",//任务类型-下一年度计划
     		taskType_sendMesg:"taskType_3",//任务类型-发送短信
+    		taskType_JYS:"taskType_4",//项目建议书
+    		taskType_KXXYJBG:"taskType_5",//可行性研究报告
+    		taskType_CBSJYGS:"taskType_6",//初步概算与设计
     			
     		management:"管理员"
     		

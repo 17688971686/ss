@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import cs.common.BasicDataConfig;
@@ -64,6 +65,18 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private BasicDataService basicDataService;
 	@Autowired
 	private ICurrentUser currentUser;
+	@Value("${projectShenBaoStage_JYS}")
+	private String projectShenBaoStage_JYS;
+	@Value("${projectShenBaoStage_KXXYJBG}")
+	private String projectShenBaoStage_KXXYJBG;
+	@Value("${projectShenBaoStage_CBSJYGS}")
+	private String projectShenBaoStage_CBSJYGS;
+	@Value("${taskType_JYS}")
+	private String taskType_JYS;
+	@Value("${taskType_KXXYJBG}")
+	private String taskType_KXXYJBG;
+	@Value("${taskType_CBSJYGS}")
+	private String taskType_CBSJYGS;
 	
 	@Override
 	@Transactional
@@ -168,10 +181,16 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		return entity;		
 	}
 	
-	
+
 	private String getTaskType(String shenbaoStage){
 		if(shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)){//如果是下一年度计划
 			return BasicDataConfig.taskType_nextYearPlan;
+		}else if(shenbaoStage.equals(projectShenBaoStage_JYS)){//如果是项目建议书
+			return taskType_JYS;
+		}else if(shenbaoStage.equals(projectShenBaoStage_KXXYJBG)){//如果是可行性研究报告
+			return taskType_KXXYJBG;
+		}else if(shenbaoStage.equals(projectShenBaoStage_CBSJYGS)){//如果是初步概算与设计
+			return taskType_CBSJYGS;
 		}
 		return "";
 	}
