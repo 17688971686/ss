@@ -76,8 +76,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@Transactional
 	public ShenBaoInfo create(ShenBaoInfoDto dto) {
 		ShenBaoInfo entity=super.create(dto);
-		dto.setCreatedDate(new Date());
-		dto.setModifiedDate(new Date());
+		entity.setCreatedDate(new Date());
+		entity.setModifiedDate(new Date());
 		//处理关联信息
 		//begin#关联信息
 		//附件
@@ -92,6 +92,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		ShenBaoUnitInfoDto shenBaoUnitInfoDto = dto.getShenBaoUnitInfoDto();
 		ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
 		shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
+		shenBaoUnitInfo.setCreatedDate(new Date());
+		shenBaoUnitInfo.setModifiedDate(new Date());
 		shenBaoUnitInfo.setCreatedBy(entity.getCreatedBy());
 		shenBaoUnitInfo.setModifiedBy(entity.getModifiedBy());
 		entity.setShenBaoUnitInfo(shenBaoUnitInfo);
@@ -99,6 +101,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		ShenBaoUnitInfoDto bianZhiUnitInfoDto = dto.getBianZhiUnitInfoDto();
 		ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
 		shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
+		bianZhiUnitInfo.setCreatedDate(new Date());
+		bianZhiUnitInfo.setModifiedDate(new Date());
 		bianZhiUnitInfo.setCreatedBy(entity.getCreatedBy());
 		bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
 		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
@@ -138,6 +142,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		ShenBaoUnitInfoDto shenBaoUnitInfoDto = dto.getShenBaoUnitInfoDto();
 		ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
 		shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
+		shenBaoUnitInfo.setCreatedDate(new Date());
+		shenBaoUnitInfo.setModifiedDate(new Date());
 		shenBaoUnitInfo.setCreatedBy(entity.getModifiedBy());
 		shenBaoUnitInfo.setModifiedBy(entity.getModifiedBy());
 		entity.setShenBaoUnitInfo(shenBaoUnitInfo);
@@ -146,6 +152,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		ShenBaoUnitInfoDto bianZhiUnitInfoDto = dto.getBianZhiUnitInfoDto();
 		ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
 		shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
+		bianZhiUnitInfo.setCreatedDate(new Date());
+		bianZhiUnitInfo.setModifiedDate(new Date());
 		bianZhiUnitInfo.setCreatedBy(entity.getModifiedBy());
 		bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
 		entity.setBianZhiUnitInfo(bianZhiUnitInfo);

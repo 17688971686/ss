@@ -63,7 +63,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setCapitalOther(entity.getCapitalOther());
 			shenBaoInfoDto.setCapitalOtherType(entity.getCapitalOtherType());
 			shenBaoInfoDto.setCapitalOtherDescription(entity.getCapitalOtherDescription());
-			//批复信心
+			//批复信息
 			shenBaoInfoDto.setPifuJYS_date(entity.getPifuJYS_date());
 			shenBaoInfoDto.setPifuKXXYJBG_date(entity.getPifuKXXYJBG_date());
 			shenBaoInfoDto.setPifuCBSJYGS_date(entity.getPifuCBSJYGS_date());
@@ -89,6 +89,11 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			//begin#财政局
 			shenBaoInfoDto.setFunctionSubjects(entity.getFunctionSubjects());
 			shenBaoInfoDto.setEconClassSubjects(entity.getEconClassSubjects());
+			//begin#项目建议书
+			shenBaoInfoDto.setProjectConstrBasis(entity.getProjectConstrBasis());
+			//begin#可行性研究报告
+			shenBaoInfoDto.setRecomProgram(entity.getRecomProgram());
+			shenBaoInfoDto.setSocialAndEconomic(entity.getSocialAndEconomic());
 			//为保存客户提供的数据添加字段
 			shenBaoInfoDto.setConstructionCycle(entity.getConstructionCycle());//建设周期
 			shenBaoInfoDto.setFinalAmount(entity.getFinalAmount());//决算金额
@@ -168,6 +173,11 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			//begin#财政相关
 			shenBaoInfo.setFunctionSubjects(shenBaoInfoDto.getFunctionSubjects());
 			shenBaoInfo.setEconClassSubjects(shenBaoInfoDto.getEconClassSubjects());
+			//begin#项目建议书
+			shenBaoInfo.setProjectConstrBasis(shenBaoInfoDto.getProjectConstrBasis());
+			//begin#可行性研究报告
+			shenBaoInfo.setRecomProgram(shenBaoInfoDto.getRecomProgram());
+			shenBaoInfo.setSocialAndEconomic(shenBaoInfoDto.getSocialAndEconomic());
 			//基础数据																														
 			shenBaoInfo.setModifiedBy(shenBaoInfoDto.getModifiedBy());
 			shenBaoInfo.setCreatedBy(shenBaoInfoDto.getCreatedBy());

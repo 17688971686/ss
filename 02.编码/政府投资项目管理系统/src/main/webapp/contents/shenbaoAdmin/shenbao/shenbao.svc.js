@@ -242,13 +242,23 @@
 				  			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
 				  			 		+ (parseFloat(vm.model.capitalOther)||0) ;
 				  		 };
-						if(vm.page=='record'){
-							if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){
+						if(vm.page=='record'){//如果為申報詳情頁面
+							if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){//申报阶段为:下一年度计划
 								vm.isYearPlan = true;
-								vm.materialsType=[['XXJD','项目工程形象进度及年度资金需求情况'],['WCJSNR','年度完成建设内容及各阶段工作内容完成时间表'],
-				   					['TTJH','历年政府投资计划下大文件(*)'],['GCXKZ','建设工程规划许可证'],['TDQK','土地落实情况、征地拆迁有关情况'],
-				   					['XMJZ','项目进展情况相关资料'],['QQGZJH','前期工作计划文件'],['XMSSYJ','项目实施依据文件'],['HYJY','会议纪要']];
-			    			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_YearPlan;
+			    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+							}else if(vm.model.projectShenBaoStage ==common.basicDataConfig().projectShenBaoStage_projectProposal){//申报阶段为:项目建议书
+								vm.isProjectProposal=true;
+								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_projectProposal;
+			    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_KXXYJBG){//申报阶段为:可行性研究报告
+								vm.isKXXYJBG=true;
+								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_KXXYJBG;
+			    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+							}else if(vm.model.projectShenBaoStage == common.uploadFileTypeConfig().projectShenBaoStage_CBSJYGS){//申报阶段为:初步设计与概算
+								vm.isCBSJYGS=true;
+								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_CBSJYGS;
+			    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
 							}
 						}
 		        		if(vm.page=='record_edit' && vm.model.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){
@@ -273,54 +283,55 @@
 		 */
 		function createShenBaoInfo(vm){
 			common.initJqValidation();
-			var isValid=function(){
-				var validFields=[
-					['projectConstrChar','required','年度计划信息-项目建设性质必选'],
-					['planYear','required','年度计划信息-计划年度必填'],
-					['applyYearInvest','required','年度计划信息-申请年度投资必填'],
-					['yearConstructionContent','required','年度计划信息-年度建设内容必填'],					
-					['shenBaoUnitInfoDto.unitName','required','项目单位信息-单位名称必填'],
-					['shenBaoUnitInfoDto.unitTel','required','项目单位信息-单位电话必填'],
-					['shenBaoUnitInfoDto.unitEmail','required','项目单位信息-单位邮箱必填'],					
-					['shenBaoUnitInfoDto.unitProperty','required','项目单位信息-单位性质必选'],
-					['shenBaoUnitInfoDto.divisionId','required','项目单位信息-单位区域必选'],
-					['shenBaoUnitInfoDto.unitAddress','required','项目单位信息-单位地址必填'],
-					['shenBaoUnitInfoDto.unitResPerson','required','项目单位信息-单位负责人名称必填'],
-					['shenBaoUnitInfoDto.resPersonTel','required','项目单位信息-单位负责人电话必填'],
-					['shenBaoUnitInfoDto.resPersonMobile','required','项目单位信息-单位负责人手机必填'],
-					['shenBaoUnitInfoDto.resPersonEmail','required','项目单位信息-单位负责人邮箱必填']					
-				];
-				vm.validMessage=[];
-				$.each(validFields,function(idx,item){
-					var value='';
-					if(item[0].indexOf('.')>0){
-						var fields=item[0].split('.');
-						value=vm.model[fields[0]][fields[1]];
-					}
-					else{
-						value=vm.model[item[0]];
-					}
-							
-					var msg=item[2];					
-					if(item[1]=='required'){				
-						var isExist=value&&value.trim()!="";					
-						if(!isExist){
-							vm.validMessage.push(msg);
-						}						
-					}
-					
-				});
-				if(vm.validMessage.length>0){
-					$('#validMsgDialog').modal({
-		                 backdrop: 'static',
-		                 keyboard:false
-		             });
-				}else{
-					return true;
-				}												
-			};
+			var isValid = $('form').valid();
+//			var isValid=function(){
+//				var validFields=[
+//					['projectConstrChar','required','年度计划信息-项目建设性质必选'],
+//					['planYear','required','年度计划信息-计划年度必填'],
+//					['applyYearInvest','required','年度计划信息-申请年度投资必填'],
+//					['yearConstructionContent','required','年度计划信息-年度建设内容必填'],					
+//					['shenBaoUnitInfoDto.unitName','required','项目单位信息-单位名称必填'],
+//					['shenBaoUnitInfoDto.unitTel','required','项目单位信息-单位电话必填'],
+//					['shenBaoUnitInfoDto.unitEmail','required','项目单位信息-单位邮箱必填'],					
+//					['shenBaoUnitInfoDto.unitProperty','required','项目单位信息-单位性质必选'],
+//					['shenBaoUnitInfoDto.divisionId','required','项目单位信息-单位区域必选'],
+//					['shenBaoUnitInfoDto.unitAddress','required','项目单位信息-单位地址必填'],
+//					['shenBaoUnitInfoDto.unitResPerson','required','项目单位信息-单位负责人名称必填'],
+//					['shenBaoUnitInfoDto.resPersonTel','required','项目单位信息-单位负责人电话必填'],
+//					['shenBaoUnitInfoDto.resPersonMobile','required','项目单位信息-单位负责人手机必填'],
+//					['shenBaoUnitInfoDto.resPersonEmail','required','项目单位信息-单位负责人邮箱必填']					
+//				];
+//				vm.validMessage=[];
+//				$.each(validFields,function(idx,item){
+//					var value='';
+//					if(item[0].indexOf('.')>0){
+//						var fields=item[0].split('.');
+//						value=vm.model[fields[0]][fields[1]];
+//					}
+//					else{
+//						value=vm.model[item[0]];
+//					}
+//							
+//					var msg=item[2];					
+//					if(item[1]=='required'){				
+//						var isExist=value&&value.trim()!="";					
+//						if(!isExist){
+//							vm.validMessage.push(msg);
+//						}						
+//					}
+//					
+//				});
+//				if(vm.validMessage.length>0){
+//					$('#validMsgDialog').modal({
+//		                 backdrop: 'static',
+//		                 keyboard:false
+//		             });
+//				}else{
+//					return true;
+//				}												
+//			};
 			
-			if (isValid()) {
+			if (isValid) {
 				vm.isSubmit = true;				
 				var httpOptions = {
 					method : 'post',
@@ -649,10 +660,7 @@
 			var columns = [
 					{
 						template : function(item) {
-							return kendo
-									.format(
-											"<input type='radio'  relId='{0}' name='checkbox'/>",
-											item.fullName);
+							return kendo.format("<input type='radio'  relId='{0}' name='checkbox'/>",item);
 						},
 						filterable : false,
 						width : 40,
