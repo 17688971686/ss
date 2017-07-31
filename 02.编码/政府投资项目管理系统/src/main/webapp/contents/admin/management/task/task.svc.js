@@ -12,17 +12,58 @@
 		var url_monthReport = "/management/monthReport";
 		var url_project = "/management/project";
 		var url_back = "#/task/todo";
+		var url_dept = "/org";
+		var url_users="/org/{0}/users";
 		var service = {
 			grid : grid,//待办任务列表
 			completeGird:completeGird,//已办任务列表
 			getTaskById:getTaskById,//根据任务id获取任务信息
 			getShenBaoInfoById:getShenBaoInfoById,//根据id获取申报信息
 			getMonthReportById:getMonthReportById,//根据id获取月报信息
-			handle:handle
+			handle:handle,
+			getDept:getDept,//获取部门数据
+			getDeptUsers:getDeptUsers
 		};
 		
 		return service;
 		
+		//根据部门id获取人员
+		function getDeptUsers(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_users + "?$filter=id eq '{0}'", vm.id)
+			};
+			
+			var httpSuccess = function success(response){
+				vm.model.deptUsers = response.data.value||{};
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
+		
+		//获取部门
+		function getDept(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_dept)
+			};
+			
+			var httpSuccess = function success(response){
+				vm.model.dept = response.data.value||{};
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
 		/**
 		 * 根据id获取项目信息
 		 */
@@ -147,6 +188,7 @@
 		}//end getShenBaoInfoById
 		
 		function handle(vm){
+			vm.model.taskRecord.nextUser = vm.nextUser;
 			var httpOptions = {
 				method : 'put',
 				url : url_task+"/"+vm.taskId,

@@ -16,6 +16,7 @@
         vm.model={};
         vm.basicData={};
         vm.page='list';
+        vm.type = "";
         
         vm.init=function(){
         	if($state.current.name=='projectEdit'){
@@ -147,7 +148,7 @@
 	           		 var fileName=e.XMLHttpRequest.response;
 	           		 $scope.$apply(function(){
 	           			 if(vm.model.attachmentDtos){
-	           				 vm.model.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
+	           				vm.model.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
 	           			 }else{
 	           				 vm.model.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
 	           			 }                			           			
@@ -155,8 +156,10 @@
 	           	 }
 	   		};
 	   		
+
 	   		//展示批复文件选择模态框
-	   		vm.choseDocument = function(e){
+	   		vm.choseDocument = function(e,type){
+	   			vm.type = type;
 	   			vm.pifuType=$(e.target).parents('.uploadBox').attr('data-type');
         	   $("#documentRecords").modal({
 			        backdrop: 'static',
@@ -174,8 +177,13 @@
 	   			//获取选择框中的信息
 	   			var select = common.getKendoCheckId('.grid');
             	var fileName = select[0].value;
-            	
+
    			    if(vm.model.attachmentDtos){
+   			     for (var i = 0; i < vm.model.attachmentDtos.length; i++) {
+    					if(vm.model.attachmentDtos[i].type == vm.type){
+        					 return;
+        				 }
+					}
    				  vm.model.attachmentDtos.push({name:fileName,url:fileName,type:vm.pifuType});
    			    }else{
    				  vm.model.attachmentDtos=[{name:fileName,url:fileName,type:vm.pifuType}];
@@ -192,9 +200,9 @@
 	   			            });               			           			
 	   	          		 });
 	   	            }
-	   	            
 	   	        });
 	   		};
+	   		
 	   		//批复文件上传配置
 	   		vm.uploadOptions_pifu={
 	   				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},

@@ -66,7 +66,7 @@
     	   vm.processState_tuiWen=common.basicDataConfig().processState_tuiWen;
 
     	   taskSvc.getTaskById(vm);//查询任务信息
-    	   
+    	   taskSvc.getDept(vm);
     	   if(vm.taskType == common.basicDataConfig().taskType_yearPlan){//如果为下一年度计划申报
     		   vm.isYearPlan = true;
     		   taskSvc.getShenBaoInfoById(vm);//查询申报信息
@@ -85,6 +85,31 @@
 	     			//TODO
 	     	   };
     	   };
+    	   
+    	   vm.getUserId = function(name){
+    		   console.log(name);
+    		   $("input:radio[name='radio']").eq(0).attr("checked",'checked');
+    		   if(name == ""){
+    			   return;
+    		   }
+    		   vm.nextUser = name;
+    	   }
+    	   
+    	   vm.changed=function(id){
+    		  
+    		   if(id == ""){
+    			   vm.model.deptUsers ="";
+    			   return;
+    		   }
+    		   for ( var x in vm.model.dept) {
+				if(vm.model.dept[x].id== id ){
+					vm.nextUser = vm.model.dept[x].name;
+				}
+			}
+    		   
+    		   vm.id = id;
+    		   taskSvc.getDeptUsers(vm);
+    	   }
     	   
     	   //处理操作
     	   vm.handle=function(processState){
