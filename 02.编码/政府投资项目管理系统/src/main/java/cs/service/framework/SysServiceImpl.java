@@ -406,17 +406,17 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("projectProgress_3","projectProgress" , "projectProgress", "进展大幅滞后于计划", "项目进度分类");
 		
 		this.createBasicData("projectShenBaoStage","" , "projectShenBaoStage", "项目申报阶段分类", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_1","projectShenBaoStage" , "projectShenBaoStage", "前期计划(前期费)", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_1","projectShenBaoStage" , "projectShenBaoStage", "前期计划", "项目申报阶段分类",4);
 //		this.createBasicData("projectShenBaoStage_2","projectShenBaoStage" , "projectShenBaoStage", "规划设计前期费", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_3","projectShenBaoStage" , "projectShenBaoStage", "新开工计划", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_4","projectShenBaoStage" , "projectShenBaoStage", "续建计划", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_3","projectShenBaoStage" , "projectShenBaoStage", "新开工计划", "项目申报阶段分类",5);
+		this.createBasicData("projectShenBaoStage_4","projectShenBaoStage" , "projectShenBaoStage", "续建计划", "项目申报阶段分类",6);
 //		this.createBasicData("projectShenBaoStage_5","projectShenBaoStage" , "projectShenBaoStage", "委托审计", "项目申报阶段分类");
 //		this.createBasicData("projectShenBaoStage_6","projectShenBaoStage" , "projectShenBaoStage", "审计决算资金", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_7","projectShenBaoStage" , "projectShenBaoStage", "下一年度计划", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_7","projectShenBaoStage" , "projectShenBaoStage", "下一年度计划", "项目申报阶段分类",7);
 //		this.createBasicData("projectShenBaoStage_8","projectShenBaoStage" , "projectShenBaoStage", "年度调整计划", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_9","projectShenBaoStage" , "projectShenBaoStage", "项目建议书", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_10","projectShenBaoStage" , "projectShenBaoStage", "可行性研究报告", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_11","projectShenBaoStage" , "projectShenBaoStage", "初步设计概算", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_9","projectShenBaoStage" , "projectShenBaoStage", "项目建议书", "项目申报阶段分类",1);
+		this.createBasicData("projectShenBaoStage_10","projectShenBaoStage" , "projectShenBaoStage", "可行性研究报告", "项目申报阶段分类",2);
+		this.createBasicData("projectShenBaoStage_11","projectShenBaoStage" , "projectShenBaoStage", "初步设计概算", "项目申报阶段分类",3);
 //		this.createBasicData("projectShenBaoStage_12","projectShenBaoStage" , "projectShenBaoStage", "核准", "项目申报阶段分类");
 //		this.createBasicData("projectShenBaoStage_13","projectShenBaoStage" , "projectShenBaoStage", "备案", "项目申报阶段分类");
 		
@@ -515,6 +515,28 @@ public class SysServiceImpl implements SysService{
 		return response;
 
 	}
+	
+	/**
+	 * 
+	 * @Description：创建默认为可编辑可排序的基础数据
+	 * @author： cx
+	 * @Date： 2017年8月1日
+	 * @version: 0.1
+	 */
+	private BasicData createBasicData(String id,String pid,String identity,String description,String comment,Integer itemOrder){
+		BasicData basicData = new BasicData();
+		basicData.setId(id);
+		basicData.setpId(pid);
+		basicData.setIdentity(identity);
+		basicData.setDescription(description);
+		basicData.setCanEdit(true);
+	//	basicData.setComment(comment);
+		basicData.setItemOrder(itemOrder);
+		basicData.setCanEdit(true);
+		basicDataRepo.save(basicData);
+		return basicData;
+	}
+	
 	/**
 	 * 
 	 * @Description：创建默认为可编辑的行业基础数据

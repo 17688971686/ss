@@ -31,7 +31,7 @@ public class BasicData extends BaseEntity {
 	@Column(columnDefinition="int(4)  COMMENT '该行业申报项目数量'")
 	private Integer count = 0;//默认为0
 	
-	@Column(columnDefinition="bit  COMMENT '是否默认'")
+	@Column(columnDefinition="bit  COMMENT '是否默认可编辑'")
 	private Boolean canEdit;
 
 	public String getId() {
