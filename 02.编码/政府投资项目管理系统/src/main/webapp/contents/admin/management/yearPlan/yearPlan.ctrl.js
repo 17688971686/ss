@@ -101,7 +101,7 @@
     			vm.addPlanGridOptions.dataSource.filter([
     				{field:"projectShenBaoStage",operator:"eq",value:common.basicDataConfig().projectShenBaoStage_nextYearPlan},
     				{field:"processState",operator:"eq",value:common.basicDataConfig().processState_qianShou},
-    				{field:"planYear",operator:"eq",value:parseInt(vm.planYearSearch)}
+    				{field:"planYear",operator:"eq",value:parseInt(vm.planYearSearch,10)}
     			]);
     			vm.addPlanGridOptions.dataSource.read();
     		};
