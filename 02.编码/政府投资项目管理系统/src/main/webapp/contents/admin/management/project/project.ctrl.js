@@ -175,9 +175,7 @@
     		//批复文件上传
     		vm.uploadType=[['JYS','项目建议书批复'],['KXXYJBG','可行性研究报告批复'],['CBSJYGS','初步设计与概算批复']];
     		//相关附件文件上传文件种类
-    		vm.relatedType=[['XMJYSPF','项目建议书文本'],['KXXYJBGPF','可行性研究报告文本'],['ZGSPFTZ','总概算及调整文本'],
-				['HYJY','会议纪要'],['GHYJ','规划依据'],['SJXGT','设计效果图'],
-				['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']];
+    		vm.relatedType=common.uploadFileTypeConfig().projectEdit;
 	   		
     		vm.uploadSuccess=function(e){
      			var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
@@ -275,7 +273,6 @@
     	   };
 	        
     	   vm.create = function () {
-    		   vm.model.projectType =vm.model.projectType.join(",");
     		    projectSvc.createProject(vm);    		     
     		};    		     		     			    		 
     	}//init_create
@@ -286,7 +283,6 @@
     		projectSvc.getProjectById(vm);
     		//更新项目
     		vm.update = function(){
-    			vm.model.projectType =vm.model.projectType.join(",");
     			projectSvc.updateProject(vm);
     		};  	   		
     	}//init_update
@@ -300,9 +296,7 @@
    			  vm.isSHInvestment = true;
    		   	}
     		//相关附件文件上传文件种类
-    		vm.relatedType=[['XMJYSPF','项目建议书批复文件'],['KXXYJBGPF','可行性研究报告批复文件'],['ZGSPFTZ','总概算批复及调整文件'],
-				['HYJY','会议纪要'],['GHYJ','规划依据'],['SJXGT','设计效果图'],
-				['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']];   		
+    		vm.relatedType=common.uploadFileTypeConfig().projectEdit;   		
     	}
     }
 })();

@@ -28,7 +28,7 @@
 			var isValid = $('form').valid();
 			if (isValid) {
 				vm.isSubmit = true;
-
+				vm.model.projectType = common.arrayToString(vm.model.projectType,',');
 				var httpOptions = {
 					method : 'put',
 					url : url_project,
@@ -36,7 +36,6 @@
 				};
 
 				var httpSuccess = function success(response) {
-					vm.model.projectType =vm.model.projectType.split(",");
 					common.requestSuccess({
 						vm : vm,
 						response : response,
@@ -64,7 +63,6 @@
 				});
 
 			} else {
-				vm.model.projectType =vm.model.projectType.split(",");
 				 common.alert({
 				 vm:vm,
 				 msg:"您填写的信息不正确,请核对后提交!"
@@ -87,13 +85,8 @@
 				
 				//查询项目的所属单位的单位名称
 			   	getProjectUnit(vm);
-			   	
 				//项目类型的处理--多选框回显					
-				if(vm.model.projectType != "" && vm.model.projectType != null){
-					vm.model.projectType = vm.model.projectType.split(",");
-				}else{
-					vm.model.projectType =[];
-				}
+			   	vm.model.projectType = common.stringToArray(vm.model.projectType,',');
 				//日期展示
 				vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
 				vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
@@ -189,6 +182,7 @@
 			common.initJqValidation();
 			var isValid = $('form').valid();
 			if (isValid) {
+				vm.model.projectType =common.arrayToString(vm.model.projectType,',');
 				vm.isSubmit = true;				
 				var httpOptions = {
 					method : 'post',
@@ -215,36 +209,19 @@
 					});
 				};
 
-				var error = function error(response){
-					common.requestError({
-						vm : vm,
-						response : response,
-						fn : function() {
-							common.alert({
-								vm : vm,
-								msg : "操作失败",
-								fn : function() {
-									vm.isSubmit = false;
-									$('.alertDialog').modal('hide');
-									$('.modal-backdrop').remove();
-									vm.model.projectType =vm.model.projectType.split(",");						
-								}
-							});
-						}
-					});
-					
-				};
 				common.http({
 					vm : vm,
 					$http : $http,
 					httpOptions : httpOptions,
-					success : httpSuccess,
-					error : error
+					success : httpSuccess
 				});
 			}else{//表单验证失败
-				vm.model.projectType =vm.model.projectType.split(",");
+				common.alert({
+					vm:vm,
+					msg:"您填写的信息不正确,请核对后提交!"
+				});
 			}
-		}
+		}	
 	
 		function documentRecordsGird(vm){
 			// Begin:dataSource
@@ -383,6 +360,5 @@
 			};
 
 		}// end fun grid
-
 	}	
 })();

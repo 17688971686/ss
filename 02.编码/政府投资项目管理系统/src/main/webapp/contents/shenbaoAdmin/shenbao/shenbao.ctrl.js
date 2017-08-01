@@ -134,15 +134,15 @@
     		   }
     		   if(vm.isProjectProposal){//项目建议书上传文件类型
     			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_projectProposal;
-    			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+    			   //vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
     		   }
     		   if(vm.isKXXYJBG){//可行性研究报告上传文件类型
     			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_KXXYJBG;
-    			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+    			   //vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
     		   }
     		   if(vm.isCBSJYGS){//初步设计与概算上传文件类型
     			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_CBSJYGS;
-    			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+    			   //vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
     		   }
     		   
     		   //初始化tab--禁止点击Tab切换
@@ -313,7 +313,6 @@
   		
   		 //确认提交
     	vm.submit = function(){
-    		vm.model.projectType =vm.model.projectType.join(",");
     		shenbaoSvc.createShenBaoInfo(vm);
     	};             
     }//end#page_edit

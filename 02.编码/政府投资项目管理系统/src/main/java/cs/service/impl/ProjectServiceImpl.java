@@ -3,10 +3,8 @@ package cs.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -15,7 +13,6 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.common.Util;
@@ -29,7 +26,6 @@ import cs.model.PageModelDto;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.MonthReportDto;
 import cs.model.DomainDto.ProjectDto;
-import cs.model.DomainDto.ReplyFileDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
