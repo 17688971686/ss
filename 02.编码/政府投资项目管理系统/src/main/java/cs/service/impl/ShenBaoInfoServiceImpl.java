@@ -2,11 +2,9 @@ package cs.service.impl;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -15,10 +13,12 @@ import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
+import cs.common.Util;
 import cs.domain.Attachment;
 import cs.domain.ReplyFile;
 import cs.domain.ShenBaoInfo;
@@ -65,6 +65,18 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private BasicDataService basicDataService;
 	@Autowired
 	private ICurrentUser currentUser;
+	@Value("${projectShenBaoStage_JYS}")
+	private String projectShenBaoStage_JYS;
+	@Value("${projectShenBaoStage_KXXYJBG}")
+	private String projectShenBaoStage_KXXYJBG;
+	@Value("${projectShenBaoStage_CBSJYGS}")
+	private String projectShenBaoStage_CBSJYGS;
+	@Value("${taskType_JYS}")
+	private String taskType_JYS;
+	@Value("${taskType_KXXYJBG}")
+	private String taskType_KXXYJBG;
+	@Value("${taskType_CBSJYGS}")
+	private String taskType_CBSJYGS;
 	
 	@Override
 	@Transactional
@@ -77,8 +89,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@Transactional
 	public ShenBaoInfo create(ShenBaoInfoDto dto) {
 		ShenBaoInfo entity=super.create(dto);
-		dto.setCreatedDate(new Date());
-		dto.setModifiedDate(new Date());
+		entity.setCreatedDate(new Date());
+		entity.setModifiedDate(new Date());
 		//处理关联信息
 		//begin#关联信息
 		//附件
@@ -93,6 +105,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		ShenBaoUnitInfoDto shenBaoUnitInfoDto = dto.getShenBaoUnitInfoDto();
 		ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
 		shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
+		shenBaoUnitInfo.setCreatedDate(new Date());
+		shenBaoUnitInfo.setModifiedDate(new Date());
 		shenBaoUnitInfo.setCreatedBy(entity.getCreatedBy());
 		shenBaoUnitInfo.setModifiedBy(entity.getModifiedBy());
 		entity.setShenBaoUnitInfo(shenBaoUnitInfo);
@@ -100,6 +114,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		ShenBaoUnitInfoDto bianZhiUnitInfoDto = dto.getBianZhiUnitInfoDto();
 		ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
 		shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
+		bianZhiUnitInfo.setCreatedDate(new Date());
+		bianZhiUnitInfo.setModifiedDate(new Date());
 		bianZhiUnitInfo.setCreatedBy(entity.getCreatedBy());
 		bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
 		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
@@ -139,6 +155,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		ShenBaoUnitInfoDto shenBaoUnitInfoDto = dto.getShenBaoUnitInfoDto();
 		ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
 		shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
+		shenBaoUnitInfo.setCreatedDate(new Date());
+		shenBaoUnitInfo.setModifiedDate(new Date());
 		shenBaoUnitInfo.setCreatedBy(entity.getModifiedBy());
 		shenBaoUnitInfo.setModifiedBy(entity.getModifiedBy());
 		entity.setShenBaoUnitInfo(shenBaoUnitInfo);
@@ -147,6 +165,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		ShenBaoUnitInfoDto bianZhiUnitInfoDto = dto.getBianZhiUnitInfoDto();
 		ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
 		shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
+		bianZhiUnitInfo.setCreatedDate(new Date());
+		bianZhiUnitInfo.setModifiedDate(new Date());
 		bianZhiUnitInfo.setCreatedBy(entity.getModifiedBy());
 		bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
 		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
@@ -155,15 +175,22 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		super.repository.save(entity);
 		//更新任务状态
 		updeteWorkFlow(entity);
-		
+		//更新批复文件库
+		handlePiFuFile(entity);
 		logger.info(String.format("更新申报信息,项目名称 %s",entity.getProjectName()));		
 		return entity;		
 	}
 	
-	
+
 	private String getTaskType(String shenbaoStage){
 		if(shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)){//如果是下一年度计划
 			return BasicDataConfig.taskType_nextYearPlan;
+		}else if(shenbaoStage.equals(projectShenBaoStage_JYS)){//如果是项目建议书
+			return taskType_JYS;
+		}else if(shenbaoStage.equals(projectShenBaoStage_KXXYJBG)){//如果是可行性研究报告
+			return taskType_KXXYJBG;
+		}else if(shenbaoStage.equals(projectShenBaoStage_CBSJYGS)){//如果是初步概算与设计
+			return taskType_CBSJYGS;
 		}
 		return "";
 	}
@@ -257,40 +284,53 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskHeadRepo.save(taskHead);
 	}
 	
-	private void handlePiFuFile(ShenBaoInfo entity){
-		//获取项目中批复文件以及文号
-				Map<String,Attachment> pifus = new HashMap<>();
-				entity.getAttachments().stream().forEach(x->{
-					if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs) ||
-							x.getType().equals(BasicDataConfig.attachment_type_jys) ||
-							x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)
-							){
-						if(x.getType().equals(BasicDataConfig.attachment_type_jys)){
-							pifus.put(entity.getPifuJYS_wenhao(), x);
-						}
-						else if(x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)){
-							pifus.put(entity.getPifuKXXYJBG_wenhao(), x);
-						}
-						else if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)){
-							pifus.put(entity.getPifuCBSJYGS_wenhao(), x);
-						}
-					}
-				});
-				//判断项目中批复文件在文件库中是否存在
-				//更新文件库
-				Set<String> keSet=pifus.keySet();
-				for (Iterator<String> iterator = keSet.iterator(); iterator.hasNext();) {
-					String string = iterator.next();
-					ReplyFile replyfile = new ReplyFile();
-					replyfile.setId(UUID.randomUUID().toString());
-					replyfile.setCreatedBy(pifus.get(string).getCreatedBy());
-					replyfile.setName(pifus.get(string).getName());
-					replyfile.setFullName(pifus.get(string).getUrl());
-					replyfile.setItemOrder(pifus.get(string).getItemOrder());
-					replyfile.setModifiedBy(pifus.get(string).getModifiedBy());
-					replyfile.setNumber(string);
-					replyfile.setType(pifus.get(string).getType());
-					replyFileRepo.save(replyfile);//更新文件库
+	/**
+	 * 批复文件库处理
+	 */
+	public void handlePiFuFile(ShenBaoInfo shenBaoInfo){
+		//获取文件库中所有的批复文件(map)
+		List<ReplyFile> replyFiles = replyFileRepo.findAll();
+		Map<String,Object> replyFileMap = new HashMap();
+		replyFiles.stream().forEach(x->{
+			String key = x.getNumber();//文号
+			String value = x.getName();//文件名
+			replyFileMap.put(key, value);
+		});
+		//获取项目中批复文件以及文号(map)
+		Map<String,Attachment> pifuMap = new HashMap<>();
+		shenBaoInfo.getAttachments().stream().forEach(x->{
+			if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs) ||
+					x.getType().equals(BasicDataConfig.attachment_type_jys) ||
+					x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)
+					){
+				if(x.getType().equals(BasicDataConfig.attachment_type_jys)){
+					pifuMap.put(shenBaoInfo.getPifuJYS_wenhao(), x);
 				}
-		}
+				else if(x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)){
+					pifuMap.put(shenBaoInfo.getPifuKXXYJBG_wenhao(), x);
+				}
+				else if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)){
+					pifuMap.put(shenBaoInfo.getPifuCBSJYGS_wenhao(), x);
+				}
+			}
+		});
+		//判断项目中批复文件在文件库中是否存在
+		List<Map<String,Object>> needList = Util.getCheck(pifuMap,replyFileMap);
+		//更新文件库
+		needList.stream().forEach(x->{
+			for(String key:x.keySet()){
+				Attachment obj = (Attachment)x.get(key);
+				ReplyFile replyfile = new ReplyFile();
+				replyfile.setId(UUID.randomUUID().toString());
+				replyfile.setNumber(key);
+				replyfile.setCreatedBy(obj.getCreatedBy());
+				replyfile.setName(obj.getName());
+				replyfile.setFullName(obj.getUrl());
+				replyfile.setItemOrder(obj.getItemOrder());
+				replyfile.setModifiedBy(obj.getModifiedBy());
+				replyfile.setType(obj.getType());
+				replyFileRepo.save(replyfile);//更新文件库
+			}
+		});
+	} 
 }

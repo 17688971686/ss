@@ -7,16 +7,21 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+
 import org.apache.commons.io.IOUtils;
 import com.alibaba.fastjson.JSONObject;
+
+import cs.domain.Attachment;
 import cs.domain.BasicData;
 import cs.model.ActionResult;
 import cs.model.SendMsg;
 
+
 public class Util {
+		
 	public static String formatDate(Date date) {
 		String dateStr="";
 		if(date!=null){
@@ -152,35 +157,36 @@ public class Util {
 	}
 	
 	/**
-	 * 导入Excel中的项目信息数据
+	 * Map数据比较
+	 * @param map1 需要进行判断的map
+	 * @param map2 进行比较的参照map
+	 * @return 最终不同的结果map
 	 */
-	public static void importExcelProject(){
-		
-	}
-	
-	/**
-	 * 读取Excel文件数据形成List集合
-	 */
-//	public static String readExcelFile(MultipartFile file){
-//		 String result ="";  
-//	        //创建处理EXCEL的类  
-//	        ReadExcel readExcel=new ReadExcel();  
-//	        //解析excel，获取上传的事件单  
-//	        List<User> useList = readExcel.getExcelInfo(file);  
-//	        //至此已经将excel中的数据转换到list里面了,接下来就可以操作list,可以进行保存到数据库,或者其他操作,  
-//	        //和你具体业务有关,这里不做具体的示范  
-//	        if(useList != null && !useList.isEmpty()){  
-//	            result = "上传成功";  
-//	        }else{  
-//	            result = "上传失败";  
-//	        }  
-//	        return result;  
-//	}
-	
-	/**
-	 * 生成随机id
-	 */
-	public static String getUUID(){
-		return UUID.randomUUID().toString();
+	public static List<Map<String,Object>> getCheck(Map<String,Attachment> map1,Map<String,Object> map2){
+		List<Map<String,Object>> listMap = new ArrayList<Map<String,Object>>();
+		Boolean isSame = false;
+		for (String key1 : map1.keySet()) {
+			for(String key2 : map2.keySet()){
+				if(key2.equals(key1)){//判断key是否相同--如果相同
+					if(map2.get(key2).equals(map1.get(key1).getName())){//判断value是否相同--如果相同
+						isSame = true;
+					}else{//判断value是否相同--如果不同
+						isSame = false;
+					}
+				}else{//判断key是否相同--如果不同
+					isSame = false;
+				}
+				if(isSame){//如果已有相同，则结束循环
+					break;
+				}
+			}
+			if(!isSame){
+				Map<String,Object> mapObj = new HashMap<>();
+				mapObj.put(key1, map1.get(key1));
+				listMap.add(mapObj);
+			}
+		}
+		return listMap;
 	}
 }
+

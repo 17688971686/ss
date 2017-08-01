@@ -12,17 +12,58 @@
 		var url_monthReport = "/management/monthReport";
 		var url_project = "/management/project";
 		var url_back = "#/task/todo";
+		var url_dept = "/org";
+		var url_users="/org/{0}/users";
 		var service = {
 			grid : grid,//待办任务列表
 			completeGird:completeGird,//已办任务列表
 			getTaskById:getTaskById,//根据任务id获取任务信息
 			getShenBaoInfoById:getShenBaoInfoById,//根据id获取申报信息
 			getMonthReportById:getMonthReportById,//根据id获取月报信息
-			handle:handle
+			handle:handle,
+			getDept:getDept,//获取部门数据
+			getDeptUsers:getDeptUsers
 		};
 		
 		return service;
 		
+		//根据部门id获取人员
+		function getDeptUsers(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_users + "?$filter=id eq '{0}'", vm.id)
+			};
+			
+			var httpSuccess = function success(response){
+				vm.model.deptUsers = response.data.value||{};
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
+		
+		//获取部门
+		function getDept(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_dept)
+			};
+			
+			var httpSuccess = function success(response){
+				vm.model.dept = response.data.value||{};
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
 		/**
 		 * 根据id获取项目信息
 		 */
@@ -128,13 +169,23 @@
 		  			 		+ (parseFloat(vm.model.shenBaoInfo.capitalZYYS)||0 )
 		  			 		+ (parseFloat(vm.model.shenBaoInfo.capitalOther)||0) ;
 		  		 };
-				//如果申报信息的申报阶段为下一年度计划
-				if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){
-					 vm.materialsType=[['XXJD','项目工程形象进度及年度资金需求情况'],['WCJSNR','年度完成建设内容及各阶段工作内容完成时间表'],
-		   					['TTJH','历年政府投资计划下大文件(*)'],['GCXKZ','建设工程规划许可证'],['TDQK','土地落实情况、征地拆迁有关情况'],
-		   					['XMJZ','项目进展情况相关资料'],['QQGZJH','前期工作计划文件'],['XMSSYJ','项目实施依据文件'],['HYJY','会议纪要']];
-	    			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
-	    			   vm.isYearPlan = true;
+				
+				if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){//申报阶段为:下一年度计划
+					vm.isYearPlan = true;
+					vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_YearPlan;
+    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+				}else if(vm.model.shenBaoInfo.projectShenBaoStage ==common.basicDataConfig().projectShenBaoStage_projectProposal){//申报阶段为:项目建议书
+					vm.isProjectProposal=true;
+					vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_projectProposal;
+    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+				}else if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_KXXYJBG){//申报阶段为:可行性研究报告
+					vm.isKXXYJBG=true;
+					vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_KXXYJBG;
+    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+				}else if(vm.model.shenBaoInfo.projectShenBaoStage == common.uploadFileTypeConfig().projectShenBaoStage_CBSJYGS){//申报阶段为:初步设计与概算
+					vm.isCBSJYGS=true;
+					vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_CBSJYGS;
+    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
 				}
 			};
 
@@ -147,6 +198,7 @@
 		}//end getShenBaoInfoById
 		
 		function handle(vm){
+			vm.model.taskRecord.nextUser = vm.nextUser;
 			var httpOptions = {
 				method : 'put',
 				url : url_task+"/"+vm.taskId,

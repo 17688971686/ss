@@ -58,31 +58,31 @@ textarea.form-control {
 					
 				<td class="formAlignRight" style="width:150px;">项目名称：</td>
 				<td>
-					<span ng-show="vm.isYearPlan" ng-bind="vm.model.shenBaoInfo.projectName"></span>
+					<span ng-hide="vm.isMonthReport" ng-bind="vm.model.shenBaoInfo.projectName"></span>
 					<span ng-show="vm.isMonthReport" ng-bind="vm.model.project.projectName"></span>				
 				</td>
 			</tr>
 			<tr>
 				<td class="formAlignRight">项目阶段：</td>
 				<td>
-					<span ng-show="vm.isYearPlan" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectStage)"></span>
+					<span ng-hide="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectStage)"></span>
 					<span ng-show="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.project.projectStage)"></span>
 				</td>
 				<td class="formAlignRight">项目类型：</td>
 				<td>
-					<span ng-show="vm.isYearPlan" ng-repeat="x in vm.model.shenBaoInfo.projectType" ng-bind="vm.getBasicDataDesc(x)+' '"></span>
+					<span ng-hide="vm.isMonthReport" ng-repeat="x in vm.model.shenBaoInfo.projectType" ng-bind="vm.getBasicDataDesc(x)+' '"></span>
 					<span ng-show="vm.isMonthReport" ng-repeat="x in vm.model.project.projectType" ng-bind="vm.getBasicDataDesc(x)+' '"></span>			
 				</td>
 			</tr>	
 			<tr>
 				<td class="formAlignRight">项目行业归口：</td>
 				<td>
-					<span ng-show="vm.isYearPlan" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectIndustry)"></span>
+					<span ng-hide="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectIndustry)"></span>
 					<span ng-show="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.project.projectIndustry)"></span>
 				</td>
 				<td class="formAlignRight">项目分类：</td>
 				<td>
-					<span ng-show="vm.isYearPlan" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectClassify)"></span>
+					<span ng-hide="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectClassify)"></span>
 					<span ng-show="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.project.projectClassify)"></span>
 				</td>
 			</tr>
@@ -90,22 +90,22 @@ textarea.form-control {
 				<td class="formAlignRight">项目建设地址：</td>
 				<td colspan="3">
 					光明新区
-			 		<span ng-show="vm.isYearPlan" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.divisionId)"></span>						
-			 		<span ng-show="vm.isYearPlan" ng-bind="vm.model.shenBaoInfo.projectAddress"></span>
+			 		<span ng-hide="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.divisionId)"></span>						
+			 		<span ng-hide="vm.isMonthReport" ng-bind="vm.model.shenBaoInfo.projectAddress"></span>
 			 		<span ng-show="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.project.divisionId)"></span>						
 			 		<span ng-show="vm.isMonthReport" ng-bind="vm.model.project.projectAddress"></span>
 				</td>		
 			</tr>	
 			<tr>
 				<td class="formAlignRight">项目总投资：</td>
-				<td ng-show="vm.isYearPlan">
-					<span  ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:4"></span>&nbsp;(万元)		
+				<td ng-hide="vm.isMonthReport">
+					<span ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:4"></span>&nbsp;(万元)		
 				</td>
 				<td ng-show="vm.isMonthReport">
 					<span  ng-bind="vm.model.project.projectInvestSum | number:4"></span>&nbsp;(万元)
 				</td>
 				<td class="formAlignRight">累计完成投资：</td>
-				<td ng-show="vm.isYearPlan">
+				<td ng-hide="vm.isMonthReport">
 					<span ng-bind="vm.model.shenBaoInfo.projectInvestAccuSum | number:4"></span>&nbsp;(万元)				
 				</td>
 				<td ng-show="vm.isMonthReport">
@@ -115,7 +115,7 @@ textarea.form-control {
 			<tr>
 				<td class="formAlignRight">项目简介：</td>
 				<td colspan="3">
-					<span ng-show="vm.isYearPlan"  ng-bind="vm.model.shenBaoInfo.projectIntro"></span>
+					<span ng-hide="vm.isMonthReport"  ng-bind="vm.model.shenBaoInfo.projectIntro"></span>
 					<span ng-show="vm.isMonthReport" ng-bind="vm.model.project.projectIntro" ></span>
 				</td>
 			</tr>
@@ -162,10 +162,29 @@ textarea.form-control {
 				
 			</tr>
 			<tr ng-hide="vm.isComplete">
+			<td class="formAlignRight">下一处理环节：</td>
+			<td>
+				<select class="form-control" id="unitName" name="unitName" ng-model="vm.model.selecrDept" ng-change="vm.changed(vm.model.selecrDept)" data-val="true" data-val-required="必选">
+				  	<option value="">---请选择---</option>
+					<option ng-repeat="x in vm.model.dept" value="{{x.id}}">{{x.name}}</option>
+				</select>
+				<span data-valmsg-for="unitName" data-valmsg-replace="true" class="required"></span>
+			</td>
+			</tr>
+			<tr ng-hide="vm.isComplete">
+			<td class="formAlignRight">下一处理人员：</td>
+				<td>
+					<div  class="radio-inline"  ng-repeat="x in vm.model.deptUsers" >
+				  	<input name="radio" type="radio" id="{{x.id}}" ng-click="vm.getUserId(x.displayName)"  value="{{x.displayName}}">{{x.displayName}}
+				  	</div>
+				</td>
+			</tr>	
+			<tr ng-hide="vm.isComplete">
 				<td class="formAlignRight">操作：</td>
 				<td >
 					<button ng-click="vm.handle(vm.processState_qianShou)" class="btn btn-success btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-ok"></span>签收</button> 
 					<button ng-click="vm.handle(vm.processState_tuiWen)" class="btn btn-danger btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-remove"></span>退文</button>				
+					<button ng-click="vm.handle(vm.processState_qianShou)" class="btn btn-info btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-share-alt"></span>下一流程</button>				
 				</td>
 				
 			</tr>						
@@ -182,8 +201,8 @@ textarea.form-control {
 					<span class="modal-title">详细信息</span>
 					</div>
 					<div class="modal-body text-danger">
-						<div ng-show="vm.isYearPlan" ng-include  src="'/contents/admin/management/task/html/yearPlan/master.html'"></div>
-						<div ng-show="vm.isMonthReport" ng-include  src="'/contents/admin/management/task/html/monthReport/master.html'"></div>   
+						<div ng-if="!vm.isMonthReport" ng-include  src="'/contents/admin/management/task/html/yearPlan/master.html'"></div>
+						<div ng-if="vm.isMonthReport" ng-include  src="'/contents/admin/management/task/html/monthReport/master.html'"></div>   
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-info btn-sm" data-dismiss="modal">确认</button>

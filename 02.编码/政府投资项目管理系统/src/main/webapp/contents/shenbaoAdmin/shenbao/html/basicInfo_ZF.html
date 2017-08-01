@@ -6,6 +6,8 @@
 			<span ng-bind="vm.model.unitName" style="display:none"></span>
 			<span ng-bind="vm.model.shenBaoUnitInfoDto.unitName"></span>
 		</td>
+		<td class="formAlignRight" style="width:180px;">项目申报阶段：</td>
+		<td ng-bind="vm.getBasicDataDesc(vm.model.projectShenBaoStage)"></td>
 	</tr>
 </table>
 
@@ -59,7 +61,7 @@
 			<span data-valmsg-for="projectClassify" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
-	<tr>
+	<tr ng-show="vm.isYearPlan">
 		<td class="formAlignRight">功能科目：<span class="required">(*)</span></td>
 		<td>
 			<input type="text" class="form-control input-sm" style="width:200px;" id="functionSubjects" name="functionSubjects"
@@ -237,6 +239,28 @@
 		<td class="formAlignRight">建设规模：</td>
 		<td colspan="3" >
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（500字符以内）" ng-bind="vm.model.projectGuiMo" disabled></textarea>													
+		</td>
+	</tr>
+	<tr ng-hide="vm.isYearPlan">
+		<td class="formAlignRight">建设必要性和依据：<span class="required">(*)</span></td>
+		<td colspan="3" >
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明项目建设的必要性（500字符以内）" ng-model="vm.model.projectConstrBasis" ng-change="vm.checkLength(vm.model.projectConstrBasis,500,'projectConstrBasisTips')" id="projectConstrBasis" name="projectConstrBasis" data-val="true" data-val-required="必填"></textarea>													
+			<div class="tipfont">您还可以输入<span id="projectConstrBasisTips"><font size="5">500</font></span>个字符!</div>
+			<span data-valmsg-for="projectConstrBasis" data-valmsg-replace="true" class="required"></span>
+		</td>
+	</tr>
+	<tr ng-show="vm.isKXXYJBG || vm.isCBSJYGS">
+		<td class="formAlignRight">推荐方案介绍：</td>
+		<td colspan="3" >
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明推荐方案（500字符以内）" ng-model="vm.model.recomProgram" ng-change="vm.checkLength(vm.model.recomProgram,500,'recomProgramTips')"></textarea>													
+			<div class="tipfont">您还可以输入<span id="recomProgramTips"><font size="5">500</font></span>个字符!</div>
+		</td>
+	</tr>
+	<tr ng-show="vm.isKXXYJBG || vm.isCBSJYGS">
+		<td class="formAlignRight">社会及经济效益评价：</td>
+		<td colspan="3" >
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明社会及经济效益评价（500字符以内）" ng-model="vm.model.socialAndEconomic" ng-change="vm.checkLength(vm.model.socialAndEconomic,500,'socialAndEconomicTips')"></textarea>													
+			<div class="tipfont">您还可以输入<span id="socialAndEconomicTips"><font size="5">500</font></span>个字符!</div>
 		</td>
 	</tr>	
 	<tr>

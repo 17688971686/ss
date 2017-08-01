@@ -58,6 +58,18 @@ public class ShenBaoInfo extends BaseProject{
 	private String processState;
 	//end
 	
+	//begin#建议书相关
+	@Column(columnDefinition="varchar(500) NULL COMMENT '项目建设必要性和依据'")
+	private String projectConstrBasis;
+	//end
+	
+	//begin#可行性研究报告相关
+	@Column(columnDefinition="varchar(500) NULL COMMENT '推荐方案介绍'")
+	private String recomProgram;
+	@Column(columnDefinition="varchar(500) NULL COMMENT '社会及经济效益评价'")
+	private String socialAndEconomic;
+	//end
+	
 	//begin#关联信息
 	@OneToOne(cascade=CascadeType.ALL)
 	private ShenBaoUnitInfo bianZhiUnitInfo=new ShenBaoUnitInfo();
@@ -161,4 +173,24 @@ public class ShenBaoInfo extends BaseProject{
 	public void setEconClassSubjects(String econClassSubjects) {
 		this.econClassSubjects = econClassSubjects;
 	}
+	public String getProjectConstrBasis() {
+		return projectConstrBasis;
+	}
+	public void setProjectConstrBasis(String projectConstrBasis) {
+		this.projectConstrBasis = projectConstrBasis;
+	}
+	public String getRecomProgram() {
+		return recomProgram;
+	}
+	public void setRecomProgram(String recomProgram) {
+		this.recomProgram = recomProgram;
+	}
+	public String getSocialAndEconomic() {
+		return socialAndEconomic;
+	}
+	public void setSocialAndEconomic(String socialAndEconomic) {
+		this.socialAndEconomic = socialAndEconomic;
+	}
+	
+	
 }
