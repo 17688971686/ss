@@ -150,7 +150,7 @@
     		   $("#tab2").attr("disabled","true");
     		   $("#tab3").attr("disabled","true");
     		   $("#tab4").attr("disabled","true");
-    	   }
+    	   };
     	  
     	   //初始化基础数据
     	   var init_basicData = function(){
@@ -217,7 +217,7 @@
 			        keyboard:false  			  
         	    });
         	   vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
-	   		}
+	   		};
 	   		shenbaoSvc.documentRecordsGird(vm);//查询批复文件
 	   		
 	   		//批复文件选择模态框确认
@@ -234,7 +234,7 @@
    			    }else{
    				  vm.model.attachmentDtos=[{name:fileName,url:fileName,type:vm.pifuType}];
    			    }    			          		
-	        }
+	        };
     	  
 	   		//文件上传
     	   vm.uploadSuccess=function(e){

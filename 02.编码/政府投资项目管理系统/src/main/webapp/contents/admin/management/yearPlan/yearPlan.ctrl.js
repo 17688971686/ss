@@ -104,7 +104,7 @@
     				{field:"planYear",operator:"eq",value:parseInt(vm.planYearSearch)}
     			]);
     			vm.addPlanGridOptions.dataSource.read();
-    		}
+    		};
     		//模态框点击确认
     		vm.dialogConfirmSubmit=function(){
     			//获取选中的申报信息的id

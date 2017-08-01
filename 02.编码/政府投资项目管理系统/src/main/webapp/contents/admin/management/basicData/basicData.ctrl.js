@@ -40,7 +40,7 @@
 									//获取父节点下的所有子节点的id的尾数的最大值
 									var childIds = $linq(basicData)
 									.where(function(x){return x.pId==treeNode.id;})
-									.select(function(x){return {id:x.id}})
+									.select(function(x){return {id:x.id};})
 									.toArray();	
 									var oldId, newId,oldIdSplit;
 									if(childIds.length>0){//有子级代表新点击对象为父级新增										

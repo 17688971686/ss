@@ -33,11 +33,7 @@
 			var httpSuccess = function success(response) {
 				vm.model.project= response.data.value[0]||{};
 				//项目类型的显示
-				if(vm.model.project.projectType != ""){
-					vm.model.project.projectType = vm.model.project.projectType.split(",");
-				}else{
-					vm.model.project.projectType =[];
-				}				
+				vm.model.project.projectType=common.stringToArray(vm.model.project.projectType,',');		
 			};
 
 			common.http({
