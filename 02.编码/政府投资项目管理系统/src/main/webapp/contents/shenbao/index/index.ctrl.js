@@ -42,7 +42,7 @@
         };
         vm.keyEnter = function (e) {
             if (e.which === 13) {
-                vm.submit();
+                vm.submit('unit');
             }
         };
       
