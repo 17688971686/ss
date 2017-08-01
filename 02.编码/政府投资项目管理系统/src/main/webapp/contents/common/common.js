@@ -27,9 +27,12 @@
         toMoney:toMoney,
         formatDate:formatDate,
         formatDateTime:formatDateTime,
-        basicDataConfig:basicDataConfig,
-        checkLength:checkLength,
-        uploadFileTypeConfig:uploadFileTypeConfig
+        basicDataConfig:basicDataConfig,//基础数据配置
+        checkLength:checkLength,//检查输入文本域的字符长度
+        uploadFileTypeConfig:uploadFileTypeConfig,//上传文件配置
+        stringToArray:stringToArray,
+        arrayToString:arrayToString
+        
     };
 
     window.common = service;
@@ -468,9 +471,53 @@
 			projectShenBaoStage_CBSJYGS:[['ApplyReport_pdf','申请报告（pdf版，加盖公章）<span class="required">(*)</span>'],['ApplyReport_word','申请报告（Word版）<span class="required">(*)</span>'],['ProjectProPosal_Reply','项目建议书（或前期工作计划）、可行性研究报告'],
 				['CBSJYGS_Material','初步设计及项目总概算材料（项目单位需委托有相应资质的咨询机构编制项目总概算）'],['YDGHXKZ_Scanning','用地规划许可证扫描件'],['other','其他资料']]	,
 			projectShenBaoStage_YearPlan:[['XXJD','项目工程形象进度及年度资金需求情况'],['WCJSNR','年度完成建设内容及各阶段工作内容完成时间表'],['TTJH','历年政府投资计划下大文件(*)'],
-					['GCXKZ','建设工程规划许可证'],['TDQK','土地落实情况、征地拆迁有关情况'],['XMJZ','项目进展情况相关资料'],['QQGZJH','前期工作计划文件'],['XMSSYJ','项目实施依据文件'],['HYJY','会议纪要']]
-   					
+					['GCXKZ','建设工程规划许可证'],['TDQK','土地落实情况、征地拆迁有关情况'],['XMJZ','项目进展情况相关资料'],['QQGZJH','前期工作计划文件'],['XMSSYJ','项目实施依据文件'],['HYJY','会议纪要']],
+			projectEdit:[['XMJYSPF','项目建议书批复文本'],['KXXYJBGPF','可行性研究报告批复文本'],['ZGSPFTZ','总概算批复及调整文本'],['HYJY','会议纪要'],
+				['GHYJ','规划依据'],['SJXGT','设计效果图'],['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']]
+						
     	}
+    }
+    
+    function stringToArray(str,substr){
+    	var arrTmp=new Array();
+    	if(str !=null && str != ""){
+	       	 if(substr==""){ 
+	       		 arrTmp.push(str); 
+	       		 return arrTmp; 
+	       	 } 
+	       	 var i=0,j=0,k=str.length; 
+	       	 while(i<k){ 
+	       		 j=str.indexOf(substr,i); 
+	       		 if(j!=-1){ 
+	   	    		if(str.substring(i,j)!="") {
+	   	    			arrTmp.push(str.substring(i,j)); 
+	   	    		} 
+	   	    	i = j+1; 
+	       		 } else{
+	       			 if(str.substring(i,k)!="") {
+	       				 arrTmp.push(str.substring(i,k)); 
+	       			 } 
+	       		i=k; 
+	       		 } 
+	       	} 
+    	}
+    	 return arrTmp; 
+    }
+    
+    function arrayToString(arr,str){
+		 var strTmp="";
+		 if(arr !=null && arr.length>0){
+			 for(var i=0;i<arr.length;i++){ 
+	    		 if(arr[i]!=""){ 
+	    		  if(strTmp==""){ 
+	    			  strTmp = arr[i]; 
+	    		  } else { 
+	    			  strTmp=strTmp+str+arr[i]; 
+	    		  } 
+	    		} 
+	    	} 
+		 }
+    	return strTmp; 
     }
 
     //init

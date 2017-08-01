@@ -150,12 +150,7 @@
 			var isValid = $('form').valid();
 			if (isValid) {
 				vm.isSubmit = true;
-
-				if(vm.model.projectType != "" && vm.model.projectType != undefined){
-					vm.model.projectType = vm.model.projectType.join(",");
-				}else{
-					vm.model.projectType ="";
-				}
+				vm.model.projectType=common.arrayToString(vm.model.projectType,',');
 				var httpOptions = {
 					method : 'put',
 					url : url_shenbao,
@@ -190,10 +185,9 @@
 				});
 
 			} else {
-				vm.model.projectType = vm.model.projectType.split(",");
 				 common.alert({
-				 vm:vm,
-				 msg:"您填写的信息不正确,请核对后提交!"
+					 vm:vm,
+					 msg:"您填写的信息不正确,请核对后提交!"
 				 });
 			}
 		}//end#updateShenBaoInfo
@@ -208,12 +202,8 @@
 				};
 				var httpSuccess = function success(response) {
 					vm.model = response.data.value[0]||{};
-						//多选框回显						
-						if(vm.model.projectType != ""){
-							vm.model.projectType = vm.model.projectType.split(",");
-						}else{
-							vm.model.projectType =[];
-						}
+						//多选框回显
+						vm.model.projectType = common.stringToArray(vm.model.projectType,',');
 						//日期展示
 						vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
 						vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
@@ -284,55 +274,9 @@
 		function createShenBaoInfo(vm){
 			common.initJqValidation();
 			var isValid = $('form').valid();
-//			var isValid=function(){
-//				var validFields=[
-//					['projectConstrChar','required','年度计划信息-项目建设性质必选'],
-//					['planYear','required','年度计划信息-计划年度必填'],
-//					['applyYearInvest','required','年度计划信息-申请年度投资必填'],
-//					['yearConstructionContent','required','年度计划信息-年度建设内容必填'],					
-//					['shenBaoUnitInfoDto.unitName','required','项目单位信息-单位名称必填'],
-//					['shenBaoUnitInfoDto.unitTel','required','项目单位信息-单位电话必填'],
-//					['shenBaoUnitInfoDto.unitEmail','required','项目单位信息-单位邮箱必填'],					
-//					['shenBaoUnitInfoDto.unitProperty','required','项目单位信息-单位性质必选'],
-//					['shenBaoUnitInfoDto.divisionId','required','项目单位信息-单位区域必选'],
-//					['shenBaoUnitInfoDto.unitAddress','required','项目单位信息-单位地址必填'],
-//					['shenBaoUnitInfoDto.unitResPerson','required','项目单位信息-单位负责人名称必填'],
-//					['shenBaoUnitInfoDto.resPersonTel','required','项目单位信息-单位负责人电话必填'],
-//					['shenBaoUnitInfoDto.resPersonMobile','required','项目单位信息-单位负责人手机必填'],
-//					['shenBaoUnitInfoDto.resPersonEmail','required','项目单位信息-单位负责人邮箱必填']					
-//				];
-//				vm.validMessage=[];
-//				$.each(validFields,function(idx,item){
-//					var value='';
-//					if(item[0].indexOf('.')>0){
-//						var fields=item[0].split('.');
-//						value=vm.model[fields[0]][fields[1]];
-//					}
-//					else{
-//						value=vm.model[item[0]];
-//					}
-//							
-//					var msg=item[2];					
-//					if(item[1]=='required'){				
-//						var isExist=value&&value.trim()!="";					
-//						if(!isExist){
-//							vm.validMessage.push(msg);
-//						}						
-//					}
-//					
-//				});
-//				if(vm.validMessage.length>0){
-//					$('#validMsgDialog').modal({
-//		                 backdrop: 'static',
-//		                 keyboard:false
-//		             });
-//				}else{
-//					return true;
-//				}												
-//			};
-			
 			if (isValid) {
-				vm.isSubmit = true;				
+				vm.isSubmit = true;
+				vm.model.projectType = common.arrayToString(vm.model.projectType,',');
 				var httpOptions = {
 					method : 'post',
 					url : url_shenbao,
@@ -365,7 +309,10 @@
 					success : httpSuccess
 				});			
 			}else{
-				vm.model.projectType = vm.model.projectType.split(",");
+				common.alert({
+					vm:vm,
+					msg:"您填写的信息不正确,请核对后提交!"
+				});
 			}
 		}
 		
@@ -406,11 +353,7 @@
 				
 				if(vm.page=='edit'){
 					//多选框回显						
-					if(vm.model.projectType != "" && vm.model.projectType !=undefined){
-						vm.model.projectType = vm.model.projectType.split(",");
-					}else{
-						vm.model.projectType =[];
-					}
+					vm.model.projectType = common.stringToArray(vm.model.projectType,',');
 					//日期展示
 					vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
 					vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
@@ -693,7 +636,5 @@
 				resizable : true
 			};
 		}
-
-
 	}
 })();
