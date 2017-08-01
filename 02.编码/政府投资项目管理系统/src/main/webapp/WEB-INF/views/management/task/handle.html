@@ -162,10 +162,29 @@ textarea.form-control {
 				
 			</tr>
 			<tr ng-hide="vm.isComplete">
+			<td class="formAlignRight">下一处理环节：</td>
+			<td>
+				<select class="form-control" id="unitName" name="unitName" ng-model="vm.model.selecrDept" ng-change="vm.changed(vm.model.selecrDept)" data-val="true" data-val-required="必选">
+				  	<option value="">---请选择---</option>
+					<option ng-repeat="x in vm.model.dept" value="{{x.id}}">{{x.name}}</option>
+				</select>
+				<span data-valmsg-for="unitName" data-valmsg-replace="true" class="required"></span>
+			</td>
+			</tr>
+			<tr ng-hide="vm.isComplete">
+			<td class="formAlignRight">下一处理人员：</td>
+				<td>
+					<div  class="radio-inline"  ng-repeat="x in vm.model.deptUsers" >
+				  	<input name="radio" type="radio" id="{{x.id}}" ng-click="vm.getUserId(x.displayName)"  value="{{x.displayName}}">{{x.displayName}}
+				  	</div>
+				</td>
+			</tr>	
+			<tr ng-hide="vm.isComplete">
 				<td class="formAlignRight">操作：</td>
 				<td >
 					<button ng-click="vm.handle(vm.processState_qianShou)" class="btn btn-success btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-ok"></span>签收</button> 
 					<button ng-click="vm.handle(vm.processState_tuiWen)" class="btn btn-danger btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-remove"></span>退文</button>				
+					<button ng-click="vm.handle(vm.processState_qianShou)" class="btn btn-info btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-share-alt"></span>下一流程</button>				
 				</td>
 				
 			</tr>						
