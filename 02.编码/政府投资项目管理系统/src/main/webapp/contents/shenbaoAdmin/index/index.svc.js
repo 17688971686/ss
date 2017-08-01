@@ -153,11 +153,14 @@
 						field : "title",
 						title : "名称",
 						template:function(item){
-							if(item.taskType == vm.taskType_yearPlan){
+							if(item.taskType == vm.taskType_yearPlan ||
+									item.taskType == vm.taskType_JYS ||
+									item.taskType ==  vm.taskType_KXXYJBG ||
+									item.taskType == vm.taskType_CBSJYGS){
 								return common.format('<a href="#/shenbao_record/{0}">{1}</a>',item.relId,item.title);
 							}else if(item.taskType == vm.taskType_monthReport){
 								return common.format('<a href="#/monthReportDetails/{0}">{1}</a>',item.relId,item.title);
-							}							
+							}						
 						},
 						width:305,
 						filterable : false						

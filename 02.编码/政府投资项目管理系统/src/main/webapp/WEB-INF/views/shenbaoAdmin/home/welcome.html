@@ -53,7 +53,16 @@
 					</td>
 					<td ng-if="x.taskType == vm.taskType_monthReport">
 						<a href="#/monthReportDetails/{{x.relId}}">{{x.title}}</a>
-					</td>				
+					</td>	
+					<td ng-if="x.taskType ==  vm.taskType_JYS">
+						<a href="#/shenbao_record/{{x.relId}}">{{x.title}}</a>
+					</td>
+					<td ng-if="x.taskType == vm.taskType_KXXYJBG">
+						<a href="#/shenbao_record/{{x.relId}}">{{x.title}}</a>
+					</td>
+					<td ng-if="x.taskType == vm.taskType_CBSJYGS">
+						<a href="#/shenbao_record/{{x.relId}}">{{x.title}}</a>
+					</td>			
 					<td ng-bind="x.processSuggestion" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="{{x.processSuggestion}}"></td>
 					<td ng-bind="vm.getBasicDataDesc(x.processState)"></td>
 					<td ng-bind="vm.formatDateTime(x.createdDate)"></td>

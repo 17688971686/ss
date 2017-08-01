@@ -38,7 +38,10 @@
 	  			return common.getBasicDataDesc(str);
 	  			};	   
 	   	   vm.taskType_yearPlan=common.basicDataConfig().taskType_yearPlan;
-	   	   vm.taskType_monthReport=common.basicDataConfig().taskType_monthReport;	   	   	   	      	   
+	   	   vm.taskType_monthReport=common.basicDataConfig().taskType_monthReport;	
+	   	   vm.taskType_JYS = common.basicDataConfig().taskType_JYS;
+	   	   vm.taskType_KXXYJBG=common.basicDataConfig().taskType_KXXYJBG;
+	   	   vm.taskType_CBSJYGS = common.basicDataConfig().taskType_CBSJYGS;
        }
 
               
