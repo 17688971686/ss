@@ -5,16 +5,18 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import org.apache.commons.io.IOUtils;
 import com.alibaba.fastjson.JSONObject;
 import cs.domain.BasicData;
 import cs.model.ActionResult;
 import cs.model.SendMsg;
 
-
 public class Util {
-		
 	public static String formatDate(Date date) {
 		String dateStr="";
 		if(date!=null){
@@ -147,5 +149,38 @@ public class Util {
 			// TODO: handle exception
 		}
 		return result;	
+	}
+	
+	/**
+	 * 导入Excel中的项目信息数据
+	 */
+	public static void importExcelProject(){
+		
+	}
+	
+	/**
+	 * 读取Excel文件数据形成List集合
+	 */
+//	public static String readExcelFile(MultipartFile file){
+//		 String result ="";  
+//	        //创建处理EXCEL的类  
+//	        ReadExcel readExcel=new ReadExcel();  
+//	        //解析excel，获取上传的事件单  
+//	        List<User> useList = readExcel.getExcelInfo(file);  
+//	        //至此已经将excel中的数据转换到list里面了,接下来就可以操作list,可以进行保存到数据库,或者其他操作,  
+//	        //和你具体业务有关,这里不做具体的示范  
+//	        if(useList != null && !useList.isEmpty()){  
+//	            result = "上传成功";  
+//	        }else{  
+//	            result = "上传失败";  
+//	        }  
+//	        return result;  
+//	}
+	
+	/**
+	 * 生成随机id
+	 */
+	public static String getUUID(){
+		return UUID.randomUUID().toString();
 	}
 }

@@ -22,7 +22,7 @@ public class ReplyFileMapper implements IMapper<ReplyFileDto, ReplyFile> {
 			//文件信息
 			dto.setId(entity.getId());
 			dto.setNumber(entity.getNumber());
-			//dto.setName(entity.getName());
+			dto.setName(entity.getName());
 			dto.setFullName(entity.getFullName());
 			dto.setType(entity.getType());
 			//基础信息
@@ -43,7 +43,7 @@ public class ReplyFileMapper implements IMapper<ReplyFileDto, ReplyFile> {
 			}
 			//文件信息
 			entity.setNumber(dto.getNumber());
-			//entity.setName(dto.getName());
+			entity.setName(dto.getName());
 			entity.setFullName(dto.getFullName());
 			entity.setType(dto.getType());
 			//基础信息
