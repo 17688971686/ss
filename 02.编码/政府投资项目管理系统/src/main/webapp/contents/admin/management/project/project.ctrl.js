@@ -199,7 +199,7 @@
    				        keyboard:false  			  
    	        	   });
    	        	   vm.gridOptions_documentRecords.dataSource.read();//批复文件列表数据刷新
-   	   		}
+   	   		};
    	   		projectSvc.documentRecordsGird(vm);//查询批复文件
    	   		
    	   		//批复文件选择模态框确认
@@ -216,7 +216,7 @@
    			    }else{
    				  vm.model.attachmentDtos=[{name:fileName,url:fileName,type:vm.pifuType}];
    			    }    			          		
-	        }
+	        };
    	   		
     		//文件选择触发验证文件大小
     		vm.onSelect=function(e){

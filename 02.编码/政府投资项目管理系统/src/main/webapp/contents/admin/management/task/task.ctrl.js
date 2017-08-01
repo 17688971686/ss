@@ -105,7 +105,7 @@
     			   return;
     		   }
     		   vm.nextUser = name;
-    	   }
+    	   };
     	   
     	   vm.changed=function(id){
     		  
@@ -121,7 +121,7 @@
     		   
     		   vm.id = id;
     		   taskSvc.getDeptUsers(vm);
-    	   }
+    	   };
     	   
     	   //处理操作
     	   vm.handle=function(processState){

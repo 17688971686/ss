@@ -86,7 +86,7 @@
 	           	vm.projectName=name;//绑定项目名称用于模态框显示
 	           	vm.projectShenBaoStage='';//清空下拉选选中的值
 	           	//基础数据--申报阶段用于模态框
-	           	vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectShenBaoStage);	   		
+	           	vm.basicData.projectShenBaoStage=common.getBacicDataByIndectity(common.basicDataConfig().projectShenBaoStage);
 	   	   		//展示模态框
 	           	 $('#myModal').modal('show');
            };
@@ -126,6 +126,9 @@
     		   vm.isProjectProposal=vm.stage==common.basicDataConfig().projectShenBaoStage_projectProposal;//申报阶段为:项目建议书
     		   vm.isKXXYJBG=vm.stage==common.basicDataConfig().projectShenBaoStage_KXXYJBG;//申报阶段为:可行性研究报告
     		   vm.isCBSJYGS=vm.stage==common.basicDataConfig().projectShenBaoStage_CBSJYGS;//申报阶段为:初步设计与概算
+    		   vm.isQianQi=vm.stage==common.basicDataConfig().projectShenBaoStage_qianQi;//申报阶段为:前期计划
+    		   vm.isNewStart=vm.stage==common.basicDataConfig().projectShenBaoStage_newStart;//申报阶段为:新开工
+    		   vm.isXuJian=vm.stage==common.basicDataConfig().projectShenBaoStage_xuJian;//申报阶段为:续建
     		   
     		   //申报材料初始化
     		   if(vm.isYearPlan){//下一年度计划上传文件类型
@@ -144,13 +147,23 @@
     			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_CBSJYGS;
     			   //vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
     		   }
+    		   if(vm.isQianQi){//前期计划上传文件类型
+    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_qianQi;
+    		   }
+    		   if(vm.isNewStart){//新开工计划上传文件类型
+    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_newStart; 
+    		   }
+    		   if(vm.isXuJian){//续建计划上传文件类型
+    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_xuJian;
+    		   }
+    		   
     		   
     		   //初始化tab--禁止点击Tab切换
     		   $("#tab1").attr("disabled","true");
     		   $("#tab2").attr("disabled","true");
     		   $("#tab3").attr("disabled","true");
     		   $("#tab4").attr("disabled","true");
-    	   }
+    	   };
     	  
     	   //初始化基础数据
     	   var init_basicData = function(){
@@ -217,7 +230,7 @@
 			        keyboard:false  			  
         	    });
         	   vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
-	   		}
+	   		};
 	   		shenbaoSvc.documentRecordsGird(vm);//查询批复文件
 	   		
 	   		//批复文件选择模态框确认
@@ -234,7 +247,7 @@
    			    }else{
    				  vm.model.attachmentDtos=[{name:fileName,url:fileName,type:vm.pifuType}];
    			    }    			          		
-	        }
+	        };
     	  
 	   		//文件上传
     	   vm.uploadSuccess=function(e){

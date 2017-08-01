@@ -175,7 +175,7 @@
             schema: function (model) {
                 return {
                     data: "value",
-                    total: function (data) { return data['count']; },
+                    total: function (data) { return data.count; },
                     model: model
                 };
             },
@@ -190,16 +190,16 @@
                             req.setRequestHeader('Token', service.getToken());
                         }
                     }
-                }
+                };
             },
             noRecordMessage: {
 			    template: '暂时没有数据.'
 			  }
-        }
+        };
     }
 
     function getKendoCheckId($id) {
-        var checkbox = $($id).find('tr td:nth-child(1)').find('input:checked')
+        var checkbox = $($id).find('tr td:nth-child(1)').find('input:checked');
         var data = [];
         checkbox.each(function () {
             var id = $(this).attr('relId');
@@ -235,7 +235,7 @@
                 cookieValue = null,
                 result = {};
                 if (cookieStart > -1) {
-                    var cookieEnd = document.cookie.indexOf(";", cookieStart)
+                    var cookieEnd = document.cookie.indexOf(";", cookieStart);
                     if (cookieEnd == -1) {
                         cookieEnd = document.cookie.length;
                     }
@@ -258,7 +258,7 @@
             },
             setAll: function (name, subcookies, expires, path, domain, secure) {
                 var cookieText = encodeURIComponent(name) + "=";
-                var subcookieParts = new Array();
+                var subcookieParts = [];
                 for (var subName in subcookies) {
                     if (subName.length > 0 && subcookies.hasOwnProperty(subName)) {
                         subcookieParts.push(encodeURIComponent(subName) + "=" + encodeURIComponent(subcookies[subName]));
@@ -342,7 +342,7 @@
     }
     
     function getBacicDataByIndectity(identity){
-    	var data = $linq(this.getBasicData())
+    	var data = $linq(getBasicData())
    		.where(function(x){return x.identity==identity&&x.pId==identity;})
    		.toArray();
     	if(data){
@@ -393,6 +393,9 @@
     		processState_tuiWen:"processState_11",//已退文
     		
     		projectShenBaoStage:"projectShenBaoStage",//申报阶段
+    		projectShenBaoStage_qianQi:"projectShenBaoStage_1",//前期
+    		projectShenBaoStage_newStart:"projectShenBaoStage_3",//新开工
+    		projectShenBaoStage_xuJian:"projectShenBaoStage_4",//续建
     		projectShenBaoStage_nextYearPlan:"projectShenBaoStage_7",//下一年度计划
     		projectShenBaoStage_projectProposal:"projectShenBaoStage_9",//项目建议书
     		projectShenBaoStage_KXXYJBG:"projectShenBaoStage_10",//可行性研究报告
@@ -423,7 +426,6 @@
     		projectIndustry:"projectIndustry",//项目行业
     		projectIndustry_ZF:"projectIndustry_1",//政府投资项目行业
     		projectIndustry_SH:"projectIndustry_2",//社会投资项目行业
-    		projectInvestmentType:"projectInvestmentType",//投资类型
     		projectProgress:"projectProgress",//项目进度
     		projectStage:"projectStage",//项目阶段
     		projectType:"projectType",//项目类型
@@ -465,16 +467,20 @@
     	return {
     		projectShenBaoStage_projectProposal:[['ApplyReport_pdf','申请报告（pdf版，加盖公章）<span class="required">(*)</span>'],['ApplyReport_word','申请报告（Word版）<span class="required">(*)</span>'],['HYJY','会议纪要及依据 <span class="required">(*)</span>'],
     			['Project_ProPosal','项目建议书（需委托有相应资质的咨询机构按照规范编写）'],['other','其他资料']],
-    		projectShenBaoStage_KXXYJBG:[['ApplyReport_pdf','申请报告（pdf版，加盖公章）<span class="required">(*)</span>'],['ApplyReport_word','申请报告（Word版）<span class="required">(*)</span>'],['ProjectProPosal_Reply','项目建议书（或前期工作计划）批复扫描件 <span class="required">(*)</span>'],
+    		projectShenBaoStage_KXXYJBG:[['ApplyReport_pdf','申请报告（pdf版，加盖公章）<span class="required">(*)</span>'],['ApplyReport_word','申请报告（Word版）<span class="required">(*)</span>'],['ProjectProPosalReply_Scanning','项目建议书（或前期工作计划）批复扫描件 <span class="required">(*)</span>'],
     			['KXXYJ_Report','项目可行性研究报告（包括项目建设、管养、招投标等内容）'],['GHXZProposal_Scanning','规划选址意见书扫描件'],['YDYS_Scanning','用地预审扫描件'],['HPPW_Scanning','环评批文扫描件'],
     			['other','其他资料']],
 			projectShenBaoStage_CBSJYGS:[['ApplyReport_pdf','申请报告（pdf版，加盖公章）<span class="required">(*)</span>'],['ApplyReport_word','申请报告（Word版）<span class="required">(*)</span>'],['ProjectProPosal_Reply','项目建议书（或前期工作计划）、可行性研究报告'],
 				['CBSJYGS_Material','初步设计及项目总概算材料（项目单位需委托有相应资质的咨询机构编制项目总概算）'],['YDGHXKZ_Scanning','用地规划许可证扫描件'],['other','其他资料']]	,
-			projectShenBaoStage_YearPlan:[['XXJD','项目工程形象进度及年度资金需求情况'],['WCJSNR','年度完成建设内容及各阶段工作内容完成时间表'],['TTJH','历年政府投资计划下大文件(*)'],
-					['GCXKZ','建设工程规划许可证'],['TDQK','土地落实情况、征地拆迁有关情况'],['XMJZ','项目进展情况相关资料'],['QQGZJH','前期工作计划文件'],['XMSSYJ','项目实施依据文件'],['HYJY','会议纪要']],
+			projectShenBaoStage_YearPlan:[['XXJD','项目工程形象进度及年度资金需求情况'],['WCJSNR','年度完成建设内容及各阶段工作内容完成时间表'],['TTJH','历年政府投资计划下大文件  <span class="required">(*)</span>'],
+				['GCXKZ','建设工程规划许可证'],['TDQK','土地落实情况、征地拆迁有关情况'],['XMJZ','项目进展情况相关资料'],['QQGZJH','前期工作计划文件'],['XMSSYJ','项目实施依据文件'],['HYJY','会议纪要']],
+			projectShenBaoStage_qianQi:[['ProjectBasis','项目依据  <span class="required">(*)</span>'],['other','其他']],
+			projectShenBaoStage_newStart:[['ApplyReport_pdf','申请报告（pdf版，加盖公章）<span class="required">(*)</span>'],['ApplyReport_word','申请报告（Word版）<span class="required">(*)</span>'],['BudgetReply_Scanning','概算批复扫描件 <span class="required">(*)</span>'],
+				['GCGHXKZ_Scanning','工程规划许可证扫描件'],['IssuedReplyFile_Scanning','全部已下达计划批复文件扫描件 <span class="required">(*)</span>'],['other','其他']],
+			projectShenBaoStage_xuJian:[['ApplyReport_pdf','申请报告（pdf版，加盖公章）<span class="required">(*)</span>'],['ApplyReport_word','申请报告（Word版）<span class="required">(*)</span>'],['LastYearPlanReply_Copy','上一年度计划批文复印件 <span class="required">(*)</span>'],
+				['IssuedReplyFile_Scanning','全部已下达计划批复文件扫描件 <span class="required">(*)</span>'],['other','其他']],
 			projectEdit:[['XMJYSPF','项目建议书批复文本'],['KXXYJBGPF','可行性研究报告批复文本'],['ZGSPFTZ','总概算批复及调整文本'],['HYJY','会议纪要'],
 				['GHYJ','规划依据'],['SJXGT','设计效果图'],['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']]
-						
     	}
     }
     
@@ -536,7 +542,7 @@
             $(this).addClass('selected');
             //$(this).find('td:nth-child(1)').find('input').prop('checked', true);
             //$(this).find('td:nth-child(2)').find('input').prop('checked', true);
-        })
+        });
         
         //end#grid 处理
         

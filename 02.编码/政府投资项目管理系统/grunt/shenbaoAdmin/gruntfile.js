@@ -17,12 +17,13 @@ module.exports = function (grunt) {
     grunt.initConfig({
         jshint: {
         	all: [
-                '../../src/main/webapp/contents/shenbaoAdmin/**/*.js',
+                '../../src/main/webapp/contents/shenbaoAdmin/**/*.js','../../src/main/webapp/contents/shenbao/**/*.js',
                 '!../../src/main/webapp/contents/shenbaoAdmin/dest/*.js'
             ],
 			options:{
 				es3:true,//多余的逗号会提示错误
-				laxbreak:true
+				laxbreak:true,
+				strict:true
 			}
 
         },

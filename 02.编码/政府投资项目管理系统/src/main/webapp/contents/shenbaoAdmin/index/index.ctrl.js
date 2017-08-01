@@ -44,7 +44,6 @@
 	   	   vm.taskType_CBSJYGS = common.basicDataConfig().taskType_CBSJYGS;
        }
 
-              
         activate();
         function activate() {
         	init();

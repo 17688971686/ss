@@ -139,7 +139,7 @@
             
             vm.back = function(vm){
             	location.href="#/monthReport";
-            }
+            };
         }
     }
 })();

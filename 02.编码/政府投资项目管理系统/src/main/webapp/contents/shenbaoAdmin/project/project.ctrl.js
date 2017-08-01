@@ -164,7 +164,7 @@
 			        keyboard:false  			  
         	   });
         	   vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
-	   		}
+	   		};
 	   		projectSvc.documentRecordsGird(vm);//查询批复文件
 	   		
 	   		//批复文件选择模态框确认
@@ -186,7 +186,7 @@
    			    }else{
    				  vm.model.attachmentDtos=[{name:fileName,url:fileName,type:vm.pifuType}];
    			    }    			          		
-	        }
+	        };
 	   		
 	   		vm.onSelect=function(e){
 	   			$.each(e.files, function (index, value) {
