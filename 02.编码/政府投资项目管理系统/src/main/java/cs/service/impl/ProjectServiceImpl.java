@@ -200,18 +200,20 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		//获取项目中批复文件以及文号(map)
 		Map<String,Attachment> pifuMap = new HashMap<>();
 		project.getAttachments().stream().forEach(x->{
-			if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs) ||
-					x.getType().equals(BasicDataConfig.attachment_type_jys) ||
-					x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)
-					){
-				if(x.getType().equals(BasicDataConfig.attachment_type_jys)){
-					pifuMap.put(project.getPifuJYS_wenhao(), x);
-				}
-				else if(x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)){
-					pifuMap.put(project.getPifuKXXYJBG_wenhao(), x);
-				}
-				else if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)){
-					pifuMap.put(project.getPifuCBSJYGS_wenhao(), x);
+			if(x.getType() !=null && !x.getType().isEmpty()){//非空判断
+				if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs) ||
+						x.getType().equals(BasicDataConfig.attachment_type_jys) ||
+						x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)
+						){
+					if(x.getType().equals(BasicDataConfig.attachment_type_jys)){
+						pifuMap.put(project.getPifuJYS_wenhao(), x);
+					}
+					else if(x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)){
+						pifuMap.put(project.getPifuKXXYJBG_wenhao(), x);
+					}
+					else if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)){
+						pifuMap.put(project.getPifuCBSJYGS_wenhao(), x);
+					}
 				}
 			}
 		});
