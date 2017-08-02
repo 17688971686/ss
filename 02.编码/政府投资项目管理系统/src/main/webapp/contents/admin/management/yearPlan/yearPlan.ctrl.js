@@ -51,6 +51,11 @@
         	if(vm.page=='planBZ'){
         		init_planBZ();
         	}
+        	//全选框选择
+        	$(document).on('click', '#checkboxAll_shenBaoList', function () {
+                var isSelected = $(this).is(':checked');
+                $('.yearPlanCapitalGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
+            });
         }
     	
     	function init_shenbaoInfoList(){

@@ -144,53 +144,70 @@
 			});
 			// End:dataSource
 			// Begin:column
-			var columns = [					
-					{
-						field : "title",
-						title : "名称",
-						template:function(item){
-							if(item.taskType == vm.taskType_yearPlan ||
-									item.taskType == vm.taskType_JYS ||
-									item.taskType ==  vm.taskType_KXXYJBG ||
-									item.taskType == vm.taskType_CBSJYGS ||
-									item.taskType == vm.taskType_qianQi ||
-									item.taskType == vm.taskType_newStart ||
-									item.taskType == vm.taskType_xuJian){
-								return common.format('<a href="#/shenbao_record/{0}">{1}</a>',item.relId,item.title);
-							}else if(item.taskType == vm.taskType_monthReport){
-								return common.format('<a href="#/monthReportDetails/{0}">{1}</a>',item.relId,item.title);
-							}						
-						},
-						width:305,
-						filterable : false						
-					},
-					{
-						field : "processSuggestion",
-						title : "信息",
-						width:441,
-						template:function(item){
-							return common.format('<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:441px;" title="{0}">{0}</span>',item.processSuggestion);
-						},
-						filterable : false
-					},
-					{
-						field : "processState",
-						title : "状态",
-						template:function(item){
-							return common.getBasicDataDesc(item.processState);
-						},
-						width:210,
-						filterable : false
-					},
-					{
-						field : "createdDate",
-						title : "创建时间",
-						width:165,
-						template:function(item){
-							return common.formatDateTime(item.createdDate);
-						},
-						filterable : false
+			var columns = [
+				{
+					field:"",
+					title:"<input type='checkbox' class='checkbox' id='checkboxAll'/>",
+					width:40,
+					template:function(item){
+						return kendo.format("<input type='checkbox' class='checkbox' name='checkbox' relId='{0}'/>",item.id);
 					}
+				},
+				{
+					field : "title",
+					title : "名称",
+					template:function(item){
+						if(item.taskType == vm.taskType_yearPlan ||
+								item.taskType == vm.taskType_JYS ||
+								item.taskType ==  vm.taskType_KXXYJBG ||
+								item.taskType == vm.taskType_CBSJYGS ||
+								item.taskType == vm.taskType_qianQi ||
+								item.taskType == vm.taskType_newStart ||
+								item.taskType == vm.taskType_xuJian){
+							return common.format('<a href="#/shenbao_record/{0}">{1}</a>',item.relId,item.title);
+						}else if(item.taskType == vm.taskType_monthReport){
+							return common.format('<a href="#/monthReportDetails/{0}">{1}</a>',item.relId,item.title);
+						}						
+					},
+					width:305,
+					filterable : true						
+				},
+				{
+					field : "processSuggestion",
+					title : "信息",
+					width:400,
+					template:function(item){
+						return common.format('<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:441px;" title="{0}">{0}</span>',item.processSuggestion);
+					},
+					filterable : false
+				},
+				{
+					field : "processState",
+					title : "状态",
+					template:function(item){
+						return common.getBasicDataDesc(item.processState);
+					},
+					width:210,
+					filterable : {
+						ui:function(element){
+							element.kendoDropDownList({
+								valuePrimitive: true,
+								dataSource:common.getBacicDataByIndectity(common.basicDataConfig().processState),
+								dataTextField: "description",
+	                            dataValueField: "id"
+							});
+						}
+					}
+				},
+				{
+					field : "createdDate",
+					title : "创建时间",
+					width:165,
+					template:function(item){
+						return common.formatDateTime(item.createdDate);
+					},
+					filterable : false
+				}
 			];
 			// End:column
 			vm.gridOptions = {

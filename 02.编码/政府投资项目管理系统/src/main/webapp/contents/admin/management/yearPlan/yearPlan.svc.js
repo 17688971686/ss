@@ -285,12 +285,13 @@
 			// Begin:column
 			var columns = [
 					{
+						field:"",
 						template : function(item) {
 							return kendo.format("<input type='checkbox' relId='{0}' name='checkbox' class='checkbox'/>",item.id);
 						},
 						filterable : false,
 						width : 40,
-						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+						title : "<input id='checkboxAll_shenBaoList' type='checkbox'  class='checkbox'/>"
 					},
 					{
 						field : "shenBaoUnitInfoDto.unitName",

@@ -45,6 +45,12 @@
         	vm.html = function(val){
         		return $sce.trustAsHtml(val);
         	};
+        	
+        	//全选框选择
+        	$(document).on('click', '#checkboxAll_shenBaoRecords', function () {
+                var isSelected = $(this).is(':checked');
+                $('.shenBaoRecordsGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
+            });
         };
         
         activate();

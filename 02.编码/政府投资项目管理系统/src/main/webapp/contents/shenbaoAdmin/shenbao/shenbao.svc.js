@@ -86,7 +86,7 @@
 			var columns = [
 				{
 					field:"",
-					title:"<input id='checkboxAll' type='checkbox'  class='checkbox'/>",
+					title:"<input id='checkboxAll_shenBaoRecords' type='checkbox'  class='checkbox'/>",
 					filterable : false,
 					width : 40,
 					template : function(item) {
