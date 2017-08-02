@@ -70,6 +70,18 @@ public class ShenBaoInfo extends BaseProject{
 	private String socialAndEconomic;
 	//end
 	
+	//begin#前期计划相关
+	@Column(columnDefinition="bit(1) NULL COMMENT '是否申请前期工作经费'")
+	private Boolean isApplyQianQiFei = false;//默认为不申请
+	@Column(columnDefinition="double(10,4) NULL COMMENT '工作经费申请金额'")
+	private Double qianQiFeiApply;
+	//end
+	
+	//begin#前期计划相关
+	@Column(columnDefinition="varchar(500) NULL COMMENT '上一年形象进度'")
+	private String lastYearImageSchedule;
+	//end
+	
 	//begin#关联信息
 	@OneToOne(cascade=CascadeType.ALL)
 	private ShenBaoUnitInfo bianZhiUnitInfo=new ShenBaoUnitInfo();
@@ -191,6 +203,23 @@ public class ShenBaoInfo extends BaseProject{
 	public void setSocialAndEconomic(String socialAndEconomic) {
 		this.socialAndEconomic = socialAndEconomic;
 	}
-	
+	public Boolean getIsApplyQianQiFei() {
+		return isApplyQianQiFei;
+	}
+	public void setIsApplyQianQiFei(Boolean isApplyQianQiFei) {
+		this.isApplyQianQiFei = isApplyQianQiFei;
+	}
+	public Double getQianQiFeiApply() {
+		return qianQiFeiApply;
+	}
+	public void setQianQiFeiApply(Double qianQiFeiApply) {
+		this.qianQiFeiApply = qianQiFeiApply;
+	}
+	public String getLastYearImageSchedule() {
+		return lastYearImageSchedule;
+	}
+	public void setLastYearImageSchedule(String lastYearImageSchedule) {
+		this.lastYearImageSchedule = lastYearImageSchedule;
+	}
 	
 }

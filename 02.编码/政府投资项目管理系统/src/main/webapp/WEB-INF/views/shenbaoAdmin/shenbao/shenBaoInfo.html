@@ -62,15 +62,17 @@ overflow: scroll !important;
 			<td>
 				<span ng-bind="vm.model.shenBaoUnitInfoDto.unitName"></span>
 			</td>
-			<td class="formAlignRight" style="width:180px;">项目申报阶段：</td>
-			<td>
-				<span ng-bind="vm.getBasicDataDesc(vm.model.projectShenBaoStage)"></span>
-			</td>
 		</tr>
 	</table>
 
 <div class="bg-info text-info" style="padding: 10px;">项目基本信息</div>
-<table class="table table-bordered table-striped ">	
+<table class="table table-bordered table-striped ">
+	<tr ng-hide="vm.isYearPlan">
+		<td class="formAlignRight" style="width:150px;">项目申报阶段：</td>
+		<td ng-bind="vm.getBasicDataDesc(vm.model.projectShenBaoStage)"></td>
+		<td class="formAlignRight" style="width:180px;">计划年度：</td>
+		<td ng-bind="vm.model.planYear"></td>
+	</tr>
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目名称：</td>
 		<td  style="width:30%">
@@ -492,7 +494,7 @@ overflow: scroll !important;
 		<td ng-bind-html="vm.html(x[1])"></td>
 		<td>
 		      <div style="margin:3px;"  class="pull-left"
-			 	  ng-repeat="y in vm.model.attachmentDtos" 
+			 	  ng-repeat="y in vm.model.attachmentDtos"
 			 	  ng-show="y.type=='{{x[0]}}'"
 			 		>
 				 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>

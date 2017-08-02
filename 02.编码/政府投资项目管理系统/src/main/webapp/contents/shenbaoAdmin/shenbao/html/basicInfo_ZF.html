@@ -6,13 +6,21 @@
 			<span ng-bind="vm.model.unitName" style="display:none"></span>
 			<span ng-bind="vm.model.shenBaoUnitInfoDto.unitName"></span>
 		</td>
-		<td class="formAlignRight" style="width:180px;">项目申报阶段：</td>
-		<td ng-bind="vm.getBasicDataDesc(vm.model.projectShenBaoStage)"></td>
 	</tr>
 </table>
 
 <div class="bg-info text-info" style="padding: 10px;">项目基本信息</div>
 <table class="table table-bordered table-striped ">
+	<tr ng-hide="vm.isYearPlan">
+		<td class="formAlignRight" style="width:150px;">项目申报阶段：</td>
+		<td ng-bind="vm.getBasicDataDesc(vm.model.projectShenBaoStage)"></td>
+		<td class="formAlignRight" style="width:180px;">计划年度：<span class="required">(*)</span></td>
+		<td>
+			<input type="text" class="Wdate form-control input-sm" style="width:180px;" id="planYear" name="planYear"
+				onFocus="WdatePicker({dateFmt:'yyyy'})" onChange="" ng-model="vm.model.planYear" data-val="true" data-val-required="必填"/>
+			<span data-valmsg-for="planYear" data-valmsg-replace="true" class="required"></span>
+		</td>
+	</tr>
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目名称：</td>
 		<td>
@@ -26,7 +34,6 @@
 			</select>
 			<span data-valmsg-for="projectStage" data-valmsg-replace="true" class="required"></span>
 		</td>
-		
 	</tr>
 	<tr>
 		<td class="formAlignRight">项目负责人名称：<span class="required">(*)</span></td>
@@ -123,19 +130,31 @@
 			<input type="text" id="endDate" name="endDate" onkeydown="return false;"
 			 ng-model="vm.model.endDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>									
 		</td>
-	</tr>	
-	<tr>
+	</tr>
+	<tr ng-show="vm.isQianQi">
+		<td class="formAlignRight">是否申请前期工作经费：</td>
+		<td style="border-right:0">
+			<label><input type="radio" name="isApplyQianQiFei" ng-model="vm.model.isApplyQianQiFei" value="true"/>是</label>
+			<label><input type="radio" name="isApplyQianQiFei" ng-model="vm.model.isApplyQianQiFei" value="false"/>否</label>
+		</td>
+		<td ng-show="vm.model.isApplyQianQiFei" class="formAlignRight">工作经费申请金额：<span class="required">(*)</span></td>
+		<td ng-show="vm.model.isApplyQianQiFei">
+			<input type="number" class="form-control input-sm" style="width:150px" id="qianQiFeiApply" name="qianQiFeiApply" ng-model="vm.model.qianQiFeiApply" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<span data-valmsg-for="qianQiFeiApply" data-valmsg-replace="true" class="required"></span>
+		</td>
+	</tr>
+	<tr ng-hide="vm.isQianQi">
 		<td class="formAlignRight">项目总投资：</td>
 		<td>
 			<span ng-bind="vm.model.projectInvestSum | number:4"></span>&nbsp;(万元)
 		</td>
 		<td class="formAlignRight">累计完成投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.projectInvestAccuSum" data-val="true" data-val-required="必填"/> (万元)
+			<input type="number" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.projectInvestAccuSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="projectInvestAccuSum" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>					
-	<tr>
+	<tr ng-hide="vm.isQianQi">
 		<td class="formAlignRight">资金来源：</td>
 		<td colspan="3">		
 			<table class="table table-bordered table-striped table-hover" >
@@ -241,7 +260,7 @@
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（500字符以内）" ng-bind="vm.model.projectGuiMo" disabled></textarea>													
 		</td>
 	</tr>
-	<tr ng-hide="vm.isYearPlan">
+	<tr ng-hide="vm.isYearPlan || vm.isQianQi">
 		<td class="formAlignRight">建设必要性和依据：<span class="required">(*)</span></td>
 		<td colspan="3" >
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明项目建设的必要性（500字符以内）" ng-model="vm.model.projectConstrBasis" ng-change="vm.checkLength(vm.model.projectConstrBasis,500,'projectConstrBasisTips')" id="projectConstrBasis" name="projectConstrBasis" data-val="true" data-val-required="必填"></textarea>													

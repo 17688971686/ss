@@ -163,6 +163,7 @@
     		   $("#tab2").attr("disabled","true");
     		   $("#tab3").attr("disabled","true");
     		   $("#tab4").attr("disabled","true");
+    		   $("#tab5").attr("disabled","true");
     	   };
     	  
     	   //初始化基础数据

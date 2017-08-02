@@ -94,6 +94,11 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			//begin#可行性研究报告
 			shenBaoInfoDto.setRecomProgram(entity.getRecomProgram());
 			shenBaoInfoDto.setSocialAndEconomic(entity.getSocialAndEconomic());
+			//begin#前期计划
+			shenBaoInfoDto.setIsApplyQianQiFei(entity.getIsApplyQianQiFei());
+			shenBaoInfoDto.setQianQiFeiApply(entity.getQianQiFeiApply());
+			//begin#续建计划
+			shenBaoInfoDto.setLastYearImageSchedule(entity.getLastYearImageSchedule());
 			//为保存客户提供的数据添加字段
 			shenBaoInfoDto.setConstructionCycle(entity.getConstructionCycle());//建设周期
 			shenBaoInfoDto.setFinalAmount(entity.getFinalAmount());//决算金额
@@ -178,6 +183,11 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			//begin#可行性研究报告
 			shenBaoInfo.setRecomProgram(shenBaoInfoDto.getRecomProgram());
 			shenBaoInfo.setSocialAndEconomic(shenBaoInfoDto.getSocialAndEconomic());
+			//begin#前期计划
+			shenBaoInfo.setIsApplyQianQiFei(shenBaoInfoDto.getIsApplyQianQiFei());
+			shenBaoInfo.setQianQiFeiApply(shenBaoInfoDto.getQianQiFeiApply());
+			//begin#续建计划
+			shenBaoInfo.setLastYearImageSchedule(shenBaoInfoDto.getLastYearImageSchedule());
 			//基础数据																														
 			shenBaoInfo.setModifiedBy(shenBaoInfoDto.getModifiedBy());
 			shenBaoInfo.setCreatedBy(shenBaoInfoDto.getCreatedBy());
