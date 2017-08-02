@@ -42,6 +42,9 @@
 	   	   vm.taskType_JYS = common.basicDataConfig().taskType_JYS;
 	   	   vm.taskType_KXXYJBG=common.basicDataConfig().taskType_KXXYJBG;
 	   	   vm.taskType_CBSJYGS = common.basicDataConfig().taskType_CBSJYGS;
+	   	   vm.taskType_QianQi = common.basicDataConfig().taskType_QianQi;
+	   	   vm.taskType_newStart=common.basicDataConfig().taskType_newStart;
+	   	   vm.taskType_XuJian = common.basicDataConfig().taskType_XuJian;
        }
 
         activate();

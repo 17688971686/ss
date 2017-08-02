@@ -152,7 +152,10 @@
 							if(item.taskType == vm.taskType_yearPlan ||
 									item.taskType == vm.taskType_JYS ||
 									item.taskType ==  vm.taskType_KXXYJBG ||
-									item.taskType == vm.taskType_CBSJYGS){
+									item.taskType == vm.taskType_CBSJYGS ||
+									item.taskType == vm.taskType_QianQi ||
+									item.taskType == vm.taskType_newStart ||
+									item.taskType == vm.taskType_XuJian){
 								return common.format('<a href="#/shenbao_record/{0}">{1}</a>',item.relId,item.title);
 							}else if(item.taskType == vm.taskType_monthReport){
 								return common.format('<a href="#/monthReportDetails/{0}">{1}</a>',item.relId,item.title);
