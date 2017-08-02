@@ -387,6 +387,7 @@
     	return {
     		uploadSize:10485760,//本地文件上传大小限制
     		
+    		processState:"processState",//审批状态
     		processState_waitQianShou:"processState_1",//等待签收
     		processState_qianShou:"processState_2",//已签收
     		processState_banJie:"processState_7",//已办结

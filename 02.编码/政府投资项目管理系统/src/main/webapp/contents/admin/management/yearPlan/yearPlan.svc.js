@@ -286,15 +286,11 @@
 			var columns = [
 					{
 						template : function(item) {
-							return kendo
-									.format(
-											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
-											item.id);
+							return kendo.format("<input type='checkbox' relId='{0}' name='checkbox' class='checkbox'/>",item.id);
 						},
 						filterable : false,
 						width : 40,
 						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
-
 					},
 					{
 						field : "shenBaoUnitInfoDto.unitName",

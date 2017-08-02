@@ -312,41 +312,59 @@
 			// End:dataSource
 
 			// Begin:column
-			var columns = [				
-					{
-						field : "projectName",
-						title : "项目名称",
-						filterable : true,
-						template:function(item){
-							return common.format('<a href="#/project/projectInfo/{0}/{1}">{2}</a>',item.id,item.projectInvestmentType,item.projectName);
-						}
-					},
-					{
-						field : "projectStage",
-						title : "项目阶段",
-						template:function(item){
-							return common.getBasicDataDesc(item.projectStage);
-						},
-						width : 150,
-						filterable : false
-					},
-					{
-						field : "projectClassify",
-						title : "项目分类",
-						template:function(item){
-							return common.getBasicDataDesc(item.projectClassify);
-						},
-						width : 150,
-						filterable : false
-					},
-					{
-						field : "",
-						title : "操作",
-						width : 180,
-						template : function(item) {
-							return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,"vm.del('" + item.id + "')");
-						}
+			var columns = [
+				{
+					field:"",
+					title:"<input id='checkboxAll' type='checkbox'  class='checkbox'/>",
+					filterable : false,
+					width : 40,
+					template : function(item) {
+						return kendo.format("<input type='checkbox' relId='{0}' name='checkbox' class='checkbox'/>",item.id);
 					}
+				},
+				{
+					field : "projectName",
+					title : "项目名称",
+					filterable : true,
+					template:function(item){
+						return common.format('<a href="#/project/projectInfo/{0}/{1}">{2}</a>',item.id,item.projectInvestmentType,item.projectName);
+					}
+				},
+				{
+					field : "projectStage",
+					title : "项目阶段",
+					template:function(item){
+						return common.getBasicDataDesc(item.projectStage);
+					},
+					width : 150,
+					filterable : {
+						ui: function(element){
+	                        element.kendoDropDownList({
+	                            valuePrimitive: true,
+	                            dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectStage),
+	                            dataTextField: "description",
+	                            dataValueField: "id"
+	                        });
+	                    }
+					}
+				},
+				{
+					field : "projectClassify",
+					title : "项目分类",
+					template:function(item){
+						return common.getBasicDataDesc(item.projectClassify);
+					},
+					width : 150,
+					filterable : false
+				},
+				{
+					field : "",
+					title : "操作",
+					width : 180,
+					template : function(item) {
+						return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,"vm.del('" + item.id + "')");
+					}
+				}
 
 			];
 			// End:column
