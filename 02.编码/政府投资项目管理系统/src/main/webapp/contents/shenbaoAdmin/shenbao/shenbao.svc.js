@@ -222,6 +222,7 @@
 						vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
 						vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
 						vm.model.applyYearInvest=common.toMoney(vm.model.applyYearInvest);//申请年度投资
+						vm.model.qianQiFeiApply=common.toMoney(vm.model.qianQiFeiApply);//工作前期经费申请金额
 						//计算资金筹措总计
 						vm.capitalTotal=function(){
 				  			 return (parseFloat(vm.model.capitalSCZ_ggys)||0 )
@@ -240,27 +241,21 @@
 							}else if(vm.model.projectShenBaoStage ==common.basicDataConfig().projectShenBaoStage_projectProposal){//申报阶段为:项目建议书
 								vm.isProjectProposal=true;
 								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_projectProposal;
-//			    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
 							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_KXXYJBG){//申报阶段为:可行性研究报告
 								vm.isKXXYJBG=true;
 								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_KXXYJBG;
-//			    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
 							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_CBSJYGS){//申报阶段为:初步设计与概算
 								vm.isCBSJYGS=true;
 								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_CBSJYGS;
-//			    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
-							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_qianQi){//申报阶段为:初步设计与概算
+							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_qianQi){//申报阶段为:前期计划
 								vm.isQianQi=true;
 								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_qianQi;
-//			    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
-							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_newStart){//申报阶段为:初步设计与概算
+							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_newStart){//申报阶段为:新开工计划
 								vm.isNewStart=true;
 								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_newStart;
-//			    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
-							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_xuJian){//申报阶段为:初步设计与概算
+							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_xuJian){//申报阶段为:续建计划
 								vm.isXuJian=true;
 								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_xuJian;
-//			    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
 							}
 						}
 		        		if(vm.page=='record_edit' && vm.model.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){

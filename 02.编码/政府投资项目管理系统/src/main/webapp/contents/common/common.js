@@ -443,9 +443,9 @@
     		taskType_JYS:"taskType_4",//项目建议书
     		taskType_KXXYJBG:"taskType_5",//可行性研究报告
     		taskType_CBSJYGS:"taskType_6",//初步概算与设计
-    		taskType_QianQi:"taskType_7",//前期
+    		taskType_qianQi:"taskType_7",//前期
     		taskType_newStart:"taskType_8",//新开工
-    		taskType_XuJian:"taskType_9",//续建
+    		taskType_xuJian:"taskType_9",//续建
     		
     		
     		management:"管理员"

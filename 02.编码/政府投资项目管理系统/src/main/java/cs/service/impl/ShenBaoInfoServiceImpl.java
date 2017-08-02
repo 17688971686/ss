@@ -66,17 +66,29 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@Autowired
 	private ICurrentUser currentUser;
 	@Value("${projectShenBaoStage_JYS}")
-	private String projectShenBaoStage_JYS;
+	private String projectShenBaoStage_JYS;//申报阶段：建议书
 	@Value("${projectShenBaoStage_KXXYJBG}")
-	private String projectShenBaoStage_KXXYJBG;
+	private String projectShenBaoStage_KXXYJBG;//申报阶段：可行性研究报告
 	@Value("${projectShenBaoStage_CBSJYGS}")
-	private String projectShenBaoStage_CBSJYGS;
+	private String projectShenBaoStage_CBSJYGS;//申报阶段：初步设计与概算
+	@Value("${projectShenBaoStage_qianQi}")
+	private String projectShenBaoStage_qianQi;//申报阶段：前期计划
+	@Value("${projectShenBaoStage_newStart}")
+	private String projectShenBaoStage_newStart;//申报阶段：新开工计划
+	@Value("${projectShenBaoStage_xuJian}")
+	private String projectShenBaoStage_xuJian;//申报阶段：续建计划
 	@Value("${taskType_JYS}")
-	private String taskType_JYS;
+	private String taskType_JYS;//任务类型：建议书
 	@Value("${taskType_KXXYJBG}")
-	private String taskType_KXXYJBG;
+	private String taskType_KXXYJBG;//任务类型：可行性研究报告
 	@Value("${taskType_CBSJYGS}")
-	private String taskType_CBSJYGS;
+	private String taskType_CBSJYGS;//任务类型：初步设计与概算
+	@Value("${taskType_qianQi}")
+	private String taskType_qianQi;//任务类型：前期计划
+	@Value("${taskType_newStart}")
+	private String taskType_newStart;//任务类型：新开工计划
+	@Value("${taskType_xuJian}")
+	private String taskType_xuJian;//任务类型：续建计划
 	
 	@Override
 	@Transactional
@@ -183,14 +195,20 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	
 
 	private String getTaskType(String shenbaoStage){
-		if(shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)){//如果是下一年度计划
+		if(shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)){//如果申报阶段：是下一年度计划
 			return BasicDataConfig.taskType_nextYearPlan;
-		}else if(shenbaoStage.equals(projectShenBaoStage_JYS)){//如果是项目建议书
+		}else if(shenbaoStage.equals(projectShenBaoStage_JYS)){//如果申报阶段：是项目建议书
 			return taskType_JYS;
-		}else if(shenbaoStage.equals(projectShenBaoStage_KXXYJBG)){//如果是可行性研究报告
+		}else if(shenbaoStage.equals(projectShenBaoStage_KXXYJBG)){//如果申报阶段：是可行性研究报告
 			return taskType_KXXYJBG;
-		}else if(shenbaoStage.equals(projectShenBaoStage_CBSJYGS)){//如果是初步概算与设计
+		}else if(shenbaoStage.equals(projectShenBaoStage_CBSJYGS)){//如果申报阶段：是初步概算与设计
 			return taskType_CBSJYGS;
+		}else if(shenbaoStage.equals(projectShenBaoStage_qianQi)){//如果申报阶段：是前期计划
+			return taskType_qianQi;
+		}else if(shenbaoStage.equals(projectShenBaoStage_newStart)){//如果申报阶段：是新开工计划
+			return taskType_newStart;
+		}else if(shenbaoStage.equals(projectShenBaoStage_xuJian)){//如果申报阶段：是续建计划
+			return taskType_xuJian;
 		}
 		return "";
 	}

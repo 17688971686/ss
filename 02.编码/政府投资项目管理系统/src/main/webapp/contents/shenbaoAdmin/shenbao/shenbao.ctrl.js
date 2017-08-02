@@ -127,8 +127,8 @@
     		   vm.isKXXYJBG=vm.stage==common.basicDataConfig().projectShenBaoStage_KXXYJBG;//申报阶段为:可行性研究报告
     		   vm.isCBSJYGS=vm.stage==common.basicDataConfig().projectShenBaoStage_CBSJYGS;//申报阶段为:初步设计与概算
     		   vm.isQianQi=vm.stage==common.basicDataConfig().projectShenBaoStage_qianQi;//申报阶段为:前期计划
-    		   vm.isNewStart=vm.stage==common.basicDataConfig().projectShenBaoStage_newStart;//申报阶段为:新开工
-    		   vm.isXuJian=vm.stage==common.basicDataConfig().projectShenBaoStage_xuJian;//申报阶段为:续建
+    		   vm.isNewStart=vm.stage==common.basicDataConfig().projectShenBaoStage_newStart;//申报阶段为:新开工计划
+    		   vm.isXuJian=vm.stage==common.basicDataConfig().projectShenBaoStage_xuJian;//申报阶段为:续建计划
     		   
     		   //申报材料初始化
     		   if(vm.isYearPlan){//下一年度计划上传文件类型
@@ -137,15 +137,12 @@
     		   }
     		   if(vm.isProjectProposal){//项目建议书上传文件类型
     			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_projectProposal;
-    			   //vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
     		   }
     		   if(vm.isKXXYJBG){//可行性研究报告上传文件类型
     			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_KXXYJBG;
-    			   //vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
     		   }
     		   if(vm.isCBSJYGS){//初步设计与概算上传文件类型
     			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_CBSJYGS;
-    			   //vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
     		   }
     		   if(vm.isQianQi){//前期计划上传文件类型
     			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_qianQi;

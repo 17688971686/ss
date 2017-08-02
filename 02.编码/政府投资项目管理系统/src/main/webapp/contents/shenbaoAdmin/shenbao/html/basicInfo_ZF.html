@@ -251,13 +251,19 @@
 	<tr>
 		<td class="formAlignRight">项目简介：</td>
 		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：项目简介（500字符以内）" ng-bind="vm.model.projectIntro" disabled></textarea>													
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：项目简介（500字符以内）" ng-model="vm.model.projectIntro" ng-change="vm.checkLength(vm.model.projectIntro,500,'projectIntroTips')"
+				id="projectIntro" name="projectIntro" data-val="true" data-val-required="必填"></textarea>													
+			<div class="tipfont">您还可以输入<span id="projectIntroTips"><font size="5">500</font></span>个字符!</div>
+			<span data-valmsg-for="projectIntro" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">建设规模：</td>
 		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（500字符以内）" ng-bind="vm.model.projectGuiMo" disabled></textarea>													
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（500字符以内）"
+				 ng-model="vm.model.projectGuiMo" ng-change="vm.checkLength(vm.model.projectGuiMo,500,'projectGuiMoTips')" id="projectGuiMo" name="projectGuiMo" data-val="true" data-val-required="必填"></textarea>													
+			<div class="tipfont">您还可以输入<span id="projectGuiMoTips"><font size="5">500</font></span>个字符!</div>
+			<span data-valmsg-for="projectGuiMo" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
 	<tr ng-hide="vm.isYearPlan || vm.isQianQi">

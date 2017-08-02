@@ -142,8 +142,18 @@ overflow: scroll !important;
 			<span id="endDate" ng-bind="vm.model.endDate | date:'yyyy-MM-dd'"></span>
 		</td>
 	</tr>
-	
-	<tr>
+	<tr ng-show="vm.isQianQi">
+		<td class="formAlignRight">是否申请前期工作经费：</td>
+		<td style="border-right:0">
+			<span ng-if="vm.model.isApplyQianQiFei == '1'">是</span>
+			<span ng-if="vm.model.isApplyQianQiFei == '0'">否</span>
+		</td>
+		<td ng-show="vm.model.isApplyQianQiFei" class="formAlignRight">工作经费申请金额：<span class="required">(*)</span></td>
+		<td ng-show="vm.model.isApplyQianQiFei">
+			<span ng-bind="vm.model.qianQiFeiApply | number:4"></span>&nbsp;(万元)
+		</td>
+	</tr>
+	<tr ng-hide="vm.isQianQi">
 		<td class="formAlignRight">项目总投资：</td>
 		<td>
 			<span id="projectInvestSum" ng-bind="vm.model.projectInvestSum | number:4"></span>&nbsp;(万元)
@@ -154,7 +164,7 @@ overflow: scroll !important;
 		</td>
 	</tr>
 					
-	<tr>
+	<tr ng-hide="vm.isQianQi">
 		<td class="formAlignRight">资金来源：</td>
 		<td colspan="3" >
 			<table class="table table-bordered table-striped table-hover" >
@@ -327,6 +337,24 @@ overflow: scroll !important;
 	</table>
 </div>
 
+<div ng-show="vm.isXuJian">
+	<div class="bg-info text-info" style="padding: 10px;">续建计划信息</div>
+	<table class="table table-bordered table-striped ">
+		<tr>
+			<td class="formAlignRight" style="width:150px;">年度建设内容：</td>
+			<td>
+				<textarea rows="3" cols="20" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.yearConstructionContent" disabled></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">上年度项目形象进度：<span class="required">(*)</span></td>
+			<td>
+				<textarea rows="3" cols="20" style="height:121px;width: 99%;" placeholder="请简要概述上年度项目形象进度：备注（500字符以内）" ng-model="vm.model.lastYearImageSchedule" disabled></textarea>
+			</td>
+		</tr>	
+	</table>
+</div>
+
 <div class="bg-info text-info" style="padding: 10px;">单位基本信息</div>
 <table style="width:100%;" class="table  table-bordered table-striped">
 	<tr>
@@ -403,7 +431,7 @@ overflow: scroll !important;
 	 </tr>
 </table>
 
-<div ng-hide="vm.isYearPlan">
+<div ng-show="vm.isProjectProposal || vm.isKXXYJBG || vm.isCBSJYGS">
 	<div class="bg-info text-info" style="padding: 10px;">常用编制信息</div>
 	<table style="width:100%;" class="table table-bordered table-striped">		
 		<tr>
