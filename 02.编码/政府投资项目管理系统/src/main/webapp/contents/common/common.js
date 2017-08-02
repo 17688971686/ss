@@ -443,7 +443,11 @@
     		taskType_JYS:"taskType_4",//项目建议书
     		taskType_KXXYJBG:"taskType_5",//可行性研究报告
     		taskType_CBSJYGS:"taskType_6",//初步概算与设计
-    			
+    		taskType_QQ:"taskType_7",//前期
+    		taskType_XKG:"taskType_8",//新开工
+    		taskType_XJ:"taskType_9",//续建
+    		
+    		
     		management:"管理员"
     		
     		

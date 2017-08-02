@@ -48,7 +48,13 @@
 					<th width="132px;">时间</th>
 				</tr>
 				<tr ng-repeat="x in vm.model.task | limitTo :2" style="background: white;">
-					<td ng-if="x.taskType == vm.taskType_yearPlan || vm.taskType_JYS || vm.taskType_KXXYJBG || vm.taskType_CBSJYGS">
+					<td ng-if="x.taskType == vm.taskType_yearPlan ||
+											 vm.taskType_JYS ||
+											  vm.taskType_KXXYJBG ||
+											   vm.taskType_CBSJYGS ||
+											   vm.taskType_QQ ||
+											   vm.taskType_XKG ||
+											   vm.taskType_XJ">
 						<a href="#/shenbao_record/{{x.relId}}">{{x.title}}</a>
 					</td>
 					<td ng-if="x.taskType == vm.taskType_monthReport">
