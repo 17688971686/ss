@@ -267,7 +267,7 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("fileType_12","fileType" , "fileType", "批复", "");
 		this.createBasicData("fileType_13","fileType" , "fileType", "意见", "");
 		
-		this.createBasicData("foundAppliRepoGenerationStatus","" , "foundAppliRepoGenerationStatus", "资金申请报告生成状态分类", "");
+		this.createBasicData("foundAppliRepoGenerationStatus","","foundAppliRepoGenerationStatus", "资金申请报告生成状态分类", "");
 		this.createBasicData("foundAppliRepoGenerationStatus_1","foundAppliRepoGenerationStatus" , "foundAppliRepoGenerationStatus", "未生成", "");
 		this.createBasicData("foundAppliRepoGenerationStatus_2","foundAppliRepoGenerationStatus" , "foundAppliRepoGenerationStatus", "生成成功", "");
 		this.createBasicData("foundAppliRepoGenerationStatus_3","foundAppliRepoGenerationStatus" , "foundAppliRepoGenerationStatus", "生成失败", "");
@@ -306,6 +306,7 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("projectConstrChar_1","projectConstrChar" , "projectConstrChar", "前期", "");
 		this.createBasicData("projectConstrChar_2","projectConstrChar" , "projectConstrChar", "新开工", "");
 		this.createBasicData("projectConstrChar_3","projectConstrChar" , "projectConstrChar", "续建", "");
+		this.createBasicData("projectConstrChar_4","projectConstrChar" , "projectConstrChar", "储备类", "");
  		
 		this.createBasicData("projectIndustry","" , "projectIndustry", "项目行业分类","项目行业分类",false);
 			this.createBasicData("projectIndustry_1","projectIndustry" , "projectIndustry", "政府投资项目行业分类", "",0,false);

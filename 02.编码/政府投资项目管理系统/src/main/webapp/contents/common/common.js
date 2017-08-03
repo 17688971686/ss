@@ -405,6 +405,7 @@
     		projectConstrChar_qianqi:"projectConstrChar_1",//前期
     		projectConstrChar_xinkaigong:"projectConstrChar_2",//新开工
     		projectConstrChar_xujian:"projectConstrChar_3",//续建
+    		projectConstrChar_chubei:"projectConstrChar_4",//储备类
     		
     		projectFunctionClassify:"projectFunctionClassify",//功能分类科目
     		projectGoverEconClassify:"projectGoverEconClassify",//政府经济分类科目

@@ -182,6 +182,7 @@
 					vm.model.QianQiTotal = 0;//前期
 					vm.model.NewStratTotal = 0;//新开工
 					vm.model.XuJianTotal = 0;//续建
+					vm.model.ChuBeiTotal = 0;
 					vm.model.projectInvestSumTotal = 0;//项目总投资
 					vm.model.applyYearInvestTotal = 0;//申请资金总额
 					
@@ -195,6 +196,9 @@
 						}
 						if(obj.projectConstrChar && obj.projectConstrChar == common.basicDataConfig().projectConstrChar_xujian){//续建
 							vm.model.XuJianTotal ++;
+						}
+						if(obj.projectConstrChar && obj.projectConstrChar == common.basicDataConfig().projectConstrChar_chubei){//储备类
+							vm.model.ChuBeiTotal ++;
 						}
 						if(obj.projectInvestSum){//总投资
 							vm.model.projectInvestSumTotal += obj.projectInvestSum;

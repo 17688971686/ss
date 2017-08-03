@@ -47,7 +47,9 @@
 				<td class="formAlignRight" style="width:150px;">新开工：</td>
 				<td style="width:80px;" ng-bind="vm.model.NewStratTotal"></td>
 				<td class="formAlignRight" style="width:150px;">继建：</td>
-				<td style="width:80px;" colspan="6" ng-bind="vm.model.XuJianTotal"></td>
+				<td style="width:80px;" ng-bind="vm.model.XuJianTotal"></td>
+				<td class="formAlignRight" style="width:150px;">储备类：</td>
+				<td style="width:80px;" ng-bind="vm.model.ChuBeiTotal"></td>
 			</tr>
 			<tr>
 				<td class="formAlignRight">项目总投资(万元)：</td>
@@ -55,11 +57,11 @@
 				<td class="formAlignRight" colspan="2">申请资金金额(万元)：</td>
 				<td style="width:80px;" ng-bind="vm.model.applyYearInvestTotal | number:4"></td>
 				<td class="formAlignRight"  colspan="2">安排资金金额(万元)：</td>
-				<td style="width:80px;" colspan="2" ng-bind="vm.model.yearInvestApprovalTotal | number:4"></td>					
+				<td style="width:80px;" colspan="3" ng-bind="vm.model.yearInvestApprovalTotal | number:4"></td>					
 			</tr>
 			<tr>
 				<td class="formAlignRight" style="vertical-align: middle;">计划总规模(万元)：</td>
-				<td style="width:80px;" colspan="7">
+				<td style="width:80px;" colspan="9">
 				<table class="table table-bordered" style="margin:0px">
 				<tr class="text-primary text-center">
 					<td>市投资</td>
