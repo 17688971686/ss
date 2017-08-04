@@ -1,0 +1,129 @@
+<style>
+.table-bordered>thead>tr>th, 
+.table-bordered>tbody>tr>th, 
+.table-bordered>tfoot>tr>th, 
+.table-bordered>thead>tr>td, 
+.table-bordered>tbody>tr>td, 
+.table-bordered>tfoot>tr>td {
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+label{font-weight:normal;}
+
+.uploadBox .k-upload-status {
+	display: none;
+}
+
+.uploadBox .k-header {
+	background: transparent;
+	border: 0px;
+	float:right;
+}
+
+.uploadBox em {
+	display: none;
+}
+
+.uploadBox .k-dropzone {
+	padding: 0px;
+	margin: 0px;
+}
+.uploadBox .k-upload-files{
+display:none;
+}
+input.input-sm{height:30px; margin:0px; padding:0px;}
+textarea.form-control {
+	margin:0px; padding:0px;
+}
+.tab_content{
+	padding:20px;
+}
+.modal{
+	overflow-y:auto
+	}
+.modal-open {
+       overflow: scroll !important;
+    }
+</style>
+
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well-sm" style="background:white;">
+    <ol class="breadcrumb">
+    	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+        <li><a href="#/">首页</a></li>       
+        <li>年度计划管理</li>
+        <li><a href="#/yearPlan/shenbaoInfoList">年度计划项目库</a></li>	        
+        <li class="active">申报信息编辑</li>
+    </ol>
+             
+  <!-- 	<form id="form" name="form">
+  		<div id="tabStrip" kendo-tab-strip="vm.tabStrip">
+              tab list
+              <ul >
+                <li id="tab1" class="k-state-active">项目基本信息</li>
+                <li id="tab2">项目单位信息</li>                
+                <li id="tab3">项目材料清单</li>
+                <li id="tab4" ng-show="vm.isYearPlan">年度计划信息</li>
+              </ul>
+          
+				<div class="tab_content">
+					<div ng-show="vm.isZFInvestment" ng-include  src="'/contents/shenbaoAdmin/shenbao/html/basicInfo_ZF.html'"></div>
+					<div ng-show="vm.isSHInvestment" ng-include  src="'/contents/shenbaoAdmin/shenbao/html/basicInfo_SH.html'"></div>
+					<div style="text-align: center">
+					<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(2)">下一步 <span class="glyphicon glyphicon-forward"></span></button>               
+					</div>
+				</div>
+				<div class="tab_content">
+				     <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/unitInfo.html'"></div>
+				     <div style="text-align: center">
+				     	<button class="btn btn-sm btn-primary" ng-click="vm.tabReturn(1)"><span class="glyphicon glyphicon-backward"></span>上一步 </button>
+				     	<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(3)">下一步 <span class="glyphicon glyphicon-forward"></span></button>               
+				     </div>
+				</div>
+             
+               <div class="tab_content">
+	              	<div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/materialsInfo.html'"></div>
+	               	<div style="text-align: center">
+	             		<button class="btn btn-sm btn-primary" ng-click="vm.tabReturn(2)"><span class="glyphicon glyphicon-backward"></span>上一步 </button>
+				     	<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(4)">下一步 <span class="glyphicon glyphicon-forward"></span></button>               
+				    </div>
+              </div>                   
+              <div class="tab_content" ng-show="vm.isYearPlan">
+                <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/stage/yearPlan.html'"></div>
+                 <div style="text-align: center">
+                 	<button class="btn btn-sm btn-primary" ng-click="vm.tabReturn(3)"><span class="glyphicon glyphicon-backward">上一步 </span></button>                
+                 	<button class="btn btn-sm btn-success" ng-hide="vm.isRecordEdit" ng-click="vm.submit()" ng-disabled="vm.isSubmit">确认提交 </button>
+                 	<button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit" ng-click="vm.update()" ng-disabled="vm.isSubmit">确认更新 </button>
+                 </div>
+            </div>
+           </div>
+    </form> -->   
+</div>
+
+<div id="validMsgDialog" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog"
+				style="margin: 80px auto; width: 80%; max-width: 600px;">
+				<div class="modal-content">
+					<div class="modal-header bg-primary" style="height:30px;padding:5px;">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<span class="modal-title">错误信息</span>
+					</div>
+					<div class="modal-body text-danger">
+						<ul>
+							<li ng-repeat="x in vm.validMessage">{{x}}</li>
+						</ul>
+					</div>
+					<div class="modal-footer">
+						
+						<button type="button" class="btn btn-info btn-sm" data-dismiss="modal">确认</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+	</div>
