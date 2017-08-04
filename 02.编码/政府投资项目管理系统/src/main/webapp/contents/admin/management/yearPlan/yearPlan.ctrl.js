@@ -17,9 +17,6 @@
     		if($state.current.name=='yearPlan_shenbaoInfoEdit'){//申报信息编辑页面
     			vm.page='shenbaoInfoEdit';
     		}
-    		if($state.current.name=='yearPlan_shenbaoInfoDetails'){//申报信息详情页面
-    			vm.page='shenbaoInfoDetails';
-    		}
     		if($state.current.name=='yearPlan_planList'){
     			vm.page='planList';
     		}
@@ -52,9 +49,6 @@
         	if(vm.page=='shenbaoInfoEdit'){
         		init_shenbaoInfoEdit();
         	}
-        	if(vm.page=='shenbaoInfoDetails'){
-        		init_shenbaoInfoDetails();
-        	}
         	if(vm.page=='planList'){
         		init_planList();
         	}
@@ -72,6 +66,7 @@
     	
     	function init_shenbaoInfoList(){
     		yearPlanSvc.grid_shenbaoInfoList(vm);
+    		//申报详情模态框
     		vm.dialog_shenbaoInfo = function(id){
     			yearPlanSvc.getShenBaoInfoById(vm,id);
     			$('#shenbaoInfo').modal({
@@ -111,12 +106,7 @@
     	function init_shenbaoInfoEdit(){
     		
     	}//end#init_shenbaoInfoEdit
-    	
-    	function init_shenbaoInfoDetails(){
-    		var id = vm.id;
-    		yearPlanSvc.getShenBaoInfoById(vm,id);
-    	}//end#init_shenbaoInfoDetails
-    	
+
     	//init_planList
     	function init_planList(){
     		yearPlanSvc.grid_planList(vm);

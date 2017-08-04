@@ -20,31 +20,29 @@
 </div>
 
 
-    <div id="shenbaoInfo" class="modal fade" tabindex="-1" role="dialog">
-			<div class="modal-dialog"
-				style="margin: 80px auto; width: 80%; max-width: 1000px;">
-				<div class="modal-content">
-					<div class="modal-header bg-primary" style="height:30px;padding:5px;">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<span class="modal-title">详细信息</span>
-					</div>
-					<div class="modal-body text-danger">
-						<div ng-include  src="'/contents/admin/management/task/html/yearPlan/master.html'"></div>  
-					</div>
-					<div class="modal-footer">
-						<button type="button" ng-click="vm.dialogConfirmSubmit()"
-							class="btn btn-info btn-sm">确认</button>
-						<button type="button" class="btn btn-info btn-sm" data-dismiss="modal">取消</button>
-					</div>
-				</div>
-				<!-- /.modal-content -->
+<div id="shenbaoInfo" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog"
+		style="margin: 80px auto; width: 80%; max-width: 1000px;">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<span class="modal-title">申报信息详情</span>
 			</div>
-			<!-- /.modal-dialog -->
+			<div class="modal-body">
+				<div ng-include  src="'/contents/admin/management/task/html/yearPlan/master.html'"></div>  
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success btn-sm" data-dismiss="modal">确认</button>
+			</div>
 		</div>
-		<!-- /.modal -->
+		<!-- /.modal-content -->
+	</div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 <!-- 退文信息输入模态框 -->		
 <div id="shenbaoInfoTuiWen" class="modal fade" tabindex="-1" role="dialog">
