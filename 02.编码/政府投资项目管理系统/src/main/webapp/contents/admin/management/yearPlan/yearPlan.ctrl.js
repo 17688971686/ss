@@ -138,7 +138,7 @@
     	    	   };  
     	       };//popOver
     	     //更新编制信息  
-    		 vm.updateCapital = function(id){
+    		 vm.updateCapital = function(){
     			 yearPlanSvc.updateYearPlanCapital(vm);
     		 };
     		 //移除计划中的申报信息

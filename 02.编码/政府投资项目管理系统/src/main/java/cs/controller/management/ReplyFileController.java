@@ -17,7 +17,7 @@ import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ReplyFileService;
 
 @Controller
-@RequestMapping(name="管理端--批复文件管理",path="management/replyFile")
+@RequestMapping(name="后台管理--批复文件管理",path="management/replyFile")
 public class ReplyFileController {
 	@Autowired
 	private ReplyFileService replyFileService;
