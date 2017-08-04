@@ -15,8 +15,7 @@
 		    <td width="100" class="formAlignRight">电话号码：<span class="required">(*)</span></td>
 		    <td>
 			    <input type="text" class="form-control input-sm" id="unitTel" name="unitTel" ng-model="vm.model.shenBaoUnitInfoDto.unitTel" 
-			    data-val="true" data-val-required="必填" placeholder="填写格式：xxxx-xxxxxxxx"
-			    data-val-regex="号码不合理！" data-val-regex-pattern="^((0\d{2,3}-\d{7,8})|(\d{7,8}))$"/>
+			    data-val="true" data-val-required="必填"/>
 			    <span data-valmsg-for="unitTel" data-valmsg-replace="true" class="errors"></span>
 		    </td>
 	   </tr>
@@ -25,7 +24,7 @@
 	        <td colspan="2">
 		        <input type="email" class="form-control input-sm" id="email" name="unitEmail" ng-model="vm.model.shenBaoUnitInfoDto.unitEmail" data-val="true" data-val-required="必填"/>
 		        <span data-valmsg-for="unitEmail" data-valmsg-replace="true" class="errors"></span>
-		        <span ng-show="myForm.unitEmail.$error.email" class="errors">请输入合法邮箱地址</span>
+		        <span ng-show="myForm.unitEmail.$error.email" class="errors"></span>
 	        <td class="formAlignRight">传真号码：</td>
 	        <td>
 		        <input type="text" class="form-control input-sm" id="unitFax" name="unitFax" ng-model="vm.model.shenBaoUnitInfoDto.unitFax"/>
@@ -69,8 +68,7 @@
 	    <td width="100px;">电话号码</td>
 	    <td>
 	     	<input class="form-control input-sm" type="text" id="resPersonTel" name="resPersonTel" ng-model="vm.model.shenBaoUnitInfoDto.resPersonTel" 
-	     		data-val="true" data-val-required="必填" placeholder="填写格式：xxxx-xxxxxxxx"
-	     		data-val-regex="号码不合理！" data-val-regex-pattern="^((0\d{2,3}-\d{7,8})|(\d{7,8}))$"/>
+	     		data-val="true" data-val-required="必填"/>
 	    	<span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="errors"></span>
 	    </td>
 	  </tr>
@@ -78,8 +76,7 @@
 	    <td>手机</td>	   
 	    <td>
 	     	<input class="form-control input-sm" type="text" id="resPersonMobile" name="resPersonMobile" ng-model="vm.model.shenBaoUnitInfoDto.resPersonMobile" 
-	     		data-val="true" data-val-required="必填" placeholder="填写格式为：xxxxxxxxxxxx"
-	     		data-val-regex="号码不合理！" data-val-regex-pattern="^1[3|4|5|8][0-9]\d{4,8}$"/>
+	     		data-val="true" data-val-required="必填"/>
 	    	<span data-valmsg-for="resPersonMobile" data-valmsg-replace="true" class="errors"></span>
 	    </td>
 	    <td>传真号码</td>
@@ -92,7 +89,7 @@
 	    <td colspan="3">
 	     <input type="email" class="form-control input-sm" id="resPersonEmail" name="resPersonEmail" ng-model="vm.model.shenBaoUnitInfoDto.resPersonEmail" data-val="true" data-val-required="必填"/>
 	    	 <span data-valmsg-for="resPersonEmail" data-valmsg-replace="true" class="errors"></span>
-	    	 <span ng-show="myForm.resPersonEmail.$error.email" class="errors">请输入合法邮箱地址</span>
+	    	 <span ng-show="myForm.resPersonEmail.$error.email" class="errors"></span>
 	    </td>
 	  </tr>	  
 </table>

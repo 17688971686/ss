@@ -31,6 +31,7 @@ import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.ShenBaoUnitInfoDto;
 import cs.model.DomainDto.SysConfigDto;
+import cs.model.DomainDto.TaskRecordDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
@@ -59,6 +60,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private IMapper<AttachmentDto, Attachment> attachmentMapper;
 	@Autowired
 	private IMapper<ShenBaoUnitInfoDto, ShenBaoUnitInfo> shenBaoUnitInfoMapper;
+	@Autowired
+	private IMapper<TaskRecordDto, TaskRecord> taskRecordMapper;
 	@Autowired
 	private SysService sysService;
 	@Autowired
@@ -160,7 +163,16 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		return entity;		
 	}
 	
-	
+	@Override
+	@Transactional
+	public void updateShenBaoInfoState(TaskRecordDto dto) {
+		//更新申报信息的状态
+		ShenBaoInfo shenbaoInfo = super.repository.findById(dto.getRelId());
+		shenbaoInfo.setProcessState(dto.getProcessState());
+		//同时更新任务的状态
+		updeteWorkFlowByretreat(dto);
+	}
+
 	private String getTaskType(String shenbaoStage){
 		if(shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)){//如果是下一年度计划
 			return BasicDataConfig.taskType_nextYearPlan;
@@ -243,6 +255,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskRecord.setRelId(entity.getId());
 		taskRecord.setTaskId(taskHead.getId());//设置任务Id
 		taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
+		
 		taskRecord.setTaskType(this.getTaskType(entity.getProjectShenBaoStage()));
 		taskRecord.setProcessSuggestion("材料填报");
 		taskRecord.setUnitName(entity.getUnitName());
@@ -293,4 +306,26 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 					replyFileRepo.save(replyfile);//更新文件库
 				}
 		}
+
+	private void updeteWorkFlowByretreat(TaskRecordDto dto){
+		//查找到对应的任务
+		Criterion criterion = Restrictions.eq(TaskHead_.relId.getName(), dto.getRelId());
+		TaskHead taskHead = taskHeadRepo.findByCriteria(criterion).stream().findFirst().get();
+		//新增一条处理流程记录
+		TaskRecord taskRecord=new TaskRecord();
+		taskRecordMapper.buildEntity(dto, taskRecord);
+		taskRecord.setTitle(taskHead.getTitle());
+		taskRecord.setNextUser(taskHead.getCreatedBy());//设置下一处理人为初始创建人
+		taskRecord.setTaskId(taskHead.getId());//设置任务Id
+		taskRecord.setTaskType(taskHead.getTaskType());
+		taskRecord.setUnitName(taskHead.getUnitName());
+		taskRecord.setProjectIndustry(taskHead.getProjectIndustry());
+		taskRecord.setCreatedBy(currentUser.getLoginName());
+		taskRecord.setModifiedBy(currentUser.getLoginName());
+						
+		taskHead.getTaskRecords().add(taskRecord);
+		//更新任务状态
+		taskHead.setProcessState(dto.getProcessState());
+		taskHeadRepo.save(taskHead);
+	}
 }

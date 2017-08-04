@@ -199,6 +199,20 @@
 	            controller: 'yearPlanCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //申报信息编辑页面
+	         .state('yearPlan_shenbaoInfoEdit', {
+	            url: '/yearPlan/shenbaoInfoEdit/:id',
+	            templateUrl: '/management/yearPlan/html/shenbaoInfoEdit',
+	            controller: 'yearPlanCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //申报信息详情页面
+	        .state('yearPlan_shenbaoInfoDetails', {
+	            url: '/yearPlan/shenbaoInfoDetails/:id',
+	            templateUrl: '/management/yearPlan/html/shenbaoInfoDetails',
+	            controller: 'yearPlanCtrl',
+	            controllerAs: 'vm'
+	        })
 	        //年度计划编制列表
 	        .state('yearPlan_planList', {
 	            url: '/yearPlan/planList',

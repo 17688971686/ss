@@ -12,8 +12,14 @@
     	var vm = this;    	
     	vm.model={};
         vm.id=$state.params.id;        
-    	vm.page="shenbaoInfoList";
-    	function init(){    		
+    	vm.page="shenbaoInfoList";//默认为申报信息列表页面
+    	function init(){
+    		if($state.current.name=='yearPlan_shenbaoInfoEdit'){//申报信息编辑页面
+    			vm.page='shenbaoInfoEdit';
+    		}
+    		if($state.current.name=='yearPlan_shenbaoInfoDetails'){//申报信息详情页面
+    			vm.page='shenbaoInfoDetails';
+    		}
     		if($state.current.name=='yearPlan_planList'){
     			vm.page='planList';
     		}
@@ -30,6 +36,11 @@
     		vm.checkLength = function(obj,max,id){
       			 common.checkLength(obj,max,id);
            	};
+           	
+           	vm.getBasicDataDesc = function(str){
+           		return common.getBasicDataDesc(str);
+           	};
+
     		
     	}
     	init();    	
@@ -37,6 +48,12 @@
         function activate() {        	
         	if(vm.page=='shenbaoInfoList'){
         		init_shenbaoInfoList();
+        	}
+        	if(vm.page=='shenbaoInfoEdit'){
+        		init_shenbaoInfoEdit();
+        	}
+        	if(vm.page=='shenbaoInfoDetails'){
+        		init_shenbaoInfoDetails();
         	}
         	if(vm.page=='planList'){
         		init_planList();
@@ -66,8 +83,41 @@
           			//TODO
           	   };
     		};
+    		//列表退文按钮
+    		vm.retreat = function(id){
+    			common.confirm({
+    				vm:vm,
+    				msg:"确定需要退文吗？",
+    				fn:function(){
+    					$('.confirmDialog').modal('hide');
+    					//退文信息收集模态框弹出
+    					$("#shenbaoInfoTuiWen").modal({
+    				        backdrop: 'static',
+    				        keyboard:false
+    				    });
+    					vm.model.relId = id;
+    	    			vm.model.processState = common.basicDataConfig().processState_tuiWen;
+    					//退文信息收集模态框确认
+    					vm.retreatSubmit=function(){
+    						$("#shenbaoInfoTuiWen").modal('hide');
+    						yearPlanSvc.updateShenBaoInfoState(vm);
+    					};
+    				}
+    			});
+    		};
     		
-    	}//init_planList
+    	}//end#init_shenbaoInfoList
+    	
+    	function init_shenbaoInfoEdit(){
+    		
+    	}//end#init_shenbaoInfoEdit
+    	
+    	function init_shenbaoInfoDetails(){
+    		var id = vm.id;
+    		yearPlanSvc.getShenBaoInfoById(vm,id);
+    	}//end#init_shenbaoInfoDetails
+    	
+    	//init_planList
     	function init_planList(){
     		yearPlanSvc.grid_planList(vm);
     	}//init_planBZList    
