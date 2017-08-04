@@ -762,46 +762,43 @@
 
 			// Begin:column
 			var columns = [
-					{
-						template : function(item) {
-							return kendo
-									.format(
-											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
-											item.id);
-						},
-						filterable : false,
-						width : 40,
-						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
-
+				{
+					template : function(item) {
+						return kendo
+								.format(
+										"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+										item.id);
 					},
-					{
-						field : "name",
-						title : "编制名称",						
-						filterable : true
-					},
-					{
-						field : "year",
-						title : "计划年度",
-						width : 150,
-						filterable : false
-					},
-					{
-						field : "createdDate",
-						title : "创建日期",
-						width : 180,
-						filterable : false,
-						template:function(item){return kendo.toString(new Date(item.createdDate), "yyyy/MM/dd HH:mm:ss");}
-					},{
-						field : "",
-						title : "操作",
-						width : 180,
-						template : function(item) {
-							return common.format($('#columnBtns').html(), item.id);
+					filterable : false,
+					width : 40,
+					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
 
-						}
-
+				},
+				{
+					field : "name",
+					title : "编制名称",						
+					filterable : true
+				},
+				{
+					field : "year",
+					title : "计划年度",
+					width : 150,
+					filterable : false
+				},
+				{
+					field : "createdDate",
+					title : "创建日期",
+					width : 180,
+					filterable : false,
+					template:function(item){return kendo.toString(new Date(item.createdDate), "yyyy/MM/dd HH:mm:ss");}
+				},{
+					field : "",
+					title : "操作",
+					width : 180,
+					template : function(item) {
+						return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage);
 					}
-
+				}
 			];
 			// End:column
 
