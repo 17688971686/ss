@@ -121,7 +121,7 @@
                     for (var i = 0; i < selectIds.length; i++) {
                     	ids.push(selectIds[i].value);
     				}
-                    var idStr=ids.join(',');                  
+                    var idStr=ids.join(',');              
                     $('#addPlanList').modal('toggle');//关闭模态框
                     yearPlanSvc.addShenBaoInfoconfirm(vm,idStr);//添加申报信息到计划中                  
                 }   
@@ -143,7 +143,7 @@
     	    	   };  
     	       };//popOver
     	     //更新编制信息  
-    		 vm.updateCapital = function(id){
+    		 vm.updateCapital = function(){
     			 yearPlanSvc.updateYearPlanCapital(vm);
     		 };
     		 //移除计划中的申报信息
@@ -159,7 +159,7 @@
     	                for (var i = 0; i < selectIds.length; i++) {
     	                	ids.push(selectIds[i].value);
     					}
-    	                var idStr=ids.join(',');  
+    	                var idStr=ids.join(','); 
     	                yearPlanSvc.removeYearPlanCapital(vm,idStr);
     	            }
     	    	};//removeYearPlanCapital   			
