@@ -164,7 +164,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		super.repository.save(entity);
 		//更新任务状态
 		updeteWorkFlow(entity);
-		
+		//处理批复文件库
+		handlePiFuFile(entity);
 		logger.info(String.format("更新申报信息,项目名称 %s",entity.getProjectName()));		
 		return entity;		
 	}
@@ -231,6 +232,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		super.repository.save(entity);
 		//更新任务状态
 		updeteWorkFlow(entity);
+		//处理批复文件库
+		handlePiFuFile(entity);
 		logger.info(String.format("后台管理员更新申报信息,项目名称 %s",entity.getProjectName()));		
 	}
 
@@ -405,6 +408,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskHead.getTaskRecords().add(taskRecord);
 		//更新任务状态
 		taskHead.setProcessState(dto.getProcessState());
+		taskHead.setProcessSuggestion(dto.getProcessSuggestion());
 		taskHeadRepo.save(taskHead);
 		return taskRecord;
 	}

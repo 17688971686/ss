@@ -101,6 +101,8 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		
 		//保存数据
 		super.repository.save(project);
+		//更新文件库
+		handlePiFuFile(project);
 		logger.info(String.format("编辑项目,项目名称 %s",projectDto.getProjectName()));
 		return project;		
 	}
