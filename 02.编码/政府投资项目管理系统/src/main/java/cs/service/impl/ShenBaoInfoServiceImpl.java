@@ -191,6 +191,48 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			Util.sendShortMessage(sendMsg);
 		}
 	}
+	
+	
+
+	@Override
+	@Transactional
+	public void updateShenBaoInfo(ShenBaoInfoDto dto) {
+		ShenBaoInfo entity=super.update(dto,dto.getId());
+		//处理关联信息
+		//附件
+		entity.getAttachments().forEach(x -> {//删除历史附件
+			attachmentRepo.delete(x);
+		});
+		entity.getAttachments().clear();
+		dto.getAttachmentDtos().forEach(x -> {//添加新附件
+			Attachment attachment = new Attachment();
+			attachmentMapper.buildEntity(x, attachment);
+			attachment.setCreatedBy(entity.getModifiedBy());
+			attachment.setModifiedBy(entity.getModifiedBy());
+			entity.getAttachments().add(attachment);
+		});
+		
+		//申报单位
+		shenBaoUnitInfoRepo.delete(entity.getShenBaoUnitInfo());//删除申报单位
+		ShenBaoUnitInfoDto shenBaoUnitInfoDto = dto.getShenBaoUnitInfoDto();
+		ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
+		shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
+		shenBaoUnitInfo.setCreatedBy(entity.getModifiedBy());
+		shenBaoUnitInfo.setModifiedBy(entity.getModifiedBy());
+		entity.setShenBaoUnitInfo(shenBaoUnitInfo);
+		//编制单位
+		shenBaoUnitInfoRepo.delete(entity.getBianZhiUnitInfo());//删除编制单位
+		ShenBaoUnitInfoDto bianZhiUnitInfoDto = dto.getBianZhiUnitInfoDto();
+		ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
+		shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
+		bianZhiUnitInfo.setCreatedBy(entity.getModifiedBy());
+		bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
+		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
+		super.repository.save(entity);
+		//更新任务状态
+		updeteWorkFlow(entity);
+		logger.info(String.format("后台管理员更新申报信息,项目名称 %s",entity.getProjectName()));		
+	}
 
 	private String getTaskType(String shenbaoStage){
 		if(shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)){//如果是下一年度计划
@@ -278,6 +320,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			//更新任务的状态以及是否完成
 			taskHead.setComplete(false);
 			taskHead.setProcessState(BasicDataConfig.processState_tianBao);
+		}else{
+			taskRecord.setProcessState(taskHead.getProcessState());
 		}
 		taskRecord.setTaskType(this.getTaskType(entity.getProjectShenBaoStage()));
 		taskRecord.setProcessSuggestion("材料填报");
