@@ -163,7 +163,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		entity.setProcessState(BasicDataConfig.processState_tianBao);
 		super.repository.save(entity);
 		//更新任务状态
-		updeteWorkFlow(entity);
+		updeteWorkFlow(entity,false);
 		//处理批复文件库
 		handlePiFuFile(entity);
 		logger.info(String.format("更新申报信息,项目名称 %s",entity.getProjectName()));		
@@ -231,7 +231,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
 		super.repository.save(entity);
 		//更新任务状态
-		updeteWorkFlow(entity);
+		updeteWorkFlow(entity,true);
 		//处理批复文件库
 		handlePiFuFile(entity);
 		logger.info(String.format("后台管理员更新申报信息,项目名称 %s",entity.getProjectName()));		
@@ -293,7 +293,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskHeadRepo.save(taskHead);
 	}
 	
-	private void updeteWorkFlow(ShenBaoInfo entity){
+	private void updeteWorkFlow(ShenBaoInfo entity,Boolean isManageChange){
 		//查找到对应的任务
 		Criterion criterion = Restrictions.eq(TaskHead_.relId.getName(), entity.getId());
 		TaskHead taskHead = taskHeadRepo.findByCriteria(criterion).stream().findFirst().get();
@@ -318,13 +318,12 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskRecord.setNextUser(startUser);//设置下一处理人
 		taskRecord.setRelId(entity.getId());
 		taskRecord.setTaskId(taskHead.getId());//设置任务Id
-		if(!taskHead.isComplete()){
+		if(isManageChange){//如果是后台修改
+			taskRecord.setProcessState(taskHead.getProcessState());
+		}else{//如果是申报端修改
 			taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
-			//更新任务的状态以及是否完成
 			taskHead.setComplete(false);
 			taskHead.setProcessState(BasicDataConfig.processState_tianBao);
-		}else{
-			taskRecord.setProcessState(taskHead.getProcessState());
 		}
 		taskRecord.setTaskType(this.getTaskType(entity.getProjectShenBaoStage()));
 		taskRecord.setProcessSuggestion("材料填报");
