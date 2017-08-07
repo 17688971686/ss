@@ -9,16 +9,16 @@
 	<tr ng-repeat="x in vm.uploadType">
 		<td>{{x[1]}}</td>
 		<td>
-			<input type="text"  kendo-date-picker ng-model="vm.model['pifu'+x[0]+'_date']" k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" onkeydown="return false;"/>	
+			<input type="text"  kendo-date-picker ng-model="vm.model.shenBaoInfo['pifu'+x[0]+'_date']" k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" onkeydown="return false;"/>	
 		</td>
-		<td><input type="text" ng-model="vm.model['pifu'+x[0]+'_wenhao']" /></td>
+		<td><input type="text" ng-model="vm.model.shenBaoInfo['pifu'+x[0]+'_wenhao']" /></td>
 		<td class="clearfix">
 			<div class="uploadBox pull-left"  data-type="{{x[0]}}">
 				<button class="btn btn-sm btn-primary" style="margin-right:10px;" data-toggle="modal" ng-click="vm.choseDocument($event)">选择文件</button>
 			 	<input name="files" type="file" kendo-upload k-options="vm.uploadOptions_pifu"/>
 	        </div>
 	         <div style="margin:3px;"  class="pull-left"
-			 	  ng-repeat="y in vm.model.attachmentDtos" 
+			 	  ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos" 
 			 	  ng-show="y.type=='{{x[0]}}'"
 			 		>
 				 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
@@ -40,7 +40,7 @@
 			<div class="uploadBox pull-left" data-type="{{x[0]}}">
 				<input name="files" type="file" kendo-upload  k-options="vm.uploadOptions"/>
 			</div>
-			<div style="margin:3px;" class="pull-left" ng-repeat="y in vm.model.attachmentDtos" ng-show="y.type=='{{x[0]}}'">
+			<div style="margin:3px;" class="pull-left" ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos" ng-show="y.type=='{{x[0]}}'">
 				<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
 				<button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button>
 			</div>

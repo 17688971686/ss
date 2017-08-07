@@ -56,4 +56,11 @@ public class ShenBaoController {
 	public void updateState(@RequestBody TaskRecordDto taskRecordDto){
 		shenBaoInfoService.updateShenBaoInfoState(taskRecordDto);
 	}
+	
+	@RequiresPermissions("management/shenbao##put")
+	@RequestMapping(name = "更新申报数据", path = "",method=RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void update(@RequestBody ShenBaoInfoDto dto){
+		shenBaoInfoService.update(dto, dto.getId());
+	}
 }

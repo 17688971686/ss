@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
+import cs.common.Util;
 import cs.domain.Attachment;
 import cs.domain.ReplyFile;
 import cs.domain.ShenBaoInfo;
@@ -26,7 +27,10 @@ import cs.domain.ShenBaoUnitInfo;
 import cs.domain.TaskHead;
 import cs.domain.TaskHead_;
 import cs.domain.TaskRecord;
+import cs.domain.framework.SysConfig;
+import cs.domain.framework.SysConfig_;
 import cs.model.PageModelDto;
+import cs.model.SendMsg;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.ShenBaoUnitInfoDto;
@@ -56,6 +60,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private IRepository<ShenBaoUnitInfo, String> shenBaoUnitInfoRepo;
 	@Autowired
 	private IRepository<ReplyFile, String> replyFileRepo;
+	@Autowired
+	private IRepository<SysConfig, String> sysConfigRepo;
 	@Autowired
 	private IMapper<AttachmentDto, Attachment> attachmentMapper;
 	@Autowired
@@ -170,7 +176,20 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		ShenBaoInfo shenbaoInfo = super.repository.findById(dto.getRelId());
 		shenbaoInfo.setProcessState(dto.getProcessState());
 		//同时更新任务的状态
-		updeteWorkFlowByretreat(dto);
+		TaskRecord entity = updeteWorkFlowByretreat(dto);
+		//查询系统配置是否需要发送短信
+		Criterion criterion = Restrictions.eq(SysConfig_.configName.getName(), BasicDataConfig.taskType_sendMesg);
+		SysConfig entityQuery = sysConfigRepo.findByCriteria(criterion).stream().findFirst().get();
+		if(entityQuery.getEnable()){
+			SendMsg sendMsg = new SendMsg();
+			sendMsg.setMobile(shenbaoInfo.getProjectRepMobile());
+			String content = entity.getTitle()+":"+basicDataService.getDescriptionById(entity.getProcessState());
+			if(entity.getProcessState().equals(BasicDataConfig.processState_tuiWen)){//如果为退文
+				content += ";处理意见："+entity.getProcessSuggestion();
+			}
+			sendMsg.setContent(content);
+			Util.sendShortMessage(sendMsg);
+		}
 	}
 
 	private String getTaskType(String shenbaoStage){
@@ -254,8 +273,12 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskRecord.setNextUser(startUser);//设置下一处理人
 		taskRecord.setRelId(entity.getId());
 		taskRecord.setTaskId(taskHead.getId());//设置任务Id
-		taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
-		
+		if(!taskHead.isComplete()){
+			taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
+			//更新任务的状态以及是否完成
+			taskHead.setComplete(false);
+			taskHead.setProcessState(BasicDataConfig.processState_tianBao);
+		}
 		taskRecord.setTaskType(this.getTaskType(entity.getProjectShenBaoStage()));
 		taskRecord.setProcessSuggestion("材料填报");
 		taskRecord.setUnitName(entity.getUnitName());
@@ -264,9 +287,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskRecord.setModifiedBy(currentUser.getLoginName());
 						
 		taskHead.getTaskRecords().add(taskRecord);
-		//更新任务的状态以及是否完成
-		taskHead.setComplete(false);
-		taskHead.setProcessState(BasicDataConfig.processState_tianBao);
 		taskHeadRepo.save(taskHead);
 	}
 	
@@ -307,7 +327,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 				}
 		}
 
-	private void updeteWorkFlowByretreat(TaskRecordDto dto){
+	private TaskRecord updeteWorkFlowByretreat(TaskRecordDto dto){
 		//查找到对应的任务
 		Criterion criterion = Restrictions.eq(TaskHead_.relId.getName(), dto.getRelId());
 		TaskHead taskHead = taskHeadRepo.findByCriteria(criterion).stream().findFirst().get();
@@ -327,5 +347,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		//更新任务状态
 		taskHead.setProcessState(dto.getProcessState());
 		taskHeadRepo.save(taskHead);
+		return taskRecord;
 	}
 }
