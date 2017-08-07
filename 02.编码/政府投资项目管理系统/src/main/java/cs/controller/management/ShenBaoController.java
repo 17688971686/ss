@@ -6,13 +6,17 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
+import cs.model.DomainDto.TaskRecordDto;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.interfaces.ShenBaoInfoService;
@@ -43,5 +47,19 @@ public class ShenBaoController {
 			x.setCapitalOtherTypeDesc(basicDataService.getDescriptionById(x.getCapitalOtherType()));//资金其他来源名称					
 		});
 		return shenbaoInfoDtos;
+	}
+	
+	@RequiresPermissions("management/shenbao#updateState#post")
+	@RequestMapping(name = "更新申报数据的状态", path = "updateState",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void updateState(@RequestBody TaskRecordDto taskRecordDto){
+		shenBaoInfoService.updateShenBaoInfoState(taskRecordDto);
+	}
+	
+	@RequiresPermissions("management/shenbao##put")
+	@RequestMapping(name = "更新申报数据", path = "",method=RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void update(@RequestBody ShenBaoInfoDto dto){
+		shenBaoInfoService.updateShenBaoInfo(dto);
 	}
 }

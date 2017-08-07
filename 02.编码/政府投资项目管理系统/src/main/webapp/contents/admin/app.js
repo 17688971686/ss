@@ -199,6 +199,13 @@
 	            controller: 'yearPlanCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //申报信息编辑页面
+	         .state('yearPlan_shenbaoInfoEdit', {
+	            url: '/yearPlan/shenbaoInfoEdit/:id/:projectInvestmentType/:stage',
+	            templateUrl: '/management/yearPlan/html/shenbaoInfoEdit',
+	            controller: 'yearPlanCtrl',
+	            controllerAs: 'vm'
+	        })
 	        //年度计划编制列表
 	        .state('yearPlan_planList', {
 	            url: '/yearPlan/planList',
