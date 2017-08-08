@@ -21,6 +21,8 @@ import cs.common.Response;
 import cs.common.sysResource.ClassFinder;
 import cs.common.sysResource.SysResourceDto;
 import cs.domain.BasicData;
+import cs.domain.ReplyFile;
+import cs.domain.UserUnitInfo;
 import cs.domain.framework.Resource;
 import cs.domain.framework.Role;
 import cs.domain.framework.Role_;
@@ -32,6 +34,8 @@ import cs.repository.common.BasicDataRepo;
 import cs.repository.framework.RoleRepoImpl;
 import cs.repository.framework.SysConfigRepoImpl;
 import cs.repository.framework.UserRepoImpl;
+import cs.repository.impl.UserUnitInfoRepoImpl;
+import cs.repository.interfaces.IRepository;
 
 @Service
 public class SysServiceImpl implements SysService{
@@ -41,6 +45,8 @@ public class SysServiceImpl implements SysService{
 	private RoleRepoImpl roleRepo;
 	@Autowired
 	private UserRepoImpl userRepo;
+	@Autowired
+	private IRepository<UserUnitInfo, String> userUnitInfoRepo;
 	@Autowired
 	private SysConfigRepoImpl sysConfigRepo;
 	@Autowired
@@ -161,7 +167,7 @@ public class SysServiceImpl implements SysService{
 		user.setDisplayName("超级管理员");
 		user.getRoles().add(role);
 		userRepo.save(user);
-		//初始化建设单位用户
+		//初始化建设单位用户信息和单位信息
 		String[] userNames = {"党工委管委会","组织人事局","社会建设局","城市管理局","光明供电局",
 								"文体教育局","光明交通运输局","城市建设局","发展和财政局","卫生计生局",
 								"光明公安分局","环境保护和水务局","经济服务局","纪检监察局","市规划和国土资源委员会光明管理局",
@@ -174,8 +180,16 @@ public class SysServiceImpl implements SysService{
 			unitUser.setDisplayName(userName);
 			unitUser.setLoginName(userName);
 			unitUser.setPassword("888888");
+			unitUser.setComment("系统初始化创建");
 			unitUser.getRoles().add(role2);
 			userRepo.save(unitUser);
+			
+			UserUnitInfo userUnitInfo = new UserUnitInfo();
+			userUnitInfo.setId(UUID.randomUUID().toString());
+			userUnitInfo.setUnitName(userName);
+			userUnitInfo.setUserName(userName);
+			userUnitInfo.setRemark("系统初始化创建");
+			userUnitInfoRepo.save(userUnitInfo);
 		}
 		
 		response.setMessage("初始化成功");
