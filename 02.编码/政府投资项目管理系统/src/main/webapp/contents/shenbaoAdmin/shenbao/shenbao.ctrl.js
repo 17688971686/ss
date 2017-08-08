@@ -135,6 +135,7 @@
     		   vm.isQianQi=vm.stage==common.basicDataConfig().projectShenBaoStage_qianQi;//申报阶段为:前期计划
     		   vm.isNewStart=vm.stage==common.basicDataConfig().projectShenBaoStage_newStart;//申报阶段为:新开工计划
     		   vm.isXuJian=vm.stage==common.basicDataConfig().projectShenBaoStage_xuJian;//申报阶段为:续建计划
+    		   vm.isJunGong=vm.stage==common.basicDataConfig().projectShenBaoStage_junGong;//申报阶段为:竣工决算
     		   
     		   //申报材料初始化
     		   if(vm.isYearPlan){//下一年度计划上传文件类型
@@ -159,6 +160,9 @@
     		   if(vm.isXuJian){//续建计划上传文件类型
     			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_xuJian;
     		   }
+    		   if(vm.isJunGong){//竣工决算上传文件类型
+    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_junGong;
+    		   }
     		   
     		   
     		   //初始化tab--禁止点击Tab切换
@@ -167,6 +171,7 @@
     		   $("#tab3").attr("disabled","true");
     		   $("#tab4").attr("disabled","true");
     		   $("#tab5").attr("disabled","true");
+    		   $("#tab6").attr("disabled","true");
     	   };
     	  
     	   //初始化基础数据

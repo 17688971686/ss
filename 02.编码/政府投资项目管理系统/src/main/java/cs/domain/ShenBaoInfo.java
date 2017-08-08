@@ -82,6 +82,11 @@ public class ShenBaoInfo extends BaseProject{
 	private String lastYearImageSchedule;
 	//end
 	
+	//begin#竣工决算相关
+	@Column(columnDefinition="varchar(500) NULL COMMENT '形象进度'")
+	private String yearImageSchedule;
+	//end
+	
 	//begin#关联信息
 	@OneToOne(cascade=CascadeType.ALL)
 	private ShenBaoUnitInfo bianZhiUnitInfo=new ShenBaoUnitInfo();
@@ -220,6 +225,12 @@ public class ShenBaoInfo extends BaseProject{
 	}
 	public void setLastYearImageSchedule(String lastYearImageSchedule) {
 		this.lastYearImageSchedule = lastYearImageSchedule;
+	}
+	public String getYearImageSchedule() {
+		return yearImageSchedule;
+	}
+	public void setYearImageSchedule(String yearImageSchedule) {
+		this.yearImageSchedule = yearImageSchedule;
 	}
 	
 }
