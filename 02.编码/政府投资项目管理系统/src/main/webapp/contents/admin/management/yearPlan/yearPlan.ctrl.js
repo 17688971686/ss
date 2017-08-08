@@ -11,12 +11,11 @@
         /* jshint validthis:true */
     	var vm = this;    	
     	vm.model={};
-
     	vm.basicData={};
     	vm.title='申报信息编辑';
-        vm.id=$state.params.id;       
-        vm.investmentType=$state.params.projectInvestmentType;//获取url上面的项目投资类型参数
-        vm.stage=$state.params.stage;//获取url上面的申报阶段参数   
+        vm.id=$state.params.id;
+        vm.investmentType=$state.params.projectInvestmentType;
+        vm.stage=$state.params.stage;
     	vm.page="shenbaoInfoList";//默认为申报信息列表页面
     	
     	function init(){
@@ -294,6 +293,7 @@
     	}//end#init_shenbaoInfoList
     	
     	function init_shenbaoInfoEdit(){
+    		vm.isRecordEdit = true;
     		//初始化页面
     		var init_page = function(){
 	 		  vm.isYearPlan=vm.stage==common.basicDataConfig().projectShenBaoStage_nextYearPlan;//申报阶段为下一年度计划
@@ -354,6 +354,8 @@
     	init_page();
     	init_basicData();
     	
+    	yearPlanSvc.getShenBaoInfoById(vm,vm.id);
+    	
    		//获取项目类型， 多选
    		vm.updateSelection = function(id){
         	var index = vm.model.projectType.indexOf(id);
@@ -373,7 +375,7 @@
      	   });
      	   vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
    		};
-   		//yerarPlanSvc.documentRecordsGird(vm);//查询批复文件
+   		yearPlanSvc.documentRecordsGird(vm);//查询批复文件
  	   		
    		//批复文件选择模态框确认
    		vm.pifuChoseConfirm = function(){
@@ -384,10 +386,10 @@
    			var select = common.getKendoCheckId('.grid');
          	var fileName = select[0].value;
          	
-			    if(vm.model.attachmentDtos){
-				  vm.model.attachmentDtos.push({name:fileName,url:fileName,type:vm.pifuType});
+			    if(vm.model.shenBaoInfo.attachmentDtos){
+				  vm.model.shenBaoInfo.attachmentDtos.push({name:fileName,url:fileName,type:vm.pifuType});
 			    }else{
-				  vm.model.attachmentDtos=[{name:fileName,url:fileName,type:vm.pifuType}];
+				  vm.model.shenBaoInfo.attachmentDtos=[{name:fileName,url:fileName,type:vm.pifuType}];
 			    }    			          		
         };
      	  
@@ -397,10 +399,10 @@
            	 if(e.XMLHttpRequest.status==200){
            		 var fileName=e.XMLHttpRequest.response;
            		 $scope.$apply(function(){
-           			 if(vm.model.attachmentDtos){
-           				 vm.model.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
+           			 if(vm.model.shenBaoInfo.attachmentDtos){
+           				 vm.model.shenBaoInfo.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
            			 }else{
-           				 vm.model.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
+           				 vm.model.shenBaoInfo.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
            			 }                			           			
            		 });
            	 }
@@ -446,7 +448,7 @@
     		
      	   //删除上传文件
    		 vm.delFile=function(idx){
-           	 vm.model.attachmentDtos.splice(idx,1);
+           	 vm.model.shenBaoInfo.attachmentDtos.splice(idx,1);
    		 };
    		 	 
    		 //tab切换(上一步)
@@ -466,10 +468,9 @@
      			}
       		};
    		
-   		 //确认提交
-     	vm.submit = function(){
-     		vm.model.projectType =vm.model.projectType.join(",");
-     		//shenbaoSvc.createShenBaoInfo(vm);
+   		 //确认更新
+     	vm.update = function(){
+     		yearPlanSvc.updateShenBaoInfo(vm);
      	};
     }//end#init_shenbaoInfoEdit
 

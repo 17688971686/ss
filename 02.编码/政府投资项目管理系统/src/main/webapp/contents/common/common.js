@@ -28,7 +28,9 @@
         formatDate:formatDate,
         formatDateTime:formatDateTime,
         basicDataConfig:basicDataConfig,
-        checkLength:checkLength
+        checkLength:checkLength,
+        stringToArray:stringToArray,
+        arrayToString:arrayToString
     };
 
     window.common = service;
@@ -449,6 +451,48 @@
     	}else{
     		$("#"+id).html("<font size='5'>"+max+"</font>");
     	}
+    }
+    
+    function stringToArray(str,substr){
+    	var arrTmp=new Array();
+    	if(str !=null && str != ""){
+	       	 if(substr==""){ 
+	       		 arrTmp.push(str); 
+	       		 return arrTmp; 
+	       	 } 
+	       	 var i=0,j=0,k=str.length; 
+	       	 while(i<k){ 
+	       		 j=str.indexOf(substr,i); 
+	       		 if(j!=-1){ 
+	   	    		if(str.substring(i,j)!="") {
+	   	    			arrTmp.push(str.substring(i,j)); 
+	   	    		} 
+	   	    	i = j+1; 
+	       		 } else{
+	       			 if(str.substring(i,k)!="") {
+	       				 arrTmp.push(str.substring(i,k)); 
+	       			 } 
+	       		i=k; 
+	       		 } 
+	       	} 
+    	}
+    	 return arrTmp; 
+    }
+    
+    function arrayToString(arr,str){
+		 var strTmp="";
+		 if(arr !=null && arr.length>0){
+			 for(var i=0;i<arr.length;i++){ 
+	    		 if(arr[i]!=""){ 
+	    		  if(strTmp==""){ 
+	    			  strTmp = arr[i]; 
+	    		  } else { 
+	    			  strTmp=strTmp+str+arr[i]; 
+	    		  } 
+	    		} 
+	    	} 
+		 }
+    	return strTmp; 
     }
 
     //init

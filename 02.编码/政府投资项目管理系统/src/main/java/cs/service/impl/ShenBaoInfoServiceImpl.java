@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
+import cs.common.Util;
 import cs.domain.Attachment;
 import cs.domain.ReplyFile;
 import cs.domain.ShenBaoInfo;
@@ -26,7 +27,10 @@ import cs.domain.ShenBaoUnitInfo;
 import cs.domain.TaskHead;
 import cs.domain.TaskHead_;
 import cs.domain.TaskRecord;
+import cs.domain.framework.SysConfig;
+import cs.domain.framework.SysConfig_;
 import cs.model.PageModelDto;
+import cs.model.SendMsg;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.ShenBaoUnitInfoDto;
@@ -56,6 +60,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private IRepository<ShenBaoUnitInfo, String> shenBaoUnitInfoRepo;
 	@Autowired
 	private IRepository<ReplyFile, String> replyFileRepo;
+	@Autowired
+	private IRepository<SysConfig, String> sysConfigRepo;
 	@Autowired
 	private IMapper<AttachmentDto, Attachment> attachmentMapper;
 	@Autowired
@@ -157,8 +163,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		entity.setProcessState(BasicDataConfig.processState_tianBao);
 		super.repository.save(entity);
 		//更新任务状态
-		updeteWorkFlow(entity);
-		
+		updeteWorkFlow(entity,false);
+		//处理批复文件库
+		handlePiFuFile(entity);
 		logger.info(String.format("更新申报信息,项目名称 %s",entity.getProjectName()));		
 		return entity;		
 	}
@@ -170,7 +177,64 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		ShenBaoInfo shenbaoInfo = super.repository.findById(dto.getRelId());
 		shenbaoInfo.setProcessState(dto.getProcessState());
 		//同时更新任务的状态
-		updeteWorkFlowByretreat(dto);
+		TaskRecord entity = updeteWorkFlowByretreat(dto);
+		//查询系统配置是否需要发送短信
+		Criterion criterion = Restrictions.eq(SysConfig_.configName.getName(), BasicDataConfig.taskType_sendMesg);
+		SysConfig entityQuery = sysConfigRepo.findByCriteria(criterion).stream().findFirst().get();
+		if(entityQuery.getEnable()){
+			SendMsg sendMsg = new SendMsg();
+			sendMsg.setMobile(shenbaoInfo.getProjectRepMobile());
+			String content = entity.getTitle()+":"+basicDataService.getDescriptionById(entity.getProcessState());
+			if(entity.getProcessState().equals(BasicDataConfig.processState_tuiWen)){//如果为退文
+				content += ";处理意见："+entity.getProcessSuggestion();
+			}
+			sendMsg.setContent(content);
+			Util.sendShortMessage(sendMsg);
+		}
+	}
+	
+	
+
+	@Override
+	@Transactional
+	public void updateShenBaoInfo(ShenBaoInfoDto dto) {
+		ShenBaoInfo entity=super.update(dto,dto.getId());
+		//处理关联信息
+		//附件
+		entity.getAttachments().forEach(x -> {//删除历史附件
+			attachmentRepo.delete(x);
+		});
+		entity.getAttachments().clear();
+		dto.getAttachmentDtos().forEach(x -> {//添加新附件
+			Attachment attachment = new Attachment();
+			attachmentMapper.buildEntity(x, attachment);
+			attachment.setCreatedBy(entity.getModifiedBy());
+			attachment.setModifiedBy(entity.getModifiedBy());
+			entity.getAttachments().add(attachment);
+		});
+		
+		//申报单位
+		shenBaoUnitInfoRepo.delete(entity.getShenBaoUnitInfo());//删除申报单位
+		ShenBaoUnitInfoDto shenBaoUnitInfoDto = dto.getShenBaoUnitInfoDto();
+		ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
+		shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
+		shenBaoUnitInfo.setCreatedBy(entity.getModifiedBy());
+		shenBaoUnitInfo.setModifiedBy(entity.getModifiedBy());
+		entity.setShenBaoUnitInfo(shenBaoUnitInfo);
+		//编制单位
+		shenBaoUnitInfoRepo.delete(entity.getBianZhiUnitInfo());//删除编制单位
+		ShenBaoUnitInfoDto bianZhiUnitInfoDto = dto.getBianZhiUnitInfoDto();
+		ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
+		shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
+		bianZhiUnitInfo.setCreatedBy(entity.getModifiedBy());
+		bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
+		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
+		super.repository.save(entity);
+		//更新任务状态
+		updeteWorkFlow(entity,true);
+		//处理批复文件库
+		handlePiFuFile(entity);
+		logger.info(String.format("后台管理员更新申报信息,项目名称 %s",entity.getProjectName()));		
 	}
 
 	private String getTaskType(String shenbaoStage){
@@ -229,7 +293,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskHeadRepo.save(taskHead);
 	}
 	
-	private void updeteWorkFlow(ShenBaoInfo entity){
+	private void updeteWorkFlow(ShenBaoInfo entity,Boolean isManageChange){
 		//查找到对应的任务
 		Criterion criterion = Restrictions.eq(TaskHead_.relId.getName(), entity.getId());
 		TaskHead taskHead = taskHeadRepo.findByCriteria(criterion).stream().findFirst().get();
@@ -254,8 +318,13 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskRecord.setNextUser(startUser);//设置下一处理人
 		taskRecord.setRelId(entity.getId());
 		taskRecord.setTaskId(taskHead.getId());//设置任务Id
-		taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
-		
+		if(isManageChange){//如果是后台修改
+			taskRecord.setProcessState(taskHead.getProcessState());
+		}else{//如果是申报端修改
+			taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
+			taskHead.setComplete(false);
+			taskHead.setProcessState(BasicDataConfig.processState_tianBao);
+		}
 		taskRecord.setTaskType(this.getTaskType(entity.getProjectShenBaoStage()));
 		taskRecord.setProcessSuggestion("材料填报");
 		taskRecord.setUnitName(entity.getUnitName());
@@ -264,50 +333,62 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskRecord.setModifiedBy(currentUser.getLoginName());
 						
 		taskHead.getTaskRecords().add(taskRecord);
-		//更新任务的状态以及是否完成
-		taskHead.setComplete(false);
-		taskHead.setProcessState(BasicDataConfig.processState_tianBao);
 		taskHeadRepo.save(taskHead);
 	}
 	
-	private void handlePiFuFile(ShenBaoInfo entity){
-		//获取项目中批复文件以及文号
-				Map<String,Attachment> pifus = new HashMap<>();
-				entity.getAttachments().stream().forEach(x->{
-					if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs) ||
-							x.getType().equals(BasicDataConfig.attachment_type_jys) ||
-							x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)
-							){
-						if(x.getType().equals(BasicDataConfig.attachment_type_jys)){
-							pifus.put(entity.getPifuJYS_wenhao(), x);
-						}
-						else if(x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)){
-							pifus.put(entity.getPifuKXXYJBG_wenhao(), x);
-						}
-						else if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)){
-							pifus.put(entity.getPifuCBSJYGS_wenhao(), x);
-						}
+	/**
+	 * 批复文件库处理
+	 */
+	public void handlePiFuFile(ShenBaoInfo shenBaoInfo){
+		//获取文件库中所有的批复文件(map)
+		List<ReplyFile> replyFiles = replyFileRepo.findAll();
+		Map<String,Object> replyFileMap = new HashMap();
+		replyFiles.stream().forEach(x->{
+			String key = x.getNumber();//文号
+			String value = x.getName();//文件名
+			replyFileMap.put(key, value);
+		});
+		//获取项目中批复文件以及文号(map)
+		Map<String,Attachment> pifuMap = new HashMap<>();
+		shenBaoInfo.getAttachments().stream().forEach(x->{
+			if(x.getType() !=null && !x.getType().isEmpty()){//非空判断
+				if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs) ||
+						x.getType().equals(BasicDataConfig.attachment_type_jys) ||
+						x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)
+						){
+					if(x.getType().equals(BasicDataConfig.attachment_type_jys)){
+						pifuMap.put(shenBaoInfo.getPifuJYS_wenhao(), x);
 					}
-				});
-				//判断项目中批复文件在文件库中是否存在
-				//更新文件库
-				Set<String> keSet=pifus.keySet();
-				for (Iterator<String> iterator = keSet.iterator(); iterator.hasNext();) {
-					String string = iterator.next();
-					ReplyFile replyfile = new ReplyFile();
-					replyfile.setId(UUID.randomUUID().toString());
-					replyfile.setCreatedBy(pifus.get(string).getCreatedBy());
-					replyfile.setName(pifus.get(string).getName());
-					replyfile.setFullName(pifus.get(string).getUrl());
-					replyfile.setItemOrder(pifus.get(string).getItemOrder());
-					replyfile.setModifiedBy(pifus.get(string).getModifiedBy());
-					replyfile.setNumber(string);
-					replyfile.setType(pifus.get(string).getType());
-					replyFileRepo.save(replyfile);//更新文件库
+					else if(x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)){
+						pifuMap.put(shenBaoInfo.getPifuKXXYJBG_wenhao(), x);
+					}
+					else if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)){
+						pifuMap.put(shenBaoInfo.getPifuCBSJYGS_wenhao(), x);
+					}
 				}
-		}
+			}
+		});
+		//判断项目中批复文件在文件库中是否存在
+		List<Map<String,Object>> needList = Util.getCheck(pifuMap,replyFileMap);
+		//更新文件库
+		needList.stream().forEach(x->{
+			for(String key:x.keySet()){
+				Attachment obj = (Attachment)x.get(key);
+				ReplyFile replyfile = new ReplyFile();
+				replyfile.setId(UUID.randomUUID().toString());
+				replyfile.setNumber(key);
+				replyfile.setCreatedBy(obj.getCreatedBy());
+				replyfile.setName(obj.getName());
+				replyfile.setFullName(obj.getUrl());
+				replyfile.setItemOrder(obj.getItemOrder());
+				replyfile.setModifiedBy(obj.getModifiedBy());
+				replyfile.setType(obj.getType());
+				replyFileRepo.save(replyfile);//更新文件库
+			}
+		});
+	}
 
-	private void updeteWorkFlowByretreat(TaskRecordDto dto){
+	private TaskRecord updeteWorkFlowByretreat(TaskRecordDto dto){
 		//查找到对应的任务
 		Criterion criterion = Restrictions.eq(TaskHead_.relId.getName(), dto.getRelId());
 		TaskHead taskHead = taskHeadRepo.findByCriteria(criterion).stream().findFirst().get();
@@ -326,6 +407,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskHead.getTaskRecords().add(taskRecord);
 		//更新任务状态
 		taskHead.setProcessState(dto.getProcessState());
+		taskHead.setProcessSuggestion(dto.getProcessSuggestion());
 		taskHeadRepo.save(taskHead);
+		return taskRecord;
 	}
 }

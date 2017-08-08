@@ -101,6 +101,8 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		
 		//保存数据
 		super.repository.save(project);
+		//更新文件库
+		handlePiFuFile(project);
 		logger.info(String.format("编辑项目,项目名称 %s",projectDto.getProjectName()));
 		return project;		
 	}
@@ -187,39 +189,51 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	 * 批复文件库处理
 	 */
 	public void handlePiFuFile(Project project){
-		//获取项目中批复文件以及文号
-		Map<String,Attachment> pifus = new HashMap<>();
+		//获取文件库中所有的批复文件(map)
+		List<ReplyFile> replyFiles = replyFileRepo.findAll();
+		Map<String,Object> replyFileMap = new HashMap();
+		replyFiles.stream().forEach(x->{
+			String key = x.getNumber();//文号
+			String value = x.getName();//文件名
+			replyFileMap.put(key, value);
+		});
+		//获取项目中批复文件以及文号(map)
+		Map<String,Attachment> pifuMap = new HashMap<>();
 		project.getAttachments().stream().forEach(x->{
-			if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs) ||
-					x.getType().equals(BasicDataConfig.attachment_type_jys) ||
-					x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)
-					){
-				if(x.getType().equals(BasicDataConfig.attachment_type_jys)){
-					pifus.put(project.getPifuJYS_wenhao(), x);
-				}
-				else if(x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)){
-					pifus.put(project.getPifuKXXYJBG_wenhao(), x);
-				}
-				else if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)){
-					pifus.put(project.getPifuCBSJYGS_wenhao(), x);
+			if(x.getType() !=null && !x.getType().isEmpty()){//非空判断
+				if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs) ||
+						x.getType().equals(BasicDataConfig.attachment_type_jys) ||
+						x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)
+						){
+					if(x.getType().equals(BasicDataConfig.attachment_type_jys)){
+						pifuMap.put(project.getPifuJYS_wenhao(), x);
+					}
+					else if(x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)){
+						pifuMap.put(project.getPifuKXXYJBG_wenhao(), x);
+					}
+					else if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)){
+						pifuMap.put(project.getPifuCBSJYGS_wenhao(), x);
+					}
 				}
 			}
 		});
 		//判断项目中批复文件在文件库中是否存在
+		List<Map<String,Object>> needList = Util.getCheck(pifuMap,replyFileMap);
 		//更新文件库
-		Set<String> keSet=pifus.keySet();
-		for (Iterator<String> iterator = keSet.iterator(); iterator.hasNext();) {
-			String string = iterator.next();
-			ReplyFile replyfile = new ReplyFile();
-			replyfile.setId(UUID.randomUUID().toString());
-			replyfile.setCreatedBy(pifus.get(string).getCreatedBy());
-			replyfile.setName(pifus.get(string).getName());
-			replyfile.setFullName(pifus.get(string).getUrl());
-			replyfile.setItemOrder(pifus.get(string).getItemOrder());
-			replyfile.setModifiedBy(pifus.get(string).getModifiedBy());
-			replyfile.setNumber(string);
-			replyfile.setType(pifus.get(string).getType());
-			replyFileRepo.save(replyfile);//更新文件库
-		}
+		needList.stream().forEach(x->{
+			for(String key:x.keySet()){
+				Attachment obj = (Attachment)x.get(key);
+				ReplyFile replyfile = new ReplyFile();
+				replyfile.setId(UUID.randomUUID().toString());
+				replyfile.setNumber(key);
+				replyfile.setCreatedBy(obj.getCreatedBy());
+				replyfile.setName(obj.getName());
+				replyfile.setFullName(obj.getUrl());
+				replyfile.setItemOrder(obj.getItemOrder());
+				replyfile.setModifiedBy(obj.getModifiedBy());
+				replyfile.setType(obj.getType());
+				replyFileRepo.save(replyfile);//更新文件库
+			}
+		});
 	} 
 }

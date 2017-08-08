@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -55,5 +54,12 @@ public class ShenBaoController {
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void updateState(@RequestBody TaskRecordDto taskRecordDto){
 		shenBaoInfoService.updateShenBaoInfoState(taskRecordDto);
+	}
+	
+	@RequiresPermissions("management/shenbao##put")
+	@RequestMapping(name = "更新申报数据", path = "",method=RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void update(@RequestBody ShenBaoInfoDto dto){
+		shenBaoInfoService.updateShenBaoInfo(dto);
 	}
 }

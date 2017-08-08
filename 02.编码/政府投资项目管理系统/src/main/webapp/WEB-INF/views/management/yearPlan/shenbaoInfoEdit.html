@@ -42,7 +42,7 @@ textarea.form-control {
 	overflow-y:auto
 	}
 .modal-open {
-       overflow: scroll !important;
+    overflow: scroll !important;
     }
 </style>
 
@@ -58,48 +58,47 @@ textarea.form-control {
         <li class="active">申报信息编辑</li>
     </ol>
              
-  <!-- 	<form id="form" name="form">
+  	<form id="form" name="form">
   		<div id="tabStrip" kendo-tab-strip="vm.tabStrip">
-              tab list
-              <ul >
-                <li id="tab1" class="k-state-active">项目基本信息</li>
-                <li id="tab2">项目单位信息</li>                
-                <li id="tab3">项目材料清单</li>
-                <li id="tab4" ng-show="vm.isYearPlan">年度计划信息</li>
-              </ul>
-          
-				<div class="tab_content">
-					<div ng-show="vm.isZFInvestment" ng-include  src="'/contents/shenbaoAdmin/shenbao/html/basicInfo_ZF.html'"></div>
-					<div ng-show="vm.isSHInvestment" ng-include  src="'/contents/shenbaoAdmin/shenbao/html/basicInfo_SH.html'"></div>
-					<div style="text-align: center">
-					<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(2)">下一步 <span class="glyphicon glyphicon-forward"></span></button>               
-					</div>
+            <ul>
+              <li id="tab1" class="k-state-active">项目基本信息</li>
+              <li id="tab2">项目单位信息</li>                
+              <li id="tab3">项目材料清单</li>
+              <li id="tab4" ng-show="vm.isYearPlan">年度计划信息</li>
+            </ul>
+         
+			<div class="tab_content">
+				<div ng-show="vm.isZFInvestment" ng-include  src="'/contents/admin/management/yearPlan/html/basicInfo_ZF.html'"></div>
+				<div ng-show="vm.isSHInvestment" ng-include  src="'/contents/admin/management/yearPlan/html/basicInfo_SH.html'"></div>
+				<div style="text-align: center">
+				<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(2)">下一步 <span class="glyphicon glyphicon-forward"></span></button>               
 				</div>
-				<div class="tab_content">
-				     <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/unitInfo.html'"></div>
-				     <div style="text-align: center">
-				     	<button class="btn btn-sm btn-primary" ng-click="vm.tabReturn(1)"><span class="glyphicon glyphicon-backward"></span>上一步 </button>
-				     	<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(3)">下一步 <span class="glyphicon glyphicon-forward"></span></button>               
-				     </div>
-				</div>
+			</div>
+			<div class="tab_content">
+			     <div ng-include  src="'/contents/admin/management/yearPlan/html/unitInfo.html'"></div>
+			     <div style="text-align: center">
+			     	<button class="btn btn-sm btn-primary" ng-click="vm.tabReturn(1)"><span class="glyphicon glyphicon-backward"></span>上一步 </button>
+			     	<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(3)">下一步 <span class="glyphicon glyphicon-forward"></span></button>               
+			     </div>
+			</div>
              
-               <div class="tab_content">
-	              	<div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/materialsInfo.html'"></div>
-	               	<div style="text-align: center">
-	             		<button class="btn btn-sm btn-primary" ng-click="vm.tabReturn(2)"><span class="glyphicon glyphicon-backward"></span>上一步 </button>
-				     	<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(4)">下一步 <span class="glyphicon glyphicon-forward"></span></button>               
-				    </div>
-              </div>                   
-              <div class="tab_content" ng-show="vm.isYearPlan">
-                <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/stage/yearPlan.html'"></div>
-                 <div style="text-align: center">
-                 	<button class="btn btn-sm btn-primary" ng-click="vm.tabReturn(3)"><span class="glyphicon glyphicon-backward">上一步 </span></button>                
-                 	<button class="btn btn-sm btn-success" ng-hide="vm.isRecordEdit" ng-click="vm.submit()" ng-disabled="vm.isSubmit">确认提交 </button>
-                 	<button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit" ng-click="vm.update()" ng-disabled="vm.isSubmit">确认更新 </button>
-                 </div>
-            </div>
-           </div>
-    </form> -->   
+            <div class="tab_content">
+            	<div ng-include  src="'/contents/admin/management/yearPlan/html/materialsInfo.html'"></div>
+             	<div style="text-align: center">
+           			<button class="btn btn-sm btn-primary" ng-click="vm.tabReturn(2)"><span class="glyphicon glyphicon-backward"></span>上一步 </button>
+	     			<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(4)">下一步 <span class="glyphicon glyphicon-forward"></span></button>               
+	    		</div>
+           </div>                   
+           <div class="tab_content" ng-show="vm.isYearPlan">
+           	  <div ng-include  src="'/contents/admin/management/yearPlan/html/stage/yearPlan.html'"></div>
+              <div style="text-align: center">
+              	<button class="btn btn-sm btn-primary" ng-click="vm.tabReturn(3)"><span class="glyphicon glyphicon-backward">上一步 </span></button>                
+              	<button class="btn btn-sm btn-success" ng-hide="vm.isRecordEdit" ng-click="vm.submit()" ng-disabled="vm.isSubmit">确认提交 </button>
+              	<button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit" ng-click="vm.update()" ng-disabled="vm.isSubmit">确认更新 </button>
+              </div>
+         </div>
+        </div>
+    </form>   
 </div>
 
 <div id="validMsgDialog" class="modal fade" tabindex="-1" role="dialog">

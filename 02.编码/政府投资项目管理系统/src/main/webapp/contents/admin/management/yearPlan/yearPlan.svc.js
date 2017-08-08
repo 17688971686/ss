@@ -9,6 +9,7 @@
 		var url_shenbaoInfoList = "/management/shenbao";
 		var url_planList="/management/yearPlan";
 		var url_planCapital="/management/yearPlanCapital";
+		var url_document="/management/replyFile";
 		var url_back_planList="#/yearPlan/planList";
 		var url_shenbao = "/shenbaoAdmin/shenbao";
 		var url_document="/shenbaoAdmin/replyFile";
@@ -17,6 +18,7 @@
 		var service = {
 			grid_shenbaoInfoList : grid_shenbaoInfoList,//申报项目列表
 			updateShenBaoInfoState:updateShenBaoInfoState,//更新申报信息的状态
+			updateShenBaoInfo:updateShenBaoInfo,//更新申报信息
 			grid_planList:grid_planList,//年度计划列表
 			plan_create:plan_create,//创建年度计划
 			plan_update:plan_update,//更新年度计划
@@ -31,6 +33,7 @@
 			getShenBaoByid:getShenBaoByid,//获取申报信息
 			documentRecordsGird:documentRecordsGird,//展示文件
 			updateShenBaoInfo:updateShenBaoInfo//更新申报信息
+			documentRecordsGird:documentRecordsGird//批复文件列表
 		};
 		
 		//申报信息编辑--获取申报信息
@@ -243,6 +246,44 @@
 			});	
 		}
 		
+		function updateShenBaoInfo(vm){
+			common.initJqValidation();
+			var isValid = $('form').valid();
+			if (isValid) {
+				vm.isSubmit = true;
+				vm.model.shenBaoInfo.projectType = common.arrayToString(vm.model.shenBaoInfo.projectType);
+				var httpOptions = {
+						method : 'put',
+						url : common.format(url_shenbaoInfoList),
+						data:vm.model.shenBaoInfo
+					};
+			
+				var httpSuccess = function success(response) {
+					common.alert({
+						vm:vm,
+						msg:"操作成功！",
+						fn:function(){
+							$('.alertDialog').modal('hide');
+							$('.modal-backdrop').remove();
+							location.href=url_back_shenbaoInfoList;
+						}
+					});
+				};
+			
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+			}else {
+				 common.alert({
+				 vm:vm,
+				 msg:"您填写的信息不正确,请核对后提交!"
+				 });
+			}
+		}
+		
 		function removeYearPlanCapital(vm,id){
 			var httpOptions = {
 					method : 'post',
@@ -326,11 +367,7 @@
 			var httpSuccess = function success(response) {
 				vm.model.shenBaoInfo = response.data.value[0]||{};
 				//项目类型的显示
-				if(vm.model.shenBaoInfo.projectType != ""){
-					vm.model.shenBaoInfo.projectType = vm.model.shenBaoInfo.projectType.split(",");
-				}else{
-					vm.model.shenBaoInfo.projectType =[];
-				}
+				vm.model.shenBaoInfo.projectType = common.stringToArray(vm.model.shenBaoInfo.projectType,',');
 				//判断项目的投资类型
 				if(vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_SH){//社会投资
 					vm.isSHInvestment = true;
@@ -1106,10 +1143,10 @@
 						template:function(item){return kendo.toString(new Date(item.createdDate), "yyyy/MM/dd HH:mm:ss");}
 					},
 					{
-						field : "",
-						title : "操作",
-						width : 200,
-						template : function(item) {		
+						filed:"",
+						title:"操作",
+						width:150,
+						template:function(item){
 							return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage);
 						}
 					}
@@ -1139,5 +1176,60 @@
 			};
 
 		}// end fun grid_shenbaoInfoList
+		
+		function documentRecordsGird(vm){
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url_document),						
+				schema : common.kendoGridConfig().schema({
+					id : "id"
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10
+					
+			});
+			// End:dataSource
+			// Begin:column
+			var columns = [
+					{
+						template : function(item) {
+							return kendo
+									.format(
+											"<input type='radio'  relId='{0}' name='checkbox'/>",
+											item.fullName);
+						},
+						filterable : false,
+						width : 40,
+						title : ""
+					},
+					{
+						field : "number",
+						title : "文号",
+						width:180,
+						
+						filterable : true
+					},
+					{
+						field : "fullName",
+						title : "文件名",
+						width : 550,
+						filterable : true
+						
+					}
+					
+			];
+			// End:column
+
+			vm.gridOptions_documentRecords = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true
+			};
+		}
 	}
 })();
