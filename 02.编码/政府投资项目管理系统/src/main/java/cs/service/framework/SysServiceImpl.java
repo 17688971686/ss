@@ -525,6 +525,7 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("taskType_7","taskType" , "taskType", "前期计划", "",false);
 		this.createBasicData("taskType_8","taskType" , "taskType", "新开工计划", "",false);
 		this.createBasicData("taskType_9","taskType" , "taskType", "续建计划", "",false);
+		this.createBasicData("taskType_10","taskType" , "taskType", "竣工决算", "",false);
 				
 		response.setMessage("基础数据初始化成功");
 		response.setSuccess(true);		
