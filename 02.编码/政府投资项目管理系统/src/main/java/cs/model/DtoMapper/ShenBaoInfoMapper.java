@@ -99,6 +99,9 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setQianQiFeiApply(entity.getQianQiFeiApply());
 			//begin#续建计划
 			shenBaoInfoDto.setLastYearImageSchedule(entity.getLastYearImageSchedule());
+			
+			//begin#竣工决算
+			shenBaoInfoDto.setYearImageSchedule(entity.getYearImageSchedule());
 			//为保存客户提供的数据添加字段
 			shenBaoInfoDto.setConstructionCycle(entity.getConstructionCycle());//建设周期
 			shenBaoInfoDto.setFinalAmount(entity.getFinalAmount());//决算金额
@@ -188,6 +191,8 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setQianQiFeiApply(shenBaoInfoDto.getQianQiFeiApply());
 			//begin#续建计划
 			shenBaoInfo.setLastYearImageSchedule(shenBaoInfoDto.getLastYearImageSchedule());
+			//begin#竣工决算
+			shenBaoInfo.setYearImageSchedule(shenBaoInfoDto.getYearImageSchedule());
 			//基础数据																														
 			shenBaoInfo.setModifiedBy(shenBaoInfoDto.getModifiedBy());
 			shenBaoInfo.setCreatedBy(shenBaoInfoDto.getCreatedBy());
