@@ -77,7 +77,7 @@ public class ShenBaoInfo extends BaseProject{
 	private Double qianQiFeiApply;
 	//end
 	
-	//begin#前期计划相关
+	//begin#续建计划相关
 	@Column(columnDefinition="varchar(500) NULL COMMENT '上一年形象进度'")
 	private String lastYearImageSchedule;
 	//end
