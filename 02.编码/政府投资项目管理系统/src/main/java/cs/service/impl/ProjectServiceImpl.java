@@ -110,6 +110,26 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 
 	@Override
 	@Transactional
+	public void updateProjectByIsIncludLibrary(String projectId,String str) {		
+		Project project = super.repository.findById(projectId);
+		if(str.equals("in")){
+			project.setIsIncludLibrary(true);
+		}else if(str.equals("out")){
+			project.setIsIncludLibrary(false);
+		}
+		
+		//设置修改人
+		String longinName = currentUser.getLoginName();
+		project.setModifiedBy(longinName);
+		project.setModifiedDate(new Date());
+		//保存数据
+		super.repository.save(project);
+		logger.info(String.format("修改项目是否加入项目库,项目名称 %s",project.getProjectName()));
+	}
+
+
+	@Override
+	@Transactional
 	public void updateProjectByIsMonthReport(ProjectDto projectDto) {		
 		Project project = super.repository.findById(projectDto.getId());
 		project.setIsMonthReport(projectDto.getIsMonthReport());

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -96,6 +97,13 @@ public class ProjectController {
 		ProjectService.updateProjectByIsMonthReport(ProjectDto);	
 	}
 	
+	@RequiresPermissions("management/project#isIncludLibrary#put")
+	@RequestMapping(name = "更新项目是否加入项目库", path = "isIncludLibrary",method=RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void  updateByIsIncludLibrary(@RequestParam String projectId,@RequestParam String str){		
+		ProjectService.updateProjectByIsIncludLibrary(projectId,str);	
+	}
+	
 	@RequiresPermissions("management/project##post")
 	@RequestMapping(name = "创建项目信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -110,6 +118,13 @@ public class ProjectController {
 		return this.ctrlName + "/list";
 	}
 	
+	//begin#html
+	@RequiresPermissions("management/project#html/notIncludLibraryList#get")
+	@RequestMapping(name = "非项目库列表页", path = "html/notIncludLibraryList",method=RequestMethod.GET)
+	public String notIncludLibraryList() {
+		return this.ctrlName + "/notIncludLibraryList";
+	}
+		
 	@RequiresPermissions("management/project#html/edit#get")
 	@RequestMapping(name = "编辑页", path = "html/edit",method=RequestMethod.GET)
 	public String edit() {

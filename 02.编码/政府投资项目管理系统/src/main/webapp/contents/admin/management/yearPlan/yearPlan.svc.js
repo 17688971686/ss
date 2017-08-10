@@ -32,7 +32,7 @@
 			removeYearPlanCapital:removeYearPlanCapital,//移除申报项目
 			getShenBaoByid:getShenBaoByid,//获取申报信息
 			documentRecordsGird:documentRecordsGird,//展示文件
-			updateShenBaoInfo:updateShenBaoInfo//更新申报信息
+			updateShenBaoInfo:updateShenBaoInfo,//更新申报信息
 			documentRecordsGird:documentRecordsGird//批复文件列表
 		};
 		
@@ -593,7 +593,7 @@
 						},
 						filterable : false,
 						width : 40,
-						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+						title : "<input id='checkboxAll_shenBaoList' type='checkbox'  class='checkbox'/>"
 
 					},
 					{
@@ -753,9 +753,9 @@
 				  };
 
 			vm.planGridOptions = {
-					 excel: {
-			                fileName: "年度计划编制.xlsx"
-			            },
+				excel: {
+		                fileName: "年度计划编制.xlsx"
+		            	},
 				dataSource : common.gridDataSource(dataSource),
 				filterable : common.kendoGridConfig().filterable,				
 				noRecords : common.kendoGridConfig().noRecordMessage,
