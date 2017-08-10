@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -94,6 +95,13 @@ public class ProjectController {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  updateByIsMonthReport(@RequestBody ProjectDto ProjectDto){		
 		ProjectService.updateProjectByIsMonthReport(ProjectDto);	
+	}
+	
+//	@RequiresPermissions("management/project#isIncludLibrary#put")
+	@RequestMapping(name = "更新项目是否纳入项目库", path = "isIncludLibrary",method=RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void  updateByIsIncludLibrary(@RequestParam String projectId,@RequestParam Boolean isIncludLibrary){	
+		ProjectService.updateProjectByIsIncludLibrary(projectId,isIncludLibrary);	
 	}
 	
 	@RequiresPermissions("management/project##post")

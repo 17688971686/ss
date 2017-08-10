@@ -315,6 +315,9 @@
 					fields : {
 						createdDate : {
 							type : "date"
+						},
+						isIncludLibrary:{
+							type:"boolean"
 						}
 					}
 				}),
@@ -351,7 +354,16 @@
 							return common.getBasicDataDesc(item.projectStage);
 						},
 						width : 150,
-						filterable : false
+						filterable : {
+							ui: function(element){
+		                        element.kendoDropDownList({
+		                            valuePrimitive: true,
+		                            dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectStage),
+		                            dataTextField: "description",
+		                            dataValueField: "id"
+		                        });
+		                    }
+						}
 					},
 					{
 						field : "projectClassify",
@@ -363,11 +375,25 @@
 						filterable : false
 					},
 					{
+						field : "isIncludLibrary",
+						title : "是否已纳入项目库",
+						template:function(item){
+							if(item.isIncludLibrary){
+								return '已纳入';
+							}else{
+								return '未纳入';
+							}
+						},
+						width : 150,
+						filterable : true
+					},
+					{
 						field : "",
 						title : "操作",
 						width : 180,
 						template : function(item) {
-							return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,"vm.del('" + item.id + "')");
+							var isHide = item.isIncludLibrary;
+							return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,isHide?'display:none':'');
 						}
 					}
 

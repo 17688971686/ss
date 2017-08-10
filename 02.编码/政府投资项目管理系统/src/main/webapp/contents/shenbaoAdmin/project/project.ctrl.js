@@ -15,6 +15,7 @@
         vm.projectInvestmentType=$state.params.projectInvestmentType;//请求中的projectInvestmentType参数
         vm.model={};
         vm.basicData={};
+        vm.search={};
         vm.page='list';
         
         vm.init=function(){
@@ -79,6 +80,38 @@
     		   $(".modal-backdrop").remove();
     		   $location.path("/projectEdit//"+vm.model.projectInvestmentType);
     	   };
+    	   //项目名称过滤查询
+    	   vm.search=function(){
+    		   var hasProjectName = vm.search.projectName !=null && !vm.search.projectName=='';
+    		   var hasIsIncludLibrary = vm.search.isIncludLibrary !=null && !vm.search.isIncludLibrary=='';
+    		   if(hasProjectName && hasIsIncludLibrary){
+    			   if(vm.search.isIncludLibrary != 'all'){
+    				   vm.gridOptions.dataSource.filter([
+            			   {field:'isLatestVersion',operator:'eq',value:true},
+            			   {field:'projectName',operator:'contains',value:vm.search.projectName},
+            			   {field:'isIncludLibrary',operator:'eq',value:vm.search.isIncludLibrary}
+            		   ]); 
+    			   }else{
+    				   vm.gridOptions.dataSource.filter([
+            			   {field:'isLatestVersion',operator:'eq',value:true},
+            			   {field:'projectName',operator:'contains',value:vm.search.projectName}
+            		   ]);  
+    			   }
+    		   }else if(hasProjectName && !hasIsIncludLibrary){
+    			   vm.gridOptions.dataSource.filter([
+        			   {field:'isLatestVersion',operator:'eq',value:true},
+        			   {field:'projectName',operator:'contains',value:vm.search.projectName}
+        		   ]);  
+    		   }else if(!hasProjectName && hasIsIncludLibrary){
+    			   if(vm.search.isIncludLibrary != 'all'){
+    				   vm.gridOptions.dataSource.filter([
+            			   {field:'isLatestVersion',operator:'eq',value:true},
+            			   {field:'isIncludLibrary',operator:'eq',value:vm.search.isIncludLibrary}
+            		   ]);   
+    			   }
+    		   }  		  
+    		   vm.gridOptions.dataSource.read();
+    	   }
         }//end#page_list
        
        function page_create(){

@@ -11,6 +11,7 @@
         /* jshint validthis:true */
     	var vm = this;    	
     	vm.model={};
+    	vm.search={};
         vm.id=$state.params.id;
         vm.investmentType=$state.params.projectInvestmentType;
         vm.stage=$state.params.stage;
@@ -40,7 +41,10 @@
            	vm.getBasicDataDesc = function(str){
            		return common.getBasicDataDesc(str);
            	};
-
+           	
+           	vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别	   		
+	   		vm.basicData.projectConstrChar=common.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质	
+	   		vm.basicData.auditState=common.getBacicDataByIndectity(common.basicDataConfig().auditState);//审核状态
     		
     	}
     	init();    	
@@ -107,7 +111,8 @@
     	}//end#init_shenbaoInfoList
     	
     	function init_shenbaoInfoEdit(){
-    		vm.isRecordEdit = true;
+    		vm.auditState_auditPass=common.basicDataConfig().auditState_auditPass;//审核通过
+    		vm.auditState_auditNotPass=common.basicDataConfig().auditState_auditNotPass;//审核未通过
     		//初始化页面
     		var init_page = function(){
 	 		  vm.isYearPlan=vm.stage==common.basicDataConfig().projectShenBaoStage_nextYearPlan;//申报阶段为下一年度计划
@@ -154,9 +159,9 @@
       			   };
          	   }
 	   		vm.basicData.projectStage = common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段 	   		
-	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类	   			   			       		   		
-	   		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别	   		
-	   		vm.basicData.projectConstrChar=common.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质	   			   		
+	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类	型   			   			       		   		
+	   	//	vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别	   		
+	   	//	vm.basicData.projectConstrChar=common.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质	   			   		
 	   		vm.basicData.unitProperty=common.getBacicDataByIndectity(common.basicDataConfig().unitProperty);//单位性质	   		
 	   		//行政区划街道
 	   		vm.basicData.area_Street=$linq(common.getBasicData())
@@ -281,10 +286,17 @@
      				vm.tabStrip.activateTab(activeTab);
      			}
       		};
-   		
-   		 //确认更新
+      	//更新姓名信息
+  		vm.updateProject=function(){
+  			yearPlanSvc.updateProject(vm);
+  		};
+  		//确认更新
      	vm.update = function(){
      		yearPlanSvc.updateShenBaoInfo(vm);
+     	};
+     	//更新审核状态
+     	vm.updateAuditState=function(auditState){
+     		yearPlanSvc.updateAuditState(vm,auditState);
      	};
     }//end#init_shenbaoInfoEdit
 

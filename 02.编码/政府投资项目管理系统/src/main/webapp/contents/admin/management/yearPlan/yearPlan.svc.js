@@ -18,6 +18,8 @@
 			grid_shenbaoInfoList : grid_shenbaoInfoList,//申报项目列表
 			updateShenBaoInfoState:updateShenBaoInfoState,//更新申报信息的状态
 			updateShenBaoInfo:updateShenBaoInfo,//更新申报信息
+			updateAuditState:updateAuditState,//更新申报信息的审核状态
+			updateProject:updateProject,//更新项目基本信息
 			grid_planList:grid_planList,//年度计划列表
 			plan_create:plan_create,//创建年度计划
 			plan_update:plan_update,//更新年度计划
@@ -32,6 +34,42 @@
 			documentRecordsGird:documentRecordsGird//批复文件列表
 		};
 		
+		/**
+		 * 更新姓名基本信息
+		 */
+		function updateProject(vm){
+			//TODO
+		}
+		/**
+		 *更新申报信息的审核状态
+		 */
+		function updateAuditState(vm,auditState){
+			var httpOptions = {
+					method : 'post',
+					url : common.format(url_shenbaoInfoList+"/updateAuditState"),
+					dataType:'json',
+					data:{"id":vm.id,"aduitState":auditState}
+				};
+			
+			var httpSuccess = function success(response) {
+				common.alert({
+					vm:vm,
+					msg:"操作成功！",
+					fn:function(){
+						$('.alertDialog').modal('hide');
+						$('.modal-backdrop').remove();
+						//vm.grid.dataSource.read();
+					}
+				});
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}
 		/**
 		 *更新申报信息的状态 
 		 */
@@ -939,6 +977,37 @@
 							return common.getBasicDataDesc(item.projectClassify);
 						},
 						filterable : false
+					},
+					{
+						field : "auditState",
+						title : "审核状态",
+						width : 150,
+						template:function(item){
+							return common.getBasicDataDesc(item.auditState);
+						},
+						filterable : {
+							ui: function(element){
+			                    element.kendoDropDownList({
+			                        valuePrimitive: true,
+			                        dataSource: common.getBacicDataByIndectity(common.basicDataConfig().auditState),
+			                        dataTextField: "description",
+			                        dataValueField: "id"
+			                    });
+			                }
+						}
+					},
+					{
+						field : "isIncludLibrary",
+						title : "项目是否纳入项目库",
+						width : 150,
+						template:function(item){
+							if(item.isIncludLibrary){
+								return "已纳入";
+							}else{
+								return "未纳入";
+							}
+						},
+						filterable :false
 					},
 					{
 						field : "projectInvestSum",

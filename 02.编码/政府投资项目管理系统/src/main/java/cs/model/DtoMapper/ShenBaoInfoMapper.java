@@ -32,6 +32,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setProjectShenBaoStage(entity.getProjectShenBaoStage());
 			//begin#项目基本信息
 			shenBaoInfoDto.setProjectId(entity.getProjectId());
+			shenBaoInfoDto.setIsIncludLibrary(entity.getIsIncludLibrary());
 			shenBaoInfoDto.setProjectNumber(entity.getProjectNumber());
 			shenBaoInfoDto.setProjectName(entity.getProjectName());
 			shenBaoInfoDto.setProjectStage(entity.getProjectStage());
@@ -93,6 +94,8 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setConstructionCycle(entity.getConstructionCycle());//建设周期
 			shenBaoInfoDto.setFinalAmount(entity.getFinalAmount());//决算金额
 			shenBaoInfoDto.setFinanceProjectNumber(entity.getFinanceProjectNumber());//财政项目代码
+			//begin#审核相关
+			shenBaoInfoDto.setAuditState(entity.getAuditState());
 						
 			//begin关联信息
 			//附件
@@ -116,6 +119,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setProjectShenBaoStage(shenBaoInfoDto.getProjectShenBaoStage());			
 			//begin#项目基本信息
 			shenBaoInfo.setProjectId(shenBaoInfoDto.getProjectId());
+			shenBaoInfo.setIsIncludLibrary(shenBaoInfoDto.getIsIncludLibrary());
 			shenBaoInfo.setProjectNumber(shenBaoInfoDto.getProjectNumber());
 			shenBaoInfo.setProjectStage(shenBaoInfoDto.getProjectStage());
 			shenBaoInfo.setProjectName(shenBaoInfoDto.getProjectName());		
@@ -179,6 +183,8 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setConstructionCycle(shenBaoInfoDto.getConstructionCycle());//建设周期
 			shenBaoInfo.setFinalAmount(shenBaoInfoDto.getFinalAmount());//决算金额
 			shenBaoInfo.setFinanceProjectNumber(shenBaoInfoDto.getFinanceProjectNumber());//财政项目代码
+			//begin#审核相关
+			shenBaoInfo.setAuditState(shenBaoInfoDto.getAuditState());
 		}
 		return shenBaoInfo;
 		

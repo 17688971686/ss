@@ -175,25 +175,51 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	public void updateShenBaoInfoState(TaskRecordDto dto) {
 		//更新申报信息的状态
 		ShenBaoInfo shenbaoInfo = super.repository.findById(dto.getRelId());
-		shenbaoInfo.setProcessState(dto.getProcessState());
-		//同时更新任务的状态
-		TaskRecord entity = updeteWorkFlowByretreat(dto);
-		//查询系统配置是否需要发送短信
-		Criterion criterion = Restrictions.eq(SysConfig_.configName.getName(), BasicDataConfig.taskType_sendMesg);
-		SysConfig entityQuery = sysConfigRepo.findByCriteria(criterion).stream().findFirst().get();
-		if(entityQuery.getEnable()){
-			SendMsg sendMsg = new SendMsg();
-			sendMsg.setMobile(shenbaoInfo.getProjectRepMobile());
-			String content = entity.getTitle()+":"+basicDataService.getDescriptionById(entity.getProcessState());
-			if(entity.getProcessState().equals(BasicDataConfig.processState_tuiWen)){//如果为退文
-				content += ";处理意见："+entity.getProcessSuggestion();
+		if(shenbaoInfo !=null){
+			shenbaoInfo.setProcessState(dto.getProcessState());
+			shenbaoInfo.setModifiedBy(currentUser.getLoginName());
+			shenbaoInfo.setModifiedDate(new Date());
+			
+			super.repository.save(shenbaoInfo);
+			//同时更新任务的状态
+			TaskRecord entity = updeteWorkFlowByretreat(dto);
+			//查询系统配置是否需要发送短信
+			Criterion criterion = Restrictions.eq(SysConfig_.configName.getName(), BasicDataConfig.taskType_sendMesg);
+			SysConfig entityQuery = sysConfigRepo.findByCriteria(criterion).stream().findFirst().get();
+			if(entityQuery.getEnable()){
+				SendMsg sendMsg = new SendMsg();
+				sendMsg.setMobile(shenbaoInfo.getProjectRepMobile());
+				String content = entity.getTitle()+":"+basicDataService.getDescriptionById(entity.getProcessState());
+				if(entity.getProcessState().equals(BasicDataConfig.processState_tuiWen)){//如果为退文
+					content += ";处理意见："+entity.getProcessSuggestion();
+				}
+				sendMsg.setContent(content);
+				Util.sendShortMessage(sendMsg);
 			}
-			sendMsg.setContent(content);
-			Util.sendShortMessage(sendMsg);
+		}else{
+			throw new IllegalArgumentException(String.format("没有查找到对应的申报信息"));
 		}
+		
 	}
 	
 	
+	
+
+	@Override
+	@Transactional
+	public void updateShenBaoInfoAuditState(String id, String auditState) {
+		ShenBaoInfo shenbaoInfo = super.findById(id);
+		if(shenbaoInfo !=null){
+			shenbaoInfo.setAuditState(auditState);
+			shenbaoInfo.setModifiedBy(currentUser.getLoginName());
+			shenbaoInfo.setModifiedDate(new Date());
+			
+			super.repository.save(shenbaoInfo);
+			logger.info(String.format("更新申报信息审核状态,项目名称 %s",shenbaoInfo.getProjectName()));
+		}else{
+			throw new IllegalArgumentException(String.format("没有查找到对应的申报信息"));
+		}
+	}
 
 	@Override
 	@Transactional
