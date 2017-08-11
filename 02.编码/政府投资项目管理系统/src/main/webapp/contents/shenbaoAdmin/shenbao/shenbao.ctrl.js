@@ -17,6 +17,7 @@
         vm.basicData={};  
         vm.page='list';
         vm.title='申报信息录入';
+        vm.planYear = getYearNow();
         $scope.animationsEnabled = true;
 
         vm.init=function(){
@@ -65,11 +66,18 @@
         	}
         	if(vm.page=='record_edit'){
         		//申报信息编辑
+        		
         		vm.isRecordEdit = true;
         		vm.title = "申报信息编辑";
         		page_edit();
         		page_record();
         	}
+        }
+        
+        //得到当前年份
+        function getYearNow(){
+        	var date = new Date();
+        	return date.getFullYear();
         }
         
        function page_list(){
@@ -102,16 +110,24 @@
 	           	vm.projectInvestmentType=projectInvestmentType;//绑定项目投资类型用于url
 	           	vm.projectName=name;//绑定项目名称用于模态框显示
 	           	vm.projectShenBaoStage='';//清空下拉选选中的值
+	           	vm.massage='';
+	           	vm.isHased = false;
 	           	//基础数据--申报阶段用于模态框
 	           	vm.basicData.projectShenBaoStage=common.getBacicDataByIndectity(common.basicDataConfig().projectShenBaoStage);	   		
 	   	   		//展示模态框
 	           	 $('#myModal').modal('show');
            };
            
+           vm.change =function(){
+        	   vm.massage = "";
+        	   shenbaoSvc.getShenBaoInfoByProjectId(vm);
+           };
+           
     	   //点击模态框的确认按钮
-           vm.confirm = function(){
-           	$(".modal-backdrop").remove(); //去掉模态框背面的阴影
-           	location.href = "#/shenbao/"+vm.projectId+"/"+vm.projectInvestmentType+"/"+vm.projectShenBaoStage;
+           vm.confirm = function(vm,projectShenBaoStage){
+        		$(".modal-backdrop").remove(); //去掉模态框背面的阴影
+	           	location.href = "#/shenbao/"+vm.projectId+"/"+vm.projectInvestmentType+"/"+vm.projectShenBaoStage;
+	           	
            };    	   
            
            //点击列表中的申报记录按钮
@@ -136,11 +152,12 @@
         }//end#page_list
        
        function page_edit(){
+    	  
     	   //禁止点击Tab切换
-		   document.getElementById("tab1").setAttribute("disabled","disabled");
-		   document.getElementById("tab2").setAttribute("disabled","disabled");
-		   document.getElementById("tab3").setAttribute("disabled","disabled");
-		   document.getElementById("tab4").setAttribute("disabled","disabled");
+//		   document.getElementById("tab1").setAttribute("disabled","disabled");
+//		   document.getElementById("tab2").setAttribute("disabled","disabled");
+//		   document.getElementById("tab3").setAttribute("disabled","disabled");
+//		   document.getElementById("tab4").setAttribute("disabled","disabled");
     	   //判断tab显示
     	   var init_tab_show=function(){
     		   vm.isYearPlan=vm.stage==common.basicDataConfig().projectShenBaoStage_nextYearPlan;//申报阶段为下一年度计划
@@ -153,6 +170,10 @@
     		   }
     	   };
     	   init_tab_show();
+    	   
+    	   vm.changeYear = function(planYear){
+    		  vm.planYear = parseInt(planYear);
+    	   }
     	   
     	   if(vm.page=='edit'){
    	  		 shenbaoSvc.getProjectById(vm);

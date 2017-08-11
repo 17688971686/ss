@@ -140,6 +140,13 @@
 	            controller: 'projectCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //非项目库列表页
+	        .state('notIncludLibrary', {
+	            url: '/notIncludLibrary',
+	            templateUrl: '/management/project/html/notIncludLibraryList.html',
+	            controller: 'projectCtrl',
+	            controllerAs: 'vm'
+	        })
 	        //编辑页
 	        .state('projectEdit', {
 	            url: '/projectEdit/:id/:projectInvestmentType',
@@ -226,7 +233,15 @@
 	            templateUrl: '/management/yearPlan/html/planBZ',
 	            controller: 'yearPlanCtrl',
 	            controllerAs: 'vm'
-	        })	        
+	        })	   
+	        //申报信息修改
+	         .state('yearPlan_record_edit', {
+	            url: '/yearPlan_record_edit/:id/:projectInvestmentType/:stage',
+	            templateUrl: '/management/yearPlan/html/edit',
+	            controller: 'yearPlanCtrl',
+	            controllerAs: 'vm'
+	        })	   
+	        
 /**********************end#年度计划编制***************************************/
 	        
 /**********************begin#工作台***************************************/

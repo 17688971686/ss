@@ -109,4 +109,9 @@ public class YearPlanController {
 	public String planBZ(){
 		return ctrl+"/planBZ";
 	}
+	@RequiresPermissions("management/yearPlan#html/edit#get")
+	@RequestMapping(name="申报信息修改页",path="html/edit",method=RequestMethod.GET)
+	public String edit(){
+		return ctrl+"/edit";
+	}
 }
