@@ -18,7 +18,10 @@
 		var service = {
 			grid_shenbaoInfoList : grid_shenbaoInfoList,//申报项目列表
 			updateShenBaoInfoState:updateShenBaoInfoState,//更新申报信息的状态
+			addProjectToLibrary:addProjectToLibrary,//项目纳入项目库
 			updateShenBaoInfo:updateShenBaoInfo,//更新申报信息
+			updateAuditState:updateAuditState,//更新申报信息的审核状态
+			updateProject:updateProject,//更新项目基本信息
 			grid_planList:grid_planList,//年度计划列表
 			plan_create:plan_create,//创建年度计划
 			plan_update:plan_update,//更新年度计划
@@ -238,6 +241,110 @@
 		}
 			
 		/**
+		 * 项目纳入项目库
+		 */
+		function addProjectToLibrary(vm){
+			var httpOptions = {
+					method : 'post',
+					url : common.format(url_shenbaoInfoList+"/addProjectToLibrary?shenbaoInfoId={0}",vm.id),
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function() {
+						common.alert({
+							vm : vm,
+							msg : "操作成功",
+							fn : function() {
+								$('.alertDialog').modal('hide');
+							}
+						});
+					}
+				});
+				
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}
+		
+		/**
+		 * 更新项目基本信息
+		 */
+		function updateProject(vm){
+			//处理项目类型多选问题
+			vm.model.shenBaoInfo.projectType=common.arrayToString(vm.model.shenBaoInfo.projectType,',');
+			var httpOptions = {
+					method : 'put',
+					url : common.format(url_shenbaoInfoList+"/updateProjectBasic"),
+					data:vm.model.shenBaoInfo
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function() {
+						common.alert({
+							vm : vm,
+							msg : "操作成功",
+							fn : function() {
+								$('.alertDialog').modal('hide');
+							}
+						});
+					}
+				});
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}
+		
+		/**
+		 *更新申报信息的审核状态
+		 */
+		function updateAuditState(vm,auditState){
+			var httpOptions = {
+					method : 'post',
+					url : common.format(url_shenbaoInfoList+"/updateAuditState"),
+					dataType:'json',
+					data:{"id":vm.id,"auditState":auditState}
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function() {
+						common.alert({
+							vm : vm,
+							msg : "操作成功",
+							fn : function() {
+								$('.alertDialog').modal('hide');
+							}
+						});
+					}
+				});
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}
+		/**
 		 *更新申报信息的状态 
 		 */
 		function updateShenBaoInfoState(vm){
@@ -272,7 +379,9 @@
 			var isValid = $('form').valid();
 			if (isValid) {
 				vm.isSubmit = true;
-				vm.model.shenBaoInfo.projectType = common.arrayToString(vm.model.shenBaoInfo.projectType);
+				//处理项目类型多选问题
+				vm.model.shenBaoInfo.projectType=common.arrayToString(vm.model.shenBaoInfo.projectType,',');
+				vm.model.shenBaoInfo.auditState=common.basicDataConfig().auditState_noAudit;//后台修改保存申报信息之后默认为未审核状态
 				var httpOptions = {
 						method : 'put',
 						url : common.format(url_shenbaoInfoList),
@@ -865,13 +974,22 @@
 						filterable : true
 					},
 					{
-						field : "projectConstrCharDesc",
+						field : "projectConstrChar",
 						title : "建设性质",
 						width : 150,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectConstrChar);
 						},
-						filterable : false
+						filterable : {
+							ui: function(element){
+			                    element.kendoDropDownList({
+			                        valuePrimitive: true,
+			                        dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar),
+			                        dataTextField: "description",
+			                        dataValueField: "id"
+			                    });
+			                }
+						}
 					},
 					{
 						field : "projectClassifyDesc",
@@ -898,7 +1016,9 @@
 						title : "创建日期",
 						width : 180,
 						filterable : false,
-						template:function(item){return kendo.toString(new Date(item.createdDate), "yyyy/MM/dd HH:mm:ss");}
+						template:function(item){
+							return common.formatDateTime(item.createdDate);
+							}
 					}
 
 			];
@@ -1090,7 +1210,12 @@
 				type : 'odata',
 				transport : common.kendoGridConfig().transport(url_shenbaoInfoList),
 				schema : common.kendoGridConfig().schema({
-					id : "id"
+					id : "id",
+					fields : {
+						isIncludLibrary:{
+							type:"boolean"
+						}
+					}
 				}),
 				serverPaging : true,
 				serverSorting : true,
@@ -1135,9 +1260,14 @@
 						filterable : true
 					},
 					{
+						field : "unitName",
+						title : "建设单位",
+						filterable : true
+					},
+					{
 						field : "projectConstrChar",
 						title : "建设性质",
-						width : 150,
+						width : 120,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectConstrChar);
 						},
@@ -1153,13 +1283,25 @@
 						}
 					},
 					{
-						field : "planYear",
-						title : "计划年度",
-						width : 150,
-						filterable : false
+						field : "projectCategory",
+						title : "项目类别",
+						width : 120,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectCategory);
+						},
+						filterable : {
+							ui: function(element){
+			                    element.kendoDropDownList({
+			                        valuePrimitive: true,
+			                        dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectCategory),
+			                        dataTextField: "description",
+			                        dataValueField: "id"
+			                    });
+			                }
+						}
 					},
 					{
-						field : "projectClassifyDesc",
+						field : "projectClassify",
 						title : "项目分类",
 						width : 150,
 						template:function(item){
@@ -1168,14 +1310,51 @@
 						filterable : false
 					},
 					{
-						field : "projectInvestSum",
-						title : "总投资",
+						field : "planYear",
+						title : "计划年度",
+						width : 100,
+						filterable : false
+					},
+					{
+						field : "auditState",
+						title : "审核状态",
 						width : 150,
+						template:function(item){
+							return common.getBasicDataDesc(item.auditState);
+						},
+						filterable : {
+							ui: function(element){
+			                    element.kendoDropDownList({
+			                        valuePrimitive: true,
+			                        dataSource: common.getBacicDataByIndectity(common.basicDataConfig().auditState),
+			                        dataTextField: "description",
+			                        dataValueField: "id"
+			                    });
+			                }
+						}
+					},
+					{
+						field : "isIncludLibrary",
+						title : "项目是否纳入项目库",
+						width : 150,
+						template:function(item){
+							if(item.isIncludLibrary){
+								return "已纳入";
+							}else{
+								return "未纳入";
+							}
+						},
+						filterable :true
+					},
+					{
+						field : "projectInvestSum",
+						title : "总投资(万元)",
+						width : 100,
 						filterable : false
 					},{
 						field : "applyYearInvest",
-						title : "申请年度投资",
-						width : 150,
+						title : "申请年度投资(万元)",
+						width : 100,
 						filterable : false
 					},
 					{
@@ -1183,7 +1362,9 @@
 						title : "创建日期",
 						width : 180,
 						filterable : false,
-						template:function(item){return kendo.toString(new Date(item.createdDate), "yyyy/MM/dd HH:mm:ss");}
+						template:function(item){
+							return common.formatDateTime(item.createdDate);
+							}
 					},
 					{
 						filed:"",
@@ -1200,8 +1381,16 @@
 
 			    for (var i = 1; i < sheet.rows.length; i++) {
 			      var row = sheet.rows[i];
-			      row.cells[1].value = common.getBasicDataDesc(row.cells[1].value);
-				  row.cells[6].value = common.formatDateTime(row.cells[6].value);			      
+			      row.cells[2].value = common.getBasicDataDesc(row.cells[2].value);//建设性质
+			      row.cells[3].value = common.getBasicDataDesc(row.cells[3].value);//项目类别
+			      row.cells[4].value = common.getBasicDataDesc(row.cells[4].value);//项目分类
+				  row.cells[6].value = common.getBasicDataDesc(row.cells[6].value);//审核状态
+				  if(row.cells[7].value){//项目是否纳入项目库
+					  row.cells[7].value = "已纳入";
+				  }else{
+					  row.cells[7].value = "未纳入";
+				  }
+				  row.cells[10].value = common.formatDateTime(row.cells[10].value);//创建日期
 			    }
 			  };
 

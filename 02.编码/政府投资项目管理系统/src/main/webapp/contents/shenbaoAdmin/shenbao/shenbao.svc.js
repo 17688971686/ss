@@ -584,6 +584,9 @@
 					fields : {
 						createdDate : {
 							type : "date"
+						},
+						isIncludLibrary:{
+							type:"boolean"
 						}
 					}
 				}),
@@ -620,7 +623,16 @@
 						template:function(item){
 							return common.getBasicDataDesc(item.projectStage);
 						},
-						filterable : false
+						filterable : {
+							ui: function(element){
+		                        element.kendoDropDownList({
+		                            valuePrimitive: true,
+		                            dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectStage),
+		                            dataTextField: "description",
+		                            dataValueField: "id"
+		                        });
+							}
+						}
 					},
 					{
 						field : "projectClassify",
@@ -630,6 +642,19 @@
 							return common.getBasicDataDesc(item.projectClassify);
 						},
 						filterable : false
+					},
+					{
+						field : "isIncludLibrary",
+						title : "是否已纳入项目库",
+						template:function(item){
+							if(item.isIncludLibrary){
+								return '已纳入';
+							}else{
+								return '未纳入';
+							}
+						},
+						width : 150,
+						filterable : true
 					},
 					{
 						field : "",

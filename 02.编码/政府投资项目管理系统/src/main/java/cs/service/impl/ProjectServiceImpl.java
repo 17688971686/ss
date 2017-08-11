@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -132,15 +133,32 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	@Transactional
 	public void updateProjectByIsMonthReport(ProjectDto projectDto) {		
 		Project project = super.repository.findById(projectDto.getId());
-		project.setIsMonthReport(projectDto.getIsMonthReport());
-		//设置修改人
-		String longinName = currentUser.getLoginName();
-		project.setModifiedBy(longinName);
-		project.setModifiedDate(new Date());
-		//保存数据
-		super.repository.save(project);
-		logger.info(String.format("修改项目是否月报,项目名称 %s",project.getProjectName()));
+		if(project !=null){
+			project.setIsMonthReport(projectDto.getIsMonthReport());
+			//设置修改人
+			String longinName = currentUser.getLoginName();
+			project.setModifiedBy(longinName);
+			project.setModifiedDate(new Date());
+			//保存数据
+			super.repository.save(project);
+			logger.info(String.format("修改项目是否月报,项目名称 %s",project.getProjectName()));
+		}
 	}
+	
+	
+
+	@Override
+	@Transactional
+	public void updateProjectByIsIncludLibrary(String projectId, Boolean isIncludLibrary) {
+		//根据项目代码查找到最新版本的项目
+		Project project = super.repository.findById(projectId);
+		if(project !=null){//如果存在
+			project.setIsIncludLibrary(isIncludLibrary);
+			super.repository.save(project);
+			logger.info(String.format("修改项目是否纳入项目库,项目名称 %s",project.getProjectName()));
+		}
+	}
+
 
 	@Override
 	@Transactional

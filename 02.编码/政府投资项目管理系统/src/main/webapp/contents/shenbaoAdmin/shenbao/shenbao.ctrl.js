@@ -41,6 +41,8 @@
         	vm.checkLength = function(obj,max,id){
    			 common.checkLength(obj,max,id);
         	};
+        	//用于查询--基础数据
+    		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
         };
         
         activate();
@@ -81,6 +83,26 @@
        function page_list(){
     	   //获取项目列表
     	   shenbaoSvc.grid(vm);
+    	 //条件查询
+    	   vm.search=function(){
+    		   var filters = [];
+    		   filters.push({field:'isLatestVersion',operator:'eq',value:true});//默认条件--查询最新版本的项目
+    		   if(vm.search.projectName !=null && vm.search.projectName !=''){
+    			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
+    		   }
+    		   if(vm.search.projectStage !=null && vm.search.projectStage !=''){
+    			   filters.push({field:'projectStage',operator:'eq',value:vm.search.projectStage});
+    		   }
+    		   if(vm.search.isIncludLibrary !=null && vm.search.isIncludLibrary !=null){
+    			   if(vm.search.isIncludLibrary == "true"){
+    				   filters.push({field:'isIncludLibrary',operator:'eq',value:true}); 
+    			   }else if(vm.search.isIncludLibrary == "false"){
+    				   filters.push({field:'isIncludLibrary',operator:'eq',value:false}); 
+    			   }
+    		   }
+    		   vm.gridOptions.dataSource.filter(filters);
+    		   vm.gridOptions.dataSource.read();
+    	   };
     	   
     	   //点击列表中的申报按钮
     	   vm.shenbaoBtn=function(id,projectInvestmentType,name){
@@ -89,7 +111,7 @@
 	           	vm.projectName=name;//绑定项目名称用于模态框显示
 	           	vm.projectShenBaoStage='';//清空下拉选选中的值
 	           	//基础数据--申报阶段用于模态框
-	           	vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectShenBaoStage);	   		
+	           	vm.basicData.projectShenBaoStage=common.getBacicDataByIndectity(common.basicDataConfig().projectShenBaoStage);	   		
 	   	   		//展示模态框
 	           	 $('#myModal').modal('show');
 	           	 shenbaoSvc.getShenBaoInfo(vm);
@@ -134,7 +156,7 @@
 					value:vm.projectNumber
 				});
         	   vm.gridOptions_shenBaoRecords.dataSource.read();
-        	   //定义退文状态
+        	   //定义退文状态TODO 这里定义有什么用？
         	   vm.processState = common.basicDataConfig().processState_tuiWen;
            };
            shenbaoSvc.projectShenBaoRecordsGird(vm);     
@@ -165,7 +187,7 @@
     	   }
     	   
     	   if(vm.page=='edit'){
-   	  		 shenbaoSvc.getProjectById(vm); 
+   	  		 shenbaoSvc.getProjectById(vm);
    		 	}	
     	   
     	   if(vm.investmentType == common.basicDataConfig().projectInvestmentType_ZF){//如果为政府投资
@@ -196,7 +218,7 @@
     	   }
     	      	   
     	   //获取基础数据    	   	
-    	   	vm.basicData.projectStage = common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段 	   		
+//    	   	vm.basicData.projectStage = common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段 	   		
 	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类	   			   			       		   		
 	   		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别	   		
 	   		vm.basicData.projectConstrChar=common.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质	   			   		

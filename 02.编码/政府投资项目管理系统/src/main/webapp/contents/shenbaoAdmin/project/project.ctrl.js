@@ -15,6 +15,7 @@
         vm.projectInvestmentType=$state.params.projectInvestmentType;//请求中的projectInvestmentType参数
         vm.model={};
         vm.basicData={};
+        vm.search={};
         vm.page='list';
         
         vm.init=function(){
@@ -35,6 +36,8 @@
     		vm.checkLength = function(obj,max,id){
     			 common.checkLength(obj,max,id);
     		};
+    		//用于查询--基础数据
+    		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
         };
         
         activate();
@@ -79,6 +82,26 @@
     		   $(".modal-backdrop").remove();
     		   $location.path("/projectEdit//"+vm.model.projectInvestmentType);
     	   };
+    	   //条件查询
+    	   vm.search=function(){
+    		   var filters = [];
+    		   filters.push({field:'isLatestVersion',operator:'eq',value:true});//默认条件--查询最新版本的项目
+    		   if(vm.search.projectName !=null && vm.search.projectName !=''){
+    			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
+    		   }
+    		   if(vm.search.projectStage !=null && vm.search.projectStage !=''){
+    			   filters.push({field:'projectStage',operator:'eq',value:vm.search.projectStage});
+    		   }
+    		   if(vm.search.isIncludLibrary !=null && vm.search.isIncludLibrary !=null){
+    			   if(vm.search.isIncludLibrary == "true"){
+    				   filters.push({field:'isIncludLibrary',operator:'eq',value:true}); 
+    			   }else if(vm.search.isIncludLibrary == "false"){
+    				   filters.push({field:'isIncludLibrary',operator:'eq',value:false}); 
+    			   }
+    		   }
+    		   vm.gridOptions.dataSource.filter(filters);
+    		   vm.gridOptions.dataSource.read();
+    	   };
         }//end#page_list
        
        function page_create(){
@@ -115,7 +138,7 @@
     	   	projectSvc.getUserUnit(vm);
     	   	
 	   		//begin#基础数据	   		    	   		
-	   		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
+//	   		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
 	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类型
 	   		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别	   		
 	   		vm.basicData.capitalOther=common.getBacicDataByIndectity(common.basicDataConfig().capitalOtherType);//资金其他来源类型

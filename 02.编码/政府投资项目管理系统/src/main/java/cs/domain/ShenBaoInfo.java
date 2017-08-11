@@ -22,8 +22,11 @@ public class ShenBaoInfo extends BaseProject{
 	@Id
 	private String id;
 	
+	//begin#与项目相关
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目ID'")
 	private String projectId;
+	@Column(columnDefinition="bit(1) NULL COMMENT '项目是否纳入项目库'")
+	private Boolean isIncludLibrary;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '申报阶段'")
 	private String projectShenBaoStage;
@@ -34,7 +37,7 @@ public class ShenBaoInfo extends BaseProject{
 	//begin#年度计划相关
 	@Column(columnDefinition="int NULL COMMENT '计划年度'")
 	private Integer planYear;
-	
+
 	@Column(columnDefinition="double(10,4) NULL COMMENT '申请年度投资'")
 	private Double applyYearInvest;	
 	@Column(columnDefinition="double(10,4) NULL COMMENT '下一年申请年度投资'")
@@ -43,6 +46,7 @@ public class ShenBaoInfo extends BaseProject{
 	private Double applyYearInvest_LastTwoYear;	
 	
 	@Column(columnDefinition="double(10,4) NULL COMMENT '安排年度投资'")
+
 	private Double yearInvestApproval;
 	@Column(columnDefinition="varchar(255) NULL COMMENT '安排年度投资Id'")
 	private String yearPlanCapitalId;
@@ -92,6 +96,11 @@ public class ShenBaoInfo extends BaseProject{
 	//begin#审批相关
 	@Column(columnDefinition="varchar(500) NULL COMMENT '审批状态'")
 	private String processState;
+	//end
+	
+	//begin#审核相关
+	@Column(columnDefinition="varchar(500) NULL COMMENT '审核状态'")
+	private String auditState;
 	//end
 	
 	//begin#关联信息
@@ -283,5 +292,17 @@ public class ShenBaoInfo extends BaseProject{
 		this.capitalSCZ_qita_LastTwoYear = capitalSCZ_qita_LastTwoYear;
 	}
 
-	
+	public String getAuditState() {
+		return auditState;
+	}
+	public void setAuditState(String auditState) {
+		this.auditState = auditState;
+	}
+	public Boolean getIsIncludLibrary() {
+		return isIncludLibrary;
+	}
+	public void setIsIncludLibrary(Boolean isIncludLibrary) {
+		this.isIncludLibrary = isIncludLibrary;
+	}
+
 }

@@ -495,7 +495,14 @@
 					fields : {
 						createdDate : {
 							type : "date"
+						},
+						isMonthReport:{
+							type:"boolean"
+						},
+						isIncludLibrary:{
+							type:"boolean"
 						}
+						
 					}
 				}),
 				serverPaging : true,
@@ -506,15 +513,17 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:[{
-					field:"isLatestVersion",
-					operator:"eq",
-					value:true
+				filter:[
+					{
+						field:"isLatestVersion",
+						operator:"eq",
+						value:true
 					},{
-					field:"isIncludLibrary",
-					operator:"eq",
-					value:true
-					}]
+						field:"isIncludLibrary",
+						operator:"eq",
+						value:true
+					}
+				]
 			});
 			// End:dataSource
 
@@ -559,7 +568,16 @@
 						template:function(item){
 							return common.getBasicDataDesc(item.projectStage);
 						},
-						filterable : false
+						filterable : {
+							ui: function(element){
+			                    element.kendoDropDownList({
+			                        valuePrimitive: true,
+			                        dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectStage),
+			                        dataTextField: "description",
+			                        dataValueField: "id"
+			                    });
+			                }
+						}
 					},
 					{
 						field : "projectClassify",
@@ -569,6 +587,19 @@
 							return common.getBasicDataDesc(item.projectClassify);
 						},
 						filterable : false
+					},
+					{
+						field : "isIncludLibrary",
+						title : "是否已纳入项目库",
+						template : function(item) {
+							if(item.isIncludLibrary){
+								return "已纳入";
+							}else{
+								return "未纳入";
+							}								 
+						},
+						width : 150,
+						filterable : true
 					},
 					{
 						field : "isMonthReport",
@@ -581,7 +612,7 @@
 							}								 
 						},
 						width : 150,
-						filterable : false
+						filterable : true
 					},
 					{
 						field : "",
