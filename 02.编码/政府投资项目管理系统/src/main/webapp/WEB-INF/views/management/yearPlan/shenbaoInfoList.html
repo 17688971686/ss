@@ -10,7 +10,7 @@
 	  		<table class="table table-bordered" style="margin-bottom:0px;">
 	  			<tr>
 	  				<td colspan="6" class="bg-info">
-	  					<span style="font-size:16px;padding:10px;"><strong>年度计划项目库查询</strong></span>
+	  					<span style="padding:10px;"><strong>年度计划项目库查询</strong></span>
 	  				</td>
 	  			</tr>
 	  			<tr>
@@ -18,27 +18,29 @@
 	  				<td style="width:25%"><input type="text" style="width:360px;" placeholder="请输入项目名称（可少输不可输错）" ng-model="vm.search.projectName"/></td>
 	  				<td class="formAlignRight">项目类别：</td>
 	  				<td>
-	  					<select style="height:30px;">
+	  					<select style="height:30px;" ng-model="vm.search.projectCategory">
 				  			<option value="">---请选择---</option>
 				  			<option ng-repeat="x in vm.basicData.projectCategory" value="{{x.id}}">{{x.description}}</option>
 				  		</select>
 	  				</td>
 	  				<td class="formAlignRight">计划年度：</td>
-	  				<td><input type="text" style="width:186px;" class="Wdate form-control input-sm content_change" onFocus="WdatePicker({dateFmt:'yyyy'})" onChange=""/></td>
+	  				<td>
+	  					<input type="text" style="width:186px;" class="Wdate form-control input-sm content_change" onFocus="WdatePicker({dateFmt:'yyyy'})" onChange="" ng-model="vm.search.planYear"/>
+	  				</td>
 	  			</tr>
 	  			<tr>
 	  				<td class="formAlignRight">建设单位：</td>
-	  				<td><input type="text" style="width:360px;" placeholder="请输入单位名称（可少输不可输错）" ng-model="vm.search.projectName"/></td>
+	  				<td><input type="text" style="width:360px;" placeholder="请输入单位名称（可少输不可输错）" ng-model="vm.search.unitName"/></td>
 	  				<td class="formAlignRight">审核状态：</td>
 	  				<td>
-	  					<select style="height:30px;">
+	  					<select style="height:30px;" ng-model="vm.search.auditState">
 				  			<option value="">---请选择---</option>
 				  			<option ng-repeat="x in vm.basicData.auditState" value="{{x.id}}">{{x.description}}</option>
 				  		</select>
 	  				</td>
 	  				<td class="formAlignRight">建设性质：</td>
 	  				<td>
-	  					<select style="height:30px;">
+	  					<select style="height:30px;" ng-model="vm.search.projectConstrChar">
 				  			<option value="">---请选择---</option>
 				  			<option ng-repeat="x in vm.basicData.projectConstrChar" value="{{x.id}}">{{x.description}}</option>
 				  		</select>

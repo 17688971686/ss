@@ -42,6 +42,12 @@
            		return common.getBasicDataDesc(str);
            	};
            	
+           	//编制列表全选框选择
+        	$(document).on('click', '#checkboxAll_shenBaoList', function () {
+                var isSelected = $(this).is(':checked');
+                $('.yearPlanCapitalGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
+            });
+           	//条件查询--基础数据
            	vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别	   		
 	   		vm.basicData.projectConstrChar=common.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质	
 	   		vm.basicData.auditState=common.getBacicDataByIndectity(common.basicDataConfig().auditState);//审核状态
@@ -73,6 +79,32 @@
     	
     	function init_shenbaoInfoList(){
     		yearPlanSvc.grid_shenbaoInfoList(vm);
+    		//查询
+    		vm.search=function(){
+    			var filters = [];
+				filters.push({field:'projectShenBaoStage',operator:'eq',value:common.basicDataConfig().projectShenBaoStage_nextYearPlan});//默认条件--申报阶段为下一年度计划
+				filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_qianShou});//默认条件--申报信息的状态为签收状态   
+				if(vm.search.projectName !=null && vm.search.projectName !=''){//查询条件--项目名称
+	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
+	     		   }
+     		   if(vm.search.projectCategory !=null && vm.search.projectCategory !=''){//查询条件--项目类别
+     			   filters.push({field:'projectCategory',operator:'eq',value:vm.search.projectCategory});
+     		   }
+     		   if(vm.search.planYear !=null && vm.search.planYear !=''){//查询条件--计划年度
+     			  filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear)});
+     		   }
+     		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--建设单位名称
+     			  filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
+     		   }
+     		   if(vm.search.auditState !=null && vm.search.auditState !=''){//查询条件--审核状态
+     			  filters.push({field:'auditState',operator:'eq',value:vm.search.auditState});
+     		   }
+     		   if(vm.search.projectConstrChar !=null && vm.search.projectConstrChar !=''){//查询条件--建设性质
+     			  filters.push({field:'projectConstrChar',operator:'eq',value:vm.search.projectConstrChar});
+     		   }
+     		  vm.gridOptions.dataSource.filter(filters);
+     		  vm.gridOptions.dataSource.read();
+    		};
     		//申报详情模态框
     		vm.dialog_shenbaoInfo = function(id){
     			yearPlanSvc.getShenBaoInfoById(vm,id);
@@ -286,6 +318,11 @@
      				vm.tabStrip.activateTab(activeTab);
      			}
       		};
+      		
+      	//项目纳入项目库
+  		vm.addProjectToLibray=function(){
+  			yearPlanSvc.addProjectToLibrary(vm);
+  		};
       	//更新姓名信息
   		vm.updateProject=function(){
   			yearPlanSvc.updateProject(vm);
@@ -331,12 +368,29 @@
     		};
     		//年度筛选
     		vm.search=function(){
-    			vm.addPlanGridOptions.dataSource.filter([
-    				{field:"projectShenBaoStage",operator:"eq",value:common.basicDataConfig().projectShenBaoStage_nextYearPlan},
-    				{field:"processState",operator:"eq",value:common.basicDataConfig().processState_qianShou},
-    				{field:"planYear",operator:"eq",value:parseInt(vm.planYearSearch,10)}
-    			]);
-    			vm.addPlanGridOptions.dataSource.read();
+    			var filters = [];
+				filters.push({field:'projectShenBaoStage',operator:'eq',value:common.basicDataConfig().projectShenBaoStage_nextYearPlan});//默认条件--申报阶段为下一年度计划
+				filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_qianShou});//默认条件--申报信息的状态为签收状态   
+				if(vm.search.projectName !=null && vm.search.projectName !=''){//查询条件--项目名称
+	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
+	     		   }
+     		   if(vm.search.projectCategory !=null && vm.search.projectCategory !=''){//查询条件--项目类别
+     			   filters.push({field:'projectCategory',operator:'eq',value:vm.search.projectCategory});
+     		   }
+     		   if(vm.search.planYear !=null && vm.search.planYear !=''){//查询条件--计划年度
+     			  filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear)});
+     		   }
+     		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--建设单位名称
+     			  filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
+     		   }
+     		   if(vm.search.auditState !=null && vm.search.auditState !=''){//查询条件--审核状态
+     			  filters.push({field:'auditState',operator:'eq',value:vm.search.auditState});
+     		   }
+     		   if(vm.search.projectConstrChar !=null && vm.search.projectConstrChar !=''){//查询条件--建设性质
+     			  filters.push({field:'projectConstrChar',operator:'eq',value:vm.search.projectConstrChar});
+     		   }
+     		  vm.addPlanGridOptions.dataSource.filter(filters);
+     		  vm.addPlanGridOptions.dataSource.read();
     		};
     		//模态框点击确认
     		vm.dialogConfirmSubmit=function(){

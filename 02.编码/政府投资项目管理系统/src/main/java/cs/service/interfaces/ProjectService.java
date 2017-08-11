@@ -11,4 +11,6 @@ public interface ProjectService extends IService<ProjectDto, Project, String> {
 	List<ProjectDto> getProjectByNumber(String number);
 	
 	void updateVersion(String id,Boolean isLatestVersion);
+	
+	void updateProjectByIsIncludLibrary(String projectId,Boolean isIncludLibrary);
 }
