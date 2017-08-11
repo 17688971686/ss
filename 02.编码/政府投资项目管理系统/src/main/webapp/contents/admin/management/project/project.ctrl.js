@@ -27,9 +27,6 @@
     		if($state.current.name=='projectDetails'){
     			vm.page='details';
     		}
-    		if($state.current.name=='notIncludLibrary'){
-    			vm.page='notIncludLibrary';
-    		}
     		
     		vm.getBasicDataDesc = function(Str){
     			return common.getBasicDataDesc(Str);
@@ -46,7 +43,7 @@
     	activate();
         function activate() {
         	        	
-        	if(vm.page=='list' || 'notIncludLibrary'){
+        	if(vm.page=='list'){
         		init_list();
         	}
         	if(vm.page=='create'){
@@ -64,9 +61,6 @@
         }
     	
     	function init_list(){
-    		if(vm.page=='notIncludLibrary'){
-    			projectSvc.gridForNotIncludLibrary(vm);
-    		};
     		projectSvc.grid(vm);
     		//查询
     		vm.search=function(){
@@ -106,21 +100,15 @@
      	   };
      	  vm.model.projectInvestmentType = common.basicDataConfig().projectInvestmentType_ZF;//默认为政府投资项目
     		
-     	  vm.setInLibrary = function(projectId,str){
-     		  vm.projectId = projectId;
-     		  vm.str = str;
-     		 projectSvc.updateIsIncludLibrary(vm);
-     	  }
-     	  
-    		vm.isMonthReport=function(id,isMonthReport){
-    			vm.model.isMonthReport = isMonthReport;
-    			vm.model.id=id;
-    			//弹出模态框
-    			$("#myModal_edit").modal({
-                    backdrop: 'static',
-                    keyboard:false
-                });   			
-    		};
+			vm.isMonthReport=function(id,isMonthReport){
+				vm.model.isMonthReport = isMonthReport;
+				vm.model.id=id;
+				//弹出模态框
+				$("#myModal_edit").modal({
+	                backdrop: 'static',
+	                keyboard:false
+	            });   			
+			};
     		
     		//更新项目是否填报状态
     		vm.updateIsMonthReport = function(){
