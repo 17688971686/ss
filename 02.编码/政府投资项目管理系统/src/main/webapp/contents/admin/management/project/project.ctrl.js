@@ -11,6 +11,7 @@
         /* jshint validthis:true */
     	var vm = this;
     	vm.title = "新增项目";
+    	vm.search={};
     	vm.model={};
     	vm.basicData={};
         vm.id=$state.params.id;
@@ -34,6 +35,9 @@
     		vm.checkLength = function(obj,max,id){
    			 common.checkLength(obj,max,id);
     		};
+    		
+    		//用于查询
+    		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
     	}
     	init();    	
     	activate();
@@ -58,6 +62,27 @@
     	
     	function init_list(){
     		projectSvc.grid(vm);
+    		//查询
+    		vm.search=function(){
+    			var filters = [];
+				filters.push({field:'isLatestVersion',operator:'eq',value:true});//默认条件--项目最新版本
+				filters.push({field:'isIncludLibrary',operator:'eq',value:true});//默认条件--项目纳入项目库   
+				if(vm.search.projectName !=null && vm.search.projectName !=''){//查询条件--项目名称
+	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
+	     		   }
+     		   if(vm.search.projectStage !=null && vm.search.projectStage !=''){//查询条件--项目阶段
+     			   filters.push({field:'projectStage',operator:'eq',value:vm.search.projectStage});
+     		   }
+     		   if(vm.search.isMonthReport !=null && vm.search.isMonthReport !=''){
+     			   if(vm.search.isMonthReport == "true"){
+     				  filters.push({field:'isMonthReport',operator:'eq',value:true});
+     			   }else if(vm.search.isMonthReport == "false"){
+     				  filters.push({field:'isMonthReport',operator:'eq',value:false});
+     			   }
+     		   }
+     		  vm.gridOptions.dataSource.filter(filters);
+     		  vm.gridOptions.dataSource.read();
+    		};
     		
     		//基础数据--项目投资类型用于新增项目模态框
      	   vm.basicData.investmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);

@@ -97,13 +97,6 @@ public class ProjectController {
 		ProjectService.updateProjectByIsMonthReport(ProjectDto);	
 	}
 	
-//	@RequiresPermissions("management/project#isIncludLibrary#put")
-//	@RequestMapping(name = "更新项目是否纳入项目库", path = "isIncludLibrary",method=RequestMethod.PUT)
-//	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-//	public void  updateByIsIncludLibrary(@RequestParam String projectId,@RequestParam Boolean isIncludLibrary){	
-//		ProjectService.updateProjectByIsIncludLibrary(projectId,isIncludLibrary);	
-//	}
-	
 	@RequiresPermissions("management/project##post")
 	@RequestMapping(name = "创建项目信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
