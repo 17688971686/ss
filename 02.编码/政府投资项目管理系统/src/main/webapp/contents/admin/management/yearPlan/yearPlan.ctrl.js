@@ -17,7 +17,8 @@
         vm.investmentType=$state.params.projectInvestmentType;
         vm.stage=$state.params.stage;
     	vm.page="shenbaoInfoList";//默认为申报信息列表页面
-    	
+        vm.planYear = getYearNow();
+        
     	function init(){
     		if($state.current.name=='yearPlan_shenbaoInfoEdit'){//申报信息编辑页面
     			vm.page='shenbaoInfoEdit';
@@ -81,6 +82,12 @@
             });
         }
         
+        //得到当前年份
+        function getYearNow(){
+        	var date = new Date();
+        	return date.getFullYear();
+        }
+        
         function init_edit(){
         	
         	yearPlanSvc.getShenBaoByid(vm);
@@ -142,6 +149,9 @@
 	   		//资金其他来源类型
 	   		vm.basicData.capitalOther=common.getBacicDataByIndectity(common.basicDataConfig().capitalOtherType);
 
+	   		vm.changeYear = function(planYear){
+	    		  vm.planYear = parseInt(planYear);
+	    	   }
 	   		//获取项目类型， 多选
 	   		vm.updateSelection = function(id){
 	        	var index = vm.model.projectType.indexOf(id);

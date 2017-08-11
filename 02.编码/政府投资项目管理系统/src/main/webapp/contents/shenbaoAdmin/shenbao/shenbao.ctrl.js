@@ -17,6 +17,7 @@
         vm.basicData={};  
         vm.page='list';
         vm.title='申报信息录入';
+        vm.planYear = getYearNow();
         $scope.animationsEnabled = true;
 
         vm.init=function(){
@@ -63,11 +64,18 @@
         	}
         	if(vm.page=='record_edit'){
         		//申报信息编辑
+        		
         		vm.isRecordEdit = true;
         		vm.title = "申报信息编辑";
         		page_edit();
         		page_record();
         	}
+        }
+        
+        //得到当前年份
+        function getYearNow(){
+        	var date = new Date();
+        	return date.getFullYear();
         }
         
        function page_list(){
@@ -84,12 +92,31 @@
 	           	vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectShenBaoStage);	   		
 	   	   		//展示模态框
 	           	 $('#myModal').modal('show');
+	           	 shenbaoSvc.getShenBaoInfo(vm);
            };
            
+           vm.change =function(vm,projectNumberForShenbao){
+        	   vm.massage = "";
+        	   shenbaoSvc.getShenBaoRecordsByProjectNumber(vm,vm.projectNumberForShenbao);
+           }
+           
     	   //点击模态框的确认按钮
-           vm.confirm = function(){
-           	$(".modal-backdrop").remove(); //去掉模态框背面的阴影
-           	location.href = "#/shenbao/"+vm.projectId+"/"+vm.projectInvestmentType+"/"+vm.projectShenBaoStage;
+           vm.confirm = function(vm,projectShenBaoStage){
+        	   var list = [];
+	         
+	          
+	           	for (var i = 0; i < vm.model.shenBaoRecords.length; i++) {
+	           		list.push(vm.model.shenBaoRecords[i].projectShenBaoStage);
+				}
+	           if(list.indexOf(projectShenBaoStage) != -1 && projectShenBaoStage=="projectShenBaoStage_7"){
+	        	   vm.massage = "下一年度计划已申报！";
+	        	 return;
+	           }else{
+	        	   vm.massage = "";
+	           }
+        		$(".modal-backdrop").remove(); //去掉模态框背面的阴影
+	           	location.href = "#/shenbao/"+vm.projectId+"/"+vm.projectInvestmentType+"/"+vm.projectShenBaoStage;
+	           	
            };    	   
            
            //点击列表中的申报记录按钮
@@ -114,6 +141,7 @@
         }//end#page_list
        
        function page_edit(){
+    	  
     	   //禁止点击Tab切换
 		   document.getElementById("tab1").setAttribute("disabled","disabled");
 		   document.getElementById("tab2").setAttribute("disabled","disabled");
@@ -131,6 +159,10 @@
     		   }
     	   };
     	   init_tab_show();
+    	   
+    	   vm.changeYear = function(planYear){
+    		  vm.planYear = parseInt(planYear);
+    	   }
     	   
     	   if(vm.page=='edit'){
    	  		 shenbaoSvc.getProjectById(vm); 

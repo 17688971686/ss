@@ -19,9 +19,30 @@
 			recordsGird:recordsGird,//所有的申报记录列表
 			getShenBaoInfoById:getShenBaoInfoById,//根据id查询项目申报信息
 			updateShenBaoInfo:updateShenBaoInfo,//更新申报信息
-			documentRecordsGird:documentRecordsGird//批复文件列表
+			documentRecordsGird:documentRecordsGird,//批复文件列表
+			getShenBaoInfo:getShenBaoInfo,//
+			getShenBaoRecordsByProjectNumber:getShenBaoRecordsByProjectNumber
 		};		
 		return service;
+		
+		function getShenBaoInfo(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_project + "?$filter=id eq '{0}'", vm.projectId)
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.projectNumberForShenbao = response.data.value[0].projectNumber;
+				
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
 		
 		/**
 		 * 根据项目代码查询项目的申报记录
@@ -146,6 +167,11 @@
 		 * 更新申报信息
 		 */
 		function updateShenBaoInfo(vm){		
+			vm.model.applyYearInvest=parseFloat(vm.model.capitalSCZ_ggys_TheYear) + parseFloat(vm.model.capitalSCZ_gtzj_TheYear);
+			vm.model.applyYearInvest_LastTwoYear = 	parseFloat(vm.model.capitalSCZ_ggys_LastTwoYear) + parseFloat(vm.model.capitalSCZ_gtzj_LastTwoYear);
+			vm.model.applyYearInvest_LastYear = parseFloat(vm.model.capitalSCZ_ggys_LastYear)+ parseFloat(vm.model.capitalSCZ_gtzj_LastYear);
+
+			
 			common.initJqValidation();
 			var isValid = $('form').valid();
 			if (isValid) {
@@ -214,6 +240,8 @@
 						}else{
 							vm.model.projectType =[];
 						}
+						
+						vm.planYear = vm.model.planYear;
 						//日期展示
 						vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
 						vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
@@ -232,6 +260,17 @@
 						vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
 						vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
 						vm.model.applyYearInvest=common.toMoney(vm.model.applyYearInvest);//申请年度投资
+						vm.model.applyYearInvest_LastYear=common.toMoney(vm.model.applyYearInvest_LastYear);//申请年度投资
+						vm.model.applyYearInvest_LastTwoYear=common.toMoney(vm.model.applyYearInvest_LastTwoYear);//申请年度投资
+						vm.model.capitalSCZ_gtzj_LastTwoYear =common.toMoney(vm.model.capitalSCZ_gtzj_LastTwoYear);
+						vm.model.capitalSCZ_ggys_LastTwoYear =common.toMoney(vm.model.capitalSCZ_ggys_LastTwoYear);
+						vm.model.capitalSCZ_gtzj_LastYear =common.toMoney(vm.model.capitalSCZ_gtzj_LastYear);
+						vm.model.capitalSCZ_ggys_LastYear =common.toMoney(vm.model.capitalSCZ_ggys_LastYear);
+						vm.model.capitalSCZ_gtzj_TheYear =common.toMoney(vm.model.capitalSCZ_gtzj_TheYear);
+						vm.model.capitalSCZ_ggys_TheYear =common.toMoney(vm.model.capitalSCZ_ggys_TheYear);
+						vm.model.capitalSCZ_qita_TheYear =common.toMoney(vm.model.capitalSCZ_qita_TheYear);
+						vm.model.capitalSCZ_qita_LastTwoYear =common.toMoney(vm.model.capitalSCZ_qita_LastTwoYear);
+						vm.model.capitalSCZ_qita =common.toMoney(vm.model.capitalSCZ_qita);
 						//计算资金筹措总计
 						vm.capitalTotal=function(){
 				  			 return (parseFloat(vm.model.capitalSCZ_ggys)||0 )
@@ -243,6 +282,17 @@
 				  			 		+ (parseFloat(vm.model.capitalSHTZ)||0)
 				  			 		+ (parseFloat(vm.model.capitalOther)||0) ;
 				  		 };
+				  		 
+				  		vm.lastTwoYearCapitalTotal = function(){
+				  			return (parseFloat(vm.model.capitalSCZ_ggys_LastTwoYear)||0) + (parseFloat(vm.model.capitalSCZ_gtzj_LastTwoYear)||0);
+				  		};
+				  		vm.lastYearCapitalTotal= function(){
+				  			return (parseFloat(vm.model.capitalSCZ_ggys_LastYear)||0) + (parseFloat(vm.model.capitalSCZ_gtzj_LastYear)||0);
+				  		};
+				  		vm.theYearCapitalTotal= function(){
+				  			return (parseFloat(vm.model.capitalSCZ_ggys_TheYear)||0) + (parseFloat(vm.model.capitalSCZ_gtzj_TheYear)||0);
+				  		};
+				  		
 						if(vm.page=='record'){
 							if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){
 								vm.isYearPlan = true;
@@ -273,55 +323,13 @@
 		 * 创建申报信息
 		 */
 		function createShenBaoInfo(vm){
+			vm.model.applyYearInvest=parseFloat(vm.model.capitalSCZ_ggys_TheYear) + parseFloat(vm.model.capitalSCZ_gtzj_TheYear);
+			vm.model.applyYearInvest_LastTwoYear = 	parseFloat(vm.model.capitalSCZ_ggys_LastTwoYear) + parseFloat(vm.model.capitalSCZ_gtzj_LastTwoYear);
+			vm.model.applyYearInvest_LastYear = parseFloat(vm.model.capitalSCZ_ggys_LastYear)+ parseFloat(vm.model.capitalSCZ_gtzj_LastYear);
+
 			common.initJqValidation();
-			var isValid=function(){
-				var validFields=[
-					['projectConstrChar','required','年度计划信息-项目建设性质必选'],
-					['planYear','required','年度计划信息-计划年度必填'],
-					['applyYearInvest','required','年度计划信息-申请年度投资必填'],
-					['yearConstructionContent','required','年度计划信息-年度建设内容必填'],					
-					['shenBaoUnitInfoDto.unitName','required','项目单位信息-单位名称必填'],
-					['shenBaoUnitInfoDto.unitTel','required','项目单位信息-单位电话必填'],
-					['shenBaoUnitInfoDto.unitEmail','required','项目单位信息-单位邮箱必填'],					
-					['shenBaoUnitInfoDto.unitProperty','required','项目单位信息-单位性质必选'],
-					['shenBaoUnitInfoDto.divisionId','required','项目单位信息-单位区域必选'],
-					['shenBaoUnitInfoDto.unitAddress','required','项目单位信息-单位地址必填'],
-					['shenBaoUnitInfoDto.unitResPerson','required','项目单位信息-单位负责人名称必填'],
-					['shenBaoUnitInfoDto.resPersonTel','required','项目单位信息-单位负责人电话必填'],
-					['shenBaoUnitInfoDto.resPersonMobile','required','项目单位信息-单位负责人手机必填'],
-					['shenBaoUnitInfoDto.resPersonEmail','required','项目单位信息-单位负责人邮箱必填']					
-				];
-				vm.validMessage=[];
-				$.each(validFields,function(idx,item){
-					var value='';
-					if(item[0].indexOf('.')>0){
-						var fields=item[0].split('.');
-						value=vm.model[fields[0]][fields[1]];
-					}
-					else{
-						value=vm.model[item[0]];
-					}
-							
-					var msg=item[2];					
-					if(item[1]=='required'){				
-						var isExist=value&&value.trim()!="";					
-						if(!isExist){
-							vm.validMessage.push(msg);
-						}						
-					}
-					
-				});
-				if(vm.validMessage.length>0){
-					$('#validMsgDialog').modal({
-		                 backdrop: 'static',
-		                 keyboard:false
-		             });
-				}else{
-					return true;
-				}												
-			};
-			
-			if (isValid()) {
+			var isValid = $('form').valid();
+			if (isValid) {
 				vm.isSubmit = true;				
 				var httpOptions = {
 					method : 'post',
@@ -401,6 +409,8 @@
 					}else{
 						vm.model.projectType =[];
 					}
+					
+					
 					//日期展示
 					vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
 					vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
@@ -419,6 +429,18 @@
 					vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
 					vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
 					vm.model.applyYearInvest=common.toMoney(vm.model.applyYearInvest);//申请年度投资
+					vm.model.applyYearInvest_LastYear=common.toMoney(vm.model.applyYearInvest_LastYear);//下年度投资
+					vm.model.applyYearInvest_LastTwoYear=common.toMoney(vm.model.applyYearInvest_LastTwoYear);//下下年度投资
+					
+					vm.model.capitalSCZ_gtzj_LastTwoYear =common.toMoney(vm.model.capitalSCZ_gtzj_LastTwoYear);//下下年度国土
+					vm.model.capitalSCZ_ggys_LastTwoYear =common.toMoney(vm.model.capitalSCZ_ggys_LastTwoYear);//下下年度公共预算
+					vm.model.capitalSCZ_gtzj_LastYear =common.toMoney(vm.model.capitalSCZ_gtzj_LastYear);//下年度国土
+					vm.model.capitalSCZ_ggys_LastYear =common.toMoney(vm.model.capitalSCZ_ggys_LastYear);//下年度公共预算
+					vm.model.capitalSCZ_gtzj_TheYear =common.toMoney(vm.model.capitalSCZ_gtzj_TheYear);//本年度国土
+					vm.model.capitalSCZ_ggys_TheYear =common.toMoney(vm.model.capitalSCZ_ggys_TheYear);//本年度公共预算
+					vm.model.capitalSCZ_qita_TheYear =common.toMoney(vm.model.capitalSCZ_qita_TheYear);
+					vm.model.capitalSCZ_qita_LastTwoYear =common.toMoney(vm.model.capitalSCZ_qita_LastTwoYear);
+					vm.model.capitalSCZ_qita =common.toMoney(vm.model.capitalSCZ_qita);
 					//计算资金筹措总计
 					vm.capitalTotal=function(){
 			  			 return (parseFloat(vm.model.capitalSCZ_ggys)||0 )
@@ -430,6 +452,18 @@
 			  			 		+ (parseFloat(vm.model.capitalZYYS)||0 )
 			  			 		+ (parseFloat(vm.model.capitalOther)||0) ;
 			  		 };
+			  		 //下下年度申请资金
+			  		vm.lastTwoYearCapitalTotal = function(){
+			  			return (parseFloat(vm.model.capitalSCZ_ggys_LastTwoYear)||0) + (parseFloat(vm.model.capitalSCZ_gtzj_LastTwoYear)||0);
+			  		};
+			  		//下年度申请资金
+			  		vm.lastYearCapitalTotal= function(){
+			  			return (parseFloat(vm.model.capitalSCZ_ggys_LastYear)||0) + (parseFloat(vm.model.capitalSCZ_gtzj_LastYear)||0);
+			  		};
+			  		//本年度申请资金
+			  		vm.theYearCapitalTotal= function(){
+			  			return (parseFloat(vm.model.capitalSCZ_ggys_TheYear)||0) + (parseFloat(vm.model.capitalSCZ_gtzj_TheYear)||0);
+			  		};
 			  		//基础数据--行业归口
 			  		  if(vm.model.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资			 			  
 			 			var child = $linq(common.getBasicData())

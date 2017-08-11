@@ -34,16 +34,52 @@ public class ShenBaoInfo extends BaseProject{
 	//begin#年度计划相关
 	@Column(columnDefinition="int NULL COMMENT '计划年度'")
 	private Integer planYear;
+	
 	@Column(columnDefinition="double(10,4) NULL COMMENT '申请年度投资'")
 	private Double applyYearInvest;	
+	@Column(columnDefinition="double(10,4) NULL COMMENT '下一年申请年度投资'")
+	private Double applyYearInvest_LastYear;	
+	@Column(columnDefinition="double(10,4) NULL COMMENT '下下年申请年度投资'")
+	private Double applyYearInvest_LastTwoYear;	
+	
 	@Column(columnDefinition="double(10,4) NULL COMMENT '安排年度投资'")
 	private Double yearInvestApproval;
 	@Column(columnDefinition="varchar(255) NULL COMMENT '安排年度投资Id'")
 	private String yearPlanCapitalId;
 	@Column(columnDefinition="varchar(500) NULL COMMENT '年度建设任务'")
 	private String yearConstructionTask;
+	
 	@Column(columnDefinition="varchar(500) NULL COMMENT '年度建设内容'")
 	private String yearConstructionContent;
+	@Column(columnDefinition="varchar(500) NULL COMMENT '下一年度建设内容'")
+	private String yearConstructionContentLastYear;
+	@Column(columnDefinition="varchar(500) NULL COMMENT '下下年度建设内容'")
+	private String yearConstructionContentLastTwoYear;
+	@Column(columnDefinition="varchar(500) NULL COMMENT '申报信息备注'")
+	private String yearConstructionContentShenBao;
+	
+	@Column(columnDefinition="double(10,4) NULL COMMENT '下一年度资金筹措方案-市财政-公共预算'")
+	private Double capitalSCZ_ggys_LastYear;
+	@Column(columnDefinition="double(10,4) NULL COMMENT '下一年度资金筹措方案-市财政-国土资金'")
+	private Double capitalSCZ_gtzj_LastYear;
+	
+	@Column(columnDefinition="double(10,4) NULL COMMENT '本年度资金筹措方案-市财政-公共预算'")
+	private Double capitalSCZ_ggys_TheYear;
+	@Column(columnDefinition="double(10,4) NULL COMMENT '本年度资金筹措方案-市财政-国土资金'")
+	private Double capitalSCZ_gtzj_TheYear;
+	
+	@Column(columnDefinition="double(10,4) NULL COMMENT '下下年度资金筹措方案-市财政-公共预算'")
+	private Double capitalSCZ_ggys_LastTwoYear;
+	@Column(columnDefinition="double(10,4) NULL COMMENT '下下年度资金筹措方案-市财政-国土资金'")
+	private Double capitalSCZ_gtzj_LastTwoYear;
+	
+	@Column(columnDefinition="double(10,4) NULL COMMENT '下年度资金筹措方案-其他资金'")
+	private Double capitalSCZ_qita_LastYear;
+	@Column(columnDefinition="double(10,4) NULL COMMENT '本年度资金筹措方案-其他资金'")
+	private Double capitalSCZ_qita;
+	@Column(columnDefinition="double(10,4) NULL COMMENT '下下年度资金筹措方案-其他资金'")
+	private Double capitalSCZ_qita_LastTwoYear;
+	
 	//end#年度计划相关
 
    //begin#财政相关
@@ -161,4 +197,91 @@ public class ShenBaoInfo extends BaseProject{
 	public void setEconClassSubjects(String econClassSubjects) {
 		this.econClassSubjects = econClassSubjects;
 	}
+	public String getYearConstructionContentLastYear() {
+		return yearConstructionContentLastYear;
+	}
+	public void setYearConstructionContentLastYear(String yearConstructionContentLastYear) {
+		this.yearConstructionContentLastYear = yearConstructionContentLastYear;
+	}
+	public String getYearConstructionContentLastTwoYear() {
+		return yearConstructionContentLastTwoYear;
+	}
+	public void setYearConstructionContentLastTwoYear(String yearConstructionContentLastTwoYear) {
+		this.yearConstructionContentLastTwoYear = yearConstructionContentLastTwoYear;
+	}
+	public Double getCapitalSCZ_ggys_LastYear() {
+		return capitalSCZ_ggys_LastYear;
+	}
+	public void setCapitalSCZ_ggys_LastYear(Double capitalSCZ_ggys_LastYear) {
+		this.capitalSCZ_ggys_LastYear = capitalSCZ_ggys_LastYear;
+	}
+	public Double getCapitalSCZ_gtzj_LastYear() {
+		return capitalSCZ_gtzj_LastYear;
+	}
+	public void setCapitalSCZ_gtzj_LastYear(Double capitalSCZ_gtzj_LastYear) {
+		this.capitalSCZ_gtzj_LastYear = capitalSCZ_gtzj_LastYear;
+	}
+
+	public Double getCapitalSCZ_ggys_TheYear() {
+		return capitalSCZ_ggys_TheYear;
+	}
+	public void setCapitalSCZ_ggys_TheYear(Double capitalSCZ_ggys_TheYear) {
+		this.capitalSCZ_ggys_TheYear = capitalSCZ_ggys_TheYear;
+	}
+	public Double getCapitalSCZ_gtzj_TheYear() {
+		return capitalSCZ_gtzj_TheYear;
+	}
+	public void setCapitalSCZ_gtzj_TheYear(Double capitalSCZ_gtzj_TheYear) {
+		this.capitalSCZ_gtzj_TheYear = capitalSCZ_gtzj_TheYear;
+	}
+	public Double getCapitalSCZ_ggys_LastTwoYear() {
+		return capitalSCZ_ggys_LastTwoYear;
+	}
+	public void setCapitalSCZ_ggys_LastTwoYear(Double capitalSCZ_ggys_LastTwoYear) {
+		this.capitalSCZ_ggys_LastTwoYear = capitalSCZ_ggys_LastTwoYear;
+	}
+	public Double getCapitalSCZ_gtzj_LastTwoYear() {
+		return capitalSCZ_gtzj_LastTwoYear;
+	}
+	public void setCapitalSCZ_gtzj_LastTwoYear(Double capitalSCZ_gtzj_LastTwoYear) {
+		this.capitalSCZ_gtzj_LastTwoYear = capitalSCZ_gtzj_LastTwoYear;
+	}
+	public Double getApplyYearInvest_LastYear() {
+		return applyYearInvest_LastYear;
+	}
+	public void setApplyYearInvest_LastYear(Double applyYearInvest_LastYear) {
+		this.applyYearInvest_LastYear = applyYearInvest_LastYear;
+	}
+	public Double getApplyYearInvest_LastTwoYear() {
+		return applyYearInvest_LastTwoYear;
+	}
+	public void setApplyYearInvest_LastTwoYear(Double applyYearInvest_LastTwoYear) {
+		this.applyYearInvest_LastTwoYear = applyYearInvest_LastTwoYear;
+	}
+	public String getYearConstructionContentShenBao() {
+		return yearConstructionContentShenBao;
+	}
+	public void setYearConstructionContentShenBao(String yearConstructionContentShenBao) {
+		this.yearConstructionContentShenBao = yearConstructionContentShenBao;
+	}
+	public Double getCapitalSCZ_qita() {
+		return capitalSCZ_qita;
+	}
+	public void setCapitalSCZ_qita(Double capitalSCZ_qita) {
+		this.capitalSCZ_qita = capitalSCZ_qita;
+	}
+	public Double getCapitalSCZ_qita_LastYear() {
+		return capitalSCZ_qita_LastYear;
+	}
+	public void setCapitalSCZ_qita_LastYear(Double capitalSCZ_qita_LastYear) {
+		this.capitalSCZ_qita_LastYear = capitalSCZ_qita_LastYear;
+	}
+	public Double getCapitalSCZ_qita_LastTwoYear() {
+		return capitalSCZ_qita_LastTwoYear;
+	}
+	public void setCapitalSCZ_qita_LastTwoYear(Double capitalSCZ_qita_LastTwoYear) {
+		this.capitalSCZ_qita_LastTwoYear = capitalSCZ_qita_LastTwoYear;
+	}
+
+	
 }
