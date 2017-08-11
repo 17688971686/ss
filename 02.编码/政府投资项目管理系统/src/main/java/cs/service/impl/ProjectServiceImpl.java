@@ -3,11 +3,8 @@ package cs.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -30,7 +27,6 @@ import cs.model.PageModelDto;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.MonthReportDto;
 import cs.model.DomainDto.ProjectDto;
-import cs.model.DomainDto.ReplyFileDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
@@ -122,24 +118,11 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 			//保存数据
 			super.repository.save(project);
 			logger.info(String.format("修改项目是否月报,项目名称 %s",project.getProjectName()));
+		}else{
+			throw new IllegalArgumentException(String.format("没有查找到对应的项目"));
 		}
 	}
 	
-	
-
-	@Override
-	@Transactional
-	public void updateProjectByIsIncludLibrary(String projectId, Boolean isIncludLibrary) {
-		//根据项目代码查找到最新版本的项目
-		Project project = super.repository.findById(projectId);
-		if(project !=null){//如果存在
-			project.setIsIncludLibrary(isIncludLibrary);
-			super.repository.save(project);
-			logger.info(String.format("修改项目是否纳入项目库,项目名称 %s",project.getProjectName()));
-		}
-	}
-
-
 	@Override
 	@Transactional
 	public Project create(ProjectDto projectDto) {
@@ -185,10 +168,13 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		Criterion criterion=Restrictions.eq(Project_.projectNumber.getName(), number);
 		List<Project> findProjects = super.repository.findByCriteria(criterion);
 		List<ProjectDto> projectDtos = new ArrayList<>();
-		findProjects.stream().forEach(x->{
-			ProjectDto dto = projectMapper.toDto(x);			
-			projectDtos.add(dto);
-		});
+		if(findProjects.isEmpty()){
+			findProjects.stream().forEach(x->{
+				ProjectDto dto = projectMapper.toDto(x);			
+				projectDtos.add(dto);
+			});
+		}
+		logger.info(String.format("根据项目代码查询项目,项目代码 %s",number));
 		return projectDtos;
 	}
 
@@ -196,11 +182,15 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	@Transactional
 	public void updateVersion(String id, Boolean isLatestVersion) {
 		Project project = super.repository.findById(id);
-		project.setIsLatestVersion(isLatestVersion);
-		project.setModifiedDate(new Date());//设置修改时间
-		project.setModifiedBy(currentUser.getLoginName());//设置修改人
-		super.repository.save(project);
-		logger.info(String.format("修改项目版本,项目名称 %s",project.getProjectName()));
+		if(project !=null){
+			project.setIsLatestVersion(isLatestVersion);
+			project.setModifiedDate(new Date());//设置修改时间
+			project.setModifiedBy(currentUser.getLoginName());//设置修改人
+			super.repository.save(project);
+			logger.info(String.format("修改项目版本,项目名称 %s",project.getProjectName()));
+		}else{
+			throw new IllegalArgumentException(String.format("没有查找到对应的项目"));
+		}
 	}
 	
 	/**

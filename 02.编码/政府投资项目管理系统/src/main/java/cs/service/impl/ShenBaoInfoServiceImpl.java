@@ -2,11 +2,9 @@ package cs.service.impl;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -269,6 +267,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 				sendMsg.setContent(content);
 				Util.sendShortMessage(sendMsg);
 			}
+			logger.info(String.format("更新申报信息状态,项目名称 %s",shenbaoInfo.getProjectName()));
 		}else{
 			throw new IllegalArgumentException(String.format("没有查找到对应的申报信息"));
 		}
@@ -393,43 +392,44 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		//查找到对应的任务
 		Criterion criterion = Restrictions.eq(TaskHead_.relId.getName(), entity.getId());
 		TaskHead taskHead = taskHeadRepo.findByCriteria(criterion).stream().findFirst().get();
-						
-		//添加一条流转记录
-		//获取系统配置中工作流类型的第一处理人
-		String startUser="";
-	    List<SysConfigDto> configDtos=sysService.getSysConfigs();
-	    Optional<SysConfigDto> systemConfigDto=configDtos.stream().filter((x)->
-	  			BasicDataConfig.taskType.equals(x.getConfigType())
-				&&getTaskType(entity.getProjectShenBaoStage()).equals(x.getConfigName()
-							)
-					).findFirst();
-				  
-	   if(systemConfigDto.isPresent()){
-		   startUser=systemConfigDto.get().getConfigValue();
-	   }
-						
-		TaskRecord taskRecord=new TaskRecord();
-		taskRecord.setId(UUID.randomUUID().toString());
-		taskRecord.setTitle(taskHead.getTitle());
-		taskRecord.setNextUser(startUser);//设置下一处理人
-		taskRecord.setRelId(entity.getId());
-		taskRecord.setTaskId(taskHead.getId());//设置任务Id
-		if(isManageChange){//如果是后台修改
-			taskRecord.setProcessState(taskHead.getProcessState());
-		}else{//如果是申报端修改
-			taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
-			taskHead.setComplete(false);
-			taskHead.setProcessState(BasicDataConfig.processState_tianBao);
+		if(taskHead !=null){
+			//添加一条流转记录
+			//获取系统配置中工作流类型的第一处理人
+			String startUser="";
+		    List<SysConfigDto> configDtos=sysService.getSysConfigs();
+		    Optional<SysConfigDto> systemConfigDto=configDtos.stream().filter((x)->
+		  			BasicDataConfig.taskType.equals(x.getConfigType())
+					&&getTaskType(entity.getProjectShenBaoStage()).equals(x.getConfigName()
+								)
+						).findFirst();
+					  
+		   if(systemConfigDto.isPresent()){
+			   startUser=systemConfigDto.get().getConfigValue();
+		   }
+							
+			TaskRecord taskRecord=new TaskRecord();
+			taskRecord.setId(UUID.randomUUID().toString());
+			taskRecord.setTitle(taskHead.getTitle());
+			taskRecord.setNextUser(startUser);//设置下一处理人
+			taskRecord.setRelId(entity.getId());
+			taskRecord.setTaskId(taskHead.getId());//设置任务Id
+			if(isManageChange){//如果是后台修改
+				taskRecord.setProcessState(taskHead.getProcessState());
+			}else{//如果是申报端修改
+				taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
+				taskHead.setComplete(false);
+				taskHead.setProcessState(BasicDataConfig.processState_tianBao);
+			}
+			taskRecord.setTaskType(this.getTaskType(entity.getProjectShenBaoStage()));
+			taskRecord.setProcessSuggestion("材料填报");
+			taskRecord.setUnitName(entity.getUnitName());
+			taskRecord.setProjectIndustry(entity.getProjectIndustry());
+			taskRecord.setCreatedBy(currentUser.getLoginName());
+			taskRecord.setModifiedBy(currentUser.getLoginName());
+							
+			taskHead.getTaskRecords().add(taskRecord);
+			taskHeadRepo.save(taskHead);
 		}
-		taskRecord.setTaskType(this.getTaskType(entity.getProjectShenBaoStage()));
-		taskRecord.setProcessSuggestion("材料填报");
-		taskRecord.setUnitName(entity.getUnitName());
-		taskRecord.setProjectIndustry(entity.getProjectIndustry());
-		taskRecord.setCreatedBy(currentUser.getLoginName());
-		taskRecord.setModifiedBy(currentUser.getLoginName());
-						
-		taskHead.getTaskRecords().add(taskRecord);
-		taskHeadRepo.save(taskHead);
 	}
 	
 	/**
