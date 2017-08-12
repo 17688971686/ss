@@ -73,25 +73,34 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setPifuJYS_wenhao(entity.getPifuJYS_wenhao());															
 			//begin#年度计划
 			shenBaoInfoDto.setProjectConstrChar(entity.getProjectConstrChar());
+			shenBaoInfoDto.setYearPlanCapitalId(entity.getYearPlanCapitalId());
+			//申报年份信息
 			shenBaoInfoDto.setPlanYear(entity.getPlanYear());
 			shenBaoInfoDto.setApplyYearInvest(entity.getApplyYearInvest());
-			shenBaoInfoDto.setYearInvestApproval(entity.getYearInvestApproval());
+			shenBaoInfoDto.setCapitalSCZ_ggys_TheYear(entity.getCapitalSCZ_ggys_TheYear());
+			shenBaoInfoDto.setCapitalSCZ_gtzj_TheYear(entity.getCapitalSCZ_gtzj_TheYear());
+			shenBaoInfoDto.setCapitalSCZ_qita(entity.getCapitalSCZ_qita());
+			shenBaoInfoDto.setCapitalSCZ_qitaDescription(entity.getCapitalSCZ_qitaDescription());
 			shenBaoInfoDto.setYearConstructionTask(entity.getYearConstructionTask());
 			shenBaoInfoDto.setYearConstructionContent(entity.getYearConstructionContent());
-			shenBaoInfoDto.setYearPlanCapitalId(entity.getYearPlanCapitalId());
-			shenBaoInfoDto.setYearConstructionContentLastYear(entity.getYearConstructionContentLastYear());
-			shenBaoInfoDto.setYearConstructionContentLastTwoYear(entity.getYearConstructionContentLastTwoYear());
-			shenBaoInfoDto.setCapitalSCZ_ggys_TheYear(entity.getCapitalSCZ_ggys_TheYear());
-			shenBaoInfoDto.setCapitalSCZ_ggys_LastYear(entity.getCapitalSCZ_ggys_LastYear());
-			shenBaoInfoDto.setCapitalSCZ_ggys_LastTwoYear(entity.getCapitalSCZ_ggys_LastTwoYear());
-			shenBaoInfoDto.setCapitalSCZ_gtzj_TheYear(entity.getCapitalSCZ_gtzj_TheYear());
-			shenBaoInfoDto.setCapitalSCZ_gtzj_LastYear(entity.getCapitalSCZ_gtzj_LastYear());
-			shenBaoInfoDto.setCapitalSCZ_gtzj_LastTwoYear(entity.getCapitalSCZ_gtzj_LastTwoYear());
+			shenBaoInfoDto.setYearInvestApproval(entity.getYearInvestApproval());
+			//三年滚动--下一年
 			shenBaoInfoDto.setApplyYearInvest_LastYear(entity.getApplyYearInvest_LastYear());
-			shenBaoInfoDto.setApplyYearInvest_LastTwoYear(entity.getApplyYearInvest_LastTwoYear());
-			shenBaoInfoDto.setCapitalSCZ_qita(entity.getCapitalSCZ_qita());
-			shenBaoInfoDto.setCapitalSCZ_qita_LastTwoYear(entity.getCapitalSCZ_qita_LastTwoYear());
+			shenBaoInfoDto.setCapitalSCZ_gtzj_LastYear(entity.getCapitalSCZ_gtzj_LastYear());
+			shenBaoInfoDto.setCapitalSCZ_ggys_LastYear(entity.getCapitalSCZ_ggys_LastYear());
 			shenBaoInfoDto.setCapitalSCZ_qita_LastYear(entity.getCapitalSCZ_qita_LastYear());
+			shenBaoInfoDto.setCapitalSCZ_qita_LastYearDescription(entity.getCapitalSCZ_qita_LastYearDescription());
+			shenBaoInfoDto.setYearConstructionContentLastYear(entity.getYearConstructionContentLastYear());
+			shenBaoInfoDto.setYearInvestApproval_lastYear(entity.getYearInvestApproval_lastYear());
+			//三年滚动--下两年
+			shenBaoInfoDto.setApplyYearInvest_LastTwoYear(entity.getApplyYearInvest_LastTwoYear());
+			shenBaoInfoDto.setCapitalSCZ_gtzj_LastTwoYear(entity.getCapitalSCZ_gtzj_LastTwoYear());
+			shenBaoInfoDto.setCapitalSCZ_ggys_LastTwoYear(entity.getCapitalSCZ_ggys_LastTwoYear());
+			shenBaoInfoDto.setCapitalSCZ_qita_LastTwoYear(entity.getCapitalSCZ_qita_LastTwoYear());
+			shenBaoInfoDto.setCapitalSCZ_qita_LastTwoYearDescription(entity.getCapitalSCZ_qita_LastTwoYearDescription());
+			shenBaoInfoDto.setYearConstructionContentLastTwoYear(entity.getYearConstructionContentLastTwoYear());
+			shenBaoInfoDto.setYearInvestApproval_lastTwoYear(entity.getYearInvestApproval_lastTwoYear());
+			//备注
 			shenBaoInfoDto.setYearConstructionContentShenBao(entity.getYearConstructionContentShenBao());
 			//基础数据		
 			shenBaoInfoDto.setCreatedDate(entity.getCreatedDate());
@@ -175,25 +184,34 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setModifiedDate(shenBaoInfoDto.getModifiedDate());								
 			//begin#年度计划
 			shenBaoInfo.setProjectConstrChar(shenBaoInfoDto.getProjectConstrChar());
-			shenBaoInfo.setPlanYear(shenBaoInfoDto.getPlanYear());			
-			shenBaoInfo.setApplyYearInvest(shenBaoInfoDto.getApplyYearInvest());//申请年度投资
-			shenBaoInfo.setYearInvestApproval(shenBaoInfoDto.getYearInvestApproval());//安排年度投资
 			shenBaoInfo.setYearPlanCapitalId(shenBaoInfoDto.getYearPlanCapitalId());//安排年度投资Id
-			shenBaoInfo.setYearConstructionTask(shenBaoInfoDto.getYearConstructionTask());
-			shenBaoInfo.setYearConstructionContent(shenBaoInfoDto.getYearConstructionContent());	
-			shenBaoInfo.setYearConstructionContentLastYear(shenBaoInfoDto.getYearConstructionContentLastYear());
-			shenBaoInfo.setYearConstructionContentLastTwoYear(shenBaoInfoDto.getYearConstructionContentLastTwoYear());
+			//申报年份
+			shenBaoInfo.setPlanYear(shenBaoInfoDto.getPlanYear());
+			shenBaoInfo.setApplyYearInvest(shenBaoInfoDto.getApplyYearInvest());//申请年度投资
 			shenBaoInfo.setCapitalSCZ_ggys_TheYear(shenBaoInfoDto.getCapitalSCZ_ggys_TheYear());
-			shenBaoInfo.setCapitalSCZ_ggys_LastYear(shenBaoInfoDto.getCapitalSCZ_ggys_LastYear());
-			shenBaoInfo.setCapitalSCZ_ggys_LastTwoYear(shenBaoInfoDto.getCapitalSCZ_ggys_LastTwoYear());
 			shenBaoInfo.setCapitalSCZ_gtzj_TheYear(shenBaoInfoDto.getCapitalSCZ_gtzj_TheYear());
-			shenBaoInfo.setCapitalSCZ_gtzj_LastYear(shenBaoInfoDto.getCapitalSCZ_gtzj_LastYear());
-			shenBaoInfo.setCapitalSCZ_gtzj_LastTwoYear(shenBaoInfoDto.getCapitalSCZ_gtzj_LastTwoYear());
-			shenBaoInfo.setApplyYearInvest_LastYear(shenBaoInfoDto.getApplyYearInvest_LastYear());
-			shenBaoInfo.setApplyYearInvest_LastTwoYear(shenBaoInfoDto.getApplyYearInvest_LastTwoYear());
 			shenBaoInfo.setCapitalSCZ_qita(shenBaoInfoDto.getCapitalSCZ_qita());
-			shenBaoInfo.setCapitalSCZ_qita_LastTwoYear(shenBaoInfoDto.getCapitalSCZ_qita_LastTwoYear());
+			shenBaoInfo.setCapitalSCZ_qitaDescription(shenBaoInfoDto.getCapitalSCZ_qitaDescription());
+			shenBaoInfo.setYearConstructionTask(shenBaoInfoDto.getYearConstructionTask());
+			shenBaoInfo.setYearConstructionContent(shenBaoInfoDto.getYearConstructionContent());
+			shenBaoInfo.setYearInvestApproval(shenBaoInfoDto.getYearInvestApproval());//安排年度投资
+			//三年滚动--下一年
+			shenBaoInfo.setApplyYearInvest_LastYear(shenBaoInfoDto.getApplyYearInvest_LastYear());
+			shenBaoInfo.setCapitalSCZ_ggys_LastYear(shenBaoInfoDto.getCapitalSCZ_ggys_LastYear());
+			shenBaoInfo.setCapitalSCZ_gtzj_LastYear(shenBaoInfoDto.getCapitalSCZ_gtzj_LastYear());
 			shenBaoInfo.setCapitalSCZ_qita_LastYear(shenBaoInfoDto.getCapitalSCZ_qita_LastYear());
+			shenBaoInfo.setCapitalSCZ_qita_LastYearDescription(shenBaoInfoDto.getCapitalSCZ_qita_LastYearDescription());
+			shenBaoInfo.setYearConstructionContentLastYear(shenBaoInfoDto.getYearConstructionContentLastYear());
+			shenBaoInfo.setYearInvestApproval_lastYear(shenBaoInfoDto.getYearInvestApproval_lastYear());
+			//三年滚动--下下年
+			shenBaoInfo.setApplyYearInvest_LastTwoYear(shenBaoInfoDto.getApplyYearInvest_LastTwoYear());		
+			shenBaoInfo.setCapitalSCZ_gtzj_LastTwoYear(shenBaoInfoDto.getCapitalSCZ_gtzj_LastTwoYear());
+			shenBaoInfo.setCapitalSCZ_ggys_LastTwoYear(shenBaoInfoDto.getCapitalSCZ_ggys_LastTwoYear());
+			shenBaoInfo.setCapitalSCZ_qita_LastTwoYear(shenBaoInfoDto.getCapitalSCZ_qita_LastTwoYear());
+			shenBaoInfo.setCapitalSCZ_qita_LastTwoYearDescription(shenBaoInfoDto.getCapitalSCZ_qita_LastTwoYearDescription());
+			shenBaoInfo.setYearConstructionContentLastTwoYear(shenBaoInfoDto.getYearConstructionContentLastTwoYear());
+			shenBaoInfo.setYearInvestApproval_lastTwoYear(shenBaoInfoDto.getYearInvestApproval_lastTwoYear());
+			//备注
 			shenBaoInfo.setYearConstructionContentShenBao(shenBaoInfoDto.getYearConstructionContentShenBao());
 			//begin#审批相关
 			shenBaoInfo.setProcessState(shenBaoInfoDto.getProcessState());

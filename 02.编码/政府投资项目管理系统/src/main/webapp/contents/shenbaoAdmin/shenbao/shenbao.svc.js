@@ -10,6 +10,7 @@
 		var url_shenbao = "/shenbaoAdmin/shenbao";
 		var url_back = "/shenbao_records";
 		var url_document="/shenbaoAdmin/replyFile";
+		var url_backToProjectList="/shenbao";
 		
 		var service = {
 			grid : grid,//项目列表
@@ -209,7 +210,7 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 									$(".modal-backdrop").remove();
-									$location.path("/shenbao");
+									$location.path(url_backToProjectList);
 								}
 							});
 						}
@@ -339,7 +340,8 @@
 			common.initJqValidation();
 			var isValid = $('form').valid();
 			if (isValid) {
-				vm.isSubmit = true;				
+				vm.isSubmit = true;
+				vm.model.projectType = common.arrayToString(vm.model.projectType,',');
 				var httpOptions = {
 					method : 'post',
 					url : url_shenbao,
@@ -581,7 +583,7 @@
 		}//End recordsGird
 		
 		/**
-		 * 项目最新版本列表数据获取
+		 * 单位项目最新版本列表数据
 		 */
 		function grid(vm) {
 			// Begin:dataSource
@@ -616,64 +618,76 @@
 			// End:dataSource
 
 			// Begin:column
-			var columns = [					
-					{
-						field : "projectName",
-						title : "项目名称",						
-						filterable : true,
-						template:function(item){
-							return common.format('<a href="#/project/projectInfo/{0}/{1}">{2}</a>',item.id,item.projectInvestmentType,item.projectName);
-						}
+			var columns = [
+				{
+					template : function(item) {
+						return kendo
+								.format(
+										"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+										item.id);
 					},
-					{
-						field : "projectStage",
-						title : "项目阶段",
-						width : 150,
-						template:function(item){
-							return common.getBasicDataDesc(item.projectStage);
-						},
-						filterable : {
-							ui: function(element){
-		                        element.kendoDropDownList({
-		                            valuePrimitive: true,
-		                            dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectStage),
-		                            dataTextField: "description",
-		                            dataValueField: "id"
-		                        });
-							}
-						}
-					},
-					{
-						field : "projectClassify",
-						title : "项目分类",
-						width : 150,
-						template:function(item){
-							return common.getBasicDataDesc(item.projectClassify);
-						},
-						filterable : false
-					},
-					{
-						field : "isIncludLibrary",
-						title : "是否已纳入项目库",
-						template:function(item){
-							if(item.isIncludLibrary){
-								return '已纳入';
-							}else{
-								return '未纳入';
-							}
-						},
-						width : 150,
-						filterable : true
-					},
-					{
-						field : "",
-						title : "操作",
-						width : 180,
-						template : function(item) {
-							return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,item.projectName,item.projectNumber);
-						}
+					filterable : false,
+					width : 40,
+					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
 
+				},
+				{
+					field : "projectName",
+					title : "项目名称",						
+					filterable : true,
+					template:function(item){
+						return common.format('<a href="#/project/projectInfo/{0}/{1}">{2}</a>',item.id,item.projectInvestmentType,item.projectName);
 					}
+				},
+				{
+					field : "projectStage",
+					title : "项目阶段",
+					width : 150,
+					template:function(item){
+						return common.getBasicDataDesc(item.projectStage);
+					},
+					filterable : {
+						ui: function(element){
+	                        element.kendoDropDownList({
+	                            valuePrimitive: true,
+	                            dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectStage),
+	                            dataTextField: "description",
+	                            dataValueField: "id"
+	                        });
+						}
+					}
+				},
+				{
+					field : "projectClassify",
+					title : "项目分类",
+					width : 150,
+					template:function(item){
+						return common.getBasicDataDesc(item.projectClassify);
+					},
+					filterable : false
+				},
+				{
+					field : "isIncludLibrary",
+					title : "是否已纳入项目库",
+					template:function(item){
+						if(item.isIncludLibrary){
+							return '已纳入';
+						}else{
+							return '未纳入';
+						}
+					},
+					width : 150,
+					filterable : true
+				},
+				{
+					field : "",
+					title : "操作",
+					width : 180,
+					template : function(item) {
+						return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,item.projectName,item.projectNumber);
+					}
+
+				}
 
 			];
 			// End:column
