@@ -202,7 +202,7 @@
     	   //初始化当前申报年份
     	   var init_planYear=function(){
     		   var date = new Date();
-    		   vm.model.planYear = common.toDate((date.getFullYear()+1).toString());
+    		   vm.model.planYear = parseInt(date.getFullYear()+1);
     		   console.log(vm.model.planYear);
     	   };
     	   

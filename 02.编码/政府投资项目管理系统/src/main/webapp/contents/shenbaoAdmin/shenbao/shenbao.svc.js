@@ -251,7 +251,7 @@
 							vm.model.projectType =[];
 						}
 						
-						vm.planYear = vm.model.planYear;
+						//vm.planYear = vm.model.planYear;
 						//日期展示
 						vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
 						vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
@@ -415,13 +415,7 @@
 				
 				if(vm.page=='edit'){
 					//多选框回显						
-					if(vm.model.projectType != "" && vm.model.projectType !=undefined){
-						vm.model.projectType = vm.model.projectType.split(",");
-					}else{
-						vm.model.projectType =[];
-					}
-					
-					
+					vm.model.projectType = common.stringToArray(vm.model.projectType,',');
 					//日期展示
 					vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
 					vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
