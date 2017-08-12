@@ -17,53 +17,11 @@
 			updateProject:updateProject,
 			createProject:createProject,
 			updateIsMonthReport:updateIsMonthReport,
-			documentRecordsGird:documentRecordsGird,
-			gridForNotIncludLibrary:gridForNotIncludLibrary,
-			updateIsIncludLibrary:updateIsIncludLibrary
+			documentRecordsGird:documentRecordsGird
 		};
 
 		return service;
 		
-		/**
-		 * 项目纳入、纳出项目库
-		 */
-		function updateIsIncludLibrary(vm){
-			var httpOptions = {
-					method : 'put',
-					url : common.format(url_project+"/isIncludLibrary?projectId={0}&str={1}", vm.projectId,vm.str)
-				};
-			
-			var httpSuccess = function success(response) {
-				common.requestSuccess({
-					vm : vm,
-					response : response,
-					fn : function() {
-						common.alert({
-							vm : vm,
-							msg : "操作成功",
-							fn : function() {
-								vm.isSubmit = false;
-								$('.alertDialog').modal('hide');
-								$('.modal-backdrop').remove();
-								if(vm.str == 'in'){
-									location.href = url_back;
-								}else{
-									location.reload();
-								}
-								
-							}
-						});
-					}
-				});
-			};
-			
-			common.http({
-				vm : vm,
-				$http : $http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});
-		}
 		/**
 		 *获取项目单位信息 
 		 */
@@ -361,128 +319,6 @@
 			};
 		}
 	
-		function gridForNotIncludLibrary(vm){
-			// Begin:dataSource
-			var dataSource = new kendo.data.DataSource({
-				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_project),
-				schema : common.kendoGridConfig().schema({
-					id : "id",
-					fields : {
-						createdDate : {
-							type : "date"
-						}
-					}
-				}),
-				serverPaging : true,
-				serverSorting : true,
-				serverFiltering : true,
-				pageSize : 10,
-				sort : {
-					field : "createdDate",
-					dir : "desc"
-				},
-				filter:
-					[{
-					field:"isLatestVersion",
-					operator:"eq",
-					value:true
-					},{
-					field:"isIncludLibrary",
-					operator:"eq",
-					value:false
-					}]
-				
-			});
-			// End:dataSource
-
-			// Begin:column
-			var columns = [
-					{
-						template : function(item) {
-							return kendo
-									.format(
-											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
-											item.id);
-						},
-						filterable : false,
-						width : 40,
-						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
-
-					},
-					 {
-						field : "projectNumber",
-						title : "项目代码",
-						width : 180,						
-						filterable : false
-					},
-					{
-						field : "projectName",
-						title : "项目名称",
-						template:function(item){
-							return common.format("<a href='#/projectDetails/{0}/{1}'>{2}</a>",item.id,item.projectInvestmentType,item.projectName);
-						},
-						filterable : true
-					},
-					{
-						field : "unitName",
-						title : "建设单位",
-						width : 150,
-						filterable : true
-					},
-					{
-						field : "projectStage",
-						title : "项目阶段",
-						width : 150,
-						template:function(item){
-							return common.getBasicDataDesc(item.projectStage);
-						},
-						filterable : false
-					},
-					{
-						field : "projectClassify",
-						title : "项目分类",
-						width : 150,
-						template:function(item){
-							return common.getBasicDataDesc(item.projectClassify);
-						},
-						filterable : false
-					},
-					{
-						field : "isMonthReport",
-						title : "是否月报",
-						template : function(item) {
-							if(item.isMonthReport){
-								return "是";
-							}else if(!item.isMonthReport){
-								return "否";
-							}								 
-						},
-						width : 150,
-						filterable : false
-					},
-					{
-						field : "",
-						title : "操作",
-						width : 180,
-						template : function(item) {
-							return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType);
-						}
-
-					}
-
-			];
-			// End:column
-
-			vm.gridOptionsForIsIncludLibrary = {
-				dataSource : common.gridDataSource(dataSource),
-				filterable : common.kendoGridConfig().filterable,
-				pageable : common.kendoGridConfig().pageable,
-				noRecords : common.kendoGridConfig().noRecordMessage,
-				columns : columns,
-				resizable : true
-			};
-		}
 		
 		// begin#grid
 		function grid(vm) {

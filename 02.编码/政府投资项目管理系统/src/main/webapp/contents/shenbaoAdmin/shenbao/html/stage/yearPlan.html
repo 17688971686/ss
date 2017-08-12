@@ -13,12 +13,12 @@
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
 		<td>	
-			<input type="text" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>			
 		</td>
-		<td class="formAlignRight">累计投资：<span class="required">(*)</span></td>
+		<td class="formAlignRight">累计完成投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.projectInvestAccuSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.projectInvestAccuSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="projectInvestAccuSum" data-valmsg-replace="true" class="required"></span>			
 		</td>
 	</tr>
@@ -26,7 +26,7 @@
 		<td class="formAlignRight">计划年度：<span class="required">(*)</span></td>
 		<td style="width:250px;">
 			<input class="Wdate form-control input-sm" style="width:180px;" type="text" id="planYear" name="planYear"
-			 onFocus="WdatePicker({dateFmt:'yyyy'})" ng-change="vm.changeYear(vm.model.planYear)" onChange="" ng-model="vm.model.planYear" data-val="true" data-val-required="必填"/>
+			 onFocus="WdatePicker({dateFmt:'yyyy'})" value="2018" ng-change="vm.changeYear(vm.model.planYear)" onChange="" ng-model="vm.model.planYear" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="planYear" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight" style="width:150px;">申请年度投资：</td>
@@ -35,22 +35,24 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="formAlignRight">国土资金：<span class="required">(*)</span></td>
+		<td class="formAlignRight">国土基金：</td>
 		<td style="width:250px;">
-			<input type="number" style="width:100px" class="form-control input-sm" id="capitalSCZ_gtzj_TheYear" name="capitalSCZ_gtzj_TheYear" ng-model="vm.model.capitalSCZ_gtzj_TheYear" data-val="true" data-val-required="必填"/>&nbsp;(万元)
-			<span data-valmsg-for="capitalSCZ_gtzj_TheYear" data-valmsg-replace="true" class="required"></span>
+			<input type="number" style="width:100px" class="form-control input-sm" ng-model="vm.model.capitalSCZ_gtzj_TheYear"/>&nbsp;(万元)
 		</td>
-		<td class="formAlignRight" style="width:150px;">公共预算：<span class="required">(*)</span></td>
+		<td class="formAlignRight">公共预算：</td>
 		<td>
-			<input type="number" style="width:100px" class="form-control input-sm" id="capitalSCZ_ggys_TheYear" name="capitalSCZ_ggys_TheYear" ng-model="vm.model.capitalSCZ_ggys_TheYear" data-val="true" data-val-required="必填"/>&nbsp;(万元)
-			<span data-valmsg-for="capitalSCZ_ggys_TheYear" data-valmsg-replace="true" class="required"></span>
+			<input type="number" style="width:100px" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys_TheYear"/>&nbsp;(万元)
 		</td>
 	</tr>
 	<tr>
-		<td class="formAlignRight">年度其他资金：<span class="required">(*)</span></td>
-		<td colspan="3">
-			<input type="number" style="width:100px" class="form-control input-sm" id="capitalSCZ_qita" name="capitalSCZ_qita"  ng-model="vm.model.capitalSCZ_qita" data-val="true" data-val-required="必填"/>&nbsp;(万元)
-			<span data-valmsg-for="capitalSCZ_gtzj_LastTwoYear" data-valmsg-replace="true" class="required"></span>
+		<td class="formAlignRight">其他资金：</td>
+		<td>
+			<input type="text" style="width:100px" class="form-control input-sm" ng-model="vm.model.capitalSCZ_qita"/>&nbsp;(万元)
+		</td>
+		<td class="formAlignRight">其他来源说明：</td>
+		<td>
+			<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.capitalSCZ_qitaDescription" placeholder="注：200字符以内" maxlength="200" ng-change="vm.checkLength(vm.model.capitalSCZ_qitaDescription,200,'capitalSCZ_qitaDescriptionTips')"></textarea>									
+			<div class="tipfont">您还可以输入<span id="capitalSCZ_qitaDescriptionTips"><font size="5">200</font></span>个字符!</div>
 		</td>		
 	</tr>
 	<tr>
