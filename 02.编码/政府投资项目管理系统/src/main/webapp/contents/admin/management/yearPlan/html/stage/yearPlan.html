@@ -13,12 +13,12 @@
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
 		<td>	
-			<input type="text" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.shenBaoInfo.projectInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.shenBaoInfo.projectInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>			
 		</td>
 		<td class="formAlignRight">累计投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.shenBaoInfo.projectInvestAccuSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.shenBaoInfo.projectInvestAccuSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="projectInvestAccuSum" data-valmsg-replace="true" class="required"></span>			
 		</td>
 	</tr>
@@ -37,19 +37,19 @@
 	<tr>
 		<td class="formAlignRight">国土资金：<span class="required">(*)</span></td>
 		<td style="width:250px;">
-			<input type="text" style="width:100px" class="form-control input-sm" id="capitalSCZ_gtzj_TheYear" name="capitalSCZ_gtzj_TheYear" ng-model="vm.model.shenBaoInfo.capitalSCZ_gtzj_TheYear" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" style="width:100px" class="form-control input-sm" id="capitalSCZ_gtzj_TheYear" name="capitalSCZ_gtzj_TheYear" ng-model="vm.model.shenBaoInfo.capitalSCZ_gtzj_TheYear" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="capitalSCZ_gtzj_TheYear" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight" style="width:150px;">公共预算：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" style="width:100px" class="form-control input-sm" id="capitalSCZ_ggys_TheYear" name="capitalSCZ_ggys_TheYear" ng-model="vm.model.shenBaoInfo.capitalSCZ_ggys_TheYear" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" style="width:100px" class="form-control input-sm" id="capitalSCZ_ggys_TheYear" name="capitalSCZ_ggys_TheYear" ng-model="vm.model.shenBaoInfo.capitalSCZ_ggys_TheYear" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="capitalSCZ_ggys_TheYear" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">年度其他资金：<span class="required">(*)</span></td>
 		<td colspan="3">
-			<input type="text" style="width:100px" class="form-control input-sm" id="capitalSCZ_qita" name="capitalSCZ_qita"  ng-model="vm.model.shenBaoInfo.capitalSCZ_qita" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" style="width:100px" class="form-control input-sm" id="capitalSCZ_qita" name="capitalSCZ_qita"  ng-model="vm.model.shenBaoInfo.capitalSCZ_qita" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="capitalSCZ_gtzj_LastTwoYear" data-valmsg-replace="true" class="required"></span>
 		</td>		
 	</tr>
@@ -80,19 +80,19 @@
 	<tr>
 		<td class="formAlignRight">年度国土资金：<span class="required">(*)</span></td>
 		<td style="width:250px;">
-			<input type="text" style="width:100px" class="form-control input-sm" id="capitalSCZ_gtzj_LastYear" name="capitalSCZ_gtzj_LastYear" ng-model="vm.model.shenBaoInfo.capitalSCZ_gtzj_LastYear" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" style="width:100px" class="form-control input-sm" id="capitalSCZ_gtzj_LastYear" name="capitalSCZ_gtzj_LastYear" ng-model="vm.model.shenBaoInfo.capitalSCZ_gtzj_LastYear" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="capitalSCZ_gtzj_LastYear" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight" style="width:150px;">年度公共预算：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" style="width:100px" class="form-control input-sm" id="capitalSCZ_ggys_LastYear" name="capitalSCZ_ggys_LastYear" ng-model="vm.model.shenBaoInfo.capitalSCZ_ggys_LastYear" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" style="width:100px" class="form-control input-sm" id="capitalSCZ_ggys_LastYear" name="capitalSCZ_ggys_LastYear" ng-model="vm.model.shenBaoInfo.capitalSCZ_ggys_LastYear" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="capitalSCZ_ggys_LastYear" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">年度其他资金：<span class="required">(*)</span></td>
 		<td colspan="3">
-			<input type="text" style="width:100px" class="form-control input-sm" id="capitalSCZ_qita_LastYear" name="capitalSCZ_qita_LastYear"  ng-model="vm.model.shenBaoInfo.capitalSCZ_qita_LastYear" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" style="width:100px" class="form-control input-sm" id="capitalSCZ_qita_LastYear" name="capitalSCZ_qita_LastYear"  ng-model="vm.model.shenBaoInfo.capitalSCZ_qita_LastYear" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="capitalSCZ_gtzj_LastTwoYear" data-valmsg-replace="true" class="required"></span>
 		</td>		
 	</tr>
@@ -123,19 +123,19 @@
 	<tr>
 		<td class="formAlignRight">年度国土资金：<span class="required">(*)</span></td>
 		<td style="width:250px;">
-			<input type="text" style="width:100px" class="form-control input-sm" id="capitalSCZ_gtzj_LastTwoYear" name="capitalSCZ_gtzj_LastTwoYear"  ng-model="vm.model.shenBaoInfo.capitalSCZ_gtzj_LastTwoYear" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" style="width:100px" class="form-control input-sm" id="capitalSCZ_gtzj_LastTwoYear" name="capitalSCZ_gtzj_LastTwoYear"  ng-model="vm.model.shenBaoInfo.capitalSCZ_gtzj_LastTwoYear" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="capitalSCZ_gtzj_LastTwoYear" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight" style="width:150px;">年度公共预算：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" style="width:100px" class="form-control input-sm" id="capitalSCZ_ggys_LastTwoYear" name="capitalSCZ_ggys_LastTwoYear" ng-model="vm.model.shenBaoInfo.capitalSCZ_ggys_LastTwoYear" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" style="width:100px" class="form-control input-sm" id="capitalSCZ_ggys_LastTwoYear" name="capitalSCZ_ggys_LastTwoYear" ng-model="vm.model.shenBaoInfo.capitalSCZ_ggys_LastTwoYear" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="capitalSCZ_ggys_LastTwoYear" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">年度其他资金：<span class="required">(*)</span></td>
 		<td colspan="3">
-			<input type="text" style="width:100px" class="form-control input-sm" id="capitalSCZ_qita_LastTwoYear" name="capitalSCZ_qita_LastTwoYear"  ng-model="vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" style="width:100px" class="form-control input-sm" id="capitalSCZ_qita_LastTwoYear" name="capitalSCZ_qita_LastTwoYear"  ng-model="vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="capitalSCZ_gtzj_LastTwoYear" data-valmsg-replace="true" class="required"></span>
 		</td>		
 	</tr>

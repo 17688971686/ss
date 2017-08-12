@@ -102,6 +102,9 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setYearInvestApproval_lastTwoYear(entity.getYearInvestApproval_lastTwoYear());
 			//备注
 			shenBaoInfoDto.setYearConstructionContentShenBao(entity.getYearConstructionContentShenBao());
+			shenBaoInfoDto.setCapitalOtherDescriptionShenBao(entity.getCapitalOtherDescriptionShenBao());
+			shenBaoInfoDto.setCapitalOtherDescriptionShenBao_LastYear(entity.getCapitalOtherDescriptionShenBao_LastYear());
+			shenBaoInfoDto.setCapitalOtherDescriptionShenBao_LastYear(entity.getCapitalOtherDescriptionShenBao_LastTwoYear());
 			//基础数据		
 			shenBaoInfoDto.setCreatedDate(entity.getCreatedDate());
 			shenBaoInfoDto.setModifiedDate(entity.getModifiedDate());
