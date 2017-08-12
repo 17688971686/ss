@@ -89,6 +89,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		ShenBaoInfo entity=super.create(dto);
 		dto.setCreatedDate(new Date());
 		dto.setModifiedDate(new Date());
+		entity.setAuditState(BasicDataConfig.auditState_noAudit);//初始化审核状态--未审核
 		//处理关联信息
 		//begin#关联信息
 		//附件

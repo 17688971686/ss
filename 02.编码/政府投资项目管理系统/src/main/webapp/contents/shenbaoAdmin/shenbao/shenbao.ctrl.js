@@ -51,7 +51,9 @@
    	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类	型   			   			       		   		
    	   		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别	   		
    	   		vm.basicData.projectConstrChar=common.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质	   			   		
-   	   		vm.basicData.unitProperty=common.getBacicDataByIndectity(common.basicDataConfig().unitProperty);//单位性质	   		
+   	   		vm.basicData.unitProperty=common.getBacicDataByIndectity(common.basicDataConfig().unitProperty);//单位性质
+   	   		vm.basicData.processState=common.getBacicDataByIndectity(common.basicDataConfig().processState);//审批状态
+   	   		vm.basicData.auditState=common.getBacicDataByIndectity(common.basicDataConfig().auditState);//审核状态
    	   		vm.basicData.area_Street=$linq(common.getBasicData())
 	   				.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 	   				.toArray(); //行政区划街道  
@@ -158,10 +160,10 @@
     		   }
     		  
     		   //初始化tab--禁止点击Tab切换
-//    		   $("#tab1").attr("disabled","true");
-//    		   $("#tab2").attr("disabled","true");
-//    		   $("#tab3").attr("disabled","true");
-//    		   $("#tab4").attr("disabled","true");
+    		   $("#tab1").attr("disabled","true");
+    		   $("#tab2").attr("disabled","true");
+    		   $("#tab3").attr("disabled","true");
+    		   $("#tab4").attr("disabled","true");
     	   };
     	   //初始化基础数据
     	   var init_basicData = function(){
@@ -323,6 +325,27 @@
        
        function page_records(){
     	   shenbaoSvc.recordsGird(vm);
+    	   //条件查询
+    	   vm.search=function(){
+    		   var filters = [];
+    		   if(vm.search.projectName !=null && vm.search.projectName !=''){
+    			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
+    		   }
+    		   if(vm.search.projectShenBaoStage !=null && vm.search.projectShenBaoStage !=''){
+    			   filters.push({field:'projectShenBaoStage',operator:'eq',value:vm.search.projectShenBaoStage});
+    		   }
+    		   if(vm.search.planYear !=null && vm.search.planYear !=''){
+    			   filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear)});
+    		   }
+    		   if(vm.search.processState !=null && vm.search.processState !=''){
+    			   filters.push({field:'processState',operator:'eq',value:vm.search.processState});
+    		   }
+    		   if(vm.search.auditState !=null && vm.search.auditState !=''){
+    			   filters.push({field:'auditState',operator:'eq',value:vm.search.auditState});
+    		   }
+    		   vm.gridOptions_records.dataSource.filter(filters);
+    		   vm.gridOptions_records.dataSource.read();
+    	   };
        }//end#page_records
        
        function page_record(){
