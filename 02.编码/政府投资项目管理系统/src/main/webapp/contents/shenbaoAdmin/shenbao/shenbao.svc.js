@@ -21,8 +21,7 @@
 			getShenBaoInfoById:getShenBaoInfoById,//根据id查询项目申报信息
 			updateShenBaoInfo:updateShenBaoInfo,//更新申报信息
 			documentRecordsGird:documentRecordsGird,//批复文件列表
-			getShenBaoInfoByProjectId:getShenBaoInfoByProjectId,//根据项目id查询申报信息
-			getShenBaoRecordsByProjectNumber:getShenBaoRecordsByProjectNumber
+			getShenBaoInfoByProjectId:getShenBaoInfoByProjectId//根据项目id查询申报信息
 		};		
 		return service;
 		
