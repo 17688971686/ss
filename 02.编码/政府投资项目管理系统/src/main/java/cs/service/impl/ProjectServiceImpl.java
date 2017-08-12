@@ -127,12 +127,19 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	public Project create(ProjectDto projectDto) {
 			//判断是否存在项目代码--生成项目代码
 			if(projectDto.getProjectNumber() == null || projectDto.getProjectNumber().isEmpty()){
-				//根据基础数据id查询出基础数据
+				//根据行业类型id查询出基础数据
 				BasicData basicData = basicDataRepo.findById(projectDto.getProjectIndustry());
-				String number = Util.getProjectNumber(projectDto.getProjectInvestmentType(), basicData);
-				projectDto.setProjectNumber(number);
-				//行业项目统计累加
-				basicData.setCount(basicData.getCount()+1);
+				if(basicData !=null){
+					String number = Util.getProjectNumber(projectDto.getProjectInvestmentType(), basicData);
+					projectDto.setProjectNumber(number);
+					//行业项目统计累加
+					basicData.setCount(basicData.getCount()+1);
+					basicData.setModifiedBy(currentUser.getLoginName());
+					basicData.setModifiedDate(new Date());
+					basicDataRepo.save(basicData);
+				}else{
+					throw new IllegalArgumentException(String.format("项目代码生成故障，请确认项目行业选择是否正确！"));
+				}
 			}
 			Project project = super.create(projectDto);	
 			project.setModifiedDate(new Date());//设置修改时间
