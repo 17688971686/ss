@@ -72,8 +72,6 @@ public class ShenBaoInfo extends BaseProject{
 	private Double capitalSCZ_gtzj_TheYear;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '本年度资金筹措方案-其他资金'")
 	private Double capitalSCZ_qita;
-	@Column(columnDefinition="varchar(200) NULL COMMENT '本年度资金筹措方案-其他资金来源说明'")
-	private String capitalSCZ_qitaDescription;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下一年度资金筹措方案-公共预算'")
 	private Double capitalSCZ_ggys_LastYear;
@@ -81,8 +79,6 @@ public class ShenBaoInfo extends BaseProject{
 	private Double capitalSCZ_gtzj_LastYear;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下年度资金筹措方案-其他资金'")
 	private Double capitalSCZ_qita_LastYear;
-	@Column(columnDefinition="varchar(200) NULL COMMENT '下年度资金筹措方案-其他资金来源说明'")
-	private String capitalSCZ_qita_LastYearDescription;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度资金筹措方案-公共预算'")
 	private Double capitalSCZ_ggys_LastTwoYear;
@@ -90,15 +86,35 @@ public class ShenBaoInfo extends BaseProject{
 	private Double capitalSCZ_gtzj_LastTwoYear;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度资金筹措方案-其他资金'")
 	private Double capitalSCZ_qita_LastTwoYear;
-	@Column(columnDefinition="varchar(200) NULL COMMENT '下下年度资金筹措方案-其他资金来源说明'")
-	private String capitalSCZ_qita_LastTwoYearDescription;
-	
+
 	@Column(columnDefinition="varchar(500) NULL COMMENT '下一年其他资金来源'")
 	private String capitalOtherDescriptionShenBao_LastYear;
 	@Column(columnDefinition="varchar(500) NULL COMMENT '其他资金来源'")
 	private String capitalOtherDescriptionShenBao;
 	@Column(columnDefinition="varchar(500) NULL COMMENT '下下年其他资金来源'")
 	private String capitalOtherDescriptionShenBao_LastTwoYear;
+	
+	//安排资金
+	@Column(columnDefinition="double(11,4) NULL COMMENT '安排年度资金筹措方案-公共预算'")
+	private Double capitalAP_ggys_TheYear;
+	@Column(columnDefinition="double(11,4) NULL COMMENT '安排年度资金筹措方案-国土基金'")
+	private Double capitalAP_gtzj_TheYear;
+	@Column(columnDefinition="double(11,4) NULL COMMENT '安排年度资金筹措方案-其他'")
+	private Double capitalAP_qita;
+	
+	@Column(columnDefinition="double(11,4) NULL COMMENT '下年度安排年度资金筹措方案-公共预算'")
+	private Double capitalAP_ggys_LastYear;
+	@Column(columnDefinition="double(11,4) NULL COMMENT '下年度安排年度资金筹措方案-国土基金'")
+	private Double capitalAP_gtzj_LastYear;
+	@Column(columnDefinition="double(11,4) NULL COMMENT '下年度安排年度资金筹措方案-其他'")
+	private Double capitalAP_qita_LastYear;
+	
+	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度安排年度资金筹措方案-公共预算'")
+	private Double capitalAP_ggys_LastTwoYear;
+	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度安排年度资金筹措方案-国土基金'")
+	private Double capitalAP_gtzj_LastTwoYear;
+	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度安排年度资金筹措方案-其他'")
+	private Double capitalAP_qita_LastTwoYear;
 	//end#年度计划相关
 
    //begin#财政相关
@@ -306,24 +322,6 @@ public class ShenBaoInfo extends BaseProject{
 	public void setCapitalSCZ_qita_LastTwoYear(Double capitalSCZ_qita_LastTwoYear) {
 		this.capitalSCZ_qita_LastTwoYear = capitalSCZ_qita_LastTwoYear;
 	}
-	public String getCapitalSCZ_qitaDescription() {
-		return capitalSCZ_qitaDescription;
-	}
-	public void setCapitalSCZ_qitaDescription(String capitalSCZ_qitaDescription) {
-		this.capitalSCZ_qitaDescription = capitalSCZ_qitaDescription;
-	}
-	public String getCapitalSCZ_qita_LastYearDescription() {
-		return capitalSCZ_qita_LastYearDescription;
-	}
-	public void setCapitalSCZ_qita_LastYearDescription(String capitalSCZ_qita_LastYearDescription) {
-		this.capitalSCZ_qita_LastYearDescription = capitalSCZ_qita_LastYearDescription;
-	}
-	public String getCapitalSCZ_qita_LastTwoYearDescription() {
-		return capitalSCZ_qita_LastTwoYearDescription;
-	}
-	public void setCapitalSCZ_qita_LastTwoYearDescription(String capitalSCZ_qita_LastTwoYearDescription) {
-		this.capitalSCZ_qita_LastTwoYearDescription = capitalSCZ_qita_LastTwoYearDescription;
-	}
 	public String getAuditState() {
 		return auditState;
 	}
@@ -367,4 +365,60 @@ public class ShenBaoInfo extends BaseProject{
 	public void setYearInvestApproval_lastTwoYear(Double yearInvestApproval_lastTwoYear) {
 		this.yearInvestApproval_lastTwoYear = yearInvestApproval_lastTwoYear;
 	}
+	public Double getCapitalAP_ggys_TheYear() {
+		return capitalAP_ggys_TheYear;
+	}
+	public void setCapitalAP_ggys_TheYear(Double capitalAP_ggys_TheYear) {
+		this.capitalAP_ggys_TheYear = capitalAP_ggys_TheYear;
+	}
+	public Double getCapitalAP_gtzj_TheYear() {
+		return capitalAP_gtzj_TheYear;
+	}
+	public void setCapitalAP_gtzj_TheYear(Double capitalAP_gtzj_TheYear) {
+		this.capitalAP_gtzj_TheYear = capitalAP_gtzj_TheYear;
+	}
+	public Double getCapitalAP_qita() {
+		return capitalAP_qita;
+	}
+	public void setCapitalAP_qita(Double capitalAP_qita) {
+		this.capitalAP_qita = capitalAP_qita;
+	}
+	public Double getCapitalAP_ggys_LastYear() {
+		return capitalAP_ggys_LastYear;
+	}
+	public void setCapitalAP_ggys_LastYear(Double capitalAP_ggys_LastYear) {
+		this.capitalAP_ggys_LastYear = capitalAP_ggys_LastYear;
+	}
+	public Double getCapitalAP_gtzj_LastYear() {
+		return capitalAP_gtzj_LastYear;
+	}
+	public void setCapitalAP_gtzj_LastYear(Double capitalAP_gtzj_LastYear) {
+		this.capitalAP_gtzj_LastYear = capitalAP_gtzj_LastYear;
+	}
+	public Double getCapitalAP_qita_LastYear() {
+		return capitalAP_qita_LastYear;
+	}
+	public void setCapitalAP_qita_LastYear(Double capitalAP_qita_LastYear) {
+		this.capitalAP_qita_LastYear = capitalAP_qita_LastYear;
+	}
+	public Double getCapitalAP_ggys_LastTwoYear() {
+		return capitalAP_ggys_LastTwoYear;
+	}
+	public void setCapitalAP_ggys_LastTwoYear(Double capitalAP_ggys_LastTwoYear) {
+		this.capitalAP_ggys_LastTwoYear = capitalAP_ggys_LastTwoYear;
+	}
+	public Double getCapitalAP_gtzj_LastTwoYear() {
+		return capitalAP_gtzj_LastTwoYear;
+	}
+	public void setCapitalAP_gtzj_LastTwoYear(Double capitalAP_gtzj_LastTwoYear) {
+		this.capitalAP_gtzj_LastTwoYear = capitalAP_gtzj_LastTwoYear;
+	}
+	public Double getCapitalAP_qita_LastTwoYear() {
+		return capitalAP_qita_LastTwoYear;
+	}
+	public void setCapitalAP_qita_LastTwoYear(Double capitalAP_qita_LastTwoYear) {
+		this.capitalAP_qita_LastTwoYear = capitalAP_qita_LastTwoYear;
+	}
+	
+	
 }
