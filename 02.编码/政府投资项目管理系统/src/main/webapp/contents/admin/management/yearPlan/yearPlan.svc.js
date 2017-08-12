@@ -376,7 +376,7 @@
 				vm.model.shenBaoInfo.capitalZYYS=common.toMoney(vm.model.shenBaoInfo.capitalZYYS);//中央预算
 				vm.model.shenBaoInfo.capitalSHTZ=common.toMoney(vm.model.shenBaoInfo.capitalSHTZ);//社会投资
 				vm.model.shenBaoInfo.capitalOther=common.toMoney(vm.model.shenBaoInfo.capitalOther);//其他
-				
+				//申请资金
 				vm.model.shenBaoInfo.capitalSCZ_gtzj_TheYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_gtzj_TheYear);
 				vm.model.shenBaoInfo.capitalSCZ_ggys_TheYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_ggys_TheYear);
 				vm.model.shenBaoInfo.capitalSCZ_qita=common.toMoney(vm.model.shenBaoInfo.capitalSCZ_qita);
@@ -389,7 +389,7 @@
 				vm.model.shenBaoInfo.capitalSCZ_ggys_LastTwoYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_ggys_LastTwoYear);
 				vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear);
 				
-				//申请资金
+				//安排资金
 				vm.model.capitalAP_ggys_TheYear=common.toMoney(vm.model.capitalAP_ggys_TheYear);
 				vm.model.capitalAP_gtzj_TheYear=common.toMoney(vm.model.capitalAP_gtzj_TheYear);
 				vm.model.capitalAP_qita=common.toMoney(vm.model.capitalAP_qita);
@@ -415,7 +415,7 @@
 		  			 		+ (parseFloat(vm.model.shenBaoInfo.capitalOther)||0) ;
 		  		 };
 		  		 
-		  		 //申请资金
+		  		 //申请资金计算
 		  		vm.lastTwoYearCapitalTotal = function(){
 		  			return (parseFloat(vm.model.shenBaoInfo.capitalSCZ_ggys_LastTwoYear)||0) + (parseFloat(vm.model.shenBaoInfo.capitalSCZ_gtzj_LastTwoYear)||0);
 		  		};

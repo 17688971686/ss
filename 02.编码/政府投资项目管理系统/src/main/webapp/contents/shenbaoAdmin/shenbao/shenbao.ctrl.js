@@ -62,10 +62,10 @@
         activate();
         function activate() {
         	vm.init();
-        	if(vm.page=='list'){//列表页
+        	if(vm.page=='list'){//项目信息列表页
         		page_list();
         	}
-        	if(vm.page=='edit'){//编辑页
+        	if(vm.page=='edit'){//项目申报填报页
         		page_edit();        		
         	}
         	if(vm.page=='records'){//申报记录列表页
@@ -144,7 +144,7 @@
 				});
         	   vm.gridOptions_shenBaoRecords.dataSource.read();
         	   //定义退文状态TODO 这里定义有什么用？
-        	   vm.processState = common.basicDataConfig().processState_tuiWen;
+        	   //vm.processState = common.basicDataConfig().processState_tuiWen;
            };
            shenbaoSvc.projectShenBaoRecordsGird(vm);     
         }//end#page_list
