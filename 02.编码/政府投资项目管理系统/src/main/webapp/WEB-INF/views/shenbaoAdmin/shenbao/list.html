@@ -87,7 +87,7 @@
 				<br>
 				<div class="form-group">
 					<label class="control-label col-sm-3" for="projectShenBaoStage">项目申报阶段:</label>
-					<select class="form-select" ng-model="vm.projectShenBaoStage" ng-change="vm.change()">
+					<select class="form-select" ng-model="vm.projectShenBaoStage" ng-change="vm.change(vm.projectShenBaoStage)">
 						<option value="">---请选择---</option>
 						<option ng-repeat="x in vm.basicData.projectShenBaoStage" value="{{x.id}}">{{x.description}}</option>
 					</select>

@@ -123,9 +123,9 @@
 	           	 $('#myModal').modal('show');
            };
          //模态框中申报阶段下拉选发生变化时
-           vm.change =function(){
+           vm.change =function(projectShenBaoStage){
         	   vm.massage = '';
-        	   shenbaoSvc.getShenBaoInfoByProjectId(vm);
+        	   shenbaoSvc.getShenBaoInfoByProjectId(vm,projectShenBaoStage);
            };
     	   //点击模态框的确认按钮
            vm.confirm = function(vm,projectShenBaoStage){

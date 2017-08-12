@@ -26,7 +26,7 @@
 		};		
 		return service;
 		
-		function getShenBaoInfoByProjectId(vm){
+		function getShenBaoInfoByProjectId(vm,projectShenBaoStage){
 			var httpOptions = {
 					method : 'get',
 					url : common.format(url_shenbao + "?$filter=projectId eq '{0}'", vm.projectId)
@@ -39,9 +39,11 @@
 	        		   for (var i = 0; i < vm.model.shenBaoInfoRecords.length; i++) {
 	   	           			list.push(vm.model.shenBaoInfoRecords[i].projectShenBaoStage);
 	   					}
-	        		   if(list.indexOf(common.basicDataConfig().projectShenBaoStage_nextYearPlan)>-1){
+	        		   if(list.indexOf(projectShenBaoStage)>-1){
 	    	        	   vm.massage = "下一年度计划已申报！";
 	    	        	   vm.isHased = true;
+	    	           }else{
+	    	        	   vm.isHased = false;
 	    	           }
 	        	   }
 			};
