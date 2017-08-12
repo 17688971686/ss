@@ -68,7 +68,7 @@ public class ShenBaoController {
 	}
 	
 	@RequiresPermissions("management/shenbao#updateState#post")
-	@RequestMapping(name = "更新申报数据的状态", path = "updateState",method=RequestMethod.POST)
+	@RequestMapping(name = "更新申报数据的审批状态（退文）", path = "updateState",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void updateState(@RequestBody TaskRecordDto taskRecordDto){
 		shenBaoInfoService.updateShenBaoInfoState(taskRecordDto);

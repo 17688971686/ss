@@ -54,11 +54,18 @@
                 var isSelected = $(this).is(':checked');
                 $('.yearPlanCapitalGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
             });
-           	//条件查询--基础数据
+           	//条件查询、编辑--基础数据
            	vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别	   		
 	   		vm.basicData.projectConstrChar=common.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质	
 	   		vm.basicData.auditState=common.getBacicDataByIndectity(common.basicDataConfig().auditState);//审核状态
-    		
+      	   	vm.basicData.projectStage = common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段 	   		
+   	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类	   			   			       		   		
+   	   		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别	   		
+   	   		vm.basicData.projectConstrChar=common.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质	   			   		
+   	   		vm.basicData.unitProperty=common.getBacicDataByIndectity(common.basicDataConfig().unitProperty);//单位性质	   		
+   	   		vm.basicData.area_Street=$linq(common.getBasicData())
+   	   			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
+   	   			.toArray(); //行政区划街道  			   		
     	}
     	init();    	
     	activate();
@@ -99,64 +106,55 @@
         }
         
         function init_edit(){
-        	
         	yearPlanSvc.getShenBaoByid(vm);
         	
-        	 //禁止点击Tab切换
- 		   document.getElementById("tab1").setAttribute("disabled","disabled");
- 		   document.getElementById("tab2").setAttribute("disabled","disabled");
- 		   document.getElementById("tab3").setAttribute("disabled","disabled");
- 		   document.getElementById("tab4").setAttribute("disabled","disabled");
-     	   //判断tab显示
-     	   var init_tab_show=function(){
+     	   //初始化页面
+     	   var init_page=function(){
      		   vm.isYearPlan=vm.stage==common.basicDataConfig().projectShenBaoStage_nextYearPlan;//申报阶段为下一年度计划
      		   if(vm.isYearPlan){
      			   //初始化项目材料清单
      			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_YearPlan;
      			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
      		   }
+     		   //初始化tab--禁止点击Tab切换
+     		   $("#tab1").attr("disabled","true");
+     		   $("#tab2").attr("disabled","true");
+     		   $("#tab3").attr("disabled","true");
+     		   $("#tab4").attr("disabled","true");
      	   };
-     	   init_tab_show();
+     	   //初始化基础数据
+     	   var init_basicData=function(){
+     		  if(vm.investmentType == common.basicDataConfig().projectInvestmentType_ZF){//如果为政府投资
+        		   vm.isZFInvestment = true; 
+      			 	//基础数据--项目分类
+        		   vm.basicData.projectClassify=$linq(common.getBasicData())
+    	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
+    	       		.toArray();
+        		   //基础数据--行业归口
+        		   vm.basicData.projectIndustry=$linq(common.getBasicData())
+    	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
+    	       		.toArray();
+        	   }else if(vm.investmentType == common.basicDataConfig().projectInvestmentType_SH){//如果为社会投资
+        		   vm.isSHInvestment = true;
+     			   //基础数据--项目分类
+     			  vm.basicData.projectClassify=$linq(common.getBasicData())
+    	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
+    	       		.toArray();
+     			  //基础数据--行业归口
+     			 vm.basicData.projectIndustry=$linq(common.getBasicData())
+    	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_SH;})
+    	       		.toArray();
+     			vm.projectIndustryChange=function(){    		
+    	       		vm.basicData.projectIndustryChildren=$linq(common.getBasicData())
+    	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.model.projectIndustryParent;})
+    	       		.toArray();
+    	   		};
+        	   }
+     	   };
+     	   
+     	  init_page();
+     	  init_basicData();
         	
-        	if(vm.investmentType == common.basicDataConfig().projectInvestmentType_ZF){//如果为政府投资
-     		   vm.isZFInvestment = true; 
-   			 	//基础数据--项目分类
-     		   vm.basicData.projectClassify=$linq(common.getBasicData())
- 	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
- 	       		.toArray();
-     		   //基础数据--行业归口
-     		   vm.basicData.projectIndustry=$linq(common.getBasicData())
- 	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
- 	       		.toArray();
-     	   }else if(vm.investmentType == common.basicDataConfig().projectInvestmentType_SH){//如果为社会投资
-     		   vm.isSHInvestment = true;
-  			   //基础数据--项目分类
-  			  vm.basicData.projectClassify=$linq(common.getBasicData())
- 	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
- 	       		.toArray();
-  			  //基础数据--行业归口
-  			 vm.basicData.projectIndustry=$linq(common.getBasicData())
- 	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_SH;})
- 	       		.toArray();
-  			vm.projectIndustryChange=function(){    		
- 	       		vm.basicData.projectIndustryChildren=$linq(common.getBasicData())
- 	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.model.projectIndustryParent;})
- 	       		.toArray();
- 	   		};
-     	   }
- 		  //获取基础数据    	   	
-   	   	vm.basicData.projectStage = common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段 	   		
-	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类	   			   			       		   		
-	   		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别	   		
-	   		vm.basicData.projectConstrChar=common.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质	   			   		
-	   		vm.basicData.unitProperty=common.getBacicDataByIndectity(common.basicDataConfig().unitProperty);//单位性质	   		
-	   		//行政区划街道
-	   		vm.basicData.area_Street=$linq(common.getBasicData())
-	   			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
-	   			.toArray();   			   		
-	   		//资金其他来源类型
-	   		vm.basicData.capitalOther=common.getBacicDataByIndectity(common.basicDataConfig().capitalOtherType);
-
 	   		//获取项目类型， 多选
 	   		vm.updateSelection = function(id){
 	        	var index = vm.model.projectType.indexOf(id);
@@ -169,11 +167,11 @@
 	      //展示批复文件选择模态框
 	   		vm.choseDocument = function(e){
 	   			vm.pifuType=$(e.target).parents('.uploadBox').attr('data-type');
-       	   $("#documentRecords").modal({
-			        backdrop: 'static',
-			        keyboard:false  			  
-       	   });
-       	   vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
+		       	   $("#documentRecords").modal({
+					        backdrop: 'static',
+					        keyboard:false  			  
+		       	   });
+		       	   vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
 	   		};
 	   		yearPlanSvc.documentRecordsGird(vm);//查询批复文件
 	   		
@@ -185,7 +183,6 @@
 	   			//获取选择框中的信息
 	   			var select = common.getKendoCheckId('.grid');
            	var fileName = select[0].value;
-           	
   			    if(vm.model.attachmentDtos){
   				  vm.model.attachmentDtos.push({name:fileName,url:fileName,type:vm.pifuType});
   			    }else{
@@ -259,8 +256,8 @@
  		
  		 //tab切换(下一步)
  		 vm.tabChange = function(tabId){
-    			//验证表单
-    			common.initJqValidation();
+			//验证表单
+			common.initJqValidation();
    			var isValid = $('form').valid();
    			var activeTab = $("#tab"+tabId);
    			if(isValid){//通过则跳转到下一页面
@@ -386,17 +383,6 @@
  	    	       		.toArray();
       			   };
          	   }
-	   		vm.basicData.projectStage = common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段 	   		
-	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类	型   			   			       		   		
-	   	//	vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别	   		
-	   	//	vm.basicData.projectConstrChar=common.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质	   			   		
-	   		vm.basicData.unitProperty=common.getBacicDataByIndectity(common.basicDataConfig().unitProperty);//单位性质	   		
-	   		//行政区划街道
-	   		vm.basicData.area_Street=$linq(common.getBasicData())
-   				.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
-   				.toArray();   			   		
-	   		//资金其他来源类型
-	   		vm.basicData.capitalOther=common.getBacicDataByIndectity(common.basicDataConfig().capitalOtherType);
     	};
     	init_page();
     	init_basicData();

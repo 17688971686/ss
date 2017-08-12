@@ -35,7 +35,6 @@
 			removeYearPlanCapital:removeYearPlanCapital,//移除申报项目
 			getShenBaoByid:getShenBaoByid,//获取申报信息
 			documentRecordsGird:documentRecordsGird,//展示文件
-			updateShenBaoInfo:updateShenBaoInfo,//更新申报信息
 			documentRecordsGird:documentRecordsGird//批复文件列表
 		};
 		
@@ -48,12 +47,7 @@
 				var httpSuccess = function success(response) {
 					vm.model = response.data.value[0]||{};
 						//多选框回显						
-						if(vm.model.projectType != ""){
-							vm.model.projectType = vm.model.projectType.split(",");
-						}else{
-							vm.model.projectType =[];
-						}
-						
+						vm.model.projectType = common.stringToArray(vm.model.projectType,',');
 						vm.planYear = vm.model.planYear;
 						//日期展示
 						vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
@@ -126,62 +120,6 @@
 					success : httpSuccess
 				});
 		}
-		
-		/**
-		 * 更新申报信息
-		 */
-		function updateShenBaoInfo(vm){		
-			common.initJqValidation();
-			var isValid = $('form').valid();
-			if (isValid) {
-				//vm.isSubmit = true;
-				
-				if(vm.model.projectType != "" && vm.model.projectType != undefined){
-					vm.model.projectType = vm.model.projectType.join(",");
-				}else{
-					vm.model.projectType ="";
-				}
-				var httpOptions = {
-					method : 'put',
-					url :url_shenbao,
-					data : vm.model
-				};
-
-				var httpSuccess = function success(response) {
-					common.requestSuccess({
-						vm : vm,
-						response : response,
-						fn : function() {
-							common.alert({
-								vm : vm,
-								msg : "操作成功",
-								fn : function() {
-									vm.isSubmit = false;
-									$('.alertDialog').modal('hide');
-									$(".modal-backdrop").remove();
-									$location.path("/url_planList");
-								}
-							});
-						}
-
-					});
-				};
-
-				common.http({
-					vm : vm,
-					$http : $http,
-					httpOptions : httpOptions,
-					success : httpSuccess
-				});
-
-			} else {
-				vm.model.projectType = vm.model.projectType.split(",");
-				 common.alert({
-				 vm:vm,
-				 msg:"您填写的信息不正确,请核对后提交!"
-				 });
-			}
-		}//end#updateShenBaoInfo
 		
 		//查询批复文件
 		function documentRecordsGird(vm){
@@ -834,13 +772,6 @@
 						filterable : false
 					},
 					{
-						field : "yearConstructionTask",
-						title : "本年度建设任务",
-						width:120,
-						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionTask); },
-						filterable : false
-					},
-					{
 						field : "projectInvestSum",
 						title : "总投资（万元）",
 						width:120,
@@ -866,8 +797,83 @@
 						filterable : false
 					},
 					{
-						field : "applyYearInvest",
-						title : "申请年度投资（万元）",
+						field : "capitalSCZ_ggys_TheYear",
+						title : "资金需求及资金来源--公共预算（万元）",
+						width:100,
+						filterable : false
+					},
+					{
+						field : "capitalSCZ_gtzj_TheYear",
+						title : "资金需求及资金来源--国土基金（万元）",
+						width:100,
+						filterable : false
+					},
+					{
+						field : "capitalSCZ_qita",
+						title : "资金需求及资金来源--其他（万元）",
+						width:100,
+						filterable : false
+					},
+					{
+						field : "planYear+1",
+						title : "计划年度",
+						width:100,
+						filterable : false
+					},
+					{
+						field : "yearConstructionContentLastYear",
+						title : "本年度建设内容",
+						width:120,
+						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContentLastYear); },
+						filterable : false
+					},
+					{
+						field : "capitalSCZ_ggys_LastYear",
+						title : "资金需求及资金来源--公共预算（万元）",
+						width:100,
+						filterable : false
+					},
+					{
+						field : "capitalSCZ_gtzj_LastYear",
+						title : "资金需求及资金来源--国土基金（万元）",
+						width:100,
+						filterable : false
+					},
+					{
+						field : "capitalSCZ_qita_LastYear",
+						title : "资金需求及资金来源--其他（万元）",
+						width:100,
+						filterable : false
+					},
+					{
+						field : "planYear+2",
+						title : "计划年度",
+						width:100,
+						filterable : false
+					},
+					{
+						field : "yearConstructionContentLastTwoYear",
+						title : "本年度建设内容",
+						width:120,
+						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContentLastYear); },
+						filterable : false
+					},
+					{
+						field : "capitalSCZ_ggys_LastTwoYear",
+						title : "资金需求及资金来源--公共预算（万元）",
+						width:100,
+						filterable : false
+					},
+					{
+						field : "capitalSCZ_gtzj_LastTwoYear",
+						title : "资金需求及资金来源--国土基金（万元）",
+						width:100,
+						filterable : false
+					},
+					{
+						field : "capitalSCZ_qita_LastTwoYear",
+						title : "资金需求及资金来源--其他（万元）",
+						width:100,
 						filterable : false
 					},
 					{
@@ -880,7 +886,7 @@
 						filterable : false
 					},
 					{
-						field : "remark",
+						field : "yearConstructionContentShenBao",
 						title : "备注",
 						width : 150,
 						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:10px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.remark); },
