@@ -157,9 +157,6 @@
 	   		//资金其他来源类型
 	   		vm.basicData.capitalOther=common.getBacicDataByIndectity(common.basicDataConfig().capitalOtherType);
 
-	   		vm.changeYear = function(planYear){
-	    		  vm.planYear = parseInt(planYear);
-	    	   }
 	   		//获取项目类型， 多选
 	   		vm.updateSelection = function(id){
 	        	var index = vm.model.projectType.indexOf(id);
@@ -354,12 +351,12 @@
    					['XMJZ','项目进展情况相关资料'],['QQGZJH','前期工作计划文件'],['XMSSYJ','项目实施依据文件'],['HYJY','会议纪要']];
    			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
 	 		  }
-	 		  
+	 	
 	 		//禁止点击Tab切换
-	 		  $("#tab1").attr("disabled","true");
-	 		  $("#tab2").attr("disabled","true");
-	 		  $("#tab3").attr("disabled","true");
-	 		  $("#tab4").attr("disabled","true");
+//	 		  $("#tab1").attr("disabled","true");
+//	 		  $("#tab2").attr("disabled","true");
+//	 		  $("#tab3").attr("disabled","true");
+//	 		  $("#tab4").attr("disabled","true");
     		};
     		//初始化基础数据
     		var init_basicData = function(){
@@ -416,7 +413,12 @@
 	       	}	        	
         };
         
-      //展示批复文件选择模态框
+        //申报年份发生变化时触发
+        vm.changeYear = function(){
+  		   vm.planYear = parseInt(vm.model.shenBaoInfo.planYear);
+  	    };
+        
+        //展示批复文件选择模态框
    		vm.choseDocument = function(e){
    			vm.pifuType=$(e.target).parents('.uploadBox').attr('data-type');
      	   $("#documentRecords").modal({
