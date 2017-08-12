@@ -299,9 +299,25 @@ overflow: scroll !important;
 			</td>
 		</tr>
 		<tr>
+			<td class="formAlignRight" style="width:150px;">年度公共预算：</td>
+			<td style="width:250px;">
+				<span id="capitalSCZ_ggys_TheYear" name="capitalSCZ_ggys_TheYear" ng-bind="vm.model.capitalSCZ_ggys_TheYear | number:4"></span>&nbsp;(万元)
+			</td>
+			<td class="formAlignRight" style="width:150px;">年度国土资金：</td>
+			<td>
+				<span id="capitalSCZ_gtzj_TheYear" name="capitalSCZ_gtzj_TheYear" ng-bind="vm.model.capitalSCZ_gtzj_TheYear | number:4"></span>&nbsp;(万元)
+			</td>
+		</tr>
+		<tr>
 			<td class="formAlignRight">其他投资：</td>
 			<td colspan="3">
 				<span ng-bind="vm.model.capitalSCZ_qita | number:4"></span>&nbsp;(万元)
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight" >"其他"的来源途径说明：</td>
+			<td colspan="3">
+				<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.capitalOtherDescriptionShenBao" disabled></textarea>									
 			</td>
 		</tr>
 		<tr>
@@ -329,17 +345,23 @@ overflow: scroll !important;
 		<tr>
 			<td class="formAlignRight" style="width:150px;">年度公共预算：</td>
 			<td style="width:250px;">
-				<span id="capitalSCZ_ggys_LastTwoYear" name="capitalSCZ_ggys_LastTwoYear" ng-bind="vm.model.capitalSCZ_ggys_LastYear | number:4"></span>&nbsp;(万元)
+				<span id="capitalSCZ_ggys_LastYear" name="capitalSCZ_ggys_LastYear" ng-bind="vm.model.capitalSCZ_ggys_LastYear | number:4"></span>&nbsp;(万元)
 			</td>
 			<td class="formAlignRight" style="width:150px;">年度国土资金：</td>
 			<td>
-				<span id="capitalSCZ_gtzj_LastTwoYear" name="capitalSCZ_gtzj_LastTwoYear" ng-bind="vm.model.capitalSCZ_gtzj_LastYear | number:4"></span>&nbsp;(万元)
+				<span id="capitalSCZ_gtzj_LastYear" name="capitalSCZ_gtzj_LastYear" ng-bind="vm.model.capitalSCZ_gtzj_LastYear | number:4"></span>&nbsp;(万元)
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">其他投资：</td>
 			<td colspan="3">
 				<span ng-bind="vm.model.capitalSCZ_qita_LastYear | number:4"></span>&nbsp;(万元)
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight" >"其他"的来源途径说明：</td>
+			<td colspan="3">
+				<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.capitalOtherDescriptionShenBao_LastYear" disabled></textarea>									
 			</td>
 		</tr>
 		<tr>
@@ -378,6 +400,12 @@ overflow: scroll !important;
 			<td class="formAlignRight">其他投资：</td>
 			<td colspan="3">
 				<span ng-bind="vm.model.capitalSCZ_qita_LastTwoYear | number:4"></span>&nbsp;(万元)
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight" >"其他"的来源途径说明：</td>
+			<td colspan="3">
+				<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.capitalOtherDescriptionShenBao_LastTwoYear" disabled></textarea>									
 			</td>
 		</tr>
 		<tr>
