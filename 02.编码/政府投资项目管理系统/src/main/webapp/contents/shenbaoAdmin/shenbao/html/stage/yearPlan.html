@@ -26,7 +26,7 @@
 		<td class="formAlignRight">计划年度：<span class="required">(*)</span></td>
 		<td style="width:250px;">
 			<input class="Wdate form-control input-sm" style="width:180px;" type="text" id="planYear" name="planYear"
-			 onFocus="WdatePicker({dateFmt:'yyyy'})" ng-change="vm.changeYear(vm.model.planYear)" onChange="" ng-model="vm.model.planYear" data-val="true" data-val-required="必填"/>
+			 onFocus="WdatePicker({dateFmt:'yyyy'})" ng-change="vm.changeYear()" onChange="" ng-model="vm.model.planYear" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="planYear" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight" style="width:150px;">申请年度投资：</td>
@@ -73,7 +73,7 @@
 	</tr>
 </table>
 
-<div class="bg-info text-info" style="padding: 10px;">{{vm.planYear +1}}年度计划信息</div>
+<div class="bg-info text-info" style="padding: 10px;">{{ vm.planYear +1}}年度计划信息</div>
 <table class="table table-bordered table-striped ">
 	
 	<tr>

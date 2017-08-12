@@ -18,7 +18,6 @@
         vm.search={};
         vm.page='list';
         vm.title='申报信息录入';
-        vm.planYear = getYearNow();
         $scope.animationsEnabled = true;
 
         vm.init=function(){
@@ -79,12 +78,6 @@
         		page_edit();
         		page_record();
         	}
-        }
-        
-        //得到当前年份
-        function getYearNow(){
-        	var date = new Date();
-        	return date.getFullYear();
         }
         
        function page_list(){
@@ -199,19 +192,12 @@
      			   };
         	   }
     	   };
-    	   //初始化当前申报年份
-    	   var init_planYear=function(){
-    		   var date = new Date();
-    		   vm.model.planYear = parseInt(date.getFullYear()+1);
-    		   console.log(vm.model.planYear);
-    	   };
     	   
     	   init_page();
     	   init_basicData();
-    	   init_planYear();
-    	   
-    	   vm.changeYear = function(planYear){
-    		  vm.planYear = parseInt(planYear);
+    	  //申报年份发生变化时触发
+    	   vm.changeYear = function(){
+    		   vm.planYear = parseInt(vm.model.planYear);
     	   };
     	   
     	   if(vm.page=='edit'){//如果为申报信息填报
