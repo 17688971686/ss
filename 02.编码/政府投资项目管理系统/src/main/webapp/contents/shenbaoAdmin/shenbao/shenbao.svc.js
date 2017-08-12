@@ -26,7 +26,7 @@
 		};		
 		return service;
 		
-		function getShenBaoInfoByProjectId(vm,projectShenBaoStage){
+		function getShenBaoInfoByProjectId(vm){
 			var httpOptions = {
 					method : 'get',
 					url : common.format(url_shenbao + "?$filter=projectId eq '{0}'", vm.projectId)
@@ -39,7 +39,7 @@
 	        		   for (var i = 0; i < vm.model.shenBaoInfoRecords.length; i++) {
 	   	           			list.push(vm.model.shenBaoInfoRecords[i].projectShenBaoStage);
 	   					}
-	        		   if(list.indexOf(projectShenBaoStage)>-1){
+	        		   if(list.indexOf(vm.projectShenBaoStage)>-1){
 	    	        	   vm.massage = "下一年度计划已申报！";
 	    	        	   vm.isHased = true;
 	    	           }else{
