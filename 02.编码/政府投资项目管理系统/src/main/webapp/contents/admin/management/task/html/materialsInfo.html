@@ -31,7 +31,7 @@
 		<td>文件上传</td>
 	</tr>
 	<tr ng-repeat="x in vm.materialsType">
-		<td>{{x[1]}}</td>
+		<td ng-bind-html="vm.html(x[1])"></td>
 		<td>			
 	      <div style="margin:3px;"  class="pull-left"
 		 	  ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos" 

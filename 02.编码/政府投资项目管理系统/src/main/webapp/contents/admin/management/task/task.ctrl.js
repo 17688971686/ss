@@ -5,9 +5,9 @@
         .module('app')
         .controller('taskCtrl', task);
 
-    task.$inject = ['$location','taskSvc','$state','$scope']; 
+    task.$inject = ['$location','taskSvc','$state','$scope','$sce']; 
 
-    function task($location, taskSvc,$state,$scope) {
+    function task($location, taskSvc,$state,$scope,$sce) {
         /* jshint validthis:true */
     	var vm = this;
     	vm.title = "";
@@ -35,6 +35,10 @@
     		};
     		vm.checkLength = function(obj,max,id){
       			 common.checkLength(obj,max,id);
+           	};
+           	
+           	vm.html = function(val){
+           		return $sce.trustAsHtml(val);
            	};
     	}
     	   	
