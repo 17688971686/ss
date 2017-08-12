@@ -84,6 +84,12 @@ public class ShenBaoInfo extends BaseProject{
 	@Column(columnDefinition="double(10,4) NULL COMMENT '下下年度资金筹措方案-其他资金'")
 	private Double capitalSCZ_qita_LastTwoYear;
 	
+	@Column(columnDefinition="varchar(500) NULL COMMENT '下一年其他资金来源'")
+	private String capitalOtherDescriptionShenBao_LastYear;
+	@Column(columnDefinition="varchar(500) NULL COMMENT '其他资金来源'")
+	private String capitalOtherDescriptionShenBao;
+	@Column(columnDefinition="varchar(500) NULL COMMENT '下下年其他资金来源'")
+	private String capitalOtherDescriptionShenBao_LastTwoYear;
 	//end#年度计划相关
 
    //begin#财政相关
@@ -304,5 +310,24 @@ public class ShenBaoInfo extends BaseProject{
 	public void setIsIncludLibrary(Boolean isIncludLibrary) {
 		this.isIncludLibrary = isIncludLibrary;
 	}
+	public String getCapitalOtherDescriptionShenBao_LastYear() {
+		return capitalOtherDescriptionShenBao_LastYear;
+	}
+	public void setCapitalOtherDescriptionShenBao_LastYear(String capitalOtherDescriptionShenBao_LastYear) {
+		this.capitalOtherDescriptionShenBao_LastYear = capitalOtherDescriptionShenBao_LastYear;
+	}
+	public String getCapitalOtherDescriptionShenBao() {
+		return capitalOtherDescriptionShenBao;
+	}
+	public void setCapitalOtherDescriptionShenBao(String capitalOtherDescriptionShenBao) {
+		this.capitalOtherDescriptionShenBao = capitalOtherDescriptionShenBao;
+	}
+	public String getCapitalOtherDescriptionShenBao_LastTwoYear() {
+		return capitalOtherDescriptionShenBao_LastTwoYear;
+	}
+	public void setCapitalOtherDescriptionShenBao_LastTwoYear(String capitalOtherDescriptionShenBao_LastTwoYear) {
+		this.capitalOtherDescriptionShenBao_LastTwoYear = capitalOtherDescriptionShenBao_LastTwoYear;
+	}
+	
 
 }
