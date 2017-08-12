@@ -25,6 +25,9 @@
 		};		
 		return service;
 		
+		/**
+		 * 根据项目id查询申报信息
+		 */
 		function getShenBaoInfoByProjectId(vm){
 			var httpOptions = {
 					method : 'get',
@@ -38,7 +41,7 @@
 	        		   for (var i = 0; i < vm.model.shenBaoInfoRecords.length; i++) {
 	   	           			list.push(vm.model.shenBaoInfoRecords[i].projectShenBaoStage);
 	   					}
-	        		   if(list.indexOf(vm.projectShenBaoStage)>-1){
+	        		   if(list.indexOf(vm.projectShenBaoStage)>-1 && vm.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){
 	    	        	   vm.massage = "下一年度计划已申报！";
 	    	        	   vm.isHased = true;
 	    	           }else{
@@ -298,7 +301,7 @@
 				  			return (parseFloat(vm.model.capitalSCZ_ggys_TheYear)||0) + (parseFloat(vm.model.capitalSCZ_gtzj_TheYear)||0);
 				  		};
 				  		
-						if(vm.page=='record'){
+						if(vm.page=='record'){//如果是申报信息详情页面
 							if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){
 								vm.isYearPlan = true;
 								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_YearPlan;

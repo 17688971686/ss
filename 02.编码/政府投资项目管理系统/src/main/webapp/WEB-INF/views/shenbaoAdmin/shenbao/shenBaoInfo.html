@@ -260,12 +260,6 @@ overflow: scroll !important;
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（200字符以内）" ng-model="vm.model.remark" disabled></textarea>												
 		</td>
 	</tr>
-	<tr ng-show="vm.isYearPlan">
-		<td class="formAlignRight">申报信息备注：</td>
-		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（200字符以内）" ng-model="vm.model.yearConstructionContentShenBao" disabled></textarea>												
-		</td>
-	</tr>
 </table>
 
 <div ng-show="vm.isYearPlan">
@@ -325,7 +319,7 @@ overflow: scroll !important;
 			<td colspan="3">
 				<textarea class="form-control" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.yearConstructionContent" disabled></textarea>
 			</td>
-		</tr>	
+		</tr>
 	</table>
 </div>
 
@@ -413,7 +407,19 @@ overflow: scroll !important;
 			<td colspan="3">
 				<textarea class="form-control" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.yearConstructionContentLastTwoYear" disabled></textarea>
 			</td>
-		</tr>	
+		</tr>
+	</table>
+</div>
+
+<div ng-show="vm.isYearPlan">
+	<div class="bg-info text-info" style="padding: 10px;">年度计划申报备注</div>
+	<table style="width:100%;" class="table  table-bordered table-striped">
+		<tr>
+			<td class="formAlignRight" style="width:150px;">申报信息备注：</td>
+			<td colspan="3" >
+				<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（200字符以内）" ng-model="vm.model.yearConstructionContentShenBao" disabled></textarea>												
+			</td>
+		</tr>
 	</table>
 </div>
 
@@ -526,7 +532,7 @@ overflow: scroll !important;
 		<td>文件上传</td>
 	</tr>
 	<tr ng-repeat="x in vm.materialsType">
-		<td>{{x[1]}}</td>
+		<td ng-bind-html="vm.html(x[1])"></td>
 		<td>
 		      <div style="margin:3px;"  class="pull-left"
 			 	  ng-repeat="y in vm.model.attachmentDtos" 

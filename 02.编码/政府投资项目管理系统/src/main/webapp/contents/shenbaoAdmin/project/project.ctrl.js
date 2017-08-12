@@ -19,13 +19,13 @@
         vm.page='list';
         
         vm.init=function(){
-        	if($state.current.name=='projectEdit'){
+        	if($state.current.name=='projectEdit'){//新增项目信息页面
     			vm.page='create';
     		}
-    		if(vm.id){
+    		if(vm.id){//编辑项目信息页面
     			vm.page='update';
     		}
-    		if($state.current.name=='project_projectInfo'){
+    		if($state.current.name=='project_projectInfo'){//项目详情页面
             	vm.page='projectInfo';
             }
 
@@ -135,7 +135,7 @@
  			  vm.isSHInvestment = true;
  		   }
     	   
-    	   	//设置单位信息
+    	   	//设置项目所属单位信息
     	   	projectSvc.getUserUnit(vm);
 	   			   		
 	   		//获取项目类型， 多选
