@@ -24,30 +24,38 @@
 	</tr>
 	<tr>
 		<td class="formAlignRight">计划年度：<span class="required">(*)</span></td>
-		<td style="width:250px;">
+		<td style="width:250px;" colspan="3">
 			<input class="Wdate form-control input-sm" style="width:180px;" type="text" id="planYear" name="planYear"
 			 onFocus="WdatePicker({dateFmt:'yyyy'})" ng-change="vm.changeYear()" onChange="" ng-model="vm.model.planYear" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="planYear" data-valmsg-replace="true" class="required"></span>
 		</td>
-		<td class="formAlignRight" style="width:150px;">申请年度投资：</td>
-		<td>
-			<span ng-bind="vm.theYearCapitalTotal()" ng-model="vm.model.applyYearInvest"></span>&nbsp;(万元)
-		</td>
 	</tr>
 	<tr>
-		<td class="formAlignRight">国土基金：</td>
-		<td style="width:250px;">
-			<input type="number" style="width:100px" class="form-control input-sm" ng-model="vm.model.capitalSCZ_gtzj_TheYear"/>&nbsp;(万元)
-		</td>
-		<td class="formAlignRight">公共预算：</td>
-		<td>
-			<input type="number" style="width:100px" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys_TheYear"/>&nbsp;(万元)
-		</td>
-	</tr>
-	<tr>
-		<td class="formAlignRight">其他资金：</td>
-		<td>
-			<input type="number" style="width:100px" class="form-control input-sm" ng-model="vm.model.capitalSCZ_qita"/>&nbsp;(万元)
+		<td class="formAlignRight">资金需求及来源：</td>
+		<td colspan="3">
+			<table class="table table-bordered table-striped table-hover">
+				<tr class="text-primary text-center">
+					<td colspan="2">申请年度投资：
+						<span ng-bind="vm.theYearCapitalTotal()" ng-model="vm.model.applyYearInvest"></span>&nbsp;(万元)
+					</td>
+				</tr>
+				<tr>
+					<td style="padding:0px;border: 0px;" colspan="4">
+						<table class="table table-bordered" style="margin:0px;width:100%;">
+							<tr>
+								<td>公共预算</td>
+								<td>国土基金</td>
+								<td>其他</td>
+							</tr>
+							<tr>
+								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys_TheYear"/></td>
+								<td><input type="number" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj_TheYear"/></td>
+								<td><input type="number" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_qita"/></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
 		</td>
 	</tr>
 	<tr>
@@ -69,25 +77,38 @@
 
 <div class="bg-info text-info" style="padding: 10px;">{{ vm.planYear +1}}年度计划信息</div>
 <table class="table table-bordered table-striped ">
-	
 	<tr>
 		<td class="formAlignRight" style="width:150px;">计划年度：</td>
 		<td >
 			<span>{{vm.planYear +1}}</span>
 		</td>
-		<td class="formAlignRight" >申请年度投资：</td>
-		<td>
-			<span ng-bind="vm.lastYearCapitalTotal()" ng-model="vm.model.applyYearInvest_LastYear"></span>&nbsp;(万元)
-		</td>
 	</tr>
 	<tr>
-		<td class="formAlignRight">国土资金：</td>
-		<td style="width:250px;">
-			<input type="number" style="width:100px" class="form-control input-sm" id="capitalSCZ_gtzj_LastYear" name="capitalSCZ_gtzj_LastYear" ng-model="vm.model.capitalSCZ_gtzj_LastYear" />&nbsp;(万元)
-		</td>
-		<td class="formAlignRight" style="width:150px;">公共预算：</td>
-		<td>
-			<input type="number" style="width:100px" class="form-control input-sm" id="capitalSCZ_ggys_LastYear" name="capitalSCZ_ggys_LastYear" ng-model="vm.model.capitalSCZ_ggys_LastYear" />&nbsp;(万元)
+		<td class="formAlignRight">资金需求及来源：</td>
+		<td colspan="3">
+			<table class="table table-bordered table-striped table-hover">
+				<tr class="text-primary text-center">
+					<td colspan="2">申请年度投资：
+						<span ng-bind="vm.lastYearCapitalTotal()" ng-model="vm.model.applyYearInvest_LastYear"></span>&nbsp;(万元)
+					</td>
+				</tr>
+				<tr>
+					<td style="padding:0px;border: 0px;" colspan="4">
+						<table class="table table-bordered" style="margin:0px;width:100%;">
+							<tr>
+								<td>公共预算</td>
+								<td>国土基金</td>
+								<td>其他</td>
+							</tr>
+							<tr>
+								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys_LastYear"/></td>
+								<td><input type="number" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj_LastYear"/></td>
+								<td><input type="number" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_qita_LastYear"/></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
 		</td>
 	</tr>
 	<tr>
@@ -115,32 +136,39 @@
 
 <div class="bg-info text-info" style="padding: 10px;">{{vm.planYear +2}}年度计划信息</div>
 <table class="table table-bordered table-striped ">
-	
 	<tr>
 		<td class="formAlignRight" style="width:150px;">计划年度：</td>
 		<td>
 			<span>{{vm.planYear +2}}</span>
 		</td>
-		<td class="formAlignRight">申请年度投资：</td>
-		<td>
-			<span ng-bind="vm.lastTwoYearCapitalTotal()" ng-model="vm.model.applyYearInvest_LastTwoYear"></span>&nbsp;(万元)
-		</td>
 	</tr>
 	<tr>
-		<td class="formAlignRight">国土资金：</td>
-		<td style="width:250px;">
-			<input type="number" style="width:100px" class="form-control input-sm" id="capitalSCZ_gtzj_LastTwoYear" name="capitalSCZ_gtzj_LastTwoYear"  ng-model="vm.model.capitalSCZ_gtzj_LastTwoYear" />&nbsp;(万元)
-		</td>
-		<td class="formAlignRight" style="width:150px;">公共预算：</td>
-		<td>
-			<input type="number" style="width:100px" class="form-control input-sm" id="capitalSCZ_ggys_LastTwoYear" name="capitalSCZ_ggys_LastTwoYear" ng-model="vm.model.capitalSCZ_ggys_LastTwoYear" />&nbsp;(万元)
-		</td>
-	</tr>
-	<tr>
-		<td class="formAlignRight">其他资金：</td>
+		<td class="formAlignRight">资金需求及来源：</td>
 		<td colspan="3">
-			<input type="number" style="width:100px" class="form-control input-sm" id="capitalSCZ_qita_LastTwoYear" name="capitalSCZ_qita_LastTwoYear"  ng-model="vm.model.capitalSCZ_qita_LastTwoYear" />&nbsp;(万元)
-		</td>		
+			<table class="table table-bordered table-striped table-hover">
+				<tr class="text-primary text-center">
+					<td colspan="2">申请年度投资：
+						<span ng-bind="vm.lastTwoYearCapitalTotal()" ng-model="vm.model.applyYearInvest_LastTwoYear"></span>&nbsp;(万元)
+					</td>
+				</tr>
+				<tr>
+					<td style="padding:0px;border: 0px;" colspan="4">
+						<table class="table table-bordered" style="margin:0px;width:100%;">
+							<tr>
+								<td>公共预算</td>
+								<td>国土基金</td>
+								<td>其他</td>
+							</tr>
+							<tr>
+								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys_LastTwoYear"/></td>
+								<td><input type="number" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj_LastTwoYear"/></td>
+								<td><input type="number" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_qita_LastTwoYear"/></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight" >"其他"的来源途径说明：</td>

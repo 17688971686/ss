@@ -32,7 +32,6 @@
 			getYearPlanCapitalById:getYearPlanCapitalById,//根据申报id查找年度计划编制信息
 			updateYearPlanCapital:updateYearPlanCapital,//更新年度计划编制信息	
 			removeYearPlanCapital:removeYearPlanCapital,//移除申报项目
-			documentRecordsGird:documentRecordsGird,//展示文件
 			documentRecordsGird:documentRecordsGird//批复文件列表
 		};
 		
@@ -235,6 +234,10 @@
 				//处理项目类型多选问题
 				vm.model.shenBaoInfo.projectType=common.arrayToString(vm.model.shenBaoInfo.projectType,',');
 				vm.model.shenBaoInfo.auditState=common.basicDataConfig().auditState_noAudit;//后台修改保存申报信息之后默认为未审核状态
+				//安排资金计算
+				vm.model.shenBaoInfo.yearInvestApproval=parseFloat(vm.model.shenBaoInfo.capitalAP_ggys_TheYear || 0) + parseFloat(vm.model.shenBaoInfo.capitalAP_gtzj_TheYear || 0);
+				vm.model.shenBaoInfo.yearInvestApproval_lastYear=parseFloat(vm.model.shenBaoInfo.capitalAP_ggys_LastYear || 0) + parseFloat(vm.model.shenBaoInfo.capitalAP_gtzj_LastYear || 0);
+				vm.model.shenBaoInfo.yearInvestApproval_lastTwoYear=parseFloat(vm.model.shenBaoInfo.capitalAP_ggys_LastTwoYear || 0) + parseFloat(vm.model.shenBaoInfo.capitalAP_gtzj_LastTwoYear || 0);
 				var httpOptions = {
 						method : 'put',
 						url : common.format(url_shenbaoInfoList),
@@ -820,6 +823,12 @@
 						width:100,
 						filterable : false
 					},
+//					{
+//						field : "yearInvestApproval",
+//						title : "安排资金（万元）",
+//						width:100,
+//						filterable : false
+//					},
 					{
 						field : "yearInvestApproval",
 						title : "安排资金（万元）",
@@ -885,14 +894,18 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:[{
+				filter:[{//申报阶段为下一年度计划
 					field:'projectShenBaoStage',
 					operator:'eq',
 					value:common.basicDataConfig().projectShenBaoStage_nextYearPlan
-				},{
+				},{//审批状态为签收
 					field:'processState',
 					operator:'eq',
 					value:common.basicDataConfig().processState_qianShou
+				},{//审核状态为审核通过
+					field:'auditState',
+					operator:'eq',
+					value:common.basicDataConfig().auditState_auditPass
 				}]
 			});
 			// End:dataSource
