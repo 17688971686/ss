@@ -9,7 +9,6 @@
 		var url_shenbaoInfoList = "/management/shenbao";
 		var url_planList="/management/yearPlan";
 		var url_planCapital="/management/yearPlanCapital";
-		var url_document="/management/replyFile";
 		var url_back_planList="#/yearPlan/planList";
 		var url_document="/management/replyFile";
 		var url_back_shenbaoInfoList="#/yearPlan/shenbaoInfoList";
@@ -98,7 +97,7 @@
 		function addProjectToLibrary(vm){
 			var httpOptions = {
 					method : 'post',
-					url : common.format(url_shenbaoInfoList+"/addProjectToLibrary?shenbaoInfoId={0}",vm.id),
+					url : common.format(url_shenbaoInfoList+"/addProjectToLibrary?shenbaoInfoId={0}",vm.id)
 				};
 			
 			var httpSuccess = function success(response) {
@@ -1371,60 +1370,5 @@
 			};
 
 		}// end fun grid_shenbaoInfoList
-		
-		function documentRecordsGird(vm){
-			var dataSource = new kendo.data.DataSource({
-				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_document),						
-				schema : common.kendoGridConfig().schema({
-					id : "id"
-				}),
-				serverPaging : true,
-				serverSorting : true,
-				serverFiltering : true,
-				pageSize : 10
-					
-			});
-			// End:dataSource
-			// Begin:column
-			var columns = [
-					{
-						template : function(item) {
-							return kendo
-									.format(
-											"<input type='radio'  relId='{0}' name='checkbox'/>",
-											item.fullName);
-						},
-						filterable : false,
-						width : 40,
-						title : ""
-					},
-					{
-						field : "number",
-						title : "文号",
-						width:180,
-						
-						filterable : true
-					},
-					{
-						field : "fullName",
-						title : "文件名",
-						width : 550,
-						filterable : true
-						
-					}
-					
-			];
-			// End:column
-
-			vm.gridOptions_documentRecords = {
-				dataSource : common.gridDataSource(dataSource),
-				filterable : common.kendoGridConfig().filterable,
-				pageable : common.kendoGridConfig().pageable,
-				noRecords : common.kendoGridConfig().noRecordMessage,
-				columns : columns,
-				resizable : true
-			};
-		}
 	}
 })();
