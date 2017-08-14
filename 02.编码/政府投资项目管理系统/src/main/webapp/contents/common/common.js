@@ -470,6 +470,9 @@
     }
     
     function stringToArray(str,substr){
+    	if(str.constructor == Array){
+    		return str;
+    	}
     	var arrTmp=new Array();
     	if(str !=null && str != ""){
 	       	 if(substr==""){ 
