@@ -473,6 +473,7 @@
     	var arrTmp=new Array();
     	if(str !=null && str != ""){
 	       	 if(substr==""){ 
+	       		 
 	       		 arrTmp.push(str); 
 	       		 return arrTmp; 
 	       	 } 
@@ -496,6 +497,9 @@
     }
     
     function arrayToString(arr,str){
+    	if(arr.constructor == String){
+    		return str;
+    	}
 		 var strTmp="";
 		 if(arr !=null && arr.length>0){
 			 for(var i=0;i<arr.length;i++){ 

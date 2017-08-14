@@ -60,7 +60,7 @@ public class ShenBaoController {
 		shenBaoInfoService.addProjectToLibrary(shenbaoInfoId);
 	}
 	
-	@RequiresPermissions("management/shenbao#updateProjectBasic#post")
+	@RequiresPermissions("management/shenbao#updateProjectBasic#put")
 	@RequestMapping(name = "更新项目基础信息", path = "updateProjectBasic",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updateProjectBasic(@RequestBody ShenBaoInfoDto dto){

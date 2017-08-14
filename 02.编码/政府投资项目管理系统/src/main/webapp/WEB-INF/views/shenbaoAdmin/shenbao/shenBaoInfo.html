@@ -284,28 +284,36 @@ overflow: scroll !important;
 		</tr>
 		<tr>
 			<td class="formAlignRight" style="width:150px;">计划年度：</td>
-			<td style="width:250px;">
+			<td style="width:250px;" colspan="3">
 				<span ng-bind="vm.model.planYear"></span>
 			</td>
-			<td class="formAlignRight" style="width:150px;">申请年度投资：</td>
-			<td>
-				<span id="applyYearInvest" name="applyYearInvest" ng-bind="vm.model.applyYearInvest | number:4"></span>&nbsp;(万元)
-			</td>
 		</tr>
 		<tr>
-			<td class="formAlignRight" style="width:150px;">公共预算：</td>
-			<td style="width:250px;">
-				<span id="capitalSCZ_ggys_TheYear" name="capitalSCZ_ggys_TheYear" ng-bind="vm.model.capitalSCZ_ggys_TheYear | number:4"></span>&nbsp;(万元)
-			</td>
-			<td class="formAlignRight" style="width:150px;">国土资金：</td>
-			<td>
-				<span id="capitalSCZ_gtzj_TheYear" name="capitalSCZ_gtzj_TheYear" ng-bind="vm.model.capitalSCZ_gtzj_TheYear | number:4"></span>&nbsp;(万元)
-			</td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">其他投资：</td>
+			<td class="formAlignRight">资金需求及来源：</td>
 			<td colspan="3">
-				<span ng-bind="vm.model.capitalSCZ_qita | number:4"></span>&nbsp;(万元)
+				<table class="table table-bordered table-striped table-hover">
+					<tr class="text-primary text-center">
+						<td colspan="2">申请年度投资：
+							<span ng-bind="vm.model.applyYearInvest | number:4"></span>&nbsp;(万元)
+						</td>
+					</tr>
+					<tr>
+						<td style="padding:0px;border: 0px;" colspan="4">
+							<table class="table table-bordered" style="margin:0px;width:100%;">
+								<tr>
+									<td>公共预算</td>
+									<td>国土基金</td>
+									<td>其他</td>
+								</tr>
+								<tr>
+									<td><span ng-bind="vm.model.capitalSCZ_ggys_TheYear | number:4"/></td>
+									<td><span ng-bind="vm.model.capitalSCZ_gtzj_TheYear | number:4"/></td>
+									<td><span ng-bind="vm.model.capitalSCZ_qita | number:4"/></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
 			</td>
 		</tr>
 		<tr>
@@ -328,28 +336,36 @@ overflow: scroll !important;
 	<table class="table table-bordered table-striped ">
 		<tr>
 			<td class="formAlignRight" style="width:150px;">计划年度：</td>
-			<td style="width:250px;">
+			<td style="width:250px;" colspan="3">
 				<span>{{vm.model.planYear +1}}</span>
 			</td>
-			<td class="formAlignRight" style="width:150px;">申请年度投资：</td>
-			<td>
-				<span id="applyYearInvest" name="applyYearInvest" ng-bind="vm.model.applyYearInvest_LastYear | number:4"></span>&nbsp;(万元)
-			</td>
 		</tr>
 		<tr>
-			<td class="formAlignRight" style="width:150px;">公共预算：</td>
-			<td style="width:250px;">
-				<span id="capitalSCZ_ggys_LastYear" name="capitalSCZ_ggys_LastYear" ng-bind="vm.model.capitalSCZ_ggys_LastYear | number:4"></span>&nbsp;(万元)
-			</td>
-			<td class="formAlignRight" style="width:150px;">国土资金：</td>
-			<td>
-				<span id="capitalSCZ_gtzj_LastYear" name="capitalSCZ_gtzj_LastYear" ng-bind="vm.model.capitalSCZ_gtzj_LastYear | number:4"></span>&nbsp;(万元)
-			</td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">其他投资：</td>
+			<td class="formAlignRight">资金需求及来源：</td>
 			<td colspan="3">
-				<span ng-bind="vm.model.capitalSCZ_qita_LastYear | number:4"></span>&nbsp;(万元)
+				<table class="table table-bordered table-striped table-hover">
+					<tr class="text-primary text-center">
+						<td colspan="2">申请年度投资：
+							<span ng-bind="vm.model.applyYearInvest_LastYear | number:4"></span>&nbsp;(万元)
+						</td>
+					</tr>
+					<tr>
+						<td style="padding:0px;border: 0px;" colspan="4">
+							<table class="table table-bordered" style="margin:0px;width:100%;">
+								<tr>
+									<td>公共预算</td>
+									<td>国土基金</td>
+									<td>其他</td>
+								</tr>
+								<tr>
+									<td><span ng-bind="vm.model.capitalSCZ_ggys_LastYear | number:4"/></td>
+									<td><span ng-bind="vm.model.capitalSCZ_gtzj_LastYear | number:4"/></td>
+									<td><span ng-bind="vm.model.capitalSCZ_qita_LastYear | number:4"/></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
 			</td>
 		</tr>
 		<tr>
@@ -372,28 +388,36 @@ overflow: scroll !important;
 	<table class="table table-bordered table-striped ">
 		<tr>
 			<td class="formAlignRight" style="width:150px;">计划年度：</td>
-			<td style="width:250px;">
+			<td style="width:250px;" colspan="3">
 				<span>{{vm.model.planYear +2}}</span>
 			</td>
-			<td class="formAlignRight" style="width:150px;">申请年度投资：</td>
-			<td>
-				<span id="applyYearInvest" name="applyYearInvest" ng-bind="vm.model.applyYearInvest_LastTwoYear | number:4"></span>&nbsp;(万元)
-			</td>
 		</tr>
 		<tr>
-			<td class="formAlignRight" style="width:150px;">公共预算：</td>
-			<td style="width:250px;">
-				<span id="capitalSCZ_ggys_LastTwoYear" name="capitalSCZ_ggys_LastTwoYear" ng-bind="vm.model.capitalSCZ_ggys_LastTwoYear | number:4"></span>&nbsp;(万元)
-			</td>
-			<td class="formAlignRight" style="width:150px;">国土资金：</td>
-			<td>
-				<span id="capitalSCZ_gtzj_LastTwoYear" name="capitalSCZ_gtzj_LastTwoYear" ng-bind="vm.model.capitalSCZ_gtzj_LastTwoYear | number:4"></span>&nbsp;(万元)
-			</td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">其他投资：</td>
+			<td class="formAlignRight">资金需求及来源：</td>
 			<td colspan="3">
-				<span ng-bind="vm.model.capitalSCZ_qita_LastTwoYear | number:4"></span>&nbsp;(万元)
+				<table class="table table-bordered table-striped table-hover">
+					<tr class="text-primary text-center">
+						<td colspan="2">申请年度投资：
+							<span ng-bind="vm.model.applyYearInvest_LastTwoYear | number:4"></span>&nbsp;(万元)
+						</td>
+					</tr>
+					<tr>
+						<td style="padding:0px;border: 0px;" colspan="4">
+							<table class="table table-bordered" style="margin:0px;width:100%;">
+								<tr>
+									<td>公共预算</td>
+									<td>国土基金</td>
+									<td>其他</td>
+								</tr>
+								<tr>
+									<td><span ng-bind="vm.model.capitalSCZ_ggys_LastTwoYear | number:4"/></td>
+									<td><span ng-bind="vm.model.capitalSCZ_gtzj_LastTwoYear | number:4"/></td>
+									<td><span ng-bind="vm.model.capitalSCZ_qita_LastTwoYear | number:4"/></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
 			</td>
 		</tr>
 		<tr>
