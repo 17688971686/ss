@@ -336,7 +336,7 @@
   		vm.addProjectToLibray=function(){
   			yearPlanSvc.addProjectToLibrary(vm);
   		};
-      	//更新姓名信息
+      	//更新项目信息
   		vm.updateProject=function(){
   			yearPlanSvc.updateProject(vm);
   		};
