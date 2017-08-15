@@ -34,7 +34,7 @@ font-weight: bold;
 	 				<td colspan="2">
 	 					<input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.orgCode"/>
 	 				</td>
-			    <td width="100">电话号码<span class="required">(*)</span></td>
+			    <td width="150px;">电话号码：<span class="required">(*)</span></td>
 			    <td>
 			    <input type="text" class="form-control input-sm" id="unitTel" name="unitTel" ng-model="vm.model.unitTel" 
 			    	data-val="true" data-val-required="必填"/>
@@ -47,10 +47,9 @@ font-weight: bold;
 		        <input type="email" class="form-control input-sm" id="email" name="unitEmail" ng-model="vm.model.unitEmail" data-val="true" data-val-required="必填"/>
 		        <span data-valmsg-for="unitEmail" data-valmsg-replace="true" class="errors"></span>
 		        <span ng-show="myForm.unitEmail.$error.email" class="errors"></span>
-		        <td>传真号码<span class="required">(*)</span></td>
+		        <td>传真号码：</td>
 		        <td>
-		        <input type="text" class="form-control input-sm" id="unitFax" name="unitFax" ng-model="vm.model.unitFax" data-val="true" data-val-required="必填"/>
-		        <span data-valmsg-for="unitFax" data-valmsg-replace="true" class="errors"></span>
+		        <input type="text" class="form-control input-sm" id="unitFax" name="unitFax" ng-model="vm.model.unitFax"/>
 		        </td>
 		   </tr>
 		</table>
@@ -68,7 +67,7 @@ font-weight: bold;
 				</td>
 			</tr>
 		<tr>
-		    <td class="formAlignRight">单位地址<span class="required">(*)</span></td>
+		    <td class="formAlignRight">单位地址：<span class="required">(*)</span></td>
 		    <td colspan="4">
 			    <select class="form-select pull-left" style="margin-right:10px;">
 			    	<option>光明新区</option>
@@ -83,13 +82,13 @@ font-weight: bold;
 				</td>
 		  </tr>
 		  <tr>
-		    <td rowspan="3" class="formAlignRight">单位负责人<span class="required">(*)</span></td>
-		    <td width="100px;">姓名</td>
+		    <td rowspan="3" class="formAlignRight">单位负责人：<span class="required">(*)</span></td>
+		    <td width="100px;">姓名：<span class="required">(*)</span></td>
 		    <td>
 		    	 <input class="form-control input-sm" type="text" id="unitResPerson" name="unitResPerson" ng-model="vm.model.unitResPerson" data-val="true" data-val-required="必填"/>
 		    	<span data-valmsg-for="unitResPerson" data-valmsg-replace="true" class="errors"></span>
 		    </td>
-		    <td width="100px;">电话号码</td>
+		    <td width="120px;">电话号码：<span class="required">(*)</span></td>
 		    <td>
 		     	<input class="form-control input-sm" type="text" id="resPersonTel" name="resPersonTel" ng-model="vm.model.resPersonTel" 
 		     		data-val="true" data-val-required="必填"/>
@@ -97,19 +96,19 @@ font-weight: bold;
 		    </td>
 		  </tr>
 		  <tr>
-		    <td>手机</td>	   
+		    <td>手机：<span class="required">(*)</span></td>	   
 		    <td>
 		     	<input class="form-control input-sm" type="text" id="resPersonMobile" name="resPersonMobile" ng-model="vm.model.resPersonMobile" 
 		     		data-val="true" data-val-required="必填"/>
 		    	<span data-valmsg-for="resPersonMobile" data-valmsg-replace="true" class="errors"></span>
 		    </td>
-		    <td>传真号码</td>
+		    <td>传真号码：</td>
 		    <td>
 		     <input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.resPersonFax"  />
 		    </td>
 		  </tr>
 		   <tr>
-		    <td>Email</td>
+		    <td>Email：<span class="required">(*)</span></td>
 		    <td colspan="3">
 		     <input type="email" class="form-control input-sm" id="resPersonEmail" name="resPersonEmail" ng-model="vm.model.resPersonEmail" data-val="true" data-val-required="必填"/>
 		    	 <span data-valmsg-for="resPersonEmail" data-valmsg-replace="true" class="errors"></span>

@@ -28,7 +28,7 @@
 			var isValid = $('form').valid();
 			if (isValid) {
 				vm.isSubmit = true;
-
+				vm.model.projectType = common.arrayToString(vm.model.projectType,',');
 				var httpOptions = {
 					method : 'put',
 					url : url_project,
@@ -64,7 +64,6 @@
 				});
 
 			} else {
-				vm.model.projectType =vm.model.projectType.split(",");
 				 common.alert({
 				 vm:vm,
 				 msg:"您填写的信息不正确,请核对后提交!"
@@ -88,12 +87,8 @@
 				//查询项目的所属单位的单位名称
 			   	getProjectUnit(vm);
 			   	
-				//项目类型的处理--多选框回显					
-				if(vm.model.projectType != "" && vm.model.projectType != null){
-					vm.model.projectType = vm.model.projectType.split(",");
-				}else{
-					vm.model.projectType =[];
-				}
+			   	//项目类型的处理--多选框回显					
+			   	vm.model.projectType = common.stringToArray(vm.model.projectType,',');
 				//日期展示
 				vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
 				vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
@@ -172,7 +167,7 @@
 				};
 				var httpSuccess = function success(response) {
 					vm.userUnit = response.data.value[0] || {};
-					vm.model.unitName = vm.userUnit.userName;
+					vm.model.unitName = vm.userUnit.userName;//设置项目的所属单位名称
 				};
 				common.http({
 					vm : vm,
@@ -189,6 +184,7 @@
 			common.initJqValidation();
 			var isValid = $('form').valid();
 			if (isValid) {
+				vm.model.projectType =common.arrayToString(vm.model.projectType,',');
 				vm.isSubmit = true;				
 				var httpOptions = {
 					method : 'post',
@@ -215,34 +211,17 @@
 					});
 				};
 
-				var error = function error(response){
-					common.requestError({
-						vm : vm,
-						response : response,
-						fn : function() {
-							common.alert({
-								vm : vm,
-								msg : "操作失败",
-								fn : function() {
-									vm.isSubmit = false;
-									$('.alertDialog').modal('hide');
-									$('.modal-backdrop').remove();
-									vm.model.projectType =vm.model.projectType.split(",");						
-								}
-							});
-						}
-					});
-					
-				};
 				common.http({
 					vm : vm,
 					$http : $http,
 					httpOptions : httpOptions,
-					success : httpSuccess,
-					error : error
+					success : httpSuccess
 				});
 			}else{//表单验证失败
-				vm.model.projectType =vm.model.projectType.split(",");
+				common.alert({
+					vm:vm,
+					msg:"您填写的信息不正确,请核对后提交!"
+				});
 			}
 		}
 	
@@ -303,7 +282,7 @@
 		}
 
 		/**
-		 * 项目列表数据获取
+		 * 单位项目列表
 		 */
 		function grid(vm) {
 			// Begin:dataSource
@@ -315,6 +294,9 @@
 					fields : {
 						createdDate : {
 							type : "date"
+						},
+						isIncludLibrary:{
+							type:"boolean"
 						}
 					}
 				}),
@@ -335,41 +317,76 @@
 			// End:dataSource
 
 			// Begin:column
-			var columns = [				
-					{
-						field : "projectName",
-						title : "项目名称",
-						filterable : true,
-						template:function(item){
-							return common.format('<a href="#/project/projectInfo/{0}/{1}">{2}</a>',item.id,item.projectInvestmentType,item.projectName);
-						}
+			var columns = [	
+				{
+					template : function(item) {
+						return kendo
+								.format(
+										"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+										item.id);
 					},
-					{
-						field : "projectStage",
-						title : "项目阶段",
-						template:function(item){
-							return common.getBasicDataDesc(item.projectStage);
-						},
-						width : 150,
-						filterable : false
-					},
-					{
-						field : "projectClassify",
-						title : "项目分类",
-						template:function(item){
-							return common.getBasicDataDesc(item.projectClassify);
-						},
-						width : 150,
-						filterable : false
-					},
-					{
-						field : "",
-						title : "操作",
-						width : 180,
-						template : function(item) {
-							return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,"vm.del('" + item.id + "')");
-						}
+					filterable : false,
+					width : 40,
+					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+
+				},
+				{
+					field : "projectName",
+					title : "项目名称",
+					filterable : true,
+					template:function(item){
+						return common.format('<a href="#/project/projectInfo/{0}/{1}">{2}</a>',item.id,item.projectInvestmentType,item.projectName);
 					}
+				},
+				{
+					field : "projectStage",
+					title : "项目阶段",
+					template:function(item){
+						return common.getBasicDataDesc(item.projectStage);
+					},
+					width : 150,
+					filterable : {
+						ui: function(element){
+	                        element.kendoDropDownList({
+	                            valuePrimitive: true,
+	                            dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectStage),
+	                            dataTextField: "description",
+	                            dataValueField: "id"
+	                        });
+	                    }
+					}
+				},
+				{
+					field : "projectClassify",
+					title : "项目分类",
+					template:function(item){
+						return common.getBasicDataDesc(item.projectClassify);
+					},
+					width : 150,
+					filterable : false
+				},
+				{
+					field : "isIncludLibrary",
+					title : "是否已纳入项目库",
+					template:function(item){
+						if(item.isIncludLibrary){
+							return '已纳入';
+						}else{
+							return '未纳入';
+						}
+					},
+					width : 150,
+					filterable : true
+				},
+				{
+					field : "",
+					title : "操作",
+					width : 180,
+					template : function(item) {
+						var isHide = item.isIncludLibrary;
+						return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,isHide?'display:none':'');
+					}
+				}
 
 			];
 			// End:column

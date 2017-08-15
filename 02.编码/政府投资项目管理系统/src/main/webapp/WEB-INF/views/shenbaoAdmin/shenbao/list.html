@@ -25,6 +25,39 @@
 	      <li><a href="#/shenbao">项目申报</a></li>	 
 	      <li class="active">项目列表</li>
 	  </ol>
+	  <div class="search">
+	  	<table class="table table-bordered" style="margin-bottom:0px;">
+	  			<tr>
+	  				<td colspan="6" class="bg-info">
+	  					<span style="padding:10px;"><strong>单位项目查询</strong></span>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">项目名称：</td>
+	  				<td style="width:25%"><input type="text" style="width:360px;" placeholder="请输入项目名称（可少输不可输错）" ng-model="vm.search.projectName"/></td>
+	  				<td class="formAlignRight">项目阶段：</td>
+	  				<td>
+	  					<select style="height:30px;" ng-model="vm.search.projectStage">
+				  			<option value="">---请选择---</option>
+				  			<option ng-repeat="x in vm.basicData.projectStage" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+	  				</td>
+	  				<td class="formAlignRight">是否已纳入项目库：</td>
+	  				<td>
+	  					<select style="height:30px;" ng-model="vm.search.isIncludLibrary">
+				  			<option value="">---请选择---</option>
+				  			<option value="true">已纳入</option>
+				  			<option value="false">未纳入</option>
+				  		</select>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td colspan="6">
+	  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search()"><span class="glyphicon glyphicon-search"></span>查询</button>
+	  				</td>
+	  			</tr>
+	  		</table>
+	  </div>
 	  <div class="toolbar">
 	  	<div style="margin-top:10px;">
 	  		<a class="btn btn-sm btn-info" href="#/shenbao_records"></span>查看所有申报记录</a>
@@ -32,7 +65,7 @@
 	</div>
 	  <script type="text/template" id="columnBtns">
 			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.shenbaoBtn('{0}','{1}','{2}')"><span class="glyphicon glyphicon-pencil"></span>申报</button>
-			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.checkShenBaoRecords('{3}')"><span class="glyphicon glyphicon-th-list"></span>申报记录<span id="tuiwenNumber{0}"class="badge"></span></button>
+			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.checkShenBaoRecords('{3}')"><span class="glyphicon glyphicon-th-list"></span>申报记录<span id="tuiwenNumber{0}" class="badge"></span></button>
 	  </script>	  
      <form id="form" name="form">          
          <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
@@ -54,22 +87,26 @@
 				<br>
 				<div class="form-group">
 					<label class="control-label col-sm-3" for="projectShenBaoStage">项目申报阶段:</label>
-					<select class="form-select" ng-model="vm.projectShenBaoStage">
+					<select class="form-select" ng-model="vm.projectShenBaoStage" ng-change="vm.change()">
 						<option value="">---请选择---</option>
-						<option ng-repeat="x in vm.basicData.projectStage" value="{{x.id}}">{{x.description}}</option>
+						<option ng-repeat="x in vm.basicData.projectShenBaoStage" value="{{x.id}}">{{x.description}}</option>
 					</select>
-				</div>								
+				</div>	
+				<div class="form-group" style="text-align: center;">
+					<p style="color:red;" ng-bind="vm.massage"></p>		
+				</div>
+				<br>							
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
-				<button type="button" class="btn btn-success" ng-click="vm.confirm()">确定</button>	
+				<button type="button" class="btn btn-success" ng-click="vm.confirm(vm,vm.projectShenBaoStage)" ng-disabled="vm.isHased">确定</button>	
 			</div> 
 		</div>
 	</div>
 </div>
 <!-- 项目申报记录模态框 -->
 <div class="modal fade" id="shenBaoRecords"> 
-	<div class="modal-dialog"> 
+	<div class="modal-dialog" style="width:800px;"> 
 		<div class="modal-content"> 
 			<div class="modal-header bg-primary">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			

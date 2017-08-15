@@ -22,7 +22,6 @@
 
 		return service;
 		
-		
 		/**
 		 *获取项目单位信息 
 		 */
@@ -71,7 +70,7 @@
 			var isValid = $('form').valid();        
 			if (isValid) {
 				vm.isSubmit = true;	
-				
+				vm.model.projectType=common.arrayToString(vm.model.projectType,',');//项目类型的处理
 				var httpOptions = {
 					method : 'post',
 					url : url_project,
@@ -104,7 +103,10 @@
 					success : httpSuccess
 				});
 			}else{
-				vm.model.projectType =vm.model.projectType.split(",");
+				common.alert({
+					vm:vm,
+					msg:"您填写的信息不正确,请核对后提交!"
+				});
 			}
 		}
 		//end#createProject
@@ -143,7 +145,7 @@
 			var isValid = $('form').valid();
 			if (isValid) {
 				vm.isSubmit = true;
-
+				vm.model.projectType=common.arrayToString(vm.model.projectType,',');
 				var httpOptions = {
 					method : 'put',
 					url : url_project,
@@ -177,7 +179,6 @@
 				});
 
 			} else {
-				 vm.model.projectType =vm.model.projectType.split(",");
 				 common.alert({
 				 vm:vm,
 				 msg:"您填写的信息不正确,请核对后提交!"
@@ -206,12 +207,7 @@
 			   	getProjectUnit(vm);
 			   	
 			   	//项目类型的处理--多选框回显					
-				if(vm.model.projectType != "" && vm.model.projectType != null){
-					vm.model.projectType = vm.model.projectType.split(",");
-				}else{
-					vm.model.projectType =[];
-				}
-			   	
+				vm.model.projectType=common.stringToArray(vm.model.projectType,',');
 				//日期展示
 				vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
 				vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
@@ -332,7 +328,14 @@
 					fields : {
 						createdDate : {
 							type : "date"
+						},
+						isMonthReport:{
+							type:"boolean"
+						},
+						isIncludLibrary:{
+							type:"boolean"
 						}
+						
 					}
 				}),
 				serverPaging : true,
@@ -343,11 +346,17 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:{
-					field:"isLatestVersion",
-					operator:"eq",
-					value:true
-				}
+				filter:[
+					{
+						field:"isLatestVersion",
+						operator:"eq",
+						value:true
+					},{
+						field:"isIncludLibrary",
+						operator:"eq",
+						value:true
+					}
+				]
 			});
 			// End:dataSource
 
@@ -392,7 +401,16 @@
 						template:function(item){
 							return common.getBasicDataDesc(item.projectStage);
 						},
-						filterable : false
+						filterable : {
+							ui: function(element){
+			                    element.kendoDropDownList({
+			                        valuePrimitive: true,
+			                        dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectStage),
+			                        dataTextField: "description",
+			                        dataValueField: "id"
+			                    });
+			                }
+						}
 					},
 					{
 						field : "projectClassify",
@@ -414,12 +432,12 @@
 							}								 
 						},
 						width : 150,
-						filterable : false
+						filterable : true
 					},
 					{
 						field : "",
 						title : "操作",
-						width : 180,
+						width : 250,
 						template : function(item) {
 							return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,"vm.isMonthReport('" +item.id+ "','"+item.isMonthReport+"')");
 						}

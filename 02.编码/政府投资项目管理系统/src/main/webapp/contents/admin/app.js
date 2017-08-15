@@ -226,7 +226,8 @@
 	            templateUrl: '/management/yearPlan/html/planBZ',
 	            controller: 'yearPlanCtrl',
 	            controllerAs: 'vm'
-	        })	        
+	        })	   
+	        
 /**********************end#年度计划编制***************************************/
 	        
 /**********************begin#工作台***************************************/

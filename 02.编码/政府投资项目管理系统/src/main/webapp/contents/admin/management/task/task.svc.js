@@ -89,11 +89,7 @@
 			var httpSuccess = function success(response) {
 				vm.model.shenBaoInfo= response.data.value[0]||{};
 				//项目类型的显示
-				if(vm.model.shenBaoInfo.projectType != ""){
-					vm.model.shenBaoInfo.projectType = vm.model.shenBaoInfo.projectType.split(",");
-				}else{
-					vm.model.shenBaoInfo.projectType =[];
-				}
+				vm.model.shenBaoInfo.projectType=common.stringToArray(vm.model.shenBaoInfo.projectType,",");
 				//判断项目的投资类型
 				if(vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_SH){//社会投资
 					vm.isSHInvestment = true;
@@ -117,6 +113,18 @@
 				vm.model.shenBaoInfo.capitalZYYS=common.toMoney(vm.model.shenBaoInfo.capitalZYYS);//中央预算
 				vm.model.shenBaoInfo.capitalSHTZ=common.toMoney(vm.model.shenBaoInfo.capitalSHTZ);//社会投资
 				vm.model.shenBaoInfo.capitalOther=common.toMoney(vm.model.shenBaoInfo.capitalOther);//其他
+				//申请资金
+				vm.model.shenBaoInfo.capitalSCZ_gtzj_TheYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_gtzj_TheYear);
+				vm.model.shenBaoInfo.capitalSCZ_ggys_TheYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_ggys_TheYear);
+				vm.model.shenBaoInfo.capitalSCZ_qita=common.toMoney(vm.model.shenBaoInfo.capitalSCZ_qita);
+				
+				vm.model.shenBaoInfo.capitalSCZ_gtzj_LastYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_gtzj_LastYear);
+				vm.model.shenBaoInfo.capitalSCZ_ggys_LastYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_ggys_LastYear);
+				vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear);
+				
+				vm.model.shenBaoInfo.capitalSCZ_gtzj_LastTwoYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_gtzj_LastTwoYear);
+				vm.model.shenBaoInfo.capitalSCZ_ggys_LastTwoYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_ggys_LastTwoYear);
+				vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear);
 				//计算资金筹措总计
 				vm.capitalTotal=function(){
 		  			 return (parseFloat(vm.model.shenBaoInfo.capitalSCZ_ggys)||0 )
@@ -128,12 +136,20 @@
 		  			 		+ (parseFloat(vm.model.shenBaoInfo.capitalZYYS)||0 )
 		  			 		+ (parseFloat(vm.model.shenBaoInfo.capitalOther)||0) ;
 		  		 };
+		  		//申请资金计算
+		  		vm.lastTwoYearCapitalTotal = function(){
+		  			return (parseFloat(vm.model.shenBaoInfo.capitalSCZ_ggys_LastTwoYear)||0) + (parseFloat(vm.model.shenBaoInfo.capitalSCZ_gtzj_LastTwoYear)||0);
+		  		};
+		  		vm.lastYearCapitalTotal= function(){
+		  			return (parseFloat(vm.model.shenBaoInfo.capitalSCZ_ggys_LastYear)||0) + (parseFloat(vm.model.shenBaoInfo.capitalSCZ_gtzj_LastYear)||0);
+		  		};
+		  		vm.theYearCapitalTotal= function(){
+		  			return (parseFloat(vm.model.shenBaoInfo.capitalSCZ_ggys_TheYear)||0) + (parseFloat(vm.model.shenBaoInfo.capitalSCZ_gtzj_TheYear)||0);
+		  		};
 				//如果申报信息的申报阶段为下一年度计划
 				if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){
-					 vm.materialsType=[['XXJD','项目工程形象进度及年度资金需求情况'],['WCJSNR','年度完成建设内容及各阶段工作内容完成时间表'],
-		   					['TTJH','历年政府投资计划下大文件(*)'],['GCXKZ','建设工程规划许可证'],['TDQK','土地落实情况、征地拆迁有关情况'],
-		   					['XMJZ','项目进展情况相关资料'],['QQGZJH','前期工作计划文件'],['XMSSYJ','项目实施依据文件'],['HYJY','会议纪要']];
-	    			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+					 vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_YearPlan;
+					 vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
 	    			   vm.isYearPlan = true;
 				}
 			};
@@ -193,7 +209,7 @@
 				vm.task = response.data.value[0] || {};
 				if(vm.task){
 					vm.task.taskTypeDesc=common.getBasicDataDesc(vm.task.taskType);
-					if(vm.task.isComplete){
+					if(vm.task.isComplete){//如果任务为已完成
 						vm.isComplete=true;
 					}
 				}	

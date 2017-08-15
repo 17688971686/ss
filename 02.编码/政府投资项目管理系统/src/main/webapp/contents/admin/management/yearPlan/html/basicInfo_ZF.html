@@ -123,9 +123,10 @@
 		</td>
 	</tr>	
 	<tr>
-		<td class="formAlignRight">项目总投资：</td>
+		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
 		<td>
-			<span ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:4"></span>&nbsp;(万元)
+			<input type="number" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.shenBaoInfo.projectInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>			
 		</td>
 		<td class="formAlignRight">累计完成投资：<span class="required">(*)</span></td>
 		<td>
@@ -154,8 +155,8 @@
 							</tr>
 							<tr>
 								<td><input type="number" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalSCZ_ggys" /></td>
-								<td><input type="number" class="form-control input-sm"  ng-model="vm.model.shenBaoInfo.capitalSCZ_gtzj"  /></td>
-								<td><input type="number" class="form-control input-sm"  ng-model="vm.model.shenBaoInfo.capitalSCZ_zxzj" /></td>
+								<td><input type="number" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalSCZ_gtzj"  /></td>
+								<td><input type="number" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalSCZ_zxzj" /></td>
 							</tr>
 						</table>
 					</td>
@@ -242,7 +243,7 @@
 		</td>
 	</tr>	
 	<tr>
-		<td class="formAlignRight">备注：</td>
+		<td class="formAlignRight">项目基本信息备注：</td>
 		<td colspan="3" >
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（500字符以内）" ng-model="vm.model.shenBaoInfo.remark" ng-change="vm.checkLength(vm.model.shenBaoInfo.remark,500,'remarkTips')"></textarea>
 			<div class="tipfont">您还可以输入<span id="remarkTips"><font size="5">500</font></span>个字符!</div>												

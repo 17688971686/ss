@@ -10,7 +10,53 @@
 	  <script type="text/template" id="columnBtns">
 		<a class="btn btn-xs btn-primary" href="#/shenbao_record/{0}"><span class="glyphicon glyphicon-eye-open"></span>申报详情</a>
 		<a style="{3}" class="btn btn-xs btn-danger" href="#/shenbao_record_edit/{0}/{1}/{2}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
-	  </script> 
+	  </script>
+	  <div class="search">
+	  	<table class="table table-bordered" style="margin-bottom:0px;">
+	  			<tr>
+	  				<td colspan="6" class="bg-info">
+	  					<span style="padding:10px;"><strong>申报信息查询</strong></span>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">项目名称：</td>
+	  				<td style="width:25%"><input type="text" style="width:360px;" placeholder="请输入项目名称（可少输不可输错）" ng-model="vm.search.projectName"/></td>
+	  				<td class="formAlignRight">项目申报阶段：</td>
+	  				<td>
+	  					<select style="height:30px;" ng-model="vm.search.projectShenBaoStage">
+				  			<option value="">---请选择---</option>
+				  			<option ng-repeat="x in vm.basicData.projectShenBaoStage" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+	  				</td>
+	  				<td class="formAlignRight">计划年度：</td>
+	  				<td>
+	  					<input type="text" style="width:186px;" class="Wdate form-control input-sm content_change" onFocus="WdatePicker({dateFmt:'yyyy'})" onChange="" ng-model="vm.search.planYear"/>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">审批状态：</td>
+	  				<td>
+	  					<select style="height:30px;" ng-model="vm.search.processState">
+				  			<option value="">---请选择---</option>
+				  			<option ng-repeat="x in vm.basicData.processState" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+	  				</td>
+	  				<td class="formAlignRight">审核状态：</td>
+	  				<td>
+	  					<select style="height:30px;" ng-model="vm.search.auditState">
+				  			<option value="">---请选择---</option>
+				  			<option ng-repeat="x in vm.basicData.auditState" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td colspan="6">
+	  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search()"><span class="glyphicon glyphicon-search"></span>查询</button>
+	  				</td>
+	  			</tr>
+	  		</table>
+	  </div>
+	  <div class="toolbar"></div>
      <form id="form" name="form">          
          <div class="grid" kendo-grid="grid" k-options="vm.gridOptions_records"></div>
     </form>
