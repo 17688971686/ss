@@ -801,7 +801,7 @@
 						field : "yearConstructionContentLastTwoYear",
 						title : "本年度建设内容",
 						width:120,
-						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContentLastYear); },
+						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContentLastTwoYear); },
 						filterable : false
 					},
 					{
