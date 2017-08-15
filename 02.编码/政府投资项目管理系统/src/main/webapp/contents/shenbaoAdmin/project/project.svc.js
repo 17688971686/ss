@@ -351,7 +351,8 @@
 	                            valuePrimitive: true,
 	                            dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectStage),
 	                            dataTextField: "description",
-	                            dataValueField: "id"
+	                            dataValueField: "id",
+	                            filter: "startswith"
 	                        });
 	                    }
 					}

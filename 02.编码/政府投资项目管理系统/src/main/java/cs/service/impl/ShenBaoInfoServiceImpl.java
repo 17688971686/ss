@@ -238,7 +238,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			project.setModifiedDate(new Date());
 			projectRepo.save(project);
 			//同步更新申报信息
-			update(dto,dto.getId());
+			updateShenBaoInfo(dto);
 		}else{
 			throw new IllegalArgumentException(String.format("没有查找到对应的项目"));
 		}
