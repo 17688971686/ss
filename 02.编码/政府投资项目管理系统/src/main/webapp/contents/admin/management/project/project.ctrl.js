@@ -293,7 +293,7 @@
 			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
 			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
 			 		+ (parseFloat(vm.model.capitalZYYS)||0 )
-			 		+ (parseFloat(vm.model.capitalOther)||0) ;
+			 		+ (parseFloat(vm.model.capitalOther)||0);
     	   };
 	        
     	   vm.create = function () {
