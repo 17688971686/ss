@@ -31,7 +31,8 @@
         checkLength:checkLength,
         uploadFileTypeConfig:uploadFileTypeConfig,//上传文件配置
         stringToArray:stringToArray,
-        arrayToString:arrayToString
+        arrayToString:arrayToString,
+        toDecimal4:toDecimal4
     };
 
     window.common = service;
@@ -516,6 +517,15 @@
 	    	} 
 		 }
     	return strTmp; 
+    }
+    
+    function toDecimal4(x){
+    	var f=parseFloat(x);
+    	if(isNaN(f)){
+    		return;
+    	}
+    	f=Math.round(x*10000)/10000;
+    	return f;
     }
 
     //init
