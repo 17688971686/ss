@@ -78,6 +78,7 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			projectDto.setConstructionCycle(project.getConstructionCycle());//建设周期
 			projectDto.setFinalAmount(project.getFinalAmount());//决算金额
 			projectDto.setFinanceProjectNumber(project.getFinanceProjectNumber());//财政项目代码
+			projectDto.setIsIncludLibrary(project.getIsIncludLibrary());//是否纳入项目库
 								
 			//begin#关联信息
 			//附件
@@ -150,6 +151,7 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setConstructionCycle(projectDto.getConstructionCycle());//建设周期
 			project.setFinalAmount(projectDto.getFinalAmount());//决算金额
 			project.setFinanceProjectNumber(projectDto.getFinanceProjectNumber());//财政项目代码
+			project.setIsIncludLibrary(projectDto.getIsIncludLibrary());//是否纳入项目库
 			//begin#关联信息：外部根据需要自己创建
 		}
 		return project;

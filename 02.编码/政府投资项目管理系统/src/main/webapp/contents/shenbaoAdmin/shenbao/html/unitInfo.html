@@ -24,7 +24,7 @@
 	        <td colspan="2">
 		        <input type="email" class="form-control input-sm" id="email" name="unitEmail" ng-model="vm.model.shenBaoUnitInfoDto.unitEmail" data-val="true" data-val-required="必填"/>
 		        <span data-valmsg-for="unitEmail" data-valmsg-replace="true" class="errors"></span>
-		        <span ng-show="myForm.unitEmail.$error.email" class="errors">请输入合法邮箱地址</span>
+		        <span ng-show="myForm.unitEmail.$error.email" class="errors"></span>
 	        <td class="formAlignRight">传真号码：</td>
 	        <td>
 		        <input type="text" class="form-control input-sm" id="unitFax" name="unitFax" ng-model="vm.model.shenBaoUnitInfoDto.unitFax"/>
@@ -89,7 +89,7 @@
 	    <td colspan="3">
 	     <input type="email" class="form-control input-sm" id="resPersonEmail" name="resPersonEmail" ng-model="vm.model.shenBaoUnitInfoDto.resPersonEmail" data-val="true" data-val-required="必填"/>
 	    	 <span data-valmsg-for="resPersonEmail" data-valmsg-replace="true" class="errors"></span>
-	    	 <span ng-show="myForm.resPersonEmail.$error.email" class="errors">请输入合法邮箱地址</span>
+	    	 <span ng-show="myForm.resPersonEmail.$error.email" class="errors"></span>
 	    </td>
 	  </tr>	  
 </table>

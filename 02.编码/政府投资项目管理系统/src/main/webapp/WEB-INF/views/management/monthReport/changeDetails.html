@@ -109,12 +109,12 @@ overflow: scroll !important;
 			 <tr>
 				<td>项目总投资：<span class="required">(*)</span></td>				
 				<td>
-					<input type="number" style="width:100px" class="form-control input-sm" id="invertPlanTotal" name="invertPlanTotal" ng-model="vm.model.monthReport.invertPlanTotal" data-val="true" data-val-required="必填"/> (万元)
+					<input type="number" step="any" style="width:100px" class="form-control input-sm" id="invertPlanTotal" name="invertPlanTotal" ng-model="vm.model.monthReport.invertPlanTotal" data-val="true" data-val-required="必填"/> (万元)
 					<span data-valmsg-for="invertPlanTotal" data-valmsg-replace="true" class="required"></span>					
 				</td>
 				<td>截止上年底累计下达计划：<span class="required">(*)</span></td>
 				<td>
-					<input type="number" style="width:100px" class="form-control input-sm" id="releasePlanTotal" name="releasePlanTotal" ng-model="vm.model.monthReport.releasePlanTotal" data-val="true" data-val-required="必填"/> (万元)
+					<input type="number" step="any" style="width:100px" class="form-control input-sm" id="releasePlanTotal" name="releasePlanTotal" ng-model="vm.model.monthReport.releasePlanTotal" data-val="true" data-val-required="必填"/> (万元)
 					<span data-valmsg-for="releasePlanTotal" data-valmsg-replace="true" class="required"></span>	
 				</td>
 			</tr>
@@ -122,33 +122,33 @@ overflow: scroll !important;
 				<td>本年度安排计划：<span class="required">(*)</span>
 				</td>
 				<td>
-					<input type="number" style="width:100px" class="form-control input-sm" id="thisYearPlanInvestment" name="thisYearPlanInvestment" ng-model="vm.model.monthReport.thisYearPlanInvestment" data-val="true" data-val-required="必填"/> (万元)
+					<input type="number" step="any" style="width:100px" class="form-control input-sm" id="thisYearPlanInvestment" name="thisYearPlanInvestment" ng-model="vm.model.monthReport.thisYearPlanInvestment" data-val="true" data-val-required="必填"/> (万元)
 					<span data-valmsg-for="thisYearPlanInvestment" data-valmsg-replace="true" class="required"></span>					
 				</td>
 				<td>本年度已下达计划：<span class="required">(*)</span>
 				</td>
 				<td>
-					<input type="number" style="width:100px" class="form-control input-sm" id="thisYearPlanHasInvestment" name="thisYearPlanHasInvestment" ng-model="vm.model.monthReport.thisYearPlanHasInvestment" data-val="true" data-val-required="必填"/> (万元)
+					<input type="number" step="any" style="width:100px" class="form-control input-sm" id="thisYearPlanHasInvestment" name="thisYearPlanHasInvestment" ng-model="vm.model.monthReport.thisYearPlanHasInvestment" data-val="true" data-val-required="必填"/> (万元)
 					<span data-valmsg-for="thisYearPlanHasInvestment" data-valmsg-replace="true" class="required"></span>					
 				</td>
 			</tr>	
 			<tr>
 				<td>累计完成投资：</td>
 				<td colspan="3">
-					<input type="number" style="width:100px" class="form-control input-sm" id="actuallyFinishiInvestment" name="actuallyFinishiInvestment" ng-model="vm.model.monthReport.actuallyFinishiInvestment" data-val="true" data-val-required="必填"/> (万元)
+					<input type="number" step="any" style="width:100px" class="form-control input-sm" id="actuallyFinishiInvestment" name="actuallyFinishiInvestment" ng-model="vm.model.monthReport.actuallyFinishiInvestment" data-val="true" data-val-required="必填"/> (万元)
 					<span data-valmsg-for="actuallyFinishiInvestment" data-valmsg-replace="true" class="required"></span>
 				</td>
 			</tr>				
 			<tr>
 				 <td>本月计划完成投资：<span class="required">(*)</span></td>
 				<td>
-					<input type="number" class="form-control input-sm" style="width:200px;" id="thisMonthPlanInvestTotal" name="thisMonthPlanInvestTotal"
+					<input type="number" step="any" class="form-control input-sm" style="width:200px;" id="thisMonthPlanInvestTotal" name="thisMonthPlanInvestTotal"
 					ng-model="vm.model.monthReport.thisMonthPlanInvestTotal" data-val="true" data-val-required="必填"/>&nbsp;（万元）
 					<span data-valmsg-for="thisMonthPlanInvestTotal" data-valmsg-replace="true" class="required"></span>
 				</td>
 				<td>本月已完成投资：<span class="required">(*)</span></td>
 				<td>
-					<input type="number" class="form-control input-sm" style="width:200px;" id="thisMonthInvestTotal" name="thisMonthInvestTotal"
+					<input type="number" step="any" class="form-control input-sm" style="width:200px;" id="thisMonthInvestTotal" name="thisMonthInvestTotal"
 					ng-model="vm.model.monthReport.thisMonthInvestTotal" data-val="true" data-val-required="必填"/>&nbsp;（万元）
 					<span data-valmsg-for="thisMonthInvestTotal" data-valmsg-replace="true" class="required"></span>
 				</td>
@@ -179,7 +179,7 @@ overflow: scroll !important;
 				<td colspan="3">
 					<p>
 						预计1到3月份完成投资（万元）：
-						<input type="number" id="firstQuarCompInvestment"
+						<input type="number" step="any" id="firstQuarCompInvestment"
 					ng-model="vm.model.monthReport.firstQuarCompInvestment" class="form-control input-sm "
 					style="width: 80px; height: 28px">					 
 					</p>
@@ -189,7 +189,7 @@ overflow: scroll !important;
 			<tr>
 				<td colspan="3">
 					<p>
-						预计1到6月份完成投资（万元）： <input type="number" id="secondQuarCompInvestment"
+						预计1到6月份完成投资（万元）： <input type="number" step="any" id="secondQuarCompInvestment"
 					ng-model="vm.model.monthReport.secondQuarCompInvestment" class="form-control input-sm "
 					style="width: 80px; height: 28px">
 					</p>
@@ -199,7 +199,7 @@ overflow: scroll !important;
 			<tr>
 				<td colspan="3">
 					<p>
-						预计1到9月份完成投资（万元）： <input type="number" id="thirdQuarCompInvestment"
+						预计1到9月份完成投资（万元）： <input type="number" step="any" id="thirdQuarCompInvestment"
 					ng-model="vm.model.monthReport.thirdQuarCompInvestment" class="form-control input-sm "
 					style="width: 80px; height: 28px">
 					</p>
@@ -209,7 +209,7 @@ overflow: scroll !important;
 			<tr>
 				<td colspan="3">
 					<p>
-						预计1到12月份完成投资（万元）： <input type="number" id="fourthQuarCompInvestment"
+						预计1到12月份完成投资（万元）： <input type="number" step="any" id="fourthQuarCompInvestment"
 					ng-model="vm.model.monthReport.fourthQuarCompInvestment" class="form-control input-sm "
 					style="width: 80px; height: 28px">
 					</p>

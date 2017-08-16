@@ -11,16 +11,6 @@
 
 <div class="bg-info text-info" style="padding: 10px;">项目基本信息</div>
 <table class="table table-bordered table-striped ">
-	<tr ng-hide="vm.isYearPlan">
-		<td class="formAlignRight" style="width:150px;">项目申报阶段：</td>
-		<td ng-bind="vm.getBasicDataDesc(vm.model.projectShenBaoStage)"></td>
-		<td class="formAlignRight" style="width:180px;">计划年度：<span class="required">(*)</span></td>
-		<td>
-			<input type="text" class="Wdate form-control input-sm" style="width:180px;" id="planYear" name="planYear"
-				onFocus="WdatePicker({dateFmt:'yyyy'})" onChange="" ng-model="vm.model.planYear" data-val="true" data-val-required="必填"/>
-			<span data-valmsg-for="planYear" data-valmsg-replace="true" class="required"></span>
-		</td>
-	</tr>
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目名称：</td>
 		<td>
@@ -34,6 +24,7 @@
 			</select>
 			<span data-valmsg-for="projectStage" data-valmsg-replace="true" class="required"></span>
 		</td>
+		
 	</tr>
 	<tr>
 		<td class="formAlignRight">项目负责人名称：<span class="required">(*)</span></td>
@@ -68,7 +59,7 @@
 			<span data-valmsg-for="projectClassify" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
-	<tr ng-show="vm.isYearPlan">
+	<tr>
 		<td class="formAlignRight">功能科目：<span class="required">(*)</span></td>
 		<td>
 			<input type="text" class="form-control input-sm" style="width:200px;" id="functionSubjects" name="functionSubjects"
@@ -87,12 +78,18 @@
 	<tr>
 		<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
 		<td colspan="3">
-			<select id="projectIndustry" name="projectIndustry" style="height:30px;" ng-model="vm.model.projectIndustry"
+			<select id="projectIndustry" name="projectIndustry" style="height:30px;" ng-model="vm.model.projectIndustryParent"  ng-change="vm.projectIndustryChange()"
 			 data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.projectIndustry" value="{{x.id}}" ng-bind="x.description"></option>
 			</select>
-			<span data-valmsg-for="projectIndustry" data-valmsg-replace="true" class="required"></span>	
+			<span data-valmsg-for="projectIndustry" data-valmsg-replace="true" class="required"></span>
+			
+			<select id="industry" name="industry"  style="height:30px;" ng-model="vm.model.projectIndustry"  data-val="true" data-val-required="必选">
+				<option value="">---请选择---</option>	
+				<option ng-repeat="x in vm.basicData.projectIndustryChildren" ng-selected="vm.model.projectIndustry==x.id" value="{{x.id}}" ng-bind="x.description"></option>
+			</select>
+			<span data-valmsg-for="industry" data-valmsg-replace="true" class="required"></span>	
 		</td>		
 	</tr>
 	<tr>
@@ -130,42 +127,26 @@
 			<input type="text" id="endDate" name="endDate" onkeydown="return false;"
 			 ng-model="vm.model.endDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>									
 		</td>
-	</tr>
-	<tr ng-show="vm.isQianQi">
-		<td class="formAlignRight">是否申请前期工作经费：</td>
-		<td style="border-right:0">
-			<label><input type="radio" name="isApplyQianQiFei" ng-model="vm.model.isApplyQianQiFei" value="true"/>是</label>
-			<label><input type="radio" name="isApplyQianQiFei" ng-model="vm.model.isApplyQianQiFei" value="false"/>否</label>
-		</td>
-		<td ng-show="vm.model.isApplyQianQiFei" class="formAlignRight">工作经费申请金额：<span class="required">(*)</span></td>
-		<td ng-show="vm.model.isApplyQianQiFei">
-			<input type="number" class="form-control input-sm" style="width:150px" id="qianQiFeiApply" name="qianQiFeiApply" ng-model="vm.model.qianQiFeiApply" data-val="true" data-val-required="必填"/>&nbsp;(万元)
-			<span data-valmsg-for="qianQiFeiApply" data-valmsg-replace="true" class="required"></span>
-		</td>
-	</tr>
-	<tr ng-hide="vm.isQianQi">
-		<td class="formAlignRight">项目总投资：</td>
 	</tr>	
 	<tr>
-		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
+		<td class="formAlignRight">项目总投资：</td>
 		<td>
-			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
-			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>			
+			<span ng-bind="vm.model.projectInvestSum | number:4"></span>&nbsp;(万元)
 		</td>
 		<td class="formAlignRight">累计完成投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.projectInvestAccuSum" data-val="true" data-val-required="必填"/> (万元)
+			<input type="number" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.projectInvestAccuSum" data-val="true" data-val-required="必填"/> (万元)
 			<span data-valmsg-for="projectInvestAccuSum" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>					
-	<tr ng-hide="vm.isQianQi">
+	<tr>
 		<td class="formAlignRight">资金来源：</td>
 		<td colspan="3">		
 			<table class="table table-bordered table-striped table-hover" >
 				<tr class="text-primary text-center">
-					<td>市投资</td>
-					<td>区投资</td>
-					<td>中央预算内投资</td>
+					<td>市财政</td>
+					<td>区财政</td>
+					<td>中央预算</td>
 					<td>社会投资</td>					
 					<td>其他</td>
 				</tr>
@@ -174,13 +155,13 @@
 						<table class="table table-bordered" style="margin:0px">
 							<tr>
 								<td >公共预算</td>
-								<td>国土基金</td>
-								<td>专项基金</td>
+								<td>国土资金</td>
+								<td>专项资金</td>
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys" /></td>
-								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj"  /></td>
-								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_zxzj" /></td>
+								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys" /></td>
+								<td><input type="number" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj"  /></td>
+								<td><input type="number" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_zxzj" /></td>
 							</tr>
 						</table>
 					</td>
@@ -188,12 +169,12 @@
 						<table class="table table-bordered " style="margin:0px">
 							<tr>
 								<td>公共预算</td>
-								<td>国土基金</td>
+								<td>国土资金</td>
 								
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalQCZ_ggys"  /></td>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalQCZ_gtzj"  /></td>
+								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalQCZ_ggys"  /></td>
+								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalQCZ_gtzj"  /></td>
 							</tr>
 						</table>
 					</td>
@@ -203,7 +184,7 @@
 								<td>-</td>
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalZYYS"  /></td>
+								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalZYYS"  /></td>
 							</tr>
 						</table>
 					</td>
@@ -213,23 +194,22 @@
 								<td>-</td>
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalSHTZ"  /></td>
+								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalSHTZ"  /></td>
 							</tr>
 						</table>
 					</td>
 					<td style="padding:0px;border: 0px;">
 						<table class="table table-bordered" style="margin:0px">
 							<tr>
-								<!-- <td  style="padding:7px;">
+								<td  style="padding:7px;">
 									<select  ng-model="vm.model.capitalOtherType">
 										<option value="">---请选择---</option>
 										<option ng-repeat="x in vm.basicData.capitalOther" ng-selected="vm.model.capitalOtherType==x.id" value="{{x.id}}">{{x.description}}</option>
 									</select>
-								</td>	 -->
-								<td>-</td>														
+								</td>															
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalOther"/></td>
+								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalOther"/></td>
 							</tr>
 						</table>
 					</td>
@@ -238,65 +218,35 @@
 				<table class="table table-bordered ">
 				<tr>
 					<td class="text-center" style="width:100px;" >"其他"的来源途径说明：</td>
-					<td>
-						<textarea class="form-control input-sm" maxlength="200" style="width:99%;" ng-model="vm.model.capitalOtherDescription" placeholder="注：200字符以内" ng-change="vm.checkLength(vm.model.capitalOtherDescription,200,'capitalOtherDescriptionTips')"></textarea>									
-						<div class="tipfont">您还可以输入<span id="capitalOtherDescriptionTips"><font size="5">200</font></span>个字符!</div>
+					<td >
+						<textarea class="form-control input-sm" maxlength="200" style="width:99%;" ng-model="vm.model.capitalOtherDescription" placeholder="注：200字符以内"></textarea>									
 					</td>
 				</tr>
 				<tr>
 					<td>资金总计：</td>
 					<td >
-						<span id="capitalTotal" ng-bind="vm.capitalTotal() | number:4"></span>&nbsp;(万元)
+						<span id="capitalTotal" ng-bind="vm.capitalTotal()"></span>&nbsp;(万元)
 					</td>								
 				</tr>
 			</table>
 		</td>
 	</tr>	
 	<tr>
-		<td class="formAlignRight">项目简介：<span class="required">(*)</span></td>
+		<td class="formAlignRight">项目简介：</td>
 		<td colspan="3" >
-			<textarea class="form-control" name="projectIntro" id="projectIntro" maxlength="500" style="height:121px;width: 99%;" placeholder="注：项目简介（500字符以内）" ng-model="vm.model.projectIntro" ng-change="vm.checkLength(vm.model.projectIntro,500,'projectIntroTips')" data-val="true" data-val-required="必填" ></textarea>													
-			<div class="tipfont">您还可以输入<span id="projectIntroTips"><font size="5">500</font></span>个字符!</div>
-			<span data-valmsg-for="projectIntro" data-valmsg-replace="true" class="required"></span>	
-
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：项目简介（500字符以内）" ng-bind="vm.model.projectIntro" disabled></textarea>													
 		</td>
 	</tr>
 	<tr>
-		<td class="formAlignRight">建设规模：<span class="required">(*)</span></td>
+		<td class="formAlignRight">建设规模：</td>
 		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（500字符以内）"
-				 ng-model="vm.model.projectGuiMo" ng-change="vm.checkLength(vm.model.projectGuiMo,500,'projectGuiMoTips')" id="projectGuiMo" name="projectGuiMo" data-val="true" data-val-required="必填"></textarea>													
-			<div class="tipfont">您还可以输入<span id="projectGuiMoTips"><font size="5">500</font></span>个字符!</div>
-			<span data-valmsg-for="projectGuiMo" data-valmsg-replace="true" class="required"></span>
-		</td>
-	</tr>
-	<tr ng-hide="vm.isYearPlan || vm.isQianQi || vm.isJunGong">
-		<td class="formAlignRight">建设必要性和依据：<span class="required">(*)</span></td>
-		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明项目建设的必要性（500字符以内）" ng-model="vm.model.projectConstrBasis" ng-change="vm.checkLength(vm.model.projectConstrBasis,500,'projectConstrBasisTips')" id="projectConstrBasis" name="projectConstrBasis" data-val="true" data-val-required="必填"></textarea>													
-			<div class="tipfont">您还可以输入<span id="projectConstrBasisTips"><font size="5">500</font></span>个字符!</div>
-			<span data-valmsg-for="projectConstrBasis" data-valmsg-replace="true" class="required"></span>
-		</td>
-	</tr>
-	<tr ng-show="vm.isKXXYJBG || vm.isCBSJYGS">
-		<td class="formAlignRight">推荐方案介绍：</td>
-		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明推荐方案（500字符以内）" ng-model="vm.model.recomProgram" ng-change="vm.checkLength(vm.model.recomProgram,500,'recomProgramTips')"></textarea>													
-			<div class="tipfont">您还可以输入<span id="recomProgramTips"><font size="5">500</font></span>个字符!</div>
-		</td>
-	</tr>
-	<tr ng-show="vm.isKXXYJBG || vm.isCBSJYGS">
-		<td class="formAlignRight">社会及经济效益评价：</td>
-		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明社会及经济效益评价（500字符以内）" ng-model="vm.model.socialAndEconomic" ng-change="vm.checkLength(vm.model.socialAndEconomic,500,'socialAndEconomicTips')"></textarea>													
-			<div class="tipfont">您还可以输入<span id="socialAndEconomicTips"><font size="5">500</font></span>个字符!</div>
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（200字符以内）" ng-bind="vm.model.projectGuiMo" disabled></textarea>													
 		</td>
 	</tr>	
 	<tr>
-		<td class="formAlignRight">项目基本信息备注：</td>
+		<td class="formAlignRight">备注：</td>
 		<td colspan="3" >
-			<textarea class="form-control" style="height:121px;width: 99%;" ng-model="vm.model.remark" disabled></textarea>
-										
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（200字符以内）" ng-bind="vm.model.remark"></textarea>												
 		</td>
 	</tr>
 </table>

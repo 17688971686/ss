@@ -11,6 +11,7 @@
         /* jshint validthis:true */
     	var vm = this;
     	vm.title = "新增项目";
+    	vm.search={};
     	vm.model={};
     	vm.basicData={};
         vm.id=$state.params.id;
@@ -34,6 +35,16 @@
     		vm.checkLength = function(obj,max,id){
    			 common.checkLength(obj,max,id);
     		};
+    		
+    		//用于查询、编辑、新增--基础数据
+	   		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
+	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类型
+	   		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别
+	   		vm.basicData.investmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);//项目投资类型
+	   		vm.basicData.area_Street=$linq(common.getBasicData())
+	   			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
+	   			.toArray();//获取街道信息
+    		
     	}
     	init();    	
     	activate();
@@ -58,9 +69,31 @@
     	
     	function init_list(){
     		projectSvc.grid(vm);
+    		//查询
+    		vm.search=function(){
+    			var filters = [];
+				filters.push({field:'isLatestVersion',operator:'eq',value:true});//默认条件--项目最新版本
+				filters.push({field:'isIncludLibrary',operator:'eq',value:true});//默认条件--项目纳入项目库   
+				if(vm.search.projectName !=null && vm.search.projectName !=''){//查询条件--项目名称
+	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
+	     		   }
+     		   if(vm.search.projectStage !=null && vm.search.projectStage !=''){//查询条件--项目阶段
+     			   filters.push({field:'projectStage',operator:'eq',value:vm.search.projectStage});
+     		   }
+     		   if(vm.search.isMonthReport !=null && vm.search.isMonthReport !=''){
+     			   if(vm.search.isMonthReport == "true"){
+     				  filters.push({field:'isMonthReport',operator:'eq',value:true});
+     			   }else if(vm.search.isMonthReport == "false"){
+     				  filters.push({field:'isMonthReport',operator:'eq',value:false});
+     			   }
+     		   }
+     		   if(vm.search.unitName !=null && vm.search.unitName !=''){
+     			  filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
+     		   }
+     		  vm.gridOptions.dataSource.filter(filters);
+     		  vm.gridOptions.dataSource.read();
+    		};
     		
-    		//基础数据--项目投资类型用于新增项目模态框
-     	   vm.basicData.investmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);
      	   //点击新增项目弹出模态框
      	   vm.addProject = function(){
      		  $("#myModal_add").modal({
@@ -75,15 +108,15 @@
      	   };
      	  vm.model.projectInvestmentType = common.basicDataConfig().projectInvestmentType_ZF;//默认为政府投资项目
     		
-    		vm.isMonthReport=function(id,isMonthReport){
-    			vm.model.isMonthReport = isMonthReport;
-    			vm.model.id=id;
-    			//弹出模态框
-    			$("#myModal_edit").modal({
-                    backdrop: 'static',
-                    keyboard:false
-                });   			
-    		};
+			vm.isMonthReport=function(id,isMonthReport){
+				vm.model.isMonthReport = isMonthReport;
+				vm.model.id=id;
+				//弹出模态框
+				$("#myModal_edit").modal({
+	                backdrop: 'static',
+	                keyboard:false
+	            });   			
+			};
     		
     		//更新项目是否填报状态
     		vm.updateIsMonthReport = function(){
@@ -152,15 +185,6 @@
     		//获取当前所有的用户单位信息
     		projectSvc.getUserUnits(vm);
     		
-    		//begin#基础数据	   		    	   		
-	   		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
-	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类型
-	   		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别	   		
-	   		vm.basicData.capitalOther=common.getBacicDataByIndectity(common.basicDataConfig().capitalOtherType);//资金其他来源类型
-	   		vm.basicData.area_Street=$linq(common.getBasicData())
-			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
-			.toArray();//获取街道信息
-	   		
 	   		//获取项目类型， 多选
 	   		vm.updateSelection = function(id){
 	        	var index = vm.model.projectType.indexOf(id);
@@ -269,7 +293,7 @@
 			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
 			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
 			 		+ (parseFloat(vm.model.capitalZYYS)||0 )
-			 		+ (parseFloat(vm.model.capitalOther)||0) ;
+			 		+ (parseFloat(vm.model.capitalOther)||0);
     	   };
 	        
     	   vm.create = function () {

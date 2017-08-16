@@ -281,7 +281,7 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("fileType_12","fileType" , "fileType", "批复", "");
 		this.createBasicData("fileType_13","fileType" , "fileType", "意见", "");
 		
-		this.createBasicData("foundAppliRepoGenerationStatus","" , "foundAppliRepoGenerationStatus", "资金申请报告生成状态分类", "");
+		this.createBasicData("foundAppliRepoGenerationStatus","","foundAppliRepoGenerationStatus", "资金申请报告生成状态分类", "");
 		this.createBasicData("foundAppliRepoGenerationStatus_1","foundAppliRepoGenerationStatus" , "foundAppliRepoGenerationStatus", "未生成", "");
 		this.createBasicData("foundAppliRepoGenerationStatus_2","foundAppliRepoGenerationStatus" , "foundAppliRepoGenerationStatus", "生成成功", "");
 		this.createBasicData("foundAppliRepoGenerationStatus_3","foundAppliRepoGenerationStatus" , "foundAppliRepoGenerationStatus", "生成失败", "");
@@ -320,6 +320,7 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("projectConstrChar_1","projectConstrChar" , "projectConstrChar", "前期", "");
 		this.createBasicData("projectConstrChar_2","projectConstrChar" , "projectConstrChar", "新开工", "");
 		this.createBasicData("projectConstrChar_3","projectConstrChar" , "projectConstrChar", "续建", "");
+		this.createBasicData("projectConstrChar_4","projectConstrChar" , "projectConstrChar", "储备类", "");
  		
 		this.createBasicData("projectIndustry","" , "projectIndustry", "项目行业分类","项目行业分类",false);
 			this.createBasicData("projectIndustry_1","projectIndustry" , "projectIndustry", "政府投资项目行业分类", "",0,false);
@@ -519,6 +520,7 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("taskType_1","taskType" , "taskType", "月报填报", "",false);
 		this.createBasicData("taskType_2","taskType" , "taskType", "下一年度计划", "",false);
 		this.createBasicData("taskType_3","taskType" , "taskType", "是否发送短信", "",false);
+
 		this.createBasicData("taskType_4","taskType" , "taskType", "项目建议书", "",false);
 		this.createBasicData("taskType_5","taskType" , "taskType", "可行性研究报告", "",false);
 		this.createBasicData("taskType_6","taskType" , "taskType", "初步设计与概算", "",false);
@@ -526,6 +528,13 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("taskType_8","taskType" , "taskType", "新开工计划", "",false);
 		this.createBasicData("taskType_9","taskType" , "taskType", "续建计划", "",false);
 		this.createBasicData("taskType_10","taskType" , "taskType", "竣工决算", "",false);
+
+		
+		this.createBasicData("auditState","" , "auditState", "审核状态", "审核状态",false);
+		this.createBasicData("auditState_1","auditState" , "auditState", "未审核", "",false);
+		this.createBasicData("auditState_2","auditState" , "auditState", "审核通过", "",false);
+		this.createBasicData("auditState_3","auditState" , "auditState", "审核不通过", "",false);
+
 				
 		response.setMessage("基础数据初始化成功");
 		response.setSuccess(true);		

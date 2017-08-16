@@ -141,3 +141,21 @@ label{
 .tipfont{
     	color:#af8585;
     }
+    
+.search{
+    margin-bottom:10px;
+}
+
+.search input{
+    height: 30px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    padding: 0 10px;
+}
+
+.search lable{
+    margin-left:80px;
+    margin-right:10px;
+    font-size:15px;
+}
+

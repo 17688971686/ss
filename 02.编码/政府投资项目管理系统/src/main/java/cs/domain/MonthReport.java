@@ -53,28 +53,28 @@ public class MonthReport extends BaseEntity{
 	//end#开工时间
 	
 	//begin#投资情况
-	@Column(columnDefinition="double(10,4) COMMENT '计划总投资'")
+	@Column(columnDefinition="double(11,4) COMMENT '计划总投资'")
 	private Double invertPlanTotal;
 	
-	@Column(columnDefinition="double(10,4) COMMENT '截止上年底累计下达计划'")
+	@Column(columnDefinition="double(11,4) COMMENT '截止上年底累计下达计划'")
 	private Double releasePlanTotal;
 	
-	@Column(columnDefinition="double(10,4) COMMENT '本年度安排计划投资'")
+	@Column(columnDefinition="double(11,4) COMMENT '本年度安排计划投资'")
 	private Double thisYearPlanInvestment;
 	
-	@Column(columnDefinition="double(10,4) COMMENT '本年度已下达计划'")
+	@Column(columnDefinition="double(11,4) COMMENT '本年度已下达计划'")
 	private Double thisYearPlanHasInvestment;
 	
-	@Column(columnDefinition="double(10,4) COMMENT '实际完成投资'")
+	@Column(columnDefinition="double(11,4) COMMENT '实际完成投资'")
 	private Double actuallyFinishiInvestment;	
 
-	@Column(columnDefinition="double(10,4) COMMENT '本年度累计完成投资'")
+	@Column(columnDefinition="double(11,4) COMMENT '本年度累计完成投资'")
 	private Double thisYearAccumulatedInvestment;
 	
-	@Column(columnDefinition="double(10,4) COMMENT '本月计划完成投资'")
+	@Column(columnDefinition="double(11,4) COMMENT '本月计划完成投资'")
 	private Double thisMonthPlanInvestTotal;
 	
-	@Column(columnDefinition="double(10,4) COMMENT '本月完成投资'")
+	@Column(columnDefinition="double(11,4) COMMENT '本月完成投资'")
 	private Double thisMonthInvestTotal;
 
 	@Column(columnDefinition="bit  COMMENT '是否完工'")
@@ -89,13 +89,13 @@ public class MonthReport extends BaseEntity{
 	private String projectImageProgress;
 	@Column(columnDefinition="varchar(50) COMMENT '项目进度'")
 	private String selfReview;
-	@Column(columnDefinition="double(10,4) COMMENT '预计第一季度完成投资'")
+	@Column(columnDefinition="double(11,4) COMMENT '预计第一季度完成投资'")
 	private Double firstQuarCompInvestment;
-	@Column(columnDefinition="double(10,4) COMMENT '预计第二季度完成投资'")
+	@Column(columnDefinition="double(11,4) COMMENT '预计第二季度完成投资'")
 	private Double secondQuarCompInvestment;
-	@Column(columnDefinition="double(10,4) COMMENT '预计第三季度完成投资'")
+	@Column(columnDefinition="double(11,4) COMMENT '预计第三季度完成投资'")
 	private Double thirdQuarCompInvestment;
-	@Column(columnDefinition="double(10,4) COMMENT '预计第四季度完成投资'")
+	@Column(columnDefinition="double(11,4) COMMENT '预计第四季度完成投资'")
 	private Double fourthQuarCompInvestment;	
 	@Column(columnDefinition="varchar(2000) COMMENT '工作目标'")
 	private String workTargets;	

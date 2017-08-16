@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -57,36 +58,38 @@ public class ProjectController {
 	@RequestMapping(name = "更新项目信息", path = "",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  update(@RequestBody ProjectDto ProjectDto){		
-		Project entity = ProjectService.findById(ProjectDto.getId());	
-		if(entity.getProjectStage().equals(ProjectDto.getProjectStage())){//项目阶段没有发生变化
-			ProjectService.update(ProjectDto,ProjectDto.getId());
-		}else{//项目阶段发生变化
-			//根据number查询
-			List<ProjectDto> ProjectDtosForNumber = ProjectService.getProjectByNumber(ProjectDto.getProjectNumber());			
-			Map<String,ProjectDto> map = new HashMap<String,ProjectDto>();
-			ProjectDtosForNumber.stream().forEach(x->{
-				map.put(x.getProjectStage(),x);				
-			});
-			//遍历map
-			Boolean hasProject = false;
-			Iterator<Map.Entry<String, ProjectDto>> it = map.entrySet().iterator();
-			while(it.hasNext()){
-				Map.Entry<String, ProjectDto> entry = it.next();  
-	            if(ProjectDto.getProjectStage().equals(entry.getKey())){//如果之前就存在更改后的阶段
-	            	hasProject = true;
-	            	ProjectDto.setIsLatestVersion(entry.getValue().getIsLatestVersion());
-	            	ProjectDto.setIsMonthReport(entry.getValue().getIsMonthReport());
-	            	ProjectService.update(ProjectDto, entry.getValue().getId());//更新之前的数据
-	            }
-			}
-			//如果之前不存在更改后的阶段
-			if(!hasProject){
-				//默认新增的项目为不填写月报
-				ProjectDto.setIsMonthReport(false);
-				ProjectService.create(ProjectDto);//创建一条新数据
-            	ProjectService.updateVersion(ProjectDto.getId(), false);//更新本条数据的版本            	
-			}
-		}		
+		Project entity = ProjectService.findById(ProjectDto.getId());
+		if(entity !=null){
+			if(entity.getProjectStage().equals(ProjectDto.getProjectStage())){//项目阶段没有发生变化
+				ProjectService.update(ProjectDto,ProjectDto.getId());
+			}else{//项目阶段发生变化
+				//根据number查询
+				List<ProjectDto> ProjectDtosForNumber = ProjectService.getProjectByNumber(ProjectDto.getProjectNumber());			
+				Map<String,ProjectDto> map = new HashMap<String,ProjectDto>();
+				ProjectDtosForNumber.stream().forEach(x->{
+					map.put(x.getProjectStage(),x);				
+				});
+				//遍历map
+				Boolean hasProject = false;
+				Iterator<Map.Entry<String, ProjectDto>> it = map.entrySet().iterator();
+				while(it.hasNext()){
+					Map.Entry<String, ProjectDto> entry = it.next();  
+		            if(ProjectDto.getProjectStage().equals(entry.getKey())){//如果之前就存在更改后的阶段
+		            	hasProject = true;
+		            	ProjectDto.setIsLatestVersion(entry.getValue().getIsLatestVersion());
+		            	ProjectDto.setIsMonthReport(entry.getValue().getIsMonthReport());
+		            	ProjectService.update(ProjectDto, entry.getValue().getId());//更新之前的数据
+		            }
+				}
+				//如果之前不存在更改后的阶段
+				if(!hasProject){
+					//默认新增的项目为不填写月报
+					ProjectDto.setIsMonthReport(false);
+					ProjectService.create(ProjectDto);//创建一条新数据
+	            	ProjectService.updateVersion(ProjectDto.getId(), false);//更新本条数据的版本            	
+				}
+			}		
+		}
 	}
 	
 	@RequiresPermissions("management/project#isMonthReport#put")
@@ -95,7 +98,7 @@ public class ProjectController {
 	public void  updateByIsMonthReport(@RequestBody ProjectDto ProjectDto){		
 		ProjectService.updateProjectByIsMonthReport(ProjectDto);	
 	}
-	
+
 	@RequiresPermissions("management/project##post")
 	@RequestMapping(name = "创建项目信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)

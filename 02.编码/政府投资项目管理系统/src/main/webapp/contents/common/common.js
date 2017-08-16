@@ -31,8 +31,8 @@
         checkLength:checkLength,//检查输入文本域的字符长度
         uploadFileTypeConfig:uploadFileTypeConfig,//上传文件配置
         stringToArray:stringToArray,
-        arrayToString:arrayToString
-        
+        arrayToString:arrayToString,
+        toDecimal4:toDecimal4
     };
 
     window.common = service;
@@ -385,7 +385,7 @@
     }
     function basicDataConfig(){
     	return {
-    		uploadSize:10485760,//本地文件上传大小限制
+    		uploadSize:10485760,//本地文件上传大小限制(10M)
     		
     		processState:"processState",//审批状态
     		processState_waitQianShou:"processState_1",//等待签收
@@ -449,8 +449,12 @@
     		taskType_qianQi:"taskType_7",//前期
     		taskType_newStart:"taskType_8",//新开工
     		taskType_xuJian:"taskType_9",//续建
-    		
-    		
+
+    		auditState:"auditState",//审核状态
+    		auditState_noAudit:"auditState_1",//审核状态-未审核
+    		auditState_auditPass:"auditState_2",//审核状态-审核通过
+    		auditState_auditNotPass:"auditState_3",//审核状态-审核不通过
+    			
     		management:"管理员"
     		
     		
@@ -494,9 +498,12 @@
     }
     
     function stringToArray(str,substr){
-    	var arrTmp=new Array();
+    	if(str.constructor == Array){
+    		return str;
+    	}
+    	var arrTmp=[];
     	if(str !=null && str != ""){
-	       	 if(substr==""){ 
+	       	 if(substr==""){
 	       		 arrTmp.push(str); 
 	       		 return arrTmp; 
 	       	 } 
@@ -520,6 +527,9 @@
     }
     
     function arrayToString(arr,str){
+    	if(arr.constructor == String){
+    		return str;
+    	}
 		 var strTmp="";
 		 if(arr !=null && arr.length>0){
 			 for(var i=0;i<arr.length;i++){ 
@@ -533,6 +543,15 @@
 	    	} 
 		 }
     	return strTmp; 
+    }
+
+    function toDecimal4(x){
+    	var f=parseFloat(x);
+    	if(isNaN(f)){
+    		return;
+    	}
+    	f=Math.round(x*10000)/10000;
+    	return f;
     }
 
     //init

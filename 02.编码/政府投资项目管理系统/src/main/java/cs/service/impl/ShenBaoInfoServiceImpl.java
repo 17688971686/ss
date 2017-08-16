@@ -20,17 +20,22 @@ import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.common.Util;
 import cs.domain.Attachment;
+import cs.domain.Project;
 import cs.domain.ReplyFile;
 import cs.domain.ShenBaoInfo;
 import cs.domain.ShenBaoUnitInfo;
 import cs.domain.TaskHead;
 import cs.domain.TaskHead_;
 import cs.domain.TaskRecord;
+import cs.domain.framework.SysConfig;
+import cs.domain.framework.SysConfig_;
 import cs.model.PageModelDto;
+import cs.model.SendMsg;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.ShenBaoUnitInfoDto;
 import cs.model.DomainDto.SysConfigDto;
+import cs.model.DomainDto.TaskRecordDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
@@ -54,11 +59,17 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@Autowired
 	private IRepository<ShenBaoUnitInfo, String> shenBaoUnitInfoRepo;
 	@Autowired
+	private IRepository<Project, String> projectRepo;
+	@Autowired
 	private IRepository<ReplyFile, String> replyFileRepo;
+	@Autowired
+	private IRepository<SysConfig, String> sysConfigRepo;
 	@Autowired
 	private IMapper<AttachmentDto, Attachment> attachmentMapper;
 	@Autowired
 	private IMapper<ShenBaoUnitInfoDto, ShenBaoUnitInfo> shenBaoUnitInfoMapper;
+	@Autowired
+	private IMapper<TaskRecordDto, TaskRecord> taskRecordMapper;
 	@Autowired
 	private SysService sysService;
 	@Autowired
@@ -108,6 +119,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		ShenBaoInfo entity=super.create(dto);
 		entity.setCreatedDate(new Date());
 		entity.setModifiedDate(new Date());
+		entity.setAuditState(BasicDataConfig.auditState_noAudit);//初始化审核状态--未审核
 		//处理关联信息
 		//begin#关联信息
 		//附件
@@ -191,13 +203,175 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		entity.setProcessState(BasicDataConfig.processState_tianBao);
 		super.repository.save(entity);
 		//更新任务状态
-		updeteWorkFlow(entity);
+		updeteWorkFlow(entity,false);
 		//更新批复文件库
 		handlePiFuFile(entity);
 		logger.info(String.format("更新申报信息,项目名称 %s",entity.getProjectName()));		
 		return entity;		
 	}
+
+	@Override
+	@Transactional
+	public void addProjectToLibrary(String shenbaoInfoId) {
+		ShenBaoInfo shenbaoInfo = super.findById(shenbaoInfoId);
+		if(shenbaoInfo !=null){
+			Project project = projectRepo.findById(shenbaoInfo.getProjectId());
+			if(project !=null){
+				if(shenbaoInfo.getIsIncludLibrary() && project.getIsIncludLibrary()){
+					throw new IllegalArgumentException(String.format("项目：%s 已纳入项目库",project.getProjectName()));
+				}else{
+					shenbaoInfo.setIsIncludLibrary(true);
+					shenbaoInfo.setModifiedBy(currentUser.getLoginName());
+					shenbaoInfo.setModifiedDate(new Date());
+					super.repository.save(shenbaoInfo);
+					
+					project.setIsIncludLibrary(true);
+					project.setModifiedBy(currentUser.getLoginName());
+					project.setModifiedDate(new Date());
+					projectRepo.save(project);
+					logger.info(String.format("项目纳入项目库,项目名称 %s",project.getProjectName()));
+				}
+			}else{
+				throw new IllegalArgumentException(String.format("没有查找到对应的项目"));
+			}
+		}else{
+			throw new IllegalArgumentException(String.format("没有查找到对应的申报信息"));
+		}
+	}
 	
+	@Override
+	@Transactional
+	public void updateProjectBasic(ShenBaoInfoDto dto) {
+		Project project = projectRepo.findById(dto.getProjectId());
+		if(project !=null){
+			//更新以下内容
+			project.setProjectStage(dto.getProjectStage());//项目阶段
+			project.setProjectRepName(dto.getProjectRepName());//负责人名称
+			project.setProjectRepMobile(dto.getProjectRepMobile());//负责人手机
+			project.setProjectCategory(dto.getProjectCategory());//项目类别
+			project.setProjectClassify(dto.getProjectClassify());//项目分类
+			project.setProjectIndustry(dto.getProjectIndustry());//项目行业归口
+			project.setProjectType(dto.getProjectType());//项目类型
+			project.setDivisionId(dto.getDivisionId());//项目区域
+			project.setProjectAddress(dto.getProjectAddress());//项目地址
+			project.setBeginDate(dto.getBeginDate());//项目开工日期
+			project.setEndDate(dto.getEndDate());//项目竣工日期
+			project.setProjectInvestSum(dto.getProjectInvestSum());//项目总投资
+			project.setProjectInvestAccuSum(dto.getProjectInvestAccuSum());//累计完成投资
+			//资金来源
+			project.setCapitalSCZ_ggys(dto.getCapitalSCZ_ggys());//市财政--公共预算
+			project.setCapitalSCZ_gtzj(dto.getCapitalSCZ_gtzj());//市财政--国土基金
+			project.setCapitalSCZ_zxzj(dto.getCapitalSCZ_zxzj());//市财政--专项基金
+			project.setCapitalQCZ_gtzj(dto.getCapitalQCZ_gtzj());//区财政--国土基金
+			project.setCapitalQCZ_ggys(dto.getCapitalQCZ_ggys());//区财政--公共预算
+			project.setCapitalZYYS(dto.getCapitalZYYS());//中央预算
+			project.setCapitalSHTZ(dto.getCapitalSHTZ());//社会投资		
+			project.setCapitalOther(dto.getCapitalOther());//其他
+			project.setCapitalOtherDescription(dto.getCapitalOtherDescription());//其他来源说明
+			project.setProjectIntro(dto.getProjectIntro());//项目简介
+			project.setProjectGuiMo(dto.getProjectGuiMo());//项目规模
+			project.setRemark(dto.getRemark());//项目基本信息备注
+			//修改人&修改时间
+			project.setModifiedBy(currentUser.getLoginName());
+			project.setModifiedDate(new Date());
+			projectRepo.save(project);
+			//同步更新申报信息
+			updateShenBaoInfo(dto);
+		}else{
+			throw new IllegalArgumentException(String.format("没有查找到对应的项目"));
+		}
+	}
+
+	@Override
+	@Transactional
+	public void updateShenBaoInfoState(TaskRecordDto dto) {
+		//更新申报信息的状态
+		ShenBaoInfo shenbaoInfo = super.repository.findById(dto.getRelId());
+		if(shenbaoInfo !=null){
+			shenbaoInfo.setProcessState(dto.getProcessState());
+			shenbaoInfo.setModifiedBy(currentUser.getLoginName());
+			shenbaoInfo.setModifiedDate(new Date());
+			
+			super.repository.save(shenbaoInfo);
+			//同时更新任务的状态
+			TaskRecord entity = updeteWorkFlowByretreat(dto);
+			//查询系统配置是否需要发送短信
+			Criterion criterion = Restrictions.eq(SysConfig_.configName.getName(), BasicDataConfig.taskType_sendMesg);
+			SysConfig entityQuery = sysConfigRepo.findByCriteria(criterion).stream().findFirst().get();
+			if(entityQuery.getEnable()){
+				SendMsg sendMsg = new SendMsg();
+				sendMsg.setMobile(shenbaoInfo.getProjectRepMobile());
+				String content = entity.getTitle()+":"+basicDataService.getDescriptionById(entity.getProcessState());
+				if(entity.getProcessState().equals(BasicDataConfig.processState_tuiWen)){//如果为退文
+					content += ";处理意见："+entity.getProcessSuggestion();
+				}
+				sendMsg.setContent(content);
+				Util.sendShortMessage(sendMsg);
+			}
+			logger.info(String.format("更新申报信息状态,项目名称 %s",shenbaoInfo.getProjectName()));
+		}else{
+			throw new IllegalArgumentException(String.format("没有查找到对应的申报信息"));
+		}
+		
+	}
+	
+	@Override
+	@Transactional
+	public void updateShenBaoInfoAuditState(String id, String auditState) {
+		ShenBaoInfo shenbaoInfo = super.findById(id);
+		if(shenbaoInfo !=null){
+			shenbaoInfo.setAuditState(auditState);
+			shenbaoInfo.setModifiedBy(currentUser.getLoginName());
+			shenbaoInfo.setModifiedDate(new Date());
+			
+			super.repository.save(shenbaoInfo);
+			logger.info(String.format("更新申报信息审核状态,项目名称 %s",shenbaoInfo.getProjectName()));
+		}else{
+			throw new IllegalArgumentException(String.format("没有查找到对应的申报信息"));
+		}
+	}
+
+	@Override
+	@Transactional
+	public void updateShenBaoInfo(ShenBaoInfoDto dto) {
+		ShenBaoInfo entity=super.update(dto,dto.getId());
+		//处理关联信息
+		//附件
+		entity.getAttachments().forEach(x -> {//删除历史附件
+			attachmentRepo.delete(x);
+		});
+		entity.getAttachments().clear();
+		dto.getAttachmentDtos().forEach(x -> {//添加新附件
+			Attachment attachment = new Attachment();
+			attachmentMapper.buildEntity(x, attachment);
+			attachment.setCreatedBy(entity.getModifiedBy());
+			attachment.setModifiedBy(entity.getModifiedBy());
+			entity.getAttachments().add(attachment);
+		});
+		
+		//申报单位
+		shenBaoUnitInfoRepo.delete(entity.getShenBaoUnitInfo());//删除申报单位
+		ShenBaoUnitInfoDto shenBaoUnitInfoDto = dto.getShenBaoUnitInfoDto();
+		ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
+		shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
+		shenBaoUnitInfo.setCreatedBy(entity.getModifiedBy());
+		shenBaoUnitInfo.setModifiedBy(entity.getModifiedBy());
+		entity.setShenBaoUnitInfo(shenBaoUnitInfo);
+		//编制单位
+		shenBaoUnitInfoRepo.delete(entity.getBianZhiUnitInfo());//删除编制单位
+		ShenBaoUnitInfoDto bianZhiUnitInfoDto = dto.getBianZhiUnitInfoDto();
+		ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
+		shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
+		bianZhiUnitInfo.setCreatedBy(entity.getModifiedBy());
+		bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
+		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
+		super.repository.save(entity);
+		//更新任务状态
+		updeteWorkFlow(entity,true);
+		//处理批复文件库
+		handlePiFuFile(entity);
+		logger.info(String.format("后台管理员更新申报信息,项目名称 %s",entity.getProjectName()));		
+	}
 
 	private String getTaskType(String shenbaoStage){
 		if(shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)){//如果申报阶段：是下一年度计划
@@ -269,44 +443,48 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskHeadRepo.save(taskHead);
 	}
 	
-	private void updeteWorkFlow(ShenBaoInfo entity){
+	private void updeteWorkFlow(ShenBaoInfo entity,Boolean isManageChange){
 		//查找到对应的任务
 		Criterion criterion = Restrictions.eq(TaskHead_.relId.getName(), entity.getId());
 		TaskHead taskHead = taskHeadRepo.findByCriteria(criterion).stream().findFirst().get();
-						
-		//添加一条流转记录
-		//获取系统配置中工作流类型的第一处理人
-		String startUser="";
-	    List<SysConfigDto> configDtos=sysService.getSysConfigs();
-	    Optional<SysConfigDto> systemConfigDto=configDtos.stream().filter((x)->
-	  			BasicDataConfig.taskType.equals(x.getConfigType())
-				&&getTaskType(entity.getProjectShenBaoStage()).equals(x.getConfigName()
-							)
-					).findFirst();
-				  
-	   if(systemConfigDto.isPresent()){
-		   startUser=systemConfigDto.get().getConfigValue();
-	   }
-						
-		TaskRecord taskRecord=new TaskRecord();
-		taskRecord.setId(UUID.randomUUID().toString());
-		taskRecord.setTitle(taskHead.getTitle());
-		taskRecord.setNextUser(startUser);//设置下一处理人
-		taskRecord.setRelId(entity.getId());
-		taskRecord.setTaskId(taskHead.getId());//设置任务Id
-		taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
-		taskRecord.setTaskType(this.getTaskType(entity.getProjectShenBaoStage()));
-		taskRecord.setProcessSuggestion("材料填报");
-		taskRecord.setUnitName(entity.getUnitName());
-		taskRecord.setProjectIndustry(entity.getProjectIndustry());
-		taskRecord.setCreatedBy(currentUser.getLoginName());
-		taskRecord.setModifiedBy(currentUser.getLoginName());
-						
-		taskHead.getTaskRecords().add(taskRecord);
-		//更新任务的状态以及是否完成
-		taskHead.setComplete(false);
-		taskHead.setProcessState(BasicDataConfig.processState_tianBao);
-		taskHeadRepo.save(taskHead);
+		if(taskHead !=null){
+			//添加一条流转记录
+			//获取系统配置中工作流类型的第一处理人
+			String startUser="";
+		    List<SysConfigDto> configDtos=sysService.getSysConfigs();
+		    Optional<SysConfigDto> systemConfigDto=configDtos.stream().filter((x)->
+		  			BasicDataConfig.taskType.equals(x.getConfigType())
+					&&getTaskType(entity.getProjectShenBaoStage()).equals(x.getConfigName()
+								)
+						).findFirst();
+					  
+		   if(systemConfigDto.isPresent()){
+			   startUser=systemConfigDto.get().getConfigValue();
+		   }
+							
+			TaskRecord taskRecord=new TaskRecord();
+			taskRecord.setId(UUID.randomUUID().toString());
+			taskRecord.setTitle(taskHead.getTitle());
+			taskRecord.setNextUser(startUser);//设置下一处理人
+			taskRecord.setRelId(entity.getId());
+			taskRecord.setTaskId(taskHead.getId());//设置任务Id
+			if(isManageChange){//如果是后台修改
+				taskRecord.setProcessState(taskHead.getProcessState());
+			}else{//如果是申报端修改
+				taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
+				taskHead.setComplete(false);
+				taskHead.setProcessState(BasicDataConfig.processState_tianBao);
+			}
+			taskRecord.setTaskType(this.getTaskType(entity.getProjectShenBaoStage()));
+			taskRecord.setProcessSuggestion("材料填报");
+			taskRecord.setUnitName(entity.getUnitName());
+			taskRecord.setProjectIndustry(entity.getProjectIndustry());
+			taskRecord.setCreatedBy(currentUser.getLoginName());
+			taskRecord.setModifiedBy(currentUser.getLoginName());
+							
+			taskHead.getTaskRecords().add(taskRecord);
+			taskHeadRepo.save(taskHead);
+		}
 	}
 	
 	/**
@@ -359,5 +537,29 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 				replyFileRepo.save(replyfile);//更新文件库
 			}
 		});
-	} 
+	}
+
+	private TaskRecord updeteWorkFlowByretreat(TaskRecordDto dto){
+		//查找到对应的任务
+		Criterion criterion = Restrictions.eq(TaskHead_.relId.getName(), dto.getRelId());
+		TaskHead taskHead = taskHeadRepo.findByCriteria(criterion).stream().findFirst().get();
+		//新增一条处理流程记录
+		TaskRecord taskRecord=new TaskRecord();
+		taskRecordMapper.buildEntity(dto, taskRecord);
+		taskRecord.setTitle(taskHead.getTitle());
+		taskRecord.setNextUser(taskHead.getCreatedBy());//设置下一处理人为初始创建人
+		taskRecord.setTaskId(taskHead.getId());//设置任务Id
+		taskRecord.setTaskType(taskHead.getTaskType());
+		taskRecord.setUnitName(taskHead.getUnitName());
+		taskRecord.setProjectIndustry(taskHead.getProjectIndustry());
+		taskRecord.setCreatedBy(currentUser.getLoginName());
+		taskRecord.setModifiedBy(currentUser.getLoginName());
+						
+		taskHead.getTaskRecords().add(taskRecord);
+		//更新任务状态
+		taskHead.setProcessState(dto.getProcessState());
+		taskHead.setProcessSuggestion(dto.getProcessSuggestion());
+		taskHeadRepo.save(taskHead);
+		return taskRecord;
+	}
 }

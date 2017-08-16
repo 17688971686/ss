@@ -27,7 +27,7 @@ public class Project extends BaseProject {
 	@Column(columnDefinition="bit(1) NULL COMMENT '是否是最新的版本'")
 	private Boolean isLatestVersion = true;
 	
-	@Column(columnDefinition="bit(1)  NULL COMMENT '是否纳入项目库'")
+	@Column(columnDefinition="bit(1) DEFAULT 0 COMMENT '是否纳入项目库'")
 	private Boolean isIncludLibrary = false;
 
 

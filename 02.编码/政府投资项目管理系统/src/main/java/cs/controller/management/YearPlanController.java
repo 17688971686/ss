@@ -86,6 +86,12 @@ public class YearPlanController {
 		return ctrl+"/shenbaoInfoList";
 	}
 	
+	@RequiresPermissions("management/yearPlan#html/shenbaoInfoEdit#get")
+	@RequestMapping(name="年度计划项目申报编辑页",path="html/shenbaoInfoEdit",method=RequestMethod.GET)
+	public String shenBaoInfoEdit(){
+		return ctrl+"/shenbaoInfoEdit";
+	}
+	
 	@RequiresPermissions("management/yearPlan#html/planList#get")
 	@RequestMapping(name="年度计划列表页",path="html/planList",method=RequestMethod.GET)
 	public String planBZList(){
@@ -102,5 +108,10 @@ public class YearPlanController {
 	@RequestMapping(name="年度计划编制页",path="html/planBZ",method=RequestMethod.GET)
 	public String planBZ(){
 		return ctrl+"/planBZ";
+	}
+	@RequiresPermissions("management/yearPlan#html/edit#get")
+	@RequestMapping(name="申报信息修改页",path="html/edit",method=RequestMethod.GET)
+	public String edit(){
+		return ctrl+"/edit";
 	}
 }
