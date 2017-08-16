@@ -26,6 +26,9 @@ public class Project extends BaseProject {
 	
 	@Column(columnDefinition="bit(1) NULL COMMENT '是否是最新的版本'")
 	private Boolean isLatestVersion = true;
+	
+	@Column(columnDefinition="bit(1)  NULL COMMENT '是否纳入项目库'")
+	private Boolean isIncludLibrary = false;
 
 
 	//begin#关联信息
@@ -74,6 +77,14 @@ public class Project extends BaseProject {
 
 	public void setIsLatestVersion(Boolean isLatestVersion) {
 		this.isLatestVersion = isLatestVersion;
+	}
+
+	public Boolean getIsIncludLibrary() {
+		return isIncludLibrary;
+	}
+
+	public void setIsIncludLibrary(Boolean isIncludLibrary) {
+		this.isIncludLibrary = isIncludLibrary;
 	}
 	
 }
