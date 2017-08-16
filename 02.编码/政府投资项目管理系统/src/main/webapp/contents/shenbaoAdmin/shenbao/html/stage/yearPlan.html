@@ -13,12 +13,12 @@
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
 		<td>	
-			<input type="number" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>			
 		</td>
 		<td class="formAlignRight">累计完成投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.projectInvestAccuSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.projectInvestAccuSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="projectInvestAccuSum" data-valmsg-replace="true" class="required"></span>			
 		</td>
 	</tr>
@@ -36,7 +36,7 @@
 			<table class="table table-bordered table-striped table-hover">
 				<tr class="text-primary text-center">
 					<td colspan="2">申请年度投资：
-						<span ng-bind="vm.theYearCapitalTotal()" ng-model="vm.model.applyYearInvest"></span>&nbsp;(万元)
+						<span ng-bind="vm.theYearCapitalTotal() | number:4" ng-model="vm.model.applyYearInvest"></span>&nbsp;(万元)
 					</td>
 				</tr>
 				<tr>
@@ -48,9 +48,9 @@
 								<td>其他</td>
 							</tr>
 							<tr>
-								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys_TheYear"/></td>
-								<td><input type="number" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj_TheYear"/></td>
-								<td><input type="number" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_qita"/></td>
+								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys_TheYear"/></td>
+								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj_TheYear"/></td>
+								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_qita"/></td>
 							</tr>
 						</table>
 					</td>
@@ -89,7 +89,7 @@
 			<table class="table table-bordered table-striped table-hover">
 				<tr class="text-primary text-center">
 					<td colspan="2">申请年度投资：
-						<span ng-bind="vm.lastYearCapitalTotal()" ng-model="vm.model.applyYearInvest_LastYear"></span>&nbsp;(万元)
+						<span ng-bind="vm.lastYearCapitalTotal() | number:4" ng-model="vm.model.applyYearInvest_LastYear"></span>&nbsp;(万元)
 					</td>
 				</tr>
 				<tr>
@@ -101,9 +101,9 @@
 								<td>其他</td>
 							</tr>
 							<tr>
-								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys_LastYear"/></td>
-								<td><input type="number" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj_LastYear"/></td>
-								<td><input type="number" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_qita_LastYear"/></td>
+								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys_LastYear"/></td>
+								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj_LastYear"/></td>
+								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_qita_LastYear"/></td>
 							</tr>
 						</table>
 					</td>
@@ -142,7 +142,7 @@
 			<table class="table table-bordered table-striped table-hover">
 				<tr class="text-primary text-center">
 					<td colspan="2">申请年度投资：
-						<span ng-bind="vm.lastTwoYearCapitalTotal()" ng-model="vm.model.applyYearInvest_LastTwoYear"></span>&nbsp;(万元)
+						<span ng-bind="vm.lastTwoYearCapitalTotal() | number:4" ng-model="vm.model.applyYearInvest_LastTwoYear"></span>&nbsp;(万元)
 					</td>
 				</tr>
 				<tr>
@@ -154,9 +154,9 @@
 								<td>其他</td>
 							</tr>
 							<tr>
-								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys_LastTwoYear"/></td>
-								<td><input type="number" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj_LastTwoYear"/></td>
-								<td><input type="number" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_qita_LastTwoYear"/></td>
+								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys_LastTwoYear"/></td>
+								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj_LastTwoYear"/></td>
+								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_qita_LastTwoYear"/></td>
 							</tr>
 						</table>
 					</td>

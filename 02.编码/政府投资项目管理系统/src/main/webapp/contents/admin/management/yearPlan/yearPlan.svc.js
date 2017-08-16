@@ -291,14 +291,16 @@
 		 * 更新年度计划编制信息
 		 */
 		function updateYearPlanCapital(vm){
-			vm.model.capital.capitalSum=parseFloat(vm.model.capital.capitalSCZ_ggys||0)
-									   +parseFloat(vm.model.capital.capitalSCZ_gtzj||0)
-									   +parseFloat(vm.model.capital.capitalSCZ_zxzj||0)
-									   +parseFloat(vm.model.capital.capitalQCZ_ggys||0)
-									   +parseFloat(vm.model.capital.capitalQCZ_gtzj||0)
-									   +parseFloat(vm.model.capital.capitalSHTZ||0)
-									   +parseFloat(vm.model.capital.capitalZYYS||0)
-									   +parseFloat(vm.model.capital.capitalOther||0);
+			vm.model.capital.capitalSum=common.toDecimal4(
+						parseFloat(vm.model.capital.capitalSCZ_ggys || 0)
+					   +parseFloat(vm.model.capital.capitalSCZ_gtzj||0)
+					   +parseFloat(vm.model.capital.capitalSCZ_zxzj||0)
+					   +parseFloat(vm.model.capital.capitalQCZ_ggys||0)
+					   +parseFloat(vm.model.capital.capitalQCZ_gtzj||0)
+					   +parseFloat(vm.model.capital.capitalSHTZ||0)
+					   +parseFloat(vm.model.capital.capitalZYYS||0)
+					   +parseFloat(vm.model.capital.capitalOther||0));
+
 			var httpOptions = {
 					method : 'put',
 					url : url_planCapital,
@@ -329,7 +331,16 @@
 				};
 			
 			var httpSuccess = function success(response) {
-				vm.model.capital = response.data.value[0]||{};				
+				vm.model.capital = response.data.value[0]||{};
+				//进行金额的处理
+				vm.model.capital.capitalSCZ_ggys = common.toMoney(vm.model.capital.capitalSCZ_ggys);
+				vm.model.capital.capitalSCZ_gtzj = common.toMoney(vm.model.capital.capitalSCZ_gtzj);
+				vm.model.capital.capitalSCZ_zxzj = common.toMoney(vm.model.capital.capitalSCZ_zxzj);
+				vm.model.capital.capitalQCZ_ggys = common.toMoney(vm.model.capital.capitalQCZ_ggys);
+				vm.model.capital.capitalQCZ_gtzj = common.toMoney(vm.model.capital.capitalQCZ_gtzj);
+				vm.model.capital.capitalSHTZ = common.toMoney(vm.model.capital.capitalSHTZ);
+				vm.model.capital.capitalZYYS = common.toMoney(vm.model.capital.capitalZYYS);
+				vm.model.capital.capitalOther = common.toMoney(vm.model.capital.capitalOther);
 			};
 			
 			common.http({
@@ -385,7 +396,7 @@
 				
 				vm.model.shenBaoInfo.capitalSCZ_gtzj_LastYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_gtzj_LastYear);
 				vm.model.shenBaoInfo.capitalSCZ_ggys_LastYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_ggys_LastYear);
-				vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear);
+				vm.model.shenBaoInfo.capitalSCZ_qita_LastYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_qita_LastYear);
 				
 				vm.model.shenBaoInfo.capitalSCZ_gtzj_LastTwoYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_gtzj_LastTwoYear);
 				vm.model.shenBaoInfo.capitalSCZ_ggys_LastTwoYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_ggys_LastTwoYear);
@@ -801,7 +812,7 @@
 						field : "yearConstructionContentLastTwoYear",
 						title : "本年度建设内容",
 						width:120,
-						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContentLastTwoYear); },
+						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContentLastTwoYear);},
 						filterable : false
 					},
 					{
@@ -832,7 +843,7 @@
 						field : "yearInvestApproval",
 						title : "安排资金（万元）",
 						template :function(item){					
-							return common.format($('#input').html(),item.id,item.yearInvestApproval||0);
+							return common.format($('#input').html(),item.id,item.yearInvestApproval || 0);
 						},
 						width:130,
 						filterable : false

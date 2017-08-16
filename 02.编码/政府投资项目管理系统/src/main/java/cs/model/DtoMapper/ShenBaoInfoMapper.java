@@ -64,7 +64,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setCapitalOther(entity.getCapitalOther());
 			shenBaoInfoDto.setCapitalOtherType(entity.getCapitalOtherType());
 			shenBaoInfoDto.setCapitalOtherDescription(entity.getCapitalOtherDescription());
-			//批复信心
+			//批复信息
 			shenBaoInfoDto.setPifuJYS_date(entity.getPifuJYS_date());
 			shenBaoInfoDto.setPifuKXXYJBG_date(entity.getPifuKXXYJBG_date());
 			shenBaoInfoDto.setPifuCBSJYGS_date(entity.getPifuCBSJYGS_date());
