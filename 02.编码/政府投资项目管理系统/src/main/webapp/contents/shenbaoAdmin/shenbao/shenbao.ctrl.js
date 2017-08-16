@@ -231,7 +231,7 @@
 	    	       		.toArray();
      			   };
         	   }
-    	   }
+    	   };
     	   
     	   init_page();
     	   init_basicData();
