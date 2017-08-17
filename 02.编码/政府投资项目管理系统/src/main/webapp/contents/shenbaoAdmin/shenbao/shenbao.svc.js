@@ -722,11 +722,16 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:{
+				filter:[{
 					field:'isLatestVersion',
 					operator:'eq',
 					value:true
-				}
+				},
+				{
+					field:'projectInvestmentType',
+					operator:'eq',
+					value:common.basicDataConfig().projectInvestmentType_ZF
+				}]
 			});
 			// End:dataSource
 

@@ -47,7 +47,7 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 									$('.modal-backdrop').remove();
-									$location.path(url_back);		
+									$location.path(url_back);
 								}
 							});
 						}

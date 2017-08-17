@@ -133,6 +133,7 @@
 	        })
 /**********************end#monthReport***************************************/
 /**********************begin#project***************************************/
+	        //政府投资项目
 	        //列表页
 	        .state('project', {
 	            url: '/project',
@@ -153,7 +154,15 @@
 	            templateUrl: '/management/project/html/details.html',
 	            controller: 'projectCtrl',
 	            controllerAs: 'vm'
-	        }) 
+	        })
+	        //社会投资项目
+	        //列表页
+	        .state('project_SH', {
+	            url: '/project_SH',
+	            templateUrl: '/management/project/html/list_SH.html',
+	            controller: 'projectCtrl',
+	            controllerAs: 'vm'
+	        })
 /**********************end#project***************************************/
 	        
 	        //begin#单位管理	       
