@@ -7,12 +7,43 @@
 	  </ol>
 	  <script type="text/template" id="columnBtns">
 	  	<a class="btn btn-xs btn-primary"  href="#/projectMonthReportFill/{0}" ><span class="glyphicon glyphicon-pencil"></span>填报</a>
-		
 	  </script>
-	  <div class="toolbar"> </div>
-     <form id="form" name="form">          
-         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
-    </form>
+	  <div class="search">
+  		<table class="table table-bordered" style="margin-bottom:0px;">
+  			<tr>
+  				<td colspan="6" class="bg-info">
+  					<span style="padding:10px;"><strong>项目查询</strong></span>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td class="formAlignRight">项目名称：</td>
+  				<td style="width:25%"><input type="text" style="width:360px;" placeholder="请输入项目名称（可少输不可输错）" ng-model="vm.search.projectName"/></td>
+  				<td class="formAlignRight">项目阶段：</td>
+  				<td>
+  					<select style="height:30px;" ng-model="vm.search.projectStage">
+			  			<option value="">---请选择---</option>
+			  			<option ng-repeat="x in vm.basicData.projectStage" value="{{x.id}}">{{x.description}}</option>
+			  		</select>
+  				</td>
+  				<td class="formAlignRight">项目投资类型：</td>
+  				<td>
+  					<select style="height:30px;" ng-model="vm.search.projectInvestmentType">
+			  			<option value="">---请选择---</option>
+			  			<option ng-repeat="x in vm.basicData.projectInvestmentType" value="{{x.id}}">{{x.description}}</option>
+			  		</select>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td colspan="6">
+  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search()"><span class="glyphicon glyphicon-search"></span>查询</button>
+  				</td>
+  			</tr>
+  		</table>
+  	</div>
+  	<div class="toolbar"> </div>
+    <form id="form" name="form">          
+        <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+   </form>
 </div>
 
 
