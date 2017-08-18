@@ -21,6 +21,7 @@ import cs.common.Response;
 import cs.common.sysResource.ClassFinder;
 import cs.common.sysResource.SysResourceDto;
 import cs.domain.BasicData;
+import cs.domain.UserUnitInfo;
 import cs.domain.framework.Resource;
 import cs.domain.framework.Role;
 import cs.domain.framework.Role_;
@@ -32,6 +33,7 @@ import cs.repository.common.BasicDataRepo;
 import cs.repository.framework.RoleRepoImpl;
 import cs.repository.framework.SysConfigRepoImpl;
 import cs.repository.framework.UserRepoImpl;
+import cs.repository.interfaces.IRepository;
 
 @Service
 public class SysServiceImpl implements SysService{
@@ -45,6 +47,8 @@ public class SysServiceImpl implements SysService{
 	private SysConfigRepoImpl sysConfigRepo;
 	@Autowired
 	private BasicDataRepo basicDataRepo;
+	@Autowired
+	private IRepository<UserUnitInfo, String> userUnitInfoRepo;
 	@Autowired
 	private IMapper<SysConfigDto,SysConfig> sysConfigMapper;
 	@Autowired
@@ -176,6 +180,13 @@ public class SysServiceImpl implements SysService{
 			unitUser.setPassword("888888");
 			unitUser.getRoles().add(role2);
 			userRepo.save(unitUser);
+			
+			UserUnitInfo userUnitInfo = new UserUnitInfo();
+			userUnitInfo.setId(UUID.randomUUID().toString());
+			userUnitInfo.setUnitName(userName);
+			userUnitInfo.setUserName(userName);
+			userUnitInfo.setRemark("系统初始化创建");
+			userUnitInfoRepo.save(userUnitInfo);
 		}
 		
 		response.setMessage("初始化成功");
