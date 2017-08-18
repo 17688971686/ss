@@ -17,6 +17,7 @@ import cs.domain.TaskHead;
 import cs.domain.TaskRecord;
 import cs.domain.framework.SysConfig;
 import cs.domain.framework.SysConfig_;
+import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.SendMsg;
 import cs.model.DomainDto.TaskHeadDto;
@@ -25,6 +26,7 @@ import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
+import cs.service.framework.UserService;
 import cs.service.interfaces.TaskHeadService;
 /**
  * @Description: 任务信息服务层
@@ -48,6 +50,8 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 	private ICurrentUser currentUser;
 	@Autowired
 	private BasicDataService basicDataService;
+	@Autowired
+	private UserService UserService;
 	
 	@Override
 	@Transactional
@@ -94,7 +98,11 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			dto.setTitle(taskHead.getTitle());
 			dto.setUnitName(taskHead.getUnitName());
 			dto.setProjectIndustry(taskHead.getProjectIndustry());
-			dto.setCreatedBy(currentUser.getLoginName());//设置创建人(这是重点)
+//			dto.setCreatedBy(currentUser.getLoginName());//设置创建人(这是重点)
+			User user = UserService.findUserByName(currentUser.getLoginName());
+			if(user !=null){
+				dto.setCreatedBy(user.getId());
+			}
 			dto.setModifiedBy(currentUser.getLoginName());
 			//判断任务是否完成
 			String processState = dto.getProcessState();

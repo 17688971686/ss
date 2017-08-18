@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.common.ICurrentUser;
 import cs.domain.Project;
+import cs.domain.UserUnitInfo;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ProjectDto;
@@ -27,6 +28,7 @@ import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.framework.UserService;
 import cs.service.interfaces.ProjectService;
+import cs.service.interfaces.UserUnitInfoService;
 
 @Controller
 @RequestMapping(name="申报端--项目管理",path="shenbaoAdmin/project")
@@ -38,7 +40,9 @@ public class ShenBaoAdminProjectController {
 	@Autowired
 	ICurrentUser currentUser;
 	@Autowired
-	private UserService UserService;
+	private UserService userService;
+	@Autowired
+	private UserUnitInfoService userUnitInfoService;
 	
 	@RequiresPermissions("shenbaoAdmin/project##get")
 	@RequestMapping(name = "获取项目信息", path = "",method=RequestMethod.GET)
@@ -51,13 +55,15 @@ public class ShenBaoAdminProjectController {
 	@RequiresPermissions("shenbaoAdmin/project#unitProject#get")
 	@RequestMapping(name = "获取单位项目信息", path = "unitProject",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> getUnitProject(HttpServletRequest request) throws ParseException {
-		User user = UserService.findUserByName(currentUser.getLoginName());
-		ODataObj odataObj = new ODataObj(request);	
+		//根据登陆名查找到单位信息
+		User user = userService.findUserByName(currentUser.getLoginName());
+		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(user.getId());
+		ODataObj odataObj = new ODataObj(request);
 		//设置过滤条件
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 		filterItem.setField("unitName");
 		filterItem.setOperator("eq");
-		filterItem.setValue(user.getId());
+		filterItem.setValue(userUnitInfo.getId());
 		odataObj.getFilter().add(filterItem);
 		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);		
 		return ProjectDtos;

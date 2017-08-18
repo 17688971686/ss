@@ -279,22 +279,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	
 	@Override
 	@Transactional
-	public void updateShenBaoInfoAuditState(String id, String auditState) {
-		ShenBaoInfo shenbaoInfo = super.findById(id);
-		if(shenbaoInfo !=null){
-			shenbaoInfo.setAuditState(auditState);
-			shenbaoInfo.setModifiedBy(currentUser.getLoginName());
-			shenbaoInfo.setModifiedDate(new Date());
-			
-			super.repository.save(shenbaoInfo);
-			logger.info(String.format("更新申报信息审核状态,项目名称 %s",shenbaoInfo.getProjectName()));
-		}else{
-			throw new IllegalArgumentException(String.format("没有查找到对应的申报信息"));
-		}
-	}
-
-	@Override
-	@Transactional
 	public void updateShenBaoInfo(ShenBaoInfoDto dto) {
 		ShenBaoInfo entity=super.update(dto,dto.getId());
 		//处理关联信息
@@ -367,7 +351,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskHead.setProcessState(BasicDataConfig.processState_tianBao);//设置工作流的状态
 		taskHead.setProcessSuggestion("材料填报");//设置处理意见
 		taskHead.setTaskType(this.getTaskType(shenBaoInfo.getProjectShenBaoStage()));//设置工作流的类型
-		taskHead.setUnitName(shenBaoInfo.getUnitName());//设置建设单位
+//		taskHead.setUnitName(shenBaoInfo.getUnitName());//设置建设单位
+		taskHead.setUnitName(shenBaoInfo.getConstructionUnit());//设置建设单位
 		taskHead.setProjectIndustry(shenBaoInfo.getProjectIndustry());//设置项目行业
 		taskHead.setCreatedBy(currentUser.getLoginName());
 		taskHead.setModifiedBy(currentUser.getLoginName());
@@ -425,7 +410,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			}
 			taskRecord.setTaskType(this.getTaskType(entity.getProjectShenBaoStage()));
 			taskRecord.setProcessSuggestion("材料填报");
-			taskRecord.setUnitName(entity.getUnitName());
+//			taskRecord.setUnitName(entity.getUnitName());
+			taskRecord.setUnitName(entity.getConstructionUnit());
 			taskRecord.setProjectIndustry(entity.getProjectIndustry());
 			taskRecord.setCreatedBy(currentUser.getLoginName());
 			taskRecord.setModifiedBy(currentUser.getLoginName());

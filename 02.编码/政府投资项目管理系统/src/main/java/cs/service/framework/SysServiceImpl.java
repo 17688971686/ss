@@ -166,12 +166,13 @@ public class SysServiceImpl implements SysService{
 		user.getRoles().add(role);
 		userRepo.save(user);
 		//初始化建设单位用户
-		String[] userNames = {"党工委管委会","组织人事局","社会建设局","城市管理局","光明供电局",
-								"文体教育局","光明交通运输局","城市建设局","发展和财政局","卫生计生局",
-								"光明公安分局","环境保护和水务局","经济服务局","纪检监察局","市规划和国土资源委员会光明管理局",
-								"综合办","公明办事处","光明办事处","马田办事处","凤凰办事处",
-								"公共资源交易中心","深圳市光明新区城市发展促进中心","机关后勤服务中心","土地整备中心","建筑工务和土地开发中心",
-								"光明消防大队","光明现役消防支队光明新区大队","规划土地监察大队","深水光明","经发公司"};
+//		String[] userNames = {"党工委管委会","组织人事局","社会建设局","城市管理局","光明供电局",
+//								"文体教育局","光明交通运输局","住房和建设局","发展和财政局","卫生计生局",
+//								"光明公安分局","环境保护和水务局","经济服务局","纪检监察局","市规划和国土资源委员会光明管理局",
+//								"综合办","公明办事处","光明办事处","马田办事处","凤凰办事处",
+//								"公共资源交易中心","深圳市光明新区城市发展促进中心","机关后勤服务中心","土地整备中心","建筑工务和土地开发中心",
+//								"光明消防大队","光明现役消防支队光明新区大队","规划土地监察大队","深水光明","经发公司"};
+		String[] userNames = {"住房和建设局"};
 		for(String userName : userNames){
 			User unitUser = new User();
 			unitUser.setId(UUID.randomUUID().toString());
@@ -184,7 +185,7 @@ public class SysServiceImpl implements SysService{
 			UserUnitInfo userUnitInfo = new UserUnitInfo();
 			userUnitInfo.setId(UUID.randomUUID().toString());
 			userUnitInfo.setUnitName(userName);
-			userUnitInfo.setUserName(userName);
+			userUnitInfo.setUserName(unitUser.getId());
 			userUnitInfo.setRemark("系统初始化创建");
 			userUnitInfoRepo.save(userUnitInfo);
 		}

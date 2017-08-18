@@ -45,4 +45,22 @@ public class UserUnitInfoServiceImpl extends AbstractServiceImpl<UserUnitInfoDto
 		super.repository.save(userUnitInfo);
 		logger.info(String.format("创建单位信息:%s", userName));
 	}
+
+	@Override
+	@Transactional
+	public UserUnitInfo getByUserName(String userName) {
+		UserUnitInfo userUnitInfo;
+		//根据用户名来判断是有有该用户单位这条记录
+		Criterion criterion=Restrictions.eq(UserUnitInfo_.userName.getName(), userName);
+		Optional<UserUnitInfo>	query_userUnitInfo =super.repository.findByCriteria(criterion).stream().findFirst();
+		if(query_userUnitInfo.isPresent()){
+			userUnitInfo = query_userUnitInfo.get();
+		}else{
+			userUnitInfo = new UserUnitInfo();
+		}
+		logger.info(String.format("根据登陆用户id查询单位信息:%s", userName));
+		return userUnitInfo;
+	}
+	
+	
 }

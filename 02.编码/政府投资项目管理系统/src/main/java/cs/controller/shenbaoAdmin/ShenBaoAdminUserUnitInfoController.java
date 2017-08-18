@@ -56,7 +56,8 @@ public class ShenBaoAdminUserUnitInfoController {
 	@RequiresPermissions("shenbaoAdmin/userUnitInfo##post")	
 	@RequestMapping(name = "保存当前用户的单位数据", path = "", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public @ResponseBody void post(@RequestBody UserUnitInfoDto userUnitInfoDto){		
-		 userUnitInfoService.save(currentUser.getLoginName(),userUnitInfoDto);
+	public @ResponseBody void post(@RequestBody UserUnitInfoDto userUnitInfoDto){
+		User user = UserService.findUserByName(currentUser.getLoginName());
+		 userUnitInfoService.save(user.getId(),userUnitInfoDto);
 	}
 }

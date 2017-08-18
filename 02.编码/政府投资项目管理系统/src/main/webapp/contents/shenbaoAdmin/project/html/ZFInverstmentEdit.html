@@ -278,9 +278,7 @@
 <td>操作</td>
 </tr>
 <tr ng-repeat="x in vm.relatedType">
-	<td>
-		{{x[1]}}
-	</td>
+	<td ng-bind-html="vm.html(x[1])"></td>
 	<td>
 		<div class="uploadBox" data-type="{{x[0]}}">
 			 <input name="files" type="file" kendo-upload  k-options="vm.uploadOptions"/>

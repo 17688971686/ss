@@ -208,12 +208,13 @@
 			
 			var httpSuccess = function success(response) {
 				vm.task = response.data.value[0] || {};
+				
 				if(vm.task){
 					vm.task.taskTypeDesc=common.getBasicDataDesc(vm.task.taskType);
 					if(vm.task.isComplete){//如果任务为已完成
 						vm.isComplete=true;
 					}
-				}	
+				}
 			};
 				
 			common.http({

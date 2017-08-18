@@ -617,12 +617,9 @@
 
 					},
 					{
-						field : "shenBaoUnitInfoDto.unitName",
+						field : "constructionUnit",
 						title : "建设单位",
 						width:120,
-						template:function(item){
-							return common.format(item.shenBaoUnitInfoDto.unitName);
-						},
 						filterable : false
 					},
 					{

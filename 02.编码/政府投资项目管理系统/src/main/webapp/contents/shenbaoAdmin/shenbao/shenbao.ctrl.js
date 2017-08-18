@@ -160,10 +160,10 @@
     		   }
     		  
     		   //初始化tab--禁止点击Tab切换
-//    		   $("#tab1").attr("disabled","true");
-//    		   $("#tab2").attr("disabled","true");
-//    		   $("#tab3").attr("disabled","true");
-//    		   $("#tab4").attr("disabled","true");
+    		   $("#tab1").attr("disabled","true");
+    		   $("#tab2").attr("disabled","true");
+    		   $("#tab3").attr("disabled","true");
+    		   $("#tab4").attr("disabled","true");
     	   };
     	   //初始化基础数据
     	   var init_basicData = function(){
