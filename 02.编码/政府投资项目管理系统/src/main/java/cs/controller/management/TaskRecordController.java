@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import cs.common.ICurrentUser;
 import cs.domain.TaskRecord;
+import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.TaskRecordDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
+import cs.service.framework.UserService;
 import cs.service.interfaces.IService;
 
 @Controller
@@ -25,16 +27,19 @@ public class TaskRecordController {
 	IService<TaskRecordDto, TaskRecord, String> taskRecordService;
 	@Autowired
 	ICurrentUser currentUser;
+	@Autowired
+	private UserService UserService;
 
 	@RequiresPermissions("management/taskRecord##get")
 	@RequestMapping(name = "获取任务流程", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<TaskRecordDto> getToDo(HttpServletRequest request) throws ParseException {
+		User user = UserService.findUserByName(currentUser.getLoginName());
 		ODataObj odataObj = new ODataObj(request);
 		//设置过滤条件
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 		filterItem.setField("createdBy");
 		filterItem.setOperator("eq");
-		filterItem.setValue(currentUser.getLoginName());
+		filterItem.setValue(user.getId());
 		odataObj.getFilter().add(filterItem);
 		PageModelDto<TaskRecordDto> taskRecordDtos = taskRecordService.get(odataObj);
 		return taskRecordDtos;
