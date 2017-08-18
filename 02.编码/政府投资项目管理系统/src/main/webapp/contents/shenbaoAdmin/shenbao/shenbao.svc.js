@@ -191,6 +191,7 @@
 			if (isValid) {
 				vm.isSubmit = true;
 				vm.model.projectType = common.arrayToString(vm.model.projectType,',');
+				vm.model.constructionUnit = common.arrayToString(vm.model.constructionUnit,',');
 				var httpOptions = {
 					method : 'put',
 					url : url_shenbao,
@@ -242,8 +243,14 @@
 				};
 				var httpSuccess = function success(response) {
 					vm.model = response.data.value[0]||{};
-						//多选框回显						
+						//多选框、建设单位回显						
 						vm.model.projectType = common.stringToArray(vm.model.projectType,',');
+						vm.model.constructionUnit = common.stringToArray(vm.model.constructionUnit,',');
+						if(vm.model.constructionUnit.length >1){
+							vm.canDelete = true;
+						}else{
+							vm.canDelete = false;
+						}
 						//vm.planYear = vm.model.planYear;
 						//日期展示
 						vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
@@ -338,6 +345,7 @@
 			if (isValid) {
 				vm.isSubmit = true;
 				vm.model.projectType = common.arrayToString(vm.model.projectType,',');
+				vm.model.constructionUnit = common.arrayToString(vm.model.constructionUnit,',');
 				var httpOptions = {
 					method : 'post',
 					url : url_shenbao,
@@ -388,6 +396,12 @@
 			
 			var httpSuccess = function success(response) {
 				vm.model.shenBaoUnitInfoDto = response.data.value[0] || {};
+				vm.model.constructionUnit.push(vm.model.shenBaoUnitInfoDto.unitName);//初始化建设单位为申报单位
+				if(vm.model.constructionUnit.length >1){
+					vm.canDelete = true;
+				}else{
+					vm.canDelete = false;
+				}
 			};
 			
 			common.http({
@@ -409,7 +423,10 @@
 			
 			var httpSuccess = function success(response) {
 				vm.model = response.data.value[0]||{};
-				//获取项目单位信息（用于设置申报单位信息）
+				
+				//初始化处理建设单位
+        		vm.model.constructionUnit = [];
+				//获取项目单位信息（用于设置申报单位信息、建设单位信息）
 				getProjectUnit(vm);
 				
 				if(vm.page=='edit'){//如果为申报信息填写页面

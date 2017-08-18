@@ -18,7 +18,6 @@
 			updateShenBaoInfoState:updateShenBaoInfoState,//更新申报信息的状态
 			addProjectToLibrary:addProjectToLibrary,//项目纳入项目库
 			updateShenBaoInfo:updateShenBaoInfo,//更新申报信息
-			updateAuditState:updateAuditState,//更新申报信息的审核状态
 			updateProject:updateProject,//更新项目基本信息
 			grid_planList:grid_planList,//年度计划列表
 			plan_create:plan_create,//创建年度计划
@@ -161,40 +160,7 @@
 			});
 		}
 		
-		/**
-		 *更新申报信息的审核状态
-		 */
-		function updateAuditState(vm,auditState){
-			var httpOptions = {
-					method : 'post',
-					url : common.format(url_shenbaoInfoList+"/updateAuditState"),
-					dataType:'json',
-					data:{"id":vm.id,"auditState":auditState}
-				};
-			
-			var httpSuccess = function success(response) {
-				common.requestSuccess({
-					vm : vm,
-					response : response,
-					fn : function() {
-						common.alert({
-							vm : vm,
-							msg : "操作成功",
-							fn : function() {
-								$('.alertDialog').modal('hide');
-							}
-						});
-					}
-				});
-			};
-			
-			common.http({
-				vm:vm,
-				$http:$http,
-				httpOptions:httpOptions,
-				success:httpSuccess
-			});
-		}
+		
 		/**
 		 *更新申报信息的状态 
 		 */
@@ -230,9 +196,9 @@
 			var isValid = $('form').valid();
 			if (isValid) {
 				vm.isSubmit = true;
-				//处理项目类型多选问题
+				//处理项目类型、建设单位多选问题
 				vm.model.shenBaoInfo.projectType=common.arrayToString(vm.model.shenBaoInfo.projectType,',');
-				vm.model.shenBaoInfo.auditState=common.basicDataConfig().auditState_noAudit;//后台修改保存申报信息之后默认为未审核状态
+				vm.model.shenBaoInfo.constructionUnit = common.arrayToString(vm.model.shenBaoInfo.constructionUnit,',');
 				//安排资金计算
 				vm.model.shenBaoInfo.yearInvestApproval=parseFloat(vm.model.shenBaoInfo.capitalAP_ggys_TheYear || 0) + parseFloat(vm.model.shenBaoInfo.capitalAP_gtzj_TheYear || 0);
 				vm.model.shenBaoInfo.yearInvestApproval_lastYear=parseFloat(vm.model.shenBaoInfo.capitalAP_ggys_LastYear || 0) + parseFloat(vm.model.shenBaoInfo.capitalAP_gtzj_LastYear || 0);
@@ -250,7 +216,8 @@
 						fn:function(){
 							$('.alertDialog').modal('hide');
 							$('.modal-backdrop').remove();
-							location.href=url_back_shenbaoInfoList;
+							vm.isSubmit = false;
+							//location.href=url_back_shenbaoInfoList;
 						}
 					});
 				};
@@ -364,8 +331,14 @@
 				vm.model.shenBaoInfo = response.data.value[0]||{};
 				//年度计划申报年份处理
 				vm.planYear = vm.model.shenBaoInfo.planYear;
-				//项目类型的显示
+				//项目类型、建设单位的显示
 				vm.model.shenBaoInfo.projectType = common.stringToArray(vm.model.shenBaoInfo.projectType,',');
+				vm.model.shenBaoInfo.constructionUnit=common.stringToArray(vm.model.shenBaoInfo.constructionUnit,",");
+				if(vm.model.shenBaoInfo.constructionUnit.length >1){
+					vm.canDelete = true;
+				}else{
+					vm.canDelete = false;
+				}
 				//判断项目的投资类型
 				if(vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_SH){//社会投资
 					vm.isSHInvestment = true;
@@ -947,6 +920,12 @@
 						filterable : true
 					},
 					{
+						field : "constructionUnit",
+						title : "建设单位",
+						width:200,
+						filterable : true
+					},
+					{
 						field : "projectConstrChar",
 						title : "建设性质",
 						width : 150,
@@ -1233,7 +1212,7 @@
 						filterable : true
 					},
 					{
-						field : "unitName",
+						field : "constructionUnit",
 						title : "建设单位",
 						filterable : true
 					},

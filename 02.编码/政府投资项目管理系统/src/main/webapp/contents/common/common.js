@@ -471,13 +471,12 @@
     }
     
     function stringToArray(str,substr){
-    	if(str.constructor == Array){
-    		return str;
-    	}
     	var arrTmp=[];
     	if(str !=null && str != ""){
+    		if(str.constructor == Array){
+        		return str;
+        	}
 	       	 if(substr==""){ 
-	       		 
 	       		 arrTmp.push(str); 
 	       		 return arrTmp; 
 	       	 } 
@@ -501,11 +500,11 @@
     }
     
     function arrayToString(arr,str){
-    	if(arr.constructor == String){
-    		return str;
-    	}
 		 var strTmp="";
 		 if(arr !=null && arr.length>0){
+			 if(arr.constructor == String){
+		    		return str;
+		    	}
 			 for(var i=0;i<arr.length;i++){ 
 	    		 if(arr[i]!=""){ 
 	    		  if(strTmp==""){ 

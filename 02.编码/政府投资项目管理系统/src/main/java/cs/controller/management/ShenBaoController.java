@@ -74,17 +74,6 @@ public class ShenBaoController {
 		shenBaoInfoService.updateShenBaoInfoState(taskRecordDto);
 	}
 	
-	@RequiresPermissions("management/shenbao#updateAuditState#post")
-	@RequestMapping(name = "更新申报数据的审核状态", path = "updateAuditState",method=RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.CREATED)
-	public void updateState(@RequestBody String json){
-		JSONObject jsonObject=(JSONObject) JSONObject.parse(json);
-		String id=jsonObject.getString("id");
-		String auditState=jsonObject.getString("auditState");
-		shenBaoInfoService.updateShenBaoInfoAuditState(id,auditState);
-	}
-
-	
 	@RequiresPermissions("management/shenbao##put")
 	@RequestMapping(name = "更新申报数据", path = "",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)

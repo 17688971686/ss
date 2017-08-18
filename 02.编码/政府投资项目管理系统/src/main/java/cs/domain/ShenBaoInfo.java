@@ -37,7 +37,10 @@ public class ShenBaoInfo extends BaseProject{
 	//begin#年度计划相关
 	@Column(columnDefinition="int NULL COMMENT '计划年度'")
 	private Integer planYear;
-
+	
+	@Column(columnDefinition="varchar(500) NULL COMMENT '建设单位'")
+	private String constructionUnit;
+	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '申请年度投资'")
 	private Double applyYearInvest;	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下一年申请年度投资'")
@@ -419,6 +422,10 @@ public class ShenBaoInfo extends BaseProject{
 	public void setCapitalAP_qita_LastTwoYear(Double capitalAP_qita_LastTwoYear) {
 		this.capitalAP_qita_LastTwoYear = capitalAP_qita_LastTwoYear;
 	}
-	
-	
+	public String getConstructionUnit() {
+		return constructionUnit;
+	}
+	public void setConstructionUnit(String constructionUnit) {
+		this.constructionUnit = constructionUnit;
+	}
 }
