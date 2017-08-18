@@ -128,8 +128,9 @@
 		 * 更新项目基本信息
 		 */
 		function updateProject(vm){
-			//处理项目类型多选问题
+			//处理项目类型多选、建设单位问题
 			vm.model.shenBaoInfo.projectType=common.arrayToString(vm.model.shenBaoInfo.projectType,',');
+			vm.model.shenBaoInfo.constructionUnit=common.arrayToString(vm.model.shenBaoInfo.constructionUnit,',');
 			var httpOptions = {
 					method : 'put',
 					url : common.format(url_shenbaoInfoList+"/updateProjectBasic"),
@@ -146,6 +147,7 @@
 							msg : "操作成功",
 							fn : function() {
 								$('.alertDialog').modal('hide');
+								vm.model.shenBaoInfo.constructionUnit=common.stringToArray(vm.model.shenBaoInfo.constructionUnit,',');
 							}
 						});
 					}
@@ -217,6 +219,8 @@
 							$('.alertDialog').modal('hide');
 							$('.modal-backdrop').remove();
 							vm.isSubmit = false;
+							vm.model.shenBaoInfo.projectType=common.stringToArray(vm.model.shenBaoInfo.projectType,',');
+							vm.model.shenBaoInfo.constructionUnit=common.stringToArray(vm.model.shenBaoInfo.constructionUnit,',');
 							//location.href=url_back_shenbaoInfoList;
 						}
 					});
