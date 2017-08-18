@@ -1,6 +1,7 @@
 package cs.controller.management;
 
 import java.text.ParseException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.common.ICurrentUser;
+import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.TaskHeadDto;
 import cs.model.DomainDto.TaskRecordDto;
 import cs.repository.odata.ODataObj;
+import cs.service.framework.UserService;
 import cs.service.interfaces.TaskHeadService;
 
 @Controller
@@ -28,6 +31,8 @@ public class TaskController {
 	@Autowired
 	TaskHeadService taskHeadService;
 	@Autowired
+	UserService userService;
+	@Autowired
 	ICurrentUser currentUser;
 
 	@RequiresPermissions("management/task##get")
@@ -35,6 +40,21 @@ public class TaskController {
 	public @ResponseBody PageModelDto<TaskHeadDto> getToDo(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.get(odataObj);
+		//关于创建用户id查找到名称
+		List<TaskHeadDto> taskHeadDtols = taskHeadDtos.getValue();
+		if(taskHeadDtols !=null && taskHeadDtols.size()>0){
+			taskHeadDtols.forEach(x->{
+				if(x.getTaskRecordDtos() !=null && x.getTaskRecordDtos().size()>0){
+					x.getTaskRecordDtos().forEach(y->{
+						User user = userService.findById(y.getCreatedBy());
+						if(user !=null){
+							y.setCreatedBy(user.getLoginName());
+						}
+					});
+				}
+			});
+			taskHeadDtos.setValue(taskHeadDtols);
+		}
 		return taskHeadDtos;
 	}
 	

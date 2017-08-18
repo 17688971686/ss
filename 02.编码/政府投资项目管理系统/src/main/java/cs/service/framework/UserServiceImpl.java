@@ -150,6 +150,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public void updateUser(UserDto userDto) {
 		User user = userRepo.findById(userDto.getId());
+		user.setLoginName(userDto.getLoginName());
 		user.setComment(userDto.getComment());
 		user.setDisplayName(userDto.getDisplayName());
 		user.setModifiedBy(currentUser.getLoginName());
@@ -250,8 +251,18 @@ public class UserServiceImpl implements UserService {
 			logger.info(String.format("修改密码,用户名:%s", userName));
 		}
 	}
+	
+	@Override
 	@Transactional
 	public User findUserByName(String userName){
 		return userRepo.findUserByName(userName);
 	}
+
+	@Override
+	@Transactional
+	public User findById(String id) {
+		logger.info(String.format("通过id查找用户,用户名id:%s", id));
+		return userRepo.findById(id);
+	}
+	
 }

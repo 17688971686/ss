@@ -526,7 +526,7 @@
     	f=Math.round(x*10000)/10000;
     	return f;
     }
-
+    
     //init
     init();
     function init() {

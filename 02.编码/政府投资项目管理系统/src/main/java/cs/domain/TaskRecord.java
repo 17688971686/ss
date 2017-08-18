@@ -43,10 +43,6 @@ public class TaskRecord extends BaseEntity {
 	@Column(columnDefinition="varchar(255) NULL COMMENT '建设单位名称'")
 	private String unitName;
 	
-	//因登陆名可以修改特添加
-	@Column(columnDefinition="varchar(255) NULL COMMENT '创建人的id'")
-	private String createId;
-	
 	public String getId() {
 		return id;
 	}
@@ -109,11 +105,5 @@ public class TaskRecord extends BaseEntity {
 	}
 	public void setUnitName(String unitName) {
 		this.unitName = unitName;
-	}
-	public String getCreateId() {
-		return createId;
-	}
-	public void setCreateId(String createId) {
-		this.createId = createId;
 	}
 }

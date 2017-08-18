@@ -28,6 +28,7 @@ import cs.domain.TaskHead_;
 import cs.domain.TaskRecord;
 import cs.domain.framework.SysConfig;
 import cs.domain.framework.SysConfig_;
+import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.SendMsg;
 import cs.model.DomainDto.AttachmentDto;
@@ -40,6 +41,7 @@ import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.framework.SysService;
+import cs.service.framework.UserService;
 import cs.service.interfaces.ShenBaoInfoService;
 /**
  * @Description: 申报信息服务层
@@ -73,6 +75,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private SysService sysService;
 	@Autowired
 	private BasicDataService basicDataService;
+	@Autowired
+	private UserService userService;
 	@Autowired
 	private ICurrentUser currentUser;
 	
@@ -354,8 +358,10 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 //		taskHead.setUnitName(shenBaoInfo.getUnitName());//设置建设单位
 		taskHead.setUnitName(shenBaoInfo.getConstructionUnit());//设置建设单位
 		taskHead.setProjectIndustry(shenBaoInfo.getProjectIndustry());//设置项目行业
-		taskHead.setCreatedBy(currentUser.getLoginName());
-		taskHead.setModifiedBy(currentUser.getLoginName());
+		//设置创建者与修改者
+		User user = userService.findUserByName(currentUser.getLoginName());
+		taskHead.setCreatedBy(user.getId());
+		taskHead.setModifiedBy(user.getId());
 				
 		//record
 		TaskRecord taskRecord=new TaskRecord();
@@ -369,8 +375,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskRecord.setProcessSuggestion("材料填报");//设置处理意见
 		taskRecord.setUnitName(taskHead.getUnitName());//设置建设单位
 		taskRecord.setProjectIndustry(taskHead.getProjectIndustry());//设置项目行业
-		taskRecord.setCreatedBy(currentUser.getLoginName());
-		taskRecord.setModifiedBy(currentUser.getLoginName());
+		taskRecord.setCreatedBy(taskHead.getCreatedBy());
+		taskRecord.setModifiedBy(taskHead.getModifiedBy());
 
 		taskHead.getTaskRecords().add(taskRecord);
 		taskHeadRepo.save(taskHead);
@@ -413,9 +419,11 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 //			taskRecord.setUnitName(entity.getUnitName());
 			taskRecord.setUnitName(entity.getConstructionUnit());
 			taskRecord.setProjectIndustry(entity.getProjectIndustry());
-			taskRecord.setCreatedBy(currentUser.getLoginName());
-			taskRecord.setModifiedBy(currentUser.getLoginName());
-							
+			//设置创建者与修改者
+			User user = userService.findUserByName(currentUser.getLoginName());
+			taskRecord.setCreatedBy(user.getId());
+			taskRecord.setModifiedBy(user.getId());
+			
 			taskHead.getTaskRecords().add(taskRecord);
 			taskHeadRepo.save(taskHead);
 		}
@@ -486,9 +494,11 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskRecord.setTaskType(taskHead.getTaskType());
 		taskRecord.setUnitName(taskHead.getUnitName());
 		taskRecord.setProjectIndustry(taskHead.getProjectIndustry());
-		taskRecord.setCreatedBy(currentUser.getLoginName());
-		taskRecord.setModifiedBy(currentUser.getLoginName());
-						
+		//设置创建者与修改者
+		User user = userService.findUserByName(currentUser.getLoginName());
+		taskRecord.setCreatedBy(user.getId());
+		taskRecord.setModifiedBy(user.getId());
+		
 		taskHead.getTaskRecords().add(taskRecord);
 		//更新任务状态
 		taskHead.setProcessState(dto.getProcessState());
