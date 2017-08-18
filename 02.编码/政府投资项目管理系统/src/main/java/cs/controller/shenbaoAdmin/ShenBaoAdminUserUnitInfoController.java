@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.common.ICurrentUser;
+import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.UserUnitInfoDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
+import cs.service.framework.UserService;
 import cs.service.interfaces.UserUnitInfoService;
 
 @Controller
@@ -28,6 +30,8 @@ public class ShenBaoAdminUserUnitInfoController {
 	private ICurrentUser currentUser;
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
+	@Autowired
+	private UserService UserService;
 	
 	@RequiresPermissions("shenbaoAdmin/userUnitInfo#userName#get")
 	@RequestMapping(name = "获取用户的单位数据", path = "userName", method = RequestMethod.GET)
@@ -39,11 +43,12 @@ public class ShenBaoAdminUserUnitInfoController {
 	@RequiresPermissions("shenbaoAdmin/userUnitInfo##get")	
 	@RequestMapping(name = "获取当前登录用户的单位数据", path = "", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserUnitInfoDto> getUserUnit(HttpServletRequest request) throws ParseException{
+		User user = UserService.findUserByName(currentUser.getLoginName());
 		ODataObj odataObj = new ODataObj(request);
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 		filterItem.setField("userName");
 		filterItem.setOperator("eq");		
-		filterItem.setValue(currentUser.getLoginName());
+		filterItem.setValue(user.getId());
 		odataObj.getFilter().add(filterItem);
 		return userUnitInfoService.get(odataObj);
 	}
