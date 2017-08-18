@@ -2,8 +2,15 @@
 <table class="table table-bordered table-striped ">
 		<tr>
 			<td class="formAlignRight" style="width:150px;">项目建设性质：</td>
-			<td colspan="3">
+			<td>
 				<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectConstrChar)"></span>				
+			</td>
+			<td class="formAlignRight" style="width:150px;">建设单位名称：</td>
+			<td>
+				<div ng-repeat="x in vm.model.shenBaoInfo.constructionUnit">
+					<span>单位{{$index+1}}：</span>
+					<span class="text-primary" ng-bind="vm.model.shenBaoInfo.constructionUnit[$index]"/></span>
+				</div>
 			</td>
 		</tr>
 		

@@ -267,8 +267,15 @@ overflow: scroll !important;
 	<table class="table table-bordered table-striped ">
 		<tr>
 			<td class="formAlignRight" style="width:150px;">项目建设性质</td>
-			<td colspan="3">
+			<td style="width:30%">
 				<span ng-bind="vm.model.projectConstrCharDesc"></span>
+			</td>
+			<td class="formAlignRight" style="width:180px;">建设单位名称：</td>
+			<td>
+				<div ng-repeat="x in vm.model.constructionUnit">
+					<span>单位{{$index+1}}：</span>
+					<span class="text-primary" ng-bind="vm.model.constructionUnit[$index]"></span>
+				</div>
 			</td>
 		</tr>
 		

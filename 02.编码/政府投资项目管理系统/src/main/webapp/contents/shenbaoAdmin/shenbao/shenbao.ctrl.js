@@ -160,10 +160,10 @@
     		   }
     		  
     		   //初始化tab--禁止点击Tab切换
-    		   $("#tab1").attr("disabled","true");
-    		   $("#tab2").attr("disabled","true");
-    		   $("#tab3").attr("disabled","true");
-    		   $("#tab4").attr("disabled","true");
+//    		   $("#tab1").attr("disabled","true");
+//    		   $("#tab2").attr("disabled","true");
+//    		   $("#tab3").attr("disabled","true");
+//    		   $("#tab4").attr("disabled","true");
     	   };
     	   //初始化基础数据
     	   var init_basicData = function(){
@@ -316,7 +316,23 @@
     				vm.tabStrip.activateTab(activeTab);
     			}
      		};
-  		
+     	//添加建设单位
+ 		vm.addUnit=function(){
+ 			vm.model.constructionUnit.push('');
+ 			if(vm.model.constructionUnit.length >1){
+				vm.canDelete = true;
+			}
+ 		};
+     	//删除建设单位
+	   vm.deleteUnit=function(idx){
+		   if(vm.canDelete){
+				vm.model.constructionUnit.splice(idx,1);
+				if(vm.model.constructionUnit.length <=1){
+					vm.canDelete = false;
+				}
+			}
+	   };
+     	   
   		 //确认提交
     	vm.submit = function(){
     		shenbaoSvc.createShenBaoInfo(vm);

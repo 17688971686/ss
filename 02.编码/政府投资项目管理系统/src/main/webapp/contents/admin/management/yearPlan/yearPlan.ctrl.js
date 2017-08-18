@@ -112,8 +112,8 @@
      		   if(vm.search.planYear !=null && vm.search.planYear !=''){//查询条件--计划年度
      			  filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear)});
      		   }
-     		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--建设单位名称
-     			  filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
+     		   if(vm.search.constructionUnit !=null && vm.search.constructionUnit !=''){//查询条件--建设单位名称
+     			  filters.push({field:'constructionUnit',operator:'contains',value:vm.search.constructionUnit});
      		   }
      		   if(vm.search.auditState !=null && vm.search.auditState !=''){//查询条件--审核状态
      			  filters.push({field:'auditState',operator:'eq',value:vm.search.auditState});
@@ -331,7 +331,22 @@
      				vm.tabStrip.activateTab(activeTab);
      			}
       		};
-      		
+      	//添加建设单位
+ 		vm.addUnit=function(){
+ 			vm.model.shenBaoInfo.constructionUnit.push('');
+ 			if(vm.model.shenBaoInfo.constructionUnit.length >1){
+				vm.canDelete = true;
+			}
+ 		};
+     	//删除建设单位
+	   vm.deleteUnit=function(idx){
+		   if(vm.canDelete){
+				vm.model.shenBaoInfo.constructionUnit.splice(idx,1);
+				if(vm.model.shenBaoInfo.constructionUnit.length <=1){
+					vm.canDelete = false;
+				}
+			}
+	   };
       	//项目纳入项目库
   		vm.addProjectToLibray=function(){
   			yearPlanSvc.addProjectToLibrary(vm);
@@ -342,11 +357,13 @@
   		};
   		//确认更新
      	vm.update = function(){
+     		vm.model.shenBaoInfo.auditState=common.basicDataConfig().auditState_noAudit;//后台修改保存申报信息之后默认为未审核状态
      		yearPlanSvc.updateShenBaoInfo(vm);
      	};
      	//更新审核状态
      	vm.updateAuditState=function(auditState){
-     		yearPlanSvc.updateAuditState(vm,auditState);
+     		vm.model.shenBaoInfo.auditState = auditState;
+     		yearPlanSvc.updateShenBaoInfo(vm);
      	};
     }//end#init_shenbaoInfoEdit
 
@@ -393,8 +410,8 @@
      		   if(vm.search.planYear !=null && vm.search.planYear !=''){//查询条件--计划年度
      			  filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear)});
      		   }
-     		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--建设单位名称
-     			  filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
+     		   if(vm.search.constructionUnit !=null && vm.search.constructionUnit !=''){//查询条件--建设单位名称
+     			  filters.push({field:'constructionUnit',operator:'contains',value:vm.search.constructionUnit});
      		   }
      		   if(vm.search.auditState !=null && vm.search.auditState !=''){//查询条件--审核状态
      			  filters.push({field:'auditState',operator:'eq',value:vm.search.auditState});
