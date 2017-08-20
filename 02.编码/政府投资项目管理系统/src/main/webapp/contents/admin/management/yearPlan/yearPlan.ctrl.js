@@ -126,7 +126,8 @@
     		};
     		//申报详情模态框
     		vm.dialog_shenbaoInfo = function(id){
-    			yearPlanSvc.getShenBaoInfoById(vm,id);
+    			vm.id = id;
+    			yearPlanSvc.getShenBaoInfoById(vm);
     			$('#shenbaoInfo').modal({
                     backdrop: 'static',
                     keyboard:false
