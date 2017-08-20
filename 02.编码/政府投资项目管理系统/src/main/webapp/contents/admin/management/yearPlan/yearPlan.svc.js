@@ -138,6 +138,7 @@
 				};
 			
 			var httpSuccess = function success(response) {
+				vm.model.shenBaoInfo.constructionUnit=common.stringToArray(vm.model.shenBaoInfo.constructionUnit,',');
 				common.requestSuccess({
 					vm : vm,
 					response : response,
@@ -147,7 +148,6 @@
 							msg : "操作成功",
 							fn : function() {
 								$('.alertDialog').modal('hide');
-								vm.model.shenBaoInfo.constructionUnit=common.stringToArray(vm.model.shenBaoInfo.constructionUnit,',');
 							}
 						});
 					}
@@ -212,6 +212,7 @@
 					};
 			
 				var httpSuccess = function success(response) {
+					vm.model.shenBaoInfo.constructionUnit=common.stringToArray(vm.model.shenBaoInfo.constructionUnit,',');
 					common.alert({
 						vm:vm,
 						msg:"操作成功！",
@@ -219,8 +220,6 @@
 							$('.alertDialog').modal('hide');
 							$('.modal-backdrop').remove();
 							vm.isSubmit = false;
-							vm.model.shenBaoInfo.projectType=common.stringToArray(vm.model.shenBaoInfo.projectType,',');
-							vm.model.shenBaoInfo.constructionUnit=common.stringToArray(vm.model.shenBaoInfo.constructionUnit,',');
 							//location.href=url_back_shenbaoInfoList;
 						}
 					});
@@ -325,10 +324,10 @@
 		/**
 		 * 根据id获取申报信息
 		 */
-		function getShenBaoInfoById(vm,id){
+		function getShenBaoInfoById(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_shenbaoInfoList + "?$filter=id eq '{0}'", id)
+					url : common.format(url_shenbaoInfoList + "?$filter=id eq '{0}'", vm.id)
 				};
 			
 			var httpSuccess = function success(response) {

@@ -213,15 +213,18 @@
     	init_page();
     	init_basicData();
     	
-    	yearPlanSvc.getShenBaoInfoById(vm,vm.id);
+    	yearPlanSvc.getShenBaoInfoById(vm);
     	
    		//获取项目类型， 多选
    		vm.updateSelection = function(id){
-        	var index = vm.model.projectType.indexOf(id);
+   			if(vm.model.shenBaoInfo.projectType.constructor == String){
+   				vm.model.shenBaoInfo.projectType=common.stringToArray(vm.model.shenBaoInfo.projectType);
+   			}
+        	var index = vm.model.shenBaoInfo.projectType.indexOf(id);
         	if(index == -1){
-        		vm.model.projectType.push(id);
+        		vm.model.shenBaoInfo.projectType.push(id);
 	       	}else{
-	       		vm.model.projectType.splice(index,1);
+	       		vm.model.shenBaoInfo.projectType.splice(index,1);
 	       	}	        	
         };
         
@@ -333,6 +336,9 @@
       		};
       	//添加建设单位
  		vm.addUnit=function(){
+ 			if(vm.model.shenBaoInfo.constructionUnit.constructor == String){
+ 				vm.model.shenBaoInfo.constructionUnit=common.stringToArray(vm.model.shenBaoInfo.constructionUnit);
+ 			}
  			vm.model.shenBaoInfo.constructionUnit.push('');
  			if(vm.model.shenBaoInfo.constructionUnit.length >1){
 				vm.canDelete = true;
