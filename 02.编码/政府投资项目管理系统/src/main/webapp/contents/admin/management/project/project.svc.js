@@ -28,7 +28,7 @@
 		function getProjectUnit(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_userUnit + "?$filter=userName eq '{0}'", vm.model.unitName)
+					url : common.format(url_userUnit + "?$filter=id eq '{0}'", vm.model.unitName)
 				};
 			
 			var httpSuccess = function success(response) {
@@ -42,6 +42,7 @@
 				success : httpSuccess
 			});
 		}
+
 		
 		/**
 		 * 获取当前登录用户用户的单位信息
@@ -392,7 +393,7 @@
 						field : "unitName",
 						title : "建设单位",
 						width : 150,
-						filterable : true
+						filterable:false
 					},
 					{
 						field : "projectStage",

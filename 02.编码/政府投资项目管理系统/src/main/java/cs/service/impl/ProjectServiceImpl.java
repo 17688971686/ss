@@ -65,7 +65,6 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		return super.get(odataObj);		
 	}
 
-	
 	@Override
 	@Transactional
 	public Project update(ProjectDto projectDto,String id) {		
