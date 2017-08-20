@@ -36,7 +36,9 @@
 				};
 			
 			var httpSuccess = function success(response) {
+				
 				vm.model.shenBaoInfoRecords = response.data.value;
+				vm.model.constructionUnit = common.stringToArray(vm.model.constructionUnit);
 				 var list = [];
 	        	   if(vm.model.shenBaoInfoRecords.length >0){
 	        		   for (var i = 0; i < vm.model.shenBaoInfoRecords.length; i++) {
@@ -355,6 +357,7 @@
 				};
 
 				var httpSuccess = function success(response) {
+					vm.model.constructionUnit = common.stringToArray(vm.model.constructionUnit);
 					common.requestSuccess({
 						vm : vm,
 						response : response,

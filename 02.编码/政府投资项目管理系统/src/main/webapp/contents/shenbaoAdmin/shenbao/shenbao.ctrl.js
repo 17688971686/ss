@@ -318,6 +318,9 @@
      		};
      	//添加建设单位
  		vm.addUnit=function(){
+ 			if(vm.model.constructionUnit.constructor == String){
+ 				vm.model.constructionUnit = common.stringToArray(vm.model.constructionUnit);
+ 			}
  			vm.model.constructionUnit.push('');
  			if(vm.model.constructionUnit.length >1){
 				vm.canDelete = true;

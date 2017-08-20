@@ -174,6 +174,7 @@
 				};
 			
 			var httpSuccess = function success(response) {
+				vm.model.shenBaoInfo.projectType=common.stringToArray(vm.model.shenBaoInfo.projectType,',');
 				common.alert({
 					vm:vm,
 					msg:"操作成功！",
