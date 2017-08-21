@@ -11,15 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import cs.common.ICurrentUser;
 import cs.domain.BaseEntity;
+import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
+import cs.service.framework.UserService;
 import cs.service.interfaces.IService;
 
 public abstract class AbstractServiceImpl<Dto, Entity extends BaseEntity, ID > implements IService<Dto, Entity, ID > {
 	@Autowired
 	public IRepository<Entity, ID> repository;
+	@Autowired
+	public UserService userService;
 	@Autowired
 	public IMapper<Dto, Entity> mapper;
 	@Autowired
@@ -55,9 +59,15 @@ public abstract class AbstractServiceImpl<Dto, Entity extends BaseEntity, ID > i
 				e.printStackTrace();
 			}
 			if(entity!=null){
-				mapper.buildEntity(dto, entity);	
-				entity.setCreatedBy(currentUser.getLoginName());
-				entity.setModifiedBy(currentUser.getLoginName());
+				mapper.buildEntity(dto, entity);
+				User user = userService.findUserByName(currentUser.getLoginName());
+				if(user !=null){
+					entity.setCreatedBy(user.getId());
+					entity.setModifiedBy(user.getId());
+				}else{
+					entity.setCreatedBy(currentUser.getLoginName());
+					entity.setModifiedBy(currentUser.getLoginName());
+				}
 			}					
 		}
 		return entity;
@@ -67,8 +77,13 @@ public abstract class AbstractServiceImpl<Dto, Entity extends BaseEntity, ID > i
 	public Entity update(Dto dto,ID id) {
 		Entity entity=repository.findById(id);
 		if(entity!=null){
-			mapper.buildEntity(dto, entity);		
-			entity.setModifiedBy(currentUser.getLoginName());
+			mapper.buildEntity(dto, entity);
+			User user = userService.findUserByName(currentUser.getLoginName());
+			if(user !=null){
+				entity.setModifiedBy(user.getId());
+			}else{
+				entity.setModifiedBy(currentUser.getLoginName());
+			}
 			entity.setModifiedDate(new Date());
 		}		
 		return entity;

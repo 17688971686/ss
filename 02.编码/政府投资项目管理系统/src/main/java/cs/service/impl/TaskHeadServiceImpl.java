@@ -102,8 +102,12 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			User user = UserService.findUserByName(currentUser.getLoginName());
 			if(user !=null){
 				dto.setCreatedBy(user.getId());
+				dto.setModifiedBy(user.getId());
+			}else{
+				dto.setCreatedBy(currentUser.getLoginName());
+				dto.setModifiedBy(currentUser.getLoginName());
 			}
-			dto.setModifiedBy(currentUser.getLoginName());
+			
 			//判断任务是否完成
 			String processState = dto.getProcessState();
 			if(isComplete(processState)){//如果已完成

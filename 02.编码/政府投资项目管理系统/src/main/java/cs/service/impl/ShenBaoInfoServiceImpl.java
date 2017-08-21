@@ -193,7 +193,12 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 					super.repository.save(shenbaoInfo);
 					
 					project.setIsIncludLibrary(true);
-					project.setModifiedBy(currentUser.getLoginName());
+					User user = userService.findUserByName(currentUser.getLoginName());
+					if(user !=null){
+						project.setModifiedBy(user.getId());
+					}else{
+						project.setModifiedBy(currentUser.getLoginName());
+					}
 					project.setModifiedDate(new Date());
 					projectRepo.save(project);
 					logger.info(String.format("项目纳入项目库,项目名称 %s",project.getProjectName()));
@@ -239,7 +244,12 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			project.setProjectGuiMo(dto.getProjectGuiMo());//项目规模
 			project.setRemark(dto.getRemark());//项目基本信息备注
 			//修改人&修改时间
-			project.setModifiedBy(currentUser.getLoginName());
+			User user = userService.findUserByName(currentUser.getLoginName());
+			if(user !=null){
+				project.setModifiedBy(user.getId());
+			}else{
+				project.setModifiedBy(currentUser.getLoginName());
+			}
 			project.setModifiedDate(new Date());
 			projectRepo.save(project);
 			//同步更新申报信息
