@@ -12,7 +12,7 @@
 		<td class="formAlignRight" style="width:150px;">建设单位名称：</td>
 		<td>
 			<div>
-				<div ng-repeat="x in vm.constructionUnits">
+				<div ng-repeat="x in vm.constructionUnits track by $index">
 					<span>单位{{$index+1}}：</span>
 					<input class="form-control input-sm" type="text" style="width:300px;" placeholder="请输入单位名称" ng-model="vm.constructionUnits[$index]"/>&nbsp;&nbsp;
 					<input class='btn btn-xs btn-danger' type='button' ng-click='vm.deleteUnit($index)' value='删除单位' ng-disabled="!vm.canDelete"/>
