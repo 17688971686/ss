@@ -60,15 +60,9 @@ public abstract class AbstractServiceImpl<Dto, Entity extends BaseEntity, ID > i
 			}
 			if(entity!=null){
 				mapper.buildEntity(dto, entity);
-				User user = userService.findUserByName(currentUser.getLoginName());
-				if(user !=null){
-					entity.setCreatedBy(user.getId());
-					entity.setModifiedBy(user.getId());
-				}else{
-					entity.setCreatedBy(currentUser.getLoginName());
-					entity.setModifiedBy(currentUser.getLoginName());
-				}
-			}					
+				entity.setCreatedBy(currentUser.getUserId());
+				entity.setModifiedBy(currentUser.getUserId());
+			}
 		}
 		return entity;
 	}
@@ -78,12 +72,7 @@ public abstract class AbstractServiceImpl<Dto, Entity extends BaseEntity, ID > i
 		Entity entity=repository.findById(id);
 		if(entity!=null){
 			mapper.buildEntity(dto, entity);
-			User user = userService.findUserByName(currentUser.getLoginName());
-			if(user !=null){
-				entity.setModifiedBy(user.getId());
-			}else{
-				entity.setModifiedBy(currentUser.getLoginName());
-			}
+			entity.setModifiedBy(currentUser.getUserId());
 			entity.setModifiedDate(new Date());
 		}		
 		return entity;

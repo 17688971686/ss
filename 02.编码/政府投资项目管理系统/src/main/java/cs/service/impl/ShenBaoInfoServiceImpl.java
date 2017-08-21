@@ -188,17 +188,12 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 					throw new IllegalArgumentException(String.format("项目：%s 已纳入项目库",project.getProjectName()));
 				}else{
 					shenbaoInfo.setIsIncludLibrary(true);
-					shenbaoInfo.setModifiedBy(currentUser.getLoginName());
+					shenbaoInfo.setModifiedBy(currentUser.getUserId());
 					shenbaoInfo.setModifiedDate(new Date());
 					super.repository.save(shenbaoInfo);
 					
 					project.setIsIncludLibrary(true);
-					User user = userService.findUserByName(currentUser.getLoginName());
-					if(user !=null){
-						project.setModifiedBy(user.getId());
-					}else{
-						project.setModifiedBy(currentUser.getLoginName());
-					}
+					project.setModifiedBy(currentUser.getUserId());
 					project.setModifiedDate(new Date());
 					projectRepo.save(project);
 					logger.info(String.format("项目纳入项目库,项目名称 %s",project.getProjectName()));
@@ -244,12 +239,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			project.setProjectGuiMo(dto.getProjectGuiMo());//项目规模
 			project.setRemark(dto.getRemark());//项目基本信息备注
 			//修改人&修改时间
-			User user = userService.findUserByName(currentUser.getLoginName());
-			if(user !=null){
-				project.setModifiedBy(user.getId());
-			}else{
-				project.setModifiedBy(currentUser.getLoginName());
-			}
+			project.setModifiedBy(currentUser.getUserId());
 			project.setModifiedDate(new Date());
 			projectRepo.save(project);
 			//同步更新申报信息
@@ -266,7 +256,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		ShenBaoInfo shenbaoInfo = super.repository.findById(dto.getRelId());
 		if(shenbaoInfo !=null){
 			shenbaoInfo.setProcessState(dto.getProcessState());
-			shenbaoInfo.setModifiedBy(currentUser.getLoginName());
+			shenbaoInfo.setModifiedBy(currentUser.getUserId());
 			shenbaoInfo.setModifiedDate(new Date());
 			
 			super.repository.save(shenbaoInfo);
@@ -370,9 +360,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskHead.setUnitName(shenBaoInfo.getConstructionUnit());//设置建设单位
 		taskHead.setProjectIndustry(shenBaoInfo.getProjectIndustry());//设置项目行业
 		//设置创建者与修改者
-		User user = userService.findUserByName(currentUser.getLoginName());
-		taskHead.setCreatedBy(user.getId());
-		taskHead.setModifiedBy(user.getId());
+		taskHead.setCreatedBy(currentUser.getUserId());
+		taskHead.setModifiedBy(currentUser.getUserId());
 				
 		//record
 		TaskRecord taskRecord=new TaskRecord();
@@ -433,9 +422,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			taskRecord.setUnitName(entity.getConstructionUnit());
 			taskRecord.setProjectIndustry(entity.getProjectIndustry());
 			//设置创建者与修改者
-			User user = userService.findUserByName(currentUser.getLoginName());
-			taskRecord.setCreatedBy(user.getId());
-			taskRecord.setModifiedBy(user.getId());
+			taskRecord.setCreatedBy(currentUser.getUserId());
+			taskRecord.setModifiedBy(currentUser.getUserId());
 			
 			taskHead.getTaskRecords().add(taskRecord);
 			taskHeadRepo.save(taskHead);
@@ -508,9 +496,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskRecord.setUnitName(taskHead.getUnitName());
 		taskRecord.setProjectIndustry(taskHead.getProjectIndustry());
 		//设置创建者与修改者
-		User user = userService.findUserByName(currentUser.getLoginName());
-		taskRecord.setCreatedBy(user.getId());
-		taskRecord.setModifiedBy(user.getId());
+		taskRecord.setCreatedBy(currentUser.getUserId());
+		taskRecord.setModifiedBy(currentUser.getUserId());
 		
 		taskHead.getTaskRecords().add(taskRecord);
 		//更新任务状态

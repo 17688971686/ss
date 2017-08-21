@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
 			user.setLoginName(userDto.getLoginName());
 			user.setDisplayName(userDto.getDisplayName());
 			user.setId(UUID.randomUUID().toString());
-			user.setCreatedBy(currentUser.getLoginName());
+			user.setCreatedBy(currentUser.getUserId());
 			user.setPassword(userDto.getPassword());
 
 			// 加入角色
@@ -153,7 +153,7 @@ public class UserServiceImpl implements UserService {
 		user.setLoginName(userDto.getLoginName());
 		user.setComment(userDto.getComment());
 		user.setDisplayName(userDto.getDisplayName());
-		user.setModifiedBy(currentUser.getLoginName());
+		user.setModifiedBy(currentUser.getUserId());
 
 		// 清除已有role
 		user.getRoles().clear();
@@ -195,6 +195,7 @@ public class UserServiceImpl implements UserService {
 				if(hasRole){
 					currentUser.setLoginName(user.getLoginName());
 					currentUser.setDisplayName(user.getDisplayName());
+					currentUser.setUserId(user.getId());
 					Date lastLoginDate=user.getLastLoginDate();
 					if(lastLoginDate!=null){
 						currentUser.setLastLoginDate(user.getLastLoginDate());

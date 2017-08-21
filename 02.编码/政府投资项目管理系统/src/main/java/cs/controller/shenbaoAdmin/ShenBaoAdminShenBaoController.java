@@ -35,8 +35,6 @@ public class ShenBaoAdminShenBaoController {
 	@Autowired
 	ICurrentUser currentUser;
 	@Autowired
-	private UserService UserService;
-	@Autowired
 	private UserUnitInfoService userUnitInfoService;
 	@Autowired
 	private BasicDataService basicDataService;
@@ -64,8 +62,7 @@ public class ShenBaoAdminShenBaoController {
 	@RequestMapping(name = "获取单位申报信息", path = "unit",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getByUnit(HttpServletRequest request) throws ParseException{
 		//根据当前登陆用户查找到单位信息
-		User user = UserService.findUserByName(currentUser.getLoginName());
-		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(user.getId());
+		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
 		ODataObj odataObj = new ODataObj(request);
 		//设置过滤条件
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();

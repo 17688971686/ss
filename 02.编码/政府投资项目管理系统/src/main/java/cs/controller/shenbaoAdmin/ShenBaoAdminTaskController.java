@@ -28,19 +28,16 @@ public class ShenBaoAdminTaskController {
 	TaskHeadService taskHeadService;
 	@Autowired
 	ICurrentUser currentUser;
-	@Autowired
-	private UserService UserService;
 	
 	@RequiresPermissions("shenbaoAdmin/task##get")
 	@RequestMapping(name = "获取当前用户所有的任务流程", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<TaskHeadDto> getToDo(HttpServletRequest request) throws ParseException {
-		User user = UserService.findUserByName(currentUser.getLoginName());
 		ODataObj odataObj = new ODataObj(request);
 		//设置过滤条件(仅查询当前用户)
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 		filterItem.setField("createdBy");
 		filterItem.setOperator("eq");
-		filterItem.setValue(user.getId());
+		filterItem.setValue(currentUser.getUserId());
 		odataObj.getFilter().add(filterItem);
 		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.get(odataObj);
 		return taskHeadDtos;

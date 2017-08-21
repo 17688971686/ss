@@ -30,9 +30,7 @@ public class ShenBaoAdminUserUnitInfoController {
 	private ICurrentUser currentUser;
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
-	@Autowired
-	private UserService UserService;
-	
+
 	@RequiresPermissions("shenbaoAdmin/userUnitInfo#userName#get")
 	@RequestMapping(name = "获取用户的单位数据", path = "userName", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserUnitInfoDto> getProjectUnit(HttpServletRequest request) throws ParseException{
@@ -43,12 +41,11 @@ public class ShenBaoAdminUserUnitInfoController {
 	@RequiresPermissions("shenbaoAdmin/userUnitInfo##get")	
 	@RequestMapping(name = "获取当前登录用户的单位数据", path = "", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserUnitInfoDto> getUserUnit(HttpServletRequest request) throws ParseException{
-		User user = UserService.findUserByName(currentUser.getLoginName());
 		ODataObj odataObj = new ODataObj(request);
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 		filterItem.setField("userName");
 		filterItem.setOperator("eq");		
-		filterItem.setValue(user.getId());
+		filterItem.setValue(currentUser.getUserId());
 		odataObj.getFilter().add(filterItem);
 		return userUnitInfoService.get(odataObj);
 	}
@@ -57,7 +54,6 @@ public class ShenBaoAdminUserUnitInfoController {
 	@RequestMapping(name = "保存当前用户的单位数据", path = "", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public @ResponseBody void post(@RequestBody UserUnitInfoDto userUnitInfoDto){
-		User user = UserService.findUserByName(currentUser.getLoginName());
-		 userUnitInfoService.save(user.getId(),userUnitInfoDto);
+		 userUnitInfoService.save(currentUser.getUserId(),userUnitInfoDto);
 	}
 }

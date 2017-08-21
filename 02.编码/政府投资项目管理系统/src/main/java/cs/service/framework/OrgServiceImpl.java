@@ -71,7 +71,7 @@ public class OrgServiceImpl implements OrgService {
 			org.setComment(orgDto.getComment());
 			org.setName(orgDto.getName());
 			org.setId(UUID.randomUUID().toString());
-			org.setCreatedBy(currentUser.getLoginName());
+			org.setCreatedBy(currentUser.getUserId());
 			org.setOrgIdentity(orgDto.getOrgIdentity());
 
 			orgRepo.save(org);
@@ -90,7 +90,7 @@ public class OrgServiceImpl implements OrgService {
 		Org org = orgRepo.findById(orgDto.getId());
 		org.setComment(orgDto.getComment());
 		org.setName(orgDto.getName());
-		org.setModifiedBy(currentUser.getLoginName());
+		org.setModifiedBy(currentUser.getUserId());
 
 		orgRepo.save(org);
 		logger.info(String.format("更新部门,部门名:%s", orgDto.getName()));

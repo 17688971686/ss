@@ -625,8 +625,8 @@ public class SysServiceImpl implements SysService{
 			sysconfig.setConfigName(sysConfigDto.getConfigName());
 			sysconfig.setConfigValue(sysConfigDto.getConfigValue());
 			sysconfig.setEnable(sysConfigDto.getEnable());
-			sysconfig.setCreatedBy(currentUser.getLoginName());
-			sysconfig.setModifiedBy(currentUser.getLoginName());
+			sysconfig.setCreatedBy(currentUser.getUserId());
+			sysconfig.setModifiedBy(currentUser.getUserId());
 			sysconfig.setConfigType(sysConfigDto.getConfigType());
 			
 			sysConfigRepo.save(sysconfig);

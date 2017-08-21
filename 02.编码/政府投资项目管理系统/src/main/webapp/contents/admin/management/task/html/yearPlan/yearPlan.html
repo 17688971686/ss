@@ -7,9 +7,9 @@
 			</td>
 			<td class="formAlignRight" style="width:150px;">建设单位名称：</td>
 			<td>
-				<div ng-repeat="x in vm.model.shenBaoInfo.constructionUnit">
+				<div ng-repeat="x in vm.constructionUnits">
 					<span>单位{{$index+1}}：</span>
-					<span class="text-primary" ng-bind="vm.model.shenBaoInfo.constructionUnit[$index]"/></span>
+					<span class="text-primary" ng-bind="vm.constructionUnits[$index]"/></span>
 				</div>
 			</td>
 		</tr>

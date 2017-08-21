@@ -25,6 +25,7 @@ import cs.domain.Project;
 import cs.domain.Project_;
 import cs.domain.ReplyFile;
 import cs.domain.UserUnitInfo;
+import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.MonthReportDto;
@@ -133,8 +134,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		if(project !=null){
 			project.setIsMonthReport(projectDto.getIsMonthReport());
 			//设置修改人
-			String longinName = currentUser.getLoginName();
-			project.setModifiedBy(longinName);
+			project.setModifiedBy(currentUser.getUserId());
 			project.setModifiedDate(new Date());
 			//保存数据
 			super.repository.save(project);
@@ -213,7 +213,8 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		if(project !=null){
 			project.setIsLatestVersion(isLatestVersion);
 			project.setModifiedDate(new Date());//设置修改时间
-			project.setModifiedBy(currentUser.getLoginName());//设置修改人
+			//设置修改人
+			project.setModifiedBy(currentUser.getUserId());
 			super.repository.save(project);
 			logger.info(String.format("修改项目版本,项目名称 %s",project.getProjectName()));
 		}else{

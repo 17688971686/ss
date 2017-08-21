@@ -46,7 +46,7 @@ public class YearPlanCapitalServiceImpl extends AbstractServiceImpl<YearPlanCapi
 		//设置关联的申报信息id
 		entity.setShenbaoInfoId(shenBaoId);
 		//设置创建人和修改人
-		String loginName = currentUser.getLoginName();
+		String loginName = currentUser.getUserId();
 		entity.setCreatedBy(loginName);
 		entity.setModifiedBy(loginName);
 		logger.info("创建年度计划编制信息");

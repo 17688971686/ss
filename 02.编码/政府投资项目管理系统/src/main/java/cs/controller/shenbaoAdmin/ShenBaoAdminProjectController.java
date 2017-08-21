@@ -56,8 +56,7 @@ public class ShenBaoAdminProjectController {
 	@RequestMapping(name = "获取单位项目信息", path = "unitProject",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> getUnitProject(HttpServletRequest request) throws ParseException {
 		//根据登陆名查找到单位信息
-		User user = userService.findUserByName(currentUser.getLoginName());
-		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(user.getId());
+		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
 		ODataObj odataObj = new ODataObj(request);
 		//设置过滤条件
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
