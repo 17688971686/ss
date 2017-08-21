@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
@@ -23,6 +24,7 @@ import cs.domain.MonthReport;
 import cs.domain.Project;
 import cs.domain.Project_;
 import cs.domain.ReplyFile;
+import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.MonthReportDto;
@@ -50,6 +52,8 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	@Autowired
 	private IRepository<MonthReport, String> monthReportRepo;
 	@Autowired
+	private IRepository<UserUnitInfo, String> userUnitInfoRepo;
+	@Autowired
 	private IMapper<AttachmentDto, Attachment> attachmentMapper;
 	@Autowired
 	private IMapper<MonthReportDto, MonthReport> monthReportMapper;
@@ -64,8 +68,26 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		logger.info("查询项目数据");
 		return super.get(odataObj);		
 	}
-
 	
+	@Override
+	@Transactional
+	public PageModelDto<ProjectDto> Get(ODataObj odataObj) {
+		List<ProjectDto> dtos = super.repository.findByOdata(odataObj).stream().map((x) -> {
+			return mapper.toDto(x);
+		}).collect(Collectors.toList());
+		
+		dtos.stream().forEach(x->{
+			UserUnitInfo userUnitInfo = userUnitInfoRepo.findById(x.getUnitName());
+			x.setUnitName(userUnitInfo.getUnitName());
+		});
+
+		PageModelDto<ProjectDto> pageModelDto = new PageModelDto<>();
+		pageModelDto.setCount(odataObj.getCount());
+		pageModelDto.setValue(dtos);
+		logger.info("后台管理端查询项目数据");
+		return pageModelDto;
+	}
+
 	@Override
 	@Transactional
 	public Project update(ProjectDto projectDto,String id) {		
@@ -111,8 +133,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		if(project !=null){
 			project.setIsMonthReport(projectDto.getIsMonthReport());
 			//设置修改人
-			String longinName = currentUser.getLoginName();
-			project.setModifiedBy(longinName);
+			project.setModifiedBy(currentUser.getUserId());
 			project.setModifiedDate(new Date());
 			//保存数据
 			super.repository.save(project);
@@ -191,7 +212,8 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		if(project !=null){
 			project.setIsLatestVersion(isLatestVersion);
 			project.setModifiedDate(new Date());//设置修改时间
-			project.setModifiedBy(currentUser.getLoginName());//设置修改人
+			//设置修改人
+			project.setModifiedBy(currentUser.getUserId());
 			super.repository.save(project);
 			logger.info(String.format("修改项目版本,项目名称 %s",project.getProjectName()));
 		}else{
@@ -205,7 +227,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	public void handlePiFuFile(Project project){
 		//获取文件库中所有的批复文件(map)
 		List<ReplyFile> replyFiles = replyFileRepo.findAll();
-		Map<String,Object> replyFileMap = new HashMap();
+		Map<String,Object> replyFileMap = new HashMap<String,Object>();
 		replyFiles.stream().forEach(x->{
 			String key = x.getNumber();//文号
 			String value = x.getName();//文件名

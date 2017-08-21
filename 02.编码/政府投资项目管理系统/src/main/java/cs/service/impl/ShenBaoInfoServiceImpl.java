@@ -87,8 +87,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@Transactional
 	public ShenBaoInfo create(ShenBaoInfoDto dto) {
 		ShenBaoInfo entity=super.create(dto);
-		dto.setCreatedDate(new Date());
-		dto.setModifiedDate(new Date());
+		//因dto中创建时间和修改时间为项目的相关时间，需从新设置
+		entity.setCreatedDate(new Date());
+		entity.setModifiedDate(new Date());
 		entity.setAuditState(BasicDataConfig.auditState_noAudit);//初始化审核状态--未审核
 		//处理关联信息
 		//begin#关联信息
@@ -183,12 +184,12 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 					throw new IllegalArgumentException(String.format("项目：%s 已纳入项目库",project.getProjectName()));
 				}else{
 					shenbaoInfo.setIsIncludLibrary(true);
-					shenbaoInfo.setModifiedBy(currentUser.getLoginName());
+					shenbaoInfo.setModifiedBy(currentUser.getUserId());
 					shenbaoInfo.setModifiedDate(new Date());
 					super.repository.save(shenbaoInfo);
 					
 					project.setIsIncludLibrary(true);
-					project.setModifiedBy(currentUser.getLoginName());
+					project.setModifiedBy(currentUser.getUserId());
 					project.setModifiedDate(new Date());
 					projectRepo.save(project);
 					logger.info(String.format("项目纳入项目库,项目名称 %s",project.getProjectName()));
@@ -234,7 +235,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			project.setProjectGuiMo(dto.getProjectGuiMo());//项目规模
 			project.setRemark(dto.getRemark());//项目基本信息备注
 			//修改人&修改时间
-			project.setModifiedBy(currentUser.getLoginName());
+			project.setModifiedBy(currentUser.getUserId());
 			project.setModifiedDate(new Date());
 			projectRepo.save(project);
 			//同步更新申报信息
@@ -251,7 +252,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		ShenBaoInfo shenbaoInfo = super.repository.findById(dto.getRelId());
 		if(shenbaoInfo !=null){
 			shenbaoInfo.setProcessState(dto.getProcessState());
-			shenbaoInfo.setModifiedBy(currentUser.getLoginName());
+			shenbaoInfo.setModifiedBy(currentUser.getUserId());
 			shenbaoInfo.setModifiedDate(new Date());
 			
 			super.repository.save(shenbaoInfo);
@@ -277,22 +278,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		
 	}
 	
-	@Override
-	@Transactional
-	public void updateShenBaoInfoAuditState(String id, String auditState) {
-		ShenBaoInfo shenbaoInfo = super.findById(id);
-		if(shenbaoInfo !=null){
-			shenbaoInfo.setAuditState(auditState);
-			shenbaoInfo.setModifiedBy(currentUser.getLoginName());
-			shenbaoInfo.setModifiedDate(new Date());
-			
-			super.repository.save(shenbaoInfo);
-			logger.info(String.format("更新申报信息审核状态,项目名称 %s",shenbaoInfo.getProjectName()));
-		}else{
-			throw new IllegalArgumentException(String.format("没有查找到对应的申报信息"));
-		}
-	}
-
 	@Override
 	@Transactional
 	public void updateShenBaoInfo(ShenBaoInfoDto dto) {
@@ -365,12 +350,14 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskHead.setNextUser(startUser);//设置下一处理人
 		taskHead.setRelId(shenBaoInfo.getId());//设置关联的id
 		taskHead.setProcessState(BasicDataConfig.processState_tianBao);//设置工作流的状态
-		taskHead.setProcessSuggestion("材料填报");//设置处理意见
+		taskHead.setProcessSuggestion("申报单位--材料填报");//设置处理意见
 		taskHead.setTaskType(this.getTaskType(shenBaoInfo.getProjectShenBaoStage()));//设置工作流的类型
-		taskHead.setUnitName(shenBaoInfo.getUnitName());//设置建设单位
+//		taskHead.setUnitName(shenBaoInfo.getUnitName());//设置建设单位
+		taskHead.setUnitName(shenBaoInfo.getConstructionUnit());//设置建设单位
 		taskHead.setProjectIndustry(shenBaoInfo.getProjectIndustry());//设置项目行业
-		taskHead.setCreatedBy(currentUser.getLoginName());
-		taskHead.setModifiedBy(currentUser.getLoginName());
+		//设置创建者与修改者
+		taskHead.setCreatedBy(currentUser.getUserId());
+		taskHead.setModifiedBy(currentUser.getUserId());
 				
 		//record
 		TaskRecord taskRecord=new TaskRecord();
@@ -381,11 +368,11 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskRecord.setTaskId(taskHead.getId());//设置任务Id
 		taskRecord.setProcessState(taskHead.getProcessState());//设置工作流的状态
 		taskRecord.setTaskType(taskHead.getTaskType());//设置工作流的类型
-		taskRecord.setProcessSuggestion("材料填报");//设置处理意见
+		taskRecord.setProcessSuggestion(taskHead.getProcessSuggestion());//设置处理意见
 		taskRecord.setUnitName(taskHead.getUnitName());//设置建设单位
 		taskRecord.setProjectIndustry(taskHead.getProjectIndustry());//设置项目行业
-		taskRecord.setCreatedBy(currentUser.getLoginName());
-		taskRecord.setModifiedBy(currentUser.getLoginName());
+		taskRecord.setCreatedBy(taskHead.getCreatedBy());
+		taskRecord.setModifiedBy(taskHead.getModifiedBy());
 
 		taskHead.getTaskRecords().add(taskRecord);
 		taskHeadRepo.save(taskHead);
@@ -418,18 +405,22 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			taskRecord.setTaskId(taskHead.getId());//设置任务Id
 			if(isManageChange){//如果是后台修改
 				taskRecord.setProcessState(taskHead.getProcessState());
+				taskRecord.setProcessSuggestion("后台管理员--材料填报修改");
 			}else{//如果是申报端修改
 				taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
 				taskHead.setComplete(false);
 				taskHead.setProcessState(BasicDataConfig.processState_tianBao);
+				taskRecord.setProcessSuggestion("申报人员--材料填报修改");
 			}
 			taskRecord.setTaskType(this.getTaskType(entity.getProjectShenBaoStage()));
-			taskRecord.setProcessSuggestion("材料填报");
-			taskRecord.setUnitName(entity.getUnitName());
+			
+//			taskRecord.setUnitName(entity.getUnitName());
+			taskRecord.setUnitName(entity.getConstructionUnit());
 			taskRecord.setProjectIndustry(entity.getProjectIndustry());
-			taskRecord.setCreatedBy(currentUser.getLoginName());
-			taskRecord.setModifiedBy(currentUser.getLoginName());
-							
+			//设置创建者与修改者
+			taskRecord.setCreatedBy(currentUser.getUserId());
+			taskRecord.setModifiedBy(currentUser.getUserId());
+			
 			taskHead.getTaskRecords().add(taskRecord);
 			taskHeadRepo.save(taskHead);
 		}
@@ -441,7 +432,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	public void handlePiFuFile(ShenBaoInfo shenBaoInfo){
 		//获取文件库中所有的批复文件(map)
 		List<ReplyFile> replyFiles = replyFileRepo.findAll();
-		Map<String,Object> replyFileMap = new HashMap();
+		Map<String,Object> replyFileMap = new HashMap<String,Object>();
 		replyFiles.stream().forEach(x->{
 			String key = x.getNumber();//文号
 			String value = x.getName();//文件名
@@ -500,9 +491,10 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskRecord.setTaskType(taskHead.getTaskType());
 		taskRecord.setUnitName(taskHead.getUnitName());
 		taskRecord.setProjectIndustry(taskHead.getProjectIndustry());
-		taskRecord.setCreatedBy(currentUser.getLoginName());
-		taskRecord.setModifiedBy(currentUser.getLoginName());
-						
+		//设置创建者与修改者
+		taskRecord.setCreatedBy(currentUser.getUserId());
+		taskRecord.setModifiedBy(currentUser.getUserId());
+		
 		taskHead.getTaskRecords().add(taskRecord);
 		//更新任务状态
 		taskHead.setProcessState(dto.getProcessState());

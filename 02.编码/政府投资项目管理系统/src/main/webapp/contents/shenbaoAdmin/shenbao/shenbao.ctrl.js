@@ -316,7 +316,26 @@
     				vm.tabStrip.activateTab(activeTab);
     			}
      		};
-  		
+     	//添加建设单位
+ 		vm.addUnit=function(){
+ 			if(vm.model.constructionUnit.constructor == String){
+ 				vm.model.constructionUnit = common.stringToArray(vm.model.constructionUnit);
+ 			}
+ 			vm.model.constructionUnit.push('');
+ 			if(vm.model.constructionUnit.length >1){
+				vm.canDelete = true;
+			}
+ 		};
+     	//删除建设单位
+	   vm.deleteUnit=function(idx){
+		   if(vm.canDelete){
+				vm.model.constructionUnit.splice(idx,1);
+				if(vm.model.constructionUnit.length <=1){
+					vm.canDelete = false;
+				}
+			}
+	   };
+     	   
   		 //确认提交
     	vm.submit = function(){
     		shenbaoSvc.createShenBaoInfo(vm);

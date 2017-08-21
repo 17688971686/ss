@@ -37,6 +37,7 @@ public class Util {
 		return dateStr;
 	}
 	public static String getDay(Date date){
+		@SuppressWarnings("deprecation")
 		int day=date.getDay();
 		String dayStr="";
 		switch (day) {

@@ -44,7 +44,7 @@
 	   		vm.basicData.area_Street=$linq(common.getBasicData())
 	   			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 	   			.toArray();//获取街道信息
-    		
+	   		vm.basicData.userUnit=common.getUserUnits();
     	}
     	init();    	
     	activate();

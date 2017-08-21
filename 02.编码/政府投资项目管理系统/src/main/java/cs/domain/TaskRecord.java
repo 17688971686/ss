@@ -18,8 +18,6 @@ public class TaskRecord extends BaseEntity {
 	@Column(columnDefinition="varchar(255) NULL COMMENT '标题'")
 	private String title;	
 	
-	
-	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '任务类型'")
 	private String taskType;
 	
@@ -108,5 +106,4 @@ public class TaskRecord extends BaseEntity {
 	public void setUnitName(String unitName) {
 		this.unitName = unitName;
 	}
-	
 }

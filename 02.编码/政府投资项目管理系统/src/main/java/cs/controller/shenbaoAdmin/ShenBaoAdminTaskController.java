@@ -35,7 +35,7 @@ public class ShenBaoAdminTaskController {
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 		filterItem.setField("createdBy");
 		filterItem.setOperator("eq");
-		filterItem.setValue(currentUser.getLoginName());
+		filterItem.setValue(currentUser.getUserId());
 		odataObj.getFilter().add(filterItem);
 		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.get(odataObj);
 		return taskHeadDtos;

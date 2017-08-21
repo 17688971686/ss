@@ -21,6 +21,7 @@ import cs.common.Response;
 import cs.common.sysResource.ClassFinder;
 import cs.common.sysResource.SysResourceDto;
 import cs.domain.BasicData;
+import cs.domain.UserUnitInfo;
 import cs.domain.framework.Resource;
 import cs.domain.framework.Role;
 import cs.domain.framework.Role_;
@@ -32,6 +33,7 @@ import cs.repository.common.BasicDataRepo;
 import cs.repository.framework.RoleRepoImpl;
 import cs.repository.framework.SysConfigRepoImpl;
 import cs.repository.framework.UserRepoImpl;
+import cs.repository.interfaces.IRepository;
 
 @Service
 public class SysServiceImpl implements SysService{
@@ -45,6 +47,8 @@ public class SysServiceImpl implements SysService{
 	private SysConfigRepoImpl sysConfigRepo;
 	@Autowired
 	private BasicDataRepo basicDataRepo;
+	@Autowired
+	private IRepository<UserUnitInfo, String> userUnitInfoRepo;
 	@Autowired
 	private IMapper<SysConfigDto,SysConfig> sysConfigMapper;
 	@Autowired
@@ -162,12 +166,13 @@ public class SysServiceImpl implements SysService{
 		user.getRoles().add(role);
 		userRepo.save(user);
 		//初始化建设单位用户
-		String[] userNames = {"党工委管委会","组织人事局","社会建设局","城市管理局","光明供电局",
-								"文体教育局","光明交通运输局","城市建设局","发展和财政局","卫生计生局",
+		String[] userNames = {"党工委管委会","组织人事局","统战和社会建设局","城市管理局","光明供电局",
+								"文体教育局","光明交通运输局","住房和建设局","发展和财政局","卫生计生局",
 								"光明公安分局","环境保护和水务局","经济服务局","纪检监察局","市规划和国土资源委员会光明管理局",
 								"综合办","公明办事处","光明办事处","马田办事处","凤凰办事处",
-								"公共资源交易中心","深圳市光明新区城市发展促进中心","机关后勤服务中心","土地整备中心","建筑工务和土地开发中心",
+								"公共资源交易中心","城市发展促进中心","机关后勤服务中心","土地整备中心","建设管理服务中心",
 								"光明消防大队","光明现役消防支队光明新区大队","规划土地监察大队","深水光明","经发公司"};
+		
 		for(String userName : userNames){
 			User unitUser = new User();
 			unitUser.setId(UUID.randomUUID().toString());
@@ -176,6 +181,13 @@ public class SysServiceImpl implements SysService{
 			unitUser.setPassword("888888");
 			unitUser.getRoles().add(role2);
 			userRepo.save(unitUser);
+			
+			UserUnitInfo userUnitInfo = new UserUnitInfo();
+			userUnitInfo.setId(UUID.randomUUID().toString());
+			userUnitInfo.setUnitName(userName);
+			userUnitInfo.setUserName(unitUser.getId());
+			userUnitInfo.setRemark("系统初始化创建");
+			userUnitInfoRepo.save(userUnitInfo);
 		}
 		
 		response.setMessage("初始化成功");
@@ -613,8 +625,8 @@ public class SysServiceImpl implements SysService{
 			sysconfig.setConfigName(sysConfigDto.getConfigName());
 			sysconfig.setConfigValue(sysConfigDto.getConfigValue());
 			sysconfig.setEnable(sysConfigDto.getEnable());
-			sysconfig.setCreatedBy(currentUser.getLoginName());
-			sysconfig.setModifiedBy(currentUser.getLoginName());
+			sysconfig.setCreatedBy(currentUser.getUserId());
+			sysconfig.setModifiedBy(currentUser.getUserId());
 			sysconfig.setConfigType(sysConfigDto.getConfigType());
 			
 			sysConfigRepo.save(sysconfig);

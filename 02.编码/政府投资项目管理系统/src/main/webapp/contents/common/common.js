@@ -32,7 +32,8 @@
         uploadFileTypeConfig:uploadFileTypeConfig,//上传文件配置
         stringToArray:stringToArray,
         arrayToString:arrayToString,
-        toDecimal4:toDecimal4
+        toDecimal4:toDecimal4,
+        getUserUnits:getUserUnits
     };
 
     window.common = service;
@@ -471,13 +472,12 @@
     }
     
     function stringToArray(str,substr){
-    	if(str.constructor == Array){
-    		return str;
-    	}
     	var arrTmp=[];
     	if(str !=null && str != ""){
+    		if(str.constructor == Array){
+        		return str;
+        	}
 	       	 if(substr==""){ 
-	       		 
 	       		 arrTmp.push(str); 
 	       		 return arrTmp; 
 	       	 } 
@@ -501,11 +501,11 @@
     }
     
     function arrayToString(arr,str){
-    	if(arr.constructor == String){
-    		return str;
-    	}
 		 var strTmp="";
 		 if(arr !=null && arr.length>0){
+			 if(arr.constructor == String){
+		    		return str;
+		    	}
 			 for(var i=0;i<arr.length;i++){ 
 	    		 if(arr[i]!=""){ 
 	    		  if(strTmp==""){ 
@@ -527,7 +527,21 @@
     	f=Math.round(x*10000)/10000;
     	return f;
     }
-
+    
+    function getUserUnits(){
+    	if(window.global_userUnits){ 
+    		return window.global_userUnits;
+    	}
+    	$.ajax({
+    		url:'/common/userUnit',
+    		async:false,
+    		success:function(response){
+    			window.global_userUnits=response;    			
+    		}
+    	});
+    	return window.global_userUnits;
+    }
+    
     //init
     init();
     function init() {

@@ -162,7 +162,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 						entity.setCapitalSum(shenBaoInfo.getYearInvestApproval());//安排资金总计
 					}
 					//设置创建人和修改人
-					String loginName = currentUser.getLoginName();
+					String loginName = currentUser.getUserId();
 					entity.setCreatedBy(loginName);
 					entity.setModifiedBy(loginName);
 				//将新创建的计划资金对象保存到计划中

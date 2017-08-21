@@ -28,7 +28,7 @@
 		function getProjectUnit(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_userUnit + "?$filter=userName eq '{0}'", vm.model.unitName)
+					url : common.format(url_userUnit + "?$filter=id eq '{0}'", vm.model.unitName)
 				};
 			
 			var httpSuccess = function success(response) {
@@ -42,6 +42,7 @@
 				success : httpSuccess
 			});
 		}
+
 		
 		/**
 		 * 获取当前登录用户用户的单位信息
@@ -146,6 +147,13 @@
 			if (isValid) {
 				vm.isSubmit = true;
 				vm.model.projectType=common.arrayToString(vm.model.projectType,',');
+				for(var i=0;i<vm.userUnits.length;i++){
+					var obj = vm.userUnits[i];
+					if(obj.unitName == vm.model.unitName){
+						vm.model.unitName = obj.id;
+					}
+				}
+				
 				var httpOptions = {
 					method : 'put',
 					url : url_project,
@@ -390,9 +398,18 @@
 					},
 					{
 						field : "unitName",
-						title : "建设单位",
+						title : "项目所属单位",
 						width : 150,
-						filterable : true
+						filterable:{
+							ui: function(element){
+			                    element.kendoDropDownList({
+			                        valuePrimitive: true,
+			                        dataSource: vm.basicData.userUnit,
+			                        dataTextField: "unitName",
+			                        dataValueField: "id"
+			                    });
+			                }
+						}
 					},
 					{
 						field : "projectStage",

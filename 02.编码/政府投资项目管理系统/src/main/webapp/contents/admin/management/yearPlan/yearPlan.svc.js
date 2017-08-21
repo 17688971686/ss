@@ -18,7 +18,6 @@
 			updateShenBaoInfoState:updateShenBaoInfoState,//更新申报信息的状态
 			addProjectToLibrary:addProjectToLibrary,//项目纳入项目库
 			updateShenBaoInfo:updateShenBaoInfo,//更新申报信息
-			updateAuditState:updateAuditState,//更新申报信息的审核状态
 			updateProject:updateProject,//更新项目基本信息
 			grid_planList:grid_planList,//年度计划列表
 			plan_create:plan_create,//创建年度计划
@@ -129,8 +128,10 @@
 		 * 更新项目基本信息
 		 */
 		function updateProject(vm){
-			//处理项目类型多选问题
-			vm.model.shenBaoInfo.projectType=common.arrayToString(vm.model.shenBaoInfo.projectType,',');
+			//处理项目类型多选、建设单位问题
+			vm.model.shenBaoInfo.projectType=common.arrayToString(vm.projectTypes,',');
+			vm.model.shenBaoInfo.constructionUnit=common.arrayToString(vm.constructionUnits,',');
+			
 			var httpOptions = {
 					method : 'put',
 					url : common.format(url_shenbaoInfoList+"/updateProjectBasic"),
@@ -161,40 +162,7 @@
 			});
 		}
 		
-		/**
-		 *更新申报信息的审核状态
-		 */
-		function updateAuditState(vm,auditState){
-			var httpOptions = {
-					method : 'post',
-					url : common.format(url_shenbaoInfoList+"/updateAuditState"),
-					dataType:'json',
-					data:{"id":vm.id,"auditState":auditState}
-				};
-			
-			var httpSuccess = function success(response) {
-				common.requestSuccess({
-					vm : vm,
-					response : response,
-					fn : function() {
-						common.alert({
-							vm : vm,
-							msg : "操作成功",
-							fn : function() {
-								$('.alertDialog').modal('hide');
-							}
-						});
-					}
-				});
-			};
-			
-			common.http({
-				vm:vm,
-				$http:$http,
-				httpOptions:httpOptions,
-				success:httpSuccess
-			});
-		}
+		
 		/**
 		 *更新申报信息的状态 
 		 */
@@ -230,9 +198,9 @@
 			var isValid = $('form').valid();
 			if (isValid) {
 				vm.isSubmit = true;
-				//处理项目类型多选问题
-				vm.model.shenBaoInfo.projectType=common.arrayToString(vm.model.shenBaoInfo.projectType,',');
-				vm.model.shenBaoInfo.auditState=common.basicDataConfig().auditState_noAudit;//后台修改保存申报信息之后默认为未审核状态
+				//处理项目类型、建设单位多选问题
+				vm.model.shenBaoInfo.projectType=common.arrayToString(vm.projectTypes,',');
+				vm.model.shenBaoInfo.constructionUnit = common.arrayToString(vm.constructionUnits,',');
 				//安排资金计算
 				vm.model.shenBaoInfo.yearInvestApproval=parseFloat(vm.model.shenBaoInfo.capitalAP_ggys_TheYear || 0) + parseFloat(vm.model.shenBaoInfo.capitalAP_gtzj_TheYear || 0);
 				vm.model.shenBaoInfo.yearInvestApproval_lastYear=parseFloat(vm.model.shenBaoInfo.capitalAP_ggys_LastYear || 0) + parseFloat(vm.model.shenBaoInfo.capitalAP_gtzj_LastYear || 0);
@@ -250,7 +218,7 @@
 						fn:function(){
 							$('.alertDialog').modal('hide');
 							$('.modal-backdrop').remove();
-							location.href=url_back_shenbaoInfoList;
+							vm.isSubmit = false;
 						}
 					});
 				};
@@ -354,18 +322,24 @@
 		/**
 		 * 根据id获取申报信息
 		 */
-		function getShenBaoInfoById(vm,id){
+		function getShenBaoInfoById(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_shenbaoInfoList + "?$filter=id eq '{0}'", id)
+					url : common.format(url_shenbaoInfoList + "?$filter=id eq '{0}'", vm.id)
 				};
 			
 			var httpSuccess = function success(response) {
 				vm.model.shenBaoInfo = response.data.value[0]||{};
 				//年度计划申报年份处理
 				vm.planYear = vm.model.shenBaoInfo.planYear;
-				//项目类型的显示
-				vm.model.shenBaoInfo.projectType = common.stringToArray(vm.model.shenBaoInfo.projectType,',');
+				//项目类型、建设单位的显示
+				vm.projectTypes = common.stringToArray(vm.model.shenBaoInfo.projectType,',');
+				vm.constructionUnits = common.stringToArray(vm.model.shenBaoInfo.constructionUnit,",");
+				if(vm.constructionUnits.length >1){//如果建设单位有多个则可以删除
+					vm.canDelete = true;
+				}else{
+					vm.canDelete = false;
+				}
 				//判断项目的投资类型
 				if(vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_SH){//社会投资
 					vm.isSHInvestment = true;
@@ -644,12 +618,9 @@
 
 					},
 					{
-						field : "shenBaoUnitInfoDto.unitName",
+						field : "constructionUnit",
 						title : "建设单位",
 						width:120,
-						template:function(item){
-							return common.format(item.shenBaoUnitInfoDto.unitName);
-						},
 						filterable : false
 					},
 					{
@@ -750,7 +721,7 @@
 						field : "yearConstructionContent",
 						title : "本年度建设内容",
 						width:120,
-						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContent); },
+						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContent || ''); },
 						filterable : false
 					},
 					{
@@ -781,7 +752,7 @@
 						field : "yearConstructionContentLastYear",
 						title : "本年度建设内容",
 						width:120,
-						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContentLastYear); },
+						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContentLastYear|| ''); },
 						filterable : false
 					},
 					{
@@ -812,7 +783,7 @@
 						field : "yearConstructionContentLastTwoYear",
 						title : "本年度建设内容",
 						width:120,
-						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContentLastTwoYear);},
+						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContentLastTwoYear|| '');},
 						filterable : false
 					},
 					{
@@ -852,7 +823,7 @@
 						field : "yearConstructionContentShenBao",
 						title : "备注",
 						width : 150,
-						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:10px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.remark); },
+						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:10px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContentShenBao|| ''); },
 						filterable : false				
 					}
 
@@ -943,6 +914,12 @@
 					{
 						field : "projectName",
 						title : "项目名称",
+						width:200,
+						filterable : true
+					},
+					{
+						field : "constructionUnit",
+						title : "建设单位",
 						width:200,
 						filterable : true
 					},
@@ -1233,7 +1210,7 @@
 						filterable : true
 					},
 					{
-						field : "unitName",
+						field : "constructionUnit",
 						title : "建设单位",
 						filterable : true
 					},

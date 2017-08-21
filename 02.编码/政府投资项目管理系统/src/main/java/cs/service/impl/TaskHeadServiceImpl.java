@@ -94,8 +94,8 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			dto.setTitle(taskHead.getTitle());
 			dto.setUnitName(taskHead.getUnitName());
 			dto.setProjectIndustry(taskHead.getProjectIndustry());
-			dto.setCreatedBy(currentUser.getLoginName());//设置创建人(这是重点)
-			dto.setModifiedBy(currentUser.getLoginName());
+			dto.setCreatedBy(currentUser.getUserId());
+			dto.setModifiedBy(currentUser.getUserId());
 			//判断任务是否完成
 			String processState = dto.getProcessState();
 			if(isComplete(processState)){//如果已完成

@@ -5,9 +5,9 @@
         .module('app')
         .controller('projectCtrl', project);
 
-    project.$inject = ['$location','projectSvc','$state','$scope']; 
+    project.$inject = ['$location','projectSvc','$state','$scope','$sce']; 
 
-    function project($location, projectSvc,$state,$scope) {
+    function project($location, projectSvc,$state,$scope,$sce) {
         /* jshint validthis:true */
         var vm = this;
         vm.title = "新增项目";
@@ -35,6 +35,10 @@
     		
     		vm.checkLength = function(obj,max,id){
     			 common.checkLength(obj,max,id);
+    		};
+    		
+    		vm.html=function(val){
+    			return $sce.trustAsHtml(val);
     		};
     		//用于查询、新增、编辑--基础数据初始化
     		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
