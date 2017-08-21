@@ -1,15 +1,21 @@
 package cs.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import cs.domain.BasicData;
 import cs.domain.UserUnitInfo;
 import cs.domain.UserUnitInfo_;
 import cs.model.PageModelDto;
+import cs.model.DomainDto.BasicDataDto;
 import cs.model.DomainDto.UserUnitInfoDto;
+import cs.model.DtoMapper.BasicDataMapper;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.UserUnitInfoService;
 /**
@@ -29,6 +35,18 @@ public class UserUnitInfoServiceImpl extends AbstractServiceImpl<UserUnitInfoDto
 		return super.get(odataObj);	
 	}
 	
+	@Override
+	@Transactional
+	public List<UserUnitInfoDto> Get() {
+		List<UserUnitInfoDto> dtos = new ArrayList<>();
+		List<UserUnitInfo> entitys = super.repository.findAll();
+		entitys.forEach(x -> {
+			UserUnitInfoDto dto = super.mapper.toDto(x);
+			dtos.add(dto);
+		});
+		return dtos;
+	}
+
 	@Override
 	@Transactional
 	public void save(String userName,UserUnitInfoDto unitInfoDto) {

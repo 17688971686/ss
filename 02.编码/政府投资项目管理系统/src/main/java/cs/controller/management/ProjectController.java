@@ -35,7 +35,8 @@ public class ProjectController {
 	@RequestMapping(name = "获取项目信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
-		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);
+//		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);
+		PageModelDto<ProjectDto> ProjectDtos = ProjectService.Get(odataObj);
 		return ProjectDtos;
 	}
 	

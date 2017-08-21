@@ -17,7 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import cs.common.Util;
 import cs.model.DomainDto.BasicDataDto;
+import cs.model.DomainDto.UserUnitInfoDto;
 import cs.service.common.BasicDataService;
+import cs.service.interfaces.UserUnitInfoService;
 
 @Controller
 @RequestMapping(name = "公共", path = "common")
@@ -28,6 +30,8 @@ public class CommonController {
     private HttpServletRequest request;
 	@Autowired
 	private BasicDataService basicDataService;
+	@Autowired
+	private UserUnitInfoService userUnitInfoService;
 	
 	@RequiresPermissions("common#basicData/identity#get")
 	@RequestMapping(name="查询基础数据",path="basicData/{identity}",method=RequestMethod.GET)
@@ -65,5 +69,11 @@ public class CommonController {
 	@RequestMapping(name = "删除上传文件", path = "remove", method = RequestMethod.POST)
 	public @ResponseBody String remove(HttpServletRequest request){
 		return "true";
+	}
+	
+	@RequiresPermissions("common#userUnit#get")
+	@RequestMapping(name="查询用户单位数据",path="userUnit",method=RequestMethod.GET)
+	public @ResponseBody List<UserUnitInfoDto> getUserUnit(){
+		return userUnitInfoService.Get();
 	}
 }

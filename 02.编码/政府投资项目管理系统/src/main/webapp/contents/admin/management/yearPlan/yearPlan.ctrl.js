@@ -218,14 +218,14 @@
     	
    		//获取项目类型， 多选
    		vm.updateSelection = function(id){
-   			if(vm.model.shenBaoInfo.projectType.constructor == String){
-   				vm.model.shenBaoInfo.projectType=common.stringToArray(vm.model.shenBaoInfo.projectType);
+   			if(vm.projectTypes.constructor == String){
+   				vm.projectTypes=common.stringToArray(vm.projectTypes);
    			}
-        	var index = vm.model.shenBaoInfo.projectType.indexOf(id);
+        	var index = vm.projectTypes.indexOf(id);
         	if(index == -1){
-        		vm.model.shenBaoInfo.projectType.push(id);
+        		vm.projectTypes.push(id);
 	       	}else{
-	       		vm.model.shenBaoInfo.projectType.splice(index,1);
+	       		vm.projectTypes.splice(index,1);
 	       	}	        	
         };
         
@@ -337,19 +337,22 @@
       		};
       	//添加建设单位
  		vm.addUnit=function(){
- 			if(vm.model.shenBaoInfo.constructionUnit.constructor == String){
- 				vm.model.shenBaoInfo.constructionUnit=common.stringToArray(vm.model.shenBaoInfo.constructionUnit);
+ 			if(vm.constructionUnits.constructor == String){
+ 				vm.constructionUnits=common.stringToArray(vm.constructionUnits);
  			}
- 			vm.model.shenBaoInfo.constructionUnit.push('');
- 			if(vm.model.shenBaoInfo.constructionUnit.length >1){
+ 			vm.constructionUnits.push('');
+ 			if(vm.constructionUnits.length >1){
 				vm.canDelete = true;
 			}
  		};
      	//删除建设单位
 	   vm.deleteUnit=function(idx){
 		   if(vm.canDelete){
-				vm.model.shenBaoInfo.constructionUnit.splice(idx,1);
-				if(vm.model.shenBaoInfo.constructionUnit.length <=1){
+			   if(vm.constructionUnits.constructor == String){
+	 				vm.constructionUnits=common.stringToArray(vm.constructionUnits);
+	 			}
+			   vm.constructionUnits.splice(idx,1);
+				if(vm.constructionUnits.length <=1){
 					vm.canDelete = false;
 				}
 			}

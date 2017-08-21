@@ -391,9 +391,18 @@
 					},
 					{
 						field : "unitName",
-						title : "建设单位",
+						title : "项目所属单位",
 						width : 150,
-						filterable:false
+						filterable:{
+							ui: function(element){
+			                    element.kendoDropDownList({
+			                        valuePrimitive: true,
+			                        dataSource: vm.basicData.userUnit,
+			                        dataTextField: "unitName",
+			                        dataValueField: "id"
+			                    });
+			                }
+						}
 					},
 					{
 						field : "projectStage",

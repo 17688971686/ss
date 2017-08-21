@@ -32,7 +32,8 @@
         uploadFileTypeConfig:uploadFileTypeConfig,//上传文件配置
         stringToArray:stringToArray,
         arrayToString:arrayToString,
-        toDecimal4:toDecimal4
+        toDecimal4:toDecimal4,
+        getUserUnits:getUserUnits
     };
 
     window.common = service;
@@ -525,6 +526,20 @@
     	}
     	f=Math.round(x*10000)/10000;
     	return f;
+    }
+    
+    function getUserUnits(){
+    	if(window.global_userUnits){ 
+    		return window.global_userUnits;
+    	}
+    	$.ajax({
+    		url:'/common/userUnit',
+    		async:false,
+    		success:function(response){
+    			window.global_userUnits=response;    			
+    		}
+    	});
+    	return window.global_userUnits;
     }
     
     //init

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
@@ -23,6 +24,7 @@ import cs.domain.MonthReport;
 import cs.domain.Project;
 import cs.domain.Project_;
 import cs.domain.ReplyFile;
+import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.MonthReportDto;
@@ -50,6 +52,8 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	@Autowired
 	private IRepository<MonthReport, String> monthReportRepo;
 	@Autowired
+	private IRepository<UserUnitInfo, String> userUnitInfoRepo;
+	@Autowired
 	private IMapper<AttachmentDto, Attachment> attachmentMapper;
 	@Autowired
 	private IMapper<MonthReportDto, MonthReport> monthReportMapper;
@@ -63,6 +67,25 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	public PageModelDto<ProjectDto> get(ODataObj odataObj) {
 		logger.info("查询项目数据");
 		return super.get(odataObj);		
+	}
+	
+	@Override
+	@Transactional
+	public PageModelDto<ProjectDto> Get(ODataObj odataObj) {
+		List<ProjectDto> dtos = super.repository.findByOdata(odataObj).stream().map((x) -> {
+			return mapper.toDto(x);
+		}).collect(Collectors.toList());
+		
+		dtos.stream().forEach(x->{
+			UserUnitInfo userUnitInfo = userUnitInfoRepo.findById(x.getUnitName());
+			x.setUnitName(userUnitInfo.getUnitName());
+		});
+
+		PageModelDto<ProjectDto> pageModelDto = new PageModelDto<>();
+		pageModelDto.setCount(odataObj.getCount());
+		pageModelDto.setValue(dtos);
+		logger.info("后台管理端查询项目数据");
+		return pageModelDto;
 	}
 
 	@Override
