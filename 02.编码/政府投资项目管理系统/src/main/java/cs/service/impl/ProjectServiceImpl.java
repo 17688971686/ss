@@ -78,7 +78,11 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		
 		dtos.stream().forEach(x->{
 			UserUnitInfo userUnitInfo = userUnitInfoRepo.findById(x.getUnitName());
-			x.setUnitName(userUnitInfo.getUnitName());
+			if(userUnitInfo !=null){
+				x.setUnitName(userUnitInfo.getUnitName());
+			}else{
+				x.setUnitName("");
+			}
 		});
 
 		PageModelDto<ProjectDto> pageModelDto = new PageModelDto<>();
