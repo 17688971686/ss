@@ -14,10 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.TaskRecordDto;
@@ -28,7 +24,6 @@ import cs.service.interfaces.ShenBaoInfoService;
 @Controller
 @RequestMapping(name="后台管理--申报信息管理", path="management/shenbao")
 public class ShenBaoController {
-	private String ctrl ="management/shenbao";
 	@Autowired
 	private ShenBaoInfoService shenBaoInfoService;
 	@Autowired

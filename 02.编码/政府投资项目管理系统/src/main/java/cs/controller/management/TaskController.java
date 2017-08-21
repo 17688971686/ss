@@ -40,7 +40,7 @@ public class TaskController {
 	public @ResponseBody PageModelDto<TaskHeadDto> getToDo(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.get(odataObj);
-		//关于创建用户id查找到名称
+		//关于流程记录根据创建用户id查找到名称用于显示
 		List<TaskHeadDto> taskHeadDtols = taskHeadDtos.getValue();
 		if(taskHeadDtols !=null && taskHeadDtols.size()>0){
 			taskHeadDtols.forEach(x->{

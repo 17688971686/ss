@@ -8,14 +8,10 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import cs.domain.BasicData;
 import cs.domain.UserUnitInfo;
 import cs.domain.UserUnitInfo_;
 import cs.model.PageModelDto;
-import cs.model.DomainDto.BasicDataDto;
 import cs.model.DomainDto.UserUnitInfoDto;
-import cs.model.DtoMapper.BasicDataMapper;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.UserUnitInfoService;
 /**
@@ -44,6 +40,7 @@ public class UserUnitInfoServiceImpl extends AbstractServiceImpl<UserUnitInfoDto
 			UserUnitInfoDto dto = super.mapper.toDto(x);
 			dtos.add(dto);
 		});
+		logger.info("获取单位信息集合");
 		return dtos;
 	}
 

@@ -28,7 +28,6 @@ import cs.domain.TaskHead_;
 import cs.domain.TaskRecord;
 import cs.domain.framework.SysConfig;
 import cs.domain.framework.SysConfig_;
-import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.SendMsg;
 import cs.model.DomainDto.AttachmentDto;
@@ -41,7 +40,6 @@ import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.framework.SysService;
-import cs.service.framework.UserService;
 import cs.service.interfaces.ShenBaoInfoService;
 /**
  * @Description: 申报信息服务层
@@ -75,8 +73,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private SysService sysService;
 	@Autowired
 	private BasicDataService basicDataService;
-	@Autowired
-	private UserService userService;
 	@Autowired
 	private ICurrentUser currentUser;
 	
@@ -436,7 +432,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	public void handlePiFuFile(ShenBaoInfo shenBaoInfo){
 		//获取文件库中所有的批复文件(map)
 		List<ReplyFile> replyFiles = replyFileRepo.findAll();
-		Map<String,Object> replyFileMap = new HashMap();
+		Map<String,Object> replyFileMap = new HashMap<String,Object>();
 		replyFiles.stream().forEach(x->{
 			String key = x.getNumber();//文号
 			String value = x.getName();//文件名

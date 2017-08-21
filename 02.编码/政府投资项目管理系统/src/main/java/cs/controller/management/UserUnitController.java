@@ -19,8 +19,6 @@ import cs.service.interfaces.UserUnitInfoService;
 @Controller
 @RequestMapping(name="后台管理--用户单位管理",path="management/userUnit")
 public class UserUnitController {
-	private String ctrlName = "management/userUnit";
-	
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
 	@Autowired

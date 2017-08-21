@@ -3,7 +3,6 @@ package cs.service.interfaces;
 import java.util.List;
 
 import cs.domain.UserUnitInfo;
-import cs.model.DomainDto.BasicDataDto;
 import cs.model.DomainDto.UserUnitInfoDto;
 
 public interface UserUnitInfoService extends IService<UserUnitInfoDto, UserUnitInfo, String>{	

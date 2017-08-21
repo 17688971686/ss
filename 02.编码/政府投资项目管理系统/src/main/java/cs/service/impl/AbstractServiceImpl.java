@@ -11,19 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import cs.common.ICurrentUser;
 import cs.domain.BaseEntity;
-import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
-import cs.service.framework.UserService;
 import cs.service.interfaces.IService;
 
 public abstract class AbstractServiceImpl<Dto, Entity extends BaseEntity, ID > implements IService<Dto, Entity, ID > {
 	@Autowired
 	public IRepository<Entity, ID> repository;
-	@Autowired
-	public UserService userService;
 	@Autowired
 	public IMapper<Dto, Entity> mapper;
 	@Autowired

@@ -5,8 +5,6 @@ import java.text.ParseException;
 import java.util.function.Function;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,7 +40,7 @@ public class ShenBaoHomeController {
 			ODataObj odataOb;
 			try {
 				odataOb = new ODataObj(request);
-				ODataFilterItem<String> filterItem= new ODataFilterItem();
+				ODataFilterItem<String> filterItem= new ODataFilterItem<String>();
 				filterItem.setField("type");
 				filterItem.setOperator("eq");
 				filterItem.setValue(type);		

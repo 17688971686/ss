@@ -11,18 +11,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import cs.common.ICurrentUser;
 import cs.domain.TaskRecord;
-import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.TaskRecordDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
-import cs.service.framework.UserService;
 import cs.service.interfaces.IService;
 
 @Controller
 @RequestMapping(name = "后台管理--任务流程", path = "management/taskRecord")
 public class TaskRecordController {
-	private String ctrl = "management/taskRecord";
 	@Autowired
 	IService<TaskRecordDto, TaskRecord, String> taskRecordService;
 	@Autowired

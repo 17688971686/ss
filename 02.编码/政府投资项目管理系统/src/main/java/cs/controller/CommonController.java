@@ -23,8 +23,7 @@ import cs.service.interfaces.UserUnitInfoService;
 
 @Controller
 @RequestMapping(name = "公共", path = "common")
-public class CommonController {	
-	private String ctrlName = "framework/common";
+public class CommonController {
 	
 	@Autowired  
     private HttpServletRequest request;

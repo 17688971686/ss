@@ -21,12 +21,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.common.ICurrentUser;
 import cs.domain.Project;
 import cs.domain.UserUnitInfo;
-import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ProjectDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
-import cs.service.framework.UserService;
 import cs.service.interfaces.ProjectService;
 import cs.service.interfaces.UserUnitInfoService;
 
@@ -39,8 +37,6 @@ public class ShenBaoAdminProjectController {
 	private ProjectService ProjectService;
 	@Autowired
 	ICurrentUser currentUser;
-	@Autowired
-	private UserService userService;
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
 	

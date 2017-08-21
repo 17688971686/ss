@@ -25,7 +25,6 @@ import cs.domain.Project;
 import cs.domain.Project_;
 import cs.domain.ReplyFile;
 import cs.domain.UserUnitInfo;
-import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.MonthReportDto;
@@ -228,7 +227,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	public void handlePiFuFile(Project project){
 		//获取文件库中所有的批复文件(map)
 		List<ReplyFile> replyFiles = replyFileRepo.findAll();
-		Map<String,Object> replyFileMap = new HashMap();
+		Map<String,Object> replyFileMap = new HashMap<String,Object>();
 		replyFiles.stream().forEach(x->{
 			String key = x.getNumber();//文号
 			String value = x.getName();//文件名
