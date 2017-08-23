@@ -48,6 +48,7 @@
 	   		vm.basicData.area_Street=$linq(common.getBasicData())
 	   			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 	   			.toArray();//获取街道信息
+	   		vm.basicData.userUnit=common.getUserUnits();//获取所有单位
         };
         
         activate();
@@ -104,6 +105,9 @@
     				   filters.push({field:'isIncludLibrary',operator:'eq',value:false}); 
     			   }
     		   }
+    		   if(vm.search.unitName !=null && vm.search.unitName !=''){
+      			  filters.push({field:'unitName',operator:'eq',value:vm.search.unitName});
+      		   }
     		   vm.gridOptions.dataSource.filter(filters);
     		   vm.gridOptions.dataSource.read();
     	   };

@@ -15,4 +15,6 @@ public interface ProjectService extends IService<ProjectDto, Project, String> {
 	void updateVersion(String id,Boolean isLatestVersion);
 	
 	PageModelDto<ProjectDto> Get(ODataObj odataObj);
+	
+	PageModelDto<ProjectDto> getUnitAndAll(ODataObj odataObj,Boolean hasUnitNameFilter);
 }

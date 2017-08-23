@@ -44,7 +44,7 @@ public class ShenBaoAdminProjectController {
 	@RequestMapping(name = "获取项目信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
-		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);		
+		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);
 		return ProjectDtos;
 	}
 	
@@ -54,13 +54,24 @@ public class ShenBaoAdminProjectController {
 		//根据登陆名查找到单位信息
 		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
 		ODataObj odataObj = new ODataObj(request);
-		//设置过滤条件
-		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
-		filterItem.setField("unitName");
-		filterItem.setOperator("eq");
-		filterItem.setValue(userUnitInfo.getId());
-		odataObj.getFilter().add(filterItem);
-		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);		
+		//初始化设置过滤条件
+		Boolean hasUnitNameFilter = false;
+		for(int i=0;i<odataObj.getFilter().size();i++){
+			if(odataObj.getFilter().get(i).getField().equals("unitName")){//如果过滤条件中有单位过滤
+				hasUnitNameFilter = true;
+				break;
+			}
+		}
+		if(!hasUnitNameFilter){//如果没有单位过滤，则默认为登陆单位
+			ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
+			filterItem.setField("unitName");
+			filterItem.setOperator("eq");
+			filterItem.setValue(userUnitInfo.getId());
+			odataObj.getFilter().add(filterItem);
+		}
+		
+//		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);
+		PageModelDto<ProjectDto> ProjectDtos = ProjectService.getUnitAndAll(odataObj,hasUnitNameFilter);
 		return ProjectDtos;
 	}
 	

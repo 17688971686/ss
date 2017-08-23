@@ -719,6 +719,21 @@
 					}
 				},
 				{
+					field : "unitName",
+					title : "所属单位",
+					filterable : {
+						ui: function(element){
+	                        element.kendoDropDownList({
+	                            valuePrimitive: true,
+	                            dataSource: vm.basicData.userUnit,
+	                            dataTextField: "unitName",
+	                            dataValueField: "id",
+	                            filter: "startswith"
+	                        });
+	                    }
+					}
+				},
+				{
 					field : "projectStage",
 					title : "项目阶段",
 					width : 150,
