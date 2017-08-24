@@ -147,12 +147,6 @@
 			if (isValid) {
 				vm.isSubmit = true;
 				vm.model.projectType=common.arrayToString(vm.model.projectType,',');
-				for(var i=0;i<vm.userUnits.length;i++){
-					var obj = vm.userUnits[i];
-					if(obj.unitName == vm.model.unitName){
-						vm.model.unitName = obj.id;
-					}
-				}
 				
 				var httpOptions = {
 					method : 'put',
@@ -330,7 +324,7 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_project),
+				transport : common.kendoGridConfig().transport(common.format(url_project+"/unitName")),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
 					fields : {

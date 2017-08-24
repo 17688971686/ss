@@ -30,6 +30,7 @@ import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.MonthReportDto;
 import cs.model.DomainDto.ProjectDto;
 import cs.model.DtoMapper.IMapper;
+import cs.repository.impl.ProjectRepoImpl;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ProjectService;
@@ -54,6 +55,8 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	@Autowired
 	private IRepository<UserUnitInfo, String> userUnitInfoRepo;
 	@Autowired
+	private ProjectRepoImpl projectRepoImpl;
+	@Autowired
 	private IMapper<AttachmentDto, Attachment> attachmentMapper;
 	@Autowired
 	private IMapper<MonthReportDto, MonthReport> monthReportMapper;
@@ -69,6 +72,9 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		return super.get(odataObj);		
 	}
 	
+	/**
+	 * 列表获取具有所属单位名的项目
+	 */
 	@Override
 	@Transactional
 	public PageModelDto<ProjectDto> Get(ODataObj odataObj) {
@@ -89,6 +95,32 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		pageModelDto.setCount(odataObj.getCount());
 		pageModelDto.setValue(dtos);
 		logger.info("后台管理端查询项目数据");
+		return pageModelDto;
+	}
+	
+	/**
+	 * 列表获取本单位和所有已纳入项目库的项目
+	 */
+	@Override
+	@Transactional
+	public PageModelDto<ProjectDto> getUnitAndAll(ODataObj odataObj,Boolean hasUnitNameFilter) {
+		List<ProjectDto> dtos = projectRepoImpl.findByOdata2(odataObj,hasUnitNameFilter).stream().map((x) -> {
+			return mapper.toDto(x);
+		}).collect(Collectors.toList());
+		
+		dtos.stream().forEach(x->{
+			UserUnitInfo userUnitInfo = userUnitInfoRepo.findById(x.getUnitName());
+			if(userUnitInfo !=null){
+				x.setUnitName(userUnitInfo.getUnitName());
+			}else{
+				x.setUnitName("");
+			}
+		});
+		
+		PageModelDto<ProjectDto> pageModelDto = new PageModelDto<>();
+		pageModelDto.setCount(odataObj.getCount());
+		pageModelDto.setValue(dtos);
+		logger.info("建设单位查询项目数据");
 		return pageModelDto;
 	}
 

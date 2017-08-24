@@ -168,18 +168,32 @@ public class Util {
 		Boolean isSame = false;
 		for (String key1 : map1.keySet()) {
 			for(String key2 : map2.keySet()){
-				if(key2.equals(key1)){//判断key是否相同--如果相同
+				if(key1 !=null && !key1.equals("")){
+					if(key2 !=null && !key2.equals("")){
+						if(key2.equals(key1)){//判断key是否相同--如果相同
+							if(map2.get(key2).equals(map1.get(key1).getName())){//判断value是否相同--如果相同
+								isSame = true;
+							}else{//判断value是否相同--如果不同
+								isSame = false;
+							}
+						}else{//判断key是否相同--如果不同
+							isSame = false;
+						}
+						if(isSame){//如果已有相同，则结束循环
+							break;
+						}
+					}
+				}else{//如果key为空，则直接比较value
 					if(map2.get(key2).equals(map1.get(key1).getName())){//判断value是否相同--如果相同
 						isSame = true;
 					}else{//判断value是否相同--如果不同
 						isSame = false;
 					}
-				}else{//判断key是否相同--如果不同
-					isSame = false;
+					if(isSame){//如果已有相同，则结束循环
+						break;
+					}
 				}
-				if(isSame){//如果已有相同，则结束循环
-					break;
-				}
+				
 			}
 			if(!isSame){
 				Map<String,Object> mapObj = new HashMap<>();

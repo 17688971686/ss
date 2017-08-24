@@ -88,7 +88,7 @@
      			   }
      		   }
      		   if(vm.search.unitName !=null && vm.search.unitName !=''){
-     			  filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
+     			  filters.push({field:'unitName',operator:'eq',value:vm.search.unitName});
      		   }
      		  vm.gridOptions.dataSource.filter(filters);
      		  vm.gridOptions.dataSource.read();
