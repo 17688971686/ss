@@ -5,7 +5,7 @@
 
 	shenbao.$inject = ['$http','$compile','$location'];	
 	function shenbao($http,$compile,$location) {
-		var url_project = "/shenbaoAdmin/project/unitProject";
+		var url_project = "/shenbaoAdmin/project";
 		var url_userUnit　= "/shenbaoAdmin/userUnitInfo";
 		var url_shenbao = "/shenbaoAdmin/shenbao";
 		var url_back = "/shenbao_records";
@@ -668,7 +668,7 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_project),
+				transport : common.kendoGridConfig().transport(common.format(url_project+"/unitProject")),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
 					fields : {

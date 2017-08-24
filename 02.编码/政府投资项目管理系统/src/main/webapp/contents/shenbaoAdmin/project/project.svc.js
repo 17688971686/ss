@@ -5,7 +5,7 @@
 
 	project.$inject = ['$http','$compile','$location'];	
 	function project($http,$compile,$location) {
-		var url_project = "/shenbaoAdmin/project/unitProject";
+		var url_project = "/shenbaoAdmin/project";
 		var url_userUnit　= "/shenbaoAdmin/userUnitInfo";
 		var url_back = "/project";
 		var url_document="/shenbaoAdmin/replyFile";
@@ -288,7 +288,7 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_project),
+				transport : common.kendoGridConfig().transport(common.format(url_project+"/unitProject")),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
 					fields : {
