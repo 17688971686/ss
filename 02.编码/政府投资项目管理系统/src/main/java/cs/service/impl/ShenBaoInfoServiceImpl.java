@@ -130,6 +130,13 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	
 	@Override
 	@Transactional
+	public void delete(String id) {
+		super.delete(id);//删除申报信息
+		logger.info(String.format("删除申报信息,ID:%s", id));		
+	}
+	
+	@Override
+	@Transactional
 	public ShenBaoInfo update(ShenBaoInfoDto dto,String id) {
 		ShenBaoInfo entity=super.update(dto,id);
 		//处理关联信息

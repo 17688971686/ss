@@ -85,6 +85,13 @@ public class ShenBaoAdminShenBaoController {
 	public void  update(@RequestBody ShenBaoInfoDto shenBaoInfoDto){
 		shenBaoInfoService.update(shenBaoInfoDto,shenBaoInfoDto.getId());	
 	}
+	
+	@RequiresPermissions("shenbaoAdmin/shenbao##delete")
+	@RequestMapping(name = "删除申报信息", path = "",method=RequestMethod.DELETE)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void  delete(@RequestBody String id){
+		shenBaoInfoService.delete(id);
+	}
 		
 	//begin#html
 	@RequiresPermissions("shenbaoAdmin/shenbao#html/list#get")

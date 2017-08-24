@@ -58,6 +58,11 @@
 	   				.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 	   				.toArray(); //行政区划街道 
    	   		vm.basicData.userUnit=common.getUserUnits();//获取所有单位
+   	   		
+	   	  	vm.deleteShenBaoInfo = function(id){//删除申报信息
+	   	  		shenbaoSvc.deleteShenBaoInfo(vm,id);
+	   	   	}
+	   	  
         };
         
         activate();

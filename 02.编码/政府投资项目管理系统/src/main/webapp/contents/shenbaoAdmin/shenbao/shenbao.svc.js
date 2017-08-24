@@ -21,10 +21,50 @@
 			getShenBaoInfoById:getShenBaoInfoById,//根据id查询项目申报信息
 			updateShenBaoInfo:updateShenBaoInfo,//更新申报信息
 			documentRecordsGird:documentRecordsGird,//批复文件列表
-			getShenBaoInfoByProjectId:getShenBaoInfoByProjectId//根据项目id查询申报信息
+			getShenBaoInfoByProjectId:getShenBaoInfoByProjectId,//根据项目id查询申报信息
+			deleteShenBaoInfo:deleteShenBaoInfo//根据项目id删除申报信息
 		};		
 		return service;
 		
+		/**
+		 * 根据项目id查询申报信息
+		 */
+		function deleteShenBaoInfo(vm,id){
+			var httpOptions = {
+					method : 'delete',
+					url :url_shenbao,
+					data:id      
+				};
+			
+			var httpSuccess = function success(response) {
+				$("#shenBaoRecords").modal('hide');
+	   			$(".modal-backdrop").remove();
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function() {
+						common.alert({
+							vm : vm,
+							msg : "删除成功",
+							fn : function() {
+								$('.alertDialog').modal('hide');
+								$(".modal-backdrop").remove();
+								$location.path(url_backToProjectList);
+							}
+						});
+					}
+
+				});
+				
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
 		
 		/**
 		 * 根据项目id查询申报信息
@@ -160,7 +200,7 @@
 					{
 						field : "",
 						title : "操作",
-						width : 200,
+						width : 250,
 						template : function(item) {					
 							var isShow=item.processState==common.basicDataConfig().processState_waitQianShou
 							   ||item.processState==common.basicDataConfig().processState_tuiWen;
