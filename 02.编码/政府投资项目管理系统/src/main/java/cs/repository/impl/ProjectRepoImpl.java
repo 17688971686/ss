@@ -6,6 +6,8 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import cs.domain.Project;
@@ -134,6 +136,31 @@ public class ProjectRepoImpl extends AbstractRepository<Project	, String> {
 		Criterion rest1 = Restrictions.and(conjunction1);
 		Criterion rest2= Restrictions.and(conjunction2);
 		crit.add(Restrictions.or(rest1,rest2));
+		
+		//begin:page
+		//count
+		if(oDataObj.getIsCount()){	
+					
+			Integer totalResult = ((Number)crit.setProjection(Projections.rowCount()).uniqueResult()).intValue();
+			oDataObj.setCount(totalResult);
+			crit.setProjection(null);
+		}
+	
+		if (oDataObj.getTop() != 0) {
+			crit.setFirstResult(oDataObj.getSkip());
+			crit.setMaxResults(oDataObj.getTop());
+		}
+		
+		if (oDataObj.getOrderby() != null && !oDataObj.getOrderby().isEmpty()) {
+			if (oDataObj.isOrderbyDesc()) {
+				crit.addOrder(Property.forName(oDataObj.getOrderby()).desc());
+			} else {
+				crit.addOrder(Property.forName(oDataObj.getOrderby()).asc());
+			}
+		}		
+		
+		
+		//end:page
 		return crit.list();
 	}
 }
