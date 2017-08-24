@@ -76,7 +76,7 @@ public class ShenBaoAdminShenBaoController {
 	@RequestMapping(name = "创建申报信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  create(@RequestBody ShenBaoInfoDto shenBaoInfoDto){
-		shenBaoInfoService.create(shenBaoInfoDto);	
+		shenBaoInfoService.createShenBaoInfo(shenBaoInfoDto,false);	
 	}
 	
 	@RequiresPermissions("shenbaoAdmin/shenbao##put")

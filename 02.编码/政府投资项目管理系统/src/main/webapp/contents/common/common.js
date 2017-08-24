@@ -32,8 +32,9 @@
         uploadFileTypeConfig:uploadFileTypeConfig,//上传文件配置
         stringToArray:stringToArray,
         arrayToString:arrayToString,
-        toDecimal4:toDecimal4,
-        getUserUnits:getUserUnits
+        toDecimal4:toDecimal4,//保留4位小数
+        getUserUnits:getUserUnits,//获取所有的用户单位信息
+        getSum:getSum//求和
     };
 
     window.common = service;
@@ -540,6 +541,15 @@
     		}
     	});
     	return window.global_userUnits;
+    }
+    
+    function getSum(array){
+    	var sum = 0;
+    	function sumAdd(item, index, array){
+    		sum += parseFloat(item);
+    	}
+    	array.forEach(sumAdd);
+    	return toDecimal4(sum);
     }
     
     //init

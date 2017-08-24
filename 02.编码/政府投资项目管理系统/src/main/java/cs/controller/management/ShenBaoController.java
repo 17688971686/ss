@@ -48,6 +48,20 @@ public class ShenBaoController {
 		return shenbaoInfoDtos;
 	}
 	
+	@RequiresPermissions("management/shenbao##post")
+	@RequestMapping(name = "创建申报数据", path = "",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void create(@RequestBody ShenBaoInfoDto dto){
+		shenBaoInfoService.createShenBaoInfo(dto,true);
+	}
+	
+	@RequiresPermissions("management/shenbao##put")
+	@RequestMapping(name = "更新申报数据", path = "",method=RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void update(@RequestBody ShenBaoInfoDto dto){
+		shenBaoInfoService.updateShenBaoInfo(dto);
+	}
+	
 	@RequiresPermissions("management/shenbao#addProjectToLibrary#post")
 	@RequestMapping(name = "项目纳入项目库", path = "addProjectToLibrary",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -69,10 +83,4 @@ public class ShenBaoController {
 		shenBaoInfoService.updateShenBaoInfoState(taskRecordDto);
 	}
 	
-	@RequiresPermissions("management/shenbao##put")
-	@RequestMapping(name = "更新申报数据", path = "",method=RequestMethod.PUT)
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void update(@RequestBody ShenBaoInfoDto dto){
-		shenBaoInfoService.updateShenBaoInfo(dto);
-	}
 }

@@ -69,8 +69,6 @@ public class ShenBaoAdminProjectController {
 			filterItem.setValue(userUnitInfo.getId());
 			odataObj.getFilter().add(filterItem);
 		}
-		
-//		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);
 		PageModelDto<ProjectDto> ProjectDtos = ProjectService.getUnitAndAll(odataObj,hasUnitNameFilter);
 		return ProjectDtos;
 	}

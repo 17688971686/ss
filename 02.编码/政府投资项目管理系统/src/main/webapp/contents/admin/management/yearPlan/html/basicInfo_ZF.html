@@ -3,8 +3,10 @@
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目所属单位：</td>
 		<td>
-			<span ng-bind="vm.model.shenBaoInfo.unitName" style="display:none"></span>
-			<span ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitName"></span>
+			<select style="height:30px;" ng-model="vm.model.shenBaoInfo.unitName" ng-disabled="vm.shenBaoInfoEdit" ng-change="vm.unitNameChange()">
+				<option value="">---请选择---</option>
+				<option ng-repeat="unit in vm.basicData.userUnit" ng-checked="vm.model.shenBaoInfo.unitName == unit.id" value="{{unit.id}}">{{unit.unitName}}</option>
+			</select>
 		</td>
 	</tr>
 </table>
@@ -14,7 +16,9 @@
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目名称：</td>
 		<td>
-			<span ng-bind="vm.model.shenBaoInfo.projectName"></span>
+			<span ng-if="vm.shenBaoInfoEdit" ng-bind="vm.model.shenBaoInfo.projectName"></span>
+			<input ng-if="vm.shenBaoInfoAdd" type="text" class="form-control input-sm" id="projectName" name="projectName" ng-model="vm.model.shenBaoInfo.projectName" data-val="true" data-val-required="必填"/>
+			<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight" style="width:180px;">项目阶段：<span class="required">(*)</span></td>					
 		<td>

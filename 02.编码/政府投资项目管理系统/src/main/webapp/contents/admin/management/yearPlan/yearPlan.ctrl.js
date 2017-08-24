@@ -20,7 +20,10 @@
     	vm.page="shenbaoInfoList";//默认为申报信息列表页面
         
     	function init(){
-    		if($state.current.name=='yearPlan_shenbaoInfoEdit'){//申报信息编辑页面
+    		if($state.current.name=='yearPlan_shenbaoInfoEdit'){//申报信息新增页面
+    			vm.page='shenbaoInfoAdd';
+    		}
+    		if($state.current.name=='yearPlan_shenbaoInfoEdit' && vm.id){//申报信息编辑页面
     			vm.page='shenbaoInfoEdit';
     		}
     		if($state.current.name=='yearPlan_planList'){
@@ -64,7 +67,8 @@
    	   		vm.basicData.unitProperty=common.getBacicDataByIndectity(common.basicDataConfig().unitProperty);//单位性质	   		
    	   		vm.basicData.area_Street=$linq(common.getBasicData())
    	   			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
-   	   			.toArray(); //行政区划街道  			   		
+   	   			.toArray(); //行政区划街道
+   	   		vm.basicData.userUnit=common.getUserUnits();//用户单位
     	}
     	init();    	
     	activate();
@@ -72,7 +76,13 @@
         	if(vm.page=='shenbaoInfoList'){
         		init_shenbaoInfoList();
         	}
+        	if(vm.page=='shenbaoInfoAdd'){
+        		vm.shenBaoInfoAdd = true;
+        		init_shenbaoInfoEdit();
+        		
+        	}
         	if(vm.page=='shenbaoInfoEdit'){
+        		vm.shenBaoInfoEdit = true;
         		init_shenbaoInfoEdit();
         	}
         	if(vm.page=='planList'){
@@ -159,6 +169,13 @@
     				}
     			});
     		};
+    		//新增年度计划项目信息按钮
+    		vm.addShenBaoInfo=function(){
+    			var projectInvestmentType=common.basicDataConfig().projectInvestmentType_ZF;//默认为政府投资类型
+    			var stage=common.basicDataConfig().projectShenBaoStage_nextYearPlan;//默认申报阶段为下一年度计划
+    			//跳转到编辑页面
+    			$location.path("/yearPlan/shenbaoInfoEdit//"+projectInvestmentType+"/"+stage);
+    		};
     		
     	}//end#init_shenbaoInfoList
     	
@@ -176,10 +193,10 @@
 	 		  }
 	 	
 	 		//禁止点击Tab切换
-	 		  $("#tab1").attr("disabled","true");
-	 		  $("#tab2").attr("disabled","true");
-	 		  $("#tab3").attr("disabled","true");
-	 		  $("#tab4").attr("disabled","true");
+//	 		  $("#tab1").attr("disabled","true");
+//	 		  $("#tab2").attr("disabled","true");
+//	 		  $("#tab3").attr("disabled","true");
+//	 		  $("#tab4").attr("disabled","true");
     		};
     		//初始化基础数据
     		var init_basicData = function(){
@@ -215,6 +232,11 @@
     	init_basicData();
     	
     	yearPlanSvc.getShenBaoInfoById(vm);
+    	
+    	//项目所属单位发生变化
+    	vm.unitNameChange=function(){
+    		yearPlanSvc.getUserUnit(vm);
+    	};
     	
    		//获取项目类型， 多选
    		vm.updateSelection = function(id){
@@ -375,8 +397,13 @@
      		vm.model.shenBaoInfo.auditState = auditState;
      		yearPlanSvc.updateShenBaoInfo(vm);
      	};
+     	//确认创建
+     	vm.create=function(){
+     		yearPlanSvc.createShenBaoInfo(vm);
+     	};
+     	
     }//end#init_shenbaoInfoEdit
-
+    	
     	//init_planList
     	function init_planList(){
     		yearPlanSvc.grid_planList(vm);
