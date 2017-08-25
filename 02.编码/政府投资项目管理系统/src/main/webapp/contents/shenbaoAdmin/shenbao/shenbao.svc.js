@@ -36,10 +36,9 @@
 				};
 			
 			var httpSuccess = function success(response) {
-				
 				vm.model.shenBaoInfoRecords = response.data.value;
-				vm.model.constructionUnit = common.stringToArray(vm.model.constructionUnit);
 				 var list = [];
+				 //判断申报记录中的申报阶段，防止多次申报同一阶段
 	        	   if(vm.model.shenBaoInfoRecords.length >0){
 	        		   for (var i = 0; i < vm.model.shenBaoInfoRecords.length; i++) {
 	   	           			list.push(vm.model.shenBaoInfoRecords[i].projectShenBaoStage);
@@ -184,11 +183,6 @@
 		 * 更新申报信息
 		 */
 		function updateShenBaoInfo(vm){
-			//年度计划申请资金计算
-			vm.model.applyYearInvest=parseFloat(vm.model.capitalSCZ_ggys_TheYear) + parseFloat(vm.model.capitalSCZ_gtzj_TheYear);
-			vm.model.applyYearInvest_LastTwoYear = 	parseFloat(vm.model.capitalSCZ_ggys_LastTwoYear) + parseFloat(vm.model.capitalSCZ_gtzj_LastTwoYear);
-			vm.model.applyYearInvest_LastYear = parseFloat(vm.model.capitalSCZ_ggys_LastYear)+ parseFloat(vm.model.capitalSCZ_gtzj_LastYear);
-
 			common.initJqValidation();
 			var isValid = $('form').valid();
 			if (isValid) {
@@ -263,7 +257,7 @@
 					vm.model.pifuJYS_date=common.formatDate(vm.model.pifuJYS_date);//项目建议书批复日期			
 					vm.model.pifuKXXYJBG_date=common.formatDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
 					vm.model.pifuCBSJYGS_date=common.formatDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期						
-					//资金处理
+					//资金处理（TODO这一块可以不需要了）
 					vm.model.projectInvestSum=common.toMoney(vm.model.projectInvestSum);//项目总投资
 					vm.model.projectInvestAccuSum=common.toMoney(vm.model.projectInvestAccuSum);//累计完成投资
 					vm.model.capitalSCZ_ggys=common.toMoney(vm.model.capitalSCZ_ggys);//市财政-公共预算
@@ -292,24 +286,25 @@
 					
 					//计算资金筹措总计
 					vm.capitalTotal=function(){
-			  			 return (parseFloat(vm.model.capitalSCZ_ggys)||0 )
-			  			 		+ (parseFloat(vm.model.capitalSCZ_gtzj)||0 )
-			  			 		+ (parseFloat(vm.model.capitalSCZ_zxzj)||0 )
-			  			 		+ (parseFloat(vm.model.capitalQCZ_ggys)||0 )
-			  			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
-			  			 		+ (parseFloat(vm.model.capitalZYYS)||0 )
-			  			 		+ (parseFloat(vm.model.capitalSHTZ)||0)
-			  			 		+ (parseFloat(vm.model.capitalOther)||0) ;
+						return common.getSum([
+							vm.model.capitalSCZ_ggys||0,vm.model.capitalSCZ_gtzj||0,vm.model.capitalSCZ_zxzj||0,
+							vm.model.capitalQCZ_ggys||0,vm.model.capitalQCZ_gtzj||0,
+							vm.model.capitalSHTZ||0,vm.model.capitalZYYS||0,
+							vm.model.capitalOther||0
+						]);
 			  		 };
 			  		 
+			  		//下下年度申请资金
 			  		vm.lastTwoYearCapitalTotal = function(){
-			  			return (parseFloat(vm.model.capitalSCZ_ggys_LastTwoYear)||0) + (parseFloat(vm.model.capitalSCZ_gtzj_LastTwoYear)||0);
+			  			return vm.model.applyYearInvest_LastTwoYear=common.getSum([vm.model.capitalSCZ_ggys_LastTwoYear||0,vm.model.capitalSCZ_gtzj_LastTwoYear||0]);
 			  		};
+			  		//下年度申请资金
 			  		vm.lastYearCapitalTotal= function(){
-			  			return (parseFloat(vm.model.capitalSCZ_ggys_LastYear)||0) + (parseFloat(vm.model.capitalSCZ_gtzj_LastYear)||0);
+			  			return vm.model.applyYearInvest_LastYear=common.getSum([vm.model.capitalSCZ_ggys_LastYear||0,vm.model.capitalSCZ_gtzj_LastYear||0]);
 			  		};
+			  		//本年度申请资金
 			  		vm.theYearCapitalTotal= function(){
-			  			return (parseFloat(vm.model.capitalSCZ_ggys_TheYear)||0) + (parseFloat(vm.model.capitalSCZ_gtzj_TheYear)||0);
+			  			return vm.model.applyYearInvest=common.getSum([vm.model.capitalSCZ_ggys_TheYear||0,vm.model.capitalSCZ_gtzj_TheYear||0]);
 			  		};
 			  		
 					if(vm.page=='record'){//如果是申报信息详情页面
@@ -341,9 +336,6 @@
 		 */
 		function createShenBaoInfo(vm){
 			//申请资金计算
-			vm.model.applyYearInvest=parseFloat(vm.model.capitalSCZ_ggys_TheYear || 0) + parseFloat(vm.model.capitalSCZ_gtzj_TheYear || 0);
-			vm.model.applyYearInvest_LastYear = parseFloat(vm.model.capitalSCZ_ggys_LastYear || 0)+ parseFloat(vm.model.capitalSCZ_gtzj_LastYear || 0);
-			vm.model.applyYearInvest_LastTwoYear = 	parseFloat(vm.model.capitalSCZ_ggys_LastTwoYear || 0) + parseFloat(vm.model.capitalSCZ_gtzj_LastTwoYear || 0);
 			common.initJqValidation();
 			var isValid = $('form').valid();
 			if (isValid) {
@@ -357,7 +349,6 @@
 				};
 
 				var httpSuccess = function success(response) {
-					vm.model.constructionUnit = common.stringToArray(vm.model.constructionUnit);
 					common.requestSuccess({
 						vm : vm,
 						response : response,
@@ -482,26 +473,24 @@
 					vm.model.capitalSCZ_qita_LastTwoYear =common.toMoney(vm.model.capitalSCZ_qita_LastTwoYear);//下下年度其他资金
 					//计算资金筹措总计
 					vm.capitalTotal=function(){
-			  			 return (parseFloat(vm.model.capitalSCZ_ggys)||0 )
-			  			 		+ (parseFloat(vm.model.capitalSCZ_gtzj)||0 )
-			  			 		+ (parseFloat(vm.model.capitalSCZ_zxzj)||0 )
-			  			 		+ (parseFloat(vm.model.capitalQCZ_ggys)||0 )
-			  			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
-			  			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
-			  			 		+ (parseFloat(vm.model.capitalZYYS)||0 )
-			  			 		+ (parseFloat(vm.model.capitalOther)||0) ;
+						return common.getSum([
+							vm.model.capitalSCZ_ggys||0,vm.model.capitalSCZ_gtzj||0,vm.model.capitalSCZ_zxzj||0,
+							vm.model.capitalQCZ_ggys||0,vm.model.capitalQCZ_gtzj||0,
+							vm.model.capitalSHTZ||0,vm.model.capitalZYYS||0,
+							vm.model.capitalOther||0
+						]);
 			  		 };
 			  		 //下下年度申请资金
 			  		vm.lastTwoYearCapitalTotal = function(){
-			  			return (parseFloat(vm.model.capitalSCZ_ggys_LastTwoYear)||0) + (parseFloat(vm.model.capitalSCZ_gtzj_LastTwoYear)||0);
+			  			return vm.model.applyYearInvest_LastTwoYear=common.getSum([vm.model.capitalSCZ_ggys_LastTwoYear||0,vm.model.capitalSCZ_gtzj_LastTwoYear||0]);
 			  		};
 			  		//下年度申请资金
 			  		vm.lastYearCapitalTotal= function(){
-			  			return (parseFloat(vm.model.capitalSCZ_ggys_LastYear)||0) + (parseFloat(vm.model.capitalSCZ_gtzj_LastYear)||0);
+			  			return vm.model.applyYearInvest_LastYear=common.getSum([vm.model.capitalSCZ_ggys_LastYear||0,vm.model.capitalSCZ_gtzj_LastYear||0]);
 			  		};
 			  		//本年度申请资金
 			  		vm.theYearCapitalTotal= function(){
-			  			return (parseFloat(vm.model.capitalSCZ_ggys_TheYear)||0) + (parseFloat(vm.model.capitalSCZ_gtzj_TheYear)||0);
+			  			return vm.model.applyYearInvest=common.getSum([vm.model.capitalSCZ_ggys_TheYear||0,vm.model.capitalSCZ_gtzj_TheYear||0]);
 			  		};
 			  		//基础数据--行业归口
 			  		  if(vm.model.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资			 			  
@@ -516,7 +505,7 @@
 					var date = new Date();
 					vm.planYear = vm.model.planYear = parseInt(date.getFullYear()+1);
 				}
-				vm.model.projectShenBaoStage = vm.stage;//申报信息中的字段数据录入			
+				vm.model.projectShenBaoStage = vm.stage;//申报信息中的字段数据录入	
 			};
 			
 			common.http({
@@ -778,7 +767,7 @@
 					title : "操作",
 					width : 180,
 					template : function(item) {
-						return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,item.projectName,item.projectNumber);
+						return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,common.repSign(item.projectName),item.projectNumber);
 					}
 
 				}
@@ -824,33 +813,36 @@
 			// End:dataSource
 			// Begin:column
 			var columns = [
-					{
-						template : function(item) {
-							return kendo
-									.format(
-											"<input type='radio'  relId='{0}' name='checkbox'/>",
-											item.fullName);
-						},
-						filterable : false,
-						width : 40,
-						title : ""
+				{
+					template : function(item) {
+						return kendo
+								.format(
+										"<input type='radio'  relId='{0},{1},{2}' name='checkbox'/>",
+										item.number,item.name,item.fullName);
 					},
-					{
-						field : "number",
-						title : "文号",
-						width:180,
-						
-						filterable : true
-					},
-					{
-						field : "fullName",
-						title : "文件名",
-						width : 550,
-						filterable : true
-						
-					}
+					filterable : false,
+					width : 40,
+					title : ""
+				},
+				{
+					field : "number",
+					title : "文号",
+					width:180,
 					
-			];
+					filterable : true
+				},
+				{
+					field : "name",
+					title : "文件名",
+					width : 550,
+					template:function(item){
+						return common.format("<a href='/contents/upload/{1}'>{0}</a>",item.name,item.fullName);
+					},
+					filterable : true
+					
+				}
+				
+		];
 			// End:column
 
 			vm.gridOptions_documentRecords = {

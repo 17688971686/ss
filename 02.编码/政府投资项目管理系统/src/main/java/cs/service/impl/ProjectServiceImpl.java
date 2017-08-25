@@ -94,7 +94,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		PageModelDto<ProjectDto> pageModelDto = new PageModelDto<>();
 		pageModelDto.setCount(odataObj.getCount());
 		pageModelDto.setValue(dtos);
-		logger.info("后台管理端查询项目数据");
+		logger.info("查询项目数据--带有所属单位名称");
 		return pageModelDto;
 	}
 	
@@ -120,7 +120,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		PageModelDto<ProjectDto> pageModelDto = new PageModelDto<>();
 		pageModelDto.setCount(odataObj.getCount());
 		pageModelDto.setValue(dtos);
-		logger.info("建设单位查询项目数据");
+		logger.info("查询项目数据--带有所属单位名称且包含所有已纳入项目库的");
 		return pageModelDto;
 	}
 

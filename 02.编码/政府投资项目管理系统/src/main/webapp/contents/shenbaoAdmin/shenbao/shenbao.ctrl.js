@@ -237,12 +237,18 @@
 	   			//获取选择框中的信息
 	   			var select = common.getKendoCheckId('.grid');
             	var fileName = select[0].value;
-            	
-   			    if(vm.model.attachmentDtos){
-   				  vm.model.attachmentDtos.push({name:fileName,url:fileName,type:vm.pifuType});
-   			    }else{
-   				  vm.model.attachmentDtos=[{name:fileName,url:fileName,type:vm.pifuType}];
-   			    }    			          		
+            	if(fileName){
+            		var file = common.stringToArray(fileName,",");
+            		var number = file[0];
+            		var name = file[1];
+            		var url =file[2];
+            		vm.model['pifu'+vm.pifuType+'_wenhao'] = number;
+            		if(vm.model.attachmentDtos){
+         				  vm.model.attachmentDtos.push({name:name,url:url,type:vm.pifuType});
+         			 }else{
+         				  vm.model.attachmentDtos=[{name:name,url:url,type:vm.pifuType}];
+         			 }
+            	}
 	        };
     	  
 	   		//文件上传
@@ -300,7 +306,12 @@
    		
 		 //删除上传文件
 		 vm.delFile=function(idx){
-		  	 vm.model.attachmentDtos.splice(idx,1);
+			 var file = vm.model.attachmentDtos[idx];
+   			 if(file){//删除上传文件的同时删除批复文号
+   				var pifuType = file.type;
+   				vm.model['pifu'+pifuType+'_wenhao'] = "";
+   				vm.model.attachmentDtos.splice(idx,1);
+   			 }
 		 };
   		 	 
   		 //tab切换(上一步)

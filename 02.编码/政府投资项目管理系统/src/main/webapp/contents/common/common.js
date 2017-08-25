@@ -34,7 +34,8 @@
         arrayToString:arrayToString,
         toDecimal4:toDecimal4,//保留4位小数
         getUserUnits:getUserUnits,//获取所有的用户单位信息
-        getSum:getSum//求和
+        getSum:getSum,//求和
+        repSign:repSign//将英文类型的标点符号转换为中文的标点符号
     };
 
     window.common = service;
@@ -550,6 +551,15 @@
     	}
     	array.forEach(sumAdd);
     	return toDecimal4(sum);
+    }
+    
+    function repSign(str) {
+    	var tmp = '',c=0;
+    	  for(var i=0;i<str.length;i++){
+    		 c=str.charCodeAt(i);
+    		 tmp += String.fromCharCode((c>0 && c<0x80) ? (c+0xfee0) : c)
+    	  }
+    	  return tmp;
     }
     
     //init

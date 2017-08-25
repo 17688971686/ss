@@ -86,6 +86,11 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		return super.get(odataObj);				
 	}
 	
+	/**
+	 * @description 创建申报信息
+	 * @param dto 申报信息数据
+	 * @param isAdminCreate 是否是管理员创建
+	 */
 	@Override
 	@Transactional
 	public void createShenBaoInfo(ShenBaoInfoDto dto,Boolean isAdminCreate) {
@@ -156,50 +161,50 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		
 	}
 
-//	@Override
-//	@Transactional
-//	public ShenBaoInfo create(ShenBaoInfoDto dto) {
-//		ShenBaoInfo entity=super.create(dto);
-//		//因dto中创建时间和修改时间为项目的相关时间，需从新设置
-//		entity.setCreatedDate(new Date());
-//		entity.setModifiedDate(new Date());
-//		entity.setAuditState(BasicDataConfig.auditState_noAudit);//初始化审核状态--未审核
-//		//处理关联信息
-//		//begin#关联信息
-//		//附件
-//		dto.getAttachmentDtos().forEach(x -> {
-//			Attachment attachment = new Attachment();
-//			attachmentMapper.buildEntity(x, attachment);
-//			attachment.setCreatedBy(entity.getCreatedBy());
-//			attachment.setModifiedBy(entity.getModifiedBy());
-//			entity.getAttachments().add(attachment);
-//		});
-//		//申报单位
-//		ShenBaoUnitInfoDto shenBaoUnitInfoDto = dto.getShenBaoUnitInfoDto();
-//		ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
-//		shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
-//		shenBaoUnitInfo.setCreatedBy(entity.getCreatedBy());
-//		shenBaoUnitInfo.setModifiedBy(entity.getModifiedBy());
-//		entity.setShenBaoUnitInfo(shenBaoUnitInfo);
-//		//编制单位
-//		ShenBaoUnitInfoDto bianZhiUnitInfoDto = dto.getBianZhiUnitInfoDto();
-//		ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
-//		shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
-//		bianZhiUnitInfo.setCreatedBy(entity.getCreatedBy());
-//		bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
-//		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
-//		//设置申报信息的状态
-//		entity.setProcessState(BasicDataConfig.processState_tianBao);
-//		
-//		super.repository.save(entity);
-//		//初始化工作流
-//		initWorkFlow(entity,false);
-//		//处理批复文件库
-//		handlePiFuFile(entity);
-//		logger.info(String.format("创建申报信息,项目名称 %s",entity.getProjectName()));		
-//		return entity;
-//		
-//	}
+	@Override
+	@Transactional
+	public ShenBaoInfo create(ShenBaoInfoDto dto) {
+		ShenBaoInfo entity=super.create(dto);
+		//因dto中创建时间和修改时间为项目的相关时间，需从新设置
+		entity.setCreatedDate(new Date());
+		entity.setModifiedDate(new Date());
+		entity.setAuditState(BasicDataConfig.auditState_noAudit);//初始化审核状态--未审核
+		//处理关联信息
+		//begin#关联信息
+		//附件
+		dto.getAttachmentDtos().forEach(x -> {
+			Attachment attachment = new Attachment();
+			attachmentMapper.buildEntity(x, attachment);
+			attachment.setCreatedBy(entity.getCreatedBy());
+			attachment.setModifiedBy(entity.getModifiedBy());
+			entity.getAttachments().add(attachment);
+		});
+		//申报单位
+		ShenBaoUnitInfoDto shenBaoUnitInfoDto = dto.getShenBaoUnitInfoDto();
+		ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
+		shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
+		shenBaoUnitInfo.setCreatedBy(entity.getCreatedBy());
+		shenBaoUnitInfo.setModifiedBy(entity.getModifiedBy());
+		entity.setShenBaoUnitInfo(shenBaoUnitInfo);
+		//编制单位
+		ShenBaoUnitInfoDto bianZhiUnitInfoDto = dto.getBianZhiUnitInfoDto();
+		ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
+		shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
+		bianZhiUnitInfo.setCreatedBy(entity.getCreatedBy());
+		bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
+		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
+		//设置申报信息的状态
+		entity.setProcessState(BasicDataConfig.processState_tianBao);
+		
+		super.repository.save(entity);
+		//初始化工作流
+		initWorkFlow(entity,false);
+		//处理批复文件库
+		handlePiFuFile(entity);
+		logger.info(String.format("创建申报信息,项目名称 %s",entity.getProjectName()));		
+		return entity;
+		
+	}
 	
 	@Override
 	@Transactional
@@ -375,6 +380,12 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		return "";
 	}
 	
+	/**
+	* @Title: initWorkFlow 
+	* @Description: 创建申报信息时初始化工作流 
+	* @param shenBaoInfo 申报信息
+	* @param isAdminCreate  是否为管理员创建 
+	 */
 	private void initWorkFlow(ShenBaoInfo shenBaoInfo,Boolean isAdminCreate){
 		//获取系统配置中工作流类型的第一处理人
 		 String startUser="";
