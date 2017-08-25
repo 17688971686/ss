@@ -22,12 +22,12 @@ import cs.repository.odata.ODataObj;
  */
 @Repository
 public class ProjectRepoImpl extends AbstractRepository<Project	, String> {
-	public List<Project> findByOdata2(ODataObj oDataObj,Boolean hasUnitNameFilter){
+	public List<Project> findByOdata2(ODataObj oDataObj,Boolean isFilters,Boolean hasUnitFilter,Boolean isUnitFilter){
 		logger.debug("findByOdata2");		
 		Criteria crit = this.getSession().createCriteria(Project.class);
 		List<ODataFilterItem> filters = oDataObj.getFilter();
-		List<Criterion> allCriterions = new ArrayList<>();//所有的过滤条件
-		List<Criterion> filterCriterions = new ArrayList<>();//操作人员添加的过滤条件
+		List<Criterion> unitFiltersCriterions = new ArrayList<>();//本单位过滤条件
+		List<Criterion> filterCriterions = new ArrayList<>();//已纳入项目库中的过滤条件
 		//默认查询已纳入项目库的项目
 		filterCriterions.add(Restrictions.eq(Project_.isIncludLibrary.getName(), true));
 		if(filters !=null && filters.size()>0){
@@ -37,87 +37,164 @@ public class ProjectRepoImpl extends AbstractRepository<Project	, String> {
 				Object value = filter.getValue();
 				switch (operator) {
 				case "like":
-					allCriterions.add(Restrictions.like(field, "%" + value + "%"));
-					if(hasUnitNameFilter){//如果有单位过滤
-						if(!field.equals("isLatestVersion")){//判断过滤条件是否不是默认条件
-							filterCriterions.add(Restrictions.like(field, "%" + value + "%"));
+					if(isFilters){//如果有额外的过滤条件
+						if(hasUnitFilter){//如果有单位过滤
+							if(isUnitFilter){//如果是本单位过滤
+								unitFiltersCriterions.add(Restrictions.like(field, "%" + value + "%"));
+								filterCriterions=unitFiltersCriterions;
+							}else{//如果是其他单位过滤
+								unitFiltersCriterions.add(Restrictions.like(field, "%" + value + "%"));
+								unitFiltersCriterions.add(Restrictions.eq(Project_.isIncludLibrary.getName(), true));
+								filterCriterions.add(Restrictions.like(field, "%" + value + "%"));
+							}
+						}else{//如果没有单位过滤
+							unitFiltersCriterions.add(Restrictions.like(field, "%" + value + "%"));
+							if(!field.equals("unitName")){
+								filterCriterions.add(Restrictions.like(field, "%" + value + "%"));
+							}
 						}
-					}else{//如果没有单位过滤（默认条件中添加了单位为登陆单位）
-						if(!(field.equals("isLatestVersion") || field.equals("unitName"))){//判断过滤条件是否不是默认条件
-							filterCriterions.add(Restrictions.like(field, "%" + value + "%"));
-						}
+					}else{
+						unitFiltersCriterions.add(Restrictions.like(field, "%" + value + "%"));
+						unitFiltersCriterions.add(Restrictions.eq(Project_.isIncludLibrary.getName(), false));
+						filterCriterions.add(Restrictions.eq(Project_.isLatestVersion.getName(), true));
 					}
 					break;
 				case "eq":
-					allCriterions.add(Restrictions.eq(field, value));
-					if(hasUnitNameFilter){//如果有单位过滤
-						if(!field.equals("isLatestVersion")){//判断过滤条件是否不是默认条件
-							filterCriterions.add(Restrictions.eq(field, value));
+					if(isFilters){//如果有过滤条件
+						if(hasUnitFilter){//如果有单位过滤
+							if(isUnitFilter){//如果有本单位过滤
+								unitFiltersCriterions.add(Restrictions.eq(field, value));
+								filterCriterions=unitFiltersCriterions;
+							}else{//如果是其他单位过滤
+								unitFiltersCriterions.add(Restrictions.eq(field, value));
+								unitFiltersCriterions.add(Restrictions.eq(Project_.isIncludLibrary.getName(), true));
+								filterCriterions.add(Restrictions.eq(field, value));
+							}
+						}else{//如果没有单位过滤条件
+							unitFiltersCriterions.add(Restrictions.eq(field, value));
+							if(!field.equals("unitName")){
+								filterCriterions.add(Restrictions.eq(field, value));
+							}
 						}
-					}else{//如果没有单位过滤（默认条件中添加了单位为登陆单位）
-						if(!(field.equals("isLatestVersion") || field.equals("unitName"))){//判断过滤条件是否不是默认条件
-							filterCriterions.add(Restrictions.eq(field, value));
-						}
+					}else{
+						unitFiltersCriterions.add(Restrictions.eq(field, value));
+						unitFiltersCriterions.add(Restrictions.eq(Project_.isIncludLibrary.getName(), false));
+						filterCriterions.add(Restrictions.eq(Project_.isLatestVersion.getName(), true));
 					}
 					break;
 				case "ne":
-					allCriterions.add(Restrictions.ne(field, value));
-					if(hasUnitNameFilter){//如果有单位过滤
-						if(!field.equals("isLatestVersion")){//判断过滤条件是否不是默认条件
-							filterCriterions.add(Restrictions.ne(field, value));
+					if(isFilters){//如果有过滤条件
+						if(hasUnitFilter){//如果有单位过滤
+							if(isUnitFilter){//如果有本单位过滤
+								unitFiltersCriterions.add(Restrictions.ne(field,value));
+								filterCriterions=unitFiltersCriterions;
+							}else{//如果是其他单位过滤
+								unitFiltersCriterions.add(Restrictions.ne(field, value));
+								unitFiltersCriterions.add(Restrictions.eq(Project_.isIncludLibrary.getName(), true));
+								filterCriterions.add(Restrictions.ne(field, value));
+							}
+						}else{//如果没有单位过滤条件
+							unitFiltersCriterions.add(Restrictions.ne(field,value));
+							if(!field.equals("unitName")){
+								filterCriterions.add(Restrictions.ne(field, value));
+							}
 						}
-					}else{//如果没有单位过滤（默认条件中添加了单位为登陆单位）
-						if(!(field.equals("isLatestVersion") || field.equals("unitName"))){//判断过滤条件是否不是默认条件
-							filterCriterions.add(Restrictions.ne(field, value));
-						}
+					}else{
+						unitFiltersCriterions.add(Restrictions.ne(field,value));
+						unitFiltersCriterions.add(Restrictions.eq(Project_.isIncludLibrary.getName(), false));
+						filterCriterions.add(Restrictions.eq(Project_.isLatestVersion.getName(), true));
 					}
 					break;
 				case "gt":
-					allCriterions.add(Restrictions.gt(field, value));
-					if(hasUnitNameFilter){//如果有单位过滤
-						if(!field.equals("isLatestVersion")){//判断过滤条件是否不是默认条件
-							filterCriterions.add(Restrictions.gt(field, value));
+					if(isFilters){//如果有过滤条件
+						if(hasUnitFilter){//如果有单位过滤
+							if(isUnitFilter){//如果有本单位过滤
+								unitFiltersCriterions.add(Restrictions.gt(field,value));
+								filterCriterions=unitFiltersCriterions;
+							}else{//如果是其他单位过滤
+								unitFiltersCriterions.add(Restrictions.gt(field, value));
+								unitFiltersCriterions.add(Restrictions.eq(Project_.isIncludLibrary.getName(), true));
+								filterCriterions.add(Restrictions.gt(field, value));
+							}
+						}else{//如果没有单位过滤条件
+							unitFiltersCriterions.add(Restrictions.gt(field,value));
+							if(!field.equals("unitName")){
+								filterCriterions.add(Restrictions.gt(field, value));
+							}
 						}
-					}else{//如果没有单位过滤（默认条件中添加了单位为登陆单位）
-						if(!(field.equals("isLatestVersion") || field.equals("unitName"))){//判断过滤条件是否不是默认条件
-							filterCriterions.add(Restrictions.gt(field, value));
-						}
+					}else{
+						unitFiltersCriterions.add(Restrictions.gt(field,value));
+						unitFiltersCriterions.add(Restrictions.eq(Project_.isIncludLibrary.getName(), false));
+						filterCriterions.add(Restrictions.eq(Project_.isLatestVersion.getName(), true));
 					}
 					break;
 				case "ge":
-					allCriterions.add(Restrictions.ge(field, value));
-					if(hasUnitNameFilter){//如果有单位过滤
-						if(!field.equals("isLatestVersion")){//判断过滤条件是否不是默认条件
-							filterCriterions.add(Restrictions.ge(field, value));
+					if(isFilters){//如果有过滤条件
+						if(hasUnitFilter){//如果有单位过滤
+							if(isUnitFilter){//如果有本单位过滤
+								unitFiltersCriterions.add(Restrictions.ge(field,value));
+								filterCriterions=unitFiltersCriterions;
+							}else{//如果没有本单位过滤条件
+								unitFiltersCriterions.add(Restrictions.ge(field,value));
+								unitFiltersCriterions.add(Restrictions.eq(Project_.isIncludLibrary.getName(), true));
+								filterCriterions.add(Restrictions.ge(field,value));
+							}
+						}else{//如果没有单位过滤条件
+							unitFiltersCriterions.add(Restrictions.ge(field,value));
+							if(!field.equals("unitName")){
+								filterCriterions.add(Restrictions.ge(field, value));
+							}
 						}
-					}else{//如果没有单位过滤（默认条件中添加了单位为登陆单位）
-						if(!(field.equals("isLatestVersion") || field.equals("unitName"))){//判断过滤条件是否不是默认条件
-							filterCriterions.add(Restrictions.ge(field, value));
-						}
+					}else{
+						unitFiltersCriterions.add(Restrictions.ge(field,value));
+						unitFiltersCriterions.add(Restrictions.eq(Project_.isIncludLibrary.getName(), false));
+						filterCriterions.add(Restrictions.eq(Project_.isLatestVersion.getName(), true));
 					}
 					break;
 				case "lt":
-					allCriterions.add(Restrictions.lt(field, value));
-					if(hasUnitNameFilter){//如果有单位过滤
-						if(!field.equals("isLatestVersion")){//判断过滤条件是否不是默认条件
-							filterCriterions.add(Restrictions.lt(field, value));
+					if(isFilters){//如果有过滤条件
+						if(hasUnitFilter){//如果有单位过滤
+							if(isUnitFilter){//如果有本单位过滤
+								unitFiltersCriterions.add(Restrictions.lt(field, value));
+								filterCriterions=unitFiltersCriterions;
+							}else{//如果没有本单位过滤条件
+								unitFiltersCriterions.add(Restrictions.lt(field, value));
+								unitFiltersCriterions.add(Restrictions.eq(Project_.isIncludLibrary.getName(), true));
+								filterCriterions.add(Restrictions.lt(field, value));
+							}
+						}else{//如果没有单位过滤条件
+							unitFiltersCriterions.add(Restrictions.lt(field, value));
+							if(!field.equals("unitName")){
+								filterCriterions.add(Restrictions.lt(field, value));
+							}
 						}
-					}else{//如果没有单位过滤（默认条件中添加了单位为登陆单位）
-						if(!(field.equals("isLatestVersion") || field.equals("unitName"))){//判断过滤条件是否不是默认条件
-							filterCriterions.add(Restrictions.lt(field, value));
-						}
+					}else{
+						unitFiltersCriterions.add(Restrictions.lt(field, value));
+						unitFiltersCriterions.add(Restrictions.eq(Project_.isIncludLibrary.getName(), false));
+						filterCriterions.add(Restrictions.eq(Project_.isLatestVersion.getName(), true));
 					}
 					break;
 				case "le":
-					allCriterions.add(Restrictions.le(field, value));
-					if(hasUnitNameFilter){//如果有单位过滤
-						if(!field.equals("isLatestVersion")){//判断过滤条件是否不是默认条件
-							filterCriterions.add(Restrictions.le(field, value));
-						}
-					}else{//如果没有单位过滤（默认条件中添加了单位为登陆单位）
-						if(!(field.equals("isLatestVersion") || field.equals("unitName"))){//判断过滤条件是否不是默认条件
-							filterCriterions.add(Restrictions.le(field, value));
-						}
+					if(isFilters){//如果有过滤条件
+						if(hasUnitFilter){//如果有单位过滤
+							if(isUnitFilter){//如果有本单位过滤
+								unitFiltersCriterions.add(Restrictions.le(field, value));
+								filterCriterions=unitFiltersCriterions;
+							}else{//如果没有本单位过滤条件
+								unitFiltersCriterions.add(Restrictions.le(field, value));
+								unitFiltersCriterions.add(Restrictions.eq(Project_.isIncludLibrary.getName(), true));
+								filterCriterions.add(Restrictions.le(field, value));
+							}	
+						}else{//如果没有本单位过滤条件
+							unitFiltersCriterions.add(Restrictions.le(field, value));
+							if(!field.equals("unitName")){
+								filterCriterions.add(Restrictions.le(field, value));
+							}
+						}	
+					}else{
+						unitFiltersCriterions.add(Restrictions.le(field, value));
+						unitFiltersCriterions.add(Restrictions.eq(Project_.isIncludLibrary.getName(), false));
+						filterCriterions.add(Restrictions.eq(Project_.isLatestVersion.getName(), true));
 					}
 					break;
 				default:
@@ -127,7 +204,7 @@ public class ProjectRepoImpl extends AbstractRepository<Project	, String> {
 		}
 		Conjunction conjunction1 = Restrictions.conjunction();
 		Conjunction conjunction2 = Restrictions.conjunction();
-		for(Criterion criterion1:allCriterions){
+		for(Criterion criterion1:unitFiltersCriterions){
 			conjunction1.add(criterion1);
 		}
 		for(Criterion criterion2:filterCriterions){

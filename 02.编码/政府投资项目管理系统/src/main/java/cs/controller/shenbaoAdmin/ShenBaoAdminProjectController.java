@@ -49,28 +49,36 @@ public class ShenBaoAdminProjectController {
 	}
 	
 	@RequiresPermissions("shenbaoAdmin/project#unitProject#get")
-	@RequestMapping(name = "获取单位项目信息", path = "unitProject",method=RequestMethod.GET)
+	@RequestMapping(name = "获取单位项目信息(包含所有已纳入项目库的项目)", path = "unitProject",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> getUnitProject(HttpServletRequest request) throws ParseException {
 		//根据登陆名查找到单位信息
 		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
 		ODataObj odataObj = new ODataObj(request);
 		//初始化设置过滤条件
-		Boolean hasUnitNameFilter = false;
-		for(int i=0;i<odataObj.getFilter().size();i++){
-			if(odataObj.getFilter().get(i).getField().equals("unitName")){//如果过滤条件中有单位过滤
-				hasUnitNameFilter = true;
-				break;
+		Boolean isFilters = false;//是否有额外的筛选条件
+		Boolean hasUnitFilter = false;//是否有单位过滤
+		Boolean isUnitFilter = false;//筛选条件是否包含有本单位
+		if(odataObj.getFilter().size()>1){//默认的筛选条件为查询最新版本，如果有额外的条件
+			isFilters = true;
+			//判断筛选条件中是否包含单位筛选，且筛选单位为本单位
+			for(int i=0;i<odataObj.getFilter().size();i++){
+				if(odataObj.getFilter().get(i).getField().equals("unitName")){//如果过滤条件中有单位过滤
+					hasUnitFilter = true;
+					if(odataObj.getFilter().get(i).getValue().equals(userUnitInfo.getId())){//如果查询的是本单位的话
+						isUnitFilter =true;
+						break;
+					}
+				}
 			}
 		}
-		if(!hasUnitNameFilter){//如果没有单位过滤，则默认为登陆单位
-			hasUnitNameFilter = false;
+		if(!isFilters || !hasUnitFilter){//如果没有额外的筛选或者没有单位筛选条件，即为初始化条件：查询查询本单位未纳入项目库的项目
 			ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 			filterItem.setField("unitName");
 			filterItem.setOperator("eq");
 			filterItem.setValue(userUnitInfo.getId());
 			odataObj.getFilter().add(filterItem);
 		}
-		PageModelDto<ProjectDto> ProjectDtos = ProjectService.getUnitAndAll(odataObj,hasUnitNameFilter);
+		PageModelDto<ProjectDto> ProjectDtos = ProjectService.getUnitAndAll(odataObj,isFilters,hasUnitFilter,isUnitFilter);
 		return ProjectDtos;
 	}
 	

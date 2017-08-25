@@ -103,8 +103,8 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	 */
 	@Override
 	@Transactional
-	public PageModelDto<ProjectDto> getUnitAndAll(ODataObj odataObj,Boolean hasUnitNameFilter) {
-		List<ProjectDto> dtos = projectRepoImpl.findByOdata2(odataObj,hasUnitNameFilter).stream().map((x) -> {
+	public PageModelDto<ProjectDto> getUnitAndAll(ODataObj odataObj,Boolean isFilters,Boolean hasUnitFilter,Boolean isUnitFilter) {
+		List<ProjectDto> dtos = projectRepoImpl.findByOdata2(odataObj,isFilters,hasUnitFilter,isUnitFilter).stream().map((x) -> {
 			return mapper.toDto(x);
 		}).collect(Collectors.toList());
 		

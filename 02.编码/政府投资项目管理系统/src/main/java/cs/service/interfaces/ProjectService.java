@@ -16,5 +16,5 @@ public interface ProjectService extends IService<ProjectDto, Project, String> {
 	
 	PageModelDto<ProjectDto> Get(ODataObj odataObj);
 	
-	PageModelDto<ProjectDto> getUnitAndAll(ODataObj odataObj,Boolean hasUnitNameFilter);
+	PageModelDto<ProjectDto> getUnitAndAll(ODataObj odataObj,Boolean isFilters,Boolean hasUnitFilter,Boolean isUnitFilter);
 }
