@@ -113,7 +113,27 @@
         }//end#page_list
        
        function page_create(){
+    	   //新建项目相关数据初始化
     	   vm.model.projectInvestmentType = vm.projectInvestmentType;//项目投资类型用于数据收集
+			//资金处理没有就显示为0
+			vm.model.projectInvestSum=common.toMoney(vm.model.projectInvestSum);//项目总投资
+			vm.model.projectInvestAccuSum=common.toMoney(vm.model.projectInvestAccuSum);//累计完成投资
+			vm.model.capitalSCZ_ggys=common.toMoney(vm.model.capitalSCZ_ggys);//市财政-公共预算
+			vm.model.capitalSCZ_gtzj=common.toMoney(vm.model.capitalSCZ_gtzj);//市财政-国土资金
+			vm.model.capitalSCZ_zxzj=common.toMoney(vm.model.capitalSCZ_zxzj);//市财政-专项资金
+			vm.model.capitalQCZ_ggys=common.toMoney(vm.model.capitalQCZ_ggys);//区财政-公共预算
+			vm.model.capitalQCZ_gtzj=common.toMoney(vm.model.capitalQCZ_gtzj);//区财政-国土资金
+			vm.model.capitalZYYS=common.toMoney(vm.model.capitalZYYS);//中央预算
+			vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
+			vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
+			//资金来源计算
+	   		 vm.capitalTotal=function(){
+	   			 return common.getSum([
+	   					 vm.model.capitalSCZ_ggys||0,vm.model.capitalSCZ_gtzj||0,vm.model.capitalSCZ_zxzj||0,
+	   					 vm.model.capitalQCZ_ggys||0,vm.model.capitalQCZ_gtzj||0,
+	   					 vm.model.capitalSHTZ||0,vm.model.capitalZYYS||0,
+	   					 vm.model.capitalOther||0]);
+	   		 };
     	   if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
     		   //基础数据--项目分类
     		  vm.basicData.projectClassify=$linq(common.getBasicData())
@@ -194,12 +214,19 @@
 	   			//获取选择框中的信息
 	   			var select = common.getKendoCheckId('.grid');
             	var fileName = select[0].value;
-            	
-   			    if(vm.model.attachmentDtos){
-   				  vm.model.attachmentDtos.push({name:fileName,url:fileName,type:vm.pifuType});
-   			    }else{
-   				  vm.model.attachmentDtos=[{name:fileName,url:fileName,type:vm.pifuType}];
-   			    }    			          		
+            	if(fileName){
+            		var file = common.stringToArray(fileName,",");
+            		var number = file[0];
+            		var name = file[1];
+            		var url =file[2];
+            		vm.model['pifu'+vm.pifuType+'_wenhao'] = number;
+            		if(vm.model.attachmentDtos){
+         				  vm.model.attachmentDtos.push({name:name,url:url,type:vm.pifuType});
+         			 }else{
+         				  vm.model.attachmentDtos=[{name:name,url:url,type:vm.pifuType}];
+         			 }
+            	}
+   			     			          		
 	        };
 	   		
 	   		vm.onSelect=function(e){
@@ -241,19 +268,13 @@
 	   		};
 	   		//删除上传文件
 	   		 vm.delFile=function(idx){
-	           	 vm.model.attachmentDtos.splice(idx,1);
+	   			 var file = vm.model.attachmentDtos[idx];
+	   			 if(file){//删除上传文件的同时删除批复文号
+	   				var pifuType = file.type;
+	   				vm.model['pifu'+pifuType+'_wenhao'] = "";
+	   				vm.model.attachmentDtos.splice(idx,1);
+	   			 }
 	         };
-	   		//资金来源计算
-	   		 vm.capitalTotal=function(){
-	   			 return (parseFloat(vm.model.capitalSCZ_ggys)||0 )
-	   			 		+ (parseFloat(vm.model.capitalSCZ_gtzj)||0 )
-	   			 		+ (parseFloat(vm.model.capitalSCZ_zxzj)||0 )
-	   			 		+ (parseFloat(vm.model.capitalQCZ_ggys)||0 )
-	   			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
-	   			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
-	   			 		+ (parseFloat(vm.model.capitalZYYS)||0 )
-	   			 		+ (parseFloat(vm.model.capitalOther)||0) ;
-	   		 };
 		     //创建  
 	   		 vm.create = function () {
 	   		     projectSvc.createProject(vm);	   		     
@@ -277,6 +298,14 @@
  		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资			  
  			  vm.isSHInvestment = true;
  		   }
+    	 //资金来源计算
+   		 vm.capitalTotal=function(){
+   			 return common.getSum([
+   					 vm.model.capitalSCZ_ggys||0,vm.model.capitalSCZ_gtzj||0,vm.model.capitalSCZ_zxzj||0,
+   					 vm.model.capitalQCZ_ggys||0,vm.model.capitalQCZ_gtzj||0,
+   					 vm.model.capitalSHTZ||0,vm.model.capitalZYYS||0,
+   					 vm.model.capitalOther||0]);
+   		 };
     	 //相关附件文件上传文件种类
     	   vm.relatedType=common.uploadFileTypeConfig().projectEdit;
        }//end#page_projectInfo
