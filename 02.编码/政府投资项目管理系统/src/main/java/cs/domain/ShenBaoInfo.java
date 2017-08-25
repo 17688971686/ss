@@ -98,6 +98,8 @@ public class ShenBaoInfo extends BaseProject{
 	private String capitalOtherDescriptionShenBao_LastTwoYear;
 	
 	//安排资金
+	@Column(columnDefinition="double(11,4) NULL COMMENT '累计安排投资'")
+	private Double apInvestSum;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '安排年度资金筹措方案-公共预算'")
 	private Double capitalAP_ggys_TheYear;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '安排年度资金筹措方案-国土基金'")
@@ -136,6 +138,7 @@ public class ShenBaoInfo extends BaseProject{
 	@Column(columnDefinition="varchar(500) NULL COMMENT '审核状态'")
 	private String auditState;
 	//end
+
 	
 	//begin#关联信息
 	@OneToOne(cascade=CascadeType.ALL)
@@ -428,4 +431,11 @@ public class ShenBaoInfo extends BaseProject{
 	public void setConstructionUnit(String constructionUnit) {
 		this.constructionUnit = constructionUnit;
 	}
+	public Double getApInvestSum() {
+		return apInvestSum;
+	}
+	public void setApInvestSum(Double apInvestSum) {
+		this.apInvestSum = apInvestSum;
+	}
+	
 }

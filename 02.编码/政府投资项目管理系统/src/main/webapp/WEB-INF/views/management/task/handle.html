@@ -71,7 +71,7 @@ overflow: scroll !important;
 				</td>
 				<td class="formAlignRight">项目类型：</td>
 				<td>
-					<span ng-show="vm.isYearPlan" ng-repeat="x in vm.model.shenBaoInfo.projectType" ng-bind="vm.getBasicDataDesc(x)+' '"></span>
+					<span ng-show="vm.isYearPlan" ng-repeat="x in vm.projectTypes" ng-bind="vm.getBasicDataDesc(x)+' '"></span>
 					<span ng-show="vm.isMonthReport" ng-repeat="x in vm.model.project.projectType" ng-bind="vm.getBasicDataDesc(x)+' '"></span>			
 				</td>
 			</tr>	

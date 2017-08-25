@@ -284,6 +284,8 @@
 					vm.model.capitalSCZ_ggys_LastTwoYear=common.toMoney(vm.model.capitalSCZ_ggys_LastTwoYear);
 					vm.model.capitalSCZ_qita_LastTwoYear=common.toMoney(vm.model.capitalSCZ_qita_LastTwoYear);
 					
+					vm.model.apInvestSum = common.toMoney(vm.model.apInvestSum);//累计安排资金
+					
 					//计算资金筹措总计
 					vm.capitalTotal=function(){
 						return common.getSum([
@@ -471,6 +473,8 @@
 					vm.model.capitalSCZ_gtzj_LastTwoYear =common.toMoney(vm.model.capitalSCZ_gtzj_LastTwoYear);//下下年度国土
 					vm.model.capitalSCZ_ggys_LastTwoYear =common.toMoney(vm.model.capitalSCZ_ggys_LastTwoYear);//下下年度公共预算
 					vm.model.capitalSCZ_qita_LastTwoYear =common.toMoney(vm.model.capitalSCZ_qita_LastTwoYear);//下下年度其他资金
+					
+					vm.model.apInvestSum = common.toMoney(vm.model.apInvestSum);//累计安排资金
 					//计算资金筹措总计
 					vm.capitalTotal=function(){
 						return common.getSum([
@@ -720,6 +724,9 @@
 	                            filter: "startswith"
 	                        });
 	                    }
+					},
+					template:function(item){
+						return common.getUnitName(item.unitName);
 					}
 				},
 				{

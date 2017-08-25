@@ -95,6 +95,7 @@ public class UserServiceImpl implements UserService {
 			user.setDisplayName(userDto.getDisplayName());
 			user.setId(UUID.randomUUID().toString());
 			user.setCreatedBy(currentUser.getUserId());
+			user.setModifiedBy(currentUser.getUserId());
 			user.setPassword(userDto.getPassword());
 
 			// 加入角色
@@ -104,12 +105,13 @@ public class UserServiceImpl implements UserService {
 					user.getRoles().add(role);
 					if(role.getRoleName().equals(BasicDataConfig.role_unit)){//如果是建设单位，往建设单位表里添加数据
 						UserUnitInfoDto userUnitInfoDto=new UserUnitInfoDto();
-						//如果创建数据中有显示名
+						//如果创建数据中有显示名,设置单位名称
 						if(user.getDisplayName() !=null && !"".equals(user.getDisplayName())){
 							userUnitInfoDto.setUnitName(user.getDisplayName());
 						}else{
 							userUnitInfoDto.setUnitName(user.getLoginName());
-						}					
+						}
+						userUnitInfoDto.setUserName(user.getId());//绑定用户id
 						userUnitInfoService.save(user.getLoginName(), userUnitInfoDto);
 					}
 				}

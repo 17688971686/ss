@@ -108,14 +108,14 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 			return mapper.toDto(x);
 		}).collect(Collectors.toList());
 		
-		dtos.stream().forEach(x->{
-			UserUnitInfo userUnitInfo = userUnitInfoRepo.findById(x.getUnitName());
-			if(userUnitInfo !=null){
-				x.setUnitName(userUnitInfo.getUnitName());
-			}else{
-				x.setUnitName("");
-			}
-		});
+//		dtos.stream().forEach(x->{
+//			UserUnitInfo userUnitInfo = userUnitInfoRepo.findById(x.getUnitName());
+//			if(userUnitInfo !=null){
+//				x.setUnitName(userUnitInfo.getUnitName());
+//			}else{
+//				x.setUnitName("");
+//			}
+//		});
 		
 		PageModelDto<ProjectDto> pageModelDto = new PageModelDto<>();
 		pageModelDto.setCount(odataObj.getCount());

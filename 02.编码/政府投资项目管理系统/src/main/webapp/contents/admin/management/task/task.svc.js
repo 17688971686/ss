@@ -89,7 +89,7 @@
 			var httpSuccess = function success(response) {
 				vm.model.shenBaoInfo= response.data.value[0]||{};
 				//项目类型、建设单位的显示
-				vm.model.shenBaoInfo.projectType=common.stringToArray(vm.model.shenBaoInfo.projectType,",");
+				vm.projectTypes=common.stringToArray(vm.model.shenBaoInfo.projectType,",");
 				vm.constructionUnits = common.stringToArray(vm.model.shenBaoInfo.constructionUnit,",");
 				//判断项目的投资类型
 				if(vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_SH){//社会投资
@@ -126,6 +126,8 @@
 				vm.model.shenBaoInfo.capitalSCZ_gtzj_LastTwoYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_gtzj_LastTwoYear);
 				vm.model.shenBaoInfo.capitalSCZ_ggys_LastTwoYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_ggys_LastTwoYear);
 				vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear);
+				
+				vm.model.shenBaoInfo.apInvestSum = common.toMoney(vm.model.shenBaoInfo.apInvestSum);//累计安排资金
 				//计算资金筹措总计
 				vm.capitalTotal=function(){
 		  			 return (parseFloat(vm.model.shenBaoInfo.capitalSCZ_ggys)||0 )

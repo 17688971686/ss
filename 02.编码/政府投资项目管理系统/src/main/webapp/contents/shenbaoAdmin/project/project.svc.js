@@ -343,6 +343,9 @@
 	                            filter: "startswith"
 	                        });
 	                    }
+					},
+					template:function(item){
+						return common.getUnitName(item.unitName);
 					}
 				},
 				{

@@ -12,7 +12,8 @@ overflow: scroll !important;
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目所属单位：</td>
 		<td>
-			<span ng-bind="vm.model.unitName"></span>
+			<span ng-bind="vm.model.unitName" style="display:none"></span>
+			<span ng-bind="vm.userUnit.unitName"></span>
 		</td>
 	</tr>
 </table>

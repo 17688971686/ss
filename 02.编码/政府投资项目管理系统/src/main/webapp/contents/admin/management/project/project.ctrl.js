@@ -234,12 +234,18 @@
 	   			//获取选择框中的信息
 	   			var select = common.getKendoCheckId('.grid');
             	var fileName = select[0].value;
-            	
-   			    if(vm.model.attachmentDtos){
-   				  vm.model.attachmentDtos.push({name:fileName,url:fileName,type:vm.pifuType});
-   			    }else{
-   				  vm.model.attachmentDtos=[{name:fileName,url:fileName,type:vm.pifuType}];
-   			    }    			          		
+            	if(fileName){
+            		var file = common.stringToArray(fileName,",");
+            		var number = file[0];
+            		var name = file[1];
+            		var url =file[2];
+            		vm.model['pifu'+vm.pifuType+'_wenhao'] = number;
+            		if(vm.model.attachmentDtos){
+         				  vm.model.attachmentDtos.push({name:name,url:url,type:vm.pifuType});
+         			 }else{
+         				  vm.model.attachmentDtos=[{name:name,url:url,type:vm.pifuType}];
+         			 }
+            	}
 	        };
    	   		
     		//文件选择触发验证文件大小
@@ -282,19 +288,21 @@
 	   		};
     		
     	   vm.delFile=function(idx){
-        	 vm.model.attachmentDtos.splice(idx,1);
+    		   var file = vm.model.attachmentDtos[idx];
+	   			 if(file){//删除上传文件的同时删除批复文号
+	   				var pifuType = file.type;
+	   				vm.model['pifu'+pifuType+'_wenhao'] = "";
+	   				vm.model.attachmentDtos.splice(idx,1);
+	   			 }
     	   };
-    	   
-    	   vm.capitalTotal=function(){
-			 return (parseFloat(vm.model.capitalSCZ_ggys)||0 )
-			 		+ (parseFloat(vm.model.capitalSCZ_gtzj)||0 )
-			 		+ (parseFloat(vm.model.capitalSCZ_zxzj)||0 )
-			 		+ (parseFloat(vm.model.capitalQCZ_ggys)||0 )
-			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
-			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
-			 		+ (parseFloat(vm.model.capitalZYYS)||0 )
-			 		+ (parseFloat(vm.model.capitalOther)||0);
-    	   };
+    	 //资金来源计算
+ 		 vm.capitalTotal=function(){
+ 			 return common.getSum([
+ 					 vm.model.capitalSCZ_ggys||0,vm.model.capitalSCZ_gtzj||0,vm.model.capitalSCZ_zxzj||0,
+ 					 vm.model.capitalQCZ_ggys||0,vm.model.capitalQCZ_gtzj||0,
+ 					 vm.model.capitalSHTZ||0,vm.model.capitalZYYS||0,
+ 					 vm.model.capitalOther||0]);
+ 		 };
 	        
     	   vm.create = function () {
     		    projectSvc.createProject(vm);    		     

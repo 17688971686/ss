@@ -176,33 +176,36 @@
 			// End:dataSource
 			// Begin:column
 			var columns = [
-					{
-						template : function(item) {
-							return kendo
-									.format(
-											"<input type='radio'  relId='{0}' name='checkbox'/>",
-											item.fullName);
-						},
-						filterable : false,
-						width : 40,
-						title : ""
+				{
+					template : function(item) {
+						return kendo
+								.format(
+										"<input type='radio'  relId='{0},{1},{2}' name='checkbox'/>",
+										item.number,item.name,item.fullName);
 					},
-					{
-						field : "number",
-						title : "文号",
-						width:180,
-						
-						filterable : true
-					},
-					{
-						field : "fullName",
-						title : "文件名",
-						width : 550,
-						filterable : true
-						
-					}
+					filterable : false,
+					width : 40,
+					title : ""
+				},
+				{
+					field : "number",
+					title : "文号",
+					width:180,
 					
-			];
+					filterable : true
+				},
+				{
+					field : "name",
+					title : "文件名",
+					width : 550,
+					template:function(item){
+						return common.format("<a href='/contents/upload/{1}'>{0}</a>",item.name,item.fullName);
+					},
+					filterable : true
+					
+				}
+				
+		];
 			// End:column
 
 			vm.gridOptions_documentRecords = {
@@ -471,17 +474,18 @@
 				vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear);
 				
 				//安排资金
-				vm.model.capitalAP_ggys_TheYear=common.toMoney(vm.model.capitalAP_ggys_TheYear);
-				vm.model.capitalAP_gtzj_TheYear=common.toMoney(vm.model.capitalAP_gtzj_TheYear);
-				vm.model.capitalAP_qita=common.toMoney(vm.model.capitalAP_qita);
+				vm.model.shenBaoInfo.shenBaoInfo.apInvestSum=common.toMoney(vm.model.shenBaoInfo.apInvestSum);//累计安排投资
+				vm.model.shenBaoInfo.capitalAP_ggys_TheYear=common.toMoney(vm.model.shenBaoInfo.capitalAP_ggys_TheYear);
+				vm.model.shenBaoInfo.capitalAP_gtzj_TheYear=common.toMoney(vm.model.shenBaoInfo.capitalAP_gtzj_TheYear);
+				vm.model.shenBaoInfo.capitalAP_qita=common.toMoney(vm.model.shenBaoInfo.capitalAP_qita);
 				
-				vm.model.capitalAP_gtzj_LastYear=common.toMoney(vm.model.capitalAP_gtzj_LastYear);
-				vm.model.capitalAP_ggys_LastYear=common.toMoney(vm.model.capitalAP_ggys_LastYear);
-				vm.model.capitalAP_qita_LastYear=common.toMoney(vm.model.capitalAP_qita_LastYear);
+				vm.model.shenBaoInfo.capitalAP_gtzj_LastYear=common.toMoney(vm.model.shenBaoInfo.capitalAP_gtzj_LastYear);
+				vm.model.shenBaoInfo.capitalAP_ggys_LastYear=common.toMoney(vm.model.shenBaoInfo.capitalAP_ggys_LastYear);
+				vm.model.shenBaoInfo.capitalAP_qita_LastYear=common.toMoney(vm.model.shenBaoInfo.capitalAP_qita_LastYear);
 				
-				vm.model.capitalAP_ggys_LastTwoYear=common.toMoney(vm.model.capitalAP_ggys_LastTwoYear);
-				vm.model.capitalAP_gtzj_LastTwoYear=common.toMoney(vm.model.capitalAP_gtzj_LastTwoYear);
-				vm.model.capitalAP_qita_LastTwoYear=common.toMoney(vm.model.capitalAP_qita_LastTwoYear);
+				vm.model.shenBaoInfo.capitalAP_ggys_LastTwoYear=common.toMoney(vm.model.shenBaoInfo.capitalAP_ggys_LastTwoYear);
+				vm.model.shenBaoInfo.capitalAP_gtzj_LastTwoYear=common.toMoney(vm.model.shenBaoInfo.capitalAP_gtzj_LastTwoYear);
+				vm.model.shenBaoInfo.capitalAP_qita_LastTwoYear=common.toMoney(vm.model.shenBaoInfo.capitalAP_qita_LastTwoYear);
 				
 			
 				//计算资金筹措总计
@@ -1347,13 +1351,24 @@
 						}
 					},
 					{
-						field : "projectClassify",
-						title : "项目分类",
+						field : "projectIndustry",
+						title : "项目行业",
 						width : 150,
 						template:function(item){
-							return common.getBasicDataDesc(item.projectClassify);
+							return common.getBasicDataDesc(item.projectIndustry);
 						},
-						filterable : false
+						filterable : {
+							ui: function(element){
+			                    element.kendoDropDownList({
+			                        valuePrimitive: true,
+			                        dataSource: $linq(common.getBasicData())
+			         	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
+			         	       		.toArray(),
+			                        dataTextField: "description",
+			                        dataValueField: "id"
+			                    });
+							}
+		                }
 					},
 					{
 						field : "planYear",

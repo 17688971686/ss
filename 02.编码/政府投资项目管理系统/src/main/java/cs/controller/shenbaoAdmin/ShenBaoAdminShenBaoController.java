@@ -41,12 +41,13 @@ public class ShenBaoAdminShenBaoController {
 	@RequestMapping(name = "获取申报信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> get(HttpServletRequest request) throws ParseException{
 		ODataObj odataObj = new ODataObj(request);
-		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoService.get(odataObj);	
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoService.get(odataObj);
+		//TODO 这一块可以不需要了
 		shenBaoInfoDtos.getValue().forEach(x->{	
 			//获取项目相关类型的名称
 			x.setProjectClassifyDesc(basicDataService.getDescriptionById(x.getProjectClassify()));//项目分类名称
 			x.setProjectIndustryDesc(basicDataService.getDescriptionById(x.getProjectIndustry()));//项目行业领域名称
-			x.setProjectTypeDesc(basicDataService.getDescriptionById(x.getProjectType()));//项目类型名称
+//			x.setProjectTypeDesc(basicDataService.getDescriptionById(x.getProjectType()));//项目类型名称
 			x.setProjectCategoryDesc(basicDataService.getDescriptionById(x.getProjectCategory()));//项目类别名称
 			x.setProjectStageDesc(basicDataService.getDescriptionById(x.getProjectStage()));//项目阶段名称
 			x.setProjectConstrCharDesc(basicDataService.getDescriptionById(x.getProjectConstrChar()));//项目建设性质名称
@@ -60,13 +61,13 @@ public class ShenBaoAdminShenBaoController {
 	@RequestMapping(name = "获取单位申报信息", path = "unit",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getByUnit(HttpServletRequest request) throws ParseException{
 		//根据当前登陆用户查找到单位信息
-		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
+		//UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
 		ODataObj odataObj = new ODataObj(request);
 		//设置过滤条件
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
-		filterItem.setField("unitName");
+		filterItem.setField("createdBy");
 		filterItem.setOperator("eq");
-		filterItem.setValue(userUnitInfo.getId());
+		filterItem.setValue(currentUser.getUserId());
 		odataObj.getFilter().add(filterItem);
 		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoService.get(odataObj);		
 		return shenBaoInfoDtos;	

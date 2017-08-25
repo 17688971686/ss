@@ -238,16 +238,14 @@
 				}
 				if(vm.page=='details'){				
 					//计算资金筹措总计
-					vm.capitalTotal=function(){
-			  			 return (parseFloat(vm.model.capitalSCZ_ggys)||0 )
-			  			 		+ (parseFloat(vm.model.capitalSCZ_gtzj)||0 )
-			  			 		+ (parseFloat(vm.model.capitalSCZ_zxzj)||0 )
-			  			 		+ (parseFloat(vm.model.capitalQCZ_ggys)||0 )
-			  			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
-			  			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
-			  			 		+ (parseFloat(vm.model.capitalZYYS)||0 )
-			  			 		+ (parseFloat(vm.model.capitalOther)||0);
-			  		 };						
+					//资金来源计算
+			   		 vm.capitalTotal=function(){
+			   			 return common.getSum([
+			   					 vm.model.capitalSCZ_ggys||0,vm.model.capitalSCZ_gtzj||0,vm.model.capitalSCZ_zxzj||0,
+			   					 vm.model.capitalQCZ_ggys||0,vm.model.capitalQCZ_gtzj||0,
+			   					 vm.model.capitalSHTZ||0,vm.model.capitalZYYS||0,
+			   					 vm.model.capitalOther||0]);
+			   		 };		
 				}
 			};
 			
@@ -283,8 +281,8 @@
 					template : function(item) {
 						return kendo
 								.format(
-										"<input type='radio'  relId='{0}' name='checkbox'/>",
-										item.fullName);
+										"<input type='radio'  relId='{0},{1},{2}' name='checkbox'/>",
+										item.number,item.name,item.fullName);
 					},
 					filterable : false,
 					width : 40,
@@ -298,9 +296,12 @@
 					filterable : true
 				},
 				{
-					field : "fullName",
+					field : "name",
 					title : "文件名",
 					width : 550,
+					template:function(item){
+						return common.format("<a href='/contents/upload/{1}'>{0}</a>",item.name,item.fullName);
+					},
 					filterable : true
 					
 				}
@@ -403,6 +404,9 @@
 			                        dataValueField: "id"
 			                    });
 			                }
+						},
+						template:function(item){
+							return common.getUnitName(item.unitName);
 						}
 					},
 					{

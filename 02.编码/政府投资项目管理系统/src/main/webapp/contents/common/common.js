@@ -34,6 +34,7 @@
         arrayToString:arrayToString,
         toDecimal4:toDecimal4,//保留4位小数
         getUserUnits:getUserUnits,//获取所有的用户单位信息
+        getUnitName:getUnitName,//获取用户单位名称
         getSum:getSum,//求和
         repSign:repSign//将英文类型的标点符号转换为中文的标点符号
     };
@@ -542,6 +543,17 @@
     		}
     	});
     	return window.global_userUnits;
+    }
+    
+    function getUnitName(id){
+    	var userUnits = this.getUserUnits();
+    	for(var i=0;i<userUnits.length;i++){
+    		var obj = userUnits[i];
+    		if(id == obj.id){
+    			return obj.unitName;
+    			break;
+    		}
+    	}
     }
     
     function getSum(array){

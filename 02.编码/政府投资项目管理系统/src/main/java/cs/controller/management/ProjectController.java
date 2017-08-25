@@ -43,7 +43,8 @@ public class ProjectController {
 	@RequestMapping(name = "获取项目信息--可查看单位名称", path = "unitName",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> getProjectAndUnitName(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
-		PageModelDto<ProjectDto> ProjectDtos = ProjectService.Get(odataObj);
+		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);
+//		PageModelDto<ProjectDto> ProjectDtos = ProjectService.Get(odataObj);
 		return ProjectDtos;
 	}
 	
