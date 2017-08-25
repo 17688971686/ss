@@ -37,7 +37,9 @@ public class BasicDataConfig {
 	
 	public static String attachment_type_jys="JYS"; 
 	public static String attachment_type_kxxyjbg="KXXYJBG"; 
-	public static String attachment_type_cbsjygs="CBSJYGS"; 
+	public static String attachment_type_cbsjygs="CBSJYGS";
+	
+	public static String auditState_noAudit="auditState_1";
 	//end#basicData
 	
 	public static String role_admin="超级管理员";

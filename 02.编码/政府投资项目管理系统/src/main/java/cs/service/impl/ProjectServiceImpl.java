@@ -103,32 +103,42 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		return project;		
 	}
 	
-
 	@Override
 	@Transactional
 	public void updateProjectByIsMonthReport(ProjectDto projectDto) {		
 		Project project = super.repository.findById(projectDto.getId());
-		project.setIsMonthReport(projectDto.getIsMonthReport());
-		//设置修改人
-		String longinName = currentUser.getLoginName();
-		project.setModifiedBy(longinName);
-		project.setModifiedDate(new Date());
-		//保存数据
-		super.repository.save(project);
-		logger.info(String.format("修改项目是否月报,项目名称 %s",project.getProjectName()));
+		if(project !=null){
+			project.setIsMonthReport(projectDto.getIsMonthReport());
+			//设置修改人
+			String longinName = currentUser.getLoginName();
+			project.setModifiedBy(longinName);
+			project.setModifiedDate(new Date());
+			//保存数据
+			super.repository.save(project);
+			logger.info(String.format("修改项目是否月报,项目名称 %s",project.getProjectName()));
+		}else{
+			throw new IllegalArgumentException(String.format("没有查找到对应的项目"));
+		}
 	}
-
+	
 	@Override
 	@Transactional
 	public Project create(ProjectDto projectDto) {
 			//判断是否存在项目代码--生成项目代码
 			if(projectDto.getProjectNumber() == null || projectDto.getProjectNumber().isEmpty()){
-				//根据基础数据id查询出基础数据
+				//根据行业类型id查询出基础数据
 				BasicData basicData = basicDataRepo.findById(projectDto.getProjectIndustry());
-				String number = Util.getProjectNumber(projectDto.getProjectInvestmentType(), basicData);
-				projectDto.setProjectNumber(number);
-				//行业项目统计累加
-				basicData.setCount(basicData.getCount()+1);
+				if(basicData !=null){
+					String number = Util.getProjectNumber(projectDto.getProjectInvestmentType(), basicData);
+					projectDto.setProjectNumber(number);
+					//行业项目统计累加
+					basicData.setCount(basicData.getCount()+1);
+					basicData.setModifiedBy(currentUser.getLoginName());
+					basicData.setModifiedDate(new Date());
+					basicDataRepo.save(basicData);
+				}else{
+					throw new IllegalArgumentException(String.format("项目代码生成故障，请确认项目行业选择是否正确！"));
+				}
 			}
 			Project project = super.create(projectDto);	
 			project.setModifiedDate(new Date());//设置修改时间
@@ -163,10 +173,13 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		Criterion criterion=Restrictions.eq(Project_.projectNumber.getName(), number);
 		List<Project> findProjects = super.repository.findByCriteria(criterion);
 		List<ProjectDto> projectDtos = new ArrayList<>();
-		findProjects.stream().forEach(x->{
-			ProjectDto dto = projectMapper.toDto(x);			
-			projectDtos.add(dto);
-		});
+		if(findProjects.isEmpty()){
+			findProjects.stream().forEach(x->{
+				ProjectDto dto = projectMapper.toDto(x);			
+				projectDtos.add(dto);
+			});
+		}
+		logger.info(String.format("根据项目代码查询项目,项目代码 %s",number));
 		return projectDtos;
 	}
 
@@ -174,11 +187,15 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	@Transactional
 	public void updateVersion(String id, Boolean isLatestVersion) {
 		Project project = super.repository.findById(id);
-		project.setIsLatestVersion(isLatestVersion);
-		project.setModifiedDate(new Date());//设置修改时间
-		project.setModifiedBy(currentUser.getLoginName());//设置修改人
-		super.repository.save(project);
-		logger.info(String.format("修改项目版本,项目名称 %s",project.getProjectName()));
+		if(project !=null){
+			project.setIsLatestVersion(isLatestVersion);
+			project.setModifiedDate(new Date());//设置修改时间
+			project.setModifiedBy(currentUser.getLoginName());//设置修改人
+			super.repository.save(project);
+			logger.info(String.format("修改项目版本,项目名称 %s",project.getProjectName()));
+		}else{
+			throw new IllegalArgumentException(String.format("没有查找到对应的项目"));
+		}
 	}
 	
 	/**

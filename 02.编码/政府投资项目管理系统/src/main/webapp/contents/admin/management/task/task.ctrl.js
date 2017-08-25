@@ -36,6 +36,7 @@
     		vm.checkLength = function(obj,max,id){
       			 common.checkLength(obj,max,id);
            	};
+
            	vm.html = function(val){
            		return $sce.trustAsHtml(val);
            	};

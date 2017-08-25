@@ -136,37 +136,48 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 		Boolean hasShenBaoInfo = false;
 		//根据年度计划id查找到年度计划
 		YearPlan yearPlan=super.repository.findById(planId);
-		//判断年度计划编制中是否已有该项目申报
-		List<YearPlanCapital> capitals = yearPlan.getYearPlanCapitals();
-		for(YearPlanCapital capital:capitals){
-			if(capital.getShenbaoInfoId().equals(shenBaoId)){
-				hasShenBaoInfo = true;
+		if(yearPlan !=null){
+			//判断年度计划编制中是否已有该项目申报
+			List<YearPlanCapital> capitals = yearPlan.getYearPlanCapitals();
+			for(YearPlanCapital capital:capitals){
+				if(capital.getShenbaoInfoId().equals(shenBaoId)){
+					hasShenBaoInfo = true;
+				}
+			}
+			if(hasShenBaoInfo){
+				//通过申报信息id获取项目名称
+				String projectName = shenbaoInfoRepo.findById(shenBaoId).getProjectName();
+				throw new IllegalArgumentException(String.format("申报项目：%s 已经存在编制计划中,请重新选择！", projectName));
+			}else{
+				//根据申报信息id创建年度计划资金
+				YearPlanCapital entity = new YearPlanCapital();
+					entity.setId(UUID.randomUUID().toString());
+					//设置关联的申报信息id
+					entity.setShenbaoInfoId(shenBaoId);
+					//设置安排资金
+					ShenBaoInfo shenBaoInfo = shenbaoInfoRepo.findById(shenBaoId);
+					if(shenBaoInfo !=null){
+						entity.setCapitalQCZ_ggys(shenBaoInfo.getCapitalAP_ggys_TheYear());//区财政--公共预算
+						entity.setCapitalQCZ_gtzj(shenBaoInfo.getCapitalAP_gtzj_TheYear());//区财政--国土资金
+						entity.setCapitalSum(shenBaoInfo.getYearInvestApproval());//安排资金总计
+					}
+					//设置创建人和修改人
+					String loginName = currentUser.getLoginName();
+					entity.setCreatedBy(loginName);
+					entity.setModifiedBy(loginName);
+				//将新创建的计划资金对象保存到计划中
+				if(yearPlan.getYearPlanCapitals() !=null){
+					yearPlan.getYearPlanCapitals().add(entity);
+				}else{
+					List<YearPlanCapital> yearPlanCapitals = new ArrayList<>();
+					yearPlanCapitals.add(entity);
+					yearPlan.setYearPlanCapitals(yearPlanCapitals);
+				}		
+				super.repository.save(yearPlan);
+				logger.info(String.format("添加年度计划资金,名称：%s",yearPlan.getName()));	
 			}
 		}
-		if(hasShenBaoInfo){
-			//通过申报信息id获取项目名称
-			String projectName = shenbaoInfoRepo.findById(shenBaoId).getProjectName();
-			throw new IllegalArgumentException(String.format("申报项目：%s 已经存在编制计划中,请重新选择！", projectName));
-		}else{
-			//根据申报信息id创建年度计划资金
-			YearPlanCapital entity = new YearPlanCapital();
-				entity.setId(UUID.randomUUID().toString());
-				//设置关联的申报信息id
-				entity.setShenbaoInfoId(shenBaoId);
-				//设置创建人和修改人
-				String loginName = currentUser.getLoginName();
-				entity.setCreatedBy(loginName);
-				entity.setModifiedBy(loginName);
-			//将新创建的计划资金对象保存到计划中
-			if(yearPlan.getYearPlanCapitals() !=null){
-				yearPlan.getYearPlanCapitals().add(entity);
-			}else{
-				List<YearPlanCapital> yearPlanCapitals = new ArrayList<>();
-				yearPlanCapitals.add(entity);
-			}		
-			super.repository.save(yearPlan);
-			logger.info(String.format("添加年度计划资金,名称：%s",yearPlan.getName()));	
-		}			
+					
 	}
 
 	@Override

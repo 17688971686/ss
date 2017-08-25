@@ -133,6 +133,7 @@
 	        })
 /**********************end#monthReport***************************************/
 /**********************begin#project***************************************/
+	        //政府投资项目
 	        //列表页
 	        .state('project', {
 	            url: '/project',
@@ -153,7 +154,15 @@
 	            templateUrl: '/management/project/html/details.html',
 	            controller: 'projectCtrl',
 	            controllerAs: 'vm'
-	        }) 
+	        })
+	        //社会投资项目
+	        //列表页
+	        .state('project_SH', {
+	            url: '/project_SH',
+	            templateUrl: '/management/project/html/list_SH.html',
+	            controller: 'projectCtrl',
+	            controllerAs: 'vm'
+	        })
 /**********************end#project***************************************/
 	        
 	        //begin#单位管理	       
@@ -199,6 +208,13 @@
 	            controller: 'yearPlanCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //申报信息编辑页面
+	         .state('yearPlan_shenbaoInfoEdit', {
+	            url: '/yearPlan/shenbaoInfoEdit/:id/:projectInvestmentType/:stage',
+	            templateUrl: '/management/yearPlan/html/shenbaoInfoEdit',
+	            controller: 'yearPlanCtrl',
+	            controllerAs: 'vm'
+	        })
 	        //年度计划编制列表
 	        .state('yearPlan_planList', {
 	            url: '/yearPlan/planList',
@@ -219,7 +235,8 @@
 	            templateUrl: '/management/yearPlan/html/planBZ',
 	            controller: 'yearPlanCtrl',
 	            controllerAs: 'vm'
-	        })	        
+	        })	   
+	        
 /**********************end#年度计划编制***************************************/
 	        
 /**********************begin#工作台***************************************/

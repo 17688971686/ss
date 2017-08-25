@@ -189,7 +189,7 @@ textarea.form-control {
 				
 			</tr>						
 		</table>
-  		
+  		<!-- 申报信息模态框 -->
 		<div id="shenbaoInfo" class="modal fade" tabindex="-1" role="dialog">
 			<div class="modal-dialog"
 				style="margin: 80px auto; width: 80%; max-width: 1000px;">
@@ -200,7 +200,7 @@ textarea.form-control {
 					</button>
 					<span class="modal-title">详细信息</span>
 					</div>
-					<div class="modal-body text-danger">
+					<div class="modal-body">
 						<div ng-if="!vm.isMonthReport" ng-include  src="'/contents/admin/management/task/html/yearPlan/master.html'"></div>
 						<div ng-if="vm.isMonthReport" ng-include  src="'/contents/admin/management/task/html/monthReport/master.html'"></div>   
 					</div>
@@ -209,6 +209,6 @@ textarea.form-control {
 					</div>
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->
-		</div><!-- /.modal --> 	  		         
+		</div><!-- /.modal -->
     </form>   
 </div>

@@ -114,12 +114,12 @@
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/> (万元)
+			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/> (万元)
 			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight">累计完成投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.projectInvestAccuSum" data-val="true" data-val-required="必填"/> (万元)
+			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.projectInvestAccuSum" data-val="true" data-val-required="必填"/> (万元)
 			<span data-valmsg-for="projectInvestAccuSum" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
@@ -144,9 +144,9 @@
 								<td>专项基金</td>
 							</tr>
 							<tr>
-								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys" /></td>
-								<td><input type="number" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj"  /></td>
-								<td><input type="number" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_zxzj" /></td>
+								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys" /></td>
+								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj"  /></td>
+								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_zxzj" /></td>
 							</tr>
 						</table>
 					</td>
@@ -158,8 +158,8 @@
 								
 							</tr>
 							<tr>
-								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalQCZ_ggys"  /></td>
-								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalQCZ_gtzj"  /></td>
+								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalQCZ_ggys"  /></td>
+								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalQCZ_gtzj"  /></td>
 							</tr>
 						</table>
 					</td>
@@ -169,7 +169,7 @@
 								<td>-</td>
 							</tr>
 							<tr>
-								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalZYYS"  /></td>
+								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalZYYS"  /></td>
 							</tr>
 						</table>
 					</td>
@@ -179,7 +179,7 @@
 								<td>-</td>
 							</tr>
 							<tr>
-								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalSHTZ"  /></td>
+								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalSHTZ"  /></td>
 							</tr>
 						</table>
 					</td>
@@ -195,7 +195,7 @@
 								<td>-</td>															
 							</tr>
 							<tr>
-								<td><input type="number" class="form-control input-sm" ng-model="vm.model.capitalOther"/></td>
+								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalOther"/></td>
 							</tr>
 						</table>
 					</td>
@@ -212,7 +212,7 @@
 				<tr>
 					<td>资金总计：</td>
 					<td >
-						<span id="capitalTotal" ng-bind="vm.capitalTotal()"></span>&nbsp;(万元)
+						<span id="capitalTotal" ng-bind="vm.capitalTotal() | number:4"></span>&nbsp;(万元)
 					</td>								
 				</tr>
 			</table>
@@ -278,9 +278,7 @@
 <td>操作</td>
 </tr>
 <tr ng-repeat="x in vm.relatedType">
-	<td>
-		{{x[1]}}
-	</td>
+	<td ng-bind-html="vm.html(x[1])"></td>
 	<td>
 		<div class="uploadBox" data-type="{{x[0]}}">
 			 <input name="files" type="file" kendo-upload  k-options="vm.uploadOptions"/>

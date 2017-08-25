@@ -31,8 +31,8 @@
         checkLength:checkLength,//检查输入文本域的字符长度
         uploadFileTypeConfig:uploadFileTypeConfig,//上传文件配置
         stringToArray:stringToArray,
-        arrayToString:arrayToString
-        
+        arrayToString:arrayToString,
+        toDecimal4:toDecimal4
     };
 
     window.common = service;
@@ -385,7 +385,7 @@
     }
     function basicDataConfig(){
     	return {
-    		uploadSize:10485760,//本地文件上传大小限制
+    		uploadSize:10485760,//本地文件上传大小限制(10M)
     		
     		processState:"processState",//审批状态
     		processState_waitQianShou:"processState_1",//等待签收
@@ -449,8 +449,12 @@
     		taskType_qianQi:"taskType_7",//前期
     		taskType_newStart:"taskType_8",//新开工
     		taskType_xuJian:"taskType_9",//续建
-    		
-    		
+
+    		auditState:"auditState",//审核状态
+    		auditState_noAudit:"auditState_1",//审核状态-未审核
+    		auditState_auditPass:"auditState_2",//审核状态-审核通过
+    		auditState_auditNotPass:"auditState_3",//审核状态-审核不通过
+    			
     		management:"管理员"
     		
     		
@@ -486,17 +490,22 @@
 				['GCGHXKZ_Scanning','工程规划许可证扫描件'],['IssuedReplyFile_Scanning','全部已下达计划批复文件扫描件 <span class="required">(*)</span>'],['other','其他']],
 			projectShenBaoStage_xuJian:[['ApplyReport_pdf','申请报告（pdf版，加盖公章）<span class="required">(*)</span>'],['ApplyReport_word','申请报告（Word版）<span class="required">(*)</span>'],['LastYearPlanReply_Copy','上一年度计划批文复印件 <span class="required">(*)</span>'],
 				['IssuedReplyFile_Scanning','全部已下达计划批复文件扫描件 <span class="required">(*)</span>'],['other','其他']],
+			projectShenBaoStage_junGong:[['ApplyReport_pdf','申请报告（pdf版，加盖公章）<span class="required">(*)</span>'],['ApplyReport_word','申请报告（Word版）<span class="required">(*)</span>'],['LastYearPlanReply_Copy','上一年度计划批文复印件 <span class="required">(*)</span>'],
+					['IssuedReplyFile_Scanning','全部已下达计划批复文件扫描件 <span class="required">(*)</span>'],['other','其他']],
 			projectEdit:[['XMJYSPF','项目建议书批复文本'],['KXXYJBGPF','可行性研究报告批复文本'],['ZGSPFTZ','总概算批复及调整文本'],['HYJY','会议纪要'],
 				['GHYJ','规划依据'],['SJXGT','设计效果图'],['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']],
-			projectShenBaoStage_junGong:[['ApplyReport_pdf','申请报告（pdf版，加盖公章）<span class="required">(*)</span>'],['ApplyReport_word','申请报告（Word版）<span class="required">(*)</span>'],['LastYearPlanReply_Copy','上一年度计划批文复印件 <span class="required">(*)</span>'],
-					['IssuedReplyFile_Scanning','全部已下达计划批复文件扫描件 <span class="required">(*)</span>'],['other','其他']]
-    	}
+			projectEdit_SH:[['XMJYSPF','项目建议书批复文本'],['KXXYJBGPF','可行性研究报告批复文本'],['ZGSPFTZ','总概算批复及调整文本'],['HYJY','会议纪要'],
+				['GHYJ','规划依据'],['SJXGT','设计效果图'],['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']],
+    	};
     }
     
     function stringToArray(str,substr){
-    	var arrTmp=new Array();
+    	if(str.constructor == Array){
+    		return str;
+    	}
+    	var arrTmp=[];
     	if(str !=null && str != ""){
-	       	 if(substr==""){ 
+	       	 if(substr==""){
 	       		 arrTmp.push(str); 
 	       		 return arrTmp; 
 	       	 } 
@@ -520,6 +529,9 @@
     }
     
     function arrayToString(arr,str){
+    	if(arr.constructor == String){
+    		return str;
+    	}
 		 var strTmp="";
 		 if(arr !=null && arr.length>0){
 			 for(var i=0;i<arr.length;i++){ 
@@ -533,6 +545,15 @@
 	    	} 
 		 }
     	return strTmp; 
+    }
+
+    function toDecimal4(x){
+    	var f=parseFloat(x);
+    	if(isNaN(f)){
+    		return;
+    	}
+    	f=Math.round(x*10000)/10000;
+    	return f;
     }
 
     //init
