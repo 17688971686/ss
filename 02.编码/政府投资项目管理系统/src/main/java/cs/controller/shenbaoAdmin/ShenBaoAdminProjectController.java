@@ -63,6 +63,7 @@ public class ShenBaoAdminProjectController {
 			}
 		}
 		if(!hasUnitNameFilter){//如果没有单位过滤，则默认为登陆单位
+			hasUnitNameFilter = false;
 			ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 			filterItem.setField("unitName");
 			filterItem.setOperator("eq");

@@ -31,7 +31,7 @@
 				vm.model.projectType = common.arrayToString(vm.model.projectType,',');
 				var httpOptions = {
 					method : 'put',
-					url : url_project,
+					url : url_project+"/unitProject",
 					data : vm.model
 				};
 
@@ -188,7 +188,7 @@
 				vm.isSubmit = true;				
 				var httpOptions = {
 					method : 'post',
-					url : url_project,
+					url : url_project+"/unitProject",
 					data : vm.model
 				};
 

@@ -132,7 +132,6 @@
      			  filters.push({field:'projectConstrChar',operator:'eq',value:vm.search.projectConstrChar});
      		   }
      		  vm.gridOptions.dataSource.filter(filters);
-     		  vm.gridOptions.dataSource.read();
     		};
     		//申报详情模态框
     		vm.dialog_shenbaoInfo = function(id){
@@ -457,7 +456,6 @@
      			  filters.push({field:'projectConstrChar',operator:'eq',value:vm.search.projectConstrChar});
      		   }
      		  vm.addPlanGridOptions.dataSource.filter(filters);
-     		  vm.addPlanGridOptions.dataSource.read();
     		};
     		//模态框点击确认
     		vm.dialogConfirmSubmit=function(){

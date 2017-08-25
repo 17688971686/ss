@@ -107,7 +107,6 @@
        			  filters.push({field:'unitName',operator:'eq',value:vm.search.unitName});
        		   }
     		   vm.gridOptions.dataSource.filter(filters);
-    		   vm.gridOptions.dataSource.read();
     	   };
     	   
     	   //点击列表中的申报按钮

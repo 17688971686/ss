@@ -35,14 +35,14 @@ public class ProjectRepoImpl extends AbstractRepository<Project	, String> {
 				Object value = filter.getValue();
 				switch (operator) {
 				case "like":
-					allCriterions.add(Restrictions.like(field, "%" + filter.getValue() + "%"));
+					allCriterions.add(Restrictions.like(field, "%" + value + "%"));
 					if(hasUnitNameFilter){//如果有单位过滤
 						if(!field.equals("isLatestVersion")){//判断过滤条件是否不是默认条件
-							filterCriterions.add(Restrictions.like(field, "%" + filter.getValue() + "%"));
+							filterCriterions.add(Restrictions.like(field, "%" + value + "%"));
 						}
 					}else{//如果没有单位过滤（默认条件中添加了单位为登陆单位）
 						if(!(field.equals("isLatestVersion") || field.equals("unitName"))){//判断过滤条件是否不是默认条件
-							filterCriterions.add(Restrictions.like(field, "%" + filter.getValue() + "%"));
+							filterCriterions.add(Restrictions.like(field, "%" + value + "%"));
 						}
 					}
 					break;
