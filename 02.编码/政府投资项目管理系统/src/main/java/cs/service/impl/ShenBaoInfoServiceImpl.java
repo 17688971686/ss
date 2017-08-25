@@ -131,6 +131,13 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@Override
 	@Transactional
 	public void delete(String id) {
+		ShenBaoInfo shenBaoInfo = super.findById(id);
+		
+		//查询关联taskHead并且删除
+		Criterion criterion = Restrictions.eq("relId", shenBaoInfo.getId());
+		TaskHead task =	taskHeadRepo.findByCriteria(criterion).stream().findFirst().get();
+		taskHeadRepo.delete(task);
+		
 		super.delete(id);//删除申报信息
 		logger.info(String.format("删除申报信息,ID:%s", id));		
 	}
