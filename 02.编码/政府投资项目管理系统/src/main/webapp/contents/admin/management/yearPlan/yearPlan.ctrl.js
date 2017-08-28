@@ -404,6 +404,7 @@
      	};
      	//更新审核状态
      	vm.updateAuditState=function(auditState){
+     		vm.isAudit = true;//用于设置跳转到列表页面
      		vm.model.shenBaoInfo.auditState = auditState;
      		yearPlanSvc.updateShenBaoInfo(vm);
      	};

@@ -12,7 +12,7 @@
 		var url_planCapital="/management/yearPlanCapital";
 		var url_back_planList="#/yearPlan/planList";
 		var url_document="/management/replyFile";
-		var url_back_shenbaoInfoList="#/yearPlan/shenbaoInfoList";
+		var url_back_shenbaoInfoList="/yearPlan/shenbaoInfoList";
 		
 		var service = {
 			grid_shenbaoInfoList : grid_shenbaoInfoList,//申报项目列表
@@ -63,6 +63,9 @@
 							$('.alertDialog').modal('hide');
 							$('.modal-backdrop').remove();
 							vm.isSubmit = false;
+							if(vm.isAudit){//如果是审核
+								$location.path(url_back_shenbaoInfoList);
+							}
 						}
 					});
 				};
@@ -474,7 +477,7 @@
 				vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear =common.toMoney(vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear);
 				
 				//安排资金
-				vm.model.shenBaoInfo.shenBaoInfo.apInvestSum=common.toMoney(vm.model.shenBaoInfo.apInvestSum);//累计安排投资
+				vm.model.shenBaoInfo.apInvestSum=common.toMoney(vm.model.shenBaoInfo.apInvestSum);//累计安排投资
 				vm.model.shenBaoInfo.capitalAP_ggys_TheYear=common.toMoney(vm.model.shenBaoInfo.capitalAP_ggys_TheYear);
 				vm.model.shenBaoInfo.capitalAP_gtzj_TheYear=common.toMoney(vm.model.shenBaoInfo.capitalAP_gtzj_TheYear);
 				vm.model.shenBaoInfo.capitalAP_qita=common.toMoney(vm.model.shenBaoInfo.capitalAP_qita);
