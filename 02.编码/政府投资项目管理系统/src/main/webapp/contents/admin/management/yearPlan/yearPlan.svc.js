@@ -784,11 +784,11 @@
 						width : 100,
 						template:function(item){
 							if(item.projectCategory==common.basicDataConfig().projectCategory_A){
-								return common.formatDate(item.endDate);
+								return common.formatDate(item.endDate) || '';
 							}else if(item.projectCategory==common.basicDataConfig().projectCategory_B || 
 									item.projectCategory==common.basicDataConfig().projectCategory_C ||
 									item.projectCategory==common.basicDataConfig().projectCategory_D){
-								return common.formatDate(item.beginDate);
+								return common.formatDate(item.beginDate) || '';
 							}					
 						},
 						filterable : false
@@ -797,7 +797,7 @@
 						field : "projectGuiMo",
 						title : "建设规模及主要建设内容",
 						width:200,
-						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.projectGuiMo); },
+						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.projectGuiMo || '');},
 						filterable : false
 					},
 					{

@@ -122,6 +122,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			projectRepo.save(project);
 			entity.setProjectId(project.getId());
 			entity.setProjectNumber(project.getProjectNumber());
+			entity.setIsIncludLibrary(false);//设置初始化为未纳入项目库
 			logger.info(String.format("创建项目信息,项目名称 %s",project.getProjectName()));
 		}
 		if(!isAdminCreate){//如果前台申报单位创建
