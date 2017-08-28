@@ -21,6 +21,7 @@ import cs.common.Response;
 import cs.common.sysResource.ClassFinder;
 import cs.common.sysResource.SysResourceDto;
 import cs.domain.BasicData;
+import cs.domain.ReplyFile;
 import cs.domain.UserUnitInfo;
 import cs.domain.framework.Resource;
 import cs.domain.framework.Role;
@@ -33,6 +34,7 @@ import cs.repository.common.BasicDataRepo;
 import cs.repository.framework.RoleRepoImpl;
 import cs.repository.framework.SysConfigRepoImpl;
 import cs.repository.framework.UserRepoImpl;
+import cs.repository.impl.UserUnitInfoRepoImpl;
 import cs.repository.interfaces.IRepository;
 
 @Service
@@ -44,11 +46,11 @@ public class SysServiceImpl implements SysService{
 	@Autowired
 	private UserRepoImpl userRepo;
 	@Autowired
+	private IRepository<UserUnitInfo, String> userUnitInfoRepo;
+	@Autowired
 	private SysConfigRepoImpl sysConfigRepo;
 	@Autowired
 	private BasicDataRepo basicDataRepo;
-	@Autowired
-	private IRepository<UserUnitInfo, String> userUnitInfoRepo;
 	@Autowired
 	private IMapper<SysConfigDto,SysConfig> sysConfigMapper;
 	@Autowired
@@ -165,27 +167,27 @@ public class SysServiceImpl implements SysService{
 		user.setDisplayName("超级管理员");
 		user.getRoles().add(role);
 		userRepo.save(user);
-		//初始化建设单位用户
-		String[] userNames = {"党工委管委会","组织人事局","统战和社会建设局","城市管理局","光明供电局",
-								"文体教育局","光明交通运输局","住房和建设局","发展和财政局","卫生计生局",
+		//初始化建设单位用户信息和单位信息
+		String[] userNames = {"党工委管委会","组织人事局","社会建设局","城市管理局","光明供电局",
+								"文体教育局","光明交通运输局","城市建设局","发展和财政局","卫生计生局",
 								"光明公安分局","环境保护和水务局","经济服务局","纪检监察局","市规划和国土资源委员会光明管理局",
 								"综合办","公明办事处","光明办事处","马田办事处","凤凰办事处",
-								"公共资源交易中心","城市发展促进中心","机关后勤服务中心","土地整备中心","建设管理服务中心",
+								"公共资源交易中心","深圳市光明新区城市发展促进中心","机关后勤服务中心","土地整备中心","建筑工务和土地开发中心",
 								"光明消防大队","光明现役消防支队光明新区大队","规划土地监察大队","深水光明","经发公司"};
-		
 		for(String userName : userNames){
 			User unitUser = new User();
 			unitUser.setId(UUID.randomUUID().toString());
 			unitUser.setDisplayName(userName);
 			unitUser.setLoginName(userName);
 			unitUser.setPassword("888888");
+			unitUser.setComment("系统初始化创建");
 			unitUser.getRoles().add(role2);
 			userRepo.save(unitUser);
 			
 			UserUnitInfo userUnitInfo = new UserUnitInfo();
 			userUnitInfo.setId(UUID.randomUUID().toString());
 			userUnitInfo.setUnitName(userName);
-			userUnitInfo.setUserName(unitUser.getId());
+			userUnitInfo.setUserName(userName);
 			userUnitInfo.setRemark("系统初始化创建");
 			userUnitInfoRepo.save(userUnitInfo);
 		}
@@ -411,7 +413,7 @@ public class SysServiceImpl implements SysService{
 		
 		this.createBasicData("projectInvestmentType","" , "projectInvestmentType", "项目投资类型分类", "项目投资类型分类");
 		this.createBasicData("projectInvestmentType_1","projectInvestmentType" , "projectInvestmentType", "政府投资项目", "项目投资类型分类");
-//		this.createBasicData("projectInvestmentType_2","projectInvestmentType" , "projectInvestmentType", "社会投资项目", "项目投资类型分类");
+		this.createBasicData("projectInvestmentType_2","projectInvestmentType" , "projectInvestmentType", "社会投资项目", "项目投资类型分类");
 
 		this.createBasicData("projectProgress","" , "projectProgress", "项目进度分类", "项目进度分类");
 		this.createBasicData("projectProgress_1","projectProgress" , "projectProgress", "进展顺利", "项目进度分类");
@@ -419,17 +421,17 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("projectProgress_3","projectProgress" , "projectProgress", "进展大幅滞后于计划", "项目进度分类");
 		
 		this.createBasicData("projectShenBaoStage","" , "projectShenBaoStage", "项目申报阶段分类", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_1","projectShenBaoStage" , "projectShenBaoStage", "前期计划(前期费)", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_1","projectShenBaoStage" , "projectShenBaoStage", "前期计划", "项目申报阶段分类",4);
 //		this.createBasicData("projectShenBaoStage_2","projectShenBaoStage" , "projectShenBaoStage", "规划设计前期费", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_3","projectShenBaoStage" , "projectShenBaoStage", "新开工计划", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_4","projectShenBaoStage" , "projectShenBaoStage", "续建计划", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_3","projectShenBaoStage" , "projectShenBaoStage", "新开工计划", "项目申报阶段分类",5);
+		this.createBasicData("projectShenBaoStage_4","projectShenBaoStage" , "projectShenBaoStage", "续建计划", "项目申报阶段分类",6);
 //		this.createBasicData("projectShenBaoStage_5","projectShenBaoStage" , "projectShenBaoStage", "委托审计", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_6","projectShenBaoStage" , "projectShenBaoStage", "审计决算资金", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_7","projectShenBaoStage" , "projectShenBaoStage", "下一年度计划", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_6","projectShenBaoStage" , "projectShenBaoStage", "竣工决算", "项目申报阶段分类",8);
+		this.createBasicData("projectShenBaoStage_7","projectShenBaoStage" , "projectShenBaoStage", "下一年度计划", "项目申报阶段分类",7);
 //		this.createBasicData("projectShenBaoStage_8","projectShenBaoStage" , "projectShenBaoStage", "年度调整计划", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_9","projectShenBaoStage" , "projectShenBaoStage", "项目建议书", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_10","projectShenBaoStage" , "projectShenBaoStage", "可行性研究报告", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_11","projectShenBaoStage" , "projectShenBaoStage", "初步设计概算", "项目申报阶段分类");
+		this.createBasicData("projectShenBaoStage_9","projectShenBaoStage" , "projectShenBaoStage", "项目建议书", "项目申报阶段分类",1);
+		this.createBasicData("projectShenBaoStage_10","projectShenBaoStage" , "projectShenBaoStage", "可行性研究报告", "项目申报阶段分类",2);
+		this.createBasicData("projectShenBaoStage_11","projectShenBaoStage" , "projectShenBaoStage", "初步设计概算", "项目申报阶段分类",3);
 //		this.createBasicData("projectShenBaoStage_12","projectShenBaoStage" , "projectShenBaoStage", "核准", "项目申报阶段分类");
 //		this.createBasicData("projectShenBaoStage_13","projectShenBaoStage" , "projectShenBaoStage", "备案", "项目申报阶段分类");
 		
@@ -518,11 +520,21 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("taskType_1","taskType" , "taskType", "月报填报", "",false);
 		this.createBasicData("taskType_2","taskType" , "taskType", "下一年度计划", "",false);
 		this.createBasicData("taskType_3","taskType" , "taskType", "是否发送短信", "",false);
+
+		this.createBasicData("taskType_4","taskType" , "taskType", "项目建议书", "",false);
+		this.createBasicData("taskType_5","taskType" , "taskType", "可行性研究报告", "",false);
+		this.createBasicData("taskType_6","taskType" , "taskType", "初步设计与概算", "",false);
+		this.createBasicData("taskType_7","taskType" , "taskType", "前期计划", "",false);
+		this.createBasicData("taskType_8","taskType" , "taskType", "新开工计划", "",false);
+		this.createBasicData("taskType_9","taskType" , "taskType", "续建计划", "",false);
+		this.createBasicData("taskType_10","taskType" , "taskType", "竣工决算", "",false);
+
 		
 		this.createBasicData("auditState","" , "auditState", "审核状态", "审核状态",false);
 		this.createBasicData("auditState_1","auditState" , "auditState", "未审核", "",false);
 		this.createBasicData("auditState_2","auditState" , "auditState", "审核通过", "",false);
 		this.createBasicData("auditState_3","auditState" , "auditState", "审核不通过", "",false);
+
 				
 		response.setMessage("基础数据初始化成功");
 		response.setSuccess(true);		
@@ -530,6 +542,28 @@ public class SysServiceImpl implements SysService{
 		return response;
 
 	}
+	
+	/**
+	 * 
+	 * @Description：创建默认为可编辑可排序的基础数据
+	 * @author： cx
+	 * @Date： 2017年8月1日
+	 * @version: 0.1
+	 */
+	private BasicData createBasicData(String id,String pid,String identity,String description,String comment,Integer itemOrder){
+		BasicData basicData = new BasicData();
+		basicData.setId(id);
+		basicData.setpId(pid);
+		basicData.setIdentity(identity);
+		basicData.setDescription(description);
+		basicData.setCanEdit(true);
+	//	basicData.setComment(comment);
+		basicData.setItemOrder(itemOrder);
+		basicData.setCanEdit(true);
+		basicDataRepo.save(basicData);
+		return basicData;
+	}
+	
 	/**
 	 * 
 	 * @Description：创建默认为可编辑的行业基础数据
@@ -625,8 +659,8 @@ public class SysServiceImpl implements SysService{
 			sysconfig.setConfigName(sysConfigDto.getConfigName());
 			sysconfig.setConfigValue(sysConfigDto.getConfigValue());
 			sysconfig.setEnable(sysConfigDto.getEnable());
-			sysconfig.setCreatedBy(currentUser.getUserId());
-			sysconfig.setModifiedBy(currentUser.getUserId());
+			sysconfig.setCreatedBy(currentUser.getLoginName());
+			sysconfig.setModifiedBy(currentUser.getLoginName());
 			sysconfig.setConfigType(sysConfigDto.getConfigType());
 			
 			sysConfigRepo.save(sysconfig);

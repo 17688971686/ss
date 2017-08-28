@@ -9,9 +9,11 @@
 		var url_project = "/management/project";//获取项目信息数据
 		var url_userUnit = "/management/userUnit";//获取单位信息
 		var url_back = "#/project";
+		var url_backSH = "#/project_SH";
 		var url_document="/management/replyFile";
 		var service = {
-			grid : grid,			
+			grid : grid,
+			grid_SH:grid_SH,
 			getProjectById:getProjectById,
 			getUserUnits:getUserUnits,
 			updateProject:updateProject,
@@ -28,7 +30,7 @@
 		function getProjectUnit(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_userUnit + "?$filter=id eq '{0}'", vm.model.unitName)
+					url : common.format(url_userUnit + "?$filter=userName eq '{0}'", vm.model.unitName)
 				};
 			
 			var httpSuccess = function success(response) {
@@ -42,7 +44,6 @@
 				success : httpSuccess
 			});
 		}
-
 		
 		/**
 		 * 获取当前登录用户用户的单位信息
@@ -70,8 +71,9 @@
 			common.initJqValidation();
 			var isValid = $('form').valid();        
 			if (isValid) {
-				vm.isSubmit = true;	
+				vm.isSubmit = true;
 				vm.model.projectType=common.arrayToString(vm.model.projectType,',');//项目类型的处理
+
 				var httpOptions = {
 					method : 'post',
 					url : url_project,
@@ -90,7 +92,11 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 									$('.modal-backdrop').remove();
-									location.href = url_back;									
+									if(vm.isZFInvestment){
+										location.href=url_back;
+									}else if(vm.isSHInvestment){
+										location.href=url_backSH;
+									}									
 								}
 							});
 						}
@@ -105,9 +111,9 @@
 				});
 			}else{
 				common.alert({
-					vm:vm,
-					msg:"您填写的信息不正确,请核对后提交!"
-				});
+					 vm:vm,
+					 msg:"您填写的信息不正确,请核对后提交!"
+				 });
 			}
 		}
 		//end#createProject
@@ -126,7 +132,12 @@
 					//关闭模态框
 					$("#myModal_edit").modal('hide');
 					//刷新表格数据
-					vm.gridOptions.dataSource.read(); 					
+					if(vm.isZFInvestment){
+						vm.gridOptions.dataSource.read(); 
+					}else if(vm.isSHInvestment){
+						vm.gridOptions_SH.dataSource.read(); 
+					}
+										
 				};
 
 				common.http({
@@ -147,7 +158,6 @@
 			if (isValid) {
 				vm.isSubmit = true;
 				vm.model.projectType=common.arrayToString(vm.model.projectType,',');
-				
 				var httpOptions = {
 					method : 'put',
 					url : url_project,
@@ -165,8 +175,12 @@
 								fn : function() {
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
-									$('.modal-backdrop').remove();
-									location.href = url_back;
+									$('.modal-backdrop').remove();						
+									if(vm.isZFInvestment){
+										location.href=url_back;
+									}else if(vm.isSHInvestment){
+										location.href=url_backSH;
+									}
 								}
 							});
 						}
@@ -182,8 +196,8 @@
 
 			} else {
 				 common.alert({
-				 vm:vm,
-				 msg:"您填写的信息不正确,请核对后提交!"
+					 vm:vm,
+					 msg:"您填写的信息不正确,请核对后提交!"
 				 });
 			}
 		}
@@ -208,8 +222,9 @@
 				//查询项目的所属单位的单位名称
 			   	getProjectUnit(vm);
 			   	
-			   	//项目类型的处理--多选框回显					
+			   	//项目类型的处理--多选框回显			
 				vm.model.projectType=common.stringToArray(vm.model.projectType,',');
+
 				//日期展示
 				vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
 				vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
@@ -324,7 +339,7 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(common.format(url_project+"/unitName")),
+				transport : common.kendoGridConfig().transport(url_project),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
 					fields : {
@@ -349,6 +364,11 @@
 					dir : "desc"
 				},
 				filter:[
+					{
+						field:"projectInvestmentType",
+						operator:"eq",
+						value:common.basicDataConfig().projectInvestmentType_ZF
+					},
 					{
 						field:"isLatestVersion",
 						operator:"eq",
@@ -392,18 +412,9 @@
 					},
 					{
 						field : "unitName",
-						title : "项目所属单位",
+						title : "建设单位",
 						width : 150,
-						filterable:{
-							ui: function(element){
-			                    element.kendoDropDownList({
-			                        valuePrimitive: true,
-			                        dataSource: vm.basicData.userUnit,
-			                        dataTextField: "unitName",
-			                        dataValueField: "id"
-			                    });
-			                }
-						}
+						filterable : true
 					},
 					{
 						field : "projectStage",
@@ -468,5 +479,148 @@
 			};
 
 		}// end fun grid
+		
+		// begin#grid
+		function grid_SH(vm) {
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url_project),
+				schema : common.kendoGridConfig().schema({
+					id : "id",
+					fields : {
+						createdDate : {
+							type : "date"
+						},
+						isMonthReport:{
+							type:"boolean"
+						},
+						isIncludLibrary:{
+							type:"boolean"
+						}
+						
+					}
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "createdDate",
+					dir : "desc"
+				},
+				filter:[
+					{
+						field:"isLatestVersion",
+						operator:"eq",
+						value:true
+					},{
+						field:"projectInvestmentType",
+						operator:"eq",
+						value:common.basicDataConfig().projectInvestmentType_SH
+					}
+				]
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+					{
+						template : function(item) {
+							return kendo
+									.format(
+											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+											item.id);
+						},
+						filterable : false,
+						width : 40,
+						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+
+					},
+					 {
+						field : "projectNumber",
+						title : "项目代码",
+						width : 180,						
+						filterable : false
+					},
+					{
+						field : "projectName",
+						title : "项目名称",
+						template:function(item){
+							return common.format("<a href='#/projectDetails/{0}/{1}'>{2}</a>",item.id,item.projectInvestmentType,item.projectName);
+						},
+						filterable : true
+					},
+					{
+						field : "unitName",
+						title : "建设单位",
+						width : 150,
+						filterable : true
+					},
+					{
+						field : "projectStage",
+						title : "项目阶段",
+						width : 150,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectStage);
+						},
+						filterable : {
+							ui: function(element){
+			                    element.kendoDropDownList({
+			                        valuePrimitive: true,
+			                        dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectStage),
+			                        dataTextField: "description",
+			                        dataValueField: "id"
+			                    });
+			                }
+						}
+					},
+					{
+						field : "projectClassify",
+						title : "项目分类",
+						width : 150,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectClassify);
+						},
+						filterable : false
+					},
+					{
+						field : "isMonthReport",
+						title : "是否月报",
+						template : function(item) {
+							if(item.isMonthReport){
+								return "是";
+							}else if(!item.isMonthReport){
+								return "否";
+							}								 
+						},
+						width : 150,
+						filterable : true
+					},
+					{
+						field : "",
+						title : "操作",
+						width : 250,
+						template : function(item) {
+							return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,"vm.isMonthReport('" +item.id+ "','"+item.isMonthReport+"')");
+						}
+
+					}
+
+			];
+			// End:column
+
+			vm.gridOptions_SH = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true
+			};
+
+		}// end fun grid
 	}
+	
+	
 })();

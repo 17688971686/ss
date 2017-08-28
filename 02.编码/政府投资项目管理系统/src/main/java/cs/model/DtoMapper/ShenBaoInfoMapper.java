@@ -74,7 +74,6 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			//begin#年度计划
 			shenBaoInfoDto.setProjectConstrChar(entity.getProjectConstrChar());
 			shenBaoInfoDto.setYearPlanCapitalId(entity.getYearPlanCapitalId());
-			shenBaoInfoDto.setConstructionUnit(entity.getConstructionUnit());
 			//申报年份信息
 			shenBaoInfoDto.setPlanYear(entity.getPlanYear());
 			shenBaoInfoDto.setApplyYearInvest(entity.getApplyYearInvest());
@@ -128,6 +127,19 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			//begin#财政局
 			shenBaoInfoDto.setFunctionSubjects(entity.getFunctionSubjects());
 			shenBaoInfoDto.setEconClassSubjects(entity.getEconClassSubjects());
+			//begin#项目建议书
+			shenBaoInfoDto.setProjectConstrBasis(entity.getProjectConstrBasis());
+			//begin#可行性研究报告
+			shenBaoInfoDto.setRecomProgram(entity.getRecomProgram());
+			shenBaoInfoDto.setSocialAndEconomic(entity.getSocialAndEconomic());
+			//begin#前期计划
+			shenBaoInfoDto.setIsApplyQianQiFei(entity.getIsApplyQianQiFei());
+			shenBaoInfoDto.setQianQiFeiApply(entity.getQianQiFeiApply());
+			//begin#续建计划
+			shenBaoInfoDto.setLastYearImageSchedule(entity.getLastYearImageSchedule());
+			
+			//begin#竣工决算
+			shenBaoInfoDto.setYearImageSchedule(entity.getYearImageSchedule());
 			//为保存客户提供的数据添加字段
 			shenBaoInfoDto.setConstructionCycle(entity.getConstructionCycle());//建设周期
 			shenBaoInfoDto.setFinalAmount(entity.getFinalAmount());//决算金额
@@ -200,7 +212,6 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			//begin#年度计划
 			shenBaoInfo.setProjectConstrChar(shenBaoInfoDto.getProjectConstrChar());
 			shenBaoInfo.setYearPlanCapitalId(shenBaoInfoDto.getYearPlanCapitalId());//安排年度投资Id
-			shenBaoInfo.setConstructionUnit(shenBaoInfoDto.getConstructionUnit());
 			//申报年份
 			shenBaoInfo.setPlanYear(shenBaoInfoDto.getPlanYear());
 			shenBaoInfo.setApplyYearInvest(shenBaoInfoDto.getApplyYearInvest());//申请年度投资
@@ -249,6 +260,18 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			//begin#财政相关
 			shenBaoInfo.setFunctionSubjects(shenBaoInfoDto.getFunctionSubjects());
 			shenBaoInfo.setEconClassSubjects(shenBaoInfoDto.getEconClassSubjects());
+			//begin#项目建议书
+			shenBaoInfo.setProjectConstrBasis(shenBaoInfoDto.getProjectConstrBasis());
+			//begin#可行性研究报告
+			shenBaoInfo.setRecomProgram(shenBaoInfoDto.getRecomProgram());
+			shenBaoInfo.setSocialAndEconomic(shenBaoInfoDto.getSocialAndEconomic());
+			//begin#前期计划
+			shenBaoInfo.setIsApplyQianQiFei(shenBaoInfoDto.getIsApplyQianQiFei());
+			shenBaoInfo.setQianQiFeiApply(shenBaoInfoDto.getQianQiFeiApply());
+			//begin#续建计划
+			shenBaoInfo.setLastYearImageSchedule(shenBaoInfoDto.getLastYearImageSchedule());
+			//begin#竣工决算
+			shenBaoInfo.setYearImageSchedule(shenBaoInfoDto.getYearImageSchedule());
 			//基础数据																														
 			shenBaoInfo.setModifiedBy(shenBaoInfoDto.getModifiedBy());
 			shenBaoInfo.setCreatedBy(shenBaoInfoDto.getCreatedBy());

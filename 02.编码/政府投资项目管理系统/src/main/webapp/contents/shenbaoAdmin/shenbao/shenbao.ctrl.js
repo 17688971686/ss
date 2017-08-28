@@ -33,6 +33,7 @@
         	}
         	if($state.current.name=='shenbao_record_edit'){//申报信息编辑
         		vm.page='record_edit';
+        		$(".modal-backdrop").remove();//去除模态框跳转页面之后遗留背景色
         	}
         	vm.getBasicDataDesc = function(Str){
         		return common.getBasicDataDesc(Str);
@@ -45,6 +46,12 @@
         	vm.html = function(val){
         		return $sce.trustAsHtml(val);
         	};
+        	
+        	//全选框选择
+        	$(document).on('click', '#checkboxAll_shenBaoRecords', function () {
+                var isSelected = $(this).is(':checked');
+                $('.shenBaoRecordsGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
+            });
         	//用于查询、申报--基础数据
     		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
            	vm.basicData.projectShenBaoStage=common.getBacicDataByIndectity(common.basicDataConfig().projectShenBaoStage);//申报阶段用于模态框
@@ -57,7 +64,6 @@
    	   		vm.basicData.area_Street=$linq(common.getBasicData())
 	   				.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 	   				.toArray(); //行政区划街道 
-   	   		vm.basicData.userUnit=common.getUserUnits();//获取所有单位
         };
         
         activate();
@@ -90,6 +96,8 @@
     	   vm.search=function(){
     		   var filters = [];
     		   filters.push({field:'isLatestVersion',operator:'eq',value:true});//默认条件--查询最新版本的项目
+    		   filters.push({field:'projectInvestmentType',operator:'eq',value:common.basicDataConfig().projectInvestmentType_ZF});//默认条件--查询政府投资项目
+    		   
     		   if(vm.search.projectName !=null && vm.search.projectName !=''){
     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
     		   }
@@ -103,9 +111,6 @@
     				   filters.push({field:'isIncludLibrary',operator:'eq',value:false}); 
     			   }
     		   }
-    		   if(vm.search.unitName !=null && vm.search.unitName !=''){
-       			  filters.push({field:'unitName',operator:'eq',value:vm.search.unitName});
-       		   }
     		   vm.gridOptions.dataSource.filter(filters);
     		   vm.gridOptions.dataSource.read();
     	   };
@@ -127,10 +132,10 @@
         	   shenbaoSvc.getShenBaoInfoByProjectId(vm);
            };
     	   //点击模态框的确认按钮
-           vm.confirm = function(vm,projectShenBaoStage){
-        		$(".modal-backdrop").remove(); //去掉模态框背面的阴影
-	           	location.href = "#/shenbao/"+vm.projectId+"/"+vm.projectInvestmentType+"/"+vm.projectShenBaoStage;
-	           	
+           vm.confirm = function(){
+        	   $('#myModal').modal('hide');
+           	   $(".modal-backdrop").remove(); //去掉模态框背面的阴影
+           	   location.href = "#/shenbao/"+vm.projectId+"/"+vm.projectInvestmentType+"/"+vm.projectShenBaoStage;         
            };    	   
            //点击列表中的申报记录按钮
            vm.checkShenBaoRecords = function(projectNumber){
@@ -157,18 +162,49 @@
     	   //页面初始化
     	   var init_page=function(){
     		   vm.isYearPlan=vm.stage==common.basicDataConfig().projectShenBaoStage_nextYearPlan;//申报阶段为:下一年度计划
+    		   vm.isProjectProposal=vm.stage==common.basicDataConfig().projectShenBaoStage_projectProposal;//申报阶段为:项目建议书
+    		   vm.isKXXYJBG=vm.stage==common.basicDataConfig().projectShenBaoStage_KXXYJBG;//申报阶段为:可行性研究报告
+    		   vm.isCBSJYGS=vm.stage==common.basicDataConfig().projectShenBaoStage_CBSJYGS;//申报阶段为:初步设计与概算
+    		   vm.isQianQi=vm.stage==common.basicDataConfig().projectShenBaoStage_qianQi;//申报阶段为:前期计划
+    		   vm.isNewStart=vm.stage==common.basicDataConfig().projectShenBaoStage_newStart;//申报阶段为:新开工计划
+    		   vm.isXuJian=vm.stage==common.basicDataConfig().projectShenBaoStage_xuJian;//申报阶段为:续建计划
+    		   vm.isJunGong=vm.stage==common.basicDataConfig().projectShenBaoStage_junGong;//申报阶段为:竣工决算
     		   //申报材料初始化
     		   if(vm.isYearPlan){//下一年度计划上传文件类型
     			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_YearPlan;
     			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
     		   }
-    		  
+    		   if(vm.isProjectProposal){//项目建议书上传文件类型
+    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_projectProposal;
+    		   }
+    		   if(vm.isKXXYJBG){//可行性研究报告上传文件类型
+    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_KXXYJBG;
+    		   }
+    		   if(vm.isCBSJYGS){//初步设计与概算上传文件类型
+    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_CBSJYGS;
+    		   }
+    		   if(vm.isQianQi){//前期计划上传文件类型
+    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_qianQi;
+    		   }
+    		   if(vm.isNewStart){//新开工计划上传文件类型
+    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_newStart; 
+    		   }
+    		   if(vm.isXuJian){//续建计划上传文件类型
+    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_xuJian;
+    		   }
+    		   if(vm.isJunGong){//竣工决算上传文件类型
+    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_junGong;
+    		   }
+
     		   //初始化tab--禁止点击Tab切换
     		   $("#tab1").attr("disabled","true");
     		   $("#tab2").attr("disabled","true");
     		   $("#tab3").attr("disabled","true");
     		   $("#tab4").attr("disabled","true");
+    		   $("#tab5").attr("disabled","true");
+    		   $("#tab6").attr("disabled","true");
     	   };
+
     	   //初始化基础数据
     	   var init_basicData = function(){
     		   if(vm.investmentType == common.basicDataConfig().projectInvestmentType_ZF){//如果为政府投资
@@ -219,13 +255,13 @@
 		       		vm.model.projectType.splice(index,1);
 		       	}	        	
 	        };
-	      //展示批复文件选择模态框
+	        //展示批复文件选择模态框
 	   		vm.choseDocument = function(e){
 	   			vm.pifuType=$(e.target).parents('.uploadBox').attr('data-type');
-        	   $("#documentRecords").modal({
+        	    $("#documentRecords").modal({
 			        backdrop: 'static',
 			        keyboard:false  			  
-        	   });
+        	    });
         	   vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
 	   		};
 	   		shenbaoSvc.documentRecordsGird(vm);//查询批复文件
@@ -308,7 +344,7 @@
   		 vm.tabReturn = function(tabId){
     			var activeTab = $("#tab"+tabId);
 				vm.tabStrip.activateTab(activeTab);
-     		};
+     	};
   		
   		 //tab切换(下一步)
   		 vm.tabChange = function(tabId){
@@ -319,27 +355,8 @@
     			if(isValid){//通过则跳转到下一页面
     				vm.tabStrip.activateTab(activeTab);
     			}
-     		};
-     	//添加建设单位
- 		vm.addUnit=function(){
- 			if(vm.model.constructionUnit.constructor == String){
- 				vm.model.constructionUnit = common.stringToArray(vm.model.constructionUnit);
- 			}
- 			vm.model.constructionUnit.push('');
- 			if(vm.model.constructionUnit.length >1){
-				vm.canDelete = true;
-			}
- 		};
-     	//删除建设单位
-	   vm.deleteUnit=function(idx){
-		   if(vm.canDelete){
-				vm.model.constructionUnit.splice(idx,1);
-				if(vm.model.constructionUnit.length <=1){
-					vm.canDelete = false;
-				}
-			}
-	   };
-     	   
+     	};
+  		
   		 //确认提交
     	vm.submit = function(){
     		shenbaoSvc.createShenBaoInfo(vm);
@@ -373,8 +390,7 @@
        
        function page_record(){
     	   shenbaoSvc.getShenBaoInfoById(vm);//获取申报信息
-    	   $(".modal-backdrop").remove();
-
+    
     	   vm.update = function(){
     		   shenbaoSvc.updateShenBaoInfo(vm);
     	   };

@@ -36,7 +36,7 @@
     		vm.checkLength = function(obj,max,id){
       			 common.checkLength(obj,max,id);
            	};
-           	
+
            	vm.html = function(val){
            		return $sce.trustAsHtml(val);
            	};
@@ -70,15 +70,24 @@
     	   vm.processState_tuiWen=common.basicDataConfig().processState_tuiWen;
 
     	   taskSvc.getTaskById(vm);//查询任务信息
-    	   
-    	   if(vm.taskType == common.basicDataConfig().taskType_yearPlan){//如果为下一年度计划申报
-    		   vm.isYearPlan = true;
-    		   taskSvc.getShenBaoInfoById(vm);//查询申报信息
-    	   }else if(vm.taskType == common.basicDataConfig().taskType_monthReport){//如果为月报
+    	   taskSvc.getDept(vm);
+    	  
+    	   if(vm.taskType == common.basicDataConfig().taskType_monthReport){//如果为月报
     		   vm.isMonthReport = true;
     		   taskSvc.getMonthReportById(vm);//查询月报信息
+    	   }else{
+    		   if(vm.taskType == common.basicDataConfig().taskType_yearPlan){//如果为下一年度计划申报
+    			   vm.isYearPlan = true; 
+    		   }else if(vm.taskType == common.basicDataConfig().taskType_JYS){//项目建议书
+    			   vm.isProjectProposal = true;
+    		   }else if(vm.taskType == common.basicDataConfig().taskType_KXXYJBG){//可行性研究报告
+    			   vm.isKXXYJBG = true;
+    		   }else if(vm.taskType == common.basicDataConfig().taskType_CBSJYGS){//初步概算与概算
+    			   vm.isCBSJYGS = true;
+    		   }
+    		   taskSvc.getShenBaoInfoById(vm);//查询申报信息
     	   }
-    	   
+    		   
     	   vm.dialog_shenbaoInfo=function(){
     		   $('#shenbaoInfo').modal({
                    backdrop: 'static',
@@ -88,6 +97,31 @@
 	     	   vm.tabStripOptions={
 	     			//TODO
 	     	   };
+    	   };
+    	   
+    	   vm.getUserId = function(name){
+    		   console.log(name);
+    		   $("input:radio[name='radio']").eq(0).attr("checked",'checked');
+    		   if(name == ""){
+    			   return;
+    		   }
+    		   vm.nextUser = name;
+    	   };
+    	   
+    	   vm.changed=function(id){
+    		  
+    		   if(id == ""){
+    			   vm.model.deptUsers ="";
+    			   return;
+    		   }
+    		   for ( var x in vm.model.dept) {
+				if(vm.model.dept[x].id== id ){
+					vm.nextUser = vm.model.dept[x].name;
+				}
+			}
+    		   
+    		   vm.id = id;
+    		   taskSvc.getDeptUsers(vm);
     	   };
     	   
     	   //处理操作

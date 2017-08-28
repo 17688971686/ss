@@ -12,17 +12,58 @@
 		var url_monthReport = "/management/monthReport";
 		var url_project = "/management/project";
 		var url_back = "#/task/todo";
+		var url_dept = "/org";
+		var url_users="/org/{0}/users";
 		var service = {
 			grid : grid,//待办任务列表
 			completeGird:completeGird,//已办任务列表
 			getTaskById:getTaskById,//根据任务id获取任务信息
 			getShenBaoInfoById:getShenBaoInfoById,//根据id获取申报信息
 			getMonthReportById:getMonthReportById,//根据id获取月报信息
-			handle:handle
+			handle:handle,
+			getDept:getDept,//获取部门数据
+			getDeptUsers:getDeptUsers
 		};
 		
 		return service;
 		
+		//根据部门id获取人员
+		function getDeptUsers(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_users + "?$filter=id eq '{0}'", vm.id)
+			};
+			
+			var httpSuccess = function success(response){
+				vm.model.deptUsers = response.data.value||{};
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
+		
+		//获取部门
+		function getDept(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_dept)
+			};
+			
+			var httpSuccess = function success(response){
+				vm.model.dept = response.data.value||{};
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
 		/**
 		 * 根据id获取项目信息
 		 */
@@ -88,9 +129,8 @@
 			
 			var httpSuccess = function success(response) {
 				vm.model.shenBaoInfo= response.data.value[0]||{};
-				//项目类型、建设单位的显示
+				//项目类型的显示
 				vm.model.shenBaoInfo.projectType=common.stringToArray(vm.model.shenBaoInfo.projectType,",");
-				vm.constructionUnits = common.stringToArray(vm.model.shenBaoInfo.constructionUnit,",");
 				//判断项目的投资类型
 				if(vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_SH){//社会投资
 					vm.isSHInvestment = true;
@@ -137,6 +177,23 @@
 		  			 		+ (parseFloat(vm.model.shenBaoInfo.capitalZYYS)||0 )
 		  			 		+ (parseFloat(vm.model.shenBaoInfo.capitalOther)||0) ;
 		  		 };
+				if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){//申报阶段为:下一年度计划
+					vm.isYearPlan = true;
+					vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_YearPlan;
+    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+				}else if(vm.model.shenBaoInfo.projectShenBaoStage ==common.basicDataConfig().projectShenBaoStage_projectProposal){//申报阶段为:项目建议书
+					vm.isProjectProposal=true;
+					vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_projectProposal;
+    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+				}else if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_KXXYJBG){//申报阶段为:可行性研究报告
+					vm.isKXXYJBG=true;
+					vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_KXXYJBG;
+    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+				}else if(vm.model.shenBaoInfo.projectShenBaoStage == common.uploadFileTypeConfig().projectShenBaoStage_CBSJYGS){//申报阶段为:初步设计与概算
+					vm.isCBSJYGS=true;
+					vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_CBSJYGS;
+    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+				}
 		  		//申请资金计算
 		  		vm.lastTwoYearCapitalTotal = function(){
 		  			return (parseFloat(vm.model.shenBaoInfo.capitalSCZ_ggys_LastTwoYear)||0) + (parseFloat(vm.model.shenBaoInfo.capitalSCZ_gtzj_LastTwoYear)||0);
@@ -147,12 +204,6 @@
 		  		vm.theYearCapitalTotal= function(){
 		  			return (parseFloat(vm.model.shenBaoInfo.capitalSCZ_ggys_TheYear)||0) + (parseFloat(vm.model.shenBaoInfo.capitalSCZ_gtzj_TheYear)||0);
 		  		};
-				//如果申报信息的申报阶段为下一年度计划
-				if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){
-					 vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_YearPlan;
-					 vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
-	    			   vm.isYearPlan = true;
-				}
 			};
 
 			common.http({
@@ -164,6 +215,7 @@
 		}//end getShenBaoInfoById
 		
 		function handle(vm){
+			vm.model.taskRecord.nextUser = vm.nextUser;
 			var httpOptions = {
 				method : 'put',
 				url : url_task+"/"+vm.taskId,
@@ -208,13 +260,12 @@
 			
 			var httpSuccess = function success(response) {
 				vm.task = response.data.value[0] || {};
-				
 				if(vm.task){
 					vm.task.taskTypeDesc=common.getBasicDataDesc(vm.task.taskType);
 					if(vm.task.isComplete){//如果任务为已完成
 						vm.isComplete=true;
 					}
-				}
+				}	
 			};
 				
 			common.http({

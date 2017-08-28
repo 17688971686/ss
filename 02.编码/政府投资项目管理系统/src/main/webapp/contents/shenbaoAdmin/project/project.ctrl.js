@@ -17,6 +17,7 @@
         vm.basicData={};
         vm.search={};
         vm.page='list';
+        vm.type = "";
         
         vm.init=function(){
         	if($state.current.name=='projectEdit'){//新增项目信息页面
@@ -37,9 +38,9 @@
     			 common.checkLength(obj,max,id);
     		};
     		
-    		vm.html=function(val){
+    		vm.html = function(val){
     			return $sce.trustAsHtml(val);
-    		};
+    		}
     		//用于查询、新增、编辑--基础数据初始化
     		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
     		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类型
@@ -48,7 +49,6 @@
 	   		vm.basicData.area_Street=$linq(common.getBasicData())
 	   			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 	   			.toArray();//获取街道信息
-	   		vm.basicData.userUnit=common.getUserUnits();//获取所有单位
         };
         
         activate();
@@ -105,9 +105,6 @@
     				   filters.push({field:'isIncludLibrary',operator:'eq',value:false}); 
     			   }
     		   }
-    		   if(vm.search.unitName !=null && vm.search.unitName !=''){
-      			  filters.push({field:'unitName',operator:'eq',value:vm.search.unitName});
-      		   }
     		   vm.gridOptions.dataSource.filter(filters);
     		   vm.gridOptions.dataSource.read();
     	   };
@@ -124,7 +121,9 @@
     		  vm.basicData.projectIndustry=$linq(common.getBasicData())
 	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
 	       		.toArray();
- 			  vm.isZFInvestment = true; 			  
+ 			  vm.isZFInvestment = true;
+ 			//相关附件文件上传文件种类
+	   		vm.relatedType=common.uploadFileTypeConfig().projectEdit;
  		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资
  			  //基础数据--项目分类
  			  vm.basicData.projectClassify=$linq(common.getBasicData())
@@ -141,6 +140,8 @@
 	       		.toArray();
 	   		};
  			  vm.isSHInvestment = true;
+ 			//相关附件文件上传文件种类
+	   		vm.relatedType=common.uploadFileTypeConfig().projectEdit_SH;
  		   }
     	   
     	   	//设置项目所属单位信息
@@ -159,16 +160,14 @@
 	   		
 	   		//批复文件上传
 	   		vm.uploadType=[['JYS','项目建议书批复'],['KXXYJBG','可行性研究报告批复'],['CBSJYGS','初步设计与概算批复']];
-	   		//相关附件文件上传文件种类
-	   		vm.relatedType=common.uploadFileTypeConfig().projectEdit;
-
+	   		
 	   		vm.uploadSuccess=function(e){
     			var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
 	           	 if(e.XMLHttpRequest.status==200){
 	           		 var fileName=e.XMLHttpRequest.response;
 	           		 $scope.$apply(function(){
 	           			 if(vm.model.attachmentDtos){
-	           				 vm.model.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
+	           				vm.model.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
 	           			 }else{
 	           				 vm.model.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
 	           			 }                			           			
@@ -176,10 +175,12 @@
 	           	 }
 	   		};
 	   		
+
 	   		//展示批复文件选择模态框
-	   		vm.choseDocument = function(e){
+	   		vm.choseDocument = function(e,type){
+	   			vm.type = type;
 	   			vm.pifuType=$(e.target).parents('.uploadBox').attr('data-type');
-        	   $("#documentRecords").modal({
+	   			$("#documentRecords").modal({
 			        backdrop: 'static',
 			        keyboard:false  			  
         	   });
@@ -195,8 +196,13 @@
 	   			//获取选择框中的信息
 	   			var select = common.getKendoCheckId('.grid');
             	var fileName = select[0].value;
-            	
+
    			    if(vm.model.attachmentDtos){
+   			     for (var i = 0; i < vm.model.attachmentDtos.length; i++) {
+    					if(vm.model.attachmentDtos[i].type == vm.type){
+        					 return;
+        				 }
+					}
    				  vm.model.attachmentDtos.push({name:fileName,url:fileName,type:vm.pifuType});
    			    }else{
    				  vm.model.attachmentDtos=[{name:fileName,url:fileName,type:vm.pifuType}];
@@ -213,9 +219,9 @@
 	   			            });               			           			
 	   	          		 });
 	   	            }
-	   	            
 	   	        });
 	   		};
+	   		
 	   		//批复文件上传配置
 	   		vm.uploadOptions_pifu={
 	   				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
@@ -274,13 +280,15 @@
     	   $(".modal-backdrop").remove();
     	   projectSvc.getProjectById(vm);
     	   if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
- 			  vm.isZFInvestment = true; 			  
- 		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资			  
+ 			  vm.isZFInvestment = true;
+ 			 //相关附件文件上传文件种类
+ 			  vm.relatedType=common.uploadFileTypeConfig().projectEdit;
+ 		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资		  
  			  vm.isSHInvestment = true;
+ 			 //相关附件文件上传文件种类
+ 			  vm.relatedType=common.uploadFileTypeConfig().projectEdit_SH;
  		   }
-    	 //相关附件文件上传文件种类
-    	   vm.relatedType=common.uploadFileTypeConfig().projectEdit;
+    	
        }//end#page_projectInfo
-		
     }
 })();

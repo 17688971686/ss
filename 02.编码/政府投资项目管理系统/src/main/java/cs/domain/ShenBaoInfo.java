@@ -37,10 +37,7 @@ public class ShenBaoInfo extends BaseProject{
 	//begin#年度计划相关
 	@Column(columnDefinition="int NULL COMMENT '计划年度'")
 	private Integer planYear;
-	
-	@Column(columnDefinition="varchar(500) NULL COMMENT '建设单位'")
-	private String constructionUnit;
-	
+
 	@Column(columnDefinition="double(11,4) NULL COMMENT '申请年度投资'")
 	private Double applyYearInvest;	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下一年申请年度投资'")
@@ -132,6 +129,34 @@ public class ShenBaoInfo extends BaseProject{
 	private String processState;
 	//end
 	
+	//begin#建议书相关
+	@Column(columnDefinition="varchar(500) NULL COMMENT '项目建设必要性和依据'")
+	private String projectConstrBasis;
+	//end
+	
+	//begin#可行性研究报告相关
+	@Column(columnDefinition="varchar(500) NULL COMMENT '推荐方案介绍'")
+	private String recomProgram;
+	@Column(columnDefinition="varchar(500) NULL COMMENT '社会及经济效益评价'")
+	private String socialAndEconomic;
+	//end
+	
+	//begin#前期计划相关
+	@Column(columnDefinition="bit(1) NULL COMMENT '是否申请前期工作经费'")
+	private Boolean isApplyQianQiFei = false;//默认为不申请
+	@Column(columnDefinition="double(10,4) NULL COMMENT '工作经费申请金额'")
+	private Double qianQiFeiApply;
+	//end
+	
+	//begin#续建计划相关
+	@Column(columnDefinition="varchar(500) NULL COMMENT '上一年形象进度'")
+	private String lastYearImageSchedule;
+	//end
+	
+	//begin#竣工决算相关
+	@Column(columnDefinition="varchar(500) NULL COMMENT '形象进度'")
+	private String yearImageSchedule;
+
 	//begin#审核相关
 	@Column(columnDefinition="varchar(500) NULL COMMENT '审核状态'")
 	private String auditState;
@@ -239,6 +264,48 @@ public class ShenBaoInfo extends BaseProject{
 	}
 	public void setEconClassSubjects(String econClassSubjects) {
 		this.econClassSubjects = econClassSubjects;
+	}
+	public String getProjectConstrBasis() {
+		return projectConstrBasis;
+	}
+	public void setProjectConstrBasis(String projectConstrBasis) {
+		this.projectConstrBasis = projectConstrBasis;
+	}
+	public String getRecomProgram() {
+		return recomProgram;
+	}
+	public void setRecomProgram(String recomProgram) {
+		this.recomProgram = recomProgram;
+	}
+	public String getSocialAndEconomic() {
+		return socialAndEconomic;
+	}
+	public void setSocialAndEconomic(String socialAndEconomic) {
+		this.socialAndEconomic = socialAndEconomic;
+	}
+	public Boolean getIsApplyQianQiFei() {
+		return isApplyQianQiFei;
+	}
+	public void setIsApplyQianQiFei(Boolean isApplyQianQiFei) {
+		this.isApplyQianQiFei = isApplyQianQiFei;
+	}
+	public Double getQianQiFeiApply() {
+		return qianQiFeiApply;
+	}
+	public void setQianQiFeiApply(Double qianQiFeiApply) {
+		this.qianQiFeiApply = qianQiFeiApply;
+	}
+	public String getLastYearImageSchedule() {
+		return lastYearImageSchedule;
+	}
+	public void setLastYearImageSchedule(String lastYearImageSchedule) {
+		this.lastYearImageSchedule = lastYearImageSchedule;
+	}
+	public String getYearImageSchedule() {
+		return yearImageSchedule;
+	}
+	public void setYearImageSchedule(String yearImageSchedule) {
+		this.yearImageSchedule = yearImageSchedule;
 	}
 	public String getYearConstructionContentLastYear() {
 		return yearConstructionContentLastYear;
@@ -421,11 +488,5 @@ public class ShenBaoInfo extends BaseProject{
 	}
 	public void setCapitalAP_qita_LastTwoYear(Double capitalAP_qita_LastTwoYear) {
 		this.capitalAP_qita_LastTwoYear = capitalAP_qita_LastTwoYear;
-	}
-	public String getConstructionUnit() {
-		return constructionUnit;
-	}
-	public void setConstructionUnit(String constructionUnit) {
-		this.constructionUnit = constructionUnit;
 	}
 }

@@ -5,7 +5,7 @@
 
 	project.$inject = ['$http','$compile','$location'];	
 	function project($http,$compile,$location) {
-		var url_project = "/shenbaoAdmin/project";
+		var url_project = "/shenbaoAdmin/project/unitProject";
 		var url_userUnit　= "/shenbaoAdmin/userUnitInfo";
 		var url_back = "/project";
 		var url_document="/shenbaoAdmin/replyFile";
@@ -31,12 +31,11 @@
 				vm.model.projectType = common.arrayToString(vm.model.projectType,',');
 				var httpOptions = {
 					method : 'put',
-					url : url_project+"/unitProject",
+					url : url_project,
 					data : vm.model
 				};
 
 				var httpSuccess = function success(response) {
-					vm.model.projectType =vm.model.projectType.split(",");
 					common.requestSuccess({
 						vm : vm,
 						response : response,
@@ -48,7 +47,7 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 									$('.modal-backdrop').remove();
-									$location.path(url_back);		
+									$location.path(url_back);
 								}
 							});
 						}
@@ -86,8 +85,7 @@
 				
 				//查询项目的所属单位的单位名称
 			   	getProjectUnit(vm);
-			   	
-			   	//项目类型的处理--多选框回显					
+			   	//项目类型的处理--多选框回显
 			   	vm.model.projectType = common.stringToArray(vm.model.projectType,',');
 				//日期展示
 				vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
@@ -144,7 +142,7 @@
 		function getProjectUnit(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_userUnit + "/userName?$filter=id eq '{0}'", vm.model.unitName)
+					url : common.format(url_userUnit + "?$filter=userName eq '{0}'", vm.model.unitName)
 				};
 				var httpSuccess = function success(response) {
 					vm.userUnit = response.data.value[0] || {};
@@ -167,7 +165,7 @@
 				};
 				var httpSuccess = function success(response) {
 					vm.userUnit = response.data.value[0] || {};
-					vm.model.unitName = vm.userUnit.id;//设置项目的所属单位名称
+					vm.model.unitName = vm.userUnit.userName;//设置项目的所属单位名称
 				};
 				common.http({
 					vm : vm,
@@ -188,7 +186,7 @@
 				vm.isSubmit = true;				
 				var httpOptions = {
 					method : 'post',
-					url : url_project+"/unitProject",
+					url : url_project,
 					data : vm.model
 				};
 
@@ -223,7 +221,7 @@
 					msg:"您填写的信息不正确,请核对后提交!"
 				});
 			}
-		}
+		}	
 	
 		function documentRecordsGird(vm){
 			// Begin:dataSource
@@ -288,7 +286,7 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(common.format(url_project+"/unitProject")),
+				transport : common.kendoGridConfig().transport(url_project),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
 					fields : {
@@ -317,6 +315,7 @@
 			// End:dataSource
 
 			// Begin:column
+
 			var columns = [	
 				{
 					template : function(item) {
@@ -328,7 +327,6 @@
 					filterable : false,
 					width : 40,
 					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
-
 				},
 				{
 					field : "projectName",
@@ -336,21 +334,6 @@
 					filterable : true,
 					template:function(item){
 						return common.format('<a href="#/project/projectInfo/{0}/{1}">{2}</a>',item.id,item.projectInvestmentType,item.projectName);
-					}
-				},
-				{
-					field : "unitName",
-					title : "所属单位",
-					filterable : {
-						ui: function(element){
-	                        element.kendoDropDownList({
-	                            valuePrimitive: true,
-	                            dataSource: vm.basicData.userUnit,
-	                            dataTextField: "unitName",
-	                            dataValueField: "id",
-	                            filter: "startswith"
-	                        });
-	                    }
 					}
 				},
 				{
@@ -368,6 +351,7 @@
 	                            dataTextField: "description",
 	                            dataValueField: "id",
 	                            filter: "startswith"
+
 	                        });
 	                    }
 					}
@@ -398,7 +382,7 @@
 					field : "",
 					title : "操作",
 					width : 180,
-					template : function(item) {
+					template : function(item) {					
 						var isHide = item.isIncludLibrary;
 						return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,isHide?'display:none':'');
 					}
@@ -416,6 +400,5 @@
 			};
 
 		}// end fun grid
-
 	}	
 })();

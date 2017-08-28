@@ -31,6 +31,21 @@
 			<span data-valmsg-for="projectStage" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
+	<tr>
+		<td class="formAlignRight">项目负责人名称：<span class="required">(*)</span></td>
+		<td>
+			<input type="text" class="form-control input-sm" id="projectRepName" name="projectRepName" ng-model="vm.model.projectRepName"
+				data-val="true" data-val-required="必填"/>
+			<span data-valmsg-for="projectRepName" data-valmsg-replace="true" class="required"></span>
+		</td>
+		<td class="formAlignRight">项目负责人电话：<span class="required">(*)</span></td>
+		<td>
+			<input type="text" class="form-control input-sm" style="width:200px;" id="projectRepMobile" name="projectRepMobile" ng-model="vm.model.projectRepMobile"
+				data-val="true" data-val-required="必填" placeholder="填写固话或手机号"
+				data-val-regex="号码不合理！" data-val-regex-pattern="^((0\d{2,3}-\d{7,8})|(\d{7,8})|(1[3|4|5|8][0-9]\d{4,8}))$"/>
+			<span data-valmsg-for="projectRepMobile" data-valmsg-replace="true" class="required"></span>
+		</td>
+	</tr>
 	<tr>		
 		<td class="formAlignRight">项目类别：<span class="required">(*)</span></td>
 		<td>
@@ -49,24 +64,7 @@
 			<span data-valmsg-for="projectClassify" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
-	<tr>
-		<td class="formAlignRight">功能分类科目：<span class="required">(*)</span></td>
-		<td>
-			<select style="height:30px;" id="projectFunctionClassify" name="projectFunctionClassify" ng-model="vm.model.projectFunctionClassify" data-val="true" data-val-required="必选">
-				<option value="">---请选择---</option>
-				<option ng-repeat="x in vm.basicData.projectFunctionClassify" value="{{x.id}}">{{x.description}}</option>
-			</select>
-			<span data-valmsg-for="projectFunctionClassify" data-valmsg-replace="true" class="required"></span>
-		</td>
-		<td class="formAlignRight">政府经济分类科目：<span class="required">(*)</span></td>
-		<td>
-			<select style="height:30px;" id="projectGoverEconClassify" name="projectGoverEconClassify" ng-model="vm.model.projectGoverEconClassify" data-val="true" data-val-required="必选">
-				<option value="">---请选择---</option>
-				<option ng-repeat="x in vm.basicData.projectGoverEconClassify" value="{{x.id}}">{{x.description}}</option>
-			</select>
-			<span data-valmsg-for="projectGoverEconClassify" data-valmsg-replace="true" class="required"></span>
-		</td>
-	</tr>
+	
 	<tr>
 		<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
 		<td colspan="3">
@@ -87,9 +85,25 @@
 	<tr>
 		<td class="formAlignRight">项目类型：</td>
 		<td colspan="3">
-			<label ng-repeat="x in vm.basicData.projectType" for="projectType{{$index}}">
-				<input type="radio" name="projectType" id="projectType{{$index}}" value="{{x.id}}" ng-model="vm.model.projectType"/>{{x.description}}&nbsp;&nbsp;
+			<label ng-repeat="x in vm.basicData.projectType">
+				<input type="checkbox" name="projectType" ng-checked="vm.model.projectType.indexOf(x.id) != -1" ng-click="vm.updateSelection(x.id)"
+				 />{{x.description}}&nbsp;&nbsp;
 			</label>					
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">项目建设地址：<span class="required">(*)</span></td>	
+		<td colspan="3">
+		    <select class="form-select pull-left" style="margin-right:10px;">
+		    	<option>光明新区</option>
+		    </select>
+		    <select class="form-select pull-left" style="margin-right:10px;" id="divisionId" name="divisionId" ng-model="vm.model.divisionId" data-val="true" data-val-required="必选">
+		    	<option value="">---请选择---</option>
+				<option ng-repeat="x in vm.basicData.area_Street" value="{{x.id}}">{{x.description}}</option>
+			</select>
+			<span data-valmsg-for="divisionId" data-valmsg-replace="true" class="required"></span>
+			 <input type="text" class="form-control input-sm pull-left" style="width:500px;" id="projectAddress" name="projectAddress" ng-model="vm.model.projectAddress" data-val="true" data-val-required="必填"/>
+			 <span data-valmsg-for="projectAddress" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
 	<tr>
@@ -104,16 +118,6 @@
 			 ng-model="vm.model.endDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>									
 		</td>
 	</tr>
-	
-	<tr>
-		<td class="formAlignRight">项目建设地址：<span class="required">(*)</span></td>
-		<td colspan="3">
-			<textarea rows="2" cols="" class="form-control" ng-model="vm.model.projectAddress"
-			 id="projectAddress" data-val="true" data-val-required="必填" name="projectAddress" maxlength="200"></textarea>
-			<span data-valmsg-for="projectAddress" data-valmsg-replace="true" class="required"></span>
-		</td>		
-	</tr>
-	
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
 		<td>
@@ -127,7 +131,7 @@
 		</td>
 	</tr>
 					
-	<tr>
+	<!-- <tr>
 		<td class="formAlignRight">资金筹措方案：</td>
 		<td colspan="3" >
 		
@@ -211,7 +215,7 @@
 				</tr>
 			</table>
 		</td>
-	</tr>
+	</tr> -->
 	
 	<tr>
 		<td class="formAlignRight">项目简介：</td>
@@ -243,30 +247,19 @@
 <td >文件上传</td>
 </tr>
 <tr ng-repeat="x in vm.uploadType">
-<td >{{x[1]}}</td>
+<td>{{x[1]}}</td>
 <td >
 	<input type="text"  kendo-date-picker ng-model="vm.model['pifu'+x[0]+'_date']" k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>	
 </td>
 <td><input type="text" ng-model="vm.model['pifu'+x[0]+'_wenhao']" /></td>
 <td class="clearfix">
-<div class="uploadBox pull-left"  data-type="{{x[0]}}">
- <input name="files"
-        type="file"
-        kendo-upload
-        k-async="{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true}"
-        k-error="vm.uploadSuccess"
-        k-localization="{select:'上传文件'}"
-        k-showFileList="false"   
-        k-multiple="false"    
-        />
-        </div>
-         <div style="margin:3px;"  class="pull-left"
-		 	  ng-repeat="y in vm.model.attachmentDtos" 
-		 	  ng-show="y.type=='{{x[0]}}'"
-		 		>
-			 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
-			<button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button>
-		 </div>
+	<div class="uploadBox pull-left"  data-type="{{x[0]}}">
+		<input id="files" name="files" type="file" kendo-upload  k-options="vm.uploadOptions_pifu"/>
+   	</div>
+   	<div style="margin:3px;" class="pull-left"  ng-repeat="y in vm.model.attachmentDtos" ng-show="y.type=='{{x[0]}}'">
+ 		<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+		<button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button>
+	</div>
 </td>
 </tr>
 </table>
@@ -274,32 +267,23 @@
 <div class="bg-info text-info" style="padding: 10px; ">相关附件</div>
 <table class="table table-bordered table-striped ">
 <tr>
-<td style="width:180px;">文件上传</td>
-<td>操作</td>
+	<td style="width:180px;">文件类型</td>
+	<td style="width:180px;">文件上传</td>
+	<td>操作</td>
 </tr>
-<tr>
-<td><div class="uploadBox" data-type="other">
- <input name="files"
-        type="file"
-        kendo-upload
-        k-async="{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true}"
-        k-error="vm.uploadSuccess"
-        k-localization="{select:'上传文件'}"
-        k-showFileList="false"   
-        k-multiple="true"    
-        />
-        </div>
-        </td>
-
-<td>
-         <div style="margin:3px;"  
-		 	  ng-repeat="y in vm.model.attachmentDtos" 
-		 	  ng-show="y.type=='other'"
-		 		>
-			 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+<tr ng-repeat="x in vm.relatedType">
+	<td ng-bind-html="vm.html(x[1])"></td>
+	<td>
+		<div class="uploadBox" data-type="{{x[0]}}">
+	 		<input name="files" type="file" kendo-upload  k-options="vm.uploadOptions"/>
+       	</div>
+    </td>
+	<td>
+        <div style="margin:3px;" ng-repeat="y in vm.model.attachmentDtos" ng-show="y.type=='{{x[0]}}'">
+		 	<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
 			<button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button>
-		 </div>
-</td>
+	 	</div>
+	</td>
 </tr>
 </table>
 
