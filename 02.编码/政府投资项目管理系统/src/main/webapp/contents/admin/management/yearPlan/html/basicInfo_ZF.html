@@ -16,8 +16,7 @@
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目名称：</td>
 		<td>
-			<span ng-if="vm.shenBaoInfoEdit" ng-bind="vm.model.shenBaoInfo.projectName"></span>
-			<input ng-if="vm.shenBaoInfoAdd" type="text" class="form-control input-sm" id="projectName" name="projectName" ng-model="vm.model.shenBaoInfo.projectName" data-val="true" data-val-required="必填"/>
+			<input type="text" class="form-control input-sm" id="projectName" name="projectName" ng-model="vm.model.shenBaoInfo.projectName" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight" style="width:180px;">项目阶段：<span class="required">(*)</span></td>					

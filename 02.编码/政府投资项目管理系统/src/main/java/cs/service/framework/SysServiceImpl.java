@@ -26,6 +26,7 @@ import cs.domain.framework.Resource;
 import cs.domain.framework.Role;
 import cs.domain.framework.Role_;
 import cs.domain.framework.SysConfig;
+import cs.domain.framework.SysConfig_;
 import cs.domain.framework.User;
 import cs.model.DomainDto.SysConfigDto;
 import cs.model.DtoMapper.IMapper;
@@ -518,6 +519,7 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("taskType_1","taskType" , "taskType", "月报填报", "",false);
 		this.createBasicData("taskType_2","taskType" , "taskType", "下一年度计划", "",false);
 		this.createBasicData("taskType_3","taskType" , "taskType", "是否发送短信", "",false);
+		this.createBasicData("taskType_4","taskType" , "taskType", "是否关闭申报端口", "",false);
 		
 		this.createBasicData("auditState","" , "auditState", "审核状态", "审核状态",false);
 		this.createBasicData("auditState_1","auditState" , "auditState", "未审核", "",false);
@@ -633,4 +635,15 @@ public class SysServiceImpl implements SysService{
 		}
 	}
 
+	@Override
+	@Transactional
+	public SysConfigDto getSysConfig(String configName) {
+		Criterion criterion = Restrictions.eq(SysConfig_.configName.getName(), configName);
+		SysConfig entity = sysConfigRepo.findByCriteria(criterion).stream().findFirst().get();
+		 if(entity !=null){
+			 return sysConfigMapper.toDto(entity);
+		 }else{
+			throw new IllegalArgumentException(String.format("没有查找到申报端口状态信息"));
+		}
+	}
 }

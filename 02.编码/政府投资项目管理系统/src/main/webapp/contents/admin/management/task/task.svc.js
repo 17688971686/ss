@@ -3,9 +3,9 @@
 
 	angular.module('app').factory('taskSvc', task);
 
-	task.$inject = [ '$http' ];
+	task.$inject = [ '$http' ,'$location'];
 
-	function task($http) {
+	function task($http,$location) {
 		var url_task = "/management/task";
 		var url_taskRecord = "/management/taskRecord";
 		var url_shenbao = "/management/shenbao";
@@ -250,8 +250,12 @@
 					value:false
 				},
 				requestEnd:function(e){						
-					$('#todoNumber').html(e.response.count);					
-				}
+					$('#todoNumber').html(e.response.count);
+				},
+				change: function(e) {//当数据发生变化时
+				    var filters = dataSource.filter();//获取所有的过滤条件
+				    vm.filters = filters;
+				  }
 			});
 			// End:dataSource
 
@@ -351,7 +355,11 @@
 				sort : {
 					field : "createdDate",
 					dir : "desc"
-				}				
+				},
+				change: function(e) {//当数据发生变化时
+				    var filters = dataSource.filter();//获取所有的过滤条件
+				    vm.filters = filters;
+				  }
 			});
 			// End:dataSource
 

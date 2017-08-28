@@ -16,6 +16,7 @@
         vm.model={}; 
         vm.basicData={};
         vm.search={};
+        vm.sysConfig={};
         vm.page='list';
         vm.title='申报信息录入';
         $scope.animationsEnabled = true;
@@ -111,15 +112,9 @@
     	   
     	   //点击列表中的申报按钮
     	   vm.shenbaoBtn=function(id,projectInvestmentType,name){
-	           	vm.projectId = id;//绑定项目id用于url
-	           	vm.projectInvestmentType=projectInvestmentType;//绑定项目投资类型用于url
-	           	vm.projectName=name;//绑定项目名称用于模态框显示
-	           	vm.projectShenBaoStage='';//清空下拉选选中的值
-	           	vm.massage='';//情况提醒消息
-	           	vm.isHased = false;
-	   	   		//展示模态框
-	           	 $('#myModal').modal('show');
-           };
+    		   //查询申报端口状态
+    		   shenbaoSvc.getShenBaoPortState(vm,id,projectInvestmentType,name);
+    	   }
          //模态框中申报阶段下拉选发生变化时
            vm.change =function(){
         	   vm.massage = '';
@@ -163,10 +158,10 @@
     		   }
     		  
     		   //初始化tab--禁止点击Tab切换
-//    		   $("#tab1").attr("disabled","true");
-//    		   $("#tab2").attr("disabled","true");
-//    		   $("#tab3").attr("disabled","true");
-//    		   $("#tab4").attr("disabled","true");
+    		   $("#tab1").attr("disabled","true");
+    		   $("#tab2").attr("disabled","true");
+    		   $("#tab3").attr("disabled","true");
+    		   $("#tab4").attr("disabled","true");
     	   };
     	   //初始化基础数据
     	   var init_basicData = function(){
@@ -369,6 +364,9 @@
     		   }
     		   if(vm.search.planYear !=null && vm.search.planYear !=''){
     			   filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear)});
+    		   }
+    		   if(vm.search.constructionUnit !=null && vm.search.constructionUnit !=''){
+    			   filters.push({field:'constructionUnit',operator:'contains',value:vm.search.constructionUnit});
     		   }
     		   if(vm.search.processState !=null && vm.search.processState !=''){
     			   filters.push({field:'processState',operator:'eq',value:vm.search.processState});

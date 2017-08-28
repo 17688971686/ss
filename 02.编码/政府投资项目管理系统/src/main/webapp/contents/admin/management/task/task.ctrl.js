@@ -5,9 +5,9 @@
         .module('app')
         .controller('taskCtrl', task);
 
-    task.$inject = ['$location','taskSvc','$state','$scope','$sce']; 
+    task.$inject = ['$location','taskSvc','$state','$scope','$sce','$rootScope']; 
 
-    function task($location, taskSvc,$state,$scope,$sce) {
+    function task($location, taskSvc,$state,$scope,$sce,$rootScope) {
         /* jshint validthis:true */
     	var vm = this;
     	vm.title = "";
@@ -16,6 +16,8 @@
         vm.taskId=$state.params.taskId;
         vm.relId=$state.params.relId;        
     	vm.page="todoList";
+    	vm.filters = [];
+    	vm.model.taskRecord = {};
     	function init(){   		
     		if($state.current.name=='task_todo'){//待办列表
     			vm.page='todoList';
@@ -39,6 +41,15 @@
            	
            	vm.html = function(val){
            		return $sce.trustAsHtml(val);
+           	};
+           	
+           	vm.callBack=function(){
+           		window.history.back(-1);
+//           		if(vm.isComplete){//如果是已完成的
+//           			vm.gridOptions_complete.dataSource.filter(vm.filters);
+//           		}else{//待办
+//           			vm.gridOptions.dataSource.filter(vm.filters);
+//           		}
            	};
     	}
     	   	
@@ -74,6 +85,7 @@
     	   if(vm.taskType == common.basicDataConfig().taskType_yearPlan){//如果为下一年度计划申报
     		   vm.isYearPlan = true;
     		   taskSvc.getShenBaoInfoById(vm);//查询申报信息
+    		   vm.model.taskRecord.processSuggestion = "符合申报";//设置默认为符合申报
     	   }else if(vm.taskType == common.basicDataConfig().taskType_monthReport){//如果为月报
     		   vm.isMonthReport = true;
     		   taskSvc.getMonthReportById(vm);//查询月报信息
