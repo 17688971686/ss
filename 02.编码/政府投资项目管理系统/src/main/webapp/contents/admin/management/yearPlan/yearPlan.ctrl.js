@@ -191,11 +191,13 @@
    			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
 	 		  }
 	 	
-	 		//禁止点击Tab切换
-//	 		  $("#tab1").attr("disabled","true");
-//	 		  $("#tab2").attr("disabled","true");
-//	 		  $("#tab3").attr("disabled","true");
-//	 		  $("#tab4").attr("disabled","true");
+	 		//如果是新增下一年度计划信息--禁止点击Tab切换
+	 		  if(vm.shenBaoInfoAdd){
+	 			 $("#tab1").attr("disabled","true");
+		 		  $("#tab2").attr("disabled","true");
+		 		  $("#tab3").attr("disabled","true");
+		 		  $("#tab4").attr("disabled","true");
+	 		  }
     		};
     		//初始化基础数据
     		var init_basicData = function(){
