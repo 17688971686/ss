@@ -249,7 +249,7 @@
 					operator:'eq',
 					value:false
 				},
-				requestEnd:function(e){						
+				requestEnd:function(e){
 					$('#todoNumber').html(e.response.count);
 				},
 				change: function(e) {//当数据发生变化时

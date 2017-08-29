@@ -34,7 +34,7 @@
         arrayToString:arrayToString,
         toDecimal4:toDecimal4,//保留4位小数
         getUserUnits:getUserUnits,//获取所有的用户单位信息
-        getUnitName:getUnitName,//获取用户单位名称
+        getUnitName:getUnitName,//根据用户id获取用户单位名称
         getSum:getSum,//求和
         repSign:repSign//将英文类型的标点符号转换为中文的标点符号
     };
