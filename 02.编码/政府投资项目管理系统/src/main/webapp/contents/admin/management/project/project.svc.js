@@ -30,7 +30,7 @@
 		function getProjectUnit(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_userUnit + "?$filter=userName eq '{0}'", vm.model.unitName)
+					url : common.format(url_userUnit + "?$filter=id eq '{0}'", vm.model.unitName)
 				};
 			
 			var httpSuccess = function success(response) {
@@ -44,6 +44,7 @@
 				success : httpSuccess
 			});
 		}
+
 		
 		/**
 		 * 获取当前登录用户用户的单位信息
@@ -71,7 +72,7 @@
 			common.initJqValidation();
 			var isValid = $('form').valid();        
 			if (isValid) {
-				vm.isSubmit = true;
+				vm.isSubmit = true;	
 				vm.model.projectType=common.arrayToString(vm.model.projectType,',');//项目类型的处理
 
 				var httpOptions = {
@@ -111,9 +112,10 @@
 				});
 			}else{
 				common.alert({
-					 vm:vm,
-					 msg:"您填写的信息不正确,请核对后提交!"
-				 });
+					vm:vm,
+					msg:"您填写的信息不正确,请核对后提交!"
+				});
+
 			}
 		}
 		//end#createProject
@@ -158,6 +160,7 @@
 			if (isValid) {
 				vm.isSubmit = true;
 				vm.model.projectType=common.arrayToString(vm.model.projectType,',');
+				
 				var httpOptions = {
 					method : 'put',
 					url : url_project,
@@ -196,8 +199,8 @@
 
 			} else {
 				 common.alert({
-					 vm:vm,
-					 msg:"您填写的信息不正确,请核对后提交!"
+				 vm:vm,
+				 msg:"您填写的信息不正确,请核对后提交!"
 				 });
 			}
 		}
@@ -221,8 +224,8 @@
 				
 				//查询项目的所属单位的单位名称
 			   	getProjectUnit(vm);
-			   	
-			   	//项目类型的处理--多选框回显			
+
+			   	//项目类型的处理--多选框回显					
 				vm.model.projectType=common.stringToArray(vm.model.projectType,',');
 
 				//日期展示
@@ -253,16 +256,14 @@
 				}
 				if(vm.page=='details'){				
 					//计算资金筹措总计
-					vm.capitalTotal=function(){
-			  			 return (parseFloat(vm.model.capitalSCZ_ggys)||0 )
-			  			 		+ (parseFloat(vm.model.capitalSCZ_gtzj)||0 )
-			  			 		+ (parseFloat(vm.model.capitalSCZ_zxzj)||0 )
-			  			 		+ (parseFloat(vm.model.capitalQCZ_ggys)||0 )
-			  			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
-			  			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
-			  			 		+ (parseFloat(vm.model.capitalZYYS)||0 )
-			  			 		+ (parseFloat(vm.model.capitalOther)||0);
-			  		 };						
+					//资金来源计算
+			   		 vm.capitalTotal=function(){
+			   			 return common.getSum([
+			   					 vm.model.capitalSCZ_ggys||0,vm.model.capitalSCZ_gtzj||0,vm.model.capitalSCZ_zxzj||0,
+			   					 vm.model.capitalQCZ_ggys||0,vm.model.capitalQCZ_gtzj||0,
+			   					 vm.model.capitalSHTZ||0,vm.model.capitalZYYS||0,
+			   					 vm.model.capitalOther||0]);
+			   		 };		
 				}
 			};
 			
@@ -298,8 +299,8 @@
 					template : function(item) {
 						return kendo
 								.format(
-										"<input type='radio'  relId='{0}' name='checkbox'/>",
-										item.fullName);
+										"<input type='radio'  relId='{0},{1},{2}' name='checkbox'/>",
+										item.number,item.name,item.fullName);
 					},
 					filterable : false,
 					width : 40,
@@ -313,9 +314,12 @@
 					filterable : true
 				},
 				{
-					field : "fullName",
+					field : "name",
 					title : "文件名",
 					width : 550,
+					template:function(item){
+						return common.format("<a href='/contents/upload/{1}'>{0}</a>",item.name,item.fullName);
+					},
 					filterable : true
 					
 				}
@@ -339,7 +343,7 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_project),
+				transport : common.kendoGridConfig().transport(common.format(url_project+"/unitName")),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
 					fields : {
@@ -412,9 +416,21 @@
 					},
 					{
 						field : "unitName",
-						title : "建设单位",
+						title : "项目所属单位",
 						width : 150,
-						filterable : true
+						filterable:{
+							ui: function(element){
+			                    element.kendoDropDownList({
+			                        valuePrimitive: true,
+			                        dataSource: vm.basicData.userUnit,
+			                        dataTextField: "unitName",
+			                        dataValueField: "id"
+			                    });
+			                }
+						},
+						template:function(item){
+							return common.getUnitName(item.unitName);
+						}
 					},
 					{
 						field : "projectStage",

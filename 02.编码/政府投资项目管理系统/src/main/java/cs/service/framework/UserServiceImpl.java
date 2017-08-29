@@ -94,7 +94,8 @@ public class UserServiceImpl implements UserService {
 			user.setLoginName(userDto.getLoginName());
 			user.setDisplayName(userDto.getDisplayName());
 			user.setId(UUID.randomUUID().toString());
-			user.setCreatedBy(currentUser.getLoginName());
+			user.setCreatedBy(currentUser.getUserId());
+			user.setModifiedBy(currentUser.getUserId());
 			user.setPassword(userDto.getPassword());
 
 			// 加入角色
@@ -104,12 +105,13 @@ public class UserServiceImpl implements UserService {
 					user.getRoles().add(role);
 					if(role.getRoleName().equals(BasicDataConfig.role_unit)){//如果是建设单位，往建设单位表里添加数据
 						UserUnitInfoDto userUnitInfoDto=new UserUnitInfoDto();
-						//如果创建数据中有显示名
+						//如果创建数据中有显示名,设置单位名称
 						if(user.getDisplayName() !=null && !"".equals(user.getDisplayName())){
 							userUnitInfoDto.setUnitName(user.getDisplayName());
 						}else{
 							userUnitInfoDto.setUnitName(user.getLoginName());
-						}					
+						}
+						userUnitInfoDto.setUserName(user.getId());//绑定用户id
 						userUnitInfoService.save(user.getLoginName(), userUnitInfoDto);
 					}
 				}
@@ -150,9 +152,10 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public void updateUser(UserDto userDto) {
 		User user = userRepo.findById(userDto.getId());
+		user.setLoginName(userDto.getLoginName());
 		user.setComment(userDto.getComment());
 		user.setDisplayName(userDto.getDisplayName());
-		user.setModifiedBy(currentUser.getLoginName());
+		user.setModifiedBy(currentUser.getUserId());
 
 		// 清除已有role
 		user.getRoles().clear();
@@ -194,6 +197,7 @@ public class UserServiceImpl implements UserService {
 				if(hasRole){
 					currentUser.setLoginName(user.getLoginName());
 					currentUser.setDisplayName(user.getDisplayName());
+					currentUser.setUserId(user.getId());
 					Date lastLoginDate=user.getLastLoginDate();
 					if(lastLoginDate!=null){
 						currentUser.setLastLoginDate(user.getLastLoginDate());
@@ -250,8 +254,18 @@ public class UserServiceImpl implements UserService {
 			logger.info(String.format("修改密码,用户名:%s", userName));
 		}
 	}
+	
+	@Override
 	@Transactional
 	public User findUserByName(String userName){
 		return userRepo.findUserByName(userName);
 	}
+
+	@Override
+	@Transactional
+	public User findById(String id) {
+		logger.info(String.format("通过id查找用户,用户名id:%s", id));
+		return userRepo.findById(id);
+	}
+	
 }

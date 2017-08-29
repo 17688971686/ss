@@ -8,7 +8,6 @@
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目所属单位：<span class="required">(*)</span></td>
 		<td>
-			<span ng-bind="vm.model.unitName" style="display:none"></span>
 			<span ng-bind="vm.userUnit.unitName"></span>
 		</td>
 	</tr>
@@ -145,8 +144,8 @@
 							</tr>
 							<tr>
 								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys" /></td>
-								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj"  /></td>
-								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_zxzj" /></td>
+								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_gtzj"  /></td>
+								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_zxzj" /></td>
 							</tr>
 						</table>
 					</td>
@@ -259,8 +258,8 @@
 <td><input type="text" ng-model="vm.model['pifu'+x[0]+'_wenhao']" /></td>
 <td class="clearfix">
 	<div class="uploadBox pull-left" data-type="{{x[0]}}">
-		<button class="btn btn-sm btn-primary" style="margin-right:10px;" data-toggle="modal" ng-click="vm.choseDocument($event,x[0])">选择文件</button>
- 		<input id="files" name="files" type="file" kendo-upload  k-options="vm.uploadOptions_pifu" ng-click="vm.checked(x[0])"/>
+		<button class="btn btn-sm btn-primary" style="margin-right:10px;" data-toggle="modal" ng-click="vm.choseDocument($event)">选择文件</button>
+ 		<input name="files" type="file" kendo-upload  k-options="vm.uploadOptions_pifu"/>
     </div>
     <div style="margin:3px;"  class="pull-left"  ng-repeat="y in vm.model.attachmentDtos" ng-show="y.type=='{{x[0]}}'">
  		<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>

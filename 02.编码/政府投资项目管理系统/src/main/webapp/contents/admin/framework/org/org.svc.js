@@ -24,12 +24,12 @@
 				type : 'odata',
 				transport : common.kendoGridConfig().transport(url_org),
 				schema : common.kendoGridConfig().schema({
-					id : "id"
-//					fields : {
-//						createdDate : {
-//							type : "date"
-//						}
-//					}
+					id : "id",
+					fields : {
+						createdDate : {
+							type : "date"
+						}
+					}
 				}),
 				serverPaging : true,
 				serverSorting : true,
@@ -75,9 +75,7 @@
 						title : "创建时间",
 						width : 180,
 						filterable : false,
-						template:function(item){
-							return common.formatDateTime(item.createdDate);
-						}
+						format : "{0:yyyy/MM/dd HH:mm:ss}"
 
 					},  {
 						field : "",
@@ -198,9 +196,7 @@
 								msg:"操作成功",
 								fn:function() {
 									vm.isSubmit = false;
-									$('.alertDialog').modal('hide');
-									$('.modal-backdrop').remove();
-									location.href = url_back;
+									$('.alertDialog').modal('hide');							
 								}
 							});
 						}						

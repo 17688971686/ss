@@ -14,5 +14,9 @@ public interface ICurrentUser {
 	
 	Date getLastLoginDate();
 	void setLastLoginDate(Date lastLoginDate);
+	
+	String getUserId();
+	
+	void setUserId(String userId);
 
 }

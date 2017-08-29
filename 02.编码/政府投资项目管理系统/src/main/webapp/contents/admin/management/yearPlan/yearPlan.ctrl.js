@@ -20,7 +20,10 @@
     	vm.page="shenbaoInfoList";//默认为申报信息列表页面
         
     	function init(){
-    		if($state.current.name=='yearPlan_shenbaoInfoEdit'){//申报信息编辑页面
+    		if($state.current.name=='yearPlan_shenbaoInfoEdit'){//申报信息新增页面
+    			vm.page='shenbaoInfoAdd';
+    		}
+    		if($state.current.name=='yearPlan_shenbaoInfoEdit' && vm.id){//申报信息编辑页面
     			vm.page='shenbaoInfoEdit';
     		}
     		if($state.current.name=='yearPlan_planList'){
@@ -64,7 +67,8 @@
    	   		vm.basicData.unitProperty=common.getBacicDataByIndectity(common.basicDataConfig().unitProperty);//单位性质	   		
    	   		vm.basicData.area_Street=$linq(common.getBasicData())
    	   			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
-   	   			.toArray(); //行政区划街道  			   		
+   	   			.toArray(); //行政区划街道
+   	   		vm.basicData.userUnit=common.getUserUnits();//用户单位
     	}
     	init();    	
     	activate();
@@ -72,7 +76,13 @@
         	if(vm.page=='shenbaoInfoList'){
         		init_shenbaoInfoList();
         	}
+        	if(vm.page=='shenbaoInfoAdd'){
+        		vm.shenBaoInfoAdd = true;
+        		init_shenbaoInfoEdit();
+        		
+        	}
         	if(vm.page=='shenbaoInfoEdit'){
+        		vm.shenBaoInfoEdit = true;
         		init_shenbaoInfoEdit();
         	}
         	if(vm.page=='planList'){
@@ -112,8 +122,8 @@
      		   if(vm.search.planYear !=null && vm.search.planYear !=''){//查询条件--计划年度
      			  filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear)});
      		   }
-     		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--建设单位名称
-     			  filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
+     		   if(vm.search.constructionUnit !=null && vm.search.constructionUnit !=''){//查询条件--建设单位名称
+     			  filters.push({field:'constructionUnit',operator:'contains',value:vm.search.constructionUnit});
      		   }
      		   if(vm.search.auditState !=null && vm.search.auditState !=''){//查询条件--审核状态
      			  filters.push({field:'auditState',operator:'eq',value:vm.search.auditState});
@@ -122,11 +132,11 @@
      			  filters.push({field:'projectConstrChar',operator:'eq',value:vm.search.projectConstrChar});
      		   }
      		  vm.gridOptions.dataSource.filter(filters);
-     		  vm.gridOptions.dataSource.read();
     		};
     		//申报详情模态框
     		vm.dialog_shenbaoInfo = function(id){
-    			yearPlanSvc.getShenBaoInfoById(vm,id);
+    			vm.id = id;
+    			yearPlanSvc.getShenBaoInfoById(vm);
     			$('#shenbaoInfo').modal({
                     backdrop: 'static',
                     keyboard:false
@@ -158,6 +168,13 @@
     				}
     			});
     		};
+    		//新增年度计划项目信息按钮
+    		vm.addShenBaoInfo=function(){
+    			var projectInvestmentType=common.basicDataConfig().projectInvestmentType_ZF;//默认为政府投资类型
+    			var stage=common.basicDataConfig().projectShenBaoStage_nextYearPlan;//默认申报阶段为下一年度计划
+    			//跳转到编辑页面
+    			$location.path("/yearPlan/shenbaoInfoEdit//"+projectInvestmentType+"/"+stage);
+    		};
     		
     	}//end#init_shenbaoInfoList
     	
@@ -174,11 +191,13 @@
    			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
 	 		  }
 	 	
-	 		//禁止点击Tab切换
-	 		  $("#tab1").attr("disabled","true");
-	 		  $("#tab2").attr("disabled","true");
-	 		  $("#tab3").attr("disabled","true");
-	 		  $("#tab4").attr("disabled","true");
+	 		//如果是新增下一年度计划信息--禁止点击Tab切换
+	 		  if(vm.shenBaoInfoAdd){
+	 			 $("#tab1").attr("disabled","true");
+		 		  $("#tab2").attr("disabled","true");
+		 		  $("#tab3").attr("disabled","true");
+		 		  $("#tab4").attr("disabled","true");
+	 		  }
     		};
     		//初始化基础数据
     		var init_basicData = function(){
@@ -213,15 +232,23 @@
     	init_page();
     	init_basicData();
     	
-    	yearPlanSvc.getShenBaoInfoById(vm,vm.id);
+    	yearPlanSvc.getShenBaoInfoById(vm);
+    	
+    	//项目所属单位发生变化
+    	vm.unitNameChange=function(){
+    		yearPlanSvc.getUserUnit(vm);
+    	};
     	
    		//获取项目类型， 多选
    		vm.updateSelection = function(id){
-        	var index = vm.model.projectType.indexOf(id);
+   			if(vm.projectTypes.constructor == String){
+   				vm.projectTypes=common.stringToArray(vm.projectTypes);
+   			}
+        	var index = vm.projectTypes.indexOf(id);
         	if(index == -1){
-        		vm.model.projectType.push(id);
+        		vm.projectTypes.push(id);
 	       	}else{
-	       		vm.model.projectType.splice(index,1);
+	       		vm.projectTypes.splice(index,1);
 	       	}	        	
         };
         
@@ -248,13 +275,19 @@
    			$(".modal-backdrop").remove();
    			//获取选择框中的信息
    			var select = common.getKendoCheckId('.grid');
-         	var fileName = select[0].value;
-         	
-			    if(vm.model.shenBaoInfo.attachmentDtos){
-				  vm.model.shenBaoInfo.attachmentDtos.push({name:fileName,url:fileName,type:vm.pifuType});
-			    }else{
-				  vm.model.shenBaoInfo.attachmentDtos=[{name:fileName,url:fileName,type:vm.pifuType}];
-			    }    			          		
+        	var fileName = select[0].value;
+        	if(fileName){
+        		var file = common.stringToArray(fileName,",");
+        		var number = file[0];
+        		var name = file[1];
+        		var url =file[2];
+        		vm.model.shenBaoInfo['pifu'+vm.pifuType+'_wenhao'] = number;
+        		if(vm.model.shenBaoInfo.attachmentDtos){
+     				  vm.model.shenBaoInfo.attachmentDtos.push({name:name,url:url,type:vm.pifuType});
+     			 }else{
+     				  vm.model.shenBaoInfo.attachmentDtos=[{name:name,url:url,type:vm.pifuType}];
+     			 }
+        	}
         };
      	  
    		//文件上传
@@ -312,7 +345,12 @@
     		
      	   //删除上传文件
    		 vm.delFile=function(idx){
-           	 vm.model.shenBaoInfo.attachmentDtos.splice(idx,1);
+   			var file = vm.model.shenBaoInfo.attachmentDtos[idx];
+  			 if(file){//删除上传文件的同时删除批复文号
+  				var pifuType = file.type;
+  				vm.model.shenBaoInfo['pifu'+pifuType+'_wenhao'] = "";
+  				vm.model.shenBaoInfo.attachmentDtos.splice(idx,1);
+  			 }
    		 };
    		 	 
    		 //tab切换(上一步)
@@ -331,7 +369,28 @@
      				vm.tabStrip.activateTab(activeTab);
      			}
       		};
-      		
+      	//添加建设单位
+ 		vm.addUnit=function(){
+ 			if(vm.constructionUnits.constructor == String){
+ 				vm.constructionUnits=common.stringToArray(vm.constructionUnits);
+ 			}
+ 			vm.constructionUnits.push('');
+ 			if(vm.constructionUnits.length >1){
+				vm.canDelete = true;
+			}
+ 		};
+     	//删除建设单位
+	   vm.deleteUnit=function(idx){
+		   if(vm.canDelete){
+			   if(vm.constructionUnits.constructor == String){
+	 				vm.constructionUnits=common.stringToArray(vm.constructionUnits);
+	 			}
+			   vm.constructionUnits.splice(idx,1);
+				if(vm.constructionUnits.length <=1){
+					vm.canDelete = false;
+				}
+			}
+	   };
       	//项目纳入项目库
   		vm.addProjectToLibray=function(){
   			yearPlanSvc.addProjectToLibrary(vm);
@@ -342,14 +401,22 @@
   		};
   		//确认更新
      	vm.update = function(){
+     		vm.model.shenBaoInfo.auditState=common.basicDataConfig().auditState_noAudit;//后台修改保存申报信息之后默认为未审核状态
      		yearPlanSvc.updateShenBaoInfo(vm);
      	};
      	//更新审核状态
      	vm.updateAuditState=function(auditState){
-     		yearPlanSvc.updateAuditState(vm,auditState);
+     		vm.isAudit = true;//用于设置跳转到列表页面
+     		vm.model.shenBaoInfo.auditState = auditState;
+     		yearPlanSvc.updateShenBaoInfo(vm);
      	};
+     	//确认创建
+     	vm.create=function(){
+     		yearPlanSvc.createShenBaoInfo(vm);
+     	};
+     	
     }//end#init_shenbaoInfoEdit
-
+    	
     	//init_planList
     	function init_planList(){
     		yearPlanSvc.grid_planList(vm);
@@ -393,8 +460,8 @@
      		   if(vm.search.planYear !=null && vm.search.planYear !=''){//查询条件--计划年度
      			  filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear)});
      		   }
-     		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--建设单位名称
-     			  filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
+     		   if(vm.search.constructionUnit !=null && vm.search.constructionUnit !=''){//查询条件--建设单位名称
+     			  filters.push({field:'constructionUnit',operator:'contains',value:vm.search.constructionUnit});
      		   }
      		   if(vm.search.auditState !=null && vm.search.auditState !=''){//查询条件--审核状态
      			  filters.push({field:'auditState',operator:'eq',value:vm.search.auditState});
@@ -403,7 +470,6 @@
      			  filters.push({field:'projectConstrChar',operator:'eq',value:vm.search.projectConstrChar});
      		   }
      		  vm.addPlanGridOptions.dataSource.filter(filters);
-     		  vm.addPlanGridOptions.dataSource.read();
     		};
     		//模态框点击确认
     		vm.dialogConfirmSubmit=function(){

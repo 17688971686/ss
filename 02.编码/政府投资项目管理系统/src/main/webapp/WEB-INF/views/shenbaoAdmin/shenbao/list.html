@@ -52,6 +52,15 @@
 	  				</td>
 	  			</tr>
 	  			<tr>
+	  				<td class="formAlignRight">项目所属单位：</td>
+	  				<td colspan="5">
+	  					<select style="height:30px;" ng-model="vm.search.unitName">
+				  			<option value="">---请选择---</option>
+				  			<option ng-repeat="x in vm.basicData.userUnit" value="{{x.id}}">{{x.unitName}}</option>
+				  		</select>
+	  				</td>
+	  			</tr>
+	  			<tr>
 	  				<td colspan="6">
 	  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search()"><span class="glyphicon glyphicon-search"></span>查询</button>
 	  				</td>
@@ -105,8 +114,9 @@
 	</div>
 </div>
 <!-- 项目申报记录模态框 -->
-<div class="modal fade" id="shenBaoRecords">  
-	<div class="modal-dialog" style="width:768px;"> 
+<div class="modal fade" id="shenBaoRecords"> 
+	<div class="modal-dialog" style="width:800px;"> 
+
 		<div class="modal-content"> 
 			<div class="modal-header bg-primary">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			

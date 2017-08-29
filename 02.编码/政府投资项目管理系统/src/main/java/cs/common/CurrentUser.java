@@ -12,6 +12,7 @@ public class CurrentUser implements ICurrentUser {
 	private String loginName;
 	private String displayName;
 	private Date LastLoginDate;
+	private String userId;
 
 	@Override
 	public String getLoginName() {
@@ -35,6 +36,16 @@ public class CurrentUser implements ICurrentUser {
 	@Override
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
+	}
+	
+	@Override
+	public String getUserId() {
+		return userId;
+	}
+	
+	@Override
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public Date getLastLoginDate() {

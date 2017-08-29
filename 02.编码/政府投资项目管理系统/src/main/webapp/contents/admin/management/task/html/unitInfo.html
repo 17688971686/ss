@@ -33,7 +33,8 @@
 	<tr>
 		<td width="20%">单位性质<span class="required">(*)</span></td>
 		<td colspan="4">
-			<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitProperty)"></span>
+			<span id="unitProperty" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitProperty" style="display:none"></span>
+			<span ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitPropertyDesc"></span>
 		</td>
 	</tr>
 	<tr>
@@ -73,54 +74,3 @@
 	    </td>
 	 </tr>
 </table>
-
-<div ng-hide="vm.isYearPlan">
-	<div class="bg-info text-info" style="padding: 10px;">编制单位信息</div>
-	<table style="width:100%" class="table table-bordered table-striped">
-		<tr>
-			<td width="150px;" class="formAlignRight">单位名称：<span class="required">(*)</span></td>
-			<td colspan="2">
-				<span ng-bind="vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitName"></span>
-			</td>
-			<td>单位性质：<span class="required">(*)</span></td>
-			<td>
-				<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitProperty)"></span>
-			</td>
-		</tr>
-		<tr>
-	    	<td class="formAlignRight">单位地址<span class="required">(*)</span></td>
-		    <td colspan="4">
-			    	光明新区
-			    <span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.bianZhiUnitInfoDto.divisionId)"></span>
-			    <span ng-bind="vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitAddress"></span>
-			</td>
-	  </tr>
-	  <tr>
-	    <td rowspan="3" class="formAlignRight">单位负责人：<span class="required">(*)</span></td>
-	    <td width="100px;">姓名</td>
-	    <td>
-	    	<span ng-bind="vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitResPerson"></span>
-	    </td>
-	    <td width="100px;">电话号码</td>
-	    <td>
-	    	<span ng-bind="vm.model.shenBaoInfo.bianZhiUnitInfoDto.resPersonTel"></span>
-	    </td>
-	  </tr>
-	  <tr>
-	    <td>手机</td>	   
-	    <td>
-	    	<span ng-bind="vm.model.shenBaoInfo.bianZhiUnitInfoDto.resPersonMobile"></span>
-	    </td>
-	    <td>传真号码</td>
-	    <td>
-	    	<span ng-bind="vm.model.shenBaoInfo.bianZhiUnitInfoDto.resPersonFax"></span>
-	    </td>
-	  </tr>
-	   <tr>
-	    <td>Email</td>
-	    <td colspan="3">
-	    	<span ng-bind="vm.model.shenBaoInfo.bianZhiUnitInfoDto.resPersonEmail"></span>
-	    </td>
-	  </tr>	  
-</table>
-</div>

@@ -17,19 +17,22 @@ import org.springframework.web.multipart.MultipartFile;
 
 import cs.common.Util;
 import cs.model.DomainDto.BasicDataDto;
+import cs.model.DomainDto.UserUnitInfoDto;
 import cs.service.common.BasicDataService;
+import cs.service.interfaces.UserUnitInfoService;
 
 @Controller
 @RequestMapping(name = "公共", path = "common")
-public class CommonController {	
-	private String ctrlName = "framework/common";
+public class CommonController {
 	
 	@Autowired  
     private HttpServletRequest request;
 	@Autowired
 	private BasicDataService basicDataService;
+	@Autowired
+	private UserUnitInfoService userUnitInfoService;
 	
-	//@RequiresPermissions("common#basicData/identity#get")
+	@RequiresPermissions("common#basicData/identity#get")
 	@RequestMapping(name="查询基础数据",path="basicData/{identity}",method=RequestMethod.GET)
 	public @ResponseBody List<BasicDataDto> getBasicData(@PathVariable("identity") String identity){
 		System.out.println(identity);
@@ -39,7 +42,7 @@ public class CommonController {
 		return basicDataService.getByIdentity(identity);
 	}
 	
-	//@RequiresPermissions("common#save#post")
+	@RequiresPermissions("common#save#post")
 	@RequestMapping(name = "上传文件", path = "save", method = RequestMethod.POST,produces ="application/json;charset=UTF-8")
 	public @ResponseBody String Save(@RequestParam("files") MultipartFile file){
 		String randomName="";
@@ -61,10 +64,15 @@ public class CommonController {
 		return randomName;
 	}
 	
-	//@RequiresPermissions("common#remove#post")
+	@RequiresPermissions("common#remove#post")
 	@RequestMapping(name = "删除上传文件", path = "remove", method = RequestMethod.POST)
 	public @ResponseBody String remove(HttpServletRequest request){
 		return "true";
 	}
-
+	
+	@RequiresPermissions("common#userUnit#get")
+	@RequestMapping(name="查询用户单位数据",path="userUnit",method=RequestMethod.GET)
+	public @ResponseBody List<UserUnitInfoDto> getUserUnit(){
+		return userUnitInfoService.Get();
+	}
 }

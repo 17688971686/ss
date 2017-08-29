@@ -27,12 +27,17 @@
         toMoney:toMoney,
         formatDate:formatDate,
         formatDateTime:formatDateTime,
-        basicDataConfig:basicDataConfig,//基础数据配置
-        checkLength:checkLength,//检查输入文本域的字符长度
+        basicDataConfig:basicDataConfig,
+        checkLength:checkLength,
         uploadFileTypeConfig:uploadFileTypeConfig,//上传文件配置
         stringToArray:stringToArray,
         arrayToString:arrayToString,
-        toDecimal4:toDecimal4
+        toDecimal4:toDecimal4,//保留4位小数
+        getUserUnits:getUserUnits,//获取所有的用户单位信息
+        getUnitName:getUnitName,//获取用户单位名称
+        getSum:getSum,//求和
+        repSign:repSign//将英文类型的标点符号转换为中文的标点符号
+
     };
 
     window.common = service;
@@ -394,10 +399,8 @@
     		processState_tuiWen:"processState_11",//已退文
     		
     		projectShenBaoStage:"projectShenBaoStage",//申报阶段
-    		projectShenBaoStage_qianQi:"projectShenBaoStage_1",//前期
-    		projectShenBaoStage_newStart:"projectShenBaoStage_3",//新开工
-    		projectShenBaoStage_xuJian:"projectShenBaoStage_4",//续建
     		projectShenBaoStage_nextYearPlan:"projectShenBaoStage_7",//下一年度计划
+
     		projectShenBaoStage_projectProposal:"projectShenBaoStage_9",//项目建议书
     		projectShenBaoStage_KXXYJBG:"projectShenBaoStage_10",//可行性研究报告
     		projectShenBaoStage_CBSJYGS:"projectShenBaoStage_11",//初步设计与概算
@@ -443,13 +446,14 @@
     		taskType_monthReport:"taskType_1",//任务类型-月报
     		taskType_yearPlan:"taskType_2",//任务类型-下一年度计划
     		taskType_sendMesg:"taskType_3",//任务类型-发送短信
-    		taskType_JYS:"taskType_4",//项目建议书
-    		taskType_KXXYJBG:"taskType_5",//可行性研究报告
-    		taskType_CBSJYGS:"taskType_6",//初步概算与设计
-    		taskType_qianQi:"taskType_7",//前期
-    		taskType_newStart:"taskType_8",//新开工
-    		taskType_xuJian:"taskType_9",//续建
-
+    		taskType_shenBao:"taskType_4",//任务状态-申报端口
+    		taskType_JYS:"taskType_5",//项目建议书
+    		taskType_KXXYJBG:"taskType_6",//可行性研究报告
+    		taskType_CBSJYGS:"taskType_7",//初步概算与设计
+    		taskType_qianQi:"taskType_8",//前期
+    		taskType_newStart:"taskType_9",//新开工
+    		taskType_xuJian:"taskType_10",//续建
+    		
     		auditState:"auditState",//审核状态
     		auditState_noAudit:"auditState_1",//审核状态-未审核
     		auditState_auditPass:"auditState_2",//审核状态-审核通过
@@ -495,16 +499,16 @@
 			projectEdit:[['XMJYSPF','项目建议书批复文本'],['KXXYJBGPF','可行性研究报告批复文本'],['ZGSPFTZ','总概算批复及调整文本'],['HYJY','会议纪要'],
 				['GHYJ','规划依据'],['SJXGT','设计效果图'],['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']],
 			projectEdit_SH:[['XMJYSPF','项目建议书批复文本'],['KXXYJBGPF','可行性研究报告批复文本'],['ZGSPFTZ','总概算批复及调整文本'],['HYJY','会议纪要'],
-				['GHYJ','规划依据'],['SJXGT','设计效果图'],['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']],
+				['GHYJ','规划依据'],['SJXGT','设计效果图'],['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']]
     	};
     }
     
     function stringToArray(str,substr){
-    	if(str.constructor == Array){
-    		return str;
-    	}
     	var arrTmp=[];
     	if(str !=null && str != ""){
+    		if(str.constructor == Array){
+        		return str;
+        	}
 	       	 if(substr==""){
 	       		 arrTmp.push(str); 
 	       		 return arrTmp; 
@@ -529,11 +533,11 @@
     }
     
     function arrayToString(arr,str){
-    	if(arr.constructor == String){
-    		return str;
-    	}
 		 var strTmp="";
 		 if(arr !=null && arr.length>0){
+			 if(arr.constructor == String){
+		    		return str;
+		    	}
 			 for(var i=0;i<arr.length;i++){ 
 	    		 if(arr[i]!=""){ 
 	    		  if(strTmp==""){ 
@@ -555,6 +559,52 @@
     	f=Math.round(x*10000)/10000;
     	return f;
     }
+
+    function getUserUnits(){
+    	if(window.global_userUnits){ 
+    		return window.global_userUnits;
+    	}
+    	$.ajax({
+    		url:'/common/userUnit',
+    		async:false,
+    		success:function(response){
+    			window.global_userUnits=response;    			
+    		}
+    	});
+    	return window.global_userUnits;
+    }
+    
+    function getUnitName(id){
+    	var userUnits = getUserUnits();
+    	var unitName = '';
+    	for(var i=0;i<userUnits.length;i++){
+    		var obj = userUnits[i];
+    		if(id == obj.id){
+    			unitName =  obj.unitName;
+    			break;
+    		}
+    	}
+    	return unitName;
+    }
+    
+    function getSum(array){
+    	var sum = 0;
+    	function sumAdd(item, index, array){
+    		sum += parseFloat(item);
+    	}
+    	array.forEach(sumAdd);
+    	return toDecimal4(sum);
+    }
+    
+    function repSign(str) {
+    	var tmp = '',c=0;
+    	  for(var i=0;i<str.length;i++){
+    		 c=str.charCodeAt(i);
+    		 tmp += String.fromCharCode((c>0 && c<0x80) ? (c+0xfee0) : c);
+    	  }
+    	  return tmp;
+    }
+    
 
     //init
     init();

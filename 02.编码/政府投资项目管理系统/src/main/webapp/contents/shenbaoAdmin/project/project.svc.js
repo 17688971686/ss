@@ -5,7 +5,7 @@
 
 	project.$inject = ['$http','$compile','$location'];	
 	function project($http,$compile,$location) {
-		var url_project = "/shenbaoAdmin/project/unitProject";
+		var url_project = "/shenbaoAdmin/project";
 		var url_userUnit　= "/shenbaoAdmin/userUnitInfo";
 		var url_back = "/project";
 		var url_document="/shenbaoAdmin/replyFile";
@@ -29,13 +29,25 @@
 			if (isValid) {
 				vm.isSubmit = true;
 				vm.model.projectType = common.arrayToString(vm.model.projectType,',');
+				//资金处理没有就显示为0
+				vm.model.projectInvestSum=common.toMoney(vm.model.projectInvestSum);//项目总投资
+				vm.model.projectInvestAccuSum=common.toMoney(vm.model.projectInvestAccuSum);//累计完成投资
+				vm.model.capitalSCZ_ggys=common.toMoney(vm.model.capitalSCZ_ggys);//市财政-公共预算
+				vm.model.capitalSCZ_gtzj=common.toMoney(vm.model.capitalSCZ_gtzj);//市财政-国土资金
+				vm.model.capitalSCZ_zxzj=common.toMoney(vm.model.capitalSCZ_zxzj);//市财政-专项资金
+				vm.model.capitalQCZ_ggys=common.toMoney(vm.model.capitalQCZ_ggys);//区财政-公共预算
+				vm.model.capitalQCZ_gtzj=common.toMoney(vm.model.capitalQCZ_gtzj);//区财政-国土资金
+				vm.model.capitalZYYS=common.toMoney(vm.model.capitalZYYS);//中央预算
+				vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
+				vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
 				var httpOptions = {
 					method : 'put',
-					url : url_project,
+					url : url_project+"/unitProject",
 					data : vm.model
 				};
 
 				var httpSuccess = function success(response) {
+					vm.model.projectType =vm.model.projectType.split(",");
 					common.requestSuccess({
 						vm : vm,
 						response : response,
@@ -85,6 +97,7 @@
 				
 				//查询项目的所属单位的单位名称
 			   	getProjectUnit(vm);
+
 			   	//项目类型的处理--多选框回显
 			   	vm.model.projectType = common.stringToArray(vm.model.projectType,',');
 				//日期展示
@@ -93,7 +106,7 @@
 				vm.model.pifuJYS_date=common.formatDate(vm.model.pifuJYS_date);//项目建议书批复日期			
 				vm.model.pifuKXXYJBG_date=common.formatDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
 				vm.model.pifuCBSJYGS_date=common.formatDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期
-				//资金处理
+				//资金处理没有就显示为0
 				vm.model.projectInvestSum=common.toMoney(vm.model.projectInvestSum);//项目总投资
 				vm.model.projectInvestAccuSum=common.toMoney(vm.model.projectInvestAccuSum);//累计完成投资
 				vm.model.capitalSCZ_ggys=common.toMoney(vm.model.capitalSCZ_ggys);//市财政-公共预算
@@ -104,28 +117,6 @@
 				vm.model.capitalZYYS=common.toMoney(vm.model.capitalZYYS);//中央预算
 				vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
 				vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
-				
-				if(vm.page=='update'){
-					if(vm.model.projectInvestmentType == common.basicDataConfig().projectInvestmentType_SH){//社会投资项目
-						//项目行业归口
-						var child = $linq(common.getBasicData()).where(function(x){return x.id==vm.model.projectIndustry;}).toArray()[0];
-		        		vm.model.projectIndustryParent=child.pId;
-		        		vm.projectIndustryChange();	
-					}	        			        		
-				}				
-				if(vm.page=='projectInfo'){				
-					//计算资金筹措总计
-					vm.capitalTotal=function(){
-			  			 return (parseFloat(vm.model.capitalSCZ_ggys)||0 )
-			  			 		+ (parseFloat(vm.model.capitalSCZ_gtzj)||0 )
-			  			 		+ (parseFloat(vm.model.capitalSCZ_zxzj)||0 )
-			  			 		+ (parseFloat(vm.model.capitalQCZ_ggys)||0 )
-			  			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
-			  			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
-			  			 		+ (parseFloat(vm.model.capitalZYYS)||0 )
-			  			 		+ (parseFloat(vm.model.capitalOther)||0);
-			  		 };						
-				}
 			};
 			
 			common.http({
@@ -142,7 +133,7 @@
 		function getProjectUnit(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_userUnit + "?$filter=userName eq '{0}'", vm.model.unitName)
+					url : common.format(url_userUnit + "/userName?$filter=id eq '{0}'", vm.model.unitName)
 				};
 				var httpSuccess = function success(response) {
 					vm.userUnit = response.data.value[0] || {};
@@ -165,7 +156,7 @@
 				};
 				var httpSuccess = function success(response) {
 					vm.userUnit = response.data.value[0] || {};
-					vm.model.unitName = vm.userUnit.userName;//设置项目的所属单位名称
+					vm.model.unitName = vm.userUnit.id;//设置项目的所属单位名称
 				};
 				common.http({
 					vm : vm,
@@ -186,7 +177,7 @@
 				vm.isSubmit = true;				
 				var httpOptions = {
 					method : 'post',
-					url : url_project,
+					url : url_project+"/unitProject",
 					data : vm.model
 				};
 
@@ -221,7 +212,7 @@
 					msg:"您填写的信息不正确,请核对后提交!"
 				});
 			}
-		}	
+		}
 	
 		function documentRecordsGird(vm){
 			// Begin:dataSource
@@ -244,8 +235,8 @@
 						template : function(item) {
 							return kendo
 									.format(
-											"<input type='radio'  relId='{0}' name='checkbox'/>",
-											item.fullName);
+											"<input type='radio'  relId='{0},{1},{2}' name='checkbox'/>",
+											item.number,item.name,item.fullName);
 						},
 						filterable : false,
 						width : 40,
@@ -259,9 +250,12 @@
 						filterable : true
 					},
 					{
-						field : "fullName",
+						field : "name",
 						title : "文件名",
 						width : 550,
+						template:function(item){
+							return common.format("<a href='/contents/upload/{1}'>{0}</a>",item.name,item.fullName);
+						},
 						filterable : true
 						
 					}
@@ -286,7 +280,7 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_project),
+				transport : common.kendoGridConfig().transport(common.format(url_project+"/unitProject")),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
 					fields : {
@@ -315,7 +309,6 @@
 			// End:dataSource
 
 			// Begin:column
-
 			var columns = [	
 				{
 					template : function(item) {
@@ -337,6 +330,24 @@
 					}
 				},
 				{
+					field : "unitName",
+					title : "所属单位",
+					filterable : {
+						ui: function(element){
+	                        element.kendoDropDownList({
+	                            valuePrimitive: true,
+	                            dataSource: vm.basicData.userUnit,
+	                            dataTextField: "unitName",
+	                            dataValueField: "id",
+	                            filter: "startswith"
+	                        });
+	                    }
+					},
+					template:function(item){
+						return common.getUnitName(item.unitName);
+					}
+				},
+				{
 					field : "projectStage",
 					title : "项目阶段",
 					template:function(item){
@@ -351,7 +362,6 @@
 	                            dataTextField: "description",
 	                            dataValueField: "id",
 	                            filter: "startswith"
-
 	                        });
 	                    }
 					}
@@ -382,7 +392,7 @@
 					field : "",
 					title : "操作",
 					width : 180,
-					template : function(item) {					
+					template : function(item) {
 						var isHide = item.isIncludLibrary;
 						return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,isHide?'display:none':'');
 					}
@@ -400,5 +410,6 @@
 			};
 
 		}// end fun grid
+
 	}	
 })();

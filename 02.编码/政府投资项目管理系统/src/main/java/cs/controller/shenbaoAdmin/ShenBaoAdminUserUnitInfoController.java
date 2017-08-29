@@ -28,7 +28,7 @@ public class ShenBaoAdminUserUnitInfoController {
 	private ICurrentUser currentUser;
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
-	
+
 	@RequiresPermissions("shenbaoAdmin/userUnitInfo#userName#get")
 	@RequestMapping(name = "获取用户的单位数据", path = "userName", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserUnitInfoDto> getProjectUnit(HttpServletRequest request) throws ParseException{
@@ -43,7 +43,7 @@ public class ShenBaoAdminUserUnitInfoController {
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 		filterItem.setField("userName");
 		filterItem.setOperator("eq");		
-		filterItem.setValue(currentUser.getLoginName());
+		filterItem.setValue(currentUser.getUserId());
 		odataObj.getFilter().add(filterItem);
 		return userUnitInfoService.get(odataObj);
 	}
@@ -51,7 +51,7 @@ public class ShenBaoAdminUserUnitInfoController {
 	@RequiresPermissions("shenbaoAdmin/userUnitInfo##post")	
 	@RequestMapping(name = "保存当前用户的单位数据", path = "", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public @ResponseBody void post(@RequestBody UserUnitInfoDto userUnitInfoDto){		
-		 userUnitInfoService.save(currentUser.getLoginName(),userUnitInfoDto);
+	public @ResponseBody void post(@RequestBody UserUnitInfoDto userUnitInfoDto){
+		 userUnitInfoService.save(userUnitInfoDto.getUnitName(),userUnitInfoDto);
 	}
 }

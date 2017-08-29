@@ -44,7 +44,7 @@
     		
     		vm.html = function(val){
     			return $sce.trustAsHtml(val);
-    		}
+    		};
     		
     		//用于查询、编辑、新增--基础数据
 	   		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
@@ -54,7 +54,7 @@
 	   		vm.basicData.area_Street=$linq(common.getBasicData())
 	   			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 	   			.toArray();//获取街道信息
-    		
+	   		vm.basicData.userUnit=common.getUserUnits();
     	}
     	init();    	
     	activate();
@@ -111,17 +111,15 @@
      			   }
      		   }
      		   if(vm.search.unitName !=null && vm.search.unitName !=''){
-     			  filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
+     			  filters.push({field:'unitName',operator:'eq',value:vm.search.unitName});
      		   }
      		   
      		   if(vm.isZFInvestment){
      			  vm.gridOptions.dataSource.filter(filters);
-         		  vm.gridOptions.dataSource.read(); 
      		   }else if(vm.isSHInvestment){
      			  vm.gridOptions_SH.dataSource.filter(filters);
-         		  vm.gridOptions_SH.dataSource.read(); 
      		   }
-     		  
+
     		};
     		
      	   //点击新增项目弹出模态框
@@ -264,12 +262,18 @@
 	   			//获取选择框中的信息
 	   			var select = common.getKendoCheckId('.grid');
             	var fileName = select[0].value;
-            	
-   			    if(vm.model.attachmentDtos){
-   				  vm.model.attachmentDtos.push({name:fileName,url:fileName,type:vm.pifuType});
-   			    }else{
-   				  vm.model.attachmentDtos=[{name:fileName,url:fileName,type:vm.pifuType}];
-   			    }    			          		
+            	if(fileName){
+            		var file = common.stringToArray(fileName,",");
+            		var number = file[0];
+            		var name = file[1];
+            		var url =file[2];
+            		vm.model['pifu'+vm.pifuType+'_wenhao'] = number;
+            		if(vm.model.attachmentDtos){
+         				  vm.model.attachmentDtos.push({name:name,url:url,type:vm.pifuType});
+         			 }else{
+         				  vm.model.attachmentDtos=[{name:name,url:url,type:vm.pifuType}];
+         			 }
+            	}
 	        };
    	   		
     		//文件选择触发验证文件大小
@@ -312,19 +316,21 @@
 	   		};
     		
     	   vm.delFile=function(idx){
-        	 vm.model.attachmentDtos.splice(idx,1);
+    		   var file = vm.model.attachmentDtos[idx];
+	   			 if(file){//删除上传文件的同时删除批复文号
+	   				var pifuType = file.type;
+	   				vm.model['pifu'+pifuType+'_wenhao'] = "";
+	   				vm.model.attachmentDtos.splice(idx,1);
+	   			 }
     	   };
-    	   
-    	   vm.capitalTotal=function(){
-			 return (parseFloat(vm.model.capitalSCZ_ggys)||0 )
-			 		+ (parseFloat(vm.model.capitalSCZ_gtzj)||0 )
-			 		+ (parseFloat(vm.model.capitalSCZ_zxzj)||0 )
-			 		+ (parseFloat(vm.model.capitalQCZ_ggys)||0 )
-			 		+ (parseFloat(vm.model.capitalQCZ_gtzj)||0 )
-			 		+ (parseFloat(vm.model.capitalSHTZ)||0 )
-			 		+ (parseFloat(vm.model.capitalZYYS)||0 )
-			 		+ (parseFloat(vm.model.capitalOther)||0);
-    	   };
+    	 //资金来源计算
+ 		 vm.capitalTotal=function(){
+ 			 return common.getSum([
+ 					 vm.model.capitalSCZ_ggys||0,vm.model.capitalSCZ_gtzj||0,vm.model.capitalSCZ_zxzj||0,
+ 					 vm.model.capitalQCZ_ggys||0,vm.model.capitalQCZ_gtzj||0,
+ 					 vm.model.capitalSHTZ||0,vm.model.capitalZYYS||0,
+ 					 vm.model.capitalOther||0]);
+ 		 };
 	        
     	   vm.create = function () {
     		    projectSvc.createProject(vm);    		     

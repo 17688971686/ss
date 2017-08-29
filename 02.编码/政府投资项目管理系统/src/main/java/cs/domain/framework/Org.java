@@ -25,6 +25,7 @@ public class Org extends BaseEntity {
 	private String name;
 	@Column(columnDefinition="varchar(255)  COMMENT '备注'")
 	private String comment;
+	
 	@Column(columnDefinition="varchar(255)  COMMENT '部门标识'")
 	private String orgIdentity;
 	
@@ -71,4 +72,7 @@ public class Org extends BaseEntity {
 	public void setOrgIdentity(String orgIdentity) {
 		this.orgIdentity = orgIdentity;
 	}
+	
+	
+	
 }

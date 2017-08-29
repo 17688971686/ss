@@ -68,7 +68,7 @@ public class YearPlanCapitalMapper implements IMapper<YearPlanCapitalDto, YearPl
 			entity.setModifiedDate(dto.getModifiedDate());
 			entity.setModifiedBy(dto.getModifiedBy());		
 			entity.setCreatedDate(dto.getCreatedDate());		
-			entity.setCreatedBy(currentUser.getLoginName());
+			entity.setCreatedBy(currentUser.getUserId());
 			entity.setItemOrder(dto.getItemOrder());
 		}
 		return entity;

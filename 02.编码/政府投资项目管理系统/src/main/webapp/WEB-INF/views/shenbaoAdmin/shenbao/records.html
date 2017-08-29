@@ -34,6 +34,8 @@
 	  				</td>
 	  			</tr>
 	  			<tr>
+	  				<td class="formAlignRight">建设单位：</td>
+	  				<td><input type="text" style="width:360px;" placeholder="请输入单位名称（可少输不可输错）" ng-model="vm.search.constructionUnit"/></td>
 	  				<td class="formAlignRight">审批状态：</td>
 	  				<td>
 	  					<select style="height:30px;" ng-model="vm.search.processState">
@@ -56,7 +58,9 @@
 	  			</tr>
 	  		</table>
 	  </div>
-	  <div class="toolbar"></div>
+	  <div class="toolbar">
+	  	<button class="btn btn-primary btn-xs" ng-click="grid.saveAsExcel()"><span class="glyphicon glyphicon-download-alt"></span> 导出Excel</button>
+	  </div>
      <form id="form" name="form">          
          <div class="grid" kendo-grid="grid" k-options="vm.gridOptions_records"></div>
     </form>

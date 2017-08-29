@@ -48,10 +48,10 @@
 		</td>
 		<td class="formAlignRight">项目类型：</td>
 		<td>
-			<span ng-repeat="x in vm.model.shenBaoInfo.projectType" ng-bind="vm.getBasicDataDesc(x)+' '"></span>					
+			<span ng-repeat="x in vm.projectTypes track by $index " ng-bind="vm.getBasicDataDesc(x)+' '"></span>					
 		</td>
 	</tr>
-	<tr ng-show="vm.isYearPlan">
+	<tr>
 		<td class="formAlignRight">功能分类科目：</td>
 		<td>
 			<span ng-bind="vm.model.shenBaoInfo.functionSubjects"></span>
@@ -195,24 +195,7 @@
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（200字符以内）" ng-model="vm.model.shenBaoInfo.projectGuiMo" disabled></textarea>													
 		</td>
 	</tr>
-	<tr ng-hide="vm.isYearPlan">
-		<td class="formAlignRight">建设必要性和依据：<span class="required">(*)</span></td>
-		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明项目建设的必要性（500字符以内）" ng-model="vm.model.projectConstrBasis" disabled></textarea>													
-		</td>
-	</tr>
-	<tr ng-show="vm.isKXXYJBG || vm.isCBSJYGS">
-		<td class="formAlignRight">推荐方案介绍：</td>
-		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明推荐方案（500字符以内）" ng-model="vm.model.recomProgram" disabled></textarea>													
-		</td>
-	</tr>
-	<tr ng-show="vm.isKXXYJBG || vm.isCBSJYGS">
-		<td class="formAlignRight">社会及经济效益评价：</td>
-		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明社会及经济效益评价（500字符以内）" ng-model="vm.model.socialAndEconomic" disabled></textarea>													
-		</td>
-	</tr>
+	
 	<tr>
 		<td class="formAlignRight">备注：</td>
 		<td colspan="3" >

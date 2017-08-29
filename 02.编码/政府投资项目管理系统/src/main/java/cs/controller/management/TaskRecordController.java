@@ -20,7 +20,6 @@ import cs.service.interfaces.IService;
 @Controller
 @RequestMapping(name = "后台管理--任务流程", path = "management/taskRecord")
 public class TaskRecordController {
-	private String ctrl = "management/taskRecord";
 	@Autowired
 	IService<TaskRecordDto, TaskRecord, String> taskRecordService;
 	@Autowired
@@ -34,7 +33,7 @@ public class TaskRecordController {
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 		filterItem.setField("createdBy");
 		filterItem.setOperator("eq");
-		filterItem.setValue(currentUser.getLoginName());
+		filterItem.setValue(currentUser.getUserId());
 		odataObj.getFilter().add(filterItem);
 		PageModelDto<TaskRecordDto> taskRecordDtos = taskRecordService.get(odataObj);
 		return taskRecordDtos;
