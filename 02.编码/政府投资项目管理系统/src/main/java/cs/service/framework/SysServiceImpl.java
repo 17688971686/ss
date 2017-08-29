@@ -296,6 +296,14 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("postingType_2","postingType" , "postingType", "平行文", "");
 		this.createBasicData("postingType_3","postingType" , "postingType", "下行文", "");
 		
+		this.createBasicData("credentialsType","" , "credentialsType", "证件类型", "");
+		this.createBasicData("credentialsType_1","credentialsType" , "credentialsType", "身份证", "");
+		this.createBasicData("credentialsType_2","credentialsType" , "credentialsType", "护照", "");
+		this.createBasicData("credentialsType_3","credentialsType" , "credentialsType", "户口本", "");
+		this.createBasicData("credentialsType_4","credentialsType" , "credentialsType", "军人证", "");
+		this.createBasicData("credentialsType_5","credentialsType" , "credentialsType", "党员证", "");
+		this.createBasicData("credentialsType_6","credentialsType" , "credentialsType", "其他", "");
+		
 		this.createBasicData("problemType","" , "problemType", "问题类型分类", "");
 		this.createBasicData("problemType_1","problemType" , "problemType", "规划设计审批及调整问题", "");
 		this.createBasicData("problemType_2","problemType" , "problemType", "征地拆迁问题", "");

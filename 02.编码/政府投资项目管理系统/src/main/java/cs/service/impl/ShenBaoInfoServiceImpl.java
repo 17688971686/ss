@@ -315,7 +315,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		
 	}
 	
-	@Override
+	/*@Override
 	@Transactional
 	public void updateShenBaoInfoAuditState(String id, String auditState) {
 		ShenBaoInfo shenbaoInfo = super.findById(id);
@@ -329,7 +329,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		}else{
 			throw new IllegalArgumentException(String.format("没有查找到对应的申报信息"));
 		}
-	}
+	}*/
 
 	@Override
 	@Transactional

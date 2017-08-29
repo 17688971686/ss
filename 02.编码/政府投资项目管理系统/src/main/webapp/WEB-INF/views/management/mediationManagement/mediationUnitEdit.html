@@ -1,0 +1,82 @@
+<link href="/contents/libs/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+<script src="/contents/libs/zTree/js/jquery.ztree.all.min.js"></script>
+
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<ol class="breadcrumb">
+        <li><a  href="#/mediationUnitList">中介单位管理</a></li>       
+        <li class="active">{{vm.title}}</li>
+    </ol>
+    <form id="form" name="form">
+        <div class="toolbar">
+            <a class="btn btn-sm btn-primary" href="#/mediationUnitList"><span class="glyphicon glyphicon-chevron-left"></span>返回</a>
+            <button class="btn btn-sm btn-success" ng-click="vm.createMediationUnit()"  ng-show="vm.page=='mediationUnitCreate'"><span class="glyphicon glyphicon-ok"></span>创建</button>
+            <button class="btn btn-sm btn-success" ng-click="vm.updateMediationUnit()"  ng-show="vm.page=='mediationUnitUpdate'"><span class="glyphicon glyphicon-ok"></span>更新</button>
+         </div>
+         <table style="width:100%" class="table table-bordered table-striped">
+            <tr>
+                <td class="formAlignRight" style="width:15%">中介单位名称： <span class="required">(*)</span></td>
+                <td>
+                    <input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.mediationUnitName" id="mediationUnitName" name="mediationUnitName" data-val="true" data-val-required="必填">
+                    <span data-valmsg-for="mediationUnitName" data-valmsg-replace="true" class="required"></span>
+                </td>
+                <td class="formAlignRight" style="width:15%">中介单位地址： <span class="required">(*)</span></td>
+                <td>
+                    <input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.mediationUnitAddress" id="mediationUnitAddress" name="mediationUnitAddress" data-val="true" data-val-required="必填">
+                    <span data-valmsg-for="mediationUnitAddress" data-valmsg-replace="true" class="required"></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="formAlignRight" style="width:15%">中介单位法人证照类型： <span class="required">(*)</span></td>
+                <td>
+                    <select id="credentialsType" name="credentialsType" style="height:30px;" ng-model="vm.model.credentialsType" data-val="true" data-val-required="必选">
+						<option value="">---请选择---</option>
+						<option ng-repeat="x in vm.basicData.credentialsType" value="{{x.id}}">{{x.description}}</option>
+					</select>
+			        <span data-valmsg-for="credentialsType" data-valmsg-replace="true" class="required"></span>
+                </td>
+                <td class="formAlignRight" style="width:15%">中介单位法人证照号： <span class="required">(*)</span></td>
+                <td>
+                    <input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.credentialsNum" id="credentialsNum" name="credentialsNum" data-val="true" data-val-required="必填">
+                    <span data-valmsg-for="credentialsNum" data-valmsg-replace="true" class="required"></span>
+                </td>
+             <tr>
+               <td class="formAlignRight" style="width:15%">主要联系人： <span class="required">(*)</span></td>
+                <td>
+                    <input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.contacts" id="contacts" name="contacts" data-val="true" data-val-required="必填">
+                    <span data-valmsg-for="contacts" data-valmsg-replace="true" class="required"></span>
+                </td>
+                <td class="formAlignRight" style="width:15%">主要联系人电话： <span class="required">(*)</span></td>
+                <td>
+                    <input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.contactsTel" id="contactsTel" name="contactsTel" data-val="true" data-val-required="必填">
+                    <span data-valmsg-for="contactsTel" data-valmsg-replace="true" class="required"></span>
+                </td>
+            </tr>
+            <tr>
+               <td class="formAlignRight" style="width:15%">中介单位资质： <span class="required">(*)</span></td>
+                <td>
+                    <input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.credentialsAptitude" id="credentialsAptitude" name="credentialsAptitude" data-val="true" data-val-required="必填">
+                    <span data-valmsg-for="credentialsAptitude" data-valmsg-replace="true" class="required"></span>
+                </td>
+             </tr>
+            <tr>
+             <td class="formAlignRight" style="width:15%">中介机构经营范围： <span class="required">(*)</span></td>
+             <td colspan="3" style="padding: 10px;">
+					<textarea id="businessScope" name="businessScope" rows="3" cols="20" maxlength="500" ng-model="vm.model.businessScope"
+						placeholder="年度工作目标(500字符以内)" style="height: 120px; width: 99%;" data-val="true" data-val-required="必填"
+						ng-change="vm.checkLength(vm.model.businessScope,500,'businessScopeTip')"></textarea>
+					<span data-valmsg-for="businessScope" data-valmsg-replace="true" class="required"></span>
+					<div class="tipfont">您还可以输入<span id="businessScopeTip"><font size="5">500</font></span>个字符!</div>
+			 </td>
+             </tr>
+             <tr>
+             <td class="formAlignRight" style="width:15%">备注：</td>
+             <td colspan="3" style="padding: 10px;">
+					<textarea id="comment" name="businessScope" rows="3" cols="20" maxlength="500" ng-model="vm.model.comment"
+						placeholder="年度工作目标(500字符以内)" style="height: 120px; width: 99%;" 
+						ng-change="vm.checkLength(vm.model.comment,500,'commentTip')"></textarea>
+					<div class="tipfont">您还可以输入<span id="commentTip"><font size="5">500</font></span>个字符!</div>
+			 </td>
+             </tr>
+              
+			</table>
+    </form>
