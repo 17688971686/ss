@@ -134,7 +134,7 @@
     	   vm.shenbaoBtn=function(id,projectInvestmentType,name){
     		   //查询申报端口状态
     		   shenbaoSvc.getShenBaoPortState(vm,id,projectInvestmentType,name);
-    	   }
+    	   };
          //模态框中申报阶段下拉选发生变化时
            vm.change =function(){
         	   vm.massage = '';

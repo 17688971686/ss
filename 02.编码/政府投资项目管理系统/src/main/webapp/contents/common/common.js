@@ -547,14 +547,16 @@
     }
     
     function getUnitName(id){
-    	var userUnits = this.getUserUnits();
+    	var userUnits = getUserUnits();
+    	var unitName = '';
     	for(var i=0;i<userUnits.length;i++){
     		var obj = userUnits[i];
     		if(id == obj.id){
-    			return obj.unitName;
+    			unitName =  obj.unitName;
     			break;
     		}
     	}
+    	return unitName;
     }
     
     function getSum(array){
@@ -570,7 +572,7 @@
     	var tmp = '',c=0;
     	  for(var i=0;i<str.length;i++){
     		 c=str.charCodeAt(i);
-    		 tmp += String.fromCharCode((c>0 && c<0x80) ? (c+0xfee0) : c)
+    		 tmp += String.fromCharCode((c>0 && c<0x80) ? (c+0xfee0) : c);
     	  }
     	  return tmp;
     }
