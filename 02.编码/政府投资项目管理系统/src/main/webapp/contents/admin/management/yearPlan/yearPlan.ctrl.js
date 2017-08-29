@@ -408,6 +408,9 @@
      	vm.updateAuditState=function(auditState){
      		vm.isAudit = true;//用于设置跳转到列表页面
      		vm.model.shenBaoInfo.auditState = auditState;
+     		if(auditState == common.basicDataConfig().auditState_auditPass){//如果审核通过
+     			vm.model.shenBaoInfo.isIncludLibrary = true;
+     		}
      		yearPlanSvc.updateShenBaoInfo(vm);
      	};
      	//确认创建

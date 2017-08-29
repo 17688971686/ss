@@ -14,7 +14,8 @@
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目名称：</td>
 		<td>
-			<span ng-bind="vm.model.projectName"></span>
+			<input type="text" class="form-control input-sm" id="projectName" name="projectName" ng-model="vm.model.projectName" data-val="true" data-val-required="必填"/>
+			<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight" style="width:180px;">项目阶段：<span class="required">(*)</span></td>					
 		<td>

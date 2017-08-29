@@ -16,7 +16,7 @@
         vm.taskId=$state.params.taskId;
         vm.relId=$state.params.relId;        
     	vm.page="todoList";
-    	vm.filters = [];
+ //   	vm.filters = [];
     	vm.model.taskRecord = {};
     	function init(){   		
     		if($state.current.name=='task_todo'){//待办列表
@@ -43,8 +43,8 @@
            		return $sce.trustAsHtml(val);
            	};
            	
-           	vm.callBack=function(){
-           		window.history.back(-1);
+           	vm.callBack=function(userfilters){
+          		window.history.back(-1);
 //           		if(vm.isComplete){//如果是已完成的
 //           			vm.gridOptions_complete.dataSource.filter(vm.filters);
 //           		}else{//待办

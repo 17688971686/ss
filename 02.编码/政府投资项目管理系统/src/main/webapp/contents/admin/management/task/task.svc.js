@@ -253,8 +253,8 @@
 					$('#todoNumber').html(e.response.count);
 				},
 				change: function(e) {//当数据发生变化时
-				    var filters = dataSource.filter();//获取所有的过滤条件
-				    vm.filters = filters;
+//				    var filters = dataSource.filter();//获取所有的过滤条件
+//				    vm.filters = filters;
 				  }
 			});
 			// End:dataSource
@@ -357,8 +357,11 @@
 					dir : "desc"
 				},
 				change: function(e) {//当数据发生变化时
-				    var filters = dataSource.filter();//获取所有的过滤条件
-				    vm.filters = filters;
+					var filters = dataSource.filter();
+					if(filters){
+						var userfilters = filters.filters;//获取所有的过滤条件
+					}
+				    vm.filters = userfilters;
 				  }
 			});
 			// End:dataSource
