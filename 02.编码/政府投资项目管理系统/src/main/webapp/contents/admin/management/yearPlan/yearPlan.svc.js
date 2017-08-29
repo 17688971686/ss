@@ -305,13 +305,19 @@
 				};
 			
 			var httpSuccess = function success(response) {
-				common.alert({
-					vm:vm,
-					msg:"操作成功！",
+				common.requestSuccess({
+					vm : vm,
+					response : response,
 					fn:function(){
-						$('.alertDialog').modal('hide');
-						$('.modal-backdrop').remove();
-						vm.grid.dataSource.read();
+						common.alert({
+							vm:vm,
+							msg:"操作成功！",
+							fn:function(){
+								$('.alertDialog').modal('hide');
+								$('.modal-backdrop').remove();
+								vm.grid.dataSource.read();
+							}
+						});
 					}
 				});
 			};

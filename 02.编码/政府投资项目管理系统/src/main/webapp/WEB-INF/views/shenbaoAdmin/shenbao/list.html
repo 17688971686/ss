@@ -133,5 +133,6 @@
 </div>
 <script type="text/template" id="columnBtns_Record">
 	<a class="btn btn-xs btn-primary" href="#/shenbao_record/{0}"><span class="glyphicon glyphicon-eye-open"></span>申报详情</a>
-	<a style="{3}" class="btn btn-xs btn-danger"  href="#/shenbao_record_edit/{0}/{1}/{2}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+	<a style="{3}" class="btn btn-xs btn-warning"  href="#/shenbao_record_edit/{0}/{1}/{2}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+	<button style="{3}" type="button" class="btn btn-xs btn-danger" ng-click="vm.deleteShenBaoInfo('{0}')"><span class="glyphicon glyphicon-trash"></span>删除</button>
 </script> 

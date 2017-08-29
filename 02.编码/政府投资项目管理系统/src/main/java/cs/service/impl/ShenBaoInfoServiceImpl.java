@@ -209,6 +209,20 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	
 	@Override
 	@Transactional
+	public void delete(String id) {
+		ShenBaoInfo shenBaoInfo = super.findById(id);
+		
+		//查询关联taskHead并且删除
+		Criterion criterion = Restrictions.eq("relId", shenBaoInfo.getId());
+		TaskHead task =	taskHeadRepo.findByCriteria(criterion).stream().findFirst().get();
+		taskHeadRepo.delete(task);
+		
+		super.delete(id);//删除申报信息
+		logger.info(String.format("删除申报信息,ID:%s", id));		
+	}
+	
+	@Override
+	@Transactional
 	public ShenBaoInfo update(ShenBaoInfoDto dto,String id) {
 		ShenBaoInfo entity=super.update(dto,id);
 		//处理关联信息
@@ -299,6 +313,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		}
 	}
 
+	/**
+	 * 后台退文
+	 */
 	@Override
 	@Transactional
 	public void updateShenBaoInfoState(TaskRecordDto dto) {
@@ -457,8 +474,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private void updeteWorkFlow(ShenBaoInfo entity,Boolean isManageChange){
 		//查找到对应的任务
 		Criterion criterion = Restrictions.eq(TaskHead_.relId.getName(), entity.getId());
-		TaskHead taskHead = taskHeadRepo.findByCriteria(criterion).stream().findFirst().get();
-		if(taskHead !=null){
+		List<TaskHead> taskHeads = taskHeadRepo.findByCriteria(criterion);
+		if(taskHeads !=null && taskHeads.size()>0){
+			TaskHead taskHead = taskHeads.stream().findFirst().get();
 			//添加一条流转记录
 			//获取系统配置中工作流类型的第一处理人
 			String startUser="";
@@ -558,26 +576,31 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private TaskRecord updeteWorkFlowByretreat(TaskRecordDto dto){
 		//查找到对应的任务
 		Criterion criterion = Restrictions.eq(TaskHead_.relId.getName(), dto.getRelId());
-		TaskHead taskHead = taskHeadRepo.findByCriteria(criterion).stream().findFirst().get();
-		//新增一条处理流程记录
-		TaskRecord taskRecord=new TaskRecord();
-		taskRecordMapper.buildEntity(dto, taskRecord);
-		taskRecord.setTitle(taskHead.getTitle());
-		taskRecord.setNextUser(taskHead.getCreatedBy());//设置下一处理人为初始创建人
-		taskRecord.setTaskId(taskHead.getId());//设置任务Id
-		taskRecord.setTaskType(taskHead.getTaskType());
-		taskRecord.setUnitName(taskHead.getUnitName());
-		taskRecord.setProjectIndustry(taskHead.getProjectIndustry());
-		//设置创建者与修改者
-		taskRecord.setCreatedBy(currentUser.getUserId());
-		taskRecord.setModifiedBy(currentUser.getUserId());
-		
-		taskHead.getTaskRecords().add(taskRecord);
-		//更新任务状态
-		taskHead.setProcessState(dto.getProcessState());
-		taskHead.setProcessSuggestion(dto.getProcessSuggestion());
-		taskHeadRepo.save(taskHead);
-		return taskRecord;
+		List<TaskHead> taskHeads = taskHeadRepo.findByCriteria(criterion);
+		if(taskHeads !=null && taskHeads.size()>0){
+			TaskHead taskHead = taskHeads.stream().findFirst().get();
+			//新增一条处理流程记录
+			TaskRecord taskRecord=new TaskRecord();
+			taskRecordMapper.buildEntity(dto, taskRecord);
+			taskRecord.setTitle(taskHead.getTitle());
+			taskRecord.setNextUser(taskHead.getCreatedBy());//设置下一处理人为初始创建人
+			taskRecord.setTaskId(taskHead.getId());//设置任务Id
+			taskRecord.setTaskType(taskHead.getTaskType());
+			taskRecord.setUnitName(taskHead.getUnitName());
+			taskRecord.setProjectIndustry(taskHead.getProjectIndustry());
+			//设置创建者与修改者
+			taskRecord.setCreatedBy(currentUser.getUserId());
+			taskRecord.setModifiedBy(currentUser.getUserId());
+			
+			taskHead.getTaskRecords().add(taskRecord);
+			//更新任务状态
+			taskHead.setProcessState(dto.getProcessState());
+			taskHead.setProcessSuggestion(dto.getProcessSuggestion());
+			taskHeadRepo.save(taskHead);
+			return taskRecord;
+		}else{
+			throw new IllegalArgumentException(String.format("没有查找到对应的任务"));
+		}
 	}
 	
 	private Project shenBaoChangeToProject(ShenBaoInfoDto dto,Project project){

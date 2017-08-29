@@ -23,9 +23,52 @@
 			updateShenBaoInfo:updateShenBaoInfo,//更新申报信息
 			documentRecordsGird:documentRecordsGird,//批复文件列表
 			getShenBaoInfoByProjectId:getShenBaoInfoByProjectId,//根据项目id查询申报信息
-			getShenBaoPortState:getShenBaoPortState//查询申报端口的状态哦
+			getShenBaoPortState:getShenBaoPortState,//查询申报端口的状态哦
+			deleteShenBaoInfo:deleteShenBaoInfo//删除申报信息
 		};		
 		return service;
+		
+		/**
+		 * 删除申报信息
+		 */
+		function deleteShenBaoInfo(vm,id){
+			var httpOptions = {
+					method : 'delete',
+					url :url_shenbao,
+					data:id   
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function() {
+						common.alert({
+							vm : vm,
+							msg : "删除成功",
+							fn : function() {
+								$('.alertDialog').modal('hide');
+								$(".modal-backdrop").remove();
+								if(vm.isRecordsDelete){
+									vm.gridOptions_records.dataSource.read();
+								}else{
+									$location.path(url_backToProjectList);
+								}
+							}
+						});
+					}
+
+				});
+				
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
 		
 		/**
 		 * 查询申报端口状态
@@ -663,7 +706,7 @@
 						}else if(item.projectCategory==common.basicDataConfig().projectCategory_B || 
 								item.projectCategory==common.basicDataConfig().projectCategory_C ||
 								item.projectCategory==common.basicDataConfig().projectCategory_D){
-							return common.formatDate(item.beginDate);
+							return common.formatDate(item.beginDate) || '';
 						}					
 					},
 					filterable : false
@@ -672,7 +715,7 @@
 					field : "projectGuiMo",
 					title : "建设规模及主要建设内容",
 					width:200,
-					template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.projectGuiMo); },
+					template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.projectGuiMo || ''); },
 					filterable : false
 				},
 				{
@@ -783,7 +826,7 @@
 				{
 					field : "processState",
 					title : "审批状态",	
-					width : 150,
+					width : 120,
 					template:function(item){
 						var processStateDesc=common.getBasicDataDesc(item.processState);
 						var css='text-danger';
@@ -803,7 +846,7 @@
 				{
 					field : "auditState",
 					title : "审核状态",	
-					width : 150,
+					width : 120,
 					template:function(item){
 						return common.getBasicDataDesc(item.auditState);
 					},
@@ -821,7 +864,7 @@
 				{
 					field : "",
 					title : "操作",
-					width : 150,
+					width : 200,
 					template : function(item) {
 						var isShow=item.processState==common.basicDataConfig().processState_waitQianShou
 								   ||item.processState==common.basicDataConfig().processState_tuiWen;
