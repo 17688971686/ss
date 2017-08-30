@@ -33,10 +33,11 @@
         stringToArray:stringToArray,
         arrayToString:arrayToString,
         toDecimal4:toDecimal4,//保留4位小数
-        getUserUnits:getUserUnits,//获取所有的用户单位信息
-        getUnitName:getUnitName,//根据用户id获取用户单位名称
+        getUserUnits:getUserUnits,//获取所有的建设单位信息
+        getUnitName:getUnitName,//根据单位id获取单位名称
         getSum:getSum,//求和
-        repSign:repSign//将英文类型的标点符号转换为中文的标点符号
+        repSign:repSign,//将英文类型的标点符号转换为中文的标点符号
+        getRoles:getRoles//获取所有的角色
     };
 
     window.common = service;
@@ -575,6 +576,21 @@
     		 tmp += String.fromCharCode((c>0 && c<0x80) ? (c+0xfee0) : c);
     	  }
     	  return tmp;
+    }
+    
+    
+    function getRoles(){
+    	if(window.global_manageUser){ 
+    		return window.global_roles;
+    	}
+    	$.ajax({
+    		url:'/common/roles',
+    		async:false,
+    		success:function(response){
+    			window.global_roles=response;    			
+    		}
+    	});
+    	return window.global_roles;
     }
     
     //init

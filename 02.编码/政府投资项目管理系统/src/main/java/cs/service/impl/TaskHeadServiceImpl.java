@@ -138,6 +138,9 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 					ShenBaoInfo shenBaoInfo=shenBaoInfoRepo.findById(relId);
 					if(shenBaoInfo!=null){
 						shenBaoInfo.setProcessState(processState);
+						if(processState.equals(BasicDataConfig.processState_qianShou)){//如果为签收
+							shenBaoInfo.setReceiver(currentUser.getUserId());//设置签收人
+						}
 						shenBaoInfoRepo.save(shenBaoInfo);
 						if(isSendMesg){
 							//发送短信

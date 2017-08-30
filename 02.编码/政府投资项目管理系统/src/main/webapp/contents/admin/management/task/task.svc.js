@@ -432,20 +432,8 @@
 							return kendo.toString(new Date(item.createdDate),"yyyy/MM/dd HH:mm:ss");
 						}
 
-					},
-					{
-						field : "",
-						title : "操作",
-						width : 100,
-						template:function(item){
-							var isShow = item.taskType==common.basicDataConfig().taskType_yearPlan;
-							if(isShow){
-								var projectShenBaoStage = common.basicDataConfig().projectShenBaoStage_nextYearPlan;
-								var projectInvestmentType = common.basicDataConfig().projectInvestmentType_ZF;
-							}
-							return common.format($('#columnBtns').html(),item.relId,item.projectInvestmentType,projectShenBaoStage,isShow?'':'display:none',true);
-						}
 					}
+					
 			];
 			// End:column
 

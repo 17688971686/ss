@@ -17,7 +17,6 @@
         vm.id=$state.params.id;
         vm.investmentType=$state.params.projectInvestmentType;
         vm.stage=$state.params.stage;
-        vm.isHasDoneAduit=$state.params.isHasDoneAduit;
     	vm.page="shenbaoInfoList";//默认为申报信息列表页面
         
     	function init(){
@@ -65,11 +64,37 @@
    	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类	   			   			       		   		
    	   		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别	   		
    	   		vm.basicData.projectConstrChar=common.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质	   			   		
-   	   		vm.basicData.unitProperty=common.getBacicDataByIndectity(common.basicDataConfig().unitProperty);//单位性质	   		
+   	   		vm.basicData.unitProperty=common.getBacicDataByIndectity(common.basicDataConfig().unitProperty);//单位性质
+   	   		vm.basicData.projectIndustryAll=common.getBacicDataByIndectity(common.basicDataConfig().projectIndustry);//项目行业分类
+   	   		vm.basicData.projectIndustry_ZF=$linq(common.getBasicData())
+   	   			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
+   	   			.toArray();//政府投资项目行业
    	   		vm.basicData.area_Street=$linq(common.getBasicData())
    	   			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
    	   			.toArray(); //行政区划街道
-   	   		vm.basicData.userUnit=common.getUserUnits();//用户单位
+   	   		vm.basicData.userUnit=common.getUserUnits();//建设单位信息
+   	   		vm.basicData.roles=common.getRoles();//角色
+   	   		vm.basicData.users=[];
+   	   		
+   	   		vm.searchIndustryChange=function(){
+   	   			vm.searchIndustryIsZF = false;
+   	   			vm.searchIndustryIsSH = false;
+   	   			if(vm.searchIndustryFather == common.basicDataConfig().projectIndustry_ZF){
+   	   				vm.searchIndustryIsZF = true;
+   	   			}else if(vm.searchIndustryFather == common.basicDataConfig().projectIndustry_SH){
+   	   				vm.searchIndustryIsSH = true;
+   	   			}
+   	   		};
+   	   		
+   	   		vm.searchRoleChange=function(){
+   	   			vm.searchUser = false;
+   	   			vm.basicData.users=vm.basicData.users.splice(0,vm.basicData.users.length);
+   	   			if(vm.search.role != ''){
+   	   				vm.search.roleJSON=eval('(' + vm.search.role + ')');//将json字符串转换为json对象
+   					vm.basicData.users=vm.search.roleJSON.userDtos;//获取角色用户
+   	   				vm.searchUser = true;
+   	   			}
+   	   		};
     	}
     	init();    	
     	activate();
@@ -131,6 +156,12 @@
      		   }
      		   if(vm.search.projectConstrChar !=null && vm.search.projectConstrChar !=''){//查询条件--建设性质
      			  filters.push({field:'projectConstrChar',operator:'eq',value:vm.search.projectConstrChar});
+     		   }
+     		   if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){//查询条件--项目行业
+     			  filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
+     		   }
+     		  if(vm.search.receiver !=null && vm.search.receiver !=''){//查询条件--签收人
+     			  filters.push({field:'receiver',operator:'eq',value:vm.search.receiver});
      		   }
      		  vm.gridOptions.dataSource.filter(filters);
     		};

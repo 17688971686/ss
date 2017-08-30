@@ -135,6 +135,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setFinanceProjectNumber(entity.getFinanceProjectNumber());//财政项目代码
 			//begin#审核相关
 			shenBaoInfoDto.setAuditState(entity.getAuditState());
+			shenBaoInfoDto.setReceiver(entity.getReceiver());
 						
 			//begin关联信息
 			//附件
@@ -264,6 +265,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setFinanceProjectNumber(shenBaoInfoDto.getFinanceProjectNumber());//财政项目代码
 			//begin#审核相关
 			shenBaoInfo.setAuditState(shenBaoInfoDto.getAuditState());
+			shenBaoInfo.setReceiver(shenBaoInfoDto.getReceiver());
 		}
 		return shenBaoInfo;
 		

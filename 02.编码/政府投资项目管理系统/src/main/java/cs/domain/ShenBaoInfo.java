@@ -137,6 +137,8 @@ public class ShenBaoInfo extends BaseProject{
 	//begin#审核相关
 	@Column(columnDefinition="varchar(500) NULL COMMENT '审核状态'")
 	private String auditState;
+	@Column(columnDefinition="varchar(255) NULL COMMENT '签收人'")
+	private String receiver;
 	//end
 
 	
@@ -437,5 +439,10 @@ public class ShenBaoInfo extends BaseProject{
 	public void setApInvestSum(Double apInvestSum) {
 		this.apInvestSum = apInvestSum;
 	}
-	
+	public String getReceiver() {
+		return receiver;
+	}
+	public void setReceiver(String receiver) {
+		this.receiver = receiver;
+	}
 }

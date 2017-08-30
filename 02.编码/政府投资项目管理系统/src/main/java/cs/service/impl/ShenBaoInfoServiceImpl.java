@@ -495,31 +495,31 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		   taskHead.setUnitName(entity.getConstructionUnit());//更新建设单位
 		   taskHead.setModifiedDate(new Date());
 		   taskHead.setModifiedBy(currentUser.getUserId());
-							
-			TaskRecord taskRecord=new TaskRecord();
-			taskRecord.setId(UUID.randomUUID().toString());
-			taskRecord.setTitle(taskHead.getTitle());
-			taskRecord.setNextUser(startUser);//设置下一处理人
-			taskRecord.setRelId(entity.getId());
-			taskRecord.setTaskId(taskHead.getId());//设置任务Id
-			taskRecord.setTaskType(this.getTaskType(entity.getProjectShenBaoStage()));
+			//TODO 编辑申报信息不创建新的流转记录				
+//			TaskRecord taskRecord=new TaskRecord();
+//			taskRecord.setId(UUID.randomUUID().toString());
+//			taskRecord.setTitle(taskHead.getTitle());
+//			taskRecord.setNextUser(startUser);//设置下一处理人
+//			taskRecord.setRelId(entity.getId());
+//			taskRecord.setTaskId(taskHead.getId());//设置任务Id
+//			taskRecord.setTaskType(this.getTaskType(entity.getProjectShenBaoStage()));
 			if(isManageChange){//如果是后台修改
-				taskRecord.setProcessState(taskHead.getProcessState());
-				taskRecord.setProcessSuggestion("管理员--材料填报修改");
+//				taskRecord.setProcessState(taskHead.getProcessState());
+//				taskRecord.setProcessSuggestion("管理员--材料填报修改");
 			}else{//如果是申报端修改
-				taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
+//				taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
 				taskHead.setComplete(false);
 				taskHead.setProcessState(BasicDataConfig.processState_tianBao);
-				taskRecord.setProcessSuggestion("申报人员--材料填报修改");
+//				taskRecord.setProcessSuggestion("申报人员--材料填报修改");
 			}
-			
-			taskRecord.setUnitName(entity.getConstructionUnit());
-			taskRecord.setProjectIndustry(entity.getProjectIndustry());
-			//设置创建者与修改者
-			taskRecord.setCreatedBy(currentUser.getUserId());
-			taskRecord.setModifiedBy(currentUser.getUserId());
-			
-			taskHead.getTaskRecords().add(taskRecord);
+//			
+//			taskRecord.setUnitName(entity.getConstructionUnit());
+//			taskRecord.setProjectIndustry(entity.getProjectIndustry());
+//			//设置创建者与修改者
+//			taskRecord.setCreatedBy(currentUser.getUserId());
+//			taskRecord.setModifiedBy(currentUser.getUserId());
+//			
+//			taskHead.getTaskRecords().add(taskRecord);
 			taskHeadRepo.save(taskHead);
 		}else{
 			throw new IllegalArgumentException(String.format("没有查找到对应的任务"));

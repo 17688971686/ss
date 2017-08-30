@@ -1,6 +1,7 @@
 package cs.controller;
 
 import java.io.File;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 import cs.common.Util;
 import cs.model.DomainDto.BasicDataDto;
 import cs.model.DomainDto.UserUnitInfoDto;
+import cs.model.framework.RoleDto;
+import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
+import cs.service.framework.RoleService;
 import cs.service.interfaces.UserUnitInfoService;
 
 @Controller
@@ -31,6 +35,8 @@ public class CommonController {
 	private BasicDataService basicDataService;
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
+	@Autowired
+	private RoleService roleService;
 	
 	@RequiresPermissions("common#basicData/identity#get")
 	@RequestMapping(name="查询基础数据",path="basicData/{identity}",method=RequestMethod.GET)
@@ -71,8 +77,15 @@ public class CommonController {
 	}
 	
 	@RequiresPermissions("common#userUnit#get")
-	@RequestMapping(name="查询用户单位数据",path="userUnit",method=RequestMethod.GET)
+	@RequestMapping(name="获取建设单位单位数据",path="userUnit",method=RequestMethod.GET)
 	public @ResponseBody List<UserUnitInfoDto> getUserUnit(){
 		return userUnitInfoService.Get();
+	}
+	
+	@RequiresPermissions("common#roles#get")
+	@RequestMapping(name="获取角色数据",path="roles",method=RequestMethod.GET)
+	public @ResponseBody List<RoleDto> getRoles(HttpServletRequest request) throws ParseException{
+		ODataObj odataObj = new ODataObj(request);
+		return roleService.get(odataObj).getValue();
 	}
 }
