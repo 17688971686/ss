@@ -13,7 +13,6 @@
 		var url_back_planList="#/yearPlan/planList";
 		var url_document="/management/replyFile";
 		var url_back_shenbaoInfoList="/yearPlan/shenbaoInfoList";
-		var url_back_personHasDone = "/task/complete";
 		
 		var service = {
 			grid_shenbaoInfoList : grid_shenbaoInfoList,//申报项目列表
@@ -65,11 +64,7 @@
 							$('.modal-backdrop').remove();
 							vm.isSubmit = false;
 							if(vm.isAudit){//如果是审核
-								if(vm.isHasDoneAduit){//如果是个人已办中审核
-									$location.path(url_back_personHasDone);
-								}else{
-									$location.path(url_back_shenbaoInfoList);
-								}
+								$location.path(url_back_shenbaoInfoList);
 							}
 						}
 					});
