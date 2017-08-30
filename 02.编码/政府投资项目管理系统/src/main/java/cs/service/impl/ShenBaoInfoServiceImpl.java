@@ -490,6 +490,11 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		   if(systemConfigDto.isPresent()){
 			   startUser=systemConfigDto.get().getConfigValue();
 		   }
+		   //更新taskHead
+		   taskHead.setTitle("项目申报："+entity.getProjectName()+"--"+basicDataService.getDescriptionById(entity.getProjectShenBaoStage()));//更新标题
+		   taskHead.setUnitName(entity.getConstructionUnit());//更新建设单位
+		   taskHead.setModifiedDate(new Date());
+		   taskHead.setModifiedBy(currentUser.getUserId());
 							
 			TaskRecord taskRecord=new TaskRecord();
 			taskRecord.setId(UUID.randomUUID().toString());

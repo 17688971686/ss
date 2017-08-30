@@ -395,7 +395,6 @@
     			   filters.push({field:'auditState',operator:'eq',value:vm.search.auditState});
     		   }
     		   vm.gridOptions_records.dataSource.filter(filters);
-    		   vm.gridOptions_records.dataSource.read();
     	   };
        }//end#page_records
        
