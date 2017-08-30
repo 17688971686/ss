@@ -14,9 +14,8 @@
     	vm.model={};
     	vm.taskType=$state.params.taskType;
         vm.taskId=$state.params.taskId;
-        vm.relId=$state.params.relId;        
+        vm.relId=$state.params.relId;
     	vm.page="todoList";
- //   	vm.filters = [];
     	vm.model.taskRecord = {};
     	function init(){   		
     		if($state.current.name=='task_todo'){//待办列表

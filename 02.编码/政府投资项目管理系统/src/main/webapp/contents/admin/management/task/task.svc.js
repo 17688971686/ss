@@ -384,6 +384,7 @@
 						field : "title",
 						title : "标题",						
 						filterable : true,
+						width:350,
 						template:function(item){
 							return common.format("<a href='#/task/todo/{1}/{2}/{3}'>{0}</a>",item.title,item.taskType,item.taskId,item.relId);
 						}
@@ -391,13 +392,13 @@
 					 {
 						field : "unitName",
 						title : "建设单位",
-						width : 400,						
+						width : 200,						
 						filterable : true
 					},
 					{
 						field : "projectIndustry",
 						title : "项目行业",
-						width : 200,
+						width : 120,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectIndustry);
 						},
@@ -417,7 +418,7 @@
 					 {
 						field : "taskType",
 						title : "任务类型",
-						width : 180,						
+						width : 120,						
 						filterable : false,
 						template:function(item){						
 							return common.getBasicDataDesc(item.taskType);
@@ -426,13 +427,25 @@
 					{
 						field : "",
 						title : "创建日期",
-						width : 180,
+						width : 150,
 						template : function(item) {
 							return kendo.toString(new Date(item.createdDate),"yyyy/MM/dd HH:mm:ss");
 						}
 
+					},
+					{
+						field : "",
+						title : "操作",
+						width : 100,
+						template:function(item){
+							var isShow = item.taskType==common.basicDataConfig().taskType_yearPlan;
+							if(isShow){
+								var projectShenBaoStage = common.basicDataConfig().projectShenBaoStage_nextYearPlan;
+								var projectInvestmentType = common.basicDataConfig().projectInvestmentType_ZF;
+							}
+							return common.format($('#columnBtns').html(),item.relId,item.projectInvestmentType,projectShenBaoStage,isShow?'':'display:none',true);
+						}
 					}
-
 			];
 			// End:column
 

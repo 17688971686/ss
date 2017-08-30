@@ -17,6 +17,7 @@
         vm.id=$state.params.id;
         vm.investmentType=$state.params.projectInvestmentType;
         vm.stage=$state.params.stage;
+        vm.isHasDoneAduit=$state.params.isHasDoneAduit;
     	vm.page="shenbaoInfoList";//默认为申报信息列表页面
         
     	function init(){

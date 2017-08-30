@@ -201,7 +201,7 @@
 	        })
 	        //申报信息编辑页面
 	         .state('yearPlan_shenbaoInfoEdit', {
-	            url: '/yearPlan/shenbaoInfoEdit/:id/:projectInvestmentType/:stage',
+	            url: '/yearPlan/shenbaoInfoEdit/:id/:projectInvestmentType/:stage/:isHasDoneAduit',
 	            templateUrl: '/management/yearPlan/html/shenbaoInfoEdit',
 	            controller: 'yearPlanCtrl',
 	            controllerAs: 'vm'
