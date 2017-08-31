@@ -252,10 +252,10 @@
 				requestEnd:function(e){
 					$('#todoNumber').html(e.response.count);
 				},
-				change: function(e) {//当数据发生变化时
-//				    var filters = dataSource.filter();//获取所有的过滤条件
-//				    vm.filters = filters;
-				  }
+				change:function(){
+					var grid = $(".grid").data("kendoGrid");
+					window.userOptions = grid.getOptions();
+				}
 			});
 			// End:dataSource
 
@@ -328,16 +328,18 @@
 
 			];
 			// End:column
-
-			vm.gridOptions = {
-				dataSource : common.gridDataSource(dataSource),
-				filterable : common.kendoGridConfig().filterable,
-				pageable : common.kendoGridConfig().pageable,
-				noRecords : common.kendoGridConfig().noRecordMessage,
-				columns : columns,
-				resizable : true
-			};
-
+			if(window.userOptions && window.userOptions !=''){
+				vm.gridOptions = window.userOptions;
+        	}else{
+        		vm.gridOptions = {
+        				dataSource : common.gridDataSource(dataSource),
+        				filterable : common.kendoGridConfig().filterable,
+        				pageable : common.kendoGridConfig().pageable,
+        				noRecords : common.kendoGridConfig().noRecordMessage,
+        				columns : columns,
+        				resizable : true
+        			};
+        	}
 		}// end fun grid
 				
 		function completeGird(vm) {
@@ -355,14 +357,7 @@
 				sort : {
 					field : "createdDate",
 					dir : "desc"
-				},
-				change: function(e) {//当数据发生变化时
-					var filters = dataSource.filter();
-					if(filters){
-						var userfilters = filters.filters;//获取所有的过滤条件
-					}
-				    vm.filters = userfilters;
-				  }
+				}
 			});
 			// End:dataSource
 

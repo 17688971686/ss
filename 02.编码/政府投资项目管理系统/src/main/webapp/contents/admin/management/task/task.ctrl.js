@@ -44,11 +44,6 @@
            	
            	vm.callBack=function(userfilters){
           		window.history.back(-1);
-//           		if(vm.isComplete){//如果是已完成的
-//           			vm.gridOptions_complete.dataSource.filter(vm.filters);
-//           		}else{//待办
-//           			vm.gridOptions.dataSource.filter(vm.filters);
-//           		}
            	};
     	}
     	   	
