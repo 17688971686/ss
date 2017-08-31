@@ -1,8 +1,12 @@
 package cs.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /*
@@ -41,6 +45,18 @@ public class MediationUnit extends BaseEntity{
 	
 	@Column(columnDefinition="varchar(255)  COMMENT '备注'")
 	private String comment;
+	
+	@ManyToMany(mappedBy="mediationUnits")
+	private List<AssistReview> assistReviews=new ArrayList<AssistReview>();
+
+	
+	public List<AssistReview> getAssistReviews() {
+		return assistReviews;
+	}
+
+	public void setAssistReviews(List<AssistReview> assistReviews) {
+		this.assistReviews = assistReviews;
+	}
 
 	public String getId() {
 		return id;

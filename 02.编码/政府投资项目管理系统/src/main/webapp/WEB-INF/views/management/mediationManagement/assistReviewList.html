@@ -1,0 +1,26 @@
+<meta charset="UTF-8">
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+        <li>协审活动安排</li>       
+        <li class="active">{{vm.title}}</li>
+    </ol>
+    <form id="form" name="form">
+        <div class="toolbar">
+        	<a class="btn btn-sm btn-primary" href="#/assistReviewChange/"><span class="glyphicon glyphicon-plus"></span>新增</a> 
+           <button class="btn btn-sm btn-danger" ng-click="vm.delAssistReviews()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-remove"></span>批量删除</button>
+        </div>
+        <script type="text/template" id="columnBtns">
+
+		<button class="btn btn-xs btn-danger"  ng-click="vm.delAssistReview('{0}')" ><span class="glyphicon glyphicon-remove"></span>删除</button>
+		<a ng-show="{1}" class="btn btn-xs btn-primary" href="#/assistReviewChange/{0}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+		<a class="btn btn-xs btn-primary" href="#/assistReviewDetails/{0}">查看</a>
+		<a class="btn btn-xs btn-primary" href="#/mediationUnitDetails/{0}">服务质量评价（未完成）</a>
+		<a class="btn btn-xs btn-primary" href="#/mediationUnitDetails/{0}">送审文件质量评价（未完成）</a>
+		</script>
+         <div class="grid" kendo-grid="grid" k-options="vm.assistReviewGridOptions"></div>
+    </form>
+</div>
+

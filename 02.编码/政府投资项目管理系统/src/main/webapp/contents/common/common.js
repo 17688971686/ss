@@ -459,7 +459,9 @@
     		auditState_auditPass:"auditState_2",//审核状态-审核通过
     		auditState_auditNotPass:"auditState_3",//审核状态-审核不通过
     			
-    		management:"管理员"
+    		management:"管理员",
+    			
+    	    credentialsType:"credentialsType"
     		
     		
     	};

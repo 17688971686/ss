@@ -283,7 +283,29 @@
         templateUrl: '/management/mediationManagement/html/mediationUnitDetails',
         controller: 'mediationManagementCtrl',
         controllerAs: 'vm'
-        });
+        })
+        //协审活动列表 
+        .state('assistReviewList', {
+        url: '/assistReviewList',
+        templateUrl: '/management/mediationManagement/html/assistReviewList',
+        controller: 'mediationManagementCtrl',
+        controllerAs: 'vm'
+        })
+         //协审活动编辑or新增 
+        .state('assistReviewChange', {
+        url: '/assistReviewChange/:id',
+        templateUrl: '/management/mediationManagement/html/assistReviewChangeDetails',
+        controller: 'mediationManagementCtrl',
+        controllerAs: 'vm'
+        }) 
+        //查看协审活动信息
+        .state('assistReviewDetails', {
+        url: '/assistReviewDetails/:id',
+        templateUrl: '/management/mediationManagement/html/assistReviewDetails',
+        controller: 'mediationManagementCtrl',
+        controllerAs: 'vm'
+        })
+        ;
         
     }]);
     

@@ -56,8 +56,14 @@ public class MediationUnitServiceImpl extends AbstractServiceImpl<MediationUnitD
 	@Override
 	@Transactional
 	public void delete(String id) {
-		logger.info(String.format("中介单位信息,中介单位名称  %s",id));
-		super.delete(id);
+    	MediationUnit  mediationUnit= mediationUnitRepo.findById(id);
+		if(mediationUnit.getAssistReviews().size()>0){
+			throw new IllegalArgumentException(String.format("该中介单位已有关联的协审活动，删除失败！"));	
+		}
+		else{
+			logger.info(String.format("删除协审活动信息,评审活动id %s",id));
+			super.delete(id);
+		}
 	}
 	@Override
 	@Transactional
