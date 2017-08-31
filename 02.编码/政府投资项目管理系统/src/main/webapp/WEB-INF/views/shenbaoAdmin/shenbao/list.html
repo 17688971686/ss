@@ -76,7 +76,7 @@
 			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.shenbaoBtn('{0}','{1}','{2}')"><span class="glyphicon glyphicon-pencil"></span>申报</button>
 			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.checkShenBaoRecords('{3}')"><span class="glyphicon glyphicon-th-list"></span>申报记录<span id="tuiwenNumber{0}" class="badge"></span></button>
 	  </script>	  
-     <form id="form" name="form">          
+     <form id="form" name="form">
          <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
     </form>
 </div>
@@ -96,7 +96,7 @@
 				<br>
 				<div class="form-group">
 					<label class="control-label col-sm-3" for="projectShenBaoStage">项目申报阶段:</label>
-					<select class="form-select" ng-model="vm.projectShenBaoStage" ng-change="vm.change()">
+					<select class="form-select" ng-model="vm.projectShenBaoStage" ng-change="vm.changeShenBaoStage()">
 						<option value="">---请选择---</option>
 						<option ng-repeat="x in vm.basicData.projectShenBaoStage | orderBy:'itemOrder'" value="{{x.id}}">{{x.description}}</option>
 					</select>
@@ -104,7 +104,7 @@
 				<div class="form-group" style="text-align: center;">
 					<p style="color:red;" ng-bind="vm.massage"></p>		
 				</div>
-				<br>							
+				<br>					
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  

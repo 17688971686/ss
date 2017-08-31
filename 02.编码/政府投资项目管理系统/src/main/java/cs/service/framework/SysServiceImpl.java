@@ -425,18 +425,18 @@ public class SysServiceImpl implements SysService{
 		
 		this.createBasicData("projectShenBaoStage","" , "projectShenBaoStage", "项目申报阶段分类", "项目申报阶段分类");
 //		this.createBasicData("projectShenBaoStage_1","projectShenBaoStage" , "projectShenBaoStage", "前期计划(前期费)", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_2","projectShenBaoStage" , "projectShenBaoStage", "规划设计前期费", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_3","projectShenBaoStage" , "projectShenBaoStage", "新开工计划", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_4","projectShenBaoStage" , "projectShenBaoStage", "续建计划", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_5","projectShenBaoStage" , "projectShenBaoStage", "委托审计", "项目申报阶段分类");
 
-		this.createBasicData("projectShenBaoStage_6","projectShenBaoStage" , "projectShenBaoStage", "竣工决算", "项目申报阶段分类",8,false);
+		this.createBasicData("projectShenBaoStage_1","projectShenBaoStage" , "projectShenBaoStage", "项目建议书", "项目申报阶段分类",1,false);
+		this.createBasicData("projectShenBaoStage_2","projectShenBaoStage" , "projectShenBaoStage", "可行性研究报告", "项目申报阶段分类",2,false);
+		this.createBasicData("projectShenBaoStage_3","projectShenBaoStage" , "projectShenBaoStage", "初步设计概算", "项目申报阶段分类",3,false);
+		this.createBasicData("projectShenBaoStage_4","projectShenBaoStage" , "projectShenBaoStage", "规划设计前期费", "项目申报阶段分类",4,false);
+		this.createBasicData("projectShenBaoStage_5","projectShenBaoStage" , "projectShenBaoStage", "新开工计划", "项目申报阶段分类",5,false);
+		this.createBasicData("projectShenBaoStage_6","projectShenBaoStage" , "projectShenBaoStage", "续建计划", "项目申报阶段分类",6,false);
 		this.createBasicData("projectShenBaoStage_7","projectShenBaoStage" , "projectShenBaoStage", "下一年度计划", "项目申报阶段分类",7,false);
-
+		this.createBasicData("projectShenBaoStage_8","projectShenBaoStage" , "projectShenBaoStage", "竣工决算", "项目申报阶段分类",8,false);
+		this.createBasicData("projectShenBaoStage_9","projectShenBaoStage" , "projectShenBaoStage", "资金申请报告", "项目申报阶段分类",9,false);
+//		this.createBasicData("projectShenBaoStage_5","projectShenBaoStage" , "projectShenBaoStage", "委托审计", "项目申报阶段分类");
 //		this.createBasicData("projectShenBaoStage_8","projectShenBaoStage" , "projectShenBaoStage", "年度调整计划", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_9","projectShenBaoStage" , "projectShenBaoStage", "项目建议书", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_10","projectShenBaoStage" , "projectShenBaoStage", "可行性研究报告", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_11","projectShenBaoStage" , "projectShenBaoStage", "初步设计概算", "项目申报阶段分类");
 //		this.createBasicData("projectShenBaoStage_12","projectShenBaoStage" , "projectShenBaoStage", "核准", "项目申报阶段分类");
 //		this.createBasicData("projectShenBaoStage_13","projectShenBaoStage" , "projectShenBaoStage", "备案", "项目申报阶段分类");
 		
@@ -525,7 +525,7 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("taskType_1","taskType" , "taskType", "月报填报", "",false);
 		this.createBasicData("taskType_2","taskType" , "taskType", "下一年度计划", "",false);
 		this.createBasicData("taskType_3","taskType" , "taskType", "是否发送短信", "",false);
-		this.createBasicData("taskType_4","taskType" , "taskType", "是否关闭申报端口", "",false);
+		this.createBasicData("taskType_4","taskType" , "taskType", "是否打开申报端口", "",false);
 		this.createBasicData("taskType_5","taskType" , "taskType", "项目建议书", "",false);
 		this.createBasicData("taskType_6","taskType" , "taskType", "可行性研究报告", "",false);
 		this.createBasicData("taskType_7","taskType" , "taskType", "初步设计与概算", "",false);
@@ -653,11 +653,13 @@ public class SysServiceImpl implements SysService{
 	@Transactional
 	public SysConfigDto getSysConfig(String configName) {
 		Criterion criterion = Restrictions.eq(SysConfig_.configName.getName(), configName);
-		SysConfig entity = sysConfigRepo.findByCriteria(criterion).stream().findFirst().get();
-		 if(entity !=null){
-			 return sysConfigMapper.toDto(entity);
-		 }else{
-			throw new IllegalArgumentException(String.format("没有查找到申报端口状态信息"));
+		List<SysConfig> sysConfigs = sysConfigRepo.findByCriteria(criterion);
+		SysConfig entity = new SysConfig();
+		if(sysConfigs !=null && sysConfigs.size()>0){
+			entity = sysConfigs.stream().findFirst().get();
+			return sysConfigMapper.toDto(entity);
+		}else{
+			throw new IllegalArgumentException(String.format("没有查找到申报端口状态信息,请联系管理员！"));
 		}
 	}
 }

@@ -62,7 +62,7 @@ public class ShenBaoAdminProjectController {
 			isFilters = true;
 			//判断筛选条件中是否包含单位筛选，且筛选单位为本单位
 			for(int i=0;i<odataObj.getFilter().size();i++){
-				if(odataObj.getFilter().get(i).getField().equals("unitName")){//如果过滤条件中有单位过滤
+				if(odataObj.getFilter().get(i).getField().equals("unitName")){//如果过滤条件中有项目所属单位过滤
 					hasUnitFilter = true;
 					if(odataObj.getFilter().get(i).getValue().equals(userUnitInfo.getId())){//如果查询的是本单位的话
 						isUnitFilter =true;
