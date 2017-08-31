@@ -32,11 +32,35 @@
         uploadFileTypeConfig:uploadFileTypeConfig,//上传文件配置
         stringToArray:stringToArray,
         arrayToString:arrayToString,
-        toDecimal4:toDecimal4
+        toDecimal4:toDecimal4,
+        getLoginUser,getLoginUser
     };
 
     window.common = service;
 
+    function getLoginUser(){
+    	var data = "";
+    	if(window.global_User){ 
+    		return window.global_User;
+    	}else{
+    		window.global_User = "";
+    	}
+    	$.ajax({
+    		url:'/common/getUser',
+    		async:false,
+    		success:function(response){
+    			data=response;    			
+    		}
+
+    	});
+    	 data = data.split("\\u");
+    	for (var i = 0; i < data.length; i++) {
+    		if(data[i] != ""){
+    			window.global_User+=String.fromCharCode(parseInt(data[i],16).toString(10));
+    		}
+		}
+    	return window.global_User;
+    }
     function initJqValidation() {
         $("form").removeData("validator");
         $("form").removeData("unobtrusiveValidation");
@@ -390,8 +414,11 @@
     		processState:"processState",//审批状态
     		processState_waitQianShou:"processState_1",//等待签收
     		processState_qianShou:"processState_2",//已签收
-    		processState_banJie:"processState_7",//已办结
-    		processState_tuiWen:"processState_11",//已退文
+    		processState_banJie:"processState_11",//已办结
+    		processState_tuiWen:"processState_15",//已退文
+    		processState_next:"processState_16",
+    		
+    		
     		
     		projectShenBaoStage:"projectShenBaoStage",//申报阶段
     		projectShenBaoStage_qianQi:"projectShenBaoStage_1",//前期
@@ -449,7 +476,8 @@
     		taskType_qianQi:"taskType_7",//前期
     		taskType_newStart:"taskType_8",//新开工
     		taskType_xuJian:"taskType_9",//续建
-
+    		taskType_junGongJueSuan:"taskType_10",//竣工决算
+    		
     		auditState:"auditState",//审核状态
     		auditState_noAudit:"auditState_1",//审核状态-未审核
     		auditState_auditPass:"auditState_2",//审核状态-审核通过

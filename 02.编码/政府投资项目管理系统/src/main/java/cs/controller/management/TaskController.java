@@ -18,6 +18,7 @@ import cs.common.ICurrentUser;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.TaskHeadDto;
 import cs.model.DomainDto.TaskRecordDto;
+import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.TaskHeadService;
 
@@ -33,8 +34,8 @@ public class TaskController {
 	@RequiresPermissions("management/task##get")
 	@RequestMapping(name = "获取所有任务", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<TaskHeadDto> getToDo(HttpServletRequest request) throws ParseException {
-		ODataObj odataObj = new ODataObj(request);
-		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.get(odataObj);
+		ODataObj odataObj = new ODataObj(request);	
+		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.getTask(odataObj);
 		return taskHeadDtos;
 	}
 	

@@ -150,7 +150,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
 		//设置申报信息的状态
 		entity.setProcessState(BasicDataConfig.processState_tianBao);
-		
 		super.repository.save(entity);
 		//初始化工作流
 		initWorkFlow(entity);
@@ -462,6 +461,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			   startUser=systemConfigDto.get().getConfigValue();
 		   }
 							
+		    taskHead.setNextUser(startUser);
 			TaskRecord taskRecord=new TaskRecord();
 			taskRecord.setId(UUID.randomUUID().toString());
 			taskRecord.setTitle(taskHead.getTitle());

@@ -24,9 +24,9 @@ public class BasicDataConfig {
 	public static String processState="processState";
 	public static String processState_tianBao="processState_1";//等待签收
 	public static String processState_qianShou="processState_2";//签收
-	public static String processState_banJie="processState_7";//办结
-	public static String processState_tuiWen="processState_11";//退文
-	
+	public static String processState_banJie="processState_11";//办结
+	public static String processState_tuiWen="processState_15";//退文
+	public static String processState_MiShuFenBan="processState_3";//秘书科分办
 	
 	public static String projectShenBaoStage_nextYearPlan="projectShenBaoStage_7";//下一年度计划
 	

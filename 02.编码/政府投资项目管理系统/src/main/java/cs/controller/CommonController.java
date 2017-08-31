@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import cs.common.ICurrentUser;
 import cs.common.Util;
 import cs.model.DomainDto.BasicDataDto;
 import cs.service.common.BasicDataService;
@@ -28,6 +28,8 @@ public class CommonController {
     private HttpServletRequest request;
 	@Autowired
 	private BasicDataService basicDataService;
+	@Autowired
+	private ICurrentUser currentUser;
 	
 	//@RequiresPermissions("common#basicData/identity#get")
 	@RequestMapping(name="查询基础数据",path="basicData/{identity}",method=RequestMethod.GET)
@@ -37,6 +39,20 @@ public class CommonController {
 			return basicDataService.Get();
 		}
 		return basicDataService.getByIdentity(identity);
+	}
+	
+	@RequestMapping(name="查询基础数据",path="getUser",method=RequestMethod.GET)
+	public @ResponseBody StringBuffer getUser(){
+		String user = currentUser.getLoginName();
+		
+		StringBuffer unicode = new StringBuffer();  
+		   for (int i = 0; i < user.length(); i++) {  
+		        // 取出每一个字符  
+		       char c = user.charAt(i);  
+		        // 转换为unicode  
+		       unicode.append("\\u" + Integer.toHexString(c));  
+		   } 
+		return unicode;
 	}
 	
 	//@RequiresPermissions("common#save#post")

@@ -506,15 +506,32 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("processState","" , "processState", "处理状态", "处理状态",false);		
 		this.createBasicData("processState_1","processState" , "processState", "已填报/等待签收", "",false);
 		this.createBasicData("processState_2","processState" , "processState", "已签收", "",false);
-		this.createBasicData("processState_3","processState" , "processState", "部门承办", "",false);
-		this.createBasicData("processState_4","processState" , "processState", "经办人办理", "",false);
-		this.createBasicData("processState_5","processState" , "processState", "科长审核", "",false);
-		this.createBasicData("processState_6","processState" , "processState", "局长审核", "",false);
-		this.createBasicData("processState_7","processState" , "processState", "已办结", "",false);
-		this.createBasicData("processState_8","processState" , "processState", "协办", "",false);
-		this.createBasicData("processState_9","processState" , "processState", "结束协办", "",false);
-		this.createBasicData("processState_10","processState" , "processState", "退回重办", "",false);
-		this.createBasicData("processState_11","processState" , "processState", "已退文", "",false);
+		
+		
+		//審批流程
+		//this.createBasicData("processState_20","processState" , "processState", "申报", "",false);
+		this.createBasicData("processState_3","processState" , "processState", "秘书科分办", "",false);
+		this.createBasicData("processState_4","processState" , "processState", "科长分办", "",false);
+		this.createBasicData("processState_5","processState" , "processState", "经办人初审", "",false);
+		this.createBasicData("processState_6","processState" , "processState", "科长复核", "",false);
+		this.createBasicData("processState_7","processState" , "processState", "副局长审批", "",false);
+		this.createBasicData("processState_8","processState" , "processState", "局长审批", "",false);
+		this.createBasicData("processState_9","processState" , "processState", "经办人送审", "",false);
+		this.createBasicData("processState_10","processState" , "processState", "评审中心评审", "",false);
+		this.createBasicData("processState_17","processState" , "processState", "经办人拟稿", "",false);
+		this.createBasicData("processState_18","processState" , "processState", "科长核稿", "",false);
+		this.createBasicData("processState_19","processState" , "processState", "秘书科核稿", "",false);
+		this.createBasicData("processState_20","processState" , "processState", "副局长复核", "",false);
+		this.createBasicData("processState_21","processState" , "processState", "局长复核", "",false);
+		this.createBasicData("processState_22","processState" , "processState", "秘书科发文登记", "",false);
+		this.createBasicData("processState_23","processState" , "processState", "结束审批", "",false);
+		
+		this.createBasicData("processState_11","processState" , "processState", "已办结", "",false);
+		this.createBasicData("processState_12","processState" , "processState", "协办", "",false);
+		this.createBasicData("processState_13","processState" , "processState", "结束协办", "",false);
+		this.createBasicData("processState_14","processState" , "processState", "退回重办", "",false);
+		this.createBasicData("processState_15","processState" , "processState", "已退文", "",false);
+		this.createBasicData("processState_16","processState" , "processState", "下一流程处理中", "",false);
 
 		this.createBasicData("taskType","" , "taskType", "任务类型", "任务类型",false);		
 		this.createBasicData("taskType_1","taskType" , "taskType", "月报填报", "",false);

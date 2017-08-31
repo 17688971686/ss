@@ -54,7 +54,7 @@
 			};
 			
 			var httpSuccess = function success(response){
-				vm.model.dept = response.data.value||{};
+				vm.model.depts = response.data.value||{};
 			};
 			
 			common.http({
@@ -216,6 +216,7 @@
 		
 		function handle(vm){
 			vm.model.taskRecord.nextUser = vm.nextUser;
+			//vm.model.taskRecord.processState = vm.task.processState;
 			var httpOptions = {
 				method : 'put',
 				url : url_task+"/"+vm.taskId,
@@ -264,6 +265,14 @@
 					vm.task.taskTypeDesc=common.getBasicDataDesc(vm.task.taskType);
 					if(vm.task.isComplete){//如果任务为已完成
 						vm.isComplete=true;
+					}else{//任务没有完成
+						
+						//查看任务的当前流程--设置下一流程
+						setNextUser(vm);
+						if(vm.task.processState =="processState_1"){
+							vm.miShuFenBan = false;
+						}
+						
 					}
 				}	
 			};
@@ -275,6 +284,40 @@
 				success:httpSuccess
 			});
 		}//getTaskById
+		
+		function setNextUser(vm){
+			var processState = vm.task.processState;//下一流程展示
+			if(processState ==  "processState_1"){
+				vm.nextState ="部门承办";
+			}else if(processState == "processState_4"){
+				vm.nextState ="经办人初审";
+			}else if(processState == "processState_5"){
+				vm.nextState ="科长复核";
+			}else if(processState == "processState_6"){
+				vm.nextState ="副局长审批";
+			}else if(processState == "processState_7"){
+				vm.nextState ="局长审批";
+			}else if(processState == "processState_8"){
+				vm.nextState ="经办人送审";
+			}else if(processState == "processState_9"){
+				vm.nextState ="评审中心评审";
+			}else if(processState == "processState_10"){
+				vm.nextState ="经办人拟稿";
+			}else if(processState == "processState_17"){
+				vm.nextState ="科长核稿";
+			}else if(processState == "processState_18"){
+				vm.nextState ="秘书科核稿";
+			}else if(processState == "processState_19"){
+				vm.nextState ="副局长复核";
+			}else if(processState == "processState_20"){
+				vm.nextState ="局长复核";
+			}else if(processState == "processState_21"){
+				vm.nextState ="秘书科发文登记";
+			}else if(processState == "processState_22"){
+				vm.nextState ="结束审批";
+			}
+			
+		}
 		
 		// begin#grid
 		function grid(vm) {
@@ -299,7 +342,7 @@
 					value:false
 				},
 				requestEnd:function(e){						
-					$('#todoNumber').html(e.response.count);					
+					$('#todoNumber').html(e.response.value.length);					
 				}
 			});
 			// End:dataSource

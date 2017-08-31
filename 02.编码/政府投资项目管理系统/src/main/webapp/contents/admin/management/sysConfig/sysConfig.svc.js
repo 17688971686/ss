@@ -38,7 +38,16 @@
 					for (var i = 0; i < vm.model.taskList.length; i++) {
 						if(vm.userTaskList[j].configName == vm.model.taskList[i].id && vm.userTaskList[j].configType ==common.basicDataConfig().taskType){
 							if(vm.userTaskList[j].configName == common.basicDataConfig().taskType_monthReport 
-									|| vm.userTaskList[j].configName == common.basicDataConfig().taskType_yearPlan){//如果为月报、下一年度计划系统配置
+									|| vm.userTaskList[j].configName == common.basicDataConfig().taskType_yearPlan||
+									common.basicDataConfig().taskType_JYS ||
+									common.basicDataConfig().taskType_KXXYJBG ||
+									common.basicDataConfig().taskType_CBSJYGS ||
+									common.basicDataConfig().taskType_qianQi ||
+									common.basicDataConfig().taskType_newStart ||
+									common.basicDataConfig().taskType_xuJian ||
+									common.basicDataConfig().taskType_junGongJueSuan
+									
+							){//如果为月报、下一年度计划系统配置
 								vm.model.taskList[i].taskUser = vm.userTaskList[j].configValue;
 							}else if(vm.userTaskList[j].configName == common.basicDataConfig().taskType_sendMesg){//如果为发送短信系统配置
 								vm.model.taskList[i].taskEnable = vm.userTaskList[j].enable;
@@ -58,7 +67,7 @@
 		
 		
 		/**
-		 * 系统配置：查询所有username
+		 * 系统配置：创建任务签收人
 		 * @return usernameList
 		 */
 		function createTaskUser(vm){
@@ -101,7 +110,7 @@
 		}
 		
 		/**
-		 * 系统配置：设置task签收人
+		 * 系统配置：查询task签收人
 		 * 
 		 */
 		function getAllUser(vm) {
