@@ -275,7 +275,8 @@
 					},
 					{
 						field : "title",
-						title : "标题",						
+						title : "标题",
+						width:500,
 						filterable : true,
 						template:function(item){
 							return common.format("<a href='#/task/todo/{1}/{2}/{3}'>{0}</a>",item.title,item.taskType,item.id,item.relId);			
@@ -284,13 +285,13 @@
 					 {
 						field : "unitName",
 						title : "建设单位",
-						width : 400,						
+						width : 300,						
 						filterable : true
 					},
 					{
 						field : "projectIndustry",
 						title : "项目行业",
-						width : 200,
+						width : 120,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectIndustry);
 						},
@@ -310,7 +311,7 @@
 					 {
 						field : "taskType",
 						title : "任务类型",
-						width : 180,						
+						width : 120,						
 						filterable : false,
 						template:function(item){						
 							return common.getBasicDataDesc(item.taskType);

@@ -17,6 +17,8 @@
         vm.relId=$state.params.relId;
     	vm.page="todoList";
     	vm.model.taskRecord = {};
+    	vm.search={};
+    	vm.basicData={};
     	function init(){   		
     		if($state.current.name=='task_todo'){//待办列表
     			vm.page='todoList';
@@ -45,6 +47,11 @@
            	vm.callBack=function(userfilters){
           		window.history.back(-1);
            	};
+           	
+           	//初始化查询基础数据
+           	vm.basicData.projectIndustry_ZF=$linq(common.getBasicData())
+				.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
+				.toArray();
     	}
     	   	
     	activate();
@@ -63,6 +70,25 @@
         
         function init_todoList(){
         	taskSvc.grid(vm);
+        	
+        	vm.search=function(){
+        		var filters = [];
+				filters.push({field:'isComplete',operator:'eq',value:false});//默认条件--没有完成的任务 
+				if(vm.search.title !=null && vm.search.title !=''){//查询条件--标题
+	     			   filters.push({field:'title',operator:'contains',value:vm.search.title});
+	     		   }
+     		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--任务建设单位
+     			   filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
+     		   }
+     		   if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){//查询条件--项目行业
+     			  filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
+     		   }
+     		  vm.gridOptions.dataSource.filter(filters);
+        	};
+        	
+        	vm.filterClear=function(){
+        		location.reload();
+        	};
         }//end init_todoList
         
         function init_completeList(){

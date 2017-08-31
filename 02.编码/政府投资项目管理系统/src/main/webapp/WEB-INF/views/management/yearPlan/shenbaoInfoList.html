@@ -63,7 +63,13 @@
 				  		</select>
 	  				</td>
 	  				<td class="formAlignRight">签收人：</td>
-	  				<td>
+	  					<td>
+	  						<input type="radio" style="height:12.73px;" name="receiver" value="me" ng-model="vm.search.receiver"/> 本人
+	  						<input type="radio" style="height:12.73px;" name="receiver" value="other" ng-model="vm.search.receiver"/> 其他人
+	  						<input type="radio" style="height:12.73px;" name="receiver" value="all" ng-model="vm.search.receiver"/> 所有人
+	  					</td>
+	  					
+<!-- 	  				<td>
 	  					<select style="height:30px;" ng-model="vm.search.role" ng-change="vm.searchRoleChange()">
 				  			<option value="">---请选择用户角色---</option>
 				  			<option ng-repeat="x in vm.basicData.roles" value="{{x}}">{{x.roleName}}</option>
@@ -72,7 +78,7 @@
 				  			<option value="">---请选择用户---</option>
 				  			<option ng-repeat="x in vm.basicData.users" value="{{x.id}}">{{x.loginName}}</option>
 				  		</select>
-	  				</td>
+	  				</td> -->
 	  			</tr>
 	  			<tr>
 	  				<td colspan="6">

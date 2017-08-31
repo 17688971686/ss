@@ -134,6 +134,7 @@
         
     	function init_shenbaoInfoList(){
     		yearPlanSvc.grid_shenbaoInfoList(vm);
+    		
     		//查询
     		vm.search=function(){
     			var filters = [];
@@ -161,7 +162,11 @@
      			  filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
      		   }
      		  if(vm.search.receiver !=null && vm.search.receiver !=''){//查询条件--签收人
-     			  filters.push({field:'receiver',operator:'eq',value:vm.search.receiver});
+     			  if(vm.search.receiver == "me"){
+     				 filters.push({field:'receiver',operator:'eq',value:window.profile_userId});
+     			  }else if(vm.search.receiver == "other"){
+     				 filters.push({field:'receiver',operator:'ne',value:window.profile_userId});
+     			  }else if(vm.search.receiver == "all"){}
      		   }
      		  vm.gridOptions.dataSource.filter(filters);
     		};
