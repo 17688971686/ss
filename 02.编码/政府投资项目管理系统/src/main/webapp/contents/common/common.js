@@ -33,15 +33,39 @@
         stringToArray:stringToArray,
         arrayToString:arrayToString,
         toDecimal4:toDecimal4,//保留4位小数
-        getUserUnits:getUserUnits,//获取所有的用户单位信息
-        getUnitName:getUnitName,//获取用户单位名称
+        getUserUnits:getUserUnits,//获取所有的建设单位信息
+        getUnitName:getUnitName,//获取单位名称
         getSum:getSum,//求和
-        repSign:repSign//将英文类型的标点符号转换为中文的标点符号
+        repSign:repSign,//将英文类型的标点符号转换为中文的标点符号
+        getLoginUser,getLoginUser
 
     };
 
     window.common = service;
 
+    function getLoginUser(){
+    	var data = "";
+    	if(window.global_User){ 
+    		return window.global_User;
+    	}else{
+    		window.global_User = "";
+    	}
+    	$.ajax({
+    		url:'/common/getUser',
+    		async:false,
+    		success:function(response){
+    			data=response;    			
+    		}
+
+    	});
+    	 data = data.split("\\u");
+    	for (var i = 0; i < data.length; i++) {
+    		if(data[i] != ""){
+    			window.global_User+=String.fromCharCode(parseInt(data[i],16).toString(10));
+    		}
+		}
+    	return window.global_User;
+    }
     function initJqValidation() {
         $("form").removeData("validator");
         $("form").removeData("unobtrusiveValidation");
@@ -395,8 +419,11 @@
     		processState:"processState",//审批状态
     		processState_waitQianShou:"processState_1",//等待签收
     		processState_qianShou:"processState_2",//已签收
-    		processState_banJie:"processState_7",//已办结
-    		processState_tuiWen:"processState_11",//已退文
+    		processState_banJie:"processState_11",//已办结
+    		processState_tuiWen:"processState_15",//已退文
+    		processState_next:"processState_16",
+    		
+    		
     		
     		projectShenBaoStage:"projectShenBaoStage",//申报阶段
     		projectShenBaoStage_projectProposal:"projectShenBaoStage_1",//项目建议书
@@ -456,7 +483,8 @@
     		taskType_qianQi:"taskType_8",//前期
     		taskType_newStart:"taskType_9",//新开工
     		taskType_xuJian:"taskType_10",//续建
-    		
+    		taskType_junGongJueSuan:"taskType_11",//竣工决算
+   		
     		auditState:"auditState",//审核状态
     		auditState_noAudit:"auditState_1",//审核状态-未审核
     		auditState_auditPass:"auditState_2",//审核状态-审核通过

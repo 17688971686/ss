@@ -1,6 +1,9 @@
 package cs.service.impl;
 
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
@@ -19,9 +22,12 @@ import cs.domain.framework.SysConfig;
 import cs.domain.framework.SysConfig_;
 import cs.model.PageModelDto;
 import cs.model.SendMsg;
+import cs.model.DomainDto.ProjectDto;
 import cs.model.DomainDto.TaskHeadDto;
 import cs.model.DomainDto.TaskRecordDto;
 import cs.model.DtoMapper.IMapper;
+import cs.repository.impl.ProjectRepoImpl;
+import cs.repository.impl.TaskHeadRepoImpl;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
@@ -41,13 +47,19 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 	@Autowired
 	private IRepository<MonthReport, String> monthReportRepo;
 	@Autowired
+	private IRepository<TaskHead, String> TaskHeadRepo;
+	@Autowired
 	private IRepository<SysConfig, String> sysConfigRepo;
 	@Autowired
 	private IMapper<TaskRecordDto, TaskRecord> taskRecordMapper;
 	@Autowired
+	private IMapper<TaskHeadDto, TaskHead> taskHeadMapper;
+	@Autowired
 	private ICurrentUser currentUser;
 	@Autowired
 	private BasicDataService basicDataService;
+	@Autowired
+	private TaskHeadRepoImpl taskHeadRepoImpl;
 	
 	@Override
 	@Transactional
@@ -55,6 +67,26 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 		logger.info("查询工作台任务数据");
 		return super.get(odataObj);
 	}
+
+	
+	
+	@Override
+	@Transactional
+	public PageModelDto<TaskHeadDto> getTask(ODataObj odataObj) {
+		
+		List<TaskHeadDto> dtos = taskHeadRepoImpl.findByOdata2(odataObj).stream().map((x) -> {
+			return mapper.toDto(x);
+		}).collect(Collectors.toList());
+		
+		
+		PageModelDto<TaskHeadDto> pageModelDto = new PageModelDto<>();
+		pageModelDto.setCount(odataObj.getCount());
+		pageModelDto.setValue(dtos);
+		logger.info("建设单位查询项目数据");
+		return pageModelDto;
+	}
+
+
 
 	@Override
 	@Transactional
