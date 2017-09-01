@@ -41,7 +41,9 @@ import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
+import cs.service.framework.RoleService;
 import cs.service.framework.SysService;
+import cs.service.framework.UserService;
 import cs.service.interfaces.ShenBaoInfoService;
 /**
  * @Description: 申报信息服务层
@@ -75,6 +77,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private IMapper<TaskRecordDto, TaskRecord> taskRecordMapper;
 	@Autowired
 	private SysService sysService;
+	@Autowired
+	private RoleService roleService;
 	@Autowired
 	private BasicDataService basicDataService;
 	@Autowired
@@ -227,7 +231,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
 		//设置申报信息的状态
 		entity.setProcessState(BasicDataConfig.processState_tianBao);
-		entity.setProcessRole(BasicDataConfig.processRole);
 		super.repository.save(entity);
 		//初始化工作流
 		initWorkFlow(entity,false);
@@ -454,10 +457,10 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskHead.setId(UUID.randomUUID().toString());
 		//设置任务标题格式为：“项目申报：项目名称--申报阶段”
 		taskHead.setTitle("项目申报："+shenBaoInfo.getProjectName()+"--"+basicDataService.getDescriptionById(shenBaoInfo.getProjectShenBaoStage()));
-		taskHead.setNextUser(startUser);//设置下一处理人
+		//taskHead.setNextUser(startUser);//设置下一处理人
 		taskHead.setRelId(shenBaoInfo.getId());//设置关联的id
 		taskHead.setProcessState(BasicDataConfig.processState_tianBao);//设置工作流的状态
-		taskHead.setProcessRole(BasicDataConfig.processRole);
+		taskHead.setProcessRole(startUser);
 		taskHead.setProcessSuggestion("材料填报");//设置处理意见
 		taskHead.setTaskType(this.getTaskType(shenBaoInfo.getProjectShenBaoStage()));//设置工作流的类型
 		taskHead.setUnitName(shenBaoInfo.getConstructionUnit());//设置建设单位
@@ -475,11 +478,11 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		TaskRecord taskRecord=new TaskRecord();
 		taskRecord.setId(UUID.randomUUID().toString());
 		taskRecord.setTitle(taskHead.getTitle());
-		taskRecord.setNextUser(startUser);//设置下一处理人
+		//taskRecord.setNextUser(startUser);//设置下一处理人
 		taskRecord.setRelId(taskHead.getRelId());//设置关联id
 		taskRecord.setTaskId(taskHead.getId());//设置任务Id
 		taskRecord.setProcessState(taskHead.getProcessState());//设置工作流的状态
-		taskRecord.setProcessRole(BasicDataConfig.processRole);
+		taskRecord.setProcessRole(startUser);
 		taskRecord.setTaskType(taskHead.getTaskType());//设置工作流的类型
 		taskRecord.setProcessSuggestion(taskHead.getProcessSuggestion());//设置处理意见
 		taskRecord.setUnitName(taskHead.getUnitName());//设置建设单位
