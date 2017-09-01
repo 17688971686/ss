@@ -36,7 +36,10 @@ public class TaskHead extends BaseEntity {
 	@Column(columnDefinition="varchar(255) NULL COMMENT '下一处理人'")
 	private String nextUser;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '处理状态'")
+	@Column(columnDefinition="varchar(255) NULL COMMENT '下一处理环节'")
+	private String nextProcess;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '当前处理状态'")
 	private String processState;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '审批角色'")
@@ -150,6 +153,13 @@ public class TaskHead extends BaseEntity {
 	public void setProcessRole(String processRole) {
 		this.processRole = processRole;
 	}
-	
+
+	public String getNextProcess() {
+		return nextProcess;
+	}
+
+	public void setNextProcess(String nextProcess) {
+		this.nextProcess = nextProcess;
+	}
 	
 }

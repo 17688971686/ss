@@ -15,6 +15,11 @@
     	vm.search={};
     	vm.basicData={};
     	vm.page="todoAuditList";
+    	
+    	//任务处理--请求参数
+    	vm.taskType=$state.params.taskType;
+        vm.taskId=$state.params.taskId;
+        vm.relId=$state.params.relId;
 
     	function init(){
     		
@@ -78,7 +83,10 @@
         }//end init_todoList
         
         function init_handleAudit(){
-        	
+        	//查询任务信息
+        	taskAuditSvc.getTaskInfoById(vm);
+        	//查询申报信息
+        	taskAuditSvc.getShenBaoInfoById(vm);
         }//end init_handleAudit
     }
 })();
