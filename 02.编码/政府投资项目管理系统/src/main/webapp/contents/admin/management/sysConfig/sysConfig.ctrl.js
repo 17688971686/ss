@@ -49,6 +49,14 @@
 			 vm.create = function(){
 	        	sysConfigSvc.createTaskUser(vm);
 	        };
+	        //获取角色名称
+	        vm.getRoleName = function(roleId){
+	        	return common.getRoleName(roleId);
+	        };
+	        //获取所有的角色
+	        vm.roles = function(){
+	        	return common.getRoles();
+	        };
 		}
         
         /**

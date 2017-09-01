@@ -68,8 +68,6 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 		return super.get(odataObj);
 	}
 
-	
-	
 	@Override
 	@Transactional
 	public PageModelDto<TaskHeadDto> getTask(ODataObj odataObj) {
@@ -83,6 +81,22 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 		pageModelDto.setCount(odataObj.getCount());
 		pageModelDto.setValue(dtos);
 		logger.info("建设单位查询项目数据");
+		return pageModelDto;
+	}
+	
+	@Override
+	@Transactional
+	public PageModelDto<TaskHeadDto> getTask_audit(ODataObj odataObj) {
+		
+		List<TaskHeadDto> dtos = taskHeadRepoImpl.findByOdata2(odataObj).stream().map((x) -> {
+			return mapper.toDto(x);
+		}).collect(Collectors.toList());
+		
+		
+		PageModelDto<TaskHeadDto> pageModelDto = new PageModelDto<>();
+		pageModelDto.setCount(odataObj.getCount());
+		pageModelDto.setValue(dtos);
+		logger.info("查询审批类个人待办数据");
 		return pageModelDto;
 	}
 

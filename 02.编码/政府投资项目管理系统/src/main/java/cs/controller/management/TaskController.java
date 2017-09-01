@@ -82,5 +82,12 @@ public class TaskController {
 	public String todo_audit() {
 		return ctrl + "/audit/todo";
 	}
-
+	
+	@RequiresPermissions("management/task#audit#get")
+	@RequestMapping(name = "获取审批类个人待办数据", path = "audit", method = RequestMethod.GET)
+	public @ResponseBody PageModelDto<TaskHeadDto> getToDo_Audit(HttpServletRequest request) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);	
+		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.getTask_audit(odataObj);
+		return taskHeadDtos;
+	}
 }

@@ -11,4 +11,6 @@ public interface TaskHeadService extends IService<TaskHeadDto, TaskHead, String>
 	void handle(String taskId,TaskRecordDto dto);
 
 	PageModelDto<TaskHeadDto> getTask(ODataObj odataObj);
+	
+	PageModelDto<TaskHeadDto> getTask_audit(ODataObj odataObj);
 }

@@ -37,7 +37,9 @@
         getUnitName:getUnitName,//获取单位名称
         getSum:getSum,//求和
         repSign:repSign,//将英文类型的标点符号转换为中文的标点符号
-        getLoginUser,getLoginUser
+        getLoginUser,getLoginUser,
+        getRoles:getRoles,//获取所有的角色
+        getRoleName:getRoleName//获取角色名称
 
     };
 
@@ -609,17 +611,45 @@
     	return window.global_userUnits;
     }
     
-    function getUnitName(id){
-    	var userUnits = getUserUnits();
+    function getUnitName(unitId){
+    	getUserUnits();
     	var unitName = '';
-    	for(var i=0;i<userUnits.length;i++){
-    		var obj = userUnits[i];
-    		if(id == obj.id){
+    	for(var i=0;i<window.global_userUnits.length;i++){
+    		var obj = window.global_userUnits[i];
+    		if(unitId == obj.id){
     			unitName =  obj.unitName;
     			break;
     		}
     	}
     	return unitName;
+    }
+    
+    function getRoles(){
+    	if(window.global_manageUser){ 
+    		return window.global_roles;
+    	}else{
+    		$.ajax({
+        		url:'/common/roles',
+        		async:false,
+        		success:function(response){
+        			window.global_roles=response;    			
+        		}
+        	});
+    	}   		
+    	return window.global_roles;
+    }
+    
+    function getRoleName(roleId){
+    	getRoles();
+    	var roleName = '';
+    	for(var i=0;i<window.global_roles.length;i++){
+    		var obj = window.global_roles[i];
+    		if(roleId == obj.id){
+    			roleName =  obj.roleName;
+    			break;
+    		}
+    	}
+    	return roleName;
     }
     
     function getSum(array){
