@@ -139,24 +139,14 @@ overflow: scroll !important;
 			</tr>
 		</table>
 		
-		<!-- 填报/待签收状态，执行秘书科分办操作 -->
-		<!-- 秘书科分办状态，执行科长分办操作 -->
-		<!-- 秘书科分办 -->
-		<!-- 秘书科分办 -->
-		<!-- 秘书科分办 -->
-		<!-- 秘书科分办 -->
-		<!-- 秘书科分办 -->
-		<!-- 秘书科分办 -->
-		<!-- 秘书科分办 -->
-		<!-- 秘书科分办 -->
-		<!-- 秘书科分办 -->
-		<!-- 秘书科分办 -->
-		<!-- 秘书科分办 -->
-		<!-- 秘书科分办 -->
-		<!-- 秘书科分办 -->
+		<!-- 执行秘书科分办操作 -->
+		<!-- 执行科长操作 -->
+		<!-- 执行经办人操作 -->
+		<!-- 执行局领导操作 -->
+		<!-- 执行评审中心经办人操作 -->
+		<!-- 执行秘书科发文操作 -->
 		
-
-			<tr ng-hide="vm.isComplete">
+			<!-- <tr ng-hide="vm.isComplete">
 				<td class="formAlignRight" style="width:150px;">填写处理意见：</td>
 				<td>
 					<textarea class="form-control" id="processSuggestion" name="processSuggestion"  maxlength="500" rows="3"
@@ -167,10 +157,10 @@ overflow: scroll !important;
 					<div class="tipfont">您还可以输入<span id="processSuggestionTips"><font size="5">500</font></span>个字符!</div>						
 				</td>
 				
-			</tr>
+			</tr> -->
 			
 		
-			<tr ng-hide="vm.isYearPlan || vm.isMonthReport ||vm.isComplete">
+			<!-- <tr ng-hide="vm.isYearPlan || vm.isMonthReport ||vm.isComplete">
 			<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
 			<td>
 				<div>
@@ -213,15 +203,15 @@ overflow: scroll !important;
 				<td >
 					<button ng-hide="!vm.isYearPlan" ng-click="vm.handle(vm.processState_qianShou)" class="btn btn-success btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-ok"></span>签收</button> 
 					<button ng-hide="!vm.isYearPlan" ng-click="vm.handle(vm.processState_tuiWen)" class="btn btn-danger btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-remove"></span>退文</button>				
-					<!-- <button ng-hide="vm.isYearPlan" ng-click="vm.handle(vm.processState_next)" class="btn btn-info btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-share-alt"></span>下一流程</button>				
-					<button ng-hide="vm.isYearPlan" ng-click="vm.handle(vm.processState_tuiHuiJingBan)" class="btn btn-danger btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-minus-sign"></span>退回经办人</button>				 -->
+					<button ng-hide="vm.isYearPlan" ng-click="vm.handle(vm.processState_next)" class="btn btn-info btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-share-alt"></span>下一流程</button>				
+					<button ng-hide="vm.isYearPlan" ng-click="vm.handle(vm.processState_tuiHuiJingBan)" class="btn btn-danger btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-minus-sign"></span>退回经办人</button>				
 					<button ng-hide="vm.isYearPlan" ng-click="vm.handle()" class="btn btn-danger btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-remove"></span>退文</button>		
 					<button ng-hide="vm.isYearPlan" ng-click="vm.handle()" class="btn btn-info btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-share-alt"></span>送出</button>
 					<button ng-hide="vm.isYearPlan" ng-click="vm.handle(vm.processState_banJie)" class="btn btn-success btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-ok"></span>办结</button>		
 				</td>
 				
 			</tr>						
-		</table>
+		</table> -->
   		
     </form>   
 </div>
