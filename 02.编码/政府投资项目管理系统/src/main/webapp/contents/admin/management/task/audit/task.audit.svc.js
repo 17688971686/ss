@@ -39,7 +39,7 @@
 				},
 				change:function(){
 					var grid = $(".grid").data("kendoGrid");
-					window.todo_audit = grid.getOptions();
+					window.todo_auditOption = grid.getOptions();
 				}
 			});
 			// End:dataSource
@@ -63,7 +63,7 @@
 						title : "标题",						
 						filterable : true,
 						template:function(item){
-							return common.format("<a href='#/taskAudit/todo/{1}/{2}/{3}'>{0}</a>",item.title,item.taskAuditType,item.id,item.relId);			
+							return common.format("<a href='#/task/handle_audit/{1}/{2}/{3}'>{0}</a>",item.title,item.taskType,item.id,item.relId);			
 						}
 					},
 					 {
@@ -112,8 +112,8 @@
 			];
 			// End:column
 			
-			if(window.todo_audit){
-				vm.gridOptions = vm.gridOptions;
+			if(window.todo_auditOption && window.todo_auditOption !=''){
+				vm.gridOptions = window.todo_auditOption;
 			}else{
 				vm.gridOptions = {
 						dataSource : common.gridDataSource(dataSource),
