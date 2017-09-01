@@ -16,7 +16,12 @@
     	vm.basicData={};
     	vm.page="todoAuditList";
 
-    	function init(){  		
+    	function init(){
+    		
+    		if($state.current.name=='task_handle_audit'){//处理页面
+    			vm.page="handleAudit";
+    		}
+    		
     		vm.formatDate=function(str){
     			return common.formatDate(str);
     		}; 		
@@ -44,6 +49,9 @@
         	if(vm.page=='todoAuditList'){
         		init_todoAuditList();
         	}
+        	if(vm.page=='handleAudit'){
+        		init_handleAudit();
+        	}
         }
         
         function init_todoAuditList(){
@@ -68,5 +76,9 @@
         		location.reload();
         	};
         }//end init_todoList
+        
+        function init_handleAudit(){
+        	
+        }//end init_handleAudit
     }
 })();
