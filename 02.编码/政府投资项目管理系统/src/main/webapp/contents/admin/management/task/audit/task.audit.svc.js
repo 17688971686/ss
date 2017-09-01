@@ -7,10 +7,67 @@
 
 	function taskAudit($http,$location) {
 		var url_taskAudit = "/management/task/audit";
+		var url_shenbao = "/management/shenbao";
 		var service = {
-			grid : grid//待办任务列表
+			grid : grid,//待办任务列表
+			getTaskInfoById:getTaskInfoById,//查询任务信息
+			getShenBaoInfoById:getShenBaoInfoById//查询申报信息
 		};
 		return service;
+		
+		/**
+		 * 查询任务信息
+		 */
+		function getTaskInfoById(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_taskAudit + "?$filter=id eq '{0}'", vm.taskId)
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.taskAudit = response.data.value[0] || {};
+					}
+				});
+			};
+				
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}
+		
+		/**
+		 * 查询申报信息
+		 */
+		function getShenBaoInfoById(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_shenbao + "?$filter=id eq '{0}'", vm.taskId)
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.model.shenBaoInfo = response.data.value[0] || {};
+					}
+				});
+			};
+				
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}
 		
 		// begin#grid
 		function grid(vm) {
