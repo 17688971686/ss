@@ -6,7 +6,7 @@
 	taskAudit.$inject = [ '$http' ,'$location'];
 
 	function taskAudit($http,$location) {
-		var url_taskAudit = "/management/taskAudit";
+		var url_taskAudit = "/management/task/audit";
 		var service = {
 			grid : grid//待办任务列表
 		};
@@ -94,7 +94,7 @@
 						width : 180,						
 						filterable : false,
 						template:function(item){						
-							return common.getBasicDataDesc(item.taskAuditType);
+							return common.getBasicDataDesc(item.taskType);
 						}
 					},
 					{

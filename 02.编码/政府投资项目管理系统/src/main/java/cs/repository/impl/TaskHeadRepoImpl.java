@@ -1,22 +1,9 @@
 package cs.repository.impl;
 
-import java.util.List;
-
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Conjunction;
-import org.hibernate.criterion.Disjunction;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Property;
-import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import cs.common.ICurrentUser;
 import cs.domain.TaskHead;
-import cs.domain.framework.User;
-import cs.repository.odata.ODataObj;
-import cs.service.framework.UserService;
-import cs.service.interfaces.TaskHeadService;
+
 
 
 
@@ -29,54 +16,5 @@ import cs.service.interfaces.TaskHeadService;
 @Repository
 public class TaskHeadRepoImpl extends AbstractRepository<TaskHead, String> {
 	
-	@Autowired
-	private ICurrentUser currentUser;
-	@Autowired
-	private UserService userServiceImpl;
-	@Autowired
-	private TaskHeadService taskHeadServiceImpl;
-
-
-
-	public  List<TaskHead> findByOdata2(ODataObj odataObj) {
-
-		Criteria crit = this.getSession().createCriteria(TaskHead.class);
-		Disjunction dis = Restrictions.disjunction();
-		Conjunction con = Restrictions.conjunction();
-		User user = userServiceImpl.findUserByName(currentUser.getLoginName());
-		TaskHead taskHead = super.findAll().get(0);
-		user.getRoles().forEach(x->{
-			if(taskHead.getProcessRole() == x.getRoleName()){
-				con.add(Restrictions.eq("processRole", x.getRoleName()));
-			}
-		});
-		con.add(Restrictions.eq("nextUser", currentUser.getLoginName()));
-
-		//begin:page
-		//count
-		if(odataObj.getIsCount()){	
-					
-			Integer totalResult = ((Number)crit.setProjection(Projections.rowCount()).uniqueResult()).intValue();
-			odataObj.setCount(totalResult);
-			crit.setProjection(null);
-		}
-	
-		if (odataObj.getTop() != 0) {
-			crit.setFirstResult(odataObj.getSkip());
-			crit.setMaxResults(odataObj.getTop());
-		}
-		
-		if (odataObj.getOrderby() != null && !odataObj.getOrderby().isEmpty()) {
-			if (odataObj.isOrderbyDesc()) {
-				crit.addOrder(Property.forName(odataObj.getOrderby()).desc());
-			} else {
-				crit.addOrder(Property.forName(odataObj.getOrderby()).asc());
-			}
-		}		
-		//end:page
-		crit.add(con);
-		
-		return crit.list();
-	}
 
 }

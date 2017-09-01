@@ -38,8 +38,8 @@ public class TaskController {
 	@RequestMapping(name = "获取所有任务", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<TaskHeadDto> getToDo(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);	
-		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.getTask(odataObj);
-
+//		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.get(odataObj);
+		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.getTask_yearPlan(odataObj);
 		return taskHeadDtos;
 	}
 	
