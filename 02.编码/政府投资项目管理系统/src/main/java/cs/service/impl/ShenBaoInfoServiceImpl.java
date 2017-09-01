@@ -227,6 +227,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
 		//设置申报信息的状态
 		entity.setProcessState(BasicDataConfig.processState_tianBao);
+		entity.setProcessRole(BasicDataConfig.processRole);
 		super.repository.save(entity);
 		//初始化工作流
 		initWorkFlow(entity,false);
@@ -456,6 +457,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskHead.setNextUser(startUser);//设置下一处理人
 		taskHead.setRelId(shenBaoInfo.getId());//设置关联的id
 		taskHead.setProcessState(BasicDataConfig.processState_tianBao);//设置工作流的状态
+		taskHead.setProcessRole(BasicDataConfig.processRole);
+		taskHead.setProcessSuggestion("材料填报");//设置处理意见
 		taskHead.setTaskType(this.getTaskType(shenBaoInfo.getProjectShenBaoStage()));//设置工作流的类型
 		taskHead.setUnitName(shenBaoInfo.getConstructionUnit());//设置建设单位
 		taskHead.setProjectIndustry(shenBaoInfo.getProjectIndustry());//设置项目行业
@@ -476,6 +479,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskRecord.setRelId(taskHead.getRelId());//设置关联id
 		taskRecord.setTaskId(taskHead.getId());//设置任务Id
 		taskRecord.setProcessState(taskHead.getProcessState());//设置工作流的状态
+		taskRecord.setProcessRole(BasicDataConfig.processRole);
 		taskRecord.setTaskType(taskHead.getTaskType());//设置工作流的类型
 		taskRecord.setProcessSuggestion(taskHead.getProcessSuggestion());//设置处理意见
 		taskRecord.setUnitName(taskHead.getUnitName());//设置建设单位

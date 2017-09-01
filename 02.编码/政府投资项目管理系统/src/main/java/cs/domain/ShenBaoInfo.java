@@ -132,6 +132,8 @@ public class ShenBaoInfo extends BaseProject{
 	//begin#审批相关
 	@Column(columnDefinition="varchar(500) NULL COMMENT '审批状态'")
 	private String processState;
+	@Column(columnDefinition="varchar(500) NULL COMMENT '审批角色'")
+	private String processRole;
 	//end
 	
 	//begin#建议书相关
@@ -495,6 +497,12 @@ public class ShenBaoInfo extends BaseProject{
 	}
 	public void setCapitalAP_qita_LastTwoYear(Double capitalAP_qita_LastTwoYear) {
 		this.capitalAP_qita_LastTwoYear = capitalAP_qita_LastTwoYear;
+	}
+	public String getProcessRole() {
+		return processRole;
+	}
+	public void setProcessRole(String processRole) {
+		this.processRole = processRole;
 	}
 	public String getConstructionUnit() {
 		return constructionUnit;

@@ -39,6 +39,9 @@ public class TaskHead extends BaseEntity {
 	@Column(columnDefinition="varchar(255) NULL COMMENT '处理状态'")
 	private String processState;
 	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '审批角色'")
+	private String processRole;
+	
 	@Column(columnDefinition="bit NULL COMMENT '是否完成'")
 	private boolean isComplete;
 	//begin#添加筛选字段
@@ -138,6 +141,14 @@ public class TaskHead extends BaseEntity {
 
 	public void setUnitName(String unitName) {
 		this.unitName = unitName;
+	}
+
+	public String getProcessRole() {
+		return processRole;
+	}
+
+	public void setProcessRole(String processRole) {
+		this.processRole = processRole;
 	}
 	
 	
