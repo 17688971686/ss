@@ -72,12 +72,10 @@
 							<tr>
 								<td>公共预算</td>
 								<td>国土基金</td>
-								<!-- <td>其他</td> -->
 							</tr>
 							<tr>
 								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalAP_ggys_TheYear"  /></td>
 								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalAP_gtzj_TheYear"  /></td>
-								<!-- <td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalAP_qita"  /></td> -->
 							</tr>
 						</table>
 					</td>
@@ -135,8 +133,8 @@
 							</tr>
 							<tr>
 								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalSCZ_ggys_LastYear" /></td>
-								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.shenBaoInfo.capitalSCZ_gtzj_LastYear"  /></td>
-								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.shenBaoInfo.capitalSCZ_qita_LastYear" /></td>
+								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalSCZ_gtzj_LastYear"  /></td>
+								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalSCZ_qita_LastYear" /></td>
 							</tr>
 						</table>
 					</td>
@@ -165,6 +163,14 @@
 					</td>
 				</tr>
 			</table>
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">年度建设内容：</td>
+		<td colspan="3">
+			<textarea rows="3" cols="20" maxlength="500" style="height:121px;width: 99%;" id="yearConstructionContentLastYear" name="yearConstructionContentLastYear" ng-model="vm.model.shenBaoInfo.yearConstructionContentLastYear"
+				placeholder="请简要概述年度计划建设的内容：备注（500字符以内）"  ng-change="vm.checkLength(vm.model.shenBaoInfo.yearConstructionContentLastYear,500,'yearConstructionContentLastYearTips')"></textarea>
+			<div class="tipfont">您还可以输入<span id="yearConstructionContentLastYearTips"><font size="5">500</font></span>个字符!</div>
 		</td>
 	</tr>
 </table>
