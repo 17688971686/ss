@@ -149,16 +149,17 @@ desired effect
 								class="fa fa-angle-left pull-right"></i>
 						</span>
 					</a>
-						<ul class="treeview-menu">
-							
-							
-							
+				<ul class="treeview-menu">
 					<li><a href="#/task/todo">个人待办
 						 <span id="todoNumber" class="label label-danger" style="font-size:9px;padding:0px 5px;"></span>
 						</a></li>
+					<li>
+						<a href="javascript:void(0)" ui-sref="task_todo_audit">个人待办(审批类)
+							<span id="todoNumber_audit" class="label label-danger" style="font-size:9px;padding:0px 5px;"></span>
+						</a>
+					</li>
 					<li><a href="javascript:void(0)" ui-sref="task_complete">个人已办 </a> </li>
-										
-						</ul>
+				</ul>
 						
 					</li>
 					
@@ -389,6 +390,9 @@ desired effect
 	<!-- task -->
 	<script src="/contents/admin/management/task/task.ctrl.js"></script>
 	<script src="/contents/admin/management/task/task.svc.js"></script>
+	<!-- task_audit -->
+	<script src="/contents/admin/management/task/audit/task.audit.ctrl.js"></script>
+	<script src="/contents/admin/management/task/audit/task.audit.svc.js"></script>
 	<!-- mediationManagement -->
 	<script src="/contents/admin/management/mediationManagement/mediationManagement.ctrl.js"></script>
 	<script src="/contents/admin/management/mediationManagement/mediationManagement.svc.js"></script>

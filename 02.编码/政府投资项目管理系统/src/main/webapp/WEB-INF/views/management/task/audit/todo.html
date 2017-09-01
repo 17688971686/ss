@@ -1,0 +1,14 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+<div class="well well-sm" style="background:white;">
+	  <ol class="breadcrumb">
+		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		  <li><a href="#/">首页</a></li>
+		  <li>我的工作台</li>	    
+	      <li class="active">待办列表--审批类</li>
+	  </ol>
+	 
+     <form id="form" name="form">          
+         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+    </form>
+</div>

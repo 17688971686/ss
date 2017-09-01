@@ -76,5 +76,11 @@ public class TaskController {
 	public String handle() {
 		return ctrl + "/handle";
 	}
+	
+	@RequiresPermissions("management/task#html/todo_audit#get")
+	@RequestMapping(name = "待办列表页--审批类", path = "html/todo_audit", method = RequestMethod.GET)
+	public String todo_audit() {
+		return ctrl + "/audit/todo";
+	}
 
 }

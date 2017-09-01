@@ -247,6 +247,13 @@
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //待办列表页--审批类
+	            .state('task_todo_audit', {
+	            url: '/task/todo_audit',
+	            templateUrl: '/management/task/html/todo_audit',
+	            controller: 'taskAuditCtrl',
+	            controllerAs: 'vm'
+	        })
 	        //任务处理页
 	        .state('task_handle', {
 	            url: '/task/todo/:taskType/:taskId/:relId',
