@@ -36,6 +36,10 @@
 				},
 				requestEnd:function(e){						
 					$('#todoNumber_audit').html(e.response.count);
+				},
+				change:function(){
+					var grid = $(".grid").data("kendoGrid");
+					window.todo_audit = grid.getOptions();
 				}
 			});
 			// End:dataSource
@@ -79,9 +83,7 @@
 							 ui: function(element){
 			                        element.kendoDropDownList({
 			                            valuePrimitive: true,
-			                            dataSource: $linq(common.getBasicData())
-			             	       					.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
-			             	       					.toArray(),
+			                            dataSource: vm.basicData.projectIndustry_ZF,
 			                            dataTextField: "description",
 			                            dataValueField: "id"
 			                        });
@@ -89,7 +91,7 @@
 						}
 					},
 					 {
-						field : "taskAuditType",
+						field : "taskType",
 						title : "任务类型",
 						width : 180,						
 						filterable : false,
@@ -109,16 +111,19 @@
 
 			];
 			// End:column
-
-			vm.gridOptions = {
-				dataSource : common.gridDataSource(dataSource),
-				filterable : common.kendoGridConfig().filterable,
-				pageable : common.kendoGridConfig().pageable,
-				noRecords : common.kendoGridConfig().noRecordMessage,
-				columns : columns,
-				resizable : true
-			};
-
+			
+			if(window.todo_audit){
+				vm.gridOptions = vm.gridOptions;
+			}else{
+				vm.gridOptions = {
+						dataSource : common.gridDataSource(dataSource),
+						filterable : common.kendoGridConfig().filterable,
+						pageable : common.kendoGridConfig().pageable,
+						noRecords : common.kendoGridConfig().noRecordMessage,
+						columns : columns,
+						resizable : true
+					};
+			}
 		}// end fun grid
 	}	
 })();
