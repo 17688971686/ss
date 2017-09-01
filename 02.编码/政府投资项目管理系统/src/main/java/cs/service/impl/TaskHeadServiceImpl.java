@@ -126,13 +126,13 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			dto.setTitle(taskHead.getTitle());
 			dto.setUnitName(taskHead.getUnitName());
 			dto.setProjectIndustry(taskHead.getProjectIndustry());
-			dto.setCreatedBy(currentUser.getLoginName());//设置创建人(这是重点)
-			dto.setModifiedBy(currentUser.getLoginName());
+			dto.setCreatedBy(currentUser.getUserId());
+			dto.setModifiedBy(currentUser.getUserId());
 			//判断任务是否完成
 			String processState = dto.getProcessState();
 			if(isComplete(processState)){//如果已完成
 				taskHead.setComplete(true);		
-				//dto.setNextUser(taskHead.getCreatedBy());//设置流程的下一处理人为之前任务的创建人
+				dto.setNextUser(taskHead.getCreatedBy());//设置流程的下一处理人为之前任务的创建人
 			}else{//如果没有完成 TODO
 				
 			}
@@ -140,7 +140,6 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			taskHead.getTaskRecords().add(entity);
 			//更新任务
 			taskHead.setProcessState(processState);//状态
-			taskHead.setNextUser(dto.getNextUser());
 			taskHead.setProcessSuggestion(dto.getProcessSuggestion());//处理意见
 			
 			//设置相应信息的状态

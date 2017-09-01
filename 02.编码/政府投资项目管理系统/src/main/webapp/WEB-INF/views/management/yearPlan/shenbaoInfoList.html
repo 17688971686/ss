@@ -30,7 +30,7 @@
 	  			</tr>
 	  			<tr>
 	  				<td class="formAlignRight">建设单位：</td>
-	  				<td><input type="text" style="width:360px;" placeholder="请输入单位名称（可少输不可输错）" ng-model="vm.search.unitName"/></td>
+	  				<td><input type="text" style="width:360px;" placeholder="请输入单位名称（可少输不可输错）" ng-model="vm.search.constructionUnit"/></td>
 	  				<td class="formAlignRight">审核状态：</td>
 	  				<td>
 	  					<select style="height:30px;" ng-model="vm.search.auditState">
@@ -55,6 +55,7 @@
 	  </div>
 	  
 	  <div class="toolbar">
+	  	<a class="btn btn-primary btn-sm" ng-click="vm.addShenBaoInfo()"><span class="glyphicon glyphicon-plus"></span>添加年度计划</a>
 	  	<button class="btn btn-primary btn-sm" ng-click="vm.grid.saveAsExcel()"><span class="glyphicon glyphicon-download-alt"></span> 导出Excel</button>
 	  </div> 
 	  </div>

@@ -38,15 +38,10 @@
 	  			return common.getBasicDataDesc(str);
 	  			};	   
 	   	   vm.taskType_yearPlan=common.basicDataConfig().taskType_yearPlan;
-	   	   vm.taskType_monthReport=common.basicDataConfig().taskType_monthReport;	
-	   	   vm.taskType_JYS = common.basicDataConfig().taskType_JYS;
-	   	   vm.taskType_KXXYJBG=common.basicDataConfig().taskType_KXXYJBG;
-	   	   vm.taskType_CBSJYGS = common.basicDataConfig().taskType_CBSJYGS;
-	   	   vm.taskType_qianQi = common.basicDataConfig().taskType_qianQi;
-	   	   vm.taskType_newStart=common.basicDataConfig().taskType_newStart;
-	   	   vm.taskType_xuJian = common.basicDataConfig().taskType_xuJian;
+	   	   vm.taskType_monthReport=common.basicDataConfig().taskType_monthReport;	   	   	   	      	   
        }
 
+              
         activate();
         function activate() {
         	init();

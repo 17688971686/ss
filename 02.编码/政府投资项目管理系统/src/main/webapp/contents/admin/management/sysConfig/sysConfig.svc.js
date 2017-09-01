@@ -23,7 +23,7 @@
 		return service;
 
 		/**
-		 * 初始化任务签收人
+		 * 获取所有需要的系统配置
 		 */
 		function getSysConfigs(vm){
 			var httpOptions = {
@@ -34,8 +34,8 @@
 			
 			var httpSuccess = function success(response) {
 				vm.userTaskList = response.data;//所有的配置
-				for (var j = 0; j < vm.userTaskList.length; j++) {
-					for (var i = 0; i < vm.model.taskList.length; i++) {
+				for (var j = 0; j < vm.userTaskList.length; j++) {//循环所有的配置
+					for (var i = 0; i < vm.model.taskList.length; i++) {//循环所有的任务
 						if(vm.userTaskList[j].configName == vm.model.taskList[i].id && vm.userTaskList[j].configType ==common.basicDataConfig().taskType){
 							if(vm.userTaskList[j].configName == common.basicDataConfig().taskType_monthReport 
 									|| vm.userTaskList[j].configName == common.basicDataConfig().taskType_yearPlan||
@@ -49,7 +49,8 @@
 									
 							){//如果为月报、下一年度计划系统配置
 								vm.model.taskList[i].taskUser = vm.userTaskList[j].configValue;
-							}else if(vm.userTaskList[j].configName == common.basicDataConfig().taskType_sendMesg){//如果为发送短信系统配置
+							}else if(vm.userTaskList[j].configName == common.basicDataConfig().taskType_sendMesg 
+									|| vm.userTaskList[j].configName == common.basicDataConfig().taskType_shenBao){//如果为发送短信系统配置或申报端口配置
 								vm.model.taskList[i].taskEnable = vm.userTaskList[j].enable;
 							}
 						}

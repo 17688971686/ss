@@ -74,7 +74,7 @@ public class RoleServiceImpl implements RoleService {
 			role.setComment(roleDto.getComment());
 			role.setRoleName(roleDto.getRoleName());
 			role.setId(UUID.randomUUID().toString());
-			role.setCreatedBy(currentUser.getLoginName());
+			role.setCreatedBy(currentUser.getUserId());
 			// resource
 			for (ResourceDto resourceDto : roleDto.getResources()) {
 				Resource resource = new Resource();
@@ -96,7 +96,7 @@ public class RoleServiceImpl implements RoleService {
 	public void updateRole(RoleDto roleDto) {
 		Role role = roleRepository.findById(roleDto.getId());
 		role.setComment(roleDto.getComment());
-		role.setModifiedBy(currentUser.getLoginName());
+		role.setModifiedBy(currentUser.getUserId());
 
 		//清除已有resource
 		role.getResources().clear();

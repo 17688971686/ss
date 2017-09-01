@@ -2,8 +2,15 @@
 <table class="table table-bordered table-striped ">
 		<tr>
 			<td class="formAlignRight" style="width:150px;">项目建设性质：</td>
-			<td colspan="3">
+			<td>
 				<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectConstrChar)"></span>				
+			</td>
+			<td class="formAlignRight" style="width:150px;">建设单位名称：</td>
+			<td>
+				<div ng-repeat="x in vm.constructionUnits">
+					<span>单位{{$index+1}}：</span>
+					<span class="text-primary" ng-bind="vm.constructionUnits[$index]"/></span>
+				</div>
 			</td>
 		</tr>
 		
@@ -12,9 +19,9 @@
 			<td>
 				<span id="projectInvestSum" name="projectInvestSum" ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:4"></span>&nbsp;(万元)
 			</td>
-			<td class="formAlignRight">累计投资：</td>
+			<td class="formAlignRight">累计安排投资：</td>
 			<td>
-				<span id="projectInvestAccuSum" name="projectInvestAccuSum" ng-bind="vm.model.shenBaoInfo.projectInvestAccuSum | number:4"></span>&nbsp;(万元)			
+				<span ng-bind="vm.model.shenBaoInfo.apInvestSum | number:4"></span>&nbsp;(万元)			
 			</td>
 		</tr>
 		<tr>

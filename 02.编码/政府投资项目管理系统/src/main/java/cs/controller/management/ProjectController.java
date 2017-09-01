@@ -15,10 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
 import cs.domain.Project;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ProjectDto;
@@ -38,6 +36,15 @@ public class ProjectController {
 	public @ResponseBody PageModelDto<ProjectDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);
+		return ProjectDtos;
+	}
+	
+	@RequiresPermissions("management/project#unitName#get")
+	@RequestMapping(name = "获取项目信息--可查看单位名称", path = "unitName",method=RequestMethod.GET)
+	public @ResponseBody PageModelDto<ProjectDto> getProjectAndUnitName(HttpServletRequest request) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);
+		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);
+//		PageModelDto<ProjectDto> ProjectDtos = ProjectService.Get(odataObj);
 		return ProjectDtos;
 	}
 	

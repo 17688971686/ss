@@ -51,8 +51,7 @@ public class TaskHeadRepoImpl extends AbstractRepository<TaskHead, String> {
 			}
 		});
 		con.add(Restrictions.eq("nextUser", currentUser.getLoginName()));
-//		dis.add(Restrictions.eq("nextUser", currentUser.getLoginName()));
-//		dis.add(Restrictions.eq("nextUser", ""));
+
 		//begin:page
 		//count
 		if(odataObj.getIsCount()){	

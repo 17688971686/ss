@@ -22,7 +22,7 @@ import cs.repository.odata.ODataObj;
 import cs.service.framework.OrgService;
 
 @Controller
-@RequestMapping(name = "后台管理--部门管理", path = "org")
+@RequestMapping(name = "部门", path = "org")
 public class OrgController {
 	private String ctrlName = "framework/org";
 	@Autowired
@@ -33,6 +33,7 @@ public class OrgController {
 	public @ResponseBody PageModelDto<OrgDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<OrgDto> orgDtos = orgService.get(odataObj);
+
 		return orgDtos;
 	}
 

@@ -2,12 +2,23 @@
 <table class="table table-bordered table-striped ">
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目建设性质：<span class="required">(*)</span></td>
-		<td colspan="3">
+		<td>
 			<select style="height:30px;" id="projectConstrChar" name="projectConstrChar" ng-model="vm.model.projectConstrChar" data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.projectConstrChar" value="{{x.id}}">{{x.description}}</option>
 			</select>
 			<span data-valmsg-for="projectConstrChar" data-valmsg-replace="true" class="required"></span>
+		</td>
+		<td class="formAlignRight" style="width:150px;">建设单位名称：</td>
+		<td>
+			<div>
+				<div ng-repeat="x in vm.model.constructionUnit track by $index">
+					<span>单位{{$index+1}}：</span>
+					<input class="form-control input-sm" type="text" style="width:300px;" placeholder="请输入单位名称" ng-model="vm.model.constructionUnit[$index]"/>&nbsp;&nbsp;
+					<input class='btn btn-xs btn-danger' type='button' ng-click='vm.deleteUnit($index)' value='删除单位' ng-disabled="!vm.canDelete"/>
+				</div>
+			</div>
+			<button class="btn btn-info btn-xs pull-right" ng-click="vm.addUnit()">添加单位</button>
 		</td>
 	</tr>
 	<tr>
@@ -16,10 +27,10 @@
 			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>			
 		</td>
-		<td class="formAlignRight">累计完成投资：<span class="required">(*)</span></td>
+		<td class="formAlignRight">累计安排投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.projectInvestAccuSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
-			<span data-valmsg-for="projectInvestAccuSum" data-valmsg-replace="true" class="required"></span>			
+			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="apInvestSum" name="apInvestSum" ng-model="vm.model.apInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<span data-valmsg-for="apInvestSum" data-valmsg-replace="true" class="required"></span>			
 		</td>
 	</tr>
 	<tr>

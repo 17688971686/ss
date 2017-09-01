@@ -27,6 +27,7 @@ import cs.domain.framework.Resource;
 import cs.domain.framework.Role;
 import cs.domain.framework.Role_;
 import cs.domain.framework.SysConfig;
+import cs.domain.framework.SysConfig_;
 import cs.domain.framework.User;
 import cs.model.DomainDto.SysConfigDto;
 import cs.model.DtoMapper.IMapper;
@@ -167,13 +168,15 @@ public class SysServiceImpl implements SysService{
 		user.setDisplayName("超级管理员");
 		user.getRoles().add(role);
 		userRepo.save(user);
+
 		//初始化建设单位用户信息和单位信息
-		String[] userNames = {"党工委管委会","组织人事局","社会建设局","城市管理局","光明供电局",
-								"文体教育局","光明交通运输局","城市建设局","发展和财政局","卫生计生局",
+		String[] userNames = {"党工委管委会","组织人事局","统战和社会建设局","城市管理局","光明供电局",
+								"文体教育局","光明交通运输局","住房和建设局","发展和财政局","卫生计生局",
 								"光明公安分局","环境保护和水务局","经济服务局","纪检监察局","市规划和国土资源委员会光明管理局",
 								"综合办","公明办事处","光明办事处","马田办事处","凤凰办事处",
-								"公共资源交易中心","深圳市光明新区城市发展促进中心","机关后勤服务中心","土地整备中心","建筑工务和土地开发中心",
+								"公共资源交易中心","城市发展促进中心","机关后勤服务中心","土地整备中心","建设管理服务中心",
 								"光明消防大队","光明现役消防支队光明新区大队","规划土地监察大队","深水光明","经发公司"};
+		
 		for(String userName : userNames){
 			User unitUser = new User();
 			unitUser.setId(UUID.randomUUID().toString());
@@ -187,7 +190,7 @@ public class SysServiceImpl implements SysService{
 			UserUnitInfo userUnitInfo = new UserUnitInfo();
 			userUnitInfo.setId(UUID.randomUUID().toString());
 			userUnitInfo.setUnitName(userName);
-			userUnitInfo.setUserName(userName);
+			userUnitInfo.setUserName(unitUser.getId());
 			userUnitInfo.setRemark("系统初始化创建");
 			userUnitInfoRepo.save(userUnitInfo);
 		}
@@ -421,17 +424,19 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("projectProgress_3","projectProgress" , "projectProgress", "进展大幅滞后于计划", "项目进度分类");
 		
 		this.createBasicData("projectShenBaoStage","" , "projectShenBaoStage", "项目申报阶段分类", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_1","projectShenBaoStage" , "projectShenBaoStage", "前期计划", "项目申报阶段分类",4);
-//		this.createBasicData("projectShenBaoStage_2","projectShenBaoStage" , "projectShenBaoStage", "规划设计前期费", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_3","projectShenBaoStage" , "projectShenBaoStage", "新开工计划", "项目申报阶段分类",5);
-		this.createBasicData("projectShenBaoStage_4","projectShenBaoStage" , "projectShenBaoStage", "续建计划", "项目申报阶段分类",6);
+//		this.createBasicData("projectShenBaoStage_1","projectShenBaoStage" , "projectShenBaoStage", "前期计划(前期费)", "项目申报阶段分类");
+
+		this.createBasicData("projectShenBaoStage_1","projectShenBaoStage" , "projectShenBaoStage", "项目建议书", "项目申报阶段分类",1,false);
+		this.createBasicData("projectShenBaoStage_2","projectShenBaoStage" , "projectShenBaoStage", "可行性研究报告", "项目申报阶段分类",2,false);
+		this.createBasicData("projectShenBaoStage_3","projectShenBaoStage" , "projectShenBaoStage", "初步设计概算", "项目申报阶段分类",3,false);
+		this.createBasicData("projectShenBaoStage_4","projectShenBaoStage" , "projectShenBaoStage", "规划设计前期费", "项目申报阶段分类",4,false);
+		this.createBasicData("projectShenBaoStage_5","projectShenBaoStage" , "projectShenBaoStage", "新开工计划", "项目申报阶段分类",5,false);
+		this.createBasicData("projectShenBaoStage_6","projectShenBaoStage" , "projectShenBaoStage", "续建计划", "项目申报阶段分类",6,false);
+		this.createBasicData("projectShenBaoStage_7","projectShenBaoStage" , "projectShenBaoStage", "下一年度计划", "项目申报阶段分类",7,false);
+		this.createBasicData("projectShenBaoStage_8","projectShenBaoStage" , "projectShenBaoStage", "竣工决算", "项目申报阶段分类",8,false);
+		this.createBasicData("projectShenBaoStage_9","projectShenBaoStage" , "projectShenBaoStage", "资金申请报告", "项目申报阶段分类",9,false);
 //		this.createBasicData("projectShenBaoStage_5","projectShenBaoStage" , "projectShenBaoStage", "委托审计", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_6","projectShenBaoStage" , "projectShenBaoStage", "竣工决算", "项目申报阶段分类",8);
-		this.createBasicData("projectShenBaoStage_7","projectShenBaoStage" , "projectShenBaoStage", "下一年度计划", "项目申报阶段分类",7);
 //		this.createBasicData("projectShenBaoStage_8","projectShenBaoStage" , "projectShenBaoStage", "年度调整计划", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_9","projectShenBaoStage" , "projectShenBaoStage", "项目建议书", "项目申报阶段分类",1);
-		this.createBasicData("projectShenBaoStage_10","projectShenBaoStage" , "projectShenBaoStage", "可行性研究报告", "项目申报阶段分类",2);
-		this.createBasicData("projectShenBaoStage_11","projectShenBaoStage" , "projectShenBaoStage", "初步设计概算", "项目申报阶段分类",3);
 //		this.createBasicData("projectShenBaoStage_12","projectShenBaoStage" , "projectShenBaoStage", "核准", "项目申报阶段分类");
 //		this.createBasicData("projectShenBaoStage_13","projectShenBaoStage" , "projectShenBaoStage", "备案", "项目申报阶段分类");
 		
@@ -503,13 +508,10 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("projectStage_5","projectStage" , "projectStage", "竣工阶段", "",false);
 		this.createBasicData("projectStage_6","projectStage" , "projectStage", "固定资产登记阶段", "",false);
 		
+		//审批流程
 		this.createBasicData("processState","" , "processState", "处理状态", "处理状态",false);		
 		this.createBasicData("processState_1","processState" , "processState", "已填报/等待签收", "",false);
 		this.createBasicData("processState_2","processState" , "processState", "已签收", "",false);
-		
-		
-		//審批流程
-		//this.createBasicData("processState_20","processState" , "processState", "申报", "",false);
 		this.createBasicData("processState_3","processState" , "processState", "秘书科分办", "",false);
 		this.createBasicData("processState_4","processState" , "processState", "科长分办", "",false);
 		this.createBasicData("processState_5","processState" , "processState", "经办人初审", "",false);
@@ -518,6 +520,12 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("processState_8","processState" , "processState", "局长审批", "",false);
 		this.createBasicData("processState_9","processState" , "processState", "经办人送审", "",false);
 		this.createBasicData("processState_10","processState" , "processState", "评审中心评审", "",false);
+		this.createBasicData("processState_11","processState" , "processState", "已办结", "",false);
+		this.createBasicData("processState_12","processState" , "processState", "协办", "",false);
+		this.createBasicData("processState_13","processState" , "processState", "结束协办", "",false);
+		this.createBasicData("processState_14","processState" , "processState", "退回重办", "",false);
+		this.createBasicData("processState_15","processState" , "processState", "已退文", "",false);
+		this.createBasicData("processState_16","processState" , "processState", "下一流程处理中", "",false);
 		this.createBasicData("processState_17","processState" , "processState", "经办人拟稿", "",false);
 		this.createBasicData("processState_18","processState" , "processState", "科长核稿", "",false);
 		this.createBasicData("processState_19","processState" , "processState", "秘书科核稿", "",false);
@@ -526,27 +534,19 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("processState_22","processState" , "processState", "秘书科发文登记", "",false);
 		this.createBasicData("processState_23","processState" , "processState", "结束审批", "",false);
 		
-		this.createBasicData("processState_11","processState" , "processState", "已办结", "",false);
-		this.createBasicData("processState_12","processState" , "processState", "协办", "",false);
-		this.createBasicData("processState_13","processState" , "processState", "结束协办", "",false);
-		this.createBasicData("processState_14","processState" , "processState", "退回重办", "",false);
-		this.createBasicData("processState_15","processState" , "processState", "已退文", "",false);
-		this.createBasicData("processState_16","processState" , "processState", "下一流程处理中", "",false);
-
 		this.createBasicData("taskType","" , "taskType", "任务类型", "任务类型",false);		
 		this.createBasicData("taskType_1","taskType" , "taskType", "月报填报", "",false);
 		this.createBasicData("taskType_2","taskType" , "taskType", "下一年度计划", "",false);
 		this.createBasicData("taskType_3","taskType" , "taskType", "是否发送短信", "",false);
+		this.createBasicData("taskType_4","taskType" , "taskType", "是否打开申报端口", "",false);
+		this.createBasicData("taskType_5","taskType" , "taskType", "项目建议书", "",false);
+		this.createBasicData("taskType_6","taskType" , "taskType", "可行性研究报告", "",false);
+		this.createBasicData("taskType_7","taskType" , "taskType", "初步设计与概算", "",false);
+		this.createBasicData("taskType_8","taskType" , "taskType", "前期计划", "",false);
+		this.createBasicData("taskType_9","taskType" , "taskType", "新开工计划", "",false);
+		this.createBasicData("taskType_10","taskType" , "taskType", "续建计划", "",false);
+		this.createBasicData("taskType_11","taskType" , "taskType", "竣工决算", "",false);
 
-		this.createBasicData("taskType_4","taskType" , "taskType", "项目建议书", "",false);
-		this.createBasicData("taskType_5","taskType" , "taskType", "可行性研究报告", "",false);
-		this.createBasicData("taskType_6","taskType" , "taskType", "初步设计与概算", "",false);
-		this.createBasicData("taskType_7","taskType" , "taskType", "前期计划", "",false);
-		this.createBasicData("taskType_8","taskType" , "taskType", "新开工计划", "",false);
-		this.createBasicData("taskType_9","taskType" , "taskType", "续建计划", "",false);
-		this.createBasicData("taskType_10","taskType" , "taskType", "竣工决算", "",false);
-
-		
 		this.createBasicData("auditState","" , "auditState", "审核状态", "审核状态",false);
 		this.createBasicData("auditState_1","auditState" , "auditState", "未审核", "",false);
 		this.createBasicData("auditState_2","auditState" , "auditState", "审核通过", "",false);
@@ -559,28 +559,6 @@ public class SysServiceImpl implements SysService{
 		return response;
 
 	}
-	
-	/**
-	 * 
-	 * @Description：创建默认为可编辑可排序的基础数据
-	 * @author： cx
-	 * @Date： 2017年8月1日
-	 * @version: 0.1
-	 */
-	private BasicData createBasicData(String id,String pid,String identity,String description,String comment,Integer itemOrder){
-		BasicData basicData = new BasicData();
-		basicData.setId(id);
-		basicData.setpId(pid);
-		basicData.setIdentity(identity);
-		basicData.setDescription(description);
-		basicData.setCanEdit(true);
-	//	basicData.setComment(comment);
-		basicData.setItemOrder(itemOrder);
-		basicData.setCanEdit(true);
-		basicDataRepo.save(basicData);
-		return basicData;
-	}
-	
 	/**
 	 * 
 	 * @Description：创建默认为可编辑的行业基础数据
@@ -676,12 +654,25 @@ public class SysServiceImpl implements SysService{
 			sysconfig.setConfigName(sysConfigDto.getConfigName());
 			sysconfig.setConfigValue(sysConfigDto.getConfigValue());
 			sysconfig.setEnable(sysConfigDto.getEnable());
-			sysconfig.setCreatedBy(currentUser.getLoginName());
-			sysconfig.setModifiedBy(currentUser.getLoginName());
+			sysconfig.setCreatedBy(currentUser.getUserId());
+			sysconfig.setModifiedBy(currentUser.getUserId());
 			sysconfig.setConfigType(sysConfigDto.getConfigType());
 			
 			sysConfigRepo.save(sysconfig);
 		}
 	}
 
+	@Override
+	@Transactional
+	public SysConfigDto getSysConfig(String configName) {
+		Criterion criterion = Restrictions.eq(SysConfig_.configName.getName(), configName);
+		List<SysConfig> sysConfigs = sysConfigRepo.findByCriteria(criterion);
+		SysConfig entity = new SysConfig();
+		if(sysConfigs !=null && sysConfigs.size()>0){
+			entity = sysConfigs.stream().findFirst().get();
+			return sysConfigMapper.toDto(entity);
+		}else{
+			throw new IllegalArgumentException(String.format("没有查找到申报端口状态信息,请联系管理员！"));
+		}
+	}
 }

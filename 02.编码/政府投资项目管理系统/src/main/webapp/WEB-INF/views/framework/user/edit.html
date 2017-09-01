@@ -25,7 +25,7 @@
             <tr>
                 <td class="formAlignRight">登录名： <span class="required">*</span></td>
                 <td>
-                    <input  type="text" maxlength="200" class="form-control input-sm " ng-disabled="vm.isUpdate"  ng-model="vm.model.loginName " id="loginName" name="loginName" data-val="true" data-val-required="必填">
+                    <input  type="text" maxlength="200" class="form-control input-sm " ng-model="vm.model.loginName " id="loginName" name="loginName" data-val="true" data-val-required="必填">
                 </td>
                 <td><span data-valmsg-for="loginName" data-valmsg-replace="true" class="errors"></span>
                     <span class="errors" ng-show="vm.isUserExist">角色已存在</span></td>

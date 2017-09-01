@@ -27,5 +27,7 @@ public interface UserService {
 	void changePwd(String password);
 	
 	User findUserByName(String userName);
+	
+	User findById(String id);
 
 }

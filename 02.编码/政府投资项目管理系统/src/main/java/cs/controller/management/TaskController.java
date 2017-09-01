@@ -2,6 +2,7 @@ package cs.controller.management;
 
 import java.text.ParseException;
 
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -18,8 +19,8 @@ import cs.common.ICurrentUser;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.TaskHeadDto;
 import cs.model.DomainDto.TaskRecordDto;
-import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
+import cs.service.framework.UserService;
 import cs.service.interfaces.TaskHeadService;
 
 @Controller
@@ -29,6 +30,8 @@ public class TaskController {
 	@Autowired
 	TaskHeadService taskHeadService;
 	@Autowired
+	UserService userService;
+	@Autowired
 	ICurrentUser currentUser;
 
 	@RequiresPermissions("management/task##get")
@@ -36,6 +39,7 @@ public class TaskController {
 	public @ResponseBody PageModelDto<TaskHeadDto> getToDo(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);	
 		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.getTask(odataObj);
+
 		return taskHeadDtos;
 	}
 	
@@ -71,6 +75,12 @@ public class TaskController {
 	@RequestMapping(name = "待办处理", path = "html/handle", method = RequestMethod.GET)
 	public String handle() {
 		return ctrl + "/handle";
+	}
+	
+	@RequiresPermissions("management/task#html/todo_audit#get")
+	@RequestMapping(name = "待办列表页--审批类", path = "html/todo_audit", method = RequestMethod.GET)
+	public String todo_audit() {
+		return ctrl + "/audit/todo";
 	}
 
 }

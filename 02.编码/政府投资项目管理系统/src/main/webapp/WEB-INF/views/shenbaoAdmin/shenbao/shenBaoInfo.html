@@ -60,19 +60,17 @@ overflow: scroll !important;
 		<tr>
 			<td class="formAlignRight" style="width:150px;">项目所属单位：</td>
 			<td>
-				<span ng-bind="vm.model.shenBaoUnitInfoDto.unitName"></span>
+				<span ng-bind="vm.model.unitName"></span>
+			</td>
+			<td class="formAlignRight" style="width:180px;">项目申报阶段：</td>
+			<td>
+				<span ng-bind="vm.getBasicDataDesc(vm.model.projectShenBaoStage)"></span>
 			</td>
 		</tr>
 	</table>
 
 <div class="bg-info text-info" style="padding: 10px;">项目基本信息</div>
-<table class="table table-bordered table-striped ">
-	<tr ng-hide="vm.isYearPlan">
-		<td class="formAlignRight" style="width:150px;">项目申报阶段：</td>
-		<td ng-bind="vm.getBasicDataDesc(vm.model.projectShenBaoStage)"></td>
-		<td class="formAlignRight" style="width:180px;">计划年度：</td>
-		<td ng-bind="vm.model.planYear"></td>
-	</tr>
+<table class="table table-bordered table-striped ">	
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目名称：</td>
 		<td  style="width:30%">
@@ -113,7 +111,7 @@ overflow: scroll !important;
 			<span ng-repeat="x in vm.model.projectType" ng-bind="vm.getBasicDataDesc(x)+' '"></span>					
 		</td>
 	</tr>
-	<tr ng-show="vm.isYearPlan">
+	<tr>
 		<td class="formAlignRight">功能分类科目：</td>
 		<td>
 			<span ng-bind="vm.model.functionSubjects"></span>
@@ -142,18 +140,8 @@ overflow: scroll !important;
 			<span id="endDate" ng-bind="vm.model.endDate | date:'yyyy-MM-dd'"></span>
 		</td>
 	</tr>
-	<tr ng-show="vm.isQianQi">
-		<td class="formAlignRight">是否申请前期工作经费：</td>
-		<td style="border-right:0">
-			<span ng-if="vm.model.isApplyQianQiFei == '1'">是</span>
-			<span ng-if="vm.model.isApplyQianQiFei == '0'">否</span>
-		</td>
-		<td ng-show="vm.model.isApplyQianQiFei" class="formAlignRight">工作经费申请金额：<span class="required">(*)</span></td>
-		<td ng-show="vm.model.isApplyQianQiFei">
-			<span ng-bind="vm.model.qianQiFeiApply | number:4"></span>&nbsp;(万元)
-		</td>
-	</tr>
-	<tr ng-hide="vm.isQianQi">
+	
+	<tr>
 		<td class="formAlignRight">项目总投资：</td>
 		<td>
 			<span id="projectInvestSum" ng-bind="vm.model.projectInvestSum | number:4"></span>&nbsp;(万元)
@@ -164,7 +152,7 @@ overflow: scroll !important;
 		</td>
 	</tr>
 					
-	<tr ng-hide="vm.isQianQi">
+	<tr>
 		<td class="formAlignRight">资金来源：</td>
 		<td colspan="3" >
 			<table class="table table-bordered table-striped table-hover" >
@@ -283,7 +271,6 @@ overflow: scroll !important;
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明社会及经济效益评价（500字符以内）" ng-model="vm.model.socialAndEconomic" disabled></textarea>													
 		</td>
 	</tr>
-	
 	<tr>
 		<td class="formAlignRight">项目基本信息备注：</td>
 		<td colspan="3" >
@@ -297,8 +284,15 @@ overflow: scroll !important;
 	<table class="table table-bordered table-striped ">
 		<tr>
 			<td class="formAlignRight" style="width:150px;">项目建设性质</td>
-			<td colspan="3">
+			<td style="width:30%">
 				<span ng-bind="vm.model.projectConstrCharDesc"></span>
+			</td>
+			<td class="formAlignRight" style="width:180px;">建设单位名称：</td>
+			<td>
+				<div ng-repeat="x in vm.model.constructionUnit">
+					<span>单位{{$index+1}}：</span>
+					<span class="text-primary" ng-bind="vm.model.constructionUnit[$index]"></span>
+				</div>
 			</td>
 		</tr>
 		
@@ -307,9 +301,9 @@ overflow: scroll !important;
 			<td>
 				<span ng-bind="vm.model.projectInvestSum | number:4"></span>&nbsp;(万元)			
 			</td>
-			<td class="formAlignRight">累计投资：</td>
+			<td class="formAlignRight">累计安排投资：</td>
 			<td>
-				<span ng-bind="vm.model.projectInvestAccuSum | number:4"></span>&nbsp;(万元)
+				<span ng-bind="vm.model.apInvestSum | number:4"></span>&nbsp;(万元)
 			</td>
 		</tr>
 		<tr>
@@ -451,7 +445,9 @@ overflow: scroll !important;
 			<td>
 				<textarea rows="3" cols="20" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）：备注（500字符以内）" ng-model="vm.model.yearConstructionContent" disabled></textarea>
 			</td>
-		</tr>	
+		</tr>
+	</table>
+</div>
 
 <div ng-show="vm.isYearPlan">
 	<div class="bg-info text-info" style="padding: 10px;">{{vm.model.planYear +2}}年度计划信息</div>
@@ -593,86 +589,31 @@ overflow: scroll !important;
 	 </tr>
 </table>
 
-<div ng-show="vm.isProjectProposal || vm.isKXXYJBG || vm.isCBSJYGS">
-	<div class="bg-info text-info" style="padding: 10px;">常用编制信息</div>
-	<table style="width:100%;" class="table table-bordered table-striped">		
-		<tr>
-			<td width="20%">单位名称：</td>
-			<td colspan="2">
-				<span ng-bind="vm.model.bianZhiUnitInfoDto.unitName"></span>
-			</td>
-			<td width="20%">单位性质</td>
-			<td colspan="4">			
-				<span ng-bind="vm.getBasicDataDesc(vm.model.bianZhiUnitInfoDto.unitProperty)"></span>
-			</td>
-		</tr>
-		<tr>
-		    <td>单位地址</td>
-		    <td colspan="4">
-			    <span>光明新区</span>
-			    <span id="divisionId" ng-bind="vm.model.bianZhiUnitInfoDto.divisionId" style="display:none"></span>
-			    <span ng-bind="vm.getBasicDataDesc(vm.model.bianZhiUnitInfoDto.division)"></span>
-			    <span id="unitAddress" ng-bind="vm.model.bianZhiUnitInfoDto.unitAddress"></span>
-			</td>
-		 </tr>
-		 <tr>
-		    <td rowspan="3">单位负责人</td>
-		    <td width="60">姓名</td>
-		    <td>
-		    	<span id="unitResPerson" ng-bind="vm.model.bianZhiUnitInfoDto.unitResPerson"></span>
-		    </td>
-		    <td>电话号码</td>
-		    <td>
-		    	<span id="resPersonTel" ng-bind="vm.model.bianZhiUnitInfoDto.resPersonTel"></span>
-		    </td>
-		 </tr>
-		 <tr>
-		    <td>手机</td>	   
-		    <td>
-		    	<span id="resPersonMobile" ng-bind="vm.model.bianZhiUnitInfoDto.resPersonMobile"></span>
-		    </td>
-		    <td>传真号码</td>
-		    <td>
-		    	<span id="resPersonFax" ng-bind="vm.model.bianZhiUnitInfoDto.resPersonFax"></span>
-		    </td>
-		 </tr>
-		  <tr>
-		    <td>Email</td>
-		    <td colspan="3">
-		    	<span id="resPersonEmail" ng-bind="vm.model.bianZhiUnitInfoDto.resPersonEmail"></span>		     
-		    </td>
-		 </tr>
-	</table>
-</div>
 
-
-<div ng-show="vm.isYearPlan">
-	<div class="bg-info text-info" style="padding: 10px;">项目批复信息</div>
-	<table class="table table-bordered table-striped ">
-		<tr>
-			<td style="width:180px;">批复名称</td>
-			<td style="width:180px;">批复时间</td>
-			<td style="width:180px;">批复文号</td>
-			<td >文件上传</td>
-		</tr>
-		<tr ng-repeat="x in vm.uploadType">
-			<td >{{x[1]}}</td>
-			<td >
-				<span ng-bind="vm.model['pifu'+x[0]+'_date'] | date:'yyyy-MM-dd'"></span>
-			</td>
-			<td><span ng-bind="vm.model['pifu'+x[0]+'_wenhao']"></span></td>
-			<td class="clearfix">			
-		         <div style="margin:3px;"  class="pull-left"
-				 	  ng-repeat="y in vm.model.attachmentDtos" 
-				 	  ng-show="y.type=='{{x[0]}}'"
-				 		>
-					 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
-				 </div>
-			</td>
-		</tr>
-	</table>
-</div>
-
+<div class="bg-info text-info" style="padding: 10px;">项目批复信息</div>
+<table class="table table-bordered table-striped ">
+	<tr>
+		<td style="width:180px;">批复名称</td>
+		<td style="width:180px;">批复时间</td>
+		<td style="width:180px;">批复文号</td>
+		<td >文件上传</td>
+	</tr>
+	<tr ng-repeat="x in vm.uploadType">
+		<td >{{x[1]}}</td>
+		<td >
+			<span ng-bind="vm.model['pifu'+x[0]+'_date'] | date:'yyyy-MM-dd'"></span>
+		</td>
+		<td><span ng-bind="vm.model['pifu'+x[0]+'_wenhao']"></span></td>
+		<td class="clearfix">			
+	         <div style="margin:3px;"  class="pull-left"
+			 	  ng-repeat="y in vm.model.attachmentDtos" 
+			 	  ng-show="y.type=='{{x[0]}}'"
+			 		>
+				 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+			 </div>
+		</td>
+	</tr>
+</table>
 
 <div class="bg-info text-info" style="padding: 10px;">相关附件</div>
 <table class="table table-bordered table-striped ">
@@ -684,7 +625,7 @@ overflow: scroll !important;
 		<td ng-bind-html="vm.html(x[1])"></td>
 		<td>
 		      <div style="margin:3px;"  class="pull-left"
-			 	  ng-repeat="y in vm.model.attachmentDtos"
+			 	  ng-repeat="y in vm.model.attachmentDtos" 
 			 	  ng-show="y.type=='{{x[0]}}'"
 			 		>
 				 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>

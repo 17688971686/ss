@@ -5,9 +5,9 @@
         .module('app')
         .controller('taskCtrl', task);
 
-    task.$inject = ['$location','taskSvc','$state','$scope','$sce']; 
+    task.$inject = ['$location','taskSvc','$state','$scope','$sce','$rootScope']; 
 
-    function task($location, taskSvc,$state,$scope,$sce) {
+    function task($location, taskSvc,$state,$scope,$sce,$rootScope) {
         /* jshint validthis:true */
     	var vm = this;
     	vm.title = "";
@@ -16,10 +16,12 @@
         vm.taskId=$state.params.taskId;
         vm.relId=$state.params.relId;        
     	vm.page="todoList";
+    	vm.model.taskRecord = {};
     	vm.keyuan="";
     	vm.isKeshi = true;
     	vm.tuiwen = false;
     	vm.isChecked = true;
+
     	function init(){   		
     		if($state.current.name=='task_todo'){//待办列表
     			vm.page='todoList';
@@ -92,7 +94,6 @@
     		};
     		
     		vm.getBasicDataDesc=function(str){//流转信息显示
-    		
     			return common.getBasicDataDesc(str);
     		};
     		vm.checkLength = function(obj,max,id){
@@ -101,6 +102,10 @@
 
            	vm.html = function(val){
            		return $sce.trustAsHtml(val);
+           	};
+           	
+           	vm.callBack=function(){
+           		window.history.back(-1);
            	};
     	}
     	   	
@@ -139,23 +144,16 @@
 
     	   taskSvc.getTaskById(vm);//查询任务信息
     	   taskSvc.getDept(vm);
-    	  
-    	   if(vm.taskType == common.basicDataConfig().taskType_monthReport){//如果为月报
+    	   
+    	   if(vm.taskType == common.basicDataConfig().taskType_yearPlan){//如果为下一年度计划申报
+    		   vm.isYearPlan = true;
+    		   taskSvc.getShenBaoInfoById(vm);//查询申报信息
+    		   vm.model.taskRecord.processSuggestion = "符合申报";//设置默认为符合申报
+    	   }else if(vm.taskType == common.basicDataConfig().taskType_monthReport){//如果为月报
     		   vm.isMonthReport = true;
     		   taskSvc.getMonthReportById(vm);//查询月报信息
-    	   }else{
-    		   if(vm.taskType == common.basicDataConfig().taskType_yearPlan){//如果为下一年度计划申报
-    			   vm.isYearPlan = true; 
-    		   }else if(vm.taskType == common.basicDataConfig().taskType_JYS){//项目建议书
-    			   vm.isProjectProposal = true;
-    		   }else if(vm.taskType == common.basicDataConfig().taskType_KXXYJBG){//可行性研究报告
-    			   vm.isKXXYJBG = true;
-    		   }else if(vm.taskType == common.basicDataConfig().taskType_CBSJYGS){//初步概算与概算
-    			   vm.isCBSJYGS = true;
-    		   }
-    		   taskSvc.getShenBaoInfoById(vm);//查询申报信息
     	   }
-    		   
+    	   
     	   vm.dialog_shenbaoInfo=function(){
     		   $('#shenbaoInfo').modal({
                    backdrop: 'static',
@@ -167,6 +165,7 @@
 	     	   };
     	   };
     	   
+
     	   vm.changed=function(id){
     		   vm.id = id;
     		   taskSvc.getDeptUsers(vm);

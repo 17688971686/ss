@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.common.ICurrentUser;
+import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.interfaces.ShenBaoInfoService;
+import cs.service.interfaces.UserUnitInfoService;
 
 @Controller
 @RequestMapping(name="申报端--项目申报",path="shenbaoAdmin/shenbao")
@@ -30,7 +32,8 @@ public class ShenBaoAdminShenBaoController {
 	@Autowired ShenBaoInfoService shenBaoInfoService;
 	@Autowired
 	ICurrentUser currentUser;
-	
+	@Autowired
+	private UserUnitInfoService userUnitInfoService;
 	@Autowired
 	private BasicDataService basicDataService;
 	
@@ -38,12 +41,13 @@ public class ShenBaoAdminShenBaoController {
 	@RequestMapping(name = "获取申报信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> get(HttpServletRequest request) throws ParseException{
 		ODataObj odataObj = new ODataObj(request);
-		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoService.get(odataObj);	
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoService.get(odataObj);
+		//TODO 这一块可以不需要了
 		shenBaoInfoDtos.getValue().forEach(x->{	
 			//获取项目相关类型的名称
 			x.setProjectClassifyDesc(basicDataService.getDescriptionById(x.getProjectClassify()));//项目分类名称
 			x.setProjectIndustryDesc(basicDataService.getDescriptionById(x.getProjectIndustry()));//项目行业领域名称
-			x.setProjectTypeDesc(basicDataService.getDescriptionById(x.getProjectType()));//项目类型名称
+//			x.setProjectTypeDesc(basicDataService.getDescriptionById(x.getProjectType()));//项目类型名称
 			x.setProjectCategoryDesc(basicDataService.getDescriptionById(x.getProjectCategory()));//项目类别名称
 			x.setProjectStageDesc(basicDataService.getDescriptionById(x.getProjectStage()));//项目阶段名称
 			x.setProjectConstrCharDesc(basicDataService.getDescriptionById(x.getProjectConstrChar()));//项目建设性质名称
@@ -56,12 +60,14 @@ public class ShenBaoAdminShenBaoController {
 	@RequiresPermissions("shenbaoAdmin/shenbao#unit#get")
 	@RequestMapping(name = "获取单位申报信息", path = "unit",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getByUnit(HttpServletRequest request) throws ParseException{
+		//根据当前登陆用户查找到单位信息
+		//UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
 		ODataObj odataObj = new ODataObj(request);
 		//设置过滤条件
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
-		filterItem.setField("unitName");
+		filterItem.setField("createdBy");
 		filterItem.setOperator("eq");
-		filterItem.setValue(currentUser.getLoginName());
+		filterItem.setValue(currentUser.getUserId());
 		odataObj.getFilter().add(filterItem);
 		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoService.get(odataObj);		
 		return shenBaoInfoDtos;	
@@ -71,7 +77,7 @@ public class ShenBaoAdminShenBaoController {
 	@RequestMapping(name = "创建申报信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  create(@RequestBody ShenBaoInfoDto shenBaoInfoDto){
-		shenBaoInfoService.create(shenBaoInfoDto);	
+		shenBaoInfoService.createShenBaoInfo(shenBaoInfoDto,false);	
 	}
 	
 	@RequiresPermissions("shenbaoAdmin/shenbao##put")

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -61,6 +62,13 @@ public class SysController {
 		List<SysConfigDto> list = sysService.getSysConfigs();
 		return list;
 				
+	}
+	
+	@RequiresPermissions("sys#getSysConfig#get")
+	@RequestMapping(name = "获取系统配置信息", path = "getSysConfig", method = RequestMethod.GET)
+	public @ResponseBody SysConfigDto getSysConfig(@RequestParam String configName) {
+		SysConfigDto dto = sysService.getSysConfig(configName);
+		return dto;
 	}
 	
 	@RequestMapping(name = "系统初始化", path = "init", method = RequestMethod.GET)
