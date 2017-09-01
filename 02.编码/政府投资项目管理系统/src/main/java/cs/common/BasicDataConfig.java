@@ -28,6 +28,8 @@ public class BasicDataConfig {
 	public static String processState_tuiWen="processState_15";//退文
 	public static String processState_MiShuFenBan="processState_3";//秘书科分办
 	
+	public static String processRole="秘书科分办人员";//固定资产登记阶段
+	
 	public static String projectShenBaoStage_nextYearPlan="projectShenBaoStage_7";//下一年度计划
 	
 	public static String taskType="taskType";
