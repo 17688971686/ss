@@ -128,7 +128,7 @@ overflow: scroll !important;
 		</table>
 		
 		<!-- 执行秘书科分办操作 -->
-		<table class="table table-bordered table-striped " ng-if="vm.taskAudit.nextProcess =='processState_3'">
+		<table class="table table-bordered table-striped " ng-if="vm.taskAudit.nextProcess == vm.processState_msFenBan">
 			<tr>
 				<td class="formAlignRight" style="width:150px;">填写处理意见：</td>
 				<td>
@@ -155,17 +155,16 @@ overflow: scroll !important;
 				</div>
 			</td>
 			</tr>
-			</tr>
 			<tr ng-if="vm.showDept">
 				<td class="formAlignRight">所属部门：</td>
 				<td>
-					<select class="form-control" id="selecrDept" name="selecrDept" ng-model="vm.model.dept" ng-change="vm.changed(vm.model.dept)" data-val="true" data-val-required="必选">
+					<select class="form-control" style="width:200px;" id="selecrDept" name="selecrDept" ng-model="vm.model.dept" ng-change="vm.changeDept()" data-val="true" data-val-required="必选">
 					  	<option value="">---请选择---</option>
 						<option ng-repeat="y in vm.model.depts" value="{{y.id}}">{{y.name}}</option>
 					</select>
 					<span data-valmsg-for="selecrDept" data-valmsg-replace="true" class="required"></span>
 				</td>
-			</tr>				
+			</tr>
 		</table>
 		
 		<table class="table table-bordered table-striped ">

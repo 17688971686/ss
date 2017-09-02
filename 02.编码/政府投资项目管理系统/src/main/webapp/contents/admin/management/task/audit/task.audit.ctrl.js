@@ -51,6 +51,9 @@
            		return common.getUnitName(unitId);
            	};
            	
+           	//初始化审批流程
+           	vm.processState_msFenBan=common.basicDataConfig().processState_msFenBan;
+           	
            	//初始化基础数据
         	vm.basicData.projectIndustry_ZF=$linq(common.getBasicData())
 				.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
@@ -108,16 +111,17 @@
         	taskAuditSvc.getTaskInfoById(vm);
         	//查询申报信息
         	taskAuditSvc.getShenBaoInfoById(vm);
-
         	//查询部门信息
         	taskAuditSvc.getDepts(vm);
+        	//查询批复文件
+        	taskAuditSvc.replyFileGird(vm);
         	
-        	//根据部门id查询部门人员
-        	vm.changed = function(id){
+        	//部门切换触发
+        	vm.changeDept = function(){
         		for (var i = 0; i < vm.model.depts.length; i++) {
-					if(vm.model.depts[i].id == id){//获得部门人员
-						for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {
-							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {
+					if(vm.model.depts[i].id == vm.model.dept){//获得部门人员
+						for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {//循环人员
+							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {//循环角色
 								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "科长"){//默认选中科长为下一流程处理人
 									vm.taskAudit.nextUser = vm.model.depts[i].userDtos[j].id;//下一处理人为当前部门角色是科长的人
 									//vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;//下一角色为科长
@@ -224,8 +228,7 @@
         	}
         	
 
-        	//查询批复文件
-        	taskAuditSvc.replyFileGird(vm);
+        	
         	//弹出申报详情模态框
         	vm.dialog_shenbaoInfo=function(){
         		$("#shenbaoInfo").modal({

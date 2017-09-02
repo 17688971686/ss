@@ -179,7 +179,13 @@
 			};
 			
 			var httpSuccess = function success(response){
-				vm.model.depts = response.data.value||{};
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.model.depts = response.data.value||{};
+					}
+				});
 			};
 			
 			common.http({

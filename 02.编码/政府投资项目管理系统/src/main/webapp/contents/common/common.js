@@ -421,6 +421,7 @@
     		processState:"processState",//审批状态
     		processState_waitQianShou:"processState_1",//等待签收
     		processState_qianShou:"processState_2",//已签收
+    		processState_msFenBan:"processState_3",//秘书科分办
     		processState_banJie:"processState_11",//已办结
     		processState_tuiWen:"processState_15",//已退文
     		processState_next:"processState_16",
