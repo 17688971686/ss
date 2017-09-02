@@ -29,12 +29,16 @@ label{font-weight:normal;}
 	margin: 0px;
 }
 .uploadBox .k-upload-files{
-display:none;
+	display:none;
 }
-input.input-sm{height:30px; margin:0px; padding:0px;}
+input.input-sm{
+	height:30px; margin:0px; padding:0px;
+}
+
 textarea.form-control {
 	margin:0px; padding:0px;
 }
+
 .tab_content{
 	padding:20px;
 }
@@ -79,7 +83,7 @@ textarea.form-control {
 					</div>
 				</div>
 				<div class="tab_content">
-				     <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/unitInfo.html'"></div>
+				     <div ng-include src="'/contents/shenbaoAdmin/shenbao/html/unitInfo.html'"></div>
 				     <div style="text-align: center">
 				     	<button class="btn btn-sm btn-primary" ng-click="vm.tabReturn(1)"><span class="glyphicon glyphicon-backward"></span>上一步 </button>
 				     	<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(3)">下一步 <span class="glyphicon glyphicon-forward"></span></button>               
@@ -110,14 +114,14 @@ textarea.form-control {
                  	<button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit" ng-click="vm.update()" ng-disabled="vm.isSubmit">确认更新 </button>
                  </div>
             </div>
-            <div class="tab_content" ng-show="vm.isXuJian">
+<!--             <div class="tab_content" ng-show="vm.isXuJian">
                 <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/stage/xuJian.html'"></div>
                  <div style="text-align: center">
                  	<button class="btn btn-sm btn-primary" ng-click="vm.tabReturn(3)"><span class="glyphicon glyphicon-backward">上一步 </span></button>                
                  	<button class="btn btn-sm btn-success" ng-hide="vm.isRecordEdit" ng-click="vm.submit()" ng-disabled="vm.isSubmit">确认提交 </button>
                  	<button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit" ng-click="vm.update()" ng-disabled="vm.isSubmit">确认更新 </button>
                  </div>
-            </div>
+            </div> -->
              <div class="tab_content" ng-show="vm.isJunGong">
                 <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/stage/junGong.html'"></div>
                  <div style="text-align: center">
@@ -129,29 +133,3 @@ textarea.form-control {
            </div>
     </form>   
 </div>
-
-<div id="validMsgDialog" class="modal fade" tabindex="-1" role="dialog">
-			<div class="modal-dialog"
-				style="margin: 80px auto; width: 80%; max-width: 600px;">
-				<div class="modal-content">
-					<div class="modal-header bg-primary" style="height:30px;padding:5px;">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<span class="modal-title">错误信息</span>
-					</div>
-					<div class="modal-body text-danger">
-						<ul>
-							<li ng-repeat="x in vm.validMessage">{{x}}</li>
-						</ul>
-					</div>
-					<div class="modal-footer">
-						
-						<button type="button" class="btn btn-info btn-sm" data-dismiss="modal">确认</button>
-					</div>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal-dialog -->
-	</div>

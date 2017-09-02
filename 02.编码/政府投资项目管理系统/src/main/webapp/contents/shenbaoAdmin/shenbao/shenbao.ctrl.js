@@ -46,6 +46,10 @@
         	vm.html = function(val){
         		return $sce.trustAsHtml(val);
         	};
+        	
+        	vm.getUnitName=function(unitId){
+        		return common.getUnitName(unitId);
+        	};
        	
         	//全选框选择
         	$(document).on('click', '#checkboxAll_shenBaoRecords', function () {
