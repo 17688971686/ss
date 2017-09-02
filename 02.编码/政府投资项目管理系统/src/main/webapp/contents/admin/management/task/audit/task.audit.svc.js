@@ -6,15 +6,21 @@
 	taskAudit.$inject = [ '$http' ,'$location'];
 
 	function taskAudit($http,$location) {
+		var url_task = "/management/task";
 		var url_taskAudit = "/management/task/audit";
 		var url_shenbao = "/management/shenbao";
+		var url_dept="/org";
+		var url_back = "#/task/todo";
 		var url_replyFile = "/management/replyFile";
 		var service = {
 			grid : grid,//待办任务列表
 			getTaskInfoById:getTaskInfoById,//查询任务信息
 			getShenBaoInfoById:getShenBaoInfoById,//查询申报信息
+			getDepts:getDepts,//查询部门
+			handle:handle,//送出
 			replyFileGird:replyFileGird,//批复文件库列表
 			saveShenBaoInfo:saveShenBaoInfo//保存申报信息
+
 		};
 		return service;
 		
@@ -163,6 +169,66 @@
 			});
 		}
 		
+		/**
+		 * 查询部门
+		 */
+		function getDepts(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_dept)
+			};
+			
+			var httpSuccess = function success(response){
+				vm.model.depts = response.data.value||{};
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
+		
+		/**
+		 * 送出处理
+		 */
+		function handle(vm){
+			vm.taskAudit.processSuggestion = vm.processSuggestion;
+			var httpOptions = {
+					method : 'put',
+					url : url_task+"/"+vm.taskId,
+					data : vm.taskAudit
+				};
+
+				var httpSuccess = function success(response) {
+					common.requestSuccess({
+						vm : vm,
+						response : response,
+						fn : function() {
+							common.alert({
+								vm : vm,
+								msg : "操作成功",
+								fn : function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');
+									$('.modal-backdrop').remove();
+									location.href = url_back;
+								}
+							});
+						}
+					});
+				};
+
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});		
+		}
+		
+		// begin#grid
 		/**
 		 * 批复文件列表
 		 */

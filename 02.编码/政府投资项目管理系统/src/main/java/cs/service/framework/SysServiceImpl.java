@@ -533,6 +533,7 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("processState_21","processState" , "processState", "局长复核", "",false);
 		this.createBasicData("processState_22","processState" , "processState", "秘书科发文登记", "",false);
 		this.createBasicData("processState_23","processState" , "processState", "结束审批", "",false);
+		this.createBasicData("processState_24","processState" , "processState", "退文办结", "",false);
 		
 		this.createBasicData("taskType","" , "taskType", "任务类型", "任务类型",false);		
 		this.createBasicData("taskType_1","taskType" , "taskType", "月报填报", "",false);

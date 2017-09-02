@@ -26,6 +26,7 @@ public class BasicDataConfig {
 	public static String processState_qianShou="processState_2";//签收
 	public static String processState_banJie="processState_11";//办结
 	public static String processState_tuiWen="processState_15";//退文
+	public static String processState_tuiWenBanJie="processState_24";//退文办结
 	public static String processState_MiShuFenBan="processState_3";//秘书科分办
 	
 	public static String msFenBanRole="秘书科分办人员";

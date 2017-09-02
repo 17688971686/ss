@@ -513,7 +513,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		   if(systemConfigDto.isPresent()){
 			   startUser=systemConfigDto.get().getConfigValue();
 		   }
-							
+
 //		    taskHead.setNextUser(startUser);
 //			TaskRecord taskRecord=new TaskRecord();
 //			taskRecord.setId(UUID.randomUUID().toString());
@@ -522,6 +522,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 //			taskRecord.setRelId(entity.getId());
 //			taskRecord.setTaskId(taskHead.getId());//设置任务Id
 //			taskRecord.setTaskType(this.getTaskType(entity.getProjectShenBaoStage()));
+
 			if(isManageChange){//如果是后台修改
 //				taskRecord.setProcessState(taskHead.getProcessState());
 //				taskRecord.setProcessSuggestion("管理员--材料填报修改");
@@ -529,6 +530,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 //				taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
 				taskHead.setComplete(false);
 				taskHead.setProcessState(BasicDataConfig.processState_tianBao);
+				taskHead.setNextProcess(BasicDataConfig.processState_MiShuFenBan);//设置下一工作流状态
+				taskHead.setProcessRole(startUser);
 //				taskRecord.setProcessSuggestion("申报人员--材料填报修改");
 			}
 			
