@@ -12,6 +12,7 @@
 		var url_dept="/org";
 		var url_back = "#/task/todo";
 		var url_replyFile = "/management/replyFile";
+		var url_role="/role";
 		var service = {
 			grid : grid,//待办任务列表
 			getTaskInfoById:getTaskInfoById,//查询任务信息
@@ -19,10 +20,33 @@
 			getDepts:getDepts,//查询部门
 			handle:handle,//送出
 			replyFileGird:replyFileGird,//批复文件库列表
-			saveShenBaoInfo:saveShenBaoInfo//保存申报信息
+			saveShenBaoInfo:saveShenBaoInfo,//保存申报信息
+			getRoles:getRoles//查询角色信息
 
 		};
 		return service;
+		
+		/**
+		 * 查询角色信息
+		 */
+		function getRoles(vm){
+			var httpOptions = {
+					method : 'get',
+					url : url_role
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.model.roles = response.data.value||{};
+			};
+				
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}
+		
 		
 		/**
 		 * 保存申报信息
@@ -195,6 +219,10 @@
 		 */
 		function handle(vm){
 			vm.taskAudit.processSuggestion = vm.processSuggestion;
+			common.initJqValidation();
+ 			var isValid = $('form').valid();
+	   		if (isValid) {
+	   				
 			var httpOptions = {
 					method : 'put',
 					url : url_task+"/"+vm.taskId,
@@ -226,6 +254,7 @@
 					httpOptions : httpOptions,
 					success : httpSuccess
 				});		
+	   		}
 		}
 		
 		// begin#grid

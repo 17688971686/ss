@@ -146,8 +146,8 @@ overflow: scroll !important;
 			<td>
 				<div>
 					<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('bumen')" value="bumen" data-val="true" data-val-required="必选"/>部门承办&nbsp;&nbsp;
-					<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('banjie')" value="banjie" data-val="true" data-val-required="必选"/><span>退文办结</span>&nbsp;&nbsp;
-					<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('tuiwen')" value="tuiwen" data-val="true" data-val-required="必选"/><span>退文</span>&nbsp;&nbsp;
+					<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('tuiwenbanjie')" value="banjie" data-val="true" data-val-required="必选"/><span>退文办结</span>&nbsp;&nbsp;
+					<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('banjie')" value="tuiwen" data-val="true" data-val-required="必选"/><span>办结</span>&nbsp;&nbsp;
 					
 				</div>
 				<div>
@@ -167,17 +167,6 @@ overflow: scroll !important;
 				</td>
 			</tr>				
 		</table>
-		
-		<table class="table table-bordered table-striped ">
-			<tr>
-				<td class="formAlignRight"  style="width:150px;">操作：</td>
-				<td >
-					<button ng-click="vm.handle()" class="btn btn-info btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-share-alt"></span>送出</button>
-<!-- 					<button ng-click="vm.handle(vm.processState_banJie)" class="btn btn-success btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-ok"></span>办结</button>		
- -->				</td>
-				
-			</tr>
-		</table>
 			
 		<!-- 执行科长操作 -->
 			<table class="table table-bordered table-striped " ng-if="vm.taskAudit.nextProcess =='processState_4'">
@@ -196,8 +185,8 @@ overflow: scroll !important;
 				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
 				<td>
 					<div>
-						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('bumen')" value="bumen" data-val="true" data-val-required="必选"/>&nbsp;&nbsp;
-						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('banjie')" value="banjie" data-val="true" data-val-required="必选"/><span>退文办结</span>&nbsp;&nbsp;
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('tuihuiChongban')" value="bumen" data-val="true" data-val-required="必选"/>退回重办&nbsp;&nbsp;
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('jingBanRenBanli')" value="banjie" data-val="true" data-val-required="必选"/><span>经办人办理</span>&nbsp;&nbsp;
 						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('tuiwen')" value="tuiwen" data-val="true" data-val-required="必选"/><span>退文</span>&nbsp;&nbsp;
 						
 					</div>
@@ -206,7 +195,25 @@ overflow: scroll !important;
 					</div>
 				</td>
 			</tr>			
+			<tr ng-if="vm.nextProcessRadio == 'jingBanRenBanli'">
+				<td class="formAlignRight">下一处理人员：<span class="required">(*)</span></td>
+				<td>
+					<div  ng-repeat="x in vm.users" style="float: left;">
+						<input type="radio" name="deptUser" id="deptUser" ng-click="vm.selectUser(x.id)" value="{{x.id}}" data-val="true" data-val-required="必选"/>{{x.displayName}}&nbsp;&nbsp;			
+					</div>
+					<div>
+					  	<span data-valmsg-for="deptUser" data-valmsg-replace="true" class="required"></span>
+					</div>
+				</td>
+			</tr>			
 		</table>
+		
+		
+		<!-- 执行经办人操作 -->
+		
+		<!-- 执行局领导操作 -->
+		<!-- 执行评审中心经办人操作 -->
+		<!-- 执行秘书科发文操作 -->
 		
 		<table class="table table-bordered table-striped ">
 			<tr>
@@ -217,10 +224,6 @@ overflow: scroll !important;
 				
 			</tr>
 		</table>
-		<!-- 执行经办人操作 -->
-		<!-- 执行局领导操作 -->
-		<!-- 执行评审中心经办人操作 -->
-		<!-- 执行秘书科发文操作 -->
     </form>   
 </div>
 

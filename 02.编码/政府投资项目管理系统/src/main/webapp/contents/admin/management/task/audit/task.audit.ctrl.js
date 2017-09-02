@@ -112,6 +112,9 @@
         	//查询部门信息
         	taskAuditSvc.getDepts(vm);
         	
+        	//查询角色信息
+        	taskAuditSvc.getRoles(vm);
+        	
         	//根据部门id查询部门人员
         	vm.changed = function(id){
         		for (var i = 0; i < vm.model.depts.length; i++) {
@@ -139,19 +142,47 @@
         		}
         		
         		//退文办结
-        		if(str == "banjie"){
-        			vm.nextProcessRadio = "banjie";
-        		}else {
-        			
+        		if(str == "tuiwenbanjie"){
+        			vm.nextProcessRadio = "tuiwenbanjie";
         		}
         		
         		//退文
         		if(str == "tuiwen"){
         			vm.nextProcessRadio = "tuiwen";
-        		}else{
+        		}
+        		
+        		//办结
+        		if(str == "banjie"){
+        			vm.nextProcessRadio = "banjie";
+        		}
+        		
+        		//退回重办
+        		if(str == "tuihuiChongban"){
+        			vm.nextProcessRadio = "tuihuiChongban";
+        		}
+        		
+        		//经办人办理
+        		if(str == "jingBanRenBanli"){
+        			vm.nextProcessRadio = "jingBanRenBanli";
+        			for (var i = 0; i < vm.model.depts.length; i++) {
+    					
+    						for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {
+    							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {
+    								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "科长" &&vm.model.depts[i].userDtos[j].id ==vm.taskAudit.nextUser){//默认选中科长为下一流程处理人
+    									vm.users = vm.model.depts[i].userDtos;
+    									//vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;//下一角色为科长
+    								}
+    							}
+    						}
+    				
+    				}
         			
         		}
         	}
+        	
+        	vm.selectUser = function(id){
+        		vm.taskAudit.nextUser = id;
+        	} 
         	
         	function setNextUser(vm){
     			var processState = vm.taskAudit.processState;//下一流程展示
@@ -162,8 +193,8 @@
     				vm.taskAudit.processState = "processState_4";
     				vm.taskAudit.nextProcess = "processState_5";
     			}else if(processState == "processState_4"){
-    				vm.taskAudit.processState = "processState_3";
-    				vm.taskAudit.nextProcess = "processState_4";
+    				vm.taskAudit.processState = "processState_5";
+    				vm.taskAudit.nextProcess = "processState_6";
     			}else if(processState == "processState_5"){
     				vm.taskAudit.processState = "processState_3";
     				vm.taskAudit.nextProcess = "processState_4";
@@ -207,22 +238,43 @@
         	
         	//送出
         	vm.handle = function(){
-        		if(vm.nextProcessRadio =="bumen"){//正常流程
+        		if(vm.nextProcessRadio =="bumen"){//正常流程--部门审批
     				setNextUser(vm);//设置当前流程状态&&下一流程状态
     				vm.taskAudit.processRole ="";
-    			}else if(vm.nextProcessRadio =="tuiwen"){
+    			}else if(vm.nextProcessRadio =="tuiwen"){//退文
     				vm.taskAudit.processState = "processState_15";
     				vm.taskAudit.nextProcess = "processState_3";
     				vm.taskAudit.processRole ="";
-    			}else if(vm.nextProcessRadio =="banjie"){
+    			}else if(vm.nextProcessRadio =="tuiwenbanjie"){//退文办结
     				vm.taskAudit.processState = "processState_24";
     				vm.taskAudit.nextProcess = "";
     				vm.taskAudit.processRole ="";
-    			}
+    			}else if(vm.nextProcessRadio =="banjie"){//办结
+    				vm.taskAudit.processState = "processState_11";
+    				vm.taskAudit.nextProcess = "";
+    				vm.taskAudit.processRole ="";
+    			}else if(vm.nextProcessRadio == "tuihuiChongban"){//退回给秘书科
+    				vm.taskAudit.processState = "processState_1";
+    				vm.taskAudit.nextProcess = "processState_3";
+    				vm.taskAudit.processRole =getMiShuKRole("秘书科分办人员");
+    				vm.taskAudit.nextUser = "";
+        		}else if(vm.nextProcessRadio == "jingBanRenBanli"){//经办人办理
+        			vm.taskAudit.processState = "processState_5";
+    				vm.taskAudit.nextProcess = "processState_6";
+        		}
+        		
     			
         		taskAuditSvc.handle(vm);
         	}
         	
+        	
+        	function getMiShuKRole(role){
+        		for (var i = 0; i < vm.model.roles.length; i++) {
+        			if(vm.model.roles[i].roleName == role){
+        				return vm.model.roles[i].id;
+        			}
+				}
+        	}
 
         	//查询批复文件
         	taskAuditSvc.replyFileGird(vm);
