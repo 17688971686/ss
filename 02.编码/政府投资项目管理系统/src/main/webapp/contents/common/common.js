@@ -92,7 +92,7 @@
         });
     }
     function requestSuccess(options) {    
-    	console.log(options);
+    	//console.log(options);
     	var showError=function(msg){ 
 			service.alert({
 				vm:options.vm,

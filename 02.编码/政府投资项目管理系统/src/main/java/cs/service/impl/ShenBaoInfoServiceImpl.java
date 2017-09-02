@@ -404,7 +404,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
 		super.repository.save(entity);
 		//更新任务状态
-		updeteWorkFlow(entity,true);
+//		updeteWorkFlow(entity,true);
 		//处理批复文件库
 		handlePiFuFile(entity);
 		logger.info(String.format("后台管理员更新申报信息,项目名称 %s",entity.getProjectName()));		
@@ -513,34 +513,35 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		   if(systemConfigDto.isPresent()){
 			   startUser=systemConfigDto.get().getConfigValue();
 		   }
-							
-		    //taskHead.setNextUser(startUser);
-			TaskRecord taskRecord=new TaskRecord();
-			taskRecord.setId(UUID.randomUUID().toString());
-			taskRecord.setTitle(taskHead.getTitle());
-			//taskRecord.setNextUser(startUser);//设置下一处理人
-			taskRecord.setRelId(entity.getId());
-			taskRecord.setTaskId(taskHead.getId());//设置任务Id
-			taskRecord.setTaskType(this.getTaskType(entity.getProjectShenBaoStage()));
+
+//		    taskHead.setNextUser(startUser);
+//			TaskRecord taskRecord=new TaskRecord();
+//			taskRecord.setId(UUID.randomUUID().toString());
+//			taskRecord.setTitle(taskHead.getTitle());
+//			taskRecord.setNextUser(startUser);//设置下一处理人
+//			taskRecord.setRelId(entity.getId());
+//			taskRecord.setTaskId(taskHead.getId());//设置任务Id
+//			taskRecord.setTaskType(this.getTaskType(entity.getProjectShenBaoStage()));
+
 			if(isManageChange){//如果是后台修改
-				taskRecord.setProcessState(taskHead.getProcessState());
-				taskRecord.setProcessSuggestion("管理员--材料填报修改");
+//				taskRecord.setProcessState(taskHead.getProcessState());
+//				taskRecord.setProcessSuggestion("管理员--材料填报修改");
 			}else{//如果是申报端修改
-				taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
+//				taskRecord.setProcessState(BasicDataConfig.processState_tianBao);
 				taskHead.setComplete(false);
 				taskHead.setProcessState(BasicDataConfig.processState_tianBao);
-				taskRecord.setProcessSuggestion("申报人员--材料填报修改");
+				taskHead.setNextProcess(BasicDataConfig.processState_MiShuFenBan);//设置下一工作流状态
+				taskHead.setProcessRole(startUser);
+//				taskRecord.setProcessSuggestion("申报人员--材料填报修改");
 			}
 			
-			taskHead.setNextProcess(BasicDataConfig.processState_MiShuFenBan);//设置下一工作流状态
-			taskHead.setProcessRole(startUser);
-			taskRecord.setUnitName(entity.getConstructionUnit());
-			taskRecord.setProjectIndustry(entity.getProjectIndustry());
+//			taskRecord.setUnitName(entity.getConstructionUnit());
+//			taskRecord.setProjectIndustry(entity.getProjectIndustry());
 			//设置创建者与修改者
-			taskRecord.setCreatedBy(currentUser.getUserId());
-			taskRecord.setModifiedBy(currentUser.getUserId());
+//			taskRecord.setCreatedBy(currentUser.getUserId());
+//			taskRecord.setModifiedBy(currentUser.getUserId());
 			
-			taskHead.getTaskRecords().add(taskRecord);
+//			taskHead.getTaskRecords().add(taskRecord);
 			taskHeadRepo.save(taskHead);
 		}
 	}

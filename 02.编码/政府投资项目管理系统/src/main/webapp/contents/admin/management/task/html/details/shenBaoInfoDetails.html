@@ -1,0 +1,23 @@
+<div id="tabStrip" kendo-tab-strip>
+	<!-- tab list -->
+	<ul>
+		<li id="tab1" class="k-state-active">项目基本信息</li>
+		<li id="tab2">项目单位信息</li>
+		<li id="tab3">项目材料清单</li>
+	</ul>
+	<!-- 项目基本信息 -->
+	<div class="tab_content">
+		<!-- 政府投资项目申报 -->
+		<div ng-if="vm.isZFInvestment" ng-include src="'/contents/admin/management/task/html/details/basicInfo_ZF.html'"></div>
+		<!-- 社会投资项目申报 -->
+		<div ng-if="vm.isSHInvestment" ng-include src="'/contents/admin/management/task/html/details/basicInfo_SH.html'"></div>
+	</div>
+	<!-- 项目单位信息 -->
+	<div class="tab_content">
+		<div ng-include src="'/contents/admin/management/task/html/details/unitInfo.html'"></div>
+	</div>
+	<!-- 项目材料清单 -->
+	<div class="tab_content">
+		<div ng-include src="'/contents/admin/management/task/html/details/materialsInfo.html'"></div>
+	</div>
+</div>
