@@ -33,6 +33,9 @@ public class TaskRecord extends BaseEntity {
 	@Column(columnDefinition="varchar(255) NULL COMMENT '处理状态'")
 	private String processState;
 	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '下一处理状态'")
+	private String nextProcess;
+	
 	@Column(columnDefinition="varchar(500) NULL COMMENT '处理意见'")
 	private String processSuggestion;
 	
@@ -115,4 +118,11 @@ public class TaskRecord extends BaseEntity {
 	public void setProcessRole(String processRole) {
 		this.processRole = processRole;
 	}
+	public String getNextProcess() {
+		return nextProcess;
+	}
+	public void setNextProcess(String nextProcess) {
+		this.nextProcess = nextProcess;
+	}
+	
 }

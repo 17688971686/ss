@@ -514,11 +514,11 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			   startUser=systemConfigDto.get().getConfigValue();
 		   }
 							
-		    taskHead.setNextUser(startUser);
+		    //taskHead.setNextUser(startUser);
 			TaskRecord taskRecord=new TaskRecord();
 			taskRecord.setId(UUID.randomUUID().toString());
 			taskRecord.setTitle(taskHead.getTitle());
-			taskRecord.setNextUser(startUser);//设置下一处理人
+			//taskRecord.setNextUser(startUser);//设置下一处理人
 			taskRecord.setRelId(entity.getId());
 			taskRecord.setTaskId(taskHead.getId());//设置任务Id
 			taskRecord.setTaskType(this.getTaskType(entity.getProjectShenBaoStage()));
@@ -532,6 +532,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 				taskRecord.setProcessSuggestion("申报人员--材料填报修改");
 			}
 			
+			taskHead.setNextProcess(BasicDataConfig.processState_MiShuFenBan);//设置下一工作流状态
+			taskHead.setProcessRole(startUser);
 			taskRecord.setUnitName(entity.getConstructionUnit());
 			taskRecord.setProjectIndustry(entity.getProjectIndustry());
 			//设置创建者与修改者
