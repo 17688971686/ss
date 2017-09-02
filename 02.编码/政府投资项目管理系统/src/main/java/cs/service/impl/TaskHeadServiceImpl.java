@@ -176,15 +176,12 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			taskRecordMapper.buildEntity(dto, entity);			
 			taskHead.getTaskRecords().add(entity);
 			//更新任务
-			if(dto.getProcessState() != BasicDataConfig.processState_tuiWenBanJie){
-				taskHead.setProcessState(processState);//状态
-				taskHead.setNextProcess(dto.getNextProcess());//下一状态
-				taskHead.setProcessRole(dto.getProcessRole());
-			}
 			
+			taskHead.setProcessState(processState);//状态
+			taskHead.setNextProcess(dto.getNextProcess());//下一状态
+			taskHead.setProcessRole(dto.getProcessRole());
 			taskHead.setNextUser(dto.getNextUser());//下一流程处理人
 			taskHead.setProcessSuggestion(dto.getProcessSuggestion());//处理意见
-			
 			
 			//设置相应信息的状态
 			String taskType=dto.getTaskType();
