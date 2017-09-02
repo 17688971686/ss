@@ -117,8 +117,8 @@ overflow: scroll !important;
 	  		
 		<div class="bg-info text-info" style="padding: 10px;">处理流转信息</div>  		
 		<table class="table table-bordered table-striped ">
-			<tr ng-repeat="x in vm.task.taskRecordDtos | orderBy:'createdDate':true" ><!--   ng-hide="x.processState =='processState_5' ||x.processState =='processState_4'"-->
-				<td class="formAlignRight"  style="width:150px;"  ng-bind="vm.getBasicData(x.processState)"></td>
+			<tr ng-repeat="x in vm.taskAudit.taskRecordDtos | orderBy:'createdDate':true" >
+				<td class="formAlignRight"  style="width:150px;"  ng-bind="vm.getBasicDataDesc(x.processState)"></td>
 				<td >
 					<div ng-bind="x.processSuggestion"></div>
 					<div class="text-right" ng-bind="x.createdBy"></div>
