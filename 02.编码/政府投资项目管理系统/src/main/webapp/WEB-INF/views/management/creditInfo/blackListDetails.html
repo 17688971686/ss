@@ -1,0 +1,81 @@
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+    	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+        <li><a href="#/">首页</a></li>       
+        <li><a href="#/creditInfo/blackList">信用信息管理</a></li>
+        <li><a href="#/creditInfo/blackList">返回上一步</a></li>	        
+        <li class="active">{{vm.title}}</li>
+    </ol>
+</div>
+		<div>
+			<table class="table table-bordered" style="margin-bottom:0px;">
+				<tr>
+					<td colspan="6" class="bg-info">
+		  				<span style="padding:10px;"><strong>黑名单基本信息</strong></span>
+		  			</td>
+		  		</tr>
+		  		<tr>
+	  				<td class="formAlignRight">申报的项目名称：</td>
+	  				<td style="width:25%">
+						<span ng-bind="vm.model.projectName"></span>				
+					</td>
+	  				<td class="formAlignRight">项目代码：</td>
+	  				<td style="width:25%">
+						<span ng-bind="vm.model.projectNumber"></span>				
+					</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">申报的单位名称：</td>
+	  				<td style="width:25%">
+						<span ng-bind="vm.getUnitName(vm.model.unitName)"></span>				
+					</td>
+	  				<td class="formAlignRight">申报日期：</td>
+	  				<td style="width:25%">
+						<span ng-bind="vm.formatDate(vm.model.shenbaoDate)"></span>				
+					</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">监管部门：</span></td>
+	  				<td style="width:25%">
+	  					<span ng-bind="vm.model.departmentName"></span>	
+	  				</td>
+	  				<td class="formAlignRight">监管部门区划代码：</span></td>
+	  				<td style="width:25%">
+	  					<span ng-bind="vm.model.divisionCode"></span>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">法人单位名称：</span></td>
+	  				<td style="width:25%" colspan="4">
+	  					<span ng-bind="vm.model.enterpriseName"></span>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">法人证件类型：</span></td>
+	  				<td style="width:25%">
+	  					<span ng-bind="vm.model.legalRepCertType"></span>
+	  				</td>
+	  				<td class="formAlignRight">法人证件编码：</span></td>
+	  				<td style="width:25%">
+	  					<span ng-bind="vm.model.legalRepCertNumber"></span>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">列入黑名单原因：</td>
+					<td style="width:25%" colspan="10" align="left">
+						<span ng-bind="vm.model.blackReason"></span>
+					</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">产生日期：</span></td>
+	  				<td >
+	  					<span ng-bind="vm.model.blackDate"></span>
+					</td>
+	  				<td class="formAlignRight">有效标识：</span></td>
+	  				<td style="width:25%">
+	  					<span ng-bind="vm.model.validityFlag"></span>
+	  				</td>
+	  			</tr>
+	  		</table>
+		</div>
+

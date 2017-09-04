@@ -180,7 +180,7 @@ desired effect
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							<li><a href="javascript:void(0)" ui-sref="monthReport">月报</a></li>
+							<li><a href="" ui-sref="monthReport">月报</a></li>
 						</ul>
 					</li>
 					
@@ -193,6 +193,20 @@ desired effect
 						</a>
 						<ul class="treeview-menu">
 							<li><a href="javascript:void(0)" ui-sref="project">项目列表</a></li>
+						</ul>
+					</li>
+					
+					<li class="treeview">
+						<a href="javascript:void(0)">
+							<i class="fa fa-link"></i><span>信用信息管理</span> 
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="javascript:void(0)" ui-sref="credit_illegalNameList" >信用异常名录</a></li>
+							<li><a href="javascript:void(0)" ui-sref="credit_blackList">信用黑名单</a></li>
+							<li><a href="javascript:void(0)" >项目异常监管</a></li>
 						</ul>
 					</li>
 					<!-- 
@@ -364,6 +378,9 @@ desired effect
 	<!-- project -->
 	<script src="/contents/admin/management/project/project.ctrl.js"></script>
 	<script src="/contents/admin/management/project/project.svc.js"></script>
+	<!-- creditInfo -->
+	<script src="/contents/admin/management/creditInfo/creditInfo.ctrl.js"></script>
+	<script src="/contents/admin/management/creditInfo/creditInfo.svc.js"></script>
 	<!-- basicData -->
 	<script src="/contents/admin/management/basicData/basicData.ctrl.js"></script>
 	<script src="/contents/admin/management/basicData/basicData.svc.js"></script>
