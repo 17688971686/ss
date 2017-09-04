@@ -170,6 +170,10 @@
      		   }
      		  vm.gridOptions.dataSource.filter(filters);
     		};
+    		//清空查询条件
+    		vm.filterClear=function(){
+    			location.reload();
+    		};
     		//申报详情模态框
     		vm.dialog_shenbaoInfo = function(id){
     			vm.id = id;
@@ -230,6 +234,7 @@
 	 	
 	 		//如果是新增下一年度计划信息--禁止点击Tab切换
 	 		  if(vm.shenBaoInfoAdd){
+	 			 vm.isShenBaoInfoAdd=true;//审核按钮不能点击
 	 			 $("#tab1").attr("disabled","true");
 		 		  $("#tab2").attr("disabled","true");
 		 		  $("#tab3").attr("disabled","true");
@@ -494,8 +499,8 @@
 				if(vm.search.projectName !=null && vm.search.projectName !=''){//查询条件--项目名称
 	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
 	     		   }
-     		   if(vm.search.projectCategory !=null && vm.search.projectCategory !=''){//查询条件--项目类别
-     			   filters.push({field:'projectCategory',operator:'eq',value:vm.search.projectCategory});
+     		   if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){//查询条件--项目行业
+     			   filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
      		   }
      		   if(vm.search.planYear !=null && vm.search.planYear !=''){//查询条件--计划年度
      			  filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear)});
@@ -503,13 +508,24 @@
      		   if(vm.search.constructionUnit !=null && vm.search.constructionUnit !=''){//查询条件--建设单位名称
      			  filters.push({field:'constructionUnit',operator:'contains',value:vm.search.constructionUnit});
      		   }
-     		   if(vm.search.auditState !=null && vm.search.auditState !=''){//查询条件--审核状态
-     			  filters.push({field:'auditState',operator:'eq',value:vm.search.auditState});
-     		   }
      		   if(vm.search.projectConstrChar !=null && vm.search.projectConstrChar !=''){//查询条件--建设性质
      			  filters.push({field:'projectConstrChar',operator:'eq',value:vm.search.projectConstrChar});
      		   }
      		  vm.addPlanGridOptions.dataSource.filter(filters);
+    		};
+    		//清空筛选条件
+    		vm.filterClear=function(){
+    			//清空人员设置的过滤条件
+    			vm.search.projectName = '';
+    			vm.search.projectIndustry = '';
+    			vm.search.planYear = '';
+    			vm.search.constructionUnit = '';
+    			vm.search.projectConstrChar = '';
+    			//设置列表过滤项为默认的
+    			var filters = [];
+				filters.push({field:'projectShenBaoStage',operator:'eq',value:common.basicDataConfig().projectShenBaoStage_nextYearPlan});//默认条件--申报阶段为下一年度计划
+				filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_qianShou});//默认条件--申报信息的状态为签收状态  
+				vm.addPlanGridOptions.dataSource.filter(filters);
     		};
     		//模态框点击确认
     		vm.dialogConfirmSubmit=function(){

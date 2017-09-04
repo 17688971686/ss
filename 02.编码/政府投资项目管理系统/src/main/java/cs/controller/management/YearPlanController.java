@@ -40,8 +40,10 @@ public class YearPlanController {
 	@RequiresPermissions("management/yearPlan#id/projectList#get")
 	@RequestMapping(name = "获取年度计划项目列表数据", path = "{id}/projectList",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getShenBaoInfo(HttpServletRequest request,@PathVariable String id) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos=new PageModelDto<ShenBaoInfoDto>();
-		shenBaoInfoDtos.setValue(yearPlanService.getYearPlanShenBaoInfo(id));
+		shenBaoInfoDtos.setCount(odataObj.getCount());
+		shenBaoInfoDtos.setValue(yearPlanService.getYearPlanShenBaoInfo(id,odataObj));
 		return shenBaoInfoDtos;
 	}
 	

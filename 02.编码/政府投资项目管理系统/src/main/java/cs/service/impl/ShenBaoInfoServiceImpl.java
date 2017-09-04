@@ -97,7 +97,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		//创建申报信息
 		ShenBaoInfo entity=super.create(dto);
 		entity.setAuditState(BasicDataConfig.auditState_noAudit);//初始化审核状态--未审核
-		entity.setProcessState(BasicDataConfig.processState_tianBao);//设置申报信息的状态
 		if(isAdminCreate){//如果为后台管理员创建
 			//创建项目
 			Project project = new Project();
@@ -122,11 +121,14 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			projectRepo.save(project);
 			entity.setProjectId(project.getId());
 			entity.setProjectNumber(project.getProjectNumber());
+			entity.setProcessState(BasicDataConfig.processState_qianShou);//设置申报信息的状态为签收状态
+//			entity.setProcessRole(currentUser.getUserId());//设置签收人
 			entity.setIsIncludLibrary(false);//设置初始化为未纳入项目库
 			logger.info(String.format("创建项目信息,项目名称 %s",project.getProjectName()));
 		}
 		if(!isAdminCreate){//如果前台申报单位创建
 			//因dto中创建时间和修改时间为项目的相关时间，需从新设置
+			entity.setProcessState(BasicDataConfig.processState_tianBao);//设置申报信息的状态
 			entity.setCreatedDate(new Date());
 			entity.setModifiedDate(new Date());
 		}
@@ -439,7 +441,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskHead.setTitle("项目申报："+shenBaoInfo.getProjectName()+"--"+basicDataService.getDescriptionById(shenBaoInfo.getProjectShenBaoStage()));
 		taskHead.setNextUser(startUser);//设置下一处理人
 		taskHead.setRelId(shenBaoInfo.getId());//设置关联的id
-		taskHead.setProcessState(BasicDataConfig.processState_tianBao);//设置工作流的状态
 		taskHead.setTaskType(this.getTaskType(shenBaoInfo.getProjectShenBaoStage()));//设置工作流的类型
 		taskHead.setUnitName(shenBaoInfo.getConstructionUnit());//设置建设单位
 		taskHead.setProjectIndustry(shenBaoInfo.getProjectIndustry());//设置项目行业
@@ -448,8 +449,11 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		taskHead.setModifiedBy(currentUser.getUserId());
 		if(isAdminCreate){//如果为后台管理员创建
 			taskHead.setProcessSuggestion("管理员--材料填报");//设置处理意见
+			taskHead.setProcessState(BasicDataConfig.processState_qianShou);//设置工作流的状态--已签收
+			taskHead.setComplete(true);
 		}else{
 			taskHead.setProcessSuggestion("申报单位--材料填报");//设置处理意见
+			taskHead.setProcessState(BasicDataConfig.processState_tianBao);//设置工作流的状态--填报待签收
 		}
 		
 		//record

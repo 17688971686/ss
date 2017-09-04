@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
+import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -89,14 +90,18 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 
 	@Override
 	@Transactional
-	public List<ShenBaoInfoDto> getYearPlanShenBaoInfo(String planId) {	
+	public List<ShenBaoInfoDto> getYearPlanShenBaoInfo(String planId,ODataObj odataObj) {
+		Integer pageNumber = odataObj.getSkip();
+		Integer pageSize = odataObj.getTop();
+
 		YearPlan yearPlan=super.repository.findById(planId);
 		if(yearPlan!=null){
 			List<ShenBaoInfoDto> shenBaoInfoDtos=new ArrayList<>();
 			
-			List<ShenBaoInfo> shenBaoInfos=shenbaoInfoRepo.getSession()
+			List<ShenBaoInfo> shenBaoInfos=((SQLQuery) shenbaoInfoRepo.getSession()
 					.createSQLQuery(SQLConfig.yearPlanProject)
 					.setParameter("yearPlanId", planId)
+					.setFirstResult(pageNumber * pageSize).setMaxResults(pageSize)) 
 					.addEntity(ShenBaoInfo.class)
 					.getResultList();
 			shenBaoInfos.forEach(x->{
