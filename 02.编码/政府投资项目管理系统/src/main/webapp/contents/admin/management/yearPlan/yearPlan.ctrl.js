@@ -482,7 +482,7 @@
                     for (var i = 0; i < selectIds.length; i++) {
                     	ids.push(selectIds[i].value);
     				}
-                    var idStr=ids.join(',');                  
+                    var idStr=ids.join(',');              
                     $('#addPlanList').modal('toggle');//关闭模态框
                     yearPlanSvc.addShenBaoInfoconfirm(vm,idStr);//添加申报信息到计划中                  
                 }   
@@ -520,7 +520,7 @@
     	                for (var i = 0; i < selectIds.length; i++) {
     	                	ids.push(selectIds[i].value);
     					}
-    	                var idStr=ids.join(',');  
+    	                var idStr=ids.join(','); 
     	                yearPlanSvc.removeYearPlanCapital(vm,idStr);
     	            }
     	    	};//removeYearPlanCapital   			

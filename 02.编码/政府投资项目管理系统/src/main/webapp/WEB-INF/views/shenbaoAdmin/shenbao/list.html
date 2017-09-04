@@ -98,7 +98,7 @@
 					<label class="control-label col-sm-3" for="projectShenBaoStage">项目申报阶段:</label>
 					<select class="form-select" ng-model="vm.projectShenBaoStage" ng-change="vm.change()">
 						<option value="">---请选择---</option>
-						<option ng-repeat="x in vm.basicData.projectShenBaoStage" value="{{x.id}}">{{x.description}}</option>
+						<option ng-repeat="x in vm.basicData.projectShenBaoStage | orderBy:'itemOrder'" value="{{x.id}}">{{x.description}}</option>
 					</select>
 				</div>	
 				<div class="form-group" style="text-align: center;">
@@ -116,13 +116,14 @@
 <!-- 项目申报记录模态框 -->
 <div class="modal fade" id="shenBaoRecords"> 
 	<div class="modal-dialog" style="width:800px;"> 
+
 		<div class="modal-content"> 
 			<div class="modal-header bg-primary">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			
 				<h4 class="modal-title" id="myModalLabel">项目申报记录列表</h4> 
 			</div> 
 			<div class="modal-body">
-				<div class="grid" kendo-grid="vm.grid_shenBaoRecords" k-options="vm.gridOptions_shenBaoRecords"></div>			
+				<div class="shenBaoRecordsGrid" kendo-grid="vm.grid_shenBaoRecords" k-options="vm.gridOptions_shenBaoRecords"></div>			
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  

@@ -3,9 +3,9 @@
 
 	angular.module('app').factory('taskSvc', task);
 
-	task.$inject = [ '$http' ];
+	task.$inject = [ '$http' ,'$location'];
 
-	function task($http) {
+	function task($http,$location) {
 		var url_task = "/management/task";
 		var url_taskRecord = "/management/taskRecord";
 		var url_shenbao = "/management/shenbao";
@@ -139,6 +139,25 @@
 		  			 		+ (parseFloat(vm.model.shenBaoInfo.capitalZYYS)||0 )
 		  			 		+ (parseFloat(vm.model.shenBaoInfo.capitalOther)||0) ;
 		  		 };
+
+				if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){//申报阶段为:下一年度计划
+					vm.isYearPlan = true;
+					vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_YearPlan;
+    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+				}else if(vm.model.shenBaoInfo.projectShenBaoStage ==common.basicDataConfig().projectShenBaoStage_projectProposal){//申报阶段为:项目建议书
+					vm.isProjectProposal=true;
+					vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_projectProposal;
+    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+				}else if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_KXXYJBG){//申报阶段为:可行性研究报告
+					vm.isKXXYJBG=true;
+					vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_KXXYJBG;
+    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+				}else if(vm.model.shenBaoInfo.projectShenBaoStage == common.uploadFileTypeConfig().projectShenBaoStage_CBSJYGS){//申报阶段为:初步设计与概算
+					vm.isCBSJYGS=true;
+					vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_CBSJYGS;
+    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+				}
+
 		  		//申请资金计算
 		  		vm.lastTwoYearCapitalTotal = function(){
 		  			return (parseFloat(vm.model.shenBaoInfo.capitalSCZ_ggys_LastTwoYear)||0) + (parseFloat(vm.model.shenBaoInfo.capitalSCZ_gtzj_LastTwoYear)||0);
@@ -155,6 +174,7 @@
 					 vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
 	    			   vm.isYearPlan = true;
 				}
+
 			};
 
 			common.http({
@@ -250,8 +270,12 @@
 					value:false
 				},
 				requestEnd:function(e){						
-					$('#todoNumber').html(e.response.count);					
-				}
+					$('#todoNumber').html(e.response.count);
+				},
+				change: function(e) {//当数据发生变化时
+				    var filters = dataSource.filter();//获取所有的过滤条件
+				    vm.filters = filters;
+				  }
 			});
 			// End:dataSource
 
@@ -351,7 +375,11 @@
 				sort : {
 					field : "createdDate",
 					dir : "desc"
-				}				
+				},
+				change: function(e) {//当数据发生变化时
+				    var filters = dataSource.filter();//获取所有的过滤条件
+				    vm.filters = filters;
+				  }
 			});
 			// End:dataSource
 

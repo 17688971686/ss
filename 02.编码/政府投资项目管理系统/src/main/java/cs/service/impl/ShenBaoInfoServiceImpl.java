@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import cs.common.BasicDataConfig;
@@ -78,6 +79,36 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private BasicDataService basicDataService;
 	@Autowired
 	private ICurrentUser currentUser;
+
+	@Value("${projectShenBaoStage_JYS}")
+	private String projectShenBaoStage_JYS;//申报阶段：建议书
+	@Value("${projectShenBaoStage_KXXYJBG}")
+	private String projectShenBaoStage_KXXYJBG;//申报阶段：可行性研究报告
+	@Value("${projectShenBaoStage_CBSJYGS}")
+	private String projectShenBaoStage_CBSJYGS;//申报阶段：初步设计与概算
+	@Value("${projectShenBaoStage_qianQi}")
+	private String projectShenBaoStage_qianQi;//申报阶段：前期计划
+	@Value("${projectShenBaoStage_newStart}")
+	private String projectShenBaoStage_newStart;//申报阶段：新开工计划
+	@Value("${projectShenBaoStage_xuJian}")
+	private String projectShenBaoStage_xuJian;//申报阶段：续建计划
+	@Value("${projectShenBaoStage_jueSuan}")
+	private String projectShenBaoStage_jueSuan;//申报阶段：竣工决算
+	@Value("${taskType_JYS}")
+	private String taskType_JYS;//任务类型：建议书
+	@Value("${taskType_KXXYJBG}")
+	private String taskType_KXXYJBG;//任务类型：可行性研究报告
+	@Value("${taskType_CBSJYGS}")
+	private String taskType_CBSJYGS;//任务类型：初步设计与概算
+	@Value("${taskType_qianQi}")
+	private String taskType_qianQi;//任务类型：前期计划
+	@Value("${taskType_newStart}")
+	private String taskType_newStart;//任务类型：新开工计划
+	@Value("${taskType_xuJian}")
+	private String taskType_xuJian;//任务类型：续建计划
+	@Value("${taskType_jueSuan}")
+	private String taskType_jueSuan;//任务类型：竣工决算
+
 	
 	@Override
 	@Transactional
@@ -122,6 +153,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			projectRepo.save(project);
 			entity.setProjectId(project.getId());
 			entity.setProjectNumber(project.getProjectNumber());
+			entity.setIsIncludLibrary(false);//设置初始化为未纳入项目库
 			logger.info(String.format("创建项目信息,项目名称 %s",project.getProjectName()));
 		}
 		if(!isAdminCreate){//如果前台申报单位创建
@@ -245,12 +277,14 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		super.repository.save(entity);
 		//更新任务状态
 		updeteWorkFlow(entity,false);
-		//处理批复文件库
+
+		//更新批复文件库
 		handlePiFuFile(entity);
 		logger.info(String.format("更新申报信息,项目名称 %s",entity.getProjectName()));		
 		return entity;		
 	}
-	
+
+
 	@Override
 	@Transactional
 	public void addProjectToLibrary(String shenbaoInfoId) {
@@ -376,6 +410,20 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private String getTaskType(String shenbaoStage){
 		if(shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)){//如果是下一年度计划
 			return BasicDataConfig.taskType_nextYearPlan;
+		}else if(shenbaoStage.equals(projectShenBaoStage_JYS)){//如果申报阶段：是项目建议书
+			return taskType_JYS;
+		}else if(shenbaoStage.equals(projectShenBaoStage_KXXYJBG)){//如果申报阶段：是可行性研究报告
+			return taskType_KXXYJBG;
+		}else if(shenbaoStage.equals(projectShenBaoStage_CBSJYGS)){//如果申报阶段：是初步概算与设计
+			return taskType_CBSJYGS;
+		}else if(shenbaoStage.equals(projectShenBaoStage_qianQi)){//如果申报阶段：是前期计划
+			return taskType_qianQi;
+		}else if(shenbaoStage.equals(projectShenBaoStage_newStart)){//如果申报阶段：是新开工计划
+			return taskType_newStart;
+		}else if(shenbaoStage.equals(projectShenBaoStage_xuJian)){//如果申报阶段：是续建计划
+			return taskType_xuJian;
+		}else if(shenbaoStage.endsWith(projectShenBaoStage_jueSuan)){//如果申报阶段：是竣工决算
+			return taskType_jueSuan;
 		}
 		return "";
 	}

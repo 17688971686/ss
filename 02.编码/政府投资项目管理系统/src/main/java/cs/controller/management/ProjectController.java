@@ -132,4 +132,10 @@ public class ProjectController {
 		return this.ctrlName + "/details";
 	}
 	
+	@RequiresPermissions("management/project#html/list_SH#get")
+	@RequestMapping(name = "社会投资项目列表页", path = "html/list_SH",method=RequestMethod.GET)
+	public String list_SH() {
+		return this.ctrlName + "/list_SH";
+	}
+	
 }

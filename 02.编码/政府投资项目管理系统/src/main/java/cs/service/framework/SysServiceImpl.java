@@ -21,11 +21,13 @@ import cs.common.Response;
 import cs.common.sysResource.ClassFinder;
 import cs.common.sysResource.SysResourceDto;
 import cs.domain.BasicData;
+import cs.domain.ReplyFile;
 import cs.domain.UserUnitInfo;
 import cs.domain.framework.Resource;
 import cs.domain.framework.Role;
 import cs.domain.framework.Role_;
 import cs.domain.framework.SysConfig;
+import cs.domain.framework.SysConfig_;
 import cs.domain.framework.User;
 import cs.model.DomainDto.SysConfigDto;
 import cs.model.DtoMapper.IMapper;
@@ -33,6 +35,7 @@ import cs.repository.common.BasicDataRepo;
 import cs.repository.framework.RoleRepoImpl;
 import cs.repository.framework.SysConfigRepoImpl;
 import cs.repository.framework.UserRepoImpl;
+import cs.repository.impl.UserUnitInfoRepoImpl;
 import cs.repository.interfaces.IRepository;
 
 @Service
@@ -44,11 +47,11 @@ public class SysServiceImpl implements SysService{
 	@Autowired
 	private UserRepoImpl userRepo;
 	@Autowired
+	private IRepository<UserUnitInfo, String> userUnitInfoRepo;
+	@Autowired
 	private SysConfigRepoImpl sysConfigRepo;
 	@Autowired
 	private BasicDataRepo basicDataRepo;
-	@Autowired
-	private IRepository<UserUnitInfo, String> userUnitInfoRepo;
 	@Autowired
 	private IMapper<SysConfigDto,SysConfig> sysConfigMapper;
 	@Autowired
@@ -165,7 +168,8 @@ public class SysServiceImpl implements SysService{
 		user.setDisplayName("超级管理员");
 		user.getRoles().add(role);
 		userRepo.save(user);
-		//初始化建设单位用户
+
+		//初始化建设单位用户信息和单位信息
 		String[] userNames = {"党工委管委会","组织人事局","统战和社会建设局","城市管理局","光明供电局",
 								"文体教育局","光明交通运输局","住房和建设局","发展和财政局","卫生计生局",
 								"光明公安分局","环境保护和水务局","经济服务局","纪检监察局","市规划和国土资源委员会光明管理局",
@@ -179,6 +183,7 @@ public class SysServiceImpl implements SysService{
 			unitUser.setDisplayName(userName);
 			unitUser.setLoginName(userName);
 			unitUser.setPassword("888888");
+			unitUser.setComment("系统初始化创建");
 			unitUser.getRoles().add(role2);
 			userRepo.save(unitUser);
 			
@@ -411,7 +416,7 @@ public class SysServiceImpl implements SysService{
 		
 		this.createBasicData("projectInvestmentType","" , "projectInvestmentType", "项目投资类型分类", "项目投资类型分类");
 		this.createBasicData("projectInvestmentType_1","projectInvestmentType" , "projectInvestmentType", "政府投资项目", "项目投资类型分类");
-//		this.createBasicData("projectInvestmentType_2","projectInvestmentType" , "projectInvestmentType", "社会投资项目", "项目投资类型分类");
+		this.createBasicData("projectInvestmentType_2","projectInvestmentType" , "projectInvestmentType", "社会投资项目", "项目投资类型分类");
 
 		this.createBasicData("projectProgress","" , "projectProgress", "项目进度分类", "项目进度分类");
 		this.createBasicData("projectProgress_1","projectProgress" , "projectProgress", "进展顺利", "项目进度分类");
@@ -424,8 +429,10 @@ public class SysServiceImpl implements SysService{
 //		this.createBasicData("projectShenBaoStage_3","projectShenBaoStage" , "projectShenBaoStage", "新开工计划", "项目申报阶段分类");
 //		this.createBasicData("projectShenBaoStage_4","projectShenBaoStage" , "projectShenBaoStage", "续建计划", "项目申报阶段分类");
 //		this.createBasicData("projectShenBaoStage_5","projectShenBaoStage" , "projectShenBaoStage", "委托审计", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_6","projectShenBaoStage" , "projectShenBaoStage", "审计决算资金", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_7","projectShenBaoStage" , "projectShenBaoStage", "下一年度计划", "项目申报阶段分类");
+
+		this.createBasicData("projectShenBaoStage_6","projectShenBaoStage" , "projectShenBaoStage", "竣工决算", "项目申报阶段分类",8,false);
+		this.createBasicData("projectShenBaoStage_7","projectShenBaoStage" , "projectShenBaoStage", "下一年度计划", "项目申报阶段分类",7,false);
+
 //		this.createBasicData("projectShenBaoStage_8","projectShenBaoStage" , "projectShenBaoStage", "年度调整计划", "项目申报阶段分类");
 //		this.createBasicData("projectShenBaoStage_9","projectShenBaoStage" , "projectShenBaoStage", "项目建议书", "项目申报阶段分类");
 //		this.createBasicData("projectShenBaoStage_10","projectShenBaoStage" , "projectShenBaoStage", "可行性研究报告", "项目申报阶段分类");
@@ -518,11 +525,27 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("taskType_1","taskType" , "taskType", "月报填报", "",false);
 		this.createBasicData("taskType_2","taskType" , "taskType", "下一年度计划", "",false);
 		this.createBasicData("taskType_3","taskType" , "taskType", "是否发送短信", "",false);
-		
+		this.createBasicData("taskType_4","taskType" , "taskType", "是否关闭申报端口", "",false);
+		this.createBasicData("taskType_5","taskType" , "taskType", "项目建议书", "",false);
+		this.createBasicData("taskType_6","taskType" , "taskType", "可行性研究报告", "",false);
+		this.createBasicData("taskType_7","taskType" , "taskType", "初步设计与概算", "",false);
+		this.createBasicData("taskType_8","taskType" , "taskType", "前期计划", "",false);
+		this.createBasicData("taskType_9","taskType" , "taskType", "新开工计划", "",false);
+		this.createBasicData("taskType_10","taskType" , "taskType", "续建计划", "",false);
+		this.createBasicData("taskType_11","taskType" , "taskType", "竣工决算", "",false);
+
 		this.createBasicData("auditState","" , "auditState", "审核状态", "审核状态",false);
 		this.createBasicData("auditState_1","auditState" , "auditState", "未审核", "",false);
 		this.createBasicData("auditState_2","auditState" , "auditState", "审核通过", "",false);
 		this.createBasicData("auditState_3","auditState" , "auditState", "审核不通过", "",false);
+		this.createBasicData("credentialsType","" , "credentialsType", "证件类型", "");
+		this.createBasicData("credentialsType_1","credentialsType" , "credentialsType", "身份证", "");
+		this.createBasicData("credentialsType_2","credentialsType" , "credentialsType", "护照", "");
+		this.createBasicData("credentialsType_3","credentialsType" , "credentialsType", "户口本", "");
+		this.createBasicData("credentialsType_4","credentialsType" , "credentialsType", "军人证", "");
+		this.createBasicData("credentialsType_5","credentialsType" , "credentialsType", "党员证", "");
+		this.createBasicData("credentialsType_6","credentialsType" , "credentialsType", "其他", "");
+		
 				
 		response.setMessage("基础数据初始化成功");
 		response.setSuccess(true);		
@@ -633,4 +656,15 @@ public class SysServiceImpl implements SysService{
 		}
 	}
 
+	@Override
+	@Transactional
+	public SysConfigDto getSysConfig(String configName) {
+		Criterion criterion = Restrictions.eq(SysConfig_.configName.getName(), configName);
+		SysConfig entity = sysConfigRepo.findByCriteria(criterion).stream().findFirst().get();
+		 if(entity !=null){
+			 return sysConfigMapper.toDto(entity);
+		 }else{
+			throw new IllegalArgumentException(String.format("没有查找到申报端口状态信息"));
+		}
+	}
 }

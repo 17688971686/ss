@@ -13,7 +13,9 @@
     	vm.projectId=$state.params.projectId;
 		vm.year=$state.params.year;
 		vm.month=$state.params.month;
-    	vm.model={};    
+		vm.search={};
+    	vm.model={};
+    	vm.basicData={};
     	vm.page='list';
     	vm.model.display = false;
     	
@@ -31,13 +33,17 @@
         	vm.checkLength = function(obj,max,id){
      			 common.checkLength(obj,max,id);
           	};
+          	
+          	//用于查询--基础数据
+	   		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
+	   		vm.basicData.projectInvestmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);//投资类型
         };//end init
         
         activate();
         function activate() {
         	vm.init();
         	if(vm.page=='list'){
-        		monthReportSvc.grid(vm);
+        		page_list();
         	}
         	if(vm.page=='details'){  
         		page_details();
@@ -46,6 +52,33 @@
         		page_details();
         	}
             
+        }
+        
+        function page_list(){
+        	monthReportSvc.grid(vm);
+        	//查询
+    		vm.search=function(){
+    			var filters = [];
+				filters.push({field:'isLatestVersion',operator:'eq',value:true});//默认条件--项目最新版本
+				filters.push({field:'isMonthReport',operator:'eq',value:true});//默认条件--需要填报月报 
+				
+				 
+				if(vm.search.projectName !=null && vm.search.projectName !=''){//查询条件--项目名称
+	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
+	     		   }
+     		   	if(vm.search.projectStage !=null && vm.search.projectStage !=''){//查询条件--项目阶段
+     			   filters.push({field:'projectStage',operator:'eq',value:vm.search.projectStage});
+     		   	}
+     		   if(vm.search.projectInvestmentType !=null && vm.search.projectInvestmentType !=''){//查询条件--投资类型
+     			   filters.push({field:'projectInvestmentType',operator:'eq',value:vm.search.projectInvestmentType});
+     		   	}
+     		   	if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--建设单位
+     			  filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
+     		   	}
+     		   
+ 			  vm.gridOptions.dataSource.filter(filters);
+     		  vm.gridOptions.dataSource.read(); 
+    		};
         }
         
         function page_details(){

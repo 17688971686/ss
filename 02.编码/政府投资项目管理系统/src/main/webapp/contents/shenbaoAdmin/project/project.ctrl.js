@@ -40,6 +40,7 @@
     		vm.html=function(val){
     			return $sce.trustAsHtml(val);
     		};
+
     		//用于查询、新增、编辑--基础数据初始化
     		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
     		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类型
@@ -143,7 +144,9 @@
     		  vm.basicData.projectIndustry=$linq(common.getBasicData())
 	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
 	       		.toArray();
- 			  vm.isZFInvestment = true; 			  
+ 			  vm.isZFInvestment = true;
+ 			//相关附件文件上传文件种类
+	   		vm.relatedType=common.uploadFileTypeConfig().projectEdit;
  		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资
  			  //基础数据--项目分类
  			  vm.basicData.projectClassify=$linq(common.getBasicData())
@@ -160,6 +163,8 @@
 	       		.toArray();
 	   		};
  			  vm.isSHInvestment = true;
+ 			//相关附件文件上传文件种类
+	   		vm.relatedType=common.uploadFileTypeConfig().projectEdit_SH;
  		   }
     	   
     	   	//设置项目所属单位信息
@@ -178,9 +183,7 @@
 	   		
 	   		//批复文件上传
 	   		vm.uploadType=[['JYS','项目建议书批复'],['KXXYJBG','可行性研究报告批复'],['CBSJYGS','初步设计与概算批复']];
-	   		//相关附件文件上传文件种类
-	   		vm.relatedType=common.uploadFileTypeConfig().projectEdit;
-
+	   		
 	   		vm.uploadSuccess=function(e){
     			var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
 	           	 if(e.XMLHttpRequest.status==200){
@@ -294,10 +297,15 @@
     	   $(".modal-backdrop").remove();
     	   projectSvc.getProjectById(vm);
     	   if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
- 			  vm.isZFInvestment = true; 			  
- 		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资			  
+ 			  vm.isZFInvestment = true;
+ 			 //相关附件文件上传文件种类
+ 			  vm.relatedType=common.uploadFileTypeConfig().projectEdit;
+ 		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资		  
  			  vm.isSHInvestment = true;
+ 			 //相关附件文件上传文件种类
+ 			  vm.relatedType=common.uploadFileTypeConfig().projectEdit_SH;
  		   }
+
     	 //资金来源计算
    		 vm.capitalTotal=function(){
    			 return common.getSum([
@@ -308,6 +316,7 @@
    		 };
     	 //相关附件文件上传文件种类
     	   vm.relatedType=common.uploadFileTypeConfig().projectEdit;
+
        }//end#page_projectInfo
 		
     }

@@ -600,7 +600,7 @@
 					vm.model.QianQiTotal = 0;//前期
 					vm.model.NewStratTotal = 0;//新开工
 					vm.model.XuJianTotal = 0;//续建
-					vm.model.ChuBeiTotal = 0;
+					vm.model.ChuBeiTotal = 0;//储备类
 					vm.model.projectInvestSumTotal = 0;//项目总投资
 					vm.model.applyYearInvestTotal = 0;//申请资金总额
 					
@@ -716,7 +716,6 @@
 						filterable : false,
 						width : 40,
 						title : "<input id='checkboxAll_shenBaoList' type='checkbox'  class='checkbox'/>"
-
 					},
 					{
 						field : "constructionUnit",
@@ -784,11 +783,11 @@
 						width : 100,
 						template:function(item){
 							if(item.projectCategory==common.basicDataConfig().projectCategory_A){
-								return common.formatDate(item.endDate);
+								return common.formatDate(item.endDate) || '';
 							}else if(item.projectCategory==common.basicDataConfig().projectCategory_B || 
 									item.projectCategory==common.basicDataConfig().projectCategory_C ||
 									item.projectCategory==common.basicDataConfig().projectCategory_D){
-								return common.formatDate(item.beginDate);
+								return common.formatDate(item.beginDate) || '';
 							}					
 						},
 						filterable : false
@@ -797,7 +796,7 @@
 						field : "projectGuiMo",
 						title : "建设规模及主要建设内容",
 						width:200,
-						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.projectGuiMo); },
+						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.projectGuiMo || '');},
 						filterable : false
 					},
 					{
@@ -938,10 +937,8 @@
 					
 					for(var j=0;j<data.length;j++){
 						var timeFormat = template(data[j]);
-						for (var i = 1; i < sheet.rows.length; i++) {
-						      var row = sheet.rows[i];
-							  row.cells[7].value = 	timeFormat;		      
-						    }
+						var row = sheet.rows[j+1];
+						row.cells[7].value = timeFormat;
 					}				    
 				  };
 
@@ -1320,7 +1317,7 @@
 					{
 						field : "projectConstrChar",
 						title : "建设性质",
-						width : 120,
+						width : 100,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectConstrChar);
 						},
@@ -1338,7 +1335,7 @@
 					{
 						field : "projectCategory",
 						title : "项目类别",
-						width : 120,
+						width : 100,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectCategory);
 						},
@@ -1356,7 +1353,7 @@
 					{
 						field : "projectIndustry",
 						title : "项目行业",
-						width : 150,
+						width : 100,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectIndustry);
 						},
@@ -1382,7 +1379,7 @@
 					{
 						field : "auditState",
 						title : "审核状态",
-						width : 150,
+						width : 100,
 						template:function(item){
 							return common.getBasicDataDesc(item.auditState);
 						},
@@ -1397,30 +1394,30 @@
 			                }
 						}
 					},
-					{
-						field : "isIncludLibrary",
-						title : "项目是否纳入项目库",
-						width : 150,
-						template:function(item){
-							if(item.isIncludLibrary){
-								return "已纳入";
-							}else{
-								return "未纳入";
-							}
-						},
-						filterable :true
-					},
-					{
-						field : "projectInvestSum",
-						title : "总投资(万元)",
-						width : 100,
-						filterable : false
-					},{
-						field : "applyYearInvest",
-						title : "申请年度投资(万元)",
-						width : 100,
-						filterable : false
-					},
+//					{
+//						field : "isIncludLibrary",
+//						title : "项目是否纳入项目库",
+//						width : 150,
+//						template:function(item){
+//							if(item.isIncludLibrary){
+//								return "已纳入";
+//							}else{
+//								return "未纳入";
+//							}
+//						},
+//						filterable :true
+//					},
+//					{
+//						field : "projectInvestSum",
+//						title : "总投资(万元)",
+//						width : 100,
+//						filterable : false
+//					},{
+//						field : "applyYearInvest",
+//						title : "申请年度投资(万元)",
+//						width : 100,
+//						filterable : false
+//					},
 					{
 						field : "createdDate",
 						title : "创建日期",
@@ -1449,12 +1446,13 @@
 			      row.cells[3].value = common.getBasicDataDesc(row.cells[3].value);//项目类别
 			      row.cells[4].value = common.getBasicDataDesc(row.cells[4].value);//项目分类
 				  row.cells[6].value = common.getBasicDataDesc(row.cells[6].value);//审核状态
-				  if(row.cells[7].value){//项目是否纳入项目库
-					  row.cells[7].value = "已纳入";
-				  }else{
-					  row.cells[7].value = "未纳入";
-				  }
-				  row.cells[10].value = common.formatDateTime(row.cells[10].value);//创建日期
+//				  if(row.cells[7].value){//项目是否纳入项目库
+//					  row.cells[7].value = "已纳入";
+//				  }else{
+//					  row.cells[7].value = "未纳入";
+//				  }
+//				  row.cells[10].value = common.formatDateTime(row.cells[10].value);//创建日期
+				  row.cells[7].value = common.formatDateTime(row.cells[7].value);//创建日期
 			    }
 			  };
 

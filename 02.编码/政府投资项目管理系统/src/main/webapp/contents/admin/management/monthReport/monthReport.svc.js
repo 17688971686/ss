@@ -163,30 +163,64 @@
 
 			// Begin:column
 			var columns = [
-					  
-					{
-						field : "projectName",
-						title : "项目名称",						
-						template:function(item){							
-							return common.format('<a href="#/projectDetails/{0}/{1}">{2}</a>',item.id,item.projectInvestmentType,item.projectName);							
-						},
-						filterable : true
+				{
+					template : function(item) {
+						return kendo
+								.format(
+										"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+										item.id);
 					},
-					{
-						field : "",
-						title : "填报月份",
-						template:function(data){
-							var returnStr="";
-							data.monthReportDtos.forEach(function(e,idx){
-								returnStr+=common.format('<a class="btn btn-xs btn-success" ng-show="{3}" href="#/monthReport/{0}/{1}/{2}">{1}年{2}月</a> ',
-										e.projectId,e.submitYear,e.submitMonth,e.isLatestVersion);
-																		
+					filterable : false,
+					width : 40,
+					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+
+				},
+					  
+				{
+					field : "projectName",
+					title : "项目名称",						
+					template:function(item){							
+						return common.format('<a href="#/projectDetails/{0}/{1}">{2}</a>',item.id,item.projectInvestmentType,item.projectName);							
+					},
+					filterable : true
+				},
+				{
+					field : "unitName",
+					title : "建设单位名称",
+					filterable : true
+				},
+				{
+					field : "projectInvestmentType",
+					title : "投资类型",
+					template:function(item){							
+						return common.getBasicDataDesc(item.projectInvestmentType);
+					},
+					filterable : {
+						ui:function(element){
+							element.kendoDropDownList({
+								valuePrimitive: true,
+	                            dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType),
+	                            dataTextField: "description",
+	                            dataValueField: "id"
 							});
-							return returnStr;					
-						},
-						width:800,
-						filterable : false
-					}															
+						}
+					}
+				},
+				{
+					field : "",
+					title : "填报月份",
+					template:function(data){
+						var returnStr="";
+						data.monthReportDtos.forEach(function(e,idx){
+							returnStr+=common.format('<a class="btn btn-xs btn-success" ng-show="{3}" href="#/monthReport/{0}/{1}/{2}">{1}年{2}月</a> ',
+									e.projectId,e.submitYear,e.submitMonth,e.isLatestVersion);
+																	
+						});
+						return returnStr;					
+					},
+					width:800,
+					filterable : false
+				}															
 			];
 			// End:column
 		

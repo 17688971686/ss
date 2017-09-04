@@ -10,7 +10,9 @@
     function projectMonthReport($location, projectMonthReportSvc,$state,$scope) {
         /* jshint validthis:true */
         var vm = this;
-        vm.model={};        
+        vm.model={};
+        vm.basicData={};
+        vm.search={};
         vm.page='list';
         vm.init=function(){
         	vm.projectId = $state.params.projectId;
@@ -27,6 +29,10 @@
             vm.checkLength = function(obj,max,id){
    			 common.checkLength(obj,max,id);
             };
+            
+          //用于查询--基础数据
+	   		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
+	   		vm.basicData.projectInvestmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);//投资类型
         };
         
         activate();
@@ -48,6 +54,27 @@
         
        function page_list(){      
     	   projectMonthReportSvc.grid(vm);
+    	   
+    	 //查询
+   		vm.search=function(){
+   			var filters = [];
+				filters.push({field:'isLatestVersion',operator:'eq',value:true});//默认条件--项目最新版本
+				filters.push({field:'isMonthReport',operator:'eq',value:true});//默认条件--需要填报月报 
+				
+				 
+				if(vm.search.projectName !=null && vm.search.projectName !=''){//查询条件--项目名称
+	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
+	     		   }
+    		   	if(vm.search.projectStage !=null && vm.search.projectStage !=''){//查询条件--项目阶段
+    			   filters.push({field:'projectStage',operator:'eq',value:vm.search.projectStage});
+    		   	}
+    		   	if(vm.search.projectInvestmentType !=null && vm.search.projectInvestmentType !=''){//查询条件--投资类型
+    			   filters.push({field:'projectInvestmentType',operator:'eq',value:vm.search.projectInvestmentType});
+    		   	}
+    		   
+			  vm.gridOptions.dataSource.filter(filters);
+    		  vm.gridOptions.dataSource.read(); 
+   		};
         }//end page_list
         
        function page_selectMonth(){

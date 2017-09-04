@@ -133,6 +133,7 @@
 	        })
 /**********************end#monthReport***************************************/
 /**********************begin#project***************************************/
+	        //政府投资项目
 	        //列表页
 	        .state('project', {
 	            url: '/project',
@@ -153,7 +154,15 @@
 	            templateUrl: '/management/project/html/details.html',
 	            controller: 'projectCtrl',
 	            controllerAs: 'vm'
-	        }) 
+	        })
+	        //社会投资项目
+	        //列表页
+	        .state('project_SH', {
+	            url: '/project_SH',
+	            templateUrl: '/management/project/html/list_SH.html',
+	            controller: 'projectCtrl',
+	            controllerAs: 'vm'
+	        })
 /**********************end#project***************************************/
 	        
 	        //begin#单位管理	       
@@ -311,8 +320,53 @@
 	            templateUrl: '/management/task/html/complete',
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'
-	        });	
-/**********************end#工作台***************************************/        
+	        })
+/**********************end#工作台***************************************/
+      //begin中介单位管理
+        //中介单位列表
+        .state('mediationUnitList', {
+            url: '/mediationUnitList',
+            templateUrl: '/management/mediationManagement/html/mediationUnitList',
+            controller: 'mediationManagementCtrl',
+            controllerAs: 'vm'
+        })	
+        //中介单位编辑or新增
+        .state('mediationUnitChange', {
+        url: '/mediationUnitChange/:id',
+        templateUrl: '/management/mediationManagement/html/mediationUnitChangeDetails',
+        controller: 'mediationManagementCtrl',
+        controllerAs: 'vm'
+        })  
+        //查看中介单位信息
+        .state('mediationUnitDetails', {
+        url: '/mediationUnitDetails/:id',
+        templateUrl: '/management/mediationManagement/html/mediationUnitDetails',
+        controller: 'mediationManagementCtrl',
+        controllerAs: 'vm'
+        })
+        //协审活动列表 
+        .state('assistReviewList', {
+        url: '/assistReviewList',
+        templateUrl: '/management/mediationManagement/html/assistReviewList',
+        controller: 'mediationManagementCtrl',
+        controllerAs: 'vm'
+        })
+         //协审活动编辑or新增 
+        .state('assistReviewChange', {
+        url: '/assistReviewChange/:id',
+        templateUrl: '/management/mediationManagement/html/assistReviewChangeDetails',
+        controller: 'mediationManagementCtrl',
+        controllerAs: 'vm'
+        }) 
+        //查看协审活动信息
+        .state('assistReviewDetails', {
+        url: '/assistReviewDetails/:id',
+        templateUrl: '/management/mediationManagement/html/assistReviewDetails',
+        controller: 'mediationManagementCtrl',
+        controllerAs: 'vm'
+        })
+        ;
+        
     }]);
     
 })();

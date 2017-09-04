@@ -59,7 +59,7 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 									$('.modal-backdrop').remove();
-									$location.path(url_back);		
+									$location.path(url_back);
 								}
 							});
 						}
@@ -97,8 +97,8 @@
 				
 				//查询项目的所属单位的单位名称
 			   	getProjectUnit(vm);
-			   	
-			   	//项目类型的处理--多选框回显					
+
+			   	//项目类型的处理--多选框回显
 			   	vm.model.projectType = common.stringToArray(vm.model.projectType,',');
 				//日期展示
 				vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
@@ -320,7 +320,6 @@
 					filterable : false,
 					width : 40,
 					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
-
 				},
 				{
 					field : "projectName",

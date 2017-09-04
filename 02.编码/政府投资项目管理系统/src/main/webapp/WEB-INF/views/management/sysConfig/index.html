@@ -10,17 +10,21 @@
 	</ol>
 	<form id="form" name="form">
 		<div>
-			<table class="table table-bordered table-striped" style="width: 40%">
+			<table class="table table-bordered table-striped" style="width: 60%">
 				<tr>
-					<th style="vertical-align: middle">系统设置</th>
+					<th style="vertical-align: middle;width:85px;">系统设置</th>
 					<td colspan="2">
 						<table class="table table-bordered table-striped" style="margin-bottom:0">
 							<tr ng-repeat="x in vm.model.taskList" ng-switch="x.id">
-								<td ng-bind="x.description"></td>
-								<td>
+								<td ng-bind="x.description" style="width:165px;"></td>
+								<td style="width:170px;">
 									<span ng-switch-when="taskType_1">当前签收人：{{x.taskUser}}</span>
 									<span ng-switch-when="taskType_2">当前签收人：{{x.taskUser}}</span>
 									<span ng-switch-when="taskType_3">当前状态：
+										<span ng-if="x.taskEnable">是</span>
+										<span ng-if="!x.taskEnable">否</span>
+									</span>
+									<span ng-switch-when="taskType_4">当前状态：
 										<span ng-if="x.taskEnable">是</span>
 										<span ng-if="!x.taskEnable">否</span>
 									</span>
@@ -41,6 +45,12 @@
 										<option ng-repeat="y in vm.user" value="{{y.loginName}}" ng-selected="y.loginName == x.taskUser">{{y.loginName}}</option>
 									</select>
 									<select style="height: 30px;" ng-show="vm.model.checkedButton[$index] == false" ng-switch-when='taskType_3'
+										ng-model="vm.model.config[$index].enable" ng-change="vm.userChange($index)"> 
+										<option value="">---请选择---</option>
+										<option value="true" ng-selected="x.taskEnable">是</option>
+										<option value="false" ng-selected="!x.taskEnable">否</option>
+									</select>
+									<select style="height: 30px;" ng-show="vm.model.checkedButton[$index] == false" ng-switch-when='taskType_4'
 										ng-model="vm.model.config[$index].enable" ng-change="vm.userChange($index)"> 
 										<option value="">---请选择---</option>
 										<option value="true" ng-selected="x.taskEnable">是</option>

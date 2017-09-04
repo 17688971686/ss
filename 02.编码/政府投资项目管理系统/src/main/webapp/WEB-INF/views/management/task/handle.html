@@ -48,6 +48,7 @@ overflow: scroll !important;
 		<li><a href="#/">首页</a></li>
 		<li ng-hide="vm.isComplete"><a href="#/task/todo">待办列表</a></li>
 		<li ng-show="vm.isComplete"><a href="#/task/complete">已办列表</a></li>
+		<li><a href="javascript:void(0)" ng-click="vm.callBack()">返回上一步</a></li>
 		<li class="active">办理</li>
 	</ol>                
  	<form id="form" name="form">
@@ -142,7 +143,7 @@ overflow: scroll !important;
 			<tr ng-hide="vm.isComplete">
 				<td class="formAlignRight" style="width:150px;">填写处理意见：</td>
 				<td>
-					<textarea class="form-control" id="processSuggestion" name="processSuggestion"  maxlength="500" rows="3" 
+					<textarea class="form-control" id="processSuggestion" name="processSuggestion"  maxlength="500" rows="3"
 						ng-model="vm.model.taskRecord.processSuggestion" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
 						ng-change="vm.checkLength(vm.model.taskRecord.processSuggestion,500,'processSuggestionTips')">
 					</textarea>
@@ -183,8 +184,8 @@ overflow: scroll !important;
 					<span class="modal-title">详细信息</span>
 					</div>
 					<div class="modal-body">
-						<div ng-show="vm.isYearPlan" ng-include  src="'/contents/admin/management/task/html/yearPlan/master.html'"></div>
-						<div ng-show="vm.isMonthReport" ng-include  src="'/contents/admin/management/task/html/monthReport/master.html'"></div>   
+						<div ng-if="!vm.isMonthReport" ng-include  src="'/contents/admin/management/task/html/yearPlan/master.html'"></div>
+						<div ng-if="vm.isMonthReport" ng-include  src="'/contents/admin/management/task/html/monthReport/master.html'"></div>   
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-info btn-sm" data-dismiss="modal">确认</button>
