@@ -195,6 +195,7 @@
 					success:httpSuccess
 				});
 		}
+		
 		//编辑协审活动
 		function updateAssistReview(vm){
 			common.initJqValidation();

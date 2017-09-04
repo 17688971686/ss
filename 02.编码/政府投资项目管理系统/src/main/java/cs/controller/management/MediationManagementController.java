@@ -89,6 +89,16 @@ public class MediationManagementController {
 			assistReviewService.delete(id);
 		}
 	}  
+	@RequestMapping(name = "服务质量评价", path = "html/serviceEvaluation", method = RequestMethod.GET)	
+	public String serviceEvaluation() {
+       
+		return this.ctrlName + "/serviceEvaluationEdit";
+	}
+	@RequestMapping(name = "送审文件质量评价", path = "html/submitReviewEvaluation", method = RequestMethod.GET)	
+	public String submitReviewEvaluation() {
+       
+		return this.ctrlName + "/submitReviewEvaluationEdit";
+	}
 	@RequestMapping(name = "协审活动详情", path = "html/assistReviewDetails", method = RequestMethod.GET)	
 	public String assistReviewDetails() {
        

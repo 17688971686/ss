@@ -42,6 +42,13 @@
  				}break; 
  			case "assistReviewDetails":
  				vm.page="assistReviewDetails";
+ 				break;
+ 			case "serviceEvaluation":
+ 				vm.page="serviceEvaluation"; 
+ 				break;
+ 			case "submitReviewEvaluation":
+ 				vm.page="submitReviewEvaluation"; 
+ 				
  			} ;
          	vm.checkLength = function(obj,max,id){
       			 common.checkLength(obj,max,id);
@@ -83,6 +90,123 @@
         		vm.title="协审活动详情" ;
         		page_assistReviewDetails();
         	}
+        	if(vm.page=='serviceEvaluation'){
+        		vm.title="服务质量评价" ;
+        		page_serviceEvaluation();
+        	}
+        	if(vm.page=='submitReviewEvaluation'){
+        		vm.title="送审文件质量评价" ;
+        		page_submitReviewEvaluation();
+        	}
+        }
+        function page_submitReviewEvaluation(){
+        	vm.submitReviewEvaluation=function(){
+        		 mediationManagementSvc.updateAssistReview(vm);
+        	}
+        	mediationManagementSvc.getAssistReviewById(vm);
+        	vm.basicData.rating=common.getBacicDataByIndectity(common.basicDataConfig().serviceRating);
+       	    vm.delFile=function(index,i){
+     		     var file = vm.model.submitReviewEvaluationDtos[index].attachmentDtos[i];
+     		     console.log(file);
+ 	   			 if(file){
+ 	   				vm.model.submitReviewEvaluationDtos[index].attachmentDtos.splice(i,1);
+ 	   			 }
+     	   };
+     	//文件选择触发验证文件大小
+  		vm.onSelect=function(e){
+	   			$.each(e.files, function (index, value) {
+	   	            if(value.size > common.basicDataConfig().uploadSize){
+	   	            	$scope.$apply(function(){
+	   		   				common.alert({
+	   			        		vm : vm,
+	   							msg : "上传文件过大！"
+	   			            });               			           			
+	   	          		 });
+	   	            }
+	   	            
+	   	        });
+	   		};
+     	 vm.uploadSuccess=function(e){
+ 			var index=$(e.sender.element).parents('.uploadBox').attr('data-type');
+	           	 if(e.XMLHttpRequest.status==200){
+	           		 var fileName=e.XMLHttpRequest.response;
+	           		 $scope.$apply(function(){
+	           			 console.log(index);
+	           			 if(vm.model.submitReviewEvaluationDtos[index].attachmentDtos){
+	           				 vm.model.submitReviewEvaluationDtos[index].attachmentDtos.push({name:fileName.split('_')[2],url:fileName});
+	           			 }else{
+	           				 vm.model.submitReviewEvaluationDtos[index].attachmentDtos=[];
+	           				 vm.model.submitReviewEvaluationDtos[index].attachmentDtos=[{name:fileName.split('_')[2],url:fileName}];
+	           			 }   
+	           		 });
+	           	 }
+		};
+		vm.uploadOptions={
+  				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
+  				error: vm.uploadSuccess,   				
+  				localization:{select:'上传文件'},
+  				showFileList:false,
+  				multiple:true,
+  				validation: {
+  	                maxFileSize: common.basicDataConfig().uploadSize
+  	            },
+  	            select:vm.onSelect
+  		};
+        }
+        function page_serviceEvaluation(){
+        	vm.submitServiceEvaluation=function(){
+        		 mediationManagementSvc.updateAssistReview(vm);
+        	}
+        	mediationManagementSvc.getAssistReviewById(vm);
+        	vm.basicData.rating=common.getBacicDataByIndectity(common.basicDataConfig().serviceRating);
+        	 vm.delFile=function(index,i){
+      		     var file = vm.model.serviceEvaluationDtos[index].attachmentDtos[i];
+      		     console.log(file);
+  	   			 if(file){
+  	   				vm.model.serviceEvaluationDtos[index].attachmentDtos.splice(i,1);
+  	   			 }
+      	   };
+      	//文件选择触发验证文件大小
+   		vm.onSelect=function(e){
+	   			$.each(e.files, function (index, value) {
+	   	            if(value.size > common.basicDataConfig().uploadSize){
+	   	            	$scope.$apply(function(){
+	   		   				common.alert({
+	   			        		vm : vm,
+	   							msg : "上传文件过大！"
+	   			            });               			           			
+	   	          		 });
+	   	            }
+	   	            
+	   	        });
+	   		};
+      	 vm.uploadSuccess=function(e){
+  			var index=$(e.sender.element).parents('.uploadBox').attr('data-type');
+	           	 if(e.XMLHttpRequest.status==200){
+	           		 var fileName=e.XMLHttpRequest.response;
+	           		 $scope.$apply(function(){
+	           			 console.log(index);
+	           			 if(vm.model.serviceEvaluationDtos[index].attachmentDtos){
+	           				 vm.model.serviceEvaluationDtos[index].attachmentDtos.push({name:fileName.split('_')[2],url:fileName});
+	           			 }else{
+	           				 vm.model.serviceEvaluationDtos[index].attachmentDtos=[];
+	           				 vm.model.serviceEvaluationDtos[index].attachmentDtos=[{name:fileName.split('_')[2],url:fileName}];
+	           			 }   
+	           		 });
+	           	 }
+ 		};
+ 		vm.uploadOptions={
+   				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
+   				error: vm.uploadSuccess,   				
+   				localization:{select:'上传文件'},
+   				showFileList:false,
+   				multiple:true,
+   				validation: {
+   	                maxFileSize: common.basicDataConfig().uploadSize
+   	            },
+   	            select:vm.onSelect
+   		};
+        	
         }
         function page_assistReviewDetails(){
         	mediationManagementSvc.getAssistReviewById(vm);

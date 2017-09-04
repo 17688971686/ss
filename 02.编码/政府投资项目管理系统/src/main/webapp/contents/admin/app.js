@@ -305,6 +305,20 @@
         controller: 'mediationManagementCtrl',
         controllerAs: 'vm'
         })
+        //服务质量评价 serviceEvaluation submitReviewEvaluation
+         .state('serviceEvaluation', {
+        url: '/serviceEvaluation/:id',
+        templateUrl: '/management/mediationManagement/html/serviceEvaluation',
+        controller: 'mediationManagementCtrl',
+        controllerAs: 'vm'
+        })
+         //送审文件质量评价 submitReviewEvaluation
+         .state('submitReviewEvaluation', {
+        url: '/submitReviewEvaluation/:id',
+        templateUrl: '/management/mediationManagement/html/submitReviewEvaluation',
+        controller: 'mediationManagementCtrl',
+        controllerAs: 'vm'
+        })
         ;
         
     }]);

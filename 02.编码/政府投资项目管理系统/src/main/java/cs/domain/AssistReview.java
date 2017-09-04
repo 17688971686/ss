@@ -1,12 +1,13 @@
 package cs.domain;
 
 import java.util.*;
-import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /*
@@ -27,6 +28,14 @@ public class AssistReview extends BaseEntity{
 	private String assistReviewName;
 	@Column(columnDefinition="varchar(255)  COMMENT '备注'")
 	private String comment;
+	@Column(columnDefinition="varchar(255)  COMMENT '服务质量备注'")
+	private String serviceComment;
+	@Column(columnDefinition="varchar(255)  COMMENT '送审文件评价备注'")
+	private String sentComment;
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<ServiceEvaluation> serviceEvaluation=new ArrayList<>();
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<SubmitReviewEvaluation> submitReviewEvaluation=new ArrayList<>();
 	@Column(columnDefinition="varchar(255)  COMMENT '协审项目id'")
 	private String projectId;
 	@ManyToMany
@@ -36,6 +45,30 @@ public class AssistReview extends BaseEntity{
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getServiceComment() {
+		return serviceComment;
+	}
+	public void setServiceComment(String serviceComment) {
+		this.serviceComment = serviceComment;
+	}
+	public String getSentComment() {
+		return sentComment;
+	}
+	public void setSentComment(String sentComment) {
+		this.sentComment = sentComment;
+	}
+	public List<SubmitReviewEvaluation> getSubmitReviewEvaluation() {
+		return submitReviewEvaluation;
+	}
+	public void setSubmitReviewEvaluation(List<SubmitReviewEvaluation> submitReviewEvaluation) {
+		this.submitReviewEvaluation = submitReviewEvaluation;
+	}
+	public List<ServiceEvaluation> getServiceEvaluation() {
+		return serviceEvaluation;
+	}
+	public void setServiceEvaluation(List<ServiceEvaluation> serviceEvaluation) {
+		this.serviceEvaluation = serviceEvaluation;
 	}
 	public Date getAssistReviewBeginDate() {
 		return assistReviewBeginDate;
