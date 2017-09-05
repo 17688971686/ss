@@ -5,9 +5,9 @@
         .module('appSupervision')
         .controller('projectCtrl', project);
 
-    project.$inject = ['$location','projectSvc','$state','$scope','$sce']; 
+    project.$inject = ['$location','projectSupervisedSvc','$state','$scope','$sce']; 
 
-    function project($location, projectSvc,$state,$scope,$sce) {
+    function project($location, projectSupervisedSvc,$state,$scope,$sce) {
         /* jshint validthis:true */
     	var vm = this;
     	vm.title = "新增项目";
@@ -79,12 +79,12 @@
     	
     	function init_list(){
     		if(vm.isZFInvestment){
-    			projectSvc.grid(vm);
+    			projectSupervisedSvc.grid(vm);
     		}
     		if(vm.isSHInvestment){
-    			projectSvc.grid_SH(vm);
+    			projectSupervisedSvc.grid_SH(vm);
     		}
-    		projectSvc.grid(vm);
+    		projectSupervisedSvc.grid(vm);
     		//查询
     		vm.search=function(){
     			var filters = [];
@@ -148,7 +148,7 @@
     		
     		//更新项目是否填报状态
     		vm.updateIsMonthReport = function(){
-    			projectSvc.updateIsMonthReport(vm);
+    			projectSupervisedSvc.updateIsMonthReport(vm);
     		}; 
     		
     		vm.del = function (id) {
@@ -158,7 +158,7 @@
                	 msg:"确认删除数据吗？",
                	 fn:function () { 
                		$('.confirmDialog').modal('hide');
-                    projectSvc.deleteProject(vm,id);
+                    projectSupervisedSvc.deleteProject(vm,id);
                     }
                 });
            };//del
@@ -211,7 +211,7 @@
   			  vm.isSHInvestment = true;
   		   }
     		//获取当前所有的用户单位信息
-    		projectSvc.getUserUnits(vm);
+    		projectSupervisedSvc.getUserUnits(vm);
     		
 	   		//获取项目类型， 多选
 	   		vm.updateSelection = function(id){
@@ -252,7 +252,7 @@
    	        	   });
    	        	   vm.gridOptions_documentRecords.dataSource.read();//批复文件列表数据刷新
    	   		};
-   	   		projectSvc.documentRecordsGird(vm);//查询批复文件
+   	   		projectSupervisedSvc.documentRecordsGird(vm);//查询批复文件
    	   		
    	   		//批复文件选择模态框确认
 	   		vm.pifuChoseConfirm = function(){
@@ -333,22 +333,22 @@
  		 };
 	        
     	   vm.create = function () {
-    		    projectSvc.createProject(vm);    		     
+    		    projectSupervisedSvc.createProject(vm);    		     
     		};    		     		     			    		 
     	}//init_create
     	
     	function init_update(){
-    		vm.title = "编辑项目";
+    		vm.title = "编辑111项目";
     		//获取项目信息
-    		projectSvc.getProjectById(vm);
+    		projectSupervisedSvc.getProjectById(vm);
     		//更新项目
     		vm.update = function(){
-    			projectSvc.updateProject(vm);
+    			projectSupervisedSvc.updateProject(vm);
     		};  	   		
     	}//init_update
     	
     	function init_details(){
-    		projectSvc.getProjectById(vm);
+    		projectSupervisedSvc.getProjectById(vm);
     		
     		if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
    			  vm.isZFInvestment = true;

@@ -149,14 +149,30 @@
 	        /**********************end#basic***************************************/
 	        
 	        
-	        
-	        //在线监管中的投资项目
+	        /**********************begin#project***************************************/
+	        //政府投资项目
+	        //列表页
 	        .state('supervision_tzxm', {
 	            url: '/supervision/tzxm',
 	            templateUrl: '/management/supervision/project/html/list',
 	            controller: 'projectCtrl',
 	            controllerAs: 'vm'
+	        })
+	        //编辑页
+	        .state('projectEdit', {
+	            url: '/projectEdit/:id/:projectInvestmentType',
+	            templateUrl: '/management/supervision/project/html/edit.html',
+	            controller: 'projectCtrl',
+	            controllerAs: 'vm'
+	        }) 
+	        //详情页
+	        .state('projectDetails', {
+	            url: '/projectDetails/:id/:projectInvestmentType',
+	            templateUrl: '/management/project/html/details.html',
+	            controller: 'projectCtrl',
+	            controllerAs: 'vm'
 	        });
+	        /**********************end#project***************************************/
         
     }]);
     

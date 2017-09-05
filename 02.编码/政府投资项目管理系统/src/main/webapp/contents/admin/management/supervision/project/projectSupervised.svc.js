@@ -1,14 +1,14 @@
 (function() {
 	'use strict';
 
-	angular.module('appSupervision').factory('projectSvc', project);
+	angular.module('appSupervision').factory('projectSupervisedSvc', project);
 
 	project.$inject = [ '$http' ];
 
 	function project($http) {
-		var url_project = "/management/project";//获取项目信息数据
+		var url_project = "/management/supervision/project";//获取项目信息数据
 		var url_userUnit = "/management/userUnit";//获取单位信息
-		var url_back = "#/project";
+		var url_back = "#/supervision/tzxm";
 		var url_backSH = "#/project_SH";
 		var url_document="/management/replyFile";
 		var service = {
@@ -380,7 +380,7 @@
 					},{
 						field:"isIncludLibrary",
 						operator:"eq",
-						value:true
+						value:false
 					}
 				]
 			});
