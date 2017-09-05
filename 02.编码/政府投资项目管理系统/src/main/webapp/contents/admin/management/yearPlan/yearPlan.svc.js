@@ -13,6 +13,7 @@
 		var url_back_planList="#/yearPlan/planList";
 		var url_document="/management/replyFile";
 		var url_back_shenbaoInfoList="/yearPlan/shenbaoInfoList";
+		var url_exportExcel="/common/exportExcel";
 		
 		var service = {
 			grid_shenbaoInfoList : grid_shenbaoInfoList,//申报项目列表
@@ -33,8 +34,42 @@
 			updateYearPlanCapital:updateYearPlanCapital,//更新年度计划编制信息	
 			removeYearPlanCapital:removeYearPlanCapital,//移除申报项目
 			documentRecordsGird:documentRecordsGird,//批复文件列表
-			getUserUnit:getUserUnit//获取用户单位信息
+			getUserUnit:getUserUnit,//获取用户单位信息
+			exportExcelForYS:exportExcelForYS//导出印刷版Excel
 		};
+		
+		/**
+		 * 导出印刷版Excel
+		 */
+		function exportExcelForYS(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_exportExcel+"?planId={0}",vm.id)
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						common.alert({
+							vm:vm,
+							msg:"导出成功！",
+							fn:function(){
+								$('.alertDialog').modal('hide');
+							}
+						});
+					}
+				});
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}
 		
 		//begin#updateShenBaoInfo 更新申报信息
 		function updateShenBaoInfo(vm){
@@ -1126,10 +1161,7 @@
 						row.cells[7].value = timeFormat;
 					}
 				  };
-				 
-	           
 				  
-
 			vm.planGridOptions = {
 				excel: {
 		                fileName: "年度计划编制.xlsx"
@@ -1140,8 +1172,7 @@
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
 				resizable : true,
-				excelExport:excelExport,
-				sortable: true
+				excelExport:excelExport
 			};
 		}//end grid_yearPlan_shenbaoInfoList
 		

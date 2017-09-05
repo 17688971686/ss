@@ -579,7 +579,11 @@
     	                var idStr=ids.join(',');  
     	                yearPlanSvc.removeYearPlanCapital(vm,idStr);
     	            }
-    	    	};//removeYearPlanCapital   			
+    	    	};//removeYearPlanCapital
+    	    //导出印刷版Excel
+	    	vm.exportExcelForYS=function(){
+	    		yearPlanSvc.exportExcelForYS(vm);
+	    	};
     	}//init_planBZ   	    	    	   	
     } //yearPlan
 })();
