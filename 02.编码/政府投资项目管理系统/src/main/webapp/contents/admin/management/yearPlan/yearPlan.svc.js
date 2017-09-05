@@ -931,7 +931,7 @@
 					    }
 					},
 					{
-						title: "申请资金(万元)",
+						title: "资金来源及需求(万元)",
                         columns: [
                         	{
         						field : "capitalSCZ_ggys_TheYear",
@@ -992,7 +992,7 @@
 					    }
 					},
 					{
-						title: "申请资金(万元)",
+						title: "资金来源及需求(万元)",
 						columns: [
 							{
 								field : "capitalSCZ_ggys_LastYear",
@@ -1052,7 +1052,7 @@
 					    }
 					},
 					{
-                        title: "申请资金(万元)",
+                        title: "资金来源及需求(万元)",
                         columns: [
                         	{
                         		field: "capitalSCZ_ggys_LastTwoYear",
@@ -1211,7 +1211,7 @@
 				serverFiltering : true,
 				pageSize : 10,
 				sort : {
-					field : "createdDate",
+					field : "projectIndustry",
 					dir : "desc"
 				},
 				filter:[{//申报阶段为下一年度计划
