@@ -239,6 +239,66 @@
 	        
 /**********************end#年度计划编制***************************************/
 	        
+/**********************begin#信用信息管理***************************************/
+	        //信用异常名录 列表页面
+	        .state('credit_illegalNameList', {
+	            url: '/creditInfo/illegalNameList',
+	            templateUrl: '/management/creditInfo/html/illegalNameList',
+	            controller: 'creditInfoCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //信用异常名录 信息录入页面
+	        .state('credit_illegalNameEdit', {
+	            url: '/creditInfo/illegalNameEdit/:id/:projectNumber/:projectName/:unitName/:createdDate',
+	            templateUrl: '/management/creditInfo/html/illegalNameEdit',
+	            controller: 'creditInfoCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //信用异常名录 信息更改页面
+	        .state('credit_updateIllegalName', {
+	            url: '/creditInfo/updateIllegalName/:id',
+	            templateUrl: '/management/creditInfo/html/illegalNameEdit',
+	            controller: 'creditInfoCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //信用异常名录 详情页面
+	        .state('credit_illegalNameDetails', {
+	            url: '/creditInfo/illegalNameDetails/:id',
+	            templateUrl: '/management/creditInfo/html/illegalNameDetails',
+	            controller: 'creditInfoCtrl',
+	            controllerAs: 'vm'
+	        })	   
+	        
+	        //信用黑名单 列表页面
+	        .state('credit_blackList', {
+	            url: '/creditInfo/blackList',
+	            templateUrl: '/management/creditInfo/html/blackList',
+	            controller: 'creditInfoCtrl',
+	            controllerAs: 'vm'
+	        })	   
+	        //信用黑名单 信息录入页面
+	        .state('credit_blackListEdit', {
+	            url: '/creditInfo/blackList//:projectNumber/:projectName/:unitName/:createdDate',
+	            templateUrl: '/management/creditInfo/html/blackListEdit',
+	            controller: 'creditInfoCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //信用黑名单 详情页面
+	        .state('credit_blackListDetails', {
+	            url: '/creditInfo/blackListDetails/:id',
+	            templateUrl: '/management/creditInfo/html/blackListDetails',
+	            controller: 'creditInfoCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //信用黑名单 信息修改页面
+	        .state('credit_blackListAlter', {
+	            url: '/creditInfo/blackListEdit/:id',
+	            templateUrl: '/management/creditInfo/html/blackListUpdate',
+	            controller: 'creditInfoCtrl',
+	            controllerAs: 'vm'
+	        })
+/**********************end#信用信息管理***************************************/
+	        
 /**********************begin#工作台***************************************/
 	        //待办列表页(taskHead)
 	        .state('task_todo', {
