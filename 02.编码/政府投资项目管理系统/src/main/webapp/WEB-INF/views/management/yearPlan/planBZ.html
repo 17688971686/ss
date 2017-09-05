@@ -1,7 +1,7 @@
 <style>
-/*   .k-grid tbody tr {
-      cursor: move;
- } */
+  .k-grid tbody tr {
+     cursor: move;
+ } 
 </style>
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
@@ -261,8 +261,15 @@
 			  			<tr>
 			  				<td class="formAlignRight">建设单位：</td>
 			  				<td><input type="text" style="width:100%" placeholder="单位名称（可少输不可输错）" ng-model="vm.search.constructionUnit"/></td>
+			  				<td class="formAlignRight">审批状态</td>
+			  				<td>
+			  					<select style="height:30px;" ng-model="vm.search.auditState">
+						  			<option value="">---请选择---</option>
+						  			<option ng-repeat="x in vm.basicData.auditState" value="{{x.id}}">{{x.description}}</option>
+						  		</select>
+			  				</td>
 			  				<td class="formAlignRight">建设性质：</td>
-			  				<td colspan="3">
+			  				<td>
 			  					<select style="height:30px;" ng-model="vm.search.projectConstrChar">
 						  			<option value="">---请选择---</option>
 						  			<option ng-repeat="x in vm.basicData.projectConstrChar" value="{{x.id}}">{{x.description}}</option>

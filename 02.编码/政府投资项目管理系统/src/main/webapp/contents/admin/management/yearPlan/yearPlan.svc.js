@@ -1174,6 +1174,26 @@
 				resizable : true,
 				excelExport:excelExport
 			};
+//			vm.planGrid.table.kendoSortable({
+//                filter: ">tbody >tr",
+//                hint: $.noop,
+//                cursor: "move",
+//                placeholder: function(element) {
+//                    return element.clone().addClass("k-state-hover").css("opacity", 0.65);
+//                },
+//                container: "#grid tbody",
+//                change: function(e) {
+//                    var skip = grid.dataSource.skip(),
+//                        oldIndex = e.oldIndex + skip,
+//                        newIndex = e.newIndex + skip,
+//                        data = grid.dataSource.data(),
+//                        dataItem = grid.dataSource.getByUid(e.item.data("uid"));
+//
+//                    grid.dataSource.remove(dataItem);
+//                    grid.dataSource.insert(newIndex, dataItem);
+//                }
+//            });
+
 		}//end grid_yearPlan_shenbaoInfoList
 		
 		/**
@@ -1202,10 +1222,6 @@
 					field:'processState',
 					operator:'eq',
 					value:common.basicDataConfig().processState_qianShou
-				},{//审核状态为审核通过
-					field:'auditState',
-					operator:'eq',
-					value:common.basicDataConfig().auditState_auditPass
 				}]
 			});
 			// End:dataSource
@@ -1273,6 +1289,25 @@
 			                    element.kendoDropDownList({
 			                        valuePrimitive: true,
 			                        dataSource:vm.basicData.projectIndustry_ZF,
+			                        dataTextField: "description",
+			                        dataValueField: "id",
+			                        filter:"startswith"
+			                    });
+							}
+						}
+					},
+					{
+						field : "auditState",
+						title : "审批状态",
+						template:function(item){
+							return common.getBasicDataDesc(item.auditState);
+						},
+						width : 100,
+						filterable : {
+							ui: function(element){
+			                    element.kendoDropDownList({
+			                        valuePrimitive: true,
+			                        dataSource:vm.basicData.auditState,
 			                        dataTextField: "description",
 			                        dataValueField: "id",
 			                        filter:"startswith"
@@ -1503,7 +1538,7 @@
 				serverFiltering : true,
 				pageSize : 10,
 				sort : {
-					field : "createdDate",
+					field : "projectIndustry",
 					dir : "desc"
 				},
 				filter:[{
@@ -1543,18 +1578,30 @@
 							return common.format("<a href='javascript:void(0)' ng-click='vm.dialog_shenbaoInfo(\"{0}\")'>{1}</a>",item.id,item.projectName);
 						},
 						width:200,
-						filterable : true
+						filterable : true,
+						attributes: {
+					      style: "font-size: 14.5px"
+					    },
+					    headerAttributes: {
+					      style: "text-align:center;font-size: 14.5px"
+					    }
 					},
 					{
 						field : "constructionUnit",
 						title : "建设单位",
 						width:200,
-						filterable : true
+						filterable : true,
+						attributes: {
+						      style: "font-size: 14.5px"
+						    },
+						    headerAttributes: {
+						      style: "text-align:center;font-size: 14.5px"
+						    }
 					},
 					{
 						field : "projectConstrChar",
 						title : "建设性质",
-						width : 100,
+						width : 105,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectConstrChar);
 						},
@@ -1568,12 +1615,18 @@
 			                        filter:"startswith"
 			                    });
 			                }
-						}
+						},
+						attributes: {
+						      style: "font-size: 14.5px"
+						    },
+						    headerAttributes: {
+						      style: "text-align:center;font-size: 14.5px"
+						    }
 					},
 					{
 						field : "projectCategory",
 						title : "项目类别",
-						width : 100,
+						width : 105,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectCategory);
 						},
@@ -1586,12 +1639,18 @@
 			                        dataValueField: "id"
 			                    });
 			                }
-						}
+						},
+						attributes: {
+						      style: "font-size: 14.5px"
+						    },
+						    headerAttributes: {
+						      style: "text-align:center;font-size: 14.5px"
+						    }
 					},
 					{
 						field : "projectIndustry",
 						title : "项目行业",
-						width : 100,
+						width : 120,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectIndustry);
 						},
@@ -1607,13 +1666,25 @@
 			                        filter:"startswith"
 			                    });
 							}
-		                }
+		                },
+		                attributes: {
+						      style: "font-size: 14.5px"
+						    },
+						    headerAttributes: {
+						      style: "text-align:center;font-size: 14.5px"
+						    }
 					},
 					{
 						field : "planYear",
 						title : "计划年度",
 						width : 100,
-						filterable : false
+						filterable : false,
+						attributes: {
+						      style: "font-size: 14.5px"
+						    },
+						    headerAttributes: {
+						      style: "text-align:center;font-size: 14.5px"
+						    }
 					},
 					{
 						field : "auditState",
@@ -1632,28 +1703,41 @@
 			                        filter:"startswith"
 			                    });
 			                }
-						}
+						},
+						attributes: {
+						      style: "font-size: 14.5px"
+						    },
+						    headerAttributes: {
+						      style: "text-align:center;font-size: 14.5px"
+						    }
 					},
-					{
-						field : "createdDate",
-						title : "创建日期",
-						width : 180,
-						filterable : false,
-						template:function(item){
-							return common.formatDateTime(item.createdDate);
-							}
-					},
+//					{
+//						field : "createdDate",
+//						title : "创建日期",
+//						width : 180,
+//						filterable : false,
+//						template:function(item){
+//							return common.formatDateTime(item.createdDate);
+//							}
+//					},
 					{
 						filed:"",
 						title:"操作",
 						width:150,
 						template:function(item){
 							return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage);
-						}
+						},
+						attributes: {
+						      style: "font-size: 14.5px"
+						    },
+						    headerAttributes: {
+						      style: "text-align:center;font-size: 14.5px"
+						    }
 					}
 			];
 			// End:column
 			var excelExport = function(e) {
+				var data = e.data;
 			    var sheet = e.workbook.sheets[0];
 
 			    for (var i = 1; i < sheet.rows.length; i++) {
@@ -1679,7 +1763,8 @@
 						noRecords : common.kendoGridConfig().noRecordMessage,
 						columns : columns,
 						excelExport:excelExport,
-						resizable : true
+						resizable : true,
+						sortable:true
 					};
 			  }
 		}// end fun grid_shenbaoInfoList

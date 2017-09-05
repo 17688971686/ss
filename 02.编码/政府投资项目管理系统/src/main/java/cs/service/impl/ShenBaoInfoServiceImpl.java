@@ -122,7 +122,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			entity.setProjectId(project.getId());
 			entity.setProjectNumber(project.getProjectNumber());
 			entity.setProcessState(BasicDataConfig.processState_qianShou);//设置申报信息的状态为签收状态
-//			entity.setProcessRole(currentUser.getUserId());//设置签收人
+			entity.setReceiver(currentUser.getUserId());//设置默认签收人
 			entity.setIsIncludLibrary(false);//设置初始化为未纳入项目库
 			logger.info(String.format("创建项目信息,项目名称 %s",project.getProjectName()));
 		}

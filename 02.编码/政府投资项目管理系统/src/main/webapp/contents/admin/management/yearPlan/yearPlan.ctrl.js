@@ -491,7 +491,7 @@
                      keyboard:false
                  });
     		};
-    		//年度筛选
+    		//添加计划筛选
     		vm.search=function(){
     			var filters = [];
 				filters.push({field:'projectShenBaoStage',operator:'eq',value:common.basicDataConfig().projectShenBaoStage_nextYearPlan});//默认条件--申报阶段为下一年度计划
@@ -508,6 +508,9 @@
      		   if(vm.search.constructionUnit !=null && vm.search.constructionUnit !=''){//查询条件--建设单位名称
      			  filters.push({field:'constructionUnit',operator:'contains',value:vm.search.constructionUnit});
      		   }
+     		  if(vm.search.auditState !=null && vm.search.auditState !=''){//查询条件--审批状态
+     			  filters.push({field:'auditState',operator:'eq',value:vm.search.auditState});
+     		   }
      		   if(vm.search.projectConstrChar !=null && vm.search.projectConstrChar !=''){//查询条件--建设性质
      			  filters.push({field:'projectConstrChar',operator:'eq',value:vm.search.projectConstrChar});
      		   }
@@ -520,6 +523,7 @@
     			vm.search.projectIndustry = '';
     			vm.search.planYear = '';
     			vm.search.constructionUnit = '';
+    			vm.search.auditState = '';
     			vm.search.projectConstrChar = '';
     			//设置列表过滤项为默认的
     			var filters = [];
