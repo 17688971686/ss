@@ -365,6 +365,8 @@
 					vm.model.capitalSCZ_qita_LastTwoYear=common.toMoney(vm.model.capitalSCZ_qita_LastTwoYear);
 					
 					vm.model.apInvestSum = common.toMoney(vm.model.apInvestSum);//累计安排资金
+					//规划设计前期费
+					vm.model.qianQiFeiApply = common.toMoney(vm.model.qianQiFeiApply);//前期计划申请费用
 					
 					//计算资金筹措总计
 					vm.capitalTotal=function(){
@@ -390,11 +392,7 @@
 			  		};
 				  		 
 						if(vm.page=='record'){//如果為申報詳情頁面
-							if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){//申报阶段为:下一年度计划
-								vm.isYearPlan = true;
-								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_YearPlan;
-			    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
-							}else if(vm.model.projectShenBaoStage ==common.basicDataConfig().projectShenBaoStage_projectProposal){//申报阶段为:项目建议书
+							if(vm.model.projectShenBaoStage ==common.basicDataConfig().projectShenBaoStage_projectProposal){//申报阶段为:项目建议书
 								vm.isProjectProposal=true;
 								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_projectProposal;
 							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_KXXYJBG){//申报阶段为:可行性研究报告
@@ -403,19 +401,28 @@
 							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_CBSJYGS){//申报阶段为:初步设计与概算
 								vm.isCBSJYGS=true;
 								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_CBSJYGS;
-							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_qianQi){//申报阶段为:前期计划
-								vm.isQianQi=true;
-								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_qianQi;
-							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_newStart){//申报阶段为:新开工计划
+							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_prePlanFee){//申报阶段为:规划设计前期费
+								vm.isPrePlanFee=true;
+								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_prePlanFee;
+							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_newStratPlan){//申报阶段为:新开工计划
 								vm.isNewStart=true;
 								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_newStart;
-							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_xuJian){//申报阶段为:续建计划
+							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_xuJianPlan){//申报阶段为:续建计划
 								vm.isXuJian=true;
 								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_xuJian;
+							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){//申报阶段为:下一年度计划
+								vm.isYearPlan = true;
+								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_YearPlan;
+			    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
 							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_junGong){//申报阶段为:竣工决算
 								vm.isJunGong=true;
 								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_junGong;
 							}
+							
+//							else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_qianQi){//申报阶段为:前期计划
+//								vm.isQianQi=true;
+//								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_qianQi;
+//							}
 				  		
 						}
 	        		if(vm.page=='record_edit' && vm.model.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){
