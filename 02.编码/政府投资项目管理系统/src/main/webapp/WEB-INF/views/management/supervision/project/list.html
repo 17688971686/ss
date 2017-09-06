@@ -1,0 +1,110 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+<div class="well well-sm" style="background:white;">
+	  <ol class="breadcrumb">
+		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		  <li><a href="#/">首页</a></li>
+	      <li>项目监管</li>	 
+	      <li class="active">政府投资项目列表</li>
+	  </ol>
+	  <script type="text/template" id="columnBtns">
+			<a class="btn btn-xs btn-primary" href="#/projectEdit/{0}/{1}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+			<button class="btn btn-xs btn-primary" ng-click="{2}"><span class="glyphicon glyphicon-question-sign"></span>是否填报</button>
+	  </script>
+	  <div class="search">
+	  	<table class="table table-bordered" style="margin-bottom:0px;">
+	  			<tr>
+	  				<td colspan="6" class="bg-info">
+	  					<span style="padding:10px;"><strong>项目查询</strong></span>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">项目名称：</td>
+	  				<td style="width:25%"><input type="text" style="width:360px;" placeholder="请输入项目名称（可少输不可输错）" ng-model="vm.search.projectName"/></td>
+	  				<td class="formAlignRight">项目阶段：</td>
+	  				<td>
+	  					<select style="height:30px;" ng-model="vm.search.projectStage">
+				  			<option value="">---请选择---</option>
+				  			<option ng-repeat="x in vm.basicData.projectStage" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+	  				</td>
+	  				<td class="formAlignRight">是否需要填写月报：</td>
+	  				<td>
+	  					<select style="height:30px;" ng-model="vm.search.isMonthReport">
+				  			<option value="">---请选择---</option>
+				  			<option value="true">是</option>
+				  			<option value="false">否</option>
+				  		</select>
+	  				</td>
+	  			</tr>
+	  			<!-- <tr>
+	  				<td class="formAlignRight">项目所属单位：</td>
+	  				<td><input type="text" style="width:360px;" placeholder="请输入单位名称（可少输不可输错）" ng-model="vm.search.unitName"/></td>
+	  			</tr> -->
+	  			<tr>
+	  				<td class="formAlignRight">项目所属单位：</td>
+	  				<td>
+	  					<select style="height:30px;" ng-model="vm.search.unitName">
+				  			<option value="">---请选择---</option>
+				  			<option ng-repeat="x in vm.basicData.userUnit" value="{{x.id}}">{{x.unitName}}</option>
+				  		</select>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td colspan="6">
+	  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search()"><span class="glyphicon glyphicon-search"></span>查询</button>
+	  				</td>
+	  			</tr>
+	  		</table>
+	  </div>
+	  <div class="toolbar">
+	  	<button class="btn btn-sm btn-primary" ng-click="vm.addProject()"><span class="glyphicon glyphicon-plus"></span>新增项目</button>
+	  </div> 
+     <form id="form" name="form">          
+         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+    </form>
+</div>
+
+<!-- 选择投资类型模态框 -->
+<div class="modal fade" id="myModal_add" tabindex="-1" role="dialog"> 
+	<div class="modal-dialog"> 
+		<div class="modal-content"> 
+			<div class="modal-header bg-primary"> 
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button> 
+				<h4 class="modal-title" id="myModalLabel">选择投资类型</h4> 
+			</div> 
+			<div class="modal-body">
+				<label ng-repeat="x in vm.basicData.investmentType">
+					<input name="investmentType" type="radio" value="{{x.id}}" ng-model="vm.model.projectInvestmentType"/>{{x.description}}&nbsp;&nbsp;
+				</label>
+			</div> 
+			<div class="modal-footer"> 
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>			
+		 		<button type="button" class="btn btn-success" ng-click="vm.confirmInvestmentType()">确认</button> 
+			</div> 
+		</div><!-- /.modal-content --> 
+	</div><!-- /.modal --> 
+</div>
+
+<!-- 设置是否填报模态框 -->
+<div class="modal fade" id="myModal_edit" tabindex="-1" role="dialog"> 
+	<div class="modal-dialog"> 
+		<div class="modal-content"> 
+			<div class="modal-header bg-primary"> 
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button> 
+				<h4 class="modal-title" id="myModalLabel">设置是否填报</h4> 
+			</div> 
+			<div class="modal-body">
+				<span style="display:none" ng-bind="vm.model.id"></span>
+				<label>是</label>
+				<input type="radio" name="isMonthReport" value="true" ng-checked="vm.model.isMonthReport==1" ng-model="vm.model.isMonthReport"/>
+				<label>否</label>
+				<input type="radio" name="isMonthReport" value="false" ng-checked="vm.model.isMonthReport==0" ng-model="vm.model.isMonthReport"/>
+			</div> 
+			<div class="modal-footer"> 
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> 						
+				<button type="button" class="btn btn-primary" ng-click="vm.updateIsMonthReport()">提交更改</button> 
+			</div> 
+		</div><!-- /.modal-content -->
+	</div>  
+</div><!-- /.modal -->

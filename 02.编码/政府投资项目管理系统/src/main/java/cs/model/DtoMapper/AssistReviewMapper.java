@@ -7,13 +7,21 @@ import org.springframework.stereotype.Component;
 
 import cs.domain.AssistReview;
 import cs.domain.MediationUnit;
+import cs.domain.ServiceEvaluation;
+import cs.domain.SubmitReviewEvaluation;
 import cs.model.DomainDto.AssistReviewDto;
 import cs.model.DomainDto.MediationUnitDto;
+import cs.model.DomainDto.ServiceEvaluationDto;
+import cs.model.DomainDto.SubmitReviewEvaluationDto;
 
 @Component
 public class AssistReviewMapper implements IMapper<AssistReviewDto, AssistReview> {
 	@Autowired
 	IMapper<MediationUnitDto, MediationUnit> mediationUnitMapper;
+	@Autowired
+	IMapper<ServiceEvaluationDto, ServiceEvaluation> serviceEvaluationMapper;
+	@Autowired
+	IMapper<SubmitReviewEvaluationDto, SubmitReviewEvaluation> submitReviewEvaluationMapper;
 	@Override
 	public AssistReviewDto toDto(AssistReview entity) {
 		AssistReviewDto dto=new  AssistReviewDto();
@@ -25,6 +33,8 @@ public class AssistReviewMapper implements IMapper<AssistReviewDto, AssistReview
 			dto.setAssistReviewName(entity.getAssistReviewName());
 			dto.setComment(entity.getComment());
 			dto.setProjectId(entity.getProjectId());
+			dto.setServiceComment(entity.getServiceComment());
+			dto.setSentComment(entity.getSentComment());
 			//基础信息
 			dto.setCreatedBy(entity.getCreatedBy());
 			dto.setCreatedDate(entity.getCreatedDate());
@@ -33,6 +43,12 @@ public class AssistReviewMapper implements IMapper<AssistReviewDto, AssistReview
 			dto.setItemOrder(entity.getItemOrder());
 			entity.getMediationUnits().stream().forEach(x->{
 				dto.getMediationUnitDtos().add(mediationUnitMapper.toDto(x));
+			});
+			entity.getServiceEvaluation().stream().forEach(x->{
+				dto.getServiceEvaluationDtos().add(serviceEvaluationMapper.toDto(x));
+			});
+			entity.getSubmitReviewEvaluation().stream().forEach(x->{
+				dto.getSubmitReviewEvaluationDtos().add(submitReviewEvaluationMapper.toDto(x));
 			});
 			
 		}
@@ -52,6 +68,8 @@ public class AssistReviewMapper implements IMapper<AssistReviewDto, AssistReview
 			 entity.setAssistReviewName(dto.getAssistReviewName());
 			 entity.setComment(dto.getComment());
 			 entity.setProjectId(dto.getProjectId());
+			 entity.setServiceComment(dto.getServiceComment());
+			 entity.setSentComment(dto.getSentComment());
 		     //基础信息
 			 entity.setCreatedBy(dto.getCreatedBy());
 			 entity.setCreatedDate(dto.getCreatedDate());

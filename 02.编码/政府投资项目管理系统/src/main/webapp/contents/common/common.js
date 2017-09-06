@@ -461,7 +461,8 @@
     			
     		management:"管理员",
     			
-    	    credentialsType:"credentialsType"
+    	    credentialsType:"credentialsType",
+    	    serviceRating:"serviceRating"
     		
     		
     	};

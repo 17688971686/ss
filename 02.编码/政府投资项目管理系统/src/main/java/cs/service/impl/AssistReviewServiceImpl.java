@@ -10,11 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cs.domain.AssistReview;
+import cs.domain.Attachment;
 import cs.domain.MediationUnit;
 import cs.domain.Project;
+import cs.domain.ServiceEvaluation;
+import cs.domain.SubmitReviewEvaluation;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.AssistReviewDto;
+import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ProjectDto;
+import cs.model.DomainDto.ServiceEvaluationDto;
+import cs.model.DomainDto.SubmitReviewEvaluationDto;
+import cs.model.DtoMapper.AttachmentMapper;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
@@ -32,8 +39,19 @@ public class AssistReviewServiceImpl extends AbstractServiceImpl<AssistReviewDto
 	private IMapper<AssistReviewDto, AssistReview>  assistReviewMapper;
 	@Autowired 
 	private IMapper<ProjectDto, Project> projectMapper;
+	@Autowired 
+	private IMapper<ServiceEvaluationDto, ServiceEvaluation> serviceEvaluationMapper;
+	@Autowired 
+	private IMapper<SubmitReviewEvaluationDto, SubmitReviewEvaluation> submitReviewEvaluationMapper;
 	@Autowired
 	private IRepository<MediationUnit, String> mediationUnitRepo;
+	@Autowired
+	private IRepository<ServiceEvaluation, String> serviceEvaluationRepo;
+	@Autowired
+	private IRepository<SubmitReviewEvaluation, String> submitReviewEvaluationRepo;
+	@Autowired 
+	private IMapper<AttachmentDto, Attachment> attachmentMapper;
+	
 	
     @Override
 	@Transactional
@@ -57,9 +75,41 @@ public class AssistReviewServiceImpl extends AbstractServiceImpl<AssistReviewDto
 	public AssistReview update(AssistReviewDto dto, String id) {
 		logger.info(String.format("编辑协审活动信息,协审活动名称 %s",dto.getAssistReviewName()));
 		AssistReview assistReview=super.update(dto, id);
+		//删除历史附件  
+		assistReview.getServiceEvaluation().forEach(x->{
+			serviceEvaluationRepo.delete(x);
+		});
+		assistReview.getSubmitReviewEvaluation().forEach(x->{
+			submitReviewEvaluationRepo.delete(x);
+		});
+		/*dto.getMediationUnitDtos().forEach(x->{
+			assistReview.getMediationUnits().forEach(y->{
+				if(!(x.getId().equals(y.getId()))){
+					 
+				}
+			});
+		});*/
 		assistReview.getMediationUnits().clear();
+		assistReview.getServiceEvaluation().clear();
+		assistReview.getSubmitReviewEvaluation().clear();
 		dto.getMediationUnitDtos().forEach(x->{
 			assistReview.getMediationUnits().add(mediationUnitRepo.findById(x.getId()));
+		});
+		//添加服务质量评价
+		dto.getServiceEvaluationDtos().forEach(x->{
+			ServiceEvaluation evaluation=serviceEvaluationMapper.buildEntity(x, new ServiceEvaluation());
+			x.getAttachmentDtos().forEach(y->{
+				evaluation.getAttachments().add(attachmentMapper.buildEntity(y, new Attachment()));
+			});
+			assistReview.getServiceEvaluation().add(evaluation);
+		});
+		//添加送审文章质量评价
+		dto.getSubmitReviewEvaluationDtos().forEach(x->{
+			SubmitReviewEvaluation evaluation=submitReviewEvaluationMapper.buildEntity(x, new SubmitReviewEvaluation());
+			x.getAttachmentDtos().forEach(y->{
+				evaluation.getAttachments().add(attachmentMapper.buildEntity(y, new Attachment()));
+			});
+			assistReview.getSubmitReviewEvaluation().add(evaluation);
 		});
 		assistReview.setProjectId(dto.getProjectDto().getId());
 		return super.repository.save(assistReview);
@@ -72,6 +122,19 @@ public class AssistReviewServiceImpl extends AbstractServiceImpl<AssistReviewDto
 		assistReview.getMediationUnits().clear();
 		dto.getMediationUnitDtos().forEach(x->{
 			assistReview.getMediationUnits().add(mediationUnitRepo.findById(x.getId()));
+			ServiceEvaluationDto evaluationDto=new ServiceEvaluationDto();
+			evaluationDto.setMediationUnitId(x.getId());
+			evaluationDto.setMediationUnitName(x.getMediationUnitName());
+			SubmitReviewEvaluationDto reviewEvaluationDto=new SubmitReviewEvaluationDto();
+			reviewEvaluationDto.setMediationUnitId(x.getId());
+			reviewEvaluationDto.setMediationUnitName(x.getMediationUnitName());
+			ServiceEvaluation evaluation=serviceEvaluationMapper.buildEntity(evaluationDto, new ServiceEvaluation());
+			SubmitReviewEvaluation reviewEvaluation=submitReviewEvaluationMapper.buildEntity(reviewEvaluationDto, new SubmitReviewEvaluation());
+			assistReview.getServiceEvaluation().add(evaluation);
+			assistReview.getSubmitReviewEvaluation().add(reviewEvaluation);
+		});//submitReviewEvaluationMapper
+		dto.getServiceEvaluationDtos().forEach(x->{
+			assistReview.getServiceEvaluation().add(serviceEvaluationRepo.findById(x.getId()));
 		});
 		assistReview.setProjectId(dto.getProjectDto().getId());
 		return super.repository.save(assistReview);
