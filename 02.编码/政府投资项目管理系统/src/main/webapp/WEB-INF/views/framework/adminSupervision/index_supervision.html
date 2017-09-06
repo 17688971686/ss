@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>投资项目监管系统后端管理平台</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport">
+<!-- Bootstrap 3.3.6 -->
+<link rel="stylesheet" href="/contents/libs/bootstrap/dist/css/bootstrap.min.css">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="/contents/libs/font-awesome/css/font-awesome.min.css">
+<!-- Ionicons -->
+<link rel="stylesheet" href="/contents/libs/ionicons/css/ionicons.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/contents/libs/adminLTE/dist/css/AdminLTE.min.css">
+<!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+          page. However, you can choose any other skin. Make sure you
+          apply the skin class to the body tag so the changes take effect.
+    -->
+<!--<link rel="stylesheet" href="/contents/libs/adminLTE/dist/css/skins/skin-blue.min.css">-->
+<link href="/contents/libs/adminLTE/dist/css/skins/skin-green.min.css" rel="stylesheet" />
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+<link href="/contents/libs/kendoui/kendo.common.min.css" rel="stylesheet" />
+<link href="/contents/libs/kendoui/kendo.blueopal.min.css" rel="stylesheet" />
+
+
+<link href="/contents/shared/css.css" rel="stylesheet" />
+<link rel="stylesheet"	href="/contents/libs/textAngular/textAngular.css">
+<!--Begin:自定义css-->
+<style>
+
+.main-header .navbar{
+margin-left:310px;
+}
+</style>
+<!--End:自定义css -->
+
+</head>
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+<body class="hold-transition skin-green sidebar-mini" ng-app="appSupervision">
+	<div class="wrapper">
+		<!-- Main Header -->
+		<header class="main-header">
+			<div class="pull-left" style="width:100px;">
+				<a href="/admin/index">
+					<img src="/contents/images/logo_supervision.jpg" />
+				</a>
+			</div>
+			<!-- Header Navbar -->
+			<nav class="navbar navbar-static-top" role="navigation">
+				<!-- Sidebar toggle button-->
+				<a href="javascript:void(0)" class="sidebar-toggle"
+					data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle
+						navigation</span>
+				</a>
+				<!-- Navbar Right Menu -->
+				<div class="navbar-custom-menu">
+					<ul class="nav navbar-nav">
+
+						<!-- Notifications Menu -->
+
+
+						<!-- User Account Menu -->
+						<li class="dropdown user user-menu">
+							<!-- Menu Toggle Button --> <a href="javascript:void(0)"
+							class="dropdown-toggle" data-toggle="dropdown"> <!-- The user image in the navbar-->
+								<img src="/contents/images/user_icon.png" class="user-image"
+								alt="User Image"> <!-- hidden-xs hides the username on small devices so only the image appears. -->
+								<span class="hidden-xs">${user}</span>
+						</a>
+							<ul class="dropdown-menu" style="width: 120px;">
+								<!-- Menu Footer-->
+								<li class="user-footer">
+									<div class="pull-left">
+										<a href="#/accountPwd" class="btn  btn-primary btn-sm">修改密码</a>
+									</div>
+									<div class="pull-right">
+										<a href="/accountSupervision/logout/sysAdmin" class="btn btn-danger btn-sm">退出</a>
+									</div>
+								</li>
+							</ul>
+						</li>
+
+					</ul>
+				</div>
+			</nav>
+		</header>
+		<!-- Left side column. contains the logo and sidebar -->
+		<aside class="main-sidebar">
+			<!-- sidebar: style can be found in sidebar.less -->
+			<section class="sidebar">
+
+
+				<!-- Sidebar Menu -->
+				<ul class="sidebar-menu">
+					<li class="header"></li>
+				
+					<li class="treeview">
+						<a href="javascript:void(0)"> 
+						<i class="fa fa-link"></i> 
+							<span>项目监控</span> 
+							<span class="pull-right-container"> 
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="#/supervision/tzxm">投资项目</a></li>
+							<li><a href="#/supervision/spdw">审批单位</a></li>
+							<li><a href="#/supervision/spsx">审批事项</a></li>	
+							<li><a href="#/supervision/xmjk">项目监控</a></li>	
+							<li><a href="#/supervision/spfk">审批反馈</a></li>		
+						</ul>
+					</li>
+					
+					<li class="treeview"><a href="javascript:void(0)"> <i
+							class="fa fa-link"></i> <span>用户部门管理</span> <span
+							class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li><a href="javascript:void(0)" ui-sref="user">用户管理</a></li>
+							<li><a href="javascript:void(0)" ui-sref="org">部门管理</a></li>
+							
+
+						</ul></li>
+					<li class="treeview"><a href="javascript:void(0)"> <i
+							class="fa fa-link"></i> <span>系统管理</span> <span	
+							class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="javascript:void(0)" ui-sref="role">角色管理</a></li>
+							<li><a href="javascript:void(0)" ui-sref="log">日志管理</a></li>
+							<li><a href="#/basicData">基础数据管理</a></li>
+							<li><a href="javascript:void(0)" ui-sref="sysConfig">系统配置</a></li>							
+						</ul>
+					</li>
+
+				</ul>
+				<!-- /.sidebar-menu -->
+			</section>
+			<!-- /.sidebar -->
+		</aside>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Main content -->
+			<section class="content">
+				<!-- Your Page Content Here -->
+				<div ui-view ></div>
+
+
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+		<!-- Main Footer -->
+		<footer class="main-footer">
+			<!-- To the right -->
+			<div class="pull-right hidden-xs"></div>
+			<!-- Default to the left -->
+			<strong>Copyright &copy; 2016 <a href="javascript:void(0)">
+			</a>.
+			</strong> 版权所有.
+		</footer>
+		<!-- Control Sidebar -->
+
+		<!-- /.control-sidebar -->
+		<!-- Add the sidebar's background. This div must be placed
+             immediately after the control sidebar -->
+		<div class="control-sidebar-bg"></div>
+	</div>
+
+
+
+	<!-- ./wrapper -->
+	<!-- REQUIRED JS SCRIPTS -->
+	<script src="/contents/libs/jquery/jquery.js"></script>
+	<script src="/contents/libs/bootstrap/customize/js/bootstrap.js"></script>
+	<script src="/contents/libs/angular/angular.js"></script>
+	<script src="/contents/libs/angular/sanitize.js"></script>
+	<script src="/contents/libs/angular/angular-ui-router.js"></script>
+	<script src="/contents/libs/boilerplate/plugins.js"></script>
+	<script src="/contents/libs/jquery-validation/jquery.validate.js"></script>
+	<script src="/contents/libs/jquery-validation/jquery.validate.unobtrusive.js"></script>
+
+	<script src="/contents/libs/jszip/jszip.min.js"></script>
+	<script src="/contents/libs/kendoui/kendo.all.min.js?r=1"></script>
+	<script src="/contents/libs/kendoui/kendo.message.zh-CN.js"></script>
+	<script src="/contents/libs/kendoui/kendo.culture.zh-CN.min.js"></script>
+	<script src="/contents/libs/jsLinq/jslinq.min.js"></script>
+	<script src="/contents/libs/My97DatePicker/WdatePicker.js"></script>
+	
+	<!-- AdminLTE App -->
+	<script src="/contents/libs/adminLTE/dist/js/app.js"></script>
+	<!-- Optionally, you can add Slimscroll and FastClick plugins.
+         Both of these plugins are recommended to enhance the
+         user experience. Slimscroll is required when using the
+         fixed layout. -->
+
+<!-- textAngular -->
+<script src="/contents/libs/textAngular/textAngular-rangy.min.js"></script>
+<script src="/contents/libs/textAngular/textAngular-sanitize.min.js"></script>
+<script src="/contents/libs/textAngular/textAngular.js"></script>
+<script src="/contents/libs/textAngular/textAngularSetup.js"></script>
+
+	<!-- Begin:自定义Js -->
+	<script src="/contents/admin/app_supervision.js"></script>
+	<script src="/contents/common/common.js"></script>
+	
+	<!-- Role -->
+	<script src="/contents/admin/framework/role_supervision/roleSupervised.svc.js"></script>
+	<script src="/contents/admin/framework/role_supervision/roleSupervised.ctrl.js"></script>
+	<script src="/contents/admin/framework/role_supervision/roleSupervised.edit.ctrl.js"></script>
+	<!-- 
+	User
+	<script src="/contents/admin/framework/user/user.svc.js"></script>
+	<script src="/contents/admin/framework/user/user.ctrl.js"></script>
+	<script src="/contents/admin/framework/user/user.edit.ctrl.js"></script>
+	Org
+	<script src="/contents/admin/framework/org/org.svc.js"></script>
+	<script src="/contents/admin/framework/org/org.ctrl.js"></script>
+	<script src="/contents/admin/framework/org/org.edit.ctrl.js"></script>
+	<script src="/contents/admin/framework/org/orgUser.ctrl.js"></script>
+	<script src="/contents/admin/framework/org/orgUser.svc.js"></script>
+	log
+	<script src="/contents/admin/framework/log/log.ctrl.js"></script>
+	<script src="/contents/admin/framework/log/log.svc.js"></script>
+	home
+	<script src="/contents/admin/framework/home/home.ctrl.js"></script>
+	<script src="/contents/admin/framework/home/home.svc.js"></script>
+	
+	portal
+	<script src="/contents/admin/management/portal/portal.ctrl.js"></script>
+	<script src="/contents/admin/management/portal/portal.svc.js"></script>
+	-->
+
+	<!-- project -->
+	<script src="/contents/admin/management/supervision/project/projectSupervised.ctrl.js"></script>
+	<script src="/contents/admin/management/supervision/project/projectSupervised.svc.js"></script>
+	
+	<!-- basicData -->
+	<!-- 
+	<script src="/contents/admin/management/basicData/basicData.ctrl.js"></script>
+	<script src="/contents/admin/management/basicData/basicData.svc.js"></script>-->
+	<!-- sysConfig -->
+	<!-- 
+	<script src="/contents/admin/management/sysConfig/sysConfig.ctrl.js"></script>
+	<script src="/contents/admin/management/sysConfig/sysConfig.svc.js"></script> -->
+	
+	<!-- End:自定义Js-->
+	
+	
+	
+
+</body>
+</html>
