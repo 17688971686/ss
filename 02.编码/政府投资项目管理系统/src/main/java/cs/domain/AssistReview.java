@@ -32,6 +32,8 @@ public class AssistReview extends BaseEntity{
 	private String serviceComment;
 	@Column(columnDefinition="varchar(255)  COMMENT '送审文件评价备注'")
 	private String sentComment;
+	@Column(columnDefinition="bit(1) NULL COMMENT '是否填写评价'")
+	private Boolean isEvaluation = true;
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<ServiceEvaluation> serviceEvaluation=new ArrayList<>();
 	@OneToMany(cascade=CascadeType.ALL)
@@ -54,6 +56,12 @@ public class AssistReview extends BaseEntity{
 	}
 	public String getSentComment() {
 		return sentComment;
+	}
+	public Boolean getIsEvaluation() {
+		return isEvaluation;
+	}
+	public void setIsEvaluation(Boolean isEvaluation) {
+		this.isEvaluation = isEvaluation;
 	}
 	public void setSentComment(String sentComment) {
 		this.sentComment = sentComment;

@@ -68,11 +68,16 @@ public class MediationManagementController {
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<AssistReviewDto> assistReviewDtos = assistReviewService.get(odataObj);		
 		return assistReviewDtos;
-	}
-	@RequestMapping(name = "更新协审活动信息", path = "updateAssistReview",method=RequestMethod.PUT)
+	} 
+	@RequestMapping(name = "更新协审活动评价", path = "updateAssistReview",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  updateAssistReview(@RequestBody AssistReviewDto Dto){		
 		assistReviewService.update(Dto, Dto.getId());
+	}
+	@RequestMapping(name = "更新协审活动", path = "updateOnlyAssistReview",method=RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void  updateOnlyAssistReview(@RequestBody AssistReviewDto Dto){		
+		assistReviewService.updateAssistReview(Dto, Dto.getId());
 	}
 	@RequestMapping(name = "创建协审活动", path = "createAssistReview", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
