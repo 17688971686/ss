@@ -54,6 +54,9 @@ public class TaskHead extends BaseEntity {
 	@Column(columnDefinition="varchar(255) NULL COMMENT '建设单位名称'")
 	private String unitName;
 	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '经办人'")
+	private String operator;
+	
 	//begin#关联
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<TaskRecord> taskRecords=new ArrayList<>();
@@ -160,6 +163,14 @@ public class TaskHead extends BaseEntity {
 
 	public void setNextProcess(String nextProcess) {
 		this.nextProcess = nextProcess;
+	}
+
+	public String getOperator() {
+		return operator;
+	}
+
+	public void setOperator(String operator) {
+		this.operator = operator;
 	}
 	
 }

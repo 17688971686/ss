@@ -49,6 +49,16 @@ public class TaskRecord extends BaseEntity {
 	@Column(columnDefinition="varchar(255) NULL COMMENT '建设单位名称'")
 	private String unitName;
 	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '经办人'")
+	private String operator;
+	
+	
+	public String getOperator() {
+		return operator;
+	}
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
 	public String getId() {
 		return id;
 	}

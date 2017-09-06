@@ -29,6 +29,7 @@ public class TaskRecordMapper implements IMapper<TaskRecordDto, TaskRecord> {
 			dto.setNextUser(entity.getNextUser());
 			dto.setProcessRole(entity.getProcessRole());
 			dto.setNextProcess(entity.getNextProcess());
+			dto.setOperator(entity.getOperator());
 			//筛选条件信息
 			dto.setUnitName(entity.getUnitName());
 			dto.setProjectIndustry(entity.getProjectIndustry());
@@ -57,6 +58,7 @@ public class TaskRecordMapper implements IMapper<TaskRecordDto, TaskRecord> {
 			entity.setNextUser(dto.getNextUser());
 			entity.setProcessRole(dto.getProcessRole());
 			entity.setNextProcess(dto.getNextProcess());
+			entity.setOperator(dto.getOperator());
 			//筛选条件信息
 			entity.setUnitName(dto.getUnitName());
 			entity.setProjectIndustry(dto.getProjectIndustry());

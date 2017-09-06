@@ -122,7 +122,7 @@
         	//部门切换触发
         	vm.changeDept = function(){
         		for (var i = 0; i < vm.model.depts.length; i++) {
-					if(vm.model.depts[i].id == vm.model.dept){//获得部门人员
+					if(vm.model.depts[i].id == vm.model.deptId){//获得部门人员
 						for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {//循环人员
 							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {//循环角色
 								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "科长"){//默认选中科长为下一流程处理人
@@ -133,6 +133,30 @@
 						}
 					}
 				}
+        	}
+        	
+        	//经办人员业务选择
+        	
+        	vm.clickedYW = function(str){
+        		if(str == "yewu"){
+        			vm.nextProcessRadioOfYW = "yewu";
+        		}
+        		
+        		if(str == "pingshenbaopi"){
+        			vm.nextProcessRadioOfYW = "pingshenbaopi";
+        		}
+        		if(str == "fawen"){
+        			vm.nextProcessRadioOfYW = "fawen";
+        		}
+        		if(str == "keyuantuiwen"){
+        			vm.nextProcessRadioOfYW = "keyuantuiwen";
+        		}
+        		if(str == "pingshenweituo"){
+        			vm.nextProcessRadioOfYW = "pingshenweituo";
+        		}
+        		if(str == "fawennigao"){
+        			vm.nextProcessRadioOfYW = "fawennigao";
+        		}
         	}
         	
         	//下一处理环节
@@ -148,6 +172,16 @@
         		//退文办结
         		if(str == "tuiwenbanjie"){
         			vm.nextProcessRadio = "tuiwenbanjie";
+        			for (var i = 0; i < vm.model.depts.length; i++) {
+						for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {//循环人员
+							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {//循环角色
+								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "人秘科发文人员"){//默认选中人秘科发文人员为下一流程处理人
+									vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;
+									//vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;//下一角色为科长
+								}
+							}
+						}
+    				}
         		}
         		
         		//退文
@@ -169,23 +203,146 @@
         		if(str == "jingBanRenBanli"){
         			vm.nextProcessRadio = "jingBanRenBanli";
         			for (var i = 0; i < vm.model.depts.length; i++) {
-    					
-    						for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {
-    							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {
-    								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "科长" &&vm.model.depts[i].userDtos[j].id ==vm.taskAudit.nextUser){//默认选中科长为下一流程处理人
-    									vm.users = vm.model.depts[i].userDtos;
-    									//vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;//下一角色为科长
-    								}
-    							}
-    						}
-    				
+						for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {
+							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {
+								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "科长" &&vm.model.depts[i].userDtos[j].id ==vm.taskAudit.nextUser){//科长选择当前科室的科员为下一流程处理人
+									vm.users = vm.model.depts[i].userDtos;
+									//vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;//下一角色为科长
+								}
+							}
+						}
     				}
         			
         		}
+        		
+        		//科室办理--显示部门下拉选
+        		if(str == "keshibanli"){
+        			vm.nextProcessRadio = "keshibanli";
+        		}
+        		
+        		//科员办理--显示当前部门的科员
+        		if(str == "keyuanbanli"){
+        			vm.nextProcessRadio = "keyuanbanli";
+        			for (var i = 0; i < vm.model.depts.length; i++) {
+    					
+						for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {
+							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {
+								if(vm.model.depts[i].userDtos[j].id ==vm.taskAudit.nextUser){//科长选择当前科室的科员为下一流程处理人
+									vm.users = vm.model.depts[i].userDtos;
+									//vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;//下一角色为科长
+								}
+							}
+						}
+        			}
+        		}
+        		
+        		//科长审核
+        		if(str == "kezhangshenhe"){
+        			vm.nextProcessRadio = "kezhangshenhe";
+        			for (var i = 0; i < vm.model.depts.length; i++) {
+						for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {
+							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {
+								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "科员" &&vm.model.depts[i].userDtos[j].id ==vm.taskAudit.nextUser){//默认选择当前人员的科长
+									for (var m = 0; m < vm.model.depts[i].userDtos.length; m++) {
+										for (var n = 0; n < vm.model.depts[i].userDtos[m].roles.length; n++) {
+											if(vm.model.depts[i].userDtos[m].roles[n].roleName == "科长"){
+												vm.taskAudit.nextUser = vm.model.depts[i].userDtos[m].id;
+											}
+										}
+									}
+								}
+							}
+						}
+        			}
+        		}
+        		
+        		//退回经办人
+        		if(str == "tuihuijingbanren" || str == "jingbanrensongshen" || str == "pingswancheng"){
+        			if(str == "tuihuijingbanren"){
+        				vm.nextProcessRadio = "tuihuijingbanren";
+        			}else if(str == "jingbanrensongshen"){
+        				vm.nextProcessRadio = "jingbanrensongshen";
+        			}else if(str == "pingswancheng"){
+        				vm.nextProcessRadio = "pingswancheng";
+        			}
+//        			for (var i = 0; i < vm.taskAudit.taskRecordDtos.length; i++) {
+//						if(vm.taskAudit.taskRecordDtos[i].processState=="processState_4" && vm.taskAudit.taskRecordDtos[i].nextUser !=""){
+							vm.taskAudit.nextUser = vm.taskAudit.operator;
+//						}
+//					}
+        		}
+        		
+        		//局领导审批
+        		if(str == "julingdaoshenpi"){
+        			vm.nextProcessRadio = "julingdaoshenpi";
+        			for (var i = 0; i < vm.model.depts.length; i++) {
+    					if(vm.model.depts[i].name == "局领导"){//获得部门人员
+    						vm.users = vm.model.depts[i].userDtos;
+    					}
+    				}
+        		}
+        		
+        		//送审
+        		if(str == "songshen"){
+        			vm.nextProcessRadio = "songshen";
+        			for (var i = 0; i < vm.model.depts.length; i++) {
+    					if(vm.model.depts[i].name == "评审中心"){//获得部门人员
+    						vm.users = vm.model.depts[i].userDtos;
+    					}
+    				}
+        		}
+        		
+        		//人秘科核稿
+        		if(str == "renmikehegao"){
+        			vm.nextProcessRadio = "renmikehegao";
+        			for (var i = 0; i < vm.model.depts.length; i++) {
+						for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {//循环人员
+							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {//循环角色
+								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "人秘科发文人员"){//默认选中人秘科发文人员为下一流程处理人
+									vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;
+									//vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;//下一角色为科长
+								}
+							}
+						}
+    				}
+        		}
+        		
+        		//局领导复批
+        		if(str == "julingdaofushen"){
+        			vm.nextProcessRadio = "julingdaofushen";
+        			for (var i = 0; i < vm.model.depts.length; i++) {
+    					if(vm.model.depts[i].name == "局领导"){//获得部门人员
+    						vm.users = vm.model.depts[i].userDtos;
+    					}
+    				}
+        		}
+        		
+        		//办公室发文
+        		if(str == "bangongshifawen"){
+        			vm.nextProcessRadio = "bangongshifawen";
+        			for (var i = 0; i < vm.model.depts.length; i++) {
+						for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {//循环人员
+							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {//循环角色
+								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "人秘科发文人员"){//默认选中人秘科发文人员为下一流程处理人
+									vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;
+									//vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;//下一角色为科长
+								}
+							}
+						}
+    				}
+        		}
+        		
+        		if(str == "fawendengji"){
+        			vm.nextProcessRadio = "fawendengji";
+        		}
         	}
         	
+        	//选择人员为下一处理人
         	vm.selectUser = function(id){
         		vm.taskAudit.nextUser = id;
+        		if(vm.nextProcessRadio == "tuihuijingbanren" || vm.nextProcessRadio == "pingswancheng"){
+            		vm.taskAudit.operator = id;
+    			}
         	} 
         	
         	function setNextUser(vm){
@@ -200,75 +357,144 @@
     				vm.taskAudit.processState = "processState_5";
     				vm.taskAudit.nextProcess = "processState_6";
     			}else if(processState == "processState_5"){
-    				vm.taskAudit.processState = "processState_3";
-    				vm.taskAudit.nextProcess = "processState_4";
+    				vm.taskAudit.processState = "processState_6";
+    				vm.taskAudit.nextProcess = "processState_8";
     			}else if(processState == "processState_6"){
-    				vm.taskAudit.processState = "processState_3";
-    				vm.taskAudit.nextProcess = "processState_4";
-    			}else if(processState == "processState_7"){
-    				vm.taskAudit.processState = "processState_3";
-    				vm.taskAudit.nextProcess = "processState_4";
+    				vm.taskAudit.processState = "processState_8";
+    				vm.taskAudit.nextProcess = "processState_9";
     			}else if(processState == "processState_8"){
-    				vm.taskAudit.processState = "processState_3";
-    				vm.taskAudit.nextProcess = "processState_4";
+    				vm.taskAudit.processState = "processState_9";
+    				vm.taskAudit.nextProcess = "processState_10";
     			}else if(processState == "processState_9"){
-    				vm.taskAudit.processState = "processState_3";
-    				vm.taskAudit.nextProcess = "processState_4";
+    				vm.taskAudit.processState = "processState_10";
+    				vm.taskAudit.nextProcess = "processState_17";
     			}else if(processState == "processState_10"){
-    				vm.taskAudit.processState = "processState_3";
-    				vm.taskAudit.nextProcess = "processState_4";
+    				vm.taskAudit.processState = "processState_17";
+    				vm.taskAudit.nextProcess = "processState_18";
     			}else if(processState == "processState_17"){
-    				vm.taskAudit.processState = "processState_3";
-    				vm.taskAudit.nextProcess = "processState_4";
+    				vm.taskAudit.processState = "processState_18";
+    				vm.taskAudit.nextProcess = "processState_19";
     			}else if(processState == "processState_18"){
-    				vm.taskAudit.processState = "processState_3";
-    				vm.taskAudit.nextProcess = "processState_4";
+    				vm.taskAudit.processState = "processState_19";
+    				vm.taskAudit.nextProcess = "processState_21";
     			}else if(processState == "processState_19"){
-    				vm.taskAudit.processState = "processState_3";
-    				vm.taskAudit.nextProcess = "processState_4";
-    			}else if(processState == "processState_20"){
-    				vm.taskAudit.processState = "processState_3";
-    				vm.taskAudit.nextProcess = "processState_4";
+    				vm.taskAudit.processState = "processState_21";
+    				vm.taskAudit.nextProcess = "processState_22";
     			}else if(processState == "processState_21"){
-    				vm.taskAudit.processState = "processState_3";
-    				vm.taskAudit.nextProcess = "processState_4";
-    			}else if(processState == "processState_22"){
-    				vm.taskAudit.processState = "processState_3";
-    				vm.taskAudit.nextProcess = "processState_4";
+    				vm.taskAudit.processState = "processState_23";
+    				vm.taskAudit.nextProcess = "";
     			}
-    			
     		}
-    		
         	
         	//送出
         	vm.handle = function(){
-        		if(vm.nextProcessRadio =="bumen"){//正常流程--部门审批
-    				setNextUser(vm);//设置当前流程状态&&下一流程状态
-    				vm.taskAudit.processRole ="";
-    			}else if(vm.nextProcessRadio =="tuiwen"){//退文
-    				vm.taskAudit.processState = "processState_15";
-    				vm.taskAudit.nextProcess = "processState_3";
-    				vm.taskAudit.processRole ="";
-    			}else if(vm.nextProcessRadio =="tuiwenbanjie"){//退文办结
-    				vm.taskAudit.processState = "processState_24";
-    				vm.taskAudit.nextProcess = "";
-    				vm.taskAudit.processRole ="";
-    			}else if(vm.nextProcessRadio =="banjie"){//办结
-    				vm.taskAudit.processState = "processState_11";
-    				vm.taskAudit.nextProcess = "";
-    				vm.taskAudit.processRole ="";
-    			}else if(vm.nextProcessRadio == "tuihuiChongban"){//退回给秘书科
-    				vm.taskAudit.processState = "processState_1";
-    				vm.taskAudit.nextProcess = "processState_3";
-    				vm.taskAudit.processRole =getMiShuKRole("秘书科分办人员");
-    				vm.taskAudit.nextUser = "";
-        		}else if(vm.nextProcessRadio == "jingBanRenBanli"){//经办人办理
-        			vm.taskAudit.processState = "processState_5";
-    				vm.taskAudit.nextProcess = "processState_6";
-        		}
-        		
-    			
-        		taskAuditSvc.handle(vm);
+        		common.initJqValidation();
+        		var isValid = $('form').valid();
+    	   		if (isValid) {
+	        		if(vm.nextProcessRadio =="bumen"){//正常流程--部门审批
+	        			if(vm.taskAudit.processState == "processState_4"){
+	        				vm.taskAudit.processState = "processState_3";
+	        				vm.taskAudit.nextProcess = "processState_4";
+	        			}else{
+	        				setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			}
+	    				
+	    				vm.taskAudit.processRole ="";
+	    			}else if(vm.nextProcessRadio =="tuiwen"){//退文
+	    				vm.taskAudit.processState = "processState_15";
+	    				vm.taskAudit.nextProcess = "processState_3";
+	    				vm.taskAudit.processRole ="";
+	    			}else if(vm.nextProcessRadio =="tuiwenbanjie"){//退文办结
+	    				vm.taskAudit.processState = "processState_3";
+	    				vm.taskAudit.nextUser = "";
+	    				vm.taskAudit.nextProcess = "processState_22";
+	    			}else if(vm.nextProcessRadio =="banjie"){//办结
+	    				vm.taskAudit.processState = "processState_11";
+	    				vm.taskAudit.nextProcess = "";
+	    				vm.taskAudit.processRole ="";
+	    			}else if(vm.nextProcessRadio == "tuihuiChongban"){//退回给秘书科
+	    				vm.taskAudit.processState = "processState_4";
+	    				vm.taskAudit.nextProcess = "processState_3";
+	    				vm.taskAudit.processRole =getMiShuKRole("秘书科分办人员");
+	    				vm.taskAudit.nextUser = "";
+	        		}else if(vm.nextProcessRadio == "jingBanRenBanli"){//经办人办理--正常流程
+	        			if(vm.taskAudit.processState != "processState_3"){
+	        				vm.taskAudit.processState = "processState_3"
+	        			}
+	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			vm.taskAudit.processRole ="";
+	        		}else if(vm.nextProcessRadio == "keshibanli"){//科室办理--退回给所选科室的科长
+	        			vm.taskAudit.processState = "processState_5";
+	    				vm.taskAudit.nextProcess = "processState_4";
+	    				
+	        		}else if(vm.nextProcessRadio == "keyuanbanli"){//科员办理--退回给经办人所在科室的科员
+	        			vm.taskAudit.processState = "processState_4";
+	    				vm.taskAudit.nextProcess = "processState_5";
+	    				vm.taskAudit.processRole ="";
+	        		}else if(vm.nextProcessRadio == "kezhangshenhe"&&vm.nextProcessRadioOfYW == "pingshenbaopi"){//科长审核--正常流程
+	        			if(vm.taskAudit.processState == "processState_6"){//退回经办人后重新送科长
+	        				vm.taskAudit.processState = "processState_5";
+		    				vm.taskAudit.nextProcess = "processState_6";
+	        			}else{
+	        				setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			}
+	        			vm.taskAudit.processRole ="";
+	        		}else if(vm.nextProcessRadio == "julingdaoshenpi"){//局领导审批--正常流程
+	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			vm.taskAudit.processRole ="";
+	        		}else if(vm.nextProcessRadio == "tuihuijingbanren"){//退回经办人
+	        			vm.taskAudit.processState = "processState_4";
+	    				vm.taskAudit.nextProcess = "processState_5";
+	    				vm.taskAudit.processRole ="";
+	        		}else if(vm.nextProcessRadio == "jingbanrensongshen"){//经办人送审--正常流程
+	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			vm.taskAudit.processRole ="";
+	        		}else if(vm.nextProcessRadio == "songshen"){//送审--正常流程
+	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			vm.taskAudit.processRole ="";
+	        		}else if(vm.nextProcessRadio == "pingswancheng"){//评审完成--正常流程
+	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			vm.taskAudit.processRole ="";
+	        		}else if(vm.nextProcessRadioOfYW == "pingshenbaopi" && vm.nextProcessRadio == "kezhangshenhe"){//评审完成--正常流程
+	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			vm.taskAudit.processRole ="";
+	        		}else if(vm.nextProcessRadioOfYW == "fawen" && vm.nextProcessRadio == "kezhangshenhe"){//经办人发文拟稿
+	        			//vm.taskAudit.processState = "processState_5";
+	        			if(vm.taskAudit.processState == "processState_10"){//第三步发文
+	        				vm.taskAudit.processState = "processState_17"
+	        			}
+	    				vm.taskAudit.nextProcess = "processState_18";
+	    				vm.taskAudit.processRole ="";
+	        		}else if(vm.nextProcessRadioOfYW == "keyuantuiwen" && vm.nextProcessRadio == "kezhangshenhe"){//经办人退文
+	        			//vm.taskAudit.processState = "processState_5";
+	    				vm.taskAudit.nextProcess = "processState_4";
+	    				vm.taskAudit.processRole ="";
+	        		}else if(vm.nextProcessRadioOfYW == "pingshenweituo" && vm.nextProcessRadio == "kezhangshenhe"){//评审委托--科长审核
+	        			vm.taskAudit.processState = "processState_9";
+	    				vm.taskAudit.nextProcess = "processState_18";
+	    				vm.taskAudit.processRole ="";
+	        		}else if(vm.nextProcessRadio == "renmikehegao"){//评审完成--正常流程
+	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			vm.taskAudit.nextUser ="";
+	        		}else if(vm.nextProcessRadio == "julingdaofushen"){//局领导复审--正常流程
+	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	    				vm.taskAudit.processRole ="";
+	        		}else if(vm.nextProcessRadio == "bangongshifawen"){//办公室发文--正常流程
+	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	    				vm.taskAudit.nextUser ="";
+	        		}else if(vm.nextProcessRadio == "bangongshifawen"){//办公室发文--正常流程
+	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	    				vm.taskAudit.nextUser ="";
+	        		}else if(vm.nextProcessRadio == "fawendengji"){//秘书科发文登记--正常流程
+	        			vm.taskAudit.processState = "processState_21";
+	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	    				vm.taskAudit.nextUser ="";
+	    				vm.taskAudit.processRole ="";
+	        		}
+	        		
+	        
+	        		taskAuditSvc.handle(vm);
+    	   		}
         	}
         	
         	

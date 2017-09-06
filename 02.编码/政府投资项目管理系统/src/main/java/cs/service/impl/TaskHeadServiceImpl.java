@@ -1,6 +1,7 @@
 package cs.service.impl;
 
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -96,7 +97,7 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 		String roleId = "";
 		for(Role role:roles){
 			//当角色含有秘书科分办人员
-			if(role.getRoleName().equals(BasicDataConfig.msFenBanRole))	{
+			if(role.getRoleName().equals(BasicDataConfig.msFenBanRole) || role.getRoleName().equals(BasicDataConfig.msHeGaoRole))	{
 				haveRole = true;
 				roleId = role.getId();
 				break;
@@ -165,6 +166,7 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			dto.setProjectIndustry(taskHead.getProjectIndustry());
 			dto.setCreatedBy(currentUser.getUserId());
 			dto.setModifiedBy(currentUser.getUserId());
+			dto.setModifiedDate(new Date());
 			//判断任务是否完成
 			String processState = dto.getProcessState();
 			if(isComplete(processState)){//如果已完成
@@ -175,8 +177,10 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			}
 			taskRecordMapper.buildEntity(dto, entity);			
 			taskHead.getTaskRecords().add(entity);
-			//更新任务
 			
+			//更新任务
+			taskHead.setOperator(dto.getOperator());
+			taskHead.setModifiedDate(new Date());
 			taskHead.setProcessState(processState);//状态
 			taskHead.setNextProcess(dto.getNextProcess());//下一状态
 			taskHead.setProcessRole(dto.getProcessRole());
@@ -233,7 +237,7 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 		if(BasicDataConfig.processState_qianShou.equals(processState)||
 				BasicDataConfig.processState_tuiWen.equals(processState)||
 				BasicDataConfig.processState_banJie.equals(processState)||
-				BasicDataConfig.processState_tuiWenBanJie.equals(processState)
+				BasicDataConfig.processState_jieShuShenPi.equals(processState)
 				){
 			return true;
 		}else{
