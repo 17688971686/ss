@@ -1,7 +1,7 @@
-package cs.model;
+package cs.model.exportExcel;
 /**
 * @ClassName: ExcelData
-* @Description: 导出Excel数据实体类 
+* @Description: 导出年度计划印刷版Excel数据实体类 
 * @author cx
 * @date 2017年9月5日 上午10:26:13 
 *

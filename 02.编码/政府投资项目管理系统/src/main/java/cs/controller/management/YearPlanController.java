@@ -41,16 +41,14 @@ public class YearPlanController {
 	@RequestMapping(name = "获取年度计划项目列表数据", path = "{id}/projectList",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getShenBaoInfo(HttpServletRequest request,@PathVariable String id) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
-		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos=new PageModelDto<ShenBaoInfoDto>();
-		shenBaoInfoDtos.setCount(odataObj.getCount());
-		shenBaoInfoDtos.setValue(yearPlanService.getYearPlanShenBaoInfo(id,odataObj));
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos=yearPlanService.getYearPlanShenBaoInfo(id,odataObj);
 		return shenBaoInfoDtos;
 	}
 	
-	@RequiresPermissions("management/yearPlan#addCapital#get")
-	@RequestMapping(name="添加年度计划项目",path="addCapital",method=RequestMethod.GET)
+	@RequiresPermissions("management/yearPlan#addCapital/planId#post")
+	@RequestMapping(name="添加年度计划项目",path="addCapital/{planId}",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void addCapital(@RequestParam String planId,@RequestParam String shenBaoId){		
+	public void addCapital(@RequestBody String shenBaoId,@PathVariable String planId){		
 		String[] ids=shenBaoId.split(",");
 		if(ids.length>1){
 			yearPlanService.addYearPlanCapitals(planId,ids);

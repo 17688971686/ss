@@ -588,6 +588,28 @@
 	    	vm.exportExcelForYS=function(){
 	    		yearPlanSvc.exportExcelForYS(vm);
 	    	};
+	    	//列表拖拽排序
+	    	 $scope.$on("kendoRendered", function (event) {
+	             var gridInstance = vm.planGrid;        
+	             gridInstance.table.kendoSortable({
+                     filter: ">tbody >tr",
+                     hint: $.noop,
+                     cursor: "move",
+                     placeholder: function(element) {
+                         return element.clone().addClass("k-state-hover").css("opacity", 0.65);
+                     },
+                     container: "#planGird tbody",
+                     change: function(e) {
+                         var skip = gridInstance.dataSource.skip()||0,
+                             oldIndex = e.oldIndex + skip,
+                             newIndex = e.newIndex + skip,
+                             data = gridInstance.dataSource.data(),
+                             dataItem = gridInstance.dataSource.getByUid(e.item.data("uid"));
+                         gridInstance.dataSource.remove(dataItem);
+                         gridInstance.dataSource.insert(newIndex, dataItem);
+                     }
+                 });
+	         });
     	}//init_planBZ   	    	    	   	
     } //yearPlan
 })();

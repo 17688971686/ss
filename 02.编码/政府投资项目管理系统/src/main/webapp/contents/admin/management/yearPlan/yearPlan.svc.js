@@ -602,8 +602,9 @@
 		 */
 		function addShenBaoInfoconfirm(vm,ids){
 			var httpOptions = {
-					method : 'get',
-					url : common.format(url_planList+"/addCapital?planId={0}&shenBaoId={1}",vm.id,ids)
+					method : 'post',
+					url : common.format(url_planList+"/addCapital/{0}",vm.id,ids),
+					data:ids
 				};
 			
 			var httpSuccess = function success(response) {
@@ -1148,7 +1149,7 @@
 			// End:column
 			
 			var excelExport = function(e) {
-					var data = e.data;
+					var data = vm.planGrid.dataSource.data();
 					var sheet = e.workbook.sheets[0];
 					var template = this.columns[8].template;
 					

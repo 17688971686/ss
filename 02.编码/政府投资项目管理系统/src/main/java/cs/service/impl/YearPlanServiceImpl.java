@@ -7,7 +7,9 @@ import java.util.UUID;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
+import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -90,37 +92,36 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 
 	@Override
 	@Transactional
-	public List<ShenBaoInfoDto> getYearPlanShenBaoInfo(String planId,ODataObj odataObj) {
-		Integer pageNumber = odataObj.getSkip();
-		Integer pageSize = odataObj.getTop();
+	public PageModelDto<ShenBaoInfoDto> getYearPlanShenBaoInfo(String planId,ODataObj odataObj) {
+		Integer skip = odataObj.getSkip();
+		Integer stop = odataObj.getTop();
 
 		YearPlan yearPlan=super.repository.findById(planId);
 		if(yearPlan!=null){
+			//分页查询数据
 			List<ShenBaoInfoDto> shenBaoInfoDtos=new ArrayList<>();
-			
 			List<ShenBaoInfo> shenBaoInfos=((SQLQuery) shenbaoInfoRepo.getSession()
 					.createSQLQuery(SQLConfig.yearPlanProject)
 					.setParameter("yearPlanId", planId)
-					.setFirstResult(pageNumber * pageSize).setMaxResults(pageSize)) 
+					.setFirstResult(skip).setMaxResults(stop)) 
 					.addEntity(ShenBaoInfo.class)
 					.getResultList();
 			shenBaoInfos.forEach(x->{
 				ShenBaoInfoDto shenBaoInfoDto = shenbaoInfoMapper.toDto(x);
-				//获取项目相关类型的名称
-				shenBaoInfoDto.setProjectClassifyDesc(basicDataService.getDescriptionById(x.getProjectClassify()));
-				shenBaoInfoDto.setProjectIndustryDesc(basicDataService.getDescriptionById(x.getProjectIndustry()));
-				shenBaoInfoDto.setProjectTypeDesc(basicDataService.getDescriptionById(x.getProjectType()));
-//				shenBaoInfoDto.setFunctionSubjectsDesc(basicDataService.getDescriptionById(x.getFunctionSubjects()));//功能分类科目名称
-//				shenBaoInfoDto.setEconClassSubjectsDesc(basicDataService.getDescriptionById(x.getEconClassSubjects()));//政府经济分类科目名称
-				shenBaoInfoDto.setProjectCategoryDesc(basicDataService.getDescriptionById(x.getProjectCategory()));
-				shenBaoInfoDto.setProjectStageDesc(basicDataService.getDescriptionById(x.getProjectStage()));
-				shenBaoInfoDto.setProjectConstrCharDesc(basicDataService.getDescriptionById(x.getProjectConstrChar()));
-				shenBaoInfoDto.setProjectShenBaoStageDesc(basicDataService.getDescriptionById(x.getProjectShenBaoStage()));
-				shenBaoInfoDto.setCapitalOtherTypeDesc(basicDataService.getDescriptionById(x.getCapitalOtherType()));
 				shenBaoInfoDtos.add(shenBaoInfoDto);
 			});
+			//查询总数
+			List<ShenBaoInfo> shenBaoInfos2=shenbaoInfoRepo.getSession()
+					.createSQLQuery(SQLConfig.yearPlanProject)
+					.setParameter("yearPlanId", planId)
+					.addEntity(ShenBaoInfo.class)
+					.getResultList();
+			int count = shenBaoInfos2.size();
 			
-			return shenBaoInfoDtos;
+			PageModelDto<ShenBaoInfoDto> pageModelDto = new PageModelDto<>();
+			pageModelDto.setCount(count);
+			pageModelDto.setValue(shenBaoInfoDtos);
+			return pageModelDto;
 		}			
 		return null;
 	}

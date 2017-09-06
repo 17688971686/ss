@@ -44,6 +44,9 @@
 	   		vm.basicData.area_Street=$linq(common.getBasicData())
 	   			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 	   			.toArray();//获取街道信息
+	   		vm.basicData.projectIndustry_ZF=$linq(common.getBasicData())
+	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
+	       		.toArray();//政府投资项目行业
 	   		vm.basicData.userUnit=common.getUserUnits();
     	}
     	init();    	
@@ -89,6 +92,9 @@
      		   }
      		   if(vm.search.unitName !=null && vm.search.unitName !=''){
      			  filters.push({field:'unitName',operator:'eq',value:vm.search.unitName});
+     		   }
+     		   if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){
+     			  filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
      		   }
      		  vm.gridOptions.dataSource.filter(filters);
     		};

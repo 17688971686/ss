@@ -41,6 +41,11 @@ public class BasicDataConfig {
 	
 	public static String auditState_noAudit="auditState_1";//未审核
 	public static String auditState_auditPass="auditState_2";//审核通过
+	
+	public static String projectCategory_A="projectCategory_1";//A类
+	public static String projectCategory_B="projectCategory_2";//B类
+	public static String projectCategory_C="projectCategory_3";//C类
+	public static String projectCategory_D="projectCategory_4";//D类
 	//end#basicData
 	
 	public static String role_admin="超级管理员";
