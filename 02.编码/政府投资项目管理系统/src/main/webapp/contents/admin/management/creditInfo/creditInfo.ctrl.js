@@ -9,10 +9,12 @@
 
     function creditInfo($location, creditInfoSvc,$state,$scope,$sce) {
         var vm = this;
-        vm.title = "信用异常项目申报单位列表";
+        vm.title = "异常项目申报单位列表";
         vm.model={};
+        vm.standby = {};
         vm.blackListModel = {};
         vm.illegalNameModel = {};
+        vm.projectAnomalyModel = {};
         vm.page='list';
         vm.basicData = {};
         vm.id=$state.params.id;
@@ -35,20 +37,36 @@
         		vm.page='illegalNameDetails';
         	}
         	if($state.current.name=='credit_blackList'){
-        		vm.title = '信用黑名单项目申报单位列表';
+        		vm.title = '黑名单项目申报单位列表';
         		vm.page = 'blackList';
         	}
         	if($state.current.name=='credit_blackListEdit'){
-        		vm.title = '信用黑名单信息录入';
+        		vm.title = '黑名单项目申报单位信息录入';
         		vm.page = 'addBlackList';
         	}
         	if($state.current.name=='credit_blackListDetails'){
-        		vm.title = '黑名单信息详情';
+        		vm.title = '黑名单项目申报单位信息详情';
         		vm.page = 'blackListDetails';
         	}
         	if($state.current.name=='credit_blackListAlter'){
-        		vm.title = '黑名单信息更改'
+        		vm.title = '黑名单项目申报单位信息更改'
         		vm.page = 'blackListAlter';
+        	}
+        	if($state.current.name=='credit_projectAnomaly'){
+        		vm.title = '项目异常列表'
+        		vm.page = 'projectAnomaly';
+        	}
+        	if($state.current.name=='credit_projectAnomalyEdit'){
+        		vm.title = '项目异常信息录入'
+        		vm.page = 'projectAnomalyEdit';
+        	}
+        	if($state.current.name=='credit_projectAnomalyDetails'){
+        		vm.title = '项目异常信息详情'
+        		vm.page = 'projectAnomalyDetails';
+        	}
+        	if($state.current.name=='credit_updateProjectAnomaly'){
+        		vm.title = '项目异常信息修改'
+        		vm.page = 'updateProjectAnomaly';
         	}
         	
         	
@@ -96,8 +114,132 @@
         		vm.isBlackListEdit = true;
         		page_blackListAlter();
         	}
+        	if(vm.page = 'projectAnomaly'){
+        		page_projectAnomaly();
+        	}
+        	if(vm.page = 'projectAnomalyEdit'){
+        		page_projectAnomalyEdit();
+        	}
+        	if(vm.page = 'projectAnomalyDetails'){
+        		page_projectAnomalyDetails();
+        	}
+        	if(vm.page = 'updateProjectAnomaly'){
+        		page_updateProjectAnomaly();
+        	}
         	
         }
+        
+        //项目异常信息变更页
+        function page_updateProjectAnomaly(){
+        	creditInfoSvc.getProjectAnomalyById(vm);
+        	vm.updateProjectAnomalyInfo = function(){
+        		common.initJqValidation();
+            	var isValid = $('form').valid();
+            	if(isValid ){
+            		creditInfoSvc.updateProjectAnomalyById(vm);
+            	}
+        	};
+        	vm.returnProjectAnomalyPage = function(){
+        		location.href = "#/creditInfo/projectAnomalyList";
+        	};
+        }
+        
+        //项目异常详情页
+        function page_projectAnomalyDetails(){
+        	creditInfoSvc.getProjectAnomalyById(vm);
+        }
+        
+        vm.returnProjectAnomalyPage = function(){
+        	location.href = "#/creditInfo/projectAnomalyList"
+        };
+        
+        //项目异常 录入页面
+        function page_projectAnomalyEdit(){
+        	vm.projectAnomalyModel.projectNumber = vm.projectNumber;
+        	vm.projectAnomalyModel.projectName = vm.projectName;
+        	vm.projectAnomalyModel.unitName = vm.unitName;
+        	vm.projectAnomalyModel.shenbaoDate = vm.createdDate;
+        	vm.saveProjectAnomalyInfo = function(){
+        		common.initJqValidation();
+            	var isValid = $('form').valid();
+            	if(isValid ){
+            		vm.projectAnomalyModel.shenbaoDate = vm.toDate(vm.projectAnomalyModel.shenbaoDate);
+            		creditInfoSvc.createProjectAnomaly(vm);
+            	}
+        	};
+        }//end fun page_projectAnomalyEdit
+        
+        //项目异常列表页
+        function page_projectAnomaly(){
+        	creditInfoSvc.projectAnomalyGrid(vm);
+        	//条件查询
+     	    vm.searchProjectAnomaly=function(){
+        		vm.projectAnomalyModel.shenbaoDate = vm.toDate(vm.projectAnomalyModel.shenbaoDate);
+     		    var filters = [];
+     		    if(vm.projectAnomalyModel.unitName !=null && vm.projectAnomalyModel.unitName !=''){
+       			   filters.push({field:'unitName',operator:'eq',value:vm.projectAnomalyModel.unitName});
+       		    }
+     		    if(vm.projectAnomalyModel.shenbaoDate != null && vm.projectAnomalyModel.shenbaoDate != ''){
+     			   filters.push({field:'shenbaoDate',operator:'eq',value:vm.projectAnomalyModel.shenbaoDate});
+     		    }
+     		    vm.gridProjectAnomalyInfo.dataSource.filter(filters);
+     	    };
+        	//点击录入按钮
+        	vm.addAnomalyProject = function(){
+            	//获取申报项目列表
+            	creditInfoSvc.grid(vm);
+            	//显示项目列表模态框
+            	$('#shenbaoList').modal('show');
+            	//没有选择数据的时候，"确定"按钮不可用
+            	vm.isConfirm = true;
+            	//选择一条数据后，"确定"按钮可用
+            	vm.change=function(){
+            		vm.isConfirm = false;
+            	};
+            	//点击模态框的确定按钮
+    			vm.confirmSubmit = function(){
+    				var selectId = common.getKendoCheckId('.grid');
+    				if (selectId.length == 0) {
+    					return;
+    				} else {
+    					var selectValue = selectId[0].value;
+    					var str = selectValue.split(",")
+    					var projectNumber = str[0];
+    					var projectName = str[1];
+    					var unitName = str[2];
+    					var createdDate = str[3];
+    					vm.projectNumber = projectNumber;
+    					vm.projectName = projectName;
+    					vm.unitName = unitName;
+    					vm.createdDate = createdDate;
+    					creditInfoSvc.haveProjectAnomaly(vm);
+    					$('.checkbox').removeAttr("checked");
+    					$('#shenbaoList').modal('hide');
+    					$(".modal-backdrop").remove(); //去掉模态框背面的阴影
+    				}   
+    			};   
+    			//点击模态框的取消或X按钮
+    			vm.closeWindow = function(){
+    				$('.checkbox').removeAttr("checked");
+    				$('#shenbaoList').modal('hide');
+    				$(".modal-backdrop").remove(); //去掉模态框背面的阴影
+    			};
+            };
+            //点击删除按钮
+            vm.deleteProjectAnomaly = function(id){
+            	vm.id = id;
+            	common.confirm({
+            		vm :vm,
+            		title:"",
+            		msg:"确认要删除此记录吗？",
+            		fn : function(){
+            			$('.confirmDialog').modal('hide');
+            			creditInfoSvc.deleteProjectAnomalyById(vm);
+            		}
+            	});
+            };
+        }//end fun page_projectAnomaly
+        
         
         //黑名单修改页
         function page_blackListAlter(){
@@ -105,7 +247,11 @@
         	creditInfoSvc.getBlackListById(vm);
         	//点击更新按钮，进行数据更新操作
         	vm.updateBlackListInfo = function(){
-        		creditInfoSvc.updateBlackListById(vm);
+        		common.initJqValidation();
+            	var isValid = $('form').valid();
+            	if(isValid ){
+            		creditInfoSvc.updateBlackListById(vm);
+            	}
         	};
         }
     	//点击取消按钮，返回黑名单列表页
@@ -181,13 +327,14 @@
             			vm.blackListModel.unitName = unitName;
             			vm.blackListModel.createdDate = createdDate;
             			creditInfoSvc.haveBlackList(vm);
+            			$('.checkbox').removeAttr("checked");
             			$('#shenbaoList').modal('hide');
             			$(".modal-backdrop").remove(); //去掉模态框背面的阴影
             		}   
             	};   
             	//点击模态框的取消或X按钮
             	vm.closeShenBaoWindow = function(){
-            		$('#checkbox').removeAttr("checked");
+            		$('.checkbox').removeAttr("checked");
             		$('#shenbaoList').modal('hide');
             		$(".modal-backdrop").remove(); //去掉模态框背面的阴影
             	};
@@ -256,13 +403,14 @@
     					vm.unitName = unitName;
     					vm.createdDate = createdDate;
     					creditInfoSvc.haveIllegalName(vm);
+    					$('.checkbox').removeAttr("checked");
     					$('#shenbaoList').modal('hide');
     					$(".modal-backdrop").remove(); //去掉模态框背面的阴影
     				}   
     			};   
     			//点击模态框的取消或X按钮
     			vm.closeWindow = function(){
-    				$('#checkbox').removeAttr("checked");
+    				$('.checkbox').removeAttr("checked");
     				$('#shenbaoList').modal('hide');
     				$(".modal-backdrop").remove(); //去掉模态框背面的阴影
     			};
@@ -310,7 +458,11 @@
         	vm.title='信用异常名录信息更改';
         	creditInfoSvc.getIllegalNameById(vm);
         	vm.updateIllegalNameInfo = function(){
-        		creditInfoSvc.updateIllegalNameById(vm);
+        		common.initJqValidation();
+            	var isValid = $('form').valid();
+            	if(isValid ){
+            		creditInfoSvc.updateIllegalNameById(vm);
+            	}
         	};
         }
         

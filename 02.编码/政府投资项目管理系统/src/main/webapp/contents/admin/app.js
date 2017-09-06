@@ -297,6 +297,35 @@
 	            controller: 'creditInfoCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //项目异常列表页
+	        .state('credit_projectAnomaly', {
+	            url: '/creditInfo/projectAnomalyList',
+	            templateUrl: '/management/creditInfo/html/projectAnomaly',
+	            controller: 'creditInfoCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //项目异常 信息录入页面
+	        .state('credit_projectAnomalyEdit', {
+	            url: '/creditInfo/projectAnomaly/:id/:projectNumber/:projectName/:unitName/:createdDate',
+	            templateUrl: '/management/creditInfo/html/projectAnomalyEdit',
+	            controller: 'creditInfoCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //项目异常 信息录入页面
+	        .state('credit_projectAnomalyDetails', {
+	            url: '/creditInfo/projectAnomalyDetails/:id',
+	            templateUrl: '/management/creditInfo/html/projectAnomalyDetails',
+	            controller: 'creditInfoCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //项目异常 信息更改页面
+	        .state('credit_updateProjectAnomaly',{ 
+	            url: '/creditInfo/updateProjectAnomaly/:id',
+	            templateUrl: '/management/creditInfo/html/projectAnomalyUpdate',
+	            controller: 'creditInfoCtrl',
+	            controllerAs: 'vm'
+	        })
+	        
 /**********************end#信用信息管理***************************************/
 	        
 /**********************begin#工作台***************************************/

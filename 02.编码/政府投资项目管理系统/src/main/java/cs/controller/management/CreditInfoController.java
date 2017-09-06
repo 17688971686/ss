@@ -4,7 +4,6 @@ import java.text.ParseException;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -18,9 +17,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.CreditBlackListDto;
 import cs.model.DomainDto.CreditIllegalNameDto;
+import cs.model.DomainDto.CreditProjectAnomalyDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.CreditBlackListService;
 import cs.service.interfaces.CreditIllegalNameService;
+import cs.service.interfaces.CreditProjectAnomalyService;
 
 @Controller
 @RequestMapping(name="后台管理--信用信息管理", path="management/creditInfo")
@@ -32,6 +33,9 @@ public class CreditInfoController {
 	
 	@Autowired
 	private CreditBlackListService blackListService;
+	
+	@Autowired
+	private CreditProjectAnomalyService projectAnomalyService;
 	
 //	@RequiresPermissions("management/creditInfo/addIllegalName#post")
 	@RequestMapping(name="添加项目异常名录",path="",method=RequestMethod.POST)
@@ -78,14 +82,14 @@ public class CreditInfoController {
 	}
 	
 //	@RequiresPermissions("management/creditInfo/updateBlackList#put")
-	@RequestMapping(name="更新项目异常名录",path="blackList",method=RequestMethod.PUT)
+	@RequestMapping(name="更新黑名单数据",path="blackList",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updateBlackList(@RequestBody CreditBlackListDto dto){
 		blackListService.update(dto,dto.getId());
 	}
 	
 //	@RequiresPermissions("management/creditInfo/blackList#remove")
-	@RequestMapping(name="删除项目异常名录",path="blackList/delete",method=RequestMethod.PUT)
+	@RequestMapping(name="删除黑名单数据",path="blackList/delete",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteBlackList(@RequestParam String id){
 		blackListService.delete(id);
@@ -132,6 +136,51 @@ public class CreditInfoController {
 	@RequestMapping(name="信息黑名单录入页",path="html/blackListUpdate",method=RequestMethod.GET)
 	public String blackListUpdate(){
 		return ctrl+"/blackListUpdate";
+	}
+	
+	@RequestMapping(name="项目异常列表页",path="html/projectAnomaly",method=RequestMethod.GET)
+	public String anomalyProjectList(){
+		return ctrl+"/projectAnomalyList";
+	}
+	
+	@RequestMapping(name="项目异常录入页",path="html/projectAnomalyEdit",method=RequestMethod.GET)
+	public String anomalyProjectEdit(){
+		return ctrl+"/projectAnomalyEdit";
+	}
+	
+	@RequestMapping(name="项目异常信息详情页",path="html/projectAnomalyDetails",method=RequestMethod.GET)
+	public String projectAnomalyDetails(){
+		return ctrl+"/projectAnomalyDetails";
+	}
+	
+	@RequestMapping(name="项目异常信息修改页",path="html/projectAnomalyUpdate",method=RequestMethod.GET)
+	public String projectAnomalyUpdate(){
+		return ctrl+"/projectAnomalyUpdate";
+	}
+	
+	@RequestMapping(name="获取项目异常名录数据", path = "projectAnomaly",method=RequestMethod.GET)
+	public @ResponseBody PageModelDto<CreditProjectAnomalyDto> getProjectAnomaly(HttpServletRequest request) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);
+		PageModelDto<CreditProjectAnomalyDto>  projectAnomalyDtos= projectAnomalyService.get(odataObj);		
+		return projectAnomalyDtos;
+	}
+	
+	@RequestMapping(name="添加项目异常数据",path="projectAnomaly",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void createProjectAnomaly(@RequestBody CreditProjectAnomalyDto dto){
+		projectAnomalyService.create(dto);
+	}
+	
+	@RequestMapping(name="更新项目异常信息",path="projectAnomaly",method=RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void put(@RequestBody CreditProjectAnomalyDto dto){
+		projectAnomalyService.update(dto,dto.getId());
+	}
+	
+	@RequestMapping(name="删除黑名单数据",path="projectAnomaly/delete",method=RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void deleteProjectAnomaly(@RequestParam String id){
+		projectAnomalyService.delete(id);
 	}
 
 }
