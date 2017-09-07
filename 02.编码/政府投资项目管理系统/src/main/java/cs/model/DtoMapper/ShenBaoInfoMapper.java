@@ -118,6 +118,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setCapitalAP_qita_LastTwoYear(entity.getCapitalAP_qita_LastTwoYear());
 			shenBaoInfoDto.setCapitalAP_qita_LastYear(entity.getCapitalAP_qita_LastYear());
 			shenBaoInfoDto.setCapitalAP_qita(entity.getCapitalAP_qita());
+			shenBaoInfoDto.setPackageType(entity.getPackageType());//打包类型
 			//基础数据		
 			shenBaoInfoDto.setCreatedDate(entity.getCreatedDate());
 			shenBaoInfoDto.setModifiedDate(entity.getModifiedDate());
@@ -247,6 +248,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setCapitalAP_qita_LastTwoYear(shenBaoInfoDto.getCapitalAP_qita_LastTwoYear());
 			shenBaoInfo.setCapitalAP_qita_LastYear(shenBaoInfoDto.getCapitalAP_qita_LastYear());
 			shenBaoInfo.setCapitalAP_qita(shenBaoInfoDto.getCapitalAP_qita());
+			shenBaoInfo.setPackageType(shenBaoInfoDto.getPackageType());//打包类型
 			//begin#审批相关
 			shenBaoInfo.setProcessState(shenBaoInfoDto.getProcessState());
 			//begin#财政相关
@@ -268,11 +270,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setReceiver(shenBaoInfoDto.getReceiver());
 		}
 		return shenBaoInfo;
-		
 	}
-
-	
-
 }
 
 

@@ -104,8 +104,10 @@ public class CommonController {
 	@RequestMapping(name="导出Excel-印刷版",path="exportExcelForYS",method=RequestMethod.GET)
 	public ModelAndView getExcel(HttpServletRequest request,@RequestParam String planId) throws ParseException{
 		ODataObj odataObj = new ODataObj(request);
+		//获取所有的数据--按行业排序
 		List<ShenBaoInfoDto> dtos=yearPlanService.getYearPlanShenBaoInfo(planId,odataObj).getValue();
-        List<ExcelData> excelDataList = new ArrayList<ExcelData>();
+		//获取按行业查询统计数据
+		List<ExcelData> excelDataList = new ArrayList<ExcelData>();
         dtos.stream().forEach(x->{
         	ExcelData excelData=new ExcelData();
         	excelData.setConstructionUnit(x.getConstructionUnit());//建设单位
@@ -114,12 +116,12 @@ public class CommonController {
             excelData.setProjectType(basicDataService.getDescriptionById(x.getProjectCategory()));//项目类别
             excelData.setConstructionScale(x.getProjectGuiMo());//项目规模
             excelData.setConstructionType(basicDataService.getDescriptionById(x.getProjectConstrChar()));//建设性质
-            excelData.setConstructionDate(Util.formatDate(x.getBeginDate(),"yyyy-MM-dd")+"\n"+Util.formatDate(x.getEndDate(),"yyyy-MM-dd"));//建设起止日期
-            excelData.setTotalInvest(String.valueOf(x.getProjectInvestSum()));//总投资
-            excelData.setAccumulatedInvest(String.valueOf(x.getProjectInvestAccuSum()));//累计完成投资
-            excelData.setArrangeInvest(String.valueOf(x.getApInvestSum()));//累计安排投资
-            excelData.setInvest_GuoTu(String.valueOf(x.getCapitalSCZ_gtzj_TheYear()));//投资来源--区国土基金
-            excelData.setInvest_GongGongYuSuan(String.valueOf(x.getCapitalSCZ_ggys_TheYear()));//投资来源--区公共预算
+            excelData.setConstructionDate(Util.formatDate(x.getBeginDate(),"yyyy-MM")+"~"+"\n"+Util.formatDate(x.getEndDate(),"yyyy-MM"));//建设起止年月
+            excelData.setTotalInvest(x.getProjectInvestSum());//总投资
+            excelData.setApInvestSum(x.getApInvestSum());;//累计安排投资
+            excelData.setApplyYearInvest(x.getApplyYearInvest());;//申请投资
+            excelData.setCapitalAP_gtzj_TheYear(x.getCapitalAP_gtzj_TheYear());;//安排资金--区国土基金
+            excelData.setCapitalAP_ggys_TheYear(x.getCapitalAP_ggys_TheYear());//安排资金--区公共预算
             excelData.setConstructionContent(x.getYearConstructionContent());//建设内容
             excelData.setRemark(x.getYearConstructionContentShenBao());
             excelDataList.add(excelData);

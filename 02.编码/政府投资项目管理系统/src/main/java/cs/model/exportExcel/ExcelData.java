@@ -1,4 +1,5 @@
 package cs.model.exportExcel;
+
 /**
 * @ClassName: ExcelData
 * @Description: 导出年度计划印刷版Excel数据实体类 
@@ -14,11 +15,11 @@ public class ExcelData {
     private String ConstructionScale;//建设规模
     private String ConstructionType;//建设性质
     private String ConstructionDate;//建设起止日期
-    private String TotalInvest;//总投资
-    private String AccumulatedInvest;//累计拨款
-    private String ArrangeInvest;//安排资金
-    private String Invest_GuoTu;//投资来源_国土
-    private  String Invest_GongGongYuSuan;//投资来源_公共预算
+    private double TotalInvest;//总投资
+    private double apInvestSum;//累计安排
+    private double applyYearInvest;//本年度申请资金
+    private double capitalAP_gtzj_TheYear;//本年度安排资金_国土
+    private double capitalAP_ggys_TheYear;//本年度安排资金_公共预算
     private String ConstructionContent;//主要建设内容
     private  String Remark;//备注
 	public String getConstructionUnit() {
@@ -63,35 +64,35 @@ public class ExcelData {
 	public void setConstructionDate(String constructionDate) {
 		ConstructionDate = constructionDate;
 	}
-	public String getTotalInvest() {
+	public double getTotalInvest() {
 		return TotalInvest;
 	}
-	public void setTotalInvest(String totalInvest) {
+	public void setTotalInvest(double totalInvest) {
 		TotalInvest = totalInvest;
 	}
-	public String getAccumulatedInvest() {
-		return AccumulatedInvest;
+	public double getApInvestSum() {
+		return apInvestSum;
 	}
-	public void setAccumulatedInvest(String accumulatedInvest) {
-		AccumulatedInvest = accumulatedInvest;
+	public void setApInvestSum(double apInvestSum) {
+		this.apInvestSum = apInvestSum;
 	}
-	public String getArrangeInvest() {
-		return ArrangeInvest;
+	public double getApplyYearInvest() {
+		return applyYearInvest;
 	}
-	public void setArrangeInvest(String arrangeInvest) {
-		ArrangeInvest = arrangeInvest;
+	public void setApplyYearInvest(double applyYearInvest) {
+		this.applyYearInvest = applyYearInvest;
 	}
-	public String getInvest_GuoTu() {
-		return Invest_GuoTu;
+	public double getCapitalAP_gtzj_TheYear() {
+		return capitalAP_gtzj_TheYear;
 	}
-	public void setInvest_GuoTu(String invest_GuoTu) {
-		Invest_GuoTu = invest_GuoTu;
+	public void setCapitalAP_gtzj_TheYear(double capitalAP_gtzj_TheYear) {
+		this.capitalAP_gtzj_TheYear = capitalAP_gtzj_TheYear;
 	}
-	public String getInvest_GongGongYuSuan() {
-		return Invest_GongGongYuSuan;
+	public double getCapitalAP_ggys_TheYear() {
+		return capitalAP_ggys_TheYear;
 	}
-	public void setInvest_GongGongYuSuan(String invest_GongGongYuSuan) {
-		Invest_GongGongYuSuan = invest_GongGongYuSuan;
+	public void setCapitalAP_ggys_TheYear(double capitalAP_ggys_TheYear) {
+		this.capitalAP_ggys_TheYear = capitalAP_ggys_TheYear;
 	}
 	public String getConstructionContent() {
 		return ConstructionContent;

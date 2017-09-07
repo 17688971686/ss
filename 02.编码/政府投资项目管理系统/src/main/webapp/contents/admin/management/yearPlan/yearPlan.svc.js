@@ -486,6 +486,7 @@
 					var date = new Date();
 					vm.planYear = vm.model.shenBaoInfo.planYear = parseInt(date.getFullYear()+1);
 				}
+				//vm.model.shenBaoInfo.packageType=common.basicDataConfig().packageType_danLie;//默认打包类型为单列项目
 				
 				//项目类型、建设单位的显示
 				vm.projectTypes = common.stringToArray(vm.model.shenBaoInfo.projectType,',');
@@ -901,8 +902,8 @@
 					    }
 					},
 					{
-						field : "projectInvestAccuSum",
-						title : "已拨付资金（万元）",
+						field : "apInvestSum",
+						title : "累计安排资金（万元）",
 						width:120,
 						filterable : false,
 						headerAttributes: {
@@ -911,19 +912,9 @@
 					    }
 					},
 					{
-						field : "planYear",
-						title : "计划年度",
-						width:80,
-						filterable : false,
-						headerAttributes: {
-					      "class": "table-header-cell",
-					       style: "text-align: center;vertical-align: middle;"
-					    }
-					},
-					{
 						field : "yearConstructionContent",
-						title : "本年度建设内容",
 						width:200,
+						title:"2018年度建设内容",
 						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContent || ''); },
 						filterable : false,
 						headerAttributes: {
@@ -970,11 +961,13 @@
   					       style: "text-align: center;vertical-align: middle;"
   					    }
 					},
-					
 					{
-						field : "planYear+1",
-						title : "计划年度",
-						width:100,
+						field : "yearInvestApproval",
+						title : "安排资金合计",
+						template :function(item){					
+							return common.format($('#input').html(),item.id,item.yearInvestApproval || 0);
+						},
+						width:130,
 						filterable : false,
 						headerAttributes: {
 					      "class": "table-header-cell",
@@ -982,8 +975,37 @@
 					    }
 					},
 					{
+						title : "安排资金（万元）",
+						columns: [
+							{
+								field : "capitalAP_ggys_TheYear",
+								title : "公共预算",
+								width:130,
+								filterable : false,
+								headerAttributes: {
+							      "class": "table-header-cell",
+							       style: "text-align: center;vertical-align: middle;"
+							    }
+							},
+							{
+								field : "capitalAP_gtzj_TheYear",
+								title : "国土基金",
+								width:130,
+								filterable : false,
+								headerAttributes: {
+							      "class": "table-header-cell",
+							       style: "text-align: center;vertical-align: middle;"
+							    }
+							}
+						],
+						headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
+					},
+					{
 						field : "yearConstructionContentLastYear",
-						title : "本年度建设内容",
+						title : "2019年度建设内容",
 						width:200,
 						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContentLastYear|| ''); },
 						filterable : false,
@@ -1032,18 +1054,8 @@
 					    }
 					},
 					{
-						field : "planYear+2",
-						title : "计划年度",
-						width:100,
-						filterable : false,
-						headerAttributes: {
-					      "class": "table-header-cell",
-					       style: "text-align: center;vertical-align: middle;"
-					    }
-					},
-					{
 						field : "yearConstructionContentLastTwoYear",
-						title : "本年度建设内容",
+						title : "2020年度建设内容",
 						width:200,
 						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContentLastTwoYear|| '');},
 						filterable : false,
@@ -1091,48 +1103,7 @@
 					       style: "text-align: center;vertical-align: middle;"
 					    }
 					},
-					{
-						title : "安排资金（万元）",
-						columns: [
-							{
-								field : "capitalAP_ggys_TheYear",
-								title : "公共预算",
-								width:130,
-								filterable : false,
-								headerAttributes: {
-							      "class": "table-header-cell",
-							       style: "text-align: center;vertical-align: middle;"
-							    }
-							},
-							{
-								field : "capitalAP_gtzj_TheYear",
-								title : "国土基金",
-								width:130,
-								filterable : false,
-								headerAttributes: {
-							      "class": "table-header-cell",
-							       style: "text-align: center;vertical-align: middle;"
-							    }
-							}
-						],
-						headerAttributes: {
-					      "class": "table-header-cell",
-					       style: "text-align: center;vertical-align: middle;"
-					    }
-					},
-					{
-						field : "yearInvestApproval",
-						title : "安排资金操作",
-						template :function(item){					
-							return common.format($('#input').html(),item.id,item.yearInvestApproval || 0);
-						},
-						width:130,
-						filterable : false,
-						headerAttributes: {
-					      "class": "table-header-cell",
-					       style: "text-align: center;vertical-align: middle;"
-					    }
-					},
+					
 					{
 						field : "yearConstructionContentShenBao",
 						title : "备注",
@@ -1175,26 +1146,6 @@
 				resizable : true,
 				excelExport:excelExport
 			};
-//			vm.planGrid.table.kendoSortable({
-//                filter: ">tbody >tr",
-//                hint: $.noop,
-//                cursor: "move",
-//                placeholder: function(element) {
-//                    return element.clone().addClass("k-state-hover").css("opacity", 0.65);
-//                },
-//                container: "#grid tbody",
-//                change: function(e) {
-//                    var skip = grid.dataSource.skip(),
-//                        oldIndex = e.oldIndex + skip,
-//                        newIndex = e.newIndex + skip,
-//                        data = grid.dataSource.data(),
-//                        dataItem = grid.dataSource.getByUid(e.item.data("uid"));
-//
-//                    grid.dataSource.remove(dataItem);
-//                    grid.dataSource.insert(newIndex, dataItem);
-//                }
-//            });
-
 		}//end grid_yearPlan_shenbaoInfoList
 		
 		/**

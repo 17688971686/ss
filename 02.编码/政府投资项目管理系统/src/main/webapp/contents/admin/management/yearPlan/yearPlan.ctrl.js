@@ -75,6 +75,7 @@
    	   		vm.basicData.userUnit=common.getUserUnits();//建设单位信息
    	   		vm.basicData.roles=common.getRoles();//角色
    	   		vm.basicData.users=[];
+//   	   		vm.basicData.packageType=common.getBacicDataByIndectity(common.basicDataConfig().packageType);//项目类别
    	   		
    	   		vm.searchIndustryChange=function(){
    	   			vm.searchIndustryIsZF = false;
@@ -433,6 +434,18 @@
 				}
 			}
 	   };
+	   //打包类型改变事件
+	   /*vm.packageTypeChange=function(){
+		   vm.packageType=false;
+		   if(vm.model.shenBaoInfo.packageType == 'other'){
+			   vm.packageType = true;
+		   }
+	   };
+	   //打包类型新增其他保存
+	   vm.savePackageType=function(){
+		   console.log(vm.basicData.packageType);
+		   //yearPlanSvc.savePackageType(vm);
+	   };*/
       	//项目纳入项目库
   		vm.addProjectToLibray=function(){
   			yearPlanSvc.addProjectToLibrary(vm);

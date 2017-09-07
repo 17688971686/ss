@@ -5,6 +5,8 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.web.servlet.view.document.AbstractXlsView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +15,7 @@ import java.util.Map;
 public class ExcelReportView extends AbstractXlsView {
 	@Override
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        response.setHeader("Content-Disposition", "attachment;filename=\"plan.xls\"");
+        response.setHeader("Content-Disposition", "attachment;filename=\"yearPlan.xls\"");
         Sheet sheet = workbook.createSheet("表1");
         //创建行
         Row title=sheet.createRow(0);
@@ -43,9 +45,9 @@ public class ExcelReportView extends AbstractXlsView {
         createCellAlignCenter(workbook,row_head1,4,"建设性质");
         createCellAlignCenter(workbook,row_head2,4,"建设起止年月");
         createCellAlignCenter(workbook,row_head1,5,"总投资");
-        createCellAlignCenter(workbook,row_head1,6,"累计投资");
-        createCellAlignCenter(workbook,row_head1,7,"安排投资");
-        createCellAlignCenter(workbook,row_head1,8,"投资来源");
+        createCellAlignCenter(workbook,row_head1,6,"累计安排");
+        createCellAlignCenter(workbook,row_head1,7,"申请投资");
+        createCellAlignCenter(workbook,row_head1,8,"安排投资");
         createCellAlignCenter(workbook,row_head2,8,"国土");
         createCellAlignCenter(workbook,row_head2,9,"公共预算");
         createCellAlignCenter(workbook,row_head1,10,"2018年主要建设内容");
@@ -78,11 +80,11 @@ public class ExcelReportView extends AbstractXlsView {
             createCellAlignCenter(workbook,row1,3, data.getConstructionScale());
             createCellAlignCenter(workbook,row1,4, data.getConstructionType());
             createCellAlignCenter(workbook,row2,4, data.getConstructionDate());
-            createCellAlignCenter(workbook,row1,5, data.getTotalInvest());
-            createCellAlignCenter(workbook,row1,6, data.getAccumulatedInvest());
-            createCellAlignCenter(workbook,row1,7, data.getArrangeInvest());
-            createCellAlignCenter(workbook,row1,8, data.getInvest_GuoTu());
-            createCellAlignCenter(workbook,row1,9, data.getInvest_GongGongYuSuan());
+            createCellAlignCenter(workbook,row1,5, data.getTotalInvest());//总投资
+            createCellAlignCenter(workbook,row1,6, data.getApInvestSum());//累计安排
+            createCellAlignCenter(workbook,row1,7, data.getApplyYearInvest());//申请投资
+            createCellAlignCenter(workbook,row1,8, data.getCapitalAP_gtzj_TheYear());//安排投资--国土
+            createCellAlignCenter(workbook,row1,9, data.getCapitalAP_ggys_TheYear());//安排投资--公共预算
             createCellAlignLeft(workbook,row1,10, data.getConstructionContent());
             createCellAlignCenter(workbook,row1,11,data.getRemark());
 
@@ -104,13 +106,28 @@ public class ExcelReportView extends AbstractXlsView {
     private void createCellAlignCenter(Workbook workbook,Row row, int cellNumber,String value){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER);
     }
+    private void createCellAlignCenter(Workbook workbook,Row row, int cellNumber,double value){
+        createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER);
+    }
     private void createCellAlignLeft(Workbook workbook,Row row, int cellNumber,String value){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_LEFT,CellStyle.VERTICAL_CENTER);
     }
     private void createCellAlignRight(Workbook workbook,Row row, int cellNumber,String value){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_RIGHT,CellStyle.VERTICAL_CENTER);
     }
+   
     private void createCell(Workbook workbook,Row row, int cellNumber,String value, short halign, short valign){
+        Cell cell=row.createCell(cellNumber);
+        cell.setCellValue(value);
+
+        CellStyle cellStyle = workbook.createCellStyle();
+        cellStyle.setAlignment(halign);
+        cellStyle.setVerticalAlignment(valign);
+        cellStyle.setWrapText(true);
+        cell.setCellStyle(cellStyle);
+    }
+    //重写创建列
+    private void createCell(Workbook workbook,Row row, int cellNumber,double value, short halign, short valign){
         Cell cell=row.createCell(cellNumber);
         cell.setCellValue(value);
 

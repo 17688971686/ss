@@ -447,6 +447,9 @@
     		auditState_noAudit:"auditState_1",//审核状态-未审核
     		auditState_auditPass:"auditState_2",//审核状态-审核通过
     		auditState_auditNotPass:"auditState_3",//审核状态-审核不通过
+    		
+    		packageType:"packageType",//打包类型
+    		packageType_danLie:"packageType_1",
     			
     		management:"管理员"
     		

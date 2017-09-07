@@ -120,6 +120,8 @@ public class ShenBaoInfo extends BaseProject{
 	private Double capitalAP_gtzj_LastTwoYear;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度安排年度资金筹措方案-其他'")
 	private Double capitalAP_qita_LastTwoYear;
+	@Column(columnDefinition="varchar(255) NULL COMMENT '打包类型'")
+	private String packageType;
 	//end#年度计划相关
 
    //begin#财政相关
@@ -444,5 +446,11 @@ public class ShenBaoInfo extends BaseProject{
 	}
 	public void setReceiver(String receiver) {
 		this.receiver = receiver;
+	}
+	public String getPackageType() {
+		return packageType;
+	}
+	public void setPackageType(String packageType) {
+		this.packageType = packageType;
 	}
 }
