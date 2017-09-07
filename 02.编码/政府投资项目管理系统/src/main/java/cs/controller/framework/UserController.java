@@ -1,7 +1,6 @@
 package cs.controller.framework;
 
 import java.text.ParseException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.model.PageModelDto;
+import cs.model.DomainDto.OpinionDto;
 import cs.model.framework.UserDto;
 import cs.repository.odata.ODataObj;
 import cs.service.framework.UserService;
@@ -59,6 +59,42 @@ public class UserController {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  put(@RequestBody UserDto userDto)  {		
 		userService.updateUser(userDto);	
+	}
+	
+	@RequiresPermissions("user#opin#delete")
+	@RequestMapping(name = "删除意见", path = "opin",method=RequestMethod.DELETE)	
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void  deleteOpin(@RequestBody String id)  {		
+		String[] ids=id.split(",");
+		if(ids.length>1){
+			userService.deleteOpins(ids);	
+		}else{
+			userService.deleteOpin(id);	
+		}		
+	}
+	
+	@RequiresPermissions("user#opin#put")
+	@RequestMapping(name = "编辑意见", path = "opin",method=RequestMethod.PUT)	
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void  updateOpin(@RequestBody OpinionDto opinDto)  {	
+		System.out.println(opinDto.getId());
+			userService.editOpin(opinDto);	
+	}
+	
+	@RequiresPermissions("user#opin#get")	
+	@RequestMapping(name = "获取常用意见", path = "opin", method = RequestMethod.GET)
+	public @ResponseBody PageModelDto<OpinionDto> getOpin(HttpServletRequest request) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);
+		PageModelDto<OpinionDto> opinionDtos = userService.getOpin(odataObj);
+
+		return opinionDtos;
+	}
+	
+	@RequiresPermissions("user#opin#post")
+	@RequestMapping(name = "保存意见", path = "opin",method=RequestMethod.POST)	
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void  saveOpin(@RequestBody String opinionDto)  {		
+		userService.saveUserOpin(opinionDto);	
 	}
 	
 	// begin#html

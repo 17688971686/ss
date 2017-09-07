@@ -6,6 +6,7 @@ import java.util.Set;
 import cs.common.Response;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
+import cs.model.DomainDto.OpinionDto;
 import cs.model.framework.UserDto;
 import cs.repository.odata.ODataObj;
 
@@ -29,5 +30,15 @@ public interface UserService {
 	User findUserByName(String userName);
 	
 	User findById(String id);
+
+	void saveUserOpin(String opinionDto);
+
+	PageModelDto<OpinionDto> getOpin(ODataObj odataObj);
+
+	void deleteOpins(String[] ids);
+
+	void deleteOpin(String id);
+
+	void editOpin(OpinionDto opinDto);
 
 }

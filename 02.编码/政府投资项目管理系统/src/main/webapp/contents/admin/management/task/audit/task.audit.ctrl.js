@@ -70,7 +70,7 @@
 	   				.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 	   				.toArray(); //行政区划街道
    	   		vm.basicData.userUnit=common.getUserUnits();//获取所有单位
-    	}
+    	};
     	   	
     	activate();
         function activate() {        	
@@ -81,10 +81,11 @@
         	if(vm.page=='handleAudit'){
         		init_handleAudit();
         	}
-        }
+        };
         
         function init_todoAuditList(){
         	taskAuditSvc.grid(vm);
+        	
         	//查询
         	vm.search=function(){
         		var filters = [];
@@ -104,7 +105,7 @@
         	vm.filterClear=function(){
         		location.reload();
         	};
-        }//end init_todoList
+        };//end init_todoList
         
         function init_handleAudit(){
         	//查询任务信息
@@ -117,8 +118,85 @@
         	taskAuditSvc.replyFileGird(vm);
         	//查询角色信息
         	taskAuditSvc.getRoles(vm);
+        	//查询常用意见
+        	taskAuditSvc.getOpinion(vm);
+        	//常用意见列表
+        	taskAuditSvc.opinionGird(vm);
         	
-
+        	//意见下拉框
+        	vm.opinion=function(){
+        		taskAuditSvc.getOpinion(vm);
+        	};
+        	
+        	//保存常用意见
+        	vm.saveOpinion=function(){
+        		if(vm.processSuggestion != "" && vm.processSuggestion != undefined){
+        			taskAuditSvc.saveOpinion(vm);
+        		}
+        	};
+        	
+        	//常用意见管理模态框
+        	vm.showOpinion = function(){
+        		$('.opinion').modal({
+                    backdrop: 'static',
+                    keyboard:false
+                });
+        	}
+        	
+        	//编辑意见
+        	vm.editOpin=function(){
+        		taskAuditSvc.editOpin(vm);
+        	}
+        	
+        	//编辑模态框
+        	vm.edit=function(id,opin){
+        		$('.opinionEdit').modal({
+                    backdrop: 'static',
+                    keyboard:false
+                });
+        		vm.model.opinion = {"opinion":opin,"id":id};
+        		
+        	}
+        	//删除意见
+        	vm.remove=function(id){
+        		taskAuditSvc.deleteOpin(vm,id);
+        	}
+        	
+        	//切换常用意见
+        	vm.changeOpin=function(){
+        		vm.processSuggestion = vm.model.opinion;
+        	}
+        	
+        	
+        	 vm.del = function (id) {       	 
+//                 common.confirm({
+//                	 vm:vm,
+//                	 title:"",
+//                	 msg:"确认删除数据吗？",
+//                	 fn:function () {
+                      	$('.confirmDialog').modal('hide');             	
+                      	taskAuditSvc.deleteOpin(vm,id);
+//                     }
+//                 });
+            };
+        	//批量删除意见
+        	vm.dels = function () {     
+             	var selectIds = common.getKendoCheckId('.grid');
+                 if (selectIds.length == 0) {
+                 	common.alert({
+                     	vm:vm,
+                     	msg:'请选择数据'               	
+                     });
+                 } else {
+                 	var ids=[];
+                     for (var i = 0; i < selectIds.length; i++) {
+                     	ids.push(selectIds[i].value);
+     				}  
+                     var idStr=ids.join(',');
+                     vm.del(idStr);
+                 } 
+            };
+        	
         	//部门切换触发
         	vm.changeDept = function(){
         		for (var i = 0; i < vm.model.depts.length; i++) {
@@ -127,13 +205,12 @@
 							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {//循环角色
 								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "科长"){//默认选中科长为下一流程处理人
 									vm.taskAudit.nextUser = vm.model.depts[i].userDtos[j].id;//下一处理人为当前部门角色是科长的人
-									//vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;//下一角色为科长
 								}
 							}
 						}
 					}
 				}
-        	}
+        	};
         	
         	//经办人员业务选择
         	
@@ -157,7 +234,7 @@
         		if(str == "fawennigao"){
         			vm.nextProcessRadioOfYW = "fawennigao";
         		}
-        	}
+        	};
         	
         	//下一处理环节
         	vm.clicked =function(str){
@@ -177,7 +254,6 @@
 							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {//循环角色
 								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "人秘科发文人员"){//默认选中人秘科发文人员为下一流程处理人
 									vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;
-									//vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;//下一角色为科长
 								}
 							}
 						}
@@ -207,7 +283,6 @@
 							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {
 								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "科长" &&vm.model.depts[i].userDtos[j].id ==vm.taskAudit.nextUser){//科长选择当前科室的科员为下一流程处理人
 									vm.users = vm.model.depts[i].userDtos;
-									//vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;//下一角色为科长
 								}
 							}
 						}
@@ -229,7 +304,6 @@
 							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {
 								if(vm.model.depts[i].userDtos[j].id ==vm.taskAudit.nextUser){//科长选择当前科室的科员为下一流程处理人
 									vm.users = vm.model.depts[i].userDtos;
-									//vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;//下一角色为科长
 								}
 							}
 						}
@@ -265,11 +339,7 @@
         			}else if(str == "pingswancheng"){
         				vm.nextProcessRadio = "pingswancheng";
         			}
-//        			for (var i = 0; i < vm.taskAudit.taskRecordDtos.length; i++) {
-//						if(vm.taskAudit.taskRecordDtos[i].processState=="processState_4" && vm.taskAudit.taskRecordDtos[i].nextUser !=""){
-							vm.taskAudit.nextUser = vm.taskAudit.operator;
-//						}
-//					}
+					vm.taskAudit.nextUser = vm.taskAudit.operator;
         		}
         		
         		//局领导审批
@@ -300,7 +370,6 @@
 							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {//循环角色
 								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "人秘科发文人员"){//默认选中人秘科发文人员为下一流程处理人
 									vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;
-									//vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;//下一角色为科长
 								}
 							}
 						}
@@ -325,7 +394,6 @@
 							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {//循环角色
 								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "人秘科发文人员"){//默认选中人秘科发文人员为下一流程处理人
 									vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;
-									//vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;//下一角色为科长
 								}
 							}
 						}
@@ -335,7 +403,7 @@
         		if(str == "fawendengji"){
         			vm.nextProcessRadio = "fawendengji";
         		}
-        	}
+        	};
         	
         	//选择人员为下一处理人
         	vm.selectUser = function(id){
@@ -343,7 +411,7 @@
         		if(vm.nextProcessRadio == "tuihuijingbanren" || vm.nextProcessRadio == "pingswancheng"){
             		vm.taskAudit.operator = id;
     			}
-        	} 
+        	};
         	
         	function setNextUser(vm){
     			var processState = vm.taskAudit.processState;//下一流程展示
@@ -384,7 +452,7 @@
     				vm.taskAudit.processState = "processState_23";
     				vm.taskAudit.nextProcess = "";
     			}
-    		}
+    		};
         	
         	//送出
         	vm.handle = function(){
@@ -495,18 +563,17 @@
 	        
 	        		taskAuditSvc.handle(vm);
     	   		}
-        	}
+        	};
         	
-        	
+        	//得到秘书科角色
         	function getMiShuKRole(role){
         		for (var i = 0; i < vm.model.roles.length; i++) {
         			if(vm.model.roles[i].roleName == role){
         				return vm.model.roles[i].id;
         			}
 				}
-        	}
+        	};
 
-        	
         	//弹出申报详情模态框
         	vm.dialog_shenbaoInfo=function(){
         		$("#shenbaoInfo").modal({

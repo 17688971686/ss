@@ -99,6 +99,10 @@ desired effect
 								<img src="/contents/images/user_icon.png" class="user-image"
 								alt="User Image"> <!-- hidden-xs hides the username on small devices so only the image appears. -->
 								<span class="hidden-xs">${user}</span>
+								<script>
+									window.profile_userId='${userId}';
+									window.profile_userName='${user}';
+								</script>
 						</a>
 							<ul class="dropdown-menu" style="width: 120px;">
 								<!-- Menu Footer-->

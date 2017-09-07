@@ -13,6 +13,9 @@
 		var url_back = "#/task/todo";
 		var url_replyFile = "/management/replyFile";
 		var url_role="/role";
+		var url_opin="/user/opin";
+		var url_users = "/user";
+		
 		var service = {
 			grid : grid,//待办任务列表
 			getTaskInfoById:getTaskInfoById,//查询任务信息
@@ -21,10 +24,118 @@
 			handle:handle,//送出
 			replyFileGird:replyFileGird,//批复文件库列表
 			saveShenBaoInfo:saveShenBaoInfo,//保存申报信息
-			getRoles:getRoles//查询角色信息
+			getRoles:getRoles,//查询角色信息
+			saveOpinion:saveOpinion,//保存意见
+			getOpinion:getOpinion,//获取意见
+			opinionGird:opinionGird,//意见列表
+			deleteOpin:deleteOpin,//删除意见
+			editOpin:editOpin//编辑意见
 
 		};
 		return service;
+		
+		function editOpin(vm){
+			var httpOptions = {
+	                method: 'put',
+	                url:url_opin,
+	                data:vm.model.opinion          
+	            };
+	            
+	            var httpSuccess = function success(response) {               
+	            	$('.opinion').modal('hide');
+	            };
+	            
+	            common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+		}
+		
+		//删除意见
+		function deleteOpin(vm,id) {
+            vm.isSubmit = true;
+            
+            var httpOptions = {
+                method: 'delete',
+                url:url_opin,
+                data:id              
+            };
+            
+            var httpSuccess = function success(response) {               
+                common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function () {
+	                    vm.isSubmit = false;
+	                    vm.opinionGrid.dataSource.read();
+	                }					
+				});
+            };
+            
+            common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+        };// end fun deleteorg	
+
+		/**
+		 * 查询意见
+		 */
+		function getOpinion(vm){
+			var httpOptions = {
+					method : 'get',
+					url : url_opin
+			};
+			
+			var httpSuccess = function success(response){
+				vm.model.opinionDtos = response.data.value||{};
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		};
+		
+		/**
+		 * 保存意见
+		 */
+		function saveOpinion(vm){
+			var httpOptions = {
+					method : 'post',
+					url : url_opin,
+					data : vm.processSuggestion
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						common.alert({
+							vm:vm,
+							msg:"保存成功！",
+							fn:function(){
+								$('.alertDialog').modal('hide');
+							}
+						});
+					}
+				});
+			};
+				
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		};
 		
 		/**
 		 * 查询角色信息
@@ -36,7 +147,19 @@
 				};
 			
 			var httpSuccess = function success(response) {
-				vm.model.roles = response.data.value||{};
+//				common.requestSuccess({
+//					vm:vm,
+//					response:response,
+//					fn:function(){
+//						common.alert({
+//							vm:vm,
+//							msg:"保存成功！",
+//							fn:function(){
+//								$('.alertDialog').modal('hide');
+//							}
+//						});
+//					}
+//				});
 			};
 				
 			common.http({
@@ -261,6 +384,69 @@
 					success : httpSuccess
 				});		
 	   		}
+		}
+		
+		// begin#grid
+		/**
+		 * 意见列表
+		 */
+		function opinionGird(vm){
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url_opin),						
+				schema : common.kendoGridConfig().schema({
+					id : "id"
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10
+					
+			});
+			// End:dataSource
+			// Begin:column
+			var columns = [
+				{
+					template : function(item) {
+						return kendo
+								.format(
+										"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+										item.id);
+					},
+					filterable : false,
+					width : 40,
+					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+
+				},
+				{
+					field : "opinion",
+					title : "意见",
+					width : 450,
+					filterable : true
+				},
+				{
+					field : "",
+					title : "操作",
+					width : 180,
+					template : function(item) {
+						return common.format($('#columnBtns').html(),item.id,item.opinion);
+
+					}
+
+				}
+			];
+			// End:column
+
+			vm.opinionGrid = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true
+			};
+		
 		}
 		
 		// begin#grid
