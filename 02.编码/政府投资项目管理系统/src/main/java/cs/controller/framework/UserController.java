@@ -83,9 +83,9 @@ public class UserController {
 	
 	@RequiresPermissions("user#opin#get")	
 	@RequestMapping(name = "获取常用意见", path = "opin", method = RequestMethod.GET)
-	public @ResponseBody PageModelDto<OpinionDto> getOpin(HttpServletRequest request) throws ParseException {
-		ODataObj odataObj = new ODataObj(request);
-		PageModelDto<OpinionDto> opinionDtos = userService.getOpin(odataObj);
+	public @ResponseBody PageModelDto<OpinionDto> getOpin() throws ParseException {
+		//ODataObj odataObj = new ODataObj(request);
+		PageModelDto<OpinionDto> opinionDtos = userService.getOpin();
 
 		return opinionDtos;
 	}

@@ -167,6 +167,7 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			dto.setCreatedBy(currentUser.getUserId());
 			dto.setModifiedBy(currentUser.getUserId());
 			dto.setModifiedDate(new Date());
+			
 			//判断任务是否完成
 			String processState = dto.getProcessState();
 			if(isComplete(processState)){//如果已完成
@@ -187,6 +188,11 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			taskHead.setNextUser(dto.getNextUser());//下一流程处理人
 			taskHead.setProcessSuggestion(dto.getProcessSuggestion());//处理意见
 			
+			taskHead.setTuiwen_other(dto.getTuiwen_other());
+			taskHead.setTuiwen_accord(dto.getTuiwen_accord());
+			taskHead.setTuiwen_capital(dto.getTuiwen_capital());
+			taskHead.setTuiwen_content(dto.getTuiwen_content());
+			taskHead.setTuiwen_data(dto.getTuiwen_data());
 			//设置相应信息的状态
 			String taskType=dto.getTaskType();
 			String relId=dto.getRelId();

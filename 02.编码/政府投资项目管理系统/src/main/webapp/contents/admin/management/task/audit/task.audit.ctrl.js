@@ -118,18 +118,38 @@
         	taskAuditSvc.replyFileGird(vm);
         	//查询角色信息
         	taskAuditSvc.getRoles(vm);
-        	//查询常用意见
-        	taskAuditSvc.getOpinion(vm);
         	//常用意见列表
         	taskAuditSvc.opinionGird(vm);
         	
+        
+        	//拟稿纸模态框
+        	vm.draft=function(){
+        		//拟稿单位拟稿人
+        		for (var i = 0; i < vm.model.depts.length; i++) {
+					for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {//循环人员
+						if(vm.model.depts[i].userDtos[j].id == window.profile_userId){//获得部门人员
+						vm.userNameAndUnit =  vm.model.depts[i].name +'、'+ window.profile_userName;
+						}
+					}
+				}
+        		$('.draft_issued').modal({
+                    backdrop: 'static',
+                    keyboard:false
+                });
+        	}
+        	
         	//意见下拉框
         	vm.opinion=function(){
-        		taskAuditSvc.getOpinion(vm);
+        		if(vm.model.opinion !=""&& vm.model.opinion!= undefined){
+        			return;
+        		}else{
+        			taskAuditSvc.getOpinion(vm);
+        		}
         	};
         	
         	//保存常用意见
         	vm.saveOpinion=function(){
+        		//vm.model.opinion="";// 清空model重新查询
         		if(vm.processSuggestion != "" && vm.processSuggestion != undefined){
         			taskAuditSvc.saveOpinion(vm);
         		}
@@ -141,6 +161,7 @@
                     backdrop: 'static',
                     keyboard:false
                 });
+        		 vm.opinionGrid.dataSource.read();
         	}
         	
         	//编辑意见
@@ -282,6 +303,7 @@
 						for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {
 							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {
 								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "科长" &&vm.model.depts[i].userDtos[j].id ==vm.taskAudit.nextUser){//科长选择当前科室的科员为下一流程处理人
+									vm.model.depts[i].userDtos.splice(j,1);
 									vm.users = vm.model.depts[i].userDtos;
 								}
 							}
@@ -510,6 +532,10 @@
 	        		}else if(vm.nextProcessRadio == "julingdaoshenpi"){//局领导审批--正常流程
 	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
 	        			vm.taskAudit.processRole ="";
+	        		}else if(vm.nextProcessRadio == "pingshentuihui"){//评审中心退回经办人
+	        			vm.taskAudit.processState = "processState_8";
+	    				vm.taskAudit.nextProcess = "processState_9";
+	    				vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadio == "tuihuijingbanren"){//退回经办人
 	        			vm.taskAudit.processState = "processState_4";
 	    				vm.taskAudit.nextProcess = "processState_5";
@@ -534,7 +560,7 @@
 	    				vm.taskAudit.nextProcess = "processState_18";
 	    				vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadioOfYW == "keyuantuiwen" && vm.nextProcessRadio == "kezhangshenhe"){//经办人退文
-	        			//vm.taskAudit.processState = "processState_5";
+	        			vm.taskAudit.processState = "processState_5";
 	    				vm.taskAudit.nextProcess = "processState_4";
 	    				vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadioOfYW == "pingshenweituo" && vm.nextProcessRadio == "kezhangshenhe"){//评审委托--科长审核

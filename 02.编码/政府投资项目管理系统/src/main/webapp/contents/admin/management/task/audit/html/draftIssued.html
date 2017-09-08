@@ -1,0 +1,111 @@
+<form id="form" name="form">
+	<div class="page-header" style="text-align: center;">
+	<h1>深圳市光明新区发展和财政局（文件稿纸）</h1>
+	</div>
+	<table class="table table-bordered table-striped ">
+		<tr>
+			<td class="formAlignRight" style="width:150px;">项目名称：</td>
+			<td colspan="3">
+			<span ng-bind="vm.model.shenBaoInfo.projectName"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">申报单位：</td>
+			<td>
+				<span ng-bind="vm.model.shenBaoInfo.constructionUnit"></span>
+			</td>
+			<td class="formAlignRight">拟稿单位拟稿人：</td>
+			<td>
+				<span ng-bind="vm.userNameAndUnit"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">审定金额：<span class="required">(*)</span></td>
+			<td>
+				<input type="number" class="form-control input-sm" id="projectName" name="projectName" ng-model="vm.model.shenBaoInfo.projectName" data-val="true" data-val-required="必填"/>
+				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
+			</td>
+			<td class="formAlignRight">总投资：</td>
+			<td>
+				<span ng-bind="vm.capitalTotal"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">拟稿时间：<span class="required">(*)</span></td>
+			<td >
+				<input type="text" id="beginDate" name="beginDate" onkeydown="return false;"
+				 ng-model="vm.model.shenBaoInfo.beginDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>	
+				 <span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>	 						
+			</td>
+			<td class="formAlignRight">秘密等级：<span class="required">(*)</span></td>
+			<td >
+				<select class="form-control input-sm" style="width:200px;" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
+				  	<option value="">---请选择---</option>
+					<option ng-repeat="y in vm.model.opinionDtos" value="{{y.opinion}}">{{y.opinion}}</option>
+				</select>	
+				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>							
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">文件缓急：<span class="required">(*)</span></td>
+			<td >
+				<select class="form-control input-sm" style="width:200px;" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
+				  	<option value="">---请选择---</option>
+					<option ng-repeat="y in vm.model.opinionDtos" value="{{y.opinion}}">{{y.opinion}}</option>
+				</select>	
+				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>							
+			</td>
+			<td class="formAlignRight">文件种类：<span class="required">(*)</span></td>
+			<td >
+				<select class="form-control input-sm" style="width:200px;" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
+				  	<option value="">---请选择---</option>
+					<option ng-repeat="y in vm.model.opinionDtos" value="{{y.opinion}}">{{y.opinion}}</option>
+				</select>	
+				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>							
+			</td>
+		</tr>
+			<tr>
+			<td class="formAlignRight">文件类型：<span class="required">(*)</span></td>
+			<td >
+				<select class="form-control input-sm" style="width:200px;" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
+				  	<option value="">---请选择---</option>
+					<option ng-repeat="y in vm.model.opinionDtos" value="{{y.opinion}}">{{y.opinion}}</option>
+				</select>
+				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>								
+			</td>
+			<td class="formAlignRight">发文种类：<span class="required">(*)</span></td>
+			<td >
+				<select class="form-control input-sm" style="width:200px;" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
+				  	<option value="">---请选择---</option>
+					<option ng-repeat="y in vm.model.opinionDtos" value="{{y.opinion}}">{{y.opinion}}</option>
+				</select>
+				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>								
+			</td>
+		</tr>
+			
+		<tr>
+			<td class="formAlignRight">公开类型：<span class="required">(*)</span></td>
+			<td colspan="3">
+				<label ng-repeat="x in vm.basicData.projectType">
+					<input type="checkbox" ng-checked="vm.projectTypes.indexOf(x.id) != -1" ng-click="vm.updateSelection(x.id)"
+					 />{{x.description}}&nbsp;&nbsp;
+				</label>
+				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>								
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">标题：<span class="required">(*)</span></td>
+			<td colspan="3">
+				<input type="text" class="form-control input-sm" id="" name="" ng-model="" data-val="true" data-val-required="必填"/>
+				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">主题词：<span class="required">(*)</span></td>
+			<td colspan="3">
+				<input type="text" class="form-control input-sm" id="" name="" ng-model="" data-val="true" data-val-required="必填"/>
+				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
+			</td>
+		</tr>
+	</table>
+</form>

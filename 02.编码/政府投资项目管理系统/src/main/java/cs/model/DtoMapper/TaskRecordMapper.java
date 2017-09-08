@@ -30,6 +30,11 @@ public class TaskRecordMapper implements IMapper<TaskRecordDto, TaskRecord> {
 			dto.setProcessRole(entity.getProcessRole());
 			dto.setNextProcess(entity.getNextProcess());
 			dto.setOperator(entity.getOperator());
+			dto.setTuiwen_other(entity.getTuiwen_other());
+			dto.setTuiwen_accord(entity.getTuiwen_accord());
+			dto.setTuiwen_capital(entity.getTuiwen_capital());
+			dto.setTuiwen_content(entity.getTuiwen_content());
+			dto.setTuiwen_data(entity.getTuiwen_data());
 			//筛选条件信息
 			dto.setUnitName(entity.getUnitName());
 			dto.setProjectIndustry(entity.getProjectIndustry());
@@ -59,6 +64,11 @@ public class TaskRecordMapper implements IMapper<TaskRecordDto, TaskRecord> {
 			entity.setProcessRole(dto.getProcessRole());
 			entity.setNextProcess(dto.getNextProcess());
 			entity.setOperator(dto.getOperator());
+			entity.setTuiwen_other(dto.getTuiwen_other());
+			entity.setTuiwen_accord(dto.getTuiwen_accord());
+			entity.setTuiwen_capital(dto.getTuiwen_capital());
+			entity.setTuiwen_content(dto.getTuiwen_content());
+			entity.setTuiwen_data(dto.getTuiwen_data());
 			//筛选条件信息
 			entity.setUnitName(dto.getUnitName());
 			entity.setProjectIndustry(dto.getProjectIndustry());

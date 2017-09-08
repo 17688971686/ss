@@ -236,23 +236,20 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public PageModelDto<OpinionDto> getOpin(ODataObj odataObj) {
-		
-		List<User> listUser = userRepo.findByOdata(odataObj);
+	public PageModelDto<OpinionDto> getOpin() {	
+		User listUser = userRepo.findById(currentUser.getUserId());
 		List<OpinionDto> opinionDtoList = new ArrayList<>();
-		for (User item : listUser) {
-			if(item.getId().equals(currentUser.getUserId())){
-				
-				for (Opinion opinion : item.getOpinions()) {
-					OpinionDto opinionDto = new OpinionDto();
-					opinionDto.setId(opinion.getId());
-					opinionDto.setOpinion(opinion.getOpinion());
-					opinionDtoList.add(opinionDto);
-				}
+		List<Opinion> opinlist = listUser.getOpinions();
+			for (Opinion opin: opinlist) {
+
+				OpinionDto opinionDto = new OpinionDto();
+				opinionDto.setId(opin.getId());
+				opinionDto.setOpinion(opin.getOpinion());
+				opinionDtoList.add(opinionDto);
 			}
-		}
+		
 		PageModelDto<OpinionDto> pageModelDto = new PageModelDto<>();
-		pageModelDto.setCount(odataObj.getCount());
+		pageModelDto.setCount(opinionDtoList.size());
 		pageModelDto.setValue(opinionDtoList);
 
 		logger.info("查询常用意见");

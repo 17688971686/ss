@@ -120,6 +120,38 @@ overflow: scroll !important;
 			<tr ng-repeat="x in vm.taskAudit.taskRecordDtos | orderBy:'modifiedDate':true" >
 				<td class="formAlignRight"  style="width:150px;"  ng-bind="vm.getBasicDataDesc(x.processState)"></td>
 				<td >
+					<table class="table table-bordered table-striped " ng-if="x.processState == 'processState_5'">
+						<tr>
+							<td class="formAlignRight" style="width:240px;">申报材料不符合要求:</td>
+							<td>
+								<span ng-bind="x.tuiwen_data"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="formAlignRight" style="width:240px;">项目立项依据不充分:</td>
+							<td>
+								<span ng-bind="x.tuiwen_accord"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="formAlignRight" style="width:240px;">建设内容不明确:</td>
+							<td>
+								<span ng-bind="x.tuiwen_content"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="formAlignRight" style="width:240px;">投资概算及资金来源不合理:</td>
+							<td>
+								<span ng-bind="x.tuiwen_capital"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="formAlignRight" style="width:240px;">其他:</td>
+							<td>
+								<span ng-bind="x.tuiwen_other"></span>
+							</td>
+						</tr>
+					</table>
 					<div ng-bind="x.processSuggestion"></div>
 					<div class="text-right" ng-bind="x.createdBy"></div>
 					<div class="text-right" ng-bind="vm.formatDate(x.createdDate)"></div>
@@ -132,7 +164,7 @@ overflow: scroll !important;
 			<tr>
 				<td class="formAlignRight" style="width:150px;">填写处理意见：</td>
 				<td>
-				个人自定义意见：<select class="form-control" style="width:200px;" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
+				个人自定义意见：<select class="form-control input-sm" style="width:200px;" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
 								  	<option value="">---请选择---</option>
 									<option ng-repeat="y in vm.model.opinionDtos" value="{{y.opinion}}">{{y.opinion}}</option>
 								</select>
@@ -251,6 +283,61 @@ overflow: scroll !important;
 					<div>
 					  	<span data-valmsg-for="nextStateYW" data-valmsg-replace="true" class="required"></span>
 					</div>
+					<div ng-if="vm.nextProcessRadioOfYW == 'fawen'">
+						<button class="btn btn-success btn-xs" ng-click="vm.draft()">填写拟稿纸</button>
+					</div>
+					<table class="table table-bordered table-striped" ng-if="vm.nextProcessRadioOfYW == 'keyuantuiwen'">
+						<tr>
+							<td class="formAlignRight" style="width:240px;">1、申报材料不符合要求：</td>
+							<td>
+							<textarea class="form-control" id="teiwen_data" name="teiwen_data"  maxlength="500" rows="3"
+								ng-model="vm.taskAudit.tuiwen_data" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+								ng-change="vm.checkLength(vm.taskAudit.tuiwen_data,500,'teiwen_dataTips')">
+							</textarea>
+							<div class="tipfont">您还可以输入<span id="teiwen_dataTips"><font size="5">500</font></span>个字符!</div>						
+							</td>
+						</tr>
+						<tr>
+							<td class="formAlignRight" style="width:240px;">2、项目立项依据不充分：</td>
+							<td>
+								<textarea class="form-control" id="tuiwen_accord" name="tuiwen_accord"  maxlength="500" rows="3"
+									ng-model="vm.taskAudit.tuiwen_accord" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+									ng-change="vm.checkLength(vm.taskAudit.tuiwen_accord,500,'tuiwen_accordTips')">
+								</textarea>
+								<div class="tipfont">您还可以输入<span id="tuiwen_accordTips"><font size="5">500</font></span>个字符!</div>						
+							</td>
+						</tr>
+						<tr>
+							<td class="formAlignRight" style="width:240px;">3、建设内容不明确：</td>
+							<td>
+								<textarea class="form-control" id="tuiwen_content" name="tuiwen_content"  maxlength="500" rows="3"
+									ng-model="vm.taskAudit.tuiwen_content" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+									ng-change="vm.checkLength(vm.taskAudit.tuiwen_content,500,'tuiwen_contentTips')">
+								</textarea>
+								<div class="tipfont">您还可以输入<span id="tuiwen_contentTips"><font size="5">500</font></span>个字符!</div>						
+							</td>
+						</tr>
+						<tr>
+							<td class="formAlignRight" style="width:240px;">4、投资概算及资金来源不合理：</td>
+							<td>
+								<textarea class="form-control" id="tuiwen_capital" name="tuiwen_capital"  maxlength="500" rows="3"
+									ng-model="vm.taskAudit.tuiwen_capital" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+									ng-change="vm.checkLength(vm.taskAudit.tuiwen_capital,500,'tuiwen_capitalTips')">
+								</textarea>
+								<div class="tipfont">您还可以输入<span id="tuiwen_capitalTips"><font size="5">500</font></span>个字符!</div>						
+							</td>
+						</tr>
+						<tr>
+							<td class="formAlignRight" style="width:240px;">5、其他：</td>
+							<td>
+								<textarea class="form-control" id="tuiwen_other" name="tuiwen_other"  maxlength="500" rows="3"
+									ng-model="vm.taskAudit.tuiwen_other" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+									ng-change="vm.checkLength(vm.taskAudit.tuiwen_other,500,'tuiwen_otherTips')">
+								</textarea>
+								<div class="tipfont">您还可以输入<span id="tuiwen_otherTips"><font size="5">500</font></span>个字符!</div>						
+							</td>
+						</tr>
+					</table>
 				</td>
 			</tr>			
 			<tr>
@@ -340,7 +427,7 @@ overflow: scroll !important;
 					</div>
 					<div ng-if="vm.taskAudit.nextProcess =='processState_21'" style="float: left;">
 						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('bangongshifawen')" value="bangongshifawen" data-val="true" data-val-required="必选"/>办公室发文&nbsp;&nbsp;
-						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('jingBanRenBanli')" value="banjie" data-val="true" data-val-required="必选"/><span>经办人办理</span>&nbsp;&nbsp;
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('jingBanRenBanli')" value="jingBanRenBanli" data-val="true" data-val-required="必选"/><span>经办人办理</span>&nbsp;&nbsp;
 					</div>
 					<div>
 						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('banjie')" value="tuiwen" data-val="true" data-val-required="必选"/><span>办结</span>&nbsp;&nbsp;
@@ -375,7 +462,7 @@ overflow: scroll !important;
 				<td>
 					<div>
 						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('pingswancheng')" value="pingswancheng" data-val="true" data-val-required="必选"/>评审完成&nbsp;&nbsp;
-						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('tuihuijingbanren')" value="tuihuijingbanren" data-val="true" data-val-required="必选"/>退回经办人&nbsp;&nbsp;
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('pingshentuihui')" value="tuihuijingbanren" data-val="true" data-val-required="必选"/>退回经办人&nbsp;&nbsp;
 						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('banjie')" value="banjie" data-val="true" data-val-required="必选"/><span>办结</span>&nbsp;&nbsp;
 					</div>
 					<div>
@@ -559,7 +646,30 @@ overflow: scroll !important;
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
- <script type="text/template" id="columnBtns">
-			<button class="btn btn-xs btn-danger"  ng-click="vm.remove('{0}')" ><span class="glyphicon glyphicon-remove"></span>删除</button>
-			<button class="btn btn-xs btn-primary"  ng-click="vm.edit('{0}','{1}')" ><span class="glyphicon glyphicon-pencil"></span>编辑</button>
-		</script>
+<!-- 发文拟稿模态框 -->
+<div id="draft_issued" class="draft_issued modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog"
+		style="margin: 80px auto; width: 80%; max-width: 1000px;">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<span class="modal-title">填写拟稿纸</span>
+			</div>
+			 <div class="modal-body">
+			 	<div ng-include  src="'/contents/admin/management/task/audit/html/draftIssued.html'"></div>
+            </div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" ng-click="vm.editOpin()" data-dismiss="modal">保存</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/template" id="columnBtns">
+	<button class="btn btn-xs btn-danger"  ng-click="vm.remove('{0}')" ><span class="glyphicon glyphicon-remove"></span>删除</button>
+	<button class="btn btn-xs btn-primary"  ng-click="vm.edit('{0}','{1}')" ><span class="glyphicon glyphicon-pencil"></span>编辑</button>
+</script>

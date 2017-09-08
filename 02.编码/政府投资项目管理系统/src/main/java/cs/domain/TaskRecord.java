@@ -52,6 +52,20 @@ public class TaskRecord extends BaseEntity {
 	@Column(columnDefinition="varchar(255) NULL COMMENT '经办人'")
 	private String operator;
 	
+	@Column(columnDefinition="varchar(500) NULL COMMENT '退文申报材料不符合要求'")
+	private String tuiwen_data;
+	
+	@Column(columnDefinition="varchar(500) NULL COMMENT '退文项目立项依据不充分'")
+	private String tuiwen_accord;
+	
+	@Column(columnDefinition="varchar(500) NULL COMMENT '退文建设内容不明确'")
+	private String tuiwen_content;
+	
+	@Column(columnDefinition="varchar(500) NULL COMMENT '退文投资概算及资金来源不合理'")
+	private String tuiwen_capital;
+	
+	@Column(columnDefinition="varchar(500) NULL COMMENT '退文其他'")
+	private String tuiwen_other;
 	
 	public String getOperator() {
 		return operator;
@@ -133,6 +147,36 @@ public class TaskRecord extends BaseEntity {
 	}
 	public void setNextProcess(String nextProcess) {
 		this.nextProcess = nextProcess;
+	}
+	public String getTuiwen_data() {
+		return tuiwen_data;
+	}
+	public void setTuiwen_data(String tuiwen_data) {
+		this.tuiwen_data = tuiwen_data;
+	}
+	public String getTuiwen_accord() {
+		return tuiwen_accord;
+	}
+	public void setTuiwen_accord(String tuiwen_accord) {
+		this.tuiwen_accord = tuiwen_accord;
+	}
+	public String getTuiwen_content() {
+		return tuiwen_content;
+	}
+	public void setTuiwen_content(String tuiwen_content) {
+		this.tuiwen_content = tuiwen_content;
+	}
+	public String getTuiwen_capital() {
+		return tuiwen_capital;
+	}
+	public void setTuiwen_capital(String tuiwen_capital) {
+		this.tuiwen_capital = tuiwen_capital;
+	}
+	public String getTuiwen_other() {
+		return tuiwen_other;
+	}
+	public void setTuiwen_other(String tuiwen_other) {
+		this.tuiwen_other = tuiwen_other;
 	}
 	
 }
