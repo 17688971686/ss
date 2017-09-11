@@ -150,7 +150,7 @@
 	        
 	        
 	        /**********************begin#project***************************************/
-	        //政府投资项目
+	        //政府投资项目  
 	        //列表页
 	        .state('supervision_tzxm', {
 	            url: '/supervision/tzxm',
@@ -171,7 +171,32 @@
 	            templateUrl: '/management/project/html/details.html',
 	            controller: 'projectCtrl',
 	            controllerAs: 'vm'
-	        });
+	        })
+	          //审批单管理  
+	          //列表页
+	        .state('supervision_spdw', {
+	            url: '/supervision/spdw',
+	            templateUrl: '/management/supervision/project/html/unitList',
+	            controller: 'projectCtrl',
+	            controllerAs: 'vm'
+	        })
+	         //审批单位编辑or新增 shenpiUnitDetail
+		    .state('shenpiUnitChange', {
+		    url: '/shenpiUnitChange/:id',
+		    templateUrl: '/management/supervision/project/html/shenpiUnitChange',
+		    controller: 'projectCtrl',
+		    controllerAs: 'vm'
+		    }) 
+		      //审批单位详情
+		    .state('shenpiUnitDetail', {
+		    url: '/shenpiUnitDetail/:id',
+		    templateUrl: '/management/supervision/project/html/shenpiUnitDetail',
+		    controller: 'projectCtrl',
+		    controllerAs: 'vm'
+		    }) 
+	   
+	        ;
+        
 	        /**********************end#project***************************************/
         
     }]);

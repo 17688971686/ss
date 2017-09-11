@@ -19,22 +19,97 @@
 			updateProject:updateProject,
 			createProject:createProject,
 			updateIsMonthReport:updateIsMonthReport,
-			documentRecordsGird:documentRecordsGird
+			documentRecordsGird:documentRecordsGird,
+			shenpiUnitGrid:shenpiUnitGrid,
+			getShenPiUnitById:getShenPiUnitById,
+			updateShenpiUnit:updateShenpiUnit,
+			createShenpiUnit:createShenpiUnit,
+			delShenPiUnit,delShenPiUnit
 		};
 
 		return service;
+		function delShenPiUnit(vm,id) {
+            vm.isSubmit = true;
+            var httpOptions = {
+                method: 'delete',
+                url:url_project+"/delShenPiUnit",
+                data:id 
+            };
+            var httpSuccess = function success(response) {
+                
+                common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function () {
+	                    vm.isSubmit = false;
+	                    vm.gridOptions.dataSource.read();
+	                }
+					
+				});
+            };
+            common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+        }// end fun delete
+		function createShenpiUnit(vm) {
+			common.initJqValidation();
+			var isValid = $('form').valid();
+			if (isValid) {
+				vm.isSubmit = true;
+	            vm.model.type=vm.type;	        
+				var httpOptions = {
+					method : 'post',
+					url : url_project+"/createShenpiUnit",
+					data : vm.model
+				};
+				var httpSuccess = function success(response) {				
+					
+					common.requestSuccess({
+						vm:vm,
+						response:response,
+						fn:function() {							
+							
+							common.alert({
+								vm:vm,
+								msg:"操作成功",
+								fn:function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');
+									$('.modal-backdrop').remove();
+									location.href = "#/supervision/spdw";
+								}
+							});
+						}
+						
+					});
+
+				};
+
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+
+			} else {				
+			}
+		}// end func create
 		
 		/**
-		 *获取项目单位信息 
+		 *获取审批单位信息 
 		 */
-		function getProjectUnit(vm){
+		function getShenPiUnitById(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_userUnit + "?$filter=id eq '{0}'", vm.model.unitName)
+					url : common.format(url_project+"/shenpiUnit" + "?$filter=id eq '{0}'", vm.id)
 				};
 			
 			var httpSuccess = function success(response) {
-				vm.userUnit = response.data.value[0] || {};
+				vm.model = response.data.value[0] || {};
 			};
 			
 			common.http({
@@ -44,8 +119,6 @@
 				success : httpSuccess
 			});
 		}
-
-		
 		/**
 		 * 获取当前登录用户用户的单位信息
 		 */
@@ -64,7 +137,52 @@
 					success : httpSuccess
 				});
 		}
-		
+		/*
+		 * 审批单位编辑
+		 * 
+		 */
+		function updateShenpiUnit(vm){
+			common.initJqValidation();
+			var isValid = $('form').valid();
+			if (isValid) {
+				vm.isSubmit = true;
+				vm.model.id=vm.id;// id			
+				var httpOptions = {
+					method : 'put',
+					url : url_project+"/updateShenpiUnit",
+					data : vm.model
+				};
+
+				var httpSuccess = function success(response) {
+					
+					common.requestSuccess({
+						vm:vm,
+						response:response,
+						fn:function() {
+							
+							common.alert({
+								vm:vm,
+								msg:"操作成功",
+								fn:function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');							
+								}
+							});
+						}
+						
+					});
+				};
+
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+
+			} else {
+			}
+		}// end fun update
 		/**
 		 * 创建项目
 		 */		
@@ -336,8 +454,6 @@
 				resizable : true
 			};
 		}
-	
-		
 		// begin#grid
 		function grid(vm) {
 			// Begin:dataSource
@@ -496,7 +612,95 @@
 
 		}// end fun grid
 		
-		// begin#grid
+		// begin#shenpiUnitGrid
+		function shenpiUnitGrid(vm) {
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(common.format(url_project+"/shenpiUnit")),
+				schema : common.kendoGridConfig().schema({
+					id : "id",
+					fields : {
+						createdDate : {
+							type : "date"
+						},
+						isMonthReport:{
+							type:"boolean"
+						},
+						isIncludLibrary:{
+							type:"boolean"
+						}
+						
+					}
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "createdDate",
+					dir : "desc"
+				}
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+					{
+						template : function(item) {
+							return kendo
+									.format(
+											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+											item.id);
+						},
+						filterable : false,
+						width : 40,
+						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+
+					},
+					 {
+						field : "shenpiUnitName",
+						title : "单位名称",
+						width : "",						
+						filterable : false
+					},
+					 {
+						field : "contacts",
+						title : "单位负责人",
+						width : '',						
+						filterable : false
+					},
+					 {
+						field : "contactsTel",
+						title : "单位负责人电话",
+						width : "",						
+						filterable : false
+					},
+					{
+						field : "",
+						title : "操作",
+						width : "",
+						template : function(item) {
+							return common.format($('#columnBtns').html(),item.id);
+						}
+
+					}
+
+			];
+			// End:column
+
+			vm.gridOptions = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true
+			};
+
+		}// end fun grid
+		
+		// begin#shenpiUnitGrid
 		function grid_SH(vm) {
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({

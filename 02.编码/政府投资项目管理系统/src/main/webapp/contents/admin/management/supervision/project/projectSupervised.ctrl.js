@@ -18,6 +18,7 @@
         vm.projectInvestmentType=$state.params.projectInvestmentType;
     	vm.page="list";
     	function init(){
+    		var routeName=$state.current.name;  
     		if($state.current.name=='project'){
     			vm.isZFInvestment = true;
     		}
@@ -32,6 +33,19 @@
     		}
     		if($state.current.name=='projectDetails'){
     			vm.page='details';
+    		}
+    		switch (routeName) {
+ 			case "supervision_spdw":
+ 				vm.page="shenpiUnitList";
+ 				break;
+ 			case "shenpiUnitChange": 
+ 				if(vm.id){
+ 					vm.page="shenpiUnitUpdate";
+ 				}else{
+ 					vm.page="shenpiUnitCreate";
+ 				}break;
+ 			case "shenpiUnitDetail": 
+ 				vm.page="shenpiUnitDetail";
     		}
     		
     		vm.getBasicDataDesc = function(Str){
@@ -57,11 +71,23 @@
 	   		vm.basicData.userUnit=common.getUserUnits();
     	}
     	init();    	
-    	activate();
+    	activate(); 
         function activate() {
-        	        	
+        	if(vm.page=='shenpiUnitDetail'){
+        		shenpiUnitDetail();
+        	}
+        	if(vm.page=='shenpiUnitCreate'){
+        		shenpiUnitCreate();
+        	}
+        	if(vm.page=='shenpiUnitUpdate'){
+        		shenpiUnitUpdate();
+        	}
         	if(vm.page=='list'){
         		init_list();
+        	}
+        	if(vm.page=='shenpiUnitList'){
+        		vm.title='审批单位列表';
+        		shenpiUnitList();
         	}
         	if(vm.page=='create'){
         		//初始化CheckBox
@@ -75,8 +101,69 @@
         	if(vm.page=='details'){
         		init_details();
         	}
+        
         }
-    	
+        function shenpiUnitDetail(){
+        	vm.title = "审批单位详情";
+        	projectSupervisedSvc.getShenPiUnitById(vm);
+        }
+        function shenpiUnitCreate(){
+        	vm.title = "审批单位新增";
+        	vm.createMediationUnit=function(){
+        		projectSupervisedSvc.createShenpiUnit(vm);
+        	}
+        }
+        function shenpiUnitUpdate(){
+        	vm.title = "审批单位编辑";
+        	projectSupervisedSvc.getShenPiUnitById(vm);
+        	vm.updateShenpiUnit=function(){
+        		projectSupervisedSvc.updateShenpiUnit(vm);
+        	}
+        }
+        
+    	function shenpiUnitList(){
+    		projectSupervisedSvc.shenpiUnitGrid(vm);   
+    		vm.searchShenPiUnit=function(){
+    			var filters = [];
+    			if(vm.search.shenpiUnitName !=null && vm.search.shenpiUnitName !=''){//查询条件--项目名称
+	     			   filters.push({field:'shenpiUnitName',operator:'contains',value:vm.search.shenpiUnitName});
+	     		   }
+    			if(vm.search.contacts !=null && vm.search.contacts !=''){//查询条件--项目名称
+	     			   filters.push({field:'contacts',operator:'contains',value:vm.search.contacts});
+	     		   }
+    		vm.gridOptions.dataSource.filter(filters);
+    			
+    		}
+    		vm.delShenPiUnit = function (id) {        	 
+                common.confirm({
+                    	 vm:vm,
+                    	 title:"",
+                    	 msg:"确认删除数据吗？",
+                    	 fn:function () {
+                          	$('.confirmDialog').modal('hide');             	
+                          	projectSupervisedSvc.delShenPiUnit(vm,id);
+                         }
+                     });
+                };
+             vm.delShenPiUnits = function () {     
+                	var selectIds = common.getKendoCheckId('.grid');
+                    if (selectIds.length == 0) {
+                    	common.alert({
+                        	vm:vm,
+                        	msg:'请选择数据'
+                        	
+                        });
+                    } else {
+                    	var ids=[];
+                        for (var i = 0; i < selectIds.length; i++) {
+                        	ids.push(selectIds[i].value);
+        				}  
+                        var idStr=ids.join(',');
+                        vm.delShenPiUnit(idStr);
+                    }   
+               };
+    		
+    	}
     	function init_list(){
     		if(vm.isZFInvestment){
     			projectSupervisedSvc.grid(vm);
@@ -338,7 +425,7 @@
     	}//init_create
     	
     	function init_update(){
-    		vm.title = "编辑111项目";
+    		vm.title = "编辑项目";
     		//获取项目信息
     		projectSupervisedSvc.getProjectById(vm);
     		//更新项目
