@@ -15,6 +15,7 @@
 		var url_role="/role";
 		var url_opin="/user/opin";
 		var url_users = "/user";
+		var url_draft ="/management/draft";
 		
 		var service = {
 			grid : grid,//待办任务列表
@@ -29,11 +30,69 @@
 			getOpinion:getOpinion,//获取意见
 			opinionGird:opinionGird,//意见列表
 			deleteOpin:deleteOpin,//删除意见
-			editOpin:editOpin//编辑意见
-
+			editOpin:editOpin,//编辑意见
+			getDraftIssued:getDraftIssued,//查询发文拟稿
+			saveDraft:saveDraft
 		};
 		return service;
 		
+		function saveDraft(vm){
+			var httpOptions = {
+					method : 'post',
+					url : common.format(url_draft + "/" +vm.taskAudit.id),
+					data : vm.draft
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						common.alert({
+							vm:vm,
+							msg:"保存成功！",
+							fn:function(){
+								$('.alertDialog').modal('hide');
+							}
+						});
+					}
+				});
+			};
+				
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		};
+		
+		function getDraftIssued(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_draft + "/" +vm.taskAudit.id)
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.draft = response.data || {};
+						vm.draft.draftDate=common.formatDate(vm.draft.draftDate);//开工日期
+					}
+				});
+			};
+				
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		};
+		
+		//编辑意见
 		function editOpin(vm){
 			var httpOptions = {
 	                method: 'put',

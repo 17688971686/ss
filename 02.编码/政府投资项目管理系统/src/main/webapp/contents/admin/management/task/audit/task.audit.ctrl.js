@@ -121,9 +121,23 @@
         	//常用意见列表
         	taskAuditSvc.opinionGird(vm);
         	
+        	vm.getBasicData = function(str){
+    			return common.getBasicDataDesc(str);
+    		};
+    		
+    		vm.Selection=function(id){
+    			vm.draft.openType = id;
+    		};
+        	
+        	//保存草稿纸
+        	vm.saveDraft=function(){
+        		taskAuditSvc.saveDraft(vm);
+        	}
         
         	//拟稿纸模态框
-        	vm.draft=function(){
+        	vm.draftOpen=function(){
+        		//查询发文拟稿
+        		taskAuditSvc.getDraftIssued(vm);
         		//拟稿单位拟稿人
         		for (var i = 0; i < vm.model.depts.length; i++) {
 					for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {//循环人员
@@ -136,6 +150,23 @@
                     backdrop: 'static',
                     keyboard:false
                 });
+        		
+        		vm.basicData.hecretHierarchy=$linq(common.getBasicData())
+	   			.where(function(x){return x.identity==common.basicDataConfig().hecretHierarchy&&x.pId==common.basicDataConfig().hecretHierarchy;})
+	   			.toArray();//获取秘密等级信息
+        		vm.basicData.fileSet=$linq(common.getBasicData())
+	   			.where(function(x){return x.identity==common.basicDataConfig().fileSet&&x.pId==common.basicDataConfig().fileSet;})
+	   			.toArray();//获取文件缓急信息
+        		vm.basicData.documentType=$linq(common.getBasicData())
+	   			.where(function(x){return x.identity==common.basicDataConfig().documentType&&x.pId==common.basicDataConfig().documentType;})
+	   			.toArray();//获取文件种类信息
+        		vm.basicData.openType=$linq(common.getBasicData())
+	   			.where(function(x){return x.identity==common.basicDataConfig().openType&&x.pId==common.basicDataConfig().openType;})
+	   			.toArray();//获取公开种类信息
+        		vm.basicData.postingCategory=$linq(common.getBasicData())
+	   			.where(function(x){return x.identity==common.basicDataConfig().postingCategory&&x.pId==common.basicDataConfig().postingCategory;})
+	   			.toArray();//获取发文种类信息
+        		
         	}
         	
         	//意见下拉框
@@ -430,7 +461,7 @@
         	//选择人员为下一处理人
         	vm.selectUser = function(id){
         		vm.taskAudit.nextUser = id;
-        		if(vm.nextProcessRadio == "tuihuijingbanren" || vm.nextProcessRadio == "pingswancheng"){
+        		if(vm.nextProcessRadio == "tuihuijingbanren" ||vm.nextProcessRadio == "jingBanRenBanli" || vm.nextProcessRadio == "pingswancheng"){
             		vm.taskAudit.operator = id;
     			}
         	};
@@ -568,7 +599,13 @@
 	    				vm.taskAudit.nextProcess = "processState_18";
 	    				vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadio == "renmikehegao"){//评审完成--正常流程
-	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			if(vm.taskAudit.processState != "processState_17"){
+	        				vm.taskAudit.processState = "processState_18";
+	        				vm.taskAudit.nextProcess = "processState_19";
+	        			}else{
+	        				setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			}
+	        			
 	        			vm.taskAudit.nextUser ="";
 	        		}else if(vm.nextProcessRadio == "julingdaofushen"){//局领导复审--正常流程
 	        			setNextUser(vm);//设置当前流程状态&&下一流程状态

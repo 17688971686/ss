@@ -42,6 +42,7 @@ public class TaskHeadMapper implements IMapper<TaskHeadDto, TaskHead> {
 			dto.setTuiwen_capital(entity.getTuiwen_capital());
 			dto.setTuiwen_content(entity.getTuiwen_content());
 			dto.setTuiwen_data(entity.getTuiwen_data());
+			dto.setCapitalPifU(entity.getCapitalPifU());
 			//筛选信息
 			dto.setProjectIndustry(entity.getProjectIndustry());
 			dto.setUnitName(entity.getUnitName());
@@ -81,6 +82,7 @@ public class TaskHeadMapper implements IMapper<TaskHeadDto, TaskHead> {
 			entity.setTuiwen_capital(dto.getTuiwen_capital());
 			entity.setTuiwen_content(dto.getTuiwen_content());
 			entity.setTuiwen_data(dto.getTuiwen_data());
+			entity.setCapitalPifU(dto.getCapitalPifU());
 			//筛选信息
 			entity.setProjectIndustry(dto.getProjectIndustry());
 			entity.setUnitName(dto.getUnitName());

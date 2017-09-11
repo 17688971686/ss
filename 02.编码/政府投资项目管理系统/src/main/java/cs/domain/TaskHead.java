@@ -72,6 +72,10 @@ public class TaskHead extends BaseEntity {
 	@Column(columnDefinition="varchar(500) NULL COMMENT '退文其他'")
 	private String tuiwen_other;
 	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '批复金额'")
+	private String capitalPifU;
+	
+	
 	//begin#关联
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<TaskRecord> taskRecords=new ArrayList<>();
@@ -226,6 +230,14 @@ public class TaskHead extends BaseEntity {
 
 	public void setTuiwen_data(String tuiwen_data) {
 		this.tuiwen_data = tuiwen_data;
+	}
+
+	public String getCapitalPifU() {
+		return capitalPifU;
+	}
+
+	public void setCapitalPifU(String capitalPifU) {
+		this.capitalPifU = capitalPifU;
 	}
 	
 }

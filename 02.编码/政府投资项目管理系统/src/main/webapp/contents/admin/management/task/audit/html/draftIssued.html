@@ -22,7 +22,7 @@
 		<tr>
 			<td class="formAlignRight">审定金额：<span class="required">(*)</span></td>
 			<td>
-				<input type="number" class="form-control input-sm" id="projectName" name="projectName" ng-model="vm.model.shenBaoInfo.projectName" data-val="true" data-val-required="必填"/>
+				<input type="number" class="form-control input-sm" id="capitalSD" name="capitalSD" ng-model="vm.draft.capitalSD" data-val="true" data-val-required="必填"/>
 				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
 			</td>
 			<td class="formAlignRight">总投资：</td>
@@ -33,78 +33,69 @@
 		<tr>
 			<td class="formAlignRight">拟稿时间：<span class="required">(*)</span></td>
 			<td >
-				<input type="text" id="beginDate" name="beginDate" onkeydown="return false;"
-				 ng-model="vm.model.shenBaoInfo.beginDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>	
-				 <span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>	 						
+				<input type="text" id="draftDate" name="draftDate" onkeydown="return false;"
+				 ng-model="vm.draft.draftDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>	
+				 <span data-valmsg-for="draftDate" data-valmsg-replace="true" class="required"></span>	 						
 			</td>
 			<td class="formAlignRight">秘密等级：<span class="required">(*)</span></td>
 			<td >
-				<select class="form-control input-sm" style="width:200px;" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
+				<select class="form-control input-sm" style="width:200px;" id="hecretHierarchy" name="hecretHierarchy" ng-model="vm.draft.hecretHierarchy">
 				  	<option value="">---请选择---</option>
-					<option ng-repeat="y in vm.model.opinionDtos" value="{{y.opinion}}">{{y.opinion}}</option>
+					<option ng-repeat="y in vm.basicData.hecretHierarchy" value="{{y.id}}">{{y.description}}</option>
 				</select>	
-				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>							
+				<span data-valmsg-for="hecretHierarchy" data-valmsg-replace="true" class="required"></span>							
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">文件缓急：<span class="required">(*)</span></td>
 			<td >
-				<select class="form-control input-sm" style="width:200px;" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
+				<select class="form-control input-sm" style="width:200px;" id="fileSet" name="fileSet" ng-model="vm.draft.fileSet">
 				  	<option value="">---请选择---</option>
-					<option ng-repeat="y in vm.model.opinionDtos" value="{{y.opinion}}">{{y.opinion}}</option>
+					<option ng-repeat="y in vm.basicData.fileSet" value="{{y.id}}">{{y.description}}</option>
 				</select>	
 				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>							
 			</td>
 			<td class="formAlignRight">文件种类：<span class="required">(*)</span></td>
 			<td >
-				<select class="form-control input-sm" style="width:200px;" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
+				<select class="form-control input-sm" style="width:200px;" id="documentType" name="documentType" ng-model="vm.draft.documentType">
 				  	<option value="">---请选择---</option>
-					<option ng-repeat="y in vm.model.opinionDtos" value="{{y.opinion}}">{{y.opinion}}</option>
+					<option ng-repeat="y in vm.basicData.documentType" value="{{y.id}}">{{y.description}}</option>
 				</select>	
-				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>							
+				<span data-valmsg-for="documentType" data-valmsg-replace="true" class="required"></span>							
 			</td>
 		</tr>
 			<tr>
-			<td class="formAlignRight">文件类型：<span class="required">(*)</span></td>
-			<td >
-				<select class="form-control input-sm" style="width:200px;" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
-				  	<option value="">---请选择---</option>
-					<option ng-repeat="y in vm.model.opinionDtos" value="{{y.opinion}}">{{y.opinion}}</option>
-				</select>
-				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>								
-			</td>
 			<td class="formAlignRight">发文种类：<span class="required">(*)</span></td>
-			<td >
-				<select class="form-control input-sm" style="width:200px;" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
+			<td colspan="3">
+				<select class="form-control input-sm" style="width:200px;" id="postingCategory" name="postingCategory" ng-model="vm.draft.postingCategory">
 				  	<option value="">---请选择---</option>
-					<option ng-repeat="y in vm.model.opinionDtos" value="{{y.opinion}}">{{y.opinion}}</option>
+					<option ng-repeat="y in vm.basicData.postingCategory" value="{{y.id}}">{{y.description}}</option>
 				</select>
-				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>								
+				<span data-valmsg-for="postingCategory" data-valmsg-replace="true" class="required"></span>								
 			</td>
 		</tr>
 			
 		<tr>
 			<td class="formAlignRight">公开类型：<span class="required">(*)</span></td>
 			<td colspan="3">
-				<label ng-repeat="x in vm.basicData.projectType">
-					<input type="checkbox" ng-checked="vm.projectTypes.indexOf(x.id) != -1" ng-click="vm.updateSelection(x.id)"
-					 />{{x.description}}&nbsp;&nbsp;
+				<label ng-repeat="x in vm.basicData.openType">
+					 <input type="radio" name="openType" id="openType" ng-checked="x.id == vm.draft.openType" ng-click="vm.Selection(x.id)" value="{x.id}" data-val="true" data-val-required="必选"/>{{x.description}}&nbsp;&nbsp;
 				</label>
-				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>								
+				<span data-valmsg-for="openTYpe" data-valmsg-replace="true" class="required"></span>								
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">标题：<span class="required">(*)</span></td>
 			<td colspan="3">
-				<input type="text" class="form-control input-sm" id="" name="" ng-model="" data-val="true" data-val-required="必填"/>
-				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
+				<input type="text" class="form-control input-sm" id="title" name="title" ng-model="vm.draft.title" data-val="true" data-val-required="必填"/>
+				<span data-valmsg-for="title" data-valmsg-replace="true" class="required"></span>
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">主题词：<span class="required">(*)</span></td>
 			<td colspan="3">
-				<input type="text" class="form-control input-sm" id="" name="" ng-model="" data-val="true" data-val-required="必填"/>
-				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
+				<input type="text" class="form-control input-sm" id="keyWord" name="keyWord" ng-model="vm.draft.keyWord" data-val="true" data-val-required="必填"/>
+				<span data-valmsg-for="keyWord" data-valmsg-replace="true" class="required"></span>
 			</td>
 		</tr>
 	</table>
