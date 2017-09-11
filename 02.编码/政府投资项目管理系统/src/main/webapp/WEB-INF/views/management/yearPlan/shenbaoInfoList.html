@@ -1,3 +1,12 @@
+<style>
+.modal{
+	overflow-y:auto
+	}
+.modal-open {
+    overflow: scroll !important;
+    }
+overflow: scroll !important;
+</style>
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
 <div class="well well-sm" style="background:white;">
@@ -64,22 +73,18 @@
 				  		</select>
 	  				</td>
 	  				<td class="formAlignRight">签收人：</td>
-	  					<td>
-	  						<input type="radio" style="height:12.73px;" name="receiver" value="me" ng-model="vm.search.receiver"/> 本人
-	  						<input type="radio" style="height:12.73px;" name="receiver" value="other" ng-model="vm.search.receiver"/> 其他人
-	  						<input type="radio" style="height:12.73px;" name="receiver" value="all" ng-model="vm.search.receiver"/> 所有人
-	  					</td>
-	  					
-<!-- 	  				<td>
-	  					<select style="height:30px;" ng-model="vm.search.role" ng-change="vm.searchRoleChange()">
-				  			<option value="">---请选择用户角色---</option>
-				  			<option ng-repeat="x in vm.basicData.roles" value="{{x}}">{{x.roleName}}</option>
+  					<td>
+  						<input type="radio" style="height:12.73px;" name="receiver" value="me" ng-model="vm.search.receiver"/> 本人
+  						<input type="radio" style="height:12.73px;" name="receiver" value="other" ng-model="vm.search.receiver"/> 其他人
+  						<input type="radio" style="height:12.73px;" name="receiver" value="all" ng-model="vm.search.receiver"/> 所有人
+  					</td>
+  					<td class="formAlignRight">打包类型</td>
+  					<td>
+  						<select style="height:30px;" ng-model="vm.search.packageType">
+				  			<option value="">---请选择---</option>
+				  			<option ng-repeat="x in vm.basicData.packageType" value="{{x.id}}">{{x.description}}</option>
 				  		</select>
-	  					<select style="height:30px;" ng-model="vm.search.receiver" ng-if="vm.searchUser">
-				  			<option value="">---请选择用户---</option>
-				  			<option ng-repeat="x in vm.basicData.users" value="{{x.id}}">{{x.loginName}}</option>
-				  		</select>
-	  				</td> -->
+  					</td>
 	  			</tr>
 	  			<tr>
 	  				<td colspan="6">

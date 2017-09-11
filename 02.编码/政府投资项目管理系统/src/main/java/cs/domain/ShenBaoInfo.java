@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import cs.common.BasicDataConfig;
 /**
  * @Description: 申报信息表
  * @author: cx
@@ -121,7 +123,7 @@ public class ShenBaoInfo extends BaseProject{
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度安排年度资金筹措方案-其他'")
 	private Double capitalAP_qita_LastTwoYear;
 	@Column(columnDefinition="varchar(255) NULL COMMENT '打包类型'")
-	private String packageType;
+	private String packageType=BasicDataConfig.packageType_danLie;//默认为单列项目
 	//end#年度计划相关
 
    //begin#财政相关

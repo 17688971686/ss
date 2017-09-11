@@ -35,24 +35,24 @@
 	</tr>
 	<tr>
 		<td class="formAlignRight">计划年度：<span class="required">(*)</span></td>
-		<td colspan="3">
+		<td>
 			<input class="Wdate form-control input-sm" style="width:180px;" type="text" id="planYear" name="planYear"
 			 onFocus="WdatePicker({dateFmt:'yyyy'})" ng-change="vm.changeYear()" onChange="" ng-model="vm.model.shenBaoInfo.planYear" data-val="true" data-val-required="必填" />
 			<span data-valmsg-for="planYear" data-valmsg-replace="true" class="required"></span>
 		</td>
-		<!-- <td class="formAlignRight">打包类型：<span class="required">(*)</span></td>
+		<td class="formAlignRight">打包类型：<span class="required">(*)</span></td>
 		<td>
 			<select class="pull-left" style="height:30px;" id="packageType" name="packageType" ng-model="vm.model.shenBaoInfo.packageType" data-val="true" data-val-required="必选" ng-change="vm.packageTypeChange()">
 				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.packageType" value="{{x.id}}" ng-selected="vm.model.shenBaoInfo.packageType == x.id">{{x.description}}</option>
 				<option value="other">其他</option>
 			</select>
-			<div ng-if="vm.packageType">
-				<input class="form-control input-sm pull-left" type="text" style="width:145px;margin-left:10px;margin-right:10px;"/>
-				<button class="btn btn-xs btn-success pull-right" style="margin-top:7px;" ng-click="vm.savePackageType()" ng-model="vm.basicData.packageType">保存此类型</button>
+			<div ng-if="vm.isOtherPackageType">
+				<input class="form-control input-sm pull-left" type="text" style="width:145px;margin-left:10px;margin-right:10px;" ng-model="vm.packageType.description"/>
+				<button class="btn btn-xs btn-success pull-right" style="margin-top:7px;" ng-click="vm.savePackageType()">保存此类型</button>
 			</div>
 			
-		</td> -->
+		</td>
 	<tr>
 		<td class="formAlignRight">资金需求及来源：</td>
 		<td colspan="3" >				

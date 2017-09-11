@@ -10,6 +10,10 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Projections;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.DoubleType;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +27,9 @@ import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.YearPlanCapitalDto;
 import cs.model.DomainDto.YearPlanDto;
 import cs.model.DtoMapper.IMapper;
+import cs.model.exportExcel.ExcelDataDWTJ;
+import cs.model.exportExcel.ExcelDataHYTJ;
+import cs.model.exportExcel.ExcelDataLBTJ;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
@@ -206,4 +213,99 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 		super.repository.save(yearPlan);
 		
 	}
+
+	@Override
+	@Transactional
+	public List<ExcelDataLBTJ> getYearPlanShenBaoInfoByLBTJ(String planId) {
+		YearPlan yearPlan=super.repository.findById(planId);
+		if(yearPlan!=null){//判空处理
+			List<ExcelDataLBTJ> excelDataLBTJList = new ArrayList<>();
+			List query = shenbaoInfoRepo.getSession()
+					.createSQLQuery(SQLConfig.yearPlanByLBTJ)
+					.setParameter("yearPlanId",planId)
+					.addScalar("projectCategory",new StringType())
+					.addScalar("projectSum",new IntegerType())
+					.addScalar("investSum",new DoubleType())
+					.addScalar("investAccuSum",new DoubleType())
+					.addScalar("apInvestSum",new DoubleType())
+					.addScalar("yearInvestApprovalSum",new DoubleType())
+					.setResultTransformer(Transformers.aliasToBean(ExcelDataLBTJ.class))
+					.list();
+
+			excelDataLBTJList = query;
+			logger.info(String.format("根据项目类别统计年度计划,名称：%s",yearPlan.getName()));	
+			return excelDataLBTJList;
+		}else{
+			return null;
+		}
+	}
+
+	@Override
+	@Transactional
+	public List<ExcelDataHYTJ> getYearPlanShenBaoInfoByHYTJ(String planId) {
+		YearPlan yearPlan=super.repository.findById(planId);
+		if(yearPlan!=null){//判空处理
+			List<ExcelDataHYTJ> excelDataHYTJList = new ArrayList<>();
+			List query = shenbaoInfoRepo.getSession()
+					.createSQLQuery(SQLConfig.yearPlanByHYTJ)
+					.setParameter("yearPlanId",planId)
+					.addScalar("projectIndustry",new StringType())  //项目行业
+					.addScalar("projectSum",new IntegerType())  //项目行业合计
+					.addScalar("projectCategory_ASum",new IntegerType()) //A类数量
+					.addScalar("projectCategory_BSum",new IntegerType()) //B类数量
+					.addScalar("projectCategory_CSum",new IntegerType()) //C类数量
+					.addScalar("projectCategory_DSum",new IntegerType()) //D类数量
+					.addScalar("investSum",new DoubleType())  //总投资
+					.addScalar("investAccuSum",new DoubleType())  //累计下达
+					.addScalar("apInvestSum",new DoubleType())  //累计拨付
+					.addScalar("sqInvestSum",new DoubleType())  //申请年度投资
+					.addScalar("yearAp_ggysSum",new DoubleType())  //年度预安排资金--公共预算
+					.addScalar("yearAp_gtjjSum",new DoubleType())  //年度预安排资金--国土基金
+					.addScalar("yearAp_qitaSum",new DoubleType())  //年度预安排资金--其他
+					.addScalar("yearApSum",new DoubleType())  //年度预安排资金--合计
+					.setResultTransformer(Transformers.aliasToBean(ExcelDataHYTJ.class))
+					.list();
+
+			excelDataHYTJList = query;
+			logger.info(String.format("根据项目行业统计年度计划,名称：%s",yearPlan.getName()));	
+			return excelDataHYTJList;
+		}else{
+			return null;
+		}
+	}
+
+	@Override
+	@Transactional
+	public List<ExcelDataDWTJ> getYearPlanShenBaoInfoByDWTJ(String planId) {
+		YearPlan yearPlan=super.repository.findById(planId);
+		if(yearPlan!=null){//判空处理
+			List<ExcelDataDWTJ> excelDataDWTJList = new ArrayList<>();
+			List query = shenbaoInfoRepo.getSession()
+					.createSQLQuery(SQLConfig.yearPlanByHYTJ)
+					.setParameter("yearPlanId",planId)
+					.addScalar("projectIndustry",new StringType())  //项目行业
+					.addScalar("projectSum",new IntegerType())  //项目行业合计
+					.addScalar("projectCategory_ASum",new IntegerType()) //A类数量
+					.addScalar("projectCategory_BSum",new IntegerType()) //B类数量
+					.addScalar("projectCategory_CSum",new IntegerType()) //C类数量
+					.addScalar("projectCategory_DSum",new IntegerType()) //D类数量
+					.addScalar("investSum",new DoubleType())  //总投资
+					.addScalar("investAccuSum",new DoubleType())  //累计下达
+					.addScalar("apInvestSum",new DoubleType())  //累计拨付
+					.addScalar("yearAp_ggysSum",new DoubleType())  //年度预安排资金--公共预算
+					.addScalar("yearAp_gtjjSum",new DoubleType())  //年度预安排资金--国土基金
+					.addScalar("yearAp_qitaSum",new DoubleType())  //年度预安排资金--其他
+					.addScalar("yearApSum",new DoubleType())  //年度预安排资金--合计
+					.setResultTransformer(Transformers.aliasToBean(ExcelDataHYTJ.class))
+					.list();
+
+			excelDataDWTJList = query;
+			logger.info(String.format("根据建设单位统计年度计划,名称：%s",yearPlan.getName()));	
+			return excelDataDWTJList;
+		}else{
+			return null;
+		}
+	}
+	
+	
 }

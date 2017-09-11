@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,15 +17,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import cs.common.BasicDataConfig;
 import cs.common.Util;
 import cs.model.DomainDto.BasicDataDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.UserUnitInfoDto;
-import cs.model.exportExcel.ExcelData;
+import cs.model.exportExcel.ExcelDataYS;
+import cs.model.exportExcel.ExcelDataDWTJ;
+import cs.model.exportExcel.ExcelDataHYTJ;
 import cs.model.exportExcel.ExcelDataLBTJ;
+import cs.model.exportExcel.ExcelReportDWTJView;
+import cs.model.exportExcel.ExcelReportHYTJView;
 import cs.model.exportExcel.ExcelReportLBTJView;
-import cs.model.exportExcel.ExcelReportView;
+import cs.model.exportExcel.ExcelReportYSView;
 import cs.model.framework.RoleDto;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
@@ -100,16 +102,21 @@ public class CommonController {
 		return roleService.get(odataObj).getValue();
 	}
 	
-//	@RequiresPermissions("common#exportExcel#get")
+//	@RequiresPermissions("common#exportExcelForYS#get")
 	@RequestMapping(name="导出Excel-印刷版",path="exportExcelForYS",method=RequestMethod.GET)
 	public ModelAndView getExcel(HttpServletRequest request,@RequestParam String planId) throws ParseException{
 		ODataObj odataObj = new ODataObj(request);
+		List<ExcelDataHYTJ> excelDataHYTJList = new ArrayList<>();
+		List<ShenBaoInfoDto> shenBaoInfoDtoList = new ArrayList<>();
+		
 		//获取所有的数据--按行业排序
-		List<ShenBaoInfoDto> dtos=yearPlanService.getYearPlanShenBaoInfo(planId,odataObj).getValue();
+		shenBaoInfoDtoList = yearPlanService.getYearPlanShenBaoInfo(planId,odataObj).getValue();
+		//获取行业分类数据
+		excelDataHYTJList = yearPlanService.getYearPlanShenBaoInfoByHYTJ(planId);
 		//获取按行业查询统计数据
-		List<ExcelData> excelDataList = new ArrayList<ExcelData>();
-        dtos.stream().forEach(x->{
-        	ExcelData excelData=new ExcelData();
+		List<ExcelDataYS> excelDataYSList = new ArrayList<ExcelDataYS>();
+		shenBaoInfoDtoList.stream().forEach(x->{
+        	ExcelDataYS excelData=new ExcelDataYS();
         	excelData.setConstructionUnit(x.getConstructionUnit());//建设单位
             excelData.setProjectName(x.getProjectName());//项目名称
             excelData.setProjectCode(x.getProjectNumber());//项目代码
@@ -124,89 +131,32 @@ public class CommonController {
             excelData.setCapitalAP_ggys_TheYear(x.getCapitalAP_ggys_TheYear());//安排资金--区公共预算
             excelData.setConstructionContent(x.getYearConstructionContent());//建设内容
             excelData.setRemark(x.getYearConstructionContentShenBao());
-            excelDataList.add(excelData);
+            excelDataYSList.add(excelData);
         });
-        return new ModelAndView(new ExcelReportView(), "excelDataList", excelDataList);
+        return new ModelAndView(new ExcelReportYSView(), "excelDataList", excelDataYSList);
     }
 	
-//	@RequiresPermissions("common#exportExcel#get")
-	@RequestMapping(name="导出Excel-类别统计版",path="exportExcelForTJ",method=RequestMethod.GET)
-	public ModelAndView getExcelTJ(HttpServletRequest request,@RequestParam String planId) throws ParseException{
-		ODataObj odataObj = new ODataObj(request);
-		List<ShenBaoInfoDto> dtos=yearPlanService.getYearPlanShenBaoInfo(planId,odataObj).getValue();
-        List<ExcelDataLBTJ> excelDataLBTJList = new ArrayList<ExcelDataLBTJ>();
-        Integer projectSum_A = 0,projectSum_B=0,projectSum_C=0,projectSum_D=0;
-        Double 	investSum_A=0.00,investSum_B=0.00,investSum_C=0.00,investSum_D=0.00;
-        Double	investAccuSum_A=0.00,investAccuSum_B=0.00,investAccuSum_C=0.00,investAccuSum_D=0.00;
-        Double	apInvestSum_A=0.000,apInvestSum_B=0.000,apInvestSum_C=0.000,apInvestSum_D=0.000;
-        Double	yearInvestApprovalSum_A=0.00,yearInvestApprovalSum_B=0.00,yearInvestApprovalSum_C=0.00,yearInvestApprovalSum_D=0.00;
-        
-        for(ShenBaoInfoDto x:dtos){
-        	if(x.getProjectCategory().equals(BasicDataConfig.projectCategory_A)){
-        		projectSum_A++;
-        		investSum_A += x.getProjectInvestSum();
-        		investAccuSum_A += x.getProjectInvestAccuSum();
-        		apInvestSum_A += x.getApInvestSum();
-        		yearInvestApprovalSum_A += x.getYearInvestApproval();
-        	}
-        	if(x.getProjectCategory().equals(BasicDataConfig.projectCategory_B)){
-        		projectSum_B++;
-        		investSum_B += x.getProjectInvestSum();
-        		investAccuSum_B += x.getProjectInvestAccuSum();
-        		apInvestSum_B += x.getApInvestSum();
-        		yearInvestApprovalSum_B += x.getYearInvestApproval();
-        	}
-        	if(x.getProjectCategory().equals(BasicDataConfig.projectCategory_C)){
-        		projectSum_C++;
-        		investSum_C += x.getProjectInvestSum();
-        		investAccuSum_C += x.getProjectInvestAccuSum();
-        		apInvestSum_C += x.getApInvestSum();
-        		yearInvestApprovalSum_C += x.getYearInvestApproval();
-        	}
-        	if(x.getProjectCategory().equals(BasicDataConfig.projectCategory_D)){
-        		projectSum_D++;
-        		investSum_D += x.getProjectInvestSum();
-        		investAccuSum_D += x.getProjectInvestAccuSum();
-        		apInvestSum_D += x.getApInvestSum();
-        		yearInvestApprovalSum_D += x.getYearInvestApproval();
-        	}
-        }
-        ExcelDataLBTJ excelDataLBTJ_A= new ExcelDataLBTJ();
-        excelDataLBTJ_A.setProjectCategory("A");
-        excelDataLBTJ_A.setProjectSum(String.valueOf(projectSum_A));
-        excelDataLBTJ_A.setInvestSum(String.valueOf(investSum_A));
-        excelDataLBTJ_A.setInvestAccuSum(String.valueOf(investAccuSum_A));
-        excelDataLBTJ_A.setApInvestSum(String.valueOf(apInvestSum_A));
-        excelDataLBTJ_A.setYearInvestApprovalSum(String.valueOf(yearInvestApprovalSum_A));
-        excelDataLBTJList.add(excelDataLBTJ_A);
-        
-        ExcelDataLBTJ excelDataLBTJ_B= new ExcelDataLBTJ();
-        excelDataLBTJ_B.setProjectCategory("B");
-        excelDataLBTJ_B.setProjectSum(String.valueOf(projectSum_B));
-        excelDataLBTJ_B.setInvestSum(String.valueOf(investSum_B));
-        excelDataLBTJ_B.setInvestAccuSum(String.valueOf(investAccuSum_B));
-        excelDataLBTJ_B.setApInvestSum(String.valueOf(apInvestSum_B));
-        excelDataLBTJ_B.setYearInvestApprovalSum(String.valueOf(yearInvestApprovalSum_B));
-        excelDataLBTJList.add(excelDataLBTJ_B);
-        
-        ExcelDataLBTJ excelDataLBTJ_C= new ExcelDataLBTJ();
-        excelDataLBTJ_C.setProjectCategory("C");
-        excelDataLBTJ_C.setProjectSum(String.valueOf(projectSum_C));
-        excelDataLBTJ_C.setInvestSum(String.valueOf(investSum_C));
-        excelDataLBTJ_C.setInvestAccuSum(String.valueOf(investAccuSum_C));
-        excelDataLBTJ_C.setApInvestSum(String.valueOf(apInvestSum_C));
-        excelDataLBTJ_C.setYearInvestApprovalSum(String.valueOf(yearInvestApprovalSum_C));
-        excelDataLBTJList.add(excelDataLBTJ_C);
-        
-        ExcelDataLBTJ excelDataLBTJ_D= new ExcelDataLBTJ();
-        excelDataLBTJ_D.setProjectCategory("D");
-        excelDataLBTJ_D.setProjectSum(String.valueOf(projectSum_D));
-        excelDataLBTJ_D.setInvestSum(String.valueOf(investSum_D));
-        excelDataLBTJ_D.setInvestAccuSum(String.valueOf(investAccuSum_D));
-        excelDataLBTJ_D.setApInvestSum(String.valueOf(apInvestSum_D));
-        excelDataLBTJ_D.setYearInvestApprovalSum(String.valueOf(yearInvestApprovalSum_D));
-        excelDataLBTJList.add(excelDataLBTJ_D);
-        
-        return new ModelAndView(new ExcelReportLBTJView(), "excelDataLBTJList", excelDataLBTJList);
-    }
+	@RequestMapping(name="导出Excel-项目类别统计",path="exportExcelForLB",method=RequestMethod.GET)
+	public ModelAndView getExcelForLB(HttpServletRequest request,@RequestParam String planId) throws ParseException{
+		List<ExcelDataLBTJ> excelDataLBTJList = new ArrayList<ExcelDataLBTJ>();
+		//数据的获取
+		excelDataLBTJList=yearPlanService.getYearPlanShenBaoInfoByLBTJ(planId);
+		return new ModelAndView(new ExcelReportLBTJView(), "excelDataLBTJList", excelDataLBTJList);
+	}
+	
+	@RequestMapping(name="导出Excel-项目行业统计",path="exportExcelForHY",method=RequestMethod.GET)
+	public ModelAndView getExcelForHY(HttpServletRequest request,@RequestParam String planId) throws ParseException{
+		List<ExcelDataHYTJ> excelDataHYTJList = new ArrayList<ExcelDataHYTJ>();
+		//数据的获取
+		excelDataHYTJList = yearPlanService.getYearPlanShenBaoInfoByHYTJ(planId);
+		return new ModelAndView(new ExcelReportHYTJView(), "excelDataHYTJList", excelDataHYTJList);
+	}
+	
+	@RequestMapping(name="导出Excel-建设单位统计",path="exportExcelForDW",method=RequestMethod.GET)
+	public ModelAndView getExcelForDW(HttpServletRequest request,@RequestParam String planId) throws ParseException{
+		List<ExcelDataDWTJ> excelDataDWTJList = new ArrayList<ExcelDataDWTJ>();
+		//数据的获取
+		//excelDataDWTJList = yearPlanService.getYearPlanShenBaoInfoByDWTJ(planId);
+		return new ModelAndView(new ExcelReportDWTJView(), "excelDataDWTJList", excelDataDWTJList);
+	}
 }

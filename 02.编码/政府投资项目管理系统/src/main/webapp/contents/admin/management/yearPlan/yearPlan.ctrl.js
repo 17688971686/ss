@@ -14,6 +14,7 @@
     	vm.basicData={};
     	vm.title='申报信息编辑';
     	vm.search={};
+    	vm.packageType={};
         vm.id=$state.params.id;
         vm.investmentType=$state.params.projectInvestmentType;
         vm.stage=$state.params.stage;
@@ -56,6 +57,8 @@
                 var isSelected = $(this).is(':checked');
                 $('.yearPlanCapitalGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
             });
+        	//刷新基础数据
+        	window.global_basicData = null;
            	//条件查询、编辑--基础数据
            	vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别	   		
 	   		vm.basicData.projectConstrChar=common.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质	
@@ -75,7 +78,7 @@
    	   		vm.basicData.userUnit=common.getUserUnits();//建设单位信息
    	   		vm.basicData.roles=common.getRoles();//角色
    	   		vm.basicData.users=[];
-//   	   		vm.basicData.packageType=common.getBacicDataByIndectity(common.basicDataConfig().packageType);//项目类别
+   	   		vm.basicData.packageType=common.getBacicDataByIndectity(common.basicDataConfig().packageType);//打包类型
    	   		
    	   		vm.searchIndustryChange=function(){
    	   			vm.searchIndustryIsZF = false;
@@ -169,6 +172,9 @@
      				 filters.push({field:'receiver',operator:'ne',value:window.profile_userId});
      			  }else if(vm.search.receiver == "all"){}
      		   }
+     		  if(vm.search.packageType !=null && vm.search.packageType !=''){//查询条件--打包类型
+     			 filters.push({field:'packageType',operator:'eq',value:vm.search.packageType});
+     		  }
      		  vm.gridOptions.dataSource.filter(filters);
     		};
     		//清空查询条件
@@ -435,17 +441,16 @@
 			}
 	   };
 	   //打包类型改变事件
-	   /*vm.packageTypeChange=function(){
-		   vm.packageType=false;
+	   vm.packageTypeChange=function(){
+		   vm.isOtherPackageType=false;
 		   if(vm.model.shenBaoInfo.packageType == 'other'){
-			   vm.packageType = true;
+			   vm.isOtherPackageType = true;
 		   }
 	   };
 	   //打包类型新增其他保存
-	   vm.savePackageType=function(){
-		   console.log(vm.basicData.packageType);
-		   //yearPlanSvc.savePackageType(vm);
-	   };*/
+	   vm.savePackageType=function(){ 
+		  yearPlanSvc.savePackageType(vm);
+	   };
       	//项目纳入项目库
   		vm.addProjectToLibray=function(){
   			yearPlanSvc.addProjectToLibrary(vm);
@@ -504,6 +509,10 @@
                      keyboard:false
                  });
     		};
+    		//添加计划查询绑定回车键按下事件
+    		$("#addPlanSearchBtn").keydown(function(){
+    			vm.search();
+    		})
     		//添加计划筛选
     		vm.search=function(){
     			var filters = [];
@@ -527,6 +536,9 @@
      		   if(vm.search.projectConstrChar !=null && vm.search.projectConstrChar !=''){//查询条件--建设性质
      			  filters.push({field:'projectConstrChar',operator:'eq',value:vm.search.projectConstrChar});
      		   }
+     		   if(vm.search.packageType !=null && vm.search.packageType !=''){//查询条件--打包类型
+     			   filters.push({field:'packageType',operator:'eq',value:vm.search.packageType});
+     		   }
      		  vm.addPlanGridOptions.dataSource.filter(filters);
     		};
     		//清空筛选条件
@@ -538,6 +550,7 @@
     			vm.search.constructionUnit = '';
     			vm.search.auditState = '';
     			vm.search.projectConstrChar = '';
+    			vm.search.packageType = '';
     			//设置列表过滤项为默认的
     			var filters = [];
 				filters.push({field:'projectShenBaoStage',operator:'eq',value:common.basicDataConfig().projectShenBaoStage_nextYearPlan});//默认条件--申报阶段为下一年度计划

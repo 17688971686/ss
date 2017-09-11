@@ -7,7 +7,7 @@ package cs.model.exportExcel;
 * @date 2017年9月5日 上午10:26:13 
 *
  */
-public class ExcelData {
+public class ExcelDataYS {
 	private String ConstructionUnit;//建设单位
     private String ProjectName;//项目名称
     private String ProjectCode;//项目代码

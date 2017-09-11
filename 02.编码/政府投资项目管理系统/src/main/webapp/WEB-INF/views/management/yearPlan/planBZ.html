@@ -2,6 +2,11 @@
   .k-grid tbody tr {
      cursor: move;
  } 
+  .disabled{
+    cursor:default;
+    text-decoration:none;
+    pointer-events: none;
+}
 </style>
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
@@ -138,8 +143,19 @@
 	  		<button class="btn btn-xs btn-success" ng-click="vm.dialog_addPlan()"><span class="glyphicon glyphicon-plus"></span>添加项目计划</button> 
 	  		<button class="btn btn-xs btn-danger" ng-click="vm.removeYearPlanCapital()"><span class="glyphicon "></span>移除项目计划</button>
 	  		<button class="btn btn-primary btn-xs" ng-click="vm.planGrid.saveAsExcel()"><span class="glyphicon glyphicon-download-alt"></span> 导出Excel</button>
-	  		<a class="btn btn-primary btn-xs" href="/common/exportExcelForYS?planId={{vm.id}}"><span class="glyphicon glyphicon-download-alt"></span> 导出印刷版</a>
-	  		<!-- <a class="btn btn-primary btn-xs" href="/common/exportExcelForTJ?planId={{vm.id}}"><span class="glyphicon glyphicon-download-alt"></span> 导出统计</a> -->
+	  		<!-- <a href="/common/exportExcelForYS?planId={{vm.id}}" class="btn btn-primary btn-xs">导出印刷版</a> -->
+	  		<div class="btn-group"> 
+				<button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">导出统计表<span class="caret"></span></button>
+				<ul class="dropdown-menu" role="menu"> 
+					<li> <a href="/common/exportExcelForLB?planId={{vm.id}}">按类别统计</a> </li>
+					<li class="divider"></li>
+					<li> <a href="/common/exportExcelForHY?planId={{vm.id}}">按行业统计</a> </li>
+					<li class="divider"></li> 
+					<li disabled> <a href="/common/exportExcelForDW?planId={{vm.id}}" class="disabled" style="color:#dac3c3;">按单位统计</a> </li>
+					<li class="divider"></li> 
+					<li> <a href="/common/exportExcelForYS?planId={{vm.id}}">印刷版</a> </li> 
+				</ul> 
+			</div> 
 	  	</div>
 	  	<script type="text/template" id="input">
 			<input style="width:100px" id="capitalSum_{0}" ng-click="vm.popOver($event,'{0}')" value="{1}"/>
@@ -278,8 +294,15 @@
 			  				</td>
 			  			</tr>
 			  			<tr>
-			  				<td colspan="6">
-			  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search()"><span class="glyphicon glyphicon-search"></span>查询</button>
+			  				<td class="formAlignRight">打包类型：</td>
+			  				<td>
+			  					<select style="height:30px;" ng-model="vm.search.packageType">
+						  			<option value="">---请选择---</option>
+						  			<option ng-repeat="x in vm.basicData.packageType" value="{{x.id}}">{{x.description}}</option>
+						  		</select>
+			  				</td>
+			  				<td colspan="4">
+			  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search()" id="addPlanSearchBtn"><span class="glyphicon glyphicon-search"></span>查询</button>
 			  				</td>
 			  			</tr>
 			  		</table>

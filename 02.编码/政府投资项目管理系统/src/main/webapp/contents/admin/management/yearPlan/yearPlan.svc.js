@@ -14,6 +14,7 @@
 		var url_document="/management/replyFile";
 		var url_back_shenbaoInfoList="/yearPlan/shenbaoInfoList";
 		var url_exportExcel="/common/exportExcel";
+		var url_basicData="/management/basicData";
 		
 		var service = {
 			grid_shenbaoInfoList : grid_shenbaoInfoList,//申报项目列表
@@ -35,8 +36,62 @@
 			removeYearPlanCapital:removeYearPlanCapital,//移除申报项目
 			documentRecordsGird:documentRecordsGird,//批复文件列表
 			getUserUnit:getUserUnit,//获取用户单位信息
-			exportExcelForYS:exportExcelForYS//导出印刷版Excel
+			exportExcelForYS:exportExcelForYS,//导出印刷版Excel
+			savePackageType:savePackageType//保存打包类型
 		};
+		
+		/**
+		 * 保存打包类型
+		 */
+		function savePackageType(vm){
+			//目的：获取当前打包类型最大id值
+			var idNum = [];
+			var index = 0;
+			//获取当前打包类型id尾数集合（因为只为一级目录，所以直接获取）
+			for(var i=0;i<vm.basicData.packageType.length;i++){
+				var id = vm.basicData.packageType[i].id;
+				var idSplit = id.split("_");
+				idNum[index+i] = parseInt(idSplit[idSplit.length-1],10);//获取所有子级id最后的一组数字									
+			}
+			//获取数组中的最大值
+			var idNumMax = Math.max.apply(null, idNum);
+			//替换掉最后的数值
+			var oldId = vm.basicData.packageType[0].id;
+			var oldIdSplit = oldId.split("_");
+			 oldIdSplit[oldIdSplit.length-1] = idNumMax+1;//将最后的一个元素的值变更为最大值+1
+			var newId = oldIdSplit.join("_");
+			vm.packageType.id=newId;//最后获取到新增类型的id
+			vm.packageType.pId=vm.basicData.packageType[0].pId;
+			vm.packageType.identity=vm.basicData.packageType[0].identity;
+			vm.packageType.canEdit=vm.basicData.packageType[0].canEdit;
+			
+			//保存新增的打包类型
+			var httpOptions = {
+					method : 'post',
+					url :url_basicData,
+					data:vm.packageType
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.basicData.packageType.push(vm.packageType);//添加用于显示
+						vm.model.shenBaoInfo.packageType = vm.packageType.id;//赋值					
+						//关闭输入框
+						vm.isOtherPackageType = false;
+					}
+				});
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}
 		
 		/**
 		 * 导出印刷版Excel
@@ -84,6 +139,9 @@
 				vm.model.shenBaoInfo.yearInvestApproval=parseFloat(vm.model.shenBaoInfo.capitalAP_ggys_TheYear || 0) + parseFloat(vm.model.shenBaoInfo.capitalAP_gtzj_TheYear || 0);
 				vm.model.shenBaoInfo.yearInvestApproval_lastYear=parseFloat(vm.model.shenBaoInfo.capitalAP_ggys_LastYear || 0) + parseFloat(vm.model.shenBaoInfo.capitalAP_gtzj_LastYear || 0);
 				vm.model.shenBaoInfo.yearInvestApproval_lastTwoYear=parseFloat(vm.model.shenBaoInfo.capitalAP_ggys_LastTwoYear || 0) + parseFloat(vm.model.shenBaoInfo.capitalAP_gtzj_LastTwoYear || 0);
+				//开工时间&竣工时间的处理
+				vm.model.shenBaoInfo.beginDate = (vm.model.shenBaoInfo.beginDate != '')?vm.model.shenBaoInfo.beginDate:null;
+				vm.model.shenBaoInfo.endDate = (vm.model.shenBaoInfo.endDate != '')?vm.model.shenBaoInfo.endDate:null;
 				var httpOptions = {
 						method : 'put',
 						url : common.format(url_shenbaoInfoList),
@@ -137,6 +195,9 @@
 				vm.model.shenBaoInfo.yearInvestApproval = common.getSum([vm.model.shenBaoInfo.capitalAP_ggys_TheYear || 0,vm.model.shenBaoInfo.capitalAP_gtzj_TheYear || 0]);
 				vm.model.shenBaoInfo.yearInvestApproval_lastYear = common.getSum([vm.model.shenBaoInfo.capitalAP_ggys_LastYear || 0,vm.model.shenBaoInfo.capitalAP_gtzj_LastYear || 0]);
 				vm.model.shenBaoInfo.yearInvestApproval_lastTwoYear = common.getSum([vm.model.shenBaoInfo.capitalAP_ggys_LastTwoYear || 0,vm.model.shenBaoInfo.capitalAP_gtzj_LastTwoYear || 0]);
+				//开工时间&竣工时间的处理
+				vm.model.shenBaoInfo.beginDate = (vm.model.shenBaoInfo.beginDate != '')?vm.model.shenBaoInfo.beginDate:null;
+				vm.model.shenBaoInfo.endDate = (vm.model.shenBaoInfo.endDate != '')?vm.model.shenBaoInfo.endDate:null;
 				var httpOptions = {
 						method : 'post',
 						url : url_shenbaoInfoList,
@@ -486,8 +547,8 @@
 					var date = new Date();
 					vm.planYear = vm.model.shenBaoInfo.planYear = parseInt(date.getFullYear()+1);
 				}
-				//vm.model.shenBaoInfo.packageType=common.basicDataConfig().packageType_danLie;//默认打包类型为单列项目
-				
+				//没有打包类型时默认打包类型为单列项目
+				vm.model.shenBaoInfo.packageType=vm.model.shenBaoInfo.packageType || common.basicDataConfig().packageType_danLie;
 				//项目类型、建设单位的显示
 				vm.projectTypes = common.stringToArray(vm.model.shenBaoInfo.projectType,',');
 				vm.constructionUnits = common.stringToArray(vm.model.shenBaoInfo.constructionUnit,",");
@@ -923,7 +984,7 @@
 					    }
 					},
 					{
-						title: "资金来源及需求(万元)",
+						title: "2018年资金来源及需求(万元)",
                         columns: [
                         	{
         						field : "capitalSCZ_ggys_TheYear",
@@ -1015,7 +1076,7 @@
 					    }
 					},
 					{
-						title: "资金来源及需求(万元)",
+						title: "2019年资金来源及需求(万元)",
 						columns: [
 							{
 								field : "capitalSCZ_ggys_LastYear",
@@ -1065,7 +1126,7 @@
 					    }
 					},
 					{
-                        title: "资金来源及需求(万元)",
+                        title: "2020年资金来源及需求(万元)",
                         columns: [
                         	{
                         		field: "capitalSCZ_ggys_LastTwoYear",

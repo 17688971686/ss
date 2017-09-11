@@ -23,4 +23,38 @@ public class SQLConfig {
 			+ " inner join cs_yearplan t4 "
 			+ " on t3.yearplan_id=t4.id "
 			+ " where t4.id=:yearPlanId");
+ 
+ public static String yearPlanByLBTJ = String.format("SELECT bs.description as projectCategory,count(sbi.id) as projectSum,sum(sbi.projectInvestSum) as investSum,sum(sbi.projectInvestAccuSum) as investAccuSum,sum(sbi.apInvestSum) as apInvestSum,sum(sbi.yearInvestApproval) as yearInvestApprovalSum"+
+				" FROM cs_yearplan as yp,"+
+				" cs_yearplan_cs_yearplancapital as ypy,"+
+				" cs_yearplancapital as ypl,"+
+				" cs_shenbaoinfo as sbi,"+
+				" cs_basicdata as bs"+
+				" where yp.id = ypy.YearPlan_id"+
+				" and ypl.id = ypy.yearPlanCapitals_id"+
+				" and ypl.shenbaoInfoId = sbi.id"+
+				" and sbi.projectCategory = bs.id"+
+				" and yp.id = :yearPlanId"+
+				" group by sbi.projectCategory");
+ public static String yearPlanByHYTJ = String.format("SELECT bs.description as projectIndustry,"+
+				" count(sbi.id) AS projectSum,"+
+		 		" sum(CASE WHEN sbi.projectCategory = 'projectCategory_1' THEN 1 ELSE 0 END ) AS projectCategory_ASum,"+
+		 		" sum(CASE WHEN sbi.projectCategory = 'projectCategory_2' THEN 1 ELSE 0 END ) AS projectCategory_BSum,"+
+		 		" sum(CASE WHEN sbi.projectCategory = 'projectCategory_3' THEN 1 ELSE 0 END ) AS projectCategory_CSum,"+
+		 		" sum(CASE WHEN sbi.projectCategory = 'projectCategory_4' THEN 1 ELSE 0 END ) AS projectCategory_DSum,"+
+		 		" sum(sbi.projectInvestSum) as investSum,"+
+		 		" sum(sbi.projectInvestAccuSum) as investAccuSum,"+
+		 		" sum(sbi.apInvestSum) as apInvestSum,"+
+		 		" sum(sbi.yearInvestApproval) as sqInvestSum,"+
+		 		" sum(sbi.capitalAP_ggys_TheYear) as yearAp_ggysSum,"+
+		 		" sum(sbi.capitalAP_gtzj_TheYear) as yearAp_gtjjSum,"+
+		 		" sum(sbi.capitalAP_qita) as yearAp_qitaSum,"+
+		 		" sum(sbi.capitalAP_ggys_TheYear+sbi.capitalAP_gtzj_TheYear+sbi.capitalAP_qita) as yearApSum"+
+		 		" FROM cs_yearplan AS yp,cs_yearplan_cs_yearplancapital AS ypy,cs_yearplancapital AS ypl,cs_shenbaoinfo AS sbi,cs_basicdata AS bs"+
+		 		" WHERE yp.id = ypy.YearPlan_id AND ypl.id = ypy.yearPlanCapitals_id AND ypl.shenbaoInfoId = sbi.id AND sbi.projectIndustry = bs.id"+
+		 		" AND yp.id = :yearPlanId"+
+		 		" GROUP BY sbi.projectIndustry");
+ 
+ public static String yearPlanByDWTJ = String.format("qq");
+
 }

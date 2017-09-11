@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class ExcelReportView extends AbstractXlsView {
+public class ExcelReportYSView extends AbstractXlsView {
 	@Override
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
         response.setHeader("Content-Disposition", "attachment;filename=\"yearPlan.xls\"");
@@ -68,8 +68,8 @@ public class ExcelReportView extends AbstractXlsView {
         //begin#数据列
         int rowNum=4;
         int index=1;
-        List<ExcelData> excelDataList = (List<ExcelData>) model.get("excelDataList");
-        for (ExcelData data:excelDataList) {
+        List<ExcelDataYS> excelDataList = (List<ExcelDataYS>) model.get("excelDataList");
+        for (ExcelDataYS data:excelDataList) {
             int rowNum1=rowNum++;
             int rowNum2=rowNum++;
             Row row1 = sheet.createRow(rowNum1);
