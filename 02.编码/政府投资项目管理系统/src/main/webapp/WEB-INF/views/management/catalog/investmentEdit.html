@@ -1,0 +1,131 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+        <li>投资项目目录管理</li>       
+        <li class="active">{{vm.title}}</li>
+        <li class="active">{{vm.model.name}}</li>
+    </ol>
+    <script type="text/template" id="columnBtns">
+		<button class="btn btn-xs btn-danger"  ng-click="vm.deleteSecondary('{0}')" ><span class="glyphicon glyphicon-remove"></span>删除</button>
+		<button  class="btn btn-xs btn-primary" ng-click="vm.changeSecondary('{0}')"><span class="glyphicon glyphicon-pencil"></span>编辑</button>
+	</script>
+    <form id="form" name="form">
+    	<div class="toolbar">
+            <a class="btn btn-sm btn-primary" href="#/catalog/investment"><span class="glyphicon glyphicon-chevron-left"></span>返回</a>
+            <button class="btn btn-sm btn-success" ng-click="vm.updateCatalog()" ><span class="glyphicon glyphicon-ok"></span>更新</button>
+        </div>
+        <table style="width:100%" class="table table-bordered table-striped">
+            <tr>
+                <td class="formAlignRight" style="width:15%">名称： <span class="required">(*)</span></td>
+                <td>
+                    <input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.name" id="name" name="name" data-val="true" data-val-required="必填">
+                    <span data-valmsg-for="name" data-valmsg-replace="true" class="required"></span>
+                </td>
+                <td class="formAlignRight" style="width:15%">代码： <span class="required">(*)</span></td>
+                <td>
+                    <input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.code" id="code" name="code" data-val="true" data-val-required="必填">
+                    <span data-valmsg-for="code" data-valmsg-replace="true" class="required"></span>
+                </td>
+            </tr>
+        </table>
+        
+        <div class="toolbar" ng-hide="vm.isShow">
+			<button class="btn btn-sm btn-primary" ng-click="vm.addSecondary()"><span class="glyphicon glyphicon-plus"></span>新增</button> 
+			<button class="btn btn-sm btn-danger" ng-click="vm.deleteSecondaryCatalogs()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-remove"></span>批量删除</button>
+        </div>
+      
+        
+        <div ng-hide="vm.isShow" class="grid" kendo-grid="grid" k-options="vm.investmentProjectSecondaryGrid"></div>
+	</form>
+	
+	
+	
+	<form id="second" name="second" >
+        <!-- 新增投资项目模态框 -->	
+		<div id="addSecondaryCatalog" class="myDialog modal fade" role="dialog">
+			<div class="modal-dialog" style="margin: 80px auto; width: 80%; max-width: 500px;">
+				<div class="modal-content">
+					<div class="modal-header bg-primary">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="vm.cancelAdd()">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<span class="modal-title">添加目录</span>
+					</div>
+					<div class="modal-body">
+						<table>
+							<tr>
+								<td class="formAlignRight" style="width:40%;margin-bottom:2px;">名称：<span class="required">(*)</span></td>
+								<td>
+									<input style="margin-bottom:2px;width:165%;height:30px" class="addName" style="margin-bottom:2px;"
+										 type="text" id="name" name="name" ng-model="vm.secondary.name" data-val="true" data-val-required="必填" placeholder="请输入投资项目名称，请勿重复!" >
+									<span data-valmsg-for="name" data-valmsg-replace="true" class="errors"></span>
+								</td>
+							</tr>
+							<tr>
+								<td class="formAlignRight">代码：<span class="required">(*)</span></td>
+								<td>
+									<input style="width:165%;height:30px" type="text" id="code" name="code" ng-model="vm.secondary.code" 
+										data-val="true" data-val-required="必填" class="addCode" placeholder="请按规律输入投资项目代码，如：A0000101">
+									<span data-valmsg-for="code" data-valmsg-replace="true" class="errors"></span>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success btn-sm" ng-hide="vm.isConfirm" ng-click="vm.confirm_addSecond()" >确认</button>						
+						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal" ng-click="vm.cancelAdd()">取消</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+		<!-- /.modal -->
+		
+		<!-- 新增投资项目模态框 -->	
+		<div id="updateSecondaryCatalog" class="myDialog modal fade" role="dialog">
+			<div class="modal-dialog" style="margin: 80px auto; width: 80%; max-width: 500px;">
+				<div class="modal-content">
+					<div class="modal-header bg-primary">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<span class="modal-title">添加目录</span>
+					</div>
+					<div class="modal-body">
+						<table>
+							<tr>
+								<td class="formAlignRight" style="width:40%;margin-bottom:2px;">名称：<span class="required">(*)</span></td>
+								<td>
+									<input style="margin-bottom:2px;width:165%;height:30px" style="margin-bottom:2px;"
+										 type="text" id="name" name="name" ng-model="vm.secondary.name" data-val="true" data-val-required="必填" placeholder="请输入投资项目名称，请勿重复!" >
+									<span data-valmsg-for="name" data-valmsg-replace="true" class="errors"></span>
+								</td>
+							</tr>
+							<tr>
+								<td class="formAlignRight">代码：<span class="required">(*)</span></td>
+								<td>
+									<input style="width:165%;height:30px" type="text" id="code" name="code" ng-model="vm.secondary.code" 
+										data-val="true" data-val-required="必填" placeholder="请按规律输入投资项目代码，如：A0000101">
+									<span data-valmsg-for="code" data-valmsg-replace="true" class="errors"></span>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success btn-sm" ng-click="vm.confirm_updateSecond()" >更新</button>
+						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+		<!-- /.modal -->
+    </form>
+</div>
+
+
+

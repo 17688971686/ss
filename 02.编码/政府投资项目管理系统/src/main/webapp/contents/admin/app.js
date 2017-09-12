@@ -239,6 +239,26 @@
 	        
 /**********************end#年度计划编制***************************************/
 	        
+/**********************begin#目录管理***************************************/
+	        //投资项目目录列表
+	        .state('catalog_investment', {
+	            url: '/catalog/investment',
+	            templateUrl: '/management/catalog/html/investmentList',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	       
+	        //
+	        .state('catalog_investment_projectIndustry', {
+	            url: '/catalog/investment/projectIndustry/:id',
+	            templateUrl: '/management/catalog/html/investmentEdit',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        
+	 
+/**********************end#目录管理***************************************/	     
+	        
 /**********************begin#信用信息管理***************************************/
 	        //信用异常名录 列表页面
 	        .state('credit_illegalNameList', {

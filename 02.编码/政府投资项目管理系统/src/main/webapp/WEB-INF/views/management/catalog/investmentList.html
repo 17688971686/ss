@@ -1,0 +1,83 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+        <li>投资项目目录管理</li>       
+        <li class="active">{{vm.title}}</li>
+    </ol>
+    <div>
+    	<table>
+    		<tr>
+    			<td>
+    				<button type="button" style="margin-right:20px;margin-bottom:10px;" ng-show="vm.projectIndustryButton"
+    				ng-click="vm.showProjectIndustry()" class="btn btn-success btn-sm pull-right">项目行业分类</button>
+    			</td>
+    			<td>
+    				<button type="button" style="margin-right:20px;margin-bottom:10px;" ng-hide="vm.projectTypeButton"
+    				ng-click="vm.showProjectType()" class="btn btn-success btn-sm pull-right">项目类型</button>
+    			</td>
+    			<td>
+    				<button type="button" style="margin-right:20px;margin-bottom:10px;" ng-hide="vm.constructionTypeButton"
+    				ng-click="vm.showConstructionType()" class="btn btn-success btn-sm pull-right">建设类型</button>
+    			</td>
+    		</tr>
+    	</table>
+    </div>
+    <form id="form" name="form">
+        <div class="toolbar">
+			<button class="btn btn-sm btn-primary" ng-click="vm.addCatalog()"><span class="glyphicon glyphicon-plus"></span>新增</button> 
+			<button class="btn btn-sm btn-danger" ng-click="vm.deleteCatalogs()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-remove"></span>批量删除</button>
+        </div>
+        <script type="text/template" id="columnBtns">
+			<button class="btn btn-xs btn-danger"  ng-click="vm.deleteCatalog('{0}')" ><span class="glyphicon glyphicon-remove"></span>删除</button>
+			<a  class="btn btn-xs btn-primary" href="#/catalog/investment/projectIndustry/{0}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+		</script>
+        <div ng-hide="vm.projectIndustry" 	class="grid" kendo-grid="grid" k-options="vm.investmentProjectGrid"></div>
+        <div ng-show="vm.projectType" 		class="grid" kendo-grid="grid" k-options="vm.projectTypeGrid"></div>
+        <div ng-show="vm.constructionType" 	class="grid" kendo-grid="grid" k-options="vm.constructionTypeGrid"></div>
+        
+        
+        <!-- 新增投资项目模态框 -->	
+		<div id="catalog" class="myDialog modal fade" role="dialog">
+			<div class="modal-dialog" style="margin: 80px auto; width: 80%; max-width: 500px;">
+				<div class="modal-content">
+					<div class="modal-header bg-primary">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="vm.cancelMain()">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<span class="modal-title">添加目录</span>
+					</div>
+					<div class="modal-body">
+						<table>
+							<tr>
+								<td class="formAlignRight" style="width:40%;margin-bottom:2px;">名称：<span class="required">(*)</span></td>
+								<td>
+									<input style="margin-bottom:2px;width:155%;height:30px" type="text" class="name" id="name" name="name" ng-model="vm.model.name" data-val="true" data-val-required="必填" placeholder="请输入投资项目名称，请勿重复!">
+									<span data-valmsg-for="name" data-valmsg-replace="true" class="errors"></span>
+								</td>
+							</tr>
+							<tr>
+								<td class="formAlignRight">代码：<span class="required">(*)</span></td>
+								<td>
+									<input style="width:155%;height:30px" type="text" class="code" id="code" name="code" ng-model="vm.model.code" data-val="true" data-val-required="必填" placeholder="请按规律输入投资项目代码，如：A00001">
+									<span data-valmsg-for="code" data-valmsg-replace="true" class="errors"></span>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success btn-sm" ng-disabled="vm.isConfirm" ng-click="vm.confirmSubmit()" >确认</button>						
+						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal" ng-click="vm.cancelMain()">取消</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+		<!-- /.modal -->
+    </form>
+</div>
+
+
+

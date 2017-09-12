@@ -245,6 +245,7 @@
         function page_blackListAlter(){
         	//根据黑名单id获取数据
         	creditInfoSvc.getBlackListById(vm);
+        	vm.basicData.legalRepCertType=common.getBacicDataByIndectity(common.basicDataConfig().credentialsType);
         	//点击更新按钮，进行数据更新操作
         	vm.updateBlackListInfo = function(){
         		common.initJqValidation();
@@ -267,6 +268,7 @@
         
         //黑名单录入页面
         function page_addBlackList(){
+        	vm.basicData.legalRepCertType=common.getBacicDataByIndectity(common.basicDataConfig().credentialsType);
         	vm.title='黑名单信息录入';
         	vm.blackListModel.projectNumber=vm.projectNumber;
         	vm.blackListModel.projectName=vm.projectName;
