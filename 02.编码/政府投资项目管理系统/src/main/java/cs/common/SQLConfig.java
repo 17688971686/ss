@@ -15,16 +15,12 @@ public class SQLConfig {
 			+ " on t3.yearplan_id=t4.id "
 			+ " where t4.id=:yearPlanId"
 			+ " order by t1.ProjectIndustry desc");
- public static String yearPlanCount = String.format("select t1.id from cs_shenbaoinfo t1 "
-			+ " inner join cs_yearplancapital t2 "
-			+ " on t1.id = t2.shenbaoInfoId "
-			+ " inner join cs_yearplan_cs_yearplancapital t3 "
-			+ " on t2.id=t3.yearPlanCapitals_id "
-			+ " inner join cs_yearplan t4 "
-			+ " on t3.yearplan_id=t4.id "
-			+ " where t4.id=:yearPlanId");
  
- public static String yearPlanByLBTJ = String.format("SELECT bs.description as projectCategory,count(sbi.id) as projectSum,sum(sbi.projectInvestSum) as investSum,sum(sbi.projectInvestAccuSum) as investAccuSum,sum(sbi.apInvestSum) as apInvestSum,sum(sbi.yearInvestApproval) as yearInvestApprovalSum"+
+ public static String yearPlanByLBTJ = String.format("SELECT yp.year as planYear,bs.description as projectCategory,count(sbi.id) as projectSum,"+
+		 		" sum(sbi.projectInvestSum) as investSum,"+
+		 		" sum(sbi.projectInvestAccuSum) as investAccuSum,"+
+		 		" sum(sbi.apInvestSum) as apInvestSum,"+
+		 		" sum(ypl.capitalSum) as yearInvestApprovalSum"+
 				" FROM cs_yearplan as yp,"+
 				" cs_yearplan_cs_yearplancapital as ypy,"+
 				" cs_yearplancapital as ypl,"+
@@ -36,7 +32,7 @@ public class SQLConfig {
 				" and sbi.projectCategory = bs.id"+
 				" and yp.id = :yearPlanId"+
 				" group by sbi.projectCategory");
- public static String yearPlanByHYTJ = String.format("SELECT bs.description as projectIndustry,"+
+ public static String yearPlanByHYTJ = String.format("SELECT yp.year as planYear,bs.description as projectIndustry,"+
 				" count(sbi.id) AS projectSum,"+
 		 		" sum(CASE WHEN sbi.projectCategory = 'projectCategory_1' THEN 1 ELSE 0 END ) AS projectCategory_ASum,"+
 		 		" sum(CASE WHEN sbi.projectCategory = 'projectCategory_2' THEN 1 ELSE 0 END ) AS projectCategory_BSum,"+
@@ -46,15 +42,33 @@ public class SQLConfig {
 		 		" sum(sbi.projectInvestAccuSum) as investAccuSum,"+
 		 		" sum(sbi.apInvestSum) as apInvestSum,"+
 		 		" sum(sbi.yearInvestApproval) as sqInvestSum,"+
-		 		" sum(sbi.capitalAP_ggys_TheYear) as yearAp_ggysSum,"+
-		 		" sum(sbi.capitalAP_gtzj_TheYear) as yearAp_gtjjSum,"+
-		 		" sum(sbi.capitalAP_qita) as yearAp_qitaSum,"+
-		 		" sum(sbi.capitalAP_ggys_TheYear+sbi.capitalAP_gtzj_TheYear+sbi.capitalAP_qita) as yearApSum"+
+		 		" sum(ypl.capitalQCZ_ggys) as yearAp_ggysSum,"+
+		 		" sum(ypl.capitalQCZ_gtzj) as yearAp_gtjjSum,"+
+		 		" sum(ypl.capitalOther) as yearAp_qitaSum,"+
+		 		" sum(ypl.capitalQCZ_ggys)+sum(ypl.capitalQCZ_gtzj)+sum(ypl.capitalOther) as yearApSum"+
 		 		" FROM cs_yearplan AS yp,cs_yearplan_cs_yearplancapital AS ypy,cs_yearplancapital AS ypl,cs_shenbaoinfo AS sbi,cs_basicdata AS bs"+
 		 		" WHERE yp.id = ypy.YearPlan_id AND ypl.id = ypy.yearPlanCapitals_id AND ypl.shenbaoInfoId = sbi.id AND sbi.projectIndustry = bs.id"+
 		 		" AND yp.id = :yearPlanId"+
-		 		" GROUP BY sbi.projectIndustry");
- 
- public static String yearPlanByDWTJ = String.format("qq");
-
+		 		" GROUP BY sbi.projectIndustry"+
+		 		" ORDER BY bs.itemOrder");
+ public static String yearPlanByDWTJ = String.format("SELECT a.planYear,a.constructionunit AS constrctionUnit,"+
+		 " SUM(a.packagetype_1 + a.packagetype_2 + a.packagetype_3 + a.packagetype_4) AS yearApSum,"+
+		 " SUM(a.packagetype_1) AS yearAp_danLie,"+
+		 " SUM(a.packagetype_2) AS yearAp_jieSunKuan,"+
+		 " SUM(a.packagetype_3) AS yearAp_xiaohe,"+
+		 " SUM(a.packagetype_4) AS yearAp_weiLiXYuLiu"+
+		 " FROM("+
+			 " SELECT SUBSTRING_INDEX(sbi.constructionunit,',',1) AS 'constructionunit',"+
+			 " CASE WHEN sbi.packagetype = 'packagetype_1' THEN ypl.capitalSum ELSE 0 END AS 'packagetype_1',"+
+		     " CASE WHEN sbi.packagetype = 'packagetype_2' THEN ypl.capitalSum ELSE 0 END AS 'packagetype_2',"+
+		     " CASE WHEN sbi.packagetype = 'packagetype_3' THEN ypl.capitalSum ELSE 0 END AS 'packagetype_3',"+
+		     " CASE WHEN sbi.packagetype = 'packagetype_4' THEN ypl.capitalSum ELSE 0 END AS 'packagetype_4',"+
+		     " yp.year as planYear"+
+		     " FROM cs_yearplan AS yp,cs_yearplan_cs_yearplancapital AS ypy,cs_yearplancapital AS ypl,cs_shenbaoinfo sbi"+
+		     " WHERE yp.id = ypy.YearPlan_id"+
+		     " AND ypl.id = ypy.yearPlanCapitals_id"+
+		     " AND ypl.shenbaoInfoId = sbi.id"+
+		     " AND yp.id = :yearPlanId"+
+		     " ) a"+
+		     " GROUP BY a.constructionunit");
 }

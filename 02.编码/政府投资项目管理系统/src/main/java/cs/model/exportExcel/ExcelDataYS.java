@@ -8,6 +8,7 @@ package cs.model.exportExcel;
 *
  */
 public class ExcelDataYS {
+	private Integer planYear;//计划年度
 	private String ConstructionUnit;//建设单位
     private String ProjectName;//项目名称
     private String ProjectCode;//项目代码
@@ -22,6 +23,14 @@ public class ExcelDataYS {
     private double capitalAP_ggys_TheYear;//本年度安排资金_公共预算
     private String ConstructionContent;//主要建设内容
     private  String Remark;//备注
+    
+    
+	public Integer getPlanYear() {
+		return planYear;
+	}
+	public void setPlanYear(Integer planYear) {
+		this.planYear = planYear;
+	}
 	public String getConstructionUnit() {
 		return ConstructionUnit;
 	}

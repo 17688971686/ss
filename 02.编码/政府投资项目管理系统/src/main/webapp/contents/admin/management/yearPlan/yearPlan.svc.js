@@ -26,6 +26,7 @@
 			grid_planList:grid_planList,//年度计划列表
 			plan_create:plan_create,//创建年度计划
 			plan_update:plan_update,//更新年度计划
+			plan_delete:plan_delete,//删除年度计划
 			getPlanById:getPlanById,//根据年度计划id查找计划信息
 			grid_yearPlan_shenbaoInfoList:grid_yearPlan_shenbaoInfoList,//年度计划编制信息列表
 			grid_yearPlan_addShenbaoInfoList:grid_yearPlan_addShenbaoInfoList,//年度计划编制新增项目申报列表
@@ -922,18 +923,34 @@
 					      style: "text-align: center;vertical-align: middle;"
 					    }
 					},
+//					{
+//						field : "beginDate",
+//						title : "开工/竣工时间",
+//						width : 120,
+//						template:function(item){
+//							if(item.projectCategory==common.basicDataConfig().projectCategory_A){
+//								return common.formatDate(item.endDate) || '';
+//							}else if(item.projectCategory==common.basicDataConfig().projectCategory_B || 
+//									item.projectCategory==common.basicDataConfig().projectCategory_C ||
+//									item.projectCategory==common.basicDataConfig().projectCategory_D){
+//								return common.formatDate(item.beginDate) || '';
+//							}					
+//						},
+//						filterable : false,
+//						headerAttributes: {
+//					      "class": "table-header-cell",
+//					       style: "text-align: center;vertical-align: middle;"
+//					    }
+//					},
+					//新需求：开工日期与竣工日期同时显示
 					{
 						field : "beginDate",
 						title : "开工/竣工时间",
 						width : 120,
 						template:function(item){
-							if(item.projectCategory==common.basicDataConfig().projectCategory_A){
-								return common.formatDate(item.endDate) || '';
-							}else if(item.projectCategory==common.basicDataConfig().projectCategory_B || 
-									item.projectCategory==common.basicDataConfig().projectCategory_C ||
-									item.projectCategory==common.basicDataConfig().projectCategory_D){
-								return common.formatDate(item.beginDate) || '';
-							}					
+							return common.format(
+									(common.formatDate(item.beginDate)?common.formatDate(item.beginDate):'')+"~\n"+
+									(common.formatDate(item.endDate)?common.formatDate(item.endDate):''));
 						},
 						filterable : false,
 						headerAttributes: {
@@ -975,7 +992,7 @@
 					{
 						field : "yearConstructionContent",
 						width:200,
-						title:"2018年度建设内容",
+						title:vm.planYear+"年度建设内容",
 						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContent || ''); },
 						filterable : false,
 						headerAttributes: {
@@ -984,7 +1001,7 @@
 					    }
 					},
 					{
-						title: "2018年资金来源及需求(万元)",
+						title: vm.planYear+"年资金来源及需求(万元)",
                         columns: [
                         	{
         						field : "capitalSCZ_ggys_TheYear",
@@ -1066,7 +1083,7 @@
 					},
 					{
 						field : "yearConstructionContentLastYear",
-						title : "2019年度建设内容",
+						title : vm.planYear+1+"年度建设内容",
 						width:200,
 						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContentLastYear|| ''); },
 						filterable : false,
@@ -1076,7 +1093,7 @@
 					    }
 					},
 					{
-						title: "2019年资金来源及需求(万元)",
+						title: vm.planYear+1+"年资金来源及需求(万元)",
 						columns: [
 							{
 								field : "capitalSCZ_ggys_LastYear",
@@ -1116,7 +1133,7 @@
 					},
 					{
 						field : "yearConstructionContentLastTwoYear",
-						title : "2020年度建设内容",
+						title : vm.planYear+2+"年度建设内容",
 						width:200,
 						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContentLastTwoYear|| '');},
 						filterable : false,
@@ -1126,7 +1143,7 @@
 					    }
 					},
 					{
-                        title: "2020年资金来源及需求(万元)",
+                        title: vm.planYear+2+"年资金来源及需求(万元)",
                         columns: [
                         	{
                         		field: "capitalSCZ_ggys_LastTwoYear",
@@ -1448,6 +1465,45 @@
 				});
 			}
 		}//end plan_update
+		
+		/**
+		 * 删除年度计划
+		 */
+		function plan_delete(vm,id){
+			vm.isSubmit = true;
+			
+			var httpOptions = {
+					method : 'delete',
+					url : url_planList,
+					data : id
+				};
+				
+				var httpSuccess = function success(response) {	
+					common.requestSuccess({
+						vm:vm,
+						response:response,
+						fn:function() {	
+							common.alert({
+								vm:vm,
+								msg:"操作成功!",
+								fn:function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');
+									$('.modal-backdrop').remove();
+									vm.gridOptions.dataSource.read();//列表数据刷新
+								}
+							});
+						}						
+					});
+				};
+
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+		}
 
 		return service;
 		
@@ -1507,9 +1563,9 @@
 				},{
 					field : "",
 					title : "操作",
-					width : 180,
+					width : 200,
 					template : function(item) {
-						return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage);
+						return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,"vm.deletePlan('" + item.id + "')");
 					}
 				}
 			];

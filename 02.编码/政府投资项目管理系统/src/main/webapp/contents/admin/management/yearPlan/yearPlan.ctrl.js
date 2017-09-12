@@ -19,6 +19,7 @@
         vm.investmentType=$state.params.projectInvestmentType;
         vm.stage=$state.params.stage;
     	vm.page="shenbaoInfoList";//默认为申报信息列表页面
+    	vm.planYear=2018;
         
     	function init(){
     		if($state.current.name=='yearPlan_shenbaoInfoEdit'){//申报信息新增页面
@@ -483,6 +484,34 @@
     	//init_planList
     	function init_planList(){
     		yearPlanSvc.grid_planList(vm);
+    		//删除计划
+    		vm.deletePlan=function(id){
+    			common.confirm({
+    				vm:vm,
+    				msg:"确认要删除数据吗？",
+    				fn:function(){
+    					$('.confirmDialog').modal('hide');
+    					yearPlanSvc.plan_delete(vm,id);
+    				}
+    			});
+    		};
+    		//批量删除计划
+    		vm.deletePlans=function(){
+    			var selectIds = common.getKendoCheckId('.grid');
+                if (selectIds.length == 0) {
+                	common.alert({
+                    	vm:vm,
+                    	msg:'请选择数据!'             	
+                    });
+                } else {
+                	var ids=[];
+                    for (var i = 0; i < selectIds.length; i++) {
+                    	ids.push(selectIds[i].value);
+    				}  
+                    var idStr=ids.join(',');
+                    vm.deletePlan(idStr);
+                }   
+    		};
     	}//init_planBZList    
     	
     	function init_planCreate(){

@@ -7,12 +7,20 @@ package cs.model.exportExcel;
 *
  */
 public class ExcelDataLBTJ {
+	private Integer planYear;//计划年度
 	private String projectCategory;//项目类别
 	private Integer projectSum;//项目总数
 	private double investSum;//总投资累计
-	private double investAccuSum;//下达计划（完成投资）累计
-	private double apInvestSum;//拨付资金（安排资金）累计
+	private double investAccuSum;//拨付资金（完成投资）累计
+	private double apInvestSum;//下达计划（安排资金）累计
 	private double yearInvestApprovalSum;//年度预安排资金累计
+	
+	public Integer getPlanYear() {
+		return planYear;
+	}
+	public void setPlanYear(Integer planYear) {
+		this.planYear = planYear;
+	}
 	public String getProjectCategory() {
 		return projectCategory;
 	}

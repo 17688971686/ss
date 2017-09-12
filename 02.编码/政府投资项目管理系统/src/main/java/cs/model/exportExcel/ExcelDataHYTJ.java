@@ -7,6 +7,7 @@ package cs.model.exportExcel;
 *
  */
 public class ExcelDataHYTJ {
+	private Integer planYear;//计划年度
 	private String projectIndustry;//项目行业
 	private Integer projectSum;//行业项目个数合计
 	private Integer projectCategory_ASum;//A类数量
@@ -14,14 +15,21 @@ public class ExcelDataHYTJ {
 	private Integer projectCategory_CSum;//C类数量
 	private Integer projectCategory_DSum;//D类数量
 	private double investSum;//总投资
-	private double investAccuSum;//下达计划（完成投资）累计
-	private double apInvestSum;//拨付资金（安排资金）累计
+	private double investAccuSum;//拨付资金（完成投资）累计
+	private double apInvestSum;//下达计划（安排资金）累计
 	private double sqInvestSum;//申请资金累计
 	private double yearAp_ggysSum;//年度预安排资金--公共预算
 	private double yearAp_gtjjSum;//年度预安排资金--国土基金
 	private double yearAp_qitaSum;//年度预安排资金--其他
 	private double yearApSum;//年度预安排资金--合计
 	private String remark;//备注
+	
+	public Integer getPlanYear() {
+		return planYear;
+	}
+	public void setPlanYear(Integer planYear) {
+		this.planYear = planYear;
+	}
 	public String getProjectIndustry() {
 		return projectIndustry;
 	}

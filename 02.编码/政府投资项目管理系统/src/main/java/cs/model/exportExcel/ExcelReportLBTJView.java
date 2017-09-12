@@ -15,6 +15,11 @@ import java.util.Map;
 *
  */
 public class ExcelReportLBTJView extends AbstractXlsView {
+	private int year;
+	public ExcelReportLBTJView(int year){
+		this.year=year;
+	}
+	
 	@Override
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
         response.setHeader("Content-Disposition", "attachment;filename=\"yearPlanByCategory.xls\"");
@@ -25,7 +30,7 @@ public class ExcelReportLBTJView extends AbstractXlsView {
       
         //begin#标题
         //创建列
-        createCellAlignCenter(workbook,title,0,"光明新区2018年区级政府投资项目计划汇总表");
+        createCellAlignCenter(workbook,title,0,"光明新区"+year+"年区级政府投资项目计划汇总表");
         //合并标题
         //参数1：开始行、结束行、开始列、结束列
         sheet.addMergedRegion(new CellRangeAddress(0,0,0,6));
@@ -36,8 +41,8 @@ public class ExcelReportLBTJView extends AbstractXlsView {
         createCellAlignCenter(workbook,row_head,1,"类别");
         createCellAlignCenter(workbook,row_head,2,"建设项目数量");
         createCellAlignCenter(workbook,row_head,3,"总投资金额");
-        createCellAlignCenter(workbook,row_head,4,"累计下达计划");
-        createCellAlignCenter(workbook,row_head,5,"累计拨付资金");
+        createCellAlignCenter(workbook,row_head,4,"累计拨付资金");
+        createCellAlignCenter(workbook,row_head,5,"累计下达计划");
         createCellAlignCenter(workbook,row_head,6,"年度预算安排资金（单位：万元）");
         //end#表格头
 
@@ -58,8 +63,8 @@ public class ExcelReportLBTJView extends AbstractXlsView {
             createCellAlignCenter(workbook,row,1, data.getProjectCategory());//项目类别
             createCellAlignCenter(workbook,row,2, data.getProjectSum());//项目总数
             createCellAlignCenter(workbook,row,3, data.getInvestSum());//总投资
-            createCellAlignCenter(workbook,row,4, data.getInvestAccuSum());//累计下达
-            createCellAlignCenter(workbook,row,5, data.getApInvestSum());//累计拨付
+            createCellAlignCenter(workbook,row,4, data.getInvestAccuSum());//累计拨付
+            createCellAlignCenter(workbook,row,5, data.getApInvestSum());//累计下达
             createCellAlignCenter(workbook,row,6, data.getYearInvestApprovalSum());//年度预安排
             
             projectSum +=data.getProjectSum();

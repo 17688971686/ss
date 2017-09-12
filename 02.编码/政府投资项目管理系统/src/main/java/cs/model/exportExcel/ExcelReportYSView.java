@@ -6,13 +6,18 @@ import org.springframework.web.servlet.view.document.AbstractXlsView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 public class ExcelReportYSView extends AbstractXlsView {
+	
+	private int year;
+	public ExcelReportYSView(int year){
+		this.year=year;
+	}
+	
 	@Override
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
         response.setHeader("Content-Disposition", "attachment;filename=\"yearPlan.xls\"");
@@ -25,7 +30,7 @@ public class ExcelReportYSView extends AbstractXlsView {
 
         //begin#标题
         //创建列
-        createCellAlignCenter(workbook,title,0,"光明新区2018年政府投资项目计划");
+        createCellAlignCenter(workbook,title,0,"光明新区"+year+"年政府投资项目计划");
         //合并
         sheet.addMergedRegion(new CellRangeAddress(0,0,0,11));
         //end#标题

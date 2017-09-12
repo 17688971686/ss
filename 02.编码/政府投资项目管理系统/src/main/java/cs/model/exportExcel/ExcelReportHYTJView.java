@@ -15,6 +15,11 @@ import java.util.Map;
 *
  */
 public class ExcelReportHYTJView extends AbstractXlsView {
+	private int year;
+	public ExcelReportHYTJView(int year){
+		this.year=year;
+	}
+	
 	@Override
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
         response.setHeader("Content-Disposition", "attachment;filename=\"yearPlanByIndustry.xls\"");
@@ -26,7 +31,7 @@ public class ExcelReportHYTJView extends AbstractXlsView {
       
         //begin#标题
         //创建列
-        createCellAlignCenter(workbook,title,0,"光明新区2018年区级政府投资项目计划汇总表");
+        createCellAlignCenter(workbook,title,0,"光明新区"+year+"年区级政府投资项目计划汇总表");
         //合并标题
         //参数1：开始行、结束行、开始列、结束列
         sheet.addMergedRegion(new CellRangeAddress(0,0,0,13));
@@ -42,8 +47,8 @@ public class ExcelReportHYTJView extends AbstractXlsView {
         createCellAlignCenter(workbook,row_head2,4,"C类");
         createCellAlignCenter(workbook,row_head2,5,"D类");
         createCellAlignCenter(workbook,row_head1,6,"总投资金额");
-        createCellAlignCenter(workbook,row_head1,7,"累计下达计划");//完成投资
-        createCellAlignCenter(workbook,row_head1,8,"累计拨付资金");//安排投资
+        createCellAlignCenter(workbook,row_head1,7,"累计拨付资金");//完成投资
+        createCellAlignCenter(workbook,row_head1,8,"累计下达计划");//安排投资
         createCellAlignCenter(workbook,row_head1,9,"年度预安排资金");
         createCellAlignCenter(workbook,row_head2,9,"公共预算");
         createCellAlignCenter(workbook,row_head2,10,"国土");
@@ -57,8 +62,8 @@ public class ExcelReportHYTJView extends AbstractXlsView {
         sheet.addMergedRegion(new CellRangeAddress(1,2,1,1));//行业
         sheet.addMergedRegion(new CellRangeAddress(1,1,2,5));//申报项目个数
         sheet.addMergedRegion(new CellRangeAddress(1,2,6,6));//总投资
-        sheet.addMergedRegion(new CellRangeAddress(1,2,7,7));//累计下达
-        sheet.addMergedRegion(new CellRangeAddress(1,2,8,8));//累计拨付
+        sheet.addMergedRegion(new CellRangeAddress(1,2,7,7));//累计拨付
+        sheet.addMergedRegion(new CellRangeAddress(1,2,8,8));//累计下达
         sheet.addMergedRegion(new CellRangeAddress(1,1,9,12));//年度预安排资金
         sheet.addMergedRegion(new CellRangeAddress(1,2,13,13));//备注
 

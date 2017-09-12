@@ -44,10 +44,11 @@ public class YearPlanCapitalServiceImpl extends AbstractServiceImpl<YearPlanCapi
 	public YearPlanCapital update(YearPlanCapitalDto dto,String id) {		
 		YearPlanCapital yearPlanCapital = super.update(dto, id);
 		super.repository.save(yearPlanCapital);
-		//同步更新申报记录中的安排资金--（计划年度区国土基金&区公共预算&安排资金总计）
+		//同步更新申报记录中的安排资金--（计划年度区国土基金&区公共预算&其他&安排资金总计）
 		ShenBaoInfo entity = shenBaoInfoService.findById(yearPlanCapital.getShenbaoInfoId());
 		entity.setCapitalAP_ggys_TheYear(yearPlanCapital.getCapitalQCZ_ggys());
 		entity.setCapitalAP_gtzj_TheYear(yearPlanCapital.getCapitalQCZ_gtzj());
+		entity.setCapitalAP_qita(yearPlanCapital.getCapitalOther());
 		entity.setYearInvestApproval(dto.getCapitalSum());
 		entity.setModifiedBy(currentUser.getUserId());
 		entity.setModifiedDate(new Date());

@@ -112,28 +112,30 @@ public class CommonController {
 		//获取所有的数据--按行业排序
 		shenBaoInfoDtoList = yearPlanService.getYearPlanShenBaoInfo(planId,odataObj).getValue();
 		//获取行业分类数据
-		excelDataHYTJList = yearPlanService.getYearPlanShenBaoInfoByHYTJ(planId);
+//		excelDataHYTJList = yearPlanService.getYearPlanShenBaoInfoByHYTJ(planId);
 		//获取按行业查询统计数据
 		List<ExcelDataYS> excelDataYSList = new ArrayList<ExcelDataYS>();
 		shenBaoInfoDtoList.stream().forEach(x->{
         	ExcelDataYS excelData=new ExcelDataYS();
-        	excelData.setConstructionUnit(x.getConstructionUnit());//建设单位
-            excelData.setProjectName(x.getProjectName());//项目名称
-            excelData.setProjectCode(x.getProjectNumber());//项目代码
-            excelData.setProjectType(basicDataService.getDescriptionById(x.getProjectCategory()));//项目类别
-            excelData.setConstructionScale(x.getProjectGuiMo());//项目规模
-            excelData.setConstructionType(basicDataService.getDescriptionById(x.getProjectConstrChar()));//建设性质
+        	excelData.setPlanYear(x.getPlanYear());//计划年度
+        	excelData.setConstructionUnit(Util.judgeString(x.getConstructionUnit()));//建设单位
+            excelData.setProjectName(Util.judgeString(x.getProjectName()));//项目名称
+            excelData.setProjectCode(Util.judgeString(x.getProjectNumber()));//项目代码
+            excelData.setProjectType(Util.judgeString(basicDataService.getDescriptionById(x.getProjectCategory())));//项目类别
+            excelData.setConstructionScale(Util.judgeString(x.getProjectGuiMo()));//项目规模
+            excelData.setConstructionType(Util.judgeString(basicDataService.getDescriptionById(x.getProjectConstrChar())));//建设性质
             excelData.setConstructionDate(Util.formatDate(x.getBeginDate(),"yyyy-MM")+"~"+"\n"+Util.formatDate(x.getEndDate(),"yyyy-MM"));//建设起止年月
             excelData.setTotalInvest(x.getProjectInvestSum());//总投资
             excelData.setApInvestSum(x.getApInvestSum());;//累计安排投资
             excelData.setApplyYearInvest(x.getApplyYearInvest());;//申请投资
             excelData.setCapitalAP_gtzj_TheYear(x.getCapitalAP_gtzj_TheYear());;//安排资金--区国土基金
             excelData.setCapitalAP_ggys_TheYear(x.getCapitalAP_ggys_TheYear());//安排资金--区公共预算
-            excelData.setConstructionContent(x.getYearConstructionContent());//建设内容
-            excelData.setRemark(x.getYearConstructionContentShenBao());
+            excelData.setConstructionContent(Util.judgeString(x.getYearConstructionContent()));//建设内容
+            excelData.setRemark(Util.judgeString(x.getYearConstructionContentShenBao()));//备注
             excelDataYSList.add(excelData);
         });
-        return new ModelAndView(new ExcelReportYSView(), "excelDataList", excelDataYSList);
+		int year = excelDataYSList.get(0).getPlanYear();
+        return new ModelAndView(new ExcelReportYSView(year), "excelDataList", excelDataYSList);
     }
 	
 	@RequestMapping(name="导出Excel-项目类别统计",path="exportExcelForLB",method=RequestMethod.GET)
@@ -141,7 +143,8 @@ public class CommonController {
 		List<ExcelDataLBTJ> excelDataLBTJList = new ArrayList<ExcelDataLBTJ>();
 		//数据的获取
 		excelDataLBTJList=yearPlanService.getYearPlanShenBaoInfoByLBTJ(planId);
-		return new ModelAndView(new ExcelReportLBTJView(), "excelDataLBTJList", excelDataLBTJList);
+		int year = excelDataLBTJList.get(0).getPlanYear();
+		return new ModelAndView(new ExcelReportLBTJView(year), "excelDataLBTJList", excelDataLBTJList);
 	}
 	
 	@RequestMapping(name="导出Excel-项目行业统计",path="exportExcelForHY",method=RequestMethod.GET)
@@ -149,14 +152,16 @@ public class CommonController {
 		List<ExcelDataHYTJ> excelDataHYTJList = new ArrayList<ExcelDataHYTJ>();
 		//数据的获取
 		excelDataHYTJList = yearPlanService.getYearPlanShenBaoInfoByHYTJ(planId);
-		return new ModelAndView(new ExcelReportHYTJView(), "excelDataHYTJList", excelDataHYTJList);
+		int year = excelDataHYTJList.get(0).getPlanYear();
+		return new ModelAndView(new ExcelReportHYTJView(year), "excelDataHYTJList", excelDataHYTJList);
 	}
 	
 	@RequestMapping(name="导出Excel-建设单位统计",path="exportExcelForDW",method=RequestMethod.GET)
 	public ModelAndView getExcelForDW(HttpServletRequest request,@RequestParam String planId) throws ParseException{
 		List<ExcelDataDWTJ> excelDataDWTJList = new ArrayList<ExcelDataDWTJ>();
 		//数据的获取
-		//excelDataDWTJList = yearPlanService.getYearPlanShenBaoInfoByDWTJ(planId);
-		return new ModelAndView(new ExcelReportDWTJView(), "excelDataDWTJList", excelDataDWTJList);
+		excelDataDWTJList = yearPlanService.getYearPlanShenBaoInfoByDWTJ(planId);
+		int year = excelDataDWTJList.get(0).getPlanYear();
+		return new ModelAndView(new ExcelReportDWTJView(year), "excelDataDWTJList", excelDataDWTJList);
 	}
 }

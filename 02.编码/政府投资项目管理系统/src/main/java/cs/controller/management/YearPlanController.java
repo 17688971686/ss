@@ -79,6 +79,20 @@ public class YearPlanController {
 		yearPlanService.update(dto,dto.getId());
 	}
 	
+	@RequiresPermissions("management/yearPlan##delete")
+	@RequestMapping(name="删除年度计划",path="",method=RequestMethod.DELETE)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void delete(@RequestBody String id){
+		String[] ids=id.split(",");
+		if(ids.length>1){
+			for(String planId:ids){
+				yearPlanService.delete(planId);	
+			}
+		}else{
+			yearPlanService.delete(id);	
+		}		
+	}
+	
 	//begin#html
 	@RequiresPermissions("management/yearPlan#html/shenbaoInfoList#get")
 	@RequestMapping(name="年度计划项目申报列表页",path="html/shenbaoInfoList",method=RequestMethod.GET)

@@ -96,6 +96,14 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 		super.repository.save(entity);
 		return entity;		
 	}
+	
+	
+
+	@Override
+	@Transactional
+	public void delete(String id) {
+		super.delete(id);
+	}
 
 	@Override
 	@Transactional
@@ -223,6 +231,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 			List query = shenbaoInfoRepo.getSession()
 					.createSQLQuery(SQLConfig.yearPlanByLBTJ)
 					.setParameter("yearPlanId",planId)
+					.addScalar("planYear",new IntegerType()) //计划年度
 					.addScalar("projectCategory",new StringType())
 					.addScalar("projectSum",new IntegerType())
 					.addScalar("investSum",new DoubleType())
@@ -249,6 +258,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 			List query = shenbaoInfoRepo.getSession()
 					.createSQLQuery(SQLConfig.yearPlanByHYTJ)
 					.setParameter("yearPlanId",planId)
+					.addScalar("planYear",new IntegerType())  //计划年度
 					.addScalar("projectIndustry",new StringType())  //项目行业
 					.addScalar("projectSum",new IntegerType())  //项目行业合计
 					.addScalar("projectCategory_ASum",new IntegerType()) //A类数量
@@ -281,22 +291,16 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 		if(yearPlan!=null){//判空处理
 			List<ExcelDataDWTJ> excelDataDWTJList = new ArrayList<>();
 			List query = shenbaoInfoRepo.getSession()
-					.createSQLQuery(SQLConfig.yearPlanByHYTJ)
+					.createSQLQuery(SQLConfig.yearPlanByDWTJ)
 					.setParameter("yearPlanId",planId)
-					.addScalar("projectIndustry",new StringType())  //项目行业
-					.addScalar("projectSum",new IntegerType())  //项目行业合计
-					.addScalar("projectCategory_ASum",new IntegerType()) //A类数量
-					.addScalar("projectCategory_BSum",new IntegerType()) //B类数量
-					.addScalar("projectCategory_CSum",new IntegerType()) //C类数量
-					.addScalar("projectCategory_DSum",new IntegerType()) //D类数量
-					.addScalar("investSum",new DoubleType())  //总投资
-					.addScalar("investAccuSum",new DoubleType())  //累计下达
-					.addScalar("apInvestSum",new DoubleType())  //累计拨付
-					.addScalar("yearAp_ggysSum",new DoubleType())  //年度预安排资金--公共预算
-					.addScalar("yearAp_gtjjSum",new DoubleType())  //年度预安排资金--国土基金
-					.addScalar("yearAp_qitaSum",new DoubleType())  //年度预安排资金--其他
+					.addScalar("planYear",new IntegerType())  //计划年度
+					.addScalar("constrctionUnit",new StringType())  //建设单位
 					.addScalar("yearApSum",new DoubleType())  //年度预安排资金--合计
-					.setResultTransformer(Transformers.aliasToBean(ExcelDataHYTJ.class))
+					.addScalar("yearAp_danLie",new DoubleType())  //年度预安排资金--单列项目
+					.addScalar("yearAp_jieSunKuan",new DoubleType())  //年度预安排资金--结算款
+					.addScalar("yearAp_xiaohe",new DoubleType())  //年度预安排资金--小额
+					.addScalar("yearAp_weiLiXYuLiu",new DoubleType())  //年度预安排资金--未立项项目预留
+					.setResultTransformer(Transformers.aliasToBean(ExcelDataDWTJ.class))
 					.list();
 
 			excelDataDWTJList = query;

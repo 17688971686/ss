@@ -21,6 +21,14 @@ import cs.model.SendMsg;
 
 
 public class Util {
+	public static String judgeString(String str){
+		String rStr = "";
+		if(str !=null){
+			return str;
+		}else{
+			return rStr;
+		}
+	}
 		
 	public static String formatDate(Date date) {
 		String dateStr="";

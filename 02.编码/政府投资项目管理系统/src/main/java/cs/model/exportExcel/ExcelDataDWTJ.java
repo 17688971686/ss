@@ -7,11 +7,20 @@ package cs.model.exportExcel;
 *
  */
 public class ExcelDataDWTJ {
+	private Integer planYear;//计划年度
 	private String constrctionUnit;//建设单位
 	private double yearApSum;//安排资金--合计
 	private double yearAp_danLie;//安排资金--单列项目
 	private double yearAp_jieSunKuan;//安排资金--结算款
+	private double yearAp_xiaohe;//安排资金--小额
 	private double yearAp_weiLiXYuLiu;//安排资金--未立项项目预留
+	
+	public Integer getPlanYear() {
+		return planYear;
+	}
+	public void setPlanYear(Integer planYear) {
+		this.planYear = planYear;
+	}
 	public String getConstrctionUnit() {
 		return constrctionUnit;
 	}
@@ -41,5 +50,11 @@ public class ExcelDataDWTJ {
 	}
 	public void setYearAp_weiLiXYuLiu(double yearAp_weiLiXYuLiu) {
 		this.yearAp_weiLiXYuLiu = yearAp_weiLiXYuLiu;
+	}
+	public double getYearAp_xiaohe() {
+		return yearAp_xiaohe;
+	}
+	public void setYearAp_xiaohe(double yearAp_xiaohe) {
+		this.yearAp_xiaohe = yearAp_xiaohe;
 	}
 }
