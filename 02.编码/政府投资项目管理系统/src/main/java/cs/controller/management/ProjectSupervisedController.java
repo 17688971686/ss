@@ -22,22 +22,68 @@ import cs.common.ICurrentUser;
 import cs.domain.Project;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
+import cs.model.DomainDto.MediationUnitDto;
 import cs.model.DomainDto.ProjectDto;
+import cs.model.DomainDto.ShenPiUnitDto;
 import cs.model.DomainDto.TaskHeadDto;
 import cs.model.DomainDto.TaskRecordDto;
 import cs.repository.odata.ODataObj;
 import cs.service.framework.UserService;
 import cs.service.interfaces.ProjectSupervisedService;
+import cs.service.interfaces.ShenPiUnitService;
 import cs.service.interfaces.TaskHeadService;
 
 @Controller
 @RequestMapping(name = "后台管理--监管项目管理", path = "management/supervision/project")
 public class ProjectSupervisedController {
 	private String ctrlName = "management/supervision/project";
+	private String ctrlUnitName = "management/supervision/shenpiUnit";
 	
 	@Autowired
 	private ProjectSupervisedService projectSupervisedService;
+	@Autowired
+	private ShenPiUnitService shenPiUnitService ;
 	
+	@RequestMapping(name = "获取审批单位信息", path = "shenpiUnit",method=RequestMethod.GET)
+	public @ResponseBody PageModelDto<ShenPiUnitDto> getShenPiUnit(HttpServletRequest request) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);
+		PageModelDto<ShenPiUnitDto> shenPiUnitDtos = shenPiUnitService.get(odataObj);		
+		return shenPiUnitDtos;
+	}
+	@RequestMapping(name = "更新审批单位信息", path = "updateShenpiUnit", method = RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void updateShenpiUnit(@RequestBody ShenPiUnitDto dto) {
+		shenPiUnitService.update(dto,dto.getId());
+	}
+	@RequestMapping(name = "创建审批单位信息", path = "createShenpiUnit", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void post(@RequestBody ShenPiUnitDto dto) {
+		shenPiUnitService.create(dto);
+	}
+	@RequestMapping(name = "删除审批单位信息", path = "delShenPiUnit", method = RequestMethod.DELETE)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void delete(@RequestBody String id) {
+		String[] ids = id.split(",");
+		if (ids.length > 1) {
+			shenPiUnitService.deletes(ids);
+		} else {
+			shenPiUnitService.delete(id);
+		}
+	} 
+	@RequestMapping(name = "审批单位列表页面", path = "html/unitList", method = RequestMethod.GET)	
+	public String unitList() {
+		return ctrlUnitName + "/list";
+	}
+	@RequestMapping(name = "审批单位编辑页面", path = "html/shenpiUnitChange", method = RequestMethod.GET)	
+	public String shenpiUnitChange() {
+       
+		return this.ctrlUnitName + "/edit";
+	}
+	@RequestMapping(name = "审批单位编辑页面", path = "html/shenpiUnitDetail", method = RequestMethod.GET)	
+	public String shenpiUnitDetail() {
+       
+		return this.ctrlUnitName + "/detail";
+	}
 	// begin#html
 	@RequiresPermissions("management/supervision/project#html/list#get")
 	@RequestMapping(name = "监管项目列表", path = "html/list", method = RequestMethod.GET)

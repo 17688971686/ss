@@ -35,6 +35,7 @@ public class AssistReviewMapper implements IMapper<AssistReviewDto, AssistReview
 			dto.setProjectId(entity.getProjectId());
 			dto.setServiceComment(entity.getServiceComment());
 			dto.setSentComment(entity.getSentComment());
+			dto.setIsEvaluation(entity.getIsEvaluation());
 			//基础信息
 			dto.setCreatedBy(entity.getCreatedBy());
 			dto.setCreatedDate(entity.getCreatedDate());
@@ -70,6 +71,7 @@ public class AssistReviewMapper implements IMapper<AssistReviewDto, AssistReview
 			 entity.setProjectId(dto.getProjectId());
 			 entity.setServiceComment(dto.getServiceComment());
 			 entity.setSentComment(dto.getSentComment());
+			 entity.setIsEvaluation(dto.getIsEvaluation());
 		     //基础信息
 			 entity.setCreatedBy(dto.getCreatedBy());
 			 entity.setCreatedDate(dto.getCreatedDate());

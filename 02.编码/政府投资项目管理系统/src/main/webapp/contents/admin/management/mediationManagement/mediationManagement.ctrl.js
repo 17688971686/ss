@@ -330,7 +330,7 @@
            	 vm.model.mediationUnitDtos.splice(i,1);
             } 
         	 vm.updateAssistReview=function(){
-        		 mediationManagementSvc.updateAssistReview(vm);
+        		 mediationManagementSvc.updateOnlyAssistReview(vm);
         	 }
         }
         function page_assistReviewList(){
