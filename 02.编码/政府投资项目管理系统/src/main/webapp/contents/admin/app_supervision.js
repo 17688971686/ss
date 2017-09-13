@@ -187,14 +187,34 @@
 		    controller: 'projectCtrl',
 		    controllerAs: 'vm'
 		    }) 
-		      //审批单位详情
+		      //审批单位详情 
 		    .state('shenpiUnitDetail', {
 		    url: '/shenpiUnitDetail/:id',
 		    templateUrl: '/management/supervision/project/html/shenpiUnitDetail',
 		    controller: 'projectCtrl',
 		    controllerAs: 'vm'
+		    })   
+		     //审批事项列表  
+		    .state('shenpiItemsList', {
+		    url: '/supervision/spsx',
+		    templateUrl: '/management/supervision/project/html/shenpiItemsList',
+		    controller: 'projectCtrl',
+		    controllerAs: 'vm'
 		    }) 
-	   
+		     //审批事项编辑or新增  
+		    .state('shenpiItemsChange', {
+		    url: '/shenpiItemsChange/:id',
+		    templateUrl: '/management/supervision/project/html/shenpiItemsChange',
+		    controller: 'projectCtrl',
+		    controllerAs: 'vm'
+		    })
+		     //审批事项详情 
+		    .state('shenpiItemsDetail', {
+		    url: '/shenpiItemsDetail/:id',
+		    templateUrl: '/management/supervision/project/html/shenpiItemsDetail',
+		    controller: 'projectCtrl',
+		    controllerAs: 'vm'
+		    })   
 	        ;
         
 	        /**********************end#project***************************************/
