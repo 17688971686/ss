@@ -29,6 +29,22 @@ public class Util {
 			return rStr;
 		}
 	}
+	
+	public static boolean isNotNull(String str){
+		Boolean obj = true;
+		if(str == null || str.isEmpty()){
+			obj = false;
+		}
+		return obj;
+	}
+	
+	public static boolean isNull(String str){
+		Boolean obj = false;
+		if(str == null || str.isEmpty()){
+			obj = true;
+		}
+		return obj;
+	}
 		
 	public static String formatDate(Date date) {
 		String dateStr="";
@@ -174,11 +190,11 @@ public class Util {
 	public static List<Map<String,Object>> getCheck(Map<String,Attachment> map1,Map<String,Object> map2){
 		List<Map<String,Object>> listMap = new ArrayList<Map<String,Object>>();
 		Boolean isSame = false;
-		for (String key1 : map1.keySet()) {
+		for (String key1 : map1.keySet()) {//遍历Map
 			for(String key2 : map2.keySet()){
-				if(key1 !=null && !key1.equals("")){
-					if(key2 !=null && !key2.equals("")){
-						if(key2.equals(key1)){//判断key是否相同--如果相同
+				if(Util.isNotNull(key1)){//如果key1不是空
+					if(Util.isNotNull(key2)){//如果key2不是空
+						if(key2.equals(key1)){//判断key是否相同--如果相同，则比较value
 							if(map2.get(key2).equals(map1.get(key1).getName())){//判断value是否相同--如果相同
 								isSame = true;
 							}else{//判断value是否相同--如果不同

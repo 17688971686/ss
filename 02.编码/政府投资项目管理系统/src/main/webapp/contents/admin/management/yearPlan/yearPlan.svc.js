@@ -217,6 +217,7 @@
 									$('.alertDialog').modal('hide');
 									$('.modal-backdrop').remove();
 									vm.isSubmit = false;
+									$location.path(url_back_shenbaoInfoList);
 								}
 							});
 						}
@@ -972,6 +973,16 @@
 					{
 						field : "projectInvestSum",
 						title : "总投资（万元）",
+						width:120,
+						filterable : false,
+						headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
+					},
+					{
+						field : "projectInvestAccuSum",
+						title : "累计完成投资（万元）",
 						width:120,
 						filterable : false,
 						headerAttributes: {

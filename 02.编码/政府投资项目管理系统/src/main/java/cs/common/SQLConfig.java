@@ -17,10 +17,10 @@ public class SQLConfig {
 			+ " order by t1.ProjectIndustry desc");
  
  public static String yearPlanByLBTJ = String.format("SELECT yp.year as planYear,bs.description as projectCategory,count(sbi.id) as projectSum,"+
-		 		" sum(sbi.projectInvestSum) as investSum,"+
-		 		" sum(sbi.projectInvestAccuSum) as investAccuSum,"+
-		 		" sum(sbi.apInvestSum) as apInvestSum,"+
-		 		" sum(ypl.capitalSum) as yearInvestApprovalSum"+
+		 		" sum(IFNULL(sbi.projectInvestSum,0)) as investSum,"+
+		 		" sum(IFNULL(sbi.projectInvestAccuSum,0)) as investAccuSum,"+
+		 		" sum(IFNULL(sbi.apInvestSum,0)) as apInvestSum,"+
+		 		" sum(IFNULL(ypl.capitalSum,0)) as yearInvestApprovalSum"+
 				" FROM cs_yearplan as yp,"+
 				" cs_yearplan_cs_yearplancapital as ypy,"+
 				" cs_yearplancapital as ypl,"+
@@ -38,14 +38,14 @@ public class SQLConfig {
 		 		" sum(CASE WHEN sbi.projectCategory = 'projectCategory_2' THEN 1 ELSE 0 END ) AS projectCategory_BSum,"+
 		 		" sum(CASE WHEN sbi.projectCategory = 'projectCategory_3' THEN 1 ELSE 0 END ) AS projectCategory_CSum,"+
 		 		" sum(CASE WHEN sbi.projectCategory = 'projectCategory_4' THEN 1 ELSE 0 END ) AS projectCategory_DSum,"+
-		 		" sum(sbi.projectInvestSum) as investSum,"+
-		 		" sum(sbi.projectInvestAccuSum) as investAccuSum,"+
-		 		" sum(sbi.apInvestSum) as apInvestSum,"+
-		 		" sum(sbi.yearInvestApproval) as sqInvestSum,"+
-		 		" sum(ypl.capitalQCZ_ggys) as yearAp_ggysSum,"+
-		 		" sum(ypl.capitalQCZ_gtzj) as yearAp_gtjjSum,"+
-		 		" sum(ypl.capitalOther) as yearAp_qitaSum,"+
-		 		" sum(ypl.capitalQCZ_ggys)+sum(ypl.capitalQCZ_gtzj)+sum(ypl.capitalOther) as yearApSum"+
+		 		" sum(IFNULL(sbi.projectInvestSum,0)) as investSum,"+
+		 		" sum(IFNULL(sbi.projectInvestAccuSum,0)) as investAccuSum,"+
+		 		" sum(IFNULL(sbi.apInvestSum,0)) as apInvestSum,"+
+		 		" sum(IFNULL(sbi.yearInvestApproval,0)) as sqInvestSum,"+
+		 		" sum(IFNULL(ypl.capitalQCZ_ggys,0)) as yearAp_ggysSum,"+
+		 		" sum(IFNULL(ypl.capitalQCZ_gtzj,0)) as yearAp_gtjjSum,"+
+		 		" sum(IFNULL(ypl.capitalOther,0)) as yearAp_qitaSum,"+
+		 		" sum(IFNULL(ypl.capitalQCZ_ggys,0)+IFNULL(ypl.capitalQCZ_gtzj,0)+IFNULL(ypl.capitalOther,0)) as yearApSum"+
 		 		" FROM cs_yearplan AS yp,cs_yearplan_cs_yearplancapital AS ypy,cs_yearplancapital AS ypl,cs_shenbaoinfo AS sbi,cs_basicdata AS bs"+
 		 		" WHERE yp.id = ypy.YearPlan_id AND ypl.id = ypy.yearPlanCapitals_id AND ypl.shenbaoInfoId = sbi.id AND sbi.projectIndustry = bs.id"+
 		 		" AND yp.id = :yearPlanId"+
@@ -59,10 +59,10 @@ public class SQLConfig {
 		 " SUM(a.packagetype_4) AS yearAp_weiLiXYuLiu"+
 		 " FROM("+
 			 " SELECT SUBSTRING_INDEX(sbi.constructionunit,',',1) AS 'constructionunit',"+
-			 " CASE WHEN sbi.packagetype = 'packagetype_1' THEN ypl.capitalSum ELSE 0 END AS 'packagetype_1',"+
-		     " CASE WHEN sbi.packagetype = 'packagetype_2' THEN ypl.capitalSum ELSE 0 END AS 'packagetype_2',"+
-		     " CASE WHEN sbi.packagetype = 'packagetype_3' THEN ypl.capitalSum ELSE 0 END AS 'packagetype_3',"+
-		     " CASE WHEN sbi.packagetype = 'packagetype_4' THEN ypl.capitalSum ELSE 0 END AS 'packagetype_4',"+
+			 " CASE WHEN sbi.packagetype = 'packagetype_1' THEN IFNULL(ypl.capitalSum,0) ELSE 0 END AS 'packagetype_1',"+
+		     " CASE WHEN sbi.packagetype = 'packagetype_2' THEN IFNULL(ypl.capitalSum,0) ELSE 0 END AS 'packagetype_2',"+
+		     " CASE WHEN sbi.packagetype = 'packagetype_3' THEN IFNULL(ypl.capitalSum,0) ELSE 0 END AS 'packagetype_3',"+
+		     " CASE WHEN sbi.packagetype = 'packagetype_4' THEN IFNULL(ypl.capitalSum,0) ELSE 0 END AS 'packagetype_4',"+
 		     " yp.year as planYear"+
 		     " FROM cs_yearplan AS yp,cs_yearplan_cs_yearplancapital AS ypy,cs_yearplancapital AS ypl,cs_shenbaoinfo sbi"+
 		     " WHERE yp.id = ypy.YearPlan_id"+

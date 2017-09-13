@@ -266,8 +266,8 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 					.addScalar("projectCategory_CSum",new IntegerType()) //C类数量
 					.addScalar("projectCategory_DSum",new IntegerType()) //D类数量
 					.addScalar("investSum",new DoubleType())  //总投资
-					.addScalar("investAccuSum",new DoubleType())  //累计下达
-					.addScalar("apInvestSum",new DoubleType())  //累计拨付
+					.addScalar("investAccuSum",new DoubleType()) //累计拨付
+					.addScalar("apInvestSum",new DoubleType())  //累计下达
 					.addScalar("sqInvestSum",new DoubleType())  //申请年度投资
 					.addScalar("yearAp_ggysSum",new DoubleType())  //年度预安排资金--公共预算
 					.addScalar("yearAp_gtjjSum",new DoubleType())  //年度预安排资金--国土基金

@@ -102,14 +102,14 @@ public class ProjectController {
 	@RequiresPermissions("management/project#isMonthReport#put")
 	@RequestMapping(name = "更新项目是否填报状态", path = "isMonthReport",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void  updateByIsMonthReport(@RequestBody ProjectDto ProjectDto){		
+	public void updateByIsMonthReport(@RequestBody ProjectDto ProjectDto){		
 		ProjectService.updateProjectByIsMonthReport(ProjectDto);	
 	}
 
 	@RequiresPermissions("management/project##post")
 	@RequestMapping(name = "创建项目信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void  create(@RequestBody ProjectDto ProjectDto){		
+	public void create(@RequestBody ProjectDto ProjectDto){		
 		ProjectService.create(ProjectDto);		
 	}
 	

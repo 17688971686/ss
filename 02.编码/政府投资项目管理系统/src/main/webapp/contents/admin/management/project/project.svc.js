@@ -72,6 +72,7 @@
 			if (isValid) {
 				vm.isSubmit = true;	
 				vm.model.projectType=common.arrayToString(vm.model.projectType,',');//项目类型的处理
+				
 				var httpOptions = {
 					method : 'post',
 					url : url_project,
