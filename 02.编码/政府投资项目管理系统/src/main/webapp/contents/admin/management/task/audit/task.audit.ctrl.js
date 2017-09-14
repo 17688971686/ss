@@ -121,10 +121,81 @@
         	//常用意见列表
         	taskAuditSvc.opinionGird(vm);
         	
-        	vm.getBasicData = function(str){
-    			return common.getBasicDataDesc(str);
-    		};
-    		
+        	//taskAuditSvc.getApproval(vm);
+        	
+        	vm.saveDatum=function(id){
+        		vm.proxy.datumDtos=[];
+        		vm.proxy.datumDtos.push({dataName:vm.dataName,dataNumber:vm.dataNumber});
+        		taskAuditSvc.saveDatum(vm,id);
+        	};
+        	
+        	vm.openDatum=function(){
+        		$('.datum').modal({
+                    backdrop: 'static',
+                    keyboard:false
+                });
+        	};
+        	
+        	//保存委托书
+        	vm.saveProxy=function(){
+        		taskAuditSvc.saveProxy(vm);
+        	};
+        	
+        	vm.proxyOpen=function(){
+        		
+        		taskAuditSvc.getApproval(vm);
+        		
+        		taskAuditSvc.getComission(vm);
+        		
+        		$('.proxy').modal({
+                    backdrop: 'static',
+                    keyboard:false
+                });
+        		
+        		vm.nameAndTel = vm.model.shenBaoInfo.projectRepName+":"+vm.model.shenBaoInfo.projectRepMobile;
+        		
+        		for (var i = 0; i < vm.model.depts.length; i++) {
+					for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {//循环人员
+						if(vm.model.depts[i].userDtos[j].id == vm.taskAudit.operator){//获得部门人员
+							vm.processRole =  vm.model.depts[i].userDtos[j].displayName;
+						}
+					}
+				};
+        		
+        		vm.beginDate = common.formatDate(new Date());
+        		
+        		vm.approvalType = "概算";
+        	};
+        	
+        	//打开评审报批模态框
+        	vm.editApproval=function(){
+        		
+        		//查询审批单信息
+        		taskAuditSvc.getApproval(vm);
+        		
+        		for (var i = 0; i < vm.model.depts.length; i++) {
+					for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {//循环人员
+						if(vm.model.depts[i].userDtos[j].id == vm.taskAudit.operator){//获得部门人员
+							vm.processRole =  vm.model.depts[i].userDtos[j].displayName;
+						}
+					}
+				};
+        		
+        		vm.approvalType = "概算";
+        		vm.beginDate = common.formatDate(new Date());
+        		
+        		$('.approval').modal({
+                    backdrop: 'static',
+                    keyboard:false
+                });
+        	};
+        	
+        	//保存审批单
+        	vm.saveApproval=function(){
+        		taskAuditSvc.saveApproval(vm);
+        	};
+        	
+        	//发文单选框
     		vm.Selection=function(id){
     			vm.draft.openType = id;
     		};
@@ -132,7 +203,7 @@
         	//保存草稿纸
         	vm.saveDraft=function(){
         		taskAuditSvc.saveDraft(vm);
-        	}
+        	};
         
         	//拟稿纸模态框
         	vm.draftOpen=function(){
@@ -145,7 +216,7 @@
 						vm.userNameAndUnit =  vm.model.depts[i].name +'、'+ window.profile_userName;
 						}
 					}
-				}
+				};
         		$('.draft_issued').modal({
                     backdrop: 'static',
                     keyboard:false
@@ -167,7 +238,7 @@
 	   			.where(function(x){return x.identity==common.basicDataConfig().postingCategory&&x.pId==common.basicDataConfig().postingCategory;})
 	   			.toArray();//获取发文种类信息
         		
-        	}
+        	};
         	
         	//意见下拉框
         	vm.opinion=function(){
@@ -193,12 +264,12 @@
                     keyboard:false
                 });
         		 vm.opinionGrid.dataSource.read();
-        	}
+        	};
         	
         	//编辑意见
         	vm.editOpin=function(){
         		taskAuditSvc.editOpin(vm);
-        	}
+        	};
         	
         	//编辑模态框
         	vm.edit=function(id,opin){
@@ -208,16 +279,16 @@
                 });
         		vm.model.opinion = {"opinion":opin,"id":id};
         		
-        	}
+        	};
         	//删除意见
         	vm.remove=function(id){
         		taskAuditSvc.deleteOpin(vm,id);
-        	}
+        	};
         	
         	//切换常用意见
         	vm.changeOpin=function(){
         		vm.processSuggestion = vm.model.opinion;
-        	}
+        	};
         	
         	
         	 vm.del = function (id) {       	 

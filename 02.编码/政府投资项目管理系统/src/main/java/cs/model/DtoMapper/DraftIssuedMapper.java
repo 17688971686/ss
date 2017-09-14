@@ -10,7 +10,7 @@ import cs.model.DomainDto.DraftIssuedDto;
 /**
  * @Description: 发文拟稿实体类与数据库资源转换类
  * @author: wcq
- * @Date：2017年7月10日
+ * @Date：2017年9月11日
  * @version：0.1
  */
 @Component
@@ -38,6 +38,10 @@ public class DraftIssuedMapper  implements IMapper<DraftIssuedDto, DraftIssued> 
 			draftIssuedDto.setTitle(entity.getTitle());
 			draftIssuedDto.setPostingCategory(entity.getPostingCategory());
 			draftIssuedDto.setRelId(entity.getRelId());
+			draftIssuedDto.setCapitalTotal(entity.getCapitalTotal());
+			draftIssuedDto.setProjectName(entity.getProjectName());
+			draftIssuedDto.setUnitName(entity.getUnitName());
+			draftIssuedDto.setUserNameAndUnit(entity.getUserNameAndUnit());
 		}
 		return draftIssuedDto;
 	}
@@ -66,6 +70,11 @@ public class DraftIssuedMapper  implements IMapper<DraftIssuedDto, DraftIssued> 
 			entity.setOpenType(dto.getOpenType());
 			entity.setTitle(dto.getTitle());
 			entity.setPostingCategory(dto.getPostingCategory());
+			
+			entity.setCapitalTotal(dto.getCapitalTotal());
+			entity.setProjectName(dto.getProjectName());
+			entity.setUnitName(dto.getUnitName());
+			entity.setUserNameAndUnit(dto.getUserNameAndUnit());
 		}
 		return entity;
 	}

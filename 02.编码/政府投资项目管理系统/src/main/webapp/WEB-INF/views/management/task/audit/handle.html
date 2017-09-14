@@ -153,6 +153,9 @@ overflow: scroll !important;
 						</tr>
 					</table>
 					<div ng-bind="x.processSuggestion"></div>
+					<div ng-if="x.processState == 'processState_5'&&x.nextProcess=='processState_6'">
+							<button class="btn btn-success btn-xs" ng-click="vm.editApproval()">评审报批单</button>
+					</div>
 					<div class="text-right" ng-bind="x.createdBy"></div>
 					<div class="text-right" ng-bind="vm.formatDate(x.createdDate)"></div>
 				</td>
@@ -299,8 +302,14 @@ overflow: scroll !important;
 					<div>
 					  	<span data-valmsg-for="nextStateYW" data-valmsg-replace="true" class="required"></span>
 					</div>
+					<div ng-if="vm.nextProcessRadioOfYW == 'pingshenbaopi'">
+						<button class="btn btn-success btn-xs" ng-click="vm.editApproval()">填写评审报批单</button>
+					</div>
 					<div ng-if="vm.nextProcessRadioOfYW == 'fawen'">
 						<button class="btn btn-success btn-xs" ng-click="vm.draftOpen()">填写拟稿纸</button>
+					</div>
+					<div ng-if="vm.nextProcessRadioOfYW == 'pingshenweituo'">
+						<button class="btn btn-success btn-xs" ng-click="vm.proxyOpen()">填写委托书</button>
 					</div>
 					<table class="table table-bordered table-striped" ng-if="vm.nextProcessRadioOfYW == 'keyuantuiwen'">
 						<tr>
@@ -726,6 +735,49 @@ overflow: scroll !important;
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<!-- 评审报批单模态框 -->
+<div id="approval" class="approval modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog"
+		style="margin: 80px auto; width: 80%; max-width: 1000px;">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<span class="modal-title">填写评审报批单</span>
+			</div>
+			 <div class="modal-body">
+			 	<div ng-include  src="'/contents/admin/management/task/audit/html/approval.html'"></div>
+            </div>
+			<div class="modal-footer" >
+				<button type="button" ng-if="vm.taskAudit.nextProcess == 'processState_5'" class="btn btn-primary" ng-click="vm.saveApproval()" data-dismiss="modal">保存</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 项目评审委托书模态框 -->
+<div id="proxy" class="proxy modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog"
+		style="margin: 80px auto; width: 80%; max-width: 1000px;">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<span class="modal-title">填写评审委托书</span>
+			</div>
+			 <div class="modal-body">
+			 	<div ng-include  src="'/contents/admin/management/task/audit/html/proxy.html'"></div>
+            </div>
+			<div class="modal-footer" >
+				<button type="button" ng-if="vm.taskAudit.nextProcess == 'processState_9'" class="btn btn-primary" ng-click="vm.saveProxy()" data-dismiss="modal">保存</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <script type="text/template" id="columnBtns">
 	<button class="btn btn-xs btn-danger"  ng-click="vm.remove('{0}')" ><span class="glyphicon glyphicon-remove"></span>删除</button>
 	<button class="btn btn-xs btn-primary"  ng-click="vm.edit('{0}','{1}')" ><span class="glyphicon glyphicon-pencil"></span>编辑</button>

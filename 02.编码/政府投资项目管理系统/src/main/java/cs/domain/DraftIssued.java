@@ -50,6 +50,19 @@ public class DraftIssued extends BaseEntity{
 	@Column(columnDefinition="varchar(255) NULL COMMENT '发文种类'")
 	private String postingCategory;
 	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '项目名称'")
+	private String projectName;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '单位名称'")
+	private String unitName;
+	
+	@Column(columnDefinition="double(11,4) NULL COMMENT '总投资'")
+	private Double capitalTotal;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '拟稿单位拟稿人'")
+	private String userNameAndUnit;
+	
+	//关联
 	@Column(columnDefinition="varchar(255) NULL COMMENT '相关ID'")
 	private String relId;
 	
@@ -147,6 +160,38 @@ public class DraftIssued extends BaseEntity{
 
 	public void setRelId(String relId) {
 		this.relId = relId;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
+	public String getUnitName() {
+		return unitName;
+	}
+
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
+	}
+
+	public Double getCapitalTotal() {
+		return capitalTotal;
+	}
+
+	public void setCapitalTotal(Double capitalTotal) {
+		this.capitalTotal = capitalTotal;
+	}
+
+	public String getUserNameAndUnit() {
+		return userNameAndUnit;
+	}
+
+	public void setUserNameAndUnit(String userNameAndUnit) {
+		this.userNameAndUnit = userNameAndUnit;
 	}
 	
 	

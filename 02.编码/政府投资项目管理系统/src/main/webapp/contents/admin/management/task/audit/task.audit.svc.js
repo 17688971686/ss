@@ -16,6 +16,8 @@
 		var url_opin="/user/opin";
 		var url_users = "/user";
 		var url_draft ="/management/draft";
+		var url_approval ="/management/approval";
+		var url_proxy = "/management/proxy";
 		
 		var service = {
 			grid : grid,//待办任务列表
@@ -32,15 +34,21 @@
 			deleteOpin:deleteOpin,//删除意见
 			editOpin:editOpin,//编辑意见
 			getDraftIssued:getDraftIssued,//查询发文拟稿
-			saveDraft:saveDraft
+			saveDraft:saveDraft,
+			saveApproval:saveApproval,
+			getApproval:getApproval,
+			getComission:getComission,
+			saveProxy:saveProxy,
+			saveDatum:saveDatum
 		};
+		
 		return service;
 		
-		function saveDraft(vm){
+		function saveDatum(vm,id){
 			var httpOptions = {
 					method : 'post',
-					url : common.format(url_draft + "/" +vm.taskAudit.id),
-					data : vm.draft
+					url : common.format(url_proxy + "/datum/" +id),
+					data : vm.proxy
 				};
 			
 			var httpSuccess = function success(response) {
@@ -65,6 +73,188 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
+		};
+		
+		function saveProxy(vm){
+			vm.proxy.approvalType = vm.approvalType;
+			vm.proxy.projectName = vm.model.shenBaoInfo.projectName;
+			vm.proxy.constructionUnit = vm.model.shenBaoInfo.constructionUnit;
+			vm.proxy.processRole = vm.taskAudit.operator;
+			vm.proxy.beginDate = new Date();
+			vm.proxy.contacts = vm.nameAndTel;
+			vm.proxy.capitalBaoSong = vm.approval.capitalBaoSong;
+			vm.proxy.processSuggestion_JBR = vm.processSuggestion_JBR_WTS;
+			common.initJqValidation();
+// 			var isValid = $('#formProxy').valid();
+//	   		if (isValid) {
+				var httpOptions = {
+						method : 'post',
+						url : common.format(url_proxy + "/" +vm.taskAudit.id),
+						data : vm.proxy
+					};
+				
+				var httpSuccess = function success(response) {
+					common.requestSuccess({
+						vm:vm,
+						response:response,
+						fn:function(){
+							common.alert({
+								vm:vm,
+								msg:"保存成功！",
+								fn:function(){
+									$('.alertDialog').modal('hide');
+								}
+							});
+						}
+					});
+				};
+					
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+	   		//};
+		};
+		
+		//查询审批委托书
+		function getComission(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_proxy + "/" +vm.taskAudit.id)
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.proxy = response.data || {};
+						vm.proxy.beginDate = common.formatDate(vm.proxy.beginDate);
+						if(vm.approval.processSuggestion_JBR != vm.proxy.processSuggestion_JBR){
+							vm.processSuggestion_JBR_WTS = vm.proxy.processSuggestion_JBR;
+						}else{
+							vm.processSuggestion_JBR_WTS = vm.approval.processSuggestion_JBR;
+						}
+					}
+				});
+			};
+				
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		};
+		
+		
+		//查询审批单
+		function getApproval(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_approval + "/" +vm.taskAudit.id)
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.approval = response.data || {};
+						vm.approval.beginDate = common.formatDate(vm.approval.beginDate);
+					}
+				});
+			};
+				
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		};
+		
+		//保存审批单
+		function saveApproval(vm){
+			vm.approval.approvalType = vm.approvalType;
+			vm.approval.projectName = vm.model.shenBaoInfo.projectName;
+			vm.approval.constructionUnit = vm.model.shenBaoInfo.constructionUnit;
+			vm.approval.processRole = vm.taskAudit.operator;
+			vm.approval.beginDate = new Date();
+			common.initJqValidation();
+ 			var isValid = $('#formApproval').valid();
+	   		if (isValid) {
+				var httpOptions = {
+						method : 'post',
+						url : common.format(url_approval + "/" +vm.taskAudit.id),
+						data : vm.approval
+					};
+				
+				var httpSuccess = function success(response) {
+					common.requestSuccess({
+						vm:vm,
+						response:response,
+						fn:function(){
+							common.alert({
+								vm:vm,
+								msg:"保存成功！",
+								fn:function(){
+									$('.alertDialog').modal('hide');
+								}
+							});
+						}
+					});
+				};
+					
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+	   		};
+		};
+		
+		function saveDraft(vm){
+			vm.draft.projectName = vm.model.shenBaoInfo.projectName;
+			vm.draft.unitName = vm.model.shenBaoInfo.constructionUnit;
+			vm.draft.capitalTotal = vm.capitalTotal;
+			vm.draft.userNameAndUnit = vm.userNameAndUnit;
+			
+			common.initJqValidation();
+ 			var isValid = $('#formDraft').valid();
+	   		if (isValid) {
+				var httpOptions = {
+						method : 'post',
+						url : common.format(url_draft + "/" +vm.taskAudit.id),
+						data : vm.draft
+					};
+				
+				var httpSuccess = function success(response) {
+					common.requestSuccess({
+						vm:vm,
+						response:response,
+						fn:function(){
+							common.alert({
+								vm:vm,
+								msg:"保存成功！",
+								fn:function(){
+									$('.alertDialog').modal('hide');
+								}
+							});
+						}
+					});
+				};
+					
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+	   		};
 		};
 		
 		function getDraftIssued(vm){

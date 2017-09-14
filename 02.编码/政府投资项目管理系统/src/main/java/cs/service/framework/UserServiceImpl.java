@@ -222,12 +222,11 @@ public class UserServiceImpl implements UserService {
 		OpinionDto opinDto = new OpinionDto();
 		Opinion opin = new Opinion();
 		
+		opinionMapper.buildEntity(opinDto, opin);
 		opinDto.setId(UUID.randomUUID().toString());
 		opinDto.setOpinion(opinionDto);
 		opinDto.setCreatedBy(currentUser.getLoginName());
 		opinDto.setCreatedDate(new Date());
-		
-		opinionMapper.buildEntity(opinDto, opin);
 		
 		user.getOpinions().add(opin);
 		userRepo.save(user);

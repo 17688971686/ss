@@ -1,0 +1,109 @@
+<form id="formApproval" name="form">
+	<div class="page-header" style="text-align: center;">
+		<h1>项目评审报批单</h1>
+	</div>
+	<div class="pull-right" ng-if="vm.taskAudit.nextProcess != 'processState_5'">
+		<p>日期：<span ng-bind="vm.approval.beginDate | date:'yyyy年MM月dd日'"></span></p>
+	</div>
+	<div class="pull-right" ng-if="vm.taskAudit.nextProcess == 'processState_5'">
+		<p>日期：<span ng-bind="vm.beginDate | date:'yyyy年MM月dd日'"></span></p>
+	</div>
+	<table class="table table-bordered table-striped ">
+		<tr>
+			<td class="formAlignRight" style="width:150px;">项目名称：</td>
+			<td colspan="3" style="text-align: center;">
+			<span ng-bind="vm.model.shenBaoInfo.projectName"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">建设单位：</td>
+			<td colspan="3" style="text-align: center;">
+				<span ng-bind="vm.model.shenBaoInfo.constructionUnit"></span>
+			</td>
+		</tr>
+		<tr ng-if="vm.taskAudit.nextProcess != 'processState_5'">
+			<td class="formAlignRight">编制部门：</td>
+			<td colspan="3">
+				<span ng-bind="vm.approval.unitName"></span>
+			</td>
+		</tr>
+		<tr ng-if="vm.taskAudit.nextProcess == 'processState_5'">
+			<td class="formAlignRight">编制部门：<span class="required">(*)</span></td>
+			<td colspan="3">
+				<input type="text" class="form-control input-sm" id="unitName" name="unitName" ng-model="vm.approval.unitName" data-val="true" data-val-required="必填"/>
+				<span data-valmsg-for="unitName" data-valmsg-replace="true" class="required"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">评审类别：</td>
+			<td style="width: 333px;">
+				<span ng-bind="vm.approvalType"></span>
+			</td>
+			<td class="formAlignRight" ng-if="vm.taskAudit.nextProcess == 'processState_5'">报送投资：</td>
+			<td class="formAlignRight">报送投资：<span class="required">(*)</span></td>
+			<td ng-if="vm.taskAudit.nextProcess == 'processState_5'">
+				<input type="number" class="form-control input-sm" style="width: 200px;" id="capitalBaoSong" name="capitalBaoSong" ng-model="vm.approval.capitalBaoSong" data-val="true" data-val-required="必填"/>(万元)
+				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
+			</td>
+			<td ng-if="vm.taskAudit.nextProcess != 'processState_5'">
+				<span ng-bind="vm.approval.capitalBaoSong"></span>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4" style="text-align: center;">
+				<p style="font-size: 20px;">送审资料情况</p>
+			</td>
+		</tr>
+		<tr ng-if="vm.taskAudit.nextProcess != 'processState_5'">
+			<td class="formAlignRight">经办人：</td>
+			<td colspan="3">
+				<div style="height:106px;">
+					<span ng-bind="vm.approval.processSuggestion_JBR"></span>
+				</div>
+				
+				<div class="pull-right" style="margin-right: 80px;">
+					<p>经办人：<span ng-bind="vm.processRole"></span></p>
+					<p>日期：<span ng-bind="vm.approval.beginDate | date:'yyyy-MM-dd'"></span></p>
+				</div>
+			</td>
+		</tr>
+		<tr ng-if="vm.taskAudit.nextProcess == 'processState_5'">
+			<td class="formAlignRight">经办人：</td>
+			<td colspan="3">
+				<textarea class="form-control" id="processSuggestion_JBR" name="processSuggestion_JBR"  maxlength="500" rows="3"
+						ng-model="vm.approval.processSuggestion_JBR" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+						ng-change="vm.checkLength(vm.approval.processSuggestion_JBR,500,'processSuggestion_JBRTips')">
+				</textarea>
+				<div class="pull-right" style="margin-right: 80px;">
+					<p>经办人：<span ng-bind="vm.processRole"></span></p>
+					<p>日期：<span ng-bind="vm.beginDate  | date:'yyyy-MM-dd'"></span></p>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4" style="text-align: center;">
+				<p style="font-size: 20px;">审批情况</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">科长复核意见：</td>
+			<td colspan="3">
+				<div style="height: 135px;">
+				</div>
+				<div class="pull-right" style="margin-right: 80px;">
+					<p>经办人：</p>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">分管领导意见：</td>
+			<td colspan="3">
+				<div style="height: 135px;">
+				</div>
+				<div class="pull-right" style="margin-right: 80px;">
+					<p>经办人：</p>
+				</div>
+			</td>
+		</tr>
+	</table>
+</form>

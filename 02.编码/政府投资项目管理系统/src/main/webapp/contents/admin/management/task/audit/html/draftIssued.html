@@ -1,4 +1,4 @@
-<form id="form" name="form">
+<form id="formDraft" name="form">
 	<div class="page-header" style="text-align: center;">
 	<h1>深圳市光明新区发展和财政局（文件稿纸）</h1>
 	</div>
@@ -23,7 +23,7 @@
 			<td class="formAlignRight">审定金额：<span class="required">(*)</span></td>
 			<td>
 				<input type="number" class="form-control input-sm" id="capitalSD" name="capitalSD" ng-model="vm.draft.capitalSD" data-val="true" data-val-required="必填"/>
-				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
+				<span data-valmsg-for="capitalSD" data-valmsg-replace="true" class="required"></span>
 			</td>
 			<td class="formAlignRight">总投资：</td>
 			<td>
@@ -39,7 +39,7 @@
 			</td>
 			<td class="formAlignRight">秘密等级：<span class="required">(*)</span></td>
 			<td >
-				<select class="form-control input-sm" style="width:200px;" id="hecretHierarchy" name="hecretHierarchy" ng-model="vm.draft.hecretHierarchy">
+				<select class="form-control input-sm" style="width:200px;" id="hecretHierarchy" name="hecretHierarchy" ng-model="vm.draft.hecretHierarchy" data-val="true" data-val-required="必选">
 				  	<option value="">---请选择---</option>
 					<option ng-repeat="y in vm.basicData.hecretHierarchy" value="{{y.id}}">{{y.description}}</option>
 				</select>	
@@ -49,15 +49,15 @@
 		<tr>
 			<td class="formAlignRight">文件缓急：<span class="required">(*)</span></td>
 			<td >
-				<select class="form-control input-sm" style="width:200px;" id="fileSet" name="fileSet" ng-model="vm.draft.fileSet">
+				<select class="form-control input-sm" style="width:200px;" id="fileSet" name="fileSet" ng-model="vm.draft.fileSet" data-val="true" data-val-required="必选">
 				  	<option value="">---请选择---</option>
 					<option ng-repeat="y in vm.basicData.fileSet" value="{{y.id}}">{{y.description}}</option>
 				</select>	
-				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>							
+				<span data-valmsg-for="fileSet" data-valmsg-replace="true" class="required"></span>							
 			</td>
 			<td class="formAlignRight">文件种类：<span class="required">(*)</span></td>
 			<td >
-				<select class="form-control input-sm" style="width:200px;" id="documentType" name="documentType" ng-model="vm.draft.documentType">
+				<select class="form-control input-sm" style="width:200px;" id="documentType" name="documentType" ng-model="vm.draft.documentType" data-val="true" data-val-required="必选">
 				  	<option value="">---请选择---</option>
 					<option ng-repeat="y in vm.basicData.documentType" value="{{y.id}}">{{y.description}}</option>
 				</select>	
@@ -67,7 +67,7 @@
 			<tr>
 			<td class="formAlignRight">发文种类：<span class="required">(*)</span></td>
 			<td colspan="3">
-				<select class="form-control input-sm" style="width:200px;" id="postingCategory" name="postingCategory" ng-model="vm.draft.postingCategory">
+				<select class="form-control input-sm" style="width:200px;" id="postingCategory" name="postingCategory" ng-model="vm.draft.postingCategory" data-val="true" data-val-required="必选">
 				  	<option value="">---请选择---</option>
 					<option ng-repeat="y in vm.basicData.postingCategory" value="{{y.id}}">{{y.description}}</option>
 				</select>
