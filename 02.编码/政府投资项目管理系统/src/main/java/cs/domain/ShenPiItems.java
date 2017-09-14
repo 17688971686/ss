@@ -23,8 +23,8 @@ public class ShenPiItems extends BaseEntity{
 	private String shenpiDetails;
 	@Column(columnDefinition="date NOT NULL COMMENT '审批开始时间'")
 	private String shenpiBeginDate;
-	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '审批天数'")
-	private String shenpiDays;
+	@Column(columnDefinition="date NOT NULL COMMENT '审批结束时间'")
+	private String shenpiEndDate;
 	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '审批状态'")
 	private String shenpiState;
 	@Column(columnDefinition="varchar(255)  COMMENT '项目名称'")
@@ -82,11 +82,12 @@ public class ShenPiItems extends BaseEntity{
 	public void setShenpiBeginDate(String shenpiBeginDate) {
 		this.shenpiBeginDate = shenpiBeginDate;
 	}
-	public String getShenpiDays() {
-		return shenpiDays;
+
+	public String getShenpiEndDate() {
+		return shenpiEndDate;
 	}
-	public void setShenpiDays(String shenpiDays) {
-		this.shenpiDays = shenpiDays;
+	public void setShenpiEndDate(String shenpiEndDate) {
+		this.shenpiEndDate = shenpiEndDate;
 	}
 	public String getShenpiState() {
 		return shenpiState;

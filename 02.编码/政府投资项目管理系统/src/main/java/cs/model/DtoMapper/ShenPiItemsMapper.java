@@ -16,7 +16,7 @@ public class ShenPiItemsMapper implements IMapper<ShenPiItemsDto, ShenPiItems>{
 		if(entity!=null){
 			dto.setId(entity.getId());
 			dto.setShenpiBeginDate(entity.getShenpiBeginDate());
-			dto.setShenpiDays(entity.getShenpiDays());
+			dto.setShenpiEndDate(entity.getShenpiEndDate());
 			dto.setShenpiDetails(entity.getShenpiDetails());
 			dto.setShenpiName(entity.getShenpiName());
 			dto.setShenpiState(entity.getShenpiState());
@@ -43,7 +43,7 @@ public class ShenPiItemsMapper implements IMapper<ShenPiItemsDto, ShenPiItems>{
 			        entity.setId(UUID.randomUUID().toString());
 			 }
 			 entity.setShenpiBeginDate(dto.getShenpiBeginDate());
-			 entity.setShenpiDays(dto.getShenpiDays());
+			 entity.setShenpiEndDate(dto.getShenpiEndDate());
 			 entity.setShenpiDetails(dto.getShenpiDetails());
 			 entity.setShenpiName(dto.getShenpiName());
 			 entity.setShenpiState(dto.getShenpiState());

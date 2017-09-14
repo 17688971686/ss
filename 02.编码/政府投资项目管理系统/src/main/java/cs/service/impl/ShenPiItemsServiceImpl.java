@@ -64,7 +64,7 @@ public class ShenPiItemsServiceImpl  extends AbstractServiceImpl<ShenPiItemsDto,
 	public ShenPiItems update(ShenPiItemsDto dto, String id) {
 		dto.setProjectId(dto.getProjectDto().getId());
 		dto.setProjectName(dto.getProjectDto().getProjectName());
-		dto.setShenpiUnitId(dto.getProjectDto().getId());
+		dto.setShenpiUnitId(dto.getShenPiUnitDto().getId());
 		dto.setShenpiUnitName(dto.getShenPiUnitDto().getShenpiUnitName());
 		logger.info(String.format("编辑审批事项信息,审批事项名称 %s",dto.getShenpiName()));
 		ShenPiItems shenpiItems=super.update(dto, id);
@@ -76,7 +76,7 @@ public class ShenPiItemsServiceImpl  extends AbstractServiceImpl<ShenPiItemsDto,
 		dto.setShenpiState("zc");
 		dto.setProjectId(dto.getProjectDto().getId());
 		dto.setProjectName(dto.getProjectDto().getProjectName());
-		dto.setShenpiUnitId(dto.getProjectDto().getId());
+		dto.setShenpiUnitId(dto.getShenPiUnitDto().getId());
 		dto.setShenpiUnitName(dto.getShenPiUnitDto().getShenpiUnitName());
 		logger.info(String.format("新增审批事项,审批事项名称  %s",dto.getShenpiName()));
 		ShenPiItems shenPiItems=super.create(dto);

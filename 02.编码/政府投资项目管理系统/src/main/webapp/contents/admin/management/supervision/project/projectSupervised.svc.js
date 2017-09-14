@@ -990,6 +990,7 @@
 						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
 
 					},
+					
 					 {
 						field : "shenpiName",
 						title : "审批事项",				
@@ -1008,6 +1009,19 @@
 						filterable : false
 					},
 					{
+						
+						field : "",
+						title : "剩余天数",
+						width : "",			
+						template : function(item) {
+							var flag=((new Date(item.shenpiEndDate).getTime())-(new Date(common.formatDate(new Date())).getTime()))/(24 * 60 * 60 * 1000);
+							if(flag>0){
+								return  flag ;}
+							else{
+								return  "<span style='color:red'>" +flag+"</span>";}
+							}
+					},
+					{
 						field : "",
 						title : "操作",
 						width : "",
@@ -1019,13 +1033,16 @@
 
 			];
 			// End:column
-
+			var dataBound= function(e) {
+				    console.log(e);
+				  }
 			vm.gridOptions = {
 				dataSource : common.gridDataSource(dataSource),
 				filterable : common.kendoGridConfig().filterable,
 				pageable : common.kendoGridConfig().pageable,
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
+				dataBound:dataBound,
 				resizable : true
 			};
 
