@@ -247,15 +247,49 @@
 	            controller: 'catalogCtrl',
 	            controllerAs: 'vm'
 	        })
-	       
-	        //
+	        //投资项目目录修改和次级列表页面
 	        .state('catalog_investment_projectIndustry', {
 	            url: '/catalog/investment/projectIndustry/:id',
 	            templateUrl: '/management/catalog/html/investmentEdit',
 	            controller: 'catalogCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //政策目录列表页页面
+	        .state('catalog_policy', {
+	            url: '/catalog/policyCatalog',
+	            templateUrl: '/management/catalog/html/policyCatalogList',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //政策目录类型数据添加页面
+	        .state('catalog_policyCatalogEdit', {
+	            url: '/catalog/policyCatalogEdit',
+	            templateUrl: '/management/catalog/html/policyCatalogEdit',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //政策目录类型次级数据添加页面
+	        .state('catalog_secondaryPolicyCatalogEdit', {
+	            url: '/catalog/policyCatalogEdit/:id',
+	            templateUrl: '/management/catalog/html/policyCatalogEdit',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //政策目录条目修改页面
+	        .state('catalog_policyCatalogAlter', {
+	            url: '/catalog/policyCatalogEdit/:id/',
+	            templateUrl: '/management/catalog/html/policyCatalogEdit',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
 	        
+	        //政策目录类型次级目录列表页
+	        .state('catalog_policyCatalogSecondList', {
+	            url: '/catalog/policyCatalogSecondList/:id',
+	            templateUrl: '/management/catalog/html/policyCatalogSecondList',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
 	 
 /**********************end#目录管理***************************************/	     
 	        

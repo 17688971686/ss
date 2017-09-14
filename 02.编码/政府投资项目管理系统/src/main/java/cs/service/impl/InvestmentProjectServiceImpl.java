@@ -11,10 +11,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cs.domain.CreditIllegalName;
 import cs.domain.InvestmentProject;
 import cs.domain.InvestmentProject_;
-import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.InvestmentProjectDto;
 import cs.repository.interfaces.IRepository;
@@ -33,7 +31,7 @@ public class InvestmentProjectServiceImpl extends AbstractServiceImpl<Investment
 	private static Logger logger = Logger.getLogger(InvestmentProjectServiceImpl.class);
 	
 	@Autowired
-	private IRepository<CreditIllegalName, String> investmentProjectRepo;
+	private IRepository<InvestmentProject, String> investmentProjectRepo;
 	
 	@Override
 	@Transactional
@@ -58,7 +56,7 @@ public class InvestmentProjectServiceImpl extends AbstractServiceImpl<Investment
 	@Override
 	@Transactional
 	public PageModelDto<InvestmentProjectDto> get(ODataObj odataObj){
-		logger.info("查询异常名录信息");
+		logger.info("查询投资项目条目信息");
 		return super.get(odataObj);
 	}
 	
@@ -83,7 +81,7 @@ public class InvestmentProjectServiceImpl extends AbstractServiceImpl<Investment
 			}
 			investmentProject = super.update(dto, id);
 			super.repository.save(investmentProject);
-			logger.info("更新异常名录信息");	
+			logger.info("更新投资项目条目信息");	
 			return investmentProject;
 			
 		}
@@ -94,7 +92,7 @@ public class InvestmentProjectServiceImpl extends AbstractServiceImpl<Investment
 			}
 			investmentProject = super.update(dto, id);
 			super.repository.save(investmentProject);
-			logger.info("更新异常名录信息");	
+			logger.info("更新投资项目条目信息");	
 			return investmentProject;
 			
 		}
@@ -105,11 +103,11 @@ public class InvestmentProjectServiceImpl extends AbstractServiceImpl<Investment
 			}
 			investmentProject = super.update(dto, id);
 			super.repository.save(investmentProject);
-			logger.info("更新异常名录信息");	
+			logger.info("更新投资项目条目信息");	
 			return investmentProject;
 			
 		}
-		logger.info("更新异常名录信息");
+		logger.info("更新投资项目条目信息");
 		return investmentProject;
 		
 	}
@@ -125,7 +123,7 @@ public class InvestmentProjectServiceImpl extends AbstractServiceImpl<Investment
 			}
 		}
 		super.repository.delete(investmentProject);
-		logger.info("删除异常名录信息");	
+		logger.info("删除投资项目条目信息");	
 	}
 
 	@Override

@@ -6,18 +6,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * @Description: 投资项目表
+ * @Description: 政策目录表
  * @author： wxy
- * @createDate： 2017年09月07日
+ * @createDate： 2017年09月12日
  * @version： 
  */
 @Entity
-@Table(name="cs_investmentProject")
-public class InvestmentProject extends BaseEntity{
+@Table(name="cs_policyCatalog")
+public class PolicyCatalog extends BaseEntity{
 	@Id
 	private String id;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '名称'")
+	@Column(columnDefinition="varchar(1024) NULL COMMENT '名称'")
 	private String name;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '代码'")
@@ -25,9 +25,6 @@ public class InvestmentProject extends BaseEntity{
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '父节点id'")
 	private String parentId;
-	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '投资项目类型'")
-	private String type;
 
 	public String getId() {
 		return id;
@@ -60,15 +57,5 @@ public class InvestmentProject extends BaseEntity{
 	public void setParentId(String parentId) {
 		this.parentId = parentId;
 	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	
 	
 }

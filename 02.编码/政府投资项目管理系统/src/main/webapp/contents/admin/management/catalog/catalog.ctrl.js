@@ -22,9 +22,29 @@
     		if($state.current.name == 'catalog_investment_projectIndustry'){
     			vm.page = 'investment_projectIndustry';
     		}
+    		if($state.current.name == 'catalog_policy'){
+    			vm.page = 'policy';
+    		}
+    		if($state.current.name == 'catalog_policyCatalogEdit'){
+    			vm.page = 'policyCatalogEdit';
+    		}
+    		if($state.current.name == 'catalog_policyCatalogSecondList'){
+    			vm.page = 'policyCatalogSecondList';
+    		}
+    		if($state.current.name == 'catalog_secondaryPolicyCatalogEdit'){
+    			vm.page = 'secondaryPolicyCatalogEdit';
+    		}
+    		if($state.current.name == 'catalog_policyCatalogAlter'){
+    			vm.page = 'policyCatalogAlter';
+    		}
+    		
+    		
+    		
     		
     	}
+    	
     	activate();
+    	
         function activate() {
         	init();
         	if(vm.page == 'catalog_investmentProject'){
@@ -33,7 +53,159 @@
         	if(vm.page == 'investment_projectIndustry'){
         		page_investment_projectIndustry();
         	}
+        	if(vm.page == 'policy'){
+        		page_policy();//政策目录列表
+        	}
+        	if(vm.page == 'policyCatalogEdit'){
+        		page_policyCatalogEdit();//政策目录主目录添加页
+        	}
+        	if(vm.page == 'policyCatalogSecondList'){
+        		page_policyCatalogSecondList();//政策目录次级目录列表页
+        	}
+        	if(vm.page == 'secondaryPolicyCatalogEdit'){
+        		page_secondaryPolicyCatalogEdit();//政策目录次级目录编辑页
+        	}
+        	if(vm.page == 'policyCatalogAlter'){
+        		page_policyCatalogAlter();//政策条目修改
+        	}
+        	
         }
+        
+        //政策条目修改
+        function page_policyCatalogAlter(){
+        	//显示更新按钮
+        	vm.isShowConfirm = true;
+        	//根据id获取源数据信息
+        	catalogSvc.getPolicyCatalogById(vm);
+        	//点击更新按钮进行更新数据操作
+        	vm.updatePolicyCatalog = function(){
+        		common.initJqValidation();
+    			var isValid = $('form').valid();
+        		if(isValid){//通过则可以进行下一步
+        			catalogSvc.updatePolicyCatalog(vm);
+        		}
+        	};
+        }//end fun page_policyCatalogAlter
+        
+        //政策条目编辑页面
+        function page_secondaryPolicyCatalogEdit(){
+        	vm.title = '政策条目编辑';
+        	//根据vm.id是否存在，存在则显示次级编辑页面内容！
+        	if(vm.id){
+        		vm.isPolicyCatalogSecondList = true;
+        	}
+        	//点击按钮保存到数据信息
+        	vm.savePolicyCatalog = function(){
+        		common.initJqValidation();
+    			var isValid = $('form').valid();
+        		if(isValid){//通过则可以进行下一步
+        			vm.model.parentId = vm.id;
+        			catalogSvc.createPolicyCatalog(vm);
+        		}
+        	};
+        }
+        
+        //政策目录次级目列表页
+        function page_policyCatalogSecondList(){
+        	//根据id获取政策目录信息
+        	catalogSvc.getPolicyCatalogById(vm);
+        	//根据parentId获取符合条件的次级目录列表
+        	catalogSvc.grid_policyCatalogSecondary(vm);
+        	//点击删除按钮，根据提示是否删除此条记录
+        	vm.deleteSecondPolicyCatalog = function(id){
+        		common.confirm({
+            		vm :vm,
+            		title:"",
+            		msg:"确认要删除此记录吗？",
+            		fn : function(){
+            			$('.confirmDialog').modal('hide');
+            			catalogSvc.deletePolicyCatalog(vm,id);
+            		}
+            	});
+        	};
+        	//点击批量删除按钮，根据提示是否删除记录
+        	vm.deleteSecondPolicyCatalogs = function(){
+	    		var selectIds = common.getKendoCheckId('.grid');
+	            if (selectIds.length == 0) {
+	            	common.alert({
+	                	vm:vm,
+	                	msg:'请选择数据'              	
+	                });
+	            } else {
+	            	var ids=[];
+	                for (var i = 0; i < selectIds.length; i++) {
+	                	ids.push(selectIds[i].value);
+					}
+	                var idStr=ids.join(','); 
+	                common.confirm({
+	               	 vm:vm,
+	               	 title:"",
+	               	 msg:"确认删除数据吗？",
+	               	 fn:function () {
+	                     	$('.confirmDialog').modal('hide');             	
+	                     	catalogSvc.deletePolicyCatalogs(vm,idStr);
+	                    }
+	                });
+	            }
+	    	};
+        	
+        }//end fun policyCatalogSecondList
+        
+        //政策目录添加页
+        function page_policyCatalogEdit(){
+        	vm.title = '政策目录编辑';
+        	vm.savePolicyCatalog = function(){
+        		common.initJqValidation();
+    			var isValid = $('form').valid();
+    			if(isValid){//通过则可以进行下一步
+    				catalogSvc.createPolicyCatalog(vm);
+    			}
+        	};
+        }
+        
+        //政策目录列表页面
+        function page_policy(){
+        	vm.title = '适用产业政策类型列表';
+        	//获取使用产业政策类型列表
+        	catalogSvc.grid_policyCatalog(vm);
+        	//点击删除按钮，进行删除操作，同时删除所依附的次级所有目录
+        	vm.deleteFirstPolicyCatalog = function(id){
+        		common.confirm({
+            		vm :vm,
+            		title:"",
+            		msg:"确认要删除此记录吗？",
+            		fn : function(){
+            			$('.confirmDialog').modal('hide');
+            			catalogSvc.deletePolicyCatalog(vm,id);
+            		}
+            	});
+        	};
+        	//点击批量删除按钮，根据提示是否删除记录
+        	vm.deleteFirstPolicyCatalogs = function(){
+	    		var selectIds = common.getKendoCheckId('.grid');
+	            if (selectIds.length == 0) {
+	            	common.alert({
+	                	vm:vm,
+	                	msg:'请选择数据'              	
+	                });
+	            } else {
+	            	var ids=[];
+	                for (var i = 0; i < selectIds.length; i++) {
+	                	ids.push(selectIds[i].value);
+					}
+	                var idStr=ids.join(','); 
+	                common.confirm({
+	               	 vm:vm,
+	               	 title:"",
+	               	 msg:"确认删除数据吗？",
+	               	 fn:function () {
+	                     	$('.confirmDialog').modal('hide');             	
+	                     	catalogSvc.deletePolicyCatalogs(vm,idStr);
+	                    }
+	                });
+	            }
+	    	};
+        }//end fun page_policy
         
         //投资项目修改和项目行业二级目录编辑页面
         function page_investment_projectIndustry(){
