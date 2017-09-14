@@ -21,6 +21,7 @@ import cs.common.Util;
 import cs.domain.Attachment;
 import cs.domain.BasicData;
 import cs.domain.Project;
+import cs.domain.Project_;
 import cs.domain.ReplyFile;
 import cs.domain.ShenBaoInfo;
 import cs.domain.ShenBaoUnitInfo;
@@ -99,32 +100,53 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		entity.setAuditState(BasicDataConfig.auditState_noAudit);//初始化审核状态--未审核
 		if(isAdminCreate){//如果为后台管理员创建
 			//创建项目
-			Project project = new Project();
-			project.setCreatedBy(currentUser.getUserId());
-			project.setModifiedBy(currentUser.getUserId());
-			project.setId(UUID.randomUUID().toString());
-			shenBaoChangeToProject(dto,project);
-			//新创建的项目需要设置项目代码
-			//根据行业类型id查询出基础数据
-			BasicData basicData = basicDataRepo.findById(project.getProjectIndustry());
-			if(basicData !=null){
-				String number = Util.getProjectNumber(project.getProjectInvestmentType(), basicData);
-				project.setProjectNumber(number);
-				//行业项目统计累加
-				basicData.setCount(basicData.getCount()+1);
-				basicData.setModifiedBy(currentUser.getUserId());
-				basicData.setModifiedDate(new Date());
-				basicDataRepo.save(basicData);
+			//首先验证项目名称是否重复
+			Criterion criterion=Restrictions.eq(Project_.projectName.getName(), dto.getProjectName());
+			List<Project> findProjects = projectRepo.findByCriteria(criterion);
+			if(findProjects.isEmpty()){//如果为空集合
+				Project project = new Project();
+				project.setCreatedBy(currentUser.getUserId());
+				project.setModifiedBy(currentUser.getUserId());
+				project.setId(UUID.randomUUID().toString());
+				shenBaoChangeToProject(dto,project);
+				//新创建的项目需要设置项目代码,根据行业类型id查询出基础数据
+				BasicData basicData = basicDataRepo.findById(project.getProjectIndustry());
+				if(basicData !=null){
+					String number = Util.getProjectNumber(project.getProjectInvestmentType(), basicData);
+					project.setProjectNumber(number);
+					//行业项目统计累加
+					basicData.setCount(basicData.getCount()+1);
+					basicData.setModifiedBy(currentUser.getUserId());
+					basicData.setModifiedDate(new Date());
+					basicDataRepo.save(basicData);
+				}else{
+					throw new IllegalArgumentException(String.format("项目代码生成故障，请确认项目行业选择是否正确！"));
+				}
+				//批复文件
+				if(dto.getAttachmentDtos() !=null && !dto.getAttachmentDtos().isEmpty()){
+					dto.getAttachmentDtos().stream().forEach(x->{
+						if(x.getType().equals(BasicDataConfig.attachment_type_jys) ||
+								x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg) ||
+								x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)){
+							Attachment attachment = new Attachment();
+							attachmentMapper.buildEntity(x, attachment);
+							attachment.setCreatedBy(currentUser.getUserId());
+							attachment.setModifiedBy(currentUser.getUserId());
+							
+							project.getAttachments().add(attachment);
+						}
+					});
+				}
+				projectRepo.save(project);
+				entity.setProjectId(project.getId());
+				entity.setProjectNumber(project.getProjectNumber());
+				entity.setProcessState(BasicDataConfig.processState_qianShou);//设置申报信息的状态为签收状态
+				entity.setReceiver(currentUser.getUserId());//设置默认签收人
+				entity.setIsIncludLibrary(false);//设置初始化为未纳入项目库
+				logger.info(String.format("创建项目信息,项目名称 %s",project.getProjectName()));
 			}else{
-				throw new IllegalArgumentException(String.format("项目代码生成故障，请确认项目行业选择是否正确！"));
+				throw new IllegalArgumentException(String.format("项目：%s 已存在,请重新确认！",dto.getProjectName()));
 			}
-			projectRepo.save(project);
-			entity.setProjectId(project.getId());
-			entity.setProjectNumber(project.getProjectNumber());
-			entity.setProcessState(BasicDataConfig.processState_qianShou);//设置申报信息的状态为签收状态
-			entity.setReceiver(currentUser.getUserId());//设置默认签收人
-			entity.setIsIncludLibrary(false);//设置初始化为未纳入项目库
-			logger.info(String.format("创建项目信息,项目名称 %s",project.getProjectName()));
 		}
 		if(!isAdminCreate){//如果前台申报单位创建
 			//因dto中创建时间和修改时间为项目的相关时间，需从新设置
@@ -161,7 +183,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		//处理批复文件库
 		handlePiFuFile(entity);
 		logger.info(String.format("创建申报信息,项目名称 %s",entity.getProjectName()));
-		
 	}
 
 	@Override
@@ -302,7 +323,28 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	public void updateProjectBasic(ShenBaoInfoDto dto) {
 		Project project = projectRepo.findById(dto.getProjectId());
 		if(project !=null){
+			//更新项目基本信息
 			this.shenBaoChangeToProject(dto, project);
+			//更新项目批复文件信息
+			project.getAttachments().forEach(x -> {//删除历史附件
+				attachmentRepo.delete(x);
+			});
+			project.getAttachments().clear();
+			if(dto.getAttachmentDtos() !=null && !dto.getAttachmentDtos().isEmpty()){
+				dto.getAttachmentDtos().stream().forEach(x->{
+					if(x.getType().equals(BasicDataConfig.attachment_type_jys) ||
+							x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg) ||
+							x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)){
+						Attachment attachment = new Attachment();
+						attachmentMapper.buildEntity(x, attachment);
+						attachment.setId(UUID.randomUUID().toString());
+						attachment.setCreatedBy(currentUser.getUserId());
+						attachment.setModifiedBy(currentUser.getUserId());
+						
+						project.getAttachments().add(attachment);
+					}
+				});
+			}
 			//修改人&修改时间
 			project.setModifiedBy(currentUser.getUserId());
 			project.setModifiedDate(new Date());
@@ -545,20 +587,15 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		//获取项目中批复文件以及文号(map)
 		Map<String,Attachment> pifuMap = new HashMap<>();
 		shenBaoInfo.getAttachments().stream().forEach(x->{
-			if(x.getType() !=null && !x.getType().isEmpty()){//非空判断
-				if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs) ||
-						x.getType().equals(BasicDataConfig.attachment_type_jys) ||
-						x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)
-						){
-					if(x.getType().equals(BasicDataConfig.attachment_type_jys)){
-						pifuMap.put(shenBaoInfo.getPifuJYS_wenhao(), x);
-					}
-					else if(x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)){
-						pifuMap.put(shenBaoInfo.getPifuKXXYJBG_wenhao(), x);
-					}
-					else if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)){
-						pifuMap.put(shenBaoInfo.getPifuCBSJYGS_wenhao(), x);
-					}
+			if(Util.isNotNull(x.getType())){//非空判断
+				if(x.getType().equals(BasicDataConfig.attachment_type_jys)){
+					pifuMap.put(shenBaoInfo.getPifuJYS_wenhao(), x);
+				}
+				if(x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)){
+					pifuMap.put(shenBaoInfo.getPifuKXXYJBG_wenhao(), x);
+				}
+				if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)){
+					pifuMap.put(shenBaoInfo.getPifuCBSJYGS_wenhao(), x);
 				}
 			}
 		});
@@ -642,7 +679,14 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		project.setProjectIntro(dto.getProjectIntro());//项目简介
 		project.setProjectGuiMo(dto.getProjectGuiMo());//项目规模
 		project.setRemark(dto.getRemark());//项目基本信息备注
-		
+		//批复日期&文号
+		project.setPifuJYS_date(dto.getPifuJYS_date());
+		project.setPifuCBSJYGS_date(dto.getPifuCBSJYGS_date());
+		project.setPifuKXXYJBG_date(dto.getPifuKXXYJBG_date());
+		project.setPifuJYS_wenhao(dto.getPifuJYS_wenhao());
+		project.setPifuCBSJYGS_wenhao(dto.getPifuCBSJYGS_wenhao());
+		project.setPifuKXXYJBG_wenhao(dto.getPifuKXXYJBG_wenhao());
+
 		return project;
 	}
 }

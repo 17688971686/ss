@@ -312,7 +312,7 @@
    			vm.pifuType=$(e.target).parents('.uploadBox').attr('data-type');
      	   $("#documentRecords").modal({
 		        backdrop: 'static',
-		        keyboard:false  			  
+		        keyboard:true  			  
      	   });
      	   vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
    		};

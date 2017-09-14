@@ -9,6 +9,7 @@ import cs.model.DomainDto.YearPlanDto;
 import cs.model.exportExcel.ExcelDataDWTJ;
 import cs.model.exportExcel.ExcelDataHYTJ;
 import cs.model.exportExcel.ExcelDataLBTJ;
+import cs.model.exportExcel.ExcelDataYS;
 import cs.repository.odata.ODataObj;
 
 public interface YearPlanService extends IService<YearPlanDto, YearPlan, String>{
@@ -25,4 +26,6 @@ public interface YearPlanService extends IService<YearPlanDto, YearPlan, String>
 	List<ExcelDataHYTJ> getYearPlanShenBaoInfoByHYTJ(String planId);//根据项目行业统计
 	
 	List<ExcelDataDWTJ> getYearPlanShenBaoInfoByDWTJ(String planId);//根据建设单位统计
+	
+	List<ExcelDataYS> getYearPlanShenBaoInfoByYS(String planId);//印刷版统计
 }

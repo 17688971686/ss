@@ -107,35 +107,48 @@ public class CommonController {
 	public ModelAndView getExcel(HttpServletRequest request,@RequestParam String planId) throws ParseException{
 		ODataObj odataObj = new ODataObj(request);
 		List<ExcelDataHYTJ> excelDataHYTJList = new ArrayList<>();
-		List<ShenBaoInfoDto> shenBaoInfoDtoList = new ArrayList<>();
-		
+		List<ExcelDataYS> excelDataYSList = new ArrayList<>();
+		List<ExcelDataYS> excelDataYSListZH = new ArrayList<>();
 		//获取所有的数据--按行业排序
-		shenBaoInfoDtoList = yearPlanService.getYearPlanShenBaoInfo(planId,odataObj).getValue();
+		excelDataYSList = yearPlanService.getYearPlanShenBaoInfoByYS(planId);
 		//获取行业分类数据
-//		excelDataHYTJList = yearPlanService.getYearPlanShenBaoInfoByHYTJ(planId);
-		//获取按行业查询统计数据
-		List<ExcelDataYS> excelDataYSList = new ArrayList<ExcelDataYS>();
-		shenBaoInfoDtoList.stream().forEach(x->{
-        	ExcelDataYS excelData=new ExcelDataYS();
-        	excelData.setPlanYear(x.getPlanYear());//计划年度
-        	excelData.setConstructionUnit(Util.judgeString(x.getConstructionUnit()));//建设单位
-            excelData.setProjectName(Util.judgeString(x.getProjectName()));//项目名称
-            excelData.setProjectCode(Util.judgeString(x.getProjectNumber()));//项目代码
-            excelData.setProjectType(Util.judgeString(basicDataService.getDescriptionById(x.getProjectCategory())));//项目类别
-            excelData.setConstructionScale(Util.judgeString(x.getProjectGuiMo()));//项目规模
-            excelData.setConstructionType(Util.judgeString(basicDataService.getDescriptionById(x.getProjectConstrChar())));//建设性质
-            excelData.setConstructionDate(Util.formatDate(x.getBeginDate(),"yyyy-MM")+"~"+"\n"+Util.formatDate(x.getEndDate(),"yyyy-MM"));//建设起止年月
-            excelData.setTotalInvest(x.getProjectInvestSum());//总投资
-            excelData.setApInvestSum(x.getApInvestSum());;//累计安排投资
-            excelData.setApplyYearInvest(x.getApplyYearInvest());;//申请投资
-            excelData.setCapitalAP_gtzj_TheYear(x.getCapitalAP_gtzj_TheYear());;//安排资金--区国土基金
-            excelData.setCapitalAP_ggys_TheYear(x.getCapitalAP_ggys_TheYear());//安排资金--区公共预算
-            excelData.setConstructionContent(Util.judgeString(x.getYearConstructionContent()));//建设内容
-            excelData.setRemark(Util.judgeString(x.getYearConstructionContentShenBao()));//备注
-            excelDataYSList.add(excelData);
-        });
+		excelDataHYTJList = yearPlanService.getYearPlanShenBaoInfoByHYTJ(planId);
+		
+		//将两者拼接起来
+		int i=1,j=1;
+		for(ExcelDataHYTJ x:excelDataHYTJList){
+			ExcelDataYS entity = new ExcelDataYS();
+			entity.setNo(Util.no(i));
+			entity.setConstructionUnit(x.getProjectIndustry());
+			entity.setProjectName("");
+			entity.setProjectCode("");
+			entity.setConstructionScale("合计"+x.getProjectSum()+"个项目,其中A类项目"+x.getProjectCategory_ASum()+"个,B类项目"+
+			x.getProjectCategory_BSum()+"个,C类项目"+x.getProjectCategory_CSum()+"个,D类项目"+x.getProjectCategory_DSum()+"个");
+			entity.setTotalInvest(x.getInvestSum());
+			entity.setApInvestSum(x.getApInvestSum());
+			entity.setApplyYearInvest(x.getSqInvestSum());
+			entity.setYearApSum(x.getYearApSum());
+			entity.setCapitalAP_gtzj_TheYear(x.getYearAp_gtjjSum());
+			entity.setCapitalAP_ggys_TheYear(x.getYearAp_ggysSum());
+			entity.setHB(true);
+			
+			excelDataYSListZH.add(entity);
+			
+			for(ExcelDataYS y:excelDataYSList){
+				if(basicDataService.getDescriptionById(y.getProjectIndustry()).equals(x.getProjectIndustry())){
+					y.setNo(String.valueOf(j));
+					y.setConstructionType(basicDataService.getDescriptionById(y.getConstructionType()));
+					y.setConstructionDate(Util.formatDate(y.getBeginDate(),"yyyy-MM")+"~"+"\n"+Util.formatDate(y.getEndDate(),"yyyy-MM"));
+					y.setHB(false);
+					excelDataYSListZH.add(y);
+					
+					j++;
+				}
+			}
+			i++;
+		}
 		int year = excelDataYSList.get(0).getPlanYear();
-        return new ModelAndView(new ExcelReportYSView(year), "excelDataList", excelDataYSList);
+        return new ModelAndView(new ExcelReportYSView(year), "excelDataList", excelDataYSListZH);
     }
 	
 	@RequestMapping(name="导出Excel-项目类别统计",path="exportExcelForLB",method=RequestMethod.GET)

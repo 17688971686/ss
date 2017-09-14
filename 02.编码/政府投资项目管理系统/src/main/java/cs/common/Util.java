@@ -45,6 +45,83 @@ public class Util {
 		}
 		return obj;
 	}
+	
+	public static String no(int i){
+		switch (i) {
+		case 1:
+			return "一";
+		case 2:
+			return "二";
+		case 3:
+			return "三";
+		case 4:
+			return "四";
+		case 5:
+			return "五";
+		case 6:
+			return "六";
+		case 7:
+			return "七";
+		case 8:
+			return "八";
+		case 9:
+			return "九";
+		case 10:
+			return "十";
+		case 11:
+			return "十一";
+		case 12:
+			return "十二";
+		case 13:
+			return "十三";
+		case 14:
+			return "十四";
+		case 15:
+			return "十五";
+		case 16:
+			return "十六";
+		case 17:
+			return "十七";
+		case 18:
+			return "十八";
+		case 19:
+			return "十九";
+		case 20:
+			return "二十";
+		case 21:
+			return "二十一";
+		case 22:
+			return "二十二";
+		case 23:
+			return "二十三";
+		case 24:
+			return "二十四";
+		case 25:
+			return "二十五";
+		case 26:
+			return "二十六";
+		case 27:
+			return "二十七";
+		case 28:
+			return "二十八";
+		case 29:
+			return "二十九";
+		case 30:
+			return "三十";
+		case 31:
+			return "三十一";
+		case 32:
+			return "三十二";
+		case 33:
+			return "三十三";
+		case 34:
+			return "三十四";
+		default:
+			return null;
+		}
+			
+		
+	}
 		
 	public static String formatDate(Date date) {
 		String dateStr="";

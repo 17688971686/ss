@@ -1,5 +1,7 @@
 package cs.model.exportExcel;
 
+import java.util.Date;
+
 /**
 * @ClassName: ExcelData
 * @Description: 导出年度计划印刷版Excel数据实体类 
@@ -8,21 +10,29 @@ package cs.model.exportExcel;
 *
  */
 public class ExcelDataYS {
+	private String no;
 	private Integer planYear;//计划年度
 	private String ConstructionUnit;//建设单位
     private String ProjectName;//项目名称
     private String ProjectCode;//项目代码
     private String ProjectType;//项目类别
+    private String ProjectIndustry;//项目行业
     private String ConstructionScale;//建设规模
     private String ConstructionType;//建设性质
+    private Date beginDate;//开工日期
+    private Date endDate;//竣工日期
     private String ConstructionDate;//建设起止日期
     private double TotalInvest;//总投资
+    private double investAccuSum;//累计投资
     private double apInvestSum;//累计安排
     private double applyYearInvest;//本年度申请资金
+    private double yearApSum;//年度安排资金总计
     private double capitalAP_gtzj_TheYear;//本年度安排资金_国土
     private double capitalAP_ggys_TheYear;//本年度安排资金_公共预算
+    private double yearAp_qitaSum;//本年度安排资金_其他
     private String ConstructionContent;//主要建设内容
-    private  String Remark;//备注
+    private String Remark;//备注
+    private boolean HB;//合并标签
     
     
 	public Integer getPlanYear() {
@@ -115,4 +125,53 @@ public class ExcelDataYS {
 	public void setRemark(String remark) {
 		Remark = remark;
 	}
+	public Date getBeginDate() {
+		return beginDate;
+	}
+	public void setBeginDate(Date beginDate) {
+		this.beginDate = beginDate;
+	}
+	public Date getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+	public double getInvestAccuSum() {
+		return investAccuSum;
+	}
+	public void setInvestAccuSum(double investAccuSum) {
+		this.investAccuSum = investAccuSum;
+	}
+	public double getYearAp_qitaSum() {
+		return yearAp_qitaSum;
+	}
+	public void setYearAp_qitaSum(double yearAp_qitaSum) {
+		this.yearAp_qitaSum = yearAp_qitaSum;
+	}
+	public String getNo() {
+		return no;
+	}
+	public void setNo(String no) {
+		this.no = no;
+	}
+	public String getProjectIndustry() {
+		return ProjectIndustry;
+	}
+	public void setProjectIndustry(String projectIndustry) {
+		ProjectIndustry = projectIndustry;
+	}
+	public boolean isHB() {
+		return HB;
+	}
+	public void setHB(boolean hB) {
+		HB = hB;
+	}
+	public double getYearApSum() {
+		return yearApSum;
+	}
+	public void setYearApSum(double yearApSum) {
+		this.yearApSum = yearApSum;
+	}
+	
 }

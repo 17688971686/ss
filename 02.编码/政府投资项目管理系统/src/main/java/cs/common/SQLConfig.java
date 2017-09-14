@@ -71,4 +71,33 @@ public class SQLConfig {
 		     " AND yp.id = :yearPlanId"+
 		     " ) a"+
 		     " GROUP BY a.constructionunit");
+ public static String yearPlanByYS = String.format("SELECT yp.year AS planYear,"+
+		     " IFNULL(sbi.constructionUnit,\"\") AS ConstructionUnit,"+
+		     " IFNULL(sbi.projectName,\"\") AS ProjectName,"+
+		     " IFNULL(sbi.projectNumber,\"\") AS ProjectCode,"+
+		     " IFNULL(bs.description,\"\") AS ProjectType,"+
+		     " IFNULL(sbi.projectIndustry,\"\") AS ProjectIndustry,"+
+		     " IFNULL(sbi.projectGuiMo,\"\") AS ConstructionScale,"+
+		     " IFNULL(sbi.projectConstrChar,\"\") AS ConstructionType,"+
+		     " IFNULL(sbi.beginDate,\"\") AS beginDate,"+
+		     " IFNULL(sbi.endDate,\"\") AS endDate,"+
+		     " IFNULL(sbi.projectInvestSum, 0)AS TotalInvest,"+
+		     " IFNULL(sbi.projectInvestAccuSum, 0)AS investAccuSum,"+
+		     " IFNULL(sbi.apInvestSum, 0) AS apInvestSum,"+
+		     " IFNULL(sbi.yearInvestApproval, 0)AS applyYearInvest,"+
+		     " IFNULL(ypl.capitalSum, 0)AS yearApSum,"+
+		     " IFNULL(ypl.capitalQCZ_gtzj, 0)AS capitalAP_gtzj_TheYear,"+
+		     " IFNULL(ypl.capitalQCZ_ggys, 0)AS capitalAP_ggys_TheYear,"+
+		     " IFNULL(ypl.capitalOther, 0) AS yearAp_qitaSum,"+
+		     " IFNULL(sbi.yearConstructionContent,\"\") AS ConstructionContent,"+
+		     " IFNULL(sbi.yearConstructionContentShenBao,\"\") AS Remark"+
+		     " FROM"+
+		     " cs_yearplan AS yp,cs_yearplan_cs_yearplancapital AS ypy,cs_yearplancapital AS ypl,cs_shenbaoinfo AS sbi,cs_basicdata AS bs"+
+		     " WHERE"+
+		     " yp.id = ypy.YearPlan_id"+
+		     " AND ypl.id = ypy.yearPlanCapitals_id"+
+		     " AND ypl.shenbaoInfoId = sbi.id"+ 
+		     " AND sbi.projectCategory = bs.id"+
+		     " AND yp.id = :yearPlanId"+
+		     " ORDER BY bs.itemOrder");
 }

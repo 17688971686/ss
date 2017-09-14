@@ -11,6 +11,7 @@ import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Projections;
 import org.hibernate.transform.Transformers;
+import org.hibernate.type.DateType;
 import org.hibernate.type.DoubleType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
@@ -30,6 +31,7 @@ import cs.model.DtoMapper.IMapper;
 import cs.model.exportExcel.ExcelDataDWTJ;
 import cs.model.exportExcel.ExcelDataHYTJ;
 import cs.model.exportExcel.ExcelDataLBTJ;
+import cs.model.exportExcel.ExcelDataYS;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
@@ -310,6 +312,48 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 			return null;
 		}
 	}
+
+	@Override
+	@Transactional
+	public List<ExcelDataYS> getYearPlanShenBaoInfoByYS(String planId) {
+		YearPlan yearPlan=super.repository.findById(planId);
+		if(yearPlan!=null){//判空处理
+			List<ExcelDataYS> excelDataYSList = new ArrayList<>();
+			List query = shenbaoInfoRepo.getSession()
+					.createSQLQuery(SQLConfig.yearPlanByYS)
+					.setParameter("yearPlanId",planId)
+					.addScalar("planYear",new IntegerType())  //计划年度
+					.addScalar("ConstructionUnit",new StringType())  //建设单位
+					.addScalar("ProjectName",new StringType())  //项目名称
+					.addScalar("ProjectCode",new StringType())  //项目代码
+					.addScalar("ProjectType",new StringType())  //项目类别
+					.addScalar("ProjectIndustry",new StringType())  //项目行业
+					.addScalar("ConstructionScale",new StringType())  //建设规模
+					.addScalar("ConstructionType",new StringType())  //建设性质
+					.addScalar("beginDate",new DateType())  //开工日期
+					.addScalar("endDate",new DateType())  //竣工规模
+					.addScalar("TotalInvest",new DoubleType())  //总投资
+					.addScalar("investAccuSum",new DoubleType())  //累计投资
+					.addScalar("apInvestSum",new DoubleType())  //累计安排
+					.addScalar("applyYearInvest",new DoubleType())  //本年度申请资金
+					.addScalar("yearApSum",new DoubleType())  //年度安排资金总计
+					.addScalar("capitalAP_gtzj_TheYear",new DoubleType())  //本年度安排资金_国土
+					.addScalar("capitalAP_ggys_TheYear",new DoubleType())  //本年度安排资金_公共预算
+					.addScalar("yearAp_qitaSum",new DoubleType())  //本年度安排资金_其他
+					.addScalar("ConstructionContent",new StringType())  //主要建设内容
+					.addScalar("Remark",new StringType())  //备注
+					.setResultTransformer(Transformers.aliasToBean(ExcelDataYS.class))
+					.list();
+
+			excelDataYSList = query;
+			logger.info(String.format("年度计划印刷版统计,名称：%s",yearPlan.getName()));	
+			return excelDataYSList;
+		}else{
+			return null;
+		}
+	}
+	
+	
 	
 	
 }
