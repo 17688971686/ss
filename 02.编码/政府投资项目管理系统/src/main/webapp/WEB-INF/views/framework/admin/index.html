@@ -197,6 +197,20 @@ desired effect
 						</ul>
 					</li>
 					<li class="treeview">
+						<a href="javascript:void(0)">
+							<i class="fa fa-link"></i><span>目录管理</span> 
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="javascript:void(0)" ui-sref="catalog_investment">投资项目目录管理</a></li>
+							<li><a href="javascript:void(0)" ui-sref="catalog_policy">政策目录管理</a></li>
+							<!-- <li><a href="javascript:void(0)" ui-sref="catalog_partApprovalMatters">部门审批事项目录管理</a></li>
+							<li><a href="javascript:void(0)" >中介服务事项目录管理</a></li> -->
+						</ul>
+					</li>
+					<li class="treeview">
 						<a href="javascript:void(0)"> <i
 							class="fa fa-link"></i> <span>中介服务单位管理</span> <span
 							class="pull-right-container"> <i
@@ -219,7 +233,7 @@ desired effect
 						<ul class="treeview-menu">
 							<li><a href="javascript:void(0)" ui-sref="credit_illegalNameList" >信用异常名录</a></li>
 							<li><a href="javascript:void(0)" ui-sref="credit_blackList">信用黑名单</a></li>
-							<!-- <li><a href="javascript:void(0)" >项目异常监管</a></li> -->
+							<li><a href="javascript:void(0)" ui-sref="credit_projectAnomaly">项目异常监管</a></li>
 						</ul>
 					</li>
 					<!-- 
@@ -391,6 +405,9 @@ desired effect
 	<!-- project -->
 	<script src="/contents/admin/management/project/project.ctrl.js"></script>
 	<script src="/contents/admin/management/project/project.svc.js"></script>
+	<!-- catalog -->
+	<script src="/contents/admin/management/catalog/catalog.ctrl.js"></script>
+	<script src="/contents/admin/management/catalog/catalog.svc.js"></script>
 	<!-- creditInfo -->
 	<script src="/contents/admin/management/creditInfo/creditInfo.ctrl.js"></script>
 	<script src="/contents/admin/management/creditInfo/creditInfo.svc.js"></script>

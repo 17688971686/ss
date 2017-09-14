@@ -239,6 +239,60 @@
 	        
 /**********************end#年度计划编制***************************************/
 	        
+/**********************begin#目录管理***************************************/
+	        //投资项目目录列表
+	        .state('catalog_investment', {
+	            url: '/catalog/investment',
+	            templateUrl: '/management/catalog/html/investmentList',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //投资项目目录修改和次级列表页面
+	        .state('catalog_investment_projectIndustry', {
+	            url: '/catalog/investment/projectIndustry/:id',
+	            templateUrl: '/management/catalog/html/investmentEdit',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //政策目录列表页页面
+	        .state('catalog_policy', {
+	            url: '/catalog/policyCatalog',
+	            templateUrl: '/management/catalog/html/policyCatalogList',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //政策目录类型数据添加页面
+	        .state('catalog_policyCatalogEdit', {
+	            url: '/catalog/policyCatalogEdit',
+	            templateUrl: '/management/catalog/html/policyCatalogEdit',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //政策目录类型次级数据添加页面
+	        .state('catalog_secondaryPolicyCatalogEdit', {
+	            url: '/catalog/policyCatalogEdit/:id',
+	            templateUrl: '/management/catalog/html/policyCatalogEdit',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //政策目录条目修改页面
+	        .state('catalog_policyCatalogAlter', {
+	            url: '/catalog/policyCatalogEdit/:id/',
+	            templateUrl: '/management/catalog/html/policyCatalogEdit',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        
+	        //政策目录类型次级目录列表页
+	        .state('catalog_policyCatalogSecondList', {
+	            url: '/catalog/policyCatalogSecondList/:id',
+	            templateUrl: '/management/catalog/html/policyCatalogSecondList',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	 
+/**********************end#目录管理***************************************/	     
+	        
 /**********************begin#信用信息管理***************************************/
 	        //信用异常名录 列表页面
 	        .state('credit_illegalNameList', {
@@ -297,6 +351,35 @@
 	            controller: 'creditInfoCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //项目异常列表页
+	        .state('credit_projectAnomaly', {
+	            url: '/creditInfo/projectAnomalyList',
+	            templateUrl: '/management/creditInfo/html/projectAnomaly',
+	            controller: 'creditInfoCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //项目异常 信息录入页面
+	        .state('credit_projectAnomalyEdit', {
+	            url: '/creditInfo/projectAnomaly/:id/:projectNumber/:projectName/:unitName/:createdDate',
+	            templateUrl: '/management/creditInfo/html/projectAnomalyEdit',
+	            controller: 'creditInfoCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //项目异常 信息录入页面
+	        .state('credit_projectAnomalyDetails', {
+	            url: '/creditInfo/projectAnomalyDetails/:id',
+	            templateUrl: '/management/creditInfo/html/projectAnomalyDetails',
+	            controller: 'creditInfoCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //项目异常 信息更改页面
+	        .state('credit_updateProjectAnomaly',{ 
+	            url: '/creditInfo/updateProjectAnomaly/:id',
+	            templateUrl: '/management/creditInfo/html/projectAnomalyUpdate',
+	            controller: 'creditInfoCtrl',
+	            controllerAs: 'vm'
+	        })
+	        
 /**********************end#信用信息管理***************************************/
 	        
 /**********************begin#工作台***************************************/
