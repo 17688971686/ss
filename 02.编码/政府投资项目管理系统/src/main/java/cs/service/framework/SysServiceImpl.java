@@ -552,7 +552,19 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("auditState_1","auditState" , "auditState", "未审核", "",false);
 		this.createBasicData("auditState_2","auditState" , "auditState", "审核通过", "",false);
 		this.createBasicData("auditState_3","auditState" , "auditState", "审核不通过", "",false);
-
+		this.createBasicData("credentialsType","" , "credentialsType", "证件类型", "");
+		this.createBasicData("credentialsType_1","credentialsType" , "credentialsType", "身份证", "");
+		this.createBasicData("credentialsType_2","credentialsType" , "credentialsType", "护照", "");
+		this.createBasicData("credentialsType_3","credentialsType" , "credentialsType", "户口本", "");
+		this.createBasicData("credentialsType_4","credentialsType" , "credentialsType", "军人证", "");
+		this.createBasicData("credentialsType_5","credentialsType" , "credentialsType", "党员证", "");
+		this.createBasicData("credentialsType_6","credentialsType" , "credentialsType", "其他", "");
+		
+		this.createBasicData("serviceRating", "", "serviceRating", "服务质量评分", "");
+		this.createBasicData("serviceRating_1", "serviceRating", "serviceRating", "优秀(9-10)", "");
+		this.createBasicData("serviceRating_2", "serviceRating", "serviceRating", "良好(8-9)", "");
+		this.createBasicData("serviceRating_3", "serviceRating", "serviceRating", "合格(6-8)", "");
+		this.createBasicData("serviceRating_4", "serviceRating", "serviceRating", "不合格(<6)", "");
 				
 		response.setMessage("基础数据初始化成功");
 		response.setSuccess(true);		

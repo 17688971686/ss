@@ -1,0 +1,63 @@
+<link href="/contents/libs/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+<script src="/contents/libs/zTree/js/jquery.ztree.all.min.js"></script>
+
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<ol class="breadcrumb">
+        <li>协审安排</li>       
+        <li class="active">{{vm.title}}</li>
+    </ol>
+    <form id="form" name="form">
+        <div class="toolbar">
+            <a class="btn btn-sm btn-primary" href="#/assistReviewList"><span class="glyphicon glyphicon-chevron-left"></span>返回</a>
+            <button class="btn btn-sm btn-success" ng-click="vm.createAssistReview()" ng-disabled="vm.isSubmit" ng-show="vm.page=='assistReviewCreate'"><span class="glyphicon glyphicon-ok"></span>创建</button>
+            <button class="btn btn-sm btn-success" ng-click="vm.updateAssistReview()" ng-disabled="vm.isSubmit" ng-show="vm.page=='assistReviewUpdate'"><span class="glyphicon glyphicon-ok"></span>更新</button>
+         </div>
+         <table style="width:100%" class="table table-bordered table-striped">
+            <tr>
+                <td class="formAlignRight" style="width:10%">协审名称： </td>
+                <td>
+                    <input  type="text" maxlength="200" disabled="disabled" style="width:50%" class="form-control input-sm "   ng-model="vm.model.assistReviewName" id="assistReviewName" name="assistReviewName" data-val="true" data-val-required="必填">
+                </td>
+            </tr> 
+            <tr>
+                <td class="formAlignRight" style="width:10%">协审时间： </td>
+                <td>
+                    <input disabled="disabled" class="Wdate form-control input-sm" style="width:180px;" type="text"  onFocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked: function(){$(this).trigger('change')}})" 
+		             id="assistReviewBeginDate" name="assistReviewBeginDate"    ng-model="vm.model.assistReviewBeginDate"  data-val="true" data-val-required="开始时间不能为空"/>~
+		             <input disabled="disabled" class="Wdate form-control input-sm" style="width:180px;" type="text"  onFocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked: function(){$(this).trigger('change')}})" 
+		             id="assistReviewEndDate" name="assistReviewEndDate"    ng-model="vm.model.assistReviewEndDate" data-val="true" data-val-required="结束时间不能为空" />
+                </td>
+            </tr>
+            <tr>
+                <td class="formAlignRight" style="width:10%">协审地点： </td>
+                <td>
+                    <input  disabled="disabled" type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.assistReviewAddress" id="assistReviewAddress" name="assistReviewAddress" data-val="true" data-val-required="必填">
+                </td>
+            </tr>
+            <tr>
+                <td class="formAlignRight" style="width:10%">协审项目： </td>
+                <td>
+                  
+                  	<span  ng-bind="vm.model.projectDto.projectName"></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="formAlignRight" style="width:10%">协审中介单位： </td>
+                <td>
+                    <div   ng-repeat="x in vm.model.mediationUnitDtos" >
+                      
+                      {{x.mediationUnitName}}&nbsp;&nbsp;  <hr/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="formAlignRight" style="width:15%">备注：</td>
+                <td  colspan="3" style="padding: 10px;">
+					<textarea disabled="disabled" id="comment" name="businessScope" rows="3" cols="20" maxlength="500" ng-model="vm.model.comment"
+						placeholder="年度工作目标(500字符以内)" style="height: 120px; width: 99%;" 
+						ng-change="vm.checkLength(vm.model.comment,500,'commentTip')"></textarea>
+			   </td>
+            </tr>
+        </table>
+    </form>
+  

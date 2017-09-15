@@ -1,0 +1,97 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+    	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+        <li><a href="#/">首页</a></li>       
+        <li><a href="#/creditInfo/illegalNameList">信用信息管理</a></li>	        
+        <li class="active">{{vm.title}}</li>
+    </ol>
+    <form id="form" name="form">
+		<div>
+			<table class="table table-bordered" style="margin-bottom:0px;">
+				<tr>
+					<td colspan="6" class="bg-info">
+		  				<span style="padding:10px;"><strong>项目异常名录信息</strong></span>
+		  			</td>
+		  		</tr>
+		  		<tr>
+	  				<td class="formAlignRight">申报的项目名称：</td>
+	  				<td style="width:25%">
+						<span ng-bind="vm.illegalNameModel.projectName"></span>				
+					</td>
+	  				<td class="formAlignRight">项目代码：</td>
+	  				<td style="width:25%">
+						<span ng-bind="vm.illegalNameModel.projectNumber"></span>				
+					</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">申报的单位名称：</td>
+	  				<td style="width:25%">
+						<span ng-bind="vm.getUnitName(vm.illegalNameModel.unitName)"></span>				
+					</td>
+	  				<td class="formAlignRight">申报日期：</td>
+	  				<td style="width:25%">
+						<span ng-bind="vm.formatDate(vm.illegalNameModel.shenbaoDate)"></span>				
+					</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">监管部门：<span class="required">(*)</span></td>
+	  				<td style="width:25%">
+	  					<input type="text" style="width:360px;" id="departmentName" name="departmentName" ng-model="vm.illegalNameModel.departmentName" placeholder="请输入监管部门名称" data-val="true" data-val-required="必填"/>
+	  					<span data-valmsg-for="departmentName" data-valmsg-replace="true" class="errors"></span>
+	  				</td>
+	  				<td class="formAlignRight">监管部门区划代码：<span class="required">(*)</span></td>
+	  				<td style="width:25%">
+	  					<input type="text" style="width:360px;" id="divisionCode" name="divisionCode" ng-model="vm.illegalNameModel.divisionCode" placeholder="请输入监管部门区划代码，如：210000" data-val="true" data-val-required="必填"/>
+	  					<span data-valmsg-for="divisionCode" data-valmsg-replace="true" class="errors"></span>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">异常情形代码：<span class="required">(*)</span></td>
+	  				<td style="width:25%">
+	  					<input type="text" style="width:360px;" id="illegalType" name="illegalType" ng-model="vm.illegalNameModel.illegalType" placeholder="请输入异常情形代码，如A06100" data-val="true" data-val-required="必填"/>
+	  					<span data-valmsg-for="illegalType" data-valmsg-replace="true" class="errors"></span>
+	  				</td>
+	  				<td class="formAlignRight">异常级别：<span class="required">(*)</span></td>
+	  				<td style="width:25%">
+	  					<input type="text" style="width:360px;" id="illegalLevel" name="illegalLevel" ng-model="vm.illegalNameModel.illegalLevel" data-val="true" data-val-required="必填"/>
+	  					<span data-valmsg-for="illegalLevel" data-valmsg-replace="true" class="errors"></span>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">异常行为内容：</td>
+					<td style="width:25%" colspan="10" align="left">
+						<textarea class="form-control input-sm" style="height:50px;width:99%;" ng-model="vm.illegalNameModel.illegalContent" placeholder="注：200字符以内"></textarea>									
+					</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">记录异常日期：<span class="required">(*)</span></td>
+	  				<td >
+						<input type="text" id="illegalDate" name="illegalDate" onkeydown="return false;"
+						 ng-model="vm.illegalNameModel.illegalDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" />		 						
+						 <span data-valmsg-for="illegalDate" data-valmsg-replace="true" class="errors"></span>
+					</td>
+	  				<td class="formAlignRight">有效标识：<span class="required">(*)</span></td>
+	  				<td style="width:25%">
+	  					<input type="text" style="width:360px;" id="validityFlag" name="validityFlag" ng-model="vm.illegalNameModel.validityFlag" placeholder="数据有效标识：0无效；1有效" data-val="true" data-val-required="必填"/>
+	  					<span data-valmsg-for="validityFlag" data-valmsg-replace="true" class="errors"></span>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td colspan="4" >
+	  					<button class="btn btn-success btn-sm pull-right" ng-hide="vm.isIllegalEdit" ng-click="vm.saveIllegalNameInfo()"><span></span>确定</button>
+	  					<button class="btn btn-success btn-sm pull-right" ng-show="vm.isIllegalEdit" ng-click="vm.updateIllegalNameInfo()"><span></span>更新</button>
+	  					<button class="btn btn-cancel btn-sm pull-right" ng-click="vm.returnIllegalNamePage()" ><span></span>取消</button>
+	  				</td>
+	  			</tr>
+	  		</table>
+		</div>
+	</form>
+</div>  
+
+
+   
+         
+  	
