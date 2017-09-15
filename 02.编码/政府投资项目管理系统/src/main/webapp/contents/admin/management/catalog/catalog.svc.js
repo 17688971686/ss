@@ -10,11 +10,11 @@
 		var url_catalog = '/management/catalog';
 		
 		var service = {
-				createCatalog : createCatalog,
-				grid_InvestmentProject : grid_InvestmentProject,
-				getCatalogById : getCatalogById,
-				updateCatalog : updateCatalog,
-				grid_InvestmentProjectSecondary : grid_InvestmentProjectSecondary,
+				createCatalog : createCatalog,//创建投资项目
+				grid_InvestmentProject : grid_InvestmentProject,//获取投资项目类型列表
+				getCatalogById : getCatalogById,//根据id获取，投资项目信息
+				updateCatalog : updateCatalog,//更新投资项目信息
+				grid_InvestmentProjectSecondary : grid_InvestmentProjectSecondary,//获取投资项目次级目录列表
 				deleteSecondaryCatalog : deleteSecondaryCatalog,//投资项目删除次级目录
 				createSecondCatalog : createSecondCatalog,//创建投资项目次级目录
 				changeSecondCatalog : changeSecondCatalog,//更改投资项目次级目录信息
@@ -30,10 +30,442 @@
 				grid_policyCatalogSecondary : grid_policyCatalogSecondary,//政策目录次级目录列表
 				deletePolicyCatalog : deletePolicyCatalog,//根据政策条目id删除记录
 				deletePolicyCatalogs : deletePolicyCatalogs,//批量删除政策条目信息
-				updatePolicyCatalog : updatePolicyCatalog//更新政策条目数据
+				updatePolicyCatalog : updatePolicyCatalog,//更新政策条目数据
+				grid_partApprovalMatters : grid_partApprovalMatters,//获取部门审批事项目录列表
+				createPartApprovalMatters : createPartApprovalMatters,//创建部门审批事项
+				getpartApprovalMattersById : getpartApprovalMattersById,//根据id获取部门审批事项信息
+				updatePartApprovalMatters : updatePartApprovalMatters,//更新部门审批事项
+				deletePartApprovalMatters : deletePartApprovalMatters,//删除部门审批事项
+				deletePartApprovalMattersCatalogs : deletePartApprovalMattersCatalogs,//批量删除部门审批事项
+				grid_agencyServiceMatters : grid_agencyServiceMatters,//获取中介服务事项列表
+				createAgencyServiceMatters : createAgencyServiceMatters,//创建中介服务事项
+				getAgencyServiceMattersById : getAgencyServiceMattersById,//根据id获取中介服务事项
+				updateAgencyServiceMatters : updateAgencyServiceMatters,//更新中介服务事项
+				deleteAgencyServiceMattersCatalog : deleteAgencyServiceMattersCatalog,//删除中介服务事项
+				deleteAgencyServiceMattersCatalogs : deleteAgencyServiceMattersCatalogs//批量删除中介服务事项
 				
 		};
 		return service;
+		
+		//批量删除中介服务事项
+		function deleteAgencyServiceMattersCatalogs(vm,id){
+			var httpOptions = {
+					method : 'delete',
+					url : common.format(url_catalog+"/deleteAgencyServiceMattersCatalogs"),
+					data : id
+			};
+			var httpSuccess = function(response){
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function(){
+						common.alert({
+							vm : vm,
+							msg : '操作成功',
+							fn : function(){
+								$('.alertDialog').modal('hide');
+								vm.agencyServiceMattersGrid.dataSource.read();
+							}
+						});
+					}
+				});
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+			
+		}//end fun deleteAgencyServiceMattersCatalogs
+		
+		//删除中介服务事项
+		function deleteAgencyServiceMattersCatalog(vm,id){
+			var httpOptions = {
+					method : 'put',
+					url : common.format(url_catalog+"/deleteAgencyServiceMatters?id={0}",id)
+			};
+			var httpSuccess = function(response){
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function(){
+						common.alert({
+							vm : vm,
+							msg : '删除成功！',
+							fn : function(){
+								$('.alertDialog').modal('hide');
+								vm.agencyServiceMattersGrid.dataSource.read();
+							}
+						});
+					}
+				});
+			};
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}//end fun deleteAgencyServiceMattersCatalog
+		
+		//更新中介服务事项
+		function updateAgencyServiceMatters(vm){
+			var httpOptions = {
+					method : 'put',
+					url : common.format(url_catalog+"/agencyServiceMatters"),
+					data : vm.model
+			};
+			var httpSuccess = function(response){
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function(){
+						common.alert({
+							vm : vm,
+							msg : '修改成功！',
+							fn : function(){
+								$('.alertDialog').modal('hide');
+							}
+						});
+					}
+				});
+			};
+			
+			common.http({
+				vm : vm ,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}//end fun updateAgencyServiceMatters
+		
+		
+		//根据id获取中介服务事项
+		function getAgencyServiceMattersById(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_catalog+"/agencyServiceMatters?$filter=id eq '{0}'",vm.id)
+			};
+			var httpSuccess = function(response){
+				vm.model = response.data.value[0]||{};
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}//end fun getAgencyServiceMattersById
+		
+		//创建中介服务事项
+		function createAgencyServiceMatters(vm){
+			var httpOptions = {
+					method : 'post',
+					url : common.format(url_catalog+"/agencyServiceMatters"),
+					data : vm.model
+			};
+			var httpSuccess = function(response){
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function(){
+						common.alert({
+							vm : vm,
+							msg : '添加成功!',
+							fn : function(){
+								$('.alertDialog').modal('hide');
+								$('.modal-backdrop').remove();
+								location.href = '#/catalog/agencyServiceMattersList';
+							}
+						});
+					}
+				});
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+			
+		}//end fun createAgencyServiceMatters
+		
+		//中介服务事项列表
+		function grid_agencyServiceMatters(vm){
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(common.format(url_catalog+"/agencyServiceMatters")),
+				schema : common.kendoGridConfig().schema({
+					id : "id"					
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "code",
+					dir : "asc"
+				}
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+				{
+					template : function(item) {
+						return kendo.format("<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",item.id);
+					},
+					filterable : false,
+					width : 40,
+					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+
+				},
+				{
+					field : "name",
+					title : "名称",						
+					filterable : true
+				},
+				{
+					field : "code",
+					title : "编码",
+					filterable : true
+				},
+				{
+					field : "",
+					title : "操作",
+					width : 200,
+					template : function(item) {
+						return common.format($('#columnBtns').html(),item.id);
+					}
+				}
+			];
+			// End:column
+
+			vm.agencyServiceMattersGrid = {					
+					dataSource : common.gridDataSource(dataSource),
+					filterable : common.kendoGridConfig().filterable,
+					pageable : common.kendoGridConfig().pageable,
+					noRecords : common.kendoGridConfig().noRecordMessage,
+					columns : columns,
+					resizable : true
+			};
+			
+		}//end fun grid_agencyServiceMatters
+		
+		//批量删除部门审批事项
+		function deletePartApprovalMattersCatalogs(vm,id){
+			var httpOptions = {
+					method : 'delete',
+					url : common.format(url_catalog+"/deletePartApprovalMattersCatalogs"),
+					data : id
+			};
+			var httpSuccess = function(response){
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function(){
+						common.alert({
+							vm : vm,
+							msg : '删除成功！',
+							fn : function(){
+								$('.alertDialog').modal('hide');
+								vm.partApprovalMattersGrid.dataSource.read();
+							}
+						});
+					}
+				});
+			};
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+			
+		}//end fun deletePartApprovalMattersCatalogs
+		
+		//删除部门审批事项
+		function deletePartApprovalMatters(vm,id){
+			var httpOptions = {
+					method : 'put',
+					url : common.format(url_catalog+"/deletePartApprovalMatters?id={0}",id)
+			};
+			var httpSuccess = function(response){
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function(){
+						common.alert({
+							vm : vm,
+							msg : '删除成功！',
+							fn : function(){
+								$('.alertDialog').modal('hide')
+								vm.partApprovalMattersGrid.dataSource.read();
+							}
+						});
+					}
+				});
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+			
+		}//end fun deletePartApprovalMatters
+		//更新部门审批事项
+		function updatePartApprovalMatters(vm){
+			var httpOptions = {
+					method : 'put',
+					url : common.format(url_catalog+"/partApprovalMatters"),
+					data : vm.model
+			};
+			var httpSuccess = function(response){
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function(){
+						common.alert({
+							vm : vm,
+							msg : '操作成功！',
+							fn : function(){
+								$('.alertDialog').modal('hide');
+							}
+						});
+					}
+				});
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+			
+		}//end fun updatePartApprovalMatters
+		
+		//根据id获取部门审批事项信息
+		function getpartApprovalMattersById(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_catalog+"/partApprovalMatters?$filter=id eq '{0}'",vm.id)
+			};
+			var httpSuccess = function(response){
+				vm.model = response.data.value[0]||{};
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+			
+		}//end fun getpartApprovalMattersById
+		
+		//创建部门审批事项
+		function createPartApprovalMatters(vm){
+			var httpOptions = {
+					method : 'post',
+					url : common.format(url_catalog+"/partApprovalMatters"),
+					data : vm.model
+			};
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function(){
+						common.alert({
+							vm : vm,
+							msg : "操作成功",
+							fn : function() {
+								$('.alertDialog').modal('hide');
+								$('.modal-backdrop').remove();
+								location.href = '#/catalog/partApprovalMattersList';
+							}
+						});
+					}
+				});
+			};
+		
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}//end fun createPartApprovalMatters
+		
+		//获取部门审批事项目录列表
+		function grid_partApprovalMatters(vm){
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(common.format(url_catalog+"/partApprovalMatters")),
+				schema : common.kendoGridConfig().schema({
+					id : "id"					
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "code",
+					dir : "asc"
+				}
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+				{
+					template : function(item) {
+						return kendo.format("<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",item.id);
+					},
+					filterable : false,
+					width : 40,
+					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+
+				},
+				{
+					field : "name",
+					title : "名称",						
+					filterable : true
+				},
+				{
+					field : "code",
+					title : "编码",
+					filterable : true
+				},
+				{
+					field : "",
+					title : "操作",
+					width : 200,
+					template : function(item) {
+						return common.format($('#columnBtns').html(),item.id);
+					}
+				}
+			];
+			// End:column
+
+			vm.partApprovalMattersGrid = {					
+					dataSource : common.gridDataSource(dataSource),
+					filterable : common.kendoGridConfig().filterable,
+					pageable : common.kendoGridConfig().pageable,
+					noRecords : common.kendoGridConfig().noRecordMessage,
+					columns : columns,
+					resizable : true
+			};
+			
+		}
 		
 		//更新政策条目数据
 		function updatePolicyCatalog(vm){
@@ -747,6 +1179,13 @@
 		        	if(vm.model.type == 'projectType' || vm.model.type == 'constructionType'){
 		        		vm.isShow = true;
 		        	}
+		        	if(vm.model.type == 'projectType'){
+		        		vm.title = '项目类型';
+		        	}
+		        	if(vm.model.type == 'constructionType'){
+		        		vm.title = '建设类型';
+		        	}
+		        	
 			};
 			
 			common.http({

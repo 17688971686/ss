@@ -1,0 +1,62 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+    	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+	  	<li><a href="#/">首页</a></li>
+      	<li><a href="#/catalog/agencyServiceMattersList">中介服务事项目录管理</a></li>
+      	<li ng-show="vm.isAgencyServiceMattersDetails"><a href="#/catalog/agencyServiceMattersList">返回上一步</a></li>
+        <li class="active">{{vm.title}}</li>
+    </ol>
+    <form id="form" name="form">
+    	<div  ng-hide="vm.isAgencyServiceMattersDetails">
+	    	<div class="toolbar">
+	            <a class="btn btn-sm btn-primary" href="#/catalog/agencyServiceMattersList"><span class="glyphicon glyphicon-chevron-left"></span>返回</a>
+	            <button class="btn btn-sm btn-success" ng-click="vm.saveAgencyServiceMatters()" ng-hide="vm.isShowConfirm"><span class="glyphicon glyphicon-ok"></span>创建</button>
+	            <button class="btn btn-sm btn-success" ng-click="vm.updateAgencyServiceMatters()" ng-show="vm.isShowConfirm"><span class="glyphicon glyphicon-ok"></span>更新</button>
+	        </div>
+	        
+	        <table style="width:100%" class="table table-bordered table-striped">
+	            <tr>
+	                <td class="formAlignRight" style="width:25%">名称： <span class="required">(*)</span></td>
+	                <td>
+	                	<input type="text" maxlength="200" style="width:50%" class="form-control input-sm " ng-model="vm.model.name" 
+	                		id="name" name="name" data-val="true" data-val-required="必填" placeholder="请输入部门审批事项，请勿重复!" >
+						<span data-valmsg-for="name" data-valmsg-replace="true" class="required"></span>
+	                </td>
+	           	</tr>
+	           	<tr>
+	                <td class="formAlignRight" style="width:15%">代码： <span class="required">(*)</span></td>
+	                <td>
+	                	 <input type="text" maxlength="200" style="width:50%;" 
+	                	 	class="form-control input-sm" placeholder="请按规律输入部门审批事项代码，如：A00001，请勿重复!" 
+	                    	ng-model="vm.model.code" id="code" name="code" data-val="true" data-val-required="必填">
+	                    <span data-valmsg-for="code" data-valmsg-replace="true" class="required"></span>
+	                </td>
+	            </tr>
+	        </table>
+        </div>
+    </form>
+    	 
+    <div ng-show="vm.isAgencyServiceMattersDetails">
+    	 <table style="width:100%" class="table table-bordered table-striped">
+            <tr>
+                <td class="formAlignRight" style="width:25%">名称： <span class="required">(*)</span></td>
+                <td>
+                	<input type="text" maxlength="200" style="width:50%" class="form-control input-sm " ng-model="vm.model.name" ng-disabled="true">
+                </td>
+           	</tr>
+           	<tr>
+                <td class="formAlignRight" style="width:15%">代码： <span class="required">(*)</span></td>
+                <td>
+                	 <input  type="text" maxlength="200" style="width:50%;" class="form-control input-sm" ng-model="vm.model.code" ng-disabled="true">
+                </td>
+            </tr>
+        </table>
+    </div>
+       
+</div>
+
+
+
