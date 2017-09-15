@@ -37,7 +37,7 @@
 		<tr>
 			<td class="formAlignRight">评审类别：</td>
 			<td style="width: 333px;">
-				<span ng-bind="vm.approvalType"></span>
+				<span ng-bind="vm.getBasicDataJD(vm.approvalType)"></span>
 			</td>
 			<td class="formAlignRight" ng-if="vm.taskAudit.nextProcess == 'processState_5'">报送投资：</td>
 			<td class="formAlignRight">报送投资：<span class="required">(*)</span></td>

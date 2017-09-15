@@ -34,46 +34,14 @@
 			deleteOpin:deleteOpin,//删除意见
 			editOpin:editOpin,//编辑意见
 			getDraftIssued:getDraftIssued,//查询发文拟稿
-			saveDraft:saveDraft,
-			saveApproval:saveApproval,
-			getApproval:getApproval,
-			getComission:getComission,
-			saveProxy:saveProxy,
-			saveDatum:saveDatum
+			saveDraft:saveDraft,//保存发文信息
+			saveApproval:saveApproval,//评审报批
+			getApproval:getApproval,//查询评审报批
+			getComission:getComission,//查询评审委托
+			saveProxy:saveProxy//保存委托书
 		};
 		
 		return service;
-		
-		function saveDatum(vm,id){
-			var httpOptions = {
-					method : 'post',
-					url : common.format(url_proxy + "/datum/" +id),
-					data : vm.proxy
-				};
-			
-			var httpSuccess = function success(response) {
-				common.requestSuccess({
-					vm:vm,
-					response:response,
-					fn:function(){
-						common.alert({
-							vm:vm,
-							msg:"保存成功！",
-							fn:function(){
-								$('.alertDialog').modal('hide');
-							}
-						});
-					}
-				});
-			};
-				
-			common.http({
-				vm:vm,
-				$http:$http,
-				httpOptions:httpOptions,
-				success:httpSuccess
-			});
-		};
 		
 		function saveProxy(vm){
 			vm.proxy.approvalType = vm.approvalType;
@@ -84,7 +52,7 @@
 			vm.proxy.contacts = vm.nameAndTel;
 			vm.proxy.capitalBaoSong = vm.approval.capitalBaoSong;
 			vm.proxy.processSuggestion_JBR = vm.processSuggestion_JBR_WTS;
-			common.initJqValidation();
+//			common.initJqValidation();
 // 			var isValid = $('#formProxy').valid();
 //	   		if (isValid) {
 				var httpOptions = {
@@ -529,6 +497,7 @@
 		    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
 						}
 						//时间的显示
+						vm.model.shenBaoInfo.createdDate=common.formatDate(vm.model.shenBaoInfo.createdDate);//开工日期
 						vm.model.shenBaoInfo.beginDate=common.formatDate(vm.model.shenBaoInfo.beginDate);//开工日期
 						vm.model.shenBaoInfo.endDate=common.formatDate(vm.model.shenBaoInfo.endDate);//竣工日期
 						vm.model.shenBaoInfo.pifuJYS_date=common.formatDate(vm.model.shenBaoInfo.pifuJYS_date);//项目建议书批复日期			

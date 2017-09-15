@@ -2,7 +2,6 @@ package cs.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,16 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cs.common.ICurrentUser;
-import cs.domain.Approval;
-import cs.domain.Attachment;
 import cs.domain.Commission;
 import cs.domain.Datum;
-import cs.model.DomainDto.ApprovalDto;
 import cs.model.DomainDto.CommissionDto;
 import cs.model.DomainDto.DatumDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
-import cs.service.interfaces.ApprovalService;
 import cs.service.interfaces.CommissionService;
 
 /**
@@ -93,8 +88,10 @@ public class CommissionServiceImpl extends AbstractServiceImpl<CommissionDto, Co
 			});
 			commissionDto.setDatumDtos(datumDtos);
 			 
+			logger.info("查询用户数据");
 			return commissionDto;
 		}else{
+			logger.info("查询用户数据");
 			return null;
 		}
 		
@@ -114,17 +111,15 @@ public class CommissionServiceImpl extends AbstractServiceImpl<CommissionDto, Co
 					DatumRepo.delete(x);
 				});
 				entity.getDatum().clear();
-				commissionDto.getDatumDtos().forEach(x -> {//添加新附件
-					Datum datum = new Datum();
-					datumMapper.buildEntity(x, datum);
-					datum.setCreatedBy(entity.getCreatedBy());
-					datum.setModifiedBy(entity.getModifiedBy());
-					entity.getDatum().add(datum);
-				});
 				
 			}
-			
-			commissionMapper.buildEntity(commissionDto, entity);
+			commissionDto.getDatumDtos().forEach(x -> {//添加新附件
+				Datum datum = new Datum();
+				datumMapper.buildEntity(x, datum);
+				datum.setCreatedBy(entity.getCreatedBy());
+				datum.setModifiedBy(entity.getModifiedBy());
+				entity.getDatum().add(datum);
+			});
 			
 			entity.setCreatedBy(currentUser.getUserId());
 			entity.setCreatedDate(new Date());
@@ -150,27 +145,7 @@ public class CommissionServiceImpl extends AbstractServiceImpl<CommissionDto, Co
 			entity.setModifiedDate(new Date());
 			super.repository.save(entity);
 		}
-	}
-
-	@Override
-	@Transactional
-	public void createDatum(CommissionDto commissionDto, String id) {
-		Commission entity = CommissionRepo.findById(id);
-		List<DatumDto> datumDtos = commissionDto.getDatumDtos();
-		List<Datum> datums = DatumRepo.findAll();
-		
-		datumDtos.forEach(x->{
-			Datum datum = new Datum();
-			datumMapper.buildEntity(x, datum);
-			x.setCreatedBy(currentUser.getUserId());
-			
-			datums.add(datum);
-			
-		});
-		entity.setDatum(datums);
-		CommissionRepo.save(entity);
+		logger.info(String.format("创建评审委托书,登录名:%s", currentUser.getLoginName()));
 	}
 	
-	
-
 }

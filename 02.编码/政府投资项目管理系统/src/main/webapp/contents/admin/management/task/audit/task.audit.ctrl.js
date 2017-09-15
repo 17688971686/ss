@@ -121,12 +121,85 @@
         	//常用意见列表
         	taskAuditSvc.opinionGird(vm);
         	
-        	//taskAuditSvc.getApproval(vm);
+        	vm.getBasicDataJD=function(approvalType){
+        		vm.basicData.projectShenBaoStage=$linq(common.getBasicData())
+	   			.where(function(x){return x.identity==common.basicDataConfig().projectShenBaoStage&&x.id==approvalType;}).toArray();
+	   			//获取项目阶段
         	
+        		return vm.basicData.projectShenBaoStage[0].description;
+        	};
+        	
+        
+        	
+        	//相关附件文件上传文件种类
+	   		vm.relatedType=common.uploadFileTypeConfig().reviewResult;
+        	
+	   		vm.uploadSuccess_review=function(e){
+    			var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
+	           	 if(e.XMLHttpRequest.status==200){
+	           		 var fileName=e.XMLHttpRequest.response;
+	           		 $scope.$apply(function(){
+	           			 if(vm.model.attachmentDtos){
+	           				 vm.model.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
+	           			 }else{
+	           				 vm.model.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
+	           			 }                			           			
+	           		 });
+	           	 }
+	   		};
+	   		
+	   		//相关附件上传配置
+	   		vm.uploadOptions_review={
+	   				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
+	   				error:vm.uploadSuccess_review,	   				
+	   				localization:{select:'上传文件'},
+	   				showFileList:false,
+	   				multiple:true,
+	   				validation: {
+	   	                maxFileSize: common.basicDataConfig().uploadSize
+	   	            },
+	   	            select:vm.onSelect
+	   		};
+	   		//删除上传文件
+	   		 vm.delFile_review=function(idx){
+	   			 var file = vm.model.attachmentDtos[idx];
+	   			 if(file){//删除上传文件的同时删除批复文号
+	   				var pifuType = file.type;
+	   				vm.model['pifu'+pifuType+'_wenhao'] = "";
+	   				vm.model.attachmentDtos.splice(idx,1);
+	   			 }
+	         };
+	   		
+        	//打开评审结果模态框
+        	vm.showReviewResult=function(){
+        		
+        		taskAuditSvc.getComission(vm);
+        		
+        		vm.beginDate = common.formatDate(new Date());
+        		
+        		$('.reviewResult').modal({
+                    backdrop: 'static',
+                    keyboard:false
+                });
+        	};
+        	
+        	//关闭评审资料模态框
+        	vm.closeDatum=function(){
+        		$('#datum').modal('hide');
+        	};
+        	//删除评审资料
+        	vm.removeDatum=function(id){
+        		 for (var i = 0; i < vm.proxy.datumDtos.length; i++) {
+						if(vm.proxy.datumDtos[i].id == id){
+							vm.proxy.datumDtos.splice(i,1);
+						}
+					}
+        	}
+        	
+        	//增加评审资料
         	vm.saveDatum=function(id){
-        		vm.proxy.datumDtos=[];
         		vm.proxy.datumDtos.push({dataName:vm.dataName,dataNumber:vm.dataNumber});
-        		taskAuditSvc.saveDatum(vm,id);
+        		$('#datum').modal('hide');
         	};
         	
         	vm.openDatum=function(){
@@ -164,7 +237,7 @@
         		
         		vm.beginDate = common.formatDate(new Date());
         		
-        		vm.approvalType = "概算";
+        		vm.approvalType = vm.model.shenBaoInfo.projectShenBaoStage;
         	};
         	
         	//打开评审报批模态框
@@ -181,7 +254,7 @@
 					}
 				};
         		
-        		vm.approvalType = "概算";
+        		vm.approvalType = vm.model.shenBaoInfo.projectShenBaoStage;
         		vm.beginDate = common.formatDate(new Date());
         		
         		$('.approval').modal({

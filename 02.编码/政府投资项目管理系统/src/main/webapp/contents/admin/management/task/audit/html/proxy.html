@@ -36,7 +36,7 @@
 		<tr>
 			<td class="formAlignRight">评审类别：</td>
 			<td style="width: 333px;text-align: center;">
-				<span ng-bind="vm.approvalType"></span>
+				<span ng-bind="vm.getBasicDataJD(vm.approvalType)"></span>
 			</td>
 			
 			<td class="formAlignRight">报送投资：</td>
@@ -81,7 +81,7 @@
 				<table class="table  table-bordered table-striped">
 					<tr>
 						<td width="50%" style="text-align: center;">资料名称 
-							<button class="btn btn-xs btn-primary"  ng-click="vm.openDatum()" ><span class="glyphicon glyphicon-pencil"></span>添加</button>
+							<button ng-if="vm.taskAudit.nextProcess == 'processState_9'" class="btn btn-xs btn-primary"  ng-click="vm.openDatum()" ><span class="glyphicon glyphicon-pencil"></span>添加</button>
 						</td>
 						<td width="50%" style="text-align: center;">套数(单位：份)</td>
 					</tr>
@@ -90,8 +90,8 @@
 							<span ng-bind="x.dataName"></span>
 						</td>
 						<td style="text-align: center;">
-							<input type="number" value="x.dataNumber"/>
-							<button class="btn btn-xs btn-danger"  ng-click="vm.remove(x.id)" ><span class="glyphicon glyphicon-remove"></span>删除</button>
+							<span ng-bind="x.dataNumber"></span>
+							<button ng-if="vm.taskAudit.nextProcess == 'processState_9'" class="btn btn-xs btn-danger"  ng-click="vm.removeDatum(x.id)" ><span class="glyphicon glyphicon-remove"></span>删除</button>
 						</td>
 					</tr>
 				</table>
@@ -127,8 +127,8 @@
 			 	</div>
             </div>
 			<div class="modal-footer" >
-				<button type="button" ng-if="vm.taskAudit.nextProcess == 'processState_9'" class="btn btn-primary" ng-click="vm.saveDatum(vm.proxy.id)" data-dismiss="modal">保存</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" ng-if="vm.taskAudit.nextProcess == 'processState_9'" class="btn btn-primary" ng-click="vm.saveDatum(vm.proxy.id)">保存</button>
+				<button type="button" class="btn btn-default" ng-click="vm.closeDatum()">取消</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
