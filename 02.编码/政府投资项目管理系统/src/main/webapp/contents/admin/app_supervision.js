@@ -214,7 +214,15 @@
 		    templateUrl: '/management/supervision/project/html/shenpiItemsDetail',
 		    controller: 'projectCtrl',
 		    controllerAs: 'vm'
-		    })   
+		    }) 
+		     //审批事项列表  
+		    .state('shenpifankuiItemsList', {
+		    url: '/supervision/spfk',
+		    templateUrl: '/management/supervision/project/html/shenpifankuiItemsList',
+		    controller: 'projectCtrl',
+		    controllerAs: 'vm'
+		    }) 
+		    
 	        ;
         
 	        /**********************end#project***************************************/

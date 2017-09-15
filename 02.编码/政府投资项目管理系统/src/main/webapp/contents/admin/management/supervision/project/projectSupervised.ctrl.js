@@ -58,6 +58,9 @@
 				}else{
 					vm.page="shenpiItemsCreate";
 				}break;
+ 			case "shenpifankuiItemsList":
+ 				vm.page="shenpifankuiItemsList";
+ 				break;	
     		}
     		
     		vm.getBasicDataDesc = function(Str){
@@ -85,7 +88,10 @@
     	init();    	
     	activate(); 
         function activate() {
-        	
+        	if(vm.page=="shenpifankuiItemsList"){
+        		vm.title='审批事项反馈列表';
+        		shenpifankuiItemsList();
+        	}
         	if(vm.page=="shenpiItemsCreate"){
         		vm.title='审批事项新增';
         		shenpiItemsCreate();
@@ -127,6 +133,10 @@
         		init_details();
         	}
         
+        }
+        function shenpifankuiItemsList(){
+        	projectSupervisedSvc.shenpifankuiItemsGrid(vm);
+        	
         }
         function shenpiItemsCreate(){
         	vm.choiceProject=function(){

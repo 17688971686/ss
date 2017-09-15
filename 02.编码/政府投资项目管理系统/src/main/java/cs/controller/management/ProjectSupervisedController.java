@@ -41,6 +41,7 @@ public class ProjectSupervisedController {
 	private String ctrlName = "management/supervision/project";
 	private String ctrlUnitName = "management/supervision/shenpiUnit";
 	private String ctrlItemsName = "management/supervision/shenpiItems";
+	private String ctrlFanKuiItemsName = "management/supervision/shenpifankuiItems";
 	
 	@Autowired
 	private ProjectSupervisedService projectSupervisedService;
@@ -101,6 +102,11 @@ public class ProjectSupervisedController {
 			shenPiItemsService.delete(id);
 		}
 	} 
+	 
+	@RequestMapping(name = "审批事项反馈列表页面", path = "html/shenpifankuiItemsList", method = RequestMethod.GET)	
+	public String shenpifankuiItemsList() {
+		return ctrlFanKuiItemsName + "/list";
+	}
 	@RequestMapping(name = "审批事项列表页面", path = "html/shenpiItemsList", method = RequestMethod.GET)	
 	public String shenpiItemsList() {
 		return ctrlItemsName + "/list";

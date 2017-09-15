@@ -31,7 +31,8 @@
 			shenpiUnitGridSelect:shenpiUnitGridSelect,
 			updateShenpiItems:updateShenpiItems,
 			createShenpiItems:createShenpiItems,
-			delShenPiItem:delShenPiItem
+			delShenPiItem:delShenPiItem,
+			shenpifankuiItemsGrid:shenpifankuiItemsGrid
 			
 		};
 
@@ -944,6 +945,109 @@
 			};
 
 		}// end fun grid
+		// begin#shenpifankuiItemsGrid
+		function shenpifankuiItemsGrid(vm) {
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(common.format(url_project+"/shenpiItems")),
+				schema : common.kendoGridConfig().schema({
+					id : "id",
+					fields : {
+						createdDate : {
+							type : "date"
+						},
+						isMonthReport:{
+							type:"boolean"
+						},
+						isIncludLibrary:{
+							type:"boolean"
+						}
+						
+					}
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "createdDate",
+					dir : "desc"
+				}
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+					{
+						template : function(item) {
+							return kendo
+									.format(
+											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+											item.id);
+						},
+						filterable : false,
+						width : 40,
+						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+
+					},
+					
+					 {
+						field : "shenpiName",
+						title : "审批事项",				
+						filterable : false
+					},
+					 {
+						field : "projectName",
+						title : "审批项目",
+						width : '',						
+						filterable : false
+					},
+					 {
+						field : "shenpiUnitName",
+						title : "审批单位",
+						width : "",						
+						filterable : false
+					},
+					{
+						
+						field : "",
+						title : "剩余天数",
+						width : "",			
+						template : function(item) {
+							var flag=((new Date(item.shenpiEndDate).getTime())-(new Date(common.formatDate(new Date())).getTime()))/(24 * 60 * 60 * 1000);
+							if(flag>0){
+								return  flag ;}
+							else{
+								return  "<span style='color:red'>" +flag+"</span>";}
+							}
+					},
+					{
+						field : "",
+						title : "操作",
+						width : "",
+						template : function(item) {
+							return common.format($('#columnBtns').html(),item.id);
+						}
+
+					}
+
+			];
+			// End:column
+			var dataBound= function(e) {
+				    console.log(e);
+				  }
+			vm.gridOptions = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				dataBound:dataBound,
+				resizable : true
+			};
+
+		}// end fun shenpifankuiItemsGrid
 		// begin#shenpiItemsGrid
 		function shenpiItemsGrid(vm) {
 			// Begin:dataSource
