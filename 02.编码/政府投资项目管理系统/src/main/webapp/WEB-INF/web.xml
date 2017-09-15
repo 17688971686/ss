@@ -17,6 +17,16 @@
     <servlet-name>framework</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  
+  <filter>
+    <filter-name>mobileFilter</filter-name>
+  	<filter-class>cs.controller.mobile.MobileFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>mobileFilter</filter-name>
+  	<url-pattern>/mobile/*</url-pattern>
+  </filter-mapping>
+  
   <filter>
     <filter-name>shiroFilter</filter-name>
     <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
