@@ -120,7 +120,7 @@ overflow: scroll !important;
 			<tr ng-repeat="x in vm.taskAudit.taskRecordDtos | orderBy:'modifiedDate':true" >
 				<td class="formAlignRight"  style="width:150px;"  ng-bind="vm.getBasicDataDesc(x.processState)"></td>
 				<td >
-					<table class="table table-bordered table-striped " ng-if="x.processState == 'processState_5'&&x.nextProcess=='processState_4'">
+					<table class="table table-bordered table-striped " ng-if="x.tuiwen == true">
 						<tr>
 							<td class="formAlignRight" style="width:240px;">申报材料不符合要求:</td>
 							<td>
@@ -483,7 +483,7 @@ overflow: scroll !important;
 					</div>
 					<div ng-if="vm.taskAudit.nextProcess =='processState_21'" style="float: left;">
 						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('bangongshifawen')" value="bangongshifawen" data-val="true" data-val-required="必选"/>办公室发文&nbsp;&nbsp;
-						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('jingBanRenBanli')" value="jingBanRenBanli" data-val="true" data-val-required="必选"/><span>经办人办理</span>&nbsp;&nbsp;
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('jingBanRenBanli_juzhang')" value="jingBanRenBanli_juzhang" data-val="true" data-val-required="必选"/><span>经办人办理</span>&nbsp;&nbsp;
 					</div>
 					<div>
 						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('banjie')" value="tuiwen" data-val="true" data-val-required="必选"/><span>办结</span>&nbsp;&nbsp;

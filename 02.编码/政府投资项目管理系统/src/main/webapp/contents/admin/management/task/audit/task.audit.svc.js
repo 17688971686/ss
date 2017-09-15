@@ -184,6 +184,13 @@
 						}else{
 							vm.processSuggestion_JBR_WTS = vm.approval.processSuggestion_JBR;
 						}
+						for (var i = 0; i < vm.model.depts.length; i++) {
+							for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {//循环人员
+								if(vm.model.depts[i].userDtos[j].id == vm.proxy.processRole){//获得部门人员
+									vm.proxy.processRole =  vm.model.depts[i].userDtos[j].displayName;
+								}
+							}
+						};
 					}
 				});
 			};

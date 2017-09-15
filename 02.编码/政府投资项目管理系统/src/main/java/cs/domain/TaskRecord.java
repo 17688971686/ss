@@ -67,6 +67,9 @@ public class TaskRecord extends BaseEntity {
 	@Column(columnDefinition="varchar(500) NULL COMMENT '退文其他'")
 	private String tuiwen_other;
 	
+	@Column(columnDefinition="bit(1) NULL COMMENT '退文标识'")
+	private Boolean tuiwen;
+	
 	public String getOperator() {
 		return operator;
 	}
@@ -178,5 +181,12 @@ public class TaskRecord extends BaseEntity {
 	public void setTuiwen_other(String tuiwen_other) {
 		this.tuiwen_other = tuiwen_other;
 	}
+	public Boolean getTuiwen() {
+		return tuiwen;
+	}
+	public void setTuiwen(Boolean tuiwen) {
+		this.tuiwen = tuiwen;
+	}
+
 	
 }

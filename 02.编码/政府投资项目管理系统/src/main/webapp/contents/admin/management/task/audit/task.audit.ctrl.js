@@ -544,13 +544,15 @@
         		}
         		
         		//退回经办人
-        		if(str == "tuihuijingbanren" || str == "jingbanrensongshen" || str == "pingswancheng"){
+        		if(str == "tuihuijingbanren" || str == "jingbanrensongshen" || str == "pingswancheng" || str == "jingBanRenBanli_juzhang"){
         			if(str == "tuihuijingbanren"){
         				vm.nextProcessRadio = "tuihuijingbanren";
         			}else if(str == "jingbanrensongshen"){
         				vm.nextProcessRadio = "jingbanrensongshen";
         			}else if(str == "pingswancheng"){
         				vm.nextProcessRadio = "pingswancheng";
+        			}else if(str == "jingBanRenBanli_juzhang"){
+        				vm.nextProcessRadio = "jingBanRenBanli_juzhang";
         			}
 					vm.taskAudit.nextUser = vm.taskAudit.operator;
         		}
@@ -669,6 +671,8 @@
         	
         	//送出
         	vm.handle = function(){
+        		
+        		vm.taskAudit.tuiwen = false;
         		common.initJqValidation();
         		var isValid = $('form').valid();
     	   		if (isValid) {
@@ -723,6 +727,10 @@
 	        		}else if(vm.nextProcessRadio == "julingdaoshenpi"){//局领导审批--正常流程
 	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
 	        			vm.taskAudit.processRole ="";
+	        		}else if(vm.nextProcessRadio == "jingBanRenBanli_juzhang"){//局领导审批--经办人办理
+	        			vm.taskAudit.processState = "processState_4";
+	    				vm.taskAudit.nextProcess = "processState_5";
+	    				vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadio == "pingshentuihui"){//评审中心退回经办人
 	        			vm.taskAudit.processState = "processState_8";
 	    				vm.taskAudit.nextProcess = "processState_9";
@@ -754,6 +762,7 @@
 	        			vm.taskAudit.processState = "processState_5";
 	    				vm.taskAudit.nextProcess = "processState_4";
 	    				vm.taskAudit.processRole ="";
+	    				vm.taskAudit.tuiwen = true;
 	        		}else if(vm.nextProcessRadioOfYW == "pingshenweituo" && vm.nextProcessRadio == "kezhangshenhe"){//评审委托--科长审核
 	        			vm.taskAudit.processState = "processState_9";
 	    				vm.taskAudit.nextProcess = "processState_18";
