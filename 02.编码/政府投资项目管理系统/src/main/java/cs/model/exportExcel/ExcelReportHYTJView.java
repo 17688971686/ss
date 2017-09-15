@@ -24,6 +24,7 @@ public class ExcelReportHYTJView extends AbstractXlsView {
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
         response.setHeader("Content-Disposition", "attachment;filename=\"yearPlanByIndustry.xls\"");
         Sheet sheet = workbook.createSheet("表1");
+        CellStyle cellStyleO = workbook.createCellStyle();
         //创建行
         Row title=sheet.createRow(0);
         Row row_head1 = sheet.createRow(1);
@@ -31,7 +32,7 @@ public class ExcelReportHYTJView extends AbstractXlsView {
       
         //begin#标题
         //创建列
-        createCellAlignCenter(workbook,title,0,"光明新区"+year+"年区级政府投资项目计划汇总表");
+        createCellAlignCenter(workbook,title,0,"光明新区"+year+"年区级政府投资项目计划汇总表",cellStyleO);
         //合并标题
         //参数1：开始行、结束行、开始列、结束列
         sheet.addMergedRegion(new CellRangeAddress(0,0,0,13));
@@ -39,22 +40,22 @@ public class ExcelReportHYTJView extends AbstractXlsView {
 
         //begin表格头
         //参数：表格目标，行目标，列位置，值
-        createCellAlignCenter(workbook,row_head1,0,"序号");
-        createCellAlignCenter(workbook,row_head1,1,"行业");
-        createCellAlignCenter(workbook,row_head1,2,"申报项目个数");
-        createCellAlignCenter(workbook,row_head2,2,"A类");
-        createCellAlignCenter(workbook,row_head2,3,"B类");
-        createCellAlignCenter(workbook,row_head2,4,"C类");
-        createCellAlignCenter(workbook,row_head2,5,"D类");
-        createCellAlignCenter(workbook,row_head1,6,"总投资金额");
-        createCellAlignCenter(workbook,row_head1,7,"累计拨付资金");//完成投资
-        createCellAlignCenter(workbook,row_head1,8,"累计下达计划");//安排投资
-        createCellAlignCenter(workbook,row_head1,9,"年度预安排资金");
-        createCellAlignCenter(workbook,row_head2,9,"公共预算");
-        createCellAlignCenter(workbook,row_head2,10,"国土");
-        createCellAlignCenter(workbook,row_head2,11,"其他");
-        createCellAlignCenter(workbook,row_head2,12,"合计");
-        createCellAlignCenter(workbook,row_head1,13,"备注");
+        createCellAlignCenter(workbook,row_head1,0,"序号",cellStyleO);
+        createCellAlignCenter(workbook,row_head1,1,"行业",cellStyleO);
+        createCellAlignCenter(workbook,row_head1,2,"申报项目个数",cellStyleO);
+        createCellAlignCenter(workbook,row_head2,2,"A类",cellStyleO);
+        createCellAlignCenter(workbook,row_head2,3,"B类",cellStyleO);
+        createCellAlignCenter(workbook,row_head2,4,"C类",cellStyleO);
+        createCellAlignCenter(workbook,row_head2,5,"D类",cellStyleO);
+        createCellAlignCenter(workbook,row_head1,6,"总投资金额",cellStyleO);
+        createCellAlignCenter(workbook,row_head1,7,"累计拨付资金",cellStyleO);//完成投资
+        createCellAlignCenter(workbook,row_head1,8,"累计下达计划",cellStyleO);//安排投资
+        createCellAlignCenter(workbook,row_head1,9,"年度预安排资金",cellStyleO);
+        createCellAlignCenter(workbook,row_head2,9,"公共预算",cellStyleO);
+        createCellAlignCenter(workbook,row_head2,10,"国土",cellStyleO);
+        createCellAlignCenter(workbook,row_head2,11,"其他",cellStyleO);
+        createCellAlignCenter(workbook,row_head2,12,"合计",cellStyleO);
+        createCellAlignCenter(workbook,row_head1,13,"备注",cellStyleO);
         //end#表格头
         
         //合并表头
@@ -77,20 +78,20 @@ public class ExcelReportHYTJView extends AbstractXlsView {
         for (ExcelDataHYTJ data:excelDataHYTJList) {
             Row row = sheet.createRow(rowNum);
             //创建数据
-            createCellAlignCenter(workbook,row,0, index);//序号
-            createCellAlignLeft(workbook,row,1, data.getProjectIndustry()+"(合计："+data.getProjectSum()+")");//项目行业
-            createCellAlignCenter(workbook,row,2, data.getProjectCategory_ASum());//A类
-            createCellAlignCenter(workbook,row,3, data.getProjectCategory_BSum());//B类
-            createCellAlignCenter(workbook,row,4, data.getProjectCategory_CSum());//C类
-            createCellAlignCenter(workbook,row,5, data.getProjectCategory_DSum());//D类
-            createCellAlignCenter(workbook,row,6, data.getInvestSum());//总投资
-            createCellAlignCenter(workbook,row,7, data.getInvestAccuSum());//累计下达
-            createCellAlignCenter(workbook,row,8, data.getApInvestSum());//累计拨付
-            createCellAlignCenter(workbook,row,9, data.getYearAp_ggysSum());//公共预算
-            createCellAlignCenter(workbook,row,10, data.getYearAp_gtjjSum());//国土基金
-            createCellAlignCenter(workbook,row,11, data.getYearAp_qitaSum());//其他
-            createCellAlignCenter(workbook,row,12, data.getYearApSum());//合计
-            createCellAlignCenter(workbook,row,13, data.getRemark());//备注
+            createCellAlignCenter(workbook,row,0, index,cellStyleO);//序号
+            createCellAlignLeft(workbook,row,1, data.getProjectIndustry()+"(合计："+data.getProjectSum()+")",cellStyleO);//项目行业
+            createCellAlignCenter(workbook,row,2, data.getProjectCategory_ASum(),cellStyleO);//A类
+            createCellAlignCenter(workbook,row,3, data.getProjectCategory_BSum(),cellStyleO);//B类
+            createCellAlignCenter(workbook,row,4, data.getProjectCategory_CSum(),cellStyleO);//C类
+            createCellAlignCenter(workbook,row,5, data.getProjectCategory_DSum(),cellStyleO);//D类
+            createCellAlignCenter(workbook,row,6, data.getInvestSum(),cellStyleO);//总投资
+            createCellAlignCenter(workbook,row,7, data.getInvestAccuSum(),cellStyleO);//累计下达
+            createCellAlignCenter(workbook,row,8, data.getApInvestSum(),cellStyleO);//累计拨付
+            createCellAlignCenter(workbook,row,9, data.getYearAp_ggysSum(),cellStyleO);//公共预算
+            createCellAlignCenter(workbook,row,10, data.getYearAp_gtjjSum(),cellStyleO);//国土基金
+            createCellAlignCenter(workbook,row,11, data.getYearAp_qitaSum(),cellStyleO);//其他
+            createCellAlignCenter(workbook,row,12, data.getYearApSum(),cellStyleO);//合计
+            createCellAlignCenter(workbook,row,13, data.getRemark(),cellStyleO);//备注
             
             projectSum+=data.getProjectSum();
             projectCategory_ASum+=data.getProjectCategory_ASum();
@@ -110,50 +111,50 @@ public class ExcelReportHYTJView extends AbstractXlsView {
         
         //合计行
         Row row = sheet.createRow(rowNum);
-        createCellAlignCenter(workbook,row,0, index);
-        createCellAlignCenter(workbook,row,1, "(合计："+projectSum+")");
-        createCellAlignCenter(workbook,row,2, projectCategory_ASum);
-        createCellAlignCenter(workbook,row,3, projectCategory_BSum);
-        createCellAlignCenter(workbook,row,4, projectCategory_CSum);
-        createCellAlignCenter(workbook,row,5, projectCategory_DSum);
-        createCellAlignCenter(workbook,row,6, investSum);//总投资
-        createCellAlignCenter(workbook,row,7, investAccuSum);//累计下达
-        createCellAlignCenter(workbook,row,8, apInvestSum);//累计拨付
-        createCellAlignCenter(workbook,row,9, yearAp_ggysSum);
-        createCellAlignCenter(workbook,row,10, yearAp_gtjjSum);
-        createCellAlignCenter(workbook,row,11, yearAp_qitaSum);
-        createCellAlignCenter(workbook,row,12, yearAp_SumSum);
-        createCellAlignCenter(workbook,row,13, "");
+        createCellAlignCenter(workbook,row,0, index,cellStyleO);
+        createCellAlignCenter(workbook,row,1, "(合计："+projectSum+")",cellStyleO);
+        createCellAlignCenter(workbook,row,2, projectCategory_ASum,cellStyleO);
+        createCellAlignCenter(workbook,row,3, projectCategory_BSum,cellStyleO);
+        createCellAlignCenter(workbook,row,4, projectCategory_CSum,cellStyleO);
+        createCellAlignCenter(workbook,row,5, projectCategory_DSum,cellStyleO);
+        createCellAlignCenter(workbook,row,6, investSum,cellStyleO);//总投资
+        createCellAlignCenter(workbook,row,7, investAccuSum,cellStyleO);//累计下达
+        createCellAlignCenter(workbook,row,8, apInvestSum,cellStyleO);//累计拨付
+        createCellAlignCenter(workbook,row,9, yearAp_ggysSum,cellStyleO);
+        createCellAlignCenter(workbook,row,10, yearAp_gtjjSum,cellStyleO);
+        createCellAlignCenter(workbook,row,11, yearAp_qitaSum,cellStyleO);
+        createCellAlignCenter(workbook,row,12, yearAp_SumSum,cellStyleO);
+        createCellAlignCenter(workbook,row,13, "",cellStyleO);
 
     }
-    private void createCellAlignCenter(Workbook workbook,Row row, int cellNumber,String value){
-        createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER);
+    private void createCellAlignCenter(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyle){
+        createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,cellStyle);
     }
-    private void createCellAlignCenter(Workbook workbook,Row row, int cellNumber,double value){
-        createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER);
+    private void createCellAlignCenter(Workbook workbook,Row row, int cellNumber,double value,CellStyle cellStyle){
+        createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,cellStyle);
     }
-    private void createCellAlignLeft(Workbook workbook,Row row, int cellNumber,String value){
-        createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_LEFT,CellStyle.VERTICAL_CENTER);
+    private void createCellAlignLeft(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyle){
+        createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_LEFT,CellStyle.VERTICAL_CENTER,cellStyle);
     }
-    private void createCellAlignRight(Workbook workbook,Row row, int cellNumber,String value){
-        createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_RIGHT,CellStyle.VERTICAL_CENTER);
+    private void createCellAlignRight(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyle){
+        createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_RIGHT,CellStyle.VERTICAL_CENTER,cellStyle);
     }
-    private void createCell(Workbook workbook,Row row, int cellNumber,String value, short halign, short valign){
+    private void createCell(Workbook workbook,Row row, int cellNumber,String value, short halign, short valign,CellStyle cellStyle){
         Cell cell=row.createCell(cellNumber);
         cell.setCellValue(value);
 
-        CellStyle cellStyle = workbook.createCellStyle();
+//        CellStyle cellStyle = workbook.createCellStyle();
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
         cellStyle.setWrapText(true);
         cell.setCellStyle(cellStyle);
     }
   //重写创建列
-    private void createCell(Workbook workbook,Row row, int cellNumber,double value, short halign, short valign){
+    private void createCell(Workbook workbook,Row row, int cellNumber,double value, short halign, short valign,CellStyle cellStyle){
         Cell cell=row.createCell(cellNumber);
         cell.setCellValue(value);
 
-        CellStyle cellStyle = workbook.createCellStyle();
+//        CellStyle cellStyle = workbook.createCellStyle();
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
         cellStyle.setWrapText(true);
