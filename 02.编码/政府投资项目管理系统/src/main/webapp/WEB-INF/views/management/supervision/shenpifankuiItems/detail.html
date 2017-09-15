@@ -16,55 +16,46 @@
             <tr>
                 <td class="formAlignRight" style="width:15%">审批单位名称： <span class="required">(*)</span></td>
                 <td>
-                    <input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.shenpiUnitName" id="shenpiUnitName" name="shenpiUnitName" data-val="true" data-val-required="必填">
-                    <span data-valmsg-for="shenpiUnitName" data-valmsg-replace="true" class="required"></span>
+                    <input  disabled="disabled" type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.shenpiUnitName" id="shenpiUnitName" name="shenpiUnitName" data-val="true" data-val-required="必填">
                 </td>
                 <td class="formAlignRight" style="width:15%">审批单位地址： <span class="required">(*)</span></td>
                 <td>
-                    <input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.shenpiUnitAddress" id="shenpiUnitAddress" name="shenpiUnitAddress" data-val="true" data-val-required="必填">
-                    <span data-valmsg-for="shenpiUnitAddress" data-valmsg-replace="true" class="required"></span>
+                    <input disabled="disabled" type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.shenpiUnitAddress" id="shenpiUnitAddress" name="shenpiUnitAddress" data-val="true" data-val-required="必填">
                 </td>
             </tr>
             <tr>
                 <td class="formAlignRight" style="width:15%">审批单位负责人： <span class="required">(*)</span></td>
                 <td>
-                    <input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.contacts" id="contacts" name="contacts" data-val="true" data-val-required="必填">
-                    <span data-valmsg-for="contacts" data-valmsg-replace="true" class="required"></span>
+                    <input disabled="disabled"  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.contacts" id="contacts" name="contacts" data-val="true" data-val-required="必填">
                 </td>
                 <td class="formAlignRight" style="width:15%">负责人电话： <span class="required">(*)</span></td>
                 <td>
-                    <input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.contactsTel" id="contactsTel" name="contactsTel" data-val="true" data-val-required="必填">
-                    <span data-valmsg-for="contactsTel" data-valmsg-replace="true" class="required"></span>
+                    <input disabled="disabled" type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.contactsTel" id="contactsTel" name="contactsTel" data-val="true" data-val-required="必填">
                 </td>
              <tr>
                <td class="formAlignRight" style="width:15%">负责人邮箱： <span class="required">(*)</span></td>
                 <td>
-                    <input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.email" id="email" name="email" data-val="true" data-val-required="必填">
-                    <span data-valmsg-for="email" data-valmsg-replace="true" class="required"></span>
+                    <input disabled="disabled" type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.email" id="email" name="email" data-val="true" data-val-required="必填">
                 </td>
                 <td class="formAlignRight" style="width:15%">负责人传真： <span class="required">(*)</span></td>
                 <td>
-                    <input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.fax" id="fax" name="fax" data-val="true" data-val-required="必填">
-                    <span data-valmsg-for="fax" data-valmsg-replace="true" class="required"></span>
+                    <input disabled="disabled" type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.fax" id="fax" name="fax" data-val="true" data-val-required="必填">
                 </td>
             </tr>
             <tr>
              <td class="formAlignRight" style="width:15%">审批单位介绍： <span class="required">(*)</span></td>
              <td colspan="3" style="padding: 10px;">
-					<textarea id="introduce" name="introduce" rows="3" cols="20" maxlength="500" ng-model="vm.model.introduce"
-						placeholder="审批单位简介及主要审批事项(500字符以内)" style="height: 120px; width: 99%;" data-val="true" data-val-required="必填"
+					<textarea disabled="disabled" id="introduce" name="introduce" rows="3" cols="20" maxlength="500" ng-model="vm.model.introduce"
+						placeholder="中介机构经营范围(500字符以内)" style="height: 120px; width: 99%;" data-val="true" data-val-required="必填"
 						ng-change="vm.checkLength(vm.model.introduce,500,'introduceTip')"></textarea>
-					<span data-valmsg-for="introduce" data-valmsg-replace="true" class="required"></span>
-					<div class="tipfont">您还可以输入<span id="introduceTip"><font size="5">500</font></span>个字符!</div>
 			 </td>
              </tr>
              <tr>
              <td class="formAlignRight" style="width:15%">备注：</td>
              <td colspan="3" style="padding: 10px;">
-					<textarea id="comment" name="comment" rows="3" cols="20" maxlength="500" ng-model="vm.model.comment"
+					<textarea disabled="disabled" id="comment" name="comment" rows="3" cols="20" maxlength="500" ng-model="vm.model.comment"
 						placeholder="备注(500字符以内)" style="height: 120px; width: 99%;" 
 						ng-change="vm.checkLength(vm.model.comment,500,'commentTip')"></textarea>
-					<div class="tipfont">您还可以输入<span id="commentTip"><font size="5">500</font></span>个字符!</div>
 			 </td>
              </tr>
               

@@ -24,10 +24,45 @@
 			getShenPiUnitById:getShenPiUnitById,
 			updateShenpiUnit:updateShenpiUnit,
 			createShenpiUnit:createShenpiUnit,
-			delShenPiUnit,delShenPiUnit
+			delShenPiUnit,delShenPiUnit,
+			shenpiItemsGrid:shenpiItemsGrid,
+			getShenPiItemsById:getShenPiItemsById,
+			projectGrid:projectGrid,
+			shenpiUnitGridSelect:shenpiUnitGridSelect,
+			updateShenpiItems:updateShenpiItems,
+			createShenpiItems:createShenpiItems,
+			delShenPiItem:delShenPiItem,
+			shenpifankuiItemsGrid:shenpifankuiItemsGrid
+			
 		};
 
 		return service;
+		function delShenPiItem(vm,id) {
+            vm.isSubmit = true;
+            var httpOptions = {
+                method: 'delete',
+                url:url_project+"/delShenPiItem",
+                data:id 
+            };
+            var httpSuccess = function success(response) {
+                
+                common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function () {
+	                    vm.isSubmit = false;
+	                    vm.gridOptions.dataSource.read();
+	                }
+					
+				});
+            };
+            common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+        }// end fun delete
 		function delShenPiUnit(vm,id) {
             vm.isSubmit = true;
             var httpOptions = {
@@ -54,6 +89,196 @@
 				success:httpSuccess
 			});
         }// end fun delete
+		// begin#grid
+		function shenpiUnitGridSelect(vm) {
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(common.format(url_project+"/shenpiUnit")),
+				schema : common.kendoGridConfig().schema({
+					id : "id",
+					fields : {
+						createdDate : {
+							type : "date"
+						},
+						isMonthReport:{
+							type:"boolean"
+						},
+						isIncludLibrary:{
+							type:"boolean"
+						}
+						
+					}
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "createdDate",
+					dir : "desc"
+				}
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+					{
+						template : function(item) {
+							return kendo
+									.format(
+											"<input  type='radio'  relId='{0}' value='{0}' name='radio1' class='radio' />",
+											item.id+","+item.shenpiUnitName);
+						},
+						filterable : false,
+						width : 40,
+						title : ""
+
+					},
+					{
+						field : "shenpiUnitName",
+						title : "单位名称",
+						template:"",
+						filterable : true
+					},
+					{
+						field : "contacts",
+						title : "单位负责人",
+						template:"",
+						filterable : true
+					},
+					{
+						field : "contactsTel",
+						title : "联系人电话",
+						template:"",
+						filterable : true
+					}
+			];
+			// End:column
+
+			vm.shenpiUnitGridOptions = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true
+			};
+
+		}// end fun grid
+		// begin#grid
+		function projectGrid(vm) {
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(common.format("/management/project/unitName")),
+				schema : common.kendoGridConfig().schema({
+					id : "id",
+					fields : {
+						createdDate : {
+							type : "date"
+						},
+						isMonthReport:{
+							type:"boolean"
+						},
+						isIncludLibrary:{
+							type:"boolean"
+						}
+						
+					}
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "createdDate",
+					dir : "desc"
+				},
+				filter:[
+					{
+						field:"projectInvestmentType",
+						operator:"eq",
+						value:common.basicDataConfig().projectInvestmentType_ZF
+					},
+					{
+						field:"isLatestVersion",
+						operator:"eq",
+						value:true
+					},{
+						field:"isIncludLibrary",
+						operator:"eq",
+						value:true
+					}
+				]
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+					{
+						template : function(item) {
+							return kendo
+									.format(
+											"<input  type='radio'  relId='{0}' value='{0}' name='radio' class='radio' />",
+											item.id+","+item.projectName);
+						},
+						filterable : false,
+						width : 40,
+						title : ""
+
+					},
+					{
+						field : "projectName",
+						title : "项目名称",
+						template:function(item){
+							return common.format("<a href='#/projectDetails/{0}/{1}'>{2}</a>",item.id,item.projectInvestmentType,item.projectName);
+						},
+						filterable : true
+					},
+					{
+						field : "projectStage",
+						title : "项目阶段",
+						width : 150,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectStage);
+						},
+						filterable : {
+							ui: function(element){
+			                    element.kendoDropDownList({
+			                        valuePrimitive: true,
+			                        dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectStage),
+			                        dataTextField: "description",
+			                        dataValueField: "id"
+			                    });
+			                }
+						}
+					},
+					{
+						field : "projectClassify",
+						title : "项目分类",
+						width : 150,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectClassify);
+						},
+						filterable : false
+					}
+					
+				
+
+			];
+			// End:column
+
+			vm.projectGridOptions = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true
+			};
+
+		}// end fun grid
 		function createShenpiUnit(vm) {
 			common.initJqValidation();
 			var isValid = $('form').valid();
@@ -98,7 +323,70 @@
 			} else {				
 			}
 		}// end func create
-		
+		function createShenpiItems(vm) {
+			common.initJqValidation();
+			var isValid = $('form').valid();
+			if (isValid) {
+				vm.isSubmit = true;
+	            vm.model.type=vm.type;	        
+				var httpOptions = {
+					method : 'post',
+					url : url_project+"/createShenpiItems",
+					data : vm.model
+				};
+				var httpSuccess = function success(response) {				
+					
+					common.requestSuccess({
+						vm:vm,
+						response:response,
+						fn:function() {							
+							
+							common.alert({
+								vm:vm,
+								msg:"操作成功",
+								fn:function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');
+									$('.modal-backdrop').remove();
+									location.href = "#/supervision/spsx";
+								}
+							});
+						}
+						
+					});
+
+				};
+
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+
+			} else {				
+			}
+		}// end func create
+		/**
+		 *获取审批事项信息 
+		 */
+		function getShenPiItemsById(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_project+"/shenpiItems" + "?$filter=id eq '{0}'", vm.id)
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.model = response.data.value[0] || {};
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
 		/**
 		 *获取审批单位信息 
 		 */
@@ -137,6 +425,52 @@
 					success : httpSuccess
 				});
 		}
+		/*
+		 * 审批事项编辑
+		 * 
+		 */
+		function updateShenpiItems(vm){
+			common.initJqValidation();
+			var isValid = $('form').valid();
+			if (isValid) {
+				vm.isSubmit = true;
+				vm.model.id=vm.id;// id			
+				var httpOptions = {
+					method : 'put',
+					url : url_project+"/updateShenpiItems",
+					data : vm.model
+				};
+
+				var httpSuccess = function success(response) {
+					
+					common.requestSuccess({
+						vm:vm,
+						response:response,
+						fn:function() {
+							
+							common.alert({
+								vm:vm,
+								msg:"操作成功",
+								fn:function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');							
+								}
+							});
+						}
+						
+					});
+				};
+
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+
+			} else {
+			}
+		}// end fun update
 		/*
 		 * 审批单位编辑
 		 * 
@@ -496,7 +830,7 @@
 					},{
 						field:"isIncludLibrary",
 						operator:"eq",
-						value:false
+						value:true
 					}
 				]
 			});
@@ -611,7 +945,212 @@
 			};
 
 		}// end fun grid
-		
+		// begin#shenpifankuiItemsGrid
+		function shenpifankuiItemsGrid(vm) {
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(common.format(url_project+"/shenpiItems")),
+				schema : common.kendoGridConfig().schema({
+					id : "id",
+					fields : {
+						createdDate : {
+							type : "date"
+						},
+						isMonthReport:{
+							type:"boolean"
+						},
+						isIncludLibrary:{
+							type:"boolean"
+						}
+						
+					}
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "createdDate",
+					dir : "desc"
+				}
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+					{
+						template : function(item) {
+							return kendo
+									.format(
+											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+											item.id);
+						},
+						filterable : false,
+						width : 40,
+						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+
+					},
+					
+					 {
+						field : "shenpiName",
+						title : "审批事项",				
+						filterable : false
+					},
+					 {
+						field : "projectName",
+						title : "审批项目",
+						width : '',						
+						filterable : false
+					},
+					 {
+						field : "shenpiUnitName",
+						title : "审批单位",
+						width : "",						
+						filterable : false
+					},
+					{
+						
+						field : "",
+						title : "剩余天数",
+						width : "",			
+						template : function(item) {
+							var flag=((new Date(item.shenpiEndDate).getTime())-(new Date(common.formatDate(new Date())).getTime()))/(24 * 60 * 60 * 1000);
+							if(flag>0){
+								return  flag ;}
+							else{
+								return  "<span style='color:red'>" +flag+"</span>";}
+							}
+					},
+					{
+						field : "",
+						title : "操作",
+						width : "",
+						template : function(item) {
+							return common.format($('#columnBtns').html(),item.id);
+						}
+
+					}
+
+			];
+			// End:column
+			var dataBound= function(e) {
+				    console.log(e);
+				  }
+			vm.gridOptions = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				dataBound:dataBound,
+				resizable : true
+			};
+
+		}// end fun shenpifankuiItemsGrid
+		// begin#shenpiItemsGrid
+		function shenpiItemsGrid(vm) {
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(common.format(url_project+"/shenpiItems")),
+				schema : common.kendoGridConfig().schema({
+					id : "id",
+					fields : {
+						createdDate : {
+							type : "date"
+						},
+						isMonthReport:{
+							type:"boolean"
+						},
+						isIncludLibrary:{
+							type:"boolean"
+						}
+						
+					}
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "createdDate",
+					dir : "desc"
+				}
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+					{
+						template : function(item) {
+							return kendo
+									.format(
+											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+											item.id);
+						},
+						filterable : false,
+						width : 40,
+						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+
+					},
+					
+					 {
+						field : "shenpiName",
+						title : "审批事项",				
+						filterable : false
+					},
+					 {
+						field : "projectName",
+						title : "审批项目",
+						width : '',						
+						filterable : false
+					},
+					 {
+						field : "shenpiUnitName",
+						title : "审批单位",
+						width : "",						
+						filterable : false
+					},
+					{
+						
+						field : "",
+						title : "剩余天数",
+						width : "",			
+						template : function(item) {
+							var flag=((new Date(item.shenpiEndDate).getTime())-(new Date(common.formatDate(new Date())).getTime()))/(24 * 60 * 60 * 1000);
+							if(flag>0){
+								return  flag ;}
+							else{
+								return  "<span style='color:red'>" +flag+"</span>";}
+							}
+					},
+					{
+						field : "",
+						title : "操作",
+						width : "",
+						template : function(item) {
+							return common.format($('#columnBtns').html(),item.id);
+						}
+
+					}
+
+			];
+			// End:column
+			var dataBound= function(e) {
+				    console.log(e);
+				  }
+			vm.gridOptions = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				dataBound:dataBound,
+				resizable : true
+			};
+
+		}// end fun shenpiItemsGrid
 		// begin#shenpiUnitGrid
 		function shenpiUnitGrid(vm) {
 			// Begin:dataSource
@@ -700,7 +1239,7 @@
 
 		}// end fun grid
 		
-		// begin#shenpiUnitGrid
+		// begin
 		function grid_SH(vm) {
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({

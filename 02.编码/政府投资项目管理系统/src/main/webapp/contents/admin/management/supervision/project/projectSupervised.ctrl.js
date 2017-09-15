@@ -13,6 +13,8 @@
     	vm.title = "新增项目";
     	vm.search={};
     	vm.model={};
+    	vm.model.projectDto={};
+    	vm.model.shenPiUnitDto={};
     	vm.basicData={};
         vm.id=$state.params.id;
         vm.projectInvestmentType=$state.params.projectInvestmentType;
@@ -38,7 +40,7 @@
  			case "supervision_spdw":
  				vm.page="shenpiUnitList";
  				break;
- 			case "shenpiUnitChange": 
+ 			case "shenpiUnitChange":  
  				if(vm.id){
  					vm.page="shenpiUnitUpdate";
  				}else{
@@ -46,6 +48,19 @@
  				}break;
  			case "shenpiUnitDetail": 
  				vm.page="shenpiUnitDetail";
+ 				break;
+ 			case "shenpiItemsList":
+ 				vm.page="shenpiItemsList";
+ 				break;
+ 			case "shenpiItemsChange":  
+				if(vm.id){
+					vm.page="shenpiItemsUpdate";
+				}else{
+					vm.page="shenpiItemsCreate";
+				}break;
+ 			case "shenpifankuiItemsList":
+ 				vm.page="shenpifankuiItemsList";
+ 				break;	
     		}
     		
     		vm.getBasicDataDesc = function(Str){
@@ -73,6 +88,22 @@
     	init();    	
     	activate(); 
         function activate() {
+        	if(vm.page=="shenpifankuiItemsList"){
+        		vm.title='审批事项反馈列表';
+        		shenpifankuiItemsList();
+        	}
+        	if(vm.page=="shenpiItemsCreate"){
+        		vm.title='审批事项新增';
+        		shenpiItemsCreate();
+        	}
+        	if(vm.page=="shenpiItemsUpdate"){
+        		vm.title='审批事项编辑';
+        		shenpiItemsUpdate();
+        	}
+        	if(vm.page=="shenpiItemsList"){
+        		vm.title='审批事项列表';
+        		shenpiItemsList();
+        	}
         	if(vm.page=='shenpiUnitDetail'){
         		shenpiUnitDetail();
         	}
@@ -102,6 +133,180 @@
         		init_details();
         	}
         
+        }
+        function shenpifankuiItemsList(){
+        	projectSupervisedSvc.shenpifankuiItemsGrid(vm);
+        	
+        }
+        function shenpiItemsCreate(){
+        	vm.choiceProject=function(){
+              	 $('.myDialog').modal({
+                       backdrop: 'static',
+                       keyboard:false
+                   });
+              }
+           	vm.choiceShenPiUnit=function(){
+           		 $('.myDialog1').modal({
+                        backdrop: 'static',
+                        keyboard:false
+                    });
+           	}
+           	projectSupervisedSvc.projectGrid(vm);
+        	projectSupervisedSvc.shenpiUnitGridSelect(vm);
+        	//提交选择项目
+            vm.choiceProjectSubmit=function(){
+            	var str=$('input:radio[name="radio"]:checked').val();
+            	 if (str==""||str==null) {
+                 	/*common.alert({
+                     	vm:vm,
+                     	msg:'请选择数据'
+                     	
+                     });*/
+                 } else {
+                	 var strs= new Array(); //定义一数组 
+                 	 strs=str.split(","); //字符分割 
+                 	 vm.model.projectDto.id=strs[0];
+                 	 vm.model.projectDto.projectName=strs[1];
+                 	 $('.myDialog').modal('hide');
+                 }
+            
+          }
+            vm.choiceShenPiUnitSubmit=function(){
+            	var str=$('input:radio[name="radio1"]:checked').val();
+	           	if (str==""||str==null) {
+	                	/*common.alert({
+	                    	vm:vm,
+	                    	msg:'请选择数据'
+	                    	
+	                    });*/
+	                } else {
+	               	 var strs= new Array(); //定义一数组 
+	                	 strs=str.split(","); //字符分割 
+	                	 vm.model.shenPiUnitDto.id=strs[0];
+	                	 vm.model.shenPiUnitDto.shenpiUnitName=strs[1];
+	                	 $('.myDialog1').modal('hide');
+	                }
+            	
+            }
+            //移除选择项目
+            vm.removeProject=function(){
+             	  vm.model.projectDto={};            
+                  } 
+            //移除选择单位
+            vm.removeShenPiUnit=function(){
+             	  vm.model.shenPiUnitDto={};            
+                  } 
+            vm.createShenpiUnit=function(){
+            	projectSupervisedSvc.createShenpiItems(vm);
+            }
+        }
+        function shenpiItemsUpdate(){
+        	vm.choiceProject=function(){
+           	 $('.myDialog').modal({
+                    backdrop: 'static',
+                    keyboard:false
+                });
+           }
+        	vm.choiceShenPiUnit=function(){
+        		 $('.myDialog1').modal({
+                     backdrop: 'static',
+                     keyboard:false
+                 });
+        	}
+        	projectSupervisedSvc.projectGrid(vm);
+        	projectSupervisedSvc.shenpiUnitGridSelect(vm);
+        	projectSupervisedSvc.getShenPiItemsById(vm);
+        	//提交选择项目
+            vm.choiceProjectSubmit=function(){
+            	var str=$('input:radio[name="radio"]:checked').val();
+            	 if (str==""||str==null) {
+                 	/*common.alert({
+                     	vm:vm,
+                     	msg:'请选择数据'
+                     	
+                     });*/
+                 } else {
+                	 var strs= new Array(); //定义一数组 
+                 	 strs=str.split(","); //字符分割 
+                 	 vm.model.projectDto.id=strs[0];
+                 	 vm.model.projectDto.projectName=strs[1];
+                 	 $('.myDialog').modal('hide');
+                 }
+            
+          }
+            vm.choiceShenPiUnitSubmit=function(){
+            	var str=$('input:radio[name="radio1"]:checked').val();
+	           	if (str==""||str==null) {
+	                	/*common.alert({
+	                    	vm:vm,
+	                    	msg:'请选择数据'
+	                    	
+	                    });*/
+	                } else {
+	               	 var strs= new Array(); //定义一数组 
+	                	 strs=str.split(","); //字符分割 
+	                	 vm.model.shenPiUnitDto.id=strs[0];
+	                	 vm.model.shenPiUnitDto.shenpiUnitName=strs[1];
+	                	 $('.myDialog1').modal('hide');
+	                }
+            	
+            }
+            //移除选择项目
+            vm.removeProject=function(){
+             	  vm.model.projectDto={};            
+                  } 
+            //移除选择单位
+            vm.removeShenPiUnit=function(){
+             	  vm.model.shenPiUnitDto={};            
+                  } 
+            //提交更新
+            vm.updateShenpiItems=function (){
+            	projectSupervisedSvc.updateShenpiItems(vm);
+            }
+        }
+        function shenpiItemsList(){
+        	projectSupervisedSvc.shenpiItemsGrid(vm);
+        	vm.searchShenPiItems=function(){
+    			var filters = [];
+    			if(vm.search.shenpiName !=null && vm.search.shenpiName !=''){
+	     			   filters.push({field:'shenpiName',operator:'contains',value:vm.search.shenpiName});
+	     		   }
+    			if(vm.search.projectName !=null && vm.search.projectName !=''){
+	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
+	     		   }
+    			if(vm.search.shenpiUnitName !=null && vm.search.shenpiUnitName !=''){
+	     			   filters.push({field:'shenpiUnitName',operator:'contains',value:vm.search.shenpiUnitName});
+	     		   }
+    		     vm.gridOptions.dataSource.filter(filters);
+        	}
+        	vm.delShenPiItem = function (id) {        	 
+                common.confirm({
+                    	 vm:vm,
+                    	 title:"",
+                    	 msg:"确认删除数据吗？",
+                    	 fn:function () {
+                          	$('.confirmDialog').modal('hide');             	
+                          	projectSupervisedSvc.delShenPiItem(vm,id);
+                         }
+                     });
+                };
+             vm.delShenPiItems = function () {     
+                	var selectIds = common.getKendoCheckId('.grid');
+                    if (selectIds.length == 0) {
+                    	common.alert({
+                        	vm:vm,
+                        	msg:'请选择数据'
+                        	
+                        });
+                    } else {
+                    	var ids=[];
+                        for (var i = 0; i < selectIds.length; i++) {
+                        	ids.push(selectIds[i].value);
+        				}  
+                        var idStr=ids.join(',');
+                        vm.delShenPiItem(idStr);
+                    }   
+               };
         }
         function shenpiUnitDetail(){
         	vm.title = "审批单位详情";
