@@ -2,11 +2,14 @@ package cs.model.DtoMapper;
 
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cs.domain.Approval;
+import cs.domain.Attachment;
 import cs.domain.ReviewResult;
 import cs.model.DomainDto.ApprovalDto;
+import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ReviewResultDto;
 
 /**
@@ -18,6 +21,8 @@ import cs.model.DomainDto.ReviewResultDto;
 @Component
 public class ReviewResultMapper implements IMapper<ReviewResultDto, ReviewResult>{
 
+	@Autowired
+	IMapper<AttachmentDto, Attachment> attachmentMapper;
 	@Override
 	public ReviewResultDto toDto(ReviewResult entity) {
 		// TODO Auto-generated method stub
@@ -31,12 +36,23 @@ public class ReviewResultMapper implements IMapper<ReviewResultDto, ReviewResult
 			dto.setReceiptDate(entity.getReceiptDate());
 			dto.setReceiptNumber(entity.getReceiptNumber());
 			dto.setRelId(entity.getRelId());
+			dto.setProjectInvestSum(entity.getProjectInvestSum());
+			dto.setAuthorize(entity.getAuthorize());
+			dto.setCut(entity.getCut());
+			dto.setRemarks(entity.getRemarks());
+			dto.setNuclear(entity.getNuclear());
 			
 			dto.setCreatedBy(entity.getCreatedBy());
 			dto.setCreatedDate(entity.getCreatedDate());
 			dto.setModifiedBy(entity.getModifiedBy());
 			dto.setModifiedDate(entity.getModifiedDate());
 			dto.setItemOrder(entity.getItemOrder());
+			
+			//begin#关联信息
+			//附件
+			entity.getAttachments().stream().forEach(x->{
+				dto.getAttachmentDtos().add(attachmentMapper.toDto(x));				
+			});
 		}
 		return dto;
 	}
@@ -55,6 +71,11 @@ public class ReviewResultMapper implements IMapper<ReviewResultDto, ReviewResult
 			entity.setReceiptDate(dto.getReceiptDate());
 			entity.setReceiptNumber(dto.getReceiptNumber());
 			entity.setRelId(dto.getRelId());
+			entity.setProjectInvestSum(dto.getProjectInvestSum());
+			entity.setAuthorize(dto.getAuthorize());
+			entity.setCut(dto.getCut());
+			entity.setRemarks(dto.getRemarks());
+			entity.setNuclear(dto.getNuclear());
 			
 			entity.setCreatedBy(dto.getCreatedBy());
 			entity.setCreatedDate(dto.getCreatedDate());

@@ -21,6 +21,7 @@ public class OpinionMapper implements IMapper<OpinionDto, Opinion>{
 		if(entity !=null){
 			dto.setId(entity.getId());
 			dto.setOpinion(entity.getOpinion());
+			dto.setRelId(entity.getRelId());
 			
 			//基础信息
 			dto.setCreatedDate(entity.getCreatedDate());		

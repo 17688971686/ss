@@ -121,12 +121,33 @@
         	//常用意见列表
         	taskAuditSvc.opinionGird(vm);
         	
-        	vm.getBasicDataJD=function(approvalType){
-        		vm.basicData.projectShenBaoStage=$linq(common.getBasicData())
-	   			.where(function(x){return x.identity==common.basicDataConfig().projectShenBaoStage&&x.id==approvalType;}).toArray();
-	   			//获取项目阶段
+        	taskAuditSvc.getOpinion(vm);
         	
-        		return vm.basicData.projectShenBaoStage[0].description;
+        	vm.cal=function(){
+        		if(vm.review.projectInvestSum != 0 && vm.review.authorize != 0){
+        			vm.cut = vm.review.projectInvestSum - vm.review.authorize;
+            		vm.nuclear = Number((vm.cut/vm.review.projectInvestSum)*100).toFixed(2);
+        		}else{
+        			vm.cut = vm.review.projectInvestSum - vm.review.authorize;
+            		vm.nuclear = 0;
+        		}
+        		
+        	};
+        	
+        	vm.saveReview=function(){
+        		taskAuditSvc.saveReview(vm);
+        	};
+        	
+        	vm.getBasicDataJD=function(approvalType){
+        		if(approvalType != undefined){
+        			vm.basicData.projectShenBaoStage=$linq(common.getBasicData())
+    	   			.where(function(x){return x.identity==common.basicDataConfig().projectShenBaoStage&&x.id==approvalType;}).toArray();
+    	   			//获取项目阶段
+            		return vm.basicData.projectShenBaoStage[0].description;
+        		}else{
+        			return "";
+        		}
+        		
         	};
         	
         
@@ -139,10 +160,10 @@
 	           	 if(e.XMLHttpRequest.status==200){
 	           		 var fileName=e.XMLHttpRequest.response;
 	           		 $scope.$apply(function(){
-	           			 if(vm.model.attachmentDtos){
-	           				 vm.model.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
+	           			 if(vm.review.attachmentDtos){
+	           				 vm.review.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
 	           			 }else{
-	           				 vm.model.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
+	           				 vm.review.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
 	           			 }                			           			
 	           		 });
 	           	 }
@@ -162,11 +183,9 @@
 	   		};
 	   		//删除上传文件
 	   		 vm.delFile_review=function(idx){
-	   			 var file = vm.model.attachmentDtos[idx];
+	   			 var file = vm.review.attachmentDtos[idx];
 	   			 if(file){//删除上传文件的同时删除批复文号
-	   				var pifuType = file.type;
-	   				vm.model['pifu'+pifuType+'_wenhao'] = "";
-	   				vm.model.attachmentDtos.splice(idx,1);
+	   				vm.review.attachmentDtos.splice(idx,1);
 	   			 }
 	         };
 	   		
@@ -175,7 +194,11 @@
         		
         		taskAuditSvc.getComission(vm);
         		
-        		vm.beginDate = common.formatDate(new Date());
+        		taskAuditSvc.getReviewResult(vm);
+        		
+        		vm.approvalEndDate = common.formatDate(new Date());
+        		
+        		vm.projectInvestSum = vm.model.shenBaoInfo.projectInvestSum;
         		
         		$('.reviewResult').modal({
                     backdrop: 'static',
@@ -285,8 +308,8 @@
         		//拟稿单位拟稿人
         		for (var i = 0; i < vm.model.depts.length; i++) {
 					for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {//循环人员
-						if(vm.model.depts[i].userDtos[j].id == window.profile_userId){//获得部门人员
-						vm.userNameAndUnit =  vm.model.depts[i].name +'、'+ window.profile_userName;
+						if(vm.model.depts[i].userDtos[j].id == vm.taskAudit.operator){//获得部门人员
+						vm.userNameAndUnit =  vm.model.depts[i].name +'、'+ vm.model.depts[i].userDtos[j].displayName;
 						}
 					}
 				};
@@ -315,11 +338,7 @@
         	
         	//意见下拉框
         	vm.opinion=function(){
-        		if(vm.model.opinion !=""&& vm.model.opinion!= undefined){
-        			return;
-        		}else{
-        			taskAuditSvc.getOpinion(vm);
-        		}
+        		taskAuditSvc.getOpinion(vm);
         	};
         	
         	//保存常用意见
@@ -328,6 +347,10 @@
         		if(vm.processSuggestion != "" && vm.processSuggestion != undefined){
         			taskAuditSvc.saveOpinion(vm);
         		}
+        	};
+        	
+        	vm.closeOpin=function(){
+        		$('#opinionEdit').model('hide');
         	};
         	
         	//常用意见管理模态框
@@ -365,15 +388,8 @@
         	
         	
         	 vm.del = function (id) {       	 
-//                 common.confirm({
-//                	 vm:vm,
-//                	 title:"",
-//                	 msg:"确认删除数据吗？",
-//                	 fn:function () {
-                      	$('.confirmDialog').modal('hide');             	
-                      	taskAuditSvc.deleteOpin(vm,id);
-//                     }
-//                 });
+              	$('.confirmDialog').modal('hide');             	
+              	taskAuditSvc.deleteOpin(vm,id);
             };
         	//批量删除意见
         	vm.dels = function () {     

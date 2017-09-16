@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 
 import cs.common.ICurrentUser;
 import cs.domain.Approval;
+import cs.domain.Attachment;
 import cs.domain.ReviewResult;
 import cs.model.DomainDto.ApprovalDto;
+import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ReviewResultDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
@@ -39,7 +41,10 @@ public class ReviewResultServiceImpl extends AbstractServiceImpl<ReviewResultDto
 	private IRepository<ReviewResult, String> ReviewResultRepo;
 	@Autowired
 	private IMapper<ReviewResultDto, ReviewResult> reviewResultMapper;
-	
+	@Autowired
+	private IMapper<AttachmentDto, Attachment> attachmentMapper;
+	@Autowired
+	private IRepository<Attachment, String> attachmentRepo;
 	
 	@Override
 	@Transactional
@@ -67,6 +72,18 @@ public class ReviewResultServiceImpl extends AbstractServiceImpl<ReviewResultDto
 		if(dtos !=null && dtos.size()>0){
 			ReviewResult entity = dtos.stream().findFirst().get();
 			
+			entity.getAttachments().forEach(x -> {//删除历史附件
+				attachmentRepo.delete(x);
+			});
+			entity.getAttachments().clear();
+			reviewResultDto.getAttachmentDtos().forEach(x -> {//添加新附件
+				Attachment attachment = new Attachment();
+				attachmentMapper.buildEntity(x, attachment);
+				attachment.setCreatedBy(entity.getCreatedBy());
+				attachment.setModifiedBy(entity.getModifiedBy());
+				entity.getAttachments().add(attachment);
+			});
+			
 			reviewResultMapper.buildEntity(reviewResultDto, entity);
 			
 			entity.setCreatedBy(currentUser.getUserId());
@@ -76,11 +93,19 @@ public class ReviewResultServiceImpl extends AbstractServiceImpl<ReviewResultDto
 			
 		}else{
 			ReviewResult entity = new ReviewResult();
-			entity.setRelId(id);
+			
 			entity.setId(UUID.randomUUID().toString());
 			
-			reviewResultMapper.buildEntity(reviewResultDto, entity);
+			reviewResultDto.getAttachmentDtos().forEach(x -> {//添加新附件
+				Attachment attachment = new Attachment();
+				attachmentMapper.buildEntity(x, attachment);
+				attachment.setCreatedBy(entity.getCreatedBy());
+				attachment.setModifiedBy(entity.getModifiedBy());
+				entity.getAttachments().add(attachment);
+			});
 			
+			reviewResultMapper.buildEntity(reviewResultDto, entity);
+			entity.setRelId(id);
 			entity.setModifiedBy(currentUser.getUserId());
 			entity.setModifiedDate(new Date());
 			

@@ -61,42 +61,6 @@ public class UserController {
 		userService.updateUser(userDto);	
 	}
 	
-	@RequiresPermissions("user#opin#delete")
-	@RequestMapping(name = "删除意见", path = "opin",method=RequestMethod.DELETE)	
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void  deleteOpin(@RequestBody String id)  {		
-		String[] ids=id.split(",");
-		if(ids.length>1){
-			userService.deleteOpins(ids);	
-		}else{
-			userService.deleteOpin(id);	
-		}		
-	}
-	
-	@RequiresPermissions("user#opin#put")
-	@RequestMapping(name = "编辑意见", path = "opin",method=RequestMethod.PUT)	
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void  updateOpin(@RequestBody OpinionDto opinDto)  {	
-		System.out.println(opinDto.getId());
-			userService.editOpin(opinDto);	
-	}
-	
-	@RequiresPermissions("user#opin#get")	
-	@RequestMapping(name = "获取常用意见", path = "opin", method = RequestMethod.GET)
-	public @ResponseBody PageModelDto<OpinionDto> getOpin() throws ParseException {
-		//ODataObj odataObj = new ODataObj(request);
-		PageModelDto<OpinionDto> opinionDtos = userService.getOpin();
-
-		return opinionDtos;
-	}
-	
-	@RequiresPermissions("user#opin#post")
-	@RequestMapping(name = "保存意见", path = "opin",method=RequestMethod.POST)	
-	@ResponseStatus(value = HttpStatus.CREATED)
-	public void  saveOpin(@RequestBody String opinionDto)  {		
-		userService.saveUserOpin(opinionDto);	
-	}
-	
 	// begin#html
 	@RequiresPermissions("user#html/list#get")
 	@RequestMapping(name = "用户列表页面", path = "html/list", method = RequestMethod.GET)
@@ -108,5 +72,5 @@ public class UserController {
 	public String edit() {
 		return ctrlName + "/edit";
 	}
-	// end#html
+	
 }

@@ -1,10 +1,14 @@
 package cs.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 /**
  * @Description: 评审结果表
@@ -37,9 +41,27 @@ public class ReviewResult extends BaseEntity{
 	@Column(columnDefinition="date NULL COMMENT '送审结束日期'")
 	private Date approvalEndDate;
 	
+	@Column(columnDefinition="double(11,4) NULL COMMENT '申报'")
+	private Double projectInvestSum;
+	
+	@Column(columnDefinition="double(11,4) NULL COMMENT '审定'")
+	private Double authorize;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '核减率'")
+	private String nuclear;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '核减'")
+	private String cut;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '备注'")
+	private String remarks;
 	//关联
 	@Column(columnDefinition="varchar(255) NULL COMMENT '相关ID'")
 	private String relId;
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<Attachment> attachments=new ArrayList<>();
+	
 
 	public String getId() {
 		return id;
@@ -103,6 +125,54 @@ public class ReviewResult extends BaseEntity{
 
 	public void setRelId(String relId) {
 		this.relId = relId;
+	}
+
+	public Double getProjectInvestSum() {
+		return projectInvestSum;
+	}
+
+	public void setProjectInvestSum(Double projectInvestSum) {
+		this.projectInvestSum = projectInvestSum;
+	}
+
+	public Double getAuthorize() {
+		return authorize;
+	}
+
+	public void setAuthorize(Double authorize) {
+		this.authorize = authorize;
+	}
+
+	public String getNuclear() {
+		return nuclear;
+	}
+
+	public void setNuclear(String nuclear) {
+		this.nuclear = nuclear;
+	}
+
+	public String getCut() {
+		return cut;
+	}
+
+	public void setCut(String cut) {
+		this.cut = cut;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
+	public List<Attachment> getAttachments() {
+		return attachments;
+	}
+
+	public void setAttachments(List<Attachment> attachments) {
+		this.attachments = attachments;
 	}
 
 	

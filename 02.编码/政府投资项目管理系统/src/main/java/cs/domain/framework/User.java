@@ -45,9 +45,6 @@ public class User extends BaseEntity {
 	
 	@ManyToMany
 	private List<Org> orgs =new ArrayList<>();
-	
-	@OneToMany(cascade=CascadeType.ALL)
-	private List<Opinion> opinions=new ArrayList<Opinion>();
 
 	public String getId() {
 		return id;
@@ -104,12 +101,6 @@ public class User extends BaseEntity {
 	}
 	public void setLastLoginDate(Date lastLoginDate) {
 		this.lastLoginDate = lastLoginDate;
-	}
-	public List<Opinion> getOpinions() {
-		return opinions;
-	}
-	public void setOpinions(List<Opinion> opinions) {
-		this.opinions = opinions;
 	}
 	
 }

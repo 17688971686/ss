@@ -30,8 +30,13 @@ public class Opinion extends BaseEntity{
 
 	@Id
 	private String id;
+	
 	@Column(columnDefinition="varchar(255)  COMMENT '个人意见'")
 	private String opinion;
+	
+	//关联
+	@Column(columnDefinition="varchar(255) NULL COMMENT '相关ID'")
+	private String relId;
 	
 	public String getId() {
 		return id;
@@ -49,4 +54,12 @@ public class Opinion extends BaseEntity{
 		this.opinion = opinion;
 	}
 
+	public String getRelId() {
+		return relId;
+	}
+
+	public void setRelId(String relId) {
+		this.relId = relId;
+	}
+	
 }

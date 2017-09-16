@@ -153,11 +153,14 @@ overflow: scroll !important;
 						</tr>
 					</table>
 					<div ng-bind="x.processSuggestion"></div>
-					<div ng-if="x.processState == 'processState_5'&&x.nextProcess=='processState_6'">
+					<div ng-if="x.processState == 'processState_5'">
 							<button class="btn btn-success btn-xs" ng-click="vm.editApproval()">评审报批单</button>
 					</div>
 					<div ng-if="x.processState == 'processState_9'&&x.nextProcess=='processState_10'">
 							<button class="btn btn-success btn-xs" ng-click="vm.proxyOpen()">评审委托书</button>
+					</div>
+					<div ng-if="x.processState == 'processState_10'&&x.nextProcess=='processState_17'">
+						<button class="btn btn-success btn-xs" ng-click="vm.showReviewResult()">评审结果</button>
 					</div>
 					<div class="text-right" ng-bind="x.createdBy"></div>
 					<div class="text-right" ng-bind="vm.formatDate(x.createdDate)"></div>
@@ -224,7 +227,7 @@ overflow: scroll !important;
 				<td>
 					个人自定义意见：<select class="form-control" style="width:200px;" ng-model="vm.model.opinion" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
 								  	<option value="">---请选择---</option>
-									<option ng-repeat="y in vm.model.opinionDtos" value="{{y.opinion}}">{{y.opinion}}</option>
+									<option ng-repeat="y in vm.model.opinionDtos" >{{y.opinion}}</option>
 								</select>
 								<button class="btn btn-success btn-xs" ng-click="vm.saveOpinion()">保存常用意见</button>
 								<button class="btn btn-success btn-xs" ng-click="vm.showOpinion()">管理常用意见</button>
@@ -708,8 +711,8 @@ overflow: scroll !important;
 					</textarea>
             </div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" ng-click="vm.editOpin()" data-dismiss="modal">修改</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary" ng-click="vm.editOpin()">修改</button>
+				<button type="button" class="btn btn-default" ng-click="vm.closeOpin()">取消</button>
 				
 			</div>
 		</div><!-- /.modal-content -->
@@ -798,7 +801,7 @@ overflow: scroll !important;
 			 	<div ng-include  src="'/contents/admin/management/task/audit/html/reviewResult.html'"></div>
             </div>
 			<div class="modal-footer" >
-				<button type="button" ng-if="vm.taskAudit.nextProcess == 'processState_10'" class="btn btn-primary" ng-click="vm.saveProxy()" data-dismiss="modal">保存</button>
+				<button type="button" ng-if="vm.taskAudit.nextProcess == 'processState_10'" class="btn btn-primary" ng-click="vm.saveReview()" data-dismiss="modal">保存</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 			</div>
 		</div><!-- /.modal-content -->

@@ -44,12 +44,6 @@ public class UserServiceImpl implements UserService {
 	private ICurrentUser currentUser;
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
-	@Autowired
-	private IMapper<OpinionDto, Opinion> opinionMapper;
-	@Autowired
-	private OpinionRepo opinionRepo;
-	
-	
 	
 	@Override
 	@Transactional
@@ -78,16 +72,6 @@ public class UserServiceImpl implements UserService {
 				roleDtoList.add(roleDto);
 			}
 			userDto.setRoles(roleDtoList);
-			
-			List<OpinionDto> opinionDtoList = new ArrayList<>();
-			for (Opinion opinion : item.getOpinions()) {
-				OpinionDto opinionDto = new OpinionDto();
-				opinionDto.setId(opinion.getId());
-				opinionDto.setOpinion(opinion.getOpinion());
-				opinionDtoList.add(opinionDto);
-			}
-			
-			userDto.setOpinionDtos(opinionDtoList);
 			
 			userDtoList.add(userDto);
 		}
@@ -153,7 +137,7 @@ public class UserServiceImpl implements UserService {
 			
 		}
 	}
-
+	
 	@Override
 	@Transactional
 	public void deleteUsers(String[] ids) {
@@ -162,99 +146,7 @@ public class UserServiceImpl implements UserService {
 		}
 		logger.info("批量删除用户");
 	}
-	
-	@Override
-	@Transactional
-	public void deleteOpins(String[] ids) {
-		// TODO Auto-generated method stub
-		for (String id : ids) {
-			this.deleteOpin(id);
-		}
-		logger.info("批量删除意见");
-	}
 
-	@Override
-	@Transactional
-	public void deleteOpin(String id) {
-		User user = userRepo.findById(currentUser.getUserId());
-		List<Opinion> opin = user.getOpinions();
-		
-		 Iterator<Opinion> iterator = opin.iterator();
-		 while(iterator.hasNext()){
-	            Opinion integer = iterator.next();
-	            if(integer.getId().equals(id)){
-	            	 iterator.remove();   //注意这个地方
-	            	 opinionRepo.delete(integer);
-	            }
-	        }
-		userRepo.save(user);
-		
-		logger.info(String.format("删除意见,用户名:%s", currentUser.getLoginName()));
-			
-	}
-	
-	@Override
-	@Transactional
-	public void editOpin(OpinionDto opinDto) {
-		User user = userRepo.findById(currentUser.getUserId());
-		List<Opinion> opin = user.getOpinions();
-		
-		 Iterator<Opinion> iterator = opin.iterator();
-		 while(iterator.hasNext()){
-	            Opinion integer = iterator.next();
-	            if(integer.getId().equals(opinDto.getId())){
-	            	integer.setOpinion(opinDto.getOpinion());   //注意这个地方
-	            	integer.setModifiedBy(currentUser.getUserId());
-	            	integer.setModifiedDate(new Date());
-	            }
-	        }
-		userRepo.save(user);
-		
-		logger.info(String.format("修改意见,用户名:%s", currentUser.getLoginName()));
-	}
-
-	@Override
-	@Transactional
-	public void saveUserOpin(String opinionDto) {
-		// TODO Auto-generated method stub
-		User user = userRepo.findById(currentUser.getUserId());
-		
-		OpinionDto opinDto = new OpinionDto();
-		Opinion opin = new Opinion();
-		
-		opinionMapper.buildEntity(opinDto, opin);
-		opinDto.setId(UUID.randomUUID().toString());
-		opinDto.setOpinion(opinionDto);
-		opinDto.setCreatedBy(currentUser.getLoginName());
-		opinDto.setCreatedDate(new Date());
-		
-		user.getOpinions().add(opin);
-		userRepo.save(user);
-		logger.info(String.format("保存用户意见,用户名:%s", currentUser.getLoginName()));
-	}
-
-	@Override
-	@Transactional
-	public PageModelDto<OpinionDto> getOpin() {	
-		User listUser = userRepo.findById(currentUser.getUserId());
-		List<OpinionDto> opinionDtoList = new ArrayList<>();
-		List<Opinion> opinlist = listUser.getOpinions();
-			for (Opinion opin: opinlist) {
-
-				OpinionDto opinionDto = new OpinionDto();
-				opinionDto.setId(opin.getId());
-				opinionDto.setOpinion(opin.getOpinion());
-				opinionDtoList.add(opinionDto);
-			}
-		
-		PageModelDto<OpinionDto> pageModelDto = new PageModelDto<>();
-		pageModelDto.setCount(opinionDtoList.size());
-		pageModelDto.setValue(opinionDtoList);
-
-		logger.info("查询常用意见");
-		return pageModelDto;
-	}
-	
 	@Override
 	@Transactional
 	public void updateUser(UserDto userDto) {

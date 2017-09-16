@@ -31,16 +31,4 @@ public interface UserService {
 	
 	User findById(String id);
 
-	void saveUserOpin(String opinionDto);
-
-	//PageModelDto<OpinionDto> getOpin(ODataObj odataObj);
-
-	void deleteOpins(String[] ids);
-
-	void deleteOpin(String id);
-
-	void editOpin(OpinionDto opinDto);
-
-	PageModelDto<OpinionDto> getOpin();
-
 }

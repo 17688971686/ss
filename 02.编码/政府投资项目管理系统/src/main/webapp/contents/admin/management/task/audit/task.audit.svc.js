@@ -13,11 +13,12 @@
 		var url_back = "#/task/todo";
 		var url_replyFile = "/management/replyFile";
 		var url_role="/role";
-		var url_opin="/user/opin";
+		var url_opin="/opin";
 		var url_users = "/user";
 		var url_draft ="/management/draft";
 		var url_approval ="/management/approval";
 		var url_proxy = "/management/proxy";
+		var url_review = "/management/review";
 		
 		var service = {
 			grid : grid,//待办任务列表
@@ -38,10 +39,88 @@
 			saveApproval:saveApproval,//评审报批
 			getApproval:getApproval,//查询评审报批
 			getComission:getComission,//查询评审委托
-			saveProxy:saveProxy//保存委托书
+			saveProxy:saveProxy,//保存委托书
+			getReviewResult:getReviewResult,//查询评审结果
+			saveReview:saveReview//保存评审结果
 		};
 		
 		return service;
+		
+		//保存评审结果
+		function saveReview(vm){
+		
+			vm.review.projectName = vm.model.shenBaoInfo.projectName;
+			vm.review.constructionUnit = vm.model.shenBaoInfo.constructionUnit;
+			vm.review.approvalEndDate = new Date();
+			vm.review.receiptDate = new Date(vm.model.shenBaoInfo.createdDate);
+			vm.review.approvalDate = vm.proxy.beginDate;
+			//vm.review.projectInvestSum = vm.projectInvestSum;
+			vm.review.nuclear = vm.nuclear;
+			vm.review.cut = vm.cut;
+			
+			
+				var httpOptions = {
+						method : 'post',
+						url : common.format(url_review + "/" +vm.taskAudit.id),
+						data : vm.review
+					};
+				
+				var httpSuccess = function success(response) {
+					common.requestSuccess({
+						vm:vm,
+						response:response,
+						fn:function(){
+							common.alert({
+								vm:vm,
+								msg:"保存成功！",
+								fn:function(){
+									$('.alertDialog').modal('hide');
+								}
+							});
+						}
+					});
+				};
+					
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+		};
+		
+		//查询评审结果
+		function getReviewResult(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_review + "/" +vm.taskAudit.id)
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.review = response.data || {};
+						if(vm.review == ""){
+							vm.projectInvestSum = vm.model.shenBaoInfo.projectInvestSum;
+						}else{
+							vm.nuclear = vm.review.nuclear;
+							vm.cut = vm.review.cut;
+							vm.projectInvestSum = vm.review.projectInvestSum;
+						}
+						vm.review.beginDate = common.formatDate(vm.review.beginDate);
+					}
+				});
+			};
+				
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}
 		
 		function saveProxy(vm){
 			vm.proxy.approvalType = vm.approvalType;
@@ -258,8 +337,9 @@
 	                data:vm.model.opinion          
 	            };
 	            
-	            var httpSuccess = function success(response) {               
-	            	$('.opinion').modal('hide');
+	            var httpSuccess = function success(response) {    
+	            	vm.opinionGrid.dataSource.read();
+	            	$('.opinionEdit').modal('hide');
 	            };
 	            
 	            common.http({
@@ -324,10 +404,12 @@
 		 * 保存意见
 		 */
 		function saveOpinion(vm){
+			
+			vm.opinion = {"opinion":vm.processSuggestion};
 			var httpOptions = {
 					method : 'post',
 					url : url_opin,
-					data : vm.processSuggestion
+					data : vm.opinion
 				};
 			
 			var httpSuccess = function success(response) {
