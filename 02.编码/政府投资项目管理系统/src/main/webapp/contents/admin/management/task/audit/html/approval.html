@@ -39,11 +39,11 @@
 			<td style="width: 333px;">
 				<span ng-bind="vm.getBasicDataJD(vm.approvalType)"></span>
 			</td>
-			<td class="formAlignRight" ng-if="vm.taskAudit.nextProcess == 'processState_5'">报送投资：</td>
-			<td class="formAlignRight">报送投资：<span class="required">(*)</span></td>
+			<td class="formAlignRight" ng-if="vm.taskAudit.nextProcess != 'processState_5'">报送投资：</td>
+			<td class="formAlignRight" ng-if="vm.taskAudit.nextProcess == 'processState_5'">报送投资：<span class="required">(*)</span></td>
 			<td ng-if="vm.taskAudit.nextProcess == 'processState_5'">
 				<input type="number" class="form-control input-sm" style="width: 200px;" id="capitalBaoSong" name="capitalBaoSong" ng-model="vm.approval.capitalBaoSong" data-val="true" data-val-required="必填"/>(万元)
-				<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
+				<span data-valmsg-for="capitalBaoSong" data-valmsg-replace="true" class="required"></span>
 			</td>
 			<td ng-if="vm.taskAudit.nextProcess != 'processState_5'">
 				<span ng-bind="vm.approval.capitalBaoSong"></span>

@@ -38,7 +38,6 @@ public class TaskHeadMapper implements IMapper<TaskHeadDto, TaskHead> {
 			dto.setProcessRole(entity.getProcessRole());
 			dto.setOperator(entity.getOperator());
 		
-			dto.setCapitalPifU(entity.getCapitalPifU());
 			//筛选信息
 			dto.setProjectIndustry(entity.getProjectIndustry());
 			dto.setUnitName(entity.getUnitName());
@@ -74,7 +73,6 @@ public class TaskHeadMapper implements IMapper<TaskHeadDto, TaskHead> {
 			entity.setProcessRole(dto.getProcessRole());
 			entity.setOperator(dto.getOperator());
 		
-			entity.setCapitalPifU(dto.getCapitalPifU());
 			//筛选信息
 			entity.setProjectIndustry(dto.getProjectIndustry());
 			entity.setUnitName(dto.getUnitName());

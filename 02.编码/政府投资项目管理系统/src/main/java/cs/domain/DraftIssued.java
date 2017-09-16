@@ -62,6 +62,9 @@ public class DraftIssued extends BaseEntity{
 	@Column(columnDefinition="varchar(255) NULL COMMENT '拟稿单位拟稿人'")
 	private String userNameAndUnit;
 	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '批复金额'")
+	private String capitalPifU;
+	
 	//关联
 	@Column(columnDefinition="varchar(255) NULL COMMENT '相关ID'")
 	private String relId;
@@ -192,6 +195,14 @@ public class DraftIssued extends BaseEntity{
 
 	public void setUserNameAndUnit(String userNameAndUnit) {
 		this.userNameAndUnit = userNameAndUnit;
+	}
+
+	public String getCapitalPifU() {
+		return capitalPifU;
+	}
+
+	public void setCapitalPifU(String capitalPifU) {
+		this.capitalPifU = capitalPifU;
 	}
 	
 	

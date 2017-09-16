@@ -57,12 +57,6 @@ public class TaskHead extends BaseEntity {
 	@Column(columnDefinition="varchar(255) NULL COMMENT '经办人'")
 	private String operator;
 	
-	
-	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '批复金额'")
-	private String capitalPifU;
-	
-	
 	//begin#关联
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<TaskRecord> taskRecords=new ArrayList<>();
@@ -179,14 +173,4 @@ public class TaskHead extends BaseEntity {
 		this.operator = operator;
 	}
 
-	
-
-	public String getCapitalPifU() {
-		return capitalPifU;
-	}
-
-	public void setCapitalPifU(String capitalPifU) {
-		this.capitalPifU = capitalPifU;
-	}
-	
 }

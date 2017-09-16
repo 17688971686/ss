@@ -153,7 +153,7 @@ overflow: scroll !important;
 						</tr>
 					</table>
 					<div ng-bind="x.processSuggestion"></div>
-					<div ng-if="x.processState == 'processState_5'">
+					<div ng-if="x.processState == 'processState_5'&&x.nextProcess=='processState_6'">
 							<button class="btn btn-success btn-xs" ng-click="vm.editApproval()">评审报批单</button>
 					</div>
 					<div ng-if="x.processState == 'processState_9'&&x.nextProcess=='processState_10'">
@@ -237,14 +237,6 @@ overflow: scroll !important;
 					</textarea>
 					<span data-valmsg-for="processSuggestion" data-valmsg-replace="true" class="required"></span>
 					<div class="tipfont">您还可以输入<span id="processSuggestionTips"><font size="5">500</font></span>个字符!</div>						
-				</td>
-			</tr>
-			<tr ng-if="vm.taskAudit.nextProcess =='processState_18'">
-				<td class="formAlignRight">批复金额：<span class="required">(*)</span></td>
-				<td>
-					<div>
-						<span name="capitalPifU" id="capitalPifU"  ng-bind="vm.taskAudit.capitalPifU"></span>(万元)
-					</div>
 				</td>
 			</tr>
 			<tr>
@@ -388,15 +380,6 @@ overflow: scroll !important;
 					<div class="tipfont">您还可以输入<span id="processSuggestionTips"><font size="5">500</font></span>个字符!</div>						
 				</td>
 			</tr>
-			<tr ng-if="vm.nextProcessRadioOfYW == 'fawen'">
-				<td class="formAlignRight">批复金额：<span class="required">(*)</span></td>
-				<td>
-					<div>
-						<input type="text" name="capitalPifU" id="capitalPifU"  ng-model="vm.taskAudit.capitalPifU" data-val="true" data-val-required="必选"/>(万元)
-					</div>
-					<span data-valmsg-for="capitalPifU" data-valmsg-replace="true" class="required"></span>
-				</td>
-			</tr>
 			<tr>
 				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
 				<td>
@@ -465,14 +448,6 @@ overflow: scroll !important;
 					</textarea>
 					<span data-valmsg-for="processSuggestion" data-valmsg-replace="true" class="required"></span>
 					<div class="tipfont">您还可以输入<span id="processSuggestionTips"><font size="5">500</font></span>个字符!</div>						
-				</td>
-			</tr>
-			<tr ng-if="vm.taskAudit.nextProcess =='processState_21'">
-				<td class="formAlignRight">批复金额：<span class="required">(*)</span></td>
-				<td>
-					<div>
-						<span name="capitalPifU" id="capitalPifU"  ng-bind="vm.taskAudit.capitalPifU"></span>(万元)
-					</div>
 				</td>
 			</tr>
 			<tr>
@@ -576,14 +551,6 @@ overflow: scroll !important;
 					<div class="tipfont">您还可以输入<span id="processSuggestionTips"><font size="5">500</font></span>个字符!</div>						
 				</td>
 				
-			</tr>
-			<tr>
-				<td class="formAlignRight">批复金额：<span class="required">(*)</span></td>
-				<td>
-					<div>
-						<span name="capitalPifU" id="capitalPifU"  ng-bind="vm.taskAudit.capitalPifU"></span>(万元)
-					</div>
-				</td>
 			</tr>
 			<tr>
 			<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
@@ -708,7 +675,8 @@ overflow: scroll !important;
 			 	<textarea class="form-control" id="opinString" name="opinString"  maxlength="500" rows="3"
 						ng-model="vm.model.opinion.opinion" value="vm.model.opinion.opinion" data-val="true" placeholder="注：500字符以内"
 						ng-change="vm.checkLength(vm.model.opinString,500,'opinStringTips')">
-					</textarea>
+				</textarea>
+				<div class="tipfont">您还可以输入<span id="opinString"><font size="5">500</font></span>个字符!</div>
             </div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" ng-click="vm.editOpin()">修改</button>
@@ -734,7 +702,7 @@ overflow: scroll !important;
 			 	<div ng-include  src="'/contents/admin/management/task/audit/html/draftIssued.html'"></div>
             </div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" ng-click="vm.saveDraft()" data-dismiss="modal">保存</button>
+				<button type="button" class="btn btn-primary" ng-click="vm.saveDraft()">保存</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				
 			</div>

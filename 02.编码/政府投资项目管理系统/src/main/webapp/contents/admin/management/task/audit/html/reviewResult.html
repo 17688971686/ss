@@ -1,4 +1,4 @@
-<form id="formApproval" name="form">
+<form id="formResult" name="form">
 	<div class="page-header" style="text-align: center;">
 		<h1>光明新区发展与财政局项目评审意见表</h1>
 	</div>
@@ -48,16 +48,16 @@
 						<td>备注</td>
 					</tr>
 					<tr>
-						<td ng-if="x.processState == 'processState_10'">
+						<td ng-if="vm.taskAudit.processState == 'processState_9'">
 							<input type="number" id="projectInvestSum" name="projectInvestSum" ng-blur="vm.cal()" ng-model="vm.review.projectInvestSum"/>
 						</td>
-						<td ng-if="x.processState != 'processState_10'">
+						<td ng-if="vm.taskAudit.processState != 'processState_9'">
 							<span ng-bind="vm.review.projectInvestSum"></span>
 						</td>
-						<td ng-if="x.processState == 'processState_10'">
+						<td ng-if="vm.taskAudit.processState == 'processState_9'">
 							<input type="number" id="authorize" name="authorize" ng-blur="vm.cal()" ng-model="vm.review.authorize"/>
 						</td>
-						<td ng-if="x.processState != 'processState_10'">
+						<td ng-if="vm.taskAudit.processState != 'processState_9'">
 							<span ng-bind="vm.review.authorize"></span>
 						</td>
 						<td>
@@ -66,10 +66,10 @@
 						<td>
 							<span ng-bind="vm.nuclear"></span>
 						</td>
-						<td ng-if="x.processState == 'processState_10'">
+						<td ng-if="vm.taskAudit.processState == 'processState_9'">
 							<input type="text" id="remarks" name="remarks" ng-model="vm.review.remarks"/>
 						</td>
-						<td ng-if="x.processState != 'processState_10'">
+						<td ng-if="vm.taskAudit.processState != 'processState_9'">
 							<span ng-bind="vm.review.remarks"></span>
 						</td>
 					</tr>
@@ -83,11 +83,11 @@
 				<table class="table table-bordered table-striped ">
 					<tr>
 					<td style="width:180px;">文件类型</td>
-					<td style="width:180px;" ng-if="x.processState != 'processState_10'">文件名称</td>
-					<td style="width:180px;" ng-if="x.processState == 'processState_10'">文件上传</td>
-					<td ng-if="x.processState == 'processState_10'">操作</td>
+					<td style="width:180px;" ng-if="vm.taskAudit.processState != 'processState_9'">文件名称</td>
+					<td style="width:180px;" ng-if="vm.taskAudit.processState == 'processState_9'">文件上传</td>
+					<td ng-if="vm.taskAudit.processState == 'processState_9'">操作</td>
 					</tr>
-					<tr ng-repeat="x in vm.relatedType" ng-if="x.processState == 'processState_10'">
+					<tr ng-repeat="x in vm.relatedType" ng-if="vm.taskAudit.processState == 'processState_9'">
 						<td ng-bind-html="vm.html(x[1])"></td>
 						<td>
 							<div class="uploadBox" data-type="{{x[0]}}">
@@ -104,7 +104,7 @@
 							 </div>
 						</td>
 					</tr>
-					<tr ng-repeat="x in vm.relatedType" ng-if="x.processState != 'processState_10'">
+					<tr ng-repeat="x in vm.relatedType" ng-if="vm.taskAudit.processState != 'processState_9'">
 						<td ng-bind-html="vm.html(x[1])"></td>
 						<td>
 					         <div style="margin:3px;"  

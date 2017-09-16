@@ -42,6 +42,7 @@ public class DraftIssuedMapper  implements IMapper<DraftIssuedDto, DraftIssued> 
 			draftIssuedDto.setProjectName(entity.getProjectName());
 			draftIssuedDto.setUnitName(entity.getUnitName());
 			draftIssuedDto.setUserNameAndUnit(entity.getUserNameAndUnit());
+			draftIssuedDto.setCapitalPifU(entity.getCapitalPifU());
 		}
 		return draftIssuedDto;
 	}
@@ -71,6 +72,7 @@ public class DraftIssuedMapper  implements IMapper<DraftIssuedDto, DraftIssued> 
 			entity.setTitle(dto.getTitle());
 			entity.setPostingCategory(dto.getPostingCategory());
 			
+			entity.setCapitalPifU(dto.getCapitalPifU());
 			entity.setCapitalTotal(dto.getCapitalTotal());
 			entity.setProjectName(dto.getProjectName());
 			entity.setUnitName(dto.getUnitName());

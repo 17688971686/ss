@@ -91,8 +91,9 @@ public class CommissionServiceImpl extends AbstractServiceImpl<CommissionDto, Co
 			logger.info("查询用户数据");
 			return commissionDto;
 		}else{
+			CommissionDto commissionDto = new CommissionDto();
 			logger.info("查询用户数据");
-			return null;
+			return commissionDto;
 		}
 		
 	}

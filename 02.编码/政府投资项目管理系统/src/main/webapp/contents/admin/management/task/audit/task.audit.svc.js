@@ -58,6 +58,9 @@
 			vm.review.nuclear = vm.nuclear;
 			vm.review.cut = vm.cut;
 			
+			common.initJqValidation();
+ 			var isValid = $('#formResult').valid();
+	   		if (isValid) {
 			
 				var httpOptions = {
 						method : 'post',
@@ -66,6 +69,7 @@
 					};
 				
 				var httpSuccess = function success(response) {
+					$('#reviewResult').modal('hide');
 					common.requestSuccess({
 						vm:vm,
 						response:response,
@@ -87,6 +91,7 @@
 					httpOptions:httpOptions,
 					success:httpSuccess
 				});
+	   		}
 		};
 		
 		//查询评审结果
@@ -131,9 +136,9 @@
 			vm.proxy.contacts = vm.nameAndTel;
 			vm.proxy.capitalBaoSong = vm.approval.capitalBaoSong;
 			vm.proxy.processSuggestion_JBR = vm.processSuggestion_JBR_WTS;
-//			common.initJqValidation();
-// 			var isValid = $('#formProxy').valid();
-//	   		if (isValid) {
+			common.initJqValidation();
+ 			var isValid = $('#formproxy').valid();
+	   		if (isValid) {
 				var httpOptions = {
 						method : 'post',
 						url : common.format(url_proxy + "/" +vm.taskAudit.id),
@@ -141,6 +146,7 @@
 					};
 				
 				var httpSuccess = function success(response) {
+					$('#proxy').modal('hide');
 					common.requestSuccess({
 						vm:vm,
 						response:response,
@@ -162,7 +168,7 @@
 					httpOptions:httpOptions,
 					success:httpSuccess
 				});
-	   		//};
+	   		};
 		};
 		
 		//查询审批委托书
@@ -247,6 +253,7 @@
 					};
 				
 				var httpSuccess = function success(response) {
+					$('#approval').modal('hide');
 					common.requestSuccess({
 						vm:vm,
 						response:response,
@@ -271,6 +278,7 @@
 	   		};
 		};
 		
+		//拟稿意见
 		function saveDraft(vm){
 			vm.draft.projectName = vm.model.shenBaoInfo.projectName;
 			vm.draft.unitName = vm.model.shenBaoInfo.constructionUnit;
@@ -287,6 +295,7 @@
 					};
 				
 				var httpSuccess = function success(response) {
+					$('#draft_issued').modal('hide');
 					common.requestSuccess({
 						vm:vm,
 						response:response,
@@ -296,6 +305,7 @@
 								msg:"保存成功！",
 								fn:function(){
 									$('.alertDialog').modal('hide');
+									
 								}
 							});
 						}

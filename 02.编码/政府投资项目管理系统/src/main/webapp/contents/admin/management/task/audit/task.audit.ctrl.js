@@ -124,12 +124,12 @@
         	taskAuditSvc.getOpinion(vm);
         	
         	vm.cal=function(){
-        		if(vm.review.projectInvestSum != 0 && vm.review.authorize != 0){
+        		if(vm.review.projectInvestSum != 0 && vm.review.authorize != 0 && vm.review.projectInvestSum != undefined && vm.review.authorize != undefined){
         			vm.cut = vm.review.projectInvestSum - vm.review.authorize;
             		vm.nuclear = Number((vm.cut/vm.review.projectInvestSum)*100).toFixed(2);
         		}else{
-        			vm.cut = vm.review.projectInvestSum - vm.review.authorize;
-            		vm.nuclear = 0;
+        			vm.cut = "";
+            		vm.nuclear = "";
         		}
         		
         	};
@@ -736,7 +736,7 @@
 	    				vm.taskAudit.nextProcess = "processState_9";
 	    				vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadio == "tuihuijingbanren"){//退回经办人
-	        			vm.taskAudit.processState = "processState_4";
+	        			vm.taskAudit.processState = vm.taskAudit.nextProcess;
 	    				vm.taskAudit.nextProcess = "processState_5";
 	    				vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadio == "jingbanrensongshen"){//经办人送审--正常流程
@@ -752,7 +752,9 @@
 	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
 	        			vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadioOfYW == "fawen" && vm.nextProcessRadio == "kezhangshenhe"){//经办人发文拟稿
-	        			//vm.taskAudit.processState = "processState_5";
+	        			if(vm.taskAudit.processState == "processState_4"){//第三步发文
+	        				vm.taskAudit.processState = "processState_5"
+	        			}
 	        			if(vm.taskAudit.processState == "processState_10"){//第三步发文
 	        				vm.taskAudit.processState = "processState_17"
 	        			}
