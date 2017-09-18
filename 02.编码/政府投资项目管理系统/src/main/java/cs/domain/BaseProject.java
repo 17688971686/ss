@@ -59,34 +59,34 @@ public class BaseProject extends BaseEntity
 	private String projectAddress;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '项目总投资'")
-	private Double projectInvestSum;
+	private Double projectInvestSum=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '项目累计完成投资'")
-	private Double projectInvestAccuSum;
+	private Double projectInvestAccuSum=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-市财政-公共预算'")
-	private Double capitalSCZ_ggys;
+	private Double capitalSCZ_ggys=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-市财政-国土资金'")
-	private Double capitalSCZ_gtzj;
+	private Double capitalSCZ_gtzj=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-市财政-专项资金'")
-	private Double capitalSCZ_zxzj;
+	private Double capitalSCZ_zxzj=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-区财政-公共预算'")
-	private Double capitalQCZ_ggys;
+	private Double capitalQCZ_ggys=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-区财政-国土资金'")
-	private Double capitalQCZ_gtzj;
+	private Double capitalQCZ_gtzj=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-区财政-中央预算'")
-	private Double capitalZYYS;
+	private Double capitalZYYS=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-社会投资'")
-	private Double capitalSHTZ;
+	private Double capitalSHTZ=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-其它'")
-	private Double capitalOther;
+	private Double capitalOther=0.0;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '资金来源方案-其它来源类型'")
 	private String capitalOtherType;
@@ -125,7 +125,7 @@ public class BaseProject extends BaseEntity
 	private String constructionCycle;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '决算金额'")
-	private Double finalAmount;
+	private Double finalAmount=0.0;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '财政项目代码'")
 	private String financeProjectNumber;

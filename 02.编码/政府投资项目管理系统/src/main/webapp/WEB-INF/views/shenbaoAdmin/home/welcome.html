@@ -33,7 +33,7 @@
 		</span>
 	</span>                                  
 </div>
-
+<br>
 <div style="width:100%;height:500px;">
 	<div class="div_border_left pull-left">
 		<div class="div_border_bottom">
@@ -48,7 +48,7 @@
 					<th width="132px;">时间</th>
 				</tr>
 				<tr ng-repeat="x in vm.model.task | limitTo :2" style="background: white;">
-					<td ng-if="x.taskType == vm.taskType_yearPlan">
+					<td ng-if="vm.taskType_shenBao.indexOf(x.taskType)>-1">
 						<a href="#/shenbao_record/{{x.relId}}">{{x.title}}</a>
 					</td>
 					<td ng-if="x.taskType == vm.taskType_monthReport">

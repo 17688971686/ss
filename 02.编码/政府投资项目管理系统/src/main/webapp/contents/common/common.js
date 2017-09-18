@@ -152,7 +152,7 @@
         };
         $('.alertDialog').modal({
             backdrop: 'static',
-            keyboard:false
+            keyboard:true
         });
     }
     function confirmDialog(options) {    	
