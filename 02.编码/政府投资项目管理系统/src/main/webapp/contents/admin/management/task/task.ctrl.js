@@ -5,9 +5,9 @@
         .module('app')
         .controller('taskCtrl', task);
 
-    task.$inject = ['$location','taskSvc','$state','$scope','$sce','$rootScope']; 
+    task.$inject = ['$location','taskSvc','$state','$scope','$sce']; 
 
-    function task($location, taskSvc,$state,$scope,$sce,$rootScope) {
+    function task($location, taskSvc,$state,$scope,$sce) {
         /* jshint validthis:true */
     	var vm = this;
     	vm.title = "";
@@ -16,12 +16,6 @@
         vm.taskId=$state.params.taskId;
         vm.relId=$state.params.relId;        
     	vm.page="todoList";
-    	vm.model.taskRecord = {};
-    	vm.keyuan="";
-    	vm.isKeshi = true;
-    	vm.tuiwen = false;
-    	vm.isChecked = true;
-
     	function init(){   		
     		if($state.current.name=='task_todo'){//待办列表
     			vm.page='todoList';
@@ -36,12 +30,7 @@
     		vm.formatDate=function(str){
     			return common.formatDate(str);
     		};
-    		
-    		vm.getBasicData=function(str){
-        			return common.getBasicDataDesc(str);
-    		};
-    		
-    		vm.getBasicDataDesc=function(str){//流转信息显示
+    		vm.getBasicDataDesc=function(str){
     			return common.getBasicDataDesc(str);
     		};
     		vm.checkLength = function(obj,max,id){
@@ -51,11 +40,11 @@
            	vm.html = function(val){
            		return $sce.trustAsHtml(val);
            	};
-           	
-           	vm.callBack=function(){
-           		window.history.back(-1);
-           	};
     	}
+    	
+    	vm.callBack=function(){
+       		window.history.back(-1);
+       	};
     	   	
     	activate();
         function activate() {        	
@@ -72,8 +61,8 @@
         }
         
         function init_todoList(){
-        	taskSvc.grid(vm);
         	taskSvc.gridForShenpi(vm);
+        	taskSvc.grid(vm);
         }//end init_todoList
         
         function init_completeList(){
@@ -82,23 +71,28 @@
         
         
     	function init_handle(){
-    		vm.miShuFenBan = true;
     	   vm.processState_qianShou=common.basicDataConfig().processState_qianShou;
     	   vm.processState_tuiWen=common.basicDataConfig().processState_tuiWen;
-    	   vm.processState_banJie=common.basicDataConfig().processState_banJie;
 
     	   taskSvc.getTaskById(vm);//查询任务信息
     	   taskSvc.getDept(vm);
-    	
-    	   if(vm.taskType == common.basicDataConfig().taskType_yearPlan){//如果为下一年度计划申报
-    		   vm.isYearPlan = true;
-    		   taskSvc.getShenBaoInfoById(vm);//查询申报信息
-    		   vm.model.taskRecord.processSuggestion = "符合申报";//设置默认为符合申报
-    	   }else if(vm.taskType == common.basicDataConfig().taskType_monthReport){//如果为月报
+    	  
+    	   if(vm.taskType == common.basicDataConfig().taskType_monthReport){//如果为月报
     		   vm.isMonthReport = true;
     		   taskSvc.getMonthReportById(vm);//查询月报信息
+    	   }else{
+    		   if(vm.taskType == common.basicDataConfig().taskType_yearPlan){//如果为下一年度计划申报
+    			   vm.isYearPlan = true; 
+    		   }else if(vm.taskType == common.basicDataConfig().taskType_JYS){//项目建议书
+    			   vm.isProjectProposal = true;
+    		   }else if(vm.taskType == common.basicDataConfig().taskType_KXXYJBG){//可行性研究报告
+    			   vm.isKXXYJBG = true;
+    		   }else if(vm.taskType == common.basicDataConfig().taskType_CBSJYGS){//初步概算与概算
+    			   vm.isCBSJYGS = true;
+    		   }
+    		   taskSvc.getShenBaoInfoById(vm);//查询申报信息
     	   }
-    	   
+    		   
     	   vm.dialog_shenbaoInfo=function(){
     		   $('#shenbaoInfo').modal({
                    backdrop: 'static',
@@ -109,15 +103,40 @@
 	     			//TODO
 	     	   };
     	   };
-    	   
-
+//    	   
+//    	   vm.getUserId = function(name){
+//    		   console.log(name);
+//    		   $("input:radio[name='radio']").eq(0).attr("checked",'checked');
+//    		   if(name == ""){
+//    			   return;
+//    		   }
+//    		   vm.nextUser = name;
+//    	   };
+//    	   
+//    	   vm.changed=function(id){
+//    		  
+//    		   if(id == ""){
+//    			   vm.model.deptUsers ="";
+//    			   return;
+//    		   }
+//    		   for ( var x in vm.model.dept) {
+//				if(vm.model.dept[x].id== id ){
+//					vm.nextUser = vm.model.dept[x].name;
+//				}
+//			}
+//    		   
+//    		   vm.id = id;
+//    		   taskSvc.getDeptUsers(vm);
+//    	   };
+//    	   
     	   //处理操作
-    	   vm.handle=function(str){
+    	   vm.handle=function(processState){
     		   common.initJqValidation();
    			   var isValid = $('form').valid();
 	   			if (isValid) {
 	   				vm.isSubmit = true;
-	     		    taskSvc.handle(vm);
+	   				vm.model.taskRecord.processState=processState;
+	     		   taskSvc.handle(vm);
 	   			}
     	   };    		
     	}//init_handle

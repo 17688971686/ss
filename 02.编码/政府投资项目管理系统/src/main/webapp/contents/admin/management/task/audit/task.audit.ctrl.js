@@ -628,7 +628,7 @@
     			}
         	};
         	
-        	function setNextUser(vm){
+        	function setNextProcess(vm){
     			var processState = vm.taskAudit.processState;//下一流程展示
     			if(processState ==  "processState_1"){
     				vm.taskAudit.processState = "processState_3";
@@ -681,7 +681,7 @@
 	        				vm.taskAudit.processState = "processState_3";
 	        				vm.taskAudit.nextProcess = "processState_4";
 	        			}else{
-	        				setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        				setNextProcess(vm);//设置当前流程状态&&下一流程状态
 	        			}
 	    				
 	    				vm.taskAudit.processRole ="";
@@ -706,7 +706,7 @@
 	        			if(vm.taskAudit.processState != "processState_3"){
 	        				vm.taskAudit.processState = "processState_3"
 	        			}
-	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			setNextProcess(vm);//设置当前流程状态&&下一流程状态
 	        			vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadio == "keshibanli"){//科室办理--退回给所选科室的科长
 	        			vm.taskAudit.processState = "processState_5";
@@ -721,11 +721,11 @@
 	        				vm.taskAudit.processState = "processState_5";
 		    				vm.taskAudit.nextProcess = "processState_6";
 	        			}else{
-	        				setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        				setNextProcess(vm);//设置当前流程状态&&下一流程状态
 	        			}
 	        			vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadio == "julingdaoshenpi"){//局领导审批--正常流程
-	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			setNextProcess(vm);//设置当前流程状态&&下一流程状态
 	        			vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadio == "jingBanRenBanli_juzhang"){//局领导审批--经办人办理
 	        			vm.taskAudit.processState = "processState_4";
@@ -740,16 +740,16 @@
 	    				vm.taskAudit.nextProcess = "processState_5";
 	    				vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadio == "jingbanrensongshen"){//经办人送审--正常流程
-	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			setNextProcess(vm);//设置当前流程状态&&下一流程状态
 	        			vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadio == "songshen"){//送审--正常流程
-	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			setNextProcess(vm);//设置当前流程状态&&下一流程状态
 	        			vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadio == "pingswancheng"){//评审完成--正常流程
-	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			setNextProcess(vm);//设置当前流程状态&&下一流程状态
 	        			vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadioOfYW == "pingshenbaopi" && vm.nextProcessRadio == "kezhangshenhe"){//评审完成--正常流程
-	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			setNextProcess(vm);//设置当前流程状态&&下一流程状态
 	        			vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadioOfYW == "fawen" && vm.nextProcessRadio == "kezhangshenhe"){//经办人发文拟稿
 	        			if(vm.taskAudit.processState == "processState_4"){//第三步发文
@@ -774,22 +774,22 @@
 	        				vm.taskAudit.processState = "processState_18";
 	        				vm.taskAudit.nextProcess = "processState_19";
 	        			}else{
-	        				setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        				setNextProcess(vm);//设置当前流程状态&&下一流程状态
 	        			}
 	        			
 	        			vm.taskAudit.nextUser ="";
 	        		}else if(vm.nextProcessRadio == "julingdaofushen"){//局领导复审--正常流程
-	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			setNextProcess(vm);//设置当前流程状态&&下一流程状态
 	    				vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadio == "bangongshifawen"){//办公室发文--正常流程
-	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			setNextProcess(vm);//设置当前流程状态&&下一流程状态
 	    				vm.taskAudit.nextUser ="";
 	        		}else if(vm.nextProcessRadio == "bangongshifawen"){//办公室发文--正常流程
-	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			setNextProcess(vm);//设置当前流程状态&&下一流程状态
 	    				vm.taskAudit.nextUser ="";
 	        		}else if(vm.nextProcessRadio == "fawendengji"){//秘书科发文登记--正常流程
 	        			vm.taskAudit.processState = "processState_21";
-	        			setNextUser(vm);//设置当前流程状态&&下一流程状态
+	        			setNextProcess(vm);//设置当前流程状态&&下一流程状态
 	    				vm.taskAudit.nextUser ="";
 	    				vm.taskAudit.processRole ="";
 	        		}
