@@ -20,9 +20,248 @@
 				blackListGrid : blackListGrid,
 				getBlackListById : getBlackListById,
 				updateBlackListById : updateBlackListById,
-				deleteBlackListById : deleteBlackListById
+				deleteBlackListById : deleteBlackListById,
+				projectAnomalyGrid : projectAnomalyGrid,
+				haveProjectAnomaly : haveProjectAnomaly,
+				createProjectAnomaly : createProjectAnomaly,
+				getProjectAnomalyById : getProjectAnomalyById,
+				updateProjectAnomalyById : updateProjectAnomalyById,
+				deleteProjectAnomalyById : deleteProjectAnomalyById
 		};		
 		return service;
+		
+		//根据id 删除项目异常信息
+		function deleteProjectAnomalyById(vm){
+			var httpOptions = {
+					method : 'put',
+					url : common.format(url_creditInfo+"/projectAnomaly/delete?id={0}", vm.id),
+			};
+			var httpSuccess = function (response){
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function(){
+						common.alert({
+							vm : vm,
+							msg : "操作成功",
+							fn : function() {
+								$('.alertDialog').modal('hide');
+								vm.gridProjectAnomalyInfo.dataSource.read();
+							}
+						});
+					}
+				});
+			};
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
+		
+		//根据id更新项目异常信息
+		function updateProjectAnomalyById(vm){
+			var httpOptions = {
+					method : "put",
+					url : common.format(url_creditInfo+"/projectAnomaly"),
+					data : vm.standby
+			};
+			var httpSuccess = function(response){
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function(){
+						common.alert({
+							vm : vm,
+							msg : "操作成功",
+							fn : function() {
+								$('.alertDialog').modal('hide');
+							}
+						});
+					}
+				});
+			};
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
+		
+		//根据id获取项目异常信息
+		function getProjectAnomalyById(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_creditInfo + "/projectAnomaly?$filter=id eq '{0}'", vm.id)
+			};
+			var httpSuccess = function (response) {
+				vm.standby = response.data.value[0]||{};
+				//处理时间问题
+				vm.standby.shenbaoDate=vm.formatDate(vm.standby.shenbaoDate);
+			};
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
+		
+		//创建项目异常数据
+		function createProjectAnomaly(vm){
+			var httpOptions = {
+					method : "post",
+					url : common.format(url_creditInfo+"/projectAnomaly"),
+					data : vm.projectAnomalyModel
+			};
+			var httpSuccess = function(response){
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function(){
+						location.href = "#/creditInfo/projectAnomalyList";
+					}
+				});
+			};
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+			
+		}
+		
+		//查看数据库是否存在该项目
+		function haveProjectAnomaly(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_creditInfo+"/projectAnomaly?$filter=projectNumber eq '{0}'", vm.projectNumber)
+			};
+			var httpSuccess = function (response) {
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function() {
+						vm.isIllegalName = response.data.value[0];
+						if(vm.isIllegalName){
+							common.alert({
+								vm:vm,
+								msg:'该条申报项目已存在',
+								fn:function(){
+									$('.alertDialog').modal('hide');
+								}
+							});
+						}else{
+							location.href="#/creditInfo/projectAnomaly//"+vm.projectNumber+"/"+vm.projectName+"/"+vm.unitName+"/"+vm.createdDate;
+						}
+					}
+				});
+			};
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
+		
+		//获取项目异常数据
+		function projectAnomalyGrid(vm){
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(common.format(url_creditInfo+"/projectAnomaly")),
+				schema : common.kendoGridConfig().schema({
+					id : "id",
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "createdDate",
+					dir : "desc"
+				}
+			});
+			// End:dataSource
+			
+			// Begin:column
+			var columns = [
+				{
+					field : "projectName",
+					title : "项目名称",
+					template:function(item){
+						return common.format("<a>{0}</a>",item.projectName);
+					},
+					width : 180,
+					filterable : true
+				},
+				{
+					field : "unitName",
+					title : "申报单位名称",
+					filterable : {
+						ui: function(element){
+	                        element.kendoDropDownList({
+	                            valuePrimitive: true,
+	                            dataSource: vm.basicData.userUnit,
+	                            dataTextField: "unitName",
+	                            dataValueField: "id",
+	                            filter: "startswith"
+	                        });
+	                    }
+					},
+					width : 180,
+					template:function(item){
+						return common.getUnitName(item.unitName);
+					},
+					filterable : false
+				},
+				
+				{
+					field : "shenbaodDate",
+					title : "申报日期",
+					template:function(item){
+						return common.formatDate(item.shenbaoDate);
+					},
+					width : 180,						
+					filterable : false
+				},
+				{
+					field : "isIllegalName",
+					title : "项目审批和建设过程异常",
+					width : 180,						
+					filterable : true
+				},
+				{
+					field : "isBlackList",
+					title : "被纳入黑名单异常",
+					width : 180,						
+					filterable : true
+				},
+				{
+					field : "",
+					title : "操作",
+					width : 150,
+					template : function(item) {
+						return common.format($('#projectAnomalyColumnBtns').html(),item.id);
+					}
+				}
+			];
+			// End:column
+
+			vm.gridProjectAnomalyInfo = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true
+			};
+
+		}
 		//根据黑名单id 删除黑名单信息
 		function deleteBlackListById(vm){
 			var httpOptions = {
@@ -265,7 +504,6 @@
 								vm:vm,
 								msg:'该条申报项目已存在',
 								fn:function(){
-									$('#checkbox').removeAttr("checked");
 									$('.alertDialog').modal('hide');
 								}
 							});
@@ -300,7 +538,6 @@
 								vm:vm,
 								msg:'该条申报项目已存在',
 								fn:function(){
-									$('#checkbox').removeAttr("checked");
 									$('.alertDialog').modal('hide');
 								}
 							});

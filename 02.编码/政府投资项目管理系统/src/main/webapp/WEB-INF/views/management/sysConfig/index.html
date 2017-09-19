@@ -15,9 +15,9 @@
 					<th style="vertical-align: middle;width:85px;">系统设置</th>
 					<td colspan="2">
 						<table class="table table-bordered table-striped" style="margin-bottom:0">
-							<tr ng-repeat="x in vm.model.taskList" ng-switch="x.id">
+							<tr ng-repeat="x in vm.model.taskList | orderBy:'itemOder'" ng-switch="x.id">
 								<td ng-bind="x.description" style="width:165px;"></td>
-								<td style="width:170px;">
+								<td style="width:250px;">
 									<span ng-switch-when="taskType_1">当前签收人：{{x.taskUser}}</span>
 									<span ng-switch-when="taskType_2">当前签收人：{{x.taskUser}}</span>
 									<span ng-switch-when="taskType_3">当前状态：
@@ -28,6 +28,13 @@
 										<span ng-if="x.taskEnable">是</span>
 										<span ng-if="!x.taskEnable">否</span>
 									</span>
+									<span ng-switch-when="taskType_5">当前签收角色：<span ng-bind="vm.getRoleName(x.taskUser)"></span></span>
+									<span ng-switch-when="taskType_6">当前签收角色：<span ng-bind="vm.getRoleName(x.taskUser)"></span></span>
+									<span ng-switch-when="taskType_7">当前签收角色：<span ng-bind="vm.getRoleName(x.taskUser)"></span></span>
+									<span ng-switch-when="taskType_8">当前签收角色：<span ng-bind="vm.getRoleName(x.taskUser)"></span></span>
+									<span ng-switch-when="taskType_9">当前签收角色：<span ng-bind="vm.getRoleName(x.taskUser)"></span></span>
+									<span ng-switch-when="taskType_10">当前签收角色：<span ng-bind="vm.getRoleName(x.taskUser)"></span></span>
+									<span ng-switch-when="taskType_11">当前签收角色：<span ng-bind="vm.getRoleName(x.taskUser)"></span></span>
 								</td>
 								<td>
 									<button ng-show="vm.model.checkedButton[$index] == true"
@@ -55,6 +62,41 @@
 										<option value="">---请选择---</option>
 										<option value="true" ng-selected="x.taskEnable">是</option>
 										<option value="false" ng-selected="!x.taskEnable">否</option>
+									</select>
+									<select style="height: 30px;" ng-show="vm.model.checkedButton[$index] == false" ng-switch-when='taskType_5'
+										ng-model="vm.model.config[$index].configValue" ng-change="vm.userChange($index,vm.model.config[$index].configValue)">
+										<option value="">---请选择---</option>
+										<option ng-repeat="y in vm.user" value="{{y.loginName}}" ng-selected="y.loginName == x.taskUser">{{y.loginName}}</option>
+									</select>
+									<select style="height: 30px;" ng-show="vm.model.checkedButton[$index] == false" ng-switch-when='taskType_6'
+										ng-model="vm.model.config[$index].configValue" ng-change="vm.userChange($index,vm.model.config[$index].configValue)">
+										<option value="">---请选择---</option>
+										<option ng-repeat="y in vm.user" value="{{y.loginName}}" ng-selected="y.loginName == x.taskUser">{{y.loginName}}</option>
+									</select>
+									<select style="height: 30px;" ng-show="vm.model.checkedButton[$index] == false" ng-switch-when='taskType_7'
+										ng-model="vm.model.config[$index].configValue" ng-change="vm.userChange($index,vm.model.config[$index].configValue)">
+										<option value="">---请选择---</option>
+										<option ng-repeat="y in vm.user" value="{{y.loginName}}" ng-selected="y.loginName == x.taskUser">{{y.loginName}}</option>
+									</select>
+									<select style="height: 30px;" ng-show="vm.model.checkedButton[$index] == false" ng-switch-when='taskType_8'
+										ng-model="vm.model.config[$index].configValue" ng-change="vm.userChange($index,vm.model.config[$index].configValue)">
+										<option value="">---请选择---</option>
+										<option ng-repeat="y in vm.user" value="{{y.loginName}}" ng-selected="y.loginName == x.taskUser">{{y.loginName}}</option>
+									</select>
+									<select style="height: 30px;" ng-show="vm.model.checkedButton[$index] == false" ng-switch-when='taskType_9'
+										ng-model="vm.model.config[$index].configValue" ng-change="vm.userChange($index,vm.model.config[$index].configValue)">
+										<option value="">---请选择---</option>
+										<option ng-repeat="y in vm.user" value="{{y.loginName}}" ng-selected="y.loginName == x.taskUser">{{y.loginName}}</option>
+									</select>
+									<select style="height: 30px;" ng-show="vm.model.checkedButton[$index] == false" ng-switch-when='taskType_10'
+										ng-model="vm.model.config[$index].configValue" ng-change="vm.userChange($index,vm.model.config[$index].configValue)">
+										<option value="">---请选择---</option>
+										<option ng-repeat="y in vm.user" value="{{y.loginName}}" ng-selected="y.loginName == x.taskUser">{{y.loginName}}</option>
+									</select>
+									<select style="height: 30px;" ng-show="vm.model.checkedButton[$index] == false" ng-switch-when='taskType_11'
+										ng-model="vm.model.config[$index].configValue" ng-change="vm.userChange($index,vm.model.config[$index].configValue)">
+										<option value="">---请选择---</option>
+										<option ng-repeat="y in vm.roles" value="{{y.id}}" ng-selected="y.id == x.taskUser">{{y.roleName}}</option>
 									</select>
 									<span data-valmsg-for="allUsername" data-valmsg-replace="true" class="required"></span>
 							    </td>								

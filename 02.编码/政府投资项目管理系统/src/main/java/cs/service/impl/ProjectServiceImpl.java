@@ -24,6 +24,8 @@ import cs.domain.MonthReport;
 import cs.domain.Project;
 import cs.domain.Project_;
 import cs.domain.ReplyFile;
+import cs.domain.ShenBaoInfo;
+import cs.domain.ShenBaoInfo_;
 import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.AttachmentDto;
@@ -55,13 +57,13 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	@Autowired
 	private IRepository<UserUnitInfo, String> userUnitInfoRepo;
 	@Autowired
+	private IRepository<ShenBaoInfo, String> shenBaoInfoRepo;
+	@Autowired
 	private ProjectRepoImpl projectRepoImpl;
 	@Autowired
 	private IMapper<AttachmentDto, Attachment> attachmentMapper;
 	@Autowired
 	private IMapper<MonthReportDto, MonthReport> monthReportMapper;
-	@Autowired
-	private IMapper<ProjectDto, Project> projectMapper;
 	@Autowired
 	private ICurrentUser currentUser;
 	
@@ -127,7 +129,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	@Override
 	@Transactional
 	public Project update(ProjectDto projectDto,String id) {		
-		Project project = super.update(projectDto,id);		
+		Project project = super.update(projectDto,id);//进行数据的转换		
 		//处理关联信息
 		//附件
 		project.getAttachments().forEach(x -> {//删除历史附件
@@ -158,7 +160,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		super.repository.save(project);
 		//更新文件库
 		handlePiFuFile(project);
-		logger.info(String.format("编辑项目,项目名称 %s",projectDto.getProjectName()));
+		logger.info(String.format("更新项目信息,项目名称 %s",projectDto.getProjectName()));
 		return project;		
 	}
 	
@@ -183,23 +185,25 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	@Transactional
 	public Project create(ProjectDto projectDto) {
 			//判断是否存在项目代码--生成项目代码
-			if(projectDto.getProjectNumber() == null || projectDto.getProjectNumber().isEmpty()){
+			if(Util.isNull(projectDto.getProjectNumber())){
 				//根据行业类型id查询出基础数据
 				BasicData basicData = basicDataRepo.findById(projectDto.getProjectIndustry());
 				if(basicData !=null){
-					String number = Util.getProjectNumber(projectDto.getProjectInvestmentType(), basicData);
-					projectDto.setProjectNumber(number);
-					//行业项目统计累加
-					basicData.setCount(basicData.getCount()+1);
-					basicData.setModifiedBy(currentUser.getLoginName());
-					basicData.setModifiedDate(new Date());
-					basicDataRepo.save(basicData);
+					if(Util.isNotNull(projectDto.getProjectInvestmentType())){
+						String number = Util.getProjectNumber(projectDto.getProjectInvestmentType(), basicData);
+						projectDto.setProjectNumber(number);
+						//行业项目统计累加
+						basicData.setCount(basicData.getCount()+1);
+						basicData.setModifiedBy(currentUser.getUserId());
+						basicData.setModifiedDate(new Date());
+						basicDataRepo.save(basicData);
+					}
 				}else{
 					throw new IllegalArgumentException(String.format("项目代码生成故障，请确认项目行业选择是否正确！"));
 				}
 			}
-			Project project = super.create(projectDto);	
-			project.setModifiedDate(new Date());//设置修改时间
+			Project project = super.create(projectDto);	//进行数据转换
+			project.setModifiedDate(new Date());//设置修改时间（是为了更新项目阶段时用）
 			//处理关联信息
 			projectDto.getAttachmentDtos().forEach(x -> {//添加新附件
 				Attachment attachment = new Attachment();
@@ -230,10 +234,11 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		//根据项目代码来获取项目信息
 		Criterion criterion=Restrictions.eq(Project_.projectNumber.getName(), number);
 		List<Project> findProjects = super.repository.findByCriteria(criterion);
+		
 		List<ProjectDto> projectDtos = new ArrayList<>();
 		if(findProjects.isEmpty()){
 			findProjects.stream().forEach(x->{
-				ProjectDto dto = projectMapper.toDto(x);			
+				ProjectDto dto = super.mapper.toDto(x);			
 				projectDtos.add(dto);
 			});
 		}
@@ -257,6 +262,30 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		}
 	}
 	
+	
+	
+	@Override
+	@Transactional
+	public void delete(String id) {
+		//根据项目id查询到项目判断是否已纳入项目库
+		Project entity = super.findById(id);
+		if(entity !=null){
+			if(entity.getIsIncludLibrary()){
+				throw new IllegalArgumentException(String.format("项目：%s --已纳入项目库，不可删除！",entity.getProjectName()));
+			}
+			//根据项目id查询到是否有申报记录
+			Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), id);
+			List<ShenBaoInfo> findShenBaoInfo = shenBaoInfoRepo.findByCriteria(criterion);
+			if(!findShenBaoInfo.isEmpty()){//有的话返回false，没有的话返回true
+				throw new IllegalArgumentException(String.format("项目：%s --已含有申报信息，不可删除！",entity.getProjectName()));
+			}
+			logger.info(String.format("删除项目,项目名称： %s",entity.getProjectName()));
+			super.repository.delete(entity);
+		}else{
+			throw new IllegalArgumentException(String.format("没有查找到对应的项目"));
+		}
+	}
+
 	/**
 	 * 批复文件库处理
 	 */
@@ -272,20 +301,15 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		//获取项目中批复文件以及文号(map)
 		Map<String,Attachment> pifuMap = new HashMap<>();
 		project.getAttachments().stream().forEach(x->{
-			if(x.getType() !=null && !x.getType().isEmpty()){//非空判断
-				if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs) ||
-						x.getType().equals(BasicDataConfig.attachment_type_jys) ||
-						x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)
-						){
-					if(x.getType().equals(BasicDataConfig.attachment_type_jys)){
-						pifuMap.put(project.getPifuJYS_wenhao(), x);
-					}
-					else if(x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)){
-						pifuMap.put(project.getPifuKXXYJBG_wenhao(), x);
-					}
-					else if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)){
-						pifuMap.put(project.getPifuCBSJYGS_wenhao(), x);
-					}
+			if(Util.isNotNull(x.getType())){//非空判断
+				if(x.getType().equals(BasicDataConfig.attachment_type_jys)){
+					pifuMap.put(project.getPifuJYS_wenhao(), x);
+				}
+				else if(x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)){
+					pifuMap.put(project.getPifuKXXYJBG_wenhao(), x);
+				}
+				else if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)){
+					pifuMap.put(project.getPifuCBSJYGS_wenhao(), x);
 				}
 			}
 		});
@@ -298,12 +322,13 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 				ReplyFile replyfile = new ReplyFile();
 				replyfile.setId(UUID.randomUUID().toString());
 				replyfile.setNumber(key);
-				replyfile.setCreatedBy(obj.getCreatedBy());
 				replyfile.setName(obj.getName());
 				replyfile.setFullName(obj.getUrl());
-				replyfile.setItemOrder(obj.getItemOrder());
-				replyfile.setModifiedBy(obj.getModifiedBy());
 				replyfile.setType(obj.getType());
+				replyfile.setItemOrder(obj.getItemOrder());
+				replyfile.setCreatedBy(obj.getCreatedBy());
+				replyfile.setModifiedBy(obj.getModifiedBy());
+				
 				replyFileRepo.save(replyfile);//更新文件库
 			}
 		});

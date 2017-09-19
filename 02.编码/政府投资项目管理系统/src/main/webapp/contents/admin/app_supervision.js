@@ -150,7 +150,7 @@
 	        
 	        
 	        /**********************begin#project***************************************/
-	        //政府投资项目
+	        //政府投资项目  
 	        //列表页
 	        .state('supervision_tzxm', {
 	            url: '/supervision/tzxm',
@@ -171,7 +171,73 @@
 	            templateUrl: '/management/project/html/details.html',
 	            controller: 'projectCtrl',
 	            controllerAs: 'vm'
-	        });
+	        })
+	          //审批单管理  
+	          //列表页
+	        .state('supervision_spdw', {
+	            url: '/supervision/spdw',
+	            templateUrl: '/management/supervision/project/html/unitList',
+	            controller: 'projectCtrl',
+	            controllerAs: 'vm'
+	        })
+	         //审批单位编辑or新增 shenpiUnitDetail
+		    .state('shenpiUnitChange', {
+		    url: '/shenpiUnitChange/:id',
+		    templateUrl: '/management/supervision/project/html/shenpiUnitChange',
+		    controller: 'projectCtrl',
+		    controllerAs: 'vm'
+		    }) 
+		      //审批单位详情 
+		    .state('shenpiUnitDetail', {
+		    url: '/shenpiUnitDetail/:id',
+		    templateUrl: '/management/supervision/project/html/shenpiUnitDetail',
+		    controller: 'projectCtrl',
+		    controllerAs: 'vm'
+		    })   
+		     //审批事项列表  
+		    .state('shenpiItemsList', {
+		    url: '/supervision/spsx',
+		    templateUrl: '/management/supervision/project/html/shenpiItemsList',
+		    controller: 'projectCtrl',
+		    controllerAs: 'vm'
+		    }) 
+		     //审批事项编辑or新增  
+		    .state('shenpiItemsChange', {
+		    url: '/shenpiItemsChange/:id',
+		    templateUrl: '/management/supervision/project/html/shenpiItemsChange',
+		    controller: 'projectCtrl',
+		    controllerAs: 'vm'
+		    })
+		     //审批事项详情 
+		    .state('shenpiItemsDetail', {
+		    url: '/shenpiItemsDetail/:id',
+		    templateUrl: '/management/supervision/project/html/shenpiItemsDetail',
+		    controller: 'projectCtrl',
+		    controllerAs: 'vm'
+		    }) 
+		     //审批反馈事项列表    
+		    .state('shenpifankuiItemsList', {
+		    url: '/supervision/spfk',
+		    templateUrl: '/management/supervision/project/html/shenpifankuiItemsList',
+		    controller: 'projectCtrl',
+		    controllerAs: 'vm'
+		    }) 
+		    //填写审批反馈结果  
+		     .state('shenpifankuiItemsChange', {
+		    url: '/shenpifankuiItemsChange/:id',
+		    templateUrl: '/management/supervision/project/html/shenpifankuiItemsChange',
+		    controller: 'projectCtrl',
+		    controllerAs: 'vm'
+		    }) 
+		       //审批反馈结果详情 
+		    .state('shenpifankuiItemsDetail', {
+		    url: '/shenpifankuiItemsDetail/:id',
+		    templateUrl: '/management/supervision/project/html/shenpifankuiItemsDetail',
+		    controller: 'projectCtrl',
+		    controllerAs: 'vm'
+		    }) 
+	        ;
+        
 	        /**********************end#project***************************************/
         
     }]);

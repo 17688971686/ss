@@ -38,23 +38,9 @@ public class TaskController {
 	@RequiresPermissions("management/task##get")
 	@RequestMapping(name = "获取所有任务", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<TaskHeadDto> getToDo(HttpServletRequest request) throws ParseException {
-		ODataObj odataObj = new ODataObj(request);
-		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.get(odataObj);
-		//关于流程记录根据创建用户id查找到名称用于显示
-		List<TaskHeadDto> taskHeadDtols = taskHeadDtos.getValue();
-		if(taskHeadDtols !=null && taskHeadDtols.size()>0){
-			taskHeadDtols.forEach(x->{
-				if(x.getTaskRecordDtos() !=null && x.getTaskRecordDtos().size()>0){
-					x.getTaskRecordDtos().forEach(y->{
-						User user = userService.findById(y.getCreatedBy());
-						if(user !=null){
-							y.setCreatedBy(user.getLoginName());
-						}
-					});
-				}
-			});
-			taskHeadDtos.setValue(taskHeadDtols);
-		}
+		ODataObj odataObj = new ODataObj(request);	
+//		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.get(odataObj);
+		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.getTask_yearPlan(odataObj);
 		return taskHeadDtos;
 	}
 	
@@ -91,5 +77,42 @@ public class TaskController {
 	public String handle() {
 		return ctrl + "/handle";
 	}
-
+	
+	/****下面为审批类操作****/
+	@RequiresPermissions("management/task#audit#get")
+	@RequestMapping(name = "获取审批类个人待办数据", path = "audit", method = RequestMethod.GET)
+	public @ResponseBody PageModelDto<TaskHeadDto> getToDo_Audit(HttpServletRequest request) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);	
+		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.getTask_audit(odataObj);
+		//关于流程记录根据创建用户id查找到名称用于显示
+		List<TaskHeadDto> taskHeadDtols = taskHeadDtos.getValue();
+		if(taskHeadDtols !=null && taskHeadDtols.size()>0){
+			taskHeadDtols.forEach(x->{
+				if(x.getTaskRecordDtos() !=null && x.getTaskRecordDtos().size()>0){
+					x.getTaskRecordDtos().forEach(y->{
+						User user = userService.findById(y.getCreatedBy());
+						if(user !=null){
+							y.setCreatedBy(user.getLoginName());
+						}
+					});
+				}
+			});
+			taskHeadDtos.setValue(taskHeadDtols);
+		}
+		return taskHeadDtos;
+	}
+	
+	@RequiresPermissions("management/task#html/todo_audit#get")
+	@RequestMapping(name = "待办列表页--审批类", path = "html/todo_audit", method = RequestMethod.GET)
+	public String todo_audit() {
+		return ctrl + "/audit/todo";
+	}
+	
+	@RequiresPermissions("management/task#html/todo_audit#get")
+	@RequestMapping(name = "待办处理页--审批类", path = "html/handle_audit", method = RequestMethod.GET)
+	public String handle_audit() {
+		return ctrl + "/audit/handle";
+	}
+	
+	
 }

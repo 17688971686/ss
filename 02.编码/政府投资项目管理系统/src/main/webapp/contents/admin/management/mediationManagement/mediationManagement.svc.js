@@ -17,9 +17,10 @@
 			getAssistReviewById:getAssistReviewById,//协审活动详细信息
 			mediationUnitGrid:mediationUnitGrid,//中介单位弹出列表
 			projectGrid:projectGrid,//项目库弹出列表
-			updateAssistReview:updateAssistReview,  //编辑协审活动
+			updateAssistReview:updateAssistReview,  //编辑协审活动评价
 			createAssistReview:createAssistReview ,  //创建协审活动
-			delAssistReview:delAssistReview //删除协审活动
+			delAssistReview:delAssistReview, //删除协审活动
+			updateOnlyAssistReview:updateOnlyAssistReview //编辑协审活动
 		};		
 		return service;	
 		function delMediationUnit(vm,id) {
@@ -196,7 +197,7 @@
 				});
 		}
 		
-		//编辑协审活动
+		//编辑协审活动评价
 		function updateAssistReview(vm){
 			common.initJqValidation();
 			var isValid = $('form').valid();
@@ -239,6 +240,49 @@
 			} else {
 			}
 		}// end fun updateAssistReview
+		//编辑协审活动评价
+		function updateOnlyAssistReview(vm){
+			common.initJqValidation();
+			var isValid = $('form').valid();
+			if (isValid) {
+				vm.isSubmit = true;
+				vm.model.id=vm.id;// id			
+				var httpOptions = {
+					method : 'put',
+					url : url_mediationManagement+"/updateOnlyAssistReview",
+					data : vm.model
+				};
+
+				var httpSuccess = function success(response) {
+					
+					common.requestSuccess({
+						vm:vm,
+						response:response,
+						fn:function() {
+							
+							common.alert({
+								vm:vm,
+								msg:"操作成功",
+								fn:function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');							
+								}
+							});
+						}
+						
+					});
+				};
+
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+
+			} else {
+			}
+		}// end fun updateOnlyAssistReview
 		//创建中介单位信息
 		function createMediationUnit(vm) {
 			common.initJqValidation();
@@ -353,7 +397,7 @@
 					width : 380,
 					template:function(item){
 						var flag;
-						if(item.reviewResult!=null&&item.reviewResult!=""){
+						if(item.isEvaluation){
 							flag=false;
 						}else {
 							flag=true;

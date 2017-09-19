@@ -1,0 +1,76 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+    	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+        <li><a href="#/">首页</a></li>       
+        <li><a href="#/creditInfo/projectAnomalyList">信用信息管理</a></li>	        
+        <li class="active">{{vm.title}}</li>
+    </ol>
+    <form id="form" name="form">
+		<div>
+			<table class="table table-bordered" style="margin-bottom:0px;">
+				<tr>
+					<td colspan="6" class="bg-info">
+		  				<span style="padding:10px;"><strong>项目异常信息</strong></span>
+		  			</td>
+		  		</tr>
+		  		<tr>
+	  				<td class="formAlignRight">申报的项目名称：</td>
+	  				<td style="width:50%">
+						<span ng-bind="vm.projectAnomalyModel.projectName"></span>				
+					</td>
+				</tr>
+				<tr>
+	  				<td class="formAlignRight">项目代码：</td>
+	  				<td style="width:50%" colspan="3">
+						<span ng-bind="vm.projectAnomalyModel.projectNumber"></span>				
+					</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">申报的单位名称：</td>
+	  				<td style="width:25%" colspan="3">
+						<span ng-bind="vm.getUnitName(vm.projectAnomalyModel.unitName)"></span>				
+					</td>
+				</tr>
+				<tr>
+	  				<td class="formAlignRight">申报日期：</td>
+	  				<td style="width:25%"  colspan="3">
+						<span ng-bind="vm.formatDate(vm.projectAnomalyModel.shenbaoDate)"></span>				
+					</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">是否为异常名录异常：<span class="required">(*)</td>
+	  				<td colspan="3">
+						<input type="radio" id="isIllegalName_1" class="isIllegalName" name="isIllegalName" ng-model="vm.projectAnomalyModel.isIllegalName" value="是" data-val="true" data-val-required="必选">
+						<span>是</span>
+						<input type="radio" id="isIllegalName_2" class="isIllegalName" name="isIllegalName" ng-model="vm.projectAnomalyModel.isIllegalName" value="否" data-val="true" data-val-required="必选">
+						<span>否</span>
+						<span data-valmsg-for="isIllegalName" data-valmsg-replace="true" class="errors"></span>
+					</td>
+	  			<tr>
+	  			<tr>
+	  				<td class="formAlignRight" colspan="1">是否为黑名单异常：<span class="required">(*)</td>
+	  				<td colspan="3">
+						<input type="radio" id="isBlackList_1" class="isBlackList" name="isBlackList" ng-model="vm.projectAnomalyModel.isBlackList" value="是" data-val="true" data-val-required="必选">
+						<span>是</span>
+						<input type="radio" id="isBlackList_2" class="isBlackList" name="isBlackList" ng-model="vm.projectAnomalyModel.isBlackList" value="否" data-val="true" data-val-required="必选">
+						<span>否</span>
+						<span data-valmsg-for="isBlackList" data-valmsg-replace="true" class="errors"></span>
+					</td>
+	  			<tr>
+	  				<td colspan="4" >
+	  					<button class="btn btn-success btn-sm pull-right" ng-hide="vm.isProjectAnomaly" ng-click="vm.saveProjectAnomalyInfo()"><span></span>确定</button>
+	  					<button class="btn btn-cancel btn-sm pull-right" ng-click="vm.returnProjectAnomalyPage()" ><span></span>取消</button>
+	  				</td>
+	  			</tr>
+	  		</table>
+		</div>
+	</form>
+</div>  
+
+
+   
+         
+  	

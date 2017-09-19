@@ -57,10 +57,18 @@
 	  			</tr>
 	  			<tr>
 	  				<td class="formAlignRight">法人证件类型：<span class="required">(*)</span></td>
-	  				<td style="width:25%">
+	  				<!-- <td style="width:25%">
 	  					<input type="text" style="width:360px;" id="legalRepCertType" name="legalRepCertType" ng-model="vm.blackListModel.legalRepCertType" data-val="true" data-val-required="必填"/>
 	  					<span data-valmsg-for="legalRepCertType" data-valmsg-replace="true" class="errors"></span>
-	  				</td>
+	  				</td> -->
+	  				<td>
+	                    <select id="legalRepCertType" name="legalRepCertType" style="height:30px;" ng-model="vm.blackListModel.legalRepCertType" data-val="true" data-val-required="必选">
+							<option value="">---请选择---</option>
+							<option ng-repeat="x in vm.basicData.legalRepCertType" value="{{x.id}}">{{x.description}}</option>
+						</select>
+				        <span data-valmsg-for="legalRepCertType" data-valmsg-replace="true" class="required"></span>
+                	</td>
+                	
 	  				<td class="formAlignRight">法人证件编码：<span class="required">(*)</span></td>
 	  				<td style="width:25%">
 	  					<input type="text" style="width:360px;" id="legalRepCertNumber" name="legalRepCertNumber" ng-model="vm.blackListModel.legalRepCertNumber" data-val="true" data-val-required="必填"/>

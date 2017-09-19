@@ -9,17 +9,19 @@
 	  </ol>
 	  <script type="text/template" id="columnBtns">
 			<a style="{2}" class="btn btn-xs btn-primary" href="#/projectEdit/{0}/{1}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+			<button style="{2}" class="btn btn-xs btn-danger" ng-click="{3}" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-remove"></span>删除</button>
 	  </script>
 	  <div class="search">
 	  	<table class="table table-bordered" style="margin-bottom:0px;">
 	  			<tr>
 	  				<td colspan="6" class="bg-info">
 	  					<span style="padding:10px;"><strong>单位项目查询</strong></span>
+	  					<button class="btn btn-sm btn-primary pull-right" ng-click="vm.filterClear()"><span class="glyphicon glyphicon-refresh"></span>清空筛选条件</button>
 	  				</td>
 	  			</tr>
 	  			<tr>
 	  				<td class="formAlignRight">项目名称：</td>
-	  				<td style="width:25%"><input type="text" style="width:360px;" placeholder="请输入项目名称（可少输不可输错）" ng-model="vm.search.projectName"/></td>
+	  				<td style="width:25%"><input type="text" style="width:300px;" placeholder="请输入项目名称（可少输不可输错）" ng-model="vm.search.projectName"/></td>
 	  				<td class="formAlignRight">项目阶段：</td>
 	  				<td>
 	  					<select style="height:30px;" ng-model="vm.search.projectStage">
@@ -38,10 +40,32 @@
 	  			</tr>
 	  			<tr>
 	  				<td class="formAlignRight">项目所属单位：</td>
-	  				<td colspan="5">
+	  				<td>
 	  					<select style="height:30px;" ng-model="vm.search.unitName">
 				  			<option value="">---请选择---</option>
 				  			<option ng-repeat="x in vm.basicData.userUnit" value="{{x.id}}">{{x.unitName}}</option>
+				  		</select>
+	  				</td>
+	  				<td class="formAlignRight">项目行业</td>
+	  				<td>
+	  					<select style="height:30px;" ng-change="vm.searchIndustryChange()" ng-model="vm.searchIndustryFather">
+	  						<option value="">---请选择行业分类---</option>
+	  						<option ng-repeat="x in vm.basicData.projectIndustryAll" value="{{x.id}}">{{x.description}}</option>
+	  					</select>
+	  					<select style="height:30px;" ng-model="vm.search.projectIndustry" ng-if="vm.searchIndustryIsZF">
+				  			<option value="">---请选择具体的行业---</option>
+				  			<option ng-repeat="x in vm.basicData.projectIndustry_ZF" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+				  		<select style="height:30px;" ng-model="vm.search.projectIndustry" ng-if="vm.searchIndustryIsSH">
+				  			<option value="">---请选择具体的行业---</option>
+				  			<option ng-repeat="x in vm.basicData.projectIndustry_SH" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+	  				</td>
+	  				<td class="formAlignRight">项目投资类型：</td>
+	  				<td>
+	  					<select style="height:30px;" ng-model="vm.search.projectInvestmentType">
+				  			<option value="">---请选择---</option>
+				  			<option ng-repeat="x in vm.basicData.investmentType" value="{{x.id}}">{{x.description}}</option>
 				  		</select>
 	  				</td>
 	  			</tr>
@@ -54,6 +78,7 @@
 	  </div>
 	  <div class="toolbar">
 	  	<button class="btn btn-sm btn-primary" ng-click="vm.addProject()"><span class="glyphicon glyphicon-plus"></span>新增项目</button>
+	  	<button class="btn btn-sm btn-danger" ng-click="vm.projectDeletes()"><span class="glyphicon glyphicon-remove"></span>批量删除</button>
 	  </div> 
      <form id="form" name="form">
          <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>

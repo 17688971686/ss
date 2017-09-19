@@ -13,11 +13,14 @@
     	vm.title = "新增项目";
     	vm.search={};
     	vm.model={};
+    	vm.model.projectDto={};
+    	vm.model.shenPiUnitDto={};
     	vm.basicData={};
         vm.id=$state.params.id;
         vm.projectInvestmentType=$state.params.projectInvestmentType;
     	vm.page="list";
     	function init(){
+    		var routeName=$state.current.name;  
     		if($state.current.name=='project'){
     			vm.isZFInvestment = true;
     		}
@@ -32,6 +35,40 @@
     		}
     		if($state.current.name=='projectDetails'){
     			vm.page='details';
+    		}
+    		switch (routeName) {
+ 			case "supervision_spdw":
+ 				vm.page="shenpiUnitList";
+ 				break;
+ 			case "shenpiUnitChange":  
+ 				if(vm.id){
+ 					vm.page="shenpiUnitUpdate";
+ 				}else{
+ 					vm.page="shenpiUnitCreate";
+ 				}break;
+ 			case "shenpiUnitDetail": 
+ 				vm.page="shenpiUnitDetail";
+ 				break;
+ 			case "shenpiItemsList":
+ 				vm.page="shenpiItemsList";
+ 				break;
+ 			case "shenpiItemsChange":  
+				if(vm.id){
+					vm.page="shenpiItemsUpdate";
+				}else{
+					vm.page="shenpiItemsCreate";
+				}break;
+ 			case "shenpifankuiItemsList":
+ 				vm.page="shenpifankuiItemsList";
+ 				break;	
+ 			case "shenpifankuiItemsChange":
+ 				vm.page="shenpifankuiItemsChange";
+ 				break;
+ 			case "shenpifankuiItemsDetail":
+ 				vm.page="shenpifankuiItemsDetail";
+ 				break;
+ 			case "shenpiItemsDetail":
+ 				vm.page="shenpiItemsDetail";
     		}
     		
     		vm.getBasicDataDesc = function(Str){
@@ -57,11 +94,52 @@
 	   		vm.basicData.userUnit=common.getUserUnits();
     	}
     	init();    	
-    	activate();
+    	activate(); 
         function activate() {
-        	        	
+        	
+        	if(vm.page=="shenpiItemsDetail"){
+        		vm.title='审批事项详情';
+        		shenpiItemsDetail();
+        	}
+        	if(vm.page=="shenpifankuiItemsDetail"){
+        		vm.title='审批事项反馈详情';
+        		shenpifankuiItemsDetail();
+        	}
+        	if(vm.page=="shenpifankuiItemsChange"){
+        		vm.title='审批事项反馈';
+        		shenpifankuiItemsChange();
+        	}
+        	if(vm.page=="shenpifankuiItemsList"){
+        		vm.title='审批事项反馈列表';
+        		shenpifankuiItemsList();
+        	}
+        	if(vm.page=="shenpiItemsCreate"){
+        		vm.title='审批事项新增';
+        		shenpiItemsCreate();
+        	}
+        	if(vm.page=="shenpiItemsUpdate"){
+        		vm.title='审批事项编辑';
+        		shenpiItemsUpdate();
+        	}
+        	if(vm.page=="shenpiItemsList"){
+        		vm.title='审批事项列表';
+        		shenpiItemsList();
+        	}
+        	if(vm.page=='shenpiUnitDetail'){
+        		shenpiUnitDetail();
+        	}
+        	if(vm.page=='shenpiUnitCreate'){
+        		shenpiUnitCreate();
+        	}
+        	if(vm.page=='shenpiUnitUpdate'){
+        		shenpiUnitUpdate();
+        	}
         	if(vm.page=='list'){
         		init_list();
+        	}
+        	if(vm.page=='shenpiUnitList'){
+        		vm.title='审批单位列表';
+        		shenpiUnitList();
         	}
         	if(vm.page=='create'){
         		//初始化CheckBox
@@ -75,8 +153,270 @@
         	if(vm.page=='details'){
         		init_details();
         	}
+        
         }
-    	
+        function shenpiItemsDetail(){
+        	projectSupervisedSvc.getShenPiItemsById(vm);
+        }
+        function shenpifankuiItemsDetail(){
+        	
+        	projectSupervisedSvc.getShenPiItemsById(vm);
+        }
+        function shenpifankuiItemsChange(){
+        	
+        	projectSupervisedSvc.getShenPiItemsById(vm);
+        	vm.updateShenpiFanKui=function(){
+        		projectSupervisedSvc.updateShenpiItems(vm);
+        	}
+        }
+        function shenpifankuiItemsList(){
+        	projectSupervisedSvc.shenpifankuiItemsGrid(vm);
+        	vm.searchShenPiItems=function(){
+    			var filters = [];
+    			if(vm.search.shenpiName !=null && vm.search.shenpiName !=''){
+	     			   filters.push({field:'shenpiName',operator:'contains',value:vm.search.shenpiName});
+	     		   }
+    			if(vm.search.projectName !=null && vm.search.projectName !=''){
+	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
+	     		   }
+    			if(vm.search.shenpiUnitName !=null && vm.search.shenpiUnitName !=''){
+	     			   filters.push({field:'shenpiUnitName',operator:'contains',value:vm.search.shenpiUnitName});
+	     		   }
+    		     vm.gridOptions.dataSource.filter(filters);
+        	}
+        	
+        }
+        function shenpiItemsCreate(){
+        	vm.choiceProject=function(){
+              	 $('.myDialog').modal({
+                       backdrop: 'static',
+                       keyboard:false
+                   });
+              }
+           	vm.choiceShenPiUnit=function(){
+           		 $('.myDialog1').modal({
+                        backdrop: 'static',
+                        keyboard:false
+                    });
+           	}
+           	projectSupervisedSvc.projectGrid(vm);
+        	projectSupervisedSvc.shenpiUnitGridSelect(vm);
+        	//提交选择项目
+            vm.choiceProjectSubmit=function(){
+            	var str=$('input:radio[name="radio"]:checked').val();
+            	 if (str==""||str==null) {
+                 	/*common.alert({
+                     	vm:vm,
+                     	msg:'请选择数据'
+                     	
+                     });*/
+                 } else {
+                	 var strs= new Array(); //定义一数组 
+                 	 strs=str.split(","); //字符分割 
+                 	 vm.model.projectDto.id=strs[0];
+                 	 vm.model.projectDto.projectName=strs[1];
+                 	 $('.myDialog').modal('hide');
+                 }
+            
+          }
+            vm.choiceShenPiUnitSubmit=function(){
+            	var str=$('input:radio[name="radio1"]:checked').val();
+	           	if (str==""||str==null) {
+	                	/*common.alert({
+	                    	vm:vm,
+	                    	msg:'请选择数据'
+	                    	
+	                    });*/
+	                } else {
+	               	 var strs= new Array(); //定义一数组 
+	                	 strs=str.split(","); //字符分割 
+	                	 vm.model.shenPiUnitDto.id=strs[0];
+	                	 vm.model.shenPiUnitDto.shenpiUnitName=strs[1];
+	                	 $('.myDialog1').modal('hide');
+	                }
+            	
+            }
+            //移除选择项目
+            vm.removeProject=function(){
+             	  vm.model.projectDto={};            
+                  } 
+            //移除选择单位
+            vm.removeShenPiUnit=function(){
+             	  vm.model.shenPiUnitDto={};            
+                  } 
+            vm.createShenpiUnit=function(){
+            	projectSupervisedSvc.createShenpiItems(vm);
+            }
+        }
+        function shenpiItemsUpdate(){
+        	vm.choiceProject=function(){
+           	 $('.myDialog').modal({
+                    backdrop: 'static',
+                    keyboard:false
+                });
+           }
+        	vm.choiceShenPiUnit=function(){
+        		 $('.myDialog1').modal({
+                     backdrop: 'static',
+                     keyboard:false
+                 });
+        	}
+        	projectSupervisedSvc.projectGrid(vm);
+        	projectSupervisedSvc.shenpiUnitGridSelect(vm);
+        	projectSupervisedSvc.getShenPiItemsById(vm);
+        	//提交选择项目
+            vm.choiceProjectSubmit=function(){
+            	var str=$('input:radio[name="radio"]:checked').val();
+            	 if (str==""||str==null) {
+                 	/*common.alert({
+                     	vm:vm,
+                     	msg:'请选择数据'
+                     	
+                     });*/
+                 } else {
+                	 var strs= new Array(); //定义一数组 
+                 	 strs=str.split(","); //字符分割 
+                 	 vm.model.projectDto.id=strs[0];
+                 	 vm.model.projectDto.projectName=strs[1];
+                 	 $('.myDialog').modal('hide');
+                 }
+            
+          }
+            vm.choiceShenPiUnitSubmit=function(){
+            	var str=$('input:radio[name="radio1"]:checked').val();
+	           	if (str==""||str==null) {
+	                	/*common.alert({
+	                    	vm:vm,
+	                    	msg:'请选择数据'
+	                    	
+	                    });*/
+	                } else {
+	               	 var strs= new Array(); //定义一数组 
+	                	 strs=str.split(","); //字符分割 
+	                	 vm.model.shenPiUnitDto.id=strs[0];
+	                	 vm.model.shenPiUnitDto.shenpiUnitName=strs[1];
+	                	 $('.myDialog1').modal('hide');
+	                }
+            	
+            }
+            //移除选择项目
+            vm.removeProject=function(){
+             	  vm.model.projectDto={};            
+                  } 
+            //移除选择单位
+            vm.removeShenPiUnit=function(){
+             	  vm.model.shenPiUnitDto={};            
+                  } 
+            //提交更新
+            vm.updateShenpiItems=function (){
+            	projectSupervisedSvc.updateShenpiItems(vm);
+            }
+        }
+        function shenpiItemsList(){
+        	projectSupervisedSvc.shenpiItemsGrid(vm);
+        	vm.searchShenPiItems=function(){
+    			var filters = [];
+    			if(vm.search.shenpiName !=null && vm.search.shenpiName !=''){
+	     			   filters.push({field:'shenpiName',operator:'contains',value:vm.search.shenpiName});
+	     		   }
+    			if(vm.search.projectName !=null && vm.search.projectName !=''){
+	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
+	     		   }
+    			if(vm.search.shenpiUnitName !=null && vm.search.shenpiUnitName !=''){
+	     			   filters.push({field:'shenpiUnitName',operator:'contains',value:vm.search.shenpiUnitName});
+	     		   }
+    		     vm.gridOptions.dataSource.filter(filters);
+        	}
+        	vm.delShenPiItem = function (id) {        	 
+                common.confirm({
+                    	 vm:vm,
+                    	 title:"",
+                    	 msg:"确认删除数据吗？",
+                    	 fn:function () {
+                          	$('.confirmDialog').modal('hide');             	
+                          	projectSupervisedSvc.delShenPiItem(vm,id);
+                         }
+                     });
+                };
+             vm.delShenPiItems = function () {     
+                	var selectIds = common.getKendoCheckId('.grid');
+                    if (selectIds.length == 0) {
+                    	common.alert({
+                        	vm:vm,
+                        	msg:'请选择数据'
+                        	
+                        });
+                    } else {
+                    	var ids=[];
+                        for (var i = 0; i < selectIds.length; i++) {
+                        	ids.push(selectIds[i].value);
+        				}  
+                        var idStr=ids.join(',');
+                        vm.delShenPiItem(idStr);
+                    }   
+               };
+        }
+        function shenpiUnitDetail(){
+        	vm.title = "审批单位详情";
+        	projectSupervisedSvc.getShenPiUnitById(vm);
+        }
+        function shenpiUnitCreate(){
+        	vm.title = "审批单位新增";
+        	vm.createMediationUnit=function(){
+        		projectSupervisedSvc.createShenpiUnit(vm);
+        	}
+        }
+        function shenpiUnitUpdate(){
+        	vm.title = "审批单位编辑";
+        	projectSupervisedSvc.getShenPiUnitById(vm);
+        	vm.updateShenpiUnit=function(){
+        		projectSupervisedSvc.updateShenpiUnit(vm);
+        	}
+        }
+        
+    	function shenpiUnitList(){
+    		projectSupervisedSvc.shenpiUnitGrid(vm);   
+    		vm.searchShenPiUnit=function(){
+    			var filters = [];
+    			if(vm.search.shenpiUnitName !=null && vm.search.shenpiUnitName !=''){//查询条件--项目名称
+	     			   filters.push({field:'shenpiUnitName',operator:'contains',value:vm.search.shenpiUnitName});
+	     		   }
+    			if(vm.search.contacts !=null && vm.search.contacts !=''){//查询条件--项目名称
+	     			   filters.push({field:'contacts',operator:'contains',value:vm.search.contacts});
+	     		   }
+    		vm.gridOptions.dataSource.filter(filters);
+    			
+    		}
+    		vm.delShenPiUnit = function (id) {        	 
+                common.confirm({
+                    	 vm:vm,
+                    	 title:"",
+                    	 msg:"确认删除数据吗？",
+                    	 fn:function () {
+                          	$('.confirmDialog').modal('hide');             	
+                          	projectSupervisedSvc.delShenPiUnit(vm,id);
+                         }
+                     });
+                };
+             vm.delShenPiUnits = function () {     
+                	var selectIds = common.getKendoCheckId('.grid');
+                    if (selectIds.length == 0) {
+                    	common.alert({
+                        	vm:vm,
+                        	msg:'请选择数据'
+                        	
+                        });
+                    } else {
+                    	var ids=[];
+                        for (var i = 0; i < selectIds.length; i++) {
+                        	ids.push(selectIds[i].value);
+        				}  
+                        var idStr=ids.join(',');
+                        vm.delShenPiUnit(idStr);
+                    }   
+               };
+    		
+    	}
     	function init_list(){
     		if(vm.isZFInvestment){
     			projectSupervisedSvc.grid(vm);
@@ -338,7 +678,7 @@
     	}//init_create
     	
     	function init_update(){
-    		vm.title = "编辑111项目";
+    		vm.title = "编辑项目";
     		//获取项目信息
     		projectSupervisedSvc.getProjectById(vm);
     		//更新项目

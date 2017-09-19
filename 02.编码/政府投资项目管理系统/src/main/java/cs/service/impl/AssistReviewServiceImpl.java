@@ -71,9 +71,36 @@ public class AssistReviewServiceImpl extends AbstractServiceImpl<AssistReviewDto
 		return pageModelDto;	
 	}
     @Override
+   	@Transactional
+   	public AssistReview updateAssistReview(AssistReviewDto dto, String id) {
+    	logger.info(String.format("编辑协审活动信息,协审活动名称 %s",dto.getAssistReviewName()));
+    	AssistReview assistReview1=super.update(dto, id);
+    	assistReviewRepo.delete(assistReview1);
+    	AssistReview assistReview=super.create(dto);
+		assistReview.getMediationUnits().clear();
+		dto.getMediationUnitDtos().forEach(x->{
+			assistReview.getMediationUnits().add(mediationUnitRepo.findById(x.getId()));
+			ServiceEvaluationDto evaluationDto=new ServiceEvaluationDto();
+			evaluationDto.setMediationUnitId(x.getId());
+			evaluationDto.setMediationUnitName(x.getMediationUnitName());
+			SubmitReviewEvaluationDto reviewEvaluationDto=new SubmitReviewEvaluationDto();
+			reviewEvaluationDto.setMediationUnitId(x.getId());
+			reviewEvaluationDto.setMediationUnitName(x.getMediationUnitName());
+			ServiceEvaluation evaluation=serviceEvaluationMapper.buildEntity(evaluationDto, new ServiceEvaluation());
+			SubmitReviewEvaluation reviewEvaluation=submitReviewEvaluationMapper.buildEntity(reviewEvaluationDto, new SubmitReviewEvaluation());
+			assistReview.getServiceEvaluation().add(evaluation);
+			assistReview.getSubmitReviewEvaluation().add(reviewEvaluation);
+		});
+		dto.getServiceEvaluationDtos().forEach(x->{
+			assistReview.getServiceEvaluation().add(serviceEvaluationRepo.findById(x.getId()));
+		});
+		assistReview.setProjectId(dto.getProjectDto().getId());
+		return super.repository.save(assistReview);
+    }
+    @Override
 	@Transactional
 	public AssistReview update(AssistReviewDto dto, String id) {
-		logger.info(String.format("编辑协审活动信息,协审活动名称 %s",dto.getAssistReviewName()));
+		logger.info(String.format("编辑协审活动评价,协审活动名称 %s",dto.getAssistReviewName()));
 		AssistReview assistReview=super.update(dto, id);
 		//删除历史附件  
 		assistReview.getServiceEvaluation().forEach(x->{
@@ -82,13 +109,6 @@ public class AssistReviewServiceImpl extends AbstractServiceImpl<AssistReviewDto
 		assistReview.getSubmitReviewEvaluation().forEach(x->{
 			submitReviewEvaluationRepo.delete(x);
 		});
-		/*dto.getMediationUnitDtos().forEach(x->{
-			assistReview.getMediationUnits().forEach(y->{
-				if(!(x.getId().equals(y.getId()))){
-					 
-				}
-			});
-		});*/
 		assistReview.getMediationUnits().clear();
 		assistReview.getServiceEvaluation().clear();
 		assistReview.getSubmitReviewEvaluation().clear();
@@ -112,6 +132,7 @@ public class AssistReviewServiceImpl extends AbstractServiceImpl<AssistReviewDto
 			assistReview.getSubmitReviewEvaluation().add(evaluation);
 		});
 		assistReview.setProjectId(dto.getProjectDto().getId());
+		assistReview.setIsEvaluation(true);
 		return super.repository.save(assistReview);
 	}
     @Override
@@ -133,10 +154,8 @@ public class AssistReviewServiceImpl extends AbstractServiceImpl<AssistReviewDto
 			assistReview.getServiceEvaluation().add(evaluation);
 			assistReview.getSubmitReviewEvaluation().add(reviewEvaluation);
 		});//submitReviewEvaluationMapper
-		dto.getServiceEvaluationDtos().forEach(x->{
-			assistReview.getServiceEvaluation().add(serviceEvaluationRepo.findById(x.getId()));
-		});
 		assistReview.setProjectId(dto.getProjectDto().getId());
+		assistReview.setIsEvaluation(false);
 		return super.repository.save(assistReview);
 	}
     @Override

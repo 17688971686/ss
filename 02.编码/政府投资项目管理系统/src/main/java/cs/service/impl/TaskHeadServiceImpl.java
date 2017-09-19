@@ -1,6 +1,9 @@
 package cs.service.impl;
 
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
@@ -15,16 +18,22 @@ import cs.domain.MonthReport;
 import cs.domain.ShenBaoInfo;
 import cs.domain.TaskHead;
 import cs.domain.TaskRecord;
+import cs.domain.framework.Role;
 import cs.domain.framework.SysConfig;
 import cs.domain.framework.SysConfig_;
+import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.SendMsg;
+import cs.model.DomainDto.SysConfigDto;
 import cs.model.DomainDto.TaskHeadDto;
 import cs.model.DomainDto.TaskRecordDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
+import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
+import cs.service.framework.SysService;
+import cs.service.framework.UserService;
 import cs.service.interfaces.TaskHeadService;
 /**
  * @Description: 任务信息服务层
@@ -48,6 +57,10 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 	private ICurrentUser currentUser;
 	@Autowired
 	private BasicDataService basicDataService;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private SysService sysService;
 	
 	@Override
 	@Transactional
@@ -55,6 +68,62 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 		logger.info("查询工作台任务数据");
 		return super.get(odataObj);
 	}
+	
+	@Override
+	@Transactional
+	public PageModelDto<TaskHeadDto> getTask_yearPlan(ODataObj odataObj) {
+		ODataFilterItem filter = new ODataFilterItem();
+		filter.setField("taskType");
+		filter.setOperator("eq");
+		filter.setValue(BasicDataConfig.taskType_nextYearPlan);
+		
+		odataObj.getFilter().add(filter);
+		logger.info("查询下一年度计划个人待办数据");
+		return super.get(odataObj);
+	}
+
+
+
+	@Override
+	@Transactional
+	public PageModelDto<TaskHeadDto> getTask_audit(ODataObj odataObj) {
+		//条件一：下一个处理人为当前登录用户
+		//条件二：下一处理角色为当前登录用户所拥有的角色
+		//判断：如果当前登录用户为秘书科分办人员
+		User user = userService.findById(currentUser.getUserId());
+		List<Role> roles = user.getRoles();
+		Boolean haveRole = false;
+		String roleId = "";
+		for(Role role:roles){
+			//当角色含有秘书科分办人员
+			if(role.getRoleName().equals(BasicDataConfig.msFenBanRole))	{
+				haveRole = true;
+				roleId = role.getId();
+				break;
+			}
+		}
+		if(haveRole){
+			ODataFilterItem filter = new ODataFilterItem();
+			filter.setField("processRole");
+			filter.setOperator("eq");
+			filter.setValue(roleId);
+			
+			odataObj.getFilter().add(filter);
+			logger.info("查询审批类个人待办数据");
+			return super.get(odataObj);
+		}else{
+			ODataFilterItem filter = new ODataFilterItem();
+			filter.setField("nextUser");
+			filter.setOperator("eq");
+			filter.setValue(currentUser.getUserId());
+			
+			odataObj.getFilter().add(filter);
+			logger.info("查询审批类个人待办数据");
+			return super.get(odataObj);
+		}
+	}
+
+
 
 	@Override
 	@Transactional
@@ -100,14 +169,18 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			String processState = dto.getProcessState();
 			if(isComplete(processState)){//如果已完成
 				taskHead.setComplete(true);		
-				dto.setNextUser(taskHead.getCreatedBy());//设置流程的下一处理人为之前任务的创建人
+				//dto.setNextUser(taskHead.getCreatedBy());//设置流程的下一处理人为之前任务的创建人
 			}else{//如果没有完成 TODO
 				
 			}
 			taskRecordMapper.buildEntity(dto, entity);			
 			taskHead.getTaskRecords().add(entity);
 			//更新任务
+			
 			taskHead.setProcessState(processState);//状态
+			taskHead.setNextProcess(dto.getNextProcess());//下一状态
+			taskHead.setProcessRole(dto.getProcessRole());
+			taskHead.setNextUser(dto.getNextUser());//下一流程处理人
 			taskHead.setProcessSuggestion(dto.getProcessSuggestion());//处理意见
 			
 			//设置相应信息的状态
@@ -159,7 +232,8 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 	private Boolean isComplete(String processState){
 		if(BasicDataConfig.processState_qianShou.equals(processState)||
 				BasicDataConfig.processState_tuiWen.equals(processState)||
-				BasicDataConfig.processState_banJie.equals(processState)
+				BasicDataConfig.processState_banJie.equals(processState)||
+				BasicDataConfig.processState_tuiWenBanJie.equals(processState)
 				){
 			return true;
 		}else{

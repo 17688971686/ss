@@ -125,7 +125,8 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setCreatedBy(entity.getCreatedBy());
 			shenBaoInfoDto.setItemOrder(entity.getItemOrder());			
 			//begin#审批相关
-			shenBaoInfoDto.setProcessState(entity.getProcessState());			
+			shenBaoInfoDto.setProcessState(entity.getProcessState());	
+			shenBaoInfoDto.setProcessRole(entity.getProcessRole());
 			//begin#财政局
 			shenBaoInfoDto.setFunctionSubjects(entity.getFunctionSubjects());
 			shenBaoInfoDto.setEconClassSubjects(entity.getEconClassSubjects());
@@ -261,6 +262,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setCapitalAP_qita(shenBaoInfoDto.getCapitalAP_qita());
 			//begin#审批相关
 			shenBaoInfo.setProcessState(shenBaoInfoDto.getProcessState());
+			shenBaoInfo.setProcessRole(shenBaoInfoDto.getProcessRole());
 			//begin#财政相关
 			shenBaoInfo.setFunctionSubjects(shenBaoInfoDto.getFunctionSubjects());
 			shenBaoInfo.setEconClassSubjects(shenBaoInfoDto.getEconClassSubjects());
