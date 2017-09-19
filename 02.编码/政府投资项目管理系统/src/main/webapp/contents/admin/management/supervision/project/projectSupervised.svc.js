@@ -1009,17 +1009,23 @@
 						width : "",						
 						filterable : false
 					},
-					{
+{
 						
 						field : "",
 						title : "剩余天数",
 						width : "",			
 						template : function(item) {
+							var falg1=new Date(item.shenpiBeginDate).getTime()-new Date(common.formatDate(new Date())).getTime();
 							var flag=((new Date(item.shenpiEndDate).getTime())-(new Date(common.formatDate(new Date())).getTime()))/(24 * 60 * 60 * 1000);
+							if(falg1>0){
+								return"尚未开始";
+							}
+							else{
 							if(flag>0){
 								return  flag ;}
 							else{
 								return  "<span style='color:red'>" +flag+"</span>";}
+							}
 							}
 					},
 					{
@@ -1118,11 +1124,17 @@
 						title : "剩余天数",
 						width : "",			
 						template : function(item) {
+							var falg1=new Date(item.shenpiBeginDate).getTime()-new Date(common.formatDate(new Date())).getTime();
 							var flag=((new Date(item.shenpiEndDate).getTime())-(new Date(common.formatDate(new Date())).getTime()))/(24 * 60 * 60 * 1000);
+							if(falg1>0){
+								return"尚未开始";
+							}
+							else{
 							if(flag>0){
 								return  flag ;}
 							else{
 								return  "<span style='color:red'>" +flag+"</span>";}
+							}
 							}
 					},
 					{

@@ -31,11 +31,19 @@ public class ShenPiItems extends BaseEntity{
 	private String projectName;
 	@Column(columnDefinition="varchar(255)  COMMENT '审批单位名称'")
 	private String shenpiUnitName;
+	@Column(columnDefinition="varchar(255)  COMMENT '审批结果'")
+	private String shenpiResult;
 	@Column(columnDefinition="varchar(255)  COMMENT '备注'")
 	private String comment;
 	
 	public String getProjectName() {
 		return projectName;
+	}
+	public String getShenpiResult() {
+		return shenpiResult;
+	}
+	public void setShenpiResult(String shenpiResult) {
+		this.shenpiResult = shenpiResult;
 	}
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;

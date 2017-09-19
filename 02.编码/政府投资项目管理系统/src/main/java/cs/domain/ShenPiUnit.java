@@ -15,16 +15,16 @@ public class ShenPiUnit  extends BaseEntity{
 	@Id
 	private String id;
 	
-	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '审批单位名称'")
+	@Column(columnDefinition="varchar(255)  COMMENT '审批单位名称'")
 	private String shenpiUnitName;
 	
-	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '审批单位地址'")
+	@Column(columnDefinition="varchar(255)  COMMENT '审批单位地址'")
 	private String  shenpiUnitAddress;
 	
-	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '主要联系人'")
+	@Column(columnDefinition="varchar(255)  COMMENT '主要联系人'")
 	private String contacts;
 	
-	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '主要联系人电话'")
+	@Column(columnDefinition="varchar(255)  COMMENT '主要联系人电话'")
 	private String contactsTel;
 	
 	@Column(columnDefinition="varchar(255) COMMENT '主要联系人邮箱'")
@@ -36,8 +36,20 @@ public class ShenPiUnit  extends BaseEntity{
 	@Column(columnDefinition="varchar(255)  COMMENT '审批单位介绍'")
 	private String introduce;
 	
+	@Column(columnDefinition="varchar(255)  COMMENT '审批单位账号id'")
+	private String userId;
+	
 	@Column(columnDefinition="varchar(255)  COMMENT '备注'")
 	private String comment;
+
+	
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
 	public String getId() {
 		return id;
