@@ -1,0 +1,24 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+
+<form id="form" name="form">
+	<div id="tabStrip" kendo-tab-strip="vm.tabStrip">
+	    <ul >
+	      <li id="tab1" class="k-state-active">项目基本信息</li>
+	      <li id="tab2">项目单位信息</li>                
+	      <li id="tab3">项目材料清单</li>
+	    </ul>
+      
+		<div class="tab_content">
+			<div ng-if="vm.isZFInvestment" ng-include  src="'/contents/admin/management/task/html/edit/basicInfo_ZF.html'"></div>
+			<div ng-if="vm.isSHInvestment" ng-include  src="'/contents/admin/management/task/html/edit/basicInfo_SH.html'"></div>
+		</div>
+		<div class="tab_content">
+		     <div ng-include  src="'/contents/admin/management/task/html/edit/unitInfo.html'"></div>
+		</div>
+         
+        <div class="tab_content">
+           	<div ng-include  src="'/contents/admin/management/task/html/edit/materialsInfo.html'"></div>
+   		</div>
+   	</div>	
+</form>

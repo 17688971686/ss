@@ -46,6 +46,10 @@
         	vm.html = function(val){
         		return $sce.trustAsHtml(val);
         	};
+        	
+        	vm.getUnitName=function(unitId){
+        		return common.getUnitName(unitId);
+        	};
        	
         	//全选框选择
         	$(document).on('click', '#checkboxAll_shenBaoRecords', function () {
@@ -127,9 +131,9 @@
     	   };
 
          //模态框中申报阶段下拉选发生变化时
-           vm.change =function(){
+           vm.changeShenBaoStage =function(){
         	   vm.massage = '';
-        	   shenbaoSvc.getShenBaoInfoByProjectId(vm);
+        	   shenbaoSvc.getShenBaoInfoByProjectId(vm);//查询项目申报记录验证是否已有申报
            };
     	   //点击模态框的确认按钮
            vm.confirm = function(){
@@ -161,20 +165,19 @@
        function page_edit(){
     	   //页面初始化
     	   var init_page=function(){
-    		   vm.isYearPlan=vm.stage==common.basicDataConfig().projectShenBaoStage_nextYearPlan;//申报阶段为:下一年度计划
     		   vm.isProjectProposal=vm.stage==common.basicDataConfig().projectShenBaoStage_projectProposal;//申报阶段为:项目建议书
     		   vm.isKXXYJBG=vm.stage==common.basicDataConfig().projectShenBaoStage_KXXYJBG;//申报阶段为:可行性研究报告
     		   vm.isCBSJYGS=vm.stage==common.basicDataConfig().projectShenBaoStage_CBSJYGS;//申报阶段为:初步设计与概算
-    		   vm.isQianQi=vm.stage==common.basicDataConfig().projectShenBaoStage_qianQi;//申报阶段为:前期计划
-    		   vm.isNewStart=vm.stage==common.basicDataConfig().projectShenBaoStage_newStart;//申报阶段为:新开工计划
-    		   vm.isXuJian=vm.stage==common.basicDataConfig().projectShenBaoStage_xuJian;//申报阶段为:续建计划
+    		   vm.isPrePlanFee=vm.stage==common.basicDataConfig().projectShenBaoStage_prePlanFee;//申报阶段为:规划设计前期费
+    		   vm.isNewStart=vm.stage==common.basicDataConfig().projectShenBaoStage_newStratPlan;//申报阶段为:新开工计划
+    		   vm.isXuJian=vm.stage==common.basicDataConfig().projectShenBaoStage_xuJianPlan;//申报阶段为:续建计划
+    		   vm.isYearPlan=vm.stage==common.basicDataConfig().projectShenBaoStage_nextYearPlan;//申报阶段为:下一年度计划
     		   vm.isJunGong=vm.stage==common.basicDataConfig().projectShenBaoStage_junGong;//申报阶段为:竣工决算
+    		   vm.isCapitalApplyReport=vm.stage==common.basicDataConfig().projectShenBaoStage_capitalApplyReport;//申报阶段为:资金申请报告
+    		   
+    		   //vm.isQianQi=vm.stage==common.basicDataConfig().projectShenBaoStage_qianQi;//申报阶段为:前期计划
 
     		   //申报材料初始化
-    		   if(vm.isYearPlan){//下一年度计划上传文件类型
-    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_YearPlan;
-    			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
-    		   }
     		   if(vm.isProjectProposal){//项目建议书上传文件类型
     			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_projectProposal;
     		   }
@@ -184,8 +187,8 @@
     		   if(vm.isCBSJYGS){//初步设计与概算上传文件类型
     			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_CBSJYGS;
     		   }
-    		   if(vm.isQianQi){//前期计划上传文件类型
-    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_qianQi;
+    		   if(vm.isPrePlanFee){//规划设计前期费
+    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_prePlanFee;
     		   }
     		   if(vm.isNewStart){//新开工计划上传文件类型
     			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_newStart; 
@@ -193,18 +196,29 @@
     		   if(vm.isXuJian){//续建计划上传文件类型
     			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_xuJian;
     		   }
+    		   if(vm.isYearPlan){//下一年度计划上传文件类型
+    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_YearPlan;
+    			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+    		   }
     		   if(vm.isJunGong){//竣工决算上传文件类型
     			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_junGong;
     		   }
+    		   if(vm.isCapitalApplyReport){//资金申请报告上传文件类型
+    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_capitalApplyReport;
+    		   }
+    		   
+//    		   if(vm.isQianQi){//前期计划上传文件类型
+//    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_qianQi;
+//    		   }
 
     		   //初始化tab--禁止点击Tab切换
     		   $("#tab1").attr("disabled","true");
     		   $("#tab2").attr("disabled","true");
     		   $("#tab3").attr("disabled","true");
-    		   $("#tab4").attr("disabled","true");
-
-    		   $("#tab5").attr("disabled","true");
-    		   $("#tab6").attr("disabled","true");
+    		   
+    		   $("#tab4").attr("disabled","true");//下一年度计划单独页面
+    		   $("#tab5").attr("disabled","true");//竣工决算单独页面
+    		   $("#tab6").attr("disabled","true");//资金申请报告单独页面
     	   };
     	   //初始化基础数据
     	   var init_basicData = function(){

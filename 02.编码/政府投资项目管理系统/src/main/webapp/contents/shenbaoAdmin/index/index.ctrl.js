@@ -36,9 +36,22 @@
 	  			};
 	   	   vm.getBasicDataDesc=function(str){
 	  			return common.getBasicDataDesc(str);
-	  			};	   
+	  			};
+	  			
+	  		//任务类型--申报阶段
 	   	   vm.taskType_yearPlan=common.basicDataConfig().taskType_yearPlan;
-	   	   vm.taskType_monthReport=common.basicDataConfig().taskType_monthReport;	   	   	   	      	   
+	   	   vm.taskType_JYS=common.basicDataConfig().taskType_JYS;
+	   	   vm.taskType_KXXYJBG=common.basicDataConfig().taskType_KXXYJBG;
+	   	   vm.taskType_CBSJYGS=common.basicDataConfig().taskType_CBSJYGS;
+	   	   vm.taskType_qianQi=common.basicDataConfig().taskType_qianQi;
+	   	   vm.taskType_newStart=common.basicDataConfig().taskType_newStart;
+	   	   vm.taskType_xuJian=common.basicDataConfig().taskType_xuJian;
+	   	   vm.taskType_junGongJueSuan=common.basicDataConfig().taskType_junGongJueSuan;
+	   	   vm.taskType_shenBao=[vm.taskType_JYS,vm.taskType_KXXYJBG,vm.taskType_CBSJYGS,
+	   		   					vm.taskType_qianQi,vm.taskType_newStart,vm.taskType_xuJian,
+	   		   					vm.taskType_yearPlan,];
+	   	   //任务类型--月报	   	   
+	   	   vm.taskType_monthReport=common.basicDataConfig().taskType_monthReport;   	   	      	   
        }
 
               

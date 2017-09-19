@@ -496,6 +496,21 @@
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'
 	        })
+	        
+	         //待办列表页--审批类
+	        .state('task_todo_audit', {
+	            url: '/task/todo_audit',
+	            templateUrl: '/management/task/html/todo_audit',
+	            controller: 'taskAuditCtrl',
+	            controllerAs: 'vm'
+	        })
+	         //任务处理页--审批类
+	        .state('task_handle_audit', {
+	            url: '/task/handle_audit/:taskType/:taskId/:relId',
+	            templateUrl: '/management/task/html/handle_audit',
+	            controller: 'taskAuditCtrl',
+	            controllerAs: 'vm'
+	        })
 /**********************end#工作台***************************************/
       //begin中介单位管理
         //中介单位列表

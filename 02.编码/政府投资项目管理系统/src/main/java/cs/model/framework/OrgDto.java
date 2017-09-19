@@ -1,5 +1,8 @@
 package cs.model.framework;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cs.model.BaseDto;
 
 public class OrgDto extends BaseDto {
@@ -7,6 +10,7 @@ public class OrgDto extends BaseDto {
 	private String name;
 	private String comment;
 	private String orgIdentity;
+	List<UserDto> userDtos = new ArrayList<>();
 	
 	public String getId() {
 		return id;
@@ -31,5 +35,11 @@ public class OrgDto extends BaseDto {
 	}
 	public void setOrgIdentity(String orgIdentity) {
 		this.orgIdentity = orgIdentity;
+	}
+	public List<UserDto> getUserDtos() {
+		return userDtos;
+	}
+	public void setUserDtos(List<UserDto> userDtos) {
+		this.userDtos = userDtos;
 	}
 }
