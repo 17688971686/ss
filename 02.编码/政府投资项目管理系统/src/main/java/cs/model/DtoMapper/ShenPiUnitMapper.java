@@ -23,6 +23,7 @@ public class ShenPiUnitMapper implements IMapper<ShenPiUnitDto, ShenPiUnit>{
 			dto.setFax(entity.getFax());
 			dto.setIntroduce(entity.getIntroduce());
 			dto.setComment(entity.getComment());
+			dto.setUserId(entity.getUserId());
 			//基础信息
 			dto.setCreatedBy(entity.getCreatedBy());
 			dto.setCreatedDate(entity.getCreatedDate());
@@ -47,6 +48,7 @@ public class ShenPiUnitMapper implements IMapper<ShenPiUnitDto, ShenPiUnit>{
 			 entity.setFax(dto.getFax());
 			 entity.setIntroduce(dto.getIntroduce());
 			 entity.setComment(dto.getComment());
+			 entity.setUserId(dto.getUserId());
 				//基础信息
 			 entity.setCreatedBy(dto.getCreatedBy());
 			 entity.setCreatedDate(dto.getCreatedDate());

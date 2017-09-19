@@ -25,6 +25,7 @@ public class ShenPiItemsMapper implements IMapper<ShenPiItemsDto, ShenPiItems>{
 			dto.setProjectId(entity.getProjectId());
 			dto.setProjectName(entity.getProjectName());
 			dto.setShenpiUnitName(entity.getShenpiUnitName());
+			dto.setShenpiResult(entity.getShenpiResult());
 			
 			//基础信息
 			dto.setCreatedBy(entity.getCreatedBy());
@@ -52,6 +53,7 @@ public class ShenPiItemsMapper implements IMapper<ShenPiItemsDto, ShenPiItems>{
 			 entity.setProjectId(dto.getProjectId());
 			 entity.setProjectName(dto.getProjectName());
 			 entity.setShenpiUnitName(dto.getShenpiUnitName());
+			 entity.setShenpiResult(dto.getShenpiResult());
 			    //基础信息
 			 entity.setCreatedBy(dto.getCreatedBy());
 			 entity.setCreatedDate(dto.getCreatedDate());

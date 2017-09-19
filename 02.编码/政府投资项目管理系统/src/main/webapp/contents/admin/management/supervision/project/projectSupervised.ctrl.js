@@ -61,6 +61,14 @@
  			case "shenpifankuiItemsList":
  				vm.page="shenpifankuiItemsList";
  				break;	
+ 			case "shenpifankuiItemsChange":
+ 				vm.page="shenpifankuiItemsChange";
+ 				break;
+ 			case "shenpifankuiItemsDetail":
+ 				vm.page="shenpifankuiItemsDetail";
+ 				break;
+ 			case "shenpiItemsDetail":
+ 				vm.page="shenpiItemsDetail";
     		}
     		
     		vm.getBasicDataDesc = function(Str){
@@ -88,6 +96,19 @@
     	init();    	
     	activate(); 
         function activate() {
+        	
+        	if(vm.page=="shenpiItemsDetail"){
+        		vm.title='审批事项详情';
+        		shenpiItemsDetail();
+        	}
+        	if(vm.page=="shenpifankuiItemsDetail"){
+        		vm.title='审批事项反馈详情';
+        		shenpifankuiItemsDetail();
+        	}
+        	if(vm.page=="shenpifankuiItemsChange"){
+        		vm.title='审批事项反馈';
+        		shenpifankuiItemsChange();
+        	}
         	if(vm.page=="shenpifankuiItemsList"){
         		vm.title='审批事项反馈列表';
         		shenpifankuiItemsList();
@@ -134,8 +155,35 @@
         	}
         
         }
+        function shenpiItemsDetail(){
+        	projectSupervisedSvc.getShenPiItemsById(vm);
+        }
+        function shenpifankuiItemsDetail(){
+        	
+        	projectSupervisedSvc.getShenPiItemsById(vm);
+        }
+        function shenpifankuiItemsChange(){
+        	
+        	projectSupervisedSvc.getShenPiItemsById(vm);
+        	vm.updateShenpiFanKui=function(){
+        		projectSupervisedSvc.updateShenpiItems(vm);
+        	}
+        }
         function shenpifankuiItemsList(){
         	projectSupervisedSvc.shenpifankuiItemsGrid(vm);
+        	vm.searchShenPiItems=function(){
+    			var filters = [];
+    			if(vm.search.shenpiName !=null && vm.search.shenpiName !=''){
+	     			   filters.push({field:'shenpiName',operator:'contains',value:vm.search.shenpiName});
+	     		   }
+    			if(vm.search.projectName !=null && vm.search.projectName !=''){
+	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
+	     		   }
+    			if(vm.search.shenpiUnitName !=null && vm.search.shenpiUnitName !=''){
+	     			   filters.push({field:'shenpiUnitName',operator:'contains',value:vm.search.shenpiUnitName});
+	     		   }
+    		     vm.gridOptions.dataSource.filter(filters);
+        	}
         	
         }
         function shenpiItemsCreate(){

@@ -98,7 +98,7 @@
 			<input type="text" class="form-control input-sm" placeholder="请输入用户名称" maxlength="100" name="loginName" id="loginName" ng-model="vm.model.loginName" data-val="true" data-val-required="用户名必填" />
 			</div>
 			<div><input type="password" class="form-control input-sm" placeholder="请输入用户密码" maxlength="100"  name="password" id="password" ng-model="vm.model.password" data-val="true" data-val-required="密码必填" /></div>
-			<div><button class="btn btn-success loginBtn" ng-click="vm.submit('manage')" ng-disabled="vm.isSubmit">登录系统 </button></div>
+			<div><button class="btn btn-success loginBtn" ng-click="vm.submit('manage,shenpiUnit')" ng-disabled="vm.isSubmit">登录系统 </button></div>
 		</div>
 </form>		
 	</div>
@@ -192,7 +192,7 @@
             
             vm.keyEnter = function (e) {
                 if (e.which === 13) {
-                    vm.submit('manage')
+                    vm.submit("manage,shenpiUnit")
                 }
             };
 
