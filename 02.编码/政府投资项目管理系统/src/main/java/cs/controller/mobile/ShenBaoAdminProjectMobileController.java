@@ -13,6 +13,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,6 +41,14 @@ public class ShenBaoAdminProjectMobileController {
 	ICurrentUser currentUser;
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
+	
+	@RequestMapping(name = "获取项目信息", path = "",method=RequestMethod.GET)
+	public @ResponseBody PageModelDto<ProjectDto> get(HttpServletRequest request) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);
+		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);
+		return ProjectDtos;
+	}
+	
 	
 	@RequestMapping(name = "获取单位项目信息(包含所有已纳入项目库的项目)", path = "unitProject",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> getUnitProject(HttpServletRequest request) throws ParseException {
@@ -74,5 +83,7 @@ public class ShenBaoAdminProjectMobileController {
 		PageModelDto<ProjectDto> ProjectDtos = ProjectService.getUnitAndAll(odataObj,isFilters,hasUnitFilter,isUnitFilter);
 		return ProjectDtos;
 	}
+	
+	
 	
 }

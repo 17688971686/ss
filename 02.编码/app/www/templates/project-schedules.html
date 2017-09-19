@@ -1,0 +1,127 @@
+<ion-view view-title="项目进度详情" hide-tabs="true">
+<ion-nav-bar class="bar-positive">
+<!-- <ion-nav-buttons side="left">  -->
+  <ion-nav-back-button class="button-clear" >
+  返回
+  </ion-nav-back-button>
+  <!-- </ion-nav-buttons> -->
+  <ion-nav-buttons side="right"> 
+  <button class="button button-clear" ng-click="selectMonth()">月份</button>
+  </ion-nav-buttons>
+</ion-nav-bar>
+<ion-content>
+
+<div class="list-auto">
+  <table class="table table-left">
+    <tbody>
+      <tr>
+        <td class="color-black" style="width:35%;">项目名称</td>
+        <td style="width:65%">{{projectschedule.ProjectName || '-'}}</td>
+      </tr>
+      <tr>
+        <td class="color-black">申报单位</td>
+        <td>{{projectschedule.ReportUnitName || '-'}}</td>
+      </tr>
+      <tr>
+        <td class="color-black">立项年度</td>
+        <td>{{projectschedule.ProjectApprovalYear || '-'}}</td>
+      </tr>
+      <tr>
+        <td class="color-black">填报年月</td>
+        <td class="color-black">{{projectschedule.SubmitMonth || '-'}}</td>
+      </tr>
+      <tr>
+        <td class="color-black">行业归口</td>
+        <td>{{projectschedule.DomainClassName || '-'}}</td>
+      </tr>
+      <tr>
+        <td class="color-black">项目阶段</td>
+        <td>{{projectschedule.ProjectType || '-'}}</td>
+      </tr>
+      <tr>
+        <td class="color-black">项目状态</td>
+        <td>{{projectschedule.ProjectStatus || '-'}}</td>
+      </tr>
+      <tr>
+        <td class="color-black">总投资</td>
+        <td>{{projectschedule.InvestTotal  || '-'}}万</td>
+      </tr>
+      <tr ng-show='projectType == 1'>
+        <td class="color-black">新区政府投资</td>
+        <td>{{projectschedule.NewDistrictInvest || '-'}}</td>
+      </tr>
+      <tr ng-show='projectType == 2'>
+        <td class="color-black">新区联系部门</td>
+        <td>{{projectschedule.NewDistrictContactDepartment || '-'}}</td>
+      </tr>
+      <tr>
+        <td class="color-black">{{year}}年安排年度投资</td>
+        <td>{{projectschedule.ThisYearPlanInvestment || '-'}}万</td>
+      </tr>
+      <tr ng-show='projectType == 2'>
+        <td class="color-black">{{year}}年已安排投资</td>
+        <td>{{projectschedule.SinceLastYearCompletInvestment || '-'}}万</td>
+      </tr>
+      <tr ng-show='projectType == 1'>
+        <td class="color-black">{{year}}年计划下达</td>
+        <td>{{projectschedule.PlanIssued  || '-'}}万</td>
+      </tr>
+      <tr ng-show='projectType == 1'>
+        <td class="color-black">{{year}}年计划实际拨款</td>
+        <td>{{projectschedule.ActualAllocation|| '-'}}万</td>
+      </tr>
+      <tr ng-show='projectType == 1'>
+        <td class="color-black">{{year - 3}}年度及以前安排</td>
+        <td>{{projectschedule.Invest2012|| '-'}}万</td>
+      </tr>
+      <tr ng-show='projectType == 1'>
+        <td class="color-black">{{year - 2}}年度及以前安排</td>
+        <td>{{projectschedule.Invest2013|| '-'}}万</td>
+      </tr>
+      <tr ng-show='projectType == 1'>
+        <td class="color-black">{{year - 1}}年度及以前安排</td>
+        <td>{{projectschedule.Invest2014|| '-'}}万</td>
+      </tr>
+      <tr>
+        <td class="color-black">全年进度及投资额目标</td>
+        <td>{{projectschedule.AlllYearProgress|| '-'}}万</td>
+      </tr>
+      <tr>
+        <td class="color-black">建设规模</td>
+        <td>{{projectschedule.ConstructionScale || '-'}}</td>
+      </tr>
+      <tr>
+        <td class="color-black">存在问题及解决意见</td>
+        <td>{{projectschedule.Problem || '-'}}</td>
+      </tr>
+      <tr>
+        <td class="color-black">形象进度</td>
+        <td>{{projectschedule.ProjectImageProgress || '-'}}</td>
+      </tr>
+      <tr>
+        <td class="color-black" rowspan=4>全年目标分解</td>
+        <td>第一季度投资额：{{projectschedule.FirstQuarterCompletedInvestment || '-'}}万，占总投资：{{(!!projectschedule.FirstQuarterCompletedInvestment && !!projectschedule.InvestTotal) ? (projectschedule.FirstQuarterCompletedInvestment / projectschedule.Investment * 100) : 0}}%</td>
+      </tr>
+      <tr>
+       <td>第二季度投资额：{{projectschedule.SecondQuarterCompletedInvestment || '-'}}万，占总投资：{{(!!projectschedule.SecondQuarterCompletedInvestment && !!projectschedule.InvestTotal) ? (projectschedule.SecondQuarterCompletedInvestment / projectschedule.Investment * 100) : 0}}%</td>
+     </tr>
+     <tr>
+      <td>第三季度投资额：{{projectschedule.ThirdQuarterCompletedInvestment || '-'}}万，占总投资：{{(!!projectschedule.ThirdQuarterCompletedInvestment && !!projectschedule.InvestTotal) ? (projectschedule.ThirdQuarterCompletedInvestment / projectschedule.Investment * 100) : 0}}%</td>
+    </tr>
+    <tr>
+      <td>第四季度投资额：{{projectschedule.ThourthQuarterCompletedInvestment || '-'}}万，占总投资：{{(!!projectschedule.ThourthQuarterCompletedInvestment && !!projectschedule.InvestTotal) ? (projectschedule.ThourthQuarterCompletedInvestment / projectschedule.Investment * 100) : 0}}%</td>
+    </tr>
+    <tr>
+      <td class="color-black" rowspan=2>{{month || '-'}}月进度情况</td>
+      <td>1-{{month || '-'}}月累计完成投资额(本年度计划)：{{projectschedule.ThisYearAccumulatedInvestment || '-'}}万</td>
+    </tr>
+    <tr>
+      <td>累计完成投资额(含往年计划)：{{projectschedule.AccumulatedCompleteInvestment || '-'}}万</td>
+    </tr>
+  </tbody>
+</table>
+
+
+</div>
+</ion-content>
+</ion-view>
