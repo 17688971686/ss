@@ -254,14 +254,26 @@
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'
 	        })
-	        //已办列表页(taskRecord)
+	        //已办列表页--下一年度计划(taskRecord)
 	        .state('task_complete', {
 	            url: '/task/complete',
 	            templateUrl: '/management/task/html/complete',
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'
 	        })
-	        
+	         //已办列表页--审批类(taskRecord)
+	        .state('task_shenPi', {
+	            url: '/task/shenPi',
+	            templateUrl: '/management/task/html/complete_shenPi',
+	            controller: 'taskCtrl',
+	            controllerAs: 'vm'
+	        })
+	        .state('task_shenPiDetails', {
+	            url: '/task/shenPi_details/:taskType/:taskId/:relId',
+	            templateUrl: '/management/task/html/shenPiDetails',
+	            controller: 'taskCtrl',
+	            controllerAs: 'vm'
+	        })
 	         //待办列表页--审批类
 	        .state('task_todo_audit', {
 	            url: '/task/todo_audit',

@@ -8,6 +8,7 @@
 	function task($http) {
 		var url_task = "/management/task";
 		var url_taskRecord = "/management/taskRecord";
+		var url_taskRecord_shenPi = "/management/taskRecord/shenPi";
 		var url_shenbao = "/management/shenbao";
 		var url_monthReport = "/management/monthReport";
 		var url_project = "/management/project";
@@ -15,6 +16,10 @@
 		var url_dept = "/org";
 		var url_taskAudit = "/management/task/audit";
 		var url_users="/org/{0}/users";
+		var url_approval ="/management/approval";
+		var url_proxy = "/management/proxy";
+		var url_review = "/management/review";
+		var url_draft ="/management/draft";
 		
 		var service = {
 			grid : grid,//待办任务列表
@@ -23,10 +28,161 @@
 			getShenBaoInfoById:getShenBaoInfoById,//根据id获取申报信息
 			getMonthReportById:getMonthReportById,//根据id获取月报信息
 			handle:handle,
-			gridForShenpi:gridForShenpi
+			gridForShenpi:gridForShenpi,
+			complete_shenPiGird:complete_shenPiGird,
+			getApproval:getApproval,
+			getDraftIssued:getDraftIssued,
+			getComission:getComission,
+			getReviewResult:getReviewResult,
+			getDepts:getDepts
 		};
 		
 		return service;
+		
+		//查询评审结果
+		function getReviewResult(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_review + "/" +vm.task.id)
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.review = response.data || {};
+						if(vm.review == ""){
+							vm.projectInvestSum = vm.model.shenBaoInfo.projectInvestSum;
+						}else{
+							vm.nuclear = vm.review.nuclear;
+							vm.cut = vm.review.cut;
+							vm.projectInvestSum = vm.review.projectInvestSum;
+						}
+						vm.review.approvalDate = common.formatDate(vm.review.approvalDate);
+						vm.review.receiptDate = common.formatDate(vm.review.receiptDate);
+						vm.review.approvalEndDate= common.formatDate(vm.review.approvalEndDate);
+					}
+				});
+			};
+				
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		};
+		
+		//查询审批委托书
+		function getComission(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_proxy + "/" +vm.task.id)
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.proxy = response.data || {};
+						vm.proxy.beginDate = common.formatDate(vm.proxy.beginDate);
+						vm.proxy.approvalType=$linq(common.getBasicData())
+	   	   				.where(function(x){return x.identity==common.basicDataConfig().projectShenBaoStage&&x.id==vm.proxy.approvalType;}).toArray()[0].description;
+					}
+				});
+			};
+				
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		};
+		
+		//发文拟稿
+		function getDraftIssued(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_draft + "/" +vm.task.id)
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.draft = response.data || {};
+						vm.draft.draftDate=common.formatDate(vm.draft.draftDate);//开工日期
+					}
+				});
+			};
+				
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		};
+		
+		//查询审批单
+		function getApproval(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_approval + "/" +vm.task.id)
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.approval = response.data || {};
+						vm.approval.beginDate = common.formatDate(vm.approval.beginDate);
+						vm.approval.approvalType=$linq(common.getBasicData())
+	   	   				.where(function(x){return x.identity==common.basicDataConfig().projectShenBaoStage&&x.id==vm.approval.approvalType;}).toArray()[0].description;
+					}
+				});
+			};
+				
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		};
+		
+		/**
+		 * 查询部门
+		 */
+		function getDepts(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_dept)
+			};
+			
+			var httpSuccess = function success(response){
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.model.depts = response.data.value||{};
+					}
+				});
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
+		
 		/**
 		 * 根据id获取项目信息
 		 */
@@ -279,11 +435,15 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:{
+				filter:[{
 					field:'isComplete',
 					operator:'eq',
 					value:false
-				},
+				},{
+					field:'taskType',
+					operator:'eq',
+					value:"taskType_2"
+				}],
 				requestEnd:function(e){						
 					$('#todoNumber').html(e.response.value.length);					
 				}
@@ -387,6 +547,11 @@
 					field : "createdDate",
 					dir : "desc"
 				},
+				filter:{
+					field:'taskType',
+					operator:'eq',
+					value:"taskType_2"
+				},
 				change: function(e) {//当数据发生变化时
 				    var filters = dataSource.filter();//获取所有的过滤条件
 				    vm.filters = filters;
@@ -465,6 +630,110 @@
 			// End:column
 
 			vm.gridOptions_complete = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true
+			};
+
+		}// end fun grid
+		
+		function complete_shenPiGird(vm) {
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url_taskRecord_shenPi),
+				schema : common.kendoGridConfig().schema({
+					id : "id"					
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "createdDate",
+					dir : "desc"
+				},
+				change: function(e) {//当数据发生变化时
+				    var filters = dataSource.filter();//获取所有的过滤条件
+				    vm.filters = filters;
+				}
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+					{
+						template : function(item) {
+							return kendo
+									.format(
+											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+											item.id);
+						},
+						filterable : false,
+						width : 40,
+						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+
+					},
+					{
+						field : "title",
+						title : "标题",						
+						filterable : true,
+						template:function(item){
+							return common.format("<a href='#/task/shenPi_details/{1}/{2}/{3}'>{0}</a>",item.title,item.taskType,item.taskId,item.relId);
+						}
+					},
+					 {
+						field : "unitName",
+						title : "建设单位",
+						width : 400,						
+						filterable : true
+					},
+					{
+						field : "projectIndustry",
+						title : "项目行业",
+						width : 200,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectIndustry);
+						},
+						filterable : {
+							 ui: function(element){
+			                        element.kendoDropDownList({
+			                            valuePrimitive: true,
+			                            dataSource: $linq(common.getBasicData())
+			             	       					.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
+			             	       					.toArray(),
+			                            dataTextField: "description",
+			                            dataValueField: "id"
+			                        });
+			                    }
+						}
+					},
+					 {
+						field : "taskType",
+						title : "任务类型",
+						width : 180,						
+						filterable : false,
+						template:function(item){						
+							return common.getBasicDataDesc(item.taskType);
+						}
+					},
+					{
+						field : "",
+						title : "创建日期",
+						width : 180,
+						template : function(item) {
+							return kendo.toString(new Date(item.createdDate),"yyyy/MM/dd HH:mm:ss");
+						}
+
+					}
+
+			];
+			// End:column
+
+			vm.gridOptions_complete_shenPi = {
 				dataSource : common.gridDataSource(dataSource),
 				filterable : common.kendoGridConfig().filterable,
 				pageable : common.kendoGridConfig().pageable,

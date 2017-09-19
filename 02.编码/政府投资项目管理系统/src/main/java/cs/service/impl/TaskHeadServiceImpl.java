@@ -73,12 +73,12 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 	@Override
 	@Transactional
 	public PageModelDto<TaskHeadDto> getTask_yearPlan(ODataObj odataObj) {
-		ODataFilterItem filter = new ODataFilterItem();
-		filter.setField("taskType");
-		filter.setOperator("eq");
-		filter.setValue(BasicDataConfig.taskType_nextYearPlan);
-		
-		odataObj.getFilter().add(filter);
+//		ODataFilterItem filter = new ODataFilterItem();
+//		filter.setField("taskType");
+//		filter.setOperator("eq");
+//		filter.setValue(BasicDataConfig.taskType_nextYearPlan);
+//		
+//		odataObj.getFilter().add(filter);
 		logger.info("查询下一年度计划个人待办数据");
 		return super.get(odataObj);
 	}

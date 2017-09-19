@@ -151,20 +151,40 @@ desired effect
 							alt="User Image"> <span>我的工作台</span> <span
 							class="pull-right-container"> <i
 								class="fa fa-angle-left pull-right"></i>
-						</span>
-					</a>
-				<ul class="treeview-menu">
-					<li><a href="#/task/todo">个人待办
-						 <span id="todoNumber" class="label label-danger" style="font-size:9px;padding:0px 5px;"></span>
-						</a></li>
-					<li>
-						<a href="javascript:void(0)" ui-sref="task_todo_audit">个人待办(审批类)
-							<span id="todoNumber_audit" class="label label-danger" style="font-size:9px;padding:0px 5px;"></span>
-						</a>
-					</li>
-					<li><a href="javascript:void(0)" ui-sref="task_complete">个人已办 </a> </li>
-				</ul>
-						
+						</span></a>
+						<ul class="treeview-menu">
+							<li><a href="#/task/todo">个人待办</a>
+								<ul class="treeview-menu">
+									<li>
+										<a href="#/task/todo">个人待办(下一 年度计划)
+										 <span id="todoNumber" class="label label-danger" style="font-size:9px;padding:0px 5px;"></span>
+										</a>
+									</li>
+									<li>
+										<a href="javascript:void(0)" ui-sref="task_todo_audit">个人待办(审批类)
+											<span id="todoNumber_audit" class="label label-danger" style="font-size:9px;padding:0px 5px;"></span>
+										</a>
+									</li>
+									<li>
+										<a href="javascript:void(0)" >个人待办(计划类)
+										</a>
+									</li>
+								</ul>
+							</li>
+							<li><a href="javascript:void(0)">个人已办</a>
+								<ul class="treeview-menu">
+									<li>
+										<a href="javascript:void(0)" ui-sref="task_complete">个人已办 (下一年度计划)</a> 
+									</li>
+										<li>
+										<a href="javascript:void(0)" ui-sref="task_shenPi">个人已办 (审批类)</a> 
+									</li>
+									<li>
+										<a href="javascript:void(0)">个人已办 (计划类)</a> 
+									</li>
+								</ul>
+							</li>
+						</ul>
 					</li>
 					
 						<li class="treeview"><a href="javascript:void(0)"> <i

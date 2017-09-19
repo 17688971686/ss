@@ -135,6 +135,7 @@
         	};
         	
         	vm.saveReview=function(){
+        		vm.taskAudit.reviewResult = true;
         		taskAuditSvc.saveReview(vm);
         	};
         	
@@ -234,9 +235,12 @@
         	
         	//保存委托书
         	vm.saveProxy=function(){
+    			vm.taskAudit.proxy = true;
+
         		taskAuditSvc.saveProxy(vm);
         	};
         	
+        	//查询委托书
         	vm.proxyOpen=function(){
         		
         		taskAuditSvc.getApproval(vm);
@@ -288,6 +292,7 @@
         	
         	//保存审批单
         	vm.saveApproval=function(){
+        		vm.taskAudit.approval = true;
         		taskAuditSvc.saveApproval(vm);
         	};
         	

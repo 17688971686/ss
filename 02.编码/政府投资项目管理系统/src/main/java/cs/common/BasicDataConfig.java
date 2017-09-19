@@ -39,6 +39,9 @@ public class BasicDataConfig {
 	public static String taskType_nextYearPlan="taskType_2";//下一年度计划
 	public static String taskType_monthReport="taskType_1";//月报填报
 	public static String taskType_sendMesg="taskType_3";//发送短信
+	public static String taskType_XMJYS="taskType_5";//项目建议书
+	public static String taskType_KXXYJBG="taskType_6";//可行性研究报告
+	public static String taskType_CBSJYGS="taskType_7";//初步设计与概算
 	
 	public static String attachment_type_jys="JYS"; 
 	public static String attachment_type_kxxyjbg="KXXYJBG"; 

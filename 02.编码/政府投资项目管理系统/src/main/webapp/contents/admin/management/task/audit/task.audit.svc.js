@@ -53,6 +53,7 @@
 			vm.review.constructionUnit = vm.model.shenBaoInfo.constructionUnit;
 			vm.review.approvalEndDate = new Date();
 			vm.review.receiptDate = new Date(vm.model.shenBaoInfo.createdDate);
+			vm.review.unitName = vm.proxy.unitName;
 			vm.review.approvalDate = vm.proxy.beginDate;
 			//vm.review.projectInvestSum = vm.projectInvestSum;
 			vm.review.nuclear = vm.nuclear;
@@ -125,11 +126,12 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		}
+		};
 		
 		function saveProxy(vm){
 			vm.proxy.approvalType = vm.approvalType;
 			vm.proxy.projectName = vm.model.shenBaoInfo.projectName;
+			vm.proxy.unitName = vm.approval.unitName;
 			vm.proxy.constructionUnit = vm.model.shenBaoInfo.constructionUnit;
 			vm.proxy.processRole = vm.taskAudit.operator;
 			vm.proxy.beginDate = new Date();

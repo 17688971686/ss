@@ -70,6 +70,18 @@ public class TaskRecord extends BaseEntity {
 	@Column(columnDefinition="bit(1) NULL COMMENT '退文标识'")
 	private Boolean tuiwen;
 	
+	@Column(columnDefinition="bit(1) NULL COMMENT '发文标识'")
+	private Boolean fawen;
+	
+	@Column(columnDefinition="bit(1) NULL COMMENT '是否填写评审报批单'")
+	private Boolean approval;
+	
+	@Column(columnDefinition="bit(1) NULL COMMENT '是否填写评审委托书'")
+	private Boolean proxy;
+	
+	@Column(columnDefinition="bit(1) NULL COMMENT '是否填写评审结果'")
+	private Boolean reviewResult;
+	
 	public String getOperator() {
 		return operator;
 	}
@@ -187,6 +199,29 @@ public class TaskRecord extends BaseEntity {
 	public void setTuiwen(Boolean tuiwen) {
 		this.tuiwen = tuiwen;
 	}
+	public Boolean getFawen() {
+		return fawen;
+	}
+	public void setFawen(Boolean fawen) {
+		this.fawen = fawen;
+	}
+	public Boolean getApproval() {
+		return approval;
+	}
+	public void setApproval(Boolean approval) {
+		this.approval = approval;
+	}
+	public Boolean getProxy() {
+		return proxy;
+	}
+	public void setProxy(Boolean proxy) {
+		this.proxy = proxy;
+	}
+	public Boolean getReviewResult() {
+		return reviewResult;
+	}
+	public void setReviewResult(Boolean reviewResult) {
+		this.reviewResult = reviewResult;
+	}
 
-	
 }
