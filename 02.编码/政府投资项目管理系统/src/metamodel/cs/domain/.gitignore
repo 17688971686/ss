@@ -45,14 +45,13 @@
 /ShenPiUnit_.java
 /ShenPiItems_.java
 /PolicyCatalog_.java
-/PartApprovalMatters_.java<<<<<<< .mine
+/PartApprovalMatters_.java
 /ShenPiUnit_.java
 /ApprovedItems_.java
 /ShenPiItems_.java
-
-=======
-
-
 /PolicyCatalog_.java
 /PartApprovalMatters_.java
->>>>>>> .theirs
+
+/AgencyServiceMatters_.java
+
+

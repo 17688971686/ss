@@ -37,9 +37,30 @@
     		if($state.current.name == 'catalog_policyCatalogAlter'){
     			vm.page = 'policyCatalogAlter';
     		}
-    		
-    		
-    		
+    		if($state.current.name == 'catalog_partApprovalMatters'){
+    			vm.page = 'partApprovalMattersList';
+    		}
+    		if($state.current.name == 'catalog_partApprovalMattersEdit'){
+    			vm.page = 'partApprovalMattersEdit';
+    		}
+    		if($state.current.name == 'catalog_partApprovalMattersAlter'){
+    			vm.page = 'partApprovalMattersAlter';
+    		}
+    		if($state.current.name == 'catalog_partApprovalMattersDetails'){
+    			vm.page = 'partApprovalMattersDetails';
+    		}
+    		if($state.current.name == 'catalog_agencyServiceMatters'){
+    			vm.page = 'agencyServiceMattersList';
+    		}
+    		if($state.current.name == 'catalog_agencyServiceMattersEdit'){
+    			vm.page = 'agencyServiceMattersEdit';
+    		}
+    		if($state.current.name == 'catalog_agencyServiceMattersAlter'){
+    			vm.page = 'agencyServiceMattersAlter';
+    		}
+    		if($state.current.name == 'catalog_agencyServiceMattersDetails'){
+    			vm.page = 'agencyServiceMattersDetails';
+    		}
     		
     	}
     	
@@ -68,11 +89,197 @@
         	if(vm.page == 'policyCatalogAlter'){
         		page_policyCatalogAlter();//政策条目修改
         	}
+        	if(vm.page == 'partApprovalMattersList'){
+        		page_partApprovalMattersList();//部门审批事项列表页
+        	}
+        	if(vm.page == 'partApprovalMattersEdit'){
+        		page_partApprovalMattersEdit();//部门审批事项编辑页
+        	}
+        	if(vm.page == 'partApprovalMattersAlter'){
+        		page_partApprovalMattersAlter();//部门审批事项更新页
+        	}
+        	if(vm.page == 'partApprovalMattersDetails'){
+        		page_partApprovalMattersDetails();//部门审批事项详情页
+        	}
+        	if(vm.page == 'agencyServiceMattersList'){
+        		page_agencyServiceMattersList();//中介服务事项目录列表页
+        	}
+        	if(vm.page == 'agencyServiceMattersEdit'){
+        		page_agencyServiceMattersEdit();//中介服务事项编辑页
+        	}
+        	if(vm.page == 'agencyServiceMattersAlter'){
+        		page_agencyServiceMattersAlter();//中介服务事项修改页
+        	}
+        	if(vm.page == 'agencyServiceMattersDetails'){
+        		page_agencyServiceMattersDetails();//中介服务事项详情页
+        	}
         	
         }
         
+        //中介服务事项详情页
+        function page_agencyServiceMattersDetails(){
+        	vm.title= '中介服务事项详情页';
+        	vm.isAgencyServiceMattersDetails = true;
+        	catalogSvc.getAgencyServiceMattersById(vm);
+        }//end fun page_agencyServiceMattersDetails
+        
+        //中介服务事项修改页
+        function page_agencyServiceMattersAlter(){
+        	vm.title = '中介服务事项修改';
+        	//显示更新按钮
+        	vm.isShowConfirm = true;
+        	//根据id获取原数据，显示在页面中
+        	catalogSvc.getAgencyServiceMattersById(vm);
+        	//更新按钮
+        	vm.updateAgencyServiceMatters = function(){
+        		common.initJqValidation();
+        		var isValid = $('form').valid();
+        		if(isValid){//通过则进行下一步
+        			catalogSvc.updateAgencyServiceMatters(vm);
+        		}
+        	};
+        	
+        }//end fun page_agencyServiceMattersAlter
+        
+        //中介服务事项编辑页
+        function page_agencyServiceMattersEdit(){
+        	vm.title = '中介服务事项编辑';
+        	vm.saveAgencyServiceMatters = function(){
+        		common.initJqValidation();
+        		var isValid = $('form').valid();
+        		if(isValid){//通过则执行下一步
+        			catalogSvc.createAgencyServiceMatters(vm);
+        		}
+        		
+        	};
+        	
+        }//end fun page_agencyServiceMattersEdit
+        
+        //中介服务事项目录列表页
+        function page_agencyServiceMattersList(){
+        	vm.title = '中介服务事项列表';
+        	catalogSvc.grid_agencyServiceMatters(vm);
+        	//删除按钮
+        	vm.deleteAgencyServiceMattersCatalog = function(id){
+        		common.confirm({
+        			vm : vm,
+        			msg : '确认要删除此记录吗？',
+        			fn : function(){
+        				$('.confirmDialog').modal('hide');
+        				catalogSvc.deleteAgencyServiceMattersCatalog(vm,id);
+        			}
+        		});
+        	};
+        	//批量删除按钮
+        	vm.deleteAgencyServiceMattersCatalogs = function(){
+	    		var selectIds = common.getKendoCheckId('.grid');
+	            if (selectIds.length == 0) {
+	            	common.alert({
+	                	vm:vm,
+	                	msg:'请选择数据'              	
+	                });
+	            } else {
+	            	var ids=[];
+	                for (var i = 0; i < selectIds.length; i++) {
+	                	ids.push(selectIds[i].value);
+					}
+	                var idStr=ids.join(','); 
+	                common.confirm({
+	               	 	vm:vm,
+	               	 	title:"",
+	               	 	msg:"确认删除数据吗？",
+	               	 	fn:function () {
+	                     	$('.confirmDialog').modal('hide');             	
+	                     	catalogSvc.deleteAgencyServiceMattersCatalogs(vm,idStr);
+	                    }
+	                });
+	            }
+        	};
+        	
+        }//end fun page_agencyServiceMattersList
+        
+        //部门审批事项详情页
+        function page_partApprovalMattersDetails(){
+        	vm.title = '部门审批事项详情';
+        	vm.isPartApprovalMattersDetails = true;
+        	catalogSvc.getpartApprovalMattersById(vm);
+        }//end fun page_partApprovalMattersDetails
+        
+        //部门审批事项更新页
+        function page_partApprovalMattersAlter(){
+        	vm.title = '部门审批事项修改';
+        	//显示更新按钮
+        	vm.isShowConfirm = true;
+        	//获取原数据
+        	catalogSvc.getpartApprovalMattersById(vm);
+        	//点击更新按钮
+        	vm.updatePartApprovalMatters = function(){
+        		common.initJqValidation();
+        		var isValid = $('form').valid();
+        		if(isValid){//通过则进行下一步
+        			catalogSvc.updatePartApprovalMatters(vm);
+        		}
+        	};
+        }//end fun page_partApprovalMattersAlter
+        
+        //部门审批事项编辑页
+        function page_partApprovalMattersEdit(){
+        	vm.title = '部门审批事项编辑';
+        	vm.savePartApprovalMatters = function(){
+        		common.initJqValidation();
+        		var isValid = $('form').valid();
+        		if(isValid){//通过则可以进行下一步
+        			catalogSvc.createPartApprovalMatters(vm);
+        		}
+        	};
+        }//end fun page_partApprovalMattersEdit
+        
+        //部门审批事项列表页
+        function page_partApprovalMattersList(){
+        	vm.title = '部门审批事项列表';
+        	catalogSvc.grid_partApprovalMatters(vm);
+        	//点击列表中的删除按钮，根据提示是否删除数据
+        	vm.deletePartApprovalMattersCatalog = function(id){
+        		common.confirm({
+        			vm :vm,
+            		title:"",
+            		msg:"确认要删除此记录吗？",
+            		fn : function(){
+            			$('.confirmDialog').modal('hide');
+            			catalogSvc.deletePartApprovalMatters(vm,id);
+            		}
+        		});
+        	};
+        	//点击批量删除按钮，根据提示是否删除数据
+        	vm.deletePartApprovalMattersCatalogs = function(){
+	    		var selectIds = common.getKendoCheckId('.grid');
+	            if (selectIds.length == 0) {
+	            	common.alert({
+	                	vm:vm,
+	                	msg:'请选择数据'              	
+	                });
+	            } else {
+	            	var ids=[];
+	                for (var i = 0; i < selectIds.length; i++) {
+	                	ids.push(selectIds[i].value);
+					}
+	                var idStr=ids.join(','); 
+	                common.confirm({
+	               	 	vm:vm,
+	               	 	title:"",
+	               	 	msg:"确认删除数据吗？",
+	               	 	fn:function () {
+	                     	$('.confirmDialog').modal('hide');             	
+	                     	catalogSvc.deletePartApprovalMattersCatalogs(vm,idStr);
+	                    }
+	                });
+	            }
+	    	};
+        }//end fun page_partApprovalMattersList
+        
         //政策条目修改
         function page_policyCatalogAlter(){
+        	vm.title = '政策条目修改';
         	//显示更新按钮
         	vm.isShowConfirm = true;
         	//根据id获取源数据信息
@@ -138,10 +345,10 @@
 					}
 	                var idStr=ids.join(','); 
 	                common.confirm({
-	               	 vm:vm,
-	               	 title:"",
-	               	 msg:"确认删除数据吗？",
-	               	 fn:function () {
+	               	 	vm:vm,
+	               	 	title:"",
+	               	 	msg:"确认删除数据吗？",
+	               	 	fn:function () {
 	                     	$('.confirmDialog').modal('hide');             	
 	                     	catalogSvc.deletePolicyCatalogs(vm,idStr);
 	                    }
@@ -195,10 +402,10 @@
 					}
 	                var idStr=ids.join(','); 
 	                common.confirm({
-	               	 vm:vm,
-	               	 title:"",
-	               	 msg:"确认删除数据吗？",
-	               	 fn:function () {
+	               	 	vm:vm,
+	               	 	title:"",
+	               	 	msg:"确认删除数据吗？",
+	               	 	fn:function () {
 	                     	$('.confirmDialog').modal('hide');             	
 	                     	catalogSvc.deletePolicyCatalogs(vm,idStr);
 	                    }
@@ -209,6 +416,7 @@
         
         //投资项目修改和项目行业二级目录编辑页面
         function page_investment_projectIndustry(){
+        	vm.title = '项目行业分类';
         	catalogSvc.getCatalogById(vm);
         	catalogSvc.grid_InvestmentProjectSecondary(vm);
         	//点击更新按钮
@@ -263,10 +471,10 @@
 					}
 	                var idStr=ids.join(','); 
 	                common.confirm({
-	               	 vm:vm,
-	               	 title:"",
-	               	 msg:"确认删除数据吗？",
-	               	 fn:function () {
+	               	 	vm:vm,
+	               	 	title:"",
+	               	 	msg:"确认删除数据吗？",
+	               	 	fn:function () {
 	                     	$('.confirmDialog').modal('hide');             	
 	                     	catalogSvc.removeSecondCatalogs(vm,idStr);
 	                    }
@@ -369,7 +577,7 @@
 					$(".modal-backdrop").remove(); //去掉模态框背面的阴影
         		};
         	};
-        	//点击删除按钮
+        	//删除按钮
         	vm.deleteCatalog = function(id){
         		common.confirm({
             		vm :vm,
@@ -381,6 +589,7 @@
             		}
             	});
         	};
+        	//批量删除按钮
         	vm.deleteCatalogs = function(){
 	    		var selectIds = common.getKendoCheckId('.grid');
 	            if (selectIds.length == 0) {
@@ -395,10 +604,10 @@
 					}
 	                var idStr=ids.join(','); 
 	                common.confirm({
-	               	 vm:vm,
-	               	 title:"",
-	               	 msg:"确认删除数据吗？",
-	               	 fn:function () {
+	               	 	vm:vm,
+	               	 	title:"",
+	               	 	msg:"确认删除数据吗？",
+	               	 	fn:function () {
 	                     	$('.confirmDialog').modal('hide');             	
 	                     	catalogSvc.removeFirstCatalogs(vm,idStr);
 	                    }

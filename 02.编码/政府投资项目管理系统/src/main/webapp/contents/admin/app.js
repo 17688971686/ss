@@ -282,7 +282,6 @@
 	            controller: 'catalogCtrl',
 	            controllerAs: 'vm'
 	        })
-	        
 	        //政策目录类型次级目录列表页
 	        .state('catalog_policyCatalogSecondList', {
 	            url: '/catalog/policyCatalogSecondList/:id',
@@ -290,6 +289,64 @@
 	            controller: 'catalogCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //部门审批事项目录列表页
+	        .state('catalog_partApprovalMatters', {
+	            url: '/catalog/partApprovalMattersList',
+	            templateUrl: '/management/catalog/html/partApprovalMattersList',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //部门审批事项新增页
+	        .state('catalog_partApprovalMattersEdit', {
+	            url: '/catalog/partApprovalMattersEdit',
+	            templateUrl: '/management/catalog/html/partApprovalMattersEdit',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //部门审批事项修改页
+	        .state('catalog_partApprovalMattersAlter', {
+	            url: '/catalog/partApprovalMattersEdit/:id',
+	            templateUrl: '/management/catalog/html/partApprovalMattersEdit',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //部门审批事项详情页
+	        .state('catalog_partApprovalMattersDetails', {
+	            url: '/catalog/partApprovalMattersEdit/:id/',
+	            templateUrl: '/management/catalog/html/partApprovalMattersEdit',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //中介服务事项目录列表页
+	        .state('catalog_agencyServiceMatters', {
+	            url: '/catalog/agencyServiceMattersList',
+	            templateUrl: '/management/catalog/html/agencyServiceMattersList',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //部门审批事项新增页
+	        .state('catalog_agencyServiceMattersEdit', {
+	            url: '/catalog/agencyServiceMattersEdit',
+	            templateUrl: '/management/catalog/html/agencyServiceMattersEdit',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //部门审批事项修改页
+	        .state('catalog_agencyServiceMattersAlter', {
+	            url: '/catalog/agencyServiceMattersEdit/:id',
+	            templateUrl: '/management/catalog/html/agencyServiceMattersEdit',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //部门审批事项修改页
+	        .state('catalog_agencyServiceMattersDetails', {
+	            url: '/catalog/agencyServiceMattersEdit/:id/',
+	            templateUrl: '/management/catalog/html/agencyServiceMattersEdit',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        
+	        
 	 
 /**********************end#目录管理***************************************/	     
 	        
