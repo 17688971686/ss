@@ -130,6 +130,9 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="varchar(255) NULL COMMENT '财政项目代码'")
 	private String financeProjectNumber;
 	
+	@Column(columnDefinition="varchar(500)  COMMENT '项目建设用地情况（社投）'")
+	private String constructionLand;
+	
 
 	public String getUnitName() {
 		return unitName;
@@ -442,5 +445,13 @@ public class BaseProject extends BaseEntity
 	public void setFinanceProjectNumber(String financeProjectNumber) {
 		this.financeProjectNumber = financeProjectNumber;
 	}
-	
+
+	public String getConstructionLand() {
+		return constructionLand;
+	}
+
+	public void setConstructionLand(String constructionLand) {
+		this.constructionLand = constructionLand;
+	}
+		
 }

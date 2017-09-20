@@ -125,8 +125,8 @@
     		   
     		   vm.gridOptions.dataSource.filter(filters);
     	   };
-    	   //条件查询--项目行业发生变化
-    	   vm.searchIndustryChange=function(){
+    	 //条件查询--项目行业父级发生变化
+    	   vm.searchIndustryFatherChange=function(){
   	   			vm.searchIndustryIsZF = false;
   	   			vm.searchIndustryIsSH = false;
   	   			if(vm.searchIndustryFather == common.basicDataConfig().projectIndustry_ZF){
@@ -135,6 +135,16 @@
   	   				vm.searchIndustryIsSH = true;
   	   			}
   	   		};
+  	   	//条件查询--项目行业子集发生变化
+  	   	   vm.searchIndustryChildChange=function(){
+  	   		vm.searchIndustryChild=false;
+  	   		if(vm.search.projectIndustryChild !=null && vm.search.projectIndustryChild !=''){
+  	   		vm.basicData.projectIndustryChild_SH=$linq(common.getBasicData())
+  	   			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.search.projectIndustryChild;})
+  	   			.toArray();//社会投资项目行业子集
+  	   		vm.searchIndustryChild=true;
+  	   		}
+  	   	   };
   	   	 //清空查询条件
     		vm.filterClear=function(){
     			location.reload();

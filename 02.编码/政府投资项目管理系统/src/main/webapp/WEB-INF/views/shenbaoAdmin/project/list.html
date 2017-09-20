@@ -48,17 +48,21 @@
 	  				</td>
 	  				<td class="formAlignRight">项目行业</td>
 	  				<td>
-	  					<select style="height:30px;" ng-change="vm.searchIndustryChange()" ng-model="vm.searchIndustryFather">
+	  					<select style="height:30px;" ng-change="vm.searchIndustryFatherChange()" ng-model="vm.searchIndustryFather">
 	  						<option value="">---请选择行业分类---</option>
 	  						<option ng-repeat="x in vm.basicData.projectIndustryAll" value="{{x.id}}">{{x.description}}</option>
 	  					</select>
 	  					<select style="height:30px;" ng-model="vm.search.projectIndustry" ng-if="vm.searchIndustryIsZF">
 				  			<option value="">---请选择具体的行业---</option>
-				  			<option ng-repeat="x in vm.basicData.projectIndustry_ZF" value="{{x.id}}">{{x.description}}</option>
+				  			<option ng-repeat="x in vm.basicData.projectIndustry_ZF | orderBy:'itemOrder'" value="{{x.id}}">{{x.description}}</option>
 				  		</select>
-				  		<select style="height:30px;" ng-model="vm.search.projectIndustry" ng-if="vm.searchIndustryIsSH">
+				  		<select style="height:30px;" ng-change="vm.searchIndustryChildChange()" ng-model="vm.search.projectIndustryChild" ng-if="vm.searchIndustryIsSH">
 				  			<option value="">---请选择具体的行业---</option>
-				  			<option ng-repeat="x in vm.basicData.projectIndustry_SH" value="{{x.id}}">{{x.description}}</option>
+				  			<option ng-repeat="x in vm.basicData.projectIndustry_SH | orderBy:'itemOrder'" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+				  		<select style="height:30px;" ng-model="vm.search.projectIndustry" ng-if="vm.searchIndustryChild">
+				  			<option value="">---请选择具体的行业---</option>
+				  			<option ng-repeat="x in vm.basicData.projectIndustryChild_SH | orderBy:'itemOrder'" value="{{x.id}}">{{x.description}}</option>
 				  		</select>
 	  				</td>
 	  				<td class="formAlignRight">项目投资类型：</td>
@@ -78,7 +82,7 @@
 	  </div>
 	  <div class="toolbar">
 	  	<button class="btn btn-sm btn-primary" ng-click="vm.addProject()"><span class="glyphicon glyphicon-plus"></span>新增项目</button>
-	  	<button class="btn btn-sm btn-danger" ng-click="vm.projectDeletes()"><span class="glyphicon glyphicon-remove"></span>批量删除</button>
+	  	<button class="btn btn-sm btn-danger" ng-click="vm.projectDeletes()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-trash"></span>&nbsp;批量删除</button>
 	  </div> 
      <form id="form" name="form">
          <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>

@@ -46,7 +46,8 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setProjectRepName(entity.getProjectRepName());
 			shenBaoInfoDto.setProjectRepMobile(entity.getProjectRepMobile());
 			shenBaoInfoDto.setProjectIntro(entity.getProjectIntro());
-			shenBaoInfoDto.setProjectGuiMo(entity.getProjectGuiMo());									
+			shenBaoInfoDto.setProjectGuiMo(entity.getProjectGuiMo());
+			shenBaoInfoDto.setConstructionLand(entity.getConstructionLand());
 			shenBaoInfoDto.setProjectInvestSum(entity.getProjectInvestSum());			
 			shenBaoInfoDto.setProjectInvestAccuSum(entity.getProjectInvestAccuSum());
 			shenBaoInfoDto.setBeginDate(entity.getBeginDate());
@@ -149,6 +150,11 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setFinanceProjectNumber(entity.getFinanceProjectNumber());//财政项目代码
 			//begin#审核相关
 			shenBaoInfoDto.setAuditState(entity.getAuditState());
+			//begin#社会投资项目申报添加字段
+			shenBaoInfoDto.setExistingProblem(entity.getExistingProblem());//存在的问题
+			shenBaoInfoDto.setMoveSuggestion(entity.getMoveSuggestion());//推进建议
+			shenBaoInfoDto.setRepUnitPersonName(entity.getRepUnitPersonName());//责任单位联系人
+			shenBaoInfoDto.setRepUnitPersonTel(entity.getRepUnitPersonTel());//责任单位联系人电话
 						
 			//begin关联信息
 			//附件
@@ -189,6 +195,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setProjectRepMobile(shenBaoInfoDto.getProjectRepMobile());
 			shenBaoInfo.setProjectIntro(shenBaoInfoDto.getProjectIntro());
 			shenBaoInfo.setProjectGuiMo(shenBaoInfoDto.getProjectGuiMo());
+			shenBaoInfo.setConstructionLand(shenBaoInfoDto.getConstructionLand());
 			shenBaoInfo.setBeginDate(shenBaoInfoDto.getBeginDate());
 			shenBaoInfo.setEndDate(shenBaoInfoDto.getEndDate());		
 			shenBaoInfo.setUnitName(shenBaoInfoDto.getUnitName());
@@ -291,6 +298,11 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setFinanceProjectNumber(shenBaoInfoDto.getFinanceProjectNumber());//财政项目代码
 			//begin#审核相关
 			shenBaoInfo.setAuditState(shenBaoInfoDto.getAuditState());
+			//begin#社会投资项目申报添加字段
+			shenBaoInfo.setExistingProblem(shenBaoInfoDto.getExistingProblem());//存在的问题
+			shenBaoInfo.setMoveSuggestion(shenBaoInfoDto.getMoveSuggestion());//推进建议
+			shenBaoInfo.setRepUnitPersonName(shenBaoInfoDto.getRepUnitPersonName());//责任单位联系人
+			shenBaoInfo.setRepUnitPersonTel(shenBaoInfoDto.getRepUnitPersonTel());//责任单位联系人电话
 		}
 		return shenBaoInfo;
 		

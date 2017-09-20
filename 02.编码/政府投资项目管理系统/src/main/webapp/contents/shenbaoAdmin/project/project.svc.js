@@ -25,7 +25,7 @@
 		 * 删除项目信息
 		 */
 		function deleteProject(vm,id){
-			
+			vm.isSubmit = true;
 			var httpOptions = {
 					method : 'delete',
 					url : url_project+"/unitProject",
@@ -377,7 +377,7 @@
 				{
 					field : "projectName",
 					title : "项目名称",
-					width:300,
+					width:250,
 					filterable : true,
 					template:function(item){
 						return common.format('<a href="#/project/projectInfo/{0}/{1}">{2}</a>',item.id,item.projectInvestmentType,item.projectName);
@@ -431,6 +431,15 @@
 					filterable : false
 				},
 				{
+					field : "projectClassify",
+					title : "项目分类",
+					width : 120,
+					template:function(item){
+						return common.getBasicDataDesc(item.projectClassify);
+					},
+					filterable : false
+				},
+				{
 					field : "isIncludLibrary",
 					title : "是否已纳入项目库",
 					template:function(item){
@@ -440,7 +449,7 @@
 							return '未纳入';
 						}
 					},
-					width : 120,
+					width : 100,
 					filterable : true
 				},
 				{

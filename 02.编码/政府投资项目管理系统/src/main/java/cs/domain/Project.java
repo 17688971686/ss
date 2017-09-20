@@ -30,9 +30,6 @@ public class Project extends BaseProject {
 	@Column(columnDefinition="bit(1) DEFAULT 0 COMMENT '是否纳入项目库'")
 	private Boolean isIncludLibrary = false;
 	
-	@Column(columnDefinition="varchar(500)  COMMENT '项目建设用地情况（社投）'")
-	private String constructionLand;
-
 	//begin#关联信息
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<Attachment> attachments=new ArrayList<>();
@@ -87,14 +84,6 @@ public class Project extends BaseProject {
 
 	public void setIsIncludLibrary(Boolean isIncludLibrary) {
 		this.isIncludLibrary = isIncludLibrary;
-	}
-
-	public String getConstructionLand() {
-		return constructionLand;
-	}
-
-	public void setConstructionLand(String constructionLand) {
-		this.constructionLand = constructionLand;
 	}
 	
 }

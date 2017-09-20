@@ -52,7 +52,7 @@
         	};
        	
         	//全选框选择
-        	$(document).on('click', '#checkboxAll_shenBaoRecords', function () {
+        	$(document).on('click', '#checkboxAll_projectShenBaoRecords', function () {
                 var isSelected = $(this).is(':checked');
                 $('.shenBaoRecordsGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
             });
@@ -66,6 +66,14 @@
    	   		vm.basicData.unitProperty=common.getBacicDataByIndectity(common.basicDataConfig().unitProperty);//单位性质
    	   		vm.basicData.processState=common.getBacicDataByIndectity(common.basicDataConfig().processState);//审批状态
    	   		vm.basicData.auditState=common.getBacicDataByIndectity(common.basicDataConfig().auditState);//审核状态
+   	   		vm.basicData.investmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);//项目投资类型
+   	   		vm.basicData.projectIndustryAll=common.getBacicDataByIndectity(common.basicDataConfig().projectIndustry);//项目行业分类
+	   		vm.basicData.projectIndustry_ZF=$linq(common.getBasicData())
+	   			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
+	   			.toArray();//政府投资项目行业
+	   		vm.basicData.projectIndustry_SH=$linq(common.getBasicData())
+	   			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_SH;})
+	   			.toArray();//社会投资项目行业
    	   		vm.basicData.area_Street=$linq(common.getBasicData())
 	   				.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 	   				.toArray(); //行政区划街道
@@ -103,26 +111,56 @@
     	   vm.search=function(){
     		   var filters = [];
     		   filters.push({field:'isLatestVersion',operator:'eq',value:true});//默认条件--查询最新版本的项目
-    		   filters.push({field:'projectInvestmentType',operator:'eq',value:common.basicDataConfig().projectInvestmentType_ZF});//默认条件--查询政府投资项目
+//    		   filters.push({field:'projectInvestmentType',operator:'eq',value:common.basicDataConfig().projectInvestmentType_ZF});//默认条件--查询政府投资项目
     		   
-    		   if(vm.search.projectName !=null && vm.search.projectName !=''){
+    		   if(vm.search.projectName !=null && vm.search.projectName !=''){//查询条件--项目名称
     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
     		   }
-    		   if(vm.search.projectStage !=null && vm.search.projectStage !=''){
+    		   if(vm.search.projectStage !=null && vm.search.projectStage !=''){//查询条件--项目阶段
     			   filters.push({field:'projectStage',operator:'eq',value:vm.search.projectStage});
     		   }
-    		   if(vm.search.isIncludLibrary !=null && vm.search.isIncludLibrary !=null){
+    		   if(vm.search.isIncludLibrary !=null && vm.search.isIncludLibrary !=null){//查询条件--是否纳入项目酷
     			   if(vm.search.isIncludLibrary == "true"){
     				   filters.push({field:'isIncludLibrary',operator:'eq',value:true}); 
     			   }else if(vm.search.isIncludLibrary == "false"){
     				   filters.push({field:'isIncludLibrary',operator:'eq',value:false}); 
     			   }
     		   }
-    		   if(vm.search.unitName !=null && vm.search.unitName !=''){
+    		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--项目所属单位
        			  filters.push({field:'unitName',operator:'eq',value:vm.search.unitName});
        		   }
+    		   if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){//查询条件--项目行业类型
+    			   filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
+    		   }
+    		   if(vm.search.projectInvestmentType !=null && vm.search.projectInvestmentType !=''){//查询条件--项目投资类型
+    			   filters.push({field:'projectInvestmentType',operator:'eq',value:vm.search.projectInvestmentType});
+    		   }
     		   vm.gridOptions.dataSource.filter(filters);
     	   };
+    	 //条件查询--项目行业父级发生变化
+    	   vm.searchIndustryFatherChange=function(){
+  	   			vm.searchIndustryIsZF = false;
+  	   			vm.searchIndustryIsSH = false;
+  	   			if(vm.searchIndustryFather == common.basicDataConfig().projectIndustry_ZF){
+  	   				vm.searchIndustryIsZF = true;
+  	   			}else if(vm.searchIndustryFather == common.basicDataConfig().projectIndustry_SH){
+  	   				vm.searchIndustryIsSH = true;
+  	   			}
+  	   		};
+  	   	//条件查询--项目行业子集发生变化
+  	   	   vm.searchIndustryChildChange=function(){
+  	   		vm.searchIndustryChild=false;
+  	   		if(vm.search.projectIndustryChild !=null && vm.search.projectIndustryChild !=''){
+  	   		vm.basicData.projectIndustryChild_SH=$linq(common.getBasicData())
+  	   			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.search.projectIndustryChild;})
+  	   			.toArray();//社会投资项目行业子集
+  	   		vm.searchIndustryChild=true;
+  	   		}
+  	   	   };
+  	   	 //清空查询条件
+    		vm.filterClear=function(){
+    			location.reload();
+    		};
     	   
     	   //点击列表中的申报按钮
     	   vm.shenbaoBtn=function(id,projectInvestmentType,name){
@@ -146,7 +184,7 @@
         	  //展示模态框
         	   $("#shenBaoRecords").modal({
 			        backdrop: 'static',
-			        keyboard:false  			  
+			        keyboard:true
         	   });
         	   vm.projectNumber = projectNumber;
         	 //根据项目代码查询项目的申报记录 	  
@@ -156,10 +194,32 @@
 					value:vm.projectNumber
 				});
         	   vm.gridOptions_shenBaoRecords.dataSource.read();
-        	   //定义退文状态TODO 这里定义有什么用？
-        	   //vm.processState = common.basicDataConfig().processState_tuiWen;
            };
-           shenbaoSvc.projectShenBaoRecordsGird(vm);     
+           shenbaoSvc.projectShenBaoRecordsGird(vm);
+           
+           //删除申报记录
+           vm.deleteShenBaoInfo=function(id){
+        	   if(confirm("确认要删除数据吗？")){
+        		   shenbaoSvc.deleteShenBaoInfo(vm,id);  
+        	   }       	   
+           };
+           //批量删除申报记录
+           vm.deleteShenBaoInfos=function(){
+        	   var selectIds = common.getKendoCheckId('.shenBaoRecordsGrid');
+               if (selectIds.length == 0) {
+               	common.alert({
+                   	vm:vm,
+                   	msg:'请选择数据!'             	
+                   });
+               } else {
+               	var ids=[];
+                   for (var i = 0; i < selectIds.length; i++) {
+                   	ids.push(selectIds[i].value);
+   				}  
+                   var idStr=ids.join(',');
+                   vm.deleteShenBaoInfo(idStr);
+               }    
+           }
         }//end#page_list
        
        function page_edit(){
