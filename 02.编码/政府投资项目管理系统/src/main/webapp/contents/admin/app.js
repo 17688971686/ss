@@ -395,7 +395,7 @@
 	        })
 	        //信用异常名录 信息录入页面
 	        .state('credit_illegalNameEdit', {
-	            url: '/creditInfo/illegalNameEdit/:id/:projectNumber/:projectName/:unitName/:createdDate',
+	            url: '/creditInfo/illegalNameEdit/:id/:projectNumber/:projectName/:unitName/:createdDate/:shenBaoInfoId',
 	            templateUrl: '/management/creditInfo/html/illegalNameEdit',
 	            controller: 'creditInfoCtrl',
 	            controllerAs: 'vm'
@@ -424,7 +424,7 @@
 	        })	   
 	        //信用黑名单 信息录入页面
 	        .state('credit_blackListEdit', {
-	            url: '/creditInfo/blackList//:projectNumber/:projectName/:unitName/:createdDate',
+	            url: '/creditInfo/blackList//:projectNumber/:projectName/:unitName/:createdDate/:shenBaoInfoId',
 	            templateUrl: '/management/creditInfo/html/blackListEdit',
 	            controller: 'creditInfoCtrl',
 	            controllerAs: 'vm'
@@ -452,7 +452,7 @@
 	        })
 	        //项目异常 信息录入页面
 	        .state('credit_projectAnomalyEdit', {
-	            url: '/creditInfo/projectAnomaly/:id/:projectNumber/:projectName/:unitName/:createdDate',
+	            url: '/creditInfo/projectAnomaly/:id/:projectNumber/:projectName/:unitName/:createdDate/:shenBaoInfoId',
 	            templateUrl: '/management/creditInfo/html/projectAnomalyEdit',
 	            controller: 'creditInfoCtrl',
 	            controllerAs: 'vm'
