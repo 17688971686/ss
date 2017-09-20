@@ -38,6 +38,7 @@ public class CreditBlackListMapper implements IMapper<CreditBlackListDto, Credit
 			blackListDto.setDepartmentName(entity.getDepartmentName());
 			blackListDto.setDivisionCode(entity.getDivisionCode());
 			blackListDto.setValidityFlag(entity.getValidityFlag());
+			blackListDto.setShenBaoInfoId(entity.getShenBaoInfoId());
 		}
 		
 		return blackListDto;
@@ -61,6 +62,7 @@ public class CreditBlackListMapper implements IMapper<CreditBlackListDto, Credit
 			entity.setDepartmentName(dto.getDepartmentName());
 			entity.setDivisionCode(dto.getDivisionCode());
 			entity.setValidityFlag(dto.getValidityFlag());
+			entity.setShenBaoInfoId(dto.getShenBaoInfoId());
 		}
 		return entity;
 	}
