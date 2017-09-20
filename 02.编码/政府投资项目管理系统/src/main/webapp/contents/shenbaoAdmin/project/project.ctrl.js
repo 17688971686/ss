@@ -193,14 +193,7 @@
 //			vm.model.capitalZYYS=common.toMoney(vm.model.capitalZYYS);//中央预算
 //			vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
 //			vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
-			//资金来源计算
-	   		 vm.capitalTotal=function(){
-	   			 return common.getSum([
-	   					 vm.model.capitalSCZ_ggys||0,vm.model.capitalSCZ_gtzj||0,vm.model.capitalSCZ_zxzj||0,
-	   					 vm.model.capitalQCZ_ggys||0,vm.model.capitalQCZ_gtzj||0,
-	   					 vm.model.capitalSHTZ||0,vm.model.capitalZYYS||0,
-	   					 vm.model.capitalOther||0]);
-	   		 };
+			
     	   if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
     		   //基础数据--项目分类
     		  vm.basicData.projectClassify=$linq(common.getBasicData())
@@ -211,13 +204,17 @@
 	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
 	       		.toArray();
  			  vm.isZFInvestment = true;
+ 			 //资金来源计算（政投）
+ 	   		 vm.capitalTotal=function(){
+ 	   			 return common.getSum([
+ 	   					 vm.model.capitalSCZ_ggys||0,vm.model.capitalSCZ_gtzj||0,vm.model.capitalSCZ_zxzj||0,
+ 	   					 vm.model.capitalQCZ_ggys||0,vm.model.capitalQCZ_gtzj||0,
+ 	   					 vm.model.capitalSHTZ||0,vm.model.capitalZYYS||0,
+ 	   					 vm.model.capitalOther||0]);
+ 	   		 };
  			//相关附件文件上传文件种类
 	   		vm.relatedType=common.uploadFileTypeConfig().projectEdit;
  		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资
- 			  //基础数据--项目分类
- 			  vm.basicData.projectClassify=$linq(common.getBasicData())
-	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
-	       		.toArray();
  			  //基础数据--行业归口
  			 vm.basicData.projectIndustry=$linq(common.getBasicData())
 	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_SH;})
@@ -229,8 +226,14 @@
 	       		.toArray();
 	   		};
  			  vm.isSHInvestment = true;
- 			//相关附件文件上传文件种类
-	   		vm.relatedType=common.uploadFileTypeConfig().projectEdit_SH;
+ 			  
+ 			 //投资去处计算（社投）
+  	   		 vm.investTotal=function(){
+  	   			 vm.model.projectInvestSum=common.getSum([vm.model.landPrice||0,vm.model.equipmentInvestment||0,
+	   				 	 vm.model.buidSafeInvestment||0,vm.model.capitalOther||0]);
+  	   			 return vm.model.projectInvestSum;
+  	   		 };
+ 			  
  		   }
     	   
     	   	//设置项目所属单位信息

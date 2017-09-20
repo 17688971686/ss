@@ -51,6 +51,13 @@
 	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类型
 	   		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别
 	   		vm.basicData.investmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);//项目投资类型
+	   		vm.basicData.projectIndustryAll=common.getBacicDataByIndectity(common.basicDataConfig().projectIndustry);//项目行业分类
+   	   		vm.basicData.projectIndustry_ZF=$linq(common.getBasicData())
+   	   			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
+   	   			.toArray();//政府投资项目行业
+   	   		vm.basicData.projectIndustry_SH=$linq(common.getBasicData())
+   	   			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_SH;})
+   	   			.toArray();//社会投资项目行业
 	   		vm.basicData.area_Street=$linq(common.getBasicData())
 	   			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 	   			.toArray();//获取街道信息
@@ -113,6 +120,9 @@
      		   if(vm.search.unitName !=null && vm.search.unitName !=''){
      			  filters.push({field:'unitName',operator:'eq',value:vm.search.unitName});
      		   }
+     		   if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){//查询条件--项目行业
+     			  filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
+     		   }
      		   
      		   if(vm.isZFInvestment){
      			  vm.gridOptions.dataSource.filter(filters);
@@ -121,6 +131,20 @@
      		   }
 
     		};
+    		//条件查询--项目行业子集发生变化
+   	   	   vm.searchIndustryChildChange=function(){
+   	   		vm.searchIndustryChild=false;
+   	   		if(vm.search.projectIndustryChild !=null && vm.search.projectIndustryChild !=''){
+   	   		vm.basicData.projectIndustryChild_SH=$linq(common.getBasicData())
+   	   			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.search.projectIndustryChild;})
+   	   			.toArray();//社会投资项目行业子集
+   	   		vm.searchIndustryChild=true;
+   	   		}
+   	   	   };
+	   	  //清空查询条件
+	   		vm.filterClear=function(){
+	   			location.reload();
+	   		};
     		
      	   //点击新增项目弹出模态框
      	   vm.addProject = function(){
@@ -192,7 +216,15 @@
      		  vm.basicData.projectIndustry=$linq(common.getBasicData())
  	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
  	       		.toArray();
-  			  vm.isZFInvestment = true; 			  
+  			  vm.isZFInvestment = true; 
+  			 //资金来源计算
+  	 		 vm.capitalTotal=function(){
+  	 			 return common.getSum([
+  	 					 vm.model.capitalSCZ_ggys||0,vm.model.capitalSCZ_gtzj||0,vm.model.capitalSCZ_zxzj||0,
+  	 					 vm.model.capitalQCZ_ggys||0,vm.model.capitalQCZ_gtzj||0,
+  	 					 vm.model.capitalSHTZ||0,vm.model.capitalZYYS||0,
+  	 					 vm.model.capitalOther||0]);
+  	 		 };
   		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资
   			  //基础数据--项目分类
   			  vm.basicData.projectClassify=$linq(common.getBasicData())
@@ -209,6 +241,12 @@
  	       		.toArray();
  	   		};
   			  vm.isSHInvestment = true;
+  			//投资去处计算（社投）
+   	   		 vm.investTotal=function(){
+   	   			 vm.model.projectInvestSum=common.getSum([vm.model.landPrice||0,vm.model.equipmentInvestment||0,
+ 	   				 	 vm.model.buidSafeInvestment||0,vm.model.capitalOther||0]);
+   	   			 return vm.model.projectInvestSum;
+   	   		 };
   		   }
     		//获取当前所有的用户单位信息
     		projectSvc.getUserUnits(vm);
@@ -323,14 +361,6 @@
 	   				vm.model.attachmentDtos.splice(idx,1);
 	   			 }
     	   };
-    	 //资金来源计算
- 		 vm.capitalTotal=function(){
- 			 return common.getSum([
- 					 vm.model.capitalSCZ_ggys||0,vm.model.capitalSCZ_gtzj||0,vm.model.capitalSCZ_zxzj||0,
- 					 vm.model.capitalQCZ_ggys||0,vm.model.capitalQCZ_gtzj||0,
- 					 vm.model.capitalSHTZ||0,vm.model.capitalZYYS||0,
- 					 vm.model.capitalOther||0]);
- 		 };
 	        
     	   vm.create = function () {
     		    projectSvc.createProject(vm);    		     

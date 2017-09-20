@@ -174,7 +174,7 @@ public class SysServiceImpl implements SysService{
 								"文体教育局","光明交通运输局","住房和建设局","发展和财政局","卫生计生局",
 								"光明公安分局","环境保护和水务局","经济服务局","纪检监察局","市规划和国土资源委员会光明管理局",
 								"综合办","公明办事处","光明办事处","马田办事处","凤凰办事处",
-								"公共资源交易中心","城市发展促进中心","机关后勤服务中心","土地整备中心","建设管理服务中心",
+								"公共资源交易中心","城市发展促进中心","机关后勤服务中心","土地整备中心","建筑工务局",
 								"光明消防大队","光明现役消防支队光明新区大队","规划土地监察大队","深水光明","经发公司"};
 		
 		for(String userName : userNames){
@@ -336,8 +336,8 @@ public class SysServiceImpl implements SysService{
 				this.createBasicData("projectIndustry_1_6","projectIndustry_1" , "projectIndustry", "公园绿化", "GL",0,false,6);
 				this.createBasicData("projectIndustry_1_7","projectIndustry_1" , "projectIndustry", "电力燃气", "DR",0,false,8);
 				this.createBasicData("projectIndustry_1_8","projectIndustry_1" , "projectIndustry", "城市管理", "CG",0,false,11);
-				this.createBasicData("projectIndustry_1_9","projectIndustry_1" , "projectIndustry", "城市安全", "CA",0,false,16);
-				this.createBasicData("projectIndustry_1_10","projectIndustry_1" , "projectIndustry", "社会保障", "SB",0,false,9);
+				this.createBasicData("projectIndustry_1_9","projectIndustry_1" , "projectIndustry", "公共安全", "GA",0,false,16);
+				this.createBasicData("projectIndustry_1_10","projectIndustry_1" , "projectIndustry", "社会保障 ", "SB",0,false,9);
 				this.createBasicData("projectIndustry_1_11","projectIndustry_1" , "projectIndustry", "党政机关", "DZ",0,false,13);
 				this.createBasicData("projectIndustry_1_12","projectIndustry_1" , "projectIndustry", "征地拆迁", "ZC",0,false,14);
 				this.createBasicData("projectIndustry_1_13","projectIndustry_1" , "projectIndustry", "其他", "QT",0,false,17);

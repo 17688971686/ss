@@ -124,6 +124,7 @@
 		 * 更新是否填写月报
 		 */
 		function updateIsMonthReport(vm){
+			vm.isSumbit=true;
 			var httpOptions = {
 					method : 'put',
 					url : url_project+"/isMonthReport",
@@ -131,14 +132,22 @@
 				};
 
 				var httpSuccess = function success(response) {
-					//关闭模态框
-					$("#myModal_edit").modal('hide');
-					//刷新表格数据
-					if(vm.isZFInvestment){
-						vm.gridOptions.dataSource.read(); 
-					}else if(vm.isSHInvestment){
-						vm.gridOptions_SH.dataSource.read(); 
-					}
+					common.requestSuccess({
+						vm:vm,
+						response:response,
+						fn:function(){
+							vm.isSumbit=false;
+							//关闭模态框
+							$("#myModal_edit").modal('hide');
+							//刷新表格数据
+							if(vm.isZFInvestment){
+								vm.gridOptions.dataSource.read(); 
+							}else if(vm.isSHInvestment){
+								vm.gridOptions_SH.dataSource.read(); 
+							}
+						}
+					});
+					
 										
 				};
 
@@ -235,7 +244,7 @@
 				vm.model.pifuKXXYJBG_date=common.formatDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
 				vm.model.pifuCBSJYGS_date=common.formatDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期
 				
-				//金额处理
+				//金额处理 （TODO 这一块可以不需要了）
         		vm.model.projectInvestSum=common.toMoney(vm.model.projectInvestSum);//项目总投资
 				vm.model.projectInvestAccuSum=common.toMoney(vm.model.projectInvestAccuSum);//累计完成投资
 				vm.model.capitalSCZ_ggys=common.toMoney(vm.model.capitalSCZ_ggys);//市财政-公共预算
@@ -556,7 +565,7 @@
 					 {
 						field : "projectNumber",
 						title : "项目代码",
-						width : 180,						
+						width : 120,						
 						filterable : false
 					},
 					{
@@ -565,18 +574,32 @@
 						template:function(item){
 							return common.format("<a href='#/projectDetails/{0}/{1}'>{2}</a>",item.id,item.projectInvestmentType,item.projectName);
 						},
+						width:300,
 						filterable : true
 					},
 					{
 						field : "unitName",
-						title : "建设单位",
-						width : 150,
-						filterable : true
+						title : "责任单位",
+						width : 200,
+						filterable:{
+							ui: function(element){
+			                    element.kendoDropDownList({
+			                        valuePrimitive: true,
+			                        dataSource: vm.basicData.userUnit,
+			                        dataTextField: "unitName",
+			                        dataValueField: "id",
+			                        filter: "startswith"
+			                    });
+			                }
+						},
+						template:function(item){
+							return common.getUnitName(item.unitName);
+						}
 					},
 					{
 						field : "projectStage",
 						title : "项目阶段",
-						width : 150,
+						width : 120,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectStage);
 						},
@@ -592,12 +615,12 @@
 						}
 					},
 					{
-						field : "projectClassify",
-						title : "项目分类",
-						width : 150,
+						field : "projectIndustry",
+						title : "项目行业",
 						template:function(item){
-							return common.getBasicDataDesc(item.projectClassify);
+							return common.getBasicDataDesc(item.projectIndustry);
 						},
+						width : 120,
 						filterable : false
 					},
 					{
@@ -610,7 +633,7 @@
 								return "否";
 							}								 
 						},
-						width : 150,
+						width : 120,
 						filterable : true
 					},
 					{

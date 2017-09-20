@@ -129,9 +129,34 @@ public class BaseProject extends BaseEntity
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '财政项目代码'")
 	private String financeProjectNumber;
+	//begin#社会投资项目单独字段
+	@Column(columnDefinition="varchar(255) NULL COMMENT '企业名称'")
+	private String companyName;
 	
-	@Column(columnDefinition="varchar(500)  COMMENT '项目建设用地情况（社投）'")
+	@Column(columnDefinition="varchar(255) NULL COMMENT '责任单位联系人姓名'")
+	private String repUnitRepName;
+	
+	@Column(columnDefinition="varchar(50) NULL COMMENT '责任单位联系人电话'")
+	private String repUnitRepMobile;
+	
+	@Column(columnDefinition="varchar(500) NULL COMMENT '项目建设用地情况（社投）'")
 	private String constructionLand;
+	
+	@Column(columnDefinition="varchar(500) NULL COMMENT '投入使用后的效益（社投）'")
+	private String useBenefits;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '核准/备案批准文号（社投）'")
+	private String approval_pzwh;
+	
+	@Column(columnDefinition="double(11,4) NULL COMMENT '总投资--地价（社投）'")
+	private Double landPrice=0.0;
+	
+	@Column(columnDefinition="double(11,4) NULL COMMENT '总投资--设备投资（社投）'")
+	private Double equipmentInvestment=0.0;
+	
+	@Column(columnDefinition="double(11,4) NULL COMMENT '总投资--建安投资（社投）'")
+	private Double buidSafeInvestment=0.0;
+	//end
 	
 
 	public String getUnitName() {
@@ -453,5 +478,69 @@ public class BaseProject extends BaseEntity
 	public void setConstructionLand(String constructionLand) {
 		this.constructionLand = constructionLand;
 	}
-		
+
+	public String getUseBenefits() {
+		return useBenefits;
+	}
+
+	public void setUseBenefits(String useBenefits) {
+		this.useBenefits = useBenefits;
+	}
+
+	public String getApproval_pzwh() {
+		return approval_pzwh;
+	}
+
+	public void setApproval_pzwh(String approval_pzwh) {
+		this.approval_pzwh = approval_pzwh;
+	}
+
+	public String getRepUnitRepName() {
+		return repUnitRepName;
+	}
+
+	public void setRepUnitRepName(String repUnitRepName) {
+		this.repUnitRepName = repUnitRepName;
+	}
+
+	public String getRepUnitRepMobile() {
+		return repUnitRepMobile;
+	}
+
+	public void setRepUnitRepMobile(String repUnitRepMobile) {
+		this.repUnitRepMobile = repUnitRepMobile;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public Double getLandPrice() {
+		return landPrice;
+	}
+
+	public void setLandPrice(Double landPrice) {
+		this.landPrice = landPrice;
+	}
+
+	public Double getEquipmentInvestment() {
+		return equipmentInvestment;
+	}
+
+	public void setEquipmentInvestment(Double equipmentInvestment) {
+		this.equipmentInvestment = equipmentInvestment;
+	}
+
+	public Double getBuidSafeInvestment() {
+		return buidSafeInvestment;
+	}
+
+	public void setBuidSafeInvestment(Double buidSafeInvestment) {
+		this.buidSafeInvestment = buidSafeInvestment;
+	}
+			
 }

@@ -174,12 +174,6 @@ public class ShenBaoInfo extends BaseProject{
 	private String existingProblem;
 	@Column(columnDefinition="varchar(500) NULL COMMENT '推进建议'")
 	private String moveSuggestion;
-	@Column(columnDefinition="varchar(255) NULL COMMENT '责任单位联系人'")
-	private String RepUnitPersonName;
-	@Column(columnDefinition="varchar(255) NULL COMMENT '责任单位联系人电话'")
-	private String RepUnitPersonTel;
-	//社会投资
-	//社会投资责任单位电话
 	//end
 	
 	//begin#关联信息
@@ -538,18 +532,6 @@ public class ShenBaoInfo extends BaseProject{
 	}
 	public void setMoveSuggestion(String moveSuggestion) {
 		this.moveSuggestion = moveSuggestion;
-	}
-	public String getRepUnitPersonName() {
-		return RepUnitPersonName;
-	}
-	public void setRepUnitPersonName(String repUnitPersonName) {
-		RepUnitPersonName = repUnitPersonName;
-	}
-	public String getRepUnitPersonTel() {
-		return RepUnitPersonTel;
-	}
-	public void setRepUnitPersonTel(String repUnitPersonTel) {
-		RepUnitPersonTel = repUnitPersonTel;
 	}
 	
 }
