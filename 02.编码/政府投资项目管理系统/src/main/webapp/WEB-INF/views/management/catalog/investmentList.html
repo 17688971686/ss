@@ -1,0 +1,51 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+    	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+	  	<li><a href="#/">首页</a></li>
+      	<li><a href="#/catalog/investment">投资项目目录管理</a></li>
+        <li class="active">{{vm.title}}</li>
+    </ol>
+    <script type="text/template" id="columnBtns">
+		<button class="btn btn-xs btn-danger"  ng-click="vm.deleteCatalog('{0}')" ><span class="glyphicon glyphicon-remove"></span>删除</button>
+		<a class="btn btn-xs btn-primary" href="#/catalog/investment/projectIndustry/{0}/"><span class="glyphicon glyphicon-pencil"></span>子类设置</a>
+		<a class="btn btn-xs btn-success" href="#/catalog/investmentAlter/{0}"><span class="glyphicon glyphicon-pencil"></span>修改</a>
+	</script>
+	<script type="text/template" id="columnBtns_alter">
+		<button class="btn btn-xs btn-danger"  ng-click="vm.deleteCatalog('{0}')" ><span class="glyphicon glyphicon-remove"></span>删除</button>
+		<a class="btn btn-xs btn-success" href="#/catalog/investmentAlter/{0}"><span class="glyphicon glyphicon-pencil"></span>修改</a>
+	</script>
+    <div id="tabStrip" kendo-tab-strip="vm.tabStrip">
+    	<ul style="font-size:15px;">
+    		<li class="k-state-active" ng-click="vm.alert('projectIndustry')">项目行业分类</li>
+            <li ng-click="vm.alert('projectType')">项目类型</li>
+            <li ng-click="vm.alert('constructionType')">建设类型</li>	
+		</ul>
+    	<div class="tab_content">
+			<div class="toolbar">
+        		<a class="btn btn-sm btn-primary" href="#/catalog/investmentEdit/projectIndustry"><span class="glyphicon glyphicon-plus"></span>新增类型</a>
+				<button class="btn btn-sm btn-danger" ng-click="vm.deleteCatalogs()"><span class="glyphicon glyphicon-remove"></span>批量删除</button>
+        	</div>
+        	<div class="projectIndustryGrid" kendo-grid="grid" k-options="vm.investmentProjectGrid"></div>
+        </div>
+		
+		<div class="tab_content">
+			<div class="toolbar">
+        		<a class="btn btn-sm btn-primary" href="#/catalog/investmentEdit/projectType"><span class="glyphicon glyphicon-plus"></span>新增类型</a>
+				<button class="btn btn-sm btn-danger" ng-click="vm.deleteCatalogs()"><span class="glyphicon glyphicon-remove"></span>批量删除</button>
+        	</div>
+        	<div class="projectTypeGrid" kendo-grid="grid" k-options="vm.projectTypeGrid"></div>
+		</div>
+		
+		<div class="tab_content">
+			<div class="toolbar">
+        		<a class="btn btn-sm btn-primary" href="#/catalog/investmentEdit/constructionType"><span class="glyphicon glyphicon-plus"></span>新增类型</a>
+				<button class="btn btn-sm btn-danger" ng-click="vm.deleteCatalogs()"><span class="glyphicon glyphicon-remove"></span>批量删除</button>
+        	</div>
+        	<div class="constructionTypeGrid" kendo-grid="grid" k-options="vm.constructionTypeGrid"></div>
+		</div>
+	</div>
+	
+</div>

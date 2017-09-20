@@ -169,8 +169,8 @@
     		   vm.isKXXYJBG=vm.stage==common.basicDataConfig().projectShenBaoStage_KXXYJBG;//申报阶段为:可行性研究报告
     		   vm.isCBSJYGS=vm.stage==common.basicDataConfig().projectShenBaoStage_CBSJYGS;//申报阶段为:初步设计与概算
     		   vm.isPrePlanFee=vm.stage==common.basicDataConfig().projectShenBaoStage_prePlanFee;//申报阶段为:规划设计前期费
-    		   vm.isNewStart=vm.stage==common.basicDataConfig().projectShenBaoStage_newStart;//申报阶段为:新开工计划
-    		   vm.isXuJian=vm.stage==common.basicDataConfig().projectShenBaoStage_xuJian;//申报阶段为:续建计划
+    		   vm.isNewStart=vm.stage==common.basicDataConfig().projectShenBaoStage_newStratPlan;//申报阶段为:新开工计划
+    		   vm.isXuJian=vm.stage==common.basicDataConfig().projectShenBaoStage_xuJianPlan;//申报阶段为:续建计划
     		   vm.isYearPlan=vm.stage==common.basicDataConfig().projectShenBaoStage_nextYearPlan;//申报阶段为:下一年度计划
     		   vm.isJunGong=vm.stage==common.basicDataConfig().projectShenBaoStage_junGong;//申报阶段为:竣工决算
     		   vm.isCapitalApplyReport=vm.stage==common.basicDataConfig().projectShenBaoStage_capitalApplyReport;//申报阶段为:资金申请报告
@@ -215,11 +215,10 @@
     		   $("#tab1").attr("disabled","true");
     		   $("#tab2").attr("disabled","true");
     		   $("#tab3").attr("disabled","true");
-    		   $("#tab4").attr("disabled","true");
-
-    		   $("#tab5").attr("disabled","true");
-    		   $("#tab6").attr("disabled","true");
-    		   $("#tab7").attr("disabled","true");
+    		   
+    		   $("#tab4").attr("disabled","true");//下一年度计划单独页面
+    		   $("#tab5").attr("disabled","true");//竣工决算单独页面
+    		   $("#tab6").attr("disabled","true");//资金申请报告单独页面
     	   };
     	   //初始化基础数据
     	   var init_basicData = function(){

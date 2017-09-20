@@ -1,0 +1,111 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+    	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+        <li><a href="#/">首页</a></li>       
+        <li><a href="#/creditInfo/blackList">信用信息管理</a></li>	        
+        <li class="active">{{vm.title}}</li>
+    </ol>
+    <form id="form" name="form">
+		<div>
+			<table class="table table-bordered" style="margin-bottom:0px;">
+				<tr>
+					<td colspan="6" class="bg-info">
+		  				<span style="padding:10px;"><strong>黑名单信息</strong></span>
+		  			</td>
+		  		</tr>
+		  		<tr>
+	  				<td class="formAlignRight">申报的项目名称：</td>
+	  				<td style="width:25%">
+						<span ng-bind="vm.projectName"></span>				
+					</td>
+	  				<td class="formAlignRight">项目代码：</td>
+	  				<td style="width:25%">
+						<span ng-bind="vm.projectNumber"></span>				
+					</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">申报的单位名称：</td>
+	  				<td style="width:25%">
+						<span ng-bind="vm.getUnitName(vm.unitName)"></span>				
+					</td>
+	  				<td class="formAlignRight">申报日期：</td>
+	  				<td style="width:25%">
+						<span ng-bind="vm.formatDate(vm.createdDate)"></span>				
+					</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">监管部门：<span class="required">(*)</span></td>
+	  				<td style="width:25%">
+	  					<input type="text" style="width:360px;" id="departmentName" name="departmentName" ng-model="vm.blackListModel.departmentName" placeholder="请输入监管部门名称" data-val="true" data-val-required="必填"/>
+	  					<span data-valmsg-for="departmentName" data-valmsg-replace="true" class="errors"></span>
+	  				</td>
+	  				<td class="formAlignRight">监管部门区划代码：<span class="required">(*)</span></td>
+	  				<td style="width:25%">
+	  					<input type="text" style="width:360px;" id="divisionCode" name="divisionCode" ng-model="vm.blackListModel.divisionCode" placeholder="例如：辽宁省：210000；大连市：210200。" data-val="true" data-val-required="必填"/>
+	  					<span data-valmsg-for="divisionCode" data-valmsg-replace="true" class="errors"></span>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">法人单位名称：<span class="required">(*)</span></td>
+	  				<td style="width:25%" colspan="10">
+	  					<input type="text" style="width:360px;" id="enterpriseName" name="enterpriseName" ng-model="vm.blackListModel.enterpriseName" data-val="true" data-val-required="必填"/>
+	  					<span data-valmsg-for="enterpriseName" data-valmsg-replace="true" class="errors"></span>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">法人证件类型：<span class="required">(*)</span></td>
+	  				<!-- <td style="width:25%">
+	  					<input type="text" style="width:360px;" id="legalRepCertType" name="legalRepCertType" ng-model="vm.blackListModel.legalRepCertType" data-val="true" data-val-required="必填"/>
+	  					<span data-valmsg-for="legalRepCertType" data-valmsg-replace="true" class="errors"></span>
+	  				</td> -->
+	  				<td>
+	                    <select id="legalRepCertType" name="legalRepCertType" style="height:30px;" ng-model="vm.blackListModel.legalRepCertType" data-val="true" data-val-required="必选">
+							<option value="">---请选择---</option>
+							<option ng-repeat="x in vm.basicData.legalRepCertType" value="{{x.id}}">{{x.description}}</option>
+						</select>
+				        <span data-valmsg-for="legalRepCertType" data-valmsg-replace="true" class="required"></span>
+                	</td>
+                	
+	  				<td class="formAlignRight">法人证件编码：<span class="required">(*)</span></td>
+	  				<td style="width:25%">
+	  					<input type="text" style="width:360px;" id="legalRepCertNumber" name="legalRepCertNumber" ng-model="vm.blackListModel.legalRepCertNumber" data-val="true" data-val-required="必填"/>
+	  					<span data-valmsg-for="legalRepCertNumber" data-valmsg-replace="true" class="errors"></span>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">列入黑名单原因：</td>
+					<td style="width:25%" colspan="10" align="left">
+						<textarea class="form-control input-sm" style="height:50px;width:99%;" ng-model="vm.blackListModel.blackReason" placeholder="注：200字符以内"></textarea>									
+					</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">产生日期：<span class="required">(*)</span></td>
+	  				<td >
+						<input type="text" id="blackDate" name="blackDate" onkeydown="return false;"
+						 ng-model="vm.blackListModel.blackDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" />		 						
+						 <span data-valmsg-for="blackDate" data-valmsg-replace="true" class="errors"></span>
+					</td>
+	  				<td class="formAlignRight">有效标识：<span class="required">(*)</span></td>
+	  				<td style="width:25%">
+	  					<input type="text" style="width:360px;" id="validityFlag" name="validityFlag" ng-model="vm.blackListModel.validityFlag" placeholder="数据有效标识：0无效；1有效" data-val="true" data-val-required="必填"/>
+	  					<span data-valmsg-for="validityFlag" data-valmsg-replace="true" class="errors"></span>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td colspan="4" >
+	  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.saveBlackListInfo()"><span></span>确定</button>
+	  					<button class="btn btn-cancel btn-sm pull-right" ng-click="vm.returnBlackListPage()" ><span></span>取消</button>
+	  				</td>
+	  			</tr>
+	  		</table>
+		</div>
+	</form>
+</div>  
+
+
+   
+         
+  	

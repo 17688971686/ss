@@ -1,0 +1,25 @@
+<ion-modal-view>
+<form name="setRealNameForm" ng-submit="setRealName(setRealNameForm)" novalidate> 
+  <ion-header-bar class="bar bar-header bar-positive disable-user-behavior">
+  <div class="buttons" side="left"> 
+    <button class="button button-clear" ng-click="closeSetRealNameView()">取消</button>
+  </div>
+  <h1 class="title">修改姓名</h1>
+  <div class="buttons" side="right"> 
+    <button class="button button-clear" type="submit" ng-disabled="setRealNameForm.$invalid"  >保存</button>
+  </div>
+</div>
+</ion-header-bar>
+<ion-content>
+<div class="list">
+  <label class="item item-input">
+    <span class="input-label">姓名</span>
+    <input type="text" ng-model="formdata.realname" name="realname" required>
+  </label>
+  <div id="errormsg" class="padding">
+   <div class="assertive" ng-show="setRealNameForm.realname.$error.required && !setRealNameForm.realname.$pristine">请输入姓名</div>
+ </div>
+</div>
+</ion-content>
+</form>
+</ion-modal-view>

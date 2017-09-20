@@ -1,0 +1,30 @@
+<ion-view view-title="年度计划项目信息" hide-tabs="true">
+<ion-content overflow-scroll="false"  delegate-handle="mainScroll"> 	
+   <!-- <div class="bg-search bg-search-none">
+      <div class="item item-input search">
+        <input type="text" placeholder="搜索" ng-model="querydata.keyword">
+        <button id="search" class="ion-search" ng-click="search()"></button>
+      </div>
+    </div> -->   
+    
+    
+    <ion-list class="list-auto list-title project-list">
+     <div class="backdrop" ng-class="{true: 'visible active', false: ''}[isActive]" style="height:20000%" ng-click="toggleBackdrop()"></div>
+<!--    <a class="item item-margin" href="#/tab/project-detail/project/{{prj.projectId}}/{{prj.shenBaoUnitInfoDto.id}}/{{prj.projectNumber}}" ng-repeat="prj in projects track by $index">
+-->     
+    <a class="item item-margin" href="#" ng-repeat="prj in projects track by $index">
+		<h1>{{prj.projectName}}</h1>
+	     <div class="row">
+	      <div class="col col-40">项目单位<div class="color-black">{{prj.UnitName}}</div></div>
+	      <div class="col text-center">总投资<div><span class="assertive-bg">{{prj.projectInvestSum}}万</span></div></div>
+	      <div class="col text-center">累计完成投资<div><span class="balanced-bg">{{prj.projectInvestAccuSum}}万</span></div></div>
+	    </div>
+    </a>
+    </ion-list>
+ <!--   <ion-infinite-scroll on-infinite="loadMore()" ng-if="moreDataCanBeLoaded()" distance="1%">
+    </ion-infinite-scroll>-->
+ 
+</ion-content>
+</ion-view>
+
+
