@@ -37,6 +37,9 @@ public class CreditProjectAnomaly extends BaseEntity{
 	
 	@Column(columnDefinition="varchar(2) NULL COMMENT '是否为黑名单'")
 	private String isBlackList;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '申报信息Id'")
+	private String shenBaoInfoId;
 
 	public String getId() {
 		return id;
@@ -92,6 +95,14 @@ public class CreditProjectAnomaly extends BaseEntity{
 
 	public void setIsBlackList(String isBlackList) {
 		this.isBlackList = isBlackList;
+	}
+
+	public String getShenBaoInfoId() {
+		return shenBaoInfoId;
+	}
+
+	public void setShenBaoInfoId(String shenBaoInfoId) {
+		this.shenBaoInfoId = shenBaoInfoId;
 	}
 	
 	

@@ -156,7 +156,7 @@
 								}
 							});
 						}else{
-							location.href="#/creditInfo/projectAnomaly//"+vm.projectNumber+"/"+vm.projectName+"/"+vm.unitName+"/"+vm.createdDate;
+							location.href="#/creditInfo/projectAnomaly//"+vm.projectNumber+"/"+vm.projectName+"/"+vm.unitName+"/"+vm.createdDate+"/"+vm.shenBaoInfoId;
 						}
 					}
 				});
@@ -195,7 +195,7 @@
 					field : "projectName",
 					title : "项目名称",
 					template:function(item){
-						return common.format("<a>{0}</a>",item.projectName);
+						return common.format("<a href='javascript:void(0)' ng-click='vm.dialog_shenbaoInfo(\"{0}\")'>{1}</a>",item.shenBaoInfoId,item.projectName);
 					},
 					width : 180,
 					filterable : true
@@ -379,7 +379,7 @@
 					field : "projectName",
 					title : "项目名称",
 					template:function(item){
-						return common.format("<a>{0}</a>",item.projectName);
+						return common.format("<a href='javascript:void(0)' ng-click='vm.dialog_shenbaoInfo(\"{0}\")'>{1}</a>",item.shenBaoInfoId,item.projectName);
 					},
 					width : 180,
 					filterable : true
@@ -509,7 +509,7 @@
 								}
 							});
 						}else{
-							location.href="#/creditInfo/blackList//"+vm.blackListModel.projectNumber+"/"+vm.blackListModel.projectName+"/"+vm.blackListModel.unitName+"/"+vm.blackListModel.createdDate;
+							location.href="#/creditInfo/blackList//"+vm.blackListModel.projectNumber+"/"+vm.blackListModel.projectName+"/"+vm.blackListModel.unitName+"/"+vm.blackListModel.createdDate+"/"+vm.blackListModel.shenBaoInfoId;
 						}
 					}
 				});
@@ -543,7 +543,7 @@
 								}
 							});
 						}else{
-							location.href="#/creditInfo/illegalNameEdit//"+vm.projectNumber+"/"+vm.projectName+"/"+vm.unitName+"/"+vm.createdDate;
+							location.href="#/creditInfo/illegalNameEdit//"+vm.projectNumber+"/"+vm.projectName+"/"+vm.unitName+"/"+vm.createdDate+"/"+vm.shenBaoInfoId;
 						}
 					}
 				});
@@ -665,8 +665,8 @@
 					field : "projectName",
 					title : "项目名称",
 					template:function(item){
-						return common.format("<a>{0}</a>",item.projectName);
-//						return common.format("<a href='javascript:void(0)' ng-click='vm.dialog_shenbaoInfo(\"{0}\")'>{1}</a>",item.projectNumber,item.projectName);
+//						return common.format("<a>{0}</a>",item.projectName);
+						return common.format("<a href='javascript:void(0)' ng-click='vm.dialog_shenbaoInfo(\"{0}\")'>{1}</a>",item.shenBaoInfoId,item.projectName);
 					},
 					width : 180,
 					filterable : true
@@ -933,8 +933,8 @@
 			var columns = [
 				{
 					template : function(item) {
-						return kendo.format("<input type='radio' relId='{0},{1},{2},{3}' id='checkbox' name='checkbox' class='checkbox' ng-click='vm.change()'/>",item.projectNumber,item.projectName,item.unitName,common.formatDateTime(item.createdDate));
-//						return kendo.format("<input type='radio' relId='{0},{1},{2},{3}' id='checkbox' name='checkbox' class='checkbox' ng-click='vm.change()'/>",item.projectNumber,item.projectName,item.unitName,common.formatDateTime(item.createdDate),item.id);
+//						return kendo.format("<input type='radio' relId='{0},{1},{2},{3}' id='checkbox' name='checkbox' class='checkbox' ng-click='vm.change()'/>",item.projectNumber,item.projectName,item.unitName,common.formatDateTime(item.createdDate));
+						return kendo.format("<input type='radio' relId='{0},{1},{2},{3},{4}' id='checkbox' name='checkbox' class='checkbox' ng-click='vm.change()'/>",item.projectNumber,item.projectName,item.unitName,common.formatDateTime(item.createdDate),item.id);
 					},
 					filterable : false,
 					width : 40,
