@@ -1,0 +1,45 @@
+<ion-view view-title="统计分析" ng-controller="StatisticAnalysis">
+    <!--<ion-nav-buttons side="right"> 
+	    <button class="button button-positive" ng-click="listshow()">请选择</button>
+	</ion-nav-buttons>-->
+  <ion-content>
+      <div class="list" id="listSelect" ng-show="isListSelect" style="height:30px;">
+          <label class="item item-input item-select">
+              <div class="input-label"> 请选择年份：</div>
+              <select ng-change="listSelect(selectedYear)" ng-model="selectedYear" id="ListSelect" >
+                  <option value="2016">2016</option>
+                  <option value="2015">2015</option>
+              </select>
+          </label>
+      </div>
+      
+      <!--2016年总投资-按阶段分-->
+      <div id="PhaseTotalInvestment" ng-show="isChart1Visbile" class="padding" >
+           <h5 class="text-center"><b>{{selectedYear}}年总投资  (按阶段分,单位：亿元)</b></h5>        
+           <canvas id="PhaseTotalPie" class="chart chart-pie" chart-data="PhaseTotaldata" chart-labels="PhaseTotallabels" chart-legend="true" chart-colours ="PhaseTotalcolour"></canvas> 
+      </div>
+      <!--2016年安排资金-按阶段分-->
+      <div id="PhaseAllocateFunds" ng-show="isChart2Visbile" class="padding">
+          <h5 class="text-center"><b>{{selectedYear}}年安排资金  (按阶段分,单位：亿元)</b></h5>
+          <canvas id="PhaseArrangePie" class="chart chart-pie" chart-data="PhaseArrangedata" chart-labels="PhaseArrangelabels"  chart-colours ="PhaseArrangecolour" chart-legend="true"></canvas> 
+      </div>
+     <!--2016年总投资-按项目类别分-->
+      <div id="ProjectTypeTotalInvestment"  ng-show="isChart3Visbile" class="padding">
+          <h5 class="text-center"><b>{{selectedYear}}年总投资  (按项目类别分,单位：亿元)</b></h5>
+          <canvas id="ProjectTypeToealBar" class="chart chart-bar" chart-data="ProjectTypeToealdata" chart-labels="ProjectTypeToeallabels" height="400" chart-series="ProjectTypeToealseries" chart-colours ="ProjectTypeToealcolours"></canvas>
+      </div>
+      <!--2016年安排资金-按项目类别分-->
+      <div id="ProjectTypeAllocateFunds"  ng-show="isChart4Visbile" class="padding">
+          <h5 class="text-center"><b>{{selectedYear}}年安排资金  (按项目类别分,单位：亿元)</b></h5>
+          <canvas id="ProjectTypeAllocateBar" class="chart chart-bar" chart-data="ProjectTypeAllocatedata" chart-labels="ProjectTypeAllocatelabels" height="400" chart-series="ProjectTypeAllocateseries" chart-colours ="ProjectTypeAllocatecolours"></canvas>
+      </div>
+
+      <!--历年数据对比-->
+      <div id="HistoricalBar"  ng-show="isChart5Visbile" class="padding">
+          <h5 class="text-center"><b>历年数据对比  (单位：亿元)</b></h5>
+          <canvas id="HistoricalData" class="chart chart-bar" chart-data="HistoricalData" chart-labels="HistoricalDatalabels" height="250" chart-series="HistoricalDataseries" chart-colours ="Historicalcolours"></canvas>
+      </div>
+
+      <label id="CharType" style="display:none;">1</label>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,94 @@
+<form id="formResult" name="form">
+	<div class="page-header" style="text-align: center;">
+		<h1>光明新区发展与财政局项目评审意见表</h1>
+	</div>
+	<p>填写评审意见表(评审时间计算标准为自然日)</p>
+	<table class="table table-bordered table-striped ">
+		<tr>
+			<td class="formAlignRight" style="width:150px;">项目名称：</td>
+			<td colspan="3" style="text-align: center;">
+			<span ng-bind="vm.model.shenBaoInfo.projectName"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">建设单位：</td>
+			<td colspan="3" style="text-align: center;">
+				<span ng-bind="vm.model.shenBaoInfo.constructionUnit"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">收文编号：</td>
+			<td style="width: 346px;">
+				<span ng-bind="vm.approval.unitName"></span>
+			</td>
+			<td class="formAlignRight">收文日期：</td>
+			<td style="width: 346px;">
+				<span ng-bind="vm.review.receiptDate | date:'yyyy-MM-dd'"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">送审日期：</td>
+			<td style="width: 346px;">
+				<span ng-bind="vm.review.approvalDate | date:'yyyy-MM-dd'"></span>
+			</td>
+			<td class="formAlignRight">评审结束日期：</td>
+			<td style="width: 346px;">
+				<span ng-bind="vm.review.approvalEndDate"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">投资额(万元)：<span class="required">(*)</span></td>
+			<td colspan="3">
+				<table class="table table-bordered table-striped ">
+					<tr>
+						<td>申报</td>
+						<td>审定</td>
+						<td>核减(增)</td>
+						<td>核减(增)率</td>
+						<td>备注</td>
+					</tr>
+					<tr>
+						<td>
+							<span ng-bind="vm.review.projectInvestSum"></span>
+						</td>
+						<td>
+							<span ng-bind="vm.review.authorize"></span>
+						</td>
+						<td>
+							<span ng-bind="vm.cut"></span>
+						</td>
+						<td>
+							<span ng-bind="vm.nuclear"></span>
+						</td>
+						<td ng-if="vm.taskAudit.processState != 'processState_9'">
+							<span ng-bind="vm.review.remarks"></span>
+						</td>
+					</tr>
+				</table>
+			</td>
+			
+		</tr>
+		<tr>
+			<td class="formAlignRight">评审成果文件&nbsp;&nbsp;&nbsp;（需上传PDF和WORD文件）</td>
+			<td colspan="3">
+				<table class="table table-bordered table-striped ">
+					<tr>
+					<td style="width:180px;">文件类型</td>
+					<td style="width:180px;">文件名称</td>
+					</tr>
+					<tr ng-repeat="x in vm.relatedType">
+						<td ng-bind-html="vm.html(x[1])"></td>
+						<td>
+					         <div style="margin:3px;"  
+							 	  ng-repeat="y in vm.review.attachmentDtos" 
+							 	  ng-show="y.type=='{{x[0]}}'"
+							 		>
+								 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+							 </div>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</form>

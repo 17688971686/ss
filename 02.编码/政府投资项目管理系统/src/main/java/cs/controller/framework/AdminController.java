@@ -27,6 +27,7 @@ public class AdminController {
 	public String index(Model model) {
 
 		model.addAttribute("user", currentUser.getLoginName());
+		model.addAttribute("userId", currentUser.getUserId());
 		return ctrlName + "/index";
 	}
 

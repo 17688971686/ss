@@ -2,6 +2,7 @@ package cs.service.framework;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -20,11 +21,13 @@ import cs.common.Response;
 import cs.domain.framework.Role;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
+import cs.domain.ShenPiUnit;
 import cs.model.DomainDto.UserUnitInfoDto;
 import cs.model.framework.RoleDto;
 import cs.model.framework.UserDto;
 import cs.repository.framework.RoleRepo;
 import cs.repository.framework.UserRepo;
+import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.UserUnitInfoService;
 
@@ -39,13 +42,11 @@ public class UserServiceImpl implements UserService {
 	private ICurrentUser currentUser;
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
+	@Autowired
+	private IRepository<ShenPiUnit, String> shenpiUnitRepo;
+
 
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see cs.service.UserService#get(cs.repository.odata.ODataObj)
-	 */
 	@Override
 	@Transactional
 	public PageModelDto<UserDto> get(ODataObj odataObj) {
@@ -73,7 +74,7 @@ public class UserServiceImpl implements UserService {
 				roleDtoList.add(roleDto);
 			}
 			userDto.setRoles(roleDtoList);
-
+			
 			userDtoList.add(userDto);
 		}
 		PageModelDto<UserDto> pageModelDto = new PageModelDto<>();
@@ -114,6 +115,18 @@ public class UserServiceImpl implements UserService {
 						userUnitInfoDto.setUserName(user.getId());//绑定用户id
 						userUnitInfoService.save(user.getLoginName(), userUnitInfoDto);
 					}
+					if(role.getRoleName().equals(BasicDataConfig.role_shenpiUnit)){//如果是审批单位，往审批单位表里添加数据
+						ShenPiUnit entity=new ShenPiUnit();
+						if(user.getDisplayName() !=null && !"".equals(user.getDisplayName())){
+							entity.setShenpiUnitName(user.getDisplayName());
+						}
+						else{
+							entity.setShenpiUnitName(user.getLoginName());
+						}
+						entity.setUserId(user.getId());
+						entity.setId(UUID.randomUUID().toString());
+						shenpiUnitRepo.save(entity);
+					}
 				}
 
 			}
@@ -138,7 +151,7 @@ public class UserServiceImpl implements UserService {
 			
 		}
 	}
-
+	
 	@Override
 	@Transactional
 	public void deleteUsers(String[] ids) {
@@ -173,10 +186,24 @@ public class UserServiceImpl implements UserService {
 	}
 	@Override
 	@Transactional
-	public Response Login(String userName, String password,String roleName){
+	public Response Login(String userName, String password,String role){
 		User user=userRepo.findUserByName(userName);
 		Response response =new Response();
+		List<String> roleName=new ArrayList<>();
+		String[]  str= role.split(",");
 		
+			for (String string : str) {
+				
+				if("manage".equals(string)){
+					roleName.add("管理员");
+				}else if("unit".equals(string)){
+					roleName.add("建设单位");
+					
+				}
+				else if("shenpiUnit".equals(string)){
+					roleName.add("审批单位");
+				}
+			}
 		if(user!=null){
 			if(user.getLoginFailCount()>5&&user.getLastLoginDate().getDay()==(new Date()).getDay()){	
 				response.setMessage("登录失败次数过多,请明天再试!");
@@ -187,12 +214,17 @@ public class UserServiceImpl implements UserService {
 				Boolean hasRole = false;
 				List<Role> roles = user.getRoles();
 				for(Role x:roles){
-					if(x.getRoleName().equals(roleName) || x.getRoleName().equals("超级管理员")){//如果有对应的角色则允许登录
-						hasRole = true;
-						break;
-					}else{
-						hasRole = false;
+					for (String y : roleName) {
+						if(x.getRoleName().equals(y) || x.getRoleName().equals("超级管理员")){//如果有对应的角色则允许登录
+							hasRole = true;
+							break;
+						}else{
+							hasRole = false;
+						}
+						
+						
 					}
+					
 				}
 				if(hasRole){
 					currentUser.setLoginName(user.getLoginName());

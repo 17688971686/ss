@@ -102,10 +102,19 @@ public class ProjectSupervisedController {
 			shenPiItemsService.delete(id);
 		}
 	} 
-	 
+	@RequestMapping(name = "审批事项反馈编辑页面", path = "html/shenpifankuiItemsChange", method = RequestMethod.GET)	
+	public String shenpifankuiItemsChange() {
+       
+		return this.ctrlFanKuiItemsName + "/edit";
+	}
 	@RequestMapping(name = "审批事项反馈列表页面", path = "html/shenpifankuiItemsList", method = RequestMethod.GET)	
 	public String shenpifankuiItemsList() {
 		return ctrlFanKuiItemsName + "/list";
+	}
+	@RequestMapping(name = "审批事项反馈详情", path = "html/shenpifankuiItemsDetail", method = RequestMethod.GET)	
+	public String shenpifankuiItemsDetail() {
+       
+		return this.ctrlFanKuiItemsName + "/detail";
 	}
 	@RequestMapping(name = "审批事项列表页面", path = "html/shenpiItemsList", method = RequestMethod.GET)	
 	public String shenpiItemsList() {

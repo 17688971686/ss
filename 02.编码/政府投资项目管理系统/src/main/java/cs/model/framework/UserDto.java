@@ -3,7 +3,9 @@ package cs.model.framework;
 import java.util.ArrayList;
 import java.util.List;
 
+import cs.domain.Opinion;
 import cs.model.BaseDto;
+import cs.model.DomainDto.OpinionDto;
 
 public class UserDto extends BaseDto {
 	private String id;
@@ -12,6 +14,7 @@ public class UserDto extends BaseDto {
 	private String displayName;
 	private String comment;
 	private List<RoleDto> roles=new ArrayList<>();
+	private List<OpinionDto> opinionDtos=new ArrayList<>();
 	public String getId() {
 		return id;
 	}
@@ -48,5 +51,13 @@ public class UserDto extends BaseDto {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+	public List<OpinionDto> getOpinionDtos() {
+		return opinionDtos;
+	}
+	public void setOpinionDtos(List<OpinionDto> opinionDtos) {
+		this.opinionDtos = opinionDtos;
+	}
+
+	
 	
 }

@@ -1,0 +1,28 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+    	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+	  	<li><a href="#/">首页</a></li>
+      	<li><a href="#/catalog/investment">投资项目目录管理</a></li>
+        <li class="active">{{vm.title}}</li>
+        <li class="active">{{vm.model.name}}</li>
+      	<li><a href="#/catalog/investment">返回上级目录</a></li>
+    </ol>
+    <script type="text/template" id="columnBtns">
+		<button class="btn btn-xs btn-danger"  ng-click="vm.deleteSecondary('{0}')" ><span class="glyphicon glyphicon-remove"></span>删除</button>
+		<a class="btn btn-xs btn-success" href="#/catalog/investmentAlter/{0}"><span class="glyphicon glyphicon-pencil"></span>修改</a>
+	</script>
+        
+    <div class="toolbar">
+    	<a class="btn btn-sm btn-primary" href="#/catalog/investmentEdit/addSecondCatalog/{{vm.id}}"><span class="glyphicon glyphicon-plus"></span>新增行业</a>
+		<button class="btn btn-sm btn-danger" ng-click="vm.deleteSecondaryCatalogs()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-remove"></span>批量删除</button>
+    </div>
+      
+    <div class="grid" kendo-grid="grid" k-options="vm.investmentProjectSecondaryGrid"></div>
+	
+</div>
+
+
+

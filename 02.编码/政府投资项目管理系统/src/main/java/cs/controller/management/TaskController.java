@@ -41,6 +41,23 @@ public class TaskController {
 		ODataObj odataObj = new ODataObj(request);	
 //		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.get(odataObj);
 		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.getTask_yearPlan(odataObj);
+		
+		//关于流程记录根据创建用户id查找到名称用于显示
+				List<TaskHeadDto> taskHeadDtols = taskHeadDtos.getValue();
+				if(taskHeadDtols !=null && taskHeadDtols.size()>0){
+					taskHeadDtols.forEach(x->{
+						if(x.getTaskRecordDtos() !=null && x.getTaskRecordDtos().size()>0){
+							x.getTaskRecordDtos().forEach(y->{
+								User user = userService.findById(y.getCreatedBy());
+								if(user !=null){
+									y.setCreatedBy(user.getLoginName());
+								}
+							});
+						}
+					});
+					taskHeadDtos.setValue(taskHeadDtols);
+				}
+				
 		return taskHeadDtos;
 	}
 	
@@ -67,9 +84,15 @@ public class TaskController {
 	}
 	
 	@RequiresPermissions("management/task#html/complete#get")
-	@RequestMapping(name = "已办列表页", path = "html/complete", method = RequestMethod.GET)
+	@RequestMapping(name = "已办列表页--下一年度计划", path = "html/complete", method = RequestMethod.GET)
 	public String complete() {
 		return ctrl + "/complete";
+	}
+	
+	@RequiresPermissions("management/task#html/complete_shenPi#get")
+	@RequestMapping(name = "已办列表页--审批类", path = "html/complete_shenPi", method = RequestMethod.GET)
+	public String complete_shenPi() {
+		return ctrl + "/complete_shenPi";
 	}
 	
 	@RequiresPermissions("management/task#html/handle#get")
@@ -77,7 +100,11 @@ public class TaskController {
 	public String handle() {
 		return ctrl + "/handle";
 	}
-	
+	@RequiresPermissions("management/task#html/shenPiDetails#get")
+	@RequestMapping(name = "已办列表页--审批类展示信息", path = "html/shenPiDetails", method = RequestMethod.GET)
+	public String shenPiDetails() {
+		return ctrl + "/shenPiDetails";
+	}
 	/****下面为审批类操作****/
 	@RequiresPermissions("management/task#audit#get")
 	@RequestMapping(name = "获取审批类个人待办数据", path = "audit", method = RequestMethod.GET)

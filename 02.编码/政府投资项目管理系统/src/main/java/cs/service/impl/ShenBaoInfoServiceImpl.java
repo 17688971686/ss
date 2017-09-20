@@ -98,6 +98,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private String projectShenBaoStage_xuJian;//申报阶段：续建计划
 	@Value("${projectShenBaoStage_jueSuan}")
 	private String projectShenBaoStage_jueSuan;//申报阶段：竣工决算
+	@Value("${projectShenBaoStage_baoGao}")
+	private String projectShenBaoStage_baoGao;//申报阶段：资金申请报告
 	@Value("${taskType_JYS}")
 	private String taskType_JYS;//任务类型：建议书
 	@Value("${taskType_KXXYJBG}")
@@ -112,7 +114,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private String taskType_xuJian;//任务类型：续建计划
 	@Value("${taskType_jueSuan}")
 	private String taskType_jueSuan;//任务类型：竣工决算
-
 	
 	@Override
 	@Transactional

@@ -16,12 +16,16 @@ import cs.model.DomainDto.TaskRecordDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.IService;
+import cs.service.interfaces.TaskHeadService;
+import cs.service.interfaces.TaskRecordService;
 
 @Controller
 @RequestMapping(name = "后台管理--任务流程", path = "management/taskRecord")
 public class TaskRecordController {
+	private String ctrl = "management/task";
+	
 	@Autowired
-	IService<TaskRecordDto, TaskRecord, String> taskRecordService;
+	TaskRecordService taskRecordService;
 	@Autowired
 	ICurrentUser currentUser;
 
@@ -38,4 +42,14 @@ public class TaskRecordController {
 		PageModelDto<TaskRecordDto> taskRecordDtos = taskRecordService.get(odataObj);
 		return taskRecordDtos;
 	}	
+	
+	@RequiresPermissions("management/taskRecord#shenPi#get")
+	@RequestMapping(name = "获取审批类任务流程", path = "shenPi",method=RequestMethod.GET)
+	public @ResponseBody PageModelDto<TaskRecordDto> getToDo_shenPi(HttpServletRequest request) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);
+		
+		PageModelDto<TaskRecordDto> taskRecordDtos = taskRecordService.get_shenPi(odataObj);
+		return taskRecordDtos;
+	}	
+	
 }

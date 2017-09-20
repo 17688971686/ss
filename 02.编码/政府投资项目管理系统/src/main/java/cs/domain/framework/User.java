@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import cs.domain.BaseEntity;
+import cs.domain.Opinion;
 /**
  * @Description: 用户表
  * @author: cx
@@ -37,15 +40,12 @@ public class User extends BaseEntity {
 	@Column(columnDefinition="datetime  COMMENT '最后一次登录时间'")
 	private Date lastLoginDate;
 
-	
-
 	@ManyToMany
 	private List<Role> roles=new ArrayList<>();
 	
 	@ManyToMany
 	private List<Org> orgs =new ArrayList<>();
-	
-	
+
 	public String getId() {
 		return id;
 	}
@@ -102,6 +102,5 @@ public class User extends BaseEntity {
 	public void setLastLoginDate(Date lastLoginDate) {
 		this.lastLoginDate = lastLoginDate;
 	}
-	
 	
 }

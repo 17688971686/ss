@@ -494,7 +494,7 @@
 						fn : function() {
 							common.alert({
 								vm : vm,
-								msg : "操作成功,等待管理员签收！",
+								msg : "操作成功,开始审批流程！",
 								fn : function() {
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');

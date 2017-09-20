@@ -240,37 +240,79 @@
 /**********************end#年度计划编制***************************************/
 	        
 /**********************begin#目录管理***************************************/
-	        //投资项目目录列表
+	        //投资项目目录列表(默认显示项目行业分类列表)
 	        .state('catalog_investment', {
 	            url: '/catalog/investment',
 	            templateUrl: '/management/catalog/html/investmentList',
 	            controller: 'catalogCtrl',
 	            controllerAs: 'vm'
 	        })
-	        //投资项目目录修改和次级列表页面
+	        //投资项目次级列表页面
 	        .state('catalog_investment_projectIndustry', {
-	            url: '/catalog/investment/projectIndustry/:id',
+	            url: '/catalog/investment/projectIndustry/:id/',
+	            templateUrl: '/management/catalog/html/investmentSecondList',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //投资项目修改页
+	        .state('catalog_investmentAlter', {
+	            url: '/catalog/investmentAlter/:id',
 	            templateUrl: '/management/catalog/html/investmentEdit',
 	            controller: 'catalogCtrl',
 	            controllerAs: 'vm'
 	        })
-	        //政策目录列表页页面
+	         //投资项目二级新增页
+	        .state('catalog_addSecondCatalog', {
+	            url: '/catalog/investmentEdit/addSecondCatalog/:id',
+	            templateUrl: '/management/catalog/html/investmentEdit',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //投资项目一级新增页
+	        .state('catalog_investmentEdit', {
+	            url: '/catalog/investmentEdit/:type',
+	            templateUrl: '/management/catalog/html/investmentEdit',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	         //投资项目目录列表(默认显示项目类型列表)
+	        .state('catalog_investmentList_projectType', {
+	            url: '/catalog/investment/projectTypeList',
+	            templateUrl: '/management/catalog/html/investmentProjectTypeList',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	         //投资项目目录列表(默认显示建设类型列表)
+	        .state('catalog_investmentList_constructionType', {
+	            url: '/catalog/investment/constructionTypeList',
+	            templateUrl: '/management/catalog/html/investmentConstructionTypeList',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //政策目录列表页页面(默认显示鼓励类)
 	        .state('catalog_policy', {
 	            url: '/catalog/policyCatalog',
 	            templateUrl: '/management/catalog/html/policyCatalogList',
 	            controller: 'catalogCtrl',
 	            controllerAs: 'vm'
 	        })
-	        //政策目录类型数据添加页面
-	        .state('catalog_policyCatalogEdit', {
-	            url: '/catalog/policyCatalogEdit',
-	            templateUrl: '/management/catalog/html/policyCatalogEdit',
+	        //政策目录列表页页面(默认显示允许类)
+	        .state('catalog_policyAllowList', {
+	            url: '/catalog/policyCatalog/allowList',
+	            templateUrl: '/management/catalog/html/policyCatalogAllowList',
 	            controller: 'catalogCtrl',
 	            controllerAs: 'vm'
 	        })
-	        //政策目录类型次级数据添加页面
-	        .state('catalog_secondaryPolicyCatalogEdit', {
-	            url: '/catalog/policyCatalogEdit/:id',
+	        //政策目录列表页页面(默认显示限制类)
+	        .state('catalog_policyLimitList', {
+	            url: '/catalog/policyCatalog/limitList',
+	            templateUrl: '/management/catalog/html/policyCatalogLimitList',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //政策目录新增页面
+	        .state('catalog_policyCatalogEdit', {
+	            url: '/catalog/policyCatalogEdit/:type',
 	            templateUrl: '/management/catalog/html/policyCatalogEdit',
 	            controller: 'catalogCtrl',
 	            controllerAs: 'vm'
@@ -279,13 +321,6 @@
 	        .state('catalog_policyCatalogAlter', {
 	            url: '/catalog/policyCatalogEdit/:id/',
 	            templateUrl: '/management/catalog/html/policyCatalogEdit',
-	            controller: 'catalogCtrl',
-	            controllerAs: 'vm'
-	        })
-	        //政策目录类型次级目录列表页
-	        .state('catalog_policyCatalogSecondList', {
-	            url: '/catalog/policyCatalogSecondList/:id',
-	            templateUrl: '/management/catalog/html/policyCatalogSecondList',
 	            controller: 'catalogCtrl',
 	            controllerAs: 'vm'
 	        })
@@ -454,14 +489,26 @@
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'
 	        })
-	        //已办列表页(taskRecord)
+	        //已办列表页--下一年度计划(taskRecord)
 	        .state('task_complete', {
 	            url: '/task/complete',
 	            templateUrl: '/management/task/html/complete',
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'
 	        })
-	        
+	         //已办列表页--审批类(taskRecord)
+	        .state('task_shenPi', {
+	            url: '/task/shenPi',
+	            templateUrl: '/management/task/html/complete_shenPi',
+	            controller: 'taskCtrl',
+	            controllerAs: 'vm'
+	        })
+	        .state('task_shenPiDetails', {
+	            url: '/task/shenPi_details/:taskType/:taskId/:relId',
+	            templateUrl: '/management/task/html/shenPiDetails',
+	            controller: 'taskCtrl',
+	            controllerAs: 'vm'
+	        })
 	         //待办列表页--审批类
 	        .state('task_todo_audit', {
 	            url: '/task/todo_audit',

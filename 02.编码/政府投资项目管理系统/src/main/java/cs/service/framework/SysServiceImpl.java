@@ -212,6 +212,27 @@ public class SysServiceImpl implements SysService{
 		
 
 		//初始化基础数据
+		
+		this.createBasicData("documentType","" , "documentType", "文件种类", "");
+		this.createBasicData("documentType_1","documentType" , "documentType", "函", "");
+		this.createBasicData("documentType_2","documentType" , "documentType", "指示", "");
+		this.createBasicData("documentType_3","documentType" , "documentType", "通知", "");
+		this.createBasicData("documentType_4","documentType" , "documentType", "命令", "");
+		this.createBasicData("documentType_5","documentType" , "documentType", "决定", "");
+		this.createBasicData("documentType_6","documentType" , "documentType", "公告", "");
+		this.createBasicData("documentType_7","documentType" , "documentType", "通告", "");
+		this.createBasicData("documentType_8","documentType" , "documentType", "通报", "");
+		this.createBasicData("documentType_9","documentType" , "documentType", "议案", "");
+		this.createBasicData("documentType_10","documentType" , "documentType", "报告", "");
+		this.createBasicData("documentType_11","documentType" , "documentType", "请示", "");
+		this.createBasicData("documentType_12","documentType" , "documentType", "批复", "");
+		this.createBasicData("documentType_13","documentType" , "documentType", "意见", "");
+		
+		this.createBasicData("postingCategory","" , "postingCategory", "发文种类", "");
+		this.createBasicData("postingCategory_1","postingCategory" , "postingCategory", "上行文", "");
+		this.createBasicData("postingCategory_2","postingCategory" , "postingCategory", "平行文", "");
+		this.createBasicData("postingCategory_3","postingCategory" , "postingCategory", "下行文", "");
+		
 		this.createBasicData("approvalType","" , "approvalType", "批复类型分类", "");
 		this.createBasicData("approvalType_1","approvalType" , "approvalType", "深发改", "");
 		this.createBasicData("approvalType_2","approvalType" , "approvalType", "深发改函", "");
@@ -248,13 +269,13 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("deptType_1","deptType" , "deptType", "普通部门", "");
 		this.createBasicData("deptType_2","deptType" , "deptType", "涉及部门", "");
 		
-		this.createBasicData("draftSecretLevel","" , "draftSecretLevel", "拟稿秘密等级分类", "");
-		this.createBasicData("draftSecretLevel_1","draftSecretLevel" , "draftSecretLevel", "公开", "");
-		this.createBasicData("draftSecretLevel_2","draftSecretLevel" , "draftSecretLevel", "国内", "");
-		this.createBasicData("draftSecretLevel_3","draftSecretLevel" , "draftSecretLevel", "内部", "");
-		this.createBasicData("draftSecretLevel_4","draftSecretLevel" , "draftSecretLevel", "秘密", "");
-		this.createBasicData("draftSecretLevel_5","draftSecretLevel" , "draftSecretLevel", "机密", "");
-		this.createBasicData("draftSecretLevel_6","draftSecretLevel" , "draftSecretLevel", "绝密", "");
+		this.createBasicData("hecretHierarchy","hecretHierarchy" , "hecretHierarchy", "拟稿秘密等级分类", "");
+		this.createBasicData("hecretHierarchy_1","hecretHierarchy" , "hecretHierarchy", "公开", "");
+		this.createBasicData("hecretHierarchy_2","hecretHierarchy" , "hecretHierarchy", "国内", "");
+		this.createBasicData("hecretHierarchy_3","hecretHierarchy" , "hecretHierarchy", "内部", "");
+		this.createBasicData("hecretHierarchy_4","hecretHierarchy" , "hecretHierarchy", "秘密", "");
+		this.createBasicData("hecretHierarchy_5","hecretHierarchy" , "hecretHierarchy", "机密", "");
+		this.createBasicData("hecretHierarchy_6","hecretHierarchy" , "hecretHierarchy", "绝密", "");
 		
 		this.createBasicData("draftStatus","" , "draftStatus", "拟稿状态分类", "");
 		this.createBasicData("draftStatus_1","draftStatus" , "draftStatus", "经办人拟稿", "");
@@ -269,21 +290,6 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("fileSet_4","fileSet" , "fileSet", "特急", "");
 		this.createBasicData("fileSet_5","fileSet" , "fileSet", "特提", "");
 		
-		this.createBasicData("fileType","" , "fileType", "文件种类分类", "");
-		this.createBasicData("fileType_1","fileType" , "fileType", "函", "");
-		this.createBasicData("fileType_2","fileType" , "fileType", "指示", "");
-		this.createBasicData("fileType_3","fileType" , "fileType", "通知", "");
-		this.createBasicData("fileType_4","fileType" , "fileType", "命令", "");
-		this.createBasicData("fileType_5","fileType" , "fileType", "决定", "");
-		this.createBasicData("fileType_6","fileType" , "fileType", "公告", "");
-		this.createBasicData("fileType_7","fileType" , "fileType", "通告", "");
-		this.createBasicData("fileType_8","fileType" , "fileType", "通报", "");
-		this.createBasicData("fileType_9","fileType" , "fileType", "议案", "");
-		this.createBasicData("fileType_10","fileType" , "fileType", "报告", "");
-		this.createBasicData("fileType_11","fileType" , "fileType", "请示", "");
-		this.createBasicData("fileType_12","fileType" , "fileType", "批复", "");
-		this.createBasicData("fileType_13","fileType" , "fileType", "意见", "");
-		
 		this.createBasicData("foundAppliRepoGenerationStatus","","foundAppliRepoGenerationStatus", "资金申请报告生成状态分类", "");
 		this.createBasicData("foundAppliRepoGenerationStatus_1","foundAppliRepoGenerationStatus" , "foundAppliRepoGenerationStatus", "未生成", "");
 		this.createBasicData("foundAppliRepoGenerationStatus_2","foundAppliRepoGenerationStatus" , "foundAppliRepoGenerationStatus", "生成成功", "");
@@ -293,11 +299,6 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("openType_1","openType" , "openType", "主动公开", "");
 		this.createBasicData("openType_2","openType" , "openType", "依申请公开", "");
 		this.createBasicData("openType_3","openType" , "openType", "不公开", "");
-		
-		this.createBasicData("postingType","" , "postingType", "发文种类", "");
-		this.createBasicData("postingType_1","postingType" , "postingType", "上行文", "");
-		this.createBasicData("postingType_2","postingType" , "postingType", "平行文", "");
-		this.createBasicData("postingType_3","postingType" , "postingType", "下行文", "");
 		
 		this.createBasicData("problemType","" , "problemType", "问题类型分类", "");
 		this.createBasicData("problemType_1","problemType" , "problemType", "规划设计审批及调整问题", "");

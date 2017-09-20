@@ -426,7 +426,45 @@
     		processState_tuiWen:"processState_15",//已退文
     		processState_next:"processState_16",
     		
+    		fileSet:"fileSet",//文件缓急分类
+    		fileSet_pingJian:"fileSet_1",//平件
+    		fileSet_pingJi:"fileSet_2",//平急
+    		fileSet_jiJian:"fileSet_3",//急件
+    		fileSet_teJi:"fileSet_4",//特急
+    		fileSet_teTi:"fileSet_5",//特提
     		
+    		openType:"openType",//公开类型
+    		openType_zhuDong:"openType_1",//主动公开
+    		openType_yiShenQing:"openType_2",//依申请公开
+    		openType_no:"openType_3",//不公开
+    		
+    		hecretHierarchy:"hecretHierarchy",//秘密等级
+    		hecretHierarchy_gongKai:"hecretHierarchy_1",//公开
+    		hecretHierarchy_guoNei:"hecretHierarchy_2",//国内
+    		hecretHierarchy_neiBu:"hecretHierarchy_3",//内部
+    		hecretHierarchy_miMi:"hecretHierarchy_4",//秘密
+    		hecretHierarchy_jiMi:"hecretHierarchy_5",//机密
+    		hecretHierarchy_jueMi:"hecretHierarchy_6",//绝密
+    		
+    		postingCategory:"postingCategory",//发文种类
+    		postingCategory_shang:"postingCategory_1",//上行文
+    		postingCategory_ping:"postingCategory_2",//平行文
+    		postingCategory_xia:"postingCategory_3",//下行文
+    		
+    		documentType:"documentType",//文件种类
+    		documentType_han:"documentType_1",//函
+    		documentType_zhiShi:"documentType_2",//指示
+    		documentType_tongZhi:"documentType_3",//通知
+    		documentType_mingLing:"documentType_4",//命令
+    		documentType_jueDing:"documentType_5",//决定
+    		documentType_gongGao:"documentType_6",//公告
+    		documentType_tongGao:"documentType_7",//通告
+    		documentType_tongBao:"documentType_8",//通报
+    		documentType_yiAn:"documentType_9",//议案
+    		documentType_baoGao:"documentType_10",//报告
+    		documentType_qingShi:"documentType_11",//请示
+    		documentType_piFu:"documentType_12",//批复
+    		documentType_yiJian:"documentType_13",//意见
     		
     		projectShenBaoStage:"projectShenBaoStage",//申报阶段
     		projectShenBaoStage_projectProposal:"projectShenBaoStage_1",//项目建议书
@@ -538,7 +576,9 @@
 			projectEdit:[['XMJYSPF','项目建议书批复文本'],['KXXYJBGPF','可行性研究报告批复文本'],['ZGSPFTZ','总概算批复及调整文本'],['HYJY','会议纪要'],
 				['GHYJ','规划依据'],['SJXGT','设计效果图'],['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']],
 			projectEdit_SH:[['XMJYSPF','项目建议书批复文本'],['KXXYJBGPF','可行性研究报告批复文本'],['ZGSPFTZ','总概算批复及调整文本'],['HYJY','会议纪要'],
-				['GHYJ','规划依据'],['SJXGT','设计效果图'],['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']]
+				['GHYJ','规划依据'],['SJXGT','设计效果图'],['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']],
+			reviewResult:[['PSBG','1、评审报告'],['TZKSSHB','（1）投资匡算审核表'],['ZJPSYJ','（2）专家评审意见'],['ZJPSZMD','（3）专家评审组名单'],
+				['QT','2、其他']]
     	
     	//projectShenBaoStage_qianQi:[['ProjectBasis','项目依据  <span class="required">(*)</span>'],['other','其他']],
     	};
