@@ -37,6 +37,7 @@ public class CreditIllegalNameMapper implements IMapper<CreditIllegalNameDto, Cr
 			illegalNameDto.setIllegalContent(entity.getIllegalContent());
 			illegalNameDto.setIllegalDate(entity.getIllegalDate());
 			illegalNameDto.setValidityFlag(entity.getValidityFlag());
+			illegalNameDto.setShenBaoInfoId(entity.getShenBaoInfoId());
 		}
 		return illegalNameDto;
 	}
@@ -58,6 +59,7 @@ public class CreditIllegalNameMapper implements IMapper<CreditIllegalNameDto, Cr
 			entity.setIllegalContent(dto.getIllegalContent());
 			entity.setIllegalDate(dto.getIllegalDate());
 			entity.setValidityFlag(dto.getValidityFlag());
+			entity.setShenBaoInfoId(dto.getShenBaoInfoId());
 		}
 		
 		return entity;

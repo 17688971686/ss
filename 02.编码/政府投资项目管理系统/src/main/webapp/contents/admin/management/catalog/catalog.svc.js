@@ -1342,19 +1342,20 @@
 				{
 					field : "name",
 					title : "名称",	
-					width : 450,
 					filterable : true
 				},
 				{
 					field : "code",
 					title : "编码",
-					width : 450,
 					filterable : true
 				},
 				{
 					field : "",
 					title : "操作",
-					width : 130,
+					width : 255,
+//					attributes: { 
+//				      	style: "text-align: right;"  
+//					},  
 					template : function(item) {
 						return common.format($('#columnBtns').html(),item.id);
 					}

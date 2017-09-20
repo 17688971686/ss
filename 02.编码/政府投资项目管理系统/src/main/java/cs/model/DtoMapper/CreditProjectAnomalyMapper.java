@@ -32,6 +32,7 @@ public class CreditProjectAnomalyMapper implements IMapper<CreditProjectAnomalyD
 			projectAnomalyDto.setShenbaoDate(entity.getShenbaoDate());
 			projectAnomalyDto.setIsIllegalName(entity.getIsIllegalName());
 			projectAnomalyDto.setIsBlackList(entity.getIsBlackList());
+			projectAnomalyDto.setShenBaoInfoId(entity.getShenBaoInfoId());
 		}
 		return projectAnomalyDto;
 	}
@@ -48,6 +49,7 @@ public class CreditProjectAnomalyMapper implements IMapper<CreditProjectAnomalyD
 			entity.setShenbaoDate(dto.getShenbaoDate());
 			entity.setIsIllegalName(dto.getIsIllegalName());
 			entity.setIsBlackList(dto.getIsBlackList());
+			entity.setShenBaoInfoId(dto.getShenBaoInfoId());
 		}
 		
 		return entity;

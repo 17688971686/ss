@@ -18,10 +18,11 @@
         vm.page='list';
         vm.basicData = {};
         vm.id=$state.params.id;
-        vm.projectNumber=$state.params.projectNumber;
-        vm.projectName=$state.params.projectName;
-        vm.unitName=$state.params.unitName;
-        vm.createdDate=$state.params.createdDate;
+        vm.projectNumber = $state.params.projectNumber;
+        vm.projectName = $state.params.projectName;
+        vm.unitName = $state.params.unitName;
+        vm.createdDate = $state.params.createdDate;
+        vm.shenBaoInfoId = $state.params.shenBaoInfoId;
         
         vm.init=function(){
         	if($state.current.name=='credit_illegalNameList'){
@@ -69,6 +70,9 @@
         		vm.page = 'updateProjectAnomaly';
         	}
         	
+        	vm.getBasicDataDesc = function(str){
+           		return common.getBasicDataDesc(str);
+           	};
         	
         	vm.getUnitName=function(unitId){
         		return common.getUnitName(unitId);
@@ -81,6 +85,10 @@
         	vm.formatDate=function(stringDate){
         		return common.formatDate(stringDate);
         	};
+        	
+        	vm.html = function(val){
+           		return $sce.trustAsHtml(val);
+           	};
         	
         	vm.basicData.userUnit = common.getUserUnits();
         };
@@ -159,6 +167,7 @@
         	vm.projectAnomalyModel.projectName = vm.projectName;
         	vm.projectAnomalyModel.unitName = vm.unitName;
         	vm.projectAnomalyModel.shenbaoDate = vm.createdDate;
+        	vm.projectAnomalyModel.shenBaoInfoId = vm.shenBaoInfoId;
         	vm.saveProjectAnomalyInfo = function(){
         		common.initJqValidation();
             	var isValid = $('form').valid();
@@ -208,10 +217,12 @@
     					var projectName = str[1];
     					var unitName = str[2];
     					var createdDate = str[3];
+    					var shenBaoInfoId = str[4];
     					vm.projectNumber = projectNumber;
     					vm.projectName = projectName;
     					vm.unitName = unitName;
     					vm.createdDate = createdDate;
+    					vm.shenBaoInfoId = shenBaoInfoId;
     					creditInfoSvc.haveProjectAnomaly(vm);
     					$('.checkbox').removeAttr("checked");
     					$('#shenbaoList').modal('hide');
@@ -274,6 +285,7 @@
         	vm.blackListModel.projectName=vm.projectName;
         	vm.blackListModel.unitName=vm.unitName;
         	vm.blackListModel.shenbaoDate=vm.createdDate;
+        	vm.blackListModel.shenBaoInfoId = vm.shenBaoInfoId;
         	//点击确定按钮，把页面录入的数据保存到数据库
         	vm.saveBlackListInfo=function(){
         		common.initJqValidation();
@@ -324,10 +336,12 @@
             			var projectName = str[1];
             			var unitName = str[2];
             			var createdDate = str[3];
+            			var shenBaoInfoId = str[4];
             			vm.blackListModel.projectNumber = projectNumber;
             			vm.blackListModel.projectName = projectName;
             			vm.blackListModel.unitName = unitName;
             			vm.blackListModel.createdDate = createdDate;
+            			vm.blackListModel.shenBaoInfoId = shenBaoInfoId;
             			creditInfoSvc.haveBlackList(vm);
             			$('.checkbox').removeAttr("checked");
             			$('#shenbaoList').modal('hide');
@@ -400,10 +414,12 @@
     					var projectName = str[1];
     					var unitName = str[2];
     					var createdDate = str[3];
+    					var shenBaoInfoId = str[4];
     					vm.projectNumber = projectNumber;
     					vm.projectName = projectName;
     					vm.unitName = unitName;
     					vm.createdDate = createdDate;
+    					vm.shenBaoInfoId = shenBaoInfoId;
     					creditInfoSvc.haveIllegalName(vm);
     					$('.checkbox').removeAttr("checked");
     					$('#shenbaoList').modal('hide');
@@ -439,6 +455,7 @@
         	vm.illegalNameModel.projectName = vm.projectName;
         	vm.illegalNameModel.unitName = vm.unitName;
         	vm.illegalNameModel.shenbaoDate = vm.createdDate;
+        	vm.illegalNameModel.shenBaoInfoId = vm.shenBaoInfoId;
         	//点击确定按钮，把页面录入的数据保存到数据库
         	vm.saveIllegalNameInfo=function(){
         		common.initJqValidation();
@@ -455,6 +472,20 @@
         	location.href="#/creditInfo/illegalNameList";
         };
         
+      //申报详情模态框
+		vm.dialog_shenbaoInfo = function(id){
+			vm.id = id;
+			creditInfoSvc.getShenBaoInfoById(vm);
+			$('#shenbaoInfo').modal({
+                backdrop: 'static',
+                keyboard:false
+            });
+			//初始化tab
+      	   vm.tabStripOptions={
+      			//TODO
+      	   };
+		};
+		
     	//点击修改按钮 修改数据
         function page_illegalNameEdit(){
         	vm.title='信用异常名录信息更改';
