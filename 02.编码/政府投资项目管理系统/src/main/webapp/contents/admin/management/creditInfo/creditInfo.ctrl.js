@@ -69,6 +69,9 @@
         		vm.page = 'updateProjectAnomaly';
         	}
         	
+        	vm.getBasicDataDesc = function(str){
+           		return common.getBasicDataDesc(str);
+           	};
         	
         	vm.getUnitName=function(unitId){
         		return common.getUnitName(unitId);
@@ -81,6 +84,10 @@
         	vm.formatDate=function(stringDate){
         		return common.formatDate(stringDate);
         	};
+        	
+        	vm.html = function(val){
+           		return $sce.trustAsHtml(val);
+           	};
         	
         	vm.basicData.userUnit = common.getUserUnits();
         };
@@ -400,10 +407,12 @@
     					var projectName = str[1];
     					var unitName = str[2];
     					var createdDate = str[3];
+//    					var shenBaoInfoId = str[4];
     					vm.projectNumber = projectNumber;
     					vm.projectName = projectName;
     					vm.unitName = unitName;
     					vm.createdDate = createdDate;
+//    					vm.shenBaoInfoId = shenBaoInfoId;
     					creditInfoSvc.haveIllegalName(vm);
     					$('.checkbox').removeAttr("checked");
     					$('#shenbaoList').modal('hide');
@@ -455,6 +464,20 @@
         	location.href="#/creditInfo/illegalNameList";
         };
         
+      //申报详情模态框
+		vm.dialog_shenbaoInfo = function(id){
+			vm.id = id;
+			creditInfoSvc.getShenBaoInfoById(vm);
+			$('#shenbaoInfo').modal({
+                backdrop: 'static',
+                keyboard:false
+            });
+			//初始化tab
+      	   vm.tabStripOptions={
+      			//TODO
+      	   };
+		};
+		
     	//点击修改按钮 修改数据
         function page_illegalNameEdit(){
         	vm.title='信用异常名录信息更改';
