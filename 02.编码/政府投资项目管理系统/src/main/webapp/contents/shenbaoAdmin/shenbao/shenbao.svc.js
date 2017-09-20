@@ -1106,22 +1106,23 @@
 					}
 				},
 				{
-					field : "projectIndustry",
-					title : "项目行业",
+					field : "projectInvestmentType",
+					title : "项目投资类型",
 					width : 120,
 					template:function(item){
-						return common.getBasicDataDesc(item.projectIndustry);
+						return common.getBasicDataDesc(item.projectInvestmentType);
 					},
-					filterable : false
-				},
-				{
-					field : "projectClassify",
-					title : "项目分类",
-					width : 120,
-					template:function(item){
-						return common.getBasicDataDesc(item.projectClassify);
-					},
-					filterable : false
+					filterable : {
+						ui: function(element){
+	                        element.kendoDropDownList({
+	                            valuePrimitive: true,
+	                            dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType),
+	                            dataTextField: "description",
+	                            dataValueField: "id",
+	                            filter: "startswith"
+	                        });
+	                    }
+					}
 				},
 				{
 					field : "isIncludLibrary",
