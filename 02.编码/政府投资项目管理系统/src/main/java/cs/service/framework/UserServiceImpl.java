@@ -213,18 +213,19 @@ public class UserServiceImpl implements UserService {
 				//判断用户角色
 				Boolean hasRole = false;
 				List<Role> roles = user.getRoles();
+				
+				loop:
 				for(Role x:roles){
 					for (String y : roleName) {
 						if(x.getRoleName().equals(y) || x.getRoleName().equals("超级管理员")){//如果有对应的角色则允许登录
 							hasRole = true;
-							break;
+							break loop;
 						}else{
 							hasRole = false;
 						}
 						
 						
-					}
-					
+					}				
 				}
 				if(hasRole){
 					currentUser.setLoginName(user.getLoginName());
