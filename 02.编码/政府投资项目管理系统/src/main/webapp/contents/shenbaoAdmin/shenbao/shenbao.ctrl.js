@@ -141,6 +141,7 @@
     	   vm.searchIndustryFatherChange=function(){
   	   			vm.searchIndustryIsZF = false;
   	   			vm.searchIndustryIsSH = false;
+  	   			vm.searchIndustryChild=false;
   	   			if(vm.searchIndustryFather == common.basicDataConfig().projectIndustry_ZF){
   	   				vm.searchIndustryIsZF = true;
   	   			}else if(vm.searchIndustryFather == common.basicDataConfig().projectIndustry_SH){

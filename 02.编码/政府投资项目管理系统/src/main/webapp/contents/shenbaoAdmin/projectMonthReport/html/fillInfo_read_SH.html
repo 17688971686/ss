@@ -1,17 +1,26 @@
 <div class="bg-danger text-danger" style="padding:10px 0;margin:5px 0; text-align: center; font-weight:bold;">您已填报<span ng-bind="vm.model.monthReport.submitMonth"></span>月数据!</div>
  
-<div class="bg-info text-info title">项目名称</div>	
+<div class="bg-info text-info title">项目责任单位信息</div>
 <table class="table  table-bordered table-striped">
 	<tr>
-		<td width="120px;">项目名称：</td>
-		<td><span ng-bind="vm.model.projectInfo.projectName"></span>
+		<td class="formAlignRight" style="width:20%;">责任单位名称：</td>
+		<td colspan="3">
+			<span ng-bind="vm.getUnitName(vm.model.projectInfo.unitName)"></span>
 		</td>
-		<td width="120px;">填报月份：</td>
-		<td width="80px;"><span ng-bind="vm.model.monthReport.submitMonth"></span> 月 份</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">责任单位联系人：</td>
+		<td>
+			<span ng-bind="vm.model.projectInfo.repUnitRepName"></span>
+		</td>
+		<td class="formAlignRight" style="width:20%;">责任单位联系电话：</td>
+		<td width="30%">
+			<span ng-bind="vm.model.projectInfo.repUnitRepMobile" ></span>
+		</td>
 	</tr>
 </table>
 	
-<div class="bg-info text-info title">项目联系人信息</div>
+<div class="bg-info text-info title">项目基本信息</div>
 <table class="table  table-bordered table-striped">
 	<tr>
 		<td width="20%">填报人姓名：<span class="required">(*)</span></td>				
@@ -25,11 +34,20 @@
 	</tr>
 	
 	<tr>
-		<td>项目负责人：</td>
+		<td>项目名称：</td>
+		<td>
+			<span ng-bind="vm.model.projectInfo.projectName"></span>
+		</td>
+		<td>填报月份：</td>
+		<td><span ng-bind="vm.month"></span> 月 份</td>
+	</tr>
+		
+	<tr>
+		<td>项目联系人：</td>
 		<td>
 			<span ng-bind="vm.model.monthReport.projectRepName"></span>
 		</td>
-		<td>项目负责人电话：</td>
+		<td>项目联系人电话：</td>
 		<td>
 			<span ng-bind="vm.model.monthReport.projectRepMobile"></span>
 		</td>
@@ -53,28 +71,12 @@
 		<td>
 			<span ng-bind="vm.model.monthReport.invertPlanTotal | number:4"></span>&nbsp;（万元）					
 		</td>
-		<td>截止上年底累计下达计划：</td>
+		<td>累计完成投资：</td>
 		<td>
-			<span ng-bind="vm.model.monthReport.releasePlanTotal | number:4"></span>&nbsp;（万元）
+			<span ng-bind="vm.model.monthReport.actuallyFinishiInvestment | number:4"></span>&nbsp;（万元）
 		</td>
 	</tr>
 	
-	<tr>
-		<td>本年度安排计划：</td>
-		<td>
-			<span ng-bind="vm.model.monthReport.thisYearPlanInvestment | number:4"></span>&nbsp;（万元）
-		</td>
-		<td>本年度已下达计划：</td>
-		<td>
-			<span ng-bind="vm.model.monthReport.thisYearPlanHasInvestment | number:4"></span>&nbsp;（万元）
-		</td>
-	</tr>
-	<tr>
-		<td>累计完成投资：</td>
-		<td colspan="3">
-			<span ng-bind="vm.model.monthReport.actuallyFinishiInvestment | number:4"></span>&nbsp;（万元）
-		</td>
-	</tr>	
 	<tr>	
 		<td>本月计划完成投资：<span class="required">(*)</span></td>		
 		<td>
@@ -86,7 +88,7 @@
 		</td>
 	</tr>					
 	<tr>							
-		<td>是否完成竣工决算</td>
+		<td>是否完成竣工决算：</td>
 		<td colspan="3">
 			<span ng-if="vm.model.monthReport.isCompletion == '1'">是</span>
 			<span ng-if="vm.model.monthReport.isCompletion == '0'">否</span>
@@ -100,12 +102,7 @@
 		</td>
 		
 	</tr>
-	<tr>
-		<td>项目审批进度：</td>
-		<td colspan="3" style="padding: 10px;">
-			<textarea rows="3" cols="20" style="height: 120px; width: 99%;" ng-bind="vm.model.monthReport.projectApprovalProgress" disabled></textarea>
-		</td>		
-	</tr>
+	
 	<tr>
 		<td style="line-height: 18px">工程形象进度或<br>项目进度情况：<span
 			class="required">(*)</span>
@@ -115,7 +112,7 @@
 		</td>
 	</tr>					
 	<tr>
-		<td rowspan="5">进度安排<span class="required">(*)</span></td>	
+		<td rowspan="5">进度安排：<span class="required">(*)</span></td>	
 		<td colspan="3">
 			<span ng-bind="vm.model.monthReport.selfReviewDesc"></span>
 		</td>			

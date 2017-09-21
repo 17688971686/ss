@@ -413,7 +413,7 @@
 						ui: function(element){
 	                        element.kendoDropDownList({
 	                            valuePrimitive: true,
-	                            dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectStage),
+	                            dataSource: vm.basicData.projectStage,
 	                            dataTextField: "description",
 	                            dataValueField: "id",
 	                            filter: "startswith"
@@ -432,7 +432,7 @@
 						ui: function(element){
 	                        element.kendoDropDownList({
 	                            valuePrimitive: true,
-	                            dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType),
+	                            dataSource: vm.basicData.investmentType,
 	                            dataTextField: "description",
 	                            dataValueField: "id",
 	                            filter: "startswith"
