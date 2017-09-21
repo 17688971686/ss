@@ -194,7 +194,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		initWorkFlow(entity,isAdminCreate);
 		//处理批复文件库
 		handlePiFuFile(entity);
-		logger.info(String.format("创建申报信息,项目名称 %s",entity.getProjectName()));
+		logger.info(String.format("创建申报信息,项目名称 :%s,申报阶段：%s",entity.getProjectName(),
+				basicDataService.getDescriptionById(entity.getProjectShenBaoStage())));
 		
 	}
 
@@ -237,7 +238,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		initWorkFlow(entity,false);
 		//处理批复文件库
 		handlePiFuFile(entity);
-		logger.info(String.format("创建申报信息,项目名称 %s",entity.getProjectName()));		
+		logger.info(String.format("创建申报信息,项目名称 :%s,申报阶段：%s",entity.getProjectName(),
+				basicDataService.getDescriptionById(entity.getProjectShenBaoStage())));		
 		return entity;
 		
 	}
@@ -284,10 +286,25 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 
 		//更新批复文件库
 		handlePiFuFile(entity);
-		logger.info(String.format("更新申报信息,项目名称 %s",entity.getProjectName()));		
+		logger.info(String.format("更新申报信息,项目名称: %s,申报阶段：%s",entity.getProjectName(),
+				basicDataService.getDescriptionById(entity.getProjectShenBaoStage())));		
 		return entity;		
 	}
+	
+	
 
+
+	@Override
+	@Transactional
+	public void delete(String id) {
+		ShenBaoInfo entity=super.repository.findById(id);
+		if(entity !=null){
+			logger.info(String.format("删除申报信息,项目名称： %s，申报阶段：%s",entity.getProjectName(),
+					basicDataService.getDescriptionById(entity.getProjectShenBaoStage())));	
+			super.repository.delete(entity);
+		}
+		
+	}
 
 	@Override
 	@Transactional

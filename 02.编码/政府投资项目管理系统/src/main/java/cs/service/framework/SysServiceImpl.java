@@ -174,7 +174,7 @@ public class SysServiceImpl implements SysService{
 								"文体教育局","光明交通运输局","住房和建设局","发展和财政局","卫生计生局",
 								"光明公安分局","环境保护和水务局","经济服务局","纪检监察局","市规划和国土资源委员会光明管理局",
 								"综合办","公明办事处","光明办事处","马田办事处","凤凰办事处",
-								"公共资源交易中心","城市发展促进中心","机关后勤服务中心","土地整备中心","建设管理服务中心",
+								"公共资源交易中心","城市发展促进中心","机关后勤服务中心","土地整备中心","建筑工务局",
 								"光明消防大队","光明现役消防支队光明新区大队","规划土地监察大队","深水光明","经发公司"};
 		
 		for(String userName : userNames){
@@ -328,23 +328,23 @@ public class SysServiceImpl implements SysService{
  		
 		this.createBasicData("projectIndustry","" , "projectIndustry", "项目行业分类","项目行业分类",false);
 			this.createBasicData("projectIndustry_1","projectIndustry" , "projectIndustry", "政府投资项目行业分类", "",0,false);
-				this.createBasicData("projectIndustry_1_1","projectIndustry_1" , "projectIndustry", "文体", "WT",0,false);
-				this.createBasicData("projectIndustry_1_2","projectIndustry_1" , "projectIndustry", "教育", "JY",0,false);
-				this.createBasicData("projectIndustry_1_3","projectIndustry_1" , "projectIndustry", "卫生", "WS",0,false);
-				this.createBasicData("projectIndustry_1_4","projectIndustry_1" , "projectIndustry", "环保水务", "HS",0,false);
-				this.createBasicData("projectIndustry_1_5","projectIndustry_1" , "projectIndustry", "道路交通", "DJ",0,false);
-				this.createBasicData("projectIndustry_1_6","projectIndustry_1" , "projectIndustry", "公园绿化", "GL",0,false);
-				this.createBasicData("projectIndustry_1_7","projectIndustry_1" , "projectIndustry", "电力燃气", "DR",0,false);
-				this.createBasicData("projectIndustry_1_8","projectIndustry_1" , "projectIndustry", "城市管理", "CG",0,false);
-				this.createBasicData("projectIndustry_1_9","projectIndustry_1" , "projectIndustry", "城市安全", "CA",0,false);
-				this.createBasicData("projectIndustry_1_10","projectIndustry_1" , "projectIndustry", "社会保障", "SB",0,false);
-				this.createBasicData("projectIndustry_1_11","projectIndustry_1" , "projectIndustry", "党政机关", "DZ",0,false);
-				this.createBasicData("projectIndustry_1_12","projectIndustry_1" , "projectIndustry", "征地拆迁", "ZC",0,false);
-				this.createBasicData("projectIndustry_1_13","projectIndustry_1" , "projectIndustry", "其他", "QT",0,false);
-				this.createBasicData("projectIndustry_1_14","projectIndustry_1" , "projectIndustry", "地质灾害治理", "DZ",0,false);
-				this.createBasicData("projectIndustry_1_15","projectIndustry_1" , "projectIndustry", "社区建设", "QJ",0,false);
-				this.createBasicData("projectIndustry_1_16","projectIndustry_1" , "projectIndustry", "社会建设", "HJ",0,false);
-				this.createBasicData("projectIndustry_1_17","projectIndustry_1" , "projectIndustry", "规划课题", "GK",0,false);
+				this.createBasicData("projectIndustry_1_1","projectIndustry_1" , "projectIndustry", "文体", "WT",0,false,5);
+				this.createBasicData("projectIndustry_1_2","projectIndustry_1" , "projectIndustry", "教育", "JY",0,false,3);
+				this.createBasicData("projectIndustry_1_3","projectIndustry_1" , "projectIndustry", "卫生", "WS",0,false,4);
+				this.createBasicData("projectIndustry_1_4","projectIndustry_1" , "projectIndustry", "环保水务", "HS",0,false,1);
+				this.createBasicData("projectIndustry_1_5","projectIndustry_1" , "projectIndustry", "道路交通", "DJ",0,false,2);
+				this.createBasicData("projectIndustry_1_6","projectIndustry_1" , "projectIndustry", "公园绿化", "GL",0,false,6);
+				this.createBasicData("projectIndustry_1_7","projectIndustry_1" , "projectIndustry", "电力燃气", "DR",0,false,8);
+				this.createBasicData("projectIndustry_1_8","projectIndustry_1" , "projectIndustry", "城市管理", "CG",0,false,11);
+				this.createBasicData("projectIndustry_1_9","projectIndustry_1" , "projectIndustry", "公共安全", "GA",0,false,16);
+				this.createBasicData("projectIndustry_1_10","projectIndustry_1" , "projectIndustry", "社会保障 ", "SB",0,false,9);
+				this.createBasicData("projectIndustry_1_11","projectIndustry_1" , "projectIndustry", "党政机关", "DZ",0,false,13);
+				this.createBasicData("projectIndustry_1_12","projectIndustry_1" , "projectIndustry", "征地拆迁", "ZC",0,false,14);
+				this.createBasicData("projectIndustry_1_13","projectIndustry_1" , "projectIndustry", "其他", "QT",0,false,17);
+				this.createBasicData("projectIndustry_1_14","projectIndustry_1" , "projectIndustry", "地质灾害治理", "DZ",0,false,10);
+				this.createBasicData("projectIndustry_1_15","projectIndustry_1" , "projectIndustry", "社区建设", "QJ",0,false,7);
+				this.createBasicData("projectIndustry_1_16","projectIndustry_1" , "projectIndustry", "社会建设", "HJ",0,false,12);
+				this.createBasicData("projectIndustry_1_17","projectIndustry_1" , "projectIndustry", "规划课题", "GK",0,false,15);
 			this.createBasicData("projectIndustry_2","projectIndustry" , "projectIndustry", "社会投资项目行业分类", "",false);
 				this.createBasicData("projectIndustry_2_1","projectIndustry_2" , "projectIndustry", "农、林、牧、渔业", "",0,false);
 					this.createBasicData("projectIndustry_2_1_1","projectIndustry_2_1" , "projectIndustry", "农业", "A01",0,false);
@@ -575,12 +575,12 @@ public class SysServiceImpl implements SysService{
 	}
 	/**
 	 * 
-	 * @Description：创建默认为可编辑的行业基础数据
+	 * @Description：创建默认为可排序行业基础数据
 	 * @author： cx
 	 * @Date： 2017年7月4日
 	 * @version: 0.1
 	 */
-	private BasicData createBasicData(String id,String pid,String identity,String description,String comment,Integer count,boolean canEdit){
+	private BasicData createBasicData(String id,String pid,String identity,String description,String comment,Integer count,boolean canEdit,Integer itemOrder){
 		BasicData basicData = new BasicData();
 		basicData.setId(id);
 		basicData.setpId(pid);
@@ -589,6 +589,27 @@ public class SysServiceImpl implements SysService{
 		basicData.setCanEdit(true);
 		basicData.setComment(comment);
 		basicData.setCount(count);
+		basicData.setCanEdit(canEdit);
+		basicData.setItemOrder(itemOrder);
+		basicDataRepo.save(basicData);
+		return basicData;
+	}
+	/**
+	 * 
+	 * @Description：创建默认为可编辑的行业基础数据
+	 * @author： cx
+	 * @Date： 2017年7月4日
+	 * @version: 0.1
+	 */
+	private BasicData createBasicData(String id,String pid,String identity,String description,String comment,Integer itemOrder,boolean canEdit){
+		BasicData basicData = new BasicData();
+		basicData.setId(id);
+		basicData.setpId(pid);
+		basicData.setIdentity(identity);
+		basicData.setDescription(description);
+		basicData.setCanEdit(true);
+		basicData.setComment(comment);
+		basicData.setItemOrder(itemOrder);
 		basicData.setCanEdit(canEdit);
 		basicDataRepo.save(basicData);
 		return basicData;

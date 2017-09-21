@@ -7,12 +7,22 @@ overflow: scroll !important;
        overflow: scroll !important;
     }
 </style>
-<div class="bg-info text-info" style="padding: 10px; ">项目所属单位</div>
+<div class="bg-info text-info" style="padding: 10px; ">项目责任单位信息</div>
 <table class="table table-bordered table-striped ">
 	<tr>
-		<td class="formAlignRight" style="width:150px;">项目所属单位：</td>
-		<td>
+		<td class="formAlignRight" style="width:160px;">责任单位名称：<span class="required">(*)</span></td>
+		<td colspan="3">
 			<span ng-bind="vm.userUnit.unitName"></span>
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">责任单位联系人：<span class="required">(*)</span></td>
+		<td style="width:35%">
+			<span ng-bind="vm.model.repUnitRepName"></span>
+		</td>
+		<td class="formAlignRight" style="width:160px;">责任单位联系电话：<span class="required">(*)</span></td>
+		<td>
+			<span ng-bind="vm.model.repUnitRepMobile" ></span>
 		</td>
 	</tr>
 </table>
@@ -21,7 +31,7 @@ overflow: scroll !important;
 <table class="table table-bordered table-striped ">
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目名称：</td>
-		<td width = "33%">
+		<td style="width:35%;">
 			<span ng-bind="vm.model.projectName"></span>			
 		</td>
 		<td class="formAlignRight" style="width:180px;">项目阶段：</td>
@@ -29,26 +39,29 @@ overflow: scroll !important;
 			<span ng-bind="vm.getBasicDataDesc(vm.model.projectStage)"></span>	
 		</td>
 	</tr>
+	
 	<tr>
-		<td class="formAlignRight" style="width:150px;">项目负责人名称：</td>
+		<td class="formAlignRight">企业名称：<span class="required">(*)</span></td>
+		<td>
+			<span ng-bind="vm.model.companyName"></span>
+		</td>
+		<td class="formAlignRight">核准/备案批准文号：</td>
+		<td>
+			<span ng-bind="vm.model.approval_pzwh"></span>
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="formAlignRight" style="width:150px;">项目联系人：</td>
 		<td>
 			<span ng-bind="vm.model.projectRepName"></span>
 		</td>
-		<td class="formAlignRight" style="width:180px;">项目负责人电话：</td>
+		<td class="formAlignRight" style="width:180px;">项目联系电话：</td>
 		<td>
 			<span ng-bind="vm.model.projectRepMobile"></span>	
 		</td>
 	</tr>
-	<tr>		
-		<td class="formAlignRight">项目类别：</td>
-		<td>
-			<span ng-bind="vm.getBasicDataDesc(vm.model.projectCategory)"></span>				
-		</td>
-		<td class="formAlignRight">项目分类：</td>
-		<td >
-			<span ng-bind="vm.getBasicDataDesc(vm.model.projectClassify)"></span>
-		</td>
-	</tr>
+	
 	<tr>
 		<td class="formAlignRight">项目行业归口：</td>
 		<td>
@@ -58,7 +71,8 @@ overflow: scroll !important;
 		<td>
 			<span ng-repeat="x in vm.model.projectType" ng-bind="vm.getBasicDataDesc(x)+' '"></span>		
 		</td>
-	</tr>	
+	</tr>
+		
  	<tr>
 		<td class="formAlignRight">项目建设地址：</td>	
 		<td colspan="3">
@@ -77,18 +91,37 @@ overflow: scroll !important;
 			<span ng-bind="vm.model.endDate | date:'yyyy-MM-dd'"></span>
 		</td>
 	</tr>
+	
 	<tr>
-		<td class="formAlignRight">项目总投资：</td>
+		<td class="formAlignRight">项目投资情况：<span class="required">(*)</span></td>
 		<td colspan="3">
-			<span ng-bind="vm.model.projectInvestSum | number:4"></span>&nbsp;(万元)
+			<table class="table table-bordered table-striped table-hover">
+				<tr class="text-primary text-center">
+					<td colspan="4">项目总投资：<span ng-bind="vm.model.projectInvestSum | number:4"></span>&nbsp;(万元)</td>
+				</tr>
+				<tr class="text-primary text-center">
+					<td>地价</td>
+					<td>设备投资</td>
+					<td>建安投资</td>
+					<td>流动资金及其他</td>
+				</tr>
+				<tr class="text-center">
+					<td>
+						<span ng-bind="vm.model.landPrice | number:4"></span>
+					</td>
+					<td>
+						<span ng-bind="vm.model.equipmentInvestment | number:4"></span>
+					<td>
+						<span ng-bind="vm.model.buidSafeInvestment | number:4"></span>
+					</td>
+					<td>
+						<span ng-bind="vm.model.capitalOther | number:4"></span>
+					</td>
+				</tr>
+			</table>
 		</td>
 	</tr>
-	<tr>
-		<td class="formAlignRight">项目简介：</td>
-		<td colspan="3">
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：项目简介（500字符以内）" ng-model="vm.model.projectIntro" disabled></textarea>
-		</td>	
-	</tr>
+
 	<tr>
 		<td class="formAlignRight">建设规模：</td>
 		<td colspan="3">
@@ -99,6 +132,13 @@ overflow: scroll !important;
 		<td class="formAlignRight">建设用地情况：</td>
 		<td colspan="3">
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：项目选址、项目用地面积及用地性质等（500字符以内）" ng-model="vm.model.constructionLand" disabled></textarea>
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="formAlignRight">投入使用后的效益：</td>
+		<td colspan="3">
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：请简单说明项目投入使用后的效益（500字符以内）" ng-model="vm.model.useBenefits" disabled></textarea>
 		</td>
 	</tr>
 	
