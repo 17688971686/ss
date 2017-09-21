@@ -49,7 +49,7 @@
            		return $sce.trustAsHtml(val);
            	};
            	taskSvc.getDepts(vm);
-           	taskSvc.getShenBaoInfoById(vm);//查询申报信息
+           	//taskSvc.getShenBaoInfoById(vm);//查询申报信息
            	taskSvc.getTaskById(vm);
            	
         	//初始化基础数据
