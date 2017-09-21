@@ -81,6 +81,14 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			projectDto.setIsIncludLibrary(project.getIsIncludLibrary());//是否纳入项目库
 			//社投独立
 			projectDto.setConstructionLand(project.getConstructionLand());//建设用地情况
+			projectDto.setApproval_pzwh(project.getApproval_pzwh());//核准/备案批准文号
+			projectDto.setUseBenefits(project.getUseBenefits());//投入使用后的效益
+			projectDto.setLandPrice(project.getLandPrice());//总投资--地价
+			projectDto.setEquipmentInvestment(project.getEquipmentInvestment());//总投资--设备投资
+			projectDto.setBuidSafeInvestment(project.getBuidSafeInvestment());//总投资--建安投资
+			projectDto.setRepUnitRepName(project.getRepUnitRepName());//责任单位联系人
+			projectDto.setRepUnitRepMobile(project.getRepUnitRepMobile());//责任单位联系人电话
+			projectDto.setCompanyName(project.getCompanyName());//企业名称
 								
 			//begin#关联信息
 			//附件
@@ -156,6 +164,14 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setIsIncludLibrary(projectDto.getIsIncludLibrary());//是否纳入项目库
 			//社投独立字段
 			project.setConstructionLand(projectDto.getConstructionLand());//建设用地情况
+			project.setApproval_pzwh(projectDto.getApproval_pzwh());//核准/备案批准文号
+			project.setUseBenefits(projectDto.getUseBenefits());//投入使用后的效益
+			project.setLandPrice(projectDto.getLandPrice());//总投资--地价
+			project.setEquipmentInvestment(projectDto.getEquipmentInvestment());//总投资--设备投资
+			project.setBuidSafeInvestment(projectDto.getBuidSafeInvestment());//总投资--建安投资
+			project.setRepUnitRepName(projectDto.getRepUnitRepName());//责任单位联系人
+			project.setRepUnitRepMobile(projectDto.getRepUnitRepMobile());//责任单位联系人电话
+			project.setCompanyName(projectDto.getCompanyName());//企业名称
 			//begin#关联信息：外部根据需要自己创建
 		}
 		return project;

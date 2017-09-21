@@ -1,14 +1,10 @@
-<style>
-	.modal-open {
-       overflow: scroll !important;
-    }
-</style>
+<div class="bg-info text-info" style="padding: 10px; ">责任单位信息</div>
 <div class="bg-info text-info" style="padding: 10px; ">项目责任单位信息</div>
 <table class="table table-bordered table-striped ">
 	<tr>
 		<td class="formAlignRight" style="width:160px;">责任单位名称：<span class="required">(*)</span></td>
 		<td colspan="3">
-			<span ng-bind="vm.userUnit.unitName"></span>
+			<span ng-bind="vm.getUnitName(vm.model.unitName)"></span>
 		</td>
 	</tr>
 	<tr>
@@ -193,6 +189,3 @@
 		</td>
 	</tr>
 </table>
-
-
-

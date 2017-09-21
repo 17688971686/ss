@@ -42,18 +42,18 @@ public class ShenBaoInfo extends BaseProject{
 	private String constructionUnit;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '申请年度投资'")
-	private Double applyYearInvest;	
+	private Double applyYearInvest=0.0;	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下一年申请年度投资'")
-	private Double applyYearInvest_LastYear;	
+	private Double applyYearInvest_LastYear=0.0;	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年申请年度投资'")
-	private Double applyYearInvest_LastTwoYear;	
+	private Double applyYearInvest_LastTwoYear=0.0;	
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '安排年度投资'")
-	private Double yearInvestApproval;
+	private Double yearInvestApproval=0.0;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下一年安排年度投资'")
-	private Double yearInvestApproval_lastYear;
+	private Double yearInvestApproval_lastYear=0.0;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年安排年度投资'")
-	private Double yearInvestApproval_lastTwoYear;
+	private Double yearInvestApproval_lastTwoYear=0.0;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '安排年度投资Id'")
 	private String yearPlanCapitalId;
@@ -70,25 +70,25 @@ public class ShenBaoInfo extends BaseProject{
 	private String yearConstructionContentShenBao;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '本年度资金筹措方案-公共预算'")
-	private Double capitalSCZ_ggys_TheYear;
+	private Double capitalSCZ_ggys_TheYear=0.0;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '本年度资金筹措方案-国土资金'")
-	private Double capitalSCZ_gtzj_TheYear;
+	private Double capitalSCZ_gtzj_TheYear=0.0;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '本年度资金筹措方案-其他资金'")
-	private Double capitalSCZ_qita;
+	private Double capitalSCZ_qita=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下一年度资金筹措方案-公共预算'")
-	private Double capitalSCZ_ggys_LastYear;
+	private Double capitalSCZ_ggys_LastYear=0.0;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下一年度资金筹措方案-国土资金'")
-	private Double capitalSCZ_gtzj_LastYear;
+	private Double capitalSCZ_gtzj_LastYear=0.0;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下年度资金筹措方案-其他资金'")
-	private Double capitalSCZ_qita_LastYear;
+	private Double capitalSCZ_qita_LastYear=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度资金筹措方案-公共预算'")
-	private Double capitalSCZ_ggys_LastTwoYear;
+	private Double capitalSCZ_ggys_LastTwoYear=0.0;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度资金筹措方案-国土资金'")
-	private Double capitalSCZ_gtzj_LastTwoYear;
+	private Double capitalSCZ_gtzj_LastTwoYear=0.0;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度资金筹措方案-其他资金'")
-	private Double capitalSCZ_qita_LastTwoYear;
+	private Double capitalSCZ_qita_LastTwoYear=0.0;
 
 	@Column(columnDefinition="varchar(500) NULL COMMENT '下一年其他资金来源'")
 	private String capitalOtherDescriptionShenBao_LastYear;
@@ -99,27 +99,27 @@ public class ShenBaoInfo extends BaseProject{
 	
 	//安排资金
 	@Column(columnDefinition="double(11,4) NULL COMMENT '累计安排投资'")
-	private Double apInvestSum;
+	private Double apInvestSum=0.0;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '安排年度资金筹措方案-公共预算'")
-	private Double capitalAP_ggys_TheYear;
+	private Double capitalAP_ggys_TheYear=0.0;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '安排年度资金筹措方案-国土基金'")
-	private Double capitalAP_gtzj_TheYear;
+	private Double capitalAP_gtzj_TheYear=0.0;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '安排年度资金筹措方案-其他'")
-	private Double capitalAP_qita;
+	private Double capitalAP_qita=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下年度安排年度资金筹措方案-公共预算'")
-	private Double capitalAP_ggys_LastYear;
+	private Double capitalAP_ggys_LastYear=0.0;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下年度安排年度资金筹措方案-国土基金'")
-	private Double capitalAP_gtzj_LastYear;
+	private Double capitalAP_gtzj_LastYear=0.0;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下年度安排年度资金筹措方案-其他'")
-	private Double capitalAP_qita_LastYear;
+	private Double capitalAP_qita_LastYear=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度安排年度资金筹措方案-公共预算'")
-	private Double capitalAP_ggys_LastTwoYear;
+	private Double capitalAP_ggys_LastTwoYear=0.0;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度安排年度资金筹措方案-国土基金'")
-	private Double capitalAP_gtzj_LastTwoYear;
+	private Double capitalAP_gtzj_LastTwoYear=0.0;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度安排年度资金筹措方案-其他'")
-	private Double capitalAP_qita_LastTwoYear;
+	private Double capitalAP_qita_LastTwoYear=0.0;
 	//end#年度计划相关
 
    //begin#财政相关
@@ -152,7 +152,7 @@ public class ShenBaoInfo extends BaseProject{
 	@Column(columnDefinition="bit(1) NULL COMMENT '是否申请前期工作经费'")
 	private Boolean isApplyQianQiFei = false;//默认为不申请
 	@Column(columnDefinition="double(10,4) NULL COMMENT '工作经费申请金额'")
-	private Double qianQiFeiApply;
+	private Double qianQiFeiApply=0.0;
 	//end
 	
 	//begin#续建计划相关
@@ -168,7 +168,13 @@ public class ShenBaoInfo extends BaseProject{
 	@Column(columnDefinition="varchar(500) NULL COMMENT '审核状态'")
 	private String auditState;
 	//end
-
+	
+	//begin#社投申报字段
+	@Column(columnDefinition="varchar(500) NULL COMMENT '存在的问题'")
+	private String existingProblem;
+	@Column(columnDefinition="varchar(500) NULL COMMENT '推进建议'")
+	private String moveSuggestion;
+	//end
 	
 	//begin#关联信息
 	@OneToOne(cascade=CascadeType.ALL)
@@ -273,7 +279,6 @@ public class ShenBaoInfo extends BaseProject{
 	public void setEconClassSubjects(String econClassSubjects) {
 		this.econClassSubjects = econClassSubjects;
 	}
-
 	public String getProjectConstrBasis() {
 		return projectConstrBasis;
 	}
@@ -516,5 +521,17 @@ public class ShenBaoInfo extends BaseProject{
 	public void setApInvestSum(Double apInvestSum) {
 		this.apInvestSum = apInvestSum;
 	}
-
+	public String getExistingProblem() {
+		return existingProblem;
+	}
+	public void setExistingProblem(String existingProblem) {
+		this.existingProblem = existingProblem;
+	}
+	public String getMoveSuggestion() {
+		return moveSuggestion;
+	}
+	public void setMoveSuggestion(String moveSuggestion) {
+		this.moveSuggestion = moveSuggestion;
+	}
+	
 }
