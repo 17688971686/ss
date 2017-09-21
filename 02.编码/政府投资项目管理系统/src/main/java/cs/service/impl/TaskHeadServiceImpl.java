@@ -3,8 +3,6 @@ package cs.service.impl;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-
 import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
@@ -25,7 +23,6 @@ import cs.domain.framework.SysConfig_;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.SendMsg;
-import cs.model.DomainDto.SysConfigDto;
 import cs.model.DomainDto.TaskHeadDto;
 import cs.model.DomainDto.TaskRecordDto;
 import cs.model.DtoMapper.IMapper;
@@ -33,7 +30,6 @@ import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
-import cs.service.framework.SysService;
 import cs.service.framework.UserService;
 import cs.service.interfaces.TaskHeadService;
 /**
@@ -60,8 +56,6 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 	private BasicDataService basicDataService;
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private SysService sysService;
 	
 	@Override
 	@Transactional

@@ -3,10 +3,7 @@ package cs.model.DtoMapper;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
-
-import cs.domain.Approval;
 import cs.domain.Datum;
-import cs.model.DomainDto.ApprovalDto;
 import cs.model.DomainDto.DatumDto;
 
 /**

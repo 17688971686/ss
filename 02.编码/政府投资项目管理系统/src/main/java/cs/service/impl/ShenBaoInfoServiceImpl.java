@@ -41,9 +41,7 @@ import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
-import cs.service.framework.RoleService;
 import cs.service.framework.SysService;
-import cs.service.framework.UserService;
 import cs.service.interfaces.ShenBaoInfoService;
 /**
  * @Description: 申报信息服务层
@@ -77,8 +75,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private IMapper<TaskRecordDto, TaskRecord> taskRecordMapper;
 	@Autowired
 	private SysService sysService;
-	@Autowired
-	private RoleService roleService;
 	@Autowired
 	private BasicDataService basicDataService;
 	@Autowired

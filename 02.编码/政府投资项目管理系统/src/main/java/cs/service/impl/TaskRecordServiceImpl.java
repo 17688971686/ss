@@ -2,18 +2,13 @@ package cs.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.transaction.Transactional;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
-import cs.model.DomainDto.ProjectDto;
 import cs.model.DomainDto.TaskRecordDto;
-import cs.repository.impl.ProjectRepoImpl;
 import cs.repository.impl.TaskRecordRepoImpl;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.TaskRecordService;

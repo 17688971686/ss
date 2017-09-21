@@ -20,7 +20,6 @@ import cs.model.framework.OrgDto;
 import cs.model.framework.RoleDto;
 import cs.model.framework.UserDto;
 import cs.repository.framework.OrgRepo;
-import cs.repository.framework.RoleRepo;
 import cs.repository.framework.UserRepo;
 import cs.repository.odata.ODataObj;
 
@@ -31,8 +30,6 @@ public class OrgServiceImpl implements OrgService {
 	private UserRepo userRepo;
 	@Autowired
 	private OrgRepo orgRepo;
-	@Autowired
-	private RoleRepo roleRepo;
 	@Autowired
 	private ICurrentUser currentUser;
 
@@ -61,7 +58,7 @@ public class OrgServiceImpl implements OrgService {
 				userDto.setDisplayName(x.getDisplayName());
 				userDto.setId(x.getId());
 				List<Role> roles = x.getRoles();
-				List<RoleDto> rolesDto = new ArrayList();
+				List<RoleDto> rolesDto = new ArrayList<>();
 				roles.forEach(y ->{
 					
 					RoleDto roleDto = new RoleDto();
@@ -167,7 +164,7 @@ public class OrgServiceImpl implements OrgService {
 				userDto.setDisplayName(x.getDisplayName());
 				
 				List<Role> roles = x.getRoles();
-				List<RoleDto> rolesDto = new ArrayList();
+				List<RoleDto> rolesDto = new ArrayList<>();
 				roles.forEach(y ->{
 					
 					RoleDto roleDto = new RoleDto();

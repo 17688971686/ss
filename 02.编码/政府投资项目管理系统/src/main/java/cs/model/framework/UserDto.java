@@ -2,8 +2,6 @@ package cs.model.framework;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import cs.domain.Opinion;
 import cs.model.BaseDto;
 import cs.model.DomainDto.OpinionDto;
 

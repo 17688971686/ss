@@ -1,12 +1,9 @@
 package cs.service.framework;
 
-import java.util.List;
 import java.util.Set;
-
 import cs.common.Response;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
-import cs.model.DomainDto.OpinionDto;
 import cs.model.framework.UserDto;
 import cs.repository.odata.ODataObj;
 
