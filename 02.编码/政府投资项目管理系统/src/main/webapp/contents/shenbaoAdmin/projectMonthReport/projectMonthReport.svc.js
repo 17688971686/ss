@@ -5,7 +5,7 @@
 
 	projectMonthReport.$inject = [ '$http','$compile' ];	
 	function projectMonthReport($http,$compile) {
-		var url_project = "/shenbaoAdmin/project/unitProject";
+		var url_project = "/shenbaoAdmin/project";
 		var url_basicData = "/common/basicData";//获取基础数据
 		var url_projectMonthReport="/shenbaoAdmin/projectMonthReport";
 		var url_userUnitInfo="/shenbaoAdmin/userUnitInfo";
@@ -22,13 +22,14 @@
 		 * 查询项目数据
 		 */
 		function getProjectById(vm){
+			console.log(vm.projectId);
 			var httpOptions = {
 					method : 'get',
 					url : common.format(url_project + "?$filter=id eq '{0}' ", vm.projectId)
 				};
 				var httpSuccess = function success(response) {					
 					vm.model.projectInfo = response.data.value[0]||{};
-										
+					console.log(vm.model.projectInfo);					
 					if(vm.page=='selectMonth'){//如果为月份选择页面
 						vm.setMonthSelected();//设置月份选择按钮的状态
 					}
@@ -62,8 +63,9 @@
 						//项目开工以及竣工日期的获取
 						vm.model.monthReport.beginDate=common.formatDate(vm.model.projectInfo.beginDate);
 						vm.model.monthReport.endDate=common.formatDate(vm.model.projectInfo.endDate);
-						//项目相关资金获取 （TODO 资金处理这一块可以不用了）
+						
 						vm.model.monthReport.invertPlanTotal=common.toMoney(vm.model.projectInfo.projectInvestSum);//项目总投资
+						//项目相关资金获取 （TODO 资金处理这一块可以不用了）
 						if(vm.isZFInvestment){
 							vm.model.monthReport.actuallyFinishiInvestment=common.toMoney(vm.model.projectInfo.projectInvestAccuSum);//累计完成投资
 							//资金处理
@@ -145,7 +147,7 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_project),
+				transport : common.kendoGridConfig().transport(common.format(url_project+"/unitProject")),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
 					fields : {
@@ -194,7 +196,7 @@
 					filterable : true,
 					width:250,
 					template:function(item){
-						return common.format('<a href="#/project/projectInfo/{0}/{1}">{2}</a>',item.id,item.projectInvestmentType,item.projectName);
+						return common.format('<a href="#/project/projectInfo/{0}">{1}</a>',item.id,item.projectName);
 					}
 				},
 				{
@@ -283,7 +285,8 @@
 				columns : columns,
 //				dataBound:dataBound,
 				resizable : true,
-				sortable:true
+				sortable:true,
+				scrollable:true
 			};
 
 		}// end fun grid

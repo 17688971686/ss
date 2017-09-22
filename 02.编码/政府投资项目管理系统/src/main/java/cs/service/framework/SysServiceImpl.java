@@ -545,6 +545,7 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("taskType_9","taskType" , "taskType", "新开工计划", "",false);
 		this.createBasicData("taskType_10","taskType" , "taskType", "续建计划", "",false);
 		this.createBasicData("taskType_11","taskType" , "taskType", "竣工决算", "",false);
+		this.createBasicData("taskType_12","taskType" , "taskType", "资金申请报告", "",false);
 
 		this.createBasicData("auditState","" , "auditState", "审核状态", "审核状态",false);
 		this.createBasicData("auditState_1","auditState" , "auditState", "未审核", "",false);

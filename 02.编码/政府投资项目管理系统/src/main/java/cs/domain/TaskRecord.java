@@ -18,7 +18,7 @@ public class TaskRecord extends BaseEntity {
 	@Column(columnDefinition="varchar(255) NULL COMMENT '标题'")
 	private String title;	
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '任务类型'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '任务类型'")
 	private String taskType;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '相关ID'")
@@ -30,10 +30,10 @@ public class TaskRecord extends BaseEntity {
 	@Column(columnDefinition="varchar(255) NULL COMMENT '审批角色'")
 	private String processRole;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '处理状态'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '处理状态'")
 	private String processState;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '下一处理状态'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '下一处理状态'")
 	private String nextProcess;
 	
 	@Column(columnDefinition="varchar(500) NULL COMMENT '处理意见'")
@@ -43,7 +43,7 @@ public class TaskRecord extends BaseEntity {
 	private String taskId;
 	
 	//begin#添加筛选字段
-	@Column(columnDefinition="varchar(255) NULL COMMENT '项目行业'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '项目行业'")
 	private String projectIndustry;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '建设单位名称'")

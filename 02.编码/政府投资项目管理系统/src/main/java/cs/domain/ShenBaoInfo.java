@@ -28,10 +28,10 @@ public class ShenBaoInfo extends BaseProject{
 	@Column(columnDefinition="bit(1) NULL COMMENT '项目是否纳入项目库'")
 	private Boolean isIncludLibrary;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '申报阶段'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '申报阶段'")
 	private String projectShenBaoStage;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '项目建设性质分类'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '项目建设性质分类'")
 	private String projectConstrChar;
 	
 	//begin#年度计划相关
@@ -123,16 +123,16 @@ public class ShenBaoInfo extends BaseProject{
 	//end#年度计划相关
 
    //begin#财政相关
-	@Column(columnDefinition="varchar(500) NULL COMMENT '功能科目'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '功能科目'")
 	private String functionSubjects;
-	@Column(columnDefinition="varchar(500) NULL COMMENT '经济分类科目'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '经济分类科目'")
 	private String econClassSubjects;
 	//end#财政相关
 	
 	//begin#审批相关
-	@Column(columnDefinition="varchar(500) NULL COMMENT '审批状态'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '审批状态'")
 	private String processState;
-	@Column(columnDefinition="varchar(500) NULL COMMENT '审批角色'")
+	@Column(columnDefinition="varchar(255) NULL COMMENT '审批角色'")
 	private String processRole;
 	//end
 	

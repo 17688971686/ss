@@ -58,7 +58,7 @@ textarea.form-control {
     	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
         <li><a href="#/managerCenter">首页</a></li>       
         <li><a href="#/shenbao">项目申报</a></li>
-        <li ng-show="vm.isRecordEdit"><a href="#/shenbao_records">申报记录</a></li>	        
+        <li ng-show="vm.isRecordEdit"><a href="#/shenbao_records">申报记录</a></li>
         <li class="active">{{vm.title}}</li>
     </ol>
              
@@ -78,7 +78,7 @@ textarea.form-control {
 					<div ng-if="vm.isZFInvestment" ng-include  src="'/contents/shenbaoAdmin/shenbao/html/edit/basicInfo_ZF.html'"></div>
 					<div ng-if="vm.isSHInvestment" ng-include  src="'/contents/shenbaoAdmin/shenbao/html/edit/basicInfo_SH.html'"></div>
 					<div style="text-align: center">
-					<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(2)">下一步 <span class="glyphicon glyphicon-forward"></span></button>               
+					<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(2)">下一步 <span class="glyphicon glyphicon-forward"></span></button>
 					</div>
 				</div>
 				<div class="tab_content">
@@ -86,7 +86,7 @@ textarea.form-control {
 				     <div style="text-align: center">
 				     	<button class="btn btn-sm btn-primary" ng-click="vm.tabReturn(1)"><span class="glyphicon glyphicon-backward"></span>上一步 </button>
 				     	<button ng-if="vm.isZFInvestment" class="btn btn-sm btn-primary" ng-click="vm.tabChange(3)">下一步 <span class="glyphicon glyphicon-forward"></span></button>
-				     	<button ng-if="vm.isSHInvestment" class="btn btn-sm btn-primary" ng-click="vm.tabChange(4)">下一步 <span class="glyphicon glyphicon-forward"></span></button>            
+				     	<button ng-if="vm.isSHInvestment" class="btn btn-sm btn-primary" ng-click="vm.tabChange(4)">下一步 <span class="glyphicon glyphicon-forward"></span></button>
 				     </div>
 				</div>
              
@@ -109,7 +109,7 @@ textarea.form-control {
                 <div ng-if="vm.isSHInvestment" ng-include  src="'/contents/shenbaoAdmin/shenbao/html/edit/stage/yearPlan_SH.html'"></div>
                  <div style="text-align: center">
                  	<button ng-if="vm.isZFInvestment" class="btn btn-sm btn-primary" ng-click="vm.tabReturn(3)"><span class="glyphicon glyphicon-backward">上一步 </span></button>
-                 	<button ng-if="vm.isSHInvestment" class="btn btn-sm btn-primary" ng-click="vm.tabReturn(2)"><span class="glyphicon glyphicon-backward">上一步 </span></button>                
+                 	<button ng-if="vm.isSHInvestment" class="btn btn-sm btn-primary" ng-click="vm.tabReturn(2)"><span class="glyphicon glyphicon-backward">上一步 </span></button>
                  	
                  	<button class="btn btn-sm btn-success" ng-hide="vm.isRecordEdit" ng-click="vm.submit()" ng-disabled="vm.isSubmit">确认提交 </button>
                  	<button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit" ng-click="vm.update()" ng-disabled="vm.isSubmit">确认更新 </button>
@@ -119,16 +119,16 @@ textarea.form-control {
              <div class="tab_content" ng-show="vm.isJunGong">
                 <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/edit/stage/junGong.html'"></div>
                  <div style="text-align: center">
-                 	<button class="btn btn-sm btn-primary" ng-click="vm.tabReturn(3)"><span class="glyphicon glyphicon-backward">上一步 </span></button>                
+                 	<button class="btn btn-sm btn-primary" ng-click="vm.tabReturn(3)"><span class="glyphicon glyphicon-backward">上一步 </span></button>
                  	<button class="btn btn-sm btn-success" ng-hide="vm.isRecordEdit" ng-click="vm.submit()" ng-disabled="vm.isSubmit">确认提交 </button>
                  	<button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit" ng-click="vm.update()" ng-disabled="vm.isSubmit">确认更新 </button>
                  </div>
             </div>
             <!-- 资金申请报告申报信息页面 -->
             <div class="tab_content" ng-show="vm.isCapitalApplyReport">
-                <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/edit/stage/junGong.html'"></div>
+                <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/edit/stage/capitalApplyReport.html'"></div>
                  <div style="text-align: center">
-                 	<button class="btn btn-sm btn-primary" ng-click="vm.tabReturn(3)"><span class="glyphicon glyphicon-backward">上一步 </span></button>                
+                 	<button class="btn btn-sm btn-primary" ng-click="vm.tabReturn(3)"><span class="glyphicon glyphicon-backward">上一步 </span></button>
                  	<button class="btn btn-sm btn-success" ng-hide="vm.isRecordEdit" ng-click="vm.submit()" ng-disabled="vm.isSubmit">确认提交 </button>
                  	<button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit" ng-click="vm.update()" ng-disabled="vm.isSubmit">确认更新 </button>
                  </div>

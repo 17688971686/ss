@@ -39,17 +39,18 @@
 	  			};
 	  			
 	  		//任务类型--申报阶段
-	   	   vm.taskType_yearPlan=common.basicDataConfig().taskType_yearPlan;
-	   	   vm.taskType_JYS=common.basicDataConfig().taskType_JYS;
-	   	   vm.taskType_KXXYJBG=common.basicDataConfig().taskType_KXXYJBG;
-	   	   vm.taskType_CBSJYGS=common.basicDataConfig().taskType_CBSJYGS;
-	   	   vm.taskType_qianQi=common.basicDataConfig().taskType_qianQi;
-	   	   vm.taskType_newStart=common.basicDataConfig().taskType_newStart;
-	   	   vm.taskType_xuJian=common.basicDataConfig().taskType_xuJian;
-	   	   vm.taskType_junGongJueSuan=common.basicDataConfig().taskType_junGongJueSuan;
+	   	   vm.taskType_yearPlan=common.basicDataConfig().taskType_yearPlan;//下一年度计划
+	   	   vm.taskType_JYS=common.basicDataConfig().taskType_JYS;//建议书
+	   	   vm.taskType_KXXYJBG=common.basicDataConfig().taskType_KXXYJBG;//可行性研究报告
+	   	   vm.taskType_CBSJYGS=common.basicDataConfig().taskType_CBSJYGS;//初步概算与设计
+	   	   vm.taskType_qianQi=common.basicDataConfig().taskType_qianQi;//前期计划
+	   	   vm.taskType_newStart=common.basicDataConfig().taskType_newStart;//新开工计划
+	   	   vm.taskType_xuJian=common.basicDataConfig().taskType_xuJian;//徐建计划
+	   	   vm.taskType_junGongJueSuan=common.basicDataConfig().taskType_junGongJueSuan;//竣工决算
+	   	   vm.taskType_ZJSQBG=common.basicDataConfig().taskType_ZJSQBG;//资金申请报告
 	   	   vm.taskType_shenBao=[vm.taskType_JYS,vm.taskType_KXXYJBG,vm.taskType_CBSJYGS,
 	   		   					vm.taskType_qianQi,vm.taskType_newStart,vm.taskType_xuJian,
-	   		   					vm.taskType_yearPlan,];
+	   		   					vm.taskType_junGongJueSuan,vm.taskType_yearPlan,vm.taskType_ZJSQBG];
 	   	   //任务类型--月报	   	   
 	   	   vm.taskType_monthReport=common.basicDataConfig().taskType_monthReport;   	   	      	   
        }

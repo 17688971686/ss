@@ -111,7 +111,6 @@
     	   vm.search=function(){
     		   var filters = [];
     		   filters.push({field:'isLatestVersion',operator:'eq',value:true});//默认条件--查询最新版本的项目
-//    		   filters.push({field:'projectInvestmentType',operator:'eq',value:common.basicDataConfig().projectInvestmentType_ZF});//默认条件--查询政府投资项目
     		   
     		   if(vm.search.projectName !=null && vm.search.projectName !=''){//查询条件--项目名称
     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
@@ -158,7 +157,7 @@
   	   		vm.searchIndustryChild=true;
   	   		}
   	   	   };
-  	   	 //清空查询条件
+  	   	   //清空查询条件
     		vm.filterClear=function(){
     			location.reload();
     		};

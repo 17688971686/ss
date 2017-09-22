@@ -23,9 +23,10 @@ import cs.service.interfaces.ShenBaoInfoService;
 public class ShenBaoAdminShenBaoController {
 	private String ctrlName = "shenbaoAdmin/shenbao";
 	
-	@Autowired ShenBaoInfoService shenBaoInfoService;
+	@Autowired 
+	private ShenBaoInfoService shenBaoInfoService;
 	@Autowired
-	ICurrentUser currentUser;
+	private ICurrentUser currentUser;
 
 	
 	@RequiresPermissions("shenbaoAdmin/shenbao##get")
@@ -39,10 +40,8 @@ public class ShenBaoAdminShenBaoController {
 	@RequiresPermissions("shenbaoAdmin/shenbao#unit#get")
 	@RequestMapping(name = "获取单位申报信息", path = "unit",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getByUnit(HttpServletRequest request) throws ParseException{
-		//根据当前登陆用户查找到单位信息
-		//UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
 		ODataObj odataObj = new ODataObj(request);
-		//设置过滤条件
+		//设置过滤条件 根据创建人找到对应的申报信息
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 		filterItem.setField("createdBy");
 		filterItem.setOperator("eq");

@@ -72,7 +72,6 @@ desired effect
 <body class="hold-transition skin-green sidebar-mini" ng-app="app">
 <div class="bg_pic">
 
-
 	<div class="wrap-1160" >
 		<div class="clearfix" style="line-height:28px;">
 			<span style="color:#0b8d39;">当前日期：${date}</span>
@@ -86,21 +85,20 @@ desired effect
 			<div class="user_icon pull-right"></div>
 		</div>
 	
-	<div style="margin-top: 10px;">
-		<a href="/shenbaoAdmin"><div class="logo pull-left"></div></a>
-		<div class="contact pull-right"></div>	
-		<div class="clearfix"></div>
-	</div>
+		<div style="margin-top: 10px;">
+			<a href="/shenbaoAdmin"><div class="logo pull-left"></div></a>
+			<div class="contact pull-right"></div>	
+			<div class="clearfix"></div>
+		</div>
 	
-	<ul class="menu clearfix">
-		<li><a href="javascript:void(0)" ui-sref="index">管理首页</a></li>
-		<li><a href="javascript:void(0)" ui-sref="deptInfoMaintain">单位信息维护</a></li>		
-		<li><a href="javascript:void(0)" ui-sref="project">项目信息维护</a></li>	
-		<li><a href="#/shenbao" >项目申报</a></li>
-		<li><a href="javascript:void(0)" ui-sref="projectMonthReport">项目月报</a></li>
-	</ul>
+		<ul class="menu clearfix">
+			<li><a href="javascript:void(0)" ui-sref="index">管理首页</a></li>
+			<li><a href="javascript:void(0)" ui-sref="deptInfoMaintain">单位信息维护</a></li>		
+			<li><a href="javascript:void(0)" ui-sref="project">项目信息维护</a></li>	
+			<li><a href="javascript:void(0)" ui-sref="shenbao">项目申报</a></li>
+			<li><a href="javascript:void(0)" ui-sref="projectMonthReport">项目月报</a></li>
+		</ul>
 
-	
 	</div>
 	
 	<div class="wrap-1160" style="background: #fff;">
@@ -126,9 +124,8 @@ desired effect
 	<script src="/contents/libs/angular/angular-ui-router.js"></script>
 	<script src="/contents/libs/boilerplate/plugins.js"></script>
 	<script src="/contents/libs/jquery-validation/jquery.validate.js"></script>
-	<script
-		src="/contents/libs/jquery-validation/jquery.validate.unobtrusive.js"></script>
-
+	<script src="/contents/libs/jquery-validation/jquery.validate.unobtrusive.js"></script>
+		
 	<script src="/contents/libs/jszip/jszip.min.js"></script>
 	<script src="/contents/libs/kendoui/kendo.all.min.js"></script>
 	<script src="/contents/libs/kendoui/kendo.message.zh-CN.js"></script>
@@ -146,12 +143,10 @@ desired effect
 	<script src="/contents/common/common.js"></script>
 	<script src="/contents/shenbaoAdmin/app.js"></script>
 	
-	
-	<!-- index -->
+	<!-- begin cx -->
+	<!-- index(管理首页) -->
 	<script src="/contents/shenbaoAdmin/index/index.ctrl.js"></script>
 	<script src="/contents/shenbaoAdmin/index/index.svc.js"></script>
-	
-<!-- begin cx -->
 	<!-- deptInfoMaintain(单位信息管理) -->
 	<script src="/contents/shenbaoAdmin/deptInfoMaintain/deptInfoMaintain.ctrl.js"></script>
 	<script src="/contents/shenbaoAdmin/deptInfoMaintain/deptInfoMaintain.svc.js"></script>
@@ -164,7 +159,7 @@ desired effect
 	<!-- shenbao(申报管理) -->
 	<script src="/contents/shenbaoAdmin/shenbao/shenbao.ctrl.js"></script>
 	<script src="/contents/shenbaoAdmin/shenbao/shenbao.svc.js"></script>
-<!-- end cx -->	
+	<!-- end cx -->	
 	<!-- End:自定义Js-->
 </body>
 </html>
