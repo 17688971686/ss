@@ -688,7 +688,7 @@
 				type : 'odata',
 				transport : common.kendoGridConfig().transport(url_planList+"/"+vm.id+"/projectList"),
 				schema : common.kendoGridConfig().schema({
-					id : "yearPlanCapitalId"
+					id : "yearPlanCapitalIdR"
 				}),
 				serverPaging : true,
 				serverSorting : true,

@@ -655,7 +655,9 @@
 				pageable : common.kendoGridConfig().pageable,
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
-				resizable : true
+				resizable : true,
+				scrollable:true,
+				sortable:true
 			};
 
 		}// end fun grid
