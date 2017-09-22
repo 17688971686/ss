@@ -14,7 +14,9 @@
     	vm.model={};
     	vm.taskType=$state.params.taskType;
         vm.taskId=$state.params.taskId;
-        vm.relId=$state.params.relId;        
+        vm.relId=$state.params.relId;     
+        vm.search={};
+        vm.basicData={};
     	vm.page="todoList";
     	function init(){ 		
     		if($state.current.name=='task_todo'){//待办列表
@@ -53,6 +55,23 @@
            	taskSvc.getDepts(vm);
            	taskSvc.getShenBaoInfoById(vm);//查询申报信息
            	taskSvc.getTaskById(vm);
+           	
+        	//初始化基础数据
+        	vm.basicData.projectIndustry_ZF=$linq(common.getBasicData())
+			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
+			.toArray();//政府投资行业
+        	vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
+           	vm.basicData.projectShenBaoStage=common.getBacicDataByIndectity(common.basicDataConfig().projectShenBaoStage);//申报阶段
+   	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类型   			   			       		   		
+   	   		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别	   		
+   	   		vm.basicData.projectConstrChar=common.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质	   			   		
+   	   		vm.basicData.unitProperty=common.getBacicDataByIndectity(common.basicDataConfig().unitProperty);//单位性质
+   	   		vm.basicData.processState=common.getBacicDataByIndectity(common.basicDataConfig().processState);//审批状态
+   	   		vm.basicData.auditState=common.getBacicDataByIndectity(common.basicDataConfig().auditState);//审核状态
+   	   		vm.basicData.area_Street=$linq(common.getBasicData())
+	   				.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
+	   				.toArray(); //行政区划街道
+   	   		vm.basicData.userUnit=common.getUserUnits();//获取所有单位
     	}
     	
     	vm.callBack=function(){
@@ -174,6 +193,7 @@
         };
         
         function init_todoList(){
+        	
         	taskSvc.gridForShenpi(vm);
         	taskSvc.grid(vm);
         }//end init_todoList
@@ -183,6 +203,28 @@
         }//end init_completeList
         
         function init_complete_shenPiList(){
+        	
+        	//查询
+        	vm.search=function(){
+        		var filters = [];
+				filters.push({field:'isComplete',operator:'eq',value:false});//默认条件--没有完成的任务 
+				if(vm.search.title !=null && vm.search.title !=''){//查询条件--标题
+	     			   filters.push({field:'title',operator:'contains',value:vm.search.title});
+	     		   }
+     		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--任务建设单位
+     			   filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
+     		   }
+     		   if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){//查询条件--项目行业
+     			  filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
+     		   }
+     		  vm.gridOptions_complete_shenPi.dataSource.filter(filters);
+        	};
+        	//清空筛选条件
+        	vm.filterClear=function(){
+        		location.reload();
+        	};
+        	
+        	
         	taskSvc.complete_shenPiGird(vm);
         };
     	function init_handle(){

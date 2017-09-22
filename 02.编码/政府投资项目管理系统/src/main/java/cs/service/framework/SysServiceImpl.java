@@ -118,6 +118,35 @@ public class SysServiceImpl implements SysService{
 			roleRepo.delete(x);
 		});
 		
+		List<SysConfig> sysConfigs = sysConfigRepo.findAll();
+		sysConfigs.forEach(x->{
+			sysConfigRepo.delete(x);
+		});
+		
+		List<UserUnitInfo> userUnitInfos = userUnitInfoRepo.findAll();
+		userUnitInfos.forEach(x->{
+			userUnitInfoRepo.delete(x);
+		});
+		
+		//end
+		
+		//初始化配置
+		SysConfig con = new SysConfig();
+		con.setConfigName(BasicDataConfig.taskType_sendMesg);
+		con.setConfigType(BasicDataConfig.taskType);
+		con.setId(UUID.randomUUID().toString());
+		con.setCreatedBy("admin");
+		con.setEnable(false);
+		
+		SysConfig con2 = new SysConfig();
+		con2.setConfigName(BasicDataConfig.taskType_shenBaoDK);
+		con2.setConfigType(BasicDataConfig.taskType);
+		con2.setId(UUID.randomUUID().toString());
+		con2.setCreatedBy("admin");
+		con2.setEnable(false);
+		
+		sysConfigRepo.save(con);
+		sysConfigRepo.save(con2);
 		//end
 		
 		

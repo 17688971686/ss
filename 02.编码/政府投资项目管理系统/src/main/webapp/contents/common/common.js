@@ -684,8 +684,8 @@
     	return window.global_roles;
     }
     
-    function getRoleName(roleId){
-    	getRoles();
+    function getRoleName(roles,roleId){
+    	//getRoles();
     	var roleName = '';
     	for(var i=0;i<window.global_roles.length;i++){
     		var obj = window.global_roles[i];
