@@ -276,7 +276,8 @@
 					noRecords:common.kendoGridConfig().noRecordMessage,
 					columns : columns,
 					resizable: true,
-					sortable:true
+					sortable:true,
+					scrollable:true
 				};
 		}// end fun grid
 		
@@ -414,7 +415,8 @@
 					noRecords:common.kendoGridConfig().noRecordMessage,
 					columns : columns,
 					resizable: true,
-					sortable:true
+					sortable:true,
+					scrollable:true
 				};
 		}// end fun grid_SH
 	}
