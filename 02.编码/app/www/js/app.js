@@ -24,7 +24,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','s
     notAuthorized: 'not-authorized'
   })
 
-  .run(function ($ionicPlatform, $rootScope, $ionicModal, AppService, APP_EVENTS) {
+  .run(function ($ionicPlatform, $rootScope, $ionicModal, AppService, APP_EVENTS,$q) {
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -61,6 +61,39 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','s
         });
       }
     }
+    //判断是否是admin
+    
+    
+    
+    $rootScope.haseAnyRole = function(user,roleNames){
+    	
+    	var deferred = $q.defer();
+    	var flag = false;
+    	
+    	if(!user||!user.roles||!roleNames){
+    	}else{
+    		var rNames = roleNames.split(',');
+    	 	var roleName = '';
+    	 	angular.forEach(user.roles,function(role){
+    	 		roleName = role.roleName;
+    	 		angular.forEach(rNames,function(v){
+    	 			if(v == roleName){
+    	 				flag = true;
+    	 			}
+    	 		});
+    	 	})
+    	}
+    	 
+    	 if(flag){
+    	 	deferred.resolve();
+    	 }else{
+    	 	deferred.reject();
+    	 }
+    	return deferred.promise;
+    	
+  }
+    
+   
   })
 
   .config(function ($httpProvider,$stateProvider, $urlRouterProvider, $ionicConfigProvider) {
@@ -128,24 +161,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','s
             controller: 'PlanningProjectsCtrl'
           }
         }
-      })
-      .state('planning-slidebox', {
-        url: '/slidebox',
-
-        templateUrl: 'templates/planning-slidebox.html',
-        controller: 'PlanningSlideboxCtrl'
-      })
-
-      .state('tab.chats', {
-        url: '/chats',
-        views: {
-          'tab-chats': {
-            templateUrl: 'templates/tab-chats.html',
-            controller: 'ChatsCtrl'
-          }
-        }
-      })
-
+     })
       .state('tab.settings', {
         url: '/settings',
         views: {
@@ -205,13 +221,32 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','s
           }
         }
       })
-
+     
       .state('tab.project-detail', {
-        url: '/project-detail/:type/:id/:unitName/:projectNumber',
+        url: '/project-detail/:type/:id/:unitName',
         views: {
-          'tab-project': {
+          'tab-planning': {
             templateUrl: 'templates/project-detail.html',
             controller: 'ProjectDetailCtrl'
+          }
+        }
+      })
+       //项目库（申报信息）
+			.state('tab.shenbaoinfo-list', {
+        url: '/shenbaoinfo-list',
+        views: {
+          'tab-shenbaoinfo': {
+            templateUrl: 'templates/shenbaoinfo-list.html',
+            controller: 'ShenbaoinfoListCtrl'
+          }
+        }
+      })
+			.state('tab.shenbaoinfo-detail', {
+        url: '/shenbaoinfo-detail/:id',
+        views: {
+          'tab-shenbaoinfo': {
+            templateUrl: 'templates/shenbaoinfo-detail.html',
+            controller: 'ShenbaoinfoDetailCtrl'
           }
         }
       })
@@ -219,7 +254,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','s
 			.state('tab.monthreport-list', {
         url: '/monthreport-list/:id',
         views: {
-          'tab-project': {
+          'tab-shenbaoinfo': {
             templateUrl: 'templates/monthreport-list.html',
             controller: 'MonthReportCtrl'
           }
@@ -235,25 +270,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','s
           }
         }
       })
-      .state('tab.project-prepares', {
-        url: '/project-prepares/:id',
-        views: {
-          'tab-project': {
-            templateUrl: 'templates/project-prepares.html',
-            controller: 'ProjectPreparesCtrl'
-          }
-        }
-      })
-
-      .state('tab.project-processes', {
-        url: '/project-processes/:id',
-        views: {
-          'tab-project': {
-            templateUrl: 'templates/project-processes.html',
-            controller: 'ProjectProcessesCtrl'
-          }
-        }
-      })
+     
 			//项目申报详情
  			.state('tab.project-shenbao', {
         url: '/project-shenbao/:id',
@@ -263,69 +280,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','s
             controller: 'ProjectShenboCtrl'
           }
         }
-      })
-      .state('tab.project-schedules', {
-        url: '/project-schedules/:id/:year',
-        views: {
-          'tab-project': {
-            templateUrl: 'templates/project-schedules.html',
-            controller: 'ProjectSchedulesCtrl'
-          }
-        }
-      })
-
-      .state('tab.location', {
-        url: '/location',
-        views: {
-          'tab-location': {
-            templateUrl: 'templates/tab-location.html',
-            controller: 'LocationCtrl'
-          }
-        }
-      })
-
-      .state('tab.location-detail', {
-        url: '/location-detail/:type/:id',
-        views: {
-          'tab-location': {
-            templateUrl: 'templates/project-detail.html',
-            controller: 'ProjectDetailCtrl'
-          }
-        }
-      })
-
-      .state('tab.location-prepares', {
-        url: '/location-prepares/:id',
-        views: {
-          'tab-location': {
-            templateUrl: 'templates/project-prepares.html',
-            controller: 'ProjectPreparesCtrl'
-          }
-        }
-      })
-
-      .state('tab.location-processes', {
-        url: '/location-processes/:id',
-        views: {
-          'tab-location': {
-            templateUrl: 'templates/project-processes.html',
-            controller: 'ProjectProcessesCtrl'
-          }
-        }
-      })
-
-      .state('tab.location-schedules', {
-        url: '/location-schedules/:id/:year',
-        views: {
-          'tab-location': {
-            templateUrl: 'templates/project-schedules.html',
-            controller: 'ProjectSchedulesCtrl'
-          }
-        }
-      });
-
+     })
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/tab/project-list');
+    $urlRouterProvider.otherwise('/tab/shenbaoinfo-list');
     
 
   })

@@ -183,390 +183,7 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
         });
     })
 
-    .controller('StatisticAnalysis', function ($scope, $ionicActionSheet, ChartData, $ionicLoading) {
-        $scope.selectedYear = '2016';
-        $scope.PhaseTotaldata = [0, 0, 0]; //饼状总投资
-        $scope.PhaseTotallabels = ["A类", "B类", "C类"]; //饼状总投资lable
 
-        $scope.PhaseArrangelabels = ["A类", "B类", "C类"]; //饼状安排资金
-        $scope.PhaseArrangedata = [0, 0, 0]; //饼状安排资金 lable
-        $scope.PhaseArrangecolour = ["#99b958", "#4e80bb", "#bd4e4c"];
-
-        var TotalPie = []; //树状图总投资
-        var TotalPieLables = []; //树状图总投资 lable
-
-        var ArrangePie = []; //树状图安排资金
-        var ArrangeMoneyLable = []; //树状图安排资金lable
-
-        //初始化加载图表  
-        $ionicLoading.show();
-
-        //2016年总投资-按阶段分
-        ChartData.TotalHisData($scope.selectedYear).then(function (data) {
-            $scope.PhaseTotaldata = [];
-            $scope.PhaseTotallabels = [];
-            for (var i = 0; i < data.length; i++) {
-                $scope.PhaseTotallabels.push(data[i].DimensionName);
-                $scope.PhaseTotaldata.push(data[i].InvestmentMoney);
-                $ionicLoading.hide();
-            }
-        })
-        $scope.PhaseTotalcolour = ["#99b958", "#4e80bb", "#bd4e4c"];
-
-        //2016年安排资金-按阶段分
-        $scope.PhaseArrangedata = [];
-        $scope.PhaseArrangecolour = [];
-        $ionicLoading.show();
-        ChartData.ArrangeMoneyData($scope.selectedYear).then(function (data) {
-            for (var i = 0; i < data.length; i++) {
-                $scope.PhaseArrangedata.push(data[i].InvestmentMoney);
-                $ionicLoading.hide();
-            }
-        })
-        $scope.PhaseArrangecolour = ["#99b958", "#4e80bb", "#bd4e4c"];
-
-        //2016年总投资-按项目类别分   
-        TotalPieLables = [];
-        TotalPie = [];
-        ChartData.TotalPieChartData($scope.selectedYear).then(function (data) {
-            for (var i = 0; i < data.length; i++) {
-                TotalPieLables.push(data[i].DimensionName);
-                TotalPie.push(changeTwoDecimal((data[i].InvestmentMoney) / 10000));
-            }
-        })
-        $scope.ProjectTypeToeallabels = TotalPieLables;    //['道路交通', '城市建设', '公共安全', '市容环境提神、改善及市容市政设施', '环境保护及地质灾害治理、水利设施、水治理', '教育', '医疗卫生', '文化体育', '科技产业配套', '党政机关及其他', '专项资金'];
-        $scope.ProjectTypeToealseries = ['Series A'];
-        $scope.ProjectTypeToealcolours = [{
-            fillColor: '#4e81bd',
-            //strokeColor: 'rgba(47, 132, 71, 0.8)',
-            highlightFill: '#99b3d1',
-            //highlightStroke: '#9266e2'
-        }];
-        $scope.ProjectTypeToealdata = [TotalPie];  //[[65, 59, 80, 81, 56, 55, 40, 67, 80, 42, 76]];
-
-        //2016年安排资金-按项目类别分
-        ArrangeMoneyLable = [];
-        ArrangePie = [];
-        ChartData.ArrangeMoneyPieChartData($scope.selectedYear).then(function (data) {
-            for (var i = 0; i < data.length; i++) {
-                ArrangeMoneyLable.push(data[i].DimensionName);
-                ArrangePie.push(changeTwoDecimal((data[i].InvestmentMoney) / 10000));
-            }
-        })
-
-        $scope.ProjectTypeAllocatelabels = ArrangeMoneyLable;
-        $scope.ProjectTypeAllocateseries = ['Series A'];
-        $scope.ProjectTypeAllocatecolours = [{
-            fillColor: '#4e81bd',
-            //strokeColor: 'rgba(47, 132, 71, 0.8)',
-            highlightFill: '#99b3d1',
-            //highlightStroke: '#9266e2'
-        }];
-        $scope.ProjectTypeAllocatedata = [ArrangePie]; //[[65, 59, 80, 81, 56, 55, 40, 67, 80, 42, 76]];
-
-        //历年数据
-        var toatlData = [];      //数据
-        var AnnualData = [];
-        var ArrangeData = [];
-        var hisYear = [];    //年份
-
-        ChartData.HorsthChartData().then(function (data) {
-            for (var i = 0; i < data.length; i++) {
-                hisYear.push(data[i].Year);
-                toatlData.push((data[i].InvestTotal) / 10000);
-                AnnualData.push((data[i].InvestAnnual) / 10000);
-                ArrangeData.push((data[i].ArrangeMoney) / 10000);
-            }
-
-            $scope.HistoricalData = [toatlData, AnnualData, ArrangeData];;
-            $scope.HistoricalDataseries = ['总投资', '资金需求', '资金安排'];
-            $scope.HistoricalDatalabels = hisYear;
-        })
-
-        $scope.Historicalcolours = [{
-            fillColor: '#4e81bd',
-            //strokeColor: 'rgba(47, 132, 71, 0.8)',
-            highlightFill: '#779bc7',
-            //highlightStroke: '#779bc7'
-        }, {
-            fillColor: '#99b958',
-            //strokeColor: 'rgba(47, 132, 71, 0.8)',
-            highlightFill: '#aac476',
-            //highlightStroke: '#aac476'
-        }, {
-            fillColor: '#bd4e4c',
-            //strokeColor: 'rgba(47, 132, 71, 0.8)',
-            highlightFill: '#c97c7b',
-            //highlightStroke: '#c97c7b'
-        }];
-
-        $scope.listSelect = function (year) {
-            $ionicLoading.show();
-            if (document.getElementById("CharType").innerHTML == "1") {    //chartType代表图表的各种类型（总投资：按阶段分、安排资金：按阶段分、总投资：按项目类别、安排资金：按项目类别、历年数据），ChartType,已经失效，无用
-                //2016年总投资-按阶段分
-                $scope.PhaseTotallabels = [];
-                $scope.PhaseTotaldata = [];
-                ChartData.TotalHisData(year).then(function (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        $scope.PhaseTotallabels.push(data[i].DimensionName);
-                        $scope.PhaseTotaldata.push(data[i].InvestmentMoney);
-                        $ionicLoading.hide();
-                    }
-                })
-
-                //2016年安排资金-按阶段分
-                $scope.PhaseArrangedata = [];
-                ChartData.ArrangeMoneyData(year).then(function (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        //$scope.PhaseArrangelabels.push(data[i].DimensionName);
-                        $scope.PhaseArrangedata.push(data[i].InvestmentMoney);
-                    }
-                })
-                $scope.PhaseArrangecolour = ["#99b958", "#4e80bb", "#bd4e4c"];
-
-
-                //2016年总投资-按项目类别分   
-                TotalPieLables = [];
-                TotalPie = [];
-                ChartData.TotalPieChartData(year).then(function (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        TotalPieLables.push(data[i].DimensionName);
-                        TotalPie.push(changeTwoDecimal((data[i].InvestmentMoney) / 10000));
-                    }
-                })
-                $scope.ProjectTypeToeallabels = TotalPieLables;
-                $scope.ProjectTypeToealseries = ['Series A'];
-                $scope.ProjectTypeToealcolours = [{
-                    fillColor: '#4e81bd',
-                    //strokeColor: 'rgba(47, 132, 71, 0.8)',
-                    highlightFill: '#99b3d1',
-                    //highlightStroke: '#9266e2'
-                }];
-                $scope.ProjectTypeToealdata = [TotalPie];
-
-                //2016年安排资金-按项目类别分
-                ArrangeMoneyLable = [];
-                ArrangePie = [];
-                ChartData.ArrangeMoneyPieChartData(year).then(function (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        ArrangeMoneyLable.push(data[i].DimensionName);
-                        ArrangePie.push(changeTwoDecimal((data[i].InvestmentMoney) / 10000));
-                    }
-                })
-
-                $scope.ProjectTypeAllocatelabels = ArrangeMoneyLable;
-                $scope.ProjectTypeAllocateseries = ['Series A'];
-                $scope.ProjectTypeAllocatecolours = [{
-                    fillColor: '#4e81bd',
-                    //strokeColor: 'rgba(47, 132, 71, 0.8)',
-                    highlightFill: '#99b3d1',
-                    //highlightStroke: '#9266e2'
-                }];
-                $scope.ProjectTypeAllocatedata = [ArrangePie];
-            }
-        }; //下拉框改变事件
-
-        //js处理数据，保留小数点后两位
-        var changeTwoDecimal = function changeTwoDecimal(floatvar) {
-            var f_x = parseFloat(floatvar);
-            if (isNaN(f_x)) {
-                alert('function:changeTwoDecimal->parameter error');
-                return false;
-            }
-            var f_x = Math.round(floatvar * 100) / 100;
-            return f_x;
-        }
-
-        $scope.isChart1Visbile = true;
-        $scope.isChart2Visbile = true;
-        $scope.isChart3Visbile = true;
-        $scope.isChart4Visbile = true;
-        $scope.isChart5Visbile = true;
-        $scope.isListSelect = true;
-
-
-    })
-
-    .controller('ChatDetailCtrl', function ($scope, $stateParams) {
-        $scope.chat = Chats.get($stateParams.chatId);
-    })
-
-    .controller('LocationCtrl', function ($scope, $rootScope, $ionicModal, $ionicLoading, $cordovaToast, Projects, Industries, InvestSources, ProjectTypes, Investments, Account) {
-        $scope.form = {};
-        $scope.query = null;
-        $scope.industries = [];
-        $scope.investSources = [];
-        $scope.projectTypes = [];
-        $scope.investments = [];
-
-        Industries.findAll().then(function (data) {
-            $scope.industries = data;
-        });
-
-        InvestSources.findAll().then(function (data) {
-            $scope.investSources = data;
-        });
-
-        ProjectTypes.findAll().then(function (data) {
-            $scope.projectTypes = data;
-        });
-
-        Investments.findAll().then(function (data) {
-            $scope.investments = data;
-        });
-
-        //登陆验证
-        Account.isLogin().then(function (data) {
-            if (!data) {
-                $rootScope.showLoginView();
-            };
-        });
-
-
-        var map = new BMap.Map("map", {
-            enableMapClick: true
-        }); // 创建地图实例  
-        var point = new BMap.Point(114.05, 22.65);
-        map.centerAndZoom(point, 12); // 初始化地图，设置中心点坐标和地图级别  
-        // map.addControl(new BMap.ZoomControl()); //添加地图缩放控件
-
-        $ionicModal.fromTemplateUrl('templates/modal-search.html', {
-            scope: $scope,
-            animation: 'slide-in-up'
-        }).then(function (modal) {
-            $scope.searchModal = modal;
-        });
-
-        var buildQuery = function () {
-
-            var query = "";
-            if (!!$scope.form.keyword) {
-                query += "!!$.ProjectName.match(/" + $scope.form.keyword + "/i) &&";
-            };
-            if (!!$scope.form.danwei) {
-                query += "!!$.UnitName.match(/" + $scope.form.danwei + "/i) &&";
-            };
-            if (!!$scope.form.industry) {
-                query += "$.DomainClassName == '" + $scope.form.industry.name + "' &&";
-            };
-            if (!!$scope.form.investment) {
-                query += $scope.form.investment.query + " &&";
-            };
-            if (!!$scope.form.projectType) {
-                query += "$.ProjectCategory == '" + $scope.form.projectType.name + "' &&";
-            };
-            if (!!$scope.form.investSource) {
-                query += "$.InvestSources == '" + $scope.form.investSource.name + "' &&";
-            };
-
-            query += "1 == 1"
-
-            $scope.query = query;
-        };
-
-        $scope.showModal = function () {
-            $scope.searchModal.show();
-        }
-
-        $scope.closeModal = function () {
-            $scope.searchModal.hide();
-        }
-
-
-
-
-        $scope.ok = function () {
-            $ionicLoading.show();
-            $scope.searchModal.hide();
-
-            //清除地图上所有覆盖物
-            map.clearOverlays();
-
-            buildQuery();
-            Projects.findByQuery($scope.query).then(function (data) {
-                $ionicLoading.hide();
-
-                if (data.length == 0) {
-                    if (window.cordova) {
-                        $cordovaToast.show('没有查询结果', 'short', 'center');
-                    } else {
-                        alert('没有查询结果');
-                    };
-                } else {
-                    data.forEach(function (prj) {
-
-                        if (!!prj.MapInfo && prj.MapInfo != '[]|[]|[]') {
-
-                            var maps = prj.MapInfo.split('|');
-                            var centerPoint = {};
-
-                            if (eval(maps[0]).length != 0) {
-                                // 点
-                                console.log('点');
-                                var point = eval(maps[0])[0].n;
-                                centerPoint = {
-                                    lng: point.lng,
-                                    lat: point.lat
-                                };
-                            } else if (eval(maps[1]).length != 0) {
-                                // 线
-                                console.log('线');
-                                var points = eval(maps[1])[0].n;
-                                centerPoint = points[Math.ceil(points.length / 2)];
-                                var linePonits = [];
-                                points.forEach(function (p) {
-                                    linePonits.push(new BMap.Point(p.lng, p.lat));
-                                });
-                                var polyline = new BMap.Polyline(
-                                    linePonits, {
-                                        strokeColor: "blue",
-                                        strokeWeight: 2,
-                                        strokeOpacity: 0.5
-                                    });
-
-                                map.addOverlay(polyline);
-
-                            } else if (eval(maps[2]).length != 0) {
-                                // 面
-                                console.log('面');
-                                var points2 = eval(maps[2])[0].n;
-                                var minLng = Enumerable.From(points2).Min('$.lng');
-                                var maxLng = Enumerable.From(points2).Max('$.lng');
-                                var minLat = Enumerable.From(points2).Min('$.lat');
-                                var maxLat = Enumerable.From(points2).Max('$.lat');
-                                centerPoint = {
-                                    lat: (maxLat + minLat) / 2,
-                                    lng: (maxLng + minLng) / 2
-                                };
-                                var areaPonits = [];
-                                points2.forEach(function (p) {
-                                    areaPonits.push(new BMap.Point(p.lng, p.lat));
-                                });
-
-                                var polygon = new BMap.Polygon(areaPonits, {
-                                    strokeColor: "blue",
-                                    strokeWeight: 2,
-                                    strokeOpacity: 0.5
-                                }); //创建多边形
-                                map.addOverlay(polygon);
-                            };
-
-                            //添加标记
-                            var marker = new BMap.Marker(new BMap.Point(centerPoint.lng, centerPoint.lat)); //创建标注
-
-                            var content = "<a href='#/tab/location-detail/location/" + prj.ProjectId + "' id='myUrl'>" + prj.ProjectName + "</a>"
-                            var infoWindow = new BMap.InfoWindow(content);
-                            marker.addEventListener("click", function () {
-                                this.openInfoWindow(infoWindow);
-
-                            });
-                            map.addOverlay(marker); // 将标注添加到地图中
-                        };
-                    });
-                }
-            })
-        }
-    })
 
     .controller('SettingsCtrl', function ($scope, $rootScope, $ionicLoading, $ionicModal, Account) {
         $scope.formdata = {
@@ -695,7 +312,6 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
         	console.log(res.data);
         });*/
        
-       console.log('login in ,show project...');
 
         if (!$rootScope.querydata) {
             $rootScope.querydata = {};
@@ -728,7 +344,331 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
             })
         }
     })
+	//项目库(申报信息)	
+	 .controller('ShenbaoinfoListCtrl', function (Account,$scope, $rootScope, $ionicScrollDelegate, $ionicModal, $ionicLoading,
+	 	$state, $stateParams, $ionicPopup, $cordovaToast, Projects, Shenbaoinfo,Industries, Investments, ProjectTypes, InvestSources,ProjectClassifies, ProjectCategories,Snapshots) {
 
+		//登陆验证
+        Account.isLogin().then(function (data) {
+            if (!data) {
+                $rootScope.showLoginView();
+            };
+        });
+        
+        if (!$rootScope.querydata) {
+            $rootScope.querydata = {};
+        };
+        $scope.form = {
+            prjName: null,
+            entName: null,
+            industry: null,
+            investment: null,
+            prjType: null,
+            investSrc: null,
+            saveToSnapshot: false
+        };
+
+        $scope.isInitData = false; //是否初始化
+        $scope.projects = [];
+        $scope.pageSize = 10; //默认值
+        $scope.nextPage = 1;
+        $scope.totalPage = 0;
+        $scope.industries = [];
+        $scope.investSources = [];
+        $scope.projectTypes = [];
+        $scope.investments = [];
+        //$scope.snapshot = $stateParams.snapshot;
+        //筛选下拉选项
+        $scope.industry = true;
+        $scope.investment = true;
+        $scope.year = true;
+        $scope.more = true;
+        //linq.js 查询方法
+        $scope.query = null;
+
+        (function () {
+            ProjectCategories.findAll().then(function (data) {
+                $scope.projectCategories = data;
+            });
+
+            InvestSources.findAll().then(function (data) {
+                $scope.investSources = data;
+            });
+
+            ProjectClassifies.findAll().then(function (data) {
+                $scope.projectClassifies = data;
+            });
+
+            Investments.findAll().then(function (data) {
+                $scope.investments = data;
+            });
+
+        })();
+
+        var buildQuery = function () {
+
+            var query = "";
+            if (!!$rootScope.querydata.keyword) {
+                // query += "&& !!$.name.match(/^" + $scope.querydata.keyword + "/i)";
+                query += "!!$.ProjectName.match(/" + $rootScope.querydata.keyword + "/i) &&";
+            };
+            if (!!$rootScope.querydata.danwei) {
+                query += "!!$.UnitName.match(/" + $rootScope.querydata.danwei + "/i) &&";
+            };
+            if (!!$rootScope.querydata.category) {
+                query += "$.projectCategory == '" + $rootScope.querydata.category + "' &&";
+            };
+            if (!!$rootScope.querydata.investment) {
+                query += $rootScope.querydata.investmentQuery + " &&";
+            };
+            if (!!$rootScope.querydata.projectClassify) {
+                query += "$.projectClassify == '" + $rootScope.querydata.projectClassify + "' &&";
+            };
+            if (!!$rootScope.querydata.investSource) {
+                query += "$.InvestSources == '" + $rootScope.querydata.investSource + "' &&";
+            };
+
+            query += "1 == 1"
+
+            $scope.query = query;
+        };
+
+        $scope.loadMore = function () {
+
+            Shenbaoinfo.findData($scope.nextPage, $scope.pageSize, $scope.query).then(function (data) {
+                $scope.totalPage = data.totalPage;
+                data.data.forEach(function (item) {
+                    $scope.projects.push(item);
+                });
+                $scope.nextPage = data.page + 1;
+                $scope.isInitData = true;
+                $ionicLoading.hide();
+
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            });
+        };
+
+        $scope.moreDataCanBeLoaded = function () {
+            if (!$scope.isInitData) {
+                return true;
+            } else if ($scope.nextPage <= $scope.totalPage) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        $scope.industrySelected = function (id) {
+		
+            $scope.industry = !$scope.industry;
+            $scope.investment = $scope.year = $scope.more = true;
+            $scope.isActive = !$scope.industry
+            
+            if(-1 == id){
+            	$scope.querydata.category = null;
+            }else{
+            	$scope.querydata.category = id;            	 
+            }
+            
+            $scope.search();
+            
+
+
+        };
+
+
+		$scope.categorySelected = function (id) {
+
+  			$scope.industry = !$scope.industry;
+            $scope.investment = $scope.year = $scope.more = true;
+            $scope.isActive = !$scope.industry
+            
+            $scope.category = id;
+
+            $scope.search();
+            
+
+        };
+        $scope.investmentSelected = function (id) {
+		
+
+            $scope.investment = !$scope.investment;
+            $scope.industry = $scope.year = $scope.more = true;
+            $scope.isActive = !$scope.investment;
+
+            Investments.findById(id).then(function (data) {
+                if (!!data) {
+                    $scope.querydata.investment = data.name;
+                    $scope.querydata.investmentQuery = data.query;
+                } else {
+                    $scope.querydata.investment = null;
+                    $scope.querydata.investmentQuery = null;
+                };
+                $scope.search();
+            })
+        };
+
+        $scope.typeSelected = function (id) {
+            $scope.year = !$scope.year;
+            $scope.industry = $scope.investment = $scope.more = true;
+            $scope.isActive = !$scope.year
+
+            $scope.search();
+        };
+
+		$scope.classifySelected = function (id) {
+			$scope.year = !$scope.year;
+            $scope.querydata.projectClassify = id;
+            $scope.isActive = !$scope.year
+
+            $scope.search();
+        };
+
+        $scope.search = function () {
+            buildQuery();
+            $scope.projects = [];
+            $scope.nextPage = 1;
+            $scope.isInitData = false;
+
+            $ionicScrollDelegate.scrollBottom();
+        }
+
+        $scope.cancel = function () {
+            //关闭下拉框
+            $scope.more = !$scope.more;
+            $scope.industry = $scope.investment = $scope.year = true;
+            $scope.isActive = !$scope.more;
+
+            $scope.form = {
+                prjName: null,
+                entName: null,
+                industry: null,
+                investment: null,
+                prjType: null,
+                investSrc: null,
+                saveToSnapshot: false
+            };
+        }
+
+        $scope.ok = function () {
+            //关闭下拉框
+            $scope.more = !$scope.more;
+            $scope.industry = $scope.investment = $scope.year = true;
+            $scope.isActive = !$scope.more;
+
+            $rootScope.querydata.keyword = $scope.form.prjName;
+            $rootScope.querydata.danwei = $scope.form.entName;
+
+            if (!!$scope.form.industry) {
+                $rootScope.querydata.industry = $scope.form.industry.name;
+            } else {
+                $rootScope.querydata.industry = null;
+            }
+            if (!!$scope.form.investment) {
+                $rootScope.querydata.investment = $scope.form.investment.name;
+            } else {
+                $rootScope.querydata.investment = null;
+            }
+            if (!!$scope.form.investment) {
+                $rootScope.querydata.investmentQuery = $scope.form.investment.query;
+            } else {
+                $rootScope.querydata.investmentQuery = null;
+            }
+            if (!!$scope.form.prjType) {
+                $rootScope.querydata.projectType = $scope.form.prjType.name;
+            } else {
+                $rootScope.querydata.projectType = null;
+            }
+            if (!!$scope.form.investSrc) {
+                $rootScope.querydata.investSource = $scope.form.investSrc.name;
+            } else {
+                $rootScope.querydata.investSource = null;
+            }
+
+            $scope.search();
+
+            if ($scope.form.saveToSnapshot) {
+                $ionicPopup.show({
+                    template: '<input type="text" ng-model="querydata.snapshot">',
+                    title: '请输入快照名',
+                    // subTitle: '',
+                    scope: $scope,
+                    buttons: [{
+                        text: '取消'
+                    }, {
+                        text: '<b>保存</b>',
+                        type: 'button-positive',
+                        onTap: function (e) {
+                            if (!$scope.querydata.snapshot) {
+                                //don't allow the user to close unless he enters wifi password
+                                e.preventDefault();
+                            } else {
+                                Snapshots.add($scope.querydata.snapshot, $scope.query).then(function (data) {
+                                    $rootScope.snapshots = data;
+                                    $scope.form.saveToSnapshot = false;
+                                    if (window.cordova) {
+                                        $cordovaToast.show('已保存', 'short', 'center');
+                                    } else {
+                                        alert('已保存');
+                                    };
+                                });
+                            }
+                        }
+                    }]
+                });
+            };
+        }
+
+        $scope.toggleIndustry = function () {
+            $ionicScrollDelegate.$getByHandle('mainScroll').freezeScroll(!!$scope.industry);
+            $scope.industry = !$scope.industry;
+            $scope.investment = $scope.year = $scope.more = true;
+            $scope.isActive = !$scope.industry
+        };
+        $scope.toggleInvestment = function () {
+            $ionicScrollDelegate.$getByHandle('mainScroll').freezeScroll(!!$scope.investment);
+            $scope.investment = !$scope.investment;
+            $scope.industry = $scope.year = $scope.more = true;
+            $scope.isActive = !$scope.investment;
+        };
+        $scope.toggleYear = function () {
+            $ionicScrollDelegate.$getByHandle('mainScroll').freezeScroll(!!$scope.year);
+            $scope.year = !$scope.year;
+            $scope.industry = $scope.investment = $scope.more = true;
+            $scope.isActive = !$scope.year
+        };
+        $scope.toggleMore = function () {
+            $ionicScrollDelegate.$getByHandle('mainScroll').freezeScroll(!!$scope.more);
+            $scope.more = !$scope.more;
+            $scope.industry = $scope.investment = $scope.year = true;
+            $scope.isActive = !$scope.more
+        };
+
+        $scope.toggleBackdrop = function () {
+            $scope.industry = $scope.investment = $scope.year = $scope.more = true;
+            $scope.isActive = "";
+        };
+
+
+    })
+	.controller('ShenbaoinfoDetailCtrl', function ($scope, $stateParams, $ionicLoading, Shenbaoinfo) {
+        $ionicLoading.show();
+        $scope.id = $stateParams.id;
+      
+        $scope.shenbaoinfo = {};
+
+        Shenbaoinfo.findById($scope.id).then(function (data) {
+            $scope.shenBaoInfo = data;
+            $ionicLoading.hide();
+            
+        });
+        
+        //查找审批信息
+        Shenbaoinfo.findTask($scope.id).then(function(data){
+        	$scope.taskRecords = data;
+        });
+    }) 
+	 
     .controller('ProjectListCtrl', function (Account,$scope, $rootScope, $ionicScrollDelegate, $ionicModal, $ionicLoading, $state, $stateParams, $ionicPopup, $cordovaToast, Projects, Industries, Investments, ProjectTypes, InvestSources, Snapshots) {
 
 		//登陆验证
@@ -818,14 +758,12 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
 
         $scope.loadMore = function () {
 
-			console.log('loadMore');
             Projects.findData($scope.nextPage, $scope.pageSize, $scope.query).then(function (data) {
                 $scope.totalPage = data.totalPage;
                 data.data.forEach(function (item) {
                     $scope.projects.push(item);
                 });
                 $scope.nextPage = data.page + 1;
-				console.log($scope.totalPage);
                 $scope.isInitData = true;
                 $ionicLoading.hide();
 
@@ -855,14 +793,12 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
                 } else {
                     $scope.querydata.industry = null;
                 }
-                console.log($scope.querydata.industry);
                 $scope.search();
             });
 
         };
 
         $scope.investmentSelected = function (id) {
-
             $scope.investment = !$scope.investment;
             $scope.industry = $scope.year = $scope.more = true;
             $scope.isActive = !$scope.investment;
@@ -875,7 +811,6 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
                     $scope.querydata.investment = null;
                     $scope.querydata.investmentQuery = null;
                 };
-
                 $scope.search();
             })
         };
@@ -1028,10 +963,10 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
         $scope.type = $stateParams.type;
         $scope.projectId = $stateParams.id;
         $scope.unitName = $stateParams.unitName;
-        $scope.projectNumber = $stateParams.projectNumber;
+        /*$scope.projectNumber = $stateParams.projectNumber;*/
         $scope.project = {};
 
-        Projects.findByIdNumAndUnitName($scope.projectId,$scope.unitName,$scope.projectNumber).then(function (data) {
+        Projects.findByIdNumAndUnitName($scope.projectId,$scope.unitName/*,,$scope.projectNumber*/).then(function (data) {
 
             $scope.project = data;
             $ionicLoading.hide();
@@ -1067,7 +1002,6 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
     		//获取项目当前年份现有月报
     		 var monthReports=$linq($scope.project.monthReportDtos)
  		 		.where(function(x){
- 		 			console.log(x.submitYear+'-'+year);
  		 			return x.submitYear==year;}
  		 		);
     		//设置按钮状态
@@ -1141,34 +1075,7 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
 		});
         
     })
-    .controller('ProjectPreparesCtrl', function ($scope, $stateParams, $ionicLoading, Projects) {
-        $ionicLoading.show();
-        $scope.projectId = $stateParams.id;
-        $scope.projectPrepares = [];
-        Projects.findProjectPrepares($scope.projectId).then(function (data) {
-            $scope.projectPrepares = data;
-            $ionicLoading.hide();
-        })
-    })
 
-    .controller('ProjectProcessesCtrl', function ($scope, $stateParams, $ionicLoading, Projects) {
-        $ionicLoading.show();
-        $scope.projectId = $stateParams.id;
-        $scope.projectprocess = {};
-        $scope.projectType = null; //1：项建、可研、概算；2：前期计划、新开工计划、续建计划、清资结算计划
-        Projects.findProjectProcessDetail($scope.projectId).then(function (data) {
-            if (!!data) {
-                $scope.projectprocess = data;
-                if (data.TypeName == '项目建议书' || data.TypeName == '可行性研究报告' || data.TypeName == '项目总概算') {
-                    $scope.projectType = 1;
-                } else if (data.TypeName == '前期计划' || data.TypeName == '新开工计划' || data.TypeName == '续建计划' || data.TypeName == '清资结算计划') {
-                    $scope.projectType = 2;
-                }
-            };
-
-            $ionicLoading.hide();
-        })
-    })
     //项目申报详情控制器
 	.controller('ProjectShenboCtrl', function ($scope, $stateParams, $ionicLoading, Projects) {
         $ionicLoading.show();
@@ -1197,46 +1104,6 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
 
             $ionicLoading.hide();
         })
-    })
-    .controller('ProjectSchedulesCtrl', function ($scope, $stateParams, $ionicLoading, $ionicModal, Projects) {
-
-        $scope.projectId = $stateParams.id;
-        $scope.year = $stateParams.year;
-        $scope.month = null;
-        $scope.projectType = null; //1：区投区建；2：市投区建、市投市建
-        $scope.projectschedule = {};
-
-        $ionicModal.fromTemplateUrl('templates/select-month.html', {
-            scope: $scope,
-            animation: 'slide-in-up'
-        }).then(function (modal) {
-            $scope.modal = modal;
-            if (!$scope.month) {
-                $scope.modal.show();
-            };
-        });
-
-        $scope.selectMonth = function () {
-            $scope.modal.show();
-        }
-
-        $scope.$on('monthSelected', function (e, month) {
-            $ionicLoading.show();
-            $scope.modal.hide();
-            $scope.month = month;
-            Projects.findProjectScheduleDetail($scope.projectId, $scope.year, $scope.month).then(function (data) {
-                if (!!data) {
-                    $scope.projectschedule = data;
-                    if (data.ProjectCategory == '区投区建') {
-                        $scope.projectType = 1;
-                    } else if (data.ProjectCategory == '市投区建' || data.ProjectCategory == '市投市建') {
-                        $scope.projectType = 2;
-                    }
-                };
-
-                $ionicLoading.hide();
-            })
-        });
     })
 
     .controller('SelectMonthCtrl', function ($scope, $rootScope) {

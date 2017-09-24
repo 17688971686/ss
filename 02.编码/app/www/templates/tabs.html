@@ -6,7 +6,7 @@ navigation history that also transitions its views in and out.
 <ion-tabs class="tabs-icon-top tabs-color-active-positive" ng-class="{'tabs-item-hide': $root.hideTabs}">
 
   
-  <ion-tab title="计划编制" icon-off="icon-calendar" icon-on="icon-calendar-act" href="#/tab/planning">
+  <ion-tab ng-if="isAdmin" title="计划编制" icon-off="icon-calendar" icon-on="icon-calendar-act" href="#/tab/planning">
     <ion-nav-view name="tab-planning"></ion-nav-view>
   </ion-tab>
 
@@ -15,10 +15,13 @@ navigation history that also transitions its views in and out.
     <ion-nav-view name="tab-chats"></ion-nav-view>
   </ion-tab>-->
 
- 
-  <ion-tab title="项目库" icon-off="icon-box" icon-on="icon-box-act" href="#/tab/project-list">
-    <ion-nav-view name="tab-project"></ion-nav-view>
+  <ion-tab title="项目库" icon-off="icon-box" icon-on="icon-box-act" href="#/tab/shenbaoinfo-list">
+    <ion-nav-view name="tab-shenbaoinfo"></ion-nav-view>
   </ion-tab>
+  
+ <!-- <ion-tab title="项目信息" icon-off="icon-box" icon-on="icon-box-act" href="#/tab/project-list">
+    <ion-nav-view name="tab-project"></ion-nav-view>
+  </ion-tab>-->
   
   
  <!-- <ion-tab title="地理信息" icon-off="icon-local" icon-on="icon-local-act" href="#/tab/location">
@@ -26,7 +29,7 @@ navigation history that also transitions its views in and out.
   </ion-tab>-->
   
 
-  <ion-tab title="我" icon-off="icon-settings" icon-on="icon-settings-act" href="#/tab/settings">
+  <ion-tab ng-if="isLogin" title="我" icon-off="icon-settings" icon-on="icon-settings-act" href="#/tab/settings">
     <ion-nav-view name="tab-settings"></ion-nav-view>
   </ion-tab>
 

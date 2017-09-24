@@ -27,10 +27,12 @@ angular.module('starter.services', ['ngResource'])
  		url_userUnitInfo:'/mobile/shenbaoAdmin/userUnitInfo',//用户单位信息
  		url_shenbao:'/mobile/shenbaoAdmin/shenbao',//项目申报信息
  		url_yearPlan:'/mobile/management/yearPlan?$inlinecount=allpages&%24top=10&orderby=createdDate+desc',//年度计划
- 		url_yearPlanProject:'/mobile/management/yearPlan/{0}/projectList?$inlinecount=allpages&%24top=10&orderby=createdDate+desc'//年度计划项目
+ 		url_yearPlanProject:'/mobile/management/yearPlan/{0}/projectList?$inlinecount=allpages&%24top=10&orderby=createdDate+desc',//年度计划项目
+ 		url_shenbaoinfo:"/mobile/management/shenbao",//申报信息（项目库）
+ 		url_task:'/mobile/management/task'
   })
 
-  .factory('AppService', function ($resource, $q, $http, $rootScope, APP_CONFIG, REQUEST_URL_LIST, TIMEOUT) {
+  .factory('AppService', function ($resource, $q, $http, $rootScope, APP_CONFIG, REQUEST_URL_LIST, TIMEOUT,Shenbaoinfo) {
 
     return {
       initAllData: function () {
@@ -39,7 +41,7 @@ angular.module('starter.services', ['ngResource'])
         	if(null != data){
         		$rootScope.user = data;
         		
-        		$http({
+        		/*$http({
           		method: 'GET',
           		url: APP_CONFIG.host + REQUEST_URL_LIST.url_projectreposity,
           		params:{'$filter':common.buildFilter([{name:'isLatestVersion',operator:'eq',value:true,dataType:'boolean'}]),
@@ -60,12 +62,18 @@ angular.module('starter.services', ['ngResource'])
           	});
         	}, function (err) {
           	console.log(err);
-        	});
+        	});*/
         }
           
       });
 
-        
+      //查询项目库数据
+      Shenbaoinfo.pullData().then(function(res){
+      	//console.log('查询申报数据');
+      	//console.log(res);
+      	localforage.setItem('shenbaolist',res.data.value||[]);
+      });
+      
 			//查询基础数据		
 			$http({
           method: 'GET',
@@ -157,14 +165,26 @@ angular.module('starter.services', ['ngResource'])
           timeount: TIMEOUT
         }).success(function (data) {
           if (data.isSuccess) {
+          	
             var user = {
               id: data.object.id,
               username: data.object.loginName,
-              realName: data.object.displayName
+              realName: data.object.displayName,
+              roles:data.object.roles
               //roleName: data.Data.User.Membership_UserInRole[0].Membership_Role.RoleName,
               //accessToken: data.Data.AuthToken
             };
             localforage.setItem('user', user);
+            
+            //判断是否是管理员
+            $rootScope.haseAnyRole(user,'管理员,超级管理员').then(function(){
+	          	$rootScope.isAdmin = true;
+	          },function(){
+	          	$rootScope.isAdmin = false;
+	          });
+	          //设置已登录状态
+	          $rootScope.isLogin = true;
+	          
             deferred.resolve({
               isSuccess: true,
               message: data.Message,
@@ -201,6 +221,15 @@ angular.module('starter.services', ['ngResource'])
         var deferred = $q.defer();
         localforage.getItem('user').then(function (data) {
           deferred.resolve(!!data);
+          
+          
+          $rootScope.isLogin = true;
+          $rootScope.haseAnyRole(data,'管理员,超级管理员').then(function(){
+          	$rootScope.isAdmin = true;
+          },function(){
+          	$rootScope.isAdmin = false;
+          });
+         
         });
 
         return deferred.promise;
@@ -379,20 +408,79 @@ angular.module('starter.services', ['ngResource'])
       }
     };
   })
+  .factory('ProjectClassifies', function ($q) {
 
+    var projecttypes = [{
+      'id': 'projectClassify_1_1',
+      'name': '政府投资房建类'
+    }, {
+      'id': 'projectClassify_1_2',
+      'name': '政府投资市政类'
+    }, {
+      'id': 'projectClassify_1_3',
+      'name': '政府投资水务类'
+    }, {
+      'id': 'projectClassify_1_4',
+      'name': '其他'
+    }];
+
+    return {
+      findAll: function () {
+        var deferred = $q.defer();
+        deferred.resolve(projecttypes);
+        return deferred.promise;
+      },
+      findById: function (id) {
+        var deferred = $q.defer();
+        var result = Enumerable.From(projecttypes).Where('$.id == ' + id).SingleOrDefault();
+        deferred.resolve(result);
+        return deferred.promise;
+      }
+    };
+  })
+  .factory('ProjectCategories', function ($q) {
+
+    var projecttypes = [{
+      'id': 'projectCategory_1',
+      'name': 'A类'
+    }, {
+      'id': 'projectCategory_2',
+      'name': 'B类'
+    }, {
+      'id': 'projectCategory_3',
+      'name': 'C类'
+    }, {
+      'id': 'projectCategory_4',
+      'name': 'D类'
+    }];
+
+    return {
+      findAll: function () {
+        var deferred = $q.defer();
+        deferred.resolve(projecttypes);
+        return deferred.promise;
+      },
+      findById: function (id) {
+        var deferred = $q.defer();
+        var result = Enumerable.From(projecttypes).Where('$.id == ' + id).SingleOrDefault();
+        deferred.resolve(result);
+        return deferred.promise;
+      }
+    };
+  })
   .factory('Investments', function ($q) {
     var investments = [{
       'id': 0,
       'name': '1000万以下项目',
-      'query': '$.InvestTotal <= 1000'
+      'query': '$.projectInvestSum <= 1000'
     }, {
       'id': 1,
       'name': '1000万以上5000万以下项目',
-      'query': '$.InvestTotal > 1000 && $.InvestTotal <= 5000'
+      'query': '$.projectInvestSum > 1000 && $.projectInvestSum <= 5000'
     }, {
       'id': 2,
       'name': '5000万以上项目',
-      'query': '$.InvestTotal > 5000'
+      'query': '$.projectInvestSum > 5000'
     }];
 
     return {
@@ -601,6 +689,80 @@ angular.module('starter.services', ['ngResource'])
       }
     };
   })
+  .factory('Shenbaoinfo',function($q, $http, APP_CONFIG, REQUEST_URL_LIST, TIMEOUT){
+  	return {
+  		//申报列表用
+      findData: function (page, pageSize, query) {
+        console.log('find shenbaolist: { page : ' + page + ' } , { pageSzie : ' + pageSize + ' } , { query : ' + query + ' }');
+        var deferred = $q.defer();
+
+        localforage.getItem('shenbaolist').then(function (data) {
+          var result = {};
+          window.p = data;
+          var q = Enumerable.From(data);
+          if (!!q) {
+            q = q.Where(query);
+          };
+          result.page = page;
+          result.pageSize = pageSize;
+          result.totalPage = (q.ToArray().length + pageSize - 1) / pageSize;
+          result.data = q.Skip(pageSize * (page - 1)).Take(pageSize).ToArray();
+          deferred.resolve(result);
+        });
+
+        return deferred.promise;
+    	},
+	    //从服务端获取数据
+	    pullData:function(){
+    	  var deferred = $q.defer();
+			  $http({
+		      method: 'GET',
+		      url: APP_CONFIG.host + REQUEST_URL_LIST.url_shenbaoinfo+"?$inlinecount=allpages&$top=10&$orderby=createdDate desc&$filter=(projectShenBaoStage eq 'projectShenBaoStage_7' and processState eq 'processState_2')",
+		      timeount: TIMEOUT
+		    }).then(function(res){
+		    	deferred.resolve(res);
+		    } ,function (err) {
+	      	console.log(err);
+	      	deferred.reject();
+	    	});
+	    	
+	    	return deferred.promise;
+    	},
+    	findById:function(id){
+    		var deferred = $q.defer();
+    		$http({
+		      method: 'GET',
+		      url: APP_CONFIG.host + REQUEST_URL_LIST.url_shenbaoinfo,
+		      params:{'$filter':common.buildFilter([{name:'id',operator:'eq',value:id}])},
+		      timeount: TIMEOUT,
+		    }).then(function(res){
+		    	deferred.resolve(res.data.value[0]||{});
+		    } ,function (err) {
+	      	console.log(err);
+	      	deferred.reject();
+	    	});
+    		   		
+    		return deferred.promise;
+    	},
+    	findTask:function(shenbaoId){
+    		var deferred = $q.defer();
+    		$http({
+		      method: 'GET',
+		      url: APP_CONFIG.host + REQUEST_URL_LIST.url_task,
+		      params:{'$filter':common.buildFilter([{name:'relId',operator:'eq',value:shenbaoId}])},
+		      timeount: TIMEOUT,
+		    }).then(function(res){
+		    	deferred.resolve(res.data.value[0]||{});
+		    } ,function (err) {
+	      	console.log(err);
+	      	deferred.reject();
+	    	});
+    		   		
+    		return deferred.promise;
+    		
+    	}
+  	};
+  })
   .factory('Projects', function ($q, $http, APP_CONFIG, REQUEST_URL_LIST, TIMEOUT) {
 
     function loadData() {
@@ -636,10 +798,7 @@ angular.module('starter.services', ['ngResource'])
         localforage.getItem('projects').then(function (data) {
           var result = {};
           window.p = data;
-          console.log(query);
-          console.log(data);
           var q = Enumerable.From(data);
- 					console.log(q);
           if (!!q) {
             q = q.Where(query);
           };
@@ -667,13 +826,12 @@ angular.module('starter.services', ['ngResource'])
           },
           timeount: TIMEOUT
         }).then(function(res){
-        	console.log(res);
         	deferred.resolve(res.data.value[0]||{});
         });
         
     		return deferred.promise;
       },
-      findByIdNumAndUnitName: function (projectId,unitName,projectNumber) {
+      findByIdNumAndUnitName: function (projectId,unitName/*,projectNumber*/) {
         console.log('find project: { projectId : ' + projectId + ' } ');
 
         var deferred = $q.defer();
@@ -697,20 +855,20 @@ angular.module('starter.services', ['ngResource'])
           ])} 
         });
        	//申报信息      	
-       	var q3 = $http({
+       	/*var q3 = $http({
           method: 'GET',
           url: APP_CONFIG.host + REQUEST_URL_LIST.url_shenbao,
           params: {'$filter':common.buildFilter([
 					          	{name:'projectNumber',operator:'eq',value:projectNumber}
           ])} 
-        });
+        });*/
  			
 
-        $q.all([q1, q2, q3/*, q4*/]).then(function (results) {
+        $q.all([q1, q2/*, q3, q4*/]).then(function (results) {
           var projectdetail = {};
           projectdetail = results[0].data.value[0];
           projectdetail.unit = results[1].data.value[0];
-          projectdetail.shenbaos = results[2].data.value;        
+         /* projectdetail.shenbaos = results[2].data.value;  */      
           deferred.resolve(projectdetail);
         });
 
@@ -799,90 +957,6 @@ angular.module('starter.services', ['ngResource'])
 
         return deferred.promise;
       }
-    };
-  })
-  .factory('ChartData', function ($q, $http, APP_CONFIG, REQUEST_URL_LIST, TIMEOUT) {
-    return {
-      TotalHisData: function (year) { //��Ͷ�ʣ���״ͼ
-        console.log('find year prepares: { year : ' + year + ' } ');
-
-        var deferred = $q.defer();
-        $http({
-          method: 'GET',
-          url: APP_CONFIG.host + REQUEST_URL_LIST.url_totalHisData,
-          params: {
-            year: year
-          },
-          timeount: TIMEOUT
-        }).success(function (data) {
-          deferred.resolve(data);
-        }).error(function (err) {
-          deferred.reject(err);
-        });;
-        return deferred.promise;
-      },
-      ArrangeMoneyData: function (year) {
-        var deferred = $q.defer();
-        $http({
-          method: 'GET',
-          url: APP_CONFIG.host + REQUEST_URL_LIST.url_arrangeMoneyData,
-          params: {
-            year: year
-          },
-          timeount: TIMEOUT
-        }).success(function (data) {
-          deferred.resolve(data);
-        }).error(function () {
-          deferred.reject(err);
-        });
-        return deferred.promise;
-      },
-      TotalPieChartData: function (year) { //��Ͷ�ʣ���״ͼ
-        var deferred = $q.defer();
-        $http({
-          method: 'GET',
-          url: APP_CONFIG.host + REQUEST_URL_LIST.url_totalPieChartData,
-          params: {
-            year: year
-          },
-          timeount: TIMEOUT
-        }).success(function (data) {
-          deferred.resolve(data);
-        }).error(function (err) {
-          deferred.reject(err);
-        });
-        return deferred.promise;
-      },
-      ArrangeMoneyPieChartData: function (year) {
-        var deferred = $q.defer();
-        $http({
-          method: 'GET',
-          url: APP_CONFIG.host + REQUEST_URL_LIST.url_arrangeMoneyPieChartData,
-          params: {
-            year: year
-          },
-          timeount: TIMEOUT
-        }).success(function (data) {
-          deferred.resolve(data);
-        }).error(function (err) {
-          deferred.reject(err);
-        });
-        return deferred.promise;
-      },
-      HorsthChartData: function () { //��ʷ���
-        var deferred = $q.defer();
-        $http({
-          method: 'GET',
-          url: APP_CONFIG.host + REQUEST_URL_LIST.url_horsthChartData,
-          timeount: TIMEOUT
-        }).success(function (data) {
-          deferred.resolve(data);
-        }).error(function (err) {
-          deferred.reject(err);
-        });
-        return deferred.promise;
-      }
-
     };
   })
   .filter('dict', function($rootScope) { //可以注入依赖
