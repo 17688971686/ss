@@ -24,7 +24,7 @@ public class TaskHead extends BaseEntity {
 	@Column(columnDefinition="varchar(255) NULL COMMENT '标题'")
 	private String title;	
 		
-	@Column(columnDefinition="varchar(255) NULL COMMENT '任务类型'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '任务类型'")
 	private String taskType;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '相关ID'")
@@ -36,17 +36,26 @@ public class TaskHead extends BaseEntity {
 	@Column(columnDefinition="varchar(255) NULL COMMENT '下一处理人'")
 	private String nextUser;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '处理状态'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '下一处理环节'")
+	private String nextProcess;
+	
+	@Column(columnDefinition="varchar(125) NULL COMMENT '当前处理状态'")
 	private String processState;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '审批角色'")
+	private String processRole;
 	
 	@Column(columnDefinition="bit NULL COMMENT '是否完成'")
 	private boolean isComplete;
 	//begin#添加筛选字段
-	@Column(columnDefinition="varchar(255) NULL COMMENT '项目行业'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '项目行业'")
 	private String projectIndustry;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '建设单位名称'")
 	private String unitName;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '经办人'")
+	private String operator;
 	
 	//begin#关联
 	@OneToMany(cascade=CascadeType.ALL)
@@ -139,6 +148,29 @@ public class TaskHead extends BaseEntity {
 	public void setUnitName(String unitName) {
 		this.unitName = unitName;
 	}
-	
-	
+
+	public String getProcessRole() {
+		return processRole;
+	}
+
+	public void setProcessRole(String processRole) {
+		this.processRole = processRole;
+	}
+
+	public String getNextProcess() {
+		return nextProcess;
+	}
+
+	public void setNextProcess(String nextProcess) {
+		this.nextProcess = nextProcess;
+	}
+
+	public String getOperator() {
+		return operator;
+	}
+
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
+
 }

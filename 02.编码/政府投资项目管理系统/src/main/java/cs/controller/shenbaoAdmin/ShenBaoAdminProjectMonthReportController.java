@@ -46,7 +46,7 @@ public class ShenBaoAdminProjectMonthReportController {
 	@RequiresPermissions("shenbaoAdmin/projectMonthReport##post")
 	@RequestMapping(name = "保存月报信息",path="",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void  saveMonthReport(@RequestBody MonthReportDto monthReportDto){
+	public void saveMonthReport(@RequestBody MonthReportDto monthReportDto){
 		monthReportService.saveMonthReport(monthReportDto);
 	}
 	
@@ -77,12 +77,12 @@ public class ShenBaoAdminProjectMonthReportController {
 		return this.ctrlName + "/fillInfo";
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/projectMonthReport#html/projectInfo#get")
-	@RequestMapping(name = "项目信息页面", path = "html/projectInfo",method=RequestMethod.GET)
-	public String projectInfo()  {
-		
-		return this.ctrlName + "/projectInfo";
-	}
+//	@RequiresPermissions("shenbaoAdmin/projectMonthReport#html/projectInfo#get")
+//	@RequestMapping(name = "项目信息页面", path = "html/projectInfo",method=RequestMethod.GET)
+//	public String projectInfo()  {
+//		
+//		return this.ctrlName + "/projectInfo";
+//	}
 	
 	@RequiresPermissions("shenbaoAdmin/projectMonthReport#html/details#get")
 	@RequestMapping(name = "月报信息页面", path = "html/details",method=RequestMethod.GET)

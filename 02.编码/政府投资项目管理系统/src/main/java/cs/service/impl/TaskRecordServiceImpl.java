@@ -1,13 +1,15 @@
 package cs.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.transaction.Transactional;
-
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.TaskRecordDto;
+import cs.repository.impl.TaskRecordRepoImpl;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.TaskRecordService;
 /**
@@ -19,6 +21,8 @@ import cs.service.interfaces.TaskRecordService;
 @Service
 public class TaskRecordServiceImpl extends AbstractServiceImpl<TaskRecordDto, TaskRecord, String> implements TaskRecordService {
 	private static Logger logger = Logger.getLogger(TaskRecordServiceImpl.class);
+	@Autowired
+	private TaskRecordRepoImpl taskRecordRepoImpl;
 	
 	@Override
 	@Transactional
@@ -26,4 +30,20 @@ public class TaskRecordServiceImpl extends AbstractServiceImpl<TaskRecordDto, Ta
 		logger.info("查询任务消息数据");
 		return super.get(odataObj);	
 	}
+
+	@Override
+	@Transactional
+	public PageModelDto<TaskRecordDto> get_shenPi(ODataObj odataObj) {
+		List<TaskRecordDto> dtos = taskRecordRepoImpl.findByOdata2(odataObj).stream().map((x) -> {
+			return mapper.toDto(x);
+		}).collect(Collectors.toList());
+		
+		
+		PageModelDto<TaskRecordDto> pageModelDto = new PageModelDto<>();
+		pageModelDto.setCount(odataObj.getCount());
+		pageModelDto.setValue(dtos);
+		logger.info("查询审批类任务");
+		return pageModelDto;
+	}
+
 }

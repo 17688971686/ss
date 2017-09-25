@@ -64,8 +64,12 @@ font-weight: bold;
 
 	<div style="margin-left: 5px; margin-right: 5px;">
 		<!-- <div ng-if="vm.isReportTuiWen" ng-include onload="vm.page_fillReport_init()" src="'/contents/shenbaoAdmin/projectMonthReport/html/fillInfo_create.html'"></div> -->
-		<div ng-hide="vm.isReportExist" ng-include onload="vm.page_fillReport_init()" src="'/contents/shenbaoAdmin/projectMonthReport/html/fillInfo_create.html'"></div>
-		<div ng-show="vm.isReportExist" ng-include  src="'/contents/shenbaoAdmin/projectMonthReport/html/fillInfo_read.html'"></div>
+		<!-- 政府投资项目 -->
+		<div ng-if="vm.isZFInvestment" ng-hide="vm.isReportExist" ng-include onload="vm.page_fillReport_init()" src="'/contents/shenbaoAdmin/projectMonthReport/html/fillInfo_create_ZF.html'"></div>
+		<div ng-if="vm.isZFInvestment" ng-show="vm.isReportExist" ng-include  src="'/contents/shenbaoAdmin/projectMonthReport/html/fillInfo_read_ZF.html'"></div>
+		<!-- 社会投资项目 -->
+		<div ng-if="vm.isSHInvestment" ng-hide="vm.isReportExist" ng-include onload="vm.page_fillReport_init()" src="'/contents/shenbaoAdmin/projectMonthReport/html/fillInfo_create_SH.html'"></div>
+		<div ng-if="vm.isSHInvestment" ng-show="vm.isReportExist" ng-include  src="'/contents/shenbaoAdmin/projectMonthReport/html/fillInfo_read_SH.html'"></div>
 	</div>
 </div>
 

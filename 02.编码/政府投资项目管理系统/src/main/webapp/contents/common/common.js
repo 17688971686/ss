@@ -33,15 +33,41 @@
         stringToArray:stringToArray,
         arrayToString:arrayToString,
         toDecimal4:toDecimal4,//保留4位小数
-        getUserUnits:getUserUnits,//获取所有的用户单位信息
-        getUnitName:getUnitName,//获取用户单位名称
+        getUserUnits:getUserUnits,//获取所有的建设单位信息
+        getUnitName:getUnitName,//获取单位名称
         getSum:getSum,//求和
-        repSign:repSign//将英文类型的标点符号转换为中文的标点符号
+        repSign:repSign,//将英文类型的标点符号转换为中文的标点符号
+        getLoginUser,getLoginUser,
+        getRoles:getRoles,//获取所有的角色
+        getRoleName:getRoleName//获取角色名称
 
     };
 
     window.common = service;
 
+    function getLoginUser(){
+    	var data = "";
+    	if(window.global_User){ 
+    		return window.global_User;
+    	}else{
+    		window.global_User = "";
+    	}
+    	$.ajax({
+    		url:'/common/getUser',
+    		async:false,
+    		success:function(response){
+    			data=response;    			
+    		}
+
+    	});
+    	 data = data.split("\\u");
+    	for (var i = 0; i < data.length; i++) {
+    		if(data[i] != ""){
+    			window.global_User+=String.fromCharCode(parseInt(data[i],16).toString(10));
+    		}
+		}
+    	return window.global_User;
+    }
     function initJqValidation() {
         $("form").removeData("validator");
         $("form").removeData("unobtrusiveValidation");
@@ -66,7 +92,7 @@
         });
     }
     function requestSuccess(options) {    
-    	console.log(options);
+    	//console.log(options);
     	var showError=function(msg){ 
 			service.alert({
 				vm:options.vm,
@@ -126,7 +152,7 @@
         };
         $('.alertDialog').modal({
             backdrop: 'static',
-            keyboard:false
+            keyboard:true
         });
     }
     function confirmDialog(options) {    	
@@ -395,16 +421,61 @@
     		processState:"processState",//审批状态
     		processState_waitQianShou:"processState_1",//等待签收
     		processState_qianShou:"processState_2",//已签收
-    		processState_banJie:"processState_7",//已办结
-    		processState_tuiWen:"processState_11",//已退文
+    		processState_msFenBan:"processState_3",//秘书科分办
+    		processState_banJie:"processState_11",//已办结
+    		processState_tuiWen:"processState_15",//已退文
+    		processState_next:"processState_16",
+    		
+    		fileSet:"fileSet",//文件缓急分类
+    		fileSet_pingJian:"fileSet_1",//平件
+    		fileSet_pingJi:"fileSet_2",//平急
+    		fileSet_jiJian:"fileSet_3",//急件
+    		fileSet_teJi:"fileSet_4",//特急
+    		fileSet_teTi:"fileSet_5",//特提
+    		
+    		openType:"openType",//公开类型
+    		openType_zhuDong:"openType_1",//主动公开
+    		openType_yiShenQing:"openType_2",//依申请公开
+    		openType_no:"openType_3",//不公开
+    		
+    		hecretHierarchy:"hecretHierarchy",//秘密等级
+    		hecretHierarchy_gongKai:"hecretHierarchy_1",//公开
+    		hecretHierarchy_guoNei:"hecretHierarchy_2",//国内
+    		hecretHierarchy_neiBu:"hecretHierarchy_3",//内部
+    		hecretHierarchy_miMi:"hecretHierarchy_4",//秘密
+    		hecretHierarchy_jiMi:"hecretHierarchy_5",//机密
+    		hecretHierarchy_jueMi:"hecretHierarchy_6",//绝密
+    		
+    		postingCategory:"postingCategory",//发文种类
+    		postingCategory_shang:"postingCategory_1",//上行文
+    		postingCategory_ping:"postingCategory_2",//平行文
+    		postingCategory_xia:"postingCategory_3",//下行文
+    		
+    		documentType:"documentType",//文件种类
+    		documentType_han:"documentType_1",//函
+    		documentType_zhiShi:"documentType_2",//指示
+    		documentType_tongZhi:"documentType_3",//通知
+    		documentType_mingLing:"documentType_4",//命令
+    		documentType_jueDing:"documentType_5",//决定
+    		documentType_gongGao:"documentType_6",//公告
+    		documentType_tongGao:"documentType_7",//通告
+    		documentType_tongBao:"documentType_8",//通报
+    		documentType_yiAn:"documentType_9",//议案
+    		documentType_baoGao:"documentType_10",//报告
+    		documentType_qingShi:"documentType_11",//请示
+    		documentType_piFu:"documentType_12",//批复
+    		documentType_yiJian:"documentType_13",//意见
     		
     		projectShenBaoStage:"projectShenBaoStage",//申报阶段
+    		projectShenBaoStage_projectProposal:"projectShenBaoStage_1",//项目建议书
+    		projectShenBaoStage_KXXYJBG:"projectShenBaoStage_2",//可行性研究报告
+    		projectShenBaoStage_CBSJYGS:"projectShenBaoStage_3",//初步设计与概算
+    		projectShenBaoStage_prePlanFee:"projectShenBaoStage_4",//规划前期费
+    		projectShenBaoStage_newStratPlan:"projectShenBaoStage_5",//新开工计划
+    		projectShenBaoStage_xuJianPlan:"projectShenBaoStage_6",//续建计划
     		projectShenBaoStage_nextYearPlan:"projectShenBaoStage_7",//下一年度计划
-
-    		projectShenBaoStage_projectProposal:"projectShenBaoStage_9",//项目建议书
-    		projectShenBaoStage_KXXYJBG:"projectShenBaoStage_10",//可行性研究报告
-    		projectShenBaoStage_CBSJYGS:"projectShenBaoStage_11",//初步设计与概算
-    		projectShenBaoStage_junGong:"projectShenBaoStage_6",//竣工决算
+    		projectShenBaoStage_junGong:"projectShenBaoStage_8",//竣工决算
+    		projectShenBaoStage_capitalApplyReport:"projectShenBaoStage_9",//资金申请报告
     		
     		projectCategory:"projectCategory",//项目类别
     		projectCategory_A:"projectCategory_1",//A类
@@ -453,7 +524,9 @@
     		taskType_qianQi:"taskType_8",//前期
     		taskType_newStart:"taskType_9",//新开工
     		taskType_xuJian:"taskType_10",//续建
-    		
+    		taskType_junGongJueSuan:"taskType_11",//竣工决算
+    		taskType_ZJSQBG:"taskType_12",//资金申请报告
+   		
     		auditState:"auditState",//审核状态
     		auditState_noAudit:"auditState_1",//审核状态-未审核
     		auditState_auditPass:"auditState_2",//审核状态-审核通过
@@ -490,19 +563,25 @@
     			['other','其他资料']],
 			projectShenBaoStage_CBSJYGS:[['ApplyReport_pdf','申请报告（pdf版，加盖公章）<span class="required">(*)</span>'],['ApplyReport_word','申请报告（Word版）<span class="required">(*)</span>'],['ProjectProPosal_Reply','项目建议书（或前期工作计划）、可行性研究报告'],
 				['CBSJYGS_Material','初步设计及项目总概算材料（项目单位需委托有相应资质的咨询机构编制项目总概算）'],['YDGHXKZ_Scanning','用地规划许可证扫描件'],['other','其他资料']]	,
-			projectShenBaoStage_YearPlan:[['XXJD','项目工程形象进度及年度资金需求情况'],['WCJSNR','年度完成建设内容及各阶段工作内容完成时间表'],['TTJH','历年政府投资计划下大文件  <span class="required">(*)</span>'],
-				['GCXKZ','建设工程规划许可证'],['TDQK','土地落实情况、征地拆迁有关情况'],['XMJZ','项目进展情况相关资料'],['QQGZJH','前期工作计划文件'],['XMSSYJ','项目实施依据文件'],['HYJY','会议纪要']],
-			projectShenBaoStage_qianQi:[['ProjectBasis','项目依据  <span class="required">(*)</span>'],['other','其他']],
+			projectShenBaoStage_prePlanFee:[['ProjectBasis','项目依据  <span class="required">(*)</span>'],['other','其他']],
 			projectShenBaoStage_newStart:[['ApplyReport_pdf','申请报告（pdf版，加盖公章）<span class="required">(*)</span>'],['ApplyReport_word','申请报告（Word版）<span class="required">(*)</span>'],['BudgetReply_Scanning','概算批复扫描件 <span class="required">(*)</span>'],
 				['GCGHXKZ_Scanning','工程规划许可证扫描件'],['IssuedReplyFile_Scanning','全部已下达计划批复文件扫描件 <span class="required">(*)</span>'],['other','其他']],
 			projectShenBaoStage_xuJian:[['ApplyReport_pdf','申请报告（pdf版，加盖公章）<span class="required">(*)</span>'],['ApplyReport_word','申请报告（Word版）<span class="required">(*)</span>'],['LastYearPlanReply_Copy','上一年度计划批文复印件 <span class="required">(*)</span>'],
 				['IssuedReplyFile_Scanning','全部已下达计划批复文件扫描件 <span class="required">(*)</span>'],['other','其他']],
+			projectShenBaoStage_YearPlan:[['XXJD','项目工程形象进度及年度资金需求情况'],['WCJSNR','年度完成建设内容及各阶段工作内容完成时间表'],['TTJH','历年政府投资计划下大文件  <span class="required">(*)</span>'],
+					['GCXKZ','建设工程规划许可证'],['TDQK','土地落实情况、征地拆迁有关情况'],['XMJZ','项目进展情况相关资料'],['QQGZJH','前期工作计划文件'],['XMSSYJ','项目实施依据文件'],['HYJY','会议纪要']],
 			projectShenBaoStage_junGong:[['ApplyReport_pdf','申请报告（pdf版，加盖公章）<span class="required">(*)</span>'],['ApplyReport_word','申请报告（Word版）<span class="required">(*)</span>'],['LastYearPlanReply_Copy','上一年度计划批文复印件 <span class="required">(*)</span>'],
 					['IssuedReplyFile_Scanning','全部已下达计划批复文件扫描件 <span class="required">(*)</span>'],['other','其他']],
+			projectShenBaoStage_capitalApplyReport:[['ApplyReport_pdf','申请报告（pdf版，加盖公章）<span class="required">(*)</span>'],['ApplyReport_word','申请报告（Word版）<span class="required">(*)</span>'],['LastYearPlanReply_Copy','上一年度计划批文复印件 <span class="required">(*)</span>'],
+				['IssuedReplyFile_Scanning','全部已下达计划批复文件扫描件 <span class="required">(*)</span>'],['other','其他']],	
 			projectEdit:[['XMJYSPF','项目建议书批复文本'],['KXXYJBGPF','可行性研究报告批复文本'],['ZGSPFTZ','总概算批复及调整文本'],['HYJY','会议纪要'],
 				['GHYJ','规划依据'],['SJXGT','设计效果图'],['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']],
 			projectEdit_SH:[['XMJYSPF','项目建议书批复文本'],['KXXYJBGPF','可行性研究报告批复文本'],['ZGSPFTZ','总概算批复及调整文本'],['HYJY','会议纪要'],
-				['GHYJ','规划依据'],['SJXGT','设计效果图'],['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']]
+				['GHYJ','规划依据'],['SJXGT','设计效果图'],['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']],
+			reviewResult:[['PSBG','1、评审报告'],['TZKSSHB','（1）投资匡算审核表'],['ZJPSYJ','（2）专家评审意见'],['ZJPSZMD','（3）专家评审组名单'],
+				['QT','2、其他']]
+    	
+    	//projectShenBaoStage_qianQi:[['ProjectBasis','项目依据  <span class="required">(*)</span>'],['other','其他']],
     	};
     }
     
@@ -577,17 +656,45 @@
     	return window.global_userUnits;
     }
     
-    function getUnitName(id){
-    	var userUnits = getUserUnits();
+    function getUnitName(unitId){
+    	getUserUnits();
     	var unitName = '';
-    	for(var i=0;i<userUnits.length;i++){
-    		var obj = userUnits[i];
-    		if(id == obj.id){
+    	for(var i=0;i<window.global_userUnits.length;i++){
+    		var obj = window.global_userUnits[i];
+    		if(unitId == obj.id){
     			unitName =  obj.unitName;
     			break;
     		}
     	}
     	return unitName;
+    }
+    
+    function getRoles(){
+    	if(window.global_manageUser){ 
+    		return window.global_roles;
+    	}else{
+    		$.ajax({
+        		url:'/common/roles',
+        		async:false,
+        		success:function(response){
+        			window.global_roles=response;    			
+        		}
+        	});
+    	}   		
+    	return window.global_roles;
+    }
+    
+    function getRoleName(roles,roleId){
+    	//getRoles();
+    	var roleName = '';
+    	for(var i=0;i<window.global_roles.length;i++){
+    		var obj = window.global_roles[i];
+    		if(roleId == obj.id){
+    			roleName =  obj.roleName;
+    			break;
+    		}
+    	}
+    	return roleName;
     }
     
     function getSum(array){

@@ -1,0 +1,375 @@
+/*gpj*/
+
+.slider{ height:100%}
+.slider-slide{ /*padding-top:44px;*/ color:#000; background-color:#fff; /*text-align: center;*/}
+#map{
+	width: 100%;
+    height: 100%;
+}
+#logo {
+  margin: 20px 0px;
+}
+#logo img{
+	border-radius: 10px;
+}
+#copyright {
+	left: 0;
+	right: 0;
+	bottom: 10px;
+	position: absolute;
+}
+#list {
+  width: 170px;
+  margin: 30px auto;
+  font-size: 20px;
+}
+#list ol {
+  margin-top: 30px;
+}
+#list ol li {
+  text-align: left;
+  list-style: decimal;
+  margin: 10px 0px;
+}
+#checkUpdateSpinner svg{
+	width:16px;
+	height:16px;
+}
+.button.ng-hide{
+  display:none;
+}  
+
+/*==common========================*/
+html, body{ height:100%}
+body{ color:#666}
+a{ text-decoration:none}
+i.icon.ion-ios-arrow-right{ color:#c7c7cc}
+img{ max-width:100%}
+.container{ padding:16px}
+.border-left-none{ border-left:none !important}
+.item-icon-right{ padding-right:44px}
+.full-page{ height:100%; touch-action:none}
+/*垂直滚动条*/
+.full-height{ height:100%; overflow-y:auto; overflow-x:hidden}
+/*====color========================*/
+/*color*/
+.desc{ color:#777}
+.color-black{ color:#222}
+/*border color*/
+.item, .hint .item-box{ border-color:#dce0e3}
+/*background color*/
+.bg-green{ background-color:#4fc16d}
+.bg-blue-deep{ background-color:#3056e4}
+.bg-purple{ background-color:#7030e4}
+.bg-fuchsia{ background-color:#af30e4}
+.assertive-bg,
+.balanced-bg,
+.positive-bg{ display:inline-block; padding:2px 4px 1px; font-size:12px; line-height:16px; color:#fff; border-radius:4px}
+/*主背景色*/
+.bg, .pane{ background:#e5eaed}
+/*副标题*/
+.sub-title{ display:block; margin:0; padding:0 15px 15px 15px; color:#FFF; text-align:center; font-size:16px; border-radius:0}
+/*marign*/
+.marign-overflow{ margin:0 -1px}
+
+
+/*====navbar========================*/
+.bar-positive.bar-header{ border-bottom-style:none}
+/*解决iphone的title位置有一条横线的bug*/
+.bar{ background-image:none !important}
+
+
+/*====toolbar========================*/
+.tabs{ border-color:#ccc; background-color:#fff}
+.tabs .tab-item .icon{ background-repeat:no-repeat; background-position:50%; height:24px; margin:4px 0 2px 0; background-size:contain}
+.tabs .tab-item .icon.icon-calendar{ background-image:url(../img/icon_calendar.png)}
+.tabs .tab-item .icon.icon-calendar-act{ background-image:url(../img/icon_calendar_act.png)}
+.tabs .tab-item .icon.icon-statistics{ background-image:url(../img/icon_statistics.png)}
+.tabs .tab-item .icon.icon-statistics-act{ background-image:url(../img/icon_statistics_act.png)}
+.tabs .tab-item .icon.icon-box{ background-image:url(../img/icon_box.png)}
+.tabs .tab-item .icon.icon-box-act{ background-image:url(../img/icon_box_act.png)}
+.tabs .tab-item .icon.icon-local{ background-image:url(../img/icon_local.png)}
+.tabs .tab-item .icon.icon-local-act{ background-image:url(../img/icon_local_act.png)}
+.tabs .tab-item .icon.icon-settings{ background-image:url(../img/icon_settings.png)}
+.tabs .tab-item .icon.icon-settings-act{ background-image:url(../img/icon_settings_act.png)}
+
+  
+
+/*====icons========================*/
+.icons{ display:inline-block; background-size:contain; background-repeat:no-repeat; background-position:50%}
+.icons-computer, .icons-paper, .icons-money-bag, .icons-item-list, .icons-circle{ width:16px; height:16px}
+.icons-computer{ background-image:url(../img/icon_computer.png)}
+.icons-paper{ background-image:url(../img/icon_paper.png)}
+.icons-money-bag{ background-image:url(../img/icon_money_bag.png)}
+.icons-item-list{ background-image:url(../img/icon_item_list.png)}
+.icons-circle{ background-image:url(../img/icon_circle.png)}
+.icons-calendar-white{ background-image:url(../img/icon-calendar-white.png)}
+.icons-statistics-white{ background-image:url(../img/icon-statistics-white.png)}
+.icons-box-white{ background-image:url(../img/icon-box-white.png)}
+.icons-local-white{ background-image:url(../img/icon-local-white.png)}
+.icons-settings-white{ background-image:url(../img/icon-settings-white.png)}
+/*30x30*/
+.icons-time{ width:30px; height:30px}
+.icons-time{ background-image:url(../img/icon-time.png)}
+/*icons block*/
+.icons-bg{ display:inline-block; padding:8px; line-height:0; border-radius:50%}
+/*number*/
+.icon-number{ display:inline-block; padding:5px 9px; border-radius:50%; font-family:Arial; font-weight:bold}
+
+
+/*====table========================*/
+.table{ width:100%; background-color:#fff; table-layout:fixed}
+.table td{ padding:8px; border:1px solid #dce0e3; vertical-align:middle; font-size:12px; text-align:center; word-wrap:break-word}
+.table tbody tr:nth-of-type(even){ background-color:#f7f7f7}
+.table-blue thead tr td{ background-color:#1961d9; color:#fff; border-color:#3b79df}
+.table-left td{ text-align:left; font-size:14px}
+
+
+
+/*====hint========================*/
+.hint{ position:relative; padding-left:26px}
+.hint .ion-information-circled{ color:#4fc16d; font-size:20px; position:absolute; top:0; left:0}
+.hint .item-box{ padding-bottom:12px; margin-bottom:12px; border-width:1px; border-bottom-style:solid}
+.hint .item-box:last-child{ border-bottom:none; padding-bottom:0; margin-bottom:0}
+.hint-bg{ background-color:#f5f5f5; padding:8px 8px 8px 32px; font-size:12px}
+.hint-bg .ion-information-circled{ top:8px; left:8px}
+
+
+/*====B:List========================*/
+/*列表间距*/
+.list-item-bottom .item{ margin-bottom:10px}
+/*List Icons*/
+.item-margin{ margin-bottom:10px}
+.item-icon-left .icons-bg{ position:absolute; top:10px; left:11px}
+.item-icon-right .icon{ right:0}
+/*sub*/
+.list-sub{ margin-top:-11px; padding-left:54px; background:#fff}
+.list-sub .item{ margin-bottom:0; border-left:0; padding-left:0}
+.list-sub .item:last-child{ border-bottom:0}
+/*list auto*/
+.list-auto .item{ white-space:normal}
+.list-auto .item h1{ font-size:18px; font-weight:bold}
+.list-auto .item h1 .icons-bg{ margin-right:6px}
+.list-auto .item .desc{ padding-left:38px; font-size:14px}
+.list-auto .table{ margin-bottom:10px; margin-top:-1px}
+.list-auto .table tr td:first-child{ border-left:none}
+.list-auto .table tr td:last-child{ border-right:none}
+/*color*/
+.list-left-border .item{ border-left:4px solid #b58ffb}
+.list-left-border .item:nth-of-type(even){ border-left-color:#d48ffb}
+.list-left-border .item h1{ margin-bottom:0}
+/**/
+.item .row{ padding:0}
+/*带标题栏*/
+.list-title .item{ padding:0}
+.list-title .item h1{ border-bottom:1px solid #dce0e3; padding:10px 16px; margin:0; position:relative}
+.list-title .item h1 .ion-chevron-right{ position:absolute; top:11px; right:16px; color:#bbb}
+/*number*/
+.item-number{ padding-left:32px; position:relative}
+.item-number .icon-number{ position:absolute; top:-2px; left:0}
+/*====E:List========================*/
+
+
+/*====B:Grid========================*/
+.row-wrap{ -webkit-flex-wrap:wrap; flex-direction:wrap}/*自动换行*/
+.row-border{ margin-bottom:-1px}
+.row-border .col{ border-right:1px solid #dce0e3; border-bottom:1px solid #dce0e3; padding:8px 0}
+.row-border .label{ font-size:12px}
+/*====E:Grid========================*/
+
+
+/*====B:计划编制========================*/
+.time-line{ background:url(../img/timeline.png) repeat-y 28px 0}
+.list-sub-number{ padding:10px 10px 10px 56px}
+.list-sub-number li{ position:relative}
+.list-sub-number li .item{ border-radius:4px; margin-bottom:8px}
+.list-sub-number .icon-number{ 
+	width:28px; 
+	height:28px; 
+	background:#3091e4; 
+	border:3px solid #54acf8; 
+	color:#FFF; 
+	text-align:center; 
+	line-height:23px; 
+	border-radius:50%; 
+	position:absolute; 
+	top:10px;
+	left:-42px
+}
+/*version 2*/
+.bgplan{ background:url(../img/bgblue.png) repeat-x bottom #387ef5}
+.plan-line{ background:url(../img/plan-line.png) no-repeat center 10px}
+.plan-menu{ max-width:320px; padding:0 40px; margin:0 auto}
+.plan-menu .icons-bg{ background-color:#2970e6;  margin:10px 0 20px 0}
+.plan-menu a{ display:block; background:#fff; color:#888; padding:10px 0; border-radius:30px; box-shadow:0 0 30px rgba(0,0,0, .2) ; margin-bottom:20px}
+.plan-menu a h4{ margin:0; color:#387ef5; font-size:20px; font-weight:bold}
+/*====E:计划编制========================*/
+
+.chart.chart-pie{ margin:30px 0}
+
+
+
+/*====B:项目信息========================*/
+.bg-search{ background-image:url(../img/bgSearch.png); background-repeat:repeat-x; background-position:bottom; background-color:#387ef5; position:relative; z-index:999}
+.search-banner{ background-image:url(../img/bgMountain.jpg); background-repeat:no-repeat; background-position:center bottom; padding:20px 20px 65px 20px}
+.search{ box-shadow:0 0 20px rgba(0, 0, 0, 0.1); border:none}
+.search input{ padding-right:50px}
+.search button{ 
+	border:none;
+	background:#fff;
+	width:50px;
+	height:45px;
+	padding:0;
+	font-size:20px;
+	line-height:45px;
+	text-align:center;
+	color:#aaa;
+	cursor:pointer;
+	position:absolute;
+	top:0;
+	right:0
+}
+/*热门标签*/
+.hotkey{ padding:16px}
+.hotkey li{ float:left; position:relative}
+.hotkey li a{ display:block; background:#FFF; padding:10px 12px; text-decoration:none; color:#666; margin:4px}
+.hotkey li i{ position:absolute; top:-8px; right:-2px; font-size:24px; color:#ef473a; cursor:pointer; display:none}
+.hotkey li.active i{ display:block}
+/*搜索条件*/
+.bg-search-none{ background-image:none; padding:5px 20px 20px 20px}
+.search-condition{ margin-bottom:10px; position:relative; z-index:999}
+.search-property{ background:#fff; border-bottom:1px solid #dce0e3; display:-webkit-box}
+.search-property li{ display:block; -webkit-box-flex:1; border-right:1px solid #dce0e3; padding:8px 0; text-decoration:none; color:#666; font-size:14px; cursor:pointer}
+.search-property li:last-child{ border-right:none}
+.search-property .ion-arrow-down-b{ color:#999; margin-left:4px}
+/*条件弹出框*/
+.pop-sub{ background:#fff; position:absolute; top:37px; left:0; width:100%; z-index:999}
+.pop-sub .list.maxheight{ height:280px; overflow-y:auto; overflow-x:hidden}
+.pop-sub .list{ margin-bottom:0}
+.pop-sub .list .item:first-child{ border-top:none}
+.item-radio .item-content{ padding:10px 49px 10px 16px; font-size:14px}
+.item-radio .radio-icon{ padding:2px 16px 0 0; color:#bbb}
+.item-radio input:checked + .radio-content .item-content{ color:#387ef5}
+.item-select select{ padding-right:28px; width:100%}
+.input-label{ max-width:80px; font-size:14px}
+.list-form .item, .list-form .item-select select{ background:#eee}
+.list-form .item{ margin:6px; border:none;  padding:3px 0 1px 16px}
+.list-form .item-toggle {margin:6px; border:none; padding: 12px;}
+.pop-footer{ padding:0}
+.pop-footer .button-full{ margin:0}
+/*.modal-backdrop, .modal-backdrop-bg{ top:180px}*/
+/*.modal{ background-color:transparent}*/
+/*.active .modal-backdrop-bg{ opacity:.5; background-color:#000}*/
+.pop-sub-scroll{ height:280px; margin-top:0}
+.pop-sub-scroll.scroll-view.scroll-y{ overflow:hidden !important}
+/*列表*/
+.project-list .item .row{ font-size:14px; padding:8px 11px}
+/*审批信息*/
+.list-approval li{ border-bottom:1px solid #dce0e3}
+.list-approval li:last-child{ border:0}
+.list-approval li a{ display:block; padding:8px 16px; font-size:14px; color:#666}
+/*项目进度*/
+.time-progress-bar{ background:url(../img/timeline.png) repeat-y 22px 0; font-size:14px}
+.time-progress-bar .column{ position:relative; display:block; padding:12px 16px 8px 34px; border-bottom:1px solid #dce0e3}
+.time-progress-bar .column:last-child{ border:0}
+.time-progress-bar .date .positive-bg{ padding:2px 6px}
+.time-progress-bar .icon-circle{ display:block; width:12px; height:12px; background:#387ef5; border:2px solid #fff; border-radius:50%; position:absolute; top:16px; left:16px}
+.time-progress-bar .info{ margin-top:5px; color:#666}
+/*====E:项目信息========================*/
+
+
+/*====B:统计分析========================*/
+.month li{ float:left; width:25%; text-align:center; box-shadow:0 0 20px rgba(0,0,0, .1)}
+.month li a{ display:block; background:#fff; padding:30px 0; border:1px solid #b4cffd; font-size:24px; font-weight:bold; font-family:Arial; margin:-1px}
+.month li a span{ font-size:14px}
+/*====E:统计分析========================*/
+
+
+/*====B:启动后的主界面========================*/
+.bg-main{ background:url(../img/bg.jpg) no-repeat center top #2c4081}
+.main{ position:absolute; z-index:999; width:100%}
+.app-title{ min-width:200px; margin:15% auto 0; text-align:center; padding:0 60px}
+/**/
+.main-nav{ max-width:280px; padding:0 10px; margin:40px auto 0}
+.main-nav .col{ float:left; width:50%}
+.main-nav a{ display:block; background:#387ef5; padding:12% 0}
+.main-nav .icons{ width:100%; height:40px}
+.main-nav h4{ color:#fff; text-align:center; margin:6px 0 0 0}
+.bgsky{ 
+	width:100%; 
+	height:520px; 
+	background:url(../img/sky.png) no-repeat 50% 50%; 
+	background-size:contain; 
+	-webkit-animation:spinoffPulse 15s linear infinite;
+	position:absolute; 
+	top:-160px;
+	left:0;
+	margin-top:10%
+}
+/*settings*/
+.btn-settings{ width:24px; height:24px; position:absolute; right:15px; bottom:15px; opacity:0.3; cursor:pointer}
+/*====E:启动后的主界面========================*/
+
+
+@media (min-width: 768px){
+	.app-title{ margin:10% auto 0}
+	.main-nav{ max-width:400px}
+	.main-nav a{ padding:15% 0}
+}
+	
+@media (min-width: 321px){
+	.content-text{ font-size:16px; line-height:24px}
+	.content-text p{ margin-bottom:20px}
+	
+	.search-banner{ padding:40px 20px 85px 20px}
+	
+	.table td{ font-size:14px}
+}
+
+
+/*====动画效果========================*/
+@-webkit-keyframes spinoffPulse {
+  0% { -webkit-transform: rotate(0deg)}
+  100% { -webkit-transform: rotate(360deg)}
+}
+
+.animate {
+  -webkit-animation-duration:.8s;
+  -webkit-animation-timing-function:ease;
+  -webkit-animation-fill-mode:both;
+}
+
+@-webkit-keyframes bounceInUp {
+  0%{ opacity:0; -webkit-transform:translateY(2000px)}
+  60%{ opacity:1; -webkit-transform:translateY(-30px)}
+  80%{ -webkit-transform:translateY(10px)}
+  100%{ -webkit-transform:translateY(0)}
+}
+.bounceInUp{ -webkit-animation-name:bounceInUp}
+
+@-webkit-keyframes bounceInLeft {
+  0%{ opacity:0; -webkit-transform:translateX(-2000px)}  
+  60%{ opacity:1; -webkit-transform:translateX(30px)}
+  80%{ -webkit-transform:translateX(-10px)}
+  100%{ -webkit-transform:translateX(0)}
+}
+.bounceInLeft{ -webkit-animation-name:bounceInLeft}
+
+@-webkit-keyframes bounceInRight {
+  0%{ opacity:0; -webkit-transform:translateX(2000px)}
+  60%{ opacity:1; -webkit-transform:translateX(-30px)}
+  80%{ -webkit-transform:translateX(10px)}
+  100%{ -webkit-transform:translateX(0)}
+}
+.bounceInRight{ -webkit-animation-name:bounceInRight}
+
+@-webkit-keyframes zoomIn {
+  0%{ opacity:0; -webkit-transform:scale3d(.3, .3, .3)}
+  50%{ opacity:1}
+}
+.zoomIn{ -webkit-animation-name:zoomIn}
+
+.text-danger{color: red;}
+.text-success{color: green;}
+
+.center{text-align: center;}

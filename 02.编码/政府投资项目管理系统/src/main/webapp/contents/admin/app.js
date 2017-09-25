@@ -110,19 +110,26 @@
 	        }) 
 	        //end#portal
 /**********************begin#monthReport***************************************/
-	        //列表页
+	        //列表页--政府投资项目
 	        .state('monthReport', {
 	            url: '/monthReport',
 	            templateUrl: '/management/monthReport/html/list',
 	            controller: 'monthReportCtrl',
 	            controllerAs: 'vm'
 	        })
-	        //修改页
-	           .state('monthReportChange', {
-	            url: '/monthReportChange/:projectId/:year/:month',
-	            templateUrl: '/management/monthReport/html/changeDetails',
+	        //列表页--社会投资项目
+	        .state('monthReport_SH', {
+	            url: '/monthReport_SH',
+	            templateUrl: '/management/monthReport/html/list_SH',
 	            controller: 'monthReportCtrl',
 	            controllerAs: 'vm'
+	        })
+	        //修改页
+           .state('monthReportChange', {
+        	   url: '/monthReportChange/:projectId/:year/:month',
+        	   templateUrl: '/management/monthReport/html/edit',
+        	   controller: 'monthReportCtrl',
+        	   controllerAs: 'vm'
 	        })
 	        //详情页
 	        .state('monthReport_details', {
@@ -240,37 +247,79 @@
 /**********************end#年度计划编制***************************************/
 	        
 /**********************begin#目录管理***************************************/
-	        //投资项目目录列表
+	        //投资项目目录列表(默认显示项目行业分类列表)
 	        .state('catalog_investment', {
 	            url: '/catalog/investment',
 	            templateUrl: '/management/catalog/html/investmentList',
 	            controller: 'catalogCtrl',
 	            controllerAs: 'vm'
 	        })
-	        //投资项目目录修改和次级列表页面
+	        //投资项目次级列表页面
 	        .state('catalog_investment_projectIndustry', {
-	            url: '/catalog/investment/projectIndustry/:id',
+	            url: '/catalog/investment/projectIndustry/:id/',
+	            templateUrl: '/management/catalog/html/investmentSecondList',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //投资项目修改页
+	        .state('catalog_investmentAlter', {
+	            url: '/catalog/investmentAlter/:id',
 	            templateUrl: '/management/catalog/html/investmentEdit',
 	            controller: 'catalogCtrl',
 	            controllerAs: 'vm'
 	        })
-	        //政策目录列表页页面
+	         //投资项目二级新增页
+	        .state('catalog_addSecondCatalog', {
+	            url: '/catalog/investmentEdit/addSecondCatalog/:id',
+	            templateUrl: '/management/catalog/html/investmentEdit',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //投资项目一级新增页
+	        .state('catalog_investmentEdit', {
+	            url: '/catalog/investmentEdit/:type',
+	            templateUrl: '/management/catalog/html/investmentEdit',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	         //投资项目目录列表(默认显示项目类型列表)
+	        .state('catalog_investmentList_projectType', {
+	            url: '/catalog/investment/projectTypeList',
+	            templateUrl: '/management/catalog/html/investmentProjectTypeList',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	         //投资项目目录列表(默认显示建设类型列表)
+	        .state('catalog_investmentList_constructionType', {
+	            url: '/catalog/investment/constructionTypeList',
+	            templateUrl: '/management/catalog/html/investmentConstructionTypeList',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //政策目录列表页页面(默认显示鼓励类)
 	        .state('catalog_policy', {
 	            url: '/catalog/policyCatalog',
 	            templateUrl: '/management/catalog/html/policyCatalogList',
 	            controller: 'catalogCtrl',
 	            controllerAs: 'vm'
 	        })
-	        //政策目录类型数据添加页面
-	        .state('catalog_policyCatalogEdit', {
-	            url: '/catalog/policyCatalogEdit',
-	            templateUrl: '/management/catalog/html/policyCatalogEdit',
+	        //政策目录列表页页面(默认显示允许类)
+	        .state('catalog_policyAllowList', {
+	            url: '/catalog/policyCatalog/allowList',
+	            templateUrl: '/management/catalog/html/policyCatalogAllowList',
 	            controller: 'catalogCtrl',
 	            controllerAs: 'vm'
 	        })
-	        //政策目录类型次级数据添加页面
-	        .state('catalog_secondaryPolicyCatalogEdit', {
-	            url: '/catalog/policyCatalogEdit/:id',
+	        //政策目录列表页页面(默认显示限制类)
+	        .state('catalog_policyLimitList', {
+	            url: '/catalog/policyCatalog/limitList',
+	            templateUrl: '/management/catalog/html/policyCatalogLimitList',
+	            controller: 'catalogCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //政策目录新增页面
+	        .state('catalog_policyCatalogEdit', {
+	            url: '/catalog/policyCatalogEdit/:type',
 	            templateUrl: '/management/catalog/html/policyCatalogEdit',
 	            controller: 'catalogCtrl',
 	            controllerAs: 'vm'
@@ -279,13 +328,6 @@
 	        .state('catalog_policyCatalogAlter', {
 	            url: '/catalog/policyCatalogEdit/:id/',
 	            templateUrl: '/management/catalog/html/policyCatalogEdit',
-	            controller: 'catalogCtrl',
-	            controllerAs: 'vm'
-	        })
-	        //政策目录类型次级目录列表页
-	        .state('catalog_policyCatalogSecondList', {
-	            url: '/catalog/policyCatalogSecondList/:id',
-	            templateUrl: '/management/catalog/html/policyCatalogSecondList',
 	            controller: 'catalogCtrl',
 	            controllerAs: 'vm'
 	        })
@@ -360,7 +402,7 @@
 	        })
 	        //信用异常名录 信息录入页面
 	        .state('credit_illegalNameEdit', {
-	            url: '/creditInfo/illegalNameEdit/:id/:projectNumber/:projectName/:unitName/:createdDate',
+	            url: '/creditInfo/illegalNameEdit/:id/:projectNumber/:projectName/:unitName/:createdDate/:shenBaoInfoId',
 	            templateUrl: '/management/creditInfo/html/illegalNameEdit',
 	            controller: 'creditInfoCtrl',
 	            controllerAs: 'vm'
@@ -389,7 +431,7 @@
 	        })	   
 	        //信用黑名单 信息录入页面
 	        .state('credit_blackListEdit', {
-	            url: '/creditInfo/blackList//:projectNumber/:projectName/:unitName/:createdDate',
+	            url: '/creditInfo/blackList//:projectNumber/:projectName/:unitName/:createdDate/:shenBaoInfoId',
 	            templateUrl: '/management/creditInfo/html/blackListEdit',
 	            controller: 'creditInfoCtrl',
 	            controllerAs: 'vm'
@@ -417,7 +459,7 @@
 	        })
 	        //项目异常 信息录入页面
 	        .state('credit_projectAnomalyEdit', {
-	            url: '/creditInfo/projectAnomaly/:id/:projectNumber/:projectName/:unitName/:createdDate',
+	            url: '/creditInfo/projectAnomaly/:id/:projectNumber/:projectName/:unitName/:createdDate/:shenBaoInfoId',
 	            templateUrl: '/management/creditInfo/html/projectAnomalyEdit',
 	            controller: 'creditInfoCtrl',
 	            controllerAs: 'vm'
@@ -454,11 +496,38 @@
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'
 	        })
-	        //已办列表页(taskRecord)
+	        //已办列表页--下一年度计划(taskRecord)
 	        .state('task_complete', {
 	            url: '/task/complete',
 	            templateUrl: '/management/task/html/complete',
 	            controller: 'taskCtrl',
+	            controllerAs: 'vm'
+	        })
+	         //已办列表页--审批类(taskRecord)
+	        .state('task_shenPi', {
+	            url: '/task/shenPi',
+	            templateUrl: '/management/task/html/complete_shenPi',
+	            controller: 'taskCtrl',
+	            controllerAs: 'vm'
+	        })
+	        .state('task_shenPiDetails', {
+	            url: '/task/shenPi_details/:taskType/:taskId/:relId',
+	            templateUrl: '/management/task/html/shenPiDetails',
+	            controller: 'taskCtrl',
+	            controllerAs: 'vm'
+	        })
+	         //待办列表页--审批类
+	        .state('task_todo_audit', {
+	            url: '/task/todo_audit',
+	            templateUrl: '/management/task/html/todo_audit',
+	            controller: 'taskAuditCtrl',
+	            controllerAs: 'vm'
+	        })
+	         //任务处理页--审批类
+	        .state('task_handle_audit', {
+	            url: '/task/handle_audit/:taskType/:taskId/:relId',
+	            templateUrl: '/management/task/html/handle_audit',
+	            controller: 'taskAuditCtrl',
 	            controllerAs: 'vm'
 	        })
 /**********************end#工作台***************************************/

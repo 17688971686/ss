@@ -73,7 +73,7 @@
 	        })
 	        //项目详情页面
 	        .state('project_projectInfo', {
-	            url: '/project/projectInfo/:id/:projectInvestmentType', 
+	            url: '/project/projectInfo/:id', 
 	            templateUrl: '/shenbaoAdmin/project/html/projectInfo.html',
 	            controller: 'projectCtrl',
 	            controllerAs: 'vm'
@@ -98,7 +98,7 @@
 	        })	        
 	        //填报信息录入页面
 	        .state('projectMonthReportInfoFill', {
-	            url: '/projectMonthReportInfoFill/:projectId/:year/:month',
+	            url: '/projectMonthReportInfoFill/:projectId/:projectInvestmentType/:year/:month',
 	            templateUrl:'/shenbaoAdmin/projectMonthReport/html/fillInfo',           
 	            controller: 'projectMonthReportCtrl',
 	            controllerAs: 'vm'

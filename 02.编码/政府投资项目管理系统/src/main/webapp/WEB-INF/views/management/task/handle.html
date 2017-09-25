@@ -37,7 +37,6 @@ textarea.form-control {
 .tab_content{
 	padding:20px;
 }
-overflow: scroll !important;
 </style>
 
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
@@ -48,7 +47,6 @@ overflow: scroll !important;
 		<li><a href="#/">首页</a></li>
 		<li ng-hide="vm.isComplete"><a href="#/task/todo">待办列表</a></li>
 		<li ng-show="vm.isComplete"><a href="#/task/complete">已办列表</a></li>
-		<li><a href="javascript:void(0)" ng-click="vm.callBack()">返回上一步</a></li>
 		<li class="active">办理</li>
 	</ol>                
  	<form id="form" name="form">
@@ -60,31 +58,31 @@ overflow: scroll !important;
 					
 				<td class="formAlignRight" style="width:150px;">项目名称：</td>
 				<td>
-					<span ng-show="vm.isYearPlan" ng-bind="vm.model.shenBaoInfo.projectName"></span>
+					<span ng-hide="vm.isMonthReport" ng-bind="vm.model.shenBaoInfo.projectName"></span>
 					<span ng-show="vm.isMonthReport" ng-bind="vm.model.project.projectName"></span>				
 				</td>
 			</tr>
 			<tr>
 				<td class="formAlignRight">项目阶段：</td>
 				<td>
-					<span ng-show="vm.isYearPlan" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectStage)"></span>
+					<span ng-hide="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectStage)"></span>
 					<span ng-show="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.project.projectStage)"></span>
 				</td>
 				<td class="formAlignRight">项目类型：</td>
 				<td>
-					<span ng-show="vm.isYearPlan" ng-repeat="x in vm.projectTypes" ng-bind="vm.getBasicDataDesc(x)+' '"></span>
+					<span ng-hide="vm.isMonthReport" ng-repeat="x in vm.model.shenBaoInfo.projectType" ng-bind="vm.getBasicDataDesc(x)+' '"></span>
 					<span ng-show="vm.isMonthReport" ng-repeat="x in vm.model.project.projectType" ng-bind="vm.getBasicDataDesc(x)+' '"></span>			
 				</td>
 			</tr>	
 			<tr>
 				<td class="formAlignRight">项目行业归口：</td>
 				<td>
-					<span ng-show="vm.isYearPlan" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectIndustry)"></span>
+					<span ng-hide="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectIndustry)"></span>
 					<span ng-show="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.project.projectIndustry)"></span>
 				</td>
 				<td class="formAlignRight">项目分类：</td>
 				<td>
-					<span ng-show="vm.isYearPlan" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectClassify)"></span>
+					<span ng-hide="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectClassify)"></span>
 					<span ng-show="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.project.projectClassify)"></span>
 				</td>
 			</tr>
@@ -92,32 +90,32 @@ overflow: scroll !important;
 				<td class="formAlignRight">项目建设地址：</td>
 				<td colspan="3">
 					光明新区
-			 		<span ng-show="vm.isYearPlan" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.divisionId)"></span>						
-			 		<span ng-show="vm.isYearPlan" ng-bind="vm.model.shenBaoInfo.projectAddress"></span>
+			 		<span ng-hide="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.divisionId)"></span>						
+			 		<span ng-hide="vm.isMonthReport" ng-bind="vm.model.shenBaoInfo.projectAddress"></span>
 			 		<span ng-show="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.project.divisionId)"></span>						
 			 		<span ng-show="vm.isMonthReport" ng-bind="vm.model.project.projectAddress"></span>
 				</td>		
 			</tr>	
 			<tr>
 				<td class="formAlignRight">项目总投资：</td>
-				<td ng-show="vm.isYearPlan">
-					<span  ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:4"></span>&nbsp;(万元)		
+				<td ng-hide="vm.isMonthReport">
+					<span ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:4"></span>&nbsp;(万元)		
 				</td>
 				<td ng-show="vm.isMonthReport">
 					<span  ng-bind="vm.model.project.projectInvestSum | number:4"></span>&nbsp;(万元)
 				</td>
 				<td class="formAlignRight">累计完成投资：</td>
-				<td ng-show="vm.isYearPlan">
+				<td ng-hide="vm.isMonthReport">
 					<span ng-bind="vm.model.shenBaoInfo.projectInvestAccuSum | number:4"></span>&nbsp;(万元)				
 				</td>
 				<td ng-show="vm.isMonthReport">
 					<span ng-bind="vm.model.project.projectInvestAccuSum | number:4"></span>&nbsp;(万元)
 				</td>
 			</tr>	
-			<tr>
+			<tr ng-if="vm.isZFInvestment">
 				<td class="formAlignRight">项目简介：</td>
 				<td colspan="3">
-					<span ng-show="vm.isYearPlan"  ng-bind="vm.model.shenBaoInfo.projectIntro"></span>
+					<span ng-hide="vm.isMonthReport"  ng-bind="vm.model.shenBaoInfo.projectIntro"></span>
 					<span ng-show="vm.isMonthReport" ng-bind="vm.model.project.projectIntro" ></span>
 				</td>
 			</tr>
@@ -143,23 +141,12 @@ overflow: scroll !important;
 			<tr ng-hide="vm.isComplete">
 				<td class="formAlignRight" style="width:150px;">填写处理意见：</td>
 				<td>
-					<textarea class="form-control" id="processSuggestion" name="processSuggestion"  maxlength="500" rows="3"
+					<textarea class="form-control" id="processSuggestion" name="processSuggestion"  maxlength="500" rows="3" 
 						ng-model="vm.model.taskRecord.processSuggestion" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
 						ng-change="vm.checkLength(vm.model.taskRecord.processSuggestion,500,'processSuggestionTips')">
 					</textarea>
 					<span data-valmsg-for="processSuggestion" data-valmsg-replace="true" class="required"></span>
 					<div class="tipfont">您还可以输入<span id="processSuggestionTips"><font size="5">500</font></span>个字符!</div>						
-				</td>
-				
-			</tr>
-			
-			<tr ng-hide="vm.isYearPlan || vm.isMonthReport || vm.isComplete">
-				<td class="formAlignRight">下一办理环节：</td>
-				<td>
-					<div>
-						<span></span>
-						
-					</div>
 				</td>
 				
 			</tr>
@@ -169,10 +156,10 @@ overflow: scroll !important;
 					<button ng-click="vm.handle(vm.processState_qianShou)" class="btn btn-success btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-ok"></span>签收</button> 
 					<button ng-click="vm.handle(vm.processState_tuiWen)" class="btn btn-danger btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-remove"></span>退文</button>				
 				</td>
-				
 			</tr>						
 		</table>
-  		<!-- 申报信息模态框 -->
+  		
+  		<!-- 申报详情页面模态框 -->
 		<div id="shenbaoInfo" class="modal fade" tabindex="-1" role="dialog">
 			<div class="modal-dialog"
 				style="margin: 80px auto; width: 80%; max-width: 1000px;">
@@ -183,7 +170,7 @@ overflow: scroll !important;
 					</button>
 					<span class="modal-title">详细信息</span>
 					</div>
-					<div class="modal-body">
+					<div class="modal-body text-danger">
 						<div ng-if="!vm.isMonthReport" ng-include  src="'/contents/admin/management/task/html/yearPlan/master.html'"></div>
 						<div ng-if="vm.isMonthReport" ng-include  src="'/contents/admin/management/task/html/monthReport/master.html'"></div>   
 					</div>
@@ -192,6 +179,6 @@ overflow: scroll !important;
 					</div>
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->
+		</div><!-- /.modal --> 	  		         
     </form>   
 </div>

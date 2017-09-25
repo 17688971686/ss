@@ -1,0 +1,14 @@
+package cs.service.interfaces;
+
+import java.util.List;
+
+import cs.domain.Commission;
+import cs.model.DomainDto.CommissionDto;
+
+public interface CommissionService extends IService<CommissionDto, Commission, String>{
+
+	CommissionDto getProxyByTaskId(String id);
+
+	void createProxy(CommissionDto commissionDto, String id);
+
+}

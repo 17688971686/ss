@@ -62,7 +62,7 @@ public class ShenBaoAdminProjectController {
 			isFilters = true;
 			//判断筛选条件中是否包含单位筛选，且筛选单位为本单位
 			for(int i=0;i<odataObj.getFilter().size();i++){
-				if(odataObj.getFilter().get(i).getField().equals("unitName")){//如果过滤条件中有单位过滤
+				if(odataObj.getFilter().get(i).getField().equals("unitName")){//如果过滤条件中有项目所属单位过滤
 					hasUnitFilter = true;
 					if(odataObj.getFilter().get(i).getValue().equals(userUnitInfo.getId())){//如果查询的是本单位的话
 						isUnitFilter =true;
@@ -92,13 +92,14 @@ public class ShenBaoAdminProjectController {
 	@RequiresPermissions("shenbaoAdmin/project#unitProject#put")
 	@RequestMapping(name = "更新单位项目信息", path = "unitProject",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void  updateUserProject(@RequestBody ProjectDto ProjectDto){
+	public void updateUnitProject(@RequestBody ProjectDto ProjectDto){
 		Project entity = ProjectService.findById(ProjectDto.getId());	
 		if(entity.getProjectStage().equals(ProjectDto.getProjectStage())){//项目阶段没有发生变化
 			ProjectService.update(ProjectDto,ProjectDto.getId());
 		}else{//项目阶段发生变化
 			//根据number查询
-			List<ProjectDto> ProjectDtosForNumber = ProjectService.getProjectByNumber(ProjectDto.getProjectNumber());			
+			List<ProjectDto> ProjectDtosForNumber = ProjectService.getProjectByNumber(ProjectDto.getProjectNumber());
+			
 			Map<String,ProjectDto> map = new HashMap<String,ProjectDto>();
 			ProjectDtosForNumber.stream().forEach(x->{
 				map.put(x.getProjectStage(),x);				
@@ -124,6 +125,20 @@ public class ShenBaoAdminProjectController {
 			}
 		}
 
+	}
+	
+	@RequiresPermissions("shenbaoAdmin/project#unitProject#delete")
+	@RequestMapping(name = "删除单位项目信息", path = "unitProject",method=RequestMethod.DELETE)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void deleteUnitProject(@RequestBody String id){
+		String[] ids = id.split(",");
+		if(ids.length>1){
+			for(String idstr:ids){
+				ProjectService.delete(idstr);	
+			}
+		}else{
+			ProjectService.delete(id);
+		}
 	}
 	
 	@RequiresPermissions("shenbaoAdmin/project#html/list#get")

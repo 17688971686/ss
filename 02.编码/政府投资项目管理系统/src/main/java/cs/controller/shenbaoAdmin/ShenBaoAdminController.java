@@ -13,7 +13,7 @@ import cs.common.ICurrentUser;
 import cs.common.Util;
 
 @Controller
-@RequestMapping(name = "申报端--申报管理端", path = "shenbaoAdmin")
+@RequestMapping(name = "申报端--管理首页", path = "shenbaoAdmin")
 public class ShenBaoAdminController {
 	@Autowired
 	private ICurrentUser currentUser;

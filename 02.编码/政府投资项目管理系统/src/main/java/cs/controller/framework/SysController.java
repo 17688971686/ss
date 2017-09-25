@@ -65,7 +65,6 @@ public class SysController {
 	}
 	
 	@RequiresPermissions("sys#getSysConfig#get")
-//	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	@RequestMapping(name = "获取系统配置信息", path = "getSysConfig", method = RequestMethod.GET)
 	public @ResponseBody SysConfigDto getSysConfig(@RequestParam String configName) {
 		SysConfigDto dto = sysService.getSysConfig(configName);

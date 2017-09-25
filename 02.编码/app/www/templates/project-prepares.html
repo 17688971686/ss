@@ -1,0 +1,21 @@
+<ion-view view-title="项目历年安排资金" hide-tabs="true">
+<ion-content>
+ 
+<div class="list-auto list-title" ng-repeat="pp in projectPrepares">
+  <div class="item item-margin" >
+    <h1>{{pp.Year || '-'}}年安排资金</h1>
+    <div class="marign-overflow">
+      <div class="row row-wrap row-border">
+        <div class="col col-33 text-center" ng-repeat="prepare in pp.Prepares">
+          <div class="label">{{prepare.SourceName}}</div>
+          <span class="assertive">{{prepare.ArrangeMoney|| '-'}}万</span>
+        </div>
+
+        <div class="col text-center" ng-show="pp.Prepares.length==0">没有安排资金数据</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col" ng-show="projectPrepares.length==0">没有找到数据</div>
+</ion-content>
+</ion-view>

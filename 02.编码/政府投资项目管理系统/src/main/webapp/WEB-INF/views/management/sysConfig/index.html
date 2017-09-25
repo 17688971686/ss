@@ -15,54 +15,21 @@
 					<th style="vertical-align: middle;width:85px;">系统设置</th>
 					<td colspan="2">
 						<table class="table table-bordered table-striped" style="margin-bottom:0">
-							<tr ng-repeat="x in vm.model.taskList" ng-switch="x.id">
-								<td ng-bind="x.description" style="width:165px;"></td>
-								<td style="width:170px;">
-									<span ng-switch-when="taskType_1">当前签收人：{{x.taskUser}}</span>
-									<span ng-switch-when="taskType_2">当前签收人：{{x.taskUser}}</span>
-									<span ng-switch-when="taskType_3">当前状态：
-										<span ng-if="x.taskEnable">是</span>
-										<span ng-if="!x.taskEnable">否</span>
-									</span>
-									<span ng-switch-when="taskType_4">当前状态：
-										<span ng-if="x.taskEnable">是</span>
-										<span ng-if="!x.taskEnable">否</span>
-									</span>
+							<tr ng-repeat="x in vm.configs">
+								<td ng-bind="vm.getConfigName(x.configName)" style="width:165px;"></td>
+								<td ng-bind="vm.getConfigValue(x.enable)" style="width:165px;"></td>
+								<td style="width:250px;">
+									<select style="height:30px;" ng-model="vm.configs[$index].enable" ng-click="vm.userChange($index)">
+							  			<option value="">---请选择---</option>
+										<option ng-selected="vm.configs[$index].enable ==true" value="true">是</option>
+							  			<option ng-selected="vm.configs[$index].enable == false" value="false">否</option>
+							  		</select>
 								</td>
-								<td>
-									<button ng-show="vm.model.checkedButton[$index] == true"
-										class="btn btn-sm btn-warning" ng-click="vm.checked($index)">修改
-									</button>
-									<input type="hidden" ng-init="vm.model.config[$index].configName=x.id"/>
-									<select style="height: 30px;" ng-show="vm.model.checkedButton[$index] == false" ng-switch-when='taskType_1'
-										ng-model="vm.model.config[$index].configValue" ng-change="vm.userChange($index,vm.model.config[$index].configValue)">
-										<option value="">---请选择---</option>
-										<option ng-repeat="y in vm.user" value="{{y.loginName}}" ng-selected="y.loginName == x.taskUser">{{y.loginName}}</option>
-									</select>
-									<select style="height: 30px;" ng-show="vm.model.checkedButton[$index] == false" ng-switch-when='taskType_2'
-										ng-model="vm.model.config[$index].configValue" ng-change="vm.userChange($index,vm.model.config[$index].configValue)">
-										<option value="">---请选择---</option>
-										<option ng-repeat="y in vm.user" value="{{y.loginName}}" ng-selected="y.loginName == x.taskUser">{{y.loginName}}</option>
-									</select>
-									<select style="height: 30px;" ng-show="vm.model.checkedButton[$index] == false" ng-switch-when='taskType_3'
-										ng-model="vm.model.config[$index].enable" ng-change="vm.userChange($index)"> 
-										<option value="">---请选择---</option>
-										<option value="true" ng-selected="x.taskEnable">是</option>
-										<option value="false" ng-selected="!x.taskEnable">否</option>
-									</select>
-									<select style="height: 30px;" ng-show="vm.model.checkedButton[$index] == false" ng-switch-when='taskType_4'
-										ng-model="vm.model.config[$index].enable" ng-change="vm.userChange($index)"> 
-										<option value="">---请选择---</option>
-										<option value="true" ng-selected="x.taskEnable">是</option>
-										<option value="false" ng-selected="!x.taskEnable">否</option>
-									</select>
-									<span data-valmsg-for="allUsername" data-valmsg-replace="true" class="required"></span>
-							    </td>								
 							</tr>
 						</table>
 					</td>
 					<td style="vertical-align: middle">
-						<button class="btn btn-sm btn-success" ng-click="vm.create()" ng-disabled="!vm.hasChange == true">
+						<button class="btn btn-sm btn-success" ng-click="vm.create()">
 							<span class="glyphicon glyphicon-ok"></span>确定
 						</button>
 					</td>

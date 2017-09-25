@@ -14,25 +14,49 @@
     	vm.basicData={};
     	vm.secondary = {};
     	vm.id = $state.params.id;
-    	vm.title='项目行业分类列表';
-    	vm.page="catalog_investmentProject";//默认为投资项目目录列表页
+    	vm.type = $state.params.type;
+    	vm.title='投资项目分类列表';
         
     	function init(){
     		
+    		if($state.current.name == 'catalog_investment'){
+    			vm.page = 'investment';
+    			vm.type = 'projectIndustry';
+    		}
     		if($state.current.name == 'catalog_investment_projectIndustry'){
     			vm.page = 'investment_projectIndustry';
     		}
+    		if($state.current.name == 'catalog_addSecondCatalog'){
+    			vm.page = 'addSecondCatalog';
+    		}
+    		if($state.current.name == 'catalog_investmentEdit'){
+    			vm.page = 'investmentEdit';
+    		}
+    		if($state.current.name == 'catalog_investmentAlter'){
+    			vm.page = 'investmentAlter';
+    		}
+    		if($state.current.name == 'catalog_investmentList_projectType'){
+    			vm.page = 'investment';
+    			vm.type = 'projectType';
+    		}
+    		if($state.current.name == 'catalog_investmentList_constructionType'){
+    			vm.page = 'investment';
+    			vm.type = 'constructionType';
+    		}
     		if($state.current.name == 'catalog_policy'){
     			vm.page = 'policy';
+    			vm.type = 'encourage';
+    		}
+    		if($state.current.name == 'catalog_policyAllowList'){
+    			vm.page = 'policy';
+    			vm.type = 'allow';
+    		}
+    		if($state.current.name == 'catalog_policyLimitList'){
+    			vm.page = 'policy';
+    			vm.type = 'limit';
     		}
     		if($state.current.name == 'catalog_policyCatalogEdit'){
     			vm.page = 'policyCatalogEdit';
-    		}
-    		if($state.current.name == 'catalog_policyCatalogSecondList'){
-    			vm.page = 'policyCatalogSecondList';
-    		}
-    		if($state.current.name == 'catalog_secondaryPolicyCatalogEdit'){
-    			vm.page = 'secondaryPolicyCatalogEdit';
     		}
     		if($state.current.name == 'catalog_policyCatalogAlter'){
     			vm.page = 'policyCatalogAlter';
@@ -62,29 +86,50 @@
     			vm.page = 'agencyServiceMattersDetails';
     		}
     		
+    		//全选框选择--项目行业分类
+        	$(document).on('click', '#checkboxAll_projectIndustry', function () {
+                var isSelected = $(this).is(':checked');
+                $('.projectIndustryGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
+            });
+        	//全选框选择--项目类型
+        	$(document).on('click', '#checkboxAll_projectType', function () {
+                var isSelected = $(this).is(':checked');
+                $('.projectTypeGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
+            });
+        	//全选框选择--建设类型
+        	$(document).on('click', '#checkboxAll_constructionType', function () {
+                var isSelected = $(this).is(':checked');
+                $('.constructionTypeGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
+            });
+    		vm.alert=function(str){
+    			vm.type= str;
+    		}
     	}
     	
     	activate();
     	
         function activate() {
         	init();
-        	if(vm.page == 'catalog_investmentProject'){
+        	if(vm.page == 'investment'){
         		page_investmentList();
         	}
         	if(vm.page == 'investment_projectIndustry'){
         		page_investment_projectIndustry();
+        	}
+        	if(vm.page == 'investmentEdit'){
+        		page_investmentEdit();
+        	}
+        	if(vm.page == 'addSecondCatalog'){
+        		page_addSecondCatalog();
+        	}
+        	if(vm.page == 'investmentAlter'){
+        		page_investmentAlter();
         	}
         	if(vm.page == 'policy'){
         		page_policy();//政策目录列表
         	}
         	if(vm.page == 'policyCatalogEdit'){
         		page_policyCatalogEdit();//政策目录主目录添加页
-        	}
-        	if(vm.page == 'policyCatalogSecondList'){
-        		page_policyCatalogSecondList();//政策目录次级目录列表页
-        	}
-        	if(vm.page == 'secondaryPolicyCatalogEdit'){
-        		page_secondaryPolicyCatalogEdit();//政策目录次级目录编辑页
         	}
         	if(vm.page == 'policyCatalogAlter'){
         		page_policyCatalogAlter();//政策条目修改
@@ -114,7 +159,11 @@
         		page_agencyServiceMattersDetails();//中介服务事项详情页
         	}
         	
+        	
         }
+        
+        
+      
         
         //中介服务事项详情页
         function page_agencyServiceMattersDetails(){
@@ -294,73 +343,23 @@
         	};
         }//end fun page_policyCatalogAlter
         
-        //政策条目编辑页面
-        function page_secondaryPolicyCatalogEdit(){
-        	vm.title = '政策条目编辑';
-        	//根据vm.id是否存在，存在则显示次级编辑页面内容！
-        	if(vm.id){
-        		vm.isPolicyCatalogSecondList = true;
-        	}
-        	//点击按钮保存到数据信息
-        	vm.savePolicyCatalog = function(){
-        		common.initJqValidation();
-    			var isValid = $('form').valid();
-        		if(isValid){//通过则可以进行下一步
-        			vm.model.parentId = vm.id;
-        			catalogSvc.createPolicyCatalog(vm);
-        		}
-        	};
-        }
-        
-        //政策目录次级目列表页
-        function page_policyCatalogSecondList(){
-        	//根据id获取政策目录信息
-        	catalogSvc.getPolicyCatalogById(vm);
-        	//根据parentId获取符合条件的次级目录列表
-        	catalogSvc.grid_policyCatalogSecondary(vm);
-        	//点击删除按钮，根据提示是否删除此条记录
-        	vm.deleteSecondPolicyCatalog = function(id){
-        		common.confirm({
-            		vm :vm,
-            		title:"",
-            		msg:"确认要删除此记录吗？",
-            		fn : function(){
-            			$('.confirmDialog').modal('hide');
-            			catalogSvc.deletePolicyCatalog(vm,id);
-            		}
-            	});
-        	};
-        	//点击批量删除按钮，根据提示是否删除记录
-        	vm.deleteSecondPolicyCatalogs = function(){
-	    		var selectIds = common.getKendoCheckId('.grid');
-	            if (selectIds.length == 0) {
-	            	common.alert({
-	                	vm:vm,
-	                	msg:'请选择数据'              	
-	                });
-	            } else {
-	            	var ids=[];
-	                for (var i = 0; i < selectIds.length; i++) {
-	                	ids.push(selectIds[i].value);
-					}
-	                var idStr=ids.join(','); 
-	                common.confirm({
-	               	 	vm:vm,
-	               	 	title:"",
-	               	 	msg:"确认删除数据吗？",
-	               	 	fn:function () {
-	                     	$('.confirmDialog').modal('hide');             	
-	                     	catalogSvc.deletePolicyCatalogs(vm,idStr);
-	                    }
-	                });
-	            }
-	    	};
-        	
-        }//end fun policyCatalogSecondList
-        
-        //政策目录添加页
+        //政策条目添加页
         function page_policyCatalogEdit(){
-        	vm.title = '政策目录编辑';
+
+        	if(vm.type == 'encourage'){
+        		vm.title = '适用产业政策条目(鼓励类)编辑';
+        		vm.policyCatalogEncourage = true;
+        	}
+        	if(vm.type == 'allow'){
+        		vm.title = '适用产业政策条目(允许类)编辑';
+        		vm.policyCatalogAllow = true;
+        	}
+        	if(vm.type == 'limit'){
+        		vm.title = '适用产业政策条目(限制类)编辑';
+        		vm.policyCatalogLimit = true;
+        	}
+        	vm.model.type = vm.type;
+        	//创建按钮
         	vm.savePolicyCatalog = function(){
         		common.initJqValidation();
     			var isValid = $('form').valid();
@@ -370,11 +369,13 @@
         	};
         }
         
-        //政策目录列表页面
+        //政策目录页面
         function page_policy(){
         	vm.title = '适用产业政策类型列表';
-        	//获取使用产业政策类型列表
+        	//获取策类型列表
         	catalogSvc.grid_policyCatalog(vm);
+        	catalogSvc.grid_policyAllow(vm);
+        	catalogSvc.grid_policyLimit(vm);
         	//点击删除按钮，进行删除操作，同时删除所依附的次级所有目录
         	vm.deleteFirstPolicyCatalog = function(id){
         		common.confirm({
@@ -389,7 +390,14 @@
         	};
         	//点击批量删除按钮，根据提示是否删除记录
         	vm.deleteFirstPolicyCatalogs = function(){
-	    		var selectIds = common.getKendoCheckId('.grid');
+        		if(vm.type == 'encourage'){
+        			var selectIds = common.getKendoCheckId('.policyCatalogEncourageGrid');
+				}else if(vm.type == 'allow'){
+					var selectIds = common.getKendoCheckId('.policyCatalogAllowGrid');
+				}else if(vm.type == 'limit'){
+					var selectIds = common.getKendoCheckId('.policyCatalogLimitGrid');
+				}
+        		
 	            if (selectIds.length == 0) {
 	            	common.alert({
 	                	vm:vm,
@@ -419,42 +427,6 @@
         	vm.title = '项目行业分类';
         	catalogSvc.getCatalogById(vm);
         	catalogSvc.grid_InvestmentProjectSecondary(vm);
-        	//点击更新按钮
-        	vm.updateCatalog = function(){
-        		vm.model.id = vm.id;
-        		common.initJqValidation();
-    			var isValid = $('form').valid();
-    			if(isValid){//通过则可以进行下一步
-    				vm.secondary.parentId = vm.id;
-    				vm.secondary.type = 'projectIndustry';
-    				catalogSvc.updateCatalog(vm);
-    			}
-        	};
-        	
-        	//添加按钮
-        	vm.addSecondary = function(){
-        		$('#addSecondaryCatalog').modal('show');//显示投资项目模态框
-        		//点击模态框确定按钮
-        		vm.confirm_addSecond = function(){
-        			common.initJqValidation();
-        			var isValid = $('#second').valid();
-        			if(isValid){//通过则可以进行下一步
-        				vm.secondary.parentId = vm.id;
-        				vm.secondary.type = 'projectIndustry';
-        				catalogSvc.createSecondCatalog(vm);
-        				$('.addName').val('');
-        				$('.addCode').val('');
-        				$('#addSecondaryCatalog').modal('hide');
-    					$(".modal-backdrop").remove(); //去掉模态框背面的阴影
-        			}
-        		};
-        		vm.cancelAdd = function(){
-        			$('.addName').val('');
-    				$('.addCode').val('');
-    				$('#addSecondaryCatalog').modal('hide');
-					$(".modal-backdrop").remove(); //去掉模态框背面的阴影
-        		};
-        	};
         	
         	//点击批量删除按钮
         	vm.deleteSecondaryCatalogs = function(){
@@ -494,89 +466,74 @@
             		}
             	});
         	};
-        	//编辑按钮
-        	vm.changeSecondary = function(id){
-        		vm.secondCatalogId = id;
-        		catalogSvc.getSecondCatalogById(vm);
-        		$('#updateSecondaryCatalog').modal('show');
-        		//点击模态框确定按钮
-        		vm.confirm_updateSecond = function(){
-        			common.initJqValidation();
-        			var isValid = $('#second').valid();
-        			if(isValid){//通过则可以进行下一步
-        				catalogSvc.changeSecondCatalog(vm);
-        				$('#updateSecondaryCatalog').modal('hide');
-    					$(".modal-backdrop").remove(); //去掉模态框背面的阴影
-        			}
-        		};
+        }
+        
+        //投资项目修改页
+        function page_investmentAlter(){
+        	vm.isShowConfirm = true;
+        	catalogSvc.getCatalogById(vm);
+        	//更新按钮
+    		vm.updateCatalog = function(){
+        		vm.model.id = vm.id;
+        		common.initJqValidation();
+    			var isValid = $('form').valid();
+    			if(isValid){//通过则可以进行下一步
+    				vm.secondary.parentId = vm.id;
+    				vm.secondary.type = 'projectIndustry';
+    				catalogSvc.updateCatalog(vm);
+    			}
         	};
         }
         
+        //投资项目二级新增页
+        function page_addSecondCatalog(){
+        	vm.title = '项目行业编辑'
+        	vm.projectIndustrySecondCatalog = true;
+        	vm.model.type = 'projectIndustry';
+        	vm.model.parentId = vm.id;
+        	//创建按钮
+        	vm.saveInvestment = function(){
+    			common.initJqValidation();
+    			var isValid = $('form').valid();
+    			if(isValid){//通过则可以进行下一步
+    				catalogSvc.createCatalog(vm);
+    			}
+    		};
+        }//end fun page_addSecondCatalog
+        
+        //投资项目一级新增页
+        function page_investmentEdit(){
+        	if(vm.type == 'projectIndustry'){
+        		vm.title = '项目行业编辑';
+        		vm.projectIndustryCatalog = true;
+        	}
+        	if(vm.type == 'projectType'){
+        		vm.title = '项目类型编辑';
+        		vm.projectTypeCatalog = true;
+        	}
+        	if(vm.type == 'constructionType'){
+        		vm.title = '建设类型编辑';
+        		vm.constructionTypeCatalog = true;
+        	}
+        	vm.model.type = vm.type;
+        	//创建按钮
+        	vm.saveInvestment = function(){
+    			common.initJqValidation();
+    			var isValid = $('form').valid();
+    			if(isValid){//通过则可以进行下一步
+    				catalogSvc.createCatalog(vm);
+    			}
+    		};
+        }//end fun page_investmentEdit
+        
         //投资项目列表页
         function page_investmentList(){
-        	vm.showProjectIndustry = false;
-        	vm.model.type = 'projectIndustry';
+        		
         	//获取投资项目列表,默认为项目行业
         	catalogSvc.grid_InvestmentProject(vm);
-        	//项目行业分类按钮
-        	vm.showProjectIndustry = function(){
-	          	vm.title='项目行业分类列表';
-	          	vm.projectIndustryButton = false;
-	          	vm.projectTypeButton = false;
-	          	vm.constructionTypeButton= false;
-	          	vm.projectIndustry = false;
-	          	vm.projectType = false;
-	          	vm.constructionType = false;
-	          	vm.model.type = 'projectIndustry';
-        	};
-        	//项目类型按钮
-        	vm.showProjectType = function(){
-	          	vm.title = '项目类型列表';
-	          	vm.projectTypeButton = true;
-	          	vm.projectIndustryButton = true;
-	          	vm.projectIndustry = true;
-	          	vm.constructionTypeButton = false;
-	          	vm.projectType = true;
-	          	vm.constructionType = false;
-	          	catalogSvc.grid_projectType(vm);
-	          	vm.model.type = 'projectType';
-        	};
-        	//建设类型按钮
-        	vm.showConstructionType = function(){
-	          	vm.title = '建设类型列表';
-	          	vm.projectIndustryButton = true;
-	          	vm.projectTypeButton = false;
-	          	vm.constructionTypeButton= true;
-	          	vm.projectIndustry = true;
-	          	vm.projectType = false;
-	          	vm.constructionType = true;
-	          	catalogSvc.grid_constructionType(vm);
-	          	vm.model.type = 'constructionType';
-        	};
+        	catalogSvc.grid_projectType(vm);
+        	catalogSvc.grid_constructionType(vm);
         	
-        	//点击新增按钮 
-        	vm.addCatalog = function(){
-        		$('#catalog').modal('show');//显示投资项目模态框
-        		//点击模态框确定按钮
-        		vm.confirmSubmit = function(){
-        			common.initJqValidation();
-        			var isValid = $('form').valid();
-        			if(isValid){//通过则可以进行下一步
-        				catalogSvc.createCatalog(vm);
-        				$('.name').val('');
-        				$('.code').val('');
-        				$('#catalog').modal('hide');
-    					$(".modal-backdrop").remove(); //去掉模态框背面的阴影
-        			}
-        		};
-        		//点击模态框取消按钮，清空已填数据
-        		vm.cancelMain =function(){
-        			$('.name').val('');
-    				$('.code').val('');
-    				$('#catalog').modal('hide');
-					$(".modal-backdrop").remove(); //去掉模态框背面的阴影
-        		};
-        	};
         	//删除按钮
         	vm.deleteCatalog = function(id){
         		common.confirm({
@@ -591,7 +548,14 @@
         	};
         	//批量删除按钮
         	vm.deleteCatalogs = function(){
-	    		var selectIds = common.getKendoCheckId('.grid');
+        		if(vm.type == 'projectIndustry'){
+        			var selectIds = common.getKendoCheckId('.projectIndustryGrid');
+				}else if(vm.type == 'projectType'){
+					var selectIds = common.getKendoCheckId('.projectTypeGrid');
+				}else if(vm.type == 'constructionType'){
+					var selectIds = common.getKendoCheckId('.constructionTypeGrid');
+				}
+				
 	            if (selectIds.length == 0) {
 	            	common.alert({
 	                	vm:vm,

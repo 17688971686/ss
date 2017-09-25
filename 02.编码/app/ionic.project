@@ -1,0 +1,11 @@
+{
+  "name": "LHRPSMobile",
+  "app_id": "a10bb369",
+  "browsers": [
+    {
+      "platform": "android",
+      "browser": "crosswalk",
+      "version": "12.41.296.5"
+    }
+  ]
+}

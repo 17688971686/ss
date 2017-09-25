@@ -1,7 +1,6 @@
 package cs.controller.framework;
 
 import java.text.ParseException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
 import cs.model.PageModelDto;
 import cs.model.framework.UserDto;
 import cs.repository.odata.ODataObj;
@@ -72,5 +70,5 @@ public class UserController {
 	public String edit() {
 		return ctrlName + "/edit";
 	}
-	// end#html
+	
 }

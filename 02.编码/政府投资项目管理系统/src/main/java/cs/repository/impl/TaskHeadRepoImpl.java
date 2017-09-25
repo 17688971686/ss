@@ -3,6 +3,10 @@ package cs.repository.impl;
 import org.springframework.stereotype.Repository;
 
 import cs.domain.TaskHead;
+
+
+
+
 /**
  * @Description: 任务信息持久层
  * @author: cx
@@ -11,5 +15,6 @@ import cs.domain.TaskHead;
  */
 @Repository
 public class TaskHeadRepoImpl extends AbstractRepository<TaskHead, String> {
+	
 
 }

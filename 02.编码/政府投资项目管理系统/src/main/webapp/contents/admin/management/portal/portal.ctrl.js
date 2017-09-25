@@ -9,7 +9,8 @@
 
     function portal($location, portalSvc,$state,$scope) {
         /* jshint validthis:true */
-    	var vm = this;    	
+    	var vm = this;
+    	vm.model={};
     	vm.type=$state.params.type;
     	vm.id=$state.params.id;
         vm.init=function(){   

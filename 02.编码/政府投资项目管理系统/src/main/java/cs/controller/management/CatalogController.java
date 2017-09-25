@@ -197,14 +197,39 @@ public class CatalogController {
 		return ctrl+"/investmentList";
 	}
 	
-	@RequestMapping(name="投资项目编辑页",path="html/investmentEdit",method=RequestMethod.GET)
+	@RequestMapping(name="投资项目次级编辑页",path="html/investmentSecondList",method=RequestMethod.GET)
+	public String investmentSecondList(){
+		return ctrl+"/investmentSecondList";
+	}
+	
+	@RequestMapping(name="投资项目列表页(默认显示项目行业)",path="html/investmentEdit",method=RequestMethod.GET)
 	public String investmentEdit(){
 		return ctrl+"/investmentEdit";
 	}
 	
-	@RequestMapping(name="政策目录列表页",path="html/policyCatalogList",method=RequestMethod.GET)
+	@RequestMapping(name="投资项目列表页(默认显示项目类型)",path="html/investmentProjectTypeList",method=RequestMethod.GET)
+	public String investmentProjectTypeList(){
+		return ctrl+"/investmentProjectTypeList";
+	}
+	
+	@RequestMapping(name="投资项目列表页(默认显示建设类型)",path="html/investmentConstructionTypeList",method=RequestMethod.GET)
+	public String investmentConstructionTypeList(){
+		return ctrl+"/investmentConstructionTypeList";
+	}
+	
+	@RequestMapping(name="政策目录列表页(默认显示鼓励类)",path="html/policyCatalogList",method=RequestMethod.GET)
 	public String policyList(){
 		return ctrl+"/policyCatalogList";
+	}
+	
+	@RequestMapping(name="政策目录列表页(默认显示允许类)",path="html/policyCatalogAllowList",method=RequestMethod.GET)
+	public String policyCatalogAllowList(){
+		return ctrl+"/policyCatalogAllowList";
+	}
+	
+	@RequestMapping(name="政策目录列表页(默认显示限制类)",path="html/policyCatalogLimitList",method=RequestMethod.GET)
+	public String policyCatalogLimitList(){
+		return ctrl+"/policyCatalogLimitList";
 	}
 	
 	@RequestMapping(name="政策目录编辑页",path="html/policyCatalogEdit",method=RequestMethod.GET)

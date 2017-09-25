@@ -1,0 +1,65 @@
+<div class="bg-info text-info" style="padding: 10px;">年度计划信息</div>
+<table class="table table-bordered table-striped ">
+	<tr>
+		<td class="formAlignRight" style="width:150px;">项目进展：<span class="required">(*)</span></td>
+		<td style="width:250px;" colspan="3">
+			<textarea rows="3" cols="20" maxlength="500" style="height:121px;width: 99%;" id="yearImageSchedule" name="yearImageSchedule" ng-model="vm.model.yearImageSchedule" 
+			placeholder="注：请简要说明项目现有进展和形象进度（500字符以内）" ng-change="vm.checkLength(vm.model.yearImageSchedule,500,'yearImageScheduleTips')" data-val="true" data-val-required="必填"></textarea>									
+			<div class="tipfont">您还可以输入<span id="yearImageScheduleTips"><font size="5">500</font></span>个字符!</div>
+			<span data-valmsg-for="yearImageSchedule" data-valmsg-replace="true" class="required"></span>
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">计划年度：<span class="required">(*)</span></td>
+		<td style="width:370px;">
+			<input class="Wdate form-control input-sm" style="width:180px;" type="text" id="planYear" name="planYear" onChange="" ng-model="vm.model.planYear" 
+			 onFocus="WdatePicker({dateFmt:'yyyy'})" ng-change="vm.changeYear()" data-val="true" data-val-required="必填"/>
+			<span data-valmsg-for="planYear" data-valmsg-replace="true" class="required"></span>
+		</td>
+		<td class="formAlignRight" style="width:150px;">年度投资：<span class="required">(*)</span></td>
+		<td>
+			<input type="number" step="any" style="width:180px;" class="form-control input-sm" ng-model="vm.model.applyYearInvest"
+				id="applyYearInvest" name="applyYearInvest"  data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<span data-valmsg-for="applyYearInvest" data-valmsg-replace="true" class="required"></span>
+		</td>
+	</tr>
+
+	<tr>
+		<td class="formAlignRight">年度建设内容：<span class="required">(*)</span></td>
+		<td colspan="3">
+			<textarea rows="3" cols="20" maxlength="500" style="height:121px;width: 99%;" id="yearConstructionContent" name="yearConstructionContent" ng-model="vm.model.yearConstructionContent"
+				placeholder="请简要概述年度计划建设的内容：备注（500字符以内）"  ng-change="vm.checkLength(vm.model.yearConstructionContent,500,'yearConstructionContentTips')" data-val="true" data-val-required="必填"></textarea>
+			<div class="tipfont">您还可以输入<span id="yearConstructionContentTips"><font size="5">500</font></span>个字符!</div>
+			<span data-valmsg-for="yearConstructionContent" data-valmsg-replace="true" class="required"></span>
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="formAlignRight">存在的问题：</td>
+		<td>
+			<textarea rows="3" cols="20" maxlength="500" style="width:98%" ng-model="vm.model.existingProblem"
+				placeholder="注：请简要说明项目现在存在的问题（500字符以内）" ng-change="vm.checkLength(vm.model.existingProblem,500,'existingProblemTips')"></textarea>
+			<div class="tipfont">您还可以输入<span id="existingProblemTips"><font size="5">500</font></span>个字符!</div>
+		</td>
+		<td class="formAlignRight">推进建议：</td>
+		<td>
+			<textarea rows="3" cols="20" maxlength="500" style="width:98%" ng-model="vm.model.moveSuggestion"
+				placeholder="注：请简要说明对项目推进的建议（500字符以内）" ng-change="vm.checkLength(vm.model.moveSuggestion,500,'moveSuggestionTips')">
+			</textarea>
+			<div class="tipfont">您还可以输入<span id="moveSuggestionTips"><font size="5">500</font></span>个字符!</div>
+		</td>
+	</tr>
+</table>
+
+
+<div class="bg-info text-info" style="padding: 10px;">申报信息备注</div>
+<table class="table table-bordered table-striped ">
+	<tr>
+		<td class="formAlignRight"  style="width:150px;">申报信息备注：</td>
+		<td colspan="3">
+			<textarea rows="3" cols="20" maxlength="500" style="height:121px;width: 99%;" id="yearConstructionContentShenBao" name="yearConstructionContentShenBao" ng-model="vm.model.yearConstructionContentShenBao"
+				placeholder="请简要概述申报信息备注：备注（500字符以内）" ng-change="vm.checkLength(vm.model.yearConstructionContentShenBao,500,'yearConstructionContentShenBaoTips')"></textarea>
+			<div class="tipfont">您还可以输入<span id="yearConstructionContentShenBaoTips"><font size="5">500</font></span>个字符!</div>
+		</td>
+	</tr>
+</table>

@@ -22,11 +22,11 @@ import javax.persistence.Table;
 public class MonthReport extends BaseEntity{
 
 	@Id
-	private String id;	
+	private String id;
 	@Column(columnDefinition="varchar(255)  COMMENT '项目ID'")
 	private String projectId;
 	
-	@Column(columnDefinition="varchar(255)  COMMENT '关联项目代码'")
+	@Column(columnDefinition="varchar(125)  COMMENT '关联项目代码'")
 	private String projectNumber;
 	
 	@Column(columnDefinition="bit(1) NULL COMMENT '是否是最新的版本'")
@@ -34,11 +34,11 @@ public class MonthReport extends BaseEntity{
 	
 	//begin#联系人信息
 
-	@Column(columnDefinition="varchar(255) COMMENT '填报人姓名'")
+	@Column(columnDefinition="varchar(50) COMMENT '填报人姓名'")
 	private String fillName;
 	@Column(columnDefinition="varchar(50) COMMENT '填报人手机号'")
 	private String fillMobile;
-	@Column(columnDefinition="varchar(255) COMMENT '项目负责人姓名'")
+	@Column(columnDefinition="varchar(50) COMMENT '项目负责人姓名'")
 	private String projectRepName;
 	@Column(columnDefinition="varchar(50) COMMENT '项目负责人手机号'")
 	private String projectRepMobile;
@@ -54,28 +54,28 @@ public class MonthReport extends BaseEntity{
 	
 	//begin#投资情况
 	@Column(columnDefinition="double(11,4) COMMENT '计划总投资'")
-	private Double invertPlanTotal;
+	private Double invertPlanTotal=0.0;
 	
 	@Column(columnDefinition="double(11,4) COMMENT '截止上年底累计下达计划'")
-	private Double releasePlanTotal;
+	private Double releasePlanTotal=0.0;
 	
 	@Column(columnDefinition="double(11,4) COMMENT '本年度安排计划投资'")
-	private Double thisYearPlanInvestment;
+	private Double thisYearPlanInvestment=0.0;
 	
 	@Column(columnDefinition="double(11,4) COMMENT '本年度已下达计划'")
-	private Double thisYearPlanHasInvestment;
+	private Double thisYearPlanHasInvestment=0.0;
 	
 	@Column(columnDefinition="double(11,4) COMMENT '实际完成投资'")
-	private Double actuallyFinishiInvestment;	
+	private Double actuallyFinishiInvestment=0.0;	
 
 	@Column(columnDefinition="double(11,4) COMMENT '本年度累计完成投资'")
-	private Double thisYearAccumulatedInvestment;
+	private Double thisYearAccumulatedInvestment=0.0;
 	
 	@Column(columnDefinition="double(11,4) COMMENT '本月计划完成投资'")
-	private Double thisMonthPlanInvestTotal;
+	private Double thisMonthPlanInvestTotal=0.0;
 	
 	@Column(columnDefinition="double(11,4) COMMENT '本月完成投资'")
-	private Double thisMonthInvestTotal;
+	private Double thisMonthInvestTotal=0.0;
 
 	@Column(columnDefinition="bit  COMMENT '是否完工'")
 	private Boolean isCompletion;
@@ -83,21 +83,21 @@ public class MonthReport extends BaseEntity{
 	
 	
 	//begin#进度情况
-	@Column(columnDefinition="varchar(2000) COMMENT '项目审批进度'")
+	@Column(columnDefinition="varchar(500) COMMENT '项目审批进度'")
 	private String projectApprovalProgress;
-	@Column(columnDefinition="varchar(2000) COMMENT '工程形象进度或项目进展情况'")
+	@Column(columnDefinition="varchar(500) COMMENT '工程形象进度或项目进展情况'")
 	private String projectImageProgress;
-	@Column(columnDefinition="varchar(50) COMMENT '项目进度'")
+	@Column(columnDefinition="varchar(125) COMMENT '项目进度'")
 	private String selfReview;
 	@Column(columnDefinition="double(11,4) COMMENT '预计第一季度完成投资'")
-	private Double firstQuarCompInvestment;
+	private Double firstQuarCompInvestment=0.0;
 	@Column(columnDefinition="double(11,4) COMMENT '预计第二季度完成投资'")
-	private Double secondQuarCompInvestment;
+	private Double secondQuarCompInvestment=0.0;
 	@Column(columnDefinition="double(11,4) COMMENT '预计第三季度完成投资'")
-	private Double thirdQuarCompInvestment;
+	private Double thirdQuarCompInvestment=0.0;
 	@Column(columnDefinition="double(11,4) COMMENT '预计第四季度完成投资'")
-	private Double fourthQuarCompInvestment;	
-	@Column(columnDefinition="varchar(2000) COMMENT '工作目标'")
+	private Double fourthQuarCompInvestment=0.0;	
+	@Column(columnDefinition="varchar(500) COMMENT '工作目标'")
 	private String workTargets;	
 	//end#进度情况
 	
@@ -111,13 +111,13 @@ public class MonthReport extends BaseEntity{
 	@Column(columnDefinition="datetime COMMENT '提交日期'")
 	private Date submitDate;
 	
-	@Column(columnDefinition="varchar(255) COMMENT '备注'")
+	@Column(columnDefinition="varchar(500) COMMENT '备注'")
 	private String remark;
 	
 	//begin#审批相关
-		@Column(columnDefinition="varchar(500) NULL COMMENT '审批状态'")
-		private String processState;
-		//end
+	@Column(columnDefinition="varchar(125) NULL COMMENT '审批状态'")
+	private String processState;
+	//end
 	
 	//begin#关联信息
 	//月报问题
@@ -402,5 +402,5 @@ public class MonthReport extends BaseEntity{
 	public void setIsLatestVersion(Boolean isLatestVersion) {
 		this.isLatestVersion = isLatestVersion;
 	}
-	
+
 }

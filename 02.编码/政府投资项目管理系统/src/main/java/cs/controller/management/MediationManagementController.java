@@ -3,8 +3,6 @@ package cs.controller.management;
 import java.text.ParseException;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -26,7 +24,7 @@ import cs.service.interfaces.MediationUnitService;
 @RequestMapping(name="中介单位管理",path="management/mediationManagement")
 public class MediationManagementController {
 	private String ctrlName = "management/mediationManagement";
-	private static Logger logger = Logger.getLogger(MediationManagementController.class.getName());
+
 	@Autowired
 	private MediationUnitService mediationUnitService;
 	@Autowired

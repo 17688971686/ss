@@ -20,31 +20,31 @@ public class YearPlanCapital extends BaseEntity {
 	private String shenbaoInfoId;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金筹措方案-市财政-公共预算'")
-	private Double capitalSCZ_ggys;
+	private Double capitalSCZ_ggys=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金筹措方案-市财政-国土资金'")
-	private Double capitalSCZ_gtzj;
+	private Double capitalSCZ_gtzj=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金筹措方案-市财政-专项资金'")
-	private Double capitalSCZ_zxzj;
+	private Double capitalSCZ_zxzj=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金筹措方案-区财政-公共预算'")
-	private Double capitalQCZ_ggys;
+	private Double capitalQCZ_ggys=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金筹措方案-区财政-国土资金'")
-	private Double capitalQCZ_gtzj;
+	private Double capitalQCZ_gtzj=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金筹措方案-中央预算内投资'")
-	private Double capitalZYYS;
+	private Double capitalZYYS=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金筹措方案-社会投资'")
-	private Double capitalSHTZ;
+	private Double capitalSHTZ=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金筹措方案-其它'")
-	private Double capitalOther;
+	private Double capitalOther=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金总和'")
-	private Double capitalSum;
+	private Double capitalSum=0.0;
 	
 	public Double getCapitalSum() {
 		return capitalSum;

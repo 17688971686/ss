@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -13,17 +12,14 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.common.Response;
-import cs.domain.ShenPiUnit;
 import cs.domain.framework.Role;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
-import cs.model.DomainDto.ShenPiUnitDto;
+import cs.domain.ShenPiUnit;
 import cs.model.DomainDto.UserUnitInfoDto;
-import cs.model.DtoMapper.IMapper;
 import cs.model.framework.RoleDto;
 import cs.model.framework.UserDto;
 import cs.repository.framework.RoleRepo;
@@ -48,11 +44,6 @@ public class UserServiceImpl implements UserService {
 
 
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see cs.service.UserService#get(cs.repository.odata.ODataObj)
-	 */
 	@Override
 	@Transactional
 	public PageModelDto<UserDto> get(ODataObj odataObj) {
@@ -80,7 +71,7 @@ public class UserServiceImpl implements UserService {
 				roleDtoList.add(roleDto);
 			}
 			userDto.setRoles(roleDtoList);
-
+			
 			userDtoList.add(userDto);
 		}
 		PageModelDto<UserDto> pageModelDto = new PageModelDto<>();
@@ -157,7 +148,7 @@ public class UserServiceImpl implements UserService {
 			
 		}
 	}
-
+	
 	@Override
 	@Transactional
 	public void deleteUsers(String[] ids) {
@@ -219,18 +210,19 @@ public class UserServiceImpl implements UserService {
 				//判断用户角色
 				Boolean hasRole = false;
 				List<Role> roles = user.getRoles();
+				
+				loop:
 				for(Role x:roles){
 					for (String y : roleName) {
 						if(x.getRoleName().equals(y) || x.getRoleName().equals("超级管理员")){//如果有对应的角色则允许登录
 							hasRole = true;
-							break;
+							break loop;
 						}else{
 							hasRole = false;
 						}
 						
 						
-					}
-					
+					}				
 				}
 				if(hasRole){
 					currentUser.setLoginName(user.getLoginName());

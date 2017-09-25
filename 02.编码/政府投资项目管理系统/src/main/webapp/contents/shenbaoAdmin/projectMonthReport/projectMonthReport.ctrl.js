@@ -16,6 +16,7 @@
         vm.page='list';
         vm.init=function(){
         	vm.projectId = $state.params.projectId;
+        	vm.projectInvestmentType=$state.params.projectInvestmentType;
             vm.month = $state.params.month;
             vm.year=$state.params.year;
             vm.processState=$state.params.processState;
@@ -30,9 +31,24 @@
    			 common.checkLength(obj,max,id);
             };
             
+            vm.getUnitName=function(unitId){
+            	return common.getUnitName(unitId);
+            };
+            
+            vm.getBasicDataDesc=function(id){
+            	return common.getBasicDataDesc(id);
+            };
+            
           //用于查询--基础数据
 	   		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
 	   		vm.basicData.projectInvestmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);//投资类型
+	   		vm.basicData.projectIndustryAll=common.getBacicDataByIndectity(common.basicDataConfig().projectIndustry);//项目行业分类
+   	   		vm.basicData.projectIndustry_ZF=$linq(common.getBasicData())
+   	   			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
+   	   			.toArray();//政府投资项目行业
+   	   		vm.basicData.projectIndustry_SH=$linq(common.getBasicData())
+   	   			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_SH;})
+   	   			.toArray();//社会投资项目行业
         };
         
         activate();
@@ -56,8 +72,8 @@
     	   projectMonthReportSvc.grid(vm);
     	   
     	 //查询
-   		vm.search=function(){
-   			var filters = [];
+   			vm.search=function(){
+   				var filters = [];
 				filters.push({field:'isLatestVersion',operator:'eq',value:true});//默认条件--项目最新版本
 				filters.push({field:'isMonthReport',operator:'eq',value:true});//默认条件--需要填报月报 
 				
@@ -71,10 +87,36 @@
     		   	if(vm.search.projectInvestmentType !=null && vm.search.projectInvestmentType !=''){//查询条件--投资类型
     			   filters.push({field:'projectInvestmentType',operator:'eq',value:vm.search.projectInvestmentType});
     		   	}
-    		   
-			  vm.gridOptions.dataSource.filter(filters);
-    		  vm.gridOptions.dataSource.read(); 
-   		};
+    		   	if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){//查询条件--项目行业
+         			  filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
+     		   	}
+    		   	vm.gridOptions.dataSource.filter(filters);
+   			};
+   			//条件查询--项目行业父级发生变化
+   			vm.searchIndustryFatherChange=function(){
+	   			vm.searchIndustryIsZF = false;
+	   			vm.searchIndustryIsSH = false;
+	   			vm.searchIndustryChild=false;
+	   			if(vm.searchIndustryFather == common.basicDataConfig().projectIndustry_ZF){
+	   				vm.searchIndustryIsZF = true;
+	   			}else if(vm.searchIndustryFather == common.basicDataConfig().projectIndustry_SH){
+	   				vm.searchIndustryIsSH = true;
+	   			}
+	   		};
+	   		//条件查询--项目行业子集发生变化
+	   	   vm.searchIndustryChildChange=function(){
+	   		   vm.searchIndustryChild=false;
+	   		   if(vm.search.projectIndustryChild !=null && vm.search.projectIndustryChild !=''){
+	   			   vm.basicData.projectIndustryChild_SH=$linq(common.getBasicData())
+	   			   	.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.search.projectIndustryChild;})
+	   			   	.toArray();//社会投资项目行业子集
+	   			   vm.searchIndustryChild=true;
+	   		}
+	   	  };
+	   	  //清空查询条件
+	 		vm.filterClear=function(){
+	 			location.reload();
+	 		};
         }//end page_list
         
        function page_selectMonth(){
@@ -111,11 +153,16 @@
         	 //月份按钮被触发
         	 vm.fillReport = function(month){
         		//跳转到月报信息填写页面
-               	location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+vm.submitYear+"/"+month;	
+               	location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+vm.model.projectInfo.projectInvestmentType+"/"+vm.submitYear+"/"+month;	
 			};
         }//end page_selectMonth
         
         function page_fillReport(){ 
+        	if(vm.projectInvestmentType == common.basicDataConfig().projectInvestmentType_ZF){//如果为政府投资项目
+        		vm.isZFInvestment = true;
+        	}else if(vm.projectInvestmentType == common.basicDataConfig().projectInvestmentType_SH){//如果为社会投资项目
+        		vm.isSHInvestment = true;
+        	}
         	//begin#init
         	vm.model.monthReport={};
         	

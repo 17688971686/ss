@@ -24,9 +24,14 @@ public class BasicDataConfig {
 	public static String processState="processState";
 	public static String processState_tianBao="processState_1";//等待签收
 	public static String processState_qianShou="processState_2";//签收
-	public static String processState_banJie="processState_7";//办结
-	public static String processState_tuiWen="processState_11";//退文
+	public static String processState_banJie="processState_11";//办结
+	public static String processState_tuiWen="processState_15";//退文
+	public static String processState_tuiWenBanJie="processState_24";//退文办结
+	public static String processState_MiShuFenBan="processState_3";//秘书科分办
+	public static String processState_jieShuShenPi="processState_23";//秘书科发文
 	
+	public static String msFenBanRole="秘书科分办人员";
+	public static String msHeGaoRole="人秘科发文人员";
 	
 	public static String projectShenBaoStage_nextYearPlan="projectShenBaoStage_7";//下一年度计划
 	
@@ -34,6 +39,11 @@ public class BasicDataConfig {
 	public static String taskType_nextYearPlan="taskType_2";//下一年度计划
 	public static String taskType_monthReport="taskType_1";//月报填报
 	public static String taskType_sendMesg="taskType_3";//发送短信
+	public static String taskType_shenBaoDK="taskType_4";//申报端口
+	public static String taskType_XMJYS="taskType_5";//项目建议书
+	public static String taskType_KXXYJBG="taskType_6";//可行性研究报告
+	public static String taskType_CBSJYGS="taskType_7";//初步设计与概算
+	public static String taskType_shenBaoDK="taskType_4";//是否打开申报端口
 	
 	public static String attachment_type_jys="JYS"; 
 	public static String attachment_type_kxxyjbg="KXXYJBG"; 

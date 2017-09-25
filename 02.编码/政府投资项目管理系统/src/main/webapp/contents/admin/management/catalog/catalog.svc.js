@@ -24,10 +24,11 @@
 				removeSecondCatalogs : removeSecondCatalogs,//批量删除投资项目次级目录
 				deleteCatalog : deleteCatalog,//投资项目删除主目录
 				removeFirstCatalogs : removeFirstCatalogs,//投资项目批量删除主目录
-				grid_policyCatalog : grid_policyCatalog,//政策目录类型列表
+				grid_policyCatalog : grid_policyCatalog,//政策目录类型列表(鼓励类)
+				grid_policyAllow : grid_policyAllow,//政策目录类型列表(允许类)
+				grid_policyLimit : grid_policyLimit,//政策目录类型列表(限制类)
 				createPolicyCatalog : createPolicyCatalog,//创建政策目录
 				getPolicyCatalogById : getPolicyCatalogById,//根据政策目录id获取信息
-				grid_policyCatalogSecondary : grid_policyCatalogSecondary,//政策目录次级目录列表
 				deletePolicyCatalog : deletePolicyCatalog,//根据政策条目id删除记录
 				deletePolicyCatalogs : deletePolicyCatalogs,//批量删除政策条目信息
 				updatePolicyCatalog : updatePolicyCatalog,//更新政策条目数据
@@ -514,11 +515,14 @@
 							msg : "操作成功",
 							fn : function() {
 								$('.alertDialog').modal('hide');
-								//判断是否存在参数id(主目录路径不存在参数id)，来刷新主目录列表还是次目录列表
-								if(vm.id){
-									vm.policyCatalogSecondaryGrid.dataSource.read();
-								}else{
+								if(vm.type == 'encourage'){
 									vm.policyCatalogGrid.dataSource.read();
+								}
+								if(vm.type == 'allow'){
+									vm.policyCatalogGrid_allow.dataSource.read();
+								}
+								if(vm.type == 'limit'){
+									vm.policyCatalogGrid_limit.dataSource.read();
 								}
 							}
 						});
@@ -549,11 +553,14 @@
 							msg : "操作成功",
 							fn : function() {
 								$('.alertDialog').modal('hide');
-								//判断是否存在参数id(主目录路径不存在参数id)，来刷新主目录列表还是次目录列表
-								if(vm.id){
-									vm.policyCatalogSecondaryGrid.dataSource.read();
-								}else{
+								if(vm.type == 'encourage'){
 									vm.policyCatalogGrid.dataSource.read();
+								}
+								if(vm.type == 'allow'){
+									vm.policyCatalogGrid_allow.dataSource.read();
+								}
+								if(vm.type == 'limit'){
+									vm.policyCatalogGrid_limit.dataSource.read();
 								}
 							}
 						});
@@ -568,72 +575,6 @@
 			});
 		}//end fun deleteolicyCatalog
 		
-		//政策目录次级目录列表
-		function grid_policyCatalogSecondary(vm){
-			// Begin:dataSource
-			var dataSource = new kendo.data.DataSource({
-				type : 'odata',
-				transport : common.kendoGridConfig().transport(common.format(url_catalog+"/policyCatalog")),
-				schema : common.kendoGridConfig().schema({
-					id : "id"					
-				}),
-				serverPaging : true,
-				serverSorting : true,
-				serverFiltering : true,
-				pageSize : 10,
-				sort : {
-					field : "code",
-					dir : "asc"
-				},
-				filter:{//只根据父id显示子项
-					field:'parentId',
-					operator:'eq',
-					value:vm.id
-				}
-			});
-			// End:dataSource
-
-			// Begin:column
-			var columns = [
-				{
-					template : function(item) {
-						return kendo.format("<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",item.id);
-					},
-					filterable : false,
-					width : 40,
-					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
-				},
-				{
-					field : "name",
-					title : "名称",						
-					filterable : true
-				},
-				{
-					field : "code",
-					title : "编码",
-					filterable : true
-				},
-				{
-					field : "",
-					title : "操作",
-					width : 180,
-					template : function(item) {
-						return common.format($('#columnBtns').html(),item.id);
-					}
-				}
-			];
-			// End:column
-
-			vm.policyCatalogSecondaryGrid = {					
-					dataSource : common.gridDataSource(dataSource),
-					filterable : common.kendoGridConfig().filterable,
-					pageable : common.kendoGridConfig().pageable,
-					noRecords : common.kendoGridConfig().noRecordMessage,
-					columns : columns,
-					resizable : true
-			};
-		}//end fun grid_policyCatalogSecondary
-		
 		//根据政策目录id获取信息
 		function getPolicyCatalogById(vm){
 			var httpOptions = {
@@ -642,10 +583,15 @@
 				};
 			var httpSuccess = function success(response) {
 					vm.model=response.data.value[0] || {};
-					if(vm.model.parentId != '' || vm.model.parentId.trim() != ''){
-			        	//显示次级编辑页面内容！
-			        	vm.isPolicyCatalogSecondList = true;
-			        	vm.id = vm.model.parentId;
+					if(vm.model.type == 'encourage'){
+						vm.title = '适用产业政策条目(鼓励类)修改';
+						vm.policyCatalogEncourage = true;
+					}else if(vm.model.type == 'allow'){
+						vm.title = '适用产业政策条目(允许类)修改';
+						vm.policyCatalogAllow = true;
+					}else if(vm.model.type == 'limit'){
+						vm.title = '适用产业政策条目(限制类)修改';
+						vm.policyCatalogLimit = true;
 					}
 			};
 			
@@ -676,10 +622,12 @@
 							fn : function() {
 								$('.alertDialog').modal('hide');
 								$('.modal-backdrop').remove();
-								if(vm.id){//如果是次级目录列表添加数据，则返回次级目录列表页面
-									location.href = "#/catalog/policyCatalogSecondList/"+vm.id;
-								}else{//如果是一级目录列表添加数据，则返回一级目录列表页面
-									location.href = "#/catalog/policyCatalog";
+								if(vm.type == 'encourage'){
+									location.href = '#/catalog/policyCatalog';
+								}else if(vm.type == 'allow'){
+									location.href = '#/catalog/policyCatalog/allowList';
+								}else if(vm.type == 'limit'){
+									location.href = '#/catalog/policyCatalog/limitList';
 								}
 							}
 						});
@@ -695,7 +643,7 @@
 			});
 		}//end fun createPolicyCatalog
 		
-		//政策目录类型列表
+		//政策目录类型列表(鼓励类)
 		function grid_policyCatalog(vm){
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
@@ -713,9 +661,9 @@
 					dir : "asc"
 				},
 				filter:{//只显示父级目录
-					field:'parentId',
+					field:'type',
 					operator:'eq',
-					value:''
+					value:'encourage'
 				}
 			});
 			// End:dataSource
@@ -744,7 +692,7 @@
 				{
 					field : "",
 					title : "操作",
-					width : 200,
+					width : 220,
 					template : function(item) {
 						return common.format($('#columnBtns').html(),item.id);
 					}
@@ -761,7 +709,143 @@
 					resizable : true
 			};
 			
-		}
+		}//end fun grid_policyCatalog
+		
+		//政策目录类型列表(允许类)
+		function grid_policyAllow(vm){
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(common.format(url_catalog+"/policyCatalog")),
+				schema : common.kendoGridConfig().schema({
+					id : "id"					
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "code",
+					dir : "asc"
+				},
+				filter:{//只显示父级目录
+					field:'type',
+					operator:'eq',
+					value:'allow'
+				}
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+				{
+					template : function(item) {
+						return kendo.format("<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",item.id);
+					},
+					filterable : false,
+					width : 40,
+					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+
+				},
+				{
+					field : "name",
+					title : "名称",						
+					filterable : true
+				},
+				{
+					field : "code",
+					title : "编码",
+					filterable : true
+				},
+				{
+					field : "",
+					title : "操作",
+					width : 220,
+					template : function(item) {
+						return common.format($('#columnBtns').html(),item.id);
+					}
+				}
+			];
+			// End:column
+
+			vm.policyCatalogGrid_allow = {					
+					dataSource : common.gridDataSource(dataSource),
+					filterable : common.kendoGridConfig().filterable,
+					pageable : common.kendoGridConfig().pageable,
+					noRecords : common.kendoGridConfig().noRecordMessage,
+					columns : columns,
+					resizable : true
+			};
+			
+		}//end fun grid_policyAllow
+		
+		//政策目录类型列表(限制类)
+		function grid_policyLimit(vm){
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(common.format(url_catalog+"/policyCatalog")),
+				schema : common.kendoGridConfig().schema({
+					id : "id"					
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "code",
+					dir : "asc"
+				},
+				filter:{//只显示父级目录
+					field:'type',
+					operator:'eq',
+					value:'limit'
+				}
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+				{
+					template : function(item) {
+						return kendo.format("<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",item.id);
+					},
+					filterable : false,
+					width : 40,
+					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+
+				},
+				{
+					field : "name",
+					title : "名称",						
+					filterable : true
+				},
+				{
+					field : "code",
+					title : "编码",
+					filterable : true
+				},
+				{
+					field : "",
+					title : "操作",
+					width : 220,
+					template : function(item) {
+						return common.format($('#columnBtns').html(),item.id);
+					}
+				}
+			];
+			// End:column
+
+			vm.policyCatalogGrid_limit = {					
+					dataSource : common.gridDataSource(dataSource),
+					filterable : common.kendoGridConfig().filterable,
+					pageable : common.kendoGridConfig().pageable,
+					noRecords : common.kendoGridConfig().noRecordMessage,
+					columns : columns,
+					resizable : true
+			};
+			
+		}//end fun grid_policyLimit
 		
 		//批量删除主目录
 		function removeFirstCatalogs(vm,id){
@@ -777,13 +861,13 @@
 					fn : function(){
 						$('.alertDialog').modal('hide');
 						$('.modal-backdrop').remove();
-						if(vm.model.type == 'projectIndustry'){
+						if(vm.type == 'projectIndustry'){
 							vm.investmentProjectGrid.dataSource.read();
 						}
-						if(vm.model.type == 'projectType'){
+						if(vm.type == 'projectType'){
 							vm.projectTypeGrid.dataSource.read();
 						}
-						if(vm.model.type == 'constructionType'){
+						if(vm.type == 'constructionType'){
 							vm.constructionTypeGrid.dataSource.read();
 						}
 					}
@@ -816,13 +900,13 @@
 							fn : function() {
 								$('.alertDialog').modal('hide');
 								$('.modal-backdrop').remove();
-								if(vm.model.type == 'projectIndustry'){
+								if(vm.type == 'projectIndustry'){
 									vm.investmentProjectGrid.dataSource.read();
 								}
-								if(vm.model.type == 'projectType'){
+								if(vm.type == 'projectType'){
 									vm.projectTypeGrid.dataSource.read();
 								}
-								if(vm.model.type == 'constructionType'){
+								if(vm.type == 'constructionType'){
 									vm.constructionTypeGrid.dataSource.read();
 								}
 							}
@@ -902,7 +986,7 @@
 					},
 					filterable : false,
 					width : 40,
-					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+					title : "<input id='checkboxAll_constructionType' type='checkbox'  class='checkbox'/>"
 
 				},
 				{
@@ -920,7 +1004,7 @@
 					title : "操作",
 					width : 180,
 					template : function(item) {
-						return common.format($('#columnBtns').html(),item.id);
+						return common.format($('#columnBtns_alter').html(),item.id);
 					}
 				}
 			];
@@ -975,7 +1059,7 @@
 					},
 					filterable : false,
 					width : 40,
-					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+					title : "<input id='checkboxAll_projectType' type='checkbox'  class='checkbox'/>"
 
 				},
 				{
@@ -993,7 +1077,7 @@
 					title : "操作",
 					width : 180,
 					template : function(item) {
-						return common.format($('#columnBtns').html(),item.id);
+						return common.format($('#columnBtns_alter').html(),item.id);
 					}
 				}
 			];
@@ -1118,7 +1202,7 @@
 				{
 					field : "",
 					title : "操作",
-					width : 180,
+					width : 230,
 					template : function(item) {
 						return common.format($('#columnBtns').html(),item.id);
 					}
@@ -1174,18 +1258,19 @@
 				};
 			var httpSuccess = function success(response) {
 					vm.model=response.data.value[0] || {};
-					vm.isShow = false;
-					//看是否含有次级目录，没有就隐藏列表
-		        	if(vm.model.type == 'projectType' || vm.model.type == 'constructionType'){
-		        		vm.isShow = true;
-		        	}
-		        	if(vm.model.type == 'projectType'){
-		        		vm.title = '项目类型';
-		        	}
-		        	if(vm.model.type == 'constructionType'){
-		        		vm.title = '建设类型';
-		        	}
-		        	
+					if(vm.model.parentId !=""){
+						vm.title = '项目行业修改';
+						vm.projectIndustrySecondCatalog = true;
+					}else if(vm.model.type == 'projectIndustry'){
+						vm.title = '项目行业修改';
+						vm.projectIndustryCatalog = true;
+					}else if(vm.model.type == 'projectType'){
+						vm.title = '项目类型修改';
+						vm.projectTypeCatalog = true;
+					}else if(vm.model.type == 'constructionType'){
+						vm.title = '建设类型修改';
+						vm.constructionTypeCatalog = true;
+					}
 			};
 			
 			common.http({
@@ -1251,12 +1336,12 @@
 					},
 					filterable : false,
 					width : 40,
-					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+					title : "<input id='checkboxAll_projectIndustry' type='checkbox'  class='checkbox'/>"
 
 				},
 				{
 					field : "name",
-					title : "名称",						
+					title : "名称",	
 					filterable : true
 				},
 				{
@@ -1267,7 +1352,10 @@
 				{
 					field : "",
 					title : "操作",
-					width : 180,
+					width : 255,
+//					attributes: { 
+//				      	style: "text-align: right;"  
+//					},  
 					template : function(item) {
 						return common.format($('#columnBtns').html(),item.id);
 					}
@@ -1304,15 +1392,16 @@
 							fn : function() {
 								$('.alertDialog').modal('hide');
 								$('.modal-backdrop').remove();
-								if(vm.model.type == 'projectIndustry'){
-									vm.investmentProjectGrid.dataSource.read();
+								if(vm.id){
+									location.href ="#/catalog/investment/projectIndustry/"+vm.id+"/";
+								}else if(vm.type == 'projectIndustry'){
+									location.href = '#/catalog/investment';
+								}else if(vm.type == 'projectType'){
+									location.href = '#/catalog/investment/projectTypeList';
+								}else if(vm.type == 'constructionType'){
+									location.href = '#/catalog/investment/constructionTypeList';
 								}
-								if(vm.model.type == 'projectType'){
-									vm.projectTypeGrid.dataSource.read();
-								}
-								if(vm.model.type == 'constructionType'){
-									vm.constructionTypeGrid.dataSource.read();
-								}
+								
 							}
 						});
 					}

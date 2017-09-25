@@ -25,6 +25,9 @@ public class PolicyCatalog extends BaseEntity{
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '父节点id'")
 	private String parentId;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '政策类型'")
+	private String type;
 
 	public String getId() {
 		return id;
@@ -57,5 +60,15 @@ public class PolicyCatalog extends BaseEntity{
 	public void setParentId(String parentId) {
 		this.parentId = parentId;
 	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	
 	
 }

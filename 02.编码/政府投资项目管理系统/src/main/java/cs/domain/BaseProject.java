@@ -16,34 +16,34 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="varchar(255) NULL COMMENT '现阶段责任单位名'")
 	private String unitName;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '项目代码'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '项目代码'")
 	private String projectNumber;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目名称'")
 	private String projectName;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '项目投资类型'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '项目投资类型'")
 	private String projectInvestmentType ;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '项目阶段'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '项目阶段'")
 	private String projectStage;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '项目类型'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '项目类型'")
 	private String projectType;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '项目类别'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '项目类别'")
 	private String projectCategory;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '项目所属行业'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '项目所属行业'")
 	private String projectIndustry;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '项目负责人姓名'")
+	@Column(columnDefinition="varchar(50) NULL COMMENT '项目负责人姓名'")
 	private String projectRepName;
 	
 	@Column(columnDefinition="varchar(50) NULL COMMENT '项目负责人电话'")
 	private String projectRepMobile;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '项目分类'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '项目分类'")
 	private String projectClassify;
 	
 	@Column(columnDefinition="date NULL COMMENT '开工日期'")
@@ -52,43 +52,43 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="date NULL COMMENT '竣工日期'")
 	private Date endDate;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '项目建设区域'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '项目建设区域'")
 	private String divisionId;
 	
-	@Column(columnDefinition="varchar(500) NULL COMMENT '项目建设地址'")
+	@Column(columnDefinition="varchar(255) NULL COMMENT '项目建设地址'")
 	private String projectAddress;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '项目总投资'")
-	private Double projectInvestSum;
+	private Double projectInvestSum=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '项目累计完成投资'")
-	private Double projectInvestAccuSum;
+	private Double projectInvestAccuSum=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-市财政-公共预算'")
-	private Double capitalSCZ_ggys;
+	private Double capitalSCZ_ggys=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-市财政-国土资金'")
-	private Double capitalSCZ_gtzj;
+	private Double capitalSCZ_gtzj=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-市财政-专项资金'")
-	private Double capitalSCZ_zxzj;
+	private Double capitalSCZ_zxzj=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-区财政-公共预算'")
-	private Double capitalQCZ_ggys;
+	private Double capitalQCZ_ggys=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-区财政-国土资金'")
-	private Double capitalQCZ_gtzj;
+	private Double capitalQCZ_gtzj=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-区财政-中央预算'")
-	private Double capitalZYYS;
+	private Double capitalZYYS=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-社会投资'")
-	private Double capitalSHTZ;
+	private Double capitalSHTZ=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-其它'")
-	private Double capitalOther;
+	private Double capitalOther=0.0;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '资金来源方案-其它来源类型'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '资金来源方案-其它来源类型'")
 	private String capitalOtherType;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '资金来源方案-其它-说明'")
@@ -125,10 +125,38 @@ public class BaseProject extends BaseEntity
 	private String constructionCycle;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '决算金额'")
-	private Double finalAmount;
+	private Double finalAmount=0.0;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '财政项目代码'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '财政项目代码'")
 	private String financeProjectNumber;
+	//begin#社会投资项目单独字段
+	@Column(columnDefinition="varchar(255) NULL COMMENT '企业名称'")
+	private String companyName;
+	
+	@Column(columnDefinition="varchar(50) NULL COMMENT '责任单位联系人姓名'")
+	private String repUnitRepName;
+	
+	@Column(columnDefinition="varchar(50) NULL COMMENT '责任单位联系人电话'")
+	private String repUnitRepMobile;
+	
+	@Column(columnDefinition="varchar(500) NULL COMMENT '项目建设用地情况（社投）'")
+	private String constructionLand;
+	
+	@Column(columnDefinition="varchar(500) NULL COMMENT '投入使用后的效益（社投）'")
+	private String useBenefits;
+	
+	@Column(columnDefinition="varchar(125) NULL COMMENT '核准/备案批准文号（社投）'")
+	private String approval_pzwh;
+	
+	@Column(columnDefinition="double(11,4) NULL COMMENT '总投资--地价（社投）'")
+	private Double landPrice=0.0;
+	
+	@Column(columnDefinition="double(11,4) NULL COMMENT '总投资--设备投资（社投）'")
+	private Double equipmentInvestment=0.0;
+	
+	@Column(columnDefinition="double(11,4) NULL COMMENT '总投资--建安投资（社投）'")
+	private Double buidSafeInvestment=0.0;
+	//end
 	
 
 	public String getUnitName() {
@@ -442,5 +470,77 @@ public class BaseProject extends BaseEntity
 	public void setFinanceProjectNumber(String financeProjectNumber) {
 		this.financeProjectNumber = financeProjectNumber;
 	}
-	
+
+	public String getConstructionLand() {
+		return constructionLand;
+	}
+
+	public void setConstructionLand(String constructionLand) {
+		this.constructionLand = constructionLand;
+	}
+
+	public String getUseBenefits() {
+		return useBenefits;
+	}
+
+	public void setUseBenefits(String useBenefits) {
+		this.useBenefits = useBenefits;
+	}
+
+	public String getApproval_pzwh() {
+		return approval_pzwh;
+	}
+
+	public void setApproval_pzwh(String approval_pzwh) {
+		this.approval_pzwh = approval_pzwh;
+	}
+
+	public String getRepUnitRepName() {
+		return repUnitRepName;
+	}
+
+	public void setRepUnitRepName(String repUnitRepName) {
+		this.repUnitRepName = repUnitRepName;
+	}
+
+	public String getRepUnitRepMobile() {
+		return repUnitRepMobile;
+	}
+
+	public void setRepUnitRepMobile(String repUnitRepMobile) {
+		this.repUnitRepMobile = repUnitRepMobile;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public Double getLandPrice() {
+		return landPrice;
+	}
+
+	public void setLandPrice(Double landPrice) {
+		this.landPrice = landPrice;
+	}
+
+	public Double getEquipmentInvestment() {
+		return equipmentInvestment;
+	}
+
+	public void setEquipmentInvestment(Double equipmentInvestment) {
+		this.equipmentInvestment = equipmentInvestment;
+	}
+
+	public Double getBuidSafeInvestment() {
+		return buidSafeInvestment;
+	}
+
+	public void setBuidSafeInvestment(Double buidSafeInvestment) {
+		this.buidSafeInvestment = buidSafeInvestment;
+	}
+			
 }

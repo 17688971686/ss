@@ -1,0 +1,135 @@
+<form id="formproxy" name="form">
+	<div class="page-header" style="text-align: center;">
+		<h1>项目评审委托书</h1>
+	</div>
+	<div class="pull-right" ng-if="vm.taskAudit.nextProcess != 'processState_9'">
+		<p>日期：<span ng-bind="vm.proxy.beginDate | date:'yyyy年MM月dd日'"></span></p>
+	</div>
+	<div class="pull-right" ng-if="vm.taskAudit.nextProcess == 'processState_9'">
+		<p>日期：<span ng-bind="vm.beginDate | date:'yyyy年MM月dd日'"></span></p>
+	</div>
+	<table class="table table-bordered table-striped ">
+		<tr>
+			<td class="formAlignRight" style="width:150px;">项目名称：</td>
+			<td colspan="3" style="text-align: center;">
+			<span ng-bind="vm.model.shenBaoInfo.projectName"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">建设单位：</td>
+			<td colspan="3" style="text-align: center;">
+				<span ng-bind="vm.model.shenBaoInfo.constructionUnit"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">编制部门：</td>
+			<td colspan="3" style="text-align: center;">
+				<span ng-bind="vm.approval.unitName"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">联系人：</td>
+			<td colspan="3" style="text-align: center;">
+				<span ng-bind="vm.nameAndTel"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">评审类别：</td>
+			<td style="width: 333px;text-align: center;">
+				<span ng-bind="vm.getBasicDataJD(vm.approvalType)"></span>
+			</td>
+			
+			<td class="formAlignRight">报送投资：</td>
+			<td>
+				<span ng-bind="vm.approval.capitalBaoSong"></span>
+			</td>
+		</tr>
+		<tr ng-if="vm.taskAudit.nextProcess != 'processState_9'">
+			<td class="formAlignRight">经办人：</td>
+			<td colspan="3">
+				<div style="height:106px;">
+					<span ng-bind="vm.proxy.processSuggestion_JBR"></span>
+				</div>
+				
+				<div class="pull-right" style="margin-right: 80px;">
+					<p>经办人：<span ng-bind="vm.proxy.processRole"></span></p>
+					<p>日期：<span ng-bind="vm.proxy.beginDate | date:'yyyy-MM-dd'"></span></p>
+				</div>
+			</td>
+		</tr>
+		<tr ng-if="vm.taskAudit.nextProcess == 'processState_9'">
+			<td class="formAlignRight">经办人：</td>
+			<td colspan="3">
+				<textarea class="form-control" id="processSuggestion_JBR" name="processSuggestion_JBR"  maxlength="500" rows="3"
+						ng-model="vm.processSuggestion_JBR_WTS" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+						ng-change="vm.checkLength(vm.proxy.processSuggestion_JBR,500,'processSuggestion_JBRTips')">
+				</textarea>
+				<div class="pull-right" style="margin-right: 80px;">
+					<p>经办人：<span ng-bind="vm.processRole"></span></p>
+					<p>日期：<span ng-bind="vm.beginDate | date:'yyyy-MM-dd'"></span></p>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4" style="text-align: center;">
+				<p style="font-size: 20px;">资料清单</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">资料名称及套数：</td>
+			<td colspan="3">
+				<table class="table  table-bordered table-striped">
+					<tr>
+						<td width="50%" style="text-align: center;">资料名称 
+							<button ng-if="vm.taskAudit.nextProcess == 'processState_9'" class="btn btn-xs btn-primary"  ng-click="vm.openDatum()" ><span class="glyphicon glyphicon-pencil"></span>添加</button>
+						</td>
+						<td width="50%" style="text-align: center;">套数(单位：份)</td>
+					</tr>
+					<tr ng-repeat="x in vm.proxy.datumDtos">
+						<td style="text-align: center;">
+							<span ng-bind="x.dataName"></span>
+						</td>
+						<td style="text-align: center;">
+							<span ng-bind="x.dataNumber"></span>
+							<button ng-if="vm.taskAudit.nextProcess == 'processState_9'" class="btn btn-xs btn-danger"  ng-click="vm.removeDatum(x.id)" ><span class="glyphicon glyphicon-remove"></span>删除</button>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">评审中心签收：</td>
+			<td colspan="3">
+				<div style="height: 135px;">
+				</div>
+			</td>
+		</tr>
+	</table>
+</form>
+
+<!-- 项目评审委托书添加资料模态框 -->
+<div id="datum" class="datum modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog"
+		style="margin: 80px auto; width: 80%; max-width: 1000px;">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<span class="modal-title">添加资料名称</span>
+			</div>
+			 <div class="modal-body">
+			 	<div>
+			 		资料名称:<input type="text" id="dataName" name="dataName" ng-model="vm.dataName"/>
+			 	</div>
+			 	<div>
+			 		套数(单位：份):<input type="number" id="number" name="number" ng-model="vm.dataNumber"/>
+			 	</div>
+            </div>
+			<div class="modal-footer" >
+				<button type="button" ng-if="vm.taskAudit.nextProcess == 'processState_9'" class="btn btn-primary" ng-click="vm.saveDatum(vm.proxy.id)">保存</button>
+				<button type="button" class="btn btn-default" ng-click="vm.closeDatum()">取消</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

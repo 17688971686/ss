@@ -1,0 +1,781 @@
+<style>
+.table-bordered>thead>tr>th, 
+.table-bordered>tbody>tr>th, 
+.table-bordered>tfoot>tr>th, 
+.table-bordered>thead>tr>td, 
+.table-bordered>tbody>tr>td, 
+.table-bordered>tfoot>tr>td {
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+label{font-weight:normal;}
+
+.uploadBox .k-upload-status {
+	display: none;
+}
+
+.uploadBox .k-header {
+	background: transparent;
+	border: 0px;
+}
+
+.uploadBox em {
+	display: none;
+}
+
+.uploadBox .k-dropzone {
+	padding: 0px;
+	margin: 0px;
+}
+.uploadBox .k-upload-files{
+display:none;
+}
+input.input-sm{height:30px; margin:0px; padding:0px;}
+textarea.form-control {
+	margin:0px; padding:0px;
+}
+.tab_content{
+	padding:20px;
+}
+overflow: scroll !important;
+</style>
+
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+	<ol class="breadcrumb">
+		<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		<li><a href="#/">首页</a></li>
+		<li><a href="#/task/todo_audit">待办列表(审批类)</a></li>
+		<li class="active">办理</li>
+	</ol>                
+ 	<form id="form" name="form">
+ 		<div class="bg-info text-info" style="padding: 10px;">申报基本信息</div>  		
+ 		<table class="table table-bordered table-striped ">
+			<tr>
+				<td class="formAlignRight" style="width:150px;">申报阶段：</td>
+				<td style="width:250px;" ng-bind="vm.getBasicDataDesc(vm.taskAudit.taskType)">
+					
+				<td class="formAlignRight" style="width:150px;">项目名称：</td>
+				<td>
+					<span ng-bind="vm.model.shenBaoInfo.projectName"></span>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">项目阶段：</td>
+				<td>
+					<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectStage)"></span>
+				</td>
+				<td class="formAlignRight">项目类型：</td>
+				<td>
+					<span ng-repeat="x in vm.projectTypes" ng-bind="vm.getBasicDataDesc(x)+' '"></span>
+				</td>
+			</tr>	
+			<tr>
+				<td class="formAlignRight">项目行业归口：</td>
+				<td>
+					<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectIndustry)"></span>
+				</td>
+				<td class="formAlignRight">项目分类：</td>
+				<td>
+					<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectClassify)"></span>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">项目建设地址：</td>
+				<td colspan="3">
+					光明新区
+			 		<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.divisionId)"></span>						
+			 		<span ng-bind="vm.model.shenBaoInfo.projectAddress"></span>
+				</td>		
+			</tr>	
+			<tr>
+				<td class="formAlignRight">项目总投资：</td>
+				<td>
+					<span  ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:4"></span>&nbsp;(万元)		
+				</td>
+				
+				<td class="formAlignRight">累计完成投资：</td>
+				<td>
+					<span ng-bind="vm.model.shenBaoInfo.projectInvestAccuSum | number:4"></span>&nbsp;(万元)
+				</td>
+			</tr>	
+			<tr>
+				<td class="formAlignRight">项目简介：</td>
+				<td colspan="3">
+					<span ng-bind="vm.model.shenBaoInfo.projectIntro" ></span>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">详细信息：</td>
+				<td colspan="3" >
+					<button class="btn btn-success btn-xs" ng-click="vm.dialog_shenbaoInfo()" >查看申报信息</button>
+					<button class="btn btn-success btn-xs" ng-click="vm.dialog_shenbaoInfoEdit()" >复核申报信息</button>
+				</td>
+			</tr>		
+	</table>
+	  		
+		<div class="bg-info text-info" style="padding: 10px;">处理流转信息</div>  		
+		<table class="table table-bordered table-striped ">
+			<tr ng-repeat="x in vm.taskAudit.taskRecordDtos | orderBy:'modifiedDate':true" >
+				<td class="formAlignRight"  style="width:150px;"  ng-bind="vm.getBasicDataDesc(x.processState)"></td>
+				<td >
+					<table class="table table-bordered table-striped " ng-if="x.tuiwen == true">
+						<tr>
+							<td class="formAlignRight" style="width:240px;">申报材料不符合要求:</td>
+							<td>
+								<span ng-bind="x.tuiwen_data"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="formAlignRight" style="width:240px;">项目立项依据不充分:</td>
+							<td>
+								<span ng-bind="x.tuiwen_accord"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="formAlignRight" style="width:240px;">建设内容不明确:</td>
+							<td>
+								<span ng-bind="x.tuiwen_content"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="formAlignRight" style="width:240px;">投资概算及资金来源不合理:</td>
+							<td>
+								<span ng-bind="x.tuiwen_capital"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="formAlignRight" style="width:240px;">其他:</td>
+							<td>
+								<span ng-bind="x.tuiwen_other"></span>
+							</td>
+						</tr>
+					</table>
+					<div ng-bind="x.processSuggestion"></div>
+					<div ng-if="x.approval == true">
+							<button class="btn btn-success btn-xs" ng-click="vm.editApproval()">评审报批单</button>
+					</div>
+					<div ng-if="x.proxy == true">
+							<button class="btn btn-success btn-xs" ng-click="vm.proxyOpen()">评审委托书</button>
+					</div>
+					<div ng-if="x.reviewResult == true">
+						<button class="btn btn-success btn-xs" ng-click="vm.showReviewResult()">评审结果</button>
+					</div>
+					<div class="text-right" ng-bind="x.createdBy"></div>
+					<div class="text-right" ng-bind="vm.formatDate(x.createdDate)"></div>
+				</td>
+			</tr>
+		</table>
+		
+		<!-- 执行秘书科分办操作 -->
+		<table class="table table-bordered table-striped " ng-if="vm.taskAudit.nextProcess == vm.processState_msFenBan">
+			<tr>
+				<td class="formAlignRight" style="width:150px;">填写处理意见：</td>
+				<td>
+				个人自定义意见：<select class="form-control input-sm" style="width:200px;" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
+								  	<option value="">---请选择---</option>
+									<option ng-repeat="y in vm.model.opinionDtos" value="{{y.opinion}}">{{y.opinion}}</option>
+								</select>
+								<button class="btn btn-success btn-xs" ng-click="vm.saveOpinion()">保存常用意见</button>
+								<button class="btn btn-success btn-xs" ng-click="vm.showOpinion()">管理常用意见</button>
+					<textarea class="form-control" id="processSuggestion" name="processSuggestion"  maxlength="500" rows="3"
+						ng-model="vm.processSuggestion" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+						ng-change="vm.checkLength(vm.processSuggestion,500,'processSuggestionTips')">
+					</textarea>
+					<span data-valmsg-for="processSuggestion" data-valmsg-replace="true" class="required"></span>
+					<div class="tipfont">您还可以输入<span id="processSuggestionTips"><font size="5">500</font></span>个字符!</div>						
+				</td>
+			</tr>
+			<tr>
+			<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
+			<td>
+				<div>
+					<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('bumen')" value="bumen" data-val="true" data-val-required="必选"/>部门承办&nbsp;&nbsp;
+					<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('tuiwenbanjie')" value="banjie" data-val="true" data-val-required="必选"/><span>退文办结</span>&nbsp;&nbsp;
+					<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('banjie')" value="tuiwen" data-val="true" data-val-required="必选"/><span>办结</span>&nbsp;&nbsp;
+				</div>
+				<div>
+				  	<span data-valmsg-for="nextState" data-valmsg-replace="true" class="required"></span>
+				</div>
+			</td>
+			</tr>
+			<tr ng-if="vm.showDept">
+				<td class="formAlignRight">所属部门：</td>
+				<td>
+					<select class="form-control" style="width:200px;" id="selecrDept" name="selecrDept" ng-model="vm.model.deptId" ng-change="vm.changeDept()" data-val="true" data-val-required="必选">
+					  	<option value="">---请选择---</option>
+						<option ng-repeat="y in vm.model.depts" value="{{y.id}}">{{y.name}}</option>
+					</select>
+					<span data-valmsg-for="selecrDept" data-valmsg-replace="true" class="required"></span>
+				</td>
+			</tr>
+		</table>
+			
+		<!-- 执行科长操作 -->
+			<table class="table table-bordered table-striped " ng-if="vm.taskAudit.nextProcess =='processState_4' || vm.taskAudit.nextProcess =='processState_6' || vm.taskAudit.nextProcess =='processState_18'">
+			<tr ng-if="vm.taskAudit.nextProcess =='processState_18'">
+				<td class="formAlignRight" style="width:150px;">发文拟稿信息：</td>
+				<td>
+					<div>
+						<button class="btn btn-success btn-xs" ng-click="vm.draftOpen()">拟稿信息</button>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight" style="width:150px;">填写处理意见：</td>
+				<td>
+					个人自定义意见：<select class="form-control" style="width:200px;" ng-model="vm.model.opinion" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
+								  	<option value="">---请选择---</option>
+									<option ng-repeat="y in vm.model.opinionDtos" >{{y.opinion}}</option>
+								</select>
+								<button class="btn btn-success btn-xs" ng-click="vm.saveOpinion()">保存常用意见</button>
+								<button class="btn btn-success btn-xs" ng-click="vm.showOpinion()">管理常用意见</button>
+					<textarea class="form-control" id="processSuggestion" name="processSuggestion"  maxlength="500" rows="3"
+						ng-model="vm.processSuggestion" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+						ng-change="vm.checkLength(vm.processSuggestion,500,'processSuggestionTips')">
+					</textarea>
+					<span data-valmsg-for="processSuggestion" data-valmsg-replace="true" class="required"></span>
+					<div class="tipfont">您还可以输入<span id="processSuggestionTips"><font size="5">500</font></span>个字符!</div>						
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
+				<td>
+					<div style="float: left;" ng-if="vm.taskAudit.nextProcess =='processState_4'">
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('jingBanRenBanli')" value="banjie" data-val="true" data-val-required="必选"/><span>经办人办理</span>&nbsp;&nbsp;
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('tuihuiChongban')" value="bumen" data-val="true" data-val-required="必选"/>退回重办&nbsp;&nbsp;
+					</div>
+					<div style="float: left;" ng-if="vm.taskAudit.nextProcess =='processState_6'">
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('julingdaoshenpi')" value="banjie" data-val="true" data-val-required="必选"/><span>局领导审批</span>&nbsp;&nbsp;
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('tuihuijingbanren')" value="bumen" data-val="true" data-val-required="必选"/>退回经办人&nbsp;&nbsp;
+					</div>
+					<div style="float: left;" ng-if="vm.taskAudit.nextProcess =='processState_18'">
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('renmikehegao')" value="banjie" data-val="true" data-val-required="必选"/><span>人秘科核稿</span>&nbsp;&nbsp;
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('tuihuijingbanren')" value="bumen" data-val="true" data-val-required="必选"/>退回经办人&nbsp;&nbsp;
+					</div>
+					<div>
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('banjie')" value="tuiwen" data-val="true" data-val-required="必选"/><span>办结</span>&nbsp;&nbsp;
+					</div>
+					<div>
+					  	<span data-valmsg-for="nextState" data-valmsg-replace="true" class="required"></span>
+					</div>
+				</td>
+			</tr>			
+			<tr ng-if="vm.nextProcessRadio == 'julingdaoshenpi' || vm.nextProcessRadio == 'jingBanRenBanli'">
+				<td class="formAlignRight">下一处理人员：<span class="required">(*)</span></td>
+				<td>
+					<div  ng-repeat="x in vm.users" style="float: left;">
+						<input type="radio" name="deptUser" id="deptUser" ng-click="vm.selectUser(x.id)" value="{{x.id}}" data-val="true" data-val-required="必选"/>{{x.displayName}}&nbsp;&nbsp;			
+					</div>
+					<div>
+					  	<span data-valmsg-for="deptUser" data-valmsg-replace="true" class="required"></span>
+					</div>
+				</td>
+			</tr>			
+		</table>
+		
+		
+		<!-- 执行经办人操作 -->
+		<table class="table table-bordered table-striped " ng-if="vm.taskAudit.nextProcess =='processState_5' || vm.taskAudit.nextProcess =='processState_9' || vm.taskAudit.nextProcess =='processState_17'">
+			<tr>
+				<td class="formAlignRight">经办人办理：<span class="required">(*)</span></td>
+				<td>
+					<div style="float: left;" ng-if="vm.taskAudit.nextProcess =='processState_5'">
+						<input type="radio" name="nextStateYW" id="nextStateYW" ng-click="vm.clickedYW('pingshenbaopi')" value="pingshenbaopi" data-val="true" data-val-required="必选"/>评审报批&nbsp;&nbsp;
+					</div>
+					<div style="float: left;" ng-if="vm.taskAudit.nextProcess =='processState_9'">
+						<input type="radio" name="nextStateYW" id="nextStateYW" ng-click="vm.clickedYW('pingshenweituo')" value="pingshenweituo" data-val="true" data-val-required="必选"/>评审委托&nbsp;&nbsp;
+					</div>
+					<div style="float: left;">
+						<input type="radio" name="nextStateYW" id="nextStateYW" ng-click="vm.clickedYW('fawen')" value="fawen" data-val="true" data-val-required="必选"/><span>发文</span>&nbsp;&nbsp;
+						<input type="radio" name="nextStateYW" id="nextStateYW" ng-click="vm.clickedYW('keyuantuiwen')" value="tuiwen" data-val="true" data-val-required="必选"/><span>退文</span>&nbsp;&nbsp;
+					</div>
+					<div>
+						<input type="radio" name="nextStateYW" id="nextStateYW" ng-click="vm.clickedYW('yewu')" value="yewu" data-val="true" data-val-required="必选"/><span>业务办理</span>&nbsp;&nbsp;
+					</div>
+					<!-- <div style="float: left;" ng-if="vm.taskAudit.nextProcess =='processState_17'">
+						<input type="radio" name="nextStateYW" id="nextStateYW" ng-click="vm.clickedYW('fawennigao')" value="fawennigao" data-val="true" data-val-required="必选"/>发文拟稿意见&nbsp;&nbsp;
+					</div> -->
+					<div>
+					  	<span data-valmsg-for="nextStateYW" data-valmsg-replace="true" class="required"></span>
+					</div>
+					<div ng-if="vm.nextProcessRadioOfYW == 'pingshenbaopi'">
+						<button class="btn btn-success btn-xs" ng-click="vm.editApproval()">填写评审报批单</button>
+					</div>
+					<div ng-if="vm.nextProcessRadioOfYW == 'fawen'">
+						<button class="btn btn-success btn-xs" ng-click="vm.draftOpen()">填写拟稿纸</button>
+					</div>
+					<div ng-if="vm.nextProcessRadioOfYW == 'pingshenweituo'">
+						<button class="btn btn-success btn-xs" ng-click="vm.proxyOpen()">填写委托书</button>
+					</div>
+					<table class="table table-bordered table-striped" ng-if="vm.nextProcessRadioOfYW == 'keyuantuiwen'">
+						<tr>
+							<td class="formAlignRight" style="width:240px;">1、申报材料不符合要求：</td>
+							<td>
+							<textarea class="form-control" id="teiwen_data" name="teiwen_data"  maxlength="500" rows="3"
+								ng-model="vm.taskAudit.tuiwen_data" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+								ng-change="vm.checkLength(vm.taskAudit.tuiwen_data,500,'teiwen_dataTips')">
+							</textarea>
+							<div class="tipfont">您还可以输入<span id="teiwen_dataTips"><font size="5">500</font></span>个字符!</div>						
+							</td>
+						</tr>
+						<tr>
+							<td class="formAlignRight" style="width:240px;">2、项目立项依据不充分：</td>
+							<td>
+								<textarea class="form-control" id="tuiwen_accord" name="tuiwen_accord"  maxlength="500" rows="3"
+									ng-model="vm.taskAudit.tuiwen_accord" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+									ng-change="vm.checkLength(vm.taskAudit.tuiwen_accord,500,'tuiwen_accordTips')">
+								</textarea>
+								<div class="tipfont">您还可以输入<span id="tuiwen_accordTips"><font size="5">500</font></span>个字符!</div>						
+							</td>
+						</tr>
+						<tr>
+							<td class="formAlignRight" style="width:240px;">3、建设内容不明确：</td>
+							<td>
+								<textarea class="form-control" id="tuiwen_content" name="tuiwen_content"  maxlength="500" rows="3"
+									ng-model="vm.taskAudit.tuiwen_content" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+									ng-change="vm.checkLength(vm.taskAudit.tuiwen_content,500,'tuiwen_contentTips')">
+								</textarea>
+								<div class="tipfont">您还可以输入<span id="tuiwen_contentTips"><font size="5">500</font></span>个字符!</div>						
+							</td>
+						</tr>
+						<tr>
+							<td class="formAlignRight" style="width:240px;">4、投资概算及资金来源不合理：</td>
+							<td>
+								<textarea class="form-control" id="tuiwen_capital" name="tuiwen_capital"  maxlength="500" rows="3"
+									ng-model="vm.taskAudit.tuiwen_capital" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+									ng-change="vm.checkLength(vm.taskAudit.tuiwen_capital,500,'tuiwen_capitalTips')">
+								</textarea>
+								<div class="tipfont">您还可以输入<span id="tuiwen_capitalTips"><font size="5">500</font></span>个字符!</div>						
+							</td>
+						</tr>
+						<tr>
+							<td class="formAlignRight" style="width:240px;">5、其他：</td>
+							<td>
+								<textarea class="form-control" id="tuiwen_other" name="tuiwen_other"  maxlength="500" rows="3"
+									ng-model="vm.taskAudit.tuiwen_other" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+									ng-change="vm.checkLength(vm.taskAudit.tuiwen_other,500,'tuiwen_otherTips')">
+								</textarea>
+								<div class="tipfont">您还可以输入<span id="tuiwen_otherTips"><font size="5">500</font></span>个字符!</div>						
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>			
+			<tr>
+				<td class="formAlignRight" style="width:150px;">填写处理意见：</td>
+				<td>
+					个人自定义意见：<select class="form-control" style="width:200px;" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
+								  	<option value="">---请选择---</option>
+									<option ng-repeat="y in vm.model.opinionDtos" value="{{y.opinion}}">{{y.opinion}}</option>
+								</select>
+								<button class="btn btn-success btn-xs" ng-click="vm.saveOpinion()">保存常用意见</button>
+								<button class="btn btn-success btn-xs" ng-click="vm.showOpinion()">管理常用意见</button>
+					<textarea class="form-control" id="processSuggestion" name="processSuggestion"  maxlength="500" rows="3"
+						ng-model="vm.processSuggestion" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+						ng-change="vm.checkLength(vm.processSuggestion,500,'processSuggestionTips')">
+					</textarea>
+					<span data-valmsg-for="processSuggestion" data-valmsg-replace="true" class="required"></span>
+					<div class="tipfont">您还可以输入<span id="processSuggestionTips"><font size="5">500</font></span>个字符!</div>						
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
+				<td>
+					<div style="float: left;" ng-if="vm.nextProcessRadioOfYW == 'pingshenweituo'">
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('songshen')" value="songshen" data-val="true" data-val-required="必选"/>送审&nbsp;&nbsp;
+					</div>
+					<div style="float: left;" ng-if="vm.nextProcessRadioOfYW == 'pingshenbaopi' || vm.nextProcessRadioOfYW == 'fawen' || vm.nextProcessRadioOfYW == 'keyuantuiwen' || vm.nextProcessRadioOfYW == 'pingshenweituo'">
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('kezhangshenhe')" value="bumen" data-val="true" data-val-required="必选"/>科长审核&nbsp;&nbsp;
+					</div>
+					<div style="float: left;" ng-if="vm.nextProcessRadioOfYW == 'yewu'">
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('keshibanli')" value="bumen" data-val="true" data-val-required="必选"/>科室办理&nbsp;&nbsp;
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('keyuanbanli')" value="banjie" data-val="true" data-val-required="必选"/><span>科员办理</span>&nbsp;&nbsp;
+					</div>
+					<div>
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('banjie')" value="tuiwen" data-val="true" data-val-required="必选"/><span>办结</span>&nbsp;&nbsp;
+					</div>
+					<div>
+					  	<span data-valmsg-for="nextState" data-valmsg-replace="true" class="required"></span>
+					</div>
+				</td>
+			</tr>			
+			<tr ng-if="vm.nextProcessRadioOfYW == 'yewu'&&vm.nextProcessRadio == 'keyuanbanli' || vm.nextProcessRadioOfYW == 'pingshenweituo'&&vm.nextProcessRadio == 'songshen'">
+				<td class="formAlignRight">下一处理人员：<span class="required">(*)</span></td>
+				<td>
+					<div  ng-repeat="x in vm.users" style="float: left;">
+						<input type="radio" name="deptUser" id="deptUser" ng-click="vm.selectUser(x.id)" value="{{x.id}}" data-val="true" data-val-required="必选"/>{{x.displayName}}&nbsp;&nbsp;			
+					</div>
+					<div>
+					  	<span data-valmsg-for="deptUser" data-valmsg-replace="true" class="required"></span>
+					</div>
+				</td>
+			</tr>		
+			<tr ng-if="vm.nextProcessRadio == 'keshibanli' && vm.nextProcessRadioOfYW == 'yewu'">
+				<td class="formAlignRight">所属部门：</td>
+				<td>
+					<select class="form-control" style="width:200px;" id="selecrDept" name="selecrDept" ng-model="vm.model.deptId" ng-change="vm.changeDept()" data-val="true" data-val-required="必选">
+					  	<option value="">---请选择---</option>
+						<option ng-repeat="y in vm.model.depts" value="{{y.id}}">{{y.name}}</option>
+					</select>
+					<span data-valmsg-for="selecrDept" data-valmsg-replace="true" class="required"></span>
+				</td>
+			</tr>	
+		</table>
+		<!-- 执行局领导操作 -->
+		<table class="table table-bordered table-striped " ng-if="vm.taskAudit.nextProcess =='processState_8' || vm.taskAudit.nextProcess =='processState_21'">
+			<tr ng-if="vm.taskAudit.nextProcess =='processState_21'">
+				<td class="formAlignRight" style="width:150px;">发文拟稿信息：</td>
+				<td>
+					<div>
+						<button class="btn btn-success btn-xs" ng-click="vm.draftOpen()">填写拟稿纸</button>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight" style="width:150px;">填写处理意见：</td>
+				<td>
+					个人自定义意见：<select class="form-control" style="width:200px;" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
+								  	<option value="">---请选择---</option>
+									<option ng-repeat="y in vm.model.opinionDtos" value="{{y.opinion}}">{{y.opinion}}</option>
+								</select>
+								<button class="btn btn-success btn-xs" ng-click="vm.saveOpinion()">保存常用意见</button>
+								<button class="btn btn-success btn-xs" ng-click="vm.showOpinion()">管理常用意见</button>
+					<textarea class="form-control" id="processSuggestion" name="processSuggestion"  maxlength="500" rows="3"
+						ng-model="vm.processSuggestion" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+						ng-change="vm.checkLength(vm.processSuggestion,500,'processSuggestionTips')">
+					</textarea>
+					<span data-valmsg-for="processSuggestion" data-valmsg-replace="true" class="required"></span>
+					<div class="tipfont">您还可以输入<span id="processSuggestionTips"><font size="5">500</font></span>个字符!</div>						
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
+				<td>
+					<div style="float: left;" ng-if="vm.taskAudit.nextProcess =='processState_8'">
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('jingbanrensongshen')" value="jingbanrensongshen" data-val="true" data-val-required="必选"/>经办人送审&nbsp;&nbsp;
+					</div>
+					<div ng-if="vm.taskAudit.nextProcess =='processState_21'" style="float: left;">
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('bangongshifawen')" value="bangongshifawen" data-val="true" data-val-required="必选"/>办公室发文&nbsp;&nbsp;
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('jingBanRenBanli_juzhang')" value="jingBanRenBanli_juzhang" data-val="true" data-val-required="必选"/><span>经办人办理</span>&nbsp;&nbsp;
+					</div>
+					<div>
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('banjie')" value="tuiwen" data-val="true" data-val-required="必选"/><span>办结</span>&nbsp;&nbsp;
+					</div>
+					<div>
+					  	<span data-valmsg-for="nextState" data-valmsg-replace="true" class="required"></span>
+					</div>
+				</td>
+			</tr>	
+		</table>
+		<!-- 执行评审中心经办人操作 -->
+		<table class="table table-bordered table-striped " ng-if="vm.taskAudit.nextProcess =='processState_10'">
+			<tr>
+				<td class="formAlignRight" style="width:150px;">填写处理意见：</td>
+				<td>
+					个人自定义意见：<select class="form-control" style="width:200px;" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
+								  	<option value="">---请选择---</option>
+									<option ng-repeat="y in vm.model.opinionDtos" value="{{y.opinion}}">{{y.opinion}}</option>
+								</select>
+								<button class="btn btn-success btn-xs" ng-click="vm.saveOpinion()">保存常用意见</button>
+								<button class="btn btn-success btn-xs" ng-click="vm.showOpinion()">管理常用意见</button>
+								<button class="btn btn-success btn-xs" ng-click="vm.showReviewResult()">填写评审结果</button>
+					<textarea class="form-control" id="processSuggestion" name="processSuggestion"  maxlength="500" rows="3"
+						ng-model="vm.processSuggestion" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+						ng-change="vm.checkLength(vm.processSuggestion,500,'processSuggestionTips')">
+					</textarea>
+					<span data-valmsg-for="processSuggestion" data-valmsg-replace="true" class="required"></span>
+					<div class="tipfont">您还可以输入<span id="processSuggestionTips"><font size="5">500</font></span>个字符!</div>						
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
+				<td>
+					<div>
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('pingswancheng')" value="pingswancheng" data-val="true" data-val-required="必选"/>评审完成&nbsp;&nbsp;
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('pingshentuihui')" value="tuihuijingbanren" data-val="true" data-val-required="必选"/>退回经办人&nbsp;&nbsp;
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('banjie')" value="banjie" data-val="true" data-val-required="必选"/><span>办结</span>&nbsp;&nbsp;
+					</div>
+					<div>
+					  	<span data-valmsg-for="nextState" data-valmsg-replace="true" class="required"></span>
+					</div>
+				</td>
+			</tr>	
+			<tr ng-if="vm.nextProcessRadio == 'keyuanbanli'">
+				<td class="formAlignRight">下一处理人员：<span class="required">(*)</span></td>
+				<td>
+					<div  ng-repeat="x in vm.users" style="float: left;">
+						<input type="radio" name="deptUser" id="deptUser" ng-click="vm.selectUser(x.id)" value="{{x.id}}" data-val="true" data-val-required="必选"/>{{x.displayName}}&nbsp;&nbsp;			
+					</div>
+					<div>
+					  	<span data-valmsg-for="deptUser" data-valmsg-replace="true" class="required"></span>
+					</div>
+				</td>
+			</tr>		
+			<tr ng-if="vm.nextProcessRadio == 'keshibanli'">
+				<td class="formAlignRight">所属部门：</td>
+				<td>
+					<select class="form-control" style="width:200px;" id="selecrDept" name="selecrDept" ng-model="vm.model.deptId" ng-change="vm.changeDept()" data-val="true" data-val-required="必选">
+					  	<option value="">---请选择---</option>
+						<option ng-repeat="y in vm.model.depts" value="{{y.id}}">{{y.name}}</option>
+					</select>
+					<span data-valmsg-for="selecrDept" data-valmsg-replace="true" class="required"></span>
+				</td>
+			</tr>	
+		</table>
+		<!-- 执行秘书科发文操作 -->
+		<table class="table table-bordered table-striped " ng-if="vm.taskAudit.nextProcess == 'processState_19' || vm.taskAudit.nextProcess == 'processState_22'">
+			<tr>
+				<td class="formAlignRight" style="width:150px;">发文拟稿信息：</td>
+				<td>
+					<div>
+						<button class="btn btn-success btn-xs" ng-click="vm.draftOpen()">发文信息</button>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight" style="width:150px;">填写处理意见：</td>
+				<td>
+					个人自定义意见：<select class="form-control" style="width:200px;" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
+								  	<option value="">---请选择---</option>
+									<option ng-repeat="y in vm.model.opinionDtos" value="{{y.opinion}}">{{y.opinion}}</option>
+								</select>
+								<button class="btn btn-success btn-xs" ng-click="vm.saveOpinion()">保存常用意见</button>
+								<button class="btn btn-success btn-xs" ng-click="vm.showOpinion()">管理常用意见</button>
+					<textarea class="form-control" id="processSuggestion" name="processSuggestion"  maxlength="500" rows="3"
+						ng-model="vm.processSuggestion" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+						ng-change="vm.checkLength(vm.processSuggestion,500,'processSuggestionTips')">
+					</textarea>
+					<span data-valmsg-for="processSuggestion" data-valmsg-replace="true" class="required"></span>
+					<div class="tipfont">您还可以输入<span id="processSuggestionTips"><font size="5">500</font></span>个字符!</div>						
+				</td>
+				
+			</tr>
+			<tr>
+			<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
+				<td>
+					<div style="float:left;" ng-if="vm.taskAudit.nextProcess == 'processState_19'">
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('julingdaofushen')" value="banjie" data-val="true" data-val-required="必选"/><span>局领导复批</span>&nbsp;&nbsp;
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('tuihuijingbanren')" value="bumen" data-val="true" data-val-required="必选"/>退回经办人&nbsp;&nbsp;
+					</div>
+					<div style="float:left;" ng-if="vm.taskAudit.nextProcess == 'processState_22'">
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('fawendengji')" value="bumen" data-val="true" data-val-required="必选"/>发文登记&nbsp;&nbsp;
+					</div>
+					<div ng-if="vm.taskAudit.nextProcess == 'processState_19'">
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('banjie')" value="tuiwen" data-val="true" data-val-required="必选"/><span>办结</span>&nbsp;&nbsp;
+					</div>
+					<div>
+					  	<span data-valmsg-for="nextState" data-valmsg-replace="true" class="required"></span>
+					</div>
+				</td>
+			</tr>
+			<tr ng-if="vm.nextProcessRadio == 'julingdaofushen'">
+				<td class="formAlignRight">下一处理人员：<span class="required">(*)</span></td>
+				<td>
+					<div  ng-repeat="x in vm.users" style="float: left;">
+						<input type="radio" name="deptUser" id="deptUser" ng-click="vm.selectUser(x.id)" value="{{x.id}}" data-val="true" data-val-required="必选"/>{{x.displayName}}&nbsp;&nbsp;			
+					</div>
+					<div>
+					  	<span data-valmsg-for="deptUser" data-valmsg-replace="true" class="required"></span>
+					</div>
+				</td>
+			</tr>		
+		</table>
+		<table class="table table-bordered table-striped ">
+			<tr>
+				<td class="formAlignRight"  style="width:150px;">操作：</td>
+				<td >
+					<button ng-click="vm.handle()" class="btn btn-info btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-share-alt"></span>送出</button>
+ 				</td>
+				
+			</tr>
+		</table>
+    </form>   
+</div>
+
+<!-- 申报信息模态框 -->
+<div id="shenbaoInfo" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog"
+		style="margin: 80px auto; width: 80%; max-width: 1000px;">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<span class="modal-title">详细信息</span>
+			</div>
+			<div class="modal-body">
+				<div ng-include  src="'/contents/admin/management/task/html/details/shenBaoInfoDetails.html'"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" data-dismiss="modal">确认</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 申报信息复核模态框 -->
+<div id="shenbaoInfoEdit" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog"
+		style="margin: 80px auto; width: 80%; max-width: 1000px;">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<span class="modal-title">复核申报信息</span>
+			</div>
+			<div class="modal-body">
+				<div ng-include  src="'/contents/admin/management/task/html/edit/shenBaoInfoEdit.html'"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-success" ng-click="vm.saveShenBaoInfo()">保存</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 意见管理模态框 -->
+<div id="opinion" class="opinion modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog"
+		style="margin: 80px auto; width: 80%; max-width: 1000px;">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<span class="modal-title">常用意见管理</span>
+			</div>
+			 <div class="modal-body">
+			    <button class="btn btn-sm btn-danger" ng-click="vm.dels()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-remove"></span>批量删除</button>
+                <div class="grid" kendo-grid="grid" k-options="vm.opinionGrid"></div>
+            </div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 意见编辑模态框 -->
+<div id="opinionEdit" class="opinionEdit modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog"
+		style="margin: 80px auto; width: 80%; max-width: 1000px;">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<span class="modal-title">常用意见编辑</span>
+			</div>
+			 <div class="modal-body">
+			 	<textarea class="form-control" id="opinString" name="opinString"  maxlength="500" rows="3"
+						ng-model="vm.model.opinion.opinion" value="vm.model.opinion.opinion" data-val="true" placeholder="注：500字符以内"
+						ng-change="vm.checkLength(vm.model.opinString,500,'opinStringTips')">
+				</textarea>
+				<div class="tipfont">您还可以输入<span id="opinString"><font size="5">500</font></span>个字符!</div>
+            </div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" ng-click="vm.editOpin()">修改</button>
+				<button type="button" class="btn btn-default" ng-click="vm.closeOpin()">取消</button>
+				
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 发文拟稿模态框 -->
+<div id="draft_issued" class="draft_issued modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog"
+		style="margin: 80px auto; width: 80%; max-width: 1000px;">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<span class="modal-title">填写拟稿纸</span>
+			</div>
+			 <div class="modal-body">
+			 	<div ng-include  src="'/contents/admin/management/task/audit/html/draftIssued.html'"></div>
+            </div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" ng-click="vm.saveDraft()">保存</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 评审报批单模态框 -->
+<div id="approval" class="approval modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog"
+		style="margin: 80px auto; width: 80%; max-width: 1000px;">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<span class="modal-title">填写评审报批单</span>
+			</div>
+			 <div class="modal-body">
+			 	<div ng-include  src="'/contents/admin/management/task/audit/html/approval.html'"></div>
+            </div>
+			<div class="modal-footer" >
+				<button type="button" ng-if="vm.taskAudit.nextProcess == 'processState_5'" class="btn btn-primary" ng-click="vm.saveApproval()" data-dismiss="modal">保存</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 项目评审委托书模态框 -->
+<div id="proxy" class="proxy modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog"
+		style="margin: 80px auto; width: 80%; max-width: 1000px;">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<span class="modal-title">填写评审委托书</span>
+			</div>
+			 <div class="modal-body">
+			 	<div ng-include  src="'/contents/admin/management/task/audit/html/proxy.html'"></div>
+            </div>
+			<div class="modal-footer" >
+				<button type="button" ng-if="vm.taskAudit.nextProcess == 'processState_9'" class="btn btn-primary" ng-click="vm.saveProxy()" data-dismiss="modal">保存</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 项目评审结果模态框 -->
+<div id="reviewResult" class="reviewResult modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog"
+		style="margin: 80px auto; width: 80%; max-width: 1000px;">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<span class="modal-title">填写评审委托书</span>
+			</div>
+			 <div class="modal-body">
+			 	<div ng-include  src="'/contents/admin/management/task/audit/html/reviewResult.html'"></div>
+            </div>
+			<div class="modal-footer" >
+				<button type="button" ng-if="vm.taskAudit.nextProcess == 'processState_10'" class="btn btn-primary" ng-click="vm.saveReview()" data-dismiss="modal">保存</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script type="text/template" id="columnBtns">
+	<button class="btn btn-xs btn-danger"  ng-click="vm.remove('{0}')" ><span class="glyphicon glyphicon-remove"></span>删除</button>
+	<button class="btn btn-xs btn-primary"  ng-click="vm.edit('{0}','{1}')" ><span class="glyphicon glyphicon-pencil"></span>编辑</button>
+</script>

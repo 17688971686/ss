@@ -13,9 +13,9 @@ public class BaseUnitInfo extends BaseEntity {
 		//begin#单位基本信息
 		@Column(columnDefinition="varchar(255)  COMMENT '单位名称'")
 		private String unitName;
-		@Column(columnDefinition="varchar(255) COMMENT '组织机构代码'")
+		@Column(columnDefinition="varchar(125) COMMENT '组织机构代码'")
 		private String orgCode;	
-		@Column(columnDefinition="varchar(50) COMMENT '单位性质'")
+		@Column(columnDefinition="varchar(125) COMMENT '单位性质'")
 		private String unitProperty;
 		@Column(columnDefinition="varchar(50) COMMENT '电话号码'")
 		private String unitTel;
@@ -23,15 +23,15 @@ public class BaseUnitInfo extends BaseEntity {
 		private String unitEmail;
 		@Column(columnDefinition="varchar(50) COMMENT '传真号码'")
 		private String unitFax;
-		@Column(columnDefinition="varchar(255) COMMENT '所属行政区划'")
+		@Column(columnDefinition="varchar(125) COMMENT '所属行政区划'")
 		private String divisionId;
 		@Column(columnDefinition="varchar(255) COMMENT '单位地址'")
 		private String unitAddress;
 
 		//begin#联系人信息
-		@Column(columnDefinition="varchar(255) COMMENT '单位负责人名称'")
+		@Column(columnDefinition="varchar(50) COMMENT '单位负责人名称'")
 		private String unitResPerson;
-		@Column(columnDefinition="varchar(225) COMMENT '单位联系人名称'")
+		@Column(columnDefinition="varchar(50) COMMENT '单位联系人名称'")
 		private String unitContactPerson;
 		@Column(columnDefinition="varchar(50) COMMENT '负责人电话'")
 		private String resPersonTel;

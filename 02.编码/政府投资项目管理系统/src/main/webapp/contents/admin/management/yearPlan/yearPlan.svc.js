@@ -688,7 +688,7 @@
 				type : 'odata',
 				transport : common.kendoGridConfig().transport(url_planList+"/"+vm.id+"/projectList"),
 				schema : common.kendoGridConfig().schema({
-					id : "yearPlanCapitalId"
+					id : "yearPlanCapitalIdR"
 				}),
 				serverPaging : true,
 				serverSorting : true,
@@ -951,6 +951,7 @@
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
 				resizable : true,
+				scrollable:true,
 				excelExport:excelExport
 			};
 		}//end grid_yearPlan_shenbaoInfoList
@@ -1078,7 +1079,9 @@
 				pageable : common.kendoGridConfig().pageable,
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
-				resizable : true
+				resizable : true,
+				sortable:true,
+				scrollable:true
 			};
 		}//end grid_addShenbaoInfoList
 		
@@ -1243,7 +1246,9 @@
 				pageable : common.kendoGridConfig().pageable,
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
-				resizable : true
+				resizable : true,
+				sortable:true,
+				scrollable:true
 			};
 
 		}// end fun grid_planList
@@ -1466,7 +1471,9 @@
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
 				excelExport:excelExport,
-				resizable : true
+				resizable : true,
+				sortable:true,
+				scrollable:true
 			};
 
 		}// end fun grid_shenbaoInfoList

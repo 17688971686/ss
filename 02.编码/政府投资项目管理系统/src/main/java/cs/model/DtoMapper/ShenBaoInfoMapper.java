@@ -46,7 +46,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setProjectRepName(entity.getProjectRepName());
 			shenBaoInfoDto.setProjectRepMobile(entity.getProjectRepMobile());
 			shenBaoInfoDto.setProjectIntro(entity.getProjectIntro());
-			shenBaoInfoDto.setProjectGuiMo(entity.getProjectGuiMo());									
+			shenBaoInfoDto.setProjectGuiMo(entity.getProjectGuiMo());
 			shenBaoInfoDto.setProjectInvestSum(entity.getProjectInvestSum());			
 			shenBaoInfoDto.setProjectInvestAccuSum(entity.getProjectInvestAccuSum());
 			shenBaoInfoDto.setBeginDate(entity.getBeginDate());
@@ -125,7 +125,8 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setCreatedBy(entity.getCreatedBy());
 			shenBaoInfoDto.setItemOrder(entity.getItemOrder());			
 			//begin#审批相关
-			shenBaoInfoDto.setProcessState(entity.getProcessState());			
+			shenBaoInfoDto.setProcessState(entity.getProcessState());	
+			shenBaoInfoDto.setProcessRole(entity.getProcessRole());
 			//begin#财政局
 			shenBaoInfoDto.setFunctionSubjects(entity.getFunctionSubjects());
 			shenBaoInfoDto.setEconClassSubjects(entity.getEconClassSubjects());
@@ -148,6 +149,18 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setFinanceProjectNumber(entity.getFinanceProjectNumber());//财政项目代码
 			//begin#审核相关
 			shenBaoInfoDto.setAuditState(entity.getAuditState());
+			//begin#社会投资项目申报添加字段
+			shenBaoInfoDto.setExistingProblem(entity.getExistingProblem());//存在的问题
+			shenBaoInfoDto.setMoveSuggestion(entity.getMoveSuggestion());//推进建议
+			shenBaoInfoDto.setConstructionLand(entity.getConstructionLand());
+			shenBaoInfoDto.setLandPrice(entity.getLandPrice());//总投资--地价
+			shenBaoInfoDto.setEquipmentInvestment(entity.getEquipmentInvestment());//总投资--设备投资
+			shenBaoInfoDto.setBuidSafeInvestment(entity.getBuidSafeInvestment());//总投资--建安投资
+			shenBaoInfoDto.setRepUnitRepName(entity.getRepUnitRepName());//责任单位联系人
+			shenBaoInfoDto.setRepUnitRepMobile(entity.getRepUnitRepMobile());//责任单位联系电话
+			shenBaoInfoDto.setCompanyName(entity.getCompanyName());//企业单位名称
+			shenBaoInfoDto.setApproval_pzwh(entity.getApproval_pzwh());//核准/备案批准文号
+			shenBaoInfoDto.setUseBenefits(entity.getUseBenefits());//投入使用后的效益
 						
 			//begin关联信息
 			//附件
@@ -261,6 +274,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setCapitalAP_qita(shenBaoInfoDto.getCapitalAP_qita());
 			//begin#审批相关
 			shenBaoInfo.setProcessState(shenBaoInfoDto.getProcessState());
+			shenBaoInfo.setProcessRole(shenBaoInfoDto.getProcessRole());
 			//begin#财政相关
 			shenBaoInfo.setFunctionSubjects(shenBaoInfoDto.getFunctionSubjects());
 			shenBaoInfo.setEconClassSubjects(shenBaoInfoDto.getEconClassSubjects());
@@ -289,6 +303,18 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setFinanceProjectNumber(shenBaoInfoDto.getFinanceProjectNumber());//财政项目代码
 			//begin#审核相关
 			shenBaoInfo.setAuditState(shenBaoInfoDto.getAuditState());
+			//begin#社会投资项目申报添加字段
+			shenBaoInfo.setExistingProblem(shenBaoInfoDto.getExistingProblem());//存在的问题
+			shenBaoInfo.setMoveSuggestion(shenBaoInfoDto.getMoveSuggestion());//推进建议
+			shenBaoInfo.setConstructionLand(shenBaoInfoDto.getConstructionLand());
+			shenBaoInfo.setLandPrice(shenBaoInfoDto.getLandPrice());//总投资--地价
+			shenBaoInfo.setEquipmentInvestment(shenBaoInfoDto.getEquipmentInvestment());//总投资--设备投资
+			shenBaoInfo.setBuidSafeInvestment(shenBaoInfoDto.getBuidSafeInvestment());//总投资--建安投资
+			shenBaoInfo.setRepUnitRepName(shenBaoInfoDto.getRepUnitRepName());//责任单位联系人
+			shenBaoInfo.setRepUnitRepMobile(shenBaoInfoDto.getRepUnitRepMobile());//责任单位联系电话
+			shenBaoInfo.setCompanyName(shenBaoInfoDto.getCompanyName());//企业单位名称
+			shenBaoInfo.setApproval_pzwh(shenBaoInfoDto.getApproval_pzwh());//核准/备案批准文号
+			shenBaoInfo.setUseBenefits(shenBaoInfoDto.getUseBenefits());//投入使用后的效益
 		}
 		return shenBaoInfo;
 		

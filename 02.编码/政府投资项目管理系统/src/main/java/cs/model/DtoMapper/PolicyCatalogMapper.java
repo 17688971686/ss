@@ -29,6 +29,7 @@ public class PolicyCatalogMapper implements IMapper<PolicyCatalogDto, PolicyCata
 			policyCatalogDto.setName(entity.getName());
 			policyCatalogDto.setCode(entity.getCode());
 			policyCatalogDto.setParentId(entity.getParentId());
+			policyCatalogDto.setType(entity.getType());
 		}
 		return policyCatalogDto;
 	}
@@ -46,6 +47,7 @@ public class PolicyCatalogMapper implements IMapper<PolicyCatalogDto, PolicyCata
 			}
 			entity.setName(dto.getName());
 			entity.setCode(dto.getCode());
+			entity.setType(dto.getType());
 		}
 		return entity;
 	}
