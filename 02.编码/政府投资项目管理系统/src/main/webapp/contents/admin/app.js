@@ -110,19 +110,26 @@
 	        }) 
 	        //end#portal
 /**********************begin#monthReport***************************************/
-	        //列表页
+	        //列表页--政府投资项目
 	        .state('monthReport', {
 	            url: '/monthReport',
 	            templateUrl: '/management/monthReport/html/list',
 	            controller: 'monthReportCtrl',
 	            controllerAs: 'vm'
 	        })
-	        //修改页
-	           .state('monthReportChange', {
-	            url: '/monthReportChange/:projectId/:year/:month',
-	            templateUrl: '/management/monthReport/html/changeDetails',
+	        //列表页--社会投资项目
+	        .state('monthReport_SH', {
+	            url: '/monthReport_SH',
+	            templateUrl: '/management/monthReport/html/list_SH',
 	            controller: 'monthReportCtrl',
 	            controllerAs: 'vm'
+	        })
+	        //修改页
+           .state('monthReportChange', {
+        	   url: '/monthReportChange/:projectId/:year/:month',
+        	   templateUrl: '/management/monthReport/html/edit',
+        	   controller: 'monthReportCtrl',
+        	   controllerAs: 'vm'
 	        })
 	        //详情页
 	        .state('monthReport_details', {

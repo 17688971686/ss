@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cs.domain.AssistReview;
-import cs.domain.ServiceEvaluation;
 
 public class AssistReviewDto extends AssistReview{
 	private ProjectDto projectDto=new ProjectDto();

@@ -46,10 +46,17 @@ public class MonthReportController {
 	}
 	
 	@RequiresPermissions("management/monthReport#html/list#get")
-	@RequestMapping(name = "列表页面", path = "html/list", method = RequestMethod.GET)	
+	@RequestMapping(name = "政府投资项目列表页面", path = "html/list", method = RequestMethod.GET)	
 	public String list() {
 
 		return this.ctrlName + "/list";
+	}
+	
+	@RequiresPermissions("management/monthReport#html/list_SH#get")
+	@RequestMapping(name = "社会投资列表页面", path = "html/list_SH", method = RequestMethod.GET)	
+	public String list_SH() {
+
+		return this.ctrlName + "/list_SH";
 	}
 	
 	@RequiresPermissions("management/monthReport#html/details#get")
@@ -58,9 +65,9 @@ public class MonthReportController {
 		return this.ctrlName + "/details";
 	}
 	
-	@RequiresPermissions("management/monthReport#html/changeDetails#get")
-	@RequestMapping(name = "修改页面", path = "html/changeDetails", method = RequestMethod.GET)	
+	@RequiresPermissions("management/monthReport#html/edit#get")
+	@RequestMapping(name = "修改页面", path = "html/edit", method = RequestMethod.GET)	
 	public String changeDetails() {
-		return this.ctrlName + "/changeDetails";
+		return this.ctrlName + "/edit";
 	}
 }

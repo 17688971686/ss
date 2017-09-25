@@ -43,9 +43,7 @@ import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
-import cs.service.framework.RoleService;
 import cs.service.framework.SysService;
-import cs.service.framework.UserService;
 import cs.service.interfaces.ShenBaoInfoService;
 /**
  * @Description: 申报信息服务层
@@ -82,8 +80,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@Autowired
 	private SysService sysService;
 	@Autowired
-	private RoleService roleService;
-	@Autowired
 	private BasicDataService basicDataService;
 	@Autowired
 	private ICurrentUser currentUser;
@@ -118,6 +114,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private String taskType_xuJian;//任务类型：续建计划
 	@Value("${taskType_jueSuan}")
 	private String taskType_jueSuan;//任务类型：竣工决算
+	@Value("${taskType_ZJSQBG}")
+	private String taskType_ZJSQBG;//任务类型：资金申请报告
 	
 	@Override
 	@Transactional
@@ -447,8 +445,10 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			return taskType_newStart;
 		}else if(shenbaoStage.equals(projectShenBaoStage_xuJian)){//如果申报阶段：是续建计划
 			return taskType_xuJian;
-		}else if(shenbaoStage.endsWith(projectShenBaoStage_jueSuan)){//如果申报阶段：是竣工决算
+		}else if(shenbaoStage.equals(projectShenBaoStage_jueSuan)){//如果申报阶段：是竣工决算
 			return taskType_jueSuan;
+		}else if(shenbaoStage.equals(projectShenBaoStage_baoGao)){//如果申报阶段：是资金申请报告
+			return taskType_ZJSQBG;
 		}
 		return "";
 	}

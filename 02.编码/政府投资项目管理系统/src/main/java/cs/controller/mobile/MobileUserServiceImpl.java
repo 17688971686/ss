@@ -3,9 +3,6 @@ package cs.controller.mobile;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -13,34 +10,23 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.common.MobileResponse;
 import cs.domain.framework.Role;
 import cs.domain.framework.User;
-import cs.model.PageModelDto;
-import cs.model.DomainDto.UserUnitInfoDto;
 import cs.model.framework.RoleDto;
 import cs.model.framework.UserDto;
-import cs.repository.framework.RoleRepo;
 import cs.repository.framework.UserRepo;
-import cs.repository.odata.ODataObj;
-import cs.service.interfaces.UserUnitInfoService;
+
 
 @Service
 public class MobileUserServiceImpl implements MobileUserService {
 	private static Logger logger = Logger.getLogger(MobileUserServiceImpl.class);
 	@Autowired
 	private UserRepo userRepo;
-	@Autowired
-	private RoleRepo roleRepo;
+
 	@Autowired
 	private ICurrentUser currentUser;
-	@Autowired
-	private UserUnitInfoService userUnitInfoService;
-
-	
 
 	@Override
 	@Transactional

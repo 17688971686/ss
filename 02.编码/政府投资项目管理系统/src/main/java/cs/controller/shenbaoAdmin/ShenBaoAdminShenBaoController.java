@@ -1,9 +1,7 @@
 package cs.controller.shenbaoAdmin;
 
 import java.text.ParseException;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,27 +11,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
 import cs.common.ICurrentUser;
-import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
-import cs.service.common.BasicDataService;
 import cs.service.interfaces.ShenBaoInfoService;
-import cs.service.interfaces.UserUnitInfoService;
 
 @Controller
 @RequestMapping(name="申报端--项目申报",path="shenbaoAdmin/shenbao")
 public class ShenBaoAdminShenBaoController {
 	private String ctrlName = "shenbaoAdmin/shenbao";
 	
-	@Autowired ShenBaoInfoService shenBaoInfoService;
+	@Autowired 
+	private ShenBaoInfoService shenBaoInfoService;
 	@Autowired
-	ICurrentUser currentUser;
-	@Autowired
-	private UserUnitInfoService userUnitInfoService;
+	private ICurrentUser currentUser;
 
 	
 	@RequiresPermissions("shenbaoAdmin/shenbao##get")
@@ -47,10 +40,8 @@ public class ShenBaoAdminShenBaoController {
 	@RequiresPermissions("shenbaoAdmin/shenbao#unit#get")
 	@RequestMapping(name = "获取单位申报信息", path = "unit",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getByUnit(HttpServletRequest request) throws ParseException{
-		//根据当前登陆用户查找到单位信息
-		//UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
 		ODataObj odataObj = new ODataObj(request);
-		//设置过滤条件
+		//设置过滤条件 根据创建人找到对应的申报信息
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 		filterItem.setField("createdBy");
 		filterItem.setOperator("eq");

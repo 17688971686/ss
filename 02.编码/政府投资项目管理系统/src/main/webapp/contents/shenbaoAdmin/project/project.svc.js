@@ -82,6 +82,10 @@
 				vm.model.capitalZYYS=common.toMoney(vm.model.capitalZYYS);//中央预算
 				vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
 				vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
+				vm.model.landPrice=common.toMoney(vm.model.landPrice);//总投资--地价（社投）
+				vm.model.equipmentInvestment=common.toMoney(vm.model.equipmentInvestment);//总投资--设备投资（社投）
+				vm.model.buidSafeInvestment=common.toMoney(vm.model.buidSafeInvestment);//总投资--建安投资（社投）
+				
 				var httpOptions = {
 					method : 'put',
 					url : url_project+"/unitProject",
@@ -147,8 +151,8 @@
 				vm.model.pifuJYS_date=common.formatDate(vm.model.pifuJYS_date);//项目建议书批复日期			
 				vm.model.pifuKXXYJBG_date=common.formatDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
 				vm.model.pifuCBSJYGS_date=common.formatDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期
-				//如果是编辑页面，则项目行业需要进行处理
-				if(vm.page=='update'){
+				//如果是编辑页面并且为社会投资项目，则项目行业需要进行处理进行显示
+				if(vm.page=='update' && vm.model.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){
 					var child = $linq(common.getBasicData())
 	        		.where(function(x){return x.id==vm.model.projectIndustry})
 	        		.toArray()[0];
@@ -158,6 +162,25 @@
 						vm.model.projectIndustryParent=child.pId;
 					}
 						vm.projectIndustryChange();
+				}
+				if(vm.page == 'projectInfo'){
+					if(vm.model.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
+			 			  vm.isZFInvestment = true;
+			 			 //资金来源计算
+				   		 vm.capitalTotal=function(){
+				   			 return common.getSum([
+				   					 vm.model.capitalSCZ_ggys||0,vm.model.capitalSCZ_gtzj||0,vm.model.capitalSCZ_zxzj||0,
+				   					 vm.model.capitalQCZ_ggys||0,vm.model.capitalQCZ_gtzj||0,
+				   					 vm.model.capitalSHTZ||0,vm.model.capitalZYYS||0,
+				   					 vm.model.capitalOther||0]);
+				   		 };
+			 			 //相关附件文件上传文件种类
+			 			  vm.relatedType=common.uploadFileTypeConfig().projectEdit;
+			 		   }else if(vm.model.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资		  
+			 			  vm.isSHInvestment = true;
+			 			 //相关附件文件上传文件种类
+			 			  vm.relatedType=common.uploadFileTypeConfig().projectEdit_SH;
+			 		   }
 				}
 				//资金处理没有就显示为0 这一块没用了
 //				vm.model.projectInvestSum=common.toMoney(vm.model.projectInvestSum);//项目总投资
@@ -223,11 +246,21 @@
 		 * 创建项目
 		 */		
 		function createProject(vm){
+//			var isValid = true;
+//			if(vm.isTemporary){
+//				if(vm.model.projectIndustry == null || vm.model.projectIndustry==''){
+//					vm.showTemporaryTip=true;
+//					return;
+//				}
+//			}else{
+//				common.initJqValidation();
+//				var isValid = $('form').valid();
+//			}
 			common.initJqValidation();
 			var isValid = $('form').valid();
 			if (isValid) {
 				vm.model.projectType =common.arrayToString(vm.model.projectType,',');
-				vm.isSubmit = true;				
+				vm.isSubmit = true;		
 				var httpOptions = {
 					method : 'post',
 					url : url_project+"/unitProject",
@@ -246,7 +279,9 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 									$('.modal-backdrop').remove();
-									$location.path(url_back);//创建成功返回到列表页								
+//									if(!vm.isTemporary){
+										$location.path(url_back);//创建成功返回到列表页
+//									}
 								}
 							});
 						}
@@ -278,8 +313,13 @@
 				serverPaging : true,
 				serverSorting : true,
 				serverFiltering : true,
-				pageSize : 10
-					
+				pageSize : 10,
+				requestStart: function () {
+					kendo.ui.progress($("#loading"), true);
+				},
+				requestEnd : function () {
+					kendo.ui.progress($("#loading"), false);
+				}
 			});
 			// End:dataSource
 			// Begin:column
@@ -322,7 +362,9 @@
 				pageable : common.kendoGridConfig().pageable,
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
-				resizable : true
+				resizable : true,
+				sortable:true,
+				scrollable:true
 			};
 		}
 
@@ -357,6 +399,12 @@
 					field:'isLatestVersion',
 					operator:'eq',
 					value:true
+				},
+				requestStart: function () {
+					kendo.ui.progress($("#loading"), true);
+				},
+				requestEnd : function () {
+					kendo.ui.progress($("#loading"), false);
 				}
 			});
 			// End:dataSource
@@ -380,7 +428,7 @@
 					width:250,
 					filterable : true,
 					template:function(item){
-						return common.format('<a href="#/project/projectInfo/{0}/{1}">{2}</a>',item.id,item.projectInvestmentType,item.projectName);
+						return common.format('<a href="#/project/projectInfo/{0}">{1}</a>',item.id,item.projectName);
 					}
 				},
 				{
@@ -413,7 +461,7 @@
 						ui: function(element){
 	                        element.kendoDropDownList({
 	                            valuePrimitive: true,
-	                            dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectStage),
+	                            dataSource: vm.basicData.projectStage,
 	                            dataTextField: "description",
 	                            dataValueField: "id",
 	                            filter: "startswith"
@@ -432,7 +480,7 @@
 						ui: function(element){
 	                        element.kendoDropDownList({
 	                            valuePrimitive: true,
-	                            dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType),
+	                            dataSource: vm.basicData.investmentType,
 	                            dataTextField: "description",
 	                            dataValueField: "id",
 	                            filter: "startswith"
@@ -482,7 +530,8 @@
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
 				resizable : true,
-				sortable:true
+				sortable:true,
+				scrollable:true
 			};
 
 		}// end fun grid

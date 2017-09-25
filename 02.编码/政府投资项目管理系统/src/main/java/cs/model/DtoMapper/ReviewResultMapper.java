@@ -4,11 +4,8 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import cs.domain.Approval;
 import cs.domain.Attachment;
 import cs.domain.ReviewResult;
-import cs.model.DomainDto.ApprovalDto;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ReviewResultDto;
 

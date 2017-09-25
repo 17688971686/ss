@@ -16,7 +16,7 @@ public class BasicData extends BaseEntity {
 	@Id	
 	private String id;
 	
-	@Column(columnDefinition="varchar(255) COMMENT '父亲Id'")
+	@Column(columnDefinition="varchar(125) COMMENT '父亲Id'")
 	private String pId;
 	
 	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '标识'")

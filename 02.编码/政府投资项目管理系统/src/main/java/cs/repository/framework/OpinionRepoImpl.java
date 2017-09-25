@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
  * @version：0.1
  */
 import cs.domain.Opinion;
-import cs.domain.framework.Role;
 import cs.repository.impl.AbstractRepository;
 @Repository
 public class OpinionRepoImpl  extends AbstractRepository<Opinion,String> implements OpinionRepo{

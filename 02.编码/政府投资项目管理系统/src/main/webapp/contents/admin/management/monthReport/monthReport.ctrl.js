@@ -11,6 +11,7 @@
         /* jshint validthis:true */
     	var vm = this;
     	vm.projectId=$state.params.projectId;
+    	vm.projectInvestmentType=$state.params.projectInvestmentType;
 		vm.year=$state.params.year;
 		vm.month=$state.params.month;
 		vm.search={};
@@ -20,10 +21,14 @@
     	vm.model.display = false;
     	
         vm.init=function(){
+        	if($state.current.name=='monthReport_SH'){
+        		vm.page='list_SH';
+        	}
         	if($state.current.name=='monthReport_details'){
         		vm.page='details';
-        	}else if($state.current.name=='monthReportChange'){
-        		vm.page='changeDetails';
+        	}
+        	if($state.current.name=='monthReportChange'){
+        		vm.page='edit';
         	}
         	
         	vm.getBasicDataDesc = function(Str){
@@ -34,9 +39,25 @@
      			 common.checkLength(obj,max,id);
           	};
           	
+          	vm.getUnitName = function(unitId){
+          		return common.getUnitName(unitId);
+          	};
+          	
+          	//清空查询条件
+	   		vm.filterClear=function(){
+	   			location.reload();
+	   		};
+          	
           	//用于查询--基础数据
 	   		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
 	   		vm.basicData.projectInvestmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);//投资类型
+	   		vm.basicData.userUnit=common.getUserUnits();//获取所有用户单位
+	   		vm.basicData.projectIndustry_ZF=$linq(common.getBasicData())
+	   			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
+	   			.toArray();//政府投资项目行业
+	   		vm.basicData.projectIndustry_SH=$linq(common.getBasicData())
+	   			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_SH;})
+	   			.toArray();//社会投资项目行业
         };//end init
         
         activate();
@@ -45,10 +66,13 @@
         	if(vm.page=='list'){
         		page_list();
         	}
+        	if(vm.page=='list_SH'){
+        		page_list_SH();
+        	}
         	if(vm.page=='details'){  
         		page_details();
         	}
-        	if(vm.page=='changeDetails'){
+        	if(vm.page=='edit'){
         		page_details();
         	}
             
@@ -61,24 +85,59 @@
     			var filters = [];
 				filters.push({field:'isLatestVersion',operator:'eq',value:true});//默认条件--项目最新版本
 				filters.push({field:'isMonthReport',operator:'eq',value:true});//默认条件--需要填报月报 
+				filters.push({field:'projectInvestmentType',operator:'eq',value:common.basicDataConfig().projectInvestmentType_ZF});//默认条件--社会投资
 				
-				 
 				if(vm.search.projectName !=null && vm.search.projectName !=''){//查询条件--项目名称
 	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
 	     		   }
      		   	if(vm.search.projectStage !=null && vm.search.projectStage !=''){//查询条件--项目阶段
      			   filters.push({field:'projectStage',operator:'eq',value:vm.search.projectStage});
      		   	}
-     		   if(vm.search.projectInvestmentType !=null && vm.search.projectInvestmentType !=''){//查询条件--投资类型
-     			   filters.push({field:'projectInvestmentType',operator:'eq',value:vm.search.projectInvestmentType});
+     		   	if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){//查询条件--项目行业
+        		   	filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
+    		   	}
+     		   	if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--建设单位
+     			  filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
+     		   	}
+ 			  vm.gridOptions.dataSource.filter(filters);
+    		};
+        }
+        
+        function page_list_SH(){
+        	monthReportSvc.grid_SH(vm);
+        	
+        	//查询
+    		vm.search=function(){
+    			var filters = [];
+				filters.push({field:'isLatestVersion',operator:'eq',value:true});//默认条件--项目最新版本
+				filters.push({field:'isMonthReport',operator:'eq',value:true});//默认条件--需要填报月报 
+				filters.push({field:'projectInvestmentType',operator:'eq',value:common.basicDataConfig().projectInvestmentType_SH});//默认条件--社会投资
+				 
+				if(vm.search.projectName !=null && vm.search.projectName !=''){//查询条件--项目名称
+					filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
+	     		}
+     		   	if(vm.search.projectStage !=null && vm.search.projectStage !=''){//查询条件--项目阶段
+     		   		filters.push({field:'projectStage',operator:'eq',value:vm.search.projectStage});
+     		   	}
+     		   	if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){//查询条件--项目行业
+     		   	filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
      		   	}
      		   	if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--建设单位
      			  filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
      		   	}
-     		   
- 			  vm.gridOptions.dataSource.filter(filters);
-     		  vm.gridOptions.dataSource.read(); 
+ 			  vm.gridOptions_SH.dataSource.filter(filters);
     		};
+        	
+        	//条件查询--项目行业子集发生变化
+   	   	   vm.searchIndustryChildChange=function(){
+   	   		   vm.searchIndustryChild=false;
+   	   		   if(vm.search.projectIndustryChild !=null && vm.search.projectIndustryChild !=''){
+   	   				vm.basicData.projectIndustryChild_SH=$linq(common.getBasicData())
+   	   					.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.search.projectIndustryChild;})
+   	   					.toArray();//社会投资项目行业子集
+   	   				vm.searchIndustryChild=true;
+   	   		   }
+   	   	   }
         }
         
         function page_details(){
@@ -142,7 +201,7 @@
         	
             //begin#删除文件
             vm.delFile=function(idx){
-           	 vm.model.monthReport.attachmentDtos.splice(idx,1);
+           	 	vm.model.monthReport.attachmentDtos.splice(idx,1);
             };
         	//批复类型
          	vm.basicData_approvalType=$linq(common.getBasicData())
@@ -171,7 +230,11 @@
             };
             
             vm.back = function(vm){
-            	location.href="#/monthReport";
+            	if(vm.isZFInvestment){
+            		location.href="#/monthReport";
+            	}else if(vm.isSHInvestment){
+            		location.href="#/monthReport_SH";
+            	}
             };
         }
     }

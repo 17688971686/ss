@@ -100,6 +100,7 @@
     	   vm.search=function(){
     		   var filters = [];
     		   filters.push({field:'isLatestVersion',operator:'eq',value:true});//默认条件--查询最新版本的项目
+    		   
     		   if(vm.search.projectName !=null && vm.search.projectName !=''){
     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
     		   }
@@ -129,6 +130,7 @@
     	   vm.searchIndustryFatherChange=function(){
   	   			vm.searchIndustryIsZF = false;
   	   			vm.searchIndustryIsSH = false;
+  	   			vm.searchIndustryChild=false;
   	   			if(vm.searchIndustryFather == common.basicDataConfig().projectIndustry_ZF){
   	   				vm.searchIndustryIsZF = true;
   	   			}else if(vm.searchIndustryFather == common.basicDataConfig().projectIndustry_SH){
@@ -182,19 +184,9 @@
        function page_create(){
     	   //新建项目相关数据初始化
     	   vm.model.projectInvestmentType = vm.projectInvestmentType;//项目投资类型用于数据收集
-			//资金处理没有就显示为0 TODO这一块没用了
-//			vm.model.projectInvestSum=common.toMoney(vm.model.projectInvestSum);//项目总投资
-//			vm.model.projectInvestAccuSum=common.toMoney(vm.model.projectInvestAccuSum);//累计完成投资
-//			vm.model.capitalSCZ_ggys=common.toMoney(vm.model.capitalSCZ_ggys);//市财政-公共预算
-//			vm.model.capitalSCZ_gtzj=common.toMoney(vm.model.capitalSCZ_gtzj);//市财政-国土资金
-//			vm.model.capitalSCZ_zxzj=common.toMoney(vm.model.capitalSCZ_zxzj);//市财政-专项资金
-//			vm.model.capitalQCZ_ggys=common.toMoney(vm.model.capitalQCZ_ggys);//区财政-公共预算
-//			vm.model.capitalQCZ_gtzj=common.toMoney(vm.model.capitalQCZ_gtzj);//区财政-国土资金
-//			vm.model.capitalZYYS=common.toMoney(vm.model.capitalZYYS);//中央预算
-//			vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
-//			vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
 			
     	   if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
+    		   vm.isZFInvestment = true;
     		   //基础数据--项目分类
     		  vm.basicData.projectClassify=$linq(common.getBasicData())
 	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
@@ -203,7 +195,6 @@
     		  vm.basicData.projectIndustry=$linq(common.getBasicData())
 	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
 	       		.toArray();
- 			  vm.isZFInvestment = true;
  			 //资金来源计算（政投）
  	   		 vm.capitalTotal=function(){
  	   			 return common.getSum([
@@ -215,25 +206,23 @@
  			//相关附件文件上传文件种类
 	   		vm.relatedType=common.uploadFileTypeConfig().projectEdit;
  		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资
+ 			  vm.isSHInvestment = true;
  			  //基础数据--行业归口
  			 vm.basicData.projectIndustry=$linq(common.getBasicData())
 	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_SH;})
 	       		.toArray();
- 			 
- 			vm.projectIndustryChange=function(){    		
+ 			 //项目行业发生变化
+ 			 vm.projectIndustryChange=function(){    		
 	       		vm.basicData.projectIndustryChildren=$linq(common.getBasicData())
 	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.model.projectIndustryParent;})
 	       		.toArray();
 	   		};
- 			  vm.isSHInvestment = true;
- 			  
  			 //投资去处计算（社投）
   	   		 vm.investTotal=function(){
   	   			 vm.model.projectInvestSum=common.getSum([vm.model.landPrice||0,vm.model.equipmentInvestment||0,
 	   				 	 vm.model.buidSafeInvestment||0,vm.model.capitalOther||0]);
   	   			 return vm.model.projectInvestSum;
   	   		 };
- 			  
  		   }
     	   
     	   	//设置项目所属单位信息
@@ -351,6 +340,11 @@
 	   		 vm.create = function () {
 	   		     projectSvc.createProject(vm);	   		     
 	   		 };
+	   		 //暂存
+	   		vm.temporary=function(){
+	   			vm.isTemporary = true;
+	   			projectSvc.createProject(vm);
+	   		}
        }//end#page_create
        
        function page_update(){
@@ -365,28 +359,6 @@
        function page_projectInfo(){
     	   $(".modal-backdrop").remove();
     	   projectSvc.getProjectById(vm);
-    	   if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
- 			  vm.isZFInvestment = true;
- 			 //相关附件文件上传文件种类
- 			  vm.relatedType=common.uploadFileTypeConfig().projectEdit;
- 		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资		  
- 			  vm.isSHInvestment = true;
- 			 //相关附件文件上传文件种类
- 			  vm.relatedType=common.uploadFileTypeConfig().projectEdit_SH;
- 		   }
-
-    	 //资金来源计算
-   		 vm.capitalTotal=function(){
-   			 return common.getSum([
-   					 vm.model.capitalSCZ_ggys||0,vm.model.capitalSCZ_gtzj||0,vm.model.capitalSCZ_zxzj||0,
-   					 vm.model.capitalQCZ_ggys||0,vm.model.capitalQCZ_gtzj||0,
-   					 vm.model.capitalSHTZ||0,vm.model.capitalZYYS||0,
-   					 vm.model.capitalOther||0]);
-   		 };
-    	 //相关附件文件上传文件种类
-    	   vm.relatedType=common.uploadFileTypeConfig().projectEdit;
-
        }//end#page_projectInfo
-		
     }
 })();

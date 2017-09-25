@@ -1,22 +1,15 @@
 package cs.service.impl;
 
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-
 import javax.transaction.Transactional;
-
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
-import cs.domain.Attachment;
 import cs.domain.DraftIssued;
 import cs.model.DomainDto.DraftIssuedDto;
 import cs.model.DtoMapper.IMapper;

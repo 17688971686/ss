@@ -39,15 +39,15 @@ font-weight: bold;
 			    <td>
 			    <input type="text" class="form-control input-sm" id="unitTel" name="unitTel" ng-model="vm.model.unitTel" 
 			    	data-val="true" data-val-required="必填"/>
-			    <span data-valmsg-for="unitTel" data-valmsg-replace="true" class="errors"></span>
+			    <span data-valmsg-for="unitTel" data-valmsg-replace="true" class="required"></span>
 			    </td>
 		   </tr>
 		   <tr>
 		        <td class="formAlignRight">电子邮箱：<span class="required">(*)</span></td>
 		        <td colspan="2">
 		        <input type="email" class="form-control input-sm" id="email" name="unitEmail" ng-model="vm.model.unitEmail" data-val="true" data-val-required="必填"/>
-		        <span data-valmsg-for="unitEmail" data-valmsg-replace="true" class="errors"></span>
-		        <span ng-show="myForm.unitEmail.$error.email" class="errors"></span>
+		        <span data-valmsg-for="unitEmail" data-valmsg-replace="true" class="required"></span>
+		        <span ng-show="myForm.unitEmail.$error.email" class="required"></span>
 		        <td>传真号码：</td>
 		        <td>
 		        <input type="text" class="form-control input-sm" id="unitFax" name="unitFax" ng-model="vm.model.unitFax"/>
@@ -64,7 +64,7 @@ font-weight: bold;
 						<option value="">---请选择---</option>
 						<option ng-repeat="x in vm.basicData_unitProperty" value="{{x.id}}">{{x.description}}</option>
 					</select>
-					<span data-valmsg-for="unitProperty" data-valmsg-replace="true" class="errors"></span>
+					<span data-valmsg-for="unitProperty" data-valmsg-replace="true" class="required"></span>
 				</td>
 			</tr>
 		<tr>
@@ -79,7 +79,7 @@ font-weight: bold;
 				</select>
 				<span data-valmsg-for="divisionId" data-valmsg-replace="true" class="errors"></span>
 				 <input type="text" class="form-control input-sm pull-left" style="width:500px;" id="unitAddress" name="unitAddress" ng-model="vm.model.unitAddress" data-val="true" data-val-required="必填"/>
-				 <span data-valmsg-for="unitAddress" data-valmsg-replace="true" class="errors"></span>
+				 <span data-valmsg-for="unitAddress" data-valmsg-replace="true" class="required"></span>
 				</td>
 		  </tr>
 		  <tr>
@@ -93,7 +93,7 @@ font-weight: bold;
 		    <td>
 		     	<input class="form-control input-sm" type="text" id="resPersonTel" name="resPersonTel" ng-model="vm.model.resPersonTel" 
 		     		data-val="true" data-val-required="必填"/>
-		    	<span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="errors"></span>
+		    	<span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>
 		    </td>
 		  </tr>
 		  <tr>
@@ -101,7 +101,7 @@ font-weight: bold;
 		    <td>
 		     	<input class="form-control input-sm" type="text" id="resPersonMobile" name="resPersonMobile" ng-model="vm.model.resPersonMobile" 
 		     		data-val="true" data-val-required="必填"/>
-		    	<span data-valmsg-for="resPersonMobile" data-valmsg-replace="true" class="errors"></span>
+		    	<span data-valmsg-for="resPersonMobile" data-valmsg-replace="true" class="required"></span>
 		    </td>
 		    <td>传真号码：</td>
 		    <td>
@@ -109,17 +109,16 @@ font-weight: bold;
 		    </td>
 		  </tr>
 		   <tr>
-		    <td>Email：<span class="required">(*)</span></td>
+		    <td>Email：</td>
 		    <td colspan="3">
-		     <input type="email" class="form-control input-sm" id="resPersonEmail" name="resPersonEmail" ng-model="vm.model.resPersonEmail" data-val="true" data-val-required="必填"/>
-		    	 <span data-valmsg-for="resPersonEmail" data-valmsg-replace="true" class="errors"></span>
-		    	 <span ng-show="myForm.resPersonEmail.$error.email" class="errors"></span>
+		     <input type="email" class="form-control input-sm" id="resPersonEmail" name="resPersonEmail" ng-model="vm.model.resPersonEmail"/>
+		    	 <span ng-show="myForm.resPersonEmail.$error.email" class="required"></span>
 		    </td>
 		  </tr>
 	</table>
 		
 		<div style="text-align:center;">
-			<button class="btn btn-success" ng-click="vm.submit()">确认提交</button>
+			<button class="btn btn-success" ng-click="vm.submit()" ng-disabled="vm.isSubmit">确认提交</button>
 		</div>
 	</form>
 </div>	

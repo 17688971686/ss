@@ -1,0 +1,57 @@
+<style>
+.formAlignRight{
+font-weight: bold;
+}
+.table-bordered>thead>tr>th, 
+.table-bordered>tbody>tr>th, 
+.table-bordered>tfoot>tr>th, 
+.table-bordered>thead>tr>td, 
+.table-bordered>tbody>tr>td, 
+.table-bordered>tfoot>tr>td {
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+
+.title{
+padding:5px;
+font-weight: bold;
+}
+.uploadBox .k-upload-status {
+	display: none;
+}
+
+.uploadBox .k-header {
+	background: transparent;
+	border: 0px;
+}
+
+.uploadBox em {
+	display: none;
+}
+
+.uploadBox .k-dropzone {
+	padding: 0px;
+	margin: 0px;
+}
+.uploadBox .k-upload-files{
+display:none;
+}
+overflow: scroll !important;
+</style>
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+    	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+        <li>项目进度管理</li>       
+        <li ><a href="#/monthReport">月报</a></li>
+        <li class="active">修改</li>
+    </ol>
+   
+	<form id="form" name="form"> 
+		<div ng-if="vm.isZFInvestment" ng-include  src="'/contents/admin/management/monthReport/html/edit_ZF.html'"></div>
+		<div ng-if="vm.isSHInvestment" ng-include  src="'/contents/admin/management/monthReport/html/edit_SH.html'"></div>
+	</form>
+	<div style="text-align: center">
+		<button class="btn btn-success" ng-disabled="vm.model.isSubmit || vm.model.isReportExist" ng-click="vm.submit()">确认修改</button>
+	</div>
+</div>

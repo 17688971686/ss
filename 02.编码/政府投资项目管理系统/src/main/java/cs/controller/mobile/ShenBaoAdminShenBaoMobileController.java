@@ -1,38 +1,24 @@
 package cs.controller.mobile;
 
 import java.text.ParseException;
-
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-import cs.common.ICurrentUser;
-import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
-import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.interfaces.ShenBaoInfoService;
-import cs.service.interfaces.UserUnitInfoService;
 
 @Controller
 @RequestMapping(name="手机端--项目申报",path="mobile/shenbaoAdmin/shenbao")
 public class ShenBaoAdminShenBaoMobileController {
-	private String ctrlName = "shenbaoAdmin/shenbao";
 	
 	@Autowired 
 	private ShenBaoInfoService shenBaoInfoService;
-	@Autowired
-	private UserUnitInfoService userUnitInfoService;
 	@Autowired
 	private BasicDataService basicDataService;
 	

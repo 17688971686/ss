@@ -1,6 +1,5 @@
 package cs.controller.framework;
 
-import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +14,6 @@ import cs.service.framework.UserService;
 @RequestMapping(name = "管理界面", path = "admin")
 public class AdminController {
 	private String ctrlName = "framework/admin";
-	private static Logger logger = Logger.getLogger(AdminController.class.getName());
 	@Autowired
 	private ICurrentUser currentUser;
 	@Autowired

@@ -39,10 +39,10 @@ public class BasicDataConfig {
 	public static String taskType_nextYearPlan="taskType_2";//下一年度计划
 	public static String taskType_monthReport="taskType_1";//月报填报
 	public static String taskType_sendMesg="taskType_3";//发送短信
+	public static String taskType_shenBaoDK="taskType_4";//申报端口
 	public static String taskType_XMJYS="taskType_5";//项目建议书
 	public static String taskType_KXXYJBG="taskType_6";//可行性研究报告
 	public static String taskType_CBSJYGS="taskType_7";//初步设计与概算
-	public static String taskType_shenBaoDK="taskType_4";//是否打开申报端口
 	public static String taskType_qianQi="taskType_8";//前期计划
 	public static String taskType_new="taskType_9";//新开工
 	public static String taskType_xuJian="taskType_10";//续建

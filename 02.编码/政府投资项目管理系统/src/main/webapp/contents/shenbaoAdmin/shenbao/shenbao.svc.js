@@ -227,7 +227,7 @@
 					title : "项目名称",
 					width:200,
 					template:function(item){
-						return common.format('<a href="#/project/projectInfo/{0}/{1}">{2}</a>',item.projectId,item.projectInvestmentType,item.projectName);
+						return common.format('<a href="#/project/projectInfo/{0}">{1}</a>',item.projectId,item.projectName);
 					},
 					filterable : false						
 				},
@@ -291,6 +291,43 @@
 				
 				vm.model.projectType = common.arrayToString(vm.model.projectType,',');
 				vm.model.constructionUnit = common.arrayToString(vm.model.constructionUnit,',');
+				//项目有关时间清空处理
+				vm.model.beginDate = (vm.model.beginDate != '')?vm.model.beginDate:null;
+				vm.model.endDate = (vm.model.endDate != '')?vm.model.endDate:null;
+				//资金处理：没有就设置为0存储到数据库
+				vm.model.projectInvestSum=common.toMoney(vm.model.projectInvestSum);//项目总投资
+				vm.model.projectInvestAccuSum=common.toMoney(vm.model.projectInvestAccuSum);//累计完成投资
+				vm.model.capitalSCZ_ggys=common.toMoney(vm.model.capitalSCZ_ggys);//市财政-公共预算
+				vm.model.capitalSCZ_gtzj=common.toMoney(vm.model.capitalSCZ_gtzj);//市财政-国土资金
+				vm.model.capitalSCZ_zxzj=common.toMoney(vm.model.capitalSCZ_zxzj);//市财政-专项资金
+				vm.model.capitalQCZ_ggys=common.toMoney(vm.model.capitalQCZ_ggys);//区财政-公共预算
+				vm.model.capitalQCZ_gtzj=common.toMoney(vm.model.capitalQCZ_gtzj);//区财政-国土资金
+				vm.model.capitalZYYS=common.toMoney(vm.model.capitalZYYS);//中央预算
+				vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
+				vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
+				
+				vm.model.applyYearInvest=common.toMoney(vm.model.applyYearInvest);//申请年度投资
+				vm.model.capitalSCZ_gtzj_TheYear =common.toMoney(vm.model.capitalSCZ_gtzj_TheYear);
+				vm.model.capitalSCZ_ggys_TheYear =common.toMoney(vm.model.capitalSCZ_ggys_TheYear);
+				vm.model.capitalSCZ_qita =common.toMoney(vm.model.capitalSCZ_qita);
+				
+				vm.model.applyYearInvest_LastYear=common.toMoney(vm.model.applyYearInvest_LastYear);//申请下年度投资
+				vm.model.capitalSCZ_gtzj_LastYear=common.toMoney(vm.model.capitalSCZ_gtzj_LastYear);
+				vm.model.capitalSCZ_ggys_LastYear=common.toMoney(vm.model.capitalSCZ_ggys_LastYear);
+				vm.model.capitalSCZ_qita_LastYear=common.toMoney(vm.model.capitalSCZ_qita_LastYear);
+				
+				vm.model.applyYearInvest_LastTwoYear=common.toMoney(vm.model.applyYearInvest_LastTwoYear);//申请下下年度投资
+				vm.model.capitalSCZ_gtzj_LastTwoYear=common.toMoney(vm.model.capitalSCZ_gtzj_LastTwoYear);
+				vm.model.capitalSCZ_ggys_LastTwoYear=common.toMoney(vm.model.capitalSCZ_ggys_LastTwoYear);
+				vm.model.capitalSCZ_qita_LastTwoYear=common.toMoney(vm.model.capitalSCZ_qita_LastTwoYear);
+				
+				vm.model.apInvestSum = common.toMoney(vm.model.apInvestSum);//累计安排资金
+				//规划设计前期费
+				vm.model.qianQiFeiApply = common.toMoney(vm.model.qianQiFeiApply);//前期计划申请费用
+				//社投专用
+				vm.model.landPrice=common.toMoney(vm.model.landPrice);//总投资--地价（社投）
+				vm.model.equipmentInvestment=common.toMoney(vm.model.equipmentInvestment);//总投资--设备投资（社投）
+				vm.model.buidSafeInvestment=common.toMoney(vm.model.buidSafeInvestment);//总投资--建安投资（社投）
 
 				var httpOptions = {
 					method : 'put',
@@ -360,36 +397,6 @@
 					vm.model.pifuJYS_date=common.formatDate(vm.model.pifuJYS_date);//项目建议书批复日期			
 					vm.model.pifuKXXYJBG_date=common.formatDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
 					vm.model.pifuCBSJYGS_date=common.formatDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期						
-					//资金处理（TODO 这一块可以不需要了）
-					vm.model.projectInvestSum=common.toMoney(vm.model.projectInvestSum);//项目总投资
-					vm.model.projectInvestAccuSum=common.toMoney(vm.model.projectInvestAccuSum);//累计完成投资
-					vm.model.capitalSCZ_ggys=common.toMoney(vm.model.capitalSCZ_ggys);//市财政-公共预算
-					vm.model.capitalSCZ_gtzj=common.toMoney(vm.model.capitalSCZ_gtzj);//市财政-国土资金
-					vm.model.capitalSCZ_zxzj=common.toMoney(vm.model.capitalSCZ_zxzj);//市财政-专项资金
-					vm.model.capitalQCZ_ggys=common.toMoney(vm.model.capitalQCZ_ggys);//区财政-公共预算
-					vm.model.capitalQCZ_gtzj=common.toMoney(vm.model.capitalQCZ_gtzj);//区财政-国土资金
-					vm.model.capitalZYYS=common.toMoney(vm.model.capitalZYYS);//中央预算
-					vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
-					vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
-					
-					vm.model.applyYearInvest=common.toMoney(vm.model.applyYearInvest);//申请年度投资
-					vm.model.capitalSCZ_gtzj_TheYear =common.toMoney(vm.model.capitalSCZ_gtzj_TheYear);
-					vm.model.capitalSCZ_ggys_TheYear =common.toMoney(vm.model.capitalSCZ_ggys_TheYear);
-					vm.model.capitalSCZ_qita =common.toMoney(vm.model.capitalSCZ_qita);
-					
-					vm.model.applyYearInvest_LastYear=common.toMoney(vm.model.applyYearInvest_LastYear);//申请下年度投资
-					vm.model.capitalSCZ_gtzj_LastYear=common.toMoney(vm.model.capitalSCZ_gtzj_LastYear);
-					vm.model.capitalSCZ_ggys_LastYear=common.toMoney(vm.model.capitalSCZ_ggys_LastYear);
-					vm.model.capitalSCZ_qita_LastYear=common.toMoney(vm.model.capitalSCZ_qita_LastYear);
-					
-					vm.model.applyYearInvest_LastTwoYear=common.toMoney(vm.model.applyYearInvest_LastTwoYear);//申请下下年度投资
-					vm.model.capitalSCZ_gtzj_LastTwoYear=common.toMoney(vm.model.capitalSCZ_gtzj_LastTwoYear);
-					vm.model.capitalSCZ_ggys_LastTwoYear=common.toMoney(vm.model.capitalSCZ_ggys_LastTwoYear);
-					vm.model.capitalSCZ_qita_LastTwoYear=common.toMoney(vm.model.capitalSCZ_qita_LastTwoYear);
-					
-					vm.model.apInvestSum = common.toMoney(vm.model.apInvestSum);//累计安排资金
-					//规划设计前期费
-					vm.model.qianQiFeiApply = common.toMoney(vm.model.qianQiFeiApply);//前期计划申请费用
 					
 					//计算资金筹措总计
 					vm.capitalTotal=function(){
@@ -741,7 +748,7 @@
 					title : "项目名称",
 					width:200,
 					template:function(item){
-						return common.format('<a href="#/project/projectInfo/{0}/{1}">{2}</a>',item.projectId,item.projectInvestmentType,item.projectName);
+						return common.format('<a href="#/project/projectInfo/{0}">{1}</a>',item.projectId,item.projectName);
 					},
 					filterable : true
 					
@@ -797,15 +804,18 @@
 				{
 					field : "beginDate",
 					title : "开工/竣工时间",
-					width : 100,
+					width : 120,
 					template:function(item){
-						if(item.projectCategory==common.basicDataConfig().projectCategory_A){
-							return common.formatDate(item.endDate);
-						}else if(item.projectCategory==common.basicDataConfig().projectCategory_B || 
-								item.projectCategory==common.basicDataConfig().projectCategory_C ||
-								item.projectCategory==common.basicDataConfig().projectCategory_D){
-							return common.formatDate(item.beginDate);
-						}					
+						return common.format(
+								(common.formatDate(item.beginDate)?common.formatDate(item.beginDate):'')+"~\n"+
+								(common.formatDate(item.endDate)?common.formatDate(item.endDate):''));
+//						if(item.projectCategory==common.basicDataConfig().projectCategory_A){
+//							return common.formatDate(item.endDate);
+//						}else if(item.projectCategory==common.basicDataConfig().projectCategory_B || 
+//								item.projectCategory==common.basicDataConfig().projectCategory_C ||
+//								item.projectCategory==common.basicDataConfig().projectCategory_D){
+//							return common.formatDate(item.beginDate);
+//						}
 					},
 					filterable : false
 				},
@@ -999,6 +1009,7 @@
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
 				resizable : true,
+				scrollable:true,
 				excelExport:excelExport
 			};
 		}//End recordsGird
@@ -1034,13 +1045,7 @@
 					field:'isLatestVersion',
 					operator:'eq',
 					value:true
-				}
-//				{
-//					field:'projectInvestmentType',
-//					operator:'eq',
-//					value:common.basicDataConfig().projectInvestmentType_ZF
-//				}
-				]
+				}]
 			});
 			// End:dataSource
 
@@ -1063,7 +1068,7 @@
 					filterable : true,
 					width:250,
 					template:function(item){
-						return common.format('<a href="#/project/projectInfo/{0}/{1}">{2}</a>',item.id,item.projectInvestmentType,item.projectName);
+						return common.format('<a href="#/project/projectInfo/{0}">{1}</a>',item.id,item.projectName);
 					}
 				},
 				{
@@ -1166,7 +1171,8 @@
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
 				dataBound:dataBound,
-				resizable : true
+				resizable : true,
+				scrollable:true
 			};
 
 		}// end fun grid
@@ -1226,7 +1232,9 @@
 				pageable : common.kendoGridConfig().pageable,
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
-				resizable : true
+				resizable : true,
+				sortable:true,
+				scrollable:true
 			};
 		}
 

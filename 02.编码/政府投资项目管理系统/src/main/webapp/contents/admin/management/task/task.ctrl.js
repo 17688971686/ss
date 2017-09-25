@@ -18,7 +18,7 @@
         vm.search={};
         vm.basicData={};
     	vm.page="todoList";
-    	function init(){   		
+    	function init(){ 		
     		if($state.current.name=='task_todo'){//待办列表
     			vm.page='todoList';
     		}
@@ -47,6 +47,10 @@
 
            	vm.html = function(val){
            		return $sce.trustAsHtml(val);
+           	};
+           	
+           	vm.getUnitName=function(unitId){
+           		return common.getUnitName(unitId);
            	};
            	taskSvc.getDepts(vm);
            	//taskSvc.getShenBaoInfoById(vm);//查询申报信息
