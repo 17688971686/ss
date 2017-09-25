@@ -66,7 +66,7 @@ textarea.form-control {
 				</td>
 				<td class="formAlignRight">项目类型：</td>
 				<td>
-					<span ng-repeat="x in vm.model.shenBaoInfo.projectType" ng-bind="vm.getBasicDataDesc(x)+' '"></span>
+					<span ng-repeat="x in vm.projectTypes track by $index" ng-bind="vm.getBasicDataDesc(x)+' '"></span>
 				</td>
 			</tr>	
 			<tr>
