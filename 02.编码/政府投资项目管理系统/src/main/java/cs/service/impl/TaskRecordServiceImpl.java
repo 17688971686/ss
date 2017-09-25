@@ -46,4 +46,21 @@ public class TaskRecordServiceImpl extends AbstractServiceImpl<TaskRecordDto, Ta
 		return pageModelDto;
 	}
 
+	@Override
+	@Transactional
+	public PageModelDto<TaskRecordDto> getToDo_plan(ODataObj odataObj) {
+		List<TaskRecordDto> dtos = taskRecordRepoImpl.findByOdata3(odataObj).stream().map((x) -> {
+			return mapper.toDto(x);
+		}).collect(Collectors.toList());
+		
+		
+		PageModelDto<TaskRecordDto> pageModelDto = new PageModelDto<>();
+		pageModelDto.setCount(odataObj.getCount());
+		pageModelDto.setValue(dtos);
+		logger.info("查询计划类任务");
+		return pageModelDto;
+	}
+	
+	
+
 }
