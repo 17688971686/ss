@@ -7,6 +7,14 @@ import java.util.UUID;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
+import org.hibernate.criterion.Projections;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.DateType;
+import org.hibernate.type.DoubleType;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +28,10 @@ import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.YearPlanCapitalDto;
 import cs.model.DomainDto.YearPlanDto;
 import cs.model.DtoMapper.IMapper;
+import cs.model.exportExcel.ExcelDataDWTJ;
+import cs.model.exportExcel.ExcelDataHYTJ;
+import cs.model.exportExcel.ExcelDataLBTJ;
+import cs.model.exportExcel.ExcelDataYS;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
@@ -86,36 +98,47 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 		super.repository.save(entity);
 		return entity;		
 	}
+	
+	
 
 	@Override
 	@Transactional
-	public List<ShenBaoInfoDto> getYearPlanShenBaoInfo(String planId) {	
+	public void delete(String id) {
+		super.delete(id);
+	}
+
+	@Override
+	@Transactional
+	public PageModelDto<ShenBaoInfoDto> getYearPlanShenBaoInfo(String planId,ODataObj odataObj) {
+		Integer skip = odataObj.getSkip();
+		Integer stop = odataObj.getTop();
+
 		YearPlan yearPlan=super.repository.findById(planId);
 		if(yearPlan!=null){
+			//分页查询数据
 			List<ShenBaoInfoDto> shenBaoInfoDtos=new ArrayList<>();
-			
-			List<ShenBaoInfo> shenBaoInfos=shenbaoInfoRepo.getSession()
+			List<ShenBaoInfo> shenBaoInfos=((SQLQuery) shenbaoInfoRepo.getSession()
 					.createSQLQuery(SQLConfig.yearPlanProject)
 					.setParameter("yearPlanId", planId)
+					.setFirstResult(skip).setMaxResults(stop)) 
 					.addEntity(ShenBaoInfo.class)
 					.getResultList();
 			shenBaoInfos.forEach(x->{
 				ShenBaoInfoDto shenBaoInfoDto = shenbaoInfoMapper.toDto(x);
-				//获取项目相关类型的名称
-				shenBaoInfoDto.setProjectClassifyDesc(basicDataService.getDescriptionById(x.getProjectClassify()));
-				shenBaoInfoDto.setProjectIndustryDesc(basicDataService.getDescriptionById(x.getProjectIndustry()));
-				shenBaoInfoDto.setProjectTypeDesc(basicDataService.getDescriptionById(x.getProjectType()));
-//				shenBaoInfoDto.setFunctionSubjectsDesc(basicDataService.getDescriptionById(x.getFunctionSubjects()));//功能分类科目名称
-//				shenBaoInfoDto.setEconClassSubjectsDesc(basicDataService.getDescriptionById(x.getEconClassSubjects()));//政府经济分类科目名称
-				shenBaoInfoDto.setProjectCategoryDesc(basicDataService.getDescriptionById(x.getProjectCategory()));
-				shenBaoInfoDto.setProjectStageDesc(basicDataService.getDescriptionById(x.getProjectStage()));
-				shenBaoInfoDto.setProjectConstrCharDesc(basicDataService.getDescriptionById(x.getProjectConstrChar()));
-				shenBaoInfoDto.setProjectShenBaoStageDesc(basicDataService.getDescriptionById(x.getProjectShenBaoStage()));
-				shenBaoInfoDto.setCapitalOtherTypeDesc(basicDataService.getDescriptionById(x.getCapitalOtherType()));
 				shenBaoInfoDtos.add(shenBaoInfoDto);
 			});
+			//查询总数
+			List<ShenBaoInfo> shenBaoInfos2=shenbaoInfoRepo.getSession()
+					.createSQLQuery(SQLConfig.yearPlanProject)
+					.setParameter("yearPlanId", planId)
+					.addEntity(ShenBaoInfo.class)
+					.getResultList();
+			int count = shenBaoInfos2.size();
 			
-			return shenBaoInfoDtos;
+			PageModelDto<ShenBaoInfoDto> pageModelDto = new PageModelDto<>();
+			pageModelDto.setCount(count);
+			pageModelDto.setValue(shenBaoInfoDtos);
+			return pageModelDto;
 		}			
 		return null;
 	}
@@ -146,8 +169,8 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 			}
 			if(hasShenBaoInfo){
 				//通过申报信息id获取项目名称
-				String projectName = shenbaoInfoRepo.findById(shenBaoId).getProjectName();
-				throw new IllegalArgumentException(String.format("申报项目：%s 已经存在编制计划中,请重新选择！", projectName));
+				//String projectName = shenbaoInfoRepo.findById(shenBaoId).getProjectName();
+				//throw new IllegalArgumentException(String.format("申报项目：%s 已经存在编制计划中,请重新选择！", projectName));
 			}else{
 				//根据申报信息id创建年度计划资金
 				YearPlanCapital entity = new YearPlanCapital();
@@ -200,4 +223,137 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 		super.repository.save(yearPlan);
 		
 	}
+
+	@Override
+	@Transactional
+	public List<ExcelDataLBTJ> getYearPlanShenBaoInfoByLBTJ(String planId) {
+		YearPlan yearPlan=super.repository.findById(planId);
+		if(yearPlan!=null){//判空处理
+			List<ExcelDataLBTJ> excelDataLBTJList = new ArrayList<>();
+			List query = shenbaoInfoRepo.getSession()
+					.createSQLQuery(SQLConfig.yearPlanByLBTJ)
+					.setParameter("yearPlanId",planId)
+					.addScalar("planYear",new IntegerType()) //计划年度
+					.addScalar("projectCategory",new StringType())
+					.addScalar("projectSum",new IntegerType())
+					.addScalar("investSum",new DoubleType())
+					.addScalar("investAccuSum",new DoubleType())
+					.addScalar("apInvestSum",new DoubleType())
+					.addScalar("yearInvestApprovalSum",new DoubleType())
+					.setResultTransformer(Transformers.aliasToBean(ExcelDataLBTJ.class))
+					.list();
+
+			excelDataLBTJList = query;
+			logger.info(String.format("根据项目类别统计年度计划,名称：%s",yearPlan.getName()));	
+			return excelDataLBTJList;
+		}else{
+			return null;
+		}
+	}
+
+	@Override
+	@Transactional
+	public List<ExcelDataHYTJ> getYearPlanShenBaoInfoByHYTJ(String planId) {
+		YearPlan yearPlan=super.repository.findById(planId);
+		if(yearPlan!=null){//判空处理
+			List<ExcelDataHYTJ> excelDataHYTJList = new ArrayList<>();
+			List query = shenbaoInfoRepo.getSession()
+					.createSQLQuery(SQLConfig.yearPlanByHYTJ)
+					.setParameter("yearPlanId",planId)
+					.addScalar("planYear",new IntegerType())  //计划年度
+					.addScalar("projectIndustry",new StringType())  //项目行业
+					.addScalar("projectSum",new IntegerType())  //项目行业合计
+					.addScalar("projectCategory_ASum",new IntegerType()) //A类数量
+					.addScalar("projectCategory_BSum",new IntegerType()) //B类数量
+					.addScalar("projectCategory_CSum",new IntegerType()) //C类数量
+					.addScalar("projectCategory_DSum",new IntegerType()) //D类数量
+					.addScalar("investSum",new DoubleType())  //总投资
+					.addScalar("investAccuSum",new DoubleType()) //累计拨付
+					.addScalar("apInvestSum",new DoubleType())  //累计下达
+					.addScalar("sqInvestSum",new DoubleType())  //申请年度投资
+					.addScalar("yearAp_ggysSum",new DoubleType())  //年度预安排资金--公共预算
+					.addScalar("yearAp_gtjjSum",new DoubleType())  //年度预安排资金--国土基金
+					.addScalar("yearAp_qitaSum",new DoubleType())  //年度预安排资金--其他
+					.addScalar("yearApSum",new DoubleType())  //年度预安排资金--合计
+					.setResultTransformer(Transformers.aliasToBean(ExcelDataHYTJ.class))
+					.list();
+
+			excelDataHYTJList = query;
+			logger.info(String.format("根据项目行业统计年度计划,名称：%s",yearPlan.getName()));	
+			return excelDataHYTJList;
+		}else{
+			return null;
+		}
+	}
+
+	@Override
+	@Transactional
+	public List<ExcelDataDWTJ> getYearPlanShenBaoInfoByDWTJ(String planId) {
+		YearPlan yearPlan=super.repository.findById(planId);
+		if(yearPlan!=null){//判空处理
+			List<ExcelDataDWTJ> excelDataDWTJList = new ArrayList<>();
+			List query = shenbaoInfoRepo.getSession()
+					.createSQLQuery(SQLConfig.yearPlanByDWTJ)
+					.setParameter("yearPlanId",planId)
+					.addScalar("planYear",new IntegerType())  //计划年度
+					.addScalar("constrctionUnit",new StringType())  //建设单位
+					.addScalar("yearApSum",new DoubleType())  //年度预安排资金--合计
+					.addScalar("yearAp_danLie",new DoubleType())  //年度预安排资金--单列项目
+					.addScalar("yearAp_jieSunKuan",new DoubleType())  //年度预安排资金--结算款
+					.addScalar("yearAp_xiaohe",new DoubleType())  //年度预安排资金--小额
+					.addScalar("yearAp_weiLiXYuLiu",new DoubleType())  //年度预安排资金--未立项项目预留
+					.setResultTransformer(Transformers.aliasToBean(ExcelDataDWTJ.class))
+					.list();
+
+			excelDataDWTJList = query;
+			logger.info(String.format("根据建设单位统计年度计划,名称：%s",yearPlan.getName()));	
+			return excelDataDWTJList;
+		}else{
+			return null;
+		}
+	}
+
+	@Override
+	@Transactional
+	public List<ExcelDataYS> getYearPlanShenBaoInfoByYS(String planId) {
+		YearPlan yearPlan=super.repository.findById(planId);
+		if(yearPlan!=null){//判空处理
+			List<ExcelDataYS> excelDataYSList = new ArrayList<>();
+			List query = shenbaoInfoRepo.getSession()
+					.createSQLQuery(SQLConfig.yearPlanByYS)
+					.setParameter("yearPlanId",planId)
+					.addScalar("planYear",new IntegerType())  //计划年度
+					.addScalar("ConstructionUnit",new StringType())  //建设单位
+					.addScalar("ProjectName",new StringType())  //项目名称
+					.addScalar("ProjectCode",new StringType())  //项目代码
+					.addScalar("ProjectType",new StringType())  //项目类别
+					.addScalar("ProjectIndustry",new StringType())  //项目行业
+					.addScalar("ConstructionScale",new StringType())  //建设规模
+					.addScalar("ConstructionType",new StringType())  //建设性质
+					.addScalar("beginDate",new DateType())  //开工日期
+					.addScalar("endDate",new DateType())  //竣工规模
+					.addScalar("TotalInvest",new DoubleType())  //总投资
+					.addScalar("investAccuSum",new DoubleType())  //累计投资
+					.addScalar("apInvestSum",new DoubleType())  //累计安排
+					.addScalar("applyYearInvest",new DoubleType())  //本年度申请资金
+					.addScalar("yearApSum",new DoubleType())  //年度安排资金总计
+					.addScalar("capitalAP_gtzj_TheYear",new DoubleType())  //本年度安排资金_国土
+					.addScalar("capitalAP_ggys_TheYear",new DoubleType())  //本年度安排资金_公共预算
+					.addScalar("yearAp_qitaSum",new DoubleType())  //本年度安排资金_其他
+					.addScalar("ConstructionContent",new StringType())  //主要建设内容
+					.addScalar("Remark",new StringType())  //备注
+					.setResultTransformer(Transformers.aliasToBean(ExcelDataYS.class))
+					.list();
+
+			excelDataYSList = query;
+			logger.info(String.format("年度计划印刷版统计,名称：%s",yearPlan.getName()));	
+			return excelDataYSList;
+		}else{
+			return null;
+		}
+	}
+	
+	
+	
+	
 }

@@ -373,7 +373,7 @@
 				serverFiltering : true,
 				pageSize : 10,
 				sort : {
-					field : "createdDate",
+					field : "projectIndustry",
 					dir : "desc"
 				},
 				filter:[
@@ -412,7 +412,7 @@
 					 {
 						field : "projectNumber",
 						title : "项目代码",
-						width : 180,						
+						width : 130,						
 						filterable : false
 					},
 					{
@@ -421,6 +421,7 @@
 						template:function(item){
 							return common.format("<a href='#/projectDetails/{0}/{1}'>{2}</a>",item.id,item.projectInvestmentType,item.projectName);
 						},
+						width:300,
 						filterable : true
 					},
 					{
@@ -433,7 +434,8 @@
 			                        valuePrimitive: true,
 			                        dataSource: vm.basicData.userUnit,
 			                        dataTextField: "unitName",
-			                        dataValueField: "id"
+			                        dataValueField: "id",
+			                        filter:"startswith"
 			                    });
 			                }
 						},
@@ -444,7 +446,7 @@
 					{
 						field : "projectStage",
 						title : "项目阶段",
-						width : 150,
+						width : 120,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectStage);
 						},
@@ -452,21 +454,32 @@
 							ui: function(element){
 			                    element.kendoDropDownList({
 			                        valuePrimitive: true,
-			                        dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectStage),
+			                        dataSource: vm.basicData.projectStage,
 			                        dataTextField: "description",
-			                        dataValueField: "id"
+			                        dataValueField: "id",
+			                        filter:"startswith"
 			                    });
 			                }
 						}
 					},
 					{
-						field : "projectClassify",
-						title : "项目分类",
-						width : 150,
+						field : "projectIndustry",
+						title : "项目行业",
+						width : 100,
 						template:function(item){
-							return common.getBasicDataDesc(item.projectClassify);
+							return common.getBasicDataDesc(item.projectIndustry);
 						},
-						filterable : false
+						filterable : {
+							ui: function(element){
+			                    element.kendoDropDownList({
+			                        valuePrimitive: true,
+			                        dataSource: vm.basicData.projectIndustry_ZF,
+			                        dataTextField: "description",
+			                        dataValueField: "id",
+			                        filter:"startswith"
+			                    });
+							}
+						}
 					},
 					{
 						field : "isMonthReport",
@@ -478,13 +491,13 @@
 								return "否";
 							}								 
 						},
-						width : 150,
+						width : 100,
 						filterable : true
 					},
 					{
 						field : "",
 						title : "操作",
-						width : 250,
+						width : 150,
 						template : function(item) {
 							return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,"vm.isMonthReport('" +item.id+ "','"+item.isMonthReport+"')");
 						}

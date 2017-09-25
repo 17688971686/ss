@@ -13,6 +13,8 @@
 		var url_back_planList="#/yearPlan/planList";
 		var url_document="/management/replyFile";
 		var url_back_shenbaoInfoList="/yearPlan/shenbaoInfoList";
+		var url_exportExcel="/common/exportExcel";
+		var url_basicData="/management/basicData";
 		
 		var service = {
 			grid_shenbaoInfoList : grid_shenbaoInfoList,//申报项目列表
@@ -24,6 +26,7 @@
 			grid_planList:grid_planList,//年度计划列表
 			plan_create:plan_create,//创建年度计划
 			plan_update:plan_update,//更新年度计划
+			plan_delete:plan_delete,//删除年度计划
 			getPlanById:getPlanById,//根据年度计划id查找计划信息
 			grid_yearPlan_shenbaoInfoList:grid_yearPlan_shenbaoInfoList,//年度计划编制信息列表
 			grid_yearPlan_addShenbaoInfoList:grid_yearPlan_addShenbaoInfoList,//年度计划编制新增项目申报列表
@@ -33,8 +36,96 @@
 			updateYearPlanCapital:updateYearPlanCapital,//更新年度计划编制信息	
 			removeYearPlanCapital:removeYearPlanCapital,//移除申报项目
 			documentRecordsGird:documentRecordsGird,//批复文件列表
-			getUserUnit:getUserUnit//获取用户单位信息
+			getUserUnit:getUserUnit,//获取用户单位信息
+			exportExcelForYS:exportExcelForYS,//导出印刷版Excel
+			savePackageType:savePackageType//保存打包类型
 		};
+		
+		/**
+		 * 保存打包类型
+		 */
+		function savePackageType(vm){
+			//目的：获取当前打包类型最大id值
+			var idNum = [];
+			var index = 0;
+			//获取当前打包类型id尾数集合（因为只为一级目录，所以直接获取）
+			for(var i=0;i<vm.basicData.packageType.length;i++){
+				var id = vm.basicData.packageType[i].id;
+				var idSplit = id.split("_");
+				idNum[index+i] = parseInt(idSplit[idSplit.length-1],10);//获取所有子级id最后的一组数字									
+			}
+			//获取数组中的最大值
+			var idNumMax = Math.max.apply(null, idNum);
+			//替换掉最后的数值
+			var oldId = vm.basicData.packageType[0].id;
+			var oldIdSplit = oldId.split("_");
+			 oldIdSplit[oldIdSplit.length-1] = idNumMax+1;//将最后的一个元素的值变更为最大值+1
+			var newId = oldIdSplit.join("_");
+			vm.packageType.id=newId;//最后获取到新增类型的id
+			vm.packageType.pId=vm.basicData.packageType[0].pId;
+			vm.packageType.identity=vm.basicData.packageType[0].identity;
+			vm.packageType.canEdit=vm.basicData.packageType[0].canEdit;
+			
+			//保存新增的打包类型
+			var httpOptions = {
+					method : 'post',
+					url :url_basicData,
+					data:vm.packageType
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.basicData.packageType.push(vm.packageType);//添加用于显示
+						vm.model.shenBaoInfo.packageType = vm.packageType.id;//赋值					
+						//关闭输入框
+						vm.isOtherPackageType = false;
+					}
+				});
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}
+		
+		/**
+		 * 导出印刷版Excel
+		 */
+		function exportExcelForYS(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_exportExcel+"?planId={0}",vm.id)
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						common.alert({
+							vm:vm,
+							msg:"导出成功！",
+							fn:function(){
+								$('.alertDialog').modal('hide');
+							}
+						});
+					}
+				});
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}
 		
 		//begin#updateShenBaoInfo 更新申报信息
 		function updateShenBaoInfo(vm){
@@ -49,6 +140,9 @@
 				vm.model.shenBaoInfo.yearInvestApproval=parseFloat(vm.model.shenBaoInfo.capitalAP_ggys_TheYear || 0) + parseFloat(vm.model.shenBaoInfo.capitalAP_gtzj_TheYear || 0);
 				vm.model.shenBaoInfo.yearInvestApproval_lastYear=parseFloat(vm.model.shenBaoInfo.capitalAP_ggys_LastYear || 0) + parseFloat(vm.model.shenBaoInfo.capitalAP_gtzj_LastYear || 0);
 				vm.model.shenBaoInfo.yearInvestApproval_lastTwoYear=parseFloat(vm.model.shenBaoInfo.capitalAP_ggys_LastTwoYear || 0) + parseFloat(vm.model.shenBaoInfo.capitalAP_gtzj_LastTwoYear || 0);
+				//开工时间&竣工时间的处理
+				vm.model.shenBaoInfo.beginDate = (vm.model.shenBaoInfo.beginDate != '')?vm.model.shenBaoInfo.beginDate:null;
+				vm.model.shenBaoInfo.endDate = (vm.model.shenBaoInfo.endDate != '')?vm.model.shenBaoInfo.endDate:null;
 				var httpOptions = {
 						method : 'put',
 						url : common.format(url_shenbaoInfoList),
@@ -102,20 +196,30 @@
 				vm.model.shenBaoInfo.yearInvestApproval = common.getSum([vm.model.shenBaoInfo.capitalAP_ggys_TheYear || 0,vm.model.shenBaoInfo.capitalAP_gtzj_TheYear || 0]);
 				vm.model.shenBaoInfo.yearInvestApproval_lastYear = common.getSum([vm.model.shenBaoInfo.capitalAP_ggys_LastYear || 0,vm.model.shenBaoInfo.capitalAP_gtzj_LastYear || 0]);
 				vm.model.shenBaoInfo.yearInvestApproval_lastTwoYear = common.getSum([vm.model.shenBaoInfo.capitalAP_ggys_LastTwoYear || 0,vm.model.shenBaoInfo.capitalAP_gtzj_LastTwoYear || 0]);
+				//开工时间&竣工时间的处理
+				vm.model.shenBaoInfo.beginDate = (vm.model.shenBaoInfo.beginDate != '')?vm.model.shenBaoInfo.beginDate:null;
+				vm.model.shenBaoInfo.endDate = (vm.model.shenBaoInfo.endDate != '')?vm.model.shenBaoInfo.endDate:null;
 				var httpOptions = {
 						method : 'post',
-						url : common.format(url_shenbaoInfoList),
+						url : url_shenbaoInfoList,
 						data:vm.model.shenBaoInfo
 					};
 			
 				var httpSuccess = function success(response) {
-					common.alert({
+					common.requestSuccess({
 						vm:vm,
-						msg:"操作成功！",
+						response:response,
 						fn:function(){
-							$('.alertDialog').modal('hide');
-							$('.modal-backdrop').remove();
-							vm.isSubmit = false;
+							common.alert({
+								vm:vm,
+								msg:"操作成功！",
+								fn:function(){
+									$('.alertDialog').modal('hide');
+									$('.modal-backdrop').remove();
+									vm.isSubmit = false;
+									$location.path(url_back_shenbaoInfoList);
+								}
+							});
 						}
 					});
 				};
@@ -305,13 +409,19 @@
 				};
 			
 			var httpSuccess = function success(response) {
-				common.alert({
-					vm:vm,
-					msg:"操作成功！",
+				common.requestSuccess({
+					vm : vm,
+					response : response,
 					fn:function(){
-						$('.alertDialog').modal('hide');
-						$('.modal-backdrop').remove();
-						vm.grid.dataSource.read();
+						common.alert({
+							vm:vm,
+							msg:"操作成功！",
+							fn:function(){
+								$('.alertDialog').modal('hide');
+								$('.modal-backdrop').remove();
+								vm.grid.dataSource.read();
+							}
+						});
 					}
 				});
 			};
@@ -365,9 +475,17 @@
 				};
 			
 			var httpSuccess = function success(response) {
-				getPlanById(vm);//查询计划--更新页面数据
-				$('#capitalSum_'+vm.currentCapitalId).val(vm.model.capital.capitalSum);
-				vm.isPopOver = false;
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						getPlanById(vm);//查询计划--更新页面数据
+						$('#capitalSum_'+vm.currentCapitalId).val(vm.model.capital.capitalSum);
+						vm.isPopOver = false;
+						vm.planGridOptions.dataSource.read();
+					}
+				});
+				
 			};
 			
 			common.http({
@@ -431,7 +549,8 @@
 					var date = new Date();
 					vm.planYear = vm.model.shenBaoInfo.planYear = parseInt(date.getFullYear()+1);
 				}
-				
+				//没有打包类型时默认打包类型为单列项目
+				vm.model.shenBaoInfo.packageType=vm.model.shenBaoInfo.packageType || common.basicDataConfig().packageType_danLie;
 				//项目类型、建设单位的显示
 				vm.projectTypes = common.stringToArray(vm.model.shenBaoInfo.projectType,',');
 				vm.constructionUnits = common.stringToArray(vm.model.shenBaoInfo.constructionUnit,",");
@@ -547,8 +666,9 @@
 		 */
 		function addShenBaoInfoconfirm(vm,ids){
 			var httpOptions = {
-					method : 'get',
-					url : common.format(url_planList+"/addCapital?planId={0}&shenBaoId={1}",vm.id,ids)
+					method : 'post',
+					url : common.format(url_planList+"/addCapital/{0}",vm.id,ids),
+					data:ids
 				};
 			
 			var httpSuccess = function success(response) {
@@ -693,7 +813,7 @@
 				serverPaging : true,
 				serverSorting : true,
 				serverFiltering : true,
-				pageSize : 1000,
+				pageSize : 10,
 				sort : {
 					field : "createdDate",
 					dir : "desc"
@@ -715,13 +835,22 @@
 						},
 						filterable : false,
 						width : 40,
-						title : "<input id='checkboxAll_shenBaoList' type='checkbox'  class='checkbox'/>"
+						title : "<input id='checkboxAll_shenBaoList' type='checkbox'  class='checkbox'/>",
+						headerAttributes: {
+					      "class": "table-header-cell",
+					      style: "text-align: center;vertical-align: middle;"
+					    }
+
 					},
 					{
 						field : "constructionUnit",
 						title : "建设单位",
-						width:120,
-						filterable : false
+						width:200,
+						filterable : false,
+						headerAttributes: {
+					      "class": "table-header-cell",
+					      style: "text-align: center;vertical-align: middle;"
+					    }
 					},
 					{
 						field : "projectName",
@@ -729,225 +858,379 @@
 						template:function(item){
 							return common.format('<a href="#/projectDetails/{0}/{1}" >{2}</a>',item.projectId,item.projectInvestmentType,item.projectName);
 						},
-						width:200,
-						filterable : false
+						width:300,
+						filterable : false,
+						headerAttributes: {
+						      "class": "table-header-cell",
+						      style: "text-align: center;vertical-align: middle;",
+						      rowspan:2
+						    }
 					},					
 					{
 						field : "functionSubjects",
 						title : "功能科目",
-//						template:function(item){
-//							return common.getBasicDataDesc(item.functionSubjects);
-//						},
-						width:110,
-						filterable : false
+						width:80,
+						filterable : false,
+						headerAttributes: {
+						      "class": "table-header-cell",
+						      style: "text-align: center;vertical-align: middle;"
+						    }
 					},
 					{
 						field : "econClassSubjects",
 						title : "经济分类科目",
-//						template:function(item){
-//							return common.getBasicDataDesc(item.econClassSubjects);
-//						},
-						width:140,
-						filterable : false
+						width:100,
+						filterable : false,
+						headerAttributes: {
+						      "class": "table-header-cell",
+						      style: "text-align: center;vertical-align: middle;"
+						    }
 					},
 					{
-						field : "projectIndustryDesc",
+						field : "projectIndustry",
 						title : "行业领域",
 						template:function(item){
 							return common.getBasicDataDesc(item.projectIndustry);
 						},
 						width:100,
-						filterable : false	
+						filterable : false,
+						headerAttributes: {
+					      "class": "table-header-cell",
+					      style: "text-align: center;vertical-align: middle;"
+					    }
 					},
 					{
-						field : "projectCategoryDesc",
+						field : "projectCategory",
 						title : "项目类别",
 						width : 80,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectCategory);
 						},
-						filterable : false
+						filterable : false,
+						headerAttributes: {
+					      "class": "table-header-cell",
+					      style: "text-align: center;vertical-align: middle;"
+					    }
 					},
 					{
-						field : "projectConstrCharDesc",
+						field : "projectConstrChar",
 						title : "建设性质",						
 						template:function(item){
 							return common.getBasicDataDesc(item.projectConstrChar);
 						},
 						width : 80,
-						filterable : false
+						filterable : false,
+						headerAttributes: {
+					      "class": "table-header-cell",
+					      style: "text-align: center;vertical-align: middle;"
+					    }
 					},
+//					{
+//						field : "beginDate",
+//						title : "开工/竣工时间",
+//						width : 120,
+//						template:function(item){
+//							if(item.projectCategory==common.basicDataConfig().projectCategory_A){
+//								return common.formatDate(item.endDate) || '';
+//							}else if(item.projectCategory==common.basicDataConfig().projectCategory_B || 
+//									item.projectCategory==common.basicDataConfig().projectCategory_C ||
+//									item.projectCategory==common.basicDataConfig().projectCategory_D){
+//								return common.formatDate(item.beginDate) || '';
+//							}					
+//						},
+//						filterable : false,
+//						headerAttributes: {
+//					      "class": "table-header-cell",
+//					       style: "text-align: center;vertical-align: middle;"
+//					    }
+//					},
+					//新需求：开工日期与竣工日期同时显示
 					{
 						field : "beginDate",
 						title : "开工/竣工时间",
-						width : 100,
+						width : 120,
 						template:function(item){
-							if(item.projectCategory==common.basicDataConfig().projectCategory_A){
-								return common.formatDate(item.endDate) || '';
-							}else if(item.projectCategory==common.basicDataConfig().projectCategory_B || 
-									item.projectCategory==common.basicDataConfig().projectCategory_C ||
-									item.projectCategory==common.basicDataConfig().projectCategory_D){
-								return common.formatDate(item.beginDate) || '';
-							}					
+							return common.format(
+									(common.formatDate(item.beginDate)?common.formatDate(item.beginDate):'')+"~\n"+
+									(common.formatDate(item.endDate)?common.formatDate(item.endDate):''));
 						},
-						filterable : false
+						filterable : false,
+						headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
 					},
 					{
 						field : "projectGuiMo",
 						title : "建设规模及主要建设内容",
 						width:200,
 						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.projectGuiMo || '');},
-						filterable : false
+						filterable : false,
+						headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
 					},
 					{
 						field : "projectInvestSum",
 						title : "总投资（万元）",
 						width:120,
-						filterable : false
+						filterable : false,
+						headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
 					},
 					{
 						field : "projectInvestAccuSum",
-						title : "已拨付资金（万元）",
-						width:145,
-						filterable : false
+						title : "累计完成投资（万元）",
+						width:120,
+						filterable : false,
+						headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
 					},
 					{
-						field : "planYear",
-						title : "计划年度",
-						width:100,
-						filterable : false
+						field : "apInvestSum",
+						title : "累计安排资金（万元）",
+						width:120,
+						filterable : false,
+						headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
 					},
 					{
 						field : "yearConstructionContent",
-						title : "本年度建设内容",
-						width:120,
+						width:200,
+						title:vm.planYear+"年度建设内容",
 						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContent || ''); },
-						filterable : false
+						filterable : false,
+						headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
 					},
 					{
-						field : "capitalSCZ_ggys_TheYear",
-						title : "资金需求及资金来源--公共预算（万元）",
-						width:100,
-						filterable : false
+						title: vm.planYear+"年资金来源及需求(万元)",
+                        columns: [
+                        	{
+        						field : "capitalSCZ_ggys_TheYear",
+        						title : "公共预算",
+        						width:100,
+        						filterable : false,
+        						headerAttributes: {
+        					      "class": "table-header-cell",
+        					       style: "text-align: center;"
+        					    }
+        					},
+        					{
+        						field : "capitalSCZ_gtzj_TheYear",
+        						title : "国土基金",
+        						width:100,
+        						filterable : false,
+        						headerAttributes: {
+        					      "class": "table-header-cell",
+        					       style: "text-align: center;"
+        					    }
+        					},
+        					{
+        						field : "capitalSCZ_qita",
+        						title : "其他",
+        						width:100,
+        						filterable : false,
+        						headerAttributes: {
+        					      "class": "table-header-cell",
+        					       style: "text-align: center;"
+        					    }
+        					}
+                        ],
+                        headerAttributes: {
+  					      "class": "table-header-cell",
+  					       style: "text-align: center;vertical-align: middle;"
+  					    }
 					},
-					{
-						field : "capitalSCZ_gtzj_TheYear",
-						title : "资金需求及资金来源--国土基金（万元）",
-						width:100,
-						filterable : false
-					},
-					{
-						field : "capitalSCZ_qita",
-						title : "资金需求及资金来源--其他（万元）",
-						width:100,
-						filterable : false
-					},
-					{
-						field : "planYear+1",
-						title : "计划年度",
-						width:100,
-						filterable : false
-					},
-					{
-						field : "yearConstructionContentLastYear",
-						title : "本年度建设内容",
-						width:120,
-						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContentLastYear|| ''); },
-						filterable : false
-					},
-					{
-						field : "capitalSCZ_ggys_LastYear",
-						title : "资金需求及资金来源--公共预算（万元）",
-						width:100,
-						filterable : false
-					},
-					{
-						field : "capitalSCZ_gtzj_LastYear",
-						title : "资金需求及资金来源--国土基金（万元）",
-						width:100,
-						filterable : false
-					},
-					{
-						field : "capitalSCZ_qita_LastYear",
-						title : "资金需求及资金来源--其他（万元）",
-						width:100,
-						filterable : false
-					},
-					{
-						field : "planYear+2",
-						title : "计划年度",
-						width:100,
-						filterable : false
-					},
-					{
-						field : "yearConstructionContentLastTwoYear",
-						title : "本年度建设内容",
-						width:120,
-						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContentLastTwoYear|| '');},
-						filterable : false
-					},
-					{
-						field : "capitalSCZ_ggys_LastTwoYear",
-						title : "资金需求及资金来源--公共预算（万元）",
-						width:100,
-						filterable : false
-					},
-					{
-						field : "capitalSCZ_gtzj_LastTwoYear",
-						title : "资金需求及资金来源--国土基金（万元）",
-						width:100,
-						filterable : false
-					},
-					{
-						field : "capitalSCZ_qita_LastTwoYear",
-						title : "资金需求及资金来源--其他（万元）",
-						width:100,
-						filterable : false
-					},
-//					{
-//						field : "yearInvestApproval",
-//						title : "安排资金（万元）",
-//						width:100,
-//						filterable : false
-//					},
 					{
 						field : "yearInvestApproval",
-						title : "安排资金（万元）",
+						title : "安排资金合计",
 						template :function(item){					
 							return common.format($('#input').html(),item.id,item.yearInvestApproval || 0);
 						},
 						width:130,
-						filterable : false
+						filterable : false,
+						headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
 					},
+					{
+						title : "安排资金（万元）",
+						columns: [
+							{
+								field : "capitalAP_ggys_TheYear",
+								title : "公共预算",
+								width:130,
+								filterable : false,
+								headerAttributes: {
+							      "class": "table-header-cell",
+							       style: "text-align: center;vertical-align: middle;"
+							    }
+							},
+							{
+								field : "capitalAP_gtzj_TheYear",
+								title : "国土基金",
+								width:130,
+								filterable : false,
+								headerAttributes: {
+							      "class": "table-header-cell",
+							       style: "text-align: center;vertical-align: middle;"
+							    }
+							}
+						],
+						headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
+					},
+					{
+						field : "yearConstructionContentLastYear",
+						title : vm.planYear+1+"年度建设内容",
+						width:200,
+						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContentLastYear|| ''); },
+						filterable : false,
+						headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
+					},
+					{
+						title: vm.planYear+1+"年资金来源及需求(万元)",
+						columns: [
+							{
+								field : "capitalSCZ_ggys_LastYear",
+								title : "公共预算",
+								width:100,
+								filterable : false,
+								headerAttributes: {
+							      "class": "table-header-cell",
+							       style: "text-align: center;vertical-align: middle;"
+							    }
+							},
+							{
+								field : "capitalSCZ_gtzj_LastYear",
+								title : "国土基金",
+								width:100,
+								filterable : false,
+								headerAttributes: {
+							      "class": "table-header-cell",
+							       style: "text-align: center;vertical-align: middle;"
+							    }
+							},
+							{
+								field : "capitalSCZ_qita_LastYear",
+								title : "其他",
+								width:100,
+								filterable : false,
+								headerAttributes: {
+							      "class": "table-header-cell",
+							       style: "text-align: center;vertical-align: middle;"
+							    }
+							},
+						],
+						headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
+					},
+					{
+						field : "yearConstructionContentLastTwoYear",
+						title : vm.planYear+2+"年度建设内容",
+						width:200,
+						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContentLastTwoYear|| '');},
+						filterable : false,
+						headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
+					},
+					{
+                        title: vm.planYear+2+"年资金来源及需求(万元)",
+                        columns: [
+                        	{
+                        		field: "capitalSCZ_ggys_LastTwoYear",
+                        		title: "公共预算",
+                        		width: 100,
+                        		filterable : false,
+                        		headerAttributes: {
+          					      "class": "table-header-cell",
+          					       style: "text-align: center;vertical-align: middle;"
+          					    }
+	                        },
+	                        {
+	                            field: "capitalSCZ_gtzj_LastTwoYear",
+	                            title: "国土基金",
+	                            width: 100,
+	                            filterable : false,
+                        		headerAttributes: {
+          					      "class": "table-header-cell",
+          					       style: "text-align: center;vertical-align: middle;"
+          					    }
+	                        },
+	                        {
+	                            field: "capitalSCZ_qita_LastTwoYear",
+	                            title: "其他",
+                            	width: 100,
+                            	filterable : false,
+                        		headerAttributes: {
+          					      "class": "table-header-cell",
+          					       style: "text-align: center;vertical-align: middle;"
+          					    }
+	                        }
+	                    ],
+	                    headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
+					},
+					
 					{
 						field : "yearConstructionContentShenBao",
 						title : "备注",
 						width : 150,
 						template:function(item){return common.format('<span style="text-overflow:ellipsis;width:10px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>',item.yearConstructionContentShenBao|| ''); },
-						filterable : false				
+						filterable : false,
+						headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
 					}
 
 			];
 			// End:column
 			
 			var excelExport = function(e) {
-					var data = e.data;
+					var data = vm.planGrid.dataSource.data();
 					var sheet = e.workbook.sheets[0];
 					var template = this.columns[8].template;
 					
 					for(var j=0;j<data.length;j++){
 						var timeFormat = template(data[j]);
-						var row = sheet.rows[j+1];
+						var row = sheet.rows[j+2];
+						row.cells[4].value = vm.getBasicDataDesc(row.cells[4].value);
+						row.cells[5].value = vm.getBasicDataDesc(row.cells[5].value);
+						row.cells[6].value = vm.getBasicDataDesc(row.cells[6].value);
 						row.cells[7].value = timeFormat;
-					}				    
+					}
 				  };
-
+				  
 			vm.planGridOptions = {
 				excel: {
 		                fileName: "年度计划编制.xlsx"
 		            	},
 				dataSource : common.gridDataSource(dataSource),
-				filterable : common.kendoGridConfig().filterable,				
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
 				resizable : true,
@@ -971,7 +1254,7 @@
 				serverFiltering : true,
 				pageSize : 10,
 				sort : {
-					field : "createdDate",
+					field : "projectIndustry",
 					dir : "desc"
 				},
 				filter:[{//申报阶段为下一年度计划
@@ -982,10 +1265,6 @@
 					field:'processState',
 					operator:'eq',
 					value:common.basicDataConfig().processState_qianShou
-				},{//审核状态为审核通过
-					field:'auditState',
-					operator:'eq',
-					value:common.basicDataConfig().auditState_auditPass
 				}]
 			});
 			// End:dataSource
@@ -1007,13 +1286,13 @@
 					{
 						field : "planYear",
 						title : "计划年度",
-						width : 150,
+						width : 80,
 						filterable : false
 					},
 					{
 						field : "projectName",
 						title : "项目名称",
-						width:200,
+						width:300,
 						filterable : true
 					},
 					{
@@ -1025,7 +1304,7 @@
 					{
 						field : "projectConstrChar",
 						title : "建设性质",
-						width : 150,
+						width : 120,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectConstrChar);
 						},
@@ -1033,26 +1312,56 @@
 							ui: function(element){
 			                    element.kendoDropDownList({
 			                        valuePrimitive: true,
-			                        dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar),
+			                        dataSource: vm.basicData.projectConstrChar,
 			                        dataTextField: "description",
-			                        dataValueField: "id"
+			                        dataValueField: "id",
+			                        filter:"startswith"
 			                    });
 			                }
 						}
 					},
 					{
-						field : "projectClassifyDesc",
-						title : "项目分类",
+						field : "projectIndustry",
+						title : "项目行业",
 						template:function(item){
-							return common.getBasicDataDesc(item.projectClassify);
+							return common.getBasicDataDesc(item.projectIndustry);
 						},
-						width : 150,
-						filterable : false
+						width : 120,
+						filterable : {
+							ui: function(element){
+			                    element.kendoDropDownList({
+			                        valuePrimitive: true,
+			                        dataSource:vm.basicData.projectIndustry_ZF,
+			                        dataTextField: "description",
+			                        dataValueField: "id",
+			                        filter:"startswith"
+			                    });
+							}
+						}
+					},
+					{
+						field : "auditState",
+						title : "审批状态",
+						template:function(item){
+							return common.getBasicDataDesc(item.auditState);
+						},
+						width : 100,
+						filterable : {
+							ui: function(element){
+			                    element.kendoDropDownList({
+			                        valuePrimitive: true,
+			                        dataSource:vm.basicData.auditState,
+			                        dataTextField: "description",
+			                        dataValueField: "id",
+			                        filter:"startswith"
+			                    });
+							}
+						}
 					},
 					{
 						field : "projectInvestSum",
 						title : "总投资（万元）",
-						width : 150,
+						width : 120,
 						filterable : false
 					},{
 						field : "applyYearInvest",
@@ -1170,6 +1479,45 @@
 				});
 			}
 		}//end plan_update
+		
+		/**
+		 * 删除年度计划
+		 */
+		function plan_delete(vm,id){
+			vm.isSubmit = true;
+			
+			var httpOptions = {
+					method : 'delete',
+					url : url_planList,
+					data : id
+				};
+				
+				var httpSuccess = function success(response) {	
+					common.requestSuccess({
+						vm:vm,
+						response:response,
+						fn:function() {	
+							common.alert({
+								vm:vm,
+								msg:"操作成功!",
+								fn:function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');
+									$('.modal-backdrop').remove();
+									vm.gridOptions.dataSource.read();//列表数据刷新
+								}
+							});
+						}						
+					});
+				};
+
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+		}
 
 		return service;
 		
@@ -1229,9 +1577,9 @@
 				},{
 					field : "",
 					title : "操作",
-					width : 180,
+					width : 200,
 					template : function(item) {
-						return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage);
+						return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,"vm.deletePlan('" + item.id + "')");
 					}
 				}
 			];
@@ -1275,7 +1623,7 @@
 				serverFiltering : true,
 				pageSize : 10,
 				sort : {
-					field : "createdDate",
+					field : "projectIndustry",
 					dir : "desc"
 				},
 				filter:[{
@@ -1286,7 +1634,11 @@
 					field:'processState',
 					operator:'eq',
 					value:common.basicDataConfig().processState_qianShou
-				}]
+				}],
+				change:function(){
+					var grid = $(".grid").data("kendoGrid");
+					window.yearPlanListOptions = grid.getOptions();
+				}
 			});
 			// End:dataSource
 
@@ -1311,18 +1663,30 @@
 							return common.format("<a href='javascript:void(0)' ng-click='vm.dialog_shenbaoInfo(\"{0}\")'>{1}</a>",item.id,item.projectName);
 						},
 						width:200,
-						filterable : true
+						filterable : true,
+						attributes: {
+					      style: "font-size: 14.5px"
+					    },
+					    headerAttributes: {
+					      style: "text-align:center;font-size: 14.5px"
+					    }
 					},
 					{
 						field : "constructionUnit",
 						title : "建设单位",
 						width:200,
-						filterable : true
+						filterable : true,
+						attributes: {
+						      style: "font-size: 14.5px"
+						    },
+						    headerAttributes: {
+						      style: "text-align:center;font-size: 14.5px"
+						    }
 					},
 					{
 						field : "projectConstrChar",
 						title : "建设性质",
-						width : 100,
+						width : 105,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectConstrChar);
 						},
@@ -1332,15 +1696,22 @@
 			                        valuePrimitive: true,
 			                        dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar),
 			                        dataTextField: "description",
-			                        dataValueField: "id"
+			                        dataValueField: "id",
+			                        filter:"startswith"
 			                    });
 			                }
-						}
+						},
+						attributes: {
+						      style: "font-size: 14.5px"
+						    },
+						    headerAttributes: {
+						      style: "text-align:center;font-size: 14.5px"
+						    }
 					},
 					{
 						field : "projectCategory",
 						title : "项目类别",
-						width : 100,
+						width : 105,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectCategory);
 						},
@@ -1353,12 +1724,18 @@
 			                        dataValueField: "id"
 			                    });
 			                }
-						}
+						},
+						attributes: {
+						      style: "font-size: 14.5px"
+						    },
+						    headerAttributes: {
+						      style: "text-align:center;font-size: 14.5px"
+						    }
 					},
 					{
 						field : "projectIndustry",
 						title : "项目行业",
-						width : 100,
+						width : 120,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectIndustry);
 						},
@@ -1370,16 +1747,29 @@
 			         	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
 			         	       		.toArray(),
 			                        dataTextField: "description",
-			                        dataValueField: "id"
+			                        dataValueField: "id",
+			                        filter:"startswith"
 			                    });
 							}
-		                }
+		                },
+		                attributes: {
+						      style: "font-size: 14.5px"
+						    },
+						    headerAttributes: {
+						      style: "text-align:center;font-size: 14.5px"
+						    }
 					},
 					{
 						field : "planYear",
 						title : "计划年度",
 						width : 100,
-						filterable : false
+						filterable : false,
+						attributes: {
+						      style: "font-size: 14.5px"
+						    },
+						    headerAttributes: {
+						      style: "text-align:center;font-size: 14.5px"
+						    }
 					},
 					{
 						field : "auditState",
@@ -1394,55 +1784,45 @@
 			                        valuePrimitive: true,
 			                        dataSource: common.getBacicDataByIndectity(common.basicDataConfig().auditState),
 			                        dataTextField: "description",
-			                        dataValueField: "id"
+			                        dataValueField: "id",
+			                        filter:"startswith"
 			                    });
 			                }
-						}
+						},
+						attributes: {
+						      style: "font-size: 14.5px"
+						    },
+						    headerAttributes: {
+						      style: "text-align:center;font-size: 14.5px"
+						    }
 					},
 //					{
-//						field : "isIncludLibrary",
-//						title : "项目是否纳入项目库",
-//						width : 150,
+//						field : "createdDate",
+//						title : "创建日期",
+//						width : 180,
+//						filterable : false,
 //						template:function(item){
-//							if(item.isIncludLibrary){
-//								return "已纳入";
-//							}else{
-//								return "未纳入";
+//							return common.formatDateTime(item.createdDate);
 //							}
-//						},
-//						filterable :true
 //					},
-//					{
-//						field : "projectInvestSum",
-//						title : "总投资(万元)",
-//						width : 100,
-//						filterable : false
-//					},{
-//						field : "applyYearInvest",
-//						title : "申请年度投资(万元)",
-//						width : 100,
-//						filterable : false
-//					},
-					{
-						field : "createdDate",
-						title : "创建日期",
-						width : 180,
-						filterable : false,
-						template:function(item){
-							return common.formatDateTime(item.createdDate);
-							}
-					},
 					{
 						filed:"",
 						title:"操作",
 						width:150,
 						template:function(item){
 							return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage);
-						}
+						},
+						attributes: {
+						      style: "font-size: 14.5px"
+						    },
+						    headerAttributes: {
+						      style: "text-align:center;font-size: 14.5px"
+						    }
 					}
 			];
 			// End:column
 			var excelExport = function(e) {
+				var data = e.data;
 			    var sheet = e.workbook.sheets[0];
 
 			    for (var i = 1; i < sheet.rows.length; i++) {
@@ -1451,31 +1831,28 @@
 			      row.cells[3].value = common.getBasicDataDesc(row.cells[3].value);//项目类别
 			      row.cells[4].value = common.getBasicDataDesc(row.cells[4].value);//项目分类
 				  row.cells[6].value = common.getBasicDataDesc(row.cells[6].value);//审核状态
-//				  if(row.cells[7].value){//项目是否纳入项目库
-//					  row.cells[7].value = "已纳入";
-//				  }else{
-//					  row.cells[7].value = "未纳入";
-//				  }
-//				  row.cells[10].value = common.formatDateTime(row.cells[10].value);//创建日期
 				  row.cells[7].value = common.formatDateTime(row.cells[7].value);//创建日期
 			    }
 			  };
 
-			vm.gridOptions = {					
-		            excel: {
-		                fileName: "年度计划项目库.xlsx"
-		            },
-				dataSource : common.gridDataSource(dataSource),
-				filterable : common.kendoGridConfig().filterable,
-				pageable : common.kendoGridConfig().pageable,
-				noRecords : common.kendoGridConfig().noRecordMessage,
-				columns : columns,
-				excelExport:excelExport,
-				resizable : true,
-				sortable:true,
-				scrollable:true
-			};
-
+			  if(window.yearPlanListOptions !=null && window.yearPlanListOptions !=''){
+				  vm.gridOptions = window.yearPlanListOptions;
+			  }else{
+				  vm.gridOptions = {					
+				            excel: {
+				                fileName: "年度计划项目库.xlsx"
+				            },
+						dataSource : common.gridDataSource(dataSource),
+						filterable : common.kendoGridConfig().filterable,
+						pageable : common.kendoGridConfig().pageable,
+						noRecords : common.kendoGridConfig().noRecordMessage,
+						columns : columns,
+						excelExport:excelExport,
+						resizable : true,
+						sortable:true,
+						scrollable:true
+					};
+			  }
 		}// end fun grid_shenbaoInfoList
 	}
 })();

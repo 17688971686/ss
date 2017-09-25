@@ -40,15 +40,15 @@ public class YearPlanController {
 	@RequiresPermissions("management/yearPlan#id/projectList#get")
 	@RequestMapping(name = "获取年度计划项目列表数据", path = "{id}/projectList",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getShenBaoInfo(HttpServletRequest request,@PathVariable String id) throws ParseException {
-		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos=new PageModelDto<ShenBaoInfoDto>();
-		shenBaoInfoDtos.setValue(yearPlanService.getYearPlanShenBaoInfo(id));
+		ODataObj odataObj = new ODataObj(request);
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos=yearPlanService.getYearPlanShenBaoInfo(id,odataObj);
 		return shenBaoInfoDtos;
 	}
 	
-	@RequiresPermissions("management/yearPlan#addCapital#get")
-	@RequestMapping(name="添加年度计划项目",path="addCapital",method=RequestMethod.GET)
+	@RequiresPermissions("management/yearPlan#addCapital/planId#post")
+	@RequestMapping(name="添加年度计划项目",path="addCapital/{planId}",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void addCapital(@RequestParam String planId,@RequestParam String shenBaoId){		
+	public void addCapital(@RequestBody String shenBaoId,@PathVariable String planId){		
 		String[] ids=shenBaoId.split(",");
 		if(ids.length>1){
 			yearPlanService.addYearPlanCapitals(planId,ids);
@@ -77,6 +77,20 @@ public class YearPlanController {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void put(@RequestBody YearPlanDto dto){
 		yearPlanService.update(dto,dto.getId());
+	}
+	
+	@RequiresPermissions("management/yearPlan##delete")
+	@RequestMapping(name="删除年度计划",path="",method=RequestMethod.DELETE)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void delete(@RequestBody String id){
+		String[] ids=id.split(",");
+		if(ids.length>1){
+			for(String planId:ids){
+				yearPlanService.delete(planId);	
+			}
+		}else{
+			yearPlanService.delete(id);	
+		}		
 	}
 	
 	//begin#html

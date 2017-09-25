@@ -10,6 +10,7 @@ public class RoleDto extends BaseDto {
 	private String roleName;
 	private String comment;
 	private List<ResourceDto> resources=new ArrayList<>();
+	private List<UserDto> userDtos = new ArrayList<>();
 	
 	public String getId() {
 		return id;
@@ -35,5 +36,11 @@ public class RoleDto extends BaseDto {
 	}
 	public void setResources(List<ResourceDto> resources) {
 		this.resources = resources;
+	}
+	public List<UserDto> getUserDtos() {
+		return userDtos;
+	}
+	public void setUserDtos(List<UserDto> userDtos) {
+		this.userDtos = userDtos;
 	}
 }

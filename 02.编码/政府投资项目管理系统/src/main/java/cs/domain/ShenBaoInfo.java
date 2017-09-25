@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import cs.common.BasicDataConfig;
 /**
  * @Description: 申报信息表
  * @author: cx
@@ -69,31 +71,31 @@ public class ShenBaoInfo extends BaseProject{
 	@Column(columnDefinition="varchar(500) NULL COMMENT '申报信息备注'")
 	private String yearConstructionContentShenBao;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '本年度资金筹措方案-公共预算'")
+	@Column(columnDefinition="double(11,4) NULL COMMENT '本年度资金筹措方案(申请)-公共预算'")
 	private Double capitalSCZ_ggys_TheYear=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '本年度资金筹措方案-国土资金'")
+	@Column(columnDefinition="double(11,4) NULL COMMENT '本年度资金筹措方案(申请)-国土资金'")
 	private Double capitalSCZ_gtzj_TheYear=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '本年度资金筹措方案-其他资金'")
+	@Column(columnDefinition="double(11,4) NULL COMMENT '本年度资金筹措方案(申请)-其他资金'")
 	private Double capitalSCZ_qita=0.0;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下一年度资金筹措方案-公共预算'")
+	@Column(columnDefinition="double(11,4) NULL COMMENT '下一年度资金筹措方案(申请)-公共预算'")
 	private Double capitalSCZ_ggys_LastYear=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下一年度资金筹措方案-国土资金'")
+	@Column(columnDefinition="double(11,4) NULL COMMENT '下一年度资金筹措方案(申请)-国土资金'")
 	private Double capitalSCZ_gtzj_LastYear=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下年度资金筹措方案-其他资金'")
+	@Column(columnDefinition="double(11,4) NULL COMMENT '下年度资金筹措方案(申请)-其他资金'")
 	private Double capitalSCZ_qita_LastYear=0.0;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度资金筹措方案-公共预算'")
+	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度资金筹措方案(申请)-公共预算'")
 	private Double capitalSCZ_ggys_LastTwoYear=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度资金筹措方案-国土资金'")
+	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度资金筹措方案(申请)-国土资金'")
 	private Double capitalSCZ_gtzj_LastTwoYear=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度资金筹措方案-其他资金'")
+	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度资金筹措方案(申请)-其他资金'")
 	private Double capitalSCZ_qita_LastTwoYear=0.0;
 
-	@Column(columnDefinition="varchar(500) NULL COMMENT '下一年其他资金来源'")
-	private String capitalOtherDescriptionShenBao_LastYear;
 	@Column(columnDefinition="varchar(500) NULL COMMENT '其他资金来源'")
 	private String capitalOtherDescriptionShenBao;
+	@Column(columnDefinition="varchar(500) NULL COMMENT '下一年其他资金来源'")
+	private String capitalOtherDescriptionShenBao_LastYear;
 	@Column(columnDefinition="varchar(500) NULL COMMENT '下下年其他资金来源'")
 	private String capitalOtherDescriptionShenBao_LastTwoYear;
 	
@@ -120,6 +122,10 @@ public class ShenBaoInfo extends BaseProject{
 	private Double capitalAP_gtzj_LastTwoYear=0.0;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度安排年度资金筹措方案-其他'")
 	private Double capitalAP_qita_LastTwoYear=0.0;
+
+	@Column(columnDefinition="varchar(255) NULL COMMENT '打包类型'")
+	private String packageType=BasicDataConfig.packageType_danLie;//默认为单列项目
+
 	//end#年度计划相关
 
    //begin#财政相关
@@ -167,6 +173,8 @@ public class ShenBaoInfo extends BaseProject{
 	//begin#审核相关
 	@Column(columnDefinition="varchar(500) NULL COMMENT '审核状态'")
 	private String auditState;
+	@Column(columnDefinition="varchar(255) NULL COMMENT '签收人'")
+	private String receiver;
 	//end
 	
 	//begin#社投申报字段
@@ -532,6 +540,18 @@ public class ShenBaoInfo extends BaseProject{
 	}
 	public void setMoveSuggestion(String moveSuggestion) {
 		this.moveSuggestion = moveSuggestion;
+	}
+	public String getReceiver() {
+		return receiver;
+	}
+	public void setReceiver(String receiver) {
+		this.receiver = receiver;
+	}
+	public String getPackageType() {
+		return packageType;
+	}
+	public void setPackageType(String packageType) {
+		this.packageType = packageType;
 	}
 	
 }

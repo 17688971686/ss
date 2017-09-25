@@ -27,7 +27,6 @@ public class ShenBaoAdminShenBaoController {
 	private ShenBaoInfoService shenBaoInfoService;
 	@Autowired
 	private ICurrentUser currentUser;
-
 	
 	@RequiresPermissions("shenbaoAdmin/shenbao##get")
 	@RequestMapping(name = "获取申报信息", path = "",method=RequestMethod.GET)
@@ -67,7 +66,7 @@ public class ShenBaoAdminShenBaoController {
 	
 	@RequiresPermissions("shenbaoAdmin/shenbao##delete")
 	@RequestMapping(name = "删除申报信息", path = "",method=RequestMethod.DELETE)
-	@ResponseStatus(value = HttpStatus.CREATED)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void delete(@RequestBody String id){
 		String[] ids = id.split(",");
 		if(ids.length>1){
@@ -78,6 +77,7 @@ public class ShenBaoAdminShenBaoController {
 			shenBaoInfoService.delete(id);
 		}
 	}
+
 		
 	//begin#html
 	@RequiresPermissions("shenbaoAdmin/shenbao#html/list#get")

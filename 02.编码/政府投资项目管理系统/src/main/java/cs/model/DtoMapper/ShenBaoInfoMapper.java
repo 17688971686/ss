@@ -118,6 +118,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setCapitalAP_qita_LastTwoYear(entity.getCapitalAP_qita_LastTwoYear());
 			shenBaoInfoDto.setCapitalAP_qita_LastYear(entity.getCapitalAP_qita_LastYear());
 			shenBaoInfoDto.setCapitalAP_qita(entity.getCapitalAP_qita());
+			shenBaoInfoDto.setPackageType(entity.getPackageType());//打包类型
 			//基础数据		
 			shenBaoInfoDto.setCreatedDate(entity.getCreatedDate());
 			shenBaoInfoDto.setModifiedDate(entity.getModifiedDate());
@@ -149,6 +150,8 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setFinanceProjectNumber(entity.getFinanceProjectNumber());//财政项目代码
 			//begin#审核相关
 			shenBaoInfoDto.setAuditState(entity.getAuditState());
+			shenBaoInfoDto.setReceiver(entity.getReceiver());
+
 			//begin#社会投资项目申报添加字段
 			shenBaoInfoDto.setExistingProblem(entity.getExistingProblem());//存在的问题
 			shenBaoInfoDto.setMoveSuggestion(entity.getMoveSuggestion());//推进建议
@@ -161,7 +164,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setCompanyName(entity.getCompanyName());//企业单位名称
 			shenBaoInfoDto.setApproval_pzwh(entity.getApproval_pzwh());//核准/备案批准文号
 			shenBaoInfoDto.setUseBenefits(entity.getUseBenefits());//投入使用后的效益
-						
+
 			//begin关联信息
 			//附件
 			entity.getAttachments().stream().forEach(x->{
@@ -272,6 +275,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setCapitalAP_qita_LastTwoYear(shenBaoInfoDto.getCapitalAP_qita_LastTwoYear());
 			shenBaoInfo.setCapitalAP_qita_LastYear(shenBaoInfoDto.getCapitalAP_qita_LastYear());
 			shenBaoInfo.setCapitalAP_qita(shenBaoInfoDto.getCapitalAP_qita());
+			shenBaoInfo.setPackageType(shenBaoInfoDto.getPackageType());//打包类型
 			//begin#审批相关
 			shenBaoInfo.setProcessState(shenBaoInfoDto.getProcessState());
 			shenBaoInfo.setProcessRole(shenBaoInfoDto.getProcessRole());
@@ -303,6 +307,8 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setFinanceProjectNumber(shenBaoInfoDto.getFinanceProjectNumber());//财政项目代码
 			//begin#审核相关
 			shenBaoInfo.setAuditState(shenBaoInfoDto.getAuditState());
+			shenBaoInfo.setReceiver(shenBaoInfoDto.getReceiver());
+
 			//begin#社会投资项目申报添加字段
 			shenBaoInfo.setExistingProblem(shenBaoInfoDto.getExistingProblem());//存在的问题
 			shenBaoInfo.setMoveSuggestion(shenBaoInfoDto.getMoveSuggestion());//推进建议
@@ -317,11 +323,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setUseBenefits(shenBaoInfoDto.getUseBenefits());//投入使用后的效益
 		}
 		return shenBaoInfo;
-		
 	}
-
-	
-
 }
 
 
