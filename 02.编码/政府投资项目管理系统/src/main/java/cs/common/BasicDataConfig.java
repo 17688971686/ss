@@ -43,7 +43,6 @@ public class BasicDataConfig {
 	public static String taskType_XMJYS="taskType_5";//项目建议书
 	public static String taskType_KXXYJBG="taskType_6";//可行性研究报告
 	public static String taskType_CBSJYGS="taskType_7";//初步设计与概算
-	public static String taskType_shenBaoDK="taskType_4";//是否打开申报端口
 	
 	public static String attachment_type_jys="JYS"; 
 	public static String attachment_type_kxxyjbg="KXXYJBG"; 

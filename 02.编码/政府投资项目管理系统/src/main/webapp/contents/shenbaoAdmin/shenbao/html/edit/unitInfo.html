@@ -106,8 +106,12 @@
 	<div class="bg-info text-info" style="padding: 10px;">编制单位信息</div>
 		<table width="100%" class="table  table-bordered table-striped">
 			<tr>
+				<td class="formAlignRight" width="150px;">单位名称：<span class="required">(*)</span></td>
+				<td colspan="2">
+					<input class="form-control input-sm" id="unitName_BZ" name="unitName_BZ" ng-model="vm.model.bianZhiUnitInfoDto.unitName" data-val="true" data-val-required="必选"/>
+				</td>
 				<td width="150px;" class="formAlignRight">单位性质：<span class="required">(*)</span></td>
-				<td colspan="4">
+				<td>
 					<select style="height:30px;" id="unitProperty_BZ" name="unitProperty_BZ" ng-model="vm.model.bianZhiUnitInfoDto.unitProperty" data-val="true" data-val-required="必选">
 						<option value="">---请选择---</option>
 						<option ng-repeat="x in vm.basicData.unitProperty" value="{{x.id}}" ng-selected="vm.model.bianZhiUnitInfoDto.unitProperty == x.id">{{x.description}}</option>

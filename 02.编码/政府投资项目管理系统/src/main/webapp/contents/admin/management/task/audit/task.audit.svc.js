@@ -587,15 +587,28 @@
 						if(vm.model.shenBaoInfo.projectShenBaoStage ==common.basicDataConfig().projectShenBaoStage_projectProposal){//申报阶段为:项目建议书
 							vm.isProjectProposal=true;
 							vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_projectProposal;
-		    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
 						}else if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_KXXYJBG){//申报阶段为:可行性研究报告
 							vm.isKXXYJBG=true;
 							vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_KXXYJBG;
-		    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
-						}else if(vm.model.shenBaoInfo.projectShenBaoStage == common.uploadFileTypeConfig().projectShenBaoStage_CBSJYGS){//申报阶段为:初步设计与概算
+						}else if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_CBSJYGS){//申报阶段为:初步设计与概算
 							vm.isCBSJYGS=true;
 							vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_CBSJYGS;
+						}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_prePlanFee){//申报阶段为:规划设计前期费
+							vm.isPrePlanFee=true;
+							vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_prePlanFee;
+						}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_newStratPlan){//申报阶段为:新开工计划
+							vm.isNewStart=true;
+							vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_newStart;
+						}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_xuJianPlan){//申报阶段为:续建计划
+							vm.isXuJian=true;
+							vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_xuJian;
+						}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){//申报阶段为:下一年度计划
+							vm.isYearPlan = true;
+							vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_YearPlan;
 		    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+						}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_junGong){//申报阶段为:竣工决算
+							vm.isJunGong=true;
+							vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_junGong;
 						}
 						//时间的显示
 						vm.model.shenBaoInfo.createdDate=common.formatDate(vm.model.shenBaoInfo.createdDate);//开工日期
@@ -871,6 +884,7 @@
 						field : "title",
 						title : "标题",						
 						filterable : true,
+						width:500,
 						template:function(item){
 							return common.format("<a href='#/task/handle_audit/{1}/{2}/{3}'>{0}</a>",item.title,item.taskType,item.id,item.relId);			
 						}
@@ -878,13 +892,13 @@
 					 {
 						field : "unitName",
 						title : "建设单位",
-						width : 400,						
+						width : 300,						
 						filterable : true
 					},
 					{
 						field : "projectIndustry",
 						title : "项目行业",
-						width : 200,
+						width : 120,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectIndustry);
 						},
@@ -894,7 +908,8 @@
 			                            valuePrimitive: true,
 			                            dataSource: vm.basicData.projectIndustry_ZF,
 			                            dataTextField: "description",
-			                            dataValueField: "id"
+			                            dataValueField: "id",
+			                            filter: "startswith"
 			                        });
 			                    }
 						}
@@ -902,8 +917,18 @@
 					 {
 						field : "taskType",
 						title : "任务类型",
-						width : 180,						
-						filterable : false,
+						width : 120,						
+						filterable : {
+							ui: function(element){
+		                        element.kendoDropDownList({
+		                            valuePrimitive: true,
+		                            dataSource: vm.basicData.taskType,
+		                            dataTextField: "description",
+		                            dataValueField: "id",
+		                            filter: "startswith"
+		                        });
+		                    }
+						},
 						template:function(item){						
 							return common.getBasicDataDesc(item.taskType);
 						}
@@ -920,7 +945,6 @@
 
 			];
 			// End:column
-			
 			if(window.todo_auditOption && window.todo_auditOption !=''){
 				vm.gridOptions = window.todo_auditOption;
 			}else{
@@ -930,7 +954,8 @@
 						pageable : common.kendoGridConfig().pageable,
 						noRecords : common.kendoGridConfig().noRecordMessage,
 						columns : columns,
-						resizable : true
+						resizable : true,
+						scrollable:true
 					};
 			}
 		}// end fun grid

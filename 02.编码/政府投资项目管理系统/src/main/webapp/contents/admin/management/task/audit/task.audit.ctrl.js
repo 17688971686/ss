@@ -70,6 +70,7 @@
 	   				.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 	   				.toArray(); //行政区划街道
    	   		vm.basicData.userUnit=common.getUserUnits();//获取所有单位
+   	   		vm.basicData.taskType=common.getBacicDataByIndectity(common.basicDataConfig().taskType);//任务类型
     	};
     	   	
     	activate();
@@ -203,7 +204,7 @@
         		
         		$('.reviewResult').modal({
                     backdrop: 'static',
-                    keyboard:false
+                    keyboard:true
                 });
         	};
         	
@@ -229,7 +230,7 @@
         	vm.openDatum=function(){
         		$('.datum').modal({
                     backdrop: 'static',
-                    keyboard:false
+                    keyboard:true
                 });
         	};
         	
@@ -249,7 +250,7 @@
         		
         		$('.proxy').modal({
                     backdrop: 'static',
-                    keyboard:false
+                    keyboard:true
                 });
         		
         		vm.nameAndTel = vm.model.shenBaoInfo.projectRepName+":"+vm.model.shenBaoInfo.projectRepMobile;
@@ -286,7 +287,7 @@
         		
         		$('.approval').modal({
                     backdrop: 'static',
-                    keyboard:false
+                    keyboard:true
                 });
         	};
         	
@@ -320,7 +321,7 @@
 				};
         		$('.draft_issued').modal({
                     backdrop: 'static',
-                    keyboard:false
+                    keyboard:true
                 });
         		
         		vm.basicData.hecretHierarchy=$linq(common.getBasicData())
@@ -362,7 +363,7 @@
         	vm.showOpinion = function(){
         		$('.opinion').modal({
                     backdrop: 'static',
-                    keyboard:false
+                    keyboard:true
                 });
         		 vm.opinionGrid.dataSource.read();
         	};
@@ -376,7 +377,7 @@
         	vm.edit=function(id,opin){
         		$('.opinionEdit').modal({
                     backdrop: 'static',
-                    keyboard:false
+                    keyboard:true
                 });
         		vm.model.opinion = {"opinion":opin,"id":id};
         		
@@ -817,14 +818,14 @@
         	vm.dialog_shenbaoInfo=function(){
         		$("#shenbaoInfo").modal({
                     backdrop: 'static',
-                    keyboard:false
+                    keyboard:true
                 });
         	};
         	//弹出申报信息复核模态款
         	vm.dialog_shenbaoInfoEdit=function(){
         		$("#shenbaoInfoEdit").modal({
                     backdrop: 'static',
-                    keyboard:false
+                    keyboard:true
                 });
         	};
         	//获取项目类型， 多选
@@ -902,7 +903,7 @@
 	   			vm.pifuType=$(e.target).parents('.uploadBox').attr('data-type');
         	   $("#documentRecords").modal({
 			        backdrop: 'static',
-			        keyboard:false  			  
+			        keyboard:true  			  
         	   });
         	   vm.replyFileGridOptions.dataSource.read();//批复文件列表数据刷新
 	   		};
