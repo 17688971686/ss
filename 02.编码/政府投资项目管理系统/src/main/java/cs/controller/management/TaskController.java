@@ -35,7 +35,7 @@ public class TaskController {
 	@Autowired
 	ICurrentUser currentUser;
 
-	@RequiresPermissions("management/task##get")
+	//@RequiresPermissions("management/task##get")
 	@RequestMapping(name = "获取所有任务", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<TaskHeadDto> getToDo(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);	
@@ -111,7 +111,7 @@ public class TaskController {
 		return ctrl + "/shenPiDetails";
 	}
 	/****下面为审批类操作****/
-	@RequiresPermissions("management/task#audit#get")
+	//@RequiresPermissions("management/task#audit#get")
 	@RequestMapping(name = "获取审批类个人待办数据", path = "audit", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<TaskHeadDto> getToDo_Audit(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);	
@@ -135,7 +135,7 @@ public class TaskController {
 	}
 	
 	/****下面为计划类操作****/
-	@RequiresPermissions("management/task#plan#get")
+	//@RequiresPermissions("management/task#plan#get")
 	@RequestMapping(name = "获取计划类个人待办数据", path = "plan", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<TaskHeadDto> getToDo_Plan(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);	
