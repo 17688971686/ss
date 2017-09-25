@@ -5,6 +5,8 @@ public class BasicDataConfig {
 	public static String approvalType ="approvalType";
 	public static String projectProgress ="projectProgress";
 	
+	public static boolean isComplete =false;
+	
 	//projectInvestmentType
 	public static String projectInvestmentType="projectInvestmentType";
 	public static String projectInvestmentType_ZF="projectInvestmentType_1";//政府投资

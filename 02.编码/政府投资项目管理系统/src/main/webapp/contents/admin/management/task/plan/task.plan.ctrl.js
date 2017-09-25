@@ -29,7 +29,7 @@
     		if($state.current.name=='task_plan'){//处理页面
     			vm.page="task_plan";
     		}
-    		if($state.current.name=='task_planDetails'){//处理页面
+    		if($state.current.name=='task_planDetails'){//展示页面
     			vm.page="task_planDetails";
     		}
     		vm.formatDate=function(str){
@@ -97,6 +97,14 @@
         	
         	taskPlanSvc.getTaskById(vm);
         	
+        	//弹出申报详情模态框
+        	vm.dialog_shenbaoInfo=function(){
+        		$("#shenbaoInfo").modal({
+                    backdrop: 'static',
+                    keyboard:false
+                });
+        	}
+        	
         	//拟稿纸模态框
 	       	vm.draftOpen=function(){
 	       		//查询发文拟稿
@@ -158,6 +166,25 @@
 	       	};
       	   
 	       	taskPlanSvc.complete_PlanGird(vm);
+	       	
+	      //查询
+        	vm.search=function(){
+        		var filters = [];
+				if(vm.search.title !=null && vm.search.title !=''){//查询条件--标题
+	     			   filters.push({field:'title',operator:'contains',value:vm.search.title});
+	     		   }
+     		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--任务建设单位
+     			   filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
+     		   }
+     		   if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){//查询条件--项目行业
+     			  filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
+     		   }
+     		  vm.gridOptions_complete_plan.dataSource.filter(filters);
+        	};
+        	//清空筛选条件
+        	vm.filterClear=function(){
+        		location.reload();
+        	};
         }
         
         function init_todoPlanList(){

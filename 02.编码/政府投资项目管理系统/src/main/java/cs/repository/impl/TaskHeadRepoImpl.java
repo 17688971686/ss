@@ -1,5 +1,6 @@
 package cs.repository.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -10,8 +11,10 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import cs.common.BasicDataConfig;
+import cs.domain.Project_;
 import cs.domain.TaskHead;
 import cs.domain.framework.Role;
+import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 
 
@@ -29,6 +32,28 @@ public class TaskHeadRepoImpl extends AbstractRepository<TaskHead, String> {
 	public List<TaskHead> findByOdata2(ODataObj oDataObj, String roleId, boolean plan) {
 		logger.debug("findByOdata2");		
 		Criteria crit = this.getSession().createCriteria(TaskHead.class);
+		Criterion cron7 = Restrictions.eq("isComplete",BasicDataConfig.isComplete);
+		List<ODataFilterItem> filters = oDataObj.getFilter();
+		if(filters !=null && filters.size()>0){
+			for(ODataFilterItem filter:filters){
+				String field = filter.getField();
+				String operator = filter.getOperator();
+				Object value = filter.getValue();
+				switch (operator) {
+				case "like":
+					Criterion crit8 = Restrictions.eq(field, value);
+					crit.add(crit8);
+					break;
+				case "eq":
+					
+					Criterion crit6 = Restrictions.eq(field, value);
+					crit.add(crit6);
+					break;
+				default:
+					break;
+				}
+			}
+		}
 		Criterion cron1 = null;
 		Criterion cron2 = null;
 		Criterion cron3 = null;
@@ -41,7 +66,7 @@ public class TaskHeadRepoImpl extends AbstractRepository<TaskHead, String> {
 			Criterion cron4 = Restrictions.eq("processRole",roleId);
 			
 			Criterion criterionOr=Restrictions.or(cron1,cron2,cron3,cron5);
-			Criterion criterionAnd = Restrictions.and(cron4,criterionOr);
+			Criterion criterionAnd = Restrictions.and(cron4,criterionOr,cron7);
 			crit.add(criterionAnd);
 		}else{
 			cron1 = Restrictions.eq("taskType",BasicDataConfig.taskType_CBSJYGS);
@@ -50,7 +75,7 @@ public class TaskHeadRepoImpl extends AbstractRepository<TaskHead, String> {
 			Criterion cron4 = Restrictions.eq("processRole",roleId);
 			
 			Criterion criterionOr=Restrictions.or(cron1,cron2,cron3);
-			Criterion criterionAnd = Restrictions.and(cron4,criterionOr);
+			Criterion criterionAnd = Restrictions.and(cron4,criterionOr,cron7);
 			crit.add(criterionAnd);
 		}
 		
@@ -83,6 +108,28 @@ public class TaskHeadRepoImpl extends AbstractRepository<TaskHead, String> {
 	public List<TaskHead> findByOdata3(ODataObj oDataObj, String userId, boolean plan) {
 		logger.debug("findByOdata2");		
 		Criteria crit = this.getSession().createCriteria(TaskHead.class);
+		Criterion cron7 = Restrictions.eq("isComplete",BasicDataConfig.isComplete);
+		List<ODataFilterItem> filters = oDataObj.getFilter();
+		if(filters !=null && filters.size()>0){
+			for(ODataFilterItem filter:filters){
+				String field = filter.getField();
+				String operator = filter.getOperator();
+				Object value = filter.getValue();
+				switch (operator) {
+				case "like":
+					Criterion crit8 = Restrictions.like(field, "%" + value + "%");
+					crit.add(crit8);
+					break;
+				case "eq":
+					
+					Criterion crit6 = Restrictions.eq(field, value);
+					crit.add(crit6);
+					break;
+				default:
+					break;
+				}
+			}
+		}
 		Criterion cron1 = null;
 		Criterion cron2 = null;
 		Criterion cron3 = null;
@@ -95,7 +142,7 @@ public class TaskHeadRepoImpl extends AbstractRepository<TaskHead, String> {
 			Criterion cron4 = Restrictions.eq("nextUser",userId);
 			
 			Criterion criterionOr=Restrictions.or(cron1,cron2,cron3,cron5);
-			Criterion criterionAnd = Restrictions.and(cron4,criterionOr);
+			Criterion criterionAnd = Restrictions.and(cron4,criterionOr,cron7);
 			crit.add(criterionAnd);
 		}else{
 			cron1 = Restrictions.eq("taskType",BasicDataConfig.taskType_CBSJYGS);
@@ -104,7 +151,7 @@ public class TaskHeadRepoImpl extends AbstractRepository<TaskHead, String> {
 			Criterion cron4 = Restrictions.eq("nextUser",userId);
 			
 			Criterion criterionOr=Restrictions.or(cron1,cron2,cron3);
-			Criterion criterionAnd = Restrictions.and(cron4,criterionOr);
+			Criterion criterionAnd = Restrictions.and(cron4,criterionOr,cron7);
 			crit.add(criterionAnd);
 		}
 		//begin:page
