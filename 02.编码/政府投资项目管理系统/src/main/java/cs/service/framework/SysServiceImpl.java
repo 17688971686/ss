@@ -3,6 +3,7 @@ package cs.service.framework;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,12 +15,14 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.common.Response;
 import cs.common.sysResource.ClassFinder;
 import cs.common.sysResource.SysResourceDto;
 import cs.domain.BasicData;
+import cs.domain.ReplyFile;
 import cs.domain.UserUnitInfo;
 import cs.domain.framework.Resource;
 import cs.domain.framework.Role;
@@ -33,6 +36,7 @@ import cs.repository.common.BasicDataRepo;
 import cs.repository.framework.RoleRepoImpl;
 import cs.repository.framework.SysConfigRepoImpl;
 import cs.repository.framework.UserRepoImpl;
+import cs.repository.impl.UserUnitInfoRepoImpl;
 import cs.repository.interfaces.IRepository;
 
 @Service
@@ -117,7 +121,6 @@ public class SysServiceImpl implements SysService{
 			});			
 			roleRepo.delete(x);
 		});
-		
 		List<SysConfig> sysConfigs = sysConfigRepo.findAll();
 		sysConfigs.forEach(x->{
 			sysConfigRepo.delete(x);
@@ -128,14 +131,15 @@ public class SysServiceImpl implements SysService{
 			userUnitInfoRepo.delete(x);
 		});
 		
-		//end
 		
+		//end
 		//初始化配置
 		SysConfig con = new SysConfig();
 		con.setConfigName(BasicDataConfig.taskType_sendMesg);
 		con.setConfigType(BasicDataConfig.taskType);
 		con.setId(UUID.randomUUID().toString());
 		con.setCreatedBy("admin");
+		con.setCreatedDate(new Date());
 		con.setEnable(false);
 		
 		SysConfig con2 = new SysConfig();
@@ -143,13 +147,11 @@ public class SysServiceImpl implements SysService{
 		con2.setConfigType(BasicDataConfig.taskType);
 		con2.setId(UUID.randomUUID().toString());
 		con2.setCreatedBy("admin");
+		con2.setCreatedDate(new Date());
 		con2.setEnable(false);
 		
 		sysConfigRepo.save(con);
 		sysConfigRepo.save(con2);
-		//end
-		
-		
 		// 初始化角色
 		Role role = new Role();
 		role.setRoleName(BasicDataConfig.role_admin);
@@ -563,18 +565,17 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("processState_24","processState" , "processState", "退文办结", "",false);
 		
 		this.createBasicData("taskType","" , "taskType", "任务类型", "任务类型",false);		
-		this.createBasicData("taskType_1","taskType" , "taskType", "月报填报", "",false);
-		this.createBasicData("taskType_2","taskType" , "taskType", "下一年度计划", "",false);
+//		this.createBasicData("taskType_1","taskType" , "taskType", "月报填报", "",false);
+//		this.createBasicData("taskType_2","taskType" , "taskType", "下一年度计划", "",false);
 		this.createBasicData("taskType_3","taskType" , "taskType", "是否发送短信", "",false);
 		this.createBasicData("taskType_4","taskType" , "taskType", "是否打开申报端口", "",false);
-		this.createBasicData("taskType_5","taskType" , "taskType", "项目建议书", "",false);
-		this.createBasicData("taskType_6","taskType" , "taskType", "可行性研究报告", "",false);
-		this.createBasicData("taskType_7","taskType" , "taskType", "初步设计与概算", "",false);
-		this.createBasicData("taskType_8","taskType" , "taskType", "前期计划", "",false);
-		this.createBasicData("taskType_9","taskType" , "taskType", "新开工计划", "",false);
-		this.createBasicData("taskType_10","taskType" , "taskType", "续建计划", "",false);
-		this.createBasicData("taskType_11","taskType" , "taskType", "竣工决算", "",false);
-		this.createBasicData("taskType_12","taskType" , "taskType", "资金申请报告", "",false);
+//		this.createBasicData("taskType_5","taskType" , "taskType", "项目建议书", "",false);
+//		this.createBasicData("taskType_6","taskType" , "taskType", "可行性研究报告", "",false);
+//		this.createBasicData("taskType_7","taskType" , "taskType", "初步设计与概算", "",false);
+//		this.createBasicData("taskType_8","taskType" , "taskType", "前期计划", "",false);
+//		this.createBasicData("taskType_9","taskType" , "taskType", "新开工计划", "",false);
+//		this.createBasicData("taskType_10","taskType" , "taskType", "续建计划", "",false);
+//		this.createBasicData("taskType_11","taskType" , "taskType", "竣工决算", "",false);
 
 		this.createBasicData("auditState","" , "auditState", "审核状态", "审核状态",false);
 		this.createBasicData("auditState_1","auditState" , "auditState", "未审核", "",false);
