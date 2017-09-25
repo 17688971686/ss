@@ -748,7 +748,7 @@
 				},
 				change:function(){
 					var grid = $(".grid").data("kendoGrid");
-					window.todo_auditOption = grid.getOptions();
+					window.todo_planOption = grid.getOptions();
 				}
 			});
 			// End:dataSource
@@ -821,8 +821,8 @@
 			];
 			// End:column
 			
-			if(window.todo_auditOption && window.todo_auditOption !=''){
-				vm.gridOptions_plan = window.todo_auditOption;
+			if(window.todo_planOption && window.todo_planOption !=''){
+				vm.gridOptions_plan = window.todo_planOption;
 			}else{
 				vm.gridOptions_plan = {
 						dataSource : common.gridDataSource(dataSource),
