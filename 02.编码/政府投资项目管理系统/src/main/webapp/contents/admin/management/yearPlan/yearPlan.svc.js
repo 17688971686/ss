@@ -808,7 +808,7 @@
 				type : 'odata',
 				transport : common.kendoGridConfig().transport(url_planList+"/"+vm.id+"/projectList"),
 				schema : common.kendoGridConfig().schema({
-					id : "yearPlanCapitalIdR"
+					id : "yearPlanCapitalId"
 				}),
 				serverPaging : true,
 				serverSorting : true,
@@ -925,26 +925,6 @@
 					      style: "text-align: center;vertical-align: middle;"
 					    }
 					},
-//					{
-//						field : "beginDate",
-//						title : "开工/竣工时间",
-//						width : 120,
-//						template:function(item){
-//							if(item.projectCategory==common.basicDataConfig().projectCategory_A){
-//								return common.formatDate(item.endDate) || '';
-//							}else if(item.projectCategory==common.basicDataConfig().projectCategory_B || 
-//									item.projectCategory==common.basicDataConfig().projectCategory_C ||
-//									item.projectCategory==common.basicDataConfig().projectCategory_D){
-//								return common.formatDate(item.beginDate) || '';
-//							}					
-//						},
-//						filterable : false,
-//						headerAttributes: {
-//					      "class": "table-header-cell",
-//					       style: "text-align: center;vertical-align: middle;"
-//					    }
-//					},
-					//新需求：开工日期与竣工日期同时显示
 					{
 						field : "beginDate",
 						title : "开工/竣工时间",

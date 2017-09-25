@@ -17,7 +17,6 @@ import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import cs.common.ICurrentUser;
 import cs.common.SQLConfig;
 import cs.domain.ShenBaoInfo;
@@ -56,8 +55,6 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 	private IMapper<ShenBaoInfoDto, ShenBaoInfo> shenbaoInfoMapper;
 	@Autowired
 	private ICurrentUser currentUser;
-	@Autowired
-	private BasicDataService basicDataService;
 	
 
 	@Override
