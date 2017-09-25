@@ -1,0 +1,38 @@
+<ion-view view-title="软件更新" hide-tabs="true">
+<ion-content>
+<div class="padding"></div>
+ 
+<div class="list" >
+	<li class="item item-toggle">
+     <p>自动检查更新</p>
+     <label class="toggle toggle-balanced">
+       <input type="checkbox" ng-model="autoCheckUpdate" ng-change="changeAutoCheckUpdate(autoCheckUpdate)">
+       <div class="track">
+         <div class="handle"></div>
+       </div>
+     </label>
+  </li> 
+  <li class="item" ng-show="isChecking">
+     <p>检查更新... <ion-spinner id="checkUpdateSpinner"></ion-spinner></p>
+  </li> 
+  
+</div> 
+
+<div class="list" ng-hide="isChecking || update.hasUpdate">
+  <li class="item" >
+     <p>当前已是最新版本</p>
+  </li> 
+  
+</div> 
+
+<div class="list" ng-show="update.hasUpdate">
+  <li class="item" >
+     <p>有新版本 {{update.version}}</p>
+  </li> 
+  <li class="item item-icon-right" ng-click="gotoUpdate()">
+    <p>下载和安装更新</p>
+    <i class="icon ion-ios-arrow-right"></i>
+  </li>
+</div> 
+</ion-content>
+</ion-view>

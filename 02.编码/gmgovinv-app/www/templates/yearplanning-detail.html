@@ -1,0 +1,94 @@
+<ion-view view-title="计划编制信息" hide-tabs="true">
+<ion-content>
+
+<div class="list-auto">
+ <table class="table table-left">
+    <tbody>
+      <tr>
+        <td class="color-black" style="width:35%;">名称</td>
+        <td style="width:65%">{{yearPlanning.name || '-'}}</td>
+      </tr>
+      <tr>
+        <td class="color-black">计划年度</td>
+        <td>{{yearPlanning.year || '-'}}</td>
+      </tr>
+      <tr>
+        <td class="color-black">备注</td>
+        <td>{{yearPlanning.remark || '-'}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="list-auto list-title">
+  <div class="item" href="#">
+    <h1>数据汇总</h1>
+    <div class="time-progress-bar">
+			<table class="table table-left">
+			    <tbody>
+			      <tr>
+			        <td class="color-black" style="">项目总数</td>
+			        <td style="">{{yearPlanning.statistics.shenBaoInfoTotal || '0'}}</td>
+			        <td class="color-black" style="">前期</td>
+			        <td style="">{{yearPlanning.statistics.QianQiTotal || '0'}}</td>		        
+			      </tr>
+			      <tr>
+			      	<td class="color-black" style="">新开工</td>
+			        <td style="">{{yearPlanning.statistics.NewStratTotal || '0'}}</td>
+			        <td class="color-black" style="">续建</td>
+			        <td style="">{{yearPlanning.statistics.XuJianTotal || '0'}}</td>
+			     
+			      </tr>
+			      <tr>
+			      	<td class="color-black" style="">储备类</td>
+			        <td colspan="3" style="">{{yearPlanning.statistics.ChuBeiTotal || '0'}}</td>
+			      </tr>
+			      <tr>
+			      	<td rowspan="3" class="color-black" style="">市投资</td>
+			      	<td>公共预算</td>
+			        <td colspan="2" style="">{{yearPlanning.statistics.capitalSCZ_ggysTotal | number:4}}</td>
+			      </tr>
+			      <tr>
+			       <td>国土基金</td>
+			        <td colspan="2" style="">{{yearPlanning.statistics.capitalSCZ_gtzjTotal | number:4}}</td>
+			      </tr>
+			      <tr>
+			        <td>专项基金</td>
+			        <td colspan="2" style="">{{yearPlanning.statistics.capitalSCZ_zxzjTotal | number:4}}</td>
+			      </tr>
+			      
+			      <tr>
+			      	<td rowspan="2" class="color-black" style="">区投资</td>
+			      	<td>公共预算</td>
+			        <td colspan="2" style="">{{yearPlanning.statistics.capitalQCZ_ggysTotal  | number:4}}</td>
+			      </tr>
+			      <tr>
+			       <td>国土基金</td>
+			        <td colspan="2" style="">{{yearPlanning.statistics.capitalQCZ_gtzjTotal | number:4}}</td>
+			      </tr>
+			      <tr>
+			      	<td class="color-black" style="">中央预算内投资</td>
+			        <td colspan="3" style="">{{yearPlanning.statistics.capitalZYYSTotal | number:4}}</td>
+			      </tr>
+			       <tr>
+			      	<td class="color-black" style="">社会投资</td>
+			        <td colspan="3" style="">{{yearPlanning.statistics.capitalSHTZTotal | number:4}}</td>
+			      </tr>
+			       <tr>
+			      	<td class="color-black" style="">其他</td>
+			        <td colspan="3" style="">{{yearPlanning.statistics.capitalOtherTotal | number:4}}</td>
+			      </tr>
+			    </tbody>
+			  </table>
+   </div>
+ </div>
+</div>
+
+<div  class="list-auto list-title" style="width: 100%;text-align: center;">
+	<a class="button button-positive" style="width: 80%;" href="#/tab/planning-projects/{{yearPlanning.id}}">计划项目({{yearPlanning.projects.length}})</a>
+</div>
+<div class="list-auto list-title" style="height: 10px;">
+	
+</div>
+</ion-content>
+</ion-view>
