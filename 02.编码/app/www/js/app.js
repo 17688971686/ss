@@ -260,6 +260,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','s
           }
         }
       })
+			//年度计划项目进展
+			.state('tab.plan-monthreport-list', {
+        url: '/plan-monthreport-list/:id',
+        views: {
+          'tab-planning': {
+            templateUrl: 'templates/monthreport-list.html',
+            controller: 'MonthReportCtrl'
+          }
+        }
+      })
+			
 			//月报详细情况
 			.state('tab.monthreport-detail', {
         url: '/monthreport-detail/:id/:year/:month',
