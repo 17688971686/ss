@@ -4,6 +4,7 @@ package cs.service.impl;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
@@ -29,6 +30,8 @@ import cs.model.DomainDto.SysConfigDto;
 import cs.model.DomainDto.TaskHeadDto;
 import cs.model.DomainDto.TaskRecordDto;
 import cs.model.DtoMapper.IMapper;
+import cs.repository.impl.TaskHeadRepoImpl;
+import cs.repository.impl.TaskRecordRepoImpl;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
@@ -62,6 +65,8 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 	private UserService userService;
 	@Autowired
 	private SysService sysService;
+	@Autowired
+	private TaskHeadRepoImpl taskHeadRepoImpl;
 	
 	@Override
 	@Transactional
@@ -87,6 +92,52 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 
 	@Override
 	@Transactional
+	public PageModelDto<TaskHeadDto> getToDo_Plan(ODataObj odataObj) {
+		//条件一：下一个处理人为当前登录用户
+				//条件二：下一处理角色为当前登录用户所拥有的角色
+				//判断：如果当前登录用户为秘书科分办人员
+				User user = userService.findById(currentUser.getUserId());
+				List<Role> roles = user.getRoles();
+				Boolean haveRole = false;
+				String roleId = "";
+				Boolean plan = true;
+				for(Role role:roles){
+					//当角色含有秘书科分办人员
+					if(role.getRoleName().equals(BasicDataConfig.msFenBanRole) || role.getRoleName().equals(BasicDataConfig.msHeGaoRole))	{
+						haveRole = true;
+						roleId = role.getId();
+						break;
+					}
+				}
+				if(haveRole){
+					
+					List<TaskHeadDto> dtos = taskHeadRepoImpl.findByOdata2(odataObj,roleId,plan).stream().map((x) -> {
+						return mapper.toDto(x);
+					}).collect(Collectors.toList());
+					
+					
+					PageModelDto<TaskHeadDto> pageModelDto = new PageModelDto<>();
+					pageModelDto.setCount(odataObj.getCount());
+					pageModelDto.setValue(dtos);
+					logger.info("查询审批类个人待办数据");
+					return pageModelDto;
+				}else{
+					String userId = currentUser.getUserId();
+					List<TaskHeadDto> dtos = taskHeadRepoImpl.findByOdata3(odataObj,userId,plan).stream().map((x) -> {
+						return mapper.toDto(x);
+					}).collect(Collectors.toList());
+					
+					
+					PageModelDto<TaskHeadDto> pageModelDto = new PageModelDto<>();
+					pageModelDto.setCount(odataObj.getCount());
+					pageModelDto.setValue(dtos);
+					logger.info("查询审批类个人待办数据");
+					return pageModelDto;
+				}
+	}
+
+	@Override
+	@Transactional
 	public PageModelDto<TaskHeadDto> getTask_audit(ODataObj odataObj) {
 		//条件一：下一个处理人为当前登录用户
 		//条件二：下一处理角色为当前登录用户所拥有的角色
@@ -95,6 +146,7 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 		List<Role> roles = user.getRoles();
 		Boolean haveRole = false;
 		String roleId = "";
+		Boolean plan = false;
 		for(Role role:roles){
 			//当角色含有秘书科分办人员
 			if(role.getRoleName().equals(BasicDataConfig.msFenBanRole) || role.getRoleName().equals(BasicDataConfig.msHeGaoRole))	{
@@ -104,23 +156,29 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			}
 		}
 		if(haveRole){
-			ODataFilterItem filter = new ODataFilterItem();
-			filter.setField("processRole");
-			filter.setOperator("eq");
-			filter.setValue(roleId);
 			
-			odataObj.getFilter().add(filter);
+			List<TaskHeadDto> dtos = taskHeadRepoImpl.findByOdata2(odataObj,roleId, plan).stream().map((x) -> {
+				return mapper.toDto(x);
+			}).collect(Collectors.toList());
+			
+			
+			PageModelDto<TaskHeadDto> pageModelDto = new PageModelDto<>();
+			pageModelDto.setCount(odataObj.getCount());
+			pageModelDto.setValue(dtos);
 			logger.info("查询审批类个人待办数据");
-			return super.get(odataObj);
+			return pageModelDto;
 		}else{
-			ODataFilterItem filter = new ODataFilterItem();
-			filter.setField("nextUser");
-			filter.setOperator("eq");
-			filter.setValue(currentUser.getUserId());
+			String userId = currentUser.getUserId();
+			List<TaskHeadDto> dtos = taskHeadRepoImpl.findByOdata3(odataObj,userId,plan).stream().map((x) -> {
+				return mapper.toDto(x);
+			}).collect(Collectors.toList());
 			
-			odataObj.getFilter().add(filter);
+			
+			PageModelDto<TaskHeadDto> pageModelDto = new PageModelDto<>();
+			pageModelDto.setCount(odataObj.getCount());
+			pageModelDto.setValue(dtos);
 			logger.info("查询审批类个人待办数据");
-			return super.get(odataObj);
+			return pageModelDto;
 		}
 	}
 

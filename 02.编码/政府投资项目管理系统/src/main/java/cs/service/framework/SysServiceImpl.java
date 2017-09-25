@@ -565,17 +565,17 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("processState_24","processState" , "processState", "退文办结", "",false);
 		
 		this.createBasicData("taskType","" , "taskType", "任务类型", "任务类型",false);		
-//		this.createBasicData("taskType_1","taskType" , "taskType", "月报填报", "",false);
-//		this.createBasicData("taskType_2","taskType" , "taskType", "下一年度计划", "",false);
+		this.createBasicData("taskType_1","taskType" , "taskType", "月报填报", "",false);
+		this.createBasicData("taskType_2","taskType" , "taskType", "下一年度计划", "",false);
 		this.createBasicData("taskType_3","taskType" , "taskType", "是否发送短信", "",false);
 		this.createBasicData("taskType_4","taskType" , "taskType", "是否打开申报端口", "",false);
-//		this.createBasicData("taskType_5","taskType" , "taskType", "项目建议书", "",false);
-//		this.createBasicData("taskType_6","taskType" , "taskType", "可行性研究报告", "",false);
-//		this.createBasicData("taskType_7","taskType" , "taskType", "初步设计与概算", "",false);
-//		this.createBasicData("taskType_8","taskType" , "taskType", "前期计划", "",false);
-//		this.createBasicData("taskType_9","taskType" , "taskType", "新开工计划", "",false);
-//		this.createBasicData("taskType_10","taskType" , "taskType", "续建计划", "",false);
-//		this.createBasicData("taskType_11","taskType" , "taskType", "竣工决算", "",false);
+		this.createBasicData("taskType_5","taskType" , "taskType", "项目建议书", "",false);
+		this.createBasicData("taskType_6","taskType" , "taskType", "可行性研究报告", "",false);
+		this.createBasicData("taskType_7","taskType" , "taskType", "初步设计与概算", "",false);
+		this.createBasicData("taskType_8","taskType" , "taskType", "前期计划", "",false);
+		this.createBasicData("taskType_9","taskType" , "taskType", "新开工计划", "",false);
+		this.createBasicData("taskType_10","taskType" , "taskType", "续建计划", "",false);
+		this.createBasicData("taskType_11","taskType" , "taskType", "竣工决算", "",false);
 
 		this.createBasicData("auditState","" , "auditState", "审核状态", "审核状态",false);
 		this.createBasicData("auditState_1","auditState" , "auditState", "未审核", "",false);

@@ -86,7 +86,7 @@
 			<td class="formAlignRight">公开类型：<span class="required">(*)</span></td>
 			<td colspan="3">
 				<label ng-repeat="x in vm.basicData.openType">
-					 <input type="radio" name="openType" id="openType" ng-checked="x.id == vm.draft.openType" ng-click="vm.Selection(x.id)" value="{x.id}" data-val="true" data-val-required="必选"/>{{x.description}}&nbsp;&nbsp;
+					 <input type="radio" name="openType" id="openType" ng-checked="x.id == vm.draft.openType" ng-click="vm.Selection(x.id)" ng-model="vm.draft.openType" value="{{x.id}}" data-val="true" data-val-required="必选"/>{{x.description}}&nbsp;&nbsp;
 				</label>
 				<span data-valmsg-for="openTYpe" data-valmsg-replace="true" class="required"></span>								
 			</td>

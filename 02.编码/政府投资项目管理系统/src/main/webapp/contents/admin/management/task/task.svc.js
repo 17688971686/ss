@@ -15,6 +15,7 @@
 		var url_back = "#/task/todo";
 		var url_dept = "/org";
 		var url_taskAudit = "/management/task/audit";
+		var url_taskPlan = "/management/task/plan";
 		var url_users="/org/{0}/users";
 		var url_approval ="/management/approval";
 		var url_proxy = "/management/proxy";
@@ -34,7 +35,8 @@
 			getDraftIssued:getDraftIssued,
 			getComission:getComission,
 			getReviewResult:getReviewResult,
-			getDepts:getDepts
+			getDepts:getDepts,
+			gridForPlan:gridForPlan
 		};
 		
 		return service;
@@ -386,6 +388,27 @@
 						vm.isComplete=true;
 					}
 				}	
+			};
+				
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}//getTaskById
+		
+		/**
+		 * 个人待办列表(计划)
+		 */
+		function gridForPlan(vm){
+			var httpOptions = {
+					method : 'get',
+					url : url_taskPlan
+				};
+			
+			var httpSuccess = function success(response) {				
+				$('#todoNumber_plan').html(response.data.value.length);
 			};
 				
 			common.http({

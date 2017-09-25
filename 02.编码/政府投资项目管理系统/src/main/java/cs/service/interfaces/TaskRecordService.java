@@ -8,4 +8,6 @@ import cs.repository.odata.ODataObj;
 public interface TaskRecordService extends IService<TaskRecordDto, TaskRecord, String> {
 
 	PageModelDto<TaskRecordDto> get_shenPi(ODataObj odataObj);
+
+	PageModelDto<TaskRecordDto> getToDo_plan(ODataObj odataObj);
 }

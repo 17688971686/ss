@@ -94,6 +94,11 @@ public class TaskController {
 	public String complete_shenPi() {
 		return ctrl + "/complete_shenPi";
 	}
+	@RequiresPermissions("management/task#html/complete_plan#get")
+	@RequestMapping(name = "已办列表页--计划类", path = "html/complete_plan", method = RequestMethod.GET)
+	public String complete_plan() {
+		return ctrl + "/complete_plan";
+	}
 	
 	@RequiresPermissions("management/task#html/handle#get")
 	@RequestMapping(name = "待办处理", path = "html/handle", method = RequestMethod.GET)
@@ -129,11 +134,54 @@ public class TaskController {
 		return taskHeadDtos;
 	}
 	
+	/****下面为计划类操作****/
+	@RequiresPermissions("management/task#plan#get")
+	@RequestMapping(name = "获取计划类个人待办数据", path = "plan", method = RequestMethod.GET)
+	public @ResponseBody PageModelDto<TaskHeadDto> getToDo_Plan(HttpServletRequest request) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);	
+		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.getToDo_Plan(odataObj);
+		//关于流程记录根据创建用户id查找到名称用于显示
+		List<TaskHeadDto> taskHeadDtols = taskHeadDtos.getValue();
+		if(taskHeadDtols !=null && taskHeadDtols.size()>0){
+			taskHeadDtols.forEach(x->{
+				if(x.getTaskRecordDtos() !=null && x.getTaskRecordDtos().size()>0){
+					x.getTaskRecordDtos().forEach(y->{
+						User user = userService.findById(y.getCreatedBy());
+						if(user !=null){
+							y.setCreatedBy(user.getLoginName());
+						}
+					});
+				}
+			});
+			taskHeadDtos.setValue(taskHeadDtols);
+		}
+		return taskHeadDtos;
+	}
+	
+	@RequiresPermissions("management/task#html/handle_plan#get")
+	@RequestMapping(name = "待办处理页--计划类", path = "html/handle_plan", method = RequestMethod.GET)
+	public String handle_plan() {
+		return ctrl + "/plan/handle_plan";
+	}
+	
+	@RequiresPermissions("management/task#html/planDetails#get")
+	@RequestMapping(name = "已办列表页--计划类展示信息", path = "html/planDetails", method = RequestMethod.GET)
+	public String planDetails() {
+		return ctrl + "/plan/planDetails";
+	}
+	
 	@RequiresPermissions("management/task#html/todo_audit#get")
 	@RequestMapping(name = "待办列表页--审批类", path = "html/todo_audit", method = RequestMethod.GET)
 	public String todo_audit() {
 		return ctrl + "/audit/todo";
 	}
+	
+	@RequiresPermissions("management/task#html/todo_plan#get")
+	@RequestMapping(name = "待办列表页--计划类", path = "html/todo_plan", method = RequestMethod.GET)
+	public String todo_plan() {
+		return ctrl + "/plan/todo";
+	}
+	
 	
 	@RequiresPermissions("management/task#html/todo_audit#get")
 	@RequestMapping(name = "待办处理页--审批类", path = "html/handle_audit", method = RequestMethod.GET)

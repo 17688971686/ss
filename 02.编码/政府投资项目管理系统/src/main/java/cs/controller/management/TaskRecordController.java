@@ -52,4 +52,13 @@ public class TaskRecordController {
 		return taskRecordDtos;
 	}	
 	
+	@RequiresPermissions("management/taskRecord#plan#get")
+	@RequestMapping(name = "获取计划类任务流程", path = "plan",method=RequestMethod.GET)
+	public @ResponseBody PageModelDto<TaskRecordDto> getToDo_plan(HttpServletRequest request) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);
+		
+		PageModelDto<TaskRecordDto> taskRecordDtos = taskRecordService.getToDo_plan(odataObj);
+		return taskRecordDtos;
+	}	
+	
 }
