@@ -197,7 +197,7 @@
         };
         
         function init_todoList(){
-        	
+        	taskSvc.gridForPlan(vm);
         	taskSvc.gridForShenpi(vm);
         	taskSvc.grid(vm);
         	

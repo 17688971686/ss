@@ -510,10 +510,39 @@
 	            controller: 'taskCtrl',
 	            controllerAs: 'vm'
 	        })
+	          //已办列表页--审批类(taskRecord)
+	        .state('task_plan', {
+	            url: '/task/plan',
+	            templateUrl: '/management/task/html/complete_plan',
+	            controller: 'taskPlanCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //个人已办--审批类
 	        .state('task_shenPiDetails', {
 	            url: '/task/shenPi_details/:taskType/:taskId/:relId',
 	            templateUrl: '/management/task/html/shenPiDetails',
 	            controller: 'taskCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //个人已办--计划类
+	         .state('task_planDetails', {
+	            url: '/task/plan_details/:taskType/:taskId/:relId',
+	            templateUrl: '/management/task/html/planDetails',
+	            controller: 'taskPlanCtrl',
+	            controllerAs: 'vm'
+	        })
+	         //待办列表页--计划类
+	        .state('task_todo_plan', {
+	            url: '/task/todo_plan',
+	            templateUrl: '/management/task/html/todo_plan',
+	            controller: 'taskPlanCtrl',
+	            controllerAs: 'vm'
+	        })
+	           //任务处理页--计划类
+	        .state('task_handle_plan', {
+	            url: '/task/handle_plan/:taskType/:taskId/:relId',
+	            templateUrl: '/management/task/html/handle_plan',
+	            controller: 'taskPlanCtrl',
 	            controllerAs: 'vm'
 	        })
 	         //待办列表页--审批类

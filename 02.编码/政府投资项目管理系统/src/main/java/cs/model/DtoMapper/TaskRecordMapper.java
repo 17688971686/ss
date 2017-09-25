@@ -35,6 +35,7 @@ public class TaskRecordMapper implements IMapper<TaskRecordDto, TaskRecord> {
 			dto.setTuiwen_capital(entity.getTuiwen_capital());
 			dto.setTuiwen_content(entity.getTuiwen_content());
 			dto.setTuiwen_data(entity.getTuiwen_data());
+			dto.setFawen(entity.getFawen());
 			dto.setTuiwen(entity.getTuiwen());
 			dto.setApproval(entity.getApproval());
 			dto.setProxy(entity.getProxy());
@@ -73,6 +74,7 @@ public class TaskRecordMapper implements IMapper<TaskRecordDto, TaskRecord> {
 			entity.setTuiwen_capital(dto.getTuiwen_capital());
 			entity.setTuiwen_content(dto.getTuiwen_content());
 			entity.setTuiwen_data(dto.getTuiwen_data());
+			entity.setFawen(dto.getFawen());
 			entity.setTuiwen(dto.getTuiwen());
 			entity.setApproval(dto.getApproval());
 			entity.setProxy(dto.getProxy());

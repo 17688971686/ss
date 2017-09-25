@@ -167,7 +167,8 @@ desired effect
 										</a>
 									</li>
 									<li>
-										<a href="javascript:void(0)" >个人待办(计划类)
+										<a href="javascript:void(0)" ui-sref="task_todo_plan">个人待办(计划类)
+											<span id="todoNumber_plan" class="label label-danger" style="font-size:9px;padding:0px 5px;"></span>
 										</a>
 									</li>
 								</ul>
@@ -181,7 +182,7 @@ desired effect
 										<a href="javascript:void(0)" ui-sref="task_shenPi">个人已办 (审批类)</a> 
 									</li>
 									<li>
-										<a href="javascript:void(0)">个人已办 (计划类)</a> 
+										<a href="javascript:void(0)" ui-sref="task_plan">个人已办 (计划类)</a> 
 									</li>
 								</ul>
 							</li>
@@ -453,6 +454,9 @@ desired effect
 	<!-- task_audit -->
 	<script src="/contents/admin/management/task/audit/task.audit.ctrl.js"></script>
 	<script src="/contents/admin/management/task/audit/task.audit.svc.js"></script>
+	<!-- task_audit -->
+	<script src="/contents/admin/management/task/plan/task.plan.ctrl.js"></script>
+	<script src="/contents/admin/management/task/plan/task.plan.svc.js"></script>
 	<!-- mediationManagement -->
 	<script src="/contents/admin/management/mediationManagement/mediationManagement.ctrl.js"></script>
 	<script src="/contents/admin/management/mediationManagement/mediationManagement.svc.js"></script>
