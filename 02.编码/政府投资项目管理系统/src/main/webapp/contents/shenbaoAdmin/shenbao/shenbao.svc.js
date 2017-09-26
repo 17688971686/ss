@@ -146,6 +146,7 @@
 						vm.model.shenBaoInfoRecords = response.data.value;
 						 //判断申报记录中的申报阶段，防止多次申报同一阶段
 			        	   if(vm.model.shenBaoInfoRecords.length >0){
+			        		   vm.isHased = false;
 			        		   for (var i = 0; i < vm.model.shenBaoInfoRecords.length; i++) {
 			        			   var shenBaoRecord = vm.model.shenBaoInfoRecords[i];
 			        			   var shenBaoRecordStage = shenBaoRecord.projectShenBaoStage;

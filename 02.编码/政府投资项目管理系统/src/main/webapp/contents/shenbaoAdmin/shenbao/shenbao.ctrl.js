@@ -50,6 +50,27 @@
         	vm.getUnitName=function(unitId){
         		return common.getUnitName(unitId);
         	};
+        	
+        	 //删除申报记录
+            vm.deleteShenBaoInfo=function(id){
+         	   //获取当前页面的url
+     		  var url = $location.url();
+     		  if(url == "/shenbao_records"){//如果是申报记录列表页面
+     		   	vm.isRecordsDelete = true;
+     		  }else if(url == "/shenbao"){//如果是项目申报记录列表模态框页面
+     		   	$("#shenBaoRecords").modal('hide');//列表申报记录模态框关闭
+     		   	$(".modal-backdrop").remove();//去除模态框背景色
+     		  }
+ 		   	 common.confirm({
+ 		   	  	vm:vm,
+ 		   	  	msg:"确认要删除此申报信息吗？",
+ 		   	  	fn:function(){
+ 		   	  		$('.confirmDialog').modal('hide');  
+ 		   	  		$(".modal-backdrop").remove();
+ 		   	  		shenbaoSvc.deleteShenBaoInfo(vm,id);
+ 		   	  	}
+ 		   	  });
+            };
        	
         	//全选框选择
         	$(document).on('click', '#checkboxAll_projectShenBaoRecords', function () {
@@ -78,26 +99,6 @@
 	   				.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 	   				.toArray(); //行政区划街道
    	   		vm.basicData.userUnit=common.getUserUnits();//获取所有单位
-   	   		
-	   	  	vm.deleteShenBaoInfo = function(id){//删除申报信息
-	   	  		//获取当前页面的url
-	   	  		var url = $location.url();
-	   	  		if(url == "/shenbao_records"){//如果是申报记录列表页面
-	   	  			vm.isRecordsDelete = true;
-	   	  		}else if(url == "/shenbao"){//如果是项目申报记录列表模态框页面
-	   	  			$("#shenBaoRecords").modal('hide');//列表申报记录模态框关闭
-	   	  			$(".modal-backdrop").remove();//去除模态框背景色
-	   	  		}
-	   	  		common.confirm({
-	   	  			vm:vm,
-	   	  			msg:"确认要删除此申报信息吗？",
-	   	  			fn:function(){
-	   	  				$('.confirmDialog').modal('hide');  
-	   	  				$(".modal-backdrop").remove();
-	   	  				shenbaoSvc.deleteShenBaoInfo(vm,id);
-	   	  			}
-	   	  		});
-	   	   	};
         };
         
         activate();
@@ -216,20 +217,11 @@
            };
            shenbaoSvc.projectShenBaoRecordsGird(vm);
            
-           //删除申报记录
-           vm.deleteShenBaoInfo=function(id){
-        	   if(confirm("确认要删除数据吗？")){
-        		   shenbaoSvc.deleteShenBaoInfo(vm,id);  
-        	   }       	   
-           };
            //批量删除申报记录
            vm.deleteShenBaoInfos=function(){
         	   var selectIds = common.getKendoCheckId('.shenBaoRecordsGrid');
                if (selectIds.length == 0) {
-               	common.alert({
-                   	vm:vm,
-                   	msg:'请选择数据!'             	
-                   });
+               		alert('请选择数据!');
                } else {
                	var ids=[];
                    for (var i = 0; i < selectIds.length; i++) {
