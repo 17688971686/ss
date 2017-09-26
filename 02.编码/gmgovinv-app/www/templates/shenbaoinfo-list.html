@@ -6,7 +6,7 @@
         <button id="search" class="ion-search" ng-click="search()"></button>
       </div>
     </div>    
-    
+     <ion-refresher pulling-text="下拉刷新" on-refresh="doRefresh()"></ion-refresher>
     <!--B:search-condition-->
     <div class="search-condition text-center">
          <ul class="search-property" id="search-property">
@@ -122,9 +122,10 @@
         </div>
         <!--E:pop-sub-->
     </div>
-     <ion-refresher pulling-text="下拉刷新" on-refresh="doRefresh()"></ion-refresher>
+    
     <ion-list class="list-auto list-title project-list">
      <div class="backdrop" ng-class="{true: 'visible active', false: ''}[isActive]" style="height:20000%" ng-click="toggleBackdrop()"></div>
+     
     <a class="item item-margin" href="#/tab/shenbaoinfo-detail/{{prj.id}}" ng-repeat="prj in projects track by $index">
      <h1>{{prj.projectName}}</h1>
      <div class="row">

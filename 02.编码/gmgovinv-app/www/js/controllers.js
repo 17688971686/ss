@@ -521,9 +521,14 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
 
 		$scope.classifySelected = function (id) {
 			$scope.year = !$scope.year;
-            $scope.querydata.projectClassify = id;
             $scope.isActive = !$scope.year
-
+            
+ 			if(-1 == id){
+            	$scope.querydata.projectClassify = null;
+            }else{
+            	$scope.querydata.projectClassify = id;            	 
+            }
+            
             $scope.search();
         };
 
@@ -533,7 +538,7 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
             $scope.nextPage = 1;
             $scope.isInitData = false;
 
-            $ionicScrollDelegate.scrollBottom();
+            $ionicScrollDelegate.scrollTop();
         }
 
         $scope.cancel = function () {
@@ -567,34 +572,7 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
  			if (!!$rootScope.querydata.keyword) {
                 // query += "&& !!$.name.match(/^" + $scope.querydata.keyword + "/i)";
                 query += "!!$.projectName.match(/" + $rootScope.querydata.keyword + "/i) &&";
-            };
-
-           /* if (!!$scope.form.industry) {
-                $rootScope.querydata.industry = $scope.form.industry.name;
-            } else {
-                $rootScope.querydata.industry = null;
-            }
-            if (!!$scope.form.investment) {
-                $rootScope.querydata.investment = $scope.form.investment.name;
-            } else {
-                $rootScope.querydata.investment = null;
-            }
-            if (!!$scope.form.investment) {
-                $rootScope.querydata.investmentQuery = $scope.form.investment.query;
-            } else {
-                $rootScope.querydata.investmentQuery = null;
-            }
-            if (!!$scope.form.prjType) {
-                $rootScope.querydata.projectType = $scope.form.prjType.name;
-            } else {
-                $rootScope.querydata.projectType = null;
-            }
-            if (!!$scope.form.investSrc) {
-                $rootScope.querydata.investSource = $scope.form.investSrc.name;
-            } else {
-                $rootScope.querydata.investSource = null;
-            }*/
-
+           };
             $scope.search();
 
           
@@ -602,12 +580,29 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
 		
 		$scope.doRefresh = function(){
 		    Shenbaoinfo.pullData().then(function(res){		      	
-		      	localforage.setItem('shenbaolist',res.data.value||[]).then(function(){
-		      		$scope.search();
+		      	localforage.setItem('shenbaolist',res.data.value||[]).then(function(data){
+			      	buildQuery();
+		            $scope.projects = [];
+		            $scope.nextPage = 1;
+		            $scope.isInitData = false;
+		      		Shenbaoinfo.findData($scope.nextPage, $scope.pageSize, $scope.query).then(function (data) {
+		                $scope.totalPage = data.totalPage;
+		                data.data.forEach(function (item) {
+		                    $scope.projects.push(item);
+		                });
+		                $scope.nextPage = data.page + 1;
+		                $scope.isInitData = true;
+		                $ionicLoading.hide();
+		
+		                //$scope.$broadcast('scroll.infiniteScrollComplete');
+		            });
+		      		
 		      	}).catch(function(err){
 		            console.log(err);
 		        });
-	      	});
+	      	}).finally(function() {
+                $scope.$broadcast('scroll.refreshComplete');
+            });
 		}
         $scope.toggleIndustry = function () {
             $ionicScrollDelegate.$getByHandle('mainScroll').freezeScroll(!!$scope.industry);
@@ -640,7 +635,6 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
         };
          $rootScope.$on(APP_EVENTS.pullBaoList, function (e) {
          	$scope.search();
-         	console.log('pullBaoList');
         });
 
     })
