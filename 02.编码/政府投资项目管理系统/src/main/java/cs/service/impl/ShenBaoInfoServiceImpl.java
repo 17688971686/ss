@@ -84,8 +84,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private String projectShenBaoStage_KXXYJBG;//申报阶段：可行性研究报告
 	@Value("${projectShenBaoStage_CBSJYGS}")
 	private String projectShenBaoStage_CBSJYGS;//申报阶段：初步设计与概算
-	@Value("${projectShenBaoStage_qianQi}")
-	private String projectShenBaoStage_qianQi;//申报阶段：前期计划
+	@Value("${projectShenBaoStage_prePlanFee}")
+	private String projectShenBaoStage_prePlanFee;//申报阶段：规划设计前期费
 	@Value("${projectShenBaoStage_newStart}")
 	private String projectShenBaoStage_newStart;//申报阶段：新开工计划
 	@Value("${projectShenBaoStage_xuJian}")
@@ -100,8 +100,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private String taskType_KXXYJBG;//任务类型：可行性研究报告
 	@Value("${taskType_CBSJYGS}")
 	private String taskType_CBSJYGS;//任务类型：初步设计与概算
-	@Value("${taskType_qianQi}")
-	private String taskType_qianQi;//任务类型：前期计划
+	@Value("${taskType_prePlanFee}")
+	private String taskType_prePlanFee;//任务类型：规划设计前期费
 	@Value("${taskType_newStart}")
 	private String taskType_newStart;//任务类型：新开工计划
 	@Value("${taskType_xuJian}")
@@ -503,8 +503,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			return taskType_KXXYJBG;
 		}else if(shenbaoStage.equals(projectShenBaoStage_CBSJYGS)){//如果申报阶段：是初步概算与设计
 			return taskType_CBSJYGS;
-		}else if(shenbaoStage.equals(projectShenBaoStage_qianQi)){//如果申报阶段：是前期计划
-			return taskType_qianQi;
+		}else if(shenbaoStage.equals(projectShenBaoStage_prePlanFee)){//如果申报阶段：是前期计划
+			return taskType_prePlanFee;
 		}else if(shenbaoStage.equals(projectShenBaoStage_newStart)){//如果申报阶段：是新开工计划
 			return taskType_newStart;
 		}else if(shenbaoStage.equals(projectShenBaoStage_xuJian)){//如果申报阶段：是续建计划

@@ -270,7 +270,7 @@
 				{
 					field : "projectName",
 					title : "项目名称",
-					width:200,
+					width:250,
 					template:function(item){
 						return common.format('<a href="#/project/projectInfo/{0}">{1}</a>',item.projectId,item.projectName);
 					},
@@ -279,7 +279,7 @@
 				{
 					field : "processState",
 					title : "审批状态",
-					width : 150,
+					width : 120,
 					filterable : false,
 					template:function(item){
 						var processStateDesc=common.getBasicDataDesc(item.processState);
@@ -290,7 +290,7 @@
 				{
 					field : "projectShenBaoStage",
 					title : "申报阶段",	
-					width : 150,
+					width : 120,
 					template:function(item){
 						return common.getBasicDataDesc(item.projectShenBaoStage);
 					},

@@ -579,7 +579,7 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("taskType_5","taskType" , "taskType", "项目建议书", "",false);
 		this.createBasicData("taskType_6","taskType" , "taskType", "可行性研究报告", "",false);
 		this.createBasicData("taskType_7","taskType" , "taskType", "初步设计与概算", "",false);
-		this.createBasicData("taskType_8","taskType" , "taskType", "前期计划", "",false);
+		this.createBasicData("taskType_8","taskType" , "taskType", "规划设计前期费", "",false);
 		this.createBasicData("taskType_9","taskType" , "taskType", "新开工计划", "",false);
 		this.createBasicData("taskType_10","taskType" , "taskType", "续建计划", "",false);
 		this.createBasicData("taskType_11","taskType" , "taskType", "竣工决算", "",false);
@@ -604,14 +604,14 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("serviceRating_4", "serviceRating", "serviceRating", "不合格(<6)", "");
 		
 		this.createBasicData("packageType","" , "packageType", "打包类型", "打包类型");
-		this.createBasicData("packageType_1","" , "packageType", "单列项目", "打包类型");
-		this.createBasicData("packageType_2","" , "packageType", "结算款项目", "打包类型");
-		this.createBasicData("packageType_3","" , "packageType", "小额项目", "打包类型");
-		this.createBasicData("packageType_4","" , "packageType", "未立项预留项目", "打包类型");
+		this.createBasicData("packageType_1","packageType" , "packageType", "单列项目", "打包类型");
+		this.createBasicData("packageType_2","packageType" , "packageType", "结算款项目", "打包类型");
+		this.createBasicData("packageType_3","packageType" , "packageType", "小额项目", "打包类型");
+		this.createBasicData("packageType_4","packageType" , "packageType", "未立项预留项目", "打包类型");
 
 				
 		response.setMessage("基础数据初始化成功");
-		response.setSuccess(true);		
+		response.setSuccess(true);
 		logger.info("基础数据初始化成功!");	
 		return response;
 
