@@ -15850,9 +15850,9 @@
         		//经办人办理
         		if(str == "jingBanRenBanli"){
         			vm.nextProcessRadio = "jingBanRenBanli";
-        			for (i = 0; i < vm.model.depts.length; i++) {
-						for (j = 0; j < vm.model.depts[i].userDtos.length; j++) {
-							for (k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {
+        			for (var i = 0; i < vm.model.depts.length; i++) {
+						for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {
+							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {
 								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "科长" &&vm.model.depts[i].userDtos[j].id ==vm.taskAudit.nextUser){//科长选择当前科室的科员为下一流程处理人
 									vm.model.depts[i].userDtos.splice(j,1);
 									vm.users = vm.model.depts[i].userDtos;
