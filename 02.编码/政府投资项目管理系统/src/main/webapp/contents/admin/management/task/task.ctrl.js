@@ -74,9 +74,6 @@
 	   				.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 	   				.toArray(); //行政区划街道
    	   		vm.basicData.userUnit=common.getUserUnits();//获取所有单位
-           	vm.basicData.projectIndustry_ZF=$linq(common.getBasicData())
-				.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
-				.toArray();
 
     	}
     	
@@ -105,16 +102,8 @@
         }
         
         function init_task_shenPiDetails(){
-        	vm.getUser =function(id){
-        		for (var i = 0; i < vm.model.depts.length; i++) {
-    				for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {//循环人员
-    					if(vm.model.depts[i].userDtos[j].id == id){//获得部门人员
-    						return vm.model.depts[i].userDtos[j].displayName;
-    					}
-    				}
-    			}
-        	};
         	
+        	taskSvc.getShenBaoInfoById(vm);//查询申报信息
         	//相关附件文件上传文件种类
 	   		vm.relatedType=common.uploadFileTypeConfig().reviewResult;
         	 
@@ -180,7 +169,6 @@
 	       		vm.basicData.postingCategory=$linq(common.getBasicData())
 		   			.where(function(x){return x.identity==common.basicDataConfig().postingCategory&&x.pId==common.basicDataConfig().postingCategory;})
 		   			.toArray();//获取发文种类信息
-	       		
 	       	};
       	   
       	   //评审报批模态框
@@ -224,11 +212,10 @@
         }//end init_completeList
         
         function init_complete_shenPiList(){
-        	
+        	taskSvc.complete_shenPiGird(vm);
         	//查询
         	vm.search=function(){
         		var filters = [];
-				filters.push({field:'isComplete',operator:'eq',value:false});//默认条件--没有完成的任务 
 				if(vm.search.title !=null && vm.search.title !=''){//查询条件--标题
 	     			   filters.push({field:'title',operator:'contains',value:vm.search.title});
 	     		   }
@@ -245,15 +232,17 @@
         		location.reload();
         	};
         	
-        	
         	taskSvc.complete_shenPiGird(vm);
         }
+        
     	function init_handle(){
-    	   vm.processState_qianShou=common.basicDataConfig().processState_qianShou;
-    	   vm.processState_tuiWen=common.basicDataConfig().processState_tuiWen;
+    		
+    		taskSvc.getShenBaoInfoById(vm);//查询申报信息
+    	    vm.processState_qianShou=common.basicDataConfig().processState_qianShou;
+    	    vm.processState_tuiWen=common.basicDataConfig().processState_tuiWen;
 
-    	   taskSvc.getTaskById(vm);//查询任务信息
-    	   //taskSvc.getDept(vm);
+    	    taskSvc.getTaskById(vm);//查询任务信息
+    	    //taskSvc.getDept(vm);
     	  
     	   if(vm.taskType == common.basicDataConfig().taskType_monthReport){//如果为月报
     		   vm.isMonthReport = true;
@@ -269,7 +258,6 @@
     		   }else if(vm.taskType == common.basicDataConfig().taskType_CBSJYGS){//初步概算与概算
     			   vm.isCBSJYGS = true;
     		   }
-    		   taskSvc.getShenBaoInfoById(vm);//查询申报信息
     	   }
     		   
     	   vm.dialog_shenbaoInfo=function(){
