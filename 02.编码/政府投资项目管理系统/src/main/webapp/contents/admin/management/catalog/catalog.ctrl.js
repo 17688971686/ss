@@ -101,6 +101,22 @@
                 var isSelected = $(this).is(':checked');
                 $('.constructionTypeGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
             });
+        	//全选框选择--鼓励类
+        	$(document).on('click', '#checkboxAll_policyCatalog', function () {
+                var isSelected = $(this).is(':checked');
+                $('.policyCatalogEncourageGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
+            });
+        	//全选框选择--允许类
+        	$(document).on('click', '#checkboxAll_policyAllow', function () {
+                var isSelected = $(this).is(':checked');
+                $('.policyCatalogAllowGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
+            });
+        	//全选框选择--限制类
+        	$(document).on('click', '#checkboxAll_policyLimit', function () {
+                var isSelected = $(this).is(':checked');
+                $('.policyCatalogLimitGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
+            });
+        	
     		vm.alert=function(str){
     			vm.type= str;
     		};
@@ -215,7 +231,7 @@
         			msg : '确认要删除此记录吗？',
         			fn : function(){
         				$('.confirmDialog').modal('hide');
-        				catalogSvc.deleteAgencyServiceMattersCatalog(vm,id);
+        				catalogSvc.deleteAgencyServiceMattersCatalogs(vm,id);
         			}
         		});
         	};
@@ -295,7 +311,7 @@
             		msg:"确认要删除此记录吗？",
             		fn : function(){
             			$('.confirmDialog').modal('hide');
-            			catalogSvc.deletePartApprovalMatters(vm,id);
+            			catalogSvc.deletePartApprovalMattersCatalogs(vm,id);
             		}
         		});
         	};
@@ -384,7 +400,7 @@
             		msg:"确认要删除此记录吗？",
             		fn : function(){
             			$('.confirmDialog').modal('hide');
-            			catalogSvc.deletePolicyCatalog(vm,id);
+            			catalogSvc.deletePolicyCatalogs(vm,id);
             		}
             	});
         	};
@@ -463,7 +479,7 @@
             		msg:"确认要删除此记录吗？",
             		fn : function(){
             			$('.confirmDialog').modal('hide');
-            			catalogSvc.deleteSecondaryCatalog(vm,id);
+            			catalogSvc.removeSecondCatalogs(vm,id);
             		}
             	});
         	};
@@ -543,7 +559,7 @@
             		msg:"确认要删除此记录吗？",
             		fn : function(){
             			$('.confirmDialog').modal('hide');
-            			catalogSvc.deleteCatalog(vm,id);
+            			catalogSvc.removeFirstCatalogs(vm,id);
             		}
             	});
         	};

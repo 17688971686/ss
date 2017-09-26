@@ -15,34 +15,29 @@
 				getCatalogById : getCatalogById,//根据id获取，投资项目信息
 				updateCatalog : updateCatalog,//更新投资项目信息
 				grid_InvestmentProjectSecondary : grid_InvestmentProjectSecondary,//获取投资项目次级目录列表
-				deleteSecondaryCatalog : deleteSecondaryCatalog,//投资项目删除次级目录
 				createSecondCatalog : createSecondCatalog,//创建投资项目次级目录
 				changeSecondCatalog : changeSecondCatalog,//更改投资项目次级目录信息
 				getSecondCatalogById : getSecondCatalogById,//根据投资项目二级目录id获取二级目录信息
 				grid_projectType : grid_projectType,//投资项目类型信息列表
 				grid_constructionType : grid_constructionType,//投资项目建设类型列表
 				removeSecondCatalogs : removeSecondCatalogs,//批量删除投资项目次级目录
-				deleteCatalog : deleteCatalog,//投资项目删除主目录
 				removeFirstCatalogs : removeFirstCatalogs,//投资项目批量删除主目录
 				grid_policyCatalog : grid_policyCatalog,//政策目录类型列表(鼓励类)
 				grid_policyAllow : grid_policyAllow,//政策目录类型列表(允许类)
 				grid_policyLimit : grid_policyLimit,//政策目录类型列表(限制类)
 				createPolicyCatalog : createPolicyCatalog,//创建政策目录
 				getPolicyCatalogById : getPolicyCatalogById,//根据政策目录id获取信息
-				deletePolicyCatalog : deletePolicyCatalog,//根据政策条目id删除记录
 				deletePolicyCatalogs : deletePolicyCatalogs,//批量删除政策条目信息
 				updatePolicyCatalog : updatePolicyCatalog,//更新政策条目数据
 				grid_partApprovalMatters : grid_partApprovalMatters,//获取部门审批事项目录列表
 				createPartApprovalMatters : createPartApprovalMatters,//创建部门审批事项
 				getpartApprovalMattersById : getpartApprovalMattersById,//根据id获取部门审批事项信息
 				updatePartApprovalMatters : updatePartApprovalMatters,//更新部门审批事项
-				deletePartApprovalMatters : deletePartApprovalMatters,//删除部门审批事项
 				deletePartApprovalMattersCatalogs : deletePartApprovalMattersCatalogs,//批量删除部门审批事项
 				grid_agencyServiceMatters : grid_agencyServiceMatters,//获取中介服务事项列表
 				createAgencyServiceMatters : createAgencyServiceMatters,//创建中介服务事项
 				getAgencyServiceMattersById : getAgencyServiceMattersById,//根据id获取中介服务事项
 				updateAgencyServiceMatters : updateAgencyServiceMatters,//更新中介服务事项
-				deleteAgencyServiceMattersCatalog : deleteAgencyServiceMattersCatalog,//删除中介服务事项
 				deleteAgencyServiceMattersCatalogs : deleteAgencyServiceMattersCatalogs//批量删除中介服务事项
 				
 		};
@@ -80,36 +75,6 @@
 			});
 			
 		}//end fun deleteAgencyServiceMattersCatalogs
-		
-		//删除中介服务事项
-		function deleteAgencyServiceMattersCatalog(vm,id){
-			var httpOptions = {
-					method : 'put',
-					url : common.format(url_catalog+"/deleteAgencyServiceMatters?id={0}",id)
-			};
-			var httpSuccess = function(response){
-				common.requestSuccess({
-					vm : vm,
-					response : response,
-					fn : function(){
-						common.alert({
-							vm : vm,
-							msg : '删除成功！',
-							fn : function(){
-								$('.alertDialog').modal('hide');
-								vm.agencyServiceMattersGrid.dataSource.read();
-							}
-						});
-					}
-				});
-			};
-			common.http({
-				vm : vm,
-				$http : $http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});
-		}//end fun deleteAgencyServiceMattersCatalog
 		
 		//更新中介服务事项
 		function updateAgencyServiceMatters(vm){
@@ -290,37 +255,6 @@
 			
 		}//end fun deletePartApprovalMattersCatalogs
 		
-		//删除部门审批事项
-		function deletePartApprovalMatters(vm,id){
-			var httpOptions = {
-					method : 'put',
-					url : common.format(url_catalog+"/deletePartApprovalMatters?id={0}",id)
-			};
-			var httpSuccess = function(response){
-				common.requestSuccess({
-					vm : vm,
-					response : response,
-					fn : function(){
-						common.alert({
-							vm : vm,
-							msg : '删除成功！',
-							fn : function(){
-								$('.alertDialog').modal('hide');
-								vm.partApprovalMattersGrid.dataSource.read();
-							}
-						});
-					}
-				});
-			};
-			
-			common.http({
-				vm : vm,
-				$http : $http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});
-			
-		}//end fun deletePartApprovalMatters
 		//更新部门审批事项
 		function updatePartApprovalMatters(vm){
 			var httpOptions = {
@@ -537,44 +471,6 @@
 			});
 		}//end fun deletePolicyCatalogs
 		
-		//根据政策项目次级条目id删除记录
-		function deletePolicyCatalog(vm,id){
-			var httpOptions = {
-					method : 'put',
-					url : common.format(url_catalog+"/deletePolicyCatalog?id={0}", id)
-			};
-			var httpSuccess = function (response){
-				common.requestSuccess({
-					vm : vm,
-					response : response,
-					fn : function(){
-						common.alert({
-							vm : vm,
-							msg : "操作成功",
-							fn : function() {
-								$('.alertDialog').modal('hide');
-								if(vm.type == 'encourage'){
-									vm.policyCatalogGrid.dataSource.read();
-								}
-								if(vm.type == 'allow'){
-									vm.policyCatalogGrid_allow.dataSource.read();
-								}
-								if(vm.type == 'limit'){
-									vm.policyCatalogGrid_limit.dataSource.read();
-								}
-							}
-						});
-					}
-				});
-			};
-			common.http({
-				vm : vm,
-				$http : $http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});
-		}//end fun deleteolicyCatalog
-		
 		//根据政策目录id获取信息
 		function getPolicyCatalogById(vm){
 			var httpOptions = {
@@ -676,7 +572,7 @@
 					},
 					filterable : false,
 					width : 40,
-					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+					title : "<input id='checkboxAll_policyCatalog' type='checkbox'  class='checkbox'/>"
 
 				},
 				{
@@ -744,7 +640,7 @@
 					},
 					filterable : false,
 					width : 40,
-					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+					title : "<input id='checkboxAll_policyAllow' type='checkbox'  class='checkbox'/>"
 
 				},
 				{
@@ -812,7 +708,7 @@
 					},
 					filterable : false,
 					width : 40,
-					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+					title : "<input id='checkboxAll_policyLimit' type='checkbox'  class='checkbox'/>"
 
 				},
 				{
@@ -859,41 +755,6 @@
 					vm : vm,
 					response : response,
 					fn : function(){
-						$('.alertDialog').modal('hide');
-						$('.modal-backdrop').remove();
-						if(vm.type == 'projectIndustry'){
-							vm.investmentProjectGrid.dataSource.read();
-						}
-						if(vm.type == 'projectType'){
-							vm.projectTypeGrid.dataSource.read();
-						}
-						if(vm.type == 'constructionType'){
-							vm.constructionTypeGrid.dataSource.read();
-						}
-					}
-				});
-			};
-			common.http({
-				vm : vm,
-				$http : $http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});
-		
-			
-		}
-		
-		//删除主目录
-		function deleteCatalog(vm,id){
-			var httpOptions = {
-					method : 'put',
-					url : common.format(url_catalog+"/delete?id={0}", id)
-			};
-			var httpSuccess = function (response){
-				common.requestSuccess({
-					vm : vm,
-					response : response,
-					fn : function(){
 						common.alert({
 							vm : vm,
 							msg : "操作成功",
@@ -920,8 +781,9 @@
 				httpOptions : httpOptions,
 				success : httpSuccess
 			});
-		}
 		
+			
+		}//end fun removeFirstCatalogs
 		
 		//批量删除次级目录
 		function removeSecondCatalogs(vm,id){
@@ -935,7 +797,15 @@
 					vm : vm,
 					response : response,
 					fn : function(){
-						vm.investmentProjectSecondaryGrid.dataSource.read();
+						common.alert({
+							vm : vm,
+							msg : "操作成功",
+							fn : function() {
+								$('.alertDialog').modal('hide');
+								$('.modal-backdrop').remove();
+								vm.investmentProjectSecondaryGrid.dataSource.read();
+							}
+						});
 					}
 				});
 			};
@@ -1123,36 +993,6 @@
 				success : httpSuccess
 			});
 		}//end fun changeSecondCatalog
-		
-		//删除次级目录
-		function deleteSecondaryCatalog(vm,id){
-			var httpOptions = {
-					method : 'put',
-					url : common.format(url_catalog+"/delete?id={0}", id)
-			};
-			var httpSuccess = function (response){
-				common.requestSuccess({
-					vm : vm,
-					response : response,
-					fn : function(){
-						common.alert({
-							vm : vm,
-							msg : "操作成功",
-							fn : function() {
-								$('.alertDialog').modal('hide');
-								vm.investmentProjectSecondaryGrid.dataSource.read();
-							}
-						});
-					}
-				});
-			};
-			common.http({
-				vm : vm,
-				$http : $http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});
-		}//end fun deleteSecondaryCatalog
 		
 		//获得次级目录信息
 		function grid_InvestmentProjectSecondary(vm){

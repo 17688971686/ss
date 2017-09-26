@@ -34,8 +34,9 @@
 		//根据id 删除项目异常信息
 		function deleteProjectAnomalyById(vm){
 			var httpOptions = {
-					method : 'put',
-					url : common.format(url_creditInfo+"/projectAnomaly/delete?id={0}", vm.id)
+					method : 'delete',
+					url : common.format(url_creditInfo+"/projectAnomaly/delete"),
+					data : vm.id
 			};
 			var httpSuccess = function (response){
 				common.requestSuccess({
@@ -59,7 +60,7 @@
 				httpOptions : httpOptions,
 				success : httpSuccess
 			});
-		}
+		}//end fun deleteProjectAnomalyById
 		
 		//根据id更新项目异常信息
 		function updateProjectAnomalyById(vm){
@@ -265,8 +266,9 @@
 		//根据黑名单id 删除黑名单信息
 		function deleteBlackListById(vm){
 			var httpOptions = {
-					method : 'put',
-					url : common.format(url_creditInfo+"/blackList/delete?id={0}", vm.id)
+					method : 'delete',
+					url : common.format(url_creditInfo+"/blackList/delete"),
+					data : vm.id
 			};
 			var httpSuccess = function (response){
 				common.requestSuccess({
@@ -292,7 +294,7 @@
 			});
 		
 			
-		}
+		}//end fun deleteBlackListById
 		
 		//根据黑名单id 更新黑名单信息
 		function updateBlackListById(vm){
@@ -556,8 +558,9 @@
 		
 		function deleteIllegalNameById(vm){
 			var httpOptions = {
-					method : 'put',
-					url : common.format(url_creditInfo+"/delete?id={0}", vm.id)
+					method : 'delete',
+					url : common.format(url_creditInfo),
+					data : vm.id
 			};
 			var httpSuccess = function (response){
 				common.requestSuccess({
@@ -581,7 +584,7 @@
 				httpOptions : httpOptions,
 				success : httpSuccess
 			});
-		}
+		}//end fun deleteIllegalNameById
 		
 		//根据id更新项目异常名录信息
 		function updateIllegalNameById(vm){
