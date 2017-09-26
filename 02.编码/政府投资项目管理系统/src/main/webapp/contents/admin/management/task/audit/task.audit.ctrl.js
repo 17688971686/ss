@@ -71,7 +71,7 @@
 	   				.toArray(); //行政区划街道
    	   		vm.basicData.userUnit=common.getUserUnits();//获取所有单位
    	   		vm.basicData.taskType=common.getBacicDataByIndectity(common.basicDataConfig().taskType);//任务类型
-    	};
+    	}
     	   	
     	activate();
         function activate() {        	
@@ -82,7 +82,7 @@
         	if(vm.page=='handleAudit'){
         		init_handleAudit();
         	}
-        };
+        }
         
         function init_todoAuditList(){
         	taskAuditSvc.grid(vm);
@@ -106,7 +106,7 @@
         	vm.filterClear=function(){
         		location.reload();
         	};
-        };//end init_todoList
+        }//end init_todoList
         
         function init_handleAudit(){
         	//查询任务信息
@@ -219,7 +219,7 @@
 							vm.proxy.datumDtos.splice(i,1);
 						}
 					}
-        	}
+        	};
         	
         	//增加评审资料
         	vm.saveDatum=function(id){
@@ -261,7 +261,7 @@
 							vm.processRole =  vm.model.depts[i].userDtos[j].displayName;
 						}
 					}
-				};
+				}
         		
         		vm.beginDate = common.formatDate(new Date());
         		
@@ -280,7 +280,7 @@
 							vm.processRole =  vm.model.depts[i].userDtos[j].displayName;
 						}
 					}
-				};
+				}
         		
         		vm.approvalType = vm.model.shenBaoInfo.projectShenBaoStage;
         		vm.beginDate = common.formatDate(new Date());
@@ -318,7 +318,7 @@
 						vm.userNameAndUnit =  vm.model.depts[i].name +'、'+ vm.model.depts[i].userDtos[j].displayName;
 						}
 					}
-				};
+				}
         		$('.draft_issued').modal({
                     backdrop: 'static',
                     keyboard:true
@@ -673,7 +673,7 @@
     				vm.taskAudit.processState = "processState_23";
     				vm.taskAudit.nextProcess = "";
     			}
-    		};
+    		}
         	
         	//送出
         	vm.handle = function(){
@@ -710,7 +710,7 @@
 	    				vm.taskAudit.nextUser = "";
 	        		}else if(vm.nextProcessRadio == "jingBanRenBanli"){//经办人办理--正常流程
 	        			if(vm.taskAudit.processState != "processState_3"){
-	        				vm.taskAudit.processState = "processState_3"
+	        				vm.taskAudit.processState = "processState_3";
 	        			}
 	        			setNextProcess(vm);//设置当前流程状态&&下一流程状态
 	        			vm.taskAudit.processRole ="";
@@ -759,10 +759,10 @@
 	        			vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadioOfYW == "fawen" && vm.nextProcessRadio == "kezhangshenhe"){//经办人发文拟稿
 	        			if(vm.taskAudit.processState == "processState_4"){//第三步发文
-	        				vm.taskAudit.processState = "processState_5"
+	        				vm.taskAudit.processState = "processState_5";
 	        			}
 	        			if(vm.taskAudit.processState == "processState_10"){//第三步发文
-	        				vm.taskAudit.processState = "processState_17"
+	        				vm.taskAudit.processState = "processState_17";
 	        			}
 	    				vm.taskAudit.nextProcess = "processState_18";
 	    				vm.taskAudit.processRole ="";
@@ -812,7 +812,7 @@
         				return vm.model.roles[i].id;
         			}
 				}
-        	};
+        	}
 
         	//弹出申报详情模态框
         	vm.dialog_shenbaoInfo=function(){

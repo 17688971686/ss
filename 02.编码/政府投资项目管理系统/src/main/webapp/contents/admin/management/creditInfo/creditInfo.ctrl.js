@@ -7,7 +7,7 @@
 
     creditInfo.$inject = ['$location','creditInfoSvc','$state','$scope','$sce']; 
 
-    function creditInfo($location, creditInfoSvc,$state,$scope,$sce) {
+    function creditInfo($location,creditInfoSvc,$state,$scope,$sce) {
         var vm = this;
         vm.title = "异常项目申报单位列表";
         vm.model={};
@@ -24,7 +24,7 @@
         vm.createdDate = $state.params.createdDate;
         vm.shenBaoInfoId = $state.params.shenBaoInfoId;
         
-        vm.init=function(){
+        function init(){
         	if($state.current.name=='credit_illegalNameList'){
         		vm.page = 'illegalNameList';
         	}
@@ -32,7 +32,7 @@
         		vm.page = 'addIllegalName';
         	}
         	if($state.current.name=='credit_updateIllegalName'){
-        		vm.page='updateIllegalNameEdit'
+        		vm.page='updateIllegalNameEdit';
         	}
         	if($state.current.name=='credit_illegalNameDetails'){
         		vm.page='illegalNameDetails';
@@ -50,23 +50,23 @@
         		vm.page = 'blackListDetails';
         	}
         	if($state.current.name=='credit_blackListAlter'){
-        		vm.title = '黑名单项目申报单位信息更改'
+        		vm.title = '黑名单项目申报单位信息更改';
         		vm.page = 'blackListAlter';
         	}
         	if($state.current.name=='credit_projectAnomaly'){
-        		vm.title = '项目异常列表'
+        		vm.title = '项目异常列表';
         		vm.page = 'projectAnomaly';
         	}
         	if($state.current.name=='credit_projectAnomalyEdit'){
-        		vm.title = '项目异常信息录入'
+        		vm.title = '项目异常信息录入';
         		vm.page = 'projectAnomalyEdit';
         	}
         	if($state.current.name=='credit_projectAnomalyDetails'){
-        		vm.title = '项目异常信息详情'
+        		vm.title = '项目异常信息详情';
         		vm.page = 'projectAnomalyDetails';
         	}
         	if($state.current.name=='credit_updateProjectAnomaly'){
-        		vm.title = '项目异常信息修改'
+        		vm.title = '项目异常信息修改';
         		vm.page = 'updateProjectAnomaly';
         	}
         	
@@ -91,11 +91,11 @@
            	};
         	
         	vm.basicData.userUnit = common.getUserUnits();
-        };
+        }
         
         activate();
         function activate() {        	
-        	vm.init();
+        	init();
         	if(vm.page == 'illegalNameList'){
         		page_illegalNameList();
         	}
@@ -118,20 +118,20 @@
         	if(vm.page == 'blackListDetails'){
         		page_blackListDetails();
         	}
-        	if(vm.page = 'blackListAlter'){
+        	if(vm.page == 'blackListAlter'){
         		vm.isBlackListEdit = true;
         		page_blackListAlter();
         	}
-        	if(vm.page = 'projectAnomaly'){
+        	if(vm.page == 'projectAnomaly'){
         		page_projectAnomaly();
         	}
-        	if(vm.page = 'projectAnomalyEdit'){
+        	if(vm.page == 'projectAnomalyEdit'){
         		page_projectAnomalyEdit();
         	}
-        	if(vm.page = 'projectAnomalyDetails'){
+        	if(vm.page == 'projectAnomalyDetails'){
         		page_projectAnomalyDetails();
         	}
-        	if(vm.page = 'updateProjectAnomaly'){
+        	if(vm.page == 'updateProjectAnomaly'){
         		page_updateProjectAnomaly();
         	}
         	
@@ -158,7 +158,7 @@
         }
         
         vm.returnProjectAnomalyPage = function(){
-        	location.href = "#/creditInfo/projectAnomalyList"
+        	location.href = "#/creditInfo/projectAnomalyList";
         };
         
         //项目异常 录入页面
@@ -212,7 +212,7 @@
     					return;
     				} else {
     					var selectValue = selectId[0].value;
-    					var str = selectValue.split(",")
+    					var str = selectValue.split(",");
     					var projectNumber = str[0];
     					var projectName = str[1];
     					var unitName = str[2];
@@ -331,7 +331,7 @@
             			return;
             		} else {
             			var selectValue = selectId[0].value;
-            			var str = selectValue.split(",")
+            			var str = selectValue.split(",");
             			var projectNumber = str[0];
             			var projectName = str[1];
             			var unitName = str[2];
@@ -377,7 +377,7 @@
         
         function page_illegalNameList(){
         	//获取异常项目名列表
-        	creditInfoSvc.illegalNameGrid(vm)
+        	creditInfoSvc.illegalNameGrid(vm);
         	//条件查询
      	    vm.searchIllegalName=function(){
         		vm.illegalNameModel.shenbaoDate = vm.toDate(vm.illegalNameModel.shenbaoDate);
@@ -409,7 +409,7 @@
     					return;
     				} else {
     					var selectValue = selectId[0].value;
-    					var str = selectValue.split(",")
+    					var str = selectValue.split(",");
     					var projectNumber = str[0];
     					var projectName = str[1];
     					var unitName = str[2];

@@ -93,7 +93,7 @@
 					success:httpSuccess
 				});
 	   		}
-		};
+		}
 		
 		//查询评审结果
 		function getReviewResult(vm){
@@ -126,7 +126,7 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		};
+		}
 		
 		function saveProxy(vm){
 			vm.proxy.approvalType = vm.approvalType;
@@ -170,8 +170,8 @@
 					httpOptions:httpOptions,
 					success:httpSuccess
 				});
-	   		};
-		};
+	   		}
+		}
 		
 		//查询审批委托书
 		function getComission(vm){
@@ -198,7 +198,7 @@
 									vm.proxy.processRole =  vm.model.depts[i].userDtos[j].displayName;
 								}
 							}
-						};
+						}
 					}
 				});
 			};
@@ -209,7 +209,7 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		};
+		}
 		
 		
 		//查询审批单
@@ -236,7 +236,7 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		};
+		}
 		
 		//保存审批单
 		function saveApproval(vm){
@@ -277,8 +277,8 @@
 					httpOptions:httpOptions,
 					success:httpSuccess
 				});
-	   		};
-		};
+	   		}
+		}
 		
 		//拟稿意见
 		function saveDraft(vm){
@@ -320,8 +320,8 @@
 					httpOptions:httpOptions,
 					success:httpSuccess
 				});
-	   		};
-		};
+	   		}
+		}
 		
 		function getDraftIssued(vm){
 			var httpOptions = {
@@ -346,7 +346,7 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		};
+		}
 		
 		//编辑意见
 		function editOpin(vm){
@@ -396,7 +396,7 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-        };// end fun deleteorg	
+        }// end fun deleteorg	
 
 		/**
 		 * 查询意见
@@ -417,7 +417,7 @@
 				httpOptions : httpOptions,
 				success : httpSuccess
 			});
-		};
+		}
 		
 		/**
 		 * 保存意见
@@ -453,7 +453,7 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		};
+		}
 		
 		/**
 		 * 查询角色信息

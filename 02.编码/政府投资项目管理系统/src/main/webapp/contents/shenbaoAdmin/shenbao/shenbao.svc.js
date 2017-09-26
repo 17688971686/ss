@@ -24,8 +24,7 @@
 			deleteShenBaoInfo:deleteShenBaoInfo,//删除申报信息
 			documentRecordsGird:documentRecordsGird,//批复文件列表
 			getShenBaoInfoByProjectId:getShenBaoInfoByProjectId,//根据项目id查询申报信息
-			getShenBaoPortState:getShenBaoPortState,//查询申报端口的状态哦
-			deleteShenBaoInfo:deleteShenBaoInfo//删除申报信息
+			getShenBaoPortState:getShenBaoPortState//查询申报端口的状态哦
 		};		
 		return service;
 		
@@ -33,6 +32,7 @@
 		 * 删除申报信息
 		 */
 		function deleteShenBaoInfo(vm,id){
+			vm.isSubmit=true;
 			var httpOptions = {
 					method : 'delete',
 					url :url_shenbao,
@@ -48,6 +48,7 @@
 							vm : vm,
 							msg : "删除成功",
 							fn : function() {
+								vm.isSubmit=false;
 								$('.alertDialog').modal('hide');
 								$(".modal-backdrop").remove();
 								if(vm.isRecordsDelete){
@@ -453,15 +454,18 @@
 			  		 
 			  		//下下年度申请资金
 			  		vm.lastTwoYearCapitalTotal = function(){
-			  			return vm.model.applyYearInvest_LastTwoYear=common.getSum([vm.model.capitalSCZ_ggys_LastTwoYear||0,vm.model.capitalSCZ_gtzj_LastTwoYear||0]);
+			  			vm.model.applyYearInvest_LastTwoYear=common.getSum([vm.model.capitalSCZ_ggys_LastTwoYear||0,vm.model.capitalSCZ_gtzj_LastTwoYear||0]);
+			  			return vm.model.applyYearInvest_LastTwoYear;
 			  		};
 			  		//下年度申请资金
 			  		vm.lastYearCapitalTotal= function(){
-			  			return vm.model.applyYearInvest_LastYear=common.getSum([vm.model.capitalSCZ_ggys_LastYear||0,vm.model.capitalSCZ_gtzj_LastYear||0]);
+			  			vm.model.applyYearInvest_LastYear=common.getSum([vm.model.capitalSCZ_ggys_LastYear||0,vm.model.capitalSCZ_gtzj_LastYear||0]);
+			  			return vm.model.applyYearInvest_LastYear;
 			  		};
 			  		//本年度申请资金
 			  		vm.theYearCapitalTotal= function(){
-			  			return vm.model.applyYearInvest=common.getSum([vm.model.capitalSCZ_ggys_TheYear||0,vm.model.capitalSCZ_gtzj_TheYear||0]);
+			  			vm.model.applyYearInvest=common.getSum([vm.model.capitalSCZ_ggys_TheYear||0,vm.model.capitalSCZ_gtzj_TheYear||0]);
+			  			return vm.model.applyYearInvest;
 			  		};
 				  		 
 						if(vm.page=='record'){//如果為申報詳情頁面
@@ -571,39 +575,6 @@
 		}
 		
 		/**
-		 * 删除申报信息
-		 */
-		function deleteShenBaoInfo(vm,id){
-			vm.isSubmit = true;
-			var httpOptions = {
-					method : 'delete',
-					url : url_shenbao,
-					data : id
-				};
-
-				var httpSuccess = function success(response) {
-					common.requestSuccess({
-						vm : vm,
-						response : response,
-						fn : function() {
-							alert("操作成功！");
-							vm.isSubmit = false;
-							vm.gridOptions_shenBaoRecords.dataSource.read();
-						}
-
-					});
-				};
-
-				common.http({
-					vm : vm,
-					$http : $http,
-					httpOptions : httpOptions,
-					success : httpSuccess
-				});
-
-		}
-		
-		/**
 		 *获取项目单位信息 
 		 */
 		function getProjectUnit(vm){
@@ -706,15 +677,18 @@
 			  		 };
 			  		 //下下年度申请资金
 			  		vm.lastTwoYearCapitalTotal = function(){
-			  			return vm.model.applyYearInvest_LastTwoYear=common.getSum([vm.model.capitalSCZ_ggys_LastTwoYear||0,vm.model.capitalSCZ_gtzj_LastTwoYear||0]);
+			  			vm.model.applyYearInvest_LastTwoYear=common.getSum([vm.model.capitalSCZ_ggys_LastTwoYear||0,vm.model.capitalSCZ_gtzj_LastTwoYear||0]);
+			  			return vm.model.applyYearInvest_LastTwoYear;
 			  		};
 			  		//下年度申请资金
 			  		vm.lastYearCapitalTotal= function(){
-			  			return vm.model.applyYearInvest_LastYear=common.getSum([vm.model.capitalSCZ_ggys_LastYear||0,vm.model.capitalSCZ_gtzj_LastYear||0]);
+			  			vm.model.applyYearInvest_LastYear=common.getSum([vm.model.capitalSCZ_ggys_LastYear||0,vm.model.capitalSCZ_gtzj_LastYear||0]);
+			  			return vm.model.applyYearInvest_LastYear;
 			  		};
 			  		//本年度申请资金
 			  		vm.theYearCapitalTotal= function(){
-			  			return vm.model.applyYearInvest=common.getSum([vm.model.capitalSCZ_ggys_TheYear||0,vm.model.capitalSCZ_gtzj_TheYear||0]);
+			  			vm.model.applyYearInvest=common.getSum([vm.model.capitalSCZ_ggys_TheYear||0,vm.model.capitalSCZ_gtzj_TheYear||0]);
+			  			return vm.model.applyYearInvest;
 			  		};
 			  		//基础数据--行业归口
 			  		  if(vm.model.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资			 			  
@@ -727,7 +701,7 @@
 					vm.model.projectId = vm.model.id;//申报信息中的字段数据录入
 					//初始化申报年份（三年滚动）
 					var date = new Date();
-					vm.planYear = vm.model.planYear = parseInt(date.getFullYear()+1);
+					vm.planYear = vm.model.planYear = parseInt(date.getFullYear()+1,10);
 				}
 				vm.model.projectShenBaoStage = vm.stage;//申报信息中的字段数据录入	
 			};
@@ -804,7 +778,7 @@
 					filterable : true,
 					headerAttributes: {
 				      "class": "table-header-cell",
-				      style: "text-align: center;vertical-align: middle;",
+				      style: "text-align: center;vertical-align: middle;"
 				    }
 				},
 				{
@@ -1037,7 +1011,7 @@
 						      "class": "table-header-cell",
 						       style: "text-align: center;vertical-align: middle;"
 						    }
-						},
+						}
 					],
 					headerAttributes: {
 				      "class": "table-header-cell",
