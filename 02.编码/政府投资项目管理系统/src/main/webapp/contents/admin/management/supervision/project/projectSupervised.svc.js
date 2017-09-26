@@ -24,7 +24,7 @@
 			getShenPiUnitById:getShenPiUnitById,
 			updateShenpiUnit:updateShenpiUnit,
 			createShenpiUnit:createShenpiUnit,
-			delShenPiUnit,delShenPiUnit,
+			delShenPiUnit:delShenPiUnit,
 			shenpiItemsGrid:shenpiItemsGrid,
 			getShenPiItemsById:getShenPiItemsById,
 			projectGrid:projectGrid,
@@ -1042,7 +1042,7 @@
 			// End:column
 			var dataBound= function(e) {
 				    console.log(e);
-				  }
+				  };
 			vm.gridOptions = {
 				dataSource : common.gridDataSource(dataSource),
 				filterable : common.kendoGridConfig().filterable,
@@ -1151,7 +1151,7 @@
 			// End:column
 			var dataBound= function(e) {
 				    console.log(e);
-				  }
+				  };
 			vm.gridOptions = {
 				dataSource : common.gridDataSource(dataSource),
 				filterable : common.kendoGridConfig().filterable,

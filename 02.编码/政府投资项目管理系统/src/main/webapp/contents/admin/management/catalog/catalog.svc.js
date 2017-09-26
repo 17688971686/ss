@@ -572,7 +572,7 @@
 					},
 					filterable : false,
 					width : 40,
-					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+					title : "<input id='checkboxAll_policyCatalog' type='checkbox'  class='checkbox'/>"
 
 				},
 				{
@@ -640,7 +640,7 @@
 					},
 					filterable : false,
 					width : 40,
-					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+					title : "<input id='checkboxAll_policyAllow' type='checkbox'  class='checkbox'/>"
 
 				},
 				{
@@ -708,7 +708,7 @@
 					},
 					filterable : false,
 					width : 40,
-					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+					title : "<input id='checkboxAll_policyLimit' type='checkbox'  class='checkbox'/>"
 
 				},
 				{

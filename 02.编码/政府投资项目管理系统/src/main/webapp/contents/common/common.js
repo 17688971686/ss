@@ -37,7 +37,7 @@
         getUnitName:getUnitName,//获取单位名称
         getSum:getSum,//求和
         repSign:repSign,//将英文类型的标点符号转换为中文的标点符号
-        getLoginUser,getLoginUser,
+        getLoginUser:getLoginUser,
         getRoles:getRoles,//获取所有的角色
         getRoleName:getRoleName//获取角色名称
 
@@ -716,20 +716,6 @@
     		 tmp += String.fromCharCode((c>0 && c<0x80) ? (c+0xfee0) : c);
     	  }
     	  return tmp;
-    }
-    
-    function getRoles(){
-    	if(window.global_manageUser){ 
-    		return window.global_roles;
-    	}
-    	$.ajax({
-    		url:'/common/roles',
-    		async:false,
-    		success:function(response){
-    			window.global_roles=response;    			
-    		}
-    	});
-    	return window.global_roles;
     }
     
     //init

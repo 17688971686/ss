@@ -154,7 +154,7 @@
 				//如果是编辑页面并且为社会投资项目，则项目行业需要进行处理进行显示
 				if(vm.page=='update' && vm.model.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){
 					var child = $linq(common.getBasicData())
-	        		.where(function(x){return x.id==vm.model.projectIndustry})
+	        		.where(function(x){return x.id==vm.model.projectIndustry;})
 	        		.toArray()[0];
 					if(child.pId=="projectIndustry"){
 						vm.model.projectIndustryParent=child.id;

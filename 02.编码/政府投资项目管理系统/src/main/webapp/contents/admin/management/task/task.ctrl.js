@@ -112,8 +112,8 @@
     						return vm.model.depts[i].userDtos[j].displayName;
     					}
     				}
-    			};
-        	}
+    			}
+        	};
         	
         	//相关附件文件上传文件种类
 	   		vm.relatedType=common.uploadFileTypeConfig().reviewResult;
@@ -192,9 +192,7 @@
                  keyboard:false
              });
 	       };
-	       
-	       
-        };
+        }
         
         function init_todoList(){
         	taskSvc.gridForPlan(vm);
@@ -249,7 +247,7 @@
         	
         	
         	taskSvc.complete_shenPiGird(vm);
-        };
+        }
     	function init_handle(){
     	   vm.processState_qianShou=common.basicDataConfig().processState_qianShou;
     	   vm.processState_tuiWen=common.basicDataConfig().processState_tuiWen;

@@ -101,9 +101,25 @@
                 var isSelected = $(this).is(':checked');
                 $('.constructionTypeGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
             });
+        	//全选框选择--鼓励类
+        	$(document).on('click', '#checkboxAll_policyCatalog', function () {
+                var isSelected = $(this).is(':checked');
+                $('.policyCatalogEncourageGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
+            });
+        	//全选框选择--允许类
+        	$(document).on('click', '#checkboxAll_policyAllow', function () {
+                var isSelected = $(this).is(':checked');
+                $('.policyCatalogAllowGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
+            });
+        	//全选框选择--限制类
+        	$(document).on('click', '#checkboxAll_policyLimit', function () {
+                var isSelected = $(this).is(':checked');
+                $('.policyCatalogLimitGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
+            });
+        	
     		vm.alert=function(str){
     			vm.type= str;
-    		}
+    		};
     	}
     	
     	activate();
@@ -488,7 +504,7 @@
         
         //投资项目二级新增页
         function page_addSecondCatalog(){
-        	vm.title = '项目行业编辑'
+        	vm.title = '项目行业编辑';
         	vm.projectIndustrySecondCatalog = true;
         	vm.model.type = 'projectIndustry';
         	vm.model.parentId = vm.id;

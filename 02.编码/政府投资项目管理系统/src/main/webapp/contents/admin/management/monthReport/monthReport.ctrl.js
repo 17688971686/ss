@@ -137,7 +137,7 @@
    	   					.toArray();//社会投资项目行业子集
    	   				vm.searchIndustryChild=true;
    	   		   }
-   	   	   }
+   	   	   };
         }
         
         function page_details(){

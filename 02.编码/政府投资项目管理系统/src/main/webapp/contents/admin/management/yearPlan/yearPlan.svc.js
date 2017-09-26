@@ -547,7 +547,7 @@
 		     		vm.model.shenBaoInfo.projectShenBaoStage = vm.stage;//申报阶段
 		    		//初始化申报年份（三年滚动）
 					var date = new Date();
-					vm.planYear = vm.model.shenBaoInfo.planYear = parseInt(date.getFullYear()+1);
+					vm.planYear = vm.model.shenBaoInfo.planYear = parseInt(date.getFullYear()+1,10);
 				}
 				//没有打包类型时默认打包类型为单列项目
 				vm.model.shenBaoInfo.packageType=vm.model.shenBaoInfo.packageType || common.basicDataConfig().packageType_danLie;
@@ -1116,7 +1116,7 @@
 							      "class": "table-header-cell",
 							       style: "text-align: center;vertical-align: middle;"
 							    }
-							},
+							}
 						],
 						headerAttributes: {
 					      "class": "table-header-cell",

@@ -91,15 +91,15 @@
    	   			}
    	   		};
    	   		
-   	   		vm.searchRoleChange=function(){
-   	   			vm.searchUser = false;
-   	   			vm.basicData.users=vm.basicData.users.splice(0,vm.basicData.users.length);
-   	   			if(vm.search.role != ''){
-   	   				vm.search.roleJSON=eval('(' + vm.search.role + ')');//将json字符串转换为json对象
-   					vm.basicData.users=vm.search.roleJSON.userDtos;//获取角色用户
-   	   				vm.searchUser = true;
-   	   			}
-   	   		};
+//   	   		vm.searchRoleChange=function(){
+//   	   			vm.searchUser = false;
+//   	   			vm.basicData.users=vm.basicData.users.splice(0,vm.basicData.users.length);
+//   	   			if(vm.search.role != ''){
+//   	   				vm.search.roleJSON=eval('(' + vm.search.role + ')');//将json字符串转换为json对象
+//   					vm.basicData.users=vm.search.roleJSON.userDtos;//获取角色用户
+//   	   				vm.searchUser = true;
+//   	   			}
+//   	   		};
     	}
     	init();    	
     	activate();
@@ -152,7 +152,7 @@
      			   filters.push({field:'projectCategory',operator:'eq',value:vm.search.projectCategory});
      		   }
      		   if(vm.search.planYear !=null && vm.search.planYear !=''){//查询条件--计划年度
-     			  filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear)});
+     			  filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear,10)});
      		   }
      		   if(vm.search.constructionUnit !=null && vm.search.constructionUnit !=''){//查询条件--建设单位名称
      			  filters.push({field:'constructionUnit',operator:'contains',value:vm.search.constructionUnit});
@@ -304,7 +304,7 @@
         
         //申报年份发生变化时触发
         vm.changeYear = function(){
-  		   vm.planYear = parseInt(vm.model.shenBaoInfo.planYear);
+  		   vm.planYear = parseInt(vm.model.shenBaoInfo.planYear,10);
   	    };
         
         //展示批复文件选择模态框
@@ -541,7 +541,7 @@
     		//添加计划查询绑定回车键按下事件
     		$("#addPlanSearchBtn").keydown(function(){
     			vm.search();
-    		})
+    		});
     		//添加计划筛选
     		vm.search=function(){
     			var filters = [];
@@ -554,7 +554,7 @@
      			   filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
      		   }
      		   if(vm.search.planYear !=null && vm.search.planYear !=''){//查询条件--计划年度
-     			  filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear)});
+     			  filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear,10)});
      		   }
      		   if(vm.search.constructionUnit !=null && vm.search.constructionUnit !=''){//查询条件--建设单位名称
      			  filters.push({field:'constructionUnit',operator:'contains',value:vm.search.constructionUnit});

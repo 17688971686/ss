@@ -75,7 +75,7 @@
 				httpOptions : httpOptions,
 				success : httpSuccess
 			});
-		};
+		}
 		
 		
 		/**

@@ -177,7 +177,7 @@
 				type : 'odata',
 				transport : common.kendoGridConfig().transport(common.format(url_creditInfo+"/projectAnomaly")),
 				schema : common.kendoGridConfig().schema({
-					id : "id",
+					id : "id"
 				}),
 				serverPaging : true,
 				serverSorting : true,
@@ -218,8 +218,7 @@
 					width : 180,
 					template:function(item){
 						return common.getUnitName(item.unitName);
-					},
-					filterable : false
+					}
 				},
 				
 				{
@@ -362,7 +361,7 @@
 				type : 'odata',
 				transport : common.kendoGridConfig().transport(common.format(url_creditInfo+"/blackList")),
 				schema : common.kendoGridConfig().schema({
-					id : "id",
+					id : "id"
 				}),
 				serverPaging : true,
 				serverSorting : true,
@@ -403,8 +402,7 @@
 					width : 180,
 					template:function(item){
 						return common.getUnitName(item.unitName);
-					},
-					filterable : false
+					}
 				},
 				
 				{
@@ -649,7 +647,7 @@
 				type : 'odata',
 				transport : common.kendoGridConfig().transport(url_creditInfo),
 				schema : common.kendoGridConfig().schema({
-					id : "id",
+					id : "id"
 				}),
 				serverPaging : true,
 				serverSorting : true,
@@ -691,8 +689,7 @@
 					width : 180,
 					template:function(item){
 						return common.getUnitName(item.unitName);
-					},
-					filterable : false
+					}
 				},
 				
 				{
@@ -940,8 +937,7 @@
 						return kendo.format("<input type='radio' relId='{0},{1},{2},{3},{4}' id='checkbox' name='checkbox' class='checkbox' ng-click='vm.change()'/>",item.projectNumber,item.projectName,item.unitName,common.formatDateTime(item.createdDate),item.id);
 					},
 					filterable : false,
-					width : 40,
-					
+					width : 40				
 				},
 				{
 					field : "projectNumber",

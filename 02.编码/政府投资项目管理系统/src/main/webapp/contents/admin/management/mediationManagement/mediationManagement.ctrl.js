@@ -49,7 +49,7 @@
  			case "submitReviewEvaluation":
  				vm.page="submitReviewEvaluation"; 
  				
- 			} ;
+ 			}
          	vm.checkLength = function(obj,max,id){
       			 common.checkLength(obj,max,id);
            	};
@@ -102,7 +102,7 @@
         function page_submitReviewEvaluation(){
         	vm.submitReviewEvaluation=function(){
         		 mediationManagementSvc.updateAssistReview(vm);
-        	}
+        	};
         	mediationManagementSvc.getAssistReviewById(vm);
         	vm.basicData.rating=common.getBacicDataByIndectity(common.basicDataConfig().serviceRating);
        	    vm.delFile=function(index,i){
@@ -156,7 +156,7 @@
         function page_serviceEvaluation(){
         	vm.submitServiceEvaluation=function(){
         		 mediationManagementSvc.updateAssistReview(vm);
-        	}
+        	};
         	mediationManagementSvc.getAssistReviewById(vm);
         	vm.basicData.rating=common.getBacicDataByIndectity(common.basicDataConfig().serviceRating);
         	 vm.delFile=function(index,i){
@@ -217,13 +217,13 @@
                      backdrop: 'static',
                      keyboard:false
                  });
-            }
+            };
        	vm.choiceMediationUnit=function(){
       		 $('.myDialog1').modal({
                    backdrop: 'static',
                    keyboard:false
                });
-      	    }
+      	    };
        	mediationManagementSvc.mediationUnitGrid(vm);
        	mediationManagementSvc.projectGrid(vm);
        	//提交选择项目
@@ -236,14 +236,14 @@
                     	
                     });*/
                 } else {
-               	 var strs= new Array(); //定义一数组 
+               	 var strs= []; //定义一数组 
                 	 strs=str.split(","); //字符分割 
                 	 vm.model.projectDto.id=strs[0];
                 	 vm.model.projectDto.projectName=strs[1];
                 	 $('.myDialog').modal('hide');
                 }
            
-         }
+         };
        	 //提交选择专家
        	vm.choiceAssistReviewSubmit=function(){
         	   if(vm.model.mediationUnitDtos.length>0){
@@ -258,18 +258,18 @@
                        }
                    );
         	   
-           }
+           };
        	 //移除选择项目
            vm.removeProject=function(){
             	 vm.model.projectDto={};            
-                 } 
+                 };
        	//移除选择专家
        	 vm.removeMediationUnit=function(i){
           	 vm.model.mediationUnitDtos.splice(i,1);
-           } 
+           };
        	vm.createAssistReview=function(){
        		mediationManagementSvc.createAssistReview(vm);
-       	}
+       	};
         }
         
         function page_assistReviewUpdate(){
@@ -279,13 +279,13 @@
                       backdrop: 'static',
                       keyboard:false
                   });
-             }
+             };
         	vm.choiceMediationUnit=function(){
        		 $('.myDialog1').modal({
                     backdrop: 'static',
                     keyboard:false
                 });
-       	    }
+       	    };
         	mediationManagementSvc.mediationUnitGrid(vm);
         	mediationManagementSvc.projectGrid(vm);
         	//提交选择项目
@@ -298,14 +298,14 @@
                      	
                      });*/
                  } else {
-                	 var strs= new Array(); //定义一数组 
+                	 var strs= []; //定义一数组 
                  	 strs=str.split(","); //字符分割 
                  	 vm.model.projectDto.id=strs[0];
                  	 vm.model.projectDto.projectName=strs[1];
                  	 $('.myDialog').modal('hide');
                  }
             
-          }
+          };
         	 //提交选择专家
         	vm.choiceAssistReviewSubmit=function(){
          	   if(vm.model.mediationUnitDtos.length>0){
@@ -320,18 +320,18 @@
                         }
                     );
          	   
-            }
+            };
         	 //移除选择项目
             vm.removeProject=function(){
              	 vm.model.projectDto={};            
-                  } 
+                  }; 
         	//移除选择专家
         	 vm.removeMediationUnit=function(i){
-           	 vm.model.mediationUnitDtos.splice(i,1);
-            } 
+        		 vm.model.mediationUnitDtos.splice(i,1);
+            };
         	 vm.updateAssistReview=function(){
         		 mediationManagementSvc.updateOnlyAssistReview(vm);
-        	 }
+        	 };
         }
         function page_assistReviewList(){
         	mediationManagementSvc.assistReviewGrid(vm);
@@ -407,13 +407,13 @@
         	vm.basicData.credentialsType=common.getBacicDataByIndectity(common.basicDataConfig().credentialsType);
         	vm.updateMediationUnit=function(){
         		mediationManagementSvc.updateMediationUnit(vm);
-        	}
+        	};
         }
         function page_mediationUnitCreate(){
         	vm.basicData.credentialsType=common.getBacicDataByIndectity(common.basicDataConfig().credentialsType);
         	vm.createMediationUnit=function (){
         		mediationManagementSvc.createMediationUnit(vm);
-        	}
+        	};
         }
         
         function page_mediationManagementList(){
