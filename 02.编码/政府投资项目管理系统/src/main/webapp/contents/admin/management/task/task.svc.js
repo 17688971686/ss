@@ -74,7 +74,7 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		};
+		}
 		
 		//查询审批委托书
 		function getComission(vm){
@@ -102,7 +102,7 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		};
+		}
 		
 		//发文拟稿
 		function getDraftIssued(vm){
@@ -128,7 +128,7 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		};
+		}
 		
 		//查询审批单
 		function getApproval(vm){
@@ -156,7 +156,7 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		};
+		}
 		
 		/**
 		 * 查询部门

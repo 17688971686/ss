@@ -344,7 +344,7 @@
 	   		vm.temporary=function(){
 	   			vm.isTemporary = true;
 	   			projectSvc.createProject(vm);
-	   		}
+	   		};
        }//end#page_create
        
        function page_update(){

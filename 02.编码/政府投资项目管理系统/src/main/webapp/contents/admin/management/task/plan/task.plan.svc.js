@@ -83,8 +83,8 @@
 					httpOptions:httpOptions,
 					success:httpSuccess
 				});
-	   		};
-		};
+	   		}
+		}
 		
 		function getDraftIssued(vm){
 			var httpOptions = {
@@ -109,7 +109,7 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		};
+		}
 		//编辑意见
 		function editOpin(vm){
 			var httpOptions = {
@@ -158,7 +158,7 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-        };// end fun deleteorg	
+        }// end fun deleteorg	
 
 		/**
 		 * 查询意见
@@ -179,7 +179,7 @@
 				httpOptions : httpOptions,
 				success : httpSuccess
 			});
-		};
+		}
 		
 		/**
 		 * 保存意见
@@ -215,7 +215,7 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		};
+		}
 		
 		/**
 		 * 查询角色信息

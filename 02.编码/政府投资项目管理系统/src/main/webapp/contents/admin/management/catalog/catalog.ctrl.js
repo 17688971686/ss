@@ -103,7 +103,7 @@
             });
     		vm.alert=function(str){
     			vm.type= str;
-    		}
+    		};
     	}
     	
     	activate();
@@ -390,12 +390,13 @@
         	};
         	//点击批量删除按钮，根据提示是否删除记录
         	vm.deleteFirstPolicyCatalogs = function(){
+        		var selectIds;
         		if(vm.type == 'encourage'){
-        			var selectIds = common.getKendoCheckId('.policyCatalogEncourageGrid');
+        			selectIds = common.getKendoCheckId('.policyCatalogEncourageGrid');
 				}else if(vm.type == 'allow'){
-					var selectIds = common.getKendoCheckId('.policyCatalogAllowGrid');
+					selectIds = common.getKendoCheckId('.policyCatalogAllowGrid');
 				}else if(vm.type == 'limit'){
-					var selectIds = common.getKendoCheckId('.policyCatalogLimitGrid');
+					selectIds = common.getKendoCheckId('.policyCatalogLimitGrid');
 				}
         		
 	            if (selectIds.length == 0) {
@@ -487,7 +488,7 @@
         
         //投资项目二级新增页
         function page_addSecondCatalog(){
-        	vm.title = '项目行业编辑'
+        	vm.title = '项目行业编辑';
         	vm.projectIndustrySecondCatalog = true;
         	vm.model.type = 'projectIndustry';
         	vm.model.parentId = vm.id;
@@ -548,12 +549,13 @@
         	};
         	//批量删除按钮
         	vm.deleteCatalogs = function(){
+        		var selectIds;
         		if(vm.type == 'projectIndustry'){
-        			var selectIds = common.getKendoCheckId('.projectIndustryGrid');
+        			selectIds = common.getKendoCheckId('.projectIndustryGrid');
 				}else if(vm.type == 'projectType'){
-					var selectIds = common.getKendoCheckId('.projectTypeGrid');
+					selectIds = common.getKendoCheckId('.projectTypeGrid');
 				}else if(vm.type == 'constructionType'){
-					var selectIds = common.getKendoCheckId('.constructionTypeGrid');
+					selectIds = common.getKendoCheckId('.constructionTypeGrid');
 				}
 				
 	            if (selectIds.length == 0) {

@@ -238,7 +238,7 @@
                    var idStr=ids.join(',');
                    vm.deleteShenBaoInfo(idStr);
                }    
-           }
+           };
         }//end#page_list
        
        function page_edit(){
@@ -333,7 +333,7 @@
     	   init_basicData();
     	  //申报年份发生变化时触发
     	   vm.changeYear = function(){
-    		   vm.planYear = parseInt(vm.model.planYear);
+    		   vm.planYear = parseInt(vm.model.planYear,10);
     	   };
     	   
     	   if(vm.page=='edit'){//如果为申报信息填报
@@ -499,7 +499,7 @@
     			   filters.push({field:'projectShenBaoStage',operator:'eq',value:vm.search.projectShenBaoStage});
     		   }
     		   if(vm.search.planYear !=null && vm.search.planYear !=''){
-    			   filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear)});
+    			   filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear,10)});
     		   }
     		   if(vm.search.constructionUnit !=null && vm.search.constructionUnit !=''){
     			   filters.push({field:'constructionUnit',operator:'contains',value:vm.search.constructionUnit});

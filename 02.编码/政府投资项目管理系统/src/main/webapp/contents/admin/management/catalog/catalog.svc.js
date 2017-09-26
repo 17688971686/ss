@@ -305,7 +305,7 @@
 							vm : vm,
 							msg : '删除成功！',
 							fn : function(){
-								$('.alertDialog').modal('hide')
+								$('.alertDialog').modal('hide');
 								vm.partApprovalMattersGrid.dataSource.read();
 							}
 						});
@@ -541,7 +541,7 @@
 		function deletePolicyCatalog(vm,id){
 			var httpOptions = {
 					method : 'put',
-					url : common.format(url_catalog+"/deletePolicyCatalog?id={0}", id),
+					url : common.format(url_catalog+"/deletePolicyCatalog?id={0}", id)
 			};
 			var httpSuccess = function (response){
 				common.requestSuccess({
@@ -887,7 +887,7 @@
 		function deleteCatalog(vm,id){
 			var httpOptions = {
 					method : 'put',
-					url : common.format(url_catalog+"/delete?id={0}", id),
+					url : common.format(url_catalog+"/delete?id={0}", id)
 			};
 			var httpSuccess = function (response){
 				common.requestSuccess({
@@ -1128,7 +1128,7 @@
 		function deleteSecondaryCatalog(vm,id){
 			var httpOptions = {
 					method : 'put',
-					url : common.format(url_catalog+"/delete?id={0}", id),
+					url : common.format(url_catalog+"/delete?id={0}", id)
 			};
 			var httpSuccess = function (response){
 				common.requestSuccess({

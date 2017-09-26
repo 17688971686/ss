@@ -89,7 +89,7 @@
         	if(vm.page=='task_planDetails'){
         		init_task_planDetails();
         	}
-        };
+        }
         
         function init_task_planDetails(){
         	
@@ -134,7 +134,7 @@
 	       		
 	       	};
       	   
-        };
+        }
         
         function init_task_plan(){
         	
@@ -210,7 +210,7 @@
         	vm.filterClear=function(){
         		location.reload();
         	};
-        };//end init_todoList
+        }//end init_todoList
         
         function init_handleAudit(){
         	
@@ -247,7 +247,7 @@
 						vm.userNameAndUnit =  vm.model.depts[i].name +'、'+ vm.model.depts[i].userDtos[j].displayName;
 						}
 					}
-				};
+				}
         		$('.draft_issued').modal({
                     backdrop: 'static',
                     keyboard:false
@@ -593,7 +593,7 @@
     				vm.taskPlan.processState = "processState_23";
     				vm.taskPlan.nextProcess = "";
     			}
-    		};
+    		}
         	
         	//送出
         	vm.handle = function(){
@@ -630,7 +630,7 @@
 	    				vm.taskPlan.nextUser = "";
 	        		}else if(vm.nextProcessRadio == "jingBanRenBanli"){//经办人办理--正常流程
 	        			if(vm.taskPlan.processState != "processState_3"){
-	        				vm.taskPlan.processState = "processState_3"
+	        				vm.taskPlan.processState = "processState_3";
 	        			}
 	        			setNextProcess(vm);//设置当前流程状态&&下一流程状态
 	        			vm.taskPlan.processRole ="";
@@ -680,10 +680,10 @@
 	        		}else if(vm.nextProcessRadioOfYW == "fawen" && vm.nextProcessRadio == "kezhangshenhe"){//经办人发文拟稿
 	        			vm.taskPlan.fawen = true;
 	        			if(vm.taskPlan.processState == "processState_4"){//第三步发文
-	        				vm.taskPlan.processState = "processState_5"
+	        				vm.taskPlan.processState = "processState_5";
 	        			}
 	        			if(vm.taskPlan.processState == "processState_10"){//第三步发文
-	        				vm.taskPlan.processState = "processState_17"
+	        				vm.taskPlan.processState = "processState_17";
 	        			}
 	    				vm.taskPlan.nextProcess = "processState_18";
 	    				vm.taskPlan.processRole ="";
@@ -733,7 +733,7 @@
         				return vm.model.roles[i].id;
         			}
 				}
-        	};
+        	}
 
         	//弹出申报详情模态框
         	vm.dialog_shenbaoInfo=function(){

@@ -9,8 +9,8 @@
 		var url_project = "/management/project";//获取项目信息数据
 		var service = {
 			unitGrid:unitGrid,//中介单位列表
-			geMediationUnitById,geMediationUnitById,//中介单位详细信息
-			updateMediationUnit,updateMediationUnit,//编辑中介单位
+			geMediationUnitById:geMediationUnitById,//中介单位详细信息
+			updateMediationUnit:updateMediationUnit,//编辑中介单位
 			createMediationUnit:createMediationUnit,//创建中介单位
 			delMediationUnit:delMediationUnit,//删除中介单位
 			assistReviewGrid:assistReviewGrid,//协审活动列表
@@ -28,7 +28,7 @@
             var httpOptions = {
                 method: 'delete',
                 url:url_mediationManagement,
-                data:id 
+                data:id
             };
             var httpSuccess = function success(response) {
                 

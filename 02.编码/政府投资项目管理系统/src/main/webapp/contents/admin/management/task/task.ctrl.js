@@ -180,9 +180,7 @@
                  keyboard:false
              });
 	       };
-	       
-	       
-        };
+        }
         
         function init_todoList(){
         	taskSvc.gridForPlan(vm);
@@ -233,7 +231,10 @@
         	vm.filterClear=function(){
         		location.reload();
         	};
-        };
+        	
+        	taskSvc.complete_shenPiGird(vm);
+        }
+        
     	function init_handle(){
     		
     		taskSvc.getShenBaoInfoById(vm);//查询申报信息
