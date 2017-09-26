@@ -66,15 +66,9 @@ public class CatalogController {
 		investmentService.update(dto,dto.getId());
 	}
 	
-	@RequestMapping(name="删除投资项目数据",path="delete",method=RequestMethod.PUT)
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void delete(@RequestParam String id){
-		investmentService.delete(id);
-	}
-	
 	@RequestMapping(name = "批量删除项投资项目数据", path = "",method=RequestMethod.DELETE)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void  deleteSecondCatalogs(@RequestBody String id)  {		
+	public void  deleteInvestmentCatalogs(@RequestBody String id)  {		
 		String[] ids=id.split(",");
 		if(ids.length>1){
 			investmentService.deleteCatalogs(ids);	
@@ -94,12 +88,6 @@ public class CatalogController {
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void addPolicyCatalog(@RequestBody PolicyCatalogDto dto){
 		policyCatalogService.create(dto);
-	}
-	
-	@RequestMapping(name="删除政策条目",path="deletePolicyCatalog",method=RequestMethod.PUT)
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void deletePolicyCatalog(@RequestParam String id){
-		policyCatalogService.delete(id);
 	}
 	
 	@RequestMapping(name = "批量删除政策条目", path = "deletePolicyCatalogs",method=RequestMethod.DELETE)	
@@ -138,12 +126,6 @@ public class CatalogController {
 		partApprovalMattersService.update(dto,dto.getId());
 	}
 	
-	@RequestMapping(name="删除部门审批事项",path="deletePartApprovalMatters",method=RequestMethod.PUT)
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void deletePartApprovalMatters(@RequestParam String id){
-		partApprovalMattersService.delete(id);
-	}
-	
 	@RequestMapping(name = "批量删除部门审批事项", path = "deletePartApprovalMattersCatalogs",method=RequestMethod.DELETE)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  deletePartApprovalMattersCatalogs(@RequestBody String id)  {		
@@ -172,12 +154,6 @@ public class CatalogController {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updateAgencyServiceMatters(@RequestBody AgencyServiceMattersDto dto){
 		agencyServiceMattersService.update(dto,dto.getId());
-	}
-	
-	@RequestMapping(name="删除中介服务事项",path="deleteAgencyServiceMatters",method=RequestMethod.PUT)
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void deleteAgencyServiceMatters(@RequestParam String id){
-		agencyServiceMattersService.delete(id);
 	}
 	
 	@RequestMapping(name = "批量删除中介服务事项", path = "deleteAgencyServiceMattersCatalogs",method=RequestMethod.DELETE)	

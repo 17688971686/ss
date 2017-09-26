@@ -621,7 +621,7 @@
 		 var strTmp="";
 		 if(arr !=null && arr.length>0){
 			 if(arr.constructor == String){
-		    		return str;
+		    		return arr;
 		    	}
 			 for(var i=0;i<arr.length;i++){ 
 	    		 if(arr[i]!=""){ 

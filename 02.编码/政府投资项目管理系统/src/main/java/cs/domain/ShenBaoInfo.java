@@ -171,7 +171,7 @@ public class ShenBaoInfo extends BaseProject{
 	private String yearImageSchedule;
 
 	//begin#审核相关
-	@Column(columnDefinition="varchar(500) NULL COMMENT '审核状态'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '审核状态'")
 	private String auditState;
 	@Column(columnDefinition="varchar(255) NULL COMMENT '签收人'")
 	private String receiver;

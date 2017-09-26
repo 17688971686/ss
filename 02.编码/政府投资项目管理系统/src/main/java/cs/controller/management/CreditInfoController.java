@@ -60,9 +60,9 @@ public class CreditInfoController {
 	}
 	
 //	@RequiresPermissions("management/creditInfo/illegalName#remove")
-	@RequestMapping(name="删除项目异常名录",path="delete",method=RequestMethod.PUT)
+	@RequestMapping(name="删除项目异常名录",path="",method=RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void delete(@RequestParam String id){
+	public void delete(@RequestBody String id){
 		illegalNameService.delete(id);
 	}
 	
@@ -89,9 +89,9 @@ public class CreditInfoController {
 	}
 	
 //	@RequiresPermissions("management/creditInfo/blackList#remove")
-	@RequestMapping(name="删除黑名单数据",path="blackList/delete",method=RequestMethod.PUT)
+	@RequestMapping(name="删除黑名单数据",path="blackList/delete",method=RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void deleteBlackList(@RequestParam String id){
+	public void deleteBlackList(@RequestBody String id){
 		blackListService.delete(id);
 	}
 	
@@ -177,9 +177,9 @@ public class CreditInfoController {
 		projectAnomalyService.update(dto,dto.getId());
 	}
 	
-	@RequestMapping(name="删除黑名单数据",path="projectAnomaly/delete",method=RequestMethod.PUT)
+	@RequestMapping(name="删除黑名单数据",path="projectAnomaly/delete",method=RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void deleteProjectAnomaly(@RequestParam String id){
+	public void deleteProjectAnomaly(@RequestBody String id){
 		projectAnomalyService.delete(id);
 	}
 
