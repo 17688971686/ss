@@ -1,0 +1,13 @@
+<ion-view view-title="计划编制" hide-back-button="true" class="bgplan">
+  <!-- <ion-nav-buttons side="primary">
+  	<button class="button button-icon icon ion-ios-calendar-outline"  ng-click="showPopup()"></button>
+  </ion-nav-buttons> -->
+	<ion-content class="plan-line">
+          <div class="plan-menu text-center" ng-repeat="x in yearPlannings">
+          	  <span class="icons-bg"><span class="icons icons-time"></span></span>
+              <a href="#/tab/planning-detail/{{x.id}}"><h4>{{x.year}}</h4>{{x.name}}</a> 
+              <!-- <a href="#"><h4>2015</h4>年度计划编制</a>           -->
+          </div>
+	</ion-content>
+</ion-view>
+
