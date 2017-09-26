@@ -72,8 +72,6 @@
 	   				.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 	   				.toArray(); //行政区划街道
    	   		vm.basicData.userUnit=common.getUserUnits();//获取所有单位
-   	   		//查询申报信息
-        	taskPlanSvc.getShenBaoInfoById(vm);
     	};
     	   	
     	activate();
@@ -94,6 +92,9 @@
         };
         
         function init_task_planDetails(){
+        	
+        	//查询申报信息
+        	taskPlanSvc.getShenBaoInfoById(vm);
         	
         	taskPlanSvc.getTaskById(vm);
         	
@@ -212,6 +213,9 @@
         };//end init_todoList
         
         function init_handleAudit(){
+        	
+        	//查询申报信息
+        	taskPlanSvc.getShenBaoInfoById(vm);
         	//查询任务信息
         	taskPlanSvc.getTaskInfoById(vm);
         	
