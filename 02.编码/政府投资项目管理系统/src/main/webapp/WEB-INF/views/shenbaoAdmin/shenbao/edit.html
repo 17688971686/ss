@@ -58,7 +58,7 @@ textarea.form-control {
     	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
         <li><a href="#/managerCenter">首页</a></li>       
         <li><a href="#/shenbao">项目申报</a></li>
-        <li ng-show="vm.isRecordEdit"><a href="#/shenbao_records">申报记录</a></li>
+        <li ng-show="vm.isRecordEdit"><a href="javascript:window.history.back(-1)" class="text-info" data-toggle="tooltip" data-placement="bottom" title="点击返回上一页面"><strong>返回</strong></a></li>
         <li class="active">{{vm.title}}</li>
     </ol>
              
@@ -100,7 +100,7 @@ textarea.form-control {
 				     	<button class="btn btn-sm btn-primary" ng-if="vm.isCapitalApplyReport" ng-click="vm.tabChange(6)">下一步 <span class="glyphicon glyphicon-forward"></span></button>
 				     	<!-- 第三页显示更新和提交按钮：下一年度计划、竣工决算、资金申请报告不显示 -->
 				     	<button class="btn btn-sm btn-success" ng-hide="vm.isRecordEdit || vm.isYearPlan || vm.isJunGong || vm.isCapitalApplyReport" ng-click="vm.submit()" ng-disabled="vm.isSubmit">确认提交 </button>
-                 		<button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit && !vm.isYearPlan && !vm.isXuJian && !vm.isJunGong && !vm.isCapitalApplyReport" ng-click="vm.update()" ng-disabled="vm.isSubmit">确认更新 </button>
+                 		<button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit && !vm.isYearPlan && !vm.isJunGong && !vm.isCapitalApplyReport" ng-click="vm.update()" ng-disabled="vm.isSubmit">确认更新 </button>
 				    </div>
               </div>
                <!-- 下一年度计划申报信息页面 -->                   

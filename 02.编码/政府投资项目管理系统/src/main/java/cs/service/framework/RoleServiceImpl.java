@@ -17,6 +17,7 @@ import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.framework.ResourceDto;
 import cs.model.framework.RoleDto;
+import cs.model.framework.UserDto;
 import cs.repository.framework.RoleRepo;
 import cs.repository.odata.ODataObj;
 
@@ -54,7 +55,17 @@ public class RoleServiceImpl implements RoleService {
 				resourceDto.setPath(resource.getPath());
 				resourceDtoList.add(resourceDto);
 			}
+			
+			List<UserDto> userDtoList = new ArrayList<>();
+			for(User user:item.getUsers()){
+				UserDto userDto = new UserDto();
+				userDto.setId(user.getId());
+				userDto.setDisplayName(user.getDisplayName());
+				userDto.setLoginName(user.getLoginName());
+				userDtoList.add(userDto);
+			}
 			roleDto.setResources(resourceDtoList);
+			roleDto.setUserDtos(userDtoList);
 			roleDtoList.add(roleDto);
 		}
 		PageModelDto<RoleDto> pageModelDto = new PageModelDto<>();

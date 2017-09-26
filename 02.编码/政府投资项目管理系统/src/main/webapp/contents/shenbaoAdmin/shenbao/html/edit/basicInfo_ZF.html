@@ -126,8 +126,8 @@
 	<tr ng-if="vm.isPrePlanFee">
 		<td class="formAlignRight">是否申请前期工作经费：</td>
 		<td style="border-right:0">
-			<label><input type="radio" name="isApplyQianQiFei" ng-model="vm.model.isApplyQianQiFei" value="true"/>是</label>
-			<label><input type="radio" name="isApplyQianQiFei" ng-model="vm.model.isApplyQianQiFei" value="false"/>否</label>
+			<label><input type="radio" name="isApplyQianQiFei" ng-model="vm.model.isApplyQianQiFei" value="true" ng-checked="vm.model.isApplyQianQiFei == true"/>是</label>
+			<label><input type="radio" name="isApplyQianQiFei" ng-model="vm.model.isApplyQianQiFei" value="false" ng-checked="vm.model.isApplyQianQiFei == false"/>否</label>
 		</td>
 		<td ng-if="vm.model.isApplyQianQiFei" class="formAlignRight">工作经费申请金额：<span class="required">(*)</span></td>
 		<td ng-if="vm.model.isApplyQianQiFei">

@@ -1,3 +1,12 @@
+<style>
+.modal{
+	overflow-y:auto
+	}
+.modal-open {
+    overflow: scroll !important;
+    }
+overflow: scroll !important;
+</style>
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
 <div class="well well-sm" style="background:white;">
@@ -10,6 +19,7 @@
 	  		<table class="table table-bordered" style="margin-bottom:0px;">
 	  			<tr>
 	  				<td colspan="6" class="bg-info">
+	  					<button class="btn btn-primary btn-sm pull-right" ng-click="vm.filterClear()"><span class="glyphicon glyphicon-refresh"></span>清空筛选条件</button>
 	  					<span style="padding:10px;"><strong>年度计划项目库查询</strong></span>
 	  				</td>
 	  			</tr>
@@ -47,6 +57,36 @@
 	  				</td>
 	  			</tr>
 	  			<tr>
+	  				<td class="formAlignRight">项目行业：</td>
+	  				<td>
+	  					<select style="height:30px;" ng-change="vm.searchIndustryChange()" ng-model="vm.searchIndustryFather">
+	  						<option value="">---请选择行业分类---</option>
+	  						<option ng-repeat="x in vm.basicData.projectIndustryAll" value="{{x.id}}">{{x.description}}</option>
+	  					</select>
+	  					<select style="height:30px;" ng-model="vm.search.projectIndustry" ng-if="vm.searchIndustryIsZF">
+				  			<option value="">---请选择具体的行业---</option>
+				  			<option ng-repeat="x in vm.basicData.projectIndustry_ZF" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+				  		<select style="height:30px;" ng-model="vm.search.projectIndustry" ng-if="vm.searchIndustryIsSH">
+				  			<option value="">---请选择具体的行业---</option>
+				  			<option ng-repeat="x in vm.basicData.projectIndustry_SH" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+	  				</td>
+	  				<td class="formAlignRight">签收人：</td>
+  					<td>
+  						<input type="radio" style="height:12.73px;" name="receiver" value="me" ng-model="vm.search.receiver"/> 本人
+  						<input type="radio" style="height:12.73px;" name="receiver" value="other" ng-model="vm.search.receiver"/> 其他人
+  						<input type="radio" style="height:12.73px;" name="receiver" value="all" ng-model="vm.search.receiver"/> 所有人
+  					</td>
+  					<td class="formAlignRight">打包类型</td>
+  					<td>
+  						<select style="height:30px;" ng-model="vm.search.packageType">
+				  			<option value="">---请选择---</option>
+				  			<option ng-repeat="x in vm.basicData.packageType" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+  					</td>
+	  			</tr>
+	  			<tr>
 	  				<td colspan="6">
 	  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search()"><span class="glyphicon glyphicon-search"></span>查询</button>
 	  				</td>
@@ -56,12 +96,12 @@
 	  
 	  <div class="toolbar">
 	  	<a class="btn btn-primary btn-sm" ng-click="vm.addShenBaoInfo()"><span class="glyphicon glyphicon-plus"></span>添加年度计划</a>
-	  	<button class="btn btn-primary btn-sm" ng-click="vm.grid.saveAsExcel()"><span class="glyphicon glyphicon-download-alt"></span> 导出Excel</button>
+	  	<!-- <button class="btn btn-primary btn-sm" ng-click="vm.grid.saveAsExcel()"><span class="glyphicon glyphicon-download-alt"></span> 导出Excel</button> -->
 	  </div> 
 	  </div>
 	  <script type="text/template" id="columnBtns">
-	  	<a class="btn btn-xs btn-primary" href="#/yearPlan/shenbaoInfoEdit/{0}/{1}/{2}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
-		<button class="btn btn-xs btn-danger" ng-click="vm.retreat('{0}')"><span class="glyphicon glyphicon-share-alt"></span>退回</button>
+	  	<a class="btn btn-sm btn-primary" href="#/yearPlan/shenbaoInfoEdit/{0}/{1}/{2}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+		<button class="btn btn-sm btn-danger" ng-click="vm.retreat('{0}')"><span class="glyphicon glyphicon-share-alt"></span>退回</button>
 	  </script>
      <form id="form" name="form">   
          <div class="grid" kendo-grid="vm.grid" k-options="vm.gridOptions"></div>

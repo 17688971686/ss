@@ -35,10 +35,23 @@
 	</tr>
 	<tr>
 		<td class="formAlignRight">计划年度：<span class="required">(*)</span></td>
-		<td colspan="3">
+		<td>
 			<input class="Wdate form-control input-sm" style="width:180px;" type="text" id="planYear" name="planYear"
 			 onFocus="WdatePicker({dateFmt:'yyyy'})" ng-change="vm.changeYear()" onChange="" ng-model="vm.model.shenBaoInfo.planYear" data-val="true" data-val-required="必填" />
 			<span data-valmsg-for="planYear" data-valmsg-replace="true" class="required"></span>
+		</td>
+		<td class="formAlignRight">打包类型：<span class="required">(*)</span></td>
+		<td>
+			<select class="pull-left" style="height:30px;" id="packageType" name="packageType" ng-model="vm.model.shenBaoInfo.packageType" data-val="true" data-val-required="必选" ng-change="vm.packageTypeChange()">
+				<option value="">---请选择---</option>
+				<option ng-repeat="x in vm.basicData.packageType" value="{{x.id}}" ng-selected="vm.model.shenBaoInfo.packageType == x.id">{{x.description}}</option>
+				<option value="other">其他</option>
+			</select>
+			<div ng-if="vm.isOtherPackageType">
+				<input class="form-control input-sm pull-left" type="text" style="width:145px;margin-left:10px;margin-right:10px;" ng-model="vm.packageType.description"/>
+				<button class="btn btn-xs btn-success pull-right" style="margin-top:7px;" ng-click="vm.savePackageType()">保存此类型</button>
+			</div>
+			
 		</td>
 	<tr>
 		<td class="formAlignRight">资金需求及来源：</td>
@@ -72,12 +85,10 @@
 							<tr>
 								<td>公共预算</td>
 								<td>国土基金</td>
-								<!-- <td>其他</td> -->
 							</tr>
 							<tr>
 								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalAP_ggys_TheYear"  /></td>
 								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalAP_gtzj_TheYear"  /></td>
-								<!-- <td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalAP_qita"  /></td> -->
 							</tr>
 						</table>
 					</td>
@@ -135,8 +146,8 @@
 							</tr>
 							<tr>
 								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalSCZ_ggys_LastYear" /></td>
-								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.shenBaoInfo.capitalSCZ_gtzj_LastYear"  /></td>
-								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.shenBaoInfo.capitalSCZ_qita_LastYear" /></td>
+								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalSCZ_gtzj_LastYear"  /></td>
+								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalSCZ_qita_LastYear" /></td>
 							</tr>
 						</table>
 					</td>
@@ -165,6 +176,14 @@
 					</td>
 				</tr>
 			</table>
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">年度建设内容：</td>
+		<td colspan="3">
+			<textarea rows="3" cols="20" maxlength="500" style="height:121px;width: 99%;" id="yearConstructionContentLastYear" name="yearConstructionContentLastYear" ng-model="vm.model.shenBaoInfo.yearConstructionContentLastYear"
+				placeholder="请简要概述年度计划建设的内容：备注（500字符以内）"  ng-change="vm.checkLength(vm.model.shenBaoInfo.yearConstructionContentLastYear,500,'yearConstructionContentLastYearTips')"></textarea>
+			<div class="tipfont">您还可以输入<span id="yearConstructionContentLastYearTips"><font size="5">500</font></span>个字符!</div>
 		</td>
 	</tr>
 </table>

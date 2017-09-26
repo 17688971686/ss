@@ -69,7 +69,19 @@
 			<span id="endDate" name="endDate" ng-bind="vm.model.shenBaoInfo.endDate | date:'yyyy-MM-dd'"></span>									
 		</td>
 	</tr>
-	<tr>
+	<!-- 规划设计前期费才有 -->
+	<tr ng-if="vm.isPrePlanFee">
+		<td class="formAlignRight">是否申请前期工作经费：</td>
+		<td style="border-right:0">
+			<span ng-if="vm.model.shenBaoInfo.isApplyQianQiFei == '1'">是</span>
+			<span ng-if="vm.model.shenBaoInfo.isApplyQianQiFei == '0'">否</span>
+		</td>
+		<td ng-if="vm.model.shenBaoInfo.isApplyQianQiFei" class="formAlignRight">工作经费申请金额：</td>
+		<td ng-if="vm.model.shenBaoInfo.isApplyQianQiFei">
+			<span ng-bind="vm.model.shenBaoInfo.qianQiFeiApply | number:4"></span>&nbsp;(万元)
+		</td>
+	</tr>
+	<tr ng-hide="vm.isQianQi">
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
 		<td>
 			<span id="projectInvestSum" name="projectInvestSum" ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:4"></span>&nbsp;(万元)

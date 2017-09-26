@@ -49,12 +49,21 @@ public class BasicDataConfig {
 	public static String taskType_new="taskType_9";//新开工
 	public static String taskType_xuJian="taskType_10";//续建
 	public static String taskType_junGong="taskType_11";//竣工
+
 	
 	public static String attachment_type_jys="JYS"; 
 	public static String attachment_type_kxxyjbg="KXXYJBG"; 
 	public static String attachment_type_cbsjygs="CBSJYGS";
 	
-	public static String auditState_noAudit="auditState_1";
+	public static String auditState_noAudit="auditState_1";//未审核
+	public static String auditState_auditPass="auditState_2";//审核通过
+	
+	public static String projectCategory_A="projectCategory_1";//A类
+	public static String projectCategory_B="projectCategory_2";//B类
+	public static String projectCategory_C="projectCategory_3";//C类
+	public static String projectCategory_D="projectCategory_4";//D类
+	
+	public static String packageType_danLie="packageType_1";//打包类型--单列项目
 	//end#basicData
 	
 	public static String role_admin="超级管理员";

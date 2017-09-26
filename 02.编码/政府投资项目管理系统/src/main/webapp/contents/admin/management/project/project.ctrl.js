@@ -61,6 +61,9 @@
 	   		vm.basicData.area_Street=$linq(common.getBasicData())
 	   			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 	   			.toArray();//获取街道信息
+	   		vm.basicData.projectIndustry_ZF=$linq(common.getBasicData())
+	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
+	       		.toArray();//政府投资项目行业
 	   		vm.basicData.userUnit=common.getUserUnits();
     	}
     	init();    	
@@ -286,7 +289,7 @@
     			vm.pifuType=$(e.target).parents('.uploadBox').attr('data-type');
    	        	   $("#documentRecords").modal({
    				        backdrop: 'static',
-   				        keyboard:false  			  
+   				        keyboard:true		  
    	        	   });
    	        	   vm.gridOptions_documentRecords.dataSource.read();//批复文件列表数据刷新
    	   		};

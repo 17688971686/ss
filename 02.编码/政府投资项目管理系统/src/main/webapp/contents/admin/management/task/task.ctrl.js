@@ -17,8 +17,10 @@
         vm.relId=$state.params.relId;     
         vm.search={};
         vm.basicData={};
+        vm.model.taskRecord = {};
     	vm.page="todoList";
-    	function init(){ 		
+	
+    	function init(){
     		if($state.current.name=='task_todo'){//待办列表
     			vm.page='todoList';
     		}
@@ -72,8 +74,6 @@
 	   				.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 	   				.toArray(); //行政区划街道
    	   		vm.basicData.userUnit=common.getUserUnits();//获取所有单位
-   	   		
- 		   taskSvc.getShenBaoInfoById(vm);//查询申报信息
 
     	}
     	
@@ -103,17 +103,7 @@
         
         function init_task_shenPiDetails(){
         	
-//        	
-//        	vm.getUser =function(id){
-//        		for (var i = 0; i < vm.model.depts.length; i++) {
-//    				for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {//循环人员
-//    					if(vm.model.depts[i].userDtos[j].id == id){//获得部门人员
-//    						return vm.model.depts[i].userDtos[j].displayName;
-//    					}
-//    				}
-//    			};
-//        	}
-        	
+        	taskSvc.getShenBaoInfoById(vm);//查询申报信息
         	//相关附件文件上传文件种类
 	   		vm.relatedType=common.uploadFileTypeConfig().reviewResult;
         	 
@@ -198,6 +188,25 @@
         	taskSvc.gridForPlan(vm);
         	taskSvc.gridForShenpi(vm);
         	taskSvc.grid(vm);
+        	
+        	vm.search=function(){
+        		var filters = [];
+				filters.push({field:'isComplete',operator:'eq',value:false});//默认条件--没有完成的任务 
+				if(vm.search.title !=null && vm.search.title !=''){//查询条件--标题
+	     			   filters.push({field:'title',operator:'contains',value:vm.search.title});
+	     		   }
+     		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--任务建设单位
+     			   filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
+     		   }
+     		   if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){//查询条件--项目行业
+     			  filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
+     		   }
+     		  vm.gridOptions.dataSource.filter(filters);
+        	};
+        	
+        	vm.filterClear=function(){
+        		location.reload();
+        	};
         }//end init_todoList
         
         function init_completeList(){
@@ -226,18 +235,21 @@
         	};
         };
     	function init_handle(){
-    	   vm.processState_qianShou=common.basicDataConfig().processState_qianShou;
-    	   vm.processState_tuiWen=common.basicDataConfig().processState_tuiWen;
+    		
+    		taskSvc.getShenBaoInfoById(vm);//查询申报信息
+    	    vm.processState_qianShou=common.basicDataConfig().processState_qianShou;
+    	    vm.processState_tuiWen=common.basicDataConfig().processState_tuiWen;
 
-    	   taskSvc.getTaskById(vm);//查询任务信息
-    	   //taskSvc.getDept(vm);
+    	    taskSvc.getTaskById(vm);//查询任务信息
+    	    //taskSvc.getDept(vm);
     	  
     	   if(vm.taskType == common.basicDataConfig().taskType_monthReport){//如果为月报
     		   vm.isMonthReport = true;
     		   taskSvc.getMonthReportById(vm);//查询月报信息
     	   }else{
     		   if(vm.taskType == common.basicDataConfig().taskType_yearPlan){//如果为下一年度计划申报
-    			   vm.isYearPlan = true; 
+    			   vm.isYearPlan = true;
+    			   vm.model.taskRecord.processSuggestion = "符合申报";//设置默认为符合申报
     		   }else if(vm.taskType == common.basicDataConfig().taskType_JYS){//项目建议书
     			   vm.isProjectProposal = true;
     		   }else if(vm.taskType == common.basicDataConfig().taskType_KXXYJBG){//可行性研究报告

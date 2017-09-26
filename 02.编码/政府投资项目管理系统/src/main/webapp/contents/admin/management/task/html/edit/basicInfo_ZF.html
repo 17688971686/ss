@@ -103,6 +103,19 @@
 			<input type="text" id="endDate" name="endDate" onkeydown="return false;"
 			 ng-model="vm.model.shenBaoInfo.endDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>									
 		</td>
+	</tr>
+	<!-- 规划设计前期费才有 -->
+	<tr ng-if="vm.isPrePlanFee">
+		<td class="formAlignRight">是否申请前期工作经费：</td>
+		<td style="border-right:0">
+			<label><input type="radio" name="isApplyQianQiFei" ng-model="vm.model.shenBaoInfo.isApplyQianQiFei" value="true" ng-checked="vm.model.shenBaoInfo.isApplyQianQiFei == true"/>是</label>
+			<label><input type="radio" name="isApplyQianQiFei" ng-model="vm.model.shenBaoInfo.isApplyQianQiFei" value="false" ng-checked="vm.model.shenBaoInfo.isApplyQianQiFei == false"/>否</label>
+		</td>
+		<td ng-if="vm.model.shenBaoInfo.isApplyQianQiFei" class="formAlignRight">工作经费申请金额：<span class="required">(*)</span></td>
+		<td ng-if="vm.model.shenBaoInfo.isApplyQianQiFei">
+			<input type="number" class="form-control input-sm" style="width:150px" id="qianQiFeiApply" name="qianQiFeiApply" ng-model="vm.model.shenBaoInfo.qianQiFeiApply" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<span data-valmsg-for="qianQiFeiApply" data-valmsg-replace="true" class="required"></span>
+		</td>
 	</tr>	
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>

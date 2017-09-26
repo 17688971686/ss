@@ -1,3 +1,9 @@
+<style>
+.juzhong{
+	vertical-align: middle;
+	text-align:center;
+}
+</style>
 <div class="bg-info text-info" style="padding: 10px;">项目基本信息</div>
 <table class="table table-bordered table-striped ">	
 	<tr>
@@ -40,7 +46,8 @@
 			<span ng-repeat="x in vm.model.projectType" ng-bind="vm.getBasicDataDesc(x)+' '"></span>					
 		</td>
 	</tr>
-	<tr>
+	<!-- 功能分类科目、政府经济分类科目仅仅年度计划含有 -->
+	<tr ng-if="vm.isYearPlan">
 		<td class="formAlignRight">功能分类科目：</td>
 		<td>
 			<span ng-bind="vm.model.functionSubjects"></span>
@@ -70,7 +77,20 @@
 		</td>
 	</tr>
 	
-	<tr>
+	<!-- 规划设计前期费才有 -->
+	<tr ng-if="vm.isPrePlanFee">
+		<td class="formAlignRight">是否申请前期工作经费：</td>
+		<td style="border-right:0">
+			<span ng-if="vm.model.isApplyQianQiFei == '1'">是</span>
+			<span ng-if="vm.model.isApplyQianQiFei == '0'">否</span>
+		</td>
+		<td ng-if="vm.model.isApplyQianQiFei" class="formAlignRight">工作经费申请金额：</td>
+		<td ng-if="vm.model.isApplyQianQiFei">
+			<span ng-bind="vm.model.qianQiFeiApply | number:4"></span>&nbsp;(万元)
+		</td>
+	</tr>
+	<!-- 前期计划没有项目投资这一块 -->
+	<tr ng-hide="vm.isQianQi">
 		<td class="formAlignRight">项目总投资：</td>
 		<td>
 			<span id="projectInvestSum" ng-bind="vm.model.projectInvestSum | number:4"></span>&nbsp;(万元)
@@ -182,7 +202,7 @@
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（200字符以内）" ng-model="vm.model.projectGuiMo" disabled></textarea>													
 		</td>
 	</tr>
-	<tr ng-hide="vm.isYearPlan || vm.isJunGong">
+	<tr ng-hide="vm.isYearPlan || vm.isQianQi ||vm.isJunGong">
 		<td class="formAlignRight">建设必要性和依据：</td>
 		<td colspan="3" >
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明项目建设必要性和依据（500字符以内）" ng-model="vm.model.projectConstrBasis" disabled></textarea>													
@@ -198,6 +218,19 @@
 		<td class="formAlignRight">社会及经济效益评价：</td>
 		<td colspan="3" >
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明社会及经济效益评价（500字符以内）" ng-model="vm.model.socialAndEconomic" disabled></textarea>													
+		</td>
+	</tr>
+	<!-- 续建计划特有 -->
+	<tr ng-if="vm.isXuJian">
+		<td class="formAlignRight">本年度建设内容：<span class="required">(*)</span></td>
+		<td colspan="3" >
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明本年度建设内容（500字符以内）" ng-model="vm.model.yearConstructionContent" disabled></textarea>													
+		</td>
+	</tr>
+	<tr ng-if="vm.isXuJian">
+		<td class="formAlignRight">上年度形象进度：<span class="required">(*)</span></td>
+		<td colspan="3" >
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明上一年度形象进度（500字符以内）" ng-model="vm.model.lastYearImageSchedule" disabled></textarea>													
 		</td>
 	</tr>
 	<tr>
@@ -259,9 +292,9 @@
 									<td>其他</td>
 								</tr>
 								<tr>
-									<td><span ng-bind="vm.model.capitalSCZ_ggys_TheYear | number:4"/></td>
-									<td><span ng-bind="vm.model.capitalSCZ_gtzj_TheYear | number:4"/></td>
-									<td><span ng-bind="vm.model.capitalSCZ_qita | number:4"/></td>
+									<td><span ng-bind="vm.model.capitalSCZ_ggys_TheYear | number:4"></span></td>
+									<td><span ng-bind="vm.model.capitalSCZ_gtzj_TheYear | number:4"></span></td>
+									<td><span ng-bind="vm.model.capitalSCZ_qita | number:4"></span></td>
 								</tr>
 							</table>
 						</td>
@@ -311,9 +344,9 @@
 									<td>其他</td>
 								</tr>
 								<tr>
-									<td><span ng-bind="vm.model.capitalSCZ_ggys_LastYear | number:4"/></td>
-									<td><span ng-bind="vm.model.capitalSCZ_gtzj_LastYear | number:4"/></td>
-									<td><span ng-bind="vm.model.capitalSCZ_qita_LastYear | number:4"/></td>
+									<td><span ng-bind="vm.model.capitalSCZ_ggys_LastYear | number:4"></span></td>
+									<td><span ng-bind="vm.model.capitalSCZ_gtzj_LastYear | number:4"></span></td>
+									<td><span ng-bind="vm.model.capitalSCZ_qita_LastYear | number:4"></span></td>
 								</tr>
 							</table>
 						</td>
@@ -331,24 +364,6 @@
 			<td class="formAlignRight">年度建设内容：</td>
 			<td colspan="3">
 				<textarea class="form-control" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.yearConstructionContentLastYear" disabled></textarea>
-			</td>
-		</tr>	
-	</table>
-</div>
-
-<div ng-show="vm.isXuJian">
-	<div class="bg-info text-info" style="padding: 10px;">续建计划信息</div>
-	<table class="table table-bordered table-striped ">
-		<tr>
-			<td class="formAlignRight" style="width:150px;">年度建设内容：</td>
-			<td>
-				<textarea rows="3" cols="20" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.yearConstructionContent" disabled></textarea>
-			</td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">上年度项目形象进度：<span class="required">(*)</span></td>
-			<td>
-				<textarea rows="3" cols="20" style="height:121px;width: 99%;" placeholder="请简要概述上年度项目形象进度：备注（500字符以内）" ng-model="vm.model.lastYearImageSchedule" disabled></textarea>
 			</td>
 		</tr>	
 	</table>
@@ -405,9 +420,9 @@
 									<td>其他</td>
 								</tr>
 								<tr>
-									<td><span ng-bind="vm.model.capitalSCZ_ggys_LastTwoYear | number:4"/></td>
-									<td><span ng-bind="vm.model.capitalSCZ_gtzj_LastTwoYear | number:4"/></td>
-									<td><span ng-bind="vm.model.capitalSCZ_qita_LastTwoYear | number:4"/></td>
+									<td><span ng-bind="vm.model.capitalSCZ_ggys_LastTwoYear | number:4"/></span></td>
+									<td><span ng-bind="vm.model.capitalSCZ_gtzj_LastTwoYear | number:4"/></span></td>
+									<td><span ng-bind="vm.model.capitalSCZ_qita_LastTwoYear | number:4"/></span></td>
 								</tr>
 							</table>
 						</td>
@@ -445,27 +460,27 @@
 <div class="bg-info text-info" style="padding: 10px;">单位基本信息</div>
 <table style="width:100%;" class="table  table-bordered table-striped">
 	<tr>
-		<td width="120">单位名称<span class="required ">(*)</span></td>
+		<td width="150" class="formAlignRight">单位名称：</td>
 		<td colspan="4" class="RborderNone">
 			<span id="unitName" ng-bind="vm.model.shenBaoUnitInfoDto.unitName"></span>
 		</td>
 	</tr>
 	<tr>
-		<td>组织机构代码</td>
+		<td class="formAlignRight">组织机构代码：</td>
 				<td colspan="2">
 					<span id="orgCode" ng-bind="vm.model.shenBaoUnitInfoDto.orgCode"></span>			
 				</td>
-	    <td width="100">电话号码</td>
+	    <td width="100" class="formAlignRight">电话号码：</td>
 	    <td>
 	    	<span id="unitTel" ng-bind="vm.model.shenBaoUnitInfoDto.unitTel"></span>
 	    </td>
    </tr>
    <tr>
-        <td>电子邮箱</td>
+        <td class="formAlignRight">电子邮箱：</td>
         <td colspan="2">
         	<span id="unitEmail" ng-bind="vm.model.shenBaoUnitInfoDto.unitEmail"></span>
         </td>
-        <td>传真号码</td>
+        <td class="formAlignRight">传真号码：</td>
         <td>
         	<span id="unitFax" ng-bind="vm.model.shenBaoUnitInfoDto.unitFax"></span>
         </td>
@@ -475,13 +490,13 @@
 <div class="bg-info text-info" style="padding: 10px;">常用申报信息</div>
 <table style="width:100%;" class="table  table-bordered table-striped">		
 	<tr>
-		<td width="20%">单位性质</td>
+		<td width="150" class="formAlignRight">单位性质：</td>
 		<td colspan="4">			
 			<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoUnitInfoDto.unitProperty)"></span>
 		</td>
 	</tr>
 	<tr>
-	    <td>单位地址</td>
+	    <td class="formAlignRight">单位地址：</td>
 	    <td colspan="4">
 		    <span>光明新区</span>
 		    <span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoUnitInfoDto.divisionId)"></span>
@@ -489,35 +504,87 @@
 		</td>
 	 </tr>
 	 <tr>
-	    <td rowspan="3">单位负责人</td>
-	    <td width="60">姓名</td>
-	    <td>
+	    <td rowspan="3" class="formAlignRight">单位负责人：</td>
+	    <td width="100px;" class="juzhong">姓名：</td>
+	    <td  width="275px;">
 	    	<span id="unitResPerson" ng-bind="vm.model.shenBaoUnitInfoDto.unitResPerson"></span>
 	    </td>
-	    <td>电话号码</td>
+	    <td class="juzhong" width="100px;">电话号码：</td>
 	    <td>
 	    	<span id="resPersonTel" ng-bind="vm.model.shenBaoUnitInfoDto.resPersonTel"></span>
 	    </td>
 	 </tr>
 	 <tr>
-	    <td>手机</td>	   
+	    <td class="juzhong">手机：</td>	   
 	    <td>
 	    	<span id="resPersonMobile" ng-bind="vm.model.shenBaoUnitInfoDto.resPersonMobile"></span>
 	    </td>
-	    <td>传真号码</td>
+	    <td class="juzhong">传真号码：</td>
 	    <td>
 	    	<span id="resPersonFax" ng-bind="vm.model.shenBaoUnitInfoDto.resPersonFax"></span>
 	    </td>
 	 </tr>
 	  <tr>
-	    <td>Email</td>
+	    <td class="juzhong">Email：</td>
 	    <td colspan="3">
 	    	<span id="resPersonEmail" ng-bind="vm.model.shenBaoUnitInfoDto.resPersonEmail"></span>		     
 	    </td>
 	 </tr>
 </table>
 
-
+<!-- 下一年度计划、规划设计前期费、新开工计划、续建计划没有编制单位 -->
+<div ng-hide="vm.isYearPlan || vm.isPrePlanFee || vm.isNewStart || vm.isXuJian">
+	<div class="bg-info text-info" style="padding: 10px;">编制单位信息</div>
+		<table width="100%" class="table  table-bordered table-striped">
+			<tr>
+				<td class="formAlignRight" width="150px;">单位名称：</td>
+				<td colspan="2">
+					<span ng-bind="vm.model.bianZhiUnitInfoDto.unitName"></span>
+				</td>
+				<td width="100px;" class="formAlignRight">单位性质：</td>
+				<td>
+					<span ng-bind="vm.getBasicDataDesc(vm.model.bianZhiUnitInfoDto.unitProperty)"></span>
+				</td>
+			</tr>
+			<tr>
+		    	<td class="formAlignRight">单位地址：</td>
+			    <td colspan="4">
+				    	光明新区
+				    <span ng-bind="vm.getBasicDataDesc(vm.model.bianZhiUnitInfoDto.divisionId)"></span>
+				    <span ng-bind="vm.model.bianZhiUnitInfoDto.unitAddress"></span>
+				</td>
+		  </tr>
+		  <tr>
+		    <td rowspan="3" class="formAlignRight">单位负责人：</td>
+		    <td width="100px;" class="juzhong">姓名：</td>
+		    <td width="275px;">
+		    	<span ng-bind="vm.model.bianZhiUnitInfoDto.unitResPerson"></span>
+		    </td>
+		    <td width="100px;" class="juzhong">电话号码：</td>
+		    <td>
+		    	<span ng-bind="vm.model.bianZhiUnitInfoDto.resPersonTel"></span>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td class="juzhong">手机：</td>	   
+		    <td>
+		    	<span ng-bind="vm.model.bianZhiUnitInfoDto.resPersonMobile"></span>
+		    </td>
+		    <td class="juzhong">传真号码：</td>
+		    <td>
+		    	<span ng-bind="vm.model.bianZhiUnitInfoDto.resPersonFax"></span>
+		    </td>
+		  </tr>
+		   <tr>
+		    <td class="juzhong">Email：</td>
+		    <td colspan="3">
+		    	<span ng-bind="vm.model.bianZhiUnitInfoDto.resPersonEmail"></span>
+		    </td>
+		  </tr>	  
+	</table>
+</div>
+<!-- 只有年度计划才有项目的批复信息 -->
+<div ng-show="vm.isYearPlan">
 <div class="bg-info text-info" style="padding: 10px;">项目批复信息</div>
 <table class="table table-bordered table-striped ">
 	<tr>
@@ -542,6 +609,7 @@
 		</td>
 	</tr>
 </table>
+</div>
 
 <div class="bg-info text-info" style="padding: 10px;">相关附件</div>
 <table class="table table-bordered table-striped ">
@@ -561,4 +629,3 @@
 		</td>
 	</tr>
 </table>
-</div>

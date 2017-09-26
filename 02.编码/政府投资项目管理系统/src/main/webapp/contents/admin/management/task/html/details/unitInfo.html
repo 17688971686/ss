@@ -82,8 +82,12 @@
 <div class="bg-info text-info" style="padding: 10px;">编制单位信息</div>
 <table style="width:100%;" class="table  table-bordered table-striped">		
 	<tr>
+		<td width="150px;" class="formAlignRight">单位名称：<span class="required">(*)</span></td>
+		<td colspan="2">
+			<span ng-bind="vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitName"></span>
+		</td>
 		<td width="150px;" class="formAlignRight">单位性质：<span class="required">(*)</span></td>
-		<td colspan="4">
+		<td>
 			<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitProperty)"></span>
 		</td>
 	</tr>
@@ -97,7 +101,7 @@
 	 </tr>
 	 <tr>
 	    <td rowspan="3" class="formAlignRight">单位负责人：<span class="required">(*)</span></td>
-	    <td width="100px;" class="juzhong">姓名</td>
+	    <td width="100px;" class="juzhong">姓名：</td>
 	    <td width="265px;">
 	    	<span ng-bind="vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitResPerson"></span>
 	    </td>
