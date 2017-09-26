@@ -204,7 +204,7 @@
         		
         		$('.reviewResult').modal({
                     backdrop: 'static',
-                    keyboard:true
+                    keyboard:false
                 });
         	};
         	
@@ -230,7 +230,7 @@
         	vm.openDatum=function(){
         		$('.datum').modal({
                     backdrop: 'static',
-                    keyboard:true
+                    keyboard:false
                 });
         	};
         	
@@ -250,7 +250,7 @@
         		
         		$('.proxy').modal({
                     backdrop: 'static',
-                    keyboard:true
+                    keyboard:false
                 });
         		
         		vm.nameAndTel = vm.model.shenBaoInfo.projectRepName+":"+vm.model.shenBaoInfo.projectRepMobile;
@@ -287,7 +287,7 @@
         		
         		$('.approval').modal({
                     backdrop: 'static',
-                    keyboard:true
+                    keyboard:false
                 });
         	};
         	
@@ -321,7 +321,7 @@
 				}
         		$('.draft_issued').modal({
                     backdrop: 'static',
-                    keyboard:true
+                    keyboard:false
                 });
         		
         		vm.basicData.hecretHierarchy=$linq(common.getBasicData())
@@ -363,7 +363,7 @@
         	vm.showOpinion = function(){
         		$('.opinion').modal({
                     backdrop: 'static',
-                    keyboard:true
+                    keyboard:false
                 });
         		 vm.opinionGrid.dataSource.read();
         	};
@@ -377,7 +377,7 @@
         	vm.edit=function(id,opin){
         		$('.opinionEdit').modal({
                     backdrop: 'static',
-                    keyboard:true
+                    keyboard:false
                 });
         		vm.model.opinion = {"opinion":opin,"id":id};
         		
@@ -818,14 +818,14 @@
         	vm.dialog_shenbaoInfo=function(){
         		$("#shenbaoInfo").modal({
                     backdrop: 'static',
-                    keyboard:true
+                    keyboard:false
                 });
         	};
         	//弹出申报信息复核模态款
         	vm.dialog_shenbaoInfoEdit=function(){
         		$("#shenbaoInfoEdit").modal({
                     backdrop: 'static',
-                    keyboard:true
+                    keyboard:false
                 });
         	};
         	//获取项目类型， 多选
@@ -903,7 +903,7 @@
 	   			vm.pifuType=$(e.target).parents('.uploadBox').attr('data-type');
         	   $("#documentRecords").modal({
 			        backdrop: 'static',
-			        keyboard:true  			  
+			        keyboard:false  			  
         	   });
         	   vm.replyFileGridOptions.dataSource.read();//批复文件列表数据刷新
 	   		};

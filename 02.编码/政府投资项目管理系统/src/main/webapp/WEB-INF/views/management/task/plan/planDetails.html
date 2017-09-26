@@ -45,7 +45,7 @@ textarea.form-control {
 	<ol class="breadcrumb">
 		<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
 		<li><a href="#/">首页</a></li>
-		<li><a href="#/task/shenPi">已办审批类列表</a></li>
+		<li><a href="#/task/shenPi">已办计划类列表</a></li>
 	</ol>                
  	<form id="form" name="form">
  		<div class="bg-info text-info" style="padding: 10px;">项目基本信息</div>  		
@@ -159,27 +159,26 @@ textarea.form-control {
 			</tr>
 		</table>
   		
-		<div id="shenbaoInfo" class="modal fade" tabindex="-1" role="dialog">
-			<div class="modal-dialog"
-				style="margin: 80px auto; width: 80%; max-width: 1000px;">
-				<div class="modal-content">
-					<div class="modal-header bg-primary" style="height:30px;padding:5px;">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<span class="modal-title">详细信息</span>
-					</div>
-					<div class="modal-body text-danger">
-						<div ng-include  src="'/contents/admin/management/task/html/yearPlan/master.html'"></div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-info btn-sm" data-dismiss="modal">确认</button>
-					</div>
-				</div><!-- /.modal-content -->
-			</div><!-- /.modal-dialog -->
-		</div><!-- /.modal --> 	  		         
-    </form>   
-</div>
+<!-- 申报信息模态框 -->
+<div id="shenbaoInfo" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog"
+		style="margin: 80px auto; width: 80%; max-width: 1000px;">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<span class="modal-title">详细信息</span>
+			</div>
+			<div class="modal-body">
+				<div ng-include  src="'/contents/admin/management/task/html/details/shenBaoInfoDetails.html'"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" data-dismiss="modal">确认</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <!-- 发文拟稿模态框 -->
 <div id="draft_issued" class="draft_issued modal fade" tabindex="-1" role="dialog">

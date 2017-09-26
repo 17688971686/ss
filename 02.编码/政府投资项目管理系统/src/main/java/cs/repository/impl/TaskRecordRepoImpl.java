@@ -15,6 +15,7 @@ import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.domain.TaskRecord;
 import cs.model.DomainDto.TaskRecordDto;
+import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 /**
  * @Description: 任务流程信息持久层
@@ -30,6 +31,28 @@ public class TaskRecordRepoImpl extends AbstractRepository<TaskRecord,String>  {
 	public List<TaskRecord> findByOdata2(ODataObj oDataObj) {
 		logger.debug("findByOdata2");		
 		Criteria crit = this.getSession().createCriteria(TaskRecord.class);
+		List<ODataFilterItem> filters = oDataObj.getFilter();
+		if(filters !=null && filters.size()>0){
+			for(ODataFilterItem filter:filters){
+				String field = filter.getField();
+				String operator = filter.getOperator();
+				Object value = filter.getValue();
+				switch (operator) {
+				case "like":
+					Criterion crit8 = Restrictions.eq(field, value);
+					crit.add(crit8);
+					break;
+				case "eq":
+					
+					Criterion crit6 = Restrictions.eq(field, value);
+					crit.add(crit6);
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		
 		Criterion cron1 = Restrictions.eq("taskType",BasicDataConfig.taskType_CBSJYGS);
 		Criterion cron2 = Restrictions.eq("taskType",BasicDataConfig.taskType_KXXYJBG);
 		Criterion cron3 = Restrictions.eq("taskType",BasicDataConfig.taskType_XMJYS);
@@ -68,6 +91,29 @@ public class TaskRecordRepoImpl extends AbstractRepository<TaskRecord,String>  {
 	public List<TaskRecord> findByOdata3(ODataObj oDataObj) {
 		logger.debug("findByOdata3");		
 		Criteria crit = this.getSession().createCriteria(TaskRecord.class);
+		
+		List<ODataFilterItem> filters = oDataObj.getFilter();
+		if(filters !=null && filters.size()>0){
+			for(ODataFilterItem filter:filters){
+				String field = filter.getField();
+				String operator = filter.getOperator();
+				Object value = filter.getValue();
+				switch (operator) {
+				case "like":
+					Criterion crit8 = Restrictions.like(field, "%" + value + "%");
+					crit.add(crit8);
+					break;
+				case "eq":
+					
+					Criterion crit6 = Restrictions.eq(field, value);
+					crit.add(crit6);
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		
 		Criterion cron1 = Restrictions.eq("taskType",BasicDataConfig.taskType_qianQi);
 		Criterion cron2 = Restrictions.eq("taskType",BasicDataConfig.taskType_new);
 		Criterion cron3 = Restrictions.eq("taskType",BasicDataConfig.taskType_xuJian);
