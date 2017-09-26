@@ -274,6 +274,7 @@
         
         //黑名单详情页
         function page_blackListDetails(){
+        	vm.basicData.legalRepCertType=common.getBacicDataByIndectity(common.basicDataConfig().credentialsType);
         	creditInfoSvc.getBlackListById(vm);
         }
         
