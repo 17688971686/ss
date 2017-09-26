@@ -10,7 +10,7 @@
 		var url_taskAudit = "/management/task/audit";
 		var url_shenbao = "/management/shenbao";
 		var url_dept="/org";
-		var url_back = "#/task/todo";
+		var url_back = "#/task/todo_audit";
 		var url_replyFile = "/management/replyFile";
 		var url_role="/role";
 		var url_opin="/opin";

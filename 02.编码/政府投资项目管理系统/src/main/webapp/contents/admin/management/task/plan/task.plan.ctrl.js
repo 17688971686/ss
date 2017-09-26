@@ -272,9 +272,9 @@
         	};
         	
         	//意见下拉框
-        	vm.opinion=function(){
-        		taskPlanSvc.getOpinion(vm);
-        	};
+//        	vm.opinion=function(){
+//        		taskPlanSvc.getOpinion(vm);
+//        	};
         	
         	//保存常用意见
         	vm.saveOpinion=function(){

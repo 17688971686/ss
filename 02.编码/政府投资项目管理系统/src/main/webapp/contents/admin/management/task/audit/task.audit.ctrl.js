@@ -343,9 +343,9 @@
         	};
         	
         	//意见下拉框
-        	vm.opinion=function(){
-        		taskAuditSvc.getOpinion(vm);
-        	};
+//        	vm.opinion=function(){
+//        		taskAuditSvc.getOpinion(vm);
+//        	};
         	
         	//保存常用意见
         	vm.saveOpinion=function(){
