@@ -123,7 +123,7 @@ public class ShenBaoInfo extends BaseProject{
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度安排年度资金筹措方案-其他'")
 	private Double capitalAP_qita_LastTwoYear=0.0;
 
-	@Column(columnDefinition="varchar(255) NULL COMMENT '打包类型'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '打包类型'")
 	private String packageType=BasicDataConfig.packageType_danLie;//默认为单列项目
 
 	//end#年度计划相关
@@ -171,7 +171,7 @@ public class ShenBaoInfo extends BaseProject{
 	private String yearImageSchedule;
 
 	//begin#审核相关
-	@Column(columnDefinition="varchar(500) NULL COMMENT '审核状态'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '审核状态'")
 	private String auditState;
 	@Column(columnDefinition="varchar(255) NULL COMMENT '签收人'")
 	private String receiver;

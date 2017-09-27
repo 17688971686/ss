@@ -1,0 +1,48 @@
+<div class="bg-info text-info" style="padding: 10px;">年度计划信息</div>
+<table class="table table-bordered table-striped ">
+	<tr>
+		<td class="formAlignRight" style="width:150px;">项目进展：<span class="required">(*)</span></td>
+		<td style="width:250px;" colspan="3">
+			<textarea rows="3" cols="20" maxlength="500" style="height:121px;width: 99%;" ng-model="vm.model.shenBaoInfo.yearImageSchedule" 
+			placeholder="注：请简要说明项目现有进展和形象进度（500字符以内）" disabled></textarea>
+		</td>
+	</tr>
+
+	<tr>
+		<td class="formAlignRight">计划年度：</td>
+		<td style="width:370px;"><span ng-bind="vm.model.shenBaoInfo.planYear"></span></td>
+		<td class="formAlignRight" style="width:150px;">年度投资：</td>
+		<td>
+			<span ng-bind="vm.model.shenBaoInfo.applyYearInvest | number:4"></span>&nbsp;(万元)
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">年度建设内容：</td>
+		<td colspan="3">
+			<textarea class="form-control" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.shenBaoInfo.yearConstructionContent" disabled></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">存在的问题：</td>
+		<td>
+			<textarea rows="3" cols="20" maxlength="500" style="width:98%" ng-model="vm.model.shenBaoInfo.existingProblem"
+				placeholder="注：请简要说明项目现在存在的问题（500字符以内）" disabled="disabled"></textarea>
+		</td>
+		<td class="formAlignRight">推进建议：</td>
+		<td>
+			<textarea rows="3" cols="20" maxlength="500" style="width:98%" ng-model="vm.model.shenBaoInfo.moveSuggestion"
+				placeholder="注：请简要说明对项目推进的建议（500字符以内）" disabled="disabled">
+			</textarea>
+		</td>
+	</tr>
+</table>
+
+<div class="bg-info text-info" style="padding: 10px;">年度计划申报备注</div>
+<table style="width:100%;" class="table  table-bordered table-striped">
+	<tr>
+		<td class="formAlignRight" style="width:150px;">申报信息备注：</td>
+		<td colspan="3" >
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（200字符以内）" ng-model="vm.model.shenBaoInfo.yearConstructionContentShenBao" disabled></textarea>												
+		</td>
+	</tr>
+</table>

@@ -48,7 +48,9 @@
 		</td>
 		<td class="formAlignRight">项目类型：</td>
 		<td>
-			<span ng-repeat="x in vm.projectTypes track by $index " ng-bind="vm.getBasicDataDesc(x)+' '"></span>					
+			<lable ng-repeat="x in vm.projectTypes track by $index">
+				<span ng-bind="vm.getBasicDataDesc(x)+' '"></span>			
+			</lable>
 		</td>
 	</tr>
 	<tr>

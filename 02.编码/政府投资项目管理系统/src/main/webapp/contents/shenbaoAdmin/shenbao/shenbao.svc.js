@@ -146,6 +146,7 @@
 						vm.model.shenBaoInfoRecords = response.data.value;
 						 //判断申报记录中的申报阶段，防止多次申报同一阶段
 			        	   if(vm.model.shenBaoInfoRecords.length >0){
+			        		   vm.isHased = false;
 			        		   for (var i = 0; i < vm.model.shenBaoInfoRecords.length; i++) {
 			        			   var shenBaoRecord = vm.model.shenBaoInfoRecords[i];
 			        			   var shenBaoRecordStage = shenBaoRecord.projectShenBaoStage;
@@ -269,7 +270,7 @@
 				{
 					field : "projectName",
 					title : "项目名称",
-					width:200,
+					width:250,
 					template:function(item){
 						return common.format('<a href="#/project/projectInfo/{0}">{1}</a>',item.projectId,item.projectName);
 					},
@@ -278,7 +279,7 @@
 				{
 					field : "processState",
 					title : "审批状态",
-					width : 150,
+					width : 120,
 					filterable : false,
 					template:function(item){
 						var processStateDesc=common.getBasicDataDesc(item.processState);
@@ -289,7 +290,7 @@
 				{
 					field : "projectShenBaoStage",
 					title : "申报阶段",	
-					width : 150,
+					width : 120,
 					template:function(item){
 						return common.getBasicDataDesc(item.projectShenBaoStage);
 					},

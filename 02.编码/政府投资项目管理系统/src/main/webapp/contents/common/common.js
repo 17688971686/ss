@@ -521,7 +521,7 @@
     		taskType_JYS:"taskType_5",//项目建议书
     		taskType_KXXYJBG:"taskType_6",//可行性研究报告
     		taskType_CBSJYGS:"taskType_7",//初步概算与设计
-    		taskType_qianQi:"taskType_8",//前期
+    		taskType_qianQi:"taskType_8",//规划设计前期费
     		taskType_newStart:"taskType_9",//新开工
     		taskType_xuJian:"taskType_10",//续建
     		taskType_junGongJueSuan:"taskType_11",//竣工决算
@@ -621,7 +621,7 @@
 		 var strTmp="";
 		 if(arr !=null && arr.length>0){
 			 if(arr.constructor == String){
-		    		return str;
+		    		return arr;
 		    	}
 			 for(var i=0;i<arr.length;i++){ 
 	    		 if(arr[i]!=""){ 
