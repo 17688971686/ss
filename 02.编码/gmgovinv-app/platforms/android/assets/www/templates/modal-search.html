@@ -1,0 +1,54 @@
+<ion-modal-view>
+<ion-header-bar class="bar-positive">
+<div class="buttons" side="left"> 
+  <button class="button button-clear" ng-click="closeModal()">取消</button>
+</div>
+<h1 class="title">搜索</h1>
+</ion-header-bar>
+<ion-content>
+
+<div >		
+  <div class="list text-left list-form">
+    <div class="item item-input">
+      <div class="input-label">项目名称</div>
+      <input type="text" ng-model="form.keyword">
+    </div>
+    <div class="item item-input">
+      <div class="input-label">项目单位</div>
+      <input type="text" ng-model="form.danwei">
+    </div>
+    <div class="item item-input item-select">
+      <div class="input-label">行业归口</div>
+      <select ng-options="indu.name for indu in industries track by indu.id" ng-model="form.industry" >
+        <option value="">- 不限 -</option>
+      </select> 
+    </div>
+    <div class="item item-input item-select">
+      <div class="input-label">总投资</div>
+      <select ng-options="inve.name for inve in investments track by inve.id" ng-model="form.investment" >
+        <option value="">- 不限 -</option>
+      </select> 
+    </div>
+    <div class="item item-input item-select">
+      <div class="input-label">项目类型</div>
+      <select ng-options="type.name for type in projectTypes track by type.id" ng-model="form.projectType" >
+        <option value="">- 不限 -</option>
+      </select> 
+
+    </div>
+    <div class="item item-input item-select">
+      <div class="input-label">资金来源</div>
+      <select ng-options="src.name for src in investSources track by src.id" ng-model="form.investSource" >
+        <option value="">- 不限 -</option>
+      </select> 
+
+    </div>
+  </div>
+  <div class="pop-footer">
+
+    <div class="col"><button class="button button-positive button-full" ng-click="ok()">确定</button></div>
+  </div>
+</div>   
+
+</ion-content>
+</ion-modal-view>
