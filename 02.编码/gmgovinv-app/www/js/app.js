@@ -266,23 +266,32 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','s
         url: '/plan-monthreport-list/:id',
         views: {
           'tab-planning': {
-            templateUrl: 'templates/monthreport-list.html',
+            templateUrl: 'templates/plan-monthreport-list.html',
             controller: 'MonthReportCtrl'
           }
         }
       })
 			
-			//月报详细情况
+			//月报详细情况-项目库
 			.state('tab.monthreport-detail', {
         url: '/monthreport-detail/:id/:year/:month',
         views: {
-          'tab-project': {
+          'tab-shenbaoinfo': {
             templateUrl: 'templates/monthreport-detail.html',
             controller: 'MonthReportDetailCtrl'
           }
         }
       })
-     
+      //月报详细情况-年度计划
+			.state('tab.plan-monthreport-detail', {
+        url: '/plan-monthreport-detail/:id/:year/:month',
+        views: {
+          'tab-planning': {
+            templateUrl: 'templates/plan-monthreport-detail.html',
+            controller: 'MonthReportDetailCtrl'
+          }
+        }
+      })
 			//项目申报详情
  			.state('tab.project-shenbao', {
         url: '/project-shenbao/:id',

@@ -1,0 +1,33 @@
+<ion-view view-title="项目月报" hide-tabs="true">
+<ion-content>
+    <div class="list">
+    	<div class="item">项目名称:{{project.projectName}}</div>
+        <div class="item">年份：
+        	<select ng-model="currentYear" ng-change="setMonthSelected(currentYear)">
+              <option ng-repeat="x in years">{{x}}</option>
+            </select>
+        </div>
+      </div>
+    </div> 
+  	<ion-list>
+  		<div class="item button-bar bar-light" ng-repeat="x in months">
+  			<a class="button"  ng-if="$index%2==0" href="#/tab/plan-monthreport-detail/{{project.id}}/{{currentYear}}/{{$index+1}}">
+  				{{x}}
+  			 	<span class="isFill text-danger" ng-hide="submitYearMonth['m{{$index+1}}'] || tuiwenYearMonth['m{{$index+1}}']">未填</span>
+            	<span class="isFill text-success" ng-show="submitYearMonth['m{{$index+1}}']">已填</span>
+            	<span class="isFill text-danger" ng-show="tuiwenYearMonth['m{{$index+1}}']">退文！请处理</span>
+  			</a>
+  			<a class="button"  ng-if="$index%2==0" href="#/tab/plan-monthreport-detail/{{project.id}}/{{currentYear}}/{{$index+2}}">
+  				{{months[$index+1]}}
+  				<span class="isFill text-danger" ng-hide="submitYearMonth['m{{$index+2}}'] || tuiwenYearMonth['m{{$index+2}}']">未填</span>
+            	<span class="isFill text-success" ng-show="submitYearMonth['m{{$index+2}}']">已填</span>
+            	<span class="isFill text-danger" ng-show="tuiwenYearMonth['m{{$index+2}}']">退文！请处理</span>
+  			</a>
+  		</div>
+  		
+  	</ion-list>		
+
+</ion-content>
+</ion-view>
+
+
