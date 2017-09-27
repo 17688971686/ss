@@ -1,5 +1,5 @@
-(function () {
-    'use strict';
+(function () { 
+	'use strict';
 
     angular
         .module('app')
@@ -102,7 +102,7 @@
         	vm.dialog_shenbaoInfo=function(){
         		$("#shenbaoInfo").modal({
                     backdrop: 'static',
-                    keyboard:false
+                    keyboard:true
                 });
         	}
         	
@@ -272,9 +272,9 @@
         	};
         	
         	//意见下拉框
-        	vm.opinion=function(){
-        		taskPlanSvc.getOpinion(vm);
-        	};
+//        	vm.opinion=function(){
+//        		taskPlanSvc.getOpinion(vm);
+//        	};
         	
         	//保存常用意见
         	vm.saveOpinion=function(){
@@ -292,7 +292,7 @@
         	vm.showOpinion = function(){
         		$('.opinion').modal({
                     backdrop: 'static',
-                    keyboard:false
+                    keyboard:true
                 });
         		 vm.opinionGrid.dataSource.read();
         	};
@@ -739,7 +739,7 @@
         	vm.dialog_shenbaoInfo=function(){
         		$("#shenbaoInfo").modal({
                     backdrop: 'static',
-                    keyboard:false
+                    keyboard:true
                 });
         	};
         	//弹出申报信息复核模态款

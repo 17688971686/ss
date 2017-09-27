@@ -52,8 +52,7 @@ textarea.form-control {
  		<table class="table table-bordered table-striped ">
 			<tr>
 				<td class="formAlignRight" style="width:150px;">办理事项：</td>
-				<td style="width:250px;" ng-bind="vm.task.taskTypeDesc">
-					
+				<td style="width:250px;" ng-bind="vm.getBasicDataDesc(vm.taskAudit.taskType)"></td>
 				<td class="formAlignRight" style="width:150px;">项目名称：</td>
 				<td>
 					<span ng-bind="vm.model.shenBaoInfo.projectName"></span>
@@ -66,7 +65,7 @@ textarea.form-control {
 				</td>
 				<td class="formAlignRight">项目类型：</td>
 				<td>
-					<span ng-repeat="x in vm.model.shenBaoInfo.projectType track by $index" ng-bind="vm.getBasicDataDesc(x)+' '"></span>
+					<span ng-repeat="x in vm.projectTypes track by $index" ng-bind="vm.getBasicDataDesc(x)+' '"></span>
 				</td>
 			</tr>	
 			<tr>
@@ -111,9 +110,9 @@ textarea.form-control {
 			</tr>		
 	</table>
 	  		
-  		<div class="bg-info text-info" style="padding: 10px;">处理流转信息</div>  		
+  		<div class="bg-info text-info" style="padding: 10px;">处理流转信息</div>
 		<table class="table table-bordered table-striped ">
-			<tr ng-repeat="x in vm.task.taskRecordDtos | orderBy:'modifiedDate':true">
+			<tr ng-repeat="x in vm.taskAudit.taskRecordDtos | orderBy:'itemOrder':true">
 				<td class="formAlignRight" style="width:150px;"  ng-bind="vm.getBasicDataDesc(x.processState)"></td>
 				<td >
 					<table class="table table-bordered table-striped " ng-if="x.tuiwen == true">
@@ -169,7 +168,7 @@ textarea.form-control {
 			<div class="modal-dialog"
 				style="margin: 80px auto; width: 80%; max-width: 1000px;">
 				<div class="modal-content">
-					<div class="modal-header bg-primary" style="height:30px;padding:5px;">
+					<div class="modal-header bg-primary">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -199,7 +198,7 @@ textarea.form-control {
 			<span class="modal-title">填写拟稿纸</span>
 			</div>
 			 <div class="modal-body">
-			 	<div ng-include  src="'/contents/admin/management/task/html/shenPi/draftIssued.html'"></div>
+			 	<div ng-include  src="'/contents/admin/management/task/audit/html/details/draftIssued.html'"></div>
             </div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -220,7 +219,7 @@ textarea.form-control {
 			<span class="modal-title">填写评审报批单</span>
 			</div>
 			 <div class="modal-body">
-			 	<div ng-include  src="'/contents/admin/management/task/html/shenPi/approval.html'"></div>
+			 	<div ng-include  src="'/contents/admin/management/task/audit/html/details/approval.html'"></div>
             </div>
 			<div class="modal-footer" >
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -241,7 +240,7 @@ textarea.form-control {
 			<span class="modal-title">填写评审委托书</span>
 			</div>
 			 <div class="modal-body">
-			 	<div ng-include  src="'/contents/admin/management/task/html/shenPi/proxy.html'"></div>
+			 	<div ng-include  src="'/contents/admin/management/task/audit/html/details/proxy.html'"></div>
             </div>
 			<div class="modal-footer" >
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -262,7 +261,7 @@ textarea.form-control {
 			<span class="modal-title">填写评审委托书</span>
 			</div>
 			 <div class="modal-body">
-			 	<div ng-include  src="'/contents/admin/management/task/html/shenPi/reviewResult.html'"></div>
+			 	<div ng-include  src="'/contents/admin/management/task/audit/html/details/reviewResult.html'"></div>
             </div>
 			<div class="modal-footer" >
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>

@@ -538,6 +538,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			taskHead.setProcessState(BasicDataConfig.processState_tianBao);//设置工作流的状态
 			taskHead.setNextProcess(BasicDataConfig.processState_MiShuFenBan);//设置下一工作流状态
 			taskHead.setProcessRole(role.getId());
+			taskHead.setItemOrder(1);
 			taskHead.setProcessSuggestion("材料填报");//设置处理意见
 			taskHead.setTaskType(this.getTaskType(shenBaoInfo.getProjectShenBaoStage()));//设置工作流的类型
 			taskHead.setUnitName(shenBaoInfo.getConstructionUnit());//设置建设单位
@@ -558,6 +559,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			TaskRecord taskRecord=new TaskRecord();
 			taskRecord.setId(UUID.randomUUID().toString());
 			taskRecord.setTitle(taskHead.getTitle());
+			taskRecord.setItemOrder(1);
 			//taskRecord.setNextUser(startUser);//设置下一处理人
 			taskRecord.setRelId(taskHead.getRelId());//设置关联id
 			taskRecord.setTaskId(taskHead.getId());//设置任务Id

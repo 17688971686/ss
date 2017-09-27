@@ -157,8 +157,8 @@ desired effect
 							<li class="active treeview"><a href="#/task/todo">个人待办</a>
 								<ul class="treeview-menu">
 									<li>
-										<a href="#/task/todo">个人待办(下一 年度计划)
-										 <span id="todoNumber" class="label label-danger" style="font-size:9px;padding:0px 5px;"></span>
+										<a href="javascript:void(0)" ui-sref="task_todo">个人待办(下一 年度计划)
+											<span id="todoNumber" class="label label-danger" style="font-size:9px;padding:0px 5px;"></span>
 										</a>
 									</li>
 									<li>
@@ -196,8 +196,8 @@ desired effect
 						</span>
 					</a>
 						<ul class="treeview-menu">
-							<li><a href="#/yearPlan/shenbaoInfoList" >年度计划项目库</a></li>
-							<li><a href="#/yearPlan/planList" >年度计划编制</a></li>
+							<li><a href="javascript:void(0)" ui-sref="yearPlan_shenbaoInfoList" >年度计划项目库</a></li>
+							<li><a href="javascript:void(0)" ui-sref="yearPlan_planList" >年度计划编制</a></li>
 						</ul></li>
 					<li class="treeview">
 						<a href="javascript:void(0)"> <i
@@ -207,8 +207,8 @@ desired effect
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							<li><a href="" ui-sref="monthReport">政府投资项目月报</a></li>
-							<li><a href="" ui-sref="monthReport_SH">社会投资项目月报</a></li>
+							<li><a href="javascript:void(0)" ui-sref="monthReport">政府投资项目月报</a></li>
+							<li><a href="javascript:void(0)" ui-sref="monthReport_SH">社会投资项目月报</a></li>
 						</ul>
 					</li>
 					
@@ -259,7 +259,7 @@ desired effect
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							<li><a href="javascript:void(0)" ui-sref="credit_illegalNameList" >信用异常名录</a></li>
+							<li><a href="javascript:void(0)" ui-sref="credit_illegalNameList">信用异常名录</a></li>
 							<li><a href="javascript:void(0)" ui-sref="credit_blackList">信用黑名单</a></li>
 							<li><a href="javascript:void(0)" ui-sref="credit_projectAnomaly">项目异常监管</a></li>
 						</ul>
@@ -448,9 +448,9 @@ desired effect
 	<!-- yearPlan -->
 	<script src="/contents/admin/management/yearPlan/yearPlan.ctrl.js"></script>
 	<script src="/contents/admin/management/yearPlan/yearPlan.svc.js"></script>
-	<!-- task -->
-	<script src="/contents/admin/management/task/task.ctrl.js"></script>
-	<script src="/contents/admin/management/task/task.svc.js"></script>
+	<!-- task_yearPlan -->
+	<script src="/contents/admin/management/task/yearPlan/task.yearPlan.ctrl.js"></script>
+	<script src="/contents/admin/management/task/yearPlan/task.yearPlan.svc.js"></script>
 	<!-- task_audit -->
 	<script src="/contents/admin/management/task/audit/task.audit.ctrl.js"></script>
 	<script src="/contents/admin/management/task/audit/task.audit.svc.js"></script>
@@ -461,9 +461,5 @@ desired effect
 	<script src="/contents/admin/management/mediationManagement/mediationManagement.ctrl.js"></script>
 	<script src="/contents/admin/management/mediationManagement/mediationManagement.svc.js"></script>
 	<!-- End:自定义Js-->
-	
-	
-	
-
 </body>
 </html>

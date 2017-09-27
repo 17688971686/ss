@@ -41,7 +41,7 @@ public class TaskHeadRepoImpl extends AbstractRepository<TaskHead, String> {
 				Object value = filter.getValue();
 				switch (operator) {
 				case "like":
-					Criterion crit8 = Restrictions.eq(field, value);
+					Criterion crit8 = Restrictions.like(field, "%" + value + "%");
 					crit.add(crit8);
 					break;
 				case "eq":
