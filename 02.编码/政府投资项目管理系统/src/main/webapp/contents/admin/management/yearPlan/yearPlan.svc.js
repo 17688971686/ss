@@ -710,7 +710,7 @@
 					vm.model=response.data.value[0] || {};
 				}					
 				if(vm.page=='planBZ'){//用于年度计划的编制
-					vm.model.plan=response.data.value[0] || {};						
+					vm.model.plan=response.data.value[0] || {};
 					//数据汇总数据计算
 					var Capitals = vm.model.plan.yearPlanCapitalDtos;
 					//属于该年度计划编制的申报项目信息
@@ -789,7 +789,6 @@
 						}
 					}
 				}
-				
 			};
 			
 			common.http({

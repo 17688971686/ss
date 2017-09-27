@@ -19,7 +19,7 @@
         vm.investmentType=$state.params.projectInvestmentType;
         vm.stage=$state.params.stage;
     	vm.page="shenbaoInfoList";//默认为申报信息列表页面
-    	vm.planYear=2018;
+    	vm.planYear=new Date().getFullYear()+1;//用于年度计划编制列表表头
         
     	function init(){
     		if($state.current.name=='yearPlan_shenbaoInfoEdit'){//申报信息新增页面
@@ -527,7 +527,7 @@
     		};
     	}//init_planUpadte
     	
-    	function init_planBZ(){   		
+    	function init_planBZ(){
     		yearPlanSvc.grid_yearPlan_shenbaoInfoList(vm);//查询年度计划编制中的申报信息列表
     		yearPlanSvc.grid_yearPlan_addShenbaoInfoList(vm);//查询所有的可添加的申报信息列表 
     		
@@ -665,6 +665,6 @@
                      }
                  });
 	         });
-    	}//init_planBZ   	    	    	   	
+    	}//init_planBZ
     } //yearPlan
 })();

@@ -482,67 +482,25 @@
 /**********************end#信用信息管理***************************************/
 	        
 /**********************begin#工作台***************************************/
-	        //待办列表页(taskHead)
+	        //待办列表页(taskHead 下一年度计划)
 	        .state('task_todo', {
 	            url: '/task/todo',
 	            templateUrl: '/management/task/html/todo',
-	            controller: 'taskCtrl',
+	            controller: 'taskYearPlanCtrl',
 	            controllerAs: 'vm'
 	        })
-	        //任务处理页
+	        //任务处理页--下一年度计划
 	        .state('task_handle', {
 	            url: '/task/todo/:taskType/:taskId/:relId',
 	            templateUrl: '/management/task/html/handle',
-	            controller: 'taskCtrl',
+	            controller: 'taskYearPlanCtrl',
 	            controllerAs: 'vm'
 	        })
 	        //已办列表页--下一年度计划(taskRecord)
 	        .state('task_complete', {
 	            url: '/task/complete',
 	            templateUrl: '/management/task/html/complete',
-	            controller: 'taskCtrl',
-	            controllerAs: 'vm'
-	        })
-	         //已办列表页--审批类(taskRecord)
-	        .state('task_shenPi', {
-	            url: '/task/shenPi',
-	            templateUrl: '/management/task/html/complete_shenPi',
-	            controller: 'taskCtrl',
-	            controllerAs: 'vm'
-	        })
-	          //已办列表页--审批类(taskRecord)
-	        .state('task_plan', {
-	            url: '/task/plan',
-	            templateUrl: '/management/task/html/complete_plan',
-	            controller: 'taskPlanCtrl',
-	            controllerAs: 'vm'
-	        })
-	        //个人已办--审批类
-	        .state('task_shenPiDetails', {
-	            url: '/task/shenPi_details/:taskType/:taskId/:relId',
-	            templateUrl: '/management/task/html/shenPiDetails',
-	            controller: 'taskCtrl',
-	            controllerAs: 'vm'
-	        })
-	        //个人已办--计划类
-	         .state('task_planDetails', {
-	            url: '/task/plan_details/:taskType/:taskId/:relId',
-	            templateUrl: '/management/task/html/planDetails',
-	            controller: 'taskPlanCtrl',
-	            controllerAs: 'vm'
-	        })
-	         //待办列表页--计划类
-	        .state('task_todo_plan', {
-	            url: '/task/todo_plan',
-	            templateUrl: '/management/task/html/todo_plan',
-	            controller: 'taskPlanCtrl',
-	            controllerAs: 'vm'
-	        })
-	           //任务处理页--计划类
-	        .state('task_handle_plan', {
-	            url: '/task/handle_plan/:taskType/:taskId/:relId',
-	            templateUrl: '/management/task/html/handle_plan',
-	            controller: 'taskPlanCtrl',
+	            controller: 'taskYearPlanCtrl',
 	            controllerAs: 'vm'
 	        })
 	         //待办列表页--审批类
@@ -559,6 +517,49 @@
 	            controller: 'taskAuditCtrl',
 	            controllerAs: 'vm'
 	        })
+	         //已办列表页--审批类(taskRecord)
+	        .state('task_shenPi', {
+	            url: '/task/shenPi',
+	            templateUrl: '/management/task/html/complete_shenPi',
+	            controller: 'taskAuditCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //个人已办--审批类详情
+	        .state('task_shenPiDetails', {
+	            url: '/task/shenPi_details/:taskType/:taskId/:relId',
+	            templateUrl: '/management/task/html/shenPiDetails',
+	            controller: 'taskAuditCtrl',
+	            controllerAs: 'vm'
+	        })
+	         //待办列表页--计划类
+	        .state('task_todo_plan', {
+	            url: '/task/todo_plan',
+	            templateUrl: '/management/task/html/todo_plan',
+	            controller: 'taskPlanCtrl',
+	            controllerAs: 'vm'
+	        })
+	           //任务处理页--计划类
+	        .state('task_handle_plan', {
+	            url: '/task/handle_plan/:taskType/:taskId/:relId',
+	            templateUrl: '/management/task/html/handle_plan',
+	            controller: 'taskPlanCtrl',
+	            controllerAs: 'vm'
+	        })
+	          //已办列表页--计划类(taskRecord)
+	        .state('task_plan', {
+	            url: '/task/plan',
+	            templateUrl: '/management/task/html/complete_plan',
+	            controller: 'taskPlanCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //个人已办--计划类
+	         .state('task_planDetails', {
+	            url: '/task/plan_details/:taskType/:taskId/:relId',
+	            templateUrl: '/management/task/html/planDetails',
+	            controller: 'taskPlanCtrl',
+	            controllerAs: 'vm'
+	        })
+	        
 /**********************end#工作台***************************************/
       //begin中介单位管理
         //中介单位列表
