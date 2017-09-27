@@ -117,7 +117,7 @@ overflow: scroll !important;
 	  		
 		<div class="bg-info text-info" style="padding: 10px;">处理流转信息</div>  		
 		<table class="table table-bordered table-striped ">
-			<tr ng-repeat="x in vm.taskPlan.taskRecordDtos | orderBy:'modifiedDate':true" >
+			<tr ng-repeat="x in vm.taskPlan.taskRecordDtos | orderBy:'itemOrder':true" >
 				<td class="formAlignRight"  style="width:150px;"  ng-bind="vm.getBasicDataDesc(x.processState)"></td>
 				<td >
 					<table class="table table-bordered table-striped " ng-if="x.tuiwen == true">

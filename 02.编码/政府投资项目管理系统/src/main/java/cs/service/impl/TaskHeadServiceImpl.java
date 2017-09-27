@@ -214,6 +214,26 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 		TaskHead taskHead=super.repository.findById(taskId);
 		
 		if(taskHead!=null){
+			
+			//判断任务是否完成
+			String processState = dto.getProcessState();
+			if(isComplete(processState)){//如果已完成
+				taskHead.setComplete(true);		
+				//dto.setNextUser(taskHead.getCreatedBy());//设置流程的下一处理人为之前任务的创建人
+			}else{//如果没有完成 TODO
+				
+			}
+			
+			//更新任务
+			taskHead.setOperator(dto.getOperator());
+			taskHead.setModifiedDate(new Date());
+			taskHead.setProcessState(processState);//状态
+			taskHead.setNextProcess(dto.getNextProcess());//下一状态
+			taskHead.setProcessRole(dto.getProcessRole());
+			taskHead.setNextUser(dto.getNextUser());//下一流程处理人
+			taskHead.setProcessSuggestion(dto.getProcessSuggestion());//处理意见
+			taskHead.setItemOrder(dto.getItemOrder() +1);
+			
 			//新增一条处理流程记录
 			TaskRecord entity=new TaskRecord();
 			dto.setRelId(taskHead.getRelId());
@@ -225,28 +245,10 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			dto.setCreatedBy(currentUser.getUserId());
 			dto.setModifiedBy(currentUser.getUserId());
 			dto.setModifiedDate(new Date());
-			
-			
-			//判断任务是否完成
-			String processState = dto.getProcessState();
-			if(isComplete(processState)){//如果已完成
-				taskHead.setComplete(true);		
-				//dto.setNextUser(taskHead.getCreatedBy());//设置流程的下一处理人为之前任务的创建人
-			}else{//如果没有完成 TODO
-				
-			}
+			dto.setItemOrder(taskHead.getItemOrder());
+		
 			taskRecordMapper.buildEntity(dto, entity);			
 			taskHead.getTaskRecords().add(entity);
-			
-			//更新任务
-			taskHead.setOperator(dto.getOperator());
-			taskHead.setModifiedDate(new Date());
-			taskHead.setProcessState(processState);//状态
-			taskHead.setNextProcess(dto.getNextProcess());//下一状态
-			taskHead.setProcessRole(dto.getProcessRole());
-			taskHead.setNextUser(dto.getNextUser());//下一流程处理人
-			taskHead.setProcessSuggestion(dto.getProcessSuggestion());//处理意见
-			
 			
 			//设置相应信息的状态
 			String taskType=dto.getTaskType();

@@ -117,7 +117,7 @@ overflow: scroll !important;
 	  		
 		<div class="bg-info text-info" style="padding: 10px;">处理流转信息</div>  		
 		<table class="table table-bordered table-striped ">
-			<tr ng-repeat="x in vm.taskAudit.taskRecordDtos | orderBy:'modifiedDate':true" >
+			<tr ng-repeat="x in vm.taskAudit.taskRecordDtos | orderBy:'itemOrder':true" >
 				<td class="formAlignRight"  style="width:150px;"  ng-bind="vm.getBasicDataDesc(x.processState)"></td>
 				<td >
 					<table class="table table-bordered table-striped " ng-if="x.tuiwen == true">
@@ -386,7 +386,7 @@ overflow: scroll !important;
 					<div style="float: left;" ng-if="vm.nextProcessRadioOfYW == 'pingshenweituo'">
 						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('songshen')" value="songshen" data-val="true" data-val-required="必选"/>送审&nbsp;&nbsp;
 					</div>
-					<div style="float: left;" ng-if="vm.nextProcessRadioOfYW == 'pingshenbaopi' || vm.nextProcessRadioOfYW == 'fawen' || vm.nextProcessRadioOfYW == 'keyuantuiwen' || vm.nextProcessRadioOfYW == 'pingshenweituo'">
+					<div style="float: left;" ng-if="vm.nextProcessRadioOfYW == 'pingshenbaopi' || vm.nextProcessRadioOfYW == 'fawen' || vm.nextProcessRadioOfYW == 'keyuantuiwen'">
 						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('kezhangshenhe')" value="bumen" data-val="true" data-val-required="必选"/>科长审核&nbsp;&nbsp;
 					</div>
 					<div style="float: left;" ng-if="vm.nextProcessRadioOfYW == 'yewu'">

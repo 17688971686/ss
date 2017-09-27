@@ -496,12 +496,13 @@
         		//经办人办理
         		if(str == "jingBanRenBanli"){
         			vm.nextProcessRadio = "jingBanRenBanli";
-        			for (var i = 0; i < vm.model.depts.length; i++) {
+        			root:for (var i = 0; i < vm.model.depts.length; i++) {
 						for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {
 							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {
 								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "科长" &&vm.model.depts[i].userDtos[j].id ==vm.taskAudit.nextUser){//科长选择当前科室的科员为下一流程处理人
 									vm.model.depts[i].userDtos.splice(j,1);
 									vm.users = vm.model.depts[i].userDtos;
+									break root;
 								}
 							}
 						}
@@ -755,11 +756,15 @@
 	        			setNextProcess(vm);//设置当前流程状态&&下一流程状态
 	        			vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadioOfYW == "pingshenbaopi" && vm.nextProcessRadio == "kezhangshenhe"){//评审完成--正常流程
+	        			vm.taskAudit.processState = "processState_5";
 	        			setNextProcess(vm);//设置当前流程状态&&下一流程状态
 	        			vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadioOfYW == "fawen" && vm.nextProcessRadio == "kezhangshenhe"){//经办人发文拟稿
-	        			if(vm.taskAudit.processState == "processState_4"){//第三步发文
+	        			if(vm.taskAudit.processState == "processState_4"){//第一步发文
 	        				vm.taskAudit.processState = "processState_5";
+	        			}
+	        			if(vm.taskAudit.processState == "processState_8"){//第二步发文
+	        				vm.taskAudit.processState = "processState_9";
 	        			}
 	        			if(vm.taskAudit.processState == "processState_10"){//第三步发文
 	        				vm.taskAudit.processState = "processState_17";

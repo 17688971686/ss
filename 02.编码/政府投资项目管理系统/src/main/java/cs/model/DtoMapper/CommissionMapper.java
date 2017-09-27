@@ -63,7 +63,6 @@ public class CommissionMapper  implements IMapper<CommissionDto, Commission>{
 			entity.setUnitName(dto.getUnitName());
 			entity.setApprovalType(dto.getApprovalType());
 			entity.setContacts(dto.getContacts());
-			entity.setDatum(dto.getDatum());
 		}
 		return entity;
 	}
