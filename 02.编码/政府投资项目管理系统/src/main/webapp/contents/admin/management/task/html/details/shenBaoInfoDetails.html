@@ -4,6 +4,7 @@
 		<li id="tab1" class="k-state-active">项目基本信息</li>
 		<li id="tab2">项目单位信息</li>
 		<li id="tab3">项目材料清单</li>
+		<li id="tab4" ng-show="vm.isYearPlan">年度计划信息</li>
 	</ul>
 	<!-- 项目基本信息 -->
 	<div class="tab_content">
@@ -19,5 +20,10 @@
 	<!-- 项目材料清单 -->
 	<div class="tab_content">
 		<div ng-include src="'/contents/admin/management/task/html/details/materialsInfo.html'"></div>
+	</div>
+	<!-- 年度计划信息 -->
+	<div class="tab_content" ni-if="vm.isYearPlan">
+		<div ng-if="vm.isZFInvestment" ng-include src="'/contents/admin/management/task/yearPlan/html/yearPlan_ZF.html'"></div>
+		<div ng-if="vm.isSHInvestment" ng-include src="'/contents/admin/management/task/yearPlan/html/yearPlan_SH.html'"></div>
 	</div>
 </div>

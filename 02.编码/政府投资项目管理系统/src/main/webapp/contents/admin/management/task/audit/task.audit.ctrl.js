@@ -25,9 +25,17 @@
        vm.nextProcessRadio = "";
 
     	function init(){
-    		
-    		if($state.current.name=='task_handle_audit'){//处理页面
+    		if($state.current.name=='task_todo_audit'){//待办列表--审批类
+    			vm.page='todoAuditList';
+    		}
+    		if($state.current.name=='task_handle_audit'){//处理页面--审批类
     			vm.page="handleAudit";
+    		}
+    		if($state.current.name=='task_shenPi'){//已办列表--审批类
+    			vm.page="complete_shenPi";
+    		}
+    		if($state.current.name=='task_shenPiDetails'){//审批类详细信息展示
+    			vm.page='task_shenPiDetails';
     		}
     		
     		vm.formatDate=function(str){
@@ -71,6 +79,21 @@
 	   				.toArray(); //行政区划街道
    	   		vm.basicData.userUnit=common.getUserUnits();//获取所有单位
    	   		vm.basicData.taskType=common.getBacicDataByIndectity(common.basicDataConfig().taskType);//任务类型
+   	   		vm.basicData.hecretHierarchy=$linq(common.getBasicData())
+   	   			.where(function(x){return x.identity==common.basicDataConfig().hecretHierarchy&&x.pId==common.basicDataConfig().hecretHierarchy;})
+   	   			.toArray();//获取秘密等级信息
+   	   		vm.basicData.fileSet=$linq(common.getBasicData())
+   	   			.where(function(x){return x.identity==common.basicDataConfig().fileSet&&x.pId==common.basicDataConfig().fileSet;})
+   	   			.toArray();//获取文件缓急信息
+   	   		vm.basicData.documentType=$linq(common.getBasicData())
+   	   			.where(function(x){return x.identity==common.basicDataConfig().documentType&&x.pId==common.basicDataConfig().documentType;})
+   	   			.toArray();//获取文件种类信息
+   	   		vm.basicData.openType=$linq(common.getBasicData())
+   	   			.where(function(x){return x.identity==common.basicDataConfig().openType&&x.pId==common.basicDataConfig().openType;})
+   	   			.toArray();//获取公开种类信息
+			vm.basicData.postingCategory=$linq(common.getBasicData())
+				.where(function(x){return x.identity==common.basicDataConfig().postingCategory&&x.pId==common.basicDataConfig().postingCategory;})
+				.toArray();//获取发文种类信息
     	}
     	   	
     	activate();
@@ -82,6 +105,12 @@
         	if(vm.page=='handleAudit'){
         		init_handleAudit();
         	}
+        	if(vm.page=='complete_shenPi'){
+        		init_complete_shenPiList();
+        	}
+        	if(vm.page=='task_shenPiDetails'){
+        		init_task_shenPiDetails();
+        	}
         }
         
         function init_todoAuditList(){
@@ -91,6 +120,7 @@
         	vm.search=function(){
         		var filters = [];
 				filters.push({field:'isComplete',operator:'eq',value:false});//默认条件--没有完成的任务 
+				
 				if(vm.search.title !=null && vm.search.title !=''){//查询条件--标题
 	     			   filters.push({field:'title',operator:'contains',value:vm.search.title});
 	     		   }
@@ -106,7 +136,86 @@
         	vm.filterClear=function(){
         		location.reload();
         	};
-        }//end init_todoList
+        }//end init_todoAuditList
+        
+        function init_complete_shenPiList(){
+        	taskAuditSvc.complete_shenPiGird(vm);
+        	//查询
+        	vm.search=function(){
+        		var filters = [];
+				if(vm.search.title !=null && vm.search.title !=''){//查询条件--标题
+	     			   filters.push({field:'title',operator:'contains',value:vm.search.title});
+	     		   }
+     		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--任务建设单位
+     			   filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
+     		   }
+     		   if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){//查询条件--项目行业
+     			  filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
+     		   }
+     		  vm.gridOptions_complete_shenPi.dataSource.filter(filters);
+        	};
+        	//清空筛选条件
+        	vm.filterClear=function(){
+        		location.reload();
+        	};
+        }//end#init_complete_shenPiList
+        
+        function init_task_shenPiDetails(){
+        	taskAuditSvc.getTaskInfoById(vm);//查询任务信息
+        	taskAuditSvc.getShenBaoInfoById(vm);//查询申报信息
+        	//相关附件文件上传文件种类
+	   		vm.relatedType=common.uploadFileTypeConfig().reviewResult;
+        	 
+        	 vm.dialog_shenbaoInfo=function(){
+      		   $('#shenbaoInfo').modal({
+                     backdrop: 'static',
+                     keyboard:true
+                 });
+      	   };
+      	   
+	      	//打开评审结果模态框
+	       	vm.showReviewResult=function(){
+	       		taskAuditSvc.getComission(vm);
+	       		taskAuditSvc.getReviewResult(vm);
+	       		
+	       		$('.reviewResult').modal({
+	                   backdrop: 'static',
+	                   keyboard:false
+	               });
+	       	};
+      	   
+	      	//查询委托书
+	       	vm.proxyOpen=function(){
+	       		taskAuditSvc.getApproval(vm);
+	       		taskAuditSvc.getComission(vm);
+	       		
+	       		$('.proxy').modal({
+	                   backdrop: 'static',
+	                   keyboard:false
+	            });
+	       	};
+      	   
+	      	//拟稿纸模态框
+	       	vm.draftOpen=function(){
+	       		//查询发文拟稿
+	       		taskAuditSvc.getDraftIssued(vm);
+	       		
+	       		$('.draft_issued').modal({
+	                   backdrop: 'static',
+	                   keyboard:false
+	               });
+	       	};
+      	   
+      	   //评审报批模态框
+      	  vm.editApproval=function(){
+	    	   taskSvc.getApproval(vm);
+	    	   
+	    	   $('.approval').modal({
+                 backdrop: 'static',
+                 keyboard:false
+             });
+	       };
+        }//end#init_task_shenPiDetails
         
         function init_handleAudit(){
         	//查询任务信息
@@ -363,7 +472,7 @@
         	vm.showOpinion = function(){
         		$('.opinion').modal({
                     backdrop: 'static',
-                    keyboard:false
+                    keyboard:true
                 });
         		 vm.opinionGrid.dataSource.read();
         	};
@@ -818,7 +927,7 @@
         	vm.dialog_shenbaoInfo=function(){
         		$("#shenbaoInfo").modal({
                     backdrop: 'static',
-                    keyboard:false
+                    keyboard:true
                 });
         	};
         	//弹出申报信息复核模态款

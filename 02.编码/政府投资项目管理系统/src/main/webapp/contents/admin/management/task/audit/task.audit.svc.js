@@ -8,6 +8,7 @@
 	function taskAudit($http,$location) {
 		var url_task = "/management/task";
 		var url_taskAudit = "/management/task/audit";
+		var url_taskRecord_shenPi = "/management/taskRecord/shenPi";
 		var url_shenbao = "/management/shenbao";
 		var url_dept="/org";
 		var url_back = "#/task/todo";
@@ -22,6 +23,7 @@
 		
 		var service = {
 			grid : grid,//待办任务列表
+			complete_shenPiGird:complete_shenPiGird,//已办列表
 			getTaskInfoById:getTaskInfoById,//查询任务信息
 			getShenBaoInfoById:getShenBaoInfoById,//查询申报信息
 			getDepts:getDepts,//查询部门
@@ -517,7 +519,7 @@
 		function getTaskInfoById(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_taskAudit + "?$filter=id eq '{0}'", vm.taskId)
+					url : common.format(url_task + "?$filter=id eq '{0}'", vm.taskId)
 				};
 			
 			var httpSuccess = function success(response) {
@@ -526,6 +528,12 @@
 					response:response,
 					fn:function(){
 						vm.taskAudit = response.data.value[0] || {};
+						if(vm.taskAudit){
+							vm.taskAudit.taskTypeDesc=common.getBasicDataDesc(vm.taskAudit.taskType);
+							if(vm.taskAudit.isComplete){//如果任务为已完成
+								vm.isComplete=true;
+							}
+						}	
 					}
 				});
 			};
@@ -943,5 +951,110 @@
 					};
 			}
 		}// end fun grid
+		
+		function complete_shenPiGird(vm) {
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url_taskRecord_shenPi),
+				schema : common.kendoGridConfig().schema({
+					id : "id"					
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "createdDate",
+					dir : "desc"
+				},
+				change: function(e) {//当数据发生变化时
+				    var filters = dataSource.filter();//获取所有的过滤条件
+				    vm.filters = filters;
+				}
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+					{
+						template : function(item) {
+							return kendo
+									.format(
+											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+											item.id);
+						},
+						filterable : false,
+						width : 40,
+						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+
+					},
+					{
+						field : "title",
+						title : "标题",						
+						filterable : true,
+						template:function(item){
+							return common.format("<a href='#/task/shenPi_details/{1}/{2}/{3}'>{0}</a>",item.title,item.taskType,item.taskId,item.relId);
+						}
+					},
+					 {
+						field : "unitName",
+						title : "建设单位",
+						width : 400,						
+						filterable : true
+					},
+					{
+						field : "projectIndustry",
+						title : "项目行业",
+						width : 200,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectIndustry);
+						},
+						filterable : {
+							 ui: function(element){
+			                        element.kendoDropDownList({
+			                            valuePrimitive: true,
+			                            dataSource: $linq(common.getBasicData())
+			             	       					.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
+			             	       					.toArray(),
+			                            dataTextField: "description",
+			                            dataValueField: "id"
+			                        });
+			                    }
+						}
+					},
+					 {
+						field : "taskType",
+						title : "任务类型",
+						width : 180,						
+						filterable : false,
+						template:function(item){						
+							return common.getBasicDataDesc(item.taskType);
+						}
+					},
+					{
+						field : "",
+						title : "创建日期",
+						width : 180,
+						template : function(item) {
+							return kendo.toString(new Date(item.createdDate),"yyyy/MM/dd HH:mm:ss");
+						}
+
+					}
+
+			];
+			// End:column
+
+			vm.gridOptions_complete_shenPi = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true,
+				sortable:true,
+				scrollable:true
+			};
+		}//end#complete_shenPiGird(个人已办列表)
 	}	
 })();

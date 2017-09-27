@@ -699,7 +699,7 @@ overflow: scroll !important;
 			<span class="modal-title">填写拟稿纸</span>
 			</div>
 			 <div class="modal-body">
-			 	<div ng-include  src="'/contents/admin/management/task/audit/html/draftIssued.html'"></div>
+			 	<div ng-include  src="'/contents/admin/management/task/audit/html/edit/draftIssued.html'"></div>
             </div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" ng-click="vm.saveDraft()">保存</button>
@@ -722,7 +722,7 @@ overflow: scroll !important;
 			<span class="modal-title">填写评审报批单</span>
 			</div>
 			 <div class="modal-body">
-			 	<div ng-include  src="'/contents/admin/management/task/audit/html/approval.html'"></div>
+			 	<div ng-include  src="'/contents/admin/management/task/audit/html/edit/approval.html'"></div>
             </div>
 			<div class="modal-footer" >
 				<button type="button" ng-if="vm.taskAudit.nextProcess == 'processState_5'" class="btn btn-primary" ng-click="vm.saveApproval()" data-dismiss="modal">保存</button>
@@ -744,7 +744,7 @@ overflow: scroll !important;
 			<span class="modal-title">填写评审委托书</span>
 			</div>
 			 <div class="modal-body">
-			 	<div ng-include  src="'/contents/admin/management/task/audit/html/proxy.html'"></div>
+			 	<div ng-include  src="'/contents/admin/management/task/audit/html/edit/proxy.html'"></div>
             </div>
 			<div class="modal-footer" >
 				<button type="button" ng-if="vm.taskAudit.nextProcess == 'processState_9'" class="btn btn-primary" ng-click="vm.saveProxy()" data-dismiss="modal">保存</button>
@@ -766,7 +766,7 @@ overflow: scroll !important;
 			<span class="modal-title">填写评审委托书</span>
 			</div>
 			 <div class="modal-body">
-			 	<div ng-include  src="'/contents/admin/management/task/audit/html/reviewResult.html'"></div>
+			 	<div ng-include  src="'/contents/admin/management/task/audit/html/edit/reviewResult.html'"></div>
             </div>
 			<div class="modal-footer" >
 				<button type="button" ng-if="vm.taskAudit.nextProcess == 'processState_10'" class="btn btn-primary" ng-click="vm.saveReview()" data-dismiss="modal">保存</button>
