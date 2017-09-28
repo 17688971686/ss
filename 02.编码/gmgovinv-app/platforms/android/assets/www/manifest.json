@@ -1,0 +1,42 @@
+{
+  "files":{
+    "style": {
+      "version": "afb90752e0a90c24b7f724faca86c5f3d15d1178",
+      "filename": "css/style.css"
+    },
+    "appjs": {
+      "version": "35e0b4e5ac71901d9919b1a32b5ae69cc660d470",
+      "filename": "js/app.js"
+    },
+    "controllersjs": {
+      "version": "f37ff9832449594d1cefe98260cae9fdc13e0749",
+      "filename": "js/controllers.js"
+    },
+    "servicesjs": {
+      "version": "58f3b1d28ea7dda0c1c336360b26f92e3f24731e",
+      "filename": "js/services.js"
+    },
+    "chat-detail": {
+      "version": "d6a10cd44da1ac10216593b735d9fe9f8acc22b6",
+      "filename": "templates/chat-detail.html"
+    },
+    "tab-settings": {
+      "version": "d6a10cd44da1ac10216593b735d9fe9f8acc22b6",
+      "filename": "templates/tab-settings.html"
+    }
+  },
+  "load":[
+    "lib/ionic/js/ionic.bundle.min.js",
+    "lib/angular-chart/Chart.min.js",
+    "lib/angular-chart/anbular-chart.css",
+    "lib/angular-chart/anbular-chart.min.js",
+    "cordova-app-loader-complete.js",
+    "bootstrap.js",  
+    "autoupdate.js",  
+    "css/style.css",
+    "js/app.js",
+    "js/controllers.js",
+    "js/services.js"
+  ],
+  "version": "3feefac61c0663c01c020a34be57fdbc0e9f88bf"
+}
