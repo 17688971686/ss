@@ -36,9 +36,13 @@
                     <input  type="text" maxlength="200" class="form-control input-sm "  ng-model="vm.model.displayName" id="displayName" name="displayName" data-val="false" data-val-required="必填">
                 </td>
                 <td><span data-valmsg-for="displayName" data-valmsg-replace="true" class="errors"></span>
+            	<td ng-show="vm.isUpdate">
+            		<label>
+                		<input type="checkbox" ng-click="vm.resetPassword()"  id="resetPassword" /> 重置密码888888
+                	</label>
+            	</td>
             </tr>
-            
-               <tr ng-hide="vm.isUpdate">
+             <tr ng-hide="vm.isUpdate">
                 <td class="formAlignRight">密码： <span class="required">*</span></td>
                 <td>
                     <input type="password" maxlength="200" class="form-control input-sm " ng-model="vm.model.password " id="password" name="password" data-val="true" data-val-required="必填">

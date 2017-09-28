@@ -22,6 +22,7 @@
 
 		// begin#updateUser
 		function updateUser(vm) {
+			
 			common.initJqValidation();
 			var isValid = $('form').valid();
 			if (isValid) {
@@ -39,6 +40,7 @@
 					};
 				}).toArray();
 				vm.model.roles = nodes_role;
+			
 				var httpOptions = {
 					method : 'put',
 					url : url_user,
