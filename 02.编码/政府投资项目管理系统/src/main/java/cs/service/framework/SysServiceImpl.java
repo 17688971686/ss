@@ -213,9 +213,14 @@ public class SysServiceImpl implements SysService{
 		role4.setComment("系统初始化创建,不可删除");
 		
 		Role role5 = new Role();
-		role5.setRoleName(BasicDataConfig.msFaWenRole);
+		role5.setRoleName(BasicDataConfig.role_shenpiUnit);
 		role5.setId(UUID.randomUUID().toString());
 		role5.setComment("系统初始化创建,不可删除");
+		
+		Role role9 = new Role();
+		role9.setRoleName(BasicDataConfig.msFaWenRole);
+		role9.setId(UUID.randomUUID().toString());
+		role9.setComment("系统初始化创建,不可删除");
 		
 		Role role6 = new Role();
 		role6.setRoleName(BasicDataConfig.JuZhang);
@@ -255,6 +260,7 @@ public class SysServiceImpl implements SysService{
 		roleRepo.save(role6);
 		roleRepo.save(role7);
 		roleRepo.save(role8);
+		roleRepo.save(role9);
 
 		// 初始化超级用户
 		User user = new User();
