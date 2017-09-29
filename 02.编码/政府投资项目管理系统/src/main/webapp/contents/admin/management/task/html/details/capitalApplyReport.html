@@ -1,0 +1,23 @@
+<div class="bg-info text-info" style="padding: 10px;">资金申请报告</div>
+<table class="table table-bordered table-striped ">
+	<tr>
+		<td class="formAlignRight" style="width: 150px;">形象进度：<span
+			class="required">(*)</span></td>
+		<td>
+			<textarea rows="3" cols="20" maxlength="500" style="height: 121px; width: 99%;" placeholder="请简要概述形象进度：备注（500字符以内）" ng-model="vm.model.shenBaoInfo.yearImageSchedule" disabled></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight" style="width: 150px;">年度建设内容：<span
+			class="required">(*)</span></td>
+		<td>
+			<textarea rows="3" cols="20" maxlength="500" style="height: 121px; width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.shenBaoInfo.yearConstructionContent" disabled></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">上年度项目形象进度：<span class="required">(*)</span></td>
+		<td>
+			<textarea rows="3" cols="20" maxlength="500" style="height: 121px; width: 99%;" placeholder="请简要概述上年度项目形象进度：备注（500字符以内）" ng-model="vm.model.shenBaoInfo.lastYearImageSchedule" disabled></textarea>
+		</td>
+	</tr>
+</table>
