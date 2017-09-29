@@ -102,7 +102,7 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 				Boolean plan = true;
 				for(Role role:roles){
 					//当角色含有秘书科分办人员
-					if(role.getRoleName().equals(BasicDataConfig.msFenBanRole) || role.getRoleName().equals(BasicDataConfig.msHeGaoRole))	{
+					if(role.getRoleName().equals(BasicDataConfig.msFenBanRole) || role.getRoleName().equals(BasicDataConfig.msFaWenRole))	{
 						haveRole = true;
 						roleId = role.getId();
 						break;
@@ -148,7 +148,7 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 		Boolean plan = false;
 		for(Role role:roles){
 			//当角色含有秘书科分办人员
-			if(role.getRoleName().equals(BasicDataConfig.msFenBanRole) || role.getRoleName().equals(BasicDataConfig.msHeGaoRole))	{
+			if(role.getRoleName().equals(BasicDataConfig.msFenBanRole) || role.getRoleName().equals(BasicDataConfig.msFaWenRole))	{
 				haveRole = true;
 				roleId = role.getId();
 				break;

@@ -118,9 +118,10 @@ public class TaskRecordRepoImpl extends AbstractRepository<TaskRecord,String>  {
 		Criterion cron2 = Restrictions.eq("taskType",BasicDataConfig.taskType_new);
 		Criterion cron3 = Restrictions.eq("taskType",BasicDataConfig.taskType_xuJian);
 		Criterion cron5 = Restrictions.eq("taskType",BasicDataConfig.taskType_junGong);
+		Criterion cron6 = Restrictions.eq("taskType",BasicDataConfig.taskType_ZJSQBG);
 		Criterion cron4 = Restrictions.eq("createdBy",currentUser.getUserId());
 		
-		Criterion criterionOr=Restrictions.or(cron1,cron2,cron3,cron5);
+		Criterion criterionOr=Restrictions.or(cron1,cron2,cron3,cron5,cron6);
 		Criterion criterionAnd = Restrictions.and(cron4,criterionOr);
 		crit.add(criterionAnd);
 		
