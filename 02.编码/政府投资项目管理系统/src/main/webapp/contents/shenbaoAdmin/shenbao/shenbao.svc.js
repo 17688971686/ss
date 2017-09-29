@@ -500,6 +500,9 @@
 							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_junGong){//申报阶段为:竣工决算
 								vm.isJunGong=true;
 								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_junGong;
+							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_capitalApplyReport){//申报阶段为:资金申请报告
+								vm.isCapitalApplyReport=true;
+								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_capitalApplyReport;
 							}
 							
 //							else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_qianQi){//申报阶段为:前期计划

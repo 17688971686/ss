@@ -232,7 +232,7 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			taskHead.setProcessRole(dto.getProcessRole());
 			taskHead.setNextUser(dto.getNextUser());//下一流程处理人
 			taskHead.setProcessSuggestion(dto.getProcessSuggestion());//处理意见
-			taskHead.setItemOrder(dto.getItemOrder() +1);
+			taskHead.setItemOrder(taskHead.getItemOrder() +1);
 			
 			//新增一条处理流程记录
 			TaskRecord entity=new TaskRecord();

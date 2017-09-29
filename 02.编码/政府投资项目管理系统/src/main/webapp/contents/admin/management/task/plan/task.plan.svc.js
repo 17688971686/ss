@@ -347,6 +347,8 @@
 					vm:vm,
 					response:response,
 					fn:function(){
+						vm.isSHInvestment = false;
+						vm.isZFInvestment = false;
 						vm.model.shenBaoInfo = response.data.value[0] || {};
 						//数据的展示处理
 						//项目类型
@@ -391,6 +393,9 @@
 						}else if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_newStratPlan){//申报阶段为:新开工计划
 							vm.isNewStart=true;
 							vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_newStart;
+						}else if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_capitalApplyReport){//申报阶段为:资金申请报告
+							vm.isCapitalApplyReport=true;
+							vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_capitalApplyReport;
 						}
 						//时间的显示
 						vm.model.shenBaoInfo.createdDate=common.formatDate(vm.model.shenBaoInfo.createdDate);//开工日期

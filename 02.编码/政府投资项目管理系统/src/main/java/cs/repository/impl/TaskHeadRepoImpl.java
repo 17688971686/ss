@@ -62,10 +62,10 @@ public class TaskHeadRepoImpl extends AbstractRepository<TaskHead, String> {
 			cron2 = Restrictions.eq("taskType",BasicDataConfig.taskType_new);
 			cron3 = Restrictions.eq("taskType",BasicDataConfig.taskType_xuJian);
 			Criterion cron5 = Restrictions.eq("taskType",BasicDataConfig.taskType_junGong);
-			
+			Criterion cron6 = Restrictions.eq("taskType",BasicDataConfig.taskType_ZJSQBG);
 			Criterion cron4 = Restrictions.eq("processRole",roleId);
 			
-			Criterion criterionOr=Restrictions.or(cron1,cron2,cron3,cron5);
+			Criterion criterionOr=Restrictions.or(cron1,cron2,cron3,cron5,cron6);
 			Criterion criterionAnd = Restrictions.and(cron4,criterionOr,cron7);
 			crit.add(criterionAnd);
 		}else{
@@ -138,10 +138,10 @@ public class TaskHeadRepoImpl extends AbstractRepository<TaskHead, String> {
 			cron2 = Restrictions.eq("taskType",BasicDataConfig.taskType_new);
 			cron3 = Restrictions.eq("taskType",BasicDataConfig.taskType_xuJian);
 			Criterion cron5 = Restrictions.eq("taskType",BasicDataConfig.taskType_junGong);
-			
+			Criterion cron6 = Restrictions.eq("taskType",BasicDataConfig.taskType_ZJSQBG);
 			Criterion cron4 = Restrictions.eq("nextUser",userId);
 			
-			Criterion criterionOr=Restrictions.or(cron1,cron2,cron3,cron5);
+			Criterion criterionOr=Restrictions.or(cron1,cron2,cron3,cron5,cron6);
 			Criterion criterionAnd = Restrictions.and(cron4,criterionOr,cron7);
 			crit.add(criterionAnd);
 		}else{
