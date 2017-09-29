@@ -111,7 +111,8 @@ public class SysServiceImpl implements SysService{
 		Criterion criterion2=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.role_unit);
 		Criterion criterion3=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.role_manage);
 		Criterion criterion4=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.msFenBanRole);
-		Criterion criterionOr=Restrictions.or(criterion,criterion2,criterion3,criterion4);
+		Criterion criterion5=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.role_shenpiUnit);
+		Criterion criterionOr=Restrictions.or(criterion,criterion2,criterion3,criterion4,criterion5);
 		
 		List<Role> roles=roleRepo.findByCriteria(criterionOr);
 		
@@ -173,6 +174,13 @@ public class SysServiceImpl implements SysService{
 		role4.setRoleName(BasicDataConfig.msFenBanRole);
 		role4.setId(UUID.randomUUID().toString());
 		role4.setComment("系统初始化创建,不可删除");
+		
+		Role role5 = new Role();
+		role5.setRoleName(BasicDataConfig.role_shenpiUnit);
+		role5.setId(UUID.randomUUID().toString());
+		role5.setComment("系统初始化创建,不可删除");
+		
+		
 
 		List<SysResourceDto> resourceDtos = this.getSysResources();
 		List<Resource> resources = new ArrayList<>();
@@ -193,6 +201,7 @@ public class SysServiceImpl implements SysService{
 		roleRepo.save(role2);
 		roleRepo.save(role3);
 		roleRepo.save(role4);
+		roleRepo.save(role5);
 
 		// 初始化超级用户
 		User user = new User();
