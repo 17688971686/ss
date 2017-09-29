@@ -70,13 +70,13 @@ textarea.form-control {
             <ul>
               <li id="tab1" class="k-state-active">项目基本信息</li>
               <li id="tab2">项目单位信息</li>                
-              <li id="tab3">项目材料清单</li>
+              <li id="tab3" ng-hide="vm.isSHInvestment">项目材料清单</li>
               <li id="tab4" ng-show="vm.isYearPlan">年度计划信息</li>
             </ul>
             
 			<div class="tab_content">
-				<div ng-show="vm.isZFInvestment" ng-include  src="'/contents/admin/management/yearPlan/html/basicInfo_ZF.html'"></div>
-				<div ng-show="vm.isSHInvestment" ng-include  src="'/contents/admin/management/yearPlan/html/basicInfo_SH.html'"></div>
+				<div ng-if="vm.isZFInvestment" ng-include  src="'/contents/admin/management/yearPlan/html/basicInfo_ZF.html'"></div>
+				<div ng-if="vm.isSHInvestment" ng-include  src="'/contents/admin/management/yearPlan/html/basicInfo_SH.html'"></div>
 				<div style="text-align: center" ng-if="vm.shenBaoInfoAdd">
 					<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(2)">下一步 <span class="glyphicon glyphicon-forward"></span></button>
 				</div>
@@ -89,7 +89,7 @@ textarea.form-control {
 			     </div>
 			</div>
              
-            <div class="tab_content">
+            <div class="tab_content" ng-hide="vm.isSHInvestment">
             	<div ng-include  src="'/contents/admin/management/yearPlan/html/materialsInfo.html'"></div>
              	<div style="text-align: center" ng-if="vm.shenBaoInfoAdd">
            			<button class="btn btn-sm btn-primary" ng-click="vm.tabReturn(2)"><span class="glyphicon glyphicon-backward"></span>上一步 </button>
@@ -97,7 +97,8 @@ textarea.form-control {
 	    		</div>
            </div>                   
            <div class="tab_content" ng-show="vm.isYearPlan">
-           	  <div ng-include  src="'/contents/admin/management/yearPlan/html/stage/yearPlan.html'"></div>
+           	  <div ng-if="vm.isZFInvestment" ng-include  src="'/contents/admin/management/yearPlan/html/stage/yearPlan.html'"></div>
+           	  <div ng-if="vm.isSHInvestment" ng-include  src="'/contents/admin/management/yearPlan/html/stage/yearPlan_SH.html'"></div>
               <div style="text-align: center">
               	<button ng-if="vm.shenBaoInfoAdd" class="btn btn-sm btn-primary" ng-click="vm.tabReturn(3)"><span class="glyphicon glyphicon-backward">上一步 </span></button>                
               	<button ng-if="vm.shenBaoInfoEdit" class="btn btn-sm btn-success" ng-click="vm.update()" ng-disabled="vm.isSubmit">确认更新 </button>

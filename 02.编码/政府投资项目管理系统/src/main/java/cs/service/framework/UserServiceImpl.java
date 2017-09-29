@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.common.Response;
+import cs.common.Util;
 import cs.domain.framework.Role;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
@@ -166,6 +167,9 @@ public class UserServiceImpl implements UserService {
 		user.setComment(userDto.getComment());
 		user.setDisplayName(userDto.getDisplayName());
 		user.setModifiedBy(currentUser.getUserId());
+		if(Util.isNotNull(userDto.getPassword())){
+			user.setPassword(userDto.getPassword());
+		}
 
 		// 清除已有role
 		user.getRoles().clear();

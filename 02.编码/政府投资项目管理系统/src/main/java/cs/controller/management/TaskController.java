@@ -82,39 +82,28 @@ public class TaskController {
 		}
 		return taskHeadDtos;
 	}
-		
-		
-		
-		/****下面为计划类操作****/
-		//@RequiresPermissions("management/task#plan#get")
-		@RequestMapping(name = "获取计划类个人待办数据", path = "plan", method = RequestMethod.GET)
-		public @ResponseBody PageModelDto<TaskHeadDto> getToDo_Plan(HttpServletRequest request) throws ParseException {
-			ODataObj odataObj = new ODataObj(request);	
-			PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.getToDo_Plan(odataObj);
-			//关于流程记录根据创建用户id查找到名称用于显示
-			List<TaskHeadDto> taskHeadDtols = taskHeadDtos.getValue();
-			if(taskHeadDtols !=null && taskHeadDtols.size()>0){
-				taskHeadDtols.forEach(x->{
-					if(x.getTaskRecordDtos() !=null && x.getTaskRecordDtos().size()>0){
-						x.getTaskRecordDtos().forEach(y->{
-							User user = userService.findById(y.getCreatedBy());
-							if(user !=null){
-								y.setCreatedBy(user.getLoginName());
-							}
-						});
-					}
-				});
-				taskHeadDtos.setValue(taskHeadDtols);
-			}
-			return taskHeadDtos;
+
+	//@RequiresPermissions("management/task#plan#get")
+	@RequestMapping(name = "获取计划类个人待办数据", path = "plan", method = RequestMethod.GET)
+	public @ResponseBody PageModelDto<TaskHeadDto> getToDo_Plan(HttpServletRequest request) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);	
+		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.getToDo_Plan(odataObj);
+		//关于流程记录根据创建用户id查找到名称用于显示
+		List<TaskHeadDto> taskHeadDtols = taskHeadDtos.getValue();
+		if(taskHeadDtols !=null && taskHeadDtols.size()>0){
+			taskHeadDtols.forEach(x->{
+				if(x.getTaskRecordDtos() !=null && x.getTaskRecordDtos().size()>0){
+					x.getTaskRecordDtos().forEach(y->{
+						User user = userService.findById(y.getCreatedBy());
+						if(user !=null){
+							y.setCreatedBy(user.getLoginName());
+						}
+					});
+				}
+			});
+			taskHeadDtos.setValue(taskHeadDtols);
 		}
-	
-	@RequiresPermissions("management/task#complete#get")
-	@RequestMapping(name = "个人已办", path = "complete",method=RequestMethod.GET)
-	public @ResponseBody PageModelDto<TaskHeadDto> history(HttpServletRequest request) throws ParseException {
-		//todo
-		//从taskrecord 表里取数据
-		return null;
+		return taskHeadDtos;
 	}
 	
 	@RequiresPermissions("management/task#taskId#put")

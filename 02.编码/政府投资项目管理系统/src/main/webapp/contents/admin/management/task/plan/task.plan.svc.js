@@ -347,6 +347,8 @@
 					vm:vm,
 					response:response,
 					fn:function(){
+						vm.isSHInvestment = false;
+						vm.isZFInvestment = false;
 						vm.model.shenBaoInfo = response.data.value[0] || {};
 						//数据的展示处理
 						//项目类型
