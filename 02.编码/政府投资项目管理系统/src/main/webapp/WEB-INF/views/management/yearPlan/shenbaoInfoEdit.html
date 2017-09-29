@@ -75,8 +75,8 @@ textarea.form-control {
             </ul>
             
 			<div class="tab_content">
-				<div ng-show="vm.isZFInvestment" ng-include  src="'/contents/admin/management/yearPlan/html/basicInfo_ZF.html'"></div>
-				<div ng-show="vm.isSHInvestment" ng-include  src="'/contents/admin/management/yearPlan/html/basicInfo_SH.html'"></div>
+				<div ng-if="vm.isZFInvestment" ng-include  src="'/contents/admin/management/yearPlan/html/basicInfo_ZF.html'"></div>
+				<div ng-if="vm.isSHInvestment" ng-include  src="'/contents/admin/management/yearPlan/html/basicInfo_SH.html'"></div>
 				<div style="text-align: center" ng-if="vm.shenBaoInfoAdd">
 					<button class="btn btn-sm btn-primary" ng-click="vm.tabChange(2)">下一步 <span class="glyphicon glyphicon-forward"></span></button>
 				</div>
