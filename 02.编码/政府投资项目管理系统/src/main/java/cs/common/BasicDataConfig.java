@@ -51,7 +51,6 @@ public class BasicDataConfig {
 	public static String taskType_junGong="taskType_11";//竣工
 	public static String taskType_ZJSQBG="taskType_12";//资金申请报告
 
-	
 	public static String attachment_type_jys="JYS"; 
 	public static String attachment_type_kxxyjbg="KXXYJBG"; 
 	public static String attachment_type_cbsjygs="CBSJYGS";
