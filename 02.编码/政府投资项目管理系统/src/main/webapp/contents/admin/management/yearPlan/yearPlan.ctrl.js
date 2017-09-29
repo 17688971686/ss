@@ -49,6 +49,10 @@
            		return common.getBasicDataDesc(str);
            	};
            	
+           	vm.getUnitName=function(unitId){
+           		return common.getUnitName(unitId);
+           	};
+           	
            	vm.html = function(val){
            		return $sce.trustAsHtml(val);
            	};
@@ -188,12 +192,8 @@
     			yearPlanSvc.getShenBaoInfoById(vm);
     			$('#shenbaoInfo').modal({
                     backdrop: 'static',
-                    keyboard:false
+                    keyboard:true
                 });
-    			//初始化tab
-          	   vm.tabStripOptions={
-          			//TODO
-          	   };
     		};
     		//列表退文按钮
     		vm.retreat = function(id){
@@ -276,6 +276,12 @@
  	    	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.model.projectIndustryParent;})
  	    	       		.toArray();
       			   };
+      			   //投资去处计算（社投）
+    	   		 vm.investTotal=function(){
+    	   			 vm.model.shenBaoInfo.projectInvestSum=common.getSum([vm.model.shenBaoInfo.landPrice||0,vm.model.shenBaoInfo.equipmentInvestment||0,
+  	   				 	 vm.model.shenBaoInfo.buidSafeInvestment||0,vm.model.shenBaoInfo.capitalOther||0]);
+    	   			 return vm.model.shenBaoInfo.projectInvestSum;
+    	   		 };
          	   }
     	};
     	
