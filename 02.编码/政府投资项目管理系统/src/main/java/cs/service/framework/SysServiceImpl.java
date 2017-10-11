@@ -372,7 +372,7 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("deptType_1","deptType" , "deptType", "普通部门", "");
 		this.createBasicData("deptType_2","deptType" , "deptType", "涉及部门", "");
 		
-		this.createBasicData("hecretHierarchy","hecretHierarchy" , "hecretHierarchy", "拟稿秘密等级分类", "");
+		this.createBasicData("hecretHierarchy","" , "hecretHierarchy", "拟稿秘密等级分类", "");
 		this.createBasicData("hecretHierarchy_1","hecretHierarchy" , "hecretHierarchy", "公开", "");
 		this.createBasicData("hecretHierarchy_2","hecretHierarchy" , "hecretHierarchy", "国内", "");
 		this.createBasicData("hecretHierarchy_3","hecretHierarchy" , "hecretHierarchy", "内部", "");

@@ -89,7 +89,7 @@
 		function getDraftIssued(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_draft + "/" +vm.task.id)
+					url : common.format(url_draft + "/" +vm.taskId)
 				};
 			
 			var httpSuccess = function success(response) {
