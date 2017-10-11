@@ -23,7 +23,7 @@
 			getTaskById:getTaskById,//根据任务id获取任务信息
 			getShenBaoInfoById:getShenBaoInfoById,//根据id获取申报信息
 			getMonthReportById:getMonthReportById,//根据id获取月报信息
-			handle:handle,//流程处理（签收/退文）
+			handle:handle//流程处理（签收/退文）
 		};
 		
 		return service;
@@ -139,6 +139,8 @@
 					vm:vm,
 					response:response,
 					fn:function(){
+						vm.isSHInvestment = false;
+						vm.isZFInvestment = false;
 						vm.model.shenBaoInfo= response.data.value[0]||{};
 						//项目类型的显示
 						vm.projectTypes=common.stringToArray(vm.model.shenBaoInfo.projectType,",");

@@ -33,7 +33,11 @@ public class BasicDataConfig {
 	public static String processState_jieShuShenPi="processState_23";//秘书科发文
 	
 	public static String msFenBanRole="秘书科分办人员";
-	public static String msHeGaoRole="人秘科发文人员";
+	public static String msFaWenRole="秘书科发文人员";
+	public static String KeZhang="科长";
+	public static String JuZhang="局长";
+	public static String KeYuan="科员";
+	
 	
 	public static String projectShenBaoStage_nextYearPlan="projectShenBaoStage_7";//下一年度计划
 	
@@ -49,8 +53,8 @@ public class BasicDataConfig {
 	public static String taskType_new="taskType_9";//新开工
 	public static String taskType_xuJian="taskType_10";//续建
 	public static String taskType_junGong="taskType_11";//竣工
+	public static String taskType_ZJSQBG="taskType_12";//资金申请报告
 
-	
 	public static String attachment_type_jys="JYS"; 
 	public static String attachment_type_kxxyjbg="KXXYJBG"; 
 	public static String attachment_type_cbsjygs="CBSJYGS";

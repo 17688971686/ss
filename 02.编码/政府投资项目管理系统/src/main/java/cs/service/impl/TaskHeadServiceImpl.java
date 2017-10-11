@@ -102,7 +102,7 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 				Boolean plan = true;
 				for(Role role:roles){
 					//当角色含有秘书科分办人员
-					if(role.getRoleName().equals(BasicDataConfig.msFenBanRole) || role.getRoleName().equals(BasicDataConfig.msHeGaoRole))	{
+					if(role.getRoleName().equals(BasicDataConfig.msFenBanRole) || role.getRoleName().equals(BasicDataConfig.msFaWenRole))	{
 						haveRole = true;
 						roleId = role.getId();
 						break;
@@ -148,7 +148,7 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 		Boolean plan = false;
 		for(Role role:roles){
 			//当角色含有秘书科分办人员
-			if(role.getRoleName().equals(BasicDataConfig.msFenBanRole) || role.getRoleName().equals(BasicDataConfig.msHeGaoRole))	{
+			if(role.getRoleName().equals(BasicDataConfig.msFenBanRole) || role.getRoleName().equals(BasicDataConfig.msFaWenRole))	{
 				haveRole = true;
 				roleId = role.getId();
 				break;
@@ -232,7 +232,7 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			taskHead.setProcessRole(dto.getProcessRole());
 			taskHead.setNextUser(dto.getNextUser());//下一流程处理人
 			taskHead.setProcessSuggestion(dto.getProcessSuggestion());//处理意见
-			taskHead.setItemOrder(dto.getItemOrder() +1);
+			taskHead.setItemOrder(taskHead.getItemOrder() +1);
 			
 			//新增一条处理流程记录
 			TaskRecord entity=new TaskRecord();

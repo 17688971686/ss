@@ -579,7 +579,7 @@
         			for (var i = 0; i < vm.model.depts.length; i++) {
 						for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {//循环人员
 							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {//循环角色
-								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "人秘科发文人员"){//默认选中人秘科发文人员为下一流程处理人
+								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "秘书科发文人员"){//默认选中人秘科发文人员为下一流程处理人
 									vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;
 								}
 							}
@@ -677,7 +677,7 @@
         		if(str == "julingdaoshenpi"){
         			vm.nextProcessRadio = "julingdaoshenpi";
         			for (var i = 0; i < vm.model.depts.length; i++) {
-    					if(vm.model.depts[i].name == "局领导"){//获得部门人员
+    					if(vm.model.depts[i].orgIdentity == "局领导"){//获得部门人员
     						vm.users = vm.model.depts[i].userDtos;
     					}
     				}
@@ -687,7 +687,7 @@
         		if(str == "songshen"){
         			vm.nextProcessRadio = "songshen";
         			for (var i = 0; i < vm.model.depts.length; i++) {
-    					if(vm.model.depts[i].name == "评审中心"){//获得部门人员
+    					if(vm.model.depts[i].orgIdentity == "评审中心"){//获得部门人员
     						vm.users = vm.model.depts[i].userDtos;
     					}
     				}
@@ -699,7 +699,7 @@
         			for (var i = 0; i < vm.model.depts.length; i++) {
 						for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {//循环人员
 							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {//循环角色
-								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "人秘科发文人员"){//默认选中人秘科发文人员为下一流程处理人
+								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "秘书科发文人员"){//默认选中人秘科发文人员为下一流程处理人
 									vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;
 								}
 							}
@@ -711,7 +711,7 @@
         		if(str == "julingdaofushen"){
         			vm.nextProcessRadio = "julingdaofushen";
         			for (var i = 0; i < vm.model.depts.length; i++) {
-    					if(vm.model.depts[i].name == "局领导"){//获得部门人员
+    					if(vm.model.depts[i].orgIdentity == "局领导"){//获得部门人员
     						vm.users = vm.model.depts[i].userDtos;
     					}
     				}
@@ -723,7 +723,7 @@
         			for (var i = 0; i < vm.model.depts.length; i++) {
 						for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {//循环人员
 							for (var k = 0; k < vm.model.depts[i].userDtos[j].roles.length; k++) {//循环角色
-								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "人秘科发文人员"){//默认选中人秘科发文人员为下一流程处理人
+								if(vm.model.depts[i].userDtos[j].roles[k].roleName == "秘书科发文人员"){//默认选中人秘科发文人员为下一流程处理人
 									vm.taskAudit.processRole = vm.model.depts[i].userDtos[j].roles[k].id;
 								}
 							}
