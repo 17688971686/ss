@@ -25,7 +25,7 @@
     		if($state.current.name=='yearPlan_shenbaoInfoEdit'){//申报信息新增页面
     			vm.page='shenbaoInfoAdd';
     		}
-    		if($state.current.name=='yearPlan_shenbaoInfoEdit' && vm.id){//申报信息编辑页面
+    		if($state.current.name=='yearPlan_shenbaoInfoEdit' && vm.id !=""){//申报信息编辑页面
     			vm.page='shenbaoInfoEdit';
     		}
     		if($state.current.name=='yearPlan_planList'){
@@ -252,7 +252,7 @@
     		//初始化基础数据
     		var init_basicData = function(){
     			if(vm.investmentType == common.basicDataConfig().projectInvestmentType_ZF){//如果为政府投资
-         		   vm.isZFInvestment = true; 
+    				vm.isZFInvestment = true; 
        			 	//基础数据--项目分类
          		   vm.basicData.projectClassify=$linq(common.getBasicData())
      	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
@@ -288,7 +288,9 @@
     	init_page();
     	init_basicData();
     	
-    	yearPlanSvc.getShenBaoInfoById(vm);
+    	if(vm.shenBaoInfoEdit){
+    		yearPlanSvc.getShenBaoInfoById(vm);
+    	}
     	
     	//项目所属单位发生变化
     	vm.unitNameChange=function(){
