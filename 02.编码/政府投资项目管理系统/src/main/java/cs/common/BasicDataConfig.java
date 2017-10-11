@@ -33,7 +33,11 @@ public class BasicDataConfig {
 	public static String processState_jieShuShenPi="processState_23";//秘书科发文
 	
 	public static String msFenBanRole="秘书科分办人员";
-	public static String msHeGaoRole="人秘科发文人员";
+	public static String msFaWenRole="秘书科发文人员";
+	public static String KeZhang="科长";
+	public static String JuZhang="局长";
+	public static String KeYuan="科员";
+	
 	
 	public static String projectShenBaoStage_nextYearPlan="projectShenBaoStage_7";//下一年度计划
 	
