@@ -208,7 +208,7 @@
       	   
       	   //评审报批模态框
       	  vm.editApproval=function(){
-	    	   taskSvc.getApproval(vm);
+      		taskAuditSvc.getApproval(vm);
 	    	   
 	    	   $('.approval').modal({
                  backdrop: 'static',
@@ -869,6 +869,7 @@
 	        			setNextProcess(vm);//设置当前流程状态&&下一流程状态
 	        			vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadioOfYW == "fawen" && vm.nextProcessRadio == "kezhangshenhe"){//经办人发文拟稿
+	        			vm.taskAudit.fawen = true;
 	        			if(vm.taskAudit.processState == "processState_4"){//第一步发文
 	        				vm.taskAudit.processState = "processState_5";
 	        			}
