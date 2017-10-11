@@ -13,7 +13,13 @@
         vm.model={};
         vm.monthReportId = $state.params.monthReportId;
         vm.page="index";
-                       
+
+        $(".menu li a").click(function(){
+            $(".menu li a").removeClass("focus");
+        	$(this).addClass("focus");
+		});
+
+
        function init(){
     	   //任务流程列表
            if($state.current.name=='task'){
