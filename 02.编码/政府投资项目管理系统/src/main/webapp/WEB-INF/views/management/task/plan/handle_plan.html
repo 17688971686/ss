@@ -284,8 +284,11 @@ overflow: scroll !important;
 					<div style="float: left;">
 						<input type="radio" name="nextStateYW" id="nextStateYW" ng-click="vm.clickedYW('keyuantuiwen')" value="tuiwen" data-val="true" data-val-required="必选"/><span>退文</span>&nbsp;&nbsp;
 					</div>
+					<div style="float: left;">
+						<input type="radio" name="nextStateYW" id="nextStateYW" ng-click="vm.clickedYW('yewu')" value="yewu" data-val="true" data-val-required="必选"/><span>转办</span>&nbsp;&nbsp;
+					</div>
 					<div>
-						<input type="radio" name="nextStateYW" id="nextStateYW" ng-click="vm.clickedYW('yewu')" value="yewu" data-val="true" data-val-required="必选"/><span>业务办理</span>&nbsp;&nbsp;
+						<input type="radio" name="nextStateYW" id="nextStateYW" ng-click="vm.clickedYW('banjie')" value="banjie" data-val="true" data-val-required="必选"/><span>办结</span>&nbsp;&nbsp;
 					</div>
 					<!-- <div style="float: left;" ng-if="vm.taskPlan.nextProcess =='processState_17'">
 						<input type="radio" name="nextStateYW" id="nextStateYW" ng-click="vm.clickedYW('fawennigao')" value="fawennigao" data-val="true" data-val-required="必选"/>发文拟稿意见&nbsp;&nbsp;
@@ -367,7 +370,7 @@ overflow: scroll !important;
 					<div class="tipfont">您还可以输入<span id="processSuggestionTips"><font size="5">500</font></span>个字符!</div>						
 				</td>
 			</tr>
-			<tr>
+			<tr ng-if="vm.nextProcessRadioOfYW != 'banjie' && vm.nextProcessRadioOfYW != undefined">
 				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
 				<td>
 					<div style="float: left;" ng-if="vm.nextProcessRadioOfYW == 'pingshenbaopi' || vm.nextProcessRadioOfYW == 'fawen' || vm.nextProcessRadioOfYW == 'keyuantuiwen' || vm.nextProcessRadioOfYW == 'pingshenweituo'">
@@ -376,9 +379,6 @@ overflow: scroll !important;
 					<div style="float: left;" ng-if="vm.nextProcessRadioOfYW == 'yewu'">
 						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('keshibanli')" value="keshibanli" data-val="true" data-val-required="必选"/>科室办理&nbsp;&nbsp;
 						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('keyuanbanli')" value="keyuanbanli" data-val="true" data-val-required="必选"/><span>科员办理</span>&nbsp;&nbsp;
-					</div>
-					<div>
-						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('banjie')" value="banjie" data-val="true" data-val-required="必选"/><span>办结</span>&nbsp;&nbsp;
 					</div>
 					<div>
 					  	<span data-valmsg-for="nextState" data-valmsg-replace="true" class="required"></span>
