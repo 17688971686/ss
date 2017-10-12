@@ -31,6 +31,7 @@ import cs.domain.framework.Role_;
 import cs.domain.framework.SysConfig;
 import cs.domain.framework.SysConfig_;
 import cs.domain.framework.User;
+import cs.domain.framework.User_;
 import cs.model.DomainDto.SysConfigDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.common.BasicDataRepo;
@@ -281,6 +282,12 @@ public class SysServiceImpl implements SysService{
 								"光明消防大队","光明现役消防支队光明新区大队","规划土地监察大队","深水光明","经发公司"};
 		
 		for(String userName : userNames){
+			Criterion criterionU=Restrictions.eq(User_.loginName.getName(), userName);
+			List<User> users = userRepo.findByCriteria(criterionU);
+			users.forEach(x->{
+				userRepo.delete(x);
+			});
+			
 			User unitUser = new User();
 			unitUser.setId(UUID.randomUUID().toString());
 			unitUser.setDisplayName(userName);
