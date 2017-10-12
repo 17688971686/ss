@@ -14,6 +14,8 @@
         vm.monthReportId = $state.params.monthReportId;
         vm.page="index";
 
+        $(".menu li a").removeClass("focus");
+        $(".menu li a:eq(0)").addClass("focus");
         $(".menu li a").click(function(){
             $(".menu li a").removeClass("focus");
         	$(this).addClass("focus");
