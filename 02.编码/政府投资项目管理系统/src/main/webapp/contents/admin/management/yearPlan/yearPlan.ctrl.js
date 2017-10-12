@@ -25,7 +25,7 @@
     		if($state.current.name=='yearPlan_shenbaoInfoEdit'){//申报信息新增页面
     			vm.page='shenbaoInfoAdd';
     		}
-    		if($state.current.name=='yearPlan_shenbaoInfoEdit' && vm.id){//申报信息编辑页面
+    		if($state.current.name=='yearPlan_shenbaoInfoEdit' && vm.id !=""){//申报信息编辑页面
     			vm.page='shenbaoInfoEdit';
     		}
     		if($state.current.name=='yearPlan_planList'){
