@@ -111,5 +111,6 @@ public class SQLConfig {
 		     " AND ypl.shenbaoInfoId = sbi.id"+ 
 		     " AND sbi.projectCategory = bs.id"+
 		     " AND yp.id = :yearPlanId"+
-		     " ORDER BY bs.itemOrder");
+		     " ORDER BY sbi.projectCategory,sbi.projectConstrChar desc,sbi.projectInvestSum desc");
+	
 }
