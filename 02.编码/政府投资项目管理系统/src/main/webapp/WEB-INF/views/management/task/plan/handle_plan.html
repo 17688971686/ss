@@ -374,11 +374,11 @@ overflow: scroll !important;
 						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('kezhangshenhe')" value="bumen" data-val="true" data-val-required="必选"/>科长审核&nbsp;&nbsp;
 					</div>
 					<div style="float: left;" ng-if="vm.nextProcessRadioOfYW == 'yewu'">
-						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('keshibanli')" value="bumen" data-val="true" data-val-required="必选"/>科室办理&nbsp;&nbsp;
-						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('keyuanbanli')" value="banjie" data-val="true" data-val-required="必选"/><span>科员办理</span>&nbsp;&nbsp;
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('keshibanli')" value="keshibanli" data-val="true" data-val-required="必选"/>科室办理&nbsp;&nbsp;
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('keyuanbanli')" value="keyuanbanli" data-val="true" data-val-required="必选"/><span>科员办理</span>&nbsp;&nbsp;
 					</div>
 					<div>
-						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('banjie')" value="tuiwen" data-val="true" data-val-required="必选"/><span>办结</span>&nbsp;&nbsp;
+						<input type="radio" name="nextState" id="nextState" ng-click="vm.clicked('banjie')" value="banjie" data-val="true" data-val-required="必选"/><span>办结</span>&nbsp;&nbsp;
 					</div>
 					<div>
 					  	<span data-valmsg-for="nextState" data-valmsg-replace="true" class="required"></span>

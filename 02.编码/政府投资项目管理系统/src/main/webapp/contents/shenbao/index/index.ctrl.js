@@ -11,7 +11,7 @@
         /* jshint validthis:true */
         var vm = this;
         vm.type='tzgg';
-        
+        vm.show=true;
         vm.article=function(type){
         	switch(type){
         		case 1:
