@@ -117,7 +117,9 @@
 							vm.cut = vm.review.cut;
 							vm.projectInvestSum = vm.review.projectInvestSum;
 						}
-						vm.review.beginDate = common.formatDate(vm.review.beginDate);
+						vm.review.receiptDate  = common.formatDate(vm.review.receiptDate);
+						vm.review.approvalDate = common.formatDate(vm.review.approvalDate);
+						vm.review.approvalEndDate  = common.formatDate(vm.review.approvalEndDate);
 					}
 				});
 			};
@@ -188,6 +190,9 @@
 					response:response,
 					fn:function(){
 						vm.proxy = response.data || {};
+						vm.proxy.approvalType=$linq(common.getBasicData())
+	    	       		.where(function(x){return x.identity==common.basicDataConfig().projectShenBaoStage&&x.id==vm.proxy.approvalType;})
+	    	       		.toArray()[0].description;
 						vm.proxy.beginDate = common.formatDate(vm.proxy.beginDate);
 						if(vm.approval.processSuggestion_JBR != vm.proxy.processSuggestion_JBR){
 							vm.processSuggestion_JBR_WTS = vm.proxy.processSuggestion_JBR;
@@ -228,6 +233,9 @@
 					fn:function(){
 						vm.approval = response.data || {};
 						vm.approval.beginDate = common.formatDate(vm.approval.beginDate);
+						vm.approval.approvalType=$linq(common.getBasicData())
+	    	       		.where(function(x){return x.identity==common.basicDataConfig().projectShenBaoStage&&x.id==vm.approval.approvalType;})
+	    	       		.toArray()[0].description;
 					}
 				});
 			};
@@ -993,7 +1001,8 @@
 					},
 					{
 						field : "title",
-						title : "标题",						
+						title : "标题",		
+						width : 500,		
 						filterable : true,
 						template:function(item){
 							return common.format("<a href='#/task/shenPi_details/{1}/{2}/{3}'>{0}</a>",item.title,item.taskType,item.taskId,item.relId);

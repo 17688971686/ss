@@ -47,7 +47,7 @@
 					<th width="132px;">时间</th>
 				</tr>
 				<tr ng-repeat="x in vm.model.task | limitTo :2" style="background: white;">
-					<td ng-if="x.taskType == vm.taskType_yearPlan">
+					<td ng-if="vm.taskType_shenBao.indexOf(x.taskType)>-1">
 						<a href="#/shenbao_record/{{x.relId}}">{{x.title}}</a>
 					</td>
 					<td ng-if="x.taskType == vm.taskType_monthReport">
@@ -76,7 +76,7 @@
 				<tbody>
 					<tr class="bg-info">
 						<th>项目名称</th>
-						<th>申报类型</th>	
+						<th>申报阶段</th>	
 						<th>状态</th>
 						<th width="132px;">申报时间</th>
 					</tr>
@@ -106,6 +106,7 @@
 			<button class="btn btn-primary btn-sm">您最近的操作</button>
 		</div>
 	</div> -->
-</div>                       
+</div>
+</div>                 
 
   
