@@ -82,7 +82,7 @@
 						field : "roleName",
 						title : "角色名称",
 						width : 200,						
-						filterable : false
+						filterable : true
 					}, {
 						field : "comment",
 						title : "描述",
