@@ -11,7 +11,14 @@
         /* jshint validthis:true */
         var vm = this;
         vm.page = "index";
-        
+
+        $(".menu li a").removeClass("focus");
+        $(".menu li a:eq(1)").addClass("focus");
+        $(".menu li a").click(function(){
+            $(".menu li a").removeClass("focus");
+            $(this).addClass("focus");
+        });
+
         function init(){
 	    	//基础数据--单位性质
 	        vm.basicData_unitProperty=common.getBacicDataByIndectity(common.basicDataConfig().unitProperty);        	

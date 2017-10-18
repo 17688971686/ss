@@ -660,7 +660,8 @@
 					},
 					{
 						field : "title",
-						title : "标题",						
+						title : "标题",		
+						width : 500,			
 						filterable : true,
 						template:function(item){
 							return common.format("<a href='#/task/plan_details/{1}/{2}/{3}'>{0}</a>",item.title,item.taskType,item.taskId,item.relId);
@@ -774,7 +775,8 @@
 					},
 					{
 						field : "title",
-						title : "标题",						
+						title : "标题",		
+						width : 500,			
 						filterable : true,
 						template:function(item){
 							return common.format("<a href='#/task/handle_plan/{1}/{2}/{3}'>{0}</a>",item.title,item.taskType,item.id,item.relId);			

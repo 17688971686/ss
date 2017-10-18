@@ -365,6 +365,9 @@
         		if(str == "yewu"){
         			vm.nextProcessRadioOfYW = "yewu";
         		}
+        		if(str == "banjie"){
+        			vm.nextProcessRadioOfYW = "banjie";
+        		}
         		
         		if(str == "pingshenbaopi"){
         			vm.nextProcessRadioOfYW = "pingshenbaopi";
@@ -619,7 +622,7 @@
 	    				vm.taskPlan.processState = "processState_3";
 	    				vm.taskPlan.nextUser = "";
 	    				vm.taskPlan.nextProcess = "processState_22";
-	    			}else if(vm.nextProcessRadio =="banjie"){//办结
+	    			}else if(vm.nextProcessRadioOfYW =="banjie"){//办结
 	    				vm.taskPlan.processState = "processState_11";
 	    				vm.taskPlan.nextProcess = "";
 	    				vm.taskPlan.processRole ="";
@@ -639,7 +642,7 @@
 	    				vm.taskPlan.nextProcess = "processState_4";
 	    				
 	        		}else if(vm.nextProcessRadio == "keyuanbanli"){//科员办理--退回给经办人所在科室的科员
-	        			vm.taskPlan.processState = "processState_4";
+	        			vm.taskPlan.processState = "processState_5";
 	    				vm.taskPlan.nextProcess = "processState_5";
 	    				vm.taskPlan.processRole ="";
 	        		}else if(vm.nextProcessRadio == "kezhangshenhe"&&vm.nextProcessRadioOfYW == "pingshenbaopi"){//科长审核--正常流程

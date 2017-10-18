@@ -208,7 +208,7 @@
       	   
       	   //评审报批模态框
       	  vm.editApproval=function(){
-	    	   taskSvc.getApproval(vm);
+      		taskAuditSvc.getApproval(vm);
 	    	   
 	    	   $('.approval').modal({
                  backdrop: 'static',
@@ -546,6 +546,10 @@
         			vm.nextProcessRadioOfYW = "yewu";
         		}
         		
+        		if(str == "banjie"){
+        			vm.nextProcessRadioOfYW = "banjie";
+        		}
+        		
         		if(str == "pingshenbaopi"){
         			vm.nextProcessRadioOfYW = "pingshenbaopi";
         		}
@@ -809,7 +813,7 @@
 	    				vm.taskAudit.processState = "processState_3";
 	    				vm.taskAudit.nextUser = "";
 	    				vm.taskAudit.nextProcess = "processState_22";
-	    			}else if(vm.nextProcessRadio =="banjie"){//办结
+	    			}else if(vm.nextProcessRadioOfYW =="banjie"){//办结
 	    				vm.taskAudit.processState = "processState_11";
 	    				vm.taskAudit.nextProcess = "";
 	    				vm.taskAudit.processRole ="";
@@ -829,7 +833,7 @@
 	    				vm.taskAudit.nextProcess = "processState_4";
 	    				
 	        		}else if(vm.nextProcessRadio == "keyuanbanli"){//科员办理--退回给经办人所在科室的科员
-	        			vm.taskAudit.processState = "processState_4";
+	        			vm.taskAudit.processState = "processState_5";
 	    				vm.taskAudit.nextProcess = "processState_5";
 	    				vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadio == "kezhangshenhe"&&vm.nextProcessRadioOfYW == "pingshenbaopi"){//科长审核--正常流程
@@ -869,6 +873,7 @@
 	        			setNextProcess(vm);//设置当前流程状态&&下一流程状态
 	        			vm.taskAudit.processRole ="";
 	        		}else if(vm.nextProcessRadioOfYW == "fawen" && vm.nextProcessRadio == "kezhangshenhe"){//经办人发文拟稿
+	        			vm.taskAudit.fawen = true;
 	        			if(vm.taskAudit.processState == "processState_4"){//第一步发文
 	        				vm.taskAudit.processState = "processState_5";
 	        			}

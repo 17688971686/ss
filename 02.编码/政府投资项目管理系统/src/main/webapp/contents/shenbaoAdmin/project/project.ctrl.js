@@ -17,7 +17,13 @@
         vm.basicData={};
         vm.search={};
         vm.page='list';
-        
+
+        $(".menu li a").removeClass("focus");
+        $(".menu li a:eq(2)").addClass("focus");
+        $(".menu li a").click(function(){
+            $(".menu li a").removeClass("focus");
+            $(this).addClass("focus");
+        });
         vm.init=function(){
         	if($state.current.name=='projectEdit'){//新增项目信息页面
     			vm.page='create';

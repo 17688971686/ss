@@ -14,6 +14,15 @@
         vm.basicData={};
         vm.search={};
         vm.page='list';
+
+        $(".menu li a").removeClass("focus");
+        $(".menu li a:eq(4)").addClass("focus");
+
+        $(".menu li a").click(function(){
+            $(".menu li a").removeClass("focus");
+            $(this).addClass("focus");
+        });
+
         vm.init=function(){
         	vm.projectId = $state.params.projectId;
         	vm.projectInvestmentType=$state.params.projectInvestmentType;

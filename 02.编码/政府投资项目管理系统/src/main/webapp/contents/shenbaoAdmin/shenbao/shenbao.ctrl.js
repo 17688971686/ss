@@ -21,6 +21,14 @@
         vm.title='申报信息录入';
         $scope.animationsEnabled = true;
 
+        $(".menu li a").removeClass("focus");
+        $(".menu li a:eq(3)").addClass("focus");
+
+        $(".menu li a").click(function(){
+            $(".menu li a").removeClass("focus");
+            $(this).addClass("focus");
+        });
+
         vm.init=function(){
         	if($state.current.name=='shenbao_edit'){//申报信息填写
     			vm.page='edit';

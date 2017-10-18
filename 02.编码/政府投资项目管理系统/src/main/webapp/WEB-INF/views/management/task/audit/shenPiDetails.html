@@ -151,6 +151,9 @@ textarea.form-control {
 					<div ng-if="x.approval">
 							<button class="btn btn-success btn-xs" ng-click="vm.editApproval()">评审报批单</button>
 					</div>
+					<div ng-if="x.fawen">
+							<button class="btn btn-success btn-xs" ng-click="vm.draftOpen()">发文信息</button>
+					</div>
 					<div ng-if="x.proxy">
 							<button class="btn btn-success btn-xs" ng-click="vm.proxyOpen()">评审委托书</button>
 					</div>
