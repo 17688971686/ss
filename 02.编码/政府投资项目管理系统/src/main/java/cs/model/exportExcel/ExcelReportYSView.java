@@ -144,6 +144,7 @@ public class ExcelReportYSView extends AbstractXlsView {
         cell.setCellValue(value);
 
 //        CellStyle cellStyle = workbook.createCellStyle();
+        cellStyle.cloneStyleFrom(cellStyle);
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
         cellStyle.setWrapText(true);
@@ -156,6 +157,7 @@ public class ExcelReportYSView extends AbstractXlsView {
 
         
 //        CellStyle cellStyle = workbook.createCellStyle();
+        cellStyle.cloneStyleFrom(cellStyle);
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
         cellStyle.setWrapText(true);
