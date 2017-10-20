@@ -540,19 +540,20 @@
 					vm:vm,
 					response:response,
 					fn:function(){
-						vm.isSHInvestment = false;
-						vm.isZFInvestment = false;
 						vm.model.shenBaoInfo = response.data.value[0]||{};
+						if(vm.shenBaoInfoEdit){//如果是编辑页面
+							//年度计划申报年份处理
+							vm.planYear = vm.model.shenBaoInfo.planYear;
+							vm.isSHInvestment = false;
+							vm.isZFInvestment = false;
+						}
 						//判断项目的投资类型
 						if(vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_SH){//社会投资
 							vm.isSHInvestment = true;
 						}else if(vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_ZF){//政府投资
 							vm.isZFInvestment = true;
 						}
-						if(vm.shenBaoInfoEdit){//如果是编辑页面
-							//年度计划申报年份处理
-							vm.planYear = vm.model.shenBaoInfo.planYear;
-						}
+						
 						if(vm.shenBaoInfoAdd){//如果是新增页面
 							//初始化相关数据
 				    		vm.model.shenBaoInfo.projectInvestmentType = vm.investmentType;//投资类型

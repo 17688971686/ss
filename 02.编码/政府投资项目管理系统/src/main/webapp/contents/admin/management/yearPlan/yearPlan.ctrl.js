@@ -288,10 +288,7 @@
     	init_page();
     	init_basicData();
     	
-    	if(vm.shenBaoInfoEdit){
-    		yearPlanSvc.getShenBaoInfoById(vm);
-    	}
-    	
+    	yearPlanSvc.getShenBaoInfoById(vm);
     	//项目所属单位发生变化
     	vm.unitNameChange=function(){
     		yearPlanSvc.getUserUnit(vm);
