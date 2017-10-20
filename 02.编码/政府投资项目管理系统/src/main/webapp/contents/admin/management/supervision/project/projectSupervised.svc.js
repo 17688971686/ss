@@ -859,6 +859,7 @@
 					{
 						field : "projectName",
 						title : "项目名称",
+						width : 250,
 						template:function(item){
 							return common.format("<a href='#/projectDetails/{0}/{1}'>{2}</a>",item.id,item.projectInvestmentType,item.projectName);
 						},
