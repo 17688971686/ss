@@ -245,7 +245,7 @@
 				{
 					field : "",
 					title : "操作",
-					width : 150,
+					width : 170,
 					template : function(item) {
 						return common.format($('#projectAnomalyColumnBtns').html(),item.id);
 					}
@@ -435,7 +435,7 @@
 				{
 					field : "",
 					title : "操作",
-					width : 150,
+					width : 170,
 					template : function(item) {
 						return common.format($('#blackColumnBtns').html(),item.id);
 					}
@@ -722,7 +722,7 @@
 				{
 					field : "",
 					title : "操作",
-					width : 150,
+					width : 170,
 					template : function(item) {
 						return common.format($('#columnBtns').html(),item.id);
 					}
