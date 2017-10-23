@@ -1,6 +1,10 @@
 package cs.service.impl;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -65,6 +69,83 @@ public class ShenPiItemsServiceImpl  extends AbstractServiceImpl<ShenPiItemsDto,
 			});
 			PageModelDto<ShenPiItemsDto> pageModelDto = new PageModelDto<>();
 			pageModelDto.setCount(odataObj.getCount());
+			pageModelDto.setValue(shenPiItemsDtos);
+			return pageModelDto;
+	    }else{
+	    	ODataFilterItem<String> filterItem= new ODataFilterItem<>();
+	    	filterItem.setField("shenpiUnitId");
+	    	filterItem.setOperator("eq");
+	    	filterItem.setValue(shenPiUnits.get(0).getId());
+	    	odataObj.getFilter().add(filterItem);
+	    	List<ShenPiItemsDto> shenPiItemsDtos=new ArrayList<ShenPiItemsDto>();
+			shenPiItemsRepo.findByOdata(odataObj).forEach(x->{
+				ShenPiItemsDto dto=shenPiItemsMapper.toDto(x);
+				if(x.getProjectId()!=null){
+				Project project=projectRepo.findById(x.getProjectId());
+				ProjectDto projectDto=projectMapper.toDto(project);
+				dto.setProjectDto(projectDto);
+				}
+				if(x.getShenpiUnitId()!=null){
+			    ShenPiUnit shenPiUnit=	shenpiUnitRepo.findById(x.getShenpiUnitId());
+				ShenPiUnitDto shenPiUnitDto=shenpiUnitMapper.toDto(shenPiUnit);
+				dto.setShenPiUnitDto(shenPiUnitDto);
+				}
+				shenPiItemsDtos.add(dto);
+			});
+			PageModelDto<ShenPiItemsDto> pageModelDto = new PageModelDto<>();
+			pageModelDto.setCount(odataObj.getCount());
+			pageModelDto.setValue(shenPiItemsDtos);
+			return pageModelDto;
+	    }
+	}
+	@Override
+	@Transactional
+	public PageModelDto<ShenPiItemsDto> getShenpiItemsOverdue(ODataObj odataObj)  {
+		Criterion criterion=Restrictions.eq("userId", currentUser.getUserId());
+		List<ShenPiUnit> shenPiUnits=shenpiUnitRepo.findByCriteria(criterion);
+	    if(shenPiUnits.size()==0){
+	    	List<ShenPiItemsDto> shenPiItemsDtos=new ArrayList<ShenPiItemsDto>();
+			shenPiItemsRepo.findByOdata(odataObj).forEach(x->{
+				ShenPiItemsDto dto=shenPiItemsMapper.toDto(x);
+				if(x.getProjectId()!=null){
+				Project project=projectRepo.findById(x.getProjectId());
+				ProjectDto projectDto=projectMapper.toDto(project);
+				dto.setProjectDto(projectDto);
+				}
+				if(x.getShenpiUnitId()!=null){
+			    ShenPiUnit shenPiUnit=	shenpiUnitRepo.findById(x.getShenpiUnitId());
+				ShenPiUnitDto shenPiUnitDto=shenpiUnitMapper.toDto(shenPiUnit);
+				dto.setShenPiUnitDto(shenPiUnitDto);
+				}
+				
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				try {
+					 Date dt1 = df.parse(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+					 Date dt2 = df.parse(x.getShenpiEndDate());
+					 if (dt1.getTime()> dt2.getTime()) {
+						 shenPiItemsDtos.add(dto);
+			            }
+				} catch (Exception e) {
+				
+			    }
+				
+			});
+			/*for(int i=0;i<shenPiItemsDtos.size();i++){
+				 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				 try {
+					 Date dt1 = df.parse(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+					 Date dt2 = df.parse(shenPiItemsDtos.get(i).getShenpiEndDate());
+					 if (dt1.getTime() < dt2.getTime()) {
+						 shenPiItemsDtos.remove(i);
+			            }
+				} catch (Exception e) {
+				
+				}
+				
+			}*/
+			
+			PageModelDto<ShenPiItemsDto> pageModelDto = new PageModelDto<>();
+			pageModelDto.setCount(odataObj.getCount()-1);
 			pageModelDto.setValue(shenPiItemsDtos);
 			return pageModelDto;
 	    }else{

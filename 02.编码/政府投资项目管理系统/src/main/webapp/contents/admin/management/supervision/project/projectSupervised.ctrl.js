@@ -424,13 +424,16 @@
 
     		if(vm.isZFInvestment){
     			projectSupervisedSvc.grid(vm);
+    			
     		}
     		if(vm.isSHInvestment){
     			projectSupervisedSvc.grid_SH(vm);
     		}
     		projectSupervisedSvc.grid(vm);
+    		projectSupervisedSvc.shenpiOverdueGrid(vm);
             //查询
             projectSupervisedSvc.statistical(vm);
+          
     		//统计xdf
     		vm.search=function(){
     			var filters = [];

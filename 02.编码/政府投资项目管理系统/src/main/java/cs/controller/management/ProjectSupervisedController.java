@@ -69,6 +69,12 @@ public class ProjectSupervisedController {
 			shenPiUnitService.delete(id);
 		}
 	} 
+	@RequestMapping(name = "获取逾期审批事项信息", path = "shenpiItemsOverdue",method=RequestMethod.GET)
+	public @ResponseBody PageModelDto<ShenPiItemsDto> shenpiItemsOverdue(HttpServletRequest request) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);
+		PageModelDto<ShenPiItemsDto> shenpiItemsDtos = shenPiItemsService.getShenpiItemsOverdue(odataObj);		
+		return shenpiItemsDtos;
+	} 
 	@RequestMapping(name = "获取审批事项信息", path = "shenpiItems",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenPiItemsDto> getShenpiItems(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
