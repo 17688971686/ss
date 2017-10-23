@@ -13,6 +13,7 @@
 		var url_document="/management/replyFile";
 		var service = {
 			grid : grid,
+            statistical : statistical,
 			grid_SH:grid_SH,
 			getProjectById:getProjectById,
 			getUserUnits:getUserUnits,
@@ -946,6 +947,133 @@
 			};
 
 		}// end fun grid
+
+        // begin#statistical 统计代码  xdf
+        function statistical(vm) {
+/*            $http({
+                method: 'GET',
+                url:  url_project+"/shenpiItems"
+            }).then(function successCallback(response) {
+                console.log(response);
+            }, function errorCallback(response) {
+                // 请求失败执行代码
+                console.log(response);
+            });*/
+
+
+            $http({
+                method: 'GET',
+                url: url_project+"/unitName"
+            }).then(function successCallback(response) {
+
+            	 //console.log(response);
+                 var  resData=response.data.value;
+                 var  i;
+                 var  toTaData={
+                                 projectName:[],Stage1:[],Stage2:[],Stage3:[],Stage4:[],Stage5:[],Stage6:[],tMonth:[],fMonth:[]
+				                };
+
+
+                 for (i in resData)
+					   {
+						   if(resData[i].isIncludLibrary==true && resData[i].projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF && resData[i].isLatestVersion==true){
+                               toTaData.projectName[i]=resData[i].projectName;
+
+                               switch(resData[i].projectStage)
+                               {
+                                   case "projectStage_1":
+                                       toTaData.Stage1[i]=resData[i].projectName;
+                                       break;
+                                   case "projectStage_2":
+                                       toTaData.Stage2[i]=resData[i].projectName;
+                                       break;
+                                   case "projectStage_3":
+                                       toTaData.Stage3[i]=resData[i].projectName;
+                                       break;
+                                   case "projectStage_4":
+                                       toTaData.Stage4[i]=resData[i].projectName;
+                                       break;
+                                   case "projectStage_5":
+                                       toTaData.Stage5[i]=resData[i].projectName;
+                                       break;
+                                   case "projectStage_6":
+                                       toTaData.Stage6[i]=resData[i].projectName;
+                                       break;
+
+                               }
+                               if(resData[i].isMonthReport==true){
+                                   toTaData.tMonth[i]=resData[i].projectName;
+							   }else{
+                                   toTaData.fMonth[i]=resData[i].projectName;
+							   }
+
+
+                           }
+					   }
+              //  dataAnimate(sticalcount(toTaData.projectName));
+				vm.statistical={
+                	total:sticalcount(toTaData.projectName),
+                    Stage1:{
+                        num : sticalcount(toTaData.Stage1),
+                        width : sticalcount(toTaData.Stage1)/sticalcount(toTaData.projectName)*100+"%"
+                    },
+                    Stage2:{
+                        num : sticalcount(toTaData.Stage2),
+                        width : sticalcount(toTaData.Stage2)/sticalcount(toTaData.projectName)*100+"%"
+                    },
+                    Stage3:{
+                        num : sticalcount(toTaData.Stage3),
+                        width : sticalcount(toTaData.Stage3)/sticalcount(toTaData.projectName)*100+"%"
+                    },
+                    Stage4:{
+                        num : sticalcount(toTaData.Stage4),
+                        width : sticalcount(toTaData.Stage4)/sticalcount(toTaData.projectName)*100+"%"
+                    },
+                    Stage5:{
+                        num : sticalcount(toTaData.Stage5),
+                        width : sticalcount(toTaData.Stage5)/sticalcount(toTaData.projectName)*100+"%"
+                    },
+                    Stage6:{
+                        num : sticalcount(toTaData.Stage6),
+                        width : sticalcount(toTaData.Stage6)/sticalcount(toTaData.projectName)*100+"%"
+                    },
+                    tMonth:{
+                        num : sticalcount(toTaData.tMonth),
+                        percent : sticalcount(toTaData.tMonth)/sticalcount(toTaData.projectName)*100+"%"
+                    },
+                    fMonth:{
+                        num : sticalcount(toTaData.fMonth),
+                        percent : sticalcount(toTaData.fMonth)/sticalcount(toTaData.projectName)*100+"%"
+                    }
+				};
+
+            //console.log(vm.statistical);
+
+            }, function errorCallback(response) {
+                // 请求失败执行代码
+                console.log(response);
+            });
+
+            /////////////////////////审批进程中项目列表////////////////////////////////////
+
+        }
+
+     function sticalcount(vm){
+         var t = typeof vm;
+             var n = 0;
+             for(var i in vm){
+                 n++;
+             }
+         if(n>0){
+             return n;
+          }
+         return 0;
+	 }
+        // 统计结束
+
+
+
+
 		// begin#shenpifankuiItemsGrid
 		function shenpifankuiItemsGrid(vm) {
 			// Begin:dataSource

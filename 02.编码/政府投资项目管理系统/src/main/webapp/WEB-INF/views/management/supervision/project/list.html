@@ -1,68 +1,661 @@
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+<style>
+ .well-sm{
+	 border:0px; border-radius: 0px;
+ }
+ .cs-title{
+	 height: 30px;
+	 line-height: 30px;
+	 font-size: 16px;
+	 font-weight: bold;
+ }
+.cs-box-custom{
+	background: #f5f5f6;
+	overflow: hidden;
+	margin: 2px;
+}
+.cs-list-text{
+	min-height: 110px;
+	text-align: center;
+	line-height: 100px;
+	font-size: 30px;
+	color: #6b6b6b;
+	font-weight: bold;
+}
+.custom-modal{
+	position: absolute;
+	display: none;
+	z-index: 1000;
+}
+ .box-header {
+	 background: #e6f2f8;
+ }
+ .box{
+	 -moz-border-radius-topleft: 0px;
+	 -moz-border-radius-topright: 0px;
+ }
+.cs-list-bottom{
+	background: #00c1de;height: 30px; line-height: 30px; text-align: center; color: #fff;
+}
+.cs-list-article
+{
+	padding-left:10px; height: 30px; overflow: visible; line-height: 30px; width: 0;
+	transition: width 1s;
+	-moz-transition: width 1s;	/* Firefox 4 */
+	-webkit-transition: width 1s;	/* Safari 和 Chrome */
+	-o-transition: width 1s;
+}
+.cs-list-garden
+{
+	width: 80px;height: 80px; line-height: 80px; border-radius: 100px; margin: auto;
+	font-weight: bold;text-align: center; color: #fff;
+}
+</style>
 <div class="well well-sm" style="background:white;">
 	  <ol class="breadcrumb">
 		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
 		  <li><a href="#/">首页</a></li>
-	      <li>项目监管</li>	 
+	      <li>项目监管</li>
 	      <li class="active">政府投资项目列表</li>
 	  </ol>
-	  <script type="text/template" id="columnBtns">
-			<a class="btn btn-xs btn-primary" href="#/projectEdit/{0}/{1}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
-	  </script>
-	  <div class="search">
-	  	<table class="table table-bordered" style="margin-bottom:0px;">
-	  			<tr>
-	  				<td colspan="6" class="bg-info">
-	  					<span style="padding:10px;"><strong>项目查询</strong></span>
-	  				</td>
-	  			</tr>
-	  			<tr>
-	  				<td class="formAlignRight">项目名称：</td>
-	  				<td style="width:25%"><input type="text" style="width:360px;" placeholder="请输入项目名称（可少输不可输错）" ng-model="vm.search.projectName"/></td>
-	  				<td class="formAlignRight">项目阶段：</td>
-	  				<td>
-	  					<select style="height:30px;" ng-model="vm.search.projectStage">
-				  			<option value="">---请选择---</option>
-				  			<option ng-repeat="x in vm.basicData.projectStage" value="{{x.id}}">{{x.description}}</option>
-				  		</select>
-	  				</td>
-	  				<td class="formAlignRight">是否需要填写月报：</td>
-	  				<td>
-	  					<select style="height:30px;" ng-model="vm.search.isMonthReport">
-				  			<option value="">---请选择---</option>
-				  			<option value="true">是</option>
-				  			<option value="false">否</option>
-				  		</select>
-	  				</td>
-	  			</tr>
-	  			<!-- <tr>
-	  				<td class="formAlignRight">项目所属单位：</td>
-	  				<td><input type="text" style="width:360px;" placeholder="请输入单位名称（可少输不可输错）" ng-model="vm.search.unitName"/></td>
-	  			</tr> -->
-	  			<tr>
-	  				<td class="formAlignRight">项目所属单位：</td>
-	  				<td>
-	  					<select style="height:30px;" ng-model="vm.search.unitName">
-				  			<option value="">---请选择---</option>
-				  			<option ng-repeat="x in vm.basicData.userUnit" value="{{x.id}}">{{x.unitName}}</option>
-				  		</select>
-	  				</td>
-	  			</tr>
-	  			<tr>
-	  				<td colspan="6">
-	  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search()"><span class="glyphicon glyphicon-search"></span>查询</button>
-	  				</td>
-	  			</tr>
-	  		</table>
-	  </div>
-	  <div class="toolbar">
-	  	<button class="btn btn-sm btn-primary" ng-click="vm.addProject()"><span class="glyphicon glyphicon-plus"></span>新增项目</button>
-	  </div> 
-     <form id="form" name="form">          
-         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
-    </form>
 </div>
+
+<div class="well well-sm" style="background:white;">
+       <div class="row">
+		   <div class="col-md-3">
+			   <div class="cs-title"></div>
+			   <div class="cs-box-custom" style="min-height: 190px;">
+                    <p style="padding: 10px">项目总数（个）</p>
+				    <div class="cs-list-text" >{{vm.statistical.total}}</div>
+				    <div class="cs-list-bottom">统计列表</div>
+			   </div>
+		   </div>
+		   <div class="col-md-6">
+			   <div class="cs-title">项目阶段统计</div>
+			   <div style="overflow: hidden; height: 190px;">
+				   <div class="cs-box-custom" style="min-height: 30px;">
+					  <div class="cs-list-article"> 前期储备阶段（{{vm.statistical.Stage1.num}}）</div>
+				   </div>
+				   <div class="cs-box-custom" style="min-height: 30px;">
+					   <div class="cs-list-article" style="color: #fff;background:#167af4; width:{{vm.statistical.Stage2.width}};"> 前期阶段（{{vm.statistical.Stage2.num}}）</div>
+				   </div>
+				   <div class="cs-box-custom" style="min-height: 30px;">
+					   <div class="cs-list-article" style="color: #fff;background:#318fff; width: {{vm.statistical.Stage3.width}}; "> 施工阶段（{{vm.statistical.Stage3.num}}）</div>
+				   </div>
+				   <div class="cs-box-custom" style="min-height: 30px;">
+					   <div class="cs-list-article" style="color: #fff;background:#ecaf03; width: {{vm.statistical.Stage4.width}}; "> 停工阶段（{{vm.statistical.Stage4.num}}）</div>
+				   </div>
+				   <div class="cs-box-custom" style="min-height: 30px;">
+					   <div class="cs-list-article" style="color: #fff;background:#a5d207; width: {{vm.statistical.Stage5.width}}; ">  竣工阶段({{vm.statistical.Stage5.num}})</div>
+				   </div>
+				   <div class="cs-box-custom" style="min-height: 30px;">
+					   <div class="cs-list-article" style="color: #fff;background:#00cdff; width: {{vm.statistical.Stage6.width}}; "> 固定资产登记阶段({{vm.statistical.Stage6.num}})</div>
+				   </div>
+			   </div>
+		   </div>
+		   <div class="col-md-3">
+			   <div class="cs-title">项目月报分类统计</div>
+			   <div class="row">
+				   <div class="col-md-6">
+					   <div style="text-align: center; margin: 10px;padding: 10px;">月报分类</div>
+					   <div class="cs-list-garden" style="background:#00b7ee;">{{vm.statistical.tMonth.percent}}</div>
+				       <div class="cs-title" style="text-align: center;">{{vm.statistical.tMonth.num}}个</div>
+				    </div>
+				   <div class="col-md-6">
+					   <div style="text-align: center; margin: 10px;padding: 10px;">非月报类</div>
+					   <div class="cs-list-garden" style="background:#80c269;">{{vm.statistical.fMonth.percent}}</div>
+					   <div class="cs-title" style="text-align: center;">{{vm.statistical.fMonth.num}}个</div>
+				    </div>
+			   </div>
+		   </div>
+	   </div>
+</div>
+
+
+
+
+<div class="well well-sm" style="background:white;">
+  <div class="row">
+	  <div>
+		  <table>
+			  <tr>
+				  <td width="261">
+					  <div style="text-align: center; margin: 10px;padding: 10px;">项目审批</div>
+					  <div class="cs-list-garden" style="background:#80c269;">项目进程中</div>
+					  <div class="cs-title" style="text-align: center;">2个</div>
+				  </td>
+				  <td>
+					  <div class="cs-box-custom" style="margin-right: 30px;">
+                              <!--资源-->
+						  <div class="grid k-grid k-widget">
+							  <div class="k-grid-header" style="padding-right: 17px;">
+								  <div class="k-grid-header-wrap k-auto-scrollable" data-role="resizable">
+									  <table role="grid">
+										  <colgroup>
+
+											  <col style="width:280px">
+											  <col>
+											  <col style="width:150px">
+
+											  <col style="width:150px">
+											  <col style="width:150px">
+											  <col style="width:250px">
+										  </colgroup>
+										  <thead role="rowgroup">
+										  <tr role="row">
+
+
+											  <th scope="col" role="columnheader" data-field="projectName" aria-haspopup="true" rowspan="1" data-title="项目名称" data-index="2" id="a11869f1-1c41-4c22-bba2-4e45ff997d38" class="k-header ng-scope k-with-icon k-filterable" data-role="filtermenu">
+												  <a class="k-grid-filter" href="#" title="确定" tabindex="-1"><span class="k-icon k-i-filter"></span></a>项目名称</th>
+											  <th scope="col" role="columnheader" data-field="unitName" aria-haspopup="true" rowspan="1" data-title="项目所属单位" data-index="3" id="d5f77366-42a5-4b89-8326-7b2ee1d2a2c7" class="k-header ng-scope k-with-icon k-filterable" data-role="filtermenu">
+												  <a class="k-grid-filter" href="#" title="确定" tabindex="-1"><span class="k-icon k-i-filter"></span></a>项目所属单位</th>
+											  <th scope="col" role="columnheader" data-field="projectStage" aria-haspopup="true" rowspan="1" data-title="项目阶段" data-index="4" id="b45b28e3-4617-4b8e-bcce-bec931337aae" class="k-header ng-scope k-with-icon k-filterable" data-role="filtermenu">
+												  <a class="k-grid-filter" href="#" title="确定" tabindex="-1"><span class="k-icon k-i-filter"></span></a>项目阶段</th>
+											  <th scope="col" role="columnheader" data-field="projectClassify" aria-haspopup="true" rowspan="1" data-title="项目分类" data-index="5" id="0a375dba-c4b7-444c-96bd-82417e598d8e" class="k-header ng-scope">项目分类</th>
+											  <th scope="col" role="columnheader" data-field="isMonthReport" aria-haspopup="true" rowspan="1" data-title="是否月报" data-index="6" id="d293eee8-819e-4896-9611-3228e6c1b83b" class="k-header ng-scope k-with-icon k-filterable" data-role="filtermenu">
+												  <a class="k-grid-filter" href="#" title="确定" tabindex="-1"><span class="k-icon k-i-filter"></span></a>最新审批事项</th>
+											  <th scope="col" role="columnheader" aria-haspopup="true" rowspan="1" data-title="操作" data-index="7" id="360c1252-1c69-4247-bf19-6fd1effe1b59" class="k-header ng-scope">操作</th>
+										  </tr>
+										  </thead>
+									  </table>
+									  <div class="k-resize-handle" style="top: 0px; left: 37px; height: 32px; width: 9px; display: none;">
+										  <div class="k-resize-handle-inner"></div>
+									  </div>
+								  </div>
+							  </div>
+							  <div class="k-grid-content k-auto-scrollable">
+								  <table role="grid">
+									  <colgroup>
+
+										  <col style="width:280px">
+										  <col>
+										  <col style="width:150px">
+
+										  <col style="width:150px">
+										  <col style="width:150px">
+										  <col style="width:250px">
+									  </colgroup>
+									  <tbody role="rowgroup">
+									  <tr data-uid="5c2e70b1-9723-44d7-ae21-96953232ee80" role="row" class="ng-scope">
+
+
+										  <td role="gridcell">
+											  <a href="#/projectDetails/493c7b71-0b85-4af6-b32f-ab74637a59fa/projectInvestmentType_1">凤凰街道健身器材安装建设</a>
+										  </td>
+										  <td role="gridcell">深圳一建</td>
+										  <td role="gridcell">前期阶段</td>
+										  <td role="gridcell">政府投资市政类</td>
+										  <td role="gridcell">初审阶段</td>
+										  <td role="gridcell">
+											  <a class="btn btn-xs btn-primary" href="javascript:;" data="custombtn" project="凤凰街道健身器材安装建设" protype="true"><span class="glyphicon glyphicon-pencil"></span>查看所有审批事项</a>
+										  </td>
+									  </tr>
+									  <tr data-uid="5c2e70b1-9723-44d7-ae21-96953232ee80" role="row" class="ng-scope">
+
+
+										  <td role="gridcell">
+											  <a href="#/projectDetails/493c7b71-0b85-4af6-b32f-ab74637a59fa/projectInvestmentType_1">马田国贸中心大楼建设</a>
+										  </td>
+										  <td role="gridcell">深圳一建</td>
+										  <td role="gridcell">前期阶段</td>
+										  <td role="gridcell">政府投资市政类</td>
+										  <td role="gridcell">初审阶段</td>
+										  <td role="gridcell">
+											  <a class="btn btn-xs btn-primary" href="javascript:;" data="custombtn" project="马田国贸中心大楼建设" protype="true"><span class="glyphicon glyphicon-pencil"></span>查看所有审批事项</a>
+										  </td>
+									  </tr>
+									  <tr class="k-alt">
+
+
+										  <td role="gridcell">
+											  <a href="#/projectDetails/6c242d92-de18-47aa-a9da-7f45cd12f8fe/projectInvestmentType_1">光明马田地铁11号线</a>
+										  </td>
+										  <td role="gridcell">深圳一建</td>
+										  <td role="gridcell">前期阶段</td>
+										  <td role="gridcell">政府投资市政类</td>
+										  <td role="gridcell">复审阶段</td>
+										  <td role="gridcell">
+											  <a class="btn btn-xs btn-primary" href="javascript:;" data="custombtn" project="光明马田地铁11号线" protype="true"><span class="glyphicon glyphicon-pencil"></span>查看所有审批事项</a>
+										  </td>
+									  </tr>
+									  </tbody>
+								  </table>
+							  </div>
+							  <div class="k-pager-wrap k-grid-pager k-widget k-floatwrap" data-role="pager">
+								  <a href="#" aria-label="首页" title="首页" class="k-link k-pager-nav k-pager-first k-state-disabled" data-page="1" tabindex="-1"><span class="k-icon k-i-seek-w"></span></a>
+								  <a href="#" aria-label="上一页" title="上一页" class="k-link k-pager-nav  k-state-disabled" data-page="1" tabindex="-1"><span class="k-icon k-i-arrow-w"></span></a>
+								  <ul class="k-pager-numbers k-reset">
+									  <li class="k-current-page"><span class="k-link k-pager-nav">1</span></li>
+									  <li><span class="k-state-selected">1</span></li>
+								  </ul>
+								  <a href="#" aria-label="下一页" title="下一页" class="k-link k-pager-nav  k-state-disabled" data-page="1" tabindex="-1"><span class="k-icon k-i-arrow-e"></span></a>
+								  <a href="#" aria-label="末页" title="末页" class="k-link k-pager-nav k-pager-last k-state-disabled" data-page="1" tabindex="-1"><span class="k-icon k-i-seek-e"></span></a><span class="k-pager-sizes k-label"><span title="" class="k-widget k-dropdown k-header" unselectable="on" role="listbox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-owns="" aria-disabled="false" aria-busy="false" aria-activedescendant="57524352-e447-4bdb-a39a-9374aa61bae3" style=""><span unselectable="on" class="k-dropdown-wrap k-state-default"><span unselectable="on" class="k-input">10</span><span unselectable="on" class="k-select" aria-label="select"><span class="k-icon k-i-arrow-60-down"></span></span>
+		</span>
+		<select data-role="dropdownlist" style="display: none;">
+			<option value="all">All</option>
+			<option value="5">5</option>
+			<option value="10" selected="selected">10</option>
+			<option value="20">20</option>
+		</select>
+		</span>每页</span>
+								  <a href="#" class="k-pager-refresh k-link" title="刷新"><span class="k-icon k-i-reload"></span></a><span class="k-pager-info k-label">显示条目 1 - 2 共 2</span></div>
+						  </div>
+						      <!--资源结束-->
+					   </div>
+
+				  </td>
+			  </tr>
+		  </table>
+	  </div>
+  </div>
+</div>
+
+<div class="well well-sm" style="background:white;">
+	<div class="row">
+		<div>
+			<table>
+				<tr>
+					<td width="261">
+						<div style="text-align: center; margin: 10px;padding: 10px;">项目审批逾期</div>
+						<div class="cs-list-garden" style="background:#ec6941;">项目逾期</div>
+						<div class="cs-title" style="text-align: center;">2个</div>
+					</td>
+					<td>
+						<div class="cs-box-custom" style="margin-right: 30px;">
+							<!--资源-->
+							<div class="grid k-grid k-widget">
+								<div class="k-grid-header" style="padding-right: 17px;">
+									<div class="k-grid-header-wrap k-auto-scrollable" data-role="resizable">
+										<table role="grid">
+											<colgroup>
+
+												<col style="width:280px">
+												<col>
+												<col style="width:150px">
+
+												<col style="width:150px">
+												<col style="width:150px">
+												<col style="width:250px">
+											</colgroup>
+											<thead role="rowgroup">
+											<tr role="row">
+
+
+												<th scope="col" role="columnheader" data-field="projectName" aria-haspopup="true" rowspan="1" data-title="项目名称" data-index="2" id="a11869f1-1c41-4c22-bba2-4e45ff997d38" class="k-header ng-scope k-with-icon k-filterable" data-role="filtermenu">
+													<a class="k-grid-filter" href="#" title="确定" tabindex="-1"><span class="k-icon k-i-filter"></span></a>项目名称</th>
+												<th scope="col" role="columnheader" data-field="unitName" aria-haspopup="true" rowspan="1" data-title="项目所属单位" data-index="3" id="d5f77366-42a5-4b89-8326-7b2ee1d2a2c7" class="k-header ng-scope k-with-icon k-filterable" data-role="filtermenu">
+													<a class="k-grid-filter" href="#" title="确定" tabindex="-1"><span class="k-icon k-i-filter"></span></a>项目所属单位</th>
+												<th scope="col" role="columnheader" data-field="projectStage" aria-haspopup="true" rowspan="1" data-title="项目阶段" data-index="4" id="b45b28e3-4617-4b8e-bcce-bec931337aae" class="k-header ng-scope k-with-icon k-filterable" data-role="filtermenu">
+													<a class="k-grid-filter" href="#" title="确定" tabindex="-1"><span class="k-icon k-i-filter"></span></a>项目阶段</th>
+												<th scope="col" role="columnheader" data-field="projectClassify" aria-haspopup="true" rowspan="1" data-title="项目分类" data-index="5" id="0a375dba-c4b7-444c-96bd-82417e598d8e" class="k-header ng-scope">项目分类</th>
+												<th scope="col" role="columnheader" data-field="isMonthReport" aria-haspopup="true" rowspan="1" data-title="是否月报" data-index="6" id="d293eee8-819e-4896-9611-3228e6c1b83b" class="k-header ng-scope k-with-icon k-filterable" data-role="filtermenu">
+													<a class="k-grid-filter" href="#" title="确定" tabindex="-1"><span class="k-icon k-i-filter"></span></a>最新审批事项</th>
+												<th scope="col" role="columnheader" aria-haspopup="true" rowspan="1" data-title="操作" data-index="7" id="360c1252-1c69-4247-bf19-6fd1effe1b59" class="k-header ng-scope">操作</th>
+											</tr>
+											</thead>
+										</table>
+										<div class="k-resize-handle" style="top: 0px; left: 37px; height: 32px; width: 9px; display: none;">
+											<div class="k-resize-handle-inner"></div>
+										</div>
+									</div>
+								</div>
+								<div class="k-grid-content k-auto-scrollable">
+									<table role="grid">
+										<colgroup>
+
+											<col style="width:280px">
+											<col>
+											<col style="width:150px">
+
+											<col style="width:150px">
+											<col style="width:150px">
+											<col style="width:250px">
+										</colgroup>
+										<tbody role="rowgroup">
+										<tr data-uid="5c2e70b1-9723-44d7-ae21-96953232ee80" role="row" class="ng-scope">
+
+
+											<td role="gridcell">
+												<a href="#/projectDetails/493c7b71-0b85-4af6-b32f-ab74637a59fa/projectInvestmentType_1">凤凰街道健身器材安装建设</a>
+											</td>
+											<td role="gridcell">深圳一建</td>
+											<td role="gridcell">前期阶段</td>
+											<td role="gridcell">政府投资市政类</td>
+											<td role="gridcell">初审阶段</td>
+											<td role="gridcell">
+												<a class="btn btn-xs btn-primary" href="javascript:;" data="custombtn" project="凤凰街道健身器材安装建设" protype="false"><span class="glyphicon glyphicon-pencil"></span>查看所有审批事项</a>
+											</td>
+										</tr>
+										<tr class="k-alt">
+
+
+											<td role="gridcell">
+												<a href="#/projectDetails/6c242d92-de18-47aa-a9da-7f45cd12f8fe/projectInvestmentType_1">光明马田地铁11号线</a>
+											</td>
+											<td role="gridcell">深圳一建</td>
+											<td role="gridcell">前期阶段</td>
+											<td role="gridcell">政府投资市政类</td>
+											<td role="gridcell">复审阶段</td>
+											<td role="gridcell">
+												<a class="btn btn-xs btn-primary" href="javascript:;" data="custombtn" project="光明马田地铁11号线" protype="false"><span class="glyphicon glyphicon-pencil"></span>查看所有审批事项</a>
+											</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="k-pager-wrap k-grid-pager k-widget k-floatwrap" data-role="pager">
+									<a href="#" aria-label="首页" title="首页" class="k-link k-pager-nav k-pager-first k-state-disabled" data-page="1" tabindex="-1"><span class="k-icon k-i-seek-w"></span></a>
+									<a href="#" aria-label="上一页" title="上一页" class="k-link k-pager-nav  k-state-disabled" data-page="1" tabindex="-1"><span class="k-icon k-i-arrow-w"></span></a>
+									<ul class="k-pager-numbers k-reset">
+										<li class="k-current-page"><span class="k-link k-pager-nav">1</span></li>
+										<li><span class="k-state-selected">1</span></li>
+									</ul>
+									<a href="#" aria-label="下一页" title="下一页" class="k-link k-pager-nav  k-state-disabled" data-page="1" tabindex="-1"><span class="k-icon k-i-arrow-e"></span></a>
+									<a href="#" aria-label="末页" title="末页" class="k-link k-pager-nav k-pager-last k-state-disabled" data-page="1" tabindex="-1"><span class="k-icon k-i-seek-e"></span></a><span class="k-pager-sizes k-label"><span title="" class="k-widget k-dropdown k-header" unselectable="on" role="listbox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-owns="" aria-disabled="false" aria-busy="false" aria-activedescendant="57524352-e447-4bdb-a39a-9374aa61bae3" style=""><span unselectable="on" class="k-dropdown-wrap k-state-default"><span unselectable="on" class="k-input">10</span><span unselectable="on" class="k-select" aria-label="select"><span class="k-icon k-i-arrow-60-down"></span></span>
+		</span>
+		<select data-role="dropdownlist" style="display: none;">
+			<option value="all">All</option>
+			<option value="5">5</option>
+			<option value="10" selected="selected">10</option>
+			<option value="20">20</option>
+		</select>
+		</span>每页</span>
+									<a href="#" class="k-pager-refresh k-link" title="刷新"><span class="k-icon k-i-reload"></span></a><span class="k-pager-info k-label">显示条目 1 - 2 共 2</span></div>
+							</div>
+						    <!--资源结束-->
+
+						</div>
+
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="well well-sm" style="background:white;">
+	<script type="text/template" id="columnBtns">
+		<a class="btn btn-xs btn-primary" href="#/projectEdit/{0}/{1}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+	</script>
+	<div class="search">
+		<table class="table table-bordered" style="margin-bottom:0px;">
+			<tr>
+				<td colspan="6" class="bg-info">
+					<span style="padding:10px;"><strong>项目查询</strong></span>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">项目名称：</td>
+				<td style="width:25%"><input type="text" style="width:360px;" placeholder="请输入项目名称（可少输不可输错）" ng-model="vm.search.projectName"/></td>
+				<td class="formAlignRight">项目阶段：</td>
+				<td>
+					<select style="height:30px;" ng-model="vm.search.projectStage">
+						<option value="">---请选择---</option>
+						<option ng-repeat="x in vm.basicData.projectStage" value="{{x.id}}">{{x.description}}</option>
+					</select>
+				</td>
+				<td class="formAlignRight">是否需要填写月报：</td>
+				<td>
+					<select style="height:30px;" ng-model="vm.search.isMonthReport">
+						<option value="">---请选择---</option>
+						<option value="true">是</option>
+						<option value="false">否</option>
+					</select>
+				</td>
+			</tr>
+			<!-- <tr>
+                <td class="formAlignRight">项目所属单位：</td>
+                <td><input type="text" style="width:360px;" placeholder="请输入单位名称（可少输不可输错）" ng-model="vm.search.unitName"/></td>
+            </tr> -->
+			<tr>
+				<td class="formAlignRight">项目所属单位：</td>
+				<td>
+					<select style="height:30px;" ng-model="vm.search.unitName">
+						<option value="">---请选择---</option>
+						<option ng-repeat="x in vm.basicData.userUnit" value="{{x.id}}">{{x.unitName}}</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="6">
+					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search()"><span class="glyphicon glyphicon-search"></span>查询</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+</div>
+
+<div class="well well-sm" style="background:white;">
+<div class="toolbar">
+	<button class="btn btn-sm btn-primary" ng-click="vm.addProject()"><span class="glyphicon glyphicon-plus"></span>新增项目</button>
+</div>
+<form id="form" name="form">
+	<div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+
+
+	<!--<div class="grid" kendo-grid="grid" k-options=""></div>-->
+	<!--{{vm.gridsOptions.dataSource._total}}-->
+</form>
+</div>
+
+<!--评审阶段模态框-->
+<div class="custom-modal box box-solid" data="customModal">
+	<div class="box-header with-border">
+		<h3 class="box-title">项目审批事项</h3>
+
+		<div class="box-tools pull-right">
+			<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-minus"></i>
+			</button>
+		</div>
+
+	</div>
+	<div class="box-body">
+
+		<table class="table table-striped">
+			<thead>
+			<tr>
+				<th>排序</th>
+				<th>项目事项</th>
+				<th>审批项目</th>
+				<th>剩余天数</th>
+				<th>操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>1</td>
+				<td>初审阶段</td>
+				<td>凤凰街道健身器材安装建设</td>
+				<td>12</td>
+				<td>查看</td>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td>复审阶段</td>
+				<td>凤凰街道健身器材安装建设</td>
+				<td>10</td>
+				<td>查看</td>
+			</tr>
+			</tbody>
+		</table>
+
+	</div>
+
+</div>
+
+
+<script>
+/*
+*   对接后台时请删除数据源和数据模型
+*
+* */
+//////////*xdf 数据源*///////////
+var testdata={
+    project:[{
+				name:"玉塘体育中心",
+				office:"深圳一建",
+				stage:"前期阶段",
+				class:"政府投资房建类",
+				month:true,
+				action:[{
+							stage:"初审阶段",
+							times:"1"
+						},{
+							stage:"复审阶段",
+							times:"10"
+						},{
+							stage:"终审阶段",
+							times:"12"
+						}]
+
+	      },
+        {
+            name:"马田国贸中心大楼建设",
+            office:"深圳一建",
+            stage:"前期阶段",
+            class:"政府投资房建类",
+            month:true,
+            action:[{
+                stage:"初审阶段",
+                times:"-1"
+            },{
+                stage:"复审阶段",
+                times:"5"
+            },{
+                stage:"终审阶段",
+                times:"14"
+            }]
+
+        },
+        {
+            name:"凤凰街道健身器材安装建设",
+            office:"深圳一建",
+            stage:"前期阶段",
+            class:"政府投资房建类",
+            month:true,
+            action:[{
+                stage:"初审阶段",
+                times:"-12"
+            },{
+                stage:"复审阶段",
+                times:"10"
+            },{
+                stage:"终审阶段",
+                times:"30"
+            }]
+
+        },
+        {
+            name:"光明新区公明街道廉租房改造",
+            office:"深圳一建",
+            stage:"前期阶段",
+            class:"政府投资房建类",
+            month:true,
+            action:[{
+                stage:"初审阶段",
+                times:"5"
+            },{
+                stage:"复审阶段",
+                times:"10"
+            },{
+                stage:"终审阶段",
+                times:"12"
+            }]
+
+        },
+        {
+            name:"光明马田地铁11号线",
+            office:"深圳一建",
+            stage:"前期阶段",
+            class:"政府投资房建类",
+            month:true,
+            action:[{
+                stage:"初审阶段",
+                times:"-10"
+            },{
+                stage:"复审阶段",
+                times:"2"
+            },{
+                stage:"终审阶段",
+                times:"21"
+            }]
+
+        }
+	]
+
+};
+
+//////////*xdf 操作*///////////
+$("[data=custombtn]").click(function(){
+    $("[data=customModal]").hide();
+   var topSet=$(this).parent("td").offset().top+$(this).parent("td").height()+11+"px";
+   var leftSet=$(this).parents(".grid").offset().left+"px";
+   var widthSet=$(this).parents(".grid").width()-16+"px";
+       $("[data=customModal]").slideToggle();
+	   $("[data=customModal]").css({"top":topSet,"width":widthSet,"left":leftSet});
+
+////////html模型重构//////////
+	var projectName=$(this).attr("project");
+	var protype=$(this).attr("protype");
+	var n=0;
+	var addHtml="";
+    for (i in testdata.project){
+        console.log(testdata.project[i].name);
+       if(testdata.project[i].name==projectName) {
+
+		  var actData=testdata.project[i].action;
+		  for(x in actData){
+
+		    if(protype=="true" && actData[x].times>0){
+		      n=n+1;
+               addHtml+= '<tr>'
+                  +'<td>'+n+'</td>'
+                  +'<td>'+actData[x].stage+'</td>'
+                  +'<td>'+testdata.project[i].name+'</td>'
+                  +'<td>'+actData[x].times+'</td>'
+                  +'<td><a href="#/supervision/spsx"> 查看</a></td>'
+                  +'</tr>';
+			}
+              if(protype=="false" && actData[x].times<0){
+                  n=n+1;
+                  addHtml+= '<tr>'
+                      +'<td>'+n+'</td>'
+                      +'<td>'+actData[x].stage+'</td>'
+                      +'<td>'+testdata.project[i].name+'</td>'
+                      +'<td>'+actData[x].times+'</td>'
+                      +'<td><a href="#/supervision/spsx"> 查看</a></td>'
+                      +'</tr>';
+              }
+          }
+	   }
+	}
+	var html='<table class="table table-striped">'
+           +'<thead>'
+           +'<tr>'
+           +'<th>排序</th>'
+           +'<th>项目事项</th>'
+           +'<th>审批项目</th>'
+           +'<th>剩余天数</th>'
+           +'<th>操作</th>'
+           +'</tr>'
+           +'</thead>'
+           +'<tbody>'
+           +addHtml
+           +'</tbody>'
+           +'</table>';
+
+       $("[data=customModal] .box-body").html(html);
+
+ ///////////////html结束/////////
+
+});
+$(window).resize(function () {
+    $("[data=customModal]").hide();
+})
+</script>
+
 
 <!-- 选择投资类型模态框 -->
 <div class="modal fade" id="myModal_add" tabindex="-1" role="dialog"> 

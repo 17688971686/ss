@@ -5,7 +5,7 @@
         .module('appSupervision')
         .controller('projectCtrl', project);
 
-    project.$inject = ['$location','projectSupervisedSvc','$state','$scope','$sce']; 
+    project.$inject = ['$location','projectSupervisedSvc','$state','$scope','$sce'];
 
     function project($location, projectSupervisedSvc,$state,$scope,$sce) {
         /* jshint validthis:true */
@@ -19,7 +19,8 @@
         vm.id=$state.params.id;
         vm.projectInvestmentType=$state.params.projectInvestmentType;
     	vm.page="list";
-    	function init(){
+
+        function init(){
     		var routeName=$state.current.name;  
     		if($state.current.name=='project'){
     			vm.isZFInvestment = true;
@@ -82,7 +83,8 @@
     		vm.html = function(val){
     			return $sce.trustAsHtml(val);
     		};
-    		
+
+    	//	alert(1);
     		//用于查询、编辑、新增--基础数据
 	   		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
 	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类型
@@ -92,6 +94,7 @@
 	   			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 	   			.toArray();//获取街道信息
 	   		vm.basicData.userUnit=common.getUserUnits();
+
     	}
     	init();    	
     	activate(); 
@@ -418,6 +421,7 @@
     		
     	}
     	function init_list(){
+
     		if(vm.isZFInvestment){
     			projectSupervisedSvc.grid(vm);
     		}
@@ -425,7 +429,9 @@
     			projectSupervisedSvc.grid_SH(vm);
     		}
     		projectSupervisedSvc.grid(vm);
-    		//查询
+            //查询
+            projectSupervisedSvc.statistical(vm);
+    		//统计xdf
     		vm.search=function(){
     			var filters = [];
 				filters.push({field:'isLatestVersion',operator:'eq',value:true});//默认条件--项目最新版本
