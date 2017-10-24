@@ -51,6 +51,10 @@
 			var httpSuccess = function success(response) {
 				vm.projectItemsModel = response.data.value;
 				for (var i = 0; i < vm.projectItemsModel.length; i++) {
+					if(vm.projectItemsModel[i].shenpiResult){
+						vm.projectItemsModel[i].shenpiEndDate= "审批结束";
+						continue;
+					}
 					var falg1=new Date(vm.projectItemsModel[i].shenpiBeginDate).getTime()-new Date(common.formatDate(new Date())).getTime();
 					var flag=((new Date(vm.projectItemsModel[i].shenpiEndDate).getTime())-(new Date(common.formatDate(new Date())).getTime()))/(24 * 60 * 60 * 1000);
 					if(falg1>0){
@@ -1272,6 +1276,9 @@
 						title : "剩余天数",
 						width : "",			
 						template : function(item) {
+							if(item.shenpiResult){
+								return "审批结束";
+							}
 							var falg1=new Date(item.shenpiBeginDate).getTime()-new Date(common.formatDate(new Date())).getTime();
 							var flag=((new Date(item.shenpiEndDate).getTime())-(new Date(common.formatDate(new Date())).getTime()))/(24 * 60 * 60 * 1000);
 							if(falg1>0){
@@ -1381,6 +1388,9 @@
 						title : "剩余天数",
 						width : "",			
 						template : function(item) {
+							if(item.shenpiResult){
+								return "审批结束";
+							}
 							var falg1=new Date(item.shenpiBeginDate).getTime()-new Date(common.formatDate(new Date())).getTime();
 							var flag=((new Date(item.shenpiEndDate).getTime())-(new Date(common.formatDate(new Date())).getTime()))/(24 * 60 * 60 * 1000);
 							if(falg1>0){
