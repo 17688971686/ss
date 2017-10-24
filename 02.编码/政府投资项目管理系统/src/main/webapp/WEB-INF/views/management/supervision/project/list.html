@@ -125,8 +125,8 @@
 					</td>
 					<td>
 					<script type="text/template" id="shenpinColumnBtns">
-		             <a class="btn btn-xs btn-primary" href="javascript:;" data="custombtn" project="光明马田地铁11号线" protype="false"><span class="glyphicon glyphicon-pencil"></span>查看所有审批事项fsdf</a>
-	                </script>
+		             <buttom class="btn btn-xs btn-primary" ng-click="vm.projectItems('{0}')" data="custombtn" project="光明马田地铁11号线" protype="false"><span class="glyphicon glyphicon-pencil"></span>查看所有审批事项</buttom>
+	                </script>  
                               <div class="grid" kendo-grid="shenpiOverdueGrid" k-options="vm.shenpiOverdueGridOptions"></div>
 					</td>
 				</tr>
@@ -217,7 +217,6 @@
 		<table class="table table-striped">
 			<thead>
 			<tr>
-				<th>排序</th>
 				<th>项目事项</th>
 				<th>审批项目</th>
 				<th>剩余天数</th>
@@ -225,19 +224,11 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr>
-				<td>1</td>
-				<td>{{masnnd}}</td>
-				<td>凤凰街道健身器材安装建设</td>
-				<td>12</td>
-				<td>查看</td>
-			</tr>
-			<tr>
-				<td>1</td>
-				<td>复审阶段</td>
-				<td>凤凰街道健身器材安装建设</td>
-				<td>10</td>
-				<td>查看</td>
+			<tr ng-repeat="item in vm.projectItemsModel">
+				<td>{{item.shenpiName}}</td>
+				<td>{{item.projectDto.projectName}}</td>
+				<td >{{item.shenpiEndDate}}</td>
+				<td><a class="btn btn-xs btn-primary" href="#/shenpiItemsDetail/{{item.id}}">查看</a></td>
 			</tr>
 			</tbody>
 		</table>
@@ -252,170 +243,17 @@
 *   对接后台时请删除数据源和数据模型
 *
 * */
-//////////*xdf 数据源*///////////
-var testdata={
-    project:[{
-				name:"玉塘体育中心",
-				office:"深圳一建",
-				stage:"前期阶段",
-				class:"政府投资房建类",
-				month:true,
-				action:[{
-							stage:"初审阶段",
-							times:"1"
-						},{
-							stage:"复审阶段",
-							times:"10"
-						},{
-							stage:"终审阶段",
-							times:"12"
-						}]
 
-	      },
-        {
-            name:"马田国贸中心大楼建设",
-            office:"深圳一建",
-            stage:"前期阶段",
-            class:"政府投资房建类",
-            month:true,
-            action:[{
-                stage:"初审阶段",
-                times:"-1"
-            },{
-                stage:"复审阶段",
-                times:"5"
-            },{
-                stage:"终审阶段",
-                times:"14"
-            }]
-
-        },
-        {
-            name:"凤凰街道健身器材安装建设",
-            office:"深圳一建",
-            stage:"前期阶段",
-            class:"政府投资房建类",
-            month:true,
-            action:[{
-                stage:"初审阶段",
-                times:"-12"
-            },{
-                stage:"复审阶段",
-                times:"10"
-            },{
-                stage:"终审阶段",
-                times:"30"
-            }]
-
-        },
-        {
-            name:"光明新区公明街道廉租房改造",
-            office:"深圳一建",
-            stage:"前期阶段",
-            class:"政府投资房建类",
-            month:true,
-            action:[{
-                stage:"初审阶段",
-                times:"5"
-            },{
-                stage:"复审阶段",
-                times:"10"
-            },{
-                stage:"终审阶段",
-                times:"12"
-            }]
-
-        },
-        {
-            name:"光明马田地铁11号线",
-            office:"深圳一建",
-            stage:"前期阶段",
-            class:"政府投资房建类",
-            month:true,
-            action:[{
-                stage:"初审阶段",
-                times:"-10"
-            },{
-                stage:"复审阶段",
-                times:"2"
-            },{
-                stage:"终审阶段",
-                times:"21"
-            }]
-
-        }
-	]
-
-};
-
-//////////*xdf 操作*///////////
 
 
 $(document).on("click", "[data=custombtn]", function(event) {  
-
-    $("[data=customModal]").hide();
+   $("[data=customModal]").hide();
    var topSet=$(this).parent("td").offset().top+$(this).parent("td").height()+11+"px";
 
    var leftSet=$(this).parents(".grid").offset().left+"px";
    var widthSet=$(this).parents(".grid").width()-16+"px";
        $("[data=customModal]").slideToggle();
 	   $("[data=customModal]").css({"top":topSet,"width":widthSet,"left":leftSet});
-
-////////html模型重构//////////
-	var projectName=$(this).attr("project");
-	var protype=$(this).attr("protype");
-	
-	var n=0;
-	var addHtml="";
-    for (i in testdata.project){
-        console.log(testdata.project[i].name);
-       if(testdata.project[i].name==projectName) {
-
-		  var actData=testdata.project[i].action;
-		  for(x in actData){
-
-		    if(protype=="true" && actData[x].times>0){
-		      n=n+1;
-               addHtml+= '<tr>'
-                  +'<td>'+n+'</td>'
-                  +'<td>'+actData[x].stage+'</td>'
-                  +'<td>'+testdata.project[i].name+'</td>'
-                  +'<td>'+actData[x].times+'</td>'
-                  +'<td><a href="#/supervision/spsx"> 查看</a></td>'
-                  +'</tr>';
-			}
-              if(protype=="false" && actData[x].times<0){
-                  n=n+1;
-                  addHtml+= '<tr>'
-                      +'<td>'+n+'</td>'
-                      +'<td>'+actData[x].stage+'</td>'
-                      +'<td>'+testdata.project[i].name+'</td>'
-                      +'<td>'+actData[x].times+'</td>'
-                      +'<td><a href="#/supervision/spsx"> 查看</a></td>'
-                      +'</tr>';
-              }
-          }
-	   }
-	}
-	var html='<table class="table table-striped">'
-           +'<thead>'
-           +'<tr>'
-           +'<th>排序</th>'
-           +'<th>项目事项</th>'
-           +'<th>审批项目</th>'
-           +'<th>剩余天数</th>'
-           +'<th>操作</th>'
-           +'</tr>'
-           +'</thead>'
-           +'<tbody>'
-           +addHtml
-           +'</tbody>'
-           +'</table>';
-
-       $("[data=customModal] .box-body").html(html);
-
- ///////////////html结束/////////
-
 });
 $(window).resize(function () {
     $("[data=customModal]").hide();

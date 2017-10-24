@@ -34,11 +34,44 @@
 			createShenpiItems:createShenpiItems,
 			delShenPiItem:delShenPiItem,
 			shenpifankuiItemsGrid:shenpifankuiItemsGrid,
-			shenpiOverdueGrid:shenpiOverdueGrid
+			shenpiOverdueGrid:shenpiOverdueGrid,
+			projectItems:projectItems
 			
 		};
 
 		return service;
+		//逾期事项项目所以的事项
+		function projectItems(vm,id){
+
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_project+"/shenpiItems" + "?$filter=projectId eq '{0}'", id)
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.projectItemsModel = response.data.value;
+				for (var i = 0; i < vm.projectItemsModel.length; i++) {
+					var falg1=new Date(vm.projectItemsModel[i].shenpiBeginDate).getTime()-new Date(common.formatDate(new Date())).getTime();
+					var flag=((new Date(vm.projectItemsModel[i].shenpiEndDate).getTime())-(new Date(common.formatDate(new Date())).getTime()))/(24 * 60 * 60 * 1000);
+					if(falg1>0){
+						vm.projectItemsModel[i].shenpiEndDate="尚未开始";
+					}
+					else{vm.projectItemsModel[i].shenpiEndDate= flag ;}	
+				}
+				
+				console.log(vm.projectItemsModel);
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		
+			
+		}
+		
 		function delShenPiItem(vm,id) {
             vm.isSubmit = true;
             var httpOptions = {
@@ -290,7 +323,7 @@
 						title : "操作",
 						width : "",
 						template : function(item) {
-							return common.format($('#shenpinColumnBtns').html(),item.id);
+							return common.format($('#shenpinColumnBtns').html(),item.projectDto.id);
 						}
 
 					}

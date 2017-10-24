@@ -130,20 +130,6 @@ public class ShenPiItemsServiceImpl  extends AbstractServiceImpl<ShenPiItemsDto,
 			    }
 				
 			});
-			/*for(int i=0;i<shenPiItemsDtos.size();i++){
-				 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-				 try {
-					 Date dt1 = df.parse(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-					 Date dt2 = df.parse(shenPiItemsDtos.get(i).getShenpiEndDate());
-					 if (dt1.getTime() < dt2.getTime()) {
-						 shenPiItemsDtos.remove(i);
-			            }
-				} catch (Exception e) {
-				
-				}
-				
-			}*/
-			
 			PageModelDto<ShenPiItemsDto> pageModelDto = new PageModelDto<>();
 			pageModelDto.setCount(odataObj.getCount()-1);
 			pageModelDto.setValue(shenPiItemsDtos);
@@ -167,7 +153,16 @@ public class ShenPiItemsServiceImpl  extends AbstractServiceImpl<ShenPiItemsDto,
 				ShenPiUnitDto shenPiUnitDto=shenpiUnitMapper.toDto(shenPiUnit);
 				dto.setShenPiUnitDto(shenPiUnitDto);
 				}
-				shenPiItemsDtos.add(dto);
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				try {
+					 Date dt1 = df.parse(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+					 Date dt2 = df.parse(x.getShenpiEndDate());
+					 if (dt1.getTime()> dt2.getTime()) {
+						 shenPiItemsDtos.add(dto);
+			            }
+				} catch (Exception e) {
+				
+			    }
 			});
 			PageModelDto<ShenPiItemsDto> pageModelDto = new PageModelDto<>();
 			pageModelDto.setCount(odataObj.getCount());

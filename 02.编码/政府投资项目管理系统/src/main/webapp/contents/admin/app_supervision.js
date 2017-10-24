@@ -236,6 +236,13 @@
 		    controller: 'projectCtrl',
 		    controllerAs: 'vm'
 		    }) 
+		    //该逾期事项项目的所以事项  
+		    .state('projectItems', {
+		    url: '/projectItems/:id',
+		    templateUrl: '/management/supervision/project/html/projectItems',
+		    controller: 'projectCtrl',
+		    controllerAs: 'vm'
+		    }) 
 	        ;
         
 	        /**********************end#project***************************************/

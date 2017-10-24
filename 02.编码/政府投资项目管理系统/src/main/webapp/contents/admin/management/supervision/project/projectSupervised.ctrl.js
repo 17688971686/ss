@@ -70,6 +70,9 @@
  				break;
  			case "shenpiItemsDetail":
  				vm.page="shenpiItemsDetail";
+ 				break;
+ 			case "projectItems":
+ 				vm.page="projectItems";
     		}
     		
     		vm.getBasicDataDesc = function(Str){
@@ -99,7 +102,11 @@
     	init();    	
     	activate(); 
         function activate() {
-        	
+    		if(vm.page=="projectItems"){
+        		//vm.title='审批事项详情';
+        		projectItems();
+        	}
+    		
         	if(vm.page=="shenpiItemsDetail"){
         		vm.title='审批事项详情';
         		shenpiItemsDetail();
@@ -157,6 +164,10 @@
         		init_details();
         	}
         
+        }
+        function projectItems(){
+        	vm.projectItems=function(pid){
+        		projectSupervisedSvc.projectItems(vm.pid)};
         }
         function shenpiItemsDetail(){
         	projectSupervisedSvc.getShenPiItemsById(vm);
@@ -433,6 +444,8 @@
     		projectSupervisedSvc.shenpiOverdueGrid(vm);
             //查询
             projectSupervisedSvc.statistical(vm);
+        	vm.projectItems=function(id){
+        		projectSupervisedSvc.projectItems(vm,id)};
           
     		//统计xdf
     		vm.search=function(){
