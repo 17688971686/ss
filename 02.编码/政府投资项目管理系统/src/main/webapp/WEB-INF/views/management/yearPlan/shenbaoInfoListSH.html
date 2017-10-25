@@ -13,9 +13,8 @@ overflow: scroll !important;
 	  <ol class="breadcrumb">
 		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
 		  <li><a href="#/">首页</a></li>
-		  <li>年度计划管理</li>
 		  <li>年度计划项目库</li>
-		  <li class="active"><a href="#/yearPlan_shenbaoInfoList">政府投资项目列表</a></li>  
+		  <li class="active"><a href="#/yearPlan_shenbaoInfoListSH">社会投资项目列表</a></li>  
 	  </ol>
 	  <div class="search">
 	  		<table class="table table-bordered" style="margin-bottom:0px;">
@@ -61,10 +60,15 @@ overflow: scroll !important;
 	  			<tr>
 	  				<td class="formAlignRight">项目行业：</td>
 	  				<td>
-	  					<select style="height:30px;" ng-model="vm.search.projectIndustry">
+				  		<select style="height:30px;" ng-model="vm.search.projectIndustryParent" ng-change="vm.projectIndustryChange()">
 				  			<option value="">---请选择具体的行业---</option>
-				  			<option ng-repeat="x in vm.basicData.projectIndustry_ZF | orderBy:'itemOrder'" value="{{x.id}}">{{x.description}}</option>
+				  			<option ng-repeat="x in vm.basicData.projectIndustry_SH | orderBy:'itemOrder'" value="{{x.id}}">{{x.description}}</option>
 				  		</select>
+				  		<select style="height:30px;" ng-model="vm.search.projectIndustry" ng-if="vm.searchIndustryChild">
+				  			<option value="">---请选择具体的行业---</option>
+				  			<option ng-repeat="x in vm.basicData.projectIndustryChildren | orderBy:'itemOrder'" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+				  		
 	  				</td>
 	  				<td class="formAlignRight">签收人：</td>
   					<td>
@@ -82,21 +86,22 @@ overflow: scroll !important;
 	  			</tr>
 	  			<tr>
 	  				<td colspan="6">
-	  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search('ZF')"><span class="glyphicon glyphicon-search"></span>查询</button>
+	  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search('SH')"><span class="glyphicon glyphicon-search"></span>查询</button>
 	  				</td>
 	  			</tr>
 	  		</table>
 	  </div>
 	  
 	  <div class="toolbar">
-	  	<a class="btn btn-primary btn-sm" ng-click="vm.addShenBaoInfo('ZF')"><span class="glyphicon glyphicon-plus"></span>添加申报信息</a>
+	  	<a class="btn btn-primary btn-sm" ng-click="vm.addShenBaoInfo('SH')"><span class="glyphicon glyphicon-plus"></span>添加申报信息</a>
 	  </div>
+	  
 	  <script type="text/template" id="columnBtns">
 	  	<a class="btn btn-sm btn-primary" href="#/yearPlan/shenbaoInfoEdit/{0}/{1}/{2}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
 		<button class="btn btn-sm btn-danger" ng-click="vm.retreat('{0}')"><span class="glyphicon glyphicon-share-alt"></span>退回</button>
 	  </script>
      <form id="form" name="form">   
-         <div class="grid" kendo-grid="vm.grid" k-options="vm.gridOptions"></div>
+         <div class="grid" kendo-grid="vm.yearPlanListGrid" k-options="vm.yearPlanListGridOptionsSH"></div>
     </form>
 </div>
 

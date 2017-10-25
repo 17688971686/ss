@@ -60,7 +60,7 @@ public class YearPlanController {
 	@RequiresPermissions("management/yearPlan#removeCapital#post")
 	@RequestMapping(name="移除年度计划项目",path="removeCapital",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void removeCapital(@RequestParam String planId,@RequestParam String yearPlanCapitalId){		
+	public void removeCapital(@RequestParam String planId,@RequestBody String yearPlanCapitalId){		
 		String[] ids=yearPlanCapitalId.split(",");
 		yearPlanService.removeYearPlanCapital(planId, ids);
 	}
@@ -95,9 +95,15 @@ public class YearPlanController {
 	
 	//begin#html
 	@RequiresPermissions("management/yearPlan#html/shenbaoInfoList#get")
-	@RequestMapping(name="年度计划项目申报列表页",path="html/shenbaoInfoList",method=RequestMethod.GET)
-	public String planList(){
+	@RequestMapping(name="年度计划项目库--政投列表页",path="html/shenbaoInfoList",method=RequestMethod.GET)
+	public String yearplanListZF(){
 		return ctrl+"/shenbaoInfoList";
+	}
+	
+	//@RequiresPermissions("management/yearPlan#html/shenbaoInfoListSH#get")
+	@RequestMapping(name="年度计划项目库--社投列表页",path="html/shenbaoInfoListSH",method=RequestMethod.GET)
+	public String yearplanListSH(){
+		return ctrl+"/shenbaoInfoListSH";
 	}
 	
 	@RequiresPermissions("management/yearPlan#html/shenbaoInfoEdit#get")
@@ -107,7 +113,7 @@ public class YearPlanController {
 	}
 	
 	@RequiresPermissions("management/yearPlan#html/planList#get")
-	@RequestMapping(name="年度计划列表页",path="html/planList",method=RequestMethod.GET)
+	@RequestMapping(name="年度计划--政投列表页",path="html/planList",method=RequestMethod.GET)
 	public String planBZList(){
 		return ctrl+"/planList";
 	}

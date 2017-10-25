@@ -71,16 +71,16 @@
 	<tr>
 		<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
 		<td>
-			<select id="projectIndustry" name="projectIndustry" style="height:30px;" ng-model="vm.model.shenBaoInfo.projectIndustryParent"  ng-change="vm.projectIndustryChange()"
+			<select id="projectIndustry" name="projectIndustry" style="height:30px;" ng-model="vm.search.projectIndustryParent"  ng-change="vm.projectIndustryChange()"
 			 data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>
-				<option ng-repeat="x in vm.basicData.projectIndustry" value="{{x.id}}" ng-bind="x.description"></option>
+				<option ng-repeat="x in vm.basicData.projectIndustry | orderBy:'itemOrder'" value="{{x.id}}" ng-bind="x.description"></option>
 			</select>
 			<span data-valmsg-for="projectIndustry" data-valmsg-replace="true" class="required"></span>
 			
 			<select id="industry" name="industry"  style="height:30px;" ng-model="vm.model.shenBaoInfo.projectIndustry"  ng-show="vm.basicData.projectIndustryChildren.length>1" data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>	
-				<option ng-repeat="x in vm.basicData.projectIndustryChildren" ng-selected="vm.model.shenBaoInfo.projectIndustry==x.id" value="{{x.id}}" ng-bind="x.description"></option>
+				<option ng-repeat="x in vm.basicData.projectIndustryChildren | orderBy:'itemOrder'" ng-selected="vm.model.shenBaoInfo.projectIndustry==x.id" value="{{x.id}}" ng-bind="x.description"></option>
 			</select>
 			<span data-valmsg-for="industry" data-valmsg-replace="true" class="required"></span>	
 		</td>
