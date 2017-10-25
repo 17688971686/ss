@@ -208,10 +208,17 @@
 	        //end#系统配置
 	        
 /**********************begin#年度计划编制***************************************/
-	        //年度计划项目库列表（被签收的申报信息）
+	        //政府投资项目年度计划项目库列表（被签收的申报下一年度计划信息）
 	         .state('yearPlan_shenbaoInfoList', {
 	            url: '/yearPlan/shenbaoInfoList',
 	            templateUrl: '/management/yearPlan/html/shenbaoInfoList',
+	            controller: 'yearPlanCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //社会投资项目年度计划项目库列表（被签收的申报下一年度计划信息）
+	         .state('yearPlan_shenbaoInfoListSH', {
+	            url: '/yearPlan/shenbaoInfoListSH',
+	            templateUrl: '/management/yearPlan/html/shenbaoInfoListSH',
 	            controller: 'yearPlanCtrl',
 	            controllerAs: 'vm'
 	        })
@@ -222,7 +229,7 @@
 	            controller: 'yearPlanCtrl',
 	            controllerAs: 'vm'
 	        })
-	        //年度计划编制列表
+	        //政投年度计划编制列表
 	        .state('yearPlan_planList', {
 	            url: '/yearPlan/planList',
 	            templateUrl: '/management/yearPlan/html/planList',

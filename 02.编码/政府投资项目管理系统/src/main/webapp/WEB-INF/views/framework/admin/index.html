@@ -196,8 +196,17 @@ desired effect
 						</span>
 					</a>
 						<ul class="treeview-menu">
-							<li><a href="javascript:void(0)" ui-sref="yearPlan_shenbaoInfoList" >年度计划项目库</a></li>
-							<li><a href="javascript:void(0)" ui-sref="yearPlan_planList" >年度计划编制</a></li>
+							<li><a href="javascript:void(0)">年度计划项目库</a>
+								<ul class="treeview-menu">
+									<li><a href="javascript:void(0)" ui-sref="yearPlan_shenbaoInfoList"><span class="glyphicon glyphicon-th-list"></span>政府投资项目</a></li>
+									<li><a href="javascript:void(0)" ui-sref="yearPlan_shenbaoInfoListSH"><span class="glyphicon glyphicon-th-list"></span>社会投资项目</a></li>
+								</ul>
+							</li>
+							<li><a href="javascript:void(0)">年度计划编制</a>
+								<ul class="treeview-menu">
+									<li><a href="javascript:void(0)" ui-sref="yearPlan_planList"><span class="glyphicon glyphicon-th-list"></span>政府投资项目计划</a></li>
+								</ul>
+							</li>
 						</ul></li>
 					<li class="treeview">
 						<a href="javascript:void(0)"> <i
