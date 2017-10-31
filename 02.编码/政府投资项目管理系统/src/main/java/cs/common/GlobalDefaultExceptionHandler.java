@@ -27,6 +27,7 @@ public class GlobalDefaultExceptionHandler {
 		logger.warn( e.getMessage());
 		return response;
 	}
+	
 	@ExceptionHandler(value ={ UnauthenticatedException.class,AuthorizationException.class})
 	@ResponseStatus(value = HttpStatus.UNAUTHORIZED)
 	public String unAuthErrorHandler(HttpServletRequest req, Exception e) throws Exception {			

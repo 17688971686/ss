@@ -439,7 +439,8 @@
 		function removeYearPlanCapital(vm,id){
 			var httpOptions = {
 					method : 'post',
-					url : common.format(url_planList+"/removeCapital?planId={0}&yearPlanCapitalId={1}",vm.id,id)
+					url : common.format(url_planList+"/removeCapital?planId={0}",vm.id),
+					data:id
 				};
 			
 			var httpSuccess = function success(response) {

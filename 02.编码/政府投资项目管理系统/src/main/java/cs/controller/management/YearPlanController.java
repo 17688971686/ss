@@ -60,7 +60,7 @@ public class YearPlanController {
 	@RequiresPermissions("management/yearPlan#removeCapital#post")
 	@RequestMapping(name="移除年度计划项目",path="removeCapital",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void removeCapital(@RequestParam String planId,@RequestParam String yearPlanCapitalId){		
+	public void removeCapital(@RequestParam String planId,@RequestBody String yearPlanCapitalId){		
 		String[] ids=yearPlanCapitalId.split(",");
 		yearPlanService.removeYearPlanCapital(planId, ids);
 	}

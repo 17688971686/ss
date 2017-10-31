@@ -432,19 +432,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		updeteWorkFlow(entity,true);
 		//处理批复文件库
 		handlePiFuFile(entity);
-		if(entity.getAuditState().equals(BasicDataConfig.auditState_auditPass)){//如果审核通过
-			Project project = projectRepo.findById(entity.getProjectId());
-			if(project !=null){
-				project.setIsIncludLibrary(true);
-				//修改人&修改时间
-				project.setModifiedBy(currentUser.getUserId());
-				project.setModifiedDate(new Date());
-				projectRepo.save(project);
-				logger.info(String.format("将项目： %s 纳入项目库中",project.getProjectName()));
-			}else{
-				throw new IllegalArgumentException(String.format("没有查找到对应的项目"));
-			}
-		}
 		logger.info(String.format("后台管理员更新申报信息,项目名称 %s",entity.getProjectName()));		
 	}
 

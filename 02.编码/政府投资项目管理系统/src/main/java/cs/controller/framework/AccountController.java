@@ -38,7 +38,7 @@ public class AccountController {
 	
 	@RequestMapping(name = "退出", path = "logout/{sys}", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
-	public   String logout(@PathVariable String sys) {
+	public String logout(@PathVariable String sys) {
 		userService.logout();
 		String url="forward:/";
 		
