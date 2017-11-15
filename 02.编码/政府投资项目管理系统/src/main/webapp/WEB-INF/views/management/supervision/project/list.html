@@ -1,68 +1,264 @@
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+<style>
+ .well-sm{
+	 border:0px; border-radius: 0px;
+ }
+ .cs-title{
+	 height: 30px;
+	 line-height: 30px;
+	 font-size: 16px;
+	 font-weight: bold;
+ }
+.cs-box-custom{
+	background: #f5f5f6;
+	overflow: hidden;
+	margin: 2px;
+}
+.cs-list-text{
+	min-height: 110px;
+	text-align: center;
+	line-height: 100px;
+	font-size: 30px;
+	color: #6b6b6b;
+	font-weight: bold;
+}
+.custom-modal{
+	position: absolute;
+	display: none;
+	z-index: 1000;
+}
+ .box-header {
+	 background: #e6f2f8;
+ }
+ .box{
+	 -moz-border-radius-topleft: 0px;
+	 -moz-border-radius-topright: 0px;
+ }
+.cs-list-bottom{
+	background: #00c1de;height: 30px; line-height: 30px; text-align: center; color: #fff;
+}
+.cs-list-article
+{
+	padding-left:10px; height: 30px; overflow: visible; line-height: 30px; width: 0;
+	transition: width 1s;
+	-moz-transition: width 1s;	/* Firefox 4 */
+	-webkit-transition: width 1s;	/* Safari 和 Chrome */
+	-o-transition: width 1s;
+}
+.cs-list-garden
+{
+	width: 80px;height: 80px; line-height: 80px; border-radius: 100px; margin: auto;
+	font-weight: bold;text-align: center; color: #fff;
+}
+</style>
 <div class="well well-sm" style="background:white;">
 	  <ol class="breadcrumb">
 		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
 		  <li><a href="#/">首页</a></li>
-	      <li>项目监管</li>	 
+	      <li>项目监管</li>
 	      <li class="active">政府投资项目列表</li>
 	  </ol>
-	  <script type="text/template" id="columnBtns">
-			<a class="btn btn-xs btn-primary" href="#/projectEdit/{0}/{1}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
-	  </script>
-	  <div class="search">
-	  	<table class="table table-bordered" style="margin-bottom:0px;">
-	  			<tr>
-	  				<td colspan="6" class="bg-info">
-	  					<span style="padding:10px;"><strong>项目查询</strong></span>
-	  				</td>
-	  			</tr>
-	  			<tr>
-	  				<td class="formAlignRight">项目名称：</td>
-	  				<td style="width:25%"><input type="text" style="width:360px;" placeholder="请输入项目名称（可少输不可输错）" ng-model="vm.search.projectName"/></td>
-	  				<td class="formAlignRight">项目阶段：</td>
-	  				<td>
-	  					<select style="height:30px;" ng-model="vm.search.projectStage">
-				  			<option value="">---请选择---</option>
-				  			<option ng-repeat="x in vm.basicData.projectStage" value="{{x.id}}">{{x.description}}</option>
-				  		</select>
-	  				</td>
-	  				<td class="formAlignRight">是否需要填写月报：</td>
-	  				<td>
-	  					<select style="height:30px;" ng-model="vm.search.isMonthReport">
-				  			<option value="">---请选择---</option>
-				  			<option value="true">是</option>
-				  			<option value="false">否</option>
-				  		</select>
-	  				</td>
-	  			</tr>
-	  			<!-- <tr>
-	  				<td class="formAlignRight">项目所属单位：</td>
-	  				<td><input type="text" style="width:360px;" placeholder="请输入单位名称（可少输不可输错）" ng-model="vm.search.unitName"/></td>
-	  			</tr> -->
-	  			<tr>
-	  				<td class="formAlignRight">项目所属单位：</td>
-	  				<td>
-	  					<select style="height:30px;" ng-model="vm.search.unitName">
-				  			<option value="">---请选择---</option>
-				  			<option ng-repeat="x in vm.basicData.userUnit" value="{{x.id}}">{{x.unitName}}</option>
-				  		</select>
-	  				</td>
-	  			</tr>
-	  			<tr>
-	  				<td colspan="6">
-	  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search()"><span class="glyphicon glyphicon-search"></span>查询</button>
-	  				</td>
-	  			</tr>
-	  		</table>
-	  </div>
-	  <div class="toolbar">
-	  	<button class="btn btn-sm btn-primary" ng-click="vm.addProject()"><span class="glyphicon glyphicon-plus"></span>新增项目</button>
-	  </div> 
-     <form id="form" name="form">          
-         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
-    </form>
 </div>
+
+<div class="well well-sm" style="background:white;">
+       <div class="row">
+		   <div class="col-md-3">
+			   <div class="cs-title"></div>
+			   <div class="cs-box-custom" style="min-height: 190px;">
+                    <p style="padding: 10px">项目总数（个）</p>
+				    <div class="cs-list-text" >{{vm.statistical.total}}</div>
+				    <div class="cs-list-bottom">统计列表</div>
+			   </div>
+		   </div>
+		   <div class="col-md-6">
+			   <div class="cs-title">项目阶段统计</div>
+			   <div style="overflow: hidden; height: 190px;">
+				   <div class="cs-box-custom" style="min-height: 30px;">
+					  <div class="cs-list-article"> 前期储备阶段（{{vm.statistical.Stage1.num}}）</div>
+				   </div>
+				   <div class="cs-box-custom" style="min-height: 30px;">
+					   <div class="cs-list-article" style="color: #fff;background:#167af4; width:{{vm.statistical.Stage2.width}};"> 前期阶段（{{vm.statistical.Stage2.num}}）</div>
+				   </div>
+				   <div class="cs-box-custom" style="min-height: 30px;">
+					   <div class="cs-list-article" style="color: #fff;background:#318fff; width: {{vm.statistical.Stage3.width}}; "> 施工阶段（{{vm.statistical.Stage3.num}}）</div>
+				   </div>
+				   <div class="cs-box-custom" style="min-height: 30px;">
+					   <div class="cs-list-article" style="color: #fff;background:#ecaf03; width: {{vm.statistical.Stage4.width}}; "> 停工阶段（{{vm.statistical.Stage4.num}}）</div>
+				   </div>
+				   <div class="cs-box-custom" style="min-height: 30px;">
+					   <div class="cs-list-article" style="color: #fff;background:#a5d207; width: {{vm.statistical.Stage5.width}}; ">  竣工阶段({{vm.statistical.Stage5.num}})</div>
+				   </div>
+				   <div class="cs-box-custom" style="min-height: 30px;">
+					   <div class="cs-list-article" style="color: #fff;background:#00cdff; width: {{vm.statistical.Stage6.width}}; "> 固定资产登记阶段({{vm.statistical.Stage6.num}})</div>
+				   </div>
+			   </div>
+		   </div>
+		   <div class="col-md-3">
+			   <div class="cs-title">项目月报分类统计</div>
+			   <div class="row">
+				   <div class="col-md-6">
+					   <div style="text-align: center; margin: 10px;padding: 10px;">月报分类</div>
+					   <div class="cs-list-garden" style="background:#00b7ee;">{{vm.statistical.tMonth.percent}}</div>
+				       <div class="cs-title" style="text-align: center;">{{vm.statistical.tMonth.num}}个</div>
+				    </div>
+				   <div class="col-md-6">
+					   <div style="text-align: center; margin: 10px;padding: 10px;">非月报类</div>
+					   <div class="cs-list-garden" style="background:#80c269;">{{vm.statistical.fMonth.percent}}</div>
+					   <div class="cs-title" style="text-align: center;">{{vm.statistical.fMonth.num}}个</div>
+				    </div>
+			   </div>
+		   </div>
+	   </div>
+</div>
+
+
+<div class="well well-sm" style="background:white;">
+	<div class="row">
+		<div>
+			<table>
+				<tr>
+					<td width="261">
+						<div style="text-align: center; margin: 10px;padding: 10px;">项目审批逾期</div>
+						<div class="cs-list-garden" style="background:#ec6941;">项目逾期</div>
+						<div class="cs-title" style="text-align: center;">{{}}</div>
+					</td>
+					<td>
+					<script type="text/template" id="shenpinColumnBtns">
+		             <buttom class="btn btn-xs btn-primary" ng-click="vm.projectItems('{0}')" data="custombtn" project="光明马田地铁11号线" protype="false"><span class="glyphicon glyphicon-pencil"></span>查看所有审批事项</buttom>
+	                </script>  
+                              <div class="grid" kendo-grid="shenpiOverdueGrid" k-options="vm.shenpiOverdueGridOptions"></div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+<div class="well well-sm" style="background:white;">
+	<script type="text/template" id="columnBtns">
+		<a class="btn btn-xs btn-primary" href="#/projectEdit/{0}/{1}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+	</script>
+	<div class="search">
+		<table class="table table-bordered" style="margin-bottom:0px;">
+			<tr>
+				<td colspan="6" class="bg-info">
+					<span style="padding:10px;"><strong>项目查询</strong></span>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">项目名称：</td>
+				<td style="width:25%"><input type="text" style="width:360px;" placeholder="请输入项目名称（可少输不可输错）" ng-model="vm.search.projectName"/></td>
+				<td class="formAlignRight">项目阶段：</td>
+				<td>
+					<select style="height:30px;" ng-model="vm.search.projectStage">
+						<option value="">---请选择---</option>
+						<option ng-repeat="x in vm.basicData.projectStage" value="{{x.id}}">{{x.description}}</option>
+					</select>
+				</td>
+				<td class="formAlignRight">是否需要填写月报：</td>
+				<td>
+					<select style="height:30px;" ng-model="vm.search.isMonthReport">
+						<option value="">---请选择---</option>
+						<option value="true">是</option>
+						<option value="false">否</option>
+					</select>
+				</td>
+			</tr>
+			<!-- <tr>
+                <td class="formAlignRight">项目所属单位：</td>
+                <td><input type="text" style="width:360px;" placeholder="请输入单位名称（可少输不可输错）" ng-model="vm.search.unitName"/></td>
+            </tr> -->
+			<tr>
+				<td class="formAlignRight">项目所属单位：</td>
+				<td>
+					<select style="height:30px;" ng-model="vm.search.unitName">
+						<option value="">---请选择---</option>
+						<option ng-repeat="x in vm.basicData.userUnit" value="{{x.id}}">{{x.unitName}}</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="6">
+					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search()"><span class="glyphicon glyphicon-search"></span>查询</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+</div>
+
+<div class="well well-sm" style="background:white;">
+<div class="toolbar">
+	<button class="btn btn-sm btn-primary" ng-click="vm.addProject()"><span class="glyphicon glyphicon-plus"></span>新增项目</button>
+</div>
+<form id="form" name="form">
+	<div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+
+
+	<!--<div class="grid" kendo-grid="grid" k-options=""></div>-->
+	<!--{{vm.gridsOptions.dataSource._total}}-->
+</form>
+</div>
+
+<!--评审阶段模态框-->
+<div class="custom-modal box box-solid" data="customModal">
+	<div class="box-header with-border">
+		<h3 class="box-title">项目审批事项</h3>
+
+		<div class="box-tools pull-right">
+			<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-minus"></i>
+			</button>
+		</div>
+
+	</div>
+	<div class="box-body">
+
+		<table class="table table-striped">
+			<thead>
+			<tr>
+				<th>项目事项</th>
+				<th>审批项目</th>
+				<th>剩余天数</th>
+				<th>操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="item in vm.projectItemsModel">
+				<td>{{item.shenpiName}}</td>
+				<td>{{item.projectDto.projectName}}</td>
+				<td >{{item.shenpiEndDate}}</td>
+				<td><a class="btn btn-xs btn-primary" href="#/shenpiItemsDetail/{{item.id}}">查看</a></td>
+			</tr>
+			</tbody>
+		</table>
+
+	</div>
+
+</div>
+
+
+<script>
+/*
+*   对接后台时请删除数据源和数据模型
+*
+* */
+
+
+
+$(document).on("click", "[data=custombtn]", function(event) {  
+   $("[data=customModal]").hide();
+   var topSet=$(this).parent("td").offset().top+$(this).parent("td").height()+11+"px";
+
+   var leftSet=$(this).parents(".grid").offset().left+"px";
+   var widthSet=$(this).parents(".grid").width()-16+"px";
+       $("[data=customModal]").slideToggle();
+	   $("[data=customModal]").css({"top":topSet,"width":widthSet,"left":leftSet});
+});
+$(window).resize(function () {
+    $("[data=customModal]").hide();
+})
+</script>
+
 
 <!-- 选择投资类型模态框 -->
 <div class="modal fade" id="myModal_add" tabindex="-1" role="dialog"> 
