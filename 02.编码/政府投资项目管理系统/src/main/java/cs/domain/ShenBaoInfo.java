@@ -157,7 +157,7 @@ public class ShenBaoInfo extends BaseProject{
 	//begin#前期计划相关
 	@Column(columnDefinition="bit(1) NULL COMMENT '是否申请前期工作经费'")
 	private Boolean isApplyQianQiFei = false;//默认为不申请
-	@Column(columnDefinition="double(10,4) NULL COMMENT '工作经费申请金额'")
+	@Column(columnDefinition="double(11,4) NULL COMMENT '工作经费申请金额'")
 	private Double qianQiFeiApply=0.0;
 	//end
 	

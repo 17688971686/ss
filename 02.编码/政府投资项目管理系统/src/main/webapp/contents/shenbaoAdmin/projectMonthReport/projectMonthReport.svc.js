@@ -147,7 +147,7 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(common.format(url_project+"/unitProject")),
+				transport : common.kendoGridConfig().transport(common.format(url_projectMonthReport+"/unitProject")),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
 					fields : {
