@@ -656,6 +656,41 @@
     	                yearPlanSvc.removeYearPlanCapital(vm,idStr);
     	            }
     	    	};//removeYearPlanCapital
+    	    //批量操作是否填报
+    	    vm.isMonthReports=function(){
+    	    	function getKendoCheckId(){
+    	    		var checkbox = $('.yearPlanCapitalGrid').find('tr td:nth-child(1)').find('input:checked');
+        	        var data = [];
+        	        checkbox.each(function () {
+        	            var id = $(this).attr('projectId');
+        	            data.push({ name: 'id', value: id });
+        	        });
+        	        return data;
+    	    	}
+    	    	var selectIds = getKendoCheckId();
+                if (selectIds.length == 0) {
+                	common.alert({
+                    	vm:vm,
+                    	msg:'请选择数据！'                	
+                    });
+                } else {
+                	//弹出选择是否填报模态框
+    				$("#myModal_edit").modal({
+    	                backdrop: 'static',
+    	                keyboard:true
+    	            });
+                	var ids=[];
+                    for (var i = 0; i < selectIds.length; i++) {
+                    	ids.push(selectIds[i].value);
+    				}
+                    var idStr=ids.join(',');
+                    vm.isMonthReportId = idStr;
+                }   
+    	    };
+    	  //更新项目是否填报状态
+    		vm.updateIsMonthReport = function(){
+    			yearPlanSvc.updateIsMonthReport(vm);
+    		}; 
     	    //导出印刷版Excel
 	    	vm.exportExcelForYS=function(){
 	    		yearPlanSvc.exportExcelForYS(vm);

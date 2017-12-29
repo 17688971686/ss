@@ -12,6 +12,9 @@ import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +35,7 @@ import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.MonthReportDto;
 import cs.model.DomainDto.ProjectDto;
 import cs.model.DtoMapper.IMapper;
+import cs.model.Statistics.ProjectStageData;
 import cs.repository.impl.ProjectRepoImpl;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
@@ -166,7 +170,17 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	
 	@Override
 	@Transactional
-	public void updateProjectByIsMonthReport(ProjectDto projectDto) {		
+	public void updateProjectByIsMonthReport(String id,Boolean isMonthReport){
+		Project project = super.findById(id);
+		if(project !=null){
+			project.setIsMonthReport(isMonthReport);
+			super.repository.save(project);
+			logger.info(String.format("修改项目是否月报,项目名称 %s",project.getProjectName()));
+		}else{
+			throw new IllegalArgumentException(String.format("没有查找到对应的项目"));
+		}
+	}
+	/*public void updateProjectByIsMonthReport(ProjectDto projectDto) {		
 		Project project = super.repository.findById(projectDto.getId());
 		if(project !=null){
 			project.setIsMonthReport(projectDto.getIsMonthReport());
@@ -179,7 +193,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		}else{
 			throw new IllegalArgumentException(String.format("没有查找到对应的项目"));
 		}
-	}
+	}*/
 	
 	@Override
 	@Transactional
@@ -292,6 +306,19 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 			throw new IllegalArgumentException(String.format("没有查找到对应的项目"));
 		}
 	}
+	
+	/***************以下方法用于项目统计***************/
+	@Override
+	@Transactional
+	public List<ProjectStageData> getStageProjects() {
+		List<ProjectStageData> datas = (List<ProjectStageData>)super.repository.getSession().createSQLQuery(
+				"SELECT COUNT(p.id)as count,p.projectStage FROM cs_project p WHERE p.projectInvestmentType = 'projectInvestmentType_1' GROUP BY p.projectStage")
+				.addScalar("count",new IntegerType())  //数量
+				.addScalar("projectStage",new StringType())  //阶段id
+				.setResultTransformer(Transformers.aliasToBean(ProjectStageData.class))
+				.list();
+		return datas;
+	} 
 
 	/**
 	 * 批复文件库处理
@@ -340,5 +367,6 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 				replyFileRepo.save(replyfile);//更新文件库
 			}
 		});
-	} 
+	}
+
 }

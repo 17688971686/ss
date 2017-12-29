@@ -1,3 +1,27 @@
+<style>
+	.cs-title{
+	 height: 30px;
+	 line-height: 30px;
+	 font-size: 16px;
+	 font-weight: bold;
+ 	}
+	.cs-box-custom{
+		background: #f5f5f6;
+		overflow: hidden;
+		margin: 2px;
+	}
+	.cs-list-text{
+		min-height: 190px;
+		text-align: center;
+		line-height: 180px;
+		font-size: 30px;
+		color: #6b6b6b;
+		font-weight: bold;
+	}
+	.cs-list-bottom{
+		background: #00c1de;height: 40px; line-height: 40px; text-align: center; color: #fff;
+	}
+</style>
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
 <div class="well well-sm" style="background:white;">
@@ -7,10 +31,62 @@
 	      <li>项目管理</li>	 
 	      <li class="active">政府投资项目列表</li>
 	  </ol>
+</div>
 	  <script type="text/template" id="columnBtns">
 			<a class="btn btn-xs btn-primary" href="#/projectEdit/{0}/{1}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
 			<button class="btn btn-xs btn-primary" ng-click="{2}"><span class="glyphicon glyphicon-question-sign"></span>是否填报</button>
 	  </script>
+	  
+<!-- <div class="well well-sm" style="background:white;">	  
+	  <div class="row">
+	  	<div class="col-md-3">
+	  		 <div class="cs-title">项目总数统计（个）</div>
+		     <div class="cs-box-custom" style="min-height: 280px;">
+	             <p style="padding: 20px;"></p>
+			     <div class="cs-list-text">{{vm.totalProjects}}</div>
+			     <div class="cs-list-bottom" ng-click="vm.showTotalGrid()" data-toggle="tooltip"
+	        		data-placement="bottom" title="点击显示项目列表">项目列表</div>
+			</div>
+	  	</div>
+	  	<div class="col-md-5">
+	  		<div class="cs-title">项目阶段分类统计</div>
+			<div class="cs-box-custom" style="min-height: 280px;">
+		 		<div id="stageStatistics" style="min-height: 280px;"></div>
+			</div>
+	  	</div>
+	  	<div class="col-md-4">
+	  		<div class="cs-title">项目月报分类统计</div>
+			<div class="cs-box-custom" style="min-height: 280px;">
+		 		<div id="monRepStatistics" style="min-height: 280px;"></div>
+			</div>
+	  	</div>
+	  </div>
+</div>
+
+<div class="well well-sm" style="background:white;">	  
+	  <div class="row">
+	  	<div class="col-md-4">
+	  		 <div class="cs-title">项目行业分类统计</div>
+		     <div class="cs-box-custom" style="min-height: 300px;">
+		     	<div id="industryStatistics" style="min-height: 300px;"></div>
+			</div>
+	  	</div>
+	  	<div class="col-md-4">
+	  		<div class="cs-title">项目建设单位统计（个）</div>
+			<div class="cs-box-custom" style="min-height: 300px;">
+            <p style="padding: 10px"></p>
+		 	<div class="cs-list-text" >{{vm.statistical.total}}</div>
+		</div>
+	  	</div>
+	  	<div class="col-md-4">
+	  		<div class="cs-title">项目总投资金额分布统计</div>
+			<div class="cs-box-custom" style="min-height: 300px;">
+            <p style="padding: 10px"></p>
+		 	<div class="cs-list-text" >{{vm.statistical.total}}</div>
+		</div>
+	  	</div>
+	  </div>
+</div> -->
 	  <div class="search">
 	  	<table class="table table-bordered" style="margin-bottom:0px;">
 	  			<tr>
@@ -62,11 +138,11 @@
 	  </div>
 	  <div class="toolbar">
 	  	<button class="btn btn-sm btn-primary" ng-click="vm.addProject()"><span class="glyphicon glyphicon-plus"></span>新增项目</button>
+	  	<button class="btn btn-sm btn-primary" ng-click="vm.isMonthReports()">批量设置是否填报</button>
 	  </div> 
      <form id="form" name="form">          
          <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
     </form>
-</div>
 
 <!-- 选择投资类型模态框 -->
 <div class="modal fade" id="myModal_add" tabindex="-1" role="dialog"> 
