@@ -161,8 +161,7 @@
         	 };
         	 //月份按钮被触发
         	 vm.fillReport = function(month){
-        		//跳转到月报信息填写页面
-               	location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+vm.model.projectInfo.projectInvestmentType+"/"+vm.submitYear+"/"+month;	
+        		 projectMonthReportSvc.checkPort(vm,month);
 			};
         }//end page_selectMonth
         

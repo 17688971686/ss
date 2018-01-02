@@ -160,8 +160,18 @@ public class SysServiceImpl implements SysService{
 		con2.setCreatedDate(new Date());
 		con2.setEnable(false);
 		
+		SysConfig con3 = new SysConfig();
+		con3.setId(UUID.randomUUID().toString());
+		con3.setConfigName(BasicDataConfig.taskType_monthReportPort);
+		con3.setConfigValue("25-5");
+		con3.setConfigType(BasicDataConfig.taskType);
+		con3.setCreatedBy("admin");
+		con3.setCreatedDate(new Date());
+		con3.setEnable(false);
+		
 		sysConfigRepo.save(con);
 		sysConfigRepo.save(con2);
+		sysConfigRepo.save(con3);
 		
 		//初始化部门
 		Org org1 = new Org();
@@ -659,6 +669,7 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("taskType_10","taskType" , "taskType", "续建计划", "",false);
 		this.createBasicData("taskType_11","taskType" , "taskType", "竣工决算", "",false);
 		this.createBasicData("taskType_12","taskType" , "taskType", "资金申请报告", "",false);
+		this.createBasicData("taskType_13","taskType" , "taskType", "月报端口配置", "",false);
 
 		this.createBasicData("auditState","" , "auditState", "审核状态", "审核状态",false);
 		this.createBasicData("auditState_1","auditState" , "auditState", "未审核", "",false);
@@ -826,7 +837,7 @@ public class SysServiceImpl implements SysService{
 			entity = sysConfigs.stream().findFirst().get();
 			return sysConfigMapper.toDto(entity);
 		}else{
-			throw new IllegalArgumentException(String.format("没有查找到申报端口状态信息,请联系管理员！"));
+			throw new IllegalArgumentException(String.format("没有查找到端口状态信息,请联系管理员！"));
 		}
 	}
 }

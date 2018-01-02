@@ -533,6 +533,7 @@
     		taskType_xuJian:"taskType_10",//续建
     		taskType_junGongJueSuan:"taskType_11",//竣工决算
     		taskType_ZJSQBG:"taskType_12",//资金申请报告
+    		taskType_monthReportPort:"taskType_13",//月报端口配置
    		
     		auditState:"auditState",//审核状态
     		auditState_noAudit:"auditState_1",//审核状态-未审核

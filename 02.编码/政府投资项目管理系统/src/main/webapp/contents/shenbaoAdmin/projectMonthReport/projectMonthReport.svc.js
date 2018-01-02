@@ -9,27 +9,93 @@
 		var url_basicData = "/common/basicData";//获取基础数据
 		var url_projectMonthReport="/shenbaoAdmin/projectMonthReport";
 		var url_userUnitInfo="/shenbaoAdmin/userUnitInfo";
+		var url_sysConfig="/sys/getSysConfig";
 		
 		var service = {
 			grid : grid,
 			submitMonthReport:submitMonthReport,
-			getProjectById:getProjectById
+			getProjectById:getProjectById,
+			checkPort:checkPort
 			
 		};		
 		return service;	
 		
 		/**
+		 * 检查月报端口
+		 */
+		function checkPort(vm,month){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_sysConfig + "?configName={0}", common.basicDataConfig().taskType_monthReportPort)
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response : response,
+					fn:function(){
+						vm.sysConfing = response.data;
+						if(vm.sysConfing.enable){
+							var nowDate = new Date();
+							var nowMonth = nowDate.getMonth()+1; 
+							var nowDay = nowDate.getDate();
+							var beginDay = parseInt(vm.sysConfing.configValue.split("-")[0]);
+							var endDay = parseInt(vm.sysConfing.configValue.split("-")[1]);
+							var msg ="";
+							if(month == nowMonth){
+								if(nowDay<=endDay || nowDay>=beginDay){
+									//跳转到月报信息填写页面
+					               	location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+vm.model.projectInfo.projectInvestmentType+"/"+vm.submitYear+"/"+month;	 
+								}else{
+									if(nowDay>endDay){
+										msg = "该月月报填报日期为上月"+beginDay+"日至本月"+endDay+"日";
+									}else if(nowDay<beginDay){
+										msg = "该月月报填报日期为本月"+beginDay+"日至下月"+endDay+"日";
+									}
+									common.alert({
+					   					vm:vm,
+				   						msg:msg
+									});
+								}
+							}else{
+								if(nowMonth > month){
+									msg="该月月报已逾期，不可填写!";
+								}else if(nowMonth<month){
+									msg="该月月报还未到填写时间，不可填写!";
+								}
+								common.alert({
+				   					vm:vm,
+				   					msg:msg
+								});
+							}
+			    		   }else{
+			    			   common.alert({
+			   					vm:vm,
+			   					msg:"月报端口已关闭,请联系管理人员!"
+			   				});
+			    		   }
+					}
+				});
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
+		
+		/**
 		 * 查询项目数据
 		 */
 		function getProjectById(vm){
-			console.log(vm.projectId);
 			var httpOptions = {
 					method : 'get',
 					url : common.format(url_project + "?$filter=id eq '{0}' ", vm.projectId)
 				};
 				var httpSuccess = function success(response) {					
 					vm.model.projectInfo = response.data.value[0]||{};
-					console.log(vm.model.projectInfo);					
 					if(vm.page=='selectMonth'){//如果为月份选择页面
 						vm.setMonthSelected();//设置月份选择按钮的状态
 					}
