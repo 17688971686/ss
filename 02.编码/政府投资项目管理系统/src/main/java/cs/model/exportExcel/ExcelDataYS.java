@@ -24,7 +24,7 @@ public class ExcelDataYS {
     private String ConstructionDate;//建设起止日期
     private double TotalInvest;//总投资
     private double investAccuSum;//累计投资
-    private double apInvestSum;//累计安排
+    private double apInvestSum;//累计安排（拨付）
     private double applyYearInvest;//本年度申请资金
     private double yearApSum;//年度安排资金总计
     private double capitalAP_gtzj_TheYear;//本年度安排资金_国土

@@ -27,8 +27,15 @@ public class ShenBaoInfo extends BaseProject{
 	//begin#与项目相关
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目ID'")
 	private String projectId;
+	
 	@Column(columnDefinition="bit(1) NULL COMMENT '项目是否纳入项目库'")
 	private Boolean isIncludLibrary;
+	
+	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否需要申请指标外资金'")
+	private Boolean isApplyOutsideCapital=false;
+	
+	@Column(columnDefinition="double(11,4) DEFAULT 0.0 COMMENT '申请指标外资金'")
+	private Double applyOutsideCapital=0.0;
 	
 	@Column(columnDefinition="varchar(125) NULL COMMENT '申报阶段'")
 	private String projectShenBaoStage;
@@ -553,5 +560,16 @@ public class ShenBaoInfo extends BaseProject{
 	public void setPackageType(String packageType) {
 		this.packageType = packageType;
 	}
-	
+	public Boolean getIsApplyOutsideCapital() {
+		return isApplyOutsideCapital;
+	}
+	public void setIsApplyOutsideCapital(Boolean isApplyOutsideCapital) {
+		this.isApplyOutsideCapital = isApplyOutsideCapital;
+	}
+	public Double getApplyOutsideCapital() {
+		return applyOutsideCapital;
+	}
+	public void setApplyOutsideCapital(Double applyOutsideCapital) {
+		this.applyOutsideCapital = applyOutsideCapital;
+	}
 }

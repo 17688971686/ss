@@ -75,6 +75,8 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setProjectConstrChar(entity.getProjectConstrChar());
 			shenBaoInfoDto.setYearPlanCapitalId(entity.getYearPlanCapitalId());
 			shenBaoInfoDto.setConstructionUnit(entity.getConstructionUnit());
+			shenBaoInfoDto.setIsApplyOutsideCapital(entity.getIsApplyOutsideCapital());
+			shenBaoInfoDto.setApplyOutsideCapital(entity.getApplyOutsideCapital());
 			//申报年份信息
 			shenBaoInfoDto.setPlanYear(entity.getPlanYear());
 			shenBaoInfoDto.setApplyYearInvest(entity.getApplyYearInvest());
@@ -231,6 +233,8 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setProjectConstrChar(shenBaoInfoDto.getProjectConstrChar());
 			shenBaoInfo.setYearPlanCapitalId(shenBaoInfoDto.getYearPlanCapitalId());//安排年度投资Id
 			shenBaoInfo.setConstructionUnit(shenBaoInfoDto.getConstructionUnit());
+			shenBaoInfo.setIsApplyOutsideCapital(shenBaoInfoDto.getIsApplyOutsideCapital());
+			shenBaoInfo.setApplyOutsideCapital(shenBaoInfoDto.getApplyOutsideCapital());
 			//申报年份
 			shenBaoInfo.setPlanYear(shenBaoInfoDto.getPlanYear());
 			shenBaoInfo.setApplyYearInvest(shenBaoInfoDto.getApplyYearInvest());//申请年度投资

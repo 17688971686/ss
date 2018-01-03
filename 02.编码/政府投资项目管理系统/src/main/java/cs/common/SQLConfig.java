@@ -16,7 +16,7 @@ public class SQLConfig {
 		 	+ " t1.capitalSCZ_qita,t1.capitalSCZ_qita_LastTwoYear,t1.capitalSCZ_qita_LastYear,t1.constructionUnit,t1.econClassSubjects,t1.existingProblem,t1.functionSubjects,t1.isApplyQianQiFei,t1.isIncludLibrary,t1.lastYearImageSchedule,"
 		 	+ " t1.moveSuggestion,t1.planYear,t1.processRole,t1.processState,t1.projectConstrBasis,t1.projectConstrChar,t1.projectId,t1.projectShenBaoStage,t1.qianQiFeiApply,t1.recomProgram,t1.socialAndEconomic,t1.yearConstructionContent,"
 		 	+ " t1.yearConstructionContentLastTwoYear,t1.yearConstructionContentLastYear,t1.yearConstructionContentShenBao,t1.yearConstructionTask,t1.yearImageSchedule,t1.yearInvestApproval,t1.yearInvestApproval_lastTwoYear,t1.yearInvestApproval_lastYear,"
-		 	+ " t1.bianZhiUnitInfo_id,t1.shenBaoUnitInfo_id,t1.packageType,t1.receiver,t1.capitalOtherDescriptionShenBao_LastYear,t1.capitalOtherDescriptionShenBao_LastTwoYear,"
+		 	+ " t1.bianZhiUnitInfo_id,t1.shenBaoUnitInfo_id,t1.packageType,t1.receiver,t1.capitalOtherDescriptionShenBao_LastYear,t1.capitalOtherDescriptionShenBao_LastTwoYear,t1.isApplyOutsideCapital,t1.applyOutsideCapital,"
 	 		+ " t2.capitalSum YearInvestApproval,t2.id yearPlanCapitalId"
  			+ " FROM cs_shenbaoinfo t1 "
 			+ " inner join cs_yearplancapital t2 "
@@ -53,7 +53,7 @@ public class SQLConfig {
 		 		" sum(IFNULL(sbi.projectInvestSum,0)) as investSum,"+
 		 		" sum(IFNULL(sbi.projectInvestAccuSum,0)) as investAccuSum,"+
 		 		" sum(IFNULL(sbi.apInvestSum,0)) as apInvestSum,"+
-		 		" sum(IFNULL(sbi.yearInvestApproval,0)) as sqInvestSum,"+
+		 		" sum(IFNULL(ypl.capitalSum,0)) as yapInvestSum,"+
 		 		" sum(IFNULL(ypl.capitalQCZ_ggys,0)) as yearAp_ggysSum,"+
 		 		" sum(IFNULL(ypl.capitalQCZ_gtzj,0)) as yearAp_gtjjSum,"+
 		 		" sum(IFNULL(ypl.capitalOther,0)) as yearAp_qitaSum,"+
@@ -112,5 +112,26 @@ public class SQLConfig {
 		     " AND sbi.projectCategory = bs.id"+
 		     " AND yp.id = :yearPlanId"+
 		     " ORDER BY sbi.projectCategory,sbi.projectConstrChar desc,sbi.projectInvestSum desc");
-	
+
+ public static String yearPlanStatistics = String.format("SELECT"
+ 		+ " count(ypyc.yearPlanCapitals_id) AS total,"
+		+ " SUM( CASE WHEN sbi.projectConstrChar = 'projectConstrChar_1' THEN 1 ELSE 0 END ) AS qianQiTotal,"
+ 		+ " SUM( CASE WHEN sbi.projectConstrChar = 'projectConstrChar_2' THEN 1 ELSE 0 END ) AS newStratTotal,"
+		+ " SUM( CASE WHEN sbi.projectConstrChar = 'projectConstrChar_3' THEN 1 ELSE 0 END ) AS xuJianTotal,"
+		+ " SUM( CASE WHEN sbi.projectConstrChar = 'projectConstrChar_4' THEN 1 ELSE 0 END ) AS chuBeiTotal,"
+		+ " SUM( IFNULL(sbi.projectInvestSum,0)) AS investTotal,"
+		+ " SUM( IFNULL(sbi.applyYearInvest,0)) AS applyTotal,"
+		+ " SUM( IFNULL(yc.capitalSum,0)) AS arrangeTotal,"
+		+ " SUM( IFNULL(yc.capitalSCZ_ggys,0)) AS capitalSCZ_ggysTotal,"
+		+ " SUM( IFNULL(yc.capitalSCZ_gtzj,0)) AS capitalSCZ_gtzjTotal,"
+		+ " SUM( IFNULL(yc.capitalSCZ_zxzj,0)) AS capitalSCZ_zxzjTotal,"
+		+ " SUM( IFNULL(yc.capitalQCZ_ggys,0)) AS capitalQCZ_ggysTotal,"
+		+ " SUM( IFNULL(yc.capitalQCZ_gtzj,0)) AS capitalQCZ_gtzjTotal,"
+		+ " SUM( IFNULL(yc.capitalZYYS,0)) AS capitalZYYSTotal,"
+		+ " SUM( IFNULL(yc.capitalSHTZ,0)) AS capitalSHTZTotal,"
+		+ " SUM( IFNULL(yc.capitalOther,0)) AS capitalOtherTotal"
+		+ " FROM cs_yearplan as yp,cs_yearplan_cs_yearplancapital as ypyc,cs_yearplancapital as yc,cs_shenbaoinfo as sbi"
+		+ " WHERE yp.id = ypyc.YearPlan_id AND yc.id = ypyc.yearPlanCapitals_id AND yc.shenbaoInfoId = sbi.id"
+		+ " AND yp.id=:yearPlanId");
+		 
 }

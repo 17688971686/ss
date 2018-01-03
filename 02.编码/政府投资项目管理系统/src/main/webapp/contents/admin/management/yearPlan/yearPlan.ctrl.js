@@ -19,7 +19,6 @@
         vm.id=$state.params.id;
         vm.investmentType=$state.params.projectInvestmentType;
         vm.stage=$state.params.stage;
-    	vm.planYear=new Date().getFullYear()+1;//用于年度计划编制列表表头
         
     	function initPage(){
     		if(routName=='yearPlan_shenbaoInfoList'){//年度计划项目库--政投列表页
@@ -545,7 +544,8 @@
     	}//init_planUpadte
     	
     	function init_planBZ(){
-    		yearPlanSvc.grid_yearPlan_shenbaoInfoList(vm);//查询年度计划编制中的申报信息列表
+    		yearPlanSvc.getPlanById(vm);//查询年度信息
+    		yearPlanSvc.getPlanStatisticsInfo(vm);//获取年度计划统计信息
     		yearPlanSvc.grid_yearPlan_addShenbaoInfoList(vm);//查询所有的可添加的申报信息列表 
     		
     		//添加项目计划弹出模态框

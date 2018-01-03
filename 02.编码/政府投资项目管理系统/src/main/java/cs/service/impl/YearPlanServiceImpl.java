@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Projections;
+import org.hibernate.query.Query;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.DateType;
 import org.hibernate.type.DoubleType;
@@ -31,6 +32,7 @@ import cs.model.exportExcel.ExcelDataDWTJ;
 import cs.model.exportExcel.ExcelDataHYTJ;
 import cs.model.exportExcel.ExcelDataLBTJ;
 import cs.model.exportExcel.ExcelDataYS;
+import cs.model.exportExcel.YearPlanStatistics;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
@@ -220,6 +222,39 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 		super.repository.save(yearPlan);
 		
 	}
+	
+	
+
+	@Override
+	@Transactional
+	public List<YearPlanStatistics> getStatistics(String planId) {
+		YearPlan yearPlan=super.repository.findById(planId);
+		if(yearPlan!=null){
+			Query<YearPlanStatistics> query = super.repository.getSession().createSQLQuery(SQLConfig.yearPlanStatistics)
+					.setParameter("yearPlanId", planId.trim())
+					.addScalar("total",new IntegerType())
+					.addScalar("qianQiTotal",new IntegerType())
+					.addScalar("newStratTotal",new IntegerType())
+					.addScalar("xuJianTotal",new IntegerType())
+					.addScalar("chuBeiTotal",new IntegerType())
+					.addScalar("investTotal",new DoubleType())
+					.addScalar("applyTotal",new DoubleType())
+					.addScalar("arrangeTotal",new DoubleType())
+					.addScalar("capitalSCZ_ggysTotal",new DoubleType())
+					.addScalar("capitalSCZ_gtzjTotal",new DoubleType())
+					.addScalar("capitalSCZ_zxzjTotal",new DoubleType())
+					.addScalar("capitalQCZ_ggysTotal",new DoubleType())
+					.addScalar("capitalQCZ_gtzjTotal",new DoubleType())
+					.addScalar("capitalZYYSTotal",new DoubleType())
+					.addScalar("capitalSHTZTotal",new DoubleType())
+					.addScalar("capitalOtherTotal",new DoubleType())
+					.setResultTransformer(Transformers.aliasToBean(YearPlanStatistics.class));
+			List<YearPlanStatistics> list = query.list();
+			return list;
+		}else{
+			return null;
+		}
+	}
 
 	@Override
 	@Transactional
@@ -267,7 +302,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 					.addScalar("investSum",new DoubleType())  //总投资
 					.addScalar("investAccuSum",new DoubleType()) //累计拨付
 					.addScalar("apInvestSum",new DoubleType())  //累计下达
-					.addScalar("sqInvestSum",new DoubleType())  //申请年度投资
+					.addScalar("yapInvestSum",new DoubleType())  //安排年度投资
 					.addScalar("yearAp_ggysSum",new DoubleType())  //年度预安排资金--公共预算
 					.addScalar("yearAp_gtjjSum",new DoubleType())  //年度预安排资金--国土基金
 					.addScalar("yearAp_qitaSum",new DoubleType())  //年度预安排资金--其他

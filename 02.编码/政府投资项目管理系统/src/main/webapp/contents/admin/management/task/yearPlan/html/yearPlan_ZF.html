@@ -26,8 +26,18 @@
 		</tr>
 		<tr>
 			<td class="formAlignRight" style="width:150px;">计划年度：</td>
-			<td style="width:250px;" colspan="3">
+			<td style="width:250px;">
 				<span ng-bind="vm.model.shenBaoInfo.planYear"></span>
+			</td>
+			<td class="formAlignRight">是否申请标外资金：</td>
+			<td>
+				<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="true" ng-checked="vm.model.shenBaoInfo.isApplyOutsideCapital == true" disabled="disabled"/>&nbsp;是</label>
+				<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="false" ng-checked="vm.model.shenBaoInfo.isApplyOutsideCapital == false" disabled="disabled"/>&nbsp;否</label>
+				<label ng-if="vm.model.shenBaoInfo.isApplyOutsideCapital">
+					申请标外资金：
+					<span ng-bind="vm.model.shenBaoInfo.applyOutsideCapital"></span>
+					&nbsp;(万元)
+				</label>
 			</td>
 		</tr>
 		<tr>

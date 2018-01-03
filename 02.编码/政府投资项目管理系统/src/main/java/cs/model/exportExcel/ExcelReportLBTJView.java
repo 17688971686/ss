@@ -22,16 +22,25 @@ public class ExcelReportLBTJView extends AbstractXlsView {
 	
 	@Override
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        response.setHeader("Content-Disposition", "attachment;filename=\"yearPlanByCategory.xls\"");
+        String fileName = "光明新区"+year+"年区级政府投资项目计划类别汇总表.xls";
+        response.setHeader("Content-Disposition", "attachment;filename=" +new String(fileName.getBytes("gb2312"), "iso8859-1"));
         Sheet sheet = workbook.createSheet("表1");
         CellStyle cellStyleO = workbook.createCellStyle();
+        CellStyle cellStyleTitle = workbook.createCellStyle();
+        //设置字体
+        Font font = workbook.createFont();
+        font.setFontHeightInPoints((short) 14); // 字体高度
+        font.setFontName(" 黑体 "); // 字体
+        cellStyleTitle.setFont(font);
         //创建行
         Row title=sheet.createRow(0);
         Row row_head = sheet.createRow(1);
+        //设置行高
+        title.setHeight((short)800);
       
         //begin#标题
         //创建列
-        createCellAlignCenter(workbook,title,0,"光明新区"+year+"年区级政府投资项目计划汇总表",cellStyleO);
+        createCellAlignCenter(workbook,title,0,"光明新区"+year+"年区级政府投资项目计划汇总表",cellStyleTitle);
         //合并标题
         //参数1：开始行、结束行、开始列、结束列
         sheet.addMergedRegion(new CellRangeAddress(0,0,0,6));
@@ -90,39 +99,40 @@ public class ExcelReportLBTJView extends AbstractXlsView {
         sheet.addMergedRegion(new CellRangeAddress(rowNum,rowNum,0,1));
 
     }
+//创建值为string字体居中的单元格	
     private void createCellAlignCenter(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyle){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,cellStyle);
     }
+//创建值为double字体居中的单元格	
     private void createCellAlignCenter(Workbook workbook,Row row, int cellNumber,double value,CellStyle cellStyle){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,cellStyle);
     }
+//创建值为string字体居左的单元格
     private void createCellAlignLeft(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyle){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_LEFT,CellStyle.VERTICAL_CENTER,cellStyle);
     }
+//创建值为string字体居右的单元格    
     private void createCellAlignRight(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyle){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_RIGHT,CellStyle.VERTICAL_CENTER,cellStyle);
     }
+//重写创建列
     private void createCell(Workbook workbook,Row row, int cellNumber,String value, short halign, short valign,CellStyle cellStyle){
         Cell cell=row.createCell(cellNumber);
         cell.setCellValue(value);
 
-//        CellStyle cellStyle = workbook.createCellStyle();
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
         cellStyle.setWrapText(true);
         cell.setCellStyle(cellStyle);
-        
     }
   //重写创建列
     private void createCell(Workbook workbook,Row row, int cellNumber,double value, short halign, short valign,CellStyle cellStyle){
-        Cell cell=row.createCell(cellNumber);
-        cell.setCellValue(value);
+        Cell cell=row.createCell(cellNumber);// 创建单元格
+        cell.setCellValue(value);// 设置值
 
-//        CellStyle cellStyle = workbook.createCellStyle();
-        cellStyle.setAlignment(halign);
-        cellStyle.setVerticalAlignment(valign);
+        cellStyle.setAlignment(halign);// 设置单元格水平方向对齐方式
+        cellStyle.setVerticalAlignment(valign);// 设置单元格垂直方向对齐方式
         cellStyle.setWrapText(true);
         cell.setCellStyle(cellStyle);
-
     }
 }

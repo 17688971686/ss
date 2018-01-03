@@ -703,6 +703,7 @@
 		        		vm.projectIndustryChange();
 			 		   }							
 					vm.model.projectId = vm.model.id;//申报信息中的字段数据录入
+					vm.model.isApplyOutsideCapital = false;//默认不申请标外资金
 					//初始化申报年份（三年滚动）
 					var date = new Date();
 					vm.planYear = vm.model.planYear = parseInt(date.getFullYear()+1,10);
