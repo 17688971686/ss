@@ -138,6 +138,13 @@
 	            controller: 'monthReportCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //汇总页
+	        .state('monthReportSummary', {
+	            url: '/monthReportSummary/:projectId/:year',
+	            templateUrl: '/management/monthReport/html/summary',
+	            controller: 'monthReportCtrl',
+	            controllerAs: 'vm'
+	        })
 /**********************end#monthReport***************************************/
 /**********************begin#project***************************************/
 	        //政府投资项目

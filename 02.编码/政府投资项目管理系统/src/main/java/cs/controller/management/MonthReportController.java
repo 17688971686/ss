@@ -70,4 +70,10 @@ public class MonthReportController {
 	public String changeDetails() {
 		return this.ctrlName + "/edit";
 	}
+	
+	@RequiresPermissions("management/monthReport#html/summary#get")
+	@RequestMapping(name = "汇总页面", path = "html/summary", method = RequestMethod.GET)	
+	public String summary() {
+		return this.ctrlName + "/summary";
+	}
 }
