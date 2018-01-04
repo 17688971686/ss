@@ -7,6 +7,7 @@
 
 	function yearPlan($http,$location) {
 		var url_shenbaoInfoList = "/management/shenbao";
+		var url_project = "/management/project";
 		var url_userUnitInfo = "/management/userUnit";
 		var url_planList="/management/yearPlan";
 		var url_planCapital="/management/yearPlanCapital";
@@ -41,8 +42,45 @@
 			documentRecordsGird:documentRecordsGird,//批复文件列表
 			getUserUnit:getUserUnit,//获取用户单位信息
 			exportExcelForYS:exportExcelForYS,//导出印刷版Excel
-			savePackageType:savePackageType//保存打包类型
+			savePackageType:savePackageType,//保存打包类型
+			updateIsMonthReport:updateIsMonthReport//更新项目是否填写月报
 		};
+		
+		function updateIsMonthReport(vm){
+			vm.isSumbit=true;
+			var httpOptions = {
+					method : 'put',
+					url : url_project+"/isMonthReport",
+					data : {id:vm.isMonthReportId,isMonthReport:vm.isMonthReport}
+				};
+
+				var httpSuccess = function success(response) {
+					common.requestSuccess({
+						vm:vm,
+						response:response,
+						fn:function(){
+							vm.isSumbit=false;
+							//关闭模态框
+							$("#myModal_edit").modal('hide');
+							common.alert({
+								vm:vm,
+								msg:"操作成功！",
+								fn:function(){
+									$('.alertDialog').modal('hide');
+								}
+							});
+							
+						}
+					});
+				};
+
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+			} 
 		
 		/**
 		 * 保存打包类型
@@ -736,6 +774,8 @@
 			var httpSuccess = function success(response) {
 				if(vm.page=='plan_update'){//用于年度计划基本信息的编辑
 					vm.model=response.data.value[0] || {};
+					//刷新文字输入长度
+					vm.checkLength(vm.model.remark,500,'remarkTips');
 				}					
 				if(vm.page=='planBZ'){//用于年度计划的编制
 					vm.model.plan=response.data.value[0] || {};
@@ -857,8 +897,8 @@
 						template : function(item) {
 							return kendo
 									.format(
-											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
-											item.id);
+											"<input type='checkbox'  relId='{0}' projectId='{1}' name='checkbox' class='checkbox'/>",
+											item.id,item.projectId);
 						},
 						filterable : false,
 						width : 40,

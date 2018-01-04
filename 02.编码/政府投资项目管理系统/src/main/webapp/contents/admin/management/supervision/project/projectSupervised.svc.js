@@ -333,7 +333,6 @@
 					}
 
 			];
-			console.log(dataSource);
 			
 			//vm.shenpiOverdueCount=
 			var dataBound= function(e) {

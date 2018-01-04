@@ -30,6 +30,7 @@ public class YearPlanMapper implements IMapper<YearPlanDto, YearPlan> {
 			yearPlanDto.setYear(entity.getYear());
 			yearPlanDto.setName(entity.getName());
 			yearPlanDto.setRemark(entity.getRemark());
+			yearPlanDto.setTotalMoney(entity.getTotalMoney());
 			//基础数据
 			yearPlanDto.setItemOrder(entity.getItemOrder());
 			yearPlanDto.setModifiedDate(entity.getModifiedDate());
@@ -53,6 +54,7 @@ public class YearPlanMapper implements IMapper<YearPlanDto, YearPlan> {
 			entity.setYear(dto.getYear());
 			entity.setName(dto.getName());
 			entity.setRemark(dto.getRemark());
+			entity.setTotalMoney(dto.getTotalMoney());
 			//基础数据
 			entity.setCreatedBy(dto.getCreatedBy());
 			entity.setCreatedDate(dto.getCreatedDate());		

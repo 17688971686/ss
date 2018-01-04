@@ -54,7 +54,8 @@ public class BasicDataConfig {
 //	public static String taskType_xuJian="taskType_10";//续建
 	public static String taskType_junGong="taskType_11";//竣工
 	public static String taskType_ZJSQBG="taskType_12";//资金申请报告
-	public static String taskType_JHXD="taskType_13";//计划下达
+	public static String taskType_JHXD="taskType_14";//计划下达
+	public static String taskType_monthReportPort="taskType_13";//月报端口
 
 	public static String attachment_type_jys="JYS"; 
 	public static String attachment_type_kxxyjbg="KXXYJBG"; 

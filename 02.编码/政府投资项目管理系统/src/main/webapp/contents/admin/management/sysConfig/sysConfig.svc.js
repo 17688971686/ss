@@ -26,12 +26,20 @@
 		function getSysConfigs(vm){
 			var httpOptions = {
 					method : 'get',
-					url : url_getSysConfigs,
-					data : vm.model
+					url : url_getSysConfigs
 				};
 			
 			var httpSuccess = function success(response) {
 				vm.configs = response.data;//所有的配置
+				vm.configs.forEach(function(value,index,array){
+					if(value.configName == common.basicDataConfig().taskType_monthReportPort){
+						var configValue = value.configValue.split("-");
+						if(configValue){
+							vm.monthReportConfigBegin = parseInt(configValue[0]);
+							vm.monthReportConfigEnd = parseInt(configValue[1]);
+						}
+					}
+				});
 			};
 			
 			common.http({
@@ -43,9 +51,16 @@
 		}
 		
 		/**
-		 * 
+		 * 编辑配置信息
 		 */
 		function editSysConfigs(vm){
+			//处理数据
+			vm.configs.forEach(function(value,index,array){
+				if(value.configName == common.basicDataConfig().taskType_monthReportPort){
+					value.configValue = vm.monthReportConfigBegin+"-"+vm.monthReportConfigEnd;
+				}
+			});
+
 			var httpOptions = {
 					method : 'post',
 					url : url_taskUser,

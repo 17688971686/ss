@@ -19,10 +19,58 @@
 			updateProject:updateProject,
 			createProject:createProject,
 			updateIsMonthReport:updateIsMonthReport,
-			documentRecordsGird:documentRecordsGird
+			documentRecordsGird:documentRecordsGird,
+			//统计分析
+			getProjects:getProjects
+			
 		};
 
 		return service;
+		
+		function getProjects(vm){
+			var httpOptions = {
+					method : 'get',
+					url : url_project+"/getProjects"
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.model.projects = response.data;
+						//处理数据
+						vm.totalProjects=0;
+						var yAxisData=[];
+						var seriesData=[];
+						
+						if(vm.model.projects.length>0){
+							$.each(vm.model.projects,function(index,element){
+								yAxisData.push(vm.getBasicDataDesc(element.projectStage)==""?"未知阶段":vm.getBasicDataDesc(element.projectStage));
+								seriesData.push(element.count);
+								vm.totalProjects+=element.count;
+							});
+						}
+						vm.stageChart.hideLoading();
+						vm.stageChart.setOption({
+							yAxis:{
+								data:yAxisData
+							},
+							series: {
+								data:seriesData
+							}
+						});
+					}
+				});
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}//end fun getProjects
 		
 		/**
 		 *获取项目单位信息 
@@ -128,7 +176,7 @@
 			var httpOptions = {
 					method : 'put',
 					url : url_project+"/isMonthReport",
-					data : vm.model
+					data : {id:vm.model.id,isMonthReport:vm.model.isMonthReport}
 				};
 
 				var httpSuccess = function success(response) {

@@ -20,10 +20,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import cs.common.ICurrentUser;
+import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.MonthReportDto;
+import cs.model.DomainDto.ProjectDto;
+import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.MonthReportService;
+import cs.service.interfaces.ProjectService;
+import cs.service.interfaces.UserUnitInfoService;
 
 
 @Controller
@@ -32,8 +38,28 @@ public class ShenBaoAdminProjectMonthReportController {
 	//依赖注入服务层
 	@Autowired
 	private MonthReportService monthReportService;
+	@Autowired
+	private ProjectService ProjectService;
+	@Autowired
+	private UserUnitInfoService userUnitInfoService;
+	@Autowired
+	private ICurrentUser currentUser;
 	
 	private String ctrlName = "shenbaoAdmin/projectMonthReport";
+	
+	@RequiresPermissions("shenbaoAdmin/projectMonthReport##get")
+	@RequestMapping(name = "获取单位项目月报信息", path = "unitProject",method=RequestMethod.GET)
+	public @ResponseBody PageModelDto<ProjectDto> getUnitProject(HttpServletRequest request) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);
+		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
+		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
+		filterItem.setField("unitName");
+		filterItem.setOperator("eq");
+		filterItem.setValue(userUnitInfo.getId());
+		odataObj.getFilter().add(filterItem);
+		PageModelDto<ProjectDto> projectDtos = ProjectService.get(odataObj);
+		return projectDtos;
+	}
 	
 	@RequiresPermissions("shenbaoAdmin/projectMonthReport##get")
 	@RequestMapping(name = "获取月报信息", path = "",method=RequestMethod.GET)

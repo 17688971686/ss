@@ -505,8 +505,15 @@
     		projectIndustry_ZF:"projectIndustry_1",//政府投资项目行业
     		projectIndustry_SH:"projectIndustry_2",//社会投资项目行业
     		projectProgress:"projectProgress",//项目进度
-    		projectStage:"projectStage",//项目阶段
     		projectType:"projectType",//项目类型
+    		
+    		projectStage:"projectStage",//项目阶段
+    		projectStage_qqcb:"projectStage_1",//前期储备阶段
+    		projectStage_qq:"projectStage_2",//前期阶段
+    		projectStage_sg:"projectStage_3",//施工阶段
+    		projectStage_tg:"projectStage_4",//停工阶段
+    		projectStage_jg:"projectStage_5",//竣工阶段
+    		projectStage_gdzcdj:"projectStage_6",//固定资产登记阶段
     		
     		approvalType:"approvalType",//批复类型
     		unitProperty:"unitProperty",//单位性质
@@ -527,6 +534,8 @@
     		taskType_xuJian:"taskType_10",//续建
     		taskType_junGongJueSuan:"taskType_11",//竣工决算
     		taskType_ZJSQBG:"taskType_12",//资金申请报告
+    		taskType_monthReportPort:"taskType_13",//月报端口配置
+    		taskType_JH:"taskType_14",//计划下达
    		
     		auditState:"auditState",//审核状态
     		auditState_noAudit:"auditState_1",//审核状态-未审核

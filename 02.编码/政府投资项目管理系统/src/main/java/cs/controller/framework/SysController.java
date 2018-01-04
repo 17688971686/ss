@@ -57,7 +57,7 @@ public class SysController {
 	}
 	
 	@RequiresPermissions("sys#getSysConfigs#get")
-	@RequestMapping(name = "系统初始化签收人", path = "getSysConfigs", method = RequestMethod.GET)
+	@RequestMapping(name = "获取所有的系统配置信息", path = "getSysConfigs", method = RequestMethod.GET)
 	public @ResponseBody List<SysConfigDto> initUser() {
 		List<SysConfigDto> list = sysService.getSysConfigs();
 		return list;
@@ -65,7 +65,7 @@ public class SysController {
 	}
 	
 	@RequiresPermissions("sys#getSysConfig#get")
-	@RequestMapping(name = "获取系统配置信息", path = "getSysConfig", method = RequestMethod.GET)
+	@RequestMapping(name = "获取单个系统配置信息", path = "getSysConfig", method = RequestMethod.GET)
 	public @ResponseBody SysConfigDto getSysConfig(@RequestParam String configName) {
 		SysConfigDto dto = sysService.getSysConfig(configName);
 		return dto;

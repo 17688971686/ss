@@ -13,14 +13,34 @@
 			<table class="table table-bordered table-striped" style="width: 60%">
 				<tr>
 					<th style="vertical-align: middle;width:85px;">系统设置</th>
-					<td colspan="2">
+					<td>
 						<table class="table table-bordered table-striped" style="margin-bottom:0">
+							<tr>
+								<th>名称</th>
+								<th>配置值/是否启用</th>
+								<th>编辑</th>
+							</tr>
 							<tr ng-repeat="x in vm.configs">
 								<td ng-bind="vm.getConfigName(x.configName)" style="width:165px;"></td>
-								<td ng-bind="vm.getConfigValue(x.enable)" style="width:165px;"></td>
+								<td style="width:165px;">
+									<div ng-if="x.configName == 'taskType_13'" style="display: inline">
+										本月
+										<span ng-bind="vm.monthReportConfigBegin"></span>号
+										到下月
+										<span ng-bind="vm.monthReportConfigEnd"></span>号
+										/
+									</div>
+									<span ng-bind="vm.getConfigValue(x.enable)"></span>
+								</td>
 								<td style="width:250px;">
+									<div ng-if="x.configName == 'taskType_13'" style="display: inline">
+									本月
+									<input type="number" min="1" max="31" style="height: 30px; width:54px;font-size: 13px;line-height: 1.5;" ng-model="vm.monthReportConfigBegin"/>号
+									到下月
+									<input type="number" min="1" max="31" style="height: 30px; width:54px;font-size: 13px;line-height: 1.5;" ng-model="vm.monthReportConfigEnd"/>号
+									</div>
 									<select style="height:30px;" ng-model="vm.configs[$index].enable" ng-click="vm.userChange($index)">
-							  			<option value="">---请选择---</option>
+							  			<option value="">--请选择--</option>
 										<option ng-selected="vm.configs[$index].enable ==true" value="true">是</option>
 							  			<option ng-selected="vm.configs[$index].enable == false" value="false">否</option>
 							  		</select>
