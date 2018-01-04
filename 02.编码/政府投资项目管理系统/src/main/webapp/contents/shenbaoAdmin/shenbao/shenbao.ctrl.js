@@ -88,6 +88,7 @@
         	
         	//用于查询、申报--基础数据
     		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
+    		vm.basicData.projectConstrChar=common.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质
            	vm.basicData.projectShenBaoStage=common.getBacicDataByIndectity(common.basicDataConfig().projectShenBaoStage);//申报阶段用于模态框
    	   		vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类	型   			   			       		   		
    	   		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别	   		
@@ -253,7 +254,7 @@
     		   vm.isYearPlan=vm.stage==common.basicDataConfig().projectShenBaoStage_nextYearPlan;//申报阶段为:下一年度计划
     		   vm.isJunGong=vm.stage==common.basicDataConfig().projectShenBaoStage_junGong;//申报阶段为:竣工决算
     		   vm.isCapitalApplyReport=vm.stage==common.basicDataConfig().projectShenBaoStage_capitalApplyReport;//申报阶段为:资金申请报告
-    		   
+    		   vm.isJihuaxiada=vm.stage==common.basicDataConfig().projectShenBaoStage_jihuaxiada;//申报阶段为:资金申请报告
     		   //vm.isQianQi=vm.stage==common.basicDataConfig().projectShenBaoStage_qianQi;//申报阶段为:前期计划
 
     		   //申报材料初始化
@@ -285,7 +286,9 @@
     		   if(vm.isCapitalApplyReport){//资金申请报告上传文件类型
     			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_capitalApplyReport;
     		   }
-    		   
+    		   if(vm.isJihuaxiada){//资金申请报告上传文件类型
+    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_jihuaxiada;
+    		   }
 //    		   if(vm.isQianQi){//前期计划上传文件类型
 //    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_qianQi;
 //    		   }
@@ -307,10 +310,14 @@
         		   vm.basicData.projectClassify=$linq(common.getBasicData())
     	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
     	       		.toArray();
-        		   //基础数据--行业归口
+        		   //基础数据--行业归口projectConstrChar
         		   vm.basicData.projectIndustry=$linq(common.getBasicData())
     	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
     	       		.toArray();
+        		   //基础数据--建设性质
+        		   vm.basicData.projectConstrChar=$linq(common.getBasicData())
+   	       		.where(function(x){return x.identity==common.basicDataConfig().projectConstrChar&&x.pId==common.basicDataConfig().projectConstrChar;})
+   	       		.toArray();
         	   }else if(vm.investmentType == common.basicDataConfig().projectInvestmentType_SH){//如果为社会投资
         		   vm.isSHInvestment = true;
      			   //基础数据--项目分类
