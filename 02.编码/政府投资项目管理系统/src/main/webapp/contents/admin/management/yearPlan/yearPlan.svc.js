@@ -32,6 +32,7 @@
 			plan_update:plan_update,//更新年度计划
 			plan_delete:plan_delete,//删除年度计划
 			getPlanById:getPlanById,//根据年度计划id查找计划信息
+			getPlanStatisticsInfo:getPlanStatisticsInfo,//获取年度计划统计信息
 			grid_yearPlan_shenbaoInfoList:grid_yearPlan_shenbaoInfoList,//年度计划编制信息列表
 			grid_yearPlan_addShenbaoInfoList:grid_yearPlan_addShenbaoInfoList,//年度计划编制新增项目申报列表
 			addShenBaoInfoconfirm:addShenBaoInfoconfirm,//年度计划新增项目申报			
@@ -521,7 +522,9 @@
 					vm:vm,
 					response:response,
 					fn:function(){
-						getPlanById(vm);//查询计划--更新页面数据
+						//查询年度计划统计数据--更新页面数据
+						getPlanStatisticsInfo(vm);
+						
 						$('#capitalSum_'+vm.currentCapitalId).val(vm.model.capital.capitalSum);
 						vm.isPopOver = false;
 						vm.planGridOptions.dataSource.read();
@@ -779,83 +782,8 @@
 				}					
 				if(vm.page=='planBZ'){//用于年度计划的编制
 					vm.model.plan=response.data.value[0] || {};
-					//数据汇总数据计算
-					var Capitals = vm.model.plan.yearPlanCapitalDtos;
-					//属于该年度计划编制的申报项目信息
-					var shenBaoInfoList = vm.planGridOptions.dataSource._data;
-					//项目总数
-					vm.model.shenBaoInfoTotal = shenBaoInfoList.length;
-					vm.model.QianQiTotal = 0;//前期
-					vm.model.NewStratTotal = 0;//新开工
-					vm.model.XuJianTotal = 0;//续建
-					vm.model.ChuBeiTotal = 0;//储备类
-					vm.model.projectInvestSumTotal = 0;//项目总投资
-					vm.model.applyYearInvestTotal = 0;//申请资金总额
-					
-					for(var j=0;j<shenBaoInfoList.length;j++){
-						var obj = shenBaoInfoList[j];
-						if(obj.projectConstrChar && obj.projectConstrChar == common.basicDataConfig().projectConstrChar_qianqi){//前期
-							vm.model.QianQiTotal ++;
-						}
-						if(obj.projectConstrChar && obj.projectConstrChar == common.basicDataConfig().projectConstrChar_xinkaigong){//新开工
-							vm.model.NewStratTotal ++;
-						}
-						if(obj.projectConstrChar && obj.projectConstrChar == common.basicDataConfig().projectConstrChar_xujian){//续建
-							vm.model.XuJianTotal ++;
-						}
-						if(obj.projectConstrChar && obj.projectConstrChar == common.basicDataConfig().projectConstrChar_chubei){//储备类
-							vm.model.ChuBeiTotal ++;
-						}
-						if(obj.projectInvestSum){//总投资
-							vm.model.projectInvestSumTotal += obj.projectInvestSum;
-						}
-						if(obj.applyYearInvest){//年度申请资金
-							vm.model.applyYearInvestTotal += obj.applyYearInvest;
-						}
-//						if(obj.yearInvestApproval){//年度安排资金
-//							vm.model.yearInvestApprovalTotal += obj.yearInvestApproval;
-//						}
-					}
-					//计划总规模						
-					vm.model.yearInvestApprovalTotal = 0;//安排资金总计
-					vm.model.capitalSCZ_ggysTotal = 0;//市投资-公共预算
-					vm.model.capitalSCZ_gtzjTotal = 0;//市投资-国土基金
-					vm.model.capitalSCZ_zxzjTotal = 0;//市投资-专项基金
-					vm.model.capitalQCZ_ggysTotal = 0;//区投资-公共预算
-					vm.model.capitalQCZ_gtzjTotal = 0;//区投资-国土基金
-					vm.model.capitalZYYSTotal = 0;//中央预算内投资
-					vm.model.capitalSHTZTotal = 0;//社会投资
-
-					vm.model.capitalOtherTotal = 0;
-					for(var i=0;i<Capitals.length;i++){						
-						if(Capitals[i].capitalSCZ_ggys){
-							vm.model.capitalSCZ_ggysTotal += Capitals[i].capitalSCZ_ggys;
-						}
-						if(Capitals[i].capitalSCZ_gtzj){
-							vm.model.capitalSCZ_gtzjTotal += Capitals[i].capitalSCZ_gtzj;
-						}
-						if(Capitals[i].capitalSCZ_zxzj){
-							vm.model.capitalSCZ_zxzjTotal += Capitals[i].capitalSCZ_zxzj;
-						}
-						if(Capitals[i].capitalQCZ_ggys){
-							vm.model.capitalQCZ_ggysTotal += Capitals[i].capitalQCZ_ggys;
-						}
-						if(Capitals[i].capitalQCZ_gtzj){
-							vm.model.capitalQCZ_gtzjTotal += Capitals[i].capitalQCZ_gtzj;
-						}
-						if(Capitals[i].capitalZYYS){
-							vm.model.capitalZYYSTotal += Capitals[i].capitalZYYS;
-						}
-						if(Capitals[i].capitalSHTZ){
-							vm.model.capitalSHTZTotal += Capitals[i].capitalSHTZ;
-						}
-						if(Capitals[i].capitalOther){
-							vm.model.capitalOtherTotal += Capitals[i].capitalOther;
-						}
-						if(Capitals[i].capitalSum){//年度安排资金
-							vm.model.yearInvestApprovalTotal += Capitals[i].capitalSum;
-						}
-					}
+					vm.planYear = vm.model.plan.year;//用于编制列表表头年份的绑定
+					grid_yearPlan_shenbaoInfoList(vm);//查询年度计划编制中的申报信息列表
 				}
 			};
 			
@@ -865,7 +793,34 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		}//end getPlanById
+		}//end fun getPlanById
+		
+		/**
+		 * 获取年度计划统计信息
+		 */
+		function getPlanStatisticsInfo(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_planList +"/getStatistics?planId={0}", vm.id)					
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.model.yearPlanStatistics = response.data[0] || {};
+					}
+				});
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}//end fun getPlanStatisticsInfo
 		
 		/**
 		 * 年度计划编制信息列表
@@ -884,9 +839,6 @@
 				sort : {
 					field : "createdDate",
 					dir : "desc"
-				},
-				requestEnd:function(){
-					getPlanById(vm);//请求结束后查询年度计划刷新数据
 				}
 			});
 			// End:dataSource

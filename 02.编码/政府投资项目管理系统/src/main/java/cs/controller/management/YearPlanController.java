@@ -1,6 +1,7 @@
 package cs.controller.management;
 
 import java.text.ParseException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.YearPlanDto;
+import cs.model.exportExcel.YearPlanStatistics;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.YearPlanService;
 
@@ -63,6 +65,12 @@ public class YearPlanController {
 	public void removeCapital(@RequestParam String planId,@RequestBody String yearPlanCapitalId){		
 		String[] ids=yearPlanCapitalId.split(",");
 		yearPlanService.removeYearPlanCapital(planId, ids);
+	}
+	
+	@RequiresPermissions("management/yearPlan#getStatistics#get")
+	@RequestMapping(name="获取年度计划统计信息",path="getStatistics",method=RequestMethod.GET)
+	public @ResponseBody List<YearPlanStatistics> getStatistics(@RequestParam String planId){		
+		return yearPlanService.getStatistics(planId);
 	}
 	
 	@RequiresPermissions("management/yearPlan##post")

@@ -55,7 +55,6 @@ public class CommonController {
 	@RequiresPermissions("common#basicData/identity#get")
 	@RequestMapping(name="查询基础数据",path="basicData/{identity}",method=RequestMethod.GET)
 	public @ResponseBody List<BasicDataDto> getBasicData(@PathVariable("identity") String identity){
-		System.out.println(identity);
 		if(identity.equals("all")){
 			return basicDataService.Get();
 		}
@@ -142,8 +141,8 @@ public class CommonController {
 			x.getProjectCategory_BSum()+"个,C类项目"+x.getProjectCategory_CSum()+"个,D类项目"+x.getProjectCategory_DSum()+"个");
 			entity.setTotalInvest(x.getInvestSum());
 			entity.setApInvestSum(x.getApInvestSum());
-			entity.setApplyYearInvest(x.getSqInvestSum());
-			entity.setYearApSum(x.getYearApSum());
+//			entity.setApplyYearInvest(x.getYapInvestSum());
+			entity.setYearApSum(x.getYapInvestSum());
 			entity.setCapitalAP_gtzj_TheYear(x.getYearAp_gtjjSum());
 			entity.setCapitalAP_ggys_TheYear(x.getYearAp_ggysSum());
 			entity.setHB(true);

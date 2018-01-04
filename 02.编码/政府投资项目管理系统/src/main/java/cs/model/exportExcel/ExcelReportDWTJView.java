@@ -25,25 +25,35 @@ public class ExcelReportDWTJView extends AbstractXlsView {
 	
 	@Override
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        response.setHeader("Content-Disposition", "attachment;filename=\"yearPlanByConsUnit.xls\"");
+		String fileName = "光明新区"+year+"年区级政府投资项目计划各建设单位资金安排汇总表.xls";
+        response.setHeader("Content-Disposition", "attachment;filename=" +new String(fileName.getBytes("gb2312"), "iso8859-1"));
         Sheet sheet = workbook.createSheet("表1");
         CellStyle cellStyleO = workbook.createCellStyle();
+        CellStyle cellStyleTitle = workbook.createCellStyle();
+        CellStyle cellStylesubTitle = workbook.createCellStyle();
         //创建行
         Row title=sheet.createRow(0);
         Row subTitle=sheet.createRow(1);
         Row row_head1 = sheet.createRow(2);
         Row row_head2 = sheet.createRow(3);
+        //设置字体
+        Font font = workbook.createFont();
+        font.setFontHeightInPoints((short) 14); // 字体高度
+        font.setFontName(" 黑体 "); // 字体
+        cellStyleTitle.setFont(font);
+        //设置行高
+        title.setHeight((short)800);
       
         //begin#标题
         //创建列
-        createCellAlignCenter(workbook,title,0,"光明新区"+year+"年区级政府投资项目计划各建设单位资金安排汇总表",cellStyleO);
+        createCellAlignCenter(workbook,title,0,"光明新区"+year+"年区级政府投资项目计划各建设单位资金安排汇总表",cellStyleTitle);
         //合并标题
         //参数1：开始行、结束行、开始列、结束列
         sheet.addMergedRegion(new CellRangeAddress(0,0,0,6));
         //end#标题
         
         //begin#子标题
-        createCellAlignRight(workbook,subTitle,0,"单位：万元",cellStyleO);
+        createCellAlignRight(workbook,subTitle,0,"单位：万元",cellStylesubTitle);
         sheet.addMergedRegion(new CellRangeAddress(1,1,0,6));
         //end#子标题
 
@@ -118,7 +128,6 @@ public class ExcelReportDWTJView extends AbstractXlsView {
         Cell cell=row.createCell(cellNumber);
         cell.setCellValue(value);
 
-//        CellStyle cellStyle = workbook.createCellStyle();
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
         cellStyle.setWrapText(true);
@@ -129,7 +138,6 @@ public class ExcelReportDWTJView extends AbstractXlsView {
         Cell cell=row.createCell(cellNumber);
         cell.setCellValue(value);
 
-//        CellStyle cellStyle = workbook.createCellStyle();
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
         cellStyle.setWrapText(true);

@@ -35,30 +35,30 @@
 				<td class="formAlignRight">备注：</td>
 				<td ng-bind="vm.model.plan.remark"></td>
 				<td class="formAlignRight">总指标：<span class="required">(*)</span></td>
-				<td ng-bind="vm.model.plan.totalMoney"></td>				
+				<td ng-bind="vm.model.plan.totalMoney+' (万元)'"></td>			
 			</tr>
 		</table>
 		 <div class="bg-info text-info" style="padding: 10px; "><strong>数据汇总</strong></div>
 		 <table class="table table-bordered table-striped ">
 			<tr>
 				<td class="formAlignRight" style="width:150px;">项目总数：</td>
-				<td style="width:80px;" ng-bind="vm.model.shenBaoInfoTotal"></td>
+				<td style="width:80px;" ng-bind="vm.model.yearPlanStatistics.total"></td>
 				<td class="formAlignRight" style="width:150px;">前期：</td>
-				<td style="width:80px;" ng-bind="vm.model.QianQiTotal"></td>
+				<td style="width:80px;" ng-bind="vm.model.yearPlanStatistics.qianQiTotal"></td>
 				<td class="formAlignRight" style="width:150px;">新开工：</td>
-				<td style="width:80px;" ng-bind="vm.model.NewStratTotal"></td>
+				<td style="width:80px;" ng-bind="vm.model.yearPlanStatistics.newStratTotal"></td>
 				<td class="formAlignRight" style="width:150px;">继建：</td>
-				<td style="width:80px;" ng-bind="vm.model.XuJianTotal"></td>
+				<td style="width:80px;" ng-bind="vm.model.yearPlanStatistics.xuJianTotal"></td>
 				<td class="formAlignRight" style="width:150px;">储备类：</td>
-				<td style="width:80px;" ng-bind="vm.model.ChuBeiTotal"></td>
+				<td style="width:80px;" ng-bind="vm.model.yearPlanStatistics.chuBeiTotal"></td>
 			</tr>
 			<tr>
 				<td class="formAlignRight">项目总投资(万元)：</td>
-				<td style="width:80px;" ng-bind="vm.model.projectInvestSumTotal | number:4"></td>
+				<td style="width:80px;" ng-bind="vm.model.yearPlanStatistics.investTotal"></td>
 				<td class="formAlignRight" colspan="2">申请资金金额(万元)：</td>
-				<td style="width:80px;" ng-bind="vm.model.applyYearInvestTotal | number:4"></td>
+				<td style="width:80px;" ng-bind="vm.model.yearPlanStatistics.applyTotal"></td>
 				<td class="formAlignRight"  colspan="2">安排资金金额(万元)：</td>
-				<td style="width:80px;" colspan="3" ng-bind="vm.model.yearInvestApprovalTotal | number:4"></td>					
+				<td style="width:80px;" colspan="3" ng-bind="vm.model.yearPlanStatistics.arrangeTotal"></td>					
 			</tr>
 			<tr>
 				<td class="formAlignRight" style="vertical-align: middle;">计划总规模(万元)：</td>
@@ -80,9 +80,9 @@
 								<td>专项基金</td>
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalSCZ_ggysTotal | number:4" ></td>
-								<td ng-bind="vm.model.capitalSCZ_gtzjTotal | number:4"></td>
-								<td ng-bind="vm.model.capitalSCZ_zxzjTotal | number:4"></td>
+								<td ng-bind="vm.model.yearPlanStatistics.capitalSCZ_ggysTotal" ></td>
+								<td ng-bind="vm.model.yearPlanStatistics.capitalSCZ_gtzjTotal"></td>
+								<td ng-bind="vm.model.yearPlanStatistics.capitalSCZ_zxzjTotal"></td>
 							</tr>
 						</table>
 					</td>
@@ -94,8 +94,8 @@
 								
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalQCZ_ggysTotal | number:4"></td>
-								<td ng-bind="vm.model.capitalQCZ_gtzjTotal | number:4"></td>
+								<td ng-bind="vm.model.yearPlanStatistics.capitalQCZ_ggysTotal"></td>
+								<td ng-bind="vm.model.yearPlanStatistics.capitalQCZ_gtzjTotal"></td>
 							</tr>
 						</table>
 					</td>
@@ -105,7 +105,7 @@
 								<td>-</td>
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalZYYSTotal | number:4"></td>
+								<td ng-bind="vm.model.yearPlanStatistics.capitalZYYSTotal"></td>
 							</tr>
 						</table>
 					</td>
@@ -117,7 +117,7 @@
 								
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalSHTZTotal | number:4"></td>
+								<td ng-bind="vm.model.yearPlanStatistics.capitalSHTZTotal"></td>
 							</tr>
 						</table>
 					</td>
@@ -129,7 +129,7 @@
 								
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalOtherTotal | number:4"></td>
+								<td ng-bind="vm.model.yearPlanStatistics.capitalOtherTotal"></td>
 							</tr>
 						</table>
 					</td>

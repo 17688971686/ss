@@ -43,7 +43,19 @@
 	<tr>		
 		<td class="formAlignRight">项目建设性质：<span class="required">(*)</span></td>
 		<td colspan="3">
-			<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectConstrChar)"></span>				
+			<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectConstrChar)"></span>
+		</td>		
+	</tr>
+				
+	<!-- 功能分类科目、政府经济分类科目仅仅年度计划含有 -->
+	<tr ng-if="vm.isYearPlan">
+		<td class="formAlignRight">功能分类科目：</td>
+		<td>
+			<span ng-bind="vm.model.shenBaoInfo.functionSubjects"></span>
+		</td>
+		<td class="formAlignRight">政府经济分类科目：</td>
+		<td>
+			<span ng-bind="vm.model.shenBaoInfo.econClassSubjects"></span>
 		</td>
 	</tr>
 	<tr>

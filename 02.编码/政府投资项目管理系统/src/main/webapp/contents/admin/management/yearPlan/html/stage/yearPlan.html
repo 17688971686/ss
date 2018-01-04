@@ -39,6 +39,16 @@
 			<input class="Wdate form-control input-sm" style="width:180px;" type="text" id="planYear" name="planYear"
 			 onFocus="WdatePicker({dateFmt:'yyyy'})" ng-change="vm.changeYear()" onChange="" ng-model="vm.model.shenBaoInfo.planYear" data-val="true" data-val-required="必填" />
 			<span data-valmsg-for="planYear" data-valmsg-replace="true" class="required"></span>
+			<div>
+				<span>是否申请标外资金：</span>
+				<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="true" ng-model="vm.model.shenBaoInfo.isApplyOutsideCapital" ng-checked="vm.model.shenBaoInfo.isApplyOutsideCapital == true"/>&nbsp;是</label>
+				<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="false" ng-model="vm.model.shenBaoInfo.isApplyOutsideCapital" ng-checked="vm.model.shenBaoInfo.isApplyOutsideCapital == false"/>&nbsp;否</label>
+				<label ng-if="vm.model.shenBaoInfo.isApplyOutsideCapital">
+					申请标外资金：
+					<input type="number" step="any" style="width:100px" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.applyOutsideCapital"/>
+					&nbsp;(万元)
+				</label>
+			</div>
 		</td>
 		<td class="formAlignRight">打包类型：<span class="required">(*)</span></td>
 		<td>
@@ -51,7 +61,6 @@
 				<input class="form-control input-sm pull-left" type="text" style="width:145px;margin-left:10px;margin-right:10px;" ng-model="vm.packageType.description"/>
 				<button class="btn btn-xs btn-success pull-right" style="margin-top:7px;" ng-click="vm.savePackageType()">保存此类型</button>
 			</div>
-			
 		</td>
 	<tr>
 		<td class="formAlignRight">资金需求及来源：</td>

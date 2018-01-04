@@ -21,6 +21,9 @@
     	vm.model.display = false;
     	
         vm.init=function(){
+        	if($state.current.name=='monthReport'){
+        		vm.page='list';
+        	}
         	if($state.current.name=='monthReport_SH'){
         		vm.page='list_SH';
         	}
@@ -29,6 +32,12 @@
         	}
         	if($state.current.name=='monthReportChange'){
         		vm.page='edit';
+        	}
+        	if($state.current.name=='monthReportChange'){
+        		vm.page='edit';
+        	}
+        	if($state.current.name=='monthReportSummary'){
+        		vm.page='summary';
         	}
         	
         	vm.getBasicDataDesc = function(Str){
@@ -41,6 +50,10 @@
           	
           	vm.getUnitName = function(unitId){
           		return common.getUnitName(unitId);
+          	};
+          	
+          	vm.formartDate = function(str){
+          		return common.formatDate(str);
           	};
           	
           	//清空查询条件
@@ -75,7 +88,9 @@
         	if(vm.page=='edit'){
         		page_details();
         	}
-            
+            if(vm.page=='summary'){
+            	page_summary();
+            }
         }
         
         function page_list(){
@@ -237,5 +252,9 @@
             	}
             };
         }
+        
+        function page_summary(){
+        	monthReportSvc.getProjectById(vm);
+        }//end fun page_summary
     }
 })();
