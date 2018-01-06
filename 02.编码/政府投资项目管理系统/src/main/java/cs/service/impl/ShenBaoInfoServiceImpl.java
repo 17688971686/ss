@@ -94,6 +94,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private String projectShenBaoStage_jueSuan;//申报阶段：竣工决算
 	@Value("${projectShenBaoStage_baoGao}")
 	private String projectShenBaoStage_baoGao;//申报阶段：资金申请报告
+	@Value("${projectShenBaoStage_jihua}")
+	private String projectShenBaoStage_jihua;//申报阶段：计划下达
 	@Value("${taskType_JYS}")
 	private String taskType_JYS;//任务类型：建议书
 	@Value("${taskType_KXXYJBG}")
@@ -110,6 +112,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private String taskType_jueSuan;//任务类型：竣工决算
 	@Value("${taskType_ZJSQBG}")
 	private String taskType_ZJSQBG;//任务类型：资金申请报告
+	@Value("${taskType_JH}")
+	private String taskType_JH;//任务类型：计划下达
 	
 	@Override
 	@Transactional
@@ -500,6 +504,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			return taskType_jueSuan;
 		}else if(shenbaoStage.equals(projectShenBaoStage_baoGao)){//如果申报阶段：是资金申请报告
 			return taskType_ZJSQBG;
+		}else if(shenbaoStage.equals(projectShenBaoStage_jihua)){//如果申报阶段：是资金申请报告
+			return taskType_JH;
 		}
 		return "";
 	}

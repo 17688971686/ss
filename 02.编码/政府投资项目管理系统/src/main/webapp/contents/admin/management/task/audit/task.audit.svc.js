@@ -585,6 +585,10 @@
 							 vm.basicData.projectIndustry=$linq(common.getBasicData())
 			    	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
 			    	       		.toArray();
+							//基础数据--项目建设性质
+							 vm.basicData.projectConstrChar=$linq(common.getBasicData())
+			    	       		.where(function(x){return x.identity==common.basicDataConfig().projectConstrChar&&x.pId==common.basicDataConfig().projectConstrChar;})
+			    	       		.toArray();
 							 vm.projectIndustryChange=function(){    		
 				    	       		vm.basicData.projectIndustryChildren=$linq(common.getBasicData())
 				    	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.model.projectIndustryParent;})

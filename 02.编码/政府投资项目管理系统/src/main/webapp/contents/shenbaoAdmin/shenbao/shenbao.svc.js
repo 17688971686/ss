@@ -177,8 +177,13 @@
 			        			   }else if(vm.projectShenBaoStage == shenBaoRecordStage &&  shenBaoRecordStage == common.basicDataConfig().projectShenBaoStage_capitalApplyReport){//资金申请报告
 			        				   vm.massage = "资金申请报告已申报！";
 				    	        	   vm.isHased = true;
+			        			   }else if(vm.projectShenBaoStage == shenBaoRecordStage &&  shenBaoRecordStage == common.basicDataConfig().projectShenBaoStage_jihuaxiada){//资金申请报告
+			        				   vm.massage = "计划下达已申报！";
+				    	        	   vm.isHased = true;
 			        			   }
-			        			   
+			        			   if( vm.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_jihuaxiada && shenBaoRecord.isIncludLibrary == false){//资金申请报告
+			        				   vm.massage = "项目尚未纳入年度计划，请确认是否继续申报！";
+			        			   }
 			   					}
 			        	   }
 					}
@@ -503,6 +508,9 @@
 							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_capitalApplyReport){//申报阶段为:资金申请报告
 								vm.isCapitalApplyReport=true;
 								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_capitalApplyReport;
+							}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_jihuaxiada){//申报阶段为:资金申请报告
+								vm.isJihuaxiada=true;
+								vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_jihuaxiada;
 							}
 							
 //							else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_qianQi){//申报阶段为:前期计划

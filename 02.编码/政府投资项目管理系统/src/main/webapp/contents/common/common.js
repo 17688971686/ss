@@ -470,12 +470,13 @@
     		projectShenBaoStage_projectProposal:"projectShenBaoStage_1",//项目建议书
     		projectShenBaoStage_KXXYJBG:"projectShenBaoStage_2",//可行性研究报告
     		projectShenBaoStage_CBSJYGS:"projectShenBaoStage_3",//初步设计与概算
-    		projectShenBaoStage_prePlanFee:"projectShenBaoStage_4",//规划前期费
-    		projectShenBaoStage_newStratPlan:"projectShenBaoStage_5",//新开工计划
-    		projectShenBaoStage_xuJianPlan:"projectShenBaoStage_6",//续建计划
+//    		projectShenBaoStage_prePlanFee:"projectShenBaoStage_4",//规划前期费
+//    		projectShenBaoStage_newStratPlan:"projectShenBaoStage_5",//新开工计划
+//    		projectShenBaoStage_xuJianPlan:"projectShenBaoStage_6",//续建计划
     		projectShenBaoStage_nextYearPlan:"projectShenBaoStage_7",//下一年度计划
     		projectShenBaoStage_junGong:"projectShenBaoStage_8",//竣工决算
     		projectShenBaoStage_capitalApplyReport:"projectShenBaoStage_9",//资金申请报告
+    		projectShenBaoStage_jihuaxiada:"projectShenBaoStage_10",//资金申请报告
     		
     		projectCategory:"projectCategory",//项目类别
     		projectCategory_A:"projectCategory_1",//A类
@@ -534,6 +535,7 @@
     		taskType_junGongJueSuan:"taskType_11",//竣工决算
     		taskType_ZJSQBG:"taskType_12",//资金申请报告
     		taskType_monthReportPort:"taskType_13",//月报端口配置
+    		taskType_JH:"taskType_14",//计划下达
    		
     		auditState:"auditState",//审核状态
     		auditState_noAudit:"auditState_1",//审核状态-未审核
@@ -590,8 +592,10 @@
 			projectEdit_SH:[['XMJYSPF','项目建议书批复文本'],['KXXYJBGPF','可行性研究报告批复文本'],['ZGSPFTZ','总概算批复及调整文本'],['HYJY','会议纪要'],
 				['GHYJ','规划依据'],['SJXGT','设计效果图'],['XMQWT','项目区位图'],['XCTP','现场图片'],['QT','其他']],
 			reviewResult:[['PSBG','1、评审报告'],['TZKSSHB','（1）投资匡算审核表'],['ZJPSYJ','（2）专家评审意见'],['ZJPSZMD','（3）专家评审组名单'],
-				['QT','2、其他']]
-    	
+				['QT','2、其他']],
+			projectShenBaoStage_jihuaxiada:[['ApplyReport_pdf','申请报告（pdf版，加盖公章）<span class="required">(*)</span>'],['ApplyReport_word','申请报告（Word版）<span class="required">(*)</span>'],['BudgetReply_Scanning','概算批复扫描件 <span class="required">(*)</span>'],
+				['GCGHXKZ_Scanning','工程规划许可证扫描件'],['IssuedReplyFile_Scanning','全部已下达计划批复文件扫描件 <span class="required">(*)</span>'],['LastYearPlanReply_Copy','上一年度计划批文复印件 <span class="required">(*)</span>'],
+				['IssuedReplyFile_Scanning','全部已下达计划批复文件扫描件 <span class="required">(*)</span>'],['ProjectBasis','项目依据  <span class="required">(*)</span>'],['other','其他']],
     	//projectShenBaoStage_qianQi:[['ProjectBasis','项目依据  <span class="required">(*)</span>'],['other','其他']],
     	};
     }
