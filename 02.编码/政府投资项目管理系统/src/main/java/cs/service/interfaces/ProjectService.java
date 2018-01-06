@@ -4,6 +4,7 @@ import java.util.List;
 import cs.domain.Project;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ProjectDto;
+import cs.model.Statistics.sttisticsData;
 import cs.model.Statistics.ProjectStageData;
 import cs.repository.odata.ODataObj;
 
@@ -22,4 +23,8 @@ public interface ProjectService extends IService<ProjectDto, Project, String> {
 
 	/*******以下方法用于项目统计************/
 	List<ProjectStageData> getStageProjects();
+	
+	List<sttisticsData> getprojectByHYData();
+	
+	List<sttisticsData> getprojectInvestSourceData();
 }

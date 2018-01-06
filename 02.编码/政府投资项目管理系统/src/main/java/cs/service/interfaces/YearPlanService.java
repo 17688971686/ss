@@ -6,6 +6,7 @@ import cs.domain.YearPlan;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.YearPlanDto;
+import cs.model.Statistics.sttisticsData;
 import cs.model.exportExcel.ExcelDataDWTJ;
 import cs.model.exportExcel.ExcelDataHYTJ;
 import cs.model.exportExcel.ExcelDataLBTJ;
@@ -31,4 +32,8 @@ public interface YearPlanService extends IService<YearPlanDto, YearPlan, String>
 	List<ExcelDataDWTJ> getYearPlanShenBaoInfoByDWTJ(String planId);//根据建设单位统计
 	
 	List<ExcelDataYS> getYearPlanShenBaoInfoByYS(String planId);//印刷版统计
+	
+	List<sttisticsData> getyearPlanByHYData();
+	
+	List<sttisticsData> getyearPlanInvestSourceData();
 }

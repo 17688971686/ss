@@ -79,7 +79,7 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-区财政-国土资金'")
 	private Double capitalQCZ_gtzj=0.0;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-区财政-中央预算'")
+	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-中央预算'")
 	private Double capitalZYYS=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-社会投资'")

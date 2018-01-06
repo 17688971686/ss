@@ -179,7 +179,19 @@
 	        })
 /**********************end#project***************************************/
 	        
-	        //begin#单位管理	       
+/**********************begin#决策辅助系统**********************************/
+	        //统计分析--主页
+	        .state('statisticalAnalysis', {
+	            url: '/statisticalAnalysis',
+	            templateUrl: '/management/auxDeci/statisticalAnalysis/html/index.html',
+	            controller: 'statisticalAnalysisCtrl',
+	            controllerAs: 'vm'
+	        })
+
+	        
+/**********************end#决策辅助系统***************************************/
+	        
+	       //begin#单位管理	       
 	      //列表页
 	        .state('unitManagement', {
 	            url: '/unitManagement',

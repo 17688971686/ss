@@ -1,6 +1,7 @@
 package cs.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,6 +29,7 @@ import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.YearPlanCapitalDto;
 import cs.model.DomainDto.YearPlanDto;
 import cs.model.DtoMapper.IMapper;
+import cs.model.Statistics.sttisticsData;
 import cs.model.exportExcel.ExcelDataDWTJ;
 import cs.model.exportExcel.ExcelDataHYTJ;
 import cs.model.exportExcel.ExcelDataLBTJ;
@@ -57,6 +59,9 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 	private IMapper<ShenBaoInfoDto, ShenBaoInfo> shenbaoInfoMapper;
 	@Autowired
 	private ICurrentUser currentUser;
+	
+	Calendar c = Calendar.getInstance();//可以对每个时间域单独修改
+	int year =  c.get(Calendar.YEAR);
 	
 
 	@Override
@@ -385,7 +390,40 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 		}
 	}
 	
-	
+	@SuppressWarnings("deprecation")
+	@Override
+	@Transactional
+	public List<sttisticsData> getyearPlanByHYData() {
+		List<sttisticsData> list = new ArrayList<>();
+		list = super.repository.getSession().createSQLQuery(SQLConfig.yearPlanByHY)
+				.setParameter("year", year)
+				.addScalar("projectIndustry",new StringType())
+				.addScalar("projectInvestSum", new DoubleType())
+				.addScalar("projectInvestAccuSum", new DoubleType())
+				.addScalar("apCapital",new DoubleType())
+				.setResultTransformer(Transformers.aliasToBean(sttisticsData.class))
+				.list();
+		return list;
+	}
+
+	@Override
+	@Transactional
+	public List<sttisticsData> getyearPlanInvestSourceData() {
+		List<sttisticsData> list = new ArrayList<>();
+		list = super.repository.getSession().createSQLQuery(SQLConfig.yearPlanInvestSourceData)
+				.setParameter("year", year)
+				.addScalar("capitalSCZ_ggys", new DoubleType())
+				.addScalar("capitalSCZ_gtzj", new DoubleType())
+				.addScalar("capitalSCZ_zxzj", new DoubleType())
+				.addScalar("capitalQCZ_ggys", new DoubleType())
+				.addScalar("capitalQCZ_gtzj", new DoubleType())
+				.addScalar("capitalZYYS", new DoubleType())
+				.addScalar("capitalSHTZ", new DoubleType())
+				.addScalar("capitalOther", new DoubleType())
+				.setResultTransformer(Transformers.aliasToBean(sttisticsData.class))
+				.list();
+		return list;
+	}
 	
 	
 }

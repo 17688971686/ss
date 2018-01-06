@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
+import org.hibernate.type.DoubleType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
+import cs.common.SQLConfig;
 import cs.common.Util;
 import cs.domain.Attachment;
 import cs.domain.BasicData;
@@ -35,6 +37,7 @@ import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.MonthReportDto;
 import cs.model.DomainDto.ProjectDto;
 import cs.model.DtoMapper.IMapper;
+import cs.model.Statistics.sttisticsData;
 import cs.model.Statistics.ProjectStageData;
 import cs.repository.impl.ProjectRepoImpl;
 import cs.repository.interfaces.IRepository;
@@ -318,7 +321,40 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 				.setResultTransformer(Transformers.aliasToBean(ProjectStageData.class))
 				.list();
 		return datas;
-	} 
+	}
+	
+	
+
+	@Override
+	@Transactional
+	public List<sttisticsData> getprojectByHYData() {
+		List<sttisticsData> list = new ArrayList<>();
+		list = super.repository.getSession().createSQLQuery(SQLConfig.projectByHY)
+				.addScalar("projectIndustry",new StringType())
+				.addScalar("projectInvestSum", new DoubleType())
+				.addScalar("projectInvestAccuSum", new DoubleType())
+				.setResultTransformer(Transformers.aliasToBean(sttisticsData.class))
+				.list();
+		return list;
+	}
+	
+	@Override
+	@Transactional
+	public List<sttisticsData> getprojectInvestSourceData() {
+		List<sttisticsData> list = new ArrayList<>();
+		list = super.repository.getSession().createSQLQuery(SQLConfig.projectInvestSourceData)
+				.addScalar("capitalSCZ_ggys", new DoubleType())
+				.addScalar("capitalSCZ_gtzj", new DoubleType())
+				.addScalar("capitalSCZ_zxzj", new DoubleType())
+				.addScalar("capitalQCZ_ggys", new DoubleType())
+				.addScalar("capitalQCZ_gtzj", new DoubleType())
+				.addScalar("capitalZYYS", new DoubleType())
+				.addScalar("capitalSHTZ", new DoubleType())
+				.addScalar("capitalOther", new DoubleType())
+				.setResultTransformer(Transformers.aliasToBean(sttisticsData.class))
+				.list();
+		return list;
+	}
 
 	/**
 	 * 批复文件库处理

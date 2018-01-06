@@ -133,5 +133,46 @@ public class SQLConfig {
 		+ " FROM cs_yearplan as yp,cs_yearplan_cs_yearplancapital as ypyc,cs_yearplancapital as yc,cs_shenbaoinfo as sbi"
 		+ " WHERE yp.id = ypyc.YearPlan_id AND yc.id = ypyc.yearPlanCapitals_id AND yc.shenbaoInfoId = sbi.id"
 		+ " AND yp.id=:yearPlanId");
-		 
+
+ public static String projectByHY = String.format("SELECT"
+ 		+ " b.description AS projectIndustry,"
+ 		+ " SUM(IFNULL(p.projectInvestSum,0)) AS projectInvestSum,"
+ 		+ " SUM(IFNULL(p.projectInvestAccuSum,0)) AS projectInvestAccuSum"
+ 		+ " FROM cs_project as p,cs_basicdata as b"
+ 		+ " WHERE b.id=p.projectIndustry AND p.isIncludLibrary=TRUE"
+ 		+ " GROUP BY p.projectIndustry");
+ 
+ public static String projectInvestSourceData = String.format("SELECT"
+	 		+ " SUM(IFNULL(P.capitalSCZ_ggys,0)) AS capitalSCZ_ggys,"
+	 		+ " SUM(IFNULL(P.capitalSCZ_gtzj,0)) AS capitalSCZ_gtzj,"
+	 		+ " SUM(IFNULL(P.capitalSCZ_zxzj,0)) AS capitalSCZ_zxzj,"
+	 		+ " SUM(IFNULL(P.capitalQCZ_ggys,0)) AS capitalQCZ_ggys,"
+	 		+ " SUM(IFNULL(P.capitalQCZ_gtzj,0)) AS capitalQCZ_gtzj,"
+	 		+ " SUM(IFNULL(P.capitalZYYS,0)) AS capitalZYYS,"
+	 		+ " SUM(IFNULL(P.capitalSHTZ,0)) AS capitalSHTZ,"
+	 		+ " SUM(IFNULL(P.capitalOther,0)) AS capitalOther"
+	 		+ " FROM cs_project as p"
+	 		+ " WHERE p.isIncludLibrary=TRUE");
+ 
+ public static String yearPlanByHY = String.format("SELECT"
+ 		+ " b.description AS projectIndustry,"
+ 		+ " SUM(IFNULL(sbi.projectInvestSum, 0)) AS projectInvestSum,"
+ 		+ " SUM(IFNULL(sbi.projectInvestAccuSum, 0)) AS projectInvestAccuSum,"
+ 		+ " SUM(IFNULL(ypc.capitalSum, 0)) AS apCapital"
+ 		+ " FROM cs_yearplan AS yp,cs_yearplan_cs_yearplancapital AS ypyc,cs_yearplancapital AS ypc,cs_shenbaoinfo AS sbi,cs_basicdata AS b"
+ 		+ " WHERE b.id = sbi.projectIndustry AND sbi.id = ypc.shenbaoInfoId AND ypc.id = ypyc.yearPlanCapitals_id AND ypyc.YearPlan_id = yp.id AND yp.`year` = :year"
+ 		+ " GROUP BY sbi.projectIndustry");
+ 
+ public static String yearPlanInvestSourceData = String.format("SELECT"
+	 		+ " SUM(IFNULL(ypc.capitalSCZ_ggys,0)) AS capitalSCZ_ggys,"
+	 		+ " SUM(IFNULL(ypc.capitalSCZ_gtzj,0)) AS capitalSCZ_gtzj,"
+	 		+ " SUM(IFNULL(ypc.capitalSCZ_zxzj,0)) AS capitalSCZ_zxzj,"
+	 		+ " SUM(IFNULL(ypc.capitalQCZ_ggys,0)) AS capitalQCZ_ggys,"
+	 		+ " SUM(IFNULL(ypc.capitalQCZ_gtzj,0)) AS capitalQCZ_gtzj,"
+	 		+ " SUM(IFNULL(ypc.capitalZYYS,0)) AS capitalZYYS,"
+	 		+ " SUM(IFNULL(ypc.capitalSHTZ,0)) AS capitalSHTZ,"
+	 		+ " SUM(IFNULL(ypc.capitalOther,0)) AS capitalOther"
+	 		+ " FROM cs_yearplan AS yp,cs_yearplan_cs_yearplancapital AS ypyc,cs_yearplancapital AS ypc"
+	 		+ " WHERE ypc.id = ypyc.yearPlanCapitals_id AND ypyc.YearPlan_id = yp.id AND yp.`year` = :year");
+	 		
 }

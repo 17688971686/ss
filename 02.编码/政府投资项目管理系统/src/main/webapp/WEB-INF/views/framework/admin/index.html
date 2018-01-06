@@ -273,7 +273,7 @@ desired effect
 							<li><a href="javascript:void(0)" ui-sref="credit_projectAnomaly">项目异常监管</a></li>
 						</ul>
 					</li>
-					<!-- 
+					
 					
 					<li class="treeview">
 						<a href="javascript:void(0)"> <i
@@ -283,11 +283,15 @@ desired effect
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							<li><a href="javascript:void(0)" ui-sref="statisticalAnalysis">统计分析</a></li>
-							<li><a href="javascript:void(0)" ui-sref="projectGeographicalDistribution">项目地理分布</a></li>
-							<li><a href="javascript:void(0)" ui-sref="projectProcess">项目全流程</a></li>
+							<li>
+								<@shiro.hasPermission name="management/auxDeci/statisticalAnalysis#html/index#get">
+								<a href="javascript:void(0)" ui-sref="statisticalAnalysis">统计分析</a>
+								</@shiro.hasPermission>
+							</li>
+							<!-- <li><a href="javascript:void(0)" ui-sref="projectGeographicalDistribution">项目地理分布</a></li>
+							<li><a href="javascript:void(0)" ui-sref="projectProcess">项目全流程</a></li> -->
 						</ul>
-					</li> -->
+					</li>
 					
 					<li class="treeview"><a href="javascript:void(0)"> <i
 							class="fa fa-link"></i> <span>统一门户管理</span> <span
@@ -440,7 +444,9 @@ desired effect
 	<!-- monthReport -->
 	<script src="/contents/admin/management/monthReport/monthReport.ctrl.js"></script>
 	<script src="/contents/admin/management/monthReport/monthReport.svc.js"></script>
-
+	<!-- statisticalAnalysis (统计分析)-->
+	<script src="/contents/admin/management/auxDeci/statisticalAnalysis/statisticalAnalysis.ctrl.js"></script>
+	<script src="/contents/admin/management/auxDeci/statisticalAnalysis/statisticalAnalysis.svc.js"></script>
 	<!-- project -->
 	<script src="/contents/admin/management/project/project.ctrl.js"></script>
 	<script src="/contents/admin/management/project/project.svc.js"></script>
