@@ -20,7 +20,7 @@ import cs.service.interfaces.ArticleService;
 
 
 @Controller
-@RequestMapping(name = "申报", path = "")
+@RequestMapping(name = "申报端登陆页", path = "")
 public class ShenBaoHomeController {
 	private String ctrlName = "shenbao/home";
 

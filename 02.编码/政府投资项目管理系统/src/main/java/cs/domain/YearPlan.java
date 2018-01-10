@@ -30,7 +30,7 @@ public class YearPlan extends BaseEntity{
 	@Column(columnDefinition="varchar(500) NULL COMMENT '备注'")
 	private String remark;
 	
-	@Column(columnDefinition="double(13,4) defualt 0.0 COMMENT '总指标'")
+	@Column(columnDefinition="double(13,4) DEFAULT 0.0 COMMENT '总指标'")
 	private Double totalMoney=0.0;
 	
 	

@@ -140,7 +140,7 @@
 	        })
 	        //汇总页
 	        .state('monthReportSummary', {
-	            url: '/monthReportSummary/:projectId/:year',
+	            url: '/monthReportSummary/:projectId',
 	            templateUrl: '/management/monthReport/html/summary',
 	            controller: 'monthReportCtrl',
 	            controllerAs: 'vm'

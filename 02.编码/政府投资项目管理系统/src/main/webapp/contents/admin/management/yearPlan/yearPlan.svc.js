@@ -486,6 +486,8 @@
 				};
 			
 			var httpSuccess = function success(response) {
+				//查询年度计划统计数据--更新页面数据
+				getPlanStatisticsInfo(vm);
 				vm.planGridOptions.dataSource.read();//编制申报信息列表数据刷新
 			};
 			
@@ -750,6 +752,8 @@
 							msg : "操作成功",
 							fn : function() {
 								$('.alertDialog').modal('hide');
+								//查询年度计划统计数据--更新页面数据
+								getPlanStatisticsInfo(vm);
 								vm.planGridOptions.dataSource.read();//编制申报信息列表数据刷新								
 							}
 						});

@@ -513,7 +513,7 @@
                  if (selectIds.length == 0) {
                  	common.alert({
                      	vm:vm,
-                     	msg:'请选择数据'               	
+                     	msg:'请选择数据！'               	
                      });
                  } else {
                  	var ids=[];

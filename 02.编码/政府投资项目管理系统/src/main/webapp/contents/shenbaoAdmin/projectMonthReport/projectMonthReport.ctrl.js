@@ -16,7 +16,7 @@
         vm.page='list';
 
         $(".menu li a").removeClass("focus");
-        $(".menu li a:eq(4)").addClass("focus");
+        $(".menu li a:eq(5)").addClass("focus");
 
         $(".menu li a").click(function(){
             $(".menu li a").removeClass("focus");

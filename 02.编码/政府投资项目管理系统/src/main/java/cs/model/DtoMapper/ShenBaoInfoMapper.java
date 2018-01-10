@@ -77,6 +77,10 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setConstructionUnit(entity.getConstructionUnit());
 			shenBaoInfoDto.setIsApplyOutsideCapital(entity.getIsApplyOutsideCapital());
 			shenBaoInfoDto.setApplyOutsideCapital(entity.getApplyOutsideCapital());
+			shenBaoInfoDto.setIsIncludYearPlan(entity.getIsIncludYearPlan());
+			//计划下达
+			shenBaoInfoDto.setSqPlanReach_ggys(entity.getSqPlanReach_ggys());
+			shenBaoInfoDto.setSqPlanReach_gtzj(entity.getSqPlanReach_gtzj());
 			//申报年份信息
 			shenBaoInfoDto.setPlanYear(entity.getPlanYear());
 			shenBaoInfoDto.setApplyYearInvest(entity.getApplyYearInvest());
@@ -235,6 +239,10 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setConstructionUnit(shenBaoInfoDto.getConstructionUnit());
 			shenBaoInfo.setIsApplyOutsideCapital(shenBaoInfoDto.getIsApplyOutsideCapital());
 			shenBaoInfo.setApplyOutsideCapital(shenBaoInfoDto.getApplyOutsideCapital());
+			shenBaoInfo.setIsIncludYearPlan(shenBaoInfoDto.getIsIncludYearPlan());
+			//计划下达
+			shenBaoInfo.setSqPlanReach_ggys(shenBaoInfoDto.getSqPlanReach_ggys());
+			shenBaoInfo.setSqPlanReach_gtzj(shenBaoInfoDto.getSqPlanReach_gtzj());
 			//申报年份
 			shenBaoInfo.setPlanYear(shenBaoInfoDto.getPlanYear());
 			shenBaoInfo.setApplyYearInvest(shenBaoInfoDto.getApplyYearInvest());//申请年度投资

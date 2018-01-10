@@ -102,7 +102,7 @@
 	  </tr>	  
 </table>
 <!-- 下一年度计划、规划设计前期费、新开工计划、续建计划没有编制单位 -->
-<div ng-hide="vm.isYearPlan || vm.isPrePlanFee || vm.isNewStart || vm.isXuJian">
+<div ng-hide="vm.isYearPlan || vm.isPrePlanFee || vm.isNewStart || vm.isXuJian || vm.isJihuaxiada">
 	<div class="bg-info text-info" style="padding: 10px;">编制单位信息</div>
 		<table width="100%" class="table  table-bordered table-striped">
 			<tr>
@@ -122,14 +122,14 @@
 			<tr>
 		    	<td class="formAlignRight">单位地址：<span class="required">(*)</span></td>
 			    <td colspan="4">
-				    <select class="form-select pull-left" style="margin-right:10px;height:30px;">
+				   <!--  <select class="form-select pull-left" style="margin-right:10px;height:30px;">
 				    	<option>光明新区</option>
 				    </select>
 				    <select class="form-select pull-left" style="margin-right:10px;height:30px;" id="divisionId_BZ" name="divisionId_BZ" ng-model="vm.model.bianZhiUnitInfoDto.divisionId" data-val="true" data-val-required="必选">
 				    	<option value="">---请选择---</option>
 						<option ng-repeat="x in vm.basicData.area_Street" value="{{x.id}}" ng-selected="vm.model.bianZhiUnitInfoDto.divisionId == x.id">{{x.description}}</option>
 					</select>
-					<span data-valmsg-for="divisionId_BZ" data-valmsg-replace="true" class="required"></span>
+					<span data-valmsg-for="divisionId_BZ" data-valmsg-replace="true" class="required"></span> -->
 					 <input type="text" class="form-control input-sm pull-left" style="width:500px;" id="unitAddress_BZ" name="unitAddress_BZ" ng-model="vm.model.bianZhiUnitInfoDto.unitAddress" data-val="true" data-val-required="必填"/>
 					 <span data-valmsg-for="unitAddress_BZ" data-valmsg-replace="true" class="required"></span>
 				</td>

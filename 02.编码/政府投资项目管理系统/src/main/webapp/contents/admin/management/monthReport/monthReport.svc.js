@@ -78,36 +78,8 @@
 							}
 						}
 						if(vm.page=='summary'){
-							var report=$linq(vm.model.projectInfo.monthReportDtos)
-								.where(function(x){return x.submitYear==vm.year && x.isLatestVersion==true;})
-								.toArray();
-							report.forEach(function(value,index,array){
-								if(value.submitMonth == 1){
-									vm.monthReport_1 = value;
-								}else if(value.submitMonth == 2){
-									vm.monthReport_2 = value;
-								}else if(value.submitMonth == 3){
-									vm.monthReport_3 = value;
-								}else if(value.submitMonth == 4){
-									vm.monthReport_4 = value;
-								}else if(value.submitMonth == 5){
-									vm.monthReport_5 = value;
-								}else if(value.submitMonth == 6){
-									vm.monthReport_6 = value;
-								}else if(value.submitMonth == 7){
-									vm.monthReport_7 = value;
-								}else if(value.submitMonth == 8){
-									vm.monthReport_8 = value;
-								}else if(value.submitMonth == 9){
-									vm.monthReport_9 = value;
-								}else if(value.submitMonth == 10){
-									vm.monthReport_10 = value;
-								}else if(value.submitMonth == 11){
-									vm.monthReport_11 = value;
-								}else if(value.submitMonth == 12){
-									vm.monthReport_12 = value;
-								}
-							});
+							//获取月报数据
+							vm.getMonthReports();
 						}
 					}
 				});
@@ -290,9 +262,7 @@
 					title : "填报月份",
 					template:function(data){
 						var returnStr="";
-						var nowDate = new Date();
-						var nowYear = nowDate.getFullYear();
-						returnStr += common.format('<a class="btn btn-xs btn-success" href="#/monthReportSummary/{0}/{1}">月报汇总查看</a> ',data.id,nowYear);
+						returnStr += common.format('<a class="btn btn-xs btn-success" href="#/monthReportSummary/{0}">月报汇总查看</a> ',data.id);
 						data.monthReportDtos.forEach(function(e,idx){
 							returnStr+=common.format('<a class="btn btn-xs btn-success" ng-show="{3}" href="#/monthReport/{0}/{1}/{2}">{1}年{2}月</a> ',
 									e.projectId,e.submitYear,e.submitMonth,e.isLatestVersion);

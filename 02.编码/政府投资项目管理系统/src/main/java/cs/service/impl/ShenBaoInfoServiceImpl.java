@@ -510,6 +510,14 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		return "";
 	}
 	
+	
+	
+	@Override
+	@Transactional
+	public void save(ShenBaoInfo entity) {
+		super.repository.save(entity);
+	}
+
 	/**
 	* @Title: initWorkFlow 
 	* @Description: 创建申报信息时初始化工作流 

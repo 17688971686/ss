@@ -40,8 +40,6 @@ textarea.form-control {
 overflow: scroll !important;
 </style>
 
-<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
-
 <div class="well well-sm" style="background:white;">
 	<ol class="breadcrumb">
 		<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
@@ -173,18 +171,23 @@ overflow: scroll !important;
 			<tr>
 				<td class="formAlignRight" style="width:150px;">填写处理意见：</td>
 				<td>
-				个人自定义意见：<select class="form-control input-sm" style="width:200px;" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
-								  	<option value="">---请选择---</option>
-									<option ng-repeat="y in vm.model.opinionDtos" value="{{y.opinion}}">{{y.opinion}}</option>
-								</select>
-								<button class="btn btn-success btn-xs" ng-click="vm.saveOpinion()">保存常用意见</button>
-								<button class="btn btn-success btn-xs" ng-click="vm.showOpinion()">管理常用意见</button>
-					<textarea class="form-control" id="processSuggestion" name="processSuggestion"  maxlength="500" rows="3"
-						ng-model="vm.processSuggestion" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
-						ng-change="vm.checkLength(vm.processSuggestion,500,'processSuggestionTips')">
-					</textarea>
-					<span data-valmsg-for="processSuggestion" data-valmsg-replace="true" class="required"></span>
-					<div class="tipfont">您还可以输入<span id="processSuggestionTips"><font size="5">500</font></span>个字符!</div>						
+					<div style="margin-bottom: 10px;">
+						<label>个人自定义意见：</label>
+						<select class="form-control input-sm" style="width:200px;" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-click="vm.opinion()" ng-change="vm.changeOpin()">
+						  	<option value="">---请选择---</option>
+							<option ng-repeat="y in vm.model.opinionDtos" value="{{y.opinion}}">{{y.opinion}}</option>
+						</select>
+						<button class="btn btn-success btn-sm" ng-click="vm.saveOpinion()">保存常用意见</button>
+						<button class="btn btn-success btn-sm" ng-click="vm.showOpinion()">管理常用意见</button>
+					</div>
+					<div>
+						<textarea class="form-control" id="processSuggestion" name="processSuggestion"  maxlength="500" rows="3"
+							ng-model="vm.processSuggestion" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+							ng-change="vm.checkLength(vm.processSuggestion,500,'processSuggestionTips')">
+						</textarea>
+						<span data-valmsg-for="processSuggestion" data-valmsg-replace="true" class="required"></span>
+						<div class="tipfont">您还可以输入<span id="processSuggestionTips"><font size="5">500</font></span>个字符!</div>
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -574,7 +577,9 @@ overflow: scroll !important;
 			<span class="modal-title">常用意见管理</span>
 			</div>
 			 <div class="modal-body">
-			    <button class="btn btn-sm btn-danger" ng-click="vm.dels()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-remove"></span>批量删除</button>
+			 	<div class="toolbar">
+			 		<button class="btn btn-sm btn-danger" ng-click="vm.dels()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-trash"></span>&nbsp;批量删除</button>
+			 	</div>
                 <div class="grid" kendo-grid="grid" k-options="vm.opinionGrid"></div>
             </div>
 			<div class="modal-footer">
@@ -606,7 +611,6 @@ overflow: scroll !important;
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" ng-click="vm.editOpin()">修改</button>
 				<button type="button" class="btn btn-default" ng-click="vm.closeOpin()">取消</button>
-				
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
@@ -639,3 +643,4 @@ overflow: scroll !important;
 	<button class="btn btn-xs btn-danger"  ng-click="vm.remove('{0}')" ><span class="glyphicon glyphicon-remove"></span>删除</button>
 	<button class="btn btn-xs btn-primary"  ng-click="vm.edit('{0}','{1}')" ><span class="glyphicon glyphicon-pencil"></span>编辑</button>
 </script>
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>

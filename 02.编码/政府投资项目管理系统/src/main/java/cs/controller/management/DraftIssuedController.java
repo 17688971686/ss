@@ -16,7 +16,7 @@ import cs.model.DomainDto.DraftIssuedDto;
 import cs.service.interfaces.DraftIssuedService;
 
 @Controller
-@RequestMapping(name = "发文拟稿--审批流程", path = "management/draft")
+@RequestMapping(name = "后台管理--审批流程--发文拟稿", path = "management/draft")
 public class DraftIssuedController {
 
 	@Autowired

@@ -255,6 +255,81 @@
         
         function page_summary(){
         	monthReportSvc.getProjectById(vm);
+        	var now = new Date();
+			var nowYear = now.getFullYear();
+			vm.year = nowYear;
+			vm.selectYears = [];
+			for(var i=5;i>=0;i--){
+				vm.selectYears.push(vm.year-i);
+			}
+			//获取月报数据
+        	vm.getMonthReports=function(){
+				var report=$linq(vm.model.projectInfo.monthReportDtos)
+				.where(function(x){return x.submitYear==vm.year && x.isLatestVersion==true;})
+				.toArray();
+				vm.monthReport_1={};vm.monthReport_2={};vm.monthReport_3={};vm.monthReport_4={};
+				vm.monthReport_5={};vm.monthReport_6={};vm.monthReport_7={};vm.monthReport_8={};
+				vm.monthReport_9={};vm.monthReport_10={};vm.monthReport_11={};vm.monthReport_12={};
+				report.forEach(function(value,index,array){
+					if(value.submitMonth == 1){
+						vm.monthReport_1 = value;
+					}else if(value.submitMonth == 2){
+						vm.monthReport_2 = value;
+					}else if(value.submitMonth == 3){
+						vm.monthReport_3 = value;
+					}else if(value.submitMonth == 4){
+						vm.monthReport_4 = value;
+					}else if(value.submitMonth == 5){
+						vm.monthReport_5 = value;
+					}else if(value.submitMonth == 6){
+						vm.monthReport_6 = value;
+					}else if(value.submitMonth == 7){
+						vm.monthReport_7 = value;
+					}else if(value.submitMonth == 8){
+						vm.monthReport_8 = value;
+					}else if(value.submitMonth == 9){
+						vm.monthReport_9 = value;
+					}else if(value.submitMonth == 10){
+						vm.monthReport_10 = value;
+					}else if(value.submitMonth == 11){
+						vm.monthReport_11 = value;
+					}else if(value.submitMonth == 12){
+						vm.monthReport_12 = value;
+					}
+				});
+				vm.sumThisMonthPlanInvestTotal = common.getSum([
+					vm.monthReport_1.thisMonthPlanInvestTotal || 0,
+					vm.monthReport_2.thisMonthPlanInvestTotal || 0,
+					vm.monthReport_3.thisMonthPlanInvestTotal || 0,
+					vm.monthReport_4.thisMonthPlanInvestTotal || 0,
+					vm.monthReport_5.thisMonthPlanInvestTotal || 0,
+					vm.monthReport_6.thisMonthPlanInvestTotal || 0,
+					vm.monthReport_7.thisMonthPlanInvestTotal || 0,
+					vm.monthReport_8.thisMonthPlanInvestTotal || 0,
+					vm.monthReport_9.thisMonthPlanInvestTotal || 0,
+					vm.monthReport_10.thisMonthPlanInvestTotal || 0,
+					vm.monthReport_11.thisMonthPlanInvestTotal || 0,
+					vm.monthReport_12.thisMonthPlanInvestTotal || 0,
+				]);
+				vm.sumThisMonthInvestTotal = common.getSum([
+					vm.monthReport_1.thisMonthInvestTotal || 0,
+					vm.monthReport_2.thisMonthInvestTotal || 0,
+					vm.monthReport_3.thisMonthInvestTotal || 0,
+					vm.monthReport_4.thisMonthInvestTotal || 0,
+					vm.monthReport_5.thisMonthInvestTotal || 0,
+					vm.monthReport_6.thisMonthInvestTotal || 0,
+					vm.monthReport_7.thisMonthInvestTotal || 0,
+					vm.monthReport_8.thisMonthInvestTotal || 0,
+					vm.monthReport_9.thisMonthInvestTotal || 0,
+					vm.monthReport_10.thisMonthInvestTotal || 0,
+					vm.monthReport_11.thisMonthInvestTotal || 0,
+					vm.monthReport_12.thisMonthInvestTotal || 0,
+				]);
+			};
+			//年份变化事件
+			vm.setYearSelected=function(){
+				vm.getMonthReports();
+			};
         }//end fun page_summary
     }
 })();

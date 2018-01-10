@@ -10,4 +10,6 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
 	public void updateShenBaoInfoState(TaskRecordDto dto);//后台管理--年度项目库中退文
 	public void updateShenBaoInfo(ShenBaoInfoDto dto);
 	public void createShenBaoInfo(ShenBaoInfoDto dto,Boolean isAdminCreate);
+	public void save(ShenBaoInfo entity);
+	
 }

@@ -467,6 +467,36 @@
 	</table>
 </div>
 
+<!-- 只有计划下达特有的信息 -->
+<div ng-show="vm.isJihuaxiada" class="well well-lg">
+	<table class="table table-bordered table-striped">
+		<tr>
+			<td class="formAlignRight" style="width:150px;">建设性质：<span class="required">(*)</span></td>
+			<td ng-bind="vm.getBasicDataDesc(vm.model.projectConstrChar);"></td>
+			<td style="width:50%;">
+				<table class="table table-bordered table-striped" style="margin-bottom: 0;text-align: center;">
+					<tr>
+						<td colspan="2">
+							<label>申请资金：</label>
+							<span ng-bind="vm.sqPlanReachTotal()"></span>
+							<label class="pull-right" style="color:silver">单位：万元</label>
+						</td>
+					</tr>
+					<tr>
+						<td>公共预算</td>
+						<td>国土基金</td>
+					</tr>
+					<tr>
+						<td ng-bind="vm.model.sqPlanReach_ggys"></td>
+						<td ng-bind="vm.model.sqPlanReach_gtzj"></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr></tr>
+	</table>
+</div>
+
 <div class="bg-info text-info" style="padding: 10px;">单位基本信息</div>
 <table style="width:100%;" class="table  table-bordered table-striped">
 	<tr>
@@ -543,7 +573,7 @@
 </table>
 
 <!-- 下一年度计划、规划设计前期费、新开工计划、续建计划没有编制单位 -->
-<div ng-hide="vm.isYearPlan || vm.isPrePlanFee || vm.isNewStart || vm.isXuJian">
+<div ng-hide="vm.isYearPlan || vm.isPrePlanFee || vm.isNewStart || vm.isXuJian || vm.isJihuaxiada">
 	<div class="bg-info text-info" style="padding: 10px;">编制单位信息</div>
 		<table width="100%" class="table  table-bordered table-striped">
 			<tr>
@@ -559,8 +589,8 @@
 			<tr>
 		    	<td class="formAlignRight">单位地址：</td>
 			    <td colspan="4">
-				    	光明新区
-				    <span ng-bind="vm.getBasicDataDesc(vm.model.bianZhiUnitInfoDto.divisionId)"></span>
+				    	<!-- 光明新区
+				    <span ng-bind="vm.getBasicDataDesc(vm.model.bianZhiUnitInfoDto.divisionId)"></span> -->
 				    <span ng-bind="vm.model.bianZhiUnitInfoDto.unitAddress"></span>
 				</td>
 		  </tr>

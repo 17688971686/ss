@@ -20,7 +20,7 @@ import cs.repository.odata.ODataObj;
 import cs.service.interfaces.OpinionService;
 
 @Controller
-@RequestMapping(name = "意见", path = "opin")
+@RequestMapping(name = "后台管理--审批流程--意见信息", path = "opin")
 public class OpinionController {
 
 	@Autowired

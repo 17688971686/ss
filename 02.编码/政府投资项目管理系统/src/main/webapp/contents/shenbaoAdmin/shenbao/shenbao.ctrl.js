@@ -254,7 +254,7 @@
     		   vm.isYearPlan=vm.stage==common.basicDataConfig().projectShenBaoStage_nextYearPlan;//申报阶段为:下一年度计划
     		   vm.isJunGong=vm.stage==common.basicDataConfig().projectShenBaoStage_junGong;//申报阶段为:竣工决算
     		   vm.isCapitalApplyReport=vm.stage==common.basicDataConfig().projectShenBaoStage_capitalApplyReport;//申报阶段为:资金申请报告
-    		   vm.isJihuaxiada=vm.stage==common.basicDataConfig().projectShenBaoStage_jihuaxiada;//申报阶段为:资金申请报告
+    		   vm.isJihuaxiada=vm.stage==common.basicDataConfig().projectShenBaoStage_jihuaxiada;//申报阶段为:计划下达
     		   //vm.isQianQi=vm.stage==common.basicDataConfig().projectShenBaoStage_qianQi;//申报阶段为:前期计划
 
     		   //申报材料初始化
@@ -286,7 +286,7 @@
     		   if(vm.isCapitalApplyReport){//资金申请报告上传文件类型
     			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_capitalApplyReport;
     		   }
-    		   if(vm.isJihuaxiada){//资金申请报告上传文件类型
+    		   if(vm.isJihuaxiada){//计划下达上传文件类型
     			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_jihuaxiada;
     		   }
 //    		   if(vm.isQianQi){//前期计划上传文件类型
@@ -301,6 +301,7 @@
     		   $("#tab4").attr("disabled","true");//下一年度计划单独页面
     		   $("#tab5").attr("disabled","true");//竣工决算单独页面
     		   $("#tab6").attr("disabled","true");//资金申请报告单独页面
+    		   $("#tab7").attr("disabled","true");//计划下达单独页面
     	   };
     	   //初始化基础数据
     	   var init_basicData = function(){

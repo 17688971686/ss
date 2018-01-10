@@ -17,7 +17,7 @@ import cs.model.DomainDto.CommissionDto;
 import cs.service.interfaces.CommissionService;
 
 @Controller
-@RequestMapping(name = "评审委托--审批流程", path = "management/proxy")
+@RequestMapping(name = "后台管理--审批流程--评审委托", path = "management/proxy")
 public class CommissionController {
 
 	@Autowired

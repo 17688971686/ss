@@ -157,7 +157,8 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="double(11,4) NULL COMMENT '总投资--建安投资（社投）'")
 	private Double buidSafeInvestment=0.0;
 	//end
-	
+	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否已纳入年度计划'")
+	private Boolean isIncludYearPlan=false;
 
 	public String getUnitName() {
 		return unitName;
@@ -542,5 +543,12 @@ public class BaseProject extends BaseEntity
 	public void setBuidSafeInvestment(Double buidSafeInvestment) {
 		this.buidSafeInvestment = buidSafeInvestment;
 	}
-			
+
+	public Boolean getIsIncludYearPlan() {
+		return isIncludYearPlan;
+	}
+
+	public void setIsIncludYearPlan(Boolean isIncludYearPlan) {
+		this.isIncludYearPlan = isIncludYearPlan;
+	}
 }

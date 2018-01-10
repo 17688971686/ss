@@ -28,15 +28,9 @@ public class ShenBaoInfo extends BaseProject{
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目ID'")
 	private String projectId;
 	
-	@Column(columnDefinition="bit(1) NULL COMMENT '项目是否纳入项目库'")
-	private Boolean isIncludLibrary;
-	
-	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否需要申请指标外资金'")
-	private Boolean isApplyOutsideCapital=false;
-	
-	@Column(columnDefinition="double(11,4) DEFAULT 0.0 COMMENT '申请指标外资金'")
-	private Double applyOutsideCapital=0.0;
-	
+	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '项目是否纳入项目库'")
+	private Boolean isIncludLibrary=false;
+
 	@Column(columnDefinition="varchar(125) NULL COMMENT '申报阶段'")
 	private String projectShenBaoStage;
 	
@@ -46,30 +40,35 @@ public class ShenBaoInfo extends BaseProject{
 	//begin#年度计划相关
 	@Column(columnDefinition="int NULL COMMENT '计划年度'")
 	private Integer planYear;
-	
 	@Column(columnDefinition="varchar(500) NULL COMMENT '建设单位'")
 	private String constructionUnit;
-	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '申请年度投资'")
-	private Double applyYearInvest=0.0;	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下一年申请年度投资'")
-	private Double applyYearInvest_LastYear=0.0;	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年申请年度投资'")
-	private Double applyYearInvest_LastTwoYear=0.0;	
-	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '安排年度投资'")
-	private Double yearInvestApproval=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下一年安排年度投资'")
-	private Double yearInvestApproval_lastYear=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年安排年度投资'")
-	private Double yearInvestApproval_lastTwoYear=0.0;
-	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '安排年度投资Id'")
-	private String yearPlanCapitalId;
 	@Column(columnDefinition="varchar(500) NULL COMMENT '年度建设任务'")
 	private String yearConstructionTask;
+	@Column(columnDefinition="varchar(255) NULL COMMENT '安排年度投资Id'")
+	private String yearPlanCapitalId;
+	@Column(columnDefinition="varchar(125) NULL COMMENT '打包类型'")
+	private String packageType=BasicDataConfig.packageType_danLie;//默认为单列项目
+	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否需要申请指标外资金'")
+	private Boolean isApplyOutsideCapital=false;
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '申请指标外资金'")
+	private Double applyOutsideCapital=0.0;
 	
-	@Column(columnDefinition="varchar(500) NULL COMMENT '年度建设内容'")
+	//下一年度计划申请资金
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '本年申请年度投资累计'")
+	private Double applyYearInvest=0.0;	
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '下一年申请年度投资累计'")
+	private Double applyYearInvest_LastYear=0.0;	
+	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年申请年度投资累计'")
+	private Double applyYearInvest_LastTwoYear=0.0;	
+	
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '本年安排年度投资累计'")
+	private Double yearInvestApproval=0.0;
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '下一年安排年度投资累计'")
+	private Double yearInvestApproval_lastYear=0.0;
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '下下年安排年度投资累计'")
+	private Double yearInvestApproval_lastTwoYear=0.0;
+	
+	@Column(columnDefinition="varchar(500) NULL COMMENT '本年度建设内容'")
 	private String yearConstructionContent;
 	@Column(columnDefinition="varchar(500) NULL COMMENT '下一年度建设内容'")
 	private String yearConstructionContentLastYear;
@@ -78,42 +77,40 @@ public class ShenBaoInfo extends BaseProject{
 	@Column(columnDefinition="varchar(500) NULL COMMENT '申报信息备注'")
 	private String yearConstructionContentShenBao;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '本年度资金筹措方案(申请)-公共预算'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '本年度资金筹措方案(申请)-公共预算'")
 	private Double capitalSCZ_ggys_TheYear=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '本年度资金筹措方案(申请)-国土资金'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '本年度资金筹措方案(申请)-国土资金'")
 	private Double capitalSCZ_gtzj_TheYear=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '本年度资金筹措方案(申请)-其他资金'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '本年度资金筹措方案(申请)-其他资金'")
 	private Double capitalSCZ_qita=0.0;
-	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下一年度资金筹措方案(申请)-公共预算'")
-	private Double capitalSCZ_ggys_LastYear=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下一年度资金筹措方案(申请)-国土资金'")
-	private Double capitalSCZ_gtzj_LastYear=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下年度资金筹措方案(申请)-其他资金'")
-	private Double capitalSCZ_qita_LastYear=0.0;
-	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度资金筹措方案(申请)-公共预算'")
-	private Double capitalSCZ_ggys_LastTwoYear=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度资金筹措方案(申请)-国土资金'")
-	private Double capitalSCZ_gtzj_LastTwoYear=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度资金筹措方案(申请)-其他资金'")
-	private Double capitalSCZ_qita_LastTwoYear=0.0;
-
 	@Column(columnDefinition="varchar(500) NULL COMMENT '其他资金来源'")
 	private String capitalOtherDescriptionShenBao;
+	
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '下一年度资金筹措方案(申请)-公共预算'")
+	private Double capitalSCZ_ggys_LastYear=0.0;
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '下一年度资金筹措方案(申请)-国土资金'")
+	private Double capitalSCZ_gtzj_LastYear=0.0;
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '下年度资金筹措方案(申请)-其他资金'")
+	private Double capitalSCZ_qita_LastYear=0.0;
 	@Column(columnDefinition="varchar(500) NULL COMMENT '下一年其他资金来源'")
 	private String capitalOtherDescriptionShenBao_LastYear;
+	
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '下下年度资金筹措方案(申请)-公共预算'")
+	private Double capitalSCZ_ggys_LastTwoYear=0.0;
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '下下年度资金筹措方案(申请)-国土资金'")
+	private Double capitalSCZ_gtzj_LastTwoYear=0.0;
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '下下年度资金筹措方案(申请)-其他资金'")
+	private Double capitalSCZ_qita_LastTwoYear=0.0;
 	@Column(columnDefinition="varchar(500) NULL COMMENT '下下年其他资金来源'")
 	private String capitalOtherDescriptionShenBao_LastTwoYear;
-	
-	//安排资金
-	@Column(columnDefinition="double(11,4) NULL COMMENT '累计安排投资'")
+	//下一年度计划安排资金
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '累计安排投资'")
 	private Double apInvestSum=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '安排年度资金筹措方案-公共预算'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '安排年度资金筹措方案-公共预算'")
 	private Double capitalAP_ggys_TheYear=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '安排年度资金筹措方案-国土基金'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '安排年度资金筹措方案-国土基金'")
 	private Double capitalAP_gtzj_TheYear=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '安排年度资金筹措方案-其他'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '安排年度资金筹措方案-其他'")
 	private Double capitalAP_qita=0.0;
 	
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下年度安排年度资金筹措方案-公共预算'")
@@ -129,12 +126,13 @@ public class ShenBaoInfo extends BaseProject{
 	private Double capitalAP_gtzj_LastTwoYear=0.0;
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度安排年度资金筹措方案-其他'")
 	private Double capitalAP_qita_LastTwoYear=0.0;
-
-	@Column(columnDefinition="varchar(125) NULL COMMENT '打包类型'")
-	private String packageType=BasicDataConfig.packageType_danLie;//默认为单列项目
-
+	//计划下达申请资金
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '计划下达申请--公共预算'")
+	private Double sqPlanReach_ggys=0.0;
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '计划下达申请--国土基金'")
+	private Double sqPlanReach_gtzj=0.0;
 	//end#年度计划相关
-
+	
    //begin#财政相关
 	@Column(columnDefinition="varchar(125) NULL COMMENT '功能科目'")
 	private String functionSubjects;
@@ -164,7 +162,7 @@ public class ShenBaoInfo extends BaseProject{
 	//begin#前期计划相关
 	@Column(columnDefinition="bit(1) NULL COMMENT '是否申请前期工作经费'")
 	private Boolean isApplyQianQiFei = false;//默认为不申请
-	@Column(columnDefinition="double(11,4) NULL COMMENT '工作经费申请金额'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '工作经费申请金额'")
 	private Double qianQiFeiApply=0.0;
 	//end
 	
@@ -572,4 +570,17 @@ public class ShenBaoInfo extends BaseProject{
 	public void setApplyOutsideCapital(Double applyOutsideCapital) {
 		this.applyOutsideCapital = applyOutsideCapital;
 	}
+	public Double getSqPlanReach_ggys() {
+		return sqPlanReach_ggys;
+	}
+	public void setSqPlanReach_ggys(Double sqPlanReach_ggys) {
+		this.sqPlanReach_ggys = sqPlanReach_ggys;
+	}
+	public Double getSqPlanReach_gtzj() {
+		return sqPlanReach_gtzj;
+	}
+	public void setSqPlanReach_gtzj(Double sqPlanReach_gtzj) {
+		this.sqPlanReach_gtzj = sqPlanReach_gtzj;
+	}
+	
 }

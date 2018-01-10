@@ -108,7 +108,7 @@ public class YearPlanController {
 		return ctrl+"/shenbaoInfoList";
 	}
 	
-	//@RequiresPermissions("management/yearPlan#html/shenbaoInfoListSH#get")
+	@RequiresPermissions("management/yearPlan#html/shenbaoInfoListSH#get")
 	@RequestMapping(name="年度计划项目库--社投列表页",path="html/shenbaoInfoListSH",method=RequestMethod.GET)
 	public String yearplanListSH(){
 		return ctrl+"/shenbaoInfoListSH";

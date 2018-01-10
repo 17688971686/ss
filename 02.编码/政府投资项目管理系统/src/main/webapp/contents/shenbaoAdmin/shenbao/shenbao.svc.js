@@ -46,7 +46,7 @@
 					fn : function() {
 						common.alert({
 							vm : vm,
-							msg : "删除成功",
+							msg : "删除成功！",
 							fn : function() {
 								vm.isSubmit=false;
 								$('.alertDialog').modal('hide');
@@ -54,7 +54,8 @@
 								if(vm.isRecordsDelete){
 									vm.gridOptions_records.dataSource.read();
 								}else{
-									$location.path(url_backToProjectList);
+									//$location.path(url_backToProjectList);
+									location.href="javascript:window.history.back(-1)";
 								}
 							}
 						});
@@ -177,13 +178,15 @@
 			        			   }else if(vm.projectShenBaoStage == shenBaoRecordStage &&  shenBaoRecordStage == common.basicDataConfig().projectShenBaoStage_capitalApplyReport){//资金申请报告
 			        				   vm.massage = "资金申请报告已申报！";
 				    	        	   vm.isHased = true;
-			        			   }else if(vm.projectShenBaoStage == shenBaoRecordStage &&  shenBaoRecordStage == common.basicDataConfig().projectShenBaoStage_jihuaxiada){//资金申请报告
+			        			   }
+			        			   if(vm.projectShenBaoStage == shenBaoRecordStage &&  shenBaoRecordStage == common.basicDataConfig().projectShenBaoStage_jihuaxiada){//资金申请报告
 			        				   vm.massage = "计划下达已申报！";
 				    	        	   vm.isHased = true;
-			        			   }
-			        			   if( vm.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_jihuaxiada && shenBaoRecord.isIncludLibrary == false){//资金申请报告
+			        			   }else if( vm.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_jihuaxiada && shenBaoRecord.isIncludLibrary == false){//资金申请报告
 			        				   vm.massage = "项目尚未纳入年度计划，请确认是否继续申报！";
+			        				   vm.isHased = false;
 			        			   }
+			        			   
 			   					}
 			        	   }
 					}
@@ -397,7 +400,8 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 									$(".modal-backdrop").remove();
-									$location.path(url_backToProjectList);
+									//$location.path(url_backToProjectList);
+									location.href="javascript:window.history.back(-1)";
 								}
 							});
 						}
@@ -473,6 +477,11 @@
 			  			vm.model.applyYearInvest=common.getSum([vm.model.capitalSCZ_ggys_TheYear||0,vm.model.capitalSCZ_gtzj_TheYear||0]);
 			  			return vm.model.applyYearInvest;
 			  		};
+			  		//计划下达申请资金累计
+			  		vm.sqPlanReachTotal=function(){
+			  			vm.sqPlanReachSum = common.getSum([vm.model.sqPlanReach_ggys || 0,vm.model.sqPlanReach_gtzj || 0]);
+			  			return vm.sqPlanReachSum;
+			  		}
 				  		 
 						if(vm.page=='record'){//如果為申報詳情頁面
 							if(vm.model.projectInvestmentType == common.basicDataConfig().projectInvestmentType_ZF){
@@ -565,7 +574,8 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 									$('.modal-backdrop').remove();									
-									$location.path(url_backToProjectList);
+									//$location.path(url_backToProjectList);
+									location.href="javascript:window.history.back(-1)";
 								}
 							});
 						}
@@ -702,6 +712,11 @@
 			  			vm.model.applyYearInvest=common.getSum([vm.model.capitalSCZ_ggys_TheYear||0,vm.model.capitalSCZ_gtzj_TheYear||0]);
 			  			return vm.model.applyYearInvest;
 			  		};
+			  		//计划下达申请资金累计
+			  		vm.sqPlanReachTotal=function(){
+			  			vm.sqPlanReachSum = common.getSum([vm.model.sqPlanReach_ggys || 0,vm.model.sqPlanReach_gtzj || 0]);
+			  			return vm.sqPlanReachSum;
+			  		}
 			  		//基础数据--行业归口
 			  		  if(vm.model.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资			 			  
 			 			var child = $linq(common.getBasicData())

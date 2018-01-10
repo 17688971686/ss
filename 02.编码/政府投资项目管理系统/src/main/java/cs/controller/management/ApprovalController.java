@@ -18,7 +18,7 @@ import cs.model.DomainDto.ApprovalDto;
 import cs.service.interfaces.ApprovalService;
 
 @Controller
-@RequestMapping(name = "评审报批--审批流程", path = "management/approval")
+@RequestMapping(name = "后台管理--审批流程--评审报批", path = "management/approval")
 public class ApprovalController {
 
 	@Autowired

@@ -17,7 +17,7 @@ import cs.model.DomainDto.ReviewResultDto;
 import cs.service.interfaces.ReviewResultService;
 
 @Controller
-@RequestMapping(name = "评审结果--审批流程", path = "management/review")
+@RequestMapping(name = "后台管理--审批流程--评审结果", path = "management/review")
 public class ReviewResultController {
 
 	@Autowired

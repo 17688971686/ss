@@ -476,7 +476,7 @@
     		projectShenBaoStage_nextYearPlan:"projectShenBaoStage_7",//下一年度计划
     		projectShenBaoStage_junGong:"projectShenBaoStage_8",//竣工决算
     		projectShenBaoStage_capitalApplyReport:"projectShenBaoStage_9",//资金申请报告
-    		projectShenBaoStage_jihuaxiada:"projectShenBaoStage_10",//资金申请报告
+    		projectShenBaoStage_jihuaxiada:"projectShenBaoStage_10",//计划下达
     		
     		projectCategory:"projectCategory",//项目类别
     		projectCategory_A:"projectCategory_1",//A类
@@ -543,7 +543,7 @@
     		auditState_auditNotPass:"auditState_3",//审核状态-审核不通过
     		
     		packageType:"packageType",//打包类型
-    		packageType_danLie:"packageType_1",
+    		packageType_danLie:"packageType_1",//单列项目
     			
     		management:"管理员",
     			

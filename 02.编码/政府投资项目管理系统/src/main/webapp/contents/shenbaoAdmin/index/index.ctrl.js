@@ -56,9 +56,11 @@
 	   	   vm.taskType_xuJian=common.basicDataConfig().taskType_xuJian;//徐建计划
 	   	   vm.taskType_junGongJueSuan=common.basicDataConfig().taskType_junGongJueSuan;//竣工决算
 	   	   vm.taskType_ZJSQBG=common.basicDataConfig().taskType_ZJSQBG;//资金申请报告
+	   	   vm.taskType_JH=common.basicDataConfig().taskType_JH;//计划下达
 	   	   vm.taskType_shenBao=[vm.taskType_JYS,vm.taskType_KXXYJBG,vm.taskType_CBSJYGS,
 	   		   					vm.taskType_qianQi,vm.taskType_newStart,vm.taskType_xuJian,
-	   		   					vm.taskType_junGongJueSuan,vm.taskType_yearPlan,vm.taskType_ZJSQBG];
+	   		   					vm.taskType_junGongJueSuan,vm.taskType_yearPlan,vm.taskType_ZJSQBG,
+	   		   					vm.taskType_JH];
 	   	   //任务类型--月报	   	   
 	   	   vm.taskType_monthReport=common.basicDataConfig().taskType_monthReport;   	   	      	   
        }
