@@ -14,13 +14,14 @@
 			
 			<div>
 				<script type="text/template" id="input_ggys">
-					<input style="width:80px" type="number" min="0" max="{2}" step="any" id="ggys_{0}" value="{1}" ng-keyup="vm.check_ggys('{0}','{2}')"/>
+					<input style="width:80px" type="number" min="0" max="{2}" step="any" id="ggys_{0}" value="{1}" ng-keyup="vm.checkNum_ggys('{0}','{2}')"/>
 				</script>
 				<script type="text/template" id="input_gtzj">
-					<input style="width:80px" type="number" min="0" max="{2}" step="any" id="gtzj_{0}" value="{1}" ng-keyup="vm.check_gtzj('{0}','{2}')"/>
+					<input style="width:80px" type="number" min="0" max="{2}" step="any" id="gtzj_{0}" value="{1}" ng-keyup="vm.checkNum_gtzj('{0}','{2}')"/>
 				</script>
 				<script type="text/template" id="columnBtns_hasInclud">
-					<button class="btn btn-success btn-xs" ng-click="vm.confirmPlanReach('{0}')" ng-disabled="vm.unqualifiedNum">确定</button>
+					<button ng-hide="{1}" class="btn btn-success btn-sm" ng-click="vm.confirmPlanReach('{0}')" ng-disabled="vm.unqualifiedNum"><span class="fa fa-refresh"></span>&nbsp;确定</button>
+					<button ng-show="{1}" class="btn btn-success btn-sm" ng-click="vm.confirmPlanReach('{0}')" ng-disabled="vm.unqualifiedNum"><span class="fa fa-check"></span>&nbsp;更新</button>
 				</script>
 				<div class="grid" kendo-grid="hasIncludGrid" k-options="vm.hasIncludGridOptions"></div>
 			</div>

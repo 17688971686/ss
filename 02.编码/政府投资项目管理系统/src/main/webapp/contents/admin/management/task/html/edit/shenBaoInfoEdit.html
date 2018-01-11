@@ -8,6 +8,7 @@
 	      <li id="tab2">项目单位信息</li>                
 	      <li id="tab3">项目材料清单</li>
 	      <li id="tab4" ng-show="vm.isCapitalApplyReport">资金申请报告</li>
+	      <li id="tab5" ng-show="vm.isJihuaxiada">计划下达申请信息</li>
 	    </ul>
       
 		<div class="tab_content">
@@ -24,6 +25,10 @@
    		
    		<div class="tab_content" ng-show="vm.isCapitalApplyReport">
            	<div ng-include  src="'/contents/admin/management/task/html/edit/capitalApplyReport.html'"></div>
+   		</div>
+   		
+   		<div class="tab_content" ng-show="vm.isJihuaxiada">
+           	<div ng-include  src="'/contents/admin/management/task/html/edit/planReach.html'"></div>
    		</div>
    	</div>	
 </form>

@@ -1,7 +1,9 @@
  package cs.controller.shenbaoAdmin;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.domain.ShenBaoInfo;
 import cs.domain.UserUnitInfo;
@@ -78,16 +81,7 @@ public class ShenBaoAdminPlanReachController {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	@RequestMapping(name = "确定计划下达申请资金", path = "comfirmPlanReach",method=RequestMethod.POST)
 	public void comfirmPlanReach(@RequestBody Map map){
-		String id = map.get("id").toString();
-		Double sqPlanReach_ggys = (Double)map.get("sqPlanReach_ggys");
-		Double sqPlanReach_gtzj = (Double)map.get("sqPlanReach_gtzj");
-		ShenBaoInfo entity = shenbaoInfoService.findById(id);
-		if(entity != null){
-			entity.setSqPlanReach_ggys(sqPlanReach_ggys);
-			entity.setSqPlanReach_gtzj(sqPlanReach_gtzj);
-			
-			shenbaoInfoService.save(entity);
-		}
+		shenbaoInfoService.comfirmPlanReach(map);
 	}
 	
 	@RequiresPermissions("shenbaoAdmin/planReach#html/list#get")

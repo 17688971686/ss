@@ -127,6 +127,8 @@ public class ShenBaoInfo extends BaseProject{
 	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度安排年度资金筹措方案-其他'")
 	private Double capitalAP_qita_LastTwoYear=0.0;
 	//计划下达申请资金
+	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否已申请下达资金'")
+	private Boolean isPlanReach=false;
 	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '计划下达申请--公共预算'")
 	private Double sqPlanReach_ggys=0.0;
 	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '计划下达申请--国土基金'")
@@ -582,5 +584,10 @@ public class ShenBaoInfo extends BaseProject{
 	public void setSqPlanReach_gtzj(Double sqPlanReach_gtzj) {
 		this.sqPlanReach_gtzj = sqPlanReach_gtzj;
 	}
-	
+	public Boolean getIsPlanReach() {
+		return isPlanReach;
+	}
+	public void setIsPlanReach(Boolean isPlanReach) {
+		this.isPlanReach = isPlanReach;
+	}
 }

@@ -1,5 +1,7 @@
 package cs.service.interfaces;
 
+import java.util.Map;
+
 import cs.domain.ShenBaoInfo;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.TaskRecordDto;
@@ -10,6 +12,5 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
 	public void updateShenBaoInfoState(TaskRecordDto dto);//后台管理--年度项目库中退文
 	public void updateShenBaoInfo(ShenBaoInfoDto dto);
 	public void createShenBaoInfo(ShenBaoInfoDto dto,Boolean isAdminCreate);
-	public void save(ShenBaoInfo entity);
-	
+	public void comfirmPlanReach(Map map);//确认计划下达申请资金
 }

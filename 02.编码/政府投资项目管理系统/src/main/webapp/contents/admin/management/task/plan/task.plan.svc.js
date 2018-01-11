@@ -396,6 +396,9 @@
 						}else if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_capitalApplyReport){//申报阶段为:资金申请报告
 							vm.isCapitalApplyReport=true;
 							vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_capitalApplyReport;
+						}else if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_jihuaxiada){//申报阶段为:计划下达
+							vm.isJihuaxiada=true;
+							vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_jihuaxiada;
 						}
 						//时间的显示
 						vm.model.shenBaoInfo.createdDate=common.formatDate(vm.model.shenBaoInfo.createdDate);//开工日期
@@ -411,6 +414,11 @@
   			 						vm.model.shenBaoInfo.capitalQCZ_ggys||0,vm.model.shenBaoInfo.capitalQCZ_gtzj||0,
   			 						vm.model.shenBaoInfo.capitalSHTZ||0,vm.model.shenBaoInfo.capitalZYYS||0,vm.model.shenBaoInfo.capitalOther||0]);
 				  		 };
+				  		//计划下达申请资金累计
+				  		vm.sqPlanReachTotal=function(){
+				  			vm.sqPlanReachSum = common.getSum([vm.model.shenBaoInfo.sqPlanReach_ggys || 0,vm.model.shenBaoInfo.sqPlanReach_gtzj || 0]);
+				  			return vm.sqPlanReachSum;
+				  		}
 					}
 				});
 			};

@@ -13,14 +13,6 @@
         var routeName = $state.current.name;
         vm.basicData={};vm.model={};vm.projectNumber='';vm.unqualifiedNum=false;
         
-        $(".menu li a").removeClass("focus");
-        $(".menu li a:eq(4)").addClass("focus");
-
-        $(".menu li a").click(function(){
-            $(".menu li a").removeClass("focus");
-            $(this).addClass("focus");
-        });
-        
         function init(){
         	if(routeName == 'planReach'){
         		vm.page = 'list';
@@ -39,6 +31,22 @@
         		return unqualifiedNum;
         	};
         	
+        	vm.getBasicDataDesc=function(str){
+        		return common.getBasicDataDesc(str);
+        	};
+        	
+        	vm.getUnitName=function(unitId){
+           		return common.getUnitName(unitId);
+           	};
+           	
+           	vm.formatDate=function(str){
+    			return common.formatDate(str);
+    		};
+    		
+    		vm.html = function(val){
+           		return $sce.trustAsHtml(val);
+           	};
+        	
         	//全选框选择
         	$(document).on('click', '#checkboxAll_planReachRecords', function () {
                 var isSelected = $(this).is(':checked');
@@ -48,12 +56,14 @@
         	vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);
         	vm.basicData.projectConstrChar=common.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);
         	vm.basicData.investmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);
+        	vm.basicData.processState=common.getBacicDataByIndectity(common.basicDataConfig().processState);
+        	vm.basicData.userUnit=common.getUserUnits();
         }//end fun init
         
         function list(){
         	planReachSvc.getHasIncludYearPlan(vm);
         	planReachSvc.getNotIncludYearPlan(vm);
-        	planReachSvc.planReachRecords(vm);
+        	//planReachSvc.planReachRecords(vm);
         	
         	//检查已纳入年度计划的计划下达申请资金
         	vm.checkNum_ggys=function(id,compared){
@@ -124,6 +134,14 @@
                  }
           	   };
         	};
+        	//申报详情模态框
+    		vm.dialog_shenbaoInfo = function(id){
+    			planReachSvc.getShenBaoInfoById(vm,id);
+    			$('#shenbaoInfo').modal({
+                    backdrop: 'static',
+                    keyboard:true
+                });
+    		};
         }//end fun list
         
         active();

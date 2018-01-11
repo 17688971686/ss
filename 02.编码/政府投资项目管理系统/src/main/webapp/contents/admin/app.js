@@ -179,6 +179,16 @@
 	        })
 /**********************end#project***************************************/
 	        
+/**********************begin#计划下达管理**********************************/
+	        //计划下达--列表页面
+	        .state('planReach', {
+	            url: '/planReach',
+	            templateUrl: '/management/planReachManage/planReach/html/list.html',
+	            controller: 'planReachCtrl',
+	            controllerAs: 'vm'
+	        })
+/**********************end#计划下达管理**********************************/
+	        
 /**********************begin#决策辅助系统**********************************/
 	        //统计分析--主页
 	        .state('statisticalAnalysis', {

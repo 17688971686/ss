@@ -229,6 +229,23 @@ desired effect
 							</li>
 						</ul></li>
 					<li class="treeview">
+						<@shiro.hasPermission name="management/planReachManage/planReach#html/list#get">
+						<a href="javascript::"> <i
+							class="fa fa-link"></i> <span>计划下达管理</span> <span
+							class="pull-right-container"> <i
+							class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						</@shiro.hasPermission>
+						<ul class="treeview-menu">
+							<li>
+								<@shiro.hasPermission name="management/planReachManage/planReach#html/list#get">
+								<a href="javascript::" ui-sref="planReach">计划下达</a>
+								</@shiro.hasPermission>
+							</li>
+						</ul>
+					</li>
+					<li class="treeview">
 						<a href="javascript:void(0)"> <i
 							class="fa fa-link"></i> <span>项目进度管理</span> <span
 							class="pull-right-container"> <i
@@ -537,12 +554,15 @@ desired effect
 	<!-- basicData -->
 	<script src="/contents/admin/management/basicData/basicData.ctrl.js"></script>
 	<script src="/contents/admin/management/basicData/basicData.svc.js"></script>
-	<!-- sysConfig -->
+	<!-- sysConfig(系统配置) -->
 	<script src="/contents/admin/management/sysConfig/sysConfig.ctrl.js"></script>
 	<script src="/contents/admin/management/sysConfig/sysConfig.svc.js"></script>
-	<!-- yearPlan -->
+	<!-- yearPlan(年度计划) -->
 	<script src="/contents/admin/management/yearPlan/yearPlan.ctrl.js"></script>
 	<script src="/contents/admin/management/yearPlan/yearPlan.svc.js"></script>
+	<!-- planReach(计划下达) -->
+	<script src="/contents/admin/management/planReachManage/planReach/planReach.ctrl.js"></script>
+	<script src="/contents/admin/management/planReachManage/planReach/planReach.svc.js"></script>
 	<!-- task_yearPlan -->
 	<script src="/contents/admin/management/task/yearPlan/task.yearPlan.ctrl.js"></script>
 	<script src="/contents/admin/management/task/yearPlan/task.yearPlan.svc.js"></script>

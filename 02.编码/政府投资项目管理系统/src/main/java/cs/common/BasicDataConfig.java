@@ -40,6 +40,7 @@ public class BasicDataConfig {
 	
 	
 	public static String projectShenBaoStage_nextYearPlan="projectShenBaoStage_7";//下一年度计划
+	public static String projectShenBaoStage_planReach="projectShenBaoStage_10";//计划下达
 	
 	public static String taskType="taskType";
 	public static String taskType_nextYearPlan="taskType_2";//下一年度计划

@@ -22,6 +22,7 @@ import cs.domain.Project;
 import cs.domain.Project_;
 import cs.domain.ReplyFile;
 import cs.domain.ShenBaoInfo;
+import cs.domain.ShenBaoInfo_;
 import cs.domain.ShenBaoUnitInfo;
 import cs.domain.TaskHead;
 import cs.domain.TaskHead_;
@@ -443,6 +444,51 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		
 	}
 	
+	/**
+	* @Title: comfirmPlanReach 
+	* @Description: 保存计划下达申请资金 
+	* @param shenbaoInfoId 申报id
+	* @param map 资金封装数据
+	* @author:cx 
+	 */
+	@Override
+	@Transactional
+	public void comfirmPlanReach(Map map) {
+		String id = map.get("id").toString();
+		Double sqPlanReach_ggys = (Double)map.get("sqPlanReach_ggys");
+		Double sqPlanReach_gtzj = (Double)map.get("sqPlanReach_gtzj");
+		ShenBaoInfo entity = super.findById(id);
+		if(entity != null){
+			entity.setSqPlanReach_ggys(sqPlanReach_ggys);
+			entity.setSqPlanReach_gtzj(sqPlanReach_gtzj);
+			
+			Criterion criterion1 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach);
+			Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.projectNumber.getName(), entity.getProjectNumber());
+			Criterion criterion3 = Restrictions.eq(ShenBaoInfo_.planYear.getName(), entity.getPlanYear());
+			List<ShenBaoInfo> query = super.repository.findByCriteria(criterion1,criterion2,criterion3);
+			if(query.isEmpty()){
+				entity.setIsPlanReach(true);
+				ShenBaoInfo newEntity = entity;
+				newEntity.setId(UUID.randomUUID().toString());
+				newEntity.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
+				newEntity.setProcessState(BasicDataConfig.processState_tianBao);
+				newEntity.setCreatedBy(currentUser.getUserId());
+				newEntity.setModifiedBy(currentUser.getUserId());
+				newEntity.setCreatedDate(new Date());
+				newEntity.setModifiedDate(new Date());
+				super.repository.save(newEntity);
+			}else{
+				ShenBaoInfo oldEntity = query.get(0);
+				oldEntity.setSqPlanReach_ggys(sqPlanReach_ggys);
+				oldEntity.setSqPlanReach_gtzj(sqPlanReach_gtzj);
+				super.repository.save(oldEntity);
+			}
+			super.repository.save(entity);
+			logger.info(String.format("保存计划下达申请资金,项目名称 %s",entity.getProjectName()));
+		}
+	}
+	
+	
 	@Override
 	@Transactional
 	public void updateShenBaoInfo(ShenBaoInfoDto dto) {
@@ -510,14 +556,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		return "";
 	}
 	
-	
-	
-	@Override
-	@Transactional
-	public void save(ShenBaoInfo entity) {
-		super.repository.save(entity);
-	}
-
 	/**
 	* @Title: initWorkFlow 
 	* @Description: 创建申报信息时初始化工作流 
@@ -580,6 +618,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		}
 	}
 	
+
 	private void updeteWorkFlow(ShenBaoInfo entity,Boolean isManageChange){
 		//查找到对应的任务
 		Criterion criterion = Restrictions.eq(TaskHead_.relId.getName(), entity.getId());

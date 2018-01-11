@@ -74,35 +74,34 @@ desired effect
 <body class="hold-transition skin-green sidebar-mini" ng-app="app">
 <div class="bg_pic">
 
-	<div class="top"><div class="clearfix " style="line-height:40px; width: 1200px; margin: auto">
-		<span style="color:#fff;">当前日期：${date}</span>
-
-		<div class="pull-right ">
-
-			<span style="color:#fff; font-weight: bold">${userName}</span>
-			<a style="color:#fff; cursor: pointer;margin-left:20px;" href="#/accountPwd">修改密码</a>
-			<a style="color:#fff; cursor: pointer;margin-left:10px;" href="/">退出</a>
+	<div class="top">
+		<div class="clearfix " style="line-height:40px; width: 1200px; margin: auto">
+			<span style="color:#fff;">当前日期：${date}</span>
+	
+			<div class="pull-right ">
+				<span style="color:#fff; font-weight: bold">${userName}</span>
+				<a style="color:#fff; cursor: pointer;margin-left:20px;" href="#/accountPwd">修改密码</a>
+				<a style="color:#fff; cursor: pointer;margin-left:10px;" href="/">退出</a>
+			</div>
+			<div class="user_icon pull-right"></div>
 		</div>
-		<div class="user_icon pull-right"></div>
-	</div></div>
+	</div>
 	<div class="wrap-1200" >
 		<div style="margin-top: 10px;">
-			<a href="/shenbaoAdmin"><div class="logo pull-left "></div></a>
+			<a href="javascript::" ui-sref="index"><div class="logo pull-left "></div></a>
 			<div class="contact pull-right"></div>
 			<div class="clearfix"></div>
 		</div>
 
 		<ul class="menu clearfix">
-			<li><a href="javascript:void(0)" ui-sref="index"><span class="cs-icon-index"></span>管理首页</a></li>
-			<li><a href="javascript:void(0)" ui-sref="deptInfoMaintain"><span class="cs-icon-index" style="background-position-x: -30px;"></span>单位信息维护</a></li>
-			<li><a href="javascript:void(0)" ui-sref="project"><span class="cs-icon-index" style="background-position-x: -60px;"></span>项目信息维护</a></li>
-			<li><a href="#/shenbao" ><span class="cs-icon-index" style="background-position-x: -90px;"></span>项目申报</a></li>
+			<li><a href="javascript::" ui-sref="index"><span class="cs-icon-index"></span>管理首页</a></li>
+			<li><a href="javascript::" ui-sref="deptInfoMaintain"><span class="cs-icon-index" style="background-position-x: -30px;"></span>单位信息维护</a></li>
+			<li><a href="javascript::" ui-sref="project"><span class="cs-icon-index" style="background-position-x: -60px;"></span>项目信息维护</a></li>
+			<li><a href="javascript::" ui-sref="shenbao"><span class="cs-icon-index" style="background-position-x: -90px;"></span>项目申报</a></li>
 			<li><a href="javascript::" ui-sref="planReach"><span class="cs-icon-index" style="background-position-x: -140px;"></span>计划下达</a></li>
-			<li><a href="javascript:void(0)" ui-sref="projectMonthReport"><span class="cs-icon-index" style="background-position-x: -140px;"></span>项目月报</a></li>
+			<li><a href="javascript::" ui-sref="projectMonthReport"><span class="cs-icon-index" style="background-position-x: -140px;"></span>项目月报</a></li>
 			<li style="width: 50px;height: 50px;background: #00561f;border: 0;"><span class="cs-icon-index" style="background-position-x: -170px;padding: 3px 15px;"></span></li>
 		</ul>
-
-
 	</div>
 
 	<div class="wrap-1200" style="background: #fff;">
@@ -129,9 +128,7 @@ desired effect
 <script src="/contents/libs/angular/angular-ui-router.js"></script>
 <script src="/contents/libs/boilerplate/plugins.js"></script>
 <script src="/contents/libs/jquery-validation/jquery.validate.js"></script>
-<script
-		src="/contents/libs/jquery-validation/jquery.validate.unobtrusive.js"></script>
-
+<script src="/contents/libs/jquery-validation/jquery.validate.unobtrusive.js"></script>
 <script src="/contents/libs/jszip/jszip.min.js"></script>
 <script src="/contents/libs/kendoui/kendo.all.min.js"></script>
 <script src="/contents/libs/kendoui/kendo.message.zh-CN.js"></script>
@@ -149,28 +146,24 @@ desired effect
 <script src="/contents/common/common.js"></script>
 <script src="/contents/shenbaoAdmin/app.js"></script>
 
-
-<!-- index -->
+<!-- index (申报端首页)-->
 <script src="/contents/shenbaoAdmin/index/index.ctrl.js"></script>
 <script src="/contents/shenbaoAdmin/index/index.svc.js"></script>
-
-<!-- begin cx -->
-<!-- deptInfoMaintain(单位信息管理) -->
+<!-- deptInfoMaintain(单位信息维护) -->
 <script src="/contents/shenbaoAdmin/deptInfoMaintain/deptInfoMaintain.ctrl.js"></script>
 <script src="/contents/shenbaoAdmin/deptInfoMaintain/deptInfoMaintain.svc.js"></script>
-<!-- projectMonthReport(项目月报) -->
-<script src="/contents/shenbaoAdmin/projectMonthReport/projectMonthReport.ctrl.js"></script>
-<script src="/contents/shenbaoAdmin/projectMonthReport/projectMonthReport.svc.js"></script>
-<!-- project(项目管理) -->
+<!-- project(项目信息维护) -->
 <script src="/contents/shenbaoAdmin/project/project.ctrl.js"></script>
 <script src="/contents/shenbaoAdmin/project/project.svc.js"></script>
+<!-- shenbao(项目申报) -->
+<script src="/contents/shenbaoAdmin/shenbao/shenbao.ctrl.js"></script>
+<script src="/contents/shenbaoAdmin/shenbao/shenbao.svc.js"></script>
 <!-- planReach(计划下达) -->
 <script src="/contents/shenbaoAdmin/planReach/planReach.ctrl.js"></script>
 <script src="/contents/shenbaoAdmin/planReach/planReach.svc.js"></script>
-<!-- shenbao(申报管理) -->
-<script src="/contents/shenbaoAdmin/shenbao/shenbao.ctrl.js"></script>
-<script src="/contents/shenbaoAdmin/shenbao/shenbao.svc.js"></script>
-<!-- end cx -->
+<!-- projectMonthReport(项目月报) -->
+<script src="/contents/shenbaoAdmin/projectMonthReport/projectMonthReport.ctrl.js"></script>
+<script src="/contents/shenbaoAdmin/projectMonthReport/projectMonthReport.svc.js"></script>
 <!-- End:自定义Js-->
 </body>
 </html>
