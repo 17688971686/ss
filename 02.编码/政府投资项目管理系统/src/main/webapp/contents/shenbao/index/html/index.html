@@ -86,16 +86,16 @@
 			<label class="cs-login-icon"><span class="glyphicon glyphicon-user"></span></label>
 			<span class="shadow-input"><input type="text" class="form-control input-sm" placeholder="请输入用户名称"
 			maxlength="100" name="loginName" id="loginName" ng-model="vm.model.loginName" 
-			data-val="true" data-val-required="用户名必填" ng-disabled="vm.isIE" />
+			data-val="true" data-val-required="用户名必填" ng-disabled="vm.isIE"/></span>
 			</div>
-			</span >
 			<div class="box-hide">
 			<label class="cs-login-icon"><span class="glyphicon glyphicon-lock"></span></label>
 			<span class="shadow-input">
 			<input type="password" class="form-control input-sm" placeholder="请输入用户密码"  
 			maxlength="100"  name="password" id="password" ng-model="vm.model.password" 
-			data-val="true" data-val-required="密码必填" ng-disabled="vm.isIE" /></div>
-			</span>
+			data-val="true" data-val-required="密码必填" ng-disabled="vm.isIE"/></span>
+			</div>
+			
 			<div><button class="btn btn-success loginBtn" ng-click="vm.submit('unit')" ng-disabled="vm.isIE" >登录系统 </button></div></br>
 			<!-- <div><button class="btn btn-success loginBtn" ng-click="vm.forgetCode()">忘记密码 </button></div> -->
 			<div class="login-maker-btn" ng-click="vm.show=false"></div>

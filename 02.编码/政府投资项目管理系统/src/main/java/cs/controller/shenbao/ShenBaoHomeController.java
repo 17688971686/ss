@@ -27,7 +27,7 @@ public class ShenBaoHomeController {
 	@Autowired
 	private ArticleService articleService;
 	
-	@RequestMapping(name = "首页", path = "/")
+	@RequestMapping(name = "首页", path = "/",method = RequestMethod.GET)
 	public String index() {
 
 		return this.ctrlName + "/index";
