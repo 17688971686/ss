@@ -16,7 +16,7 @@ import cs.model.framework.UserDto;
 import cs.service.framework.UserService;
 
 @Controller
-@RequestMapping(name = "账户", path = "account")
+@RequestMapping(name = "账户管理", path = "account")
 public class AccountController {
 	private String ctrlName = "framework/account";
 	@Autowired

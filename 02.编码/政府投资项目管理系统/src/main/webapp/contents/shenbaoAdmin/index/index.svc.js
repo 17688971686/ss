@@ -86,7 +86,7 @@
 				var httpOptions = {
 					method : 'put',
 					url : url_account_password,
-					data : vm.model.password
+					data : $.md5(vm.model.password)
 				};
 
 				var httpSuccess = function success(response) {
@@ -117,13 +117,8 @@
 					httpOptions : httpOptions,
 					success : httpSuccess
 				});
-
-			} else {
-				 common.alert({
-				 vm:vm,
-				 msg:"您填写的信息不正确,请核对后提交!"
-				 });
 			}
+
 		}
 		
 		/**

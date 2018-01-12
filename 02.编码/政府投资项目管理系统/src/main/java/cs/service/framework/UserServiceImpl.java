@@ -3,6 +3,7 @@ package cs.service.framework;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import org.apache.log4j.Logger;
@@ -185,6 +186,33 @@ public class UserServiceImpl implements UserService {
 		userRepo.save(user);
 		logger.info(String.format("更新用户,用户名:%s", userDto.getLoginName()));
 	}
+	
+	/**
+	 * @Title: initUser 
+	 * @Description: 初始化用户的相关数据
+	 * @param: map {"id":id,"type":type,"msg":msg}
+	 */
+	@Override
+	@Transactional
+	public void initUser(@SuppressWarnings("rawtypes") Map map) {
+		String id=(String) map.get("id");
+		String type=(String) map.get("type");
+		User user = userRepo.findById(id);
+		if(user !=null){
+			if(type.equals("password")){
+				String msg=(String) map.get("msg");
+				user.setPassword(msg);
+				logger.info(String.format("初始化用户密码,用户名:%s", user.getLoginName()));
+			}
+			if(type.equals("loginFailCount")){
+				user.setLoginFailCount(0);
+				logger.info(String.format("初始化用户登陆失败次数,用户名:%s", user.getLoginName()));
+			}
+			userRepo.save(user);
+		}
+	}
+
+	@SuppressWarnings("deprecation")
 	@Override
 	@Transactional
 	public Response Login(String userName, String password,String role){

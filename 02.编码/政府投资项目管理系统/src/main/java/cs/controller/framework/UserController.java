@@ -1,6 +1,7 @@
 package cs.controller.framework;
 
 import java.text.ParseException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,13 +20,12 @@ import cs.repository.odata.ODataObj;
 import cs.service.framework.UserService;
 
 @Controller
-@RequestMapping(name = "用户", path = "user")
+@RequestMapping(name = "用户管理", path = "user")
 public class UserController {
 	private String ctrlName = "framework/user";
 	@Autowired
 	private UserService userService;
 
-	
 	@RequiresPermissions("user##get")	
 	@RequestMapping(name = "获取用户数据", path = "", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserDto> get(HttpServletRequest request) throws ParseException {
@@ -41,6 +41,7 @@ public class UserController {
 	public void  post(@RequestBody UserDto userDto)  {		
 		userService.createUser(userDto);		
 	}
+	
 	@RequiresPermissions("user##delete")
 	@RequestMapping(name = "删除用户", path = "",method=RequestMethod.DELETE)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
@@ -52,7 +53,16 @@ public class UserController {
 			userService.deleteUser(id);	
 		}		
 	}
-	@RequiresPermissions("user##put")
+	
+	@SuppressWarnings("rawtypes")
+	@RequiresPermissions("user#initUser#post")
+	@RequestMapping(name = "初始化用户相关数据", path = "initUser",method=RequestMethod.POST)	
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void initUser(@RequestBody Map map)  {		
+		userService.initUser(map);	
+	}
+	
+	@RequiresPermissions("user##post")
 	@RequestMapping(name = "更新用户", path = "",method=RequestMethod.PUT)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  put(@RequestBody UserDto userDto)  {		

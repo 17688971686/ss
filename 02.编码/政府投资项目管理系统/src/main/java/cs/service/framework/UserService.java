@@ -1,5 +1,6 @@
 package cs.service.framework;
 
+import java.util.Map;
 import java.util.Set;
 import cs.common.Response;
 import cs.domain.framework.User;
@@ -18,6 +19,8 @@ public interface UserService {
 	void deleteUsers(String[] ids);
 	
 	void updateUser(UserDto userDto);
+	
+	void initUser(@SuppressWarnings("rawtypes") Map map);
 	
 	Response Login(String userName, String password,String role);
 	Set<String> getCurrentUserPermissions();
