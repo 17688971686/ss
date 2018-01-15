@@ -564,19 +564,22 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	 */
 	private void initWorkFlow(ShenBaoInfo shenBaoInfo,Boolean isAdminCreate){
 		//获取系统配置中工作流类型的第一处理人
-		Criterion criterion = Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.msFenBanRole);
-		Role role = RoleRepo.findByCriteria(criterion).stream().findFirst().get();
-		if(role !=null){
+		//Criterion criterion = Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.msFenBanRole);
+		//Role role = RoleRepo.findByCriteria(criterion).stream().findFirst().get();
+		Criterion criterion = Restrictions.eq(SysConfig_.configName.getName(), BasicDataConfig.taskType_shenpiFenBan);
+		SysConfig sysConfg = sysConfigRepo.findByCriteria(criterion).stream().findFirst().get();
+//		if(role !=null){
+		if(sysConfg !=null){
 			//创建工作流
 			TaskHead taskHead=new TaskHead();
 			taskHead.setId(UUID.randomUUID().toString());
 			//设置任务标题格式为：“项目申报：项目名称--申报阶段”
 			taskHead.setTitle("项目申报："+shenBaoInfo.getProjectName()+"--"+basicDataService.getDescriptionById(shenBaoInfo.getProjectShenBaoStage()));
-			//taskHead.setNextUser(startUser);//设置下一处理人
 			taskHead.setRelId(shenBaoInfo.getId());//设置关联的id
 			taskHead.setProcessState(BasicDataConfig.processState_tianBao);//设置工作流的状态
 			taskHead.setNextProcess(BasicDataConfig.processState_MiShuFenBan);//设置下一工作流状态
-			taskHead.setProcessRole(role.getId());
+//			taskHead.setProcessRole(role.getId());
+			taskHead.setNextUser(sysConfg.getConfigValue());//设置下一处理人
 			taskHead.setItemOrder(1);
 			taskHead.setProcessSuggestion("材料填报");//设置处理意见
 			taskHead.setTaskType(this.getTaskType(shenBaoInfo.getProjectShenBaoStage()));//设置工作流的类型
@@ -599,11 +602,11 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			taskRecord.setId(UUID.randomUUID().toString());
 			taskRecord.setTitle(taskHead.getTitle());
 			taskRecord.setItemOrder(1);
-			//taskRecord.setNextUser(startUser);//设置下一处理人
 			taskRecord.setRelId(taskHead.getRelId());//设置关联id
 			taskRecord.setTaskId(taskHead.getId());//设置任务Id
 			taskRecord.setProcessState(taskHead.getProcessState());//设置工作流的状态
-			taskRecord.setProcessRole(role.getId());
+//			taskRecord.setProcessRole(role.getId());
+			taskRecord.setNextUser(taskHead.getNextUser());//设置下一处理人
 			taskRecord.setTaskType(taskHead.getTaskType());//设置工作流的类型
 			taskRecord.setProcessSuggestion(taskHead.getProcessSuggestion());//设置处理意见
 			taskRecord.setUnitName(taskHead.getUnitName());//设置建设单位
@@ -627,8 +630,10 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			TaskHead taskHead = taskHeads.stream().findFirst().get();
 			//添加一条流转记录
 			//获取系统配置中工作流类型的第一处理人
-			Criterion criterion2 = Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.msFenBanRole);
-			Role role = RoleRepo.findByCriteria(criterion2).stream().findFirst().get();
+//			Criterion criterion2 = Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.msFenBanRole);
+//			Role role = RoleRepo.findByCriteria(criterion2).stream().findFirst().get();
+			Criterion criterion2 = Restrictions.eq(SysConfig_.configName.getName(), BasicDataConfig.taskType_shenpiFenBan);
+			SysConfig sysConfg = sysConfigRepo.findByCriteria(criterion2).stream().findFirst().get();
 
 		   //更新taskHead
 		   taskHead.setTitle("项目申报："+entity.getProjectName()+"--"+basicDataService.getDescriptionById(entity.getProjectShenBaoStage()));//更新标题
@@ -641,7 +646,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 				taskHead.setProcessState(BasicDataConfig.processState_tianBao);
 
 				taskHead.setNextProcess(BasicDataConfig.processState_MiShuFenBan);//设置下一工作流状态
-				taskHead.setProcessRole(role.getId());
+//				taskHead.setProcessRole(role.getId());
+				taskHead.setNextUser(sysConfg.getConfigValue());
 			}
 			taskHeadRepo.save(taskHead);
 		}else{

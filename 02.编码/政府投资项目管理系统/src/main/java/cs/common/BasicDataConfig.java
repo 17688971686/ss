@@ -45,8 +45,7 @@ public class BasicDataConfig {
 	public static String taskType="taskType";
 	public static String taskType_nextYearPlan="taskType_2";//下一年度计划
 	public static String taskType_monthReport="taskType_1";//月报填报
-	public static String taskType_sendMesg="taskType_3";//发送短信
-	public static String taskType_shenBaoDK="taskType_4";//申报端口
+	
 	public static String taskType_XMJYS="taskType_5";//项目建议书
 	public static String taskType_KXXYJBG="taskType_6";//可行性研究报告
 	public static String taskType_CBSJYGS="taskType_7";//初步设计与概算
@@ -56,7 +55,11 @@ public class BasicDataConfig {
 	public static String taskType_junGong="taskType_11";//竣工
 	public static String taskType_ZJSQBG="taskType_12";//资金申请报告
 	public static String taskType_JHXD="taskType_14";//计划下达
-	public static String taskType_monthReportPort="taskType_13";//月报端口
+	//系统配置信息
+	public static String taskType_sendMesg="taskType_3";//发送短信配置
+	public static String taskType_shenBaoDK="taskType_4";//申报端口配置
+	public static String taskType_monthReportPort="taskType_13";//月报端口配置
+	public static String taskType_shenpiFenBan="taskType_15";//审批分办人员配置
 
 	public static String attachment_type_jys="JYS"; 
 	public static String attachment_type_kxxyjbg="KXXYJBG"; 

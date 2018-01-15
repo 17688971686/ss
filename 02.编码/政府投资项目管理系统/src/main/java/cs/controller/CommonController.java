@@ -61,8 +61,8 @@ public class CommonController {
 		return basicDataService.getByIdentity(identity);
 	}
 
-	@RequiresPermissions("common#getUser#post")
-	@RequestMapping(name="查询基础数据",path="getUser",method=RequestMethod.GET)
+	@RequiresPermissions("common#getUser#get")
+	@RequestMapping(name="查询当前登陆用户的名称",path="getUser",method=RequestMethod.GET)
 	public @ResponseBody StringBuffer getUser(){
 		String user = currentUser.getLoginName();
 		

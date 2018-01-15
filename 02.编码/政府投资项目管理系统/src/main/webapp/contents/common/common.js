@@ -536,6 +536,7 @@
     		taskType_ZJSQBG:"taskType_12",//资金申请报告
     		taskType_monthReportPort:"taskType_13",//月报端口配置
     		taskType_JH:"taskType_14",//计划下达
+    		taskType_shenpiFenBan:"taskType_15",//审批分办人员配置
    		
     		auditState:"auditState",//审核状态
     		auditState_noAudit:"auditState_1",//审核状态-未审核

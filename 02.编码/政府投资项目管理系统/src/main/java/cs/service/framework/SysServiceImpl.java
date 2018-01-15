@@ -169,9 +169,19 @@ public class SysServiceImpl implements SysService{
 		con3.setCreatedDate(new Date());
 		con3.setEnable(false);
 		
+		SysConfig con4 = new SysConfig();
+		con4.setId(UUID.randomUUID().toString());
+		con4.setConfigName(BasicDataConfig.taskType_shenpiFenBan);
+		con4.setConfigValue("");
+		con4.setConfigType(BasicDataConfig.taskType);
+		con4.setCreatedBy("admin");
+		con4.setCreatedDate(new Date());
+		con4.setEnable(true);
+		
 		sysConfigRepo.save(con);
 		sysConfigRepo.save(con2);
 		sysConfigRepo.save(con3);
+		sysConfigRepo.save(con4);
 		
 		//初始化部门
 		Org org1 = new Org();
@@ -630,7 +640,7 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("processState","" , "processState", "处理状态", "处理状态",false);		
 		this.createBasicData("processState_1","processState" , "processState", "已填报/等待签收", "",false);
 		this.createBasicData("processState_2","processState" , "processState", "已签收", "",false);
-		this.createBasicData("processState_3","processState" , "processState", "秘书科分办", "",false);
+		this.createBasicData("processState_3","processState" , "processState", "投资科分办", "",false);
 		this.createBasicData("processState_4","processState" , "processState", "科长分办", "",false);
 		this.createBasicData("processState_5","processState" , "processState", "经办人初审", "",false);
 		this.createBasicData("processState_6","processState" , "processState", "科长复核", "",false);
@@ -668,6 +678,7 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("taskType_12","taskType" , "taskType", "资金申请报告", "",false);
 		this.createBasicData("taskType_13","taskType" , "taskType", "月报端口配置", "",false);
 		this.createBasicData("taskType_14","taskType" , "taskType", "计划下达", "",false);
+		this.createBasicData("taskType_15","taskType" , "taskType", "审批分办人员配置", "",false);
 
 		this.createBasicData("auditState","" , "auditState", "审核状态", "审核状态",false);
 		this.createBasicData("auditState_1","auditState" , "auditState", "未审核", "",false);

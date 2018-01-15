@@ -6,18 +6,51 @@
 	sysConfig.$inject = [ '$http' ];
 
 	function sysConfig($http) {
-
 		var url_back = "#/sysConfig";//获取所有的user
 		var url_taskUser = "/sys/create";//设置task签收人
 		var url_getSysConfigs = "/sys/getSysConfigs";
-		var url_role="/role";
+		var url_org="/org";
 		
 		var service = {
 			getSysConfigs : getSysConfigs,
-			editSysConfigs:editSysConfigs
+			editSysConfigs:editSysConfigs,
+			getUsersInTouzike:getUsersInTouzike
 		};
 
 		return service;
+		
+		
+		/**
+		 * 获取投资科人员信息
+		 */
+		function getUsersInTouzike(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_org+"?$filter=name eq '{0}'", "投资科")
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.model.userInTouzike = response.data.value[0].userDtos || {}.userDtos;//投资科人员
+						vm.getUserName=function(userId){
+				        	var user=$linq(vm.model.userInTouzike)
+				    			.where(function(x){return x.id==userId;}).firstOrDefault();
+				        	return user;
+				        };
+					}
+				});
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}//end fun getUsersInTouzike
 		
 		
 		/**
@@ -48,7 +81,7 @@
 				httpOptions : httpOptions,
 				success : httpSuccess
 			});
-		}
+		}//end fun getSysConfigs
 		
 		/**
 		 * 编辑配置信息
@@ -90,16 +123,6 @@
 				httpOptions : httpOptions,
 				success : httpSuccess
 			});
-		}
-		
-		
-		/**
-		 * 系统配置：查询所有task
-		 * @return taskList
-		 */
-		function getAllTask(vm){
-			vm.model.taskList = common.getBacicDataByIndectity(common.basicDataConfig().taskType);				
-		}
-		
+		}//end fun editSysConfigs
 	}
 })();

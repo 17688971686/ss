@@ -23,9 +23,7 @@
         }
         
 		function init(){
-			
-			//sysConfigSvc.getRoles(vm);
-			
+			sysConfigSvc.getUsersInTouzike(vm);
 			sysConfigSvc.getSysConfigs(vm);	
 			
 			//修改按钮
