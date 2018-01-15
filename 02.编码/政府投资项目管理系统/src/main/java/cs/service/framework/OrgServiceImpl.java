@@ -21,6 +21,7 @@ import cs.model.framework.RoleDto;
 import cs.model.framework.UserDto;
 import cs.repository.framework.OrgRepo;
 import cs.repository.framework.UserRepo;
+import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 
 @Service
@@ -208,7 +209,15 @@ public class OrgServiceImpl implements OrgService {
 				userIds.add(x.getId());
 			});
 
-			List<User> users = userRepo.getUsersNotIn(userIds, oDataObj);
+			//List<User> users = userRepo.getUsersNotIn(userIds, oDataObj);
+			userIds.forEach(x -> {
+				ODataFilterItem<String> filterItem = new ODataFilterItem();
+				filterItem.setField("id");
+				filterItem.setOperator("ne");
+				filterItem.setValue(x);
+				oDataObj.getFilter().add(filterItem);
+			});
+			List<User> users = userRepo.findByOdata(oDataObj);
 			users.forEach(x -> {
 				UserDto userDto = new UserDto();
 				userDto.setId(x.getId());
@@ -219,7 +228,7 @@ public class OrgServiceImpl implements OrgService {
 
 			});
 			pageModelDto.setValue(userDtos);
-			pageModelDto.setCount(userDtos.size());
+			pageModelDto.setCount(oDataObj.getCount());
 
 			logger.info(String.format("查找非部门用户,部门%s", org.getOrgIdentity()));
 		}
