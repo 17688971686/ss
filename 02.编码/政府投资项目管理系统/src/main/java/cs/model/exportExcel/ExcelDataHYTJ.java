@@ -17,7 +17,7 @@ public class ExcelDataHYTJ {
 	private double investSum;//总投资
 	private double investAccuSum;//拨付资金（完成投资）累计
 	private double apInvestSum;//下达计划（安排资金）累计
-	private double sqInvestSum;//申请资金累计
+	private double yapInvestSum;//年度预安排资金累计
 	private double yearAp_ggysSum;//年度预安排资金--公共预算
 	private double yearAp_gtjjSum;//年度预安排资金--国土基金
 	private double yearAp_qitaSum;//年度预安排资金--其他
@@ -114,10 +114,10 @@ public class ExcelDataHYTJ {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	public double getSqInvestSum() {
-		return sqInvestSum;
+	public double getYapInvestSum() {
+		return yapInvestSum;
 	}
-	public void setSqInvestSum(double sqInvestSum) {
-		this.sqInvestSum = sqInvestSum;
+	public void yapInvestSum(double yapInvestSum) {
+		this.yapInvestSum = yapInvestSum;
 	}
 }

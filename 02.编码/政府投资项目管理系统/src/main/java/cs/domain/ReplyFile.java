@@ -17,16 +17,16 @@ public class ReplyFile extends BaseEntity{
 	@Id
 	private String id;
 	
-	@Column(columnDefinition="varchar(500) NULL COMMENT '文号'")
+	@Column(columnDefinition="varchar(255) NULL COMMENT '文号'")
 	private String number;
 	
-	@Column(columnDefinition="varchar(500) NULL COMMENT '名称'")
+	@Column(columnDefinition="varchar(255) NULL COMMENT '名称'")
 	private String name;
 	
-	@Column(columnDefinition="varchar(500) NULL COMMENT '全名'")
+	@Column(columnDefinition="varchar(255) NULL COMMENT '全名'")
 	private String fullName;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '类型'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '类型'")
 	private String type;
 	
 	public String getId() {

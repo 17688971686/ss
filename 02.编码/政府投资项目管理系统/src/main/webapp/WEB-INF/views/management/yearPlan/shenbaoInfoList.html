@@ -12,8 +12,10 @@ overflow: scroll !important;
 <div class="well well-sm" style="background:white;">
 	  <ol class="breadcrumb">
 		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
-		  <li><a href="#/">首页</a></li>	    
-	      <li class="active">年度计划项目列表</li>
+		  <li><a href="#/">首页</a></li>
+		  <li>年度计划管理</li>
+		  <li>年度计划项目库</li>
+		  <li class="active"><a href="#/yearPlan_shenbaoInfoList">政府投资项目列表</a></li>  
 	  </ol>
 	  <div class="search">
 	  		<table class="table table-bordered" style="margin-bottom:0px;">
@@ -59,17 +61,9 @@ overflow: scroll !important;
 	  			<tr>
 	  				<td class="formAlignRight">项目行业：</td>
 	  				<td>
-	  					<select style="height:30px;" ng-change="vm.searchIndustryChange()" ng-model="vm.searchIndustryFather">
-	  						<option value="">---请选择行业分类---</option>
-	  						<option ng-repeat="x in vm.basicData.projectIndustryAll" value="{{x.id}}">{{x.description}}</option>
-	  					</select>
-	  					<select style="height:30px;" ng-model="vm.search.projectIndustry" ng-if="vm.searchIndustryIsZF">
+	  					<select style="height:30px;" ng-model="vm.search.projectIndustry">
 				  			<option value="">---请选择具体的行业---</option>
-				  			<option ng-repeat="x in vm.basicData.projectIndustry_ZF" value="{{x.id}}">{{x.description}}</option>
-				  		</select>
-				  		<select style="height:30px;" ng-model="vm.search.projectIndustry" ng-if="vm.searchIndustryIsSH">
-				  			<option value="">---请选择具体的行业---</option>
-				  			<option ng-repeat="x in vm.basicData.projectIndustry_SH" value="{{x.id}}">{{x.description}}</option>
+				  			<option ng-repeat="x in vm.basicData.projectIndustry_ZF | orderBy:'itemOrder'" value="{{x.id}}">{{x.description}}</option>
 				  		</select>
 	  				</td>
 	  				<td class="formAlignRight">签收人：</td>
@@ -78,7 +72,7 @@ overflow: scroll !important;
   						<input type="radio" style="height:12.73px;" name="receiver" value="other" ng-model="vm.search.receiver"/> 其他人
   						<input type="radio" style="height:12.73px;" name="receiver" value="all" ng-model="vm.search.receiver"/> 所有人
   					</td>
-  					<td class="formAlignRight">打包类型</td>
+  					<td class="formAlignRight">打包类型：</td>
   					<td>
   						<select style="height:30px;" ng-model="vm.search.packageType">
 				  			<option value="">---请选择---</option>
@@ -88,16 +82,14 @@ overflow: scroll !important;
 	  			</tr>
 	  			<tr>
 	  				<td colspan="6">
-	  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search()"><span class="glyphicon glyphicon-search"></span>查询</button>
+	  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search('ZF')"><span class="glyphicon glyphicon-search"></span>查询</button>
 	  				</td>
 	  			</tr>
 	  		</table>
 	  </div>
 	  
 	  <div class="toolbar">
-	  	<a class="btn btn-primary btn-sm" ng-click="vm.addShenBaoInfo()"><span class="glyphicon glyphicon-plus"></span>添加年度计划</a>
-	  	<!-- <button class="btn btn-primary btn-sm" ng-click="vm.grid.saveAsExcel()"><span class="glyphicon glyphicon-download-alt"></span> 导出Excel</button> -->
-	  </div> 
+	  	<a class="btn btn-primary btn-sm" ng-click="vm.addShenBaoInfo('ZF')"><span class="glyphicon glyphicon-plus"></span>添加申报信息</a>
 	  </div>
 	  <script type="text/template" id="columnBtns">
 	  	<a class="btn btn-sm btn-primary" href="#/yearPlan/shenbaoInfoEdit/{0}/{1}/{2}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
@@ -124,7 +116,7 @@ overflow: scroll !important;
 				<span class="modal-title">申报信息详情</span>
 			</div>
 			<div class="modal-body">
-				<div ng-include  src="'/contents/admin/management/task/html/yearPlan/master.html'"></div>  
+				<div ng-include  src="'/contents/admin/management/task/html/details/shenBaoInfoDetails.html'"></div>  
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-success btn-sm" data-dismiss="modal">确认</button>

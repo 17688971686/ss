@@ -1,0 +1,109 @@
+<form id="formDraft" name="form">
+	<div class="page-header" style="text-align: center;">
+	<h1>深圳市光明新区发展和财政局（文件稿纸）</h1>
+	</div>
+	<table class="table table-bordered table-striped ">
+		<tr>
+			<td class="formAlignRight" style="width:150px;">项目名称：</td>
+			<td colspan="3">
+			<span ng-bind="vm.model.shenBaoInfo.projectName"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">申报单位：</td>
+			<td>
+				<span ng-bind="vm.model.shenBaoInfo.constructionUnit"></span>
+			</td>
+			<td class="formAlignRight">拟稿单位拟稿人：</td>
+			<td>
+				<span ng-bind="vm.draft.userNameAndUnit"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">审定金额：<span class="required">(*)</span></td>
+			<td>
+				<input type="number" class="form-control input-sm" id="capitalSD" name="capitalSD" ng-model="vm.draft.capitalSD" data-val="true" data-val-required="必填"/>
+				<span data-valmsg-for="capitalSD" data-valmsg-replace="true" class="required"></span>
+			</td>
+			<td class="formAlignRight">总投资：</td>
+			<td>
+				<span ng-bind="vm.capitalTotal"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">拟稿时间：<span class="required">(*)</span></td>
+			<td >
+				<input type="text" id="draftDate" name="draftDate" onkeydown="return false;"
+				 ng-model="vm.draft.draftDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>	
+				 <span data-valmsg-for="draftDate" data-valmsg-replace="true" class="required"></span>	 						
+			</td>
+			<td class="formAlignRight">秘密等级：<span class="required">(*)</span></td>
+			<td >
+				<select class="form-control input-sm" style="width:200px;" id="hecretHierarchy" name="hecretHierarchy" ng-model="vm.draft.hecretHierarchy" data-val="true" data-val-required="必选">
+				  	<option value="">---请选择---</option>
+					<option ng-repeat="y in vm.basicData.hecretHierarchy" value="{{y.id}}">{{y.description}}</option>
+				</select>	
+				<span data-valmsg-for="hecretHierarchy" data-valmsg-replace="true" class="required"></span>							
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">文件缓急：<span class="required">(*)</span></td>
+			<td >
+				<select class="form-control input-sm" style="width:200px;" id="fileSet" name="fileSet" ng-model="vm.draft.fileSet" data-val="true" data-val-required="必选">
+				  	<option value="">---请选择---</option>
+					<option ng-repeat="y in vm.basicData.fileSet" value="{{y.id}}">{{y.description}}</option>
+				</select>	
+				<span data-valmsg-for="fileSet" data-valmsg-replace="true" class="required"></span>							
+			</td>
+			<td class="formAlignRight">文件种类：<span class="required">(*)</span></td>
+			<td >
+				<select class="form-control input-sm" style="width:200px;" id="documentType" name="documentType" ng-model="vm.draft.documentType" data-val="true" data-val-required="必选">
+				  	<option value="">---请选择---</option>
+					<option ng-repeat="y in vm.basicData.documentType" value="{{y.id}}">{{y.description}}</option>
+				</select>	
+				<span data-valmsg-for="documentType" data-valmsg-replace="true" class="required"></span>							
+			</td>
+		</tr>
+			<tr>
+			<td class="formAlignRight">发文种类：<span class="required">(*)</span></td>
+			<td>
+				<select class="form-control input-sm" style="width:200px;" id="postingCategory" name="postingCategory" ng-model="vm.draft.postingCategory" data-val="true" data-val-required="必选">
+				  	<option value="">---请选择---</option>
+					<option ng-repeat="y in vm.basicData.postingCategory" value="{{y.id}}">{{y.description}}</option>
+				</select>
+				<span data-valmsg-for="postingCategory" data-valmsg-replace="true" class="required"></span>								
+			</td>
+			<td class="formAlignRight">批复金额：<span class="required">(*)</span></td>
+			<td>
+				<div>
+					<input type="text" name="capitalPifU" id="capitalPifU"  ng-model="vm.draft.capitalPifU" data-val="true" data-val-required="必选"/>(万元)
+					<span data-valmsg-for="capitalPifU" data-valmsg-replace="true" class="required"></span>		
+				</div>
+			</td>
+		</tr>
+			
+		<tr>
+			<td class="formAlignRight">公开类型：<span class="required">(*)</span></td>
+			<td colspan="3">
+				<label ng-repeat="x in vm.basicData.openType">
+					 <input type="radio" name="openType" id="openType" ng-checked="x.id == vm.draft.openType" ng-click="vm.Selection(x.id)" value="{x.id}" data-val="true" data-val-required="必选"/>{{x.description}}&nbsp;&nbsp;
+				</label>
+				<span data-valmsg-for="openTYpe" data-valmsg-replace="true" class="required"></span>								
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">标题：<span class="required">(*)</span></td>
+			<td colspan="3">
+				<input type="text" class="form-control input-sm" id="title" name="title" ng-model="vm.draft.title" data-val="true" data-val-required="必填"/>
+				<span data-valmsg-for="title" data-valmsg-replace="true" class="required"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">主题词：<span class="required">(*)</span></td>
+			<td colspan="3">
+				<input type="text" class="form-control input-sm" id="keyWord" name="keyWord" ng-model="vm.draft.keyWord" data-val="true" data-val-required="必填"/>
+				<span data-valmsg-for="keyWord" data-valmsg-replace="true" class="required"></span>
+			</td>
+		</tr>
+	</table>
+</form>

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.domain.Project;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ProjectDto;
+import cs.model.Statistics.ProjectStageData;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ProjectService;
 
@@ -46,6 +47,12 @@ public class ProjectController {
 		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);
 //		PageModelDto<ProjectDto> ProjectDtos = ProjectService.Get(odataObj);
 		return ProjectDtos;
+	}
+	
+//	@RequiresPermissions("management/project#getProjects#get")
+	@RequestMapping(name = "获取项目信息--用于图表分析", path = "getProjects",method=RequestMethod.GET)
+	public @ResponseBody List<ProjectStageData> getStageProjects(){
+		return ProjectService.getStageProjects();
 	}
 	
 	@RequiresPermissions("management/project##delete")
@@ -102,8 +109,21 @@ public class ProjectController {
 	@RequiresPermissions("management/project#isMonthReport#put")
 	@RequestMapping(name = "更新项目是否填报状态", path = "isMonthReport",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void updateByIsMonthReport(@RequestBody ProjectDto ProjectDto){		
-		ProjectService.updateProjectByIsMonthReport(ProjectDto);	
+	public void updateByIsMonthReport(@RequestBody Map data){
+		String id = data.get("id").toString();
+		String isMonthReport = data.get("isMonthReport").toString();
+		Boolean isMR = false;
+		if(isMonthReport.equals("true")){
+			isMR = true;
+		}
+		String[] ids=id.split(",");
+		if(ids.length>1){
+			for(String obj:ids){
+				ProjectService.updateProjectByIsMonthReport(obj,isMR);	
+			}
+		}else{
+			ProjectService.updateProjectByIsMonthReport(id,isMR);	
+		}	
 	}
 
 	@RequiresPermissions("management/project##post")
@@ -130,6 +150,12 @@ public class ProjectController {
 	@RequestMapping(name = "详情页", path = "html/details",method=RequestMethod.GET)
 	public String details() {
 		return this.ctrlName + "/details";
+	}
+	
+	@RequiresPermissions("management/project#html/list_SH#get")
+	@RequestMapping(name = "社会投资项目列表页", path = "html/list_SH",method=RequestMethod.GET)
+	public String list_SH() {
+		return this.ctrlName + "/list_SH";
 	}
 	
 }

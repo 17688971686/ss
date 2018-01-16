@@ -1,0 +1,28 @@
+<div class="well well-lg">
+	<table class="table table-bordered table-striped">
+		<tr>
+			<td class="formAlignRight" style="width:150px;vertical-align: middle;">建设性质：<span class="required">(*)</span></td>
+			<td style="vertical-align: middle;" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectConstrChar)"></td>
+			<td style="width:50%;">
+				<table class="table table-bordered table-striped" style="margin-bottom: 0;text-align: center;">
+					<tr>
+						<td colspan="2">
+							<label>申请资金：</label>
+							<span ng-bind="vm.sqPlanReachTotal()"></span>
+							<label class="pull-right" style="color:silver">单位：万元</label>
+						</td>
+					</tr>
+					<tr>
+						<td>公共预算</td>
+						<td>国土基金</td>
+					</tr>
+					<tr>
+						<td ng-bind="vm.model.shenBaoInfo.sqPlanReach_ggys"></td>
+						<td ng-bind="vm.model.shenBaoInfo.sqPlanReach_gtzj"></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr></tr>
+	</table>
+</div>

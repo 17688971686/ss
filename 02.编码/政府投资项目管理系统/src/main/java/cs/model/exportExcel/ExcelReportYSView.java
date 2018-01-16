@@ -20,29 +20,38 @@ public class ExcelReportYSView extends AbstractXlsView {
 	
 	@Override
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        response.setHeader("Content-Disposition", "attachment;filename=\"yearPlan.xls\"");
+		String fileName = "光明新区"+year+"年区级政府投资项目计划.xls";
+        response.setHeader("Content-Disposition", "attachment;filename=" +new String(fileName.getBytes("gb2312"), "iso8859-1"));
         Sheet sheet = workbook.createSheet("表1");
         CellStyle cellStyleO = workbook.createCellStyle();
+        CellStyle cellStyleTitle = workbook.createCellStyle();
+        CellStyle cellStyleSubTitleLeft = workbook.createCellStyle();
+        CellStyle cellStyleSubTitleRight = workbook.createCellStyle();
 
         //创建行
         Row title=sheet.createRow(0);
         Row subTitle=sheet.createRow(1);
         Row row_head1 = sheet.createRow(2);
         Row row_head2 = sheet.createRow(3);
+        //设置字体
+        Font font = workbook.createFont();
+        font.setFontHeightInPoints((short) 14); // 字体高度
+        font.setFontName(" 黑体 "); // 字体
+        cellStyleTitle.setFont(font);
         
         title.setHeight((short)800);
         subTitle.setHeight((short)500);
 
         //begin#标题
         //创建列
-        createCellAlignCenter(workbook,title,0,"光明新区"+year+"年政府投资项目计划",cellStyleO);
+        createCellAlignCenter(workbook,title,0,"光明新区"+year+"年政府投资项目计划",cellStyleTitle);
         //合并
         sheet.addMergedRegion(new CellRangeAddress(0,0,0,11));
         //end#标题
 
         //begin#子标题
-        createCellAlignLeft(workbook,subTitle,0,"打印日期："+new SimpleDateFormat("yyyy年MM月dd日").format(new Date()),cellStyleO);
-        createCellAlignRight(workbook,subTitle,10,"资金：万   元\n面积：平方米",cellStyleO);
+        createCellAlignLeft(workbook,subTitle,0,"打印日期："+new SimpleDateFormat("yyyy年MM月dd日").format(new Date()),cellStyleSubTitleLeft);
+        createCellAlignRight(workbook,subTitle,10,"资金：万   元\n面积：平方米",cellStyleSubTitleRight);
         sheet.addMergedRegion(new CellRangeAddress(1,1,0,9));
         sheet.addMergedRegion(new CellRangeAddress(1,1,10,11));
         //end#子标题
@@ -144,6 +153,7 @@ public class ExcelReportYSView extends AbstractXlsView {
         cell.setCellValue(value);
 
 //        CellStyle cellStyle = workbook.createCellStyle();
+        cellStyle.cloneStyleFrom(cellStyle);
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
         cellStyle.setWrapText(true);
@@ -156,6 +166,7 @@ public class ExcelReportYSView extends AbstractXlsView {
 
         
 //        CellStyle cellStyle = workbook.createCellStyle();
+        cellStyle.cloneStyleFrom(cellStyle);
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
         cellStyle.setWrapText(true);

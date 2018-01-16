@@ -3,6 +3,7 @@ package cs.service.framework;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,19 +22,24 @@ import cs.common.Response;
 import cs.common.sysResource.ClassFinder;
 import cs.common.sysResource.SysResourceDto;
 import cs.domain.BasicData;
+import cs.domain.ReplyFile;
 import cs.domain.UserUnitInfo;
+import cs.domain.framework.Org;
 import cs.domain.framework.Resource;
 import cs.domain.framework.Role;
 import cs.domain.framework.Role_;
 import cs.domain.framework.SysConfig;
 import cs.domain.framework.SysConfig_;
 import cs.domain.framework.User;
+import cs.domain.framework.User_;
 import cs.model.DomainDto.SysConfigDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.common.BasicDataRepo;
+import cs.repository.framework.OrgRepoImpl;
 import cs.repository.framework.RoleRepoImpl;
 import cs.repository.framework.SysConfigRepoImpl;
 import cs.repository.framework.UserRepoImpl;
+import cs.repository.impl.UserUnitInfoRepoImpl;
 import cs.repository.interfaces.IRepository;
 
 @Service
@@ -45,11 +51,13 @@ public class SysServiceImpl implements SysService{
 	@Autowired
 	private UserRepoImpl userRepo;
 	@Autowired
+	private OrgRepoImpl orgRepo;
+	@Autowired
+	private IRepository<UserUnitInfo, String> userUnitInfoRepo;
+	@Autowired
 	private SysConfigRepoImpl sysConfigRepo;
 	@Autowired
 	private BasicDataRepo basicDataRepo;
-	@Autowired
-	private IRepository<UserUnitInfo, String> userUnitInfoRepo;
 	@Autowired
 	private IMapper<SysConfigDto,SysConfig> sysConfigMapper;
 	@Autowired
@@ -107,7 +115,12 @@ public class SysServiceImpl implements SysService{
 		Criterion criterion=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.role_admin);
 		Criterion criterion2=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.role_unit);
 		Criterion criterion3=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.role_manage);
-		Criterion criterionOr=Restrictions.or(criterion,criterion2,criterion3);
+		Criterion criterion4=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.msFenBanRole);
+		Criterion criterion5=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.msFaWenRole);
+		Criterion criterion6=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.JuZhang);
+		Criterion criterion7=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.KeZhang);
+		Criterion criterion8=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.KeYuan);
+		Criterion criterionOr=Restrictions.or(criterion,criterion2,criterion3,criterion4,criterion5,criterion6,criterion7,criterion8);
 		
 		List<Role> roles=roleRepo.findByCriteria(criterionOr);
 		
@@ -118,9 +131,86 @@ public class SysServiceImpl implements SysService{
 			});			
 			roleRepo.delete(x);
 		});
+		List<SysConfig> sysConfigs = sysConfigRepo.findAll();
+		sysConfigs.forEach(x->{
+			sysConfigRepo.delete(x);
+		});
+		
+		List<UserUnitInfo> userUnitInfos = userUnitInfoRepo.findAll();
+		userUnitInfos.forEach(x->{
+			userUnitInfoRepo.delete(x);
+		});
+		
 		
 		//end
+		//初始化配置
+		SysConfig con = new SysConfig();
+		con.setConfigName(BasicDataConfig.taskType_sendMesg);
+		con.setConfigType(BasicDataConfig.taskType);
+		con.setId(UUID.randomUUID().toString());
+		con.setCreatedBy("admin");
+		con.setCreatedDate(new Date());
+		con.setEnable(false);
 		
+		SysConfig con2 = new SysConfig();
+		con2.setConfigName(BasicDataConfig.taskType_shenBaoDK);
+		con2.setConfigType(BasicDataConfig.taskType);
+		con2.setId(UUID.randomUUID().toString());
+		con2.setCreatedBy("admin");
+		con2.setCreatedDate(new Date());
+		con2.setEnable(false);
+		
+		SysConfig con3 = new SysConfig();
+		con3.setId(UUID.randomUUID().toString());
+		con3.setConfigName(BasicDataConfig.taskType_monthReportPort);
+		con3.setConfigValue("25-5");
+		con3.setConfigType(BasicDataConfig.taskType);
+		con3.setCreatedBy("admin");
+		con3.setCreatedDate(new Date());
+		con3.setEnable(false);
+		
+		SysConfig con4 = new SysConfig();
+		con4.setId(UUID.randomUUID().toString());
+		con4.setConfigName(BasicDataConfig.taskType_shenpiFenBan);
+		con4.setConfigValue("");
+		con4.setConfigType(BasicDataConfig.taskType);
+		con4.setCreatedBy("admin");
+		con4.setCreatedDate(new Date());
+		con4.setEnable(true);
+		
+		sysConfigRepo.save(con);
+		sysConfigRepo.save(con2);
+		sysConfigRepo.save(con3);
+		sysConfigRepo.save(con4);
+		
+		//初始化部门
+		Org org1 = new Org();
+		org1.setComment("系统初始化创建,不可删除");
+		org1.setCreatedBy("admin");
+		org1.setCreatedDate(new Date());
+		org1.setId(UUID.randomUUID().toString());
+		org1.setName("秘书科");
+		org1.setOrgIdentity("秘书科");
+		
+		Org org2 = new Org();
+		org2.setComment("系统初始化创建,不可删除");
+		org2.setCreatedBy("admin");
+		org2.setCreatedDate(new Date());
+		org2.setId(UUID.randomUUID().toString());
+		org2.setName("局领导");
+		org2.setOrgIdentity("局领导");
+		
+		Org org3 = new Org();
+		org3.setComment("系统初始化创建,不可删除");
+		org3.setCreatedBy("admin");
+		org3.setCreatedDate(new Date());
+		org3.setId(UUID.randomUUID().toString());
+		org3.setName("评审中心");
+		org3.setOrgIdentity("评审中心");
+		
+		orgRepo.save(org3);
+		orgRepo.save(org2);
+		orgRepo.save(org1);
 		
 		// 初始化角色
 		Role role = new Role();
@@ -137,6 +227,36 @@ public class SysServiceImpl implements SysService{
 		role3.setRoleName(BasicDataConfig.role_manage);
 		role3.setId(UUID.randomUUID().toString());
 		role3.setComment("系统初始化创建,不可删除");
+		
+		Role role4 = new Role();
+		role4.setRoleName(BasicDataConfig.msFenBanRole);
+		role4.setId(UUID.randomUUID().toString());
+		role4.setComment("系统初始化创建,不可删除");
+		
+		Role role5 = new Role();
+		role5.setRoleName(BasicDataConfig.role_shenpiUnit);
+		role5.setId(UUID.randomUUID().toString());
+		role5.setComment("系统初始化创建,不可删除");
+		
+		Role role9 = new Role();
+		role9.setRoleName(BasicDataConfig.msFaWenRole);
+		role9.setId(UUID.randomUUID().toString());
+		role9.setComment("系统初始化创建,不可删除");
+		
+		Role role6 = new Role();
+		role6.setRoleName(BasicDataConfig.JuZhang);
+		role6.setId(UUID.randomUUID().toString());
+		role6.setComment("系统初始化创建,不可删除");
+		
+		Role role7 = new Role();
+		role7.setRoleName(BasicDataConfig.KeZhang);
+		role7.setId(UUID.randomUUID().toString());
+		role7.setComment("系统初始化创建,不可删除");
+		
+		Role role8 = new Role();
+		role8.setRoleName(BasicDataConfig.KeYuan);
+		role8.setId(UUID.randomUUID().toString());
+		role8.setComment("系统初始化创建,不可删除");
 
 		List<SysResourceDto> resourceDtos = this.getSysResources();
 		List<Resource> resources = new ArrayList<>();
@@ -156,6 +276,12 @@ public class SysServiceImpl implements SysService{
 		roleRepo.save(role);
 		roleRepo.save(role2);
 		roleRepo.save(role3);
+		roleRepo.save(role4);
+		roleRepo.save(role5);
+		roleRepo.save(role6);
+		roleRepo.save(role7);
+		roleRepo.save(role8);
+		roleRepo.save(role9);
 
 		// 初始化超级用户
 		User user = new User();
@@ -166,20 +292,28 @@ public class SysServiceImpl implements SysService{
 		user.setDisplayName("超级管理员");
 		user.getRoles().add(role);
 		userRepo.save(user);
-		//初始化建设单位用户
+
+		//初始化建设单位用户信息和单位信息
 		String[] userNames = {"党工委管委会","组织人事局","统战和社会建设局","城市管理局","光明供电局",
 								"文体教育局","光明交通运输局","住房和建设局","发展和财政局","卫生计生局",
 								"光明公安分局","环境保护和水务局","经济服务局","纪检监察局","市规划和国土资源委员会光明管理局",
 								"综合办","公明办事处","光明办事处","马田办事处","凤凰办事处",
-								"公共资源交易中心","城市发展促进中心","机关后勤服务中心","土地整备中心","建设管理服务中心",
+								"公共资源交易中心","城市发展促进中心","机关后勤服务中心","土地整备中心","建筑工务局",
 								"光明消防大队","光明现役消防支队光明新区大队","规划土地监察大队","深水光明","经发公司"};
 		
 		for(String userName : userNames){
+			Criterion criterionU=Restrictions.eq(User_.loginName.getName(), userName);
+			List<User> users = userRepo.findByCriteria(criterionU);
+			users.forEach(x->{
+				userRepo.delete(x);
+			});
+			
 			User unitUser = new User();
 			unitUser.setId(UUID.randomUUID().toString());
 			unitUser.setDisplayName(userName);
 			unitUser.setLoginName(userName);
 			unitUser.setPassword("888888");
+			unitUser.setComment("系统初始化创建");
 			unitUser.getRoles().add(role2);
 			userRepo.save(unitUser);
 			
@@ -208,6 +342,27 @@ public class SysServiceImpl implements SysService{
 		
 
 		//初始化基础数据
+		
+		this.createBasicData("documentType","" , "documentType", "文件种类", "");
+		this.createBasicData("documentType_1","documentType" , "documentType", "函", "");
+		this.createBasicData("documentType_2","documentType" , "documentType", "指示", "");
+		this.createBasicData("documentType_3","documentType" , "documentType", "通知", "");
+		this.createBasicData("documentType_4","documentType" , "documentType", "命令", "");
+		this.createBasicData("documentType_5","documentType" , "documentType", "决定", "");
+		this.createBasicData("documentType_6","documentType" , "documentType", "公告", "");
+		this.createBasicData("documentType_7","documentType" , "documentType", "通告", "");
+		this.createBasicData("documentType_8","documentType" , "documentType", "通报", "");
+		this.createBasicData("documentType_9","documentType" , "documentType", "议案", "");
+		this.createBasicData("documentType_10","documentType" , "documentType", "报告", "");
+		this.createBasicData("documentType_11","documentType" , "documentType", "请示", "");
+		this.createBasicData("documentType_12","documentType" , "documentType", "批复", "");
+		this.createBasicData("documentType_13","documentType" , "documentType", "意见", "");
+		
+		this.createBasicData("postingCategory","" , "postingCategory", "发文种类", "");
+		this.createBasicData("postingCategory_1","postingCategory" , "postingCategory", "上行文", "");
+		this.createBasicData("postingCategory_2","postingCategory" , "postingCategory", "平行文", "");
+		this.createBasicData("postingCategory_3","postingCategory" , "postingCategory", "下行文", "");
+		
 		this.createBasicData("approvalType","" , "approvalType", "批复类型分类", "");
 		this.createBasicData("approvalType_1","approvalType" , "approvalType", "深发改", "");
 		this.createBasicData("approvalType_2","approvalType" , "approvalType", "深发改函", "");
@@ -244,13 +399,13 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("deptType_1","deptType" , "deptType", "普通部门", "");
 		this.createBasicData("deptType_2","deptType" , "deptType", "涉及部门", "");
 		
-		this.createBasicData("draftSecretLevel","" , "draftSecretLevel", "拟稿秘密等级分类", "");
-		this.createBasicData("draftSecretLevel_1","draftSecretLevel" , "draftSecretLevel", "公开", "");
-		this.createBasicData("draftSecretLevel_2","draftSecretLevel" , "draftSecretLevel", "国内", "");
-		this.createBasicData("draftSecretLevel_3","draftSecretLevel" , "draftSecretLevel", "内部", "");
-		this.createBasicData("draftSecretLevel_4","draftSecretLevel" , "draftSecretLevel", "秘密", "");
-		this.createBasicData("draftSecretLevel_5","draftSecretLevel" , "draftSecretLevel", "机密", "");
-		this.createBasicData("draftSecretLevel_6","draftSecretLevel" , "draftSecretLevel", "绝密", "");
+		this.createBasicData("hecretHierarchy","" , "hecretHierarchy", "拟稿秘密等级分类", "");
+		this.createBasicData("hecretHierarchy_1","hecretHierarchy" , "hecretHierarchy", "公开", "");
+		this.createBasicData("hecretHierarchy_2","hecretHierarchy" , "hecretHierarchy", "国内", "");
+		this.createBasicData("hecretHierarchy_3","hecretHierarchy" , "hecretHierarchy", "内部", "");
+		this.createBasicData("hecretHierarchy_4","hecretHierarchy" , "hecretHierarchy", "秘密", "");
+		this.createBasicData("hecretHierarchy_5","hecretHierarchy" , "hecretHierarchy", "机密", "");
+		this.createBasicData("hecretHierarchy_6","hecretHierarchy" , "hecretHierarchy", "绝密", "");
 		
 		this.createBasicData("draftStatus","" , "draftStatus", "拟稿状态分类", "");
 		this.createBasicData("draftStatus_1","draftStatus" , "draftStatus", "经办人拟稿", "");
@@ -265,21 +420,6 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("fileSet_4","fileSet" , "fileSet", "特急", "");
 		this.createBasicData("fileSet_5","fileSet" , "fileSet", "特提", "");
 		
-		this.createBasicData("fileType","" , "fileType", "文件种类分类", "");
-		this.createBasicData("fileType_1","fileType" , "fileType", "函", "");
-		this.createBasicData("fileType_2","fileType" , "fileType", "指示", "");
-		this.createBasicData("fileType_3","fileType" , "fileType", "通知", "");
-		this.createBasicData("fileType_4","fileType" , "fileType", "命令", "");
-		this.createBasicData("fileType_5","fileType" , "fileType", "决定", "");
-		this.createBasicData("fileType_6","fileType" , "fileType", "公告", "");
-		this.createBasicData("fileType_7","fileType" , "fileType", "通告", "");
-		this.createBasicData("fileType_8","fileType" , "fileType", "通报", "");
-		this.createBasicData("fileType_9","fileType" , "fileType", "议案", "");
-		this.createBasicData("fileType_10","fileType" , "fileType", "报告", "");
-		this.createBasicData("fileType_11","fileType" , "fileType", "请示", "");
-		this.createBasicData("fileType_12","fileType" , "fileType", "批复", "");
-		this.createBasicData("fileType_13","fileType" , "fileType", "意见", "");
-		
 		this.createBasicData("foundAppliRepoGenerationStatus","","foundAppliRepoGenerationStatus", "资金申请报告生成状态分类", "");
 		this.createBasicData("foundAppliRepoGenerationStatus_1","foundAppliRepoGenerationStatus" , "foundAppliRepoGenerationStatus", "未生成", "");
 		this.createBasicData("foundAppliRepoGenerationStatus_2","foundAppliRepoGenerationStatus" , "foundAppliRepoGenerationStatus", "生成成功", "");
@@ -289,11 +429,6 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("openType_1","openType" , "openType", "主动公开", "");
 		this.createBasicData("openType_2","openType" , "openType", "依申请公开", "");
 		this.createBasicData("openType_3","openType" , "openType", "不公开", "");
-		
-		this.createBasicData("postingType","" , "postingType", "发文种类", "");
-		this.createBasicData("postingType_1","postingType" , "postingType", "上行文", "");
-		this.createBasicData("postingType_2","postingType" , "postingType", "平行文", "");
-		this.createBasicData("postingType_3","postingType" , "postingType", "下行文", "");
 		
 		this.createBasicData("problemType","" , "problemType", "问题类型分类", "");
 		this.createBasicData("problemType_1","problemType" , "problemType", "规划设计审批及调整问题", "");
@@ -323,23 +458,23 @@ public class SysServiceImpl implements SysService{
  		
 		this.createBasicData("projectIndustry","" , "projectIndustry", "项目行业分类","项目行业分类",false);
 			this.createBasicData("projectIndustry_1","projectIndustry" , "projectIndustry", "政府投资项目行业分类", "",0,false);
-				this.createBasicData("projectIndustry_1_1","projectIndustry_1" , "projectIndustry", "文体", "WT",0,false);
-				this.createBasicData("projectIndustry_1_2","projectIndustry_1" , "projectIndustry", "教育", "JY",0,false);
-				this.createBasicData("projectIndustry_1_3","projectIndustry_1" , "projectIndustry", "卫生", "WS",0,false);
-				this.createBasicData("projectIndustry_1_4","projectIndustry_1" , "projectIndustry", "环保水务", "HS",0,false);
-				this.createBasicData("projectIndustry_1_5","projectIndustry_1" , "projectIndustry", "道路交通", "DJ",0,false);
-				this.createBasicData("projectIndustry_1_6","projectIndustry_1" , "projectIndustry", "公园绿化", "GL",0,false);
-				this.createBasicData("projectIndustry_1_7","projectIndustry_1" , "projectIndustry", "电力燃气", "DR",0,false);
-				this.createBasicData("projectIndustry_1_8","projectIndustry_1" , "projectIndustry", "城市管理", "CG",0,false);
-				this.createBasicData("projectIndustry_1_9","projectIndustry_1" , "projectIndustry", "城市安全", "CA",0,false);
-				this.createBasicData("projectIndustry_1_10","projectIndustry_1" , "projectIndustry", "社会保障", "SB",0,false);
-				this.createBasicData("projectIndustry_1_11","projectIndustry_1" , "projectIndustry", "党政机关", "DZ",0,false);
-				this.createBasicData("projectIndustry_1_12","projectIndustry_1" , "projectIndustry", "征地拆迁", "ZC",0,false);
-				this.createBasicData("projectIndustry_1_13","projectIndustry_1" , "projectIndustry", "其他", "QT",0,false);
-				this.createBasicData("projectIndustry_1_14","projectIndustry_1" , "projectIndustry", "地质灾害治理", "DZ",0,false);
-				this.createBasicData("projectIndustry_1_15","projectIndustry_1" , "projectIndustry", "社区建设", "QJ",0,false);
-				this.createBasicData("projectIndustry_1_16","projectIndustry_1" , "projectIndustry", "社会建设", "HJ",0,false);
-				this.createBasicData("projectIndustry_1_17","projectIndustry_1" , "projectIndustry", "规划课题", "GK",0,false);
+				this.createBasicData("projectIndustry_1_1","projectIndustry_1" , "projectIndustry", "文体", "WT",0,false,5);
+				this.createBasicData("projectIndustry_1_2","projectIndustry_1" , "projectIndustry", "教育", "JY",0,false,3);
+				this.createBasicData("projectIndustry_1_3","projectIndustry_1" , "projectIndustry", "卫生", "WS",0,false,4);
+				this.createBasicData("projectIndustry_1_4","projectIndustry_1" , "projectIndustry", "环保水务", "HS",0,false,1);
+				this.createBasicData("projectIndustry_1_5","projectIndustry_1" , "projectIndustry", "道路交通", "DJ",0,false,2);
+				this.createBasicData("projectIndustry_1_6","projectIndustry_1" , "projectIndustry", "公园绿化", "GL",0,false,6);
+				this.createBasicData("projectIndustry_1_7","projectIndustry_1" , "projectIndustry", "电力燃气", "DR",0,false,8);
+				this.createBasicData("projectIndustry_1_8","projectIndustry_1" , "projectIndustry", "城市管理", "CG",0,false,11);
+				this.createBasicData("projectIndustry_1_9","projectIndustry_1" , "projectIndustry", "公共安全", "GA",0,false,16);
+				this.createBasicData("projectIndustry_1_10","projectIndustry_1" , "projectIndustry", "社会保障 ", "SB",0,false,9);
+				this.createBasicData("projectIndustry_1_11","projectIndustry_1" , "projectIndustry", "党政机关", "DZ",0,false,13);
+				this.createBasicData("projectIndustry_1_12","projectIndustry_1" , "projectIndustry", "征地拆迁", "ZC",0,false,14);
+				this.createBasicData("projectIndustry_1_13","projectIndustry_1" , "projectIndustry", "其他", "QT",0,false,17);
+				this.createBasicData("projectIndustry_1_14","projectIndustry_1" , "projectIndustry", "地质灾害治理", "DZ",0,false,10);
+				this.createBasicData("projectIndustry_1_15","projectIndustry_1" , "projectIndustry", "社区建设", "QJ",0,false,7);
+				this.createBasicData("projectIndustry_1_16","projectIndustry_1" , "projectIndustry", "社会建设", "HJ",0,false,12);
+				this.createBasicData("projectIndustry_1_17","projectIndustry_1" , "projectIndustry", "规划课题", "GK",0,false,15);
 			this.createBasicData("projectIndustry_2","projectIndustry" , "projectIndustry", "社会投资项目行业分类", "",false);
 				this.createBasicData("projectIndustry_2_1","projectIndustry_2" , "projectIndustry", "农、林、牧、渔业", "",0,false);
 					this.createBasicData("projectIndustry_2_1_1","projectIndustry_2_1" , "projectIndustry", "农业", "A01",0,false);
@@ -412,7 +547,7 @@ public class SysServiceImpl implements SysService{
 		
 		this.createBasicData("projectInvestmentType","" , "projectInvestmentType", "项目投资类型分类", "项目投资类型分类");
 		this.createBasicData("projectInvestmentType_1","projectInvestmentType" , "projectInvestmentType", "政府投资项目", "项目投资类型分类");
-//		this.createBasicData("projectInvestmentType_2","projectInvestmentType" , "projectInvestmentType", "社会投资项目", "项目投资类型分类");
+		this.createBasicData("projectInvestmentType_2","projectInvestmentType" , "projectInvestmentType", "社会投资项目", "项目投资类型分类");
 
 		this.createBasicData("projectProgress","" , "projectProgress", "项目进度分类", "项目进度分类");
 		this.createBasicData("projectProgress_1","projectProgress" , "projectProgress", "进展顺利", "项目进度分类");
@@ -421,18 +556,17 @@ public class SysServiceImpl implements SysService{
 		
 		this.createBasicData("projectShenBaoStage","" , "projectShenBaoStage", "项目申报阶段分类", "项目申报阶段分类");
 //		this.createBasicData("projectShenBaoStage_1","projectShenBaoStage" , "projectShenBaoStage", "前期计划(前期费)", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_2","projectShenBaoStage" , "projectShenBaoStage", "规划设计前期费", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_3","projectShenBaoStage" , "projectShenBaoStage", "新开工计划", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_4","projectShenBaoStage" , "projectShenBaoStage", "续建计划", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_5","projectShenBaoStage" , "projectShenBaoStage", "委托审计", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_6","projectShenBaoStage" , "projectShenBaoStage", "审计决算资金", "项目申报阶段分类");
-		this.createBasicData("projectShenBaoStage_7","projectShenBaoStage" , "projectShenBaoStage", "下一年度计划", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_8","projectShenBaoStage" , "projectShenBaoStage", "年度调整计划", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_9","projectShenBaoStage" , "projectShenBaoStage", "项目建议书", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_10","projectShenBaoStage" , "projectShenBaoStage", "可行性研究报告", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_11","projectShenBaoStage" , "projectShenBaoStage", "初步设计概算", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_12","projectShenBaoStage" , "projectShenBaoStage", "核准", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_13","projectShenBaoStage" , "projectShenBaoStage", "备案", "项目申报阶段分类");
+
+		this.createBasicData("projectShenBaoStage_1","projectShenBaoStage" , "projectShenBaoStage", "项目建议书", "项目申报阶段分类",1,false);
+		this.createBasicData("projectShenBaoStage_2","projectShenBaoStage" , "projectShenBaoStage", "可行性研究报告", "项目申报阶段分类",2,false);
+		this.createBasicData("projectShenBaoStage_3","projectShenBaoStage" , "projectShenBaoStage", "初步设计概算", "项目申报阶段分类",3,false);
+//		this.createBasicData("projectShenBaoStage_4","projectShenBaoStage" , "projectShenBaoStage", "规划设计前期费", "项目申报阶段分类",4,false);
+//		this.createBasicData("projectShenBaoStage_5","projectShenBaoStage" , "projectShenBaoStage", "新开工计划", "项目申报阶段分类",5,false);
+//		this.createBasicData("projectShenBaoStage_6","projectShenBaoStage" , "projectShenBaoStage", "续建计划", "项目申报阶段分类",6,false);
+		this.createBasicData("projectShenBaoStage_7","projectShenBaoStage" , "projectShenBaoStage", "下一年度计划", "项目申报阶段分类",7,false);
+		this.createBasicData("projectShenBaoStage_8","projectShenBaoStage" , "projectShenBaoStage", "竣工决算", "项目申报阶段分类",8,false);
+		this.createBasicData("projectShenBaoStage_9","projectShenBaoStage" , "projectShenBaoStage", "资金申请报告", "项目申报阶段分类",9,false);
+		this.createBasicData("projectShenBaoStage_10","projectShenBaoStage" , "projectShenBaoStage", "计划下达", "项目申报阶段分类",10,false);
 		
 		this.createBasicData("projectStatus","" , "projectStatus", "项目状态分类", "项目状态分类");
 		this.createBasicData("projectStatus_1","projectStatus" , "projectStatus", "未提交", "项目状态分类");
@@ -502,50 +636,90 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("projectStage_5","projectStage" , "projectStage", "竣工阶段", "",false);
 		this.createBasicData("projectStage_6","projectStage" , "projectStage", "固定资产登记阶段", "",false);
 		
+		//审批流程
 		this.createBasicData("processState","" , "processState", "处理状态", "处理状态",false);		
 		this.createBasicData("processState_1","processState" , "processState", "已填报/等待签收", "",false);
 		this.createBasicData("processState_2","processState" , "processState", "已签收", "",false);
-		this.createBasicData("processState_3","processState" , "processState", "部门承办", "",false);
-		this.createBasicData("processState_4","processState" , "processState", "经办人办理", "",false);
-		this.createBasicData("processState_5","processState" , "processState", "科长审核", "",false);
-		this.createBasicData("processState_6","processState" , "processState", "局长审核", "",false);
-		this.createBasicData("processState_7","processState" , "processState", "已办结", "",false);
-		this.createBasicData("processState_8","processState" , "processState", "协办", "",false);
-		this.createBasicData("processState_9","processState" , "processState", "结束协办", "",false);
-		this.createBasicData("processState_10","processState" , "processState", "退回重办", "",false);
-		this.createBasicData("processState_11","processState" , "processState", "已退文", "",false);
-
+		this.createBasicData("processState_3","processState" , "processState", "投资科分办", "",false);
+		this.createBasicData("processState_4","processState" , "processState", "科长分办", "",false);
+		this.createBasicData("processState_5","processState" , "processState", "经办人初审", "",false);
+		this.createBasicData("processState_6","processState" , "processState", "科长复核", "",false);
+		this.createBasicData("processState_7","processState" , "processState", "副局长审批", "",false);
+		this.createBasicData("processState_8","processState" , "processState", "局长审批", "",false);
+		this.createBasicData("processState_9","processState" , "processState", "经办人送审", "",false);
+		this.createBasicData("processState_10","processState" , "processState", "评审中心评审", "",false);
+		this.createBasicData("processState_11","processState" , "processState", "已办结", "",false);
+		this.createBasicData("processState_12","processState" , "processState", "协办", "",false);
+		this.createBasicData("processState_13","processState" , "processState", "结束协办", "",false);
+		this.createBasicData("processState_14","processState" , "processState", "退回重办", "",false);
+		this.createBasicData("processState_15","processState" , "processState", "已退文", "",false);
+		this.createBasicData("processState_16","processState" , "processState", "下一流程处理中", "",false);
+		this.createBasicData("processState_17","processState" , "processState", "经办人拟稿", "",false);
+		this.createBasicData("processState_18","processState" , "processState", "科长核稿", "",false);
+		this.createBasicData("processState_19","processState" , "processState", "秘书科核稿", "",false);
+		this.createBasicData("processState_20","processState" , "processState", "副局长复核", "",false);
+		this.createBasicData("processState_21","processState" , "processState", "局长复核", "",false);
+		this.createBasicData("processState_22","processState" , "processState", "秘书科发文登记", "",false);
+		this.createBasicData("processState_23","processState" , "processState", "结束审批", "",false);
+		this.createBasicData("processState_24","processState" , "processState", "退文办结", "",false);
+		
 		this.createBasicData("taskType","" , "taskType", "任务类型", "任务类型",false);		
 		this.createBasicData("taskType_1","taskType" , "taskType", "月报填报", "",false);
 		this.createBasicData("taskType_2","taskType" , "taskType", "下一年度计划", "",false);
 		this.createBasicData("taskType_3","taskType" , "taskType", "是否发送短信", "",false);
 		this.createBasicData("taskType_4","taskType" , "taskType", "是否打开申报端口", "",false);
-		
+		this.createBasicData("taskType_5","taskType" , "taskType", "项目建议书", "",false);
+		this.createBasicData("taskType_6","taskType" , "taskType", "可行性研究报告", "",false);
+		this.createBasicData("taskType_7","taskType" , "taskType", "初步设计与概算", "",false);
+		this.createBasicData("taskType_8","taskType" , "taskType", "规划设计前期费", "",false);
+		this.createBasicData("taskType_9","taskType" , "taskType", "新开工计划", "",false);
+		this.createBasicData("taskType_10","taskType" , "taskType", "续建计划", "",false);
+		this.createBasicData("taskType_11","taskType" , "taskType", "竣工决算", "",false);
+		this.createBasicData("taskType_12","taskType" , "taskType", "资金申请报告", "",false);
+		this.createBasicData("taskType_13","taskType" , "taskType", "月报端口配置", "",false);
+		this.createBasicData("taskType_14","taskType" , "taskType", "计划下达", "",false);
+		this.createBasicData("taskType_15","taskType" , "taskType", "审批分办人员配置", "",false);
+
 		this.createBasicData("auditState","" , "auditState", "审核状态", "审核状态",false);
 		this.createBasicData("auditState_1","auditState" , "auditState", "未审核", "",false);
 		this.createBasicData("auditState_2","auditState" , "auditState", "审核通过", "",false);
 		this.createBasicData("auditState_3","auditState" , "auditState", "审核不通过", "",false);
+
+		this.createBasicData("credentialsType","" , "credentialsType", "证件类型", "");
+		this.createBasicData("credentialsType_1","credentialsType" , "credentialsType", "身份证", "");
+		this.createBasicData("credentialsType_2","credentialsType" , "credentialsType", "护照", "");
+		this.createBasicData("credentialsType_3","credentialsType" , "credentialsType", "户口本", "");
+		this.createBasicData("credentialsType_4","credentialsType" , "credentialsType", "军人证", "");
+		this.createBasicData("credentialsType_5","credentialsType" , "credentialsType", "党员证", "");
+		this.createBasicData("credentialsType_6","credentialsType" , "credentialsType", "其他", "");
+		
+		this.createBasicData("serviceRating", "", "serviceRating", "服务质量评分", "");
+		this.createBasicData("serviceRating_1", "serviceRating", "serviceRating", "优秀(9-10)", "");
+		this.createBasicData("serviceRating_2", "serviceRating", "serviceRating", "良好(8-9)", "");
+		this.createBasicData("serviceRating_3", "serviceRating", "serviceRating", "合格(6-8)", "");
+		this.createBasicData("serviceRating_4", "serviceRating", "serviceRating", "不合格(<6)", "");
 		
 		this.createBasicData("packageType","" , "packageType", "打包类型", "打包类型");
-		this.createBasicData("packageType_1","" , "packageType", "单列项目", "打包类型");
-		this.createBasicData("packageType_2","" , "packageType", "结算款项目", "打包类型");
-		this.createBasicData("packageType_3","" , "packageType", "小额项目", "打包类型");
-		this.createBasicData("packageType_4","" , "packageType", "未立项预留项目", "打包类型");
+		this.createBasicData("packageType_1","packageType" , "packageType", "单列项目", "打包类型");
+		this.createBasicData("packageType_2","packageType" , "packageType", "结算款项目", "打包类型");
+		this.createBasicData("packageType_3","packageType" , "packageType", "小额项目", "打包类型");
+		this.createBasicData("packageType_4","packageType" , "packageType", "未立项预留项目", "打包类型");
+
 				
 		response.setMessage("基础数据初始化成功");
-		response.setSuccess(true);		
+		response.setSuccess(true);
 		logger.info("基础数据初始化成功!");	
 		return response;
 
 	}
 	/**
 	 * 
-	 * @Description：创建默认为可编辑的行业基础数据
+	 * @Description：创建默认为可排序行业基础数据
 	 * @author： cx
 	 * @Date： 2017年7月4日
 	 * @version: 0.1
 	 */
-	private BasicData createBasicData(String id,String pid,String identity,String description,String comment,Integer count,boolean canEdit){
+	private BasicData createBasicData(String id,String pid,String identity,String description,String comment,Integer count,boolean canEdit,Integer itemOrder){
 		BasicData basicData = new BasicData();
 		basicData.setId(id);
 		basicData.setpId(pid);
@@ -554,6 +728,27 @@ public class SysServiceImpl implements SysService{
 		basicData.setCanEdit(true);
 		basicData.setComment(comment);
 		basicData.setCount(count);
+		basicData.setCanEdit(canEdit);
+		basicData.setItemOrder(itemOrder);
+		basicDataRepo.save(basicData);
+		return basicData;
+	}
+	/**
+	 * 
+	 * @Description：创建默认为可编辑的行业基础数据
+	 * @author： cx
+	 * @Date： 2017年7月4日
+	 * @version: 0.1
+	 */
+	private BasicData createBasicData(String id,String pid,String identity,String description,String comment,Integer itemOrder,boolean canEdit){
+		BasicData basicData = new BasicData();
+		basicData.setId(id);
+		basicData.setpId(pid);
+		basicData.setIdentity(identity);
+		basicData.setDescription(description);
+		basicData.setCanEdit(true);
+		basicData.setComment(comment);
+		basicData.setItemOrder(itemOrder);
 		basicData.setCanEdit(canEdit);
 		basicDataRepo.save(basicData);
 		return basicData;
@@ -645,11 +840,13 @@ public class SysServiceImpl implements SysService{
 	@Transactional
 	public SysConfigDto getSysConfig(String configName) {
 		Criterion criterion = Restrictions.eq(SysConfig_.configName.getName(), configName);
-		SysConfig entity = sysConfigRepo.findByCriteria(criterion).stream().findFirst().get();
-		 if(entity !=null){
-			 return sysConfigMapper.toDto(entity);
-		 }else{
-			throw new IllegalArgumentException(String.format("没有查找到申报端口状态信息"));
+		List<SysConfig> sysConfigs = sysConfigRepo.findByCriteria(criterion);
+		SysConfig entity = new SysConfig();
+		if(sysConfigs !=null && sysConfigs.size()>0){
+			entity = sysConfigs.stream().findFirst().get();
+			return sysConfigMapper.toDto(entity);
+		}else{
+			throw new IllegalArgumentException(String.format("没有查找到端口状态信息,请联系管理员！"));
 		}
 	}
 }

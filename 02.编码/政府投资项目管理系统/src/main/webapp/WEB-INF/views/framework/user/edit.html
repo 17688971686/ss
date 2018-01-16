@@ -1,5 +1,4 @@
 <meta charset="UTF-8">
-
 <link href="/contents/libs/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
 <script src="/contents/libs/zTree/js/jquery.ztree.all.min.js"></script>
 
@@ -25,36 +24,36 @@
             <tr>
                 <td class="formAlignRight">登录名： <span class="required">*</span></td>
                 <td>
-                    <input  type="text" maxlength="200" class="form-control input-sm " ng-model="vm.model.loginName " id="loginName" name="loginName" data-val="true" data-val-required="必填">
+                    <input type="text" maxlength="200" class="form-control input-sm " ng-model="vm.model.loginName " id="loginName" name="loginName" data-val="true" data-val-required="必填"/>
                 </td>
                 <td><span data-valmsg-for="loginName" data-valmsg-replace="true" class="errors"></span>
-                    <span class="errors" ng-show="vm.isUserExist">角色已存在</span></td>
+                    <span class="errors" ng-show="vm.isUserExist">用户已存在</span></td>
             </tr>
              <tr>
                 <td class="formAlignRight">显示名： </td>
                 <td>
-                    <input  type="text" maxlength="200" class="form-control input-sm "  ng-model="vm.model.displayName" id="displayName" name="displayName" data-val="false" data-val-required="必填">
+                    <input  type="text" maxlength="200" class="form-control input-sm "  ng-model="vm.model.displayName" id="displayName" name="displayName" data-val="false" data-val-required="必填"/>
                 </td>
                 <td><span data-valmsg-for="displayName" data-valmsg-replace="true" class="errors"></span>
             </tr>
-            
-               <tr ng-hide="vm.isUpdate">
+             <tr ng-hide="vm.isUpdate">
                 <td class="formAlignRight">密码： <span class="required">*</span></td>
                 <td>
-                    <input type="password" maxlength="200" class="form-control input-sm " ng-model="vm.model.password " id="password" name="password" data-val="true" data-val-required="必填">
+                    <input type="password" maxlength="200" class="form-control input-sm " ng-model="vm.model.password" id="password" name="password" data-val="true" data-val-required="必填"
+                    	data-val-regex="必须为8位以上数字和字母的结合" data-val-regex-pattern="^(?=.*[a-zA-Z])(?=.*[0-9]).*.{8,}$"/>
                 </td>
                 <td>
                 <label>
-                	<input type="checkbox" ng-click="vm.initPassword()"  id="initPassword" /> 初始密码888888
+                	<input type="checkbox" ng-click="vm.initPassword()"  id="initPassword" /> 初始密码"Passw0rd"
                 </label>
-                
                 <span data-valmsg-for="password" data-valmsg-replace="true" class="errors"></span>
                 </td>
             </tr>
             <tr ng-hide="vm.isUpdate">
                 <td class="formAlignRight">确认密码： <span class="required">*</span></td>
                 <td>
-                    <input type="password" maxlength="200" class="form-control input-sm " ng-model="vm.model.passwordConfirm " id="passwordConfirm" name="passwordConfirm" data-val="true" data-val-required="必填" data-val-equalto="两次密码不一致" data-val-equalto-other="password">
+                    <input type="password" maxlength="200" class="form-control input-sm " ng-model="vm.model.passwordConfirm " id="passwordConfirm" name="passwordConfirm" data-val="true" data-val-required="必填" 
+                    	data-val-equalto="两次密码不一致" data-val-equalto-other="password"/>
                 </td>
                 <td><span data-valmsg-for="passwordConfirm" data-valmsg-replace="true" class="errors"></span></td>
             </tr>
@@ -66,14 +65,13 @@
                 </td>
                 <td><span data-valmsg-for="comment" data-valmsg-replace="true" class="errors"></span></td>
             </tr>
-            <tr>
+            
+            <tr >
                 <td class="formAlignRight" style=" vertical-align:top">所属角色： </td>
-                <td >
-                    <div >
-                
+                <td>
+                    <div>
                         <ul id="zTree" class="ztree"></ul>
                     </div>
-                   
                 </td>
                 <td></td>
             </tr>

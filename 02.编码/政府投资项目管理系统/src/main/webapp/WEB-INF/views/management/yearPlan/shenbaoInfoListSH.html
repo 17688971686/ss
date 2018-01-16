@@ -1,0 +1,162 @@
+<style>
+.modal{
+	overflow-y:auto
+	}
+.modal-open {
+    overflow: scroll !important;
+    }
+overflow: scroll !important;
+</style>
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+<div class="well well-sm" style="background:white;">
+	  <ol class="breadcrumb">
+		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		  <li><a href="#/">首页</a></li>
+		  <li>年度计划项目库</li>
+		  <li class="active"><a href="#/yearPlan_shenbaoInfoListSH">社会投资项目列表</a></li>  
+	  </ol>
+	  <div class="search">
+	  		<table class="table table-bordered" style="margin-bottom:0px;">
+	  			<tr>
+	  				<td colspan="6" class="bg-info">
+	  					<button class="btn btn-primary btn-sm pull-right" ng-click="vm.filterClear()"><span class="glyphicon glyphicon-refresh"></span>清空筛选条件</button>
+	  					<span style="padding:10px;"><strong>年度计划项目库查询</strong></span>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">项目名称：</td>
+	  				<td style="width:25%"><input type="text" style="width:360px;" placeholder="请输入项目名称（可少输不可输错）" ng-model="vm.search.projectName"/></td>
+	  				<td class="formAlignRight">项目类别：</td>
+	  				<td>
+	  					<select style="height:30px;" ng-model="vm.search.projectCategory">
+				  			<option value="">---请选择---</option>
+				  			<option ng-repeat="x in vm.basicData.projectCategory" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+	  				</td>
+	  				<td class="formAlignRight">计划年度：</td>
+	  				<td>
+	  					<input type="text" style="width:186px;" class="Wdate form-control input-sm content_change" onFocus="WdatePicker({dateFmt:'yyyy'})" onChange="" ng-model="vm.search.planYear"/>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">建设单位：</td>
+	  				<td><input type="text" style="width:360px;" placeholder="请输入单位名称（可少输不可输错）" ng-model="vm.search.constructionUnit"/></td>
+	  				<td class="formAlignRight">审核状态：</td>
+	  				<td>
+	  					<select style="height:30px;" ng-model="vm.search.auditState">
+				  			<option value="">---请选择---</option>
+				  			<option ng-repeat="x in vm.basicData.auditState" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+	  				</td>
+	  				<td class="formAlignRight">建设性质：</td>
+	  				<td>
+	  					<select style="height:30px;" ng-model="vm.search.projectConstrChar">
+				  			<option value="">---请选择---</option>
+				  			<option ng-repeat="x in vm.basicData.projectConstrChar" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td class="formAlignRight">项目行业：</td>
+	  				<td>
+				  		<select style="height:30px;" ng-model="vm.search.projectIndustryParent" ng-change="vm.projectIndustryChange()">
+				  			<option value="">---请选择具体的行业---</option>
+				  			<option ng-repeat="x in vm.basicData.projectIndustry_SH | orderBy:'itemOrder'" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+				  		<select style="height:30px;" ng-model="vm.search.projectIndustry" ng-if="vm.searchIndustryChild">
+				  			<option value="">---请选择具体的行业---</option>
+				  			<option ng-repeat="x in vm.basicData.projectIndustryChildren | orderBy:'itemOrder'" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+				  		
+	  				</td>
+	  				<td class="formAlignRight">签收人：</td>
+  					<td>
+  						<input type="radio" style="height:12.73px;" name="receiver" value="me" ng-model="vm.search.receiver"/> 本人
+  						<input type="radio" style="height:12.73px;" name="receiver" value="other" ng-model="vm.search.receiver"/> 其他人
+  						<input type="radio" style="height:12.73px;" name="receiver" value="all" ng-model="vm.search.receiver"/> 所有人
+  					</td>
+  					<td class="formAlignRight">打包类型：</td>
+  					<td>
+  						<select style="height:30px;" ng-model="vm.search.packageType">
+				  			<option value="">---请选择---</option>
+				  			<option ng-repeat="x in vm.basicData.packageType" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+  					</td>
+	  			</tr>
+	  			<tr>
+	  				<td colspan="6">
+	  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search('SH')"><span class="glyphicon glyphicon-search"></span>查询</button>
+	  				</td>
+	  			</tr>
+	  		</table>
+	  </div>
+	  
+	  <div class="toolbar">
+	  	<a class="btn btn-primary btn-sm" ng-click="vm.addShenBaoInfo('SH')"><span class="glyphicon glyphicon-plus"></span>添加申报信息</a>
+	  </div>
+	  
+	  <script type="text/template" id="columnBtns">
+	  	<a class="btn btn-sm btn-primary" href="#/yearPlan/shenbaoInfoEdit/{0}/{1}/{2}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+		<button class="btn btn-sm btn-danger" ng-click="vm.retreat('{0}')"><span class="glyphicon glyphicon-share-alt"></span>退回</button>
+	  </script>
+     <form id="form" name="form">   
+         <div class="grid" kendo-grid="vm.yearPlanListGrid" k-options="vm.yearPlanListGridOptionsSH"></div>
+    </form>
+</div>
+
+<script type="text/template" id="columnBtns">
+	<a class="btn btn-xs btn-danger"  href="#/yearPlan_record_edit/{0}/{1}/{2}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+</script>
+<!-- 申报详情模态框 -->
+<div id="shenbaoInfo" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog"
+		style="margin: 80px auto; width: 80%; max-width: 1000px;">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<span class="modal-title">申报信息详情</span>
+			</div>
+			<div class="modal-body">
+				<div ng-include  src="'/contents/admin/management/task/html/details/shenBaoInfoDetails.html'"></div>  
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success btn-sm" data-dismiss="modal">确认</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- 退文信息输入模态框 -->		
+<div id="shenbaoInfoTuiWen" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" style="margin: 80px auto; width: 80%; max-width: 710px;">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<span class="modal-title">退文原由</span>
+			</div>
+			<div class="modal-body">
+				<textarea rows="3" cols="3" class="form-control" maxlength="500" ng-model="vm.model.processSuggestion"
+				ng-change="vm.checkLength(vm.model.processSuggestion,500,'processSuggestionTips')"></textarea>
+				<div class="tipfont">您还可以输入<span id="processSuggestionTips"><font size="5">500</font></span>个字符!</div>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" ng-click="vm.retreatSubmit()" class="btn btn-success btn-sm">确认</button>
+				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->		

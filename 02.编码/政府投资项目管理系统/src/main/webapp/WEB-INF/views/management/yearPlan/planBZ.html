@@ -8,8 +8,6 @@
     pointer-events: none;
 }
 </style>
-<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
-<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
 <div class="well well-sm" style="background:white;">
 	 <ol class="breadcrumb">
 		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
@@ -33,30 +31,32 @@
 			</tr>
 			<tr>
 				<td class="formAlignRight">备注：</td>
-				<td colspan="3" ng-bind="vm.model.plan.remark"></td>				
+				<td ng-bind="vm.model.plan.remark"></td>
+				<td class="formAlignRight">总指标：<span class="required">(*)</span></td>
+				<td ng-bind="vm.model.plan.totalMoney+' (万元)'"></td>			
 			</tr>
 		</table>
 		 <div class="bg-info text-info" style="padding: 10px; "><strong>数据汇总</strong></div>
 		 <table class="table table-bordered table-striped ">
 			<tr>
 				<td class="formAlignRight" style="width:150px;">项目总数：</td>
-				<td style="width:80px;" ng-bind="vm.model.shenBaoInfoTotal"></td>
+				<td style="width:80px;" ng-bind="vm.model.yearPlanStatistics.total"></td>
 				<td class="formAlignRight" style="width:150px;">前期：</td>
-				<td style="width:80px;" ng-bind="vm.model.QianQiTotal"></td>
+				<td style="width:80px;" ng-bind="vm.model.yearPlanStatistics.qianQiTotal"></td>
 				<td class="formAlignRight" style="width:150px;">新开工：</td>
-				<td style="width:80px;" ng-bind="vm.model.NewStratTotal"></td>
+				<td style="width:80px;" ng-bind="vm.model.yearPlanStatistics.newStratTotal"></td>
 				<td class="formAlignRight" style="width:150px;">继建：</td>
-				<td style="width:80px;" ng-bind="vm.model.XuJianTotal"></td>
+				<td style="width:80px;" ng-bind="vm.model.yearPlanStatistics.xuJianTotal"></td>
 				<td class="formAlignRight" style="width:150px;">储备类：</td>
-				<td style="width:80px;" ng-bind="vm.model.ChuBeiTotal"></td>
+				<td style="width:80px;" ng-bind="vm.model.yearPlanStatistics.chuBeiTotal"></td>
 			</tr>
 			<tr>
 				<td class="formAlignRight">项目总投资(万元)：</td>
-				<td style="width:80px;" ng-bind="vm.model.projectInvestSumTotal | number:4"></td>
+				<td style="width:80px;" ng-bind="vm.model.yearPlanStatistics.investTotal"></td>
 				<td class="formAlignRight" colspan="2">申请资金金额(万元)：</td>
-				<td style="width:80px;" ng-bind="vm.model.applyYearInvestTotal | number:4"></td>
+				<td style="width:80px;" ng-bind="vm.model.yearPlanStatistics.applyTotal"></td>
 				<td class="formAlignRight"  colspan="2">安排资金金额(万元)：</td>
-				<td style="width:80px;" colspan="3" ng-bind="vm.model.yearInvestApprovalTotal | number:4"></td>					
+				<td style="width:80px;" colspan="3" ng-bind="vm.model.yearPlanStatistics.arrangeTotal"></td>					
 			</tr>
 			<tr>
 				<td class="formAlignRight" style="vertical-align: middle;">计划总规模(万元)：</td>
@@ -78,9 +78,9 @@
 								<td>专项基金</td>
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalSCZ_ggysTotal | number:4" ></td>
-								<td ng-bind="vm.model.capitalSCZ_gtzjTotal | number:4"></td>
-								<td ng-bind="vm.model.capitalSCZ_zxzjTotal | number:4"></td>
+								<td ng-bind="vm.model.yearPlanStatistics.capitalSCZ_ggysTotal" ></td>
+								<td ng-bind="vm.model.yearPlanStatistics.capitalSCZ_gtzjTotal"></td>
+								<td ng-bind="vm.model.yearPlanStatistics.capitalSCZ_zxzjTotal"></td>
 							</tr>
 						</table>
 					</td>
@@ -92,8 +92,8 @@
 								
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalQCZ_ggysTotal | number:4"></td>
-								<td ng-bind="vm.model.capitalQCZ_gtzjTotal | number:4"></td>
+								<td ng-bind="vm.model.yearPlanStatistics.capitalQCZ_ggysTotal"></td>
+								<td ng-bind="vm.model.yearPlanStatistics.capitalQCZ_gtzjTotal"></td>
 							</tr>
 						</table>
 					</td>
@@ -103,7 +103,7 @@
 								<td>-</td>
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalZYYSTotal | number:4"></td>
+								<td ng-bind="vm.model.yearPlanStatistics.capitalZYYSTotal"></td>
 							</tr>
 						</table>
 					</td>
@@ -115,7 +115,7 @@
 								
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalSHTZTotal | number:4"></td>
+								<td ng-bind="vm.model.yearPlanStatistics.capitalSHTZTotal"></td>
 							</tr>
 						</table>
 					</td>
@@ -127,7 +127,7 @@
 								
 							</tr>
 							<tr>
-								<td ng-bind="vm.model.capitalOtherTotal | number:4"></td>
+								<td ng-bind="vm.model.yearPlanStatistics.capitalOtherTotal"></td>
 							</tr>
 						</table>
 					</td>
@@ -140,12 +140,13 @@
 			</tr>
 		</table>
 		<div class="toolbar">
-	  		<button class="btn btn-xs btn-success" ng-click="vm.dialog_addPlan()"><span class="glyphicon glyphicon-plus"></span>添加项目计划</button> 
-	  		<button class="btn btn-xs btn-danger" ng-click="vm.removeYearPlanCapital()"><span class="glyphicon "></span>移除项目计划</button>
-	  		<button class="btn btn-primary btn-xs" ng-click="vm.planGrid.saveAsExcel()"><span class="glyphicon glyphicon-download-alt"></span> 导出Excel</button>
+	  		<button class="btn btn-sm btn-success" ng-click="vm.dialog_addPlan()"><span class="glyphicon glyphicon-plus"></span>添加项目计划</button> 
+	  		<button class="btn btn-sm btn-danger" ng-click="vm.removeYearPlanCapital()">移除项目计划</button>
+	  		<button class="btn btn-sm btn-primary" ng-click="vm.isMonthReports()">批量设置是否填报</button>
+	  		<button class="btn btn-sm btn-primary" ng-click="vm.planGrid.saveAsExcel()"><span class="glyphicon glyphicon-download-alt"></span> 导出Excel</button>
 	  		<!-- <a href="/common/exportExcelForYS?planId={{vm.id}}" class="btn btn-primary btn-xs">导出印刷版</a> -->
 	  		<div class="btn-group"> 
-				<button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">导出统计表<span class="caret"></span></button>
+				<button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">导出统计表<span class="caret"></span></button>
 				<ul class="dropdown-menu" role="menu"> 
 					<li> <a href="/common/exportExcelForLB?planId={{vm.id}}">按类别统计</a> </li>
 					<li class="divider"></li>
@@ -278,7 +279,7 @@
 			  			<tr>
 			  				<td class="formAlignRight">建设单位：</td>
 			  				<td><input type="text" style="width:100%" placeholder="单位名称（可少输不可输错）" ng-model="vm.search.constructionUnit"/></td>
-			  				<td class="formAlignRight">审批状态</td>
+			  				<td class="formAlignRight">审批状态：</td>
 			  				<td>
 			  					<select style="height:30px;" ng-model="vm.search.auditState">
 						  			<option value="">---请选择---</option>
@@ -320,4 +321,29 @@
 	<!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
+<!-- 设置是否填报模态框 -->
+<div class="modal fade" id="myModal_edit" tabindex="-1" role="dialog"> 
+	<div class="modal-dialog"> 
+		<div class="modal-content"> 
+			<div class="modal-header bg-primary"> 
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button> 
+				<h4 class="modal-title" id="myModalLabel">设置是否填报</h4> 
+			</div> 
+			<div class="modal-body">
+				<span style="display:none" ng-bind="vm.model.id"></span>
+				<label>是</label>
+				<input type="radio" name="isMonthReport" value="true" ng-checked="vm.isMonthReport==1" ng-model="vm.isMonthReport"/>
+				<label>否</label>
+				<input type="radio" name="isMonthReport" value="false" ng-checked="vm.isMonthReport==0" ng-model="vm.isMonthReport"/>
+			</div> 
+			<div class="modal-footer"> 
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> 						
+				<button type="button" class="btn btn-primary" ng-click="vm.updateIsMonthReport()" ng-disabled="vm.isSumbit">提交更改</button> 
+			</div> 
+		</div><!-- /.modal-content -->
+	</div>  
+</div><!-- /.modal -->
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
 

@@ -13,6 +13,7 @@
 			grid : grid,
 			getUserById : getUserById,
 			initZtreeClient : initZtreeClient,
+			initUser:initUser,
 			createUser : createUser,
 			deleteUser : deleteUser,
 			updateUser : updateUser
@@ -22,6 +23,7 @@
 
 		// begin#updateUser
 		function updateUser(vm) {
+			
 			common.initJqValidation();
 			var isValid = $('form').valid();
 			if (isValid) {
@@ -39,6 +41,7 @@
 					};
 				}).toArray();
 				vm.model.roles = nodes_role;
+			
 				var httpOptions = {
 					method : 'put',
 					url : url_user,
@@ -77,6 +80,49 @@
 			}
 
 		}
+		
+		/**
+		 * 初始化用户
+		 */
+		function initUser(vm,type,id,msg){
+			vm.isSubmit = true;
+			
+			var httpOptions = {
+				method : 'post',
+				url : url_user+"/initUser",
+				data : {"id":id,"type":type,"msg":msg}
+			};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function() {
+						vm.isSubmit = false;
+						if(type=='password'){
+							common.alert({
+								vm:vm,
+								msg:'初始化密码成功！密码为：Passw0rd'
+							});
+						}
+						if(type=='loginFailCount'){
+							common.alert({
+								vm:vm,
+								msg:'初始化登陆失败次数成功！'
+							});
+						}
+					}
+
+				});
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}//end fun initUser
 
 		// begin#deleteUser
 		function deleteUser(vm, id) {
@@ -126,6 +172,8 @@
 					};
 				}).toArray();
 				vm.model.roles = nodes_roles;
+				//对密码进行加密
+				vm.model.password=$.md5(vm.model.password);
 
 				var httpOptions = {
 					method : 'post',
@@ -304,7 +352,7 @@
 					{
 						field : "",
 						title : "操作",
-						width : 180,
+						width : 260,
 						template : function(item) {
 							return common.format($('#columnBtns').html(),
 									"vm.del('" + item.id + "')", item.id);

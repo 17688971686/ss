@@ -1,6 +1,7 @@
 package cs.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Projections;
+import org.hibernate.query.Query;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.DateType;
 import org.hibernate.type.DoubleType;
@@ -17,7 +19,6 @@ import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import cs.common.ICurrentUser;
 import cs.common.SQLConfig;
 import cs.domain.ShenBaoInfo;
@@ -28,10 +29,12 @@ import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.YearPlanCapitalDto;
 import cs.model.DomainDto.YearPlanDto;
 import cs.model.DtoMapper.IMapper;
+import cs.model.Statistics.sttisticsData;
 import cs.model.exportExcel.ExcelDataDWTJ;
 import cs.model.exportExcel.ExcelDataHYTJ;
 import cs.model.exportExcel.ExcelDataLBTJ;
 import cs.model.exportExcel.ExcelDataYS;
+import cs.model.exportExcel.YearPlanStatistics;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
@@ -56,8 +59,9 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 	private IMapper<ShenBaoInfoDto, ShenBaoInfo> shenbaoInfoMapper;
 	@Autowired
 	private ICurrentUser currentUser;
-	@Autowired
-	private BasicDataService basicDataService;
+	
+	Calendar c = Calendar.getInstance();//可以对每个时间域单独修改
+	int year =  c.get(Calendar.YEAR);
 	
 
 	@Override
@@ -158,7 +162,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 	public void addYearPlanCapital(String planId,String shenBaoId) {
 		Boolean hasShenBaoInfo = false;
 		//根据年度计划id查找到年度计划
-		YearPlan yearPlan=super.repository.findById(planId);
+		YearPlan yearPlan=super.findById(planId);
 		if(yearPlan !=null){
 			//判断年度计划编制中是否已有该项目申报
 			List<YearPlanCapital> capitals = yearPlan.getYearPlanCapitals();
@@ -183,6 +187,8 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 						entity.setCapitalQCZ_ggys(shenBaoInfo.getCapitalAP_ggys_TheYear());//区财政--公共预算
 						entity.setCapitalQCZ_gtzj(shenBaoInfo.getCapitalAP_gtzj_TheYear());//区财政--国土资金
 						entity.setCapitalSum(shenBaoInfo.getYearInvestApproval());//安排资金总计
+						shenBaoInfo.setIsIncludYearPlan(true);
+						shenbaoInfoRepo.save(shenBaoInfo);
 					}
 					//设置创建人和修改人
 					String loginName = currentUser.getUserId();
@@ -213,7 +219,12 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 			yearPlanCapitals.forEach(x->{
 				for (String capitalId : yearPlanCapitalId) {
 					if(x.getId().equals(capitalId)){
-						removeItems.add(x);						
+						removeItems.add(x);	
+						ShenBaoInfo entity = shenbaoInfoRepo.findById(x.getShenbaoInfoId());
+						if(entity !=null){
+							entity.setIsIncludYearPlan(false);
+							shenbaoInfoRepo.save(entity);
+						}
 					}
 				}
 			});
@@ -221,7 +232,40 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 					
 		}
 		super.repository.save(yearPlan);
-		
+		logger.info(String.format("移除年度计划资金,名称：%s",yearPlan.getName()));	
+	}
+	
+	
+
+	@Override
+	@Transactional
+	public List<YearPlanStatistics> getStatistics(String planId) {
+		YearPlan yearPlan=super.repository.findById(planId);
+		if(yearPlan!=null){
+			Query<YearPlanStatistics> query = super.repository.getSession().createSQLQuery(SQLConfig.yearPlanStatistics)
+					.setParameter("yearPlanId", planId.trim())
+					.addScalar("total",new IntegerType())
+					.addScalar("qianQiTotal",new IntegerType())
+					.addScalar("newStratTotal",new IntegerType())
+					.addScalar("xuJianTotal",new IntegerType())
+					.addScalar("chuBeiTotal",new IntegerType())
+					.addScalar("investTotal",new DoubleType())
+					.addScalar("applyTotal",new DoubleType())
+					.addScalar("arrangeTotal",new DoubleType())
+					.addScalar("capitalSCZ_ggysTotal",new DoubleType())
+					.addScalar("capitalSCZ_gtzjTotal",new DoubleType())
+					.addScalar("capitalSCZ_zxzjTotal",new DoubleType())
+					.addScalar("capitalQCZ_ggysTotal",new DoubleType())
+					.addScalar("capitalQCZ_gtzjTotal",new DoubleType())
+					.addScalar("capitalZYYSTotal",new DoubleType())
+					.addScalar("capitalSHTZTotal",new DoubleType())
+					.addScalar("capitalOtherTotal",new DoubleType())
+					.setResultTransformer(Transformers.aliasToBean(YearPlanStatistics.class));
+			List<YearPlanStatistics> list = query.list();
+			return list;
+		}else{
+			return null;
+		}
 	}
 
 	@Override
@@ -270,7 +314,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 					.addScalar("investSum",new DoubleType())  //总投资
 					.addScalar("investAccuSum",new DoubleType()) //累计拨付
 					.addScalar("apInvestSum",new DoubleType())  //累计下达
-					.addScalar("sqInvestSum",new DoubleType())  //申请年度投资
+					.addScalar("yapInvestSum",new DoubleType())  //安排年度投资
 					.addScalar("yearAp_ggysSum",new DoubleType())  //年度预安排资金--公共预算
 					.addScalar("yearAp_gtjjSum",new DoubleType())  //年度预安排资金--国土基金
 					.addScalar("yearAp_qitaSum",new DoubleType())  //年度预安排资金--其他
@@ -353,7 +397,40 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 		}
 	}
 	
-	
+	@SuppressWarnings("deprecation")
+	@Override
+	@Transactional
+	public List<sttisticsData> getyearPlanByHYData() {
+		List<sttisticsData> list = new ArrayList<>();
+		list = super.repository.getSession().createSQLQuery(SQLConfig.yearPlanByHY)
+				.setParameter("year", year)
+				.addScalar("projectIndustry",new StringType())
+				.addScalar("projectInvestSum", new DoubleType())
+				.addScalar("projectInvestAccuSum", new DoubleType())
+				.addScalar("apCapital",new DoubleType())
+				.setResultTransformer(Transformers.aliasToBean(sttisticsData.class))
+				.list();
+		return list;
+	}
+
+	@Override
+	@Transactional
+	public List<sttisticsData> getyearPlanInvestSourceData() {
+		List<sttisticsData> list = new ArrayList<>();
+		list = super.repository.getSession().createSQLQuery(SQLConfig.yearPlanInvestSourceData)
+				.setParameter("year", year)
+				.addScalar("capitalSCZ_ggys", new DoubleType())
+				.addScalar("capitalSCZ_gtzj", new DoubleType())
+				.addScalar("capitalSCZ_zxzj", new DoubleType())
+				.addScalar("capitalQCZ_ggys", new DoubleType())
+				.addScalar("capitalQCZ_gtzj", new DoubleType())
+				.addScalar("capitalZYYS", new DoubleType())
+				.addScalar("capitalSHTZ", new DoubleType())
+				.addScalar("capitalOther", new DoubleType())
+				.setResultTransformer(Transformers.aliasToBean(sttisticsData.class))
+				.list();
+		return list;
+	}
 	
 	
 }

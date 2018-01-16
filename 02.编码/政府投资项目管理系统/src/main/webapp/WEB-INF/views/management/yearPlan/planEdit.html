@@ -8,35 +8,47 @@
 	      <li><a href="#/yearPlan/planList">年度计划列表</a></li>	 
 	      <li class="active">编辑</li>
 	  </ol>
+	  
+	  <div class="toolbar">
+	  	<a class="btn btn-primary btn-sm"  href="#/yearPlan/planList"><span class="glyphicon glyphicon-chevron-left"></span>返回</a>
+		<button ng-hide="vm.isPlanEdit" class="btn btn-success btn-sm"  ng-click="vm.create()" ng-disabled="vm.isSubmit">确认提交</button>
+		<button ng-show="vm.isPlanEdit" class="btn btn-success btn-sm"  ng-click="vm.update()" ng-disabled="vm.isSubmit">确认更新</button>
+	  </div>
 	 
-     <form id="form" name="form">          
-        <div class="bg-info text-info" style="padding: 10px; "><strong>基本信息</strong></div>
-		<table class="table table-bordered table-striped ">
+	 <div class="row">
+      <div class="col-sm-6">
+   		 <form id="form" name="form">
+			<table class="table table-bordered table-striped ">
 				<tr>
-				<td class="formAlignRight" style="width:150px;">名称：<span class="required">(*)</span></td>
-				<td style="width:350px;">
-					<input type="text" class="form-control input-sm"  id="name" name="name" ng-model="vm.model.name" data-val="true" data-val-required="必填"/>
-					<span data-valmsg-for="name" data-valmsg-replace="true" class="required"></span>
+					<td class="formAlignRight" style="width:150px;">名称：<span class="required">(*)</span></td>
+					<td style="width:300px;">
+						<input type="text" class="form-control input-sm"  id="name" name="name" ng-model="vm.model.name" data-val="true" data-val-required="必填"/>
+						<span data-valmsg-for="name" data-valmsg-replace="true" class="required"></span>
+					</td>
+					<td class="formAlignRight" style="width:150px;">计划年度：<span class="required">(*)</span></td>
+					<td>
+					<input class="Wdate form-control input-sm" style="width:200px;" type="text" 
+						id="d15" onFocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy'})" onchange=""
+						ng-model="vm.model.year" data-val="true" data-val-required="必填" />
+						<span data-valmsg-for="year" data-valmsg-replace="true" class="required"></span>
+					</td>
+				</tr>
+				<tr>
+					<td class="formAlignRight">总指标：<span class="required">(*)</span></td>
+					<td colspan="3">
+						<input type="number" step="any" class="form-control input-sm width180"  id="totalMoney" name="totalMoney" ng-model="vm.model.totalMoney" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+						<span data-valmsg-for="totalMoney" data-valmsg-replace="true" class="required"></span>
+					</td>
+				</tr>
+				<tr>
+				<td class="formAlignRight">备注：</td>
+				<td colspan="3">
+					<textarea rows="3" cols="" maxlength="500" class="form-control" data-val="false" id="remark" name="remark" ng-model="vm.model.remark" ng-change="vm.checkLength(vm.model.remark,500,'remarkTips')"></textarea>
+					<div class="tipfont">您还可以输入<span id="remarkTips"><font size="5">500</font></span>个字符!</div>
 				</td>
-				<td class="formAlignRight" style="width:150px;">计划年度：<span class="required">(*)</span></td>
-				<td >
-				<input class="Wdate form-control input-sm" style="width:180px;" type="text" 
-		id="d15" onFocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy'})" onchange=""
-		 ng-model="vm.model.year" data-val="true" data-val-required="必填" />
-					<span data-valmsg-for="year" data-valmsg-replace="true" class="required"></span>
-				</td>
-			</tr>
-			<tr>
-			<td class="formAlignRight">备注：</td>
-			<td colspan="3">
-				<textarea rows="3" cols="" maxlength="500" class="form-control" data-val="false" id="remark" name="remark" ng-model="vm.model.remark" ng-change="vm.checkLength(vm.model.remark,500,'remarkTips')"></textarea>
-				<div class="tipfont">您还可以输入<span id="remarkTips"><font size="5">500</font></span>个字符!</div>
-			</td>
-			</tr>
-		</table>
-		<div style="text-align: center">
-			<button ng-hide="vm.isPlanEdit" class="btn btn-success btn-sm"  ng-click="vm.create()" ng-disabled="vm.isSubmit">确认提交</button>
-			<button ng-show="vm.isPlanEdit" class="btn btn-success btn-sm"  ng-click="vm.update()" ng-disabled="vm.isSubmit">确认更新</button>
-		</div>
-    </form>
+				</tr>
+			</table>
+		</form>
+     </div>
+    </div>
 </div>

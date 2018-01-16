@@ -1,0 +1,43 @@
+<style>
+.div_chart{
+	height:300px;
+	border:#b59898 solid 1px;
+	margin:0 50px 0 50px;
+}
+</style>
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+<div class="well well-sm" style="background:white;">
+	<ol class="breadcrumb">
+		<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		<li><a href="#/">首页</a></li>
+		<li>决策辅助系统</li>
+		<li class="active">统计分析</li>	 
+	</ol>
+	  
+	<div class="panel panel-info"> 
+		<div class="panel-heading"> 
+			<h3 class="panel-title">项目库项目统计分析</h3> 
+		</div> 
+		<div class="panel-body"> 
+			<div class="row">
+				<div class="col-md-5 div_chart" id="projectByHY"></div>
+				<div class="col-md-5 div_chart" id="projectInvestSource"></div>
+			</div>
+		</div> 
+	</div>
+	
+	<div class="panel panel-info"> 
+		<div class="panel-heading"> 
+			<h3 class="panel-title">已纳入年度计划项目统计分析</h3> 
+		</div> 
+		<div class="panel-body"> 
+			<div class="row">
+				<div class="col-md-5 div_chart" id="yearPlanByHY"></div>
+				<div class="col-md-5 div_chart" id="yearPlanInvestSource"></div>
+			</div> 
+		</div> 
+	</div>
+</div>
+
+	

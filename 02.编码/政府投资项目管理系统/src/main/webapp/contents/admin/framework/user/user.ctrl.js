@@ -42,6 +42,17 @@
             }   
        };
        
+       vm.initUser=function(type,id){
+    	   if(type=='password'){
+    		   var msg=$.md5('Passw0rd');
+    	   }
+    	   if(type=='loginFailCount'){
+    		   var msg=0;
+    	   }
+    	   userSvc.initUser(vm,type,id,msg);
+       };
+       
+       
         activate();
         function activate() {
             userSvc.grid(vm);

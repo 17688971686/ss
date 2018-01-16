@@ -1,0 +1,101 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+    	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+        <li><a href="#/">首页</a></li>       
+        <li><a href="#/creditInfo/blackList">信用信息管理</a></li>	        
+        <li class="active">{{vm.title}}</li>
+    </ol>
+    <script type="text/template" id="blackColumnBtns">
+		<a class="btn btn-xs btn-success" href="#/creditInfo/blackListDetails/{0}"><span class="glyphicon glyphicon-pencil"></span>查看</a>
+		<a class="btn btn-xs btn-primary" href="#/creditInfo/blackListEdit/{0}"><span class="glyphicon glyphicon-pencil"></span>修改</a>
+		<button class="btn btn-xs btn-danger" ng-click="vm.deleteBlackList('{0}')"><span class="glyphicon glyphicon-remove"></span>删除</button>
+  	</script>
+	<div class="search">
+		<table class="table table-bordered" style="margin-bottom:0px;">
+			<tr>
+  				<td colspan="6" class="bg-info">
+  					<span style="padding:10px;"><strong>信用黑名单项目申报单位查询</strong></span>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td class="formAlignRight">申报单位名称：</td>
+  				<td>
+  					<select style="height:30px;" ng-model="vm.blackListModel.unitName">
+				  			<option value="">---请选择---</option>
+				  			<option ng-repeat="x in vm.basicData.userUnit" value="{{x.id}}">{{x.unitName}}</option>
+			  		</select>
+  				</td>
+  				<td class="formAlignRight">申报日期：</td>
+  				<td>
+  					<input type="text" onkeydown="return false;" ng-model="vm.blackListModel.shenbaoDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" />
+  				</td>
+  			</tr>
+  			<tr>
+  				<td colspan="6">
+  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.searchBlackList()"><span class="glyphicon glyphicon-search"></span style="text-align:center">查询</button>
+  				</td>
+  			</tr>
+		</table>
+	</div>
+	<div>
+	   	<button class="btn btn-xs btn-success" ng-click="vm.addBlackList()"><span class="glyphicon glyphicon-plus"></span>录入</button> 
+	</div>
+	<div>
+	  	<div class="grid" kendo-grid="grid" k-options="vm.gridBlackListGrid"></div>
+	</div>
+</div>
+
+<!-- 选择申报项目模态框 -->	
+<div id="shenbaoList" class="myDialog modal fade" role="dialog">
+	<div class="modal-dialog" style="margin: 80px auto; width: 80%; max-width: 1000px;">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="vm.closeShenBaoWindow()">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<span class="modal-title">选择需要添加的项目</span>
+			</div>
+			<div class="modal-body">
+				<form id="form" name="form">
+			        <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+			    </form>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal" ng-click="vm.closeShenBaoWindow()">取消</button>
+				<button type="button" class="btn btn-success btn-sm" ng-disabled="vm.isConfirm" ng-click="vm.confirmBlackList()" >确认</button>						
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+     
+<!-- 申报详情模态框 -->
+<div id="shenbaoInfo" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog"
+		style="margin: 80px auto; width: 80%; max-width: 1000px;">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<span class="modal-title">申报信息详情</span>
+			</div>
+			<div class="modal-body">
+				<div ng-include  src="'/contents/admin/management/task/html/details/shenBaoInfoDetails.html'"></div>  
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success btn-sm" data-dismiss="modal">确认</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->     

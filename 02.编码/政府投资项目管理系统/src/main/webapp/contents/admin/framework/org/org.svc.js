@@ -60,12 +60,12 @@
 						field : "orgIdentity",
 						title : "部门标识",
 						width : 200,						
-						filterable : false
+						filterable : true
 					}, {
 						field : "name",
 						title : "部门名称",
 						width : 200,						
-						filterable : false
+						filterable : true
 					},{
 						field : "comment",
 						title : "描述",

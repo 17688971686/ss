@@ -12,11 +12,16 @@ import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.DoubleType;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
+import cs.common.SQLConfig;
 import cs.common.Util;
 import cs.domain.Attachment;
 import cs.domain.BasicData;
@@ -24,12 +29,16 @@ import cs.domain.MonthReport;
 import cs.domain.Project;
 import cs.domain.Project_;
 import cs.domain.ReplyFile;
+import cs.domain.ShenBaoInfo;
+import cs.domain.ShenBaoInfo_;
 import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.MonthReportDto;
 import cs.model.DomainDto.ProjectDto;
 import cs.model.DtoMapper.IMapper;
+import cs.model.Statistics.sttisticsData;
+import cs.model.Statistics.ProjectStageData;
 import cs.repository.impl.ProjectRepoImpl;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
@@ -55,13 +64,13 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	@Autowired
 	private IRepository<UserUnitInfo, String> userUnitInfoRepo;
 	@Autowired
+	private IRepository<ShenBaoInfo, String> shenBaoInfoRepo;
+	@Autowired
 	private ProjectRepoImpl projectRepoImpl;
 	@Autowired
 	private IMapper<AttachmentDto, Attachment> attachmentMapper;
 	@Autowired
 	private IMapper<MonthReportDto, MonthReport> monthReportMapper;
-	@Autowired
-	private IMapper<ProjectDto, Project> projectMapper;
 	@Autowired
 	private ICurrentUser currentUser;
 	
@@ -127,7 +136,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	@Override
 	@Transactional
 	public Project update(ProjectDto projectDto,String id) {		
-		Project project = super.update(projectDto,id);		
+		Project project = super.update(projectDto,id);//进行数据的转换		
 		//处理关联信息
 		//附件
 		project.getAttachments().forEach(x -> {//删除历史附件
@@ -158,13 +167,23 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		super.repository.save(project);
 		//更新文件库
 		handlePiFuFile(project);
-		logger.info(String.format("编辑项目,项目名称 %s",projectDto.getProjectName()));
+		logger.info(String.format("更新项目信息,项目名称 %s",projectDto.getProjectName()));
 		return project;		
 	}
 	
 	@Override
 	@Transactional
-	public void updateProjectByIsMonthReport(ProjectDto projectDto) {		
+	public void updateProjectByIsMonthReport(String id,Boolean isMonthReport){
+		Project project = super.findById(id);
+		if(project !=null){
+			project.setIsMonthReport(isMonthReport);
+			super.repository.save(project);
+			logger.info(String.format("修改项目是否月报,项目名称 %s",project.getProjectName()));
+		}else{
+			throw new IllegalArgumentException(String.format("没有查找到对应的项目"));
+		}
+	}
+	/*public void updateProjectByIsMonthReport(ProjectDto projectDto) {		
 		Project project = super.repository.findById(projectDto.getId());
 		if(project !=null){
 			project.setIsMonthReport(projectDto.getIsMonthReport());
@@ -177,60 +196,60 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		}else{
 			throw new IllegalArgumentException(String.format("没有查找到对应的项目"));
 		}
-	}
+	}*/
 	
 	@Override
 	@Transactional
 	public Project create(ProjectDto projectDto) {
-			if(projectDto !=null){
-				//首先验证项目名称是否重复
-				Criterion criterion=Restrictions.eq(Project_.projectName.getName(), projectDto.getProjectName());
-				List<Project> findProjects = super.repository.findByCriteria(criterion);
-				if(findProjects.isEmpty()){//如果为空集合
-					//判断是否存在项目代码--生成项目代码
-					if(Util.isNull(projectDto.getProjectNumber())){
-						//根据行业类型id查询出基础数据
-						BasicData basicData = basicDataRepo.findById(projectDto.getProjectIndustry());
-						if(basicData !=null){
-							String number = Util.getProjectNumber(projectDto.getProjectInvestmentType(), basicData);
-							projectDto.setProjectNumber(number);
-							//行业项目统计累加更新
-							basicData.setCount(basicData.getCount()+1);
-							basicData.setModifiedBy(currentUser.getUserId());
-							basicData.setModifiedDate(new Date());
-							basicDataRepo.save(basicData);
-						}else{
-							throw new IllegalArgumentException(String.format("项目代码生成故障，请确认项目行业选择是否正确！"));
-						}
+		if(projectDto !=null){
+			//首先验证项目名称是否重复
+			Criterion criterion=Restrictions.eq(Project_.projectName.getName(), projectDto.getProjectName());
+			List<Project> findProjects = super.repository.findByCriteria(criterion);
+			if(findProjects.isEmpty()){//如果为空集合
+				//判断是否存在项目代码--生成项目代码
+				if(Util.isNull(projectDto.getProjectNumber())){
+					//根据行业类型id查询出基础数据
+					BasicData basicData = basicDataRepo.findById(projectDto.getProjectIndustry());
+					if(basicData !=null){
+						String number = Util.getProjectNumber(projectDto.getProjectInvestmentType(), basicData);
+						projectDto.setProjectNumber(number);
+						//行业项目统计累加更新
+						basicData.setCount(basicData.getCount()+1);
+						basicData.setModifiedBy(currentUser.getUserId());
+						basicData.setModifiedDate(new Date());
+						basicDataRepo.save(basicData);
+					}else{
+						throw new IllegalArgumentException(String.format("项目代码生成故障，请确认项目行业选择是否正确！"));
 					}
-					Project project = super.create(projectDto);	//进行数据的转换
-					//处理关联信息
-					projectDto.getAttachmentDtos().forEach(x -> {//添加新附件
-						Attachment attachment = new Attachment();
-						attachmentMapper.buildEntity(x, attachment);
-						attachment.setCreatedBy(project.getCreatedBy());
-						attachment.setModifiedBy(project.getModifiedBy());
-						project.getAttachments().add(attachment);
-					});
-					//月报
-					projectDto.getMonthReportDtos().forEach(x -> {//添加新月报
-						MonthReport monthReport = new MonthReport();
-						monthReportMapper.buildEntity(x, monthReport);
-						monthReport.setCreatedBy(project.getCreatedBy());
-						monthReport.setModifiedBy(project.getModifiedBy());
-						project.getMonthReports().add(monthReport);
-					});			
-					//保存数据
-					super.repository.save(project);
-					//将批复文件保存replyFile
-					handlePiFuFile(project);
-					logger.info(String.format("创建项目,项目名称： %s",projectDto.getProjectName()));
-					return project;
-				}else{//如果有项目
-					throw new IllegalArgumentException(String.format("项目：%s 已存在,请重新确认！",projectDto.getProjectName()));
 				}
+				Project project = super.create(projectDto);	//进行数据的转换
+				//处理关联信息
+				projectDto.getAttachmentDtos().forEach(x -> {//添加新附件
+					Attachment attachment = new Attachment();
+					attachmentMapper.buildEntity(x, attachment);
+					attachment.setCreatedBy(project.getCreatedBy());
+					attachment.setModifiedBy(project.getModifiedBy());
+					project.getAttachments().add(attachment);
+				});
+				//月报
+				projectDto.getMonthReportDtos().forEach(x -> {//添加新月报
+					MonthReport monthReport = new MonthReport();
+					monthReportMapper.buildEntity(x, monthReport);
+					monthReport.setCreatedBy(project.getCreatedBy());
+					monthReport.setModifiedBy(project.getModifiedBy());
+					project.getMonthReports().add(monthReport);
+				});			
+				//保存数据
+				super.repository.save(project);
+				//将批复文件保存replyFile
+				handlePiFuFile(project);
+				logger.info(String.format("创建项目,项目名称： %s",projectDto.getProjectName()));
+				return project;
+			}else{//如果有项目
+				throw new IllegalArgumentException(String.format("项目：%s 已存在,请重新确认！",projectDto.getProjectName()));
 			}
-			return null;
+		}
+		return null;
 	}
 	
 	@Override
@@ -239,10 +258,11 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		//根据项目代码来获取项目信息
 		Criterion criterion=Restrictions.eq(Project_.projectNumber.getName(), number);
 		List<Project> findProjects = super.repository.findByCriteria(criterion);
+		
 		List<ProjectDto> projectDtos = new ArrayList<>();
 		if(findProjects.isEmpty()){
 			findProjects.stream().forEach(x->{
-				ProjectDto dto = projectMapper.toDto(x);			
+				ProjectDto dto = super.mapper.toDto(x);			
 				projectDtos.add(dto);
 			});
 		}
@@ -266,6 +286,76 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		}
 	}
 	
+	
+	
+	@Override
+	@Transactional
+	public void delete(String id) {
+		//根据项目id查询到项目判断是否已纳入项目库
+		Project entity = super.findById(id);
+		if(entity !=null){
+			if(entity.getIsIncludLibrary()){
+				throw new IllegalArgumentException(String.format("项目：%s --已纳入项目库，不可删除！",entity.getProjectName()));
+			}
+			//根据项目id查询到是否有申报记录
+			Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), id);
+			List<ShenBaoInfo> findShenBaoInfo = shenBaoInfoRepo.findByCriteria(criterion);
+			if(!findShenBaoInfo.isEmpty()){//有的话返回false，没有的话返回true
+				throw new IllegalArgumentException(String.format("项目：%s --已含有申报信息，不可删除！",entity.getProjectName()));
+			}
+			logger.info(String.format("删除项目,项目名称： %s",entity.getProjectName()));
+			super.repository.delete(entity);
+		}else{
+			throw new IllegalArgumentException(String.format("没有查找到对应的项目"));
+		}
+	}
+	
+	/***************以下方法用于项目统计***************/
+	@Override
+	@Transactional
+	public List<ProjectStageData> getStageProjects() {
+		List<ProjectStageData> datas = (List<ProjectStageData>)super.repository.getSession().createSQLQuery(
+				"SELECT COUNT(p.id)as count,p.projectStage FROM cs_project p WHERE p.projectInvestmentType = 'projectInvestmentType_1' GROUP BY p.projectStage")
+				.addScalar("count",new IntegerType())  //数量
+				.addScalar("projectStage",new StringType())  //阶段id
+				.setResultTransformer(Transformers.aliasToBean(ProjectStageData.class))
+				.list();
+		return datas;
+	}
+	
+	
+
+	@Override
+	@Transactional
+	public List<sttisticsData> getprojectByHYData() {
+		List<sttisticsData> list = new ArrayList<>();
+		list = super.repository.getSession().createSQLQuery(SQLConfig.projectByHY)
+				.addScalar("projectIndustry",new StringType())
+				.addScalar("projectInvestSum", new DoubleType())
+				.addScalar("projectInvestAccuSum", new DoubleType())
+				.setResultTransformer(Transformers.aliasToBean(sttisticsData.class))
+				.list();
+		return list;
+	}
+	
+	@Override
+	@Transactional
+	public List<sttisticsData> getprojectInvestSourceData() {
+		List<sttisticsData> list = new ArrayList<>();
+		list = super.repository.getSession().createSQLQuery(SQLConfig.projectInvestSourceData)
+				.addScalar("capitalSCZ_ggys", new DoubleType())
+				.addScalar("capitalSCZ_gtzj", new DoubleType())
+				.addScalar("capitalSCZ_zxzj", new DoubleType())
+				.addScalar("capitalQCZ_ggys", new DoubleType())
+				.addScalar("capitalQCZ_gtzj", new DoubleType())
+				.addScalar("capitalZYYS", new DoubleType())
+				.addScalar("capitalSHTZ", new DoubleType())
+				.addScalar("capitalOther", new DoubleType())
+				.setResultTransformer(Transformers.aliasToBean(sttisticsData.class))
+				.list();
+		return list;
+	}
+
 	/**
 	 * 批复文件库处理
 	 */
@@ -289,6 +379,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 					pifuMap.put(project.getPifuKXXYJBG_wenhao(), x);
 				}
 				if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)){//如果是初步概算与设计批复文件
+
 					pifuMap.put(project.getPifuCBSJYGS_wenhao(), x);
 				}
 			}
@@ -304,12 +395,14 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 				replyfile.setNumber(key);
 				replyfile.setName(obj.getName());
 				replyfile.setFullName(obj.getUrl());
+				replyfile.setType(obj.getType());
 				replyfile.setItemOrder(obj.getItemOrder());
 				replyfile.setCreatedBy(obj.getCreatedBy());
 				replyfile.setModifiedBy(obj.getModifiedBy());
-				replyfile.setType(obj.getType());
+				
 				replyFileRepo.save(replyfile);//更新文件库
 			}
 		});
-	} 
+	}
+
 }

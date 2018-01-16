@@ -1,11 +1,12 @@
 package cs.controller.framework;
 
-import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import cs.common.ICurrentUser;
 import cs.common.Util;
 import cs.domain.framework.User;
@@ -15,7 +16,6 @@ import cs.service.framework.UserService;
 @RequestMapping(name = "管理界面", path = "admin")
 public class AdminController {
 	private String ctrlName = "framework/admin";
-	private static Logger logger = Logger.getLogger(AdminController.class.getName());
 	@Autowired
 	private ICurrentUser currentUser;
 	@Autowired
@@ -23,7 +23,7 @@ public class AdminController {
 	
 
 	@RequiresPermissions("admin#index#get")
-	@RequestMapping(name = "首页", path = "index")
+	@RequestMapping(name = "首页", path = "index",method = RequestMethod.GET)
 	public String index(Model model) {
 
 		model.addAttribute("user", currentUser.getLoginName());
@@ -32,7 +32,7 @@ public class AdminController {
 	}
 
 	@RequiresPermissions("admin#welcome#get")
-	@RequestMapping(name = "欢迎页", path = "welcome")
+	@RequestMapping(name = "欢迎页", path = "welcome",method = RequestMethod.GET)
 	public String welcome(Model model) {
 		User user=userService.findUserByName( currentUser.getLoginName());
 		if(user!=null){

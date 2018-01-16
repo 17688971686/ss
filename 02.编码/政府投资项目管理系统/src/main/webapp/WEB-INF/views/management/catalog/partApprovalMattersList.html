@@ -1,0 +1,27 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+    	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+	  	<li><a href="#/">首页</a></li>
+      	<li><a href="#/catalog/partApprovalMattersList">部门审批事项目录管理</a></li>
+        <li class="active">{{vm.title}}</li>
+    </ol>
+    
+    <div class="toolbar">
+		<a class="btn btn-sm btn-primary" href="#/catalog/partApprovalMattersEdit"><span class="glyphicon glyphicon-plus"></span>新增事项</a> 
+		<button class="btn btn-sm btn-danger" ng-click="vm.deletePartApprovalMattersCatalogs()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-remove"></span>批量删除</button>
+    </div>
+    <script type="text/template" id="columnBtns">
+		<button class="btn btn-xs btn-danger" ng-click="vm.deletePartApprovalMattersCatalog('{0}')"><span class="glyphicon glyphicon-remove"></span>删除</button>
+		<a class="btn btn-xs btn-primary" href="#/catalog/partApprovalMattersEdit/{0}"><span class="glyphicon glyphicon-pencil"></span>修改</a>
+		<a class="btn btn-xs btn-success" href="#/catalog/partApprovalMattersEdit/{0}/"><span class="glyphicon glyphicon-search"></span>查看</a>
+	</script>
+	<form id="form" name="form">
+    	<div class="grid" kendo-grid="grid" k-options="vm.partApprovalMattersGrid"></div>
+    </form>    
+</div>
+
+
+

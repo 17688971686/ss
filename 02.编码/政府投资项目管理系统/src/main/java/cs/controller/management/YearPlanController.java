@@ -1,6 +1,7 @@
 package cs.controller.management;
 
 import java.text.ParseException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.YearPlanDto;
+import cs.model.exportExcel.YearPlanStatistics;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.YearPlanService;
 
@@ -65,6 +67,12 @@ public class YearPlanController {
 		yearPlanService.removeYearPlanCapital(planId, ids);
 	}
 	
+	@RequiresPermissions("management/yearPlan#getStatistics#get")
+	@RequestMapping(name="获取年度计划统计信息",path="getStatistics",method=RequestMethod.GET)
+	public @ResponseBody List<YearPlanStatistics> getStatistics(@RequestParam String planId){		
+		return yearPlanService.getStatistics(planId);
+	}
+	
 	@RequiresPermissions("management/yearPlan##post")
 	@RequestMapping(name="添加年度计划",path="",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -95,9 +103,15 @@ public class YearPlanController {
 	
 	//begin#html
 	@RequiresPermissions("management/yearPlan#html/shenbaoInfoList#get")
-	@RequestMapping(name="年度计划项目申报列表页",path="html/shenbaoInfoList",method=RequestMethod.GET)
-	public String planList(){
+	@RequestMapping(name="年度计划项目库--政投列表页",path="html/shenbaoInfoList",method=RequestMethod.GET)
+	public String yearplanListZF(){
 		return ctrl+"/shenbaoInfoList";
+	}
+	
+	@RequiresPermissions("management/yearPlan#html/shenbaoInfoListSH#get")
+	@RequestMapping(name="年度计划项目库--社投列表页",path="html/shenbaoInfoListSH",method=RequestMethod.GET)
+	public String yearplanListSH(){
+		return ctrl+"/shenbaoInfoListSH";
 	}
 	
 	@RequiresPermissions("management/yearPlan#html/shenbaoInfoEdit#get")
@@ -107,7 +121,7 @@ public class YearPlanController {
 	}
 	
 	@RequiresPermissions("management/yearPlan#html/planList#get")
-	@RequestMapping(name="年度计划列表页",path="html/planList",method=RequestMethod.GET)
+	@RequestMapping(name="年度计划--政投列表页",path="html/planList",method=RequestMethod.GET)
 	public String planBZList(){
 		return ctrl+"/planList";
 	}
@@ -122,10 +136,5 @@ public class YearPlanController {
 	@RequestMapping(name="年度计划编制页",path="html/planBZ",method=RequestMethod.GET)
 	public String planBZ(){
 		return ctrl+"/planBZ";
-	}
-	@RequiresPermissions("management/yearPlan#html/edit#get")
-	@RequestMapping(name="申报信息修改页",path="html/edit",method=RequestMethod.GET)
-	public String edit(){
-		return ctrl+"/edit";
 	}
 }

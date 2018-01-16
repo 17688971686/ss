@@ -98,7 +98,8 @@ desired effect
 							class="dropdown-toggle" data-toggle="dropdown"> <!-- The user image in the navbar-->
 								<img src="/contents/images/user_icon.png" class="user-image"
 								alt="User Image"> <!-- hidden-xs hides the username on small devices so only the image appears. -->
-								<span class="hidden-xs" >${user}</span>
+								<span class="hidden-xs">${user}</span>
+
 								<script>
 									window.profile_userId='${userId}';
 									window.profile_userName='${user}';
@@ -151,19 +152,53 @@ desired effect
 							alt="User Image"> <span>我的工作台</span> <span
 							class="pull-right-container"> <i
 								class="fa fa-angle-left pull-right"></i>
-						</span>
-					</a>
+						</span></a>
 						<ul class="treeview-menu">
-							
-							
-							
-					<li><a href="#/task/todo">个人待办
-						 <span id="todoNumber" class="label label-danger" style="font-size:9px;padding:0px 5px;"></span>
-						</a></li>
-					<li><a href="javascript:void(0)" ui-sref="task_complete">个人已办 </a> </li>
-										
+							<li class="active treeview"><a href="#/task/todo">个人待办</a>
+								<ul class="treeview-menu">
+									<li>
+										<@shiro.hasPermission name="management/task#html/todo#get">
+										<a href="javascript:void(0)" ui-sref="task_todo">个人待办(下一 年度计划)
+											<span id="todoNumber" class="label label-danger" style="font-size:9px;padding:0px 5px;"></span>
+										</a>
+										</@shiro.hasPermission>
+									</li>
+									<li>
+										<@shiro.hasPermission name="management/task#html/todo_audit#get">
+										<a href="javascript:void(0)" ui-sref="task_todo_audit">个人待办(审批类)
+											<span id="todoNumber_audit" class="label label-danger" style="font-size:9px;padding:0px 5px;"></span>
+										</a>
+										</@shiro.hasPermission>
+									</li>
+									<li>
+										<@shiro.hasPermission name="management/task#html/todo_plan#get">
+										<a href="javascript:void(0)" ui-sref="task_todo_plan">个人待办(计划类)
+											<span id="todoNumber_plan" class="label label-danger" style="font-size:9px;padding:0px 5px;"></span>
+										</a>
+										</@shiro.hasPermission>
+									</li>
+								</ul>
+							</li>
+							<li><a href="javascript:void(0)">个人已办</a>
+								<ul class="treeview-menu">
+									<li>
+										<@shiro.hasPermission name="management/task#html/complete#get">
+										<a href="javascript:void(0)" ui-sref="task_complete">个人已办 (下一年度计划)</a>
+										</@shiro.hasPermission>
+									</li>
+									<li>
+										<@shiro.hasPermission name="management/task#html/complete_shenPi#get">
+										<a href="javascript:void(0)" ui-sref="task_shenPi">个人已办 (审批类)</a> 
+										</@shiro.hasPermission>
+									</li>
+									<li>
+										<@shiro.hasPermission name="management/task#html/complete_plan#get">
+										<a href="javascript:void(0)" ui-sref="task_plan">个人已办 (计划类)</a>
+										</@shiro.hasPermission>
+									</li>
+								</ul>
+							</li>
 						</ul>
-						
 					</li>
 					
 						<li class="treeview"><a href="javascript:void(0)"> <i
@@ -173,9 +208,43 @@ desired effect
 						</span>
 					</a>
 						<ul class="treeview-menu">
-							<li><a href="#/yearPlan/shenbaoInfoList" >年度计划项目库</a></li>
-							<li><a href="#/yearPlan/planList" >年度计划编制</a></li>
+							<li><a href="javascript:void(0)">年度计划项目库</a>
+								<ul class="treeview-menu">
+									<li>
+										<@shiro.hasPermission name="management/yearPlan#html/shenbaoInfoList#get">
+										<a href="javascript:void(0)" ui-sref="yearPlan_shenbaoInfoList"><span class="glyphicon glyphicon-th-list"></span>政府投资项目</a>
+										</@shiro.hasPermission>
+									</li>
+									<li>
+										<@shiro.hasPermission name="management/yearPlan#html/shenbaoInfoListSH#get">
+										<a href="javascript:void(0)" ui-sref="yearPlan_shenbaoInfoListSH"><span class="glyphicon glyphicon-th-list"></span>社会投资项目</a>
+										</@shiro.hasPermission>
+									</li>
+								</ul>
+							</li>
+							<li><a href="javascript:void(0)">年度计划编制</a>
+								<ul class="treeview-menu">
+									<li><a href="javascript:void(0)" ui-sref="yearPlan_planList"><span class="glyphicon glyphicon-th-list"></span>政府投资项目计划</a></li>
+								</ul>
+							</li>
 						</ul></li>
+					<li class="treeview">
+						<@shiro.hasPermission name="management/planReachManage/planReach#html/list#get">
+						<a href="javascript::"> <i
+							class="fa fa-link"></i> <span>计划下达管理</span> <span
+							class="pull-right-container"> <i
+							class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						</@shiro.hasPermission>
+						<ul class="treeview-menu">
+							<li>
+								<@shiro.hasPermission name="management/planReachManage/planReach#html/list#get">
+								<a href="javascript::" ui-sref="planReach">计划下达</a>
+								</@shiro.hasPermission>
+							</li>
+						</ul>
+					</li>
 					<li class="treeview">
 						<a href="javascript:void(0)"> <i
 							class="fa fa-link"></i> <span>项目进度管理</span> <span
@@ -184,7 +253,16 @@ desired effect
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							<li><a href="javascript:void(0)" ui-sref="monthReport">月报</a></li>
+							<li>
+								<@shiro.hasPermission name="management/monthReport#html/list#get">
+								<a href="javascript:void(0)" ui-sref="monthReport">政府投资项目月报</a>
+								</@shiro.hasPermission>
+							</li>
+							<li>
+								<@shiro.hasPermission name="management/monthReport#html/list_SH#get">
+								<a href="javascript:void(0)" ui-sref="monthReport_SH">社会投资项目月报</a>
+								</@shiro.hasPermission>
+							</li>
 						</ul>
 					</li>
 					
@@ -196,38 +274,133 @@ desired effect
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							<li><a href="javascript:void(0)" ui-sref="project">项目列表</a></li>
+							<li>
+								<@shiro.hasPermission name="management/project#html/list#get">
+								<a href="javascript:void(0)" ui-sref="project">政府投资项目</a>
+								</@shiro.hasPermission>
+							</li>
+							<li>
+								<@shiro.hasPermission name="management/project#html/list_SH#get">
+								<a href="javascript:void(0)" ui-sref="project_SH">社会投资项目</a>
+								</@shiro.hasPermission>
+							</li>
 						</ul>
 					</li>
-					<!-- 
+					<li class="treeview">
+						<a href="javascript:void(0)">
+							<i class="fa fa-link"></i><span>目录管理</span> 
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li>
+								<@shiro.hasPermission name="management/catalog#html/investmentList#get">
+								<a href="javascript:void(0)" ui-sref="catalog_investment">投资项目目录管理</a>
+								</@shiro.hasPermission>
+							</li>
+							<li>
+								<@shiro.hasPermission name="management/catalog#html/policyCatalogList#get">
+								<a href="javascript:void(0)" ui-sref="catalog_policy">政策目录管理</a>
+								</@shiro.hasPermission>
+							</li>
+							<li>
+								<@shiro.hasPermission name="management/catalog#html/partApprovalMattersList#get">
+								<a href="javascript:void(0)" ui-sref="catalog_partApprovalMatters">部门审批事项目录管理</a>
+								</@shiro.hasPermission>
+							</li>
+							<li>
+								<@shiro.hasPermission name="management/catalog#html/agencyServiceMattersList#get">
+								<a href="javascript:void(0)" ui-sref="catalog_agencyServiceMatters">中介服务事项目录管理</a>
+								</@shiro.hasPermission>
+							</li>
+						</ul>
+					</li>
+					<li class="treeview">
+						<a href="javascript:void(0)"> <i
+							class="fa fa-link"></i> <span>中介服务单位管理</span> <span
+							class="pull-right-container"> <i
+							class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li>
+								<@shiro.hasPermission name="management/mediationManagement#html/mediationUnitList#get">
+								<a href="javascript:void(0)" ui-sref="mediationUnitList">中介服务单位库</a>
+								</@shiro.hasPermission>
+							</li>
+							<li>
+								<@shiro.hasPermission name="management/mediationManagement#html/assistReviewList#get">
+								<a href="javascript:void(0)" ui-sref="assistReviewList">协审活动安排</a>
+								</@shiro.hasPermission>
+							</li>
+						</ul>
+					</li>
 					
 					<li class="treeview">
+						<a href="javascript:void(0)">
+							<i class="fa fa-link"></i><span>信用信息管理</span> 
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li>
+								<@shiro.hasPermission name="management/creditInfo#html/illegalNameList#get">
+								<a href="javascript:void(0)" ui-sref="credit_illegalNameList">信用异常名录</a>
+								</@shiro.hasPermission>
+							</li>
+							<li>
+								<@shiro.hasPermission name="management/creditInfo#html/blackList#get">
+								<a href="javascript:void(0)" ui-sref="credit_blackList">信用黑名单</a>
+								</@shiro.hasPermission>
+							</li>
+							<li>
+								<@shiro.hasPermission name="management/creditInfo#html/projectAnomaly#get">
+								<a href="javascript:void(0)" ui-sref="credit_projectAnomaly">项目异常监管</a>
+								</@shiro.hasPermission>
+							</li>
+						</ul>
+					</li>
+					
+					
+					<li class="treeview">
+						<@shiro.hasPermission name="management/auxDeci/statisticalAnalysis#html/index#get">
 						<a href="javascript:void(0)"> <i
 							class="fa fa-link"></i> <span>决策辅助系统</span> <span
 							class="pull-right-container"> <i
 							class="fa fa-angle-left pull-right"></i>
 							</span>
 						</a>
+						</@shiro.hasPermission>
 						<ul class="treeview-menu">
-							<li><a href="javascript:void(0)" ui-sref="statisticalAnalysis">统计分析</a></li>
-							<li><a href="javascript:void(0)" ui-sref="projectGeographicalDistribution">项目地理分布</a></li>
-							<li><a href="javascript:void(0)" ui-sref="projectProcess">项目全流程</a></li>
+							<li>
+								<@shiro.hasPermission name="management/auxDeci/statisticalAnalysis#html/index#get">
+								<a href="javascript:void(0)" ui-sref="statisticalAnalysis">统计分析</a>
+								</@shiro.hasPermission>
+							</li>
+							<!-- <li><a href="javascript:void(0)" ui-sref="projectGeographicalDistribution">项目地理分布</a></li>
+							<li><a href="javascript:void(0)" ui-sref="projectProcess">项目全流程</a></li> -->
 						</ul>
-					</li> -->
+					</li>
 					
-					<li class="treeview"><a href="javascript:void(0)"> <i
-							class="fa fa-link"></i> <span>统一门户管理</span> <span
-							class="pull-right-container"> <i
-								class="fa fa-angle-left pull-right"></i>
-						</span>
-					</a>
+					<li class="treeview">
+						<@shiro.hasPermission name="management/portal#html/list#get">
+						<a href="javascript:void(0)"> <i
+								class="fa fa-link"></i> <span>统一门户管理</span> <span
+								class="pull-right-container"> <i
+									class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						</@shiro.hasPermission>
+						<@shiro.hasPermission name="management/portal#html/list#get">
 						<ul class="treeview-menu">
 							<li><a href="#/portal/tzgg">通知通告</a></li>
 							<li><a href="#/portal/zcfg">政策法规</a></li>
 							<li><a href="#/portal/bszn">办事指南</a></li>
 							<li><a href="#/portal/cybg">常用表格</a></li>
-							
 						</ul>
+						</@shiro.hasPermission>
 					</li>
 					<li class="treeview"><a href="javascript:void(0)"> <i
 							class="fa fa-link"></i> <span>用户部门管理</span> <span
@@ -286,7 +459,7 @@ desired effect
 			<!-- To the right -->
 			<div class="pull-right hidden-xs"></div>
 			<!-- Default to the left -->
-			<strong>Copyright &copy; 2016 <a href="javascript:void(0)">
+			<strong>Copyright &copy; 2017 <a href="javascript:void(0)">
 			</a>.
 			</strong> 版权所有.
 		</footer>
@@ -303,6 +476,7 @@ desired effect
 	<!-- ./wrapper -->
 	<!-- REQUIRED JS SCRIPTS -->
 	<script src="/contents/libs/jquery/jquery.js"></script>
+	<script src="/contents/libs/jquery/jquery.md5.js"></script>
 	<script src="/contents/libs/bootstrap/customize/js/bootstrap.js"></script>
 	<script src="/contents/libs/angular/angular.js"></script>
 	<script src="/contents/libs/angular/sanitize.js"></script>
@@ -330,6 +504,8 @@ desired effect
 <script src="/contents/libs/textAngular/textAngular-sanitize.min.js"></script>
 <script src="/contents/libs/textAngular/textAngular.js"></script>
 <script src="/contents/libs/textAngular/textAngularSetup.js"></script>
+<!-- echarts3 -->
+<script src="/contents/libs/echarts3/echarts.min.js"></script>
 
 	<!-- Begin:自定义Js -->
 	<script src="/contents/common/common.js"></script>
@@ -364,26 +540,42 @@ desired effect
 	<!-- monthReport -->
 	<script src="/contents/admin/management/monthReport/monthReport.ctrl.js"></script>
 	<script src="/contents/admin/management/monthReport/monthReport.svc.js"></script>
-
+	<!-- statisticalAnalysis (统计分析)-->
+	<script src="/contents/admin/management/auxDeci/statisticalAnalysis/statisticalAnalysis.ctrl.js"></script>
+	<script src="/contents/admin/management/auxDeci/statisticalAnalysis/statisticalAnalysis.svc.js"></script>
 	<!-- project -->
 	<script src="/contents/admin/management/project/project.ctrl.js"></script>
 	<script src="/contents/admin/management/project/project.svc.js"></script>
+	<!-- catalog -->
+	<script src="/contents/admin/management/catalog/catalog.ctrl.js"></script>
+	<script src="/contents/admin/management/catalog/catalog.svc.js"></script>
+	<!-- creditInfo -->
+	<script src="/contents/admin/management/creditInfo/creditInfo.ctrl.js"></script>
+	<script src="/contents/admin/management/creditInfo/creditInfo.svc.js"></script>
 	<!-- basicData -->
 	<script src="/contents/admin/management/basicData/basicData.ctrl.js"></script>
 	<script src="/contents/admin/management/basicData/basicData.svc.js"></script>
-	<!-- sysConfig -->
+	<!-- sysConfig(系统配置) -->
 	<script src="/contents/admin/management/sysConfig/sysConfig.ctrl.js"></script>
 	<script src="/contents/admin/management/sysConfig/sysConfig.svc.js"></script>
-	<!-- yearPlan -->
+	<!-- yearPlan(年度计划) -->
 	<script src="/contents/admin/management/yearPlan/yearPlan.ctrl.js"></script>
 	<script src="/contents/admin/management/yearPlan/yearPlan.svc.js"></script>
-	<!-- task -->
-	<script src="/contents/admin/management/task/task.ctrl.js"></script>
-	<script src="/contents/admin/management/task/task.svc.js"></script>
+	<!-- planReach(计划下达) -->
+	<script src="/contents/admin/management/planReachManage/planReach/planReach.ctrl.js"></script>
+	<script src="/contents/admin/management/planReachManage/planReach/planReach.svc.js"></script>
+	<!-- task_yearPlan -->
+	<script src="/contents/admin/management/task/yearPlan/task.yearPlan.ctrl.js"></script>
+	<script src="/contents/admin/management/task/yearPlan/task.yearPlan.svc.js"></script>
+	<!-- task_audit -->
+	<script src="/contents/admin/management/task/audit/task.audit.ctrl.js"></script>
+	<script src="/contents/admin/management/task/audit/task.audit.svc.js"></script>
+	<!-- task_audit -->
+	<script src="/contents/admin/management/task/plan/task.plan.ctrl.js"></script>
+	<script src="/contents/admin/management/task/plan/task.plan.svc.js"></script>
+	<!-- mediationManagement -->
+	<script src="/contents/admin/management/mediationManagement/mediationManagement.ctrl.js"></script>
+	<script src="/contents/admin/management/mediationManagement/mediationManagement.svc.js"></script>
 	<!-- End:自定义Js-->
-	
-	
-	
-
 </body>
 </html>

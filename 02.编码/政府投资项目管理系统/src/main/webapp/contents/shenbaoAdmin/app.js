@@ -73,7 +73,7 @@
 	        })
 	        //项目详情页面
 	        .state('project_projectInfo', {
-	            url: '/project/projectInfo/:id/:projectInvestmentType', 
+	            url: '/project/projectInfo/:id', 
 	            templateUrl: '/shenbaoAdmin/project/html/projectInfo.html',
 	            controller: 'projectCtrl',
 	            controllerAs: 'vm'
@@ -98,12 +98,21 @@
 	        })	        
 	        //填报信息录入页面
 	        .state('projectMonthReportInfoFill', {
-	            url: '/projectMonthReportInfoFill/:projectId/:year/:month',
+	            url: '/projectMonthReportInfoFill/:projectId/:projectInvestmentType/:year/:month',
 	            templateUrl:'/shenbaoAdmin/projectMonthReport/html/fillInfo',           
 	            controller: 'projectMonthReportCtrl',
 	            controllerAs: 'vm'
 	        })	        
 /**********************************************end#月报*********************************/
+
+/**********************************************begin#计划下达*********************************/	        
+	         .state('planReach', {
+	            url: '/planReach',
+	            templateUrl:'/shenbaoAdmin/planReach/html/list',           
+	            controller: 'planReachCtrl',
+	            controllerAs: 'vm'
+	        })
+/**********************************************end#计划下达*********************************/	        
 	        	        	        
  /**********************************************begin#项目申报****************************/
 	        //单位项目列表页
@@ -141,7 +150,7 @@
 	            controller: 'shenbaoCtrl',
 	            controllerAs: 'vm'
 	        });
-/**********************************************end#项目申报*********************************/	        
+/**********************************************end#项目申报*********************************/        
     }]);
     
 })();

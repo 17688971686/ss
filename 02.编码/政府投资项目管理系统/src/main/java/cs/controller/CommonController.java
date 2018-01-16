@@ -4,7 +4,6 @@ import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
+import cs.common.ICurrentUser;
 import cs.common.Util;
 import cs.model.DomainDto.BasicDataDto;
-import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.UserUnitInfoDto;
 import cs.model.exportExcel.ExcelDataYS;
 import cs.model.exportExcel.ExcelDataDWTJ;
@@ -45,20 +43,37 @@ public class CommonController {
 	@Autowired
 	private BasicDataService basicDataService;
 	@Autowired
-	private UserUnitInfoService userUnitInfoService;
-	@Autowired
 	private RoleService roleService;
 	@Autowired
+	private UserUnitInfoService userUnitInfoService;
+	@Autowired
+	private ICurrentUser currentUser;
+	@Autowired
 	private YearPlanService yearPlanService;
+
 	
 	@RequiresPermissions("common#basicData/identity#get")
 	@RequestMapping(name="查询基础数据",path="basicData/{identity}",method=RequestMethod.GET)
 	public @ResponseBody List<BasicDataDto> getBasicData(@PathVariable("identity") String identity){
-		System.out.println(identity);
 		if(identity.equals("all")){
 			return basicDataService.Get();
 		}
 		return basicDataService.getByIdentity(identity);
+	}
+
+	@RequiresPermissions("common#getUser#get")
+	@RequestMapping(name="查询当前登陆用户的名称",path="getUser",method=RequestMethod.GET)
+	public @ResponseBody StringBuffer getUser(){
+		String user = currentUser.getLoginName();
+		
+		StringBuffer unicode = new StringBuffer();  
+		   for (int i = 0; i < user.length(); i++) {  
+		        // 取出每一个字符  
+		       char c = user.charAt(i);  
+		        // 转换为unicode  
+		       unicode.append("\\u" + Integer.toHexString(c));  
+		   } 
+		return unicode;
 	}
 	
 	@RequiresPermissions("common#save#post")
@@ -101,11 +116,11 @@ public class CommonController {
 		ODataObj odataObj = new ODataObj(request);
 		return roleService.get(odataObj).getValue();
 	}
+
 	
 //	@RequiresPermissions("common#exportExcelForYS#get")
 	@RequestMapping(name="导出Excel-印刷版",path="exportExcelForYS",method=RequestMethod.GET)
 	public ModelAndView getExcel(HttpServletRequest request,@RequestParam String planId) throws ParseException{
-		ODataObj odataObj = new ODataObj(request);
 		List<ExcelDataHYTJ> excelDataHYTJList = new ArrayList<>();
 		List<ExcelDataYS> excelDataYSList = new ArrayList<>();
 		List<ExcelDataYS> excelDataYSListZH = new ArrayList<>();
@@ -126,8 +141,8 @@ public class CommonController {
 			x.getProjectCategory_BSum()+"个,C类项目"+x.getProjectCategory_CSum()+"个,D类项目"+x.getProjectCategory_DSum()+"个");
 			entity.setTotalInvest(x.getInvestSum());
 			entity.setApInvestSum(x.getApInvestSum());
-			entity.setApplyYearInvest(x.getSqInvestSum());
-			entity.setYearApSum(x.getYearApSum());
+//			entity.setApplyYearInvest(x.getYapInvestSum());
+			entity.setYearApSum(x.getYapInvestSum());
 			entity.setCapitalAP_gtzj_TheYear(x.getYearAp_gtjjSum());
 			entity.setCapitalAP_ggys_TheYear(x.getYearAp_ggysSum());
 			entity.setHB(true);

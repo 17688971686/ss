@@ -18,6 +18,7 @@
             var isValid = $('form').valid();
             if (isValid) {
                 vm.isSubmit = true;
+                vm.model.password=$.md5(vm.model.password);
                 var httpOptions = {
                     method: 'post',
                     url: '/account/login?role='+role,

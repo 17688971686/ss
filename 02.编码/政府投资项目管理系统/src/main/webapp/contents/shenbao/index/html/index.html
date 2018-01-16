@@ -1,20 +1,29 @@
 
 
 
-<div ng-include src="'/contents/shenbao/shared/shenbao_head.html'"></div>
+<!--<div ng-include src="'/contents/shenbao/shared/shenbao_head.html'"></div>-->
+<!--IE兼容模式下不支持ng-include-->
 
-<div class="wrap-960 clearfix" style="margin-top:110px;">
+<div style="height: 90px;"></div>
+<div class="wrap-960 clearfix " style="height:53px;">
+	<a href="/"><div class="logo pull-left"></div></a>
+	<div class="contact pull-right"></div>
+	<div class="clearfix"></div>
+</div>
+
+
+<div class="wrap-980 clearfix" style="margin-top:40px;">
 <div class="pull-left" style="width:540px;height: 318px;">
 	<div class="column">
 			
 		<ul class="title clearfix">
-			<li class="focus article_1" ng-click="vm.article(1)">通知公告</li>
-			<li>/</li>
-			<li class="article_2" ng-click="vm.article(2)">政策法规</li>
-			<li>/</li>
-			<li class="article_3" ng-click="vm.article(3)">办事指南</li>
-			<li>/</li>
-			<li class="article_4" ng-click="vm.article(4)">常用表格</li>
+			<li class="col-xs-3 focus article_1" ng-click="vm.article(1)"><span class="cs-icon glyphicon glyphicon-volume-down t-z-30"></span>通知公告</li>
+
+			<li class="col-xs-3 article_2" ng-click="vm.article(2)"><span class="cs-icon glyphicon glyphicon-list-alt t-z-24" style="margin-top: 12px;"></span>政策法规</li>
+
+			<li class="col-xs-3 article_3" ng-click="vm.article(3)"><span class="cs-icon glyphicon glyphicon-hand-left t-z-30"></span>办事指南</li>
+
+			<li class="col-xs-3 article_4" ng-click="vm.article(4)"><span class="cs-icon glyphicon glyphicon-calendar t-z-24"></span>常用表格</li>
 		</ul>
 		
 		<table style="width:100%" ng-show="vm.articles.length>0">
@@ -45,22 +54,51 @@
 
 
 <div class="pull-right">
-	<div class="loginBox">
+	<div class="loginBox" ng-show="!vm.show">
+		<div class="boxWrap" style="height: 318px;">
+		<h3 style="margin-top: -30px; margin-bottom: 50px">手机客服端下载 </h3>
+
+		<div class="row" style=" text-align: center;">
+			<div class="col-md-6">
+				<img src="/contents/shenbao/style/images/gm_andorid.png" width="130" height="130"/>
+				<p>扫一扫</p>
+				<p>Android版本下载</p>
+			</div>
+			<div class="col-md-6">
+				<img src="/contents/shenbao/style/images/gm_iphone.png" width="130" height="130"/>
+				<p>扫一扫</p>
+				<p>IOS版本下载</p>
+			</div>
+		</div>
+
+		<div class="backbtn" ng-click="vm.show=true"><span class="cs-colsed glyphicon glyphicon-chevron-left" ></span>返回表单登录</div>
+
+		</div>
+	</div>
+
+	<div class="loginBox" ng-show="vm.show">
 	<form ng-keypress="vm.keyEnter($event)">
 		<div class="boxWrap" style="height: 318px;">
-		<span ng-show="vm.message" class="errors" ng-bind="vm.message" ></span>	
-			<div>
-			<input type="text" class="form-control input-sm" placeholder="请输入用户名称" 
+			<h3 style="margin-top: -30px; margin-bottom: 50px">用户登录</h3>
+		<span ng-show="vm.message" class="errors" ng-bind="vm.message" ></span>
+
+			<div class="box-hide">
+			<label class="cs-login-icon"><span class="glyphicon glyphicon-user"></span></label>
+			<span class="shadow-input"><input type="text" class="form-control input-sm" placeholder="请输入用户名称"
 			maxlength="100" name="loginName" id="loginName" ng-model="vm.model.loginName" 
-			data-val="true" data-val-required="用户名必填" ng-disabled="vm.isIE" />
+			data-val="true" data-val-required="用户名必填" ng-disabled="vm.isIE"/></span>
 			</div>
-			<div>
+			<div class="box-hide">
+			<label class="cs-login-icon"><span class="glyphicon glyphicon-lock"></span></label>
+			<span class="shadow-input">
 			<input type="password" class="form-control input-sm" placeholder="请输入用户密码"  
 			maxlength="100"  name="password" id="password" ng-model="vm.model.password" 
-			data-val="true" data-val-required="密码必填" ng-disabled="vm.isIE" /></div>
+			data-val="true" data-val-required="密码必填" ng-disabled="vm.isIE"/></span>
+			</div>
 			
 			<div><button class="btn btn-success loginBtn" ng-click="vm.submit('unit')" ng-disabled="vm.isIE" >登录系统 </button></div></br>
 			<!-- <div><button class="btn btn-success loginBtn" ng-click="vm.forgetCode()">忘记密码 </button></div> -->
+			<div class="login-maker-btn" ng-click="vm.show=false"></div>
 			<div style="margin: -10px 0 0 0;">
 				<p ng-if="vm.isIE">您的浏览器版本过低，请升级至最新版本，或者请使用<a href="/contents/download/ChromeStandalone.exe" download="Chrome.zip" style="color:red;">谷歌chrome浏览器(点击下载)</a></p>
 			</div>
@@ -69,4 +107,9 @@
 	</div>
 </div>
 
+</div>
+
+<div style="height: 100px;"></div>
+<div class="cs-footer">
+	主办：深圳市光明新区  备案序号：粤ICP备00000001号   网站标识码44030000000
 </div>

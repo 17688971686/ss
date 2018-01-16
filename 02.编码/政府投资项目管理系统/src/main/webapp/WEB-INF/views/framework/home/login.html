@@ -60,8 +60,13 @@
         color:red;
     }
     body{
-		background:url(/contents/images/bgpic.jpg) no-repeat  bottom center;
-		min-height: 500px;
+		background:url(/contents/images/bg_pic.jpg) no-repeat  top center;
+		background-size: cover;
+	}
+	@media screen and (max-width: 1900px) {
+		body {
+			background-size:auto;
+		}
 	}
 	.loginBox{
 	background:url(/contents/images/loginbox.jpg) repeat-x;
@@ -69,20 +74,23 @@
 	height:249px;
 	position:relative;
 	margin:200px auto;
-	
+		text-align: center;
 	
 	}
 	.loginBox .boxWrap{
-		padding:60px 30px 30px 30px;	
+		padding: 5px 30px 30px 30px;
 	}
 	.loginBox input{
 		margin-bottom:20px;
 		height:35px;
 	}
 	.loginBtn{
-		width:363px;
+		width: 100%;
 	}
-	
+	.btn-success {
+		background-color: #00a65a;
+		border-color: #00a65a;
+	}
 </style>
 
 
@@ -90,7 +98,11 @@
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
 
+
+
 <div class="loginBox">
+	<img src="/contents/images/logo1.png"/>
+<div class="loginBox-content">
 <form method="post" id="form" name="form" ng-keypress="vm.keyEnter($event)" >
 		<div class="boxWrap">
 		<span ng-show="vm.message" class="errors" ng-bind="vm.message" ></span>
@@ -100,8 +112,9 @@
 			<div><input type="password" class="form-control input-sm" placeholder="请输入用户密码" maxlength="100"  name="password" id="password" ng-model="vm.model.password" data-val="true" data-val-required="密码必填" /></div>
 			<div><button class="btn btn-success loginBtn" ng-click="vm.submit('manage')" ng-disabled="vm.isSubmit">登录系统 </button></div>
 		</div>
-</form>		
-	</div>
+</form>
+</div>
+</div>
 
 
 
@@ -109,6 +122,7 @@
 </div>
 <!-- /.login-box -->
 <script src="/contents/libs/jquery/jquery.js"></script>
+	<script src="/contents/libs/jquery/jquery.md5.js"></script>
 	<script src="/contents/libs/bootstrap/customize/js/bootstrap.js"></script>
 	<script src="/contents/libs/angular/angular.js"></script>
 	<script src="/contents/libs/angular/sanitize.js"></script>
@@ -154,6 +168,7 @@
                 var isValid = $('form').valid();
                 if (isValid) {
                     vm.isSubmit = true;
+                    vm.model.password=$.md5(vm.model.password);
                     var httpOptions = {
                         method: 'post',
                         url: '/account/login?role='+role,
@@ -173,7 +188,6 @@
                                     //common.cookie().set("data", "token", response.data.Token, "", "/");
                                     location.href = "/admin/index#/task/todo";
                                 } else {
-                                    
                                     vm.message=response.data.message
                                 }
                         	}
@@ -197,7 +211,7 @@
             };
 
             activate();
-            function activate() { }
+            function activate() {}
         }
     })();
 

@@ -5,6 +5,8 @@ public class BasicDataConfig {
 	public static String approvalType ="approvalType";
 	public static String projectProgress ="projectProgress";
 	
+	public static boolean isComplete =false;
+	
 	//projectInvestmentType
 	public static String projectInvestmentType="projectInvestmentType";
 	public static String projectInvestmentType_ZF="projectInvestmentType_1";//政府投资
@@ -24,17 +26,41 @@ public class BasicDataConfig {
 	public static String processState="processState";
 	public static String processState_tianBao="processState_1";//等待签收
 	public static String processState_qianShou="processState_2";//签收
-	public static String processState_banJie="processState_7";//办结
-	public static String processState_tuiWen="processState_11";//退文
+	public static String processState_banJie="processState_11";//办结
+	public static String processState_tuiWen="processState_15";//退文
+	public static String processState_tuiWenBanJie="processState_24";//退文办结
+	public static String processState_MiShuFenBan="processState_3";//秘书科分办
+	public static String processState_jieShuShenPi="processState_23";//秘书科发文
+	
+	public static String msFenBanRole="秘书科分办人员";
+	public static String msFaWenRole="秘书科发文人员";
+	public static String KeZhang="科长";
+	public static String JuZhang="局长";
+	public static String KeYuan="科员";
 	
 	
 	public static String projectShenBaoStage_nextYearPlan="projectShenBaoStage_7";//下一年度计划
+	public static String projectShenBaoStage_planReach="projectShenBaoStage_10";//计划下达
 	
 	public static String taskType="taskType";
 	public static String taskType_nextYearPlan="taskType_2";//下一年度计划
 	public static String taskType_monthReport="taskType_1";//月报填报
-	public static String taskType_sendMesg="taskType_3";//发送短信
 	
+	public static String taskType_XMJYS="taskType_5";//项目建议书
+	public static String taskType_KXXYJBG="taskType_6";//可行性研究报告
+	public static String taskType_CBSJYGS="taskType_7";//初步设计与概算
+//	public static String taskType_qianQi="taskType_8";//前期计划
+//	public static String taskType_new="taskType_9";//新开工
+//	public static String taskType_xuJian="taskType_10";//续建
+	public static String taskType_junGong="taskType_11";//竣工
+	public static String taskType_ZJSQBG="taskType_12";//资金申请报告
+	public static String taskType_JHXD="taskType_14";//计划下达
+	//系统配置信息
+	public static String taskType_sendMesg="taskType_3";//发送短信配置
+	public static String taskType_shenBaoDK="taskType_4";//申报端口配置
+	public static String taskType_monthReportPort="taskType_13";//月报端口配置
+	public static String taskType_shenpiFenBan="taskType_15";//审批分办人员配置
+
 	public static String attachment_type_jys="JYS"; 
 	public static String attachment_type_kxxyjbg="KXXYJBG"; 
 	public static String attachment_type_cbsjygs="CBSJYGS";
@@ -53,5 +79,6 @@ public class BasicDataConfig {
 	public static String role_admin="超级管理员";
 	public static String role_unit="建设单位";
 	public static String role_manage="管理员";
+	public static String role_shenpiUnit="审批单位";
 	
 }

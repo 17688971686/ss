@@ -30,11 +30,12 @@
 	  			<tr>
 	  				<td colspan="6" class="bg-info">
 	  					<span style="padding:10px;"><strong>单位项目查询</strong></span>
+	  					<button class="btn btn-sm btn-primary pull-right" ng-click="vm.filterClear()"><span class="glyphicon glyphicon-refresh"></span>清空筛选条件</button>
 	  				</td>
 	  			</tr>
 	  			<tr>
 	  				<td class="formAlignRight">项目名称：</td>
-	  				<td style="width:25%"><input type="text" style="width:360px;" placeholder="请输入项目名称（可少输不可输错）" ng-model="vm.search.projectName"/></td>
+	  				<td style="width:25%"><input type="text" style="width:300px;" placeholder="请输入项目名称（可少输不可输错）" ng-model="vm.search.projectName"/></td>
 	  				<td class="formAlignRight">项目阶段：</td>
 	  				<td>
 	  					<select style="height:30px;" ng-model="vm.search.projectStage">
@@ -53,10 +54,36 @@
 	  			</tr>
 	  			<tr>
 	  				<td class="formAlignRight">项目所属单位：</td>
-	  				<td colspan="5">
+	  				<td>
 	  					<select style="height:30px;" ng-model="vm.search.unitName">
 				  			<option value="">---请选择---</option>
 				  			<option ng-repeat="x in vm.basicData.userUnit" value="{{x.id}}">{{x.unitName}}</option>
+				  		</select>
+	  				</td>
+	  				<td class="formAlignRight">项目行业：</td>
+	  				<td>
+	  					<select style="height:30px;" ng-change="vm.searchIndustryFatherChange()" ng-model="vm.searchIndustryFather">
+	  						<option value="">---请选择行业分类---</option>
+	  						<option ng-repeat="x in vm.basicData.projectIndustryAll" value="{{x.id}}">{{x.description}}</option>
+	  					</select>
+	  					<select style="height:30px;" ng-model="vm.search.projectIndustry" ng-if="vm.searchIndustryIsZF">
+				  			<option value="">---请选择具体的行业---</option>
+				  			<option ng-repeat="x in vm.basicData.projectIndustry_ZF | orderBy:'itemOrder'" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+				  		<select style="height:30px;" ng-change="vm.searchIndustryChildChange()" ng-model="vm.search.projectIndustryChild" ng-if="vm.searchIndustryIsSH">
+				  			<option value="">---请选择具体的行业---</option>
+				  			<option ng-repeat="x in vm.basicData.projectIndustry_SH | orderBy:'itemOrder'" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+				  		<select style="height:30px;" ng-model="vm.search.projectIndustry" ng-if="vm.searchIndustryChild">
+				  			<option value="">---请选择具体的行业---</option>
+				  			<option ng-repeat="x in vm.basicData.projectIndustryChild_SH | orderBy:'itemOrder'" value="{{x.id}}">{{x.description}}</option>
+				  		</select>
+	  				</td>
+	  				<td class="formAlignRight">项目投资类型：</td>
+	  				<td>
+	  					<select style="height:30px;" ng-model="vm.search.projectInvestmentType">
+				  			<option value="">---请选择---</option>
+				  			<option ng-repeat="x in vm.basicData.investmentType" value="{{x.id}}">{{x.description}}</option>
 				  		</select>
 	  				</td>
 	  			</tr>
@@ -76,12 +103,12 @@
 			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.shenbaoBtn('{0}','{1}','{2}')"><span class="glyphicon glyphicon-pencil"></span>申报</button>
 			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.checkShenBaoRecords('{3}')"><span class="glyphicon glyphicon-th-list"></span>申报记录<span id="tuiwenNumber{0}" class="badge"></span></button>
 	  </script>	  
-     <form id="form" name="form">          
+     <form id="form" name="form">
          <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
     </form>
 </div>
 <!-- 项目申报选择项目申报阶段分类 模态框-->
-<div class="modal fade" id="myModal">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
 	<div class="modal-dialog"> 
 		<div class="modal-content"> 
 			<div class="modal-header bg-primary">
@@ -96,15 +123,19 @@
 				<br>
 				<div class="form-group">
 					<label class="control-label col-sm-3" for="projectShenBaoStage">项目申报阶段:</label>
-					<select class="form-select" ng-model="vm.projectShenBaoStage" ng-change="vm.change()">
+					<select ng-if="vm.isZFInvestment" class="form-select" ng-model="vm.projectShenBaoStage" ng-change="vm.changeShenBaoStage()">
 						<option value="">---请选择---</option>
-						<option ng-repeat="x in vm.basicData.projectShenBaoStage" value="{{x.id}}">{{x.description}}</option>
+						<option ng-repeat="x in vm.basicData.projectShenBaoStage | orderBy:'itemOrder'" value="{{x.id}}">{{x.description}}</option>
+					</select>
+					<select ng-if="vm.isSHInvestment" class="form-select" ng-model="vm.projectShenBaoStage" ng-change="vm.changeShenBaoStage()">
+						<option value="">---请选择---</option>
+						<option ng-repeat="x in vm.basicData.projectShenBaoStage | orderBy:'itemOrder'" value="{{x.id}}" ng-show="x.id=='projectShenBaoStage_7'">{{x.description}}</option>
 					</select>
 				</div>	
 				<div class="form-group" style="text-align: center;">
 					<p style="color:red;" ng-bind="vm.massage"></p>		
 				</div>
-				<br>							
+				<br>					
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
@@ -114,15 +145,24 @@
 	</div>
 </div>
 <!-- 项目申报记录模态框 -->
-<div class="modal fade" id="shenBaoRecords"> 
+<div class="modal fade" id="shenBaoRecords" tabindex="-1" role="dialog"> 
 	<div class="modal-dialog" style="width:800px;"> 
+
 		<div class="modal-content"> 
 			<div class="modal-header bg-primary">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			
 				<h4 class="modal-title" id="myModalLabel">项目申报记录列表</h4> 
 			</div> 
 			<div class="modal-body">
-				<div class="grid" kendo-grid="vm.grid_shenBaoRecords" k-options="vm.gridOptions_shenBaoRecords"></div>			
+			<script type="text/template" id="columnBtns_Record">
+				<a class="btn btn-xs btn-primary" href="#/shenbao_record/{0}"><span class="glyphicon glyphicon-eye-open"></span>申报详情</a>
+				<a style="{3}" class="btn btn-xs btn-warning"  href="#/shenbao_record_edit/{0}/{1}/{2}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+				<button style="{3}" class="btn btn-xs btn-danger" ng-click="{4}" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-remove"></span>删除</button>
+			</script>
+				<div class="toolbar">
+					<button class="btn btn-sm btn-danger" ng-disabled="vm.isSubmit" ng-click="vm.deleteShenBaoInfos()"><span class="glyphicon glyphicon-trash"></span>&nbsp;批量删除</button>
+				</div>
+				<div class="shenBaoRecordsGrid" kendo-grid="vm.grid_shenBaoRecords" k-options="vm.gridOptions_shenBaoRecords"></div>			
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
@@ -131,8 +171,4 @@
 		</div>
 	</div>
 </div>
-<script type="text/template" id="columnBtns_Record">
-	<a class="btn btn-xs btn-primary" href="#/shenbao_record/{0}"><span class="glyphicon glyphicon-eye-open"></span>申报详情</a>
-	<a style="{3}" class="btn btn-xs btn-warning"  href="#/shenbao_record_edit/{0}/{1}/{2}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
-	<button style="{3}" type="button" class="btn btn-xs btn-danger" ng-click="vm.deleteShenBaoInfo('{0}')"><span class="glyphicon glyphicon-trash"></span>删除</button>
-</script> 
+

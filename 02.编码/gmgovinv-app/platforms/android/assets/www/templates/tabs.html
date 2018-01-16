@@ -1,0 +1,37 @@
+<!--
+Create tabs with an icon and label, using the tabs-positive style.
+Each tab's child <ion-nav-view> directive will have its own
+navigation history that also transitions its views in and out.
+-->
+<ion-tabs class="tabs-icon-top tabs-color-active-positive" ng-class="{'tabs-item-hide': $root.hideTabs}">
+
+  
+  <ion-tab ng-show="isAdmin" title="计划编制" icon-off="icon-calendar" icon-on="icon-calendar-act" href="#/tab/planning">
+    <ion-nav-view name="tab-planning"></ion-nav-view>
+  </ion-tab>
+
+  
+<!--  <ion-tab title="统计分析" icon-off="icon-statistics" icon-on="icon-statistics-act" href="#/tab/chats">
+    <ion-nav-view name="tab-chats"></ion-nav-view>
+  </ion-tab>-->
+
+  <ion-tab ng-show="isAdmin" title="项目库" icon-off="icon-box" icon-on="icon-box-act" href="#">
+    <ion-nav-view name="tab-shenbaoinfo"></ion-nav-view>
+  </ion-tab>
+  
+ <!-- <ion-tab title="项目信息" icon-off="icon-box" icon-on="icon-box-act" href="#/tab/project-list">
+    <ion-nav-view name="tab-project"></ion-nav-view>
+  </ion-tab>-->
+  
+  
+ <!-- <ion-tab title="地理信息" icon-off="icon-local" icon-on="icon-local-act" href="#/tab/location">
+    <ion-nav-view name="tab-location"></ion-nav-view>
+  </ion-tab>-->
+  
+
+  <ion-tab ng-show="isLogin" title="我" icon-off="icon-settings" icon-on="icon-settings-act" href="#/tab/settings">
+    <ion-nav-view name="tab-settings"></ion-nav-view>
+  </ion-tab>
+
+
+</ion-tabs>

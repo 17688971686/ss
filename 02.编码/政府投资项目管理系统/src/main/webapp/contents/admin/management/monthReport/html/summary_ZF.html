@@ -1,0 +1,409 @@
+<style>
+	.font-weight{
+		font-weight:bold;
+	}
+</style>
+<div class="page-header text-center"> 
+	<h2>{{vm.model.projectInfo.projectName}}</h2>
+	<small>
+		 <select ng-model="vm.year" ng-change="vm.setYearSelected()">
+   			<option ng-repeat="item in vm.selectYears" value="{{item}}" ng-selected="vm.year == item">{{item}}</option>
+         </select>
+		年月报汇总
+	</small> 
+</div>
+
+<fieldset>
+    <legend style="font-size: 15px;font-weight: bold;padding-left:5px;">项目基本信息</legend>
+    <table class="table table-bordered table-striped">				
+		<tr>
+			<td width="15%">项目名称：</td>
+			<td width="35%" ng-bind="vm.model.projectInfo.projectName"></td>
+			<td width="15%">项目代码：</td>
+			<td width="80px;"><span ng-bind="vm.model.projectInfo.projectNumber"></span></td>
+		</tr>
+		<tr>
+			<td>项目负责人：</td>
+			<td ng-bind="vm.model.projectInfo.projectRepName"></td>
+			<td>项目负责人电话：</td>
+			<td ng-bind="vm.model.projectInfo.projectRepMobile"></td>
+		</tr>
+		<tr>
+			<td>开工日期：<span class="required">(*)</span></td>
+			<td ng-bind="vm.formartDate(vm.model.projectInfo.beginDate) | date:'yyyy-MM-dd'"></td>					
+			<td>竣工日期：<span class="required">(*)</span></td>				
+			<td ng-bind="vm.formartDate(vm.model.projectInfo.endDate) | date:'yyyy-MM-dd'"></td>				
+		</tr>
+		<tr>
+			<td>项目总投资：<span class="required">(*)</span></td>				
+			<td ng-bind="vm.model.projectInfo.projectInvestSum+'&nbsp;(万元)'"></td>
+			<td>截止上年底累计下达计划：<span class="required">(*)</span></td>
+			<td ng-bind="vm.model.projectInfo.actuallyFinishiInvestment+'&nbsp;(万元)'"></td>
+		</tr>
+		<tr>
+			<td>本年度安排计划：<span class="required">(*)</span></td>
+			<td ng-bind="vm.model.projectInfo.thisYearPlanInvestment+'&nbsp;（万元）'"></td>
+			<td>本年度已下达计划：<span class="required">(*)</span></td>
+			<td ng-bind="vm.model.monthReport.thisYearAccumulatedInvestment+'&nbsp;（万元）'"></td>
+		</tr>
+	</table>
+</fieldset>
+<br/>
+<fieldset>
+	<legend style="font-size: 15px;font-weight: bold;padding-left:5px;">月报信息</legend>
+	单位：万元
+	<table class="table table-bordered table-striped" style="text-align: center;vertical-align: middle;">
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">本月计划完成投资:</td>
+			<td class="font-weight">1月份</td>
+			<td class="font-weight">2月份</td>
+			<td class="font-weight">3月份</td>
+			<td class="font-weight">4月份</td>
+			<td class="font-weight">5月份</td>
+			<td class="font-weight">6月份</td>
+			<td class="font-weight">7月份</td>
+			<td class="font-weight">8月份</td>
+			<td class="font-weight">9月份</td>
+			<td class="font-weight">10月份</td>
+			<td class="font-weight">11月份</td>
+			<td class="font-weight">12月份</td>
+			<td class="font-weight">总计</td>
+		</tr>
+		<tr>
+			<td style="height:37px;" ng-bind="vm.monthReport_1.thisMonthPlanInvestTotal"></td>
+			<td ng-bind="vm.monthReport_2.thisMonthPlanInvestTotal"></td>
+			<td ng-bind="vm.monthReport_3.thisMonthPlanInvestTotal"></td>
+			<td ng-bind="vm.monthReport_4.thisMonthPlanInvestTotal"></td>
+			<td ng-bind="vm.monthReport_5.thisMonthPlanInvestTotal"></td>
+			<td ng-bind="vm.monthReport_6.thisMonthPlanInvestTotal"></td>
+			<td ng-bind="vm.monthReport_7.thisMonthPlanInvestTotal"></td>
+			<td ng-bind="vm.monthReport_8.thisMonthPlanInvestTotal"></td>
+			<td ng-bind="vm.monthReport_9.thisMonthPlanInvestTotal"></td>
+			<td ng-bind="vm.monthReport_10.thisMonthPlanInvestTotal"></td>
+			<td ng-bind="vm.monthReport_11.thisMonthPlanInvestTotal"></td>
+			<td ng-bind="vm.monthReport_12.thisMonthPlanInvestTotal"></td>
+			<td ng-bind="vm.sumThisMonthPlanInvestTotal"></td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">本月已完成投资:</td>
+			<td class="font-weight">1月份</td>
+			<td class="font-weight">2月份</td>
+			<td class="font-weight">3月份</td>
+			<td class="font-weight">4月份</td>
+			<td class="font-weight">5月份</td>
+			<td class="font-weight">6月份</td>
+			<td class="font-weight">7月份</td>
+			<td class="font-weight">8月份</td>
+			<td class="font-weight">9月份</td>
+			<td class="font-weight">10月份</td>
+			<td class="font-weight">11月份</td>
+			<td class="font-weight">12月份</td>
+			<td class="font-weight">总计</td>
+		</tr>
+		<tr>
+			<td style="height:37px;" ng-bind="vm.monthReport_1.thisMonthInvestTotal"></td>
+			<td ng-bind="vm.monthReport_2.thisMonthInvestTotal"></td>
+			<td ng-bind="vm.monthReport_3.thisMonthInvestTotal"></td>
+			<td ng-bind="vm.monthReport_4.thisMonthInvestTotal"></td>
+			<td ng-bind="vm.monthReport_5.thisMonthInvestTotal"></td>
+			<td ng-bind="vm.monthReport_6.thisMonthInvestTotal"></td>
+			<td ng-bind="vm.monthReport_7.thisMonthInvestTotal"></td>
+			<td ng-bind="vm.monthReport_8.thisMonthInvestTotal"></td>
+			<td ng-bind="vm.monthReport_9.thisMonthInvestTotal"></td>
+			<td ng-bind="vm.monthReport_10.thisMonthInvestTotal"></td>
+			<td ng-bind="vm.monthReport_11.thisMonthInvestTotal"></td>
+			<td ng-bind="vm.monthReport_12.thisMonthInvestTotal"></td>
+			<td ng-bind="vm.sumThisMonthInvestTotal"></td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="vertical-align: middle;">累计完成投资:</td>
+			<td class="font-weight">1月份</td>
+			<td class="font-weight">2月份</td>
+			<td class="font-weight">3月份</td>
+			<td class="font-weight">4月份</td>
+			<td class="font-weight">5月份</td>
+			<td class="font-weight">6月份</td>
+			<td class="font-weight">7月份</td>
+			<td class="font-weight">8月份</td>
+			<td class="font-weight">9月份</td>
+			<td class="font-weight">10月份</td>
+			<td class="font-weight">11月份</td>
+			<td class="font-weight">12月份</td>
+			<td class="font-weight">总计</td>
+		</tr>
+		<tr>
+			<td style="height:37px;" ng-bind="vm.monthReport_1.actuallyFinishiInvestment"></td>
+			<td ng-bind="vm.monthReport_2.actuallyFinishiInvestment"></td>
+			<td ng-bind="vm.monthReport_3.actuallyFinishiInvestment"></td>
+			<td ng-bind="vm.monthReport_4.actuallyFinishiInvestment"></td>
+			<td ng-bind="vm.monthReport_5.actuallyFinishiInvestment"></td>
+			<td ng-bind="vm.monthReport_6.actuallyFinishiInvestment"></td>
+			<td ng-bind="vm.monthReport_7.actuallyFinishiInvestment"></td>
+			<td ng-bind="vm.monthReport_8.actuallyFinishiInvestment"></td>
+			<td ng-bind="vm.monthReport_9.actuallyFinishiInvestment"></td>
+			<td ng-bind="vm.monthReport_10.actuallyFinishiInvestment"></td>
+			<td ng-bind="vm.monthReport_11.actuallyFinishiInvestment"></td>
+			<td ng-bind="vm.monthReport_12.actuallyFinishiInvestment"></td>
+			<td>/</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: middle;">涉及到的问题:</td>
+			<td colspan="13">
+				<table class="table table-bordered table-striped" style="margin-bottom: 0;width:100%">
+					<tr class="font-weight">
+						<td style="width:25%">1月份</td>
+						<td style="width:25%">2月份</td>
+						<td style="width:25%">3月份</td>
+						<td style="width:25%">4月份</td>
+					</tr>
+					<tr style="height:37px;">
+						<td>
+							<table class="table table-bordered table-striped" style="margin-bottom: 0;">
+								<tr>
+									<td style="min-width: 157px;">问题</td>
+									<td style="min-width: 157px;">解决措施及建议</td>
+								</tr>
+								<tr ng-if="vm.monthReport_1.monthReportProblemDtos" ng-repeat="x in vm.monthReport_1.monthReportProblemDtos">
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.problemIntroduction" disabled></textarea>						
+									</td>
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.solutionsAndSuggest" disabled></textarea>								
+									</td>						
+								</tr>
+								<tr ng-if="!vm.monthReport_1.monthReportProblemDtos">
+									<td colspan="2" class="text-danger font-weight">无数据！</td>
+								</tr>
+							</table>
+						</td>
+						<td>
+							<table class="table table-bordered table-striped" style="margin-bottom: 0;">
+								<tr>
+									<td style="min-width: 157px;">问题</td>
+									<td style="min-width: 157px;">解决措施及建议</td>
+								</tr>
+								<tr ng-if="vm.monthReport_2.monthReportProblemDtos" ng-repeat="x in vm.monthReport_2.monthReportProblemDtos">
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.problemIntroduction" disabled></textarea>						
+									</td>
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.solutionsAndSuggest" disabled></textarea>								
+									</td>						
+								</tr>
+								<tr ng-if="!vm.monthReport_2.monthReportProblemDtos">
+									<td colspan="2" class="text-danger font-weight">无数据！</td>
+								</tr>
+							</table>
+						</td>
+						<td>
+							<table class="table table-bordered table-striped" style="margin-bottom: 0;">
+								<tr>
+									<td style="min-width: 157px;">问题</td>
+									<td style="min-width: 157px;">解决措施及建议</td>
+								</tr>
+								<tr ng-if="vm.monthReport_3.monthReportProblemDtos" ng-repeat="x in vm.monthReport_3.monthReportProblemDtos">
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.problemIntroduction" disabled></textarea>						
+									</td>
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.solutionsAndSuggest" disabled></textarea>								
+									</td>						
+								</tr>
+								<tr ng-if="!vm.monthReport_3.monthReportProblemDtos">
+									<td colspan="2" class="text-danger font-weight">无数据！</td>
+								</tr>
+							</table>
+						</td>
+						<td>
+							<table class="table table-bordered table-striped" style="margin-bottom: 0;">
+								<tr>
+									<td style="min-width: 157px;">问题</td>
+									<td style="min-width: 157px;">解决措施及建议</td>
+								</tr>
+								<tr ng-if="vm.monthReport_4.monthReportProblemDtos" ng-repeat="x in vm.monthReport_4.monthReportProblemDtos">
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.problemIntroduction" disabled></textarea>						
+									</td>
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.solutionsAndSuggest" disabled></textarea>								
+									</td>						
+								</tr>
+								<tr ng-if="!vm.monthReport_4.monthReportProblemDtos">
+									<td colspan="2" class="text-danger font-weight">无数据！</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr class="font-weight">
+						<td style="width:25%">5月份</td>
+						<td style="width:25%">6月份</td>
+						<td style="width:25%">7月份</td>
+						<td style="width:25%">8月份</td>
+					</tr>
+					<tr style="height:37px;">
+						<td>
+							<table class="table table-bordered table-striped" style="margin-bottom: 0;">
+								<tr>
+									<td style="min-width: 157px;">问题</td>
+									<td style="min-width: 157px;">解决措施及建议</td>
+								</tr>
+								<tr ng-if="vm.monthReport_5.monthReportProblemDtos" ng-repeat="x in vm.monthReport_5.monthReportProblemDtos">
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.problemIntroduction" disabled></textarea>						
+									</td>
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.solutionsAndSuggest" disabled></textarea>								
+									</td>						
+								</tr>
+								<tr ng-if="!vm.monthReport_5.monthReportProblemDtos">
+									<td colspan="2" class="text-danger font-weight">无数据！</td>
+								</tr>
+							</table>
+						</td>
+						<td>
+							<table class="table table-bordered table-striped" style="margin-bottom: 0;">
+								<tr>
+									<td style="min-width: 157px;">问题</td>
+									<td style="min-width: 157px;">解决措施及建议</td>
+								</tr>
+								<tr ng-if="vm.monthReport_6.monthReportProblemDtos" ng-repeat="x in vm.monthReport_6.monthReportProblemDtos">
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.problemIntroduction" disabled></textarea>						
+									</td>
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.solutionsAndSuggest" disabled></textarea>								
+									</td>						
+								</tr>
+								<tr ng-if="!vm.monthReport_6.monthReportProblemDtos">
+									<td colspan="2" class="text-danger font-weight">无数据！</td>
+								</tr>
+							</table>
+						</td>
+						<td>
+							<table class="table table-bordered table-striped" style="margin-bottom: 0;">
+								<tr>
+									<td style="min-width: 157px;">问题</td>
+									<td style="min-width: 157px;">解决措施及建议</td>
+								</tr>
+								<tr ng-if="vm.monthReport_7.monthReportProblemDtos" ng-repeat="x in vm.monthReport_7.monthReportProblemDtos">
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.problemIntroduction" disabled></textarea>						
+									</td>
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.solutionsAndSuggest" disabled></textarea>								
+									</td>						
+								</tr>
+								<tr ng-if="!vm.monthReport_7.monthReportProblemDtos">
+									<td colspan="2" class="text-danger font-weight">无数据！</td>
+								</tr>
+							</table>
+						</td>
+						<td>
+							<table class="table table-bordered table-striped" style="margin-bottom: 0;">
+								<tr>
+									<td style="min-width: 157px;">问题</td>
+									<td style="min-width: 157px;">解决措施及建议</td>
+								</tr>
+								<tr ng-if="vm.monthReport_8.monthReportProblemDtos" ng-repeat="x in vm.monthReport_8.monthReportProblemDtos">
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.problemIntroduction" disabled></textarea>						
+									</td>
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.solutionsAndSuggest" disabled></textarea>								
+									</td>						
+								</tr>
+								<tr ng-if="!vm.monthReport_8.monthReportProblemDtos">
+									<td colspan="2" class="text-danger font-weight">无数据！</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr class="font-weight">
+						<td style="width:25%">9月份</td>
+						<td style="width:25%">10月份</td>
+						<td style="width:25%">11月份</td>
+						<td style="width:25%">12月份</td>
+					</tr>
+					<tr style="height:37px;">
+						<td>
+							<table class="table table-bordered table-striped" style="margin-bottom: 0;">
+								<tr>
+									<td style="min-width: 157px;">问题</td>
+									<td style="min-width: 157px;">解决措施及建议</td>
+								</tr>
+								<tr ng-if="vm.monthReport_9.monthReportProblemDtos" ng-repeat="x in vm.monthReport_9.monthReportProblemDtos">
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.problemIntroduction" disabled></textarea>						
+									</td>
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.solutionsAndSuggest" disabled></textarea>								
+									</td>						
+								</tr>
+								<tr ng-if="!vm.monthReport_9.monthReportProblemDtos">
+									<td colspan="2" class="text-danger font-weight">无数据！</td>
+								</tr>
+							</table>
+						</td>
+						<td>
+							<table class="table table-bordered table-striped" style="margin-bottom: 0;">
+								<tr>
+									<td style="min-width: 157px;">问题</td>
+									<td style="min-width: 157px;">解决措施及建议</td>
+								</tr>
+								<tr ng-if="vm.monthReport_10.monthReportProblemDtos" ng-repeat="x in vm.monthReport_10.monthReportProblemDtos">
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.problemIntroduction" disabled></textarea>						
+									</td>
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.solutionsAndSuggest" disabled></textarea>								
+									</td>						
+								</tr>
+								<tr ng-if="!vm.monthReport_10.monthReportProblemDtos">
+									<td colspan="2" class="text-danger font-weight">无数据！</td>
+								</tr>
+							</table>
+						</td>
+						<td>
+							<table class="table table-bordered table-striped" style="margin-bottom: 0;">
+								<tr>
+									<td style="min-width: 157px;">问题</td>
+									<td style="min-width: 157px;">解决措施及建议</td>
+								</tr>
+								<tr ng-if="vm.monthReport_11.monthReportProblemDtos" ng-repeat="x in vm.monthReport_11.monthReportProblemDtos">
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.problemIntroduction" disabled></textarea>						
+									</td>
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.solutionsAndSuggest" disabled></textarea>								
+									</td>						
+								</tr>
+								<tr ng-if="!vm.monthReport_11.monthReportProblemDtos">
+									<td colspan="2" class="text-danger font-weight">无数据！</td>
+								</tr>
+							</table>
+						</td>
+						<td>
+							<table class="table table-bordered table-striped" style="margin-bottom: 0;">
+								<tr>
+									<td style="min-width: 157px;">问题</td>
+									<td style="min-width: 157px;">解决措施及建议</td>
+								</tr>
+								<tr ng-if="vm.monthReport_12.monthReportProblemDtos" ng-repeat="x in vm.monthReport_12.monthReportProblemDtos">
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.problemIntroduction" disabled></textarea>						
+									</td>
+									<td>
+										<textarea style="max-width:140px;" ng-bind="x.solutionsAndSuggest" disabled></textarea>								
+									</td>						
+								</tr>
+								<tr ng-if="!vm.monthReport_12.monthReportProblemDtos">
+									<td colspan="2" class="text-danger font-weight">无数据！</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</fieldset>fieldset> -->

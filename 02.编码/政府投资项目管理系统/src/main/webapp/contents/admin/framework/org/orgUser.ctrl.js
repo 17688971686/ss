@@ -16,14 +16,11 @@
         vm.showAddUserDialog = function () {
         	$('.addUser').modal({
                 backdrop: 'static',
-                keyboard:false
+                keyboard:true
             });
         	 vm.orgUserGrid.dataSource.read();
         };
-        vm.closeAddUserDialog=function(){
-        	$('.addUser').modal('hide');		
-        	
-        };
+        
         vm.add = function (userId) {
         	orgUserSvc.add(vm,userId);
         };

@@ -1,0 +1,52 @@
+<div class="bg-info text-info" style="padding: 10px;">竣工决算</div>
+<table class="table table-bordered table-striped ">
+	<tr>
+		<td class="formAlignRight" style="width: 150px;">形象进度：<span
+			class="required">(*)</span></td>
+		<td><textarea rows="3" cols="20" maxlength="500"
+				style="height: 121px; width: 99%;" id="yearImageSchedule_jg"
+				name="yearImageSchedule_jg"
+				ng-model="vm.model.yearImageSchedule"
+				placeholder="请简要概述形象进度：备注（500字符以内）" data-val="true"
+				data-val-required="必填"
+				ng-change="vm.checkLength(vm.model.yearImageSchedule,500,'yearImageSchedule_jgTipsJG')"></textarea>
+			<span data-valmsg-for="yearImageSchedule_jg"
+			data-valmsg-replace="true" class="required"></span>
+			<div class="tipfont">
+				您还可以输入<span id="yearImageSchedule_jgTipsJG"><font
+					size="5">500</font></span>个字符!
+			</div></td>
+	</tr>
+	<tr>
+		<td class="formAlignRight" style="width: 150px;">年度建设内容：<span
+			class="required">(*)</span></td>
+		<td><textarea rows="3" cols="20" maxlength="500"
+				style="height: 121px; width: 99%;" id="yearConstructionContent_jg"
+				name="yearConstructionContent_jg"
+				ng-model="vm.model.yearConstructionContent"
+				placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" data-val="true"
+				data-val-required="必填"
+				ng-change="vm.checkLength(vm.model.yearConstructionContent,500,'yearConstructionContent_jgTips')"></textarea>
+			<span data-valmsg-for="yearConstructionContent_jg"
+			data-valmsg-replace="true" class="required"></span>
+			<div class="tipfont">
+				您还可以输入<span id="yearConstructionContent_jgTips"><font
+					size="5">500</font></span>个字符!
+			</div></td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">上年度项目形象进度：<span class="required">(*)</span></td>
+		<td><textarea rows="3" cols="20" maxlength="500"
+				style="height: 121px; width: 99%;" id="lastYearImageSchedule_jg"
+				name="lastYearImageSchedule_jg"
+				ng-model="vm.model.lastYearImageSchedule"
+				placeholder="请简要概述上年度项目形象进度：备注（500字符以内）" data-val="true"
+				data-val-required="必填"
+				ng-change="vm.checkLength(vm.model.lastYearImageSchedule,500,'lastYearImageSchedule_jgTipsJG')"></textarea>
+			<span data-valmsg-for="lastYearImageSchedule_jg"
+			data-valmsg-replace="true" class="required"></span>
+			<div class="tipfont">
+				您还可以输入<span id="lastYearImageSchedule_jgTipsJG"><font size="5">500</font></span>个字符!
+			</div></td>
+	</tr>
+</table>

@@ -6,90 +6,41 @@
 	sysConfig.$inject = [ '$http' ];
 
 	function sysConfig($http) {
-
-		var url_user = "/user";//获取所有的user
-		var url_task = "/management/task";//获取需要设置的task
+		var url_back = "#/sysConfig";//获取所有的user
 		var url_taskUser = "/sys/create";//设置task签收人
 		var url_getSysConfigs = "/sys/getSysConfigs";
-		
+		var url_org="/org";
 		
 		var service = {
-			getAllUser : getAllUser,
-			getAllTask : getAllTask,
-			createTaskUser : createTaskUser,
-			getSysConfigs : getSysConfigs
+			getSysConfigs : getSysConfigs,
+			editSysConfigs:editSysConfigs,
+			getUsersInTouzike:getUsersInTouzike
 		};
 
 		return service;
-
+		
+		
 		/**
-		 * 获取所有需要的系统配置
+		 * 获取投资科人员信息
 		 */
-		function getSysConfigs(vm){
+		function getUsersInTouzike(vm){
 			var httpOptions = {
 					method : 'get',
-					url : url_getSysConfigs,
-					data : vm.model
-				};
-			
-			var httpSuccess = function success(response) {
-				vm.userTaskList = response.data;//所有的配置
-				for (var j = 0; j < vm.userTaskList.length; j++) {//循环所有的配置
-					for (var i = 0; i < vm.model.taskList.length; i++) {//循环所有的任务
-						if(vm.userTaskList[j].configName == vm.model.taskList[i].id && vm.userTaskList[j].configType ==common.basicDataConfig().taskType){
-							if(vm.userTaskList[j].configName == common.basicDataConfig().taskType_monthReport 
-									|| vm.userTaskList[j].configName == common.basicDataConfig().taskType_yearPlan){//如果为月报、下一年度计划系统配置
-								vm.model.taskList[i].taskUser = vm.userTaskList[j].configValue;
-							}else if(vm.userTaskList[j].configName == common.basicDataConfig().taskType_sendMesg 
-									|| vm.userTaskList[j].configName == common.basicDataConfig().taskType_shenBao){//如果为发送短信系统配置或申报端口配置
-								vm.model.taskList[i].taskEnable = vm.userTaskList[j].enable;
-							}
-						}
-					}
-				}	
-			};
-			
-			common.http({
-				vm : vm,
-				$http : $http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});
-		}
-		
-		
-		/**
-		 * 系统配置：查询所有username
-		 * @return usernameList
-		 */
-		function createTaskUser(vm){
-			var data=[];
-		    for(var i in vm.model.taskList){		    
-		    	data.push({configName:vm.model.taskList[i].id,configValue:vm.model.taskList[i].taskUser,enable:vm.model.config[i].enable});
-		    }
-		   
-			var httpOptions = {
-					method : 'post',
-					url : url_taskUser,
-					data : data
+					url : common.format(url_org+"?$filter=name eq '{0}'", "投资科")
 				};
 			
 			var httpSuccess = function success(response) {
 				common.requestSuccess({
 					vm:vm,
 					response:response,
-					fn:function() {							
-						common.alert({
-							vm:vm,
-							msg:"操作成功",
-							fn:function() {
-								vm.isSubmit = false;
-								$('.alertDialog').modal('hide');
-								$('.modal-backdrop').remove();
-								location.reload();
-							}
-						});
-					}					
+					fn:function(){
+						vm.model.userInTouzike = response.data.value[0].userDtos || {}.userDtos;//投资科人员
+						vm.getUserName=function(userId){
+				        	var user=$linq(vm.model.userInTouzike)
+				    			.where(function(x){return x.id==userId;}).firstOrDefault();
+				        	return user;
+				        };
+					}
 				});
 			};
 			
@@ -99,58 +50,29 @@
 				httpOptions : httpOptions,
 				success : httpSuccess
 			});
-		}
+		}//end fun getUsersInTouzike
+		
 		
 		/**
-		 * 系统配置：设置task签收人
-		 * 
+		 * 获取所有需要的系统配置
 		 */
-		function getAllUser(vm) {
-			
+		function getSysConfigs(vm){
 			var httpOptions = {
-				method : 'get',
-				url : url_user,
-				data : vm.model
-			};
-			
-			var httpSuccess = function success(response) {
-				vm.userList = response.data.value;
-				vm.user=[];
-				for (var i = 0; i < vm.userList.length; i++) {
-					var roles = vm.userList[i].roles;
-					for (var j = 0; j < roles.length; j++) {
-						if(roles[j].roleName == common.basicDataConfig().management){
-							vm.user.push(vm.userList[i]);
-						}
-					}
-				}
-			};
-			
-			common.http({
-				vm : vm,
-				$http : $http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});
-		}
-		
-		/**
-		 * 系统配置：查询所有task
-		 * @return taskList
-		 */
-		function getAllTask(vm){
-			vm.model.taskList = common.getBacicDataByIndectity(common.basicDataConfig().taskType);				
-		}
-		
-		function updateTaskUser(){
-			
-			var httpOptions = {
-					method : 'put',
-					url : url_user
+					method : 'get',
+					url : url_getSysConfigs
 				};
 			
 			var httpSuccess = function success(response) {
-				vm.userList = response.data.value;
+				vm.configs = response.data;//所有的配置
+				vm.configs.forEach(function(value,index,array){
+					if(value.configName == common.basicDataConfig().taskType_monthReportPort){
+						var configValue = value.configValue.split("-");
+						if(configValue){
+							vm.monthReportConfigBegin = parseInt(configValue[0]);
+							vm.monthReportConfigEnd = parseInt(configValue[1]);
+						}
+					}
+				});
 			};
 			
 			common.http({
@@ -159,6 +81,48 @@
 				httpOptions : httpOptions,
 				success : httpSuccess
 			});
-		}
+		}//end fun getSysConfigs
+		
+		/**
+		 * 编辑配置信息
+		 */
+		function editSysConfigs(vm){
+			//处理数据
+			vm.configs.forEach(function(value,index,array){
+				if(value.configName == common.basicDataConfig().taskType_monthReportPort){
+					value.configValue = vm.monthReportConfigBegin+"-"+vm.monthReportConfigEnd;
+				}
+			});
+
+			var httpOptions = {
+					method : 'post',
+					url : url_taskUser,
+					data : vm.configs
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						common.alert({
+							vm:vm,
+							msg:"保存成功！",
+							fn:function(){
+								$('.alertDialog').modal('hide');
+								location.href = url_back;
+							}
+						});
+					}
+				});
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}//end fun editSysConfigs
 	}
 })();

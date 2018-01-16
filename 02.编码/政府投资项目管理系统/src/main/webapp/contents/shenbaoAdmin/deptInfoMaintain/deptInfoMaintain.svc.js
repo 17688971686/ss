@@ -65,8 +65,15 @@
 					url : url_userUnitInfo
 				};
 			
-			var httpSuccess = function success(response) {					
-				vm.model=response.data.value[0] || {};
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.model=response.data.value[0] || {};
+					}
+				});
+				
 			};
 				
 			common.http({

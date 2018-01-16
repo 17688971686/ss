@@ -29,13 +29,20 @@
         vm.initPassword=function(e){
         	var isChecked=$('#initPassword').is(":checked");
         	if(isChecked){
-        		vm.model.password="888888";
-            	vm.model.passwordConfirm="888888";
+        		vm.model.password="Passw0rd";
+            	vm.model.passwordConfirm="Passw0rd";
         	}else{
         		vm.model.password="";
             	vm.model.passwordConfirm="";
         	}
         	
+        };
+        
+        vm.resetPassword=function(e){
+        	var isChecked=$('#resetPassword').is(":checked");
+        	if(isChecked){
+        		vm.model.password="888888";
+        	}
         };
 
         activate();

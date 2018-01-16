@@ -1,0 +1,72 @@
+<link href="/contents/libs/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+<script src="/contents/libs/zTree/js/jquery.ztree.all.min.js"></script>
+
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<ol class="breadcrumb">
+        <li><a  href="#/mediationUnitList">审批事项管理</a></li>       
+        <li class="active">{{vm.title}}</li>
+    </ol>
+    <form id="form" name="form">
+        <div class="toolbar">
+            <a class="btn btn-sm btn-primary" href="#/supervision/spfk"><span class="glyphicon glyphicon-chevron-left"></span>返回</a>
+            <button class="btn btn-sm btn-success" ng-click="vm.updateShenpiFanKui()"  ng-show="vm.page=='shenpifankuiItemsChange'"><span class="glyphicon glyphicon-ok"></span>反馈</button>
+         </div>
+         <table style="width:100%" class="table table-bordered table-striped">
+            <tr>
+                <td class="formAlignRight" style="width:15%">审批事项： </td>
+                <td>
+                    <input disabled="disabled"  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.shenpiName" id="shenpiName" name="shenpiName" data-val="true" data-val-required="必填">
+                </td>
+            </tr>
+            <tr>
+                <td class="formAlignRight" style="width:15%">审批时间： </td>
+                <td>
+                    <input  disabled="disabled" class="Wdate form-control input-sm" style="width:180px;" type="text"  onFocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd',onpicked: function(){$(this).trigger('change')}})" 
+		             id="shenpiBeginDate" name="shenpiBeginDate"    ng-model="vm.model.shenpiBeginDate"  data-val="true" data-val-required="审批开始时间不能为空"/>~
+		             <input  disabled="disabled" class="Wdate form-control input-sm" style="width:180px;" type="text"  onFocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd',onpicked: function(){$(this).trigger('change')}})" 
+		             id="shenpiEndDate" name="shenpiEndDate"    ng-model="vm.model.shenpiEndDate"  data-val="true" data-val-required="审批开始时间不能为空"/>
+              
+                </td>
+               
+            </tr>
+             <tr>
+                <td class="formAlignRight" style="width:10%">审批项目： </td>
+                <td>
+                  	<span  ng-bind="vm.model.projectDto.projectName">
+                </td>
+            </tr>
+            <tr> 
+                <td class="formAlignRight" style="width:10%">审批单位： <span class="required">*</span></td>
+                <td>
+                  	 <span  ng-bind="vm.model.shenPiUnitDto.shenpiUnitName"></span>
+                </td>
+            </tr>
+            <tr>
+             <td class="formAlignRight" style="width:15%">审批内容： </td>
+             <td colspan="3" style="padding: 10px;">
+					<textarea  disabled="disabled" id="shenpiDetails" name="shenpiDetails" rows="3" cols="20" maxlength="500" ng-model="vm.model.shenpiDetails"
+						 style="height: 120px; width: 99%;" data-val="true" data-val-required="必填"
+						ng-change="vm.checkLength(vm.model.shenpiDetails,500,'shenpiDetailsTip')"></textarea>
+					<span data-valmsg-for="shenpiDetails" data-valmsg-replace="true" class="required"></span>
+			 </td>
+             </tr>
+             <tr>
+             <td class="formAlignRight" style="width:15%">结果反馈：</td>
+             <td colspan="3" style="padding: 10px;">
+					<textarea disabled="disabled" id="shenpiResult" name="shenpiResult" rows="3" cols="20" maxlength="500" ng-model="vm.model.shenpiResult"
+						 style="height: 120px; width: 99%;" 
+						ng-change="vm.checkLength(vm.model.shenpiResult,500,'shenpiResultTip')"></textarea>
+			 </td>
+             </tr>
+             <tr>
+             <td class="formAlignRight" style="width:15%">备注：</td>
+             <td colspan="3" style="padding: 10px;">
+					<textarea disabled="disabled" id="comment" name="comment" rows="3" cols="20" maxlength="500" ng-model="vm.model.comment"
+						 style="height: 120px; width: 99%;" 
+						ng-change="vm.checkLength(vm.model.comment,500,'commentTip')"></textarea>
+			 </td>
+             </tr>
+              
+			</table>
+    </form>
+   

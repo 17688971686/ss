@@ -13,12 +13,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cs.common.ICurrentUser;
 import cs.domain.framework.Org;
+import cs.domain.framework.Role;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.framework.OrgDto;
+import cs.model.framework.RoleDto;
 import cs.model.framework.UserDto;
 import cs.repository.framework.OrgRepo;
 import cs.repository.framework.UserRepo;
+import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 
 @Service
@@ -48,7 +51,33 @@ public class OrgServiceImpl implements OrgService {
 			orgDto.setCreatedDate(item.getCreatedDate());
 			orgDto.setComment(item.getComment());
 			orgDto.setOrgIdentity(item.getOrgIdentity());
-
+			
+			List<User> users= item.getUsers();
+			List<UserDto> usersDto= new ArrayList<>();
+			users.forEach(x->{
+				UserDto userDto = new UserDto();
+				userDto.setDisplayName(x.getDisplayName());
+				userDto.setId(x.getId());
+				List<Role> roles = x.getRoles();
+				List<RoleDto> rolesDto = new ArrayList<>();
+				roles.forEach(y ->{
+					
+					RoleDto roleDto = new RoleDto();
+					roleDto.setId(y.getId());
+					roleDto.setCreatedBy(y.getCreatedBy());
+					roleDto.setCreatedDate(y.getCreatedDate());
+					roleDto.setItemOrder(y.getItemOrder());
+					roleDto.setModifiedBy(y.getModifiedBy());
+					roleDto.setModifiedDate(y.getModifiedDate());
+					roleDto.setComment(y.getComment());
+					roleDto.setRoleName(y.getRoleName());
+					
+					rolesDto.add(roleDto);
+				});
+				userDto.setRoles(rolesDto);
+				usersDto.add(userDto);
+			});
+			orgDto.setUserDtos(usersDto);
 			orgDtoList.add(orgDto);
 		}
 		PageModelDto<OrgDto> pageModelDto = new PageModelDto<>();
@@ -134,6 +163,28 @@ public class OrgServiceImpl implements OrgService {
 				userDto.setComment(x.getComment());
 				userDto.setLoginName(x.getLoginName());
 				userDto.setDisplayName(x.getDisplayName());
+				
+				List<Role> roles = x.getRoles();
+				List<RoleDto> rolesDto = new ArrayList<>();
+				roles.forEach(y ->{
+					
+					RoleDto roleDto = new RoleDto();
+					roleDto.setId(y.getId());
+					roleDto.setCreatedBy(y.getCreatedBy());
+					roleDto.setCreatedDate(y.getCreatedDate());
+					roleDto.setItemOrder(y.getItemOrder());
+					roleDto.setModifiedBy(y.getModifiedBy());
+					roleDto.setModifiedDate(y.getModifiedDate());
+					roleDto.setComment(y.getComment());
+					roleDto.setRoleName(y.getRoleName());
+					
+					
+					rolesDto.add(roleDto);
+				});
+				
+				
+				userDto.setRoles(rolesDto);
+				
 				userDtos.add(userDto);
 
 			});
@@ -158,7 +209,15 @@ public class OrgServiceImpl implements OrgService {
 				userIds.add(x.getId());
 			});
 
-			List<User> users = userRepo.getUsersNotIn(userIds, oDataObj);
+			//List<User> users = userRepo.getUsersNotIn(userIds, oDataObj);
+			userIds.forEach(x -> {
+				ODataFilterItem<String> filterItem = new ODataFilterItem();
+				filterItem.setField("id");
+				filterItem.setOperator("ne");
+				filterItem.setValue(x);
+				oDataObj.getFilter().add(filterItem);
+			});
+			List<User> users = userRepo.findByOdata(oDataObj);
 			users.forEach(x -> {
 				UserDto userDto = new UserDto();
 				userDto.setId(x.getId());
@@ -169,7 +228,7 @@ public class OrgServiceImpl implements OrgService {
 
 			});
 			pageModelDto.setValue(userDtos);
-			pageModelDto.setCount(userDtos.size());
+			pageModelDto.setCount(oDataObj.getCount());
 
 			logger.info(String.format("查找非部门用户,部门%s", org.getOrgIdentity()));
 		}

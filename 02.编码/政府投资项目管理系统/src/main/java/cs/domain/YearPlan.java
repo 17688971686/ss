@@ -30,6 +30,10 @@ public class YearPlan extends BaseEntity{
 	@Column(columnDefinition="varchar(500) NULL COMMENT '备注'")
 	private String remark;
 	
+	@Column(columnDefinition="double(13,4) DEFAULT 0.0 COMMENT '总指标'")
+	private Double totalMoney=0.0;
+	
+	
 	//begin#关联信息
 	
 	@OneToMany(cascade=CascadeType.ALL)
@@ -75,8 +79,11 @@ public class YearPlan extends BaseEntity{
 		this.yearPlanCapitals = yearPlanCapitals;
 	}
 
-	
+	public Double getTotalMoney() {
+		return totalMoney;
+	}
 
-	
-	
+	public void setTotalMoney(Double totalMoney) {
+		this.totalMoney = totalMoney;
+	}
 }

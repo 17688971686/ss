@@ -29,8 +29,7 @@ public class Project extends BaseProject {
 	
 	@Column(columnDefinition="bit(1) DEFAULT 0 COMMENT '是否纳入项目库'")
 	private Boolean isIncludLibrary = false;
-
-
+	
 	//begin#关联信息
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<Attachment> attachments=new ArrayList<>();

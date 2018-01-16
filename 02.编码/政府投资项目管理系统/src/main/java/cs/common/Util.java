@@ -29,7 +29,7 @@ public class Util {
 			return rStr;
 		}
 	}
-	
+
 	public static boolean isNotNull(String str){
 		Boolean obj = true;
 		if(str == null || str.isEmpty()){
@@ -45,7 +45,7 @@ public class Util {
 		}
 		return obj;
 	}
-	
+
 	public static String no(int i){
 		switch (i) {
 		case 1:

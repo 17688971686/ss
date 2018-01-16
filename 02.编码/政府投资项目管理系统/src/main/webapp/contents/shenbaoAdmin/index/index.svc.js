@@ -86,7 +86,7 @@
 				var httpOptions = {
 					method : 'put',
 					url : url_account_password,
-					data : vm.model.password
+					data : $.md5(vm.model.password)
 				};
 
 				var httpSuccess = function success(response) {
@@ -117,13 +117,8 @@
 					httpOptions : httpOptions,
 					success : httpSuccess
 				});
-
-			} else {
-				 common.alert({
-				 vm:vm,
-				 msg:"您填写的信息不正确,请核对后提交!"
-				 });
 			}
+
 		}
 		
 		/**
@@ -153,19 +148,19 @@
 						field : "title",
 						title : "名称",
 						template:function(item){
-							if(item.taskType == vm.taskType_yearPlan){
+							if( vm.taskType_shenBao.indexOf(item.taskType)>-1){
 								return common.format('<a href="#/shenbao_record/{0}">{1}</a>',item.relId,item.title);
 							}else if(item.taskType == vm.taskType_monthReport){
 								return common.format('<a href="#/monthReportDetails/{0}">{1}</a>',item.relId,item.title);
 							}							
 						},
-						width:305,
+						width:400,
 						filterable : false						
 					},
 					{
 						field : "processSuggestion",
 						title : "信息",
-						width:441,
+						width:300,
 						template:function(item){
 							return common.format('<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:441px;" title="{0}">{0}</span>',item.processSuggestion);
 						},

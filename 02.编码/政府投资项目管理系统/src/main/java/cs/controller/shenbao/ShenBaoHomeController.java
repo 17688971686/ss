@@ -20,14 +20,14 @@ import cs.service.interfaces.ArticleService;
 
 
 @Controller
-@RequestMapping(name = "申报", path = "")
+@RequestMapping(name = "申报端登陆页", path = "")
 public class ShenBaoHomeController {
 	private String ctrlName = "shenbao/home";
 
 	@Autowired
 	private ArticleService articleService;
 	
-	@RequestMapping(name = "首页", path = "/")
+	@RequestMapping(name = "首页", path = "/",method = RequestMethod.GET)
 	public String index() {
 
 		return this.ctrlName + "/index";

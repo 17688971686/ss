@@ -1,0 +1,63 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+    	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+    	<li><a href="#/">首页</a></li>
+        <li>项目进度管理</li>       
+        <li class="active">月报列表</li>
+    </ol>
+ 	<script type="text/template" id="columnBtns"></script>
+	<div class="search">
+  		<table class="table table-bordered" style="margin-bottom:0px;">
+  			<tr>
+  				<td colspan="6" class="bg-info">
+  					<span style="padding:10px;"><strong>社会投资项目查询</strong></span>
+  					<button class="btn btn-sm btn-primary pull-right" ng-click="vm.filterClear()"><span class="glyphicon glyphicon-refresh"></span>清空筛选条件</button>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td class="formAlignRight">项目名称：</td>
+  				<td style="width:25%"><input type="text" style="width:360px;" placeholder="请输入项目名称（可少输不可输错）" ng-model="vm.search.projectName"/></td>
+  				<td class="formAlignRight">项目阶段：</td>
+  				<td>
+  					<select style="height:30px;" ng-model="vm.search.projectStage">
+			  			<option value="">---请选择---</option>
+			  			<option ng-repeat="x in vm.basicData.projectStage" value="{{x.id}}">{{x.description}}</option>
+			  		</select>
+  				</td>
+  				<td class="formAlignRight">项目行业：</td>
+  				<td>
+			  		<select style="height:30px;" ng-change="vm.searchIndustryChildChange()" ng-model="vm.search.projectIndustryChild">
+			  			<option value="">---请选择具体的行业---</option>
+			  			<option ng-repeat="x in vm.basicData.projectIndustry_SH | orderBy:'itemOrder'" value="{{x.id}}">{{x.description}}</option>
+			  		</select>
+			  		<select style="height:30px;" ng-model="vm.search.projectIndustry" ng-if="vm.searchIndustryChild">
+			  			<option value="">---请选择具体的行业---</option>
+			  			<option ng-repeat="x in vm.basicData.projectIndustryChild_SH | orderBy:'itemOrder'" value="{{x.id}}">{{x.description}}</option>
+			  		</select>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td class="formAlignRight">建设单位：</td>
+  				<td>
+  					<select style="height:30px;" ng-model="vm.search.unitName">
+			  			<option value="">---请选择---</option>
+			  			<option ng-repeat="x in vm.basicData.userUnit" value="{{x.id}}">{{x.unitName}}</option>
+			  		</select>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td colspan="6">
+  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search()"><span class="glyphicon glyphicon-search"></span>查询</button>
+  				</td>
+  			</tr>
+  		</table>
+  </div>
+  <div class="toolbar"></div>
+    <form id="form" name="form"> 
+         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions_SH"></div>
+    </form>
+</div>
+

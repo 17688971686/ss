@@ -5,18 +5,86 @@
 
 	projectMonthReport.$inject = [ '$http','$compile' ];	
 	function projectMonthReport($http,$compile) {
-		var url_project = "/shenbaoAdmin/project/unitProject";
+		var url_project = "/shenbaoAdmin/project";
 		var url_basicData = "/common/basicData";//获取基础数据
 		var url_projectMonthReport="/shenbaoAdmin/projectMonthReport";
 		var url_userUnitInfo="/shenbaoAdmin/userUnitInfo";
+		var url_sysConfig="/sys/getSysConfig";
 		
 		var service = {
 			grid : grid,
 			submitMonthReport:submitMonthReport,
-			getProjectById:getProjectById
+			getProjectById:getProjectById,
+			checkPort:checkPort
 			
 		};		
 		return service;	
+		
+		/**
+		 * 检查月报端口
+		 */
+		function checkPort(vm,month){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_sysConfig + "?configName={0}", common.basicDataConfig().taskType_monthReportPort)
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response : response,
+					fn:function(){
+						vm.sysConfing = response.data;
+						if(vm.sysConfing.enable){
+							var nowDate = new Date();
+							var nowMonth = nowDate.getMonth()+1; 
+							var nowDay = nowDate.getDate();
+							var beginDay = parseInt(vm.sysConfing.configValue.split("-")[0]);
+							var endDay = parseInt(vm.sysConfing.configValue.split("-")[1]);
+							var msg ="";
+							if(month == nowMonth){
+								if(nowDay<=endDay || nowDay>=beginDay){
+									//跳转到月报信息填写页面
+					               	location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+vm.model.projectInfo.projectInvestmentType+"/"+vm.submitYear+"/"+month;	 
+								}else{
+									if(nowDay>endDay){
+										msg = "该月月报填报日期为上月"+beginDay+"日至本月"+endDay+"日";
+									}else if(nowDay<beginDay){
+										msg = "该月月报填报日期为本月"+beginDay+"日至下月"+endDay+"日";
+									}
+									common.alert({
+					   					vm:vm,
+				   						msg:msg
+									});
+								}
+							}else{
+								if(nowMonth > month){
+									msg="该月月报已逾期，不可填写!";
+								}else if(nowMonth<month){
+									msg="该月月报还未到填写时间，不可填写!";
+								}
+								common.alert({
+				   					vm:vm,
+				   					msg:msg
+								});
+							}
+			    		   }else{
+			    			   common.alert({
+			   					vm:vm,
+			   					msg:"月报端口已关闭,请联系管理人员!"
+			   				});
+			    		   }
+					}
+				});
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
 		
 		/**
 		 * 查询项目数据
@@ -28,7 +96,6 @@
 				};
 				var httpSuccess = function success(response) {					
 					vm.model.projectInfo = response.data.value[0]||{};
-										
 					if(vm.page=='selectMonth'){//如果为月份选择页面
 						vm.setMonthSelected();//设置月份选择按钮的状态
 					}
@@ -62,21 +129,24 @@
 						//项目开工以及竣工日期的获取
 						vm.model.monthReport.beginDate=common.formatDate(vm.model.projectInfo.beginDate);
 						vm.model.monthReport.endDate=common.formatDate(vm.model.projectInfo.endDate);
-						//项目相关资金获取
+						
 						vm.model.monthReport.invertPlanTotal=common.toMoney(vm.model.projectInfo.projectInvestSum);//项目总投资
-						vm.model.monthReport.actuallyFinishiInvestment=common.toMoney(vm.model.projectInfo.projectInvestAccuSum);//累计完成投资
-						//资金处理
-						vm.model.monthReport.releasePlanTotal = common.toMoney(vm.model.monthReport.releasePlanTotal);//截止上年底累计下达计划
-						vm.model.monthReport.thisYearPlanInvestment=common.toMoney(vm.model.monthReport.thisYearPlanInvestment);//本年度计划完成投资
-						vm.model.monthReport.thisYearPlanHasInvestment=common.toMoney(vm.model.monthReport.thisYearPlanHasInvestment);//本年度已下达计划
-						vm.model.monthReport.thisYearAccumulatedInvestment=common.toMoney(vm.model.monthReport.thisYearAccumulatedInvestment);				
-						vm.model.monthReport.thisMonthPlanInvestTotal=common.toMoney(vm.model.monthReport.thisMonthPlanInvestTotal);//本月计划完成投资
-						vm.model.monthReport.thisMonthInvestTotal=common.toMoney(vm.model.monthReport.thisMonthInvestTotal);//本月完成投资
-						vm.model.monthReport.thisYearAccumulatedInvestment=common.toMoney(vm.model.monthReport.thisYearAccumulatedInvestment);//本年度已完成投资						
-						vm.model.monthReport.firstQuarCompInvestment=common.toMoney(vm.model.monthReport.firstQuarCompInvestment);//1到3月份完成投资
-						vm.model.monthReport.secondQuarCompInvestment=common.toMoney(vm.model.monthReport.secondQuarCompInvestment);//1到6月份完成投资
-						vm.model.monthReport.thirdQuarCompInvestment=common.toMoney(vm.model.monthReport.thirdQuarCompInvestment);//1到9月份完成投资
-						vm.model.monthReport.fourthQuarCompInvestment=common.toMoney(vm.model.monthReport.fourthQuarCompInvestment);//1到12月份完成投资
+						//项目相关资金获取 （TODO 资金处理这一块可以不用了）
+						if(vm.isZFInvestment){
+							vm.model.monthReport.actuallyFinishiInvestment=common.toMoney(vm.model.projectInfo.projectInvestAccuSum);//累计完成投资
+							//资金处理
+							vm.model.monthReport.releasePlanTotal = common.toMoney(vm.model.monthReport.releasePlanTotal);//截止上年底累计下达计划
+							vm.model.monthReport.thisYearPlanInvestment=common.toMoney(vm.model.monthReport.thisYearPlanInvestment);//本年度计划完成投资
+							vm.model.monthReport.thisYearPlanHasInvestment=common.toMoney(vm.model.monthReport.thisYearPlanHasInvestment);//本年度已下达计划
+							vm.model.monthReport.thisYearAccumulatedInvestment=common.toMoney(vm.model.monthReport.thisYearAccumulatedInvestment);				
+							vm.model.monthReport.thisMonthPlanInvestTotal=common.toMoney(vm.model.monthReport.thisMonthPlanInvestTotal);//本月计划完成投资
+							vm.model.monthReport.thisMonthInvestTotal=common.toMoney(vm.model.monthReport.thisMonthInvestTotal);//本月完成投资
+							vm.model.monthReport.thisYearAccumulatedInvestment=common.toMoney(vm.model.monthReport.thisYearAccumulatedInvestment);//本年度已完成投资						
+							vm.model.monthReport.firstQuarCompInvestment=common.toMoney(vm.model.monthReport.firstQuarCompInvestment);//1到3月份完成投资
+							vm.model.monthReport.secondQuarCompInvestment=common.toMoney(vm.model.monthReport.secondQuarCompInvestment);//1到6月份完成投资
+							vm.model.monthReport.thirdQuarCompInvestment=common.toMoney(vm.model.monthReport.thirdQuarCompInvestment);//1到9月份完成投资
+							vm.model.monthReport.fourthQuarCompInvestment=common.toMoney(vm.model.monthReport.fourthQuarCompInvestment);//1到12月份完成投资
+						}
 					}		
 					
 				};
@@ -143,7 +213,7 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_project),
+				transport : common.kendoGridConfig().transport(common.format(url_projectMonthReport+"/unitProject")),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
 					fields : {
@@ -174,42 +244,83 @@
 
 			// Begin:column
 			var columns = [
+				{
+					template : function(item) {
+						return kendo
+								.format(
+										"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+										item.id);
+					},
+					filterable : false,
+					width : 40,
+					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+				},
 					
-					{
-						field : "projectName",
-						title : "项目名称",						
-						filterable : true,
-						template:function(item){
-							return common.format('<a href="#/project/projectInfo/{0}/{1}">{2}</a>',item.id,item.projectInvestmentType,item.projectName);
-						}
-					},
-					{
-						field : "projectStage",
-						title : "项目阶段",
-						width : 150,
-						filterable : false,
-						template:function(item){
-							return common.getBasicDataDesc(item.projectStage);
-						}
-					},
-					{
-						field : "projectClassify",
-						title : "项目分类",
-						width : 150,
-						filterable : false,
-						template:function(item){
-							return common.getBasicDataDesc(item.projectClassify);
-						}
-					},
-					{
-						field : "",
-						title : "操作",
-						width : 180,
-						template : function(item) {
-							return common.format($('#columnBtns').html(),item.id,"vm.del('" + item.id + "')");
-						}
-
+				{
+					field : "projectName",
+					title : "项目名称",						
+					filterable : true,
+					width:250,
+					template:function(item){
+						return common.format('<a href="#/project/projectInfo/{0}">{1}</a>',item.id,item.projectName);
 					}
+				},
+				{
+					field : "projectStage",
+					title : "项目阶段",
+					width : 120,
+					template:function(item){
+						return common.getBasicDataDesc(item.projectStage);
+					},
+					filterable : {
+						ui: function(element){
+	                        element.kendoDropDownList({
+	                            valuePrimitive: true,
+	                            dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectStage),
+	                            dataTextField: "description",
+	                            dataValueField: "id",
+	                            filter: "startswith"
+	                        });
+	                    }
+					}
+				},
+				{
+					field : "projectInvestmentType",
+					title : "项目投资类型",
+					width : 120,
+					template:function(item){
+						return common.getBasicDataDesc(item.projectInvestmentType);
+					},
+					filterable : {
+						ui: function(element){
+	                        element.kendoDropDownList({
+	                            valuePrimitive: true,
+	                            dataSource: common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType),
+	                            dataTextField: "description",
+	                            dataValueField: "id",
+	                            filter: "startswith"
+	                        });
+	                    }
+					}
+				},
+				{
+					field : "projectIndustry",
+					title : "项目行业",
+					template:function(item){
+						return common.getBasicDataDesc(item.projectIndustry);
+					},
+					width : 120,
+					filterable : false
+				},
+				{
+					field : "",
+					title : "操作",
+					width : 180,
+					template : function(item) {
+						return common.format($('#columnBtns').html(),item.id,"vm.del('" + item.id + "')");
+					}
+
+				}
 
 			];
 			// End:column
@@ -239,7 +350,9 @@
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
 //				dataBound:dataBound,
-				resizable : true
+				resizable : true,
+				sortable:true,
+				scrollable:true
 			};
 
 		}// end fun grid

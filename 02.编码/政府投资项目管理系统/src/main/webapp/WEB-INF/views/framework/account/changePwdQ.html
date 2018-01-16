@@ -3,7 +3,7 @@
 <div class="well well-sm" style="background: white;">
 	<ol class="breadcrumb">
 		<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
-		<li><a href="#/managerCenter">首页</a></li>
+		<li><a href="#/">首页</a></li>
 		<li class="active">修改密码</li>
 	</ol>
 	<form id="form" name="form">		
@@ -17,19 +17,19 @@
 				<tr>
 					<td class="formAlignRight">新密码： <span class="required">*</span></td>
 					<td><input type="password" maxlength="200"
-						class="form-control input-sm " ng-model="vm.model.password "
-						id="password" name="password" data-val="true"
-						data-val-required="必填"></td>
+						class="form-control input-sm" ng-model="vm.model.password "
+						id="password" name="password" data-val="true" data-val-required="必填" 
+						data-val-regex="必须为8位以上数字和字母的结合" data-val-regex-pattern="^(?=.*[a-zA-Z])(?=.*[0-9]).*.{8,}$"/></td>
 					<td><span data-valmsg-for="password" data-valmsg-replace="true"
 						class="errors"></span></td>
 				</tr>
 				<tr>
 					<td class="formAlignRight">确认密码： <span class="required">*</span></td>
 					<td><input type="password" maxlength="200"
-						class="form-control input-sm " ng-model="vm.model.passwordConfirm "
+						class="form-control input-sm" ng-model="vm.model.passwordConfirm "
 						id="passwordConfirm" name="passwordConfirm" data-val="true"
 						data-val-required="必填" data-val-equalto="两次密码不一致"
-						data-val-equalto-other="password"></td>
+						data-val-equalto-other="password"/></td>
 					<td><span data-valmsg-for="passwordConfirm"
 						data-valmsg-replace="true" class="errors"></span></td>
 				</tr>

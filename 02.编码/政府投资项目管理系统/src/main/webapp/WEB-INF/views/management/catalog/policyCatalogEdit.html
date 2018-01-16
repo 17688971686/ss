@@ -1,0 +1,52 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+    	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+	  	<li><a href="#/">首页</a></li>
+      	<li><a href="#/catalog/policyCatalog">政策目录管理</a></li>
+        <li class="active">{{vm.title}}</li>
+    </ol>
+    <form id="form" name="form">
+    	<div class="toolbar">
+            <a ng-show="vm.policyCatalogEncourage" class="btn btn-sm btn-primary" href="#/catalog/policyCatalog"><span class="glyphicon glyphicon-chevron-left"></span>返回</a>
+            <a ng-show="vm.policyCatalogAllow" class="btn btn-sm btn-primary" href="#/catalog/policyCatalog/allowList"><span class="glyphicon glyphicon-chevron-left"></span>返回</a>
+	        <a ng-show="vm.policyCatalogLimit" class="btn btn-sm btn-primary" href="#/catalog/policyCatalog/limitList"><span class="glyphicon glyphicon-chevron-left"></span>返回</a>
+            <button class="btn btn-sm btn-success" ng-click="vm.savePolicyCatalog()" ng-hide="vm.isShowConfirm"><span class="glyphicon glyphicon-ok"></span>创建</button>
+            <button class="btn btn-sm btn-success" ng-click="vm.updatePolicyCatalog()" ng-show="vm.isShowConfirm"><span class="glyphicon glyphicon-ok"></span>更新</button>
+        </div>
+        
+        <table style="width:100%" class="table table-bordered table-striped">
+            <tr>
+                <td class="formAlignRight" style="width:25%">名称： <span class="required">(*)</span></td>
+                <td>
+                	<!-- <input ng-hide="vm.isPolicyCatalogSecondList" type="text" maxlength="200" style="width:50%" class="form-control input-sm " ng-model="vm.model.name" 
+                		id="name" name="name" data-val="true" data-val-required="必填" placeholder="请输入政策条目类型名称，请勿重复!" > -->
+					<textarea style="height:80px;width: 50%;" placeholder="请输入政策条目名称，请勿重复!" 
+						ng-model="vm.model.name" id="name" name="name" data-val="true" data-val-required="必填">
+					</textarea>													
+					<span data-valmsg-for="name" data-valmsg-replace="true" class="required"></span>
+                </td>
+           	</tr>
+           	<tr>
+                <td class="formAlignRight" style="width:15%">代码： <span class="required">(*)</span></td>
+                <td>
+                	<!-- <input ng-hide="vm.isPolicyCatalogSecondList" type="text" maxlength="200" style="width:50%;" 
+                	 	class="form-control input-sm" placeholder="请按规律输入政策类型代码，如：A00001，请勿重复!" 
+                    	ng-model="vm.model.code" id="code" name="code" data-val="true" data-val-required="必填"> -->
+                    <input type="text" maxlength="200" style="width:50%;height:40px;" 
+                    	class="form-control input-sm" placeholder="请按规律输入政策条目代码，如：A0000101，请勿重复!" 
+                    	ng-model="vm.model.code" id="code" name="code" data-val="true" data-val-required="必填">
+                    <span data-valmsg-for="code" data-valmsg-replace="true" class="required"></span>
+                </td>
+            </tr>
+        </table>
+        
+    </form> 
+    
+       
+</div>
+
+
+
