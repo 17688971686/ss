@@ -208,6 +208,15 @@ public class SysServiceImpl implements SysService{
 		org3.setName("评审中心");
 		org3.setOrgIdentity("评审中心");
 		
+		Org org4 = new Org();
+		org4.setComment("系统初始化创建,不可删除");
+		org4.setCreatedBy("admin");
+		org4.setCreatedDate(new Date());
+		org4.setId(UUID.randomUUID().toString());
+		org4.setName("投资科");
+		org4.setOrgIdentity("投资科");
+		
+		orgRepo.save(org4);
 		orgRepo.save(org3);
 		orgRepo.save(org2);
 		orgRepo.save(org1);
@@ -228,10 +237,10 @@ public class SysServiceImpl implements SysService{
 		role3.setId(UUID.randomUUID().toString());
 		role3.setComment("系统初始化创建,不可删除");
 		
-		Role role4 = new Role();
-		role4.setRoleName(BasicDataConfig.msFenBanRole);
-		role4.setId(UUID.randomUUID().toString());
-		role4.setComment("系统初始化创建,不可删除");
+//		Role role4 = new Role();
+//		role4.setRoleName(BasicDataConfig.msFenBanRole);
+//		role4.setId(UUID.randomUUID().toString());
+//		role4.setComment("系统初始化创建,不可删除");
 		
 		Role role5 = new Role();
 		role5.setRoleName(BasicDataConfig.role_shenpiUnit);
@@ -276,7 +285,7 @@ public class SysServiceImpl implements SysService{
 		roleRepo.save(role);
 		roleRepo.save(role2);
 		roleRepo.save(role3);
-		roleRepo.save(role4);
+//		roleRepo.save(role4);
 		roleRepo.save(role5);
 		roleRepo.save(role6);
 		roleRepo.save(role7);
@@ -637,31 +646,16 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("projectStage_6","projectStage" , "projectStage", "固定资产登记阶段", "",false);
 		
 		//审批流程
-		this.createBasicData("processState","" , "processState", "处理状态", "处理状态",false);		
-		this.createBasicData("processState_1","processState" , "processState", "已填报/等待签收", "",false);
-		this.createBasicData("processState_2","processState" , "processState", "已签收", "",false);
-		this.createBasicData("processState_3","processState" , "processState", "投资科分办", "",false);
-		this.createBasicData("processState_4","processState" , "processState", "科长分办", "",false);
-		this.createBasicData("processState_5","processState" , "processState", "经办人初审", "",false);
-		this.createBasicData("processState_6","processState" , "processState", "科长复核", "",false);
-		this.createBasicData("processState_7","processState" , "processState", "副局长审批", "",false);
-		this.createBasicData("processState_8","processState" , "processState", "局长审批", "",false);
-		this.createBasicData("processState_9","processState" , "processState", "经办人送审", "",false);
-		this.createBasicData("processState_10","processState" , "processState", "评审中心评审", "",false);
-		this.createBasicData("processState_11","processState" , "processState", "已办结", "",false);
-		this.createBasicData("processState_12","processState" , "processState", "协办", "",false);
-		this.createBasicData("processState_13","processState" , "processState", "结束协办", "",false);
-		this.createBasicData("processState_14","processState" , "processState", "退回重办", "",false);
-		this.createBasicData("processState_15","processState" , "processState", "已退文", "",false);
-		this.createBasicData("processState_16","processState" , "processState", "下一流程处理中", "",false);
-		this.createBasicData("processState_17","processState" , "processState", "经办人拟稿", "",false);
-		this.createBasicData("processState_18","processState" , "processState", "科长核稿", "",false);
-		this.createBasicData("processState_19","processState" , "processState", "秘书科核稿", "",false);
-		this.createBasicData("processState_20","processState" , "processState", "副局长复核", "",false);
-		this.createBasicData("processState_21","processState" , "processState", "局长复核", "",false);
-		this.createBasicData("processState_22","processState" , "processState", "秘书科发文登记", "",false);
-		this.createBasicData("processState_23","processState" , "processState", "结束审批", "",false);
-		this.createBasicData("processState_24","processState" , "processState", "退文办结", "",false);
+		this.createBasicData("processStage","" , "processStage", "审批流程阶段", "审批流程阶段",false);
+		this.createBasicData("processStage_1","processStage" , "processStage", "建设单位填写申报信息", "审批流程阶段",false);
+		this.createBasicData("processStage_2","processStage" , "processStage", "投资科审核收件办理", "审批流程阶段",false);
+		this.createBasicData("processStage_3","processStage" , "processStage", "科长审核办理", "审批流程阶段",false);
+		this.createBasicData("processStage_4","processStage" , "processStage", "经办人办理", "审批流程阶段",false);
+		this.createBasicData("processStage_5","processStage" , "processStage", "转他人办理", "审批流程阶段",false);
+		this.createBasicData("processStage_6","processStage" , "processStage", "委托评审科长审核", "审批流程阶段",false);
+		this.createBasicData("processStage_7","processStage" , "processStage", "拟文登记科长审核", "审批流程阶段",false);
+		this.createBasicData("processStage_8","processStage" , "processStage", "评审中心审批", "审批流程阶段",false);
+		this.createBasicData("processStage_9","processStage" , "processStage", "秘书科发文", "审批流程阶段",false);
 		
 		this.createBasicData("taskType","" , "taskType", "任务类型", "任务类型",false);		
 		this.createBasicData("taskType_1","taskType" , "taskType", "月报填报", "",false);

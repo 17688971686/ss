@@ -12,10 +12,8 @@
 		var url_dept="/org";
 		var url_back = "#/task/todo_plan";
 		var url_replyFile = "/management/replyFile";
-		var url_role="/role";
 		var url_opin="/opin";
 		var url_users = "/user";
-		var url_draft ="/management/draft";
 		var url_approval ="/management/approval";
 		var url_proxy = "/management/proxy";
 		var url_review = "/management/review";
@@ -25,42 +23,39 @@
 			grid_plan : grid_plan,//待办任务列表
 			getTaskInfoById:getTaskInfoById,//查询任务信息
 			getShenBaoInfoById:getShenBaoInfoById,//查询申报信息
-			getDepts:getDepts,//查询部门
+			getDeptByName:getDeptByName,//查询部门
 			handle:handle,//送出
 			replyFileGird:replyFileGird,//批复文件库列表
 			saveShenBaoInfo:saveShenBaoInfo,//保存申报信息
-			getRoles:getRoles,//查询角色信息
 			saveOpinion:saveOpinion,//保存意见
 			getOpinion:getOpinion,//获取意见
 			opinionGird:opinionGird,//意见列表
 			deleteOpin:deleteOpin,//删除意见
 			editOpin:editOpin,//编辑意见
-			saveDraft:saveDraft,
-			getDraftIssued:getDraftIssued,
-			complete_PlanGird:complete_PlanGird,
-			getTaskById:getTaskById
+			savePlanReach:savePlanReach,//保存下达计划
+			complete_PlanGird:complete_PlanGird
 		};
 		
 		return service;
 		
-		//拟稿意见
-		function saveDraft(vm){
-			vm.draft.projectName = vm.model.shenBaoInfo.projectName;
-			vm.draft.unitName = vm.model.shenBaoInfo.constructionUnit;
-			vm.draft.capitalTotal = vm.capitalTotal;
-			vm.draft.userNameAndUnit = vm.userNameAndUnit;
-			
+		/**
+		 * 保存下达计划
+		 */
+		function savePlanReach(vm){
 			common.initJqValidation();
- 			var isValid = $('#formDraft').valid();
+ 			var isValid = $('#planReachEdit').valid();
 	   		if (isValid) {
+	   			//处理数据
+	   			vm.model.shenBaoInfo.sqPlanReach_ggys=vm.apPlanReach_ggys;
+   				vm.model.shenBaoInfo.sqPlanReach_gtzj=vm.apPlanReach_gtzj;
+   				
 				var httpOptions = {
-						method : 'post',
-						url : common.format(url_draft + "/" +vm.taskPlan.id),
-						data : vm.draft
-					};
+					method : 'put',
+					url : url_shenbao,
+					data : vm.model.shenBaoInfo
+				};
 				
 				var httpSuccess = function success(response) {
-					$('#draft_issued').modal('hide');
 					common.requestSuccess({
 						vm:vm,
 						response:response,
@@ -70,7 +65,6 @@
 								msg:"保存成功！",
 								fn:function(){
 									$('.alertDialog').modal('hide');
-									
 								}
 							});
 						}
@@ -86,31 +80,10 @@
 	   		}
 		}
 		
-		function getDraftIssued(vm){
-			var httpOptions = {
-					method : 'get',
-					url : common.format(url_draft + "/" +vm.taskId)
-				};
-			
-			var httpSuccess = function success(response) {
-				common.requestSuccess({
-					vm:vm,
-					response:response,
-					fn:function(){
-						vm.draft = response.data || {};
-						vm.draft.draftDate=common.formatDate(vm.draft.draftDate);//开工日期
-					}
-				});
-			};
-				
-			common.http({
-				vm:vm,
-				$http:$http,
-				httpOptions:httpOptions,
-				success:httpSuccess
-			});
-		}
-		//编辑意见
+		
+		/**
+		 * 编辑保存常用意见
+		 */
 		function editOpin(vm){
 			var httpOptions = {
 	                method: 'put',
@@ -118,20 +91,29 @@
 	                data:vm.model.opinion          
 	            };
 	            
-	            var httpSuccess = function success(response) {    
-	            	vm.opinionGrid.dataSource.read();
-	            	$('.opinionEdit').modal('hide');
-	            };
+            var httpSuccess = function success(response) { 
+            	common.requestSuccess({
+            		vm:vm,
+            		response:response,
+            		fn:function(){
+            			$('.opinionEdit').modal('hide');
+            			vm.opinionGrid.dataSource.read();
+            			getOpinion(vm);
+            		}
+            	});
+            };
 	            
-	            common.http({
-					vm:vm,
-					$http:$http,
-					httpOptions:httpOptions,
-					success:httpSuccess
-				});
-		}
+            common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}//end fun editOpin
 		
-		//删除意见
+		/**
+		 * 删除常用意见
+		 */
 		function deleteOpin(vm,id) {
             vm.isSubmit = true;
             
@@ -148,6 +130,7 @@
 					fn:function () {
 	                    vm.isSubmit = false;
 	                    vm.opinionGrid.dataSource.read();
+	                    getOpinion(vm);
 	                }					
 				});
             };
@@ -158,7 +141,7 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-        }// end fun deleteorg	
+        }// end fun deleteOpin	
 
 		/**
 		 * 查询意见
@@ -170,7 +153,13 @@
 			};
 			
 			var httpSuccess = function success(response){
-				vm.model.opinionDtos = response.data.value||{};
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.model.opinionDtos = response.data.value||{};
+					}
+				});
 			};
 			
 			common.http({
@@ -185,8 +174,7 @@
 		 * 保存意见
 		 */
 		function saveOpinion(vm){
-			
-			vm.opinion = {"opinion":vm.processSuggestion};
+			vm.opinion = {"opinion":vm.taskRecord.processSuggestion};
 			var httpOptions = {
 					method : 'post',
 					url : url_opin,
@@ -203,6 +191,7 @@
 							msg:"保存成功！",
 							fn:function(){
 								$('.alertDialog').modal('hide');
+								getOpinion(vm);
 							}
 						});
 					}
@@ -216,28 +205,6 @@
 				success:httpSuccess
 			});
 		}
-		
-		/**
-		 * 查询角色信息
-		 */
-		function getRoles(vm){
-			var httpOptions = {
-					method : 'get',
-					url : url_role
-				};
-			
-			var httpSuccess = function success(response) {
-				vm.model.roles = response.data.value||{};
-			};
-				
-			common.http({
-				vm:vm,
-				$http:$http,
-				httpOptions:httpOptions,
-				success:httpSuccess
-			});
-		}
-		
 		
 		/**
 		 * 保存申报信息
@@ -273,10 +240,11 @@
 			});
 		}
 		
+		
 		/**
 		 * 查询任务信息
 		 */
-		function getTaskById(vm){
+		function getTaskInfoById(vm){
 			var httpOptions = {
 					method : 'get',
 					url : common.format(url_task + "?$filter=id eq '{0}'", vm.taskId)
@@ -287,40 +255,28 @@
 					vm:vm,
 					response:response,
 					fn:function(){
-						vm.task = response.data.value[0] || {};
-						if(vm.task){
-							vm.task.taskTypeDesc=common.getBasicDataDesc(vm.task.taskType);
-							if(vm.task.isComplete){//如果任务为已完成
-								vm.isComplete=true;
-							}
-						}	
-					}
-				});
-			};
-				
-			common.http({
-				vm:vm,
-				$http:$http,
-				httpOptions:httpOptions,
-				success:httpSuccess
-			});
-		}
-		
-		/**
-		 * 查询任务信息
-		 */
-		function getTaskInfoById(vm){
-			var httpOptions = {
-					method : 'get',
-					url : common.format(url_taskPlan + "?$filter=id eq '{0}'", vm.taskId)
-				};
-			
-			var httpSuccess = function success(response) {
-				common.requestSuccess({
-					vm:vm,
-					response:response,
-					fn:function(){
 						vm.taskPlan = response.data.value[0] || {};
+						console.log(vm.taskPlan);
+						if(vm.taskPlan.thisProcess==common.basicDataConfig().processStage_qianshou){//签收阶段
+							vm.isShowBtn=true;
+							getDeptByName(vm,"投资科");//初始化下一流程处理人为投资科科长处理
+						}
+						if(vm.taskPlan.thisProcess==common.basicDataConfig().processStage_kzshenhe){//科长审核阶段
+							vm.isProcessStage_kzshenhe=true;
+							getDeptByName(vm,"投资科");//获取投资科下的科员
+							vm.taskRecord.nextProcess=common.basicDataConfig().processStage_jbrbanli;//初始化下一流程为经办人处理
+							vm.isShowDeptUsers=true;//初始化显示投资科人员
+						}
+						if(vm.taskPlan.thisProcess==common.basicDataConfig().processStage_jbrbanli ||
+								vm.taskPlan.thisProcess==common.basicDataConfig().processStage_zbqitaren){//经办人办理阶段、转办其他人
+							vm.isProcessStage_jbrbanli=true;
+							getDeptByName(vm,"投资科");//初始化下一流程处理人为投资科科长处理
+							vm.taskRecord.nextProcess=common.basicDataConfig().processState_niwendengji;//初始化下一流程为下达计划拟文
+							vm.isShowXiaDaJiHuaBtn=true;//初始化显示填写下达计划按钮
+						}
+						if(vm.taskPlan.thisProcess==common.basicDataConfig().processState_niwendengji){//发文拟稿阶段
+							vm.isShowBtn=true;
+						}
 					}
 				});
 			};
@@ -418,6 +374,20 @@
 				  		vm.sqPlanReachTotal=function(){
 				  			vm.sqPlanReachSum = common.getSum([vm.model.shenBaoInfo.sqPlanReach_ggys || 0,vm.model.shenBaoInfo.sqPlanReach_gtzj || 0]);
 				  			return vm.sqPlanReachSum;
+				  		};
+				  		//下达计划信息填写模态框
+				  		if(vm.isShowXiaDaJiHuaBtn){
+				  			//初始化安排资金为申请资金
+				  			vm.apPlanReach_ggys=vm.model.shenBaoInfo.sqPlanReach_ggys;
+				  			vm.apPlanReach_gtzj=vm.model.shenBaoInfo.sqPlanReach_gtzj;
+				  			vm.apPlanReachTotal=function(){
+					  			vm.apPlanReachSum = common.getSum([vm.apPlanReach_ggys || 0,vm.apPlanReach_gtzj || 0]);
+					  			return vm.apPlanReachSum;
+					  		};
+				  			$('.planReach').modal({
+			                    backdrop: 'static',
+			                    keyboard:false
+			                });
 				  		}
 					}
 				});
@@ -434,10 +404,11 @@
 		/**
 		 * 查询部门
 		 */
-		function getDepts(vm){
+		function getDeptByName(vm,name){
 			var httpOptions = {
-					method : 'get',
-					url : common.format(url_dept)
+				method : 'get',
+				async:false,
+				url : common.format(url_dept+ "?$filter=name eq '{0}'", name)
 			};
 			
 			var httpSuccess = function success(response){
@@ -445,7 +416,20 @@
 					vm:vm,
 					response:response,
 					fn:function(){
-						vm.model.depts = response.data.value||{};
+						vm.model.dept = response.data.value[0]||{};
+						if(vm.taskPlan.thisProcess==common.basicDataConfig().processStage_qianshou ||
+								vm.taskPlan.thisProcess==common.basicDataConfig().processStage_jbrbanli ||
+								vm.taskPlan.thisProcess==common.basicDataConfig().processStage_zbqitaren){//签收阶段或经办人办理阶段、转办其他人
+							vm.model.dept.userDtos.every(function (value, index) {
+								var hasRole=$linq(value.roles)
+									.where(function(x){return x.roleName=='科长';}).firstOrDefault();
+								if(hasRole){
+									vm.taskRecord.nextUser = value.id;
+									return false;
+								}
+								 return true;
+							});
+						}
 					}
 				});
 			};
@@ -462,17 +446,15 @@
 		 * 送出处理
 		 */
 		function handle(vm){
-			vm.taskPlan.processSuggestion = vm.processSuggestion;
 			common.initJqValidation();
  			var isValid = $('form').valid();
 	   		if (isValid) {
-	   				
-			var httpOptions = {
-					method : 'put',
+				var httpOptions = {
+					method : 'post',
 					url : url_task+"/"+vm.taskId,
-					data : vm.taskPlan
+					data : vm.taskRecord
 				};
-
+	
 				var httpSuccess = function success(response) {
 					common.requestSuccess({
 						vm : vm,
@@ -491,13 +473,13 @@
 						}
 					});
 				};
-
+	
 				common.http({
 					vm : vm,
 					$http : $http,
 					httpOptions : httpOptions,
 					success : httpSuccess
-				});		
+				});
 	   		}
 		}
 		
@@ -678,27 +660,25 @@
 					 {
 						field : "unitName",
 						title : "建设单位",
-						width : 400,						
+						width : 350,						
 						filterable : true
 					},
 					{
 						field : "projectIndustry",
 						title : "项目行业",
-						width : 200,
+						width : 180,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectIndustry);
 						},
 						filterable : {
 							 ui: function(element){
-			                        element.kendoDropDownList({
-			                            valuePrimitive: true,
-			                            dataSource: $linq(common.getBasicData())
-			             	       					.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
-			             	       					.toArray(),
-			                            dataTextField: "description",
-			                            dataValueField: "id"
-			                        });
-			                    }
+		                        element.kendoDropDownList({
+		                            valuePrimitive: true,
+		                            dataSource: vm.basicData.projectIndustry_ZF,
+		                            dataTextField: "description",
+		                            dataValueField: "id"
+		                        });
+		                    }
 						}
 					},
 					 {
@@ -711,15 +691,22 @@
 						}
 					},
 					{
+						field : "thisProcess",
+						title : "审批阶段",
+						width : 180,						
+						filterable : false,
+						template:function(item){						
+							return common.getBasicDataDesc(item.thisProcess);
+						}
+					},
+					{
 						field : "",
 						title : "创建日期",
 						width : 180,
 						template : function(item) {
 							return kendo.toString(new Date(item.createdDate),"yyyy/MM/dd HH:mm:ss");
 						}
-
 					}
-
 			];
 			// End:column
 

@@ -46,7 +46,7 @@ public class ShenBaoController {
 	@RequestMapping(name = "更新申报数据", path = "",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void update(@RequestBody ShenBaoInfoDto dto){
-		shenBaoInfoService.updateShenBaoInfo(dto);
+		shenBaoInfoService.updateShenBaoInfo(dto,true);
 	}
 	
 	@RequiresPermissions("management/shenbao#addProjectToLibrary#post")

@@ -39,7 +39,9 @@
         repSign:repSign,//将英文类型的标点符号转换为中文的标点符号
         getLoginUser:getLoginUser,
         getRoles:getRoles,//获取所有的角色
-        getRoleName:getRoleName//获取角色名称
+        getRoleName:getRoleName,//获取角色名称
+        getUserById:getUserById,
+        getProcessStateDesc:getProcessStateDesc//获取审批状态
 
     };
 
@@ -426,6 +428,25 @@
     		processState_tuiWen:"processState_15",//已退文
     		processState_next:"processState_16",
     		
+    		processStage:"processStage",//审批阶段
+    		processStage_tianbao:"processStage_1",//建设单位填写申报信息
+    		processStage_qianshou:"processStage_2",//投资科审核收件办理
+    		processStage_kzshenhe:"processStage_3",//科长审核办理
+    		processStage_jbrbanli:"processStage_4",//经办人办理
+    		processStage_zbqitaren:"processStage_5",//转他人办理
+    		processStage_weituopishen:"processStage_6",//委托评审科长审核
+    		processState_niwendengji:"processStage_7",//拟文登记科长审核
+    		processState_pszxsp:"processStage_8",//评审中心审批
+    		processState_mskfawen:"processStage_9",//秘书科发文
+    		
+    		processState:"processState",//审批状态
+    		processState_weikaishi:0,//未开始
+    		processState_jinxingzhong:1,//进行中
+    		processState_pass:2,//通过
+    		processState_zhuanban:3,//转办
+    		processState_notpass:4,//不通过
+    		
+    		
     		fileSet:"fileSet",//文件缓急分类
     		fileSet_pingJian:"fileSet_1",//平件
     		fileSet_pingJi:"fileSet_2",//平急
@@ -729,6 +750,45 @@
     		 tmp += String.fromCharCode((c>0 && c<0x80) ? (c+0xfee0) : c);
     	  }
     	  return tmp;
+    }
+    
+    /**
+     * 根据用户id获取用户信息
+     * @param userId
+     * @returns
+     */
+    function getUserById(userId){
+    	$.ajax({
+    		url:common.format("/user?$filter=id eq '{0}'", userId),
+    		async:false,
+    		success:function(response){
+    			window.global_basicData1=response;    			
+    		}
+    	});
+    	return window.global_basicData1;
+    }
+    
+    /**
+     * 获取审批状态
+     * @returns
+     */
+    function getProcessStateDesc(i){
+    	if(i){
+    		if(i == 0){
+    			return "未开始";
+        	}else if(i == 1){
+        		return "进行中";
+        	}else if(i == 2){
+        		return "审批通过";
+        	}else if(i == 3){
+        		return "转办他人";
+        	}else if(i == 4){
+        		return "审批不通过";
+        	}
+    	}
+    	else {
+    		return "";
+    	}
     }
     
     //init

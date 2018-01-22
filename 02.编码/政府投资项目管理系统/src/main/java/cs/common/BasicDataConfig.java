@@ -21,16 +21,20 @@ public class BasicDataConfig {
 	public static String projectStage_jungong="projectStage_5";//竣工阶段
 	public static String projectStage_gudingzicandengji="projectStage_6";//固定资产登记阶段
 	
-	
-	//process
-	public static String processState="processState";
-	public static String processState_tianBao="processState_1";//等待签收
-	public static String processState_qianShou="processState_2";//签收
-	public static String processState_banJie="processState_11";//办结
-	public static String processState_tuiWen="processState_15";//退文
-	public static String processState_tuiWenBanJie="processState_24";//退文办结
-	public static String processState_MiShuFenBan="processState_3";//秘书科分办
-	public static String processState_jieShuShenPi="processState_23";//秘书科发文
+	//流程阶段 processStage
+	public static String processStage_tianbao="processStage_1";//建设单位填写申报信息
+	public static String processStage_qianshou="processStage_2";//投资科审核收件办理
+	public static String processStage_kzshenhe="processStage_3";//科长审核办理
+	public static String processStage_jbrbanli="processStage_4";//经办人办理
+	public static String processStage_zbqitaren="processStage_5";//转他人办理
+	public static String processStage_weituopishen="processStage_6";//委托评审科长审核
+	public static String processState_niwendengji="processStage_7";//拟文登记科长审核
+	//流程状态 processState
+	public static int processState_weikaishi=0;
+	public static int processState_jinxingzhong=1;
+	public static int processState_pass=2;
+	public static int processState_zhuanban=3;
+	public static int processState_notpass=4;
 	
 	public static String msFenBanRole="秘书科分办人员";
 	public static String msFaWenRole="秘书科发文人员";

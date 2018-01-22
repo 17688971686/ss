@@ -200,7 +200,7 @@
     				        keyboard:true
     				    });
     					vm.model.relId = id;
-    	    			vm.model.processState = common.basicDataConfig().processState_tuiWen;
+    	    			vm.model.thisProcessState = common.basicDataConfig().processState_notpass;
     					//退文信息收集模态框确认
     					vm.retreatSubmit=function(){
     						$("#shenbaoInfoTuiWen").modal('hide');

@@ -49,9 +49,7 @@ public class OpinionController {
 	@RequestMapping(name = "获取常用意见", path = "", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<OpinionDto> getOpin(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
-		
 		PageModelDto<OpinionDto> opinionDtos = opinionService.getOpin(odataObj);
-
 		return opinionDtos;
 	}
 	

@@ -1,8 +1,6 @@
 package cs.service.impl;
 
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -12,11 +10,14 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cs.common.ICurrentUser;
 import cs.domain.Approval;
+import cs.domain.Attachment;
+import cs.model.PageModelDto;
 import cs.model.DomainDto.ApprovalDto;
+import cs.model.DomainDto.AttachmentDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
+import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ApprovalService;
 
 /**
@@ -30,51 +31,43 @@ public class ApprovalServiceImpl extends AbstractServiceImpl<ApprovalDto, Approv
 
 	private static Logger logger = Logger.getLogger(ApprovalServiceImpl.class);
 	@Autowired
-	private ICurrentUser currentUser;
+	private IRepository<Attachment, String> attachmentRepo;
 	@Autowired
-	private IRepository<Approval, String> ApprovalRepo;
-	@Autowired
-	private IMapper<ApprovalDto, Approval> approvalMapper;
+	private IMapper<AttachmentDto, Attachment> attachmentMapper;
 	
 	
 	@Override
 	@Transactional
-	public ApprovalDto getDraftByTaskId(String id) {
-		Criterion criterion = Restrictions.eq("relId", id);
-		List<Approval> dtos = ApprovalRepo.findByCriteria(criterion);
-		Approval entity = new Approval();
-		if(dtos !=null && dtos.size()>0){
-			entity = dtos.stream().findFirst().get();
-			return approvalMapper.toDto(entity);
-		}else{
-			return null;
-		}
-		
+	public PageModelDto<ApprovalDto> get(ODataObj odataObj) {
+		logger.info("获取评审报批单信息");
+		return super.get(odataObj);
 	}
 	
 	@Override
 	@Transactional
-	public void createDraft(ApprovalDto approvalDto, String id) {
-		Criterion criterion = Restrictions.eq("relId", id);
-		List<Approval> dtos = ApprovalRepo.findByCriteria(criterion);
+	public void createDraft(ApprovalDto approvalDto) {
+		Criterion criterion = Restrictions.eq("relId", approvalDto.getRelId());
+		List<Approval> dtos = super.repository.findByCriteria(criterion);
+		Approval entity;
 		if(dtos !=null && dtos.size()>0){
-			Approval entity = dtos.stream().findFirst().get();
-			approvalMapper.buildEntity(approvalDto, entity);
-			
-			entity.setCreatedBy(currentUser.getUserId());
-			entity.setCreatedDate(new Date());
-			super.repository.save(entity);
-			
+			entity=super.update(approvalDto, approvalDto.getId());
 		}else{
-			Approval entity = new Approval();
-			entity.setRelId(id);
-			entity.setId(UUID.randomUUID().toString());
-			approvalMapper.buildEntity(approvalDto, entity);
-			
-			entity.setModifiedBy(currentUser.getUserId());
-			entity.setModifiedDate(new Date());
-			super.repository.save(entity);
+			entity = super.create(approvalDto);
 		}
+		//处理关联附件
+		entity.getAttachments().forEach(x -> {//删除历史附件
+			attachmentRepo.delete(x);
+		});
+		entity.getAttachments().clear();
+		approvalDto.getAttachmentDtos().forEach(x -> {//添加新附件
+			Attachment attachment = new Attachment();
+			attachmentMapper.buildEntity(x, attachment);
+			attachment.setCreatedBy(entity.getCreatedBy());
+			attachment.setModifiedBy(entity.getModifiedBy());
+			entity.getAttachments().add(attachment);
+		});
+		super.repository.save(entity);
+		logger.info("保存评审报批单信息");
 	}
 	
 	

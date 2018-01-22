@@ -148,50 +148,28 @@
 						 //判断申报记录中的申报阶段，防止多次申报同一阶段
 			        	   if(vm.model.shenBaoInfoRecords.length >0){
 			        		   vm.isHased = false;
-			        		   for (var i = 0; i < vm.model.shenBaoInfoRecords.length; i++) {
-			        			   var shenBaoRecord = vm.model.shenBaoInfoRecords[i];
-			        			   var shenBaoRecordStage = shenBaoRecord.projectShenBaoStage;
-			        			   if(vm.projectShenBaoStage == shenBaoRecordStage &&  shenBaoRecordStage == common.basicDataConfig().projectShenBaoStage_projectProposal){//项目建议书
-			        				   vm.massage = "项目建议书已申报！";
-				    	        	   vm.isHased = true;
-			        			   }else if(vm.projectShenBaoStage == shenBaoRecordStage &&  shenBaoRecordStage == common.basicDataConfig().projectShenBaoStage_KXXYJBG){//可行性研究报告
-			        				   vm.massage = "可行性研究报告已申报！";
-				    	        	   vm.isHased = true;
-			        			   }else if(vm.projectShenBaoStage == shenBaoRecordStage &&  shenBaoRecordStage == common.basicDataConfig().projectShenBaoStage_CBSJYGS){//初步设计与概算
-			        				   vm.massage = "初步设计与概算已申报！";
-				    	        	   vm.isHased = true;
-			        			   }else if(vm.projectShenBaoStage == shenBaoRecordStage &&  shenBaoRecordStage == common.basicDataConfig().projectShenBaoStage_prePlanFee){//规划前期费
-			        				   vm.massage = "规划前期费已申报！";
-				    	        	   vm.isHased = true;
-			        			   }else if(vm.projectShenBaoStage == shenBaoRecordStage &&  shenBaoRecordStage == common.basicDataConfig().projectShenBaoStage_newStratPlan){//新开工计划
-			        				   vm.massage = "新开工计划已申报！";
-				    	        	   vm.isHased = true;
-			        			   }else if(vm.projectShenBaoStage == shenBaoRecordStage &&  shenBaoRecordStage == common.basicDataConfig().projectShenBaoStage_xuJianPlan){//续建计划
-			        				   vm.massage = "续建计划已申报！";
-				    	        	   vm.isHased = true;
-			        			   }else if(vm.projectShenBaoStage == shenBaoRecordStage &&  shenBaoRecordStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){//下一年度计划
-			        				   vm.massage = "下一年度计划已申报！";
-				    	        	   vm.isHased = true;
-			        			   }else if(vm.projectShenBaoStage == shenBaoRecordStage &&  shenBaoRecordStage == common.basicDataConfig().projectShenBaoStage_junGong){//竣工决算
-			        				   vm.massage = "竣工决算已申报！";
-				    	        	   vm.isHased = true;
-			        			   }else if(vm.projectShenBaoStage == shenBaoRecordStage &&  shenBaoRecordStage == common.basicDataConfig().projectShenBaoStage_capitalApplyReport){//资金申请报告
-			        				   vm.massage = "资金申请报告已申报！";
-				    	        	   vm.isHased = true;
+			        		   vm.model.shenBaoInfoRecords.every(function(value,index){
+			        			   var shenBaoRecordStage = value.projectShenBaoStage;
+			        			   if(shenBaoRecordStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){
+			        				   var nowDate = new Date();
+			        				   var nowYear = nowDate.getFullYear();
+			        				   if(nowYear+1 == value.planYear){
+			        					   vm.isHased = vm.projectShenBaoStage==shenBaoRecordStage?true:false;
+			        				   }
+			        			   }else{
+			        				   vm.isHased = vm.projectShenBaoStage==shenBaoRecordStage?true:false;
 			        			   }
-			        			   if(vm.projectShenBaoStage == shenBaoRecordStage &&  shenBaoRecordStage == common.basicDataConfig().projectShenBaoStage_jihuaxiada){//资金申请报告
-			        				   vm.massage = "计划下达已申报！";
-				    	        	   vm.isHased = true;
-			        			   }else if( vm.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_jihuaxiada && shenBaoRecord.isIncludLibrary == false){//资金申请报告
-			        				   vm.massage = "项目尚未纳入年度计划，请确认是否继续申报！";
-			        				   vm.isHased = false;
+			        			   if(vm.isHased){
+			        				   vm.massage=vm.getBasicDataDesc(shenBaoRecordStage)+"已申报!";
+			        				   return false;
 			        			   }
-			        			   
-			   					}
+		        				   return true;
+			        		   });
 			        	   }
 					}
-				});	 
+				});
 			};
+			
 			
 			common.http({
 				vm : vm,
@@ -218,7 +196,7 @@
 					var number = 0;
 					for(var i=0;i<vm.model.shenBaoRecords.length;i++){
 						var shenBaoRecord = vm.model.shenBaoRecords[i];
-						if(shenBaoRecord.processState == common.basicDataConfig().processState_tuiWen){//如果是退文
+						if(shenBaoRecord.processStage == common.basicDataConfig().processStage_tianbao){//如果是退文
 							number += 1;
 						}
 					}
@@ -280,20 +258,9 @@
 					title : "项目名称",
 					width:250,
 					template:function(item){
-						return common.format('<a href="#/project/projectInfo/{0}">{1}</a>',item.projectId,item.projectName);
+						return common.format('<a class="text-primary" href="#/project/projectInfo/{0}">{1}</a>',item.projectId,item.projectName);
 					},
 					filterable : false						
-				},
-				{
-					field : "processState",
-					title : "审批状态",
-					width : 120,
-					filterable : false,
-					template:function(item){
-						var processStateDesc=common.getBasicDataDesc(item.processState);
-						var css='text-danger';
-						return common.format("<span class='{1}'>{0}</span>",processStateDesc,css);
-					}
 				},
 				{
 					field : "projectShenBaoStage",
@@ -303,6 +270,24 @@
 						return common.getBasicDataDesc(item.projectShenBaoStage);
 					},
 					filterable : false
+				},
+				{
+					field : "processStage",
+					title : "审批阶段",
+					width : 150,
+					filterable : false,
+					template:function(item){
+						return common.format("<span class='text-danger'>{0}</span>",common.getBasicDataDesc(item.processStage));
+					}
+				},
+				{
+					field : "processState",
+					title : "审批状态",
+					width : 100,
+					filterable : false,
+					template:function(item){
+						return common.format("<span class='text-danger'>{0}</span>",common.getProcessStateDesc(item.processState));
+					}
 				},
 				{
 					field : "planYear",
@@ -315,8 +300,7 @@
 					title : "操作",
 					width : 200,
 					template : function(item) {					
-						var isShow=item.processState==common.basicDataConfig().processState_waitQianShou
-						   ||item.processState==common.basicDataConfig().processState_tuiWen;
+						var isShow=item.processStage==common.basicDataConfig().processStage_tianbao||(item.processStage==common.basicDataConfig().processStage_qianshou && item.processState != common.basicDataConfig().processState_pass);
 						return common.format($('#columnBtns_Record').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShow?'':'display:none',"vm.deleteShenBaoInfo('"+item.id+"')");
 					}
 				}
@@ -400,7 +384,6 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 									$(".modal-backdrop").remove();
-									//$location.path(url_backToProjectList);
 									location.href="javascript:window.history.back(-1)";
 								}
 							});
@@ -1259,7 +1242,7 @@
 					filterable : true,
 					width:250,
 					template:function(item){
-						return common.format('<a href="#/project/projectInfo/{0}">{1}</a>',item.id,item.projectName);
+						return common.format('<a class="text-primary" href="#/project/projectInfo/{0}">{1}</a>',item.id,item.projectName);
 					}
 				},
 				{

@@ -9,50 +9,21 @@
     vertical-align: middle;
 }
 label{font-weight:normal;}
-
-.uploadBox .k-upload-status {
-	display: none;
-}
-
-.uploadBox .k-header {
-	background: transparent;
-	border: 0px;
-}
-
-.uploadBox em {
-	display: none;
-}
-
-.uploadBox .k-dropzone {
-	padding: 0px;
-	margin: 0px;
-}
-.uploadBox .k-upload-files{
-display:none;
-}
-input.input-sm{height:30px; margin:0px; padding:0px;}
-textarea.form-control {
-	margin:0px; padding:0px;
-}
-.tab_content{
-	padding:20px;
-}
 </style>
-
-<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 
 <div class="well well-sm" style="background:white;">
 	<ol class="breadcrumb">
 		<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
 		<li><a href="#/">首页</a></li>
-		<li><a href="#/task/shenPi">已办计划类列表</a></li>
+		<li><a href="#/task/plan">已办计划类列表</a></li>
+		<li class="active">办理详情</li>
 	</ol>                
  	<form id="form" name="form">
  		<div class="bg-info text-info" style="padding: 10px;">项目基本信息</div>  		
  		<table class="table table-bordered table-striped ">
 			<tr>
 				<td class="formAlignRight" style="width:150px;">办理事项：</td>
-				<td style="width:250px;" ng-bind="vm.task.taskTypeDesc">
+				<td style="width:250px;" ng-bind="vm.getBasicDataDesc(vm.taskPlan.taskType)">
 					
 				<td class="formAlignRight" style="width:150px;">项目名称：</td>
 				<td>
@@ -109,55 +80,26 @@ textarea.form-control {
 					<button class="btn btn-success btn-xs" ng-click="vm.dialog_shenbaoInfo()" >查看详细信息</button>
 				</td>
 			</tr>		
-	</table>
+		</table>
 	  		
   		<div class="bg-info text-info" style="padding: 10px;">处理流转信息</div>  		
 		<table class="table table-bordered table-striped ">
-			<tr ng-repeat="x in vm.task.taskRecordDtos | orderBy:'itemOrder': true">
-				<td class="formAlignRight" style="width:150px;"  ng-bind="vm.getBasicDataDesc(x.processState)"></td>
-				<td >
-					<table class="table table-bordered table-striped " ng-if="x.tuiwen == true">
-						<tr>
-							<td class="formAlignRight" style="width:240px;">申报材料不符合要求:</td>
-							<td>
-								<span ng-bind="x.tuiwen_data"></span>
-							</td>
-						</tr>
-						<tr>
-							<td class="formAlignRight" style="width:240px;">项目立项依据不充分:</td>
-							<td>
-								<span ng-bind="x.tuiwen_accord"></span>
-							</td>
-						</tr>
-						<tr>
-							<td class="formAlignRight" style="width:240px;">建设内容不明确:</td>
-							<td>
-								<span ng-bind="x.tuiwen_content"></span>
-							</td>
-						</tr>
-						<tr>
-							<td class="formAlignRight" style="width:240px;">投资概算及资金来源不合理:</td>
-							<td>
-								<span ng-bind="x.tuiwen_capital"></span>
-							</td>
-						</tr>
-						<tr>
-							<td class="formAlignRight" style="width:240px;">其他:</td>
-							<td>
-								<span ng-bind="x.tuiwen_other"></span>
-							</td>
-						</tr>
-					</table>
+			<tr ng-repeat="x in vm.taskPlan.taskRecordDtos | orderBy:'itemOrder': true">
+				<td class="formAlignRight" style="width:180px;"  ng-bind="vm.getBasicDataDesc(x.thisProcess)"></td>
+				<td>
 					<div ng-bind="x.processSuggestion"></div>
-					<div ng-if="x.fawen == true">
-						<button class="btn btn-success btn-xs" ng-click="vm.draftOpen()">下达计划拟文信息</button>
+					<label ng-if="x.attachmentDtos.length>0" class="pull-left">附件信息：</label>
+					<div ng-repeat="y in x.attachmentDtos">
+						<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
 					</div>
-					<div class="text-right" ng-bind="x.createdBy"></div>
+					<div class="text-right" ng-bind="x.thisUser"></div>
 					<div class="text-right" ng-bind="vm.formatDate(x.createdDate)"></div>
 				</td>
 				
 			</tr>
 		</table>
+	</form>
+</div>		
   		
 <!-- 申报信息模态框 -->
 <div id="shenbaoInfo" class="modal fade" tabindex="-1" role="dialog">
@@ -175,27 +117,6 @@ textarea.form-control {
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-success" data-dismiss="modal">确认</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<!-- 发文拟稿模态框 -->
-<div id="draft_issued" class="draft_issued modal fade" tabindex="-1" role="dialog">
-	<div class="modal-dialog"
-		style="margin: 80px auto; width: 80%; max-width: 1000px;">
-		<div class="modal-content">
-			<div class="modal-header bg-primary">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
-				<span aria-hidden="true">&times;</span>
-			</button>
-			<span class="modal-title">填写拟稿纸</span>
-			</div>
-			 <div class="modal-body">
-			 	<div ng-include  src="'/contents/admin/management/task/plan/html/details/draftIssued.html'"></div>
-            </div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

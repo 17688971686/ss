@@ -5,29 +5,33 @@
 	<table class="table table-bordered table-striped ">
 		<tr>
 			<td class="formAlignRight" style="width:150px;">项目名称：</td>
-			<td colspan="3">
-			<span ng-bind="vm.model.shenBaoInfo.projectName"></span>
+			<td>
+				<span ng-bind="vm.draft.projectName"></span>
+			</td>
+			<td class="formAlignRight" style="width:150px;">项目代码：</td>
+			<td>
+				<span ng-bind="vm.draft.projectNumber"></span>
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">申报单位：</td>
 			<td>
-				<span ng-bind="vm.model.shenBaoInfo.constructionUnit"></span>
+				<span ng-bind="vm.draft.unitName"></span>
 			</td>
 			<td class="formAlignRight">拟稿单位拟稿人：</td>
 			<td>
-				<span ng-bind="vm.userNameAndUnit"></span>
+				<span ng-bind="vm.userNameAndUnitName"></span>
 			</td>
 		</tr>
 		<tr>
-			<td class="formAlignRight">审定金额：<span class="required">(*)</span></td>
-			<td>
-				<input type="number" class="form-control input-sm" id="capitalSD" name="capitalSD" ng-model="vm.draft.capitalSD" data-val="true" data-val-required="必填"/>
-				<span data-valmsg-for="capitalSD" data-valmsg-replace="true" class="required"></span>
-			</td>
 			<td class="formAlignRight">总投资：</td>
 			<td>
-				<span ng-bind="vm.capitalTotal"></span>
+				<span ng-bind="vm.draft.capitalTotal"></span>&nbsp;（万元）
+			</td>
+			<td class="formAlignRight">审定金额：<span class="required">(*)</span></td>
+			<td>
+				<input type="number" step="any" class="form-control input-sm" style="width:180px;" id="capitalSD" name="capitalSD" ng-model="vm.draft.capitalSD" data-val="true" data-val-required="必填"/>&nbsp;（万元)
+				<span data-valmsg-for="capitalSD" data-valmsg-replace="true" class="required"></span>
 			</td>
 		</tr>
 		<tr>
@@ -76,7 +80,7 @@
 			<td class="formAlignRight">批复金额：<span class="required">(*)</span></td>
 			<td>
 				<div>
-					<input type="text" name="capitalPifU" id="capitalPifU"  ng-model="vm.draft.capitalPifU" data-val="true" data-val-required="必选"/>(万元)
+					<input type="number" step="any" class="form-control input-sm" style="width:180px;" name="capitalPifU" id="capitalPifU"  ng-model="vm.draft.capitalPifU" data-val="true" data-val-required="必填"/>&nbsp;（万元)
 					<span data-valmsg-for="capitalPifU" data-valmsg-replace="true" class="required"></span>		
 				</div>
 			</td>
@@ -86,9 +90,9 @@
 			<td class="formAlignRight">公开类型：<span class="required">(*)</span></td>
 			<td colspan="3">
 				<label ng-repeat="x in vm.basicData.openType">
-					 <input type="radio" name="openType" id="openType" ng-checked="x.id == vm.draft.openType" ng-click="vm.Selection(x.id)" ng-model="vm.draft.openType" value="{{x.id}}" data-val="true" data-val-required="必选"/>{{x.description}}&nbsp;&nbsp;
+					 <input type="radio" name="openType" value="{{x.id}}" ng-model="vm.draft.openType" ng-checked="x.id == vm.draft.openType" data-val="true" data-val-required="必选"/>{{x.description}}&nbsp;&nbsp;
 				</label>
-				<span data-valmsg-for="openTYpe" data-valmsg-replace="true" class="required"></span>								
+				<span data-valmsg-for="openType" data-valmsg-replace="true" class="required"></span>								
 			</td>
 		</tr>
 		<tr>

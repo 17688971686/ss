@@ -8,42 +8,6 @@
     border: 1px solid #ddd;
     vertical-align: middle;
 }
-label{font-weight:normal;}
-
-.uploadBox .k-upload-status {
-	display: none;
-}
-
-.uploadBox .k-header {
-	background: transparent;
-	border: 0px;
-}
-
-.uploadBox em {
-	display: none;
-}
-
-.uploadBox .k-dropzone {
-	padding: 0px;
-	margin: 0px;
-}
-.uploadBox .k-upload-files{
-display:none;
-}
-input.input-sm{height:30px; margin:0px; padding:0px;}
-textarea.form-control {
-	margin:0px; padding:0px;
-}
-.tab_content{
-	padding:20px;
-}
-.modal{
-	overflow-y:auto
-	}
-.modal-open {
-    overflow: scroll !important;
-    }
-overflow: scroll !important;
 </style>
 
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
@@ -52,10 +16,10 @@ overflow: scroll !important;
 	<ol class="breadcrumb">
 		<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
 		<li><a href="#/">首页</a></li>
-		<li class="active">办理下一年度计划</li>
-	 	<li>
+		<li>
         	<a href="javascript:window.history.back(-1)" class="text-info" data-toggle="tooltip" data-placement="bottom" title="点击返回上一页面"><strong>返回</strong></a>
         </li>
+		<li class="active">办理下一年度计划</li>
 	</ol>
 	        
  	<form id="form" name="form">
@@ -139,13 +103,12 @@ overflow: scroll !important;
   		<div class="bg-info text-info" style="padding: 10px;">处理流转信息</div>  		
 		<table class="table table-bordered table-striped ">
 			<tr ng-repeat="x in vm.task.taskRecordDtos | orderBy:'createdDate':true">
-				<td class="formAlignRight" style="width:150px;"  ng-bind="vm.getBasicDataDesc(x.processState)"></td>
+				<td class="formAlignRight" style="width:180px;"  ng-bind="vm.getBasicDataDesc(x.thisProcess)"></td>
 				<td>
 					<div ng-bind="x.processSuggestion"></div>
-					<div class="text-right" ng-bind="x.createdBy"></div>
+					<div class="text-right" ng-bind="x.thisUser"></div>
 					<div class="text-right" ng-bind="vm.formatDate(x.createdDate)"></div>
 				</td>
-				
 			</tr>
 			<tr ng-hide="vm.isComplete">
 				<td class="formAlignRight" style="width:150px;">填写处理意见：</td>
@@ -161,7 +124,7 @@ overflow: scroll !important;
 			</tr>
 			<tr ng-hide="vm.isComplete">
 				<td class="formAlignRight">操作：</td>
-				<td >
+				<td>
 					<button ng-click="vm.handle(vm.processState_qianShou)" class="btn btn-success btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-ok"></span>签收</button> 
 					<button ng-click="vm.handle(vm.processState_tuiWen)" class="btn btn-danger btn-sm" style="margin:0 10px;"><span class="glyphicon glyphicon-remove"></span>退文</button>				
 				</td>

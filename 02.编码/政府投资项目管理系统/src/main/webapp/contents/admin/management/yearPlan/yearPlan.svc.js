@@ -1649,7 +1649,7 @@
 				},{
 					field:'processState',
 					operator:'eq',
-					value:common.basicDataConfig().processState_qianShou
+					value:common.basicDataConfig().processState_pass
 				},{
 					field:'projectInvestmentType',
 					operator:'eq',
@@ -1882,7 +1882,7 @@
 				},{
 					field:'processState',
 					operator:'eq',
-					value:common.basicDataConfig().processState_qianShou
+					value:common.basicDataConfig().processState_pass
 				},{
 					field:'projectInvestmentType',
 					operator:'eq',

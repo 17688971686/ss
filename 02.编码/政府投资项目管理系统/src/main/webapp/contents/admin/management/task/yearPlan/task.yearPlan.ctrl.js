@@ -83,8 +83,8 @@
         }
         
         function init_todoList(){
-        	taskYearPlanSvc.gridForPlan(vm);//为了获取计划类申报信息的数量
-        	taskYearPlanSvc.gridForShenpi(vm);//为了获取审批类申报信息的数量
+        	//taskYearPlanSvc.gridForPlan(vm);//为了获取计划类申报信息的数量
+        	//taskYearPlanSvc.gridForShenpi(vm);//为了获取审批类申报信息的数量
         	taskYearPlanSvc.grid(vm);//获取下一年度计划待办列表数据
         	//查询
         	vm.search=function(){
@@ -115,9 +115,10 @@
         
     	function init_handle(){
     		taskYearPlanSvc.getShenBaoInfoById(vm);//查询申报信息
-    	    vm.processState_qianShou=common.basicDataConfig().processState_qianShou;//定义签收
-    	    vm.processState_tuiWen=common.basicDataConfig().processState_tuiWen;//定义退文
-    	    taskYearPlanSvc.getTaskById(vm);//查询任务信息
+    		taskYearPlanSvc.getTaskById(vm);//查询任务信息
+    	    vm.processState_qianShou=common.basicDataConfig().processState_pass;//定义签收
+    	    vm.processState_tuiWen=common.basicDataConfig().processState_notpass;//定义退文
+    	    
     	    //TODO 月报签收功能此处暂时没有利用上
 	    	   if(vm.taskType == common.basicDataConfig().taskType_monthReport){//如果为月报
 	    		   vm.isMonthReport = true;
@@ -139,7 +140,13 @@
    			   var isValid = $('form').valid();
 	   			if (isValid) {
 	   				vm.isSubmit = true;
-	   				vm.model.taskRecord.processState=processState;
+	   				vm.model.taskRecord.thisProcess=vm.task.thisProcess;
+	   				vm.model.taskRecord.thisProcessState=processState;
+	   				if(processState == common.basicDataConfig().processState_notpass){//不通过
+	   					vm.model.taskRecord.nextProcess=vm.task.lastProcess;
+	   					vm.model.taskRecord.nextUser=vm.task.lastUser;
+	   					vm.model.taskRecord.nextRole=vm.task.lastRole;
+	   				}
 	     		   taskYearPlanSvc.handle(vm);
 	   			}
     	   };    		

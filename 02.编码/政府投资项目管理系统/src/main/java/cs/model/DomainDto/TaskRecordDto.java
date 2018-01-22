@@ -1,5 +1,8 @@
 package cs.model.DomainDto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cs.domain.TaskRecord;
 /**
  * @Description: 任务处理流程实体类
@@ -8,20 +11,14 @@ import cs.domain.TaskRecord;
  * @version：0.1
  */
 public class TaskRecordDto extends TaskRecord {
-	private String taskTypeDesc;
-	private String processStateDesc;
-	public String getTaskTypeDesc() {
-		return taskTypeDesc;
+	private List<AttachmentDto> attachmentDtos = new ArrayList<>();
+
+	public List<AttachmentDto> getAttachmentDtos() {
+		return attachmentDtos;
 	}
-	public void setTaskTypeDesc(String taskTypeDesc) {
-		this.taskTypeDesc = taskTypeDesc;
+
+	public void setAttachmentDtos(List<AttachmentDto> attachmentDtos) {
+		this.attachmentDtos = attachmentDtos;
 	}
-	public String getProcessStateDesc() {
-		return processStateDesc;
-	}
-	public void setProcessStateDesc(String processStateDesc) {
-		this.processStateDesc = processStateDesc;
-	}
-	
 	
 }

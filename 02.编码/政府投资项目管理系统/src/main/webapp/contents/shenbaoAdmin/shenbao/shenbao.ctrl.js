@@ -134,8 +134,8 @@
         }
         
        function page_list(){
-    	   //获取项目列表
-    	   shenbaoSvc.grid(vm);
+    	   shenbaoSvc.grid(vm);//获取项目列表
+    	   shenbaoSvc.projectShenBaoRecordsGird(vm);//获取项目申报记录
     	 //条件查询
     	   vm.search=function(){
     		   var filters = [];
@@ -193,8 +193,7 @@
     	   
     	   //点击列表中的申报按钮
     	   vm.shenbaoBtn=function(id,projectInvestmentType,name){
-    		   //查询申报端口状态
-    		   shenbaoSvc.getShenBaoPortState(vm,id,projectInvestmentType,name);
+    		   shenbaoSvc.getShenBaoPortState(vm,id,projectInvestmentType,name);//查询申报端口状态
     	   };
 
          //模态框中申报阶段下拉选发生变化时
@@ -206,7 +205,7 @@
            vm.confirm = function(){
         	   $('#myModal').modal('hide');
            	   $(".modal-backdrop").remove(); //去掉模态框背面的阴影
-           	   location.href = "#/shenbao/"+vm.projectId+"/"+vm.projectInvestmentType+"/"+vm.projectShenBaoStage;         
+           	   location.href = "#/shenbao/"+vm.projectId+"/"+vm.projectInvestmentType+"/"+vm.projectShenBaoStage;//跳转申报信息编辑页面       
            };    	   
            //点击列表中的申报记录按钮
            vm.checkShenBaoRecords = function(projectNumber){
@@ -224,7 +223,6 @@
 				});
         	   vm.gridOptions_shenBaoRecords.dataSource.read();
            };
-           shenbaoSvc.projectShenBaoRecordsGird(vm);
            
            //批量删除申报记录
            vm.deleteShenBaoInfos=function(){

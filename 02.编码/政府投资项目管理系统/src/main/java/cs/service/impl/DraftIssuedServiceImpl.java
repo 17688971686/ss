@@ -1,19 +1,15 @@
 package cs.service.impl;
 
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import cs.common.ICurrentUser;
 import cs.domain.DraftIssued;
+import cs.model.PageModelDto;
 import cs.model.DomainDto.DraftIssuedDto;
-import cs.model.DtoMapper.IMapper;
-import cs.repository.interfaces.IRepository;
+import cs.repository.odata.ODataObj;
 import cs.service.interfaces.DraftIssuedService;
 
 /**
@@ -26,56 +22,26 @@ import cs.service.interfaces.DraftIssuedService;
 public class DraftIssuedServiceImpl extends AbstractServiceImpl<DraftIssuedDto, DraftIssued, String> implements DraftIssuedService{
 	
 	private static Logger logger = Logger.getLogger(DraftIssuedServiceImpl.class);
-	@Autowired
-	private IRepository<DraftIssued, String> DraftIssuedRepo;
-	@Autowired
-	private IMapper<DraftIssuedDto, DraftIssued> draftIssuedMapper;
-	@Autowired
-	private ICurrentUser currentUser;
 	
 	@Override
 	@Transactional
-	public DraftIssuedDto getDraftByTaskId(String id) {
-		Criterion criterion = Restrictions.eq("relId", id);
-		List<DraftIssued> dtos = DraftIssuedRepo.findByCriteria(criterion);
-		DraftIssued entity = new DraftIssued();
-		if(dtos !=null && dtos.size()>0){
-			entity = dtos.stream().findFirst().get();
-			return draftIssuedMapper.toDto(entity);
-		}else{
-			return null;
-		}
-		
+	public PageModelDto<DraftIssuedDto> get(ODataObj odataObj) {
+		logger.info("获取发文拟稿信息");
+		return super.get(odataObj);
 	}
 
 	@Override
 	@Transactional
-	public void createDraft(DraftIssuedDto draftIssuedDto, String id) {
-		// TODO Auto-generated method stub
-		Criterion criterion = Restrictions.eq("relId", id);
-		List<DraftIssued> dtos = DraftIssuedRepo.findByCriteria(criterion);
+	public void createDraft(DraftIssuedDto draftIssuedDto) {
+		Criterion criterion = Restrictions.eq("relId", draftIssuedDto.getRelId());
+		List<DraftIssued> dtos = super.repository.findByCriteria(criterion);
+		DraftIssued entity;
 		if(dtos !=null && dtos.size()>0){
-			DraftIssued entity = dtos.stream().findFirst().get();
-			draftIssuedMapper.buildEntity(draftIssuedDto, entity);
-			
-			entity.setCreatedBy(currentUser.getUserId());
-			entity.setCreatedDate(new Date());
-			super.repository.save(entity);
-			
+			entity=super.update(draftIssuedDto, draftIssuedDto.getId());
 		}else{
-			DraftIssued entity = new DraftIssued();
-			entity.setRelId(id);
-			entity.setId(UUID.randomUUID().toString());
-			draftIssuedMapper.buildEntity(draftIssuedDto, entity);
-			
-			entity.setModifiedBy(currentUser.getUserId());
-			entity.setModifiedDate(new Date());
-			super.repository.save(entity);
+			entity=super.create(draftIssuedDto);
 		}
-		
+		super.repository.save(entity);
+		logger.info("保存发文拟稿信息");
 	}
-
-	
-	
-	
 }

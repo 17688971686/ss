@@ -2,8 +2,12 @@ package cs.model.DtoMapper;
 
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import cs.domain.Attachment;
 import cs.domain.TaskRecord;
+import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.TaskRecordDto;
 /**
  * @Description: 任务流程记录信息实体类与数据库资源转换类
@@ -14,32 +18,27 @@ import cs.model.DomainDto.TaskRecordDto;
 @Component
 public class TaskRecordMapper implements IMapper<TaskRecordDto, TaskRecord> {
 	
+	@Autowired
+	private IMapper<AttachmentDto, Attachment> attachmentMapper;
+	
 	@Override
 	public TaskRecordDto toDto(TaskRecord entity) {
 		TaskRecordDto dto=new TaskRecordDto();
 		if(entity !=null){
 			//流程记录信息
 			dto.setId(entity.getId());
+			dto.setTaskId(entity.getTaskId());
 			dto.setTitle(entity.getTitle());
-			dto.setProcessSuggestion(entity.getProcessSuggestion());
-			dto.setProcessState(entity.getProcessState());	
 			dto.setTaskType(entity.getTaskType());
 			dto.setRelId(entity.getRelId());
-			dto.setTaskId(entity.getTaskId());
-			dto.setNextUser(entity.getNextUser());
-			dto.setProcessRole(entity.getProcessRole());
+			dto.setThisProcess(entity.getThisProcess());
+			dto.setThisProcessState(entity.getThisProcessState());
+			dto.setThisUser(entity.getThisUser());
+			dto.setThisRole(entity.getThisRole());
 			dto.setNextProcess(entity.getNextProcess());
-			dto.setOperator(entity.getOperator());
-			dto.setTuiwen_other(entity.getTuiwen_other());
-			dto.setTuiwen_accord(entity.getTuiwen_accord());
-			dto.setTuiwen_capital(entity.getTuiwen_capital());
-			dto.setTuiwen_content(entity.getTuiwen_content());
-			dto.setTuiwen_data(entity.getTuiwen_data());
-			dto.setFawen(entity.getFawen());
-			dto.setTuiwen(entity.getTuiwen());
-			dto.setApproval(entity.getApproval());
-			dto.setProxy(entity.getProxy());
-			dto.setReviewResult(entity.getReviewResult());
+			dto.setNextUser(entity.getNextUser());
+			dto.setNextRole(entity.getNextRole());
+			dto.setProcessSuggestion(entity.getProcessSuggestion());
 			//筛选条件信息
 			dto.setUnitName(entity.getUnitName());
 			dto.setProjectIndustry(entity.getProjectIndustry());
@@ -49,6 +48,10 @@ public class TaskRecordMapper implements IMapper<TaskRecordDto, TaskRecord> {
 			dto.setModifiedDate(entity.getModifiedDate());
 			dto.setModifiedBy(entity.getModifiedBy());
 			dto.setItemOrder(entity.getItemOrder());
+			//关联关系
+			entity.getAttachments().stream().forEach(x->{
+				dto.getAttachmentDtos().add(attachmentMapper.toDto(x));
+			});
 		}
 		return dto;
 	}
@@ -59,26 +62,18 @@ public class TaskRecordMapper implements IMapper<TaskRecordDto, TaskRecord> {
 			if(entity.getId()==null||entity.getId().isEmpty()){
 				entity.setId(UUID.randomUUID().toString());
 			}
+			entity.setTaskId(dto.getTaskId());
 			entity.setTitle(dto.getTitle());
-			entity.setProcessSuggestion(dto.getProcessSuggestion());
-			entity.setProcessState(dto.getProcessState());
 			entity.setTaskType(dto.getTaskType());
 			entity.setRelId(dto.getRelId());
-			entity.setTaskId(dto.getTaskId());
-			entity.setNextUser(dto.getNextUser());
-			entity.setProcessRole(dto.getProcessRole());
+			entity.setThisProcess(dto.getThisProcess());
+			entity.setThisProcessState(dto.getThisProcessState());
+			entity.setThisUser(dto.getThisUser());
+			entity.setThisRole(dto.getThisRole());
 			entity.setNextProcess(dto.getNextProcess());
-			entity.setOperator(dto.getOperator());
-			entity.setTuiwen_other(dto.getTuiwen_other());
-			entity.setTuiwen_accord(dto.getTuiwen_accord());
-			entity.setTuiwen_capital(dto.getTuiwen_capital());
-			entity.setTuiwen_content(dto.getTuiwen_content());
-			entity.setTuiwen_data(dto.getTuiwen_data());
-			entity.setFawen(dto.getFawen());
-			entity.setTuiwen(dto.getTuiwen());
-			entity.setApproval(dto.getApproval());
-			entity.setProxy(dto.getProxy());
-			entity.setReviewResult(dto.getReviewResult());
+			entity.setNextUser(dto.getNextUser());
+			entity.setNextRole(dto.getNextRole());
+			entity.setProcessSuggestion(dto.getProcessSuggestion());
 			//筛选条件信息
 			entity.setUnitName(dto.getUnitName());
 			entity.setProjectIndustry(dto.getProjectIndustry());
@@ -88,6 +83,7 @@ public class TaskRecordMapper implements IMapper<TaskRecordDto, TaskRecord> {
 			entity.setModifiedDate(dto.getModifiedDate());
 			entity.setModifiedBy(dto.getModifiedBy());
 			entity.setItemOrder(dto.getItemOrder());
+			//关联关系在外面根据需要进行转换
 		}
 		return entity;
 	}

@@ -2,51 +2,39 @@
 	<div class="page-header" style="text-align: center;">
 		<h1>项目评审报批单</h1>
 	</div>
-	<div class="pull-right" ng-if="vm.taskAudit.nextProcess != 'processState_5'">
+	<div class="pull-right">
 		<p>日期：<span ng-bind="vm.approval.beginDate | date:'yyyy年MM月dd日'"></span></p>
-	</div>
-	<div class="pull-right" ng-if="vm.taskAudit.nextProcess == 'processState_5'">
-		<p>日期：<span ng-bind="vm.beginDate | date:'yyyy年MM月dd日'"></span></p>
 	</div>
 	<table class="table table-bordered table-striped ">
 		<tr>
 			<td class="formAlignRight" style="width:150px;">项目名称：</td>
-			<td colspan="3" style="text-align: center;">
-			<span ng-bind="vm.model.shenBaoInfo.projectName"></span>
+			<td style="text-align: center;">
+				<span ng-bind="vm.approval.projectName"></span>
+			</td>
+			<td class="formAlignRight" style="width:150px;">项目代码：</td>
+			<td style="text-align: center;">
+				<span ng-bind="vm.approval.projectNumber"></span>
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">建设单位：</td>
-			<td colspan="3" style="text-align: center;">
-				<span ng-bind="vm.model.shenBaoInfo.constructionUnit"></span>
+			<td style="text-align: center;">
+				<span ng-bind="vm.approval.constructionUnit"></span>
 			</td>
-		</tr>
-		<tr ng-if="vm.taskAudit.nextProcess != 'processState_5'">
 			<td class="formAlignRight">编制部门：</td>
-			<td colspan="3">
+			<td style="text-align: center;">
 				<span ng-bind="vm.approval.unitName"></span>
-			</td>
-		</tr>
-		<tr ng-if="vm.taskAudit.nextProcess == 'processState_5'">
-			<td class="formAlignRight">编制部门：<span class="required">(*)</span></td>
-			<td colspan="3">
-				<input type="text" class="form-control input-sm" id="unitName" name="unitName" ng-model="vm.approval.unitName" data-val="true" data-val-required="必填"/>
-				<span data-valmsg-for="unitName" data-valmsg-replace="true" class="required"></span>
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">评审类别：</td>
-			<td style="width: 333px;">
-				<span ng-bind="vm.getBasicDataJD(vm.approvalType)"></span>
+			<td style="width: 333px;text-align: center;">
+				<span ng-bind="vm.getBasicDataDesc(vm.approval.approvalType)"></span>
 			</td>
-			<td class="formAlignRight" ng-if="vm.taskAudit.nextProcess != 'processState_5'">报送投资：</td>
-			<td class="formAlignRight" ng-if="vm.taskAudit.nextProcess == 'processState_5'">报送投资：<span class="required">(*)</span></td>
-			<td ng-if="vm.taskAudit.nextProcess == 'processState_5'">
-				<input type="number" class="form-control input-sm" style="width: 200px;" id="capitalBaoSong" name="capitalBaoSong" ng-model="vm.approval.capitalBaoSong" data-val="true" data-val-required="必填"/>(万元)
+			<td class="formAlignRight">报送投资：<span class="required">(*)</span></td>
+			<td>
+				<input type="number" class="form-control input-sm" style="width:180px;" id="capitalBaoSong" name="capitalBaoSong" ng-model="vm.approval.capitalBaoSong" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 				<span data-valmsg-for="capitalBaoSong" data-valmsg-replace="true" class="required"></span>
-			</td>
-			<td ng-if="vm.taskAudit.nextProcess != 'processState_5'">
-				<span ng-bind="vm.approval.capitalBaoSong"></span>
 			</td>
 		</tr>
 		<tr>
@@ -54,54 +42,27 @@
 				<p style="font-size: 20px;">送审资料情况</p>
 			</td>
 		</tr>
-		<tr ng-if="vm.taskAudit.nextProcess != 'processState_5'">
-			<td class="formAlignRight">经办人：</td>
-			<td colspan="3">
-				<div style="height:106px;">
-					<span ng-bind="vm.approval.processSuggestion_JBR"></span>
-				</div>
-				
-				<div class="pull-right" style="margin-right: 80px;">
-					<p>经办人：<span ng-bind="vm.processRole"></span></p>
-					<p>日期：<span ng-bind="vm.approval.beginDate | date:'yyyy-MM-dd'"></span></p>
-				</div>
-			</td>
-		</tr>
-		<tr ng-if="vm.taskAudit.nextProcess == 'processState_5'">
+		<tr>
 			<td class="formAlignRight">经办人：</td>
 			<td colspan="3">
 				<textarea class="form-control" id="processSuggestion_JBR" name="processSuggestion_JBR"  maxlength="500" rows="3"
 						ng-model="vm.approval.processSuggestion_JBR" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
 						ng-change="vm.checkLength(vm.approval.processSuggestion_JBR,500,'processSuggestion_JBRTips')">
 				</textarea>
-				<div class="pull-right" style="margin-right: 80px;">
-					<p>经办人：<span ng-bind="vm.processRole"></span></p>
-					<p>日期：<span ng-bind="vm.beginDate  | date:'yyyy-MM-dd'"></span></p>
+				<span data-valmsg-for="processSuggestion_JBR" data-valmsg-replace="true" class="required"></span>
+				<div>
+					<label class="pull-left">上传附件：</label>
+					<div class="uploadBox pull-left" data-type="approval">
+					 	<input type="file" name="files" kendo-upload k-options="vm.uploadOptions_approval"/>
+			        </div>
+			        <div style="margin-left:180px;" ng-repeat="x in vm.approval.attachmentDtos">
+			 			<a href="/contents/upload/{{x.url}}" target="_blank" ng-bind="x.name"></a>
+						<button class="btn btn-xs btn-danger" ng-click="vm.delFile_approval($index)">删除</button>
+		 			</div>
 				</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="4" style="text-align: center;">
-				<p style="font-size: 20px;">审批情况</p>
-			</td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">科长复核意见：</td>
-			<td colspan="3">
-				<div style="height: 135px;">
-				</div>
-				<div class="pull-right" style="margin-right: 80px;">
-					<p>经办人：</p>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">分管领导意见：</td>
-			<td colspan="3">
-				<div style="height: 135px;">
-				</div>
-				<div class="pull-right" style="margin-right: 80px;">
-					<p>经办人：</p>
+				<div class="pull-right">
+					<p>经办人：<span ng-bind="vm.processRoleName"></span></p>
+					<p>日期：<span ng-bind="vm.approval.beginDate  | date:'yyyy-MM-dd'"></span></p>
 				</div>
 			</td>
 		</tr>

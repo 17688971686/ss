@@ -1,0 +1,68 @@
+<form id="planReachEdit" name="form">
+	<div class="page-header" style="text-align: center;">
+	<h1>深圳市光明新区发展和财政局</h1>
+	</div>
+	<table class="table table-bordered table-striped ">
+		<tr>
+			<td class="formAlignRight" style="width:150px;">项目名称：</td>
+			<td ng-bind="vm.model.shenBaoInfo.projectName">
+			<td class="formAlignRight" style="width:150px;">项目代码：</td>
+			<td ng-bind="vm.model.shenBaoInfo.projectNumber">
+		</tr>
+		<tr>
+			<td class="formAlignRight">申报单位：</td>
+			<td ng-bind="vm.model.shenBaoInfo.constructionUnit"></td>
+			<td class="formAlignRight">计划年度：</td>
+			<td ng-bind="vm.model.shenBaoInfo.planYear"></td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">申请资金：<span class="required">(*)</span></td>
+			<td>
+				<table class="table table-bordered table-striped" style="margin-bottom: 0;text-align: center">
+					<tr>
+						<td colspan="2">
+							<label>总计：</label>
+							<span ng-bind="vm.sqPlanReachTotal()"></span>
+							<label class="pull-right" style="color:silver">单位：万元</label>
+						</td>
+					</tr>
+					<tr>
+						<td style="width:120px;">公共预算</td>
+						<td style="width:120px;">国土基金</td>
+					</tr>
+					<tr>
+						<td ng-bind="vm.model.shenBaoInfo.sqPlanReach_ggys"></td>
+						<td ng-bind="vm.model.shenBaoInfo.sqPlanReach_gtzj"></td>
+					</tr>
+				</table>
+			</td>
+			
+			<td class="formAlignRight">安排资金：<span class="required">(*)</span></td>
+			<td>
+				<table class="table table-bordered table-striped" style="margin-bottom: 0;text-align: center">
+					<tr>
+						<td colspan="2">
+							<label>总计：</label>
+							<span ng-bind="vm.apPlanReachTotal()"></span>
+							<label class="pull-right" style="color:silver">单位：万元</label>
+						</td>
+					</tr>
+					<tr style="text-align: center">
+						<td style="width:120px;">公共预算</td>
+						<td style="width:120px;">国土基金</td>
+					</tr>
+					<tr>
+						<td>
+							<input type="number" step="any" class="form-control input-sm" id="apPlanReach_ggys" name="apPlanReach_ggys" ng-model="vm.apPlanReach_ggys" data-val="true" data-val-required="必填"/>
+							<span data-valmsg-for="apPlanReach_ggys" data-valmsg-replace="true" class="required"></span>
+						</td>
+						<td>
+							<input type="number" step="any" class="form-control input-sm" id="apPlanReach_gtzj" name="apPlanReach_gtzj" ng-model="vm.apPlanReach_gtzj" data-val="true" data-val-required="必填"/>
+							<span data-valmsg-for="apPlanReach_gtzj" data-valmsg-replace="true" class="required"></span>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</form>

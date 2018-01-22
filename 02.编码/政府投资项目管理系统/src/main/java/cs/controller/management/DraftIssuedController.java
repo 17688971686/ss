@@ -1,6 +1,9 @@
 package cs.controller.management;
 
 import java.text.ParseException;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.common.ICurrentUser;
+import cs.model.PageModelDto;
+import cs.model.DomainDto.ApprovalDto;
 import cs.model.DomainDto.DraftIssuedDto;
+import cs.repository.odata.ODataObj;
 import cs.service.interfaces.DraftIssuedService;
 
 @Controller
@@ -24,19 +30,20 @@ public class DraftIssuedController {
 	@Autowired
 	ICurrentUser currentUser;
 
-	@RequiresPermissions("management/draft#id#get")
-	@RequestMapping(name = "获取发文拟稿信息", path = "{id}",method=RequestMethod.GET)
-	public @ResponseBody DraftIssuedDto getDraft(@PathVariable String id) throws ParseException {
+	@RequiresPermissions("management/draft##get")
+	@RequestMapping(name = "获取发文拟稿信息", path = "",method=RequestMethod.GET)
+	public @ResponseBody PageModelDto<DraftIssuedDto> get(HttpServletRequest request) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);
+		PageModelDto<DraftIssuedDto> draftDto = draftIssuedService.get(odataObj);
+		return draftDto;
 		
-		DraftIssuedDto draftIssuedDto = draftIssuedService.getDraftByTaskId(id);
-		return draftIssuedDto;
 	}	
 	
-	@RequiresPermissions("management/draft#id#post")
-	@RequestMapping(name = "创建发文拟稿信息", path = "{id}",method=RequestMethod.POST)	
+	@RequiresPermissions("management/draft##post")
+	@RequestMapping(name = "保存发文拟稿信息", path = "",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void  post(@RequestBody DraftIssuedDto draftIssuedDto,@PathVariable String id)  {		
-		draftIssuedService.createDraft(draftIssuedDto,id);		
+	public void  post(@RequestBody DraftIssuedDto draftIssuedDto)  {		
+		draftIssuedService.createDraft(draftIssuedDto);		
 	}
 	
 }

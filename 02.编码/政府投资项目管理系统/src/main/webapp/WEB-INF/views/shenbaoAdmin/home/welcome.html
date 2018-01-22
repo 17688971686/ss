@@ -44,7 +44,7 @@
 					<th width="200px;">名称</th>					
 					<th>信息</th>
 					<th width="120px;">状态</th>
-					<th width="136px;">时间</th>
+					<th width="100px;">时间</th>
 				</tr>
 				<tr ng-repeat="x in vm.model.task | limitTo :2" style="background: white;">
 					<td ng-if="vm.taskType_shenBao.indexOf(x.taskType)>-1">
@@ -55,8 +55,8 @@
 					</td>
 									
 					<td ng-bind="x.processSuggestion" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="{{x.processSuggestion}}"></td>
-					<td ng-bind="vm.getBasicDataDesc(x.processState)"></td>
-					<td ng-bind="vm.formatDateTime(x.createdDate)"></td>
+					<td ng-bind="vm.getBasicDataDesc(x.thisProcess)"></td>
+					<td ng-bind="vm.formatDate(x.createdDate)"></td>
 				</tr>
 			</table>
 
@@ -78,14 +78,14 @@
 						<th>项目名称</th>
 						<th>申报阶段</th>	
 						<th>状态</th>
-						<th width="132px;">申报时间</th>
+						<th width="100px;">申报时间</th>
 					</tr>
    					<tr ng-repeat="x in vm.model.shenBaoInfo | limitTo :2" style="background: white;">
    						<td>
-   							<a href="#/project/projectInfo/{{x.projectId}}/{{x.projectInvestmentType}}" class="text-primary">{{x.projectName}}</a>
+   							<a href="#/project/projectInfo/{{x.projectId}}" class="text-primary">{{x.projectName}}</a>
    						</td>
    						<td ng-bind="vm.getBasicDataDesc(x.projectShenBaoStage)"></td>
-   						<td ng-bind="vm.getBasicDataDesc(x.processState)"></td>
+   						<td ng-bind="vm.getBasicDataDesc(x.processStage)"></td>
    						<td ng-bind="vm.formatDate(x.createdDate)"></td>
    					</tr>   					   				                    
                  </tbody>

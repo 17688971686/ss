@@ -28,16 +28,18 @@ public class TaskHeadMapper implements IMapper<TaskHeadDto, TaskHead> {
 			//任务信息
 			dto.setId(entity.getId());
 			dto.setTitle(entity.getTitle());
-			dto.setProcessState(entity.getProcessState());
-			dto.setProcessSuggestion(entity.getProcessSuggestion());
 			dto.setTaskType(entity.getTaskType());
 			dto.setRelId(entity.getRelId());
-			dto.setComplete(entity.isComplete());
-			dto.setNextUser(entity.getNextUser());
-			dto.setNextProcess(entity.getNextProcess());
-			dto.setProcessRole(entity.getProcessRole());
-			dto.setOperator(entity.getOperator());
-		
+			dto.setThisProcess(entity.getThisProcess());
+			dto.setThisProcessState(entity.getThisProcessState());
+			dto.setThisUser(entity.getThisUser());
+			dto.setThisRole(entity.getThisRole());
+			dto.setLastProcess(entity.getLastProcess());
+			dto.setLastProcessState(entity.getLastProcessState());
+			dto.setLastUser(entity.getLastUser());
+			dto.setLastRole(entity.getLastRole());
+			dto.setProcessSuggestion(entity.getProcessSuggestion());
+			dto.setIsComplete(entity.getIsComplete());
 			//筛选信息
 			dto.setProjectIndustry(entity.getProjectIndustry());
 			dto.setUnitName(entity.getUnitName());
@@ -48,7 +50,7 @@ public class TaskHeadMapper implements IMapper<TaskHeadDto, TaskHead> {
 			dto.setCreatedBy(entity.getCreatedBy());
 			dto.setModifiedBy(entity.getModifiedBy());					
 			//begin#关联信息
-			entity.getTaskRecords().forEach(x->{
+			entity.getTaskRecords().stream().forEach(x->{
 				dto.getTaskRecordDtos().add(taskRecordMapper.toDto(x));
 			});
 		}
@@ -63,16 +65,18 @@ public class TaskHeadMapper implements IMapper<TaskHeadDto, TaskHead> {
 			}
 			//任务信息
 			entity.setTitle(dto.getTitle());
-			entity.setProcessState(dto.getProcessState());
-			entity.setProcessSuggestion(dto.getProcessSuggestion());
 			entity.setTaskType(dto.getTaskType());
 			entity.setRelId(dto.getRelId());
-			entity.setComplete(dto.isComplete());
-			entity.setNextUser(dto.getNextUser());
-			entity.setNextProcess(dto.getNextProcess());
-			entity.setProcessRole(dto.getProcessRole());
-			entity.setOperator(dto.getOperator());
-		
+			entity.setThisProcess(dto.getThisProcess());
+			entity.setThisProcessState(dto.getThisProcessState());
+			entity.setThisUser(dto.getThisUser());
+			entity.setThisRole(dto.getThisRole());
+			entity.setLastProcess(dto.getLastProcess());
+			entity.setLastProcessState(dto.getLastProcessState());
+			entity.setLastUser(dto.getLastUser());
+			entity.setLastRole(dto.getLastRole());
+			entity.setProcessSuggestion(dto.getProcessSuggestion());
+			entity.setIsComplete(dto.getIsComplete());
 			//筛选信息
 			entity.setProjectIndustry(dto.getProjectIndustry());
 			entity.setUnitName(dto.getUnitName());

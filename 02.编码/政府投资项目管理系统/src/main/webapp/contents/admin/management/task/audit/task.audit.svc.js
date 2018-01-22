@@ -26,11 +26,10 @@
 			complete_shenPiGird:complete_shenPiGird,//已办列表
 			getTaskInfoById:getTaskInfoById,//查询任务信息
 			getShenBaoInfoById:getShenBaoInfoById,//查询申报信息
-			getDepts:getDepts,//查询部门
+			getDeptByName:getDeptByName,//查询投资科
 			handle:handle,//送出
 			replyFileGird:replyFileGird,//批复文件库列表
 			saveShenBaoInfo:saveShenBaoInfo,//保存申报信息
-			getRoles:getRoles,//查询角色信息
 			saveOpinion:saveOpinion,//保存意见
 			getOpinion:getOpinion,//获取意见
 			opinionGird:opinionGird,//意见列表
@@ -39,191 +38,20 @@
 			getDraftIssued:getDraftIssued,//查询发文拟稿
 			saveDraft:saveDraft,//保存发文信息
 			saveApproval:saveApproval,//评审报批
-			getApproval:getApproval,//查询评审报批
-			getComission:getComission,//查询评审委托
-			saveProxy:saveProxy,//保存委托书
-			getReviewResult:getReviewResult,//查询评审结果
-			saveReview:saveReview//保存评审结果
+			getApproval:getApproval//查询评审报批
 		};
 		
 		return service;
 		
-		//保存评审结果
-		function saveReview(vm){
-		
-			vm.review.projectName = vm.model.shenBaoInfo.projectName;
-			vm.review.constructionUnit = vm.model.shenBaoInfo.constructionUnit;
-			vm.review.approvalEndDate = new Date();
-			vm.review.receiptDate = new Date(vm.model.shenBaoInfo.createdDate);
-			vm.review.unitName = vm.proxy.unitName;
-			vm.review.approvalDate = vm.proxy.beginDate;
-			//vm.review.projectInvestSum = vm.projectInvestSum;
-			vm.review.nuclear = vm.nuclear;
-			vm.review.cut = vm.cut;
-			
-			common.initJqValidation();
- 			var isValid = $('#formResult').valid();
-	   		if (isValid) {
-			
-				var httpOptions = {
-						method : 'post',
-						url : common.format(url_review + "/" +vm.taskAudit.id),
-						data : vm.review
-					};
-				
-				var httpSuccess = function success(response) {
-					$('#reviewResult').modal('hide');
-					common.requestSuccess({
-						vm:vm,
-						response:response,
-						fn:function(){
-							common.alert({
-								vm:vm,
-								msg:"保存成功！",
-								fn:function(){
-									$('.alertDialog').modal('hide');
-								}
-							});
-						}
-					});
-				};
-					
-				common.http({
-					vm:vm,
-					$http:$http,
-					httpOptions:httpOptions,
-					success:httpSuccess
-				});
-	   		}
-		}
-		
-		//查询评审结果
-		function getReviewResult(vm){
-			var httpOptions = {
-					method : 'get',
-					url : common.format(url_review + "/" +vm.taskAudit.id)
-				};
-			
-			var httpSuccess = function success(response) {
-				common.requestSuccess({
-					vm:vm,
-					response:response,
-					fn:function(){
-						vm.review = response.data || {};
-						if(vm.review == ""){
-							vm.projectInvestSum = vm.model.shenBaoInfo.projectInvestSum;
-						}else{
-							vm.nuclear = vm.review.nuclear;
-							vm.cut = vm.review.cut;
-							vm.projectInvestSum = vm.review.projectInvestSum;
-						}
-						vm.review.receiptDate  = common.formatDate(vm.review.receiptDate);
-						vm.review.approvalDate = common.formatDate(vm.review.approvalDate);
-						vm.review.approvalEndDate  = common.formatDate(vm.review.approvalEndDate);
-					}
-				});
-			};
-				
-			common.http({
-				vm:vm,
-				$http:$http,
-				httpOptions:httpOptions,
-				success:httpSuccess
-			});
-		}
-		
-		function saveProxy(vm){
-			vm.proxy.approvalType = vm.approvalType;
-			vm.proxy.projectName = vm.model.shenBaoInfo.projectName;
-			vm.proxy.unitName = vm.approval.unitName;
-			vm.proxy.constructionUnit = vm.model.shenBaoInfo.constructionUnit;
-			vm.proxy.processRole = vm.taskAudit.operator;
-			vm.proxy.beginDate = new Date();
-			vm.proxy.contacts = vm.nameAndTel;
-			vm.proxy.capitalBaoSong = vm.approval.capitalBaoSong;
-			vm.proxy.processSuggestion_JBR = vm.processSuggestion_JBR_WTS;
-			common.initJqValidation();
- 			var isValid = $('#formproxy').valid();
-	   		if (isValid) {
-				var httpOptions = {
-						method : 'post',
-						url : common.format(url_proxy + "/" +vm.taskAudit.id),
-						data : vm.proxy
-					};
-				
-				var httpSuccess = function success(response) {
-					$('#proxy').modal('hide');
-					common.requestSuccess({
-						vm:vm,
-						response:response,
-						fn:function(){
-							common.alert({
-								vm:vm,
-								msg:"保存成功！",
-								fn:function(){
-									$('.alertDialog').modal('hide');
-								}
-							});
-						}
-					});
-				};
-					
-				common.http({
-					vm:vm,
-					$http:$http,
-					httpOptions:httpOptions,
-					success:httpSuccess
-				});
-	   		}
-		}
-		
-		//查询审批委托书
-		function getComission(vm){
-			var httpOptions = {
-					method : 'get',
-					url : common.format(url_proxy + "/" +vm.taskAudit.id)
-				};
-			
-			var httpSuccess = function success(response) {
-				common.requestSuccess({
-					vm:vm,
-					response:response,
-					fn:function(){
-						vm.proxy = response.data || {};
-						vm.proxy.approvalType=$linq(common.getBasicData())
-	    	       		.where(function(x){return x.identity==common.basicDataConfig().projectShenBaoStage&&x.id==vm.proxy.approvalType;})
-	    	       		.toArray()[0].description;
-						vm.proxy.beginDate = common.formatDate(vm.proxy.beginDate);
-						if(vm.approval.processSuggestion_JBR != vm.proxy.processSuggestion_JBR){
-							vm.processSuggestion_JBR_WTS = vm.proxy.processSuggestion_JBR;
-						}else{
-							vm.processSuggestion_JBR_WTS = vm.approval.processSuggestion_JBR;
-						}
-						for (var i = 0; i < vm.model.depts.length; i++) {
-							for (var j = 0; j < vm.model.depts[i].userDtos.length; j++) {//循环人员
-								if(vm.model.depts[i].userDtos[j].id == vm.proxy.processRole){//获得部门人员
-									vm.proxy.processRole =  vm.model.depts[i].userDtos[j].displayName;
-								}
-							}
-						}
-					}
-				});
-			};
-				
-			common.http({
-				vm:vm,
-				$http:$http,
-				httpOptions:httpOptions,
-				success:httpSuccess
-			});
-		}
 		
 		
-		//查询审批单
+		/**
+		 * 获取评审报批单的信息
+		 */
 		function getApproval(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_approval + "/" +vm.taskAudit.id)
+					url : common.format(url_approval + "?$filter=relId eq '{0}'",vm.taskAudit.id)
 				};
 			
 			var httpSuccess = function success(response) {
@@ -231,11 +59,25 @@
 					vm:vm,
 					response:response,
 					fn:function(){
-						vm.approval = response.data || {};
-						vm.approval.beginDate = common.formatDate(vm.approval.beginDate);
-						vm.approval.approvalType=$linq(common.getBasicData())
-	    	       		.where(function(x){return x.identity==common.basicDataConfig().projectShenBaoStage&&x.id==vm.approval.approvalType;})
-	    	       		.toArray()[0].description;
+						vm.approval = response.data.value[0] || {};
+						if(vm.approval.id){
+							vm.approval.beginDate= common.formatDate(vm.approval.beginDate);
+						}else{
+							//初始化相关数据
+			        		vm.approval.approvalType = vm.model.shenBaoInfo.projectShenBaoStage;
+			        		vm.approval.beginDate = common.formatDate(new Date());
+			        		vm.approval.projectName=vm.model.shenBaoInfo.projectName;
+			        		vm.approval.projectNumber=vm.model.shenBaoInfo.projectNumber;
+			        		vm.approval.constructionUnit=vm.model.shenBaoInfo.constructionUnit;
+			        		vm.approval.unitName=vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitName;
+			        		vm.approval.relId=vm.taskAudit.id;
+			        		vm.approval.processRole=vm.taskAudit.thisUser;//初始化填写评审报批单的经办人为任务当前处理人
+						}
+						vm.processRoleName=vm.getUserName(vm.approval.processRole);
+						$('.approval').modal({
+		                    backdrop: 'static',
+		                    keyboard:false
+		                });
 					}
 				});
 			};
@@ -248,24 +90,20 @@
 			});
 		}
 		
-		//保存审批单
+		/**
+		 * 保存评审报批单的信息
+		 */
 		function saveApproval(vm){
-			vm.approval.approvalType = vm.approvalType;
-			vm.approval.projectName = vm.model.shenBaoInfo.projectName;
-			vm.approval.constructionUnit = vm.model.shenBaoInfo.constructionUnit;
-			vm.approval.processRole = vm.taskAudit.operator;
-			vm.approval.beginDate = new Date();
 			common.initJqValidation();
  			var isValid = $('#formApproval').valid();
 	   		if (isValid) {
 				var httpOptions = {
 						method : 'post',
-						url : common.format(url_approval + "/" +vm.taskAudit.id),
+						url : url_approval,
 						data : vm.approval
 					};
 				
 				var httpSuccess = function success(response) {
-					$('#approval').modal('hide');
 					common.requestSuccess({
 						vm:vm,
 						response:response,
@@ -275,6 +113,7 @@
 								msg:"保存成功！",
 								fn:function(){
 									$('.alertDialog').modal('hide');
+									$('.approval').modal('hide');
 								}
 							});
 						}
@@ -288,55 +127,15 @@
 					success:httpSuccess
 				});
 	   		}
-		}
+		}//end fun saveApproval
 		
-		//拟稿意见
-		function saveDraft(vm){
-			vm.draft.projectName = vm.model.shenBaoInfo.projectName;
-			vm.draft.unitName = vm.model.shenBaoInfo.constructionUnit;
-			vm.draft.capitalTotal = vm.capitalTotal;
-			vm.draft.userNameAndUnit = vm.userNameAndUnit;
-			
-			common.initJqValidation();
- 			var isValid = $('#formDraft').valid();
-	   		if (isValid) {
-				var httpOptions = {
-						method : 'post',
-						url : common.format(url_draft + "/" +vm.taskAudit.id),
-						data : vm.draft
-					};
-				
-				var httpSuccess = function success(response) {
-					$('#draft_issued').modal('hide');
-					common.requestSuccess({
-						vm:vm,
-						response:response,
-						fn:function(){
-							common.alert({
-								vm:vm,
-								msg:"保存成功！",
-								fn:function(){
-									$('.alertDialog').modal('hide');
-									
-								}
-							});
-						}
-					});
-				};
-					
-				common.http({
-					vm:vm,
-					$http:$http,
-					httpOptions:httpOptions,
-					success:httpSuccess
-				});
-	   		}
-		}
-		
+		/**
+		 * 获取发文拟稿信息
+		 */
 		function getDraftIssued(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_draft + "/" +vm.taskAudit.id)
+					url : common.format(url_draft + "?$filter=relId eq '{0}'",vm.taskAudit.id)
 				};
 			
 			var httpSuccess = function success(response) {
@@ -344,8 +143,25 @@
 					vm:vm,
 					response:response,
 					fn:function(){
-						vm.draft = response.data || {};
-						vm.draft.draftDate=common.formatDate(vm.draft.draftDate);//开工日期
+						vm.draft = response.data.value[0] || {};
+						if(vm.draft.id){
+							vm.draft.draftDate=common.formatDate(vm.draft.draftDate);//开工日期
+						}else{
+							//初始化相关数据
+			        		vm.draft.draftDate = common.formatDate(new Date());
+			        		vm.draft.fileType=vm.model.shenBaoInfo.projectShenBaoStage;
+			        		vm.draft.projectName=vm.model.shenBaoInfo.projectName;
+			        		vm.draft.projectNumber=vm.model.shenBaoInfo.projectNumber;
+			        		vm.draft.unitName=vm.model.shenBaoInfo.constructionUnit;
+			        		vm.draft.capitalTotal=vm.model.shenBaoInfo.projectInvestSum;
+			        		vm.draft.userNameAndUnit=vm.taskAudit.thisUser;//初始化拟稿人为任务当前处理人
+			        		vm.draft.relId=vm.taskAudit.id;
+						}
+						vm.userNameAndUnitName=vm.getUserName(vm.draft.userNameAndUnit);
+						$('.draft_issued').modal({
+						   backdrop: 'static',
+						   keyboard:false
+						});
 					}
 				});
 			};
@@ -356,28 +172,102 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		}
+		}//end fun getDraftIssued
 		
-		//编辑意见
-		function editOpin(vm){
-			var httpOptions = {
-	                method: 'put',
-	                url:url_opin,
-	                data:vm.model.opinion          
-	            };
-	            
-	            var httpSuccess = function success(response) {    
-	            	vm.opinionGrid.dataSource.read();
-	            	$('.opinionEdit').modal('hide');
-	            };
-	            
-	            common.http({
+		/**
+		 * 保存发文拟稿信息
+		 */
+		function saveDraft(vm){
+			common.initJqValidation();
+ 			var isValid = $('#formDraft').valid();
+	   		if (isValid) {
+				var httpOptions = {
+						method : 'post',
+						url : url_draft,
+						data : vm.draft
+					};
+				
+				var httpSuccess = function success(response) {
+					common.requestSuccess({
+						vm:vm,
+						response:response,
+						fn:function(){
+							common.alert({
+								vm:vm,
+								msg:"保存成功！",
+								fn:function(){
+									$('.alertDialog').modal('hide');
+									$('.draft_issued').modal('hide');
+								}
+							});
+						}
+					});
+				};
+					
+				common.http({
 					vm:vm,
 					$http:$http,
 					httpOptions:httpOptions,
 					success:httpSuccess
 				});
-		}
+	   		}
+		}//end fun saveDraft
+		
+		/**
+		 * 查询意见
+		 */
+		function getOpinion(vm){
+			var httpOptions = {
+					method : 'get',
+					url : url_opin
+			};
+			
+			var httpSuccess = function success(response){
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.model.opinionDtos = response.data.value||{};
+					}
+				});
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}//end fun getOpinion
+		
+		
+		//编辑意见
+		function editOpin(vm){
+			var httpOptions = {
+                method: 'put',
+                url:url_opin,
+                data:vm.model.opinion          
+            };
+	            
+            var httpSuccess = function success(response) {
+            	common.requestSuccess({
+            		vm:vm,
+            		response:response,
+            		fn:function(){
+            			$('.opinionEdit').modal('hide');
+            			vm.opinionGrid.dataSource.read();
+            			getOpinion(vm);
+            		}
+            	});
+            };
+	            
+            common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}//end fun editOpin
 		
 		//删除意见
 		function deleteOpin(vm,id) {
@@ -396,6 +286,7 @@
 					fn:function () {
 	                    vm.isSubmit = false;
 	                    vm.opinionGrid.dataSource.read();
+	                    getOpinion(vm);
 	                }					
 				});
             };
@@ -406,39 +297,17 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-        }// end fun deleteorg	
+        }// end fun deleteOpin	
 
-		/**
-		 * 查询意见
-		 */
-		function getOpinion(vm){
-			var httpOptions = {
-					method : 'get',
-					url : url_opin
-			};
-			
-			var httpSuccess = function success(response){
-				vm.model.opinionDtos = response.data.value||{};
-			};
-			
-			common.http({
-				vm:vm,
-				$http:$http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});
-		}
 		
 		/**
 		 * 保存意见
 		 */
 		function saveOpinion(vm){
-			
-			vm.opinion = {"opinion":vm.processSuggestion};
 			var httpOptions = {
 					method : 'post',
 					url : url_opin,
-					data : vm.opinion
+					data : {"opinion":vm.taskRecord.processSuggestion}
 				};
 			
 			var httpSuccess = function success(response) {
@@ -451,6 +320,7 @@
 							msg:"保存成功！",
 							fn:function(){
 								$('.alertDialog').modal('hide');
+								getOpinion(vm);
 							}
 						});
 					}
@@ -463,28 +333,7 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		}
-		
-		/**
-		 * 查询角色信息
-		 */
-		function getRoles(vm){
-			var httpOptions = {
-					method : 'get',
-					url : url_role
-				};
-			
-			var httpSuccess = function success(response) {
-				vm.model.roles = response.data.value||{};
-			};
-				
-			common.http({
-				vm:vm,
-				$http:$http,
-				httpOptions:httpOptions,
-				success:httpSuccess
-			});
-		}
+		}//end fun saveOpinion
 		
 		
 		/**
@@ -519,7 +368,7 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		}
+		}//end fun saveShenBaoInfo
 		
 		/**
 		 * 查询任务信息
@@ -538,9 +387,39 @@
 						vm.taskAudit = response.data.value[0] || {};
 						if(vm.taskAudit){
 							vm.taskAudit.taskTypeDesc=common.getBasicDataDesc(vm.taskAudit.taskType);
+							//初始化数据
+							vm.isShowBtn=vm.isProcessStage_kzshenhe=vm.isProcessStage_jbrbanli=vm.isProcessStage_weituopishen=vm.isProcessStage_weituopishen=false;
 							if(vm.taskAudit.isComplete){//如果任务为已完成
 								vm.isComplete=true;
 							}
+							if(vm.taskAudit.thisProcess==common.basicDataConfig().processStage_qianshou){//签收阶段
+								vm.isShowBtn=true;
+								getDeptByName(vm,"投资科");//初始化下一流程处理人为投资科科长处理
+							}
+							if(vm.taskAudit.thisProcess==common.basicDataConfig().processStage_kzshenhe){//科长审核阶段
+								vm.isProcessStage_kzshenhe=true;
+								getDeptByName(vm,"投资科");//获取投资科下的科员
+								vm.taskRecord.nextProcess=common.basicDataConfig().processStage_jbrbanli;//初始化下一流程为经办人处理
+								vm.isShowDeptUsers=true;//初始化显示投资科人员
+							}
+							if(vm.taskAudit.thisProcess==common.basicDataConfig().processStage_jbrbanli){//经办人办理阶段
+								vm.isProcessStage_jbrbanli=true;
+								getDeptByName(vm,"投资科");//初始化下一流程处理人为投资科科长处理
+								vm.taskRecord.nextProcess=common.basicDataConfig().processStage_weituopishen;//初始化下一流程为评审委托
+								vm.isShowPingShenBaoPiDan=true;//初始化显示填写报批单按钮
+							}
+							if(vm.taskAudit.thisProcess==common.basicDataConfig().processStage_weituopishen||
+									vm.taskAudit.thisProcess==common.basicDataConfig().processState_niwendengji){//委托评审、发文拟稿阶段
+									vm.isShowBtn=true;
+							}
+							vm.taskAudit.taskRecordDtos.forEach(function(x,index){
+								if(x.nextProcess==common.basicDataConfig().processStage_weituopishen){//委托评审科长审核阶段
+									vm.isProcessStage_weituopishen=true;//用于处理流程中显示查看评审委托信息按钮
+								}
+								if(x.nextProcess==common.basicDataConfig().processState_niwendengji){//发文拟稿科长审核阶段
+									vm.isProcessState_niwendengji=true;//用于处理流程中显示查看发文拟稿信息按钮
+								}
+							});
 						}	
 					}
 				});
@@ -552,10 +431,10 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		}
+		}//end fun getTaskInfoById
 		
 		/**
-		 * 查询申报信息
+		 * 根据id查询申报信息
 		 */
 		function getShenBaoInfoById(vm){
 			var httpOptions = {
@@ -620,7 +499,7 @@
 						vm.model.shenBaoInfo.createdDate=common.formatDate(vm.model.shenBaoInfo.createdDate);//开工日期
 						vm.model.shenBaoInfo.beginDate=common.formatDate(vm.model.shenBaoInfo.beginDate);//开工日期
 						vm.model.shenBaoInfo.endDate=common.formatDate(vm.model.shenBaoInfo.endDate);//竣工日期
-						vm.model.shenBaoInfo.pifuJYS_date=common.formatDate(vm.model.shenBaoInfo.pifuJYS_date);//项目建议书批复日期			
+						vm.model.shenBaoInfo.pifuJYS_date=common.formatDate(vm.model.shenBaoInfo.pifuJYS_date);//项目建议书批复日期	
 						vm.model.shenBaoInfo.pifuKXXYJBG_date=common.formatDate(vm.model.shenBaoInfo.pifuKXXYJBG_date);//可行性研究报告批复日期
 						vm.model.shenBaoInfo.pifuCBSJYGS_date=common.formatDate(vm.model.shenBaoInfo.pifuCBSJYGS_date);//初步设计与概算批复日期
 						//资金计算显示
@@ -640,15 +519,16 @@
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		}
+		}//end fun getShenBaoInfoById
 		
 		/**
-		 * 查询部门
+		 * 查询部门信息
 		 */
-		function getDepts(vm){
+		function getDeptByName(vm,name){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_dept)
+					async:false,
+					url : common.format(url_dept+ "?$filter=name eq '{0}'", name)
 			};
 			
 			var httpSuccess = function success(response){
@@ -656,7 +536,19 @@
 					vm:vm,
 					response:response,
 					fn:function(){
-						vm.model.depts = response.data.value||{};
+						vm.model.dept = response.data.value[0]||{};
+						if(vm.taskAudit.thisProcess==common.basicDataConfig().processStage_qianshou ||
+								vm.taskAudit.thisProcess==common.basicDataConfig().processStage_jbrbanli){//签收阶段或经办人办理阶段
+							vm.model.dept.userDtos.every(function (value, index) {
+								var hasRole=$linq(value.roles)
+									.where(function(x){return x.roleName=='科长';}).firstOrDefault();
+								if(hasRole){
+									vm.taskRecord.nextUser = value.id;
+									return false;
+								}
+								 return true;
+							});
+						}
 					}
 				});
 			};
@@ -667,21 +559,19 @@
 				httpOptions : httpOptions,
 				success : httpSuccess
 			});
-		}
+		}//end fun getDeptByName
 		
 		/**
 		 * 送出处理
 		 */
 		function handle(vm){
-			vm.taskAudit.processSuggestion = vm.processSuggestion;
 			common.initJqValidation();
  			var isValid = $('form').valid();
 	   		if (isValid) {
-	   				
-			var httpOptions = {
-					method : 'put',
+				var httpOptions = {
+					method : 'post',
 					url : url_task+"/"+vm.taskId,
-					data : vm.taskAudit
+					data : vm.taskRecord
 				};
 
 				var httpSuccess = function success(response) {
@@ -710,7 +600,7 @@
 					success : httpSuccess
 				});		
 	   		}
-		}
+		}//end fun handle
 		
 		// begin#grid
 		/**
@@ -892,7 +782,7 @@
 						filterable : true,
 						width:500,
 						template:function(item){
-							return common.format("<a href='#/task/handle_audit/{1}/{2}/{3}'>{0}</a>",item.title,item.taskType,item.id,item.relId);			
+							return common.format("<a class='text-primary' href='#/task/handle_audit/{1}/{2}/{3}'>{0}</a>",item.title,item.taskType,item.id,item.relId);			
 						}
 					},
 					 {
@@ -1015,27 +905,25 @@
 					 {
 						field : "unitName",
 						title : "建设单位",
-						width : 400,						
+						width : 350,						
 						filterable : true
 					},
 					{
 						field : "projectIndustry",
 						title : "项目行业",
-						width : 200,
+						width : 180,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectIndustry);
 						},
 						filterable : {
 							 ui: function(element){
-			                        element.kendoDropDownList({
-			                            valuePrimitive: true,
-			                            dataSource: $linq(common.getBasicData())
-			             	       					.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
-			             	       					.toArray(),
-			                            dataTextField: "description",
-			                            dataValueField: "id"
-			                        });
-			                    }
+		                        element.kendoDropDownList({
+		                            valuePrimitive: true,
+		                            dataSource: vm.basicData.projectIndustry_ZF,
+		                            dataTextField: "description",
+		                            dataValueField: "id"
+		                        });
+		                    }
 						}
 					},
 					 {
@@ -1045,6 +933,15 @@
 						filterable : false,
 						template:function(item){						
 							return common.getBasicDataDesc(item.taskType);
+						}
+					},
+					{
+						field : "thisProcess",
+						title : "审批阶段",
+						width : 180,						
+						filterable : false,
+						template:function(item){						
+							return common.getBasicDataDesc(item.thisProcess);
 						}
 					},
 					{

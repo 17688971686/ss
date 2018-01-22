@@ -143,10 +143,14 @@ public class ShenBaoInfo extends BaseProject{
 	//end#财政相关
 	
 	//begin#审批相关
-	@Column(columnDefinition="varchar(125) NULL COMMENT '审批状态'")
-	private String processState;
-	@Column(columnDefinition="varchar(255) NULL COMMENT '审批角色'")
-	private String processRole;
+	@Column(columnDefinition="varchar(125) NULL COMMENT '审批阶段'")
+	private String processStage;
+	@Column(columnDefinition="int(1) NULL COMMENT '审批状态'")
+	private Integer processState;
+//	@Column(columnDefinition="varchar(125) NULL COMMENT '审批状态'")
+//	private String processState;
+//	@Column(columnDefinition="varchar(255) NULL COMMENT '审批角色'")
+//	private String processRole;
 	//end
 	
 	//begin#建议书相关
@@ -216,6 +220,12 @@ public class ShenBaoInfo extends BaseProject{
 	public void setProjectId(String projectId) {
 		this.projectId = projectId;
 	}
+	public Boolean getIsIncludLibrary() {
+		return isIncludLibrary;
+	}
+	public void setIsIncludLibrary(Boolean isIncludLibrary) {
+		this.isIncludLibrary = isIncludLibrary;
+	}
 	public String getProjectShenBaoStage() {
 		return projectShenBaoStage;
 	}
@@ -234,41 +244,11 @@ public class ShenBaoInfo extends BaseProject{
 	public void setPlanYear(Integer planYear) {
 		this.planYear = planYear;
 	}
-	public Double getApplyYearInvest() {
-		return applyYearInvest;
+	public String getConstructionUnit() {
+		return constructionUnit;
 	}
-	public void setApplyYearInvest(Double applyYearInvest) {
-		this.applyYearInvest = applyYearInvest;
-	}
-	public ShenBaoUnitInfo getBianZhiUnitInfo() {
-		return bianZhiUnitInfo;
-	}
-	public void setBianZhiUnitInfo(ShenBaoUnitInfo bianZhiUnitInfo) {
-		this.bianZhiUnitInfo = bianZhiUnitInfo;
-	}
-	public ShenBaoUnitInfo getShenBaoUnitInfo() {
-		return shenBaoUnitInfo;
-	}
-	public void setShenBaoUnitInfo(ShenBaoUnitInfo shenBaoUnitInfo) {
-		this.shenBaoUnitInfo = shenBaoUnitInfo;
-	}
-	public List<Attachment> getAttachments() {
-		return attachments;
-	}
-	public void setAttachments(List<Attachment> attachments) {
-		this.attachments = attachments;
-	}
-	public String getYearConstructionContent() {
-		return yearConstructionContent;
-	}
-	public void setYearConstructionContent(String yearConstructionContent) {
-		this.yearConstructionContent = yearConstructionContent;
-	}
-	public String getYearPlanCapitalId() {
-		return yearPlanCapitalId;
-	}
-	public void setYearPlanCapitalId(String yearPlanCapitalId) {
-		this.yearPlanCapitalId = yearPlanCapitalId;
+	public void setConstructionUnit(String constructionUnit) {
+		this.constructionUnit = constructionUnit;
 	}
 	public String getYearConstructionTask() {
 		return yearConstructionTask;
@@ -276,114 +256,35 @@ public class ShenBaoInfo extends BaseProject{
 	public void setYearConstructionTask(String yearConstructionTask) {
 		this.yearConstructionTask = yearConstructionTask;
 	}
-	public String getProcessState() {
-		return processState;
+	public String getYearPlanCapitalId() {
+		return yearPlanCapitalId;
 	}
-	public void setProcessState(String processState) {
-		this.processState = processState;
+	public void setYearPlanCapitalId(String yearPlanCapitalId) {
+		this.yearPlanCapitalId = yearPlanCapitalId;
 	}
-	public String getFunctionSubjects() {
-		return functionSubjects;
+	public String getPackageType() {
+		return packageType;
 	}
-	public void setFunctionSubjects(String functionSubjects) {
-		this.functionSubjects = functionSubjects;
+	public void setPackageType(String packageType) {
+		this.packageType = packageType;
 	}
-	public String getEconClassSubjects() {
-		return econClassSubjects;
+	public Boolean getIsApplyOutsideCapital() {
+		return isApplyOutsideCapital;
 	}
-	public void setEconClassSubjects(String econClassSubjects) {
-		this.econClassSubjects = econClassSubjects;
+	public void setIsApplyOutsideCapital(Boolean isApplyOutsideCapital) {
+		this.isApplyOutsideCapital = isApplyOutsideCapital;
 	}
-	public String getProjectConstrBasis() {
-		return projectConstrBasis;
+	public Double getApplyOutsideCapital() {
+		return applyOutsideCapital;
 	}
-	public void setProjectConstrBasis(String projectConstrBasis) {
-		this.projectConstrBasis = projectConstrBasis;
+	public void setApplyOutsideCapital(Double applyOutsideCapital) {
+		this.applyOutsideCapital = applyOutsideCapital;
 	}
-	public String getRecomProgram() {
-		return recomProgram;
+	public Double getApplyYearInvest() {
+		return applyYearInvest;
 	}
-	public void setRecomProgram(String recomProgram) {
-		this.recomProgram = recomProgram;
-	}
-	public String getSocialAndEconomic() {
-		return socialAndEconomic;
-	}
-	public void setSocialAndEconomic(String socialAndEconomic) {
-		this.socialAndEconomic = socialAndEconomic;
-	}
-	public Boolean getIsApplyQianQiFei() {
-		return isApplyQianQiFei;
-	}
-	public void setIsApplyQianQiFei(Boolean isApplyQianQiFei) {
-		this.isApplyQianQiFei = isApplyQianQiFei;
-	}
-	public Double getQianQiFeiApply() {
-		return qianQiFeiApply;
-	}
-	public void setQianQiFeiApply(Double qianQiFeiApply) {
-		this.qianQiFeiApply = qianQiFeiApply;
-	}
-	public String getLastYearImageSchedule() {
-		return lastYearImageSchedule;
-	}
-	public void setLastYearImageSchedule(String lastYearImageSchedule) {
-		this.lastYearImageSchedule = lastYearImageSchedule;
-	}
-	public String getYearImageSchedule() {
-		return yearImageSchedule;
-	}
-	public void setYearImageSchedule(String yearImageSchedule) {
-		this.yearImageSchedule = yearImageSchedule;
-	}
-	public String getYearConstructionContentLastYear() {
-		return yearConstructionContentLastYear;
-	}
-	public void setYearConstructionContentLastYear(String yearConstructionContentLastYear) {
-		this.yearConstructionContentLastYear = yearConstructionContentLastYear;
-	}
-	public String getYearConstructionContentLastTwoYear() {
-		return yearConstructionContentLastTwoYear;
-	}
-	public void setYearConstructionContentLastTwoYear(String yearConstructionContentLastTwoYear) {
-		this.yearConstructionContentLastTwoYear = yearConstructionContentLastTwoYear;
-	}
-	public Double getCapitalSCZ_ggys_LastYear() {
-		return capitalSCZ_ggys_LastYear;
-	}
-	public void setCapitalSCZ_ggys_LastYear(Double capitalSCZ_ggys_LastYear) {
-		this.capitalSCZ_ggys_LastYear = capitalSCZ_ggys_LastYear;
-	}
-	public Double getCapitalSCZ_gtzj_LastYear() {
-		return capitalSCZ_gtzj_LastYear;
-	}
-	public void setCapitalSCZ_gtzj_LastYear(Double capitalSCZ_gtzj_LastYear) {
-		this.capitalSCZ_gtzj_LastYear = capitalSCZ_gtzj_LastYear;
-	}
-
-	public Double getCapitalSCZ_ggys_TheYear() {
-		return capitalSCZ_ggys_TheYear;
-	}
-	public void setCapitalSCZ_ggys_TheYear(Double capitalSCZ_ggys_TheYear) {
-		this.capitalSCZ_ggys_TheYear = capitalSCZ_ggys_TheYear;
-	}
-	public Double getCapitalSCZ_gtzj_TheYear() {
-		return capitalSCZ_gtzj_TheYear;
-	}
-	public void setCapitalSCZ_gtzj_TheYear(Double capitalSCZ_gtzj_TheYear) {
-		this.capitalSCZ_gtzj_TheYear = capitalSCZ_gtzj_TheYear;
-	}
-	public Double getCapitalSCZ_ggys_LastTwoYear() {
-		return capitalSCZ_ggys_LastTwoYear;
-	}
-	public void setCapitalSCZ_ggys_LastTwoYear(Double capitalSCZ_ggys_LastTwoYear) {
-		this.capitalSCZ_ggys_LastTwoYear = capitalSCZ_ggys_LastTwoYear;
-	}
-	public Double getCapitalSCZ_gtzj_LastTwoYear() {
-		return capitalSCZ_gtzj_LastTwoYear;
-	}
-	public void setCapitalSCZ_gtzj_LastTwoYear(Double capitalSCZ_gtzj_LastTwoYear) {
-		this.capitalSCZ_gtzj_LastTwoYear = capitalSCZ_gtzj_LastTwoYear;
+	public void setApplyYearInvest(Double applyYearInvest) {
+		this.applyYearInvest = applyYearInvest;
 	}
 	public Double getApplyYearInvest_LastYear() {
 		return applyYearInvest_LastYear;
@@ -397,61 +298,6 @@ public class ShenBaoInfo extends BaseProject{
 	public void setApplyYearInvest_LastTwoYear(Double applyYearInvest_LastTwoYear) {
 		this.applyYearInvest_LastTwoYear = applyYearInvest_LastTwoYear;
 	}
-	public String getYearConstructionContentShenBao() {
-		return yearConstructionContentShenBao;
-	}
-	public void setYearConstructionContentShenBao(String yearConstructionContentShenBao) {
-		this.yearConstructionContentShenBao = yearConstructionContentShenBao;
-	}
-	public Double getCapitalSCZ_qita() {
-		return capitalSCZ_qita;
-	}
-	public void setCapitalSCZ_qita(Double capitalSCZ_qita) {
-		this.capitalSCZ_qita = capitalSCZ_qita;
-	}
-	public Double getCapitalSCZ_qita_LastYear() {
-		return capitalSCZ_qita_LastYear;
-	}
-	public void setCapitalSCZ_qita_LastYear(Double capitalSCZ_qita_LastYear) {
-		this.capitalSCZ_qita_LastYear = capitalSCZ_qita_LastYear;
-	}
-	public Double getCapitalSCZ_qita_LastTwoYear() {
-		return capitalSCZ_qita_LastTwoYear;
-	}
-	public void setCapitalSCZ_qita_LastTwoYear(Double capitalSCZ_qita_LastTwoYear) {
-		this.capitalSCZ_qita_LastTwoYear = capitalSCZ_qita_LastTwoYear;
-	}
-	public String getAuditState() {
-		return auditState;
-	}
-	public void setAuditState(String auditState) {
-		this.auditState = auditState;
-	}
-	public Boolean getIsIncludLibrary() {
-		return isIncludLibrary;
-	}
-	public void setIsIncludLibrary(Boolean isIncludLibrary) {
-		this.isIncludLibrary = isIncludLibrary;
-	}
-	public String getCapitalOtherDescriptionShenBao_LastYear() {
-		return capitalOtherDescriptionShenBao_LastYear;
-	}
-	public void setCapitalOtherDescriptionShenBao_LastYear(String capitalOtherDescriptionShenBao_LastYear) {
-		this.capitalOtherDescriptionShenBao_LastYear = capitalOtherDescriptionShenBao_LastYear;
-	}
-	public String getCapitalOtherDescriptionShenBao() {
-		return capitalOtherDescriptionShenBao;
-	}
-	public void setCapitalOtherDescriptionShenBao(String capitalOtherDescriptionShenBao) {
-		this.capitalOtherDescriptionShenBao = capitalOtherDescriptionShenBao;
-	}
-	public String getCapitalOtherDescriptionShenBao_LastTwoYear() {
-		return capitalOtherDescriptionShenBao_LastTwoYear;
-	}
-	public void setCapitalOtherDescriptionShenBao_LastTwoYear(String capitalOtherDescriptionShenBao_LastTwoYear) {
-		this.capitalOtherDescriptionShenBao_LastTwoYear = capitalOtherDescriptionShenBao_LastTwoYear;
-	}
-	
 	public Double getYearInvestApproval_lastYear() {
 		return yearInvestApproval_lastYear;
 	}
@@ -463,6 +309,108 @@ public class ShenBaoInfo extends BaseProject{
 	}
 	public void setYearInvestApproval_lastTwoYear(Double yearInvestApproval_lastTwoYear) {
 		this.yearInvestApproval_lastTwoYear = yearInvestApproval_lastTwoYear;
+	}
+	public String getYearConstructionContent() {
+		return yearConstructionContent;
+	}
+	public void setYearConstructionContent(String yearConstructionContent) {
+		this.yearConstructionContent = yearConstructionContent;
+	}
+	public String getYearConstructionContentLastYear() {
+		return yearConstructionContentLastYear;
+	}
+	public void setYearConstructionContentLastYear(String yearConstructionContentLastYear) {
+		this.yearConstructionContentLastYear = yearConstructionContentLastYear;
+	}
+	public String getYearConstructionContentLastTwoYear() {
+		return yearConstructionContentLastTwoYear;
+	}
+	public void setYearConstructionContentLastTwoYear(String yearConstructionContentLastTwoYear) {
+		this.yearConstructionContentLastTwoYear = yearConstructionContentLastTwoYear;
+	}
+	public String getYearConstructionContentShenBao() {
+		return yearConstructionContentShenBao;
+	}
+	public void setYearConstructionContentShenBao(String yearConstructionContentShenBao) {
+		this.yearConstructionContentShenBao = yearConstructionContentShenBao;
+	}
+	public Double getCapitalSCZ_ggys_TheYear() {
+		return capitalSCZ_ggys_TheYear;
+	}
+	public void setCapitalSCZ_ggys_TheYear(Double capitalSCZ_ggys_TheYear) {
+		this.capitalSCZ_ggys_TheYear = capitalSCZ_ggys_TheYear;
+	}
+	public Double getCapitalSCZ_gtzj_TheYear() {
+		return capitalSCZ_gtzj_TheYear;
+	}
+	public void setCapitalSCZ_gtzj_TheYear(Double capitalSCZ_gtzj_TheYear) {
+		this.capitalSCZ_gtzj_TheYear = capitalSCZ_gtzj_TheYear;
+	}
+	public Double getCapitalSCZ_qita() {
+		return capitalSCZ_qita;
+	}
+	public void setCapitalSCZ_qita(Double capitalSCZ_qita) {
+		this.capitalSCZ_qita = capitalSCZ_qita;
+	}
+	public String getCapitalOtherDescriptionShenBao() {
+		return capitalOtherDescriptionShenBao;
+	}
+	public void setCapitalOtherDescriptionShenBao(String capitalOtherDescriptionShenBao) {
+		this.capitalOtherDescriptionShenBao = capitalOtherDescriptionShenBao;
+	}
+	public Double getCapitalSCZ_ggys_LastYear() {
+		return capitalSCZ_ggys_LastYear;
+	}
+	public void setCapitalSCZ_ggys_LastYear(Double capitalSCZ_ggys_LastYear) {
+		this.capitalSCZ_ggys_LastYear = capitalSCZ_ggys_LastYear;
+	}
+	public Double getCapitalSCZ_gtzj_LastYear() {
+		return capitalSCZ_gtzj_LastYear;
+	}
+	public void setCapitalSCZ_gtzj_LastYear(Double capitalSCZ_gtzj_LastYear) {
+		this.capitalSCZ_gtzj_LastYear = capitalSCZ_gtzj_LastYear;
+	}
+	public Double getCapitalSCZ_qita_LastYear() {
+		return capitalSCZ_qita_LastYear;
+	}
+	public void setCapitalSCZ_qita_LastYear(Double capitalSCZ_qita_LastYear) {
+		this.capitalSCZ_qita_LastYear = capitalSCZ_qita_LastYear;
+	}
+	public String getCapitalOtherDescriptionShenBao_LastYear() {
+		return capitalOtherDescriptionShenBao_LastYear;
+	}
+	public void setCapitalOtherDescriptionShenBao_LastYear(String capitalOtherDescriptionShenBao_LastYear) {
+		this.capitalOtherDescriptionShenBao_LastYear = capitalOtherDescriptionShenBao_LastYear;
+	}
+	public Double getCapitalSCZ_ggys_LastTwoYear() {
+		return capitalSCZ_ggys_LastTwoYear;
+	}
+	public void setCapitalSCZ_ggys_LastTwoYear(Double capitalSCZ_ggys_LastTwoYear) {
+		this.capitalSCZ_ggys_LastTwoYear = capitalSCZ_ggys_LastTwoYear;
+	}
+	public Double getCapitalSCZ_gtzj_LastTwoYear() {
+		return capitalSCZ_gtzj_LastTwoYear;
+	}
+	public void setCapitalSCZ_gtzj_LastTwoYear(Double capitalSCZ_gtzj_LastTwoYear) {
+		this.capitalSCZ_gtzj_LastTwoYear = capitalSCZ_gtzj_LastTwoYear;
+	}
+	public Double getCapitalSCZ_qita_LastTwoYear() {
+		return capitalSCZ_qita_LastTwoYear;
+	}
+	public void setCapitalSCZ_qita_LastTwoYear(Double capitalSCZ_qita_LastTwoYear) {
+		this.capitalSCZ_qita_LastTwoYear = capitalSCZ_qita_LastTwoYear;
+	}
+	public String getCapitalOtherDescriptionShenBao_LastTwoYear() {
+		return capitalOtherDescriptionShenBao_LastTwoYear;
+	}
+	public void setCapitalOtherDescriptionShenBao_LastTwoYear(String capitalOtherDescriptionShenBao_LastTwoYear) {
+		this.capitalOtherDescriptionShenBao_LastTwoYear = capitalOtherDescriptionShenBao_LastTwoYear;
+	}
+	public Double getApInvestSum() {
+		return apInvestSum;
+	}
+	public void setApInvestSum(Double apInvestSum) {
+		this.apInvestSum = apInvestSum;
 	}
 	public Double getCapitalAP_ggys_TheYear() {
 		return capitalAP_ggys_TheYear;
@@ -518,59 +466,11 @@ public class ShenBaoInfo extends BaseProject{
 	public void setCapitalAP_qita_LastTwoYear(Double capitalAP_qita_LastTwoYear) {
 		this.capitalAP_qita_LastTwoYear = capitalAP_qita_LastTwoYear;
 	}
-	public String getProcessRole() {
-		return processRole;
+	public Boolean getIsPlanReach() {
+		return isPlanReach;
 	}
-	public void setProcessRole(String processRole) {
-		this.processRole = processRole;
-	}
-	public String getConstructionUnit() {
-		return constructionUnit;
-	}
-	public void setConstructionUnit(String constructionUnit) {
-		this.constructionUnit = constructionUnit;
-	}
-	public Double getApInvestSum() {
-		return apInvestSum;
-	}
-	public void setApInvestSum(Double apInvestSum) {
-		this.apInvestSum = apInvestSum;
-	}
-	public String getExistingProblem() {
-		return existingProblem;
-	}
-	public void setExistingProblem(String existingProblem) {
-		this.existingProblem = existingProblem;
-	}
-	public String getMoveSuggestion() {
-		return moveSuggestion;
-	}
-	public void setMoveSuggestion(String moveSuggestion) {
-		this.moveSuggestion = moveSuggestion;
-	}
-	public String getReceiver() {
-		return receiver;
-	}
-	public void setReceiver(String receiver) {
-		this.receiver = receiver;
-	}
-	public String getPackageType() {
-		return packageType;
-	}
-	public void setPackageType(String packageType) {
-		this.packageType = packageType;
-	}
-	public Boolean getIsApplyOutsideCapital() {
-		return isApplyOutsideCapital;
-	}
-	public void setIsApplyOutsideCapital(Boolean isApplyOutsideCapital) {
-		this.isApplyOutsideCapital = isApplyOutsideCapital;
-	}
-	public Double getApplyOutsideCapital() {
-		return applyOutsideCapital;
-	}
-	public void setApplyOutsideCapital(Double applyOutsideCapital) {
-		this.applyOutsideCapital = applyOutsideCapital;
+	public void setIsPlanReach(Boolean isPlanReach) {
+		this.isPlanReach = isPlanReach;
 	}
 	public Double getSqPlanReach_ggys() {
 		return sqPlanReach_ggys;
@@ -584,10 +484,112 @@ public class ShenBaoInfo extends BaseProject{
 	public void setSqPlanReach_gtzj(Double sqPlanReach_gtzj) {
 		this.sqPlanReach_gtzj = sqPlanReach_gtzj;
 	}
-	public Boolean getIsPlanReach() {
-		return isPlanReach;
+	public String getFunctionSubjects() {
+		return functionSubjects;
 	}
-	public void setIsPlanReach(Boolean isPlanReach) {
-		this.isPlanReach = isPlanReach;
+	public void setFunctionSubjects(String functionSubjects) {
+		this.functionSubjects = functionSubjects;
+	}
+	public String getEconClassSubjects() {
+		return econClassSubjects;
+	}
+	public void setEconClassSubjects(String econClassSubjects) {
+		this.econClassSubjects = econClassSubjects;
+	}
+	public String getProcessStage() {
+		return processStage;
+	}
+	public void setProcessStage(String processStage) {
+		this.processStage = processStage;
+	}
+	public Integer getProcessState() {
+		return processState;
+	}
+	public void setProcessState(Integer processState) {
+		this.processState = processState;
+	}
+	public String getProjectConstrBasis() {
+		return projectConstrBasis;
+	}
+	public void setProjectConstrBasis(String projectConstrBasis) {
+		this.projectConstrBasis = projectConstrBasis;
+	}
+	public String getRecomProgram() {
+		return recomProgram;
+	}
+	public void setRecomProgram(String recomProgram) {
+		this.recomProgram = recomProgram;
+	}
+	public String getSocialAndEconomic() {
+		return socialAndEconomic;
+	}
+	public void setSocialAndEconomic(String socialAndEconomic) {
+		this.socialAndEconomic = socialAndEconomic;
+	}
+	public Boolean getIsApplyQianQiFei() {
+		return isApplyQianQiFei;
+	}
+	public void setIsApplyQianQiFei(Boolean isApplyQianQiFei) {
+		this.isApplyQianQiFei = isApplyQianQiFei;
+	}
+	public Double getQianQiFeiApply() {
+		return qianQiFeiApply;
+	}
+	public void setQianQiFeiApply(Double qianQiFeiApply) {
+		this.qianQiFeiApply = qianQiFeiApply;
+	}
+	public String getLastYearImageSchedule() {
+		return lastYearImageSchedule;
+	}
+	public void setLastYearImageSchedule(String lastYearImageSchedule) {
+		this.lastYearImageSchedule = lastYearImageSchedule;
+	}
+	public String getYearImageSchedule() {
+		return yearImageSchedule;
+	}
+	public void setYearImageSchedule(String yearImageSchedule) {
+		this.yearImageSchedule = yearImageSchedule;
+	}
+	public String getAuditState() {
+		return auditState;
+	}
+	public void setAuditState(String auditState) {
+		this.auditState = auditState;
+	}
+	public String getReceiver() {
+		return receiver;
+	}
+	public void setReceiver(String receiver) {
+		this.receiver = receiver;
+	}
+	public String getExistingProblem() {
+		return existingProblem;
+	}
+	public void setExistingProblem(String existingProblem) {
+		this.existingProblem = existingProblem;
+	}
+	public String getMoveSuggestion() {
+		return moveSuggestion;
+	}
+	public void setMoveSuggestion(String moveSuggestion) {
+		this.moveSuggestion = moveSuggestion;
+	}
+	public ShenBaoUnitInfo getBianZhiUnitInfo() {
+		return bianZhiUnitInfo;
+	}
+	public void setBianZhiUnitInfo(ShenBaoUnitInfo bianZhiUnitInfo) {
+		this.bianZhiUnitInfo = bianZhiUnitInfo;
+	}
+	public ShenBaoUnitInfo getShenBaoUnitInfo() {
+		return shenBaoUnitInfo;
+	}
+	public void setShenBaoUnitInfo(ShenBaoUnitInfo shenBaoUnitInfo) {
+		this.shenBaoUnitInfo = shenBaoUnitInfo;
+	}
+	public List<Attachment> getAttachments() {
+		return attachments;
+	}
+	public void setAttachments(List<Attachment> attachments) {
+		this.attachments = attachments;
 	}
 }

@@ -40,7 +40,7 @@
 			<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectClassify)"></span>
 		</td>		
 	</tr>
-	<tr>		
+	<tr ng-if="vm.isJihuaxiada">		
 		<td class="formAlignRight">项目建设性质：<span class="required">(*)</span></td>
 		<td colspan="3">
 			<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectConstrChar)"></span>

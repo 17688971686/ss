@@ -20,8 +20,8 @@ public class DraftIssued extends BaseEntity{
 	@Id
 	private String id;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '审定金额'")
-	private Double capitalSD;
+	@Column(columnDefinition="double(11,4) DEFALUT 0 COMMENT '审定金额'")
+	private Double capitalSD=0.0;
 	
 	@Column(columnDefinition="date NULL COMMENT '拟稿时间'")
 	private Date draftDate;
@@ -53,17 +53,20 @@ public class DraftIssued extends BaseEntity{
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目名称'")
 	private String projectName;
 	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '项目代码'")
+	private String projectNumber;
+	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '单位名称'")
 	private String unitName;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '总投资'")
-	private Double capitalTotal;
+	@Column(columnDefinition="double(11,4) DEFALUT 0 COMMENT '总投资'")
+	private Double capitalTotal=0.0;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '拟稿单位拟稿人'")
 	private String userNameAndUnit;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '批复金额'")
-	private String capitalPifU;
+	@Column(columnDefinition="double(11,4) DEFALUT 0 COMMENT '批复金额'")
+	private Double capitalPifU=0.0;
 	
 	//关联
 	@Column(columnDefinition="varchar(255) NULL COMMENT '相关ID'")
@@ -197,13 +200,20 @@ public class DraftIssued extends BaseEntity{
 		this.userNameAndUnit = userNameAndUnit;
 	}
 
-	public String getCapitalPifU() {
+	public Double getCapitalPifU() {
 		return capitalPifU;
 	}
 
-	public void setCapitalPifU(String capitalPifU) {
+	public void setCapitalPifU(Double capitalPifU) {
 		this.capitalPifU = capitalPifU;
 	}
-	
+
+	public String getProjectNumber() {
+		return projectNumber;
+	}
+
+	public void setProjectNumber(String projectNumber) {
+		this.projectNumber = projectNumber;
+	}
 	
 }

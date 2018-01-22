@@ -8,30 +8,32 @@
 	<table class="table table-bordered table-striped ">
 		<tr>
 			<td class="formAlignRight" style="width:150px;">项目名称：</td>
-			<td colspan="3" style="text-align: center;">
-			<span ng-bind="vm.approval.projectName"></span>
+			<td style="text-align: center;">
+				<span ng-bind="vm.approval.projectName"></span>
+			</td>
+			<td class="formAlignRight" style="width:150px;">项目代码：</td>
+			<td style="text-align: center;">
+				<span ng-bind="vm.approval.projectNumber"></span>
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">建设单位：</td>
-			<td colspan="3" style="text-align: center;">
+			<td style="text-align: center;">
 				<span ng-bind="vm.approval.constructionUnit"></span>
 			</td>
-		</tr>
-		<tr>
 			<td class="formAlignRight">编制部门：</td>
-			<td colspan="3">
+			<td style="text-align: center;">
 				<span ng-bind="vm.approval.unitName"></span>
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">评审类别：</td>
-			<td style="width: 333px;">
-				<span ng-bind="vm.approval.approvalType"></span>
+			<td style="width: 333px;text-align: center;">
+				<span ng-bind="vm.getBasicDataDesc(vm.approval.approvalType)"></span>
 			</td>
-			<td class="formAlignRight">报送投资：</td>
-			<td>
-				<span ng-bind="vm.approval.capitalBaoSong"></span>
+			<td class="formAlignRight">报送投资：<span class="required">(*)</span></td>
+			<td style="text-align: center;">
+				<span ng-bind="vm.approval.capitalBaoSong"></span>&nbsp;(万元)
 			</td>
 		</tr>
 		<tr>
@@ -42,38 +44,16 @@
 		<tr>
 			<td class="formAlignRight">经办人：</td>
 			<td colspan="3">
-				<div style="height:106px;">
-					<span ng-bind="vm.approval.processSuggestion_JBR"></span>
+				<textarea class="form-control" placeholder="注：500字符以内" ng-bind="vm.approval.processSuggestion_JBR" disabled></textarea>
+				<div>
+					<label class="pull-left">上传附件：</label>
+			        <div style="margin-left:3px;" ng-repeat="x in vm.approval.attachmentDtos">
+			 			<a href="/contents/upload/{{x.url}}" target="_blank" ng-bind="x.name"></a>
+		 			</div>
 				</div>
-				
-				<div class="pull-right" style="margin-right: 80px;">
-					<p>经办人：<span ng-bind="vm.getUser(vm.approval.processRole)"></span></p>
-					<p>日期：<span ng-bind="vm.approval.beginDate | date:'yyyy-MM-dd'"></span></p>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="4" style="text-align: center;">
-				<p style="font-size: 20px;">审批情况</p>
-			</td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">科长复核意见：</td>
-			<td colspan="3">
-				<div style="height: 135px;">
-				</div>
-				<div class="pull-right" style="margin-right: 80px;">
-					<p>经办人：</p>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">分管领导意见：</td>
-			<td colspan="3">
-				<div style="height: 135px;">
-				</div>
-				<div class="pull-right" style="margin-right: 80px;">
-					<p>经办人：</p>
+				<div class="pull-right">
+					<p>经办人：<span ng-bind="vm.processRoleName"></span></p>
+					<p>日期：<span ng-bind="vm.approval.beginDate  | date:'yyyy-MM-dd'"></span></p>
 				</div>
 			</td>
 		</tr>

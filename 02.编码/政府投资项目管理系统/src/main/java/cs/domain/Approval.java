@@ -1,10 +1,14 @@
 package cs.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -30,6 +34,9 @@ public class Approval extends BaseEntity{
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目名称'")
 	private String projectName;
 	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '项目代码'")
+	private String projectNumber;
+	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '编制部门'")
 	private String unitName;
 	
@@ -48,6 +55,9 @@ public class Approval extends BaseEntity{
 	//关联
 	@Column(columnDefinition="varchar(255) NULL COMMENT '相关ID'")
 	private String relId;
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<Attachment> attachments=new ArrayList<>();
 
 	public String getId() {
 		return id;
@@ -128,5 +138,22 @@ public class Approval extends BaseEntity{
 	public void setApprovalType(String approvalType) {
 		this.approvalType = approvalType;
 	}
+
+	public String getProjectNumber() {
+		return projectNumber;
+	}
+
+	public void setProjectNumber(String projectNumber) {
+		this.projectNumber = projectNumber;
+	}
+
+	public List<Attachment> getAttachments() {
+		return attachments;
+	}
+
+	public void setAttachments(List<Attachment> attachments) {
+		this.attachments = attachments;
+	}
+	
 	
 }

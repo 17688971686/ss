@@ -36,11 +36,10 @@ public class TaskController {
 	ICurrentUser currentUser;
 
 	//@RequiresPermissions("management/task##get")
-	@RequestMapping(name = "获取所有任务", path = "",method=RequestMethod.GET)
+	@RequestMapping(name = "获取任务信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<TaskHeadDto> getToDo(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);	
-//		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.get(odataObj);
-		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.getTask_yearPlan(odataObj);
+		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.get(odataObj);
 		
 		//关于流程记录根据创建用户id查找到名称用于显示
 		List<TaskHeadDto> taskHeadDtols = taskHeadDtos.getValue();
@@ -48,9 +47,10 @@ public class TaskController {
 			taskHeadDtols.forEach(x->{
 				if(x.getTaskRecordDtos() !=null && x.getTaskRecordDtos().size()>0){
 					x.getTaskRecordDtos().forEach(y->{
-						User user = userService.findById(y.getCreatedBy());
+						User user = userService.findById(y.getThisUser());
 						if(user !=null){
-							y.setCreatedBy(user.getLoginName());
+							String name = user.getDisplayName()!=null&&!user.getDisplayName().equals("")?user.getDisplayName():user.getLoginName();
+							y.setThisUser(name);
 						}
 					});
 				}
@@ -71,9 +71,10 @@ public class TaskController {
 			taskHeadDtols.forEach(x->{
 				if(x.getTaskRecordDtos() !=null && x.getTaskRecordDtos().size()>0){
 					x.getTaskRecordDtos().forEach(y->{
-						User user = userService.findById(y.getCreatedBy());
+						User user = userService.findById(y.getThisUser());
 						if(user !=null){
-							y.setCreatedBy(user.getLoginName());
+							String name = user.getDisplayName()!=null&&!user.getDisplayName().equals("")?user.getDisplayName():user.getLoginName();
+							y.setThisUser(name);
 						}
 					});
 				}
@@ -94,9 +95,10 @@ public class TaskController {
 			taskHeadDtols.forEach(x->{
 				if(x.getTaskRecordDtos() !=null && x.getTaskRecordDtos().size()>0){
 					x.getTaskRecordDtos().forEach(y->{
-						User user = userService.findById(y.getCreatedBy());
+						User user = userService.findById(y.getThisUser());
 						if(user !=null){
-							y.setCreatedBy(user.getLoginName());
+							String name = user.getDisplayName()!=null&&!user.getDisplayName().equals("")?user.getDisplayName():user.getLoginName();
+							y.setThisUser(name);
 						}
 					});
 				}
@@ -106,9 +108,9 @@ public class TaskController {
 		return taskHeadDtos;
 	}
 	
-	@RequiresPermissions("management/task#taskId#put")
-	@RequestMapping(name="处理任务",path="{taskId}",method=RequestMethod.PUT)
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	@RequiresPermissions("management/task#taskId#post")
+	@RequestMapping(name="处理任务",path="{taskId}",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
 	public void put(@RequestBody TaskRecordDto dto,@PathVariable String taskId){
 		taskHeadService.handle(taskId, dto);
 	}

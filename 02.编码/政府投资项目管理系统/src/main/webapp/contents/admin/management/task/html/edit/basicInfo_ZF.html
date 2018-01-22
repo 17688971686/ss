@@ -59,6 +59,17 @@
 	</tr>
 	<tr>
 		<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
+		<td colspan="3">
+			<select id="projectIndustry" name="projectIndustry" style="height:30px;" ng-model="vm.model.shenBaoInfo.projectIndustry"
+			 data-val="true" data-val-required="必选">
+				<option value="">---请选择---</option>
+				<option ng-repeat="x in vm.basicData.projectIndustry" value="{{x.id}}" ng-bind="x.description" ng-selected="vm.model.shenBaoInfo.projectIndustry==x.id"></option>
+			</select>
+			<span data-valmsg-for="projectIndustry" data-valmsg-replace="true" class="required"></span>	
+		</td>	
+	</tr>
+	<tr ng-if="vm.isJihuaxiada">
+		<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
 		<td>
 			<select id="projectIndustry" name="projectIndustry" style="height:30px;" ng-model="vm.model.shenBaoInfo.projectIndustry"
 			 data-val="true" data-val-required="必选">
@@ -68,7 +79,7 @@
 			<span data-valmsg-for="projectIndustry" data-valmsg-replace="true" class="required"></span>	
 		</td>	
 		<td class="formAlignRight">项目建设性质：<span class="required">(*)</span></td>
-		<td >
+		<td>
 			<select id="projectConstrChar" name="projectConstrChar"  style="height:30px;" ng-model="vm.model.shenBaoInfo.projectConstrChar" data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.projectConstrChar" ng-selected="vm.model.shenBaoInfo.projectConstrChar==x.id" value="{{x.id}}">{{x.description}}</option>

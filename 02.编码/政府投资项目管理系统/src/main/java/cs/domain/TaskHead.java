@@ -30,23 +30,33 @@ public class TaskHead extends BaseEntity {
 	@Column(columnDefinition="varchar(255) NULL COMMENT '相关ID'")
 	private String relId;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '处理意见'")
-	private String processSuggestion;
+	@Column(columnDefinition="varchar(255) NULL COMMENT '任务上一所处阶段'")
+	private String lastProcess;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '下一处理人'")
-	private String nextUser;
+	@Column(columnDefinition="int(1) DEFAULT 0 COMMENT '任务上一处理状态：0：未开始，1：进行中，2：通过，3：转办，4：不通过'")
+	private Integer lastProcessState;
 	
-	@Column(columnDefinition="varchar(125) NULL COMMENT '下一处理环节'")
-	private String nextProcess;
+	@Column(columnDefinition="varchar(125) NULL COMMENT '任务上一处理人员'")
+	private String lastUser;
 	
-	@Column(columnDefinition="varchar(125) NULL COMMENT '当前处理状态'")
-	private String processState;
+	@Column(columnDefinition="varchar(125) NULL COMMENT '任务上一处理角色'")
+	private String lastRole;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '审批角色'")
-	private String processRole;
+	@Column(columnDefinition="varchar(255) NULL COMMENT '任务当前所处阶段'")
+	private String thisProcess;
 	
-	@Column(columnDefinition="bit NULL COMMENT '是否完成'")
-	private boolean isComplete;
+	@Column(columnDefinition="int(1) DEFAULT 0 COMMENT '任务当前处理状态：0：未开始，1：进行中，2：通过，3：转办，4：不通过''")
+	private Integer thisProcessState;
+	
+	@Column(columnDefinition="varchar(125) NULL COMMENT '任务当前处理人员'")
+	private String thisUser;
+	
+	@Column(columnDefinition="varchar(125) NULL COMMENT '任务当前处理角色'")
+	private String thisRole;
+	
+	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否完成'")
+	private Boolean isComplete=false;
+	
 	//begin#添加筛选字段
 	@Column(columnDefinition="varchar(125) NULL COMMENT '项目行业'")
 	private String projectIndustry;
@@ -54,8 +64,9 @@ public class TaskHead extends BaseEntity {
 	@Column(columnDefinition="varchar(255) NULL COMMENT '建设单位名称'")
 	private String unitName;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '经办人'")
-	private String operator;
+	//begin#添加任务记录处理意见转换
+	@Column(columnDefinition="varchar(255) NULL COMMENT '处理意见'")
+	private String processSuggestion;
 	
 	//begin#关联
 	@OneToMany(cascade=CascadeType.ALL)
@@ -93,44 +104,76 @@ public class TaskHead extends BaseEntity {
 		this.relId = relId;
 	}
 
-	public String getNextUser() {
-		return nextUser;
+	public String getLastProcess() {
+		return lastProcess;
 	}
 
-	public void setNextUser(String nextUser) {
-		this.nextUser = nextUser;
+	public void setLastProcess(String lastProcess) {
+		this.lastProcess = lastProcess;
 	}
 
-	public String getProcessState() {
-		return processState;
+	public Integer getLastProcessState() {
+		return lastProcessState;
 	}
 
-	public void setProcessState(String processState) {
-		this.processState = processState;
+	public void setLastProcessState(Integer lastProcessState) {
+		this.lastProcessState = lastProcessState;
 	}
 
-	public List<TaskRecord> getTaskRecords() {
-		return taskRecords;
+	public String getLastUser() {
+		return lastUser;
 	}
 
-	public void setTaskRecords(List<TaskRecord> taskRecords) {
-		this.taskRecords = taskRecords;
+	public void setLastUser(String lastUser) {
+		this.lastUser = lastUser;
 	}
 
-	public boolean isComplete() {
+	public String getLastRole() {
+		return lastRole;
+	}
+
+	public void setLastRole(String lastRole) {
+		this.lastRole = lastRole;
+	}
+
+	public String getThisProcess() {
+		return thisProcess;
+	}
+
+	public void setThisProcess(String thisProcess) {
+		this.thisProcess = thisProcess;
+	}
+
+	public Integer getThisProcessState() {
+		return thisProcessState;
+	}
+
+	public void setThisProcessState(Integer thisProcessState) {
+		this.thisProcessState = thisProcessState;
+	}
+
+	public String getThisUser() {
+		return thisUser;
+	}
+
+	public void setThisUser(String thisUser) {
+		this.thisUser = thisUser;
+	}
+
+	public String getThisRole() {
+		return thisRole;
+	}
+
+	public void setThisRole(String thisRole) {
+		this.thisRole = thisRole;
+	}
+
+	public Boolean getIsComplete() {
 		return isComplete;
 	}
 
-	public void setComplete(boolean isComplete) {
+	public void setIsComplete(Boolean isComplete) {
 		this.isComplete = isComplete;
-	}
-
-	public String getProcessSuggestion() {
-		return processSuggestion;
-	}
-
-	public void setProcessSuggestion(String processSuggestion) {
-		this.processSuggestion = processSuggestion;
 	}
 
 	public String getProjectIndustry() {
@@ -149,28 +192,19 @@ public class TaskHead extends BaseEntity {
 		this.unitName = unitName;
 	}
 
-	public String getProcessRole() {
-		return processRole;
+	public String getProcessSuggestion() {
+		return processSuggestion;
 	}
 
-	public void setProcessRole(String processRole) {
-		this.processRole = processRole;
+	public void setProcessSuggestion(String processSuggestion) {
+		this.processSuggestion = processSuggestion;
 	}
 
-	public String getNextProcess() {
-		return nextProcess;
+	public List<TaskRecord> getTaskRecords() {
+		return taskRecords;
 	}
 
-	public void setNextProcess(String nextProcess) {
-		this.nextProcess = nextProcess;
+	public void setTaskRecords(List<TaskRecord> taskRecords) {
+		this.taskRecords = taskRecords;
 	}
-
-	public String getOperator() {
-		return operator;
-	}
-
-	public void setOperator(String operator) {
-		this.operator = operator;
-	}
-
 }

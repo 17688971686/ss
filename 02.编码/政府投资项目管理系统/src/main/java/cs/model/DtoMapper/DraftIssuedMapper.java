@@ -18,65 +18,66 @@ public class DraftIssuedMapper  implements IMapper<DraftIssuedDto, DraftIssued> 
 
 	@Override
 	public DraftIssuedDto toDto(DraftIssued entity) {
-		// TODO Auto-generated method stub
 		DraftIssuedDto draftIssuedDto = new DraftIssuedDto();
 		if(draftIssuedDto != null){
+			draftIssuedDto.setId(entity.getId());
+			draftIssuedDto.setTitle(entity.getTitle());
+			draftIssuedDto.setRelId(entity.getRelId());
 			draftIssuedDto.setCapitalSD(entity.getCapitalSD());
-			draftIssuedDto.setCreatedBy(entity.getCreatedBy());
-			draftIssuedDto.setCreatedDate(entity.getCreatedDate());
 			draftIssuedDto.setDocumentType(entity.getDocumentType());
 			draftIssuedDto.setDraftDate(entity.getDraftDate());
 			draftIssuedDto.setFileSet(entity.getFileSet());
 			draftIssuedDto.setFileType(entity.getFileType());
 			draftIssuedDto.setHecretHierarchy(entity.getHecretHierarchy());
-			draftIssuedDto.setId(entity.getId());
-			draftIssuedDto.setItemOrder(entity.getItemOrder());
 			draftIssuedDto.setKeyWord(entity.getKeyWord());
-			draftIssuedDto.setModifiedBy(entity.getModifiedBy());
-			draftIssuedDto.setModifiedDate(entity.getModifiedDate());
 			draftIssuedDto.setOpenType(entity.getOpenType());
-			draftIssuedDto.setTitle(entity.getTitle());
 			draftIssuedDto.setPostingCategory(entity.getPostingCategory());
-			draftIssuedDto.setRelId(entity.getRelId());
 			draftIssuedDto.setCapitalTotal(entity.getCapitalTotal());
-			draftIssuedDto.setProjectName(entity.getProjectName());
 			draftIssuedDto.setUnitName(entity.getUnitName());
 			draftIssuedDto.setUserNameAndUnit(entity.getUserNameAndUnit());
 			draftIssuedDto.setCapitalPifU(entity.getCapitalPifU());
+			draftIssuedDto.setProjectName(entity.getProjectName());
+			draftIssuedDto.setProjectNumber(entity.getProjectNumber());
+			//基础信息
+			draftIssuedDto.setCreatedBy(entity.getCreatedBy());
+			draftIssuedDto.setCreatedDate(entity.getCreatedDate());
+			draftIssuedDto.setModifiedBy(entity.getModifiedBy());
+			draftIssuedDto.setModifiedDate(entity.getModifiedDate());
+			draftIssuedDto.setItemOrder(entity.getItemOrder());
+			
 		}
 		return draftIssuedDto;
 	}
 
 	@Override
 	public DraftIssued buildEntity(DraftIssuedDto dto, DraftIssued entity) {
-		// TODO Auto-generated method stub
 		if (dto != null && entity != null) {			
 			if(entity.getId() ==null || entity.getId().isEmpty()){
 				entity.setId(UUID.randomUUID().toString());
 			}
-			
+			entity.setTitle(dto.getTitle());
+			entity.setRelId(dto.getRelId());
 			entity.setCapitalSD(dto.getCapitalSD());
-			entity.setCreatedBy(dto.getCreatedBy());
-			entity.setCreatedDate(dto.getCreatedDate());
 			entity.setDocumentType(dto.getDocumentType());
 			entity.setDraftDate(dto.getDraftDate());
 			entity.setFileSet(dto.getFileSet());
 			entity.setFileType(dto.getFileType());
 			entity.setHecretHierarchy(dto.getHecretHierarchy());
-			
-			entity.setItemOrder(dto.getItemOrder());
 			entity.setKeyWord(dto.getKeyWord());
-			entity.setModifiedBy(dto.getModifiedBy());
-			entity.setModifiedDate(dto.getModifiedDate());
 			entity.setOpenType(dto.getOpenType());
-			entity.setTitle(dto.getTitle());
 			entity.setPostingCategory(dto.getPostingCategory());
-			
 			entity.setCapitalPifU(dto.getCapitalPifU());
 			entity.setCapitalTotal(dto.getCapitalTotal());
 			entity.setProjectName(dto.getProjectName());
+			entity.setProjectNumber(dto.getProjectNumber());
 			entity.setUnitName(dto.getUnitName());
 			entity.setUserNameAndUnit(dto.getUserNameAndUnit());
+			//基础信息
+			entity.setModifiedBy(dto.getModifiedBy());
+			entity.setModifiedDate(dto.getModifiedDate());
+			entity.setCreatedBy(dto.getCreatedBy());
+			entity.setCreatedDate(dto.getCreatedDate());
+			entity.setItemOrder(dto.getItemOrder());
 		}
 		return entity;
 	}

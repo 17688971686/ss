@@ -186,7 +186,7 @@
 		
 		function handle(vm){
 			var httpOptions = {
-				method : 'put',
+				method : 'post',
 				url : url_task+"/"+vm.taskId,
 				data : vm.model.taskRecord
 			};
@@ -272,9 +272,10 @@
 					operator:'eq',
 					value:common.basicDataConfig().taskType_yearPlan
 				}],
-				requestEnd:function(e){						
-					$('#todoNumber').html(e.response.value.length);					
-
+				requestEnd:function(e){
+					if(e.response.value){
+						$('#todoNumber').html(e.response.value.length);		
+					}
 				},
 				change:function(){
 					var grid = $(".grid").data("kendoGrid");

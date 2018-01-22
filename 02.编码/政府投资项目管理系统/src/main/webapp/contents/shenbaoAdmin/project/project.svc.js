@@ -428,7 +428,7 @@
 					width:250,
 					filterable : true,
 					template:function(item){
-						return common.format('<a href="#/project/projectInfo/{0}">{1}</a>',item.id,item.projectName);
+						return common.format('<a class="text-primary" href="#/project/projectInfo/{0}">{1}</a>',item.id,item.projectName);
 					}
 				},
 				{

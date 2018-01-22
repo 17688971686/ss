@@ -6,6 +6,8 @@ import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import cs.common.ICurrentUser;
 import cs.domain.TaskRecord;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.TaskRecordDto;
@@ -23,6 +25,8 @@ public class TaskRecordServiceImpl extends AbstractServiceImpl<TaskRecordDto, Ta
 	private static Logger logger = Logger.getLogger(TaskRecordServiceImpl.class);
 	@Autowired
 	private TaskRecordRepoImpl taskRecordRepoImpl;
+	@Autowired
+	private ICurrentUser currentUser;
 	
 	@Override
 	@Transactional
@@ -34,7 +38,7 @@ public class TaskRecordServiceImpl extends AbstractServiceImpl<TaskRecordDto, Ta
 	@Override
 	@Transactional
 	public PageModelDto<TaskRecordDto> get_shenPi(ODataObj odataObj) {
-		List<TaskRecordDto> dtos = taskRecordRepoImpl.findByOdata2(odataObj).stream().map((x) -> {
+		List<TaskRecordDto> dtos = taskRecordRepoImpl.findByOdata2(odataObj,currentUser.getUserId(),false).stream().map((x) -> {
 			return mapper.toDto(x);
 		}).collect(Collectors.toList());
 		
@@ -42,14 +46,14 @@ public class TaskRecordServiceImpl extends AbstractServiceImpl<TaskRecordDto, Ta
 		PageModelDto<TaskRecordDto> pageModelDto = new PageModelDto<>();
 		pageModelDto.setCount(odataObj.getCount());
 		pageModelDto.setValue(dtos);
-		logger.info("查询审批类任务");
+		logger.info("查询审批类已办任务");
 		return pageModelDto;
 	}
 
 	@Override
 	@Transactional
 	public PageModelDto<TaskRecordDto> getToDo_plan(ODataObj odataObj) {
-		List<TaskRecordDto> dtos = taskRecordRepoImpl.findByOdata3(odataObj).stream().map((x) -> {
+		List<TaskRecordDto> dtos = taskRecordRepoImpl.findByOdata2(odataObj,currentUser.getUserId(),true).stream().map((x) -> {
 			return mapper.toDto(x);
 		}).collect(Collectors.toList());
 		
@@ -57,7 +61,7 @@ public class TaskRecordServiceImpl extends AbstractServiceImpl<TaskRecordDto, Ta
 		PageModelDto<TaskRecordDto> pageModelDto = new PageModelDto<>();
 		pageModelDto.setCount(odataObj.getCount());
 		pageModelDto.setValue(dtos);
-		logger.info("查询计划类任务");
+		logger.info("查询计划类已办任务");
 		return pageModelDto;
 	}
 	
