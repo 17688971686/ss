@@ -8,14 +8,12 @@ import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cs.domain.PolicyCatalog;
 import cs.domain.PolicyCatalog_;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.PolicyCatalogDto;
-import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.PolicyCatalogService;
 
@@ -29,8 +27,6 @@ import cs.service.interfaces.PolicyCatalogService;
 public class PolicyCatalogServiceImpl extends AbstractServiceImpl<PolicyCatalogDto, PolicyCatalog, String> implements PolicyCatalogService{
 	private static Logger logger = Logger.getLogger(PolicyCatalogServiceImpl.class);
 	
-	@Autowired
-	private IRepository<PolicyCatalog, String> policyCatalogRepo;
 	
 	@Override
 	@Transactional

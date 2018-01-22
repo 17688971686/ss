@@ -20,6 +20,7 @@ public class ExcelReportHYTJView extends AbstractXlsView {
 		this.year=year;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String fileName = "光明新区"+year+"年区级政府投资项目计划行业汇总表.xls";
@@ -136,18 +137,23 @@ public class ExcelReportHYTJView extends AbstractXlsView {
         createCellAlignCenter(workbook,row,13, "",cellStyleO);
 
     }
-    private void createCellAlignCenter(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyle){
+    @SuppressWarnings("deprecation")
+	private void createCellAlignCenter(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyle){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,cellStyle);
     }
+    @SuppressWarnings("deprecation")
     private void createCellAlignCenter(Workbook workbook,Row row, int cellNumber,double value,CellStyle cellStyle){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,cellStyle);
     }
+    @SuppressWarnings("deprecation")
     private void createCellAlignLeft(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyle){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_LEFT,CellStyle.VERTICAL_CENTER,cellStyle);
     }
+    @SuppressWarnings({ "deprecation", "unused" })
     private void createCellAlignRight(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyle){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_RIGHT,CellStyle.VERTICAL_CENTER,cellStyle);
     }
+    @SuppressWarnings("deprecation")
     private void createCell(Workbook workbook,Row row, int cellNumber,String value, short halign, short valign,CellStyle cellStyle){
         Cell cell=row.createCell(cellNumber);
         cell.setCellValue(value);
@@ -159,6 +165,7 @@ public class ExcelReportHYTJView extends AbstractXlsView {
         cell.setCellStyle(cellStyle);
     }
   //重写创建列
+    @SuppressWarnings("deprecation")
     private void createCell(Workbook workbook,Row row, int cellNumber,double value, short halign, short valign,CellStyle cellStyle){
         Cell cell=row.createCell(cellNumber);
         cell.setCellValue(value);

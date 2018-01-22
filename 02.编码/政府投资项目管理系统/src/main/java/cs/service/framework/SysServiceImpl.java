@@ -22,7 +22,6 @@ import cs.common.Response;
 import cs.common.sysResource.ClassFinder;
 import cs.common.sysResource.SysResourceDto;
 import cs.domain.BasicData;
-import cs.domain.ReplyFile;
 import cs.domain.UserUnitInfo;
 import cs.domain.framework.Org;
 import cs.domain.framework.Resource;
@@ -39,7 +38,6 @@ import cs.repository.framework.OrgRepoImpl;
 import cs.repository.framework.RoleRepoImpl;
 import cs.repository.framework.SysConfigRepoImpl;
 import cs.repository.framework.UserRepoImpl;
-import cs.repository.impl.UserUnitInfoRepoImpl;
 import cs.repository.interfaces.IRepository;
 
 @Service

@@ -13,6 +13,7 @@ import cs.repository.impl.AbstractRepository;
 @Repository
 public class RoleRepoImpl extends AbstractRepository<Role, String> implements RoleRepo {
 
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
 	public boolean isRoleExist(String roleName) {
 		Criteria criteria=this.getSession().createCriteria(Role.class); 

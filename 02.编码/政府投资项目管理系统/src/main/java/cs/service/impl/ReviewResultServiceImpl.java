@@ -13,15 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cs.common.ICurrentUser;
-import cs.domain.Approval;
 import cs.domain.Attachment;
 import cs.domain.ReviewResult;
-import cs.model.DomainDto.ApprovalDto;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ReviewResultDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
-import cs.service.interfaces.ApprovalService;
 import cs.service.interfaces.ReviewResultService;
 
 /**

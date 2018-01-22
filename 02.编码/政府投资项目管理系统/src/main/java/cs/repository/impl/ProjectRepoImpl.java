@@ -22,6 +22,7 @@ import cs.repository.odata.ODataObj;
  */
 @Repository
 public class ProjectRepoImpl extends AbstractRepository<Project	, String> {
+	@SuppressWarnings({ "deprecation", "rawtypes", "unchecked" })
 	public List<Project> findByOdata2(ODataObj oDataObj,Boolean isFilters,Boolean hasUnitFilter,Boolean isUnitFilter){
 		logger.debug("findByOdata2");		
 		Criteria crit = this.getSession().createCriteria(Project.class);

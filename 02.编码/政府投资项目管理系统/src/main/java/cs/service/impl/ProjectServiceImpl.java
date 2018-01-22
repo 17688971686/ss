@@ -311,6 +311,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	}
 	
 	/***************以下方法用于项目统计***************/
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
 	@Transactional
 	public List<ProjectStageData> getStageProjects() {
@@ -325,6 +326,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	
 	
 
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
 	@Transactional
 	public List<sttisticsData> getprojectByHYData() {
@@ -338,6 +340,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		return list;
 	}
 	
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
 	@Transactional
 	public List<sttisticsData> getprojectInvestSourceData() {

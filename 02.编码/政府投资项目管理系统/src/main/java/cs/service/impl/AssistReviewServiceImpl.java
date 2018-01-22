@@ -21,7 +21,6 @@ import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ProjectDto;
 import cs.model.DomainDto.ServiceEvaluationDto;
 import cs.model.DomainDto.SubmitReviewEvaluationDto;
-import cs.model.DtoMapper.AttachmentMapper;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;

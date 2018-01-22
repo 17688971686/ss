@@ -16,6 +16,7 @@ import cs.repository.odata.ODataObj;
 @Repository
 public class UserRepoImpl extends AbstractRepository<User, String> implements UserRepo {
 
+	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
 	public User findUserByName(String userName) {
 		Criteria criteria = this.getSession().createCriteria(User.class);
@@ -28,6 +29,7 @@ public class UserRepoImpl extends AbstractRepository<User, String> implements Us
 		}
 	}
 
+	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
 	public List<User> getUsersNotIn(List<String> userIds, ODataObj oDataObj) {
 		Criteria crit = this.getSession().createCriteria(User.class);
@@ -39,6 +41,7 @@ public class UserRepoImpl extends AbstractRepository<User, String> implements Us
 		return list;
 	}
 
+	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
 	public Set<String> getUserPermission(String userName) {
 		Criteria crit = this.getSession().createCriteria(User.class);

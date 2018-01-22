@@ -20,13 +20,11 @@ import cs.domain.BasicData;
 import cs.domain.MonthReport;
 import cs.domain.Project;
 import cs.domain.ReplyFile;
-import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.MonthReportDto;
 import cs.model.DomainDto.ProjectDto;
 import cs.model.DtoMapper.IMapper;
-import cs.repository.impl.ProjectRepoImpl;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ProjectSupervisedService;
@@ -45,15 +43,9 @@ public class ProjectSupervisedServiceImpl extends AbstractServiceImpl<ProjectDto
 	@Autowired
 	private IRepository<MonthReport, String> monthReportRepo;
 	@Autowired
-	private IRepository<UserUnitInfo, String> userUnitInfoRepo;
-	@Autowired
-	private ProjectRepoImpl projectRepoImpl;
-	@Autowired
 	private IMapper<AttachmentDto, Attachment> attachmentMapper;
 	@Autowired
 	private IMapper<MonthReportDto, MonthReport> monthReportMapper;
-	@Autowired
-	private IMapper<ProjectDto, Project> projectMapper;
 	@Autowired
 	private ICurrentUser currentUser;
 	

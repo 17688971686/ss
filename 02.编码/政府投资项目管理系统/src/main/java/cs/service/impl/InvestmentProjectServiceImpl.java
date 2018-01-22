@@ -8,14 +8,12 @@ import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cs.domain.InvestmentProject;
 import cs.domain.InvestmentProject_;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.InvestmentProjectDto;
-import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.InvestmentProjectService;
 
@@ -29,9 +27,6 @@ import cs.service.interfaces.InvestmentProjectService;
 @Service
 public class InvestmentProjectServiceImpl extends AbstractServiceImpl<InvestmentProjectDto,InvestmentProject, String> implements InvestmentProjectService{
 	private static Logger logger = Logger.getLogger(InvestmentProjectServiceImpl.class);
-	
-	@Autowired
-	private IRepository<InvestmentProject, String> investmentProjectRepo;
 	
 	@Override
 	@Transactional

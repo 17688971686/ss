@@ -88,6 +88,7 @@ public class OrgServiceImpl implements OrgService {
 		return pageModelDto;
 	}
 
+	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
 	@Transactional
 	public void createOrg(OrgDto orgDto) {
@@ -196,6 +197,7 @@ public class OrgServiceImpl implements OrgService {
 		return pageModelDto;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	@Transactional
 	public PageModelDto<UserDto> getUsersNotInOrg(String id, ODataObj oDataObj) {

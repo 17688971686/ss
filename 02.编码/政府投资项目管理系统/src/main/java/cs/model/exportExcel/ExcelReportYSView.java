@@ -86,8 +86,8 @@ public class ExcelReportYSView extends AbstractXlsView {
 
         //begin#数据列
         int rowNum=4;
-        int index=1;
-        List<ExcelDataYS> excelDataList = (List<ExcelDataYS>) model.get("excelDataList");
+        @SuppressWarnings("unchecked")
+		List<ExcelDataYS> excelDataList = (List<ExcelDataYS>) model.get("excelDataList");
         for (ExcelDataYS data:excelDataList) {
             int rowNum1=rowNum++;
             int rowNum2=rowNum++;
@@ -135,19 +135,24 @@ public class ExcelReportYSView extends AbstractXlsView {
 
     }
 	 
-    private void createCellAlignCenter(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyleO){
+    @SuppressWarnings("deprecation")
+	private void createCellAlignCenter(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyleO){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,cellStyleO);
     }
+    @SuppressWarnings("deprecation")
     private void createCellAlignCenter(Workbook workbook,Row row, int cellNumber,double value,CellStyle cellStyleO){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,cellStyleO);
     }
+    @SuppressWarnings("deprecation")
     private void createCellAlignLeft(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyleO){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_LEFT,CellStyle.VERTICAL_CENTER,cellStyleO);
     }
+    @SuppressWarnings("deprecation")
     private void createCellAlignRight(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyleO){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_RIGHT,CellStyle.VERTICAL_CENTER,cellStyleO);
     }
    
+    @SuppressWarnings("deprecation")
     private void createCell(Workbook workbook,Row row, int cellNumber,String value, short halign, short valign,CellStyle cellStyle){
         Cell cell=row.createCell(cellNumber);
         cell.setCellValue(value);
@@ -160,6 +165,7 @@ public class ExcelReportYSView extends AbstractXlsView {
         cell.setCellStyle(cellStyle);
     }
     //重写创建列
+    @SuppressWarnings("deprecation")
     private void createCell(Workbook workbook,Row row, int cellNumber,double value, short halign, short valign,CellStyle cellStyle){
         Cell cell=row.createCell(cellNumber);
         cell.setCellValue(value);

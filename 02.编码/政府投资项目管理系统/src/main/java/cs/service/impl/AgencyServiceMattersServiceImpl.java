@@ -29,6 +29,7 @@ public class AgencyServiceMattersServiceImpl extends AbstractServiceImpl<AgencyS
 	
 	private static Logger logger = Logger.getLogger(AgencyServiceMattersServiceImpl.class);
 	
+	@SuppressWarnings("unused")
 	@Autowired
 	private IRepository<AgencyServiceMatters, String> agencyServiceMatters;
 	

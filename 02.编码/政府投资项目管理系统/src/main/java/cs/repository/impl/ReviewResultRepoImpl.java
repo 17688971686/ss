@@ -2,8 +2,6 @@ package cs.repository.impl;
 
 import org.springframework.stereotype.Repository;
 
-import cs.domain.Approval;
-import cs.domain.DraftIssued;
 import cs.domain.ReviewResult;
 /**
  * @Description: 评审结果信息持久层

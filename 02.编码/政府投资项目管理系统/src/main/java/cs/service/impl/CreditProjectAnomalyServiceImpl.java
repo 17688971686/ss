@@ -3,15 +3,11 @@ package cs.service.impl;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cs.domain.CreditIllegalName;
 import cs.domain.CreditProjectAnomaly;
 import cs.model.PageModelDto;
-import cs.model.DomainDto.CreditIllegalNameDto;
 import cs.model.DomainDto.CreditProjectAnomalyDto;
-import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.CreditProjectAnomalyService;
 
@@ -24,9 +20,6 @@ import cs.service.interfaces.CreditProjectAnomalyService;
 public class CreditProjectAnomalyServiceImpl extends AbstractServiceImpl<CreditProjectAnomalyDto, CreditProjectAnomaly, String> implements CreditProjectAnomalyService{
 	
 	private static Logger logger = Logger.getLogger(CreditProjectAnomalyServiceImpl.class);
-
-	@Autowired
-	private IRepository<CreditIllegalName, String> peojectAnomalyRepo;
 	
 	@Override
 	@Transactional

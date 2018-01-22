@@ -6,8 +6,6 @@ import org.springframework.web.servlet.view.document.AbstractXlsView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 /**
@@ -23,6 +21,7 @@ public class ExcelReportDWTJView extends AbstractXlsView {
 		this.year=year;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String fileName = "光明新区"+year+"年区级政府投资项目计划各建设单位资金安排汇总表.xls";
@@ -112,18 +111,23 @@ public class ExcelReportDWTJView extends AbstractXlsView {
         sheet.addMergedRegion(new CellRangeAddress(rowNum,rowNum,0,1));//合计
 
     }
-    private void createCellAlignCenter(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyle){
+    @SuppressWarnings("deprecation")
+	private void createCellAlignCenter(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyle){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,cellStyle);
     }
+    @SuppressWarnings("deprecation")
     private void createCellAlignCenter(Workbook workbook,Row row, int cellNumber,double value,CellStyle cellStyle){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,cellStyle);
     }
+    @SuppressWarnings({ "deprecation", "unused" })
     private void createCellAlignLeft(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyle){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_LEFT,CellStyle.VERTICAL_CENTER,cellStyle);
     }
+    @SuppressWarnings("deprecation")
     private void createCellAlignRight(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyle){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_RIGHT,CellStyle.VERTICAL_CENTER,cellStyle);
     }
+    @SuppressWarnings("deprecation")
     private void createCell(Workbook workbook,Row row, int cellNumber,String value, short halign, short valign,CellStyle cellStyle){
         Cell cell=row.createCell(cellNumber);
         cell.setCellValue(value);
@@ -134,6 +138,7 @@ public class ExcelReportDWTJView extends AbstractXlsView {
         cell.setCellStyle(cellStyle);
     }
   //重写创建列
+    @SuppressWarnings("deprecation")
     private void createCell(Workbook workbook,Row row, int cellNumber,double value, short halign, short valign,CellStyle cellStyle){
         Cell cell=row.createCell(cellNumber);
         cell.setCellValue(value);

@@ -1,8 +1,6 @@
 package cs.service.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +81,7 @@ public class OpinionServiceImpl extends AbstractServiceImpl<OpinionDto, Opinion,
 	}
 
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	@Transactional
 	public PageModelDto<OpinionDto> getOpin(ODataObj odataObj) {	

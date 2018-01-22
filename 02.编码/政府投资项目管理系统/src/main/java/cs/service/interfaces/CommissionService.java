@@ -1,6 +1,5 @@
 package cs.service.interfaces;
 
-import java.util.List;
 
 import cs.domain.Commission;
 import cs.model.DomainDto.CommissionDto;

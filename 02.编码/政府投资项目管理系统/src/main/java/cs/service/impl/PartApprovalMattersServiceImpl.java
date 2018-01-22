@@ -29,6 +29,7 @@ public class PartApprovalMattersServiceImpl extends AbstractServiceImpl<PartAppr
 	implements PartApprovalMattersService{
 	private static Logger logger = Logger.getLogger(PartApprovalMattersServiceImpl.class);
 	
+	@SuppressWarnings("unused")
 	@Autowired
 	private IRepository<PartApprovalMatters, String> partApprovalMatters;
 	

@@ -8,7 +8,6 @@ import java.util.UUID;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Projections;
 import org.hibernate.query.Query;
@@ -45,6 +44,7 @@ import cs.service.interfaces.YearPlanService;
  * @Date：2017年7月10日
  * @version：0.1
  */
+@SuppressWarnings({ "deprecation", "unused" })
 @Service
 public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPlan, String>implements YearPlanService {
 	private static Logger logger = Logger.getLogger(YearPlanServiceImpl.class);
@@ -111,6 +111,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 		super.delete(id);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	@Transactional
 	public PageModelDto<ShenBaoInfoDto> getYearPlanShenBaoInfo(String planId,ODataObj odataObj) {
@@ -236,7 +237,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 	}
 	
 	
-
+	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
 	public List<YearPlanStatistics> getStatistics(String planId) {
@@ -268,6 +269,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 		}
 	}
 
+	@SuppressWarnings({ "unchecked","rawtypes"})
 	@Override
 	@Transactional
 	public List<ExcelDataLBTJ> getYearPlanShenBaoInfoByLBTJ(String planId) {
@@ -295,6 +297,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 		}
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes"})
 	@Override
 	@Transactional
 	public List<ExcelDataHYTJ> getYearPlanShenBaoInfoByHYTJ(String planId) {
@@ -330,6 +333,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 		}
 	}
 
+	@SuppressWarnings({ "unchecked","rawtypes"})
 	@Override
 	@Transactional
 	public List<ExcelDataDWTJ> getYearPlanShenBaoInfoByDWTJ(String planId) {
@@ -357,6 +361,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 		}
 	}
 
+	@SuppressWarnings({ "unchecked","rawtypes"})
 	@Override
 	@Transactional
 	public List<ExcelDataYS> getYearPlanShenBaoInfoByYS(String planId) {
@@ -397,7 +402,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
 	public List<sttisticsData> getyearPlanByHYData() {
@@ -413,6 +418,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 		return list;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
 	public List<sttisticsData> getyearPlanInvestSourceData() {

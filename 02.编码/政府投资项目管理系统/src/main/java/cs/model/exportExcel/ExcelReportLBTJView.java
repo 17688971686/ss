@@ -65,7 +65,8 @@ public class ExcelReportLBTJView extends AbstractXlsView {
         Double apInvestSum=0.0;
         Double yearInvestApprovalSum=0.0;
         
-        List<ExcelDataLBTJ> excelDataLBTJList = (List<ExcelDataLBTJ>) model.get("excelDataLBTJList");
+        @SuppressWarnings("unchecked")
+		List<ExcelDataLBTJ> excelDataLBTJList = (List<ExcelDataLBTJ>) model.get("excelDataLBTJList");
         for (ExcelDataLBTJ data:excelDataLBTJList) {
             Row row = sheet.createRow(rowNum);
             //创建数据
@@ -100,21 +101,26 @@ public class ExcelReportLBTJView extends AbstractXlsView {
 
     }
 //创建值为string字体居中的单元格	
-    private void createCellAlignCenter(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyle){
+    @SuppressWarnings("deprecation")
+	private void createCellAlignCenter(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyle){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,cellStyle);
     }
+    @SuppressWarnings("deprecation")
 //创建值为double字体居中的单元格	
     private void createCellAlignCenter(Workbook workbook,Row row, int cellNumber,double value,CellStyle cellStyle){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,cellStyle);
     }
+    @SuppressWarnings({ "deprecation", "unused" })
 //创建值为string字体居左的单元格
     private void createCellAlignLeft(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyle){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_LEFT,CellStyle.VERTICAL_CENTER,cellStyle);
     }
+    @SuppressWarnings({ "deprecation", "unused" })
 //创建值为string字体居右的单元格    
     private void createCellAlignRight(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyle){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_RIGHT,CellStyle.VERTICAL_CENTER,cellStyle);
     }
+    @SuppressWarnings("deprecation")
 //重写创建列
     private void createCell(Workbook workbook,Row row, int cellNumber,String value, short halign, short valign,CellStyle cellStyle){
         Cell cell=row.createCell(cellNumber);
@@ -125,6 +131,7 @@ public class ExcelReportLBTJView extends AbstractXlsView {
         cellStyle.setWrapText(true);
         cell.setCellStyle(cellStyle);
     }
+    @SuppressWarnings("deprecation")
   //重写创建列
     private void createCell(Workbook workbook,Row row, int cellNumber,double value, short halign, short valign,CellStyle cellStyle){
         Cell cell=row.createCell(cellNumber);// 创建单元格

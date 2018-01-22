@@ -12,5 +12,6 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
 	public void updateShenBaoInfoState(TaskRecordDto dto);//后台管理--年度项目库中退文
 	public void updateShenBaoInfo(ShenBaoInfoDto dto,Boolean isAdminUpdate);
 	public void createShenBaoInfo(ShenBaoInfoDto dto,Boolean isAdminCreate);
+	@SuppressWarnings("rawtypes")
 	public void comfirmPlanReach(Map map);//确认计划下达申请资金
 }

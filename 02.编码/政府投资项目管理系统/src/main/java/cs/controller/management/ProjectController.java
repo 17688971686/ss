@@ -106,6 +106,7 @@ public class ProjectController {
 		}
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@RequiresPermissions("management/project#isMonthReport#put")
 	@RequestMapping(name = "更新项目是否填报状态", path = "isMonthReport",method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)

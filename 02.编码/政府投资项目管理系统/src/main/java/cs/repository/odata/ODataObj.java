@@ -283,6 +283,7 @@ public class ODataObj {
 		this.count = count;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void setFilter(List<ODataFilterItem> filter) {
 		this.filter = filter;
 	}

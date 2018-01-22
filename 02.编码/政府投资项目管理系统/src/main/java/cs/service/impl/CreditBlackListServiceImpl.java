@@ -6,10 +6,8 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import cs.domain.CreditBlackList;
-import cs.domain.CreditIllegalName;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.CreditBlackListDto;
-import cs.model.DomainDto.CreditIllegalNameDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.CreditBlackListService;
 

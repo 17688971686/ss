@@ -3,7 +3,6 @@ package cs.repository.impl;
 import org.springframework.stereotype.Repository;
 
 import cs.domain.Approval;
-import cs.domain.DraftIssued;
 /**
  * @Description: 评审报批信息持久层
  * @author: wcq
