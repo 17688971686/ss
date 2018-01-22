@@ -45,7 +45,7 @@ public class TaskHead extends BaseEntity {
 	@Column(columnDefinition="varchar(255) NULL COMMENT '任务当前所处阶段'")
 	private String thisProcess;
 	
-	@Column(columnDefinition="int(1) DEFAULT 0 COMMENT '任务当前处理状态：0：未开始，1：进行中，2：通过，3：转办，4：不通过''")
+	@Column(columnDefinition="int(1) DEFAULT 0 COMMENT '任务当前处理状态：0：未开始，1：进行中，2：通过，3：转办，4：不通过'")
 	private Integer thisProcessState;
 	
 	@Column(columnDefinition="varchar(125) NULL COMMENT '任务当前处理人员'")

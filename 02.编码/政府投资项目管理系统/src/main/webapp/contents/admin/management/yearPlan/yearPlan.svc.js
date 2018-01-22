@@ -1250,7 +1250,12 @@
 				type : 'odata',
 				transport : common.kendoGridConfig().transport(url_shenbaoInfoList),
 				schema : common.kendoGridConfig().schema({
-					id : "id"
+					id : "id",
+					fields : {
+						processState:{
+							type:"number"
+						}
+					}
 				}),
 				serverPaging : true,
 				serverSorting : true,
@@ -1267,7 +1272,7 @@
 				},{//审批状态为签收
 					field:'processState',
 					operator:'eq',
-					value:common.basicDataConfig().processState_qianShou
+					value:common.basicDataConfig().processState_pass
 				}]
 			});
 			// End:dataSource

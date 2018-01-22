@@ -35,6 +35,7 @@ import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.ShenBaoUnitInfoDto;
 import cs.model.DomainDto.TaskRecordDto;
+import cs.model.DtoMapper.AttachmentMapper;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
@@ -187,6 +188,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
 			entity.setCreatedDate(new Date());
 			entity.setModifiedDate(new Date());
+			if(entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)){
+				entity.setIsPlanReach(true);
+			}
 		}
 		//处理关联信息
 		//附件
@@ -320,8 +324,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		ShenBaoInfo entity=super.repository.findById(id);
 		if(entity !=null){
 			//判断申报信息的处理阶段
-			if(entity.getProcessState().equals(BasicDataConfig.processStage_tianbao) ||
-					entity.getProcessState().equals(BasicDataConfig.processStage_qianshou)){
+			if(entity.getProcessStage().equals(BasicDataConfig.processStage_tianbao) ||
+					entity.getProcessStage().equals(BasicDataConfig.processStage_qianshou)){
 				//查询关联taskHead并且删除
 				Criterion criterion = Restrictions.eq("relId", id);
 				TaskHead task =	taskHeadRepo.findByCriteria(criterion).stream().findFirst().get();
@@ -431,7 +435,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			if(entityQuery.getEnable()){
 				SendMsg sendMsg = new SendMsg();
 				sendMsg.setMobile(shenbaoInfo.getProjectRepMobile());
-				String content = entity.getTitle()+":"+basicDataService.getDescriptionById(entity.getNextProcess());
+				String content = entity.getTitle()+":"+basicDataService.getDescriptionById(entity.getThisProcess());
 				if(entity.getThisProcessState() == BasicDataConfig.processState_notpass){//如果为退文
 					content += ";处理意见："+entity.getProcessSuggestion();
 				}
@@ -470,8 +474,20 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			List<ShenBaoInfo> query = super.repository.findByCriteria(criterion1,criterion2,criterion3);
 			if(query.isEmpty()){
 				entity.setIsPlanReach(true);
-				ShenBaoInfo newEntity = entity;
-				newEntity.setId(UUID.randomUUID().toString());
+				ShenBaoInfoDto dto = super.mapper.toDto(entity);
+				ShenBaoInfo newEntity = new ShenBaoInfo();
+				newEntity=super.mapper.buildEntity(dto, newEntity);
+				//关联关系
+				for(int i=0;i<dto.getAttachmentDtos().size();i++){
+					Attachment attachment = new Attachment();
+					attachmentMapper.buildEntity(dto.getAttachmentDtos().get(i), attachment);
+					newEntity.getAttachments().add(attachment);
+				}
+				ShenBaoUnitInfoDto shenBaoUnitInfoDto =  dto.getShenBaoUnitInfoDto();
+				ShenBaoUnitInfoDto bianZhiUnitInfoDto =  dto.getBianZhiUnitInfoDto();
+				newEntity.setShenBaoUnitInfo(shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto, new ShenBaoUnitInfo()));
+				newEntity.setBianZhiUnitInfo(shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto, new ShenBaoUnitInfo()));
+				
 				newEntity.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
 				newEntity.setProcessStage(BasicDataConfig.processStage_qianshou);
 				newEntity.setProcessState(BasicDataConfig.processState_jinxingzhong);
@@ -730,6 +746,13 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		List<TaskHead> taskHeads = taskHeadRepo.findByCriteria(criterion);
 		if(taskHeads !=null && taskHeads.size()>0){
 			TaskHead taskHead = taskHeads.stream().findFirst().get();
+			//更新任务状态
+			taskHead.setLastProcess(BasicDataConfig.processStage_qianshou);
+			taskHead.setLastProcessState(BasicDataConfig.processState_notpass);
+			taskHead.setThisProcess(BasicDataConfig.processStage_tianbao);
+			taskHead.setThisProcessState(BasicDataConfig.processState_jinxingzhong);
+			taskHead.setProcessSuggestion(dto.getProcessSuggestion());
+			taskHead.setItemOrder(taskHead.getItemOrder() +1);
 			//新增一条处理流程记录
 			TaskRecord taskRecord=new TaskRecord();
 			taskRecordMapper.buildEntity(dto, taskRecord);
@@ -738,21 +761,17 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			taskRecord.setTaskType(taskHead.getTaskType());
 			taskRecord.setUnitName(taskHead.getUnitName());
 			taskRecord.setProjectIndustry(taskHead.getProjectIndustry());
+			taskRecord.setItemOrder(taskHead.getItemOrder());
 			//设置相关处理人信息
 			taskRecord.setThisProcess(BasicDataConfig.processStage_qianshou);
 			taskRecord.setThisProcessState(BasicDataConfig.processState_notpass);
 			taskRecord.setThisUser(currentUser.getUserId());
+			taskRecord.setNextProcess(BasicDataConfig.processStage_tianbao);
 			//设置创建者与修改者
 			taskRecord.setCreatedBy(currentUser.getUserId());
 			taskRecord.setModifiedBy(currentUser.getUserId());
 
 			taskHead.getTaskRecords().add(taskRecord);
-			//更新任务状态
-			taskHead.setLastProcess(BasicDataConfig.processStage_qianshou);
-			taskHead.setLastProcessState(BasicDataConfig.processState_notpass);
-			taskHead.setThisProcess(BasicDataConfig.processStage_tianbao);
-			taskHead.setThisProcessState(BasicDataConfig.processState_jinxingzhong);
-			taskHead.setProcessSuggestion(dto.getProcessSuggestion());
 			
 			taskHeadRepo.save(taskHead);
 			return taskRecord;

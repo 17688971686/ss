@@ -77,7 +77,8 @@
 					<tr class="bg-info">
 						<th>项目名称</th>
 						<th>申报阶段</th>	
-						<th>状态</th>
+						<th>审批阶段</th>
+						<th>审批状态</th>
 						<th width="100px;">申报时间</th>
 					</tr>
    					<tr ng-repeat="x in vm.model.shenBaoInfo | limitTo :2" style="background: white;">
@@ -86,6 +87,7 @@
    						</td>
    						<td ng-bind="vm.getBasicDataDesc(x.projectShenBaoStage)"></td>
    						<td ng-bind="vm.getBasicDataDesc(x.processStage)"></td>
+   						<td ng-bind="vm.getProcessStateDesc(x.processState)"></td>
    						<td ng-bind="vm.formatDate(x.createdDate)"></td>
    					</tr>   					   				                    
                  </tbody>

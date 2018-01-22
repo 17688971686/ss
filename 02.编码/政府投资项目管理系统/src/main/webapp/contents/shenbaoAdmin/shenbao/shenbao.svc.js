@@ -854,7 +854,7 @@
 				{
 					field : "beginDate",
 					title : "开工/竣工时间",
-					width : 120,
+					width : 110,
 					template:function(item){
 						return common.format(
 								(common.formatDate(item.beginDate)?common.formatDate(item.beginDate):'')+"~\n"+
@@ -1092,11 +1092,11 @@
 				},
 				
 				{
-					field : "processState",
-					title : "审批状态",	
-					width : 120,
+					field : "processStage",
+					title : "审批阶段",	
+					width : 150,
 					template:function(item){
-						var processStateDesc=common.getBasicDataDesc(item.processState);
+						var processStateDesc=common.getBasicDataDesc(item.processStage);
 						var css='text-danger';
 						return common.format("<span class='{1}'>{0}</span>",processStateDesc,css);
 					},
@@ -1104,13 +1104,28 @@
 						ui: function(element){
 	                        element.kendoDropDownList({
 	                            valuePrimitive: true,
-	                            dataSource: common.getBacicDataByIndectity(common.basicDataConfig().processState),
+	                            dataSource: common.getBacicDataByIndectity(common.basicDataConfig().processStage),
 	                            dataTextField: "description",
 	                            dataValueField: "id",
 	                            filter:"startswith"
 	                        });
 						}
 					},
+					headerAttributes: {
+				      "class": "table-header-cell",
+				       style: "text-align: center;vertical-align: middle;"
+				    }
+				},
+				{
+					field : "processState",
+					title : "审批状态",	
+					width : 150,
+					template:function(item){
+						var processStateDesc=common.getProcessStateDesc(item.processState);
+						var css='text-danger';
+						return common.format("<span class='{1}'>{0}</span>",processStateDesc,css);
+					},
+					filterable : false,
 					headerAttributes: {
 				      "class": "table-header-cell",
 				       style: "text-align: center;vertical-align: middle;"
@@ -1168,8 +1183,9 @@
 					row.cells[5].value = common.getBasicDataDesc(row.cells[5].value);//项目类别
 					row.cells[6].value = common.getBasicDataDesc(row.cells[6].value);//建设性质
 					row.cells[7].value = timeFormat;
-					row.cells[27].value = common.getBasicDataDesc(row.cells[27].value);//审批状态
-					row.cells[28].value = common.getBasicDataDesc(row.cells[28].value);//审核状态     
+					row.cells[27].value = common.getBasicDataDesc(row.cells[27].value);//审批阶段
+					row.cells[28].value = common.getProcessStateDesc(row.cells[28].value);//审批阶段
+					row.cells[29].value = common.getBasicDataDesc(row.cells[29].value);//审核状态     
 				}			
 			  };
 

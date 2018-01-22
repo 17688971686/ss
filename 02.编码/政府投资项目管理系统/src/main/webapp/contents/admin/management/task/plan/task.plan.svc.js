@@ -256,7 +256,6 @@
 					response:response,
 					fn:function(){
 						vm.taskPlan = response.data.value[0] || {};
-						console.log(vm.taskPlan);
 						if(vm.taskPlan.thisProcess==common.basicDataConfig().processStage_qianshou){//签收阶段
 							vm.isShowBtn=true;
 							getDeptByName(vm,"投资科");//初始化下一流程处理人为投资科科长处理

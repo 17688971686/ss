@@ -5,6 +5,8 @@
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 <div class="well well-sm" style="background:white;">
     <ol class="breadcrumb">
+    	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+    	<li>用户部门管理</li>
         <li><a href="#/user">用户管理</a></li>       
         <li class="active" >{{vm.title}}</li>
     </ol>
@@ -13,6 +15,10 @@
             <a class="btn btn-sm btn-primary" href="#/user"><span class="glyphicon glyphicon-chevron-left"></span>返回</a>
             <button class="btn btn-sm btn-success" ng-click="vm.create()" ng-disabled="vm.isSubmit" ng-hide="vm.isUpdate"><span class="glyphicon glyphicon-ok"></span>创建</button>
             <button class="btn btn-sm btn-success" ng-click="vm.update()" ng-disabled="vm.isSubmit" ng-show="vm.isUpdate"><span class="glyphicon glyphicon-ok"></span>更新</button>
+            <div class="alert alert-info"  style="margin-top:10px;margin-bottom: 10px;width:600px;">
+			    <button class="close" data-dismiss="alert">&times;</button>
+			    <strong>提示！</strong>管理端用户必须给与管理员角色，建设单位用户必须给与建设单位角色！
+			</div>
          </div>
         <table style="width:100%">
             <tr>
@@ -24,15 +30,15 @@
             <tr>
                 <td class="formAlignRight">登录名： <span class="required">*</span></td>
                 <td>
-                    <input type="text" maxlength="200" class="form-control input-sm " ng-model="vm.model.loginName " id="loginName" name="loginName" data-val="true" data-val-required="必填"/>
+                    <input type="text" maxlength="200" class="form-control input-sm " ng-model="vm.model.loginName" id="loginName" name="loginName" data-val="true" data-val-required="必填"/>
                 </td>
                 <td><span data-valmsg-for="loginName" data-valmsg-replace="true" class="errors"></span>
                     <span class="errors" ng-show="vm.isUserExist">用户已存在</span></td>
             </tr>
              <tr>
-                <td class="formAlignRight">显示名： </td>
+                <td class="formAlignRight">显示名： <span class="required">*</span></td>
                 <td>
-                    <input  type="text" maxlength="200" class="form-control input-sm "  ng-model="vm.model.displayName" id="displayName" name="displayName" data-val="false" data-val-required="必填"/>
+                    <input type="text" maxlength="200" class="form-control input-sm"  ng-model="vm.model.displayName" id="displayName" name="displayName" data-val="true" data-val-required="必填"/>
                 </td>
                 <td><span data-valmsg-for="displayName" data-valmsg-replace="true" class="errors"></span>
             </tr>

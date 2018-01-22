@@ -45,6 +45,9 @@
 	   	   vm.getBasicDataDesc=function(str){
 	  			return common.getBasicDataDesc(str);
 	  			};
+	  	   vm.getProcessStateDesc=function(str){
+				return common.getProcessStateDesc(str);
+				};
 	  			
 	  		//任务类型--申报阶段
 	   	   vm.taskType_yearPlan=common.basicDataConfig().taskType_yearPlan;//下一年度计划

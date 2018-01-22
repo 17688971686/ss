@@ -14,7 +14,7 @@ public class SQLConfig {
 		 	+ " t1.capitalAP_ggys_TheYear,t1.capitalAP_gtzj_LastTwoYear,t1.capitalAP_gtzj_LastYear,t1.capitalAP_gtzj_TheYear,t1.capitalAP_qita,t1.capitalAP_qita_LastTwoYear,t1.capitalAP_qita_LastYear,"
 		 	+ " t1.capitalOtherDescriptionShenBao,t1.capitalSCZ_ggys_LastTwoYear,t1.capitalSCZ_ggys_LastYear,t1.capitalSCZ_ggys_TheYear,t1.capitalSCZ_gtzj_LastTwoYear,t1.capitalSCZ_gtzj_LastYear,t1.capitalSCZ_gtzj_TheYear,"
 		 	+ " t1.capitalSCZ_qita,t1.capitalSCZ_qita_LastTwoYear,t1.capitalSCZ_qita_LastYear,t1.constructionUnit,t1.econClassSubjects,t1.existingProblem,t1.functionSubjects,t1.isApplyQianQiFei,t1.isIncludLibrary,t1.lastYearImageSchedule,"
-		 	+ " t1.moveSuggestion,t1.planYear,t1.processRole,t1.processState,t1.projectConstrBasis,t1.projectConstrChar,t1.projectId,t1.projectShenBaoStage,t1.qianQiFeiApply,t1.recomProgram,t1.socialAndEconomic,t1.yearConstructionContent,"
+		 	+ " t1.moveSuggestion,t1.planYear,t1.processStage,t1.processState,t1.projectConstrBasis,t1.projectConstrChar,t1.projectId,t1.projectShenBaoStage,t1.qianQiFeiApply,t1.recomProgram,t1.socialAndEconomic,t1.yearConstructionContent,"
 		 	+ " t1.yearConstructionContentLastTwoYear,t1.yearConstructionContentLastYear,t1.yearConstructionContentShenBao,t1.yearConstructionTask,t1.yearImageSchedule,t1.yearInvestApproval,t1.yearInvestApproval_lastTwoYear,t1.yearInvestApproval_lastYear,"
 		 	+ " t1.bianZhiUnitInfo_id,t1.shenBaoUnitInfo_id,t1.packageType,t1.receiver,t1.capitalOtherDescriptionShenBao_LastYear,t1.capitalOtherDescriptionShenBao_LastTwoYear,t1.isApplyOutsideCapital,t1.applyOutsideCapital,t1.isIncludYearPlan,t1.sqPlanReach_ggys,t1.sqPlanReach_gtzj,t1.isPlanReach,"
 	 		+ " t2.capitalSum YearInvestApproval,t2.id yearPlanCapitalId"

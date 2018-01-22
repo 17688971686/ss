@@ -52,17 +52,18 @@ public class TaskHeadRepoImpl extends AbstractRepository<TaskHead, String> {
 		Criterion cron2 = null;
 		Criterion cron3 = null;
 		Criterion cron4 = null;
+		Criterion criterionOr = null;
 		if(plan){
 			cron1 = Restrictions.eq("taskType",BasicDataConfig.taskType_JHXD);
 			cron2 = Restrictions.eq("taskType",BasicDataConfig.taskType_junGong);
+			criterionOr=Restrictions.or(cron1,cron2);
 		}else{
 			cron1 = Restrictions.eq("taskType",BasicDataConfig.taskType_KXXYJBG);
 			cron2 = Restrictions.eq("taskType",BasicDataConfig.taskType_XMJYS);
 			cron3 = Restrictions.eq("taskType",BasicDataConfig.taskType_CBSJYGS);
+			criterionOr=Restrictions.or(cron1,cron2,cron3);
 		}
 		cron4 = Restrictions.eq("thisUser",userId);
-		
-		Criterion criterionOr=Restrictions.or(cron1,cron2,cron3);
 		Criterion criterionAnd = Restrictions.and(cron4,criterionOr);
 		crit.add(criterionAnd);
 		//begin:page

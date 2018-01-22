@@ -20,7 +20,7 @@ public class DraftIssued extends BaseEntity{
 	@Id
 	private String id;
 	
-	@Column(columnDefinition="double(11,4) DEFALUT 0 COMMENT '审定金额'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '审定金额'")
 	private Double capitalSD=0.0;
 	
 	@Column(columnDefinition="date NULL COMMENT '拟稿时间'")
@@ -59,13 +59,13 @@ public class DraftIssued extends BaseEntity{
 	@Column(columnDefinition="varchar(255) NULL COMMENT '单位名称'")
 	private String unitName;
 	
-	@Column(columnDefinition="double(11,4) DEFALUT 0 COMMENT '总投资'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '总投资'")
 	private Double capitalTotal=0.0;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '拟稿单位拟稿人'")
 	private String userNameAndUnit;
 	
-	@Column(columnDefinition="double(11,4) DEFALUT 0 COMMENT '批复金额'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '批复金额'")
 	private Double capitalPifU=0.0;
 	
 	//关联

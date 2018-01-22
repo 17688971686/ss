@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cs.common.ICurrentUser;
 import cs.common.SQLConfig;
+import cs.domain.Project;
 import cs.domain.ShenBaoInfo;
 import cs.domain.YearPlan;
 import cs.domain.YearPlanCapital;
@@ -53,6 +54,8 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 	private IRepository<YearPlanCapital, String> yearPlanCapitalRepo;
 	@Autowired
 	private IRepository<ShenBaoInfo, String> shenbaoInfoRepo;
+	@Autowired
+	private IRepository<Project, String> projectRepo;
 	@Autowired
 	private IMapper<YearPlanCapitalDto, YearPlanCapital> yearPlanCapitalMapper;
 	@Autowired
@@ -185,11 +188,16 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 					//设置安排资金
 					ShenBaoInfo shenBaoInfo = shenbaoInfoRepo.findById(shenBaoId);
 					if(shenBaoInfo !=null){
+						Project project = projectRepo.findById(shenBaoInfo.getProjectId());
 						entity.setCapitalQCZ_ggys(shenBaoInfo.getCapitalAP_ggys_TheYear());//区财政--公共预算
 						entity.setCapitalQCZ_gtzj(shenBaoInfo.getCapitalAP_gtzj_TheYear());//区财政--国土资金
 						entity.setCapitalSum(shenBaoInfo.getYearInvestApproval());//安排资金总计
 						shenBaoInfo.setIsIncludYearPlan(true);
 						shenbaoInfoRepo.save(shenBaoInfo);
+						if(project !=null){
+							project.setIsIncludYearPlan(true);
+							projectRepo.save(project);
+						}
 					}
 					//设置创建人和修改人
 					String loginName = currentUser.getUserId();
@@ -223,8 +231,13 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 						removeItems.add(x);	
 						ShenBaoInfo entity = shenbaoInfoRepo.findById(x.getShenbaoInfoId());
 						if(entity !=null){
+							Project project = projectRepo.findById(entity.getProjectId());
 							entity.setIsIncludYearPlan(false);
 							shenbaoInfoRepo.save(entity);
+							if(project !=null){
+								project.setIsIncludYearPlan(false);
+								projectRepo.save(project);
+							}
 						}
 					}
 				}

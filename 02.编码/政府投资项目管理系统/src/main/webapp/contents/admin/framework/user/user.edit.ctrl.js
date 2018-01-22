@@ -18,7 +18,6 @@
             vm.isUpdate = true;
             vm.title = '更新用户';
         }
-        
         vm.create = function () {
         	userSvc.createUser(vm);
         };
@@ -38,13 +37,6 @@
         	
         };
         
-        vm.resetPassword=function(e){
-        	var isChecked=$('#resetPassword').is(":checked");
-        	if(isChecked){
-        		vm.model.password="888888";
-        	}
-        };
-
         activate();
         function activate() {
         	if (vm.isUpdate) {
