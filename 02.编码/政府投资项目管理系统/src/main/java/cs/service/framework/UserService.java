@@ -22,7 +22,7 @@ public interface UserService {
 	
 	void initUser(@SuppressWarnings("rawtypes") Map map);
 	
-	Response Login(String userName, String password,String role);
+	Response Login (String userName, String password,String role);
 	Set<String> getCurrentUserPermissions();
 	void logout();
 	void changePwd(String password);

@@ -121,7 +121,12 @@
 			<artifactId>poi</artifactId>
 			<version>3.15</version>
 		</dependency>
-
+		<!-- RSA加密使用 -->
+		<dependency>
+		    <groupId>bouncycastle</groupId>
+		    <artifactId>bcprov-jdk14</artifactId>
+		    <version>139</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>framework</finalName>

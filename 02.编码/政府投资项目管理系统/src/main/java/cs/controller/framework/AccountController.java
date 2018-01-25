@@ -19,12 +19,13 @@ import cs.service.framework.UserService;
 @RequestMapping(name = "账户管理", path = "account")
 public class AccountController {
 	private String ctrlName = "framework/account";
+
 	@Autowired
 	private UserService userService;
 	
 	@RequestMapping(name = "登录", path = "login", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public @ResponseBody Response post(@RequestBody UserDto userDto,@RequestParam String role) {
+	public @ResponseBody Response post(@RequestBody UserDto userDto,@RequestParam String role){
 		
 		Response loginResult= userService.Login(userDto.getLoginName(), userDto.getPassword(), role);
 		

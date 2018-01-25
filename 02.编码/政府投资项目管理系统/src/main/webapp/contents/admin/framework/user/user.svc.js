@@ -29,6 +29,11 @@
 			if (isValid) {
 				vm.isSubmit = true;
 				vm.model.id = vm.id;// id
+//				//对密码进行RSA加密
+//				var key = $("#rsaPrivateKey").val();//获取公钥信息
+//                var rsa = new RSAKey();
+//                rsa.setPublic(key, "10001");
+//                vm.model.password = rsa.encrypt(vm.model.password);//密码RSA公钥加密
 
 				// zTree
 				var nodes = getZtreeChecked();
@@ -172,8 +177,14 @@
 					};
 				}).toArray();
 				vm.model.roles = nodes_roles;
-				//对密码进行加密
-				vm.model.password=$.md5(vm.model.password);
+				//对密码进行md5加密
+				//vm.model.password=$.md5(vm.model.password);
+				//对密码进行RSA加密
+				var key = $("#rsaPrivateKey").val();//获取公钥信息
+                var rsa = new RSAKey();
+                rsa.setPublic(key, "10001");
+                vm.model.password = rsa.encrypt(vm.model.password);//密码RSA公钥加密
+                vm.model.passwordConfirm = rsa.encrypt(vm.model.passwordConfirm);//密码RSA公钥加密
 
 				var httpOptions = {
 					method : 'post',

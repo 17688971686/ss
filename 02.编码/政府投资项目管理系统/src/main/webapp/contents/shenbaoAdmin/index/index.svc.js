@@ -83,10 +83,16 @@
 			var isValid = $('form').valid();
 			if (isValid) {
 				vm.isSubmit = true;
+				//RSA加密
+				var key = $("#rsaPrivateKey").val();//获取公钥信息
+				var rsa = new RSAKey();
+				rsa.setPublic(key, "10001");
+				vm.model.password = rsa.encrypt(vm.model.password);
+				
 				var httpOptions = {
 					method : 'put',
 					url : url_account_password,
-					data : $.md5(vm.model.password)
+					data : vm.model.password
 				};
 
 				var httpSuccess = function success(response) {

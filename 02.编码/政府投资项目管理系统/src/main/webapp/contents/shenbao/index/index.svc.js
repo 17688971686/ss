@@ -18,7 +18,13 @@
             var isValid = $('form').valid();
             if (isValid) {
                 vm.isSubmit = true;
-                vm.model.password=$.md5(vm.model.password);
+                //vm.model.password=$.md5(vm.model.password); MD5加密
+              //对密码进行RSA加密
+				var key = $("#rsaPrivateKey").val();//获取公钥信息
+                var rsa = new RSAKey();
+                rsa.setPublic(key, "10001");
+                vm.model.password = rsa.encrypt(vm.model.password);//密码RSA公钥加密
+                
                 var httpOptions = {
                     method: 'post',
                     url: '/account/login?role='+role,
