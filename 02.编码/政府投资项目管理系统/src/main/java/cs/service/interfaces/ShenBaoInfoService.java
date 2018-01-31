@@ -1,10 +1,12 @@
 package cs.service.interfaces;
 
+import java.util.List;
 import java.util.Map;
 
 import cs.domain.ShenBaoInfo;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.TaskRecordDto;
+import cs.model.Statistics.ProjectStatisticsBean;
 
 public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo, String> {
 	public void addProjectToLibrary(String shenbaoInfoId);//后台管理--项目纳入项目库
@@ -13,5 +15,13 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
 	public void updateShenBaoInfo(ShenBaoInfoDto dto,Boolean isAdminUpdate);
 	public void createShenBaoInfo(ShenBaoInfoDto dto,Boolean isAdminCreate);
 	@SuppressWarnings("rawtypes")
-	public void comfirmPlanReach(Map map);//确认计划下达申请资金
+	public void comfirmPlanReach(Map map,Boolean isManage);//确认计划下达申请(安排)资金
+	
+	List<ProjectStatisticsBean> getApprovalStatistics(String type,int pifuDate);//固定模板审批类统计
+	List<ProjectStatisticsBean> getShenBaoInfoStatisticsByCustom(int pifuDateBegin,int pifuDateEnd,List<String> industrySelected,
+			List<String> stageSelected,List<String> unitSelected,Double investSumBegin,Double investSumEnd);//自定义条件审批类统计
+	
+	List<ProjectStatisticsBean> getPlanStatistics(String type,int planYear);//计划类分类统计
+	List<ProjectStatisticsBean> getPlanStatisticsByCustom(int planYearBegin,int planYearEnd,List<String> industrySelected,
+			List<String> stageSelected,List<String> unitSelected,Double investSumBegin,Double investSumEnd,Double apPlanReachSumBegin,Double apPlanReachSumEnd);//自定义条件计划类统计
 }

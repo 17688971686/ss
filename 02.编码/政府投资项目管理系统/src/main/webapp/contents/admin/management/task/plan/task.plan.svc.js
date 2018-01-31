@@ -45,10 +45,6 @@
 			common.initJqValidation();
  			var isValid = $('#planReachEdit').valid();
 	   		if (isValid) {
-	   			//处理数据
-	   			vm.model.shenBaoInfo.sqPlanReach_ggys=vm.apPlanReach_ggys;
-   				vm.model.shenBaoInfo.sqPlanReach_gtzj=vm.apPlanReach_gtzj;
-   				
 				var httpOptions = {
 					method : 'put',
 					url : url_shenbao,
@@ -377,10 +373,11 @@
 				  		//下达计划信息填写模态框
 				  		if(vm.isShowXiaDaJiHuaBtn){
 				  			//初始化安排资金为申请资金
-				  			vm.apPlanReach_ggys=vm.model.shenBaoInfo.sqPlanReach_ggys;
-				  			vm.apPlanReach_gtzj=vm.model.shenBaoInfo.sqPlanReach_gtzj;
+				  			vm.model.shenBaoInfo.apPlanReach_ggys=vm.model.shenBaoInfo.apPlanReach_ggys==0?vm.model.shenBaoInfo.sqPlanReach_ggys:vm.model.shenBaoInfo.apPlanReach_ggys;
+				  			vm.model.shenBaoInfo.apPlanReach_gtzj=vm.model.shenBaoInfo.apPlanReach_gtzj==0?vm.model.shenBaoInfo.sqPlanReach_gtzj:vm.model.shenBaoInfo.apPlanReach_gtzj;
+				  			
 				  			vm.apPlanReachTotal=function(){
-					  			vm.apPlanReachSum = common.getSum([vm.apPlanReach_ggys || 0,vm.apPlanReach_gtzj || 0]);
+					  			vm.apPlanReachSum = common.getSum([vm.model.shenBaoInfo.apPlanReach_ggys || 0,vm.model.shenBaoInfo.apPlanReach_gtzj || 0]);
 					  			return vm.apPlanReachSum;
 					  		};
 				  			$('.planReach').modal({
@@ -737,11 +734,6 @@
 				sort : {
 					field : "createdDate",
 					dir : "desc"
-				},
-				filter:{
-					field:'isComplete',
-					operator:'eq',
-					value:false
 				},
 				requestEnd:function(e){						
 					$('#todoNumber_plan').html(e.response.count);

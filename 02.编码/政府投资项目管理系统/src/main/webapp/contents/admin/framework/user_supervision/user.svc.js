@@ -12,6 +12,7 @@
 		var service = {
 			grid : grid,
 			getUserById : getUserById,
+			initUser:initUser,
 			initZtreeClient : initZtreeClient,
 			createUser : createUser,
 			deleteUser : deleteUser,
@@ -77,6 +78,49 @@
 			}
 
 		}
+		
+		/**
+		 * 初始化用户
+		 */
+		function initUser(vm,type,id,msg){
+			vm.isSubmit = true;
+			
+			var httpOptions = {
+				method : 'post',
+				url : url_user+"/initUser",
+				data : {"id":id,"type":type,"msg":msg}
+			};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function() {
+						vm.isSubmit = false;
+						if(type=='password'){
+							common.alert({
+								vm:vm,
+								msg:'初始化密码成功！密码为：Passw0rd'
+							});
+						}
+						if(type=='loginFailCount'){
+							common.alert({
+								vm:vm,
+								msg:'初始化登陆失败次数成功！'
+							});
+						}
+					}
+
+				});
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}//end fun initUser
 
 		// begin#deleteUser
 		function deleteUser(vm, id) {
@@ -126,6 +170,12 @@
 					};
 				}).toArray();
 				vm.model.roles = nodes_roles;
+				//对密码进行RSA加密
+				var key = $("#rsaPrivateKey").val();//获取公钥信息
+                var rsa = new RSAKey();
+                rsa.setPublic(key, "10001");
+                vm.model.password = rsa.encrypt(vm.model.password);//密码RSA公钥加密
+                vm.model.passwordConfirm = rsa.encrypt(vm.model.passwordConfirm);//密码RSA公钥加密
 
 				var httpOptions = {
 					method : 'post',
@@ -304,7 +354,7 @@
 					{
 						field : "",
 						title : "操作",
-						width : 180,
+						width : 250,
 						template : function(item) {
 							return common.format($('#columnBtns').html(),
 									"vm.del('" + item.id + "')", item.id);

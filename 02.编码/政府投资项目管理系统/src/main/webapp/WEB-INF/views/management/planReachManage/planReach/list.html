@@ -13,11 +13,21 @@
 			</ul>
 			
 			<div>
-				<script type="text/template" id="input_ggys">
-					<input style="width:80px" type="number" min="0" max="{2}" step="any" id="ggys_{0}" value="{1}" ng-keyup="vm.checkNum_ggys('{0}','{2}')" disabled/>
+				<script type="text/template" id="input_sq_ggys">
+					<input style="width:80px" type="number" min="0" max="{2}" step="any" id="ggys_sq{0}" value="{1}" disabled/>
 				</script>
-				<script type="text/template" id="input_gtzj">
-					<input style="width:80px" type="number" min="0" max="{2}" step="any" id="gtzj_{0}" value="{1}" ng-keyup="vm.checkNum_gtzj('{0}','{2}')" disabled/>
+				<script type="text/template" id="input_sq_gtzj">
+					<input style="width:80px" type="number" min="0" max="{2}" step="any" id="gtzj_sq{0}" value="{1}" disabled/>
+				</script>
+				<script type="text/template" id="input_ap_ggys">
+					<input style="width:80px" type="number" min="0" max="{2}" step="any" id="ggys_ap{0}" value="{1}" ng-keyup="vm.checkNum_ggys('{0}','{2}')" ng-disabled="{3}"/>
+				</script>
+				<script type="text/template" id="input_ap_gtzj">
+					<input style="width:80px" type="number" min="0" max="{2}" step="any" id="gtzj_ap{0}" value="{1}" ng-keyup="vm.checkNum_gtzj('{0}','{2}')" ng-disabled="{3}"/>
+				</script>
+				<script type="text/template" id="columnBtns_hasInclud">
+					<button style="{1}" class="btn btn-success btn-sm" ng-click="vm.confirmPlanReach('{0}','pass')">通过</button>
+					<button style="{1}" class="btn btn-danger btn-sm" ng-click="vm.confirmPlanReach('{0}','notpass')">不通过</button>
 				</script>
 				<div class="grid" kendo-grid="hasIncludGrid" k-options="vm.hasIncludGridOptions"></div>
 			</div>

@@ -11,11 +11,26 @@
         /* jshint validthis:true */
     	var vm = this;
     	var routeName = $state.current.name;
+    	vm.what = $state.params.what;
+    	vm.model={};
+    	vm.basicData={};
       
     	function init(){
     		if(routeName == 'statisticalAnalysis'){
     			vm.page = 'index';
     		}
+    		if(routeName == 'statisticalAnalysis_edit'){
+    			vm.page = 'edit';
+    		}
+    		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
+    		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别
+    		vm.basicData.projectShenBaoStage=common.getBacicDataByIndectity(common.basicDataConfig().projectShenBaoStage);//项目申报阶段
+    		vm.basicData.userUnit=common.getUserUnits();//建设单位信息
+    		vm.basicData.projectIndustry_ZF=$linq(common.getBasicData())
+	   			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
+	   			.toArray();//政府投资项目行业
+    		vm.basicData.approvalStage=[common.basicDataConfig().projectShenBaoStage_projectProposal,common.basicDataConfig().projectShenBaoStage_KXXYJBG,
+    									common.basicDataConfig().projectShenBaoStage_CBSJYGS,common.basicDataConfig().projectShenBaoStage_capitalApplyReport];
     	}//end fun init
         
   
@@ -24,6 +39,9 @@
         	init();
         	if(vm.page == 'index'){
         		index();
+        	}
+        	if(vm.page == 'edit'){
+        		edit();
         	}
         }
         
@@ -379,8 +397,115 @@
         }//end fun init_data
         
         function index(){
-        	init_chart();
-        	init_data();
+        	//init_chart();
+        	//init_data();
+        	vm.showApprovalFixedTemplate=function(){
+        		location.href="#/statisticalAnalysis_edit/isApprovalFixed";
+        	};
+        	
+        	vm.showApprovalCustomTemplate=function(){
+        		location.href="#/statisticalAnalysis_edit/isApprovalCustom";
+        	};
+        	
+        	vm.showPlanFixedTemplate=function(){
+        		location.href="#/statisticalAnalysis_edit/isPlanFixed";
+        	};
+        	
+        	vm.showPlanCustomTemplate=function(){
+        		location.href="#/statisticalAnalysis_edit/isPlanCustom";
+        	};
+        	
+        	vm.showProjectFixedTemplate=function(){
+        		location.href="#/statisticalAnalysis_edit/isProjectFixed";
+        	};
+        	
+        	vm.showProjectCustomTemplate=function(){
+        		location.href="#/statisticalAnalysis_edit/isProjectCustom";
+        	};
         }//end fun index
+        
+        function edit(){
+        	vm.model.industry=[],vm.model.unit=[],vm.model.stage=[],vm.model.category=[];
+        	//项目阶段选择框点击事件
+        	vm.selectProjectStage=function(id){
+    			var indexStage = vm.model.stage.indexOf(id);
+	        	if(indexStage == -1){
+	        		vm.model.stage.push(id);
+		       	}else{
+		       		vm.model.stage.splice(index,1);
+		       	}
+    		};
+    		//项目类别选择框点击事件
+    		vm.selectProjectCategory=function(id){
+    			var indexCategory = vm.model.category.indexOf(id);
+	        	if(indexCategory == -1){
+	        		vm.model.category.push(id);
+		       	}else{
+		       		vm.model.category.splice(index,1);
+		       	}
+    		};
+    		//项目单位选择框点击事件
+    		vm.selectProjectUnit=function(id){
+    			var indexUnit = vm.model.unit.indexOf(id);
+	        	if(indexUnit == -1){
+	        		vm.model.unit.push(id);
+		       	}else{
+		       		vm.model.unit.splice(index,1);
+		       	}
+    		};
+    		//项目行业选择框点击事件
+    		vm.selectProjectIdustry=function(id){
+    			var indexIndustry = vm.model.industry.indexOf(id);
+	        	if(indexIndustry == -1){
+	        		vm.model.industry.push(id);
+		       	}else{
+		       		vm.model.industry.splice(index,1);
+		       	}
+    		};
+    		/******审批类******/
+        	if(vm.what=='isApprovalFixed'){
+        		vm.isApprovalFixed=true;
+        		vm.title="审批类固定模板类";
+        		var now = new Date();
+        		vm.pifuDate=now.getFullYear();//初始化
+        	}
+        	if(vm.what=='isApprovalCustom'){
+        		vm.isApprovalCustom=true;
+        		vm.title="审批类自定义条件类";
+        		
+        		vm.exportExcelForApprovalByCustom=function(){
+        			statisticalAnalysisSvc.exportExcelForApprovalByCustom(vm);
+        		};
+        	}
+        	/******计划类******/
+        	if(vm.what == 'isPlanFixed'){
+        		vm.isPlanFixed=true;
+        		vm.title="计划类固定模板类";
+        		var now = new Date();
+        		vm.pifuDate=now.getFullYear();//初始化
+        	}
+        	if(vm.what == 'isPlanCustom'){
+        		vm.isPlanCustom=true;
+        		vm.title="计划类自定义类";
+        		
+        		vm.exportExcelForPlanByCustom=function(){
+        			statisticalAnalysisSvc.exportExcelForPlanByCustom(vm);
+        		};
+        	}
+        	/******项目总库******/
+        	if(vm.what == 'isProjectFixed'){
+        		vm.isProjectFixed=true;
+        		vm.title="项目总库固定模板类";
+        		vm.isIncludLibrary="true";//初始化
+        	}
+        	if(vm.what == 'isProjectCustom'){
+        		vm.isProjectCustom=true;
+        		vm.title="项目总库自定义条件类";
+        		
+        		vm.exportExcelForProjectByCustom=function(){
+        			statisticalAnalysisSvc.exportExcelForProjectByCustom(vm);
+        		};
+        	}
+        };
     }
 })();

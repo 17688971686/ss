@@ -22,6 +22,26 @@
 		return service;
 		
 		/**
+		 * 公共资金处理方法
+		 */
+		function projectFundsFormat(vm){
+			//资金处理：没有就设置为0存储到数据库
+			vm.model.projectInvestSum=common.toMoney(vm.model.projectInvestSum);//项目总投资
+			vm.model.projectInvestAccuSum=common.toMoney(vm.model.projectInvestAccuSum);//累计完成投资
+			vm.model.capitalSCZ_ggys=common.toMoney(vm.model.capitalSCZ_ggys);//市财政-公共预算
+			vm.model.capitalSCZ_gtzj=common.toMoney(vm.model.capitalSCZ_gtzj);//市财政-国土资金
+			vm.model.capitalSCZ_zxzj=common.toMoney(vm.model.capitalSCZ_zxzj);//市财政-专项资金
+			vm.model.capitalQCZ_ggys=common.toMoney(vm.model.capitalQCZ_ggys);//区财政-公共预算
+			vm.model.capitalQCZ_gtzj=common.toMoney(vm.model.capitalQCZ_gtzj);//区财政-国土资金
+			vm.model.capitalZYYS=common.toMoney(vm.model.capitalZYYS);//中央预算
+			vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
+			vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
+			vm.model.landPrice=common.toMoney(vm.model.landPrice);//总投资--地价（社投）
+			vm.model.equipmentInvestment=common.toMoney(vm.model.equipmentInvestment);//总投资--设备投资（社投）
+			vm.model.buidSafeInvestment=common.toMoney(vm.model.buidSafeInvestment);//总投资--建安投资（社投）
+		}//end fun projectFundsFormat
+		
+		/**
 		 * 删除项目信息
 		 */
 		function deleteProject(vm,id){
@@ -71,20 +91,8 @@
 				//项目有关时间清空处理
 				vm.model.beginDate = (vm.model.beginDate != '')?vm.model.beginDate:null;
 				vm.model.endDate = (vm.model.endDate != '')?vm.model.endDate:null;
-				//资金处理：没有就设置为0存储到数据库
-				vm.model.projectInvestSum=common.toMoney(vm.model.projectInvestSum);//项目总投资
-				vm.model.projectInvestAccuSum=common.toMoney(vm.model.projectInvestAccuSum);//累计完成投资
-				vm.model.capitalSCZ_ggys=common.toMoney(vm.model.capitalSCZ_ggys);//市财政-公共预算
-				vm.model.capitalSCZ_gtzj=common.toMoney(vm.model.capitalSCZ_gtzj);//市财政-国土资金
-				vm.model.capitalSCZ_zxzj=common.toMoney(vm.model.capitalSCZ_zxzj);//市财政-专项资金
-				vm.model.capitalQCZ_ggys=common.toMoney(vm.model.capitalQCZ_ggys);//区财政-公共预算
-				vm.model.capitalQCZ_gtzj=common.toMoney(vm.model.capitalQCZ_gtzj);//区财政-国土资金
-				vm.model.capitalZYYS=common.toMoney(vm.model.capitalZYYS);//中央预算
-				vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
-				vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
-				vm.model.landPrice=common.toMoney(vm.model.landPrice);//总投资--地价（社投）
-				vm.model.equipmentInvestment=common.toMoney(vm.model.equipmentInvestment);//总投资--设备投资（社投）
-				vm.model.buidSafeInvestment=common.toMoney(vm.model.buidSafeInvestment);//总投资--建安投资（社投）
+				//资金格式化处理
+				projectFundsFormat(vm);
 				
 				var httpOptions = {
 					method : 'put',
@@ -166,14 +174,6 @@
 				if(vm.page == 'projectInfo'){
 					if(vm.model.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
 			 			  vm.isZFInvestment = true;
-			 			 //资金来源计算
-				   		 vm.capitalTotal=function(){
-				   			 return common.getSum([
-				   					 vm.model.capitalSCZ_ggys||0,vm.model.capitalSCZ_gtzj||0,vm.model.capitalSCZ_zxzj||0,
-				   					 vm.model.capitalQCZ_ggys||0,vm.model.capitalQCZ_gtzj||0,
-				   					 vm.model.capitalSHTZ||0,vm.model.capitalZYYS||0,
-				   					 vm.model.capitalOther||0]);
-				   		 };
 			 			 //相关附件文件上传文件种类
 			 			  vm.relatedType=common.uploadFileTypeConfig().projectEdit;
 			 		   }else if(vm.model.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资		  
@@ -182,17 +182,6 @@
 			 			  vm.relatedType=common.uploadFileTypeConfig().projectEdit_SH;
 			 		   }
 				}
-				//资金处理没有就显示为0 这一块没用了
-//				vm.model.projectInvestSum=common.toMoney(vm.model.projectInvestSum);//项目总投资
-//				vm.model.projectInvestAccuSum=common.toMoney(vm.model.projectInvestAccuSum);//累计完成投资
-//				vm.model.capitalSCZ_ggys=common.toMoney(vm.model.capitalSCZ_ggys);//市财政-公共预算
-//				vm.model.capitalSCZ_gtzj=common.toMoney(vm.model.capitalSCZ_gtzj);//市财政-国土资金
-//				vm.model.capitalSCZ_zxzj=common.toMoney(vm.model.capitalSCZ_zxzj);//市财政-专项资金
-//				vm.model.capitalQCZ_ggys=common.toMoney(vm.model.capitalQCZ_ggys);//区财政-公共预算
-//				vm.model.capitalQCZ_gtzj=common.toMoney(vm.model.capitalQCZ_gtzj);//区财政-国土资金
-//				vm.model.capitalZYYS=common.toMoney(vm.model.capitalZYYS);//中央预算
-//				vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
-//				vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
 			};
 			
 			common.http({
@@ -246,20 +235,11 @@
 		 * 创建项目
 		 */		
 		function createProject(vm){
-//			var isValid = true;
-//			if(vm.isTemporary){
-//				if(vm.model.projectIndustry == null || vm.model.projectIndustry==''){
-//					vm.showTemporaryTip=true;
-//					return;
-//				}
-//			}else{
-//				common.initJqValidation();
-//				var isValid = $('form').valid();
-//			}
 			common.initJqValidation();
 			var isValid = $('form').valid();
 			if (isValid) {
 				vm.model.projectType =common.arrayToString(vm.model.projectType,',');
+				projectFundsFormat(vm);
 				vm.isSubmit = true;		
 				var httpOptions = {
 					method : 'post',
@@ -279,9 +259,7 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 									$('.modal-backdrop').remove();
-//									if(!vm.isTemporary){
 										$location.path(url_back);//创建成功返回到列表页
-//									}
 								}
 							});
 						}

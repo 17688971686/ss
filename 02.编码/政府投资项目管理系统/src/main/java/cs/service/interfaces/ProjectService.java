@@ -6,6 +6,7 @@ import cs.model.PageModelDto;
 import cs.model.DomainDto.ProjectDto;
 import cs.model.Statistics.sttisticsData;
 import cs.model.Statistics.ProjectStageData;
+import cs.model.Statistics.ProjectStatisticsBean;
 import cs.repository.odata.ODataObj;
 
 
@@ -27,4 +28,10 @@ public interface ProjectService extends IService<ProjectDto, Project, String> {
 	List<sttisticsData> getprojectByHYData();
 	
 	List<sttisticsData> getprojectInvestSourceData();
+	
+	List<ProjectStatisticsBean> getProjectStatistics(String type,String isIncludLibrary);//固定模板项目统计
+	
+	List<ProjectStatisticsBean> getProjectStatisticsByCustom(List<String> industrySelected,List<String> stageSelected,List<String> categorySelected,
+																List<String> unitSelected,Double investSumBegin,Double investSumEnd);//自定义条件项目统计
+	
 }

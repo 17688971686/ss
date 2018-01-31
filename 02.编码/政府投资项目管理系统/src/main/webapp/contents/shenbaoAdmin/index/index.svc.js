@@ -155,9 +155,9 @@
 						title : "名称",
 						template:function(item){
 							if( vm.taskType_shenBao.indexOf(item.taskType)>-1){
-								return common.format('<a href="#/shenbao_record/{0}">{1}</a>',item.relId,item.title);
+								return common.format('<a class="text-primary" href="#/shenbao_record/{0}">{1}</a>',item.relId,item.title);
 							}else if(item.taskType == vm.taskType_monthReport){
-								return common.format('<a href="#/monthReportDetails/{0}">{1}</a>',item.relId,item.title);
+								return common.format('<a class="text-primary" href="#/monthReportDetails/{0}">{1}</a>',item.relId,item.title);
 							}							
 						},
 						width:400,
@@ -173,10 +173,10 @@
 						filterable : false
 					},
 					{
-						field : "processState",
+						field : "thisProcessState",
 						title : "状态",
 						template:function(item){
-							return common.getBasicDataDesc(item.processState);
+							return common.getProcessStateDesc(item.thisProcessState);
 						},
 						width:210,
 						filterable : false

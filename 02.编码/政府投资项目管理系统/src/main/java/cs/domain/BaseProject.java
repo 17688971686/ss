@@ -58,34 +58,34 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目建设地址'")
 	private String projectAddress;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '项目总投资'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '项目总投资'")
 	private Double projectInvestSum=0.0;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '项目累计完成投资'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '项目累计完成投资'")
 	private Double projectInvestAccuSum=0.0;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-市财政-公共预算'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '资金来源方案-市财政-公共预算'")
 	private Double capitalSCZ_ggys=0.0;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-市财政-国土资金'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '资金来源方案-市财政-国土资金'")
 	private Double capitalSCZ_gtzj=0.0;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-市财政-专项资金'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '资金来源方案-市财政-专项资金'")
 	private Double capitalSCZ_zxzj=0.0;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-区财政-公共预算'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '资金来源方案-区财政-公共预算'")
 	private Double capitalQCZ_ggys=0.0;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-区财政-国土资金'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '资金来源方案-区财政-国土资金'")
 	private Double capitalQCZ_gtzj=0.0;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-中央预算'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '资金来源方案-中央预算'")
 	private Double capitalZYYS=0.0;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-社会投资'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '资金来源方案-社会投资'")
 	private Double capitalSHTZ=0.0;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '资金来源方案-其它'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '资金来源方案-其它'")
 	private Double capitalOther=0.0;
 	
 	@Column(columnDefinition="varchar(125) NULL COMMENT '资金来源方案-其它来源类型'")
@@ -124,7 +124,7 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="varchar(255) NULL COMMENT '建设周期'")
 	private String constructionCycle;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '决算金额'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '决算金额'")
 	private Double finalAmount=0.0;
 	
 	@Column(columnDefinition="varchar(125) NULL COMMENT '财政项目代码'")
@@ -148,17 +148,19 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="varchar(125) NULL COMMENT '核准/备案批准文号（社投）'")
 	private String approval_pzwh;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '总投资--地价（社投）'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '总投资--地价（社投）'")
 	private Double landPrice=0.0;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '总投资--设备投资（社投）'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '总投资--设备投资（社投）'")
 	private Double equipmentInvestment=0.0;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '总投资--建安投资（社投）'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '总投资--建安投资（社投）'")
 	private Double buidSafeInvestment=0.0;
 	//end
 	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否已纳入年度计划'")
 	private Boolean isIncludYearPlan=false;
+	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否已申请下达资金'")
+	private Boolean isPlanReach=false;
 
 	public String getUnitName() {
 		return unitName;
@@ -551,4 +553,13 @@ public class BaseProject extends BaseEntity
 	public void setIsIncludYearPlan(Boolean isIncludYearPlan) {
 		this.isIncludYearPlan = isIncludYearPlan;
 	}
+
+	public Boolean getIsPlanReach() {
+		return isPlanReach;
+	}
+
+	public void setIsPlanReach(Boolean isPlanReach) {
+		this.isPlanReach = isPlanReach;
+	}
+	
 }

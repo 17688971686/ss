@@ -175,7 +175,7 @@
 				{
 					field:"planYear",
 					title:"计划年度",
-					width : 80,
+					width : 100,
 					filterable : true,
 					headerAttributes: {
 					      "class": "table-header-cell",
@@ -277,10 +277,11 @@
 				},
 				{
 					title : "操作",
-					width : 80,
+					width : 175,
 					template : function(item) {
-						var isPlanReach = item.isPlanReach;
-						return common.format($('#columnBtns_hasInclud').html(),item.id,isPlanReach);
+						var isShowConfirmBtn= !item.isPlanReach;
+						var isShowEditBtn = item.isPlanReach && item.prcessState != common.basicDataConfig().processState_pass
+						return common.format($('#columnBtns_hasInclud').html(),item.id,isShowConfirmBtn,isShowEditBtn,item.projectNumber);
 					},
 					headerAttributes: {
 					      "class": "table-header-cell",
@@ -319,11 +320,18 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:{
-					field:'isIncludYearPlan',
-					operator:'eq',
-					value:false
-				},
+				filter:[
+					{
+						field:'isIncludYearPlan',
+						operator:'eq',
+						value:false
+					},
+					{
+						field:'projectInvestmentType',
+						operator:'eq',
+						value:common.basicDataConfig().projectInvestmentType_ZF
+					},
+				],
 				requestStart: function () {
 					kendo.ui.progress($("#loading"), true);
 				},
@@ -405,11 +413,11 @@
 				{
 					field : "",
 					title : "操作",
-					width : 150,
+					width : 85,
 					template : function(item) {
-						var isHide = item.isIncludLibrary;
+						var isHideEditBtn = item.isPlanReach;
 						return common.format($('#columnBtns_notInclud').html(),
-								item.id,item.projectInvestmentType,common.basicDataConfig().projectShenBaoStage_jihuaxiada,item.projectNumber);
+								item.id,item.projectInvestmentType,common.basicDataConfig().projectShenBaoStage_jihuaxiada,item.projectNumber,isHideEditBtn);
 					}
 				}
 
@@ -475,17 +483,23 @@
 					filterable : false						
 				},
 				{
-					field : "processState",
-					title : "审批状态",
+					field : "processStage",
+					title : "审批阶段",
 					width : 150,
 					filterable : false,
 					template:function(item){
-						var processStateDesc=common.getBasicDataDesc(item.processState);
-						var css='text-danger';
-						return common.format("<span class='{1}'>{0}</span>",processStateDesc,css);
+						return common.format("<span class='text-danger'>{0}</span>",common.getBasicDataDesc(item.processStage));
 					}
 				},
-				
+				{
+					field : "processState",
+					title : "审批状态",
+					width : 100,
+					filterable : false,
+					template:function(item){
+						return common.format("<span class='text-danger'>{0}</span>",common.getProcessStateDesc(item.processState));
+					}
+				},
 				{
 					field : "planYear",
 					title : "计划年度",	
@@ -497,9 +511,9 @@
 					title : "操作",
 					width : 200,
 					template : function(item) {					
-						var isShow=item.processState==common.basicDataConfig().processState_waitQianShou
-						   ||item.processState==common.basicDataConfig().processState_tuiWen;
-						return common.format($('#columnBtns_records').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShow?'':'display:none',"vm.deleteShenBaoInfo('"+item.id+"')");
+						var isShowEditAndRemoveBtn=item.processState==common.basicDataConfig().processState_jinxingzhong
+						   ||item.processState==common.basicDataConfig().processState_notpass;
+						return common.format($('#columnBtns_records').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShowEditAndRemoveBtn?'':'display:none',"vm.deleteShenBaoInfo('"+item.id+"')");
 					}
 				}
 			];

@@ -63,17 +63,16 @@
         function list(){
         	planReachSvc.getHasIncludYearPlan(vm);
         	planReachSvc.getNotIncludYearPlan(vm);
-        	//planReachSvc.planReachRecords(vm);
         	
-        	//检查已纳入年度计划的计划下达申请资金
+        	//检查已纳入年度计划的计划下达安排资金
         	vm.checkNum_ggys=function(id,compared){
         		vm.unqualifiedNum_ggys=false;
-        		vm.unqualifiedNum_ggys=vm.checkNumber(compared,vm.formatNumber($("#ggys_"+id).val()));
+        		vm.unqualifiedNum_ggys=vm.checkNumber(compared,vm.formatNumber($("#ggys_ap"+id).val()));
         		vm.checkPlanReachNum();
         	};
         	vm.checkNum_gtzj=function(id,compared){
         		vm.unqualifiedNum_gtzj=false;
-        		vm.unqualifiedNum_gtzj=vm.checkNumber(compared,vm.formatNumber($("#gtzj_"+id).val()));
+        		vm.unqualifiedNum_gtzj=vm.checkNumber(compared,vm.formatNumber($("#gtzj_ap"+id).val()));
         		vm.checkPlanReachNum();
         	};
         	vm.checkPlanReachNum=function(){
@@ -82,15 +81,15 @@
         		if(vm.unqualifiedNum){
         			common.alert({
         				vm:vm,
-        				msg:'申请资金大于安排资金，请重新输入！'
+        				msg:'计划下达安排资金大于年度计划安排资金，请重新输入！'
         			});
         		}
         	};
-        	//已纳入年度计划的计划下达确认
-        	vm.confirmPlanReach=function(id){
-        		vm.model.sqPlanReach_ggys=vm.formatNumber($("#ggys_"+id).val());
-        		vm.model.sqPlanReach_gtzj=vm.formatNumber($("#gtzj_"+id).val());
-        		planReachSvc.comfirmPlanReach(vm,id);
+        	//已纳入年度计划的计划下达安排资金确认
+        	vm.confirmPlanReach=function(id,str){
+        		vm.model.apPlanReach_ggys=vm.formatNumber($("#ggys_ap"+id).val());
+        		vm.model.apPlanReach_gtzj=vm.formatNumber($("#gtzj_ap"+id).val());
+        		planReachSvc.comfirmPlanReach(vm,id,str);
         	};
         	//未纳入年度计划的计划下达申报记录
         	vm.checkPlanReachDetails=function(projectNumber){

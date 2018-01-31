@@ -76,7 +76,7 @@ public class ShenBaoAdminPlanReachController {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	@RequestMapping(name = "确定计划下达申请资金", path = "comfirmPlanReach",method=RequestMethod.POST)
 	public void comfirmPlanReach(@RequestBody Map map){
-		shenbaoInfoService.comfirmPlanReach(map);
+		shenbaoInfoService.comfirmPlanReach(map,false);
 	}
 	
 	@RequiresPermissions("shenbaoAdmin/planReach#html/list#get")

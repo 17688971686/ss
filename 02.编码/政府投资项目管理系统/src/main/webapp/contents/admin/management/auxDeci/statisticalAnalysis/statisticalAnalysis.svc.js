@@ -11,9 +11,112 @@
 			getprojectByHYData:getprojectByHYData,
 			getprojectInvestSourceData:getprojectInvestSourceData,
 			getyearPlanByHYData:getyearPlanByHYData,
-			getyearPlanInvestSourceData:getyearPlanInvestSourceData
+			getyearPlanInvestSourceData:getyearPlanInvestSourceData,
+			exportExcelForProjectByCustom:exportExcelForProjectByCustom,
+			exportExcelForApprovalByCustom:exportExcelForApprovalByCustom,
+			exportExcelForPlanByCustom:exportExcelForPlanByCustom
 		};		
 		return service;
+		
+		/**
+		 * 审批类自定义条件报表导出
+		 */
+		function exportExcelForApprovalByCustom(vm){
+			//批复时间(没有填写、填写之后删除、结束时间小于开始时间(有验证))
+			vm.model.pifuDateBegin=vm.pifuDateBegin==undefined?"":vm.pifuDateBegin.toString();
+			vm.model.pifuDateEnd=vm.pifuDateEnd==undefined?"":vm.pifuDateEnd.toString();
+			//总投资范围（没有填写、填写之后删除、结束范围小于开始范围（有验证））
+			vm.model.projectInvestSumBegin=vm.projectInvestSumBegin==undefined?"":vm.projectInvestSumBegin.toString();
+			vm.model.projectInvestSumEnd=vm.projectInvestSumEnd==undefined?"":vm.projectInvestSumEnd.toString();
+		
+			var httpOptions = {
+	                method: 'post',
+	                url : url+"/exportExcelForApprovalByCustom",
+			        data : vm.model,
+			        headers : { 'Content-Type': 'application/json;charset=UTF-8' }
+	            };
+            var httpSuccess = function success(response) {
+                common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function () {
+	                    
+	                }
+				});
+            };
+            common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+			
+		}//end fun exportExcelForApprovalByCustom
+		
+		function exportExcelForPlanByCustom(vm){
+			//计划下达时间(没有填写、填写之后删除、结束时间小于开始时间(有验证))
+			vm.model.planYearBegin=vm.planYearBegin==undefined?"":vm.planYearBegin.toString();
+			vm.model.planYearEnd=vm.planYearEnd==undefined?"":vm.planYearEnd.toString();
+			//总投资范围（没有填写、填写之后删除、结束范围小于开始范围（有验证））
+			vm.model.projectInvestSumBegin=vm.projectInvestSumBegin==undefined?"":vm.projectInvestSumBegin.toString();
+			vm.model.projectInvestSumEnd=vm.projectInvestSumEnd==undefined?"":vm.projectInvestSumEnd.toString();
+			//下达资金范围（没有填写、填写之后删除、结束范围小于开始范围（有验证））
+			vm.model.projectApPlanReachSumBegin=vm.projectApPlanReachSumBegin==undefined?"":vm.projectApPlanReachSumBegin.toString();
+			vm.model.projectApPlanReachSumEnd=vm.projectApPlanReachSumEnd==undefined?"":vm.projectApPlanReachSumEnd.toString();
+			
+			var httpOptions = {
+	                method: 'post',
+	                url : url+"/exportExcelForPlanByCustom",
+			        data : vm.model,
+			        headers : { 'Content-Type': 'application/json;charset=UTF-8' }
+	            };
+            var httpSuccess = function success(response) {
+                common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function () {
+	                    
+	                }
+				});
+            };
+            common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}//end fun exportExcelForPlanByCustom
+		
+		/**
+		 * 项目总库自定义条件报表导出
+		 */
+		function exportExcelForProjectByCustom(vm){
+			//总投资范围（没有填写、填写之后删除、结束范围小于开始范围（有验证））
+			vm.model.projectInvestSumBegin=vm.projectInvestSumBegin==undefined?"":vm.projectInvestSumBegin.toString();
+			vm.model.projectInvestSumEnd=vm.projectInvestSumEnd==undefined?"":vm.projectInvestSumEnd.toString();
+			
+			var httpOptions = {
+	                method: 'post',
+	                url : url+"/exportExcelForProjectByCustom",
+			        data : vm.model,
+			        headers : { 'Content-Type': 'application/json;charset=UTF-8' }
+	            };
+            var httpSuccess = function success(response) {
+                common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function () {
+	                    
+	                }
+				});
+            };
+            common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}//end fun exportExcelForProjectByCustom
 		
 		/**
 		 * @Description 获取项目库项目投资行业分布图

@@ -2,7 +2,7 @@
 	  <ol class="breadcrumb">
 		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
 		  <li><a href="#/managerCenter">首页</a></li>
-	      <li><a href="javascript::" ui-sref="planReach">计划下达</a></li>	 
+	      <li><a class="text-primary" href="javascript::" ui-sref="planReach">计划下达</a></li>	 
 	      <li class="active">项目列表</li>
 	  </ol>
 	  
@@ -20,15 +20,16 @@
 					<input style="width:80px" type="number" min="0" max="{2}" step="any" id="gtzj_{0}" value="{1}" ng-keyup="vm.checkNum_gtzj('{0}','{2}')"/>
 				</script>
 				<script type="text/template" id="columnBtns_hasInclud">
-					<button ng-hide="{1}" class="btn btn-success btn-sm" ng-click="vm.confirmPlanReach('{0}')" ng-disabled="vm.unqualifiedNum"><span class="fa fa-refresh"></span>&nbsp;确定</button>
-					<button ng-show="{1}" class="btn btn-success btn-sm" ng-click="vm.confirmPlanReach('{0}')" ng-disabled="vm.unqualifiedNum"><span class="fa fa-check"></span>&nbsp;更新</button>
+					<button ng-show="{1}" class="btn btn-success btn-sm" ng-click="vm.confirmPlanReach('{0}')" ng-disabled="vm.unqualifiedNum"><span class="fa fa-check"></span>&nbsp;确定</button>
+					<button ng-show="{2}" class="btn btn-success btn-sm" ng-click="vm.confirmPlanReach('{0}')" ng-disabled="vm.unqualifiedNum"><span class="fa fa-refresh"></span>&nbsp;更新</button>
+					<button ng-show="{2}" class="btn btn-info btn-sm" ng-click="vm.showPlanReachGrid('{3}')">查看审批结果</button>
 				</script>
 				<div class="grid" kendo-grid="hasIncludGrid" k-options="vm.hasIncludGridOptions"></div>
 			</div>
 			<div>
 				<script type="text/template" id="columnBtns_notInclud">
-					<a class="btn btn-success btn-xs" href="#/shenbao/{0}/{1}/{2}">填写申请信息</a>
-					<button class="btn btn-success btn-xs" ng-click="vm.checkPlanReachDetails('{3}')">查看申请记录</button>
+					<a ng-hide="{4}" class="btn btn-primary btn-sm" href="#/shenbao/{0}/{1}/{2}"><span class="fa fa-edit"></span>填写申请信息</a>
+					<button ng-show="{4}" class="btn btn-success btn-sm" ng-click="vm.checkPlanReachDetails('{3}')">查看申请记录</button>
 				</script>
 				<div class="grid" kendo-grid="notIncludGrid" k-options="vm.notIncludGridOptions"></div>
 			</div>

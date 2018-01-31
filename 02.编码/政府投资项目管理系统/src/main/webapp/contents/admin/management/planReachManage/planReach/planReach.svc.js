@@ -102,11 +102,11 @@
 		/**
 		 * 确认计划下达资金
 		 */
-		function comfirmPlanReach(vm,id){
+		function comfirmPlanReach(vm,id,str){
 			var httpOptions = {
 				method : 'post',
 				url : url+"/comfirmPlanReach",
-				data : {"id":id,"sqPlanReach_ggys":vm.model.sqPlanReach_ggys,"sqPlanReach_gtzj":vm.model.sqPlanReach_gtzj}
+				data : {"id":id,"apPlanReach_ggys":vm.model.apPlanReach_ggys,"apPlanReach_gtzj":vm.model.apPlanReach_gtzj,"isPass":str}
 			};
 			
 			var httpSuccess = function success(response) {
@@ -172,9 +172,25 @@
 			
 			var columns = [	
 				{
+					template : function(item) {
+						return kendo
+								.format(
+										"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+										item.id);
+					},
+					filterable : false,
+					width : 40,
+					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>",
+					headerAttributes: {
+				      "class": "table-header-cell",
+				       style: "text-align: center;vertical-align: middle;"
+				    }
+				},
+				{
 					field : "projectName",
 					title : "项目名称",
 					filterable : true,
+					width:250,
 					template:function(item){
 						var css = "text-primary";
 						return common.format("<a class='{2}' href='javascript::' ng-click='vm.dialog_shenbaoInfo(\"{3}\")'>{1}</a>",item.projectId,item.projectName,css,item.id);
@@ -254,7 +270,7 @@
 					    }
 				},
 				{
-					title: "申请资金(万元)",
+					title: "年度计划申请(万元)",
 					columns: [
 						{
 							field : "capitalSCZ_ggys_TheYear",
@@ -283,7 +299,7 @@
 					    }
 				},
 				{
-					title: "安排资金(万元)",
+					title: "年度计划安排(万元)",
 					columns: [
 						{
 							field : "capitalAP_ggys_TheYear",
@@ -320,7 +336,7 @@
 							width:100,
 							filterable : false,
 							template:function(item){
-								return common.format($('#input_ggys').html(),item.id,item.sqPlanReach_ggys,item.capitalAP_ggys_TheYear);
+								return common.format($('#input_sq_ggys').html(),item.id,item.sqPlanReach_ggys,item.capitalAP_ggys_TheYear);
 							},
 							headerAttributes: {
 						      "class": "table-header-cell",
@@ -337,10 +353,62 @@
 						       style: "text-align: center;vertical-align: middle;"
 						    },
 						    template:function(item){
-								return common.format($('#input_gtzj').html(),item.id,item.sqPlanReach_gtzj,item.capitalAP_gtzj_TheYear);
+								return common.format($('#input_sq_gtzj').html(),item.id,item.sqPlanReach_gtzj,item.capitalAP_gtzj_TheYear);
 							},
 						}
 					],
+					headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
+				},
+				{
+					title: "计划下达安排(万元)",
+					columns: [
+						{
+							field : "apPlanReach_ggys",
+							title : "公共预算",
+							width:100,
+							filterable : false,
+							template:function(item){
+								var isShowOperation = item.processStage==common.basicDataConfig().processStage_qianshou && 
+								item.processState==common.basicDataConfig().processState_jinxingzhong;
+								return common.format($('#input_ap_ggys').html(),item.id,item.apPlanReach_ggys,item.capitalAP_ggys_TheYear,!isShowOperation);
+							},
+							headerAttributes: {
+						      "class": "table-header-cell",
+						       style: "text-align: center;vertical-align: middle;"
+						    }
+						},
+						{
+							field : "apPlanReach_gtzj",
+							title : "国土基金",
+							width:100,
+							filterable : false,
+							headerAttributes: {
+						      "class": "table-header-cell",
+						       style: "text-align: center;vertical-align: middle;"
+						    },
+						    template:function(item){
+						    	var isShowOperation = item.processStage==common.basicDataConfig().processStage_qianshou && 
+								item.processState==common.basicDataConfig().processState_jinxingzhong;
+								return common.format($('#input_ap_gtzj').html(),item.id,item.apPlanReach_gtzj,item.capitalAP_gtzj_TheYear,!isShowOperation);
+							},
+						}
+					],
+					headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
+				},
+				{
+					title : "操作",
+					width : 130,
+					template : function(item) {
+						var isShowOperation = item.processStage==common.basicDataConfig().processStage_qianshou && 
+								item.processState==common.basicDataConfig().processState_jinxingzhong;
+						return common.format($('#columnBtns_hasInclud').html(),item.id,isShowOperation?'':'display:none');
+					},
 					headerAttributes: {
 					      "class": "table-header-cell",
 					       style: "text-align: center;vertical-align: middle;"
@@ -388,6 +456,10 @@
 							field:'projectShenBaoStage',
 							operator:'eq',
 							value:common.basicDataConfig().projectShenBaoStage_jihuaxiada
+						},{
+							field:'processStage',
+							operator:'eq',
+							value:common.basicDataConfig().processState_mskfawen
 						}
 				],
 				requestStart: function () {
@@ -402,6 +474,7 @@
 				{
 					field : "projectName",
 					title : "项目名称",
+					width:250,
 					filterable : true,
 					template:function(item){
 						var css = "text-primary";
@@ -505,7 +578,7 @@
 					    }
 				},
 				{
-					title: "申请资金(万元)",
+					title: "年度计划申请资金(万元)",
 					columns: [
 						{
 							field : "capitalSCZ_ggys_TheYear",
@@ -534,7 +607,7 @@
 					    }
 				},
 				{
-					title: "安排资金(万元)",
+					title: "年度安排资金(万元)",
 					columns: [
 						{
 							field : "capitalAP_ggys_TheYear",
@@ -571,7 +644,7 @@
 							width:100,
 							filterable : false,
 							template:function(item){
-								return common.format($('#input_ggys').html(),item.id,item.sqPlanReach_ggys,item.capitalAP_ggys_TheYear);
+								return common.format($('#input_sq_ggys').html(),item.id,item.sqPlanReach_ggys,item.capitalAP_ggys_TheYear);
 							},
 							headerAttributes: {
 						      "class": "table-header-cell",
@@ -588,7 +661,46 @@
 						       style: "text-align: center;vertical-align: middle;"
 						    },
 						    template:function(item){
-								return common.format($('#input_gtzj').html(),item.id,item.sqPlanReach_gtzj,item.capitalAP_gtzj_TheYear);
+								return common.format($('#input_sq_gtzj').html(),item.id,item.sqPlanReach_gtzj,item.capitalAP_gtzj_TheYear);
+							},
+						}
+					],
+					headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
+				},
+				{
+					title: "计划下达安排(万元)",
+					columns: [
+						{
+							field : "apPlanReach_ggys",
+							title : "公共预算",
+							width:100,
+							filterable : false,
+							template:function(item){
+								var isShowOperation = item.processStage==common.basicDataConfig().processStage_qianshou && 
+								item.processState==common.basicDataConfig().processState_jinxingzhong;
+								return common.format($('#input_ap_ggys').html(),item.id,item.apPlanReach_ggys,item.capitalAP_ggys_TheYear,!isShowOperation);
+							},
+							headerAttributes: {
+						      "class": "table-header-cell",
+						       style: "text-align: center;vertical-align: middle;"
+						    }
+						},
+						{
+							field : "apPlanReach_gtzj",
+							title : "国土基金",
+							width:100,
+							filterable : false,
+							headerAttributes: {
+						      "class": "table-header-cell",
+						       style: "text-align: center;vertical-align: middle;"
+						    },
+						    template:function(item){
+						    	var isShowOperation = item.processStage==common.basicDataConfig().processStage_qianshou && 
+								item.processState==common.basicDataConfig().processState_jinxingzhong;
+								return common.format($('#input_ap_gtzj').html(),item.id,item.apPlanReach_gtzj,item.capitalAP_gtzj_TheYear,!isShowOperation);
 							},
 						}
 					],
@@ -681,9 +793,9 @@
 					title : "操作",
 					width : 200,
 					template : function(item) {					
-						var isShow=item.processState==common.basicDataConfig().processState_waitQianShou
-						   ||item.processState==common.basicDataConfig().processState_tuiWen;
-						return common.format($('#columnBtns_records').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShow?'':'display:none',"vm.deleteShenBaoInfo('"+item.id+"')");
+						var isShowEditAndRemoveBtn=item.processState==common.basicDataConfig().processState_jinxingzhong
+						   ||item.processState==common.basicDataConfig().processState_notpass;
+						return common.format($('#columnBtns_records').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShowEditAndRemoveBtn?'':'display:none',"vm.deleteShenBaoInfo('"+item.id+"')");
 					}
 				}
 			];

@@ -46,6 +46,21 @@
     		vm.html=function(val){
     			return $sce.trustAsHtml(val);
     		};
+    		
+    		//资金来源计算（政投）
+			vm.capitalTotal=function(){
+				return common.getSum([
+					 vm.model.capitalSCZ_ggys||0,vm.model.capitalSCZ_gtzj||0,vm.model.capitalSCZ_zxzj||0,
+					 vm.model.capitalQCZ_ggys||0,vm.model.capitalQCZ_gtzj||0,
+					 vm.model.capitalSHTZ||0,vm.model.capitalZYYS||0,
+					 vm.model.capitalOther||0]);
+			};
+			//投资去处计算（社投）
+			vm.investTotal=function(){
+				vm.model.projectInvestSum=common.getSum([vm.model.landPrice||0,vm.model.equipmentInvestment||0,
+					 	vm.model.buidSafeInvestment||0,vm.model.capitalOther||0]);
+				return vm.model.projectInvestSum;
+			 };
 
     		//用于查询、新增、编辑--基础数据初始化
     		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
@@ -62,6 +77,12 @@
    	   		vm.basicData.projectIndustry_SH=$linq(common.getBasicData())
    	   			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_SH;})
    	   			.toArray();//社会投资项目行业
+	   	   	vm.basicData.projectClassify_ZF=$linq(common.getBasicData())
+	  			.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
+	  			.toArray();//政府投资项目分类
+	  		vm.basicData.projectClassify_SH=$linq(common.getBasicData())
+	  			.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
+	  			.toArray();//社会投资项目分类
 	   		vm.basicData.userUnit=common.getUserUnits();//获取所有单位
         };
         
@@ -192,43 +213,19 @@
     	   vm.model.projectInvestmentType = vm.projectInvestmentType;//项目投资类型用于数据收集
 			
     	   if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
-    		   vm.isZFInvestment = true;
-    		   //基础数据--项目分类
-    		  vm.basicData.projectClassify=$linq(common.getBasicData())
-	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
-	       		.toArray();
-    		  //基础数据--行业归口
-    		  vm.basicData.projectIndustry=$linq(common.getBasicData())
-	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
-	       		.toArray();
- 			 //资金来源计算（政投）
- 	   		 vm.capitalTotal=function(){
- 	   			 return common.getSum([
- 	   					 vm.model.capitalSCZ_ggys||0,vm.model.capitalSCZ_gtzj||0,vm.model.capitalSCZ_zxzj||0,
- 	   					 vm.model.capitalQCZ_ggys||0,vm.model.capitalQCZ_gtzj||0,
- 	   					 vm.model.capitalSHTZ||0,vm.model.capitalZYYS||0,
- 	   					 vm.model.capitalOther||0]);
- 	   		 };
- 			//相关附件文件上传文件种类
-	   		vm.relatedType=common.uploadFileTypeConfig().projectEdit;
+				vm.isZFInvestment = true;
+				vm.basicData.projectClassify=vm.basicData.projectClassify_ZF; //基础数据--项目分类
+				vm.basicData.projectIndustry=vm.basicData.projectIndustry_ZF; //基础数据--行业归口
+				vm.relatedType=common.uploadFileTypeConfig().projectEdit;//相关附件文件上传文件种类
  		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资
  			  vm.isSHInvestment = true;
- 			  //基础数据--行业归口
- 			 vm.basicData.projectIndustry=$linq(common.getBasicData())
-	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_SH;})
-	       		.toArray();
+ 			  vm.basicData.projectIndustry=vm.basicData.projectIndustry_SH;//基础数据--行业归口
  			 //项目行业发生变化
- 			 vm.projectIndustryChange=function(){    		
+ 			  vm.projectIndustryChange=function(){    		
 	       		vm.basicData.projectIndustryChildren=$linq(common.getBasicData())
-	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.model.projectIndustryParent;})
-	       		.toArray();
-	   		};
- 			 //投资去处计算（社投）
-  	   		 vm.investTotal=function(){
-  	   			 vm.model.projectInvestSum=common.getSum([vm.model.landPrice||0,vm.model.equipmentInvestment||0,
-	   				 	 vm.model.buidSafeInvestment||0,vm.model.capitalOther||0]);
-  	   			 return vm.model.projectInvestSum;
-  	   		 };
+	       			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.model.projectIndustryParent;})
+	       			.toArray();
+ 			  };
  		   }
     	   
     	   	//设置项目所属单位信息
@@ -247,6 +244,20 @@
 	   		
 	   		//批复文件上传
 	   		vm.uploadType=[['JYS','项目建议书批复'],['KXXYJBG','可行性研究报告批复'],['CBSJYGS','初步设计与概算批复']];
+	   		
+	   		vm.onSelect=function(e){
+	   			$.each(e.files, function (index, value) {
+	   	            if(value.size > common.basicDataConfig().uploadSize){
+	   	            	$scope.$apply(function(){
+	   		   				common.alert({
+	   			        		vm : vm,
+	   							msg : "上传文件过大！"
+	   			            });               			           			
+	   	          		 });
+	   	            }
+	   	            
+	   	        });
+	   		};
 	   		
 	   		vm.uploadSuccess=function(e){
     			var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
@@ -293,22 +304,8 @@
          				  vm.model.attachmentDtos=[{name:name,url:url,type:vm.pifuType}];
          			 }
             	}
-   			     			          		
 	        };
 	   		
-	   		vm.onSelect=function(e){
-	   			$.each(e.files, function (index, value) {
-	   	            if(value.size > common.basicDataConfig().uploadSize){
-	   	            	$scope.$apply(function(){
-	   		   				common.alert({
-	   			        		vm : vm,
-	   							msg : "上传文件过大！"
-	   			            });               			           			
-	   	          		 });
-	   	            }
-	   	            
-	   	        });
-	   		};
 	   		//批复文件上传配置
 	   		vm.uploadOptions_pifu={
 	   				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},

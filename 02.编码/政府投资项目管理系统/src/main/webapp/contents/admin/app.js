@@ -197,6 +197,13 @@
 	            controller: 'statisticalAnalysisCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //统计分析--条件筛选页面
+	        .state('statisticalAnalysis_edit', {
+	            url: '/statisticalAnalysis_edit/:what',
+	            templateUrl: '/management/auxDeci/statisticalAnalysis/html/edit.html',
+	            controller: 'statisticalAnalysisCtrl',
+	            controllerAs: 'vm'
+	        })
 
 	        
 /**********************end#决策辅助系统***************************************/

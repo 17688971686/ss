@@ -1,6 +1,7 @@
 package cs.domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import cs.common.BasicDataConfig;
 /**
@@ -34,12 +37,22 @@ public class ShenBaoInfo extends BaseProject{
 	@Column(columnDefinition="varchar(125) NULL COMMENT '申报阶段'")
 	private String projectShenBaoStage;
 	
-	@Column(columnDefinition="varchar(125) NULL COMMENT '项目建设性质分类'")
-	private String projectConstrChar;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(columnDefinition="datetime COMMENT '申报时间'")
+	private Date shenbaoDate;
 	
-	//begin#年度计划相关
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(columnDefinition="datetime COMMENT '签收时间'")
+	private Date qianshouDate;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(columnDefinition="datetime COMMENT '批复时间'")
+	private Date pifuDate;
+	
 	@Column(columnDefinition="int NULL COMMENT '计划年度'")
 	private Integer planYear;
+	
+	//begin#年度计划相关
 	@Column(columnDefinition="varchar(500) NULL COMMENT '建设单位'")
 	private String constructionUnit;
 	@Column(columnDefinition="varchar(500) NULL COMMENT '年度建设任务'")
@@ -53,104 +66,104 @@ public class ShenBaoInfo extends BaseProject{
 	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '申请指标外资金'")
 	private Double applyOutsideCapital=0.0;
 	
-	//下一年度计划申请资金
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '本年申请年度投资累计'")
-	private Double applyYearInvest=0.0;	
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '下一年申请年度投资累计'")
-	private Double applyYearInvest_LastYear=0.0;	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年申请年度投资累计'")
-	private Double applyYearInvest_LastTwoYear=0.0;	
-	
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '本年安排年度投资累计'")
-	private Double yearInvestApproval=0.0;
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '下一年安排年度投资累计'")
-	private Double yearInvestApproval_lastYear=0.0;
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '下下年安排年度投资累计'")
-	private Double yearInvestApproval_lastTwoYear=0.0;
-	
-	@Column(columnDefinition="varchar(500) NULL COMMENT '本年度建设内容'")
-	private String yearConstructionContent;
-	@Column(columnDefinition="varchar(500) NULL COMMENT '下一年度建设内容'")
-	private String yearConstructionContentLastYear;
-	@Column(columnDefinition="varchar(500) NULL COMMENT '下下年度建设内容'")
-	private String yearConstructionContentLastTwoYear;
-	@Column(columnDefinition="varchar(500) NULL COMMENT '申报信息备注'")
-	private String yearConstructionContentShenBao;
-	
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '本年度资金筹措方案(申请)-公共预算'")
+	//下一年度计划 Begin（三年滚动计划）
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第一年申请年度投资累计'")
+	private Double applyYearInvest=0.0;
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第一年资金筹措方案(申请)-公共预算'")
 	private Double capitalSCZ_ggys_TheYear=0.0;
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '本年度资金筹措方案(申请)-国土资金'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第一年资金筹措方案(申请)-国土资金'")
 	private Double capitalSCZ_gtzj_TheYear=0.0;
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '本年度资金筹措方案(申请)-其他资金'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第一年资金筹措方案(申请)-其他资金'")
 	private Double capitalSCZ_qita=0.0;
-	@Column(columnDefinition="varchar(500) NULL COMMENT '其他资金来源'")
+	@Column(columnDefinition="varchar(500) NULL COMMENT '第一年其他资金来源'")
 	private String capitalOtherDescriptionShenBao;
 	
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '下一年度资金筹措方案(申请)-公共预算'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第二年申请年度投资累计'")
+	private Double applyYearInvest_LastYear=0.0;
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第二年度资金筹措方案(申请)-公共预算'")
 	private Double capitalSCZ_ggys_LastYear=0.0;
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '下一年度资金筹措方案(申请)-国土资金'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第二年度资金筹措方案(申请)-国土资金'")
 	private Double capitalSCZ_gtzj_LastYear=0.0;
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '下年度资金筹措方案(申请)-其他资金'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第二年资金筹措方案(申请)-其他资金'")
 	private Double capitalSCZ_qita_LastYear=0.0;
-	@Column(columnDefinition="varchar(500) NULL COMMENT '下一年其他资金来源'")
+	@Column(columnDefinition="varchar(500) NULL COMMENT '第二年其他资金来源'")
 	private String capitalOtherDescriptionShenBao_LastYear;
 	
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '下下年度资金筹措方案(申请)-公共预算'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第三年申请年度投资累计'")
+	private Double applyYearInvest_LastTwoYear=0.0;
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第三年度资金筹措方案(申请)-公共预算'")
 	private Double capitalSCZ_ggys_LastTwoYear=0.0;
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '下下年度资金筹措方案(申请)-国土资金'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第三年度资金筹措方案(申请)-国土资金'")
 	private Double capitalSCZ_gtzj_LastTwoYear=0.0;
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '下下年度资金筹措方案(申请)-其他资金'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第三年度资金筹措方案(申请)-其他资金'")
 	private Double capitalSCZ_qita_LastTwoYear=0.0;
-	@Column(columnDefinition="varchar(500) NULL COMMENT '下下年其他资金来源'")
+	@Column(columnDefinition="varchar(500) NULL COMMENT '第三年其他资金来源'")
 	private String capitalOtherDescriptionShenBao_LastTwoYear;
-	//下一年度计划安排资金
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '累计安排投资'")
-	private Double apInvestSum=0.0;
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '安排年度资金筹措方案-公共预算'")
+	
+	@Column(columnDefinition="varchar(500) NULL COMMENT '第一年度建设内容'")
+	private String yearConstructionContent;
+	@Column(columnDefinition="varchar(500) NULL COMMENT '第二年度建设内容'")
+	private String yearConstructionContentLastYear;
+	@Column(columnDefinition="varchar(500) NULL COMMENT '第三年度建设内容'")
+	private String yearConstructionContentLastTwoYear;
+	
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第一年安排年度投资累计'")
+	private Double yearInvestApproval=0.0;
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第一年安排年度资金筹措方案-公共预算'")
 	private Double capitalAP_ggys_TheYear=0.0;
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '安排年度资金筹措方案-国土基金'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第一年安排年度资金筹措方案-国土基金'")
 	private Double capitalAP_gtzj_TheYear=0.0;
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '安排年度资金筹措方案-其他'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第一年安排年度资金筹措方案-其他'")
 	private Double capitalAP_qita=0.0;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下年度安排年度资金筹措方案-公共预算'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第二年安排年度投资累计'")
+	private Double yearInvestApproval_lastYear=0.0;
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第二年度安排年度资金筹措方案-公共预算'")
 	private Double capitalAP_ggys_LastYear=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下年度安排年度资金筹措方案-国土基金'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第二年度安排年度资金筹措方案-国土基金'")
 	private Double capitalAP_gtzj_LastYear=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下年度安排年度资金筹措方案-其他'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第二年度安排年度资金筹措方案-其他'")
 	private Double capitalAP_qita_LastYear=0.0;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度安排年度资金筹措方案-公共预算'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第三年安排年度投资累计'")
+	private Double yearInvestApproval_lastTwoYear=0.0;
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第三年度安排年度资金筹措方案-公共预算'")
 	private Double capitalAP_ggys_LastTwoYear=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度安排年度资金筹措方案-国土基金'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第三年度安排年度资金筹措方案-国土基金'")
 	private Double capitalAP_gtzj_LastTwoYear=0.0;
-	@Column(columnDefinition="double(11,4) NULL COMMENT '下下年度安排年度资金筹措方案-其他'")
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '第三年度安排年度资金筹措方案-其他'")
 	private Double capitalAP_qita_LastTwoYear=0.0;
-	//计划下达申请资金
-	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否已申请下达资金'")
-	private Boolean isPlanReach=false;
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '计划下达申请--公共预算'")
-	private Double sqPlanReach_ggys=0.0;
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '计划下达申请--国土基金'")
-	private Double sqPlanReach_gtzj=0.0;
-	//end#年度计划相关
 	
-   //begin#财政相关
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '累计安排投资'")
+	private Double apInvestSum=0.0;
+	//begin#财政相关
 	@Column(columnDefinition="varchar(125) NULL COMMENT '功能科目'")
 	private String functionSubjects;
 	@Column(columnDefinition="varchar(125) NULL COMMENT '经济分类科目'")
 	private String econClassSubjects;
 	//end#财政相关
+	@Column(columnDefinition="varchar(500) NULL COMMENT '申报信息备注'")
+	private String yearConstructionContentShenBao;
+	//下一年度计划 End（三年滚动计划）
+	
+	//计划下达 Begin
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '计划下达申请--公共预算'")
+	private Double sqPlanReach_ggys=0.0;
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '计划下达申请--国土基金'")
+	private Double sqPlanReach_gtzj=0.0;
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '计划下达安排--公共预算'")
+	private Double apPlanReach_ggys=0.0;
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '计划下达安排--国土基金'")
+	private Double apPlanReach_gtzj=0.0;
+	@Column(columnDefinition="varchar(125) NULL COMMENT '项目建设性质分类'")
+	private String projectConstrChar;
+	//计划下达 End
 	
 	//begin#审批相关
 	@Column(columnDefinition="varchar(125) NULL COMMENT '审批阶段'")
 	private String processStage;
 	@Column(columnDefinition="int(1) NULL COMMENT '审批状态'")
 	private Integer processState;
-//	@Column(columnDefinition="varchar(125) NULL COMMENT '审批状态'")
-//	private String processState;
-//	@Column(columnDefinition="varchar(255) NULL COMMENT '审批角色'")
-//	private String processRole;
 	//end
 	
 	//begin#建议书相关
@@ -166,7 +179,7 @@ public class ShenBaoInfo extends BaseProject{
 	//end
 	
 	//begin#前期计划相关
-	@Column(columnDefinition="bit(1) NULL COMMENT '是否申请前期工作经费'")
+	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否申请前期工作经费'")
 	private Boolean isApplyQianQiFei = false;//默认为不申请
 	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '工作经费申请金额'")
 	private Double qianQiFeiApply=0.0;
@@ -198,6 +211,7 @@ public class ShenBaoInfo extends BaseProject{
 	//begin#关联信息
 	@OneToOne(cascade=CascadeType.ALL)
 	private ShenBaoUnitInfo bianZhiUnitInfo=new ShenBaoUnitInfo();
+	
 	public Double getYearInvestApproval() {
 		return yearInvestApproval;
 	}
@@ -466,12 +480,7 @@ public class ShenBaoInfo extends BaseProject{
 	public void setCapitalAP_qita_LastTwoYear(Double capitalAP_qita_LastTwoYear) {
 		this.capitalAP_qita_LastTwoYear = capitalAP_qita_LastTwoYear;
 	}
-	public Boolean getIsPlanReach() {
-		return isPlanReach;
-	}
-	public void setIsPlanReach(Boolean isPlanReach) {
-		this.isPlanReach = isPlanReach;
-	}
+	
 	public Double getSqPlanReach_ggys() {
 		return sqPlanReach_ggys;
 	}
@@ -592,4 +601,35 @@ public class ShenBaoInfo extends BaseProject{
 	public void setAttachments(List<Attachment> attachments) {
 		this.attachments = attachments;
 	}
+	public Date getShenbaoDate() {
+		return shenbaoDate;
+	}
+	public void setShenbaoDate(Date shenbaoDate) {
+		this.shenbaoDate = shenbaoDate;
+	}
+	public Date getQianshouDate() {
+		return qianshouDate;
+	}
+	public void setQianshouDate(Date qianshouDate) {
+		this.qianshouDate = qianshouDate;
+	}
+	public Date getPifuDate() {
+		return pifuDate;
+	}
+	public void setPifuDate(Date pifuDate) {
+		this.pifuDate = pifuDate;
+	}
+	public Double getApPlanReach_ggys() {
+		return apPlanReach_ggys;
+	}
+	public void setApPlanReach_ggys(Double apPlanReach_ggys) {
+		this.apPlanReach_ggys = apPlanReach_ggys;
+	}
+	public Double getApPlanReach_gtzj() {
+		return apPlanReach_gtzj;
+	}
+	public void setApPlanReach_gtzj(Double apPlanReach_gtzj) {
+		this.apPlanReach_gtzj = apPlanReach_gtzj;
+	}
+	
 }

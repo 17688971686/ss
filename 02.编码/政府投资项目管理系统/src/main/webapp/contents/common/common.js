@@ -394,7 +394,7 @@
     }
     
     function toMoney(money){
-    	if(money){
+    	if(!isNaN(money)){
   			 return money;
   		 }else{
   			 return 0;
@@ -418,7 +418,7 @@
     }
     function basicDataConfig(){
     	return {
-    		uploadSize:10485760,//本地文件上传大小限制(10M)
+    		uploadSize:104857600,//本地文件上传大小限制(100M)
     		
     		processState:"processState",//审批状态
     		processState_waitQianShou:"processState_1",//等待签收
@@ -491,13 +491,11 @@
     		projectShenBaoStage_projectProposal:"projectShenBaoStage_1",//项目建议书
     		projectShenBaoStage_KXXYJBG:"projectShenBaoStage_2",//可行性研究报告
     		projectShenBaoStage_CBSJYGS:"projectShenBaoStage_3",//初步设计与概算
-//    		projectShenBaoStage_prePlanFee:"projectShenBaoStage_4",//规划前期费
-//    		projectShenBaoStage_newStratPlan:"projectShenBaoStage_5",//新开工计划
-//    		projectShenBaoStage_xuJianPlan:"projectShenBaoStage_6",//续建计划
+    		projectShenBaoStage_capitalApplyReport:"projectShenBaoStage_4",//资金申请报告
+    		projectShenBaoStage_jihuaxiada:"projectShenBaoStage_5",//计划下达
     		projectShenBaoStage_nextYearPlan:"projectShenBaoStage_7",//下一年度计划
-    		projectShenBaoStage_junGong:"projectShenBaoStage_8",//竣工决算
-    		projectShenBaoStage_capitalApplyReport:"projectShenBaoStage_9",//资金申请报告
-    		projectShenBaoStage_jihuaxiada:"projectShenBaoStage_10",//计划下达
+
+
     		
     		projectCategory:"projectCategory",//项目类别
     		projectCategory_A:"projectCategory_1",//A类

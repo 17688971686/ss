@@ -78,6 +78,7 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 	public PageModelDto<TaskHeadDto> getToDo_Plan(ODataObj odataObj) {
 		//条件一：下一个处理人为当前登录用户
 		//条件二：任务类型为：计划下达
+		//条件三：任务未完成
 		String userId = currentUser.getUserId();
 		List<TaskHeadDto> dtos = taskHeadRepoImpl.findByOdata3(odataObj,userId,true).stream().map((x) -> {
 			return mapper.toDto(x);
@@ -94,7 +95,8 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 	@Transactional
 	public PageModelDto<TaskHeadDto> getTask_audit(ODataObj odataObj) {
 		//条件一：任务的当前处理人为当前登录用户
-		//条件二：任务类型为：项目建议书、可行性研究报告、初步设计概算
+		//条件二：任务类型为：项目建议书、可行性研究报告、初步设计概算、资金申请报告
+		//条件三：任务未完成
 		String userId = currentUser.getUserId();
 		List<TaskHeadDto> dtos = taskHeadRepoImpl.findByOdata3(odataObj,userId,false).stream().map((x) -> {
 			return mapper.toDto(x);
@@ -147,8 +149,13 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			taskHead.setLastProcess(dto.getThisProcess());
 			taskHead.setLastProcessState(dto.getThisProcessState());
 			taskHead.setLastRole(dto.getThisRole());
-			taskHead.setThisProcess(dto.getNextProcess());
-			taskHead.setThisProcessState(BasicDataConfig.processState_jinxingzhong);
+			if(taskHead.getTaskType().equals(BasicDataConfig.taskType_nextYearPlan) && processState==BasicDataConfig.processState_pass){//如果是下一年度计划且签收
+				taskHead.setThisProcess(dto.getThisProcess());
+				taskHead.setThisProcessState(dto.getThisProcessState());
+			}else{
+				taskHead.setThisProcess(dto.getNextProcess());
+				taskHead.setThisProcessState(BasicDataConfig.processState_jinxingzhong);
+			}
 			taskHead.setThisUser(dto.getNextUser());
 			taskHead.setThisRole(dto.getNextRole());
 			taskHead.setModifiedDate(new Date());
@@ -173,9 +180,10 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 				ShenBaoInfo shenBaoInfo=shenBaoInfoRepo.findById(relId);
 				if(shenBaoInfo!=null){
 					if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)){//如果申报是下一年度计划
-						shenBaoInfo.setProcessState(dto.getThisProcessState());
+						shenBaoInfo.setProcessState(dto.getThisProcessState());//设置申报信息状态（签收或者退文）
 						if(processStage.equals(BasicDataConfig.processStage_qianshou)){//如果为投资科签收
 							shenBaoInfo.setReceiver(currentUser.getUserId());//设置签收人
+							shenBaoInfo.setQianshouDate(new Date());//设置签收时间
 							dto.setThisUser(currentUser.getUserId());
 						}
 					}else{
@@ -183,6 +191,11 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 						shenBaoInfo.setProcessState(taskHead.getThisProcessState());
 						if(processStage.equals(BasicDataConfig.processStage_qianshou) && processState == BasicDataConfig.processState_pass){//如果为投资科签收且通过
 							shenBaoInfo.setReceiver(dto.getThisUser());//设置签收人
+							shenBaoInfo.setQianshouDate(new Date());//设置签收时间
+						}else if((processStage.equals(BasicDataConfig.processStage_weituopishen) && processState == BasicDataConfig.processState_pass) || 
+								(processStage.equals(BasicDataConfig.processState_niwendengji) && processState == BasicDataConfig.processState_pass)){//如果是发文拟稿通过或者委托评审通过
+							//TODO 这一块的判断条件在对接OA之后需要修改为OA返回结果的时间
+							shenBaoInfo.setPifuDate(new Date());//设置批复时间
 						}
 					}
 				}
@@ -216,8 +229,8 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 
 	private Boolean isComplete(String processStage,int processState){
 		//委托评审科长确认通过、拟文登记科长审核通过或年度计划审核通过
-		if(BasicDataConfig.processStage_weituopishen.equals(processStage) && processState == 2||
-				BasicDataConfig.processState_niwendengji.equals(processStage) && processState == 2)
+		if(BasicDataConfig.processStage_weituopishen.equals(processStage) && processState == BasicDataConfig.processState_pass||
+				BasicDataConfig.processState_niwendengji.equals(processStage) && processState == BasicDataConfig.processState_pass)
 		{
 			return true;
 		}else{

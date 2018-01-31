@@ -72,6 +72,15 @@
         	vm.basicData.projectIndustry_ZF=$linq(common.getBasicData())
 				.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
 				.toArray();//政府投资行业
+        	vm.basicData.projectIndustry_SH=$linq(common.getBasicData())
+				.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_SH;})
+				.toArray();//社会投资行业
+        	vm.basicData.projectClassify_ZF=$linq(common.getBasicData())
+       			.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
+       			.toArray();//政府项目分类
+        	vm.basicData.projectClassify_SH=$linq(common.getBasicData())
+   				.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
+   				.toArray();//社会项目分类
         	vm.basicData.area_Street=$linq(common.getBasicData())
 				.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 				.toArray(); //行政区划街道
@@ -90,6 +99,8 @@
    	   		vm.basicData.documentType=common.getBacicDataByIndectity(common.basicDataConfig().documentType);//获取文件种类信息
    	   		vm.basicData.openType=common.getBacicDataByIndectity(common.basicDataConfig().openType);//获取公开种类信息
 			vm.basicData.postingCategory=common.getBacicDataByIndectity(common.basicDataConfig().postingCategory);//获取发文种类信息
+			vm.basicData.taskTypeForShenPi=[common.basicDataConfig().taskType_JYS,common.basicDataConfig().taskType_KXXYJBG,
+											common.basicDataConfig().taskType_CBSJYGS,common.basicDataConfig().taskType_ZJSQBG];
     	}
     	   	
     	activate();

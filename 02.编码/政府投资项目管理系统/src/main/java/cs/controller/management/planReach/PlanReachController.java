@@ -48,7 +48,7 @@ public class PlanReachController {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	@RequestMapping(name = "确定计划下达申请资金", path = "comfirmPlanReach",method=RequestMethod.POST)
 	public void comfirmPlanReach(@RequestBody Map map){
-		shenbaoInfoService.comfirmPlanReach(map);
+		shenbaoInfoService.comfirmPlanReach(map,true);
 	}
 	
 	@RequiresPermissions("management/planReachManage/planReach#html/list#get")

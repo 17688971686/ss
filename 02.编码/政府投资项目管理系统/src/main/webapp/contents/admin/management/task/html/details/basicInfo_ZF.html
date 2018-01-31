@@ -87,19 +87,7 @@
 			<span id="endDate" name="endDate" ng-bind="vm.model.shenBaoInfo.endDate | date:'yyyy-MM-dd'"></span>									
 		</td>
 	</tr>
-	<!-- 规划设计前期费才有 -->
-	<tr ng-if="vm.isPrePlanFee">
-		<td class="formAlignRight">是否申请前期工作经费：</td>
-		<td style="border-right:0">
-			<span ng-if="vm.model.shenBaoInfo.isApplyQianQiFei == '1'">是</span>
-			<span ng-if="vm.model.shenBaoInfo.isApplyQianQiFei == '0'">否</span>
-		</td>
-		<td ng-if="vm.model.shenBaoInfo.isApplyQianQiFei" class="formAlignRight">工作经费申请金额：</td>
-		<td ng-if="vm.model.shenBaoInfo.isApplyQianQiFei">
-			<span ng-bind="vm.model.shenBaoInfo.qianQiFeiApply | number:4"></span>&nbsp;(万元)
-		</td>
-	</tr>
-	<tr ng-hide="vm.isQianQi">
+	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
 		<td>
 			<span id="projectInvestSum" name="projectInvestSum" ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:4"></span>&nbsp;(万元)
@@ -213,18 +201,21 @@
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（200字符以内）" ng-model="vm.model.shenBaoInfo.projectGuiMo" disabled></textarea>													
 		</td>
 	</tr>
-	<tr ng-hide="vm.isYearPlan || vm.isQianQi || vm.isJunGong || vm.isJihuaxiada">
+	<!-- 下一年度计划、计划下达没有 -->
+	<tr ng-hide="vm.isYearPlan || vm.isJihuaxiada">
 		<td class="formAlignRight" style="vertical-align: middle;">建设必要性和依据：<span class="required">(*)</span></td>
 		<td colspan="3" >
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明项目建设的必要性（500字符以内）" ng-model="vm.model.shenBaoInfo.projectConstrBasis" disabled></textarea>													
 		</td>
 	</tr>
+	<!-- 可研、初步设计概算有 -->
 	<tr ng-if="vm.isKXXYJBG || vm.isCBSJYGS">
 		<td class="formAlignRight" style="vertical-align: middle;">推荐方案介绍：</td>
 		<td colspan="3" >
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明推荐方案（500字符以内）" ng-model="vm.model.shenBaoInfo.recomProgram" disabled></textarea>													
 		</td>
 	</tr>
+	<!-- 可研、初步设计概算有 -->
 	<tr ng-if="vm.isKXXYJBG || vm.isCBSJYGS">
 		<td class="formAlignRight" style="vertical-align: middle;">社会及经济效益评价：</td>
 		<td colspan="3" >

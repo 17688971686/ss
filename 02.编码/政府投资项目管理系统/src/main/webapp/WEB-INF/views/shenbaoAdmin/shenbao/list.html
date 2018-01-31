@@ -125,11 +125,11 @@
 					<label class="control-label col-sm-3" for="projectShenBaoStage">项目申报阶段:</label>
 					<select ng-if="vm.isZFInvestment" class="form-select" ng-model="vm.projectShenBaoStage" ng-change="vm.changeShenBaoStage()">
 						<option value="">---请选择---</option>
-						<option ng-repeat="x in vm.basicData.projectShenBaoStage | orderBy:'itemOrder'" value="{{x.id}}" ng-show="['projectShenBaoStage_1','projectShenBaoStage_2','projectShenBaoStage_3','projectShenBaoStage_7','projectShenBaoStage_9'].indexOf(x.id)>-1">{{x.description}}</option>
+						<option ng-repeat="x in vm.basicData.projectShenBaoStage | orderBy:'itemOrder'" value="{{x.id}}" ng-show="vm.basicData.shenBaoStageForZF.indexOf(x.id)>-1">{{x.description}}</option>
 					</select>
 					<select ng-if="vm.isSHInvestment" class="form-select" ng-model="vm.projectShenBaoStage" ng-change="vm.changeShenBaoStage()">
 						<option value="">---请选择---</option>
-						<option ng-repeat="x in vm.basicData.projectShenBaoStage | orderBy:'itemOrder'" value="{{x.id}}" ng-show="x.id=='projectShenBaoStage_7'">{{x.description}}</option>
+						<option ng-repeat="x in vm.basicData.projectShenBaoStage | orderBy:'itemOrder'" value="{{x.id}}" ng-show="vm.basicData.shenBaoStageForSH.indexOf(x.id)>-1">{{x.description}}</option>
 					</select>
 				</div>	
 				<div class="form-group" style="text-align: center;">

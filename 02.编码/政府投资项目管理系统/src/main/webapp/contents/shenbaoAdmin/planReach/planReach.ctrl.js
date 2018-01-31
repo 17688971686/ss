@@ -82,6 +82,25 @@
         		vm.model.sqPlanReach_gtzj=vm.formatNumber($("#gtzj_"+id).val());
         		planReachSvc.comfirmPlanReach(vm,id);
         	};
+        	//查看审批结果
+        	vm.showPlanReachGrid=function(projectNumber){
+        		//展示模态框
+         	   $("#shenBaoRecords").modal({
+ 			        backdrop: 'static',
+ 			        keyboard:true
+         	   });
+         	   vm.projectNumber = projectNumber;
+         	   //根据项目代码查询项目的申报记录 	  
+         	   vm.gridOptions_shenBaoRecords.dataSource.filter([{
+         		   	field:'projectNumber',
+					operator:'eq',
+					value:vm.projectNumber
+         	   },{
+         		   	field:'projectShenBaoStage',
+					operator:'eq',
+					value:common.basicDataConfig().projectShenBaoStage_jihuaxiada
+         	   }]);
+        	};
         	//未纳入年度计划的计划下达申报记录
         	vm.checkPlanReachDetails=function(projectNumber){
         		vm.projectNumber = projectNumber;
@@ -102,9 +121,11 @@
           			 value:common.basicDataConfig().projectShenBaoStage_jihuaxiada  
           		   }
           	   ]);
+        	}; 
+          	   
           	   //删除计划下达
           	   vm.deletePlanReach=function(id){
-          		 planReachSvc.deletePlanReach(vm,id);
+          		   planReachSvc.deletePlanReach(vm,id);
           	   };
           	   //批量删除计划下达
           	   vm.deletePlanReachs=function(){
@@ -123,7 +144,6 @@
                      vm.deletePlanReach(idStr);
                  }
           	   };
-        	};
         }//end fun list
         
         active();

@@ -156,7 +156,7 @@ public class SysServiceImpl implements SysService{
 		con2.setId(UUID.randomUUID().toString());
 		con2.setCreatedBy("admin");
 		con2.setCreatedDate(new Date());
-		con2.setEnable(false);
+		con2.setEnable(true);
 		
 		SysConfig con3 = new SysConfig();
 		con3.setId(UUID.randomUUID().toString());
@@ -165,7 +165,7 @@ public class SysServiceImpl implements SysService{
 		con3.setConfigType(BasicDataConfig.taskType);
 		con3.setCreatedBy("admin");
 		con3.setCreatedDate(new Date());
-		con3.setEnable(false);
+		con3.setEnable(true);
 		
 		SysConfig con4 = new SysConfig();
 		con4.setId(UUID.randomUUID().toString());
@@ -174,7 +174,7 @@ public class SysServiceImpl implements SysService{
 		con4.setConfigType(BasicDataConfig.taskType);
 		con4.setCreatedBy("admin");
 		con4.setCreatedDate(new Date());
-		con4.setEnable(true);
+		con4.setEnable(false);
 		
 		sysConfigRepo.save(con);
 		sysConfigRepo.save(con2);
@@ -233,12 +233,7 @@ public class SysServiceImpl implements SysService{
 		Role role3 = new Role();
 		role3.setRoleName(BasicDataConfig.role_manage);
 		role3.setId(UUID.randomUUID().toString());
-		role3.setComment("系统初始化创建,不可删除");
-		
-//		Role role4 = new Role();
-//		role4.setRoleName(BasicDataConfig.msFenBanRole);
-//		role4.setId(UUID.randomUUID().toString());
-//		role4.setComment("系统初始化创建,不可删除");
+		role3.setComment("系统初始化创建,不可删除");	
 		
 		Role role5 = new Role();
 		role5.setRoleName(BasicDataConfig.role_shenpiUnit);
@@ -283,7 +278,6 @@ public class SysServiceImpl implements SysService{
 		roleRepo.save(role);
 		roleRepo.save(role2);
 		roleRepo.save(role3);
-//		roleRepo.save(role4);
 		roleRepo.save(role5);
 		roleRepo.save(role6);
 		roleRepo.save(role7);
@@ -562,18 +556,13 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("projectProgress_3","projectProgress" , "projectProgress", "进展大幅滞后于计划", "项目进度分类");
 		
 		this.createBasicData("projectShenBaoStage","" , "projectShenBaoStage", "项目申报阶段分类", "项目申报阶段分类");
-//		this.createBasicData("projectShenBaoStage_1","projectShenBaoStage" , "projectShenBaoStage", "前期计划(前期费)", "项目申报阶段分类");
-
 		this.createBasicData("projectShenBaoStage_1","projectShenBaoStage" , "projectShenBaoStage", "项目建议书", "项目申报阶段分类",1,false);
 		this.createBasicData("projectShenBaoStage_2","projectShenBaoStage" , "projectShenBaoStage", "可行性研究报告", "项目申报阶段分类",2,false);
 		this.createBasicData("projectShenBaoStage_3","projectShenBaoStage" , "projectShenBaoStage", "初步设计概算", "项目申报阶段分类",3,false);
-//		this.createBasicData("projectShenBaoStage_4","projectShenBaoStage" , "projectShenBaoStage", "规划设计前期费", "项目申报阶段分类",4,false);
-//		this.createBasicData("projectShenBaoStage_5","projectShenBaoStage" , "projectShenBaoStage", "新开工计划", "项目申报阶段分类",5,false);
-//		this.createBasicData("projectShenBaoStage_6","projectShenBaoStage" , "projectShenBaoStage", "续建计划", "项目申报阶段分类",6,false);
+		this.createBasicData("projectShenBaoStage_4","projectShenBaoStage" , "projectShenBaoStage", "资金申请报告", "项目申报阶段分类",4,false);
+		this.createBasicData("projectShenBaoStage_5","projectShenBaoStage" , "projectShenBaoStage", "计划下达", "项目申报阶段分类",5,false);
 		this.createBasicData("projectShenBaoStage_7","projectShenBaoStage" , "projectShenBaoStage", "下一年度计划", "项目申报阶段分类",7,false);
-		this.createBasicData("projectShenBaoStage_8","projectShenBaoStage" , "projectShenBaoStage", "竣工决算", "项目申报阶段分类",8,false);
-		this.createBasicData("projectShenBaoStage_9","projectShenBaoStage" , "projectShenBaoStage", "资金申请报告", "项目申报阶段分类",9,false);
-		this.createBasicData("projectShenBaoStage_10","projectShenBaoStage" , "projectShenBaoStage", "计划下达", "项目申报阶段分类",10,false);
+
 		
 		this.createBasicData("projectStatus","" , "projectStatus", "项目状态分类", "项目状态分类");
 		this.createBasicData("projectStatus_1","projectStatus" , "projectStatus", "未提交", "项目状态分类");

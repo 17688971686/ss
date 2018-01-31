@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.DoubleType;
 import org.hibernate.type.IntegerType;
@@ -39,6 +40,7 @@ import cs.model.DomainDto.ProjectDto;
 import cs.model.DtoMapper.IMapper;
 import cs.model.Statistics.sttisticsData;
 import cs.model.Statistics.ProjectStageData;
+import cs.model.Statistics.ProjectStatisticsBean;
 import cs.repository.impl.ProjectRepoImpl;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
@@ -356,6 +358,165 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 				.addScalar("capitalOther", new DoubleType())
 				.setResultTransformer(Transformers.aliasToBean(sttisticsData.class))
 				.list();
+		return list;
+	}
+	
+	/**
+	 * 
+	 * @Title: getProjectStatistics 
+	 * @Description: 统计分析项目分类统计获取数据 
+	 * @param  type 分类类型
+	 * @param  isIncludLibrary 筛选条件：是否已纳入项目库
+     * @return 查询到的数据集合 
+	 * @throws
+	 */
+	@SuppressWarnings({"deprecation", "rawtypes", "unchecked" })
+	@Override
+	@Transactional
+	public List<ProjectStatisticsBean> getProjectStatistics(String type, String isIncludLibrary) {
+		List<ProjectStatisticsBean> list = new ArrayList<>();
+		String Sql = "";
+		switch (type) {
+			case "unit"://按单位分类
+				Sql += SQLConfig.projectStatisticsByUnit;
+				break;
+			case "category"://按项目类型分类
+				Sql += SQLConfig.projectStatisticsByCategory;
+				break;
+			case "industry"://按项目行业分类
+				Sql += SQLConfig.projectStatisticsByIndustry;
+				break;
+			case "stage"://按项目阶段分类
+				Sql += SQLConfig.projectStatisticsByStage;
+				break;
+			default:
+				break;
+		}
+		
+		Boolean isIncluded = null;
+		if(isIncludLibrary.equals("true")){
+			isIncluded = true;
+		}else if(isIncludLibrary.equals("false")){
+			isIncluded = false;
+		}
+		NativeQuery query = super.repository.getSession().createSQLQuery(Sql);
+		query.setParameter("isIncluded", isIncluded);
+		query.addScalar("classDesc", new StringType());
+		query.addScalar("projectNumbers", new IntegerType());
+		query.addScalar("projectInvestSum", new DoubleType());
+		if(type.equals("unit")){
+			query.addScalar("prereserveNumbers", new IntegerType());
+			query.addScalar("preNumbers", new IntegerType());
+			query.addScalar("constructionNumbers", new IntegerType());
+			query.addScalar("shutdownNumbers", new IntegerType());
+			query.addScalar("completedNumbers", new IntegerType());
+			query.addScalar("fixedAssetsNumbers", new IntegerType());
+		}
+		list = query.setResultTransformer(Transformers.aliasToBean(ProjectStatisticsBean.class)).list();
+		switch (type) {
+		case "unit"://按单位分类
+			logger.info("项目总库信息单位分类统计报表导出");
+			break;
+		case "category"://按项目类型分类
+			logger.info("项目总库信息类型分类统计报表导出");
+			break;
+		case "industry"://按项目行业分类
+			logger.info("项目总库信息行业分类统计报表导出");
+			break;
+		case "stage"://按项目阶段分类
+			logger.info("项目总库信息阶段分类统计报表导出");
+			break;
+		default:
+			break;
+	}
+		return list;
+	}
+	
+	
+	/**
+	 * 
+	 * @Title: getProjectStatisticsByCustom 
+	 * @Description: 统计分析项目自定义条件统计获取数据
+	 * @param industrySelected 选中的行业
+	 * @param stageSelected 选中的阶段
+	 * @param categorySelected 选中的类别
+	 * @param unitSelected 选中的单位
+	 * @param investSumBegin 总投资范围开始段
+	 * @param investSumEnd 总投资范围结束段
+	 * @return 查询到的数据集合 
+	 * @throws
+	 */
+	@SuppressWarnings({"deprecation", "rawtypes", "unchecked" })
+	@Override
+	@Transactional
+	public List<ProjectStatisticsBean> getProjectStatisticsByCustom(List<String> industrySelected,
+			List<String> stageSelected, List<String> categorySelected, List<String> unitSelected, Double investSumBegin,
+			Double investSumEnd) {
+		
+		List<ProjectStatisticsBean> list = new ArrayList<>();
+		String Sql = "SELECT p.projectName,u.unitName,b1.description AS projectStageDesc,b2.description AS projectIndustryDesc,p.projectInvestSum,p.projectGuiMo,p.projectInvestAccuSum";
+		Sql +=" FROM cs_project AS p,cs_basicdata AS b1,cs_basicdata AS b2,cs_userunitinfo AS u";
+		Sql +=" WHERE";
+		if(industrySelected.size()>0){
+			Sql +=" p.projectIndustry IN (";
+			for(int i=0;i<industrySelected.size();i++){
+				if(i == industrySelected.size()-1){
+					Sql += "'"+industrySelected.get(i)+"'";
+				}else{
+					Sql += "'"+industrySelected.get(i)+"',";
+				}
+			}
+			Sql +=" ) AND";
+		}
+		if(stageSelected.size()>0){
+			Sql += " p.projectStage IN (";
+			for(int i=0;i<stageSelected.size();i++){
+				if(i == stageSelected.size()-1){
+					Sql += "'"+stageSelected.get(i)+"'";
+				}else{
+					Sql += "'"+stageSelected.get(i)+"',";
+				}
+			}
+			Sql +=" ) AND";
+		}
+		if(categorySelected.size()>0){
+			Sql += " p.projectCategory IN (";
+			for(int i=0;i<categorySelected.size();i++){
+				if(i == categorySelected.size()-1){
+					Sql += "'"+categorySelected.get(i)+"'";
+				}else{
+					Sql += "'"+categorySelected.get(i)+"',";
+				}
+			}
+			Sql +=" ) AND";
+		}
+		if(unitSelected.size()>0){
+			Sql += " p.unitName IN (";
+			for(int i=0;i<unitSelected.size();i++){
+				if(i == unitSelected.size()-1){
+					Sql += "'"+unitSelected.get(i)+"'";
+				}else{
+					Sql += "'"+unitSelected.get(i)+"',";
+				}
+			}
+			Sql +=" ) AND";
+		}
+		if(investSumBegin!=null && investSumEnd!=null){
+			Sql +=" p.projectInvestSum BETWEEN "+investSumBegin+" AND "+investSumEnd;
+		}
+		
+		Sql +=" AND p.projectStage = b1.id AND p.projectIndustry = b2.id AND p.unitName = u.id ORDER BY b2.itemOrder";
+		
+		NativeQuery query = super.repository.getSession().createSQLQuery(Sql);
+		query.addScalar("projectName", new StringType());
+		query.addScalar("unitName", new StringType());
+		query.addScalar("projectStageDesc", new StringType());
+		query.addScalar("projectIndustryDesc", new StringType());
+		query.addScalar("projectInvestSum", new DoubleType());
+		query.addScalar("projectGuiMo", new StringType());
+		query.addScalar("projectInvestAccuSum", new DoubleType());
+		list = query.setResultTransformer(Transformers.aliasToBean(ProjectStatisticsBean.class)).list();
+		logger.info("项目总库信息自定义分类统计报表导出");
 		return list;
 	}
 

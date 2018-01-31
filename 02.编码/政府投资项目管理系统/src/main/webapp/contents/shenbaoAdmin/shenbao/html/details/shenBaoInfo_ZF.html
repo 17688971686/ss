@@ -76,21 +76,8 @@
 			<span id="endDate" ng-bind="vm.model.endDate | date:'yyyy-MM-dd'"></span>
 		</td>
 	</tr>
-	
-	<!-- 规划设计前期费才有 -->
-	<tr ng-if="vm.isPrePlanFee">
-		<td class="formAlignRight">是否申请前期工作经费：</td>
-		<td style="border-right:0">
-			<span ng-if="vm.model.isApplyQianQiFei == '1'">是</span>
-			<span ng-if="vm.model.isApplyQianQiFei == '0'">否</span>
-		</td>
-		<td ng-if="vm.model.isApplyQianQiFei" class="formAlignRight">工作经费申请金额：</td>
-		<td ng-if="vm.model.isApplyQianQiFei">
-			<span ng-bind="vm.model.qianQiFeiApply | number:4"></span>&nbsp;(万元)
-		</td>
-	</tr>
 	<!-- 前期计划没有项目投资这一块 -->
-	<tr ng-hide="vm.isQianQi">
+	<tr>
 		<td class="formAlignRight">项目总投资：</td>
 		<td>
 			<span id="projectInvestSum" ng-bind="vm.model.projectInvestSum | number:4"></span>&nbsp;(万元)
@@ -202,35 +189,25 @@
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（200字符以内）" ng-model="vm.model.projectGuiMo" disabled></textarea>													
 		</td>
 	</tr>
-	<tr ng-hide="vm.isYearPlan || vm.isQianQi ||vm.isJunGong || vm.isJihuaxiada">
+	<!-- 下一年度计划、计划下达没有 -->
+	<tr ng-hide="vm.isYearPlan || vm.isJihuaxiada">
 		<td class="formAlignRight">建设必要性和依据：</td>
 		<td colspan="3" >
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明项目建设必要性和依据（500字符以内）" ng-model="vm.model.projectConstrBasis" disabled></textarea>													
 		</td>
 	</tr>
+	<!-- 可研、初步设计概算有 -->
 	<tr ng-show="vm.isKXXYJBG || vm.isCBSJYGS">
 		<td class="formAlignRight">推荐方案介绍：</td>
 		<td colspan="3" >
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明推荐方案介绍（500字符以内）" ng-model="vm.model.recomProgram" disabled></textarea>													
 		</td>
 	</tr>
+	<!-- 可研、初步设计概算有 -->
 	<tr ng-show="vm.isKXXYJBG || vm.isCBSJYGS">
 		<td class="formAlignRight">社会及经济效益评价：</td>
 		<td colspan="3" >
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明社会及经济效益评价（500字符以内）" ng-model="vm.model.socialAndEconomic" disabled></textarea>													
-		</td>
-	</tr>
-	<!-- 续建计划特有 -->
-	<tr ng-if="vm.isXuJian">
-		<td class="formAlignRight">本年度建设内容：<span class="required">(*)</span></td>
-		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明本年度建设内容（500字符以内）" ng-model="vm.model.yearConstructionContent" disabled></textarea>													
-		</td>
-	</tr>
-	<tr ng-if="vm.isXuJian">
-		<td class="formAlignRight">上年度形象进度：<span class="required">(*)</span></td>
-		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明上一年度形象进度（500字符以内）" ng-model="vm.model.lastYearImageSchedule" disabled></textarea>													
 		</td>
 	</tr>
 	<tr>
@@ -240,30 +217,6 @@
 		</td>
 	</tr>
 </table>
-
-<div ng-show="vm.isJunGong">
-	<div class="bg-info text-info" style="padding: 10px;">竣工决算信息</div>
-	<table class="table table-bordered table-striped ">
-		<tr>
-			<td class="formAlignRight" style="width:150px;">形象进度：</td>
-			<td>
-				<textarea rows="3" cols="20" style="height:121px;width: 99%;" placeholder="请简要概述形象进度：备注（500字符以内）" ng-model="vm.model.yearImageSchedule" disabled></textarea>
-			</td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">上年度项目形象进度：</td>
-			<td>
-				<textarea rows="3" cols="20" style="height:121px;width: 99%;" placeholder="请简要概述上年度项目形象进度：备注（500字符以内）" ng-model="vm.model.lastYearImageSchedule" disabled></textarea>
-			</td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">年度建设内容：</td>
-			<td>
-				<textarea rows="3" cols="20" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）：备注（500字符以内）" ng-model="vm.model.yearConstructionContent" disabled></textarea>
-			</td>
-		</tr>
-	</table>
-</div>
 
 <div ng-show="vm.isYearPlan">
 	<div class="bg-info text-info" style="padding: 10px;">年度计划信息</div>
@@ -572,8 +525,8 @@
 	 </tr>
 </table>
 
-<!-- 下一年度计划、规划设计前期费、新开工计划、续建计划没有编制单位 -->
-<div ng-hide="vm.isYearPlan || vm.isPrePlanFee || vm.isNewStart || vm.isXuJian || vm.isJihuaxiada">
+<!-- 下一年度计划、计划下达没有编制单位 -->
+<div ng-hide="vm.isYearPlan || vm.isJihuaxiada">
 	<div class="bg-info text-info" style="padding: 10px;">编制单位信息</div>
 		<table width="100%" class="table  table-bordered table-striped">
 			<tr>

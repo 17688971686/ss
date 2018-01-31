@@ -182,11 +182,10 @@ textarea.form-control {
 						</label>
 						<span data-valmsg-for="nextProcess" data-valmsg-replace="true" class="required"></span>
 					</div>
-					<div ng-repeat="x in vm.model.dept.userDtos" class="pull-left" ng-if="vm.isShowDeptUsers">
-						<label>
-							<input type="radio" name="nextUser" value="{{x.id}}" ng-model="vm.taskRecord.nextUser" data-val="true" data-val-required="必选"/>{{x.displayName}}
+					<div class="pull-left" ng-if="vm.isShowDeptUsers">
+						<label ng-repeat="x in vm.model.dept.userDtos" >
+							<input type="radio" name="nextUser" value="{{x.id}}" ng-model="vm.taskRecord.nextUser" data-val="true" data-val-required="必选"/>{{x.displayName}}&nbsp;&nbsp;
 						</label>
-						&nbsp;&nbsp;
 						<span data-valmsg-for="nextUser" data-valmsg-replace="true" class="required"></span>
 					</div>
 				</td>		

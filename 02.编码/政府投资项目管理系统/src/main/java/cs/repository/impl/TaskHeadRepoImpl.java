@@ -14,9 +14,6 @@ import cs.domain.TaskHead;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 
-
-
-
 /**
  * @Description: 任务信息持久层
  * @author: cx
@@ -30,6 +27,7 @@ public class TaskHeadRepoImpl extends AbstractRepository<TaskHead, String> {
 	public List<TaskHead> findByOdata3(ODataObj oDataObj, String userId, boolean plan) {
 		logger.debug("findByOdata3");		
 		Criteria crit = this.getSession().createCriteria(TaskHead.class);
+		Criterion cron6 = Restrictions.eq("isComplete",BasicDataConfig.isComplete);
 		List<ODataFilterItem> filters = oDataObj.getFilter();
 		if(filters !=null && filters.size()>0){
 			for(ODataFilterItem filter:filters){
@@ -52,6 +50,7 @@ public class TaskHeadRepoImpl extends AbstractRepository<TaskHead, String> {
 		Criterion cron2 = null;
 		Criterion cron3 = null;
 		Criterion cron4 = null;
+		Criterion cron5 = null;
 		Criterion criterionOr = null;
 		if(plan){
 			cron1 = Restrictions.eq("taskType",BasicDataConfig.taskType_JHXD);
@@ -61,10 +60,11 @@ public class TaskHeadRepoImpl extends AbstractRepository<TaskHead, String> {
 			cron1 = Restrictions.eq("taskType",BasicDataConfig.taskType_KXXYJBG);
 			cron2 = Restrictions.eq("taskType",BasicDataConfig.taskType_XMJYS);
 			cron3 = Restrictions.eq("taskType",BasicDataConfig.taskType_CBSJYGS);
-			criterionOr=Restrictions.or(cron1,cron2,cron3);
+			cron4 = Restrictions.eq("taskType",BasicDataConfig.taskType_ZJSQBG);
+			criterionOr=Restrictions.or(cron1,cron2,cron3,cron4);
 		}
-		cron4 = Restrictions.eq("thisUser",userId);
-		Criterion criterionAnd = Restrictions.and(cron4,criterionOr);
+		cron5 = Restrictions.eq("thisUser",userId);
+		Criterion criterionAnd = Restrictions.and(cron5,cron6,criterionOr);
 		crit.add(criterionAnd);
 		//begin:page
 		//count

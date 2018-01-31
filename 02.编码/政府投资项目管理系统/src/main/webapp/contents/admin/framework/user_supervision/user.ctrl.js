@@ -42,6 +42,21 @@
             }   
        };
        
+       vm.initUser=function(type,id){
+    	   if(type=='password'){
+    		   //var msg=$.md5('Passw0rd');//MD5加密密码
+    		   //对密码进行RSA加密
+    		   var key = $("#rsaPrivateKey").val();//获取公钥信息
+               var rsa = new RSAKey();
+               rsa.setPublic(key, "10001");
+               var msg = rsa.encrypt('Passw0rd');//密码RSA公钥加密
+    	   }
+    	   if(type=='loginFailCount'){
+    		   var msg=0;
+    	   }
+    	   userSvc.initUser(vm,type,id,msg);
+       };
+       
         activate();
         function activate() {
             userSvc.grid(vm);

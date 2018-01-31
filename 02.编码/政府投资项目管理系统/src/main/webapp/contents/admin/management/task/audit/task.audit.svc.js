@@ -456,33 +456,18 @@
 						//判断投资类型
 						if(vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_SH){//社会投资
 							vm.isSHInvestment = true;
-							//基础数据--项目分类
-							vm.basicData.projectClassify=$linq(common.getBasicData())
-		    	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
-		    	       		.toArray();
-							//基础数据--行业归口
-							 vm.basicData.projectIndustry=$linq(common.getBasicData())
-			    	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
-			    	       		.toArray();
-							//基础数据--项目建设性质
-							 vm.basicData.projectConstrChar=$linq(common.getBasicData())
-			    	       		.where(function(x){return x.identity==common.basicDataConfig().projectConstrChar&&x.pId==common.basicDataConfig().projectConstrChar;})
-			    	       		.toArray();
-							 vm.projectIndustryChange=function(){    		
-				    	       		vm.basicData.projectIndustryChildren=$linq(common.getBasicData())
+							vm.basicData.projectClassify=vm.basicData.projectClassify_SH;//基础数据--项目分类
+							vm.basicData.projectIndustry=vm.basicData.projectIndustry_SH;//基础数据--行业归口
+							vm.basicData.projectConstrChar=vm.basicData.projectConstrChar;//基础数据--项目建设性质
+							vm.projectIndustryChange=function(){    		
+			    	       		vm.basicData.projectIndustryChildren=$linq(common.getBasicData())
 				    	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.model.projectIndustryParent;})
 				    	       		.toArray();
-			     			   };
+		     			   };
 						}else if(vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_ZF){//政府投资
 							vm.isZFInvestment = true;
-							//基础数据--项目分类
-							vm.basicData.projectClassify=$linq(common.getBasicData())
-		    	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
-		    	       		.toArray();
-							//基础数据--行业归口
-		        		   vm.basicData.projectIndustry=$linq(common.getBasicData())
-		    	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
-		    	       		.toArray();
+							vm.basicData.projectClassify=vm.basicData.projectClassify_ZF;//基础数据--项目分类
+							vm.basicData.projectIndustry=vm.basicData.projectIndustry_ZF;//基础数据--行业归口
 						}
 						//判断申报阶段
 						if(vm.model.shenBaoInfo.projectShenBaoStage ==common.basicDataConfig().projectShenBaoStage_projectProposal){//申报阶段为:项目建议书
@@ -494,6 +479,9 @@
 						}else if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_CBSJYGS){//申报阶段为:初步设计与概算
 							vm.isCBSJYGS=true;
 							vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_CBSJYGS;
+						}else if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_capitalApplyReport){//申报阶段为:资金申请报告
+							vm.isCapitalApplyReport=true;
+							vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_capitalApplyReport;
 						}
 						//时间的显示
 						vm.model.shenBaoInfo.createdDate=common.formatDate(vm.model.shenBaoInfo.createdDate);//开工日期
@@ -747,11 +735,6 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:{
-					field:'isComplete',
-					operator:'eq',
-					value:false
-				},
 				requestEnd:function(e){						
 					$('#todoNumber_audit').html(e.response.count);
 				},
@@ -818,7 +801,9 @@
 							ui: function(element){
 		                        element.kendoDropDownList({
 		                            valuePrimitive: true,
-		                            dataSource: vm.basicData.taskType,
+		                            dataSource: $linq(vm.basicData.taskType)
+		                            				.where(function(x){return vm.basicData.taskTypeForShenPi.indexOf(x.id)>-1})
+		                            				.toArray(),
 		                            dataTextField: "description",
 		                            dataValueField: "id",
 		                            filter: "startswith"
@@ -930,7 +915,19 @@
 						field : "taskType",
 						title : "任务类型",
 						width : 180,						
-						filterable : false,
+						filterable : {
+							ui: function(element){
+		                        element.kendoDropDownList({
+		                            valuePrimitive: true,
+		                            dataSource: $linq(vm.basicData.taskType)
+		                            				.where(function(x){return vm.basicData.taskTypeForShenPi.indexOf(x.id)>-1})
+		                            				.toArray(),
+		                            dataTextField: "description",
+		                            dataValueField: "id",
+		                            filter: "startswith"
+		                        });
+		                    }
+						},
 						template:function(item){						
 							return common.getBasicDataDesc(item.taskType);
 						}

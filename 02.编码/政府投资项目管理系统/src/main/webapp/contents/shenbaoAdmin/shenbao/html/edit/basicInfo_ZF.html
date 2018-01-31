@@ -81,7 +81,7 @@
 			<select id="projectIndustry" name="projectIndustry" style="height:30px;" ng-model="vm.model.projectIndustry"
 			 data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>
-				<option ng-repeat="x in vm.basicData.projectIndustry" value="{{x.id}}" ng-bind="x.description" ng-selected="vm.model.projectIndustry==x.id"></option>
+				<option ng-repeat="x in vm.basicData.projectIndustry | orderBy:'itemOrder'" value="{{x.id}}" ng-bind="x.description" ng-selected="vm.model.projectIndustry==x.id"></option>
 			</select>
 			<span data-valmsg-for="projectIndustry" data-valmsg-replace="true" class="required"></span>	
 		</td>	
@@ -90,8 +90,7 @@
 		<td class="formAlignRight">项目类型：</td>
 		<td colspan="3">
 			<label ng-repeat="x in vm.basicData.projectType">
-				<input type="checkbox" name="projectType" ng-checked="vm.model.projectType.indexOf(x.id) != -1" ng-click="vm.updateSelection(x.id)"
-				 />{{x.description}}&nbsp;&nbsp;
+				<input type="checkbox" name="projectType" ng-checked="vm.model.projectType.indexOf(x.id) != -1" ng-click="vm.updateSelection(x.id)"/>{{x.description}}&nbsp;&nbsp;
 			</label>					
 		</td>
 	</tr>
@@ -112,30 +111,17 @@
 	</tr>		
 	<tr>
 		<td class="formAlignRight">项目开工日期：</td>
-		<td >
+		<td>
 			<input type="text" id="beginDate" name="beginDate" onkeydown="return false;"
 			 ng-model="vm.model.beginDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>		 						
 		</td>
 		<td class="formAlignRight">项目竣工日期：</td>
-		<td >
+		<td>
 			<input type="text" id="endDate" name="endDate" onkeydown="return false;"
 			 ng-model="vm.model.endDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>									
 		</td>
 	</tr>
-	<!-- 规划设计前期费才有 -->
-	<tr ng-if="vm.isPrePlanFee">
-		<td class="formAlignRight">是否申请前期工作经费：</td>
-		<td style="border-right:0">
-			<label><input type="radio" name="isApplyQianQiFei" ng-model="vm.model.isApplyQianQiFei" value="true" ng-checked="vm.model.isApplyQianQiFei == true"/>是</label>
-			<label><input type="radio" name="isApplyQianQiFei" ng-model="vm.model.isApplyQianQiFei" value="false" ng-checked="vm.model.isApplyQianQiFei == false"/>否</label>
-		</td>
-		<td ng-if="vm.model.isApplyQianQiFei" class="formAlignRight">工作经费申请金额：<span class="required">(*)</span></td>
-		<td ng-if="vm.model.isApplyQianQiFei">
-			<input type="number" class="form-control input-sm" style="width:150px" id="qianQiFeiApply" name="qianQiFeiApply" ng-model="vm.model.qianQiFeiApply" data-val="true" data-val-required="必填"/>&nbsp;(万元)
-			<span data-valmsg-for="qianQiFeiApply" data-valmsg-replace="true" class="required"></span>
-		</td>
-	</tr>
-	<tr ng-hide="vm.isQianQi">
+	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
 		<td>
 			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
@@ -209,12 +195,6 @@
 					<td style="padding:0px;border: 0px;">
 						<table class="table table-bordered" style="margin:0px">
 							<tr>
-								<!-- <td  style="padding:7px;">
-									<select  ng-model="vm.model.capitalOtherType">
-										<option value="">---请选择---</option>
-										<option ng-repeat="x in vm.basicData.capitalOther" ng-selected="vm.model.capitalOtherType==x.id" value="{{x.id}}">{{x.description}}</option>
-									</select>
-								</td>	 -->
 								<td>-</td>														
 							</tr>
 							<tr>
@@ -258,7 +238,8 @@
 			<span data-valmsg-for="projectGuiMo" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
-	<tr ng-hide="vm.isYearPlan || vm.isQianQi || vm.isJunGong || vm.isJihuaxiada">
+	<!-- 下一年度计划、计划下达没有 -->
+	<tr ng-hide="vm.isYearPlan || vm.isJihuaxiada">
 		<td class="formAlignRight">建设必要性和依据：<span class="required">(*)</span></td>
 		<td colspan="3" >
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明项目建设的必要性（500字符以内）" ng-model="vm.model.projectConstrBasis" ng-change="vm.checkLength(vm.model.projectConstrBasis,500,'projectConstrBasisTips')" id="projectConstrBasis" name="projectConstrBasis" data-val="true" data-val-required="必填"></textarea>													
@@ -280,23 +261,6 @@
 		<td colspan="3" >
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明社会及经济效益评价（500字符以内）" ng-model="vm.model.socialAndEconomic" ng-change="vm.checkLength(vm.model.socialAndEconomic,500,'socialAndEconomicTips')"></textarea>													
 			<div class="tipfont">您还可以输入<span id="socialAndEconomicTips"><font size="5">500</font></span>个字符!</div>
-		</td>
-	</tr>
-	<!-- 续建计划特有 -->
-	<tr ng-if="vm.isXuJian">
-		<td class="formAlignRight">本年度建设内容：<span class="required">(*)</span></td>
-		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明本年度建设内容（500字符以内）" id="yearConstructionContent" name="yearConstructionContent" ng-model="vm.model.yearConstructionContent" ng-change="vm.checkLength(vm.model.yearConstructionContent,500,'yearConstructionContentTips')" data-val="true" data-val-required="必填"></textarea>													
-			<div class="tipfont">您还可以输入<span id="yearConstructionContentTips"><font size="5">500</font></span>个字符!</div>
-			<span data-valmsg-for="yearConstructionContent" data-valmsg-replace="true" class="required"></span>
-		</td>
-	</tr>
-	<tr ng-if="vm.isXuJian">
-		<td class="formAlignRight">上年度形象进度：<span class="required">(*)</span></td>
-		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明上一年度形象进度（500字符以内）" id="lastYearImageSchedule" name="lastYearImageSchedule" ng-model="vm.model.lastYearImageSchedule" ng-change="vm.checkLength(vm.model.lastYearImageSchedule,500,'lastYearImageScheduleTips')" data-val="true" data-val-required="必填"></textarea>													
-			<div class="tipfont">您还可以输入<span id="lastYearImageScheduleTips"><font size="5">500</font></span>个字符!</div>
-			<span data-valmsg-for="lastYearImageSchedule" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
 	<tr>

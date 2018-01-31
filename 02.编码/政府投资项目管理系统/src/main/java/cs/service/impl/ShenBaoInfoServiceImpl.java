@@ -1,5 +1,6 @@
 package cs.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,12 +10,19 @@ import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.NativeQuery;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.DateType;
+import org.hibernate.type.DoubleType;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
+import cs.common.SQLConfig;
 import cs.common.Util;
 import cs.domain.Attachment;
 import cs.domain.BasicData;
@@ -35,8 +43,8 @@ import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.ShenBaoUnitInfoDto;
 import cs.model.DomainDto.TaskRecordDto;
-import cs.model.DtoMapper.AttachmentMapper;
 import cs.model.DtoMapper.IMapper;
+import cs.model.Statistics.ProjectStatisticsBean;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
@@ -82,32 +90,16 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private String projectShenBaoStage_KXXYJBG;//申报阶段：可行性研究报告
 	@Value("${projectShenBaoStage_CBSJYGS}")
 	private String projectShenBaoStage_CBSJYGS;//申报阶段：初步设计与概算
-	@Value("${projectShenBaoStage_prePlanFee}")
-	private String projectShenBaoStage_prePlanFee;//申报阶段：规划设计前期费
-	@Value("${projectShenBaoStage_newStart}")
-	private String projectShenBaoStage_newStart;//申报阶段：新开工计划
-	@Value("${projectShenBaoStage_xuJian}")
-	private String projectShenBaoStage_xuJian;//申报阶段：续建计划
-	@Value("${projectShenBaoStage_jueSuan}")
-	private String projectShenBaoStage_jueSuan;//申报阶段：竣工决算
-	@Value("${projectShenBaoStage_baoGao}")
-	private String projectShenBaoStage_baoGao;//申报阶段：资金申请报告
-	@Value("${projectShenBaoStage_jihua}")
-	private String projectShenBaoStage_jihua;//申报阶段：计划下达
+	@Value("${projectShenBaoStage_ZJSQBG}")
+	private String projectShenBaoStage_ZJSQBG;//申报阶段：资金申请报告
+	@Value("${projectShenBaoStage_planReach}")
+	private String projectShenBaoStage_planReach;//申报阶段：计划下达
 	@Value("${taskType_JYS}")
 	private String taskType_JYS;//任务类型：建议书
 	@Value("${taskType_KXXYJBG}")
 	private String taskType_KXXYJBG;//任务类型：可行性研究报告
 	@Value("${taskType_CBSJYGS}")
 	private String taskType_CBSJYGS;//任务类型：初步设计与概算
-	@Value("${taskType_prePlanFee}")
-	private String taskType_prePlanFee;//任务类型：规划设计前期费
-	@Value("${taskType_newStart}")
-	private String taskType_newStart;//任务类型：新开工计划
-	@Value("${taskType_xuJian}")
-	private String taskType_xuJian;//任务类型：续建计划
-	@Value("${taskType_jueSuan}")
-	private String taskType_jueSuan;//任务类型：竣工决算
 	@Value("${taskType_ZJSQBG}")
 	private String taskType_ZJSQBG;//任务类型：资金申请报告
 	@Value("${taskType_JH}")
@@ -131,6 +123,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		//创建申报信息
 		ShenBaoInfo entity=super.create(dto);
 		entity.setAuditState(BasicDataConfig.auditState_noAudit);//初始化审核状态--未审核
+		entity.setShenbaoDate(new Date());//初始化--申报时间
 		if(isAdminCreate){//如果为后台管理员创建
 			//创建项目
 			//首先验证项目名称是否重复
@@ -188,6 +181,11 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
 			entity.setCreatedDate(new Date());
 			entity.setModifiedDate(new Date());
+			Project project = projectRepo.findById(entity.getProjectId());
+			if(project !=null && entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)){
+				project.setIsPlanReach(true);
+				projectRepo.save(project);
+			}
 			if(entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)){
 				entity.setIsPlanReach(true);
 			}
@@ -325,12 +323,14 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		if(entity !=null){
 			//判断申报信息的处理阶段
 			if(entity.getProcessStage().equals(BasicDataConfig.processStage_tianbao) ||
-					entity.getProcessStage().equals(BasicDataConfig.processStage_qianshou)){
+					(entity.getProcessStage().equals(BasicDataConfig.processStage_qianshou)&&entity.getProcessState()!=BasicDataConfig.processState_pass)){
 				//查询关联taskHead并且删除
 				Criterion criterion = Restrictions.eq("relId", id);
-				TaskHead task =	taskHeadRepo.findByCriteria(criterion).stream().findFirst().get();
-				taskHeadRepo.delete(task);
-				
+				List<TaskHead> tasks = taskHeadRepo.findByCriteria(criterion);
+				if(tasks.size()>0){
+					TaskHead task =	tasks.stream().findFirst().get();
+					taskHeadRepo.delete(task);
+				}
 				logger.info(String.format("删除申报信息,项目名称： %s，申报阶段：%s",entity.getProjectName(),
 						basicDataService.getDescriptionById(entity.getProjectShenBaoStage())));	
 				super.repository.delete(entity);
@@ -452,58 +452,81 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	/**
 	* @Title: comfirmPlanReach 
 	* @Description: 保存计划下达申请资金 
-	* @param shenbaoInfoId 申报id
+	* @param isManage true：代表安排 false：代表申请
 	* @param map 资金封装数据
 	* @author:cx 
 	 */
 	@SuppressWarnings("rawtypes")
 	@Override
 	@Transactional
-	public void comfirmPlanReach(Map map) {
+	public void comfirmPlanReach(Map map,Boolean isManage) {
 		String id = map.get("id").toString();
-		Double sqPlanReach_ggys = (Double)map.get("sqPlanReach_ggys");
-		Double sqPlanReach_gtzj = (Double)map.get("sqPlanReach_gtzj");
 		ShenBaoInfo entity = super.findById(id);
 		if(entity != null){
-			entity.setSqPlanReach_ggys(sqPlanReach_ggys);
-			entity.setSqPlanReach_gtzj(sqPlanReach_gtzj);
-			
-			Criterion criterion1 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach);
-			Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.projectNumber.getName(), entity.getProjectNumber());
-			Criterion criterion3 = Restrictions.eq(ShenBaoInfo_.planYear.getName(), entity.getPlanYear());
-			List<ShenBaoInfo> query = super.repository.findByCriteria(criterion1,criterion2,criterion3);
-			if(query.isEmpty()){
-				entity.setIsPlanReach(true);
-				ShenBaoInfoDto dto = super.mapper.toDto(entity);
-				ShenBaoInfo newEntity = new ShenBaoInfo();
-				newEntity=super.mapper.buildEntity(dto, newEntity);
-				//关联关系
-				for(int i=0;i<dto.getAttachmentDtos().size();i++){
-					Attachment attachment = new Attachment();
-					attachmentMapper.buildEntity(dto.getAttachmentDtos().get(i), attachment);
-					newEntity.getAttachments().add(attachment);
+			if(isManage){
+				Double apPlanReach_ggys = (Double)map.get("apPlanReach_ggys");
+				Double apPlanReach_gtzj = (Double)map.get("apPlanReach_gtzj");
+				int processState = 1;
+				String isPass = (String)map.get("isPass");
+				if(isPass.equals("pass")){
+					processState = BasicDataConfig.processState_pass;
+				}else if(isPass.equals("notpass")){
+					processState = BasicDataConfig.processState_notpass;
 				}
-				ShenBaoUnitInfoDto shenBaoUnitInfoDto =  dto.getShenBaoUnitInfoDto();
-				ShenBaoUnitInfoDto bianZhiUnitInfoDto =  dto.getBianZhiUnitInfoDto();
-				newEntity.setShenBaoUnitInfo(shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto, new ShenBaoUnitInfo()));
-				newEntity.setBianZhiUnitInfo(shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto, new ShenBaoUnitInfo()));
-				
-				newEntity.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
-				newEntity.setProcessStage(BasicDataConfig.processStage_qianshou);
-				newEntity.setProcessState(BasicDataConfig.processState_jinxingzhong);
-				newEntity.setCreatedBy(currentUser.getUserId());
-				newEntity.setModifiedBy(currentUser.getUserId());
-				newEntity.setCreatedDate(new Date());
-				newEntity.setModifiedDate(new Date());
-				super.repository.save(newEntity);
+				entity.setProcessState(processState);
+				entity.setApPlanReach_ggys(apPlanReach_ggys);
+				entity.setApPlanReach_gtzj(apPlanReach_gtzj);
+				entity.setPifuDate(new Date());
+				logger.info(String.format("保存计划下达安排资金,项目名称 %s",entity.getProjectName()));
 			}else{
-				ShenBaoInfo oldEntity = query.get(0);
-				oldEntity.setSqPlanReach_ggys(sqPlanReach_ggys);
-				oldEntity.setSqPlanReach_gtzj(sqPlanReach_gtzj);
-				super.repository.save(oldEntity);
+				Double sqPlanReach_ggys = (Double)map.get("sqPlanReach_ggys");
+				Double sqPlanReach_gtzj = (Double)map.get("sqPlanReach_gtzj");
+				
+				entity.setSqPlanReach_ggys(sqPlanReach_ggys);
+				entity.setSqPlanReach_gtzj(sqPlanReach_gtzj);
+				
+				//查询本年度是否存在计划下达
+				Criterion criterion1 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach);
+				Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.projectNumber.getName(), entity.getProjectNumber());
+				Criterion criterion3 = Restrictions.eq(ShenBaoInfo_.planYear.getName(), entity.getPlanYear());
+				List<ShenBaoInfo> query = super.repository.findByCriteria(criterion1,criterion2,criterion3);
+				if(query.isEmpty()){
+					entity.setIsPlanReach(true);
+					ShenBaoInfoDto dto = super.mapper.toDto(entity);
+					ShenBaoInfo newEntity = new ShenBaoInfo();
+					newEntity=super.mapper.buildEntity(dto, newEntity);
+					//关联关系
+					for(int i=0;i<dto.getAttachmentDtos().size();i++){
+						Attachment attachment = new Attachment();
+						attachmentMapper.buildEntity(dto.getAttachmentDtos().get(i), attachment);
+						newEntity.getAttachments().add(attachment);
+					}
+					ShenBaoUnitInfoDto shenBaoUnitInfoDto =  dto.getShenBaoUnitInfoDto();
+					ShenBaoUnitInfoDto bianZhiUnitInfoDto =  dto.getBianZhiUnitInfoDto();
+					newEntity.setShenBaoUnitInfo(shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto, new ShenBaoUnitInfo()));
+					newEntity.setBianZhiUnitInfo(shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto, new ShenBaoUnitInfo()));
+					
+					newEntity.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
+					newEntity.setProcessStage(BasicDataConfig.processStage_qianshou);
+					newEntity.setProcessState(BasicDataConfig.processState_jinxingzhong);
+					newEntity.setShenbaoDate(new Date());
+					newEntity.setCreatedBy(currentUser.getUserId());
+					newEntity.setModifiedBy(currentUser.getUserId());
+					newEntity.setCreatedDate(new Date());
+					newEntity.setModifiedDate(new Date());
+					super.repository.save(newEntity);
+				}else{
+					ShenBaoInfo oldEntity = query.get(0);
+					oldEntity.setShenbaoDate(new Date());
+					oldEntity.setSqPlanReach_ggys(sqPlanReach_ggys);
+					oldEntity.setSqPlanReach_gtzj(sqPlanReach_gtzj);
+					super.repository.save(oldEntity);
+				}
+				logger.info(String.format("保存计划下达申请资金,项目名称 %s",entity.getProjectName()));
 			}
 			super.repository.save(entity);
-			logger.info(String.format("保存计划下达申请资金,项目名称 %s",entity.getProjectName()));
+		}else{
+			throw new IllegalArgumentException(String.format("查找申报信息故障，请重新尝试！"));
 		}
 	}
 	
@@ -565,17 +588,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			return taskType_KXXYJBG;
 		}else if(shenbaoStage.equals(projectShenBaoStage_CBSJYGS)){//如果申报阶段：是初步概算与设计
 			return taskType_CBSJYGS;
-		}else if(shenbaoStage.equals(projectShenBaoStage_prePlanFee)){//如果申报阶段：是前期计划
-			return taskType_prePlanFee;
-		}else if(shenbaoStage.equals(projectShenBaoStage_newStart)){//如果申报阶段：是新开工计划
-			return taskType_newStart;
-		}else if(shenbaoStage.equals(projectShenBaoStage_xuJian)){//如果申报阶段：是续建计划
-			return taskType_xuJian;
-		}else if(shenbaoStage.equals(projectShenBaoStage_jueSuan)){//如果申报阶段：是竣工决算
-			return taskType_jueSuan;
-		}else if(shenbaoStage.equals(projectShenBaoStage_baoGao)){//如果申报阶段：是资金申请报告
+		}else if(shenbaoStage.equals(projectShenBaoStage_ZJSQBG)){//如果申报阶段：是资金申请报告
 			return taskType_ZJSQBG;
-		}else if(shenbaoStage.equals(projectShenBaoStage_jihua)){//如果申报阶段：是资金申请报告
+		}else if(shenbaoStage.equals(projectShenBaoStage_planReach)){//如果申报阶段：是计划下达
 			return taskType_JH;
 		}
 		return "";
@@ -592,56 +607,58 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		Criterion criterion = Restrictions.eq(SysConfig_.configName.getName(), BasicDataConfig.taskType_shenpiFenBan);
 		SysConfig sysConfg = sysConfigRepo.findByCriteria(criterion).stream().findFirst().get();
 		if(sysConfg !=null){
-			//创建工作流
-			TaskHead taskHead=new TaskHead();
-			taskHead.setId(UUID.randomUUID().toString());
-			//设置任务标题格式为：“项目申报：项目名称--申报阶段”
-			taskHead.setTitle("项目申报："+shenBaoInfo.getProjectName()+"--"+basicDataService.getDescriptionById(shenBaoInfo.getProjectShenBaoStage()));
-			taskHead.setRelId(shenBaoInfo.getId());//设置关联的id
-			taskHead.setTaskType(this.getTaskType(shenBaoInfo.getProjectShenBaoStage()));//设置工作流的类型
-			taskHead.setUnitName(shenBaoInfo.getConstructionUnit());//设置建设单位
-			taskHead.setProjectIndustry(shenBaoInfo.getProjectIndustry());//设置项目行业
-			taskHead.setItemOrder(1);
-			//设置任务流程相关
-			taskHead.setLastProcess(BasicDataConfig.processStage_tianbao);
-			taskHead.setLastProcessState(BasicDataConfig.processState_pass);
-			taskHead.setLastUser(currentUser.getUserId());
-			taskHead.setThisProcess(BasicDataConfig.processStage_qianshou);
-			taskHead.setThisProcessState(BasicDataConfig.processState_jinxingzhong);
-			taskHead.setThisUser(sysConfg.getConfigValue());
-			//设置创建者与修改者
-			taskHead.setCreatedBy(currentUser.getUserId());
-			taskHead.setModifiedBy(currentUser.getUserId());
-			if(isAdminCreate){//如果为后台管理员创建
-				taskHead.setProcessSuggestion("管理员--材料填报");//设置处理意见
-				taskHead.setIsComplete(true);
-			}else{
-				taskHead.setProcessSuggestion("申报单位--材料填报");//设置处理意见
-			}
-			
-			//任务记录
-			TaskRecord taskRecord=new TaskRecord();
-			taskRecord.setId(UUID.randomUUID().toString());
-			taskRecord.setTitle(taskHead.getTitle());
-			taskRecord.setRelId(taskHead.getRelId());//设置关联id
-			taskRecord.setTaskId(taskHead.getId());//设置任务Id
-			taskRecord.setTaskType(taskHead.getTaskType());//设置工作流的类型
-			taskRecord.setProcessSuggestion(taskHead.getProcessSuggestion());//设置处理意见
-			taskRecord.setUnitName(taskHead.getUnitName());//设置建设单位
-			taskRecord.setProjectIndustry(taskHead.getProjectIndustry());//设置项目行业
-			taskRecord.setItemOrder(1);
-			//设置流程相关
-			taskRecord.setThisProcess(taskHead.getLastProcess());
-			taskRecord.setThisProcessState(taskHead.getLastProcessState());
-			taskRecord.setThisUser(taskHead.getLastUser());
-			taskRecord.setNextProcess(taskHead.getThisProcess());
-			taskRecord.setNextUser(taskHead.getThisUser());
-			//设置创建者与修改者
-			taskRecord.setCreatedBy(currentUser.getUserId());
-			taskRecord.setModifiedBy(currentUser.getUserId());
+			if(Util.isNotNull(sysConfg.getConfigValue()) && sysConfg.getEnable()){
+				//创建工作流
+				TaskHead taskHead=new TaskHead();
+				taskHead.setId(UUID.randomUUID().toString());
+				//设置任务标题格式为：“项目申报：项目名称--申报阶段”
+				taskHead.setTitle("项目申报："+shenBaoInfo.getProjectName()+"--"+basicDataService.getDescriptionById(shenBaoInfo.getProjectShenBaoStage()));
+				taskHead.setRelId(shenBaoInfo.getId());//设置关联的id
+				taskHead.setTaskType(this.getTaskType(shenBaoInfo.getProjectShenBaoStage()));//设置工作流的类型
+				taskHead.setUnitName(shenBaoInfo.getConstructionUnit());//设置建设单位
+				taskHead.setProjectIndustry(shenBaoInfo.getProjectIndustry());//设置项目行业
+				taskHead.setItemOrder(1);
+				//设置任务流程相关
+				taskHead.setLastProcess(BasicDataConfig.processStage_tianbao);
+				taskHead.setLastProcessState(BasicDataConfig.processState_pass);
+				taskHead.setLastUser(currentUser.getUserId());
+				taskHead.setThisProcess(BasicDataConfig.processStage_qianshou);
+				taskHead.setThisProcessState(BasicDataConfig.processState_jinxingzhong);
+				taskHead.setThisUser(sysConfg.getConfigValue());
+				//设置创建者与修改者
+				taskHead.setCreatedBy(currentUser.getUserId());
+				taskHead.setModifiedBy(currentUser.getUserId());
+				if(isAdminCreate){//如果为后台管理员创建
+					taskHead.setProcessSuggestion("管理员--材料填报");//设置处理意见
+					taskHead.setIsComplete(true);
+				}else{
+					taskHead.setProcessSuggestion("申报单位--材料填报");//设置处理意见
+				}
+				
+				//任务记录
+				TaskRecord taskRecord=new TaskRecord();
+				taskRecord.setId(UUID.randomUUID().toString());
+				taskRecord.setTitle(taskHead.getTitle());
+				taskRecord.setRelId(taskHead.getRelId());//设置关联id
+				taskRecord.setTaskId(taskHead.getId());//设置任务Id
+				taskRecord.setTaskType(taskHead.getTaskType());//设置工作流的类型
+				taskRecord.setProcessSuggestion(taskHead.getProcessSuggestion());//设置处理意见
+				taskRecord.setUnitName(taskHead.getUnitName());//设置建设单位
+				taskRecord.setProjectIndustry(taskHead.getProjectIndustry());//设置项目行业
+				taskRecord.setItemOrder(1);
+				//设置流程相关
+				taskRecord.setThisProcess(taskHead.getLastProcess());
+				taskRecord.setThisProcessState(taskHead.getLastProcessState());
+				taskRecord.setThisUser(taskHead.getLastUser());
+				taskRecord.setNextProcess(taskHead.getThisProcess());
+				taskRecord.setNextUser(taskHead.getThisUser());
+				//设置创建者与修改者
+				taskRecord.setCreatedBy(currentUser.getUserId());
+				taskRecord.setModifiedBy(currentUser.getUserId());
 
-			taskHead.getTaskRecords().add(taskRecord);
-			taskHeadRepo.save(taskHead);
+				taskHead.getTaskRecords().add(taskRecord);
+				taskHeadRepo.save(taskHead);
+			}
 		}else{
 			throw new IllegalArgumentException(String.format("没有配置申报信息审核分办人员，请联系管理员！"));
 		}
@@ -670,13 +687,17 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			   Criterion criterion1 = Restrictions.eq(SysConfig_.configName.getName(), BasicDataConfig.taskType_shenpiFenBan);
 			   SysConfig sysConfg = sysConfigRepo.findByCriteria(criterion1).stream().findFirst().get();
 			   if(sysConfg !=null){
-				   taskHead.setIsComplete(false);
-				   taskHead.setLastProcess(BasicDataConfig.processStage_tianbao);
-				   taskHead.setLastProcessState(BasicDataConfig.processState_pass);
-				   taskHead.setLastUser(currentUser.getUserId());
-				   taskHead.setThisProcess(BasicDataConfig.processStage_qianshou);
-				   taskHead.setThisProcessState(BasicDataConfig.processState_jinxingzhong);
-				   taskHead.setThisUser(sysConfg.getConfigValue());
+				   if(Util.isNotNull(sysConfg.getConfigValue()) && sysConfg.getEnable()){
+					   taskHead.setIsComplete(false);
+					   taskHead.setLastProcess(BasicDataConfig.processStage_tianbao);
+					   taskHead.setLastProcessState(BasicDataConfig.processState_pass);
+					   taskHead.setLastUser(currentUser.getUserId());
+					   taskHead.setThisProcess(BasicDataConfig.processStage_qianshou);
+					   taskHead.setThisProcessState(BasicDataConfig.processState_jinxingzhong);
+					   taskHead.setThisUser(sysConfg.getConfigValue());
+				   }
+			   }else{
+				   throw new IllegalArgumentException(String.format("没有配置申报信息审核分办人员，请联系管理员！"));
 			   }
 		   }
 			taskHeadRepo.save(taskHead);
@@ -820,4 +841,289 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 
 		return project;
 	}
+	
+	/**
+	 * 
+	 * @Title: getApprovalStatistics 
+	 * @Description: 统计分析审批类分类统计
+	 * @param type 分类类型
+	 * @param pifuDate 批复时间
+	 * @return 查询到的数据集合 
+	 */
+	@SuppressWarnings({"deprecation", "rawtypes", "unchecked" })
+	@Override
+	@Transactional
+	public List<ProjectStatisticsBean> getApprovalStatistics(String type, int pifuDate) {
+		List<ProjectStatisticsBean> list = new ArrayList<>();
+		String Sql = "";
+		switch (type) {
+			case "approval":
+				Sql += SQLConfig.approvalStatisticsByStage;
+				break;
+			case "industry":
+				Sql += SQLConfig.approvalStatisticsByIndustry;
+				break;
+			case "unit":
+				Sql += SQLConfig.approvalStatisticsByUnit;
+				break;
+			default:
+				break;
+		}
+		
+		NativeQuery query = super.repository.getSession().createSQLQuery(Sql);
+		query.setParameter("pifuDate", pifuDate);
+		query.addScalar("classDesc", new StringType());
+		query.addScalar("projectNumbers", new IntegerType());
+		query.addScalar("projectInvestSum", new DoubleType());
+		if(type.equals("unit")){
+			query.addScalar("approvalStageXMJYSNumbers", new IntegerType());
+			query.addScalar("approvalStageKXXYJBGNumbers", new IntegerType());
+			query.addScalar("approvalStageCBSJGSNumbers", new IntegerType());
+			query.addScalar("approvalStageZJSQBGNumbers", new IntegerType());
+		}
+		list = query.setResultTransformer(Transformers.aliasToBean(ProjectStatisticsBean.class)).list();
+		switch (type) {
+			case "approval":
+				logger.info("审批类信息审批阶段分类统计报表导出");
+				break;
+			case "industry":
+				logger.info("审批类信息项目行业分类统计报表导出");
+				break;
+			case "unit":
+				logger.info("审批类信息申报单位分类统计报表导出");
+				break;
+			default:
+				break;
+		}
+		return list;
+	}
+
+	/**
+	 * 
+	 * @Title: getShenBaoInfoStatisticsByCustom 
+	 * @Description: 统计分析审批类自定义条件统计 
+	 * @param pifuDateBegin 筛选条件：批复时间开始范围
+	 * @param pifuDateEnd 筛选条件：批复时间结束范围
+	 * @param industrySelected 筛选条件：行业
+	 * @param stageSelected 筛选条件：申报阶段
+	 * @param unitSelected 筛选条件：申报单位
+	 * @param investSumBegin 筛选条件：总投资开始范围
+	 * @param investSumEnd 筛选条件：总投资结束范围
+	 * @return list 查询出来的数据集合
+	 * @throws
+	 */
+	@SuppressWarnings({"deprecation", "rawtypes", "unchecked" })
+	@Override
+	@Transactional
+	public List<ProjectStatisticsBean> getShenBaoInfoStatisticsByCustom(int pifuDateBegin, int pifuDateEnd,
+			List<String> industrySelected, List<String> stageSelected, List<String> unitSelected, Double investSumBegin,
+			Double investSumEnd) {
+		List<ProjectStatisticsBean> list = new ArrayList<>();
+		String Sql = "SELECT sbi.projectName,u.unitName,b1.description AS projectStageDesc,b2.description AS projectIndustryDesc,sbi.projectInvestSum,sbi.projectGuiMo";
+		Sql +=" FROM cs_shenbaoinfo AS sbi,cs_basicdata AS b1,cs_basicdata AS b2,cs_userunitinfo AS u";
+		Sql +=" WHERE";
+		if(industrySelected.size()>0){
+			Sql +=" sbi.projectIndustry IN (";
+			for(int i=0;i<industrySelected.size();i++){
+				if(i == industrySelected.size()-1){
+					Sql += "'"+industrySelected.get(i)+"'";
+				}else{
+					Sql += "'"+industrySelected.get(i)+"',";
+				}
+			}
+			Sql +=" ) AND";
+		}
+		if(stageSelected.size()>0){
+			Sql += " sbi.projectShenBaoStage IN (";
+			for(int i=0;i<stageSelected.size();i++){
+				if(i == stageSelected.size()-1){
+					Sql += "'"+stageSelected.get(i)+"'";
+				}else{
+					Sql += "'"+stageSelected.get(i)+"',";
+				}
+			}
+			Sql +=" ) AND";
+		}
+		if(unitSelected.size()>0){
+			Sql += " sbi.unitName IN (";
+			for(int i=0;i<unitSelected.size();i++){
+				if(i == unitSelected.size()-1){
+					Sql += "'"+unitSelected.get(i)+"'";
+				}else{
+					Sql += "'"+unitSelected.get(i)+"',";
+				}
+			}
+			Sql +=" ) AND";
+		}
+		
+		if(investSumBegin!=null && investSumEnd!=null){
+			Sql +=" sbi.projectInvestSum BETWEEN "+investSumBegin+" AND "+investSumEnd+" AND";
+		}
+		if(pifuDateEnd>=pifuDateBegin){
+			Sql +=" YEAR(sbi.pifuDate) BETWEEN "+pifuDateBegin+" AND "+pifuDateEnd+" AND";
+		}
+		
+		Sql +=" sbi.projectShenBaoStage = b1.id AND sbi.projectIndustry = b2.id AND sbi.unitName = u.id ORDER BY b2.itemOrder";
+		
+		NativeQuery query = super.repository.getSession().createSQLQuery(Sql);
+		query.addScalar("projectName", new StringType());
+		query.addScalar("unitName", new StringType());
+		query.addScalar("projectStageDesc", new StringType());
+		query.addScalar("projectIndustryDesc", new StringType());
+		query.addScalar("projectInvestSum", new DoubleType());
+		query.addScalar("projectGuiMo", new StringType());
+		list = query.setResultTransformer(Transformers.aliasToBean(ProjectStatisticsBean.class)).list();
+		logger.info("审批类信息自定义分类统计报表导出");
+		return list;
+	}
+
+	/**
+	 * 
+	 * @Title: getPlanStatistics 
+	 * @Description: 计划类分类统计 
+	 * @param type 分类类型
+	 * @param planYear 批复时间
+	 * @return 查询到数据集合
+	 * @throws
+	 */
+	@SuppressWarnings({"deprecation", "rawtypes", "unchecked" })
+	@Override
+	@Transactional
+	public List<ProjectStatisticsBean> getPlanStatistics(String type, int planYear) {
+		List<ProjectStatisticsBean> list = new ArrayList<>();
+		String Sql = "";
+		switch (type) {
+			case "industry":
+				Sql += SQLConfig.planStatisticsByIndustry;
+				break;
+			case "unit":
+				Sql += SQLConfig.planStatisticsByUnit;
+				break;
+			case "plan":
+				Sql += SQLConfig.planStatisticsByPlanType;
+				break;
+			default:
+				break;
+		}
+		
+		NativeQuery query = super.repository.getSession().createSQLQuery(Sql);
+		query.setParameter("pifuDate", planYear);
+		query.addScalar("classDesc", new StringType());
+		query.addScalar("projectNumbers", new IntegerType());
+		query.addScalar("projectInvestSum", new DoubleType());
+		query.addScalar("projectInvestAccuSum", new DoubleType());
+		query.addScalar("apPlanReachTheYear", new DoubleType());
+		
+		list = query.setResultTransformer(Transformers.aliasToBean(ProjectStatisticsBean.class)).list();
+		switch (type) {
+			case "plan":
+				logger.info("计划类信息计划类型分类统计报表导出");
+				break;
+			case "industry":
+				logger.info("审批类信息项目行业分类统计报表导出");
+				break;
+			case "unit":
+				logger.info("计划类信息建设单位分类统计报表导出");
+				break;
+			default:
+				break;
+		}
+		return list;
+	}
+
+	/**
+	 * 
+	 * @Title: getPlanStatisticsByCustom 
+	 * @Description: 计划类自定义条件统计
+	 * @param  planYearBegin 筛选条件：计划下达开始时间
+	 * @param  planYearEnd 筛选条件：计划下达结束时间
+	 * @param  industrySelected 筛选条件：项目行业
+	 * @param  stageSelected 筛选条件：项目阶段
+	 * @param  unitSelected 筛选条件：建设单位
+	 * @param  investSumBegin 筛选条件：总投资开始范围
+	 * @param  investSumEnd 筛选条件：总投资结束范围
+	 * @param  apPlanReachSumBegin 筛选条件：下达资金开始范围
+	 * @param  apPlanReachSumEnd 筛选条件：下达资金结束范围
+	 * @return 查询到数据集合
+	 * @throws
+	 */
+	@SuppressWarnings({"deprecation", "rawtypes", "unchecked" })
+	@Override
+	@Transactional
+	public List<ProjectStatisticsBean> getPlanStatisticsByCustom(int planYearBegin, int planYearEnd,
+			List<String> industrySelected, List<String> stageSelected, List<String> unitSelected, Double investSumBegin,
+			Double investSumEnd, Double apPlanReachSumBegin, Double apPlanReachSumEnd) {
+		List<ProjectStatisticsBean> list = new ArrayList<>();
+		String Sql = "SELECT sbi.projectName,u.unitName,b.description AS projectConstrCharDesc,sbi.beginDate,sbi.endDate,sbi.projectGuiMo,";
+		Sql +=" sbi.projectInvestSum,sbi.apInvestSum,sbi.yearInvestApproval,sbi.apPlanReach_ggys,sbi.apPlanReach_gtzj,";
+		Sql +=" sbi.yearConstructionContent,sbi.yearConstructionContentShenBao";
+		Sql +=" FROM cs_shenbaoinfo AS sbi,cs_basicdata AS b,cs_userunitinfo AS u";
+		Sql +=" WHERE";
+		if(industrySelected.size()>0){
+			Sql +=" sbi.projectIndustry IN (";
+			for(int i=0;i<industrySelected.size();i++){
+				if(i == industrySelected.size()-1){
+					Sql += "'"+industrySelected.get(i)+"'";
+				}else{
+					Sql += "'"+industrySelected.get(i)+"',";
+				}
+			}
+			Sql +=" ) AND";
+		}
+		if(stageSelected.size()>0){
+			Sql += " sbi.projectStage IN (";
+			for(int i=0;i<stageSelected.size();i++){
+				if(i == stageSelected.size()-1){
+					Sql += "'"+stageSelected.get(i)+"'";
+				}else{
+					Sql += "'"+stageSelected.get(i)+"',";
+				}
+			}
+			Sql +=" ) AND";
+		}
+		if(unitSelected.size()>0){
+			Sql += " sbi.unitName IN (";
+			for(int i=0;i<unitSelected.size();i++){
+				if(i == unitSelected.size()-1){
+					Sql += "'"+unitSelected.get(i)+"'";
+				}else{
+					Sql += "'"+unitSelected.get(i)+"',";
+				}
+			}
+			Sql +=" ) AND";
+		}
+		
+		if(investSumBegin!=null && investSumEnd!=null){
+			Sql +=" sbi.projectInvestSum BETWEEN "+investSumBegin+" AND "+investSumEnd+" AND";
+		}
+	
+		Sql +=" YEAR(sbi.pifuDate) BETWEEN "+planYearBegin+" AND "+planYearEnd+" AND";
+		Sql +=" sbi.projectShenBaoStage = '"+BasicDataConfig.projectShenBaoStage_planReach+"'";
+		Sql +=" AND sbi.unitName = u.id AND sbi.projectConstrChar = b.id ORDER BY b2.itemOrder";
+		
+		NativeQuery query = super.repository.getSession().createSQLQuery(Sql);
+		query.addScalar("projectName", new StringType());
+		query.addScalar("unitName", new StringType());
+		query.addScalar("projectConstrCharDesc", new StringType());
+		query.addScalar("projectGuiMo", new StringType());
+		query.addScalar("beginDate", new DateType());
+		query.addScalar("endDate", new DateType());
+		query.addScalar("projectInvestSum", new DoubleType());
+		query.addScalar("apInvestSum", new DoubleType());
+		query.addScalar("yearInvestApproval", new DoubleType());
+		query.addScalar("apPlanReach_ggys", new DoubleType());
+		query.addScalar("apPlanReach_gtzj", new DoubleType());
+		query.addScalar("yearConstructionContent", new StringType());
+		query.addScalar("yearConstructionContentShenBao", new StringType());
+	
+		
+		list = query.setResultTransformer(Transformers.aliasToBean(ProjectStatisticsBean.class)).list();
+		logger.info("计划类信息自定义分类统计报表导出");
+		return list;
+	}
+	
+	
+	
+	
+	
 }

@@ -83,8 +83,8 @@
         }
         
         function init_todoList(){
-        	//taskYearPlanSvc.gridForPlan(vm);//为了获取计划类申报信息的数量
-        	//taskYearPlanSvc.gridForShenpi(vm);//为了获取审批类申报信息的数量
+        	taskYearPlanSvc.gridForPlan(vm);//为了获取计划类申报信息的数量
+        	taskYearPlanSvc.gridForShenpi(vm);//为了获取审批类申报信息的数量
         	taskYearPlanSvc.grid(vm);//获取下一年度计划待办列表数据
         	//查询
         	vm.search=function(){
@@ -124,8 +124,8 @@
 	    		   vm.isMonthReport = true;
 	    		   taskYearPlanSvc.getMonthReportById(vm);//查询月报信息
 	    	   }else if(vm.taskType == common.basicDataConfig().taskType_yearPlan){//如果为下一年度计划
-	    			   vm.isYearPlan = true;
-	    			   vm.model.taskRecord.processSuggestion = "符合申报";//设置默认为符合申报
+    			   vm.isYearPlan = true;
+    			   vm.model.taskRecord.processSuggestion = "符合申报";//设置默认为符合申报
 	    	   }
     		   
     	   vm.dialog_shenbaoInfo=function(){

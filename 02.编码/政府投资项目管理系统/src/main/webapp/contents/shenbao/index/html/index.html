@@ -56,7 +56,7 @@
 
 
 <div class="pull-right">
-	<div class="loginBox" ng-show="!vm.show">
+	<!-- <div class="loginBox" ng-show="!vm.show">
 		<div class="boxWrap" style="height: 318px;">
 		<h3 style="margin-top: -30px; margin-bottom: 50px">手机客服端下载 </h3>
 
@@ -76,7 +76,7 @@
 		<div class="backbtn" ng-click="vm.show=true"><span class="cs-colsed glyphicon glyphicon-chevron-left" ></span>返回表单登录</div>
 
 		</div>
-	</div>
+	</div> -->
 
 	<div class="loginBox" ng-show="vm.show">
 	<form ng-keypress="vm.keyEnter($event)">
@@ -100,7 +100,7 @@
 			
 			<div><button class="btn btn-success loginBtn" ng-click="vm.submit('unit')" ng-disabled="vm.isIE" >登录系统 </button></div></br>
 			<!-- <div><button class="btn btn-success loginBtn" ng-click="vm.forgetCode()">忘记密码 </button></div> -->
-			<div class="login-maker-btn" ng-click="vm.show=false"></div>
+			<!-- <div class="login-maker-btn" ng-click="vm.show=false"></div> -->
 			<div style="margin: -10px 0 0 0;">
 				<p ng-if="vm.isIE">您的浏览器版本过低，请升级至最新版本，或者请使用<a href="/contents/download/ChromeStandalone.exe" download="Chrome.zip" style="color:red;">谷歌chrome浏览器(点击下载)</a></p>
 			</div>
