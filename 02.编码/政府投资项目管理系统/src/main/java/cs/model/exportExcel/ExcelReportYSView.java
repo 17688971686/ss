@@ -1,5 +1,8 @@
 package cs.model.exportExcel;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.web.servlet.view.document.AbstractXlsView;
@@ -18,6 +21,7 @@ public class ExcelReportYSView extends AbstractXlsView {
 		this.year=year;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String fileName = "光明新区"+year+"年区级政府投资项目计划.xls";
@@ -26,7 +30,7 @@ public class ExcelReportYSView extends AbstractXlsView {
         CellStyle cellStyleO = workbook.createCellStyle();
         CellStyle cellStyleTitle = workbook.createCellStyle();
         CellStyle cellStyleSubTitleLeft = workbook.createCellStyle();
-        CellStyle cellStyleSubTitleRight = workbook.createCellStyle();
+        CellStyle cellStyleSubTitleRight=workbook.createCellStyle();
 
         //创建行
         Row title=sheet.createRow(0);
@@ -41,20 +45,52 @@ public class ExcelReportYSView extends AbstractXlsView {
         
         title.setHeight((short)800);
         subTitle.setHeight((short)500);
+      //设置表格边框
+        cellStyleTitle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        cellStyleTitle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        cellStyleTitle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        cellStyleTitle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        cellStyleSubTitleLeft.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        cellStyleSubTitleLeft.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        cellStyleSubTitleLeft.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        cellStyleSubTitleLeft.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        cellStyleO.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        cellStyleO.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        cellStyleO.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        cellStyleO.setBorderLeft(HSSFCellStyle.BORDER_THIN);
 
         //begin#标题
         //创建列
         createCellAlignCenter(workbook,title,0,"光明新区"+year+"年政府投资项目计划",cellStyleTitle);
         //合并
-        sheet.addMergedRegion(new CellRangeAddress(0,0,0,11));
+        CellRangeAddress cellRangeTitle=new CellRangeAddress(0,0,0,11);
+        setRegionStyle(sheet,cellRangeTitle,cellStyleTitle);
+        sheet.addMergedRegion(cellRangeTitle);
         //end#标题
 
         //begin#子标题
         createCellAlignLeft(workbook,subTitle,0,"打印日期："+new SimpleDateFormat("yyyy年MM月dd日").format(new Date()),cellStyleSubTitleLeft);
         createCellAlignRight(workbook,subTitle,10,"资金：万   元\n面积：平方米",cellStyleSubTitleRight);
-        sheet.addMergedRegion(new CellRangeAddress(1,1,0,9));
-        sheet.addMergedRegion(new CellRangeAddress(1,1,10,11));
+        CellRangeAddress cellRangeSubTitleLeft=new CellRangeAddress(1,1,0,9);
+        CellRangeAddress cellRangeSubTitleRight=new CellRangeAddress(1,1,10,11);
+        setRegionStyle(sheet,cellRangeSubTitleLeft,cellStyleSubTitleLeft);
+        setRegionStyle(sheet,cellRangeSubTitleRight,cellStyleSubTitleRight);
+        sheet.addMergedRegion(cellRangeSubTitleLeft);
+        sheet.addMergedRegion(cellRangeSubTitleRight);
         //end#子标题
+      //设置列宽
+        sheet.setColumnWidth(0, 256*7+184);
+        sheet.setColumnWidth(1, 256*17+184);
+        sheet.setColumnWidth(2, 256*8+184);
+        sheet.setColumnWidth(3, 256*15+184);
+        sheet.setColumnWidth(4, 256*12+184);
+        sheet.setColumnWidth(5, 256*8+184);
+        sheet.setColumnWidth(6, 256*8+184);
+        sheet.setColumnWidth(7, 256*8+184);
+        sheet.setColumnWidth(8, 256*8+184);
+        sheet.setColumnWidth(9, 256*8+184);
+        sheet.setColumnWidth(10, 256*12+184);
+        sheet.setColumnWidth(11, 256*12+184);
 
         //begin表格头
         createCellAlignCenter(workbook,row_head1,0,"序号",cellStyleO);
@@ -72,16 +108,38 @@ public class ExcelReportYSView extends AbstractXlsView {
         createCellAlignCenter(workbook,row_head1,10,"2018年主要建设内容",cellStyleO);
         createCellAlignCenter(workbook,row_head1,11,"备注",cellStyleO);
 
-        sheet.addMergedRegion(new CellRangeAddress(2,3,0,0));
-        sheet.addMergedRegion(new CellRangeAddress(2,3,1,1));
-        sheet.addMergedRegion(new CellRangeAddress(2,3,2,2));
-        sheet.addMergedRegion(new CellRangeAddress(2,3,3,3));
-        sheet.addMergedRegion(new CellRangeAddress(2,3,5,5));
-        sheet.addMergedRegion(new CellRangeAddress(2,3,6,6));
-        sheet.addMergedRegion(new CellRangeAddress(2,3,7,7));
-        sheet.addMergedRegion(new CellRangeAddress(2,2,8,9));
-        sheet.addMergedRegion(new CellRangeAddress(2,3,10,10));
-        sheet.addMergedRegion(new CellRangeAddress(2,3,11,11));
+        CellRangeAddress cellRangeHeadColumn0=new CellRangeAddress(2,3,0,0);
+        CellRangeAddress cellRangeHeadColumn1=new CellRangeAddress(2,3,1,1);
+        CellRangeAddress cellRangeHeadColumn2=new CellRangeAddress(2,3,2,2);
+        CellRangeAddress cellRangeHeadColumn3=new CellRangeAddress(2,3,3,3);
+        CellRangeAddress cellRangeHeadColumn5=new CellRangeAddress(2,3,5,5);
+        CellRangeAddress cellRangeHeadColumn6=new CellRangeAddress(2,3,6,6);
+        CellRangeAddress cellRangeHeadColumn7=new CellRangeAddress(2,3,7,7);
+        CellRangeAddress cellRangeHeadColumn8=new CellRangeAddress(2,2,8,9);
+        CellRangeAddress cellRangeHeadColumn10=new CellRangeAddress(2,3,10,10);
+        CellRangeAddress cellRangeHeadColumn11=new CellRangeAddress(2,3,11,11);
+        
+        setRegionStyle(sheet,cellRangeHeadColumn0,cellStyleO);
+        setRegionStyle(sheet,cellRangeHeadColumn1,cellStyleO);
+        setRegionStyle(sheet,cellRangeHeadColumn2,cellStyleO);
+        setRegionStyle(sheet,cellRangeHeadColumn3,cellStyleO);
+        setRegionStyle(sheet,cellRangeHeadColumn5,cellStyleO);
+        setRegionStyle(sheet,cellRangeHeadColumn6,cellStyleO);
+        setRegionStyle(sheet,cellRangeHeadColumn7,cellStyleO);
+        setRegionStyle(sheet,cellRangeHeadColumn8,cellStyleO);
+        setRegionStyle(sheet,cellRangeHeadColumn10,cellStyleO);
+        setRegionStyle(sheet,cellRangeHeadColumn11,cellStyleO);
+        
+        sheet.addMergedRegion(cellRangeHeadColumn0);
+        sheet.addMergedRegion(cellRangeHeadColumn1);
+        sheet.addMergedRegion(cellRangeHeadColumn2);
+        sheet.addMergedRegion(cellRangeHeadColumn3);
+        sheet.addMergedRegion(cellRangeHeadColumn5);
+        sheet.addMergedRegion(cellRangeHeadColumn6);
+        sheet.addMergedRegion(cellRangeHeadColumn7);
+        sheet.addMergedRegion(cellRangeHeadColumn8);
+        sheet.addMergedRegion(cellRangeHeadColumn10);
+        sheet.addMergedRegion(cellRangeHeadColumn11);
         //end#表格头
 
         //begin#数据列
@@ -115,21 +173,47 @@ public class ExcelReportYSView extends AbstractXlsView {
             createCellAlignLeft(workbook,row1,10, data.getConstructionContent(),cellStyleO);//建设内容
             createCellAlignCenter(workbook,row1,11,data.getRemark(),cellStyleO);
 
-            sheet.addMergedRegion(new CellRangeAddress(rowNum1,rowNum2,0,0));
-        	sheet.addMergedRegion(new CellRangeAddress(rowNum1,rowNum2,1,1));
+            CellRangeAddress cellRangeDataColumn0=new CellRangeAddress(rowNum1,rowNum2,0,0);
+            CellRangeAddress cellRangeDataColumn1=new CellRangeAddress(rowNum1,rowNum2,1,1);
+            setRegionStyle(sheet,cellRangeDataColumn0,cellStyleO);
+            setRegionStyle(sheet,cellRangeDataColumn1,cellStyleO);
+            sheet.addMergedRegion(cellRangeDataColumn0);
+        	sheet.addMergedRegion(cellRangeDataColumn1);
             if(data.isHB()){
-            	sheet.addMergedRegion(new CellRangeAddress(rowNum1,rowNum2,2,3));
+            	CellRangeAddress cellRangeDataColumn2=new CellRangeAddress(rowNum1,rowNum2,2,3);
+            	setRegionStyle(sheet,cellRangeDataColumn2,cellStyleO);
+            	sheet.addMergedRegion(cellRangeDataColumn2);
             }else{
-            	sheet.addMergedRegion(new CellRangeAddress(rowNum1,rowNum2,2,2));
-            	sheet.addMergedRegion(new CellRangeAddress(rowNum1,rowNum2,3,3));
+            	CellRangeAddress cellRangeDataColumn2=new CellRangeAddress(rowNum1,rowNum2,2,2);
+            	CellRangeAddress cellRangeDataColumn3=new CellRangeAddress(rowNum1,rowNum2,3,3);
+            	setRegionStyle(sheet,cellRangeDataColumn2,cellStyleO);
+            	setRegionStyle(sheet,cellRangeDataColumn3,cellStyleO);
+            	sheet.addMergedRegion(cellRangeDataColumn2);
+            	sheet.addMergedRegion(cellRangeDataColumn3);
             }
-            sheet.addMergedRegion(new CellRangeAddress(rowNum1,rowNum2,5,5));
-            sheet.addMergedRegion(new CellRangeAddress(rowNum1,rowNum2,6,6));
-            sheet.addMergedRegion(new CellRangeAddress(rowNum1,rowNum2,7,7));
-            sheet.addMergedRegion(new CellRangeAddress(rowNum1,rowNum2,8,8));
-            sheet.addMergedRegion(new CellRangeAddress(rowNum1,rowNum2,9,9));
-            sheet.addMergedRegion(new CellRangeAddress(rowNum1,rowNum2,10,10));
-            sheet.addMergedRegion(new CellRangeAddress(rowNum1,rowNum2,11,11));
+            CellRangeAddress cellRangeDataColumn5=new CellRangeAddress(rowNum1,rowNum2,5,5);
+            CellRangeAddress cellRangeDataColumn6=new CellRangeAddress(rowNum1,rowNum2,6,6);
+            CellRangeAddress cellRangeDataColumn7=new CellRangeAddress(rowNum1,rowNum2,7,7);
+            CellRangeAddress cellRangeDataColumn8=new CellRangeAddress(rowNum1,rowNum2,8,8);
+            CellRangeAddress cellRangeDataColumn9=new CellRangeAddress(rowNum1,rowNum2,9,9);
+            CellRangeAddress cellRangeDataColumn10=new CellRangeAddress(rowNum1,rowNum2,10,10);
+            CellRangeAddress cellRangeDataColumn11=new CellRangeAddress(rowNum1,rowNum2,11,11);
+            
+            setRegionStyle(sheet,cellRangeDataColumn5,cellStyleO);
+            setRegionStyle(sheet,cellRangeDataColumn6,cellStyleO);
+            setRegionStyle(sheet,cellRangeDataColumn7,cellStyleO);
+            setRegionStyle(sheet,cellRangeDataColumn8,cellStyleO);
+            setRegionStyle(sheet,cellRangeDataColumn9,cellStyleO);
+            setRegionStyle(sheet,cellRangeDataColumn10,cellStyleO);
+            setRegionStyle(sheet,cellRangeDataColumn11,cellStyleO);
+            
+            sheet.addMergedRegion(cellRangeDataColumn5);
+            sheet.addMergedRegion(cellRangeDataColumn6);
+            sheet.addMergedRegion(cellRangeDataColumn7);
+            sheet.addMergedRegion(cellRangeDataColumn8);
+            sheet.addMergedRegion(cellRangeDataColumn9);
+            sheet.addMergedRegion(cellRangeDataColumn10);
+            sheet.addMergedRegion(cellRangeDataColumn11);
         }
         //end#数据列
 
@@ -157,11 +241,15 @@ public class ExcelReportYSView extends AbstractXlsView {
         Cell cell=row.createCell(cellNumber);
         cell.setCellValue(value);
 
-//        CellStyle cellStyle = workbook.createCellStyle();
         cellStyle.cloneStyleFrom(cellStyle);
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
         cellStyle.setWrapText(true);
+      //设置边框
+        cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
         cell.setCellStyle(cellStyle);
     }
     //重写创建列
@@ -170,13 +258,39 @@ public class ExcelReportYSView extends AbstractXlsView {
         Cell cell=row.createCell(cellNumber);
         cell.setCellValue(value);
 
-        
-//        CellStyle cellStyle = workbook.createCellStyle();
         cellStyle.cloneStyleFrom(cellStyle);
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
         cellStyle.setWrapText(true);
+      //设置边框
+        cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
         cell.setCellStyle(cellStyle);
         
+    }
+    /**
+     * 
+     * @Title: setRegionStyle 
+     * @Description: 设置单元格样式
+     * @param sheet 当前表
+     * @param region 合并列
+     * @param cs  样式
+     */
+    public static void setRegionStyle(Sheet sheet, CellRangeAddress region, CellStyle cs) {
+    	for (int i = region.getFirstRow(); i <= region.getLastRow(); i++) {
+            HSSFRow row = (HSSFRow) sheet.getRow(i);
+            if (row == null)
+                row = (HSSFRow) sheet.createRow(i);
+            for (int j = region.getFirstColumn(); j <= region.getLastColumn(); j++) {
+                HSSFCell cell = row.getCell(j);
+                if (cell == null) {
+                    cell = row.createCell(j);
+                    cell.setCellValue("");
+                }
+                cell.setCellStyle(cs);
+            }
+    	}
     }
 }

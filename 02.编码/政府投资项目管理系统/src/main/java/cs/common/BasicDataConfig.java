@@ -41,6 +41,9 @@ public class BasicDataConfig {
 	
 	//打包类型 packageType
 	public static String packageType_danLie="packageType_1";//打包类型--单列项目
+	public static String packageType_jieSuanKuan="packageType_2";//结算款项目
+	public static String packageType_xiaoEr="packageType_3";//小额项目
+	public static String packageType_weiLiXian="packageType_4";//未立项预留项目
 
 	//流程阶段 processStage
 	public static String processStage_tianbao="processStage_1";//建设单位填写申报信息

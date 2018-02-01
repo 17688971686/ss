@@ -48,10 +48,10 @@ public class SQLConfig {
  
  public static String yearPlanByHYTJ = String.format("SELECT yp.year as planYear,bs.description as projectIndustry,"+
 		" count(sbi.id) AS projectSum,"+
- 		" sum(CASE WHEN sbi.projectCategory = 'projectCategory_1' THEN 1 ELSE 0 END ) AS projectCategory_ASum,"+
- 		" sum(CASE WHEN sbi.projectCategory = 'projectCategory_2' THEN 1 ELSE 0 END ) AS projectCategory_BSum,"+
- 		" sum(CASE WHEN sbi.projectCategory = 'projectCategory_3' THEN 1 ELSE 0 END ) AS projectCategory_CSum,"+
- 		" sum(CASE WHEN sbi.projectCategory = 'projectCategory_4' THEN 1 ELSE 0 END ) AS projectCategory_DSum,"+
+ 		" sum(CASE WHEN sbi.projectCategory = '"+BasicDataConfig.projectCategory_A+"' THEN 1 ELSE 0 END ) AS projectCategory_ASum,"+
+ 		" sum(CASE WHEN sbi.projectCategory = '"+BasicDataConfig.projectCategory_B+"' THEN 1 ELSE 0 END ) AS projectCategory_BSum,"+
+ 		" sum(CASE WHEN sbi.projectCategory = '"+BasicDataConfig.projectCategory_C+"' THEN 1 ELSE 0 END ) AS projectCategory_CSum,"+
+ 		" sum(CASE WHEN sbi.projectCategory = '"+BasicDataConfig.projectCategory_D+"' THEN 1 ELSE 0 END ) AS projectCategory_DSum,"+
  		" sum(IFNULL(sbi.projectInvestSum,0)) as investSum,"+
  		" sum(IFNULL(sbi.projectInvestAccuSum,0)) as investAccuSum,"+
  		" sum(IFNULL(sbi.apInvestSum,0)) as apInvestSum,"+
@@ -74,10 +74,10 @@ public class SQLConfig {
 		 " SUM(a.packagetype_4) AS yearAp_weiLiXYuLiu"+
 		 " FROM("+
 			 " SELECT SUBSTRING_INDEX(sbi.constructionunit,',',1) AS 'constructionunit',"+
-			 " CASE WHEN sbi.packagetype = 'packagetype_1' THEN IFNULL(ypl.capitalSum,0) ELSE 0 END AS 'packagetype_1',"+
-		     " CASE WHEN sbi.packagetype = 'packagetype_2' THEN IFNULL(ypl.capitalSum,0) ELSE 0 END AS 'packagetype_2',"+
-		     " CASE WHEN sbi.packagetype = 'packagetype_3' THEN IFNULL(ypl.capitalSum,0) ELSE 0 END AS 'packagetype_3',"+
-		     " CASE WHEN sbi.packagetype = 'packagetype_4' THEN IFNULL(ypl.capitalSum,0) ELSE 0 END AS 'packagetype_4',"+
+			 " CASE WHEN sbi.packagetype = '"+BasicDataConfig.packageType_danLie+"' THEN IFNULL(ypl.capitalSum,0) ELSE 0 END AS 'packagetype_1',"+
+		     " CASE WHEN sbi.packagetype = '"+BasicDataConfig.packageType_jieSuanKuan+"' THEN IFNULL(ypl.capitalSum,0) ELSE 0 END AS 'packagetype_2',"+
+		     " CASE WHEN sbi.packagetype = '"+BasicDataConfig.packageType_xiaoEr+"' THEN IFNULL(ypl.capitalSum,0) ELSE 0 END AS 'packagetype_3',"+
+		     " CASE WHEN sbi.packagetype = '"+BasicDataConfig.packageType_weiLiXian+"' THEN IFNULL(ypl.capitalSum,0) ELSE 0 END AS 'packagetype_4',"+
 		     " yp.year as planYear"+
 		     " FROM cs_yearplan AS yp,cs_yearplan_cs_yearplancapital AS ypy,cs_yearplancapital AS ypl,cs_shenbaoinfo sbi"+
 		     " WHERE yp.id = ypy.YearPlan_id"+

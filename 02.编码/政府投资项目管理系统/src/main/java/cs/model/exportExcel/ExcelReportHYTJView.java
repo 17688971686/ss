@@ -1,10 +1,16 @@
 package cs.model.exportExcel;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.web.servlet.view.document.AbstractXlsView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 /**
@@ -20,7 +26,7 @@ public class ExcelReportHYTJView extends AbstractXlsView {
 		this.year=year;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String fileName = "光明新区"+year+"年区级政府投资项目计划行业汇总表.xls";
@@ -28,10 +34,12 @@ public class ExcelReportHYTJView extends AbstractXlsView {
         Sheet sheet = workbook.createSheet("表1");
         CellStyle cellStyleO = workbook.createCellStyle();
         CellStyle cellStyleTitle = workbook.createCellStyle();
+        CellStyle cellStyleSubTitleLeft = workbook.createCellStyle();
         //创建行
         Row title=sheet.createRow(0);
-        Row row_head1 = sheet.createRow(1);
-        Row row_head2 = sheet.createRow(2);
+        Row subTitle=sheet.createRow(1);
+        Row row_head1 = sheet.createRow(2);
+        Row row_head2 = sheet.createRow(3);
         //设置字体
         Font font = workbook.createFont();
         font.setFontHeightInPoints((short) 14); // 字体高度
@@ -39,14 +47,53 @@ public class ExcelReportHYTJView extends AbstractXlsView {
         cellStyleTitle.setFont(font);
         //设置行高
         title.setHeight((short)800);
+        subTitle.setHeight((short)500);
+        row_head1.setHeight((short)360);
+        row_head2.setHeight((short)360);
+      //设置表格边框
+        cellStyleTitle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        cellStyleTitle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        cellStyleTitle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        cellStyleTitle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        cellStyleSubTitleLeft.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        cellStyleSubTitleLeft.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        cellStyleSubTitleLeft.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        cellStyleSubTitleLeft.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        cellStyleO.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        cellStyleO.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        cellStyleO.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        cellStyleO.setBorderLeft(HSSFCellStyle.BORDER_THIN);
       
         //begin#标题
         //创建列
         createCellAlignCenter(workbook,title,0,"光明新区"+year+"年区级政府投资项目计划汇总表",cellStyleTitle);
         //合并标题
         //参数1：开始行、结束行、开始列、结束列
-        sheet.addMergedRegion(new CellRangeAddress(0,0,0,13));
+        CellRangeAddress cellRangeTitle = new CellRangeAddress(0,0,0,13);
+        setRegionStyle(sheet,cellRangeTitle,cellStyleTitle);
+        sheet.addMergedRegion(cellRangeTitle);
+        //begin#子标题
+        createCellAlignLeft(workbook,subTitle,0,"打印日期："+new SimpleDateFormat("yyyy年MM月dd日").format(new Date()),cellStyleSubTitleLeft);
+        CellRangeAddress cellRangeSubTitleLeft = new CellRangeAddress(1,1,0,12);
+        setRegionStyle(sheet,cellRangeSubTitleLeft,cellStyleSubTitleLeft);
+        sheet.addMergedRegion(cellRangeSubTitleLeft);
+        createCellAlignRight(workbook,subTitle,13,"资金：万   元\n面积：平方米",workbook.createCellStyle());
         //end#标题
+        //设置列宽
+        sheet.setColumnWidth(0, 256*5+184);
+        sheet.setColumnWidth(1, 256*16+184);
+        sheet.setColumnWidth(2, 256*5+184);
+        sheet.setColumnWidth(3, 256*5+184);
+        sheet.setColumnWidth(4, 256*5+184);
+        sheet.setColumnWidth(5, 256*5+184);
+        sheet.setColumnWidth(6, 256*10+184);
+        sheet.setColumnWidth(7, 256*12+184);
+        sheet.setColumnWidth(8, 256*12+184);
+        sheet.setColumnWidth(9, 256*8+184);
+        sheet.setColumnWidth(10, 256*8+184);
+        sheet.setColumnWidth(11, 256*8+184);
+        sheet.setColumnWidth(12, 256*8+184);
+        sheet.setColumnWidth(13, 256*15+184);
 
         //begin表格头
         //参数：表格目标，行目标，列位置，值
@@ -69,17 +116,35 @@ public class ExcelReportHYTJView extends AbstractXlsView {
         //end#表格头
         
         //合并表头
-        sheet.addMergedRegion(new CellRangeAddress(1,2,0,0));//序号
-        sheet.addMergedRegion(new CellRangeAddress(1,2,1,1));//行业
-        sheet.addMergedRegion(new CellRangeAddress(1,1,2,5));//申报项目个数
-        sheet.addMergedRegion(new CellRangeAddress(1,2,6,6));//总投资
-        sheet.addMergedRegion(new CellRangeAddress(1,2,7,7));//累计拨付
-        sheet.addMergedRegion(new CellRangeAddress(1,2,8,8));//累计下达
-        sheet.addMergedRegion(new CellRangeAddress(1,1,9,12));//年度预安排资金
-        sheet.addMergedRegion(new CellRangeAddress(1,2,13,13));//备注
+        CellRangeAddress cellRangeHeadColumn0 = new CellRangeAddress(2,3,0,0);
+        CellRangeAddress cellRangeHeadColumn1 = new CellRangeAddress(2,3,1,1);
+        CellRangeAddress cellRangeHeadColumn2 = new CellRangeAddress(2,2,2,5);
+        CellRangeAddress cellRangeHeadColumn6 = new CellRangeAddress(2,3,6,6);
+        CellRangeAddress cellRangeHeadColumn7 = new CellRangeAddress(2,3,7,7);
+        CellRangeAddress cellRangeHeadColumn8 = new CellRangeAddress(2,3,8,8);
+        CellRangeAddress cellRangeHeadColumn9 = new CellRangeAddress(2,2,9,12);
+        CellRangeAddress cellRangeHeadColumn13 = new CellRangeAddress(2,3,13,13);
+        
+        setRegionStyle(sheet,cellRangeHeadColumn0,cellStyleO);
+        setRegionStyle(sheet,cellRangeHeadColumn1,cellStyleO);
+        setRegionStyle(sheet,cellRangeHeadColumn2,cellStyleO);
+        setRegionStyle(sheet,cellRangeHeadColumn6,cellStyleO);
+        setRegionStyle(sheet,cellRangeHeadColumn7,cellStyleO);
+        setRegionStyle(sheet,cellRangeHeadColumn8,cellStyleO);
+        setRegionStyle(sheet,cellRangeHeadColumn9,cellStyleO);
+        setRegionStyle(sheet,cellRangeHeadColumn13,cellStyleO);
+       
+        sheet.addMergedRegion(cellRangeHeadColumn0);//序号
+        sheet.addMergedRegion(cellRangeHeadColumn1);//行业
+        sheet.addMergedRegion(cellRangeHeadColumn2);//申报项目个数
+        sheet.addMergedRegion(cellRangeHeadColumn6);//总投资
+        sheet.addMergedRegion(cellRangeHeadColumn7);//累计拨付
+        sheet.addMergedRegion(cellRangeHeadColumn8);//累计下达
+        sheet.addMergedRegion(cellRangeHeadColumn9);//年度预安排资金
+        sheet.addMergedRegion(cellRangeHeadColumn13);//备注
 
         //begin#数据列
-        int rowNum=3;//从第三行开始
+        int rowNum=4;//从第三行开始
         int index=1;
         Integer projectSum=0,projectCategory_ASum=0,projectCategory_BSum=0,projectCategory_CSum=0,projectCategory_DSum=0;
         Double investSum=0.0,investAccuSum=0.0,apInvestSum=0.0,yearAp_ggysSum=0.0,yearAp_gtjjSum=0.0,yearAp_qitaSum=0.0,yearAp_SumSum=0.0;
@@ -149,7 +214,7 @@ public class ExcelReportHYTJView extends AbstractXlsView {
     private void createCellAlignLeft(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyle){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_LEFT,CellStyle.VERTICAL_CENTER,cellStyle);
     }
-    @SuppressWarnings({ "deprecation", "unused" })
+    @SuppressWarnings("deprecation")
     private void createCellAlignRight(Workbook workbook,Row row, int cellNumber,String value,CellStyle cellStyle){
         createCell(workbook,row,cellNumber,value,CellStyle.ALIGN_RIGHT,CellStyle.VERTICAL_CENTER,cellStyle);
     }
@@ -158,10 +223,14 @@ public class ExcelReportHYTJView extends AbstractXlsView {
         Cell cell=row.createCell(cellNumber);
         cell.setCellValue(value);
 
-//        CellStyle cellStyle = workbook.createCellStyle();
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
         cellStyle.setWrapText(true);
+      //设置边框
+        cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
         cell.setCellStyle(cellStyle);
     }
   //重写创建列
@@ -170,10 +239,37 @@ public class ExcelReportHYTJView extends AbstractXlsView {
         Cell cell=row.createCell(cellNumber);
         cell.setCellValue(value);
 
-//        CellStyle cellStyle = workbook.createCellStyle();
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
         cellStyle.setWrapText(true);
+      //设置边框
+        cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
         cell.setCellStyle(cellStyle);
+    }
+    /**
+     * 
+     * @Title: setRegionStyle 
+     * @Description: 设置单元格样式
+     * @param sheet 当前表
+     * @param region 合并列
+     * @param cs  样式
+     */
+    public static void setRegionStyle(Sheet sheet, CellRangeAddress region, CellStyle cs) {
+    	for (int i = region.getFirstRow(); i <= region.getLastRow(); i++) {
+            HSSFRow row = (HSSFRow) sheet.getRow(i);
+            if (row == null)
+                row = (HSSFRow) sheet.createRow(i);
+            for (int j = region.getFirstColumn(); j <= region.getLastColumn(); j++) {
+                HSSFCell cell = row.getCell(j);
+                if (cell == null) {
+                    cell = row.createCell(j);
+                    cell.setCellValue("");
+                }
+                cell.setCellStyle(cs);
+            }
+    	}
     }
 }
