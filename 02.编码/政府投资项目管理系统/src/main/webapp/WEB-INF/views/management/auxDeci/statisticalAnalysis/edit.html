@@ -50,7 +50,7 @@
 					<div class="col-md-9">
 						<div style="display: flex;">
 							<span style="padding: 5px 10px 0 0;">批复时间时间</span>
-							<input type="text" class="Wdate form-control input-sm" style="width:180px;" ng-model="vm.pifuDate"
+							<input type="number" class="Wdate form-control input-sm" style="width:180px;" ng-model="vm.pifuDate"
 								onClick="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy',onpicked: function(){$(this).trigger('change')}})" />
 						</div>
 					</div>
@@ -60,7 +60,7 @@
 					<div class="col-md-9">
 						<div style="margin-bottom: 10px;">
 							<a class="btn btn-success btn-sm" href="/management/auxDeci/statisticalAnalysis/exportExcelForApproval?classDesc=industry&approvalYear={{vm.pifuDate}}">按项目行业分类</a>
-							<a class="btn btn-success btn-sm" href="/management/auxDeci/statisticalAnalysis/exportExcelForApproval?classDesc=unit&approvalYear={{vm.pifuDate}}">按项目建设单位分类</a>
+							<a class="btn btn-success btn-sm" href="/management/auxDeci/statisticalAnalysis/exportExcelForApproval?classDesc=unit&approvalYear={{vm.pifuDate}}">按申报单位分类</a>
 							<a class="btn btn-success btn-sm" href="/management/auxDeci/statisticalAnalysis/exportExcelForApproval?classDesc=approval&approvalYear={{vm.pifuDate}}">按审批阶段分类</a>
 						</div>
 					</div>
@@ -122,7 +122,7 @@
 					<div class="col-md-9">
 						<div style="display: flex;">
 							<span style="padding: 5px 10px 0 0;">计划下达时间</span>
-							<input type="text" class="Wdate form-control input-sm" style="width:180px;" ng-model="vm.pifuDate"
+							<input type="number" class="Wdate form-control input-sm" style="width:180px;" ng-model="vm.pifuDate"
 								onClick="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy',onpicked: function(){$(this).trigger('change')}})" />
 						</div>
 					</div>

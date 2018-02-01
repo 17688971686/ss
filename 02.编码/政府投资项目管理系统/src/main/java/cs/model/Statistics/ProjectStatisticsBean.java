@@ -42,6 +42,11 @@ public class ProjectStatisticsBean implements Serializable{
 	private Double apPlanReachTheYear;//本年度拨付金额
 	private String projectConstrCharDesc;//项目建设性质
 	private Double apInvestSum;//累计安排投资
+	private Double yearInvestApproval;//本年度拨款
+	private Double apPlanReach_ggys;//本年度计划下达安排——公共预算
+	private Double apPlanReach_gtzj;//本年度计划下达安排——国土基金
+	private String yearConstructionContent;//本年度建设内容
+	private String yearConstructionContentShenBao;//备注
 	private Date beginDate;
 	private Date endDate;
 	
@@ -192,5 +197,36 @@ public class ProjectStatisticsBean implements Serializable{
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	public Double getYearInvestApproval() {
+		return yearInvestApproval;
+	}
+	public void setYearInvestApproval(Double yearInvestApproval) {
+		this.yearInvestApproval = yearInvestApproval;
+	}
+	public Double getApPlanReach_ggys() {
+		return apPlanReach_ggys;
+	}
+	public void setApPlanReach_ggys(Double apPlanReach_ggys) {
+		this.apPlanReach_ggys = apPlanReach_ggys;
+	}
+	public Double getApPlanReach_gtzj() {
+		return apPlanReach_gtzj;
+	}
+	public void setApPlanReach_gtzj(Double apPlanReach_gtzj) {
+		this.apPlanReach_gtzj = apPlanReach_gtzj;
+	}
+	public String getYearConstructionContent() {
+		return yearConstructionContent;
+	}
+	public void setYearConstructionContent(String yearConstructionContent) {
+		this.yearConstructionContent = yearConstructionContent;
+	}
+	public String getYearConstructionContentShenBao() {
+		return yearConstructionContentShenBao;
+	}
+	public void setYearConstructionContentShenBao(String yearConstructionContentShenBao) {
+		this.yearConstructionContentShenBao = yearConstructionContentShenBao;
+	}
+	
 	
 }

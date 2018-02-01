@@ -3,7 +3,6 @@ package cs.controller.management.auxiliaryDecision;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
 
+import cs.common.Util;
 import cs.model.Statistics.ProjectStatisticsBean;
 import cs.model.Statistics.sttisticsData;
 import cs.model.Statistics.view.ApprovalStatisticsCustomView;
@@ -108,16 +108,21 @@ public class StatisticalAnalysisController {
            sb.append(line);  
        }  
        // 将资料解码  
-       String reqBody = sb.toString();  
+       String reqBody=sb.toString();  
 	   JSONObject json=JSONObject.parseObject(reqBody);
 	   //获取筛选条件
-	   int pifuDateBegin = Integer.parseInt((String)json.get("pifuDateBegin"));
-	   int pifuDateEnd = Integer.parseInt((String)json.get("pifuDateEnd"));
+	   String pifuDateBeginStr=json.get("pifuDateBegin").toString();
+	   String pifuDateEndStr=json.get("pifuDateEnd").toString();
+	   String investSumBeginStr=json.get("projectInvestSumBegin").toString();
+	   String investSumEndStr=json.get("projectInvestSumEnd").toString();
+	   
+	   Integer pifuDateBegin=Util.isNotNull(pifuDateBeginStr)?Integer.parseInt(pifuDateBeginStr,10):null;
+	   Integer pifuDateEnd=Util.isNotNull(pifuDateEndStr)?Integer.parseInt(pifuDateEndStr,10):null;
+	   Double investSumBegin=Util.isNotNull(investSumBeginStr)?Double.valueOf(investSumBeginStr):null;
+	   Double investSumEnd=Util.isNotNull(investSumEndStr)?Double.valueOf(investSumEndStr):null;
 	   List<String> industrySelected = (List<String>) json.get("industry");
 	   List<String> stageSelected = (List<String>) json.get("stage");
 	   List<String> unitSelected = (List<String>) json.get("unit");
-	   Double investSumBegin = Double.valueOf((String)json.get("projectInvestSumBegin"));
-	   Double investSumEnd = Double.valueOf((String)json.get("projectInvestSumEnd"));
 	   //查询获取数据
  	   List<ProjectStatisticsBean> data = shenBaoInfoService.getShenBaoInfoStatisticsByCustom(pifuDateBegin,pifuDateEnd,industrySelected,stageSelected,unitSelected,investSumBegin,investSumEnd);
  	   return new ModelAndView(new ApprovalStatisticsCustomView(), "data", data);
@@ -138,19 +143,26 @@ public class StatisticalAnalysisController {
        String reqBody = sb.toString();  
 	   JSONObject json=JSONObject.parseObject(reqBody);
 	   //获取筛选条件
-	   int planYearBegin = Integer.parseInt((String)json.get("planYearBegin"));
-	   int planYearEnd = Integer.parseInt((String)json.get("planYearEnd"));
+	   String planYearBeginStr=json.get("planYearBegin").toString();
+	   String planYearEndStr=json.get("planYearEnd").toString();
+	   String investSumBeginStr=json.get("projectInvestSumBegin").toString();
+	   String investSumEndStr=json.get("projectInvestSumEnd").toString();
+	   String apPlanReachSumBeginStr=json.get("projectApPlanReachSumBegin").toString();
+	   String apPlanReachSumEndStr=json.get("projectApPlanReachSumEnd").toString();
+	   
+	   Integer planYearBegin=Util.isNotNull(planYearBeginStr)?Integer.parseInt(planYearBeginStr,10):null;
+	   Integer planYearEnd=Util.isNotNull(planYearEndStr)?Integer.parseInt(planYearEndStr,10):null;
+	   Double investSumBegin=Util.isNotNull(investSumBeginStr)?Double.valueOf(investSumBeginStr):null;
+	   Double investSumEnd=Util.isNotNull(investSumEndStr)?Double.valueOf(investSumEndStr):null;
+	   Double apPlanReachSumBegin=Util.isNotNull(apPlanReachSumBeginStr)?Double.valueOf(apPlanReachSumBeginStr):null;
+	   Double apPlanReachSumEnd=Util.isNotNull(apPlanReachSumEndStr)?Double.valueOf(apPlanReachSumEndStr):null;
 	   List<String> industrySelected = (List<String>) json.get("industry");
 	   List<String> stageSelected = (List<String>) json.get("stage");
 	   List<String> unitSelected = (List<String>) json.get("unit");
-	   Double investSumBegin = Double.valueOf((String)json.get("projectInvestSumBegin"));
-	   Double investSumEnd = Double.valueOf((String)json.get("projectInvestSumEnd"));
-	   Double apPlanReachSumBegin = Double.valueOf((String)json.get("projectApPlanReachSumBegin"));
-	   Double apPlanReachSumEnd = Double.valueOf((String)json.get("projectApPlanReachSumEnd"));
+	   
 	   //查询获取数据
-// 	   List<ProjectStatisticsBean> data = shenBaoInfoService.getPlanStatisticsByCustom(planYearBegin,planYearEnd,industrySelected,stageSelected,
-// 			   unitSelected,investSumBegin,investSumEnd,apPlanReachSumBegin,apPlanReachSumEnd);
-	   List<ProjectStatisticsBean> data = new ArrayList<>();
+ 	   List<ProjectStatisticsBean> data = shenBaoInfoService.getPlanStatisticsByCustom(planYearBegin,planYearEnd,industrySelected,stageSelected,
+ 			   unitSelected,investSumBegin,investSumEnd,apPlanReachSumBegin,apPlanReachSumEnd);
  	   return new ModelAndView(new PlanStatisticsCustomView(), "data", data);
 	}
 	
@@ -169,12 +181,15 @@ public class StatisticalAnalysisController {
        String reqBody = sb.toString();  
 	   JSONObject json=JSONObject.parseObject(reqBody);
 	   //获取筛选条件
+	   String investSumBeginStr=json.get("projectInvestSumBegin").toString();
+	   String investSumEndStr=json.get("projectInvestSumEnd").toString();
+	   
+	   Double investSumBegin = Util.isNotNull(investSumBeginStr)?Double.valueOf(investSumBeginStr):null;
+	   Double investSumEnd = Util.isNotNull(investSumEndStr)?Double.valueOf(investSumEndStr):null;
 	   List<String> industrySelected = (List<String>) json.get("industry");
 	   List<String> stageSelected = (List<String>) json.get("stage");
 	   List<String> categorySelected = (List<String>) json.get("category");
 	   List<String> unitSelected = (List<String>) json.get("unit");
-	   Double investSumBegin = Double.valueOf((String)json.get("projectInvestSumBegin"));
-	   Double investSumEnd = Double.valueOf((String)json.get("projectInvestSumEnd"));
 	   //查询获取数据
  	   List<ProjectStatisticsBean> data = ProjectService.getProjectStatisticsByCustom(industrySelected,stageSelected,categorySelected,unitSelected,investSumBegin,investSumEnd);
  	   return new ModelAndView(new ProjectStatisticsCustomView(), "data", data);

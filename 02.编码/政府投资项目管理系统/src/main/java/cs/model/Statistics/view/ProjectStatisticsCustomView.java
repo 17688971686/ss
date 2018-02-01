@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.web.servlet.view.document.AbstractXlsView;
 
+import cs.common.Util;
 import cs.model.Statistics.ProjectStatisticsBean;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +37,7 @@ public class ProjectStatisticsCustomView extends AbstractXlsView {
 	@Override
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String fileName = "光明新区政府投资项目总库统计表.xls";
+		String fileName = Util.generateFileName("光明新区政府投资项目总库统计表")+".xls";
         response.setHeader("Content-Disposition", "attachment;filename=" +new String(fileName.getBytes("gb2312"), "iso8859-1"));
         Sheet sheet = workbook.createSheet("表1");
         

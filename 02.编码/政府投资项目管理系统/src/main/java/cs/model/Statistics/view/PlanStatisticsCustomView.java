@@ -102,7 +102,7 @@ public class PlanStatisticsCustomView extends AbstractXlsView {
         sheet.setColumnWidth(6, 256*10+184);
         sheet.setColumnWidth(7, 256*10+184);
         sheet.setColumnWidth(8, 256*15+184);
-        sheet.setColumnWidth(9, 256*12+184);
+        sheet.setColumnWidth(9, 256*13+184);
         //end#子标题
 
         //begin表格头
@@ -152,17 +152,52 @@ public class PlanStatisticsCustomView extends AbstractXlsView {
         @SuppressWarnings("unchecked")
 		List<ProjectStatisticsBean> data = (List<ProjectStatisticsBean>) model.get("data");
         for (ProjectStatisticsBean obj:data) {
-            Row row = sheet.createRow(rowNum);
+        	int rowNum1 = rowNum++;
+        	int rowNum2 = rowNum++;
+            Row row1 = sheet.createRow(rowNum1);
+            Row row2 = sheet.createRow(rowNum2);
+            //设置行高
+            row1.setHeight((short)500);
+            row2.setHeight((short)500);
             //创建数据
-            createCellAlignCenter(workbook,row,0, index,cellStyleO);//序号
-            createCellAlignCenter(workbook,row,1, obj.getProjectName(),cellStyleO);//项目名称
-        	createCellAlignCenter(workbook,row,2, obj.getUnitName(),cellStyleO);//建设单位
-        	createCellAlignCenter(workbook,row,3, obj.getProjectStageDesc(),cellStyleO);//项目阶段
-        	createCellAlignCenter(workbook,row,4, obj.getProjectIndustryDesc(),cellStyleO);//行业类型
-        	createCellAlignCenter(workbook,row,5, obj.getProjectInvestSum(),cellStyleO);//总投资
-        	createCellAlignCenter(workbook,row,6, obj.getProjectGuiMo(),cellStyleO);//项目主要建设内容
+            createCellAlignCenter(workbook,row1,0, index,cellStyleO);//序号
+            createCellAlignCenter(workbook,row1,1, obj.getProjectName(),cellStyleO);//项目名称
+        	createCellAlignCenter(workbook,row2,1, obj.getUnitName(),cellStyleO);//建设单位
+        	createCellAlignCenter(workbook,row1,2, obj.getProjectGuiMo(),cellStyleO);//建设规模
+        	createCellAlignCenter(workbook,row1,3, obj.getProjectConstrCharDesc(),cellStyleO);//建设性质
+        	createCellAlignCenter(workbook,row2,3, obj.getBeginDate()+"~\n"+obj.getEndDate(),cellStyleO);//建设起止年月
+        	createCellAlignCenter(workbook,row1,4, obj.getProjectInvestSum(),cellStyleO);//总投资
+        	createCellAlignCenter(workbook,row2,4, obj.getApInvestSum(),cellStyleO);//累计拨款(累计安排投资)
+        	createCellAlignCenter(workbook,row1,5, "-",cellStyleO);//资金来源
+        	createCellAlignCenter(workbook,row1,6, obj.getYearInvestApproval(),cellStyleO);//安排投资
+        	createCellAlignCenter(workbook,row1,7, obj.getApPlanReach_ggys()+obj.getApPlanReach_gtzj(),cellStyleO);//本年度拨款
+        	createCellAlignCenter(workbook,row1,8, obj.getYearConstructionContent(),cellStyleO);//本年度建设内容
+        	createCellAlignCenter(workbook,row1,9, obj.getYearConstructionContentShenBao(),cellStyleO);//备注
+        	
+        	//合并列
+        	CellRangeAddress cellRangeDataColumn0 = new CellRangeAddress(rowNum1,rowNum2,0,0);
+        	CellRangeAddress cellRangeDataColumn2 = new CellRangeAddress(rowNum1,rowNum2,2,2);
+        	CellRangeAddress cellRangeDataColumn5 = new CellRangeAddress(rowNum1,rowNum2,5,5);
+        	CellRangeAddress cellRangeDataColumn6 = new CellRangeAddress(rowNum1,rowNum2,6,6);
+        	CellRangeAddress cellRangeDataColumn7 = new CellRangeAddress(rowNum1,rowNum2,7,7);
+        	CellRangeAddress cellRangeDataColumn8 = new CellRangeAddress(rowNum1,rowNum2,8,8);
+        	CellRangeAddress cellRangeDataColumn9 = new CellRangeAddress(rowNum1,rowNum2,9,9);
+        	setRegionStyle(sheet,cellRangeDataColumn0,cellStyleO);
+            sheet.addMergedRegion(cellRangeDataColumn0);
+            setRegionStyle(sheet,cellRangeDataColumn2,cellStyleO);
+            sheet.addMergedRegion(cellRangeDataColumn2);
+            setRegionStyle(sheet,cellRangeDataColumn5,cellStyleO);
+            sheet.addMergedRegion(cellRangeDataColumn5);
+            setRegionStyle(sheet,cellRangeDataColumn6,cellStyleO);
+            sheet.addMergedRegion(cellRangeDataColumn6);
+            setRegionStyle(sheet,cellRangeDataColumn7,cellStyleO);
+            sheet.addMergedRegion(cellRangeDataColumn7);
+            setRegionStyle(sheet,cellRangeDataColumn8,cellStyleO);
+            sheet.addMergedRegion(cellRangeDataColumn8);
+            setRegionStyle(sheet,cellRangeDataColumn9,cellStyleO);
+            sheet.addMergedRegion(cellRangeDataColumn9);
             
-            rowNum++;index++;
+            index++;
         }
         //end#数据列
         try {

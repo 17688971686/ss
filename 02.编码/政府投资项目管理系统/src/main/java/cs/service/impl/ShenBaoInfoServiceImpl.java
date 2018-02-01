@@ -915,7 +915,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@SuppressWarnings({"deprecation", "rawtypes", "unchecked" })
 	@Override
 	@Transactional
-	public List<ProjectStatisticsBean> getShenBaoInfoStatisticsByCustom(int pifuDateBegin, int pifuDateEnd,
+	public List<ProjectStatisticsBean> getShenBaoInfoStatisticsByCustom(Integer pifuDateBegin, Integer pifuDateEnd,
 			List<String> industrySelected, List<String> stageSelected, List<String> unitSelected, Double investSumBegin,
 			Double investSumEnd) {
 		List<ProjectStatisticsBean> list = new ArrayList<>();
@@ -933,17 +933,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			}
 			Sql +=" ) AND";
 		}
-		if(stageSelected.size()>0){
-			Sql += " sbi.projectShenBaoStage IN (";
-			for(int i=0;i<stageSelected.size();i++){
-				if(i == stageSelected.size()-1){
-					Sql += "'"+stageSelected.get(i)+"'";
-				}else{
-					Sql += "'"+stageSelected.get(i)+"',";
-				}
-			}
-			Sql +=" ) AND";
-		}
 		if(unitSelected.size()>0){
 			Sql += " sbi.unitName IN (";
 			for(int i=0;i<unitSelected.size();i++){
@@ -955,12 +944,34 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			}
 			Sql +=" ) AND";
 		}
+		if(stageSelected.size()>0){
+			Sql += " sbi.projectShenBaoStage IN (";
+			for(int i=0;i<stageSelected.size();i++){
+				if(i == stageSelected.size()-1){
+					Sql += "'"+stageSelected.get(i)+"'";
+				}else{
+					Sql += "'"+stageSelected.get(i)+"',";
+				}
+			}
+			Sql +=" ) AND";
+		}else{
+			Sql +=" sbi.projectShenBaoStage IN ('"+BasicDataConfig.projectShenBaoStage_XMJYS+"','"+BasicDataConfig.projectShenBaoStage_KXXYJBG+"','"+BasicDataConfig.projectShenBaoStage_CBSJGS+"','"+BasicDataConfig.projectShenBaoStage_ZJSQBG+"') AND";
+		}
 		
 		if(investSumBegin!=null && investSumEnd!=null){
 			Sql +=" sbi.projectInvestSum BETWEEN "+investSumBegin+" AND "+investSumEnd+" AND";
+		}else if(investSumBegin!=null && investSumEnd==null){
+			Sql +=" sbi.projectInvestSum >="+investSumBegin+" AND";
+		}else if(investSumBegin==null && investSumEnd!=null){
+			Sql +=" sbi.projectInvestSum <="+investSumEnd+" AND";
 		}
-		if(pifuDateEnd>=pifuDateBegin){
+		
+		if(pifuDateBegin!=null && pifuDateEnd!=null){
 			Sql +=" YEAR(sbi.pifuDate) BETWEEN "+pifuDateBegin+" AND "+pifuDateEnd+" AND";
+		}else if(pifuDateBegin!=null && pifuDateEnd==null){
+			Sql +=" YEAR(sbi.pifuDate) >= "+pifuDateBegin+" AND";
+		}else if(pifuDateBegin==null && pifuDateEnd!=null){
+			Sql +=" YEAR(sbi.pifuDate) <= "+pifuDateEnd+" AND";
 		}
 		
 		Sql +=" sbi.projectShenBaoStage = b1.id AND sbi.projectIndustry = b2.id AND sbi.unitName = u.id ORDER BY b2.itemOrder";
@@ -1050,7 +1061,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@SuppressWarnings({"deprecation", "rawtypes", "unchecked" })
 	@Override
 	@Transactional
-	public List<ProjectStatisticsBean> getPlanStatisticsByCustom(int planYearBegin, int planYearEnd,
+	public List<ProjectStatisticsBean> getPlanStatisticsByCustom(Integer planYearBegin, Integer planYearEnd,
 			List<String> industrySelected, List<String> stageSelected, List<String> unitSelected, Double investSumBegin,
 			Double investSumEnd, Double apPlanReachSumBegin, Double apPlanReachSumEnd) {
 		List<ProjectStatisticsBean> list = new ArrayList<>();
@@ -1095,19 +1106,38 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		
 		if(investSumBegin!=null && investSumEnd!=null){
 			Sql +=" sbi.projectInvestSum BETWEEN "+investSumBegin+" AND "+investSumEnd+" AND";
+		}else if(investSumBegin!=null && investSumEnd==null){
+			Sql +=" sbi.projectInvestSum >= "+investSumBegin+" AND";
+		}else if(investSumBegin==null && investSumEnd!=null){
+			Sql +=" sbi.projectInvestSum <= "+investSumEnd+" AND";
+		}
+		
+		if(apPlanReachSumBegin!=null && apPlanReachSumEnd!=null){
+			Sql +=" (IFNULL(sbi.apPlanReach_ggys, 0) + IFNULL(sbi.apPlanReach_gtzj, 0)) BETWEEN "+apPlanReachSumBegin+" AND "+apPlanReachSumEnd+" AND";
+		}else if(apPlanReachSumBegin!=null && apPlanReachSumEnd==null){
+			Sql +=" (IFNULL(sbi.apPlanReach_ggys, 0) + IFNULL(sbi.apPlanReach_gtzj, 0)) >= "+apPlanReachSumBegin+" AND";
+		}else if(apPlanReachSumBegin==null && apPlanReachSumEnd!=null){
+			Sql +=" (IFNULL(sbi.apPlanReach_ggys, 0) + IFNULL(sbi.apPlanReach_gtzj, 0)) <= "+apPlanReachSumEnd+" AND";
+		}
+		
+		if(planYearBegin!=null && planYearEnd!=null){
+			Sql +=" YEAR(sbi.pifuDate) BETWEEN "+planYearBegin+" AND "+planYearEnd+" AND";
+		}else if(planYearBegin!=null && planYearEnd==null){
+			Sql +=" YEAR(sbi.pifuDate) >= "+planYearBegin+" AND";
+		}else if(planYearBegin==null && planYearEnd!=null){
+			Sql +=" YEAR(sbi.pifuDate) <= "+planYearEnd+" AND";
 		}
 	
-		Sql +=" YEAR(sbi.pifuDate) BETWEEN "+planYearBegin+" AND "+planYearEnd+" AND";
 		Sql +=" sbi.projectShenBaoStage = '"+BasicDataConfig.projectShenBaoStage_planReach+"'";
-		Sql +=" AND sbi.unitName = u.id AND sbi.projectConstrChar = b.id ORDER BY b2.itemOrder";
+		Sql +=" AND sbi.unitName = u.id AND sbi.projectConstrChar = b.id ORDER BY b.itemOrder";
 		
 		NativeQuery query = super.repository.getSession().createSQLQuery(Sql);
 		query.addScalar("projectName", new StringType());
 		query.addScalar("unitName", new StringType());
 		query.addScalar("projectConstrCharDesc", new StringType());
-		query.addScalar("projectGuiMo", new StringType());
 		query.addScalar("beginDate", new DateType());
 		query.addScalar("endDate", new DateType());
+		query.addScalar("projectGuiMo", new StringType());
 		query.addScalar("projectInvestSum", new DoubleType());
 		query.addScalar("apInvestSum", new DoubleType());
 		query.addScalar("yearInvestApproval", new DoubleType());
@@ -1115,15 +1145,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		query.addScalar("apPlanReach_gtzj", new DoubleType());
 		query.addScalar("yearConstructionContent", new StringType());
 		query.addScalar("yearConstructionContentShenBao", new StringType());
-	
-		
 		list = query.setResultTransformer(Transformers.aliasToBean(ProjectStatisticsBean.class)).list();
 		logger.info("计划类信息自定义分类统计报表导出");
 		return list;
 	}
-	
-	
-	
-	
-	
 }

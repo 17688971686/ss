@@ -502,10 +502,14 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 			Sql +=" ) AND";
 		}
 		if(investSumBegin!=null && investSumEnd!=null){
-			Sql +=" p.projectInvestSum BETWEEN "+investSumBegin+" AND "+investSumEnd;
+			Sql +=" p.projectInvestSum BETWEEN "+investSumBegin+" AND "+investSumEnd+" AND";
+		}else if(investSumBegin!=null && investSumEnd==null){
+			Sql +=" p.projectInvestSum >= "+investSumBegin+" AND";
+		}else if(investSumBegin==null && investSumEnd!=null){
+			Sql +=" p.projectInvestSum <= "+investSumBegin+" AND";
 		}
 		
-		Sql +=" AND p.projectStage = b1.id AND p.projectIndustry = b2.id AND p.unitName = u.id ORDER BY b2.itemOrder";
+		Sql +=" p.projectStage = b1.id AND p.projectIndustry = b2.id AND p.unitName = u.id ORDER BY b2.itemOrder";
 		
 		NativeQuery query = super.repository.getSession().createSQLQuery(Sql);
 		query.addScalar("projectName", new StringType());
