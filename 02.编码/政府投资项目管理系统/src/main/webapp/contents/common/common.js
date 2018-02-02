@@ -420,14 +420,6 @@
     	return {
     		uploadSize:104857600,//本地文件上传大小限制(100M)
     		
-    		processState:"processState",//审批状态
-    		processState_waitQianShou:"processState_1",//等待签收
-    		processState_qianShou:"processState_2",//已签收
-    		processState_msFenBan:"processState_3",//秘书科分办
-    		processState_banJie:"processState_11",//已办结
-    		processState_tuiWen:"processState_15",//已退文
-    		processState_next:"processState_16",
-    		
     		processStage:"processStage",//审批阶段
     		processStage_tianbao:"processStage_1",//建设单位填写申报信息
     		processStage_qianshou:"processStage_2",//投资科审核收件办理

@@ -511,8 +511,8 @@
 					title : "操作",
 					width : 200,
 					template : function(item) {					
-						var isShowEditAndRemoveBtn=item.processState==common.basicDataConfig().processState_jinxingzhong
-						   ||item.processState==common.basicDataConfig().processState_notpass;
+						var isShowEditAndRemoveBtn=(item.processStage==common.basicDataConfig().processStage_qianshou&&item.processState==common.basicDataConfig().processState_jinxingzhong)
+						   ||item.processState==common.basicDataConfig().processState_notpass||item.processStage==common.basicDataConfig().processStage_tianbao;
 						return common.format($('#columnBtns_records').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShowEditAndRemoveBtn?'':'display:none',"vm.deleteShenBaoInfo('"+item.id+"')");
 					}
 				}

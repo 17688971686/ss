@@ -166,9 +166,12 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 				projectRepo.save(project);
 				entity.setProjectId(project.getId());
 				entity.setProjectNumber(project.getProjectNumber());
-				entity.setProcessStage(BasicDataConfig.processStage_jbrbanli);//设置申报信息的阶段为经办人办理
-				entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
-				entity.setReceiver(currentUser.getUserId());//设置默认签收人
+				//设置相关的默认信息
+				entity.setProcessStage(BasicDataConfig.processStage_qianshou);//处理阶段为签收阶段
+				entity.setProcessState(BasicDataConfig.processState_pass);//状态为已签收通过
+				entity.setShenbaoDate(new Date());//申报时间
+				entity.setQianshouDate(new Date());//签收时间
+				entity.setReceiver(currentUser.getUserId());//签收人
 				entity.setIsIncludLibrary(false);//设置初始化为未纳入项目库
 				logger.info(String.format("创建项目信息,项目名称 %s",project.getProjectName()));
 			}else{
@@ -423,6 +426,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		ShenBaoInfo shenbaoInfo = super.repository.findById(dto.getRelId());
 		if(shenbaoInfo !=null){
 			shenbaoInfo.setProcessState(dto.getThisProcessState());
+			shenbaoInfo.setAuditState(BasicDataConfig.auditState_noAudit);//审核不通过
 			shenbaoInfo.setModifiedBy(currentUser.getUserId());
 			shenbaoInfo.setModifiedDate(new Date());
 			

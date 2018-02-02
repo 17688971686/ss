@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.common.ICurrentUser;
+import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ShenBaoInfoService;
+import cs.service.interfaces.UserUnitInfoService;
 
 @Controller
 @RequestMapping(name="申报端--项目申报",path="shenbaoAdmin/shenbao")
@@ -27,6 +29,8 @@ public class ShenBaoAdminShenBaoController {
 	private ShenBaoInfoService shenBaoInfoService;
 	@Autowired
 	private ICurrentUser currentUser;
+	@Autowired
+	private UserUnitInfoService userUnitInfoService;
 	
 	@RequiresPermissions("shenbaoAdmin/shenbao##get")
 	@RequestMapping(name = "获取申报信息", path = "",method=RequestMethod.GET)
@@ -40,11 +44,13 @@ public class ShenBaoAdminShenBaoController {
 	@RequestMapping(name = "获取单位申报信息", path = "unit",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getByUnit(HttpServletRequest request) throws ParseException{
 		ODataObj odataObj = new ODataObj(request);
-		//设置过滤条件 根据创建人找到对应的申报信息
+		//设置过滤条件 根据创建单位找到对应的申报信息
+		//根据登陆名查找到单位信息
+		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
-		filterItem.setField("createdBy");
+		filterItem.setField("unitName");
 		filterItem.setOperator("eq");
-		filterItem.setValue(currentUser.getUserId());
+		filterItem.setValue(userUnitInfo.getId());
 		odataObj.getFilter().add(filterItem);
 		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoService.get(odataObj);		
 		return shenBaoInfoDtos;	

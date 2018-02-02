@@ -68,9 +68,20 @@ overflow: scroll !important;
 	  				</td>
 	  				<td class="formAlignRight">签收人：</td>
   					<td>
-  						<input type="radio" style="height:12.73px;" name="receiver" value="me" ng-model="vm.search.receiver"/> 本人
-  						<input type="radio" style="height:12.73px;" name="receiver" value="other" ng-model="vm.search.receiver"/> 其他人
-  						<input type="radio" style="height:12.73px;" name="receiver" value="all" ng-model="vm.search.receiver"/> 所有人
+  						<label>
+  							<input type="radio" style="height:12.73px;" name="receiver" value="me" ng-model="vm.search.receiver"/>
+  							<span>本人</span>
+  						</label>
+  						&nbsp;
+  						<label>
+  							<input type="radio" style="height:12.73px;" name="receiver" value="other" ng-model="vm.search.receiver"/>
+  							<span>其他人</span>
+  						</label>
+  						&nbsp;
+  						<label>
+  							<input type="radio" style="height:12.73px;" name="receiver" value="all" ng-model="vm.search.receiver"/>
+  							<span>所有人</span>
+  						</label>
   					</td>
   					<td class="formAlignRight">打包类型：</td>
   					<td>

@@ -232,7 +232,7 @@
 					var number = 0;
 					for(var i=0;i<vm.model.shenBaoRecords.length;i++){
 						var shenBaoRecord = vm.model.shenBaoRecords[i];
-						if(shenBaoRecord.processStage == common.basicDataConfig().processStage_tianbao){//如果是退文
+						if(shenBaoRecord.processState == common.basicDataConfig().processState_notpass){//如果是退文
 							number += 1;
 						}
 					}
@@ -336,7 +336,8 @@
 					title : "操作",
 					width : 200,
 					template : function(item) {					
-						var isShow=item.processStage==common.basicDataConfig().processStage_tianbao||(item.processStage==common.basicDataConfig().processStage_qianshou && item.processState != common.basicDataConfig().processState_pass);
+						var isShow=item.processStage==common.basicDataConfig().processStage_tianbao||item.processState==common.basicDataConfig().processState_notpass
+							||(item.processStage==common.basicDataConfig().processStage_qianshou && item.processState != common.basicDataConfig().processState_pass);
 						return common.format($('#columnBtns_Record').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShow?'':'display:none',"vm.deleteShenBaoInfo('"+item.id+"')");
 					}
 				}
@@ -1053,8 +1054,8 @@
 					title : "操作",
 					width : 200,
 					template : function(item) {
-						var isShow=item.processState==common.basicDataConfig().processState_waitQianShou
-								   ||item.processState==common.basicDataConfig().processState_tuiWen;
+						var isShow=item.processStage==common.basicDataConfig().processStage_tianbao||item.processState==common.basicDataConfig().processState_notpass
+							||(item.processStage==common.basicDataConfig().processStage_qianshou && item.processState != common.basicDataConfig().processState_pass);
 						return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShow?'':'display:none');
 					},
 					headerAttributes: {

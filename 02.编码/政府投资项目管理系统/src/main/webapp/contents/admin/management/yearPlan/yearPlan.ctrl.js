@@ -114,7 +114,7 @@
     			var filters = [];//封装查询条件
     			//列表默认查询条件
 				filters.push({field:'projectShenBaoStage',operator:'eq',value:common.basicDataConfig().projectShenBaoStage_nextYearPlan});//默认条件--申报阶段为下一年度计划
-				filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_qianShou});//默认条件--申报信息的状态为签收状态   
+				filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_pass});//默认条件--申报信息的状态为签收状态   
 				if(type=='ZF'){
 					filters.push({field:'projectInvestmentType',operator:'eq',value:common.basicDataConfig().projectInvestmentType_ZF});//默认条件--政投
           		}else if(type=='SH'){
@@ -563,7 +563,7 @@
     		vm.search=function(){
     			var filters = [];
 				filters.push({field:'projectShenBaoStage',operator:'eq',value:common.basicDataConfig().projectShenBaoStage_nextYearPlan});//默认条件--申报阶段为下一年度计划
-				filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_qianShou});//默认条件--申报信息的状态为签收状态   
+				filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_pass});//默认条件--申报信息的状态为签收状态 
 				if(vm.search.projectName !=null && vm.search.projectName !=''){//查询条件--项目名称
 	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
 	     		   }
@@ -600,7 +600,7 @@
     			//设置列表过滤项为默认的
     			var filters = [];
 				filters.push({field:'projectShenBaoStage',operator:'eq',value:common.basicDataConfig().projectShenBaoStage_nextYearPlan});//默认条件--申报阶段为下一年度计划
-				filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_qianShou});//默认条件--申报信息的状态为签收状态  
+				filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_pass});//默认条件--申报信息的状态为签收状态  
 				vm.addPlanGridOptions.dataSource.filter(filters);
     		};
     		//模态框点击确认
