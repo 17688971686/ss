@@ -21,10 +21,10 @@ public class Project extends BaseProject {
 	@Id
 	private String id;
 	
-	@Column(columnDefinition="bit(1) b'0' COMMENT '是否需要填报'")
+	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否需要填报'")
 	private Boolean isMonthReport = false;
 	
-	@Column(columnDefinition="bit(1) b'1' COMMENT '是否是最新的版本'")
+	@Column(columnDefinition="bit(1) DEFAULT b'1' COMMENT '是否是最新的版本'")
 	private Boolean isLatestVersion = true;
 	
 	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否纳入项目库'")

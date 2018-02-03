@@ -159,6 +159,7 @@ public class BaseProject extends BaseEntity
 	//end
 	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否已纳入年度计划'")
 	private Boolean isIncludYearPlan=false;
+	
 	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否已申请下达资金'")
 	private Boolean isPlanReach=false;
 
