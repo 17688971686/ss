@@ -55,12 +55,7 @@
 					 vm.model.capitalSHTZ||0,vm.model.capitalZYYS||0,
 					 vm.model.capitalOther||0]);
 			};
-			//投资去处计算（社投）
-			vm.investTotal=function(){
-				vm.model.projectInvestSum=common.getSum([vm.model.landPrice||0,vm.model.equipmentInvestment||0,
-					 	vm.model.buidSafeInvestment||0,vm.model.capitalOther||0]);
-				return vm.model.projectInvestSum;
-			 };
+			
 
     		//用于查询、新增、编辑--基础数据初始化
     		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
@@ -226,6 +221,12 @@
 	       			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==vm.model.projectIndustryParent;})
 	       			.toArray();
  			  };
+ 			//投资去处计算（社投）
+				vm.investTotal=function(){
+					vm.model.projectInvestSum=common.getSum([vm.model.landPrice||0,vm.model.equipmentInvestment||0,
+						 	vm.model.buidSafeInvestment||0,vm.model.capitalOther||0]);
+					return vm.model.projectInvestSum;
+				 };
  		   }
     	   
     	   	//设置项目所属单位信息
