@@ -29,28 +29,11 @@
 			vm.model.projectInvestSumBegin=vm.projectInvestSumBegin==undefined?"":vm.projectInvestSumBegin.toString();
 			vm.model.projectInvestSumEnd=vm.projectInvestSumEnd==undefined?"":vm.projectInvestSumEnd.toString();
 			
-			var httpOptions = {
-	                method: 'post',
-	                url : url+"/exportExcelForApprovalByCustom",
-			        data : vm.model,
-			        headers : { 'Content-Type': 'application/json;charset=UTF-8' }
-	            };
-            var httpSuccess = function success(response) {
-                common.requestSuccess({
-					vm:vm,
-					response:response,
-					fn:function () {
-	                    
-	                }
-				});
-            };
-            common.http({
-				vm:vm,
-				$http:$http,
-				httpOptions:httpOptions,
-				success:httpSuccess
-			});
-			
+			vm.postDownLoadFile({
+	            url:url+"/exportExcelForApprovalByCustom",
+	            data:vm.model,
+	            method:'post'
+	          });
 		}//end fun exportExcelForApprovalByCustom
 		
 		function exportExcelForPlanByCustom(vm){
@@ -64,27 +47,11 @@
 			vm.model.projectApPlanReachSumBegin=vm.projectApPlanReachSumBegin==undefined?"":vm.projectApPlanReachSumBegin.toString();
 			vm.model.projectApPlanReachSumEnd=vm.projectApPlanReachSumEnd==undefined?"":vm.projectApPlanReachSumEnd.toString();
 			
-			var httpOptions = {
-	                method: 'post',
-	                url : url+"/exportExcelForPlanByCustom",
-			        data : vm.model,
-			        headers : { 'Content-Type': 'application/json;charset=UTF-8' }
-	            };
-            var httpSuccess = function success(response) {
-                common.requestSuccess({
-					vm:vm,
-					response:response,
-					fn:function () {
-	                    
-	                }
-				});
-            };
-            common.http({
-				vm:vm,
-				$http:$http,
-				httpOptions:httpOptions,
-				success:httpSuccess
-			});
+			vm.postDownLoadFile({
+	            url:url+"/exportExcelForPlanByCustom",
+	            data:vm.model,
+	            method:'post'
+	          });
 		}//end fun exportExcelForPlanByCustom
 		
 		/**
@@ -95,27 +62,11 @@
 			vm.model.projectInvestSumBegin=vm.projectInvestSumBegin==undefined?"":vm.projectInvestSumBegin.toString();
 			vm.model.projectInvestSumEnd=vm.projectInvestSumEnd==undefined?"":vm.projectInvestSumEnd.toString();
 			
-			var httpOptions = {
-	                method: 'post',
-	                url : url+"/exportExcelForProjectByCustom",
-			        data : vm.model,
-			        headers : { 'Content-Type': 'application/json;charset=UTF-8' }
-	            };
-            var httpSuccess = function success(response) {
-                common.requestSuccess({
-					vm:vm,
-					response:response,
-					fn:function () {
-	                    
-	                }
-				});
-            };
-            common.http({
-				vm:vm,
-				$http:$http,
-				httpOptions:httpOptions,
-				success:httpSuccess
-			});
+			vm.postDownLoadFile({
+	            url:url+"/exportExcelForProjectByCustom",
+	            data:vm.model,
+	            method:'post'
+	          });
 		}//end fun exportExcelForProjectByCustom
 		
 		/**

@@ -1,4 +1,4 @@
-package cs.model.Statistics.view;
+package cs.model.Statistics.view.oldEdition;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -38,7 +38,9 @@ public class ProjectStatisticsCustomView extends AbstractXlsView {
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		String fileName = Util.generateFileName("光明新区政府投资项目总库统计表")+".xls";
-        response.setHeader("Content-Disposition", "attachment;filename=" +new String(fileName.getBytes("gb2312"), "iso8859-1"));
+        //response.setHeader("Content-Disposition", "attachment;filename=" +new String(fileName.getBytes("gb2312"), "iso8859-1"));
+//        response.setContentType("application/x-download"); 
+//        response.setHeader("Content-Disposition", "attachment;filename=\"" + fileName + "\"");
         Sheet sheet = workbook.createSheet("表1");
         
         CellStyle cellStyleTitle = workbook.createCellStyle();
@@ -137,8 +139,8 @@ public class ProjectStatisticsCustomView extends AbstractXlsView {
             
             rowNum++;index++;
         }
-        //end#数据列
-        try {
+
+        try{
         	String path = "C://fileExport//"+fileName;
         	File file = new File(path); 
         	File fileParent = file.getParentFile(); 
@@ -146,7 +148,7 @@ public class ProjectStatisticsCustomView extends AbstractXlsView {
         	 fileParent.mkdirs(); 
         	}
 	        FileOutputStream xls = new FileOutputStream(path);
-	        workbook.write(xls); 
+	        workbook.write(xls);
 	        xls.close();
 	        JOptionPane.showMessageDialog(null, "导出成功!文件保存地址为：C盘fileExport文件夹下");
         } catch (FileNotFoundException e) {

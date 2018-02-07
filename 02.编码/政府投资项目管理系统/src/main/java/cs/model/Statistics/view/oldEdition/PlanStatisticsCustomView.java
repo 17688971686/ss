@@ -1,4 +1,4 @@
-package cs.model.Statistics.view;
+package cs.model.Statistics.view.oldEdition;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;

@@ -919,42 +919,42 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@SuppressWarnings({"deprecation", "rawtypes", "unchecked" })
 	@Override
 	@Transactional
-	public List<ProjectStatisticsBean> getShenBaoInfoStatisticsByCustom(Integer pifuDateBegin, Integer pifuDateEnd,
-			List<String> industrySelected, List<String> stageSelected, List<String> unitSelected, Double investSumBegin,
+	public List<ProjectStatisticsBean> getApprovalStatisticsByCustom(Integer pifuDateBegin, Integer pifuDateEnd,
+			String[] industrySelected, String[] stageSelected, String[] unitSelected, Double investSumBegin,
 			Double investSumEnd) {
 		List<ProjectStatisticsBean> list = new ArrayList<>();
 		String Sql = "SELECT sbi.projectName,u.unitName,b1.description AS projectStageDesc,b2.description AS projectIndustryDesc,sbi.projectInvestSum,sbi.projectGuiMo";
 		Sql +=" FROM cs_shenbaoinfo AS sbi,cs_basicdata AS b1,cs_basicdata AS b2,cs_userunitinfo AS u";
 		Sql +=" WHERE";
-		if(industrySelected.size()>0){
+		if(industrySelected!=null && industrySelected.length>0){
 			Sql +=" sbi.projectIndustry IN (";
-			for(int i=0;i<industrySelected.size();i++){
-				if(i == industrySelected.size()-1){
-					Sql += "'"+industrySelected.get(i)+"'";
+			for(int i=0;i<industrySelected.length;i++){
+				if(i == industrySelected.length-1){
+					Sql += "'"+industrySelected[i]+"'";
 				}else{
-					Sql += "'"+industrySelected.get(i)+"',";
+					Sql += "'"+industrySelected[i]+"',";
 				}
 			}
 			Sql +=" ) AND";
 		}
-		if(unitSelected.size()>0){
+		if(unitSelected!=null && unitSelected.length>0){
 			Sql += " sbi.unitName IN (";
-			for(int i=0;i<unitSelected.size();i++){
-				if(i == unitSelected.size()-1){
-					Sql += "'"+unitSelected.get(i)+"'";
+			for(int i=0;i<unitSelected.length;i++){
+				if(i == unitSelected.length-1){
+					Sql += "'"+unitSelected[i]+"'";
 				}else{
-					Sql += "'"+unitSelected.get(i)+"',";
+					Sql += "'"+unitSelected[i]+"',";
 				}
 			}
 			Sql +=" ) AND";
 		}
-		if(stageSelected.size()>0){
+		if(stageSelected!=null && stageSelected.length>0){
 			Sql += " sbi.projectShenBaoStage IN (";
-			for(int i=0;i<stageSelected.size();i++){
-				if(i == stageSelected.size()-1){
-					Sql += "'"+stageSelected.get(i)+"'";
+			for(int i=0;i<stageSelected.length;i++){
+				if(i == stageSelected.length-1){
+					Sql += "'"+stageSelected[i]+"'";
 				}else{
-					Sql += "'"+stageSelected.get(i)+"',";
+					Sql += "'"+stageSelected[i]+"',";
 				}
 			}
 			Sql +=" ) AND";
@@ -1066,7 +1066,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@Override
 	@Transactional
 	public List<ProjectStatisticsBean> getPlanStatisticsByCustom(Integer planYearBegin, Integer planYearEnd,
-			List<String> industrySelected, List<String> stageSelected, List<String> unitSelected, Double investSumBegin,
+			String[] industrySelected, String[] stageSelected, String[] unitSelected, Double investSumBegin,
 			Double investSumEnd, Double apPlanReachSumBegin, Double apPlanReachSumEnd) {
 		List<ProjectStatisticsBean> list = new ArrayList<>();
 		String Sql = "SELECT sbi.projectName,u.unitName,b.description AS projectConstrCharDesc,sbi.beginDate,sbi.endDate,sbi.projectGuiMo,";
@@ -1074,35 +1074,35 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		Sql +=" sbi.yearConstructionContent,sbi.yearConstructionContentShenBao";
 		Sql +=" FROM cs_shenbaoinfo AS sbi,cs_basicdata AS b,cs_userunitinfo AS u";
 		Sql +=" WHERE";
-		if(industrySelected.size()>0){
+		if(industrySelected!=null && industrySelected.length>0){
 			Sql +=" sbi.projectIndustry IN (";
-			for(int i=0;i<industrySelected.size();i++){
-				if(i == industrySelected.size()-1){
-					Sql += "'"+industrySelected.get(i)+"'";
+			for(int i=0;i<industrySelected.length;i++){
+				if(i == industrySelected.length-1){
+					Sql += "'"+industrySelected[i]+"'";
 				}else{
-					Sql += "'"+industrySelected.get(i)+"',";
+					Sql += "'"+industrySelected[i]+"',";
 				}
 			}
 			Sql +=" ) AND";
 		}
-		if(stageSelected.size()>0){
+		if(stageSelected!=null && stageSelected.length>0){
 			Sql += " sbi.projectStage IN (";
-			for(int i=0;i<stageSelected.size();i++){
-				if(i == stageSelected.size()-1){
-					Sql += "'"+stageSelected.get(i)+"'";
+			for(int i=0;i<stageSelected.length;i++){
+				if(i == stageSelected.length-1){
+					Sql += "'"+stageSelected[i]+"'";
 				}else{
-					Sql += "'"+stageSelected.get(i)+"',";
+					Sql += "'"+stageSelected[i]+"',";
 				}
 			}
 			Sql +=" ) AND";
 		}
-		if(unitSelected.size()>0){
+		if(unitSelected!=null && unitSelected.length>0){
 			Sql += " sbi.unitName IN (";
-			for(int i=0;i<unitSelected.size();i++){
-				if(i == unitSelected.size()-1){
-					Sql += "'"+unitSelected.get(i)+"'";
+			for(int i=0;i<unitSelected.length;i++){
+				if(i == unitSelected.length-1){
+					Sql += "'"+unitSelected[i]+"'";
 				}else{
-					Sql += "'"+unitSelected.get(i)+"',";
+					Sql += "'"+unitSelected[i]+"',";
 				}
 			}
 			Sql +=" ) AND";

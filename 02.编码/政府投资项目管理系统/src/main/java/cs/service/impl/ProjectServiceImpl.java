@@ -449,54 +449,54 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	@SuppressWarnings({"deprecation", "rawtypes", "unchecked" })
 	@Override
 	@Transactional
-	public List<ProjectStatisticsBean> getProjectStatisticsByCustom(List<String> industrySelected,
-			List<String> stageSelected, List<String> categorySelected, List<String> unitSelected, Double investSumBegin,
+	public List<ProjectStatisticsBean> getProjectStatisticsByCustom(String[] industrySelected,
+			String[] stageSelected, String[] categorySelected, String[] unitSelected, Double investSumBegin,
 			Double investSumEnd) {
 		
 		List<ProjectStatisticsBean> list = new ArrayList<>();
 		String Sql = "SELECT p.projectName,u.unitName,b1.description AS projectStageDesc,b2.description AS projectIndustryDesc,p.projectInvestSum,p.projectGuiMo,p.projectInvestAccuSum";
 		Sql +=" FROM cs_project AS p,cs_basicdata AS b1,cs_basicdata AS b2,cs_userunitinfo AS u";
 		Sql +=" WHERE";
-		if(industrySelected.size()>0){
+		if(industrySelected!=null && industrySelected.length>0){
 			Sql +=" p.projectIndustry IN (";
-			for(int i=0;i<industrySelected.size();i++){
-				if(i == industrySelected.size()-1){
-					Sql += "'"+industrySelected.get(i)+"'";
+			for(int i=0;i<industrySelected.length;i++){
+				if(i == industrySelected.length-1){
+					Sql += "'"+industrySelected[i]+"'";
 				}else{
-					Sql += "'"+industrySelected.get(i)+"',";
+					Sql += "'"+industrySelected[i]+"',";
 				}
 			}
 			Sql +=" ) AND";
 		}
-		if(stageSelected.size()>0){
+		if(stageSelected!=null && stageSelected.length>0){
 			Sql += " p.projectStage IN (";
-			for(int i=0;i<stageSelected.size();i++){
-				if(i == stageSelected.size()-1){
-					Sql += "'"+stageSelected.get(i)+"'";
+			for(int i=0;i<stageSelected.length;i++){
+				if(i == stageSelected.length-1){
+					Sql += "'"+stageSelected[i]+"'";
 				}else{
-					Sql += "'"+stageSelected.get(i)+"',";
+					Sql += "'"+stageSelected[i]+"',";
 				}
 			}
 			Sql +=" ) AND";
 		}
-		if(categorySelected.size()>0){
+		if(categorySelected!=null && categorySelected.length>0){
 			Sql += " p.projectCategory IN (";
-			for(int i=0;i<categorySelected.size();i++){
-				if(i == categorySelected.size()-1){
-					Sql += "'"+categorySelected.get(i)+"'";
+			for(int i=0;i<categorySelected.length;i++){
+				if(i == categorySelected.length-1){
+					Sql += "'"+categorySelected[i]+"'";
 				}else{
-					Sql += "'"+categorySelected.get(i)+"',";
+					Sql += "'"+categorySelected[i]+"',";
 				}
 			}
 			Sql +=" ) AND";
 		}
-		if(unitSelected.size()>0){
+		if(unitSelected!=null && unitSelected.length>0){
 			Sql += " p.unitName IN (";
-			for(int i=0;i<unitSelected.size();i++){
-				if(i == unitSelected.size()-1){
-					Sql += "'"+unitSelected.get(i)+"'";
+			for(int i=0;i<unitSelected.length;i++){
+				if(i == unitSelected.length-1){
+					Sql += "'"+unitSelected[i]+"'";
 				}else{
-					Sql += "'"+unitSelected.get(i)+"',";
+					Sql += "'"+unitSelected[i]+"',";
 				}
 			}
 			Sql +=" ) AND";
@@ -523,6 +523,80 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		logger.info("项目总库信息自定义分类统计报表导出");
 		return list;
 	}
+//	public List<ProjectStatisticsBean> getProjectStatisticsByCustom(List<String> industrySelected,
+//			List<String> stageSelected, List<String> categorySelected, List<String> unitSelected, Double investSumBegin,
+//			Double investSumEnd) {
+//		
+//		List<ProjectStatisticsBean> list = new ArrayList<>();
+//		String Sql = "SELECT p.projectName,u.unitName,b1.description AS projectStageDesc,b2.description AS projectIndustryDesc,p.projectInvestSum,p.projectGuiMo,p.projectInvestAccuSum";
+//		Sql +=" FROM cs_project AS p,cs_basicdata AS b1,cs_basicdata AS b2,cs_userunitinfo AS u";
+//		Sql +=" WHERE";
+//		if(industrySelected.size()>0){
+//			Sql +=" p.projectIndustry IN (";
+//			for(int i=0;i<industrySelected.size();i++){
+//				if(i == industrySelected.size()-1){
+//					Sql += "'"+industrySelected.get(i)+"'";
+//				}else{
+//					Sql += "'"+industrySelected.get(i)+"',";
+//				}
+//			}
+//			Sql +=" ) AND";
+//		}
+//		if(stageSelected.size()>0){
+//			Sql += " p.projectStage IN (";
+//			for(int i=0;i<stageSelected.size();i++){
+//				if(i == stageSelected.size()-1){
+//					Sql += "'"+stageSelected.get(i)+"'";
+//				}else{
+//					Sql += "'"+stageSelected.get(i)+"',";
+//				}
+//			}
+//			Sql +=" ) AND";
+//		}
+//		if(categorySelected.size()>0){
+//			Sql += " p.projectCategory IN (";
+//			for(int i=0;i<categorySelected.size();i++){
+//				if(i == categorySelected.size()-1){
+//					Sql += "'"+categorySelected.get(i)+"'";
+//				}else{
+//					Sql += "'"+categorySelected.get(i)+"',";
+//				}
+//			}
+//			Sql +=" ) AND";
+//		}
+//		if(unitSelected.size()>0){
+//			Sql += " p.unitName IN (";
+//			for(int i=0;i<unitSelected.size();i++){
+//				if(i == unitSelected.size()-1){
+//					Sql += "'"+unitSelected.get(i)+"'";
+//				}else{
+//					Sql += "'"+unitSelected.get(i)+"',";
+//				}
+//			}
+//			Sql +=" ) AND";
+//		}
+//		if(investSumBegin!=null && investSumEnd!=null){
+//			Sql +=" p.projectInvestSum BETWEEN "+investSumBegin+" AND "+investSumEnd+" AND";
+//		}else if(investSumBegin!=null && investSumEnd==null){
+//			Sql +=" p.projectInvestSum >= "+investSumBegin+" AND";
+//		}else if(investSumBegin==null && investSumEnd!=null){
+//			Sql +=" p.projectInvestSum <= "+investSumBegin+" AND";
+//		}
+//		
+//		Sql +=" p.projectStage = b1.id AND p.projectIndustry = b2.id AND p.unitName = u.id ORDER BY b2.itemOrder";
+//		
+//		NativeQuery query = super.repository.getSession().createSQLQuery(Sql);
+//		query.addScalar("projectName", new StringType());
+//		query.addScalar("unitName", new StringType());
+//		query.addScalar("projectStageDesc", new StringType());
+//		query.addScalar("projectIndustryDesc", new StringType());
+//		query.addScalar("projectInvestSum", new DoubleType());
+//		query.addScalar("projectGuiMo", new StringType());
+//		query.addScalar("projectInvestAccuSum", new DoubleType());
+//		list = query.setResultTransformer(Transformers.aliasToBean(ProjectStatisticsBean.class)).list();
+//		logger.info("项目总库信息自定义分类统计报表导出");
+//		return list;
+//	}
 
 	/**
 	 * 批复文件库处理

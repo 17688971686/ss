@@ -1,13 +1,12 @@
 package cs.controller.management.auxiliaryDecision;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,17 +18,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.fastjson.JSONObject;
-
 import cs.common.Util;
 import cs.model.Statistics.ProjectStatisticsBean;
 import cs.model.Statistics.sttisticsData;
-import cs.model.Statistics.view.ApprovalStatisticsCustomView;
 import cs.model.Statistics.view.ApprovalStatisticsView;
-import cs.model.Statistics.view.PlanStatisticsCustomView;
 import cs.model.Statistics.view.PlanStatisticsView;
-import cs.model.Statistics.view.ProjectStatisticsCustomView;
 import cs.model.Statistics.view.ProjectStatisticsView;
+import cs.model.Statistics.view.newEdition.GenerateExcelForApproval;
+import cs.model.Statistics.view.newEdition.GenerateExcelForPlan;
+import cs.model.Statistics.view.newEdition.GenerateExcelForProject;
 import cs.service.interfaces.ProjectService;
 import cs.service.interfaces.ShenBaoInfoService;
 import cs.service.interfaces.YearPlanService;
@@ -96,103 +93,119 @@ public class StatisticalAnalysisController {
 		return new ModelAndView(new PlanStatisticsView(classDesc,Integer.parseInt(planYear)), "data", data);
 	}
 	
-	@SuppressWarnings("unchecked")
+
 	@RequestMapping(name="审批类-自定义条件统计",path="exportExcelForApprovalByCustom",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public ModelAndView exportExcelForApprovalByCustom(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		// 读取请求内容  
-       BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));  
-       String line = null;  
-       StringBuilder sb = new StringBuilder();  
-       while((line = br.readLine())!=null){  
-           sb.append(line);  
-       }  
-       // 将资料解码  
-       String reqBody=sb.toString();  
-	   JSONObject json=JSONObject.parseObject(reqBody);
+	public void exportExcelForApprovalByCustom(HttpServletRequest request,HttpServletResponse response) throws Exception{
 	   //获取筛选条件
-	   String pifuDateBeginStr=json.get("pifuDateBegin").toString();
-	   String pifuDateEndStr=json.get("pifuDateEnd").toString();
-	   String investSumBeginStr=json.get("projectInvestSumBegin").toString();
-	   String investSumEndStr=json.get("projectInvestSumEnd").toString();
-	   
+	   String pifuDateBeginStr=request.getParameter("pifuDateBegin");
+	   String pifuDateEndStr=request.getParameter("pifuDateEnd");
+	   String investSumBeginStr=request.getParameter("projectInvestSumBegin");
+	   String investSumEndStr=request.getParameter("projectInvestSumEnd");
+	   String industrySelect=request.getParameter("industry");
+	   String stageSelect=request.getParameter("stage");
+	   String unitSelect=request.getParameter("unit");
+	   //处理请求参数
 	   Integer pifuDateBegin=Util.isNotNull(pifuDateBeginStr)?Integer.parseInt(pifuDateBeginStr,10):null;
 	   Integer pifuDateEnd=Util.isNotNull(pifuDateEndStr)?Integer.parseInt(pifuDateEndStr,10):null;
 	   Double investSumBegin=Util.isNotNull(investSumBeginStr)?Double.valueOf(investSumBeginStr):null;
 	   Double investSumEnd=Util.isNotNull(investSumEndStr)?Double.valueOf(investSumEndStr):null;
-	   List<String> industrySelected = (List<String>) json.get("industry");
-	   List<String> stageSelected = (List<String>) json.get("stage");
-	   List<String> unitSelected = (List<String>) json.get("unit");
+	   String[] industrySelected = Util.isNotNull(industrySelect)?industrySelect.split(","):null;
+	   String[] stageSelected = Util.isNotNull(stageSelect)?stageSelect.split(","):null;
+	   String[] unitSelected = Util.isNotNull(unitSelect)?unitSelect.split(","):null;
 	   //查询获取数据
- 	   List<ProjectStatisticsBean> data = shenBaoInfoService.getShenBaoInfoStatisticsByCustom(pifuDateBegin,pifuDateEnd,industrySelected,stageSelected,unitSelected,investSumBegin,investSumEnd);
- 	   return new ModelAndView(new ApprovalStatisticsCustomView(), "data", data);
+ 	   List<ProjectStatisticsBean> data = shenBaoInfoService.getApprovalStatisticsByCustom(pifuDateBegin,pifuDateEnd,industrySelected,stageSelected,unitSelected,investSumBegin,investSumEnd);
+		
+ 	   try {
+			String fileName="光明新区政府投资计划类统计表.xls";
+			String newexcelname = new String(fileName.getBytes("utf-8"),"ISO_8859_1");
+			response.reset();
+			response.setContentType("APPLICATION/OCTET-STREAM");
+			response.setHeader("Content-disposition", "attachment; filename=\"" + newexcelname + "\""); // 实现下载
+			HSSFWorkbook workbook = new GenerateExcelForApproval().getHSSFWorkBook(data);//构建Excel
+			workbook.write(response.getOutputStream());// 实现输出
+		response.flushBuffer();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	@SuppressWarnings("unchecked")
+
 	@RequestMapping(name="计划类-自定义条件统计",path="exportExcelForPlanByCustom",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public ModelAndView exportExcelForPlanByCustom(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		// 读取请求内容  
-       BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));  
-       String line = null;  
-       StringBuilder sb = new StringBuilder();  
-       while((line = br.readLine())!=null){  
-           sb.append(line);  
-       }  
-       // 将资料解码  
-       String reqBody = sb.toString();  
-	   JSONObject json=JSONObject.parseObject(reqBody);
-	   //获取筛选条件
-	   String planYearBeginStr=json.get("planYearBegin").toString();
-	   String planYearEndStr=json.get("planYearEnd").toString();
-	   String investSumBeginStr=json.get("projectInvestSumBegin").toString();
-	   String investSumEndStr=json.get("projectInvestSumEnd").toString();
-	   String apPlanReachSumBeginStr=json.get("projectApPlanReachSumBegin").toString();
-	   String apPlanReachSumEndStr=json.get("projectApPlanReachSumEnd").toString();
-	   
+	public void exportExcelForPlanByCustom(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		// 读取请求参数
+	   String investSumBeginStr= request.getParameter("projectInvestSumBegin");
+	   String investSumEndStr= request.getParameter("projectInvestSumEnd");
+	   String apPlanReachSumBeginStr=request.getParameter("projectApPlanReachSumBegin");
+	   String apPlanReachSumEndStr=request.getParameter("projectApPlanReachSumEnd");
+	   String planYearBeginStr=request.getParameter("planYearBegin");
+	   String planYearEndStr=request.getParameter("planYearEnd");
+	   String industrySelect=request.getParameter("industry");
+	   String stageSelect=request.getParameter("stage");
+	   String unitSelect=request.getParameter("unit");
+	   //处理请求参数
 	   Integer planYearBegin=Util.isNotNull(planYearBeginStr)?Integer.parseInt(planYearBeginStr,10):null;
 	   Integer planYearEnd=Util.isNotNull(planYearEndStr)?Integer.parseInt(planYearEndStr,10):null;
-	   Double investSumBegin=Util.isNotNull(investSumBeginStr)?Double.valueOf(investSumBeginStr):null;
-	   Double investSumEnd=Util.isNotNull(investSumEndStr)?Double.valueOf(investSumEndStr):null;
+	   Double investSumBegin = Util.isNotNull(investSumBeginStr)?Double.valueOf(investSumBeginStr):null;
+	   Double investSumEnd = Util.isNotNull(investSumEndStr)?Double.valueOf(investSumEndStr):null;
 	   Double apPlanReachSumBegin=Util.isNotNull(apPlanReachSumBeginStr)?Double.valueOf(apPlanReachSumBeginStr):null;
 	   Double apPlanReachSumEnd=Util.isNotNull(apPlanReachSumEndStr)?Double.valueOf(apPlanReachSumEndStr):null;
-	   List<String> industrySelected = (List<String>) json.get("industry");
-	   List<String> stageSelected = (List<String>) json.get("stage");
-	   List<String> unitSelected = (List<String>) json.get("unit");
-	   
+	   String[] industrySelected = Util.isNotNull(industrySelect)?industrySelect.split(","):null;
+	   String[] stageSelected = Util.isNotNull(stageSelect)?stageSelect.split(","):null;
+	   String[] unitSelected = Util.isNotNull(unitSelect)?unitSelect.split(","):null;
+
 	   //查询获取数据
  	   List<ProjectStatisticsBean> data = shenBaoInfoService.getPlanStatisticsByCustom(planYearBegin,planYearEnd,industrySelected,stageSelected,
  			   unitSelected,investSumBegin,investSumEnd,apPlanReachSumBegin,apPlanReachSumEnd);
- 	   return new ModelAndView(new PlanStatisticsCustomView(), "data", data);
+ 	  
+ 	   try {
+ 		   String fileName="光明新区政府投资计划类统计表.xls";
+ 		   String newexcelname = new String(fileName.getBytes("utf-8"),"ISO_8859_1");
+ 		   response.reset();
+ 		   response.setContentType("APPLICATION/OCTET-STREAM");
+	       response.setHeader("Content-disposition", "attachment; filename=\"" + newexcelname + "\""); // 实现下载
+	       HSSFWorkbook workbook = new GenerateExcelForPlan().getHSSFWorkBook(data);//构建Excel
+	       workbook.write(response.getOutputStream());// 实现输出
+	       response.flushBuffer();
+	  }catch (Exception e) {
+		  e.printStackTrace();
+	  }
 	}
 	
-	@SuppressWarnings("unchecked")
 	@RequestMapping(name="项目总库-自定义条件统计",path="exportExcelForProjectByCustom",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public ModelAndView exportExcelForProjectByCustom(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		// 读取请求内容  
-       BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));  
-       String line = null;  
-       StringBuilder sb = new StringBuilder();  
-       while((line = br.readLine())!=null){  
-           sb.append(line);  
-       }  
-       // 将资料解码  
-       String reqBody = sb.toString();  
-	   JSONObject json=JSONObject.parseObject(reqBody);
-	   //获取筛选条件
-	   String investSumBeginStr=json.get("projectInvestSumBegin").toString();
-	   String investSumEndStr=json.get("projectInvestSumEnd").toString();
-	   
+	public void exportExcelForProjectByCustom(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		// 读取请求参数
+	   String investSumBeginStr= request.getParameter("projectInvestSumBegin");
+	   String investSumEndStr= request.getParameter("projectInvestSumEnd");
+	   String industrySelect=request.getParameter("industry");
+	   String stageSelect=request.getParameter("stage");
+	   String categorySelect=request.getParameter("category");
+	   String unitSelect=request.getParameter("unit");
+	   //处理请求参数
 	   Double investSumBegin = Util.isNotNull(investSumBeginStr)?Double.valueOf(investSumBeginStr):null;
 	   Double investSumEnd = Util.isNotNull(investSumEndStr)?Double.valueOf(investSumEndStr):null;
-	   List<String> industrySelected = (List<String>) json.get("industry");
-	   List<String> stageSelected = (List<String>) json.get("stage");
-	   List<String> categorySelected = (List<String>) json.get("category");
-	   List<String> unitSelected = (List<String>) json.get("unit");
+	   String[] industrySelected = Util.isNotNull(industrySelect)?industrySelect.split(","):null;
+	   String[] stageSelected = Util.isNotNull(stageSelect)?stageSelect.split(","):null;
+	   String[] categorySelected = Util.isNotNull(categorySelect)?categorySelect.split(","):null;
+	   String[] unitSelected = Util.isNotNull(unitSelect)?unitSelect.split(","):null;
+
 	   //查询获取数据
  	   List<ProjectStatisticsBean> data = ProjectService.getProjectStatisticsByCustom(industrySelected,stageSelected,categorySelected,unitSelected,investSumBegin,investSumEnd);
- 	   return new ModelAndView(new ProjectStatisticsCustomView(), "data", data);
+ 	  
+ 	   try {
+ 		   String fileName="光明新区政府投资项目总库统计表.xls";
+ 		   String newexcelname = new String(fileName.getBytes("utf-8"),"ISO_8859_1");
+ 		   response.reset();
+ 		   response.setContentType("APPLICATION/OCTET-STREAM");
+	       response.setHeader("Content-disposition", "attachment; filename=\"" + newexcelname + "\""); // 实现下载
+	       HSSFWorkbook workbook = new GenerateExcelForProject().getHSSFWorkBook(data);//构建Excel
+	       workbook.write(response.getOutputStream());// 实现输出
+	       response.flushBuffer();
+	  }catch (Exception e) {
+	  	e.printStackTrace();
+	  }
 	}
 	
 	@RequiresPermissions("management/auxDeci/statisticalAnalysis#html/index#get")

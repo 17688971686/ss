@@ -680,7 +680,7 @@
 					title : "项目名称",
 					width:300,
 					template:function(item){
-						return common.format('<a href="#/project/projectInfo/{0}">{1}</a>',item.projectId,item.projectName);
+						return common.format('<a class="text-primary" href="#/project/projectInfo/{0}">{1}</a>',item.projectId,item.projectName);
 					},
 					filterable : true,
 					headerAttributes: {
