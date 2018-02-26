@@ -1,108 +1,130 @@
 <style>
-.div_parent{
- 	width:100%;
-    height:700px;
-	vertical-align: middle;
- 	position:relative;
-}
-.div_child {
-	width:600px;
-	height:400px;
-	margin: auto;  
-	position: absolute;  
-	top: 0; left: 0; bottom: 0; right: 0; 
-	border: 1px solid #b59898;
-}
-.div_child_custom{
-	width:700px;
-	height:580px;
-	margin: auto;  
-	position: absolute;  
-	top: 0; left: 0; bottom: 0; right: 0; 
-	border: 1px solid #b59898;
-}
-.div_tiaojian{
-    display: inline;
-    border: 1px dashed;
-    margin-bottom: 10px;
-}
-.lable_tiaojian{
-	padding-left: 0;
-	margin-left: 20px;
-}
+	.form-item{
+		background: #f8f8f8;
+		padding:10px;
+		margin-bottom: 15px;
+	}
+	.form-item .title{
+		margin-top: 0;
+		padding:0 0 10px 15px;
+		border-bottom:1px dashed #ddd;
+		position: relative;
+		color:#0067cc;
+	}
+	.form-item .title:before{
+		content: '';
+		display: inline-block;
+		width: 7px;
+		height: 18px;
+		background: #0067cc;
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+	.form-item .control-label .description{
+		display: inline-block;
+		padding:5px 10px;
+		margin:5px 10px 0 0;
+		background: #e3f1ef;
+		color:#616161;
+		cursor:pointer;
+		text-align: center;
+		border:1px solid #ddd;
+		border-radius:5px;
+	}
+	.form-item .control-label input[type=checkbox]{
+		display: none;
+	}
+	.form-item .control-label .glyphicon-ok{
+		display: none;
+	}
+	.form-item .control-label input[type=checkbox]:checked +.description{
+		background:#00a65a;
+		color:#fff;
+	}
+	.form-item .control-label input[type=checkbox]:checked +.description .glyphicon-ok{
+		display: inline-block;
+	}
 </style>
 
-<div class="well well-sm" style="background:white;">
+<div class="well" style="background:white;">
 	<ol class="breadcrumb">
 		<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
 		<li><a href="#/">首页</a></li>
 		<li>决策辅助系统</li>
-		<li><a href="javascript::" ui-sref="statisticalAnalysis">统计分析主页</a></li>
+		<li><a href="javascript:;" ui-sref="statisticalAnalysis">统计分析主页</a></li>
 		<li class="active">{{vm.title}}</li>	 
 	</ol>
 	
 	<div class="div_parent">
 		<!-- 审批类固定类 -->
-		<div class="div_child" ng-if="vm.isApprovalFixed">
-			<form class="form-horizontal" role="form" style="margin-top: 100px;">
-				<div class="form-group"> 
-					<label class="col-md-3 control-label">筛选条件：</label>
-					<div class="col-md-9">
-						<div style="display: flex;">
-							<span style="padding: 5px 10px 0 0;">批复时间时间</span>
-							<input type="number" class="Wdate form-control input-sm" style="width:180px;" ng-model="vm.pifuDate"
-								onClick="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy',onpicked: function(){$(this).trigger('change')}})" />
-						</div>
-					</div>
-				</div>
+		<div ng-if="vm.isApprovalFixed">
+			<form role="form">
 				<div class="form-group">
-					<label class="col-md-3 control-label">导出项：</label>
-					<div class="col-md-9">
+					<div class="form-item">
+						<h4 class="title">筛选条件</h4>
+						<span style="padding: 5px 10px 0 0;">批复时间时间</span>
+						<input type="number" class="Wdate form-control input-sm" style="width:180px;" ng-model="vm.pifuDate"
+								onClick="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy',onpicked: function(){$(this).trigger('change')}})" />
+					</div>
+					<div class="form-item">
+						<h4 class="title">导出项</h4>
 						<div style="margin-bottom: 10px;">
-							<a class="btn btn-success btn-sm" href="/management/auxDeci/statisticalAnalysis/exportExcelForApproval?classDesc=industry&approvalYear={{vm.pifuDate}}">按项目行业分类</a>
-							<a class="btn btn-success btn-sm" href="/management/auxDeci/statisticalAnalysis/exportExcelForApproval?classDesc=unit&approvalYear={{vm.pifuDate}}">按申报单位分类</a>
-							<a class="btn btn-success btn-sm" href="/management/auxDeci/statisticalAnalysis/exportExcelForApproval?classDesc=approval&approvalYear={{vm.pifuDate}}">按审批阶段分类</a>
+							<a class="btn btn-success" href="/management/auxDeci/statisticalAnalysis/exportExcelForApproval?classDesc=industry&approvalYear={{vm.pifuDate}}">按项目行业分类</a>
+							<a class="btn btn-success" href="/management/auxDeci/statisticalAnalysis/exportExcelForApproval?classDesc=unit&approvalYear={{vm.pifuDate}}">按申报单位分类</a>
+							<a class="btn btn-success" href="/management/auxDeci/statisticalAnalysis/exportExcelForApproval?classDesc=approval&approvalYear={{vm.pifuDate}}">按审批阶段分类</a>
 						</div>
 					</div>
 				</div>
 			</form>
 		</div>
 		<!-- 审批类自定义条件 -->
-		<div class="div_child_custom" ng-if="vm.isApprovalCustom">
-			<form class="form-horizontal" role="form" style="margin-top: 10px;" ng-submit="vm.exportExcelForApprovalByCustom()">
+		<div ng-if="vm.isApprovalCustom">
+			<form role="form" ng-submit="vm.exportExcelForApprovalByCustom()">
 				<div class="form-group">
-					<label class="col-md-2 control-label lable_tiaojian">批复时间范围：</label>
-					<div class="col-md-9" style="margin-bottom: 10px;">
+					<div class="form-item">
+						<h4 class="title">批复时间范围</h4>
 						<input type="number" class="Wdate form-control input-sm" style="width:180px;" ng-model="vm.pifuDateBegin"
 								onClick="WdatePicker({isShowClear:false,readOnly:false,dateFmt:'yyyy',onpicked: function(){$(this).trigger('change')}})" />
 						<span>~</span>
 						<input type="number" class="Wdate form-control input-sm" style="width:180px;" min={{vm.pifuDateBegin}} ng-model="vm.pifuDateEnd"
 								onClick="WdatePicker({isShowClear:false,readOnly:false,dateFmt:'yyyy',onpicked: function(){$(this).trigger('change')}})" />
 					</div>
-					
-					<label class="col-md-2 control-label lable_tiaojian">行业分类：</label>
-					<div class="col-md-9 div_tiaojian">
+					<div class="form-item">
+						<h4 class="title">行业分类</h4>
 						<label class="control-label" ng-repeat="x in vm.basicData.projectIndustry_ZF | orderBy:'itemOrder'">
-							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectIdustry(x.id)"/>{{x.description}}&nbsp;&nbsp;
+							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectIdustry(x.id)"/>
+							<span class="description">
+								<i class="glyphicon glyphicon-ok"></i>
+								{{x.description}}
+							</span>
 						</label>
 					</div>
-							
-					<label class="col-md-2 control-label lable_tiaojian">审批阶段：</label>
-					<div class="col-md-9 div_tiaojian">
+
+					<div class="form-item">
+						<h4 class="title">审批阶段</h4>
 						<label class="control-label" ng-repeat="x in vm.basicData.projectShenBaoStage | orderBy:'itemOrder'" ng-show="vm.basicData.approvalStage.indexOf(x.id)>-1">
-							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectStage(x.id)"/>{{x.description}}&nbsp;&nbsp;
+							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectStage(x.id)"/>
+							<span class="description">
+								<i class="glyphicon glyphicon-ok"></i>
+								{{x.description}}
+							</span>
 						</label>
 					</div>
-					
-					<label class="col-md-2 control-label lable_tiaojian">申报单位：</label>
-					<div class="col-md-9 div_tiaojian">
+					<div class="form-item">
+						<h4 class="title">申报单位</h4>
 						<label class="control-label" ng-repeat="x in vm.basicData.userUnit">
-							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectUnit(x.id)"/>{{x.unitName}}&nbsp;&nbsp;
+							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectUnit(x.id)"/>
+							<span class="description">
+								<i class="glyphicon glyphicon-ok"></i>
+								{{x.unitName}}
+							</span>
 						</label>
 					</div>
 					
-					<label class="col-md-2 control-label lable_tiaojian">总投资范围：</label>
-					<div class="col-md-9" style="margin-bottom: 10px;">
+
+					<div class="form-item">
+						<h4 class="title">总投资范围</h4>
 						<input type="number" step="any" class="form-control" style="width:200px;" ng-model="vm.projectInvestSumBegin"/>
 						<span>~</span>
 						<input type="number" step="any" class="form-control" style="width:200px;" min={{vm.projectInvestSumBegin}} ng-model="vm.projectInvestSumEnd"/>
@@ -110,79 +132,82 @@
 					</div>
 				</div>
 				<div class="form-group text-center">
-					<button type="submit" class="btn btn-success btn-sm">导出</button>
+					<button type="submit" class="btn btn-success" style="width: 150px;">导出</button>
 				</div>
 			</form>	
 		</div>
 		<!-- 计划类固定类 -->
-		<div class="div_child" ng-if="vm.isPlanFixed">
-			<form class="form-horizontal" role="form" style="margin-top: 100px;">
-				<div class="form-group"> 
-					<label class="col-md-3 control-label">筛选条件：</label>
-					<div class="col-md-9">
-						<div style="display: flex;">
-							<span style="padding: 5px 10px 0 0;">计划下达时间</span>
-							<input type="number" class="Wdate form-control input-sm" style="width:180px;" ng-model="vm.pifuDate"
-								onClick="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy',onpicked: function(){$(this).trigger('change')}})" />
-						</div>
-					</div>
-				</div>
+		<div ng-if="vm.isPlanFixed">
+			<form role="form">
 				<div class="form-group">
-					<label class="col-md-3 control-label">导出项：</label>
-					<div class="col-md-9">
+					<div class="form-item">
+						<h4 class="title">筛选条件</h4>
+						<span style="padding: 5px 10px 0 0;">计划下达时间</span>
+						<input type="number" class="Wdate form-control input-sm" style="width:180px;" ng-model="vm.pifuDate"
+							onClick="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy',onpicked: function(){$(this).trigger('change')}})" />
+					</div>
+					<div class="form-item">
+						<h4 class="title">导出项</h4>
 						<div style="margin-bottom: 10px;">
-							<a class="btn btn-success btn-sm" href="/management/auxDeci/statisticalAnalysis/exportExcelForPlan?classDesc=industry&planYear={{vm.pifuDate}}">按项目行业分类</a>
-							<a class="btn btn-success btn-sm" href="/management/auxDeci/statisticalAnalysis/exportExcelForPlan?classDesc=unit&planYear={{vm.pifuDate}}">按项目建设单位分类</a>
-							<a class="btn btn-success btn-sm" href="/management/auxDeci/statisticalAnalysis/exportExcelForPlan?classDesc=plan&planYear={{vm.pifuDate}}">按计划类型分类</a>
+							<a class="btn btn-success" href="/management/auxDeci/statisticalAnalysis/exportExcelForPlan?classDesc=industry&planYear={{vm.pifuDate}}">按项目行业分类</a>
+							<a class="btn btn-success" href="/management/auxDeci/statisticalAnalysis/exportExcelForPlan?classDesc=unit&planYear={{vm.pifuDate}}">按项目建设单位分类</a>
+							<a class="btn btn-success" href="/management/auxDeci/statisticalAnalysis/exportExcelForPlan?classDesc=plan&planYear={{vm.pifuDate}}">按计划类型分类</a>
 						</div>
 					</div>
 				</div>
 			</form>
 		</div>
 		<!-- 计划类自定义条件类 -->
-		<div class="div_child_custom" ng-if="vm.isPlanCustom">
-			<form class="form-horizontal" role="form" style="margin-top: 10px;" ng-submit="vm.exportExcelForPlanByCustom()">
+		<div ng-if="vm.isPlanCustom">
+			<form role="form" ng-submit="vm.exportExcelForPlanByCustom()">
 				<div class="form-group">
-					<label class="col-md-3 control-label lable_tiaojian">计划下达时间范围：</label>
-					<div class="col-md-8" style="margin-bottom: 10px;">
+					<div class="form-item">
+						<h4 class="title">计划下达时间范围：</h4>
 						<input type="number" class="Wdate form-control input-sm" style="width:180px;" ng-model="vm.planYearBegin"
 								onClick="WdatePicker({isShowClear:false,readOnly:false,dateFmt:'yyyy',onpicked: function(){$(this).trigger('change')}})" />
 						<span>~</span>
 						<input type="number" min={{vm.planYearBegin}} class="Wdate form-control input-sm" style="width:180px;" ng-model="vm.planYearEnd"
 								onClick="WdatePicker({isShowClear:false,readOnly:false,dateFmt:'yyyy',onpicked: function(){$(this).trigger('change')}})" />
 					</div>
-					
-					<label class="col-md-2 control-label lable_tiaojian">行业分类：</label>
-					<div class="col-md-9 div_tiaojian">
+					<div class="form-item">
+						<h4 class="title">行业分类：</h4>
 						<label class="control-label" ng-repeat="x in vm.basicData.projectIndustry_ZF | orderBy:'itemOrder'">
-							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectIdustry(x.id)"/>{{x.description}}&nbsp;&nbsp;
+							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectIdustry(x.id)"/>
+							<span class="description">
+								<i class="glyphicon glyphicon-ok"></i>
+								{{x.description}}
+							</span>
 						</label>
 					</div>
-							
-					<label class="col-md-2 control-label lable_tiaojian">项目阶段：</label>
-					<div class="col-md-9 div_tiaojian">
+					<div class="form-item">
+						<h4 class="title">项目阶段：</h4>
 						<label class="control-label" ng-repeat="x in vm.basicData.projectStage">
-							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectStage(x.id)"/>{{x.description}}&nbsp;&nbsp;
+							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectStage(x.id)"/>
+							<span class="description">
+								<i class="glyphicon glyphicon-ok"></i>
+								{{x.description}}
+							</span>
 						</label>
 					</div>
-					
-					<label class="col-md-2 control-label lable_tiaojian">申报单位：</label>
-					<div class="col-md-9 div_tiaojian">
+					<div class="form-item">
+						<h4 class="title">申报单位：</h4>
 						<label class="control-label" ng-repeat="x in vm.basicData.userUnit">
-							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectUnit(x.id)"/>{{x.unitName}}&nbsp;&nbsp;
+							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectUnit(x.id)"/>
+							<span class="description">
+								<i class="glyphicon glyphicon-ok"></i>
+								{{x.unitName}}
+							</span>
 						</label>
 					</div>
-					
-					<label class="col-md-2 control-label lable_tiaojian">总投资范围：</label>
-					<div class="col-md-9" style="margin-bottom: 10px;">
+					<div class="form-item">
+						<h4 class="title">总投资范围：</h4>
 						<input type="number" step="any" class="form-control" style="width:200px;" ng-model="vm.projectInvestSumBegin"/>
 						<span>~</span>
 						<input type="number" step="any" class="form-control" style="width:200px;" min={{vm.projectInvestSumBegin}} ng-model="vm.projectInvestSumEnd"/>
 						<span>（万元）</span>
 					</div>
-					
-					<label class="col-md-2 control-label lable_tiaojian">下达资金范围：</label>
-					<div class="col-md-9" style="margin-bottom: 10px;">
+					<div class="form-item">
+						<h4 class="title">下达资金范围：</h4>
 						<input type="number" step="any" class="form-control" style="width:200px;" ng-model="vm.projectApPlanReachSumBegin"/>
 						<span>~</span>
 						<input type="number" step="any" class="form-control" style="width:200px;" min={{vm.projectApPlanReachSumBegin}} ng-model="vm.projectApPlanReachSumEnd"/>
@@ -190,71 +215,86 @@
 					</div>
 				</div>
 				<div class="form-group text-center">
-					<button type="submit" class="btn btn-success btn-sm" style="margin-top: -30px;">导出</button>
+					<button type="submit" class="btn btn-success" style="width: 150px;">导出</button>
 				</div>
 			</form>	
 		</div>
 		<!-- 项目总库固定类 -->
-		<div class="div_child" ng-if="vm.isProjectFixed">
-			<form class="form-horizontal" role="form" style="margin-top: 100px;">
-				<div class="form-group"> 
-					<label class="col-md-3 control-label">筛选条件：</label>
-					<div class="col-md-5">
-						<select class="form-control" ng-model="vm.isIncludLibrary">
+		<div ng-if="vm.isProjectFixed">
+			<form role="form">
+				<div class="form-group">
+					<div class="form-item">
+						<h4 class="title">筛选条件</h4>
+						<select class="form-control" ng-model="vm.isIncludLibrary" style="width: 300px;">
 							<option value="true" ng-selected="vm.isIncludLibrary == true">已纳入项目库</option>
 							<option value="false" ng-selected="vm.isIncludLibrary == false">未纳入项目库</option>
 						</select>
 					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-md-3 control-label">导出项：</label>
-					<div class="col-md-9">
+					<div class="form-item">
+						<h4 class="title">导出项</h4>
 						<div style="margin-bottom: 10px;">
-							<a class="btn btn-success btn-sm" href="/management/auxDeci/statisticalAnalysis/exportExcelForProject?classDesc=unit&isIncludLibrary={{vm.isIncludLibrary}}">按项目单位分类</a>
-							<a class="btn btn-success btn-sm" href="/management/auxDeci/statisticalAnalysis/exportExcelForProject?classDesc=category&isIncludLibrary={{vm.isIncludLibrary}}">按项目类别分类</a>
+							<a class="btn btn-success" href="/management/auxDeci/statisticalAnalysis/exportExcelForProject?classDesc=unit&isIncludLibrary={{vm.isIncludLibrary}}">按项目单位分类</a>
+							<a class="btn btn-success" href="/management/auxDeci/statisticalAnalysis/exportExcelForProject?classDesc=category&isIncludLibrary={{vm.isIncludLibrary}}">按项目类别分类</a>
 						</div>
 						<div>
-							<a class="btn btn-success btn-sm" href="/management/auxDeci/statisticalAnalysis/exportExcelForProject?classDesc=industry&isIncludLibrary={{vm.isIncludLibrary}}">按项目行业分类</a>
-							<a class="btn btn-success btn-sm" href="/management/auxDeci/statisticalAnalysis/exportExcelForProject?classDesc=stage&isIncludLibrary={{vm.isIncludLibrary}}">按项目阶段分类</a>
+							<a class="btn btn-success" href="/management/auxDeci/statisticalAnalysis/exportExcelForProject?classDesc=industry&isIncludLibrary={{vm.isIncludLibrary}}">按项目行业分类</a>
+							<a class="btn btn-success" href="/management/auxDeci/statisticalAnalysis/exportExcelForProject?classDesc=stage&isIncludLibrary={{vm.isIncludLibrary}}">按项目阶段分类</a>
 						</div>
 					</div>
 				</div>
 			</form>	
 		</div>
 		<!-- 项目总库自定义类 -->
-		<div class="div_child_custom" ng-if="vm.isProjectCustom">
-			<form class="form-horizontal" role="form" style="margin-top: 10px;" ng-submit="vm.exportExcelForProjectByCustom()">
-				<div class="form-group"> 
-					<label class="col-md-2 control-label lable_tiaojian">行业分类：</label>
-					<div class="col-md-9 div_tiaojian">
+		<div ng-if="vm.isProjectCustom">
+			<form role="form" style="margin-top: 10px;" ng-submit="vm.exportExcelForProjectByCustom()">
+				<div class="form-group">
+					<div class="form-item">
+						<h4 class="title">行业分类</h4>
 						<label class="control-label" ng-repeat="x in vm.basicData.projectIndustry_ZF | orderBy:'itemOrder'">
-							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectIdustry(x.id)"/>{{x.description}}&nbsp;&nbsp;
+							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectIdustry(x.id)"/>
+							<span class="description">
+								<i class="glyphicon glyphicon-ok"></i>
+								{{x.description}}
+							</span>
 						</label>
 					</div>
-							
-					<label class="col-md-2 control-label lable_tiaojian">项目阶段：</label>
-					<div class="col-md-9 div_tiaojian">
+
+					<div class="form-item">
+						<h4 class="title">项目阶段</h4>
 						<label class="control-label" ng-repeat="x in vm.basicData.projectStage">
-							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectStage(x.id)"/>{{x.description}}&nbsp;&nbsp;
+							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectStage(x.id)"/>
+							<span class="description">
+								<i class="glyphicon glyphicon-ok"></i>
+								{{x.description}}
+							</span>
 						</label>
 					</div>
-							
-					<label class="col-md-2 control-label lable_tiaojian">项目类别：</label>
-					<div class="col-md-9 div_tiaojian">
+
+					<div class="form-item">
+						<h4 class="title">项目类别</h4>
 						<label class="control-label" ng-repeat="x in vm.basicData.projectCategory">
-							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectCategory(x.id)"/>{{x.description}}&nbsp;&nbsp;
+							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectCategory(x.id)"/>
+							<span class="description">
+								<i class="glyphicon glyphicon-ok"></i>
+								{{x.description}}
+							</span>
 						</label>
 					</div>
 					
-					<label class="col-md-2 control-label lable_tiaojian">申报单位：</label>
-					<div class="col-md-9 div_tiaojian">
+
+					<div class="form-item">
+						<h4 class="title">申报单位</h4>
 						<label class="control-label" ng-repeat="x in vm.basicData.userUnit">
-							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectUnit(x.id)"/>{{x.unitName}}&nbsp;&nbsp;
+							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectUnit(x.id)"/>
+							<span class="description">
+								<i class="glyphicon glyphicon-ok"></i>
+								{{x.unitName}}
+							</span>
 						</label>
 					</div>
-					
-					<label class="col-md-2 control-label lable_tiaojian">总投资范围：</label>
-					<div class="col-md-9" style="margin-bottom: 10px;">
+
+					<div class="form-item">
+						<h4 class="title">总投资范围</h4>
 						<input type="number" step="any" class="form-control" style="width:200px;" ng-model="vm.projectInvestSumBegin"/>
 						<span>~</span>
 						<input type="number" step="any" class="form-control" style="width:200px;" min="{{vm.projectInvestSumBegin}}" ng-model="vm.projectInvestSumEnd"/>
@@ -262,7 +302,7 @@
 					</div>
 				</div>
 				<div class="form-group text-center">
-					<button type="submit" class="btn btn-success btn-sm">导出</button>
+					<button type="submit" class="btn btn-success" style="width: 150px;">导出</button>
 				</div>
 			</form>
 		</div>
