@@ -204,8 +204,15 @@
 	            controller: 'statisticalAnalysisCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //统计分析--数据展示页面
+	        .state('statisticalAnalysis_show', {
+	            url: '/statisticalAnalysis_show',
+	            params:{"what":"","type":"","parameter":null},
+	            templateUrl: '/management/auxDeci/statisticalAnalysis/html/show.html',
+	            controller: 'statisticalAnalysisCtrl',
+	            controllerAs: 'vm'
+	        })
 
-	        
 /**********************end#决策辅助系统***************************************/
 	        
 	       //begin#单位管理	       

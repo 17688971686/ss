@@ -14,9 +14,198 @@
 			getyearPlanInvestSourceData:getyearPlanInvestSourceData,
 			exportExcelForProjectByCustom:exportExcelForProjectByCustom,
 			exportExcelForApprovalByCustom:exportExcelForApprovalByCustom,
-			exportExcelForPlanByCustom:exportExcelForPlanByCustom
+			exportExcelForPlanByCustom:exportExcelForPlanByCustom,
+			//固定模板类获取数据
+			getProjectFixedData:getProjectFixedData,
+			getPlanFixedData:getPlanFixedData,
+			getApprovalFixedData:getApprovalFixedData,
+			//自定义条件获取数据
+			getApprovalCustomData:getApprovalCustomData,
+			getPlanCustomData:getPlanCustomData,
+			getProjectCustomData:getProjectCustomData
 		};		
 		return service;
+		
+		/**
+		 * 获取项目总库自定义条件数据
+		 */
+		function getProjectCustomData(vm){
+			var httpOptions = {
+	                method: 'POST',
+	                url:url+"/getProjectCustomData",
+	                data:{"industry":vm.model.industry,
+	                	"unit":vm.model.unit,
+	                	"stage":vm.model.stage,
+	                	"category":vm.model.category,
+	                	"projectName":vm.model.projectName,
+	                	"projectInvestSumBegin":vm.model.projectInvestSumBegin,
+	                	"projectInvestSumEnd":vm.model.projectInvestSumEnd,
+	                	"projectName":vm.model.projectName}
+	            };
+            var httpSuccess = function success(response) {
+                common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function () {
+	                    vm.projectCustomData=response.data||[];
+					}
+				});
+            };
+            common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}//end fun getProjectCustomData
+		
+		/**
+		 * 获取计划类自定义条件数据
+		 */
+		function getPlanCustomData(vm){
+			var httpOptions = {
+	                method: 'POST',
+	                url:url+"/getPlanCustomData",
+	                data:{"industry":vm.model.industry,
+	                	"unit":vm.model.unit,
+	                	"stage":vm.model.stage,
+	                	"category":vm.model.category,
+	                	"projectName":vm.model.projectName,
+	                	"planYearBegin":vm.model.planYearBegin,
+	                	"planYearEnd":vm.model.planYearEnd,
+	                	"projectInvestSumBegin":vm.model.projectInvestSumBegin,
+	                	"projectInvestSumEnd":vm.model.projectInvestSumEnd,
+	                	"projectApPlanReachSumBegin":vm.model.projectApPlanReachSumBegin,
+	                	"projectApPlanReachSumEnd":vm.model.projectApPlanReachSumEnd,
+	                	"projectName":vm.model.projectName}
+	            };
+            var httpSuccess = function success(response) {
+                common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function () {
+	                    vm.planCustomData=response.data||[];
+	                    //TODO 时间格式的转换
+					}
+				});
+            };
+            common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+			
+		}//end fun getPlanCustomData
+		
+		/**
+		 * 获取审批类自定义条件数据
+		 */
+		function getApprovalCustomData(vm){
+			var httpOptions = {
+	                method: 'POST',
+	                url:url+"/getApprovalCustomData",
+	                data:{"industry":vm.model.industry,
+	                	"unit":vm.model.unit,
+	                	"stage":vm.model.stage,
+	                	"category":vm.model.category,
+	                	"projectName":vm.model.projectName,
+	                	"pifuDateBegin":vm.model.pifuDateBegin,
+	                	"pifuDateEnd":vm.model.pifuDateEnd,
+	                	"projectInvestSumBegin":vm.model.projectInvestSumBegin,
+	                	"projectInvestSumEnd":vm.model.projectInvestSumEnd}
+	            };
+            var httpSuccess = function success(response) {
+                common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function () {
+	                    vm.approvalCustomData=response.data||[];
+					}
+				});
+            };
+            common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}//end fun getApprovalCustomData
+		
+		/**
+		 * 获取审批类固定模板类数据
+		 */
+		function getApprovalFixedData(vm){
+			var httpOptions = {
+	                method: 'get',
+	                url:common.format(url+"/getExcelForApprovalData?classDesc={1}&approvalYear={0}",vm.parameter,vm.type)
+	            };
+            var httpSuccess = function success(response) {
+                common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function () {
+	                    vm.approvalFixedData=response.data||[];
+					}
+				});
+            };
+            common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}//end fun getApprovalFixedData
+		
+		/**
+		 * 获取计划类固定模板类数据
+		 */
+		function getPlanFixedData(vm){
+			var httpOptions = {
+	                method: 'get',
+	                url:common.format(url+"/getExcelForPlanData?classDesc={1}&planYear={0}",vm.parameter,vm.type)
+	            };
+            var httpSuccess = function success(response) {
+                common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function () {
+	                    vm.planFixedData=response.data||[];
+					}
+				});
+            };
+            common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}//end fun getPlanFixedData
+		
+		/**
+		 * 获取项目总库固定模板类数据
+		 */
+		function getProjectFixedData(vm){
+			var httpOptions = {
+	                method: 'get',
+	                url:common.format(url+"/getExcelForProjectData?classDesc={1}&isIncludLibrary={0}",vm.parameter,vm.type)
+	            };
+            var httpSuccess = function success(response) {
+                common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function () {
+	                    vm.projectFixedData=response.data||[];
+					}
+				});
+            };
+            common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}//end fun getProjectFixedData
 		
 		/**
 		 * 审批类自定义条件报表导出

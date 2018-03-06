@@ -66,29 +66,30 @@ public class GenerateExcelForPlan {
         createCellAlignCenter(workbook,title,0,"光明新区政府投资计划类统计表",cellStyleTitle);
         //合并标题
         //参数1：开始行、结束行、开始列、结束列
-        CellRangeAddress cellRangeTitle = new CellRangeAddress(0,0,0,9);;
+        CellRangeAddress cellRangeTitle = new CellRangeAddress(0,0,0,10);;
         setRegionStyle(sheet,cellRangeTitle,cellStyleTitle);
         sheet.addMergedRegion(cellRangeTitle);
         //end#标题
         
         //begin#子标题
         createCellAlignLeft(workbook,subTitle,0,"打印日期："+new SimpleDateFormat("yyyy年MM月dd日").format(new Date()),cellStyleSubTitleLeft);
-        CellRangeAddress cellRangeSubTitleLeft = new CellRangeAddress(1,1,0,8);
+        CellRangeAddress cellRangeSubTitleLeft = new CellRangeAddress(1,1,0,9);
         setRegionStyle(sheet,cellRangeSubTitleLeft,cellStyleSubTitleLeft);
         sheet.addMergedRegion(cellRangeSubTitleLeft);
-        createCellAlignRight(workbook,subTitle,9,"资金：万   元\n面积：平方米",workbook.createCellStyle());
+        createCellAlignRight(workbook,subTitle,10,"资金：万   元\n面积：平方米",workbook.createCellStyle());
        
     	 //设置列宽
         sheet.setColumnWidth(0, 256*5+184);
-        sheet.setColumnWidth(1, 256*17+184);
-        sheet.setColumnWidth(2, 256*18+184);
+        sheet.setColumnWidth(1, 256*26+184);
+        sheet.setColumnWidth(2, 256*20+184);
         sheet.setColumnWidth(3, 256*12+184);
         sheet.setColumnWidth(4, 256*10+184);
-        sheet.setColumnWidth(5, 256*5+184);
-        sheet.setColumnWidth(6, 256*10+184);
-        sheet.setColumnWidth(7, 256*10+184);
-        sheet.setColumnWidth(8, 256*15+184);
-        sheet.setColumnWidth(9, 256*13+184);
+        sheet.setColumnWidth(5, 256*9+184);
+        sheet.setColumnWidth(6, 256*9+184);
+        sheet.setColumnWidth(7, 256*9+184);
+        sheet.setColumnWidth(8, 256*9+184);
+        sheet.setColumnWidth(9, 256*15+184);
+        sheet.setColumnWidth(10, 256*13+184);
         //end#子标题
 
         //begin表格头
@@ -99,20 +100,22 @@ public class GenerateExcelForPlan {
     	createCellAlignCenter(workbook,row_subHead,3,"建设起止年月",cellStyleO);
     	createCellAlignCenter(workbook,row_head,4,"总投资",cellStyleO);
     	createCellAlignCenter(workbook,row_subHead,4,"累计拨款",cellStyleO);
-    	createCellAlignCenter(workbook,row_head,5,"资金\n来源",cellStyleO);
-    	createCellAlignCenter(workbook,row_head,6,"安排投资",cellStyleO);
+    	createCellAlignCenter(workbook,row_head,5,"安排投资",cellStyleO);
+    	createCellAlignCenter(workbook,row_subHead,5,"公共预算",cellStyleO);
+    	createCellAlignCenter(workbook,row_subHead,6,"国土基金",cellStyleO);
     	createCellAlignCenter(workbook,row_head,7,"本年度拨款",cellStyleO);
-    	createCellAlignCenter(workbook,row_head,8,"年度主要建设内容",cellStyleO);
-    	createCellAlignCenter(workbook,row_head,9,"备注",cellStyleO);
+    	createCellAlignCenter(workbook,row_subHead,7,"公共预算",cellStyleO);
+    	createCellAlignCenter(workbook,row_subHead,8,"国土基金",cellStyleO);
+    	createCellAlignCenter(workbook,row_head,9,"年度主要建设内容",cellStyleO);
+    	createCellAlignCenter(workbook,row_head,10,"备注",cellStyleO);
     	//合并列
     	CellRangeAddress cellRangeHeadColumn0 = new CellRangeAddress(2,3,0,0);
     	CellRangeAddress cellRangeHeadColumn1 = new CellRangeAddress(2,3,1,1);
     	CellRangeAddress cellRangeHeadColumn2 = new CellRangeAddress(2,3,2,2);
-    	CellRangeAddress cellRangeHeadColumn5 = new CellRangeAddress(2,3,5,5);
-    	CellRangeAddress cellRangeHeadColumn6 = new CellRangeAddress(2,3,6,6);
-    	CellRangeAddress cellRangeHeadColumn7 = new CellRangeAddress(2,3,7,7);
-    	CellRangeAddress cellRangeHeadColumn8 = new CellRangeAddress(2,3,8,8);
+    	CellRangeAddress cellRangeHeadColumn5 = new CellRangeAddress(2,2,5,6);
+    	CellRangeAddress cellRangeHeadColumn7 = new CellRangeAddress(2,2,7,8);
     	CellRangeAddress cellRangeHeadColumn9 = new CellRangeAddress(2,3,9,9);
+    	CellRangeAddress cellRangeHeadColumn10 = new CellRangeAddress(2,3,10,10);
     	setRegionStyle(sheet,cellRangeHeadColumn0,cellStyleO);
         sheet.addMergedRegion(cellRangeHeadColumn0);
         setRegionStyle(sheet,cellRangeHeadColumn1,cellStyleO);
@@ -121,14 +124,12 @@ public class GenerateExcelForPlan {
         sheet.addMergedRegion(cellRangeHeadColumn2);
         setRegionStyle(sheet,cellRangeHeadColumn5,cellStyleO);
         sheet.addMergedRegion(cellRangeHeadColumn5);
-        setRegionStyle(sheet,cellRangeHeadColumn6,cellStyleO);
-        sheet.addMergedRegion(cellRangeHeadColumn6);
         setRegionStyle(sheet,cellRangeHeadColumn7,cellStyleO);
         sheet.addMergedRegion(cellRangeHeadColumn7);
-        setRegionStyle(sheet,cellRangeHeadColumn8,cellStyleO);
-        sheet.addMergedRegion(cellRangeHeadColumn8);
         setRegionStyle(sheet,cellRangeHeadColumn9,cellStyleO);
         sheet.addMergedRegion(cellRangeHeadColumn9);
+        setRegionStyle(sheet,cellRangeHeadColumn10,cellStyleO);
+        sheet.addMergedRegion(cellRangeHeadColumn10);
         //end#表格头
 
         //begin#数据列
@@ -152,11 +153,12 @@ public class GenerateExcelForPlan {
         	createCellAlignCenter(workbook,row2,3, obj.getBeginDate()+"~\n"+obj.getEndDate(),cellStyleO);//建设起止年月
         	createCellAlignCenter(workbook,row1,4, obj.getProjectInvestSum(),cellStyleO);//总投资
         	createCellAlignCenter(workbook,row2,4, obj.getApInvestSum(),cellStyleO);//累计拨款(累计安排投资)
-        	createCellAlignCenter(workbook,row1,5, "-",cellStyleO);//资金来源
-        	createCellAlignCenter(workbook,row1,6, obj.getYearInvestApproval(),cellStyleO);//安排投资
-        	createCellAlignCenter(workbook,row1,7, obj.getApPlanReach_ggys()+obj.getApPlanReach_gtzj(),cellStyleO);//本年度拨款
-        	createCellAlignCenter(workbook,row1,8, obj.getYearConstructionContent(),cellStyleO);//本年度建设内容
-        	createCellAlignCenter(workbook,row1,9, obj.getYearConstructionContentShenBao(),cellStyleO);//备注
+        	createCellAlignCenter(workbook,row1,5, "-",cellStyleO);//安排投资-资金来源-公共预算
+        	createCellAlignCenter(workbook,row1,6, "-",cellStyleO);//安排投资-资金来源-国土基金
+        	createCellAlignCenter(workbook,row1,7, obj.getApPlanReach_ggys(),cellStyleO);//本年度拨款-公共预算
+        	createCellAlignCenter(workbook,row1,8, obj.getApPlanReach_gtzj(),cellStyleO);//本年度拨款-国土基金
+        	createCellAlignCenter(workbook,row1,9, obj.getYearConstructionContent(),cellStyleO);//本年度建设内容
+        	createCellAlignCenter(workbook,row1,10, obj.getYearConstructionContentShenBao(),cellStyleO);//备注
         	
         	//合并列
         	CellRangeAddress cellRangeDataColumn0 = new CellRangeAddress(rowNum1,rowNum2,0,0);
@@ -166,6 +168,7 @@ public class GenerateExcelForPlan {
         	CellRangeAddress cellRangeDataColumn7 = new CellRangeAddress(rowNum1,rowNum2,7,7);
         	CellRangeAddress cellRangeDataColumn8 = new CellRangeAddress(rowNum1,rowNum2,8,8);
         	CellRangeAddress cellRangeDataColumn9 = new CellRangeAddress(rowNum1,rowNum2,9,9);
+        	CellRangeAddress cellRangeDataColumn10 = new CellRangeAddress(rowNum1,rowNum2,10,10);
         	setRegionStyle(sheet,cellRangeDataColumn0,cellStyleO);
             sheet.addMergedRegion(cellRangeDataColumn0);
             setRegionStyle(sheet,cellRangeDataColumn2,cellStyleO);
@@ -180,6 +183,8 @@ public class GenerateExcelForPlan {
             sheet.addMergedRegion(cellRangeDataColumn8);
             setRegionStyle(sheet,cellRangeDataColumn9,cellStyleO);
             sheet.addMergedRegion(cellRangeDataColumn9);
+            setRegionStyle(sheet,cellRangeDataColumn10,cellStyleO);
+            sheet.addMergedRegion(cellRangeDataColumn10);
             
             index++;
         }

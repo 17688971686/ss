@@ -19,9 +19,9 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
 	
 	List<ProjectStatisticsBean> getApprovalStatistics(String type,int pifuDate);//固定模板审批类统计
 	List<ProjectStatisticsBean> getApprovalStatisticsByCustom(Integer pifuDateBegin,Integer pifuDateEnd,String[] industrySelected,
-			String[] stageSelected,String[] unitSelected,Double investSumBegin,Double investSumEnd);//自定义条件审批类统计
+			String[] stageSelected,String[] unitSelected,Double investSumBegin,Double investSumEnd,String projectName);//自定义条件审批类统计
 	
 	List<ProjectStatisticsBean> getPlanStatistics(String type,int planYear);//计划类分类统计	
 	List<ProjectStatisticsBean> getPlanStatisticsByCustom(Integer planYearBegin,Integer planYearEnd,String[] industrySelected,
-			String[] stageSelected,String[] unitSelected,Double investSumBegin,Double investSumEnd,Double apPlanReachSumBegin,Double apPlanReachSumEnd);//自定义条件计划类统计
+			String[] stageSelected,String[] unitSelected,Double investSumBegin,Double investSumEnd,Double apPlanReachSumBegin,Double apPlanReachSumEnd,String projectName);//自定义条件计划类统计
 }

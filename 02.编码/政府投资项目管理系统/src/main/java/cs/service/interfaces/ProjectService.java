@@ -34,5 +34,5 @@ public interface ProjectService extends IService<ProjectDto, Project, String> {
 //	List<ProjectStatisticsBean> getProjectStatisticsByCustom(List<String> industrySelected,List<String> stageSelected,List<String> categorySelected,
 //																List<String> unitSelected,Double investSumBegin,Double investSumEnd);//自定义条件项目统计
 	List<ProjectStatisticsBean> getProjectStatisticsByCustom(String[] industrySelected,String[] stageSelected,String[] categorySelected,
-			String[] unitSelected,Double investSumBegin,Double investSumEnd);//自定义条件项目统计
+			String[] unitSelected,Double investSumBegin,Double investSumEnd,String projectName);//自定义条件项目统计
 }

@@ -913,6 +913,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	 * @param unitSelected 筛选条件：申报单位
 	 * @param investSumBegin 筛选条件：总投资开始范围
 	 * @param investSumEnd 筛选条件：总投资结束范围
+	 * @param  projectName 筛选条件：项目名称关键字
 	 * @return list 查询出来的数据集合
 	 * @throws
 	 */
@@ -921,7 +922,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@Transactional
 	public List<ProjectStatisticsBean> getApprovalStatisticsByCustom(Integer pifuDateBegin, Integer pifuDateEnd,
 			String[] industrySelected, String[] stageSelected, String[] unitSelected, Double investSumBegin,
-			Double investSumEnd) {
+			Double investSumEnd,String projectName) {
 		List<ProjectStatisticsBean> list = new ArrayList<>();
 		String Sql = "SELECT sbi.projectName,u.unitName,b1.description AS projectStageDesc,b2.description AS projectIndustryDesc,sbi.projectInvestSum,sbi.projectGuiMo";
 		Sql +=" FROM cs_shenbaoinfo AS sbi,cs_basicdata AS b1,cs_basicdata AS b2,cs_userunitinfo AS u";
@@ -976,6 +977,10 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			Sql +=" YEAR(sbi.pifuDate) >= "+pifuDateBegin+" AND";
 		}else if(pifuDateBegin==null && pifuDateEnd!=null){
 			Sql +=" YEAR(sbi.pifuDate) <= "+pifuDateEnd+" AND";
+		}
+		
+		if(Util.isNotNull(projectName)){
+			Sql += " sbi.projectName like \'%"+projectName+"%\' AND";
 		}
 		
 		Sql +=" sbi.projectShenBaoStage = b1.id AND sbi.projectIndustry = b2.id AND sbi.unitName = u.id ORDER BY b2.itemOrder";
@@ -1059,6 +1064,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	 * @param  investSumEnd 筛选条件：总投资结束范围
 	 * @param  apPlanReachSumBegin 筛选条件：下达资金开始范围
 	 * @param  apPlanReachSumEnd 筛选条件：下达资金结束范围
+	 * @param  projectName 筛选条件：项目名称关键字
 	 * @return 查询到数据集合
 	 * @throws
 	 */
@@ -1067,7 +1073,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@Transactional
 	public List<ProjectStatisticsBean> getPlanStatisticsByCustom(Integer planYearBegin, Integer planYearEnd,
 			String[] industrySelected, String[] stageSelected, String[] unitSelected, Double investSumBegin,
-			Double investSumEnd, Double apPlanReachSumBegin, Double apPlanReachSumEnd) {
+			Double investSumEnd, Double apPlanReachSumBegin, Double apPlanReachSumEnd,String projectName) {
 		List<ProjectStatisticsBean> list = new ArrayList<>();
 		String Sql = "SELECT sbi.projectName,u.unitName,b.description AS projectConstrCharDesc,sbi.beginDate,sbi.endDate,sbi.projectGuiMo,";
 		Sql +=" sbi.projectInvestSum,sbi.apInvestSum,sbi.yearInvestApproval,sbi.apPlanReach_ggys,sbi.apPlanReach_gtzj,";
@@ -1131,16 +1137,21 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		}else if(planYearBegin==null && planYearEnd!=null){
 			Sql +=" YEAR(sbi.pifuDate) <= "+planYearEnd+" AND";
 		}
-	
+		
+		if(Util.isNotNull(projectName)){
+			Sql += " sbi.projectName like \'%"+projectName+"%\' AND";
+		}
+		
 		Sql +=" sbi.projectShenBaoStage = '"+BasicDataConfig.projectShenBaoStage_planReach+"'";
+		
 		Sql +=" AND sbi.unitName = u.id AND sbi.projectConstrChar = b.id ORDER BY b.itemOrder";
 		
 		NativeQuery query = super.repository.getSession().createSQLQuery(Sql);
 		query.addScalar("projectName", new StringType());
 		query.addScalar("unitName", new StringType());
 		query.addScalar("projectConstrCharDesc", new StringType());
-		query.addScalar("beginDate", new DateType());
-		query.addScalar("endDate", new DateType());
+		query.addScalar("beginDate", new StringType());
+		query.addScalar("endDate", new StringType());
 		query.addScalar("projectGuiMo", new StringType());
 		query.addScalar("projectInvestSum", new DoubleType());
 		query.addScalar("apInvestSum", new DoubleType());
