@@ -144,6 +144,22 @@
                      vm.deletePlanReach(idStr);
                  }
           	   };
+          	 vm.click=function(){
+          		 $(".demo").printThis({
+          	        debug: false,
+          	        importCSS: true,
+          	        importStyle: true,
+          	        printContainer: true,
+          	        pageTitle: "通知公告",
+          	        removeInline: false,
+          	        printDelay: 333,
+          	        header: null,
+          	        formValues: true
+          	      });
+          	 };
+          	vm.clicks=function(){
+          		
+          	};
         }//end fun list
         
         active();
