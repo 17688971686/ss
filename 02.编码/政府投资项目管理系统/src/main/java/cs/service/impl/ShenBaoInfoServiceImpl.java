@@ -12,7 +12,6 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
-import org.hibernate.type.DateType;
 import org.hibernate.type.DoubleType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
@@ -119,7 +118,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	 */
 	@Override
 	@Transactional
-	public void createShenBaoInfo(ShenBaoInfoDto dto,Boolean isAdminCreate) {
+	public ShenBaoInfo createShenBaoInfo(ShenBaoInfoDto dto,Boolean isAdminCreate) {
 		//创建申报信息
 		ShenBaoInfo entity=super.create(dto);
 		entity.setAuditState(BasicDataConfig.auditState_noAudit);//初始化审核状态--未审核
@@ -223,6 +222,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		handlePiFuFile(entity);
 		logger.info(String.format("创建申报信息,项目名称 :%s,申报阶段：%s",entity.getProjectName(),
 				basicDataService.getDescriptionById(entity.getProjectShenBaoStage())));
+		return entity;
 	}
 
 //	@Override
@@ -425,7 +425,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		//更新申报信息的状态
 		ShenBaoInfo shenbaoInfo = super.repository.findById(dto.getRelId());
 		if(shenbaoInfo !=null){
-			shenbaoInfo.setProcessState(dto.getThisProcessState());
+			shenbaoInfo.setProcessState(dto.getThisProcessState());//设置状态为不通过
 			shenbaoInfo.setAuditState(BasicDataConfig.auditState_noAudit);//审核不通过
 			shenbaoInfo.setModifiedBy(currentUser.getUserId());
 			shenbaoInfo.setModifiedDate(new Date());

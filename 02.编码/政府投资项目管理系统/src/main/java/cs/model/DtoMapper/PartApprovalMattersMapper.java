@@ -43,7 +43,7 @@ public class PartApprovalMattersMapper implements IMapper<PartApprovalMattersDto
 			entity.setName(dto.getName());
 			entity.setCode(dto.getCode());
 		}
-		return null;
+		return entity;
 	}
 
 }

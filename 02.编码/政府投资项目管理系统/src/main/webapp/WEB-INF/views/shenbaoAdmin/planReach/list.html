@@ -2,17 +2,23 @@
 	  <ol class="breadcrumb">
 		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
 		  <li><a href="#/managerCenter">首页</a></li>
-	      <li><a class="text-primary" href="javascript::" ui-sref="planReach">计划下达</a></li>	 
-	      <li class="active">项目列表</li>
+	      <li><a class="text-primary" href="javascript:;" ui-sref="planReach">计划下达</a></li>	 
+	      <li class="active">申请列表记录</li>
 	  </ol>
 	  
-	<!-- <div class="toolbar">
-		<button type="button" class="btn btn-success btn-sm" ng-click="vm.click()"><span class="glyphicon glyphicon-print"></span>&nbsp;打印</button>
-		<button type="button" class="btn btn-success btn-sm" ng-click="vm.clicks()">另存为</button>
-	</div> -->
-    
+	<div class="toolbar">
+		<a type="button" class="btn btn-success btn-sm" href="javascript:;" ui-sref="planReachEdit"><span class="glyphicon glyphicon-plus"></span>&nbsp;新增</a>
+	</div>
 	
-	  
+	<script type="text/template" id="columnBtns_applications">
+		<a class="btn btn-primary btn-sm" href="#/planReachEdit/{0}"><span class="fa fa-edit"></span>编辑</a>
+		<button class="btn btn-danger btn-sm" ng-click="vm.deleteApplication('{0}')"><span class="glyphicon glyphicon-remove"></span>删除</button>
+		<a class="btn btn-primary btn-sm" href="#/planReachPrint/{0}"><span class="glyphicon glyphicon-eye-open"></span>打印预览</a>
+	</script>
+	
+	<div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+	
+	  <!--
 	   
 	  <div id="tabStrip" kendo-tab-strip="vm.tabStrip">
 	  		<ul id="myTab">
@@ -41,7 +47,7 @@
 				</script>
 				<div class="grid" kendo-grid="notIncludGrid" k-options="vm.notIncludGridOptions"></div>
 			</div>
-	  </div>
+	  </div>-->
 	 
 	 <!--项目申报记录模态框 -->
 	<div class="modal fade" id="shenBaoRecords" tabindex="-1" role="dialog"> 
@@ -72,3 +78,4 @@
 </div>
 
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>

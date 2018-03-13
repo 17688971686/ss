@@ -187,6 +187,30 @@
 	            controller: 'planReachCtrl',
 	            controllerAs: 'vm'
 	        })
+	         //计划下达批复--列表页面
+	        .state('planReach_tabList', {
+	            url: '/planReach_tabList',
+	            templateUrl: '/management/planReachManage/planReach/html/tabList.html',
+	            controller: 'planReachCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //计划下达批复--编辑页面
+	        .state('planReach_tabEdit', {
+	            url: '/planReach_tabEdit/:id',
+	            params:{"id":null},
+	            templateUrl: '/management/planReachManage/planReach/html/tabEdit.html',
+	            controller: 'planReachCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //计划下达批复--打印预览页面
+	        .state('planReachApprovalPrint', {
+	            url: '/planReachApprovalPrint/:id',
+	            params:{"id":null},
+	            templateUrl: '/management/planReachManage/planReach/html/print.html',
+	            controller: 'planReachCtrl',
+	            controllerAs: 'vm'
+	        })
+	        
 /**********************end#计划下达管理**********************************/
 	        
 /**********************begin#决策辅助系统**********************************/

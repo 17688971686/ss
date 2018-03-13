@@ -112,6 +112,20 @@
 	            controller: 'planReachCtrl',
 	            controllerAs: 'vm'
 	        })
+	        .state('planReachEdit', {
+	            url: '/planReachEdit/:id',
+	            params:{"id":null},  
+            	templateUrl:'/shenbaoAdmin/planReach/html/edit', 
+            	controller: 'planReachCtrl',
+            	controllerAs: 'vm'
+	        })
+	        .state('planReachPrint', {
+	            url: '/planReachPrint/:id',
+	            params:{"id":null},  
+	        	templateUrl:'/shenbaoAdmin/planReach/html/print', 
+	        	controller: 'planReachCtrl',
+	        	controllerAs: 'vm'
+	        })
 /**********************************************end#计划下达*********************************/	        
 	        	        	        
  /**********************************************begin#项目申报****************************/
