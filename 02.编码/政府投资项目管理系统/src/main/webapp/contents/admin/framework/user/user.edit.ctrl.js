@@ -28,8 +28,8 @@
         vm.initPassword=function(e){
         	var isChecked=$('#initPassword').is(":checked");
         	if(isChecked){
-        		vm.model.password="Passw0rd";
-            	vm.model.passwordConfirm="Passw0rd";
+        		vm.model.password="P@ssw0rd";
+            	vm.model.passwordConfirm="P@ssw0rd";
         	}else{
         		vm.model.password="";
             	vm.model.passwordConfirm="";
