@@ -43,13 +43,12 @@
                             var isSuccess = response.data.isSuccess;
                             if (isSuccess) {
                                 vm.message = "";
-                                var reg = new RegExp(/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\W_]).*.{8,}$/);
+                                var reg = new RegExp(/^(?=.*[a-zA-Z])(?=.*[0-9]).*.{8,}$/);
                                	if(reg.test(vm.model.old_password)){
                                		location.href = "/shenbaoAdmin";
                                 }else{
                                 	location.href = "/changePassword/frontDesk";
                                 }
-//                                location.href = "/shenbaoAdmin";
                             } else {                                
                                 vm.message=response.data.message;
                             }

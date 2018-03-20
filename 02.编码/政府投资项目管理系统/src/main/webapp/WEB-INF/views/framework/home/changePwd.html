@@ -121,18 +121,16 @@
 	      	</textarea>
 		</div> -->
 		<div>
-			<table>
-				<!-- <tr>
-					<td class="formAlignRight" style="width: 150px;"></td>
-					<td style="width: 400px;"><span class="errors">{{vm.message}}</span></td>
-					<td></td>
-				</tr> -->
+			<table style="margin:auto;">
+				<tr>
+					<td colspan="3" class="formAlignRight" style="width: 150px;"><span>您的密码不符合安全规则，请重新修改！</span></td>
+				</tr>
 				<tr>
 					<td class="formAlignRight">新密码： <span class="required">*</span></td>
 					<td style="width: 200px;"><input type="password" maxlength="300"
 						class="form-control input-sm " ng-model="vm.model.password"
 						id="password" name="password" data-val="true" data-val-required="必填"
-						placeholder="必须为8位以上数字、字母和特殊符号的结合" data-val-regex="必须为8位以上数字、字母和特殊符号的结合" data-val-regex-pattern="^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\W_]).*.{8,}$"/></td>
+						placeholder="必须为8位以上数字和字母的组合" data-val-regex="必须为8位以上数字和字母的组合" data-val-regex-pattern="^(?=.*[a-zA-Z])(?=.*[0-9]).*.{8,}$"/></td>
 					<td><span data-valmsg-for="password" data-valmsg-replace="true"
 						class="errors"></span>
 						<textarea id="rsaPrivateKey" rows="15" cols="65" style="display:none">
