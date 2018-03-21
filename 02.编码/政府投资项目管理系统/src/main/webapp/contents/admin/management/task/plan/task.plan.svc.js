@@ -46,8 +46,8 @@
  			var isValid = $('#planReachEdit').valid();
 	   		if (isValid) {
 				var httpOptions = {
-					method : 'put',
-					url : url_shenbao,
+					method : 'post',
+					url : url_shenbao+'/updateShenbao',
 					data : vm.model.shenBaoInfo
 				};
 				
@@ -82,8 +82,8 @@
 		 */
 		function editOpin(vm){
 			var httpOptions = {
-	                method: 'put',
-	                url:url_opin,
+	                method: 'post',
+	                url:url_opin+'/editOpin',
 	                data:vm.model.opinion          
 	            };
 	            
@@ -207,8 +207,8 @@
 		 */
 		function saveShenBaoInfo(vm){
 			var httpOptions = {
-					method : 'put',
-					url : url_shenbao,
+					method : 'post',
+					url : url_shenbao+'/updateShenbao',
 					data:vm.model.shenBaoInfo
 				};
 			

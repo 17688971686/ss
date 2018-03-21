@@ -80,8 +80,8 @@ public class YearPlanController {
 		yearPlanService.create(dto);
 	}
 	
-	@RequiresPermissions("management/yearPlan##put")
-	@RequestMapping(name="更新年度计划",path="",method=RequestMethod.PUT)
+	@RequiresPermissions("management/yearPlan#updateYearPlan#post")
+	@RequestMapping(name="更新年度计划",path="updateYearPlan",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void put(@RequestBody YearPlanDto dto){
 		yearPlanService.update(dto,dto.getId());

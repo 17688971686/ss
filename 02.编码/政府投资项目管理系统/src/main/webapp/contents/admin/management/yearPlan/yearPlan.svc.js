@@ -50,7 +50,7 @@
 		function updateIsMonthReport(vm){
 			vm.isSumbit=true;
 			var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_project+"/isMonthReport",
 					data : {id:vm.isMonthReportId,isMonthReport:vm.isMonthReport}
 				};
@@ -186,8 +186,8 @@
 				vm.model.shenBaoInfo.beginDate = (vm.model.shenBaoInfo.beginDate != '')?vm.model.shenBaoInfo.beginDate:null;
 				vm.model.shenBaoInfo.endDate = (vm.model.shenBaoInfo.endDate != '')?vm.model.shenBaoInfo.endDate:null;
 				var httpOptions = {
-						method : 'put',
-						url : common.format(url_shenbaoInfoList),
+						method : 'post',
+						url : common.format(url_shenbaoInfoList+'/updateShenbao'),
 						data:vm.model.shenBaoInfo
 					};
 			
@@ -410,7 +410,7 @@
 			vm.model.shenBaoInfo.constructionUnit=common.arrayToString(vm.constructionUnits,',');
 			
 			var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : common.format(url_shenbaoInfoList+"/updateProjectBasic"),
 					data:vm.model.shenBaoInfo
 				};
@@ -514,8 +514,8 @@
 					   +parseFloat(vm.model.capital.capitalOther||0));
 
 			var httpOptions = {
-					method : 'put',
-					url : url_planCapital,
+					method : 'post',
+					url : url_planCapital+'/updateYearPlanCapital',
 					data:vm.model.capital
 				};
 			
@@ -1455,8 +1455,8 @@
 				vm.isSubmit = true;
 				
 				var httpOptions = {
-					method : 'put',
-					url : url_planList,
+					method : 'post',
+					url : url_planList+'/updateYearPlan',
 					data : vm.model
 				};
 				

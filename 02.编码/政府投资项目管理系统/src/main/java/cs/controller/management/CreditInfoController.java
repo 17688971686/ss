@@ -52,8 +52,8 @@ public class CreditInfoController {
 		return illegalNameDtos;
 	}
 	
-	@RequiresPermissions("management/creditInfo##put")
-	@RequestMapping(name="更新项目异常名录",path="",method=RequestMethod.PUT)
+	@RequiresPermissions("management/creditInfo#updateIllegalName#post")
+	@RequestMapping(name="更新项目异常名录",path="updateIllegalName",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void put(@RequestBody CreditIllegalNameDto dto){
 		illegalNameService.update(dto,dto.getId());
@@ -81,8 +81,8 @@ public class CreditInfoController {
 		return blackListDtos;
 	}
 	
-	@RequiresPermissions("management/creditInfo#blackList#put")
-	@RequestMapping(name="更新黑名单数据",path="blackList",method=RequestMethod.PUT)
+	@RequiresPermissions("management/creditInfo#updateBlackList#post")
+	@RequestMapping(name="更新黑名单数据",path="updateBlackList",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updateBlackList(@RequestBody CreditBlackListDto dto){
 		blackListService.update(dto,dto.getId());
@@ -110,8 +110,8 @@ public class CreditInfoController {
 		projectAnomalyService.create(dto);
 	}
 	
-	@RequiresPermissions("management/creditInfo#projectAnomaly#put")
-	@RequestMapping(name="更新项目异常信息",path="projectAnomaly",method=RequestMethod.PUT)
+	@RequiresPermissions("management/creditInfo#updateProjectAnomaly#post")
+	@RequestMapping(name="更新项目异常信息",path="updateProjectAnomaly",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void put(@RequestBody CreditProjectAnomalyDto dto){
 		projectAnomalyService.update(dto,dto.getId());

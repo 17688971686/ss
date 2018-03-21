@@ -204,8 +204,8 @@
                vm.model.resources = nodes_role; 
                
 				var httpOptions = {
-					method : 'put',
-					url : url_role,
+					method : 'post',
+					url : url_role+'/updateRole',
 					data : vm.model
 				};
 

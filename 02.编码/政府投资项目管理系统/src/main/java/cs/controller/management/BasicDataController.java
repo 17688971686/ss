@@ -37,8 +37,8 @@ public class BasicDataController {
 		basicDataService.reloadData();
 	}
 	
-	@RequiresPermissions("management/basicData##put")
-	@RequestMapping(name="更新基础数据",path="",method=RequestMethod.PUT)
+	@RequiresPermissions("management/basicData#updateBasicData#post")
+	@RequestMapping(name="更新基础数据",path="updateBasicData",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void update(@RequestBody BasicDataDto basicDataDto){			
 		basicDataService.updateBasicData(basicDataDto);	

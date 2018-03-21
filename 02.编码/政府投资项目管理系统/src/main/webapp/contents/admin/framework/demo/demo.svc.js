@@ -67,7 +67,7 @@
 				
 
 				var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_account_password,
 					data : vm.model.password
 				};

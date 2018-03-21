@@ -59,8 +59,8 @@ public class ShenBaoAdminPlanReachController {
 		planReachApplicationService.create(dto);
 	}
 	
-	//@RequiresPermissions("shenbaoAdmin/planReach##put")
-	@RequestMapping(name = "更新计划下达申请信息", path = "",method=RequestMethod.PUT)
+	//@RequiresPermissions("shenbaoAdmin/planReach#updatePlanReach#post")
+	@RequestMapping(name = "更新计划下达申请信息", path = "updatePlanReach",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void update(@RequestBody PlanReachApplicationDto dto) throws ParseException {
 		planReachApplicationService.update(dto,dto.getId());

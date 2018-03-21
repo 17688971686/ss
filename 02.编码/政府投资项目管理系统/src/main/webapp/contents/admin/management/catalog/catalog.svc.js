@@ -79,8 +79,8 @@
 		//更新中介服务事项
 		function updateAgencyServiceMatters(vm){
 			var httpOptions = {
-					method : 'put',
-					url : common.format(url_catalog+"/agencyServiceMatters"),
+					method : 'post',
+					url : common.format(url_catalog+"/updateAgencyServiceMatters"),
 					data : vm.model
 			};
 			var httpSuccess = function(response){
@@ -258,8 +258,8 @@
 		//更新部门审批事项
 		function updatePartApprovalMatters(vm){
 			var httpOptions = {
-					method : 'put',
-					url : common.format(url_catalog+"/partApprovalMatters"),
+					method : 'post',
+					url : common.format(url_catalog+"/updatePartApprovalMatters"),
 					data : vm.model
 			};
 			var httpSuccess = function(response){
@@ -405,7 +405,7 @@
 		//更新政策条目数据
 		function updatePolicyCatalog(vm){
 			var httpOptions = {
-					method : "put",
+					method : 'post',
 					url : common.format(url_catalog+"/updatePolicyCatalog"),
 					data : vm.model
 			};
@@ -966,8 +966,8 @@
 		//更改次级目录信息
 		function changeSecondCatalog(vm){
 			var httpOptions = {
-					method : "put",
-					url : url_catalog,
+					method : 'post',
+					url : url_catalog+'/updateInvestment',
 					data : vm.secondary
 			};
 			var httpSuccess = function(response){
@@ -1064,8 +1064,8 @@
 		//更新一级目录信息
 		function updateCatalog(vm){
 			var httpOptions = {
-					method : "put",
-					url : url_catalog,
+					method : 'post',
+					url : url_catalog+'/updateInvestment',
 					data : vm.model
 			};
 			var httpSuccess = function(response){

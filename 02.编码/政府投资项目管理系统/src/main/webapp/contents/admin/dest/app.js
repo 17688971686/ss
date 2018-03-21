@@ -1793,7 +1793,7 @@
 				
 
 				var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_account_password,
 					data : vm.model.password
 				};
@@ -1878,7 +1878,7 @@
 				vm.isSubmit = true;
 				
 				var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_account_password,
 					data : vm.model.password
 				};
@@ -2358,8 +2358,8 @@
 				vm.model.id=vm.id;// id
 							               
 				var httpOptions = {
-					method : 'put',
-					url : url_org,
+					method : 'post',
+					url : url_org+'/updateOrg',
 					data : vm.model
 				};
 
@@ -2885,8 +2885,8 @@
 				vm.model.id=vm.id;// id
 							               
 				var httpOptions = {
-					method : 'put',
-					url : url_org,
+					method : 'post',
+					url : url_org+'/updateOrg',
 					data : vm.model
 				};
 
@@ -3570,8 +3570,8 @@
                vm.model.resources = nodes_role; 
                
 				var httpOptions = {
-					method : 'put',
-					url : url_role,
+					method : 'post',
+					url : url_role+'/updateRole',
 					data : vm.model
 				};
 
@@ -3966,8 +3966,8 @@
                vm.model.resources = nodes_role; 
                
 				var httpOptions = {
-					method : 'put',
-					url : url_role,
+					method : 'post',
+					url : url_role+'/updateRole',
 					data : vm.model
 				};
 
@@ -4208,8 +4208,8 @@
 				}).toArray();
 				vm.model.roles = nodes_role;
 				var httpOptions = {
-					method : 'put',
-					url : url_user,
+					method : 'post',
+					url : url_user+'/updateUser',
 					data : vm.model
 				};
 
@@ -4663,8 +4663,8 @@
 				}).toArray();
 				vm.model.roles = nodes_role;
 				var httpOptions = {
-					method : 'put',
-					url : url_user,
+					method : 'post',
+					url : url_user+'/updateUser',
 					data : vm.model
 				};
 
@@ -5146,8 +5146,8 @@
 		 */
 		function updateBasicData(vm){
 			var httpOptions = {
-					method : 'put',
-					url : url_basicData,
+					method : 'post',
+					url : url_updateBasicData,
 					data : vm.model
 				};
 			
@@ -5888,40 +5888,40 @@
 		}//end fun deleteAgencyServiceMattersCatalogs
 		
 		//删除中介服务事项
-		function deleteAgencyServiceMattersCatalog(vm,id){
-			var httpOptions = {
-					method : 'put',
-					url : common.format(url_catalog+"/deleteAgencyServiceMatters?id={0}",id)
-			};
-			var httpSuccess = function(response){
-				common.requestSuccess({
-					vm : vm,
-					response : response,
-					fn : function(){
-						common.alert({
-							vm : vm,
-							msg : '删除成功！',
-							fn : function(){
-								$('.alertDialog').modal('hide');
-								vm.agencyServiceMattersGrid.dataSource.read();
-							}
-						});
-					}
-				});
-			};
-			common.http({
-				vm : vm,
-				$http : $http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});
-		}//end fun deleteAgencyServiceMattersCatalog
+//		function deleteAgencyServiceMattersCatalog(vm,id){
+//			var httpOptions = {
+//					method : 'put',
+//					url : common.format(url_catalog+"/deleteAgencyServiceMatters?id={0}",id)
+//			};
+//			var httpSuccess = function(response){
+//				common.requestSuccess({
+//					vm : vm,
+//					response : response,
+//					fn : function(){
+//						common.alert({
+//							vm : vm,
+//							msg : '删除成功！',
+//							fn : function(){
+//								$('.alertDialog').modal('hide');
+//								vm.agencyServiceMattersGrid.dataSource.read();
+//							}
+//						});
+//					}
+//				});
+//			};
+//			common.http({
+//				vm : vm,
+//				$http : $http,
+//				httpOptions : httpOptions,
+//				success : httpSuccess
+//			});
+//		}//end fun deleteAgencyServiceMattersCatalog
 		
 		//更新中介服务事项
 		function updateAgencyServiceMatters(vm){
 			var httpOptions = {
-					method : 'put',
-					url : common.format(url_catalog+"/agencyServiceMatters"),
+					method : 'post',
+					url : common.format(url_catalog+"/updateAgencyServiceMatters"),
 					data : vm.model
 			};
 			var httpSuccess = function(response){
@@ -6097,41 +6097,41 @@
 		}//end fun deletePartApprovalMattersCatalogs
 		
 		//删除部门审批事项
-		function deletePartApprovalMatters(vm,id){
-			var httpOptions = {
-					method : 'put',
-					url : common.format(url_catalog+"/deletePartApprovalMatters?id={0}",id)
-			};
-			var httpSuccess = function(response){
-				common.requestSuccess({
-					vm : vm,
-					response : response,
-					fn : function(){
-						common.alert({
-							vm : vm,
-							msg : '删除成功！',
-							fn : function(){
-								$('.alertDialog').modal('hide');
-								vm.partApprovalMattersGrid.dataSource.read();
-							}
-						});
-					}
-				});
-			};
-			
-			common.http({
-				vm : vm,
-				$http : $http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});
-			
-		}//end fun deletePartApprovalMatters
+//		function deletePartApprovalMatters(vm,id){
+//			var httpOptions = {
+//					method : 'put',
+//					url : common.format(url_catalog+"/deletePartApprovalMatters?id={0}",id)
+//			};
+//			var httpSuccess = function(response){
+//				common.requestSuccess({
+//					vm : vm,
+//					response : response,
+//					fn : function(){
+//						common.alert({
+//							vm : vm,
+//							msg : '删除成功！',
+//							fn : function(){
+//								$('.alertDialog').modal('hide');
+//								vm.partApprovalMattersGrid.dataSource.read();
+//							}
+//						});
+//					}
+//				});
+//			};
+//			
+//			common.http({
+//				vm : vm,
+//				$http : $http,
+//				httpOptions : httpOptions,
+//				success : httpSuccess
+//			});
+//			
+//		}//end fun deletePartApprovalMatters
 		//更新部门审批事项
 		function updatePartApprovalMatters(vm){
 			var httpOptions = {
-					method : 'put',
-					url : common.format(url_catalog+"/partApprovalMatters"),
+					method : 'post',
+					url : common.format(url_catalog+"/updatePartApprovalMatters"),
 					data : vm.model
 			};
 			var httpSuccess = function(response){
@@ -6277,7 +6277,7 @@
 		//更新政策条目数据
 		function updatePolicyCatalog(vm){
 			var httpOptions = {
-					method : "put",
+					method : 'post',
 					url : common.format(url_catalog+"/updatePolicyCatalog"),
 					data : vm.model
 			};
@@ -6344,42 +6344,42 @@
 		}//end fun deletePolicyCatalogs
 		
 		//根据政策项目次级条目id删除记录
-		function deletePolicyCatalog(vm,id){
-			var httpOptions = {
-					method : 'put',
-					url : common.format(url_catalog+"/deletePolicyCatalog?id={0}", id)
-			};
-			var httpSuccess = function (response){
-				common.requestSuccess({
-					vm : vm,
-					response : response,
-					fn : function(){
-						common.alert({
-							vm : vm,
-							msg : "操作成功",
-							fn : function() {
-								$('.alertDialog').modal('hide');
-								if(vm.type == 'encourage'){
-									vm.policyCatalogGrid.dataSource.read();
-								}
-								if(vm.type == 'allow'){
-									vm.policyCatalogGrid_allow.dataSource.read();
-								}
-								if(vm.type == 'limit'){
-									vm.policyCatalogGrid_limit.dataSource.read();
-								}
-							}
-						});
-					}
-				});
-			};
-			common.http({
-				vm : vm,
-				$http : $http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});
-		}//end fun deleteolicyCatalog
+//		function deletePolicyCatalog(vm,id){
+//			var httpOptions = {
+//					method : 'put',
+//					url : common.format(url_catalog+"/deletePolicyCatalog?id={0}", id)
+//			};
+//			var httpSuccess = function (response){
+//				common.requestSuccess({
+//					vm : vm,
+//					response : response,
+//					fn : function(){
+//						common.alert({
+//							vm : vm,
+//							msg : "操作成功",
+//							fn : function() {
+//								$('.alertDialog').modal('hide');
+//								if(vm.type == 'encourage'){
+//									vm.policyCatalogGrid.dataSource.read();
+//								}
+//								if(vm.type == 'allow'){
+//									vm.policyCatalogGrid_allow.dataSource.read();
+//								}
+//								if(vm.type == 'limit'){
+//									vm.policyCatalogGrid_limit.dataSource.read();
+//								}
+//							}
+//						});
+//					}
+//				});
+//			};
+//			common.http({
+//				vm : vm,
+//				$http : $http,
+//				httpOptions : httpOptions,
+//				success : httpSuccess
+//			});
+//		}//end fun deleteolicyCatalog
 		
 		//根据政策目录id获取信息
 		function getPolicyCatalogById(vm){
@@ -6690,43 +6690,43 @@
 		}
 		
 		//删除主目录
-		function deleteCatalog(vm,id){
-			var httpOptions = {
-					method : 'put',
-					url : common.format(url_catalog+"/delete?id={0}", id)
-			};
-			var httpSuccess = function (response){
-				common.requestSuccess({
-					vm : vm,
-					response : response,
-					fn : function(){
-						common.alert({
-							vm : vm,
-							msg : "操作成功",
-							fn : function() {
-								$('.alertDialog').modal('hide');
-								$('.modal-backdrop').remove();
-								if(vm.type == 'projectIndustry'){
-									vm.investmentProjectGrid.dataSource.read();
-								}
-								if(vm.type == 'projectType'){
-									vm.projectTypeGrid.dataSource.read();
-								}
-								if(vm.type == 'constructionType'){
-									vm.constructionTypeGrid.dataSource.read();
-								}
-							}
-						});
-					}
-				});
-			};
-			common.http({
-				vm : vm,
-				$http : $http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});
-		}
+//		function deleteCatalog(vm,id){
+//			var httpOptions = {
+//					method : 'put',
+//					url : common.format(url_catalog+"/delete?id={0}", id)
+//			};
+//			var httpSuccess = function (response){
+//				common.requestSuccess({
+//					vm : vm,
+//					response : response,
+//					fn : function(){
+//						common.alert({
+//							vm : vm,
+//							msg : "操作成功",
+//							fn : function() {
+//								$('.alertDialog').modal('hide');
+//								$('.modal-backdrop').remove();
+//								if(vm.type == 'projectIndustry'){
+//									vm.investmentProjectGrid.dataSource.read();
+//								}
+//								if(vm.type == 'projectType'){
+//									vm.projectTypeGrid.dataSource.read();
+//								}
+//								if(vm.type == 'constructionType'){
+//									vm.constructionTypeGrid.dataSource.read();
+//								}
+//							}
+//						});
+//					}
+//				});
+//			};
+//			common.http({
+//				vm : vm,
+//				$http : $http,
+//				httpOptions : httpOptions,
+//				success : httpSuccess
+//			});
+//		}
 		
 		
 		//批量删除次级目录
@@ -6902,8 +6902,8 @@
 		//更改次级目录信息
 		function changeSecondCatalog(vm){
 			var httpOptions = {
-					method : "put",
-					url : url_catalog,
+					method : 'post',
+					url : url_catalog+'/updateInvestment',
 					data : vm.secondary
 			};
 			var httpSuccess = function(response){
@@ -6931,34 +6931,34 @@
 		}//end fun changeSecondCatalog
 		
 		//删除次级目录
-		function deleteSecondaryCatalog(vm,id){
-			var httpOptions = {
-					method : 'put',
-					url : common.format(url_catalog+"/delete?id={0}", id)
-			};
-			var httpSuccess = function (response){
-				common.requestSuccess({
-					vm : vm,
-					response : response,
-					fn : function(){
-						common.alert({
-							vm : vm,
-							msg : "操作成功",
-							fn : function() {
-								$('.alertDialog').modal('hide');
-								vm.investmentProjectSecondaryGrid.dataSource.read();
-							}
-						});
-					}
-				});
-			};
-			common.http({
-				vm : vm,
-				$http : $http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});
-		}//end fun deleteSecondaryCatalog
+//		function deleteSecondaryCatalog(vm,id){
+//			var httpOptions = {
+//					method : 'put',
+//					url : common.format(url_catalog+"/delete?id={0}", id)
+//			};
+//			var httpSuccess = function (response){
+//				common.requestSuccess({
+//					vm : vm,
+//					response : response,
+//					fn : function(){
+//						common.alert({
+//							vm : vm,
+//							msg : "操作成功",
+//							fn : function() {
+//								$('.alertDialog').modal('hide');
+//								vm.investmentProjectSecondaryGrid.dataSource.read();
+//							}
+//						});
+//					}
+//				});
+//			};
+//			common.http({
+//				vm : vm,
+//				$http : $http,
+//				httpOptions : httpOptions,
+//				success : httpSuccess
+//			});
+//		}//end fun deleteSecondaryCatalog
 		
 		//获得次级目录信息
 		function grid_InvestmentProjectSecondary(vm){
@@ -7030,8 +7030,8 @@
 		//更新一级目录信息
 		function updateCatalog(vm){
 			var httpOptions = {
-					method : "put",
-					url : url_catalog,
+					method : 'post',
+					url : url_catalog+'/updateInvestment',
 					data : vm.model
 			};
 			var httpSuccess = function(response){
@@ -7795,7 +7795,7 @@
 		//根据id 删除项目异常信息
 		function deleteProjectAnomalyById(vm){
 			var httpOptions = {
-					method : 'put',
+					method : 'delete',
 					url : common.format(url_creditInfo+"/projectAnomaly/delete?id={0}", vm.id)
 			};
 			var httpSuccess = function (response){
@@ -7825,8 +7825,8 @@
 		//根据id更新项目异常信息
 		function updateProjectAnomalyById(vm){
 			var httpOptions = {
-					method : "put",
-					url : common.format(url_creditInfo+"/projectAnomaly"),
+					method : 'post',
+					url : common.format(url_creditInfo+"/updateProjectAnomaly"),
 					data : vm.standby
 			};
 			var httpSuccess = function(response){
@@ -8026,7 +8026,7 @@
 		//根据黑名单id 删除黑名单信息
 		function deleteBlackListById(vm){
 			var httpOptions = {
-					method : 'put',
+					method : 'delete',
 					url : common.format(url_creditInfo+"/blackList/delete?id={0}", vm.id)
 			};
 			var httpSuccess = function (response){
@@ -8058,8 +8058,8 @@
 		//根据黑名单id 更新黑名单信息
 		function updateBlackListById(vm){
 			var httpOptions = {
-					method : "put",
-					url : common.format(url_creditInfo+"/blackList"),
+					method : 'post',
+					url : common.format(url_creditInfo+"/updateBlackList"),
 					data : vm.model
 			};
 			var httpSuccess = function(response){
@@ -8315,40 +8315,40 @@
 			});
 		}
 		
-		function deleteIllegalNameById(vm){
-			var httpOptions = {
-					method : 'put',
-					url : common.format(url_creditInfo+"/delete?id={0}", vm.id)
-			};
-			var httpSuccess = function (response){
-				common.requestSuccess({
-					vm : vm,
-					response : response,
-					fn : function(){
-						common.alert({
-							vm : vm,
-							msg : "操作成功",
-							fn : function() {
-								$('.alertDialog').modal('hide');
-								vm.gridIllegalNameInfo.dataSource.read();
-							}
-						});
-					}
-				});
-			};
-			common.http({
-				vm : vm,
-				$http : $http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});
-		}
+//		function deleteIllegalNameById(vm){
+//			var httpOptions = {
+//					method : 'put',
+//					url : common.format(url_creditInfo+"/delete?id={0}", vm.id)
+//			};
+//			var httpSuccess = function (response){
+//				common.requestSuccess({
+//					vm : vm,
+//					response : response,
+//					fn : function(){
+//						common.alert({
+//							vm : vm,
+//							msg : "操作成功",
+//							fn : function() {
+//								$('.alertDialog').modal('hide');
+//								vm.gridIllegalNameInfo.dataSource.read();
+//							}
+//						});
+//					}
+//				});
+//			};
+//			common.http({
+//				vm : vm,
+//				$http : $http,
+//				httpOptions : httpOptions,
+//				success : httpSuccess
+//			});
+//		}
 		
 		//根据id更新项目异常名录信息
 		function updateIllegalNameById(vm){
 			var httpOptions = {
-					method : "put",
-					url : url_creditInfo,
+					method : 'post',
+					url : url_creditInfo+'/updateIllegalName',
 					data : vm.illegalNameModel
 			};
 			var httpSuccess = function(response){
@@ -9336,8 +9336,8 @@
 				vm.isSubmit = true;
 				vm.model.id=vm.id;// id			
 				var httpOptions = {
-					method : 'put',
-					url : url_mediationManagement,
+					method : 'post',
+					url : url_mediationManagement+'/updateMediationManagement',
 					data : vm.model
 				};
 
@@ -9414,7 +9414,7 @@
 				vm.isSubmit = true;
 				vm.model.id=vm.id;// id			
 				var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_mediationManagement+"/updateAssistReview",
 					data : vm.model
 				};
@@ -9457,7 +9457,7 @@
 				vm.isSubmit = true;
 				vm.model.id=vm.id;// id			
 				var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_mediationManagement+"/updateOnlyAssistReview",
 					data : vm.model
 				};
@@ -10876,8 +10876,8 @@
 				vm.isSubmit = true;
 				vm.model.id=vm.id;// id
 				var httpOptions = {
-					method : 'put',
-					url : url_portal,
+					method : 'post',
+					url : url_portal+'/updatePortal',
 					data : vm.model
 				};
 
@@ -11468,7 +11468,7 @@
 		function updateIsMonthReport(vm){
 			vm.isSumbit=true;
 			var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_project+"/isMonthReport",
 					data : vm.model
 				};
@@ -11513,8 +11513,8 @@
 				vm.model.projectType=common.arrayToString(vm.model.projectType,',');
 				
 				var httpOptions = {
-					method : 'put',
-					url : url_project,
+					method : 'post',
+					url : url_project+'updateProject',
 					data : vm.model
 				};
 
@@ -13165,7 +13165,7 @@
 				vm.isSubmit = true;
 				vm.model.id=vm.id;// id			
 				var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_project+"/updateShenpiItems",
 					data : vm.model
 				};
@@ -13211,7 +13211,7 @@
 				vm.isSubmit = true;
 				vm.model.id=vm.id;// id			
 				var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_project+"/updateShenpiUnit",
 					data : vm.model
 				};
@@ -13306,7 +13306,7 @@
 		 */
 		function updateIsMonthReport(vm){
 			var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_project+"/isMonthReport",
 					data : vm.model
 				};
@@ -13343,8 +13343,8 @@
 				vm.model.projectType=common.arrayToString(vm.model.projectType,',');
 				
 				var httpOptions = {
-					method : 'put',
-					url : url_project,
+					method : 'post',
+					url : url_project+'/updateProject',
 					data : vm.model
 				};
 
@@ -14908,7 +14908,7 @@
 		
 		function handle(vm){
 			var httpOptions = {
-				method : 'put',
+				method : 'post',
 				url : url_task+"/"+vm.taskId,
 				data : vm.model.taskRecord
 			};
@@ -16647,8 +16647,8 @@
 		//编辑意见
 		function editOpin(vm){
 			var httpOptions = {
-	                method: 'put',
-	                url:url_opin,
+	                method: 'post',
+	                url:url_opin+'/editOpin',
 	                data:vm.model.opinion          
 	            };
 	            
@@ -16778,8 +16778,8 @@
 		 */
 		function saveShenBaoInfo(vm){
 			var httpOptions = {
-					method : 'put',
-					url : url_shenbao,
+					method : 'post',
+					url : url_shenbao+'/updateShenbao',
 					data:vm.model.shenBaoInfo
 				};
 			
@@ -16969,7 +16969,7 @@
 	   		if (isValid) {
 	   				
 			var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_task+"/"+vm.taskId,
 					data : vm.taskAudit
 				};
@@ -18203,8 +18203,8 @@
 		//编辑意见
 		function editOpin(vm){
 			var httpOptions = {
-	                method: 'put',
-	                url:url_opin,
+	                method: 'post',
+	                url:url_opin+'/editOpin',
 	                data:vm.model.opinion          
 	            };
 	            
@@ -18334,8 +18334,8 @@
 		 */
 		function saveShenBaoInfo(vm){
 			var httpOptions = {
-					method : 'put',
-					url : url_shenbao,
+					method : 'post',
+					url : url_shenbao+'/updateShenbao',
 					data:vm.model.shenBaoInfo
 				};
 			
@@ -18545,7 +18545,7 @@
 	   		if (isValid) {
 	   				
 			var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_task+"/"+vm.taskId,
 					data : vm.taskPlan
 				};
@@ -19612,6 +19612,7 @@
 		var url_back_shenbaoInfoList="/yearPlan/shenbaoInfoList";
 		var url_exportExcel="/common/exportExcel";
 		var url_basicData="/management/basicData";
+		var url_updateBasicData = "/management/updateBasicData";
 		
 		var service = {
 			grid_shenbaoInfoList : grid_shenbaoInfoList,//申报项目列表
@@ -19741,8 +19742,8 @@
 				vm.model.shenBaoInfo.beginDate = (vm.model.shenBaoInfo.beginDate != '')?vm.model.shenBaoInfo.beginDate:null;
 				vm.model.shenBaoInfo.endDate = (vm.model.shenBaoInfo.endDate != '')?vm.model.shenBaoInfo.endDate:null;
 				var httpOptions = {
-						method : 'put',
-						url : common.format(url_shenbaoInfoList),
+						method : 'post',
+						url : common.format(url_shenbaoInfoList+'/updateShenbao'),
 						data:vm.model.shenBaoInfo
 					};
 			
@@ -19965,7 +19966,7 @@
 			vm.model.shenBaoInfo.constructionUnit=common.arrayToString(vm.constructionUnits,',');
 			
 			var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : common.format(url_shenbaoInfoList+"/updateProjectBasic"),
 					data:vm.model.shenBaoInfo
 				};
@@ -20066,7 +20067,7 @@
 					   +parseFloat(vm.model.capital.capitalOther||0));
 
 			var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_planCapital,
 					data:vm.model.capital
 				};
@@ -21024,8 +21025,8 @@
 				vm.isSubmit = true;
 				
 				var httpOptions = {
-					method : 'put',
-					url : url_planList,
+					method : 'post',
+					url : url_planList+'/updateYearPlan',
 					data : vm.model
 				};
 				

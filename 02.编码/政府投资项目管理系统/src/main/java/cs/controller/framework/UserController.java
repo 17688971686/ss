@@ -62,8 +62,8 @@ public class UserController {
 		userService.initUser(map);	
 	}
 	
-	@RequiresPermissions("user##post")
-	@RequestMapping(name = "更新用户", path = "",method=RequestMethod.PUT)	
+	@RequiresPermissions("user#updateUser#post")
+	@RequestMapping(name = "更新用户", path = "updateUser",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  put(@RequestBody UserDto userDto)  {		
 		userService.updateUser(userDto);	
