@@ -221,8 +221,8 @@
                    	//vm.model.passwordConfirm = vm.model.password;//密码RSA公钥加密
 				    // vm.model.password=$.md5(vm.model.password);//密码MD5加密
                     var httpOptions = {
-                        method: 'put',
-                        url: '/account/password',
+                        method: 'post',
+                        url: '/verifyNum/changePwd',
                         data: vm.password
                     };
                   

@@ -31,7 +31,7 @@
         	//修改密码
         	.state('accountPwd', {
         		url: '/accountPwd',
-        		templateUrl: '/account/html/changePwdQ.html',
+        		templateUrl: '/verifyNum/html/changePwdQ.html',
         		controller: 'indexCtrl',
         		controllerAs: 'vm'
         	})

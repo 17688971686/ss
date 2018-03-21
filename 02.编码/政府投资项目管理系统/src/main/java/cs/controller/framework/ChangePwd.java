@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping(name = "修改密码", path = "changePassword")
-public class ChangePassword {
+@RequestMapping(name = "修改密码", path = "changePwd")
+public class ChangePwd {
 	
 	private String ctrlName = "framework/home";
 	

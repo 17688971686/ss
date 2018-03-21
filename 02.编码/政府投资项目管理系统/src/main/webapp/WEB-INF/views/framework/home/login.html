@@ -185,7 +185,7 @@
 				    // vm.model.password=$.md5(vm.model.password);//密码MD5加密
                     var httpOptions = {
                         method: 'post',
-                        url: '/account/login?role='+role,
+                        url: '/verifyNum/login?role='+role,
                         data: vm.sendModel
                     };
                   
@@ -203,7 +203,7 @@
                                    	if(reg.test(vm.model.old_password)){
                                    		location.href = "/admin/index#/task/todo";
                                     }else{
-                                    	location.href = "/changePassword/background";
+                                    	location.href = "/changePwd/background";
                                     }
                                     //common.cookie().set("data", "token", response.data.Token, "", "/");
                                     //location.href = "/admin/index#/task/todo";

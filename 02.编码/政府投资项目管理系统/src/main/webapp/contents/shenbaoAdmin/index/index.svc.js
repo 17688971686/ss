@@ -8,7 +8,7 @@
 	function index($http) {	
 		var url_task="/shenbaoAdmin/task";
 		var url_unitShenBao="/shenbaoAdmin/shenbao";
-		var url_account_password="/account/password";
+		var url_account_password="/verifyNum/changePwd";
 		var url_monthReport = "/shenbaoAdmin/projectMonthReport";
 		var url_project = "/shenbaoAdmin/project";
 		var url_login = "/";
@@ -90,7 +90,7 @@
 				vm.model.password = rsa.encrypt(vm.model.password);
 				
 				var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_account_password,
 					data : vm.model.password
 				};

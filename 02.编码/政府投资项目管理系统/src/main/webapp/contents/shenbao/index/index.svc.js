@@ -31,7 +31,7 @@
                 
                 var httpOptions = {
                     method: 'post',
-                    url: '/account/login?role='+role,
+                    url: '/verifyNum/login?role='+role,
                     data: vm.model
                 };
                 var httpSuccess = function success(response) {
@@ -47,7 +47,7 @@
                                	if(reg.test(vm.model.old_password)){
                                		location.href = "/shenbaoAdmin";
                                 }else{
-                                	location.href = "/changePassword/frontDesk";
+                                	location.href = "/changePwd/frontDesk";
                                 }
                             } else {                                
                                 vm.message=response.data.message;

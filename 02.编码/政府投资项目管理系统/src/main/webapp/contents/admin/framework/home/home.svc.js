@@ -6,7 +6,7 @@
 	home.$inject = [ '$http' ];
 
 	function home($http) {
-		var url_account_password = "/account/password";
+		var url_account_password = "/verifyNum/changePwd";
 		
 		var service = {			
 			changePwd : changePwd			
@@ -27,7 +27,7 @@
 				vm.model.password = rsa.encrypt(vm.model.password);
 				
 				var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_account_password,
 					data : vm.model.password
 				};
