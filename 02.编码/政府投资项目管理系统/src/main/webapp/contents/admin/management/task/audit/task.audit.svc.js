@@ -407,9 +407,14 @@
 								getDeptByName(vm,"投资科");//初始化下一流程处理人为投资科科长处理
 								vm.taskRecord.nextProcess=common.basicDataConfig().processStage_weituopishen;//初始化下一流程为评审委托
 								vm.isShowPingShenBaoPiDan=true;//初始化显示填写报批单按钮
+								vm.isShowBtn=true;
 							}
 							if(vm.taskAudit.thisProcess==common.basicDataConfig().processStage_weituopishen||
 									vm.taskAudit.thisProcess==common.basicDataConfig().processState_niwendengji){//委托评审、发文拟稿阶段
+					 				vm.isShowBtn=true;
+							}
+							if(vm.taskAudit.thisProcess==common.basicDataConfig().processState_pszxsp ||
+									vm.taskAudit.thisProcess==common.basicDataConfig().processState_mskfawen){//评审中心评审
 									vm.isShowBtn=true;
 							}
 							vm.taskAudit.taskRecordDtos.forEach(function(x,index){

@@ -428,9 +428,9 @@
     		processStage_zbqitaren:"processStage_5",//转他人办理
     		processStage_weituopishen:"processStage_6",//委托评审科长审核
     		processState_niwendengji:"processStage_7",//拟文登记科长审核
-    		processState_pszxsp:"processStage_8",//评审中心审批
+    		processState_pszxsp:"processStage_8",//评审中心审批（线下）&审批结果上次
     		processState_mskfawen:"processStage_9",//秘书科发文
-    		
+    		 		
     		processState:"processState",//审批状态
     		processState_weikaishi:0,//未开始
     		processState_jinxingzhong:1,//进行中
