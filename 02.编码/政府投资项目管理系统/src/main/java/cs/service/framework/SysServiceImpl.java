@@ -643,6 +643,7 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("processStage_7","processStage" , "processStage", "拟文登记科长审核", "审批流程阶段",false);
 		this.createBasicData("processStage_8","processStage" , "processStage", "评审中心审批", "审批流程阶段",false);
 		this.createBasicData("processStage_9","processStage" , "processStage", "秘书科发文", "审批流程阶段",false);
+		this.createBasicData("processStage_10","processStage" , "processStage", "审批退文", "审批流程阶段",false);
 		
 		this.createBasicData("taskType","" , "taskType", "任务类型", "任务类型",false);		
 		this.createBasicData("taskType_1","taskType" , "taskType", "月报填报", "",false);
