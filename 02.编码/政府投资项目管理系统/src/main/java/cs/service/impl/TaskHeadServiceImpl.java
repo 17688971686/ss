@@ -128,13 +128,16 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 		return entity;
 	}
 
-
 	@Override
 	@Transactional
 	public void handle(String taskId, TaskRecordDto dto) {
 		//查询系统配置是否需要发送短信
 		Criterion criterion = Restrictions.eq(SysConfig_.configName.getName(), BasicDataConfig.taskType_sendMesg);
 		SysConfig entityQuery = sysConfigRepo.findByCriteria(criterion).stream().findFirst().get();
+		
+		Criterion criterion1 = Restrictions.eq(SysConfig_.configName.getName(), BasicDataConfig.taskType_shenpiFenBan);
+		SysConfig sysConfg = sysConfigRepo.findByCriteria(criterion1).stream().findFirst().get();
+		
 		Boolean isSendMesg = entityQuery.getEnable()?true:false;
 				
 		TaskHead taskHead=super.repository.findById(taskId);
@@ -152,6 +155,15 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 			if(taskHead.getTaskType().equals(BasicDataConfig.taskType_nextYearPlan) && processState==BasicDataConfig.processState_pass){//如果是下一年度计划且签收
 				taskHead.setThisProcess(dto.getThisProcess());
 				taskHead.setThisProcessState(dto.getThisProcessState());
+			}else if(processState==BasicDataConfig.processState_tuiwen){
+				if(sysConfg !=null){
+					if(Util.isNotNull(sysConfg.getConfigValue()) && sysConfg.getEnable()){
+						taskHead.setThisUser(sysConfg.getConfigValue());
+						taskHead.setThisProcess(BasicDataConfig.processStage_qianshou);
+					}
+				}else{
+					throw new IllegalArgumentException(String.format("没有配置申报信息审核分办人员，请联系管理员！"));
+				}
 			}else{
 				taskHead.setThisProcess(dto.getNextProcess());
 				taskHead.setThisProcessState(BasicDataConfig.processState_jinxingzhong);
@@ -187,8 +199,13 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 							dto.setThisUser(currentUser.getUserId());
 						}
 					}else{
-						shenBaoInfo.setProcessStage(taskHead.getThisProcess());
-						shenBaoInfo.setProcessState(taskHead.getThisProcessState());
+						if(processState==BasicDataConfig.processState_tuiwen){
+							shenBaoInfo.setProcessStage(BasicDataConfig.processState_tuihui);
+							shenBaoInfo.setProcessState(BasicDataConfig.processState_tuiwen);
+						}else{
+							shenBaoInfo.setProcessStage(taskHead.getThisProcess());
+							shenBaoInfo.setProcessState(taskHead.getThisProcessState());
+						}
 						if(processStage.equals(BasicDataConfig.processStage_qianshou) && processState == BasicDataConfig.processState_pass){//如果为投资科签收且通过
 							shenBaoInfo.setReceiver(dto.getThisUser());//设置签收人
 							shenBaoInfo.setQianshouDate(new Date());//设置签收时间// || (processStage.equals(BasicDataConfig.processState_niwendengji) && processState == BasicDataConfig.processState_pass)

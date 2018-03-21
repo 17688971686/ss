@@ -437,6 +437,7 @@
     		processState_pass:2,//通过
     		processState_zhuanban:3,//转办
     		processState_notpass:4,//不通过
+    		processState_tuiwen:5,//退文
     		
     		
     		fileSet:"fileSet",//文件缓急分类
@@ -779,6 +780,9 @@
     			break;
     		case 4:
     			return "审批不通过";
+    			break;
+    		case 5:
+    			return "退文";
     			break;
     		default:
     			break;

@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.common.BasicDataConfig;
 import cs.common.Response;
 import cs.common.sysResource.SysResourceDto;
+import cs.model.DomainDto.BasicDataDto;
 import cs.model.DomainDto.SysConfigDto;
+import cs.service.common.BasicDataService;
 import cs.service.framework.SysService;
 
 @Controller
@@ -30,6 +32,8 @@ public class SysController {
 	private String env;
 	@Autowired
 	private SysService sysService;
+	@Autowired
+	private BasicDataService basicDataService;
 	
 	private String ctrl="management/sysConfig";
 
@@ -73,7 +77,16 @@ public class SysController {
 	
 	@RequestMapping(name = "系统初始化", path = "init", method = RequestMethod.GET)
 	public @ResponseBody String init(HttpServletRequest request) {
-		if(env.equals("debug")){
+		String description = null;
+		List<BasicDataDto> initType = basicDataService.getByIdentity("initType");
+		if(initType.size() >0){
+			for (BasicDataDto basicDataDto : initType) {
+				if(basicDataDto.getId().equals("initType")){
+					description = basicDataDto.getDescription();
+				}
+			}
+		}
+		if(env.equals("debug") && !"1".equals(description)){
 			Response response = sysService.SysInit();
 			if(response.isSuccess()){
 				return "Init system success";
@@ -87,7 +100,17 @@ public class SysController {
 	
 	@RequestMapping(name = "基础数据初始化", path = "initBasicData", method = RequestMethod.GET)
 	public @ResponseBody String initBasicData(HttpServletRequest request) {
-		if(env.equals("debug")){
+		String description = null;
+		List<BasicDataDto> initType = basicDataService.getByIdentity("initType");
+		if(initType.size() >0){
+			for (BasicDataDto basicDataDto : initType) {
+				if(basicDataDto.getId().equals("initType")){
+					description = basicDataDto.getDescription();
+				}
+			}
+		}
+		
+		if(env.equals("debug") && !"1".equals(description)){
 			Response response = sysService.SysInitBasicData();
 			if(response.isSuccess()){
 				return "Init basicData success";

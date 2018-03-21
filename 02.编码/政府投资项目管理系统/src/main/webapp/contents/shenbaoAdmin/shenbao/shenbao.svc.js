@@ -336,7 +336,7 @@
 					title : "操作",
 					width : 200,
 					template : function(item) {					
-						var isShow=item.processStage==common.basicDataConfig().processStage_tianbao||item.processState==common.basicDataConfig().processState_notpass
+						var isShow=item.processStage==common.basicDataConfig().processStage_tianbao||item.processState==common.basicDataConfig().processState_notpass||item.processState==common.basicDataConfig().processState_tuiwen
 							||(item.processStage==common.basicDataConfig().processStage_qianshou && item.processState != common.basicDataConfig().processState_pass);
 						return common.format($('#columnBtns_Record').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShow?'':'display:none',"vm.deleteShenBaoInfo('"+item.id+"')");
 					}
@@ -1054,7 +1054,7 @@
 					title : "操作",
 					width : 200,
 					template : function(item) {
-						var isShow=item.processStage==common.basicDataConfig().processStage_tianbao||item.processState==common.basicDataConfig().processState_notpass
+						var isShow=item.processStage==common.basicDataConfig().processStage_tianbao||item.processState==common.basicDataConfig().processState_notpass||item.processState==common.basicDataConfig().processState_tuiwen
 							||(item.processStage==common.basicDataConfig().processStage_qianshou && item.processState != common.basicDataConfig().processState_pass);
 						return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShow?'':'display:none');
 					},
