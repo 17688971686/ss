@@ -519,6 +519,9 @@
     				vm.taskRecord.nextUser=vm.taskAudit.lastUser;
     				vm.taskRecord.nextRole=vm.taskAudit.lastRole;
         		}
+        		if(str == 'tuiwen'){
+        			vm.taskRecord.thisProcessState=common.basicDataConfig().processState_tuiwen;
+        		}
         		taskAuditSvc.handle(vm);
         	};
 /****************审批处理相关 end**********************/       	

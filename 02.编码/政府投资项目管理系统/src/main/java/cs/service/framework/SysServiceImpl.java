@@ -343,7 +343,7 @@ public class SysServiceImpl implements SysService{
 		
 
 		//初始化基础数据
-		
+		this.createBasicData("initType","initType" , "initType", "1", "");
 		this.createBasicData("documentType","" , "documentType", "文件种类", "");
 		this.createBasicData("documentType_1","documentType" , "documentType", "函", "");
 		this.createBasicData("documentType_2","documentType" , "documentType", "指示", "");
