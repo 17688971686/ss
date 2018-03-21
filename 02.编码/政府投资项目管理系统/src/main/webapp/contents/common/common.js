@@ -763,20 +763,27 @@
      * @returns
      */
     function getProcessStateDesc(i){
-    	if(i){
-    		if(i == 0){
+    	if(!isNaN(i)){
+    		switch (i) {
+    		case 0:
     			return "未开始";
-        	}else if(i == 1){
-        		return "进行中";
-        	}else if(i == 2){
-        		return "审批通过";
-        	}else if(i == 3){
-        		return "转办他人";
-        	}else if(i == 4){
-        		return "审批不通过";
-        	}
-    	}
-    	else {
+    			break;
+    		case 1:
+    			return "进行中";
+    			break;
+    		case 2:
+    			return "审批通过";
+    			break;
+    		case 3:
+    			return "转办他人";
+    			break;
+    		case 4:
+    			return "审批不通过";
+    			break;
+    		default:
+    			break;
+    		}
+    	}else{
     		return "";
     	}
     }

@@ -102,7 +102,7 @@
 				filters.push({field:'isLatestVersion',operator:'eq',value:true});//默认条件--项目最新版本
 				if(vm.isZFInvestment){
 					filters.push({field:'projectInvestmentType',operator:'eq',value:common.basicDataConfig().projectInvestmentType_ZF});//默认条件--政府投资项目 
-					filters.push({field:'isIncludLibrary',operator:'eq',value:true});//默认条件--项目纳入项目库  
+					//filters.push({field:'isIncludLibrary',operator:'eq',value:true});//默认条件--项目纳入项目库  
 				}
 				if(vm.isSHInvestment){
 					filters.push({field:'projectInvestmentType',operator:'eq',value:common.basicDataConfig().projectInvestmentType_SH});//默认条件--政府投资项目 
@@ -127,6 +127,13 @@
      		   if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){//查询条件--项目行业
      			  filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
      		   }
+     		  if(vm.search.isIncludLibrary !=null && vm.search.isIncludLibrary !=''){
+    			   if(vm.search.isIncludLibrary == "true"){
+    				  filters.push({field:'isIncludLibrary',operator:'eq',value:true});
+    			   }else if(vm.search.isIncludLibrary == "false"){
+    				  filters.push({field:'isIncludLibrary',operator:'eq',value:false});
+    			   }
+    		   }
      		   
      		   if(vm.isZFInvestment){
      			  vm.gridOptions.dataSource.filter(filters);

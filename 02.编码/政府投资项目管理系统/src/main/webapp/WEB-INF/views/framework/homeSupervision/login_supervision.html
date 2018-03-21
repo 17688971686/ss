@@ -165,6 +165,7 @@
                     var key = $("#rsaPrivateKey").val();//获取公钥信息
                     var rsa = new RSAKey();
                     rsa.setPublic(key, "10001");
+                    
                     vm.model.password = rsa.encrypt(vm.model.password);//密码RSA公钥加密
                     
                     var httpOptions = {

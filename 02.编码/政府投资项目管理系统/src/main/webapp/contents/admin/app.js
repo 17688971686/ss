@@ -187,6 +187,30 @@
 	            controller: 'planReachCtrl',
 	            controllerAs: 'vm'
 	        })
+	         //计划下达批复--列表页面
+	        .state('planReach_tabList', {
+	            url: '/planReach_tabList',
+	            templateUrl: '/management/planReachManage/planReach/html/tabList.html',
+	            controller: 'planReachCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //计划下达批复--编辑页面
+	        .state('planReach_tabEdit', {
+	            url: '/planReach_tabEdit/:id',
+	            params:{"id":null},
+	            templateUrl: '/management/planReachManage/planReach/html/tabEdit.html',
+	            controller: 'planReachCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //计划下达批复--打印预览页面
+	        .state('planReachApprovalPrint', {
+	            url: '/planReachApprovalPrint/:id',
+	            params:{"id":null},
+	            templateUrl: '/management/planReachManage/planReach/html/print.html',
+	            controller: 'planReachCtrl',
+	            controllerAs: 'vm'
+	        })
+	        
 /**********************end#计划下达管理**********************************/
 	        
 /**********************begin#决策辅助系统**********************************/
@@ -204,8 +228,15 @@
 	            controller: 'statisticalAnalysisCtrl',
 	            controllerAs: 'vm'
 	        })
+	        //统计分析--数据展示页面
+	        .state('statisticalAnalysis_show', {
+	            url: '/statisticalAnalysis_show',
+	            params:{"what":"","type":"","parameter":null},
+	            templateUrl: '/management/auxDeci/statisticalAnalysis/html/show.html',
+	            controller: 'statisticalAnalysisCtrl',
+	            controllerAs: 'vm'
+	        })
 
-	        
 /**********************end#决策辅助系统***************************************/
 	        
 	       //begin#单位管理	       

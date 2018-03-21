@@ -1,0 +1,131 @@
+<style>
+.title_font{
+	font-family: SimHei;
+	font-size:1.3em;
+}
+
+._table tr td{
+	border: 1px solid black;
+	font-family: SimSun;
+	text-align: center;
+}
+.root_div{
+	 min-height: 29.7cm;
+}
+.excel_div_portrait{
+	position:relative;
+	top:50%
+	-webkit-transform:translateY(25%);
+	-ms-transform: translateX(25%);
+	transform: translateX(25%);
+}
+.excel_div_transverse{
+	position:relative;
+	top:50%
+	-webkit-transform:translateY(20%);
+	-ms-transform: translateX(20%);
+	transform: translateX(20%);
+}
+.table_title,.table_text{
+	height:0.69cm;
+}
+.table_text_tip{
+	color:red;
+	font-weight: bold;
+}
+.dataTable .dataTr td{
+	font-family: cursive;
+}
+</style>
+<div class="well well-sm" style="background:white;border:0">
+	  <ol class="breadcrumb">
+		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		  <li><a href="#/">首页</a></li>
+	      <li><a href="javascript::" ui-sref="planReach_tabList">计划下达表单</a></li>	 
+	      <li class="active">打印预览</li>
+	  </ol>
+	  
+	<div class="toolbar">
+		<a class="btn btn-success btn-sm" href="javascript:;" ui-sref="planReach_tabList"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回</a>
+		<button type="button" class="btn btn-success btn-sm" ng-click="vm.printBtn()"><span class="glyphicon glyphicon-print"></span>&nbsp;打印</button>
+	</div>
+	
+	<div style="position: relative;">
+		<div id="printWindow" style="position: absolute;left:50%;margin-left: -13.85cm;">
+			<h3 class="text-center" ng-bind="vm.model.title"></h3>
+			<br>
+			<table class="_table" style="width:27.7cm;">
+				<tr style="height:0.87cm;">
+					<td colspan="3" style="text-align:left;border: 0;">打印时间：{{vm.nowDate}}</td>
+					<td style="text-align:right;border: 0;">资金：万   元<br>面积：平方米</td>
+				</tr>
+				<tr style="height:0.87cm;">
+					<td style="width:2.5cm">制表时间：</td>
+					<td colspan="3" ng-bind="vm.model.approvalTime"></td>
+				</tr>
+				<tr style="height:0.87cm;">
+					<td>负责人：</td>
+					<td ng-bind="vm.model.resPerson" style="width:40%"></td>
+					<td style="width:2.5cm">负责人电话：</td>
+					<td ng-bind="vm.model.resPersonTel"></td>
+				</tr>
+				<tr style="height:0.87cm;">
+					<td colspan="4" style="border-top: 0;border-bottom:0;"></td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<table style="margin: 10px;" class="dataTable">
+							<tr class="text-center table_title">
+								<td rowspan="2" style="width:1cm;">序号</td>
+								<td rowspan="2" style="width:4.50cm;">建设单位及项目名称</td>
+								<td rowspan="2" style="width:4.50cm">建设规模</td>
+								<td style="width:3.2cm">建设性质</td>
+								<td style="width:2cm">总投资</td>
+								<td rowspan="2" style="width:1.8cm">计划年度</td>
+								<td colspan="2">年度安排投资</td>
+								<td colspan="2">申请资金</td>
+								<td colspan="2">批复资金</td>
+								<td style="width:3cm" rowspan="2">备注</td>
+							</tr>
+							<tr class="text-center table_title">
+								<td>建设起止年月</td>
+								<td>累计拨款</td>
+								<td style="width:1.8cm;">公共预算</td>
+								<td style="width:1.8cm;">国土资金</td>
+								<td style="width:1.8cm;">公共预算</td>
+								<td style="width:1.8cm;">国土资金</td>
+								<td style="width:1.8cm;">公共预算</td>
+								<td style="width:1.8cm;">国土资金</td>
+							</tr>
+							<tbody ng-repeat="x in vm.model.shenBaoInfoDtos" style="text-align: center;">
+ 								<tr class="dataTr" style="height:1cm;">
+ 									<td rowspan="2" ng-bind="$index+1"></td>
+		  							<td ng-bind="x.constructionUnit"></td>
+		  							<td rowspan="2" ng-bind="x.projectGuiMo"></td>
+		  							<td ng-bind="vm.getBasicDataDesc(x.projectConstrChar)"></td>
+		  							<td ng-bind="x.projectInvestSum"></td>
+		  							<td rowspan="2" ng-bind="x.planYear"></td>
+		  							<td rowspan="2" ng-bind="x.capitalAP_ggys_TheYear"></td>
+		  							<td rowspan="2" ng-bind="x.capitalAP_gtzj_TheYear"></td>
+		  							<td rowspan="2" ng-bind="x.sqPlanReach_ggys"></td>
+		  							<td rowspan="2" ng-bind="x.sqPlanReach_gtzj"></td>
+		  							<td rowspan="2" ng-bind="x.apPlanReach_ggys"></td>
+		  							<td rowspan="2" ng-bind="x.apPlanReach_gtzj"></td>
+		  							<td rowspan="2" ng-bind="x.yearConstructionContentShenBao"></td>
+ 								</tr>
+ 								<tr class="dataTr">
+ 									<td ng-bind="x.projectName"></td>
+ 									<td>
+ 										<span ng-bind="x.beginDate"></span><span>~</span><span ng-bind="x.endDate">
+ 									</td>
+ 									<td ng-bind="x.projectInvestAccuSum"></td>
+ 								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>	
+	

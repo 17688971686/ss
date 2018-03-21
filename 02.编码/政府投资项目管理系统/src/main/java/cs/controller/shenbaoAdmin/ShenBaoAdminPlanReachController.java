@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.common.ICurrentUser;
 import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
+import cs.model.DomainDto.PlanReachApplicationDto;
 import cs.model.DomainDto.ProjectDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
+import cs.service.interfaces.PlanReachApplicationService;
 import cs.service.interfaces.ProjectService;
 import cs.service.interfaces.ShenBaoInfoService;
 import cs.service.interfaces.UserUnitInfoService;
@@ -38,6 +41,44 @@ public class ShenBaoAdminPlanReachController {
 	ICurrentUser currentUser;
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
+	@Autowired
+	private PlanReachApplicationService planReachApplicationService;
+	
+	//@RequiresPermissions("shenbaoAdmin/planReach##get")
+	@RequestMapping(name = "获取计划下达申请信息", path = "",method=RequestMethod.GET)
+	public @ResponseBody PageModelDto<PlanReachApplicationDto> get(HttpServletRequest request) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);
+		PageModelDto<PlanReachApplicationDto> planReachApplications = planReachApplicationService.get(odataObj);
+		return planReachApplications;
+	}
+	
+	//@RequiresPermissions("shenbaoAdmin/planReach##post")
+	@RequestMapping(name = "创建计划下达申请信息", path = "",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void create(@RequestBody PlanReachApplicationDto dto) throws ParseException {
+		planReachApplicationService.create(dto);
+	}
+	
+	//@RequiresPermissions("shenbaoAdmin/planReach##put")
+	@RequestMapping(name = "更新计划下达申请信息", path = "",method=RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void update(@RequestBody PlanReachApplicationDto dto) throws ParseException {
+		planReachApplicationService.update(dto,dto.getId());
+	}
+	
+	//@RequiresPermissions("shenbaoAdmin/planReach##delete")
+	@RequestMapping(name = "删除计划下达申请信息", path = "",method=RequestMethod.DELETE)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void delete(@RequestBody String id) throws ParseException {
+		String[] ids = id.split(",");
+		if(ids.length>1){
+			for(String idstr:ids){
+				planReachApplicationService.delete(idstr);	
+			}
+		}else{
+			planReachApplicationService.delete(id);
+		}
+	}
 	
 	@RequiresPermissions("shenbaoAdmin/planReach#notInclud#get")
 	@RequestMapping(name = "获取未纳入年度计划的项目", path = "notInclud",method=RequestMethod.GET)
@@ -83,5 +124,17 @@ public class ShenBaoAdminPlanReachController {
 	@RequestMapping(name = "列表页", path = "html/list",method=RequestMethod.GET)
 	public String list() {
 		return this.ctrlName + "/list";
+	}
+	
+	//@RequiresPermissions("shenbaoAdmin/planReach#html/edit#get")
+	@RequestMapping(name = "编辑页", path = "html/edit",method=RequestMethod.GET)
+	public String edit() {
+		return this.ctrlName + "/edit";
+	}
+	
+	//@RequiresPermissions("shenbaoAdmin/planReach#html/print#get")
+	@RequestMapping(name = "打印页", path = "html/print",method=RequestMethod.GET)
+	public String print() {
+		return this.ctrlName + "/print";
 	}
 }

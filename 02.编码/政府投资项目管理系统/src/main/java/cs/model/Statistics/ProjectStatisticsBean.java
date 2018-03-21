@@ -47,8 +47,8 @@ public class ProjectStatisticsBean implements Serializable{
 	private Double apPlanReach_gtzj;//本年度计划下达安排——国土基金
 	private String yearConstructionContent;//本年度建设内容
 	private String yearConstructionContentShenBao;//备注
-	private Date beginDate;
-	private Date endDate;
+	private String beginDate;//开始时间
+	private String endDate;//结束时间
 	
 	public String getProjectName() {
 		return projectName;
@@ -185,16 +185,16 @@ public class ProjectStatisticsBean implements Serializable{
 	public void setApInvestSum(Double apInvestSum) {
 		this.apInvestSum = apInvestSum;
 	}
-	public Date getBeginDate() {
+	public String getBeginDate() {
 		return beginDate;
 	}
-	public void setBeginDate(Date beginDate) {
+	public void setBeginDate(String beginDate) {
 		this.beginDate = beginDate;
 	}
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 	public Double getYearInvestApproval() {

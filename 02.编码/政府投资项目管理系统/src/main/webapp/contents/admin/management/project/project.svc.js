@@ -565,7 +565,6 @@
 				sortable:true,
 				scrollable:true
 			};
-
 		}// end fun grid
 		
 		// begin#grid

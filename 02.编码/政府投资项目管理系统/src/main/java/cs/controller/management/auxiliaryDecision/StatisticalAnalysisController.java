@@ -1,16 +1,20 @@
 package cs.controller.management.auxiliaryDecision;
 
+import java.net.URLDecoder;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -75,26 +79,64 @@ public class StatisticalAnalysisController {
 		return yearPlanService.getyearPlanInvestSourceData();
 	}
 	
-	@RequestMapping(name="项目总库-项目分类统计",path="exportExcelForProject",method=RequestMethod.GET)
+	@RequestMapping(name="项目总库-项目分类统计数据获取",path="getExcelForProjectData",method=RequestMethod.GET)
+	public @ResponseBody List<ProjectStatisticsBean> getExcelForProjectData(HttpServletRequest request,@RequestParam String classDesc,@RequestParam String isIncludLibrary) throws ParseException{
+		return ProjectService.getProjectStatistics(classDesc,isIncludLibrary);
+	}
+	
+	@RequestMapping(name="项目总库-分类统计下载",path="exportExcelForProject",method=RequestMethod.GET)
 	public ModelAndView exportExcelForProject(HttpServletRequest request,@RequestParam String classDesc,@RequestParam String isIncludLibrary) throws ParseException{
 		List<ProjectStatisticsBean> data = ProjectService.getProjectStatistics(classDesc,isIncludLibrary);
 		return new ModelAndView(new ProjectStatisticsView(classDesc,isIncludLibrary), "data", data);
 	}
 	
-	@RequestMapping(name="审批类-分类统计",path="exportExcelForApproval",method=RequestMethod.GET)
+	@RequestMapping(name="审批类-分类统计数据获取",path="getExcelForApprovalData",method=RequestMethod.GET)
+	public @ResponseBody List<ProjectStatisticsBean> getExcelForApprovalData(HttpServletRequest request,@RequestParam String classDesc,@RequestParam String approvalYear) throws ParseException{
+		return shenBaoInfoService.getApprovalStatistics(classDesc,Integer.parseInt(approvalYear));
+	}
+	
+	@RequestMapping(name="审批类-分类统计下载",path="exportExcelForApproval",method=RequestMethod.GET)
 	public ModelAndView exportExcelForApproval(HttpServletRequest request,@RequestParam String classDesc,@RequestParam String approvalYear) throws ParseException{
 		List<ProjectStatisticsBean> data = shenBaoInfoService.getApprovalStatistics(classDesc,Integer.parseInt(approvalYear));
 		return new ModelAndView(new ApprovalStatisticsView(classDesc,Integer.parseInt(approvalYear)), "data", data);
 	}
 	
-	@RequestMapping(name="计划类-分类统计",path="exportExcelForPlan",method=RequestMethod.GET)
+	@RequestMapping(name="计划类-分类统计数据获取",path="getExcelForPlanData",method=RequestMethod.GET)
+	public @ResponseBody List<ProjectStatisticsBean> getExcelForPlanData(HttpServletRequest request,@RequestParam String classDesc,@RequestParam String planYear) throws ParseException{
+		return shenBaoInfoService.getPlanStatistics(classDesc,Integer.parseInt(planYear));
+	}
+	
+	@RequestMapping(name="计划类-分类统计下载",path="exportExcelForPlan",method=RequestMethod.GET)
 	public ModelAndView exportExcelForPlan(HttpServletRequest request,@RequestParam String classDesc,@RequestParam String planYear) throws ParseException{
 		List<ProjectStatisticsBean> data = shenBaoInfoService.getPlanStatistics(classDesc,Integer.parseInt(planYear));
 		return new ModelAndView(new PlanStatisticsView(classDesc,Integer.parseInt(planYear)), "data", data);
 	}
 	
-
-	@RequestMapping(name="审批类-自定义条件统计",path="exportExcelForApprovalByCustom",method=RequestMethod.POST)
+	@RequestMapping(name="审批类-自定义条件统计数据获取",path="getApprovalCustomData",method=RequestMethod.POST)
+	public @ResponseBody List<ProjectStatisticsBean> getApprovalCustomData(@SuppressWarnings("rawtypes") @RequestBody Map map) throws ParseException{
+		//获取筛选条件
+	   String pifuDateBeginStr=map.get("pifuDateBegin").toString();
+	   String pifuDateEndStr=map.get("pifuDateEnd").toString();
+	   String investSumBeginStr=map.get("projectInvestSumBegin").toString();
+	   String investSumEndStr=map.get("projectInvestSumEnd").toString();
+	   String industrySelect=StringUtils.strip(map.get("industry").toString(),"[]");
+	   String stageSelect=StringUtils.strip(map.get("stage").toString(),"[]");
+	   String unitSelect=StringUtils.strip(map.get("unit").toString(),"[]");
+	   //处理请求参数
+	   Integer pifuDateBegin=Util.isNotNull(pifuDateBeginStr)?Integer.parseInt(pifuDateBeginStr,10):null;
+	   Integer pifuDateEnd=Util.isNotNull(pifuDateEndStr)?Integer.parseInt(pifuDateEndStr,10):null;
+	   Double investSumBegin=Util.isNotNull(investSumBeginStr)?Double.valueOf(investSumBeginStr):null;
+	   Double investSumEnd=Util.isNotNull(investSumEndStr)?Double.valueOf(investSumEndStr):null;
+	   String[] industrySelected = Util.isNotNull(industrySelect)?industrySelect.split(","):null;
+	   String[] stageSelected = Util.isNotNull(stageSelect)?stageSelect.split(","):null;
+	   String[] unitSelected = Util.isNotNull(unitSelect)?unitSelect.split(","):null;
+	   String projectName=Util.isNotNull(map.get("projectName").toString())?map.get("projectName").toString():null;
+	   //查询获取数据
+ 	   return shenBaoInfoService.getApprovalStatisticsByCustom(pifuDateBegin,pifuDateEnd,industrySelected,stageSelected,unitSelected,investSumBegin,investSumEnd,projectName);
+	}
+	
+	
+	@RequestMapping(name="审批类-自定义条件统计下载",path="exportExcelForApprovalByCustom",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void exportExcelForApprovalByCustom(HttpServletRequest request,HttpServletResponse response) throws Exception{
 	   //获取筛选条件
@@ -113,8 +155,9 @@ public class StatisticalAnalysisController {
 	   String[] industrySelected = Util.isNotNull(industrySelect)?industrySelect.split(","):null;
 	   String[] stageSelected = Util.isNotNull(stageSelect)?stageSelect.split(","):null;
 	   String[] unitSelected = Util.isNotNull(unitSelect)?unitSelect.split(","):null;
+	   String projectName=Util.isNotNull(request.getParameter("projectName"))?new String(request.getParameter("projectName").getBytes("iso-8859-1"),"utf-8"):null;
 	   //查询获取数据
- 	   List<ProjectStatisticsBean> data = shenBaoInfoService.getApprovalStatisticsByCustom(pifuDateBegin,pifuDateEnd,industrySelected,stageSelected,unitSelected,investSumBegin,investSumEnd);
+ 	   List<ProjectStatisticsBean> data = shenBaoInfoService.getApprovalStatisticsByCustom(pifuDateBegin,pifuDateEnd,industrySelected,stageSelected,unitSelected,investSumBegin,investSumEnd,projectName);
 		
  	   try {
 			String fileName="光明新区政府投资计划类统计表.xls";
@@ -130,8 +173,35 @@ public class StatisticalAnalysisController {
 		}
 	}
 	
+	@RequestMapping(name="计划类-自定义条件统计数据获取",path="getPlanCustomData",method=RequestMethod.POST)
+	public @ResponseBody List<ProjectStatisticsBean> getPlanCustomData(@SuppressWarnings("rawtypes") @RequestBody Map map) throws ParseException{
+		//获取筛选条件
+		String investSumBeginStr= map.get("projectInvestSumBegin").toString();
+		String investSumEndStr= map.get("projectInvestSumEnd").toString();
+		String apPlanReachSumBeginStr=map.get("projectApPlanReachSumBegin").toString();
+		String apPlanReachSumEndStr=map.get("projectApPlanReachSumEnd").toString();
+		String planYearBeginStr=map.get("planYearBegin").toString();
+		String planYearEndStr=map.get("planYearEnd").toString();
+		String industrySelect=StringUtils.strip(map.get("industry").toString(),"[]");
+		String stageSelect=StringUtils.strip(map.get("stage").toString(),"[]");
+		String unitSelect=StringUtils.strip(map.get("unit").toString(),"[]");
+	   //处理请求参数
+		Integer planYearBegin=Util.isNotNull(planYearBeginStr)?Integer.parseInt(planYearBeginStr,10):null;
+		Integer planYearEnd=Util.isNotNull(planYearEndStr)?Integer.parseInt(planYearEndStr,10):null;
+		Double investSumBegin = Util.isNotNull(investSumBeginStr)?Double.valueOf(investSumBeginStr):null;
+		Double investSumEnd = Util.isNotNull(investSumEndStr)?Double.valueOf(investSumEndStr):null;
+		Double apPlanReachSumBegin=Util.isNotNull(apPlanReachSumBeginStr)?Double.valueOf(apPlanReachSumBeginStr):null;
+		Double apPlanReachSumEnd=Util.isNotNull(apPlanReachSumEndStr)?Double.valueOf(apPlanReachSumEndStr):null;
+		String[] industrySelected = Util.isNotNull(industrySelect)?industrySelect.split(","):null;
+		String[] stageSelected = Util.isNotNull(stageSelect)?stageSelect.split(","):null;
+		String[] unitSelected = Util.isNotNull(unitSelect)?unitSelect.split(","):null;
+		String projectName=Util.isNotNull(map.get("projectName").toString())?map.get("projectName").toString():null;
+	   //查询获取数据
+ 	   return shenBaoInfoService.getPlanStatisticsByCustom(planYearBegin,planYearEnd,industrySelected,stageSelected,
+ 			   unitSelected,investSumBegin,investSumEnd,apPlanReachSumBegin,apPlanReachSumEnd,projectName);
+	}
 
-	@RequestMapping(name="计划类-自定义条件统计",path="exportExcelForPlanByCustom",method=RequestMethod.POST)
+	@RequestMapping(name="计划类-自定义条件统计下载",path="exportExcelForPlanByCustom",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void exportExcelForPlanByCustom(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		// 读取请求参数
@@ -154,10 +224,11 @@ public class StatisticalAnalysisController {
 	   String[] industrySelected = Util.isNotNull(industrySelect)?industrySelect.split(","):null;
 	   String[] stageSelected = Util.isNotNull(stageSelect)?stageSelect.split(","):null;
 	   String[] unitSelected = Util.isNotNull(unitSelect)?unitSelect.split(","):null;
+	   String projectName=Util.isNotNull(request.getParameter("projectName"))?new String(request.getParameter("projectName").getBytes("iso-8859-1"),"utf-8"):null;
 
 	   //查询获取数据
  	   List<ProjectStatisticsBean> data = shenBaoInfoService.getPlanStatisticsByCustom(planYearBegin,planYearEnd,industrySelected,stageSelected,
- 			   unitSelected,investSumBegin,investSumEnd,apPlanReachSumBegin,apPlanReachSumEnd);
+ 			   unitSelected,investSumBegin,investSumEnd,apPlanReachSumBegin,apPlanReachSumEnd,projectName);
  	  
  	   try {
  		   String fileName="光明新区政府投资计划类统计表.xls";
@@ -173,7 +244,29 @@ public class StatisticalAnalysisController {
 	  }
 	}
 	
-	@RequestMapping(name="项目总库-自定义条件统计",path="exportExcelForProjectByCustom",method=RequestMethod.POST)
+	@RequestMapping(name="项目总库-自定义条件统计数据获取",path="getProjectCustomData",method=RequestMethod.POST)
+	public @ResponseBody List<ProjectStatisticsBean> getProjectCustomData(@SuppressWarnings("rawtypes") @RequestBody Map map) throws Exception{
+		// 读取请求参数
+	   String investSumBeginStr= map.get("projectInvestSumBegin").toString();
+	   String investSumEndStr= map.get("projectInvestSumEnd").toString();
+	   String industrySelect=StringUtils.strip(map.get("industry").toString(),"[]");
+	   String stageSelect=StringUtils.strip(map.get("stage").toString(),"[]");
+	   String categorySelect=StringUtils.strip(map.get("category").toString(),"[]");
+	   String unitSelect=StringUtils.strip(map.get("unit").toString(),"[]");
+	   //处理请求参数
+	   Double investSumBegin = Util.isNotNull(investSumBeginStr)?Double.valueOf(investSumBeginStr):null;
+	   Double investSumEnd = Util.isNotNull(investSumEndStr)?Double.valueOf(investSumEndStr):null;
+	   String[] industrySelected = Util.isNotNull(industrySelect)?industrySelect.split(","):null;
+	   String[] stageSelected = Util.isNotNull(stageSelect)?stageSelect.split(","):null;
+	   String[] categorySelected = Util.isNotNull(categorySelect)?categorySelect.split(","):null;
+	   String[] unitSelected = Util.isNotNull(unitSelect)?unitSelect.split(","):null;
+	   String projectName=Util.isNotNull(map.get("projectName").toString())?map.get("projectName").toString():null;
+
+	   //查询获取数据
+ 	   return ProjectService.getProjectStatisticsByCustom(industrySelected,stageSelected,categorySelected,unitSelected,investSumBegin,investSumEnd,projectName);
+	}
+	
+	@RequestMapping(name="项目总库-自定义条件统计下载",path="exportExcelForProjectByCustom",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void exportExcelForProjectByCustom(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		// 读取请求参数
@@ -190,9 +283,10 @@ public class StatisticalAnalysisController {
 	   String[] stageSelected = Util.isNotNull(stageSelect)?stageSelect.split(","):null;
 	   String[] categorySelected = Util.isNotNull(categorySelect)?categorySelect.split(","):null;
 	   String[] unitSelected = Util.isNotNull(unitSelect)?unitSelect.split(","):null;
+	   String projectName=Util.isNotNull(request.getParameter("projectName"))?new String(request.getParameter("projectName").getBytes("iso-8859-1"),"utf-8"):null;
 
 	   //查询获取数据
- 	   List<ProjectStatisticsBean> data = ProjectService.getProjectStatisticsByCustom(industrySelected,stageSelected,categorySelected,unitSelected,investSumBegin,investSumEnd);
+ 	   List<ProjectStatisticsBean> data = ProjectService.getProjectStatisticsByCustom(industrySelected,stageSelected,categorySelected,unitSelected,investSumBegin,investSumEnd,projectName);
  	  
  	   try {
  		   String fileName="光明新区政府投资项目总库统计表.xls";
@@ -218,5 +312,11 @@ public class StatisticalAnalysisController {
 	@RequestMapping(name="统计分析条件筛选页面",path="html/edit",method=RequestMethod.GET)
 	public String edit(){
 		return ctrl+"/edit";
+	}
+	
+	//@RequiresPermissions("management/auxDeci/statisticalAnalysis#html/show#get")
+	@RequestMapping(name="统计分析数据展示页面",path="html/show",method=RequestMethod.GET)
+	public String show(){
+		return ctrl+"/show";
 	}
 }

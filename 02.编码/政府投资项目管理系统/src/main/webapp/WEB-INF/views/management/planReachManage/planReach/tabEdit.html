@@ -1,0 +1,130 @@
+<div class="well well-sm" style="background:white;">
+	  <ol class="breadcrumb">
+		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		  <li><a href="#/">首页</a></li>
+	      <li><a href="javascript::" ui-sref="planReach">计划下达</a></li>	 
+	      <li class="active">计划下达表单编辑</li>
+	  </ol>
+	  
+	  <div class="toolbar">
+	  	<a class="btn btn-success btn-sm" href="javascript:;" ui-sref="planReach_tabList"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回</a>
+		<button ng-if="!vm.id" type="button" class="btn btn-success btn-sm" ng-click="vm.addPlanReachApproval()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-ok"></span>&nbsp;创建</button>
+	  	<button ng-if="vm.id" type="button" class="btn btn-success btn-sm" ng-click="vm.editPlanReachApproval()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-ok"></span>&nbsp;更新</button>
+	  </div>
+	  
+	    <div>
+  	<form id="form" name="form">
+  		<table class="table table-striped table-bordered">
+  			<tr>
+  				<td class="formAlignRight">标题：<span class="required">(*)</span></td>
+  				<td>
+  					<input type="text" class="form-control input-sm" id="title" name="title" ng-model="vm.model.title" data-val="true" data-val-required="必填"/>
+  					<span data-valmsg-for="title" data-valmsg-replace="true" class="required"></span>
+  				</td>
+  				<td class="formAlignRight">制表时间：<span class="required">(*)</span></td>
+  				<td>
+  					<input type="text" class="Wdate form-control input-sm" style="width:180px;" ng-model="vm.model.approvalTime" id="approvalTime" name="approvalTime"
+								onClick="WdatePicker({isShowClear:false,readOnly:false,dateFmt:'yyyy-MM-dd',onpicked: function(){$(this).trigger('change')}})" data-val="true" data-val-required="必填"/>
+  					<span data-valmsg-for="approvalTime" data-valmsg-replace="true" class="required"></span>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td class="formAlignRight">制表人：<span class="required">(*)</span></td>
+  				<td>
+  					<input type="text" class="form-control input-sm" id="resPerson" name="resPerson" ng-model="vm.model.resPerson" data-val="true" data-val-required="必填"/>
+  					<span data-valmsg-for="resPerson" data-valmsg-replace="true" class="required"></span>
+  				</td>
+  				<td class="formAlignRight">制表人电话：<span class="required">(*)</span></td>
+  				<td>
+  					<input type="text" class="form-control input-sm" id="resPersonTel" name="resPersonTel" ng-model="vm.model.resPersonTel" data-val="true" data-val-required="必填"/>
+  					<span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td class="formAlignRight" style="vertical-align: middle;">项目信息：</td>
+  				<td colspan="3">
+  					<table class="table table-striped table-bordered" style="margin-bottom:0;">
+  						<tr>
+  							<td class="text-center" colspan="12">
+  								<p>
+  									<strong style="font-size:1.2em">下达计划项目</strong>
+  								</p>
+  							</td>
+  						</tr>
+						<tr style="text-align: center;">
+							<td rowspan="2">建设单位及项目名称</td>
+							<td rowspan="2">建设规模</td>
+							<td>建设性质</td>
+							<td>总投资</td>
+							<td rowspan="2">计划年度</td>
+							<td colspan="2">年度安排资金(万元)</td>
+							<td colspan="2">申请资金(万元)</td>
+							<td colspan="2">批复资金(万元)</td>
+							<td rowspan="2" style="vertical-align: middle;"><button type="button" class="btn btn-success btn-sm" ng-click="vm.addPlanReach()"><span class="glyphicon glyphicon-plus"></span>&nbsp;添加</button></td>
+						</tr>
+						<tr style="text-align: center;">
+							<td>建设起止年月</td>
+							<td>累计拨款</td>
+							<td>公共预算</td>
+							<td>国土资金</td>
+							<td>公共预算</td>
+							<td>国土资金</td>
+							<td>公共预算</td>
+							<td>国土资金</td>
+						</tr>
+ 							<tbody ng-repeat="x in vm.model.shenBaoInfoDtos" style="text-align: center;">
+ 								<tr>
+		  							<td ng-bind="x.constructionUnit"></td>
+		  							<td rowspan="2" ng-bind="x.projectGuiMo" style="vertical-align: middle;"></td>
+		  							<td ng-bind="vm.getBasicDataDesc(x.projectConstrChar)"></td>
+		  							<td ng-bind="x.projectInvestSum"></td>
+		  							<td rowspan="2" ng-bind="x.planYear" style="vertical-align: middle;"></td>
+		  							<td rowspan="2" ng-bind="x.capitalAP_ggys_TheYear" style="vertical-align: middle;"></td>
+		  							<td rowspan="2" ng-bind="x.capitalAP_gtzj_TheYear" style="vertical-align: middle;"></td>
+		  							<td rowspan="2" ng-bind="x.sqPlanReach_ggys" style="vertical-align: middle;"></td>
+		  							<td rowspan="2" ng-bind="x.sqPlanReach_gtzj" style="vertical-align: middle;"></td>
+		  							<td rowspan="2" ng-bind="x.apPlanReach_ggys" style="vertical-align: middle;"></td>
+		  							<td rowspan="2" ng-bind="x.apPlanReach_gtzj" style="vertical-align: middle;"></td>
+		  							<td rowspan="2" style="vertical-align: middle;">
+		  								<button type="button" class="btn btn-danger btn-sm" ng-click="vm.removePlanReach($index)"><span class="glyphicon glyphicon-remove"></span>&nbsp;移除</button>
+		  							</td>
+ 								</tr>
+ 								<tr class="text-center;">
+ 									<td ng-bind="x.projectName"></td>
+ 									<td>
+ 										<span ng-bind="x.beginDate"></span><span>~</span><span ng-bind="x.endDate">
+ 									</td>
+ 									<td ng-bind="x.projectInvestAccuSum"></td>
+ 								</tr>
+						</tbody>
+  					</table>
+  				</td>
+  			</tr>
+  		</table>
+  		 <!--项目申报记录模态框 -->
+	<div class="modal fade" id="myModal" role="dialog"> 
+		<div class="modal-dialog" style="width:1000px;"> 
+			<div class="modal-content"> 
+				<div class="modal-header bg-primary">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			
+					<h4 class="modal-title" id="myModalLabel">计划下达数据</h4> 
+				</div> 
+				<div class="modal-body">
+					<script type="text/template" id="columnBtn_planReachData">
+						<button class="btn btn-sm btn-success" ng-click="vm.confirmPlanReach('{0}')">添加</button>
+					</script>
+					<div class="toolbar">
+						<button class="btn btn-sm btn-success" ng-click="vm.confirmPlanReachs()">批量添加</button>
+					</div>
+					<div class="planReachDataGrid" kendo-grid="vm.planReachDataGrid" k-options="vm.gridOptions_planReachData"></div>			
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭</button>	
+				</div> 
+			</div>
+		</div>
+	</div>
+  	</form>
+  </div>
+</div>
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>

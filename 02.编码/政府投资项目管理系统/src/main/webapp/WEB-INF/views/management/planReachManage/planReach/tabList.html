@@ -1,0 +1,23 @@
+<div class="well well-sm" style="background:white;">
+	  <ol class="breadcrumb">
+		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		  <li><a href="#/">首页</a></li>
+	      <li><a href="javascript::" ui-sref="planReach">计划下达</a></li>	 
+	      <li class="active">计划下达表单</li>
+	  </ol>
+	  
+	  <div class="toolbar">
+	  	<a class="btn btn-success btn-sm" href="javascript:;" ui-sref="planReach"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回</a>
+		<a type="button" class="btn btn-success btn-sm" href="javascript:;" ui-sref="planReach_tabEdit"><span class="glyphicon glyphicon-plus"></span>&nbsp;新增</a>
+	  </div>
+	  
+	  <script type="text/template" id="columnBtns_approval">
+		<a class="btn btn-primary btn-sm" href="#/planReach_tabEdit/{0}"><span class="fa fa-edit"></span>编辑</a>
+		<button class="btn btn-danger btn-sm" ng-click="vm.deleteApproval('{0}')"><span class="glyphicon glyphicon-remove"></span>删除</button>
+		<a class="btn btn-primary btn-sm" href="#/planReachApprovalPrint/{0}"><span class="glyphicon glyphicon-eye-open"></span>打印预览</a>
+	</script>
+	
+	<div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
+</div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>

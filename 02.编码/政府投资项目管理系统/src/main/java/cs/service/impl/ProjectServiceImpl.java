@@ -83,6 +83,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		return super.get(odataObj);		
 	}
 	
+	
 	/**
 	 * 列表获取具有所属单位名的项目
 	 */
@@ -443,6 +444,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	 * @param unitSelected 选中的单位
 	 * @param investSumBegin 总投资范围开始段
 	 * @param investSumEnd 总投资范围结束段
+	 * @param projectName 项目名称
 	 * @return 查询到的数据集合 
 	 * @throws
 	 */
@@ -451,7 +453,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 	@Transactional
 	public List<ProjectStatisticsBean> getProjectStatisticsByCustom(String[] industrySelected,
 			String[] stageSelected, String[] categorySelected, String[] unitSelected, Double investSumBegin,
-			Double investSumEnd) {
+			Double investSumEnd,String projectName) {
 		
 		List<ProjectStatisticsBean> list = new ArrayList<>();
 		String Sql = "SELECT p.projectName,u.unitName,b1.description AS projectStageDesc,b2.description AS projectIndustryDesc,p.projectInvestSum,p.projectGuiMo,p.projectInvestAccuSum";
@@ -509,6 +511,9 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 			Sql +=" p.projectInvestSum <= "+investSumBegin+" AND";
 		}
 		
+		if(Util.isNotNull(projectName)){
+			Sql += " p.projectName like \'%"+projectName+"%\' AND";
+		}
 		Sql +=" p.projectStage = b1.id AND p.projectIndustry = b2.id AND p.unitName = u.id ORDER BY b2.itemOrder";
 		
 		NativeQuery query = super.repository.getSession().createSQLQuery(Sql);
