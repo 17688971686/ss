@@ -191,10 +191,10 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 						shenBaoInfo.setProcessState(taskHead.getThisProcessState());
 						if(processStage.equals(BasicDataConfig.processStage_qianshou) && processState == BasicDataConfig.processState_pass){//如果为投资科签收且通过
 							shenBaoInfo.setReceiver(dto.getThisUser());//设置签收人
-							shenBaoInfo.setQianshouDate(new Date());//设置签收时间
-						}else if((processStage.equals(BasicDataConfig.processStage_weituopishen) && processState == BasicDataConfig.processState_pass) || 
-								(processStage.equals(BasicDataConfig.processState_niwendengji) && processState == BasicDataConfig.processState_pass)){//如果是发文拟稿通过或者委托评审通过
+							shenBaoInfo.setQianshouDate(new Date());//设置签收时间// || (processStage.equals(BasicDataConfig.processState_niwendengji) && processState == BasicDataConfig.processState_pass)
+						}else if((processStage.equals(BasicDataConfig.processState_mskfawen) && processState == BasicDataConfig.processState_pass)){//如果是发文拟稿通过或者委托评审通过
 							//TODO 这一块的判断条件在对接OA之后需要修改为OA返回结果的时间
+							shenBaoInfo.setProcessState(dto.getThisProcessState());//设置申报信息状态（签收或者退文）
 							shenBaoInfo.setPifuDate(new Date());//设置批复时间
 						}
 					}
@@ -229,8 +229,7 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 
 	private Boolean isComplete(String processStage,int processState){
 		//委托评审科长确认通过、拟文登记科长审核通过或年度计划审核通过
-		if(BasicDataConfig.processStage_weituopishen.equals(processStage) && processState == BasicDataConfig.processState_pass||
-				BasicDataConfig.processState_niwendengji.equals(processStage) && processState == BasicDataConfig.processState_pass)
+		if(BasicDataConfig.processState_mskfawen.equals(processStage) && processState == BasicDataConfig.processState_pass)//||BasicDataConfig.processState_niwendengji.equals(processStage) && processState == BasicDataConfig.processState_pass
 		{
 			return true;
 		}else{
