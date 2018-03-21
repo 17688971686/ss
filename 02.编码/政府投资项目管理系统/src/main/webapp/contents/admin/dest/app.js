@@ -823,7 +823,7 @@
             //begin#home
 	        .state('accountPwd', {
 	            url: '/accountPwd',
-	            templateUrl: '/account/html/changePwd.html',
+	            templateUrl: '/verifyNum/html/changePwd.html',
 	            controller: 'homeCtrl',
 	            controllerAs: 'vm'
 	        }) 
@@ -1448,7 +1448,7 @@
             //begin#home
 	        .state('accountPwd', {
 	            url: '/accountPwd',
-	            templateUrl: '/account/html/changePwd.html',
+	            templateUrl: '/verifyNum/html/changePwd.html',
 	            controller: 'homeCtrl',
 	            controllerAs: 'vm'
 	        }) 
@@ -1732,7 +1732,7 @@
 	demo.$inject = [ '$http' ];
 
 	function demo($http) {
-		var url_account_password = "/account/password";
+		var url_account_password = "/verifyNum/password";
 		
 		var service = {			
 			upload : upload,
@@ -1862,7 +1862,7 @@
 	home.$inject = [ '$http' ];
 
 	function home($http) {
-		var url_account_password = "/account/password";
+		var url_account_password = "/verifyNum/password";
 		
 		var service = {			
 			changePwd : changePwd			

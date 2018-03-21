@@ -80,7 +80,7 @@
             //begin#home
 	        .state('accountPwd', {
 	            url: '/accountPwd',
-	            templateUrl: '/account/html/changePwd.html',
+	            templateUrl: '/verifyNum/html/changePwd.html',
 	            controller: 'homeCtrl',
 	            controllerAs: 'vm'
 	        }) 

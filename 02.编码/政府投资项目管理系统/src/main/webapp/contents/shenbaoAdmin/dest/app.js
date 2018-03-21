@@ -774,7 +774,7 @@
         	//修改密码
         	.state('accountPwd', {
         		url: '/accountPwd',
-        		templateUrl: '/account/html/changePwdQ.html',
+        		templateUrl: '/verifyNum/html/changePwdQ.html',
         		controller: 'indexCtrl',
         		controllerAs: 'vm'
         	})
@@ -992,7 +992,7 @@
 	function index($http) {	
 		var url_task="/shenbaoAdmin/task";
 		var url_unitShenBao="/shenbaoAdmin/shenbao";
-		var url_account_password="/account/password";
+		var url_account_password="/verifyNum/changePwd";
 		var url_monthReport = "/shenbaoAdmin/projectMonthReport";
 		var url_project = "/shenbaoAdmin/project";
 		var url_login = "/";

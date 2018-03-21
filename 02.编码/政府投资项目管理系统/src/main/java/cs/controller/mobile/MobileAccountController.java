@@ -12,7 +12,7 @@ import cs.model.framework.UserDto;
 import cs.controller.mobile.MobileUserService;
 
 @Controller
-@RequestMapping(name = "手机账户", path = "mobile/account")
+@RequestMapping(name = "手机账户", path = "mobile/verifyNum")
 public class MobileAccountController {
 
 	@Autowired
