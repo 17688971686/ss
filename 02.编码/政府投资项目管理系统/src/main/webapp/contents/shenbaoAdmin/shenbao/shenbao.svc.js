@@ -372,8 +372,8 @@
 				fundsFormat(vm);
 
 				var httpOptions = {
-					method : 'put',
-					url : url_shenbao,
+					method : 'post',
+					url : url_shenbao+'/updateShenbao',
 					data : vm.model
 				};
 

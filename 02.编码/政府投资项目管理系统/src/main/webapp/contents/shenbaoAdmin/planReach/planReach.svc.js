@@ -129,7 +129,7 @@
 				vm.isSubmit = true;
 				var httpOptions = {
 						method : 'put',
-						url : url,
+						url : url+'/updatePlanReach',
 						data : vm.model
 					};
 				var httpSuccess = function success(response) {

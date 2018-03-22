@@ -38,8 +38,8 @@ public class OpinionController {
 		}		
 	}
 	
-	@RequiresPermissions("opin##put")
-	@RequestMapping(name = "编辑意见", path = "",method=RequestMethod.PUT)	
+	@RequiresPermissions("opin#editOpin#post")
+	@RequestMapping(name = "编辑意见", path = "editOpin",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  updateOpin(@RequestBody OpinionDto opinDto)  {	
 		opinionService.editOpin(opinDto);	

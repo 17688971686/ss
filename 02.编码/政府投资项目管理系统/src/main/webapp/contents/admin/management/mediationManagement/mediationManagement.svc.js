@@ -127,8 +127,8 @@
 				vm.isSubmit = true;
 				vm.model.id=vm.id;// id			
 				var httpOptions = {
-					method : 'put',
-					url : url_mediationManagement,
+					method : 'post',
+					url : url_mediationManagement+'/updateMediationManagement',
 					data : vm.model
 				};
 
@@ -205,7 +205,7 @@
 				vm.isSubmit = true;
 				vm.model.id=vm.id;// id			
 				var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_mediationManagement+"/updateAssistReview",
 					data : vm.model
 				};
@@ -248,7 +248,7 @@
 				vm.isSubmit = true;
 				vm.model.id=vm.id;// id			
 				var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_mediationManagement+"/updateOnlyAssistReview",
 					data : vm.model
 				};

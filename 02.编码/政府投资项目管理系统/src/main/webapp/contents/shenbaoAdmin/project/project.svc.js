@@ -95,8 +95,8 @@
 				projectFundsFormat(vm);
 				
 				var httpOptions = {
-					method : 'put',
-					url : url_project+"/unitProject",
+					method : 'post',
+					url : url_project+"/updateUnitProject",
 					data : vm.model
 				};
 

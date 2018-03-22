@@ -695,7 +695,7 @@
 				vm.isSubmit = true;
 				vm.model.id=vm.id;// id			
 				var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_project+"/updateShenpiItems",
 					data : vm.model
 				};
@@ -741,7 +741,7 @@
 				vm.isSubmit = true;
 				vm.model.id=vm.id;// id			
 				var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_project+"/updateShenpiUnit",
 					data : vm.model
 				};
@@ -836,7 +836,7 @@
 		 */
 		function updateIsMonthReport(vm){
 			var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_project+"/isMonthReport",
 					data : vm.model
 				};
@@ -873,8 +873,8 @@
 				vm.model.projectType=common.arrayToString(vm.model.projectType,',');
 				
 				var httpOptions = {
-					method : 'put',
-					url : url_project,
+					method : 'post',
+					url : url_project+'/updateProject',
 					data : vm.model
 				};
 

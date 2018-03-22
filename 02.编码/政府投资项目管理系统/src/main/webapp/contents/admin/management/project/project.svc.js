@@ -174,7 +174,7 @@
 		function updateIsMonthReport(vm){
 			vm.isSumbit=true;
 			var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_project+"/isMonthReport",
 					data : {id:vm.model.id,isMonthReport:vm.model.isMonthReport}
 				};
@@ -219,8 +219,8 @@
 				vm.model.projectType=common.arrayToString(vm.model.projectType,',');
 				
 				var httpOptions = {
-					method : 'put',
-					url : url_project,
+					method : 'post',
+					url : url_project+'/updateProject',
 					data : vm.model
 				};
 

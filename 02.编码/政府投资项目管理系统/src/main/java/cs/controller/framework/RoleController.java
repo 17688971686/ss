@@ -43,8 +43,8 @@ public class RoleController {
 		roleService.createRole(roleDto);		
 	}
 	
-	@RequiresPermissions("role##put")
-	@RequestMapping(name = "更新角色", path = "",method=RequestMethod.PUT)	
+	@RequiresPermissions("role#updateRole#post")
+	@RequestMapping(name = "更新角色", path = "updateRole",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  update(@RequestBody RoleDto roleDto) throws Exception  {	
 		roleService.updateRole(roleDto);		

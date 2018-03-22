@@ -65,8 +65,8 @@
 		//根据id更新项目异常信息
 		function updateProjectAnomalyById(vm){
 			var httpOptions = {
-					method : "put",
-					url : common.format(url_creditInfo+"/projectAnomaly"),
+					method : 'post',
+					url : common.format(url_creditInfo+"/updateProjectAnomaly"),
 					data : vm.standby
 			};
 			var httpSuccess = function(response){
@@ -300,8 +300,8 @@
 		//根据黑名单id 更新黑名单信息
 		function updateBlackListById(vm){
 			var httpOptions = {
-					method : "put",
-					url : common.format(url_creditInfo+"/blackList"),
+					method : 'post',
+					url : common.format(url_creditInfo+"/updateBlackList"),
 					data : vm.model
 			};
 			var httpSuccess = function(response){
@@ -590,8 +590,8 @@
 		//根据id更新项目异常名录信息
 		function updateIllegalNameById(vm){
 			var httpOptions = {
-					method : "put",
-					url : url_creditInfo,
+					method : 'post',
+					url : url_creditInfo+'/updateIllegalName',
 					data : vm.illegalNameModel
 			};
 			var httpSuccess = function(response){

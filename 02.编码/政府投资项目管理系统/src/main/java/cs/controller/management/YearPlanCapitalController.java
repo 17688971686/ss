@@ -34,8 +34,8 @@ public class YearPlanCapitalController {
 		return yearPlanCapitalDtos;
 	}
 	
-	@RequiresPermissions("management/yearPlanCapital##put")
-	@RequestMapping(name="更新年度计划编制信息",path="",method=RequestMethod.PUT)
+	@RequiresPermissions("management/yearPlanCapital#updateYearPlanCapital#post")
+	@RequestMapping(name="更新年度计划编制信息",path="updateYearPlanCapital",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void put(@RequestBody YearPlanCapitalDto dto){
 		yearPlanCapitalService.update(dto,dto.getId());

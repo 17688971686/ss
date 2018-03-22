@@ -181,8 +181,8 @@
 				vm.model.id=vm.id;// id
 							               
 				var httpOptions = {
-					method : 'put',
-					url : url_org,
+					method : 'post',
+					url : url_org+'/updateOrg',
 					data : vm.model
 				};
 

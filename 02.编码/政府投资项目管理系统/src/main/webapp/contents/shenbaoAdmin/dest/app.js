@@ -1068,7 +1068,7 @@
 			if (isValid) {
 				vm.isSubmit = true;
 				var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_account_password,
 					data : vm.model.password
 				};
@@ -2433,8 +2433,8 @@
 				vm.model.buidSafeInvestment=common.toMoney(vm.model.buidSafeInvestment);//总投资--建安投资（社投）
 				
 				var httpOptions = {
-					method : 'put',
-					url : url_project+"/unitProject",
+					method : 'post',
+					url : url_project+"/updateUnitProject",
 					data : vm.model
 				};
 
@@ -3784,8 +3784,8 @@
 				vm.model.buidSafeInvestment=common.toMoney(vm.model.buidSafeInvestment);//总投资--建安投资（社投）
 
 				var httpOptions = {
-					method : 'put',
-					url : url_shenbao,
+					method : 'post',
+					url : url_shenbao+'/updateShenbao',
 					data : vm.model
 				};
 

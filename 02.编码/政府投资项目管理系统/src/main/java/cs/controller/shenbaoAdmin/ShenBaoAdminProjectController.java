@@ -89,8 +89,8 @@ public class ShenBaoAdminProjectController {
 		ProjectService.create(ProjectDto);		
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/project#unitProject#put")
-	@RequestMapping(name = "更新单位项目信息", path = "unitProject",method=RequestMethod.PUT)
+	@RequiresPermissions("shenbaoAdmin/project#updateUnitProject#post")
+	@RequestMapping(name = "更新单位项目信息", path = "updateUnitProject",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updateUnitProject(@RequestBody ProjectDto ProjectDto){
 		Project entity = ProjectService.findById(ProjectDto.getId());	

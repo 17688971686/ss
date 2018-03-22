@@ -41,8 +41,8 @@
 				}).toArray();
 				vm.model.roles = nodes_role;
 				var httpOptions = {
-					method : 'put',
-					url : url_user,
+					method : 'post',
+					url : url_user+'/updateUser',
 					data : vm.model
 				};
 

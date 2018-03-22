@@ -177,8 +177,8 @@
 				vm.isSubmit = true;
 				vm.model.id=vm.id;// id
 				var httpOptions = {
-					method : 'put',
-					url : url_portal,
+					method : 'post',
+					url : url_portal+'/updatePortal',
 					data : vm.model
 				};
 

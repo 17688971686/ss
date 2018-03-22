@@ -254,11 +254,12 @@ public class UserServiceImpl implements UserService {
 			if(user!=null){
 				//String passwordCode = RSABCExample.decodeJsValue(user.getPassword());//RSA解密数据库存储的密码
 				String passwordCode = user.getPassword();
-				if(user.getLoginFailCount()>5&&user.getLastLoginDate().getDay()==(new Date()).getDay()){	
+				/*if(user.getLoginFailCount()>5&&user.getLastLoginDate().getDay()==(new Date()).getDay()){	
 					response.setMessage("登录失败次数过多,请明天再试!");
 					logger.warn(String.format("登录失败次数过多,用户名:%s", userName));
 				}
-				else if(password!=null&&password.equals(passwordCode)){
+				else */
+				if(password!=null&&password.equals(passwordCode)){
 					//判断用户角色
 					Boolean hasRole = false;
 					List<Role> roles = user.getRoles();
