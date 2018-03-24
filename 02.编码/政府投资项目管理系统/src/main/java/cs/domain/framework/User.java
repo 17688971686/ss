@@ -36,7 +36,31 @@ public class User extends BaseEntity {
 	private int loginFailCount = 0;
 	@Column(columnDefinition="datetime  COMMENT '最后一次登录时间'")
 	private Date lastLoginDate;
-
+	
+//	@Column(columnDefinition="varchar(255)  COMMENT '国籍'")
+//	private String country;
+//
+//	@Column(columnDefinition="varchar(255)  COMMENT '城市'")
+//	private String city;
+//
+//	@Column(columnDefinition="varchar(255)  COMMENT '职务'")
+//	private String duty;
+//
+//	@Column(columnDefinition="varchar(255)  COMMENT '职级'")
+//	private String dutyLevelName;
+//	
+//	@Column(columnDefinition="int(11)  COMMENT '性别'")
+//	private int sex = 1;
+//	
+//	@Column(columnDefinition="varchar(255)  COMMENT '邮箱'")
+//	private String email;
+//	
+//	@Column(columnDefinition="varchar(255)  COMMENT '办公电话'")
+//	private String officePhone;
+//	
+//	@Column(columnDefinition="varchar(255)  COMMENT '入职时间'")
+//	private Date worktime;
+	
 	@ManyToMany
 	private List<Role> roles=new ArrayList<>();
 	

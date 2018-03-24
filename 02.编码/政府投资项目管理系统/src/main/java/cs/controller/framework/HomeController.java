@@ -14,4 +14,9 @@ public class HomeController {
 		return this.ctrlName + "/login";
 	}
 
+	@RequestMapping(name = "登录", path = "/adminLoginIndex",method = RequestMethod.GET)
+	public String loginIndex() {
+
+		return this.ctrlName + "/indexLogin";
+	}
 }

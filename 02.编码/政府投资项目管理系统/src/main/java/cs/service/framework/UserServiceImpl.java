@@ -87,6 +87,88 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	@Transactional
+	public void createSYSUser(UserDto userDto) {
+		User findUser=userRepo.findUserByName(userDto.getLoginName());
+		if (findUser==null) {// 用户不存在
+			try {
+				User user = new User();
+				user.setComment(userDto.getComment());
+				user.setLoginName(userDto.getLoginName());
+				user.setDisplayName(userDto.getDisplayName());
+				user.setId(UUID.randomUUID().toString());
+				user.setCreatedBy(currentUser.getUserId());
+				user.setModifiedBy(currentUser.getUserId());
+//				String password = RSABCExample.decodeJsValue(userDto.getPassword());//RSA解密前端传递的密码
+				//String passwordCode = new String(Hex.encode(RSABCExample.encrypt(password)));//RSA加密存储
+				user.setPassword(userDto.getPassword());
+				
+				// 加入角色
+				for (RoleDto roleDto : userDto.getRoles()) {
+					Role role = roleRepo.findById(roleDto.getId());
+					if (role != null) {
+						user.getRoles().add(role);
+						if(role.getRoleName().equals(BasicDataConfig.role_unit)){//如果是建设单位，往建设单位表里添加数据
+							UserUnitInfoDto userUnitInfoDto=new UserUnitInfoDto();
+							//如果创建数据中有显示名,设置单位名称
+							if(user.getDisplayName() !=null && !"".equals(user.getDisplayName())){
+								userUnitInfoDto.setUnitName(user.getDisplayName());
+							}else{
+								userUnitInfoDto.setUnitName(user.getLoginName());
+							}
+							userUnitInfoDto.setUserName(user.getId());//绑定用户id
+							userUnitInfoService.save(user.getLoginName(), userUnitInfoDto);
+						}
+						if(role.getRoleName().equals(BasicDataConfig.role_shenpiUnit)){//如果是审批单位，往审批单位表里添加数据
+							ShenPiUnit entity=new ShenPiUnit();
+							if(user.getDisplayName() !=null && !"".equals(user.getDisplayName())){
+								entity.setShenpiUnitName(user.getDisplayName());
+							}
+							else{
+								entity.setShenpiUnitName(user.getLoginName());
+							}
+							entity.setUserId(user.getId());
+							entity.setId(UUID.randomUUID().toString());
+							shenpiUnitRepo.save(entity);
+						}
+					}
+				}
+				userRepo.save(user);
+				logger.info(String.format("创建用户,登录名:%s", userDto.getLoginName()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		else {//如果用户存在就更新
+			if(!"超级管理员".equals(findUser.getDisplayName())){
+				try {
+					findUser.setLoginName(userDto.getLoginName());
+					findUser.setComment(userDto.getComment());
+					findUser.setDisplayName(userDto.getDisplayName());
+					findUser.setModifiedBy(currentUser.getUserId());
+					findUser.setPassword(userDto.getPassword());
+					// 清除已有role
+					findUser.getRoles().clear();
+					// 加入角色
+					for (RoleDto roleDto : userDto.getRoles()) {
+						Role role = roleRepo.findById(roleDto.getId());
+						if (role != null) {
+							findUser.getRoles().add(role);
+						}
+					}
+					userRepo.save(findUser);
+					logger.info(String.format("更新用户,用户名:%s", userDto.getLoginName()));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+				
+		}
+	}
+
+	
+	
+	@Override
+	@Transactional
 	public void createUser(UserDto userDto) {
 		User findUser=userRepo.findUserByName(userDto.getLoginName());
 		if (findUser==null) {// 用户不存在
@@ -254,11 +336,12 @@ public class UserServiceImpl implements UserService {
 			if(user!=null){
 				//String passwordCode = RSABCExample.decodeJsValue(user.getPassword());//RSA解密数据库存储的密码
 				String passwordCode = user.getPassword();
-				if(user.getLoginFailCount()>5&&user.getLastLoginDate().getDay()==(new Date()).getDay()){	
-					response.setMessage("登录失败次数过多,请明天再试!");
-					logger.warn(String.format("登录失败次数过多,用户名:%s", userName));
-				}
-				else if(password!=null&&password.equals(passwordCode)){
+//				if(user.getLoginFailCount()>5&&user.getLastLoginDate().getDay()==(new Date()).getDay()){	
+//					response.setMessage("登录失败次数过多,请明天再试!");
+//					logger.warn(String.format("登录失败次数过多,用户名:%s", userName));
+//				}
+//				else 
+				if(password!=null&&password.equals(passwordCode)){
 					//判断用户角色
 					Boolean hasRole = false;
 					List<Role> roles = user.getRoles();
@@ -274,6 +357,84 @@ public class UserServiceImpl implements UserService {
 							}
 							
 							
+						}				
+					}
+					if(hasRole){
+						currentUser.setLoginName(user.getLoginName());
+						currentUser.setDisplayName(user.getDisplayName());
+						currentUser.setUserId(user.getId());
+						Date lastLoginDate=user.getLastLoginDate();
+						if(lastLoginDate!=null){
+							currentUser.setLastLoginDate(user.getLastLoginDate());
+						}				
+						user.setLoginFailCount(0);
+						user.setLastLoginDate(new Date());
+						//shiro
+						UsernamePasswordToken token = new UsernamePasswordToken(user.getLoginName(), passwordCode);
+						Subject currentUser = SecurityUtils.getSubject();
+						currentUser.login(token);
+						
+						response.setSuccess(true);
+						logger.info(String.format("登录成功,用户名:%s", userName));
+					}else{
+						response.setMessage("权限不足，请联系管理员!");
+					}
+					
+				}else{
+					user.setLoginFailCount(user.getLoginFailCount()+1);	
+					user.setLastLoginDate(new Date());
+					response.setMessage("用户名或密码错误!");
+				}
+				userRepo.save(user);
+			}else{
+				response.setMessage("用户名或密码错误!");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	@Transactional
+	public Response DandianLogin(String userName, String password,String role){
+		Response response =new Response();
+		try {
+			//password = RSABCExample.decodeJsValue(password);//RSA解密前端传递的密码
+			User user=userRepo.findUserByName(userName);
+			
+			List<String> roleName=new ArrayList<>();
+			String[]  str= role.split(",");
+			
+				for (String string : str) {
+					
+					if("manage".equals(string)){
+						roleName.add("管理员");
+					}else if("unit".equals(string)){
+						roleName.add("建设单位");
+						
+					}
+					else if("shenpiUnit".equals(string)){
+						roleName.add("审批单位");
+					}
+				}
+			if(user!=null){
+				String passwordCode = user.getPassword();
+				if(password!=null&&password.equals(passwordCode)){
+					//判断用户角色
+					Boolean hasRole = false;
+					List<Role> roles = user.getRoles();
+					
+					loop:
+					for(Role x:roles){
+						for (String y : roleName) {
+							if(x.getRoleName().equals(y) || x.getRoleName().equals("超级管理员")){//如果有对应的角色则允许登录
+								hasRole = true;
+								break loop;
+							}else{
+								hasRole = false;
+							}
 						}				
 					}
 					if(hasRole){

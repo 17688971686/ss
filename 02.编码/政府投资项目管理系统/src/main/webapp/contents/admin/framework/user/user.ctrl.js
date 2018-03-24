@@ -13,6 +13,10 @@
         vm.title = '用户列表';
         
 
+        vm.userSync=function(){
+        	userSvc.userSync(vm);
+        };
+        
         vm.del = function (id) {        	       	 
              common.confirm({
             	 vm:vm,

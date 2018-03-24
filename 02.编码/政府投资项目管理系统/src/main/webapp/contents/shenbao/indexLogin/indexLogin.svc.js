@@ -1,10 +1,10 @@
 (function() {
 	'use strict';
 
-	angular.module('app').factory('indexSvc', index);
+	angular.module('app').factory('indexLoginSvc', indexLogin);
 
-	index.$inject = [ '$http' ];	
-	function index($http) {	
+	indexLogin.$inject = [ '$http' ];	
+	function indexLogin($http) {	
 		var data_url="/indexData";
 		var service = {
 				getArticle:getArticle,

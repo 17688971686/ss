@@ -3,15 +3,16 @@
 
     angular
         .module('app')
-        .controller('indexCtrl', index);
+        .controller('indexLoginCtrl', indexLogin);
 
-    index.$inject = ['$location','indexSvc']; 
+    indexLogin.$inject = ['$location','indexLoginSvc']; 
 
-    function index($location, indexSvc) {
+    function indexLogin($location, indexLoginSvc) {
         /* jshint validthis:true */
         var vm = this;
         vm.type='tzgg';
         vm.show=true;
+        vm.checked = false;
         vm.article=function(type){
         	switch(type){
         		case 1:
@@ -38,7 +39,7 @@
         	return common.formatDate(datStr);
         };
         vm.submit=function(str){
-        	indexSvc.submit(vm,str);
+        	indexLoginSvc.submit(vm,str);
         };
         vm.keyEnter = function (e) {
             if (e.which === 13) {
@@ -46,14 +47,17 @@
             }
         };
       
+        vm.change = function(){
+        	 vm.checked = ! vm.checked;
+        }
         activate();
         function activate() {
-        	indexSvc.getArticle(vm);
+        	indexLoginSvc.getArticle(vm);
         	if(getExplorerInfo().type == "IE" ){
         		vm.isIE = true;
         	}
         	
-//        	indexSvc.getSessionInfo(vm);
+        	indexLoginSvc.getSessionInfo(vm);
         	
         }
         
