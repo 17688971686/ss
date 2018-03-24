@@ -611,6 +611,14 @@
 					var now = new Date();
 					vm.model.planYear=vm.model.projectShenBaoStage==common.basicDataConfig().projectShenBaoStage_nextYearPlan?parseInt(now.getFullYear()+1,10):parseInt(now.getFullYear(),10);
 				}
+				// 国民经济行业分类
+				var child2 = $linq(common.getBasicData()).where(function(x) {
+					return x.id == vm.model.nationalIndustry
+				}).toArray()[0];
+				if (child2) {
+					vm.model.nationalIndustryParent = child2.pId;
+					vm.nationalIndustryChange();
+				}
 			};
 			
 			common.http({

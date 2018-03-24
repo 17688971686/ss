@@ -476,6 +476,7 @@ public class SysServiceImpl implements SysService{
 				this.createBasicData("projectIndustry_1_15","projectIndustry_1" , "projectIndustry", "社区建设", "QJ",0,false,7);
 				this.createBasicData("projectIndustry_1_16","projectIndustry_1" , "projectIndustry", "社会建设", "HJ",0,false,12);
 				this.createBasicData("projectIndustry_1_17","projectIndustry_1" , "projectIndustry", "规划课题", "GK",0,false,15);
+				
 			this.createBasicData("projectIndustry_2","projectIndustry" , "projectIndustry", "社会投资项目行业分类", "",false);
 				this.createBasicData("projectIndustry_2_1","projectIndustry_2" , "projectIndustry", "农、林、牧、渔业", "",0,false);
 					this.createBasicData("projectIndustry_2_1_1","projectIndustry_2_1" , "projectIndustry", "农业", "A01",0,false);
@@ -545,6 +546,145 @@ public class SysServiceImpl implements SysService{
 //		this.createBasicData("projectIndustry_11_1","projectIndustry_11" , "projectIndustry", "外商投资民航业项目", "项目行业分类-外商投资");
 //		
 //		this.createBasicData("projectIndustry_12","projectIndustry" , "projectIndustry", "境外投资", "");
+					
+		
+		this.createBasicData("nationalIndustry","" , "nationalIndustry", "国民经济行业分类", "");		
+			this.createBasicData("nationalIndustry_1","nationalIndustry" , "nationalIndustry", "农、林、牧、渔业", "");
+				this.createBasicData("nationalIndustry_1_1","nationalIndustry_1" , "nationalIndustry", "农业", "国民经济行业分类-农、林、牧、渔业");
+				this.createBasicData("nationalIndustry_1_2","nationalIndustry_1" , "nationalIndustry", "林业", "国民经济行业分类-农、林、牧、渔业");
+				this.createBasicData("nationalIndustry_1_3","nationalIndustry_1" , "nationalIndustry", "畜牧业", "国民经济行业分类-农、林、牧、渔业");
+				this.createBasicData("nationalIndustry_1_4","nationalIndustry_1" , "nationalIndustry", "渔业", "国民经济行业分类-农、林、牧、渔业");
+				this.createBasicData("nationalIndustry_1_5","nationalIndustry_1" , "nationalIndustry", "农、林、牧、渔服务业", "国民经济行业分类-农、林、牧、渔业");
+		
+			this.createBasicData("nationalIndustry_2","nationalIndustry" , "nationalIndustry", "采矿业", "");
+				this.createBasicData("nationalIndustry_2_1","nationalIndustry_2" , "nationalIndustry", "煤炭开采和洗选业", "国民经济行业分类-采矿业");
+				this.createBasicData("nationalIndustry_2_2","nationalIndustry_2" , "nationalIndustry", "石油和天然气开采业", "国民经济行业分类-采矿业");
+				this.createBasicData("nationalIndustry_2_3","nationalIndustry_2" , "nationalIndustry", "黑色金属矿采选业", "国民经济行业分类-采矿业");
+				this.createBasicData("nationalIndustry_2_4","nationalIndustry_2" , "nationalIndustry", "有色金属矿采选业", "国民经济行业分类-采矿业");
+				this.createBasicData("nationalIndustry_2_5","nationalIndustry_2" , "nationalIndustry", "非金属矿采选业", "国民经济行业分类-采矿业");
+				this.createBasicData("nationalIndustry_2_6","nationalIndustry_2" , "nationalIndustry", "开采辅助活动", "国民经济行业分类-采矿业");
+				this.createBasicData("nationalIndustry_2_7","nationalIndustry_2" , "nationalIndustry", "其他采矿业", "国民经济行业分类-采矿业");
+		
+			this.createBasicData("nationalIndustry_3","nationalIndustry" , "nationalIndustry", "制造业", "");
+				this.createBasicData("nationalIndustry_3_1","nationalIndustry_3" , "nationalIndustry", "农副食品加工业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_2","nationalIndustry_3" , "nationalIndustry", "食品制造业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_3","nationalIndustry_3" , "nationalIndustry", "酒、饮料和精制茶制造业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_4","nationalIndustry_3" , "nationalIndustry", "烟草制品业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_5","nationalIndustry_3" , "nationalIndustry", "纺织业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_6","nationalIndustry_3" , "nationalIndustry", "纺织服装、服饰业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_7","nationalIndustry_3" , "nationalIndustry", "皮革、毛皮、羽毛及其制品和制鞋业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_8","nationalIndustry_3" , "nationalIndustry", "木材加工和木、竹、藤、棕、草制品", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_9","nationalIndustry_3" , "nationalIndustry", "家具制造业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_10","nationalIndustry_3" , "nationalIndustry", "造纸和纸制品业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_11","nationalIndustry_3" , "nationalIndustry", "印刷和记录媒介复制业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_12","nationalIndustry_3" , "nationalIndustry", "文教、工美、体育和娱乐用品制造业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_13","nationalIndustry_3" , "nationalIndustry", "石油加工、炼焦和核燃料加工业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_14","nationalIndustry_3" , "nationalIndustry", "化学原料和化学制品制造业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_15","nationalIndustry_3" , "nationalIndustry", "医药制造业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_16","nationalIndustry_3" , "nationalIndustry", "化学纤维制造业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_17","nationalIndustry_3" , "nationalIndustry", "橡胶和塑料制品业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_18","nationalIndustry_3" , "nationalIndustry", "非金属矿物制品业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_19","nationalIndustry_3" , "nationalIndustry", "黑色金属冶炼和压延加工业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_20","nationalIndustry_3" , "nationalIndustry", "有色金属冶炼和压延加工业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_21","nationalIndustry_3" , "nationalIndustry", "金属制品业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_22","nationalIndustry_3" , "nationalIndustry", "通用设备制造业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_23","nationalIndustry_3" , "nationalIndustry", "专用设备制造业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_24","nationalIndustry_3" , "nationalIndustry", "汽车制造业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_25","nationalIndustry_3" , "nationalIndustry", "铁路、船舶、航空航天和其他运输设备制造业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_26","nationalIndustry_3" , "nationalIndustry", "电气机械和器材制造业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_27","nationalIndustry_3" , "nationalIndustry", "计算机、通信和其他电子设备制造业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_28","nationalIndustry_3" , "nationalIndustry", "仪器仪表制造业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_29","nationalIndustry_3" , "nationalIndustry", "其他制造业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_30","nationalIndustry_3" , "nationalIndustry", "废弃资源综合利用业", "国民经济行业分类-制造业");
+				this.createBasicData("nationalIndustry_3_31","nationalIndustry_3" , "nationalIndustry", "金属制品、机械和设备修理业", "国民经济行业分类-制造业");
+		
+			this.createBasicData("nationalIndustry_4","nationalIndustry" , "nationalIndustry", "电力、热力、燃气及水生产和供应业", "");
+				this.createBasicData("nationalIndustry_4_1","nationalIndustry_4" , "nationalIndustry", "电力、热力生产和供应业", "国民经济行业分类-电力、热力、燃气及水生产和供应业");
+				this.createBasicData("nationalIndustry_4_2","nationalIndustry_4" , "nationalIndustry", "燃气生产和供应业", "国民经济行业分类-电力、热力、燃气及水生产和供应业");
+				this.createBasicData("nationalIndustry_4_3","nationalIndustry_4" , "nationalIndustry", "水的生产和供应业", "国民经济行业分类-电力、热力、燃气及水生产和供应业");
+		
+		
+			this.createBasicData("nationalIndustry_5","nationalIndustry" , "nationalIndustry", "建筑业", "");
+				this.createBasicData("nationalIndustry_5_1","nationalIndustry_5" , "nationalIndustry", "房屋建筑业", "国民经济行业分类-建筑业");
+				this.createBasicData("nationalIndustry_5_2","nationalIndustry_5" , "nationalIndustry", "土木工程建筑业", "国民经济行业分类-建筑业");
+				this.createBasicData("nationalIndustry_5_3","nationalIndustry_5" , "nationalIndustry", "建筑安装业", "国民经济行业分类-建筑业");
+				this.createBasicData("nationalIndustry_5_4","nationalIndustry_5" , "nationalIndustry", "建筑装饰和其他建筑业", "国民经济行业分类-建筑业");
+		
+			this.createBasicData("nationalIndustry_6","nationalIndustry" , "nationalIndustry", "批发和零售业", "");
+				this.createBasicData("nationalIndustry_6_1","nationalIndustry_6" , "nationalIndustry", "批发业", "国民经济行业分类-批发和零售业");
+				this.createBasicData("nationalIndustry_6_2","nationalIndustry_6" , "nationalIndustry", "零售业", "国民经济行业分类-批发和零售业");
+		
+			this.createBasicData("nationalIndustry_7","nationalIndustry" , "nationalIndustry", "交通运输、仓储和邮政业", "");
+				this.createBasicData("nationalIndustry_7_1","nationalIndustry_7" , "nationalIndustry", "铁路运输业", "国民经济行业分类-交通运输、仓储和邮政业");
+				this.createBasicData("nationalIndustry_7_2","nationalIndustry_7" , "nationalIndustry", "道路运输业", "国民经济行业分类-交通运输、仓储和邮政业");
+				this.createBasicData("nationalIndustry_7_3","nationalIndustry_7" , "nationalIndustry", "水上运输业", "国民经济行业分类-交通运输、仓储和邮政业");
+				this.createBasicData("nationalIndustry_7_4","nationalIndustry_7" , "nationalIndustry", "航空运输业", "国民经济行业分类-交通运输、仓储和邮政业");
+				this.createBasicData("nationalIndustry_7_5","nationalIndustry_7" , "nationalIndustry", "管道运输业", "国民经济行业分类-交通运输、仓储和邮政业");
+				this.createBasicData("nationalIndustry_7_6","nationalIndustry_7" , "nationalIndustry", "装卸搬运和运输代理业", "国民经济行业分类-交通运输、仓储和邮政业");
+				this.createBasicData("nationalIndustry_7_7","nationalIndustry_7" , "nationalIndustry", "仓储业", "国民经济行业分类-交通运输、仓储和邮政业");
+				this.createBasicData("nationalIndustry_7_8","nationalIndustry_7" , "nationalIndustry", "邮政业", "国民经济行业分类-交通运输、仓储和邮政业");
+		
+			this.createBasicData("nationalIndustry_8","nationalIndustry" , "nationalIndustry", "住宿和餐饮业", "");
+				this.createBasicData("nationalIndustry_8_1","nationalIndustry_8" , "nationalIndustry", "住宿业", "国民经济行业分类-住宿和餐饮业");
+				this.createBasicData("nationalIndustry_8_2","nationalIndustry_8" , "nationalIndustry", "餐饮业", "国民经济行业分类-住宿和餐饮业");
+		
+			this.createBasicData("nationalIndustry_9","nationalIndustry" , "nationalIndustry", "信息传输、软件和信息技术服务业", "");
+				this.createBasicData("nationalIndustry_9_1","nationalIndustry_9" , "nationalIndustry", "电信、广播电视和卫星传输服务", "国民经济行业分类-信息传输、软件和信息技术服务业");
+				this.createBasicData("nationalIndustry_9_2","nationalIndustry_9" , "nationalIndustry", "互联网和相关服务", "国民经济行业分类-信息传输、软件和信息技术服务业");
+				this.createBasicData("nationalIndustry_9_3","nationalIndustry_9" , "nationalIndustry", "软件和信息技术服务业", "国民经济行业分类-信息传输、软件和信息技术服务业");
+		
+			this.createBasicData("nationalIndustry_10","nationalIndustry" , "nationalIndustry", "金融业", "");
+				this.createBasicData("nationalIndustry_10_1","nationalIndustry_10" , "nationalIndustry", "货币金融服务", "国民经济行业分类-金融业");
+				this.createBasicData("nationalIndustry_10_2","nationalIndustry_10" , "nationalIndustry", "资本市场服务", "国民经济行业分类-金融业");
+				this.createBasicData("nationalIndustry_10_3","nationalIndustry_10" , "nationalIndustry", "保险业", "国民经济行业分类-金融业");
+				this.createBasicData("nationalIndustry_10_4","nationalIndustry_10" , "nationalIndustry", "其他金融业", "国民经济行业分类-金融业");
+		
+			this.createBasicData("nationalIndustry_11","nationalIndustry" , "nationalIndustry", "房地产业", "");
+				this.createBasicData("nationalIndustry_11_1","nationalIndustry_11" , "nationalIndustry", "房地产业", "国民经济行业分类-房地产业");
+		
+			this.createBasicData("nationalIndustry_12","nationalIndustry" , "nationalIndustry", "租赁和商务服务业", "");
+				this.createBasicData("nationalIndustry_12_1","nationalIndustry_12" , "nationalIndustry", "租赁业", "国民经济行业分类-租赁和商务服务业");
+				this.createBasicData("nationalIndustry_12_2","nationalIndustry_12" , "nationalIndustry", "商务服务业", "国民经济行业分类-租赁和商务服务业");
+		
+			this.createBasicData("nationalIndustry_13","nationalIndustry" , "nationalIndustry", "科学研究和技术服务业", "");
+				this.createBasicData("nationalIndustry_13_1","nationalIndustry_13" , "nationalIndustry", "研究和试验发展", "国民经济行业分类-科学研究和技术服务业");
+				this.createBasicData("nationalIndustry_13_2","nationalIndustry_13" , "nationalIndustry", "专业技术服务业", "国民经济行业分类-科学研究和技术服务业");
+				this.createBasicData("nationalIndustry_13_3","nationalIndustry_13" , "nationalIndustry", "科技推广和应用服务业", "国民经济行业分类-科学研究和技术服务业");
+		
+			this.createBasicData("nationalIndustry_14","nationalIndustry" , "nationalIndustry", "水利、环境和公共设施管理业", "");
+				this.createBasicData("nationalIndustry_14_1","nationalIndustry_14" , "nationalIndustry", "水利管理业", "国民经济行业分类-水利、环境和公共设施管理业");
+				this.createBasicData("nationalIndustry_14_2","nationalIndustry_14" , "nationalIndustry", "生态保护和环境治理业", "国民经济行业分类-水利、环境和公共设施管理业");
+				this.createBasicData("nationalIndustry_14_3","nationalIndustry_14" , "nationalIndustry", "公共设施管理业", "国民经济行业分类-水利、环境和公共设施管理业");
+		
+			this.createBasicData("nationalIndustry_15","nationalIndustry" , "nationalIndustry", "居民服务、修理和其他服务业", "");
+				this.createBasicData("nationalIndustry_15_1","nationalIndustry_15" , "nationalIndustry", "居民服务业", "国民经济行业分类-居民服务、修理和其他服务业");
+				this.createBasicData("nationalIndustry_15_2","nationalIndustry_15" , "nationalIndustry", "机动车、电子产品和日用产品修理业", "国民经济行业分类-居民服务、修理和其他服务业");
+				this.createBasicData("nationalIndustry_15_3","nationalIndustry_15" , "nationalIndustry", "其他服务业", "国民经济行业分类-居民服务、修理和其他服务业");
+		
+			this.createBasicData("nationalIndustry_16","nationalIndustry" , "nationalIndustry", "教育", "");
+				this.createBasicData("nationalIndustry_16_1","nationalIndustry_16" , "nationalIndustry", "教育", "国民经济行业分类-教育");
+		
+			this.createBasicData("nationalIndustry_17","nationalIndustry" , "nationalIndustry", "卫生和社会工作", "");
+				this.createBasicData("nationalIndustry_17_1","nationalIndustry_17" , "nationalIndustry", "卫生", "国民经济行业分类-卫生和社会工作");
+				this.createBasicData("nationalIndustry_17_2","nationalIndustry_17" , "nationalIndustry", "社会工作", "国民经济行业分类-卫生和社会工作");
+		
+			this.createBasicData("nationalIndustry_18","nationalIndustry" , "nationalIndustry", "文化、体育和娱乐业", "");
+				this.createBasicData("nationalIndustry_18_1","nationalIndustry_18" , "nationalIndustry", "新闻和出版业", "国民经济行业分类-文化、体育和娱乐业");
+				this.createBasicData("nationalIndustry_18_2","nationalIndustry_18" , "nationalIndustry", "广播、电视、电影和影视录音制作业", "国民经济行业分类-文化、体育和娱乐业");
+				this.createBasicData("nationalIndustry_18_3","nationalIndustry_18" , "nationalIndustry", "文化艺术业", "国民经济行业分类-文化、体育和娱乐业");
+				this.createBasicData("nationalIndustry_18_4","nationalIndustry_18" , "nationalIndustry", "体育", "国民经济行业分类-文化、体育和娱乐业");
+				this.createBasicData("nationalIndustry_18_5","nationalIndustry_18" , "nationalIndustry", "娱乐业", "国民经济行业分类-文化、体育和娱乐业");
+		
+			this.createBasicData("nationalIndustry_19","nationalIndustry" , "nationalIndustry", "公共管理、社会保障和社会组织", "");
+				this.createBasicData("nationalIndustry_19_1","nationalIndustry_19" , "nationalIndustry", "中国共产党机关", "国民经济行业分类-公共管理、社会保障和社会组织");
+				this.createBasicData("nationalIndustry_19_2","nationalIndustry_19" , "nationalIndustry", "国家机构", "国民经济行业分类-公共管理、社会保障和社会组织");
+				this.createBasicData("nationalIndustry_19_3","nationalIndustry_19" , "nationalIndustry", "人民政协、民主党派", "国民经济行业分类-公共管理、社会保障和社会组织");
+				this.createBasicData("nationalIndustry_19_4","nationalIndustry_19" , "nationalIndustry", "社会保障", "国民经济行业分类-公共管理、社会保障和社会组织");
+				this.createBasicData("nationalIndustry_19_5","nationalIndustry_19" , "nationalIndustry", "群众团体、社会团体和其他成员组织", "国民经济行业分类-公共管理、社会保障和社会组织");
+				this.createBasicData("nationalIndustry_19_6","nationalIndustry_19" , "nationalIndustry", "基层群众自治组织", "国民经济行业分类-公共管理、社会保障和社会组织");
+		
+			this.createBasicData("nationalIndustry_20","nationalIndustry" , "nationalIndustry", "国际组织", "");
+				this.createBasicData("nationalIndustry_20_1","nationalIndustry_20" , "nationalIndustry", "国际组织", "国民经济行业分类-国际组织");
 		
 		this.createBasicData("projectInvestmentType","" , "projectInvestmentType", "项目投资类型分类", "项目投资类型分类");
 		this.createBasicData("projectInvestmentType_1","projectInvestmentType" , "projectInvestmentType", "政府投资项目", "项目投资类型分类");

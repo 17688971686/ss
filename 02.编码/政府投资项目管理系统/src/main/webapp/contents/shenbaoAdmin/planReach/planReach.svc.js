@@ -128,7 +128,7 @@
 			if (isValid) {
 				vm.isSubmit = true;
 				var httpOptions = {
-						method : 'put',
+						method : 'post',
 						url : url+'/updatePlanReach',
 						data : vm.model
 					};

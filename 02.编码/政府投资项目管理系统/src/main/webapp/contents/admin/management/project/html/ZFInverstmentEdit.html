@@ -68,8 +68,19 @@
 		</td>
 	</tr>
 	<tr>
+		<td class="formAlignRight">国民经济行业分类：</td>
+		<td style="width:450px;">
+			<select class="form-select" style="width:185px;height:25px;" id="nationalIndustry" name="nationalIndustry" ng-model="vm.model.nationalIndustryParent" ng-change="vm.nationalIndustryChange()">
+				<option value="">---请选择---</option>
+				<option ng-repeat="x in vm.basicData.nationalIndustry" ng-selected="vm.model.nationalIndustryParent==x.id" value="{{x.id}}">{{x.description}}</option>
+			</select>
+			<select style="width:185px;height:25px;" ng-model="vm.model.nationalIndustry" ng-show="vm.basicData.nationalIndustryChildren.length>0">
+				<option value="">---请选择---</option>
+				<option ng-repeat="x in vm.basicData.nationalIndustryChildren" ng-selected="vm.model.nationalIndustry==x.id" value="{{x.id}}">{{x.description}}</option>
+			</select>
+		</td>
 		<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
-		<td colspan="3">
+		<td>
 			<select id="projectIndustry" name="projectIndustry" style="height:30px;" ng-model="vm.model.projectIndustry"
 			 data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>

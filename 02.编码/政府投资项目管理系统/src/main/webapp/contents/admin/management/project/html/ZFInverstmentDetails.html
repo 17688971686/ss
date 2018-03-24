@@ -59,6 +59,13 @@ overflow: scroll !important;
 		<td>
 			<span ng-repeat="x in vm.model.projectType" ng-bind="vm.getBasicDataDesc(x)+' '"></span>		
 		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">国民经济行业分类：</td>
+		<td colspan="3" style="width:450px;">
+			<span ng-bind="vm.getBasicDataDesc(vm.model.nationalIndustryParent)"  style="margin-right:24px;"></span>
+			<span ng-bind="vm.getBasicDataDesc(vm.model.nationalIndustry)"></span>
+		</td>
 	</tr>	
  	<tr>
 		<td class="formAlignRight">项目建设地址：</td>	

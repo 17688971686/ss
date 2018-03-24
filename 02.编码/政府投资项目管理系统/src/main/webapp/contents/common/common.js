@@ -507,7 +507,8 @@
     		projectConstrChar_chubei:"projectConstrChar_4",//储备类
     		
     		projectFunctionClassify:"projectFunctionClassify",//功能分类科目
-    		projectGoverEconClassify:"projectGoverEconClassify",//政府经济分类科目
+    		//projectGoverEconClassify:"projectGoverEconClassify",//政府经济分类科目
+    		projectGoverEconClassify:"nationalIndustry",//国民经济行业分类（GB/4754-2011）
     		
     		projectInvestmentType:"projectInvestmentType",//项目投资类型
     		projectInvestmentType_ZF:"projectInvestmentType_1",//政府投资

@@ -182,6 +182,14 @@
 			 			  vm.relatedType=common.uploadFileTypeConfig().projectEdit_SH;
 			 		   }
 				}
+				// 国民经济行业分类
+				var child2 = $linq(common.getBasicData()).where(function(x) {
+					return x.id == vm.model.nationalIndustry
+				}).toArray()[0];
+				if (child2) {
+					vm.model.nationalIndustryParent = child2.pId;
+					vm.nationalIndustryChange();
+				}
 			};
 			
 			common.http({
