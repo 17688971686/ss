@@ -53,12 +53,15 @@ public class BasicDataConfig {
 	public static String processStage_zbqitaren="processStage_5";//转他人办理
 	public static String processStage_weituopishen="processStage_6";//委托评审科长审核
 	public static String processState_niwendengji="processStage_7";//拟文登记科长审核
+	public static String processState_mskfawen = "processStage_9";//秘书科发文
+	public static String processState_tuihui = "processStage_10";//秘书科发文
 	//流程状态 processState
 	public static int processState_weikaishi=0;
 	public static int processState_jinxingzhong=1;
 	public static int processState_pass=2;
 	public static int processState_zhuanban=3;
 	public static int processState_notpass=4;
+	public static int processState_tuiwen=5;
 	//审核状态 auditState
 	public static String auditState_noAudit="auditState_1";//未审核
 	public static String auditState_auditPass="auditState_2";//审核通过

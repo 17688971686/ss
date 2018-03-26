@@ -68,8 +68,8 @@ public class ProjectController {
 		
 	}
 	
-	@RequiresPermissions("management/project##put")
-	@RequestMapping(name = "更新项目信息", path = "",method=RequestMethod.PUT)
+	@RequiresPermissions("management/project#updateProject#post")
+	@RequestMapping(name = "更新项目信息", path = "updateProject",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  update(@RequestBody ProjectDto ProjectDto){		
 		Project entity = ProjectService.findById(ProjectDto.getId());
@@ -107,8 +107,8 @@ public class ProjectController {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	@RequiresPermissions("management/project#isMonthReport#put")
-	@RequestMapping(name = "更新项目是否填报状态", path = "isMonthReport",method=RequestMethod.PUT)
+	@RequiresPermissions("management/project#isMonthReport#post")
+	@RequestMapping(name = "更新项目是否填报状态", path = "isMonthReport",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updateByIsMonthReport(@RequestBody Map data){
 		String id = data.get("id").toString();

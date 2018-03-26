@@ -147,6 +147,13 @@
 	   				.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 	   				.toArray(); //行政区划街道
    	   		vm.basicData.userUnit=common.getUserUnits();//获取所有单位
+   	   		//国民经济行业分类
+	   		vm.basicData.nationalIndustry=common.getBacicDataByIndectity(common.basicDataConfig().projectGoverEconClassify);
+	   		vm.nationalIndustryChange=function(){    		
+	       		vm.basicData.nationalIndustryChildren=$linq(common.getBasicData())
+	       		.where(function(x){return x.identity==common.basicDataConfig().projectGoverEconClassify&&x.pId==vm.model.nationalIndustryParent;})
+	       		.toArray();
+	   		}
         };
         
         activate();

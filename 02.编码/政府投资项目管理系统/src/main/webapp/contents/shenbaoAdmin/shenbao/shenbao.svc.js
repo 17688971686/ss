@@ -336,7 +336,7 @@
 					title : "操作",
 					width : 200,
 					template : function(item) {					
-						var isShow=item.processStage==common.basicDataConfig().processStage_tianbao||item.processState==common.basicDataConfig().processState_notpass
+						var isShow=item.processStage==common.basicDataConfig().processStage_tianbao||item.processState==common.basicDataConfig().processState_notpass||item.processState==common.basicDataConfig().processState_tuiwen
 							||(item.processStage==common.basicDataConfig().processStage_qianshou && item.processState != common.basicDataConfig().processState_pass);
 						return common.format($('#columnBtns_Record').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShow?'':'display:none',"vm.deleteShenBaoInfo('"+item.id+"')");
 					}
@@ -372,8 +372,8 @@
 				fundsFormat(vm);
 
 				var httpOptions = {
-					method : 'put',
-					url : url_shenbao,
+					method : 'post',
+					url : url_shenbao+'/updateShenbao',
 					data : vm.model
 				};
 
@@ -610,6 +610,14 @@
 					vm.model.projectShenBaoStage = vm.stage;//申报信息中的字段数据录入
 					var now = new Date();
 					vm.model.planYear=vm.model.projectShenBaoStage==common.basicDataConfig().projectShenBaoStage_nextYearPlan?parseInt(now.getFullYear()+1,10):parseInt(now.getFullYear(),10);
+				}
+				// 国民经济行业分类
+				var child2 = $linq(common.getBasicData()).where(function(x) {
+					return x.id == vm.model.nationalIndustry
+				}).toArray()[0];
+				if (child2) {
+					vm.model.nationalIndustryParent = child2.pId;
+					vm.nationalIndustryChange();
 				}
 			};
 			
@@ -1054,7 +1062,7 @@
 					title : "操作",
 					width : 200,
 					template : function(item) {
-						var isShow=item.processStage==common.basicDataConfig().processStage_tianbao||item.processState==common.basicDataConfig().processState_notpass
+						var isShow=item.processStage==common.basicDataConfig().processStage_tianbao||item.processState==common.basicDataConfig().processState_notpass||item.processState==common.basicDataConfig().processState_tuiwen
 							||(item.processStage==common.basicDataConfig().processStage_qianshou && item.processState != common.basicDataConfig().processState_pass);
 						return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShow?'':'display:none');
 					},

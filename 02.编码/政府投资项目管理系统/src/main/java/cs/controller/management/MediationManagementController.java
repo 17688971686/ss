@@ -40,8 +40,8 @@ public class MediationManagementController {
 		return ropertyDtos;
 	}
 	
-	@RequiresPermissions("management/mediationManagement##put")
-	@RequestMapping(name = "更新中介单位信息", path = "", method = RequestMethod.PUT)
+	@RequiresPermissions("management/mediationManagement#updateMediationManagement#post")
+	@RequestMapping(name = "更新中介单位信息", path = "updateMediationManagement", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void update(@RequestBody MediationUnitDto dto) {
 		mediationUnitService.update(dto,dto.getId());
@@ -81,15 +81,15 @@ public class MediationManagementController {
 		return assistReviewDtos;
 	}
 	
-	@RequiresPermissions("management/mediationManagement#updateAssistReview#put")
-	@RequestMapping(name = "更新协审活动评价", path = "updateAssistReview",method=RequestMethod.PUT)
+	@RequiresPermissions("management/mediationManagement#updateAssistReview#post")
+	@RequestMapping(name = "更新协审活动评价", path = "updateAssistReview",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  updateAssistReview(@RequestBody AssistReviewDto Dto){		
 		assistReviewService.update(Dto, Dto.getId());
 	}
 	
-	@RequiresPermissions("management/mediationManagement#updateOnlyAssistReview#put")
-	@RequestMapping(name = "更新协审活动", path = "updateOnlyAssistReview",method=RequestMethod.PUT)
+	@RequiresPermissions("management/mediationManagement#updateOnlyAssistReview#post")
+	@RequestMapping(name = "更新协审活动", path = "updateOnlyAssistReview",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  updateOnlyAssistReview(@RequestBody AssistReviewDto Dto){		
 		assistReviewService.updateAssistReview(Dto, Dto.getId());

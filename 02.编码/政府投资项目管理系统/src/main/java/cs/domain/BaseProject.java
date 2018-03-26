@@ -37,6 +37,9 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="varchar(125) NULL COMMENT '项目所属行业'")
 	private String projectIndustry;
 	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '国民经济行业分类'")
+	private String nationalIndustry;
+	
 	@Column(columnDefinition="varchar(50) NULL COMMENT '项目负责人姓名'")
 	private String projectRepName;
 	
@@ -561,6 +564,14 @@ public class BaseProject extends BaseEntity
 
 	public void setIsPlanReach(Boolean isPlanReach) {
 		this.isPlanReach = isPlanReach;
+	}
+
+	public String getNationalIndustry() {
+		return nationalIndustry;
+	}
+
+	public void setNationalIndustry(String nationalIndustry) {
+		this.nationalIndustry = nationalIndustry;
 	}
 	
 }

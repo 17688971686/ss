@@ -774,7 +774,7 @@
         	//修改密码
         	.state('accountPwd', {
         		url: '/accountPwd',
-        		templateUrl: '/account/html/changePwdQ.html',
+        		templateUrl: '/verifyNum/html/changePwdQ.html',
         		controller: 'indexCtrl',
         		controllerAs: 'vm'
         	})
@@ -992,7 +992,7 @@
 	function index($http) {	
 		var url_task="/shenbaoAdmin/task";
 		var url_unitShenBao="/shenbaoAdmin/shenbao";
-		var url_account_password="/account/password";
+		var url_account_password="/verifyNum/changePwd";
 		var url_monthReport = "/shenbaoAdmin/projectMonthReport";
 		var url_project = "/shenbaoAdmin/project";
 		var url_login = "/";
@@ -1068,7 +1068,7 @@
 			if (isValid) {
 				vm.isSubmit = true;
 				var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_account_password,
 					data : vm.model.password
 				};
@@ -2433,8 +2433,8 @@
 				vm.model.buidSafeInvestment=common.toMoney(vm.model.buidSafeInvestment);//总投资--建安投资（社投）
 				
 				var httpOptions = {
-					method : 'put',
-					url : url_project+"/unitProject",
+					method : 'post',
+					url : url_project+"/updateUnitProject",
 					data : vm.model
 				};
 
@@ -3784,8 +3784,8 @@
 				vm.model.buidSafeInvestment=common.toMoney(vm.model.buidSafeInvestment);//总投资--建安投资（社投）
 
 				var httpOptions = {
-					method : 'put',
-					url : url_shenbao,
+					method : 'post',
+					url : url_shenbao+'/updateShenbao',
 					data : vm.model
 				};
 

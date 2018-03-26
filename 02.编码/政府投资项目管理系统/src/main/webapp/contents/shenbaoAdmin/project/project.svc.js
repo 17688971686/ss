@@ -95,8 +95,8 @@
 				projectFundsFormat(vm);
 				
 				var httpOptions = {
-					method : 'put',
-					url : url_project+"/unitProject",
+					method : 'post',
+					url : url_project+"/updateUnitProject",
 					data : vm.model
 				};
 
@@ -181,6 +181,14 @@
 			 			 //相关附件文件上传文件种类
 			 			  vm.relatedType=common.uploadFileTypeConfig().projectEdit_SH;
 			 		   }
+				}
+				// 国民经济行业分类
+				var child2 = $linq(common.getBasicData()).where(function(x) {
+					return x.id == vm.model.nationalIndustry
+				}).toArray()[0];
+				if (child2) {
+					vm.model.nationalIndustryParent = child2.pId;
+					vm.nationalIndustryChange();
 				}
 			};
 			

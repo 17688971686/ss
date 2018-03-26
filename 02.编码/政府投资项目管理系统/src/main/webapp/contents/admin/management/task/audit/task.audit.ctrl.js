@@ -489,10 +489,27 @@
         			if(thisProcess == common.basicDataConfig().processStage_weituopishen){//委托评审科长审核
         				//TODO 下一步的流程应该对接OA给评审中心
         				vm.taskRecord.nextProcess=common.basicDataConfig().processState_pszxsp;
+        				vm.taskRecord.nextUser=vm.taskAudit.lastUser;
+        				vm.taskRecord.nextRole=vm.taskAudit.lastRole;
         			}
         			if(thisProcess == common.basicDataConfig().processState_niwendengji){//发文拟稿科长审核
         				//TODO 下一步的流程应该对接OA给秘书科
         				vm.taskRecord.nextProcess=common.basicDataConfig().processState_mskfawen;
+        				vm.taskRecord.nextUser=vm.taskAudit.lastUser;
+        				vm.taskRecord.nextRole=vm.taskAudit.lastRole;
+        			}
+        			if(thisProcess == common.basicDataConfig().processState_pszxsp){//科员线下流程--评审中心--上传评审结果
+        				//TODO 
+        				vm.taskRecord.nextProcess=common.basicDataConfig().processStage_jbrbanli;
+        				vm.taskRecord.nextUser=vm.taskAudit.thisUser;
+        				vm.taskRecord.nextRole=vm.taskAudit.thisRole;
+        			}
+        			if(thisProcess == common.basicDataConfig().processState_mskfawen){//科员线下流程--审批结束--上传OA结果
+        				//TODO 
+        				vm.taskRecord.thisProcessState=common.basicDataConfig().processState_pass;
+        				vm.taskRecord.nextProcess=common.basicDataConfig().processStage_jbrbanli;
+        				vm.taskRecord.nextUser=vm.taskAudit.thisUser;
+        				vm.taskRecord.nextRole=vm.taskAudit.thisRole;
         			}
     				
         		}
@@ -501,6 +518,9 @@
         			vm.taskRecord.nextProcess=vm.taskAudit.lastProcess;
     				vm.taskRecord.nextUser=vm.taskAudit.lastUser;
     				vm.taskRecord.nextRole=vm.taskAudit.lastRole;
+        		}
+        		if(str == 'tuiwen'){
+        			vm.taskRecord.thisProcessState=common.basicDataConfig().processState_tuiwen;
         		}
         		taskAuditSvc.handle(vm);
         	};

@@ -63,7 +63,7 @@ public class PlanReachController {
 	}
 	
 	//@RequiresPermissions("management/planReachManage/planReach##put")
-	@RequestMapping(name = "更新计划下达批复信息", path = "",method=RequestMethod.PUT)
+	@RequestMapping(name = "更新计划下达批复信息", path = "updatePlanReachManage",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void update(@RequestBody PlanReachApprovalDto dto) throws ParseException {
 		planReachApprovalService.update(dto,dto.getId());

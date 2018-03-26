@@ -56,11 +56,15 @@
 				var key = $("#rsaPrivateKey").val();//获取公钥信息
                 var rsa = new RSAKey();
                 rsa.setPublic(key, "10001");
-                vm.model.password = rsa.encrypt(vm.model.password);//密码RSA公钥加密
+                vm.model.old_password = vm.model.textPassword;
+                vm.sendModel= vm.model;
+                vm.sendModel.password = rsa.encrypt(vm.model.textPassword);
+                vm.sendModel.textPassword ="";
+                //vm.model.password = rsa.encrypt(vm.model.password);//密码RSA公钥加密
                 
                 var httpOptions = {
                     method: 'post',
-                    url: '/account/login?role='+role,
+                    url: '/verifyNum/login?role='+role,
                     data: vm.model
                 };
                 var httpSuccess = function success(response) {
@@ -69,11 +73,15 @@
                     	vm:vm,
                     	response:response,
                     	fn:function () {
-                            
                             var isSuccess = response.data.success;
                             if (isSuccess) {
                                 vm.message = "";
-                                location.href = "/shenbaoAdmin";
+                                var reg = new RegExp(/^(?=.*[a-zA-Z])(?=.*[0-9]).*.{8,}$/);
+                               	if(reg.test(vm.model.old_password)){
+                               		location.href = "/shenbaoAdmin";
+                                }else{
+                                	location.href = "/changePwd/frontDesk";
+                                }
                             } else {                                
                                 vm.message=response.data.message;
                             }

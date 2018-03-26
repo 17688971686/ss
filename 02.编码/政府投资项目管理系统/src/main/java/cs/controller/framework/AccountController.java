@@ -20,7 +20,7 @@ import cs.model.framework.UserDto;
 import cs.service.framework.UserService;
 
 @Controller
-@RequestMapping(name = "账户管理", path = "account")
+@RequestMapping(name = "账户管理", path = "verifyNum")
 public class AccountController {
 	private String ctrlName = "framework/account";
 
@@ -63,7 +63,8 @@ public class AccountController {
 		return url;
 	}
 	
-	@RequestMapping(name = "修改密码", path = "password", method = RequestMethod.PUT)
+	//账号密码特殊关键字不要使用，例如password可以改成changePwd,还有account需要修改
+	@RequestMapping(name = "修改密码", path = "changePwd", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
 	public  @ResponseBody Response password(@RequestBody String password) {
 		userService.changePwd(password);

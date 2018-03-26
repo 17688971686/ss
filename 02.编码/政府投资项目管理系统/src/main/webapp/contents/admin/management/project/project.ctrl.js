@@ -65,6 +65,13 @@
 	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
 	       		.toArray();//政府投资项目行业
 	   		vm.basicData.userUnit=common.getUserUnits();
+	   		//国民经济行业分类
+	   		vm.basicData.nationalIndustry=common.getBacicDataByIndectity(common.basicDataConfig().projectGoverEconClassify);
+	   		vm.nationalIndustryChange=function(){    		
+	       		vm.basicData.nationalIndustryChildren=$linq(common.getBasicData())
+	       		.where(function(x){return x.identity==common.basicDataConfig().projectGoverEconClassify&&x.pId==vm.model.nationalIndustryParent;})
+	       		.toArray();
+	   		}
     	}
     	init();    	
     	activate();

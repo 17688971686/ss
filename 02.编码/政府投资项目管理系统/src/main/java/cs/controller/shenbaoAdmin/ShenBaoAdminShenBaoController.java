@@ -63,8 +63,8 @@ public class ShenBaoAdminShenBaoController {
 		shenBaoInfoService.createShenBaoInfo(shenBaoInfoDto,false);	
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/shenbao##put")
-	@RequestMapping(name = "更新申报信息", path = "",method=RequestMethod.PUT)
+	@RequiresPermissions("shenbaoAdmin/shenbao#updateShenbao#post")
+	@RequestMapping(name = "更新申报信息", path = "updateShenbao",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void update(@RequestBody ShenBaoInfoDto shenBaoInfoDto){
 		shenBaoInfoService.updateShenBaoInfo(shenBaoInfoDto,false);	

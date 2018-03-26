@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>用户登录</title>
+<title>修改密码</title>
 </head>
 <body>
 <!-- Bootstrap 3.3.6 -->
@@ -39,7 +39,10 @@
 <link type="text/css" rel="stylesheet" href="/contents/shared/css.css"/>
 <!--End:自定义css -->
 <style>
-   
+   .errors {
+	    color: red;
+	    position: absolute;
+	}
     .login-box-body{
         background:#fff;
         width:400px;
@@ -102,16 +105,55 @@
 	<img src="/contents/images/logo1.png"/>
 <div class="loginBox-content">
 <form method="post" id="form" name="form" ng-keypress="vm.keyEnter($event)" >
-		<div class="boxWrap">
-		<span ng-show="vm.message" class="errors" ng-bind="vm.message" ></span>
+		<!-- <div class="boxWrap">
+			<span ng-show="vm.message" class="errors" ng-bind="vm.message" ></span>
 			<div>
-			<input type="text" class="form-control input-sm" placeholder="请输入用户名称" maxlength="100" name="loginName" id="loginName" ng-model="vm.model.loginName" data-val="true" data-val-required="用户名必填" />
+				密码：<span class="required">*</span><input type="text" class="form-control input-sm" placeholder="请输入用户名称" maxlength="100" name="loginName" id="loginName" ng-model="vm.model.loginName" data-val="true" data-val-required="用户名必填" />
 			</div>
-			<div><input type="password" class="form-control input-sm" placeholder="请输入用户密码" maxlength="100"  name="password" id="password" ng-model="vm.model.textPassword" data-val="true" data-val-required="密码必填" /></div>
-			<div><button class="btn btn-success loginBtn" ng-click="vm.submit('manage')" ng-disabled="vm.isSubmit">登录系统 </button></div>
+			<div>
+				确认密码：<span class="required">*</span><input type="password" class="form-control input-sm" placeholder="请输入用户密码" maxlength="100"  name="password" id="password" ng-model="vm.model.password" data-val="true" data-val-required="密码必填" />
+			</div>
+			<div>
+				<button class="btn btn-success loginBtn" ng-click="vm.submit('manage')" ng-disabled="vm.isSubmit">登录系统 </button>
+			</div>
 			<textarea id="rsaPrivateKey" rows="15" cols="65" style="display:none">
 				dd6be3d4de56287b8c3616b33bc1b7a5a2bb9148252140262420ee047f83b3165fb7674a759d60c24b71fd5437c7810f127f2c4370c2d4bdfcb55c08f1b3c715b7b2f57228e78e34039d2b967f54a58e345bc91e3dd54c7bea86d73c9e2de968736bf2b97f50bea891aa3519ae7238d76dff57cabba7cc0d370775657f3b5c83
-        	</textarea>
+	      	</textarea>
+		</div> -->
+		<div>
+			<table style="margin:auto;">
+				<tr>
+					<td colspan="3" class="formAlignRight" style="width: 150px;"><span>您的密码不符合安全规则，请重新修改！</span></td>
+				</tr>
+				<tr>
+					<td class="formAlignRight">新密码： <span class="required">*</span></td>
+					<td style="width: 200px;"><input type="password" maxlength="300"
+						class="form-control input-sm " ng-model="vm.model.password"
+						id="password" name="password" data-val="true" data-val-required="必填"
+						placeholder="必须为8位以上数字和字母的组合" data-val-regex="必须为8位以上数字和字母的组合" data-val-regex-pattern="^(?=.*[a-zA-Z])(?=.*[0-9]).*.{8,}$"/></td>
+					<td><span data-valmsg-for="password" data-valmsg-replace="true"
+						class="errors"></span>
+						<textarea id="rsaPrivateKey" rows="15" cols="65" style="display:none">
+							dd6be3d4de56287b8c3616b33bc1b7a5a2bb9148252140262420ee047f83b3165fb7674a759d60c24b71fd5437c7810f127f2c4370c2d4bdfcb55c08f1b3c715b7b2f57228e78e34039d2b967f54a58e345bc91e3dd54c7bea86d73c9e2de968736bf2b97f50bea891aa3519ae7238d76dff57cabba7cc0d370775657f3b5c83
+        				</textarea>
+					</td>
+				</tr>
+				<tr>
+					<td class="formAlignRight">确认密码： <span class="required">*</span></td>
+					<td><input type="password" maxlength="300"
+						class="form-control input-sm " ng-model="vm.model.passwordConfirm"
+						id="passwordConfirm" name="passwordConfirm" data-val="true"
+						data-val-required="必填" data-val-equalto="两次密码不一致"
+						data-val-equalto-other="password"/></td>
+					<td><span data-valmsg-for="passwordConfirm"
+						data-valmsg-replace="true" class="errors"></span>
+					</td>
+				</tr>
+			</table>
+			<button class="btn btn-sm btn-success" ng-click="vm.changePwd()"
+				ng-disabled="vm.isSubmit">
+				<span class="glyphicon glyphicon-ok"></span>修改
+			</button>
 		</div>
 </form>
 </div>
@@ -165,53 +207,40 @@
         function controller($http) {
             /* jshint validthis:true */
             var vm = this;
-            vm.title = 'controller';
 
            
-            vm.submit = function (str) {
-            	var role = str;
+            vm.changePwd = function () {
                 common.initJqValidation();
                 var isValid = $('form').valid();
                 if (isValid) {
-                    vm.isSubmit = true;
                     var key = $("#rsaPrivateKey").val();//获取公钥信息
                     var rsa = new RSAKey();
                     rsa.setPublic(key, "10001");
-                    vm.model.old_password = vm.model.textPassword;
-                    //vm.model.password = rsa.encrypt(vm.model.textPassword);//密码RSA公钥加密
-                    vm.sendModel= vm.model;
-                    vm.sendModel.password = rsa.encrypt(vm.model.textPassword);
-                    vm.sendModel.textPassword ="";
+                   
+                    vm.password = rsa.encrypt(vm.model.password);//密码RSA公钥加密
+                   	//vm.model.passwordConfirm = vm.model.password;//密码RSA公钥加密
 				    // vm.model.password=$.md5(vm.model.password);//密码MD5加密
                     var httpOptions = {
                         method: 'post',
-                        url: '/verifyNum/login?role='+role,
-                        data: vm.sendModel
+                        url: '/verifyNum/changePwd',
+                        data: vm.password
                     };
                   
                     var httpSuccess = function success(response) {
-                        vm.isSubmit = false;                        
-                        common.requestSuccess({
-                        	vm:vm,
-                        	response:response,
-                        	fn:function () {
-                                
-                                var isSuccess = response.data.success;
-                                if (isSuccess) {
-                                    vm.message = "";
-                               	 	var reg = new RegExp(/^(?=.*[a-zA-Z])(?=.*[0-9]).*.{8,}$/);
-                                   	if(reg.test(vm.model.old_password)){
-                                   		location.href = "/admin/index#/task/todo";
-                                    }else{
-                                    	location.href = "/changePwd/background";
-                                    }
-                                    //common.cookie().set("data", "token", response.data.Token, "", "/");
-                                    //location.href = "/admin/index#/task/todo";
-                                } else {
-                                    vm.message=response.data.message
-                                }
-                        	}
-                        });
+                    	common.requestSuccess({
+    						vm : vm,
+    						response : response,
+    						fn : function() {
+    							common.alert({
+    								vm : vm,
+    								msg : "操作成功!",
+    								fn : function() {
+    									$('.alertDialog').modal('hide');
+    									location.href = "/shenbaoAdmin";
+    								}
+    							});
+    						}
+    					});
 
                     };
 	                    
@@ -224,11 +253,6 @@
             	} 
             }
             
-            vm.keyEnter = function (e) {
-                if (e.which === 13) {
-                    vm.submit('manage')
-                }
-            };
 
             activate();
             function activate() {}

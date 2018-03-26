@@ -6,7 +6,7 @@
 	demo.$inject = [ '$http' ];
 
 	function demo($http) {
-		var url_account_password = "/account/password";
+		var url_account_password = "/verifyNum/changePwd";
 		
 		var service = {			
 			upload : upload,
@@ -67,7 +67,7 @@
 				
 
 				var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_account_password,
 					data : vm.model.password
 				};

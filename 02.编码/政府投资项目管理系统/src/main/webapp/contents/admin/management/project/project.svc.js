@@ -174,7 +174,7 @@
 		function updateIsMonthReport(vm){
 			vm.isSumbit=true;
 			var httpOptions = {
-					method : 'put',
+					method : 'post',
 					url : url_project+"/isMonthReport",
 					data : {id:vm.model.id,isMonthReport:vm.model.isMonthReport}
 				};
@@ -219,8 +219,8 @@
 				vm.model.projectType=common.arrayToString(vm.model.projectType,',');
 				
 				var httpOptions = {
-					method : 'put',
-					url : url_project,
+					method : 'post',
+					url : url_project+'/updateProject',
 					data : vm.model
 				};
 
@@ -321,6 +321,14 @@
 			   					 vm.model.capitalSHTZ||0,vm.model.capitalZYYS||0,
 			   					 vm.model.capitalOther||0]);
 			   		 };		
+				}
+				// 国民经济行业分类
+				var child2 = $linq(common.getBasicData()).where(function(x) {
+					return x.id == vm.model.nationalIndustry
+				}).toArray()[0];
+				if (child2) {
+					vm.model.nationalIndustryParent = child2.pId;
+					vm.nationalIndustryChange();
 				}
 			};
 			

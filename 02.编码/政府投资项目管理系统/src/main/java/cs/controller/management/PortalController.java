@@ -46,8 +46,8 @@ public class PortalController {
 		articleService.create(dto);
 	}
 	
-	@RequiresPermissions("management/portal##put")	
-	@RequestMapping(name = "更新文章", path = "", method = RequestMethod.PUT)
+	@RequiresPermissions("management/portal#updatePortal#post")	
+	@RequestMapping(name = "更新文章", path = "updatePortal", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void update(@RequestBody ArticleDto dto) {
 		articleService.update(dto,dto.getId());

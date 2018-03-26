@@ -36,6 +36,7 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			projectDto.setProjectStage(project.getProjectStage());//项目阶段
 			projectDto.setProjectClassify(project.getProjectClassify());//项目分类
 			projectDto.setProjectIndustry(project.getProjectIndustry());//项目行业
+			projectDto.setNationalIndustry(project.getNationalIndustry());//国民经济行业分类
 			projectDto.setProjectType(project.getProjectType());//项目类型
 			projectDto.setProjectCategory(project.getProjectCategory());//项目类别
 			projectDto.setProjectInvestSum(project.getProjectInvestSum());//项目总投资
@@ -122,6 +123,7 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setProjectInvestmentType(projectDto.getProjectInvestmentType());//项目投资类型
 			project.setProjectClassify(projectDto.getProjectClassify());
 			project.setProjectIndustry(projectDto.getProjectIndustry());
+			project.setNationalIndustry(projectDto.getNationalIndustry());//国民经济行业分类
 			project.setProjectType(projectDto.getProjectType());
 			project.setProjectCategory(projectDto.getProjectCategory());
 			project.setProjectInvestSum(projectDto.getProjectInvestSum());

@@ -20,8 +20,8 @@
 		 */
 		function updateBasicData(vm){
 			var httpOptions = {
-					method : 'put',
-					url : url_basicData,
+					method : 'post',
+					url : url_basicData+'/updateBasicData',
 					data : vm.model
 				};
 			

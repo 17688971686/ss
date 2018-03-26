@@ -49,7 +49,7 @@ public class ProjectSupervisedController {
 		PageModelDto<ShenPiUnitDto> shenPiUnitDtos = shenPiUnitService.get(odataObj);		
 		return shenPiUnitDtos;
 	}
-	@RequestMapping(name = "更新审批单位信息", path = "updateShenpiUnit", method = RequestMethod.PUT)
+	@RequestMapping(name = "更新审批单位信息", path = "updateShenpiUnit", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updateShenpiUnit(@RequestBody ShenPiUnitDto dto) {
 		shenPiUnitService.update(dto,dto.getId());
@@ -81,7 +81,7 @@ public class ProjectSupervisedController {
 		PageModelDto<ShenPiItemsDto> shenpiItemsDtos = shenPiItemsService.get(odataObj);		
 		return shenpiItemsDtos;
 	} 
-	@RequestMapping(name = "更新审批事项", path = "updateShenpiItems", method = RequestMethod.PUT)
+	@RequestMapping(name = "更新审批事项", path = "updateShenpiItems", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updateShenpiItems(@RequestBody ShenPiItemsDto dto) {
 		shenPiItemsService.update(dto,dto.getId());
@@ -171,8 +171,8 @@ public class ProjectSupervisedController {
 		return ProjectDtos;
 	}
 	
-	@RequiresPermissions("management/supervision/project##put")
-	@RequestMapping(name = "更新项目信息", path = "",method=RequestMethod.PUT)
+	@RequiresPermissions("management/supervision/project#updateProject#post")
+	@RequestMapping(name = "更新项目信息", path = "updateProject",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  update(@RequestBody ProjectDto ProjectDto){		
 		Project entity = projectSupervisedService.findById(ProjectDto.getId());

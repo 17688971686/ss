@@ -96,8 +96,8 @@
 			if (isValid) {
 				vm.isSubmit = true;
 				var httpOptions = {
-						method : 'put',
-						url : url,
+						method : 'post',
+						url : url+'/updatePlanReachManage',
 						data : vm.model
 					};
 				var httpSuccess = function success(response) {

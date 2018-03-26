@@ -428,15 +428,16 @@
     		processStage_zbqitaren:"processStage_5",//转他人办理
     		processStage_weituopishen:"processStage_6",//委托评审科长审核
     		processState_niwendengji:"processStage_7",//拟文登记科长审核
-    		processState_pszxsp:"processStage_8",//评审中心审批
+    		processState_pszxsp:"processStage_8",//评审中心审批（线下）&审批结果上次
     		processState_mskfawen:"processStage_9",//秘书科发文
-    		
+    		 		
     		processState:"processState",//审批状态
     		processState_weikaishi:0,//未开始
     		processState_jinxingzhong:1,//进行中
     		processState_pass:2,//通过
     		processState_zhuanban:3,//转办
     		processState_notpass:4,//不通过
+    		processState_tuiwen:5,//退文
     		
     		
     		fileSet:"fileSet",//文件缓急分类
@@ -506,7 +507,8 @@
     		projectConstrChar_chubei:"projectConstrChar_4",//储备类
     		
     		projectFunctionClassify:"projectFunctionClassify",//功能分类科目
-    		projectGoverEconClassify:"projectGoverEconClassify",//政府经济分类科目
+    		//projectGoverEconClassify:"projectGoverEconClassify",//政府经济分类科目
+    		projectGoverEconClassify:"nationalIndustry",//国民经济行业分类（GB/4754-2011）
     		
     		projectInvestmentType:"projectInvestmentType",//项目投资类型
     		projectInvestmentType_ZF:"projectInvestmentType_1",//政府投资
@@ -779,6 +781,9 @@
     			break;
     		case 4:
     			return "审批不通过";
+    			break;
+    		case 5:
+    			return "退文";
     			break;
     		default:
     			break;

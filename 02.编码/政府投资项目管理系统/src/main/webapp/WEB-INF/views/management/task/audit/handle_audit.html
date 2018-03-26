@@ -214,10 +214,12 @@ textarea.form-control {
 				<td class="formAlignRight"  style="width:150px;">操作：</td>
 				<td ng-if="vm.isShowBtn">
 					<button ng-click="vm.handle('next')" class="btn btn-success btn-sm" style="margin:0 10px;">送出</button>
-					<button ng-click="vm.handle('reback')" class="btn btn-danger btn-sm" style="margin:0 10px;">退回</button>
+					<button ng-click="vm.handle('reback')" class="btn btn-danger btn-sm" style="margin:0 10px;" ng-hide="vm.taskAudit.thisProcess=='processStage_2'">退回</button>
+					<button ng-click="vm.handle('tuiwen')" class="btn btn-warning btn-sm" style="margin:0 10px;">退文</button>
  				</td>
  				<td ng-if="!vm.isShowBtn">
 					<button ng-click="vm.handle('next')" class="btn btn-success btn-sm" style="margin:0 10px;">确定</button>
+					<button ng-click="vm.handle('tuiwen')" class="btn btn-warning btn-sm" style="margin:0 10px;">退文</button>
  				</td>
 			</tr>
 		</table>

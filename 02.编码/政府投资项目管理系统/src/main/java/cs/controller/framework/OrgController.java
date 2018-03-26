@@ -44,8 +44,8 @@ public class OrgController {
 		orgService.createOrg(orgDto);
 	}
 
-	@RequiresPermissions("org##put")	
-	@RequestMapping(name = "更新部门", path = "", method = RequestMethod.PUT)
+	@RequiresPermissions("org#updateOrg#post")	
+	@RequestMapping(name = "更新部门", path = "updateOrg", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void update(@RequestBody OrgDto orgDto) {
 		orgService.updateOrg(orgDto);

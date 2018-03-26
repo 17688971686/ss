@@ -61,8 +61,8 @@ public class CatalogController {
 		return investmentProjectDtos;
 	}
 	
-	@RequiresPermissions("management/catalog##put")
-	@RequestMapping(name="更新投资项目数据",path="",method=RequestMethod.PUT)
+	@RequiresPermissions("management/catalog#updateInvestment#post")
+	@RequestMapping(name="更新投资项目数据",path="updateInvestment",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void put(@RequestBody InvestmentProjectDto dto){
 		investmentService.update(dto,dto.getId());
@@ -107,8 +107,8 @@ public class CatalogController {
 		}		
 	}
 	
-	@RequiresPermissions("management/catalog#updatePolicyCatalog#put")
-	@RequestMapping(name="更新政策条目数据",path="updatePolicyCatalog",method=RequestMethod.PUT)
+	@RequiresPermissions("management/catalog#updatePolicyCatalog#post")
+	@RequestMapping(name="更新政策条目数据",path="updatePolicyCatalog",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updatePolicyCatalog(@RequestBody PolicyCatalogDto dto){
 		policyCatalogService.update(dto,dto.getId());
@@ -129,8 +129,8 @@ public class CatalogController {
 		partApprovalMattersService.create(dto);
 	}
 	
-	@RequiresPermissions("management/catalog#partApprovalMatters#put")
-	@RequestMapping(name="更新部门审批事项",path="partApprovalMatters",method=RequestMethod.PUT)
+	@RequiresPermissions("management/catalog#updatePartApprovalMatters#post")
+	@RequestMapping(name="更新部门审批事项",path="updatePartApprovalMatters",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updatePartApprovalMatters(@RequestBody PartApprovalMattersDto dto){
 		partApprovalMattersService.update(dto,dto.getId());
@@ -163,8 +163,8 @@ public class CatalogController {
 		agencyServiceMattersService.create(dto);
 	}
 	
-	@RequiresPermissions("management/catalog#agencyServiceMatters#put")
-	@RequestMapping(name="更新中介服务事项",path="agencyServiceMatters",method=RequestMethod.PUT)
+	@RequiresPermissions("management/catalog#updateAgencyServiceMatters#post")
+	@RequestMapping(name="更新中介服务事项",path="updateAgencyServiceMatters",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updateAgencyServiceMatters(@RequestBody AgencyServiceMattersDto dto){
 		agencyServiceMattersService.update(dto,dto.getId());

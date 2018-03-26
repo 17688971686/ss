@@ -32,7 +32,7 @@
 					<td><input type="password" maxlength="200"
 						class="form-control input-sm " ng-model="vm.model.password"
 						id="password" name="password" data-val="true" data-val-required="必填"
-						data-val-regex="必须为8位以上数字和字母的结合" data-val-regex-pattern="^(?=.*[a-zA-Z])(?=.*[0-9]).*.{8,}$"/></td>
+						data-val-regex="必须为8位以上字母和数字的组合" data-val-regex-pattern="^(?=.*[a-zA-Z])(?=.*[0-9]).*.{8,}$"/></td>
 					<td><span data-valmsg-for="password" data-valmsg-replace="true"
 						class="errors"></span>
 						<textarea id="rsaPrivateKey" rows="15" cols="65" style="display:none">

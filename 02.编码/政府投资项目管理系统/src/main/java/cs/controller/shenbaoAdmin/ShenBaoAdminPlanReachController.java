@@ -44,10 +44,18 @@ public class ShenBaoAdminPlanReachController {
 	@Autowired
 	private PlanReachApplicationService planReachApplicationService;
 	
+	//获取本单位计划下达申请列表数据
 	//@RequiresPermissions("shenbaoAdmin/planReach##get")
 	@RequestMapping(name = "获取计划下达申请信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<PlanReachApplicationDto> get(HttpServletRequest request) throws ParseException {
+		//根据登陆名查找到单位信息
+		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
 		ODataObj odataObj = new ODataObj(request);
+		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
+		filterItem.setField("applicationUnit");
+		filterItem.setOperator("eq");
+		filterItem.setValue(userUnitInfo.getId());
+		odataObj.getFilter().add(filterItem);
 		PageModelDto<PlanReachApplicationDto> planReachApplications = planReachApplicationService.get(odataObj);
 		return planReachApplications;
 	}
@@ -59,8 +67,8 @@ public class ShenBaoAdminPlanReachController {
 		planReachApplicationService.create(dto);
 	}
 	
-	//@RequiresPermissions("shenbaoAdmin/planReach##put")
-	@RequestMapping(name = "更新计划下达申请信息", path = "",method=RequestMethod.PUT)
+	//@RequiresPermissions("shenbaoAdmin/planReach#updatePlanReach#post")
+	@RequestMapping(name = "更新计划下达申请信息", path = "updatePlanReach",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void update(@RequestBody PlanReachApplicationDto dto) throws ParseException {
 		planReachApplicationService.update(dto,dto.getId());
