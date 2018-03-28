@@ -41,6 +41,7 @@ public class UserUnitInfoMapper implements IMapper<UserUnitInfoDto, UserUnitInfo
 			userUnitInfoDto.setRemark(unitInfo.getRemark());
 			//和单位信息关联的用户名			
 			userUnitInfoDto.setUserName(unitInfo.getUserName());
+			userUnitInfoDto.setDeptId(unitInfo.getDeptId());
 			//基础数据			
 			userUnitInfoDto.setCreatedBy(unitInfo.getCreatedBy());
 			userUnitInfoDto.setCreatedDate(unitInfo.getCreatedDate());
@@ -79,6 +80,7 @@ public class UserUnitInfoMapper implements IMapper<UserUnitInfoDto, UserUnitInfo
 			userUnitInfo.setRemark(unitInfoDto.getRemark());
 			//和单位信息关联的用户名															
 			userUnitInfo.setUserName(unitInfoDto.getUserName());
+			userUnitInfo.setDeptId(unitInfoDto.getDeptId());
 			//基础数据																						
 			userUnitInfo.setCreatedBy(unitInfoDto.getCreatedBy());
 			userUnitInfo.setCreatedDate(unitInfoDto.getCreatedDate());

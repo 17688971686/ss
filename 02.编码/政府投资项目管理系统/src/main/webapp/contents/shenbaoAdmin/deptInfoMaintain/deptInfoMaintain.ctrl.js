@@ -26,6 +26,7 @@
 	        vm.basicData_area_Street=$linq(common.getBasicData())
 									.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 									.toArray();
+        	deptInfoMaintainSvc.getUserUnitByName(vm);
         }
                
         activate();

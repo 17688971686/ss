@@ -50,7 +50,7 @@ public class ShenBaoAdminShenBaoController {
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 		filterItem.setField("unitName");
 		filterItem.setOperator("eq");
-		filterItem.setValue(userUnitInfo.getId());
+		filterItem.setValue(userUnitInfo.getDeptId());
 		odataObj.getFilter().add(filterItem);
 		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoService.get(odataObj);		
 		return shenBaoInfoDtos;	

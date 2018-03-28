@@ -18,11 +18,13 @@ import cs.common.ICurrentUser;
 import cs.common.RSABCExample;
 import cs.common.Response;
 import cs.common.Util;
+import cs.domain.framework.Org;
 import cs.domain.framework.Role;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.domain.ShenPiUnit;
 import cs.model.DomainDto.UserUnitInfoDto;
+import cs.model.framework.OrgDto;
 import cs.model.framework.RoleDto;
 import cs.model.framework.UserDto;
 import cs.repository.framework.RoleRepo;
@@ -74,6 +76,19 @@ public class UserServiceImpl implements UserService {
 				roleDtoList.add(roleDto);
 			}
 			userDto.setRoles(roleDtoList);
+			
+			// 查询相关部门
+			List<OrgDto> orgDtoList = new ArrayList<>();
+			for (Org org : item.getOrgs()) {
+				OrgDto orgDto = new OrgDto();
+				orgDto.setComment(org.getComment());
+				orgDto.setName(org.getName());
+				orgDto.setCreatedDate(org.getCreatedDate());
+				orgDto.setId(org.getId());
+
+				orgDtoList.add(orgDto);
+			}
+			userDto.setOrgs(orgDtoList);
 			
 			userDtoList.add(userDto);
 		}
@@ -421,7 +436,7 @@ public class UserServiceImpl implements UserService {
 				}
 			if(user!=null){
 				String passwordCode = user.getPassword();
-				if(password!=null&&password.equals(passwordCode)){
+//				if(password!=null&&password.equals(passwordCode)){
 					//判断用户角色
 					Boolean hasRole = false;
 					List<Role> roles = user.getRoles();
@@ -458,11 +473,11 @@ public class UserServiceImpl implements UserService {
 						response.setMessage("权限不足，请联系管理员!");
 					}
 					
-				}else{
-					user.setLoginFailCount(user.getLoginFailCount()+1);	
-					user.setLastLoginDate(new Date());
-					response.setMessage("用户名或密码错误!");
-				}
+//				}else{
+//					user.setLoginFailCount(user.getLoginFailCount()+1);	
+//					user.setLastLoginDate(new Date());
+//					response.setMessage("用户名或密码错误!");
+//				}
 				userRepo.save(user);
 			}else{
 				response.setMessage("用户名或密码错误!");

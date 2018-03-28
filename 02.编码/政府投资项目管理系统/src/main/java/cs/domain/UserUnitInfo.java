@@ -18,7 +18,7 @@ public class UserUnitInfo extends BaseUnitInfo {
 	
 	@Column(columnDefinition="varchar(255)  COMMENT '和单位信息关联的用户名'")
 	private String userName;
-
+	
 	public String getId() {
 		return id;
 	}
@@ -34,6 +34,6 @@ public class UserUnitInfo extends BaseUnitInfo {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
+
 	
 }

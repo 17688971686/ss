@@ -324,6 +324,16 @@ public class SysServiceImpl implements SysService{
 			userUnitInfo.setUserName(unitUser.getId());
 			userUnitInfo.setRemark("系统初始化创建");
 			userUnitInfoRepo.save(userUnitInfo);
+			
+			Org org5 = new Org();
+			org5.setComment("系统初始化创建,不可删除");
+			org5.setCreatedBy("admin");
+			org5.setCreatedDate(new Date());
+			org5.setId(UUID.randomUUID().toString());
+			org5.setName(userName);
+			org5.setOrgIdentity(userName);
+			
+			orgRepo.save(org5);
 		}
 		
 		response.setMessage("初始化成功");

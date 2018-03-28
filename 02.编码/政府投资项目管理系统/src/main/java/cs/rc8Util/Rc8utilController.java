@@ -23,7 +23,7 @@ public class Rc8utilController {
 
 	private static String[] tzk_id_list = {"4853bb99c50b413f89658af304e18698","{261F89FE-F016-4ADA-A5A0-B43EA7D9FFF0}","{BFA7B3F4-FFFF-FFFF-B32B-A23800000002}","{BFA7B3F4-FFFF-FFFF-B32B-D0B500000003}","{AC18B3FB-FFFF-FFFF-FB69-97BD00000015}","{BFA7B3F4-FFFF-FFFF-B32E-58DB00000008}","{AC18B3FB-0000-0000-6629-02E600000002}"};
 	
-	@RequiresPermissions("risesoft#tzkUsers#get")
+//	@RequiresPermissions("risesoft#tzkUsers#get")
 	@RequestMapping(name = "查询RC8投资科人员", path = "tzkUsers", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void getTZKUser(){

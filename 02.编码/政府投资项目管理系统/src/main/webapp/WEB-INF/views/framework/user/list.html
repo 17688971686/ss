@@ -31,9 +31,7 @@
             <@shiro.hasPermission name="user##delete">           
             <button class="btn btn-sm btn-danger" ng-click="vm.dels()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-remove"></span>批量删除</button>
         	</@shiro.hasPermission>
-        	<@shiro.hasPermission name="risesoft#tzkUsers#get">      
         	<button class="btn btn-sm btn-warning" ng-click="vm.userSync()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-warning"></span>同步用户</button>
-      		</@shiro.hasPermission>
         </div>
         <script type="text/template" id="columnBtns">
 		<@shiro.hasPermission name="user##delete">

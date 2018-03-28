@@ -17,7 +17,7 @@
 			var role = "unit";
 			  var httpOptions = {
 	                    method: 'post',
-	                    url: '/account/getSs?role='+role
+	                    url: '/verifyNum/getSs?role='+role
 	                };
 	                var httpSuccess = function success(response) {
 	                    vm.isSubmit = false;                        

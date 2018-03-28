@@ -64,7 +64,7 @@ public class ShenBaoAdminProjectController {
 			for(int i=0;i<odataObj.getFilter().size();i++){
 				if(odataObj.getFilter().get(i).getField().equals("unitName")){//如果过滤条件中有项目所属单位过滤
 					hasUnitFilter = true;
-					if(odataObj.getFilter().get(i).getValue().equals(userUnitInfo.getId())){//如果查询的是本单位的话
+					if(odataObj.getFilter().get(i).getValue().equals(userUnitInfo.getDeptId())){//如果查询的是本单位的话
 						isUnitFilter =true;
 						break;
 					}
@@ -75,7 +75,7 @@ public class ShenBaoAdminProjectController {
 			ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 			filterItem.setField("unitName");
 			filterItem.setOperator("eq");
-			filterItem.setValue(userUnitInfo.getId());
+			filterItem.setValue(userUnitInfo.getDeptId());
 			odataObj.getFilter().add(filterItem);
 		}
 		PageModelDto<ProjectDto> ProjectDtos = ProjectService.getUnitAndAll(odataObj,isFilters,hasUnitFilter,isUnitFilter);
