@@ -101,6 +101,13 @@
 			vm.basicData.postingCategory=common.getBacicDataByIndectity(common.basicDataConfig().postingCategory);//获取发文种类信息
 			vm.basicData.taskTypeForShenPi=[common.basicDataConfig().taskType_JYS,common.basicDataConfig().taskType_KXXYJBG,
 											common.basicDataConfig().taskType_CBSJYGS,common.basicDataConfig().taskType_ZJSQBG];
+			//国民经济行业分类
+	   		vm.basicData.nationalIndustry=common.getBacicDataByIndectity(common.basicDataConfig().projectGoverEconClassify);
+	   		vm.nationalIndustryChange=function(){    		
+	       		vm.basicData.nationalIndustryChildren=$linq(common.getBasicData())
+	       		.where(function(x){return x.identity==common.basicDataConfig().projectGoverEconClassify&&x.pId==vm.model.shenBaoInfo.nationalIndustryParent;})
+	       		.toArray();
+	   		}
     	}
     	   	
     	activate();

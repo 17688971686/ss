@@ -53,6 +53,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setEndDate(entity.getEndDate());
 			shenBaoInfoDto.setUnitName(entity.getUnitName());
 			shenBaoInfoDto.setRemark(entity.getRemark());
+			shenBaoInfoDto.setNationalIndustry(entity.getNationalIndustry());
 			//申报信息相关时间
 			shenBaoInfoDto.setShenbaoDate(entity.getShenbaoDate());
 			shenBaoInfoDto.setQianshouDate(entity.getQianshouDate());
@@ -219,6 +220,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setEndDate(shenBaoInfoDto.getEndDate());		
 			shenBaoInfo.setUnitName(shenBaoInfoDto.getUnitName());
 			shenBaoInfo.setRemark(shenBaoInfoDto.getRemark());
+			shenBaoInfo.setNationalIndustry(shenBaoInfoDto.getNationalIndustry());
 			//申报信息相关时间
 			shenBaoInfo.setShenbaoDate(shenBaoInfoDto.getShenbaoDate());
 			shenBaoInfo.setQianshouDate(shenBaoInfoDto.getQianshouDate());

@@ -17,7 +17,7 @@ public class SQLConfig {
 		 	+ " t1.moveSuggestion,t1.planYear,t1.processStage,t1.processState,t1.projectConstrBasis,t1.projectConstrChar,t1.projectId,t1.projectShenBaoStage,t1.qianQiFeiApply,t1.recomProgram,t1.socialAndEconomic,t1.yearConstructionContent,"
 		 	+ " t1.yearConstructionContentLastTwoYear,t1.yearConstructionContentLastYear,t1.yearConstructionContentShenBao,t1.yearConstructionTask,t1.yearImageSchedule,t1.yearInvestApproval,t1.yearInvestApproval_lastTwoYear,t1.yearInvestApproval_lastYear,"
 		 	+ " t1.bianZhiUnitInfo_id,t1.shenBaoUnitInfo_id,t1.packageType,t1.receiver,t1.capitalOtherDescriptionShenBao_LastYear,t1.capitalOtherDescriptionShenBao_LastTwoYear,t1.isApplyOutsideCapital,t1.applyOutsideCapital,t1.isIncludYearPlan,"
-		 	+ " t1.sqPlanReach_ggys,t1.sqPlanReach_gtzj,t1.isPlanReach,t1.apPlanReach_ggys,t1.apPlanReach_gtzj,t1.shenbaoDate,t1.qianshouDate,t1.pifuDate,"
+		 	+ " t1.sqPlanReach_ggys,t1.sqPlanReach_gtzj,t1.isPlanReach,t1.apPlanReach_ggys,t1.apPlanReach_gtzj,t1.shenbaoDate,t1.qianshouDate,t1.pifuDate,t1.nationalIndustry,"
 	 		+ " t2.capitalSum YearInvestApproval,t2.id yearPlanCapitalId"
  			+ " FROM cs_shenbaoinfo t1 "
 			+ " inner join cs_yearplancapital t2 "

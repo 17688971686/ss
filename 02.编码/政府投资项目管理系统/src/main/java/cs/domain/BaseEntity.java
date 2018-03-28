@@ -29,7 +29,7 @@ public abstract class BaseEntity {
 	private String modifiedBy="";
 	
 	@Column(columnDefinition="int(11)  COMMENT '排序'")
-	private Integer itemOrder;
+	private Integer itemOrder = 0;
 	
 	public Date getModifiedDate() {
 		return modifiedDate;

@@ -147,7 +147,6 @@
 			
 			var httpSuccess = function success(response) {
 				vm.model = response.data.value[0]||{};
-				
 				//查询项目的所属单位的单位名称
 			   	getProjectUnit(vm);
 

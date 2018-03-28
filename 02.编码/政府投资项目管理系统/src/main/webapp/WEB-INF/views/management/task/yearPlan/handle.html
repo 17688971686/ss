@@ -60,6 +60,15 @@
 				</td>
 			</tr>
 			<tr>
+				<td class="formAlignRight">国民经济行业分类：</td>
+				<td colspan="3" style="width:450px;">
+					<span ng-hide="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustryParent)"  style="margin-right:24px;"></span>
+					<span ng-hide="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustry)"></span>
+					<span ng-show="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.project.nationalIndustryParent)"  style="margin-right:24px;"></span>
+					<span ng-show="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.project.nationalIndustry)"></span>
+				</td>
+			</tr>
+			<tr>
 				<td class="formAlignRight">项目建设地址：</td>
 				<td colspan="3">
 					光明新区

@@ -39,8 +39,8 @@
 	                	"category":vm.model.category,
 	                	"projectName":vm.model.projectName,
 	                	"projectInvestSumBegin":vm.model.projectInvestSumBegin,
-	                	"projectInvestSumEnd":vm.model.projectInvestSumEnd,
-	                	"projectName":vm.model.projectName}
+	                	"projectInvestSumEnd":vm.model.projectInvestSumEnd
+	                	}
 	            };
             var httpSuccess = function success(response) {
                 common.requestSuccess({
