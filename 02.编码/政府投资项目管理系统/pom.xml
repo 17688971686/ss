@@ -8,6 +8,10 @@
 	<name>光明新区政府投资项目管理系统</name>
 	<url>http://maven.apache.org</url>
 
+	<properties>
+		<activiti.version>5.15.1</activiti.version>
+	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -133,6 +137,34 @@
 			<artifactId>bcprov-jdk14</artifactId>
 			<version>139</version>
 		</dependency>
+		
+		<!-- activiti start -->
+		<dependency>  
+        	<groupId>org.activiti</groupId>  
+        	<artifactId>activiti-engine</artifactId>  
+        	<version>${activiti.version}</version>  
+    	</dependency>  
+	    <dependency>  
+	        <groupId>org.activiti</groupId>  
+	        <artifactId>activiti-spring</artifactId>  
+	        <version>${activiti.version}</version>  
+	    </dependency>  
+	    <dependency>  
+            <groupId>org.activiti</groupId>  
+            <artifactId>activiti-bpmn-model</artifactId>  
+            <version>${activiti.version}</version>  
+        </dependency>  
+        <dependency>  
+            <groupId>org.activiti</groupId>  
+            <artifactId>activiti-bpmn-converter</artifactId>  
+            <version>${activiti.version}</version>  
+        </dependency>  
+        <dependency>  
+            <groupId>org.activiti</groupId>  
+            <artifactId>activiti-process-validation</artifactId>  
+            <version>${activiti.version}</version>  
+        </dependency> 
+		<!-- activiti end -->
 
 		<!-- 单点登录使用 -->
 		<!-- https://mvnrepository.com/artifact/org.jasig.cas.client/cas-client-core -->
@@ -176,8 +208,6 @@
 			<artifactId>com.springsource.org.apache.commons.httpclient</artifactId>
 			<version>3.1.0</version>
 		</dependency>
-
-		
 
 	</dependencies>
 	<build>
