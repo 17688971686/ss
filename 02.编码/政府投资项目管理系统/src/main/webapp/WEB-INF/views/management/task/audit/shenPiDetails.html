@@ -50,6 +50,13 @@
 				</td>
 			</tr>
 			<tr>
+				<td class="formAlignRight">国民经济行业分类：</td>
+				<td colspan="3">
+					<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustryParent)"  style="margin-right:24px;"></span>
+					<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustry)"></span>
+				</td>
+			</tr>
+			<tr>
 				<td class="formAlignRight">项目建设地址：</td>
 				<td colspan="3">
 					光明新区

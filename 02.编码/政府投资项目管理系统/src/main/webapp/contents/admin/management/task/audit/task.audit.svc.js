@@ -455,6 +455,7 @@
 						vm.isSHInvestment = false;
 						vm.isZFInvestment = false;
 						vm.model.shenBaoInfo = response.data.value[0] || {};
+						
 						//数据的展示处理
 						//项目类型
 						vm.projectTypes = common.stringToArray(vm.model.shenBaoInfo.projectType,",");
@@ -502,6 +503,14 @@
   			 						vm.model.shenBaoInfo.capitalQCZ_ggys||0,vm.model.shenBaoInfo.capitalQCZ_gtzj||0,
   			 						vm.model.shenBaoInfo.capitalSHTZ||0,vm.model.shenBaoInfo.capitalZYYS||0,vm.model.shenBaoInfo.capitalOther||0]);
 				  		 };
+				  		// 国民经济行业分类
+						var child2 = $linq(common.getBasicData()).where(function(x) {
+							return x.id == vm.model.shenBaoInfo.nationalIndustry
+						}).toArray()[0];
+						if (child2) {
+							vm.model.shenBaoInfo.nationalIndustryParent = child2.pId;
+							vm.nationalIndustryChange();
+						}
 					}
 				});
 			};
