@@ -931,9 +931,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			Sql +=" sbi.projectIndustry IN (";
 			for(int i=0;i<industrySelected.length;i++){
 				if(i == industrySelected.length-1){
-					Sql += "'"+industrySelected[i]+"'";
+					Sql += "'"+industrySelected[i].trim()+"'";
 				}else{
-					Sql += "'"+industrySelected[i]+"',";
+					Sql += "'"+industrySelected[i].trim()+"',";
 				}
 			}
 			Sql +=" ) AND";
@@ -942,9 +942,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			Sql += " sbi.unitName IN (";
 			for(int i=0;i<unitSelected.length;i++){
 				if(i == unitSelected.length-1){
-					Sql += "'"+unitSelected[i]+"'";
+					Sql += "'"+unitSelected[i].trim()+"'";
 				}else{
-					Sql += "'"+unitSelected[i]+"',";
+					Sql += "'"+unitSelected[i].trim()+"',";
 				}
 			}
 			Sql +=" ) AND";
@@ -953,9 +953,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			Sql += " sbi.projectShenBaoStage IN (";
 			for(int i=0;i<stageSelected.length;i++){
 				if(i == stageSelected.length-1){
-					Sql += "'"+stageSelected[i]+"'";
+					Sql += "'"+stageSelected[i].trim()+"'";
 				}else{
-					Sql += "'"+stageSelected[i]+"',";
+					Sql += "'"+stageSelected[i].trim()+"',";
 				}
 			}
 			Sql +=" ) AND";
@@ -1084,9 +1084,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			Sql +=" sbi.projectIndustry IN (";
 			for(int i=0;i<industrySelected.length;i++){
 				if(i == industrySelected.length-1){
-					Sql += "'"+industrySelected[i]+"'";
+					Sql += "'"+industrySelected[i].trim()+"'";
 				}else{
-					Sql += "'"+industrySelected[i]+"',";
+					Sql += "'"+industrySelected[i].trim()+"',";
 				}
 			}
 			Sql +=" ) AND";
@@ -1095,9 +1095,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			Sql += " sbi.projectStage IN (";
 			for(int i=0;i<stageSelected.length;i++){
 				if(i == stageSelected.length-1){
-					Sql += "'"+stageSelected[i]+"'";
+					Sql += "'"+stageSelected[i].trim()+"'";
 				}else{
-					Sql += "'"+stageSelected[i]+"',";
+					Sql += "'"+stageSelected[i].trim()+"',";
 				}
 			}
 			Sql +=" ) AND";
@@ -1106,9 +1106,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			Sql += " sbi.unitName IN (";
 			for(int i=0;i<unitSelected.length;i++){
 				if(i == unitSelected.length-1){
-					Sql += "'"+unitSelected[i]+"'";
+					Sql += "'"+unitSelected[i].trim()+"'";
 				}else{
-					Sql += "'"+unitSelected[i]+"',";
+					Sql += "'"+unitSelected[i].trim()+"',";
 				}
 			}
 			Sql +=" ) AND";

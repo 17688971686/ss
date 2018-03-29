@@ -360,17 +360,17 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(common.format(url_project+"/unitProject")),
+				transport : common.kendoGridConfig().transport(url_project),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
-					fields : {
-						createdDate : {
-							type : "date"
-						},
-						isIncludLibrary:{
-							type:"boolean"
-						}
-					}
+//					fields : {
+//						createdDate : {
+//							type : "date"
+//						},
+//						isIncludLibrary:{
+//							type:"boolean"
+//						}
+//					}
 				}),
 				serverPaging : true,
 				serverSorting : true,
