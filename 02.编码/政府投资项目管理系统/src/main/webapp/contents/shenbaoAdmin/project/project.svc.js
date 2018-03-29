@@ -205,7 +205,7 @@
 		function getProjectUnit(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_userUnit + "/deptId?$filter=id eq '{0}'", vm.model.unitName)
+					url : common.format(url_userUnit + "/id?$filter=id eq '{0}'", vm.model.unitName)
 				};
 				var httpSuccess = function success(response) {
 					vm.userUnit = response.data.value[0] || {};
@@ -227,8 +227,8 @@
 					url : url_userUnit
 				};
 				var httpSuccess = function success(response) {
-					vm.userUnit = response.data.value[0] || {};
-					vm.model.unitName = vm.userUnit.deptId;//设置项目的所属单位名称
+					vm.userUnit = response.data || {};
+					vm.model.unitName = vm.userUnit.id;//设置项目的所属单位名称
 				};
 				common.http({
 					vm : vm,

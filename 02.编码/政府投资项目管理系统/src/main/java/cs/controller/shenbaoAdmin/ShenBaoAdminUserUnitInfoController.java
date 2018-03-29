@@ -38,8 +38,8 @@ public class ShenBaoAdminUserUnitInfoController {
 	private UserService userService;
 	
 	
-	@RequiresPermissions("shenbaoAdmin/userUnitInfo#userName#get")
-	@RequestMapping(name = "获取用户的单位数据", path = "userName", method = RequestMethod.GET)
+	@RequiresPermissions("shenbaoAdmin/userUnitInfo#id#get")
+	@RequestMapping(name = "获取用户的单位数据", path = "id", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserUnitInfoDto> getProjectUnit(HttpServletRequest request) throws ParseException{
 		ODataObj odataObj = new ODataObj(request);
 		return userUnitInfoService.get(odataObj);

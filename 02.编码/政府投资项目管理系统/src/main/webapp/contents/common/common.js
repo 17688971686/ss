@@ -690,7 +690,7 @@
     	var unitName = '';
     	for(var i=0;i<window.global_userUnits.length;i++){
     		var obj = window.global_userUnits[i];
-    		if(unitId == obj.deptId){
+    		if(unitId == obj.id){
     			unitName =  obj.unitName;
     			break;
     		}
