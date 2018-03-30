@@ -24,7 +24,8 @@
 			deleteShenBaoInfo:deleteShenBaoInfo,//删除申报信息
 			documentRecordsGird:documentRecordsGird,//批复文件列表
 			getShenBaoInfoByProjectId:getShenBaoInfoByProjectId,//根据项目id查询申报信息
-			getShenBaoPortState:getShenBaoPortState//查询申报端口的状态哦
+			getShenBaoPortState:getShenBaoPortState,//查询申报端口的状态哦
+			getUserUnit:getUserUnit
 		};		
 		return service;
 		
@@ -63,6 +64,28 @@
 			vm.model.equipmentInvestment=common.toMoney(vm.model.equipmentInvestment);//总投资--设备投资（社投）
 			vm.model.buidSafeInvestment=common.toMoney(vm.model.buidSafeInvestment);//总投资--建安投资（社投）
 		}//end fun fundsFormat
+		
+		/**
+		 * 获取当前登录用户用户的单位信息
+		 */
+		function getUserUnit(vm){
+			var httpOptions = {
+					method : 'get',
+					url : url_userUnit
+				};
+				var httpSuccess = function success(response) {
+					vm.userUnit = response.data || {};
+					vm.model.unitName = vm.userUnit.id;//设置项目的所属单位名称
+					grid(vm)
+				};
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+		}
+		
 		
 		/**
 		 * 删除申报信息
@@ -1114,7 +1137,7 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_project),
+				transport : common.kendoGridConfig().transport(common.format(url_project+"/unitProject")),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
 //					fields : {
@@ -1138,7 +1161,11 @@
 					field:'isLatestVersion',
 					operator:'eq',
 					value:true
-				}]
+				},{
+					field:'unitName',
+					operator:'eq',
+					value:vm.model.unitName != null?vm.model.unitName:"noId"
+				}],
 			});
 			// End:dataSource
 

@@ -229,6 +229,7 @@
 				var httpSuccess = function success(response) {
 					vm.userUnit = response.data || {};
 					vm.model.unitName = vm.userUnit.id;//设置项目的所属单位名称
+					grid(vm)
 				};
 				common.http({
 					vm : vm,
@@ -360,7 +361,7 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_project),
+				transport : common.kendoGridConfig().transport(common.format(url_project+"/unitProject")),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
 //					fields : {
@@ -380,11 +381,15 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:{
+				filter:[{
 					field:'isLatestVersion',
 					operator:'eq',
 					value:true
-				},
+				},{
+					field:'unitName',
+					operator:'eq',
+					value:vm.model.unitName != null?vm.model.unitName:"noId"
+				}],
 				requestStart: function () {
 					kendo.ui.progress($("#loading"), true);
 				},

@@ -23,6 +23,8 @@ import cs.domain.Project;
 import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ProjectDto;
+import cs.model.DomainDto.UserUnitInfoDto;
+import cs.model.framework.UserDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ProjectService;
@@ -52,7 +54,20 @@ public class ShenBaoAdminProjectController {
 	@RequestMapping(name = "获取单位项目信息(包含所有已纳入项目库的项目)", path = "unitProject",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> getUnitProject(HttpServletRequest request) throws ParseException {
 		//根据登陆名查找到单位信息
-		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
+		UserUnitInfoDto userUnitInfoDto1 = null;
+		List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
+		for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
+			if(!userUnitInfoDto.getUserDtos().isEmpty()){
+				for (UserDto user : userUnitInfoDto.getUserDtos()) {
+					if(user.getId().equals(currentUser.getUserId())){
+						userUnitInfoDto1 =userUnitInfoDto;
+					}
+				} 
+			}
+			
+				
+		}
+//		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
 		ODataObj odataObj = new ODataObj(request);
 		//初始化设置过滤条件
 		Boolean isFilters = false;//是否有额外的筛选条件
@@ -64,10 +79,13 @@ public class ShenBaoAdminProjectController {
 			for(int i=0;i<odataObj.getFilter().size();i++){
 				if(odataObj.getFilter().get(i).getField().equals("unitName")){//如果过滤条件中有项目所属单位过滤
 					hasUnitFilter = true;
-					if(odataObj.getFilter().get(i).getValue().equals(userUnitInfo.getId())){//如果查询的是本单位的话
-						isUnitFilter =true;
-						break;
+					if(userUnitInfoDto1 != null){
+						if(odataObj.getFilter().get(i).getValue().equals(userUnitInfoDto1.getId())){//如果查询的是本单位的话
+							isUnitFilter =true;
+							break;
+						}
 					}
+					
 				}
 			}
 		}
@@ -75,7 +93,7 @@ public class ShenBaoAdminProjectController {
 			ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 			filterItem.setField("unitName");
 			filterItem.setOperator("eq");
-			filterItem.setValue(userUnitInfo.getId());
+			filterItem.setValue(userUnitInfoDto1.getId());
 			odataObj.getFilter().add(filterItem);
 		}
 		PageModelDto<ProjectDto> ProjectDtos = ProjectService.getUnitAndAll(odataObj,isFilters,hasUnitFilter,isUnitFilter);

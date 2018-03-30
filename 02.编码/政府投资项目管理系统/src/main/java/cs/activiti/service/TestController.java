@@ -1,11 +1,15 @@
 package cs.activiti.service;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.activiti.engine.identity.Group;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +17,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import cs.model.PageModelDto;
+import cs.model.framework.RoleDto;
+import cs.model.framework.UserDto;
+import cs.repository.odata.ODataObj;
+import cs.service.framework.RoleService;
 
 /**
  * 流程测试类
@@ -24,7 +34,8 @@ public class TestController {
 	
 	@Autowired 
 	protected ActivitiService activitiService;
-	
+	@Autowired
+	private RoleService roleService;
 	/**
 	 * 启动流程
 	 * @param processDefinitionKey 流程定义ID（如：projectDeclaration）
@@ -36,6 +47,24 @@ public class TestController {
 	    variables.put("nextAssignee", "qinshangzhi");
 	    variables.put("roId", "00000000001");
 		activitiService.startProcess(processDefinitionKey, variables);
+	}
+	@RequestMapping(value = "/process-instance/{initGroup}/init", method = RequestMethod.GET)
+	@ResponseBody
+	public void initGroup(@PathVariable("initGroup") String str,HttpServletRequest request) throws ParseException {
+		ODataObj odataObj=new ODataObj(request);
+		List<RoleDto> roleDtos=roleService.Get();
+		for (RoleDto role : roleDtos) {
+			//创建候选组
+			Group group = activitiService.createNewGroup(role.getId());
+			group.setName(role.getRoleName());
+			 activitiService.createGroup(group);
+			
+			 for (UserDto userDto : role.getUserDtos()) {
+				 activitiService.createUserGroupMembership(userDto.getId(), group.getId());
+			}
+			
+		}
+				
 	}
 	
 	/**

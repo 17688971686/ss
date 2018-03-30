@@ -75,6 +75,45 @@ public class RoleServiceImpl implements RoleService {
 		logger.info("查询角色数据");
 		return pageModelDto;
 	}
+	
+	@Override
+	@Transactional
+	public List<RoleDto> Get() {
+
+		List<Role> listRole = roleRepository.findAll();
+		List<RoleDto> roleDtoList = new ArrayList<RoleDto>();
+		for (Role item : listRole) {
+			RoleDto roleDto = new RoleDto();
+			roleDto.setId(item.getId());
+			roleDto.setRoleName(item.getRoleName());
+			roleDto.setCreatedDate(item.getCreatedDate());
+			roleDto.setComment(item.getComment());
+
+			List<ResourceDto> resourceDtoList = new ArrayList<>();
+			for (Resource resource : item.getResources()) {
+				ResourceDto resourceDto = new ResourceDto();
+				resourceDto.setMethod(resource.getMethod());
+				resourceDto.setName(resource.getName());
+				resourceDto.setPath(resource.getPath());
+				resourceDtoList.add(resourceDto);
+			}
+			
+			List<UserDto> userDtoList = new ArrayList<>();
+			for(User user:item.getUsers()){
+				UserDto userDto = new UserDto();
+				userDto.setId(user.getId());
+				userDto.setDisplayName(user.getDisplayName());
+				userDto.setLoginName(user.getLoginName());
+				userDtoList.add(userDto);
+			}
+			roleDto.setResources(resourceDtoList);
+			roleDto.setUserDtos(userDtoList);
+			roleDtoList.add(roleDto);
+		}
+
+		logger.info("查询角色数据");
+		return roleDtoList;
+	}
 
 	@Override
 	@Transactional

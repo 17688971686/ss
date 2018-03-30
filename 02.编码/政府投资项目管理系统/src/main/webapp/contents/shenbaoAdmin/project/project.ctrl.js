@@ -46,7 +46,7 @@
     		vm.html=function(val){
     			return $sce.trustAsHtml(val);
     		};
-    		
+    	 	
     		//资金来源计算（政投）
 			vm.capitalTotal=function(){
 				return common.getSum([
@@ -110,8 +110,9 @@
         }
         
        function page_list(){
+    	   projectSvc.getUserUnit(vm);
     	   //加载单位项目信息列表
-    	   projectSvc.grid(vm);
+//    	   projectSvc.grid(vm);
     	   //点击新增项目弹出模态框
     	   vm.addProject = function(){
     		  $("#myModal").modal({
