@@ -218,8 +218,8 @@
 		function del(vm,id) {
             vm.isSubmit = true;
             var httpOptions = {
-                method: 'delete',
-                url:url_portal,
+                method: 'post',
+                url:url_portal+'/deletePortal',
                 data:id                
             };
             

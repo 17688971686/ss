@@ -70,8 +70,8 @@
 		function deleteShenBaoInfo(vm,id){
 			vm.isSubmit=true;
 			var httpOptions = {
-					method : 'delete',
-					url :url_shenbao,
+					method : 'post',
+					url :url_shenbao+'/deleteShenbao',
 					data:id   
 				};
 			

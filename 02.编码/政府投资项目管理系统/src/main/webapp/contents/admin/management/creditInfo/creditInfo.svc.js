@@ -34,7 +34,7 @@
 		//根据id 删除项目异常信息
 		function deleteProjectAnomalyById(vm){
 			var httpOptions = {
-					method : 'delete',
+					method : 'post',
 					url : common.format(url_creditInfo+"/projectAnomaly/delete"),
 					data : vm.id
 			};
@@ -267,7 +267,7 @@
 		//根据黑名单id 删除黑名单信息
 		function deleteBlackListById(vm){
 			var httpOptions = {
-					method : 'delete',
+					method : 'post',
 					url : common.format(url_creditInfo+"/blackList/delete"),
 					data : vm.id
 			};
@@ -559,8 +559,8 @@
 		
 		function deleteIllegalNameById(vm){
 			var httpOptions = {
-					method : 'delete',
-					url : common.format(url_creditInfo),
+					method : 'post',
+					url : common.format(url_creditInfo+'/deleteIllegalName'),
 					data : vm.id
 			};
 			var httpSuccess = function (response){

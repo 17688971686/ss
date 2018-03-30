@@ -114,8 +114,8 @@
             vm.isSubmit = true;
             
             var httpOptions = {
-                method: 'delete',
-                url:url_opin,
+                method: 'post',
+                url:url_opin+'/deleteOpin',
                 data:id              
             };
             

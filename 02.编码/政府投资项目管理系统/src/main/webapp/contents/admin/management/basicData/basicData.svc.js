@@ -45,8 +45,8 @@
 		 */
 		function deleteBasicData(vm,id){
 			var httpOptions = {
-					method : 'delete',
-					url : url_basicData,
+					method : 'post',
+					url : url_basicData+'/deleteBasicData',
 					data : id
 				};
 			

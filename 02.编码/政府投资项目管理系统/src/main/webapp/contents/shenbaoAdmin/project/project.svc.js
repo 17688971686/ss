@@ -47,8 +47,8 @@
 		function deleteProject(vm,id){
 			vm.isSubmit = true;
 			var httpOptions = {
-					method : 'delete',
-					url : url_project+"/unitProject",
+					method : 'post',
+					url : url_project+"/deleteUnitProject",
 					data : id
 				};
 			
@@ -147,6 +147,7 @@
 			
 			var httpSuccess = function success(response) {
 				vm.model = response.data.value[0]||{};
+				
 				//查询项目的所属单位的单位名称
 			   	getProjectUnit(vm);
 

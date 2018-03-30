@@ -90,8 +90,8 @@
 		 */
 		function deleteApplication(vm,id){
 			var httpOptions = {
-					method : 'delete',
-					url : url,
+					method : 'post',
+					url : url+'/deletePlanReach',
 					data : id
 				};
 			var httpSuccess = function success(response) {
@@ -409,8 +409,8 @@
 		function deletePlanReach(vm,id){
 			vm.isSubmit=true;
 			var httpOptions = {
-					method : 'delete',
-					url :url_shenbao,
+					method : 'post',
+					url :url_shenbao+'/deleteShenbao',
 					data:id
 				};
 			

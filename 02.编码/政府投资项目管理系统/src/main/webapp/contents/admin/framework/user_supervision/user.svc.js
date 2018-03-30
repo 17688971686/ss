@@ -127,8 +127,8 @@
 			vm.isSubmit = true;
 			
 			var httpOptions = {
-				method : 'delete',
-				url : url_user,
+				method : 'post',
+				url : url_user+'/deleteUser',
 				data : id
 			};
 			

@@ -222,8 +222,8 @@
             vm.isSubmit = true;
             
             var httpOptions = {
-                method: 'delete',
-                url:url_org,
+                method: 'post',
+                url:url_org+'/deleteOrg',
                 data:id              
             };
             

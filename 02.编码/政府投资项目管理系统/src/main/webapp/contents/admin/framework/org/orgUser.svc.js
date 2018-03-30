@@ -9,7 +9,7 @@
 		var url_back = '#/org';
 		var user_userNotIn='/org/{0}/userNotIn';
 		var url_orgUsers="/org/{0}/users";
-		
+		var url_deleteOrgUsers="/org/{0}/deleteUsers";
 			
 		var service = {	
 			orgUserGrid:orgUserGrid,
@@ -22,8 +22,8 @@
 		//begin#remove
 		function remove(vm,userId){		
             var httpOptions = {
-                method: 'delete',
-                url:common.format(url_orgUsers,vm.id),
+                method: 'post',
+                url:common.format(url_deleteOrgUsers,vm.id),
                 data:userId               
             };
             

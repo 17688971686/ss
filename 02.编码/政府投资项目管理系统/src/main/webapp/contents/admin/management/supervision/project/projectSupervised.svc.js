@@ -79,7 +79,7 @@
 		function delShenPiItem(vm,id) {
             vm.isSubmit = true;
             var httpOptions = {
-                method: 'delete',
+                method: 'post',
                 url:url_project+"/delShenPiItem",
                 data:id 
             };
@@ -227,7 +227,7 @@
 		function delShenPiUnit(vm,id) {
             vm.isSubmit = true;
             var httpOptions = {
-                method: 'delete',
+                method: 'post',
                 url:url_project+"/delShenPiUnit",
                 data:id 
             };

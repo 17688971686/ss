@@ -195,7 +195,7 @@
 		function handle(vm){
 			var httpOptions = {
 				method : 'post',
-				url : common.format(url_task+"/"+vm.taskId),
+				url : url_task+"/"+vm.taskId,
 				data : vm.model.taskRecord
 			};
 

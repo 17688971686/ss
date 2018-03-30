@@ -173,9 +173,13 @@ public class Util {
   public static String getFourNumber(Integer count){
 	  String rend = String.valueOf(count);
 	  int randLength = rend.length();
-        if(randLength<4){
-          for(int i=1; i<=4-randLength; i++)
-        	  rend = "0" + rend  ;
+//	  if(randLength<4){
+//	      for(int i=1; i<=4-randLength; i++)
+//	    	  rend = "0" + rend  ;
+//      }   
+      if(randLength<6){
+	      for(int i=1; i<6-randLength; i++)
+	    	  rend = "0" + rend  ;
       }     
         return rend;
     }
@@ -183,9 +187,13 @@ public class Util {
   public static String getFiveRandom(Integer count){
 	  String rend = String.valueOf(count);
 	  int randLength = rend.length();
-        if(randLength<5){
-          for(int i=1; i<=5-randLength; i++)
-        	  rend = "0" + rend  ;
+//	  if(randLength<5){
+//	     for(int i=1; i<=5-randLength; i++)
+//	    	 rend = "0" + rend  ;
+//	  }     
+      if(randLength<6){
+         for(int i=1; i<=6-randLength; i++)
+        	 rend = "0" + rend  ;
       }     
         return rend;
   } 
@@ -201,25 +209,44 @@ public class Util {
 		String number = "";
 		//投资类型
 		if(type.equals(BasicDataConfig.projectInvestmentType_ZF)){//政府投资
+//			number += "Z";
+//			//项目申报阶段(默认为项目建议书)						
+//			number += "1";			
+//			//年份
+//			SimpleDateFormat format = new SimpleDateFormat("yyyy"); // 时间字符串产生方式
+//			number += format.format(new Date());
+//			//根据行业id查询行业代码以及项目数量					
+//			number += basicData.getComment();
+//			//该行业申报数量的系列号
+//			number += getFourNumber(basicData.getCount()+1);	
+			
+			//年份
+			SimpleDateFormat format = new SimpleDateFormat("yyyy"); // 时间字符串产生方式
+			number += format.format(new Date());
+			//440300为广东省 深圳市 行政区划代码
+			number += "440300"; 
+			number += basicData.getComment();
 			number += "Z";
-			//项目申报阶段(默认为项目建议书)						
-			number += "1";			
-			//年份
-			SimpleDateFormat format = new SimpleDateFormat("yyyy"); // 时间字符串产生方式
-			number += format.format(new Date());
-			//根据行业id查询行业代码以及项目数量					
-			number += basicData.getComment();
-			//该行业申报数量的系列号
-			number += getFourNumber(basicData.getCount()+1);			
+			number += getFourNumber(basicData.getCount()+1);
+			
 		}else if(type.equals(BasicDataConfig.projectInvestmentType_SH)){//社会投资
-			number += "S";
+//			number += "S";
+//			//年份
+//			SimpleDateFormat format = new SimpleDateFormat("yyyy"); // 时间字符串产生方式
+//			number += format.format(new Date());
+//			//行业
+//			number += basicData.getComment();
+//			//该行业申报数量的系列号
+//			number += getFiveRandom(basicData.getCount()+1);
+			
 			//年份
 			SimpleDateFormat format = new SimpleDateFormat("yyyy"); // 时间字符串产生方式
 			number += format.format(new Date());
-			//行业
+			//440300为广东省 深圳市 行政区划代码
+			number += "440300"; 
 			number += basicData.getComment();
-			//该行业申报数量的系列号
-			number += getFiveRandom(basicData.getCount()+1);
+			number += "S";
+			number += getFourNumber(basicData.getCount()+1);
 		}				
 		return number;
 	}

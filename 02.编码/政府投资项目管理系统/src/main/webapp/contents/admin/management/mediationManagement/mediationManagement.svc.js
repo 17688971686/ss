@@ -26,8 +26,8 @@
 		function delMediationUnit(vm,id) {
             vm.isSubmit = true;
             var httpOptions = {
-                method: 'delete',
-                url:url_mediationManagement,
+                method: 'post',
+                url:url_mediationManagement+'/deleteMediation',
                 data:id
             };
             var httpSuccess = function success(response) {
@@ -52,7 +52,7 @@
 		function delAssistReview(vm,id) {
             vm.isSubmit = true;
             var httpOptions = {
-                method: 'delete',
+                method: 'post',
                 url:url_mediationManagement+"/delAssistReview",
                 data:id 
             };

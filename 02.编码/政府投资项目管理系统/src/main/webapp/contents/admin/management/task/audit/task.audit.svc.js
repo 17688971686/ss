@@ -274,9 +274,9 @@
             vm.isSubmit = true;
             
             var httpOptions = {
-                method: 'delete',
-                url:url_opin,
-                data:id              
+                method: 'post',
+                url:url_opin+'/deleteOpin',
+                data:id 
             };
             
             var httpSuccess = function success(response) {               
@@ -455,7 +455,6 @@
 						vm.isSHInvestment = false;
 						vm.isZFInvestment = false;
 						vm.model.shenBaoInfo = response.data.value[0] || {};
-						
 						//数据的展示处理
 						//项目类型
 						vm.projectTypes = common.stringToArray(vm.model.shenBaoInfo.projectType,",");
