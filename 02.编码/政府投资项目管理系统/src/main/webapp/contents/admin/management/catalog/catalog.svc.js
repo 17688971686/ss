@@ -46,7 +46,7 @@
 		//批量删除中介服务事项
 		function deleteAgencyServiceMattersCatalogs(vm,id){
 			var httpOptions = {
-					method : 'delete',
+					method : 'post',
 					url : common.format(url_catalog+"/deleteAgencyServiceMattersCatalogs"),
 					data : id
 			};
@@ -226,7 +226,7 @@
 		//批量删除部门审批事项
 		function deletePartApprovalMattersCatalogs(vm,id){
 			var httpOptions = {
-					method : 'delete',
+					method : 'post',
 					url : common.format(url_catalog+"/deletePartApprovalMattersCatalogs"),
 					data : id
 			};
@@ -435,7 +435,7 @@
 		//批量删除政策条目信息
 		function deletePolicyCatalogs(vm,id){
 			var httpOptions = {
-					method : 'delete',
+					method : 'post',
 					url : common.format(url_catalog+"/deletePolicyCatalogs"),
 					data : id
 			};
@@ -746,8 +746,8 @@
 		//批量删除主目录
 		function removeFirstCatalogs(vm,id){
 			var httpOptions = {
-					method : 'delete',
-					url : url_catalog,
+					method : 'post',
+					url : url_catalog+'/deleteInvestment',
 					data : id
 			};
 			var httpSuccess = function (response){
@@ -788,8 +788,8 @@
 		//批量删除次级目录
 		function removeSecondCatalogs(vm,id){
 			var httpOptions = {
-					method : 'delete',
-					url : url_catalog,
+					method : 'post',
+					url : url_catalog+'/deleteInvestment',
 					data : id
 			};
 			var httpSuccess = function (response){

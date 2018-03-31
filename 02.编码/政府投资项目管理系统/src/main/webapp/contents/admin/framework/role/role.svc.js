@@ -245,8 +245,8 @@
             vm.isSubmit = true;
             
             var httpOptions = {
-                method: 'delete',
-                url:url_role,
+                method: 'post',
+                url:url_role+'/deleteRole',
                 data:id               
             };
             

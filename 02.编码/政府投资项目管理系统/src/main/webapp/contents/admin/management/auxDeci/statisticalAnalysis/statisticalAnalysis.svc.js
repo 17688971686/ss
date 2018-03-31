@@ -31,7 +31,7 @@
 		 */
 		function getProjectCustomData(vm){
 			var httpOptions = {
-	                method: 'POST',
+	                method: 'post',
 	                url:url+"/getProjectCustomData",
 	                data:{"industry":vm.model.industry,
 	                	"unit":vm.model.unit,
@@ -64,7 +64,7 @@
 		 */
 		function getPlanCustomData(vm){
 			var httpOptions = {
-	                method: 'POST',
+	                method: 'post',
 	                url:url+"/getPlanCustomData",
 	                data:{"industry":vm.model.industry,
 	                	"unit":vm.model.unit,
@@ -76,8 +76,8 @@
 	                	"projectInvestSumBegin":vm.model.projectInvestSumBegin,
 	                	"projectInvestSumEnd":vm.model.projectInvestSumEnd,
 	                	"projectApPlanReachSumBegin":vm.model.projectApPlanReachSumBegin,
-	                	"projectApPlanReachSumEnd":vm.model.projectApPlanReachSumEnd,
-	                	"projectName":vm.model.projectName}
+	                	"projectApPlanReachSumEnd":vm.model.projectApPlanReachSumEnd
+	                	}
 	            };
             var httpSuccess = function success(response) {
                 common.requestSuccess({
@@ -103,7 +103,7 @@
 		 */
 		function getApprovalCustomData(vm){
 			var httpOptions = {
-	                method: 'POST',
+	                method: 'post',
 	                url:url+"/getApprovalCustomData",
 	                data:{"industry":vm.model.industry,
 	                	"unit":vm.model.unit,

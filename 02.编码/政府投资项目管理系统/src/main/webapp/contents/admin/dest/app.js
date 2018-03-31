@@ -2399,8 +2399,8 @@
             vm.isSubmit = true;
             
             var httpOptions = {
-                method: 'delete',
-                url:url_org,
+                method: 'post',
+                url:url_org+'/deleteOrg',
                 data:id              
             };
             
@@ -2434,6 +2434,7 @@
 		var url_back = '#/org';
 		var user_userNotIn='/org/{0}/userNotIn';
 		var url_orgUsers="/org/{0}/users";
+		var url_deleteOrgUsers="/org/{0}/deleteUsers";
 		
 			
 		var service = {	
@@ -2447,8 +2448,8 @@
 		//begin#remove
 		function remove(vm,userId){		
             var httpOptions = {
-                method: 'delete',
-                url:common.format(url_orgUsers,vm.id),
+                method: 'post',
+                url:common.format(url_deleteOrgUsers,vm.id),
                 data:userId               
             };
             
@@ -2926,8 +2927,8 @@
             vm.isSubmit = true;
             
             var httpOptions = {
-                method: 'delete',
-                url:url_org,
+                method: 'post',
+                url:url_org+'/deleteOrg',
                 data:id              
             };
             
@@ -3056,7 +3057,7 @@
 		var url_back = '#/org';
 		var user_userNotIn='/org/{0}/userNotIn';
 		var url_orgUsers="/org/{0}/users";
-		
+		var url_deleteOrgUsers="/org/{0}/deleteUsers";
 			
 		var service = {	
 			orgUserGrid:orgUserGrid,
@@ -3069,8 +3070,8 @@
 		//begin#remove
 		function remove(vm,userId){		
             var httpOptions = {
-                method: 'delete',
-                url:common.format(url_orgUsers,vm.id),
+                method: 'post',
+                url:common.format(url_deleteOrgUsers,vm.id),
                 data:userId               
             };
             
@@ -3611,8 +3612,8 @@
             vm.isSubmit = true;
             
             var httpOptions = {
-                method: 'delete',
-                url:url_role,
+                method: 'post',
+                url:url_role+'/deleteRole',
                 data:id               
             };
             
@@ -4007,8 +4008,8 @@
             vm.isSubmit = true;
             
             var httpOptions = {
-                method: 'delete',
-                url:url_role,
+                method: 'post',
+                url:url_role+'/deleteRole',
                 data:id               
             };
             
@@ -4251,8 +4252,8 @@
 			vm.isSubmit = true;
 			
 			var httpOptions = {
-				method : 'delete',
-				url : url_user,
+				method : 'post',
+				url : url_user+'/deleteUser',
 				data : id
 			};
 			
@@ -4706,8 +4707,8 @@
 			vm.isSubmit = true;
 			
 			var httpOptions = {
-				method : 'delete',
-				url : url_user,
+				method : 'post',
+				url : url_user+'/deleteUser',
 				data : id
 			};
 			
@@ -5171,8 +5172,8 @@
 		 */
 		function deleteBasicData(vm,id){
 			var httpOptions = {
-					method : 'delete',
-					url : url_basicData,
+					method : 'post',
+					url : url_basicData+'/deleteBasicData',
 					data : id
 				};
 			
@@ -5857,7 +5858,7 @@
 		//批量删除中介服务事项
 		function deleteAgencyServiceMattersCatalogs(vm,id){
 			var httpOptions = {
-					method : 'delete',
+					method : 'post',
 					url : common.format(url_catalog+"/deleteAgencyServiceMattersCatalogs"),
 					data : id
 			};
@@ -6067,7 +6068,7 @@
 		//批量删除部门审批事项
 		function deletePartApprovalMattersCatalogs(vm,id){
 			var httpOptions = {
-					method : 'delete',
+					method : 'post',
 					url : common.format(url_catalog+"/deletePartApprovalMattersCatalogs"),
 					data : id
 			};
@@ -6307,7 +6308,7 @@
 		//批量删除政策条目信息
 		function deletePolicyCatalogs(vm,id){
 			var httpOptions = {
-					method : 'delete',
+					method : 'post',
 					url : common.format(url_catalog+"/deletePolicyCatalogs"),
 					data : id
 			};
@@ -6656,8 +6657,8 @@
 		//批量删除主目录
 		function removeFirstCatalogs(vm,id){
 			var httpOptions = {
-					method : 'delete',
-					url : url_catalog,
+					method : 'post',
+					url : url_catalog+'/deleteInvestment',
 					data : id
 			};
 			var httpSuccess = function (response){
@@ -6732,8 +6733,8 @@
 		//批量删除次级目录
 		function removeSecondCatalogs(vm,id){
 			var httpOptions = {
-					method : 'delete',
-					url : url_catalog,
+					method : 'post',
+					url : url_catalog+'/deleteInvestment',
 					data : id
 			};
 			var httpSuccess = function (response){
@@ -7795,8 +7796,9 @@
 		//根据id 删除项目异常信息
 		function deleteProjectAnomalyById(vm){
 			var httpOptions = {
-					method : 'delete',
-					url : common.format(url_creditInfo+"/projectAnomaly/delete?id={0}", vm.id)
+					method : 'post',
+					url : common.format(url_creditInfo+"/projectAnomaly/delete"),
+					data : vm.id
 			};
 			var httpSuccess = function (response){
 				common.requestSuccess({
@@ -8026,8 +8028,9 @@
 		//根据黑名单id 删除黑名单信息
 		function deleteBlackListById(vm){
 			var httpOptions = {
-					method : 'delete',
-					url : common.format(url_creditInfo+"/blackList/delete?id={0}", vm.id)
+					method : 'post',
+					url : common.format(url_creditInfo+"/blackList/delete"),
+					data : vm.id
 			};
 			var httpSuccess = function (response){
 				common.requestSuccess({
@@ -9235,8 +9238,8 @@
 		function delMediationUnit(vm,id) {
             vm.isSubmit = true;
             var httpOptions = {
-                method: 'delete',
-                url:url_mediationManagement,
+                method: 'post',
+                url:url_mediationManagement+'/deleteMediation',
                 data:id
             };
             var httpSuccess = function success(response) {
@@ -9261,7 +9264,7 @@
 		function delAssistReview(vm,id) {
             vm.isSubmit = true;
             var httpOptions = {
-                method: 'delete',
+                method: 'post',
                 url:url_mediationManagement+"/delAssistReview",
                 data:id 
             };
@@ -10917,8 +10920,8 @@
 		function del(vm,id) {
             vm.isSubmit = true;
             var httpOptions = {
-                method: 'delete',
-                url:url_portal,
+                method: 'post',
+                url:url_portal+'/deletePortal',
                 data:id                
             };
             
@@ -12769,7 +12772,7 @@
 		function delShenPiItem(vm,id) {
             vm.isSubmit = true;
             var httpOptions = {
-                method: 'delete',
+                method: 'post',
                 url:url_project+"/delShenPiItem",
                 data:id 
             };
@@ -12795,7 +12798,7 @@
 		function delShenPiUnit(vm,id) {
             vm.isSubmit = true;
             var httpOptions = {
-                method: 'delete',
+                method: 'post',
                 url:url_project+"/delShenPiUnit",
                 data:id 
             };
@@ -16670,8 +16673,8 @@
             vm.isSubmit = true;
             
             var httpOptions = {
-                method: 'delete',
-                url:url_opin,
+                method: 'post',
+                url:url_opin+'/deleteOpin',
                 data:id              
             };
             
@@ -18226,8 +18229,8 @@
             vm.isSubmit = true;
             
             var httpOptions = {
-                method: 'delete',
-                url:url_opin,
+                method: 'post',
+                url:url_opin+'/deleteOpin',
                 data:id              
             };
             
@@ -21065,8 +21068,8 @@
 			vm.isSubmit = true;
 			
 			var httpOptions = {
-					method : 'delete',
-					url : url_planList,
+					method : 'post',
+					url : url_planList+'/deleteYearPlan',
 					data : id
 				};
 				

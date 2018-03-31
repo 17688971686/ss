@@ -59,7 +59,7 @@ public class ProjectSupervisedController {
 	public void post(@RequestBody ShenPiUnitDto dto) {
 		shenPiUnitService.create(dto);
 	}
-	@RequestMapping(name = "删除审批单位信息", path = "delShenPiUnit", method = RequestMethod.DELETE)
+	@RequestMapping(name = "删除审批单位信息", path = "delShenPiUnit", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void delete(@RequestBody String id) {
 		String[] ids = id.split(",");
@@ -91,7 +91,7 @@ public class ProjectSupervisedController {
 	public void createShenpiItems(@RequestBody ShenPiItemsDto dto) {
 		shenPiItemsService.create(dto);
 	}
-	@RequestMapping(name = "删除审批事项", path = "delShenPiItem", method = RequestMethod.DELETE)
+	@RequestMapping(name = "删除审批事项", path = "delShenPiItem", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void delShenPiItem(@RequestBody String id) {
 		String[] ids = id.split(",");

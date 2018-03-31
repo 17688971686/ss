@@ -506,7 +506,7 @@
     		projectConstrChar_xujian:"projectConstrChar_3",//续建
     		projectConstrChar_chubei:"projectConstrChar_4",//储备类
     		
-    		projectFunctionClassify:"projectFunctionClassify",//功能分类科目
+    		//projectFunctionClassify:"projectFunctionClassify",//功能分类科目
     		//projectGoverEconClassify:"projectGoverEconClassify",//政府经济分类科目
     		projectGoverEconClassify:"nationalIndustry",//国民经济行业分类（GB/4754-2011）
     		

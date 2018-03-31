@@ -62,15 +62,15 @@ public class PlanReachController {
 		planReachApprovalService.create(dto);
 	}
 	
-	//@RequiresPermissions("management/planReachManage/planReach##put")
+	//@RequiresPermissions("management/planReachManage/planReach##post")
 	@RequestMapping(name = "更新计划下达批复信息", path = "updatePlanReachManage",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void update(@RequestBody PlanReachApprovalDto dto) throws ParseException {
 		planReachApprovalService.update(dto,dto.getId());
 	}
 	
-	//@RequiresPermissions("management/planReachManage/planReach##delete")
-	@RequestMapping(name = "删除计划下达批复信息", path = "",method=RequestMethod.DELETE)
+	//@RequiresPermissions("management/planReachManage/planReach#deletePlanReach#post")
+	@RequestMapping(name = "删除计划下达批复信息", path = "deletePlanReach",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void delete(@RequestBody String id) throws ParseException {
 		String[] ids = id.split(",");

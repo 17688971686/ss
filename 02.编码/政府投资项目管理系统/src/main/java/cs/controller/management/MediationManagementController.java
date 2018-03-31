@@ -54,8 +54,8 @@ public class MediationManagementController {
 		mediationUnitService.create(dto);
 	}
 	
-	@RequiresPermissions("management/mediationManagement##delete")
-	@RequestMapping(name = "删除中介单位信息", path = "", method = RequestMethod.DELETE)
+	@RequiresPermissions("management/mediationManagement#deleteMediation#post")
+	@RequestMapping(name = "删除中介单位信息", path = "deleteMediation", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void delete(@RequestBody String id) {
 		String[] ids = id.split(",");
@@ -102,8 +102,8 @@ public class MediationManagementController {
 		assistReviewService.create(dto);
 	}
 	
-	@RequiresPermissions("management/mediationManagement#delAssistReview#delete")
-	@RequestMapping(name = "删除协审活动信息", path = "delAssistReview", method = RequestMethod.DELETE)
+	@RequiresPermissions("management/mediationManagement#delAssistReview#post")
+	@RequestMapping(name = "删除协审活动信息", path = "delAssistReview", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void delAssistReview(@RequestBody String id) {
 		String[] ids = id.split(",");

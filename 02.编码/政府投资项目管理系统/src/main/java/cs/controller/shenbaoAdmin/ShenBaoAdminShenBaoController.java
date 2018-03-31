@@ -95,8 +95,8 @@ public class ShenBaoAdminShenBaoController {
 		shenBaoInfoService.updateShenBaoInfo(shenBaoInfoDto,false);	
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/shenbao##delete")
-	@RequestMapping(name = "删除申报信息", path = "",method=RequestMethod.DELETE)
+	@RequiresPermissions("shenbaoAdmin/shenbao#deleteShenbao#post")
+	@RequestMapping(name = "删除申报信息", path = "deleteShenbao",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void delete(@RequestBody String id){
 		String[] ids = id.split(",");

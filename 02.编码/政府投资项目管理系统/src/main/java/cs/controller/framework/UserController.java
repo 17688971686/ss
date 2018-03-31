@@ -58,8 +58,8 @@ public class UserController {
 		userService.createUser(userDto);		
 	}
 	
-	@RequiresPermissions("user##delete")
-	@RequestMapping(name = "删除用户", path = "",method=RequestMethod.DELETE)	
+	@RequiresPermissions("user#deleteUser#post")
+	@RequestMapping(name = "删除用户", path = "deleteUser",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  delete(@RequestBody String id)  {		
 		String[] ids=id.split(",");

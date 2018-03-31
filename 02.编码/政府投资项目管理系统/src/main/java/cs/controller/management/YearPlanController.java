@@ -87,8 +87,8 @@ public class YearPlanController {
 		yearPlanService.update(dto,dto.getId());
 	}
 	
-	@RequiresPermissions("management/yearPlan##delete")
-	@RequestMapping(name="删除年度计划",path="",method=RequestMethod.DELETE)
+	@RequiresPermissions("management/yearPlan#deleteYearPlan#post")
+	@RequestMapping(name="删除年度计划",path="deleteYearPlan",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void delete(@RequestBody String id){
 		String[] ids=id.split(",");

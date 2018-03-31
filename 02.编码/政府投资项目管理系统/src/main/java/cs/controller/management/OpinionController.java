@@ -26,8 +26,8 @@ public class OpinionController {
 	@Autowired
 	private OpinionService opinionService;
 
-	@RequiresPermissions("opin##delete")
-	@RequestMapping(name = "删除意见", path = "",method=RequestMethod.DELETE)	
+	@RequiresPermissions("opin#deleteOpin#post")
+	@RequestMapping(name = "删除意见", path = "deleteOpin",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  deleteOpin(@RequestBody String id)  {		
 		String[] ids=id.split(",");

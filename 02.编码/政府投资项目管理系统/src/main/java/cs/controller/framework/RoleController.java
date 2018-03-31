@@ -50,8 +50,8 @@ public class RoleController {
 		roleService.updateRole(roleDto);		
 	}
 	
-	@RequiresPermissions("role##delete")
-	@RequestMapping(name = "删除角色", path = "",method=RequestMethod.DELETE)	
+	@RequiresPermissions("role#deleteRole#post")
+	@RequestMapping(name = "删除角色", path = "deleteRole",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  delete(@RequestBody String id)  {
 		String[] ids=id.split(",");

@@ -29,8 +29,8 @@ public class BasicDataController {
 		basicDataService.reloadData();
 	}
 	
-	@RequiresPermissions("management/basicData##delete")
-	@RequestMapping(name="删除基础数据",path="",method=RequestMethod.DELETE)
+	@RequiresPermissions("management/basicData#deleteBasicData#post")
+	@RequestMapping(name="删除基础数据",path="deleteBasicData",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void delete(@RequestBody String id){			
 		basicDataService.deleteBasicData(id);

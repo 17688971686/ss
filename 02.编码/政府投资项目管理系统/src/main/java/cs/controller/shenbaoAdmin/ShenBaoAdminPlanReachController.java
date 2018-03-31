@@ -100,8 +100,8 @@ public class ShenBaoAdminPlanReachController {
 		planReachApplicationService.update(dto,dto.getId());
 	}
 	
-	//@RequiresPermissions("shenbaoAdmin/planReach##delete")
-	@RequestMapping(name = "删除计划下达申请信息", path = "",method=RequestMethod.DELETE)
+	//@RequiresPermissions("shenbaoAdmin/planReach#deletePlanReach#post")
+	@RequestMapping(name = "删除计划下达申请信息", path = "deletePlanReach",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void delete(@RequestBody String id) throws ParseException {
 		String[] ids = id.split(",");

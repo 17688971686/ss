@@ -51,8 +51,8 @@ public class OrgController {
 		orgService.updateOrg(orgDto);
 	}
 
-	@RequiresPermissions("org##delete")	
-	@RequestMapping(name = "删除部门", path = "", method = RequestMethod.DELETE)
+	@RequiresPermissions("org#deleteOrg#post")	
+	@RequestMapping(name = "删除部门", path = "deleteOrg", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void delete(@RequestBody String id) {
 		String[] ids = id.split(",");
@@ -85,8 +85,8 @@ public class OrgController {
 		orgService.addUserToOrg(userId, orgId);
 	}
 	
-	@RequiresPermissions("org#orgId/users#delete")
-	@RequestMapping(name = "从部门移除用户", path = "{orgId}/users", method = RequestMethod.DELETE)
+	@RequiresPermissions("org#orgId/deleteUsers#post")
+	@RequestMapping(name = "从部门移除用户", path = "{orgId}/deleteUsers", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteUserFromOrg(@PathVariable String orgId,@RequestBody String userId) {
 		String[] ids = userId.split(",");

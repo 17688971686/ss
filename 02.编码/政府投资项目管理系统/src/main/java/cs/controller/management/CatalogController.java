@@ -68,8 +68,8 @@ public class CatalogController {
 		investmentService.update(dto,dto.getId());
 	}
 	
-	@RequiresPermissions("management/catalog##delete")
-	@RequestMapping(name = "批量删除项投资项目数据", path = "",method=RequestMethod.DELETE)	
+	@RequiresPermissions("management/catalog#deleteInvestment#post")
+	@RequestMapping(name = "批量删除项投资项目数据", path = "deleteInvestment",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  deleteInvestmentCatalogs(@RequestBody String id)  {		
 		String[] ids=id.split(",");
@@ -95,8 +95,8 @@ public class CatalogController {
 		policyCatalogService.create(dto);
 	}
 	
-	@RequiresPermissions("management/catalog#deletePolicyCatalogs#delete")
-	@RequestMapping(name = "批量删除政策条目", path = "deletePolicyCatalogs",method=RequestMethod.DELETE)	
+	@RequiresPermissions("management/catalog#deletePolicyCatalogs#post")
+	@RequestMapping(name = "批量删除政策条目", path = "deletePolicyCatalogs",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  deletePolicyCatalogs(@RequestBody String id)  {		
 		String[] ids=id.split(",");
@@ -136,8 +136,8 @@ public class CatalogController {
 		partApprovalMattersService.update(dto,dto.getId());
 	}
 	
-	@RequiresPermissions("management/catalog#deletePartApprovalMattersCatalogs#delete")
-	@RequestMapping(name = "批量删除部门审批事项", path = "deletePartApprovalMattersCatalogs",method=RequestMethod.DELETE)	
+	@RequiresPermissions("management/catalog#deletePartApprovalMattersCatalogs#post")
+	@RequestMapping(name = "批量删除部门审批事项", path = "deletePartApprovalMattersCatalogs",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  deletePartApprovalMattersCatalogs(@RequestBody String id)  {		
 		String[] ids=id.split(",");
@@ -170,8 +170,8 @@ public class CatalogController {
 		agencyServiceMattersService.update(dto,dto.getId());
 	}
 	
-	@RequiresPermissions("management/catalog#deleteAgencyServiceMattersCatalogs#delete")
-	@RequestMapping(name = "批量删除中介服务事项", path = "deleteAgencyServiceMattersCatalogs",method=RequestMethod.DELETE)	
+	@RequiresPermissions("management/catalog#deleteAgencyServiceMattersCatalogs#post")
+	@RequestMapping(name = "批量删除中介服务事项", path = "deleteAgencyServiceMattersCatalogs",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  deleteAgencyServiceMattersCatalogs(@RequestBody String id)  {		
 		String[] ids=id.split(",");

@@ -1495,8 +1495,8 @@
 			vm.isSubmit = true;
 			
 			var httpOptions = {
-					method : 'delete',
-					url : url_planList,
+					method : 'post',
+					url : url_planList+'/deleteYearPlan',
 					data : id
 				};
 				

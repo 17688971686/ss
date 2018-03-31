@@ -145,8 +145,8 @@ public class ShenBaoAdminProjectController {
 
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/project#unitProject#delete")
-	@RequestMapping(name = "删除单位项目信息", path = "unitProject",method=RequestMethod.DELETE)
+	@RequiresPermissions("shenbaoAdmin/project#deleteUnitProject#post")
+	@RequestMapping(name = "删除单位项目信息", path = "deleteUnitProject",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteUnitProject(@RequestBody String id){
 		String[] ids = id.split(",");

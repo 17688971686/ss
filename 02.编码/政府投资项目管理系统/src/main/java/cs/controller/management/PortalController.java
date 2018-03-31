@@ -53,8 +53,8 @@ public class PortalController {
 		articleService.update(dto,dto.getId());
 	}
 	
-	@RequiresPermissions("management/portal##delete")	
-	@RequestMapping(name = "删除文章", path = "", method = RequestMethod.DELETE)
+	@RequiresPermissions("management/portal#deletePortal#post")	
+	@RequestMapping(name = "删除文章", path = "deletePortal", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void delete(@RequestBody String id) {
 		String[] ids = id.split(",");
