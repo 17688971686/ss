@@ -204,17 +204,17 @@ public class UserServiceImpl implements UserService {
 					Role role = roleRepo.findById(roleDto.getId());
 					if (role != null) {
 						user.getRoles().add(role);
-//						if(role.getRoleName().equals(BasicDataConfig.role_unit)){//如果是建设单位，往建设单位表里添加数据
-//							UserUnitInfoDto userUnitInfoDto=new UserUnitInfoDto();
-//							//如果创建数据中有显示名,设置单位名称
-//							if(user.getDisplayName() !=null && !"".equals(user.getDisplayName())){
-//								userUnitInfoDto.setUnitName(user.getDisplayName());
-//							}else{
-//								userUnitInfoDto.setUnitName(user.getLoginName());
-//							}
-//							userUnitInfoDto.setUserName(user.getId());//绑定用户id
-//							userUnitInfoService.save(user.getLoginName(), userUnitInfoDto);
-//						}
+						if(role.getRoleName().equals(BasicDataConfig.role_unit)){//如果是建设单位，往建设单位表里添加数据
+							UserUnitInfoDto userUnitInfoDto=new UserUnitInfoDto();
+							//如果创建数据中有显示名,设置单位名称
+							if(user.getDisplayName() !=null && !"".equals(user.getDisplayName())){
+								userUnitInfoDto.setUnitName(user.getDisplayName());
+							}else{
+								userUnitInfoDto.setUnitName(user.getLoginName());
+							}
+							userUnitInfoDto.setUserName(user.getId());//绑定用户id
+							userUnitInfoService.save(user.getLoginName(), userUnitInfoDto);
+						}
 						if(role.getRoleName().equals(BasicDataConfig.role_shenpiUnit)){//如果是审批单位，往审批单位表里添加数据
 							ShenPiUnit entity=new ShenPiUnit();
 							if(user.getDisplayName() !=null && !"".equals(user.getDisplayName())){

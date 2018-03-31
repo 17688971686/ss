@@ -7,10 +7,48 @@
 	function deptInfoMaintain($http,$compile) {	
 		var url_userUnitInfo = "/shenbaoAdmin/userUnitInfo";
 		var service = {
-			getDeptInfo : getDeptInfo,
-			save:save
+			getUnitInfo : getUnitInfo,
+			save:save,
+			getDeptInfo:getDeptInfo,
+			getLoginUserUnitinfo:getLoginUserUnitinfo
 		};		
 		return service;	
+		
+		function getLoginUserUnitinfo(vm){
+			var httpOptions = {
+					method : 'get',
+					url : url_userUnitInfo
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.userUnitinfo=response.data || {};
+						if(vm.userUnitinfo.id == vm.id || vm.id == undefined ||vm.userUnitinfo.id == undefined){
+							save(vm)
+						}else{
+							common.alert({
+								vm : vm,
+								msg : "无法修改非本单位的信息！",
+								fn : function() {
+									$('.alertDialog').modal('hide');
+								}
+							});
+						}
+					}
+				});
+				
+			};
+				
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}
 		
 		//begin#save
 		function save(vm){
@@ -57,10 +95,10 @@
 		 * 获取单位的基本信息
 		 */
 		//begin#getDeptInfo
-		function getDeptInfo(vm){
+		function getUnitInfo(vm,id){
 			var httpOptions = {
 					method : 'get',
-					url : url_userUnitInfo
+					url : common.format(url_userUnitInfo + "/id?$filter=id eq '{0}'", id)
 				};
 			
 			var httpSuccess = function success(response) {
@@ -68,7 +106,7 @@
 					vm:vm,
 					response:response,
 					fn:function(){
-						vm.model=response.data || {};
+						vm.model=response.data.value[0] || {};
 					}
 				});
 				
@@ -81,5 +119,31 @@
 				success:httpSuccess
 			});
 		}
+		
+		
+		function getDeptInfo(vm){
+		var httpOptions = {
+				method : 'get',
+				url : url_userUnitInfo
+			};
+		
+		var httpSuccess = function success(response) {
+			common.requestSuccess({
+				vm:vm,
+				response:response,
+				fn:function(){
+					vm.model=response.data|| {};
+				}
+			});
+			
+		};
+			
+		common.http({
+			vm:vm,
+			$http:$http,
+			httpOptions:httpOptions,
+			success:httpSuccess
+		});
+	}
 	}
 })();

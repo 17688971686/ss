@@ -29,8 +29,12 @@ font-size:15px;
 					<tr>
 						<td  width="150px;" class="formAlignRight">单位名称：<span class="required ">(*)</span></td>
 						<td colspan="4" class="RborderNone">
-							<input type="text" class="form-control input-sm" style="width:300px;" ng-model="vm.model.unitName" id="unitName" name="unitName" data-val="true" data-val-required="必填"/>
-							<span data-valmsg-for="unitName" data-valmsg-replace="true" class="required"></span>
+							<input type="text" class="form-control input-sm" style="width:300px;" ng-model="vm.model.unitName"  disabled="disabled"/>
+						
+							<select id="unitName" name="unitName" class="form-select" ng-model="vm.model.unitName1" ng-change="vm.changeUnit()">
+								<option value="">---请选择---</option>
+								<option ng-repeat="x in vm.allUnit" value="{{x.id}}">{{x.unitName}}</option>
+							</select>
 						</td>
 					</tr>
 					<tr>

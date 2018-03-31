@@ -11,7 +11,6 @@
         /* jshint validthis:true */
         var vm = this;
         vm.page = "index";
-
         $(".menu li a").removeClass("focus");
         $(".menu li a:eq(1)").addClass("focus");
         $(".menu li a").click(function(){
@@ -38,10 +37,23 @@
         
         function page_index(){
         	deptInfoMaintainSvc.getDeptInfo(vm);//获取单位的基本信息
-        	
+        	vm.allUnit = common.getUserUnits();
         	vm.submit=function(){
-            	deptInfoMaintainSvc.save(vm);//保存单位基本信息
+        		deptInfoMaintainSvc.getLoginUserUnitinfo(vm);//先查用户单位向信息
+//            	deptInfoMaintainSvc.save(vm);//保存单位基本信息
             };
+            
+            vm.changeUnit = function(){
+            	//获取select对象
+                var myselect = document.getElementById('unitName');
+             //获取选中项的索引
+                var index = myselect.selectedIndex;
+            //typd_data后台传入的数据 list为json对象
+                var json = vm.allUnit;
+            //获取选中行中的字段
+                vm.id = json[index-1].id;
+            	deptInfoMaintainSvc.getUnitInfo(vm,vm.id);
+            }
         }
     }
 })();
