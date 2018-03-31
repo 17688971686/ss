@@ -8,6 +8,12 @@
 	]).config(["$stateProvider","$urlRouterProvider",function($stateProvider,$urlRouterProvider){
 		$urlRouterProvider.otherwise('/');
 		$stateProvider
+			/*.state('indexLogin',{
+				url:'/',
+				templateUrl:'/contents/shenbao/indexLogin/html/indexLogin.html',
+				controller:'indexLoginCtrl',
+				controllerAs:'vm'
+			})*/
 			.state('index',{
 				url:'/',
 				templateUrl:'/contents/shenbao/index/html/index.html',

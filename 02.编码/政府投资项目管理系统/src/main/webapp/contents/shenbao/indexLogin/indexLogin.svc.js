@@ -1,10 +1,10 @@
 (function() {
 	'use strict';
 
-	angular.module('app').factory('indexSvc', index);
+	angular.module('app').factory('indexLoginSvc', indexLogin);
 
-	index.$inject = [ '$http' ];	
-	function index($http) {	
+	indexLogin.$inject = [ '$http' ];	
+	function indexLogin($http) {	
 		var data_url="/indexData";
 		var service = {
 				getArticle:getArticle,
@@ -17,7 +17,7 @@
 			var role = "unit";
 			  var httpOptions = {
 	                    method: 'post',
-	                    url: '/account/getSs?role='+role
+	                    url: '/verifyNum/getSs?role='+role
 	                };
 	                var httpSuccess = function success(response) {
 	                    vm.isSubmit = false;                        
@@ -56,15 +56,11 @@
 				var key = $("#rsaPrivateKey").val();//获取公钥信息
                 var rsa = new RSAKey();
                 rsa.setPublic(key, "10001");
-                vm.model.old_password = vm.model.textPassword;
-                vm.sendModel= vm.model;
-                vm.sendModel.password = rsa.encrypt(vm.model.textPassword);
-                vm.sendModel.textPassword ="";
-                //vm.model.password = rsa.encrypt(vm.model.password);//密码RSA公钥加密
+                vm.model.password = rsa.encrypt(vm.model.password);//密码RSA公钥加密
                 
                 var httpOptions = {
                     method: 'post',
-                    url: '/verifyNum/login?role='+role,
+                    url: '/account/login?role='+role,
                     data: vm.model
                 };
                 var httpSuccess = function success(response) {
@@ -73,15 +69,11 @@
                     	vm:vm,
                     	response:response,
                     	fn:function () {
+                            
                             var isSuccess = response.data.success;
                             if (isSuccess) {
                                 vm.message = "";
-                                var reg = new RegExp(/^(?=.*[a-zA-Z])(?=.*[0-9]).*.{8,}$/);
-                               	if(reg.test(vm.model.old_password)){
-                               		location.href = "/shenbaoAdmin";
-                                }else{
-                                	location.href = "/changePwd/frontDesk";
-                                }
+                                location.href = "/shenbaoAdmin";
                             } else {                                
                                 vm.message=response.data.message;
                             }

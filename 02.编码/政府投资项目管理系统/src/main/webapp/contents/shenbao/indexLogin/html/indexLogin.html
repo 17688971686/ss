@@ -1,0 +1,121 @@
+
+
+
+<!--<div ng-include src="'/contents/shenbao/shared/shenbao_head.html'"></div>-->
+<!--IE兼容模式下不支持ng-include-->
+
+<div style="height: 90px;"></div>
+<div class="wrap-960 clearfix " style="height:53px;">
+	<a href="/"><div class="logo pull-left"></div></a>
+	<div class="contact pull-right"></div>
+	<div class="clearfix"></div>
+</div>
+
+
+<div class="wrap-980 clearfix" style="margin-top:40px;">
+<div class="pull-left" style="width:540px;height: 318px;">
+	<div class="column">
+			
+		<ul class="title clearfix">
+			<li class="col-xs-3 focus article_1" ng-click="vm.article(1)"><span class="cs-icon glyphicon glyphicon-volume-down t-z-30"></span>通知公告</li>
+
+			<li class="col-xs-3 article_2" ng-click="vm.article(2)"><span class="cs-icon glyphicon glyphicon-list-alt t-z-24" style="margin-top: 12px;"></span>政策法规</li>
+
+			<li class="col-xs-3 article_3" ng-click="vm.article(3)"><span class="cs-icon glyphicon glyphicon-hand-left t-z-30"></span>办事指南</li>
+
+			<li class="col-xs-3 article_4" ng-click="vm.article(4)"><span class="cs-icon glyphicon glyphicon-calendar t-z-24"></span>常用表格</li>
+		</ul>
+		
+		<table style="width:100%" ng-show="vm.articles.length>0">
+			<tbody ng-repeat="x in vm.articles">
+				<tr>
+					<td class="item" >
+						<a href="#/details/{{vm.type}}/{{x.id}}" ng-bind="x.title"></a>
+					</td>
+					<!-- <td style="width:100px" class="date" ng-bind="x.createdDate.split(' ')[0]"> -->
+					<td style="width:100px" class="date" ng-bind="vm.formatDate(x.createdDate)">
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+			<tr>
+					<td class="item" >
+						
+					</td>
+					<td >
+						<a class="btn btn-xs btn-info"  href="#/list/{{vm.type}}" >更多>></a>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+		<textarea id="rsaPrivateKey" rows="15" cols="65" style="display:none">
+			dd6be3d4de56287b8c3616b33bc1b7a5a2bb9148252140262420ee047f83b3165fb7674a759d60c24b71fd5437c7810f127f2c4370c2d4bdfcb55c08f1b3c715b7b2f57228e78e34039d2b967f54a58e345bc91e3dd54c7bea86d73c9e2de968736bf2b97f50bea891aa3519ae7238d76dff57cabba7cc0d370775657f3b5c83
+       	</textarea>
+	</div>
+</div>
+
+
+<div class="pull-right">
+	<div class="loginBox" ng-show="!vm.show">
+		<div class="boxWrap" style="height: 318px;">
+		<h3 style="margin-top: -30px; margin-bottom: 50px">手机客服端下载 </h3>
+
+		<div class="row" style=" text-align: center;">
+			<div class="col-md-6">
+				<img src="/contents/shenbao/style/images/gm_andorid.png" width="130" height="130"/>
+				<p>扫一扫</p>
+				<p>Android版本下载</p>
+			</div>
+			<div class="col-md-6">
+				<img src="/contents/shenbao/style/images/gm_iphone.png" width="130" height="130"/>
+				<p>扫一扫</p>
+				<p>IOS版本下载</p>
+			</div>
+		</div>
+
+		<div class="backbtn" ng-click="vm.show=true"><span class="cs-colsed glyphicon glyphicon-chevron-left" ></span>返回表单登录</div>
+
+		</div>
+	</div>
+
+	<div class="loginBox" ng-show="vm.show">
+	<form ng-keypress="vm.keyEnter($event)">
+		<div class="boxWrap" style="height: 318px;">
+			<h3 style="margin-top: -30px; margin-bottom: 50px">用户登录</h3>
+		<span ng-show="vm.message" class="errors" ng-bind="vm.message" ></span>
+
+		<div ng-show="vm.checked">
+			<div class="box-hide" >
+			<label class="cs-login-icon"><span class="glyphicon glyphicon-user"></span></label>
+			<span class="shadow-input"><input type="text" class="form-control input-sm" placeholder="请输入用户名称"
+			maxlength="100" name="loginName" id="loginName" ng-model="vm.model.loginName" 
+			data-val="true" data-val-required="用户名必填" ng-disabled="vm.isIE"/></span>
+			</div>
+			<div class="box-hide">
+			<label class="cs-login-icon"><span class="glyphicon glyphicon-lock"></span></label>
+			<span class="shadow-input">
+			<input type="password" class="form-control input-sm" placeholder="请输入用户密码"  
+			maxlength="100"  name="password" id="password" ng-model="vm.model.password" 
+			data-val="true" data-val-required="密码必填" ng-disabled="vm.isIE"/></span>
+			</div>
+			
+			<div><button class="btn btn-success loginBtn" style="margin-top: 0px;" ng-click="vm.submit('unit')" ng-disabled="vm.isIE" >登录系统 </button></div></br>
+			<div><button class="btn btn-success loginBtn" style="margin-top: 0px;" ng-click="vm.forgetCode()">忘记密码 </button></div>
+			<div class="login-maker-btn" ng-click="vm.show=false"></div>
+	</div>
+			<div><button class="btn btn-success loginBtn"  ng-hide="vm.checked" ng-click="vm.change()" ng-disabled="vm.isIE" >账号登录 </button></div>
+			
+			<div style="margin: -10px 0 0 0;">
+				<p ng-if="vm.isIE">您的浏览器版本过低，请升级至最新版本，或者请使用<a href="/contents/download/ChromeStandalone.exe" download="Chrome.zip" style="color:red;">谷歌chrome浏览器(点击下载)</a></p>
+			</div>
+		</div>
+	</form>
+	</div>
+</div>
+
+</div>
+
+<div style="height: 100px;"></div>
+<div class="cs-footer">
+	主办：深圳市光明新区  备案序号：粤ICP备00000001号   网站标识码44030000000
+</div>

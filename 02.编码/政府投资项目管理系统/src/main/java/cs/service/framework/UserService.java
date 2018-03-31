@@ -31,4 +31,8 @@ public interface UserService {
 	
 	User findById(String id);
 
+	Response DandianLogin(String userName, String password, String role);
+
+	void createSYSUser(UserDto userDto);
+
 }

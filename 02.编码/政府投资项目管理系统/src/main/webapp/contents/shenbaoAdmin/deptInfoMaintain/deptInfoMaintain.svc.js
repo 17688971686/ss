@@ -6,7 +6,6 @@
 	deptInfoMaintain.$inject = [ '$http','$compile' ];	
 	function deptInfoMaintain($http,$compile) {	
 		var url_userUnitInfo = "/shenbaoAdmin/userUnitInfo";
-			
 		var service = {
 			getDeptInfo : getDeptInfo,
 			save:save
@@ -21,7 +20,6 @@
 			//验证通过
 			if(isValid){
 				vm.isSubmit = true;
-				
 				var httpOptions = {
 						method : 'post',
 						url : url_userUnitInfo,
@@ -70,7 +68,7 @@
 					vm:vm,
 					response:response,
 					fn:function(){
-						vm.model=response.data.value[0] || {};
+						vm.model=response.data || {};
 					}
 				});
 				

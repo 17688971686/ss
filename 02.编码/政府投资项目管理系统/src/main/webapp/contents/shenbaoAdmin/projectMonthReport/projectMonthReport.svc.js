@@ -216,11 +216,11 @@
 				transport : common.kendoGridConfig().transport(common.format(url_projectMonthReport+"/unitProject")),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
-					fields : {
-						createdDate : {
-							type : "date"
-						}
-					}
+//					fields : {
+//						createdDate : {
+//							type : "date"
+//						}
+//					}
 				}),
 				serverPaging : true,
 				serverSorting : true,

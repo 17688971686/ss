@@ -24,7 +24,8 @@
 			deleteShenBaoInfo:deleteShenBaoInfo,//删除申报信息
 			documentRecordsGird:documentRecordsGird,//批复文件列表
 			getShenBaoInfoByProjectId:getShenBaoInfoByProjectId,//根据项目id查询申报信息
-			getShenBaoPortState:getShenBaoPortState//查询申报端口的状态哦
+			getShenBaoPortState:getShenBaoPortState,//查询申报端口的状态哦
+			getUserUnit:getUserUnit
 		};		
 		return service;
 		
@@ -63,6 +64,28 @@
 			vm.model.equipmentInvestment=common.toMoney(vm.model.equipmentInvestment);//总投资--设备投资（社投）
 			vm.model.buidSafeInvestment=common.toMoney(vm.model.buidSafeInvestment);//总投资--建安投资（社投）
 		}//end fun fundsFormat
+		
+		/**
+		 * 获取当前登录用户用户的单位信息
+		 */
+		function getUserUnit(vm){
+			var httpOptions = {
+					method : 'get',
+					url : url_userUnit
+				};
+				var httpSuccess = function success(response) {
+					vm.userUnit = response.data || {};
+					vm.model.unitName = vm.userUnit.id;//设置项目的所属单位名称
+					grid(vm)
+				};
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+		}
+		
 		
 		/**
 		 * 删除申报信息
@@ -260,11 +283,11 @@
 				transport : common.kendoGridConfig().transport(url_shenbao),						
 				schema : common.kendoGridConfig().schema({
 					id : "id",
-					fields : {
-						createdDate : {
-							type : "date"
-						}
-					}
+//					fields : {
+//						createdDate : {
+//							type : "date"
+//						}
+//					}
 				}),
 				serverPaging : true,
 				serverSorting : true,
@@ -542,7 +565,7 @@
 		function getProjectUnit(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_userUnit + "/userName?$filter=id eq '{0}'", vm.model.unitName)
+					url : common.format(url_userUnit + "/id?$filter=id eq '{0}'", vm.model.unitName)
 				};
 			
 			var httpSuccess = function success(response) {
@@ -639,11 +662,11 @@
 				transport : common.kendoGridConfig().transport(url_shenbao+"/unit"),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
-					fields : {
-						createdDate : {
-							type : "date"
-						}
-					}
+//					fields : {
+//						createdDate : {
+//							type : "date"
+//						}
+//					}
 				}),
 				serverPaging : true,
 				serverSorting : true,
@@ -1117,14 +1140,14 @@
 				transport : common.kendoGridConfig().transport(common.format(url_project+"/unitProject")),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
-					fields : {
-						createdDate : {
-							type : "date"
-						},
-						isIncludLibrary:{
-							type:"boolean"
-						}
-					}
+//					fields : {
+//						createdDate : {
+//							type : "date"
+//						},
+//						isIncludLibrary:{
+//							type:"boolean"
+//						}
+//					}
 				}),
 				serverPaging : true,
 				serverSorting : true,
@@ -1138,7 +1161,11 @@
 					field:'isLatestVersion',
 					operator:'eq',
 					value:true
-				}]
+				},{
+					field:'unitName',
+					operator:'eq',
+					value:vm.model.unitName != null?vm.model.unitName:"noId"
+				}],
 			});
 			// End:dataSource
 

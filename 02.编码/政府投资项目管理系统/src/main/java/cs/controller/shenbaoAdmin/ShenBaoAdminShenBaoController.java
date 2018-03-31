@@ -1,6 +1,8 @@
 package cs.controller.shenbaoAdmin;
 
 import java.text.ParseException;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import cs.common.ICurrentUser;
 import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
+import cs.model.DomainDto.UserUnitInfoDto;
+import cs.model.framework.UserDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ShenBaoInfoService;
@@ -46,12 +50,33 @@ public class ShenBaoAdminShenBaoController {
 		ODataObj odataObj = new ODataObj(request);
 		//设置过滤条件 根据创建单位找到对应的申报信息
 		//根据登陆名查找到单位信息
-		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
-		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
-		filterItem.setField("unitName");
-		filterItem.setOperator("eq");
-		filterItem.setValue(userUnitInfo.getId());
-		odataObj.getFilter().add(filterItem);
+		UserUnitInfoDto userUnitInfoDto1 = null;
+		List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
+		for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
+			if(!userUnitInfoDto.getUserDtos().isEmpty()){
+				for (UserDto user : userUnitInfoDto.getUserDtos()) {
+					if(user.getId().equals(currentUser.getUserId())){
+						userUnitInfoDto1 =userUnitInfoDto;
+					}
+				} 
+			}
+			
+				
+		}
+//		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
+		if(userUnitInfoDto1 != null){
+			ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
+			filterItem.setField("unitName");
+			filterItem.setOperator("eq");
+			filterItem.setValue(userUnitInfoDto1.getId());
+			odataObj.getFilter().add(filterItem);
+		}else{
+			ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
+			filterItem.setField("unitName");
+			filterItem.setOperator("eq");
+			filterItem.setValue("noId");
+			odataObj.getFilter().add(filterItem);
+		}
 		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoService.get(odataObj);		
 		return shenBaoInfoDtos;	
 	}

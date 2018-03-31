@@ -1,11 +1,17 @@
 package cs.model.DtoMapper;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
+import cs.domain.Attachment;
 import cs.domain.UserUnitInfo;
+import cs.domain.framework.User;
+import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.UserUnitInfoDto;
+import cs.model.framework.UserDto;
 /**
  * @Description: 用户单位信息实体类与数据库资源转换类
  * @author: cx
@@ -41,13 +47,27 @@ public class UserUnitInfoMapper implements IMapper<UserUnitInfoDto, UserUnitInfo
 			userUnitInfoDto.setRemark(unitInfo.getRemark());
 			//和单位信息关联的用户名			
 			userUnitInfoDto.setUserName(unitInfo.getUserName());
+			userUnitInfoDto.setDeptId(unitInfo.getDeptId());
 			//基础数据			
 			userUnitInfoDto.setCreatedBy(unitInfo.getCreatedBy());
 			userUnitInfoDto.setCreatedDate(unitInfo.getCreatedDate());
 			userUnitInfoDto.setModifiedDate(unitInfo.getModifiedDate());
 			userUnitInfoDto.setModifiedBy(unitInfo.getModifiedBy());
 			userUnitInfoDto.setItemOrder(unitInfo.getItemOrder());
-
+			
+			List<User> users = unitInfo.getUsers();
+			List<UserDto> userDtos = new ArrayList<>();
+			if (users != null && users.size() > 0) {
+				for (User user : users) {
+					UserDto userDto =new UserDto();
+					
+					userDto.setId(user.getId());
+					userDto.setLoginName(user.getLoginName());
+					userDtos.add(userDto);
+				}
+			}
+			userUnitInfoDto.setUserDtos(userDtos);
+			
 		}
 		return userUnitInfoDto;
 	}
@@ -79,6 +99,7 @@ public class UserUnitInfoMapper implements IMapper<UserUnitInfoDto, UserUnitInfo
 			userUnitInfo.setRemark(unitInfoDto.getRemark());
 			//和单位信息关联的用户名															
 			userUnitInfo.setUserName(unitInfoDto.getUserName());
+			userUnitInfo.setDeptId(unitInfoDto.getDeptId());
 			//基础数据																						
 			userUnitInfo.setCreatedBy(unitInfoDto.getCreatedBy());
 			userUnitInfo.setCreatedDate(unitInfoDto.getCreatedDate());

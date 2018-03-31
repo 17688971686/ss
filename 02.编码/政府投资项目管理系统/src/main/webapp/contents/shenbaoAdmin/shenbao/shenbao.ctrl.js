@@ -180,7 +180,8 @@
         }
         
        function page_list(){
-    	   shenbaoSvc.grid(vm);//获取项目列表
+//    	   shenbaoSvc.grid(vm);//获取项目列表
+    	   shenbaoSvc.getUserUnit(vm);
     	   shenbaoSvc.projectShenBaoRecordsGird(vm);//获取项目申报记录
     	 //条件查询
     	   vm.search=function(){

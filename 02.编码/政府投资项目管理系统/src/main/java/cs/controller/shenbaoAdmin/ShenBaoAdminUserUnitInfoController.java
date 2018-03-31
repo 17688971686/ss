@@ -1,21 +1,30 @@
 package cs.controller.shenbaoAdmin;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.common.ICurrentUser;
+import cs.domain.UserUnitInfo;
+import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.UserUnitInfoDto;
+import cs.model.DtoMapper.IMapper;
+import cs.model.framework.UserDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
+import cs.service.framework.UserService;
 import cs.service.interfaces.UserUnitInfoService;
 
 @Controller
@@ -25,24 +34,36 @@ public class ShenBaoAdminUserUnitInfoController {
 	private ICurrentUser currentUser;
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
-
-	@RequiresPermissions("shenbaoAdmin/userUnitInfo#userName#get")
-	@RequestMapping(name = "获取用户的单位数据", path = "userName", method = RequestMethod.GET)
+	@Autowired
+	private UserService userService;
+	
+	
+	@RequiresPermissions("shenbaoAdmin/userUnitInfo#id#get")
+	@RequestMapping(name = "获取用户的单位数据", path = "id", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserUnitInfoDto> getProjectUnit(HttpServletRequest request) throws ParseException{
 		ODataObj odataObj = new ODataObj(request);
 		return userUnitInfoService.get(odataObj);
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/userUnitInfo##get")	
+//	@RequiresPermissions("shenbaoAdmin/userUnitInfo##get")	
 	@RequestMapping(name = "获取当前登录用户的单位数据", path = "", method = RequestMethod.GET)
-	public @ResponseBody PageModelDto<UserUnitInfoDto> getUserUnit(HttpServletRequest request) throws ParseException{
-		ODataObj odataObj = new ODataObj(request);
-		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
-		filterItem.setField("userName");
-		filterItem.setOperator("eq");		
-		filterItem.setValue(currentUser.getUserId());
-		odataObj.getFilter().add(filterItem);
-		return userUnitInfoService.get(odataObj);
+	public @ResponseBody UserUnitInfoDto getUserUnit(HttpServletRequest request) throws ParseException{
+		UserUnitInfoDto userUnitInfoDto1 = null;
+		List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
+		for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
+			if(!userUnitInfoDto.getUserDtos().isEmpty()){
+				for (UserDto user : userUnitInfoDto.getUserDtos()) {
+					if(user.getId().equals(currentUser.getUserId())){
+						userUnitInfoDto1 =userUnitInfoDto;
+					}
+				} 
+			}
+			
+				
+		}
+	
+		
+		return userUnitInfoDto1;
 	}
 	
 	@RequiresPermissions("shenbaoAdmin/userUnitInfo##post")	

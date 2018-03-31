@@ -288,7 +288,7 @@ public class SysServiceImpl implements SysService{
 		User user = new User();
 		user.setLoginName("admin");
 		user.setId(UUID.randomUUID().toString());
-		user.setPassword("admin");
+		user.setPassword("111111");
 		user.setComment("系统初始化创建,不可删除");
 		user.setDisplayName("超级管理员");
 		user.getRoles().add(role);
@@ -313,7 +313,7 @@ public class SysServiceImpl implements SysService{
 			unitUser.setId(UUID.randomUUID().toString());
 			unitUser.setDisplayName(userName);
 			unitUser.setLoginName(userName);
-			unitUser.setPassword("888888");
+			unitUser.setPassword("111111");
 			unitUser.setComment("系统初始化创建");
 			unitUser.getRoles().add(role2);
 			userRepo.save(unitUser);
@@ -324,6 +324,7 @@ public class SysServiceImpl implements SysService{
 			userUnitInfo.setUserName(unitUser.getId());
 			userUnitInfo.setRemark("系统初始化创建");
 			userUnitInfoRepo.save(userUnitInfo);
+			
 		}
 		
 		response.setMessage("初始化成功");

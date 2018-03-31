@@ -27,6 +27,8 @@ public class BaseUnitInfo extends BaseEntity {
 		private String divisionId;
 		@Column(columnDefinition="varchar(255) COMMENT '单位地址'")
 		private String unitAddress;
+		@Column(columnDefinition="varchar(255)  COMMENT '和单位信息关联的部门ID'")
+		private String deptId;
 
 		//begin#联系人信息
 		@Column(columnDefinition="varchar(50) COMMENT '单位负责人名称'")
@@ -165,4 +167,13 @@ public class BaseUnitInfo extends BaseEntity {
 		public void setRemark(String remark) {
 			this.remark = remark;
 		}
+
+		public String getDeptId() {
+			return deptId;
+		}
+
+		public void setDeptId(String deptId) {
+			this.deptId = deptId;
+		}
+		
 }

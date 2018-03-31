@@ -12,6 +12,7 @@ public class UserDto extends BaseDto {
 	private String displayName;
 	private String comment;
 	private List<RoleDto> roles=new ArrayList<>();
+	private List<OrgDto> orgs=new ArrayList<>();
 	private List<OpinionDto> opinionDtos=new ArrayList<>();
 	public String getId() {
 		return id;
@@ -54,6 +55,12 @@ public class UserDto extends BaseDto {
 	}
 	public void setOpinionDtos(List<OpinionDto> opinionDtos) {
 		this.opinionDtos = opinionDtos;
+	}
+	public List<OrgDto> getOrgs() {
+		return orgs;
+	}
+	public void setOrgs(List<OrgDto> orgs) {
+		this.orgs = orgs;
 	}
 
 	

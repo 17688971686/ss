@@ -16,11 +16,45 @@
 			initUser:initUser,
 			createUser : createUser,
 			deleteUser : deleteUser,
-			updateUser : updateUser
+			updateUser : updateUser,
+			userSync:userSync
 		};
 
 		return service;
 
+		function userSync(vm){
+			kendo.ui.progress($("#customerSettings"), true);
+			var httpOptions = {
+					method : 'get',
+					url : "/risesoft/tzkUsers"
+					
+				};
+
+				var httpSuccess = function success(response) {
+					kendo.ui.progress($("#customerSettings"), false);
+					common.requestSuccess({
+						vm : vm,
+						response : response,
+						fn : function() {
+							common.alert({
+								vm : vm,
+								msg : "操作成功",
+								fn : function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');
+								}
+							});
+						}
+					});
+				};
+
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+		};
 		// begin#updateUser
 		function updateUser(vm) {
 			

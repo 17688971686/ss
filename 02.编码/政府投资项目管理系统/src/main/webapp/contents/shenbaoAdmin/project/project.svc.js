@@ -206,7 +206,7 @@
 		function getProjectUnit(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_userUnit + "/userName?$filter=id eq '{0}'", vm.model.unitName)
+					url : common.format(url_userUnit + "/id?$filter=id eq '{0}'", vm.model.unitName)
 				};
 				var httpSuccess = function success(response) {
 					vm.userUnit = response.data.value[0] || {};
@@ -228,8 +228,9 @@
 					url : url_userUnit
 				};
 				var httpSuccess = function success(response) {
-					vm.userUnit = response.data.value[0] || {};
+					vm.userUnit = response.data || {};
 					vm.model.unitName = vm.userUnit.id;//设置项目的所属单位名称
+					grid(vm)
 				};
 				common.http({
 					vm : vm,
@@ -364,14 +365,14 @@
 				transport : common.kendoGridConfig().transport(common.format(url_project+"/unitProject")),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
-					fields : {
-						createdDate : {
-							type : "date"
-						},
-						isIncludLibrary:{
-							type:"boolean"
-						}
-					}
+//					fields : {
+//						createdDate : {
+//							type : "date"
+//						},
+//						isIncludLibrary:{
+//							type:"boolean"
+//						}
+//					}
 				}),
 				serverPaging : true,
 				serverSorting : true,
@@ -381,11 +382,15 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:{
+				filter:[{
 					field:'isLatestVersion',
 					operator:'eq',
 					value:true
-				},
+				},{
+					field:'unitName',
+					operator:'eq',
+					value:vm.model.unitName != null?vm.model.unitName:"noId"
+				}],
 				requestStart: function () {
 					kendo.ui.progress($("#loading"), true);
 				},

@@ -9,6 +9,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.model.PageModelDto;
 import cs.model.framework.UserDto;
+import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.framework.UserService;
 
@@ -30,6 +32,20 @@ public class UserController {
 	@RequestMapping(name = "获取用户数据", path = "", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
+		PageModelDto<UserDto> userDtos = userService.get(odataObj);
+
+		return userDtos;
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(name = "获取用户数据", path = "{userName}", method = RequestMethod.GET)
+	public @ResponseBody PageModelDto<UserDto> getUserByName(HttpServletRequest request,@PathVariable String userName) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);
+		ODataFilterItem filter = new ODataFilterItem();
+		filter.setField("loginName");
+		filter.setOperator("eq");
+		filter.setValue(userName);
+		odataObj.getFilter().add(filter);
 		PageModelDto<UserDto> userDtos = userService.get(odataObj);
 
 		return userDtos;

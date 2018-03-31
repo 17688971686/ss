@@ -73,7 +73,6 @@ public class ActivitiService implements IActivitiService{
 		ProcessInstance  processInstance = runtimeService.startProcessInstanceByKey(processDefinitionKey, variables);
 		return processInstance;
 	}
-	
 
 	@Override
 	public void setStartProcessUserId(String userId) {

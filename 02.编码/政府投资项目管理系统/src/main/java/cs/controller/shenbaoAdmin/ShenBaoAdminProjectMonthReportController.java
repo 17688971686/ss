@@ -25,6 +25,8 @@ import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.MonthReportDto;
 import cs.model.DomainDto.ProjectDto;
+import cs.model.DomainDto.UserUnitInfoDto;
+import cs.model.framework.UserDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.MonthReportService;
@@ -51,12 +53,33 @@ public class ShenBaoAdminProjectMonthReportController {
 	@RequestMapping(name = "获取单位项目月报信息", path = "unitProject",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> getUnitProject(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
-		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
+//		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
+		//根据登陆名查找到单位信息
+				UserUnitInfoDto userUnitInfoDto1 = null;
+				List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
+				for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
+					if(!userUnitInfoDto.getUserDtos().isEmpty()){
+						for (UserDto user : userUnitInfoDto.getUserDtos()) {
+							if(user.getId().equals(currentUser.getUserId())){
+								userUnitInfoDto1 =userUnitInfoDto;
+							}
+						} 
+					}
+					
+						
+				}
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
-		filterItem.setField("unitName");
-		filterItem.setOperator("eq");
-		filterItem.setValue(userUnitInfo.getId());
-		odataObj.getFilter().add(filterItem);
+		if(userUnitInfoDto1 != null){
+			filterItem.setField("unitName");
+			filterItem.setOperator("eq");
+			filterItem.setValue(userUnitInfoDto1.getId());
+			odataObj.getFilter().add(filterItem);
+		}else{
+			filterItem.setField("unitName");
+			filterItem.setOperator("eq");
+			filterItem.setValue("noId");
+			odataObj.getFilter().add(filterItem);
+		}
 		PageModelDto<ProjectDto> projectDtos = ProjectService.get(odataObj);
 		return projectDtos;
 	}
