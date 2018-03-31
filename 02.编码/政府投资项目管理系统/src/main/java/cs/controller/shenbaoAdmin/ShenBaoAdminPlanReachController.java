@@ -1,6 +1,7 @@
  package cs.controller.shenbaoAdmin;
 
 import java.text.ParseException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,8 @@ import cs.model.PageModelDto;
 import cs.model.DomainDto.PlanReachApplicationDto;
 import cs.model.DomainDto.ProjectDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
+import cs.model.DomainDto.UserUnitInfoDto;
+import cs.model.framework.UserDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.PlanReachApplicationService;
@@ -49,13 +52,36 @@ public class ShenBaoAdminPlanReachController {
 	@RequestMapping(name = "获取计划下达申请信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<PlanReachApplicationDto> get(HttpServletRequest request) throws ParseException {
 		//根据登陆名查找到单位信息
-		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
+//		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
+		UserUnitInfoDto userUnitInfoDto1 = null;
+		List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
+		for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
+			if(!userUnitInfoDto.getUserDtos().isEmpty()){
+				for (UserDto user : userUnitInfoDto.getUserDtos()) {
+					if(user.getId().equals(currentUser.getUserId())){
+						userUnitInfoDto1 =userUnitInfoDto;
+					}
+				} 
+			}
+			
+				
+		}
+		
 		ODataObj odataObj = new ODataObj(request);
-		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
-		filterItem.setField("applicationUnit");
-		filterItem.setOperator("eq");
-		filterItem.setValue(userUnitInfo.getId());
-		odataObj.getFilter().add(filterItem);
+		if(userUnitInfoDto1 != null){
+			ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
+			filterItem.setField("applicationUnit");
+			filterItem.setOperator("eq");
+			filterItem.setValue(userUnitInfoDto1.getId());
+			odataObj.getFilter().add(filterItem);
+		}else{
+			ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
+			filterItem.setField("applicationUnit");
+			filterItem.setOperator("eq");
+			filterItem.setValue("noId");
+			odataObj.getFilter().add(filterItem);
+		}
+		
 		PageModelDto<PlanReachApplicationDto> planReachApplications = planReachApplicationService.get(odataObj);
 		return planReachApplications;
 	}
@@ -91,14 +117,35 @@ public class ShenBaoAdminPlanReachController {
 	@RequiresPermissions("shenbaoAdmin/planReach#notInclud#get")
 	@RequestMapping(name = "获取未纳入年度计划的项目", path = "notInclud",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> getNotInclud(HttpServletRequest request) throws ParseException {
-		ODataObj odataObj = new ODataObj(request);
 		//设置过滤条件--查询登陆用户单位的项目信息
-		UserUnitInfo unit= userUnitInfoService.getByUserName(currentUser.getUserId());
-		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
-		filterItem.setField("unitName");
-		filterItem.setOperator("eq");
-		filterItem.setValue(unit.getId());
-		odataObj.getFilter().add(filterItem);
+		UserUnitInfoDto userUnitInfoDto1 = null;
+		List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
+		for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
+			if(!userUnitInfoDto.getUserDtos().isEmpty()){
+				for (UserDto user : userUnitInfoDto.getUserDtos()) {
+					if(user.getId().equals(currentUser.getUserId())){
+						userUnitInfoDto1 =userUnitInfoDto;
+					}
+				} 
+			}
+			
+				
+		}
+		
+		ODataObj odataObj = new ODataObj(request);
+		if(userUnitInfoDto1 != null){
+			ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
+			filterItem.setField("applicationUnit");
+			filterItem.setOperator("eq");
+			filterItem.setValue(userUnitInfoDto1.getId());
+			odataObj.getFilter().add(filterItem);
+		}else{
+			ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
+			filterItem.setField("applicationUnit");
+			filterItem.setOperator("eq");
+			filterItem.setValue("noId");
+			odataObj.getFilter().add(filterItem);
+		}
 		
 		PageModelDto<ProjectDto> ProjectDtos = projectService.get(odataObj);
 		return ProjectDtos;
@@ -107,14 +154,35 @@ public class ShenBaoAdminPlanReachController {
 	@RequiresPermissions("shenbaoAdmin/planReach#hasInclud#get")
 	@RequestMapping(name = "获取已纳入年度计划的项目", path = "hasInclud",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getHasInclud(HttpServletRequest request) throws ParseException {
-		ODataObj odataObj = new ODataObj(request);
 		//设置过滤条件--查询登陆用户单位的项目信息
-		UserUnitInfo unit= userUnitInfoService.getByUserName(currentUser.getUserId());
-		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
-		filterItem.setField("unitName");
-		filterItem.setOperator("eq");
-		filterItem.setValue(unit.getId());
-		odataObj.getFilter().add(filterItem);
+		UserUnitInfoDto userUnitInfoDto1 = null;
+		List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
+		for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
+			if(!userUnitInfoDto.getUserDtos().isEmpty()){
+				for (UserDto user : userUnitInfoDto.getUserDtos()) {
+					if(user.getId().equals(currentUser.getUserId())){
+						userUnitInfoDto1 =userUnitInfoDto;
+					}
+				} 
+			}
+			
+				
+		}
+		
+		ODataObj odataObj = new ODataObj(request);
+		if(userUnitInfoDto1 != null){
+			ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
+			filterItem.setField("applicationUnit");
+			filterItem.setOperator("eq");
+			filterItem.setValue(userUnitInfoDto1.getId());
+			odataObj.getFilter().add(filterItem);
+		}else{
+			ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
+			filterItem.setField("applicationUnit");
+			filterItem.setOperator("eq");
+			filterItem.setValue("noId");
+			odataObj.getFilter().add(filterItem);
+		}
 		
 		PageModelDto<ShenBaoInfoDto> shenbaoInfoDtos = shenbaoInfoService.get(odataObj);
 		return shenbaoInfoDtos;

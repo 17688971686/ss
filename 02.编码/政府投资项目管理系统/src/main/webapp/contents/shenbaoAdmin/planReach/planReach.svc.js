@@ -208,7 +208,7 @@
 					url : url_userUnit
 				};
 			var httpSuccess = function success(response) {
-				vm.userUnit = response.data.value[0] || {};
+				vm.userUnit = response.data || {};
 				vm.model.applicationUnit = vm.userUnit.id;//设置项目的所属单位名称
 				projectGrid(vm);//获取项目数据
 			};
