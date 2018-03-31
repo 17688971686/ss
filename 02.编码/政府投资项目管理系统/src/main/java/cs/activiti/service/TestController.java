@@ -48,6 +48,13 @@ public class TestController {
 	    variables.put("roId", "00000000001");
 		activitiService.startProcess(processDefinitionKey, variables);
 	}
+	
+	/**
+	 * 初始化已有的角色和人员，添加进角色组
+	 * @param str
+	 * @param request
+	 * @throws ParseException
+	 */
 	@RequestMapping(value = "/process-instance/{initGroup}/init", method = RequestMethod.GET)
 	@ResponseBody
 	public void initGroup(@PathVariable("initGroup") String str,HttpServletRequest request) throws ParseException {
