@@ -549,141 +549,141 @@ public class SysServiceImpl implements SysService{
 					
 		this.createBasicData("nationalIndustry","" , "nationalIndustry", "国民经济行业分类", "", false);	
 			this.createBasicData("nationalIndustry_1","nationalIndustry" , "nationalIndustry", "农、林、牧、渔业", "");
-				this.createBasicData("nationalIndustry_1_1","nationalIndustry_1" , "nationalIndustry", "农业", "A01",0,false);
-				this.createBasicData("nationalIndustry_1_2","nationalIndustry_1" , "nationalIndustry", "林业", "A02",0,false);
-				this.createBasicData("nationalIndustry_1_3","nationalIndustry_1" , "nationalIndustry", "畜牧业", "A03",0,false);
-				this.createBasicData("nationalIndustry_1_4","nationalIndustry_1" , "nationalIndustry", "渔业", "A04",0,false);
-				this.createBasicData("nationalIndustry_1_5","nationalIndustry_1" , "nationalIndustry", "农、林、牧、渔服务业", "A05",0,false);
+				this.createBasicData("nationalIndustry_1_1","nationalIndustry_1" , "nationalIndustry", "农业", "01",0,false);
+				this.createBasicData("nationalIndustry_1_2","nationalIndustry_1" , "nationalIndustry", "林业", "02",0,false);
+				this.createBasicData("nationalIndustry_1_3","nationalIndustry_1" , "nationalIndustry", "畜牧业", "03",0,false);
+				this.createBasicData("nationalIndustry_1_4","nationalIndustry_1" , "nationalIndustry", "渔业", "04",0,false);
+				this.createBasicData("nationalIndustry_1_5","nationalIndustry_1" , "nationalIndustry", "农、林、牧、渔服务业", "05",0,false);
 		
 			this.createBasicData("nationalIndustry_2","nationalIndustry" , "nationalIndustry", "采矿业", "");
-				this.createBasicData("nationalIndustry_2_1","nationalIndustry_2" , "nationalIndustry", "煤炭开采和洗选业", "B06",0,false);
-				this.createBasicData("nationalIndustry_2_2","nationalIndustry_2" , "nationalIndustry", "石油和天然气开采业", "B07",0,false);
-				this.createBasicData("nationalIndustry_2_3","nationalIndustry_2" , "nationalIndustry", "黑色金属矿采选业", "B08",0,false);
-				this.createBasicData("nationalIndustry_2_4","nationalIndustry_2" , "nationalIndustry", "有色金属矿采选业", "B09",0,false);
-				this.createBasicData("nationalIndustry_2_5","nationalIndustry_2" , "nationalIndustry", "非金属矿采选业", "B10",0,false);
-				this.createBasicData("nationalIndustry_2_6","nationalIndustry_2" , "nationalIndustry", "开采辅助活动", "B11",0,false);
-				this.createBasicData("nationalIndustry_2_7","nationalIndustry_2" , "nationalIndustry", "其他采矿业", "B12",0,false);
+				this.createBasicData("nationalIndustry_2_1","nationalIndustry_2" , "nationalIndustry", "煤炭开采和洗选业", "06",0,false);
+				this.createBasicData("nationalIndustry_2_2","nationalIndustry_2" , "nationalIndustry", "石油和天然气开采业", "07",0,false);
+				this.createBasicData("nationalIndustry_2_3","nationalIndustry_2" , "nationalIndustry", "黑色金属矿采选业", "08",0,false);
+				this.createBasicData("nationalIndustry_2_4","nationalIndustry_2" , "nationalIndustry", "有色金属矿采选业", "09",0,false);
+				this.createBasicData("nationalIndustry_2_5","nationalIndustry_2" , "nationalIndustry", "非金属矿采选业", "10",0,false);
+				this.createBasicData("nationalIndustry_2_6","nationalIndustry_2" , "nationalIndustry", "开采辅助活动", "11",0,false);
+				this.createBasicData("nationalIndustry_2_7","nationalIndustry_2" , "nationalIndustry", "其他采矿业", "12",0,false);
 		
 			this.createBasicData("nationalIndustry_3","nationalIndustry" , "nationalIndustry", "制造业", "");
-				this.createBasicData("nationalIndustry_3_1","nationalIndustry_3" , "nationalIndustry", "农副食品加工业", "C13",0,false);
-				this.createBasicData("nationalIndustry_3_2","nationalIndustry_3" , "nationalIndustry", "食品制造业", "C14",0,false);
-				this.createBasicData("nationalIndustry_3_3","nationalIndustry_3" , "nationalIndustry", "酒、饮料和精制茶制造业", "C15",0,false);
-				this.createBasicData("nationalIndustry_3_4","nationalIndustry_3" , "nationalIndustry", "烟草制品业", "C16",0,false);
-				this.createBasicData("nationalIndustry_3_5","nationalIndustry_3" , "nationalIndustry", "纺织业", "C17",0,false);
-				this.createBasicData("nationalIndustry_3_6","nationalIndustry_3" , "nationalIndustry", "纺织服装、服饰业", "C18",0,false);
-				this.createBasicData("nationalIndustry_3_7","nationalIndustry_3" , "nationalIndustry", "皮革、毛皮、羽毛及其制品和制鞋业", "C19",0,false);
-				this.createBasicData("nationalIndustry_3_8","nationalIndustry_3" , "nationalIndustry", "木材加工和木、竹、藤、棕、草制品", "C20",0,false);
-				this.createBasicData("nationalIndustry_3_9","nationalIndustry_3" , "nationalIndustry", "家具制造业", "C21",0,false);
-				this.createBasicData("nationalIndustry_3_10","nationalIndustry_3" , "nationalIndustry", "造纸和纸制品业", "C22",0,false);
-				this.createBasicData("nationalIndustry_3_11","nationalIndustry_3" , "nationalIndustry", "印刷和记录媒介复制业", "C23",0,false);
-				this.createBasicData("nationalIndustry_3_12","nationalIndustry_3" , "nationalIndustry", "文教、工美、体育和娱乐用品制造业", "C24",0,false);
-				this.createBasicData("nationalIndustry_3_13","nationalIndustry_3" , "nationalIndustry", "石油加工、炼焦和核燃料加工业", "C25",0,false);
-				this.createBasicData("nationalIndustry_3_14","nationalIndustry_3" , "nationalIndustry", "化学原料和化学制品制造业", "C26",0,false);
-				this.createBasicData("nationalIndustry_3_15","nationalIndustry_3" , "nationalIndustry", "医药制造业", "C27",0,false);
-				this.createBasicData("nationalIndustry_3_16","nationalIndustry_3" , "nationalIndustry", "化学纤维制造业", "C28",0,false);
-				this.createBasicData("nationalIndustry_3_17","nationalIndustry_3" , "nationalIndustry", "橡胶和塑料制品业", "C29",0,false);
-				this.createBasicData("nationalIndustry_3_18","nationalIndustry_3" , "nationalIndustry", "非金属矿物制品业", "C30",0,false);
-				this.createBasicData("nationalIndustry_3_19","nationalIndustry_3" , "nationalIndustry", "黑色金属冶炼和压延加工业", "C31",0,false);
-				this.createBasicData("nationalIndustry_3_20","nationalIndustry_3" , "nationalIndustry", "有色金属冶炼和压延加工业", "C32",0,false);
-				this.createBasicData("nationalIndustry_3_21","nationalIndustry_3" , "nationalIndustry", "金属制品业", "C33",0,false);
-				this.createBasicData("nationalIndustry_3_22","nationalIndustry_3" , "nationalIndustry", "通用设备制造业", "C34",0,false);
-				this.createBasicData("nationalIndustry_3_23","nationalIndustry_3" , "nationalIndustry", "专用设备制造业", "C35",0,false);
-				this.createBasicData("nationalIndustry_3_24","nationalIndustry_3" , "nationalIndustry", "汽车制造业", "C36",0,false);
-				this.createBasicData("nationalIndustry_3_25","nationalIndustry_3" , "nationalIndustry", "铁路、船舶、航空航天和其他运输设备制造业", "C37",0,false);
-				this.createBasicData("nationalIndustry_3_26","nationalIndustry_3" , "nationalIndustry", "电气机械和器材制造业", "C38",0,false);
-				this.createBasicData("nationalIndustry_3_27","nationalIndustry_3" , "nationalIndustry", "计算机、通信和其他电子设备制造业", "C39",0,false);
-				this.createBasicData("nationalIndustry_3_28","nationalIndustry_3" , "nationalIndustry", "仪器仪表制造业", "C40",0,false);
-				this.createBasicData("nationalIndustry_3_29","nationalIndustry_3" , "nationalIndustry", "其他制造业", "C41",0,false);
-				this.createBasicData("nationalIndustry_3_30","nationalIndustry_3" , "nationalIndustry", "废弃资源综合利用业", "C42",0,false);
-				this.createBasicData("nationalIndustry_3_31","nationalIndustry_3" , "nationalIndustry", "金属制品、机械和设备修理业", "C43",0,false);
+				this.createBasicData("nationalIndustry_3_1","nationalIndustry_3" , "nationalIndustry", "农副食品加工业", "13",0,false);
+				this.createBasicData("nationalIndustry_3_2","nationalIndustry_3" , "nationalIndustry", "食品制造业", "14",0,false);
+				this.createBasicData("nationalIndustry_3_3","nationalIndustry_3" , "nationalIndustry", "酒、饮料和精制茶制造业", "15",0,false);
+				this.createBasicData("nationalIndustry_3_4","nationalIndustry_3" , "nationalIndustry", "烟草制品业", "16",0,false);
+				this.createBasicData("nationalIndustry_3_5","nationalIndustry_3" , "nationalIndustry", "纺织业", "17",0,false);
+				this.createBasicData("nationalIndustry_3_6","nationalIndustry_3" , "nationalIndustry", "纺织服装、服饰业", "18",0,false);
+				this.createBasicData("nationalIndustry_3_7","nationalIndustry_3" , "nationalIndustry", "皮革、毛皮、羽毛及其制品和制鞋业", "19",0,false);
+				this.createBasicData("nationalIndustry_3_8","nationalIndustry_3" , "nationalIndustry", "木材加工和木、竹、藤、棕、草制品", "20",0,false);
+				this.createBasicData("nationalIndustry_3_9","nationalIndustry_3" , "nationalIndustry", "家具制造业", "21",0,false);
+				this.createBasicData("nationalIndustry_3_10","nationalIndustry_3" , "nationalIndustry", "造纸和纸制品业", "22",0,false);
+				this.createBasicData("nationalIndustry_3_11","nationalIndustry_3" , "nationalIndustry", "印刷和记录媒介复制业", "23",0,false);
+				this.createBasicData("nationalIndustry_3_12","nationalIndustry_3" , "nationalIndustry", "文教、工美、体育和娱乐用品制造业", "24",0,false);
+				this.createBasicData("nationalIndustry_3_13","nationalIndustry_3" , "nationalIndustry", "石油加工、炼焦和核燃料加工业", "25",0,false);
+				this.createBasicData("nationalIndustry_3_14","nationalIndustry_3" , "nationalIndustry", "化学原料和化学制品制造业", "26",0,false);
+				this.createBasicData("nationalIndustry_3_15","nationalIndustry_3" , "nationalIndustry", "医药制造业", "27",0,false);
+				this.createBasicData("nationalIndustry_3_16","nationalIndustry_3" , "nationalIndustry", "化学纤维制造业", "28",0,false);
+				this.createBasicData("nationalIndustry_3_17","nationalIndustry_3" , "nationalIndustry", "橡胶和塑料制品业", "29",0,false);
+				this.createBasicData("nationalIndustry_3_18","nationalIndustry_3" , "nationalIndustry", "非金属矿物制品业", "30",0,false);
+				this.createBasicData("nationalIndustry_3_19","nationalIndustry_3" , "nationalIndustry", "黑色金属冶炼和压延加工业", "31",0,false);
+				this.createBasicData("nationalIndustry_3_20","nationalIndustry_3" , "nationalIndustry", "有色金属冶炼和压延加工业", "32",0,false);
+				this.createBasicData("nationalIndustry_3_21","nationalIndustry_3" , "nationalIndustry", "金属制品业", "33",0,false);
+				this.createBasicData("nationalIndustry_3_22","nationalIndustry_3" , "nationalIndustry", "通用设备制造业", "34",0,false);
+				this.createBasicData("nationalIndustry_3_23","nationalIndustry_3" , "nationalIndustry", "专用设备制造业", "35",0,false);
+				this.createBasicData("nationalIndustry_3_24","nationalIndustry_3" , "nationalIndustry", "汽车制造业", "36",0,false);
+				this.createBasicData("nationalIndustry_3_25","nationalIndustry_3" , "nationalIndustry", "铁路、船舶、航空航天和其他运输设备制造业", "37",0,false);
+				this.createBasicData("nationalIndustry_3_26","nationalIndustry_3" , "nationalIndustry", "电气机械和器材制造业", "38",0,false);
+				this.createBasicData("nationalIndustry_3_27","nationalIndustry_3" , "nationalIndustry", "计算机、通信和其他电子设备制造业", "39",0,false);
+				this.createBasicData("nationalIndustry_3_28","nationalIndustry_3" , "nationalIndustry", "仪器仪表制造业", "40",0,false);
+				this.createBasicData("nationalIndustry_3_29","nationalIndustry_3" , "nationalIndustry", "其他制造业", "41",0,false);
+				this.createBasicData("nationalIndustry_3_30","nationalIndustry_3" , "nationalIndustry", "废弃资源综合利用业", "42",0,false);
+				this.createBasicData("nationalIndustry_3_31","nationalIndustry_3" , "nationalIndustry", "金属制品、机械和设备修理业", "43",0,false);
 		
 			this.createBasicData("nationalIndustry_4","nationalIndustry" , "nationalIndustry", "电力、热力、燃气及水生产和供应业", "");
-				this.createBasicData("nationalIndustry_4_1","nationalIndustry_4" , "nationalIndustry", "电力、热力生产和供应业", "D44",0,false);
-				this.createBasicData("nationalIndustry_4_2","nationalIndustry_4" , "nationalIndustry", "燃气生产和供应业", "D45",0,false);
-				this.createBasicData("nationalIndustry_4_3","nationalIndustry_4" , "nationalIndustry", "水的生产和供应业", "D46",0,false);
+				this.createBasicData("nationalIndustry_4_1","nationalIndustry_4" , "nationalIndustry", "电力、热力生产和供应业", "44",0,false);
+				this.createBasicData("nationalIndustry_4_2","nationalIndustry_4" , "nationalIndustry", "燃气生产和供应业", "45",0,false);
+				this.createBasicData("nationalIndustry_4_3","nationalIndustry_4" , "nationalIndustry", "水的生产和供应业", "46",0,false);
 		
 		
 			this.createBasicData("nationalIndustry_5","nationalIndustry" , "nationalIndustry", "建筑业", "");
-				this.createBasicData("nationalIndustry_5_1","nationalIndustry_5" , "nationalIndustry", "房屋建筑业", "E47",0,false);
-				this.createBasicData("nationalIndustry_5_2","nationalIndustry_5" , "nationalIndustry", "土木工程建筑业", "E48",0,false);
-				this.createBasicData("nationalIndustry_5_3","nationalIndustry_5" , "nationalIndustry", "建筑安装业", "E49",0,false);
-				this.createBasicData("nationalIndustry_5_4","nationalIndustry_5" , "nationalIndustry", "建筑装饰和其他建筑业", "E50",0,false);
+				this.createBasicData("nationalIndustry_5_1","nationalIndustry_5" , "nationalIndustry", "房屋建筑业", "47",0,false);
+				this.createBasicData("nationalIndustry_5_2","nationalIndustry_5" , "nationalIndustry", "土木工程建筑业", "48",0,false);
+				this.createBasicData("nationalIndustry_5_3","nationalIndustry_5" , "nationalIndustry", "建筑安装业", "49",0,false);
+				this.createBasicData("nationalIndustry_5_4","nationalIndustry_5" , "nationalIndustry", "建筑装饰和其他建筑业", "50",0,false);
 		
 			this.createBasicData("nationalIndustry_6","nationalIndustry" , "nationalIndustry", "批发和零售业", "");
-				this.createBasicData("nationalIndustry_6_1","nationalIndustry_6" , "nationalIndustry", "批发业", "F51",0,false);
-				this.createBasicData("nationalIndustry_6_2","nationalIndustry_6" , "nationalIndustry", "零售业", "F52",0,false);
+				this.createBasicData("nationalIndustry_6_1","nationalIndustry_6" , "nationalIndustry", "批发业", "51",0,false);
+				this.createBasicData("nationalIndustry_6_2","nationalIndustry_6" , "nationalIndustry", "零售业", "52",0,false);
 		
 			this.createBasicData("nationalIndustry_7","nationalIndustry" , "nationalIndustry", "交通运输、仓储和邮政业", "");
-				this.createBasicData("nationalIndustry_7_1","nationalIndustry_7" , "nationalIndustry", "铁路运输业", "G53",0,false);
-				this.createBasicData("nationalIndustry_7_2","nationalIndustry_7" , "nationalIndustry", "道路运输业", "G54",0,false);
-				this.createBasicData("nationalIndustry_7_3","nationalIndustry_7" , "nationalIndustry", "水上运输业", "G55",0,false);
-				this.createBasicData("nationalIndustry_7_4","nationalIndustry_7" , "nationalIndustry", "航空运输业", "G56",0,false);
-				this.createBasicData("nationalIndustry_7_5","nationalIndustry_7" , "nationalIndustry", "管道运输业", "G57",0,false);
-				this.createBasicData("nationalIndustry_7_6","nationalIndustry_7" , "nationalIndustry", "装卸搬运和运输代理业", "G58",0,false);
-				this.createBasicData("nationalIndustry_7_7","nationalIndustry_7" , "nationalIndustry", "仓储业", "G59",0,false);
-				this.createBasicData("nationalIndustry_7_8","nationalIndustry_7" , "nationalIndustry", "邮政业", "G60",0,false);
+				this.createBasicData("nationalIndustry_7_1","nationalIndustry_7" , "nationalIndustry", "铁路运输业", "53",0,false);
+				this.createBasicData("nationalIndustry_7_2","nationalIndustry_7" , "nationalIndustry", "道路运输业", "54",0,false);
+				this.createBasicData("nationalIndustry_7_3","nationalIndustry_7" , "nationalIndustry", "水上运输业", "55",0,false);
+				this.createBasicData("nationalIndustry_7_4","nationalIndustry_7" , "nationalIndustry", "航空运输业", "56",0,false);
+				this.createBasicData("nationalIndustry_7_5","nationalIndustry_7" , "nationalIndustry", "管道运输业", "57",0,false);
+				this.createBasicData("nationalIndustry_7_6","nationalIndustry_7" , "nationalIndustry", "装卸搬运和运输代理业", "58",0,false);
+				this.createBasicData("nationalIndustry_7_7","nationalIndustry_7" , "nationalIndustry", "仓储业", "59",0,false);
+				this.createBasicData("nationalIndustry_7_8","nationalIndustry_7" , "nationalIndustry", "邮政业", "60",0,false);
 		
 			this.createBasicData("nationalIndustry_8","nationalIndustry" , "nationalIndustry", "住宿和餐饮业", "");
-				this.createBasicData("nationalIndustry_8_1","nationalIndustry_8" , "nationalIndustry", "住宿业", "H61",0,false);
-				this.createBasicData("nationalIndustry_8_2","nationalIndustry_8" , "nationalIndustry", "餐饮业", "H62",0,false);
+				this.createBasicData("nationalIndustry_8_1","nationalIndustry_8" , "nationalIndustry", "住宿业", "61",0,false);
+				this.createBasicData("nationalIndustry_8_2","nationalIndustry_8" , "nationalIndustry", "餐饮业", "62",0,false);
 		
 			this.createBasicData("nationalIndustry_9","nationalIndustry" , "nationalIndustry", "信息传输、软件和信息技术服务业", "");
-				this.createBasicData("nationalIndustry_9_1","nationalIndustry_9" , "nationalIndustry", "电信、广播电视和卫星传输服务", "I63",0,false);
-				this.createBasicData("nationalIndustry_9_2","nationalIndustry_9" , "nationalIndustry", "互联网和相关服务", "I64",0,false);
-				this.createBasicData("nationalIndustry_9_3","nationalIndustry_9" , "nationalIndustry", "软件和信息技术服务业", "I65",0,false);
+				this.createBasicData("nationalIndustry_9_1","nationalIndustry_9" , "nationalIndustry", "电信、广播电视和卫星传输服务", "63",0,false);
+				this.createBasicData("nationalIndustry_9_2","nationalIndustry_9" , "nationalIndustry", "互联网和相关服务", "64",0,false);
+				this.createBasicData("nationalIndustry_9_3","nationalIndustry_9" , "nationalIndustry", "软件和信息技术服务业", "65",0,false);
 		
 			this.createBasicData("nationalIndustry_10","nationalIndustry" , "nationalIndustry", "金融业", "");
-				this.createBasicData("nationalIndustry_10_1","nationalIndustry_10" , "nationalIndustry", "货币金融服务", "J66",0,false);
-				this.createBasicData("nationalIndustry_10_2","nationalIndustry_10" , "nationalIndustry", "资本市场服务", "J67",0,false);
-				this.createBasicData("nationalIndustry_10_3","nationalIndustry_10" , "nationalIndustry", "保险业", "J68",0,false);
-				this.createBasicData("nationalIndustry_10_4","nationalIndustry_10" , "nationalIndustry", "其他金融业", "J69",0,false);
+				this.createBasicData("nationalIndustry_10_1","nationalIndustry_10" , "nationalIndustry", "货币金融服务", "66",0,false);
+				this.createBasicData("nationalIndustry_10_2","nationalIndustry_10" , "nationalIndustry", "资本市场服务", "67",0,false);
+				this.createBasicData("nationalIndustry_10_3","nationalIndustry_10" , "nationalIndustry", "保险业", "68",0,false);
+				this.createBasicData("nationalIndustry_10_4","nationalIndustry_10" , "nationalIndustry", "其他金融业", "69",0,false);
 		
 			this.createBasicData("nationalIndustry_11","nationalIndustry" , "nationalIndustry", "房地产业", "");
-				this.createBasicData("nationalIndustry_11_1","nationalIndustry_11" , "nationalIndustry", "房地产业", "K70",0,false);
+				this.createBasicData("nationalIndustry_11_1","nationalIndustry_11" , "nationalIndustry", "房地产业", "70",0,false);
 		
 			this.createBasicData("nationalIndustry_12","nationalIndustry" , "nationalIndustry", "租赁和商务服务业", "");
-				this.createBasicData("nationalIndustry_12_1","nationalIndustry_12" , "nationalIndustry", "租赁业", "L71",0,false);
-				this.createBasicData("nationalIndustry_12_2","nationalIndustry_12" , "nationalIndustry", "商务服务业", "L72",0,false);
+				this.createBasicData("nationalIndustry_12_1","nationalIndustry_12" , "nationalIndustry", "租赁业", "71",0,false);
+				this.createBasicData("nationalIndustry_12_2","nationalIndustry_12" , "nationalIndustry", "商务服务业", "72",0,false);
 		
 			this.createBasicData("nationalIndustry_13","nationalIndustry" , "nationalIndustry", "科学研究和技术服务业", "");
-				this.createBasicData("nationalIndustry_13_1","nationalIndustry_13" , "nationalIndustry", "研究和试验发展", "M73",0,false);
-				this.createBasicData("nationalIndustry_13_2","nationalIndustry_13" , "nationalIndustry", "专业技术服务业", "M74",0,false);
-				this.createBasicData("nationalIndustry_13_3","nationalIndustry_13" , "nationalIndustry", "科技推广和应用服务业", "M75",0,false);
+				this.createBasicData("nationalIndustry_13_1","nationalIndustry_13" , "nationalIndustry", "研究和试验发展", "73",0,false);
+				this.createBasicData("nationalIndustry_13_2","nationalIndustry_13" , "nationalIndustry", "专业技术服务业", "74",0,false);
+				this.createBasicData("nationalIndustry_13_3","nationalIndustry_13" , "nationalIndustry", "科技推广和应用服务业", "75",0,false);
 		
 			this.createBasicData("nationalIndustry_14","nationalIndustry" , "nationalIndustry", "水利、环境和公共设施管理业", "");
-				this.createBasicData("nationalIndustry_14_1","nationalIndustry_14" , "nationalIndustry", "水利管理业", "N76",0,false);
-				this.createBasicData("nationalIndustry_14_2","nationalIndustry_14" , "nationalIndustry", "生态保护和环境治理业", "N77",0,false);
-				this.createBasicData("nationalIndustry_14_3","nationalIndustry_14" , "nationalIndustry", "公共设施管理业", "N78",0,false);
+				this.createBasicData("nationalIndustry_14_1","nationalIndustry_14" , "nationalIndustry", "水利管理业", "76",0,false);
+				this.createBasicData("nationalIndustry_14_2","nationalIndustry_14" , "nationalIndustry", "生态保护和环境治理业", "77",0,false);
+				this.createBasicData("nationalIndustry_14_3","nationalIndustry_14" , "nationalIndustry", "公共设施管理业", "78",0,false);
 		
 			this.createBasicData("nationalIndustry_15","nationalIndustry" , "nationalIndustry", "居民服务、修理和其他服务业", "");
-				this.createBasicData("nationalIndustry_15_1","nationalIndustry_15" , "nationalIndustry", "居民服务业", "O79",0,false);
-				this.createBasicData("nationalIndustry_15_2","nationalIndustry_15" , "nationalIndustry", "机动车、电子产品和日用产品修理业", "O80",0,false);
-				this.createBasicData("nationalIndustry_15_3","nationalIndustry_15" , "nationalIndustry", "其他服务业", "O81",0,false);
+				this.createBasicData("nationalIndustry_15_1","nationalIndustry_15" , "nationalIndustry", "居民服务业", "79",0,false);
+				this.createBasicData("nationalIndustry_15_2","nationalIndustry_15" , "nationalIndustry", "机动车、电子产品和日用产品修理业", "80",0,false);
+				this.createBasicData("nationalIndustry_15_3","nationalIndustry_15" , "nationalIndustry", "其他服务业", "81",0,false);
 		
 			this.createBasicData("nationalIndustry_16","nationalIndustry" , "nationalIndustry", "教育", "");
-				this.createBasicData("nationalIndustry_16_1","nationalIndustry_16" , "nationalIndustry", "教育", "P82",0,false);
+				this.createBasicData("nationalIndustry_16_1","nationalIndustry_16" , "nationalIndustry", "教育", "82",0,false);
 		
 			this.createBasicData("nationalIndustry_17","nationalIndustry" , "nationalIndustry", "卫生和社会工作", "");
-				this.createBasicData("nationalIndustry_17_1","nationalIndustry_17" , "nationalIndustry", "卫生", "Q83",0,false);
-				this.createBasicData("nationalIndustry_17_2","nationalIndustry_17" , "nationalIndustry", "社会工作", "Q84",0,false);
+				this.createBasicData("nationalIndustry_17_1","nationalIndustry_17" , "nationalIndustry", "卫生", "83",0,false);
+				this.createBasicData("nationalIndustry_17_2","nationalIndustry_17" , "nationalIndustry", "社会工作", "84",0,false);
 		
 			this.createBasicData("nationalIndustry_18","nationalIndustry" , "nationalIndustry", "文化、体育和娱乐业", "");
-				this.createBasicData("nationalIndustry_18_1","nationalIndustry_18" , "nationalIndustry", "新闻和出版业", "R85",0,false);
-				this.createBasicData("nationalIndustry_18_2","nationalIndustry_18" , "nationalIndustry", "广播、电视、电影和影视录音制作业", "R86",0,false);
-				this.createBasicData("nationalIndustry_18_3","nationalIndustry_18" , "nationalIndustry", "文化艺术业", "R87",0,false);
-				this.createBasicData("nationalIndustry_18_4","nationalIndustry_18" , "nationalIndustry", "体育", "R88",0,false);
-				this.createBasicData("nationalIndustry_18_5","nationalIndustry_18" , "nationalIndustry", "娱乐业", "R89",0,false);
+				this.createBasicData("nationalIndustry_18_1","nationalIndustry_18" , "nationalIndustry", "新闻和出版业", "85",0,false);
+				this.createBasicData("nationalIndustry_18_2","nationalIndustry_18" , "nationalIndustry", "广播、电视、电影和影视录音制作业", "86",0,false);
+				this.createBasicData("nationalIndustry_18_3","nationalIndustry_18" , "nationalIndustry", "文化艺术业", "87",0,false);
+				this.createBasicData("nationalIndustry_18_4","nationalIndustry_18" , "nationalIndustry", "体育", "88",0,false);
+				this.createBasicData("nationalIndustry_18_5","nationalIndustry_18" , "nationalIndustry", "娱乐业", "89",0,false);
 		
 			this.createBasicData("nationalIndustry_19","nationalIndustry" , "nationalIndustry", "公共管理、社会保障和社会组织", "");
-				this.createBasicData("nationalIndustry_19_1","nationalIndustry_19" , "nationalIndustry", "中国共产党机关", "S90",0,false);
-				this.createBasicData("nationalIndustry_19_2","nationalIndustry_19" , "nationalIndustry", "国家机构", "S91",0,false);
-				this.createBasicData("nationalIndustry_19_3","nationalIndustry_19" , "nationalIndustry", "人民政协、民主党派", "S92",0,false);
-				this.createBasicData("nationalIndustry_19_4","nationalIndustry_19" , "nationalIndustry", "社会保障", "S93",0,false);
-				this.createBasicData("nationalIndustry_19_5","nationalIndustry_19" , "nationalIndustry", "群众团体、社会团体和其他成员组织", "S94",0,false);
-				this.createBasicData("nationalIndustry_19_6","nationalIndustry_19" , "nationalIndustry", "基层群众自治组织", "S95",0,false);
+				this.createBasicData("nationalIndustry_19_1","nationalIndustry_19" , "nationalIndustry", "中国共产党机关", "90",0,false);
+				this.createBasicData("nationalIndustry_19_2","nationalIndustry_19" , "nationalIndustry", "国家机构", "91",0,false);
+				this.createBasicData("nationalIndustry_19_3","nationalIndustry_19" , "nationalIndustry", "人民政协、民主党派", "92",0,false);
+				this.createBasicData("nationalIndustry_19_4","nationalIndustry_19" , "nationalIndustry", "社会保障", "93",0,false);
+				this.createBasicData("nationalIndustry_19_5","nationalIndustry_19" , "nationalIndustry", "群众团体、社会团体和其他成员组织", "94",0,false);
+				this.createBasicData("nationalIndustry_19_6","nationalIndustry_19" , "nationalIndustry", "基层群众自治组织", "95",0,false);
 
 			this.createBasicData("nationalIndustry_20","nationalIndustry" , "nationalIndustry", "国际组织", "");
-				this.createBasicData("nationalIndustry_20_1","nationalIndustry_20" , "nationalIndustry", "国际组织", "T96",0,false);
+				this.createBasicData("nationalIndustry_20_1","nationalIndustry_20" , "nationalIndustry", "国际组织", "96",0,false);
 		
 		this.createBasicData("projectInvestmentType","" , "projectInvestmentType", "项目投资类型分类", "项目投资类型分类");
 		this.createBasicData("projectInvestmentType_1","projectInvestmentType" , "projectInvestmentType", "政府投资项目", "项目投资类型分类");
