@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import cs.domain.framework.Role;
+import cs.model.framework.RoleDto;
 import cs.model.framework.UserDto;
+import cs.service.framework.RoleService;
 import cs.service.framework.UserService;
 import net.risesoft.api.org.DepartmentManager;
 import net.risesoft.model.Person;
@@ -20,7 +23,9 @@ import net.risesoft.util.RisesoftUtil;
 public class Rc8utilController {
 	@Autowired
 	private UserService userService;
-
+	@Autowired
+	private RoleService roleService;
+	
 	private static String[] tzk_id_list = {"4853bb99c50b413f89658af304e18698","{261F89FE-F016-4ADA-A5A0-B43EA7D9FFF0}","{BFA7B3F4-FFFF-FFFF-B32B-A23800000002}","{BFA7B3F4-FFFF-FFFF-B32B-D0B500000003}","{AC18B3FB-FFFF-FFFF-FB69-97BD00000015}","{BFA7B3F4-FFFF-FFFF-B32E-58DB00000008}","{AC18B3FB-0000-0000-6629-02E600000002}"};
 	
 //	@RequiresPermissions("risesoft#tzkUsers#get")
@@ -28,6 +33,7 @@ public class Rc8utilController {
 	@ResponseStatus(value = HttpStatus.OK)
 	public void getTZKUser(){
 		DepartmentManager  dm = RisesoftUtil.getDepartmentManager();
+		List<RoleDto> roleList = roleService.Get();
 		for (int i = 0; i < tzk_id_list.length; i++) {
 			List<Person> person = dm.getAllPersons(tzk_id_list[i]);
 			for (Person person2 : person) {
@@ -36,6 +42,11 @@ public class Rc8utilController {
 				userDto.setLoginName(person2.getLoginName());
 				userDto.setPassword(person2.getPlainText());
 				
+				for (RoleDto role : roleList) {
+					if(role.getRoleName().equals("建设单位")){
+						userDto.getRoles().add(role);
+					}
+				}
 				userService.createSYSUser(userDto);
 			}
 		}

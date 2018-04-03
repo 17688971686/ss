@@ -113,40 +113,8 @@ public class UserServiceImpl implements UserService {
 				user.setId(UUID.randomUUID().toString());
 				user.setCreatedBy(currentUser.getUserId());
 				user.setModifiedBy(currentUser.getUserId());
-//				String password = RSABCExample.decodeJsValue(userDto.getPassword());//RSA解密前端传递的密码
-				//String passwordCode = new String(Hex.encode(RSABCExample.encrypt(password)));//RSA加密存储
 				user.setPassword(userDto.getPassword());
 				
-				// 加入角色
-				for (RoleDto roleDto : userDto.getRoles()) {
-					Role role = roleRepo.findById(roleDto.getId());
-					if (role != null) {
-						user.getRoles().add(role);
-						if(role.getRoleName().equals(BasicDataConfig.role_unit)){//如果是建设单位，往建设单位表里添加数据
-							UserUnitInfoDto userUnitInfoDto=new UserUnitInfoDto();
-							//如果创建数据中有显示名,设置单位名称
-							if(user.getDisplayName() !=null && !"".equals(user.getDisplayName())){
-								userUnitInfoDto.setUnitName(user.getDisplayName());
-							}else{
-								userUnitInfoDto.setUnitName(user.getLoginName());
-							}
-							userUnitInfoDto.setUserName(user.getId());//绑定用户id
-							userUnitInfoService.save(user.getLoginName(), userUnitInfoDto);
-						}
-						if(role.getRoleName().equals(BasicDataConfig.role_shenpiUnit)){//如果是审批单位，往审批单位表里添加数据
-							ShenPiUnit entity=new ShenPiUnit();
-							if(user.getDisplayName() !=null && !"".equals(user.getDisplayName())){
-								entity.setShenpiUnitName(user.getDisplayName());
-							}
-							else{
-								entity.setShenpiUnitName(user.getLoginName());
-							}
-							entity.setUserId(user.getId());
-							entity.setId(UUID.randomUUID().toString());
-							shenpiUnitRepo.save(entity);
-						}
-					}
-				}
 				userRepo.save(user);
 				logger.info(String.format("创建用户,登录名:%s", userDto.getLoginName()));
 			} catch (Exception e) {
@@ -161,8 +129,7 @@ public class UserServiceImpl implements UserService {
 					findUser.setDisplayName(userDto.getDisplayName());
 					findUser.setModifiedBy(currentUser.getUserId());
 					findUser.setPassword(userDto.getPassword());
-					// 清除已有role
-					findUser.getRoles().clear();
+					findUser.setModifiedDate(new Date());
 					// 加入角色
 					for (RoleDto roleDto : userDto.getRoles()) {
 						Role role = roleRepo.findById(roleDto.getId());
@@ -179,6 +146,7 @@ public class UserServiceImpl implements UserService {
 				
 		}
 	}
+
 
 	
 	
