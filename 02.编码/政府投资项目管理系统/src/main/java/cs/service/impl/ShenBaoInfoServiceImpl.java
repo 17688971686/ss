@@ -1,12 +1,18 @@
 package cs.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import javax.transaction.Transactional;
+
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
+import org.activiti.spring.ProcessEngineFactoryBean;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -19,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import cs.activiti.service.ActivitiService;
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.common.SQLConfig;
@@ -34,6 +41,8 @@ import cs.domain.ShenBaoUnitInfo;
 import cs.domain.TaskHead;
 import cs.domain.TaskHead_;
 import cs.domain.TaskRecord;
+import cs.domain.framework.Role;
+import cs.domain.framework.Role_;
 import cs.domain.framework.SysConfig;
 import cs.domain.framework.SysConfig_;
 import cs.model.PageModelDto;
@@ -44,6 +53,7 @@ import cs.model.DomainDto.ShenBaoUnitInfoDto;
 import cs.model.DomainDto.TaskRecordDto;
 import cs.model.DtoMapper.IMapper;
 import cs.model.Statistics.ProjectStatisticsBean;
+import cs.repository.framework.RoleRepo;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
@@ -82,6 +92,14 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private BasicDataService basicDataService;
 	@Autowired
 	private ICurrentUser currentUser;
+	@Autowired
+	private RoleRepo roleRepo;
+	@Autowired
+	private ActivitiService activitiService;
+	@Autowired
+    ProcessEngineFactoryBean processEngine;
+	
+	private String processDefinitionKey = "ShenpiReview";
 
 	@Value("${projectShenBaoStage_JYS}")
 	private String projectShenBaoStage_JYS;//申报阶段：建议书
@@ -216,8 +234,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
 		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
 		super.repository.save(entity);
-		//初始化工作流
-		initWorkFlow(entity,isAdminCreate);
+		//启动申报审批流程
+		startProcessShenbao(processDefinitionKey,entity.getId());
+//		initWorkFlow(entity,isAdminCreate);
 		//处理批复文件库
 		handlePiFuFile(entity);
 		logger.info(String.format("创建申报信息,项目名称 :%s,申报阶段：%s",entity.getProjectName(),
@@ -1163,5 +1182,44 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		list = query.setResultTransformer(Transformers.aliasToBean(ProjectStatisticsBean.class)).list();
 		logger.info("计划类信息自定义分类统计报表导出");
 		return list;
+	}
+	
+	@Override
+	@Transactional
+	public void startProcessShenbao(String processDefinitionKey, String id) {
+
+		//获取系统配置中工作流类型的第一处理人
+		Criterion criterion = Restrictions.eq(SysConfig_.configName.getName(), BasicDataConfig.taskType_shenpiFenBan);
+		SysConfig sysConfg = sysConfigRepo.findByCriteria(criterion).stream().findFirst().get();
+				
+//		Criterion criterion = Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.ROLE_OPERATOR);
+//		Optional<Role> role = roleRepo.findByCriteria(criterion).stream().findFirst();
+
+		Map<String, Object> variables = new HashMap<String, Object>();
+
+		variables.put("projectId", id);
+		activitiService.setStartProcessUserId(currentUser.getUserId());//谁启动的流程
+		
+		ProcessInstance process = activitiService.startProcess(processDefinitionKey, variables);
+		String executionId = process.getId();
+
+		Task task = activitiService.getTaskByExecutionId(executionId);
+
+		if(sysConfg !=null){
+			if(Util.isNotNull(sysConfg.getConfigValue()) && sysConfg.getEnable()){
+		processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(task.getId(), sysConfg.getConfigValue());
+			}
+		}else{
+			throw new IllegalArgumentException(String.format("没有配置申报信息审核分办人员，请联系管理员！"));
+		}
+//		Collection<String> candidateGroups = new ArrayList<String>();
+//		candidateGroups.add(role.get().getId());
+//		activitiService.addCandidateGroups(task.getId(), candidateGroups);
+
+		Project project = projectRepo.findById(id);
+//		project.setIsProjectGoLive(BasicDataConfig.processState_jxz);
+//		project.setProjectGoLiveProcessId(process.getProcessInstanceId());
+		projectRepo.save(project);
+		logger.info(String.format("启动审批流程,用户名:%s", currentUser.getLoginName()));
 	}
 }

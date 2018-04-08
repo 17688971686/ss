@@ -35,6 +35,7 @@ public class ShenBaoAdminShenBaoController {
 	private ICurrentUser currentUser;
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
+	private String processDefinitionKey = "ShenpiReview";
 	
 	@RequiresPermissions("shenbaoAdmin/shenbao##get")
 	@RequestMapping(name = "获取申报信息", path = "",method=RequestMethod.GET)
@@ -86,6 +87,12 @@ public class ShenBaoAdminShenBaoController {
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void create(@RequestBody ShenBaoInfoDto shenBaoInfoDto){
 		shenBaoInfoService.createShenBaoInfo(shenBaoInfoDto,false);	
+	}
+	
+	@RequestMapping(name = "启动项目上线申请审批", path = "start",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void  startProcess(@RequestBody String projectId){
+		shenBaoInfoService.startProcessShenbao(processDefinitionKey, projectId);
 	}
 	
 	@RequiresPermissions("shenbaoAdmin/shenbao#updateShenbao#post")

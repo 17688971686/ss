@@ -24,4 +24,5 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
 	List<ProjectStatisticsBean> getPlanStatistics(String type,int planYear);//计划类分类统计	
 	List<ProjectStatisticsBean> getPlanStatisticsByCustom(Integer planYearBegin,Integer planYearEnd,String[] industrySelected,
 			String[] stageSelected,String[] unitSelected,Double investSumBegin,Double investSumEnd,Double apPlanReachSumBegin,Double apPlanReachSumEnd,String projectName);//自定义条件计划类统计
+	public void startProcessShenbao(String processDefinitionKey, String projectId);
 }

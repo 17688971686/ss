@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.activiti.engine.identity.Group;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cs.activiti.service.ActivitiService;
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.domain.framework.Resource;
@@ -28,6 +30,8 @@ public class RoleServiceImpl implements RoleService {
 	private RoleRepo roleRepository;
 	@Autowired
 	private ICurrentUser currentUser;
+	@Autowired
+	private ActivitiService activitiService;
 
 	/*
 	 * (non-Javadoc)
@@ -134,7 +138,11 @@ public class RoleServiceImpl implements RoleService {
 			role.getResources().add(resource);
 		}
 
-		roleRepository.save(role);		
+		Role roleResult = roleRepository.save(role);
+		//创建候选组
+		Group group = activitiService.createNewGroup(roleResult.getId());
+		group.setName(roleDto.getRoleName());
+		activitiService.createGroup(group);
 		logger.info(String.format("创建角色,角色名:%s", roleDto.getRoleName()));
 		}else{
 			throw new IllegalArgumentException(String.format("角色名：%s 已经存在,请重新输入！",	roleDto.getRoleName()));
@@ -160,7 +168,11 @@ public class RoleServiceImpl implements RoleService {
 			role.getResources().add(resource);
 		}
 		
-		roleRepository.save(role);
+		Role roleResult = roleRepository.save(role);
+		Group group = activitiService.getGroup(roleResult.getId());
+		if(group == null){
+			group = activitiService.createNewGroup(roleResult.getId());
+		}
 		logger.info(String.format("更新角色,角色名:%s", roleDto.getRoleName()));
 	}
 
@@ -172,8 +184,11 @@ public class RoleServiceImpl implements RoleService {
 			List<User> users=role.getUsers();
 			for (User user : users) {//把角色里的用户移出才能删除
 				user.getRoles().remove(role);
+				activitiService.deleteMembership(user.getId(), role.getId());
 			}
 			if(!role.getRoleName().equals(BasicDataConfig.role_admin)){
+				//先删除候选组
+				activitiService.deleteGroup(role.getId());
 				roleRepository.delete(role);
 				logger.info(String.format("删除角色,角色名:%s", role.getRoleName()));
 			}
