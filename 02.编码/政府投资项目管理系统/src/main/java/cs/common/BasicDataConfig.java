@@ -1,6 +1,18 @@
 package cs.common;
 
 public class BasicDataConfig {
+	public static int processState_wqd=0;//未启动
+	public static int processState_jxz=1;//进行中
+	public static int processState_tg=2;//审批通过
+	public static int processState_btg=3;//审批不通过
+	
+	public final static String  ROLE_OPERATOR="办公室经办人";
+	public final static String  ROLE_SECTION_CHIEF="科长";
+	public final static String  ROLE_LEADERSHIP="局领导";
+	public final static String  ROLE_DEPUTYCHIEF="副局";
+	public final static String  ROLE_DEPUTY="局长";
+	public final static String  ROLE_HEAD="评审中心评审人员";
+	public final static String  ROLE_CLERKOFFICER="科员";
 	
 	public static String approvalType ="approvalType";
 	public static String projectProgress ="projectProgress";
