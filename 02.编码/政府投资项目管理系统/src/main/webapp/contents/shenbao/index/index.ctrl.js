@@ -49,7 +49,6 @@
         activate();
         function activate() {
         	indexSvc.getArticle(vm);
-        	console.log(getExplorerInfo().type);
         	if(getExplorerInfo().type == "IE" ){
         		vm.isIE = true;
         	}
