@@ -26,13 +26,18 @@
 	                    	response:response,
 	                    	fn:function () {
 	                            
-	                            var isSuccess = response.data.success;
-	                            if (isSuccess) {
-	                                vm.message = "";
-	                                location.href = "/shenbaoAdmin";
-	                            } else {                                
-	                                vm.message=response.data.message;
+	                            var resp = response.data;
+	                            if(resp.success){
+	                            	  if (resp.urls == "shenbaoAdmin") {
+	  	                                vm.message = "";
+	  	                                location.href = "/shenbaoAdmin";
+	  	                            } else {                                
+	  	                           	 	location.href = "/admin/index#/task/todo";
+	  	                            }
+	                            }else{
+	                            	  vm.message=response.data.message;
 	                            }
+	                          
 	                    	}
 	                    });
 

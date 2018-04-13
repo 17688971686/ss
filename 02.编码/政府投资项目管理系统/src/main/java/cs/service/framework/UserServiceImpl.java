@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+
+import org.activiti.engine.identity.Group;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -13,6 +15,8 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import cs.activiti.service.ActivitiService;
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.common.RSABCExample;
@@ -46,7 +50,8 @@ public class UserServiceImpl implements UserService {
 	private UserUnitInfoService userUnitInfoService;
 	@Autowired
 	private IRepository<ShenPiUnit, String> shenpiUnitRepo;
-
+	@Autowired
+	private ActivitiService activitiService;
 
 	
 	@Override
@@ -137,7 +142,19 @@ public class UserServiceImpl implements UserService {
 							findUser.getRoles().add(role);
 						}
 					}
-					userRepo.save(findUser);
+					User userResult = userRepo.save(findUser);
+					//创建候选人
+					org.activiti.engine.identity.User activityUser = activitiService.createNewUser(userResult.getId());
+					activityUser.setId(userResult.getId());
+					activityUser.setFirstName(userResult.getDisplayName());
+					activityUser.setPassword(userResult.getPassword());
+					
+//					activitiService.createUser(activityUser);
+//					if(!userResult.getRoles().isEmpty()){
+//						for (Role role : userResult.getRoles()) {
+//							activitiService.createUserGroupMembership(userResult.getId(), role.getId());
+//						}
+//					}
 					logger.info(String.format("更新用户,用户名:%s", userDto.getLoginName()));
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -194,7 +211,19 @@ public class UserServiceImpl implements UserService {
 						}
 					}
 				}
-				userRepo.save(user);
+				User userResult = userRepo.save(user);
+				//创建候选人
+				org.activiti.engine.identity.User activityUser = activitiService.createNewUser(userResult.getId());
+				activityUser.setId(userResult.getId());
+				activityUser.setFirstName(userResult.getDisplayName());
+				activityUser.setPassword(userResult.getPassword());
+				
+				activitiService.createUser(activityUser);
+				if(!userResult.getRoles().isEmpty()){
+					for (Role role : userResult.getRoles()) {
+						activitiService.createUserGroupMembership(userResult.getId(), role.getId());
+					}
+				}
 				logger.info(String.format("创建用户,登录名:%s", userDto.getLoginName()));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -209,6 +238,12 @@ public class UserServiceImpl implements UserService {
 	public void deleteUser(String id) {
 		User user = userRepo.findById(id);
 		if (user != null) {
+			if(user.getRoles().size() != 0){
+				user.getRoles().forEach(x->{
+					activitiService.deleteMembership(user.getId(), x.getId());
+				});
+				activitiService.deleteUser(user.getId());
+			}
 			if(!user.getLoginName().equals("admin")){
 				userRepo.delete(user);
 				logger.info(String.format("删除用户,用户名:%s", user.getLoginName()));
@@ -236,11 +271,46 @@ public class UserServiceImpl implements UserService {
 				user.setComment(userDto.getComment());
 				user.setDisplayName(userDto.getDisplayName());
 				user.setModifiedBy(currentUser.getUserId());
-				if(Util.isNotNull(userDto.getPassword())){
-					String password = RSABCExample.decodeJsValue(userDto.getPassword());//RSA解密前端传递的密码
+//				if(Util.isNotNull(userDto.getPassword())){
+//					String password = RSABCExample.decodeJsValue(userDto.getPassword());//RSA解密前端传递的密码
 					//String passwordCode = new String(Hex.encode(RSABCExample.encrypt(password)));//RSA加密存储
-					user.setPassword(password);
-				}
+//					user.setPassword(userDto.getPassword());
+//				}
+					user.getRoles().forEach(x->{
+						activitiService.deleteMembership(user.getId(), x.getId());
+					});
+					//}
+					activitiService.deleteUser(user.getId());
+					
+					//更新activity用户
+					org.activiti.engine.identity.User activityUser = activitiService.getUser(userDto.getId());
+//					activityUser.setPassword(userDto.getPassword());
+					if(activityUser != null){
+						activityUser.setFirstName(userDto.getDisplayName());
+						//保存activity用户
+						activitiService.createUser(activityUser);
+					}else{
+						activityUser = activitiService.createNewUser(userDto.getId());
+						activityUser.setFirstName(userDto.getDisplayName());
+						activitiService.createUser(activityUser);
+					}
+				
+					//重新添加关联
+					for (RoleDto role : userDto.getRoles()) {
+						//角色组存在，直接关联
+						Group group = activitiService.getGroup(role.getId());
+						if(group != null){
+							activitiService.createUserGroupMembership(userDto.getId(), role.getId());
+						}else{
+							//创建候选组
+							Group groupNew = activitiService.createNewGroup(role.getId());
+							groupNew.setName(role.getRoleName());
+							activitiService.createGroup(groupNew);
+							
+							activitiService.createUserGroupMembership(activityUser.getId(), groupNew.getId());
+						}
+						
+					}
 				// 清除已有role
 				user.getRoles().clear();
 				// 加入角色
@@ -383,7 +453,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			//password = RSABCExample.decodeJsValue(password);//RSA解密前端传递的密码
 			User user=userRepo.findUserByName(userName);
-			
+			String url="adminLoginIndex";
 			List<String> roleName=new ArrayList<>();
 			String[]  str= role.split(",");
 			
@@ -417,6 +487,15 @@ public class UserServiceImpl implements UserService {
 							}
 						}				
 					}
+					
+					loop2:for(Role x:roles){
+						if( x.getRoleName().equals("管理员") ||x.getRoleName().equals("超级管理员")){//如果有对应的角色则允许登录
+							response.setUrls(url);
+							break loop2;
+						}else{
+							response.setUrls("shenbaoAdmin");
+						}
+					}		
 					if(hasRole){
 						currentUser.setLoginName(user.getLoginName());
 						currentUser.setDisplayName(user.getDisplayName());
