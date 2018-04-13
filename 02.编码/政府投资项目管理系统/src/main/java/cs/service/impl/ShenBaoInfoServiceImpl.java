@@ -235,8 +235,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
 		super.repository.save(entity);
 		//启动申报审批流程
-		startProcessShenbao(processDefinitionKey,entity.getId());
-//		initWorkFlow(entity,isAdminCreate);
+//		startProcessShenbao(processDefinitionKey,entity.getId());
+		initWorkFlow(entity,isAdminCreate);
 		//处理批复文件库
 		handlePiFuFile(entity);
 		logger.info(String.format("创建申报信息,项目名称 :%s,申报阶段：%s",entity.getProjectName(),
