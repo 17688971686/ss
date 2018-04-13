@@ -38,10 +38,10 @@ public class Rc8utilController {
 			List<Person> person = dm.getAllPersons(tzk_id_list[i]);
 			for (Person person2 : person) {
 				UserDto userDto = new UserDto();
-				userDto.setDisplayName(person2.getName());
+				userDto.setDisplayName(person2.getLoginName());
 				userDto.setLoginName(person2.getLoginName());
 				userDto.setPassword(person2.getPlainText());
-				person2.getDN();
+				
 				for (RoleDto role : roleList) {
 					if(role.getRoleName().equals("建设单位")){
 						userDto.getRoles().add(role);

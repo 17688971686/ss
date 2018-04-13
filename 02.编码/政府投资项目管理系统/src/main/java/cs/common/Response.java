@@ -37,5 +37,4 @@ public class Response {
 	public void setUrls(String urls) {
 		this.urls = urls;
 	}
-	
 }
