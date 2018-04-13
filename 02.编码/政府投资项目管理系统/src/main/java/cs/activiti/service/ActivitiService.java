@@ -381,6 +381,21 @@ public class ActivitiService implements IActivitiService{
 		logger.debug("=====>查询候选人员：" + userId);
 		return user;
 	}
+	public List<Task> getCandidateGroupInTask(List<String> ids) {
+	List<Task> tasks = taskService.createTaskQuery().taskCandidateGroupIn(ids).orderByTaskCreateTime().desc().list();
+		
+		logger.debug("--------------------我的分配任务或签收任务-----------");
+		
+		for(Task task : tasks){
+			logger.debug("======>id:"+task.getId()+",");
+			logger.debug("======>name:"+task.getName()+",");
+			logger.debug("======>createTime:"+task.getCreateTime()+",");
+			logger.debug("======>assignee:"+task.getAssignee());
+
+		}	
+		logger.debug("------------------------------------------");	
+		return tasks;
+	}
 
 
 	

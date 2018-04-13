@@ -164,6 +164,12 @@ public class ShenBaoInfo extends BaseProject{
 	private String processStage;
 	@Column(columnDefinition="int(1) NULL COMMENT '审批状态'")
 	private Integer processState;
+	@Column(columnDefinition="varchar(125) NULL COMMENT '审批阶段'")
+	private String zong_processId;
+	@Column(columnDefinition="varchar(125) NULL COMMENT '审批阶段'")
+	private String thisTaskId;
+	@Column(columnDefinition="varchar(125) NULL COMMENT '审批阶段'")
+	private String thisTaskName;
 	//end
 	
 	//begin#建议书相关
@@ -630,6 +636,24 @@ public class ShenBaoInfo extends BaseProject{
 	}
 	public void setApPlanReach_gtzj(Double apPlanReach_gtzj) {
 		this.apPlanReach_gtzj = apPlanReach_gtzj;
+	}
+	public String getZong_processId() {
+		return zong_processId;
+	}
+	public void setZong_processId(String zong_processId) {
+		this.zong_processId = zong_processId;
+	}
+	public String getThisTaskId() {
+		return thisTaskId;
+	}
+	public void setThisTaskId(String thisTaskId) {
+		this.thisTaskId = thisTaskId;
+	}
+	public String getThisTaskName() {
+		return thisTaskName;
+	}
+	public void setThisTaskName(String thisTaskName) {
+		this.thisTaskName = thisTaskName;
 	}
 	
 }
