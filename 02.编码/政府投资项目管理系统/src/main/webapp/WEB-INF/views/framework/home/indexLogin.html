@@ -172,7 +172,7 @@
             vm.title = 'controller';
             vm.checked = false;
             
-            submit();
+      submit();
             function submit() {
             	var role = "manage";
                     var httpOptions = {
@@ -186,14 +186,11 @@
                         	vm:vm,
                         	response:response,
                         	fn:function () {
-                                
-                                var isSuccess = response.data.success;
-                                if (isSuccess) {
-                                    vm.message = "";
-                                    //common.cookie().set("data", "token", response.data.Token, "", "/");
-                                    location.href = "/admin/index#/task/todo";
-                                } else {
-                                    vm.message=response.data.message
+                        	    
+	                            var resp = response.data;
+                                if (resp.success) {
+                                	
+                                	 location.href = "/admin/index#/task/todo";
                                 }
                         	}
                         });
@@ -210,7 +207,8 @@
             
 
             activate();
-            function activate() {}
+            function activate() {
+            }
             
         	vm.change=function(){
 				vm.checked = ! vm.checked;
