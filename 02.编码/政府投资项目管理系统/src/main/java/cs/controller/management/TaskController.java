@@ -18,10 +18,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.common.ICurrentUser;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
+import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.TaskHeadDto;
 import cs.model.DomainDto.TaskRecordDto;
 import cs.repository.odata.ODataObj;
+import cs.repository.odata.ODataObjNew;
 import cs.service.framework.UserService;
+import cs.service.interfaces.ProcessService;
 import cs.service.interfaces.TaskHeadService;
 
 @Controller
@@ -30,6 +33,8 @@ public class TaskController {
 	private String ctrl = "management/task";
 	@Autowired
 	TaskHeadService taskHeadService;
+	@Autowired
+	ProcessService processService;
 	@Autowired
 	UserService userService;
 	@Autowired
@@ -62,26 +67,26 @@ public class TaskController {
 	
 	//@RequiresPermissions("management/task#audit#get")
 	@RequestMapping(name = "获取审批类个人待办数据", path = "audit", method = RequestMethod.GET)
-	public @ResponseBody PageModelDto<TaskHeadDto> getToDo_Audit(HttpServletRequest request) throws ParseException {
-		ODataObj odataObj = new ODataObj(request);	
-		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.getTask_audit(odataObj);
+	public @ResponseBody PageModelDto<ShenBaoInfoDto> getToDo_Audit(HttpServletRequest request) throws ParseException {
+		ODataObjNew odataObj = new ODataObjNew(request);	
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getTask_user(odataObj);
 		//关于流程记录根据创建用户id查找到名称用于显示
-		List<TaskHeadDto> taskHeadDtols = taskHeadDtos.getValue();
-		if(taskHeadDtols !=null && taskHeadDtols.size()>0){
-			taskHeadDtols.forEach(x->{
-				if(x.getTaskRecordDtos() !=null && x.getTaskRecordDtos().size()>0){
-					x.getTaskRecordDtos().forEach(y->{
-						User user = userService.findById(y.getThisUser());
-						if(user !=null){
-							String name = user.getDisplayName()!=null&&!user.getDisplayName().equals("")?user.getDisplayName():user.getLoginName();
-							y.setThisUser(name);
-						}
-					});
-				}
-			});
-			taskHeadDtos.setValue(taskHeadDtols);
-		}
-		return taskHeadDtos;
+//		List<TaskHeadDto> taskHeadDtols = taskHeadDtos.getValue();
+//		if(taskHeadDtols !=null && taskHeadDtols.size()>0){
+//			taskHeadDtols.forEach(x->{
+//				if(x.getTaskRecordDtos() !=null && x.getTaskRecordDtos().size()>0){
+//					x.getTaskRecordDtos().forEach(y->{
+//						User user = userService.findById(y.getThisUser());
+//						if(user !=null){
+//							String name = user.getDisplayName()!=null&&!user.getDisplayName().equals("")?user.getDisplayName():user.getLoginName();
+//							y.setThisUser(name);
+//						}
+//					});
+//				}
+//			});
+//			taskHeadDtos.setValue(taskHeadDtols);
+//		}
+		return shenBaoInfoDtos;
 	}
 
 	//@RequiresPermissions("management/task#plan#get")
