@@ -246,47 +246,55 @@
 		function createProject(vm){
 			common.initJqValidation();
 			var isValid = $('form').valid();
-			if (isValid) {
-				vm.model.projectType =common.arrayToString(vm.model.projectType,',');
-				projectFundsFormat(vm);
-				vm.isSubmit = true;		
-				var httpOptions = {
-					method : 'post',
-					url : url_project+"/unitProject",
-					data : vm.model
-				};
-
-				var httpSuccess = function success(response) {
-					common.requestSuccess({
-						vm : vm,
-						response : response,
-						fn : function() {
-							common.alert({
-								vm : vm,
-								msg : "操作成功",
-								fn : function() {
-									vm.isSubmit = false;
-									$('.alertDialog').modal('hide');
-									$('.modal-backdrop').remove();
-										$location.path(url_back);//创建成功返回到列表页
-								}
-							});
-						}
-					});
-				};
-
-				common.http({
-					vm : vm,
-					$http : $http,
-					httpOptions : httpOptions,
-					success : httpSuccess
-				});
-			}else{//表单验证失败
+			if(vm.model.unitName == undefined || vm.model.unitName == ""){
 				common.alert({
 					vm:vm,
-					msg:"您填写的信息不正确,请核对后提交!"
+					msg:"请先至'单位信息维护'选择本人单位之后申报项目!"
 				});
+			}else{
+				if (isValid) {
+					vm.model.projectType =common.arrayToString(vm.model.projectType,',');
+					projectFundsFormat(vm);
+					vm.isSubmit = true;		
+					var httpOptions = {
+						method : 'post',
+						url : url_project+"/unitProject",
+						data : vm.model
+					};
+
+					var httpSuccess = function success(response) {
+						common.requestSuccess({
+							vm : vm,
+							response : response,
+							fn : function() {
+								common.alert({
+									vm : vm,
+									msg : "操作成功",
+									fn : function() {
+										vm.isSubmit = false;
+										$('.alertDialog').modal('hide');
+										$('.modal-backdrop').remove();
+											$location.path(url_back);//创建成功返回到列表页
+									}
+								});
+							}
+						});
+					};
+
+					common.http({
+						vm : vm,
+						$http : $http,
+						httpOptions : httpOptions,
+						success : httpSuccess
+					});
+				}else{//表单验证失败
+					common.alert({
+						vm:vm,
+						msg:"您填写的信息不正确,请核对后提交!"
+					});
+				}
 			}
+			
 		}
 	
 		function documentRecordsGird(vm){
