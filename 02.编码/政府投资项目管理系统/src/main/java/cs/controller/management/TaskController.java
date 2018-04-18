@@ -2,6 +2,7 @@ package cs.controller.management;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -88,7 +89,15 @@ public class TaskController {
 //		}
 		return shenBaoInfoDtos;
 	}
-
+	@RequestMapping(name = "处理任务", path = "process",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void  taskComplete(@RequestBody Map data,HttpServletRequest request) throws ParseException{
+		processService.taskComplete(data);
+	}
+	@RequestMapping(name = "历史信息", path = "his/{id}",method=RequestMethod.GET)
+	public @ResponseBody List<Object>  getHistoryInfo(@PathVariable String id) throws ParseException{
+		return processService.getHistoryInfo(id);
+	}
 	//@RequiresPermissions("management/task#plan#get")
 	@RequestMapping(name = "获取计划类个人待办数据", path = "plan", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<TaskHeadDto> getToDo_Plan(HttpServletRequest request) throws ParseException {

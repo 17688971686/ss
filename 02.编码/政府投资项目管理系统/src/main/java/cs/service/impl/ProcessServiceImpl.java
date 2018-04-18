@@ -2,8 +2,10 @@ package cs.service.impl;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -20,6 +22,7 @@ import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
 import org.activiti.spring.ProcessEngineFactoryBean;
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +36,12 @@ import cs.common.ICurrentUser;
 import cs.common.Util;
 import cs.domain.Attachment;
 import cs.domain.Project;
+import cs.domain.Project_;
 import cs.domain.ShenBaoInfo;
 import cs.domain.TaskHead;
 import cs.domain.TaskRecord;
+import cs.domain.framework.Org;
+import cs.domain.framework.Org_;
 import cs.domain.framework.Role;
 import cs.domain.framework.SysConfig;
 import cs.domain.framework.SysConfig_;
@@ -48,6 +54,7 @@ import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.TaskHeadDto;
 import cs.model.DomainDto.TaskRecordDto;
 import cs.model.DtoMapper.IMapper;
+import cs.repository.framework.OrgRepo;
 import cs.repository.framework.UserRepo;
 import cs.repository.impl.ProjectRepoImpl;
 import cs.repository.impl.ShenBaoInfoRepoImpl;
@@ -58,6 +65,7 @@ import cs.repository.odata.ODataObjNew;
 import cs.service.common.BasicDataService;
 import cs.service.interfaces.ProcessService;
 import cs.service.interfaces.TaskHeadService;
+import jxl.write.Blank;
 /**
  * @Description: 任务信息服务层
  * @author: cx
@@ -88,7 +96,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	private TaskService taskService;
 	@Autowired
 	private ActivitiService activitiService;
-	
+	@Autowired
+	private OrgRepo orgRepo;
 	@Override
 	@Transactional
 	public PageModelDto<ShenBaoInfoDto> getTask_user(ODataObjNew odataObj) {
@@ -188,31 +197,76 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		String str = (String) data.get("str");//具体操作
 		List att = (List) data.get("att");//附件
 		String nextUsers = (String) data.get("nextUsers");//下一经办人
+		String isPass = (String) data.get("isPass");//下一经办人
 		
 		ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenbaoInfoId);
 
 		Map<String, Object> variables = new HashMap<String, Object>();
 		
+		User loginUser = userRepo.findById(currentUser.getUserId());
+		boolean isShenpi = false;
+		root:for (Role role : loginUser.getRoles()) {
+			if(role.getRoleName().equals("科长")){
+				variables.put("shenpi", 8);
+				isShenpi=true;
+				break root;
+			}
+		}
+		if(!isShenpi){
+			variables.put("shenpi", 9);
+		}
 		//判断具体操作
-		if(str.equals("next")){
-			variables.put("isPass", 1);
+		if(isPass != ""){//其他方式通过
+			
+			variables.put("isPass", isPass);
 		}else if(str.equals("tuiwen")){
 			variables.put("isPass", 2);
 		}else if(str.equals("reback")){
 			variables.put("isPass", 3);
+		}else if(isPass == ""){//正常通过
+			variables.put("isPass", 1);
+		}
+		List<String> useridList = new ArrayList<String>();
+		Criterion criterion=Restrictions.eq(Org_.name.getName(), "投资科");
+		Criterion criterion2=Restrictions.eq(Org_.name.getName(), "局领导");
+		Criterion criterion3 = Restrictions.or(criterion,criterion2);
+		
+		List<Org> findProjects = orgRepo.findByCriteria(criterion3);
+		for (Org org : findProjects) {
+			for (User user : org.getUsers()) {
+				useridList.add(user.getId().trim());
+			}
+			
+		}
+		if(!useridList.isEmpty()){//固定会签人员
+			variables.put("userIds", useridList);
 		}
 		
-		//如果有指定下一候选人
-		if(!nextUsers.isEmpty()){
-			variables.put("userIds", nextUsers);
+		if(!nextUsers.isEmpty()){//设置流程变量--下一任务处理人
+			variables.put("nextUsers", nextUsers);
 		}
+
 
 		List<Task> oldTask = taskService.createTaskQuery().taskId(shenBaoInfo.getThisTaskId()).orderByDueDate().desc().list();
 		activitiService.setTaskComment(shenBaoInfo.getThisTaskId(), shenBaoInfo.getZong_processId(), msg);
 //		oldTask.get(0).getAssignee()
-//		activitiService.claimTask(shenBaoInfo.getThisTaskId(), currentUser.getUserId());
 		
-		activitiService.taskComplete(shenBaoInfo.getThisTaskId(),variables);
+		if(shenBaoInfo.getThisTaskName().equals("usertask1") &&  isPass !="" || shenBaoInfo.getThisTaskName().equals("usertask5") &&  isPass !="" ){
+			processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(shenBaoInfo.getThisTaskId(), nextUsers);
+			processEngine.getProcessEngineConfiguration().getTaskService().setVariable(shenBaoInfo.getThisTaskId(), "isPass", isPass);
+
+		}else{
+			if(!isShenpi && (shenBaoInfo.getThisTaskName().equals("usertask2") || shenBaoInfo.getThisTaskName().equals("usertask3")) ){
+				variables.put("isPass", 1);
+				processEngine.getProcessEngineConfiguration().getTaskService().setVariable(shenBaoInfo.getThisTaskId(), "isPass", isPass);
+
+			}else{
+				activitiService.claimTask(shenBaoInfo.getThisTaskId(), currentUser.getUserId());
+				activitiService.taskComplete(shenBaoInfo.getThisTaskId(),variables);
+			}
+			
+		}
+	
 		
 		List<Task> newtask = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId()).orderByDueDate().desc().list();
 		

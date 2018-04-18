@@ -461,7 +461,7 @@
 							vm.nationalIndustryChange();
 						}
 						
-						if(vm.model.shenBaoInfo.thisTaskName == 'usertask3'){
+						if(vm.model.shenBaoInfo.thisTaskName == 'usertask1' || vm.model.shenBaoInfo.thisTaskName == 'usertask5' || vm.model.shenBaoInfo.thisTaskName == 'usertask2'){
 			        		getDeptByName(vm,"投资科");
 			        	}
 					}
@@ -492,15 +492,6 @@
 					response:response,
 					fn:function(){
 						vm.model.dept = response.data.value[0]||{};
-//							vm.model.dept.userDtos.every(function (value, index) {
-//								var hasRole=$linq(value.roles)
-//									.where(function(x){return x.roleName=='科长';}).firstOrDefault();
-//								if(hasRole){
-//									vm.taskRecord.nextUser = value.id;
-//									return false;
-//								}
-//								 return true;
-//							});
 					}
 				});
 			};

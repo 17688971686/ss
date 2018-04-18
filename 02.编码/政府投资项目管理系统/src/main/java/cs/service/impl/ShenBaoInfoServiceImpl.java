@@ -1197,7 +1197,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 
 		Map<String, Object> variables = new HashMap<String, Object>();
 
-		variables.put("projectId", id);
+		variables.put("shenbaoInfoId", id);
 		activitiService.setStartProcessUserId(currentUser.getUserId());//谁启动的流程
 		
 		ProcessInstance process = activitiService.startProcess(processDefinitionKey, variables);
@@ -1207,19 +1207,18 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 
 		if(sysConfg !=null){
 			if(Util.isNotNull(sysConfg.getConfigValue()) && sysConfg.getEnable()){
+//				variables.put("userIds", sysConfg.getConfigValue());
 		processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(task.getId(), sysConfg.getConfigValue());
 			}
 		}else{
 			throw new IllegalArgumentException(String.format("没有配置申报信息审核分办人员，请联系管理员！"));
 		}
-//		Collection<String> candidateGroups = new ArrayList<String>();
-//		candidateGroups.add(role.get().getId());
-//		activitiService.addCandidateGroups(task.getId(), candidateGroups);
 
-		Project project = projectRepo.findById(id);
-//		project.setIsProjectGoLive(BasicDataConfig.processState_jxz);
-//		project.setProjectGoLiveProcessId(process.getProcessInstanceId());
-		projectRepo.save(project);
+		ShenBaoInfo entity=super.repository.findById(id);
+		entity.setZong_processId(task.getProcessInstanceId());
+		entity.setThisTaskId(task.getId());
+		entity.setThisTaskName(task.getTaskDefinitionKey());
+		super.repository.save(entity);
 		logger.info(String.format("启动审批流程,用户名:%s", currentUser.getLoginName()));
 	}
 }

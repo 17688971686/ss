@@ -150,10 +150,11 @@ public class ActivitiService implements IActivitiService{
 	
 	@Override
 	public List<Task> getPersonalTask(String assignee) {
-		List<Task> tasks = taskService.createTaskQuery().taskCandidateOrAssigned(assignee).orderByTaskCreateTime().desc().list();
+		List<Task> tasks = taskService.createTaskQuery().taskAssignee(assignee).orderByTaskCreateTime().desc().list();
+		List<Task> task1s = taskService.createTaskQuery().taskCandidateUser(assignee).orderByTaskCreateTime().desc().list();
 		
 		logger.debug("--------------------我的分配任务或签收任务-----------");
-		
+		tasks.addAll(task1s);
 		for(Task task : tasks){
 			logger.debug("======>id:"+task.getId()+",");
 			logger.debug("======>name:"+task.getName()+",");

@@ -4,16 +4,8 @@
     <startEvent id="startevent1" name="Start"></startEvent>
     <userTask id="usertask1" name="经办人签收"></userTask>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
-    <userTask id="usertask2" name="科长审核/抄送局长" activiti:candidateUsers="${user}">
-      <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="userIds" activiti:elementVariable="user">
-        <completionCondition>${shenpi==8}</completionCondition>
-      </multiInstanceLoopCharacteristics>
-    </userTask>
-    <userTask id="usertask3" name="经办人办理" activiti:candidateUsers="user">
-      <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="${userIds}" activiti:elementVariable="user">
-        <completionCondition>${shenpi==8}</completionCondition>
-      </multiInstanceLoopCharacteristics>
-    </userTask>
+    <userTask id="usertask2" name="科长审核/抄送局长"></userTask>
+    <userTask id="usertask3" name="经办人办理"></userTask>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow9" sourceRef="usertask2" targetRef="exclusivegateway2"></sequenceFlow>
     <sequenceFlow id="flow10" name="通过" sourceRef="exclusivegateway2" targetRef="usertask3">
@@ -45,27 +37,15 @@
     </sequenceFlow>
     <exclusiveGateway id="exclusivegateway5" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow20" sourceRef="usertask3" targetRef="exclusivegateway5"></sequenceFlow>
-    <userTask id="usertask6" name="科长审核" activiti:candidateUsers="user">
-      <multiInstanceLoopCharacteristics isSequential="true" activiti:collection="${userIds}" activiti:elementVariable="user">
-        <completionCondition>${shenpi==8}</completionCondition>
-      </multiInstanceLoopCharacteristics>
-    </userTask>
+    <userTask id="usertask6" name="科长审核"></userTask>
     <sequenceFlow id="flow21" name="发文子流程" sourceRef="exclusivegateway5" targetRef="usertask6">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isFawne}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==7}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask7" name="科长办理">
-      <multiInstanceLoopCharacteristics isSequential="true" activiti:collection="${userIds}" activiti:elementVariable="user">
-        <completionCondition>${shenpi==8}</completionCondition>
-      </multiInstanceLoopCharacteristics>
-    </userTask>
+    <userTask id="usertask7" name="科长办理"></userTask>
     <sequenceFlow id="flow22" name="请示子流程" sourceRef="exclusivegateway5" targetRef="usertask7">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isQingshi}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==9}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask8" name="科长审核" activiti:candidateUsers="user">
-      <multiInstanceLoopCharacteristics isSequential="true" activiti:collection="${userIds}" activiti:elementVariable="user">
-        <completionCondition>${shenpi==8}</completionCondition>
-      </multiInstanceLoopCharacteristics>
-    </userTask>
+    <userTask id="usertask8" name="科长审核" activiti:candidateUsers="user"></userTask>
     <exclusiveGateway id="exclusivegateway7" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow26" sourceRef="usertask8" targetRef="exclusivegateway7"></sequenceFlow>
     <sequenceFlow id="flow30" name="退回" sourceRef="exclusivegateway7" targetRef="usertask3">
@@ -73,13 +53,9 @@
     </sequenceFlow>
     <exclusiveGateway id="exclusivegateway8" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow31" name="评审子流程" sourceRef="exclusivegateway5" targetRef="exclusivegateway8">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPingshen}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==8}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask10" name="评审人员评审" activiti:candidateUsers="user">
-      <multiInstanceLoopCharacteristics isSequential="true" activiti:collection="${userIds}" activiti:elementVariable="user">
-        <completionCondition>${shenpi==8}</completionCondition>
-      </multiInstanceLoopCharacteristics>
-    </userTask>
+    <userTask id="usertask10" name="评审人员评审"></userTask>
     <sequenceFlow id="flow32" name="评审人员评审" sourceRef="exclusivegateway8" targetRef="usertask10">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==5}]]></conditionExpression>
     </sequenceFlow>
@@ -92,43 +68,23 @@
     <sequenceFlow id="flow35" sourceRef="usertask10" targetRef="usertask3"></sequenceFlow>
     <exclusiveGateway id="exclusivegateway9" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow36" sourceRef="usertask6" targetRef="exclusivegateway9"></sequenceFlow>
-    <userTask id="usertask12" name="办公室核稿" activiti:candidateUsers="user">
-      <multiInstanceLoopCharacteristics isSequential="true" activiti:collection="${userIds}" activiti:elementVariable="user">
-        <completionCondition>${shenpi==8}</completionCondition>
-      </multiInstanceLoopCharacteristics>
-    </userTask>
+    <userTask id="usertask12" name="办公室核稿"></userTask>
     <sequenceFlow id="flow38" name="通过" sourceRef="exclusivegateway9" targetRef="usertask12">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==1}]]></conditionExpression>
     </sequenceFlow>
     <exclusiveGateway id="exclusivegateway10" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow39" sourceRef="usertask12" targetRef="exclusivegateway10"></sequenceFlow>
-    <userTask id="usertask13" name="局长审批" activiti:candidateUsers="user">
-      <multiInstanceLoopCharacteristics isSequential="true" activiti:collection="${userIds}" activiti:elementVariable="user">
-        <completionCondition>${shenpi==8}</completionCondition>
-      </multiInstanceLoopCharacteristics>
-    </userTask>
+    <userTask id="usertask13" name="局长审批" activiti:candidateUsers="user"></userTask>
     <sequenceFlow id="flow40" name="局长审核" sourceRef="exclusivegateway10" targetRef="usertask13">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==6}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask14" name="办公室核稿" activiti:candidateUsers="user">
-      <multiInstanceLoopCharacteristics isSequential="true" activiti:collection="${userIds}" activiti:elementVariable="user">
-        <completionCondition>${shenpi==8}</completionCondition>
-      </multiInstanceLoopCharacteristics>
-    </userTask>
+    <userTask id="usertask14" name="办公室核稿"></userTask>
     <sequenceFlow id="flow41" sourceRef="usertask13" targetRef="usertask14"></sequenceFlow>
-    <userTask id="usertask16" name="经办人办理">
-      <multiInstanceLoopCharacteristics isSequential="true" activiti:collection="${userIds}" activiti:elementVariable="user">
-        <completionCondition>${shenpi==8}</completionCondition>
-      </multiInstanceLoopCharacteristics>
-    </userTask>
+    <userTask id="usertask16" name="经办人办理"></userTask>
     <sequenceFlow id="flow43" sourceRef="usertask14" targetRef="usertask16"></sequenceFlow>
     <endEvent id="endevent5" name="End"></endEvent>
     <sequenceFlow id="flow44" sourceRef="usertask16" targetRef="endevent5"></sequenceFlow>
-    <userTask id="usertask17" name="副局长审批" activiti:candidateUsers="user">
-      <multiInstanceLoopCharacteristics isSequential="true" activiti:collection="${userIds}" activiti:elementVariable="user">
-        <completionCondition>${shenpi==8}</completionCondition>
-      </multiInstanceLoopCharacteristics>
-    </userTask>
+    <userTask id="usertask17" name="副局长审批"></userTask>
     <sequenceFlow id="flow45" name="副局长审核" sourceRef="exclusivegateway10" targetRef="usertask17">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==5}]]></conditionExpression>
     </sequenceFlow>
@@ -152,36 +108,20 @@
     </sequenceFlow>
     <exclusiveGateway id="exclusivegateway12" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow52" sourceRef="usertask7" targetRef="exclusivegateway12"></sequenceFlow>
-    <userTask id="usertask18" name="办公室核稿" activiti:candidateUsers="user">
-      <multiInstanceLoopCharacteristics isSequential="true" activiti:collection="${userIds}" activiti:elementVariable="user">
-        <completionCondition>${shenpi==8}</completionCondition>
-      </multiInstanceLoopCharacteristics>
-    </userTask>
+    <userTask id="usertask18" name="办公室核稿"></userTask>
     <sequenceFlow id="flow53" sourceRef="exclusivegateway12" targetRef="usertask18"></sequenceFlow>
     <exclusiveGateway id="exclusivegateway13" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow54" sourceRef="usertask18" targetRef="exclusivegateway13"></sequenceFlow>
-    <userTask id="usertask19" name="副局长审批" activiti:candidateUsers="user">
-      <multiInstanceLoopCharacteristics isSequential="true" activiti:collection="${userIds}" activiti:elementVariable="user">
-        <completionCondition>${shenpi==8}</completionCondition>
-      </multiInstanceLoopCharacteristics>
-    </userTask>
+    <userTask id="usertask19" name="副局长审批"></userTask>
     <sequenceFlow id="flow55" name="副局长办理" sourceRef="exclusivegateway13" targetRef="usertask19">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==5}]]></conditionExpression>
     </sequenceFlow>
     <exclusiveGateway id="exclusivegateway14" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow56" sourceRef="usertask19" targetRef="exclusivegateway14"></sequenceFlow>
-    <userTask id="usertask20" name="办公室发文" activiti:candidateUsers="user">
-      <multiInstanceLoopCharacteristics isSequential="true" activiti:collection="${userIds}" activiti:elementVariable="user">
-        <completionCondition>${shenpi==8}</completionCondition>
-      </multiInstanceLoopCharacteristics>
-    </userTask>
+    <userTask id="usertask20" name="办公室发文"></userTask>
     <exclusiveGateway id="exclusivegateway15" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow58" sourceRef="usertask20" targetRef="exclusivegateway15"></sequenceFlow>
-    <userTask id="usertask21" name="局长审批" activiti:candidateUsers="user">
-      <multiInstanceLoopCharacteristics isSequential="true" activiti:collection="${userIds}" activiti:elementVariable="user">
-        <completionCondition>${shenpi==8}</completionCondition>
-      </multiInstanceLoopCharacteristics>
-    </userTask>
+    <userTask id="usertask21" name="局长审批" activiti:candidateUsers="user"></userTask>
     <sequenceFlow id="flow59" name="局长办理" sourceRef="exclusivegateway14" targetRef="usertask21">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==6}]]></conditionExpression>
     </sequenceFlow>
@@ -191,11 +131,7 @@
     <sequenceFlow id="flow61" name="办公室发文" sourceRef="usertask21" targetRef="usertask20">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==5}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask22" name="经办人办理" activiti:candidateUsers="user">
-      <multiInstanceLoopCharacteristics isSequential="true" activiti:collection="${userIds}" activiti:elementVariable="user">
-        <completionCondition>${shenpi==8}</completionCondition>
-      </multiInstanceLoopCharacteristics>
-    </userTask>
+    <userTask id="usertask22" name="经办人办理"></userTask>
     <sequenceFlow id="flow62" name="发送请示单印文" sourceRef="exclusivegateway15" targetRef="usertask22">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==1}]]></conditionExpression>
     </sequenceFlow>
@@ -346,7 +282,7 @@
         <omgdi:waypoint x="572.0" y="493.0"></omgdi:waypoint>
         <omgdi:waypoint x="621.0" y="492.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="572.0" y="493.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="24.0" x="572.0" y="493.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
@@ -357,7 +293,7 @@
         <omgdi:waypoint x="311.0" y="492.0"></omgdi:waypoint>
         <omgdi:waypoint x="382.0" y="492.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="311.0" y="492.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="48.0" x="311.0" y="492.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow14" id="BPMNEdge_flow14">
@@ -385,7 +321,7 @@
         <omgdi:waypoint x="163.0" y="290.0"></omgdi:waypoint>
         <omgdi:waypoint x="163.0" y="465.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="271.0" y="272.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="24.0" x="271.0" y="272.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow18" id="BPMNEdge_flow18">

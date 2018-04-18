@@ -18,7 +18,7 @@
     	vm.nextUsers = [];
     	//任务处理--请求参数
         vm.id=$state.params.id;
-        
+        vm.isPass ="";
         //初始化参数
        vm.nextProcessRadio = "";
        vm.processStage_qianshou=common.basicDataConfig().processStage_qianshou;
@@ -205,6 +205,7 @@
         		}
 	        	       	
 	        };
+	        
 /****************申报信息相关 begin**********************/ 
         	//弹出申报信息复核模态款
         	vm.dialog_shenbaoInfoEdit=function(){

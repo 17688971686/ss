@@ -175,21 +175,33 @@ textarea.form-control {
 					</div>
 				</td>
 			</tr>
-			<!-- 投资科长审核阶段 -->
-			<tr ng-if="vm.isProcessStage_kzshenhe">
+			<tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask1' || vm.model.shenBaoInfo.thisTaskName == 'usertask5' ">
 				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
 				<td>
 					<div>
 						<label>
-							<input type="radio" name="nextProcess" value="{{vm.processStage_jbrbanli}}" ng-change="vm.selectNextProcess()" ng-model="vm.taskRecord.nextProcess" data-val="true" data-val-required="必选"/>经办人办理
+							<input type="checkbox" name="nextProcess" ng-true-value="5" ng-change="vm.selectNextProcess()" ng-model="vm.isPass"/>经办人办理
 						</label>
-						&nbsp;&nbsp;
-						<label>
-							<input type="radio" name="nextProcess" value="{{vm.processStage_qianshou}}" ng-change="vm.selectNextProcess()" ng-model="vm.taskRecord.nextProcess" data-val="true" data-val-required="必选"/>退回重办
-						</label>
-						<span data-valmsg-for="nextProcess" data-valmsg-replace="true" class="required"></span>
 					</div>
-					<div class="pull-left" ng-if="vm.isShowDeptUsers">
+					<div class="pull-left" ng-if="vm.isPass == '5'">
+					
+						<label ng-repeat="x in vm.model.dept.userDtos" >
+							<input type="radio" name="radio" value="{{x.id}}" ng-model="vm.nextUsers" data-val="true" data-val-required="必选"/>{{x.displayName}}&nbsp;&nbsp;
+						</label>
+						<span data-valmsg-for="nextUser" data-valmsg-replace="true" class="required"></span>
+					</div>
+				</td>		
+			</tr>
+			<tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask2'">
+				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
+				<td>
+					<div>
+						<label>
+							<input type="checkbox" name="nextProcess" ng-true-value="1" ng-change="vm.selectNextProcess()" ng-model="vm.isPass"/>经办人办理
+						</label>
+					</div>
+					<div class="pull-left" ng-if="vm.isPass == '1'">
+					
 						<label ng-repeat="x in vm.model.dept.userDtos" >
 							<input type="radio" name="nextUser" value="{{x.id}}" ng-model="vm.taskRecord.nextUser" data-val="true" data-val-required="必选"/>{{x.displayName}}&nbsp;&nbsp;
 						</label>
@@ -197,8 +209,7 @@ textarea.form-control {
 					</div>
 				</td>		
 			</tr>
-			<!-- 经办人办理阶段 -->
-			<tr ng-if="vm.isProcessStage_jbrbanli">
+			<tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask3'">
 				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
 				<td>
 					<div>
@@ -209,6 +220,7 @@ textarea.form-control {
 						<label>
 							<input type="radio" name="nextProcess" value="{{vm.processState_niwendengji}}" ng-change="vm.selectNextProcess()" ng-model="vm.taskRecord.nextProcess" data-val="true" data-val-required="必选"/>发文拟稿
 						</label>
+						
 						<span data-valmsg-for="nextProcess" data-valmsg-replace="true" class="required"></span>
 					</div>
 					<div>
@@ -217,15 +229,12 @@ textarea.form-control {
 					</div>
 				</td>
 			</tr>
+			
 			<tr>
 				<td class="formAlignRight"  style="width:150px;">操作：</td>
 				<td ng-if="vm.isShowBtn">
 					<button ng-click="vm.handle('next')" class="btn btn-success btn-sm" style="margin:0 10px;">送出</button>
-					<button ng-click="vm.handle('reback')" class="btn btn-danger btn-sm" style="margin:0 10px;" ng-hide="vm.taskAudit.thisProcess=='processStage_2'">退回</button>
-					<button ng-click="vm.handle('tuiwen')" class="btn btn-warning btn-sm" style="margin:0 10px;">退文</button>
- 				</td>
- 				<td ng-if="!vm.isShowBtn">
-					<button ng-click="vm.handle('next')" class="btn btn-success btn-sm" style="margin:0 10px;">确定</button>
+					<button ng-click="vm.handle('reback')" class="btn btn-danger btn-sm" style="margin:0 10px;" ng-hide="vm.model.shenBaoInfo.thisTaskName == 'usertask1' || vm.model.shenBaoInfo.thisTaskName == 'usertask5' ">退回</button>
 					<button ng-click="vm.handle('tuiwen')" class="btn btn-warning btn-sm" style="margin:0 10px;">退文</button>
  				</td>
 			</tr>
