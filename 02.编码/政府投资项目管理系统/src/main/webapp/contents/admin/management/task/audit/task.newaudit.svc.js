@@ -38,11 +38,29 @@
 			saveDraft:saveDraft,//保存发文信息
 			saveApproval:saveApproval,//评审报批
 			getApproval:getApproval,//查询评审报批
-			getHistoryInfo:getHistoryInfo//查询流转信息
+			getHistoryInfo:getHistoryInfo,//查询流转信息
+			getAssigneeByUserId:getAssigneeByUserId,//登录人员是否是指定办理人员
+			pinglun:pinglun//评论
 		};
 		
 		return service;
 		
+		function getAssigneeByUserId(vm,processId) {
+			var httpOptions = {
+				method : 'get',
+				url : common.format(url_taskAudit_new + "/isAssignee/"+processId)
+			}
+			var httpSuccess = function success(response) {
+
+				vm.isShow = response.data.success;
+			}
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
 		/*
 		 * 流转信息
 		 */
@@ -464,6 +482,13 @@
 						if(vm.model.shenBaoInfo.thisTaskName == 'usertask1' || vm.model.shenBaoInfo.thisTaskName == 'usertask5' || vm.model.shenBaoInfo.thisTaskName == 'usertask2'){
 			        		getDeptByName(vm,"投资科");
 			        	}
+						if(vm.model.shenBaoInfo.thisTaskName != 'usertask1' || vm.model.shenBaoInfo.thisTaskName != 'usertask5'){
+							getAssigneeByUserId(vm,vm.model.shenBaoInfo.zong_processId);//查询登录人员是否是指定办理人员
+			        	}
+						if(vm.model.shenBaoInfo.thisTaskName == 'usertask3'){
+			        		getDeptByName(vm,"评审中心");
+			        	}
+						
 					}
 				});
 			};
@@ -504,6 +529,43 @@
 			});
 		}//end fun getDeptByName
 		
+		function pinglun(vm){
+			common.initJqValidation();
+ 			var isValid = $('form').valid();
+	   		if (isValid) {
+				var httpOptions = {
+					method : 'post',
+					url : url_taskAudit_new+"/pinglun",
+					data:{"id":vm.id,"msg":vm.processSuggestion,"att":vm.attachmentDtos}
+				};
+
+				var httpSuccess = function success(response) {
+					common.requestSuccess({
+						vm : vm,
+						response : response,
+						fn : function() {
+							common.alert({
+								vm : vm,
+								msg : "操作成功",
+								fn : function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');
+									$('.modal-backdrop').remove();
+									location.href = url_back;
+								}
+							});
+						}
+					});
+				};
+
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});		
+	   		}
+		}//end fun handle
 		/**
 		 * 送出处理
 		 */
@@ -514,7 +576,11 @@
 				var httpOptions = {
 					method : 'post',
 					url : url_taskAudit_new+"/process",
+<<<<<<< Upstream, based on origin/develop
 					data:{"str":str,"id":vm.id,"msg":vm.processSuggestion,"att":vm.attachmentDtos,"nextUsers":vm.nextUsers.toString()}
+=======
+					data:{"str":str,"id":vm.id,"msg":vm.processSuggestion,"att":vm.attachmentDtos,"nextUsers":vm.nextUsers.toString(),"isPass":vm.isPass,"isPass2":vm.isPass2}
+>>>>>>> 21c0197 审批流程完成
 				};
 
 				var httpSuccess = function success(response) {

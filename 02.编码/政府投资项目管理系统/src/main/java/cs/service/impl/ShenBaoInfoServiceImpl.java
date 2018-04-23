@@ -1198,7 +1198,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		Map<String, Object> variables = new HashMap<String, Object>();
 
 		variables.put("shenbaoInfoId", id);
-		activitiService.setStartProcessUserId(currentUser.getUserId());//谁启动的流程
+		activitiService.setStartProcessUserId(currentUser.getDisplayName());//谁启动的流程
 		
 		ProcessInstance process = activitiService.startProcess(processDefinitionKey, variables);
 		String executionId = process.getId();

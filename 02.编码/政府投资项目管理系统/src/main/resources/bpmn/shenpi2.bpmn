@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
-  <process id="ShenpiReview" name="审批主流程" isExecutable="true">
+  <process id="ShenpiReview2" name="审批主流程" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
     <userTask id="usertask1" name="经办人签收"></userTask>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
@@ -160,8 +160,8 @@
     </sequenceFlow>
     <sequenceFlow id="flow71" sourceRef="exclusivegateway14" targetRef="usertask20"></sequenceFlow>
   </process>
-  <bpmndi:BPMNDiagram id="BPMNDiagram_ShenpiReview">
-    <bpmndi:BPMNPlane bpmnElement="ShenpiReview" id="BPMNPlane_ShenpiReview">
+  <bpmndi:BPMNDiagram id="BPMNDiagram_ShenpiReview2">
+    <bpmndi:BPMNPlane bpmnElement="ShenpiReview2" id="BPMNPlane_ShenpiReview2">
       <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
         <omgdc:Bounds height="35.0" width="35.0" x="1.0" y="475.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>

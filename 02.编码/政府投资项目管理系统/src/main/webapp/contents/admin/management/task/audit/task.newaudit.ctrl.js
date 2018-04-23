@@ -476,9 +476,17 @@
         	};
 		   //处理
         	vm.handle=function(str){
-        	
+        		if(vm.isPass == false){
+        			vm.isPass = "";
+        		}
+        		if(vm.isPass2 == 6){
+        			vm.nextUsers = "";
+        		}
         		taskNewAuditSvc.handle(vm,str);
         	};
+        	vm.pinglun=function(){
+        		taskNewAuditSvc.pinglun(vm);
+        	}
 /****************审批处理相关 end**********************/       	
         }//end init_handleAudit
         

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.common.ICurrentUser;
+import cs.common.Response;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
@@ -97,6 +98,16 @@ public class TaskController {
 	@RequestMapping(name = "历史信息", path = "his/{id}",method=RequestMethod.GET)
 	public @ResponseBody List<Object>  getHistoryInfo(@PathVariable String id) throws ParseException{
 		return processService.getHistoryInfo(id);
+	}
+	
+	@RequestMapping(name = "检查登录人员能否办理", path = "isAssignee/{processId}",method=RequestMethod.GET)
+	public @ResponseBody Response  getAssigneeByUserId(@PathVariable String processId) throws ParseException{
+		return processService.getAssigneeByUserId(processId);
+	}
+	@RequestMapping(name = "评论", path = "pinglun",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void  taskPinglun(@RequestBody Map data,HttpServletRequest request) throws ParseException{
+		processService.taskPinglun(data);
 	}
 	//@RequiresPermissions("management/task#plan#get")
 	@RequestMapping(name = "获取计划类个人待办数据", path = "plan", method = RequestMethod.GET)

@@ -3,6 +3,7 @@ package cs.service.interfaces;
 import java.util.List;
 import java.util.Map;
 
+import cs.common.Response;
 import cs.domain.ShenBaoInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
@@ -15,6 +16,10 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
 
 	List<Object> getHistoryInfo(String shenbaoInfoId);
 
-	void taskComplete(Map data);	
+	void taskComplete(Map data);
+
+	Response getAssigneeByUserId(String processId);
+
+	void taskPinglun(Map data);	
 	
 }

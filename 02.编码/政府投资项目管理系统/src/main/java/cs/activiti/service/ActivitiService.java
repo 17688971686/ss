@@ -145,6 +145,7 @@ public class ActivitiService implements IActivitiService{
 	@Override
 	public void setTaskComment(String taskId,String processInstanceId,String msg) {
 		taskService.addComment(taskId, processInstanceId, msg);
+		
 		logger.debug("======>添加任务的意见");
 	}
 	
