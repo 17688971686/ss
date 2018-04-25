@@ -20,6 +20,7 @@
 		var url_approval ="/management/approval";
 		var url_proxy = "/management/proxy";
 		var url_review = "/management/review";
+		var url_pic = "/pic/task";
 		
 		var service = {
 			grid : grid,//待办任务列表
@@ -40,10 +41,45 @@
 			getApproval:getApproval,//查询评审报批
 			getHistoryInfo:getHistoryInfo,//查询流转信息
 			getAssigneeByUserId:getAssigneeByUserId,//登录人员是否是指定办理人员
-			pinglun:pinglun//评论
+			pinglun:pinglun,//评论
+			getUnfinished:getUnfinished,//获取未进行的活动
+			showActiviti:showActiviti
 		};
 		
 		return service;
+		
+		function showActiviti(vm) {
+			var httpOptions = {
+				method : 'get',
+				url : common.format(url_pic + "/picture/"+vm.model.shenBaoInfo.zong_processId)
+			}
+			var httpSuccess = function success(response) {
+//				vm.unfinished = response.data;
+			}
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
+		
+		function getUnfinished(vm,processId) {
+			var httpOptions = {
+				method : 'get',
+				url : common.format(url_taskAudit_new + "/unfinished/"+processId)
+			}
+			var httpSuccess = function success(response) {
+
+				vm.unfinished = response.data;
+			}
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
 		
 		function getAssigneeByUserId(vm,processId) {
 			var httpOptions = {
@@ -87,7 +123,7 @@
 		function getApproval(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_approval + "?$filter=relId eq '{0}'",vm.taskAudit.id)
+					url : common.format(url_approval + "?$filter=relId eq '{0}'",vm.model.shenBaoInfo.id)
 				};
 			
 			var httpSuccess = function success(response) {
@@ -98,6 +134,7 @@
 						vm.approval = response.data.value[0] || {};
 						if(vm.approval.id){
 							vm.approval.beginDate= common.formatDate(vm.approval.beginDate);
+							vm.processRoleName=vm.getUserName(vm.approval.processRole);
 						}else{
 							//初始化相关数据
 			        		vm.approval.approvalType = vm.model.shenBaoInfo.projectShenBaoStage;
@@ -106,10 +143,11 @@
 			        		vm.approval.projectNumber=vm.model.shenBaoInfo.projectNumber;
 			        		vm.approval.constructionUnit=vm.model.shenBaoInfo.constructionUnit;
 			        		vm.approval.unitName=vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitName;
-			        		vm.approval.relId=vm.taskAudit.id;
-			        		vm.approval.processRole=vm.taskAudit.thisUser;//初始化填写评审报批单的经办人为任务当前处理人
+			        		vm.approval.relId=vm.model.shenBaoInfo.id;
+			        		vm.approval.processRole=window.profile_userId;//初始化填写评审报批单的经办人为任务当前处理人
+			        		vm.processRoleName=window.profile_userName;
 						}
-						vm.processRoleName=vm.getUserName(vm.approval.processRole);
+					
 						$('.approval').modal({
 		                    backdrop: 'static',
 		                    keyboard:false
@@ -171,7 +209,7 @@
 		function getDraftIssued(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_draft + "?$filter=relId eq '{0}'",vm.taskAudit.id)
+					url : common.format(url_draft + "?$filter=relId eq '{0}'",vm.model.shenBaoInfo.id)
 				};
 			
 			var httpSuccess = function success(response) {
@@ -182,6 +220,7 @@
 						vm.draft = response.data.value[0] || {};
 						if(vm.draft.id){
 							vm.draft.draftDate=common.formatDate(vm.draft.draftDate);//开工日期
+							vm.userNameAndUnitName=vm.getUserName(vm.draft.userNameAndUnit);
 						}else{
 							//初始化相关数据
 			        		vm.draft.draftDate = common.formatDate(new Date());
@@ -190,10 +229,12 @@
 			        		vm.draft.projectNumber=vm.model.shenBaoInfo.projectNumber;
 			        		vm.draft.unitName=vm.model.shenBaoInfo.constructionUnit;
 			        		vm.draft.capitalTotal=vm.model.shenBaoInfo.projectInvestSum;
-			        		vm.draft.userNameAndUnit=vm.taskAudit.thisUser;//初始化拟稿人为任务当前处理人
-			        		vm.draft.relId=vm.taskAudit.id;
+//			        		vm.draft.userNameAndUnit=vm.taskAudit.thisUser;//初始化拟稿人为任务当前处理人
+			        		vm.draft.relId=vm.model.shenBaoInfo.id;
+			        		vm.draft.userNameAndUnit=window.profile_userId;//初始化填写评审报批单的经办人为任务当前处理人
+			        		vm.userNameAndUnitName = window.profile_userName;
 						}
-						vm.userNameAndUnitName=vm.getUserName(vm.draft.userNameAndUnit);
+					
 						$('.draft_issued').modal({
 						   backdrop: 'static',
 						   keyboard:false
@@ -343,7 +384,7 @@
 			var httpOptions = {
 					method : 'post',
 					url : url_opin,
-					data : {"opinion":vm.taskRecord.processSuggestion}
+					data : {"opinion":vm.processSuggestion}
 				};
 			
 			var httpSuccess = function success(response) {
@@ -488,6 +529,7 @@
 						if(vm.model.shenBaoInfo.thisTaskName == 'usertask3'){
 			        		getDeptByName(vm,"评审中心");
 			        	}
+						getUnfinished(vm,vm.model.shenBaoInfo.zong_processId);
 						
 					}
 				});
@@ -855,7 +897,7 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_taskRecord_shenPi),
+				transport : common.kendoGridConfig().transport(common.format(url_taskAudit_new+"/complete")),
 				schema : common.kendoGridConfig().schema({
 					id : "id"					
 				}),
@@ -876,92 +918,73 @@
 
 			// Begin:column
 			var columns = [
-					{
-						template : function(item) {
-							return kendo
-									.format(
-											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
-											item.id);
-						},
-						filterable : false,
-						width : 40,
-						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+				{
+					template : function(item) {
+						return kendo
+								.format(
+										"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+										item.id);
+					},
+					filterable : false,
+					width : 40,
+					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
 
+				},
+				{
+					field : "title",
+					title : "标题",						
+					filterable : true,
+					width:500,
+					template:function(item){
+						return common.format("<a class='text-primary' href='#/task/shenPi_details/{1}'>{0}</a>",item.projectName,item.id);			
+					}
+				},
+				 {
+					field : "unitName",
+					title : "建设单位",
+					width : 300,						
+					template:function(item){
+						return common.getUnitName(item.unitName);
+					}
+				},
+				{
+					field : "projectIndustry",
+					title : "项目行业",
+					width : 120,
+					template:function(item){
+						return common.getBasicDataDesc(item.projectIndustry);
 					},
-					{
-						field : "title",
-						title : "标题",		
-						width : 500,		
-						filterable : true,
-						template:function(item){
-							return common.format("<a href='#/task/shenPi_details/{1}/{2}/{3}'>{0}</a>",item.title,item.taskType,item.taskId,item.relId);
-						}
-					},
-					 {
-						field : "unitName",
-						title : "建设单位",
-						width : 350,						
-						filterable : true
-					},
-					{
-						field : "projectIndustry",
-						title : "项目行业",
-						width : 180,
-						template:function(item){
-							return common.getBasicDataDesc(item.projectIndustry);
-						},
-						filterable : {
-							 ui: function(element){
+					filterable : {
+						 ui: function(element){
 		                        element.kendoDropDownList({
 		                            valuePrimitive: true,
 		                            dataSource: vm.basicData.projectIndustry_ZF,
-		                            dataTextField: "description",
-		                            dataValueField: "id"
-		                        });
-		                    }
-						}
-					},
-					 {
-						field : "taskType",
-						title : "任务类型",
-						width : 180,						
-						filterable : {
-							ui: function(element){
-		                        element.kendoDropDownList({
-		                            valuePrimitive: true,
-		                            dataSource: $linq(vm.basicData.taskType)
-		                            				.where(function(x){return vm.basicData.taskTypeForShenPi.indexOf(x.id)>-1})
-		                            				.toArray(),
 		                            dataTextField: "description",
 		                            dataValueField: "id",
 		                            filter: "startswith"
 		                        });
 		                    }
-						},
-						template:function(item){						
-							return common.getBasicDataDesc(item.taskType);
-						}
-					},
-					{
-						field : "thisProcess",
-						title : "审批阶段",
-						width : 180,						
-						filterable : false,
-						template:function(item){						
-							return common.getBasicDataDesc(item.thisProcess);
-						}
-					},
-					{
-						field : "",
-						title : "创建日期",
-						width : 180,
-						template : function(item) {
-							return kendo.toString(new Date(item.createdDate),"yyyy/MM/dd HH:mm:ss");
-						}
-
+					}
+				},
+				 {
+					field : "projectShenBaoStage",
+					title : "申报阶段",
+					width : 120,						
+					template:function(item){						
+						return common.getBasicDataDesc(item.projectShenBaoStage);
+					}
+				},
+				{
+					field : "",
+					title : "创建日期",
+					width : 180,
+					template : function(item) {
+						return kendo.toString(new Date(item.createdDate),"yyyy/MM/dd HH:mm:ss");
 					}
 
-			];
+				}
+
+		];
 			// End:column
 
 			vm.gridOptions_complete_shenPi = {

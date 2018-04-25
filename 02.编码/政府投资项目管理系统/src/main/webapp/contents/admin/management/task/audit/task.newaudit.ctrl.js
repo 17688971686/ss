@@ -189,7 +189,6 @@
         	taskNewAuditSvc.opinionGird(vm);
         	//查询意见
         	taskNewAuditSvc.getOpinion(vm);
-        	
 
         	vm.selectionUser = function(id){
         		
@@ -207,6 +206,10 @@
 	        };
 	        
 /****************申报信息相关 begin**********************/ 
+	        
+	        vm.showActiviti=function(){
+	        	taskNewAuditSvc.showActiviti(vm);
+	        }
         	//弹出申报信息复核模态款
         	vm.dialog_shenbaoInfoEdit=function(){
         		$("#shenbaoInfoEdit").modal({
@@ -405,12 +408,12 @@
 /****************常用意见相关 begin**********************/
         	//切换常用意见
         	vm.changeOpin=function(){
-        		vm.taskRecord.processSuggestion = vm.model.opinion;
+        		vm.processSuggestion = vm.model.opinion;
         	};
         	
         	//保存常用意见
         	vm.saveOpinion=function(){
-        		if(vm.taskRecord.processSuggestion != "" && vm.taskRecord.processSuggestion != undefined){
+        		if(vm.processSuggestion != "" && vm.processSuggestion != undefined){
         			taskNewAuditSvc.saveOpinion(vm);
         		}
         	};
@@ -513,7 +516,28 @@
         }//end#init_complete_shenPiList
         
         function init_task_shenPiDetails(){
-        	taskNewAuditSvc.getShenBaoInfoById(vm);//查询申报信息
+        	//查询流转信息
+        	taskNewAuditSvc.getHistoryInfo(vm);
+        	//查询申报信息
+        	taskNewAuditSvc.getShenBaoInfoById(vm);
+        	//查询批复文件
+        	taskNewAuditSvc.replyFileGird(vm);
+        	
+            vm.showActiviti=function(){
+	        	taskNewAuditSvc.showActiviti(vm);
+	        }
+        	//弹出申报信息复核模态款
+        	vm.dialog_shenbaoInfoEdit=function(){
+        		$("#shenbaoInfoEdit").modal({
+                    backdrop: 'static',
+                    keyboard:false
+                });
+        	};
+        	
+        	 //复核申报信息保存
+	        vm.saveShenBaoInfo=function(){
+	        	taskNewAuditSvc.saveShenBaoInfo(vm);
+	        };
         }//end#init_task_shenPiDetails
     }
 })();

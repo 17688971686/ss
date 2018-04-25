@@ -600,7 +600,7 @@
 	        })
 	        //个人已办--审批类详情
 	        .state('task_shenPiDetails', {
-	            url: '/task/shenPi_details/:taskType/:taskId/:relId',
+	            url: '/task/shenPi_details/:id',
 	            templateUrl: '/management/task/html/shenPiDetails',
 	            controller: 'taskAuditCtrl',
 	            controllerAs: 'vm'

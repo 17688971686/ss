@@ -117,30 +117,54 @@ textarea.form-control {
 				<td colspan="3" >
 					<button class="btn btn-success btn-xs" ng-click="vm.dialog_shenbaoInfo()">查看申报信息</button>
 					<button class="btn btn-success btn-xs" ng-click="vm.dialog_shenbaoInfoEdit()" >复核申报信息</button>
+					<a class="btn btn-success btn-xs" href="http://192.168.189.235:8081//pic/task/picture/{{vm.model.shenBaoInfo.zong_processId}}" target="_blank">查看流程图</a>
 				</td>
 			</tr>		
 	</table>
 	  		
-		<div class="bg-info text-info" style="padding: 10px;">处理流转信息</div>  		
+		<div class="bg-info text-info" style="padding: 10px;">科室意见</div>  		
 		<table class="table table-bordered table-striped ">
-		<tr ng-repeat="x in vm.taskRecord | orderBy:x.endTime">
+		<tr ng-repeat="x in vm.taskRecord | orderBy:x.endTime" ng-if="x.name != '局长审批' || x.name != '副局长审批'">
 				<td class="formAlignRight" style="width:150px;"  ng-bind="x.name"></td>
 				<td>
-					<div ng-bind="x.processSuggestion"></div>
-					<div ng-if="x.thisProcess=='processStage_4'">
-						<button ng-if="vm.isProcessStage_weituopishen" class="btn btn-success btn-xs" ng-click="vm.editApproval('look')">查看评审报批单</button>
-						<button ng-if="vm.isProcessState_niwendengji" class="btn btn-success btn-xs" ng-click="vm.draftOpen('look')">查看发文拟稿单</button>
-					</div>
-					<label ng-if="x.attachmentDtos.length>0" class="pull-left">附件信息：</label>
+					<div ng-bind="x.msg"></div>
+						<!-- <label ng-if="x.attachmentDtos.length>0" class="pull-left">附件信息：</label>
 					<div ng-repeat="y in x.attachmentDtos">
 						<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
-					</div>
+					</div> -->
 					<div class="text-right" ng-bind="x.id"></div>
 					<div class="text-right" ng-bind="vm.formatDateTime(x.endTime)"></div>
 				</td>
 			</tr>
 		</table>
-		
+			<div class="bg-info text-info" style="padding: 10px;">局领导意见</div>  		
+		<table class="table table-bordered table-striped ">
+		<tr ng-repeat="x in vm.taskRecord | orderBy:x.endTime" ng-if="x.name == '局长审批' || x.name == '副局长审批'">
+				<td class="formAlignRight" style="width:150px;"  ng-bind="x.name"></td>
+				<td>
+					<div ng-bind="x.msg"></div>
+						<!-- <label ng-if="x.attachmentDtos.length>0" class="pull-left">附件信息：</label>
+					<div ng-repeat="y in x.attachmentDtos">
+						<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+					</div> -->
+					<div class="text-right" ng-bind="x.id"></div>
+					<div class="text-right" ng-bind="vm.formatDateTime(x.endTime)"></div>
+				</td>
+			</tr>
+		</table>
+		<div class="bg-info text-info" style="padding: 10px;">相关附件</div>
+		<table class="table table-bordered table-striped">
+			<tr>
+				<td class="formAlignRight" style="width:150px;">审批相关附件：</td>
+				<td>
+					<div>
+				        <div style="margin:3px;" ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos" ng-if="y.type == 'shenpiFile'">
+				 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+			 			</div>
+					</div>
+				</td>
+			</tr>
+		</table>
 		<div class="bg-info text-info" style="padding: 10px;">处理操作</div>
 		<table class="table table-bordered table-striped">
 			<tr>
@@ -228,8 +252,8 @@ textarea.form-control {
 <!-- 						<span data-valmsg-for="nextProcess" data-valmsg-replace="true" class="required"></span>
  -->					</div>
 					<div>
-						<button ng-if="vm.isShowPingShenBaoPiDan" class="btn btn-success btn-xs" ng-click="vm.editApproval('edit')">填写评审报批单</button>
-						<button ng-if="!vm.isShowPingShenBaoPiDan" class="btn btn-success btn-xs" ng-click="vm.draftOpen('edit')">填写发文信息</button>
+						<button ng-if="vm.isPass == 8" class="btn btn-success btn-xs" ng-click="vm.editApproval('edit')">填写评审报批单</button>
+						<button ng-if="vm.isPass == 7" class="btn btn-success btn-xs" ng-click="vm.draftOpen('edit')">填写发文信息</button>
 					</div>
 				</td>
 			</tr>
@@ -301,13 +325,15 @@ textarea.form-control {
 					<button ng-click="vm.handle('next')" class="btn btn-success btn-sm" style="margin:0 10px;">送出</button>
 					<button ng-click="vm.handle('reback')" class="btn btn-danger btn-sm" style="margin:0 10px;" ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask6' || vm.model.shenBaoInfo.thisTaskName == 'usertask7' || vm.model.shenBaoInfo.thisTaskName == 'usertask8' 
 					|| vm.model.shenBaoInfo.thisTaskName == 'usertask17' || vm.model.shenBaoInfo.thisTaskName == 'usertask14' || vm.model.shenBaoInfo.thisTaskName == 'usertask18' || vm.model.shenBaoInfo.thisTaskName == 'usertask20'">退回</button>
-					<button ng-click="vm.handle('tuiwen')" class="btn btn-warning btn-sm" style="margin:0 10px;">退文</button>
+					<button ng-click="vm.handle('tuiwen')" class="btn btn-warning btn-sm" style="margin:0 10px;" ng-if="vm.model.shenBaoInfo.thisTaskName != 'usertask2' 
+					&& vm.model.shenBaoInfo.thisTaskName != 'usertask6' && vm.model.shenBaoInfo.thisTaskName != 'usertask7' 
+					&& vm.model.shenBaoInfo.thisTaskName != 'usertask8'">退文</button>
  				</td>
 			</tr>
 			<tr ng-if="!vm.isShow && vm.model.shenBaoInfo.thisTaskName != 'usertask1' " ng-hide="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16'">
 				<td class="formAlignRight"  style="width:150px;">操作：</td>
 				<td>
-					<button ng-click="vm.pinglun()" class="btn btn-success btn-sm" style="margin:0 10px;">评论</button>
+					<button ng-click="vm.pinglun()" class="btn btn-success btn-sm" style="margin:0 10px;">阅批</button>
  				</td>
 			</tr>
 			<tr ng-if="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16' ">

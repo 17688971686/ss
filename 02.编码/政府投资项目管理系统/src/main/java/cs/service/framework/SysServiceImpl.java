@@ -116,9 +116,11 @@ public class SysServiceImpl implements SysService{
 		Criterion criterion4=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.msFenBanRole);
 		Criterion criterion5=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.msFaWenRole);
 		Criterion criterion6=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.JuZhang);
+		Criterion criterion9=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.FuJuZhang);
 		Criterion criterion7=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.KeZhang);
 		Criterion criterion8=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.KeYuan);
-		Criterion criterionOr=Restrictions.or(criterion,criterion2,criterion3,criterion4,criterion5,criterion6,criterion7,criterion8);
+		Criterion criterion10=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.PingShenRenYuan);
+		Criterion criterionOr=Restrictions.or(criterion,criterion2,criterion3,criterion4,criterion5,criterion6,criterion10,criterion7,criterion8,criterion9);
 		
 		List<Role> roles=roleRepo.findByCriteria(criterionOr);
 		
@@ -187,8 +189,8 @@ public class SysServiceImpl implements SysService{
 		org1.setCreatedBy("admin");
 		org1.setCreatedDate(new Date());
 		org1.setId(UUID.randomUUID().toString());
-		org1.setName("秘书科");
-		org1.setOrgIdentity("秘书科");
+		org1.setName("办公室");
+		org1.setOrgIdentity("办公室");
 		
 		Org org2 = new Org();
 		org2.setComment("系统初始化创建,不可删除");
@@ -250,6 +252,16 @@ public class SysServiceImpl implements SysService{
 		role6.setId(UUID.randomUUID().toString());
 		role6.setComment("系统初始化创建,不可删除");
 		
+		Role role10 = new Role();
+		role6.setRoleName(BasicDataConfig.FuJuZhang);
+		role6.setId(UUID.randomUUID().toString());
+		role6.setComment("系统初始化创建,不可删除");
+		
+		Role role11 = new Role();
+		role6.setRoleName(BasicDataConfig.PingShenRenYuan);
+		role6.setId(UUID.randomUUID().toString());
+		role6.setComment("系统初始化创建,不可删除");
+		
 		Role role7 = new Role();
 		role7.setRoleName(BasicDataConfig.KeZhang);
 		role7.setId(UUID.randomUUID().toString());
@@ -283,10 +295,12 @@ public class SysServiceImpl implements SysService{
 		roleRepo.save(role7);
 		roleRepo.save(role8);
 		roleRepo.save(role9);
+		roleRepo.save(role10);
+		roleRepo.save(role11);
 
 		// 初始化超级用户
 		User user = new User();
-		user.setLoginName("admin");
+		user.setLoginName("tzsp");
 		user.setId(UUID.randomUUID().toString());
 		user.setPassword("111111");
 		user.setComment("系统初始化创建,不可删除");

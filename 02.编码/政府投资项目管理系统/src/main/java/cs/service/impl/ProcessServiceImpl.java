@@ -3,11 +3,11 @@ package cs.service.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -17,15 +17,13 @@ import org.activiti.engine.HistoryService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.impl.identity.Authentication;
-import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
-import org.activiti.engine.task.TaskQuery;
 import org.activiti.spring.ProcessEngineFactoryBean;
 import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,30 +35,25 @@ import cs.activiti.service.ActivitiService;
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.common.Response;
-import cs.common.Util;
 import cs.domain.Attachment;
 import cs.domain.ShenBaoInfo;
 import cs.domain.ShenBaoInfo_;
 import cs.domain.framework.Org;
 import cs.domain.framework.Org_;
 import cs.domain.framework.Role;
-import cs.domain.framework.SysConfig;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
-import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
-import cs.model.DtoMapper.IMapper;
 import cs.repository.framework.OrgRepo;
 import cs.repository.framework.UserRepo;
 import cs.repository.impl.ShenBaoInfoRepoImpl;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObjNew;
-import cs.service.common.BasicDataService;
 import cs.service.interfaces.ProcessService;
 /**
- * @Description: 任务信息服务层
- * @author: cx
- * @Date：2017年7月10日
+ * @Description: 审批流程服务层
+ * @author: neo
+ * @Date：2018年4月10日
  * @version：0.1
  */
 @Service
@@ -72,13 +65,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	@Autowired
 	private ShenBaoInfoRepoImpl shenBaoInfoRepoImpl;
 	@Autowired
-	private IRepository<SysConfig, String> sysConfigRepo;
-	@Autowired
-	private IMapper<AttachmentDto, Attachment> attachmentMapper;
-	@Autowired
 	private ICurrentUser currentUser;
-	@Autowired
-	private BasicDataService basicDataService;
 	@Autowired
     ProcessEngineFactoryBean processEngine;
 	@Autowired
@@ -150,7 +137,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		if(shenBaoInfo.get(0).getThisTaskName().equals("usertask2") || shenBaoInfo.get(0).getThisTaskName().equals("usertask6") 
 				|| shenBaoInfo.get(0).getThisTaskName().equals("usertask7") || shenBaoInfo.get(0).getThisTaskName().equals("usertask8")){
 			root:for (Role role : loginUser.getRoles()) {
-				if(role.getRoleName().equals("科长")){
+				if(role.getRoleName().equals(BasicDataConfig.KeZhang)){
 					isShow = true;
 					break root;
 				}
@@ -158,7 +145,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		if(shenBaoInfo.get(0).getThisTaskName().equals("usertask10")){
 			root:for (Role role : loginUser.getRoles()) {
-				if(role.getRoleName().equals("评审人员")){
+				if(role.getRoleName().equals(BasicDataConfig.PingShenRenYuan)){
 					isShow = true;
 					break root;
 				}
@@ -166,7 +153,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		if(shenBaoInfo.get(0).getThisTaskName().equals("usertask12") || shenBaoInfo.get(0).getThisTaskName().equals("usertask18")){
 			root:for (Role role : loginUser.getRoles()) {
-				if(role.getRoleName().equals("秘书科分办人员")){
+				if(role.getRoleName().equals(BasicDataConfig.msFenBanRole)){
 					isShow = true;
 					break root;
 				}
@@ -174,7 +161,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		if(shenBaoInfo.get(0).getThisTaskName().equals("usertask14") || shenBaoInfo.get(0).getThisTaskName().equals("usertask20")){
 			root:for (Role role : loginUser.getRoles()) {
-				if(role.getRoleName().equals("秘书科发文人员")){
+				if(role.getRoleName().equals(BasicDataConfig.msFaWenRole)){
 					isShow = true;
 					break root;
 				}
@@ -182,7 +169,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		if(shenBaoInfo.get(0).getThisTaskName().equals("usertask13") || shenBaoInfo.get(0).getThisTaskName().equals("usertask21")){
 			root:for (Role role : loginUser.getRoles()) {
-				if(role.getRoleName().equals("局长")){
+				if(role.getRoleName().equals(BasicDataConfig.JuZhang)){
 					isShow = true;
 					break root;
 				}
@@ -190,7 +177,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		if(shenBaoInfo.get(0).getThisTaskName().equals("usertask17") || shenBaoInfo.get(0).getThisTaskName().equals("usertask19")){
 			root:for (Role role : loginUser.getRoles()) {
-				if(role.getRoleName().equals("副局长")){
+				if(role.getRoleName().equals(BasicDataConfig.FuJuZhang)){
 					isShow = true;
 					break root;
 				}
@@ -223,6 +210,15 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		return response;
 	}
 	
+	@Override
+	@Transactional
+	public List<HistoricActivityInstance> getUnfinished(String processId) {
+		List<HistoricActivityInstance> haisNext = historyService.createHistoricActivityInstanceQuery().processInstanceId(processId).unfinished().list();//未完成的活动(任务) 
+		if(!haisNext.isEmpty()){
+		}
+		return haisNext;
+	}
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	@Transactional
@@ -234,7 +230,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		List<HistoricProcessInstance> lists1 = activitiService.findHisProcessIntanceList(shenBaoInfo.getZong_processId());
 		
 		List<HistoricActivityInstance> hais = historyService.createHistoricActivityInstanceQuery().processInstanceId(shenBaoInfo.getZong_processId()).activityType("userTask").list();
-	
+		
 		for(HistoricProcessInstance list1 : lists1){
 			Map<String, String> map1 = new HashMap<>();
 			map1.put("name", "启动流程");
@@ -373,6 +369,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已办结");
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_pass);
+			shenBaoInfo.setComplate(true);
 		}else if(str.equals("tuiwen")){
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已退文");
@@ -380,6 +377,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}else{
 			shenBaoInfo.setThisTaskId(newtask.get(0).getId());
 			shenBaoInfo.setThisTaskName(newtask.get(0).getTaskDefinitionKey());
+			shenBaoInfo.setComplate(true);
 		}
 	
 		shenBaoInfoRepo.save(shenBaoInfo);
@@ -394,15 +392,9 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		String shenbaoInfoId = (String) data.get("id");
 		String msg = (String) data.get("msg");
 		List att = (List) data.get("att");//附件
-//		String isPass = (String) data.get("isPass");//下一经办人
 		
 		ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenbaoInfoId);
 
-//		Map<String, Object> variables = new HashMap<String, Object>();
-//		
-//		variables.put("isPass", 1);
-//
-//		List<Task> oldTask = taskService.createTaskQuery().taskId(shenBaoInfo.getThisTaskId()).orderByDueDate().desc().list();
 		Authentication.setAuthenticatedUserId(currentUser.getDisplayName());
 		activitiService.setTaskComment(shenBaoInfo.getThisTaskId(), shenBaoInfo.getZong_processId(), msg);
 
@@ -432,4 +424,30 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 					
 		logger.info(String.format("查询角色组已办结上线请求,用户名:%s", currentUser.getLoginName()));
 	}
+
+
+	@SuppressWarnings({ })
+	@Override
+	@Transactional
+	public PageModelDto<ShenBaoInfoDto> getAudit_complete(ODataObjNew odataObj) {
+		// TODO Auto-generated method stub
+		PageModelDto<ShenBaoInfoDto> pageModelDto = new PageModelDto<>();
+		Set<String> set = new HashSet<>();  
+		List<HistoricTaskInstance> his = historyService.createHistoricTaskInstanceQuery().taskAssignee(currentUser.getUserId()).finished().list();
+		for (HistoricTaskInstance hisTask : his) {
+			set.add((String)hisTask.getProcessInstanceId());
+		}
+		List<String> ids2 = new ArrayList<>();
+		ids2.addAll(set);
+		List<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoRepoImpl.findByOdata2(odataObj,ids2).stream().map((x) -> {
+			return mapper.toDto(x);
+		}).collect(Collectors.toList());
+		
+		pageModelDto.setCount(odataObj.getCount());
+		pageModelDto.setValue(shenBaoInfoDtos);
+		
+		return pageModelDto;
+	}
+	
+	
 }

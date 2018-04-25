@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.activiti.engine.history.HistoricActivityInstance;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,6 @@ import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.TaskHeadDto;
-import cs.model.DomainDto.TaskRecordDto;
 import cs.repository.odata.ODataObj;
 import cs.repository.odata.ODataObjNew;
 import cs.service.framework.UserService;
@@ -90,6 +90,25 @@ public class TaskController {
 //		}
 		return shenBaoInfoDtos;
 	}
+	
+	//@RequiresPermissions("management/task#audit#get")
+	@RequestMapping(name = "获取审批类个人已办数据", path = "complete", method = RequestMethod.GET)
+	public @ResponseBody PageModelDto<ShenBaoInfoDto> getAudit_complete(HttpServletRequest request) throws ParseException {
+		ODataObjNew odataObj = new ODataObjNew(request);	
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getAudit_complete(odataObj);
+		//关于流程记录根据创建用户id查找到名称用于显示
+		return shenBaoInfoDtos;
+	}
+	
+	//@RequiresPermissions("management/task#audit#get")
+	@RequestMapping(name = "获取未进行的活动", path = "unfinished/{processId}", method = RequestMethod.GET)
+	public @ResponseBody List<HistoricActivityInstance> getUnfinished(@PathVariable String processId) throws ParseException {
+		List<HistoricActivityInstance> shenBaoInfoDtos = processService.getUnfinished(processId);
+		//关于流程记录根据创建用户id查找到名称用于显示
+		return shenBaoInfoDtos;
+	}
+	
+	
 	@RequestMapping(name = "处理任务", path = "process",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  taskComplete(@RequestBody Map data,HttpServletRequest request) throws ParseException{

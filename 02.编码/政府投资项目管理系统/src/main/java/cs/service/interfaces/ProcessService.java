@@ -3,6 +3,8 @@ package cs.service.interfaces;
 import java.util.List;
 import java.util.Map;
 
+import org.activiti.engine.history.HistoricActivityInstance;
+
 import cs.common.Response;
 import cs.domain.ShenBaoInfo;
 import cs.model.PageModelDto;
@@ -20,6 +22,10 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
 
 	Response getAssigneeByUserId(String processId);
 
-	void taskPinglun(Map data);	
+	void taskPinglun(Map data);
+
+	PageModelDto<ShenBaoInfoDto> getAudit_complete(ODataObjNew odataObj);
+
+	List<HistoricActivityInstance> getUnfinished(String shenbaoInfoId);	
 	
 }
