@@ -297,11 +297,11 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenbaoInfoId);
 		if(isPass == 1){
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_pass);
-			shenBaoInfo.setProcessStage(BasicDataConfig.processStage_jbrbanli);
+			shenBaoInfo.setProcessStage("经办人办理");
 			shenBaoInfo.setAuditState(BasicDataConfig.auditState_auditPass);
 		}else{
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_notpass);
-			shenBaoInfo.setProcessStage(BasicDataConfig.processState_tuihui);
+			shenBaoInfo.setProcessStage("退文");
 			
 		}
 		shenBaoInfo.setComplate(true);

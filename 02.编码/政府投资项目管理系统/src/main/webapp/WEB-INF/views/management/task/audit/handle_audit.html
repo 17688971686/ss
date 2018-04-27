@@ -128,10 +128,6 @@ textarea.form-control {
 				<td class="formAlignRight" style="width:150px;"  ng-bind="x.name"></td>
 				<td>
 					<div ng-bind="x.msg"></div>
-						<!-- <label ng-if="x.attachmentDtos.length>0" class="pull-left">附件信息：</label>
-					<div ng-repeat="y in x.attachmentDtos">
-						<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
-					</div> -->
 					<div class="text-right" ng-bind="x.id"></div>
 					<div class="text-right" ng-bind="vm.formatDateTime(x.endTime)"></div>
 				</td>
@@ -167,6 +163,15 @@ textarea.form-control {
 		</table>
 		<div class="bg-info text-info" style="padding: 10px;">处理操作</div>
 		<table class="table table-bordered table-striped">
+			<tr  ng-if="vm.model.shenBaoInfo.thisTaskName != 'usertask1' && vm.model.shenBaoInfo.thisTaskName != 'usertask5' && vm.model.shenBaoInfo.thisTaskName != 'usertask3' && vm.model.shenBaoInfo.thisTaskName != 'usertask2'">
+				<td class="formAlignRight" style="width:150px;">查看信息：</td>
+				<td>
+				<div>
+						<button class="btn btn-success btn-xs" ng-click="vm.editApproval('look')">查看评审报批单</button>
+						<button class="btn btn-success btn-xs" ng-click="vm.draftOpen('look')">查看发文拟稿单</button>
+					</div>
+				</td>
+			</tr>
 			<tr>
 				<td class="formAlignRight" style="width:150px;">填写处理意见：</td>
 				<td>

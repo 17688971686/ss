@@ -95,10 +95,10 @@
         	vm.search=function(){
         		var filters = [];
 				filters.push({field:'complate',operator:'eq',value:false});//默认条件--没有完成的任务 
-				filters.push({field:'taskType',operator:'eq',value:common.basicDataConfig().taskType_yearPlan});//默认条件--查询的任务为下一年度计划类 
+				filters.push({field:'projectShenBaoStage',operator:'eq',value:common.basicDataConfig().projectShenBaoStage_nextYearPlan});//默认条件--查询的任务为下一年度计划类 
 				
 				if(vm.search.title !=null && vm.search.title !=''){//查询条件--标题
-	     			   filters.push({field:'title',operator:'contains',value:vm.search.title});
+	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
 	     		   }
      		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--任务建设单位
      			   filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});

@@ -184,7 +184,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 				entity.setProjectId(project.getId());
 				entity.setProjectNumber(project.getProjectNumber());
 				//设置相关的默认信息
-				entity.setProcessStage(BasicDataConfig.processStage_qianshou);//处理阶段为签收阶段
+				entity.setProcessStage("已签收");//处理阶段为签收阶段
 				entity.setProcessState(BasicDataConfig.processState_pass);//状态为已签收通过
 				entity.setShenbaoDate(new Date());//申报时间
 				entity.setQianshouDate(new Date());//签收时间
@@ -197,7 +197,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		}
 		if(!isAdminCreate){//如果前台申报单位创建
 			//因dto中创建时间和修改时间为项目的相关时间，需从新设置
-			entity.setProcessStage(BasicDataConfig.processStage_qianshou);//设置申报信息的阶段为待签收
+			entity.setProcessStage("投资科审核收件办理");//设置申报信息的阶段为待签收
 			entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
 			entity.setCreatedDate(new Date());
 			entity.setModifiedDate(new Date());

@@ -145,7 +145,12 @@
 			        		vm.approval.unitName=vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitName;
 			        		vm.approval.relId=vm.model.shenBaoInfo.id;
 			        		vm.approval.processRole=window.profile_userId;//初始化填写评审报批单的经办人为任务当前处理人
-			        		vm.processRoleName=window.profile_userName;
+			        		if(vm.isLookDraft == true){
+			        			vm.processRoleName="";
+			        		}else{
+			        			vm.processRoleName=window.profile_userName;
+			        		}
+			        		
 						}
 					
 						$('.approval').modal({
@@ -233,6 +238,11 @@
 			        		vm.draft.relId=vm.model.shenBaoInfo.id;
 			        		vm.draft.userNameAndUnit=window.profile_userId;//初始化填写评审报批单的经办人为任务当前处理人
 			        		vm.userNameAndUnitName = window.profile_userName;
+			        		if(vm.isLookApproval== true){
+			        			vm.userNameAndUnitName = "";
+			        		}else{
+			        			vm.userNameAndUnitName = window.profile_userName;
+			        		}
 						}
 					
 						$('.draft_issued').modal({

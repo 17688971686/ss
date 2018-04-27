@@ -410,8 +410,8 @@
 				type : 'odata',
 				transport : common.kendoGridConfig().transport(common.format(url_project+"/unitName")),
 				schema : common.kendoGridConfig().schema({
-					id : "id",
-					fields : {
+					id : "id"
+					/*fields : {
 						createdDate : {
 							type : "date"
 						},
@@ -422,7 +422,7 @@
 							type:"boolean"
 						}
 						
-					}
+					}*/
 				}),
 				serverPaging : true,
 				serverSorting : true,
@@ -582,8 +582,8 @@
 				type : 'odata',
 				transport : common.kendoGridConfig().transport(url_project),
 				schema : common.kendoGridConfig().schema({
-					id : "id",
-					fields : {
+					id : "id"
+					/*fields : {
 						createdDate : {
 							type : "date"
 						},
@@ -594,7 +594,7 @@
 							type:"boolean"
 						}
 						
-					}
+					}*/
 				}),
 				serverPaging : true,
 				serverSorting : true,
