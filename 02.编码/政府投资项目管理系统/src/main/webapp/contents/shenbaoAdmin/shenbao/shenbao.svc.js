@@ -336,7 +336,7 @@
 					width : 150,
 					filterable : false,
 					template:function(item){
-						return common.format("<span class='text-danger'>{0}</span>",common.getBasicDataDesc(item.processStage));
+						return common.format("<span class='text-danger'>{0}</span>",item.processStage);
 					}
 				},
 				{

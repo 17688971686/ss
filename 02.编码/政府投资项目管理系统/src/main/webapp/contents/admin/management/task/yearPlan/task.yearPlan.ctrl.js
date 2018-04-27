@@ -12,9 +12,7 @@
     	var vm = this;
     	vm.title = "";
     	vm.model={};
-    	vm.taskType=$state.params.taskType;
-        vm.taskId=$state.params.taskId;
-        vm.relId=$state.params.relId;     
+        vm.id=$state.params.id;     
         vm.search={};
         vm.basicData={};
         vm.model.taskRecord = {};
@@ -96,7 +94,7 @@
         	//查询
         	vm.search=function(){
         		var filters = [];
-				filters.push({field:'isComplete',operator:'eq',value:false});//默认条件--没有完成的任务 
+				filters.push({field:'complate',operator:'eq',value:false});//默认条件--没有完成的任务 
 				filters.push({field:'taskType',operator:'eq',value:common.basicDataConfig().taskType_yearPlan});//默认条件--查询的任务为下一年度计划类 
 				
 				if(vm.search.title !=null && vm.search.title !=''){//查询条件--标题
@@ -147,12 +145,9 @@
    			   var isValid = $('form').valid();
 	   			if (isValid) {
 	   				vm.isSubmit = true;
-	   				vm.model.taskRecord.thisProcess=vm.task.thisProcess;
-	   				vm.model.taskRecord.thisProcessState=processState;
+	   				vm.isPass = 1;
 	   				if(processState == common.basicDataConfig().processState_notpass){//不通过
-	   					vm.model.taskRecord.nextProcess=vm.task.lastProcess;
-	   					vm.model.taskRecord.nextUser=vm.task.lastUser;
-	   					vm.model.taskRecord.nextRole=vm.task.lastRole;
+	   					vm.isPass = 2;
 	   				}
 	     		   taskYearPlanSvc.handle(vm);
 	   			}

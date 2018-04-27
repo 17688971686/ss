@@ -786,7 +786,7 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_taskAudit),
+				transport : common.kendoGridConfig().transport(common.format(url_taskAudit)),
 				schema : common.kendoGridConfig().schema({
 					id : "id"					
 				}),

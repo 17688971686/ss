@@ -565,7 +565,7 @@
 	        })
 	        //任务处理页--下一年度计划
 	        .state('task_handle', {
-	            url: '/task/todo/:taskType/:taskId/:relId',
+	            url: '/task/todo/:id',
 	            templateUrl: '/management/task/html/handle',
 	            controller: 'taskYearPlanCtrl',
 	            controllerAs: 'vm'
@@ -614,7 +614,7 @@
 	        })
 	           //任务处理页--计划类
 	        .state('task_handle_plan', {
-	            url: '/task/handle_plan/:taskType/:taskId/:relId',
+	            url: '/task/handle_plan/:id',
 	            templateUrl: '/management/task/html/handle_plan',
 	            controller: 'taskPlanCtrl',
 	            controllerAs: 'vm'

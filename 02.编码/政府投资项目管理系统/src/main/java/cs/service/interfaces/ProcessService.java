@@ -14,7 +14,7 @@ import cs.repository.odata.ODataObjNew;
 
 public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, String> {
 
-	PageModelDto<ShenBaoInfoDto> getTask_user(ODataObjNew odataObj);
+	PageModelDto<ShenBaoInfoDto> getTask_user(ODataObjNew odataObj, String str);
 
 	List<Object> getHistoryInfo(String shenbaoInfoId);
 
@@ -24,8 +24,10 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
 
 	void taskPinglun(Map data);
 
-	PageModelDto<ShenBaoInfoDto> getAudit_complete(ODataObjNew odataObj);
+	PageModelDto<ShenBaoInfoDto> getAudit_complete(ODataObjNew odataObj,String str);
 
-	List<HistoricActivityInstance> getUnfinished(String shenbaoInfoId);	
+	List<HistoricActivityInstance> getUnfinished(String shenbaoInfoId);
+
+	void yearPlanComplete(Map data);	
 	
 }

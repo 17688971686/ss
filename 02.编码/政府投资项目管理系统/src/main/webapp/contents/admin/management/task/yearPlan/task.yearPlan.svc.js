@@ -37,8 +37,9 @@
 					url : url_taskAudit
 				};
 			
-			var httpSuccess = function success(response) {				
-				$('#todoNumber_audit').html(response.data.value.length);
+			var httpSuccess = function success(response) {	
+				vm.shenpiNumber = response.data.value.length;
+				$('#todoNumber_audit').html(vm.shenpiNumber);
 			};
 				
 			common.http({
@@ -58,8 +59,9 @@
 					url : url_taskPlan
 				};
 			
-			var httpSuccess = function success(response) {				
-				$('#todoNumber_plan').html(response.data.value.length);
+			var httpSuccess = function success(response) {		
+				vm.planNumber = response.data.value.length;
+				$('#todoNumber_plan').html(vm.planNumber);
 			};
 				
 			common.http({
@@ -104,7 +106,7 @@
 		function getMonthReportById(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_monthReport + "?$filter=id eq '{0}'", vm.relId)				
+					url : common.format(url_monthReport + "?$filter=id eq '{0}'", vm.id)				
 				};
 			
 			var httpSuccess = function success(response) {
@@ -131,7 +133,7 @@
 		function getShenBaoInfoById(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_shenbao + "?$filter=id eq '{0}'", vm.relId)				
+					url : common.format(url_shenbao + "?$filter=id eq '{0}'", vm.id)				
 				};
 			
 			var httpSuccess = function success(response) {
@@ -195,8 +197,9 @@
 		function handle(vm){
 			var httpOptions = {
 				method : 'post',
-				url : url_task+"/"+vm.taskId,
-				data : vm.model.taskRecord
+				url : url_task+"/yearPaln",
+				data:{"id":vm.id,"msg":vm.processSuggestion,"isPass":vm.isPass}
+				
 			};
 
 			var httpSuccess = function success(response) {
@@ -272,13 +275,13 @@
 					dir : "desc"
 				},
 				filter:[{
-					field:'isComplete',
+					field:'complate',
 					operator:'eq',
 					value:false
 				},{
-					field:'taskType',
+					field:'projectShenBaoStage',
 					operator:'eq',
-					value:common.basicDataConfig().taskType_yearPlan
+					value:common.basicDataConfig().projectShenBaoStage_nextYearPlan
 				}],
 				requestEnd:function(e){
 					if(e.response.value){
@@ -307,19 +310,22 @@
 
 					},
 					{
-						field : "title",
+						field : "projectName",
 						title : "标题",
 						width:500,
 						filterable : true,
 						template:function(item){
-							return common.format("<a href='#/task/todo/{1}/{2}/{3}'>{0}</a>",item.title,item.taskType,item.id,item.relId);			
+							return common.format("<a href='#/task/todo/{1}'>{0}</a>",item.projectName,item.id);			
 						}
 					},
 					 {
 						field : "unitName",
 						title : "建设单位",
 						width : 300,						
-						filterable : true
+						filterable : true,
+						template:function(item){
+							return common.getUnitName(item.unitName);
+						}
 					},
 					{
 						field : "projectIndustry",
@@ -342,12 +348,11 @@
 						}
 					},
 					 {
-						field : "taskType",
-						title : "任务类型",
+						field : "projectShenBaoStage",
+						title : "申报阶段",
 						width : 120,						
-						filterable : false,
 						template:function(item){						
-							return common.getBasicDataDesc(item.taskType);
+							return common.getBasicDataDesc(item.projectShenBaoStage);
 						}
 					},
 					{

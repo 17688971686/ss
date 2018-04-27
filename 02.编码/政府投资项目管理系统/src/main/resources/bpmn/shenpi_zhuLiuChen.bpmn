@@ -4,12 +4,12 @@
     <startEvent id="startevent1" name="Start"></startEvent>
     <userTask id="usertask1" name="经办人签收"></userTask>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
-    <userTask id="usertask2" name="科长审核/抄送局长" activiti:candidateUsers="${user}">
+    <userTask id="usertask2" name="科长审核" activiti:candidateUsers="${user}">
       <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="userIds" activiti:elementVariable="user">
         <completionCondition>${shenpi==8}</completionCondition>
       </multiInstanceLoopCharacteristics>
     </userTask>
-    <userTask id="usertask3" name="经办人办理" activiti:candidateUsers="${user}">
+    <userTask id="usertask3" name="经办人分办" activiti:candidateUsers="${user}">
       <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="userIds" activiti:elementVariable="user">
         <completionCondition>${shenpi==8}</completionCondition>
       </multiInstanceLoopCharacteristics>
@@ -19,7 +19,7 @@
     <sequenceFlow id="flow13" name="科长审核" sourceRef="exclusivegateway3" targetRef="usertask2">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==1}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask5" name="经办人办理"></userTask>
+    <userTask id="usertask5" name="经办人转办"></userTask>
     <sequenceFlow id="flow14" name="经办人转办" sourceRef="exclusivegateway3" targetRef="usertask5">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==5}]]></conditionExpression>
     </sequenceFlow>

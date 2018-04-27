@@ -595,7 +595,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		}
 		super.repository.save(entity);
 		//更新任务状态
-		updeteWorkFlow(entity,isAdminUpdate);
+//		updeteWorkFlow(entity,isAdminUpdate);
+		startProcessShenbao(processDefinitionKey,entity.getId());
 		//处理批复文件库
 		handlePiFuFile(entity);
 		logger.info(String.format("更新申报信息,项目名称: %s,申报阶段：%s",entity.getProjectName(),

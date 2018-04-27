@@ -44,34 +44,27 @@ public class TaskController {
 
 	//@RequiresPermissions("management/task##get")
 	@RequestMapping(name = "获取任务信息", path = "",method=RequestMethod.GET)
-	public @ResponseBody PageModelDto<TaskHeadDto> getToDo(HttpServletRequest request) throws ParseException {
+	public @ResponseBody PageModelDto<ShenBaoInfoDto> getToDo(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);	
-		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.get(odataObj);
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.get(odataObj);
 		
-		//关于流程记录根据创建用户id查找到名称用于显示
-		List<TaskHeadDto> taskHeadDtols = taskHeadDtos.getValue();
-		if(taskHeadDtols !=null && taskHeadDtols.size()>0){
-			taskHeadDtols.forEach(x->{
-				if(x.getTaskRecordDtos() !=null && x.getTaskRecordDtos().size()>0){
-					x.getTaskRecordDtos().forEach(y->{
-						User user = userService.findById(y.getThisUser());
-						if(user !=null){
-							String name = user.getDisplayName()!=null&&!user.getDisplayName().equals("")?user.getDisplayName():user.getLoginName();
-							y.setThisUser(name);
-						}
-					});
-				}
-			});
-			taskHeadDtos.setValue(taskHeadDtols);
-		}
-		return taskHeadDtos;
+		return shenBaoInfoDtos;
 	}
 	
 	//@RequiresPermissions("management/task#audit#get")
 	@RequestMapping(name = "获取审批类个人待办数据", path = "audit", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getToDo_Audit(HttpServletRequest request) throws ParseException {
+		String str = "audit";
 		ODataObjNew odataObj = new ODataObjNew(request);	
-		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getTask_user(odataObj);
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getTask_user(odataObj,str);
+		//关于流程记录根据创建用户id查找到名称用于显示
+		return shenBaoInfoDtos;
+	}
+	@RequestMapping(name = "获取计划类个人待办数据", path = "plan", method = RequestMethod.GET)
+	public @ResponseBody PageModelDto<ShenBaoInfoDto> getToDo_Plan(HttpServletRequest request) throws ParseException {
+		String str = "plan";
+		ODataObjNew odataObj = new ODataObjNew(request);	
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getTask_user(odataObj,str);
 		//关于流程记录根据创建用户id查找到名称用于显示
 //		List<TaskHeadDto> taskHeadDtols = taskHeadDtos.getValue();
 //		if(taskHeadDtols !=null && taskHeadDtols.size()>0){
@@ -94,11 +87,22 @@ public class TaskController {
 	//@RequiresPermissions("management/task#audit#get")
 	@RequestMapping(name = "获取审批类个人已办数据", path = "complete", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getAudit_complete(HttpServletRequest request) throws ParseException {
+		String str = "audit";
 		ODataObjNew odataObj = new ODataObjNew(request);	
-		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getAudit_complete(odataObj);
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getAudit_complete(odataObj,str);
 		//关于流程记录根据创建用户id查找到名称用于显示
 		return shenBaoInfoDtos;
 	}
+	
+	//@RequiresPermissions("management/task#audit#get")
+		@RequestMapping(name = "获取计划类个人已办数据", path = "completePlan", method = RequestMethod.GET)
+		public @ResponseBody PageModelDto<ShenBaoInfoDto> getAudit_completePlan(HttpServletRequest request) throws ParseException {
+			String str = "plan";
+			ODataObjNew odataObj = new ODataObjNew(request);	
+			PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getAudit_complete(odataObj,str);
+			//关于流程记录根据创建用户id查找到名称用于显示
+			return shenBaoInfoDtos;
+		}
 	
 	//@RequiresPermissions("management/task#audit#get")
 	@RequestMapping(name = "获取未进行的活动", path = "unfinished/{processId}", method = RequestMethod.GET)
@@ -114,6 +118,13 @@ public class TaskController {
 	public void  taskComplete(@RequestBody Map data,HttpServletRequest request) throws ParseException{
 		processService.taskComplete(data);
 	}
+	
+	@RequestMapping(name = "处理年度计划", path = "yearPaln",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void  yearPlanComplete(@RequestBody Map data,HttpServletRequest request) throws ParseException{
+		processService.yearPlanComplete(data);
+	}
+	
 	@RequestMapping(name = "历史信息", path = "his/{id}",method=RequestMethod.GET)
 	public @ResponseBody List<Object>  getHistoryInfo(@PathVariable String id) throws ParseException{
 		return processService.getHistoryInfo(id);
@@ -128,29 +139,29 @@ public class TaskController {
 	public void  taskPinglun(@RequestBody Map data,HttpServletRequest request) throws ParseException{
 		processService.taskPinglun(data);
 	}
-	//@RequiresPermissions("management/task#plan#get")
-	@RequestMapping(name = "获取计划类个人待办数据", path = "plan", method = RequestMethod.GET)
-	public @ResponseBody PageModelDto<TaskHeadDto> getToDo_Plan(HttpServletRequest request) throws ParseException {
-		ODataObj odataObj = new ODataObj(request);	
-		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.getToDo_Plan(odataObj);
-		//关于流程记录根据创建用户id查找到名称用于显示
-		List<TaskHeadDto> taskHeadDtols = taskHeadDtos.getValue();
-		if(taskHeadDtols !=null && taskHeadDtols.size()>0){
-			taskHeadDtols.forEach(x->{
-				if(x.getTaskRecordDtos() !=null && x.getTaskRecordDtos().size()>0){
-					x.getTaskRecordDtos().forEach(y->{
-						User user = userService.findById(y.getThisUser());
-						if(user !=null){
-							String name = user.getDisplayName()!=null&&!user.getDisplayName().equals("")?user.getDisplayName():user.getLoginName();
-							y.setThisUser(name);
-						}
-					});
-				}
-			});
-			taskHeadDtos.setValue(taskHeadDtols);
-		}
-		return taskHeadDtos;
-	}
+//	//@RequiresPermissions("management/task#plan#get")
+//	@RequestMapping(name = "获取计划类个人待办数据", path = "plan", method = RequestMethod.GET)
+//	public @ResponseBody PageModelDto<TaskHeadDto> getToDo_Plan(HttpServletRequest request) throws ParseException {
+//		ODataObj odataObj = new ODataObj(request);	
+//		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.getToDo_Plan(odataObj);
+//		//关于流程记录根据创建用户id查找到名称用于显示
+//		List<TaskHeadDto> taskHeadDtols = taskHeadDtos.getValue();
+//		if(taskHeadDtols !=null && taskHeadDtols.size()>0){
+//			taskHeadDtols.forEach(x->{
+//				if(x.getTaskRecordDtos() !=null && x.getTaskRecordDtos().size()>0){
+//					x.getTaskRecordDtos().forEach(y->{
+//						User user = userService.findById(y.getThisUser());
+//						if(user !=null){
+//							String name = user.getDisplayName()!=null&&!user.getDisplayName().equals("")?user.getDisplayName():user.getLoginName();
+//							y.setThisUser(name);
+//						}
+//					});
+//				}
+//			});
+//			taskHeadDtos.setValue(taskHeadDtols);
+//		}
+//		return taskHeadDtos;
+//	}
 	
 	@RequiresPermissions("management/task#taskId#post")
 	@RequestMapping(name="处理任务",path="{taskId}",method=RequestMethod.POST)

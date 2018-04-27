@@ -159,7 +159,7 @@
         	//查询
         	vm.search=function(){
         		var filters = [];
-				filters.push({field:'isComplete',operator:'eq',value:false});//默认条件--没有完成的任务 
+				filters.push({field:'complate',operator:'eq',value:false});//默认条件--没有完成的任务 
 				
 				if(vm.search.title !=null && vm.search.title !=''){//查询条件--标题
 	     			   filters.push({field:'title',operator:'contains',value:vm.search.title});
@@ -189,6 +189,9 @@
         	taskNewAuditSvc.opinionGird(vm);
         	//查询意见
         	taskNewAuditSvc.getOpinion(vm);
+        	
+//      		filters.push({field:'projectShenBaoStage',operator:'eq',value:vm.search.projectIndustry});
+//      		vm.gridOptions_complete_shenPi.dataSource.filter(filters);
 
         	vm.selectionUser = function(id){
         		
