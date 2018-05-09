@@ -488,7 +488,17 @@
         		if(vm.isPass2 == 6){
         			vm.nextUsers = "";
         		}
-        		taskNewAuditSvc.handle(vm,str);
+        		if((vm.model.shenBaoInfo.thisTaskName == 'usertask2') && vm.nextUsers == ""){
+        			common.alert({
+						vm : vm,
+						msg : "请选择经办人后提交！",
+						fn : function() {
+							$('.alertDialog').modal('hide');
+						}
+					});
+        		}else{
+        			taskNewAuditSvc.handle(vm,str);
+        		}
         	};
         	vm.pinglun=function(){
         		taskNewAuditSvc.pinglun(vm);

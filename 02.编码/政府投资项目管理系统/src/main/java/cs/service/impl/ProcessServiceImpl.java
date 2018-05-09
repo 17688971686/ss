@@ -53,7 +53,10 @@ import cs.repository.impl.ShenBaoInfoRepoImpl;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.repository.odata.ODataObjNew;
+import cs.service.framework.UserService;
+import cs.service.framework.UserServiceImpl;
 import cs.service.interfaces.ProcessService;
+import jxl.write.Blank;
 /**
  * @Description: 审批流程服务层
  * @author: neo
@@ -80,6 +83,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	private ActivitiService activitiService;
 	@Autowired
 	private OrgRepo orgRepo;
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	private HistoryService historyService;
@@ -125,6 +130,188 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		
 	}
 	
+	/********************************************************-plan-******************************************************************/
+	@Override
+	@Transactional
+	public Response getAssigneeByUserId_plan(String processId) {
+		Response response = new Response();
+		boolean isShow = false;
+		Criterion criterion = Restrictions.eq(ShenBaoInfo_.zong_processId.getName(), processId);
+		List<ShenBaoInfo> shenBaoInfo = shenBaoInfoRepo.findByCriteria(criterion);
+		User loginUser = userRepo.findById(currentUser.getUserId());
+		
+		List<HistoricVariableInstance> list = processEngine.getProcessEngineConfiguration().getHistoryService()  
+	            .createHistoricVariableInstanceQuery()//创建一个历史的流程变量查询对象  
+	            .variableName("nextUsers")
+	            .processInstanceId(processId)
+	            .list(); 
+		List<Object> userList = new ArrayList<>();
+		for (HistoricVariableInstance historicVariableInstance : list) {
+			userList = Arrays.asList(historicVariableInstance.getValue().toString().split(","));
+			System.out.println(historicVariableInstance);
+		}
+		if(shenBaoInfo.get(0).getThisTaskName().equals("usertask3")){
+			root:for (Role role : loginUser.getRoles()) {
+				if(role.getRoleName().equals(BasicDataConfig.KeZhang)){
+					isShow = true;
+					break root;
+				}
+			}
+		}
+		
+		if((shenBaoInfo.get(0).getThisTaskName().equals("usertask4") || shenBaoInfo.get(0).getThisTaskName().equals("usertask5")) && !userList.isEmpty()){
+			root:for (Object object : userList) {
+				if(currentUser.getUserId().equals(object)){
+					isShow = true;
+					break root;
+				}
+			}
+		}
+		
+		if(isShow == true){
+			response.setSuccess(true);
+		}
+		
+		return response;
+		
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	@Transactional
+	public void taskComplete_plan(Map data) {
+		String shenbaoInfoId = (String) data.get("id");
+		String msg = (String) data.get("msg");
+		String str = (String) data.get("str");//具体操作
+		List att = (List) data.get("att");//附件
+		String nextUsers = (String) data.get("nextUsers");//下一经办人
+		String isPass = (String) data.get("isPass");//下一经办人
+		String isPass2 = (String) data.get("isPass2");//下一经办人
+		double apPlanReach_ggys = (double) data.get("apPlanReach_ggys");
+		double apPlanReach_gtzj = (double) data.get("apPlanReach_gtzj");
+		
+		ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenbaoInfoId);
+
+		Map<String, Object> variables = new HashMap<String, Object>();
+		
+		//判断具体操作
+		if(isPass != ""){//其他方式通过
+			variables.put("isPass", isPass);
+		}else if(str.equals("tuiwen")){
+			variables.put("isPass", 3);
+		}else if(str.equals("reback")){
+			variables.put("isPass", 2);
+		}else if(isPass == ""){//正常通过
+			variables.put("isPass", 1);
+		} 
+		
+		variables.put("shenpi", 8);
+		
+		List<String> useridList = new ArrayList<String>();
+		List<Org> findProjects = new ArrayList<>();
+		Criterion criterion=Restrictions.eq(Org_.name.getName(), "投资科");
+		Criterion criterion2=Restrictions.eq(Org_.name.getName(), "局领导");
+		if(shenBaoInfo.getThisTaskName().equals("usertask6") || shenBaoInfo.getThisTaskName().equals("usertask7") || (shenBaoInfo.getThisTaskName().equals("usertask17")&&"5".equals(isPass))
+				|| (shenBaoInfo.getThisTaskName().equals("usertask19")&&"5".equals(isPass))){
+			Criterion criterion3=Restrictions.eq(Org_.name.getName(), "办公室");
+			Criterion criterion4 = Restrictions.or(criterion,criterion2,criterion3);
+			findProjects = orgRepo.findByCriteria(criterion4);
+		}else{
+			Criterion criterion3 = Restrictions.or(criterion,criterion2);
+			
+			findProjects = orgRepo.findByCriteria(criterion3);
+		}
+	
+		for (Org org : findProjects) {
+			for (User user : org.getUsers()) {
+				useridList.add(user.getId().trim());
+			}
+		}
+		if(!useridList.isEmpty()){//固定会签人员
+			variables.put("userIds", useridList);
+		}
+		
+		if(!nextUsers.isEmpty()){//设置流程变量--下一任务处理人
+			variables.put("nextUsers", nextUsers);
+		}else if(shenBaoInfo.getThisTaskName().equals("usertask3") && nextUsers.isEmpty()){
+			throw new IllegalArgumentException(String.format("请选择人员后提交！"));
+		}else if(shenBaoInfo.getThisTaskName().equals("usertask4") && nextUsers.isEmpty()){
+			throw new IllegalArgumentException(String.format("请选择人员后提交！"));
+		}
+		
+		List<Task> task = null;
+		
+		//经办人转办模式
+		if(shenBaoInfo.getThisTaskName().equals("usertask1") &&  isPass !="" || shenBaoInfo.getThisTaskName().equals("usertask2") &&  isPass !="" ){
+			task = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId()).taskAssignee(currentUser.getUserId()).orderByDueDate().desc().list();
+			
+			Authentication.setAuthenticatedUserId(currentUser.getDisplayName());
+			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), msg);
+
+			processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(task.get(0).getId(), nextUsers);
+			processEngine.getProcessEngineConfiguration().getTaskService().setVariable(task.get(0).getId(), "isPass", isPass);
+
+		}else{
+			//当前流程下，当前登录人员的任务--会签模式
+			task = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId()).taskCandidateUser(currentUser.getUserId()).orderByDueDate().desc().list();
+			if(task.size() == 0 ){
+				task = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId()).taskAssignee(currentUser.getUserId()).orderByDueDate().desc().list();
+				
+			}
+			Authentication.setAuthenticatedUserId(currentUser.getDisplayName());
+			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), msg);
+
+			activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
+			activitiService.taskComplete(task.get(0).getId(),variables);
+		}
+		
+		//结束上一任务后，当前流程下产生的新任务
+		List<Task> tasknew = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId()).orderByDueDate().desc().list();
+		
+		Gson gson = new Gson();
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		//如果有附件
+		if(att != null){
+			for (int i = 0; i < att.toArray().length; i++) {
+				map = gson.fromJson(att.toArray()[i].toString(), map.getClass());
+				Attachment newatt = new Attachment();
+				newatt.setId(UUID.randomUUID().toString());
+				newatt.setName(map.get("name").toString());
+				newatt.setUrl(map.get("url").toString());			
+				newatt.setType(map.get("type").toString());
+				newatt.setCreatedBy(currentUser.getUserId());
+				newatt.setModifiedBy(currentUser.getUserId());
+				shenBaoInfo.getAttachments().add(newatt);
+			}
+		}
+		if(shenBaoInfo.getThisTaskName().equals("usertask4")){
+			shenBaoInfo.setApPlanReach_gtzj(apPlanReach_gtzj);
+			shenBaoInfo.setApPlanReach_ggys(apPlanReach_ggys);
+		}
+		if(shenBaoInfo.getThisTaskName().equals("usertask6")){
+			shenBaoInfo.setThisTaskId("00000");
+			shenBaoInfo.setThisTaskName("已办结");
+			shenBaoInfo.setProcessState(BasicDataConfig.processState_pass);
+			shenBaoInfo.setIsIncludLibrary(true);
+			shenBaoInfo.setComplate(true);
+		}else if(str.equals("tuiwen")){
+			shenBaoInfo.setThisTaskId("00000");
+			shenBaoInfo.setThisTaskName("已退文");
+			shenBaoInfo.setProcessState(BasicDataConfig.processState_notpass);
+			shenBaoInfo.setProcessStage(BasicDataConfig.processState_tuihui);
+		}else{
+		    
+			shenBaoInfo.setThisTaskId(task.get(0).getId());
+			shenBaoInfo.setThisTaskName(tasknew.get(0).getTaskDefinitionKey());
+			shenBaoInfo.setComplate(true);
+		}
+		shenBaoInfo.setProcessStage(tasknew.get(0).getName());
+		shenBaoInfoRepo.save(shenBaoInfo);
+					
+		logger.info(String.format("查询角色组已办结上线请求,用户名:%s", currentUser.getLoginName()));
+	}
+	/**************************************************************************************************************************/
 
 	@Override
 	@Transactional
@@ -273,6 +460,18 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 						map.put("endTime", com.getTime().toLocaleString());
 //						map.put("dur", hai.getDurationInMillis().toString());
 						map.put("msg", com.getFullMessage());
+						
+						User user = userService.findUserByName(com.getUserId());
+						if(user != null){
+							if(!user.getRoles().isEmpty()){
+								root:for (Role role : user.getRoles()) {
+									if(role.getRoleName().equals("局长") || role.getRoleName().equals("副局长")){
+										map.put("isJuzhang", "yes");
+										break root;
+									}
+								}
+							}
+						}
 						
 						calendar.set(com.getTime().getYear(),com.getTime().getMonth(),com.getTime().getDay(),com.getTime().getHours(),com.getTime().getMinutes(),com.getTime().getSeconds());
 					    long millis = calendar.getTimeInMillis();

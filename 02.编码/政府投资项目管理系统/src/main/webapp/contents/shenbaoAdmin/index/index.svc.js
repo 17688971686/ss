@@ -6,7 +6,7 @@
 	index.$inject = ['$http'];	
 
 	function index($http) {	
-		var url_task="/shenbaoAdmin/task";
+		var url_task="management/task/all";
 		var url_unitShenBao="/shenbaoAdmin/shenbao";
 		var url_account_password="/verifyNum/changePwd";
 		var url_monthReport = "/shenbaoAdmin/projectMonthReport";

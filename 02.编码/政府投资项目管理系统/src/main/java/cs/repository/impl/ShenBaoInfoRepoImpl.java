@@ -40,6 +40,8 @@ public class ShenBaoInfoRepoImpl extends AbstractRepository<ShenBaoInfo	, String
 			OdataFilter orFilter2 =new OdataFilter(null, Operate.AND, idsFilter2);
 			odataObj.addFilter(orFilter2);
 			
+		}else if(str.equals("all")){
+			
 		}else{
 			idsFilter2.add(new OdataFilter(ShenBaoInfo_.projectShenBaoStage.getName(), Operate.EQ, BasicDataConfig.projectShenBaoStage_XMJYS));
 			idsFilter2.add(new OdataFilter(ShenBaoInfo_.projectShenBaoStage.getName(), Operate.EQ, BasicDataConfig.projectShenBaoStage_KXXYJBG));

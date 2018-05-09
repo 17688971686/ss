@@ -28,6 +28,10 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
 
 	List<HistoricActivityInstance> getUnfinished(String shenbaoInfoId);
 
-	void yearPlanComplete(Map data);	
+	void yearPlanComplete(Map data);
+
+	Response getAssigneeByUserId_plan(String processId);
+
+	void taskComplete_plan(Map data);	
 	
 }

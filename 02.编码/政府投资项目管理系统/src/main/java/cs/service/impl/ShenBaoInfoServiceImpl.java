@@ -1,3 +1,4 @@
+=======
 package cs.service.impl;
 
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ import cs.repository.framework.RoleRepo;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
+import cs.service.common.BasicDataServiceImpl;
 import cs.service.interfaces.ShenBaoInfoService;
 /**
  * @Description: 申报信息服务层
@@ -100,6 +102,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     ProcessEngineFactoryBean processEngine;
 	
 	private String processDefinitionKey = "ShenpiReview";
+	private String processDefinitionKey_plan = "ShenpiPlan";
 
 	@Value("${projectShenBaoStage_JYS}")
 	private String projectShenBaoStage_JYS;//申报阶段：建议书
@@ -235,8 +238,12 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
 		super.repository.save(entity);
 		//启动申报审批流程
-//		startProcessShenbao(processDefinitionKey,entity.getId());
-		initWorkFlow(entity,isAdminCreate);
+		if(entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)){
+			startProcessShenbao(processDefinitionKey_plan,entity.getId());
+		}else{
+			startProcessShenbao(processDefinitionKey,entity.getId());
+		}
+//		initWorkFlow(entity,isAdminCreate);
 		//处理批复文件库
 		handlePiFuFile(entity);
 		logger.info(String.format("创建申报信息,项目名称 :%s,申报阶段：%s",entity.getProjectName(),

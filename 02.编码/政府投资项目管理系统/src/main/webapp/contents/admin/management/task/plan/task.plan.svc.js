@@ -84,7 +84,7 @@
 		function getAssigneeByUserId(vm,processId) {
 			var httpOptions = {
 				method : 'get',
-				url : common.format(url_taskAudit_new + "/isAssignee/"+processId)
+				url : common.format(url_taskAudit_new + "/isAssignee_plan/"+processId)
 			}
 			var httpSuccess = function success(response) {
 
@@ -520,14 +520,10 @@
 							vm.nationalIndustryChange();
 						}
 						
-						if(vm.model.shenBaoInfo.thisTaskName == 'usertask1' || vm.model.shenBaoInfo.thisTaskName == 'usertask5' || vm.model.shenBaoInfo.thisTaskName == 'usertask2'){
-			        		getDeptByName(vm,"投资科");
-			        	}
-						if(vm.model.shenBaoInfo.thisTaskName != 'usertask1' || vm.model.shenBaoInfo.thisTaskName != 'usertask5'){
+			        	getDeptByName(vm,"投资科");
+			        	
+						if(vm.model.shenBaoInfo.thisTaskName != 'usertask1' || vm.model.shenBaoInfo.thisTaskName != 'usertask2'){
 							getAssigneeByUserId(vm,vm.model.shenBaoInfo.zong_processId);//查询登录人员是否是指定办理人员
-			        	}
-						if(vm.model.shenBaoInfo.thisTaskName == 'usertask3'){
-			        		getDeptByName(vm,"评审中心");
 			        	}
 						getUnfinished(vm,vm.model.shenBaoInfo.zong_processId);
 						
@@ -544,7 +540,7 @@
 		}//end fun getShenBaoInfoById
 		
 		/**
-		 * 查询部门信息
+		 * 查询部门人员
 		 */
 		function getDeptByName(vm,name){
 			var httpOptions = {
@@ -617,8 +613,17 @@
 	   		if (isValid) {
 				var httpOptions = {
 					method : 'post',
-					url : url_taskAudit_new+"/process",
-					data:{"str":str,"id":vm.id,"msg":vm.processSuggestion,"att":vm.attachmentDtos,"nextUsers":vm.nextUsers.toString(),"isPass":vm.isPass,"isPass2":vm.isPass2}
+					url : url_taskAudit_new+"/process_plan",
+					data:{"str":str,
+						"id":vm.id,
+						"msg":vm.processSuggestion,
+						"att":vm.attachmentDtos,
+						"nextUsers":vm.nextUsers.toString(),
+						"isPass":vm.isPass,
+						"isPass2":vm.isPass2,
+						"apPlanReach_ggys":vm.model.shenBaoInfo.apPlanReach_ggys,
+						"apPlanReach_gtzj":vm.model.shenBaoInfo.apPlanReach_gtzj
+						}
 				};
 
 				var httpSuccess = function success(response) {
@@ -795,7 +800,7 @@
 					dir : "desc"
 				},
 				requestEnd:function(e){						
-					$('#todoNumber_audit').html(e.response.count);
+					$('#todoNumber_plan').html(e.response.count);
 				},
 				change:function(){
 					var grid = $(".grid").data("kendoGrid");
