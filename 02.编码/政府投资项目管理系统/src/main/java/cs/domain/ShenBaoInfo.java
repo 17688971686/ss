@@ -166,11 +166,11 @@ public class ShenBaoInfo extends BaseProject{
 	private Integer processState;
 	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '审批是否完结'")
 	private boolean complate;
-	@Column(columnDefinition="varchar(125) NULL COMMENT '审批阶段'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '审批流程ID'")
 	private String zong_processId;
-	@Column(columnDefinition="varchar(125) NULL COMMENT '审批阶段'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '审批任务ID'")
 	private String thisTaskId;
-	@Column(columnDefinition="varchar(125) NULL COMMENT '审批阶段'")
+	@Column(columnDefinition="varchar(125) NULL COMMENT '审批任务名称'")
 	private String thisTaskName;
 	//end
 	

@@ -8,6 +8,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.common.ICurrentUser;
 import cs.common.ValidationSQLUtil;
+import cs.activiti.service.ActivitiService;
 import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
@@ -34,6 +36,8 @@ public class ShenBaoAdminShenBaoController {
 	private ShenBaoInfoService shenBaoInfoService;
 	@Autowired
 	private ICurrentUser currentUser;
+	@Autowired 
+	protected ActivitiService activitiService;
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
 	private String processDefinitionKey = "ShenpiReview";
@@ -48,6 +52,14 @@ public class ShenBaoAdminShenBaoController {
 		ODataObj odataObj = new ODataObj(request);
 		shenBaoInfoDtos = shenBaoInfoService.get(odataObj);
 		return shenBaoInfoDtos;	
+	}
+	
+//	@RequiresPermissions("shenbaoAdmin/shenbao##get")
+	@RequestMapping(name = "撤销流程", path = "{processId}",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void reback(HttpServletRequest request,@PathVariable String processId) throws ParseException{
+		ODataObj odataObj = new ODataObj(request);
+		shenBaoInfoService.reback(processId);
 	}
 	
 	@RequiresPermissions("shenbaoAdmin/shenbao#unit#get")

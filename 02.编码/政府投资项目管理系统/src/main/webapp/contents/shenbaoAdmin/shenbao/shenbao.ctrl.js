@@ -60,7 +60,7 @@
 			};
 			
 			shenbaoSvc.getUserUnit(vm);
-			
+
 			//资金统计方法
 			//项目资金筹措总计
 			vm.capitalTotal = function() {
@@ -230,7 +230,6 @@
 		}
 
 		function page_list() {
-			
 			shenbaoSvc.projectShenBaoRecordsGird(vm);//获取项目申报记录
 			//条件查询
 			vm.search = function() {

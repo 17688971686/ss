@@ -2,7 +2,7 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <process id="ShenpiPlan" name="计划下达" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
-    <userTask id="usertask1" name="经办人签收"></userTask>
+    <userTask id="usertask1" name="经办人签收" activiti:assignee="${users}"></userTask>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
     <userTask id="usertask3" name="科长审核" activiti:candidateUsers="${user}">
       <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="userIds" activiti:elementVariable="user">
@@ -52,7 +52,7 @@
     <sequenceFlow id="flow98" name="退回" sourceRef="exclusivegateway12" targetRef="usertask4">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==2}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow99" sourceRef="exclusivegateway3" targetRef="usertask2">
+    <sequenceFlow id="flow99" name="经办人转办" sourceRef="exclusivegateway3" targetRef="usertask2">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==5}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow100" name="退文" sourceRef="exclusivegateway4" targetRef="endevent11">
@@ -177,6 +177,9 @@
       <bpmndi:BPMNEdge bpmnElement="flow99" id="BPMNEdge_flow99">
         <omgdi:waypoint x="292.0" y="310.0"></omgdi:waypoint>
         <omgdi:waypoint x="292.0" y="225.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="60.0" x="272.0" y="254.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow100" id="BPMNEdge_flow100">
         <omgdi:waypoint x="455.0" y="197.0"></omgdi:waypoint>

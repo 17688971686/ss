@@ -632,7 +632,11 @@
 		 */
 		function getProjectById(vm){
 			var httpOptions = {
+<<<<<<< HEAD
 					method : 'get',
+=======
+					method : 'get',
+>>>>>>> dcd515c1... 未签收可以撤销
 					url : common.format(url_project + "?$filter=id eq '{0}'", vm.id)
 				};
 			
@@ -1387,5 +1391,10 @@
 				scrollable:true
 			};
 		}
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> dcd515c1... 未签收可以撤销
 	}
 })();

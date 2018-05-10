@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 import javax.transaction.Transactional;
 
+import org.activiti.engine.RuntimeService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.spring.ProcessEngineFactoryBean;
@@ -100,16 +101,17 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@Autowired
 	private RoleRepo roleRepo;
 	@Autowired
+	private OrgRepo orgRepo;
+	@Autowired
 	private ActivitiService activitiService;
 	@Autowired
     ProcessEngineFactoryBean processEngine;
-	@Autowired
-	private OrgRepo orgRepo;
 	
+	private RuntimeService runtimeService;
 	private String processDefinitionKey = "ShenpiReview";
 	private String processDefinitionKey_plan = "ShenpiPlan";
 	private String processDefinitionKey_yearPlan = "yearPlan";
-	
+
 	@Value("${projectShenBaoStage_JYS}")
 	private String projectShenBaoStage_JYS;//申报阶段：建议书
 	@Value("${projectShenBaoStage_KXXYJBG}")
@@ -138,6 +140,20 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		return super.get(odataObj);				
 	}
 	
+	@Override
+	@Transactional
+	public void reback(String pricessId) {
+		runtimeService.deleteProcessInstance(pricessId, "建设单位主动撤销");
+		Criterion criterion=Restrictions.eq(ShenBaoInfo_.zong_processId.getName(), pricessId);
+		List<ShenBaoInfo> shenBaoInfo= super.repository.findByCriteria(criterion);
+		shenBaoInfo.get(0).setProcessStage("建设单位主动撤销");
+		shenBaoInfo.get(0).setProcessState(BasicDataConfig.processState_weikaishi);
+		shenBaoInfo.get(0).setThisTaskName("");
+		shenBaoInfo.get(0).setZong_processId("");
+		shenBaoInfo.get(0).setThisTaskId("");
+		super.repository.save(shenBaoInfo.get(0));
+		logger.debug("======>卸载pricessId为 " + pricessId + " 的流程!");
+	}
 	/**
 	 * @description 创建申报信息
 	 * @param dto 申报信息数据
@@ -1157,15 +1173,25 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 
 		Task task = activitiService.getTaskByExecutionId(executionId);
 
-		if(sysConfg !=null){
-			if(Util.isNotNull(sysConfg.getConfigValue()) && sysConfg.getEnable()){
-//				variables.put("userIds", sysConfg.getConfigValue());
-		processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(task.getId(), sysConfg.getConfigValue());
-			}
-		}else{
-			throw new IllegalArgumentException(String.format("没有配置申报信息审核分办人员，请联系管理员！"));
-		}
-
+//		if(sysConfg !=null){
+//			if(Util.isNotNull(sysConfg.getConfigValue()) && sysConfg.getEnable()){
+////				variables.put("userIds", sysConfg.getConfigValue());
+//		processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(task.getId(), sysConfg.getConfigValue());
+//=======
+//			if(!useridList.isEmpty()){//固定会签人员
+//				variables.put("users", useridList);
+//>>>>>>> dcd515c1... 未签收可以撤销
+//			}
+//		}else{
+//			if(sysConfg !=null){
+//				if(Util.isNotNull(sysConfg.getConfigValue()) && sysConfg.getEnable()){
+//					variables.put("users", sysConfg.getConfigValue());
+////					processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(task.getId(), sysConfg.getConfigValue());
+//				}
+//			}else{
+//				throw new IllegalArgumentException(String.format("没有配置申报信息审核分办人员，请联系管理员！"));
+//			}
+//		}
 		entity.setZong_processId(task.getProcessInstanceId());
 		entity.setThisTaskId(task.getId());
 		entity.setThisTaskName(task.getTaskDefinitionKey());
