@@ -32,17 +32,24 @@ public class ShenBaoInfoRepoImpl extends AbstractRepository<ShenBaoInfo	, String
 		taskIds.forEach(x -> {
 			idsFilter.add(new OdataFilter(ShenBaoInfo_.zong_processId.getName(), Operate.EQ, x));
 		});
-		OdataFilter orFilter = new OdataFilter(null, Operate.OR, idsFilter);
+		
 		if(str.equals("plan")){
+			OdataFilter orFilter = new OdataFilter(null, Operate.OR, idsFilter);
 			idsFilter2.add(new OdataFilter(ShenBaoInfo_.projectShenBaoStage.getName(), Operate.EQ, BasicDataConfig.projectShenBaoStage_planReach));
 			
 			idsFilter2.add(orFilter);
 			OdataFilter orFilter2 =new OdataFilter(null, Operate.AND, idsFilter2);
 			odataObj.addFilter(orFilter2);
 			
+		}else if(str.equals("yearPlan")){
+			idsFilter2.add(new OdataFilter(ShenBaoInfo_.projectShenBaoStage.getName(), Operate.EQ, BasicDataConfig.projectShenBaoStage_nextYearPlan));
+			OdataFilter orFilter2 =new OdataFilter(null, Operate.AND, idsFilter2);
+			odataObj.addFilter(orFilter2);
 		}else if(str.equals("all")){
-			
+			OdataFilter orFilter = new OdataFilter(null, Operate.OR, idsFilter);
+			odataObj.addFilter(orFilter);
 		}else{
+			OdataFilter orFilter = new OdataFilter(null, Operate.OR, idsFilter);
 			idsFilter2.add(new OdataFilter(ShenBaoInfo_.projectShenBaoStage.getName(), Operate.EQ, BasicDataConfig.projectShenBaoStage_XMJYS));
 			idsFilter2.add(new OdataFilter(ShenBaoInfo_.projectShenBaoStage.getName(), Operate.EQ, BasicDataConfig.projectShenBaoStage_KXXYJBG));
 			idsFilter2.add(new OdataFilter(ShenBaoInfo_.projectShenBaoStage.getName(), Operate.EQ, BasicDataConfig.projectShenBaoStage_ZJSQBG));

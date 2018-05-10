@@ -628,11 +628,7 @@
 				var httpOptions = {
 					method : 'post',
 					url : url_taskAudit_new+"/process",
-<<<<<<< Upstream, based on origin/develop
-					data:{"str":str,"id":vm.id,"msg":vm.processSuggestion,"att":vm.attachmentDtos,"nextUsers":vm.nextUsers.toString()}
-=======
 					data:{"str":str,"id":vm.id,"msg":vm.processSuggestion,"att":vm.attachmentDtos,"nextUsers":vm.nextUsers.toString(),"isPass":vm.isPass,"isPass2":vm.isPass2}
->>>>>>> 21c0197 审批流程完成
 				};
 
 				var httpSuccess = function success(response) {

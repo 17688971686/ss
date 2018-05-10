@@ -60,6 +60,15 @@ public class TaskController {
 		//关于流程记录根据创建用户id查找到名称用于显示
 		return shenBaoInfoDtos;
 	}
+	//@RequiresPermissions("management/task#audit#get")
+		@RequestMapping(name = "获取审批类个人待办数据", path = "yearPlan", method = RequestMethod.GET)
+		public @ResponseBody PageModelDto<ShenBaoInfoDto> getToDo_yearPlan(HttpServletRequest request) throws ParseException {
+			String str = "yearPlan";
+			ODataObjNew odataObj = new ODataObjNew(request);	
+			PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getTask_user(odataObj,str);
+			//关于流程记录根据创建用户id查找到名称用于显示
+			return shenBaoInfoDtos;
+		}
 	@RequestMapping(name = "获取计划类个人待办数据", path = "plan", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getToDo_Plan(HttpServletRequest request) throws ParseException {
 		String str = "plan";

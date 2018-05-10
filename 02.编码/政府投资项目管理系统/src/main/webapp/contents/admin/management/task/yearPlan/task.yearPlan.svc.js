@@ -7,27 +7,47 @@
 
 	function task($http) {
 		var url_task = "/management/task";
-		var url_taskRecord = "/management/taskRecord";
 		var url_shenbao = "/management/shenbao";
 		var url_monthReport = "/management/monthReport";
 		var url_project = "/management/project";
 		var url_taskAudit = "/management/task/audit";
 		var url_taskPlan = "/management/task/plan";
 		var url_back = "#/task/todo";
-
+		var url_dept="/org";
+		
 		var service = {
 			grid : grid,//待办任务列表
 			gridForShenpi:gridForShenpi,//获取审批类数量
 			gridForPlan:gridForPlan,//获取计划类数量
 			completeGird:completeGird,//已办任务列表
-			getTaskById:getTaskById,//根据任务id获取任务信息
 			getShenBaoInfoById:getShenBaoInfoById,//根据id获取申报信息
 			getMonthReportById:getMonthReportById,//根据id获取月报信息
-			handle:handle//流程处理（签收/退文）
+			handle:handle,//流程处理（签收/退文）
+			getDeptByName:getDeptByName,
+			getHistoryInfo:getHistoryInfo
 		};
 		
 		return service;
 		
+		/*
+		 * 流转信息
+		 */
+		function getHistoryInfo(vm) {
+			var httpOptions = {
+				method : 'get',
+				url : common.format(url_task + "/his/" + vm.id)
+			}
+			var httpSuccess = function success(response) {
+
+				vm.taskRecord = response.data;
+			}
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
 		/**
 		 * 获取审批类数量
 		 */
@@ -38,7 +58,13 @@
 				};
 			
 			var httpSuccess = function success(response) {	
-				vm.shenpiNumber = response.data.value.length;
+				if(response.data.value != null && response.data.value != ""){
+					vm.shenpiNumber = response.data.value.length;
+				}else{
+					vm.shenpiNumber = 0;
+				}
+				
+				
 				$('#todoNumber_audit').html(vm.shenpiNumber);
 			};
 				
@@ -59,8 +85,12 @@
 					url : url_taskPlan
 				};
 			
-			var httpSuccess = function success(response) {		
-				vm.planNumber = response.data.value.length;
+			var httpSuccess = function success(response) {	
+				if(response.data.value != null && response.data.value != ""){
+					vm.planNumber = response.data.value.length;
+				}else{
+					vm.planNumber = 0;
+				}
 				$('#todoNumber_plan').html(vm.planNumber);
 			};
 				
@@ -181,6 +211,8 @@
 							vm.model.shenBaoInfo.nationalIndustryParent = child2.pId;
 							vm.nationalIndustryChange();
 						}
+						
+						getDeptByName(vm,"投资科");
 					}
 				});
 				
@@ -194,12 +226,45 @@
 			});
 		}//end getShenBaoInfoById
 		
-		function handle(vm){
+		/**
+		 * 查询部门信息
+		 */
+		function getDeptByName(vm,name){
+			var httpOptions = {
+					method : 'get',
+					async:false,
+					url : common.format(url_dept+ "?$filter=name eq '{0}'", name)
+			};
+			
+			var httpSuccess = function success(response){
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.model.dept = response.data.value[0]||{};
+					}
+				});
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}//end fun getDeptByName
+		
+		function handle(vm,str){
 			var httpOptions = {
 				method : 'post',
 				url : url_task+"/yearPaln",
-				data:{"id":vm.id,"msg":vm.processSuggestion,"isPass":vm.isPass}
-				
+				data:{"str":str,
+					"id":vm.id,
+					"msg":vm.processSuggestion,
+					"att":vm.attachmentDtos,
+					"isPass":vm.isPass,
+				}
+			
 			};
 
 			var httpSuccess = function success(response) {
@@ -229,40 +294,13 @@
 			});		
 	}//handle
 
-		/**
-		 * 根据任务id查询任务信息
-		 */
-		function getTaskById(vm){
-			var httpOptions = {
-					method : 'get',
-					url : common.format(url_task + "?$filter=id eq '{0}'", vm.taskId)
-				};
-			
-			var httpSuccess = function success(response) {
-				vm.task = response.data.value[0] || {};
-				if(vm.task){
-					vm.task.taskTypeDesc=common.getBasicDataDesc(vm.task.taskType);
-					if(vm.task.isComplete){//如果任务为已完成
-						vm.isComplete=true;
-					}
-				}	
-			};
-				
-			common.http({
-				vm:vm,
-				$http:$http,
-				httpOptions:httpOptions,
-				success:httpSuccess
-			});
-		}//getTaskById
-		
 		
 		// begin#grid
 		function grid(vm) {
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_task),
+				transport : common.kendoGridConfig().transport(url_task+"/"+"yearPlan"),
 				schema : common.kendoGridConfig().schema({
 					id : "id"					
 				}),
@@ -274,15 +312,11 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:[{
+				filter:{
 					field:'complate',
 					operator:'eq',
 					value:false
-				},{
-					field:'projectShenBaoStage',
-					operator:'eq',
-					value:common.basicDataConfig().projectShenBaoStage_nextYearPlan
-				}],
+				},
 				requestEnd:function(e){
 					if(e.response.value){
 						$('#todoNumber').html(e.response.value.length);		
@@ -388,7 +422,7 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_taskRecord),
+				transport : common.kendoGridConfig().transport(url_task+"/"+"yearPlan"),
 				schema : common.kendoGridConfig().schema({
 					id : "id"					
 				}),
@@ -401,9 +435,9 @@
 					dir : "desc"
 				},
 				filter:{
-					field:'taskType',
+					field:'complate',
 					operator:'eq',
-					value:"taskType_2"
+					value:true
 				},
 				change: function(e) {//当数据发生变化时
 				    var filters = dataSource.filter();//获取所有的过滤条件
@@ -427,19 +461,22 @@
 
 					},
 					{
-						field : "title",
-						title : "标题",						
+						field : "projectName",
+						title : "标题",
+						width:500,
 						filterable : true,
-						width:350,
 						template:function(item){
-							return common.format("<a href='#/task/todo/{1}/{2}/{3}'>{0}</a>",item.title,item.taskType,item.taskId,item.relId);
+							return common.format("<a href='#/task/complate_yearPlan/{1}'>{0}</a>",item.projectName,item.id);			
 						}
 					},
 					 {
 						field : "unitName",
 						title : "建设单位",
-						width : 200,						
-						filterable : true
+						width : 300,						
+						filterable : true,
+						template:function(item){
+							return common.getUnitName(item.unitName);
+						}
 					},
 					{
 						field : "projectIndustry",
@@ -462,12 +499,11 @@
 						}
 					},
 					 {
-						field : "taskType",
-						title : "任务类型",
+						field : "projectShenBaoStage",
+						title : "申报阶段",
 						width : 120,						
-						filterable : false,
 						template:function(item){						
-							return common.getBasicDataDesc(item.taskType);
+							return common.getBasicDataDesc(item.projectShenBaoStage);
 						}
 					},
 					{
