@@ -99,7 +99,7 @@ public class ProjectController {
 				if(!hasProject){
 					//默认新增的项目为不填写月报
 					ProjectDto.setIsMonthReport(false);
-					ProjectService.create(ProjectDto);//创建一条新数据
+					ProjectService.update(ProjectDto,ProjectDto.getId());//创建一条新数据
 	            	ProjectService.updateVersion(ProjectDto.getId(), false);//更新本条数据的版本            	
 				}
 			}		

@@ -250,8 +250,31 @@
 	           		 var fileName=e.XMLHttpRequest.response;
 	           		 $scope.$apply(function(){
 	           			 if(vm.attachmentDtos){
+	           				 if(vm.model.shenBaoInfo.thisTaskName == "usertask16"){
+		           					if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_projectProposal){
+			           					type= 'Project_ProPosal';
+			           				 }else if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_KXXYJBG){
+			           					type= 'KXXYJ_Report';
+			           				 }else if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_CBSJYGS){
+			           					type= 'CBSJYGS_Material';
+			           				 }else if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_capitalApplyReport){
+			           					type= 'IssuedReplyFile_Scanning';
+			           				 }
+		           				 }
+		           				 
 	           				 vm.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
 	           			 }else{
+	           				 if(vm.model.shenBaoInfo.thisTaskName == "usertask16"){
+		           					if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_projectProposal){
+			           					type= 'Project_ProPosal';
+			           				 }else if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_KXXYJBG){
+			           					type= 'KXXYJ_Report';
+			           				 }else if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_CBSJYGS){
+			           					type= 'CBSJYGS_Material';
+			           				 }else if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_capitalApplyReport){
+			           					type= 'IssuedReplyFile_Scanning';
+			           				 }
+		           				 }
 	           				 vm.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
 	           			 }                			           			
 	           		 });
@@ -291,20 +314,26 @@
 					vm.attachmentDtos.splice(idx,1);
 				 }
 			 };
+			 
+			 
+			 taskNewAuditSvc.documentRecordsGird(vm);//查询批复文件
+			 
+			 
 			//展示批复文件选择模态框
 	   		vm.choseDocument = function(e){
 	   			vm.pifuType=$(e.target).parents('.uploadBox').attr('data-type');
-        	   $("#documentRecords").modal({
+        	   $(".documentRecords").modal({
 			        backdrop: 'static',
 			        keyboard:false  			  
         	   });
-        	   vm.replyFileGridOptions.dataSource.read();//批复文件列表数据刷新
+        	   vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
 	   		};
 		   		
+	   		vm.uploadType=[['JYS','项目建议书批复'],['KXXYJBG','可行性研究报告批复'],['CBSJYGS','初步设计与概算批复']];
 	   		//批复文件选择模态框确认
 	   		vm.pifuChoseConfirm = function(){
 	   			//关闭模态框
-	   			$("#documentRecords").modal('hide');
+	   			$(".documentRecords").modal('hide');
 	   			//获取选择框中的信息
 	   			var select = common.getKendoCheckId('.grid');
             	var fileName = select[0].value;

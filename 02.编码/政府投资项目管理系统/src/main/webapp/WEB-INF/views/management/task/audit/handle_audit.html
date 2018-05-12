@@ -128,7 +128,7 @@ textarea.form-control {
 				<td class="formAlignRight" style="width:150px;"  ng-bind="x.name"></td>
 				<td>
 					<div ng-bind="x.msg"></div>
-					<div class="text-right" ng-bind="vm.getUserName(x.id)"></div>
+					<div class="text-right" ng-bind="x.id"></div>
 					<div class="text-right" ng-bind="vm.formatDateTime(x.endTime)"></div>
 				</td>
 			</tr>
@@ -139,7 +139,7 @@ textarea.form-control {
 				<td class="formAlignRight" style="width:150px;"  ng-bind="x.name"></td>
 				<td>
 					<div ng-bind="x.msg"></div>
-					<div class="text-right" ng-bind="vm.getUserName(x.id)"></div>
+					<div class="text-right" ng-bind="x.id"></div>
 					<div class="text-right" ng-bind="vm.formatDateTime(x.endTime)"></div>
 				</td>
 			</tr>
@@ -153,6 +153,41 @@ textarea.form-control {
 				        <div style="margin:3px;" ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos" ng-if="y.type == 'shenpiFile'">
 				 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
 			 			</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<div class="bg-info text-info" style="padding: 10px;" ng-if="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16'">项目批复信息</div>
+		<table class="table table-bordered table-striped "
+			ng-if="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16'">
+			<tr>
+				<td style="width: 180px;">批复名称</td>
+				<td style="width: 180px;">批复时间</td>
+				<td style="width: 180px;">批复文号</td>
+				<td>文件上传</td>
+			</tr>
+			<tr ng-repeat="x in vm.uploadType">
+				<td>{{x[1]}}</td>
+				<td><input type="text" onkeydown="return false;"
+					kendo-date-picker
+					ng-model="vm.model.shenBaoInfo['pifu'+x[0]+'_date']"
+					k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" /></td>
+				<td><input type="text"
+					ng-model="vm.model.shenBaoInfo['pifu'+x[0]+'_wenhao']"
+					placeholder="格式：xxx〔xx〕xx号" /></td>
+				<td class="clearfix">
+					<div class="uploadBox pull-left" data-type="{{x[0]}}">
+						<button class="btn btn-sm btn-primary" style="margin-right: 10px;"
+							data-toggle="modal" ng-click="vm.choseDocument($event)">选择文件</button>
+						<input name="files" type="file" kendo-upload
+							k-options="vm.uploadOptions_pifu" />
+					</div>
+					<div style="margin: 3px;" class="pull-left"
+						ng-repeat="y in vm.attachmentDtos" ng-show="y.type=='{{x[0]}}'">
+						<a href="/contents/upload/{{y.url}}" target="_blank"
+							ng-bind="y.name"></a>
+						<button class="btn btn-xs btn-danger"
+							ng-click="vm.delFile($index)">删除</button>
 					</div>
 				</td>
 			</tr>
@@ -193,7 +228,7 @@ textarea.form-control {
 						<div class="uploadBox pull-left" data-type="shenpiFile">
 						 	<input type="file" name="files" kendo-upload k-options="vm.uploadOptions_shenpi"/>
 				        </div>
-				        <div style="margin:3px;" ng-repeat="y in vm.attachmentDtos">
+				        <div style="margin:3px;" ng-repeat="y in vm.attachmentDtos" ng-if="y.type =='shenpiFile'">
 				 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
 							<button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenpi($index)">删除</button>
 			 			</div>
@@ -279,7 +314,7 @@ textarea.form-control {
 				</td>
 			</tr>
 			
-			<tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18'">
+			<tr ng-if="vm.isShow &&(vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18')">
 				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
 				<td>
 					<div>
@@ -309,7 +344,18 @@ textarea.form-control {
 					</div>
 				</td>
 			</tr>
-			
+		<!-- 	<tr ng-if="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16' ">
+				<td class="formAlignRight">上传批复文件：<span class="required">(*)</span></td>
+				<td>
+					<div class="uploadBox pull-left" data-type="pifuFile">
+					 	<input type="file" name="files" kendo-upload k-options="vm.uploadOptions_pifu"/>
+			        </div>
+					<div style="margin:3px;" ng-repeat="y in vm.attachmentDtos" ng-if="type == Project_ProPosal || type == KXXYJ_Report || type == CBSJYGS_Material || type == IssuedReplyFile_Scanning">
+			 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+						<button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenpi($index)">删除</button>
+		 			</div>
+				</td>
+			</tr> -->
 			<tr ng-if="vm.isShow || vm.model.shenBaoInfo.thisTaskName == 'usertask1' " ng-hide="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16'">
 				<td class="formAlignRight"  style="width:150px;">操作：</td>
 				<td>
@@ -481,4 +527,22 @@ textarea.form-control {
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<!-- 文件选择模态框 -->
+<div class="documentRecords modal fade" id="documentRecords"> 
+	<div class="modal-dialog">
+		<div class="modal-content" style="width:850px;"> 
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			
+				<h4 class="modal-title" id="myModalLabel">批复文件列表</h4> 
+			</div> 
+			<div class="modal-body">
+				<div class="grid" kendo-grid="vm.grid_documentRecords" k-options="vm.gridOptions_documentRecords"></div>			
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
+				<button type="button" class="btn btn-success" ng-click="vm.pifuChoseConfirm()">确定</button>	
+			</div> 
+		</div>
+	</div>
+</div>
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>

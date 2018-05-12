@@ -68,5 +68,21 @@
 			<td class="formAlignRight">主题词：<span class="required">(*)</span></td>
 			<td colspan="3" ng-bind="vm.draft.keyWord"></td>
 		</tr>
+		<tr>
+			<td class="formAlignRight">正文附件：<span class="required">(*)</span></td>
+			<td colspan="3">
+				<div style="margin:3px;" ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos" ng-if="y.type == 'zhengwenFile'">
+		 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+	 			</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">发文附件：<span class="required">(*)</span></td>
+			<td colspan="3">
+				<div style="margin:3px;" ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos"  ng-if="y.type == 'fawemFile'">
+		 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+	 			</div>
+			</td>
+		</tr>
 	</table>
 </form>

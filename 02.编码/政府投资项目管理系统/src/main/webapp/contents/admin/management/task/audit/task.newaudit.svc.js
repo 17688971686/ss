@@ -21,6 +21,7 @@
 		var url_proxy = "/management/proxy";
 		var url_review = "/management/review";
 		var url_pic = "/pic/task";
+		var url_document="/shenbaoAdmin/replyFile";
 		
 		var service = {
 			grid : grid,//待办任务列表
@@ -43,7 +44,8 @@
 			getAssigneeByUserId:getAssigneeByUserId,//登录人员是否是指定办理人员
 			pinglun:pinglun,//评论
 			getUnfinished:getUnfinished,//获取未进行的活动
-			showActiviti:showActiviti
+			showActiviti:showActiviti,
+			documentRecordsGird:documentRecordsGird
 		};
 		
 		return service;
@@ -1004,5 +1006,71 @@
 				scrollable:true
 			};
 		}//end#complete_shenPiGird(个人已办列表)
+		
+		function documentRecordsGird(vm){
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url_document),						
+				schema : common.kendoGridConfig().schema({
+					id : "id"
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				requestStart: function () {
+					kendo.ui.progress($("#loading"), true);
+				},
+				requestEnd : function () {
+					kendo.ui.progress($("#loading"), false);
+				}
+			});
+			// End:dataSource
+			// Begin:column
+			var columns = [
+					{
+						template : function(item) {
+							return kendo
+									.format(
+											"<input type='radio'  relId='{0},{1},{2}' name='checkbox'/>",
+											item.number,item.name,item.fullName);
+						},
+						filterable : false,
+						width : 40,
+						title : ""
+					},
+					{
+						field : "number",
+						title : "文号",
+						width:180,
+						
+						filterable : true
+					},
+					{
+						field : "name",
+						title : "文件名",
+						width : 550,
+						template:function(item){
+							return common.format("<a href='/contents/upload/{1}'>{0}</a>",item.name,item.fullName);
+						},
+						filterable : true
+						
+					}
+					
+			];
+			// End:column
+
+			vm.gridOptions_documentRecords = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true,
+				sortable:true,
+				scrollable:true
+			};
+		}
 	}	
 })();

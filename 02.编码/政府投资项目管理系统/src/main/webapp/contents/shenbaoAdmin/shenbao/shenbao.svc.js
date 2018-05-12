@@ -25,9 +25,39 @@
 			documentRecordsGird:documentRecordsGird,//批复文件列表
 			getShenBaoInfoByProjectId:getShenBaoInfoByProjectId,//根据项目id查询申报信息
 			getShenBaoPortState:getShenBaoPortState,//查询申报端口的状态哦
-			getUserUnit:getUserUnit
+			getUserUnit:getUserUnit,
+			reback:reback//撤销申请
 		};		
 		return service;
+		
+		function reback(vm,processId){
+			var httpOptions = {
+					method : 'post',
+					url : url_shenbao+"/"+processId
+				};
+				var httpSuccess = function success(response) {
+					$(".shenBaoRecords").modal('hide');
+					common.requestSuccess({
+						vm : vm,
+						response : response,
+						fn : function() {
+							common.alert({
+								vm : vm,
+								msg : "申报已撤销！",
+								fn : function() {
+									$('.alertDialog').modal('hide');
+								}
+							});
+						}
+					});
+				};
+				common.http({
+					vm : vm,
+					$http : $http,
+					httpOptions : httpOptions,
+					success : httpSuccess
+				});
+		}
 		
 		/**
 		 * 公共资金处理方法
@@ -359,9 +389,9 @@
 					title : "操作",
 					width : 200,
 					template : function(item) {					
-						var isShow=item.processStage==common.basicDataConfig().processStage_tianbao||item.processState==common.basicDataConfig().processState_notpass||item.processState==common.basicDataConfig().processState_tuiwen
-							||(item.processStage==common.basicDataConfig().processStage_qianshou && item.processState != common.basicDataConfig().processState_pass);
-						return common.format($('#columnBtns_Record').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShow?'':'display:none',"vm.deleteShenBaoInfo('"+item.id+"')");
+						var isShow=item.processStage=="投资科审核收件办理"||item.processState==common.basicDataConfig().processState_notpass||item.processState==common.basicDataConfig().processState_tuiwen
+							||item.processStage=="已退文" |item.processStage=="已办结";
+						return common.format($('#columnBtns_Record').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShow?'':'display:none',"vm.deleteShenBaoInfo('"+item.id+"')",item.thisTaskName,item.zong_processId);
 					}
 				}
 			];

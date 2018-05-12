@@ -438,7 +438,9 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			map1.put("name", "启动流程");
 			map1.put("id", list1.getStartUserId());
 			map1.put("endTime", list1.getStartTime().toLocaleString());
-			map1.put("msg", list1.getStartUserId()+"：启动了项目<"+shenBaoInfo.getProjectName()+">的审批流程！");
+			
+			User user = userRepo.findById(list1.getStartUserId());
+			map1.put("msg", user.getDisplayName()+"：启动了项目<"+shenBaoInfo.getProjectName()+">的审批流程！");
 
 			calendar.set(list1.getStartTime().getYear(),list1.getStartTime().getMonth(),list1.getStartTime().getDay(),list1.getStartTime().getHours(),list1.getStartTime().getMinutes(),list1.getStartTime().getSeconds());
 		    long millis = calendar.getTimeInMillis();
@@ -457,7 +459,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 						Map<String, String> map = new HashMap<>();
 						
 						map.put("name", hai.getActivityName());
-						map.put("id", com.getUserId());
+						
 						map.put("endTime", com.getTime().toLocaleString());
 //						map.put("dur", hai.getDurationInMillis().toString());
 						map.put("msg", com.getFullMessage());
@@ -473,7 +475,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 								}
 							}
 						}
-						
+						map.put("id",user.getDisplayName());
 						calendar.set(com.getTime().getYear(),com.getTime().getMonth(),com.getTime().getDay(),com.getTime().getHours(),com.getTime().getMinutes(),com.getTime().getSeconds());
 					    long millis = calendar.getTimeInMillis();
 						map.put("itemOrder",String.valueOf(millis));
