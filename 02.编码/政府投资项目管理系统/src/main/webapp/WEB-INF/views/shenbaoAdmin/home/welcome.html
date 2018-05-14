@@ -79,7 +79,7 @@
 						<th>审批状态</th>
 						<th width="100px;">申报时间</th>
 					</tr>
-   					<tr ng-repeat="x in vm.model.shenBaoInfo | limitTo :5" style="background: white;">
+   					<tr ng-repeat="x in vm.model.shenBaoInfo |orderBy:x.endDate | limitTo :5" style="background: white;">
    						<td>
    							<a href="#/project/projectInfo/{{x.projectId}}" class="text-primary">{{x.projectName}}</a>
    						</td>

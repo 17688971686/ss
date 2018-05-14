@@ -544,7 +544,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		
 		shenBaoInfo.setThisTaskId("00000");
 		
-		if(("next").equals(str)){
+		if(!("next").equals(str)){
 			shenBaoInfo.setThisTaskName("已退文");
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_tuiwen);
 			shenBaoInfo.setProcessStage("已退文");

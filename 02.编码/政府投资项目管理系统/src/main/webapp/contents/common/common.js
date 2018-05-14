@@ -689,8 +689,8 @@
     function getUnitName(unitId){
     	getUserUnits();
     	var unitName = '';
-    	for(var i=0;i<window.global_userUnits.length;i++){
-    		var obj = window.global_userUnits[i];
+    	for(var i=0;i<window.global_userUnits.value.length;i++){
+    		var obj = window.global_userUnits.value[i];
     		if(unitId == obj.id){
     			unitName =  obj.unitName;
     			break;

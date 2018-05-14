@@ -4,6 +4,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -331,4 +336,43 @@ public class Util {
 		}
 		return listMap;
 	}
+	
+//	public static void sendMsg (String telPhone,String content) throws SQLException{
+//		String driverName="com.microsoft.sqlserver.jdbc.SQL.ServerDriver";//加载jdbc驱动
+//		String dbURL ="jdbc:microsoft:sqlserver://221.179.18.102:1393;databaseName=DB_CustomSMS";//链接服务器和数据库
+//		String username = "sa";
+//		String password = "Infox4Sms3Sps2Was1!";
+//		
+//		String sql = "INSERT INTO tab1_SMSendTask(CreatorID,SmSendedNum,OperationType,SendType,OrgAddr,DestAddr,SM_content,SendTime,NeedStateReport"+
+//		",ServiceID,FeeType,FeeCode,SMType,MassageID,DestAddrType,SubType,TaskStatus,SendLevel,SendState,TryTimes)"+
+//				" VALUE('0009',0,'was',1','106575557786',"+telPhone+ ","+content+","+"getdate(),0,'EIES','01','000000',0,'',0,getdate(),0,0,0,3)";
+//		
+//		Connection dbcon = null;
+//		Statement state;
+//		ResultSet res = null;
+//		
+//		while(res.next()){
+//			System.out.println(res.first());
+//		}
+//		
+//		try {
+//			Class.forName(driverName);
+//			dbcon = DriverManager.getConnection(dbURL,username,password);
+//			state= dbcon.createStatement();
+//			res = state.executeQuery(sql);
+//			
+//		} catch (ClassNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			System.out.println("数据库链接错误");
+//			e.printStackTrace();
+//		}finally{
+//			if(dbcon != null){
+//				dbcon.close();
+//			}
+//		}
+//	}
+//	
 }
