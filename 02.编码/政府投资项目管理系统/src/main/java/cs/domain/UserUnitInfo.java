@@ -28,7 +28,7 @@ public class UserUnitInfo extends BaseUnitInfo {
 	@Column(columnDefinition="varchar(255)  COMMENT '和单位信息关联的用户名'")
 	private String userName;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<User> users= new ArrayList<>();
 	
 	public String getId() {
