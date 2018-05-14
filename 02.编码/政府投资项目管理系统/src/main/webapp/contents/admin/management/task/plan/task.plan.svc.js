@@ -937,7 +937,7 @@
 					filterable : true,
 					width:500,
 					template:function(item){
-						return common.format("<a class='text-primary' href='#/task/shenPi_details/{1}'>{0}</a>",item.projectName,item.id);			
+						return common.format("<a class='text-primary' href='#/task/plan_details/{1}'>{0}</a>",item.projectName,item.id);			
 					}
 				},
 				 {

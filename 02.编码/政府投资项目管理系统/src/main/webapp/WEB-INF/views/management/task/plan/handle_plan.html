@@ -121,7 +121,7 @@ textarea.form-control {
 					ng-bind="vm.model.shenBaoInfo.sqPlanReach_gtzj | number:4"></span>&nbsp;(万元)
 				</td>
 			</tr>
-			<tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'userTask4'">
+			<tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask5'">
 				<td class="formAlignRight">计划安排资金-公共预算：</td>
 				<td>							
 					<input type="number" step="any" style="width: 130px;" class="form-control input-sm" id="apPlanReach_ggys" name="apPlanReach_ggys" ng-model="vm.model.shenBaoInfo.apPlanReach_ggys" data-val="true" data-val-required="必填"/>&nbsp;(万元)
@@ -155,14 +155,11 @@ textarea.form-control {
 
 		<div class="bg-info text-info" style="padding: 10px;">科室意见</div>
 		<table class="table table-bordered table-striped ">
-			<tr ng-repeat="x in vm.taskRecord | orderBy:x.endTime"
-				ng-if="x.name != '局长审批' || x.name != '副局长审批'">
+			<tr ng-repeat="x in vm.taskRecord"
+				ng-if="x.isJuzhang != 'yes'">
 				<td class="formAlignRight" style="width: 150px;" ng-bind="x.name"></td>
 				<td>
-					<div ng-bind="x.msg"></div> <!-- <label ng-if="x.attachmentDtos.length>0" class="pull-left">附件信息：</label>
-					<div ng-repeat="y in x.attachmentDtos">
-						<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
-					</div> -->
+					<div ng-bind="x.msg">
 					<div class="text-right" ng-bind="x.id"></div>
 					<div class="text-right" ng-bind="vm.formatDateTime(x.endTime)"></div>
 				</td>
@@ -170,7 +167,7 @@ textarea.form-control {
 		</table>
 		<div class="bg-info text-info" style="padding: 10px;">局领导意见</div>
 		<table class="table table-bordered table-striped ">
-			<tr ng-repeat="x in vm.taskRecord | orderBy:x.endTime"
+			<tr ng-repeat="x in vm.taskRecord"
 				ng-if="x.isJuzhang == 'yes'">
 				<td class="formAlignRight" style="width: 150px;" ng-bind="x.name"></td>
 				<td>

@@ -328,7 +328,6 @@
         	   });
         	   vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
 	   		};
-		   		
 	   		vm.uploadType=[['JYS','项目建议书批复'],['KXXYJBG','可行性研究报告批复'],['CBSJYGS','初步设计与概算批复']];
 	   		//批复文件选择模态框确认
 	   		vm.pifuChoseConfirm = function(){

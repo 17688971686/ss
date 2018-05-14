@@ -26,7 +26,7 @@
        vm.processStage_jbrbanli=common.basicDataConfig().processStage_jbrbanli;
        vm.processStage_weituopishen=common.basicDataConfig().processStage_weituopishen;
        vm.processState_niwendengji=common.basicDataConfig().processState_niwendengji;
-
+       
     	function init(){
     		if($state.current.name=='task_todo_plan'){//待办列表--审批类
     			vm.page='todoPlanList';
@@ -156,6 +156,29 @@
         function init_todoAuditList(){
         	taskPlanSvc.grid(vm);
         	
+        	vm.batchWriting = function(){
+        		var selectIds = common.getKendoCheckId('.grid');
+                if (selectIds.length == 0) {
+                	common.alert({
+                    	vm:vm,
+                    	msg:'请选择数据!'             	
+                    });
+                } else {
+                	var ids=[];
+                    for (var i = 0; i < selectIds.length; i++) {
+                    	ids.push(selectIds[i].value);
+    				}  
+                    var idStr=ids.join(',');
+                    common.confirm({
+        				vm:vm,
+        				msg:"确认要将"+ids.length+"条数据发文吗？",
+        				fn:function(){
+        					$('.confirmDialog').modal('hide');
+//        					projectSvc.deleteProject(vm,ids);
+        				}
+        			});
+                }   
+    		};
         	//查询
         	vm.search=function(){
         		var filters = [];

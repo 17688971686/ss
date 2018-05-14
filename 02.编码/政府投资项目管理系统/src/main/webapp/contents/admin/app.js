@@ -1335,7 +1335,7 @@
 	        })
 	        //个人已办--计划类
 	         .state('task_planDetails', {
-	            url: '/task/plan_details/:taskType/:taskId/:relId',
+	            url: '/task/plan_details/:id',
 	            templateUrl: '/management/task/html/planDetails',
 	            controller: 'taskPlanCtrl',
 	            controllerAs: 'vm'

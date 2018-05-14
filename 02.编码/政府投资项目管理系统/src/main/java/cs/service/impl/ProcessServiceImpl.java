@@ -1,9 +1,13 @@
 package cs.service.impl;
 
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -31,6 +35,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.google.gson.Gson;
 
@@ -188,8 +193,20 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		String nextUsers = (String) data.get("nextUsers");//下一经办人
 		String isPass = (String) data.get("isPass");//下一经办人
 		String isPass2 = (String) data.get("isPass2");//下一经办人
-		double apPlanReach_ggys = (double) data.get("apPlanReach_ggys");
-		double apPlanReach_gtzj = (double) data.get("apPlanReach_gtzj");
+		double apPlanReach_ggys;
+		double apPlanReach_gtzj;
+		if(data.get("apPlanReach_ggys").equals("0")){
+			int a = (int) data.get("apPlanReach_ggys");
+			apPlanReach_ggys = a;
+		}else{
+			apPlanReach_ggys =(double) data.get("apPlanReach_ggys");
+		}
+		if(data.get("apPlanReach_gtzj").equals("0")){
+			int b = (int) data.get("apPlanReach_gtzj");
+			apPlanReach_gtzj =b;
+		}else{
+			apPlanReach_gtzj =(double) data.get("apPlanReach_gtzj");
+		}
 		
 		ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenbaoInfoId);
 
@@ -247,7 +264,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			task = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId()).taskAssignee(currentUser.getUserId()).orderByDueDate().desc().list();
 			
 			Authentication.setAuthenticatedUserId(currentUser.getUserId());
-			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), msg);
+			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见："+msg);
 
 			processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(task.get(0).getId(), nextUsers);
 			processEngine.getProcessEngineConfiguration().getTaskService().setVariable(task.get(0).getId(), "isPass", isPass);
@@ -286,13 +303,12 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				shenBaoInfo.getAttachments().add(newatt);
 			}
 		}
-		if(shenBaoInfo.getThisTaskName().equals("usertask4")){
+		if(shenBaoInfo.getThisTaskName().equals("usertask5")){
 			shenBaoInfo.setApPlanReach_gtzj(apPlanReach_gtzj);
 			shenBaoInfo.setApPlanReach_ggys(apPlanReach_ggys);
-		}
-		if(shenBaoInfo.getThisTaskName().equals("usertask6")){
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已办结");
+			shenBaoInfo.setProcessStage("已办结");
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_pass);
 			shenBaoInfo.setIsIncludLibrary(true);
 			shenBaoInfo.setComplate(true);
@@ -300,14 +316,15 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已退文");
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_notpass);
-			shenBaoInfo.setProcessStage(BasicDataConfig.processState_tuihui);
+			shenBaoInfo.setProcessStage("已退文");
+			shenBaoInfo.setComplate(true);
 		}else{
 		    
 			shenBaoInfo.setThisTaskId(task.get(0).getId());
 			shenBaoInfo.setThisTaskName(tasknew.get(0).getTaskDefinitionKey());
-			shenBaoInfo.setComplate(true);
+			shenBaoInfo.setProcessStage(tasknew.get(0).getName());
 		}
-		shenBaoInfo.setProcessStage(tasknew.get(0).getName());
+		
 		shenBaoInfoRepo.save(shenBaoInfo);
 					
 		logger.info(String.format("查询角色组已办结上线请求,用户名:%s", currentUser.getLoginName()));
@@ -418,7 +435,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		return haisNext;
 	}
 	
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
 	@Transactional
 	public List<Object> getHistoryInfo(String shenbaoInfoId) {
@@ -428,18 +445,18 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 //		List<HistoricActivityInstance> lists = activitiService.getHistoryInfoByActivity(shenBaoInfo.getZong_processId());
 		List<HistoricProcessInstance> lists1 = activitiService.findHisProcessIntanceList(shenBaoInfo.getZong_processId());
 		
-		List<HistoricActivityInstance> hais = historyService.createHistoricActivityInstanceQuery().processInstanceId(shenBaoInfo.getZong_processId()).activityType("userTask").list();
+		List<HistoricActivityInstance> hais = historyService.createHistoricActivityInstanceQuery().processInstanceId(shenBaoInfo.getZong_processId()).activityType("userTask").orderByHistoricActivityInstanceEndTime().asc().list();
 		
 		Calendar calendar = Calendar.getInstance();
 	    calendar.clear();
 	    
 		for(HistoricProcessInstance list1 : lists1){
+			User user = userRepo.findById(list1.getStartUserId());
 			Map<String, String> map1 = new HashMap<>();
 			map1.put("name", "启动流程");
-			map1.put("id", list1.getStartUserId());
+			map1.put("id", user.getDisplayName());
 			map1.put("endTime", list1.getStartTime().toLocaleString());
 			
-			User user = userRepo.findById(list1.getStartUserId());
 			map1.put("msg", user.getDisplayName()+"：启动了项目<"+shenBaoInfo.getProjectName()+">的审批流程！");
 
 			calendar.set(list1.getStartTime().getYear(),list1.getStartTime().getMonth(),list1.getStartTime().getDay(),list1.getStartTime().getHours(),list1.getStartTime().getMinutes(),list1.getStartTime().getSeconds());
@@ -453,6 +470,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
         for (HistoricActivityInstance hai : hais) {
             String historytaskId = hai.getTaskId();
             List<Comment> comments = taskService.getTaskComments(historytaskId);
+            comments.sort(null);
             // 4）如果当前任务有批注信息，添加到集合中
             if(comments!=null && comments.size()>0){
             	for(Comment com : comments){
@@ -484,7 +502,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				
 			}
             }
-        
 		return hisList;
 	}
 	
@@ -540,25 +557,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		
 		shenBaoInfo.setComplate(true);
-	
 		
-		Gson gson = new Gson();
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-//		//如果有附件
-//		if(att != null){
-//			for (int i = 0; i < att.toArray().length; i++) {
-//				map = gson.fromJson(att.toArray()[i].toString(), map.getClass());
-//				Attachment newatt = new Attachment();
-//				newatt.setId(UUID.randomUUID().toString());
-//				newatt.setName(map.get("name").toString());
-//				newatt.setUrl(map.get("url").toString());			
-//				newatt.setType(map.get("type").toString());
-//				newatt.setCreatedBy(currentUser.getUserId());
-//				newatt.setModifiedBy(currentUser.getUserId());
-//				shenBaoInfo.getAttachments().add(newatt);
-//			}
-//		}
 		shenBaoInfoRepo.save(shenBaoInfo);
 					
 		logger.info(String.format("签收或办理下一年度计划,用户名:%s", currentUser.getLoginName()));
@@ -643,7 +642,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			
 		}
 		Authentication.setAuthenticatedUserId(currentUser.getUserId());
-		activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), msg);
+		activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见："+msg);
 		
 		if(shenBaoInfo.getThisTaskName().equals("usertask1") &&  isPass !="" || shenBaoInfo.getThisTaskName().equals("usertask5") &&  isPass !="" ){
 
@@ -730,7 +729,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			}
 		}
 		Authentication.setAuthenticatedUserId(currentUser.getUserId());
-		activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), msg);
+		activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "阅批意见："+msg);
 		
 		logger.info(String.format("填写批注,用户名:%s", currentUser.getLoginName()));
 	}
