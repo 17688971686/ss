@@ -524,6 +524,14 @@
 							$('.alertDialog').modal('hide');
 						}
 					});
+        		}else if((vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18') && str == "next" && vm.isPass == ""){
+        			common.alert({
+						vm : vm,
+						msg : "请选择下一办理人员后提交！",
+						fn : function() {
+							$('.alertDialog').modal('hide');
+						}
+					});
         		}else{
         			taskNewAuditSvc.handle(vm,str);
         		}

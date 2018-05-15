@@ -593,7 +593,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			variables.put("isPass", 3);
 		}else if(str.equals("reback")){
 			variables.put("isPass", 2);
-		}else if(isPass == ""|| isPass ==null){//正常通过
+		}else if((isPass == ""|| isPass ==null)&&"next".equals(str)){//正常通过
 			variables.put("isPass", 1);
 		} 
 		
@@ -619,11 +619,19 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				useridList.add(user.getId().trim());
 			}
 		}
+		Set set = new HashSet<>();//同一用户如果有多个角色，同流程下会同时有多个任务，必须去重
 		if(!useridList.isEmpty()){//固定会签人员
 			if(shenBaoInfo.getThisTaskName().equals("usertask3") && ("5").equals(isPass2)){
+				
 				useridList.addAll(Arrays.asList(nextUsers.toString().split(",")));
 			}
-			variables.put("userIds", useridList);
+			
+			for (String id : useridList) {
+				set.add(id);
+			}
+			
+			List<String> list2 = new ArrayList<String> (set);  
+			variables.put("userIds", list2);
 		}
 		
 		if(!nextUsers.isEmpty()){//设置流程变量--下一任务处理人
@@ -689,7 +697,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setProcessStage("已退文");
 		}else{
 		    
-			shenBaoInfo.setThisTaskId(task.get(0).getId());
+//			shenBaoInfo.setThisTaskId(task.get(0).getId());
 			shenBaoInfo.setThisTaskName(tasknew.get(0).getTaskDefinitionKey());
 			shenBaoInfo.setProcessStage(tasknew.get(0).getName());
 		}

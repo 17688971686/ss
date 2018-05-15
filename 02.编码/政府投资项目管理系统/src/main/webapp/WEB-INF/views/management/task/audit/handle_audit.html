@@ -315,17 +315,16 @@ textarea.form-control {
 			</tr>
 			
 			<tr ng-if="vm.isShow &&(vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18')">
-				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
+				<td class="formAlignRight">下一处理环节：</td>
 				<td>
 					<div>
 						<label>
-							<input type="radio" id="nextProcess" name="nextProcess" value="5" ng-true-value="5" ng-model="vm.isPass" data-val="true" data-val-required="必选"/>副局长审核
+							<input type="radio" id="nextProcess" name="nextProcess" value="5" ng-true-value="5" ng-model="vm.isPass" />副局长审核
 						</label>
 						&nbsp;&nbsp;
 						<label>
-							<input type="radio" id="nextProcess" name="nextProcess" value="6" ng-true-value="6" ng-model="vm.isPass" data-val="true" data-val-required="必选"/>局长审核
+							<input type="radio" id="nextProcess" name="nextProcess" value="6" ng-true-value="6" ng-model="vm.isPass" />局长审核
 						</label>
-						<span data-valmsg-for="nextProcess" data-valmsg-replace="true" class="required"></span>
 					</div>
 				</td>
 			</tr>
@@ -361,10 +360,10 @@ textarea.form-control {
 				<td>
 					<button ng-click="vm.handle('next')" class="btn btn-success btn-sm" style="margin:0 10px;">送出</button>
 					<button ng-click="vm.handle('reback')" class="btn btn-danger btn-sm" style="margin:0 10px;" ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask6' || vm.model.shenBaoInfo.thisTaskName == 'usertask7' || vm.model.shenBaoInfo.thisTaskName == 'usertask8' 
-					|| vm.model.shenBaoInfo.thisTaskName == 'usertask17' || vm.model.shenBaoInfo.thisTaskName == 'usertask14' || vm.model.shenBaoInfo.thisTaskName == 'usertask18' || vm.model.shenBaoInfo.thisTaskName == 'usertask20'">退回</button>
+					|| vm.model.shenBaoInfo.thisTaskName == 'usertask17' || vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask14' || vm.model.shenBaoInfo.thisTaskName == 'usertask18' || vm.model.shenBaoInfo.thisTaskName == 'usertask20'">退回</button>
 					<button ng-click="vm.handle('tuiwen')" class="btn btn-warning btn-sm" style="margin:0 10px;" ng-if="vm.model.shenBaoInfo.thisTaskName != 'usertask2' 
-					&& vm.model.shenBaoInfo.thisTaskName != 'usertask6' && vm.model.shenBaoInfo.thisTaskName != 'usertask7' 
-					&& vm.model.shenBaoInfo.thisTaskName != 'usertask8'">退文</button>
+					&& vm.model.shenBaoInfo.thisTaskName != 'usertask6' && vm.model.shenBaoInfo.thisTaskName != 'usertask7' && vm.model.shenBaoInfo.thisTaskName != 'usertask12' && vm.model.shenBaoInfo.thisTaskName != 'usertask18' 
+					&& vm.model.shenBaoInfo.thisTaskName != 'usertask8' && vm.model.shenBaoInfo.thisTaskName != 'usertask13'  && vm.model.shenBaoInfo.thisTaskName != 'usertask14' && vm.model.shenBaoInfo.thisTaskName != 'usertask17' && vm.model.shenBaoInfo.thisTaskName != 'usertask19' && vm.model.shenBaoInfo.thisTaskName != 'usertask20' && vm.model.shenBaoInfo.thisTaskName != 'usertask21'">退文</button>
  				</td>
 			</tr>
 			<tr ng-if="!vm.isShow && vm.model.shenBaoInfo.thisTaskName != 'usertask1' " ng-hide="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16'">
