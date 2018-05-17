@@ -109,5 +109,29 @@
 				<span data-valmsg-for="keyWord" data-valmsg-replace="true" class="required"></span>
 			</td>
 		</tr>
+		<tr>
+			<td class="formAlignRight">正文附件：<span class="required">(*)</span></td>
+			<td colspan="3">
+				<div class="uploadBox pull-left" data-type="zhengwenFile">
+				 	<input type="file" name="files" kendo-upload k-options="vm.uploadOptions_shenpi"/>
+		        </div>
+				<div style="margin:3px;" ng-repeat="y in vm.attachmentDtos" ng-if="y.type == 'zhengwenFile'">
+		 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+					<button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenpi($index)">删除</button>
+	 			</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">发文附件：<span class="required">(*)</span></td>
+			<td colspan="3">
+				<div class="uploadBox pull-left" data-type="fawemFile">
+				 	<input type="file" name="files" kendo-upload k-options="vm.uploadOptions_shenpi"/>
+		        </div>
+				<div style="margin:3px;" ng-repeat="y in vm.attachmentDtos" ng-if="y.type == 'fawemFile'">
+		 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+					<button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenpi($index)">删除</button>
+	 			</div>
+			</td>
+		</tr>
 	</table>
 </form>

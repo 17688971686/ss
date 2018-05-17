@@ -100,6 +100,9 @@ public class BasicDataConfig {
 	public static String KeZhang="科长";
 	public static String JuZhang="局长";
 	public static String KeYuan="科员";
+	public static String FuJuZhang="副局长";
+	public static String PingShenRenYuan="评审中心评审人员";
+	
 	
 	//角色名称
 	public static String role_admin="超级管理员";

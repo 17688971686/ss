@@ -41,10 +41,13 @@ import cs.domain.ShenBaoUnitInfo;
 import cs.domain.TaskHead;
 import cs.domain.TaskHead_;
 import cs.domain.TaskRecord;
+import cs.domain.framework.Org;
+import cs.domain.framework.Org_;
 import cs.domain.framework.Role;
 import cs.domain.framework.Role_;
 import cs.domain.framework.SysConfig;
 import cs.domain.framework.SysConfig_;
+import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.SendMsg;
 import cs.model.DomainDto.AttachmentDto;
@@ -53,10 +56,12 @@ import cs.model.DomainDto.ShenBaoUnitInfoDto;
 import cs.model.DomainDto.TaskRecordDto;
 import cs.model.DtoMapper.IMapper;
 import cs.model.Statistics.ProjectStatisticsBean;
+import cs.repository.framework.OrgRepo;
 import cs.repository.framework.RoleRepo;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
+import cs.service.common.BasicDataServiceImpl;
 import cs.service.interfaces.ShenBaoInfoService;
 /**
  * @Description: 申报信息服务层
@@ -98,9 +103,13 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private ActivitiService activitiService;
 	@Autowired
     ProcessEngineFactoryBean processEngine;
+	@Autowired
+	private OrgRepo orgRepo;
 	
 	private String processDefinitionKey = "ShenpiReview";
-
+	private String processDefinitionKey_plan = "ShenpiPlan";
+	private String processDefinitionKey_yearPlan = "yearPlan";
+	
 	@Value("${projectShenBaoStage_JYS}")
 	private String projectShenBaoStage_JYS;//申报阶段：建议书
 	@Value("${projectShenBaoStage_KXXYJBG}")
@@ -184,7 +193,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 				entity.setProjectId(project.getId());
 				entity.setProjectNumber(project.getProjectNumber());
 				//设置相关的默认信息
-				entity.setProcessStage(BasicDataConfig.processStage_qianshou);//处理阶段为签收阶段
+				entity.setProcessStage("投资科审核收件办理");//处理阶段为签收阶段
 				entity.setProcessState(BasicDataConfig.processState_pass);//状态为已签收通过
 				entity.setShenbaoDate(new Date());//申报时间
 				entity.setQianshouDate(new Date());//签收时间
@@ -197,7 +206,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		}
 		if(!isAdminCreate){//如果前台申报单位创建
 			//因dto中创建时间和修改时间为项目的相关时间，需从新设置
-			entity.setProcessStage(BasicDataConfig.processStage_qianshou);//设置申报信息的阶段为待签收
+			entity.setProcessStage("投资科审核收件办理");//设置申报信息的阶段为待签收
 			entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
 			entity.setCreatedDate(new Date());
 			entity.setModifiedDate(new Date());
@@ -235,8 +244,15 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
 		super.repository.save(entity);
 		//启动申报审批流程
-//		startProcessShenbao(processDefinitionKey,entity.getId());
-		initWorkFlow(entity,isAdminCreate);
+		if(entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)){
+			startProcessShenbao(processDefinitionKey_plan,entity.getId());
+		}else if(entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)){
+			entity.setProcessStage("投资科审核收件办理");
+			startProcessShenbao(processDefinitionKey_yearPlan,entity.getId());
+		}else{
+			startProcessShenbao(processDefinitionKey,entity.getId());
+		}
+//		initWorkFlow(entity,isAdminCreate);
 		//处理批复文件库
 		handlePiFuFile(entity);
 		logger.info(String.format("创建申报信息,项目名称 :%s,申报阶段：%s",entity.getProjectName(),
@@ -595,7 +611,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		}
 		super.repository.save(entity);
 		//更新任务状态
-		updeteWorkFlow(entity,isAdminUpdate);
+//		updeteWorkFlow(entity,isAdminUpdate);
+		startProcessShenbao(processDefinitionKey,entity.getId());
 		//处理批复文件库
 		handlePiFuFile(entity);
 		logger.info(String.format("更新申报信息,项目名称: %s,申报阶段：%s",entity.getProjectName(),
@@ -1187,7 +1204,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	@Override
 	@Transactional
 	public void startProcessShenbao(String processDefinitionKey, String id) {
-
+		ShenBaoInfo entity=super.repository.findById(id);
 		//获取系统配置中工作流类型的第一处理人
 		Criterion criterion = Restrictions.eq(SysConfig_.configName.getName(), BasicDataConfig.taskType_shenpiFenBan);
 		SysConfig sysConfg = sysConfigRepo.findByCriteria(criterion).stream().findFirst().get();
@@ -1197,9 +1214,34 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 
 		Map<String, Object> variables = new HashMap<String, Object>();
 
-		variables.put("projectId", id);
-		activitiService.setStartProcessUserId(currentUser.getUserId());//谁启动的流程
+		variables.put("shenbaoInfoId", id);
+		activitiService.setStartProcessUserId(currentUser.getDisplayName());//谁启动的流程
 		
+		List<Org> findProjects = new ArrayList<>();
+		List<String> useridList = new ArrayList<>();
+		
+		if(BasicDataConfig.projectShenBaoStage_nextYearPlan.equals(entity.getProjectShenBaoStage())){
+			
+			Criterion criterion1=Restrictions.eq(Org_.name.getName(), "投资科");
+			findProjects = orgRepo.findByCriteria(criterion1);
+			for (Org org : findProjects) {
+				for (User user : org.getUsers()) {
+					useridList.add(user.getId().trim());
+				}
+			}
+			if(!useridList.isEmpty()){
+				variables.put("users", useridList);
+			}
+		}else{
+			if(sysConfg !=null){
+				if(Util.isNotNull(sysConfg.getConfigValue()) && sysConfg.getEnable()){
+					variables.put("users", sysConfg.getConfigValue());
+//					processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(task.getId(), sysConfg.getConfigValue());
+				}
+			}else{
+				throw new IllegalArgumentException(String.format("没有配置申报信息审核分办人员，请联系管理员！"));
+			}
+		}
 		ProcessInstance process = activitiService.startProcess(processDefinitionKey, variables);
 		String executionId = process.getId();
 
@@ -1207,19 +1249,19 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 
 		if(sysConfg !=null){
 			if(Util.isNotNull(sysConfg.getConfigValue()) && sysConfg.getEnable()){
+//				variables.put("userIds", sysConfg.getConfigValue());
 		processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(task.getId(), sysConfg.getConfigValue());
 			}
 		}else{
 			throw new IllegalArgumentException(String.format("没有配置申报信息审核分办人员，请联系管理员！"));
 		}
-//		Collection<String> candidateGroups = new ArrayList<String>();
-//		candidateGroups.add(role.get().getId());
-//		activitiService.addCandidateGroups(task.getId(), candidateGroups);
 
-		Project project = projectRepo.findById(id);
-//		project.setIsProjectGoLive(BasicDataConfig.processState_jxz);
-//		project.setProjectGoLiveProcessId(process.getProcessInstanceId());
-		projectRepo.save(project);
+	
+		entity.setZong_processId(task.getProcessInstanceId());
+		entity.setThisTaskId(task.getId());
+		entity.setThisTaskName(task.getTaskDefinitionKey());
+		super.repository.save(entity);
 		logger.info(String.format("启动审批流程,用户名:%s", currentUser.getLoginName()));
 	}
 }
+

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import cs.common.ICurrentUser;
 import cs.common.Util;
+import cs.model.PageModelDto;
 import cs.model.DomainDto.BasicDataDto;
 import cs.model.DomainDto.UserUnitInfoDto;
 import cs.model.exportExcel.ExcelDataYS;
@@ -106,8 +107,9 @@ public class CommonController {
 	
 	@RequiresPermissions("common#userUnit#get")
 	@RequestMapping(name="获取建设单位单位数据",path="userUnit",method=RequestMethod.GET)
-	public @ResponseBody List<UserUnitInfoDto> getUserUnit(){
-		return userUnitInfoService.Get();
+	public @ResponseBody PageModelDto<UserUnitInfoDto> getUserUnit(){
+		ODataObj odataObj = new ODataObj();
+		return userUnitInfoService.get(odataObj);
 	}
 	
 	@RequiresPermissions("common#roles#get")

@@ -145,15 +145,17 @@ public class ActivitiService implements IActivitiService{
 	@Override
 	public void setTaskComment(String taskId,String processInstanceId,String msg) {
 		taskService.addComment(taskId, processInstanceId, msg);
+		
 		logger.debug("======>添加任务的意见");
 	}
 	
 	@Override
 	public List<Task> getPersonalTask(String assignee) {
-		List<Task> tasks = taskService.createTaskQuery().taskCandidateOrAssigned(assignee).orderByTaskCreateTime().desc().list();
+		List<Task> tasks = taskService.createTaskQuery().taskAssignee(assignee).orderByTaskCreateTime().desc().list();
+		List<Task> task1s = taskService.createTaskQuery().taskCandidateUser(assignee).orderByTaskCreateTime().desc().list();
 		
 		logger.debug("--------------------我的分配任务或签收任务-----------");
-		
+		tasks.addAll(task1s);
 		for(Task task : tasks){
 			logger.debug("======>id:"+task.getId()+",");
 			logger.debug("======>name:"+task.getName()+",");
@@ -380,6 +382,21 @@ public class ActivitiService implements IActivitiService{
 		User user = identityService.createUserQuery().userId(userId).singleResult();
 		logger.debug("=====>查询候选人员：" + userId);
 		return user;
+	}
+	public List<Task> getCandidateGroupInTask(List<String> ids) {
+	List<Task> tasks = taskService.createTaskQuery().taskCandidateGroupIn(ids).orderByTaskCreateTime().desc().list();
+		
+		logger.debug("--------------------我的分配任务或签收任务-----------");
+		
+		for(Task task : tasks){
+			logger.debug("======>id:"+task.getId()+",");
+			logger.debug("======>name:"+task.getName()+",");
+			logger.debug("======>createTime:"+task.getCreateTime()+",");
+			logger.debug("======>assignee:"+task.getAssignee());
+
+		}	
+		logger.debug("------------------------------------------");	
+		return tasks;
 	}
 
 

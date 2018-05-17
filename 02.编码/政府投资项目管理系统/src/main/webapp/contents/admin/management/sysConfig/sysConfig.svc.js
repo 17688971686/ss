@@ -92,6 +92,9 @@
 				if(value.configName == common.basicDataConfig().taskType_monthReportPort){
 					value.configValue = vm.monthReportConfigBegin+"-"+vm.monthReportConfigEnd;
 				}
+				if(value.configName == common.basicDataConfig().taskType_shenpiFenBan){
+					value.enable = true;
+				}
 			});
 
 			var httpOptions = {

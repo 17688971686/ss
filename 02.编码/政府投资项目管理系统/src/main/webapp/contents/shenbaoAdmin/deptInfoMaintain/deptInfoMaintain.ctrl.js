@@ -37,7 +37,7 @@
         
         function page_index(){
         	deptInfoMaintainSvc.getDeptInfo(vm);//获取单位的基本信息
-        	vm.allUnit = common.getUserUnits();
+        	vm.allUnit = common.getUserUnits().value;
         	vm.submit=function(){
         		deptInfoMaintainSvc.getLoginUserUnitinfo(vm);//先查用户单位向信息
 //            	deptInfoMaintainSvc.save(vm);//保存单位基本信息

@@ -140,6 +140,10 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			//begin#审批相关
 			shenBaoInfoDto.setProcessState(entity.getProcessState());	
 			shenBaoInfoDto.setProcessStage(entity.getProcessStage());
+			shenBaoInfoDto.setZong_processId(entity.getZong_processId());
+			shenBaoInfoDto.setThisTaskId(entity.getThisTaskId());
+			shenBaoInfoDto.setThisTaskName(entity.getThisTaskName());
+			shenBaoInfoDto.setComplate(entity.getComplate());
 			//begin#财政局
 			shenBaoInfoDto.setFunctionSubjects(entity.getFunctionSubjects());
 			shenBaoInfoDto.setEconClassSubjects(entity.getEconClassSubjects());
@@ -301,6 +305,10 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			//begin#审批相关
 			shenBaoInfo.setProcessState(shenBaoInfoDto.getProcessState());
 			shenBaoInfo.setProcessStage(shenBaoInfoDto.getProcessStage());
+			shenBaoInfo.setZong_processId(shenBaoInfoDto.getZong_processId());
+			shenBaoInfo.setThisTaskId(shenBaoInfoDto.getThisTaskId());
+			shenBaoInfo.setThisTaskName(shenBaoInfoDto.getThisTaskName());
+			shenBaoInfo.setComplate(shenBaoInfoDto.getComplate());
 			//begin#财政相关
 			shenBaoInfo.setFunctionSubjects(shenBaoInfoDto.getFunctionSubjects());
 			shenBaoInfo.setEconClassSubjects(shenBaoInfoDto.getEconClassSubjects());

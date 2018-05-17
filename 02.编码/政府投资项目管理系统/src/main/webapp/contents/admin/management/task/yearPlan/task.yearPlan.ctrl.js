@@ -12,9 +12,7 @@
     	var vm = this;
     	vm.title = "";
     	vm.model={};
-    	vm.taskType=$state.params.taskType;
-        vm.taskId=$state.params.taskId;
-        vm.relId=$state.params.relId;     
+        vm.id=$state.params.id;     
         vm.search={};
         vm.basicData={};
         vm.model.taskRecord = {};
@@ -30,9 +28,17 @@
     		if($state.current.name=='task_complete'){//已办列表--下一年度计划
     			vm.page='complete';
     		}
+    		if($state.current.name=='task_complate_yearPlan'){//个人已办--下一年度计划
+    			vm.isComplete = true;
+    			vm.page='handle';
+    			
+    		}
     		
     		vm.formatDate=function(str){
     			return common.formatDate(str);
+    		};
+    		vm.formatDateTime=function(time){
+    			return common.formatDateTime(time);
     		};
     		vm.getBasicDataDesc=function(str){
     			return common.getBasicDataDesc(str);
@@ -48,7 +54,11 @@
            	vm.getUnitName=function(unitId){
            		return common.getUnitName(unitId);
            	};
-           	
+          	vm.getUserName = function(userId){
+           		var user=common.getUserById(userId).value[0];
+           		return user.displayName!=null&&user.displayName!=''&&user.displayName!=undefined?user.displayName:user.loginName;
+    		};
+    		
         	//初始化基础数据
         	vm.basicData.projectIndustry_ZF=$linq(common.getBasicData())
 			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
@@ -96,11 +106,11 @@
         	//查询
         	vm.search=function(){
         		var filters = [];
-				filters.push({field:'isComplete',operator:'eq',value:false});//默认条件--没有完成的任务 
-				filters.push({field:'taskType',operator:'eq',value:common.basicDataConfig().taskType_yearPlan});//默认条件--查询的任务为下一年度计划类 
+				filters.push({field:'complate',operator:'eq',value:false});//默认条件--没有完成的任务 
+				filters.push({field:'projectShenBaoStage',operator:'eq',value:common.basicDataConfig().projectShenBaoStage_nextYearPlan});//默认条件--查询的任务为下一年度计划类 
 				
 				if(vm.search.title !=null && vm.search.title !=''){//查询条件--标题
-	     			   filters.push({field:'title',operator:'contains',value:vm.search.title});
+	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
 	     		   }
      		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--任务建设单位
      			   filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
@@ -122,19 +132,8 @@
         
     	function init_handle(){
     		taskYearPlanSvc.getShenBaoInfoById(vm);//查询申报信息
-    		taskYearPlanSvc.getTaskById(vm);//查询任务信息
-    	    vm.processState_qianShou=common.basicDataConfig().processState_pass;//定义签收
-    	    vm.processState_tuiWen=common.basicDataConfig().processState_notpass;//定义退文
+    		taskYearPlanSvc.getHistoryInfo(vm);
     	    
-    	    //TODO 月报签收功能此处暂时没有利用上
-	    	   if(vm.taskType == common.basicDataConfig().taskType_monthReport){//如果为月报
-	    		   vm.isMonthReport = true;
-	    		   taskYearPlanSvc.getMonthReportById(vm);//查询月报信息
-	    	   }else if(vm.taskType == common.basicDataConfig().taskType_yearPlan){//如果为下一年度计划
-    			   vm.isYearPlan = true;
-    			   vm.model.taskRecord.processSuggestion = "符合申报";//设置默认为符合申报
-	    	   }
-    		   
     	   vm.dialog_shenbaoInfo=function(){
     		   $('#shenbaoInfo').modal({
                    backdrop: 'static',
@@ -142,19 +141,12 @@
                });
     	   };
     	   //处理操作
-    	   vm.handle=function(processState){
+    	   vm.handle=function(str){
     		   common.initJqValidation();
    			   var isValid = $('form').valid();
 	   			if (isValid) {
 	   				vm.isSubmit = true;
-	   				vm.model.taskRecord.thisProcess=vm.task.thisProcess;
-	   				vm.model.taskRecord.thisProcessState=processState;
-	   				if(processState == common.basicDataConfig().processState_notpass){//不通过
-	   					vm.model.taskRecord.nextProcess=vm.task.lastProcess;
-	   					vm.model.taskRecord.nextUser=vm.task.lastUser;
-	   					vm.model.taskRecord.nextRole=vm.task.lastRole;
-	   				}
-	     		   taskYearPlanSvc.handle(vm);
+	   				taskYearPlanSvc.handle(vm,str);
 	   			}
     	   };    		
     	}//init_handle
