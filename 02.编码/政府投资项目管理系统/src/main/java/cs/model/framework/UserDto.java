@@ -11,6 +11,8 @@ public class UserDto extends BaseDto {
 	private String password;
 	private String displayName;
 	private String comment;
+	private String email;
+	private String mobilePhone;
 	private List<RoleDto> roles=new ArrayList<>();
 	private List<OrgDto> orgs=new ArrayList<>();
 	private List<OpinionDto> opinionDtos=new ArrayList<>();
@@ -61,6 +63,18 @@ public class UserDto extends BaseDto {
 	}
 	public void setOrgs(List<OrgDto> orgs) {
 		this.orgs = orgs;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getMobilePhone() {
+		return mobilePhone;
+	}
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
 	}
 
 	

@@ -322,14 +322,6 @@
 			   					 vm.model.capitalOther||0]);
 			   		 };		
 				}
-				// 国民经济行业分类
-				var child2 = $linq(common.getBasicData()).where(function(x) {
-					return x.id == vm.model.nationalIndustry
-				}).toArray()[0];
-				if (child2) {
-					vm.model.nationalIndustryParent = child2.pId;
-					vm.nationalIndustryChange();
-				}
 			};
 			
 			common.http({
@@ -412,14 +404,14 @@
 				schema : common.kendoGridConfig().schema({
 					id : "id",
 					fields : {
-						createdDate : {
-							type : "date"
-						},
+//						createdDate : {
+//							type : 'date'
+//						},
 						isMonthReport:{
-							type:"boolean"
+							type:'boolean'
 						},
 						isIncludLibrary:{
-							type:"boolean"
+							type:'boolean'
 						}
 						
 					}
@@ -442,7 +434,8 @@
 						field:"isLatestVersion",
 						operator:"eq",
 						value:true
-					},{
+					}
+					,{
 						field:"isIncludLibrary",
 						operator:"eq",
 						value:true
@@ -450,7 +443,6 @@
 				]
 			});
 			// End:dataSource
-
 			// Begin:column
 			var columns = [
 					{
@@ -462,14 +454,18 @@
 						},
 						filterable : false,
 						width : 40,
-						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
-
+						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>",
+//						attributes: {  
+//						      "class": "table-cell", 
+//						}
 					},
-					 {
-						field : "projectNumber",
+					 {	field : "projectNumber",
 						title : "项目代码",
-						width : 130,						
-						filterable : false
+						//width : 130,						
+						filterable : false,
+						attributes: {  
+						      "class": "table-cell",
+						}  
 					},
 					{
 						field : "projectName",
@@ -478,12 +474,15 @@
 							return common.format("<a href='#/projectDetails/{0}/{1}'>{2}</a>",item.id,item.projectInvestmentType,item.projectName);
 						},
 						width:300,
-						filterable : true
+						filterable : true,
+						attributes: {  
+						      "class": "table-cell",
+						}  
 					},
 					{
 						field : "unitName",
 						title : "项目所属单位",
-						width : 150,
+						//width : 150,
 						filterable:{
 							ui: function(element){
 			                    element.kendoDropDownList({
@@ -497,12 +496,15 @@
 						},
 						template:function(item){
 							return common.getUnitName(item.unitName);
-						}
+						},
+						attributes: {  
+						      "class": "table-cell",  
+						}  
 					},
 					{
 						field : "projectStage",
 						title : "项目阶段",
-						width : 120,
+						//width : 120,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectStage);
 						},
@@ -516,12 +518,15 @@
 			                        filter:"startswith"
 			                    });
 			                }
-						}
+						},
+						attributes: {  
+						      "class": "table-cell",
+						}  
 					},
 					{
 						field : "projectIndustry",
 						title : "项目行业",
-						width : 100,
+						//width : 100,
 						template:function(item){
 							return common.getBasicDataDesc(item.projectIndustry);
 						},
@@ -535,9 +540,29 @@
 			                        filter:"startswith"
 			                    });
 							}
-						}
+						},
+						attributes: {  
+						      "class": "table-cell",  
+						}  
 					},
 					{
+						field : "isIncludLibrary",
+						title : "是否纳入项目库",
+						template : function(item) {
+							if(item.isIncludLibrary){
+								return "是";
+							}else if(!item.isIncludLibrary){
+								return "否";
+							}								 
+						},
+						width : 100,
+						filterable : true,
+						attributes: {  
+						      "class": "table-cell",  
+						}  
+					},
+					{
+						hidden: true,
 						field : "isMonthReport",
 						title : "是否月报",
 						template : function(item) {
@@ -548,7 +573,55 @@
 							}								 
 						},
 						width : 100,
-						filterable : true
+						filterable : true,
+						attributes: {  
+							"class": "table-cell",  
+					    }  
+					},
+					{	
+						hidden: true,
+						field : "projectInvestSum",
+						title : "总投资",
+						//width : 130,						
+						filterable : false,
+						attributes: {  
+						      "class": "table-cell",
+						}  
+					},
+					{
+						hidden: true,
+						field : "projectCategory",
+						title : "项目类别",
+						//width : 120,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectCategory);
+						},
+						filterable : {
+							ui: function(element){
+			                    element.kendoDropDownList({
+			                        valuePrimitive: true,
+			                        dataSource: vm.basicData.projectCategory,
+			                        dataTextField: "description",
+			                        dataValueField: "id",
+			                        filter:"startswith"
+			                    });
+			                }
+						},
+						attributes: {  
+						      "class": "table-cell",
+						      //style: "text-align: right; font-size: 14px"
+						}  
+					},
+					{	
+						hidden: true,
+						field : "projectInvestAccuSum",
+						title : "累计完成投资",
+						//width : 130,						
+						filterable : false,
+						attributes: {  
+						      "class": "table-cell", 
+						      //style: "width:130px"
+						}  
 					},
 					{
 						field : "",
@@ -556,10 +629,12 @@
 						width : 150,
 						template : function(item) {
 							return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,"vm.isMonthReport('" +item.id+ "','"+item.isMonthReport+"')");
-						}
-
+						},
+						attributes: {  
+						      "class": "table-cell",  
+						      //style: "width:150px"
+						}  
 					}
-
 			];
 			// End:column
 
@@ -571,7 +646,11 @@
 				columns : columns,
 				resizable : true,
 				sortable:true,
-				scrollable:true
+				scrollable:true,
+				columnMenu: {
+				    columns: true
+				  }
+//				columnMenu : true
 			};
 		}// end fun grid
 		

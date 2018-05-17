@@ -418,7 +418,7 @@
     }
     function basicDataConfig(){
     	return {
-    		uploadSize:104857600,//本地文件上传大小限制(100M)
+    		uploadSize:53687091200,//本地文件上传大小限制(50G)
     		
     		processStage:"processStage",//审批阶段
     		processStage_tianbao:"processStage_1",//建设单位填写申报信息

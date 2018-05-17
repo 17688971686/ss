@@ -52,9 +52,12 @@ public class User extends BaseEntity {
 //	@Column(columnDefinition="int(11)  COMMENT '性别'")
 //	private int sex = 1;
 //	
-//	@Column(columnDefinition="varchar(255)  COMMENT '邮箱'")
-//	private String email;
-//	
+	@Column(columnDefinition="varchar(255)  COMMENT '邮箱'")
+	private String email;
+	
+	@Column(columnDefinition="varchar(255)  COMMENT '手机号'")
+	private String mobilePhone;
+	
 //	@Column(columnDefinition="varchar(255)  COMMENT '办公电话'")
 //	private String officePhone;
 //	
@@ -122,6 +125,18 @@ public class User extends BaseEntity {
 	}
 	public void setLastLoginDate(Date lastLoginDate) {
 		this.lastLoginDate = lastLoginDate;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getMobilePhone() {
+		return mobilePhone;
+	}
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
 	}
 	
 }
