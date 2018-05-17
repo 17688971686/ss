@@ -36,6 +36,11 @@ public class TaskRecordServiceImpl extends AbstractServiceImpl<TaskRecordDto, Ta
 	}
 
 	@Override
+	public List<TaskRecordDto> findByDto(ODataObj odataObj) {
+		return null;
+	}
+
+	@Override
 	@Transactional
 	public PageModelDto<TaskRecordDto> get_shenPi(ODataObj odataObj) {
 		List<TaskRecordDto> dtos = taskRecordRepoImpl.findByOdata2(odataObj,currentUser.getUserId(),false).stream().map((x) -> {

@@ -122,6 +122,11 @@ public class InvestmentProjectServiceImpl extends AbstractServiceImpl<Investment
 	}
 
 	@Override
+	public List<InvestmentProjectDto> findByDto(ODataObj odataObj) {
+		return null;
+	}
+
+	@Override
 	@Transactional
 	public InvestmentProject findInvestmentProjectByName(String name) {
 		InvestmentProject investmentProject;

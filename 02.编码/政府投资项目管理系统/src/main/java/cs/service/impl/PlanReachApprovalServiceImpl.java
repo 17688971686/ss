@@ -94,12 +94,11 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 		super.repository.delete(entity);
 		logger.info(String.format("删除下达批复表,名称 :%s",entity.getTitle()));
 	}
-	
-	
-	
-	
-	
-	
-	
+
+	@Override
+	public List<PlanReachApprovalDto> findByDto(ODataObj odataObj) {
+		return null;
+	}
+
 
 }

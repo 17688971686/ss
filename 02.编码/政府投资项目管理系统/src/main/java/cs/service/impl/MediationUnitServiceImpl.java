@@ -70,6 +70,11 @@ public class MediationUnitServiceImpl extends AbstractServiceImpl<MediationUnitD
 	public void deletes(String[] ids) {
 		super.deletes(ids);
 	}
-	
-	 
+
+	@Override
+	public List<MediationUnitDto> findByDto(ODataObj odataObj) {
+		return null;
+	}
+
+
 }

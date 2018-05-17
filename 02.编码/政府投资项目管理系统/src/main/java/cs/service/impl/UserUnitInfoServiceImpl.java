@@ -1,3 +1,4 @@
+
 package cs.service.impl;
 
 import java.util.ArrayList;
@@ -106,6 +107,12 @@ public class UserUnitInfoServiceImpl extends AbstractServiceImpl<UserUnitInfoDto
 		}
 		logger.info(String.format("根据登陆用户id查询单位信息:%s", userName));
 		return userUnitInfo;
+	}
+
+	@Override
+	public List<UserUnitInfoDto> findByDto(ODataObj odataObj) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

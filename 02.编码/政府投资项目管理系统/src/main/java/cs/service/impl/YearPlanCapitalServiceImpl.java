@@ -1,6 +1,7 @@
 package cs.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
@@ -56,7 +57,12 @@ public class YearPlanCapitalServiceImpl extends AbstractServiceImpl<YearPlanCapi
 		logger.info("更新年度计划编制信息");	
 		return yearPlanCapital;
 	}
-	
+
+	@Override
+	public List<YearPlanCapitalDto> findByDto(ODataObj odataObj) {
+		return null;
+	}
+
 	@Override
 	@Transactional
 	public void createYearPlanCapital(String shenBaoId){		

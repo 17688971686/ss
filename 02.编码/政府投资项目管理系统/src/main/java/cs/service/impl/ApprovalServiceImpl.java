@@ -42,7 +42,12 @@ public class ApprovalServiceImpl extends AbstractServiceImpl<ApprovalDto, Approv
 		logger.info("获取评审报批单信息");
 		return super.get(odataObj);
 	}
-	
+
+	@Override
+	public List<ApprovalDto> findByDto(ODataObj odataObj) {
+		return null;
+	}
+
 	@Override
 	@Transactional
 	public void createDraft(ApprovalDto approvalDto) {

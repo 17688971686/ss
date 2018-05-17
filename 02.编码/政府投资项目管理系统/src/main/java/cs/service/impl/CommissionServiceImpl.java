@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import cs.repository.odata.ODataObj;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -148,5 +149,9 @@ public class CommissionServiceImpl extends AbstractServiceImpl<CommissionDto, Co
 		}
 		logger.info(String.format("创建评审委托书,登录名:%s", currentUser.getLoginName()));
 	}
-	
+
+	@Override
+	public List<CommissionDto> findByDto(ODataObj odataObj) {
+		return null;
+	}
 }

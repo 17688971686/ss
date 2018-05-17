@@ -474,10 +474,10 @@ public class SysServiceImpl implements SysService{
  		
 		this.createBasicData("projectIndustry","" , "projectIndustry", "项目行业分类","项目行业分类",false);
 			this.createBasicData("projectIndustry_1","projectIndustry" , "projectIndustry", "政府投资项目行业分类", "",0,false);
-				this.createBasicData("projectIndustry_1_1","projectIndustry_1" , "projectIndustry", "文体", "WT",0,false,5);
-				this.createBasicData("projectIndustry_1_2","projectIndustry_1" , "projectIndustry", "教育", "JY",0,false,3);
-				this.createBasicData("projectIndustry_1_3","projectIndustry_1" , "projectIndustry", "卫生", "WS",0,false,4);
-				this.createBasicData("projectIndustry_1_4","projectIndustry_1" , "projectIndustry", "环保水务", "HS",0,false,1);
+				this.createBasicData("projectIndustry_1_1","projectIndustry_1" , "projectIndustry", "文体", "WT",1,false,5);
+				this.createBasicData("projectIndustry_1_2","projectIndustry_1" , "projectIndustry", "教育", "JY",2,false,3);
+				this.createBasicData("projectIndustry_1_3","projectIndustry_1" , "projectIndustry", "卫生", "WS",3,false,4);
+				this.createBasicData("projectIndustry_1_4","projectIndustry_1" , "projectIndustry", "环保水务", "HS",4,false,1);
 				this.createBasicData("projectIndustry_1_5","projectIndustry_1" , "projectIndustry", "道路交通", "DJ",0,false,2);
 				this.createBasicData("projectIndustry_1_6","projectIndustry_1" , "projectIndustry", "公园绿化", "GL",0,false,6);
 				this.createBasicData("projectIndustry_1_7","projectIndustry_1" , "projectIndustry", "电力燃气", "DR",0,false,8);
@@ -841,7 +841,21 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("packageType_3","packageType" , "packageType", "小额项目", "打包类型");
 		this.createBasicData("packageType_4","packageType" , "packageType", "未立项预留项目", "打包类型");
 
-				
+
+
+		this.createBasicData("shenpiStateType_1","" , "shenpiStateType", "审批中", "项目监控审批状态",0);
+		this.createBasicData("shenpiStateType_2","" , "shenpiStateType", "审批通过", "审批通过",1);
+		this.createBasicData("shenpiStateType_3","" , "shenpiStateType", "审批不通过", "审批不通过",2);
+
+		this.createBasicData("shenpiUnit_1","shenpiUnitType" , "shenpiUnitType", "项目计划书", "审批类型",30);
+		this.createBasicData("shenpiUnit_2","shenpiUnitType" , "shenpiUnitType", "计划立项", "审批类型",15);
+		this.createBasicData("shenpiUnit_3","shenpiUnitType" , "shenpiUnitType", "办理用地手续", "审批类型",105);
+		this.createBasicData("shenpiUnit_4","shenpiUnitType" , "shenpiUnitType", "设计招标", "审批类型",45);
+		this.createBasicData("shenpiUnit_5","shenpiUnitType" , "shenpiUnitType", "方案设计与审核", "审批类型",65);
+		this.createBasicData("shenpiUnit_6","shenpiUnitType" , "shenpiUnitType", "项目可行性研究", "审批类型",50);
+		this.createBasicData("shenpiUnit_7","shenpiUnitType" , "shenpiUnitType", "初步设计", "审批类型",20);
+
+
 		response.setMessage("基础数据初始化成功");
 		response.setSuccess(true);
 		logger.info("基础数据初始化成功!");	
@@ -865,7 +879,9 @@ public class SysServiceImpl implements SysService{
 		basicData.setComment(comment);
 		basicData.setCount(count);
 		basicData.setCanEdit(canEdit);
-		basicData.setItemOrder(itemOrder);
+		if (itemOrder != null){
+			basicData.setItemOrder(itemOrder);
+		}
 		basicDataRepo.save(basicData);
 		return basicData;
 	}
@@ -889,6 +905,25 @@ public class SysServiceImpl implements SysService{
 		basicDataRepo.save(basicData);
 		return basicData;
 	}
+	/**
+	 *
+	 * @Description：创建默认为可编辑的基础数据
+	 * @author： cx
+	 * @Date： 2017年7月4日
+	 * @version: 0.1
+	 */
+	private BasicData createBasicData(String id,String pid,String identity,String description,String comment,Integer day){
+		BasicData basicData = new BasicData();
+		basicData.setId(id);
+		basicData.setpId(pid);
+		basicData.setIdentity(identity);
+		basicData.setDescription(description);
+		basicData.setCanEdit(true);
+		basicData.setDay(day);
+		basicDataRepo.save(basicData);
+		return basicData;
+	}
+
 	/**
 	 * 
 	 * @Description：创建默认为可编辑的基础数据

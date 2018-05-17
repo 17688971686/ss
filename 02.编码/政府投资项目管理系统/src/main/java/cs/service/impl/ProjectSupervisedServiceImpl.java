@@ -169,7 +169,12 @@ public class ProjectSupervisedServiceImpl extends AbstractServiceImpl<ProjectDto
 		logger.info(String.format("编辑项目,项目名称 %s",projectDto.getProjectName()));
 		return project;		
 	}
-	
+
+	@Override
+	public List<ProjectDto> findByDto(ODataObj odataObj) {
+		return null;
+	}
+
 	/**
 	 * 批复文件库处理
 	 */

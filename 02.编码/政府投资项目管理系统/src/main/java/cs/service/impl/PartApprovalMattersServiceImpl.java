@@ -1,5 +1,6 @@
 package cs.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -115,6 +116,11 @@ public class PartApprovalMattersServiceImpl extends AbstractServiceImpl<PartAppr
 		PartApprovalMatters partApprovalMatters = super.findById(id);
 		super.repository.delete(partApprovalMatters);
 		logger.info("删除部门审批事项信息");	
+	}
+
+	@Override
+	public List<PartApprovalMattersDto> findByDto(ODataObj odataObj) {
+		return null;
 	}
 
 	@Override

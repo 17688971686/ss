@@ -148,6 +148,11 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 		logger.info(String.format("删除计划下达申请表,名称 :%s",entity.getApplicationName()));
 	}
 
+	@Override
+	public List<PlanReachApplicationDto> findByDto(ODataObj odataObj) {
+		return null;
+	}
+
 	private ShenBaoInfo projectToShenBaoInfo(Project dto,ShenBaoInfoDto shenBaoInfoDto){
 		shenBaoInfoDto.setUnitName(dto.getUnitName());//项目所属单位
 		shenBaoInfoDto.setProjectStage(dto.getProjectStage());//项目阶段

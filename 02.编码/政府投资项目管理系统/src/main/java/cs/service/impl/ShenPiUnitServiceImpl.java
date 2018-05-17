@@ -64,4 +64,9 @@ public class ShenPiUnitServiceImpl  extends AbstractServiceImpl<ShenPiUnitDto,Sh
 		public void deletes(String[] ids) {
 			super.deletes(ids);
 		}
+
+	@Override
+	public List<ShenPiUnitDto> findByDto(ODataObj odataObj) {
+		return null;
+	}
 }
