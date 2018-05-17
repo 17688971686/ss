@@ -10,6 +10,9 @@ import cs.model.PageModelDto;
 import cs.model.DomainDto.CreditIllegalNameDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.CreditIllegalNameService;
+
+import java.util.List;
+
 /**
  * @Description: 项目异常名录信息服务层
  * @author: wxy
@@ -52,6 +55,11 @@ public class CreditIllegalNameServiceImpl extends AbstractServiceImpl<CreditIlle
 		CreditIllegalName illegalName = super.findById(id);
 		super.repository.delete(illegalName);
 		logger.info("删除异常名录信息");	
+	}
+
+	@Override
+	public List<CreditIllegalNameDto> findByDto(ODataObj odataObj) {
+		return null;
 	}
 
 }

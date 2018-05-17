@@ -129,6 +129,11 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 	}
 
 	@Override
+	public List<TaskHeadDto> findByDto(ODataObj odataObj) {
+		return null;
+	}
+
+	@Override
 	@Transactional
 	public void handle(String taskId, TaskRecordDto dto) {
 		//查询系统配置是否需要发送短信

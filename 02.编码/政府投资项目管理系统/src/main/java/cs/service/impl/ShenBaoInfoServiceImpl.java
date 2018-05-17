@@ -1263,5 +1263,11 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		super.repository.save(entity);
 		logger.info(String.format("启动审批流程,用户名:%s", currentUser.getLoginName()));
 	}
+
+	@Override
+	public List<ShenBaoInfoDto> findByDto(ODataObj odataObj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 

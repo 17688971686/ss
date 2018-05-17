@@ -312,7 +312,12 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 			throw new IllegalArgumentException(String.format("没有查找到对应的项目"));
 		}
 	}
-	
+
+	@Override
+	public List<ProjectDto> findByDto(ODataObj odataObj) {
+		return null;
+	}
+
 	/***************以下方法用于项目统计***************/
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override

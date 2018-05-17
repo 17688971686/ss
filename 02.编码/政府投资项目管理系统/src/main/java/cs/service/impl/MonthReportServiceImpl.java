@@ -57,6 +57,11 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 	}
 
 	@Override
+	public List<MonthReportDto> findByDto(ODataObj odataObj) {
+		return null;
+	}
+
+	@Override
 	@Transactional
 	public void saveMonthReport(MonthReportDto monthReportDto) {
 		// 判断数据库是否存在月报		

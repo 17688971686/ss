@@ -1,7 +1,10 @@
 package cs.service.interfaces;
 
+import cs.model.DomainDto.ShenPiItemsDto;
 import cs.model.PageModelDto;
 import cs.repository.odata.ODataObj;
+
+import java.util.List;
 
 public interface IService<Dto,Entity,ID> {
 	PageModelDto<Dto> get(ODataObj odataObj);
@@ -14,5 +17,7 @@ public interface IService<Dto,Entity,ID> {
 
 	void deletes(ID[] ids);
 	
-	Entity findById(ID id);	
+	Entity findById(ID id);
+
+	List<Dto> findByDto(ODataObj odataObj);
 }

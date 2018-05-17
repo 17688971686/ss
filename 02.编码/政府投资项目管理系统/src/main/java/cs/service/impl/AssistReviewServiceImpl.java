@@ -168,4 +168,9 @@ public class AssistReviewServiceImpl extends AbstractServiceImpl<AssistReviewDto
 	public void deletes(String[] ids) {
 		super.deletes(ids);
 	}
+
+	@Override
+	public List<AssistReviewDto> findByDto(ODataObj odataObj) {
+		return null;
+	}
 }

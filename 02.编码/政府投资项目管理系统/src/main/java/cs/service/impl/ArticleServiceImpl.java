@@ -15,6 +15,9 @@ import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ArticleService;
+
+import java.util.List;
+
 /**
  * @Description:文章服务层 
  * @author: cx
@@ -63,6 +66,11 @@ public class ArticleServiceImpl extends AbstractServiceImpl<ArticleDto, Article,
 	public void delete(String id) {
 		super.delete(id);
 		logger.info(String.format("删除文章,ID:%s", id));
+	}
+
+	@Override
+	public List<ArticleDto> findByDto(ODataObj odataObj) {
+		return null;
 	}
 
 	@Override

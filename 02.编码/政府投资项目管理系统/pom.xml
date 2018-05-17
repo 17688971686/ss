@@ -217,13 +217,12 @@
 	<build>
 		<finalName>framework</finalName>
 		<plugins>
-
-
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+					<encoding>utf8</encoding>
 					<compilerArguments>
 						<processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
 					</compilerArguments>
@@ -231,5 +230,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

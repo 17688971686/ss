@@ -31,6 +31,11 @@ public class DraftIssuedServiceImpl extends AbstractServiceImpl<DraftIssuedDto, 
 	}
 
 	@Override
+	public List<DraftIssuedDto> findByDto(ODataObj odataObj) {
+		return null;
+	}
+
+	@Override
 	@Transactional
 	public void createDraft(DraftIssuedDto draftIssuedDto) {
 		Criterion criterion = Restrictions.eq("relId", draftIssuedDto.getRelId());

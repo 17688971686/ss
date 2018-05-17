@@ -23,7 +23,7 @@ public class ShenPiItems extends BaseEntity{
 	private String shenpiDetails;
 	@Column(columnDefinition="date NOT NULL COMMENT '审批开始时间'")
 	private String shenpiBeginDate;
-	@Column(columnDefinition="date NOT NULL COMMENT '审批结束时间'")
+	@Column(columnDefinition="date NULL COMMENT '审批结束时间'")
 	private String shenpiEndDate;
 	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '审批状态'")
 	private String shenpiState;
@@ -31,11 +31,35 @@ public class ShenPiItems extends BaseEntity{
 	private String projectName;
 	@Column(columnDefinition="varchar(255)  COMMENT '审批单位名称'")
 	private String shenpiUnitName;
-	@Column(columnDefinition="varchar(255)  COMMENT '审批结果'")
+	@Column(columnDefinition="varchar(255)  COMMENT '审批内容'")
 	private String shenpiResult;
+	@Column(columnDefinition="varchar(255)  COMMENT '审批类型'")
+	private String shenpiType;
+
 	@Column(columnDefinition="varchar(255)  COMMENT '备注'")
 	private String comment;
-	
+	@Column(columnDefinition="int(4)  COMMENT '审批天数'")
+	private Integer dayNum;
+
+	@Column(columnDefinition="int(3)  COMMENT '审批天数字段做代码逻辑作用'")
+	private Integer virtualDayNum;
+
+	public Integer getDayNum() {
+		return dayNum;
+	}
+
+	public void setDayNum(Integer dayNum) {
+		this.dayNum = dayNum;
+	}
+
+	public Integer getVirtualDayNum() {
+		return virtualDayNum;
+	}
+
+	public void setVirtualDayNum(Integer virtualDayNum) {
+		this.virtualDayNum = virtualDayNum;
+	}
+
 	public String getProjectName() {
 		return projectName;
 	}

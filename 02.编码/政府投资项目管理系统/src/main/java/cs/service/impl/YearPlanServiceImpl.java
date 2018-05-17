@@ -114,6 +114,11 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 		super.delete(id);
 	}
 
+	@Override
+	public List<YearPlanDto> findByDto(ODataObj odataObj) {
+		return null;
+	}
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	@Transactional

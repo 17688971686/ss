@@ -10,6 +10,9 @@ import cs.model.PageModelDto;
 import cs.model.DomainDto.ReplyFileDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ReplyFileService;
+
+import java.util.List;
+
 /**
  * @Description: 批复文件服务层
  * @author: cx
@@ -61,5 +64,11 @@ public class ReplyFileServiceImpl extends AbstractServiceImpl<ReplyFileDto, Repl
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<ReplyFileDto> findByDto(ODataObj odataObj) {
+		return null;
+	}
+
 
 }

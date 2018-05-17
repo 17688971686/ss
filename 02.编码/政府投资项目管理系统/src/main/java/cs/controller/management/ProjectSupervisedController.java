@@ -1,22 +1,18 @@
 package cs.controller.management;
 
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import cs.domain.ShenPiItems;
 
 import javax.servlet.http.HttpServletRequest;
 
+import cs.repository.odata.ODataFilterItem;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 import cs.domain.Project;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ProjectDto;
@@ -80,8 +76,41 @@ public class ProjectSupervisedController {
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<ShenPiItemsDto> shenpiItemsDtos = shenPiItemsService.get(odataObj);		
 		return shenpiItemsDtos;
-	} 
-	@RequestMapping(name = "更新审批事项", path = "updateShenpiItems", method = RequestMethod.POST)
+	}
+
+//	@RequestMapping(value = "/college/getCollegesBySearch", method = {RequestMethod.GET})
+//	@ResponseBody
+//	public Result getColleges(@RequestParam(required = false) Integer iDisplayStart,
+//							  @RequestParam(required = false) Integer iDisplayLength,
+//							  @RequestParam(required = false) String collegeName)
+
+	@RequestMapping(name = "获取单个审批事项信息", path = "/single/shenpiItems",method=RequestMethod.GET)
+	public @ResponseBody List<ShenPiItemsDto> getSingleShenpiItems(@RequestParam(required = false) String shenpiName,
+															 @RequestParam(required = false) String shenpiUnitName,
+															 @RequestParam(required = false) String shenpiState) throws ParseException {
+		ODataObj odataObj = new ODataObj();
+		List<ODataFilterItem> ODataFilterItemList = new ArrayList<>();
+		ODataFilterItem<String> filterItem= new ODataFilterItem<>();
+		filterItem.setField("shenpiName");//"shenpiUnitId"
+		filterItem.setOperator("eq");//"eq"
+		filterItem.setValue(shenpiName);//shenPiUnits.get(0).getId()
+		ODataFilterItemList.add(filterItem);
+		ODataFilterItem<String> filterItem2= new ODataFilterItem<>();
+		filterItem2.setField("shenpiUnitName");//"shenpiUnitId"
+		filterItem2.setOperator("eq");//"eq"
+		filterItem2.setValue(shenpiUnitName);//shenPiUnits.get(0).getId()
+		ODataFilterItemList.add(filterItem2);
+		ODataFilterItem<String> filterItem3= new ODataFilterItem<>();
+		filterItem3.setField("shenpiState");//"shenpiUnitId"
+		filterItem3.setOperator("eq");//"eq"
+		filterItem3.setValue(shenpiState);//shenPiUnits.get(0).getId()
+		ODataFilterItemList.add(filterItem3);
+		odataObj.setFilter(ODataFilterItemList);
+		List<ShenPiItemsDto> shenpiItemsDtos = shenPiItemsService.findByDto(odataObj);
+		return shenpiItemsDtos;
+	}
+
+	@RequestMapping(name = "更新审批事项", path = "updateShenpiItems", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updateShenpiItems(@RequestBody ShenPiItemsDto dto) {
 		shenPiItemsService.update(dto,dto.getId());

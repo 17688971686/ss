@@ -34,6 +34,9 @@ public class BasicData extends BaseEntity {
 	@Column(columnDefinition="bit  COMMENT '是否默认'")
 	private Boolean canEdit;
 
+	@Column(columnDefinition="int(4)  COMMENT '审批天数'")
+	private Integer day = 0;//默认为0
+
 	public String getId() {
 		return id;
 	}
@@ -88,5 +91,13 @@ public class BasicData extends BaseEntity {
 
 	public void setCount(Integer count) {
 		this.count = count;
-	}	
+	}
+
+	public Integer getDay() {
+		return day;
+	}
+
+	public void setDay(Integer day) {
+		this.day = day;
+	}
 }

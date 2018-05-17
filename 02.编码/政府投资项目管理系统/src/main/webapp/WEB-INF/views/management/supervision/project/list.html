@@ -193,10 +193,6 @@
 </div>
 <form id="form" name="form">
 	<div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
-
-
-	<!--<div class="grid" kendo-grid="grid" k-options=""></div>-->
-	<!--{{vm.gridsOptions.dataSource._total}}-->
 </form>
 </div>
 
@@ -226,7 +222,7 @@
 			<tr ng-repeat="item in vm.projectItemsModel">
 				<td>{{item.shenpiName}}</td>
 				<td>{{item.projectDto.projectName}}</td>
-				<td >{{item.shenpiEndDate}}</td>
+				<td>{{item.virtualDayNum}}</td>
 				<td><a class="btn btn-xs btn-primary" href="#/shenpiItemsDetail/{{item.id}}">查看</a></td>
 			</tr>
 			</tbody>

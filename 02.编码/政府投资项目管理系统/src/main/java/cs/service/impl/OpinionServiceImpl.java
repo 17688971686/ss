@@ -1,6 +1,7 @@
 package cs.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,5 +94,10 @@ public class OpinionServiceImpl extends AbstractServiceImpl<OpinionDto, Opinion,
 		odataObj.getFilter().add(filter);
 		
 		return super.get(odataObj);
+	}
+
+	@Override
+	public List<OpinionDto> findByDto(ODataObj odataObj) {
+		return null;
 	}
 }

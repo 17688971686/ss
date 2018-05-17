@@ -1,5 +1,6 @@
 package cs.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -116,7 +117,12 @@ public class AgencyServiceMattersServiceImpl extends AbstractServiceImpl<AgencyS
 		super.repository.delete(agencyServiceMatters);
 		logger.info("删除中介服务事项");
 	}
-	
+
+	@Override
+	public List<AgencyServiceMattersDto> findByDto(ODataObj odataObj) {
+		return null;
+	}
+
 	@Override
 	@Transactional
 	public AgencyServiceMatters findAgencyServiceMattersByName(String name) {

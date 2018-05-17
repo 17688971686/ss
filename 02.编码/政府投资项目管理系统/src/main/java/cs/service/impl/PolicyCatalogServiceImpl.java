@@ -119,6 +119,11 @@ public class PolicyCatalogServiceImpl extends AbstractServiceImpl<PolicyCatalogD
 	}
 
 	@Override
+	public List<PolicyCatalogDto> findByDto(ODataObj odataObj) {
+		return null;
+	}
+
+	@Override
 	@Transactional
 	public PolicyCatalog findPolicyCatalogByName(String name) {
 		PolicyCatalog policyCatalog;

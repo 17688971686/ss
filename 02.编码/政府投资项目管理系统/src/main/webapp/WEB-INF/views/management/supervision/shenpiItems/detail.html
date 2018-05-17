@@ -22,9 +22,9 @@
                 <td class="formAlignRight" style="width:15%">审批时间： </td>
                 <td>
                     <input  disabled="disabled" class="Wdate form-control input-sm" style="width:180px;" type="text"  onFocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd',onpicked: function(){$(this).trigger('change')}})" 
-		             id="shenpiBeginDate" name="shenpiBeginDate"    ng-model="vm.model.shenpiBeginDate"  data-val="true" data-val-required="审批开始时间不能为空"/>~
-		             <input  disabled="disabled" class="Wdate form-control input-sm" style="width:180px;" type="text"  onFocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd',onpicked: function(){$(this).trigger('change')}})" 
-		             id="shenpiEndDate" name="shenpiEndDate"    ng-model="vm.model.shenpiEndDate"  data-val="true" data-val-required="审批开始时间不能为空"/>
+		             id="shenpiBeginDate" name="shenpiBeginDate"    ng-model="vm.model.shenpiBeginDate"  data-val="true" data-val-required="审批开始时间不能为空"/>
+		          <!--   <input  disabled="disabled" class="Wdate form-control input-sm" style="width:180px;" type="text"  onFocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd',onpicked: function(){$(this).trigger('change')}})"
+		             id="shenpiEndDate" name="shenpiEndDate"    ng-model="vm.model.shenpiEndDate"  data-val="true" data-val-required="审批开始时间不能为空"/>-->
               
                 </td>
                
@@ -32,7 +32,7 @@
              <tr>
                 <td class="formAlignRight" style="width:10%">审批项目： </td>
                 <td>
-                  	<span  ng-bind="vm.model.projectDto.projectName">
+                    <span  ng-bind="vm.model.projectDto.projectName"></span>
                 </td>
             </tr>
             <tr> 
@@ -49,6 +49,15 @@
 						ng-change="vm.checkLength(vm.model.shenpiDetails,500,'shenpiDetailsTip')"></textarea>
 					<span data-valmsg-for="shenpiDetails" data-valmsg-replace="true" class="required"></span>
 			 </td>
+             </tr>
+             <tr>
+                 <td class="formAlignRight" style="width:10%">审批状态： <span class="required">*</span></td>
+                 <td colspan="3" style="padding: 10px;">
+                     <select id="shenpiState" name="shenpiState" style="height:30px;width: 20%" ng-model="vm.model.shenpiState"   >
+                         <option value="">---请选择---</option>
+                         <option ng-repeat="x in  vm.basicData.shenpiStateType" value="{{x.count}}" >{{x.description}}</option>
+                     </select>
+                 </td>
              </tr>
              <tr>
              <td class="formAlignRight" style="width:15%">备注：</td>

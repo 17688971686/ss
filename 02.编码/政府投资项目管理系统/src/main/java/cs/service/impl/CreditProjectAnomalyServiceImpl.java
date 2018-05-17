@@ -11,6 +11,8 @@ import cs.model.DomainDto.CreditProjectAnomalyDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.CreditProjectAnomalyService;
 
+import java.util.List;
+
 /**
  * @Description： 
  * @author Administrator
@@ -52,5 +54,10 @@ public class CreditProjectAnomalyServiceImpl extends AbstractServiceImpl<CreditP
 		CreditProjectAnomaly illegalName = super.findById(id);
 		super.repository.delete(illegalName);
 		logger.info("删除异常名录信息");	
+	}
+
+	@Override
+	public List<CreditProjectAnomalyDto> findByDto(ODataObj odataObj) {
+		return null;
 	}
 }

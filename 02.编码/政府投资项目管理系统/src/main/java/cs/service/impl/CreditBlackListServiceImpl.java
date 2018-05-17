@@ -11,6 +11,8 @@ import cs.model.DomainDto.CreditBlackListDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.CreditBlackListService;
 
+import java.util.List;
+
 /**
  * @Description: 信用黑名单信息服务层
  * @author： wxy
@@ -54,5 +56,10 @@ public class CreditBlackListServiceImpl extends AbstractServiceImpl<CreditBlackL
 		super.repository.delete(blackList);
 		logger.info("删除异常名录信息");	
 	}
-	
+
+	@Override
+	public List<CreditBlackListDto> findByDto(ODataObj odataObj) {
+		return null;
+	}
+
 }
