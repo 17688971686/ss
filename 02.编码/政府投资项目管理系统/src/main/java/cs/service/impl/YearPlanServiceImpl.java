@@ -3,13 +3,15 @@ package cs.service.impl;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
 import org.hibernate.SQLQuery;
-import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.DateType;
@@ -18,13 +20,18 @@ import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import cs.common.ICurrentUser;
 import cs.common.SQLConfig;
+import cs.domain.PackPlan;
 import cs.domain.Project;
 import cs.domain.ShenBaoInfo;
+import cs.domain.UserUnitInfo;
 import cs.domain.YearPlan;
 import cs.domain.YearPlanCapital;
+import cs.domain.YearPlan_;
 import cs.model.PageModelDto;
+import cs.model.DomainDto.PackPlanDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.YearPlanCapitalDto;
 import cs.model.DomainDto.YearPlanDto;
@@ -37,7 +44,6 @@ import cs.model.exportExcel.ExcelDataYS;
 import cs.model.exportExcel.YearPlanStatistics;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
-import cs.service.common.BasicDataService;
 import cs.service.interfaces.YearPlanService;
 /**
  * @Description: 年度计划服务层
@@ -55,11 +61,19 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 	@Autowired
 	private IRepository<ShenBaoInfo, String> shenbaoInfoRepo;
 	@Autowired
+	private IRepository<PackPlan, String> packPlanRepo;
+	@Autowired
 	private IRepository<Project, String> projectRepo;
+	@Autowired
+	private IRepository<UserUnitInfo, String> userUnitInfoRepo;
+	@Autowired
+	private IRepository<YearPlan, String> yearPlanRepo;
 	@Autowired
 	private IMapper<YearPlanCapitalDto, YearPlanCapital> yearPlanCapitalMapper;
 	@Autowired
 	private IMapper<ShenBaoInfoDto, ShenBaoInfo> shenbaoInfoMapper;
+	@Autowired
+	private IMapper<PackPlanDto, PackPlan> packPlanMapper;
 	@Autowired
 	private ICurrentUser currentUser;
 	
@@ -76,17 +90,23 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 
 	@Override
 	@Transactional
-	public YearPlan create (YearPlanDto dto){		
-		YearPlan entity = super.create(dto);
-		//关联信息资金安排
-		dto.getYearPlanCapitalDtos().stream().forEach(x->{
-			YearPlanCapital yearPlanCapital = new YearPlanCapital();
-			yearPlanCapitalMapper.buildEntity(x,yearPlanCapital);
-			entity.getYearPlanCapitals().add(yearPlanCapital);
-		});
-		logger.info(String.format("创建年度计划,名称：%s",dto.getName()));
-		super.repository.save(entity);
-		return entity;				
+	public YearPlan create (YearPlanDto dto){
+		Criterion criterion = Restrictions.eq(YearPlan_.name.getName(), dto.getName());
+		Optional<YearPlan> yearPlan = yearPlanRepo.findByCriteria(criterion).stream().findFirst();
+		if (yearPlan.isPresent()) {
+			throw new IllegalArgumentException(String.format("项目代码：%s 已经存在,请重新输入！", dto.getName()));
+		} else {
+			YearPlan entity = super.create(dto);
+			//关联信息资金安排
+			dto.getYearPlanCapitalDtos().stream().forEach(x->{
+				YearPlanCapital yearPlanCapital = new YearPlanCapital();
+				yearPlanCapitalMapper.buildEntity(x,yearPlanCapital);
+				entity.getYearPlanCapitals().add(yearPlanCapital);
+			});
+			logger.info(String.format("创建年度计划,名称：%s",dto.getName()));
+			super.repository.save(entity);
+			return entity;
+		}
 	}
 
 	@Override
@@ -101,6 +121,15 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 		dto.getYearPlanCapitalDtos().forEach(x->{//添加新的资金安排记录
 			entity.getYearPlanCapitals().add(yearPlanCapitalMapper.buildEntity(x, new YearPlanCapital()));
 		});
+		//关联打包类建设单位
+//		entity.getAllocationCapitals().forEach(x->{//删除历史建设单位资金编制记录
+//			allocationCapitalRepo.delete(x);
+//		});
+//		entity.getAllocationCapitals().clear();
+//		dto.getAllocationCapitalDtos().forEach(x->{//添加新的建设单位资金编制记录
+//			entity.getAllocationCapitals().add(allocationCapitalMapper.buildEntity(x, new AllocationCapital()));
+//		});
+		
 		logger.info(String.format("更新年度计划,名称：%s",dto.getName()));
 		super.repository.save(entity);
 		return entity;		
@@ -112,11 +141,6 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 	@Transactional
 	public void delete(String id) {
 		super.delete(id);
-	}
-
-	@Override
-	public List<YearPlanDto> findByDto(ODataObj odataObj) {
-		return null;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -151,6 +175,42 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 			PageModelDto<ShenBaoInfoDto> pageModelDto = new PageModelDto<>();
 			pageModelDto.setCount(count);
 			pageModelDto.setValue(shenBaoInfoDtos);
+			return pageModelDto;
+		}			
+		return null;
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	@Transactional
+	public  PageModelDto<PackPlanDto> getYearPlanPack(String planId,ODataObj odataObj){
+		Integer skip = odataObj.getSkip();
+		Integer stop = odataObj.getTop();
+		YearPlan yearPlan=super.findById(planId);
+		if(yearPlan!=null){
+			//分页查询数据
+			List<PackPlanDto> packPlanDtos=new ArrayList<>();
+			List<PackPlan> packPlans=((SQLQuery) packPlanRepo.getSession()
+					.createSQLQuery(SQLConfig.packPlanByYearPlanId)
+					.setParameter("yearPlanId", planId)
+					.setFirstResult(skip).setMaxResults(stop)) 
+					.addEntity(PackPlan.class)
+					.getResultList();
+			packPlans.forEach(x->{
+				PackPlanDto packPlanDto = packPlanMapper.toDto(x);
+				packPlanDtos.add(packPlanDto);
+			});
+			//查询总数
+			List<PackPlan> packPlans2=packPlanRepo.getSession()
+					.createSQLQuery(SQLConfig.packPlanByYearPlanId)
+					.setParameter("yearPlanId", planId)
+					.addEntity(PackPlan.class)
+					.getResultList();
+			int count = packPlans2.size();
+			
+			PageModelDto<PackPlanDto> pageModelDto = new PageModelDto<>();
+			pageModelDto.setCount(count);
+			pageModelDto.setValue(packPlanDtos);
 			return pageModelDto;
 		}			
 		return null;
@@ -454,6 +514,115 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 				.setResultTransformer(Transformers.aliasToBean(sttisticsData.class))
 				.list();
 		return list;
+	}
+
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	@Transactional
+	public PageModelDto<YearPlanDto> getYearPlanAllocationCapital(String unitId, ODataObj odataObj) {
+		Integer skip = odataObj.getSkip();
+		Integer stop = odataObj.getTop();
+
+		UserUnitInfo userUnitInfo = userUnitInfoRepo.findById(unitId);
+		if(userUnitInfo!=null){
+			//分页查询数据
+			List<YearPlanDto> yearPlanDtos=new ArrayList<>();
+			List<YearPlan> yearPlans=((SQLQuery) super.repository.getSession()
+					.createSQLQuery(SQLConfig.packPlanByUnit)
+					.setParameter("unitId", unitId)
+					.setFirstResult(skip).setMaxResults(stop)) 
+					.addEntity(YearPlan.class)
+					.getResultList();
+			yearPlans.forEach(x->{
+				YearPlanDto yearPlanDto = super.mapper.toDto(x);
+				yearPlanDtos.add(yearPlanDto);
+			});
+			//查询总数
+			List<YearPlan> yearPlans2=super.repository.getSession()
+					.createSQLQuery(SQLConfig.packPlanByUnit)
+					.setParameter("unitId", unitId)
+					.addEntity(YearPlan.class)
+					.getResultList();
+			int count = yearPlans2.size();
+			
+			PageModelDto<YearPlanDto> pageModelDto = new PageModelDto<>();
+			pageModelDto.setCount(count);
+			pageModelDto.setValue(yearPlanDtos);
+			return pageModelDto;
+		}			
+		return null;
+	}
+
+	@Override
+	public void addYearPlanPacks(String planId, String[] ids) {
+		//根据申报信息id创建年度计划资金
+		for (String id : ids) {
+			this.addYearPlanPack(planId,id);
+		}
+	}
+
+	@Override
+	@Transactional
+	public void addYearPlanPack(String planId, String packId) {
+		Boolean hasShenBaoInfo = false;
+		//根据年度计划id查找到年度计划
+		YearPlan yearPlan=super.findById(planId);
+		if(yearPlan !=null){
+			//判断年度计划编制中是否已有打包计划
+			List<PackPlan> packPlans = yearPlan.getPackPlans();
+			
+			for(PackPlan packPlan : packPlans){
+				if(packPlan.getId().equals(packId)){
+					hasShenBaoInfo = true;
+				}
+			}
+			if(hasShenBaoInfo){
+				//通过打包计划id获取名称
+				//String name= packPlanRepo.findById(packId).getName();
+				//throw new IllegalArgumentException(String.format("申报项目：%s 已经存在编制计划中,请重新选择！", name));
+			}else{
+				//根据申报信息id创建年度计划资金
+				PackPlan entity = packPlanRepo.findById(packId);
+				//将打包计划保存到年度计划中
+				if(yearPlan.getPackPlans() !=null){
+					yearPlan.getPackPlans().add(entity);
+				}else{
+					List<PackPlan> yearPlanPackPlans = new ArrayList<>();
+					yearPlanPackPlans.add(entity);
+					yearPlan.setPackPlans(yearPlanPackPlans);
+				}		
+				super.repository.save(yearPlan);
+				logger.info(String.format("添加年度计划资金,名称：%s",yearPlan.getName()));	
+			}
+		}
+					
+	}
+
+	@Override
+	@Transactional
+	public void removeYearPlanPack(String planId, String[] yearPlanPackId) {
+		YearPlan yearPlan=super.repository.findById(planId);
+		if(yearPlan!=null){
+			List<PackPlan> packPlans=yearPlan.getPackPlans();
+			List<PackPlan> removeItems=new ArrayList<>();
+			packPlans.forEach(x->{
+				for (String packPlanId : yearPlanPackId) {
+					if(x.getId().equals(packPlanId)){
+						removeItems.add(x);	
+					}
+				}
+			});
+			packPlans.removeAll(removeItems);
+		}
+		super.repository.save(yearPlan);
+		logger.info(String.format("移除年度计划资金,名称：%s",yearPlan.getName()));	
+	
+	}
+
+	@Override
+	public List<YearPlanDto> findByDto(ODataObj odataObj) {
+		return null;
 	}
 	
 	

@@ -45,7 +45,186 @@
     		if(routName=='yearPlan_planBZ'){
     			vm.page='planBZ';
     		}
+    		if(routName=='yearPlan_packList'){
+    			vm.page = 'packList';
+    		}
+    		if(routName=='yearPlan_packEdit'){
+    			if(vm.id){
+    				vm.page='pack_update';
+    			}else{
+    				vm.page='pack_create';
+    			}
+    		}
     	}
+    	
+    	activate();
+        function activate() {
+        	initPage();
+        	initPublicMethod();
+        	initBasicData();
+        	
+        	if(vm.page=='shenbaoInfoList'){
+        		init_shenbaoInfoList();
+        	}
+        	if(vm.page=='shenbaoInfoListSH'){
+        		init_shenbaoInfoListSH();
+        	}
+        	if(vm.page=='shenbaoInfoAdd'){
+        		vm.shenBaoInfoAdd = true;
+        		init_shenbaoInfoEdit();
+        		
+        	}
+        	if(vm.page=='shenbaoInfoEdit'){
+        		vm.shenBaoInfoEdit = true;
+        		init_shenbaoInfoEdit();
+        	}
+        	if(vm.page=='planList'){
+        		init_planList();
+        	}
+        	if(vm.page=='plan_create'){
+        		init_planCreate();
+        	}
+        	if(vm.page=='plan_update'){
+        		vm.isPlanEdit=true;
+        		init_planUpadte();
+        	}
+        	if(vm.page=='planBZ'){
+        		init_planBZ();
+        	}
+        	/* 新增的功能 */
+        	if(vm.page == 'packList'){
+        		init_packList();
+        	}
+        	if(vm.page=='pack_create'){
+        		init_packAdd();
+        	}
+        	if(vm.page=='pack_update'){
+        		vm.isPackEdit = true;
+        		init_packEdit();
+        	}
+        	
+        }
+        
+        function init_packList(){
+        	yearPlanSvc.grid_packList(vm);
+    		//删除计划
+    		vm.deletePack=function(id){
+    			common.confirm({
+    				vm:vm,
+    				msg:"确认要删除数据吗？",
+    				fn:function(){
+    					$('.confirmDialog').modal('hide');
+    					yearPlanSvc.pack_delete(vm,id);
+    				}
+    			});
+    		};
+    		//批量删除计划
+    		vm.deletePacks=function(){
+    			var selectIds = common.getKendoCheckId('.grid');
+                if (selectIds.length == 0) {
+                	common.alert({
+                    	vm:vm,
+                    	msg:'请选择数据!'             	
+                    });
+                } else {
+                	var ids=[];
+                    for (var i = 0; i < selectIds.length; i++) {
+                    	ids.push(selectIds[i].value);
+    				}  
+                    var idStr=ids.join(',');
+                    vm.deletePack(idStr);
+                }   
+    		};
+        }//end init_packList
+        
+        function init_packEdit(){
+        	if(vm.id){
+        		yearPlanSvc.getPackPlanById(vm);//查询年度打包类型信息
+        	}
+        	
+        	vm.allUnit = common.getUserUnits().value;//获取所有单位信息
+        	//添加建设资金配置
+        	vm.addConstructionUnit = function(){
+        		if(vm.model.allocationCapitalDtos){
+        			vm.model.allocationCapitalDtos.push({unitName:'',capital_ggys:'',capital_gtzj:''});
+            	}else{
+            		vm.model.allocationCapitalDtos=[{unitName:'',capital_ggys:'',capital_gtzj:''}];
+            	}
+        	};
+        	
+        	//移除建设单资金配置
+        	vm.removeConstructionUnit=function(idx){
+        		vm.model.allocationCapitalDtos.splice(idx,1);
+    		};
+    		vm.update = function(){
+    			var configuredMoney = 0;
+    			for(var i=0;i<vm.model.allocationCapitalDtos.length;i++){
+    				configuredMoney = configuredMoney+(vm.model.allocationCapitalDtos[i].capital_ggys + 
+    						vm.model.allocationCapitalDtos[i].capital_gtzj);
+    			}
+    			if(configuredMoney <= vm.model.totalMoney){
+    				//vm.model.surplusMoney = vm.model.totalMoney - configuredMoney;
+    				yearPlanSvc.pack_update(vm);
+    			}else{
+    				common.alert({
+    					vm:vm,
+    					msg:'建设单位资金配置不能大于总指标，请重新配置！'             	
+    				});
+    			}
+    		};
+        }//end#init_packEdit
+        
+        function init_packAdd(){
+        	vm.allUnit = common.getUserUnits().value;//获取所有单位信息
+        	//添加建设资金配置
+        	vm.addConstructionUnit = function(){
+        		if(vm.model.allocationCapitalDtos){
+        			vm.model.allocationCapitalDtos.push({unitName:'',capital_ggys:'',capital_gtzj:''});
+            	}else{
+            		vm.model.allocationCapitalDtos=[{unitName:'',capital_ggys:'',capital_gtzj:''}];
+            	}
+        	};
+        	
+        	//移除建设单资金配置
+        	vm.removeConstructionUnit=function(idx){
+        		vm.model.allocationCapitalDtos.splice(idx,1);
+    		};
+    		
+    		/*vm.surplusMoney = function(){
+    			if(vm.model.allocationCapitalDtos){
+    				for(var i=0;i<vm.model.allocationCapitalDtos.length;i++){
+            			configuredMoney = configuredMoney+(vm.model.allocationCapitalDtos[i].capital_ggys + 
+            								vm.model.allocationCapitalDtos[i].capital_gtzj);
+            		}
+    				if(configuredMoney <= vm.model.totalMoney){
+            			return vm.model.totalMoney - configuredMoney;
+    				}
+    			}
+    		};*/
+    		
+        	//新增打包类项目
+        	vm.create = function(){
+        		var configuredMoney = 0;
+        		if(vm.model.totalMoney=="" || !vm.model.totalMoney){
+        			vm.model.totalMoney = 0;
+        		}
+        		
+        		for(var i=0;i<vm.model.allocationCapitalDtos.length;i++){
+        			configuredMoney = configuredMoney+(vm.model.allocationCapitalDtos[i].capital_ggys + 
+        								vm.model.allocationCapitalDtos[i].capital_gtzj);
+        		}
+        		if(configuredMoney <= vm.model.totalMoney){
+        			
+        			//vm.model.surplusMoney = vm.model.totalMoney - configuredMoney;
+        			yearPlanSvc.pack_create(vm);
+        		}else{
+        			common.alert({
+                    	vm:vm,
+                    	msg:'建设单位资金配置不能大于总指标，请重新配置！'             	
+                    });
+        		}
+        	};
+        }//end#init_packAdd
     	
     	function initPublicMethod(){
     		//检查字符串可输入长度
@@ -72,6 +251,15 @@
                var isSelected = $(this).is(':checked');
                $('.yearPlanCapitalGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
            });
+    		//编制计划打包列表全选框
+    		$(document).on('click', '#checkboxAll_packList', function () {
+                var isSelected = $(this).is(':checked');
+                $('.packPlanGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
+            });
+    		$(document).on('click', '#checkboxAll', function () {
+                var isSelected = $(this).is(':checked');
+                $('.vm.gridOptions_packList').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
+            });
     		//刷新基础数据
     		window.global_basicData = null;
           	vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别	   		
@@ -84,14 +272,6 @@
   	   		vm.basicData.unitProperty=common.getBacicDataByIndectity(common.basicDataConfig().unitProperty);//单位性质
   	   		vm.basicData.packageType=common.getBacicDataByIndectity(common.basicDataConfig().packageType);//打包类型
   	   		vm.basicData.projectIndustryAll=common.getBacicDataByIndectity(common.basicDataConfig().projectIndustry);//项目行业分类
-  	   		//国民经济行业分类
-	   		vm.basicData.nationalIndustry=common.getBacicDataByIndectity(common.basicDataConfig().projectGoverEconClassify);
-	   		vm.nationalIndustryChange=function(){    		
-	       		vm.basicData.nationalIndustryChildren=$linq(common.getBasicData())
-	       		.where(function(x){return x.identity==common.basicDataConfig().projectGoverEconClassify&&x.pId==vm.model.nationalIndustryParent;})
-	       		.toArray();
-	   		}
-	   		
   	   		vm.basicData.projectIndustry_ZF=$linq(common.getBasicData())
   	   			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
   	   			.toArray();//政府投资项目行业
@@ -185,6 +365,7 @@
     			$location.path("/yearPlan/shenbaoInfoEdit//"+projectInvestmentType+"/"+stage);
     		};
     		
+    		
     		//申报详情模态框
     		vm.dialog_shenbaoInfo = function(id){
     			vm.id = id;
@@ -218,42 +399,7 @@
     			});
     		};
     	}
-    	activate();
-        function activate() {
-        	initPage();
-        	initPublicMethod();
-        	initBasicData();
-        	
-        	if(vm.page=='shenbaoInfoList'){
-        		init_shenbaoInfoList();
-        	}
-        	if(vm.page=='shenbaoInfoListSH'){
-        		init_shenbaoInfoListSH();
-        	}
-        	if(vm.page=='shenbaoInfoAdd'){
-        		vm.shenBaoInfoAdd = true;
-        		init_shenbaoInfoEdit();
-        		
-        	}
-        	if(vm.page=='shenbaoInfoEdit'){
-        		vm.shenBaoInfoEdit = true;
-        		init_shenbaoInfoEdit();
-        	}
-        	if(vm.page=='planList'){
-        		init_planList();
-        	}
-        	if(vm.page=='plan_create'){
-        		init_planCreate();
-        	}
-        	if(vm.page=='plan_update'){
-        		vm.isPlanEdit=true;
-        		init_planUpadte();
-        	}
-        	if(vm.page=='planBZ'){
-        		init_planBZ();
-        	}
-        }
-        
+    	
     	function init_shenbaoInfoList(){
     		commonShenBaoListMethod();
     		yearPlanSvc.grid_shenbaoInfoList(vm);
@@ -555,10 +701,19 @@
     		yearPlanSvc.getPlanById(vm);//查询年度信息
     		yearPlanSvc.getPlanStatisticsInfo(vm);//获取年度计划统计信息
     		yearPlanSvc.grid_yearPlan_addShenbaoInfoList(vm);//查询所有的可添加的申报信息列表 
+    		yearPlanSvc.grid_yearPlan_packPlan(vm);//获取年度计划所关联的打包类型
+    		yearPlanSvc.grid_packListForYeanPlan(vm);//查询所有可添加的打包类型
     		
     		//添加项目计划弹出模态框
     		vm.dialog_addPlan=function(){
     			 $('#addPlanList').modal({
+                     backdrop: 'static',
+                     keyboard:false
+                 });
+    		};
+    		//添加打包类型弹出模态框
+    		vm.dialog_addPack=function(){
+    			 $('#addPackList').modal({
                      backdrop: 'static',
                      keyboard:false
                  });
@@ -627,6 +782,23 @@
                     yearPlanSvc.addShenBaoInfoconfirm(vm,idStr);//添加申报信息到计划中                  
                 }   
     		};
+    		//点击打包计划模态框确认按钮
+    		vm.dialogConfirmSubmit_packPlan=function(){
+    			//获取选中的申报信息的id
+    			var selectIds = common.getKendoCheckId('.grid');
+                if (selectIds.length == 0) {
+                	return;
+                } else {
+                	var ids=[];
+                    for (var i = 0; i < selectIds.length; i++) {
+                    	ids.push(selectIds[i].value);
+    				}
+                    var idStr=ids.join(',');              
+                    $('#addPackList').modal('toggle');//关闭模态框
+                    yearPlanSvc.addPackPlanToYearPlan(vm,idStr);//添加申报信息到计划中                  
+                }   
+    		};
+    		
     		//编制计划中的申报信息
     		 vm.popOver=function(e,id){
     			 //根据申报信息id查询出年度计划编制
@@ -664,6 +836,25 @@
     	                yearPlanSvc.removeYearPlanCapital(vm,idStr);
     	            }
     	    	};//removeYearPlanCapital
+    	    	
+    	    //移除年度计划中打包计划
+    	    vm.removePack = function(){
+    	    	var selectIds = common.getKendoCheckId('.packPlanGrid');
+	            if (selectIds.length == 0) {
+	            	common.alert({
+	                	vm:vm,
+	                	msg:'请选择数据'              	
+	                });
+	            } else {
+	            	var ids=[];
+	                for (var i = 0; i < selectIds.length; i++) {
+	                	ids.push(selectIds[i].value);
+					}
+	                var idStr=ids.join(','); 
+	                yearPlanSvc.removeYearPlanPack(vm,idStr);
+	            }
+    	    };
+    	    	
     	    //批量操作是否填报
     	    vm.isMonthReports=function(){
     	    	function getKendoCheckId(){

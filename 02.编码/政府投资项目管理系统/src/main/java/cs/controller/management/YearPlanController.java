@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.model.PageModelDto;
+import cs.model.DomainDto.PackPlanDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.YearPlanDto;
 import cs.model.exportExcel.YearPlanStatistics;
@@ -47,6 +48,14 @@ public class YearPlanController {
 		return shenBaoInfoDtos;
 	}
 	
+	//@RequiresPermissions("management/yearPlan#id/packPlanList#get")
+	@RequestMapping(name = "获取年度打包计划列表数据", path = "{id}/packPlanList",method=RequestMethod.GET)
+	public @ResponseBody PageModelDto<PackPlanDto> getPackPlan(HttpServletRequest request,@PathVariable String id) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);
+		PageModelDto<PackPlanDto> packPlanDtos=yearPlanService.getYearPlanPack(id,odataObj);
+		return packPlanDtos;
+	}
+	
 	@RequiresPermissions("management/yearPlan#addCapital/planId#post")
 	@RequestMapping(name="添加年度计划项目",path="addCapital/{planId}",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -59,12 +68,32 @@ public class YearPlanController {
 		}
 	}
 	
+	//@RequiresPermissions("management/yearPlan#addPackPlan/planId#post")
+	@RequestMapping(name="添加年度计划项目",path="addPackPlan/{planId}",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void addPackPlan(@RequestBody String packId,@PathVariable String planId){		
+		String[] ids=packId.split(",");
+		if(ids.length>1){
+			yearPlanService.addYearPlanPacks(planId, ids);
+		}else{
+			yearPlanService.addYearPlanPack(planId,packId);
+		}
+	}
+	
 	@RequiresPermissions("management/yearPlan#removeCapital#post")
 	@RequestMapping(name="移除年度计划项目",path="removeCapital",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void removeCapital(@RequestParam String planId,@RequestBody String yearPlanCapitalId){		
 		String[] ids=yearPlanCapitalId.split(",");
 		yearPlanService.removeYearPlanCapital(planId, ids);
+	}
+	
+	//@RequiresPermissions("management/yearPlan#removePack#post")
+	@RequestMapping(name="移除年度计划项目",path="removePack",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void removePack(@RequestParam String planId,@RequestBody String yearPlanPackId){		
+		String[] ids=yearPlanPackId.split(",");
+		yearPlanService.removeYearPlanPack(planId, ids);
 	}
 	
 	@RequiresPermissions("management/yearPlan#getStatistics#get")
@@ -137,4 +166,5 @@ public class YearPlanController {
 	public String planBZ(){
 		return ctrl+"/planBZ";
 	}
+	
 }

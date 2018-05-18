@@ -5,8 +5,10 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import cs.domain.PackPlan;
 import cs.domain.PlanReachApplication;
 import cs.domain.ShenBaoInfo;
+import cs.model.DomainDto.PackPlanDto;
 import cs.model.DomainDto.PlanReachApplicationDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 
@@ -14,6 +16,8 @@ import cs.model.DomainDto.ShenBaoInfoDto;
 public class PlanReachApplicationMapper implements IMapper<PlanReachApplicationDto, PlanReachApplication>{
 	@Autowired
 	IMapper<ShenBaoInfoDto,ShenBaoInfo> shenBaoInfoMapper;
+	@Autowired
+	IMapper<PackPlanDto,PackPlan> packPlanMapper;
 
 	@Override
 	public PlanReachApplicationDto toDto(PlanReachApplication entity) {
@@ -27,6 +31,9 @@ public class PlanReachApplicationMapper implements IMapper<PlanReachApplicationD
 			dto.setResPersonTel(entity.getResPersonTel());
 			entity.getShenBaoInfos().stream().forEach(x->{
 				dto.getShenBaoInfoDtos().add(shenBaoInfoMapper.toDto(x));
+			});
+			entity.getPackPlans().stream().forEach(x->{
+				dto.getPlanPackDtos().add(packPlanMapper.toDto(x));
 			});
 			
 			dto.setCreatedBy(entity.getCreatedBy());

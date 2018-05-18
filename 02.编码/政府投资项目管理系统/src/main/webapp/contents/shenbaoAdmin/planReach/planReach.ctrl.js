@@ -37,7 +37,9 @@
         	if(routeName == 'planReachPrint'){
         		vm.page = 'print';
         	}
-        	
+        	if(routeName == 'planReachPackEdit'){
+        		vm.page = 'packPlanEdit';
+        	}
         	vm.formatNumber=function(number){
         		number=(number==''||number==undefined||number==null?0:parseFloat(number));
         		return number;
@@ -197,6 +199,8 @@
         		planReachSvc.getApplicationById(vm);
         	}
         	planReachSvc.getUserUnit(vm);//获取当前登陆单位信息
+        	planReachSvc.getShenBaoInfoFromPlanReachApplicationGrid(vm);//获取计划下达中的申报项目
+        	planReachSvc.getPackFromPlanGrid(vm);//获取计划下达中的打包计划
         	//项目批量选择
         	$(document).on('click', '#projects', function () {
                 var isSelected = $(this).is(':checked');
@@ -209,46 +213,63 @@
 			        keyboard:true
         		});
         	};
-        	//确认添加申请的项目
-        	vm.confirmProject=function(projectNumber,projectName,isIncludYearPlan,projectInvestSum,projectId){
-        		common.initJqValidation();
-    			var isValid = $('form').valid();
-    			if(isValid){
-    				var applicationTime = parseInt(kendo.toString(new Date(vm.model.applicationTime),"yyyy"));//查询条件：下一年度计划的计划年度为本年
-    				//先判断是否有申报集合
-            		if(vm.model.shenBaoInfoDtos){
-            			//判断是否是重复添加
-            			var isHas=false;
-            			vm.model.shenBaoInfoDtos.every(function (item, i) {
-            			    if (item.projectNumber == projectNumber) {
-            			    	isHas=true;
-            			    	return false;//如果是重复的，则停止循环
-            			    }
-            			    return true;
-            			});
-            			if(!isHas){//如果不重复
-                			if(isIncludYearPlan){//判定是否已纳入年度计划
-            					planReachSvc.getShenBaoInfoByProjectNumber(vm,projectNumber,isIncludYearPlan,applicationTime,true);
-            				}else{
-            					vm.model.shenBaoInfoDtos.push({projectId:projectId,projectNumber:projectNumber,projectName:projectName,isIncludYearPlan:isIncludYearPlan,
-            						projectInvestSum:projectInvestSum,capitalAP_ggys_TheYear:0,capitalAP_gtzj_TheYear:0,sqPlanReach_ggys:0,sqPlanReach_gtzj:0,
-            						processStage:common.basicDataConfig().processStage_qianshou,processState:common.basicDataConfig().processState_weikaishi,planYear:applicationTime});
-            					}
-            				}
-            			}else{//如果没有申报集合
-                			if(isIncludYearPlan){//判定添加的项目是否已纳入年度计划
-            					//需要根据项目代码查询年度计划
-            					planReachSvc.getShenBaoInfoByProjectNumber(vm,projectNumber,isIncludYearPlan,applicationTime,false);
-            				}else{
-                				vm.model.shenBaoInfoDtos=[{projectId:projectId,projectNumber:projectNumber,projectName:projectName,isIncludYearPlan:isIncludYearPlan,
-                					projectInvestSum:projectInvestSum,capitalAP_ggys_TheYear:0,capitalAP_gtzj_TheYear:0,sqPlanReach_ggys:0,sqPlanReach_gtzj:0,
-                					processStage:common.basicDataConfig().processStage_qianshou,processState:common.basicDataConfig().processState_weikaishi,planYear:applicationTime}];
-            				}
-        				}
-    			}else{
-    				$("#myModal").modal('hide');
-    			}     		
+        	//展示项目数据模态框 在打包计划中添加单列项目时使用
+        	vm.addProjectForPack =function(){
+        		planReachSvc.projectForPackGrid(vm);
+        		$("#projectModalForPack").modal({
+			        backdrop: 'static',
+			        keyboard:true
+        		});
         	};
+        	vm.addPack = function(){
+        		//展示包含本单位的打包类计划
+        		$("#packModal").modal({
+			        backdrop: 'static',
+			        keyboard:true
+        		});
+        	};
+        	
+        	//点击添加项目模态框确认按钮
+    		vm.dialogConfirmSubmit_shenBaoInfo=function(){
+    			//获取选中的申报信息的id
+    			var selectIds = common.getKendoCheckId('.projectsGrid');
+                if (selectIds.length == 0) {
+                	common.alert({
+                    	vm:vm,
+                    	msg:'请选择数据!'             	
+                    });
+                } else {
+                	var ids=[];
+                    for (var i = 0; i < selectIds.length; i++) {
+                    	ids.push(selectIds[i].value);
+    				}
+                    var idStr=ids.join(',');    
+                    $('#addPackList').modal('toggle');//关闭模态框
+                    planReachSvc.addShenBaoInfoToPlanReach(vm,idStr);//添加申报信息到计划下达中                  
+                }   
+    		};
+    		
+    		//点击添加打包计划模态框确认按钮
+    		vm.dialogConfirmSubmit_packPlan = function(){
+    			//获取选中的申报信息的id
+    			var selectIds = common.getKendoCheckId('.packsGrid');
+                if (selectIds.length == 0) {
+                	common.alert({
+                    	vm:vm,
+                    	msg:'请选择数据!'             	
+                    });
+                } else {
+                	var ids=[];
+                    for (var i = 0; i < selectIds.length; i++) {
+                    	ids.push(selectIds[i].value);
+    				}
+                    var idStr=ids.join(',');    
+                    console.log(idStr);
+                    $('#addPackList').modal('toggle');//关闭模态框
+                    planReachSvc.addPackPlanToPlanReack(vm,idStr);//添加申报信息到计划中                  
+                }   
+    		};
+        	
         	//检查已纳入年度计划的计划下达申请资金
         	vm.checkNum_ggys=function(id,compared){
         		vm.unqualifiedNum_ggys=false;
@@ -285,19 +306,32 @@
     				}  
                 }   
         	};
+        	
+        	//添加打包计划
+        	vm.confirmPack = function(name,totalMoney,year){
+        		if(vm.model.packPlanDtos){
+        			vm.model.packPlanDtos.push({name:name,totalMoney:totalMoney,capital_ggys:'',capital_gtzj:'',capital_ggys:'',capital_gtzj:'',year:year});
+            	}else{
+            		vm.model.packPlanDtos=[{name:name,totalMoney:totalMoney,capital_ggys:'',capital_gtzj:'',capital_ggys:'',capital_gtzj:'',year:year}];
+            	}
+        	};
+        	//移除打包计划
+        	vm.removePack = function(idx){
+        		vm.model.packPlanDtos.splice(idx,1);
+        	};
+        	
+        	//移除打包计划中的申报项目
+        	vm.removeProjectForPack = function(idx){
+        		vm.model.packPlanDtos.shenBaoInfoDtos.splice(idx,1);
+        	};
+        	
         	//移除申请的项目
         	vm.removeProject=function(idx){
         		vm.model.shenBaoInfoDtos.splice(idx,1)
         	};
         	//确认新增申请
         	vm.addApplication=function(){
-        		common.confirm({
-    				vm : vm,
-					msg : "确认创建之后，开始审批流程！是否确认？",
-					fn : function() {
-						planReachSvc.createApplication(vm);
-					}
-        		});
+        		planReachSvc.createApplication(vm);
         	};
         	//确认更新申请
         	vm.editApplication=function(){
@@ -325,6 +359,45 @@
         	};
         }//end fun print
         
+        /**
+         * 计划下达中打包计划页面
+         */
+        function packPlanEdit(){
+//        	planReachSvc.getPackPlanById(vm);
+        	planReachSvc.getUserUnit(vm);//获取当前登陆单位信息
+        	planReachSvc.getShenBaoInfoGridFromPackPlan(vm);
+        	
+        	vm.addProject=function(){
+        		//展示项目数据模态框
+        		$("#myModal").modal({
+			        backdrop: 'static',
+			        keyboard:true
+        		});
+        	};
+        	
+        	//点击添加项目模态框确认按钮
+    		vm.dialogConfirmSubmit_shenBaoInfo=function(){
+    			//获取选中的申报信息的id
+    			var selectIds = common.getKendoCheckId('.projectsGrid');
+                if (selectIds.length == 0) {
+                	common.alert({
+                    	vm:vm,
+                    	msg:'请选择数据!'             	
+                    });
+                } else {
+                	var ids=[];
+                    for (var i = 0; i < selectIds.length; i++) {
+                    	ids.push(selectIds[i].value);
+    				}
+                    var idStr=ids.join(',');    
+                    $('#addPackList').modal('toggle');//关闭模态框
+                    planReachSvc.addShenBaoInfoToPlanReach(vm,idStr);//添加申报信息到计划下达中                  
+                }   
+    		};
+        	
+        	
+        }//end fun packPlanEdit
+        
         active();
         function active(){
         	init();
@@ -336,6 +409,9 @@
         	}
         	if(vm.page == 'print'){
         		print();
+        	}
+        	if(vm.page == 'packPlanEdit'){
+        		packPlanEdit();
         	}
         }//end fun active
     }

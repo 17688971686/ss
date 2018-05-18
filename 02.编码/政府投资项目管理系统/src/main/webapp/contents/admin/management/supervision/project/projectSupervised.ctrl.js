@@ -18,9 +18,7 @@
         vm.id=$state.params.id;
         vm.projectInvestmentType=$state.params.projectInvestmentType;
         vm.page="list";
-        // debugger;
         function init(){
-            // debugger;
             var routeName=$state.current.name;
             if($state.current.name=='project'){
                 vm.isZFInvestment = true;
@@ -84,8 +82,6 @@
                 return $sce.trustAsHtml(val);
             };
 
-            //	alert(1);
-            debugger;
             //用于查询、编辑、新增--基础数据
             vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
             vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类型
@@ -222,7 +218,6 @@
 
         }
         vm.onchange = function onchangeValue(value) {
-            debugger;
             if(value =="请选择" ){
                 $("#shenpiName").val("");
             }else{
@@ -512,7 +507,6 @@
                 }
                 // vm.basicData.investmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);//项目投资类型
                 // vm.basicData.shenpiUnit = common.getBacicDataByIndectity(common.basicDataConfig().shenpiUnit);//审批单位
-                debugger;
                 if(vm.search.shenpiUnit !=null && vm.search.shenpiUnit !=''){//查询条件--审批事项
                     filters.push({field:'shenpiUnit',operator:'eq',value:vm.search.shenpiUnit});
                 }
@@ -631,14 +625,14 @@
             projectSupervisedSvc.getUserUnits(vm);
 
             //获取项目类型， 多选
-            vm.updateSelection = function(id){
-                var index = vm.model.projectType.indexOf(id);
-                if(index == -1){
-                    vm.model.projectType.push(id);
-                }else{
-                    vm.model.projectType.splice(index,1);
-                }
-            };
+//            vm.updateSelection = function(id){
+//                var index = vm.model.projectType.indexOf(id);
+//                if(index == -1){
+//                    vm.model.projectType.push(id);
+//                }else{
+//                    vm.model.projectType.splice(index,1);
+//                }
+//            };
             //end#基础数据
 
             //批复文件上传

@@ -4,6 +4,7 @@ import java.util.List;
 
 import cs.domain.YearPlan;
 import cs.model.PageModelDto;
+import cs.model.DomainDto.PackPlanDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.YearPlanDto;
 import cs.model.Statistics.sttisticsData;
@@ -36,4 +37,14 @@ public interface YearPlanService extends IService<YearPlanDto, YearPlan, String>
 	List<sttisticsData> getyearPlanByHYData();
 	
 	List<sttisticsData> getyearPlanInvestSourceData();
+	
+	PageModelDto<YearPlanDto> getYearPlanAllocationCapital(String unitId,ODataObj odataObj);//根据建设单位id查找，包含本建设单位的打包计划
+	
+	PageModelDto<PackPlanDto> getYearPlanPack(String planId,ODataObj odataObj);
+	
+	void addYearPlanPacks(String planId,String[] ids);
+	
+	void addYearPlanPack(String planId,String packId);
+	
+	void removeYearPlanPack(String planId,String[] yearPlanPackId);
 }

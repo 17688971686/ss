@@ -45,6 +45,10 @@ public class PlanReachApplication extends BaseEntity{
 	//关联信息
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<ShenBaoInfo> shenBaoInfos=new ArrayList<>();
+	
+	//begin#关联信息
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<PackPlan> packPlans = new ArrayList<>();
 
 	public String getId() {
 		return id;
@@ -102,4 +106,11 @@ public class PlanReachApplication extends BaseEntity{
 		this.resPersonTel = resPersonTel;
 	}
 
+	public List<PackPlan> getPackPlans() {
+		return packPlans;
+	}
+
+	public void setPakckPlans(List<PackPlan> packPlans) {
+		this.packPlans = packPlans;
+	}
 }

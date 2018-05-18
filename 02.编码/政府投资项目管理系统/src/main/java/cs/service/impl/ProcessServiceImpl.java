@@ -1,13 +1,9 @@
 package cs.service.impl;
 
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -19,7 +15,6 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.activiti.engine.HistoryService;
-import org.activiti.engine.ProcessEngineConfiguration;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricProcessInstance;
@@ -30,12 +25,10 @@ import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
 import org.activiti.spring.ProcessEngineFactoryBean;
 import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import com.google.gson.Gson;
 
@@ -50,10 +43,8 @@ import cs.domain.framework.Org;
 import cs.domain.framework.Org_;
 import cs.domain.framework.Role;
 import cs.domain.framework.User;
-import cs.domain.framework.User_;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
-import cs.model.DomainDto.TaskHeadDto;
 import cs.repository.framework.OrgRepo;
 import cs.repository.framework.UserRepo;
 import cs.repository.impl.ShenBaoInfoRepoImpl;
@@ -61,9 +52,7 @@ import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.repository.odata.ODataObjNew;
 import cs.service.framework.UserService;
-import cs.service.framework.UserServiceImpl;
 import cs.service.interfaces.ProcessService;
-import jxl.write.Blank;
 /**
  * @Description: 审批流程服务层
  * @author: neo
@@ -764,6 +753,11 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		pageModelDto.setValue(shenBaoInfoDtos);
 		
 		return pageModelDto;
+	}
+
+	@Override
+	public List<ShenBaoInfoDto> findByDto(ODataObj odataObj) {
+		return null;
 	}
 	
 	

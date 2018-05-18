@@ -12,6 +12,9 @@ import cs.domain.YearPlan;
  */
 public class YearPlanDto extends YearPlan {
 	List<YearPlanCapitalDto> yearPlanCapitalDtos=new ArrayList<>();
+	
+	List<PackPlanDto> packPlanDtos = new ArrayList<>();
+	
 
 	public List<YearPlanCapitalDto> getYearPlanCapitalDtos() {
 		return yearPlanCapitalDtos;
@@ -20,6 +23,12 @@ public class YearPlanDto extends YearPlan {
 	public void setYearPlanCapitalDtos(List<YearPlanCapitalDto> yearPlanCapitalDtos) {
 		this.yearPlanCapitalDtos = yearPlanCapitalDtos;
 	}
-	
-	
+
+	public List<PackPlanDto> getPackPlanDtos() {
+		return packPlanDtos;
+	}
+
+	public void setPackPlanDtos(List<PackPlanDto> packPlanDtos) {
+		this.packPlanDtos = packPlanDtos;
+	}
 }

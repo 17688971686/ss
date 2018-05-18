@@ -9,15 +9,16 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+
 /**
- * @Description: 年度计划表
- * @author: cx
- * @Date：2017年7月10日
- * @version：0.1
+ * @Description:年度计划打包表
+ * @author: wxy
+ * @date: 2018年04月26日
  */
 @Entity
-@Table(name="cs_yearPlan")
-public class YearPlan extends BaseEntity{
+@Table(name="cs_packPlan")
+public class PackPlan extends BaseEntity{
 	@Id
 	private String id;
 	
@@ -33,14 +34,12 @@ public class YearPlan extends BaseEntity{
 	@Column(columnDefinition="double(13,4) DEFAULT 0.0 COMMENT '总指标'")
 	private Double totalMoney=0.0;
 	
-	
 	//begin#关联信息
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<AllocationCapital> allocationCapitals=new ArrayList<>();
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	private List<YearPlanCapital> yearPlanCapitals=new ArrayList<>();
-	
-	@OneToMany(cascade=CascadeType.ALL)
-	private List<PackPlan> packPlans = new ArrayList<>();
+	private List<ShenBaoInfo> shenBaoInfos=new ArrayList<>();
 	
 	public String getId() {
 		return id;
@@ -74,14 +73,6 @@ public class YearPlan extends BaseEntity{
 		this.remark = remark;
 	}
 
-	public List<YearPlanCapital> getYearPlanCapitals() {
-		return yearPlanCapitals;
-	}
-
-	public void setYearPlanCapitals(List<YearPlanCapital> yearPlanCapitals) {
-		this.yearPlanCapitals = yearPlanCapitals;
-	}
-
 	public Double getTotalMoney() {
 		return totalMoney;
 	}
@@ -90,14 +81,20 @@ public class YearPlan extends BaseEntity{
 		this.totalMoney = totalMoney;
 	}
 
-	public List<PackPlan> getPackPlans() {
-		return packPlans;
+	public List<AllocationCapital> getAllocationCapitals() {
+		return allocationCapitals;
 	}
 
-	public void setPackPlans(List<PackPlan> packPlans) {
-		this.packPlans = packPlans;
+	public void setAllocationCapitals(List<AllocationCapital> allocationCapitals) {
+		this.allocationCapitals = allocationCapitals;
+	}
+
+	public List<ShenBaoInfo> getShenBaoInfos() {
+		return shenBaoInfos;
+	}
+
+	public void setShenBaoInfos(List<ShenBaoInfo> shenBaoInfos) {
+		this.shenBaoInfos = shenBaoInfos;
 	}
 	
-	
-
 }

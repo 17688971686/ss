@@ -20,6 +20,8 @@ public class YearPlanMapper implements IMapper<YearPlanDto, YearPlan> {
 	ICurrentUser currentUser;
 	@Autowired
 	YearPlanCapitalMapper yearPlanCapitalMapper;
+	@Autowired
+	PackPlanMapper packPlanMapper;
 	
 	
 	@Override
@@ -41,6 +43,9 @@ public class YearPlanMapper implements IMapper<YearPlanDto, YearPlan> {
 			entity.getYearPlanCapitals().stream().forEach(x->{
 				yearPlanDto.getYearPlanCapitalDtos().add(yearPlanCapitalMapper.toDto(x));				
 			});
+			entity.getPackPlans().stream().forEach(x->{
+				yearPlanDto.getPackPlanDtos().add(packPlanMapper.toDto(x));
+			});
 		}
 		return yearPlanDto;
 	}
@@ -55,6 +60,7 @@ public class YearPlanMapper implements IMapper<YearPlanDto, YearPlan> {
 			entity.setName(dto.getName());
 			entity.setRemark(dto.getRemark());
 			entity.setTotalMoney(dto.getTotalMoney());
+			
 			//基础数据
 			entity.setCreatedBy(dto.getCreatedBy());
 			entity.setCreatedDate(dto.getCreatedDate());		

@@ -126,6 +126,13 @@
 	        	controller: 'planReachCtrl',
 	        	controllerAs: 'vm'
 	        })
+	        .state('planReachPackEdit', {
+	            url: '/planReach/packPlan/addProject/:id',
+	            params:{"id":null},  
+	        	templateUrl:'/shenbaoAdmin/planReach/html/packPlan', 
+	        	controller: 'planReachCtrl',
+	        	controllerAs: 'vm'
+	        })
 /**********************************************end#计划下达*********************************/	        
 	        	        	        
  /**********************************************begin#项目申报****************************/

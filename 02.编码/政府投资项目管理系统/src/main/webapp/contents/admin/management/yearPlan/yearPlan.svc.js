@@ -16,7 +16,8 @@
 		var url_back_shenbaoInfoList="/yearPlan/shenbaoInfoList";
 		var url_exportExcel="/common/exportExcel";
 		var url_basicData="/management/basicData";
-		
+		var url_packPlan = '/management/packPlan';
+		var url_back_packPlan = '#/yearPlan/packList';
 		var service = {
 			//年度计划项目库相关
 			grid_shenbaoInfoList : grid_shenbaoInfoList,//政投申报项目列表
@@ -44,8 +45,223 @@
 			getUserUnit:getUserUnit,//获取用户单位信息
 			exportExcelForYS:exportExcelForYS,//导出印刷版Excel
 			savePackageType:savePackageType,//保存打包类型
-			updateIsMonthReport:updateIsMonthReport//更新项目是否填写月报
+			updateIsMonthReport:updateIsMonthReport,//更新项目是否填写月报
+			//年度打包计划相关
+			pack_create : pack_create,//创建打包类型
+			pack_update : pack_update,//更新打包类型
+			grid_packList : grid_packList,//打包计划列表
+			pack_delete : pack_delete,//删除打包计划
+			getPackPlanById : getPackPlanById,//根据id查找打包计划
+			grid_yearPlan_packPlan : grid_yearPlan_packPlan,//年度计划打包信息列表
+			addPackPlanToYearPlan : addPackPlanToYearPlan,//把打包计划关联到年度计划中
+			grid_packListForYeanPlan : grid_packListForYeanPlan,//为年度计划添加打包数据的显示列表
+			removeYearPlanPack : removeYearPlanPack//移除年度计划中打包类
 		};
+		
+		function removeYearPlanPack(vm,yearPlanPackId){
+			var httpOptions = {
+					method : 'post',
+					url : common.format(url_planList+"/removePack?planId={0}",vm.id),
+					data:yearPlanPackId
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function() {	
+						common.alert({
+							vm:vm,
+							msg:"操作成功!",
+							fn:function() {
+								$('.alertDialog').modal('hide');
+							}
+						});
+					}						
+				});
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});	
+		}//end fun removeYearPlanPack
+		
+		function addPackPlanToYearPlan(vm,ids){
+			var httpOptions = {
+					method : 'post',
+					url : common.format(url_planList+"/addPackPlan/{0}",vm.id),
+					data:ids
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function() {
+						common.alert({
+							vm : vm,
+							msg : "操作成功",
+							fn : function() {
+								$('.alertDialog').modal('hide');
+								//查询年度计划统计数据--更新页面数据
+								getPlanStatisticsInfo(vm);
+								vm.packGridOptions.dataSource.read();//编制打包计划列表数据刷新								
+							}
+						});
+					}
+				});
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});			
+		}//end fun addPackPlanToYearPlan
+		
+		
+		function pack_delete(vm,id){
+			//vm.isSubmit = true;
+			var httpOptions = {
+					method : 'post',
+					url : url_packPlan+'/deletePackPlan',
+					data : id
+				};
+				
+				var httpSuccess = function success(response) {	
+					common.requestSuccess({
+						vm:vm,
+						response:response,
+						fn:function() {	
+							common.alert({
+								vm:vm,
+								msg:"操作成功!",
+								fn:function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');
+									$('.modal-backdrop').remove();
+									vm.gridOptions_packList.dataSource.read();//列表数据刷新
+								}
+							});
+						}						
+					});
+				};
+
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+		}//end fun pack_delete
+		
+		function getPackPlanById(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_packPlan + "?$filter=id eq '{0}'", vm.id)					
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.model=response.data.value[0] || {};
+				console.log(vm.model);
+				vm.model.allocationCapitalDtos = vm.model.allocationCapitals;
+				//刷新文字输入长度
+				vm.checkLength(vm.model.remark,500,'remarkTips');
+				//vm.planYear = vm.model.plan.year;//用于编制列表表头年份的绑定
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}//end fun getPackPlanById
+		
+		function pack_update(vm){
+			common.initJqValidation();
+			var isValid = $('form').valid();
+			if (isValid) {
+				vm.isSubmit = true;
+				
+				var httpOptions = {
+					method : 'post',
+					url : url_planList+'/updatePackPlan',
+					data : vm.model
+				};
+				
+				var httpSuccess = function success(response) {	
+					common.requestSuccess({
+						vm:vm,
+						response:response,
+						fn:function() {	
+							common.alert({
+								vm:vm,
+								msg:"操作成功",
+								fn:function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');
+									$('.modal-backdrop').remove();
+									location.href = url_back_packPlan;
+								}
+							});
+						}						
+					});
+				};
+
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+			}
+		}//end fun pack_update
+		
+		function pack_create(vm){
+			common.initJqValidation();
+			var isValid = $('form').valid();
+			if (isValid) {
+				vm.isSubmit = true;
+				
+				var httpOptions = {
+					method : 'post',
+					url : url_packPlan,
+					data : vm.model
+				};
+				
+				var httpSuccess = function success(response) {	
+					common.requestSuccess({
+						vm:vm,
+						response:response,
+						fn:function() {	
+							common.alert({
+								vm:vm,
+								msg:"操作成功",
+								fn:function() {
+									vm.isSubmit = false;
+									$('.alertDialog').modal('hide');
+									$('.modal-backdrop').remove();
+									location.href = url_back_packPlan;
+								}
+							});
+						}						
+					});
+				};
+
+				common.http({
+					vm:vm,
+					$http:$http,
+					httpOptions:httpOptions,
+					success:httpSuccess
+				});
+			}
+		}//end pack_create()
+		
 		
 		function updateIsMonthReport(vm){
 			vm.isSumbit=true;
@@ -789,6 +1005,12 @@
 					vm.planYear = vm.model.plan.year;//用于编制列表表头年份的绑定
 					grid_yearPlan_shenbaoInfoList(vm);//查询年度计划编制中的申报信息列表
 				}
+				if(vm.page=='pack_update'){
+					vm.model=response.data.value[0] || {};
+					vm.model.allocationCapitalDtos = vm.model.allocationCapitals;
+					//vm.planYear = vm.model.plan.year;//用于编制列表表头年份的绑定
+				}
+				
 			};
 			
 			common.http({
@@ -1601,7 +1823,7 @@
 					title : "操作",
 					width : 200,
 					template : function(item) {
-						return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,"vm.deletePlan('" + item.id + "')");
+							return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,"vm.deletePlan('" + item.id + "')");
 					}
 				}
 			];
@@ -2078,5 +2300,281 @@
 			};
 			  
 		}// end#fun grid_shenbaoInfoListSH
+		
+		/**
+		 * 打包计划列表
+		 */
+		function grid_packList(vm){
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url_packPlan),
+				schema : common.kendoGridConfig().schema({
+					id : "id",
+					fields : {
+						year:{
+							type:"number"
+						}
+					}
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "createdDate",
+					dir : "desc"
+				}
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+				{
+					template : function(item) {
+						return kendo
+								.format(
+										"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+										item.id);
+					},
+					filterable : false,
+					width : 40,
+					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+
+				},
+				{
+					field : "name",
+					title : "打包计划名称",						
+					filterable : true
+				},
+				{
+					field : "year",
+					title : "计划年度",
+					width : 150,
+					filterable : {
+						number: {
+							eq: "Equal to",
+							neq: "Not equal to",
+							gte: "Greater than or equal to",//大于等于
+							gt: "Greater than",//大于
+							lte: "Less than or equal to",//小于等于
+							lt: "Less than"//小于
+						},
+					}
+				},
+				{
+					field : "createdDate",
+					title : "创建日期",
+					width : 180,
+					filterable : false,
+					template:function(item){return kendo.toString(new Date(item.createdDate), "yyyy/MM/dd HH:mm:ss");}
+				},
+				{
+					field : "",
+					title : "操作",
+					width : 200,
+					template : function(item) {
+							return common.format($('#packColumnBtns').html(),item.id,"vm.deletePack('" + item.id + "')");
+					}
+				}
+			];
+			// End:column
+
+			vm.gridOptions_packList = {					
+		            excel: {
+		                fileName: "年度计划项目库.xlsx"
+		            },
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true,
+				sortable:true,
+				scrollable:true
+			};
+		}//end fun grid_packList
+		
+		function grid_yearPlan_packPlan(vm){
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url_planList+"/"+vm.id+"/packPlanList"),
+				schema : common.kendoGridConfig().schema({
+					id : "id"
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "createdDate",
+					dir : "desc"
+				}
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+					{
+						template : function(item) {
+							return kendo
+									.format(
+											"<input type='checkbox'  relId='{0}' projectId='{1}' name='checkbox' class='checkbox'/>",
+											item.id,item.projectId);
+						},
+						filterable : false,
+						width : 40,
+						title : "<input id='checkboxAll_packList' type='checkbox'  class='checkbox'/>",
+						headerAttributes: {
+					      "class": "table-header-cell",
+					      style: "text-align: center;vertical-align: middle;"
+					    }
+
+					},
+					{
+						field : "name",
+						title : "打包计划名称",						
+						filterable : true
+					},
+					{
+						field : "year",
+						title : "计划年度",
+						width : 150,
+						filterable : {
+							number: {
+								eq: "Equal to",
+								neq: "Not equal to",
+								gte: "Greater than or equal to",//大于等于
+								gt: "Greater than",//大于
+								lte: "Less than or equal to",//小于等于
+								lt: "Less than"//小于
+							},
+						}
+					},
+					{
+						field : "createdDate",
+						title : "创建日期",
+						width : 180,
+						filterable : false,
+						template:function(item){return kendo.toString(new Date(item.createdDate), "yyyy/MM/dd HH:mm:ss");}
+					},
+
+			];
+			// End:column
+			
+			var excelExport = function(e) {
+					var data = vm.planGrid.dataSource.data();
+					var sheet = e.workbook.sheets[0];
+					var template = this.columns[8].template;
+					
+					for(var j=0;j<data.length;j++){
+						var timeFormat = template(data[j]);
+						var row = sheet.rows[j+2];
+						row.cells[4].value = vm.getBasicDataDesc(row.cells[4].value);
+						row.cells[5].value = vm.getBasicDataDesc(row.cells[5].value);
+						row.cells[6].value = vm.getBasicDataDesc(row.cells[6].value);
+						row.cells[7].value = timeFormat;
+					}
+				  };
+				  
+			  vm.packGridOptions = {
+				excel: {
+		                fileName: "年度计划编制.xlsx"
+		            	},
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true,
+				scrollable:true,
+				excelExport:excelExport
+			};
+		
+		}
+		
+		function grid_packListForYeanPlan(vm){
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url_packPlan),
+				schema : common.kendoGridConfig().schema({
+					id : "id",
+					fields : {
+						year:{
+							type:"number"
+						}
+					}
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "createdDate",
+					dir : "desc"
+				}
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+				{
+					template : function(item) {
+						return kendo
+								.format(
+										"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+										item.id);
+					},
+					filterable : false,
+					width : 40,
+					title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+
+				},
+				{
+					field : "name",
+					title : "打包计划名称",						
+					filterable : true
+				},
+				{
+					field : "year",
+					title : "计划年度",
+					width : 150,
+					filterable : {
+						number: {
+							eq: "Equal to",
+							neq: "Not equal to",
+							gte: "Greater than or equal to",//大于等于
+							gt: "Greater than",//大于
+							lte: "Less than or equal to",//小于等于
+							lt: "Less than"//小于
+						},
+					}
+				},
+				{
+					field : "createdDate",
+					title : "创建日期",
+					width : 180,
+					filterable : false,
+					template:function(item){return kendo.toString(new Date(item.createdDate), "yyyy/MM/dd HH:mm:ss");}
+				}
+			];
+			// End:column
+
+			vm.gridOptions_packListForYeanPlan = {					
+					 excel: {
+			                fileName: "年度计划项目库.xlsx"
+			            },
+					dataSource : common.gridDataSource(dataSource),
+					filterable : common.kendoGridConfig().filterable,
+					pageable : common.kendoGridConfig().pageable,
+					noRecords : common.kendoGridConfig().noRecordMessage,
+					columns : columns,
+					resizable : true,
+					sortable:true,
+					scrollable:true
+			};
+		}//end fun grid_packListForYeanPlan
+		
 	}
 })();

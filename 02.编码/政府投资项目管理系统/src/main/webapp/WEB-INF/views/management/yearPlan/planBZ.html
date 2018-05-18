@@ -140,8 +140,8 @@
 			</tr>
 		</table>
 		<div class="toolbar">
-	  		<button class="btn btn-sm btn-success" ng-click="vm.dialog_addPlan()"><span class="glyphicon glyphicon-plus"></span>添加项目计划</button> 
-	  		<button class="btn btn-sm btn-danger" ng-click="vm.removeYearPlanCapital()">移除项目计划</button>
+	  		<button class="btn btn-sm btn-success" ng-click="vm.dialog_addPlan()"><span class="glyphicon glyphicon-plus"></span>添加单列项目</button> 
+	  		<button class="btn btn-sm btn-danger" ng-click="vm.removeYearPlanCapital()">移除单列项目</button>
 	  		<button class="btn btn-sm btn-primary" ng-click="vm.isMonthReports()">批量设置是否填报</button>
 	  		<button class="btn btn-sm btn-primary" ng-click="vm.planGrid.saveAsExcel()"><span class="glyphicon glyphicon-download-alt"></span> 导出Excel</button>
 	  		<!-- <a href="/common/exportExcelForYS?planId={{vm.id}}" class="btn btn-primary btn-xs">导出印刷版</a> -->
@@ -238,7 +238,10 @@
 					</div>									
 				</div>										
 		</div> 
-         <div class="yearPlanCapitalGrid" kendo-grid="vm.planGrid" k-options="vm.planGridOptions" id="planGird"></div>
+         <div class="yearPlanCapitalGrid" kendo-grid="vm.planGrid" k-options="vm.planGridOptions" id="planGird"></div><br/>
+		<button class="btn btn-sm btn-success" ng-click="vm.dialog_addPack()"><span class="glyphicon glyphicon-plus"></span>添加打包类</button>
+		<button class="btn btn-sm btn-danger" ng-click="vm.removePack()">移除打包类</button><br/>
+         <div class="packPlanGrid" kendo-grid="vm.packGrid" k-options="vm.packGridOptions" id="packGird"></div>
     </form>
 </div>
 <!-- 年度计划添加项目的模态框 -->
@@ -314,6 +317,87 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
 				<button type="button" class="btn btn-success btn-sm" ng-click="vm.dialogConfirmSubmit()" >确认</button>						
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- 年度计划添加打包类的模态框 -->
+<div id="addPackList" class="myDialog modal fade" role="dialog">
+	<div class="modal-dialog" style="margin: 80px auto; width: 80%; max-width: 1000px;">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<span class="modal-title">添加打包类</span>
+			</div>
+			<div class="modal-body">
+				<div class="search" style="width:100%;">
+					<table class="table table-bordered" style="margin-bottom:0px;">
+			  			<!-- <tr>
+			  				<td colspan="6" class="bg-info">
+			  					<button class="btn btn-primary btn-sm pull-right" ng-click="vm.filterClear()"><span class="glyphicon glyphicon-refresh"></span>清空筛选条件</button>
+			  					<span style="padding:10px;"><strong>年度计划项目库查询</strong></span>
+			  				</td>
+			  			</tr> -->
+			  			<tr>
+			  				<td class="formAlignRight">打包名称：</td>
+			  				<td style="width:25%"><input type="text" style="width:100%" placeholder="打包名称（可少输不可输错）" ng-model="vm.search.name"/></td>
+			  				<!-- <td class="formAlignRight">项目行业：</td>
+			  				<td>
+			  					<select style="height:30px;" ng-model="vm.search.projectIndustry">
+						  			<option value="">---请选择---</option>
+						  			<option ng-repeat="x in vm.basicData.projectIndustry_ZF" value="{{x.id}}">{{x.description}}</option>
+						  		</select>
+			  				</td> -->
+			  				<td class="formAlignRight">计划年度：</td>
+			  				<td>
+			  					<input type="text" style="width:186px;" class="Wdate form-control input-sm content_change" onFocus="WdatePicker({dateFmt:'yyyy'})" onChange="" ng-model="vm.search.planYear"/>
+			  				</td>
+			  			</tr>
+			  			<!-- <tr>
+			  				<td class="formAlignRight">建设单位：</td>
+			  				<td><input type="text" style="width:100%" placeholder="单位名称（可少输不可输错）" ng-model="vm.search.constructionUnit"/></td>
+			  				<td class="formAlignRight">审批状态：</td>
+			  				<td>
+			  					<select style="height:30px;" ng-model="vm.search.auditState">
+						  			<option value="">---请选择---</option>
+						  			<option ng-repeat="x in vm.basicData.auditState" value="{{x.id}}">{{x.description}}</option>
+						  		</select>
+			  				</td>
+			  				<td class="formAlignRight">建设性质：</td>
+			  				<td>
+			  					<select style="height:30px;" ng-model="vm.search.projectConstrChar">
+						  			<option value="">---请选择---</option>
+						  			<option ng-repeat="x in vm.basicData.projectConstrChar" value="{{x.id}}">{{x.description}}</option>
+						  		</select>
+			  				</td>
+			  			</tr> -->
+			  			<!-- <tr>
+			  				<td class="formAlignRight">打包类型：</td>
+			  				<td>
+			  					<select style="height:30px;" ng-model="vm.search.packageType">
+						  			<option value="">---请选择---</option>
+						  			<option ng-repeat="x in vm.basicData.packageType" value="{{x.id}}">{{x.description}}</option>
+						  		</select>
+			  				</td>
+			  				<td colspan="4">
+			  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search()" id="addPlanSearchBtn"><span class="glyphicon glyphicon-search"></span>查询</button>
+			  				</td>
+			  			</tr> -->
+			  		</table>
+				</div>
+				<div class="toolbar"></div>
+				<div class="grid" kendo-grid="grid" k-options="vm.gridOptions_packListForYeanPlan"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-success btn-sm" ng-click="vm.dialogConfirmSubmit_packPlan()" >确认</button>						
 			</div>
 		</div>
 		<!-- /.modal-content -->
