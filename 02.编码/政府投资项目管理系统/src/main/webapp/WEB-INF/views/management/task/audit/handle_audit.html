@@ -117,14 +117,14 @@ textarea.form-control {
 				<td colspan="3" >
 					<button class="btn btn-success btn-xs" ng-click="vm.dialog_shenbaoInfo()">查看申报信息</button>
 					<button class="btn btn-success btn-xs" ng-click="vm.dialog_shenbaoInfoEdit()" >复核申报信息</button>
-					<a class="btn btn-success btn-xs" href="http://localhost:8080/pic/task/picture/{{vm.model.shenBaoInfo.zong_processId}}" target="_blank">查看流程图</a>
+					<a class="btn btn-success btn-xs" href="http://192.168.189.235:8081/pic/task/picture/{{vm.model.shenBaoInfo.zong_processId}}" target="_blank">查看流程图</a>
 				</td>
 			</tr>		
 	</table>
 	  		
 		<div class="bg-info text-info" style="padding: 10px;">科室意见</div>  		
 		<table class="table table-bordered table-striped ">
-		<tr ng-repeat="x in vm.taskRecord" ng-if="x.isJuzhang != 'yes'">
+			<tr ng-repeat="x in vm.taskRecord | orderBy:'endTime'" ng-if="x.isJuzhang != 'yes'">
 				<td class="formAlignRight" style="width:150px;"  ng-bind="x.name"></td>
 				<td>
 					<div ng-bind="x.msg"></div>
@@ -133,9 +133,9 @@ textarea.form-control {
 				</td>
 			</tr>
 		</table>
-			<div class="bg-info text-info" style="padding: 10px;">局领导意见</div>  		
+		<div class="bg-info text-info" style="padding: 10px;">局领导意见</div>  		
 		<table class="table table-bordered table-striped ">
-		<tr ng-repeat="x in vm.taskRecord" ng-if="x.isJuzhang == 'yes'">
+			<tr ng-repeat="x in vm.taskRecord | orderBy:'endTime'" ng-if="x.isJuzhang == 'yes'">
 				<td class="formAlignRight" style="width:150px;"  ng-bind="x.name"></td>
 				<td>
 					<div ng-bind="x.msg"></div>
@@ -290,7 +290,8 @@ textarea.form-control {
 					<div>
 						<button ng-if="vm.isPass == 8" class="btn btn-success btn-xs" ng-click="vm.editApproval('edit')">填写评审报批单</button>
 						<button ng-if="vm.isPass == 7" class="btn btn-success btn-xs" ng-click="vm.draftOpen('edit')">填写发文信息</button>
-					</div>
+						<!-- <a class="btn btn-success btn-xs" href="/contents/admin/management/task/plan/html/edit/edit_dj.html" target="_blank">正文</a>
+					 --></div>
 				</td>
 			</tr>
 			<tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask3' && vm.isPass == 8">

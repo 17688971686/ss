@@ -508,7 +508,7 @@
         		if(vm.isPass2 == 6){
         			vm.nextUsers = "";
         		}
-        		if((vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask4') && vm.nextUsers == ""){
+        		if((vm.model.shenBaoInfo.thisTaskName == 'usertask3' && vm.nextUsers == "" ) || (vm.model.shenBaoInfo.thisTaskName == 'usertask4'&&str == "next")){
         			common.alert({
 						vm : vm,
 						msg : "请选择经办人后提交！",

@@ -422,7 +422,7 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_task+"/"+"yearPlan"),
+				transport : common.kendoGridConfig().transport(url_task+"/"+"completeYearPlan"),
 				schema : common.kendoGridConfig().schema({
 					id : "id"					
 				}),

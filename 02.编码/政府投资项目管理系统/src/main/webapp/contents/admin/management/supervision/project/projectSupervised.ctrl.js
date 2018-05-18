@@ -115,7 +115,7 @@
         init();
         activate();
         function activate() {
-            // debugger;
+            // 
             if(vm.page=="projectItems"){
                 //vm.title='审批事项详情';
                 projectItems();
@@ -201,7 +201,7 @@
         }
         function shenpifankuiItemsList(){
             projectSupervisedSvc.shenpifankuiItemsGrid(vm);
-            // debugger;
+            // 
             vm.searchShenPiItems=function(){
                 var filters = [];
                 if(vm.search.shenpiName !=null && vm.search.shenpiName !=''){
@@ -314,7 +314,7 @@
             projectSupervisedSvc.getShenPiItemsById(vm);
             //提交选择项目  shenpiItems  detail.html
             vm.choiceProjectSubmit=function(){
-                // debugger;
+                // 
                 var str=$('input:radio[name="radio"]:checked').val();
                 if (str==""||str==null) {
 					/*common.alert({
@@ -331,7 +331,7 @@
 
             };
             vm.choiceShenPiUnitSubmit=function(){
-                // debugger;
+                // 
                 var str=$('input:radio[name="radio1"]:checked').val();
                 if (str==""||str==null) {
 					/*common.alert({
@@ -362,10 +362,10 @@
         }
         function shenpiItemsList(){
             projectSupervisedSvc.shenpiItemsGrid(vm);
-            // debugger;
+            // 
 
             vm.searchShenPiItems=function(){
-                // debugger;
+                // 
                 var filters = [];
                 if(vm.search.shenpiName !=null && vm.search.shenpiName !=''){
                     filters.push({field:'shenpiName',operator:'contains',value:vm.search.shenpiName});
@@ -429,7 +429,7 @@
             projectSupervisedSvc.shenpiUnitGrid(vm);
 
             vm.searchShenPiUnit=function(){
-                // debugger;
+                // 
                 var filters = [];
                 if(vm.search.shenpiUnitName !=null && vm.search.shenpiUnitName !=''){//查询条件--项目名称
                     filters.push({field:'shenpiUnitName',operator:'contains',value:vm.search.shenpiUnitName});
@@ -471,7 +471,7 @@
 
         }
         function init_list(){
-            // debugger;
+            // 
             if(vm.isZFInvestment){
                 projectSupervisedSvc.grid(vm);
 
@@ -488,7 +488,7 @@
 
             //统计xdf
             vm.search=function(){
-                // debugger;
+                // 
                 var filters = [];
                 filters.push({field:'isLatestVersion',operator:'eq',value:true});//默认条件--项目最新版本
                 if(vm.isZFInvestment){

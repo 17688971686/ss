@@ -61,7 +61,7 @@ public class TaskController {
 		return shenBaoInfoDtos;
 	}
 	//@RequiresPermissions("management/task#audit#get")
-		@RequestMapping(name = "获取审批类个人待办数据", path = "yearPlan", method = RequestMethod.GET)
+		@RequestMapping(name = "获取年度计划类个人待办数据", path = "yearPlan", method = RequestMethod.GET)
 		public @ResponseBody PageModelDto<ShenBaoInfoDto> getToDo_yearPlan(HttpServletRequest request) throws ParseException {
 			String str = "yearPlan";
 			ODataObjNew odataObj = new ODataObjNew(request);	
@@ -97,14 +97,24 @@ public class TaskController {
 	}
 	
 	//@RequiresPermissions("management/task#audit#get")
-		@RequestMapping(name = "获取计划类个人已办数据", path = "completePlan", method = RequestMethod.GET)
-		public @ResponseBody PageModelDto<ShenBaoInfoDto> getAudit_completePlan(HttpServletRequest request) throws ParseException {
-			String str = "plan";
-			ODataObjNew odataObj = new ODataObjNew(request);	
-			PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getAudit_complete(odataObj,str);
-			//关于流程记录根据创建用户id查找到名称用于显示
-			return shenBaoInfoDtos;
-		}
+	@RequestMapping(name = "获取计划类个人已办数据", path = "completePlan", method = RequestMethod.GET)
+	public @ResponseBody PageModelDto<ShenBaoInfoDto> getAudit_completePlan(HttpServletRequest request) throws ParseException {
+		String str = "plan";
+		ODataObjNew odataObj = new ODataObjNew(request);	
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getAudit_complete(odataObj,str);
+		//关于流程记录根据创建用户id查找到名称用于显示
+		return shenBaoInfoDtos;
+	}
+		
+	//@RequiresPermissions("management/task#audit#get")
+	@RequestMapping(name = "获取下一年度计划类个人已办数据", path = "completeYearPlan", method = RequestMethod.GET)
+	public @ResponseBody PageModelDto<ShenBaoInfoDto> getAudit_completeYearPlan(HttpServletRequest request) throws ParseException {
+		String str = "yearPlan";
+		ODataObjNew odataObj = new ODataObjNew(request);	
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getAudit_complete(odataObj,str);
+		//关于流程记录根据创建用户id查找到名称用于显示
+		return shenBaoInfoDtos;
+	}
 	
 	//@RequiresPermissions("management/task#audit#get")
 	@RequestMapping(name = "获取未进行的活动", path = "unfinished/{processId}", method = RequestMethod.GET)

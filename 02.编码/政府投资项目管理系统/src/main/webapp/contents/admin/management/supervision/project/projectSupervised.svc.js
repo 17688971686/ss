@@ -1054,19 +1054,19 @@
 				type : 'odata',
 				transport : common.kendoGridConfig().transport(common.format(url_project+"/unitName")),
 				schema : common.kendoGridConfig().schema({
-					id : "id",
-					fields : {
-						createdDate : {
-							type : "date"
-						},
-						isMonthReport:{
-							type:"boolean"
-						},
-						isIncludLibrary:{
-							type:"boolean"
-						}
-						
-					}
+					id : "id"
+//					fields : {
+//						createdDate : {
+//							type : "date"
+//						},
+//						isMonthReport:{
+//							type:"boolean"
+//						},
+//						isIncludLibrary:{
+//							type:"boolean"
+//						}
+//						
+//					}
 				}),
 				serverPaging : true,
 				serverSorting : true,

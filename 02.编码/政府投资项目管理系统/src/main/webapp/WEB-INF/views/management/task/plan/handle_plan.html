@@ -147,7 +147,7 @@ textarea.form-control {
 					<button class="btn btn-success btn-xs"
 						ng-click="vm.dialog_shenbaoInfoEdit()">复核申报信息</button> <a
 					class="btn btn-success btn-xs"
-					href="http://localhost:8080/pic/task/picture/{{vm.model.shenBaoInfo.zong_processId}}"
+					href="http://192.168.189.235:8081/pic/task/picture/{{vm.model.shenBaoInfo.zong_processId}}"
 					target="_blank">查看流程图</a>
 				</td>
 			</tr>
@@ -155,11 +155,10 @@ textarea.form-control {
 
 		<div class="bg-info text-info" style="padding: 10px;">科室意见</div>
 		<table class="table table-bordered table-striped ">
-			<tr ng-repeat="x in vm.taskRecord"
-				ng-if="x.isJuzhang != 'yes'">
+			<tr ng-repeat="x in vm.taskRecord | orderBy:'endTime'" ng-if="x.isJuzhang != 'yes'">
 				<td class="formAlignRight" style="width: 150px;" ng-bind="x.name"></td>
 				<td>
-					<div ng-bind="x.msg">
+					<div ng-bind="x.msg"></div>
 					<div class="text-right" ng-bind="x.id"></div>
 					<div class="text-right" ng-bind="vm.formatDateTime(x.endTime)"></div>
 				</td>
@@ -167,11 +166,11 @@ textarea.form-control {
 		</table>
 		<div class="bg-info text-info" style="padding: 10px;">局领导意见</div>
 		<table class="table table-bordered table-striped ">
-			<tr ng-repeat="x in vm.taskRecord"
+			<tr ng-repeat="x in vm.taskRecord | orderBy:'endTime'"
 				ng-if="x.isJuzhang == 'yes'">
 				<td class="formAlignRight" style="width: 150px;" ng-bind="x.name"></td>
 				<td>
-					<div ng-bind="x.msg">
+					<div ng-bind="x.msg"></div>
 					<div class="text-right" ng-bind="x.id"></div>
 					<div class="text-right" ng-bind="vm.formatDateTime(x.endTime)"></div>
 				</td>
@@ -287,20 +286,15 @@ textarea.form-control {
 					<div>
 						<label> <input type="checkbox" id="nextProcess"
 							name="nextProcess" ng-true-value="1"
-							ng-change="vm.selectNextProcess()" ng-model="vm.isPass"
-							data-val="true" data-val-required="必选" />经办人办理 <span
-							data-valmsg-for="nextProcess" data-valmsg-replace="true"
-							class="required"></span>
+							ng-change="vm.selectNextProcess()" ng-model="vm.isPass"/>经办人办理 
 						</label>
 					</div>
 					<div class="pull-left" ng-if="vm.isPass == '1'">
 
 						<label ng-repeat="x in vm.model.dept.userDtos"> <input
 							type="checkbox" id="nextUser" name="nextUser" value="{{x.id}}"
-							ng-click="vm.selectionUser(x.id)" data-val="true"
-							data-val-required="必选" />{{x.displayName}}&nbsp;&nbsp;
-						</label> <span data-valmsg-for="nextUser" data-valmsg-replace="true"
-							class="required"></span>
+							ng-click="vm.selectionUser(x.id)"/>{{x.displayName}}&nbsp;&nbsp;
+						</label>
 					</div>
 				</td>
 			</tr>

@@ -1,6 +1,5 @@
 package cs.service.interfaces;
 
-import cs.model.DomainDto.ShenPiItemsDto;
 import cs.model.PageModelDto;
 import cs.repository.odata.ODataObj;
 

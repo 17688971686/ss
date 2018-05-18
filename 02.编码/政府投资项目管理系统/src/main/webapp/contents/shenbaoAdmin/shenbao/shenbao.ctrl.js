@@ -1,9 +1,11 @@
 (function() {
 	'use strict';
 
-	angular.module('app').controller('shenbaoCtrl', shenbao);
+	angular
+	.module('app')
+	.controller('shenbaoCtrl', shenbao);
 
-	shenbao.$inject = [ '$location', 'shenbaoSvc', '$state', '$scope', '$sce' ];
+	shenbao.$inject = ['$location', 'shenbaoSvc', '$state', '$scope', '$sce' ];
 
 	function shenbao($location, shenbaoSvc, $state, $scope, $sce) {
 		/* jshint validthis:true */

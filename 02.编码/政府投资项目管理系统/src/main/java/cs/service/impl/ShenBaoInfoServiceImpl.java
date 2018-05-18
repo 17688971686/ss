@@ -260,100 +260,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		return entity;
 	}
 
-//	@Override
-//	@Transactional
-//	public ShenBaoInfo create(ShenBaoInfoDto dto) {
-//		ShenBaoInfo entity=super.create(dto);
-//		//因dto中创建时间和修改时间为项目的相关时间，需从新设置
-//		entity.setCreatedDate(new Date());
-//		entity.setModifiedDate(new Date());
-//		entity.setAuditState(BasicDataConfig.auditState_noAudit);//初始化审核状态--未审核
-//		//处理关联信息
-//		//begin#关联信息
-//		//附件
-//		dto.getAttachmentDtos().forEach(x -> {
-//			Attachment attachment = new Attachment();
-//			attachmentMapper.buildEntity(x, attachment);
-//			attachment.setCreatedBy(entity.getCreatedBy());
-//			attachment.setModifiedBy(entity.getModifiedBy());
-//			entity.getAttachments().add(attachment);
-//		});
-//		//申报单位
-//		ShenBaoUnitInfoDto shenBaoUnitInfoDto = dto.getShenBaoUnitInfoDto();
-//		ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
-//		shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
-//		shenBaoUnitInfo.setCreatedBy(entity.getCreatedBy());
-//		shenBaoUnitInfo.setModifiedBy(entity.getModifiedBy());
-//		entity.setShenBaoUnitInfo(shenBaoUnitInfo);
-//		//编制单位
-//		ShenBaoUnitInfoDto bianZhiUnitInfoDto = dto.getBianZhiUnitInfoDto();
-//		ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
-//		shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
-//		bianZhiUnitInfo.setCreatedBy(entity.getCreatedBy());
-//		bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
-//		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
-//		//设置申报信息的状态
-//		entity.setProcessState(BasicDataConfig.processState_tianBao);
-//		super.repository.save(entity);
-//		//初始化工作流
-//		initWorkFlow(entity,false);
-//		//处理批复文件库
-//		handlePiFuFile(entity);
-//		logger.info(String.format("创建申报信息,项目名称 :%s,申报阶段：%s",entity.getProjectName(),
-//				basicDataService.getDescriptionById(entity.getProjectShenBaoStage())));		
-//		return entity;
-//		
-//	}
-	
-//	@Override
-//	@Transactional
-//	public ShenBaoInfo update(ShenBaoInfoDto dto,String id) {
-//		ShenBaoInfo entity=super.update(dto,id);
-//		//处理关联信息
-//		//附件
-//		entity.getAttachments().forEach(x -> {//删除历史附件
-//			attachmentRepo.delete(x);
-//		});
-//		entity.getAttachments().clear();
-//		dto.getAttachmentDtos().forEach(x -> {//添加新附件
-//			Attachment attachment = new Attachment();
-//			attachmentMapper.buildEntity(x, attachment);
-//			attachment.setCreatedBy(entity.getModifiedBy());
-//			attachment.setModifiedBy(entity.getModifiedBy());
-//			entity.getAttachments().add(attachment);
-//		});
-//		
-//		//申报单位
-//		shenBaoUnitInfoRepo.delete(entity.getShenBaoUnitInfo());//删除申报单位
-//		ShenBaoUnitInfoDto shenBaoUnitInfoDto = dto.getShenBaoUnitInfoDto();
-//		ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
-//		shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
-//		shenBaoUnitInfo.setCreatedBy(entity.getModifiedBy());
-//		shenBaoUnitInfo.setModifiedBy(entity.getModifiedBy());
-//		entity.setShenBaoUnitInfo(shenBaoUnitInfo);
-//		//编制单位
-//		shenBaoUnitInfoRepo.delete(entity.getBianZhiUnitInfo());//删除编制单位
-//		ShenBaoUnitInfoDto bianZhiUnitInfoDto = dto.getBianZhiUnitInfoDto();
-//		ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
-//		shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
-//		bianZhiUnitInfo.setCreatedBy(entity.getModifiedBy());
-//		bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
-//		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
-//		//更新申报信息的审批阶段和审批状态
-//		entity.setProcessStage(BasicDataConfig.processStage_qianshou);
-//		entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
-//		super.repository.save(entity);
-//		//更新任务状态
-//		updeteWorkFlow(entity,false);
-//
-//		//更新批复文件库
-//		handlePiFuFile(entity);
-//		logger.info(String.format("更新申报信息,项目名称: %s,申报阶段：%s",entity.getProjectName(),
-//				basicDataService.getDescriptionById(entity.getProjectShenBaoStage())));		
-//		return entity;		
-//	}
-	
-
 	@Override
 	@Transactional
 	public void delete(String id) {
@@ -612,7 +518,14 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		super.repository.save(entity);
 		//更新任务状态
 //		updeteWorkFlow(entity,isAdminUpdate);
-		startProcessShenbao(processDefinitionKey,entity.getId());
+		if(entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)){
+			startProcessShenbao(processDefinitionKey_plan,entity.getId());
+		}else if(entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)){
+			entity.setProcessStage("投资科审核收件办理");
+			startProcessShenbao(processDefinitionKey_yearPlan,entity.getId());
+		}else{
+			startProcessShenbao(processDefinitionKey,entity.getId());
+		}
 		//处理批复文件库
 		handlePiFuFile(entity);
 		logger.info(String.format("更新申报信息,项目名称: %s,申报阶段：%s",entity.getProjectName(),
@@ -1209,13 +1122,10 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		Criterion criterion = Restrictions.eq(SysConfig_.configName.getName(), BasicDataConfig.taskType_shenpiFenBan);
 		SysConfig sysConfg = sysConfigRepo.findByCriteria(criterion).stream().findFirst().get();
 				
-//		Criterion criterion = Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.ROLE_OPERATOR);
-//		Optional<Role> role = roleRepo.findByCriteria(criterion).stream().findFirst();
-
 		Map<String, Object> variables = new HashMap<String, Object>();
 
 		variables.put("shenbaoInfoId", id);
-		activitiService.setStartProcessUserId(currentUser.getDisplayName());//谁启动的流程
+		activitiService.setStartProcessUserId(currentUser.getUserId());//谁启动的流程
 		
 		List<Org> findProjects = new ArrayList<>();
 		List<String> useridList = new ArrayList<>();
@@ -1256,10 +1166,10 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			throw new IllegalArgumentException(String.format("没有配置申报信息审核分办人员，请联系管理员！"));
 		}
 
-	
 		entity.setZong_processId(task.getProcessInstanceId());
 		entity.setThisTaskId(task.getId());
 		entity.setThisTaskName(task.getTaskDefinitionKey());
+		entity.setShenbaoDate(new Date());
 		super.repository.save(entity);
 		logger.info(String.format("启动审批流程,用户名:%s", currentUser.getLoginName()));
 	}

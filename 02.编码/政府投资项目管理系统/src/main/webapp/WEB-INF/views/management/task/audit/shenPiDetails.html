@@ -124,7 +124,7 @@ textarea.form-control {
 	  		
 		<div class="bg-info text-info" style="padding: 10px;">科室意见</div>  		
 		<table class="table table-bordered table-striped ">
-		<tr ng-repeat="x in vm.taskRecord " ng-if="x.isJuzhang != 'yes'"">
+		<tr ng-repeat="x in vm.taskRecord | orderBy:'endTime'" ng-if="x.isJuzhang != 'yes'"">
 				<td class="formAlignRight" style="width:150px;"  ng-bind="x.name"></td>
 				<td>
 					<div ng-bind="x.msg"></div>
@@ -135,7 +135,7 @@ textarea.form-control {
 		</table>
 			<div class="bg-info text-info" style="padding: 10px;">局领导意见</div>  		
 		<table class="table table-bordered table-striped ">
-		<tr ng-repeat="x in vm.taskRecord " ng-if="x.isJuzhang == 'yes'">
+		<tr ng-repeat="x in vm.taskRecord | orderBy:'endTime'" ng-if="x.isJuzhang == 'yes'">
 				<td class="formAlignRight" style="width:150px;"  ng-bind="x.name"></td>
 				<td>
 					<div ng-bind="x.msg"></div>

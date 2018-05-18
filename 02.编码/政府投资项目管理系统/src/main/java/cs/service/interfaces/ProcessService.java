@@ -9,7 +9,6 @@ import cs.common.Response;
 import cs.domain.ShenBaoInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
-import cs.repository.odata.ODataObj;
 import cs.repository.odata.ODataObjNew;
 
 public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, String> {
@@ -18,20 +17,24 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
 
 	List<Object> getHistoryInfo(String shenbaoInfoId);
 
+	@SuppressWarnings("rawtypes")
 	void taskComplete(Map data);
 
 	Response getAssigneeByUserId(String processId);
 
+	@SuppressWarnings("rawtypes")
 	void taskPinglun(Map data);
 
 	PageModelDto<ShenBaoInfoDto> getAudit_complete(ODataObjNew odataObj,String str);
 
 	List<HistoricActivityInstance> getUnfinished(String shenbaoInfoId);
 
+	@SuppressWarnings("rawtypes")
 	void yearPlanComplete(Map data);
 
 	Response getAssigneeByUserId_plan(String processId);
 
+	@SuppressWarnings("rawtypes")
 	void taskComplete_plan(Map data);	
 	
 }
