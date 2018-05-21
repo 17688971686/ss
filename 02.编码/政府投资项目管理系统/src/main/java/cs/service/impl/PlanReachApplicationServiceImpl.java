@@ -205,7 +205,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 		return shenBaoInfoDto;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	@Override
 	@Transactional
 	public PageModelDto<ShenBaoInfoDto> getShenBaoInfo(String planReachId, ODataObj odataObj) {
@@ -242,6 +242,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 	}
 
 	@Override
+	@Transactional
 	public void addShenBaoInfos(String planReachId, String[] ids) {
 		for (String id : ids) {
 			this.addShenBaoInfo(planReachId,id);

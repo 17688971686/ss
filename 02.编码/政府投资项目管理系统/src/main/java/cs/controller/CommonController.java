@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import cs.common.ICurrentUser;
+import cs.common.Response;
 import cs.common.Util;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.BasicDataDto;
@@ -76,6 +79,58 @@ public class CommonController {
 		   } 
 		return unicode;
 	}
+	
+	/**
+     * 根据base64，保存文件
+     *
+     * @param sysFileId
+     * @param base64String
+     * @return
+     */
+    @RequiresAuthentication
+    @RequestMapping(name = "保存文件", path = "saveByFileBase64", method = RequestMethod.POST)
+    @ResponseBody
+    public Response saveByFileBase64(@RequestParam(required = true) String sysFileId, @RequestParam(required = true) String base64String) {
+    	Response resultMsg = null;
+        String errorMsg = "";
+//        try {
+//            SysFile sysFile = sysFileRepo.findById(sysFileId);
+//            String fileUrl = sysFile.getFileUrl();
+//            String removeRelativeUrl = fileUrl.substring(0, fileUrl.lastIndexOf(File.separator));
+//            String uploadFileName = fileUrl.substring(fileUrl.lastIndexOf(File.separator) + 1, fileUrl.length());
+//            //上传到ftp,
+//            Ftp f = sysFile.getFtp();
+//            FtpUtils ftpUtils = new FtpUtils();
+//            FtpClientConfig k = ConfigProvider.getUploadConfig(f);
+//            Base64 decoder = new Base64();
+//            boolean uploadResult = ftpUtils.putFile(k, removeRelativeUrl, uploadFileName, new ByteArrayInputStream(decoder.decode(base64String)));
+//            if (uploadResult) {
+//                //保存数据库记录
+//                sysFile.setModifiedBy(SessionUtil.getDisplayName());
+//                sysFile.setModifiedDate(new Date());
+//                sysFileService.update(sysFile);
+//                resultMsg = new ResultMsg(true, Constant.MsgCode.OK.getValue(), "文件保存成功！修改的文件名是【" + sysFile.getShowName() + "】");
+//            } else {
+//                resultMsg = new ResultMsg(false, MsgCode.ERROR.getValue(), "文件保存失败！修改的文件名是【" + sysFile.getShowName() + "】");
+//            }
+//        } catch (Exception e) {
+//            errorMsg += e.getMessage();
+//            resultMsg = new ResultMsg(false, MsgCode.ERROR.getValue(), "文件保存异常！");
+//        }
+//        //添加日记记录
+//        Log log = new Log();
+//        log.setCreatedDate(new Date());
+//        log.setUserName(SessionUtil.getDisplayName());
+//        log.setLogCode(resultMsg.getReCode());
+//        log.setBuninessId(sysFileId);
+//        log.setMessage(resultMsg.getReMsg() + errorMsg);
+//        log.setModule(Constant.LOG_MODULE.FILEUPDATE.getValue());
+//        log.setResult(resultMsg.isFlag() ? Constant.EnumState.YES.getValue() : Constant.EnumState.NO.getValue());
+//        log.setLogger(this.getClass().getName() + ".saveByFileBase64");
+//        log.setLogLevel(Constant.EnumState.PROCESS.getValue());
+//        logService.save(log);
+        return resultMsg;
+    }
 	
 	@RequiresPermissions("common#save#post")
 	@RequestMapping(name = "上传文件", path = "save", method = RequestMethod.POST,produces ="application/json;charset=UTF-8")
