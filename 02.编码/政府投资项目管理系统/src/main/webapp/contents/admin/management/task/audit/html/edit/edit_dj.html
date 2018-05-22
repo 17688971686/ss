@@ -174,18 +174,18 @@
 					<td style="text-align: center;">
 						<p style="padding: 0px; margin: 0px;">
 							<span>温馨提示：</span><span>在线编辑插件只支持IE浏览器; 如果页面无法显示在线编辑控件，请先<a
-								href="${path}/${pluginFilePath}">下载</a>控件并安装，重新刷新页面即可！
+								href="/contents/download/WebOffice.zip">下载</a>控件并安装，重新刷新页面即可！
 							</span>
 						</p>
 					</td>
 				</tr>
-				<tr>
+				<!-- <tr>
 					<td style="text-align: center;"><span
 						style="margin-left: 20px;">
 							<button type=button class="btn" onclick="WebSave();">保存</button>
 							<button type=button class="btn" onclick="showPrintDialog();">打印</button>
 					</span></td>
-				</tr>
+				</tr> -->
 			</tbody>
 		</table>
 	</div>
@@ -193,8 +193,33 @@
 		<script language=javascript
 			src="/contents/libs/weboffice/LoadWebOffice.js" charset="utf-8"></script>
 	</div>
-	<!-- --------------------=== 调用Weboffice初始化方法 ===--------------------- -->
-	<script type="text/javascript">
+	
+<!-- --------------------=== 调用Weboffice初始化方法 ===--------------------- -->
+<script language=javascript event=NotifyCtrlReady for=WebOffice>
+   /****************************************************
+    *
+    *	在装载完Weboffice(执行<object>...</object>)
+    *	控件后执行 "WebOffice1_NotifyCtrlReady"方法
+    *
+    ****************************************************/
+   WebOffice_OpenOfficeFile();
+</script>
+
+<script type="text/javascript">
+    var fileType = '${fileType}';
+    var sysFileId = '${sysFileId}';
+    var fileUrl = '${fileUrl}';
+    function WebOffice_OpenOfficeFile(){
+        try{
+            document.all.WebOffice.OptionFlag |= 0x0400;
+            document.all.WebOffice.LoadOriginalFile(fileUrl+"/file/fileDownload?sysfileId="+sysFileId,fileType);
+        }catch(e){
+            alert("异常\r\nError:"+e+"\r\nError Code:"+e.number+"\r\nError Des:"+e.description);
+        }
+    }
+</script>	
+
+<script type="text/javascript">
 
 /****************************************************
 *
@@ -203,8 +228,8 @@
 ****************************************************/
 function WebSave(){
    //先判断文件是否被修改，如果被修改，则更新；否则不做处理
-   var isSaved = document.all.WebOffice.IsSaved();
-   if(isSaved == 0){
+  /*  var isSaved = document.all.WebOffice.IsSaved(); */
+   /* if(isSaved == 0){ */
        var base64Value =document.all.WebOffice.GetFileBase64("",0);
        $.ajax({
            type: 'POST',
@@ -221,9 +246,9 @@ function WebSave(){
                }
            },
        });
-   }else{
+  /*  }else{
        alert("文件未改动,无需保存！");
-   }
+   } */
 }
 
 /****************************************************

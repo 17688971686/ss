@@ -10,25 +10,23 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.jasig.cas.client.util.AssertionHolder;
 import org.jasig.cas.client.validation.Assertion;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import com.huasisoft.h1.api.org.PersonManager;
+import com.huasisoft.h1.model.ORGPerson;
+import com.huasisoft.h1.util.HuasisoftUtil;
 
 import cs.domain.framework.User;
-import cs.service.framework.UserService;
-import net.risesoft.model.Person;
-import net.risesoft.util.RisesoftUtil;
 
 public class CheckUserLoginFilter_RC8 implements Filter {
-
-	@Autowired
-	private UserService userService;
+	private static Logger logger = Logger.getLogger(CheckUserLoginFilter_RC8.class);
 	
     public CheckUserLoginFilter_RC8() {
     	
@@ -47,7 +45,17 @@ public class CheckUserLoginFilter_RC8 implements Filter {
 			String loginName = ap.getName();
 			Map<String, Object> attr = ap.getAttributes();
 			loginUID = attr.get("ID").toString();
-			Person person = RisesoftUtil.getPersonManager().getPerson(loginUID);
+//			Person person = RisesoftUtil.getPersonManager().getPerson(loginUID);
+			System.out.println(loginUID);
+			PersonManager oum = HuasisoftUtil.getPersonManager();
+			ORGPerson person = null;
+			try {
+				person = oum.get(loginUID);
+				System.out.println("person:" +person);
+			} catch (Exception e) {
+				logger.info("查询工作台任务数据");
+				e.printStackTrace();
+			}
 			User user = new User();
 			
 			String country = person.getCountry();
