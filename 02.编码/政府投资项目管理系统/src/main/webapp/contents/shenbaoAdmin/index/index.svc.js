@@ -27,7 +27,11 @@
 		function getProjectById(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_project + "?$filter=id eq '{0}'", vm.model.monthReport.projectId)				
+					url :url_project,
+					data:{
+						"id":vm.model.monthReport.projectId
+					}
+//					url : common.format(url_project + "?$filter=id eq '{0}'", vm.model.monthReport.projectId)				
 				};
 			
 			var httpSuccess = function success(response) {

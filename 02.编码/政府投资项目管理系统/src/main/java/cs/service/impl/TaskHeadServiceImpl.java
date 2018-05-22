@@ -254,6 +254,8 @@ public class TaskHeadServiceImpl extends AbstractServiceImpl<TaskHeadDto, TaskHe
 		if(BasicDataConfig.processState_mskfawen.equals(processStage) && processState == BasicDataConfig.processState_pass)//||BasicDataConfig.processState_niwendengji.equals(processStage) && processState == BasicDataConfig.processState_pass
 		{
 			return true;
+		}else if(processState == BasicDataConfig.processState_tuiwen){
+			return true;
 		}else{
 			return false;
 		}

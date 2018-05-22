@@ -142,7 +142,11 @@
 		function getProjectById(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_project + "?$filter=id eq '{0}'", vm.id)
+					url : url_project,
+					data:{
+						"id": vm.id
+					}
+//					url : common.format(url_project + "?$filter=id eq '{0}'", vm.id)
 				};
 			
 			var httpSuccess = function success(response) {
@@ -206,7 +210,11 @@
 		function getProjectUnit(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_userUnit + "/id?$filter=id eq '{0}'", vm.model.unitName)
+					url : url_userUnit + "/id",
+					data:{
+						"id": vm.model.unitName
+					}					
+//					url : common.format(url_userUnit + "/id?$filter=id eq '{0}'", vm.model.unitName)
 				};
 				var httpSuccess = function success(response) {
 					vm.userUnit = response.data.value[0] || {};
@@ -261,7 +269,6 @@
 						url : url_project+"/unitProject",
 						data : vm.model
 					};
-
 					var httpSuccess = function success(response) {
 						common.requestSuccess({
 							vm : vm,
@@ -280,7 +287,6 @@
 							}
 						});
 					};
-
 					common.http({
 						vm : vm,
 						$http : $http,
