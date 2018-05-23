@@ -54,13 +54,14 @@
                 //vm.model.password=$.md5(vm.model.password); MD5加密
               //对密码进行RSA加密
 				var key = $("#rsaPrivateKey").val();//获取公钥信息
+				
                 var rsa = new RSAKey();
                 rsa.setPublic(key, "10001");
-                vm.model.old_password = vm.model.textPassword;
+//                vm.model.old_password = vm.model.textPassword;
+                vm.model.password = rsa.encrypt(vm.model.textPassword);//密码RSA公钥加密
                 vm.sendModel= vm.model;
                 vm.sendModel.password = rsa.encrypt(vm.model.textPassword);
                 vm.sendModel.textPassword ="";
-                //vm.model.password = rsa.encrypt(vm.model.password);//密码RSA公钥加密
                 
                 var httpOptions = {
                     method: 'post',
@@ -75,13 +76,7 @@
                     	fn:function () {
                             var isSuccess = response.data.success;
                             if (isSuccess) {
-                                vm.message = "";
-                                var reg = new RegExp(/^(?=.*[a-zA-Z])(?=.*[0-9]).*.{8,}$/);
-                               	if(reg.test(vm.model.old_password)){
-                               		location.href = "/shenbaoAdmin";
-                                }else{
-                                	location.href = "/changePwd/frontDesk";
-                                }
+                                location.href = "/shenbaoAdmin";
                             } else {                                
                                 vm.message=response.data.message;
                             }

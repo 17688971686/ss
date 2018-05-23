@@ -56,7 +56,7 @@
             var isValid = $('form').valid();
             if (isValid) {
                 vm.isSubmit = true;
-                //vm.model.password=$.md5(vm.model.password); MD5加密
+                vm.model.password=$.md5(vm.model.password); MD5加密
               //对密码进行RSA加密
 				var key = $("#rsaPrivateKey").val();//获取公钥信息
                 var rsa = new RSAKey();

@@ -82,7 +82,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<!--AssertionThreadLocalFilter是为了方便用户在应用的其它地方获取Assertion对象，其会将当前的Assertion对象存放到当前的线程变量中，那么以后用户在程序的任何地方都可以从线程变量中获取当前Assertion，无需再从Session或request中进行解析 -->
+	<!-- AssertionThreadLocalFilter是为了方便用户在应用的其它地方获取Assertion对象，其会将当前的Assertion对象存放到当前的线程变量中，那么以后用户在程序的任何地方都可以从线程变量中获取当前Assertion，无需再从Session或request中进行解析 -->
 	<filter>
 		<filter-name>CAS Assertion Thread Local Filter</filter-name>
 		<filter-class>org.jasig.cas.client.util.AssertionThreadLocalFilter</filter-class>
@@ -94,7 +94,7 @@
 	<listener>
 		<listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
 	</listener>
-	<!--RC8 up end-->
+	<!-- RC8 up end -->
 
 	<filter>
 		<filter-name>riseUserloginFilter</filter-name>

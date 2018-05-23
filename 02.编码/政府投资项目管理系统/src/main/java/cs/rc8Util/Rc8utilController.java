@@ -10,12 +10,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.huasisoft.h1.api.org.DepartmentManager;
+import com.huasisoft.h1.api.org.GroupManager;
+import com.huasisoft.h1.api.org.PersonManager;
+import com.huasisoft.h1.model.ORGPerson;
+import com.huasisoft.h1.util.HuasisoftUtil;
+
 import cs.domain.framework.Role;
 import cs.model.framework.RoleDto;
 import cs.model.framework.UserDto;
 import cs.service.framework.RoleService;
 import cs.service.framework.UserService;
-import net.risesoft.api.org.DepartmentManager;
 import net.risesoft.model.Person;
 import net.risesoft.util.RisesoftUtil;
 @Controller
@@ -31,12 +36,12 @@ public class Rc8utilController {
 //	@RequiresPermissions("risesoft#tzkUsers#get")
 	@RequestMapping(name = "查询RC8投资科人员", path = "tzkUsers", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
-	public void getTZKUser(){
-		DepartmentManager  dm = RisesoftUtil.getDepartmentManager();
+	public void getTZKUser() throws Exception{
+		PersonManager  dm = HuasisoftUtil.getPersonManager();
 		List<RoleDto> roleList = roleService.Get();
 		for (int i = 0; i < tzk_id_list.length; i++) {
-			List<Person> person = dm.getAllPersons(tzk_id_list[i]);
-			for (Person person2 : person) {
+			List<ORGPerson> person = dm.listByParentID(tzk_id_list[i]);
+			for (ORGPerson person2 : person) {
 				UserDto userDto = new UserDto();
 				userDto.setDisplayName(person2.getName());
 				userDto.setLoginName(person2.getLoginName());

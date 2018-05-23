@@ -127,7 +127,7 @@
 				</tr>
 				<tr>
 					<td class="formAlignRight">新密码： <span class="required">*</span></td>
-					<td style="width: 200px;"><input type="password" maxlength="300"
+					<td style="width: 200px;"><input type="password" maxlength="300" autocomplete="off"
 						class="form-control input-sm " ng-model="vm.model.password"
 						id="password" name="password" data-val="true" data-val-required="必填"
 						placeholder="必须为8位以上数字和字母的组合" data-val-regex="必须为8位以上数字和字母的组合" data-val-regex-pattern="^(?=.*[a-zA-Z])(?=.*[0-9]).*.{8,}$"/></td>
@@ -140,7 +140,7 @@
 				</tr>
 				<tr>
 					<td class="formAlignRight">确认密码： <span class="required">*</span></td>
-					<td><input type="password" maxlength="300"
+					<td><input type="password" maxlength="300" autocomplete="off"
 						class="form-control input-sm " ng-model="vm.model.passwordConfirm"
 						id="passwordConfirm" name="passwordConfirm" data-val="true"
 						data-val-required="必填" data-val-equalto="两次密码不一致"
