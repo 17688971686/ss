@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.common.ICurrentUser;
+import cs.common.ValidationSQLUtil;
 import cs.domain.UserUnitInfo;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
+import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.UserUnitInfoDto;
 import cs.model.DtoMapper.IMapper;
 import cs.model.framework.UserDto;
@@ -36,11 +39,14 @@ public class ShenBaoAdminUserUnitInfoController {
 	private UserUnitInfoService userUnitInfoService;
 	@Autowired
 	private UserService userService;
-	
-	
 	@RequiresPermissions("shenbaoAdmin/userUnitInfo#id#get")
+	
 	@RequestMapping(name = "获取用户的单位数据", path = "id", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserUnitInfoDto> getProjectUnit(HttpServletRequest request) throws ParseException{
+		if(ValidationSQLUtil.BuildObj(request)){
+			PageModelDto<UserUnitInfoDto> page = new PageModelDto<UserUnitInfoDto>();
+			return page;
+		};
 		ODataObj odataObj = new ODataObj(request);
 		return userUnitInfoService.get(odataObj);
 	}

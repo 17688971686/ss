@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.common.ICurrentUser;
+import cs.common.ValidationSQLUtil;
 import cs.domain.Project;
 import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
@@ -45,6 +46,9 @@ public class ShenBaoAdminProjectController {
 	@RequiresPermissions("shenbaoAdmin/project##get")
 	@RequestMapping(name = "获取项目信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> get(HttpServletRequest request) throws ParseException {
+		if(ValidationSQLUtil.BuildObj(request)){
+			return null;
+		};
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);
 		return ProjectDtos;

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.common.ICurrentUser;
+import cs.common.ValidationSQLUtil;
 import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
@@ -40,8 +41,12 @@ public class ShenBaoAdminShenBaoController {
 	@RequiresPermissions("shenbaoAdmin/shenbao##get")
 	@RequestMapping(name = "获取申报信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> get(HttpServletRequest request) throws ParseException{
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = null;
+		if(ValidationSQLUtil.BuildObj(request)){
+			return shenBaoInfoDtos;
+		};
 		ODataObj odataObj = new ODataObj(request);
-		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoService.get(odataObj);
+		shenBaoInfoDtos = shenBaoInfoService.get(odataObj);
 		return shenBaoInfoDtos;	
 	}
 	
