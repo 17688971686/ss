@@ -47,7 +47,8 @@ public class Rc8utilController {
 				System.out.println(person2.getDutyLevelName());
 				userDto.setLoginName(person2.getLoginName());
 				userDto.setPassword(person2.getPlainText());
-				
+				userDto.setEmail(person2.getEmail());
+				userDto.setMobilePhone(person2.getMobile());
 				for (RoleDto role : roleList) {
 					if(role.getRoleName().equals("建设单位")){
 						userDto.getRoles().add(role);
