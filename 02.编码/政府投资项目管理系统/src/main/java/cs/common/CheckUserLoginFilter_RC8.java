@@ -23,6 +23,10 @@ import com.huasisoft.h1.api.org.PersonManager;
 import com.huasisoft.h1.model.ORGPerson;
 import com.huasisoft.h1.util.HuasisoftUtil;
 
+import com.huasisoft.h1.api.org.PersonManager;
+import com.huasisoft.h1.model.ORGPerson;
+import com.huasisoft.h1.util.HuasisoftUtil;
+
 import cs.domain.framework.User;
 
 public class CheckUserLoginFilter_RC8 implements Filter {
@@ -45,19 +49,16 @@ public class CheckUserLoginFilter_RC8 implements Filter {
 			String loginName = ap.getName();
 			Map<String, Object> attr = ap.getAttributes();
 			loginUID = attr.get("ID").toString();
+			PersonManager pm = HuasisoftUtil.getPersonManager();
 //			Person person = RisesoftUtil.getPersonManager().getPerson(loginUID);
-			System.out.println(loginUID);
-			PersonManager oum = HuasisoftUtil.getPersonManager();
-			ORGPerson person = null;
+			ORGPerson person =null;
+			User user = new User();
 			try {
-				person = oum.get(loginUID);
-				System.out.println("person:" +person);
+				person = pm.get(loginUID);
 			} catch (Exception e) {
-				logger.info("查询工作台任务数据");
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			User user = new User();
-			
 			String country = person.getCountry();
 			String city = person.getCity();
 			String duty = person.getDuty();
