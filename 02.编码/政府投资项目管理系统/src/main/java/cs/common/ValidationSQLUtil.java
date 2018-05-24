@@ -48,7 +48,7 @@ public class ValidationSQLUtil {
     public static void main(String[] args) {
     
     	String str = "id eq '1ad62007-7b35-444e-a498-647d9b7ee903''+or+'f'='f";
-    	str = "id%20eq%20%271986fc7a-2cc7-42ef-9d8c-680f02480c33%27" ;
+//    	str = "id%20eq%20%271986fc7a-2cc7-42ef-9d8c-680f02480c33%27" ;
     	try {
 			boolean temp = ValidationSQLUtil.BuildObj(str);
 			System.out.println("temp " +temp);

@@ -19,6 +19,7 @@
         vm.projectInvestmentType=$state.params.projectInvestmentType;
         vm.page="list";
         function init(){
+            // debugger;
             var routeName=$state.current.name;
             if($state.current.name=='project'){
                 vm.isZFInvestment = true;
@@ -82,8 +83,13 @@
                 return $sce.trustAsHtml(val);
             };
 
+            //	alert(1);
+            debugger;
             //用于查询、编辑、新增--基础数据
             vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
+            debugger;
+            vm.basicData.userUnit=common.getUserUnits();
+            debugger;
             vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类型
             vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别
             vm.basicData.investmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);//项目投资类型
@@ -109,13 +115,13 @@
             vm.basicData.area_Street=$linq(common.getBasicData())
                 .where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
                 .toArray();//获取街道信息
-            vm.basicData.userUnit=common.getUserUnits();
+    
 
         }
         init();
         activate();
         function activate() {
-            // 
+            // debugger;
             if(vm.page=="projectItems"){
                 //vm.title='审批事项详情';
                 projectItems();
@@ -201,7 +207,7 @@
         }
         function shenpifankuiItemsList(){
             projectSupervisedSvc.shenpifankuiItemsGrid(vm);
-            // 
+            // debugger;
             vm.searchShenPiItems=function(){
                 var filters = [];
                 if(vm.search.shenpiName !=null && vm.search.shenpiName !=''){
@@ -218,6 +224,7 @@
 
         }
         vm.onchange = function onchangeValue(value) {
+            debugger;
             if(value =="请选择" ){
                 $("#shenpiName").val("");
             }else{
@@ -314,7 +321,7 @@
             projectSupervisedSvc.getShenPiItemsById(vm);
             //提交选择项目  shenpiItems  detail.html
             vm.choiceProjectSubmit=function(){
-                // 
+                // debugger;
                 var str=$('input:radio[name="radio"]:checked').val();
                 if (str==""||str==null) {
 					/*common.alert({
@@ -331,7 +338,7 @@
 
             };
             vm.choiceShenPiUnitSubmit=function(){
-                // 
+                // debugger;
                 var str=$('input:radio[name="radio1"]:checked').val();
                 if (str==""||str==null) {
 					/*common.alert({
@@ -362,10 +369,10 @@
         }
         function shenpiItemsList(){
             projectSupervisedSvc.shenpiItemsGrid(vm);
-            // 
+            // debugger;
 
             vm.searchShenPiItems=function(){
-                // 
+                // debugger;
                 var filters = [];
                 if(vm.search.shenpiName !=null && vm.search.shenpiName !=''){
                     filters.push({field:'shenpiName',operator:'contains',value:vm.search.shenpiName});
@@ -429,7 +436,7 @@
             projectSupervisedSvc.shenpiUnitGrid(vm);
 
             vm.searchShenPiUnit=function(){
-                // 
+                // debugger;
                 var filters = [];
                 if(vm.search.shenpiUnitName !=null && vm.search.shenpiUnitName !=''){//查询条件--项目名称
                     filters.push({field:'shenpiUnitName',operator:'contains',value:vm.search.shenpiUnitName});
@@ -471,7 +478,7 @@
 
         }
         function init_list(){
-            // 
+            // debugger;
             if(vm.isZFInvestment){
                 projectSupervisedSvc.grid(vm);
 
@@ -488,7 +495,7 @@
 
             //统计xdf
             vm.search=function(){
-                // 
+                // debugger;
                 var filters = [];
                 filters.push({field:'isLatestVersion',operator:'eq',value:true});//默认条件--项目最新版本
                 if(vm.isZFInvestment){
@@ -507,6 +514,7 @@
                 }
                 // vm.basicData.investmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);//项目投资类型
                 // vm.basicData.shenpiUnit = common.getBacicDataByIndectity(common.basicDataConfig().shenpiUnit);//审批单位
+                debugger;
                 if(vm.search.shenpiUnit !=null && vm.search.shenpiUnit !=''){//查询条件--审批事项
                     filters.push({field:'shenpiUnit',operator:'eq',value:vm.search.shenpiUnit});
                 }
@@ -625,14 +633,14 @@
             projectSupervisedSvc.getUserUnits(vm);
 
             //获取项目类型， 多选
-//            vm.updateSelection = function(id){
-//                var index = vm.model.projectType.indexOf(id);
-//                if(index == -1){
-//                    vm.model.projectType.push(id);
-//                }else{
-//                    vm.model.projectType.splice(index,1);
-//                }
-//            };
+            vm.updateSelection = function(id){
+                var index = vm.model.projectType.indexOf(id);
+                if(index == -1){
+                    vm.model.projectType.push(id);
+                }else{
+                    vm.model.projectType.splice(index,1);
+                }
+            };
             //end#基础数据
 
             //批复文件上传

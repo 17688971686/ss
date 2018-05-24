@@ -1,5 +1,6 @@
 package cs.common;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -43,6 +44,31 @@ public class DateUtil {
 		return calendar.getTime();
 	}
 
+	
+	public static String getLimitTimeString(String date,int dayNum){
+		try {
+			calendar.setTime( simpleDateFormat.parse(date));
+			int mod = dayNum % 5;
+			int other = dayNum / 5 * 7;
+			for (int i = 0; i < mod;) {
+				calendar.add(Calendar.DATE, 1);
+				switch (calendar.get(Calendar.DAY_OF_WEEK)) {
+					case Calendar.FRIDAY:
+					case Calendar.SATURDAY:
+						break;
+					default:
+						i++;
+						break;
+				}
+			}
+			if (other > 0)
+				calendar.add(Calendar.DATE, other);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
+	}
 	/**
 	 * 是否超期时间
 	 * @param date
@@ -62,7 +88,7 @@ public class DateUtil {
 			Date nowTime = simpleDateFormat.parse(new SimpleDateFormat("yyyy-MM-dd").format(date));
 			//审批项目开始时间
 			Date shenpiTime = simpleDateFormat.parse(shenpi);
-			String  tt  = new SimpleDateFormat("yyyy-MM-dd").format(shenpiTime);
+//			String  tt  = new SimpleDateFormat("yyyy-MM-dd").format(shenpiTime);
 			//如果当前时间是周末需要往前移动1到2天  当前时间周末不参与计算
 			week=getWeek(nowTime);
 			if (week==6||week==0) {//周六，周日

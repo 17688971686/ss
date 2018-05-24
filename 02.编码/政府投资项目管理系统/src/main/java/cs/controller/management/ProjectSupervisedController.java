@@ -3,7 +3,6 @@ package cs.controller.management;
 import java.text.ParseException;
 import java.util.*;
 
-import cs.domain.ShenPiItems;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -78,39 +77,47 @@ public class ProjectSupervisedController {
 		return shenpiItemsDtos;
 	}
 
-//	@RequestMapping(value = "/college/getCollegesBySearch", method = {RequestMethod.GET})
-//	@ResponseBody
-//	public Result getColleges(@RequestParam(required = false) Integer iDisplayStart,
-//							  @RequestParam(required = false) Integer iDisplayLength,
-//							  @RequestParam(required = false) String collegeName)
-
 	@RequestMapping(name = "获取单个审批事项信息", path = "/single/shenpiItems",method=RequestMethod.GET)
-	public @ResponseBody List<ShenPiItemsDto> getSingleShenpiItems(@RequestParam(required = false) String shenpiName,
-															 @RequestParam(required = false) String shenpiUnitName,
-															 @RequestParam(required = false) String shenpiState) throws ParseException {
+	public @ResponseBody List<ShenPiItemsDto> getSingleShenpiItems(@RequestParam(required = false) String id,
+																   @RequestParam(required = false) String shenpiName,
+															       @RequestParam(required = false) String shenpiUnitName,
+															       @RequestParam(required = false) String shenpiState) throws ParseException {
 		ODataObj odataObj = new ODataObj();
 		List<ODataFilterItem> ODataFilterItemList = new ArrayList<>();
-		ODataFilterItem<String> filterItem= new ODataFilterItem<>();
-		filterItem.setField("shenpiName");//"shenpiUnitId"
-		filterItem.setOperator("eq");//"eq"
-		filterItem.setValue(shenpiName);//shenPiUnits.get(0).getId()
-		ODataFilterItemList.add(filterItem);
-		ODataFilterItem<String> filterItem2= new ODataFilterItem<>();
-		filterItem2.setField("shenpiUnitName");//"shenpiUnitId"
-		filterItem2.setOperator("eq");//"eq"
-		filterItem2.setValue(shenpiUnitName);//shenPiUnits.get(0).getId()
-		ODataFilterItemList.add(filterItem2);
-		ODataFilterItem<String> filterItem3= new ODataFilterItem<>();
-		filterItem3.setField("shenpiState");//"shenpiUnitId"
-		filterItem3.setOperator("eq");//"eq"
-		filterItem3.setValue(shenpiState);//shenPiUnits.get(0).getId()
-		ODataFilterItemList.add(filterItem3);
-		odataObj.setFilter(ODataFilterItemList);
+		if(id !=null){
+			ODataFilterItem<String> filterItem0= new ODataFilterItem<>();
+			filterItem0.setField("id");//"shenpiUnitId"
+			filterItem0.setOperator("ne");//"eq"
+			filterItem0.setValue(id);//shenPiUnits.get(0).getId()
+			ODataFilterItemList.add(filterItem0);
+		}
+		if(shenpiName !=null){
+			ODataFilterItem<String> filterItem= new ODataFilterItem<>();
+			filterItem.setField("shenpiName");//"shenpiUnitId"
+			filterItem.setOperator("eq");//"eq"
+			filterItem.setValue(shenpiName);//shenPiUnits.get(0).getId()
+			ODataFilterItemList.add(filterItem);
+		}
+		if(shenpiUnitName != null){
+			ODataFilterItem<String> filterItem2= new ODataFilterItem<>();
+			filterItem2.setField("shenpiUnitName");//"shenpiUnitId"
+			filterItem2.setOperator("eq");//"eq"
+			filterItem2.setValue(shenpiUnitName);//shenPiUnits.get(0).getId()
+			ODataFilterItemList.add(filterItem2);
+		}
+		if(shenpiUnitName != null){
+			ODataFilterItem<String> filterItem3= new ODataFilterItem<>();
+			filterItem3.setField("shenpiState");//"shenpiUnitId"
+			filterItem3.setOperator("eq");//"eq"
+			filterItem3.setValue(shenpiState);//shenPiUnits.get(0).getId()
+			ODataFilterItemList.add(filterItem3);
+			odataObj.setFilter(ODataFilterItemList);
+		}
 		List<ShenPiItemsDto> shenpiItemsDtos = shenPiItemsService.findByDto(odataObj);
 		return shenpiItemsDtos;
 	}
 
-	@RequestMapping(name = "更新审批事项", path = "updateShenpiItems", method = RequestMethod.GET)
+	@RequestMapping(name = "更新审批事项", path = "updateShenpiItems", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updateShenpiItems(@RequestBody ShenPiItemsDto dto) {
 		shenPiItemsService.update(dto,dto.getId());
