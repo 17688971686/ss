@@ -28,6 +28,7 @@ public class ShenPiItemsMapper implements IMapper<ShenPiItemsDto, ShenPiItems>{
 			dto.setShenpiResult(entity.getShenpiResult());
 			dto.setDayNum(entity.getDayNum());
 			dto.setVirtualDayNum(entity.getVirtualDayNum());
+			dto.setShenpiType(entity.getShenpiType());
 			//基础信息
 			dto.setCreatedBy(entity.getCreatedBy());
 			dto.setCreatedDate(entity.getCreatedDate());
@@ -61,8 +62,9 @@ public class ShenPiItemsMapper implements IMapper<ShenPiItemsDto, ShenPiItems>{
 			 entity.setModifiedBy(dto.getModifiedBy());
 			 entity.setModifiedDate(dto.getModifiedDate());
 			 entity.setItemOrder(dto.getItemOrder());
-			entity.setDayNum(dto.getDayNum());
-			entity.setVirtualDayNum(dto.getVirtualDayNum());
+			 entity.setDayNum(dto.getDayNum());
+			 entity.setVirtualDayNum(dto.getVirtualDayNum());
+			 entity.setShenpiType(dto.getShenpiType());
 		}
 		return entity;
 	}

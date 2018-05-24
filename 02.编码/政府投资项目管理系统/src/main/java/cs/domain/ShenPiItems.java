@@ -60,6 +60,14 @@ public class ShenPiItems extends BaseEntity{
 		this.virtualDayNum = virtualDayNum;
 	}
 
+	public String getShenpiType() {
+		return shenpiType;
+	}
+
+	public void setShenpiType(String shenpiType) {
+		this.shenpiType = shenpiType;
+	}
+
 	public String getProjectName() {
 		return projectName;
 	}

@@ -1,7 +1,5 @@
 package cs.service.impl;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,15 +7,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import cs.common.DateUtil;
-import cs.common.SQLConfig;
-import cs.model.Statistics.sttisticsData;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.transform.Transformers;
-import org.hibernate.type.DoubleType;
-import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,7 +46,7 @@ public class ShenPiItemsServiceImpl  extends AbstractServiceImpl<ShenPiItemsDto,
 	@Override
 	@Transactional
 	public PageModelDto<ShenPiItemsDto> get(ODataObj odataObj) {
-		List<ShenPiItemsDto> shenPiItemsDtoList = setShenpiItemsList(odataObj,"eq","shenpiType_item","shenpiType","审批事项列表");
+		List<ShenPiItemsDto> shenPiItemsDtoList = setShenpiItemsList(odataObj,"eq","shenpiUnitType","shenpiType","审批事项列表");
 		PageModelDto<ShenPiItemsDto> pageModelDto = new PageModelDto<>();
 		pageModelDto.setCount(odataObj.getCount());
 		pageModelDto.setValue(shenPiItemsDtoList);
@@ -116,7 +106,7 @@ public class ShenPiItemsServiceImpl  extends AbstractServiceImpl<ShenPiItemsDto,
 	@Override
 	@Transactional
 	public PageModelDto<ShenPiItemsDto> getShenpiItemsOverdue(ODataObj odataObj)  {
-		List<ShenPiItemsDto>shenPiItemsDtoList = setShenpiItemsList(odataObj,"eq","shenpiType_item","shenpiType","逾期");
+		List<ShenPiItemsDto>shenPiItemsDtoList = setShenpiItemsList(odataObj,"eq","shenpiUnitType","shenpiType","逾期");
 		PageModelDto<ShenPiItemsDto> pageModelDto = new PageModelDto<>();
 		pageModelDto.setCount(odataObj.getCount()-1);
 		pageModelDto.setValue(shenPiItemsDtoList);
@@ -130,6 +120,7 @@ public class ShenPiItemsServiceImpl  extends AbstractServiceImpl<ShenPiItemsDto,
 		dto.setProjectName(dto.getProjectDto().getProjectName());
 		dto.setShenpiUnitId(dto.getShenPiUnitDto().getId());
 		dto.setShenpiUnitName(dto.getShenPiUnitDto().getShenpiUnitName());
+		dto.setShenpiEndDate(DateUtil.getLimitTimeString(dto.getShenpiBeginDate(),dto.getDayNum()));
 		logger.info(String.format("编辑审批事项信息,审批事项名称 %s",dto.getShenpiName()));
 		ShenPiItems shenpiItems=super.update(dto, id);
 		return super.repository.save(shenpiItems);
@@ -142,6 +133,7 @@ public class ShenPiItemsServiceImpl  extends AbstractServiceImpl<ShenPiItemsDto,
 		dto.setProjectName(dto.getProjectDto().getProjectName());
 		dto.setShenpiUnitId(dto.getShenPiUnitDto().getId());
 		dto.setShenpiUnitName(dto.getShenPiUnitDto().getShenpiUnitName());
+		dto.setShenpiEndDate(DateUtil.getLimitTimeString(dto.getShenpiBeginDate(),dto.getDayNum()));
 		logger.info(String.format("新增审批事项,审批事项名称  %s",dto.getShenpiName()));
 		ShenPiItems shenPiItems=super.create(dto);
 		return super.repository.save(shenPiItems);
