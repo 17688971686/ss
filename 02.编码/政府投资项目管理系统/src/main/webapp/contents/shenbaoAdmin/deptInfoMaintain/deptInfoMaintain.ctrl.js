@@ -38,6 +38,15 @@
         function page_index(){
         	deptInfoMaintainSvc.getDeptInfo(vm);//获取单位的基本信息
         	vm.allUnit = common.getUserUnits().value;
+        	 var keys = [];
+        	 vm.output = [];
+        	 angular.forEach(vm.allUnit, function(item) {
+		          var key = item["id"];
+		          if(keys.indexOf(key) === -1) {
+		              keys.push(key);
+		              vm.output.push(item);
+		          }
+		      });
         	vm.submit=function(){
         		deptInfoMaintainSvc.getLoginUserUnitinfo(vm);//先查用户单位向信息
 //            	deptInfoMaintainSvc.save(vm);//保存单位基本信息
@@ -49,7 +58,7 @@
              //获取选中项的索引
                 var index = myselect.selectedIndex;
             //typd_data后台传入的数据 list为json对象
-                var json = vm.allUnit;
+                var json = vm.output;
             //获取选中行中的字段
                 vm.id = json[index-1].id;
             	deptInfoMaintainSvc.getUnitInfo(vm,vm.id);

@@ -114,10 +114,10 @@
 			var httpOptions = {
 					method : 'get',
 					url : url_userUnitInfo+"/id",
-					data:{
-						"id":id
-					}
-//					url : common.format(url_userUnitInfo + "/id?$filter=id eq '{0}'", id)
+//					data:{
+//						"id":id
+//					}
+					url : common.format(url_userUnitInfo + "/id?$filter=id eq '{0}'", id)
 				};
 			
 			var httpSuccess = function success(response) {

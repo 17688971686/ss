@@ -143,10 +143,7 @@
 			var httpOptions = {
 					method : 'get',
 					url : url_project,
-					data:{
-						"id": vm.id
-					}
-//					url : common.format(url_project + "?$filter=id eq '{0}'", vm.id)
+					url : common.format(url_project + "?$filter=id eq '{0}'", vm.id)
 				};
 			
 			var httpSuccess = function success(response) {
@@ -211,10 +208,7 @@
 			var httpOptions = {
 					method : 'get',
 					url : url_userUnit + "/id",
-					data:{
-						"id": vm.model.unitName
-					}					
-//					url : common.format(url_userUnit + "/id?$filter=id eq '{0}'", vm.model.unitName)
+					url : common.format(url_userUnit + "/id?$filter=id eq '{0}'", vm.model.unitName)
 				};
 				var httpSuccess = function success(response) {
 					vm.userUnit = response.data.value[0] || {};
