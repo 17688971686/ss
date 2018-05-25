@@ -106,7 +106,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private ActivitiService activitiService;
 	@Autowired
     ProcessEngineFactoryBean processEngine;
-	
+	@Autowired
 	private RuntimeService runtimeService;
 	private String processDefinitionKey = "ShenpiReview";
 	private String processDefinitionKey_plan = "ShenpiPlan";
@@ -528,7 +528,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		entity.setBianZhiUnitInfo(bianZhiUnitInfo);
 		if(!isAdminUpdate){
 			//更新申报信息的审批阶段和审批状态
-			entity.setProcessStage(BasicDataConfig.processStage_qianshou);
+			entity.setProcessStage("投资科审核收件办理");
 			entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
 		}
 		super.repository.save(entity);

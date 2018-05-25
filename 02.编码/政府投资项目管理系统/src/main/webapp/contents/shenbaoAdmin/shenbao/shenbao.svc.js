@@ -389,8 +389,7 @@
 					title : "操作",
 					width : 200,
 					template : function(item) {					
-						var isShow=item.processStage=="投资科审核收件办理"||item.processState==common.basicDataConfig().processState_notpass||item.processState==common.basicDataConfig().processState_tuiwen
-							||item.processStage=="已退文" |item.processStage=="已办结";
+						var isShow=item.processState==common.basicDataConfig().processState_weikaishi ||item.processState==common.basicDataConfig().processState_notpass||item.processState==common.basicDataConfig().processState_tuiwen;
 						return common.format($('#columnBtns_Record').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShow?'':'display:none',"vm.deleteShenBaoInfo('"+item.id+"')",item.thisTaskName,item.zong_processId);
 					}
 				}
@@ -632,11 +631,7 @@
 		 */
 		function getProjectById(vm){
 			var httpOptions = {
-<<<<<<< HEAD
 					method : 'get',
-=======
-					method : 'get',
->>>>>>> dcd515c1... 未签收可以撤销
 					url : common.format(url_project + "?$filter=id eq '{0}'", vm.id)
 				};
 			
@@ -1391,10 +1386,5 @@
 				scrollable:true
 			};
 		}
-<<<<<<< HEAD
-=======
-
-
->>>>>>> dcd515c1... 未签收可以撤销
 	}
 })();
