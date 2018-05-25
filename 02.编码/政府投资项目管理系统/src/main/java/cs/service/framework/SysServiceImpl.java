@@ -253,14 +253,14 @@ public class SysServiceImpl implements SysService{
 		role6.setComment("系统初始化创建,不可删除");
 		
 		Role role10 = new Role();
-		role6.setRoleName(BasicDataConfig.FuJuZhang);
-		role6.setId(UUID.randomUUID().toString());
-		role6.setComment("系统初始化创建,不可删除");
+		role10.setRoleName(BasicDataConfig.FuJuZhang);
+		role10.setId(UUID.randomUUID().toString());
+		role10.setComment("系统初始化创建,不可删除");
 		
 		Role role11 = new Role();
-		role6.setRoleName(BasicDataConfig.PingShenRenYuan);
-		role6.setId(UUID.randomUUID().toString());
-		role6.setComment("系统初始化创建,不可删除");
+		role11.setRoleName(BasicDataConfig.PingShenRenYuan);
+		role11.setId(UUID.randomUUID().toString());
+		role11.setComment("系统初始化创建,不可删除");
 		
 		Role role7 = new Role();
 		role7.setRoleName(BasicDataConfig.KeZhang);
