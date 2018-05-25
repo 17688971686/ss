@@ -225,11 +225,7 @@
 		function getShenBaoInfoByProjectId(vm){
 			var httpOptions = {
 					method : 'get',
-					url : url_shenbao,
-					data:{
-						"projectId":vm.projectId
-					}
-//					url : common.format(url_shenbao + "?$filter=projectId eq '{0}'", vm.projectId)
+					url : common.format(url_shenbao + "?$filter=projectId eq '{0}'", vm.projectId)
 				};
 			
 			var httpSuccess = function success(response) {
@@ -280,11 +276,7 @@
 		function getShenBaoRecordsByProjectNumber(vm,projectNumber,id){
 			var httpOptions = {
 					method : 'get',
-					url : url_shenbao,
-					data:{
-						"projectNumber":projectNumber
-					}
-//					url : common.format(url_shenbao + "?$filter=projectNumber eq '{0}'", projectNumber)
+					url : common.format(url_shenbao + "?$filter=projectNumber eq '{0}'", projectNumber)
 				};
 			
 			var httpSuccess = function success(response) {
@@ -479,11 +471,7 @@
 		function getShenBaoInfoById(vm){
 			var httpOptions = {
 					method : 'get',
-					url : url_shenbao,
-					data:{
-						"id":vm.id
-					}
-//					url : common.format(url_shenbao + "?$filter=id eq '{0}'", vm.id)
+					url : common.format(url_shenbao + "?$filter=id eq '{0}'", vm.id)
 				};
 				var httpSuccess = function success(response) {
 					vm.model = response.data.value[0]||{};
@@ -607,11 +595,7 @@
 		function getProjectUnit(vm){
 			var httpOptions = {
 					method : 'get',
-					url : url_userUnit+"/id",
-					data:{
-						"id":vm.model.unitName
-					}
-//					url : common.format(url_userUnit + "/id?$filter=id eq '{0}'", vm.model.unitName)
+					url : common.format(url_userUnit + "/id?$filter=id eq '{0}'", vm.model.unitName)
 				};
 			
 			var httpSuccess = function success(response) {
@@ -649,11 +633,7 @@
 		function getProjectById(vm){
 			var httpOptions = {
 					method : 'get',
-					url :url_project,
-					data:{
-						"id":vm.id
-					}
-//					url : common.format(url_project + "?$filter=id eq '{0}'", vm.id)
+					url : common.format(url_project + "?$filter=id eq '{0}'", vm.id)
 				};
 			
 			var httpSuccess = function success(response) {

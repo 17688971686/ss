@@ -92,11 +92,7 @@
 		function getProjectById(vm){
 			var httpOptions = {
 					method : 'get',
-					url :url_project,
-					data:{
-						"id":vm.projectId
-					}
-//					url : common.format(url_project + "?$filter=id eq '{0}' ", vm.projectId)
+					url : common.format(url_project + "?$filter=id eq '{0}' ", vm.projectId)
 				};
 				var httpSuccess = function success(response) {					
 					vm.model.projectInfo = response.data.value[0]||{};

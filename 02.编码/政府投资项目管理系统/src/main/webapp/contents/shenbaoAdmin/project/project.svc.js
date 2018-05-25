@@ -207,7 +207,6 @@
 		function getProjectUnit(vm){
 			var httpOptions = {
 					method : 'get',
-					url : url_userUnit + "/id",
 					url : common.format(url_userUnit + "/id?$filter=id eq '{0}'", vm.model.unitName)
 				};
 				var httpSuccess = function success(response) {

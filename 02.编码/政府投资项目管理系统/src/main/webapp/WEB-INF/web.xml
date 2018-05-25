@@ -19,7 +19,7 @@
   </servlet-mapping>
   
   <!-- 单点登录begin -->
-	<filter>
+	<!-- <filter>
 		<filter-name>CAS Single Sign Out Filter</filter-name>
 		<filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
 		<init-param>
@@ -32,7 +32,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<!-- AuthenticationFilter用来拦截所有的请求，用以判断用户是否需要通过Cas Server进行认证-->
+	AuthenticationFilter用来拦截所有的请求，用以判断用户是否需要通过Cas Server进行认证
 	<filter>
 		<filter-name>CAS Authentication Filter</filter-name>
 		<filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
@@ -50,8 +50,8 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<!-- 在请求通过AuthenticationFilter的认证之后，如果请求中携带了参数ticket则将会由TicketValidationFilter来对携带的ticket进行校验
-	 --><filter>
+	在请求通过AuthenticationFilter的认证之后，如果请求中携带了参数ticket则将会由TicketValidationFilter来对携带的ticket进行校验
+	<filter>
 		<filter-name>CAS Validation Filter</filter-name>
 		<filter-class>org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</filter-class>
 		<init-param>
@@ -72,8 +72,8 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<!-- HttpServletRequestWrapperFilter用于将每一个请求对应的HttpServletRequest封装为其内部定义的CasHttpServletRequestWrapper，该封装类将利用之前保存在Session或request中的Assertion对象重写HttpServletRequest的getUserPrincipal()、getRemoteUser()和isUserInRole()方法。这样在我们的应用中就可以非常方便的从HttpServletRequest中获取到用户的相关信息
-	 --><filter>
+	HttpServletRequestWrapperFilter用于将每一个请求对应的HttpServletRequest封装为其内部定义的CasHttpServletRequestWrapper，该封装类将利用之前保存在Session或request中的Assertion对象重写HttpServletRequest的getUserPrincipal()、getRemoteUser()和isUserInRole()方法。这样在我们的应用中就可以非常方便的从HttpServletRequest中获取到用户的相关信息
+	<filter>
 		<filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
 		<filter-class>org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class>
 	</filter>
@@ -82,8 +82,8 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<!-- AssertionThreadLocalFilter是为了方便用户在应用的其它地方获取Assertion对象，其会将当前的Assertion对象存放到当前的线程变量中，那么以后用户在程序的任何地方都可以从线程变量中获取当前Assertion，无需再从Session或request中进行解析
-	 --><filter>
+	AssertionThreadLocalFilter是为了方便用户在应用的其它地方获取Assertion对象，其会将当前的Assertion对象存放到当前的线程变量中，那么以后用户在程序的任何地方都可以从线程变量中获取当前Assertion，无需再从Session或request中进行解析
+	<filter>
 		<filter-name>CAS Assertion Thread Local Filter</filter-name>
 		<filter-class>org.jasig.cas.client.util.AssertionThreadLocalFilter</filter-class>
 	</filter>
@@ -103,9 +103,9 @@
     <filter-name>riseUserloginFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-  <!-- 单点登录end -->
+  单点登录end
   
-  <!-- 防止跨域 -->
+  防止跨域
   <filter>
       <filter-name>XssFilter</filter-name>
 	  <filter-class>cs.common.XssFilter</filter-class>
@@ -113,7 +113,7 @@
   <filter-mapping>
       <filter-name>XssFilter</filter-name>
       <url-pattern>/*</url-pattern>
-  </filter-mapping>
+  </filter-mapping> -->
   <!-- 防止跨域end -->
   
   <filter>

@@ -273,11 +273,7 @@
 			
 			var httpOptions = {
 					method : 'get',
-					url :url_project,
-					data:{
-						"id":vm.id
-					}
-//					url : common.format(url_project + "?$filter=id eq '{0}'", vm.id)
+					url : common.format(url_project + "?$filter=id eq '{0}'", vm.id)
 				};
 			
 			var httpSuccess = function success(response) {

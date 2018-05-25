@@ -440,7 +440,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		for(HistoricProcessInstance list1 : lists1){
 			User user = userRepo.findById(list1.getStartUserId());
 			Map<String, String> map1 = new HashMap<>();
-			map1.put("name", "启动流程");
+			map1.put("name", "单位申报");
 			map1.put("id", user.getDisplayName());
 			map1.put("endTime", list1.getStartTime().toLocaleString());
 			
