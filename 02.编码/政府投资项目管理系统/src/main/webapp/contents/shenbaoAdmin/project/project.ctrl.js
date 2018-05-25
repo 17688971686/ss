@@ -350,7 +350,20 @@
 	         };
 		     //创建  
 	   		 vm.create = function () {
-	   		     projectSvc.createProject(vm);	   		     
+	   			 if(vm.userUnit.unitName == "" || vm.userUnit.unitName == undefined){
+	   				common.alert({
+						vm : vm,
+						msg : "未绑定用户建设单位，请绑定后提交！",
+						fn : function() {
+							vm.isSubmit = false;
+							$('.alertDialog').modal('hide');
+							vm.gridOptions.dataSource.read();
+						}
+					});
+	   			 }else{
+	   				 projectSvc.createProject(vm);
+	   			 }
+	   		         
 	   		 };
 	   		 //暂存
 	   		vm.temporary=function(){
