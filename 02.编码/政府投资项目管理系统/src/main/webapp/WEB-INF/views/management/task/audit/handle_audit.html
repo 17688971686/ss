@@ -117,7 +117,7 @@ textarea.form-control {
 				<td colspan="3" >
 					<button class="btn btn-success btn-xs" ng-click="vm.dialog_shenbaoInfo()">查看申报信息</button>
 					<button class="btn btn-success btn-xs" ng-click="vm.dialog_shenbaoInfoEdit()" >复核申报信息</button>
-					<a class="btn btn-success btn-xs" href="http://192.168.189.235:8081/pic/task/picture/{{vm.model.shenBaoInfo.zong_processId}}" target="_blank">查看流程图</a>
+					<a class="btn btn-success btn-xs" href="http://localhost:8081/pic/task/picture/{{vm.model.shenBaoInfo.zong_processId}}" target="_blank">查看流程图</a>
 				</td>
 			</tr>		
 	</table>
@@ -329,7 +329,7 @@ textarea.form-control {
 					</div>
 				</td>
 			</tr>
-			<tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask17'">
+			<tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask17' || vm.model.shenBaoInfo.thisTaskName == 'usertask19'">
 				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
 				<td>
 					<div>
@@ -339,6 +339,17 @@ textarea.form-control {
 						&nbsp;&nbsp;
 						<label>
 							<input type="radio" id="nextProcess" name="nextProcess" value="6" ng-true-value="6" ng-model="vm.isPass" data-val="true" data-val-required="必选"/>局长审核
+						</label>
+						<span data-valmsg-for="nextProcess" data-valmsg-replace="true" class="required"></span>
+					</div>
+				</td>
+			</tr>
+			<tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask21'">
+				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
+				<td>
+					<div>
+						<label>
+							<input type="radio" id="nextProcess" name="nextProcess" value="5" ng-true-value="5" ng-model="vm.isPass" data-val="true" data-val-required="必选"/>办公室发文
 						</label>
 						<span data-valmsg-for="nextProcess" data-valmsg-replace="true" class="required"></span>
 					</div>

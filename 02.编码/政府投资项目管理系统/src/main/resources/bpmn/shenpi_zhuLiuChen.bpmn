@@ -31,7 +31,7 @@
     <sequenceFlow id="flow17" name="转办" sourceRef="exclusivegateway4" targetRef="usertask1">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==5}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask6" name="科长审核" activiti:candidateUsers="${user}">
+    <userTask id="usertask6" name="科长核稿" activiti:candidateUsers="${user}">
       <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="userIds" activiti:elementVariable="user">
         <completionCondition>${shenpi==8}</completionCondition>
       </multiInstanceLoopCharacteristics>
@@ -80,7 +80,7 @@
     <sequenceFlow id="flow40" name="局长审核" sourceRef="exclusivegateway10" targetRef="usertask13">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==6}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask14" name="办公室核稿" activiti:candidateUsers="${user}">
+    <userTask id="usertask14" name="办公室发文" activiti:candidateUsers="${user}">
       <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="userIds" activiti:elementVariable="user">
         <completionCondition>${shenpi==8}</completionCondition>
       </multiInstanceLoopCharacteristics>

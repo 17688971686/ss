@@ -95,8 +95,8 @@ public class BasicDataConfig {
 	public static String taskType_shenpiFenBan="taskType_15";//审批分办人员配置
 	
 	//审批流程中涉及到的角色名称
-	public static String msFenBanRole="秘书科分办人员";
-	public static String msFaWenRole="秘书科发文人员";
+	public static String msFenBanRole="办公室核稿人员";
+	public static String msFaWenRole="办公室发文人员";
 	public static String KeZhang="科长";
 	public static String JuZhang="局长";
 	public static String KeYuan="科员";

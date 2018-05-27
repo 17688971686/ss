@@ -589,9 +589,13 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		List<Org> findProjects = new ArrayList<>();
 		Criterion criterion=Restrictions.eq(Org_.name.getName(), "投资科");
 		Criterion criterion2=Restrictions.eq(Org_.name.getName(), "局领导");
-		if(shenBaoInfo.getThisTaskName().equals("usertask6") || shenBaoInfo.getThisTaskName().equals("usertask7") || (shenBaoInfo.getThisTaskName().equals("usertask17")&&"5".equals(isPass))
+		if(shenBaoInfo.getThisTaskName().equals("usertask6") || shenBaoInfo.getThisTaskName().equals("usertask7") || shenBaoInfo.getThisTaskName().equals("usertask21") || shenBaoInfo.getThisTaskName().equals("usertask13") || (shenBaoInfo.getThisTaskName().equals("usertask17")&&"5".equals(isPass))
 				|| (shenBaoInfo.getThisTaskName().equals("usertask19")&&"5".equals(isPass))){
 			Criterion criterion3=Restrictions.eq(Org_.name.getName(), "办公室");
+			Criterion criterion4 = Restrictions.or(criterion,criterion2,criterion3);
+			findProjects = orgRepo.findByCriteria(criterion4);
+		}else if(shenBaoInfo.getThisTaskName().equals("usertask8")){
+			Criterion criterion3=Restrictions.eq(Org_.name.getName(), "评审中心");
 			Criterion criterion4 = Restrictions.or(criterion,criterion2,criterion3);
 			findProjects = orgRepo.findByCriteria(criterion4);
 		}else{
