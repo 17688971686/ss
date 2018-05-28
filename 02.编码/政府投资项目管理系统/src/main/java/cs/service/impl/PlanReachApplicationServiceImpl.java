@@ -258,12 +258,16 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 		if(planReach !=null){
 			//判断年度计划编制中是否已有打包计划
 			List<ShenBaoInfo> shenBaoInfos = planReach.getShenBaoInfos();
-			
-			for(ShenBaoInfo shenBaoInfo : shenBaoInfos){
-				if(shenBaoInfo.getId().equals(shenBaoInfoId)){
-					hasShenBaoInfo = true;
+				for(ShenBaoInfo shenBaoInfo : shenBaoInfos){
+					if(shenBaoInfo == null){
+						hasShenBaoInfo = false;
+					}else{
+						if(shenBaoInfo.getId().equals(shenBaoInfoId)){
+							hasShenBaoInfo = true;
+						}
+					}
 				}
-			}
+			
 			if(hasShenBaoInfo){
 				//通过打包计划id获取名称
 				//String name= packPlanRepo.findById(packId).getName();

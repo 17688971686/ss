@@ -24,7 +24,7 @@ public class ValidationSQLUtil {
         if(value == null || "".equals(value)){  
             return true;  
         }  
-        String xssStr = "|declare|exec|and|or|select|update|delete|drop|truncate|count|drop|=|==|+|,|//|/| |\\|!=|(|)";
+        String xssStr = "|declare|exec|and|or|select|update|delete|drop|truncate|count|drop|=|==|+|,|//|/| |\\|!=|";
 //        String badStr = "'|and|exec|execute|insert|select|delete|update|count|drop|*|%|" + "|declare|sitename|net user|xp_cmdshell|;|or|-|+|,|like'|and|exec|execute|insert|drop|from|union|where|select|delete|update|order|by|count|*|mid|master|truncate|declare|or||=|;|-|--|+|,|like|//|/|%|#";
         String[] xssArr = xssStr.split("\\|");  
 //        String[] badArr = badStr.split("\\|"); 

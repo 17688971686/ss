@@ -431,7 +431,7 @@
 		function saveShenBaoInfo(vm){
 			var httpOptions = {
 					method : 'post',
-					url : url_shenbao+'/updateShenbao',
+					url : url_shenbao+'/update',
 					data:vm.model.shenBaoInfo
 				};
 			

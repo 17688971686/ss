@@ -1,6 +1,7 @@
  package cs.controller.shenbaoAdmin;
 
 import java.text.ParseException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,8 @@ import cs.model.DomainDto.PackPlanDto;
 import cs.model.DomainDto.PlanReachApplicationDto;
 import cs.model.DomainDto.ProjectDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
+import cs.model.DomainDto.UserUnitInfoDto;
+import cs.model.framework.UserDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.PlanReachApplicationService;
@@ -51,12 +54,24 @@ public class ShenBaoAdminPlanReachController {
 	@RequestMapping(name = "获取计划下达申请信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<PlanReachApplicationDto> get(HttpServletRequest request) throws ParseException {
 		//根据登陆名查找到单位信息addShenBaoInfo
-		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
+		UserUnitInfoDto userUnitInfoDto1 = null;
+		List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
+		for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
+			if(!userUnitInfoDto.getUserDtos().isEmpty()){
+				for (UserDto user : userUnitInfoDto.getUserDtos()) {
+					if(user.getId().equals(currentUser.getUserId())){
+						userUnitInfoDto1 =userUnitInfoDto;
+					}
+				} 
+			}
+			
+				
+		}
 		ODataObj odataObj = new ODataObj(request);
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 		filterItem.setField("applicationUnit");
 		filterItem.setOperator("eq");
-		filterItem.setValue(userUnitInfo.getId());
+		filterItem.setValue(userUnitInfoDto1.getId());
 		odataObj.getFilter().add(filterItem);
 		PageModelDto<PlanReachApplicationDto> planReachApplications = planReachApplicationService.get(odataObj);
 		return planReachApplications;

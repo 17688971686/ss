@@ -530,18 +530,18 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			//更新申报信息的审批阶段和审批状态
 			entity.setProcessStage("投资科审核收件办理");
 			entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
+			
+			if(entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)){
+				startProcessShenbao(processDefinitionKey_plan,entity.getId());
+			}else if(entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)){
+				entity.setProcessStage("投资科审核收件办理");
+				startProcessShenbao(processDefinitionKey_yearPlan,entity.getId());
+			}else{
+				startProcessShenbao(processDefinitionKey,entity.getId());
+			}
 		}
 		super.repository.save(entity);
-		//更新任务状态
-//		updeteWorkFlow(entity,isAdminUpdate);
-		if(entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)){
-			startProcessShenbao(processDefinitionKey_plan,entity.getId());
-		}else if(entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)){
-			entity.setProcessStage("投资科审核收件办理");
-			startProcessShenbao(processDefinitionKey_yearPlan,entity.getId());
-		}else{
-			startProcessShenbao(processDefinitionKey,entity.getId());
-		}
+		
 		//处理批复文件库
 		handlePiFuFile(entity);
 		logger.info(String.format("更新申报信息,项目名称: %s,申报阶段：%s",entity.getProjectName(),
