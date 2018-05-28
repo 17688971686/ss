@@ -84,12 +84,9 @@
             };
 
             //	alert(1);
-            debugger;
             //用于查询、编辑、新增--基础数据
             vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
-            debugger;
             vm.basicData.userUnit=common.getUserUnits();
-            debugger;
             vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类型
             vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别
             vm.basicData.investmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);//项目投资类型
@@ -103,7 +100,7 @@
                     }
                 })
                 .toArray();//审批单位
-
+            
             vm.basicData.shenpiStateType=$linq(common.getBasicData())
                 .where(function(x){
                     if(x.pId=="shenpiStateType"){
@@ -478,7 +475,6 @@
 
         }
         function init_list(){
-            // debugger;
             if(vm.isZFInvestment){
                 projectSupervisedSvc.grid(vm);
 
@@ -529,7 +525,6 @@
                 if(vm.search.unitName !=null && vm.search.unitName !=''){
                     filters.push({field:'unitName',operator:'eq',value:vm.search.unitName});
                 }
-
 
 
                 if(vm.isZFInvestment){

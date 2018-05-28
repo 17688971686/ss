@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cs.common.ICurrentUser;
 import cs.domain.Project;
 import cs.domain.ShenPiItems;
 import cs.domain.ShenPiUnit;
@@ -41,8 +40,8 @@ public class ShenPiItemsServiceImpl  extends AbstractServiceImpl<ShenPiItemsDto,
 	private IMapper<ShenPiUnitDto, ShenPiUnit>  shenpiUnitMapper;
 	@Autowired
 	private IMapper<ProjectDto, Project>  projectMapper;
-	@Autowired
-	private ICurrentUser currentUser;
+	/*@Autowired
+	private ICurrentUser currentUser;*/
 	@Override
 	@Transactional
 	public PageModelDto<ShenPiItemsDto> get(ODataObj odataObj) {
@@ -167,7 +166,7 @@ public class ShenPiItemsServiceImpl  extends AbstractServiceImpl<ShenPiItemsDto,
 	@Override
 	@Transactional
 	public List<ShenPiItemsDto> findByDto(ODataObj odataObj) {
-		ShenPiItemsDto shenPiItemsDto = new ShenPiItemsDto();
+		//ShenPiItemsDto shenPiItemsDto = new ShenPiItemsDto();
 		List<ShenPiItemsDto> shenPiItemsDtos=new ArrayList<ShenPiItemsDto>();
 		shenPiItemsRepo.findByOdata(odataObj).forEach(x->{
 			ShenPiItemsDto dto=shenPiItemsMapper.toDto(x);

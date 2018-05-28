@@ -23,6 +23,7 @@ public class BasicDataMapper {
 			basicDataDto.setpId(basicData.getpId());			
 			basicDataDto.setCanEdit(basicData.getCanEdit());			
 			basicDataDto.setIdentity(basicData.getIdentity());
+			basicDataDto.setDay(basicData.getDay());
 			//基础数据
 			basicDataDto.setCreatedBy(basicData.getCreatedBy());
 			basicDataDto.setCreatedDate(basicData.getCreatedDate());

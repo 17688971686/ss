@@ -18,7 +18,7 @@
                 <td>
 					<select id="shenpiName" name="shenpiName" style="height:30px;width: 20%" ng-model="vm.model.shenpiName"   data-val="true" data-val-required="必选">
 						<option value="">---请选择---</option>
-						<option ng-repeat="x in  vm.basicData.shenpiUnitType" value="{{x.count+','+x.description}}" >{{x.description}}</option>
+						<option ng-repeat="x in vm.basicData.shenpiUnitType" value="{{x.day+','+x.description}}" >{{x.description}}</option>
 					</select>
 					<span data-valmsg-for="shenpiName" data-valmsg-replace="true" class="required"></span>
                 </td>
@@ -33,6 +33,15 @@
                 </td>
                
             </tr>
+            <!-- <tr>
+                <td class="formAlignRight" style="width:15%">审批天数： <span class="required">(*)</span></td>
+                <td>
+                    <input class="form-control input-sm" style="width:180px;" type="number" name="dayNum" ng-model="vm.model.dayNum"  data-val="true" data-val-required="审批天数"/>
+                    <span class="required" data-valmsg-for="dayNum" data-valmsg-replace="true" ></span>
+
+                </td>
+               
+            </tr> -->
              <tr>
                 <td class="formAlignRight" style="width:10%">审批项目： </td>
                 <td>
@@ -60,12 +69,13 @@
 	                  <span data-valmsg-for="shenpiUnitName" data-valmsg-replace="true" class="required" data-val-required="必填"></span>
                 </td>
             </tr>
-			 <tr>
+            <!-- 
+             <tr>
 				 <td class="formAlignRight" style="width:15%">审批状态： <span class="required">*</span> </td>
 				 <td colspan="3" style="padding: 10px;">
 					 <select id="shenpiState" name="shenpiState" style="height:30px;width: 20%" ng-model="vm.model.shenpiState"   >
 						 <option value="">---请选择---</option>
-						 <option ng-repeat="x in  vm.basicData.shenpiStateType" value="{{x.count}}" >{{x.description}}</option>
+						 <option ng-repeat="x in vm.basicData.shenpiStateType" value="{{x.id}}" >{{x.description}}</option>
 					 </select>
 				 </td>
 			 </tr>
@@ -79,6 +89,7 @@
 					<div class="tipfont">您还可以输入<span id="shenpiDetailsTip"><font size="5">500</font></span>个字符!</div>
 			 </td>
              </tr>
+             -->
              <tr>
              <td class="formAlignRight" style="width:15%">备注：</td>
              <td colspan="3" style="padding: 10px;">

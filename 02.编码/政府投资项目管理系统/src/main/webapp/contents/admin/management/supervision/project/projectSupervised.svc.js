@@ -345,13 +345,13 @@
                     filterable : false,
                     template : function(item) {
                         debugger;
-                        if(item.shenpiState  ==0){
+                        if(item.shenpiState  == 'shenpiStateType_1'){
                             return "审批中";
                         }
-                        if(item.shenpiState  ==1){
+                        if(item.shenpiState  == 'shenpiStateType_2'){
                             return "审批通过";
                         }
-                        if(item.shenpiState  ==2){
+                        if(item.shenpiState  == 'shenpiStateType_3'){
                             return "审批不通过";
                         }
                     }
@@ -635,7 +635,6 @@
                 		},
                 		async:true,
                 		success:function(response){
-                			debugger;
                 			var b = response.length;
                 			//不存在
                 			if(!b>0){
@@ -735,8 +734,8 @@
                 var id2 = vm.id;
             	for(temp =0;temp <response.data.value.length;temp++){
             		if(id2 == response.data.value[temp].id){
-            			debugger;
             			vm.model = response.data.value[temp] || {};
+            			vm.model.shenpiName = vm.model.dayNum + ',' + vm.model.shenpiName;
             			break;
             		}
             	}
@@ -1188,7 +1187,6 @@
 
             ];
             // End:column
-
             vm.gridOptions_documentRecords = {
                 dataSource : common.gridDataSource(dataSource),
                 filterable : common.kendoGridConfig().filterable,
@@ -1436,14 +1434,13 @@
                     width : "",
                     filterable : false,
                     template : function(item) {
-                        debugger;
-                        if(item.shenpiState  ==0){
+                        if(item.shenpiState  == 'shenpiStateType_1'){
                             return "审批中";
                         }
-                        if(item.shenpiState  ==1){
+                        if(item.shenpiState  == 'shenpiStateType_2'){
                             return "审批通过";
                         }
-                        if(item.shenpiState  ==2){
+                        if(item.shenpiState  == 'shenpiStateType_3'){
                             return "审批不通过";
                         }
                     }
@@ -1453,7 +1450,6 @@
                     title : "操作",
                     width : "",
                     template : function(item) {
-                    	debugger;
                         return common.format($('#columnBtns').html(),item.id);
                     }
 
@@ -1546,7 +1542,6 @@
                     title : "剩余天数",
                     width : "",
                     template : function(item) {
-                        debugger;
                         // if(item.shenpiResult){
                         // 	return "审批结束";
                         // }
@@ -1571,14 +1566,13 @@
                     width : "",
                     filterable : false,
                     template : function(item) {
-                        debugger;
-                        if(item.shenpiState  ==0){
+                        if(item.shenpiState  =='shenpiStateType_1'){
                             return "审批中";
                         }
-                        if(item.shenpiState  ==1){
+                        if(item.shenpiState  =='shenpiStateType_2'){
                             return "审批通过";
                         }
-                        if(item.shenpiState  ==2){
+                        if(item.shenpiState  =='shenpiStateType_3'){
                             return "审批不通过";
                         }
                     }
@@ -1588,8 +1582,6 @@
                     title : "操作",
                     width : "",
                     template : function(item) {
-                    	debugger;
-                    	//vm.delShenPiItem
                         return common.format($('#columnBtns').html(),item.id);
                     }
 
