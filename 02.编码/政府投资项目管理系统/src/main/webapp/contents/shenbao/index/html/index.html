@@ -15,7 +15,6 @@
 <div class="wrap-980 clearfix" style="margin-top:40px;">
 <div class="pull-left" style="width:540px;height: 318px;">
 	<div class="column">
-			
 		<ul class="title clearfix">
 			<li class="col-xs-3 focus article_1" ng-click="vm.article(1)"><span class="cs-icon glyphicon glyphicon-volume-down t-z-30"></span>通知公告</li>
 
@@ -58,7 +57,7 @@
 <div class="pull-right">
 	<div class="loginBox" ng-show="!vm.show">
 		<div class="boxWrap" style="height: 318px;">
-		<h3 style="margin-top: -30px; margin-bottom: 50px">手机客服端下载 </h3>
+		<h3 style="margin-top: -30px; margin-bottom: 50px">手机客户端下载 </h3>
 
 		<div class="row" style=" text-align: center;">
 			<div class="col-md-6">
@@ -79,33 +78,33 @@
 	</div>
 
 	<div class="loginBox" ng-show="vm.show">
-	<form ng-keypress="vm.keyEnter($event)">
-		<div class="boxWrap" style="height: 318px;">
-			<h3 style="margin-top: -30px; margin-bottom: 50px">用户登录</h3>
-		<span ng-show="vm.message" class="errors" ng-bind="vm.message" ></span>
+		<form ng-keypress="vm.keyEnter($event)">
+			<div class="boxWrap" style="height: 318px;">
+				<h3 style="margin-top: -30px; margin-bottom: 50px">用户登录</h3>
+			<span ng-show="vm.message" class="errors" ng-bind="vm.message" ></span>
 
-			<div class="box-hide">
-			<label class="cs-login-icon"><span class="glyphicon glyphicon-user"></span></label>
-			<span class="shadow-input"><input type="text" class="form-control input-sm" placeholder="请输入用户名称"
-			maxlength="100" name="loginName" id="loginName" ng-model="vm.model.loginName" 
-			data-val="true" data-val-required="用户名必填" ng-disabled="vm.isIE"/></span>
+				<div class="box-hide">
+				<label class="cs-login-icon"><span class="glyphicon glyphicon-user"></span></label>
+				<span class="shadow-input"><input type="text" class="form-control input-sm" placeholder="请输入用户名称"
+				maxlength="100" name="loginName" id="loginName" ng-model="vm.model.loginName"
+				data-val="true" data-val-required="用户名必填" ng-disabled="vm.isIE"/></span>
+				</div>
+				<div class="box-hide">
+				<label class="cs-login-icon"><span class="glyphicon glyphicon-lock"></span></label>
+				<span class="shadow-input">
+				<input type="password" class="form-control input-sm" placeholder="请输入用户密码"  autocomplete="off"
+				maxlength="100"  name="password" id="password" ng-model="vm.model.textPassword"
+				data-val="true" data-val-required="密码必填" ng-disabled="vm.isIE"/></span>
+				</div>
+
+				<div><button class="btn btn-success loginBtn" ng-click="vm.submit('unit')" ng-disabled="vm.isIE" >登录系统 </button></div></br>
+				<!-- <div><button class="btn btn-success loginBtn" ng-click="vm.forgetCode()">忘记密码 </button></div> -->
+				<div class="login-maker-btn" ng-click="vm.show=false"></div>
+				<div style="margin: -10px 0 0 0;">
+					<p ng-if="vm.isIE">您的浏览器版本过低，请升级至最新版本，或者请使用<a href="/contents/download/ChromeStandalone.exe" download="Chrome.zip" style="color:red;">谷歌chrome浏览器(点击下载)</a></p>
+				</div>
 			</div>
-			<div class="box-hide">
-			<label class="cs-login-icon"><span class="glyphicon glyphicon-lock"></span></label>
-			<span class="shadow-input">
-			<input type="password" class="form-control input-sm" placeholder="请输入用户密码"  autocomplete="off"
-			maxlength="100"  name="password" id="password" ng-model="vm.model.textPassword" 
-			data-val="true" data-val-required="密码必填" ng-disabled="vm.isIE"/></span>
-			</div>
-			
-			<div><button class="btn btn-success loginBtn" ng-click="vm.submit('unit')" ng-disabled="vm.isIE" >登录系统 </button></div></br>
-			<!-- <div><button class="btn btn-success loginBtn" ng-click="vm.forgetCode()">忘记密码 </button></div> -->
-			<div class="login-maker-btn" ng-click="vm.show=false"></div>
-			<div style="margin: -10px 0 0 0;">
-				<p ng-if="vm.isIE">您的浏览器版本过低，请升级至最新版本，或者请使用<a href="/contents/download/ChromeStandalone.exe" download="Chrome.zip" style="color:red;">谷歌chrome浏览器(点击下载)</a></p>
-			</div>
-		</div>
-	</form>	
+		</form>
 	</div>
 </div>
 

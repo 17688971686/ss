@@ -13,6 +13,10 @@
         vm.type='tzgg';
         vm.show=true;
         vm.article=function(type){
+        	if(!vm.model){
+        		alert('内容加载中请稍后')
+				return;
+			}
         	switch(type){
         		case 1:
         			vm.articles=vm.model.article_tzgg;
@@ -32,7 +36,7 @@
         	}
         	$('.column .title li').removeClass('focus');
         	$('.article_'+type).addClass('focus');
-        	
+
         };
         vm.formatDate = function(datStr){
         	return common.formatDate(datStr);
@@ -53,20 +57,31 @@
         		vm.isIE = true;
         	}
         	
-//        	indexSvc.getSessionInfo(vm);
+// indexSvc.getSessionInfo(vm);
         	
         }
         
 		function getExplorerInfo() {
 			var explorer = window.navigator.userAgent.toLowerCase();
+            var isIE = explorer.indexOf("compatible") > -1 && explorer.indexOf("msie") > -1; //判断是否IE<11浏览器
 			var ver="";
-			//ie 
-			if (explorer.indexOf("msie") >= 0) {
-				 ver = explorer.match(/msie ([\d.]+)/)[1];
-				return {
-					type : "IE",
-					version : ver
-				};
+			//ie
+			if (isIE) {
+				ver = explorer.match(/msie ([\d.]+)/)[1];
+                var reIE = new RegExp("msie (\\d+\\.\\d+);");
+                reIE.test(explorer);
+                var fIEVersion = parseFloat(RegExp["$1"]);
+                if(fIEVersion<9){
+                    return {
+                        type : "IE",
+                        version : ver
+                    };
+                } else{
+                	return{
+                		type:"IEGT10",
+						version:ver
+					}
+				}
 			}
 			//firefox 
 			else if (explorer.indexOf("firefox") >= 0) {
@@ -100,7 +115,12 @@
 					version : ver
 				};
 			}
-
+			else{
+				return{
+					type:'Others',
+					version:ver,
+				}
+			}
 		}       
     }
 })();
