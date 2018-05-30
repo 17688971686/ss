@@ -215,7 +215,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 				entity.setQianshouDate(new Date());//签收时间
 				entity.setReceiver(currentUser.getUserId());//签收人
 				entity.setIsIncludLibrary(false);//设置初始化为未纳入项目库
-				logger.info(String.format("创建项目信息,项目名称 %s",project.getProjectName()));
+				logger.info(String.format("创建申报信息,项目名称 %s",project.getProjectName()));
 			}else{
 				throw new IllegalArgumentException(String.format("项目：%s 已存在,请重新确认！",dto.getProjectName()));
 			}

@@ -15,12 +15,13 @@ public interface PlanReachApplicationService extends IService<PlanReachApplicati
 	//为计划下达批量添加申报数据
 	void addShenBaoInfos(String planReachId,String[] ids);
 	//为计划下达添加申报数据
-	void addShenBaoInfo(String planReachId,String shenBaoInfoId);
+	void addShenBaoInfo(String planReachId, String[] ids);
 	//为计划下达添加打包数据
 	void addPackPlan(String planReachId,String packPlanId);
 	//为计划下达批量添加申报数据
 	void addPackPlans(String planReachId,String[] ids);
 	//根据打包id，获取计划下达打包类中的申报数据
 	PageModelDto<ShenBaoInfoDto> getShenBaoInfoFromPackPlan(String packId,ODataObj odataObj);
+	
 
 }

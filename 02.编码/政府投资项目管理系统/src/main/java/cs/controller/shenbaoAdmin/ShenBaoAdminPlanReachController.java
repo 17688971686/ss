@@ -163,11 +163,7 @@ public class ShenBaoAdminPlanReachController {
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void addShenBaoInfoToPlanReach(@RequestBody String projectId,@PathVariable String planReachId){		
 		String[] ids=projectId.split(",");
-		if(ids.length>1){
-			planReachApplicationService.addShenBaoInfos(planReachId, ids);
-		}else{
-			planReachApplicationService.addShenBaoInfo(planReachId,projectId);
-		}
+		planReachApplicationService.addShenBaoInfos(planReachId, ids);
 	}
 	
 	@RequestMapping(name = "获取计划下达中打包列表数据", path = "{id}/packPlanList",method=RequestMethod.GET)

@@ -2,10 +2,13 @@ package cs.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import org.activiti.engine.impl.bpmn.data.Data;
 import org.apache.log4j.Logger;
 import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import cs.domain.PackPlan;
 import cs.domain.PlanReachApplication;
 import cs.domain.Project;
 import cs.domain.ShenBaoInfo;
+import cs.domain.ShenBaoUnitInfo;
 import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.PackPlanDto;
@@ -28,6 +32,7 @@ import cs.model.DomainDto.ShenBaoUnitInfoDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
+import cs.service.interfaces.PackPlanService;
 import cs.service.interfaces.PlanReachApplicationService;
 import cs.service.interfaces.ProjectService;
 import cs.service.interfaces.ShenBaoInfoService;
@@ -57,6 +62,10 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 	ICurrentUser currentUser;
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
+	@Autowired
+	private IMapper<ShenBaoUnitInfoDto, ShenBaoUnitInfo> shenBaoUnitInfoMapper;
+	@Autowired
+	private PackPlanService packPlanService;
 	
 	@Override
 	@Transactional
@@ -166,8 +175,10 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 		logger.info(String.format("删除计划下达申请表,名称 :%s",entity.getApplicationName()));
 	}
 
-	private ShenBaoInfo projectToShenBaoInfo(Project dto,ShenBaoInfoDto shenBaoInfoDto){
+	private ShenBaoInfoDto projectToShenBaoInfo(Project dto,ShenBaoInfoDto shenBaoInfoDto){
 		shenBaoInfoDto.setUnitName(dto.getUnitName());//项目所属单位
+		shenBaoInfoDto.setProjectName(dto.getProjectName());
+		shenBaoInfoDto.setProjectNumber(dto.getProjectNumber());
 		shenBaoInfoDto.setProjectStage(dto.getProjectStage());//项目阶段
 		shenBaoInfoDto.setProjectRepName(dto.getProjectRepName());//负责人名称
 		shenBaoInfoDto.setProjectRepMobile(dto.getProjectRepMobile());//负责人手机
@@ -211,6 +222,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 	public PageModelDto<ShenBaoInfoDto> getShenBaoInfo(String planReachId, ODataObj odataObj) {
 		Integer skip = odataObj.getSkip();
 		Integer stop = odataObj.getTop();
+		PageModelDto<ShenBaoInfoDto> pageModelDto = new PageModelDto<>();
 		PlanReachApplication planReachApplication=super.findById(planReachId);
 		if(planReachApplication != null){
 			//分页查询数据
@@ -221,10 +233,21 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 					.setFirstResult(skip).setMaxResults(stop)) 
 					.addEntity(ShenBaoInfo.class)
 					.getResultList();
-			shenBaoInfos.forEach(x->{
-				ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(x);
-				shenBaoInfos.add(shenBaoInfoDto);
-			});
+//			shenBaoInfos.forEach(x->{
+//				ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(x);
+//				shenBaoInfos.add(shenBaoInfoDto);
+//			});
+//			Iterator<ShenBaoInfo> iterator = shenBaoInfos.iterator();
+//			          while (iterator.hasNext()) {
+//			        	  ShenBaoInfo x = iterator.next();
+//			        	  ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(x);
+//			        	  shenBaoInfos.add(shenBaoInfoDto);
+//			                 iterator.remove();
+//			         }
+			for (int i = 0; i < shenBaoInfos.size(); i++) {
+				ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(shenBaoInfos.get(i));
+				shenBaoInfoDtos.add(shenBaoInfoDto);
+			}
 			//查询总数
 			List<ShenBaoInfoDto> shenBaoInfoDtos2=planReachApplicationRepo.getSession()
 					.createSQLQuery(SQLConfig.shenBaoInfoOfPlanReachApplication)
@@ -233,61 +256,92 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 					.getResultList();
 			int count = shenBaoInfoDtos2.size();
 			
-			PageModelDto<ShenBaoInfoDto> pageModelDto = new PageModelDto<>();
 			pageModelDto.setCount(count);
 			pageModelDto.setValue(shenBaoInfoDtos);
 			return pageModelDto;
 		}			
-		return null;
+		pageModelDto.setCount(0);
+		pageModelDto.setValue(null);
+		return pageModelDto;
 	}
 
 	@Override
 	@Transactional
 	public void addShenBaoInfos(String planReachId, String[] ids) {
-		for (String id : ids) {
-			this.addShenBaoInfo(planReachId,id);
-		}
+			this.addShenBaoInfo(planReachId,ids);
 	}
 
 	@Override
 	@Transactional
-	public void addShenBaoInfo(String planReachId, String shenBaoInfoId) {
-		Boolean hasShenBaoInfo = false;
-		//根据计划下达id查找到计划下达信息
+	public void addShenBaoInfo(String planReachId, String[] ids) {
 		PlanReachApplication planReach = super.findById(planReachId);
-		if(planReach !=null){
-			//判断年度计划编制中是否已有打包计划
-			List<ShenBaoInfo> shenBaoInfos = planReach.getShenBaoInfos();
-				for(ShenBaoInfo shenBaoInfo : shenBaoInfos){
-					if(shenBaoInfo == null){
-						hasShenBaoInfo = false;
-					}else{
-						if(shenBaoInfo.getId().equals(shenBaoInfoId)){
-							hasShenBaoInfo = true;
+		for (String projectId : ids) {
+			Boolean hasShenBaoInfo = false;
+			//根据计划下达id查找到计划下达信息
+			
+			if(planReach !=null){
+				//判断年度计划编制中是否已有打包计划
+				List<ShenBaoInfo> shenBaoInfos = planReach.getShenBaoInfos();
+				loop:for(ShenBaoInfo shenBaoInfo : shenBaoInfos){
+						if(shenBaoInfo == null){
+							hasShenBaoInfo = false;
+						}else{
+							ShenBaoInfo entity = shenBaoInfoRepo.findById(shenBaoInfo.getId());
+							if(entity != null &&entity.getProjectId().equals(projectId)){
+								hasShenBaoInfo = true;
+								break loop;
+							}
 						}
 					}
-				}
-			
-			if(hasShenBaoInfo){
-				//通过打包计划id获取名称
-				//String name= packPlanRepo.findById(packId).getName();
-				//throw new IllegalArgumentException(String.format("申报项目：%s 已经存在编制计划中,请重新选择！", name));
-			}else{
-				//根据申报信息id创建年度计划资金
-				ShenBaoInfo entity = shenBaoInfoRepo.findById(shenBaoInfoId);
-				//将打包计划保存到年度计划中
-				if(planReach.getShenBaoInfos() !=null){
-					planReach.getShenBaoInfos().add(entity);
+				
+				if(hasShenBaoInfo){
+					//通过打包计划id获取名称
+					//String name= packPlanRepo.findById(packId).getName();
+					throw new IllegalArgumentException(String.format("申报项目：%s 已经存在编制计划中,请重新选择！"));
 				}else{
-					List<ShenBaoInfo> shenBaoInfos2 = new ArrayList<>();
-					shenBaoInfos2.add(entity);
-					planReach.setShenBaoInfos(shenBaoInfos2);
-				}		
-				super.repository.save(planReach);
-				logger.info(String.format("添加年度计划资金,名称：%s",planReach.getApplicationName()));	
+					//根据申报信息id创建年度计划资金
+					Project project = projectService.findById(projectId);//查询项目信息
+					ShenBaoInfoDto shenBaoInfoDto = new ShenBaoInfoDto();
+					
+					ShenBaoInfoDto shenbaoDto = this.projectToShenBaoInfo(project, shenBaoInfoDto);
+					shenbaoDto.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
+					shenbaoDto.setCreatedBy(currentUser.getUserId());
+					shenbaoDto.setCreatedDate(new Date());
+					shenbaoDto.setProjectId(projectId);
+					shenbaoDto.setId(UUID.randomUUID().toString());
+					//申报单位
+					ShenBaoUnitInfoDto shenBaoUnitInfoDto = shenbaoDto.getShenBaoUnitInfoDto();
+					ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
+					shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto,shenBaoUnitInfo);
+					shenBaoUnitInfo.setCreatedBy(shenbaoDto.getCreatedBy());
+					shenBaoUnitInfo.setModifiedBy(shenbaoDto.getModifiedBy());
+					shenbaoDto.setShenBaoUnitInfo(shenBaoUnitInfo);
+					//编制单位
+					ShenBaoUnitInfoDto bianZhiUnitInfoDto = shenbaoDto.getBianZhiUnitInfoDto();
+					ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
+					shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto,bianZhiUnitInfo);
+					bianZhiUnitInfo.setCreatedBy(shenbaoDto.getCreatedBy());
+					bianZhiUnitInfo.setModifiedBy(shenbaoDto.getModifiedBy());
+					shenbaoDto.setBianZhiUnitInfo(bianZhiUnitInfo);
+					ShenBaoInfo ttt = shenBaoInfoService.create(shenbaoDto);
+//					shenBaoInfoMapper.buildEntity(shenbao, ttt);
+//					shenBaoInfoRepo.save(shenbaoDto);//添加项目的同时，创建一条计划类的申报信息
+					
+					//将打包计划保存到年度计划中
+					if(planReach.getShenBaoInfos() !=null){
+						planReach.getShenBaoInfos().add(shenbaoDto);
+					}else{
+						List<ShenBaoInfo> shenBaoInfos2 = new ArrayList<>();
+						shenBaoInfos2.add(shenbaoDto);
+						planReach.setShenBaoInfos(shenBaoInfos2);
+					}		
+					
+				}
 			}
 		}
-					
+		
+		planReachApplicationRepo.save(planReach);
+		logger.info(String.format("添加年度计划资金,名称：%s",planReach.getApplicationName()));	
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -296,34 +350,39 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 	public PageModelDto<PackPlanDto> getPackPlan(String planReachId, ODataObj odataObj) {
 		Integer skip = odataObj.getSkip();
 		Integer stop = odataObj.getTop();
-		PlanReachApplication planReachApplication=super.findById(planReachId);
-		if(planReachApplication != null){
-			//分页查询数据
-			List<PackPlanDto> packPlanDtos=new ArrayList<>();
-			List<PackPlan> packPlans=((SQLQuery) planReachApplicationRepo.getSession()
-					.createSQLQuery(SQLConfig.packPlanByPlanReachId)
-					.setParameter("planReachId", planReachId)
-					.setFirstResult(skip).setMaxResults(stop)) 
-					.addEntity(PackPlan.class)
-					.getResultList();
-			packPlans.forEach(x->{
-				PackPlanDto packPlanDto = packPlanMapper.toDto(x);
-				packPlanDtos.add(packPlanDto);
-			});
-			//查询总数
-			List<PackPlanDto> packPlanDtos2=planReachApplicationRepo.getSession()
-					.createSQLQuery(SQLConfig.packPlanByPlanReachId)
-					.setParameter("planReachId", planReachId)
-					.addEntity(PackPlan.class)
-					.getResultList();
-			int count = packPlanDtos2.size();
-			
-			PageModelDto<PackPlanDto> pageModelDto = new PageModelDto<>();
-			pageModelDto.setCount(count);
-			pageModelDto.setValue(packPlanDtos);
-			return pageModelDto;
-		}			
-		return null;
+		PageModelDto<PackPlanDto> packPlanDtos = packPlanService.get(odataObj);
+		
+		PageModelDto<PackPlanDto> pageModelDto = new PageModelDto<>();
+//		PlanReachApplication planReachApplication=super.findById(planReachId);
+//		if(planReachApplication != null){
+//			//分页查询数据
+//			List<PackPlanDto> packPlanDtos=new ArrayList<>();
+//			List<PackPlan> packPlans=((SQLQuery) planReachApplicationRepo.getSession()
+//					.createSQLQuery(SQLConfig.packPlanByPlanReachId)
+//					.setParameter("planReachId", planReachId)
+//					.setFirstResult(skip).setMaxResults(stop)) 
+//					.addEntity(PackPlan.class)
+//					.getResultList();
+//			packPlans.forEach(x->{
+//				PackPlanDto packPlanDto = packPlanMapper.toDto(x);
+//				packPlanDtos.add(packPlanDto);
+//			});
+//			//查询总数
+//			List<PackPlanDto> packPlanDtos2=planReachApplicationRepo.getSession()
+//					.createSQLQuery(SQLConfig.packPlanByPlanReachId)
+//					.setParameter("planReachId", planReachId)
+//					.addEntity(PackPlan.class)
+//					.getResultList();
+//			int count = packPlanDtos2.size();
+//			
+//			pageModelDto.setCount(count);
+//			pageModelDto.setValue(packPlanDtos);
+//			return pageModelDto;
+//		}			
+//		
+		pageModelDto.setCount(packPlanDtos.getValue().size());
+		pageModelDto.setValue(packPlanDtos.getValue());
+		return pageModelDto;
 	}
 	
 	@Override
