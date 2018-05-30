@@ -310,9 +310,9 @@
         	//添加打包计划
         	vm.confirmPack = function(name,totalMoney,year){
         		if(vm.model.packPlanDtos){
-        			vm.model.packPlanDtos.push({name:name,totalMoney:totalMoney,capital_ggys:'',capital_gtzj:'',capital_ggys:'',capital_gtzj:'',year:year});
+        			vm.model.packPlanDtos.push({name:name,totalMoney:totalMoney,capital_ggys:'',capital_gtzj:'',year:year});
             	}else{
-            		vm.model.packPlanDtos=[{name:name,totalMoney:totalMoney,capital_ggys:'',capital_gtzj:'',capital_ggys:'',capital_gtzj:'',year:year}];
+            		vm.model.packPlanDtos=[{name:name,totalMoney:totalMoney,capital_ggys:'',capital_gtzj:'',year:year}];
             	}
         	};
         	//移除打包计划

@@ -114,14 +114,6 @@
 		function getShenBaoInfoByProjectNumber(vm,projectNumber,isIncludYearPlan,applicationTime,isHas){
 			var httpOptions = {
 					method : 'get',
-					url :url_shenbao,
-//					data:{
-//						"projectNumber":projectNumber,
-//						"isIncludYearPlan":isIncludYearPlan,
-//						"projectShenBaoStage":common.basicDataConfig().projectShenBaoStage_nextYearPlan,
-//						"planYear":applicationTime
-//							
-//					}
 					url : common.format(url_shenbao + "?$filter=projectNumber eq '{0}' and isIncludYearPlan eq {1} and projectShenBaoStage eq '{3}' and planYear eq {2}", projectNumber,isIncludYearPlan,applicationTime,common.basicDataConfig().projectShenBaoStage_nextYearPlan)
 				};
 			var httpSuccess = function success(response) {

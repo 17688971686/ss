@@ -78,7 +78,7 @@
                     };
                 } else{
                 	return{
-                		type:"IEGT10",
+                		type:"IEGT9",
 						version:ver
 					}
 				}

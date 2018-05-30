@@ -142,7 +142,6 @@
 		function getProjectById(vm){
 			var httpOptions = {
 					method : 'get',
-					url : url_project,
 					url : common.format(url_project + "?$filter=id eq '{0}'", vm.id)
 				};
 			
