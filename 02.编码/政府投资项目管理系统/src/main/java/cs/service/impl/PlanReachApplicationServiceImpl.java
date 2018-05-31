@@ -18,6 +18,7 @@ import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.common.SQLConfig;
 import cs.common.Util;
+import cs.domain.AllocationCapital;
 import cs.domain.PackPlan;
 import cs.domain.PlanReachApplication;
 import cs.domain.Project;
@@ -29,7 +30,9 @@ import cs.model.DomainDto.PackPlanDto;
 import cs.model.DomainDto.PlanReachApplicationDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.ShenBaoUnitInfoDto;
+import cs.model.DomainDto.UserUnitInfoDto;
 import cs.model.DtoMapper.IMapper;
+import cs.model.framework.UserDto;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.PackPlanService;
@@ -352,7 +355,43 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 		Integer stop = odataObj.getTop();
 		PageModelDto<PackPlanDto> packPlanDtos = packPlanService.get(odataObj);
 		
+		UserUnitInfoDto userUnitInfoDto1 = null;
+		List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
+		for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
+			if(!userUnitInfoDto.getUserDtos().isEmpty()){
+				for (UserDto user : userUnitInfoDto.getUserDtos()) {
+					if(user.getId().equals(currentUser.getUserId())){
+						userUnitInfoDto1 =userUnitInfoDto;
+					}
+				} 
+			}
+			
+				
+		}
+//		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
+		double d = 0.0;
+		double a = 0.0;
+		boolean isOurUnit = false;
 		PageModelDto<PackPlanDto> pageModelDto = new PageModelDto<>();
+		for (int i = 0; i < packPlanDtos.getValue().size(); i++) {
+			if(packPlanDtos.getValue().get(i) != null){
+				for (int j = 0; j < packPlanDtos.getValue().get(i).getAllocationCapitals().size(); j++) {
+					if(packPlanDtos.getValue().get(i).getAllocationCapitals().get(j) != null){
+						if(packPlanDtos.getValue().get(i).getAllocationCapitals().get(j).getUnitName().equals(userUnitInfoDto1.getId())){//如果有本单位的打包计划
+							d += packPlanDtos.getValue().get(i).getAllocationCapitals().get(j).getCapital_ggys();
+							a += packPlanDtos.getValue().get(i).getAllocationCapitals().get(j).getCapital_gtzj();
+							isOurUnit = true;
+						}
+					}
+				}
+			}
+			if(isOurUnit == false){
+				packPlanDtos.getValue().remove(i);
+			}else{
+				packPlanDtos.getValue().get(i).setCapitalSCZ_ggys_TheYear(d);
+				packPlanDtos.getValue().get(i).setCapitalSCZ_gtzj_TheYear(a);
+			}
+		}
 //		PlanReachApplication planReachApplication=super.findById(planReachId);
 //		if(planReachApplication != null){
 //			//分页查询数据

@@ -11,7 +11,7 @@
 		var url_userUnit　= "/shenbaoAdmin/userUnitInfo";
 		var url_back="/planReach";
 		var url_pack="/shenbaoAdmin/yearPlan";
-		
+		var url_packPlan = '/management/packPlan';
 		var service={
 				getHasIncludYearPlan:getHasIncludYearPlan,
 				getNotIncludYearPlan:getNotIncludYearPlan,
@@ -32,11 +32,35 @@
 				addShenBaoInfoToPlanReach : addShenBaoInfoToPlanReach,
 				getPackFromPlanGrid : getPackFromPlanGrid,
 				addPackPlanToPlanReack : addPackPlanToPlanReack,
-				getShenBaoInfoGridFromPackPlan : getShenBaoInfoGridFromPackPlan
+				getShenBaoInfoGridFromPackPlan : getShenBaoInfoGridFromPackPlan,
+				getPackPlanById:getPackPlanById
 		}
 		
 		return service;
 		
+		function getPackPlanById(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_packPlan + "?$filter=id eq '{0}'", vm.id)					
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.model=response.data.value[0] || {};
+				console.log(vm.model);
+				vm.model.allocationCapitalDtos = vm.model.allocationCapitals;
+				//刷新文字输入长度
+				vm.checkLength(vm.model.remark,500,'remarkTips');
+				//vm.planYear = vm.model.plan.year;//用于编制列表表头年份的绑定
+				vm.shenBaoInfo_gridOptions.dataSource = vm.model.shenBaoInfo;
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}//end fun getPackPlanById
 		
 		/**
 		 * 为计划下达申请添加打包类型

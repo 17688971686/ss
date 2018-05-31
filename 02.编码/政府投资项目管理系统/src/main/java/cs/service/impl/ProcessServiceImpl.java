@@ -578,6 +578,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}else if(str.equals("tuiwen")){
 			variables.put("isPass", 3);
 		}else if(str.equals("reback")){
+			isPass = "2";
 			variables.put("isPass", 2);
 		}else if((isPass == ""|| isPass ==null)&&"next".equals(str)){//正常通过
 			variables.put("isPass", 1);

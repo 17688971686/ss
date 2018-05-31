@@ -161,6 +161,8 @@
     			for(var i=0;i<vm.model.allocationCapitalDtos.length;i++){
     				configuredMoney = configuredMoney+(vm.model.allocationCapitalDtos[i].capital_ggys + 
     						vm.model.allocationCapitalDtos[i].capital_gtzj);
+    				vm.model.allocationCapitalDtos[i].capitalSCZ_gtzj_TheYear = 0;
+    				vm.model.allocationCapitalDtos[i].capitalSCZ_ggys_TheYear = 0;
     			}
     			if(configuredMoney <= vm.model.totalMoney){
     				//vm.model.surplusMoney = vm.model.totalMoney - configuredMoney;

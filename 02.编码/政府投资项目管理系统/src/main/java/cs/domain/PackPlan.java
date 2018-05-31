@@ -3,6 +3,7 @@ package cs.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,6 +34,12 @@ public class PackPlan extends BaseEntity{
 	
 	@Column(columnDefinition="double(13,4) DEFAULT 0.0 COMMENT '总指标'")
 	private Double totalMoney=0.0;
+	
+	@Basic //(optional="double(13,4) DEFAULT 0.0 COMMENT '本单位公共预算指标总计'")
+	private Double capitalSCZ_ggys_TheYear=0.0;
+	
+	@Basic //(columnDefinition="double(13,4) DEFAULT 0.0 COMMENT '本单位国土资金指标总计'")
+	private Double capitalSCZ_gtzj_TheYear=0.0;
 	
 	//begin#关联信息
 	@OneToMany(cascade=CascadeType.ALL)
@@ -95,6 +102,22 @@ public class PackPlan extends BaseEntity{
 
 	public void setShenBaoInfos(List<ShenBaoInfo> shenBaoInfos) {
 		this.shenBaoInfos = shenBaoInfos;
+	}
+
+	public Double getCapitalSCZ_ggys_TheYear() {
+		return capitalSCZ_ggys_TheYear;
+	}
+
+	public void setCapitalSCZ_ggys_TheYear(Double capitalSCZ_ggys_TheYear) {
+		this.capitalSCZ_ggys_TheYear = capitalSCZ_ggys_TheYear;
+	}
+
+	public Double getCapitalSCZ_gtzj_TheYear() {
+		return capitalSCZ_gtzj_TheYear;
+	}
+
+	public void setCapitalSCZ_gtzj_TheYear(Double capitalSCZ_gtzj_TheYear) {
+		this.capitalSCZ_gtzj_TheYear = capitalSCZ_gtzj_TheYear;
 	}
 	
 }
