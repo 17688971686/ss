@@ -166,10 +166,39 @@ public class ShenBaoAdminPlanReachController {
 		planReachApplicationService.addShenBaoInfos(planReachId, ids);
 	}
 	
+	@RequestMapping(name="计划下达申请中添加申报项目",path="addShenBaoInfoToPack/{packId}",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void addShenBaoInfoToPack(@RequestBody String projectId,@PathVariable String packId){		
+		String[] ids=projectId.split(",");
+		planReachApplicationService.addShenBaoInfoToPacks(packId, ids);
+	}
+	
+	@RequestMapping(name="启动计划下达审批流程",path="startProcess/{packId}",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void startProcess(@PathVariable String packId){		
+		planReachApplicationService.startProcess(packId);
+	}
+	
+	@RequestMapping(name="添加申请资金",path="updateShnebaoInfo/{shenbaoId}/{ggmoney}/{gtmoney}",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void updateShnebaoInfo(@PathVariable String shenbaoId,@PathVariable String ggmoney,@PathVariable String gtmoney){	
+		
+		double apPlanReach_gtzj = Double.parseDouble(gtmoney);
+		double apPlanReach_ggys = Double.parseDouble(ggmoney);
+		planReachApplicationService.updateShnebaoInfo(shenbaoId,apPlanReach_ggys,apPlanReach_gtzj);
+	}
+	
 	@RequestMapping(name = "获取计划下达中打包列表数据", path = "{id}/packPlanList",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<PackPlanDto> getPackPkan(HttpServletRequest request,@PathVariable String id) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<PackPlanDto> packPlanDtos = planReachApplicationService.getPackPlan(id,odataObj);
+		return packPlanDtos;
+	}
+	
+	@RequestMapping(name = "获取包列表数据", path = "packPlanList",method=RequestMethod.GET)
+	public @ResponseBody PageModelDto<PackPlanDto> getPackPkan(HttpServletRequest request) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);
+		PageModelDto<PackPlanDto> packPlanDtos = planReachApplicationService.getPackPlan(odataObj);
 		return packPlanDtos;
 	}
 	

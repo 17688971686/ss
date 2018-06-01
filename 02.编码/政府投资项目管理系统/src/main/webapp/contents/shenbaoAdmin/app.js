@@ -113,7 +113,7 @@
 	            controllerAs: 'vm'
 	        })
 	        .state('planReachEdit', {
-	            url: '/planReachEdit/:id',
+	            url: '/planReachEdit/:id/:isStartProcess',
 	            params:{"id":null},  
             	templateUrl:'/shenbaoAdmin/planReach/html/edit', 
             	controller: 'planReachCtrl',

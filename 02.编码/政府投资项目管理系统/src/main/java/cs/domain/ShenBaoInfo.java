@@ -33,6 +33,9 @@ public class ShenBaoInfo extends BaseProject{
 	
 	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '项目是否纳入项目库'")
 	private Boolean isIncludLibrary=false;
+	
+	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '项目是否纳入打包计划'")
+	private Boolean isIncludPack=false;
 
 	@Column(columnDefinition="varchar(125) NULL COMMENT '申报阶段'")
 	private String projectShenBaoStage;
@@ -662,6 +665,12 @@ public class ShenBaoInfo extends BaseProject{
 	}
 	public void setComplate(boolean complate) {
 		this.complate = complate;
+	}
+	public Boolean getIsIncludPack() {
+		return isIncludPack;
+	}
+	public void setIsIncludPack(Boolean isIncludPack) {
+		this.isIncludPack = isIncludPack;
 	}
 
 	

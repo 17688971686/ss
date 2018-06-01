@@ -38,6 +38,9 @@ public class PlanReachApplication extends BaseEntity{
 	@Column(columnDefinition="varchar(255)  not null COMMENT '负责人电话'")
 	private String resPersonTel;
 	
+	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否已启动审批流程'")
+	private Boolean isStartProcess=false;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(columnDefinition="datetime  not null COMMENT '申请时间'")
 	private Date applicationTime;
@@ -113,4 +116,17 @@ public class PlanReachApplication extends BaseEntity{
 	public void setPakckPlans(List<PackPlan> packPlans) {
 		this.packPlans = packPlans;
 	}
+
+	public Boolean getIsStartProcess() {
+		return isStartProcess;
+	}
+
+	public void setIsStartProcess(Boolean isStartProcess) {
+		this.isStartProcess = isStartProcess;
+	}
+
+	public void setPackPlans(List<PackPlan> packPlans) {
+		this.packPlans = packPlans;
+	}
+	
 }

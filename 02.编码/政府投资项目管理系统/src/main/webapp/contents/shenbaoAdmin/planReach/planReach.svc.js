@@ -33,10 +33,80 @@
 				getPackFromPlanGrid : getPackFromPlanGrid,
 				addPackPlanToPlanReack : addPackPlanToPlanReack,
 				getShenBaoInfoGridFromPackPlan : getShenBaoInfoGridFromPackPlan,
-				getPackPlanById:getPackPlanById
+				getPackPlanById:getPackPlanById,//查询打包计划信息
+				addShenBaoInfoToPack:addShenBaoInfoToPack,//打包计划添加申报信息
+				startProcess:startProcess,//开始计划下达审批流程
+				updateShnebaoInfo:updateShnebaoInfo//更新深白信息的安排资金
 		}
 		
 		return service;
+		
+		function updateShnebaoInfo(vm,shenbaoId){
+			var httpOptions = {
+					method : 'post',
+					url : common.format(url+"/updateShnebaoInfo/{0}/{1}/{2}", shenbaoId,vm.gg[shenbaoId],vm.gt[shenbaoId])					
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function() {
+						common.alert({
+							vm : vm,
+							msg : "资金添加成功",
+							fn : function() {
+								if(vm.page == 'packPlanEdit'){
+									vm.shenBaoInfo_gridOptions_plan.dataSource.read();
+					        	}
+								if(vm.page == 'edit'){
+									vm.shenBaoInfo_gridOptions.dataSource.read();//编制打包计划列表数据刷新	
+					        	}
+								
+								$('.alertDialog').modal('hide');
+							}
+						});
+					}
+				});
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		};
+		
+		function startProcess(vm,planId){
+			var httpOptions = {
+					method : 'post',
+					url : common.format(url+"/startProcess/{0}", planId)					
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function() {
+						common.alert({
+							vm : vm,
+							msg : "操作成功",
+							fn : function() {
+								$('.alertDialog').modal('hide');
+							}
+						});
+					}
+				});
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		};
 		
 		function getPackPlanById(vm){
 			var httpOptions = {
@@ -49,9 +119,9 @@
 				console.log(vm.model);
 				vm.model.allocationCapitalDtos = vm.model.allocationCapitals;
 				//刷新文字输入长度
-				vm.checkLength(vm.model.remark,500,'remarkTips');
+//				vm.checkLength(vm.model.remark,500,'remarkTips');
 				//vm.planYear = vm.model.plan.year;//用于编制列表表头年份的绑定
-				vm.shenBaoInfo_gridOptions.dataSource = vm.model.shenBaoInfo;
+//				vm.shenBaoInfo_gridOptions_plan.dataSource = vm.model.shenBaoInfoDtos;
 			};
 			
 			common.http({
@@ -118,6 +188,41 @@
 							fn : function() {
 								$('.alertDialog').modal('hide');
 								vm.shenBaoInfo_gridOptions.dataSource.read();//编制打包计划列表数据刷新								
+							}
+						});
+					}
+				});
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});			
+		}//end fun addShenBaoInfoToYearPlan
+		
+		/**
+		 * 为计划下达申请添加申报项目
+		 */
+		function addShenBaoInfoToPack(vm,ids){
+			var httpOptions = {
+					method : 'post',
+					url : common.format(url+"/addShenBaoInfoToPack/{0}",vm.id),
+					data:ids
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function() {
+						common.alert({
+							vm : vm,
+							msg : "操作成功",
+							fn : function() {
+								$('.alertDialog').modal('hide');
+								vm.shenBaoInfo_gridOptions_plan.dataSource.read();//编制打包计划列表数据刷新								
 							}
 						});
 					}
@@ -467,7 +572,12 @@
 					width : 150,
 					filterable : false,
 					template:function(item){
-						return item.shenBaoInfoDtos.length;
+						var alllength = 0;
+						for (var int = 0; int < item.planPackDtos.length; int++) {
+							var array_element = item.planPackDtos[int];
+							alllength =alllength + array_element.shenBaoInfoDtos.length;
+						}
+						return item.shenBaoInfoDtos.length + alllength;
 					}
 				},
 				{
@@ -483,8 +593,8 @@
 					field : "",
 					title : "操作",
 					width : 150,
-					template : function(item) {					
-						return common.format($('#columnBtns_applications').html(),item.id);
+					template : function(item) {		
+						return common.format($('#columnBtns_applications').html(),item.id,item.isStartProcess);
 					}
 				}
 			];
@@ -1010,7 +1120,7 @@
 		function packGrid(vm){
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_pack),						
+				transport : common.kendoGridConfig().transport(url+"/packPlanList"),						
 				schema : common.kendoGridConfig().schema({
 					id : "id"
 				}),
@@ -1021,14 +1131,7 @@
 				sort : {
 					field : "createdDate",
 					dir : "desc"
-				},
-				filter:[
-					{
-						field:'planType',
-						operator:'eq',
-						value:'packPlan'
-					}
-				]
+				}
 			});
 			var columns = [	
 				{
@@ -1234,7 +1337,7 @@
 						title: "安排资金（万元）",
                         columns: [
                         	{
-        						field : "capitalSCZ_ggys_TheYear",
+        						field : "apPlanReach_ggys",
         						title : "公共预算",
         						width:100,
         						filterable : false,
@@ -1244,7 +1347,7 @@
         					    }
         					},
         					{
-        						field : "capitalSCZ_gtzj_TheYear",
+        						field : "apPlanReach_gtzj",
         						title : "国土基金",
         						width:100,
         						filterable : false,
@@ -1263,20 +1366,28 @@
 						title : "申请资金（万元）",
 						columns: [
 							{
-								field : "capitalAP_ggys_TheYear",
+								field : "sqPlanReach_ggys",
 								title : "公共预算",
 								width:130,
 								filterable : false,
+								template :function(item){			
+									vm.gg[item.id] = item.sqPlanReach_ggys;
+									return common.format($('#input').html(),item.id,item.sqPlanReach_ggys);
+								},
 								headerAttributes: {
 							      "class": "table-header-cell",
 							       style: "text-align: center;vertical-align: middle;"
 							    }
 							},
 							{
-								field : "capitalAP_gtzj_TheYear",
+								field : "sqPlanReach_gtzj",
 								title : "国土基金",
 								width:130,
 								filterable : false,
+								template :function(item){	
+									vm.gt[item.id] = item.sqPlanReach_gtzj;
+									return common.format($('#input2').html(),item.id,item.sqPlanReach_gtzj);
+								},
 								headerAttributes: {
 							      "class": "table-header-cell",
 							       style: "text-align: center;vertical-align: middle;"
@@ -1522,20 +1633,28 @@
 						title : "申请资金（万元）",
 						columns: [
 							{
-								field : "capitalAP_ggys_TheYear",
+								field : "sqPlanReach_ggys",
 								title : "公共预算",
 								width:130,
 								filterable : false,
+								template:function(item){
+									vm.gg[item.id] = item.sqPlanReach_ggys;
+									return common.format($('#input').html(),item.id,item.sqPlanReach_ggys);
+								},
 								headerAttributes: {
 							      "class": "table-header-cell",
 							       style: "text-align: center;vertical-align: middle;"
 							    }
 							},
 							{
-								field : "capitalAP_gtzj_TheYear",
+								field : "sqPlanReach_gtzj",
 								title : "国土基金",
 								width:130,
 								filterable : false,
+								template:function(item){
+									vm.gt[item.id] = item.sqPlanReach_gtzj;
+									return common.format($('#input2').html(),item.id,item.sqPlanReach_gtzj);
+								},
 								headerAttributes: {
 							      "class": "table-header-cell",
 							       style: "text-align: center;vertical-align: middle;"
@@ -1550,7 +1669,7 @@
 			];
 			// End:column
 			
-			vm.shenBaoInfo_gridOptions = {
+			vm.shenBaoInfo_gridOptions_plan = {
 				excel: {
 		                fileName: "年度计划编制.xlsx"
 		            	},

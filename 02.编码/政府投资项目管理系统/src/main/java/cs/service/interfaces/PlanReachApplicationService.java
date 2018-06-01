@@ -22,6 +22,11 @@ public interface PlanReachApplicationService extends IService<PlanReachApplicati
 	void addPackPlans(String planReachId,String[] ids);
 	//根据打包id，获取计划下达打包类中的申报数据
 	PageModelDto<ShenBaoInfoDto> getShenBaoInfoFromPackPlan(String packId,ODataObj odataObj);
+	void addShenBaoInfoToPacks(String packId, String[] ids);
+	void addShenBaoInfoToPack(String packId, String shenbaoInfoId);
+	void startProcess(String packId);
+	PageModelDto<PackPlanDto> getPackPlan(ODataObj odataObj);
+	void updateShnebaoInfo(String shenbaoId, Double ggmoney, Double gtmoney);
 	
 
 }

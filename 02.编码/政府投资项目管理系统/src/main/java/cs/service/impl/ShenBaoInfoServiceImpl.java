@@ -1172,26 +1172,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		String executionId = process.getId();
 
 		Task task = activitiService.getTaskByExecutionId(executionId);
-
-//		if(sysConfg !=null){
-//			if(Util.isNotNull(sysConfg.getConfigValue()) && sysConfg.getEnable()){
-////				variables.put("userIds", sysConfg.getConfigValue());
-//		processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(task.getId(), sysConfg.getConfigValue());
-//=======
-//			if(!useridList.isEmpty()){//固定会签人员
-//				variables.put("users", useridList);
-//>>>>>>> dcd515c1... 未签收可以撤销
-//			}
-//		}else{
-//			if(sysConfg !=null){
-//				if(Util.isNotNull(sysConfg.getConfigValue()) && sysConfg.getEnable()){
-//					variables.put("users", sysConfg.getConfigValue());
-////					processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(task.getId(), sysConfg.getConfigValue());
-//				}
-//			}else{
-//				throw new IllegalArgumentException(String.format("没有配置申报信息审核分办人员，请联系管理员！"));
-//			}
-//		}
 		entity.setZong_processId(task.getProcessInstanceId());
 		entity.setThisTaskId(task.getId());
 		entity.setThisTaskName(task.getTaskDefinitionKey());

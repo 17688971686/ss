@@ -12,8 +12,11 @@
         var vm = this;
         var routeName = $state.current.name;
         vm.id=$state.params.id;//请求中的id参数
+        vm.isStartProcess=$state.params.isStartProcess;//请求中的id参数
         vm.basicData={};vm.model={};vm.projectNumber='';vm.unqualifiedNum=false;
-        
+        vm.gg = {};
+        vm.gt = {};
+        vm.pa = {};
         $(".menu li a").removeClass("focus");
         $(".menu li a:eq(4)").addClass("focus");
 
@@ -192,6 +195,14 @@
 					}
         		});
         	};
+        	
+        	vm.startProcess = function(planId){
+        		planReachSvc.startProcess(vm,planId);
+        	};
+        	
+        	vm.checkLength = function(obj,max,id){
+   			 common.checkLength(obj,max,id);
+        	};
         }//end fun list
         
         function edit(){
@@ -315,6 +326,16 @@
             		vm.model.packPlanDtos=[{name:name,totalMoney:totalMoney,capital_ggys:'',capital_gtzj:'',year:year}];
             	}
         	};
+        	
+        	vm.addmoney = function(shenbaoId){
+        		if(vm.gg[shenbaoId] == undefined){
+        			vm.gg[shenbaoId] = 0;
+        		}
+        		if(vm.gt[shenbaoId] == undefined){
+        			vm.gt[shenbaoId] = 0;
+        		}
+        		planReachSvc.updateShnebaoInfo(vm,shenbaoId);
+        	}
         	//移除打包计划
         	vm.removePack = function(idx){
         		vm.model.packPlanDtos.splice(idx,1);
@@ -375,8 +396,8 @@
         		});
         	};
         	
-        	//点击添加项目模态框确认按钮
-    		vm.dialogConfirmSubmit_shenBaoInfo=function(){
+        	//打包信息点击添加项目模态框确认按钮
+    		vm.dialogConfirmSubmit_shenBaoInfo_plan=function(){
     			//获取选中的申报信息的id
     			var selectIds = common.getKendoCheckId('.projectsGrid');
                 if (selectIds.length == 0) {
@@ -391,10 +412,18 @@
     				}
                     var idStr=ids.join(',');    
                     $('#addPackList').modal('toggle');//关闭模态框
-                    planReachSvc.addShenBaoInfoToPlanReach(vm,idStr);//添加申报信息到计划下达中                  
+                    planReachSvc.addShenBaoInfoToPack(vm,idStr);//添加申报信息到计划下达中                  
                 }   
     		};
-        	
+    		vm.addmoney = function(shenbaoId){
+        		if(vm.gg[shenbaoId] == undefined){
+        			vm.gg[shenbaoId] = 0;
+        		}
+        		if(vm.gt[shenbaoId] == undefined){
+        			vm.gt[shenbaoId] = 0;
+        		}
+        		planReachSvc.updateShnebaoInfo(vm,shenbaoId);
+        	}
         	
         }//end fun packPlanEdit
         

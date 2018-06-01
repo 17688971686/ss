@@ -59,8 +59,14 @@
 			  	<button class="btn btn-sm btn-primary" ng-click="vm.addProject()"><span class="glyphicon glyphicon-plus"></span>添加项目</button>
 			  	<button class="btn btn-sm btn-danger" ng-click="vm.projectDeletes()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-trash"></span>&nbsp;批量删除</button>
 			</div> 
-	        <div class="grid" kendo-grid="grid" k-options="vm.shenBaoInfo_gridOptions"></div>
+	        <div class="grid" kendo-grid="grid" k-options="vm.shenBaoInfo_gridOptions_plan"></div>
 </div>	        
+<script type="text/template" id="input">
+	<input style="width:100px" id="capitalSum_{0}" ng-model="vm.gg['{0}']" value="{1}" ng-blur="vm.addmoney('{0}')"/>
+</script>
+<script type="text/template" id="input2">
+	<input style="width:100px" id="capitalSum_{0}" ng-model="vm.gt['{0}']" value="{1}" ng-blur="vm.addmoney('{0}')"/>
+</script>
 <!--项目申报记录模态框 -->
 <div class="modal fade" id="myModal" role="dialog"> 
 	<div class="modal-dialog" style="width:800px;"> 
@@ -74,7 +80,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭</button>	
-				<button type="button" class="btn btn-success btn-sm" ng-click="vm.dialogConfirmSubmit_shenBaoInfo()" >确认</button>						
+				<button type="button" class="btn btn-success btn-sm" ng-click="vm.dialogConfirmSubmit_shenBaoInfo_plan()" >确认</button>						
 			</div>
 		</div>
 	</div>

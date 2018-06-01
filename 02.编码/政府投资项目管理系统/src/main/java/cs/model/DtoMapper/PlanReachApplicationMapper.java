@@ -27,6 +27,7 @@ public class PlanReachApplicationMapper implements IMapper<PlanReachApplicationD
 			dto.setApplicationName(entity.getApplicationName());
 			dto.setApplicationUnit(entity.getApplicationUnit());
 			dto.setApplicationTime(entity.getApplicationTime());
+			dto.setIsStartProcess(entity.getIsStartProcess());
 			dto.setResPerson(entity.getResPerson());
 			dto.setResPersonTel(entity.getResPersonTel());
 			entity.getShenBaoInfos().stream().forEach(x->{
@@ -62,6 +63,7 @@ public class PlanReachApplicationMapper implements IMapper<PlanReachApplicationD
 			entity.setCreatedDate(dto.getCreatedDate());
 			entity.setModifiedDate(dto.getModifiedDate());
 			entity.setItemOrder(dto.getItemOrder());
+			entity.setIsStartProcess(dto.getIsStartProcess());
 			//关联关系在外面编写
 			
 		}
