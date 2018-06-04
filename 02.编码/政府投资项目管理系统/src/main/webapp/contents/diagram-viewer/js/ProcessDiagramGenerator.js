@@ -787,8 +787,8 @@ var ProcessDiagramGenerator = {
 		
 		// TODO: remove highLightes from all activities before set new highLight
 		for (var i in highLights.activities) {
-			var activityId = highLights.activities[i];
-			processDiagramCanvas.highLightActivity(activityId);
+			//var activityId = highLights.activities[i];
+			processDiagramCanvas.highLightActivity(highLights.activities[i]);
 		}
 		
 		// TODO: remove highLightes from all flows before set new highLight
@@ -1033,13 +1033,13 @@ var ProcessDiagramGenerator = {
 		if (!diagramInfo) return;
 		var values = {
 			activityId: activity.getId(),
-			name: activity.getProperty("name"),
-			type: activity.getProperty("type")
+			userId: activity.getProperty("userId"),
+			taskId: activity.getProperty("taskId")
 		};
 		var TPL_ACTIVITY_INFO = '' 
 				+ '<div><b>activityId</b>: {activityId}</div>'
-				+ '<div><b>name</b>: {name}</div>'
-				+ '<div><b>type</b>: {type}</div>';
+				+ '<div><b>userId</b>: {userId}</div>'
+				+ '<div><b>taskId</b>: {taskId}</div>';
 		var TPL_CALLACTIVITY_INFO = ''
 				+ '<div><b>collapsed</b>: {collapsed}</div>'
 				+ '<div><b>processDefinitonKey</b>: {processDefinitonKey}</div>';

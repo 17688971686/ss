@@ -1870,14 +1870,18 @@ ProcessDiagramCanvas.prototype = {
 		this.setStroke(originalStroke);
 	},
 	
-	highLightActivity: function(activityId){
-		var shape = this.g.getById(activityId);
+	highLightActivity: function(activitie){
+		var shape = this.g.getById(activitie.activityId);
 		if (!shape) {
 			console.error("Activity " + activityId + " not found");
 			return;
 		}
 		
 		var contextObject = shape.data("contextObject");
+		//设置返回页面的属性
+		contextObject.setProperty("userId",activitie.userId);
+		contextObject.setProperty("taskId",activitie.taskId);
+		
 		if (contextObject)
 			console.log("--> highLightActivity: ["+contextObject.getProperty("type")+"], activityId: " + contextObject.getId());
 		else
