@@ -18,7 +18,7 @@
 	<mvc:annotation-driven></mvc:annotation-driven>
 	<mvc:resources location="/contents/" mapping="/contents/**" />
 
-	<context:component-scan base-package="cs"></context:component-scan>
+	<context:component-scan base-package="cs,org.activiti.rest.diagram"></context:component-scan>
 	<context:property-placeholder location="classpath:application.properties"/>
 <mvc:interceptors>
 		<bean class="cs.common.ApiFilter" />

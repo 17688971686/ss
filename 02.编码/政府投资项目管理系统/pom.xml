@@ -164,6 +164,11 @@
             <artifactId>activiti-process-validation</artifactId>  
             <version>${activiti.version}</version>  
         </dependency> 
+        <dependency>
+    		<groupId>org.activiti</groupId>
+    		<artifactId>activiti-diagram-rest</artifactId>
+    		<version>5.22.0</version>
+		</dependency>
 		<!-- activiti end -->
 
 		<!-- 单点登录使用 -->
