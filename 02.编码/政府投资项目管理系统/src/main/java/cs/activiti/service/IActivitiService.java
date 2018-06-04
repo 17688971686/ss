@@ -15,8 +15,6 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
 
-import cs.repository.odata.ODataObj;
-
 public interface IActivitiService {
 	//卸载部署
 	public void undeploymentById(String deploymentId);

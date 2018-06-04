@@ -4,8 +4,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import javax.transaction.Transactional;
-
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.ProcessEngineConfiguration;
@@ -24,19 +22,8 @@ import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
 import org.activiti.spring.ProcessEngineFactoryBean;
 import org.apache.log4j.Logger;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import cs.common.BasicDataConfig;
-import cs.domain.Project;
-import cs.domain.Project_;
-import cs.domain.ShenBaoInfo;
-import cs.domain.ShenBaoInfo_;
-import cs.repository.interfaces.IRepository;
-import cs.repository.odata.ODataObj;
-import cs.service.interfaces.ShenBaoInfoService;
 
 /**
  * 

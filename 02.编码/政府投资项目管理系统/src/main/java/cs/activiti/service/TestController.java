@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cs.model.PageModelDto;
 import cs.model.framework.RoleDto;
 import cs.model.framework.UserDto;
-import cs.repository.odata.ODataObj;
 import cs.service.framework.RoleService;
 
 /**
@@ -63,7 +61,6 @@ public class TestController {
 	@RequestMapping(value = "/process-instance/{initGroup}/init", method = RequestMethod.GET)
 	@ResponseBody
 	public void initGroup(@PathVariable("initGroup") String str,HttpServletRequest request) throws ParseException {
-		ODataObj odataObj=new ODataObj(request);
 		List<RoleDto> roleDtos=roleService.Get();
 		for (RoleDto role : roleDtos) {
 			//创建候选组
