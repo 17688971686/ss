@@ -36,10 +36,109 @@
 				getPackPlanById:getPackPlanById,//查询打包计划信息
 				addShenBaoInfoToPack:addShenBaoInfoToPack,//打包计划添加申报信息
 				startProcess:startProcess,//开始计划下达审批流程
-				updateShnebaoInfo:updateShnebaoInfo//更新深白信息的安排资金
+				updateShnebaoInfo:updateShnebaoInfo,//更新申报信息的安排资金
+				deleteShenBaoInfo:deleteShenBaoInfo,//删除打包计划的申报信息
+				deletePacks:deletePacks,//删除打包计划中的打包信息
+				deletePlanShenBaoInfo:deletePlanShenBaoInfo//删除打包信息的申报信息
 		}
 		
 		return service;
+		
+		function deletePlanShenBaoInfo(vm,ids){
+			var httpOptions = {
+					method : 'post',
+					url : common.format(url+"/deletePlanShenBaoInfo/{0}",vm.id),
+					data:ids
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function() {
+						common.alert({
+							vm : vm,
+							msg : "操作成功",
+							fn : function() {
+								$('.alertDialog').modal('hide');
+								vm.shenBaoInfo_gridOptions_plan.dataSource.read();//编制打包计划列表数据刷新								
+							}
+						});
+					}
+				});
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});			
+		};
+		
+		function deletePacks(vm,ids){
+			var httpOptions = {
+					method : 'post',
+					url : common.format(url+"/deletePack/{0}",vm.id),
+					data:ids
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function() {
+						common.alert({
+							vm : vm,
+							msg : "操作成功",
+							fn : function() {
+								$('.alertDialog').modal('hide');
+								vm.packPlan_gridOptions.dataSource.read();//编制打包计划列表数据刷新								
+							}
+						});
+					}
+				});
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});			
+		};
+		
+		function deleteShenBaoInfo(vm,ids){
+			var httpOptions = {
+					method : 'post',
+					url : common.format(url+"/deleteShenBaoInfo/{0}",vm.id),
+					data:ids
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function() {
+						common.alert({
+							vm : vm,
+							msg : "操作成功",
+							fn : function() {
+								$('.alertDialog').modal('hide');
+								vm.shenBaoInfo_gridOptions.dataSource.read();//编制打包计划列表数据刷新								
+							}
+						});
+					}
+				});
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});			
+		};
 		
 		function updateShnebaoInfo(vm,shenbaoId){
 			var httpOptions = {
@@ -461,7 +560,7 @@
 					field:'isLatestVersion',
 					operator:'eq',
 					value:true
-				},
+				}
 				]
 			});
 			var columns = [	

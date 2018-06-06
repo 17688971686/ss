@@ -18,7 +18,6 @@ import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.common.SQLConfig;
 import cs.common.Util;
-import cs.domain.AllocationCapital;
 import cs.domain.PackPlan;
 import cs.domain.PlanReachApplication;
 import cs.domain.Project;
@@ -281,16 +280,17 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 	@Transactional
 	public void addShenBaoInfo(String planReachId, String[] ids) {
 		PlanReachApplication planReach = super.findById(planReachId);
-		
 		ShenBaoInfo entity = new ShenBaoInfo();
 		for (String projectId : ids) {
+			
 			Boolean hasShenBaoInfo = false;
 			//根据计划下达id查找到计划下达信息
 			
 			if(planReach !=null){
 				//判断年度计划编制中是否已有打包计划
 				List<ShenBaoInfo> shenBaoInfos = planReach.getShenBaoInfos();
-				loop:for(ShenBaoInfo shenBaoInfo : shenBaoInfos){
+				if(shenBaoInfos.size()>0){
+					loop:for(ShenBaoInfo shenBaoInfo : shenBaoInfos){
 						if(shenBaoInfo == null){
 							hasShenBaoInfo = false;
 						}else{
@@ -298,9 +298,13 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 							if(entity != null &&entity.getProjectId().equals(projectId)){
 								hasShenBaoInfo = true;
 								break loop;
+							}else{
+								entity = new ShenBaoInfo();
 							}
 						}
 					}
+				}
+				
 				
 				if(hasShenBaoInfo){
 					//通过打包计划id获取名称
@@ -308,7 +312,8 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 					throw new IllegalArgumentException("申报项目：%s 已经存在编制计划中,请重新选择！");
 				}else{
 					//根据项目id创建年度计划申报信息
-					if(entity == null){
+					
+					if(entity.getId() == null){
 						Project project = projectService.findById(projectId);//查询项目信息
 						ShenBaoInfoDto shenBaoInfoDto = new ShenBaoInfoDto();
 						
@@ -420,6 +425,29 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 		}
 	}
 	
+	@Override
+	@Transactional
+	public void deleteShenBaoInfos(String packPlanId, String[] ids) {
+		for (String id : ids) {
+			this.deleteShenBaoInfo(packPlanId,id);
+		}
+	}
+	
+	@Override
+	@Transactional
+	public void deletePacks(String packPlanId, String[] ids) {
+		for (String id : ids) {
+			this.deletePack(packPlanId,id);
+		}
+	}
+	@Override
+	@Transactional
+	public void deletePlanShenBaoInfos(String packPlanId, String[] ids) {
+		for (String id : ids) {
+			this.deletePlanShenBaoInfo(packPlanId,id);
+		}
+	}
+
 	/**
 	 * 给打包信息添加申报项目
 	 */
@@ -610,7 +638,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 		logger.debug("启动计划类审批流程");
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	@Transactional
 	public PageModelDto<PackPlanDto> getPackPlan(String planReachId, ODataObj odataObj) {
@@ -631,6 +659,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 				PackPlanDto packPlanDto = packPlanMapper.toDto(x);
 				packPlanDtos.add(packPlanDto);
 			});
+			
 			//查询总数
 			List<PackPlanDto> packPlanDtos2=planReachApplicationRepo.getSession()
 					.createSQLQuery(SQLConfig.packPlanByPlanReachId)
@@ -639,8 +668,51 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 					.getResultList();
 			int count = packPlanDtos2.size();
 			
+			
+//			PageModelDto<PackPlanDto> packPlanDtos = packPlanService.get(odataObj);
+			
+			UserUnitInfoDto userUnitInfoDto1 = null;
+			List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
+			for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
+				if(!userUnitInfoDto.getUserDtos().isEmpty()){
+					for (UserDto user : userUnitInfoDto.getUserDtos()) {
+						if(user.getId().equals(currentUser.getUserId())){
+							userUnitInfoDto1 =userUnitInfoDto;
+						}
+					} 
+				}
+				
+					
+			}
+			double d = 0.0;
+			double a = 0.0;
+			boolean isOurUnit = false;
+//			UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
+			for (int i = 0; i < packPlanDtos.size(); i++) {
+				if(packPlanDtos.get(i) != null){
+					for (int j = 0; j < packPlanDtos.get(i).getAllocationCapitals().size(); j++) {
+						if(packPlanDtos.get(i).getAllocationCapitals().get(j) != null){
+							if(packPlanDtos.get(i).getAllocationCapitals().get(j).getUnitName().equals(userUnitInfoDto1.getId())){//如果有本单位的打包计划
+								d += packPlanDtos.get(i).getAllocationCapitals().get(j).getCapital_ggys();
+								a += packPlanDtos.get(i).getAllocationCapitals().get(j).getCapital_gtzj();
+								isOurUnit = true;
+							}
+						}
+					}
+				}
+				if(isOurUnit == false){
+//					packPlanDtos.remove(i);
+				}else{
+					packPlanDtos.get(i).setCapitalSCZ_ggys_TheYear(d);
+					packPlanDtos.get(i).setCapitalSCZ_gtzj_TheYear(a);
+				}
+			}
 			pageModelDto.setCount(count);
 			pageModelDto.setValue(packPlanDtos);
+			
+			
+//			PageModelDto<PackPlanDto> pageModelDto = new PageModelDto<>();
+			
 			return pageModelDto;
 		}
 		return pageModelDto;			
@@ -654,6 +726,72 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 		entity.setSqPlanReach_ggys(ggmoney);
 		entity.setSqPlanReach_gtzj(gtmoney);
 		shenBaoInfoRepo.save(entity);
+	}
+
+	@Override
+	@Transactional
+	public void deleteShenBaoInfo(String packPlanId, String shenbaoId) {
+		//先根据id查找到对应的需要删除的对象
+		PlanReachApplication entity=super.findById(packPlanId);
+		//根据对象对应的申报信息，删除对应的申报信息和工作流信息
+//		List<String> ids=new ArrayList<>();
+//		entity.getShenBaoInfos().stream().forEach(x->{
+////			ids.add(x.getId());
+//			if(shenbaoId.equals(x.getId())){
+//				entity.getShenBaoInfos().remove(index)
+//			}
+//			
+//		});
+		for (int i = 0; i < entity.getShenBaoInfos().size(); i++) {
+			ShenBaoInfo array_element = entity.getShenBaoInfos().get(i);
+			if(shenbaoId.equals(array_element.getId())){
+				entity.getShenBaoInfos().remove(i);
+			}
+		}
+		
+//		entity.getShenBaoInfos().clear();
+//		ids.stream().forEach(y->{
+		shenBaoInfoRepo.delete(shenBaoInfoRepo.findById(shenbaoId));
+//		});
+		super.repository.save(entity);
+		logger.info(String.format("删除计划下达申请表,名称 :%s",entity.getApplicationName()));
+	}
+
+	@Override
+	@Transactional
+	public void deletePack(String packPlanId, String packId) {
+		// TODO Auto-generated method stub
+		PlanReachApplication entity=super.findById(packPlanId);
+//		PackPlan plan = packPlanRepo.findById(packId);
+		
+//		for (int i = 0; i < plan.getShenBaoInfos().size(); i++) {
+//			ShenBaoInfo array_element = plan.getShenBaoInfos().get(i);
+//			shenBaoInfoRepo.delete(shenBaoInfoRepo.findById(array_element.getId()));
+//		}
+		for (int i = 0; i < entity.getPackPlans().size(); i++) {
+			PackPlan array_element = entity.getPackPlans().get(i);
+			if(packId.equals(array_element.getId())){
+				entity.getPackPlans().remove(i);
+			}
+			
+		}
+		super.repository.save(entity);
+		
+	}
+
+	@Override
+	@Transactional
+	public void deletePlanShenBaoInfo(String packPlanId, String shenbaoId) {
+		PackPlan plan = packPlanRepo.findById(packPlanId);
+		
+		for (int i = 0; i < plan.getShenBaoInfos().size(); i++) {
+			ShenBaoInfo array_element = plan.getShenBaoInfos().get(i);
+			if(shenbaoId.equals(array_element.getId())){
+				shenBaoInfoRepo.delete(shenBaoInfoRepo.findById(shenbaoId));
+				plan.getShenBaoInfos().remove(i);
+			}
+		}
+		packPlanRepo.save(plan);
 	}
 
 

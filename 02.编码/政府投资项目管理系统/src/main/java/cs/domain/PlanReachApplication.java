@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -50,7 +51,7 @@ public class PlanReachApplication extends BaseEntity{
 	private List<ShenBaoInfo> shenBaoInfos=new ArrayList<>();
 	
 	//begin#关联信息
-	@OneToMany(cascade=CascadeType.ALL)
+	@ManyToMany
 	private List<PackPlan> packPlans = new ArrayList<>();
 
 	public String getId() {

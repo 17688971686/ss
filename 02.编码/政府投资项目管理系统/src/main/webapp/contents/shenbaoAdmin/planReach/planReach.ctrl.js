@@ -224,6 +224,43 @@
 			        keyboard:true
         		});
         	};
+        	
+        	vm.projectDeletes=function(){
+        		//获取选中的申报信息的id
+    			var selectIds = common.getKendoCheckId('.shenbaogrid');
+                if (selectIds.length == 0) {
+                	common.alert({
+                    	vm:vm,
+                    	msg:'请选择数据!'             	
+                    });
+                } else {
+                	var ids=[];
+                    for (var i = 0; i < selectIds.length; i++) {
+                    	ids.push(selectIds[i].value);
+    				}
+                    var idStr=ids.join(',');    
+                    planReachSvc.deleteShenBaoInfo(vm,idStr);//添加申报信息到计划下达中                  
+                }  
+        	};
+        	
+        	vm.packDeletes=function(){
+        		//获取选中的申报信息的id
+    			var selectIds = common.getKendoCheckId('.packgrid');
+                if (selectIds.length == 0) {
+                	common.alert({
+                    	vm:vm,
+                    	msg:'请选择数据!'             	
+                    });
+                } else {
+                	var ids=[];
+                    for (var i = 0; i < selectIds.length; i++) {
+                    	ids.push(selectIds[i].value);
+    				}
+                    var idStr=ids.join(',');    
+                    planReachSvc.deletePacks(vm,idStr);//添加申报信息到计划下达中                  
+                }  
+        	};
+        	
         	//展示项目数据模态框 在打包计划中添加单列项目时使用
         	vm.addProjectForPack =function(){
         		planReachSvc.projectForPackGrid(vm);
@@ -415,6 +452,24 @@
                     planReachSvc.addShenBaoInfoToPack(vm,idStr);//添加申报信息到计划下达中                  
                 }   
     		};
+    		
+    		vm.projectDeletes=function(){
+        		//获取选中的申报信息的id
+    			var selectIds = common.getKendoCheckId('.grid');
+                if (selectIds.length == 0) {
+                	common.alert({
+                    	vm:vm,
+                    	msg:'请选择数据!'             	
+                    });
+                } else {
+                	var ids=[];
+                    for (var i = 0; i < selectIds.length; i++) {
+                    	ids.push(selectIds[i].value);
+    				}
+                    var idStr=ids.join(',');    
+                    planReachSvc.deletePlanShenBaoInfo(vm,idStr);//添加申报信息到计划下达中                  
+                }  
+        	};
     		vm.addmoney = function(shenbaoId){
         		if(vm.gg[shenbaoId] == undefined){
         			vm.gg[shenbaoId] = 0;

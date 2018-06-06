@@ -27,6 +27,12 @@ public interface PlanReachApplicationService extends IService<PlanReachApplicati
 	void startProcess(String packId);
 	PageModelDto<PackPlanDto> getPackPlan(ODataObj odataObj);
 	void updateShnebaoInfo(String shenbaoId, Double ggmoney, Double gtmoney);
+	void deleteShenBaoInfos(String packPlanId, String[] ids);
+	void deleteShenBaoInfo(String packPlanId, String shenbaoId);
+	void deletePacks(String packPlanId, String[] ids);
+	void deletePack(String packPlanId, String shenbaoId);
+	void deletePlanShenBaoInfos(String packPlanId, String[] ids);
+	void deletePlanShenBaoInfo(String packPlanId, String shenbaoId);
 	
 
 }

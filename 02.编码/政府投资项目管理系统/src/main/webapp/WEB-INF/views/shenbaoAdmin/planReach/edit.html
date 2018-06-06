@@ -61,7 +61,7 @@
 									  	<button class="btn btn-sm btn-primary" ng-click="vm.addProject()"><span class="glyphicon glyphicon-plus" ng-hide="vm.isStartProcess"></span>添加项目</button>
 									  	<button class="btn btn-sm btn-danger" ng-click="vm.projectDeletes()" ng-disabled="vm.isSubmit" ng-hide="vm.isStartProcess"><span class="glyphicon glyphicon-trash"></span>&nbsp;批量删除</button>
 									</div> 
-							        <div class="grid" kendo-grid="grid" k-options="vm.shenBaoInfo_gridOptions"></div>
+							        <div class="shenbaogrid" kendo-grid="grid" k-options="vm.shenBaoInfo_gridOptions"></div>
   								</td>
   							</tr>
   						</tbody>
@@ -89,7 +89,7 @@
 									  	<button class="btn btn-sm btn-primary" ng-click="vm.addPack()"><span class="glyphicon glyphicon-plus" ng-hide="vm.isStartProcess"></span>添加打包</button>
 									  	<button class="btn btn-sm btn-danger" ng-click="vm.packDeletes()" ng-disabled="vm.isSubmit" ng-hide="vm.isStartProcess"><span class="glyphicon glyphicon-trash"></span>&nbsp;批量删除</button>
 									</div> 
-							        <div class="grid" kendo-grid="grid" k-options="vm.packPlan_gridOptions"></div>
+							        <div class="packgrid" kendo-grid="grid" k-options="vm.packPlan_gridOptions"></div>
   								</td>
   							</tr>
   						</tbody>

@@ -202,6 +202,37 @@ public class ShenBaoAdminPlanReachController {
 		return packPlanDtos;
 	}
 	
+	@RequestMapping(name="计划下达申请中删除申报信息",path="deleteShenBaoInfo/{packPlanId}",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void deleteShenBaoInfo(@RequestBody String shenbaoId,@PathVariable String packPlanId){		
+		String[] ids=shenbaoId.split(",");
+		if(ids.length>1){
+			planReachApplicationService.deleteShenBaoInfos(packPlanId, ids);
+		}else{
+			planReachApplicationService.deleteShenBaoInfo(packPlanId,shenbaoId);
+		}
+	}
+	
+	@RequestMapping(name="计划下达申请中删除打包信息",path="deletePack/{packPlanId}",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void deletePack(@RequestBody String shenbaoId,@PathVariable String packPlanId){		
+		String[] ids=shenbaoId.split(",");
+		if(ids.length>1){
+			planReachApplicationService.deletePacks(packPlanId, ids);
+		}else{
+			planReachApplicationService.deletePack(packPlanId,shenbaoId);
+		}
+	}
+	@RequestMapping(name="删除打包信息中的申报信息",path="deletePlanShenBaoInfo/{packPlanId}",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void deletePlanShenBaoInfo(@RequestBody String shenbaoId,@PathVariable String packPlanId){		
+		String[] ids=shenbaoId.split(",");
+		if(ids.length>1){
+			planReachApplicationService.deletePlanShenBaoInfos(packPlanId, ids);
+		}else{
+			planReachApplicationService.deletePlanShenBaoInfo(packPlanId,shenbaoId);
+		}
+	}
 	@RequestMapping(name="计划下达申请中添加打包信息",path="addPackPlan/{planReachId}",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void addPackPlanToPlanReach(@RequestBody String packPlanId,@PathVariable String planReachId){		
