@@ -1611,7 +1611,7 @@
 						title:"操作",
 						width:260,
 						template:function(item){
-							return common.format($('#columnBtns_shenBaoInfo').html(),item.id);
+							return common.format($('#columnBtns_shenBaoInfo').html(),item.id,vm.isStartProcess);
 						},
 						attributes: {
 						      style: "font-size: 14.5px"
@@ -1703,7 +1703,7 @@
 						title: "安排资金（万元）",
                         columns: [
                         	{
-        						field : "capitalSCZ_ggys_TheYear",
+        						field : "apPlanReach_ggys",
         						title : "公共预算",
         						width:100,
         						filterable : false,
@@ -1713,7 +1713,7 @@
         					    }
         					},
         					{
-        						field : "capitalSCZ_gtzj_TheYear",
+        						field : "apPlanReach_gtzj",
         						title : "国土基金",
         						width:100,
         						filterable : false,

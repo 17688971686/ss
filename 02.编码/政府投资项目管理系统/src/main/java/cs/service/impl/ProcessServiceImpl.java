@@ -185,18 +185,13 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		String isPass2 = (String) data.get("isPass2");//下一经办人
 		double apPlanReach_ggys;
 		double apPlanReach_gtzj;
-		if((int)data.get("apPlanReach_ggys") == 0){
-			int a = (int) data.get("apPlanReach_ggys");
-			apPlanReach_ggys = a;
-		}else{
-			apPlanReach_ggys =(double) data.get("apPlanReach_ggys");
-		}
-		if((int)data.get("apPlanReach_gtzj") == 0){
-			int b = (int) data.get("apPlanReach_gtzj");
-			apPlanReach_gtzj =b;
-		}else{
-			apPlanReach_gtzj =(double) data.get("apPlanReach_gtzj");
-		}
+	
+		Integer c = (int)data.get("apPlanReach_ggys");
+		apPlanReach_ggys = c.doubleValue();
+		
+		Integer a = (int)data.get("apPlanReach_gtzj");
+		apPlanReach_gtzj = a.doubleValue(); 
+		
 		
 		ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenbaoInfoId);
 
