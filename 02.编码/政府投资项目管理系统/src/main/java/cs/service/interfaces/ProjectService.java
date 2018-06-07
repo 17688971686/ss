@@ -1,6 +1,8 @@
 package cs.service.interfaces;
 
 import java.util.List;
+import java.util.Map;
+
 import cs.domain.Project;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ProjectDto;
@@ -24,7 +26,11 @@ public interface ProjectService extends IService<ProjectDto, Project, String> {
 
 	/*******以下方法用于项目统计************/
 	List<ProjectStageData> getStageProjects();
-	
+
+	List<ProjectStageData> getMonthReportProjects();
+
+	List<ProjectStageData> getIndustryProjects();
+
 	List<sttisticsData> getprojectByHYData();
 	
 	List<sttisticsData> getprojectInvestSourceData();

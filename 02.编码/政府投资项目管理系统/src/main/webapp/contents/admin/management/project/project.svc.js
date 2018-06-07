@@ -38,28 +38,12 @@
 					vm:vm,
 					response:response,
 					fn:function(){
-						vm.model.projects = response.data;
-						//处理数据
-						vm.totalProjects=0;
-						var yAxisData=[];
-						var seriesData=[];
-						
-						if(vm.model.projects.length>0){
-							$.each(vm.model.projects,function(index,element){
-								yAxisData.push(vm.getBasicDataDesc(element.projectStage)==""?"未知阶段":vm.getBasicDataDesc(element.projectStage));
-								seriesData.push(element.count);
-								vm.totalProjects+=element.count;
-							});
-						}
-						vm.stageChart.hideLoading();
-						vm.stageChart.setOption({
-							yAxis:{
-								data:yAxisData
-							},
-							series: {
-								data:seriesData
-							}
-						});
+						// 设置值到阶段统计柱状图
+						setDataToStageChart(vm, response.data.projectStage);
+						// 设置值到是否需要月报表饼状图
+						setDataToMonRepChart(vm, response.data.isMonthReport);
+						// 设置值到所属行业柱状图
+                        setDataToIndustryChart(vm, response.data.projectIndustry);
 					}
 				});
 			};
@@ -70,6 +54,82 @@
 				httpOptions : httpOptions,
 				success : httpSuccess
 			});
+
+			var setDataToStageChart = function (vm, data) {
+                vm.model.projects = data;
+                //处理数据
+                vm.totalProjects=0;
+                var yAxisData=[];
+                var seriesData=[];
+
+                if(vm.model.projects.length>0){
+                    $.each(vm.model.projects,function(index,element){
+                        yAxisData.push(vm.getBasicDataDesc(element.projectStage)==""?"未知阶段":vm.getBasicDataDesc(element.projectStage));
+                        seriesData.push(element.count);
+                        vm.totalProjects+=element.count;
+                    });
+                }
+                vm.stageChart.hideLoading();
+                vm.stageChart.setOption({
+                    yAxis:{
+                        data:yAxisData
+                    },
+                    series: {
+                        data:seriesData
+                    }
+                });
+            };
+
+			var setDataToMonRepChart = function (vm, data) {
+                if (data && data.length > 0) {
+                    vm.monRepChart.hideLoading();
+
+                    var seriesData = [];
+
+                    $.each(data, function (index, element) {
+
+                        if (element.monthReport) {
+                            seriesData.push({value: element.count, name: "需要填写月报"});
+                        } else {
+                            seriesData.push({value: element.count, name: "不需要填写月报"});
+                        }
+                    });
+
+                    vm.monRepChart.setOption({
+                        series: {
+                            data: seriesData
+                        }
+                    });
+                }
+            };
+
+			var setDataToIndustryChart = function (vm, data) {
+                if (data && data.length > 0) {
+
+
+                    var xAxisData = [];
+                    var seriesData = [];
+
+                    $.each(data, function (index, element) {
+
+                        xAxisData.push(vm.getBasicDataDesc(element.projectIndustry));
+                        seriesData.push(element.count);
+
+                    });
+
+                    vm.industryChart.hideLoading();
+                    vm.industryChart.setOption({
+                        xAxis: {
+                            data: xAxisData
+                        },
+                        series: {
+                            data: seriesData
+                        }
+                    });
+
+                }
+            };
+
 		}//end fun getProjects
 		
 		/**

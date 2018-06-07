@@ -33,6 +33,9 @@
     		if($state.current.name=='projectDetails'){
     			vm.page='details';
     		}
+    		if ($state.current.name == 'projectStatistics') {
+    			vm.isStatistics = true;
+			}
     		
     		vm.getBasicDataDesc = function(Str){
     			return common.getBasicDataDesc(Str);
@@ -97,12 +100,16 @@
     	function init_list(){
     		if(vm.isZFInvestment){
     			projectSvc.grid(vm);
-//    			init_charts();
-//    			init_charData();
+				// init_charts();
+				// init_charData();
     		}
     		if(vm.isSHInvestment){
     			projectSvc.grid_SH(vm);
     		}
+    		if (vm.isStatistics) {
+                init_charts();
+                init_charData();
+			}
     		//查询
     		vm.search=function(){
     			var filters = [];
@@ -452,6 +459,9 @@
 	         });
     		
     		var stageChart_option={
+    			title: {
+    				text: "政府项目阶段统计柱状图"
+				},
 			    tooltip: {
 			        trigger: 'axis',
 			        axisPointer: {
@@ -464,7 +474,7 @@
 			    toolbox: {
 			        show: true,
 			        feature: {
-			        	dataView : {show: true, readOnly: false},
+			        	dataView : {show: true, readOnly: true},
 		                magicType : {
 		                    show: true,
 		                    type: ['line', 'bar']
@@ -481,6 +491,13 @@
 			    	type: 'category',
 			        inverse: true,
 			        data: [],
+                    axisLabel: {
+                        interval: 0,
+                        formatter:function(value)
+                        {
+                            return splitStr(value, 6);
+                        }
+                    }
 			    },
 			    series: [
 			        {
@@ -493,9 +510,9 @@
 			　              					 //首先定义一个数组
 			                        var colorList = [ 
 			                            '#C33531','#EFE42A','#64BD3D','#EE9201','#29AAE3', 
-			                            '#B74AE5' 
+			                            '#B74AE5'
 			                        ]; 
-			                        return colorList[params.dataIndex] 
+			                        return colorList[params.dataIndex>5?params.dataIndex%6:params.dataIndex]
 			                    }
 			                }
 			            },
@@ -511,8 +528,10 @@
     		};
 		 vm.stageChart.setOption(stageChart_option);
 		
-		 
 		 var monRepChart_option={
+		 		title: {
+		 			text:"政府项目是否需要月报表统计"
+				},
 			    tooltip : {
 			        trigger: 'item',
 			        formatter: "{a} <br/>{b} : {c} ({d}%) <br/> <span><点击显示列表数据></span>",
@@ -523,132 +542,88 @@
 			        y:'bottom',
 			        data: ['需要填写月报','不需要填写月报']
 			    },
+				 toolbox: {
+					 show: true,
+					 feature: {
+						 dataView : {show: true, readOnly: true},
+						 magicType : {
+							 show: false,
+							 type: ['line', 'bar']
+						 },
+						 restore : {show: false},
+						 saveAsImage : {show: true}
+					 }
+				 },
 			    series : [
 			        {
 			            name: '是否需要填写月报',
 			            type: 'pie',
 			            radius : '55%',
-			            center: ['50%', '60%'],
-			            data:[
-			                {
-			                	value:335, 
-			                	name:'需要填写月报',
-			                	label: {
-			                        normal: {
-			                            formatter: [
-			                                '{title|{b}}{abg|}',
-			                                '{valueHead|数量}',
-			                                '{hr|}',
-			                                '{value|335}',
-			                            ].join('\n'),
-			                            backgroundColor: '#eee',
-			                            borderColor: '#777',
-			                            borderWidth: 1,
-			                            borderRadius: 4,
-			                            rich: {
-			                                title: {
-			                                    color: '#eee',
-			                                    align: 'center'
-			                                },
-			                                abg: {
-			                                    backgroundColor: '#333',
-			                                    width: '100%',
-			                                    align: 'right',
-			                                    height: 25,
-			                                    borderRadius: [4, 4, 0, 0]
-			                                },
-			                                valueHead: {
-			                                    color: '#333',
-			                                    height: 24,
-			                                    width: 20,
-			                                    padding: [0, 30, 0, 30],
-			                                    align: 'center'
-			                                },
-			                                hr: {
-			                                    borderColor: '#777',
-			                                    width: '100%',
-			                                    borderWidth: 0.5,
-			                                    height: 0
-			                                },
-			                                value: {
-			                                    width: 20,
-			                                    height: 30,
-			                                    padding: [0, 20, 0, 30],
-			                                    align: 'left'
-			                                }
-			                            }
-			                        }
-			                	}
-			                },
-			                {
-			                	value:310, 
-			                	name:'不需要填写月报',
-			                	label: {
-			                        normal: {
-			                            formatter: [
-			                                '{title|{b}}{abg|}',
-			                                '{valueHead|数量}',
-			                                '{hr|}',
-			                                '{value|310}',
-			                            ].join('\n'),
-			                            backgroundColor: '#eee',
-			                            borderColor: '#777',
-			                            borderWidth: 1,
-			                            borderRadius: 4,
-			                            rich: {
-			                                title: {
-			                                    color: '#eee',
-			                                    align: 'center'
-			                                },
-			                                abg: {
-			                                    backgroundColor: '#333',
-			                                    width: '100%',
-			                                    align: 'right',
-			                                    height: 25,
-			                                    borderRadius: [4, 4, 0, 0]
-			                                },
-			                                valueHead: {
-			                                    color: '#333',
-			                                    height: 24,
-			                                    width: 20,
-			                                    padding: [0, 30, 0, 30],
-			                                    align: 'center'
-			                                },
-			                                hr: {
-			                                    borderColor: '#777',
-			                                    width: '100%',
-			                                    borderWidth: 0.5,
-			                                    height: 0
-			                                },
-			                                value: {
-			                                    width: 20,
-			                                    height: 30,
-			                                    padding: [0, 20, 0, 30],
-			                                    align: 'left'
-			                                }
-			                            }
-			                        }
-			                	}
-			                }
-			            ],
+			            // center: ['50%', '60%'],
+			            data:[],
 			            itemStyle: {
 			                emphasis: {
 			                    shadowBlur: 10,
 			                    shadowOffsetX: 0,
 			                    shadowColor: 'rgba(0, 0, 0, 0.5)'
 			                }
-			            }
+			            },
+                        label: {
+                            normal: {
+                                formatter: [
+                                    '{title|{b}}{abg|}',
+                                    '{valueHead|数量}',
+                                    '{hr|}',
+                                    '{value|{c}}',
+                                ].join('\n'),
+                                backgroundColor: '#eee',
+                                borderColor: '#777',
+                                borderWidth: 1,
+                                borderRadius: 4,
+                                rich: {
+                                    title: {
+                                        color: '#eee',
+                                        align: 'center'
+                                    },
+                                    abg: {
+                                        backgroundColor: '#333',
+                                        width: '100%',
+                                        align: 'right',
+                                        height: 25,
+                                        borderRadius: [4, 4, 0, 0]
+                                    },
+                                    valueHead: {
+                                        color: '#333',
+                                        height: 24,
+                                        width: 20,
+                                        padding: [0, 30, 0, 30],
+                                        align: 'center'
+                                    },
+                                    hr: {
+                                        borderColor: '#777',
+                                        width: '100%',
+                                        borderWidth: 0.5,
+                                        height: 0
+                                    },
+                                    value: {
+                                        width: 20,
+                                        height: 30,
+                                        padding: [0, 20, 0, 30],
+                                        align: 'left'
+                                    }
+                                }
+                            }
+                        }
 			        }
 			    ]
 		 };
-		
-			 
-		
+
 		 vm.monRepChart.setOption(monRepChart_option);
-		 vm.monRepChart.hideLoading();
-		 
-		 
+
 		 var industryChart_option={
+				 title: {
+					 text:"政府项目所属行业统计"
+				 },
 			    tooltip: {
 			        trigger: 'axis',
 			        axisPointer: {
@@ -661,7 +636,7 @@
 			    toolbox: {
 			        show: true,
 			        feature: {
-			        	dataView : {show: true, readOnly: false},
+			        	dataView : {show: true, readOnly: true},
 		                magicType : {
 		                    show: true,
 		                    type: ['line', 'bar']
@@ -672,32 +647,14 @@
 			    },
 			    xAxis: {
 			    	type: 'category',
-			        data: ['卫生','教育', '交通运输', '道路安全','行业5','行业6','行业7','行业8','行业9','行业10'],
+			        data: [],
 			        splitLine: {show: false},
 			        boundaryGap : true,
 			        axisLabel: {  
                         interval: 0,
                         formatter:function(value)
                         {  
-                            var ret = "";//拼接加\n返回的类目项  
-                            var maxLength = 2;//每项显示文字个数  
-                            var valLength = value.length;//X轴类目项的文字个数  
-                            var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数  
-                            if (rowN > 1)//如果类目项的文字大于3,  
-                            {  
-                                for (var i = 0; i < rowN; i++) {  
-                                    var temp = "";//每次截取的字符串  
-                                    var start = i * maxLength;//开始截取的位置  
-                                    var end = start + maxLength;//结束截取的位置  
-                                    //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧  
-                                    temp = value.substring(start, end) + "\n";  
-                                    ret += temp; //凭借最终的字符串  
-                                }  
-                                return ret;  
-                            }  
-                            else {  
-                                return value;  
-                            }  
+                            return splitStr(value, 2);
                         }  
                     }
 			    },
@@ -709,7 +666,7 @@
 			        {
 			            name: '数量',
 			            type: 'bar',
-			            data: [1, 2, 3,4,5,6,7,8,9,10],
+			            data: [],
 			            itemStyle: { 
 			                normal: { 
 			                    color: function(params) { 
@@ -734,17 +691,8 @@
 			        } 
 			    ]
     		};
-			 vm.industryChart.setOption(industryChart_option);
-			 vm.industryChart.hideLoading();
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
+		 vm.industryChart.setOption(industryChart_option);
+
 		 vm.clickFunc=function(dataIndex){
 			 console.log(dataIndex);
 		 };
@@ -761,5 +709,28 @@
     	function init_charData(){
 			 projectSvc.getProjects(vm);
 		 }//end fun init_charData
+
+		function splitStr(value, maxLengthInLine)
+        {
+            var ret = "";//拼接加\n返回的类目项
+            var maxLength = maxLengthInLine;//每项显示文字个数
+            var valLength = value.length;//X轴类目项的文字个数
+            var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
+            if (rowN > 1)//如果类目项的文字大于3,
+            {
+                for (var i = 0; i < rowN; i++) {
+                    var temp = "";//每次截取的字符串
+                    var start = i * maxLength;//开始截取的位置
+                    var end = start + maxLength;//结束截取的位置
+                    //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
+                    temp = value.substring(start, end) + "\n";
+                    ret += temp; //凭借最终的字符串
+                }
+                return ret;
+            }
+            else {
+                return value;
+            }
+        }
     }
 })();

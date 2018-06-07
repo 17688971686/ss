@@ -10,6 +10,8 @@ package cs.model.Statistics;
  */
 public class ProjectStageData {
 	private String projectStage;
+	private Boolean isMonthReport;
+	private String projectIndustry;
 	private Integer count;
 	
 	public String getProjectStage() {
@@ -23,5 +25,21 @@ public class ProjectStageData {
 	}
 	public void setCount(Integer count) {
 		this.count = count;
+	}
+
+	public Boolean getMonthReport() {
+		return isMonthReport;
+	}
+
+	public void setMonthReport(Boolean monthReport) {
+		isMonthReport = monthReport;
+	}
+
+	public String getProjectIndustry() {
+		return projectIndustry;
+	}
+
+	public void setProjectIndustry(String projectIndustry) {
+		this.projectIndustry = projectIndustry;
 	}
 }

@@ -49,12 +49,18 @@ public class ProjectController {
 		return ProjectDtos;
 	}
 	
-//	@RequiresPermissions("management/project#getProjects#get")
+	@RequiresPermissions("management/project#html/statistics#get")
 	@RequestMapping(name = "获取项目信息--用于图表分析", path = "getProjects",method=RequestMethod.GET)
-	public @ResponseBody List<ProjectStageData> getStageProjects(){
-		return ProjectService.getStageProjects();
+	public @ResponseBody Map<String, List<ProjectStageData>> getStageProjects(){
+	    Map<String, List<ProjectStageData>> map = new HashMap<>();
+
+	    map.put("projectStage", ProjectService.getStageProjects());
+	    map.put("isMonthReport", ProjectService.getMonthReportProjects());
+	    map.put("projectIndustry", ProjectService.getIndustryProjects());
+
+		return map;
 	}
-	
+
 	@RequiresPermissions("management/project##delete")
 	@RequestMapping(name = "删除项目信息", path = "",method=RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
@@ -157,6 +163,11 @@ public class ProjectController {
 	@RequestMapping(name = "社会投资项目列表页", path = "html/list_SH",method=RequestMethod.GET)
 	public String list_SH() {
 		return this.ctrlName + "/list_SH";
+	}
+
+	@RequestMapping(name = "项目统计分析", path = "html/statistics", method = RequestMethod.GET)
+	public String statistics() {
+		return this.ctrlName + "/statistics";
 	}
 	
 }

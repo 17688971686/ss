@@ -177,6 +177,13 @@
 	            controller: 'projectCtrl',
 	            controllerAs: 'vm'
 	        })
+			// 项目统计分析
+            .state('projectStatistics', {
+                url: '/projectStatistics',
+                templateUrl: '/management/project/html/statistics.html',
+                controller: 'projectCtrl',
+                controllerAs: 'vm'
+            })
 /**********************end#project***************************************/
 	        
 /**********************begin#计划下达管理**********************************/

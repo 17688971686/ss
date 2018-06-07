@@ -14,6 +14,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
+import org.hibernate.type.BooleanType;
 import org.hibernate.type.DoubleType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
@@ -331,8 +332,30 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 				.list();
 		return datas;
 	}
-	
-	
+
+	@SuppressWarnings({ "unchecked", "deprecation" })
+	@Override
+	@Transactional
+	public List<ProjectStageData> getMonthReportProjects() {
+		return super.repository.getSession().createSQLQuery(
+				"SELECT COUNT(p.id) as count, p.isMonthReport from cs_project p where p.projectInvestmentType = 'projectInvestmentType_1' GROUP BY p.isMonthReport")
+				.addScalar("count", new IntegerType())
+				.addScalar("isMonthReport", new BooleanType())
+				.setResultTransformer(Transformers.aliasToBean(ProjectStageData.class))
+				.list();
+	}
+
+	@SuppressWarnings({ "unchecked", "deprecation" })
+	@Override
+	@Transactional
+	public List<ProjectStageData> getIndustryProjects(){
+		return super.repository.getSession().createSQLQuery(
+				"SELECT COUNT(p.id) as count, p.projectIndustry from cs_project p where p.projectInvestmentType = 'projectInvestmentType_1' GROUP BY p.projectIndustry")
+				.addScalar("count", new IntegerType())
+				.addScalar("projectIndustry", new StringType())
+				.setResultTransformer(Transformers.aliasToBean(ProjectStageData.class))
+				.list();
+	}
 
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override

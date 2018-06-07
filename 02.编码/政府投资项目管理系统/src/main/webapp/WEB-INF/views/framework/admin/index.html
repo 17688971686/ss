@@ -270,6 +270,11 @@ margin-left:310px;
 								<a href="javascript:void(0)" ui-sref="project_SH">社会投资项目</a>
 								</@shiro.hasPermission>
 							</li>
+							<li>
+								<@shiro.hasPermission name="management/project#html/statistics#get">
+								<a href="javascript:void(0)" ui-sref="projectStatistics">项目统计分析</a>
+								</@shiro.hasPermission>
+							</li>
 						</ul>
 					</li>
 					<li class="treeview">
