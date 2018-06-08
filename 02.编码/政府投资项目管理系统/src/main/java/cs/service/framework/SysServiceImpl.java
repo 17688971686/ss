@@ -127,7 +127,7 @@ public class SysServiceImpl implements SysService{
 		roles.forEach(x->{
 			x.getUsers().forEach(y->{
 				y.getRoles().clear();
-				userRepo.delete(y);
+//				userRepo.delete(y);
 			});			
 			roleRepo.delete(x);
 		});
@@ -136,10 +136,10 @@ public class SysServiceImpl implements SysService{
 			sysConfigRepo.delete(x);
 		});
 		
-		List<UserUnitInfo> userUnitInfos = userUnitInfoRepo.findAll();
-		userUnitInfos.forEach(x->{
-			userUnitInfoRepo.delete(x);
-		});
+//		List<UserUnitInfo> userUnitInfos = userUnitInfoRepo.findAll();
+//		userUnitInfos.forEach(x->{
+//			userUnitInfoRepo.delete(x);
+//		});
 		
 		
 		//end
@@ -315,29 +315,40 @@ public class SysServiceImpl implements SysService{
 								"综合办","公明办事处","光明办事处","马田办事处","凤凰办事处",
 								"公共资源交易中心","城市发展促进中心","机关后勤服务中心","土地整备中心","建筑工务局",
 								"光明消防大队","光明现役消防支队光明新区大队","规划土地监察大队","深水光明","经发公司"};
-		
+		List<UserUnitInfo> userUnitInfos = userUnitInfoRepo.findAll();
+		boolean hasUnit = false;
 		for(String userName : userNames){
-			Criterion criterionU=Restrictions.eq(User_.loginName.getName(), userName);
-			List<User> users = userRepo.findByCriteria(criterionU);
-			users.forEach(x->{
-				userRepo.delete(x);
-			});
+//			Criterion criterionU=Restrictions.eq(User_.loginName.getName(), userName);
+//			List<User> users = userRepo.findByCriteria(criterionU);
+//			users.forEach(x->{
+//				userRepo.delete(x);
+//			});
+//			
+//			User unitUser = new User();
+//			unitUser.setId(UUID.randomUUID().toString());
+//			unitUser.setDisplayName(userName);
+//			unitUser.setLoginName(userName);
+//			unitUser.setPassword("111111");
+//			unitUser.setComment("系统初始化创建");
+//			unitUser.getRoles().add(role2);
+//			userRepo.save(unitUser);
 			
-			User unitUser = new User();
-			unitUser.setId(UUID.randomUUID().toString());
-			unitUser.setDisplayName(userName);
-			unitUser.setLoginName(userName);
-			unitUser.setPassword("111111");
-			unitUser.setComment("系统初始化创建");
-			unitUser.getRoles().add(role2);
-			userRepo.save(unitUser);
+			for (int i = 0; i < userUnitInfos.size(); i++) {
+				UserUnitInfo unitInfo = userUnitInfos.get(i);
+				if(unitInfo.getUnitName().equals(userName)){
+					hasUnit = true;
+				}
+				
+			}
+			if(!hasUnit){
+				UserUnitInfo userUnitInfo = new UserUnitInfo();
+				userUnitInfo.setId(UUID.randomUUID().toString());
+				userUnitInfo.setUnitName(userName);
+//				userUnitInfo.setUserName(unitUser.getId());
+				userUnitInfo.setRemark("系统初始化创建");
+				userUnitInfoRepo.save(userUnitInfo);
+			}
 			
-			UserUnitInfo userUnitInfo = new UserUnitInfo();
-			userUnitInfo.setId(UUID.randomUUID().toString());
-			userUnitInfo.setUnitName(userName);
-			userUnitInfo.setUserName(unitUser.getId());
-			userUnitInfo.setRemark("系统初始化创建");
-			userUnitInfoRepo.save(userUnitInfo);
 			
 		}
 		
@@ -1020,5 +1031,19 @@ public class SysServiceImpl implements SysService{
 		}else{
 			throw new IllegalArgumentException(String.format("没有查找到端口状态信息,请联系管理员！"));
 		}
+	}
+
+	@Override
+	@Transactional
+	public void creatSysConfig() {
+		SysConfig con5 = new SysConfig();
+		con5.setConfigName(BasicDataConfig.taskType_JiHuaDK);
+		con5.setConfigType(BasicDataConfig.taskType);
+		con5.setId(UUID.randomUUID().toString());
+		con5.setCreatedBy("admin");
+		con5.setCreatedDate(new Date());
+		con5.setEnable(false);
+		
+		sysConfigRepo.save(con5);
 	}
 }

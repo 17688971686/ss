@@ -17,6 +17,7 @@
         vm.gg = {};
         vm.gt = {};
         vm.pa = {};
+        vm.isCan =true;
 //        vm.capitalSCZ_ggys_TheYear = $state.params.capitalSCZ_ggys_TheYear;
 //        vm.capitalSCZ_gtzj_TheYear = $state.params.capitalSCZ_gtzj_TheYear;
         $(".menu li a").removeClass("focus");
@@ -188,6 +189,9 @@
 //          		
 //          	};
         	planReachSvc.grid(vm);
+        	
+        	planReachSvc.getSysConfig(vm);
+        	
         	vm.deleteApplication=function(id){
         		common.confirm({
     				vm : vm,

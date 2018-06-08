@@ -12,6 +12,7 @@
 		var url_back="/planReach";
 		var url_pack="/shenbaoAdmin/yearPlan";
 		var url_packPlan = '/management/packPlan';
+		var url_getSysConfigs = "/sys/getSysConfig";
 		var service={
 				getHasIncludYearPlan:getHasIncludYearPlan,
 				getNotIncludYearPlan:getNotIncludYearPlan,
@@ -39,10 +40,43 @@
 				updateShnebaoInfo:updateShnebaoInfo,//更新申报信息的安排资金
 				deleteShenBaoInfo:deleteShenBaoInfo,//删除打包计划的申报信息
 				deletePacks:deletePacks,//删除打包计划中的打包信息
-				deletePlanShenBaoInfo:deletePlanShenBaoInfo//删除打包信息的申报信息
+				deletePlanShenBaoInfo:deletePlanShenBaoInfo,//删除打包信息的申报信息
+				getSysConfig:getSysConfig//查询配置信息
 		}
 		
 		return service;
+		
+		function getSysConfig(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_getSysConfigs + "?configName={0}", common.basicDataConfig().taskType_jihuaPort)					
+				
+			};
+			
+			var httpSuccess = function success(response) {
+				vm.sysconfig=response.data || {};
+				if(vm.sysconfig.configValue != null){
+					var time = vm.sysconfig.configValue.split("-");
+					var nowTime = new Date();
+					if(nowTime.getTime() > time[0] && nowTime.getTime() < time[1]){
+						vm.isCan =false;
+					}
+				}
+				
+				console.log(vm.model);
+				//刷新文字输入长度
+//				vm.checkLength(vm.model.remark,500,'remarkTips');
+				//vm.planYear = vm.model.plan.year;//用于编制列表表头年份的绑定
+//				vm.shenBaoInfo_gridOptions_plan.dataSource = vm.model.shenBaoInfoDtos;
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}//end fun
 		
 		function deletePlanShenBaoInfo(vm,ids){
 			var httpOptions = {
