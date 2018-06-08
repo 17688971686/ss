@@ -33,6 +33,15 @@
 										<span ng-bind="vm.monthReportConfigEnd"></span>号
 										/
 									</div>
+								
+									<div ng-if="x.configName == 'taskType_16'" style="display: inline">
+										起
+										<span ng-bind="vm.planConfigBegin"></span>号
+										止
+										<span ng-bind="vm.planReportConfigEnd"></span>号
+										/
+									</div>
+									
 									<span ng-bind="vm.getConfigValue(x.enable)" ng-if="x.configName != 'taskType_15'"></span>
 								</td>
 								<td>
@@ -47,6 +56,16 @@
 									<input type="number" min="1" max="31" style="height: 30px; width:54px;font-size: 13px;line-height: 1.5;" ng-model="vm.monthReportConfigBegin"/>号
 									到下月
 									<input type="number" min="1" max="31" style="height: 30px; width:54px;font-size: 13px;line-height: 1.5;" ng-model="vm.monthReportConfigEnd"/>号
+									/
+									</div>
+									
+							  		<div ng-if="x.configName == 'taskType_16'" style="display: inline">
+									起
+									<input id="beginDate" name="beginDate" onkeydown="return false;" placeholder="格式：yyyy-MM-dd"
+			 							ng-model="vm.planConfigBegin" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>		
+									止
+									<input id="beginDate" name="beginDate" onkeydown="return false;" placeholder="格式：yyyy-MM-dd"
+			 							ng-model="vm.planReportConfigEnd" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>		号
 									/
 									</div>
 									<select style="height:30px;" ng-model="x.enable" ng-if="x.configName != 'taskType_15'">

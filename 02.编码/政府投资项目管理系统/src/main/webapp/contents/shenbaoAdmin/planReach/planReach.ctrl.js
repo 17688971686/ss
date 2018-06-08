@@ -17,6 +17,9 @@
         vm.gg = {};
         vm.gt = {};
         vm.pa = {};
+        vm.isCan =true;
+//        vm.capitalSCZ_ggys_TheYear = $state.params.capitalSCZ_ggys_TheYear;
+//        vm.capitalSCZ_gtzj_TheYear = $state.params.capitalSCZ_gtzj_TheYear;
         $(".menu li a").removeClass("focus");
         $(".menu li a:eq(4)").addClass("focus");
 
@@ -186,6 +189,9 @@
 //          		
 //          	};
         	planReachSvc.grid(vm);
+        	
+        	planReachSvc.getSysConfig(vm);
+        	
         	vm.deleteApplication=function(id){
         		common.confirm({
     				vm : vm,
@@ -477,7 +483,26 @@
         		if(vm.gt[shenbaoId] == undefined){
         			vm.gt[shenbaoId] = 0;
         		}
-        		planReachSvc.updateShnebaoInfo(vm,shenbaoId);
+//        		var gg_total = 0;
+//        		var gt_total = 0;
+//        		for (var int = 0; int < vm.gg.length; int++) {
+//        			gg_total += vm.gg[int];
+//					
+//				}
+//        		for (var int = 0; int < vm.gt.length; int++) {
+//        			gt_total += vm.gt[int];
+//					
+//				}
+//        		var test =  $("#capitalSum1").siblings();
+//        		if(gt_total> vm.capitalSCZ_gtzj_TheYear){
+//        			common.alert({
+//                    	vm:vm,
+//                    	msg:'申请资金数超过计划安排数!'             	
+//                    });
+//        		}else{
+        			planReachSvc.updateShnebaoInfo(vm,shenbaoId);
+//        		}
+        		
         	}
         	
         }//end fun packPlanEdit

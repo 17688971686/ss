@@ -93,6 +93,7 @@ public class BasicDataConfig {
 	public static String taskType_shenBaoDK="taskType_4";//申报端口配置
 	public static String taskType_monthReportPort="taskType_13";//月报端口配置
 	public static String taskType_shenpiFenBan="taskType_15";//审批分办人员配置
+	public static String taskType_JiHuaDK="taskType_16";//审批分办人员配置
 	
 	//审批流程中涉及到的角色名称
 	public static String msFenBanRole="办公室核稿人员";

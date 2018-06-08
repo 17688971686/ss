@@ -70,9 +70,15 @@ public class SysController {
 	
 	@RequiresPermissions("sys#getSysConfig#get")
 	@RequestMapping(name = "获取单个系统配置信息", path = "getSysConfig", method = RequestMethod.GET)
-	public @ResponseBody SysConfigDto getSysConfig(@RequestParam String configName) {
+	public @ResponseBody SysConfigDto getSysConfig(@RequestParam(required = false) String configName) {
 		SysConfigDto dto = sysService.getSysConfig(configName);
 		return dto;
+	}
+	
+//	@RequiresPermissions("sys#creatSysConfig#get")
+	@RequestMapping(name = "手动创建系统配置信息", path = "creatSysConfig", method = RequestMethod.GET)
+	public void creatSysConfig() {
+		sysService.creatSysConfig();
 	}
 	
 	@RequestMapping(name = "系统初始化", path = "init", method = RequestMethod.GET)

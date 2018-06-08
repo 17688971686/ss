@@ -127,7 +127,7 @@
 	        	controllerAs: 'vm'
 	        })
 	        .state('planReachPackEdit', {
-	            url: '/planReach/packPlan/addProject/:id',
+	            url: '/planReach/packPlan/addProject/:id/:isStartProcess',
 	            params:{"id":null},  
 	        	templateUrl:'/shenbaoAdmin/planReach/html/packPlan', 
 	        	controller: 'planReachCtrl',

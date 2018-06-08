@@ -69,9 +69,14 @@ public class ShenBaoAdminPlanReachController {
 		}
 		ODataObj odataObj = new ODataObj(request);
 		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
+		if(userUnitInfoDto1 == null){
+			filterItem.setValue("noid");
+		}else{
+			filterItem.setValue(userUnitInfoDto1.getId());
+		}
 		filterItem.setField("applicationUnit");
 		filterItem.setOperator("eq");
-		filterItem.setValue(userUnitInfoDto1.getId());
+		
 		odataObj.getFilter().add(filterItem);
 		PageModelDto<PlanReachApplicationDto> planReachApplications = planReachApplicationService.get(odataObj);
 		return planReachApplications;

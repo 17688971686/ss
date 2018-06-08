@@ -72,6 +72,13 @@
 							vm.monthReportConfigEnd = parseInt(configValue[1]);
 						}
 					}
+					if(value.configName == common.basicDataConfig().taskType_jihuaPort){
+						var configValue = value.configValue.split("-");
+						if(configValue){
+							vm.planConfigBegin = new Date(parseInt(configValue[0])).toLocaleDateString();
+							vm.planReportConfigEnd = new Date(parseInt(configValue[1])).toLocaleDateString();
+						}
+					}
 				});
 			};
 			
@@ -94,6 +101,11 @@
 				}
 				if(value.configName == common.basicDataConfig().taskType_shenpiFenBan){
 					value.enable = true;
+				}
+				if(value.configName == common.basicDataConfig().taskType_jihuaPort){
+					var a = new Date(vm.planConfigBegin).getTime();
+					var b = new Date(vm.planReportConfigEnd).getTime();
+					value.configValue = a+"-"+b;
 				}
 			});
 
