@@ -8,7 +8,7 @@
   <div class="toolbar">
   	<a class="btn btn-success btn-sm" href="javascript:;" ui-sref="planReach"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回</a>
   	<button ng-if="!vm.id" type="button" class="btn btn-success btn-sm" ng-click="vm.addApplication()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-ok"></span>&nbsp;创建</button>
- 	<button ng-if="vm.id" type="button" class="btn btn-success btn-sm" ng-click="vm.editApplication()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-ok"></span>&nbsp;更新</button>
+ 	<button ng-if="vm.id" ng-hide="vm.isStartProcess" type="button" class="btn btn-success btn-sm" ng-click="vm.editApplication()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-ok"></span>&nbsp;更新</button>
   </div>
   
   <div>

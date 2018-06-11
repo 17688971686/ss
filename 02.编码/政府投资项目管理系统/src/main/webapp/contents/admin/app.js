@@ -615,6 +615,14 @@
 	            controller: 'taskNewAuditCtrl',
 	            controllerAs: 'vm'
 	        })
+	        
+	        //科室列表页--审批类todo_plan_other
+           .state('task_todo_audit_other', {
+	            url: '/task/todo_audit_other',
+	            templateUrl: '/management/task/html/todo_audit_other',
+	            controller: 'taskNewAuditCtrl',
+	            controllerAs: 'vm'
+	        })
 	         //任务处理页--审批类
 	        .state('task_handle_audit', {
 	            url: '/task/handle_audit/:id',
@@ -640,6 +648,12 @@
 	        .state('task_todo_plan', {
 	            url: '/task/todo_plan',
 	            templateUrl: '/management/task/html/todo_plan',
+	            controller: 'taskPlanCtrl',
+	            controllerAs: 'vm'
+	        })
+	          .state('task_todo_plan_other', {
+	            url: '/task/todo_plan_other',
+	            templateUrl: '/management/task/html/todo_plan_other',
 	            controller: 'taskPlanCtrl',
 	            controllerAs: 'vm'
 	        })

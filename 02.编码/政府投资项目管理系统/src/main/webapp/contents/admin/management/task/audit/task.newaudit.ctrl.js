@@ -40,6 +40,9 @@
     		if($state.current.name=='task_shenPiDetails'){//审批类详细信息展示
     			vm.page='task_shenPiDetails';
     		}
+    		if($state.current.name=='task_todo_audit_other'){//科室列表--审批类
+    			vm.page='task_todo_audit_other';
+    		}
     		
     		vm.formatDate=function(str){
     			return common.formatDate(str);
@@ -122,7 +125,9 @@
         	if(vm.page=='task_shenPiDetails'){
         		init_task_shenPiDetails();
         	}
-        	
+        	if(vm.page=='task_todo_audit_other'){
+        		task_todo_audit_other();
+        	}
         	vm.formatDateTime=function(time){
     			return common.formatDateTime(time);
     		};
@@ -152,6 +157,30 @@
 	            });
 	    	};
         }
+        
+        function task_todo_audit_other(){
+        	taskNewAuditSvc.otherGrid(vm);
+        	//查询
+        	vm.search=function(){
+        		var filters = [];
+				filters.push({field:'complate',operator:'eq',value:false});//默认条件--没有完成的任务 
+				
+				if(vm.search.title !=null && vm.search.title !=''){//查询条件--标题
+	     			   filters.push({field:'title',operator:'contains',value:vm.search.title});
+	     		   }
+     		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--任务建设单位
+     			   filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
+     		   }
+     		   if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){//查询条件--项目行业
+     			  filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
+     		   }
+     		  vm.gridOptions_other.dataSource.filter(filters);
+        	};
+        	//清空筛选条件
+        	vm.filterClear=function(){
+        		location.reload();
+        	};
+        };
         
         function init_todoAuditList(){
         	taskNewAuditSvc.grid(vm);

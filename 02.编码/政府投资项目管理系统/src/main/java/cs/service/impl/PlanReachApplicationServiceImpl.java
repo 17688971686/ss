@@ -174,7 +174,8 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 		});
 		entity.getShenBaoInfos().clear();
 		ids.stream().forEach(y->{
-			shenBaoInfoService.delete(y);
+			ShenBaoInfo shenbaoinfo = shenBaoInfoRepo.findById(y);
+			shenBaoInfoRepo.delete(shenbaoinfo);
 		});
 		super.repository.delete(entity);
 		logger.info(String.format("删除计划下达申请表,名称 :%s",entity.getApplicationName()));

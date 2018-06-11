@@ -169,6 +169,18 @@ margin-left:310px;
 										</a>
 										</@shiro.hasPermission>
 									</li>
+										<li>
+										<@shiro.hasPermission name="management/task#html/todo_audit_other#get">
+										<a href="javascript:void(0)" ui-sref="task_todo_audit_other">科室办件(审批类)
+										 </a>
+										</@shiro.hasPermission>
+									</li>
+									<li>
+										<@shiro.hasPermission name="management/task#html/todo_plan_other#get">
+										<a href="javascript:void(0)" ui-sref="task_todo_plan_other">科室办件(计划类)
+										</a>
+										</@shiro.hasPermission>
+									</li>
 								</ul>
 							</li>
 							<li><a href="javascript:void(0)">个人已办</a>

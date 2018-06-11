@@ -95,6 +95,75 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	
 	@Override
 	@Transactional
+	public PageModelDto<ShenBaoInfoDto> getTask_user(ODataObjNew odataObj,String str,String leixin) {
+		PageModelDto<ShenBaoInfoDto> pageModelDto = new PageModelDto<>();
+		List<String> ids = new ArrayList<>();
+		User user = userRepo.findById(currentUser.getUserId());
+		for (Role role : user.getRoles()) {
+			ids.add(role.getId());
+		}
+		
+		List<Task> tasks1 = activitiService.getCandidateGroupInTask(ids);
+		List<Task> tasks2 = activitiService.getPersonalTask(currentUser.getUserId());
+		tasks1.addAll(tasks2);
+		
+		List<String> taskIds = new ArrayList<>();
+		for (Task task : tasks1) {
+			String processId = task.getProcessInstanceId();
+			taskIds.add(processId);
+		}
+		List<ShenBaoInfoDto> ourShenBaoInfoDtos = new ArrayList<>();
+		if(!taskIds.isEmpty()){
+			List<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoRepoImpl.findByOdata2(odataObj,taskIds,str).stream().map((x) -> {
+				return mapper.toDto(x);
+			}).collect(Collectors.toList());
+			
+			
+			if("geren".equals(leixin)){
+				for (int i = 0; i < shenBaoInfoDtos.size(); i++) {
+					ShenBaoInfoDto array_element = shenBaoInfoDtos.get(i);
+					if(("audit").equals(str)){
+						Response response = this.getAssigneeByUserId(array_element.getZong_processId());
+						if(response.isSuccess() == true || ("usertask1").equals(array_element.getThisTaskName()) || ("usertask5").equals(array_element.getThisTaskName())){
+							ourShenBaoInfoDtos.add(array_element);
+						}
+					}else{
+						Response response = this.getAssigneeByUserId_plan(array_element.getZong_processId());
+						if(response.isSuccess() == true || ("usertask1").equals(array_element.getThisTaskName()) || ("usertask2").equals(array_element.getThisTaskName())){
+							ourShenBaoInfoDtos.add(array_element);
+						}
+					}
+					
+				}
+			
+			}else{
+				for (int i = 0; i < shenBaoInfoDtos.size(); i++) {
+					ShenBaoInfoDto array_element = shenBaoInfoDtos.get(i);
+					if(("audit").equals(str)){
+						Response response = this.getAssigneeByUserId(array_element.getZong_processId());
+						if(response.isSuccess() == false){
+							ourShenBaoInfoDtos.add(array_element);
+						}
+					}else{
+						Response response = this.getAssigneeByUserId_plan(array_element.getZong_processId());
+						if(response.isSuccess() == false){
+							ourShenBaoInfoDtos.add(array_element);
+						}
+					}
+				
+				}
+			}
+
+			pageModelDto.setCount(ourShenBaoInfoDtos.size());
+			pageModelDto.setValue(ourShenBaoInfoDtos);
+		}
+		
+		return pageModelDto;
+		
+	}
+	
+	@Override
+	@Transactional
 	public PageModelDto<ShenBaoInfoDto> getTask_user(ODataObjNew odataObj,String str) {
 		PageModelDto<ShenBaoInfoDto> pageModelDto = new PageModelDto<>();
 		List<String> ids = new ArrayList<>();
@@ -112,7 +181,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			String processId = task.getProcessInstanceId();
 			taskIds.add(processId);
 		}
-		
 		if(!taskIds.isEmpty()){
 			List<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoRepoImpl.findByOdata2(odataObj,taskIds,str).stream().map((x) -> {
 				return mapper.toDto(x);
@@ -198,7 +266,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		Map<String, Object> variables = new HashMap<String, Object>();
 		
 		//判断具体操作
-		if(isPass != ""){//其他方式通过
+		if(isPass != "" && !str.equals("reback") && !str.equals("tuiwen")){//其他方式通过
 			variables.put("isPass", isPass);
 		}else if(str.equals("tuiwen")){
 			variables.put("isPass", 3);
@@ -568,13 +636,16 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			isPass = "6";
 		}
 		
-		if(isPass != ""){//其他方式通过
+		if(isPass != "" && !str.equals("tuiwen") && !str.equals("reback")){//其他方式通过
 			variables.put("isPass", isPass);
 		}else if(str.equals("tuiwen")){
 			variables.put("isPass", 3);
 		}else if(str.equals("reback")){
 			isPass = "2";
 			variables.put("isPass", 2);
+		}else if(str.equals("banjie")){
+			isPass = "3";
+			variables.put("isPass", 3);
 		}else if((isPass == ""|| isPass ==null)&&"next".equals(str)){//正常通过
 			variables.put("isPass", 1);
 		} 
@@ -669,7 +740,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				shenBaoInfo.getAttachments().add(newatt);
 			}
 		}
-		if(shenBaoInfo.getThisTaskName().equals("usertask16")){
+		if(shenBaoInfo.getThisTaskName().equals("usertask16") || str.equals("banjie")){
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已办结");
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_pass);

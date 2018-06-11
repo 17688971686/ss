@@ -54,7 +54,7 @@
 		function gridForShenpi(vm){
 			var httpOptions = {
 					method : 'get',
-					url : url_taskAudit
+					url : common.format(url_taskAudit+"?leixin={0}","geren")
 				};
 			
 			var httpSuccess = function success(response) {	
@@ -82,7 +82,7 @@
 		function gridForPlan(vm){
 			var httpOptions = {
 					method : 'get',
-					url : url_taskPlan
+					url : common.format(url_taskPlan+"?leixin={0}","geren")
 				};
 			
 			var httpSuccess = function success(response) {	

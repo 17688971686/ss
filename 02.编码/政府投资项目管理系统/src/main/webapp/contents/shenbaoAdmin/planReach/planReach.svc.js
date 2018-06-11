@@ -520,7 +520,7 @@
 						fn : function() {
 							common.alert({
 								vm : vm,
-								msg : "操作成功，开始流程审批！",
+								msg : "操作成功！",
 								fn : function() {
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');

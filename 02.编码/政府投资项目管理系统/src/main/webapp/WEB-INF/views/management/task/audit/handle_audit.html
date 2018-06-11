@@ -117,7 +117,7 @@ textarea.form-control {
 				<td colspan="3" >
 					<button class="btn btn-success btn-xs" ng-click="vm.dialog_shenbaoInfo()">查看申报信息</button>
 					<button class="btn btn-success btn-xs" ng-click="vm.dialog_shenbaoInfoEdit()" >复核申报信息</button>
-					<a class="btn btn-success btn-xs" href="http://localhost:8080/pic/task/picture/{{vm.model.shenBaoInfo.zong_processId}}" target="_blank">查看流程图</a>
+					<a class="btn btn-success btn-xs" href="http://192.168.189.235:8080/pic/task/picture/{{vm.model.shenBaoInfo.zong_processId}}" target="_blank">查看流程图</a>
 				</td>
 			</tr>		
 	</table>
@@ -277,20 +277,20 @@ textarea.form-control {
 							<input type="radio" name="nextProcess" value="8" ng-true-value="8" ng-model="vm.isPass" />评审报批
 						</label>
 						&nbsp;&nbsp;
-						<label>
+						<!-- <label>
 							<input type="radio" name="nextProcess" value="7" ng-true-value="7" ng-model="vm.isPass"/>发文拟稿
 						</label>
 						&nbsp;&nbsp;
 						<label>
 							<input type="radio" name="nextProcess" value="9" ng-true-value="9" ng-model="vm.isPass"/>请示领导
-						</label>
+						</label> -->
 						
 <!-- 						<span data-valmsg-for="nextProcess" data-valmsg-replace="true" class="required"></span>
  -->					</div>
 					<div>
 						<button ng-if="vm.isPass == 8" class="btn btn-success btn-xs" ng-click="vm.editApproval('edit')">填写评审报批单</button>
-						<button ng-if="vm.isPass == 7" class="btn btn-success btn-xs" ng-click="vm.draftOpen('edit')">填写发文信息</button>
-<!-- 						<a class="btn btn-success btn-xs" href="/contents/admin/management/task/plan/html/edit/edit_dj.html" target="_blank">正文</a>
+						<!-- <button ng-if="vm.isPass == 7" class="btn btn-success btn-xs" ng-click="vm.draftOpen('edit')">填写发文信息</button>
+						<a class="btn btn-success btn-xs" href="/contents/admin/management/task/plan/html/edit/edit_dj.html" target="_blank">正文</a>
  -->					 </div>
 				</td>
 			</tr>
@@ -380,6 +380,7 @@ textarea.form-control {
 					&& vm.model.shenBaoInfo.thisTaskName != 'usertask6' && vm.model.shenBaoInfo.thisTaskName != 'usertask7' && vm.model.shenBaoInfo.thisTaskName != 'usertask12' && vm.model.shenBaoInfo.thisTaskName != 'usertask18' 
 					&& vm.model.shenBaoInfo.thisTaskName != 'usertask8' && vm.model.shenBaoInfo.thisTaskName != 'usertask13' 
 					 && vm.model.shenBaoInfo.thisTaskName != 'usertask14' && vm.model.shenBaoInfo.thisTaskName != 'usertask17' && vm.model.shenBaoInfo.thisTaskName != 'usertask19' && vm.model.shenBaoInfo.thisTaskName != 'usertask20' && vm.model.shenBaoInfo.thisTaskName != 'usertask21' && vm.model.shenBaoInfo.thisTaskName != 'usertask10'">退文</button>
+ 					<button ng-if="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask3' " ng-click="vm.handle('banjie')" class="btn btn-success btn-sm" style="margin:0 10px;">办结</button>
  				</td>
 			</tr>
 			<tr ng-if="!vm.isShow && vm.model.shenBaoInfo.thisTaskName != 'usertask1' " ng-hide="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16'">

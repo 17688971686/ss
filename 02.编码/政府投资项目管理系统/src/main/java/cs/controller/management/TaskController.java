@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.common.ICurrentUser;
@@ -53,10 +54,10 @@ public class TaskController {
 	
 	//@RequiresPermissions("management/task#audit#get")
 	@RequestMapping(name = "获取审批类个人待办数据", path = "audit", method = RequestMethod.GET)
-	public @ResponseBody PageModelDto<ShenBaoInfoDto> getToDo_Audit(HttpServletRequest request) throws ParseException {
+	public @ResponseBody PageModelDto<ShenBaoInfoDto> getToDo_Audit(HttpServletRequest request,@RequestParam(required = false) String leixin) throws ParseException {
 		String str = "audit";
 		ODataObjNew odataObj = new ODataObjNew(request);	
-		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getTask_user(odataObj,str);
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getTask_user(odataObj,str,leixin);
 		//关于流程记录根据创建用户id查找到名称用于显示
 		return shenBaoInfoDtos;
 	}
@@ -70,10 +71,10 @@ public class TaskController {
 			return shenBaoInfoDtos;
 		}
 	@RequestMapping(name = "获取计划类个人待办数据", path = "plan", method = RequestMethod.GET)
-	public @ResponseBody PageModelDto<ShenBaoInfoDto> getToDo_Plan(HttpServletRequest request) throws ParseException {
+	public @ResponseBody PageModelDto<ShenBaoInfoDto> getToDo_Plan(HttpServletRequest request,@RequestParam(required = false) String leixin) throws ParseException {
 		String str = "plan";
 		ODataObjNew odataObj = new ODataObjNew(request);	
-		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getTask_user(odataObj,str);
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getTask_user(odataObj,str,leixin);
 		//关于流程记录根据创建用户id查找到名称用于显示
 		return shenBaoInfoDtos;
 	}
@@ -219,6 +220,12 @@ public class TaskController {
 		return ctrl + "/audit/todo";
 	}
 	
+	@RequiresPermissions("management/task#html/todo_audit_other#get")
+	@RequestMapping(name = "科室列表页--审批类", path = "html/todo_audit_other", method = RequestMethod.GET)
+	public String todo_audit_other() {
+		return ctrl + "/audit/todo_audit_other";
+	}
+	
 	@RequiresPermissions("management/task#html/todo_audit#get")
 	@RequestMapping(name = "待办处理页--审批类", path = "html/handle_audit", method = RequestMethod.GET)
 	public String handle_audit() {
@@ -242,6 +249,12 @@ public class TaskController {
 	@RequestMapping(name = "待办列表页--计划类", path = "html/todo_plan", method = RequestMethod.GET)
 	public String todo_plan() {
 		return ctrl + "/plan/todo";
+	}
+	
+	@RequiresPermissions("management/task#html/todo_plan_other#get")
+	@RequestMapping(name = "科室列表页--计划类", path = "html/todo_plan_other", method = RequestMethod.GET)
+	public String todo_plan_other() {
+		return ctrl + "/plan/todo_plan_other";
 	}
 	
 	@RequiresPermissions("management/task#html/handle_plan#get")

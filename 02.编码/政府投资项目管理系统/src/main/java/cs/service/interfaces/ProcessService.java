@@ -35,6 +35,8 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
 	Response getAssigneeByUserId_plan(String processId);
 
 	@SuppressWarnings("rawtypes")
-	void taskComplete_plan(Map data);	
+	void taskComplete_plan(Map data);
+
+	PageModelDto<ShenBaoInfoDto> getTask_user(ODataObjNew odataObj, String str, String leixin);	
 	
 }

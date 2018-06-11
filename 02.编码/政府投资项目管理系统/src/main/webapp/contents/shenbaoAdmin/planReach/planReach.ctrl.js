@@ -198,6 +198,7 @@
 					msg : "确认删除？",
 					fn : function() {
 						planReachSvc.deleteApplication(vm,id);
+						$('.confirmDialog').modal('hide');
 					}
         		});
         	};
