@@ -40,12 +40,17 @@ public class TestController {
 	 * 启动流程
 	 * @param processDefinitionKey 流程定义ID（如：projectDeclaration）
 	 */
-	@RequestMapping(value = "/process-instance/{processDefinitionKey}/start", method = RequestMethod.GET)
+	@RequestMapping(value = "/process-instance/{processDefinitionKey}/{startUserId}/{nextUserid}/start", method = RequestMethod.GET)
 	@ResponseBody
-	public void startProcess(@PathVariable("processDefinitionKey") String processDefinitionKey) {
+	public void startProcess(@PathVariable("processDefinitionKey") String processDefinitionKey,
+							@PathVariable("startUserId") String startUserId,@PathVariable("nextUserid") String nextUserid) {
 		Map<String,Object> variables = new HashMap<String,Object>();
-	    variables.put("nextAssignee", "qinshangzhi");
-	    variables.put("roId", "00000000001");
+	    
+	    
+	    activitiService.setStartProcessUserId(startUserId);
+	    
+	    variables.put("users", nextUserid);
+	    
 		activitiService.startProcess(processDefinitionKey, variables);
 	}
 	
