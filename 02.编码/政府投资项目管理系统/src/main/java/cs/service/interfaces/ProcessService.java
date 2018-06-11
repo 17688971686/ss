@@ -22,6 +22,8 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
 
 	Response getAssigneeByUserId(String processId);
 
+	Response getAssigneeByUserId(String processId, String userId);
+
 	@SuppressWarnings("rawtypes")
 	void taskPinglun(Map data);
 

@@ -13,8 +13,12 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
+import cs.model.SendMsg;
+import cs.service.sms.SmsService;
+import cs.service.sms.exception.SMSException;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricActivityInstance;
@@ -85,7 +89,13 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	
 	@Autowired
 	private HistoryService historyService;
-	
+
+	@Autowired
+	private SmsService smsService;
+
+	@Resource
+	private Map<String, String> shenbaoSMSContent;
+
 	@Override
 	@Transactional
 	public PageModelDto<ShenBaoInfoDto> get(ODataObj odataObj) {	
@@ -376,19 +386,26 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		
 		shenBaoInfoRepo.save(shenBaoInfo);
-					
+
 		logger.info(String.format("查询角色组已办结上线请求,用户名:%s", currentUser.getLoginName()));
+
 	}
 	/**************************************************************************************************************************/
 
 	@Override
 	@Transactional
 	public Response getAssigneeByUserId(String processId) {
+		return getAssigneeByUserId(processId, currentUser.getUserId());
+	}
+
+	@Override
+	@Transactional
+	public Response getAssigneeByUserId(String processId, String userId) {
 		Response response = new Response();
 		boolean isShow = false;
 		Criterion criterion = Restrictions.eq(ShenBaoInfo_.zong_processId.getName(), processId);
 		List<ShenBaoInfo> shenBaoInfo = shenBaoInfoRepo.findByCriteria(criterion);
-		User loginUser = userRepo.findById(currentUser.getUserId());
+		User loginUser = userRepo.findById(userId);
 		
 		List<HistoricVariableInstance> list = processEngine.getProcessEngineConfiguration().getHistoryService()  
 	            .createHistoricVariableInstanceQuery()//创建一个历史的流程变量查询对象  
@@ -475,7 +492,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		
 		return response;
 	}
-	
+
 	@Override
 	@Transactional
 	public List<HistoricActivityInstance> getUnfinished(String processId) {
@@ -676,11 +693,11 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				useridList.add(user.getId().trim());
 			}
 		}
-		Set set = new HashSet<>();//同一用户如果有多个角色，同流程下会同时有多个任务，必须去重
+		Set<String> set = new HashSet<>();//同一用户如果有多个角色，同流程下会同时有多个任务，必须去重
 		if(!useridList.isEmpty()){//固定会签人员
 			if(shenBaoInfo.getThisTaskName().equals("usertask3") && ("5").equals(isPass2)){
 				
-				useridList.addAll(Arrays.asList(nextUsers.toString().split(",")));
+				useridList.addAll(Arrays.asList(nextUsers.split(",")));
 			}
 			
 			for (String id : useridList) {
@@ -725,7 +742,9 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		
 		Gson gson = new Gson();
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
+		String preTaskName = shenBaoInfo.getThisTaskName();
+
 		//如果有附件
 		if(att != null){
 			for (int i = 0; i < att.toArray().length; i++) {
@@ -762,7 +781,28 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		
 		shenBaoInfoRepo.save(shenBaoInfo);
-					
+
+		// 准备短信内容
+		List<SendMsg> msgs = new ArrayList<>();
+		if ("usertask16".equalsIgnoreCase(shenBaoInfo.getThisTaskName())) {
+			msgs = Arrays.asList(new SendMsg(shenBaoInfo.getBianZhiUnitInfo().getResPersonMobile(), shenbaoSMSContent.get(preTaskName)));
+		} else if ("tuiwen".equalsIgnoreCase(str)) {
+			msgs = Arrays.asList(new SendMsg(shenBaoInfo.getBianZhiUnitInfo().getResPersonMobile(), shenbaoSMSContent.get("tuiwen")));
+		} else {
+			msgs = set.stream()
+					.filter(userId -> this.getAssigneeByUserId(shenBaoInfo.getZong_processId(), userId).isSuccess())	// 过滤到达有审批状态的用户
+					.map(userId -> userService.findById(userId))												// 查询出用户对象
+					.map(user -> new SendMsg(user.getMobilePhone(), shenbaoSMSContent.get(preTaskName)))		// 将用户对象转换成SendMsg对象
+					.collect(Collectors.toList());
+		}
+		// 开始发送短信通知
+		try {
+			smsService.insertDownSms(null, msgs.toArray(new SendMsg[]{}));
+		} catch (SMSException e) {
+			logger.error("发送短信异常：" + e.getMessage(), e);
+		}
+
+
 		logger.info(String.format("办结或阅批任务,用户名:%s", currentUser.getLoginName()));
 	}
 	

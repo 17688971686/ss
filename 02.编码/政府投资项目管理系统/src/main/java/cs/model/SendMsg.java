@@ -1,19 +1,47 @@
 package cs.model;
+
+import javax.xml.bind.annotation.*;
+
 /**
  * @Description: 短信信息实体类
  * @author: cx
  * @Date：2017年7月11日
  * @version：0.1
  */
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlRootElement(name = "message")
 public class SendMsg {
 	public String pin;//系统的PIN码
 	public String fromUser;//自定义发送者
+	@XmlElement(required = true)
 	public String orgaddr;//源地址(可不填)
+	@XmlElement(required = true)
 	public String mobile;//手机号码
+	@XmlElement(required = true)
 	public String content;//短信内容
+	@XmlElement(required = true)
 	public String sendtime;//下发时间，格式：（yyyyMMddhhmmss）(可不填)
+	@XmlElement(required = true)
 	public String needreport;//是否要状态报告,0,不要,1,要(可不填)
-	
+
+	public SendMsg() {
+	}
+
+	public SendMsg(String mobile, String content) {
+		this.mobile = mobile;
+		this.content = content;
+	}
+
+	public SendMsg(String pin, String fromUser, String orgaddr, String mobile, String content, String sendtime, String needreport) {
+		this.pin = pin;
+		this.fromUser = fromUser;
+		this.orgaddr = orgaddr;
+		this.mobile = mobile;
+		this.content = content;
+		this.sendtime = sendtime;
+		this.needreport = needreport;
+	}
+
 	public String getOrgaddr() {
 		return orgaddr;
 	}

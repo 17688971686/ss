@@ -8,8 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
+import cs.service.framework.UserService;
+import cs.service.sms.SmsService;
+import cs.service.sms.exception.SMSException;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -108,6 +112,12 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     ProcessEngineFactoryBean processEngine;
 	@Autowired
 	private RuntimeService runtimeService;
+	@Autowired
+	private SmsService smsService;
+	@Autowired
+	private UserService userService;
+	@Resource
+	private Map<String, String> shenbaoSMSContent;
 	private String processDefinitionKey = "ShenpiReview";
 	private String processDefinitionKey_plan = "ShenpiPlan";
 	private String processDefinitionKey_yearPlan = "yearPlan";
@@ -1177,6 +1187,17 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		entity.setThisTaskName(task.getTaskDefinitionKey());
 		entity.setShenbaoDate(new Date());
 		super.repository.save(entity);
+
+		// 发送短信给第一处理人
+		try {
+			SendMsg msg = new SendMsg();
+			msg.setMobile(userService.findById(sysConfg.getConfigValue()).getMobilePhone());
+			msg.setContent(shenbaoSMSContent.get(entity.getThisTaskName()));
+			smsService.insertDownSms(null, msg);
+		} catch (SMSException e) {
+			logger.error("发送短信异常：" + e.getMessage(), e);
+		}
+
 		logger.info(String.format("启动审批流程,用户名:%s", currentUser.getLoginName()));
 	}
 
