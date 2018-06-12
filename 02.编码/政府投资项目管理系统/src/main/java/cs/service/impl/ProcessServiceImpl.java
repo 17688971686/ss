@@ -50,6 +50,8 @@ import cs.domain.framework.Role;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
+import cs.model.DomainDto.UserUnitInfoDto;
+import cs.model.framework.UserDto;
 import cs.repository.framework.OrgRepo;
 import cs.repository.framework.UserRepo;
 import cs.repository.impl.ShenBaoInfoRepoImpl;
@@ -58,6 +60,7 @@ import cs.repository.odata.ODataObj;
 import cs.repository.odata.ODataObjNew;
 import cs.service.framework.UserService;
 import cs.service.interfaces.ProcessService;
+import cs.service.interfaces.UserUnitInfoService;
 /**
  * @Description: 审批流程服务层
  * @author: neo
@@ -86,15 +89,20 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	private OrgRepo orgRepo;
 	@Autowired
 	private UserService userService;
-	
 	@Autowired
 	private HistoryService historyService;
+<<<<<<< HEAD
 
 	@Autowired
 	private SmsService smsService;
 	@Resource
 	private Map<String, String> shenbaoSMSContent;
 
+=======
+	@Autowired
+	private UserUnitInfoService userUnitInfoService;
+	
+>>>>>>> bfd9d835... 流转信息添加建设单位
 	@Override
 	@Transactional
 	public PageModelDto<ShenBaoInfoDto> get(ODataObj odataObj) {	
@@ -516,11 +524,28 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		Calendar calendar = Calendar.getInstance();
 	    calendar.clear();
 	    
+	    UserUnitInfoDto userUnitInfoDto1 = null;
+		List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
+		
+	    
 		for(HistoricProcessInstance list1 : lists1){
 			User user = userRepo.findById(list1.getStartUserId());
+			
+			for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
+				if(!userUnitInfoDto.getUserDtos().isEmpty()){
+					for (UserDto user1 : userUnitInfoDto.getUserDtos()) {
+						if(user1.getId().equals(user.getId())){
+							userUnitInfoDto1 =userUnitInfoDto;
+						}
+					} 
+				}
+				
+					
+			}
 			Map<String, String> map1 = new HashMap<>();
+			map1.put("unit", userUnitInfoDto1.getUnitName());
 			map1.put("name", "单位申报");
-			map1.put("id", user.getDisplayName());
+			map1.put("id", userUnitInfoDto1.getUnitName() +":"+ user.getDisplayName());
 			map1.put("endTime", list1.getStartTime().toLocaleString());
 			
 			map1.put("msg", user.getDisplayName()+"：启动了项目<"+shenBaoInfo.getProjectName()+">的审批流程！");
@@ -548,6 +573,18 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 						map.put("msg", com.getFullMessage());
 						
 						User user = userRepo.findById(com.getUserId());
+						
+						for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
+							if(!userUnitInfoDto.getUserDtos().isEmpty()){
+								for (UserDto user1 : userUnitInfoDto.getUserDtos()) {
+									if(user1.getId().equals(user.getId())){
+										userUnitInfoDto1 =userUnitInfoDto;
+									}
+								} 
+							}
+							
+								
+						}
 						if(user != null){
 							if(!user.getRoles().isEmpty()){
 								root:for (Role role : user.getRoles()) {
@@ -558,7 +595,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 								}
 							}
 						}
-						map.put("id",user.getDisplayName());
+						map.put("unit", userUnitInfoDto1.getUnitName());
+						map.put("id",userUnitInfoDto1.getUnitName() +":"+ user.getDisplayName());
 						calendar.set(com.getTime().getYear(),com.getTime().getMonth(),com.getTime().getDay(),com.getTime().getHours(),com.getTime().getMinutes(),com.getTime().getSeconds());
 					    long millis = calendar.getTimeInMillis();
 						map.put("itemOrder",String.valueOf(millis));
