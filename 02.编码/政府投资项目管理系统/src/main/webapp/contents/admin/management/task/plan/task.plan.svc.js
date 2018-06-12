@@ -8,6 +8,7 @@
 	function taskPlan($http,$location) {
 
 		var url_taskAudit = "/management/task/plan";
+		var url_taskAudit_other = "/management/task/planOther";
 		var url_taskAudit_new = "/management/task";
 		var url_shenbao = "/management/shenbao";
 		var url_dept="/org";
@@ -899,7 +900,7 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(common.format(url_taskAudit+"?leixin={0}","other")),
+				transport : common.kendoGridConfig().transport(common.format(url_taskAudit_other+"?leixin={0}","other")),
 				schema : common.kendoGridConfig().schema({
 					id : "id"					
 				}),
@@ -911,9 +912,9 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				requestEnd:function(e){						
-					$('#todoNumber_plan').html(e.response.count);
-				},
+//				requestEnd:function(e){						
+//					$('#todoNumber_plan').html(e.response.count);
+//				},
 				change:function(){
 					var grid = $(".grid").data("kendoGrid");
 					window.todo_planOption_other = grid.getOptions();

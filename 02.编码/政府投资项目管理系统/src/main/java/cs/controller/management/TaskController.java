@@ -61,6 +61,16 @@ public class TaskController {
 		//关于流程记录根据创建用户id查找到名称用于显示
 		return shenBaoInfoDtos;
 	}
+	
+	//@RequiresPermissions("management/task#audit#get")
+	@RequestMapping(name = "获取审批类科室待办数据", path = "auditOther", method = RequestMethod.GET)
+	public @ResponseBody PageModelDto<ShenBaoInfoDto> getToDo_Audit_Other(HttpServletRequest request,@RequestParam(required = false) String leixin) throws ParseException {
+		String str = "audit";
+		ODataObjNew odataObj = new ODataObjNew(request);	
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getTask_user(odataObj,str,leixin);
+		//关于流程记录根据创建用户id查找到名称用于显示
+		return shenBaoInfoDtos;
+	}
 	//@RequiresPermissions("management/task#audit#get")
 		@RequestMapping(name = "获取年度计划类个人待办数据", path = "yearPlan", method = RequestMethod.GET)
 		public @ResponseBody PageModelDto<ShenBaoInfoDto> getToDo_yearPlan(HttpServletRequest request) throws ParseException {
@@ -72,6 +82,15 @@ public class TaskController {
 		}
 	@RequestMapping(name = "获取计划类个人待办数据", path = "plan", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getToDo_Plan(HttpServletRequest request,@RequestParam(required = false) String leixin) throws ParseException {
+		String str = "plan";
+		ODataObjNew odataObj = new ODataObjNew(request);	
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getTask_user(odataObj,str,leixin);
+		//关于流程记录根据创建用户id查找到名称用于显示
+		return shenBaoInfoDtos;
+	}
+	
+	@RequestMapping(name = "获取计划类科室待办数据", path = "planOther", method = RequestMethod.GET)
+	public @ResponseBody PageModelDto<ShenBaoInfoDto> getToDo_Plan_other(HttpServletRequest request,@RequestParam(required = false) String leixin) throws ParseException {
 		String str = "plan";
 		ODataObjNew odataObj = new ODataObjNew(request);	
 		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getTask_user(odataObj,str,leixin);
