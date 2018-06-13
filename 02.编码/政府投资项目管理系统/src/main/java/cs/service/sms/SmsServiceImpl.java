@@ -15,6 +15,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -81,26 +82,30 @@ public class SmsServiceImpl extends org.apache.axis.client.Service implements Sm
      * @throws SMSException
      */
     @Override
+//    @Async
     public String insertDownSms(String batch, SendMsg... msgs) throws SMSException {
         if (msgs.length == 0)
             return null;
+        if (batch == null)
+            batch = "";
         try {
             // 开始检查是否
             Criterion smsDefCriterion = Restrictions.eq(SysConfig_.configName.getName(), BasicDataConfig.taskType_sendMesg);
             SysConfig smsDefSysConfg = sysConfigRepo.findByCriteria(smsDefCriterion).stream().findFirst().get();
 
-            if(smsDefSysConfg !=null
-                    && Util.isNotNull(smsDefSysConfg.getConfigValue()) && smsDefSysConfg.getEnable()){
+            if(smsDefSysConfg !=null && smsDefSysConfg.getEnable()){
                 // 准备短信内容
                 StringBuffer sb = new StringBuffer("<sendbody>");
                 for (SendMsg msg : msgs) {
+                    logger.info("发送短信给: " + msg.getMobile());
                     sb.append(XMLUtil.toXml(msg));
                 }
-                sb.append("</sendbody>");
+                sb.append("<publicContent></publicContent></sendbody>");
 
                 // 开始发送短信并返回结果
-                return this.getSms().insertDownSms(batch, sb.toString());
-
+                String resCont = this.getSms().insertDownSms(batch, sb.toString());
+                logger.info("短信发送状态: " + resCont);
+                return resCont;
             }
             return null;
         } catch (JAXBException | RemoteException e) {

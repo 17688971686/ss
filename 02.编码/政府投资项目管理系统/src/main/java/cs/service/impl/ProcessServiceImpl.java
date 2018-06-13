@@ -15,7 +15,9 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+import javax.xml.bind.JAXBException;
 
+import cs.common.*;
 import cs.model.SendMsg;
 import cs.service.sms.SmsService;
 import cs.service.sms.exception.SMSException;
@@ -29,6 +31,7 @@ import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
 import org.activiti.spring.ProcessEngineFactoryBean;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -38,9 +41,6 @@ import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 
 import cs.activiti.service.ActivitiService;
-import cs.common.BasicDataConfig;
-import cs.common.ICurrentUser;
-import cs.common.Response;
 import cs.domain.Attachment;
 import cs.domain.ShenBaoInfo;
 import cs.domain.ShenBaoInfo_;
@@ -92,7 +92,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
 	@Autowired
 	private SmsService smsService;
-
 	@Resource
 	private Map<String, String> shenbaoSMSContent;
 
@@ -470,7 +469,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				|| shenBaoInfo.get(0).getThisTaskName().equals("usertask22") ){
 			List<HistoricActivityInstance> lists = activitiService.getHistoryInfoByActivity(processId);
 			root:for (HistoricActivityInstance historicActivityInstance : lists) {
-				if(("usertask3").equals(historicActivityInstance.getActivityId())&&(currentUser.getUserId()).equals(historicActivityInstance.getAssignee())){
+				if(("usertask3").equals(historicActivityInstance.getActivityId())&&(userId).equals(historicActivityInstance.getAssignee())){
 					isShow = true;
 					break root;
 				}
@@ -479,7 +478,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		
 		if(shenBaoInfo.get(0).getThisTaskName().equals("usertask3") && !userList.isEmpty()){
 			root:for (Object object : userList) {
-				if(currentUser.getUserId().equals(object)){
+				if(userId.equals(object)){
 					isShow = true;
 					break root;
 				}
@@ -782,19 +781,37 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		
 		shenBaoInfoRepo.save(shenBaoInfo);
 
+		logger.info(String.format("办结或阅批任务,用户名:%s", currentUser.getLoginName()));
+
 		// 准备短信内容
 		List<SendMsg> msgs = new ArrayList<>();
-		if ("usertask16".equalsIgnoreCase(shenBaoInfo.getThisTaskName())) {
-			msgs = Arrays.asList(new SendMsg(shenBaoInfo.getBianZhiUnitInfo().getResPersonMobile(), shenbaoSMSContent.get(preTaskName)));
-		} else if ("tuiwen".equalsIgnoreCase(str)) {
-			msgs = Arrays.asList(new SendMsg(shenBaoInfo.getBianZhiUnitInfo().getResPersonMobile(), shenbaoSMSContent.get("tuiwen")));
+		// 从配置文件中拿到短信模板并替换其中的占位符，若不能根据preTaskName拿到模板，则使用default模板
+		final String content = String.format(shenbaoSMSContent.get(preTaskName)==null?shenbaoSMSContent.get("default"):shenbaoSMSContent.get(preTaskName), shenBaoInfo.getProjectName());
+
+		if ("usertask16".equalsIgnoreCase(preTaskName)) { // 到达最后一个节点的情况下，发送完结的短信给到编制单位负责人
+
+			msgs.add(new SendMsg(shenBaoInfo.getBianZhiUnitInfo().getResPersonMobile(), content));
+
+		} else if ("tuiwen".equalsIgnoreCase(str)) { 	// 退文的情况下，发送推文短信给到编制单位负责人
+
+			String tuiwenCont = String.format(shenbaoSMSContent.get("tuiwen"), shenBaoInfo.getProjectName());
+			msgs.add(new SendMsg(shenBaoInfo.getBianZhiUnitInfo().getResPersonMobile(), tuiwenCont));
+
+		} else if(shenBaoInfo.getThisTaskName().equals("usertask1") &&  isPass !=""
+				|| shenBaoInfo.getThisTaskName().equals("usertask5") &&  isPass !="" ) {	//
+
+			User user = userService.findById(nextUsers);
+			msgs.add(new SendMsg(user.getMobilePhone(), content));
+
 		} else {
 			msgs = set.stream()
-					.filter(userId -> this.getAssigneeByUserId(shenBaoInfo.getZong_processId(), userId).isSuccess())	// 过滤到达有审批状态的用户
+					.filter(userId -> this.getAssigneeByUserId(shenBaoInfo.getZong_processId(), userId).isSuccess())	// 过滤出到达审批状态的用户
 					.map(userId -> userService.findById(userId))												// 查询出用户对象
-					.map(user -> new SendMsg(user.getMobilePhone(), shenbaoSMSContent.get(preTaskName)))		// 将用户对象转换成SendMsg对象
+					.filter(user -> StringUtils.isNotBlank(user.getMobilePhone()))	// 过滤没有设置手机号的用户
+					.map(user -> new SendMsg(user.getMobilePhone(), content))		// 将用户对象转换成SendMsg对象
 					.collect(Collectors.toList());
 		}
+
 		// 开始发送短信通知
 		try {
 			smsService.insertDownSms(null, msgs.toArray(new SendMsg[]{}));
@@ -802,10 +819,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			logger.error("发送短信异常：" + e.getMessage(), e);
 		}
 
-
-		logger.info(String.format("办结或阅批任务,用户名:%s", currentUser.getLoginName()));
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	@Transactional
@@ -839,6 +854,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "阅批意见："+msg);
 		
 		logger.info(String.format("填写批注,用户名:%s", currentUser.getLoginName()));
+
+
 	}
 
 
@@ -868,6 +885,5 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	public List<ShenBaoInfoDto> findByDto(ODataObj odataObj) {
 		return null;
 	}
-	
-	
+
 }

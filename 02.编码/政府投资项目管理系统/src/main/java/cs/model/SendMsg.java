@@ -1,6 +1,10 @@
 package cs.model;
 
+import cs.common.XMLUtil;
+import jxl.demo.XML;
+
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * @Description: 短信信息实体类
@@ -16,8 +20,10 @@ public class SendMsg {
 	@XmlElement(required = true)
 	public String orgaddr;//源地址(可不填)
 	@XmlElement(required = true)
+	@XmlJavaTypeAdapter(value = XMLUtil.CDATAAdapter.class)
 	public String mobile;//手机号码
 	@XmlElement(required = true)
+	@XmlJavaTypeAdapter(value = XMLUtil.CDATAAdapter.class)
 	public String content;//短信内容
 	@XmlElement(required = true)
 	public String sendtime;//下发时间，格式：（yyyyMMddhhmmss）(可不填)
@@ -28,8 +34,11 @@ public class SendMsg {
 	}
 
 	public SendMsg(String mobile, String content) {
+		this.orgaddr = "";
+		this.sendtime = "";
 		this.mobile = mobile;
 		this.content = content;
+		this.needreport = "1";
 	}
 
 	public SendMsg(String pin, String fromUser, String orgaddr, String mobile, String content, String sendtime, String needreport) {

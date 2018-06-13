@@ -2,6 +2,7 @@ package cs.common;
 
 import java.io.IOException;
 import java.security.MessageDigest;
+import java.util.Random;
 
 /**
  *  该类用于给sms的username和password用于AZDG加密
@@ -23,7 +24,6 @@ public class AZDGUtils {
 
         return base64_encode(key(tmp, key));
     }
-
 
     /**
      * 解密算法

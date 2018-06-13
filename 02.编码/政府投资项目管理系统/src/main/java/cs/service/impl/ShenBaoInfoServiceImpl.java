@@ -11,6 +11,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
+import cs.common.*;
 import cs.service.framework.UserService;
 import cs.service.sms.SmsService;
 import cs.service.sms.exception.SMSException;
@@ -18,6 +19,7 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.spring.ProcessEngineFactoryBean;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -31,10 +33,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import cs.activiti.service.ActivitiService;
-import cs.common.BasicDataConfig;
-import cs.common.ICurrentUser;
-import cs.common.SQLConfig;
-import cs.common.Util;
 import cs.domain.Attachment;
 import cs.domain.BasicData;
 import cs.domain.Project;
@@ -1190,10 +1188,13 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 
 		// 发送短信给第一处理人
 		try {
-			SendMsg msg = new SendMsg();
-			msg.setMobile(userService.findById(sysConfg.getConfigValue()).getMobilePhone());
-			msg.setContent(shenbaoSMSContent.get(entity.getThisTaskName()));
-			smsService.insertDownSms(null, msg);
+			User user = userService.findById(sysConfg.getConfigValue());
+			if (user != null
+					&& StringUtils.isNotBlank(user.getMobilePhone())) {
+				String content = String.format(shenbaoSMSContent.get(entity.getThisTaskName())==null?shenbaoSMSContent.get("default"):shenbaoSMSContent.get(entity.getThisTaskName()), entity.getProjectName());
+				SendMsg msg = new SendMsg(user.getMobilePhone(), content);
+				smsService.insertDownSms(null, msg);
+			}
 		} catch (SMSException e) {
 			logger.error("发送短信异常：" + e.getMessage(), e);
 		}
