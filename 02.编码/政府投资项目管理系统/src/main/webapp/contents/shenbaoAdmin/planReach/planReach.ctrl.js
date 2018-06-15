@@ -299,7 +299,7 @@
                     	ids.push(selectIds[i].value);
     				}
                     var idStr=ids.join(',');    
-                    $('#addPackList').modal('toggle');//关闭模态框
+                    $('#myModal').modal('toggle');//关闭模态框
                     planReachSvc.addShenBaoInfoToPlanReach(vm,idStr);//添加申报信息到计划下达中                  
                 }   
     		};
@@ -320,7 +320,7 @@
     				}
                     var idStr=ids.join(',');    
                     console.log(idStr);
-                    $('#addPackList').modal('toggle');//关闭模态框
+                    $('#packModal').modal('toggle');//关闭模态框
                     planReachSvc.addPackPlanToPlanReack(vm,idStr);//添加申报信息到计划中                  
                 }   
     		};
@@ -455,7 +455,7 @@
                     	ids.push(selectIds[i].value);
     				}
                     var idStr=ids.join(',');    
-                    $('#addPackList').modal('toggle');//关闭模态框
+                    $('#myModal').modal('toggle');//关闭模态框
                     planReachSvc.addShenBaoInfoToPack(vm,idStr);//添加申报信息到计划下达中                  
                 }   
     		};

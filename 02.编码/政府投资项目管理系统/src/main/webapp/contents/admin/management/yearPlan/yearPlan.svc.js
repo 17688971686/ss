@@ -190,7 +190,7 @@
 				
 				var httpOptions = {
 					method : 'post',
-					url : url_planList+'/updatePackPlan',
+					url : url_packPlan+'/updatePackPlan',
 					data : vm.model
 				};
 				

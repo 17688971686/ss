@@ -47,10 +47,10 @@ public class PackPlanController {
 		packPlanService.create(dto);
 	}
 	
-	@RequiresPermissions("management/packPlan#updatePackPlan#post")
+//	@RequiresPermissions("management/packPlan#updatePackPlan#post")
 	@RequestMapping(name="更新打包计划",path="updatePackPlan",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void put(@RequestBody PackPlanDto dto){
+	public void put(HttpServletRequest request , @RequestBody PackPlanDto dto){
 		packPlanService.update(dto,dto.getId());
 	}
 	

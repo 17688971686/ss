@@ -12,7 +12,7 @@
     <exclusiveGateway id="exclusivegateway3" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow12" sourceRef="usertask1" targetRef="exclusivegateway3"></sequenceFlow>
     <userTask id="usertask2" name="经办人转办"></userTask>
-    <sequenceFlow id="flow14" name="经办人转办" sourceRef="exclusivegateway3" targetRef="usertask3">
+    <sequenceFlow id="flow14" sourceRef="exclusivegateway3" targetRef="usertask3">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==1}]]></conditionExpression>
     </sequenceFlow>
     <exclusiveGateway id="exclusivegateway4" name="Exclusive Gateway"></exclusiveGateway>
@@ -143,7 +143,7 @@
         <omgdi:waypoint x="755.0" y="427.0"></omgdi:waypoint>
         <omgdi:waypoint x="310.0" y="427.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="24.0" x="720.0" y="409.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="24.0" x="690.0" y="396.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow91" id="BPMNEdge_flow91">
@@ -168,7 +168,7 @@
         <omgdi:waypoint x="602.0" y="234.0"></omgdi:waypoint>
         <omgdi:waypoint x="602.0" y="303.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="24.0" x="1029.0" y="241.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="24.0" x="941.0" y="241.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow99" id="BPMNEdge_flow99">
