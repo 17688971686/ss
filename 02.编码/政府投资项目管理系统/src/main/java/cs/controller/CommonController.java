@@ -41,7 +41,9 @@ import cs.service.interfaces.YearPlanService;
 @Controller
 @RequestMapping(name = "公共", path = "common")
 public class CommonController {
-	
+
+	public static final String FILE_UPLOAD_TO = "contents/upload/";
+
 	@Autowired  
     private HttpServletRequest request;
 	@Autowired
@@ -143,7 +145,7 @@ public class CommonController {
             	//随机名
             	randomName=Util.generateFileName(fileName);
                 // 文件保存路径  
-                String filePath = request.getSession().getServletContext().getRealPath("/") + "contents/upload/"  
+                String filePath = request.getSession().getServletContext().getRealPath("/") + FILE_UPLOAD_TO
                         + randomName;  
                 // 转存文件 
                 file.transferTo(new File(filePath));  

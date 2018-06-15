@@ -41,4 +41,7 @@ public interface ProjectService extends IService<ProjectDto, Project, String> {
 //																List<String> unitSelected,Double investSumBegin,Double investSumEnd);//自定义条件项目统计
 	List<ProjectStatisticsBean> getProjectStatisticsByCustom(String[] industrySelected,String[] stageSelected,String[] categorySelected,
 			String[] unitSelected,Double investSumBegin,Double investSumEnd,String projectName);//自定义条件项目统计
+
+	Map<String, Object> updateAlreadyDisbursedByExcel(String filePath);
+
 }

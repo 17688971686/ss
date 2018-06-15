@@ -184,6 +184,13 @@
                 controller: 'projectCtrl',
                 controllerAs: 'vm'
             })
+            // 已拨付数上传
+            .state('updateDisbursed', {
+                url: '/updateDisbursed',
+                templateUrl: '/management/project/html/updateDisbursed.html',
+                controller: 'disbursedCtrl',
+                controllerAs: 'vm'
+            })
 /**********************end#project***************************************/
 	        
 /**********************begin#计划下达管理**********************************/

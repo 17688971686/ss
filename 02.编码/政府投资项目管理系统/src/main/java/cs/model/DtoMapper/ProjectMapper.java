@@ -53,6 +53,7 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			projectDto.setUnitName(project.getUnitName());//项目所属单位名称-对应用户单位中的userName
 			projectDto.setIsIncludYearPlan(project.getIsIncludYearPlan());
 			projectDto.setIsPlanReach(project.getIsPlanReach());
+			project.setAlreadyDisbursed(projectDto.getAlreadyDisbursed());
 			//资金来源			
 			projectDto.setCapitalQCZ_gtzj(project.getCapitalQCZ_gtzj());
 			projectDto.setCapitalQCZ_ggys(project.getCapitalQCZ_ggys());

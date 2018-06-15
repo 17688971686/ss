@@ -29,7 +29,10 @@ public class Project extends BaseProject {
 	
 	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否纳入项目库'")
 	private Boolean isIncludLibrary = false;
-	
+
+	@Column(columnDefinition = "double(11,4) NULL COMMENT '已拨付资金'")
+	private Double alreadyDisbursed;
+
 	//begin#关联信息
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<Attachment> attachments=new ArrayList<>();
@@ -85,5 +88,12 @@ public class Project extends BaseProject {
 	public void setIsIncludLibrary(Boolean isIncludLibrary) {
 		this.isIncludLibrary = isIncludLibrary;
 	}
-	
+
+	public Double getAlreadyDisbursed() {
+		return alreadyDisbursed;
+	}
+
+	public void setAlreadyDisbursed(Double alreadyDisbursed) {
+		this.alreadyDisbursed = alreadyDisbursed;
+	}
 }

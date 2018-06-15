@@ -8,15 +8,16 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import cs.controller.CommonController;
+import cs.excelHelper.PoiExcel2k3Helper;
+import cs.excelHelper.PoiExcel2k7Helper;
+import cs.model.project.UpdateDisbursedResultVO;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 import cs.domain.Project;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ProjectDto;
@@ -133,6 +134,19 @@ public class ProjectController {
 		}	
 	}
 
+	@RequiresPermissions("management/project#updateDisbursed#post")
+	@RequestMapping(name = "更新已拨付资金", path = "updateDisbursed", method = RequestMethod.POST)
+	@ResponseBody
+	public UpdateDisbursedResultVO updateDisbursed(@RequestBody String fileName, HttpServletRequest request) {
+		String filePath = request.getSession().getServletContext().getRealPath("/") + CommonController.FILE_UPLOAD_TO + fileName;
+		if (StringUtils.upperCase(fileName).endsWith(StringUtils.upperCase(PoiExcel2k3Helper.FILE_NAME_SUFFIX))
+				|| StringUtils.upperCase(fileName).endsWith(StringUtils.upperCase(PoiExcel2k7Helper.FILE_NAME_SUFFIX))) {
+			Map<String, Object> result = ProjectService.updateAlreadyDisbursedByExcel(filePath);
+			return new UpdateDisbursedResultVO((Integer) result.get("totalCount"), (Integer) result.get("successCount"), (List<Object[]>) result.get("errorList"));
+		}
+		throw new IllegalArgumentException("文件格式错误，请上传xls或xlsx格式的Excel文件");
+	}
+
 	@RequiresPermissions("management/project##post")
 	@RequestMapping(name = "创建项目信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -165,9 +179,15 @@ public class ProjectController {
 		return this.ctrlName + "/list_SH";
 	}
 
+	@RequiresPermissions("management/project#html/statistics#get")
 	@RequestMapping(name = "项目统计分析", path = "html/statistics", method = RequestMethod.GET)
 	public String statistics() {
 		return this.ctrlName + "/statistics";
 	}
-	
+
+	@RequiresPermissions("management/project#html/updateDisbursed#get")
+	@RequestMapping(name = "已拨付数上传", path = "html/updateDisbursed", method = RequestMethod.GET)
+	public String updateDisbursed() {
+		return this.ctrlName + "/updateDisbursed";
+	}
 }

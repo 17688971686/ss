@@ -294,6 +294,11 @@ margin-left:310px;
 								<a href="javascript:void(0)" ui-sref="projectStatistics">项目统计分析</a>
 								</@shiro.hasPermission>
 							</li>
+							<li>
+								<@shiro.hasPermission name="management/project#html/updateDisbursed#get">
+								<a href="javascript:void(0)" ui-sref="updateDisbursed">已拨付数上传</a>
+								</@shiro.hasPermission>
+							</li>
 						</ul>
 					</li>
 					<li class="treeview">
@@ -565,6 +570,7 @@ margin-left:310px;
 	<!-- project -->
 	<script src="/contents/admin/management/project/project.ctrl.js"></script>
 	<script src="/contents/admin/management/project/project.svc.js"></script>
+	<script src="/contents/admin/management/project/updateDisbursed.ctrl.js"></script>
 	<!-- catalog -->
 	<script src="/contents/admin/management/catalog/catalog.ctrl.js"></script>
 	<script src="/contents/admin/management/catalog/catalog.svc.js"></script>
