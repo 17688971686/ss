@@ -21,7 +21,8 @@
 			updateIsMonthReport:updateIsMonthReport,
 			documentRecordsGird:documentRecordsGird,
 			//统计分析
-			getProjects:getProjects
+			getProjects:getProjects,
+            updateAlreadyDisbursedByExcel:updateAlreadyDisbursedByExcel
 			
 		};
 
@@ -870,6 +871,22 @@
 			};
 
 		}// end fun grid
+
+		function updateAlreadyDisbursedByExcel(vm, fileName, successCallBack) {
+            var httpOptions = {
+                method : 'post',
+                url : url_project+'/updateDisbursed',
+                data : fileName
+            };
+
+            common.http({
+                vm : vm,
+                $http : $http,
+                httpOptions : httpOptions,
+                success : successCallBack
+            });
+        }
+
 	}
 	
 	
