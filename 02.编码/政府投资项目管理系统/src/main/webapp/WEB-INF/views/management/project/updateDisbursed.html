@@ -1,0 +1,106 @@
+<style>
+    .table-bordered>thead>tr>th,
+    .table-bordered>tbody>tr>th,
+    .table-bordered>tfoot>tr>th,
+    .table-bordered>thead>tr>td,
+    .table-bordered>tbody>tr>td,
+    .table-bordered>tfoot>tr>td {
+        border: 1px solid #ddd;
+        vertical-align: middle;
+    }
+    label{font-weight:normal;}
+
+    .uploadBox .k-upload-status {
+        display: none;
+    }
+
+    .uploadBox .k-header {
+        background: transparent;
+        border: 0px;
+        float:right;
+    }
+
+    .uploadBox em {
+        display: none;
+    }
+
+    .uploadBox .k-dropzone {
+        padding: 0px;
+        margin: 0px;
+    }
+    .uploadBox .k-upload-files{
+        display:none;
+    }
+
+    @-webkit-keyframes icon-spin {
+        from {
+            -webkit-transform: rotate(0deg);
+        }
+        to {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes icon-spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+
+    .icon-spin {
+        -webkit-animation: icon-spin 2s infinite linear;
+        animation: icon-spin 2s infinite linear;
+    }
+</style>
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+        <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+        <li><a href="#/">首页</a></li>
+        <li>项目管理</li>
+        <li class="active">已拨付数上传</li>
+    </ol>
+    <div class="bg-info text-info" style="padding: 10px;">上传文件</div>
+    <table class="table table-bordered table-striped ">
+        <tr>
+            <td class="clearfix">
+                <div class="uploadBox pull-left">
+                    <input name="files" type="file" kendo-upload k-options="vm.uploadOptions" ng-disabled="vm.isProcessing" accept=".xls, .xlsx"/>
+                </div>
+                <button style="margin-left: 10px" ng-disabled="vm.isProcessing" class="btn btn-sm btn-primary" ng-if="vm.attachmentDtos.length > 0" ng-click="vm.update()"><i class="glyphicon glyphicon-refresh icon-spin" ng-if="vm.isProcessing"></i> 点击开始根据【{{vm.attachmentDtos[0].fileName}}】更新已拨付金额</button>
+            </td>
+        </tr>
+    </table>
+    <div class="bg-info text-info" style="padding: 10px;" ng-if="vm.result">处理结果</div>
+    <table class="table table-bordered table-striped " ng-if="vm.result">
+        <tr>
+            <th>总行数</th>
+            <th>成功行数</th>
+            <th>异常行数</th>
+        </tr>
+        <tr>
+            <td>{{vm.result.totalCount}}</td>
+            <td>{{vm.result.successCount}}</td>
+            <td>{{vm.result.errorRowInfos.length}}</td>
+        </tr>
+    </table>
+    <div class="bg-info text-info" style="padding: 10px;"
+         ng-if="vm.result.errorRowInfos && vm.result.errorRowInfos.length > 0">异常详情</div>
+    <table class="table table-bordered table-striped " ng-if="vm.result">
+        <tr>
+            <th style="width: 5%">行号</th>
+            <th style="width: 30%">项目名称</th>
+            <th style="width: 20%">唯一编号</th>
+            <th>异常消息</th>
+        </tr>
+        <tr ng-repeat="row in vm.result.errorRowInfos">
+            <td>{{row.rowNumber}}</td>
+            <td>{{row.projectName}}</td>
+            <td>{{row.projectNumber}}</td>
+            <td>{{row.errorMessage}}</td>
+        </tr>
+    </table>
+</div>
