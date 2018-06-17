@@ -1,5 +1,7 @@
 package cs.service.impl;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,7 +11,14 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
+
+import cs.excelHelper.PoiExcel2k3Helper;
+import cs.excelHelper.PoiExcel2k7Helper;
+import cs.excelHelper.PoiExcelHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.NativeQuery;
@@ -556,6 +565,109 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 		logger.info("项目总库信息自定义分类统计报表导出");
 		return list;
 	}
+
+	/**
+	 * 根据上传的Excel更新已拨付数
+	 *
+	 * @param filePath
+	 */
+	@Override
+	@Transactional
+	public Map<String, Object> updateAlreadyDisbursedByExcel(String filePath) {
+		try {
+
+			PoiExcelHelper helper;
+			if (StringUtils.upperCase(filePath).endsWith(StringUtils.upperCase(PoiExcel2k3Helper.FILE_NAME_SUFFIX)))
+				helper = new PoiExcel2k3Helper(filePath);	// xls helper
+			else
+				helper = new PoiExcel2k7Helper(filePath);	// xlsx helper
+
+			/** 开始查找当前年份所在的列 **/
+			int headerRowNum = 3;
+			Integer currentYearColumnNum = null;
+			Row headerRow = helper.getRow(headerRowNum);
+			for (int i = 0; i < headerRow.getLastCellNum(); i++) {
+				Cell cell = headerRow.getCell(i);
+				if (cell.getStringCellValue().startsWith(LocalDate.now().getYear()+""))
+					currentYearColumnNum = i;
+			}
+
+			if (currentYearColumnNum == null) {
+				logger.error("解析文档时未找到当前年份对应的列");
+				throw new IllegalArgumentException("解析文档时未找到当前年份对应的列");
+			}
+			/** 结束查找当前年份所在的列 **/
+
+			int startRowNum = 4; // 开始读取数据的行数
+			int successCount = 0;// 成功总数
+			List<Object[]> errorList = new ArrayList<>();	// 错误列表，定义为: [Row实例, 消息]
+			List<Row> rows = helper.getRows(startRowNum, helper.getLastRowNum());	// 从Excel中拿到指定行的内容
+
+			for(Row row : rows) {
+				Cell projectNumCell = row.getCell(5);	// 一行中projectNum所在的cell
+				Cell alreadyDisbursedCell = row.getCell(currentYearColumnNum);	// 一行中已拨付数所在的cell
+
+				// 判断项目名是否填入，若未填入则跳过该行数据并将该行加入错误列表
+				if (StringUtils.isBlank(projectNumCell.getStringCellValue())) {
+					errorList.add(new Object[]{row, "未输入唯一编号, 已跳过该行数据"});
+					continue;
+				}
+
+				if (StringUtils.isBlank(helper.getCellValue(alreadyDisbursedCell))) {
+					errorList.add(new Object[]{row, "未填入拨付金额, 已跳过该行数据"});
+					continue;
+				}
+
+				try {
+					alreadyDisbursedCell.getNumericCellValue();
+				} catch (IllegalStateException e) {
+					errorList.add(new Object[]{row, "拨付金额错误, 已跳过该行数据"});
+					continue;
+				}
+
+				// 根据projectNum从库中查询出project对象
+				Project project = getProjectByProjectNum(projectNumCell.getStringCellValue());
+
+				// 若未在库中找到对应的项目，则跳过该行数据并将该行加入错误列表
+				if (project == null) {
+					errorList.add(new Object[]{row, "未能根据【唯一编号】在系统中找到对应的项目"});
+					continue;
+				}
+
+				// 设置已拨付数到项目实例中
+				project.setAlreadyDisbursed(alreadyDisbursedCell.getNumericCellValue());
+
+				// 保存
+				project.setModifiedDate(new Date());//设置修改时间
+				project.setModifiedBy(currentUser.getUserId());//设置修改人
+				super.repository.save(project);
+
+				// 成功总数加一
+				successCount++;
+			}
+
+			// 将结果以Map对象的形式返回给调用者
+			Map<String, Object> result = new HashMap<>();
+			result.put("errorList", errorList);
+			result.put("successCount", successCount);
+			result.put("totalCount", rows.size());
+			logger.info(String.format("完成更新已拨付数，总行数：%s，成功行数：%s, 失败行数：%s", rows.size(), successCount, errorList.size()));
+			return result;
+		} catch (IOException e) {
+			logger.error("更新已拨付数时发生异常: " + e.getMessage());
+			throw new IllegalArgumentException("更新已拨付数时发生异常");
+		}
+	}
+
+	@Transactional
+	public Project getProjectByProjectNum(String projectNumber) {
+		Criterion criterion = Restrictions.eq(Project_.projectNumber.getName(), projectNumber);
+		List<Project> projects = super.repository.findByCriteria(criterion);
+		if (projects.size() > 0)
+			return projects.get(0);
+		return null;
+	}
+
 //	public List<ProjectStatisticsBean> getProjectStatisticsByCustom(List<String> industrySelected,
 //			List<String> stageSelected, List<String> categorySelected, List<String> unitSelected, Double investSumBegin,
 //			Double investSumEnd) {
