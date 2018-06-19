@@ -35,7 +35,8 @@
             delShenPiItem:delShenPiItem,
             shenpifankuiItemsGrid:shenpifankuiItemsGrid,
             shenpiOverdueGrid:shenpiOverdueGrid,
-            projectItems:projectItems
+            projectItems:projectItems,
+            getDiagramViewerInfo:getDiagramViewerInfo
 
         };
 
@@ -1196,6 +1197,28 @@
                 resizable : true
             };
         }
+        
+        function getDiagramViewerInfo(vm,id){
+        	var newTab=window.open('about:blank');  
+            var httpOptions = {
+                    method : 'get',
+                    url : url_project + '/getDiagramViewerInfo?processInstanceId=' + id,
+                };
+
+                var httpSuccess = function success(response) {
+                	debugger;
+                    var url = common.format("http://{0}:{1}/contents/diagram-viewer/index.html?processDefinitionId={2}&processInstanceId={3}",response.data.ip,response.data.port,response.data.processDefinitionId,response.data.processInstanceId);
+                    newTab.location.href = url;//
+                };
+
+                common.http({
+                    vm : vm,
+                    $http : $http,
+                    httpOptions : httpOptions,
+                    success : httpSuccess
+                });
+        }
+        
         // begin#grid
         function grid(vm) {
             // Begin:dataSource
@@ -1220,13 +1243,9 @@
                         value:common.basicDataConfig().projectInvestmentType_ZF
                     },
                     {
-                        field:"isLatestVersion",
+                        field:"projectShenBaoStage",
                         operator:"eq",
-                        value:true
-                    },{
-                        field:"isIncludLibrary",
-                        operator:"eq",
-                        value:true
+                        value:"projectShenBaoStage_1"
                     }
                 ]
             });
@@ -1324,7 +1343,7 @@
                     title : "操作",
                     width : 250,
                     template : function(item) {
-                        return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,"vm.isMonthReport('" +item.id+ "','"+item.isMonthReport+"')");
+                        return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,"vm.getDiagramViewerInfo('" + item.monitor_processId + "')","vm.isMonthReport('" +item.id+ "','"+item.isMonthReport+"')");
                     }
 
                 }

@@ -62,6 +62,7 @@ import cs.model.Statistics.ProjectStatisticsBean;
 import cs.repository.framework.OrgRepo;
 import cs.repository.framework.RoleRepo;
 import cs.repository.interfaces.IRepository;
+import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.common.BasicDataServiceImpl;
@@ -116,7 +117,10 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private UserService userService;
 	@Resource
 	private Map<String, String> shenbaoSMSContent;
+	@Autowired
+	private  IRepository<ShenBaoInfo, String> shenBaoInfoRepo;
 	private String processDefinitionKey = "ShenpiReview";
+	private String processDefinitionKey_monitor_fjxm = "ShenpiMonitor_fjxm";
 	private String processDefinitionKey_plan = "ShenpiPlan";
 	private String processDefinitionKey_yearPlan = "yearPlan";
 
@@ -275,6 +279,10 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			startProcessShenbao(processDefinitionKey_yearPlan,entity.getId());
 		}else{
 			startProcessShenbao(processDefinitionKey,entity.getId());
+		}
+		
+		if("projectClassify_1_1".equalsIgnoreCase(dto.getProjectClassify())) {
+			startProcessMonitor_fjxm(processDefinitionKey_monitor_fjxm,entity.getId());
 		}
 //		initWorkFlow(entity,isAdminCreate);
 		//处理批复文件库
@@ -546,6 +554,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 				startProcessShenbao(processDefinitionKey_yearPlan,entity.getId());
 			}else{
 				startProcessShenbao(processDefinitionKey,entity.getId());
+				if("projectClassify_1_1".equalsIgnoreCase(dto.getProjectClassify())) {
+					startProcessMonitor_fjxm(processDefinitionKey_monitor_fjxm,entity.getId());
+				}
 			}
 		}
 		super.repository.save(entity);
@@ -579,6 +590,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	 * @param shenBaoInfo 申报信息
 	 * @param isAdminCreate  是否为管理员创建 
 	 */
+	@SuppressWarnings("unused")
 	private void initWorkFlow(ShenBaoInfo shenBaoInfo,Boolean isAdminCreate){
 		//获取系统配置中工作流类型的第一处理人
 		Criterion criterion = Restrictions.eq(SysConfig_.configName.getName(), BasicDataConfig.taskType_shenpiFenBan);
@@ -647,6 +659,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	 * @param entity 申报信息
 	 * @param isManageChange true：管理员更新 false：建设单位更新 
 	 */
+	@SuppressWarnings("unused")
 	private void updeteWorkFlow(ShenBaoInfo entity,Boolean isManageChange){
 		//查找到对应的任务
 		Criterion criterion = Restrictions.eq(TaskHead_.relId.getName(), entity.getId());
@@ -1200,6 +1213,50 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		}
 
 		logger.info(String.format("启动审批流程,用户名:%s", currentUser.getLoginName()));
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Transactional
+	private void startProcessMonitor_fjxm(String processDefinitionKey, String id) {
+		ShenBaoInfo entity=super.repository.findById(id);
+		Map<String, Object> variables = new HashMap<String, Object>();
+
+		variables.put("shenbaoInfoId", id);
+		activitiService.setStartProcessUserId(currentUser.getUserId());//谁启动的流程
+		
+		String projectShenBaoStage = entity.getProjectShenBaoStage();
+		String executionId;
+		if(StringUtil.isNoneBlank(projectShenBaoStage) && "projectShenBaoStage_1".equalsIgnoreCase(projectShenBaoStage)) {
+			ProcessInstance process = activitiService.startProcess(processDefinitionKey, variables);
+			executionId = process.getId();
+		}else {
+			String projectId = entity.getProjectId();
+			ODataObj odataObj = new ODataObj();
+			List<ODataFilterItem> ODataFilterItemList = new ArrayList<>();
+			ODataFilterItem filterItem0= new ODataFilterItem();
+			filterItem0.setField("projectId");
+			filterItem0.setOperator("eq");
+			filterItem0.setValue(projectId);
+			ODataFilterItemList.add(filterItem0);
+			
+			ODataFilterItem filterItem1= new ODataFilterItem();
+			filterItem1.setField("projectShenBaoStage");
+			filterItem1.setOperator("eq");
+			filterItem1.setValue("projectShenBaoStage_1");
+			ODataFilterItemList.add(filterItem1);
+			
+			odataObj.setFilter(ODataFilterItemList);
+			List<ShenBaoInfo> shenBaoInfos = shenBaoInfoRepo.findByOdata(odataObj);
+			executionId = shenBaoInfos.get(0).getMonitor_processId();
+		}
+		
+		//Task task = activitiService.getTaskByExecutionId(executionId);
+		entity.setMonitor_processId(executionId);
+		super.repository.save(entity);
+		logger.info(String.format("启动监控流程,用户名:%s", currentUser.getLoginName()));
+		
+		//更新项目的流程监控ID
+		
 	}
 
 	@Override

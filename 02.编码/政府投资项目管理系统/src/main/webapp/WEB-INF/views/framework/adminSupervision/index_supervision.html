@@ -136,12 +136,22 @@ desired effect
 							</span>
 						</a>
 						<ul class="treeview-menu" >
-							<li ><a href="#/supervision/tzxm">投资项目</a></li>
+							<li ><a href="#/supervision/tzxm">监控项目</a></li>
 							<!-- 
 							<li><a href="#/supervision/spdw">审批单位</a></li>
 							<li><a href="#/supervision/spsx">审批事项</a></li>	
 							<li><a href="#/supervision/spfk">审批反馈</a></li>		
 							-->
+							<li>
+								<a href="javascript:void(0)" ui-sref="task_todo_feedback">个人待办
+									<span id="todoNumber_feedback" class="label label-danger" style="font-size:9px;padding:0px 5px;"></span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:void(0)" ui-sref="task_complete_feedback">个人已办 
+									<span id="completeNumber_feedback" class="label label-danger" style="font-size:9px;padding:0px 5px;"></span>
+								</a> 
+							</li>
 						</ul>
 					</li>
 					
@@ -262,6 +272,11 @@ desired effect
 	<script src="/contents/admin/framework/org_supervision/org.edit.ctrl.js"></script>
 	<script src="/contents/admin/framework/org_supervision/orgUser.ctrl.js"></script>
 	<script src="/contents/admin/framework/org_supervision/orgUser.svc.js"></script>
+	<!-- task -->
+	<script src="/contents/admin/management/supervision/task/task.feedback.ctrl.js"></script>
+	<script src="/contents/admin/management/supervision/task/task.feedback.svc.js"></script>
+	<script src="/contents/admin/management/supervision/task/handle.feedback.ctrl.js"></script>
+	<script src="/contents/admin/management/supervision/task/handle.feedback.svc.js"></script>
 	<!-- 
 	User
 	<script src="/contents/admin/framework/user/user.svc.js"></script>

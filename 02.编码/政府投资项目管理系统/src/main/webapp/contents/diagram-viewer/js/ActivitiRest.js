@@ -2,7 +2,6 @@ var ActivitiRest = {
     options: {},
     getProcessDefinitionByKey: function (processDefinitionKey, callback) {
         var url = Lang.sub(this.options.processDefinitionByKeyUrl, {processDefinitionKey: processDefinitionKey});
-        alert("======>1:"+url);
         $.ajax({
             url: url,
             dataType: 'json',
@@ -25,7 +24,6 @@ var ActivitiRest = {
 
     getProcessDefinition: function (processDefinitionId, callback) {
         var url = Lang.sub(this.options.processDefinitionUrl, {processDefinitionId: processDefinitionId});
-        alert("======>2:"+url);
         $.ajax({
             url: url,
             dataType: 'json',
@@ -49,14 +47,12 @@ var ActivitiRest = {
 
     getHighLights: function (processInstanceId, callback) {
         var url = Lang.sub(this.options.processInstanceHighLightsUrl, {processInstanceId: processInstanceId});
-        alert("======>3:"+url);
         $.ajax({
             url: url,
             dataType: 'json',
             cache: false,
             async: true,
             success: function (data, textStatus) {
-            	debugger;
                 console.log("ajax returned data");
                 var highLights = data;
                 if (!highLights) {

@@ -177,6 +177,11 @@ public class ShenBaoInfo extends BaseProject{
 	private String thisTaskName;
 	//end
 	
+	//begin#在线监管
+	@Column(columnDefinition="varchar(125) NULL COMMENT '在线监管流程ID'")
+	private String monitor_processId;
+	//end
+	
 	//begin#建议书相关
 	@Column(columnDefinition="varchar(500) NULL COMMENT '项目建设必要性和依据'")
 	private String projectConstrBasis;
@@ -233,6 +238,14 @@ public class ShenBaoInfo extends BaseProject{
 	private ShenBaoUnitInfo shenBaoUnitInfo=new ShenBaoUnitInfo();
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<Attachment> attachments=new ArrayList<>();
+	
+	
+	public String getMonitor_processId() {
+		return monitor_processId;
+	}
+	public void setMonitor_processId(String monitor_processId) {
+		this.monitor_processId = monitor_processId;
+	}
 	public String getId() {
 		return id;
 	}

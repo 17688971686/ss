@@ -22,7 +22,8 @@
 			documentRecordsGird:documentRecordsGird,
 			//统计分析
 			getProjects:getProjects,
-            updateAlreadyDisbursedByExcel:updateAlreadyDisbursedByExcel
+            updateAlreadyDisbursedByExcel:updateAlreadyDisbursedByExcel,
+            getProjectUnit : getProjectUnit
 			
 		};
 

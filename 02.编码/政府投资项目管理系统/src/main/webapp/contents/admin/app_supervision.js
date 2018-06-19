@@ -158,6 +158,24 @@
 	            controller: 'projectCtrl',
 	            controllerAs: 'vm'
 	        })
+	        .state('task_todo_feedback', {
+	            url: '/task/todo_feedback',
+	            templateUrl: '/framework/task/html/todo_feedback',
+	            controller: 'taskFeedbackCtrl',
+	            controllerAs: 'vm'
+	        })
+	        .state('task_complete_feedback', {
+	            url: '/task/complete_feedback',
+	            templateUrl: '/framework/task/html/complete_feedback',
+	            controller: 'taskFeedbackCtrl',
+	            controllerAs: 'vm'
+	        })
+	        .state('handle_feedback', {
+	            url: '/task/handle_feedback/:processInstanceId/:shenbaoInfoId/:projectId',
+	            templateUrl: '/framework/task/html/handle_feedback',
+	            controller: 'handleFeedbackCtrl',
+	            controllerAs: 'vm'
+	        })
 	        //编辑页
 	        .state('projectEdit', {
 	            url: '/projectEdit/:id/:projectInvestmentType',

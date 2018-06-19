@@ -40,6 +40,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
@@ -219,6 +220,63 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		return pageModelDto;
 		
 	}
+	
+	@Override
+	@Transactional
+	public PageModelDto<ShenBaoInfoDto> getTodoTask_feedback(ODataObjNew odataObj) {
+		PageModelDto<ShenBaoInfoDto> pageModelDto = new PageModelDto<>();
+		
+		List<String> processInstIdList = new ArrayList<>();
+		List<Task> taskList = taskService.createTaskQuery().processDefinitionKey("ShenpiMonitor_fjxm").taskCandidateUser(currentUser.getUserId()).orderByTaskCreateTime().desc().list();
+		List<Task> taskList2 = taskService.createTaskQuery().processDefinitionKey("ShenpiMonitor_fjxm").taskAssignee(currentUser.getUserId()).orderByTaskCreateTime().desc().list();
+		taskList.addAll(taskList2);
+		taskList.forEach(x -> {
+			String processId = x.getProcessInstanceId();
+			if(StringUtil.isNotBlank(processId)) {
+				processInstIdList.add(processId);
+			}
+		});
+		
+		if(!CollectionUtils.isEmpty(processInstIdList)){
+			List<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoRepoImpl.getShenBaoInfoDtos_feedback(odataObj,processInstIdList).stream().map((x) -> {
+				return mapper.toDto(x);
+			}).collect(Collectors.toList());
+			
+			pageModelDto.setCount(shenBaoInfoDtos.size());
+			pageModelDto.setValue(shenBaoInfoDtos);
+		}
+		
+		return pageModelDto;
+	}
+	
+	@Override
+	@Transactional
+	public PageModelDto<ShenBaoInfoDto> getComplete_feedback(ODataObjNew odataObj) {
+		PageModelDto<ShenBaoInfoDto> pageModelDto = new PageModelDto<>();
+		
+		List<String> processInstIdList = new ArrayList<>();
+		List<HistoricTaskInstance> taskList = historyService.createHistoricTaskInstanceQuery().processDefinitionKey("ShenpiMonitor_fjxm").taskCandidateUser(currentUser.getUserId()).finished().list();
+		List<HistoricTaskInstance> taskList2 = historyService.createHistoricTaskInstanceQuery().processDefinitionKey("ShenpiMonitor_fjxm").taskAssignee(currentUser.getUserId()).finished().list();
+		taskList.addAll(taskList2);
+		taskList.forEach(x -> {
+			String processId = x.getProcessInstanceId();
+			if(StringUtil.isNotBlank(processId)) {
+				processInstIdList.add(processId);
+			}
+		});
+		
+		if(!CollectionUtils.isEmpty(processInstIdList)){
+			List<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoRepoImpl.getShenBaoInfoDtos_feedback(odataObj,processInstIdList).stream().map((x) -> {
+				return mapper.toDto(x);
+			}).collect(Collectors.toList());
+			
+			pageModelDto.setCount(shenBaoInfoDtos.size());
+			pageModelDto.setValue(shenBaoInfoDtos);
+		}
+		
+		return pageModelDto;
+	}
+
 	
 	/********************************************************-plan-******************************************************************/
 	@Override
@@ -402,7 +460,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		
 		shenBaoInfoRepo.save(shenBaoInfo);
-
+					
 		logger.info(String.format("查询角色组已办结上线请求,用户名:%s", currentUser.getLoginName()));
 
 	}
@@ -778,8 +836,19 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			
 		}
 		Authentication.setAuthenticatedUserId(currentUser.getUserId());
-		activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见："+msg);
 		
+		Task monitorTask = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getMonitor_processId()).taskCandidateOrAssigned(currentUser.getUserId()).active().singleResult();
+		if(ObjectUtils.isEmpty(monitorTask)) {
+			List<Task> monitorTasks = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getMonitor_processId()).active().list();
+			for(Task x : monitorTasks) {
+				String assignee = x.getAssignee();
+				if(StringUtil.isBlank(assignee)) {
+					monitorTask = x;
+				}
+			}
+		}
+		activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见："+msg);
+		activitiService.setTaskComment(monitorTask.getId(), shenBaoInfo.getMonitor_processId(), "批复意见："+msg);
 		if(shenBaoInfo.getThisTaskName().equals("usertask1") &&  isPass !="" || shenBaoInfo.getThisTaskName().equals("usertask5") &&  isPass !="" ){
 
 			processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(task.get(0).getId(), nextUsers);
@@ -935,6 +1004,48 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		logger.info(String.format("填写批注,用户名:%s", currentUser.getLoginName()));
 
 
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public void handleFeedback(Map<String, Object> data) {
+		String shenbaoInfoId = (String) data.get("shenbaoInfoId");
+		String msg = (String) data.get("msg");
+		List<Attachment> att = (List<Attachment>) data.get("att");//附件
+		
+		ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenbaoInfoId);
+		
+		List<Task> monitorTask = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getMonitor_processId()).taskCandidateUser(currentUser.getUserId()).active().list();
+		List<Task> monitorTask2 = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getMonitor_processId()).taskAssignee(currentUser.getUserId()).active().list();
+		
+		monitorTask.addAll(monitorTask2);
+		
+		Gson gson = new Gson();
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		//如果有附件
+		if(att != null){
+			for (int i = 0; i < att.toArray().length; i++) {
+				map = gson.fromJson(att.toArray()[i].toString(), map.getClass());
+				Attachment newatt = new Attachment();
+				newatt.setId(UUID.randomUUID().toString());
+				newatt.setName(map.get("name").toString());
+				newatt.setUrl(map.get("url").toString());			
+				newatt.setType(map.get("type").toString());
+				newatt.setCreatedBy(currentUser.getUserId());
+				newatt.setModifiedBy(currentUser.getUserId());
+				shenBaoInfo.getAttachments().add(newatt);
+			}
+		}
+		
+		//Authentication.setAuthenticatedUserId(currentUser.getUserId());
+		
+		monitorTask.forEach(x -> {
+			activitiService.setTaskComment(x.getId(), shenBaoInfo.getMonitor_processId(), "反馈意见："+msg);
+			
+			taskService.complete(x.getId());
+		});
 	}
 
 

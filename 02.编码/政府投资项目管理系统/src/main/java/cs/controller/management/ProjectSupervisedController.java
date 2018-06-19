@@ -3,23 +3,29 @@ package cs.controller.management;
 import java.text.ParseException;
 import java.util.*;
 
-import cs.domain.ShenPiItems;
 
 import javax.servlet.http.HttpServletRequest;
 
 import cs.repository.odata.ODataFilterItem;
+
+import org.activiti.engine.ProcessEngine;
+import org.activiti.engine.ProcessEngines;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
 import cs.domain.Project;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ProjectDto;
+import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.ShenPiItemsDto;
 import cs.model.DomainDto.ShenPiUnitDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ProjectSupervisedService;
+import cs.service.interfaces.ShenBaoInfoService;
 import cs.service.interfaces.ShenPiItemsService;
 import cs.service.interfaces.ShenPiUnitService;
 
@@ -35,9 +41,13 @@ public class ProjectSupervisedController {
 	@Autowired
 	private ProjectSupervisedService projectSupervisedService;
 	@Autowired
+	private ShenBaoInfoService shenBaoInfoService;
+	@Autowired
 	private ShenPiUnitService shenPiUnitService ;
 	@Autowired
 	private ShenPiItemsService shenPiItemsService ;
+	
+	ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
 	
 	@RequestMapping(name = "获取审批单位信息", path = "shenpiUnit",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenPiUnitDto> getShenPiUnit(HttpServletRequest request) throws ParseException {
@@ -84,6 +94,7 @@ public class ProjectSupervisedController {
 															       @RequestParam(required = false) String shenpiUnitName,
 															       @RequestParam(required = false) String shenpiState) throws ParseException {
 		ODataObj odataObj = new ODataObj();
+		@SuppressWarnings("rawtypes")
 		List<ODataFilterItem> ODataFilterItemList = new ArrayList<>();
 		if(id !=null){
 			ODataFilterItem<String> filterItem0= new ODataFilterItem<>();
@@ -248,9 +259,24 @@ public class ProjectSupervisedController {
 	
 	@RequiresPermissions("management/supervision/project#unitName#get")
 	@RequestMapping(name = "获取监管项目信息--可查看单位名称", path = "unitName",method=RequestMethod.GET)
-	public @ResponseBody PageModelDto<ProjectDto> getProjectAndUnitName(HttpServletRequest request) throws ParseException {
+	public @ResponseBody PageModelDto<ShenBaoInfoDto> getProjectAndUnitName(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
-		PageModelDto<ProjectDto> ProjectDtos = projectSupervisedService.get(odataObj);
+		PageModelDto<ShenBaoInfoDto> ProjectDtos = shenBaoInfoService.get(odataObj);
 		return ProjectDtos;
+	}
+	
+	@RequestMapping(name = "获取流程图地址所需参数", path = "getDiagramViewerInfo",method=RequestMethod.GET)
+	public @ResponseBody Map<String,Object> getDiagramViewerInfo(HttpServletRequest request) throws ParseException {
+		 String processInstanceId = request.getParameter("processInstanceId");
+		 Map<String,Object> map = new HashMap<String,Object>();
+		 map.put("ip", request.getServerName());
+		 map.put("port", request.getServerPort());
+		
+		 ProcessInstance instance = processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+		 
+		 map.put("processInstanceId", processInstanceId);
+		 map.put("processDefinitionId", instance.getProcessDefinitionId());
+		 
+		 return map;
 	}
 }

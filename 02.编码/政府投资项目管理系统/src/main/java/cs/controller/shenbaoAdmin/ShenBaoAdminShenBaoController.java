@@ -16,14 +16,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.common.ICurrentUser;
 import cs.common.ValidationSQLUtil;
+import cs.domain.Attachment;
 import cs.activiti.service.ActivitiService;
-import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
+import cs.model.DomainDto.AttachmentDto;
+import cs.model.DomainDto.ProjectDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.UserUnitInfoDto;
+import cs.model.DtoMapper.IMapper;
 import cs.model.framework.UserDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
+import cs.service.interfaces.ProjectService;
 import cs.service.interfaces.ShenBaoInfoService;
 import cs.service.interfaces.UserUnitInfoService;
 
@@ -41,6 +45,10 @@ public class ShenBaoAdminShenBaoController {
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
 	private String processDefinitionKey = "ShenpiReview";
+	@Autowired
+	private ProjectService ProjectService;
+	@Autowired
+	private IMapper<AttachmentDto, Attachment> attachmentMapper;
 	
 	@RequiresPermissions("shenbaoAdmin/shenbao##get")
 	@RequestMapping(name = "获取申报信息", path = "",method=RequestMethod.GET)
@@ -58,7 +66,6 @@ public class ShenBaoAdminShenBaoController {
 	@RequestMapping(name = "撤销流程", path = "{processId}",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void reback(HttpServletRequest request,@PathVariable String processId) throws ParseException{
-		ODataObj odataObj = new ODataObj(request);
 		shenBaoInfoService.reback(processId);
 	}
 	
@@ -133,6 +140,34 @@ public class ShenBaoAdminShenBaoController {
 		}
 	}
 
+	@RequestMapping(name = "关联项目附件", path = "saveApprovalAttDtos",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void saveApprovalAttDtos(@RequestBody ProjectDto dto) {
+		String id = dto.getId();
+		List<AttachmentDto> attachmentDtos = dto.getAttachmentDtos();
+		
+		//附件
+		attachmentDtos.forEach(x -> {
+			Attachment attachment = new Attachment();
+			attachmentMapper.buildEntity(x, attachment);
+			attachment.setCreatedBy(dto.getCreatedBy());
+			attachment.setModifiedBy(dto.getModifiedBy());
+			dto.getAttachments().add(attachment);
+		});
+		
+		/*ODataObj oDataObj = new ODataObj();
+		ODataFilterItem oDataFilterItem = new ODataFilterItem<>();
+		oDataFilterItem.setField("id");
+		oDataFilterItem.setOperator("eq");
+		oDataFilterItem.setValue(id);
+		oDataObj.getFilter().add(oDataFilterItem);
+		
+		PageModelDto<ProjectDto> pageModelDto = ProjectService.Get(oDataObj);
+		ProjectDto projectDto = pageModelDto.getValue().get(0);
+		projectDto.getAttachments().addAll(attachments);*/
+		
+		ProjectService.update(dto, id);
+	}
 		
 	//begin#html
 	@RequiresPermissions("shenbaoAdmin/shenbao#html/list#get")

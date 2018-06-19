@@ -20,10 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.common.ICurrentUser;
 import cs.common.Response;
-import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
-import cs.model.DomainDto.TaskHeadDto;
 import cs.repository.odata.ODataObj;
 import cs.repository.odata.ODataObjNew;
 import cs.service.framework.UserService;
@@ -145,18 +143,21 @@ public class TaskController {
 	}
 	
 	
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(name = "处理任务--审批类", path = "process",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  taskComplete(@RequestBody Map data,HttpServletRequest request) throws ParseException{
 		processService.taskComplete(data);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(name = "处理任务--计划类", path = "process_plan",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  taskComplete_plan(@RequestBody Map data,HttpServletRequest request) throws ParseException{
 		processService.taskComplete_plan(data);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(name = "处理年度计划", path = "yearPaln",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  yearPlanComplete(@RequestBody Map data,HttpServletRequest request) throws ParseException{
@@ -178,6 +179,7 @@ public class TaskController {
 		return processService.getAssigneeByUserId_plan(processId);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(name = "评论", path = "pinglun",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  taskPinglun(@RequestBody Map data,HttpServletRequest request) throws ParseException{

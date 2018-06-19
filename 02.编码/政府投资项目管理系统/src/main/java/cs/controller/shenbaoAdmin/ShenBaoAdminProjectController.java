@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.common.ICurrentUser;
 import cs.common.ValidationSQLUtil;
 import cs.domain.Project;
-import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ProjectDto;
 import cs.model.DomainDto.UserUnitInfoDto;
@@ -43,7 +42,7 @@ public class ShenBaoAdminProjectController {
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
 	
-	@RequiresPermissions("shenbaoAdmin/project##get")
+	//@RequiresPermissions("shenbaoAdmin/project##get")
 	@RequestMapping(name = "获取项目信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> get(HttpServletRequest request) throws ParseException {
 		if(ValidationSQLUtil.BuildObj(request)){
@@ -161,6 +160,14 @@ public class ShenBaoAdminProjectController {
 		}else{
 			ProjectService.delete(id);
 		}
+	}
+	
+	@RequestMapping(name = "附件集合", path = "getApprovalAtts",method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public @ResponseBody PageModelDto<ProjectDto> getApprovalAtts(HttpServletRequest request) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);
+		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);
+		return ProjectDtos;
 	}
 	
 	@RequiresPermissions("shenbaoAdmin/project#html/list#get")

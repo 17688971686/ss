@@ -35,6 +35,7 @@ var TASK_STROKE_COLOR = Color.black; /*Color.SlateGrey; */
 var BOUNDARY_EVENT_COLOR = Color.white;
 var CONDITIONAL_INDICATOR_COLOR = Color.get(255, 255, 255);
 var HIGHLIGHT_COLOR = Color.Firebrick1;
+var HISTORY_HIGHLIGHT_COLOR = Color.Sienna;
 //var SEQUENCEFLOW_COLOR = Color.DimGrey;
 var SEQUENCEFLOW_COLOR = Color.black;
 
@@ -997,23 +998,23 @@ ProcessDiagramCanvas.prototype = {
 			});
 		polyClone.data("objectId", polyline.element.id);
 		polyClone.click(function(){
-			var instance = this;
+			/*var instance = this;
 			var objectId = instance.data("objectId");
 			var object = this.paper.getById(objectId);
 			var contextObject = object.data("contextObject");
 			if (contextObject) {
 				console.log("[flow], objectId: " + object.id +", flow: " + contextObject.flow);
 				ProcessDiagramGenerator.showFlowInfo(contextObject);
-			}
+			}*/
 		}).dblclick(function(){
-			console.log("!!! DOUBLE CLICK !!!");
+			//console.log("!!! DOUBLE CLICK !!!");
 		}).hover(function (mouseEvent) {
-			var instance = this;
+			/*var instance = this;
 			var objectId = instance.data("objectId");
 			var object = this.paper.getById(objectId);
 			var contextObject = object.data("contextObject");
 			if (contextObject)
-				ProcessDiagramGenerator.showFlowInfo(contextObject);
+				ProcessDiagramGenerator.showFlowInfo(contextObject);*/
 		});
 		polyClone.data("parentId", uuid);
 		
@@ -1881,6 +1882,7 @@ ProcessDiagramCanvas.prototype = {
 		//设置返回页面的属性
 		contextObject.setProperty("userId",activitie.userId);
 		contextObject.setProperty("taskId",activitie.taskId);
+		contextObject.setProperty("isHistory",activitie.isHistory);
 		
 		if (contextObject)
 			console.log("--> highLightActivity: ["+contextObject.getProperty("type")+"], activityId: " + contextObject.getId());
@@ -1888,7 +1890,13 @@ ProcessDiagramCanvas.prototype = {
 			console.log("--> highLightActivity: ", shape, shape.data("contextObject"));
 		
 		shape.attr("stroke-width", THICK_TASK_BORDER_STROKE);
-		shape.attr("stroke", HIGHLIGHT_COLOR);
+		debugger;
+		if(activitie.isHistory){
+			shape.attr("stroke", HISTORY_HIGHLIGHT_COLOR);
+		}else{
+			shape.attr("stroke", HIGHLIGHT_COLOR);
+		}
+		
 	},
 	
 	highLightFlow: function(flowId){

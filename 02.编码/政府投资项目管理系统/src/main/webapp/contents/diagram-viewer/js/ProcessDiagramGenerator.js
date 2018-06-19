@@ -1024,37 +1024,63 @@ var ProcessDiagramGenerator = {
 				+ '<div><b>isConditional</b>: {isConditional}</div>'
 				+ '<div><b>isHighLighted</b>: {isHighLighted}</div>';
 		var tpl = Lang.sub(TPL_FLOW_INFO, values);
-		//console.log("info: ", tpl);
 		diagramInfo.html(tpl);
 	},
 	
-	showActivityInfo: function(activity){
+	getHiComment : function(userId,taskId,taskKey,callback){
+		var url = "/getHiComment"
+		
+		$.ajax({
+			url: url,
+			type: 'GET',
+			dataType: 'json',
+			data : {
+				'taskId' : taskId,
+				'userId' : userId,
+				'taskKey' : taskKey
+			},
+			success : function(responce){
+				callback(responce);
+			}
+		})
+	},
+	
+	showActivityInfo: function(activity,comments){
 		var diagramInfo = $("#" + this.options.diagramInfoId);
 		if (!diagramInfo) return;
-		var values = {
-			activityId: activity.getId(),
-			userId: activity.getProperty("userId"),
-			taskId: activity.getProperty("taskId")
-		};
-		var TPL_ACTIVITY_INFO = '' 
-				+ '<div><b>activityId</b>: {activityId}</div>'
-				+ '<div><b>userId</b>: {userId}</div>'
-				+ '<div><b>taskId</b>: {taskId}</div>';
-		var TPL_CALLACTIVITY_INFO = ''
-				+ '<div><b>collapsed</b>: {collapsed}</div>'
-				+ '<div><b>processDefinitonKey</b>: {processDefinitonKey}</div>';
 		
-		var template = TPL_ACTIVITY_INFO;
-		if (activity.getProperty("type") == "callActivity") {
-			values.collapsed = activity.getProperty("collapsed");
-			values.processDefinitonKey = activity.getProperty("processDefinitonKey");
-			template += TPL_CALLACTIVITY_INFO;
-		} else if (activity.getProperty("type") == "callActivity") {
+		var template;
+		var values;
+		$.each(comments, function (i, comment) {
+			values = {
+				name: comment.name,
+				msg: comment.msg,
+				user: comment.id,
+				endTime : comment.endTime
+			};
+			
+			var TPL_ACTIVITY_INFO =
+				'<p>'
+				+ '<div><b>名称</b>: {name}</div>'
+				+ '<div><b>内容</b>: {msg}</div>'
+				+ '<div><b>审批人</b>: {user}</div>'
+				+ '<div><b>时间</b>: {endTime}</div>'
+				+ '</p>'
+				+ '<hr />';
+			
+			if(typeof o === 'undefined'){
+				template = TPL_ACTIVITY_INFO;
+			}else{
+				template = TPL_ACTIVITY_INFO + template;
+			}
+			
+			
+        });
 		
-		}
-				
+		values.collapsed = activity.getProperty("collapsed");
+		values.processDefinitonKey = activity.getProperty("processDefinitonKey");
+		
 		var tpl = Lang.sub(template, values);
-		//console.log("info: ", tpl);
 		diagramInfo.html(tpl);
 	},
 	

@@ -26,7 +26,9 @@
 			getShenBaoInfoByProjectId:getShenBaoInfoByProjectId,//根据项目id查询申报信息
 			getShenBaoPortState:getShenBaoPortState,//查询申报端口的状态哦
 			getUserUnit:getUserUnit,
-			reback:reback//撤销申请
+			reback:reback,//撤销申请
+			getApprovalAtts : getApprovalAtts,
+			saveApprovalAttDtos : saveApprovalAttDtos
 		};		
 		return service;
 		
@@ -218,6 +220,33 @@
 			});
 		}
 		
+		/**
+		 * 查询审批附件
+		 * @param id 项目id
+		 */
+		function getApprovalAtts(vm,id){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_project + "?$filter=id eq '{0}'", id)
+				};
+			
+			var httpSuccess = function success(response) {
+				debugger
+				vm.projectInfo = response.data.value[0]||{};
+				//展示模态框
+	   	           $("#approvalAtts").modal({
+			         backdrop: 'static',
+			         keyboard:true
+	        	   });
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
 		
 		/**
 		 * 根据项目id查询申报信息
@@ -463,6 +492,46 @@
 				 });
 			}
 		}//end#updateShenBaoInfo
+		
+		
+		/**
+		 * 更新审批文件
+		 */
+		function saveApprovalAttDtos(vm){
+			debugger
+			var httpOptions = {
+				method : 'post',
+				url : url_shenbao+'/saveApprovalAttDtos',
+				data : vm.projectInfo
+			};
+
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function() {
+						common.alert({
+							vm : vm,
+							msg : "操作成功",
+							fn : function() {
+								$('.alertDialog').modal('hide')
+								$('.approvalAtts').modal('hide')
+								vm.approvalAtts = [];
+								vm.approvalAttType = '';
+							}
+						});
+					}
+
+				});
+			};
+
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}//end#
 		
 		/**
 		 * 根据id获取申报信息

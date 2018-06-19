@@ -18,6 +18,13 @@
         vm.id=$state.params.id;
         vm.projectInvestmentType=$state.params.projectInvestmentType;
         vm.page="list";
+        
+        //查询当前系统IP、端口、流程定义ID和流程流程实例ID
+        vm.getDiagramViewerInfo = function(id){
+        	debugger;
+        	projectSupervisedSvc.getDiagramViewerInfo(vm,id);
+        }
+        
         function init(){
             // debugger;
             var routeName=$state.current.name;

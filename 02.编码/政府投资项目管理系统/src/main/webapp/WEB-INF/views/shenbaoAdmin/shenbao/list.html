@@ -102,6 +102,7 @@
 	  <script type="text/template" id="columnBtns">
 			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.shenbaoBtn('{0}','{1}','{2}')"><span class="glyphicon glyphicon-pencil"></span>申报</button>
 			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.checkShenBaoRecords('{3}')"><span class="glyphicon glyphicon-th-list"></span>申报记录<span id="tuiwenNumber{0}" class="badge"></span></button>
+			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.getApprovalAtts('{0}')"><span class="glyphicon glyphicon-pencil"></span>上传审批文件</button>
 	  </script>	  
      <form id="form" name="form">
          <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
@@ -168,6 +169,71 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
 				<button type="button" class="btn btn-success" data-dismiss="modal">确定</button>	
+			</div> 
+		</div>
+	</div>
+</div>
+<!-- 审批资料模态框-->
+<div class="shenBaoRecords modal fade" id="approvalAtts" tabindex="-1" role="dialog"> 
+	<div class="modal-dialog" style="width:1000px;"> 
+
+		<div class="modal-content"> 
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			
+				<h4 class="modal-title" id="myModalLabel">审批文件</h4> 
+			</div> 
+			<div class="modal-body">
+				<div class="bg-info text-info" style="padding: 10px;">相关附件</div>
+				<table class="table table-bordered table-striped">
+						<tr>
+							<td style="width:180px;">文件类型</td>
+							<td style="width:180px;">文件</td>
+						</tr>
+						<tr ng-repeat="x in vm.approvalAttsType">
+							<td>
+								{{x[1]}}
+							</td>
+							<td>
+						         <div style="margin:3px;"  
+								 	  ng-repeat="y in vm.projectInfo.attachmentDtos" 
+								 	  ng-show="y.type=='{{x[0]}}'"
+								 		>
+									 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+									<!-- <button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button> -->
+								 </div>
+							</td>
+						</tr>
+				</table>
+				<div class="bg-info text-info" style="padding: 10px;">上传附件</div>
+				<table class="table table-bordered table-striped">
+					<tr>
+						<td style="width:180px;">审批类型</td>
+						<td>
+							<select style="height:30px;" ng-model="vm.approvalAttType">
+				  			<option value="">---请选择---</option>
+				  			<option ng-repeat="x in vm.approvalAttsType" value="{{x[0]}}">{{x[1]}}</option>
+				  		</select>
+						</td>
+					</tr>
+					<tr>
+						<td style="width:180px;">上传附件</td>
+						<td>
+							<div>
+								<div class="uploadBox" data-type="{{vm.approvalAttType}}">
+								 	<input type="file" name="files" kendo-upload k-options="vm.uploadOptions" ng-disabled="vm.approvalAttType==null||vm.approvalAttType==''"/>
+						        </div>
+						        <div style="margin:3px;" ng-repeat="x in vm.approvalAtts"">
+						 			<a href="/contents/upload/{{x.url}}" target="_blank" ng-bind="x.name"></a>
+									<button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button>
+					 			</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
+				<button type="button" class="btn btn-success" data-dismiss="modal" ng-click="vm.saveApprovalAttDtos()">确定</button>	
 			</div> 
 		</div>
 	</div>

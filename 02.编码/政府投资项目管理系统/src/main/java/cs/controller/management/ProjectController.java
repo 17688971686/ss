@@ -50,7 +50,7 @@ public class ProjectController {
 		return ProjectDtos;
 	}
 	
-	@RequiresPermissions("management/project#html/statistics#get")
+//	@RequiresPermissions("management/project#getProjects#get")
 	@RequestMapping(name = "获取项目信息--用于图表分析", path = "getProjects",method=RequestMethod.GET)
 	public @ResponseBody Map<String, List<ProjectStageData>> getStageProjects(){
 	    Map<String, List<ProjectStageData>> map = new HashMap<>();

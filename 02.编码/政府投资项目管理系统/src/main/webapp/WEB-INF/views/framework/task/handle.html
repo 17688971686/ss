@@ -1,0 +1,111 @@
+<style>
+.table-bordered>thead>tr>th, 
+.table-bordered>tbody>tr>th, 
+.table-bordered>tfoot>tr>th, 
+.table-bordered>thead>tr>td, 
+.table-bordered>tbody>tr>td, 
+.table-bordered>tfoot>tr>td {
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+label{font-weight:normal;}
+
+.uploadBox .k-upload-status {
+	display: none;
+}
+
+.uploadBox .k-header {
+	background: transparent;
+	border: 0px;
+	float:right;
+}
+
+.uploadBox em {
+	display: none;
+}
+
+.uploadBox .k-dropzone {
+	padding: 0px;
+	margin: 0px;
+}
+
+.uploadBox .k-upload-files{
+	display:none;
+}
+input.input-sm{height:30px; margin:0px; padding:0px;}
+textarea.form-control {
+	margin:0px; padding:0px;
+}
+.tab_content{
+	padding:20px;
+}
+</style>
+
+<div class="well well-sm" style="background:white;overflow:auto">
+	<ol class="breadcrumb">
+		<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		<li><a href="#/">首页</a></li>
+		<li><a href="#/task/todo_audit">待办列表</a></li>
+		<li class="active">审批反馈</li>
+	</ol>                
+ 	<form id="form" name="form">
+		<div class="bg-info text-info" style="padding: 10px;" ng-if="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16'">项目批复信息</div>
+		<table class="table table-bordered table-striped "
+			ng-if="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16'">
+		</table>
+		<div class="bg-info text-info" style="padding: 10px;">相关附件</div>
+		<table class="table table-bordered table-striped">
+				<tr>
+					<td style="width:180px;">文件类型</td>
+					<td style="width:180px;">文件</td>
+				</tr>
+				<tr ng-repeat="x in vm.approvalAttsType">
+					<td ng-if="x[0]==vm.currentTaskKey">
+						{{x[1]}}
+					</td>
+					<td ng-if="x[0]==vm.currentTaskKey">
+				         <div style="margin:3px;"  
+						 	  ng-repeat="y in vm.projectInfo.attachmentDtos" 
+						 	  ng-show="y.type=='{{x[0]}}'"
+						 		>
+							 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+							<!-- <button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button> -->
+						 </div>
+					</td>
+				</tr>
+		</table>
+		<!-- 反馈的相关附件 -->
+		<div class="bg-info text-info" style="padding: 10px;">填写反馈意见</div>
+		<table class="table table-bordered table-striped">
+			<tr>
+				<td class="formAlignRight" style="width:150px;">填写反馈意见：</td>
+				<td>
+					<div style="margin-bottom: 10px;">
+						<textarea class="form-control" id="processFeekBack" name="processFeekBack"  maxlength="500" rows="3"
+							ng-model="vm.processFeekBack" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+							ng-change="vm.checkLength(vm.processFeekBack,500,'processFeekBackTips')">
+						</textarea>
+						<span data-valmsg-for="processFeekBack" data-valmsg-replace="true" class="required"></span>
+						<div class="tipfont">您还可以输入<span id="processFeekBackTips"><font size="5">500</font></span>个字符!</div>
+					</div>
+					<div>
+						<label class="pull-left">上传附件：</label>
+						<div class="uploadBox pull-left" data-type="feedbackFile">
+						 	<input type="file" name="files" kendo-upload k-options="vm.uploadOptions_feedback"/>
+				        </div>
+				        <div style="margin:3px;" ng-repeat="x in vm.attachmentDtos"">
+				 			<a href="/contents/upload/{{x.url}}" target="_blank" ng-bind="x.name"></a>
+							<button class="btn btn-xs btn-danger" ng-click="vm.delFile_feedback($index)">删除</button>
+			 			</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight"  style="width:150px;">操作：</td>
+				<td>
+					<button ng-click="vm.feedback()" class="btn btn-success btn-sm" style="margin:0 10px;">反馈</button>
+ 				</td>
+			</tr>
+		</table>
+    </form>   
+</div>

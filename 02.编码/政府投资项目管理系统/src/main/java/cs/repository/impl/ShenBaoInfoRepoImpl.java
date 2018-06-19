@@ -1,7 +1,6 @@
 package cs.repository.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import cs.common.BasicDataConfig;
 import cs.domain.ShenBaoInfo;
 import cs.domain.ShenBaoInfo_;
-import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObjNew;
 import cs.repository.odata.OdataFilter;
 import cs.repository.odata.OdataFilter.Operate;
@@ -67,6 +65,20 @@ public class ShenBaoInfoRepoImpl extends AbstractRepository<ShenBaoInfo	, String
 		}
 		
 		return odataObj.createQuery(getSession(), ShenBaoInfo.class).list();
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<ShenBaoInfo> getShenBaoInfoDtos_feedback(ODataObjNew odataObj, List<String> processInstIdList) {
+		List<OdataFilter> processInstIdListFilter = new ArrayList<OdataFilter>(processInstIdList.size());
+		
+		processInstIdList.forEach(x -> {
+			processInstIdListFilter.add(new OdataFilter(ShenBaoInfo_.monitor_processId.getName(), Operate.EQ, x));
+		});
+		
+		OdataFilter orFilter = new OdataFilter(null, Operate.OR, processInstIdListFilter);
+		odataObj.addFilter(orFilter);
+		List<ShenBaoInfo> shenBaoInfos = odataObj.createQuery(getSession(), ShenBaoInfo.class).list();
+		return shenBaoInfos;
 	}
 
 }

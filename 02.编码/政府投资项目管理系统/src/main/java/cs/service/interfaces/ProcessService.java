@@ -41,4 +41,10 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
 
 	PageModelDto<ShenBaoInfoDto> getTask_user(ODataObjNew odataObj, String str, String leixin);	
 	
+	PageModelDto<ShenBaoInfoDto> getTodoTask_feedback(ODataObjNew odataObj);
+
+	void handleFeedback(Map<String, Object> data);
+
+	PageModelDto<ShenBaoInfoDto> getComplete_feedback(ODataObjNew odataObj);
+
 }

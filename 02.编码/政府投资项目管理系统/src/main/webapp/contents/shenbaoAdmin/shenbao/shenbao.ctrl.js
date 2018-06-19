@@ -19,6 +19,7 @@
 		vm.sysConfig = {};
 		vm.page = 'list';
 		vm.title = '申报信息录入';
+		vm.projectInfo = {};
 		$scope.animationsEnabled = true;
 
 		$(".menu li a").removeClass("focus");
@@ -334,7 +335,74 @@
 				shenbaoSvc.getShenBaoPortState(vm, id, projectInvestmentType,
 						name);//查询申报端口状态
 			};
+			
+			//查询审批附件
+			vm.getApprovalAtts = function(id) {
+				shenbaoSvc.getApprovalAtts(vm, id);//查询审批附件
+			};
+			
+			//审批的附件类型
+			vm.approvalAttsType = common.uploadFileTypeConfig().approvalAttsType;
+			
+			/****************************************************************上传附件 begin**********************************************************************************************************/ 
+	    	//相关附件文件上传文件种类
+	   		vm.uploadSuccess=function(e){
+				var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
+	           	 if(e.XMLHttpRequest.status==200){
+	           		 var fileName=e.XMLHttpRequest.response;
+	           		 $scope.$apply(function(){
+	           			 if(vm.approvalAtts){
+	           				vm.approvalAtts.push({name:fileName.split('_')[2],url:fileName,type:type});
+	           			 }else{
+	           				vm.approvalAtts=[{name:fileName.split('_')[2],url:fileName,type:type}];
+	           			 }                			           			
+	           		 });
+	           	 }
+	   		};
+	   		
+	   		//相关附件上传配置
+	   		vm.uploadOptions={
+				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
+				error:vm.uploadSuccess,	   				
+				localization:{select:'上传文件'},
+				showFileList:false,
+				multiple:true,
+				validation: {
+	                maxFileSize: common.basicDataConfig().uploadSize
+	            },
+	            select:vm.onSelect
+	   		};
+	   		
+	   		//删除上传文件
+			vm.delFile=function(idx){
+				var file = vm.approvalAtts[idx];
+				if(file){
+					vm.approvalAtts.splice(idx,1);
+				}
+		    };  	
+	         
+		    //选择上传文件验证文件大小
+			vm.onSelect=function(e){
+				$.each(e.files, function (index, value) {
+			        if(value.size > common.basicDataConfig().uploadSize){
+			        	$scope.$apply(function(){
+			   				common.alert({
+				        		vm : vm,
+								msg : "上传文件过大！"
+				            });               			           			
+			      		 });
+			        }
+			        
+			    });
+			}; 
+			
+			/****************************************************************上传附件 end**********************************************************************************************************/ 
 
+			vm.saveApprovalAttDtos = function(){
+				vm.projectInfo.attachmentDtos = vm.projectInfo.attachmentDtos.concat(vm.approvalAtts);
+				shenbaoSvc.saveApprovalAttDtos(vm);
+			}
+			
 			//模态框中申报阶段下拉选发生变化时
 			vm.changeShenBaoStage = function() {
 				vm.massage = '';

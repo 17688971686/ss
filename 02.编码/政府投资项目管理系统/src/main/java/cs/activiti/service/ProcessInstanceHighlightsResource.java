@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
 
 @RestController
 public class ProcessInstanceHighlightsResource {
@@ -45,6 +45,11 @@ public class ProcessInstanceHighlightsResource {
   
 	protected ObjectMapper objectMapper = new ObjectMapper();
 
+/*	@RequestMapping(value="/process-instance/{processInstanceId}/highlights", method = RequestMethod.GET, produces = "application/json")
+	public ObjectNode getHiComment(@PathVariable String processInstanceId) {
+		return null;
+	}*/
+	
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value="/process-instance/{processInstanceId}/highlights", method = RequestMethod.GET, produces = "application/json")
 	public ObjectNode getHighlighted(@PathVariable String processInstanceId) {
@@ -69,11 +74,12 @@ public class ProcessInstanceHighlightsResource {
 					.finished() //查询已经完成的任务 
 					.list();
 			
-			Task task = this.processEngine
+			List<Task> tasks = this.processEngine
 					.getTaskService()
 					.createTaskQuery()
 					.processInstanceId(processInstanceId)
-					.active().list().get(0);
+					.active().list();
+			
 			
 			//List<String> highLightedActivities = runtimeService.getActiveActivityIds(processInstanceId);
 			List<String> highLightedFlows = getHighLightedFlows(processDefinition, processInstanceId);
@@ -83,15 +89,21 @@ public class ProcessInstanceHighlightsResource {
 				node.put("activityId", taskInst.getTaskDefinitionKey());
 				node.put("taskId", taskInst.getId());
 				node.put("userId", taskInst.getAssignee());
+				node.put("isHistory", true);
+				
 				activitiesArray.add(node);
 			}
 			
-			ObjectNode objectNode = objectMapper.createObjectNode();
-			objectNode.put("activityId", task.getTaskDefinitionKey());
-			objectNode.put("taskId", task.getId());
-			objectNode.put("userId", task.getAssignee());
+			tasks.forEach(x -> {
+				ObjectNode objectNode = objectMapper.createObjectNode();
+				objectNode.put("activityId", x.getTaskDefinitionKey());
+				objectNode.put("taskId", x.getId());
+				objectNode.put("userId", x.getAssignee());
+				objectNode.put("isHistory", false);
+				
+				activitiesArray.add(objectNode);
+			});
 			
-			activitiesArray.add(objectNode);
 			
 			for (String flow : highLightedFlows) {
 				flowsArray.add(flow);
