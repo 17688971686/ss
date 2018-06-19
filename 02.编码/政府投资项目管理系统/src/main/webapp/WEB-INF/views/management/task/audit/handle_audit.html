@@ -159,7 +159,7 @@ textarea.form-control {
 		</table>
 		<div class="bg-info text-info" style="padding: 10px;" ng-if="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16'">项目批复信息</div>
 		<table class="table table-bordered table-striped "
-			ng-if="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16'">
+			ng-if="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask3'">
 			<tr>
 				<td style="width: 180px;">批复名称</td>
 				<td style="width: 180px;">批复时间</td>
@@ -375,6 +375,8 @@ textarea.form-control {
 					<!-- 退回 -->
 					<button ng-click="vm.handle('reback')" class="btn btn-danger btn-sm" style="margin:0 10px;" ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask6' || vm.model.shenBaoInfo.thisTaskName == 'usertask7' || vm.model.shenBaoInfo.thisTaskName == 'usertask8' || vm.model.shenBaoInfo.thisTaskName == 'usertask10' 
 					 || vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask14' || vm.model.shenBaoInfo.thisTaskName == 'usertask18' || vm.model.shenBaoInfo.thisTaskName == 'usertask20'">退回</button>
+					 <!-- 返回经办人 -->
+					 <button ng-click="vm.handle('reback')" class="btn btn-success btn-sm" style="margin:0 10px;" ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask8'">返回经办人</button>
 					<!-- 退文 -->
 					<button ng-click="vm.handle('tuiwen')" class="btn btn-warning btn-sm" style="margin:0 10px;" ng-if="vm.model.shenBaoInfo.thisTaskName != 'usertask2' 
 					&& vm.model.shenBaoInfo.thisTaskName != 'usertask6' && vm.model.shenBaoInfo.thisTaskName != 'usertask7' && vm.model.shenBaoInfo.thisTaskName != 'usertask12' && vm.model.shenBaoInfo.thisTaskName != 'usertask18' 

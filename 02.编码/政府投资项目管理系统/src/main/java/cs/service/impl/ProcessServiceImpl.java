@@ -1,6 +1,8 @@
 package cs.service.impl;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -42,6 +44,7 @@ import com.google.gson.Gson;
 
 import cs.activiti.service.ActivitiService;
 import cs.domain.Attachment;
+import cs.domain.Project;
 import cs.domain.ShenBaoInfo;
 import cs.domain.ShenBaoInfo_;
 import cs.domain.framework.Org;
@@ -72,7 +75,9 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	private static Logger logger = Logger.getLogger(ProcessServiceImpl.class);
 	
 	@Autowired
-	private IRepository<ShenBaoInfo, String> shenBaoInfoRepo;	
+	private IRepository<ShenBaoInfo, String> shenBaoInfoRepo;
+	@Autowired
+	private IRepository<Project, String> projectRepo;
 	@Autowired
 	private ShenBaoInfoRepoImpl shenBaoInfoRepoImpl;
 	@Autowired
@@ -674,6 +679,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	@Override
 	@Transactional
 	public void taskComplete(Map data) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String shenbaoInfoId = (String) data.get("id");
 		String msg = (String) data.get("msg");
 		String str = (String) data.get("str");//具体操作
@@ -787,8 +793,41 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
 		//如果有附件
 		if(att != null){
+			Project project = projectRepo.findById(shenBaoInfo.getProjectId());
+			Date pifuCBSJYGS_date = null;
+			Date pifuKXXYJBG_date = null;
+			Date pifuJYS_date = null;
+			if((String) data.get("pifuCBSJYGS_date") != null){
+				try {
+					pifuCBSJYGS_date = sdf.parse((String) data.get("pifuCBSJYGS_date"));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+			if((String) data.get("pifuJYS_date") != null){
+				try {
+					pifuJYS_date = sdf.parse((String) data.get("pifuJYS_date"));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+			if((String) data.get("pifuKXXYJBG_date") != null){
+				try {
+					pifuKXXYJBG_date = sdf.parse((String) data.get("pifuKXXYJBG_date"));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			String pifuCBSJYGS_wenhao = (String) data.get("pifuCBSJYGS_wenhao");
+			
+			String pifuJYS_wenhao = (String) data.get("pifuJYS_wenhao");
+		
+			String pifuKXXYJBG_wenhao = (String) data.get("pifuKXXYJBG_wenhao");
+					
 			for (int i = 0; i < att.toArray().length; i++) {
 				map = gson.fromJson(att.toArray()[i].toString(), map.getClass());
+				boolean hasAtta = false;
 				Attachment newatt = new Attachment();
 				newatt.setId(UUID.randomUUID().toString());
 				newatt.setName(map.get("name").toString());
@@ -796,8 +835,40 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				newatt.setType(map.get("type").toString());
 				newatt.setCreatedBy(currentUser.getUserId());
 				newatt.setModifiedBy(currentUser.getUserId());
-				shenBaoInfo.getAttachments().add(newatt);
+				for (int j = 0; j < shenBaoInfo.getAttachments().size(); j++) {
+					Attachment array_element = shenBaoInfo.getAttachments().get(j);
+					if(array_element.getName().equals(newatt.getName())){
+						hasAtta = true;
+					}
+				}
+				if(!hasAtta){
+					shenBaoInfo.setPifuCBSJYGS_date(pifuCBSJYGS_date);
+					shenBaoInfo.setPifuCBSJYGS_wenhao(pifuCBSJYGS_wenhao);
+					shenBaoInfo.setPifuJYS_date(pifuJYS_date);
+					shenBaoInfo.setPifuJYS_wenhao(pifuJYS_wenhao);
+					shenBaoInfo.setPifuKXXYJBG_date(pifuKXXYJBG_date);
+					shenBaoInfo.setPifuKXXYJBG_wenhao(pifuKXXYJBG_wenhao);
+					shenBaoInfo.getAttachments().add(newatt);
+				}
+				for (int j = 0; j < project.getAttachments().size(); j++) {
+					Attachment array_element = project.getAttachments().get(j);
+					if(array_element.getName().equals(newatt.getName())){
+						hasAtta = true;
+					}
+				}
+				if(!hasAtta){
+					project.getAttachments().add(newatt);
+					project.setPifuCBSJYGS_date(pifuCBSJYGS_date);
+					project.setPifuCBSJYGS_wenhao(pifuCBSJYGS_wenhao);
+					project.setPifuJYS_date(pifuJYS_date);
+					project.setPifuJYS_wenhao(pifuJYS_wenhao);
+					project.setPifuKXXYJBG_date(pifuKXXYJBG_date);
+					project.setPifuKXXYJBG_wenhao(pifuKXXYJBG_wenhao);
+					
+				}
 			}
+		
+			projectRepo.save(project);
 		}
 		if(shenBaoInfo.getThisTaskName().equals("usertask16") || str.equals("banjie")){
 			shenBaoInfo.setThisTaskId("00000");
@@ -821,7 +892,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		
 		shenBaoInfoRepo.save(shenBaoInfo);
-
+		
 		logger.info(String.format("办结或阅批任务,用户名:%s", currentUser.getLoginName()));
 
 		// 准备短信内容

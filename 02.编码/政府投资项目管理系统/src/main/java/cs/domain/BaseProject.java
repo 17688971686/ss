@@ -124,6 +124,12 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="varchar(255) NULL COMMENT '批复-初步设计与概算-文号'")
 	private String pifuCBSJYGS_wenhao;
 	
+	@Column(columnDefinition="date NULL COMMENT '批复-初步设计与概算-时间'")
+	private Date pifuZJSQBG_date;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '批复-初步设计与概算-文号'")
+	private String pifuZJSQBG_wenhao;
+	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '建设周期'")
 	private String constructionCycle;
 	
@@ -572,6 +578,22 @@ public class BaseProject extends BaseEntity
 
 	public void setNationalIndustry(String nationalIndustry) {
 		this.nationalIndustry = nationalIndustry;
+	}
+
+	public Date getPifuZJSQBG_date() {
+		return pifuZJSQBG_date;
+	}
+
+	public void setPifuZJSQBG_date(Date pifuZJSQBG_date) {
+		this.pifuZJSQBG_date = pifuZJSQBG_date;
+	}
+
+	public String getPifuZJSQBG_wenhao() {
+		return pifuZJSQBG_wenhao;
+	}
+
+	public void setPifuZJSQBG_wenhao(String pifuZJSQBG_wenhao) {
+		this.pifuZJSQBG_wenhao = pifuZJSQBG_wenhao;
 	}
 	
 }

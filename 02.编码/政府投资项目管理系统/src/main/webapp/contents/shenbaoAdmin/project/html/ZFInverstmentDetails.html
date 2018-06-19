@@ -251,6 +251,19 @@ overflow: scroll !important;
 				 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
 		 	</div>
 		</td>
+	</tr>
+	<tr>
+		<td>资金申请报告</td>
+		<td ng-bind="vm.model.pifuZJSQBG_date | date:'yyyy-MM-dd'"></td>
+		<td ng-bind="vm.model.pifuZJSQBG_wenhao"></td>
+		<td>
+			<div style="margin:3px;"  
+			 	  ng-repeat="y in vm.model.attachmentDtos" 
+			 	  ng-show="y.type=='ZJSQBG'"
+			 		>
+				 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+		 	</div>
+		</td>
 	</tr>	
 </table>
 

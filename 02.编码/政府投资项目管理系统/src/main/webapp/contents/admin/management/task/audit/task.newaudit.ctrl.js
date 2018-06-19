@@ -357,7 +357,7 @@
         	   });
         	   vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
 	   		};
-	   		vm.uploadType=[['JYS','项目建议书批复'],['KXXYJBG','可行性研究报告批复'],['CBSJYGS','初步设计与概算批复']];
+	   		vm.uploadType=[['JYS','项目建议书批复'],['KXXYJBG','可行性研究报告批复'],['CBSJYGS','初步设计与概算批复'],['ZJSQBG','资金申请报告批复']];
 	   		//批复文件选择模态框确认
 	   		vm.pifuChoseConfirm = function(){
 	   			//关闭模态框
@@ -557,6 +557,14 @@
         			common.alert({
 						vm : vm,
 						msg : "请选择下一办理人员后提交！",
+						fn : function() {
+							$('.alertDialog').modal('hide');
+						}
+					});
+        		}else if((vm.model.shenBaoInfo.thisTaskName == 'usertask3') && (vm.isPass == "" || vm.isPass == undefined) && str == "next"){
+        			common.alert({
+						vm : vm,
+						msg : "请选择办理环节后提交！",
 						fn : function() {
 							$('.alertDialog').modal('hide');
 						}
