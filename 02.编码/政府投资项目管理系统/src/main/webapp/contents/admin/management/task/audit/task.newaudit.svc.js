@@ -633,7 +633,7 @@
 				var httpOptions = {
 					method : 'post',
 					url : url_taskAudit_new+"/process",
-					data:{"str":str,"id":vm.id,"msg":vm.processSuggestion,"att":vm.attachmentDtos,"nextUsers":vm.nextUsers.toString(),"isPass":vm.isPass,"isPass2":vm.isPass2,"pifuCBSJYGS_date":vm.model.shenBaoInfo.pifuCBSJYGS_date,"pifuCBSJYGS_wenhao":vm.model.shenBaoInfo.pifuCBSJYGS_wenhao,"pifuJYS_date":vm.model.shenBaoInfo.pifuJYS_date,"pifuJYS_wenhao":vm.model.shenBaoInfo.pifuJYS_wenhao,"pifuKXXYJBG_date":vm.model.shenBaoInfo.pifuKXXYJBG_date,"pifuKXXYJBG_wenhao":vm.model.shenBaoInfo.pifuKXXYJBG_wenhao}
+					data:{"str":str,"id":vm.id,"msg":vm.processSuggestion,"att":vm.attachmentDtos,"nextUsers":vm.nextUsers.toString(),"isPass":vm.isPass,"isPass2":vm.isPass2,"shenbaoinfo":vm.model.shenBaoInfo}
 				};
 
 				var httpSuccess = function success(response) {

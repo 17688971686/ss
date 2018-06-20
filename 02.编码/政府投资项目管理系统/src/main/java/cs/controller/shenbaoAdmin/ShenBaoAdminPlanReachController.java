@@ -82,6 +82,15 @@ public class ShenBaoAdminPlanReachController {
 		return planReachApplications;
 	}
 	
+	@RequestMapping(name = "获取计划下达申请信息", path = "getShenbaoInfoFromYearplan",method=RequestMethod.GET)
+	public @ResponseBody PageModelDto<ShenBaoInfoDto> getShenbaoInfoFromYearplan(HttpServletRequest request) throws ParseException {
+		
+		PageModelDto<ShenBaoInfoDto> shenBaoInfos = null;
+		ODataObj odataObj = new ODataObj(request);
+			shenBaoInfos = planReachApplicationService.getShenbaoInfoFromYearplan(odataObj);
+		return shenBaoInfos;
+	}
+	
 	//@RequiresPermissions("shenbaoAdmin/planReach##post")
 	@RequestMapping(name = "创建计划下达申请信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)

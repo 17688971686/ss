@@ -1,5 +1,6 @@
 package cs.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +26,9 @@ import cs.domain.ShenBaoInfo;
 import cs.domain.ShenBaoInfo_;
 import cs.domain.ShenBaoUnitInfo;
 import cs.domain.UserUnitInfo;
+import cs.domain.YearPlan;
+import cs.domain.YearPlanCapital;
+import cs.domain.YearPlan_;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.PackPlanDto;
 import cs.model.DomainDto.PlanReachApplicationDto;
@@ -71,6 +75,8 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 	private PackPlanService packPlanService;
 	@Autowired
 	private IMapper<PackPlanDto, PackPlan> packPlanMapper;
+	@Autowired
+	private IRepository<YearPlan, String> yearPlanRepo;
 	
 	@Override
 	@Transactional
@@ -793,6 +799,55 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 			}
 		}
 		packPlanRepo.save(plan);
+	}
+
+	@Override
+	@Transactional
+	public PageModelDto<ShenBaoInfoDto> getShenbaoInfoFromYearplan(ODataObj odataObj ) {
+		
+		Integer skip = odataObj.getSkip();
+		Integer stop = odataObj.getTop();
+		  SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+	        Date date = new Date();
+	        
+		int nextYear = Integer.parseInt(sdf.format(date)) +1;
+		Criterion criterion=Restrictions.eq(YearPlan_.year.getName(), nextYear);
+		YearPlan yearPlan = yearPlanRepo.findByCriteria(criterion).get(0);
+		if(yearPlan!=null){
+			//分页查询数据
+			List<ShenBaoInfoDto> shenBaoInfoDtos=new ArrayList<>();
+			List<ShenBaoInfo> shenBaoInfos=((SQLQuery) shenBaoInfoRepo.getSession()
+					.createSQLQuery(SQLConfig.yearPlanProject)
+					.setParameter("yearPlanId", yearPlan.getId())
+					.setFirstResult(skip).setMaxResults(stop)) 
+					.addEntity(ShenBaoInfo.class)
+					.getResultList();
+//			shenBaoInfos.forEach(x->{
+//				ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(x);
+//				shenBaoInfoDtos.add(shenBaoInfoDto);
+//			});
+			
+			for (int i = 0; i < shenBaoInfos.size(); i++) {
+				ShenBaoInfo array_element = shenBaoInfos.get(i);
+				ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(array_element);
+//				if(array_element.getUnitName().equals(id)){
+					shenBaoInfoDtos.add(shenBaoInfoDto);
+//				}
+			}
+			//查询总数
+//			List<ShenBaoInfo> shenBaoInfos2=shenBaoInfoRepo.getSession()
+//					.createSQLQuery(SQLConfig.yearPlanProject)
+//					.setParameter("yearPlanId", planId)
+//					.addEntity(ShenBaoInfo.class)
+//					.getResultList();
+//			int count = shenBaoInfos2.size();
+			
+			PageModelDto<ShenBaoInfoDto> pageModelDto = new PageModelDto<>();
+			pageModelDto.setCount(shenBaoInfoDtos.size());
+			pageModelDto.setValue(shenBaoInfoDtos);
+			return pageModelDto;
+		}			
+		return null;
 	}
 
 

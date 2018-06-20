@@ -568,7 +568,7 @@
 		function projectGrid(vm){
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_project),						
+				transport : common.kendoGridConfig().transport(url+"/getShenbaoInfoFromYearplan"),						
 				schema : common.kendoGridConfig().schema({
 					id : "id",
 					fields : {

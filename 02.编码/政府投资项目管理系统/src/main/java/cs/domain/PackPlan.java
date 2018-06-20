@@ -35,10 +35,8 @@ public class PackPlan extends BaseEntity{
 	@Column(columnDefinition="double(13,4) DEFAULT 0.0 COMMENT '总指标'")
 	private Double totalMoney=0.0;
 	
-	@Basic //(optional="double(13,4) DEFAULT 0.0 COMMENT '本单位公共预算指标总计'")
 	private Double capitalSCZ_ggys_TheYear=0.0;
 	
-	@Basic //(columnDefinition="double(13,4) DEFAULT 0.0 COMMENT '本单位国土资金指标总计'")
 	private Double capitalSCZ_gtzj_TheYear=0.0;
 	
 	//begin#关联信息

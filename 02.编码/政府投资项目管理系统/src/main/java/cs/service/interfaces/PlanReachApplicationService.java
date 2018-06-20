@@ -33,6 +33,7 @@ public interface PlanReachApplicationService extends IService<PlanReachApplicati
 	void deletePack(String packPlanId, String shenbaoId);
 	void deletePlanShenBaoInfos(String packPlanId, String[] ids);
 	void deletePlanShenBaoInfo(String packPlanId, String shenbaoId);
+	PageModelDto<ShenBaoInfoDto> getShenbaoInfoFromYearplan(ODataObj odataObj);
 	
 
 }
