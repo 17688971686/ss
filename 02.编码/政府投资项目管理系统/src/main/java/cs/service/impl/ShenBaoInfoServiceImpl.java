@@ -1264,5 +1264,13 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	@Transactional
+	public ShenBaoInfoDto getShenBaoInfoDtoById(String shenbaoInfoId) {
+		ShenBaoInfo shenBaoInfo = super.repository.findById(shenbaoInfoId);
+		return mapper.toDto(shenBaoInfo);
+		
+	}
 }
 

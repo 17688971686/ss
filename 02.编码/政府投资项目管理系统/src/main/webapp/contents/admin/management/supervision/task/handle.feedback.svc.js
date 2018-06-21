@@ -6,7 +6,7 @@
 	handleFeedback.$inject = [ '$http' ,'$location'];
 
 	function handleFeedback($http,$location) {
-		var url_taskFeedback = "/framework/task";
+		var url_taskFeedback = "/management/supervision/task";
 		var url_back = "#/task/todo_feedback";
 		var url_project = "/shenbaoAdmin/project";
 		
@@ -27,32 +27,32 @@
 					url : url_taskFeedback+"/feedback",
 					data:{"shenbaoInfoId":vm.shenbaoInfoId,"msg":vm.processFeekBack,"att":vm.attachmentDtos}
 				};
+ 				
+ 				var httpSuccess = function success(response) {
+ 	 				debugger;
+ 					common.requestSuccess({
+ 						vm : vm,
+ 						response : response,
+ 						fn : function() {
+ 							common.alert({
+ 								vm : vm,
+ 								msg : "提交成功",
+ 								fn : function() {
+ 									$('.alertDialog').modal('hide');
+ 									location.href = url_back;
+ 								}
+ 							});
+ 						}
+ 					});
+ 				};
+ 				
+ 				common.http({
+ 					vm : vm,
+ 					$http : $http,
+ 					httpOptions : httpOptions,
+ 					success : httpSuccess
+ 				});		
  			}
- 			
- 			var httpSuccess = function success(response) {
- 				debugger;
-				common.requestSuccess({
-					vm : vm,
-					response : response,
-					fn : function() {
-						common.alert({
-							vm : vm,
-							msg : "提交成功",
-							fn : function() {
-								$('.alertDialog').modal('hide');
-								location.href = url_back;
-							}
-						});
-					}
-				});
-			};
-			
-			common.http({
-				vm : vm,
-				$http : $http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});		
 		}
 		
 		/**

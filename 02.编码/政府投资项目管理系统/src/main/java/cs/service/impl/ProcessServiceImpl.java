@@ -858,6 +858,12 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
 			activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
 			activitiService.taskComplete(task.get(0).getId(),variables);
+			//结束监控流程中的项目计划书任务
+			if(shenBaoInfo.getThisTaskName().equals("usertask6") && str.equals("tuiwen")) {
+				//加签收会在历史任务实例中多出assignee
+				//activitiService.claimTask(monitorTask.getId(), currentUser.getUserId());
+				activitiService.taskComplete(monitorTask.getId());
+			}
 		}
 		
 		//结束上一任务后，当前流程下产生的新任务
@@ -1039,7 +1045,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			}
 		}
 		
-		//Authentication.setAuthenticatedUserId(currentUser.getUserId());
+		Authentication.setAuthenticatedUserId(currentUser.getUserId());
 		
 		monitorTask.forEach(x -> {
 			activitiService.setTaskComment(x.getId(), shenBaoInfo.getMonitor_processId(), "反馈意见："+msg);

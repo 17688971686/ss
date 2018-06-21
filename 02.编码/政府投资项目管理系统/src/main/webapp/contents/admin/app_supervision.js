@@ -160,20 +160,26 @@
 	        })
 	        .state('task_todo_feedback', {
 	            url: '/task/todo_feedback',
-	            templateUrl: '/framework/task/html/todo_feedback',
+	            templateUrl: '/management/supervision/task/html/todo_feedback',
 	            controller: 'taskFeedbackCtrl',
 	            controllerAs: 'vm'
 	        })
 	        .state('task_complete_feedback', {
 	            url: '/task/complete_feedback',
-	            templateUrl: '/framework/task/html/complete_feedback',
+	            templateUrl: '/management/supervision/task/html/complete_feedback',
 	            controller: 'taskFeedbackCtrl',
 	            controllerAs: 'vm'
 	        })
 	        .state('handle_feedback', {
 	            url: '/task/handle_feedback/:processInstanceId/:shenbaoInfoId/:projectId',
-	            templateUrl: '/framework/task/html/handle_feedback',
+	            templateUrl: '/management/supervision/task/html/handle_feedback',
 	            controller: 'handleFeedbackCtrl',
+	            controllerAs: 'vm'
+	        })
+	        .state('handle_details_feedback', {
+	            url: '/task/handle_details_feedback/:processInstanceId/:shenbaoInfoId/:projectId',
+	            templateUrl: '/management/supervision/task/html/handle_details_feedback',
+	            controller: 'handleDetailsFeedbackCtrl',
 	            controllerAs: 'vm'
 	        })
 	        //编辑页

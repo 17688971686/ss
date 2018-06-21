@@ -1,12 +1,18 @@
-package cs.controller.framework;
+package cs.controller.management;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,13 +24,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.common.ICurrentUser;
+import cs.common.StringUtil;
+import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.repository.odata.ODataObjNew;
+import cs.service.framework.UserService;
 import cs.service.interfaces.ProcessService;
+import cs.service.interfaces.ShenBaoInfoService;
 
 @Controller
-@RequestMapping(name = "后台管理--工作台管理", path = "framework/task")
+@RequestMapping(name = "后台管理--申报流程监控", path = "management/supervision/task")
 public class FeedbackTaskController {
 	@Autowired
 	ProcessService processService;
@@ -32,10 +42,15 @@ public class FeedbackTaskController {
 	TaskService taskService;
 	@Autowired
 	private ICurrentUser currentUser;
+	@Autowired
+    private ProcessEngine processEngine;
+	@Autowired
+    private UserService userService;
+	@Autowired
+    private ShenBaoInfoService shenBaoInfoService;
 	
-	private String ctrl = "framework/task";
+	private String ctrl = "management/supervision/task";
 
-	//@RequiresPermissions("framework/task#html/todo_feedback#get")
 	@RequestMapping(name = "待办列表页", path = "html/todo_feedback", method = RequestMethod.GET)
 	public String todo() {
 		return ctrl + "/todo";
@@ -49,6 +64,11 @@ public class FeedbackTaskController {
 	@RequestMapping(name = "反馈填报界面", path = "html/handle_feedback", method = RequestMethod.GET)
 	public String handle() {
 		return ctrl + "/handle";
+	}
+	
+	@RequestMapping(name = "反馈详情界面", path = "html/handle_details_feedback", method = RequestMethod.GET)
+	public String handleDetails() {
+		return ctrl + "/handleDetails";
 	}
 	
 	@RequestMapping(name = "获取反馈类个人待办数据", path = "todo_feedback", method = RequestMethod.GET)
@@ -68,9 +88,9 @@ public class FeedbackTaskController {
 	}
 	
 	@RequestMapping(name = "反馈", path = "feedback",method=RequestMethod.POST)
-	public @ResponseBody String taskFeedback(@RequestBody Map<String,Object> data,HttpServletRequest request){
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void taskFeedback(@RequestBody Map<String,Object> data,HttpServletRequest request){
 		processService.handleFeedback(data);
-		return "操作成功";
 	}
 	
 	@RequestMapping(name = "获取当前任务key值", path = "getCurrentTaskKey",method=RequestMethod.GET)
@@ -84,6 +104,50 @@ public class FeedbackTaskController {
 		String taskKey = tasks.get(0).getTaskDefinitionKey();
 		
 		return taskKey;
+	}
+	
+	@SuppressWarnings("deprecation")
+	@RequestMapping(name = "查询当前流程中反馈的所有记录", path = "getFeedbackComments", method = RequestMethod.GET)
+	public @ResponseBody List<Object> getFeedbackComments(HttpServletRequest request) throws ParseException {
+		Calendar calendar = Calendar.getInstance();
+		String processInstanceId = request.getParameter("processInstanceId");
+		List<Comment> comments = processEngine.getTaskService().getProcessInstanceComments(processInstanceId);
+		List<Object> hisList = new ArrayList<>();
+		
+		for(Comment com : comments){
+			HistoricTaskInstance task = processEngine.getHistoryService().createHistoricTaskInstanceQuery().taskId(com.getTaskId()).singleResult();
+			Map<String, String> map = new HashMap<>();
+			
+			map.put("name", task.getName());
+			
+			map.put("endTime", com.getTime().toLocaleString());
+			map.put("msg", com.getFullMessage());
+			
+			String userId2 = com.getUserId();
+			if(StringUtil.isNotBlank(userId2)) {
+				User user = userService.findById(userId2);
+				
+				map.put("id",user.getDisplayName());
+			}else {
+				map.put("id","");
+			}
+
+			calendar.set(com.getTime().getYear(),com.getTime().getMonth(),com.getTime().getDay(),com.getTime().getHours(),com.getTime().getMinutes(),com.getTime().getSeconds());
+		    long millis = calendar.getTimeInMillis();
+			map.put("itemOrder",String.valueOf(millis));
+			hisList.add(map);
+	  }
+		
+	  return hisList;
+	}
+	
+	@RequestMapping(name = "获取当前申报记录信息", path = "getShenBaoAtts",method=RequestMethod.GET)
+	public @ResponseBody ShenBaoInfoDto getShenBaoAtts(HttpServletRequest request) throws ParseException{
+		String shenbaoInfoId = request.getParameter("shenbaoInfoId");
+		
+		ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoService.getShenBaoInfoDtoById(shenbaoInfoId);
+		return shenBaoInfoDto;
+		
 	}
 	
 }

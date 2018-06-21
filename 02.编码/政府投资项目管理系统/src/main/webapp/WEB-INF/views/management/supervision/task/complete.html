@@ -35,10 +35,14 @@
 	  				</td>
 	  			</tr>
 	  		</table>
-	  </div>
+     </div>
 	  
-	  <div class="toolbar">
-	  </div>
+	 <div class="toolbar">
+	 </div>
+	 
+	 <script type="text/template" id="columnBtns">
+		<a class="btn btn-xs btn-primary" href="#/task/handle_details_feedback/{0}/{1}/{2}"><span class="glyphicon glyphicon-pencil"></span>审批详情</a>
+	 </script>
 	 
      <form id="form" name="form">          
          <div class="grid" kendo-grid="grid" k-options="vm.gridOptions_complete"></div>

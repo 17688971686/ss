@@ -26,4 +26,5 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
 			String[] stageSelected,String[] unitSelected,Double investSumBegin,Double investSumEnd,Double apPlanReachSumBegin,Double apPlanReachSumEnd,String projectName);//自定义条件计划类统计
 	void reback(String pricessId);
 	void startProcessShenbao(String processDefinitionKey, String id);
+	public ShenBaoInfoDto getShenBaoInfoDtoById(String shenbaoInfoId);
 }

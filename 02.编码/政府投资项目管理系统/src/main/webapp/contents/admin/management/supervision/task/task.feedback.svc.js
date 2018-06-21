@@ -6,7 +6,7 @@
 	taskFeedback.$inject = [ '$http' ,'$location'];
 
 	function taskFeedback($http,$location) {
-		var url_taskFeedback = "/framework/task";
+		var url_taskFeedback = "/management/supervision/task";
 		var url_taskAudit_new = "/management/task";
 		
 		var service = {
@@ -225,7 +225,7 @@
 		                    }
 					}
 				},
-				 {
+				{
 					field : "projectShenBaoStage",
 					title : "申报阶段",
 					width : 120,						
@@ -241,7 +241,16 @@
 						return kendo.toString(new Date(item.createdDate),"yyyy/MM/dd HH:mm:ss");
 					}
 
-				}
+				},
+				{
+                    field : "",
+                    title : "操作",
+                    width : 250,
+                    template : function(item) {
+                        return common.format($('#columnBtns').html(),item.monitor_processId,item.id,item.projectId);
+                    } 
+
+                }
 
 		];
 			// End:column

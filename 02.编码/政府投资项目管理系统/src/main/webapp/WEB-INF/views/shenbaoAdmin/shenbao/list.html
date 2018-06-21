@@ -102,7 +102,7 @@
 	  <script type="text/template" id="columnBtns">
 			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.shenbaoBtn('{0}','{1}','{2}')"><span class="glyphicon glyphicon-pencil"></span>申报</button>
 			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.checkShenBaoRecords('{3}')"><span class="glyphicon glyphicon-th-list"></span>申报记录<span id="tuiwenNumber{0}" class="badge"></span></button>
-			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.getApprovalAtts('{0}')"><span class="glyphicon glyphicon-pencil"></span>上传审批文件</button>
+			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.getApprovalAtts('{0}')"><span class="glyphicon glyphicon-pencil"></span>在线监管上传文件</button>
 	  </script>	  
      <form id="form" name="form">
          <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
@@ -180,7 +180,7 @@
 		<div class="modal-content"> 
 			<div class="modal-header bg-primary">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			
-				<h4 class="modal-title" id="myModalLabel">审批文件</h4> 
+				<h4 class="modal-title" id="myModalLabel">在线监管上传文件</h4> 
 			</div> 
 			<div class="modal-body">
 				<div class="bg-info text-info" style="padding: 10px;">相关附件</div>
@@ -207,12 +207,13 @@
 				<div class="bg-info text-info" style="padding: 10px;">上传附件</div>
 				<table class="table table-bordered table-striped">
 					<tr>
-						<td style="width:180px;">审批类型</td>
+						<td style="width:180px;">审批阶段</td>
 						<td>
 							<select style="height:30px;" ng-model="vm.approvalAttType">
-				  			<option value="">---请选择---</option>
-				  			<option ng-repeat="x in vm.approvalAttsType" value="{{x[0]}}">{{x[1]}}</option>
-				  		</select>
+					  			<option value="">---请选择---</option>
+					  			<option ng-repeat="x in vm.approvalAttsType" value="{{x[0]}}">{{x[1]}}</option>
+				  			</select>
+				  			<span >提示：请选择对应阶段的文件</span>
 						</td>
 					</tr>
 					<tr>

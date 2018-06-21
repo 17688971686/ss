@@ -49,11 +49,7 @@ textarea.form-control {
 		<li class="active">审批反馈</li>
 	</ol>                
  	<form id="form" name="form">
-		<div class="bg-info text-info" style="padding: 10px;" ng-if="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16'">项目批复信息</div>
-		<table class="table table-bordered table-striped "
-			ng-if="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16'">
-		</table>
-		<div class="bg-info text-info" style="padding: 10px;">相关附件</div>
+		<div class="bg-info text-info" style="padding: 10px;">申报附件</div>
 		<table class="table table-bordered table-striped">
 				<tr>
 					<td style="width:180px;">文件类型</td>
@@ -109,3 +105,4 @@ textarea.form-control {
 		</table>
     </form>   
 </div>
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
