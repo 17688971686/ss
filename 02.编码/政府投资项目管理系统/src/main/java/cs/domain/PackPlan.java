@@ -35,6 +35,9 @@ public class PackPlan extends BaseEntity{
 	@Column(columnDefinition="double(13,4) DEFAULT 0.0 COMMENT '总指标'")
 	private Double totalMoney=0.0;
 	
+	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否已加入计划下达'")
+	private Boolean isInPlan = false;//默认为不申请
+	
 	private Double capitalSCZ_ggys_TheYear=0.0;
 	
 	private Double capitalSCZ_gtzj_TheYear=0.0;
@@ -116,6 +119,14 @@ public class PackPlan extends BaseEntity{
 
 	public void setCapitalSCZ_gtzj_TheYear(Double capitalSCZ_gtzj_TheYear) {
 		this.capitalSCZ_gtzj_TheYear = capitalSCZ_gtzj_TheYear;
+	}
+
+	public Boolean getIsInPlan() {
+		return isInPlan;
+	}
+
+	public void setIsInPlan(Boolean isInPlan) {
+		this.isInPlan = isInPlan;
 	}
 	
 }

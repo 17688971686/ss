@@ -224,6 +224,13 @@
                 var isSelected = $(this).is(':checked');
                 $('.projectsGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
             });
+        	
+        	vm.startProcessOne = function(id){
+        		planReachSvc.startProcessOne(vm,id);
+        	};
+        	vm.deleteProcessOne = function(id){
+        		planReachSvc.deleteProcessOne(vm,id);
+        	};
         	vm.addProject=function(){
         		//展示项目数据模态框
         		$("#myModal").modal({
@@ -440,7 +447,13 @@
 			        keyboard:true
         		});
         	};
+        	vm.startProcessOne = function(id){
+        		planReachSvc.startProcessOne(vm,id);
+        	};
         	
+        	vm.deleteProcessOne = function(id){
+        		planReachSvc.deleteProcessOne(vm,id);
+        	};
         	//打包信息点击添加项目模态框确认按钮
     		vm.dialogConfirmSubmit_shenBaoInfo_plan=function(){
     			//获取选中的申报信息的id

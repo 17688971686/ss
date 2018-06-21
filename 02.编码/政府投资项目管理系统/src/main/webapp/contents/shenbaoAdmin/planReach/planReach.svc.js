@@ -44,10 +44,59 @@
 				deletePacks:deletePacks,//删除打包计划中的打包信息
 				deletePlanShenBaoInfo:deletePlanShenBaoInfo,//删除打包信息的申报信息
 				getSysConfig:getSysConfig,//查询配置信息
-				shenbaoInfoGrid:shenbaoInfoGrid//所有下一年度计划
+				shenbaoInfoGrid:shenbaoInfoGrid,//所有下一年度计划
+				startProcessOne:startProcessOne,//单个项目启动流程
+				deleteProcessOne:deleteProcessOne//撤销流程
 		}
 		
 		return service;
+		
+		function deleteProcessOne(vm,id){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url + "/deleteProcessOne?shenbaoId={0}", id)					
+				
+			};
+			
+			var httpSuccess = function success(response) {
+				if(vm.page == 'packPlanEdit'){
+					vm.shenBaoInfo_gridOptions_plan.dataSource.read();
+	        	}else{
+	        		vm.shenBaoInfo_gridOptions.dataSource.read();
+	        	}
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}//end fun
+		
+		function startProcessOne(vm,id){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url + "/startProcessOne?shenbaoId={0}", id)					
+				
+			};
+			
+			var httpSuccess = function success(response) {
+				if(vm.page == 'packPlanEdit'){
+					vm.shenBaoInfo_gridOptions_plan.dataSource.read();
+	        	}else{
+	        		vm.shenBaoInfo_gridOptions.dataSource.read();
+	        	}
+			};
+			
+			common.http({
+				vm:vm,
+				$http:$http,
+				httpOptions:httpOptions,
+				success:httpSuccess
+			});
+		}//end fun
+		
 		
 		function getSysConfig(vm){
 			var httpOptions = {
@@ -1508,7 +1557,17 @@
 								filterable : false,
 								template :function(item){			
 									vm.gg[item.id] = item.sqPlanReach_ggys;
-									return common.format($('#input').html(),item.id,item.sqPlanReach_ggys);
+									var isShow=item.processState==common.basicDataConfig().processState_weikaishi ||item.processState==common.basicDataConfig().processState_notpass||item.processState==common.basicDataConfig().processState_tuiwen;
+									if(vm.isStartProcess == 'true' && isShow == true){
+										vm.isShow = true;
+									}else if(vm.isStartProcess == 'true' && isShow == false){
+											vm.isShow = false;
+									}else if(vm.isStartProcess == 'false' && isShow == true){
+											vm.isShow = true;
+									}else if(vm.isStartProcess == 'false' && isShow == false){
+										vm.isShow = false;
+									}
+									return common.format($('#input').html(),item.id,item.sqPlanReach_ggys,vm.isShow);
 								},
 								headerAttributes: {
 							      "class": "table-header-cell",
@@ -1522,7 +1581,17 @@
 								filterable : false,
 								template :function(item){	
 									vm.gt[item.id] = item.sqPlanReach_gtzj;
-									return common.format($('#input2').html(),item.id,item.sqPlanReach_gtzj);
+									var isShow=item.processState==common.basicDataConfig().processState_weikaishi ||item.processState==common.basicDataConfig().processState_notpass||item.processState==common.basicDataConfig().processState_tuiwen;
+									if(vm.isStartProcess == 'true' && isShow == true){
+										vm.isShow = true;
+									}else if(vm.isStartProcess == 'true' && isShow == false){
+											vm.isShow = false;
+									}else if(vm.isStartProcess == 'false' && isShow == true){
+											vm.isShow = true;
+									}else if(vm.isStartProcess == 'false' && isShow == false){
+										vm.isShow = false;
+									}
+									return common.format($('#input2').html(),item.id,item.sqPlanReach_gtzj,vm.isShow);
 								},
 								headerAttributes: {
 							      "class": "table-header-cell",
@@ -1561,7 +1630,16 @@
 						filterable : false,
 						template:function(item){
 							var isShow=item.processState==common.basicDataConfig().processState_weikaishi ||item.processState==common.basicDataConfig().processState_notpass||item.processState==common.basicDataConfig().processState_tuiwen;
-							return common.format($('#columnBtns_button_1').html(),item.id,isShow);
+							if(vm.isStartProcess == 'true' && isShow == true){
+								vm.isShow = true;
+							}else if(vm.isStartProcess == 'true' && isShow == false){
+									vm.isShow = false;
+							}else if(vm.isStartProcess == 'false' && isShow == true){
+									vm.isShow = true;
+							}else if(vm.isStartProcess == 'false' && isShow == false){
+								vm.isShow = false;
+							}
+							return common.format($('#columnBtns_button_1').html(),item.id,vm.isShow);
 						},
 						attributes: {
 						      style: "font-size: 14.5px"
@@ -1809,7 +1887,17 @@
 								filterable : false,
 								template:function(item){
 									vm.gg[item.id] = item.sqPlanReach_ggys;
-									return common.format($('#input').html(),item.id,item.sqPlanReach_ggys);
+									var isShow=item.processState==common.basicDataConfig().processState_weikaishi ||item.processState==common.basicDataConfig().processState_notpass||item.processState==common.basicDataConfig().processState_tuiwen;
+									if(vm.isStartProcess == 'true' && isShow == true){
+										vm.isShow = true;
+									}else if(vm.isStartProcess == 'true' && isShow == false){
+											vm.isShow = false;
+									}else if(vm.isStartProcess == 'false' && isShow == true){
+											vm.isShow = true;
+									}else if(vm.isStartProcess == 'false' && isShow == false){
+										vm.isShow = false;
+									}
+									return common.format($('#input').html(),item.id,item.sqPlanReach_ggys,vm.isShow);
 								},
 								headerAttributes: {
 							      "class": "table-header-cell",
@@ -1823,7 +1911,17 @@
 								filterable : false,
 								template:function(item){
 									vm.gt[item.id] = item.sqPlanReach_gtzj;
-									return common.format($('#input2').html(),item.id,item.sqPlanReach_gtzj);
+									var isShow=item.processState==common.basicDataConfig().processState_weikaishi ||item.processState==common.basicDataConfig().processState_notpass||item.processState==common.basicDataConfig().processState_tuiwen;
+									if(vm.isStartProcess == 'true' && isShow == true){
+										vm.isShow = true;
+									}else if(vm.isStartProcess == 'true' && isShow == false){
+											vm.isShow = false;
+									}else if(vm.isStartProcess == 'false' && isShow == true){
+											vm.isShow = true;
+									}else if(vm.isStartProcess == 'false' && isShow == false){
+										vm.isShow = false;
+									}
+									return common.format($('#input2').html(),item.id,item.sqPlanReach_gtzj,vm.isShow);
 								},
 								headerAttributes: {
 							      "class": "table-header-cell",
@@ -1861,7 +1959,16 @@
 						filterable : false,
 						template:function(item){
 							var isShow=item.processState==common.basicDataConfig().processState_weikaishi ||item.processState==common.basicDataConfig().processState_notpass||item.processState==common.basicDataConfig().processState_tuiwen;
-							return common.format($('#columnBtns_button_2').html(),item.id,isShow);
+							if(vm.isStartProcess == 'true' && isShow == true){
+								vm.isShow = true;
+							}else if(vm.isStartProcess == 'true' && isShow == false){
+									vm.isShow = false;
+							}else if(vm.isStartProcess == 'false' && isShow == true){
+									vm.isShow = true;
+							}else if(vm.isStartProcess == 'false' && isShow == false){
+								vm.isShow = false;
+							}
+							return common.format($('#columnBtns_button_2').html(),item.id,vm.isShow);
 						},
 						attributes: {
 						      style: "font-size: 14.5px"

@@ -300,14 +300,14 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			userList = Arrays.asList(historicVariableInstance.getValue().toString().split(","));
 			System.out.println(historicVariableInstance);
 		}
-		if(shenBaoInfo.get(0).getThisTaskName().equals("usertask3")){
-			root:for (Role role : loginUser.getRoles()) {
-				if(role.getRoleName().equals(BasicDataConfig.KeZhang)){
-					isShow = true;
-					break root;
-				}
-			}
-		}
+//		if(shenBaoInfo.get(0).getThisTaskName().equals("usertask3")){
+//			root:for (Role role : loginUser.getRoles()) {
+//				if(role.getRoleName().equals(BasicDataConfig.KeZhang)){
+//					isShow = true;
+//					break root;
+//				}
+//			}
+//		}
 		
 		if((shenBaoInfo.get(0).getThisTaskName().equals("usertask4") || shenBaoInfo.get(0).getThisTaskName().equals("usertask5")) && !userList.isEmpty()){
 			root:for (Object object : userList) {
@@ -384,8 +384,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		
 		if(!nextUsers.isEmpty()){//设置流程变量--下一任务处理人
 			variables.put("nextUsers", nextUsers);
-		}else if(shenBaoInfo.getThisTaskName().equals("usertask3") && nextUsers.isEmpty()&&"next".equals(str)){
-			throw new IllegalArgumentException(String.format("请选择人员后提交！"));
 		}else if(shenBaoInfo.getThisTaskName().equals("usertask4") && nextUsers.isEmpty()&&"next".equals(str)){
 			throw new IllegalArgumentException(String.format("请选择人员后提交！"));
 		}
@@ -393,7 +391,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		List<Task> task = null;
 		
 		//经办人转办模式
-		if(shenBaoInfo.getThisTaskName().equals("usertask1") &&  isPass !="" || shenBaoInfo.getThisTaskName().equals("usertask2") &&  isPass !="" ){
+		if(shenBaoInfo.getThisTaskName().equals("usertask1") &&  !"1".equals(isPass) || shenBaoInfo.getThisTaskName().equals("usertask2") &&  !"1".equals(isPass) ){
 			task = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId()).taskAssignee(currentUser.getUserId()).orderByDueDate().desc().list();
 			
 			Authentication.setAuthenticatedUserId(currentUser.getUserId());

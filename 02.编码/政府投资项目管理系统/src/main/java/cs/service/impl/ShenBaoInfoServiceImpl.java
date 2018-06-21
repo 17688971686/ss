@@ -235,10 +235,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		}
 		if(!isAdminCreate){//如果前台申报单位创建
 			//因dto中创建时间和修改时间为项目的相关时间，需从新设置
-			entity.setProcessStage("投资科审核收件办理");//设置申报信息的阶段为待签收
-			entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
-			entity.setCreatedDate(new Date());
-			entity.setModifiedDate(new Date());
+			
 			Project project = projectRepo.findById(entity.getProjectId());
 			if(project !=null && entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)){
 				project.setIsPlanReach(true);
@@ -280,9 +277,17 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			startProcessShenbao(processDefinitionKey_yearPlan,entity.getId());
 		}else{
 			startProcessShenbao(processDefinitionKey,entity.getId());
+			entity.setProcessStage("投资科审核收件办理");//设置申报信息的阶段为待签收
+			entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
+			entity.setCreatedDate(new Date());
+			entity.setModifiedDate(new Date());
 		}
 		
 		if("projectClassify_1_1".equalsIgnoreCase(dto.getProjectClassify())) {
+			entity.setProcessStage("投资科审核收件办理");//设置申报信息的阶段为待签收
+			entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
+			entity.setCreatedDate(new Date());
+			entity.setModifiedDate(new Date());
 			startProcessMonitor_fjxm(processDefinitionKey_monitor_fjxm,entity.getId());
 		}
 //		initWorkFlow(entity,isAdminCreate);
@@ -1194,6 +1199,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		String executionId = process.getId();
 
 		Task task = activitiService.getTaskByExecutionId(executionId);
+		entity.setProcessStage("投资科审核收件办理");
+		entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
 		entity.setZong_processId(task.getProcessInstanceId());
 		entity.setThisTaskId(task.getId());
 		entity.setThisTaskName(task.getTaskDefinitionKey());
@@ -1226,7 +1233,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		activitiService.setStartProcessUserId(currentUser.getUserId());//谁启动的流程
 		
 		String projectShenBaoStage = entity.getProjectShenBaoStage();
-		String executionId;
+		String executionId = null;
 		if(StringUtil.isNoneBlank(projectShenBaoStage) && "projectShenBaoStage_1".equalsIgnoreCase(projectShenBaoStage)) {
 			ProcessInstance process = activitiService.startProcess(processDefinitionKey, variables);
 			executionId = process.getId();
@@ -1248,7 +1255,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			
 			odataObj.setFilter(ODataFilterItemList);
 			List<ShenBaoInfo> shenBaoInfos = shenBaoInfoRepo.findByOdata(odataObj);
-			executionId = shenBaoInfos.get(0).getMonitor_processId();
+			if(shenBaoInfos.size() >0){
+				executionId = shenBaoInfos.get(0).getMonitor_processId();
+			}
 		}
 		
 		//Task task = activitiService.getTaskByExecutionId(executionId);

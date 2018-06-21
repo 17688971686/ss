@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -191,6 +192,20 @@ public class ShenBaoAdminPlanReachController {
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void startProcess(@PathVariable String packId){		
 		planReachApplicationService.startProcess(packId);
+	}
+	
+	@RequestMapping(name="启动单条计划下达审批流程",path="startProcessOne",method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void startProcessOne(@RequestParam(required=false) String shenbaoId){	
+		shenbaoInfoService.startProcessShenbao("planreach",shenbaoId);
+		
+	}
+	
+	@RequestMapping(name="撤销单条计划下达审批流程",path="deleteProcessOne",method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void deleteProcessOne(@RequestParam(required=false) String shenbaoId){	
+		planReachApplicationService.deleteProcessOne(shenbaoId);
+		
 	}
 	
 	@RequestMapping(name="添加申请资金",path="updateShnebaoInfo/{shenbaoId}/{ggmoney}/{gtmoney}",method=RequestMethod.POST)
