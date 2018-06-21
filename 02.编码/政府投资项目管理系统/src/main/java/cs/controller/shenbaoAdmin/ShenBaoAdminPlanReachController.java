@@ -87,7 +87,7 @@ public class ShenBaoAdminPlanReachController {
 		
 		PageModelDto<ShenBaoInfoDto> shenBaoInfos = null;
 		ODataObj odataObj = new ODataObj(request);
-			shenBaoInfos = planReachApplicationService.getShenbaoInfoFromYearplan(odataObj);
+		shenBaoInfos = planReachApplicationService.getShenbaoInfoFromYearplan(odataObj);
 		return shenBaoInfos;
 	}
 	

@@ -793,7 +793,7 @@
 				schema : common.kendoGridConfig().schema({
 					id : "id"					
 				}),
-				serverPaging : true,
+				serverPaging : false,
 				serverSorting : true,
 				serverFiltering : true,
 				pageSize : 10,

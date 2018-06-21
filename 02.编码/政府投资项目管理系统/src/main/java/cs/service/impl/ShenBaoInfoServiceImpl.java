@@ -274,7 +274,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		super.repository.save(entity);
 		//启动申报审批流程
 		if(entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)){
-			startProcessShenbao(processDefinitionKey_plan,entity.getId());
+//			startProcessShenbao(processDefinitionKey_plan,entity.getId());
 		}else if(entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)){
 			entity.setProcessStage("投资科审核收件办理");
 			startProcessShenbao(processDefinitionKey_yearPlan,entity.getId());

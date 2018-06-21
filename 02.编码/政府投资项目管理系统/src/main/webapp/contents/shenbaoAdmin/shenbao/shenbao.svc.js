@@ -341,7 +341,7 @@
 				type : 'odata',
 				transport : common.kendoGridConfig().transport(url_shenbao),						
 				schema : common.kendoGridConfig().schema({
-					id : "id",
+					id : "id"
 //					fields : {
 //						createdDate : {
 //							type : "date"

@@ -1,89 +1,113 @@
 <style>
-  .k-grid tbody tr {
-     cursor: move;
- } 
-  .disabled{
-    cursor:default;
-    text-decoration:none;
-    pointer-events: none;
+.k-grid tbody tr {
+	cursor: move;
+}
+
+.disabled {
+	cursor: default;
+	text-decoration: none;
+	pointer-events: none;
 }
 </style>
-<div class="well well-sm" style="background:white;">
-	 <ol class="breadcrumb">
-		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
-		  <li><a href="#/">首页</a></li>
-	      <li>打包计划信息列表</li>	 
-	      <li class="active">打包计划编制页</li>
-	      
-	      <li><a href="javascript:window.history.back(-1)">返回</a></li>
-	  </ol>
-	 
-     <div class="bg-info text-info" style="padding: 10px; "><strong>打包计划基本信息</strong></div>
-			<table class="table table-bordered table-striped ">
-				<tr>
-					<td class="formAlignRight" style="width:150px;">名称：<span class="required">(*)</span></td>
-					<td style="width:300px;">
-						<input type="text" class="form-control input-sm"  id="name" name="name" ng-model="vm.model.name" 
-							data-val="true" data-val-required="必填"/>
-						<span data-valmsg-for="name" data-valmsg-replace="true" class="required"></span>
-						<!-- <span data-valmsg-for="name" class="text-red" ng-show="vm.showError">该计划已存在</span> -->
-					</td>
-					<td class="formAlignRight" style="width:150px;">年度：<span class="required">(*)</span></td>
-					<td>
-					<input class="Wdate form-control input-sm" style="width:200px;" type="text" 
-						id="d15" onFocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy'})" onchange=""
-						ng-model="vm.model.year" data-val="true" data-val-required="必填" />
-						<span data-valmsg-for="year" data-valmsg-replace="true" class="required"></span>
-					</td>
-				</tr>
-				<tr>
-					<td class="formAlignRight">总指标：<span class="required">(*)</span></td>
-					<td colspan="3">
-						<input type="number" step="any" class="form-control input-sm width180"  id="totalMoney" name="totalMoney" ng-model="vm.model.totalMoney" data-val="true" data-val-required="必填"/>&nbsp;(万元)
-						<span data-valmsg-for="totalMoney" data-valmsg-replace="true" class="required"></span>
-					</td>
-					<!-- <td class="formAlignRight">总指标剩余：</td>
+<div class="well well-sm" style="background: white;">
+	<ol class="breadcrumb">
+		<li style="color: #0b8d39; padding-left: 15px;">当前位置：</li>
+		<li><a href="#/">首页</a></li>
+		<li>打包计划信息列表</li>
+		<li class="active">打包计划编制页</li>
+
+		<li><a href="javascript:window.history.back(-1)">返回</a></li>
+	</ol>
+
+	<div class="bg-info text-info" style="padding: 10px;">
+		<strong>打包计划基本信息</strong>
+	</div>
+	<table class="table table-bordered table-striped ">
+		<tr>
+			<td class="formAlignRight" style="width: 150px;">名称：<span
+				class="required">(*)</span></td>
+			<td style="width: 300px;"><input type="text"
+				class="form-control input-sm" id="name" name="name"
+				ng-model="vm.model.name" data-val="true" data-val-required="必填" /> <span
+				data-valmsg-for="name" data-valmsg-replace="true" class="required"></span>
+				<!-- <span data-valmsg-for="name" class="text-red" ng-show="vm.showError">该计划已存在</span> -->
+			</td>
+			<td class="formAlignRight" style="width: 150px;">年度：<span
+				class="required">(*)</span></td>
+			<td><input class="Wdate form-control input-sm"
+				style="width: 200px;" type="text" id="d15"
+				onFocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy'})"
+				onchange="" ng-model="vm.model.year" data-val="true"
+				data-val-required="必填" /> <span data-valmsg-for="year"
+				data-valmsg-replace="true" class="required"></span></td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">总指标：<span class="required">(*)</span></td>
+			<td colspan="3"><input type="number" step="any"
+				class="form-control input-sm width180" id="totalMoney"
+				name="totalMoney" ng-model="vm.model.totalMoney" data-val="true"
+				data-val-required="必填" />&nbsp;(万元) <span
+				data-valmsg-for="totalMoney" data-valmsg-replace="true"
+				class="required"></span></td>
+			<!-- <td class="formAlignRight">总指标剩余：</td>
 					<td>
 						<span ng-bind="vm.surplusMoney()"></span><span>(万元)</span>
 					</td> -->
-				</tr>
-				<tr>
-					<td class="formAlignRight">备注：</td>
-					<td colspan="3">
-						<textarea rows="3" cols="" maxlength="500" class="form-control" data-val="false" id="remark" name="remark" ng-model="vm.model.remark" ng-change="vm.checkLength(vm.model.remark,500,'remarkTips')"></textarea>
-						<div class="tipfont">您还可以输入<span id="remarkTips"><font size="5">500</font></span>个字符!</div>
-					</td>
-				</tr>
-			</table>
-			<div>
-			
-			  	<button class="btn btn-sm btn-primary" ng-click="vm.addProject()" ng-hide="vm.isStartProcess"><span class="glyphicon glyphicon-plus"></span>添加项目</button>
-			  	<button class="btn btn-sm btn-danger" ng-click="vm.projectDeletes()" ng-hide="vm.isStartProcess" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-trash"></span>&nbsp;批量删除</button>
-			</div> 
-	        <div class="grid" kendo-grid="grid" k-options="vm.shenBaoInfo_gridOptions_plan"></div>
-</div>	        
+		</tr>
+		<tr>
+			<td class="formAlignRight">备注：</td>
+			<td colspan="3"><textarea rows="3" cols="" maxlength="500"
+					class="form-control" data-val="false" id="remark" name="remark"
+					ng-model="vm.model.remark"
+					ng-change="vm.checkLength(vm.model.remark,500,'remarkTips')"></textarea>
+				<div class="tipfont">
+					您还可以输入<span id="remarkTips"><font size="5">500</font></span>个字符!
+				</div></td>
+		</tr>
+	</table>
+	<div>
+
+		<button class="btn btn-sm btn-primary" ng-click="vm.addProject()"
+			ng-hide="vm.isStartProcess">
+			<span class="glyphicon glyphicon-plus"></span>添加项目
+		</button>
+		<button class="btn btn-sm btn-danger" ng-click="vm.projectDeletes()"
+			ng-hide="vm.isStartProcess" ng-disabled="vm.isSubmit">
+			<span class="glyphicon glyphicon-trash"></span>&nbsp;批量删除
+		</button>
+	</div>
+	<div class="grid" kendo-grid="grid"
+		k-options="vm.shenBaoInfo_gridOptions_plan"></div>
+</div>
+<script type="text/template" id="columnBtns_button_2">
+	<a class="btn btn-xs btn-success" ng-if="{1}" href="#/planReach/packPlan/addProject/{0}/{1}"><span class="glyphicon glyphicon-pencil"></span>重新提交</a>
+</script>
 <script type="text/template" id="input">
-	<input style="width:100px" id="capitalSum1" ng-if="!vm.isStartProcess" ng-model="vm.gg['{0}']" value="{1}" ng-blur="vm.addmoney('{0}')"/>
+	<input style="width:100px" id="capitalSum1" ng-hide="!vm.isStartProcess" ng-model="vm.gg['{0}']" value="{1}" ng-blur="vm.addmoney('{0}')"/>
 	<span ng-if="vm.isStartProcess" ng-bind="vm.gg['{0}']"></span>
 </script>
 <script type="text/template" id="input2">
-	<input style="width:100px" id="capitalSum2" ng-if="!vm.isStartProcess" ng-model="vm.gt['{0}']" value="{1}" ng-blur="vm.addmoney('{0}')"/>
+	<input style="width:100px" id="capitalSum2" ng-hide="!vm.isStartProcess" ng-model="vm.gt['{0}']" value="{1}" ng-blur="vm.addmoney('{0}')"/>
 	<span ng-if="vm.isStartProcess" ng-bind="vm.gt['{0}']"></span>
 </script>
 <!--项目申报记录模态框 -->
-<div class="modal fade" id="myModal" role="dialog"> 
-	<div class="modal-dialog" style="width:800px;"> 
-		<div class="modal-content"> 
+<div class="modal fade" id="myModal" role="dialog">
+	<div class="modal-dialog" style="width: 800px;">
+		<div class="modal-content">
 			<div class="modal-header bg-primary">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			
-				<h4 class="modal-title" id="myModalLabel">项目数据</h4> 
-			</div> 
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">项目数据</h4>
+			</div>
 			<div class="modal-body">
-				<div class="projectsGrid" kendo-grid="vm.projectsGrid" k-options="vm.gridOptions_project"></div>			
+				<div class="projectsGrid" kendo-grid="vm.projectsGrid"
+					k-options="vm.gridOptions_shenbaoInfo"></div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭</button>	
-				<button type="button" class="btn btn-success btn-sm" ng-click="vm.dialogConfirmSubmit_shenBaoInfo_plan()" >确认</button>						
+				<button type="button" class="btn btn-default btn-sm"
+					data-dismiss="modal">关闭</button>
+				<button type="button" class="btn btn-success btn-sm"
+					ng-click="vm.dialogConfirmSubmit_shenBaoInfo_plan()">确认</button>
 			</div>
 		</div>
 	</div>

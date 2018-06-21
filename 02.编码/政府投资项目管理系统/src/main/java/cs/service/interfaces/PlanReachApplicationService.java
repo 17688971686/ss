@@ -15,7 +15,7 @@ public interface PlanReachApplicationService extends IService<PlanReachApplicati
 	//为计划下达批量添加申报数据
 	void addShenBaoInfos(String planReachId,String[] ids);
 	//为计划下达添加申报数据
-	void addShenBaoInfo(String planReachId, String[] ids);
+//	void addShenBaoInfo(String planReachId, String[] ids);
 	//为计划下达添加打包数据
 	void addPackPlan(String planReachId,String packPlanId);
 	//为计划下达批量添加申报数据
@@ -34,6 +34,7 @@ public interface PlanReachApplicationService extends IService<PlanReachApplicati
 	void deletePlanShenBaoInfos(String packPlanId, String[] ids);
 	void deletePlanShenBaoInfo(String packPlanId, String shenbaoId);
 	PageModelDto<ShenBaoInfoDto> getShenbaoInfoFromYearplan(ODataObj odataObj);
+	void addShenBaoInfo(String planReachId, String id);
 	
 
 }

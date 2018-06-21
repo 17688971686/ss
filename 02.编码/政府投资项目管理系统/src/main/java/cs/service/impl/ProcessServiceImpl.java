@@ -140,6 +140,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			String processId = task.getProcessInstanceId();
 			taskIds.add(processId);
 		}
+		odataObj.setTop(0);
 		List<ShenBaoInfoDto> ourShenBaoInfoDtos = new ArrayList<>();
 		if(!taskIds.isEmpty()){
 			List<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoRepoImpl.findByOdata2(odataObj,taskIds,str).stream().map((x) -> {

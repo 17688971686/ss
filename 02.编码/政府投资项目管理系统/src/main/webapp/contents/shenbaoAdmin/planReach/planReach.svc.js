@@ -13,6 +13,8 @@
 		var url_pack="/shenbaoAdmin/yearPlan";
 		var url_packPlan = '/management/packPlan';
 		var url_getSysConfigs = "/sys/getSysConfig";
+		var url_planList="/management/yearPlan";
+		var url_shenbaoInfoList = "/management/shenbao";
 		var service={
 				getHasIncludYearPlan:getHasIncludYearPlan,
 				getNotIncludYearPlan:getNotIncludYearPlan,
@@ -41,7 +43,8 @@
 				deleteShenBaoInfo:deleteShenBaoInfo,//删除打包计划的申报信息
 				deletePacks:deletePacks,//删除打包计划中的打包信息
 				deletePlanShenBaoInfo:deletePlanShenBaoInfo,//删除打包信息的申报信息
-				getSysConfig:getSysConfig//查询配置信息
+				getSysConfig:getSysConfig,//查询配置信息
+				shenbaoInfoGrid:shenbaoInfoGrid//所有下一年度计划
 		}
 		
 		return service;
@@ -1257,7 +1260,7 @@
 				schema : common.kendoGridConfig().schema({
 					id : "id"
 				}),
-				serverPaging : true,
+				serverPaging : false,
 				serverSorting : true,
 				serverFiltering : true,
 				pageSize : 10,
@@ -1445,10 +1448,10 @@
 					{
 						field : "projectName",
 						title : "项目名称",
+						width:300,
 						template:function(item){
 							return common.format('<a href="#/projectDetails/{0}/{1}" >{2}</a>',item.projectId,item.projectInvestmentType,item.projectName);
 						},
-						width:300,
 						filterable : false,
 						headerAttributes: {
 						      "class": "table-header-cell",
@@ -1459,7 +1462,7 @@
 					{
 						field : "projectInvestSum",
 						title : "项目总投资",
-						width:120,
+						width:140,
 						filterable : false,
 						headerAttributes: {
 					      "class": "table-header-cell",
@@ -1472,7 +1475,7 @@
                         	{
         						field : "apPlanReach_ggys",
         						title : "公共预算",
-        						width:100,
+        						width:80,
         						filterable : false,
         						headerAttributes: {
         					      "class": "table-header-cell",
@@ -1482,7 +1485,7 @@
         					{
         						field : "apPlanReach_gtzj",
         						title : "国土基金",
-        						width:100,
+        						width:80,
         						filterable : false,
         						headerAttributes: {
         					      "class": "table-header-cell",
@@ -1501,7 +1504,7 @@
 							{
 								field : "sqPlanReach_ggys",
 								title : "公共预算",
-								width:130,
+								width:120,
 								filterable : false,
 								template :function(item){			
 									vm.gg[item.id] = item.sqPlanReach_ggys;
@@ -1515,7 +1518,7 @@
 							{
 								field : "sqPlanReach_gtzj",
 								title : "国土基金",
-								width:130,
+								width:120,
 								filterable : false,
 								template :function(item){	
 									vm.gt[item.id] = item.sqPlanReach_gtzj;
@@ -1531,6 +1534,41 @@
 					      "class": "table-header-cell",
 					       style: "text-align: center;vertical-align: middle;"
 					    }
+					
+					},
+					{
+						field : "processStage",
+						title : "审批阶段",
+						width : 160,
+						filterable : false,
+						template:function(item){
+							return common.format("<span class='text-danger'>{0}</span>",item.processStage);
+						}
+					},
+					{
+						field : "processState",
+						title : "审批状态",
+						width : 80,
+						filterable : false,
+						template:function(item){
+							return common.format("<span class='text-danger'>{0}</span>",common.getProcessStateDesc(item.processState));
+						}
+					},
+					{
+						field : "",
+						title : "操作",
+						width : 150,
+						filterable : false,
+						template:function(item){
+							var isShow=item.processState==common.basicDataConfig().processState_weikaishi ||item.processState==common.basicDataConfig().processState_notpass||item.processState==common.basicDataConfig().processState_tuiwen;
+							return common.format($('#columnBtns_button_1').html(),item.id,isShow);
+						},
+						attributes: {
+						      style: "font-size: 14.5px"
+						    },
+						    headerAttributes: {
+						      style: "text-align:center;font-size: 14.5px"
+						    }
 					}
 			];
 			// End:column
@@ -1544,8 +1582,7 @@
 				pageable : common.kendoGridConfig().pageable,
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
-				resizable : true,
-				scrollable:true
+				resizable : true
 			};
 		}//end getShenBaoInfoFromPlanReachApplicationGrid
 		
@@ -1798,6 +1835,40 @@
 					      "class": "table-header-cell",
 					       style: "text-align: center;vertical-align: middle;"
 					    }
+					},
+					{
+						field : "processStage",
+						title : "审批阶段",
+						width : 160,
+						filterable : false,
+						template:function(item){
+							return common.format("<span class='text-danger'>{0}</span>",item.processStage);
+						}
+					},
+					{
+						field : "processState",
+						title : "审批状态",
+						width : 80,
+						filterable : false,
+						template:function(item){
+							return common.format("<span class='text-danger'>{0}</span>",common.getProcessStateDesc(item.processState));
+						}
+					},
+					{
+						field : "",
+						title : "操作",
+						width : 150,
+						filterable : false,
+						template:function(item){
+							var isShow=item.processState==common.basicDataConfig().processState_weikaishi ||item.processState==common.basicDataConfig().processState_notpass||item.processState==common.basicDataConfig().processState_tuiwen;
+							return common.format($('#columnBtns_button_2').html(),item.id,isShow);
+						},
+						attributes: {
+						      style: "font-size: 14.5px"
+						    },
+						    headerAttributes: {
+						      style: "text-align:center;font-size: 14.5px"
+						    }
 					}
 			];
 			// End:column
@@ -1815,5 +1886,97 @@
 				scrollable:true
 			};
 		}//end fun getShenBaoInfoGridFromPackPlan
+		
+		function shenbaoInfoGrid(vm){
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url_shenbaoInfoList),						
+				schema : common.kendoGridConfig().schema({
+					id : "id",
+					fields : {
+						isIncludYearPlan:{
+							type:"boolean"
+						}
+					}
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "createdDate",
+					dir : "desc"
+				},
+			filter:[{//申报阶段为下一年度计划
+					field:'projectShenBaoStage',
+					operator:'eq',
+					value:common.basicDataConfig().projectShenBaoStage_nextYearPlan
+				},{//审批状态为签收
+					field:'processState',
+					operator:'eq',
+					value:common.basicDataConfig().processState_pass
+				}]
+			});
+			var columns = [	
+				{
+					template : function(item) {
+						return kendo
+								.format(
+										"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",item.id);
+					},
+					filterable : false,
+					width : 40,
+					title : "<input id='projects' type='checkbox'  class='checkbox'/>"
+				},
+				{
+					field : "projectName",
+					title : "项目名称",
+					width:250,
+					filterable : true						
+				},
+				{
+					field : "projectIndustry",
+					title : "项目行业",
+					width : 150,
+					filterable : {
+						ui: function(element){
+	                        element.kendoDropDownList({
+	                            valuePrimitive: true,
+	                            dataSource: $linq(common.getBasicData())
+	               	   				.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
+	               	   				.toArray(),
+	                            dataTextField: "description",
+	                            dataValueField: "id",
+	                            filter: "startswith"
+	                        });
+	                    }
+					},
+					template:function(item){
+						return common.getBasicDataDesc(item.projectIndustry);
+					}
+				},
+				{
+					field : "isIncludYearPlan",
+					title : "是否纳入年度计划",
+					width : 150,
+					filterable : true,
+					template:function(item){
+						if(item.isIncludYearPlan){
+							return "是";
+						}else{
+							return "否";
+						}
+					}
+				}
+			];
+			vm.gridOptions_shenbaoInfo = {
+				dataSource : common.gridDataSource(dataSource),
+				filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords : common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable : true
+			};
+		}//end fun projectGrid
 	}	
 })();
