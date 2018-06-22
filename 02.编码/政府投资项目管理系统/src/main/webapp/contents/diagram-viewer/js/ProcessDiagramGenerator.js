@@ -1061,14 +1061,13 @@ var ProcessDiagramGenerator = {
 			
 			var TPL_ACTIVITY_INFO =
 				'<p>'
-				+ '<div><b>名称</b>: {name}</div>'
-				+ '<div><b>内容</b>: {msg}</div>'
-				+ '<div><b>审批人</b>: {user}</div>'
-				+ '<div><b>时间</b>: {endTime}</div>'
+				+ '<div><b>名称</b>: '+ comment.name +'</div>'
+				+ '<div><b>内容</b>: '+ comment.msg +'</div>'
+				+ '<div><b>审批人</b>: '+ comment.id +'</div>'
+				+ '<div><b>时间</b>: '+ comment.endTime +'</div>'
 				+ '</p>'
 				+ '<hr />';
-			
-			if(typeof o === 'undefined'){
+			if(typeof template === 'undefined'){
 				template = TPL_ACTIVITY_INFO;
 			}else{
 				template = TPL_ACTIVITY_INFO + template;
@@ -1080,8 +1079,8 @@ var ProcessDiagramGenerator = {
 		values.collapsed = activity.getProperty("collapsed");
 		values.processDefinitonKey = activity.getProperty("processDefinitonKey");
 		
-		var tpl = Lang.sub(template, values);
-		diagramInfo.html(tpl);
+		//var tpl = Lang.sub(template, values);
+		diagramInfo.html(template);
 	},
 	
 	hideInfo: function(){

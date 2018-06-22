@@ -613,9 +613,10 @@
 				['GCGHXKZ_Scanning','工程规划许可证扫描件'],['IssuedReplyFile_Scanning','全部已下达计划批复文件扫描件 <span class="required">(*)</span>'],['LastYearPlanReply_Copy','上一年度计划批文复印件 <span class="required">(*)</span>'],
 				['IssuedReplyFile_Scanning','全部已下达计划批复文件扫描件 <span class="required">(*)</span>'],['ProjectBasis','项目依据  <span class="required">(*)</span>'],['other','其他']],
     	//projectShenBaoStage_qianQi:[['ProjectBasis','项目依据  <span class="required">(*)</span>'],['other','其他']],
-			approvalAttsType:[['usertask26','项目建议书'],['usertask1','项目立项'],['usertask2','选择意见书及用地预审'],['usertask3','环评审批'],['usertask4','可研报告审批'],['usertask6','用地方案图'],['usertask7','用地规划许可'],['usertask8','土地使用权出让'],['usertask9','方案设计招投标'],
-				['usertask11','工程方案审查'],['usertask12','扩初设计审查'],['usertask13','民房建设意见单'],['usertask14','民房建设意见单'],['usertask16','建筑物命名审批'],['usertask17','消防设计审批'],['usertask18','初步设计概算审批'],['usertask19','建设工程施工图节能抽查'],['usertask20','预算审核'],
-				['usertask21','下达投资计划'],['usertask22','监理招标'],['usertask23','施工招标'],['usertask24','施工许可'],['usertask25','城市排水许可']]
+			approvalAttsType:[['usertask1','项目立项'],['usertask2','选择意见书及用地预审'],['usertask3','环评审批'],['usertask4','可研报告审批'],['usertask6','用地方案图'],['usertask7','用地规划许可'],['usertask8','土地使用权出让'],['usertask9','方案设计招投标'],
+				['usertask11','工程方案审查'],['usertask12','扩初设计审查'],['usertask13','民房建设意见单'],['usertask14','民房建设意见单'],['usertask16','建筑物命名审批'],['usertask17','消防设计审批'],['usertask18','初步设计概算审批'],['usertask27','水务（水保、排水、节水和防洪）方案审查'],
+				['usertask28','民防建设核准单'],['usertask19','建设工程施工图节能抽查'],['usertask20','预算审核'],['usertask29','工程规划许可'],
+				['usertask21','下达投资计划'],['usertask22','监理招标'],['usertask23','施工招标'],['usertask24','施工许可'],['usertask31','建设工程合同备案'],['usertask25','城市排水许可']]
     	};
     }
     

@@ -1,9 +1,6 @@
 package cs.service.impl;
 
 
-import java.io.UnsupportedEncodingException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -18,7 +15,6 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
-import javax.xml.bind.JAXBException;
 
 import cs.common.*;
 import cs.model.SendMsg;
@@ -44,8 +40,6 @@ import org.springframework.util.CollectionUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
 
 import cs.activiti.service.ActivitiService;
 import cs.domain.Attachment;
@@ -742,7 +736,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	}
 
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "rawtypes" })
 	@Override
 	@Transactional
 	public void taskComplete(Map data) {
@@ -859,7 +853,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
 			activitiService.taskComplete(task.get(0).getId(),variables);
 			//结束监控流程中的项目计划书任务
-			if(shenBaoInfo.getThisTaskName().equals("usertask6") && str.equals("tuiwen")) {
+			if(shenBaoInfo.getThisTaskName().equals("usertask3") && str.equals("banjie")) {
 				//加签收会在历史任务实例中多出assignee
 				//activitiService.claimTask(monitorTask.getId(), currentUser.getUserId());
 				activitiService.taskComplete(monitorTask.getId());
