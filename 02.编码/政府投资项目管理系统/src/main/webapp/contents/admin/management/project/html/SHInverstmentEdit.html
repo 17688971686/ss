@@ -33,6 +33,13 @@
 
 <div class="bg-info text-info" style="padding: 10px;">项目基本信息</div>
 <table class="table table-bordered table-striped ">
+	<tr ng-if="vm.page=='update'">
+		<td class="formAlignRight" style="width:150px;">项目代码：<span class="required">(*)</span></td>
+		<td colspan="3">
+			<input type="text" style="width: 40%" id="projectNumber" name="projectNumber" class="form-control input-sm" ng-model="vm.model.projectNumber" data-val="true" data-val-required="必填" />
+			<span data-valmsg-for="projectNumber" data-valmsg-replace="true" class="required"></span>
+		</td>
+	</tr>
 	<tr>
 		<td class="formAlignRight" style="width:160px;">项目名称：<span class="required">(*)</span></td>
 		<td style="width:35%">

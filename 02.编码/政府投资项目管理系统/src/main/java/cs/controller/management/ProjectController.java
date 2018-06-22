@@ -147,6 +147,13 @@ public class ProjectController {
 		throw new IllegalArgumentException("文件格式错误，请上传xls或xlsx格式的Excel文件");
 	}
 
+	@RequiresPermissions("management/project#updateProject#post")
+	@RequestMapping(name = "检查项目代码是否重复", path = "projectNumberExist", method = RequestMethod.GET)
+	@ResponseBody
+	public boolean projectNumberExist(@RequestParam String projectNumber, @RequestParam String ignoreProject) {
+		return ProjectService.projectNumberExists(projectNumber, ignoreProject);
+	}
+
 	@RequiresPermissions("management/project##post")
 	@RequestMapping(name = "创建项目信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -190,4 +197,5 @@ public class ProjectController {
 	public String updateDisbursed() {
 		return this.ctrlName + "/updateDisbursed";
 	}
+
 }

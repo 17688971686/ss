@@ -22,6 +22,7 @@ import org.activiti.spring.ProcessEngineFactoryBean;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
@@ -192,8 +193,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 				//新创建的项目需要设置项目代码,根据行业类型id查询出基础数据
 				BasicData basicData = basicDataRepo.findById(project.getProjectIndustry());
 				if(basicData !=null){
-					String number = Util.getProjectNumber(project.getProjectInvestmentType(), basicData);
-					project.setProjectNumber(number);
+//					String number = Util.getProjectNumber(project.getProjectInvestmentType(), basicData);
+//					project.setProjectNumber(number);
 					//行业项目统计累加
 					basicData.setCount(basicData.getCount()+1);
 					basicData.setModifiedBy(currentUser.getUserId());

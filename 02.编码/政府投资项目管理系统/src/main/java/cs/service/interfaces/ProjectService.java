@@ -44,4 +44,10 @@ public interface ProjectService extends IService<ProjectDto, Project, String> {
 
 	Map<String, Object> updateAlreadyDisbursedByExcel(String filePath);
 
+	boolean projectNumberExists(String projectNumber, String ignoreProject);
+
+	void updateProjectNumber(String projectId, String projectNumber);
+
+	int getProjectSequenceNumberInYear(String projectId);
+
 }

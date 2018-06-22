@@ -30,6 +30,12 @@ overflow: scroll !important;
 <div class="bg-info text-info" style="padding: 10px; margin-bottom: 10px">项目基本信息</div>
 <table class="table table-bordered table-striped ">
 	<tr>
+		<td class="formAlignRight" style="width:150px;">项目代码</td>
+		<td colspan="3" style="width:450px;">
+			<span ng-bind="vm.model.projectNumber"></span>
+		</td>
+	</tr>
+	<tr>
 		<td class="formAlignRight" style="width:150px;">项目名称：</td>
 		<td style="width:35%;">
 			<span ng-bind="vm.model.projectName"></span>			

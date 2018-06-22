@@ -17,7 +17,10 @@ import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
 import cs.common.*;
+import cs.domain.*;
 import cs.model.SendMsg;
+import cs.service.common.BasicDataService;
+import cs.service.interfaces.ProjectService;
 import cs.service.sms.SmsService;
 import cs.service.sms.exception.SMSException;
 import org.activiti.engine.HistoryService;
@@ -107,6 +110,10 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	private UserUnitInfoService userUnitInfoService;
 	@Autowired
 	private IMapper<AttachmentDto, Attachment> attachmentMapper;
+	private BasicDataService basicDataService;
+	@Autowired
+	private ProjectService projectService;
+
 	@Override
 	@Transactional
 	public PageModelDto<ShenBaoInfoDto> get(ODataObj odataObj) {	
@@ -724,6 +731,17 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setThisTaskName("已办结");
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_pass);
 			shenBaoInfo.setProcessStage("已办结");
+
+			// 生成项目编码
+			if (StringUtils.isBlank(shenBaoInfo.getProjectNumber())) {
+				BasicData basicData = basicDataService.findById(shenBaoInfo.getProjectIndustry());
+				int projectSequenceNum = projectService.getProjectSequenceNumberInYear(shenBaoInfo.getProjectId());
+				String projectNumber = Util.getProjectNumber(shenBaoInfo.getProjectType(), basicData, projectSequenceNum);
+				shenBaoInfo.setProjectNumber(projectNumber);
+
+				projectService.updateProjectNumber(shenBaoInfo.getProjectId(), projectNumber);
+			}
+
 		}
 		shenBaoInfo.setIsIncludLibrary(true);
 		shenBaoInfo.setEndDate(new Date());
@@ -914,6 +932,16 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setIsIncludLibrary(true);
 			shenBaoInfo.setComplate(true);
 			shenBaoInfo.setEndDate(new Date());
+
+			// 生成项目编码
+			if (StringUtils.isBlank(shenBaoInfo.getProjectNumber())) {
+				BasicData basicData = basicDataService.findById(shenBaoInfo.getProjectIndustry());
+				int projectSequenceNum = projectService.getProjectSequenceNumberInYear(shenBaoInfo.getProjectId());
+				String projectNumber = Util.getProjectNumber(shenBaoInfo.getProjectInvestmentType(), basicData, projectSequenceNum);
+				shenBaoInfo.setProjectNumber(projectNumber);
+
+				projectService.updateProjectNumber(shenBaoInfo.getProjectId(), projectNumber);
+			}
 		}else if(str.equals("tuiwen")){
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已退文");
@@ -926,7 +954,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setThisTaskName(tasknew.get(0).getTaskDefinitionKey());
 			shenBaoInfo.setProcessStage(tasknew.get(0).getName());
 		}
-		
+
 		shenBaoInfoRepo.save(shenBaoInfo);
 		
 		logger.info(String.format("办结或阅批任务,用户名:%s", currentUser.getLoginName()));
@@ -936,7 +964,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		// 从配置文件中拿到短信模板并替换其中的占位符，若不能根据preTaskName拿到模板，则使用default模板
 		final String content = String.format(shenbaoSMSContent.get(preTaskName)==null?shenbaoSMSContent.get("default"):shenbaoSMSContent.get(preTaskName), shenBaoInfo.getProjectName());
 
-		if ("usertask16".equalsIgnoreCase(preTaskName)) { // 到达最后一个节点的情况下，发送完结的短信给到编制单位负责人
+		if ("usertask16".equalsIgnoreCase(preTaskName) || str.equals("banjie")) { // 到达最后一个节点的情况下，发送完结的短信给到编制单位负责人
 
 			msgs.add(new SendMsg(shenBaoInfo.getBianZhiUnitInfo().getResPersonMobile(), content));
 

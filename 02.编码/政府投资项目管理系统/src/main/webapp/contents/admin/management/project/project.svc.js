@@ -274,58 +274,92 @@
 		 */
 		//begin#updateProject
 		function updateProject(vm){
-			common.initJqValidation();
-			var isValid = $('form').valid();
-			if (isValid) {
-				vm.isSubmit = true;
-				vm.model.projectType=common.arrayToString(vm.model.projectType,',');
-				
-				var httpOptions = {
-					method : 'post',
-					url : url_project+'/updateProject',
-					data : vm.model
-				};
+            checkProjectNumberExist(vm, function (isExist) {
+				if (isExist === 'false') {
+                    common.initJqValidation();
+                    var isValid = $('form').valid();
+                    if (isValid) {
+                        vm.isSubmit = true;
+                        vm.model.projectType=common.arrayToString(vm.model.projectType,',');
 
-				var httpSuccess = function success(response) {
-					common.requestSuccess({
-						vm : vm,
-						response : response,
-						fn : function() {
-							common.alert({
-								vm : vm,
-								msg : "操作成功",
-								fn : function() {
-									vm.isSubmit = false;
-									$('.alertDialog').modal('hide');
-									$('.modal-backdrop').remove();						
-									if(vm.isZFInvestment){
-										location.href=url_back;
-									}else if(vm.isSHInvestment){
-										location.href=url_backSH;
-									}
-								}
-							});
-						}
-					});
-				};
+                        var httpOptions = {
+                            method : 'post',
+                            url : url_project+'/updateProject',
+                            data : vm.model
+                        };
 
-				common.http({
-					vm : vm,
-					$http : $http,
-					httpOptions : httpOptions,
-					success : httpSuccess
-				});
+                        var httpSuccess = function success(response) {
+                            common.requestSuccess({
+                                vm : vm,
+                                response : response,
+                                fn : function() {
+                                    common.alert({
+                                        vm : vm,
+                                        msg : "操作成功",
+                                        fn : function() {
+                                            vm.isSubmit = false;
+                                            $('.alertDialog').modal('hide');
+                                            $('.modal-backdrop').remove();
+                                            if(vm.isZFInvestment){
+                                                location.href=url_back;
+                                            }else if(vm.isSHInvestment){
+                                                location.href=url_backSH;
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        };
 
-			} else {
-				 common.alert({
-				 vm:vm,
-				 msg:"您填写的信息不正确,请核对后提交!"
-				 });
-			}
+                        common.http({
+                            vm : vm,
+                            $http : $http,
+                            httpOptions : httpOptions,
+                            success : httpSuccess
+                        });
+
+                    } else {
+                        common.alert({
+                            vm:vm,
+                            msg:"您填写的信息不正确,请核对后提交!"
+                        });
+                    }
+				} else {
+                    common.alert({
+                        vm:vm,
+                        msg:"您填写的项目代码与其它项目的项目代码重复,请修改后提交!"
+                    });
+				}
+            })
+
 		}
 		//end#updateProject
 		
-		
+		function checkProjectNumberExist(vm, callBack) {
+
+            var httpOptions = {
+                method : 'get',
+                url : url_project + "/projectNumberExist?projectNumber="+vm.model.projectNumber+"&ignoreProject=" + vm.model.id
+            };
+
+            var httpSuccess = function success(response) {
+                common.requestSuccess({
+                    vm : vm,
+                    response : response,
+                    fn : function() {
+                        callBack(response.data)
+                    }
+                });
+            };
+
+            common.http({
+                vm : vm,
+                $http : $http,
+                httpOptions : httpOptions,
+                success : httpSuccess
+            });
+
+        }
 		
 		/**
 		 * 通过项目代码查询项目信息

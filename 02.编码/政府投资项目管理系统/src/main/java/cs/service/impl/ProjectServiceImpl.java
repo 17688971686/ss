@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import cs.common.*;
 import cs.excelHelper.PoiExcel2k3Helper;
 import cs.excelHelper.PoiExcel2k7Helper;
 import cs.excelHelper.PoiExcelHelper;
@@ -19,7 +20,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
@@ -30,10 +33,6 @@ import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cs.common.BasicDataConfig;
-import cs.common.ICurrentUser;
-import cs.common.SQLConfig;
-import cs.common.Util;
 import cs.domain.Attachment;
 import cs.domain.BasicData;
 import cs.domain.MonthReport;
@@ -224,8 +223,8 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 					//根据行业类型id查询出基础数据
 					BasicData basicData = basicDataRepo.findById(projectDto.getProjectIndustry());
 					if(basicData !=null){
-						String number = Util.getProjectNumber(projectDto.getProjectInvestmentType(), basicData);
-						projectDto.setProjectNumber(number);
+//						String number = Util.getProjectNumber(projectDto.getProjectInvestmentType(), basicData);
+//						projectDto.setProjectNumber(number);
 						//行业项目统计累加更新
 						basicData.setCount(basicData.getCount()+1);
 						basicData.setModifiedBy(currentUser.getUserId());
@@ -657,6 +656,38 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 			logger.error("更新已拨付数时发生异常: " + e.getMessage());
 			throw new IllegalArgumentException("更新已拨付数时发生异常");
 		}
+	}
+
+	@Override
+    @Transactional
+	public boolean projectNumberExists(String projectNumber, String ignoreProject) {
+		Criteria crit = super.repository.getSession().createCriteria(Project.class);
+		crit.add(Restrictions.eq(Project_.projectNumber.getName(), projectNumber));
+		if (StringUtils.isNotBlank(ignoreProject))
+			crit.add(Restrictions.ne(Project_.id.getName(), ignoreProject));
+		return ((Number) crit.setProjection(Projections.rowCount()).uniqueResult()).intValue() > 0;
+	}
+
+    @Override
+    @Transactional
+    public void updateProjectNumber(String projectId, String projectNumber) {
+        Project project = findById(projectId);
+        project.setProjectNumber(projectNumber);
+        super.repository.save(project);
+    }
+
+	@Override
+	@Transactional
+	public int getProjectSequenceNumberInYear(String projectId) {
+		String sql = "select rownum from (select @rownum\\:=@rownum+1 as rownum, id from (select @rownum\\:=0) r, cs_project where date_format(createdDate, '%Y') = (select date_format(p.createdDate, '%Y') from cs_project p where id = '"+projectId+"') order by createdDate, id) t where id = '"+projectId+"'";
+
+		List results = super.repository.getSession().createSQLQuery(sql)
+				.addScalar("rownum", new IntegerType())
+				.list();
+
+		if (!results.isEmpty())
+			return (Integer) results.get(0);
+		throw new IllegalArgumentException("获得项目序列号时出错");
 	}
 
 	@Transactional

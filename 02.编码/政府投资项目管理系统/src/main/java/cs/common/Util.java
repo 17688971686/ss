@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -205,49 +206,18 @@ public class Util {
   	 * @Date： 2017年7月4日
   	 * @version: 0.1
   	 */
-	public static String getProjectNumber(String type,BasicData basicData){
+	public static String getProjectNumber(String type,BasicData basicData, int projectSequenceNumber){
 		String number = "";
-		//投资类型
-		if(type.equals(BasicDataConfig.projectInvestmentType_ZF)){//政府投资
-			number += "Z";
-			//项目申报阶段(默认为项目建议书)						
-			number += "1";			
-			//年份
-			SimpleDateFormat format = new SimpleDateFormat("yyyy"); // 时间字符串产生方式
-			number += format.format(new Date());
-			//根据行业id查询行业代码以及项目数量					
+		number += new SimpleDateFormat("yyyy").format(new Date());
+		number += "-";
+		number += "440300";
+		number += "-";
+		if (type.equalsIgnoreCase(BasicDataConfig.projectInvestmentType_ZF))
 			number += basicData.getComment();
-			//该行业申报数量的系列号
-			number += getFourNumber(basicData.getCount()+1);	
-			
-//			//年份
-//			SimpleDateFormat format = new SimpleDateFormat("yyyy"); // 时间字符串产生方式
-//			number += format.format(new Date());
-//			//440300为广东省 深圳市 行政区划代码
-//			number += "-440300-"; 
-//			number += basicData.getComment();
-//			number += "Z";
-//			number += getFourNumber(basicData.getCount()+1);
-			
-		}else if(type.equals(BasicDataConfig.projectInvestmentType_SH)){//社会投资
-			number += "S";
-			//年份
-			SimpleDateFormat format = new SimpleDateFormat("yyyy"); // 时间字符串产生方式
-			number += format.format(new Date());
-			//行业
-			number += basicData.getComment();
-			//该行业申报数量的系列号
-			number += getFiveRandom(basicData.getCount()+1);
-			
-			//年份
-//			SimpleDateFormat format = new SimpleDateFormat("yyyy"); // 时间字符串产生方式
-//			number += format.format(new Date());
-//			//440300为广东省 深圳市 行政区划代码
-//			number += "440300"; 
-//			number += basicData.getComment();
-//			number += "S";
-//			number += getFourNumber(basicData.getCount()+1);
-		}				
+		else
+			number += basicData.getComment().substring(1, 2);
+		number += "-";
+		number += new DecimalFormat("000000").format(projectSequenceNumber);
 		return number;
 	}
 	

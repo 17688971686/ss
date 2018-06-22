@@ -95,8 +95,8 @@ public class ProjectSupervisedServiceImpl extends AbstractServiceImpl<ProjectDto
 				//根据行业类型id查询出基础数据
 				BasicData basicData = basicDataRepo.findById(projectDto.getProjectIndustry());
 				if(basicData !=null){
-					String number = Util.getProjectNumber(projectDto.getProjectInvestmentType(), basicData);
-					projectDto.setProjectNumber(number);
+//					String number = Util.getProjectNumber(projectDto.getProjectInvestmentType(), basicData);
+//					projectDto.setProjectNumber(number);
 					//行业项目统计累加
 					basicData.setCount(basicData.getCount()+1);
 					basicData.setModifiedBy(currentUser.getLoginName());
