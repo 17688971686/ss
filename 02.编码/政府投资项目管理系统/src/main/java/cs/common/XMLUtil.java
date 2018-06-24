@@ -1,6 +1,6 @@
 package cs.common;
 
-import com.sun.xml.internal.bind.marshaller.CharacterEscapeHandler;
+//import com.sun.xml.internal.bind.marshaller.CharacterEscapeHandler;
 import cs.model.SendMsg;
 
 import javax.xml.bind.JAXBContext;
@@ -31,12 +31,12 @@ public class XMLUtil {
         // 设置是否输入XML头
         marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
         // 阻止JAXB进行的转义动作（CDATA的'<'和'>'会被转译为'&lt;'和'&gt;'）
-        marshaller.setProperty(CharacterEscapeHandler.class.getName(), new CharacterEscapeHandler() {
-            @Override
-            public void escape(char[] chars, int i, int i1, boolean b, Writer writer) throws IOException {
-                writer.write(chars, i, i1);
-            }
-        });
+//        marshaller.setProperty(CharacterEscapeHandler.class.getName(), new CharacterEscapeHandler() {
+//            @Override
+//            public void escape(char[] chars, int i, int i1, boolean b, Writer writer) throws IOException {
+//                writer.write(chars, i, i1);
+//            }
+//        });
 
         StringWriter writer = new StringWriter();
         marshaller.marshal(obj, writer);
