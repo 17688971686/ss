@@ -45,7 +45,7 @@
 			pinglun:pinglun,//评论
 			getUnfinished:getUnfinished,//获取未进行的活动
 			showActiviti:showActiviti,
-			otherGrid:otherGrid
+			otherGrid:otherGrid//科室办件列表
 		};
 		
 		return service;
@@ -904,7 +904,7 @@
 				schema : common.kendoGridConfig().schema({
 					id : "id"					
 				}),
-				serverPaging : true,
+				serverPaging : false,
 				serverSorting : true,
 				serverFiltering : true,
 				pageSize : 10,

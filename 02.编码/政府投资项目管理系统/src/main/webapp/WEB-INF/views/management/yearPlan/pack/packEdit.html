@@ -79,7 +79,7 @@
   								<td>
 									<select id="unitName_{{$index}}" name="unitName_{{$index}}" class="form-select" ng-model="x.unitName" data-val="true" data-val-required="必选">
 										<option value="">---请选择---</option>
-										<option ng-repeat="y in vm.allUnit" ng-selected="x.unitName==y.id" value="{{y.id}}">{{y.unitName}}</option>
+										<option ng-repeat="y in vm.allUnit | unique: 'id'" ng-selected="x.unitName==y.id" value="{{y.id}}">{{y.unitName}}</option>
 									</select>
 									<span data-valmsg-for="unitName_{{$index}}" data-valmsg-replace="true" class="required"></span>
 								</td>

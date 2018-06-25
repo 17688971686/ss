@@ -170,12 +170,12 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 					ShenBaoInfoDto array_element = shenBaoInfoDtos.get(i);
 					if(("audit").equals(str)){
 						Response response = this.getAssigneeByUserId(array_element.getZong_processId());
-						if(response.isSuccess() == false){
+						if(response.isSuccess() == false && !"usertask1".equals(array_element.getThisTaskName()) && !"usertask5".equals(array_element.getThisTaskName())){
 							ourShenBaoInfoDtos.add(array_element);
 						}
 					}else{
 						Response response = this.getAssigneeByUserId_plan(array_element.getZong_processId());
-						if(response.isSuccess() == false){
+						if(response.isSuccess() == false && !"usertask1".equals(array_element.getThisTaskName()) && !"usertask5".equals(array_element.getThisTaskName())){
 							ourShenBaoInfoDtos.add(array_element);
 						}
 					}

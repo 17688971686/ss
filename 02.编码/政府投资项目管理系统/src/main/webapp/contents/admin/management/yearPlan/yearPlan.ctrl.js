@@ -143,6 +143,15 @@
         	}
         	
         	vm.allUnit = common.getUserUnits().value;//获取所有单位信息
+        	 var keys = [];
+        	 vm.output = [];
+        	 angular.forEach(vm.allUnit, function(item) {
+		          var key = item["id"];
+		          if(keys.indexOf(key) === -1) {
+		              keys.push(key);
+		              vm.output.push(item);
+		          }
+		      });
         	//添加建设资金配置
         	vm.addConstructionUnit = function(){
         		if(vm.model.allocationCapitalDtos){
@@ -178,6 +187,15 @@
         
         function init_packAdd(){
         	vm.allUnit = common.getUserUnits().value;//获取所有单位信息
+        	 var keys = [];
+        	 vm.output = [];
+        	 angular.forEach(vm.allUnit, function(item) {
+		          var key = item["id"];
+		          if(keys.indexOf(key) === -1) {
+		              keys.push(key);
+		              vm.output.push(item);
+		          }
+		      });
         	//添加建设资金配置
         	vm.addConstructionUnit = function(){
         		if(vm.model.allocationCapitalDtos){

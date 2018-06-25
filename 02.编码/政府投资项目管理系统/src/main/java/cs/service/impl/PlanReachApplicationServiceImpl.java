@@ -662,10 +662,13 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 					shenBaoInfoService.startProcessShenbao("planreach",entity.getId());
 				}
 			}
+			planReachApplication.setIsStartProcess(true);
+			planReachApplicationRepo.save(planReachApplication);
+			logger.debug("启动计划类审批流程");
+		}else{
+			throw new IllegalArgumentException("计划下达中没有申报项目,请重新选择！");
 		}
-		planReachApplication.setIsStartProcess(true);
-		planReachApplicationRepo.save(planReachApplication);
-		logger.debug("启动计划类审批流程");
+		
 	}
 	
 	
