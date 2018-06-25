@@ -27,8 +27,8 @@
 			getShenBaoPortState:getShenBaoPortState,//查询申报端口的状态哦
 			getUserUnit:getUserUnit,
 			reback:reback,//撤销申请
-			getApprovalAtts : getApprovalAtts,
-			saveApprovalAttDtos : saveApprovalAttDtos
+			/*getApprovalAtts : getApprovalAtts,
+			saveApprovalAttDtos : saveApprovalAttDtos*/
 		};		
 		return service;
 		
@@ -223,7 +223,7 @@
 		/**
 		 * 查询审批附件
 		 * @param id 项目id
-		 */
+		 *//*
 		function getApprovalAtts(vm,id){
 			var httpOptions = {
 					method : 'get',
@@ -245,7 +245,7 @@
 				httpOptions : httpOptions,
 				success : httpSuccess
 			});
-		}
+		}*/
 		
 		/**
 		 * 根据项目id查询申报信息
@@ -496,7 +496,7 @@
 		
 		/**
 		 * 更新审批文件
-		 */
+		 *//*
 		function saveApprovalAttDtos(vm){
 			debugger
 			var httpOptions = {
@@ -532,7 +532,7 @@
 				success : httpSuccess
 			});
 		}//end#
-		
+*/		
 		/**
 		 * 根据id获取申报信息
 		 */

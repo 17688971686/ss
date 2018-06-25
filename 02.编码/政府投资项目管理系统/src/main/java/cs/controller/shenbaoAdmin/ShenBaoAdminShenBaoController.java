@@ -140,7 +140,7 @@ public class ShenBaoAdminShenBaoController {
 		}
 	}
 
-	@RequestMapping(name = "关联项目附件", path = "saveApprovalAttDtos",method=RequestMethod.POST)
+	/*@RequestMapping(name = "关联项目附件", path = "saveApprovalAttDtos",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void saveApprovalAttDtos(@RequestBody ProjectDto dto) {
 		String id = dto.getId();
@@ -155,7 +155,7 @@ public class ShenBaoAdminShenBaoController {
 			dto.getAttachments().add(attachment);
 		});
 		
-		/*ODataObj oDataObj = new ODataObj();
+		ODataObj oDataObj = new ODataObj();
 		ODataFilterItem oDataFilterItem = new ODataFilterItem<>();
 		oDataFilterItem.setField("id");
 		oDataFilterItem.setOperator("eq");
@@ -164,10 +164,10 @@ public class ShenBaoAdminShenBaoController {
 		
 		PageModelDto<ProjectDto> pageModelDto = ProjectService.Get(oDataObj);
 		ProjectDto projectDto = pageModelDto.getValue().get(0);
-		projectDto.getAttachments().addAll(attachments);*/
+		projectDto.getAttachments().addAll(attachments);
 		
 		ProjectService.update(dto, id);
-	}
+	}*/
 		
 	//begin#html
 	@RequiresPermissions("shenbaoAdmin/shenbao#html/list#get")

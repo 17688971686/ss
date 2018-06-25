@@ -26,10 +26,7 @@
     <sequenceFlow id="flow12" sourceRef="usertask9" targetRef="usertask11"></sequenceFlow>
     <userTask id="usertask12" name="扩初设计审查-管理局-15个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5"></userTask>
     <sequenceFlow id="flow13" sourceRef="usertask11" targetRef="usertask12"></sequenceFlow>
-    <userTask id="usertask13" name="民房建设意见单-管理局-10个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5"></userTask>
-    <sequenceFlow id="flow14" sourceRef="usertask12" targetRef="usertask13"></sequenceFlow>
     <userTask id="usertask14" name="民房建设意见单-管理局-10个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5"></userTask>
-    <sequenceFlow id="flow15" sourceRef="usertask13" targetRef="usertask14"></sequenceFlow>
     <parallelGateway id="parallelgateway3" name="Parallel Gateway"></parallelGateway>
     <sequenceFlow id="flow16" sourceRef="usertask14" targetRef="parallelgateway3"></sequenceFlow>
     <userTask id="usertask16" name="建筑物命名审批-管理局-10个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5"></userTask>
@@ -81,6 +78,7 @@
     <sequenceFlow id="flow67" sourceRef="usertask29" targetRef="parallelgateway6"></sequenceFlow>
     <sequenceFlow id="flow68" sourceRef="usertask20" targetRef="parallelgateway6"></sequenceFlow>
     <sequenceFlow id="flow69" sourceRef="parallelgateway5" targetRef="usertask20"></sequenceFlow>
+    <sequenceFlow id="flow70" sourceRef="usertask12" targetRef="usertask14"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_ShenpiMonitor_fjxm">
     <bpmndi:BPMNPlane bpmnElement="ShenpiMonitor_fjxm" id="BPMNPlane_ShenpiMonitor_fjxm">
@@ -91,7 +89,7 @@
         <omgdc:Bounds height="75.0" width="105.0" x="291.0" y="130.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask2" id="BPMNShape_usertask2">
-        <omgdc:Bounds height="75.0" width="105.0" x="491.0" y="130.0"></omgdc:Bounds>
+        <omgdc:Bounds height="82.0" width="105.0" x="491.0" y="127.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask3" id="BPMNShape_usertask3">
         <omgdc:Bounds height="85.0" width="105.0" x="811.0" y="46.0"></omgdc:Bounds>
@@ -122,9 +120,6 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask12" id="BPMNShape_usertask12">
         <omgdc:Bounds height="85.0" width="105.0" x="491.0" y="380.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask13" id="BPMNShape_usertask13">
-        <omgdc:Bounds height="85.0" width="105.0" x="291.0" y="380.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask14" id="BPMNShape_usertask14">
         <omgdc:Bounds height="85.0" width="105.0" x="104.0" y="380.0"></omgdc:Bounds>
@@ -197,10 +192,10 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
         <omgdi:waypoint x="396.0" y="167.0"></omgdi:waypoint>
-        <omgdi:waypoint x="491.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="491.0" y="168.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
-        <omgdi:waypoint x="596.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="596.0" y="168.0"></omgdi:waypoint>
         <omgdi:waypoint x="691.0" y="167.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
@@ -246,14 +241,6 @@
       <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
         <omgdi:waypoint x="813.0" y="422.0"></omgdi:waypoint>
         <omgdi:waypoint x="596.0" y="422.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow14" id="BPMNEdge_flow14">
-        <omgdi:waypoint x="491.0" y="422.0"></omgdi:waypoint>
-        <omgdi:waypoint x="396.0" y="422.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow15" id="BPMNEdge_flow15">
-        <omgdi:waypoint x="291.0" y="422.0"></omgdi:waypoint>
-        <omgdi:waypoint x="209.0" y="422.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow16" id="BPMNEdge_flow16">
         <omgdi:waypoint x="156.0" y="465.0"></omgdi:waypoint>
@@ -381,6 +368,10 @@
       <bpmndi:BPMNEdge bpmnElement="flow69" id="BPMNEdge_flow69">
         <omgdi:waypoint x="1373.0" y="942.0"></omgdi:waypoint>
         <omgdi:waypoint x="1173.0" y="1040.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow70" id="BPMNEdge_flow70">
+        <omgdi:waypoint x="491.0" y="422.0"></omgdi:waypoint>
+        <omgdi:waypoint x="209.0" y="422.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
