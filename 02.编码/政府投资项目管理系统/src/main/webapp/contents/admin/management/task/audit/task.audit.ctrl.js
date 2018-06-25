@@ -226,21 +226,46 @@
     	   vm.uploadSuccess=function(e){
    			var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
 	           	 if(e.XMLHttpRequest.status==200){
-	           		 var fileName=e.XMLHttpRequest.response;
-	           		 $scope.$apply(function(){
-	           			 if(vm.model.shenBaoInfo.attachmentDtos){
-	           				 vm.model.shenBaoInfo.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
-	           			 }else{
-	           				 vm.model.shenBaoInfo.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
-	           			 }                			           			
-	           		 });
+                     angular.forEach(eval("("+e.XMLHttpRequest.response+")").data, function (fileObj, index) {
+                         $scope.$apply(function() {
+                             if(vm.model.shenBaoInfo.attachmentDtos){
+                                 vm.model.shenBaoInfo.attachmentDtos.push({
+                                     name: fileObj.originalFilename,
+                                     url: fileObj.randomName,
+                                     type: type
+                                 });
+                             } else {
+                                 vm.model.shenBaoInfo.attachmentDtos = [{
+                                     name: fileObj.originalFilename,
+                                     url: fileObj.randomName,
+                                     type: type
+                                 }];
+                             }
+                         });
+                     })
+	           		 // var fileName=e.XMLHttpRequest.response;
+	           		 // $scope.$apply(function(){
+	           			//  if(vm.model.shenBaoInfo.attachmentDtos){
+	           			// 	 vm.model.shenBaoInfo.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
+	           			//  }else{
+	           			// 	 vm.model.shenBaoInfo.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
+	           			//  }
+	           		 // });
 	           	 }
     	   };
-	  		
+
+            vm.uploadError = function(e) {
+                common.alert({
+                    vm : vm,
+                    msg : e.XMLHttpRequest.response.message
+                });
+            }
+
 	   		//批复文件上传配置
 	   		vm.uploadOptions_pifu={
 	   				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
-	   				error:vm.uploadSuccess,	   				
+					error:vm.uploadError,
+					success:vm.uploadSuccess,
 	   				localization:{select:'上传文件'},
 	   				showFileList:false,
 	   				multiple:false,
@@ -252,7 +277,8 @@
 	   		//相关附件上传配置
 	   		vm.uploadOptions={
 	   				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
-	   				error:vm.uploadSuccess,	   				
+					error:vm.uploadError,
+					success:vm.uploadSuccess,
 	   				localization:{select:'上传文件'},
 	   				showFileList:false,
 	   				multiple:true,
@@ -316,21 +342,39 @@
 	   		vm.uploadSuccess_shenpi=function(e){
     			var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
 	           	 if(e.XMLHttpRequest.status==200){
-	           		 var fileName=e.XMLHttpRequest.response;
-	           		 $scope.$apply(function(){
-	           			 if(vm.taskRecord.attachmentDtos){
-	           				vm.taskRecord.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
-	           			 }else{
-	           				vm.taskRecord.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
-	           			 }                			           			
-	           		 });
+                     angular.forEach(eval("("+e.XMLHttpRequest.response+")").data, function (fileObj, index) {
+                         $scope.$apply(function() {
+                             if(vm.taskRecord.attachmentDtos){
+                                 vm.taskRecord.attachmentDtos.push({
+                                     name: fileObj.originalFilename,
+                                     url: fileObj.randomName,
+                                     type: type
+                                 });
+                             } else {
+                                 vm.taskRecord.attachmentDtos = [{
+                                     name: fileObj.originalFilename,
+                                     url: fileObj.randomName,
+                                     type: type
+                                 }];
+                             }
+                         });
+                     })
+	           		 // var fileName=e.XMLHttpRequest.response;
+	           		 // $scope.$apply(function(){
+	           			//  if(vm.taskRecord.attachmentDtos){
+	           			// 	vm.taskRecord.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
+	           			//  }else{
+	           			// 	vm.taskRecord.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
+	           			//  }
+	           		 // });
 	           	 }
 	   		};
 	   		
 	   		//相关附件上传配置
 	   		vm.uploadOptions_shenpi={
 	   				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
-	   				error:vm.uploadSuccess_shenpi,	   				
+	   				success:vm.uploadSuccess_shenpi,
+                	error:vm.uploadError,
 	   				localization:{select:'上传文件'},
 	   				showFileList:false,
 	   				multiple:true,
@@ -354,21 +398,39 @@
 		   		vm.uploadSuccess_approval=function(e){
 	    			var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
 		           	 if(e.XMLHttpRequest.status==200){
-		           		 var fileName=e.XMLHttpRequest.response;
-		           		 $scope.$apply(function(){
-		           			 if(vm.approval.attachmentDtos){
-		           				vm.approval.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
-		           			 }else{
-		           				vm.approval.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
-		           			 }                			           			
-		           		 });
+                         angular.forEach(eval("("+e.XMLHttpRequest.response+")").data, function (fileObj, index) {
+                             $scope.$apply(function() {
+                                 if(vm.approval.attachmentDtos){
+                                     vm.approval.attachmentDtos.push({
+                                         name: fileObj.originalFilename,
+                                         url: fileObj.randomName,
+                                         type: type
+                                     });
+                                 } else {
+                                     vm.approval.attachmentDtos = [{
+                                         name: fileObj.originalFilename,
+                                         url: fileObj.randomName,
+                                         type: type
+                                     }];
+                                 }
+                             });
+                         })
+		           		 // var fileName=e.XMLHttpRequest.response;
+		           		 // $scope.$apply(function(){
+		           			//  if(vm.approval.attachmentDtos){
+		           			// 	vm.approval.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
+		           			//  }else{
+		           			// 	vm.approval.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
+		           			//  }
+		           		 // });
 		           	 }
 		   		};
-		   		
+
 		   		//相关附件上传配置
 		   		vm.uploadOptions_approval={
 		   				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
-		   				error:vm.uploadSuccess_approval,	   				
+		   				success:vm.uploadSuccess_approval,
+						error:vm.uploadError,
 		   				localization:{select:'上传文件'},
 		   				showFileList:false,
 		   				multiple:true,

@@ -357,7 +357,8 @@
 		        type="file"
 		        kendo-upload
 		        k-async="{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true}"
-		        k-error="vm.uploadSuccess"
+		        k-success="vm.uploadSuccess"
+				k-error="vm.uploadError"
 		        k-localization="{select:'上传文件'}"
 		        k-showFileList="false"   
 		        k-multiple="false"    
@@ -388,7 +389,8 @@
 				        type="file"
 				        kendo-upload
 				        k-async="{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true}"
-				        k-error="vm.uploadSuccess"
+						k-success="vm.uploadSuccess"
+						k-error="vm.uploadError"
 				        k-localization="{select:'上传文件'}"
 				        k-showFileList="false"   
 				        k-multiple="true"    

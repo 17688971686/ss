@@ -128,22 +128,47 @@
 	   		};
      	 vm.uploadSuccess=function(e){
  			var index=$(e.sender.element).parents('.uploadBox').attr('data-type');
-	           	 if(e.XMLHttpRequest.status==200){
-	           		 var fileName=e.XMLHttpRequest.response;
-	           		 $scope.$apply(function(){
-	           			 console.log(index);
-	           			 if(vm.model.submitReviewEvaluationDtos[index].attachmentDtos){
-	           				 vm.model.submitReviewEvaluationDtos[index].attachmentDtos.push({name:fileName.split('_')[2],url:fileName});
-	           			 }else{
-	           				 vm.model.submitReviewEvaluationDtos[index].attachmentDtos=[];
-	           				 vm.model.submitReviewEvaluationDtos[index].attachmentDtos=[{name:fileName.split('_')[2],url:fileName}];
-	           			 }   
-	           		 });
-	           	 }
+			 if(e.XMLHttpRequest.status==200){
+                 angular.forEach(eval("("+e.XMLHttpRequest.response+")").data, function (fileObj) {
+                     $scope.$apply(function() {
+                         if(vm.model.submitReviewEvaluationDtos[index].attachmentDtos){
+                             vm.model.submitReviewEvaluationDtos[index].attachmentDtos.push({
+                                 name: fileObj.originalFilename,
+                                 url: fileObj.randomName
+                             });
+                         } else {
+                             vm.model.submitReviewEvaluationDtos[index].attachmentDtos = [];
+                             vm.model.submitReviewEvaluationDtos[index].attachmentDtos = [{
+                                 name: fileObj.originalFilename,
+                                 url: fileObj.randomName
+                             }];
+                         }
+                     });
+                 })
+				 // var fileName=e.XMLHttpRequest.response;
+				 // $scope.$apply(function(){
+					//  console.log(index);
+					//  if(vm.model.submitReviewEvaluationDtos[index].attachmentDtos){
+					// 	 vm.model.submitReviewEvaluationDtos[index].attachmentDtos.push({name:fileName.split('_')[2],url:fileName});
+					//  }else{
+					// 	 vm.model.submitReviewEvaluationDtos[index].attachmentDtos=[];
+					// 	 vm.model.submitReviewEvaluationDtos[index].attachmentDtos=[{name:fileName.split('_')[2],url:fileName}];
+					//  }
+				 // });
+			 }
 		};
+
+		vm.uploadError = function(e) {
+			common.alert({
+				vm : vm,
+				msg : e.XMLHttpRequest.response.message
+			});
+		}
+
 		vm.uploadOptions={
   				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
-  				error: vm.uploadSuccess,   				
+				success:vm.uploadSuccess,
+				error:vm.uploadError,
   				localization:{select:'上传文件'},
   				showFileList:false,
   				multiple:true,
@@ -183,21 +208,46 @@
       	 vm.uploadSuccess=function(e){
   			var index=$(e.sender.element).parents('.uploadBox').attr('data-type');
 	           	 if(e.XMLHttpRequest.status==200){
-	           		 var fileName=e.XMLHttpRequest.response;
-	           		 $scope.$apply(function(){
-	           			 console.log(index);
-	           			 if(vm.model.serviceEvaluationDtos[index].attachmentDtos){
-	           				 vm.model.serviceEvaluationDtos[index].attachmentDtos.push({name:fileName.split('_')[2],url:fileName});
-	           			 }else{
-	           				 vm.model.serviceEvaluationDtos[index].attachmentDtos=[];
-	           				 vm.model.serviceEvaluationDtos[index].attachmentDtos=[{name:fileName.split('_')[2],url:fileName}];
-	           			 }   
-	           		 });
+                     angular.forEach(eval("("+e.XMLHttpRequest.response+")").data, function (fileObj) {
+                         $scope.$apply(function() {
+                             if(vm.model.serviceEvaluationDtos[index].attachmentDtos){
+                                 vm.model.serviceEvaluationDtos[index].attachmentDtos.push({
+                                     name: fileObj.originalFilename,
+                                     url: fileObj.randomName
+                                 });
+                             } else {
+                                 vm.model.serviceEvaluationDtos[index].attachmentDtos = [];
+                                 vm.model.serviceEvaluationDtos[index].attachmentDtos = [{
+                                     name: fileObj.originalFilename,
+                                     url: fileObj.randomName
+                                 }];
+                             }
+                         });
+                     })
+	           		 // var fileName=e.XMLHttpRequest.response;
+	           		 // $scope.$apply(function(){
+	           			//  console.log(index);
+	           			//  if(vm.model.serviceEvaluationDtos[index].attachmentDtos){
+	           			// 	 vm.model.serviceEvaluationDtos[index].attachmentDtos.push({name:fileName.split('_')[2],url:fileName});
+	           			//  }else{
+	           			// 	 vm.model.serviceEvaluationDtos[index].attachmentDtos=[];
+	           			// 	 vm.model.serviceEvaluationDtos[index].attachmentDtos=[{name:fileName.split('_')[2],url:fileName}];
+	           			//  }
+	           		 // });
 	           	 }
  		};
+
+            vm.uploadError = function(e) {
+                common.alert({
+                    vm : vm,
+                    msg : e.XMLHttpRequest.response.message
+                });
+            }
+
  		vm.uploadOptions={
    				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
-   				error: vm.uploadSuccess,   				
+				success:vm.uploadSuccess,
+				error:vm.uploadError,
    				localization:{select:'上传文件'},
    				showFileList:false,
    				multiple:true,

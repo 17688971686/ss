@@ -199,19 +199,43 @@
      	  //begin#ng-include load后触发
      	 vm.page_fillReport_init=function(){
      		 
-     		 vm.uploadSuccess=function(e){
-     			var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
-	           	 if(e.XMLHttpRequest.status==200){
-	           		 var fileName=e.XMLHttpRequest.response;
-	           		 $scope.$apply(function(){
-	           			 if(vm.model.monthReport.attachmentDtos){
-	           				 vm.model.monthReport.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
-	           			 }else{
-	           				 vm.model.monthReport.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
-	           			 }                			           			
-	           		 });
-	           	 }
-     		 };
+     		 vm.uploadSuccess=function(e) {
+                 var type = $(e.sender.element).parents('.uploadBox').attr('data-type');
+                 if (e.XMLHttpRequest.status == 200) {
+                     angular.forEach(eval("(" + e.XMLHttpRequest.response + ")").data, function (fileObj, index) {
+                         $scope.$apply(function () {
+                             if (vm.model.monthReport.attachmentDtos) {
+                                 vm.model.monthReport.attachmentDtos.push({
+                                     name: fileObj.originalFilename,
+                                     url: fileObj.randomName,
+                                     type: type
+                                 });
+                             } else {
+                                 vm.model.monthReport.attachmentDtos = [{
+                                     name: fileObj.originalFilename,
+                                     url: fileObj.randomName,
+                                     type: type
+                                 }];
+                             }
+                         });
+                         // var fileName=e.XMLHttpRequest.response;
+                         // $scope.$apply(function(){
+                         //  if(vm.model.monthReport.attachmentDtos){
+                         // 	 vm.model.monthReport.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
+                         //  }else{
+                         // 	 vm.model.monthReport.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
+                         //  }
+                         // });
+                     })
+                 }
+             };
+
+             vm.uploadError = function(e) {
+                 common.alert({
+                     vm : vm,
+                     msg : e.XMLHttpRequest.response.message
+                 });
+             }
      		 
      		vm.onSelect=function(e){
        			$.each(e.files, function (index, value) {
@@ -229,7 +253,8 @@
        		
        		vm.uploadOptions={
        				async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
-       				error:vm.uploadSuccess,	   				
+       				success:vm.uploadSuccess,
+					error:vm.uploadError,
        				localization:{select:'上传文件'},
        				showFileList:false,
        				multiple:true,

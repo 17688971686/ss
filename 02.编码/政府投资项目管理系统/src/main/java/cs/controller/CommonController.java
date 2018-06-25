@@ -3,8 +3,11 @@ package cs.controller;
 import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -136,24 +139,37 @@ public class CommonController {
 	
 	@RequiresPermissions("common#save#post")
 	@RequestMapping(name = "上传文件", path = "save", method = RequestMethod.POST,produces ="application/json;charset=UTF-8")
-	public @ResponseBody String Save(@RequestParam("files") MultipartFile file){
-		String randomName="";
-		if (!file.isEmpty()) {  
-            try { 
+	public @ResponseBody Response Save(@RequestParam("files") MultipartFile file, HttpServletResponse res){
+
+    	Response response = new Response();
+
+		if (!file.isEmpty()) {
+            try {
             	//文件名：
             	String fileName=file.getOriginalFilename();
             	//随机名
-            	randomName=Util.generateFileName(fileName);
+				String randomName = Util.generateFileName(fileName);
                 // 文件保存路径  
                 String filePath = request.getSession().getServletContext().getRealPath("/") + FILE_UPLOAD_TO
                         + randomName;  
                 // 转存文件 
-                file.transferTo(new File(filePath));  
-            } catch (Exception e) {  
-                e.printStackTrace();  
-            }  
-        }  
-		return randomName;
+                file.transferTo(new File(filePath));
+
+				Map<String, String> map = new HashMap<>();
+				map.put("originalFilename", fileName);
+				map.put("randomName", randomName);
+				response.addData(map);
+
+            } catch (Exception e) {
+            	e.printStackTrace();
+            	res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				response.setMessage("文件上传失败，请再次尝试！");
+            }
+        } else {
+			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.setMessage("请选择要上传的文件！");
+		}
+		return response;
 	}
 	
 	@RequiresPermissions("common#remove#post")

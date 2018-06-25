@@ -51,11 +51,11 @@
                 	 console.log("select:");
                 	 console.log(e);
                  },
-                 error:function(e){
+                 success:function(e){
                 	 console.log("error:");
                 	 console.log(e);
                 	 if(e.XMLHttpRequest.status==200){
-                		 var fileName=e.XMLHttpRequest.response;
+                		 var fileName=eval("("+e.XMLHttpRequest.response+")").data[0].randomName;
                 		 alert("文件名："+fileName);
                 	 }
                  },

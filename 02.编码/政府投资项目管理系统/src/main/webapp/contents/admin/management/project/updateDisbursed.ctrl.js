@@ -15,12 +15,27 @@
 
         vm.uploadSuccess=function(e){
             if(e.XMLHttpRequest.status==200){
-                var fileName=e.XMLHttpRequest.response;
-                $scope.$apply(function(){
-                    vm.attachmentDtos=[{fullName:fileName,fileName:fileName.split('_')[2]}];
-                });
+                angular.forEach(eval("("+e.XMLHttpRequest.response+")").data, function (fileObj, index) {
+                    $scope.$apply(function() {
+                        vm.attachmentDtos = [{
+                            fullName: fileObj.randomName,
+                            fileName: fileObj.originalFilename,
+                        }];
+                    });
+                })
+                // var fileName=e.XMLHttpRequest.response;
+                // $scope.$apply(function(){
+                //     vm.attachmentDtos=[{fullName:fileName,fileName:fileName.split('_')[2]}];
+                // });
             }
         };
+
+        vm.uploadError = function(e) {
+            common.alert({
+                vm : vm,
+                msg : e.XMLHttpRequest.response.message
+            });
+        }
 
         //文件选择触发验证文件大小
         vm.onSelect=function(e){
@@ -40,7 +55,8 @@
 
         vm.uploadOptions = {
             async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
-            error:vm.uploadSuccess,
+            error:vm.uploadError,
+            success:vm.uploadSuccess,
             localization:{select:'上传文件'},
             showFileList:false,
             multiple:false,

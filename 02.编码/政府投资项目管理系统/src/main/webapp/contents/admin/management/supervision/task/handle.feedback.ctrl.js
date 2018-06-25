@@ -34,21 +34,46 @@
    		vm.uploadSuccess_feedback=function(e){
 			var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
            	 if(e.XMLHttpRequest.status==200){
-           		 var fileName=e.XMLHttpRequest.response;
-           		 $scope.$apply(function(){
-           			 if(vm.attachmentDtos){
-           				vm.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
-           			 }else{
-           				vm.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
-           			 }                			           			
-           		 });
+                 angular.forEach(eval("("+e.XMLHttpRequest.response+")").data, function (fileObj, index) {
+                     $scope.$apply(function() {
+                         if(vm.attachmentDtos){
+                             vm.attachmentDtos.push({
+                                 name: fileObj.originalFilename,
+                                 url: fileObj.randomName,
+                                 type: type
+                             });
+                         } else {
+                             vm.attachmentDtos = [{
+                                 name: fileObj.originalFilename,
+                                 url: fileObj.randomName,
+                                 type: type
+                             }];
+                         }
+                     });
+                 })
+           		 // var fileName=e.XMLHttpRequest.response;
+           		 // $scope.$apply(function(){
+           			//  if(vm.attachmentDtos){
+           			// 	vm.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
+           			//  }else{
+           			// 	vm.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
+           			//  }
+           		 // });
            	 }
    		};
-   		
+
+        vm.uploadError = function(e) {
+            common.alert({
+                vm : vm,
+                msg : e.XMLHttpRequest.response.message
+            });
+        }
+
    		//相关附件上传配置
    		vm.uploadOptions_feedback={
 			async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
-			error:vm.uploadSuccess_feedback,	   				
+            error:vm.uploadError,
+            success:vm.uploadSuccess_feedback,
 			localization:{select:'上传文件'},
 			showFileList:false,
 			multiple:true,

@@ -67,20 +67,42 @@
                 },
                 showFileList:false,
                 select:vm.onSelect,
-                success:function(e){},
+                success:function(e){
+                    console.log("error:");
+                    console.log(e);
+                    if(e.XMLHttpRequest.status==200){
+                        angular.forEach(eval("("+e.XMLHttpRequest.response+")").data, function (fileObj, index) {
+                            $scope.$apply(function() {
+                                if(vm.model.attachmentDtos){
+                                    vm.model.attachmentDtos.push({
+                                        name: fileObj.originalFilename,
+                                        url: fileObj.randomName,
+                                        type: vm.type
+                                    });
+                                } else {
+                                    vm.model.attachmentDtos = [{
+                                        name: fileObj.originalFilename,
+                                        url: fileObj.randomName,
+                                        type: vm.type
+                                    }];
+                                }
+                            });
+                        })
+                        // var fileName=e.XMLHttpRequest.response;
+                        // $scope.$apply(function(){
+                        //     if(vm.model.attachmentDtos){
+                        //         vm.model.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:vm.type});
+                        //     }else{
+                        //         vm.model.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:vm.type}];
+                        //     }
+                        // });
+                    }
+				},
                 error:function(e){
-               	 console.log("error:");
-               	 console.log(e);
-               	 if(e.XMLHttpRequest.status==200){
-               		 var fileName=e.XMLHttpRequest.response;
-               		 $scope.$apply(function(){
-               			 if(vm.model.attachmentDtos){
-               				vm.model.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:vm.type});
-	           			 }else{
-	           				vm.model.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:vm.type}];
-	           			 }             			
-               		 });
-               	 }
+                    common.alert({
+                        vm : vm,
+                        msg : e.XMLHttpRequest.response.message
+                    });
                 },
                 localization: {
                     select: "上传文件"
