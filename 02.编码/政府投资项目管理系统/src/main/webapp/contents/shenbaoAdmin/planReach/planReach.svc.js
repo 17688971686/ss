@@ -605,6 +605,7 @@
 				vm.model.applicationUnit = vm.userUnit.id;//设置项目的所属单位名称
 				projectGrid(vm);//获取项目数据
 				packGrid(vm);//获取打包类数据
+				shenbaoInfoGrid(vm);
 			};
 			common.http({
 				vm : vm,
@@ -2018,7 +2019,13 @@
 					field:'projectShenBaoStage',
 					operator:'eq',
 					value:common.basicDataConfig().projectShenBaoStage_nextYearPlan
-				},{//审批状态为签收
+				},
+				{
+					field:'unitName',
+					operator:'eq',
+					value:vm.userUnit.id
+				},
+				{//审批状态为签收
 					field:'processState',
 					operator:'eq',
 					value:common.basicDataConfig().processState_pass

@@ -438,7 +438,7 @@
 //        	planReachSvc.getPackPlanById(vm);
         	planReachSvc.getUserUnit(vm);//获取当前登陆单位信息
         	planReachSvc.getShenBaoInfoGridFromPackPlan(vm);
-        	planReachSvc.shenbaoInfoGrid(vm);
+        	
         	planReachSvc.getPackPlanById(vm);
         	vm.addProject=function(){
         		//展示项目数据模态框

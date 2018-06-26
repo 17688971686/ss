@@ -39,13 +39,13 @@
 	  				</td>
 	  			</tr>
 	  			<tr>
-	  				<td class="formAlignRight">项目所属单位：</td>
+	  				<!-- <td class="formAlignRight">项目所属单位：</td>
 	  				<td>
 	  					<select style="height:30px;" ng-model="vm.search.unitName">
 				  			<option value="">---请选择---</option>
-				  			<option ng-repeat="x in vm.basicData.userUnit" value="{{x.id}}">{{x.unitName}}</option>
+				  			<option ng-repeat="x in vm.basicData.userUnit | unique: 'id'" value="{{x.id}}">{{x.unitName}}</option>
 				  		</select>
-	  				</td>
+	  				</td> -->
 	  				<td class="formAlignRight">项目行业：</td>
 	  				<td>
 	  					<select style="height:30px;" ng-change="vm.searchIndustryFatherChange()" ng-model="vm.searchIndustryFather">

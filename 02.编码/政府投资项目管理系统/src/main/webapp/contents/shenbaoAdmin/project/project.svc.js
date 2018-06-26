@@ -1,8 +1,23 @@
 (function() {
 	'use strict';
 
-	angular.module('app').factory('projectSvc', project);
+	var app = angular.module('app').factory('projectSvc', project);
+	app.filter('unique', function() {
+		   return function(collection, keyname) {
+		      var output = [], 
+		          keys = [];
 
+		      angular.forEach(collection, function(item) {
+		          var key = item[keyname];
+		          if(keys.indexOf(key) === -1) {
+		              keys.push(key);
+		              output.push(item);
+		          }
+		      });
+
+		      return output;
+		   };
+		});
 	project.$inject = ['$http','$compile','$location'];	
 	function project($http,$compile,$location) {
 		var url_project = "/shenbaoAdmin/project";

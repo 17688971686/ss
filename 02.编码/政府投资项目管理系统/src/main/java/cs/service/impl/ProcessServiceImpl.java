@@ -726,10 +726,12 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setThisTaskName("已退文");
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_tuiwen);
 			shenBaoInfo.setProcessStage("已退文");
+			shenBaoInfo.setAuditState(BasicDataConfig.auditState_noAudit);
 		}else{
 			shenBaoInfo.setThisTaskName("已办结");
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_pass);
 			shenBaoInfo.setProcessStage("已办结");
+			shenBaoInfo.setAuditState(BasicDataConfig.auditState_auditPass);
 
 			// 生成项目编码
 			if (StringUtils.isBlank(shenBaoInfo.getProjectNumber())) {
