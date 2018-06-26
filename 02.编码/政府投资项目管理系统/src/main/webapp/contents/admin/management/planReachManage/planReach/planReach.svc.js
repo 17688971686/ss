@@ -1,12 +1,29 @@
 (function() {
 	'use strict';
 
-	angular.module('app').factory('planReachSvc', planReach);
+	var app = angular.module('app').factory('planReachSvc', planReach);
 
+	app.filter('unique', function() {
+		   return function(collection, keyname) {
+		      var output = [], 
+		          keys = [];
+
+		      angular.forEach(collection, function(item) {
+		          var key = item[keyname];
+		          if(keys.indexOf(key) === -1) {
+		              keys.push(key);
+		              output.push(item);
+		          }
+		      });
+
+		      return output;
+		   };
+		});
 	planReach.$inject = ['$http','$compile','$location'];	
 	function planReach($http,$compile,$location) {
 		var url="/management/planReachManage/planReach";
 		var url_shenbao="/management/shenbao";
+		var url_back="/planReach_tabList";
 		
 		var service={
 				grid:grid,
@@ -95,10 +112,15 @@
 			var isValid = $('form').valid();
 			if (isValid) {
 				vm.isSubmit = true;
+				var isList = [];
+				for (var int = 0; int < vm.model.shenBaoInfoDtos.length; int++) {
+					var array_element = vm.model.shenBaoInfoDtos[int];
+					isList.push(array_element.id);
+				}
 				var httpOptions = {
 						method : 'post',
 						url : url+'/updatePlanReachManage',
-						data : vm.model
+						data : {"id": vm.model.id,"ids" : isList,"resPersonTel":vm.model.resPersonTel,"resPerson":vm.model.resPerson,"approvalTime":vm.model.approvalTime,"title":vm.model.title}
 					};
 				var httpSuccess = function success(response) {
 					common.requestSuccess({
@@ -112,7 +134,7 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 									$('.modal-backdrop').remove();
-									//$location.path(url_back);//创建成功返回到列表页
+									$location.path(url_back);//创建成功返回到列表页
 								}
 							});
 						}
@@ -135,10 +157,16 @@
 			var isValid = $('form').valid();
 			if (isValid) {
 				vm.isSubmit = true;
+				var isList = [];
+				for (var int = 0; int < vm.model.shenBaoInfoDtos.length; int++) {
+					var array_element = vm.model.shenBaoInfoDtos[int];
+					isList.push(array_element.id);
+				}
+				
 				var httpOptions = {
 						method : 'post',
 						url : url,
-						data : vm.model
+						data : {"ids" : isList,"resPersonTel":vm.model.resPersonTel,"resPerson":vm.model.resPerson,"approvalTime":vm.model.approvalTime,"title":vm.model.title}
 					};
 				var httpSuccess = function success(response) {
 					common.requestSuccess({
@@ -152,7 +180,7 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 									$('.modal-backdrop').remove();
-									//$location.path(url_back);//创建成功返回到列表页
+									$location.path(url_back);//创建成功返回到列表页
 								}
 							});
 						}
@@ -275,11 +303,13 @@
 					field:'projectShenBaoStage',
 					operator:'eq',
 					value:common.basicDataConfig().projectShenBaoStage_jihuaxiada
-				},{//TODO 这里过滤条件是审批阶段为“秘书科发文”，与OA对接成功之后这里应该是与OA返回同意的那个阶段
-					field:'processStage',
-					operator:'eq',
-					value:common.basicDataConfig().processState_mskfawen
-				},{//过滤条件为审批状态不为退回状态
+				}
+//				,{//TODO 这里过滤条件是审批阶段为“秘书科发文”，与OA对接成功之后这里应该是与OA返回同意的那个阶段
+//					field:'processStage',
+//					operator:'eq',
+//					value:common.basicDataConfig().processState_mskfawen
+//				}
+				,{//过滤条件为审批状态不为退回状态
 					field:'processState',
 					operator:'ne',
 					value:common.basicDataConfig().processState_notpass
@@ -1332,11 +1362,13 @@
 					field:'projectShenBaoStage',
 					operator:'eq',
 					value:common.basicDataConfig().projectShenBaoStage_jihuaxiada
-				},{//TODO 这里过滤条件是审批阶段为“秘书科发文”，与OA对接成功之后这里应该是与OA返回同意的那个阶段
-					field:'processStage',
-					operator:'eq',
-					value:common.basicDataConfig().processState_mskfawen
-				},{//过滤条件为审批状态不为退回状态
+				}
+//				,{//TODO 这里过滤条件是审批阶段为“秘书科发文”，与OA对接成功之后这里应该是与OA返回同意的那个阶段
+//					field:'processStage',
+//					operator:'eq',
+//					value:common.basicDataConfig().processState_mskfawen
+//				}
+				,{//过滤条件为审批状态不为退回状态
 					field:'processState',
 					operator:'ne',
 					value:common.basicDataConfig().processState_notpass

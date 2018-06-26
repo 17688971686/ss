@@ -167,12 +167,15 @@
     		};
     		vm.update = function(){
     			var configuredMoney = 0;
-    			for(var i=0;i<vm.model.allocationCapitalDtos.length;i++){
-    				configuredMoney = configuredMoney+(vm.model.allocationCapitalDtos[i].capital_ggys + 
-    						vm.model.allocationCapitalDtos[i].capital_gtzj);
-    				vm.model.allocationCapitalDtos[i].capitalSCZ_gtzj_TheYear = 0;
-    				vm.model.allocationCapitalDtos[i].capitalSCZ_ggys_TheYear = 0;
+    			if(vm.model.allocationCapitalDtos != undefined){
+    				for(var i=0;i<vm.model.allocationCapitalDtos.length;i++){
+        				configuredMoney = configuredMoney+(vm.model.allocationCapitalDtos[i].capital_ggys + 
+        						vm.model.allocationCapitalDtos[i].capital_gtzj);
+        				vm.model.allocationCapitalDtos[i].capitalSCZ_gtzj_TheYear = 0;
+        				vm.model.allocationCapitalDtos[i].capitalSCZ_ggys_TheYear = 0;
+        			}
     			}
+    			
     			if(configuredMoney <= vm.model.totalMoney){
     				//vm.model.surplusMoney = vm.model.totalMoney - configuredMoney;
     				yearPlanSvc.pack_update(vm);
@@ -228,11 +231,13 @@
         		if(vm.model.totalMoney=="" || !vm.model.totalMoney){
         			vm.model.totalMoney = 0;
         		}
-        		
-        		for(var i=0;i<vm.model.allocationCapitalDtos.length;i++){
-        			configuredMoney = configuredMoney+(vm.model.allocationCapitalDtos[i].capital_ggys + 
-        								vm.model.allocationCapitalDtos[i].capital_gtzj);
+        		if(vm.model.allocationCapitalDtos != undefined){
+        			for(var i=0;i<vm.model.allocationCapitalDtos.length;i++){
+            			configuredMoney = configuredMoney+(vm.model.allocationCapitalDtos[i].capital_ggys + 
+            								vm.model.allocationCapitalDtos[i].capital_gtzj);
+            		}
         		}
+        		
         		if(configuredMoney <= vm.model.totalMoney){
         			
         			//vm.model.surplusMoney = vm.model.totalMoney - configuredMoney;
@@ -317,6 +322,17 @@
     	}
     	
     	function commonShenBaoListMethod(){
+    		
+    		vm.basicData.userUnit=common.getUserUnits().value;//获取所有单位
+		   	 var keys = [];
+	    	 vm.output = [];
+	    	 angular.forEach(vm.basicData.userUnit, function(item) {
+		          var key = item["id"];
+		          if(keys.indexOf(key) === -1) {
+		              keys.push(key);
+		              vm.output.push(item);
+		          }
+		      });
           	//条件查询
           	vm.search=function(type){
     			var filters = [];//封装查询条件
@@ -338,8 +354,8 @@
      		   if(vm.search.planYear !=null && vm.search.planYear !=''){//查询条件--计划年度
      			  filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear,10)});
      		   }
-     		   if(vm.search.constructionUnit !=null && vm.search.constructionUnit !=''){//查询条件--建设单位名称
-     			  filters.push({field:'constructionUnit',operator:'contains',value:vm.search.constructionUnit});
+     		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--建设单位名称
+     			  filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
      		   }
      		   if(vm.search.auditState !=null && vm.search.auditState !=''){//查询条件--审核状态
      			  filters.push({field:'auditState',operator:'eq',value:vm.search.auditState});
@@ -750,6 +766,16 @@
     		yearPlanSvc.grid_yearPlan_packPlan(vm);//获取年度计划所关联的打包类型
     		yearPlanSvc.grid_packListForYeanPlan(vm);//查询所有可添加的打包类型
     		
+    		vm.basicData.userUnit=common.getUserUnits().value;//获取所有单位
+		   	 var keys = [];
+	    	 vm.output = [];
+	    	 angular.forEach(vm.basicData.userUnit, function(item) {
+		          var key = item["id"];
+		          if(keys.indexOf(key) === -1) {
+		              keys.push(key);
+		              vm.output.push(item);
+		          }
+		      });
     		//添加项目计划弹出模态框
     		vm.dialog_addPlan=function(){
     			 $('#addPlanList').modal({
@@ -768,6 +794,7 @@
     		$("#addPlanSearchBtn").keydown(function(){
     			vm.search();
     		});
+    		
     		//添加计划筛选
     		vm.search=function(){
     			var filters = [];
@@ -782,8 +809,8 @@
      		   if(vm.search.planYear !=null && vm.search.planYear !=''){//查询条件--计划年度
      			  filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear,10)});
      		   }
-     		   if(vm.search.constructionUnit !=null && vm.search.constructionUnit !=''){//查询条件--建设单位名称
-     			  filters.push({field:'constructionUnit',operator:'contains',value:vm.search.constructionUnit});
+     		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--建设单位名称
+     			  filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
      		   }
      		  if(vm.search.auditState !=null && vm.search.auditState !=''){//查询条件--审批状态
      			  filters.push({field:'auditState',operator:'eq',value:vm.search.auditState});
@@ -802,7 +829,7 @@
     			vm.search.projectName = '';
     			vm.search.projectIndustry = '';
     			vm.search.planYear = '';
-    			vm.search.constructionUnit = '';
+    			vm.search.unitName = '';
     			vm.search.auditState = '';
     			vm.search.projectConstrChar = '';
     			vm.search.packageType = '';

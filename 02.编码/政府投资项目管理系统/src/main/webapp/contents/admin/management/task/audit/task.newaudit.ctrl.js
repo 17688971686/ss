@@ -160,6 +160,17 @@
         
         function task_todo_audit_other(){
         	taskNewAuditSvc.otherGrid(vm);
+        	
+        	vm.basicData.userUnit=common.getUserUnits().value;//获取所有单位
+		   	 var keys = [];
+	    	 vm.output = [];
+	    	 angular.forEach(vm.basicData.userUnit, function(item) {
+		          var key = item["id"];
+		          if(keys.indexOf(key) === -1) {
+		              keys.push(key);
+		              vm.output.push(item);
+		          }
+		      });
         	//查询
         	vm.search=function(){
         		var filters = [];
@@ -184,7 +195,16 @@
         
         function init_todoAuditList(){
         	taskNewAuditSvc.grid(vm);
-        	
+        	vm.basicData.userUnit=common.getUserUnits().value;//获取所有单位
+		   	 var keys = [];
+	    	 vm.output = [];
+	    	 angular.forEach(vm.basicData.userUnit, function(item) {
+		          var key = item["id"];
+		          if(keys.indexOf(key) === -1) {
+		              keys.push(key);
+		              vm.output.push(item);
+		          }
+		      });
         	//查询
         	vm.search=function(){
         		var filters = [];
@@ -635,6 +655,17 @@
         
         function init_complete_shenPiList(){
         	taskNewAuditSvc.complete_shenPiGird(vm);
+        	
+        	vm.basicData.userUnit=common.getUserUnits().value;//获取所有单位
+		   	 var keys = [];
+	    	 vm.output = [];
+	    	 angular.forEach(vm.basicData.userUnit, function(item) {
+		          var key = item["id"];
+		          if(keys.indexOf(key) === -1) {
+		              keys.push(key);
+		              vm.output.push(item);
+		          }
+		      });
         	//查询
         	vm.search=function(){
         		var filters = [];

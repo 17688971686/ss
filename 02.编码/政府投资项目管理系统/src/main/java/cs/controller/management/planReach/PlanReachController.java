@@ -56,17 +56,18 @@ public class PlanReachController {
 	}
 		
 	//@RequiresPermissions("management/planReachManage/planReach##post")
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(name = "创建计划下达批复信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void create(@RequestBody PlanReachApprovalDto dto) throws ParseException {
-		planReachApprovalService.create(dto);
+	public void create(@RequestBody Map data) throws ParseException {
+		planReachApprovalService.create(data);
 	}
 	
 	//@RequiresPermissions("management/planReachManage/planReach##post")
 	@RequestMapping(name = "更新计划下达批复信息", path = "updatePlanReachManage",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void update(@RequestBody PlanReachApprovalDto dto) throws ParseException {
-		planReachApprovalService.update(dto,dto.getId());
+	public void update(@RequestBody Map data) throws ParseException {
+		planReachApprovalService.update(data);
 	}
 	
 	//@RequiresPermissions("management/planReachManage/planReach#deletePlanReach#post")

@@ -1,8 +1,11 @@
 package cs.service.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -51,39 +54,55 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 		return super.get(odataObj);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	public PlanReachApproval create(PlanReachApprovalDto dto) {
+	public void create(Map data) throws ParseException {
 		PlanReachApproval entity = new PlanReachApproval();
+		PlanReachApprovalDto dto = new PlanReachApprovalDto();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+		dto.setResPerson((String) data.get("resPerson"));
+		dto.setApprovalTime(sdf.parse((String)data.get("approvalTime")));
+		dto.setResPersonTel((String) data.get("resPersonTel"));
+		dto.setTitle((String) data.get("title"));
+		List<String> idStrings = (List<String>) data.get("ids");
+		dto.setCreatedBy(currentUser.getUserId());
+		dto.setCreatedDate(new Date());
 		entity=super.create(dto);
 		//处理关联信息
-		if(dto.getShenBaoInfoDtos().size()>0){
-			for(int i=0;i<dto.getShenBaoInfoDtos().size();i++){
-				ShenBaoInfo shenBaoInfo=shenBaoInfoService.findById(dto.getShenBaoInfoDtos().get(i).getId());
-				entity.getShenBaoInfos().add(shenBaoInfo);
-			}
+		for (int i = 0; i < idStrings.size(); i++) {
+			String array_element = idStrings.get(i);
+			ShenBaoInfo shenBaoInfo=shenBaoInfoService.findById(array_element);
+			entity.getShenBaoInfos().add(shenBaoInfo);
 		}
+		
 		super.repository.save(entity);
 		logger.info(String.format("创建计划下达批复表,名称 :%s",dto.getTitle()));
-		return entity;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	public PlanReachApproval update(PlanReachApprovalDto dto, String id) {
+	public void update(Map data) throws ParseException {
 		PlanReachApproval entity = new PlanReachApproval();
-		entity=super.update(dto, id);
+		PlanReachApprovalDto dto = new PlanReachApprovalDto();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+		dto.setResPerson((String) data.get("resPerson"));
+		dto.setApprovalTime(sdf.parse((String)data.get("approvalTime")));
+		dto.setId((String) data.get("id"));
+		dto.setResPersonTel((String) data.get("resPersonTel"));
+		dto.setTitle((String) data.get("title"));
+		List<String> idStrings = (List<String>) data.get("ids");
+		entity=super.update(dto, (String) data.get("id"));
 		//处理关联信息
 		entity.getShenBaoInfos().clear();
-		if(dto.getShenBaoInfoDtos().size()>0){
-			for(int i=0;i<dto.getShenBaoInfoDtos().size();i++){
-				ShenBaoInfo shenBaoInfo=shenBaoInfoService.findById(dto.getShenBaoInfoDtos().get(i).getId());
-				entity.getShenBaoInfos().add(shenBaoInfo);
-			}
+		for (int i = 0; i < idStrings.size(); i++) {
+			String array_element = idStrings.get(i);
+			ShenBaoInfo shenBaoInfo=shenBaoInfoService.findById(array_element);
+			entity.getShenBaoInfos().add(shenBaoInfo);
 		}
 		super.repository.save(entity);
 		logger.info(String.format("更新计划下达批复表,名称 :%s",dto.getTitle()));
-		return entity;
 	}
 
 	@Override

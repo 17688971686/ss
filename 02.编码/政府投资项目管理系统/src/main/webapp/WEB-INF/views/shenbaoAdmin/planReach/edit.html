@@ -179,22 +179,12 @@
 	
 </div>
 <script type="text/template" id="input">
-<<<<<<< Upstream, based on origin/develop
-	<input style="width:100px" id="capitalSum1" ng-model="vm.gg['{0}']" ng-hide="!vm.isStartProcess" value="{1}" ng-blur="vm.addmoney('{0}')"/>
-	<span ng-if="vm.isStartProcess" ng-bind="vm.gg['{0}']"></span>
-=======
 	<input style="width:100px" id="capitalSum1" ng-model="vm.gg['{0}']"  ng-if="{2}" value="{1}" ng-blur="vm.addmoney('{0}')"/>
 	<span ng-if="!{2}" ng-bind="vm.gg['{0}']"></span>
->>>>>>> 1fc3c2f 计划下达修改（dev)
 </script>
 <script type="text/template" id="input2">
-<<<<<<< Upstream, based on origin/develop
-	<input style="width:100px" id="capitalSum2" ng-model="vm.gt['{0}']" ng-hide="!vm.isStartProcess" value="{1}" ng-blur="vm.addmoney('{0}')"/>
-	<span ng-if="vm.isStartProcess" ng-bind="vm.gg['{0}']"></span>
-=======
 	<input style="width:100px" id="capitalSum2" ng-model="vm.gt['{0}']" ng-if="{2}" value="{1}" ng-blur="vm.addmoney('{0}')"/>
 	<span ng-if="!{2}" ng-bind="vm.gt['{0}']"></span>
->>>>>>> 1fc3c2f 计划下达修改（dev)
 </script>
 <div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>

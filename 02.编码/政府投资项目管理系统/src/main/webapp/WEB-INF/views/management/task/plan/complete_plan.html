@@ -17,9 +17,12 @@
 	  			<tr>
 	  				<td class="formAlignRight">标题名称：</td>
 	  				<td style="width:25%"><input type="text" style="width:300px;" placeholder="请输入标题名称（可少输不可输错）" ng-model="vm.search.title"/></td>
-	  				<td class="formAlignRight">建设单位：</td>
-	  				<td style="width:25%">
-	  					<input type="text" style="width:300px;" placeholder="请输入建设单位名称（可少输不可输错）" ng-model="vm.search.unitName"/>
+	  				<td class="formAlignRight">项目所属单位：</td>
+	  				<td>
+	  					<select style="height:30px;" ng-model="vm.search.unitName">
+				  			<option value="">---请选择---</option>
+				  			<option ng-repeat="x in vm.basicData.userUnit | unique: 'id'" value="{{x.id}}">{{x.unitName}}</option>
+				  		</select>
 	  				</td>
 	  				<td class="formAlignRight">项目行业：</td>
 	  				<td>

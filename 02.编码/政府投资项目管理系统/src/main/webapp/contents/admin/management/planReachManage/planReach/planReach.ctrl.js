@@ -80,18 +80,29 @@
         
         function list(){
         	planReachSvc.grid(vm);
+        	
+        	vm.basicData.userUnit=common.getUserUnits().value;//获取所有单位
+		   	 var keys = [];
+	    	 vm.output = [];
+	    	 angular.forEach(vm.basicData.userUnit, function(item) {
+		          var key = item["id"];
+		          if(keys.indexOf(key) === -1) {
+		              keys.push(key);
+		              vm.output.push(item);
+		          }
+		      });
         	//查询
     		vm.search=function(){
     			var filters = [];
 				filters.push({field:'projectShenBaoStage',operator:'eq',value:common.basicDataConfig().projectShenBaoStage_jihuaxiada});//默认条件--申报阶段为"计划下达"
-				filters.push({field:'processStage',operator:'eq',value:common.basicDataConfig().processState_mskfawen});//默认条件
+//				filters.push({field:'processStage',operator:'eq',value:common.basicDataConfig().processState_mskfawen});//默认条件
 				filters.push({field:'processState',operator:'ne',value:common.basicDataConfig().processState_notpass});//默认条件
 				 
 				if(vm.search.projectName !=null && vm.search.projectName !=''){//查询条件--项目名称
 	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
 	     		   }
-     		   if(vm.search.constructionUnit !=null && vm.search.constructionUnit !=''){//查询条件--建设单位
-     			  filters.push({field:'constructionUnit',operator:'contains',value:vm.search.constructionUnit});
+     		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--建设单位
+     			  filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
      		   }
      		   if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){//查询条件--项目行业
      			  filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});

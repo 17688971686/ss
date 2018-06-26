@@ -802,12 +802,12 @@
 						value : parseInt(vm.search.planYear, 10)
 					});
 				}
-				if (vm.search.constructionUnit != null
-						&& vm.search.constructionUnit != '') {
+				if (vm.search.unitName != null
+						&& vm.search.unitName != '') {
 					filters.push({
-						field : 'constructionUnit',
+						field : 'unitName',
 						operator : 'contains',
-						value : vm.search.constructionUnit
+						value : vm.search.unitName
 					});
 				}
 				if (vm.search.processState != null

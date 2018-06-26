@@ -103,6 +103,17 @@
         	taskYearPlanSvc.gridForPlan(vm);//为了获取计划类申报信息的数量
         	taskYearPlanSvc.gridForShenpi(vm);//为了获取审批类申报信息的数量
         	taskYearPlanSvc.grid(vm);//获取下一年度计划待办列表数据
+        	
+        	vm.basicData.userUnit=common.getUserUnits().value;//获取所有单位
+		   	 var keys = [];
+	    	 vm.output = [];
+	    	 angular.forEach(vm.basicData.userUnit, function(item) {
+		          var key = item["id"];
+		          if(keys.indexOf(key) === -1) {
+		              keys.push(key);
+		              vm.output.push(item);
+		          }
+		      });
         	//查询
         	vm.search=function(){
         		var filters = [];
