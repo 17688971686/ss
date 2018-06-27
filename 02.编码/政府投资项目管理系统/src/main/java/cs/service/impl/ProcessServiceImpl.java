@@ -850,18 +850,25 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		Authentication.setAuthenticatedUserId(currentUser.getUserId());
 		
-		Task monitorTask = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getMonitor_processId()).taskCandidateOrAssigned(currentUser.getUserId()).active().singleResult();
-		if(ObjectUtils.isEmpty(monitorTask)) {
-			List<Task> monitorTasks = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getMonitor_processId()).active().list();
-			for(Task x : monitorTasks) {
-				String assignee = x.getAssignee();
-				if(StringUtil.isBlank(assignee)) {
-					monitorTask = x;
+		Task monitorTask;
+		if(StringUtil.isNoneBlank(shenBaoInfo.getMonitor_processId())) {
+			monitorTask = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getMonitor_processId()).taskCandidateOrAssigned(currentUser.getUserId()).active().singleResult();
+			if(ObjectUtils.isEmpty(monitorTask)) {
+				List<Task> monitorTasks = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getMonitor_processId()).active().list();
+				for(Task x : monitorTasks) {
+					String assignee = x.getAssignee();
+					if(StringUtil.isBlank(assignee)) {
+						monitorTask = x;
+					}
 				}
 			}
+			activitiService.setTaskComment(monitorTask.getId(), shenBaoInfo.getMonitor_processId(), "批复意见："+msg);
+		}else {
+			monitorTask = null;
 		}
+		
 		activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见："+msg);
-		activitiService.setTaskComment(monitorTask.getId(), shenBaoInfo.getMonitor_processId(), "批复意见："+msg);
+
 		if(shenBaoInfo.getThisTaskName().equals("usertask1") &&  isPass !="" || shenBaoInfo.getThisTaskName().equals("usertask5") &&  isPass !="" ){
 
 			processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(task.get(0).getId(), nextUsers);
@@ -872,7 +879,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
 			activitiService.taskComplete(task.get(0).getId(),variables);
 			//结束监控流程中的项目计划书任务
-			if(shenBaoInfo.getThisTaskName().equals("usertask3") && str.equals("banjie")) {
+			if(shenBaoInfo.getThisTaskName().equals("usertask3") && str.equals("banjie") 
+					&& StringUtil.isNoneBlank(shenBaoInfo.getMonitor_processId()) && ObjectUtils.isNoneEmpty(monitorTask)) {
 				//加签收会在历史任务实例中多出assignee
 				//activitiService.claimTask(monitorTask.getId(), currentUser.getUserId());
 				activitiService.taskComplete(monitorTask.getId());
