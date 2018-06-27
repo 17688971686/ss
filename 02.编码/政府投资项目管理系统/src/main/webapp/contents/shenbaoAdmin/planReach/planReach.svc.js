@@ -469,6 +469,17 @@
 				vm.processStage_qianshou=common.basicDataConfig().processStage_qianshou;
 				vm.processState_pass=common.basicDataConfig().processState_pass;
 				vm.processState_notPass=common.basicDataConfig().processState_notpass;
+				vm.shenbaoList = [];
+				vm.shenbaoList =vm.shenbaoList.concat(vm.model.shenBaoInfoDtos);
+				if(vm.model.planPackDtos != ""){
+					for (var int = 0; int < vm.model.planPackDtos.length; int++) {
+						var array_element = vm.model.planPackDtos[int];
+						if(array_element.shenBaoInfoDtos != ""){
+							vm.shenbaoList =vm.shenbaoList.concat(array_element.shenBaoInfoDtos);
+						}
+					}
+				}
+				
 			};
 			common.http({
 				vm : vm,
@@ -1500,7 +1511,7 @@
 						title : "项目名称",
 						width:300,
 						template:function(item){
-							return common.format('<a href="#/projectDetails/{0}/{1}" >{2}</a>',item.projectId,item.projectInvestmentType,item.projectName);
+							return common.format('<a href="#/project/projectInfo/{0}" >{2}</a>',item.projectId,item.projectInvestmentType,item.projectName);
 						},
 						filterable : false,
 						headerAttributes: {
@@ -1707,7 +1718,7 @@
 						field : "name",
 						title : "打包名称",
 						template:function(item){
-							return common.format('<a href="#/projectDetails/{0}/{1}" >{2}</a>',item.projectId,item.projectInvestmentType,item.name);
+							return common.format('<a href="#/planReach/packPlan/addProject/{0}/{1}" >{2}</a>',item.id,vm.isStartProcess,item.name);
 						},
 						width:300,
 						filterable : false,
@@ -1829,7 +1840,7 @@
 						field : "projectName",
 						title : "项目名称",
 						template:function(item){
-							return common.format('<a href="#/projectDetails/{0}/{1}" >{2}</a>',item.projectId,item.projectInvestmentType,item.projectName);
+							return common.format('<a href="#/project/projectInfo/{0}" >{2}</a>',item.projectId,item.projectInvestmentType,item.projectName);
 						},
 						width:300,
 						filterable : false,
