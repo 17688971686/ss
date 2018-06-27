@@ -188,7 +188,7 @@
     <sequenceFlow id="flow74" name="请示" sourceRef="exclusivegateway17" targetRef="usertask7">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==9}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow76" sourceRef="exclusivegateway17" targetRef="usertask10">
+    <sequenceFlow id="flow76" name="评审" sourceRef="exclusivegateway17" targetRef="usertask10">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==5}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow77" sourceRef="exclusivegateway17" targetRef="usertask8">
@@ -585,6 +585,9 @@
         <omgdi:waypoint x="811.0" y="600.0"></omgdi:waypoint>
         <omgdi:waypoint x="950.0" y="599.0"></omgdi:waypoint>
         <omgdi:waypoint x="950.0" y="501.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="838.0" y="580.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow77" id="BPMNEdge_flow77">
         <omgdi:waypoint x="811.0" y="600.0"></omgdi:waypoint>
@@ -645,7 +648,7 @@
         <omgdi:waypoint x="434.0" y="556.0"></omgdi:waypoint>
         <omgdi:waypoint x="434.0" y="572.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="551.0" y="542.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="48.0" x="551.0" y="542.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
