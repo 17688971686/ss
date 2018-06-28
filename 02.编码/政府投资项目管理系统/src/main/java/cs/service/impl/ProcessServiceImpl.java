@@ -619,7 +619,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			map1.put("name", "单位申报");
 			map1.put("endTime", list1.getStartTime().toLocaleString());
 			
-			map1.put("msg", user.getDisplayName()+"：启动了项目<"+shenBaoInfo.getProjectName()+">的审批流程！");
+			map1.put("msg", "发起申请");
 
 			calendar.set(list1.getStartTime().getYear(),list1.getStartTime().getMonth(),list1.getStartTime().getDay(),list1.getStartTime().getHours(),list1.getStartTime().getMinutes(),list1.getStartTime().getSeconds());
 		    long millis = calendar.getTimeInMillis();
@@ -644,18 +644,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 						map.put("msg", com.getFullMessage());
 						
 						User user = userRepo.findById(com.getUserId());
-//						 UserUnitInfoDto userUnitInfoDto1 = null;
-//						for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
-//							if(!userUnitInfoDto.getUserDtos().isEmpty()){
-//								for (UserDto user1 : userUnitInfoDto.getUserDtos()) {
-//									if(user1.getId().equals(user.getId())){
-//										userUnitInfoDto1 =userUnitInfoDto;
-//									}
-//								} 
-//							}
-//							
-//								
-//						}
 						if(user != null){
 							if(!user.getRoles().isEmpty()){
 								root:for (Role role : user.getRoles()) {
@@ -666,11 +654,18 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 								}
 							}
 						}
-//						if(userUnitInfoDto1 != null){
-//							map.put("id",userUnitInfoDto1.getUnitName() +":"+ user.getDisplayName());
-//						}else{
+						if(user.getOrgs() != null && user.getOrgs().size() >1){
+							StringBuffer sBuffer = new StringBuffer();
+							for (int i = 0; i < user.getOrgs().size(); i++) {
+								Org array_element = user.getOrgs().get(i);
+								sBuffer.append(array_element.getName()+":");
+							}
+							map.put("id",sBuffer + user.getDisplayName());
+						}else if(user.getOrgs() != null && user.getOrgs().size() == 1){
+							map.put("id",user.getOrgs().get(0).getName() +":"+ user.getDisplayName());
+						}else{
 							map.put("id", user.getDisplayName());
-//						}
+						}
 						
 						calendar.set(com.getTime().getYear(),com.getTime().getMonth(),com.getTime().getDay(),com.getTime().getHours(),com.getTime().getMinutes(),com.getTime().getSeconds());
 					    long millis = calendar.getTimeInMillis();
