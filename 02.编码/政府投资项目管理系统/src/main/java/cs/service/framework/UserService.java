@@ -2,6 +2,9 @@ package cs.service.framework;
 
 import java.util.Map;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+
 import cs.common.Response;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
@@ -34,5 +37,9 @@ public interface UserService {
 	Response DandianLogin(String userName, String password, String role);
 
 	void createSYSUser(UserDto userDto);
+
+	boolean getRole(String id);
+
+	User getUserByName(HttpServletRequest request);
 
 }

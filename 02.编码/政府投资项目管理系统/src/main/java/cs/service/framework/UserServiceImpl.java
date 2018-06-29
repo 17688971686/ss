@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.activiti.engine.identity.Group;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
@@ -103,6 +106,15 @@ public class UserServiceImpl implements UserService {
 
 		logger.info("查询用户数据");
 		return pageModelDto;
+	}
+	@Override
+	@Transactional
+	public User getUserByName(HttpServletRequest request) {
+
+		HttpSession session = ((HttpServletRequest) request).getSession();
+		User user = (User) session.getAttribute("riseUser");
+		user = userRepo.findUserByName(user.getLoginName());
+		return user;
 	}
 	
 	@Override
@@ -443,6 +455,21 @@ public class UserServiceImpl implements UserService {
 			e.printStackTrace();
 		}
 		return response;
+	}
+	
+	@Override
+	@Transactional
+	public boolean getRole(String id){
+		Boolean hasRole = false;
+		User user2=userRepo.findById(id);
+		loop2:for(Role x:user2.getRoles()){
+			if( x.getRoleName().equals("管理员") ||x.getRoleName().equals("超级管理员")){//如果有对应的角色则允许登录
+				hasRole = true;
+				break loop2;
+			}else{
+			}
+		}	
+		return hasRole;
 	}
 	
 	@SuppressWarnings("deprecation")

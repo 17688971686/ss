@@ -1,0 +1,112 @@
+<style>
+.div_border_left{
+	padding:10px;
+	margin:10px 5px 10px 15px;
+	width:48%;
+	height:48%
+}
+.div_border_right{
+	padding:10px;
+	margin:10px 15px 10px 15px;
+	width:47%;
+	height:48%
+}
+.div_border_bottom{
+	margin:8px;
+}
+</style>
+
+<div class="wapper">
+<div class="row list-top">
+	<div class="col-md-3" style="color: #5c5c5c;"><span class="cs-icon-index" style="background-position-x: -200px;padding: 3px 15px;"></span>当前位置：<span class="cs-icon-index" style="background-position-x: -290px;padding: 3px 15px;"></span>首页</div>
+	<div class="col-md-9 text-right">
+		您好，欢迎登陆在线申报系统，你上次登陆是在 <span>${lastLoginDate}</span> ！
+	</div>
+</div>
+
+</div>
+<div class="wapper" style="height:500px;">
+<br>
+<div style="width:100%;height:500px;">
+
+	<div class="div_border_left pull-left">
+		<div class="row">
+			<div class="col-md-3 div_border_bottom">
+				<span class="cs-icon-index" style="background-position-x: -255px;padding: 3px 15px;"></span><span class="t-z-18 t-z-blueblack">最新动态</span>
+			</div>
+			<div class="col-md-3  fl-right">
+				<a href="#/task" class="btn btn-info btn-xs pull-right m10 cs-btn">更多>></a>
+			</div>
+		</div>
+		<div class="list-content-box">
+			<table class="table table-bordered" style="font-size:12px;">
+				<tr class="bg-info">
+					<th>项目名称</th>
+						<th>申报阶段</th>	
+						<th>审批阶段</th>
+						<th>审批状态</th>
+						<th width="100px;">申报时间</th>
+				</tr>
+				<tr ng-repeat="x in vm.model.task | orderBy:'endDate':'desc' | limitTo :5" style="background: white;">
+					<td>
+   							<a href="#/project/projectInfo/{{x.projectId}}" class="text-primary">{{x.projectName}}</a>
+   						</td>
+   						<td ng-bind="vm.getBasicDataDesc(x.projectShenBaoStage)"></td>
+   						<td ng-bind="x.processStage"></td>
+   						<td ng-bind="vm.getProcessStateDesc(x.processState)"></td>
+   						<td ng-bind="vm.formatDate(x.createdDate)"></td>
+				</tr>
+			</table>
+
+		</div>
+	</div>
+	<div class=" div_border_right pull-right">
+		<div class="row">
+			<div class="col-md-4  div_border_bottom">
+				<span class="cs-icon-index" style="background-position-x: -225px;padding: 3px 15px;"></span><span class="t-z-18 t-z-blueblack">我的申报</span>
+			</div>
+			<div class="col-md-3 fl-right">
+				<a href="#/shenbao_records" class="btn btn-info btn-xs pull-right m10 cs-btn">更多>></a>
+			</div>
+		</div>
+		<div class="list-content-box">
+			<table class="table table-bordered" style="font-size:12px;">
+				<tbody>
+					<tr class="bg-info">
+						<th>项目名称</th>
+						<th>申报阶段</th>	
+						<th>审批阶段</th>
+						<th>审批状态</th>
+						<th width="100px;">申报时间</th>
+					</tr>
+   					<tr ng-repeat="x in vm.model.shenBaoInfo | orderBy:'endDate':'desc' | limitTo :5" style="background: white;">
+   						<td>
+   							<a href="#/project/projectInfo/{{x.projectId}}" class="text-primary">{{x.projectName}}</a>
+   						</td>
+   						<td ng-bind="vm.getBasicDataDesc(x.projectShenBaoStage)"></td>
+   						<td ng-bind="x.processStage"></td>
+   						<td ng-bind="vm.getProcessStateDesc(x.processState)"></td>
+   						<td ng-bind="vm.formatDate(x.createdDate)"></td>
+   					</tr>   					   				                    
+                 </tbody>
+            </table>
+
+		</div>
+	</div>
+	<!-- <div class="div_border_left pull-left">
+		<div class="div_border_bottom">
+			<button class="btn btn-primary btn-sm">温馨提示</button>
+		</div>
+		<div class="div_border_bottom">
+		
+		</div>
+	</div>
+	<div class="div_border_right pull-right">
+		<div class="div_border_bottom">
+			<button class="btn btn-primary btn-sm">您最近的操作</button>
+		</div>
+	</div> -->
+</div>
+</div>                 
+
+  
