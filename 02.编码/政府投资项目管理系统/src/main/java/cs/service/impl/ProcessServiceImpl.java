@@ -110,6 +110,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	private UserUnitInfoService userUnitInfoService;
 	@Autowired
 	private IMapper<AttachmentDto, Attachment> attachmentMapper;
+	@Autowired
 	private BasicDataService basicDataService;
 	@Autowired
 	private ProjectService projectService;
@@ -946,6 +947,15 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
 				projectService.updateProjectNumber(shenBaoInfo.getProjectId(), projectNumber);
 			}
+			
+//			if (StringUtils.isBlank(shenBaoInfo.getProjectNumber())) {
+//				BasicData basicData = basicDataService.findById(shenBaoInfo.getProjectIndustry());
+//				int projectSequenceNum = projectService.getProjectSequenceNumberInYear(shenBaoInfo.getProjectId());
+//				String projectNumber = Util.getProjectNumber(shenBaoInfo.getProjectType(), basicData, projectSequenceNum);
+//				shenBaoInfo.setProjectNumber(projectNumber);
+//
+//				projectService.updateProjectNumber(shenBaoInfo.getProjectId(), projectNumber);
+//			}
 		}else if(str.equals("tuiwen")){
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已退文");

@@ -154,8 +154,8 @@
 					.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质	   			   		
 			vm.basicData.unitProperty = common.getBacicDataByIndectity(common
 					.basicDataConfig().unitProperty);//单位性质
-			vm.basicData.processState = common.getBacicDataByIndectity(common
-					.basicDataConfig().processState);//审批状态
+			debugger;
+			vm.basicData.processState = [0,1,2,3,4,5];//审批状态
 			vm.basicData.auditState = common.getBacicDataByIndectity(common
 					.basicDataConfig().auditState);//审核状态
 			vm.basicData.investmentType = common.getBacicDataByIndectity(common
@@ -468,18 +468,18 @@
 						+ vm.projectShenBaoStage;//跳转申报信息编辑页面       
 			};
 			//点击列表中的申报记录按钮
-			vm.checkShenBaoRecords = function(projectNumber) {
+			vm.checkShenBaoRecords = function(id) {
 				//展示模态框
 				$("#shenBaoRecords").modal({
 					backdrop : 'static',
 					keyboard : true
 				});
-				vm.projectNumber = projectNumber;
+				vm.projectId = id;
 				//根据项目代码查询项目的申报记录 	  
 				vm.gridOptions_shenBaoRecords.dataSource.filter({
-					field : 'projectNumber',
+					field : 'projectId',
 					operator : 'eq',
-					value : vm.projectNumber
+					value : vm.projectId
 				});
 				vm.gridOptions_shenBaoRecords.dataSource.read();
 			};
@@ -815,7 +815,7 @@
 					filters.push({
 						field : 'processState',
 						operator : 'eq',
-						value : vm.search.processState
+						value : Number(vm.search.processState)
 					});
 				}
 				if (vm.search.auditState != null && vm.search.auditState != '') {

@@ -302,10 +302,10 @@
 		 * @param projectNumber 项目代码
 		 * @param id 用于需找到对应的徽章元素
 		 */
-		function getShenBaoRecordsByProjectNumber(vm,projectNumber,id){
+		function getShenBaoRecordsByProjectNumber(vm,projectId,id){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_shenbao + "?$filter=projectNumber eq '{0}'", projectNumber)
+					url : common.format(url_shenbao + "?$filter=projectId eq '{0}'", projectId)
 				};
 			
 			var httpSuccess = function success(response) {
@@ -1377,7 +1377,7 @@
 				for(var i=0;i<dataSource.length;i++){
 					var model = dataSource[i];
 					//根据项目代码获取其申报记录根据情况添加徽章
-					getShenBaoRecordsByProjectNumber(vm,model.projectNumber,model.id);				
+					getShenBaoRecordsByProjectNumber(vm,model.id,model.id);				
 				}
 			};
 

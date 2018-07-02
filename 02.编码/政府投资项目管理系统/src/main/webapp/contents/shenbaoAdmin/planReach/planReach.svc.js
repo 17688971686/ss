@@ -278,6 +278,7 @@
 							vm : vm,
 							msg : "操作成功",
 							fn : function() {
+								vm.gridOptions.dataSource.read();
 								$('.alertDialog').modal('hide');
 							}
 						});
