@@ -43,50 +43,50 @@ public class ShenBaoHomeController {
 	@Autowired
 	private UserRepo userRepo;
 
-	// @RequestMapping(name = "首页", path = "/",method = RequestMethod.GET)
-	// public String index() {
-	//
-	// return this.ctrlName + "/index";
-	// }
+	 @RequestMapping(name = "首页", path = "/",method = RequestMethod.GET)
+	 public String index() {
+	
+	 return this.ctrlName + "/index";
+	 }
 
-	@RequestMapping(name = "首页", path = "/", method = RequestMethod.GET)
-	public String adminIndex(HttpServletRequest request, Model model) {
-		User user2 = userService.getUserByName(request);
-		Boolean hasRole = false;
-//		if (user != null) {// 028eaa66-9646-4c84-b65e-27120cbcea87
-//			User user2 = userService.findById(user.getId());// 3005faf9-12a6-42df-87b9-74f726498ed8
-			if (user2 != null) {
-				currentUser.setLoginName(user2.getLoginName());
-				currentUser.setDisplayName(user2.getDisplayName());
-				currentUser.setUserId(user2.getId());
-				Date lastLoginDate = user2.getLastLoginDate();
-				if (lastLoginDate != null) {
-					currentUser.setLastLoginDate(user2.getLastLoginDate());
-				}
-				Date date = new Date();
-				String dateStr = String.format("%s %s", Util.formatDate(date, "yyyy/MM/dd"), Util.getDay(date));
-				model.addAttribute("userName", currentUser.getLoginName());
-				model.addAttribute("date", dateStr);
-				model.addAttribute("user", user2.getLoginName());
-				model.addAttribute("userId", user2.getId());
-				// shiro
-				UsernamePasswordToken token = new UsernamePasswordToken(user2.getLoginName(), user2.getPassword());
-				Subject currentUser = SecurityUtils.getSubject();
-				currentUser.login(token);
-				hasRole = userService.getRole(user2.getId());
-			} else {
-				throw new IllegalArgumentException("系统不存在该用户，请同步后重新登录！");
-			}
+//	@RequestMapping(name = "首页", path = "/", method = RequestMethod.GET)
+//	public String adminIndex(HttpServletRequest request, Model model) {
+//		User user2 = userService.getUserByName(request);
+//		Boolean hasRole = false;
+////		if (user != null) {// 028eaa66-9646-4c84-b65e-27120cbcea87
+////			User user2 = userService.findById(user.getId());// 3005faf9-12a6-42df-87b9-74f726498ed8
+//			if (user2 != null) {
+//				currentUser.setLoginName(user2.getLoginName());
+//				currentUser.setDisplayName(user2.getDisplayName());
+//				currentUser.setUserId(user2.getId());
+//				Date lastLoginDate = user2.getLastLoginDate();
+//				if (lastLoginDate != null) {
+//					currentUser.setLastLoginDate(user2.getLastLoginDate());
+//				}
+//				Date date = new Date();
+//				String dateStr = String.format("%s %s", Util.formatDate(date, "yyyy/MM/dd"), Util.getDay(date));
+//				model.addAttribute("userName", currentUser.getLoginName());
+//				model.addAttribute("date", dateStr);
+//				model.addAttribute("user", user2.getLoginName());
+//				model.addAttribute("userId", user2.getId());
+//				// shiro
+//				UsernamePasswordToken token = new UsernamePasswordToken(user2.getLoginName(), user2.getPassword());
+//				Subject currentUser = SecurityUtils.getSubject();
+//				currentUser.login(token);
+//				hasRole = userService.getRole(user2.getId());
+//			} else {
+//				throw new IllegalArgumentException("系统不存在该用户，请同步后重新登录！");
+//			}
+////		} else {
+////			throw new IllegalArgumentException("会话丢失，请重新登录！");
+////		}
+//
+//		if (hasRole == true) {
+//			return "adminLogin/adminIndex/index";
 //		} else {
-//			throw new IllegalArgumentException("会话丢失，请重新登录！");
+//			return "adminLogin/shenbaoIndex/index";
 //		}
-
-		if (hasRole == true) {
-			return "adminLogin/adminIndex/index";
-		} else {
-			return "adminLogin/shenbaoIndex/index";
-		}
-	}
+//	}
 
 	@RequestMapping(name = "获取首页数据", path = "/indexData", method = RequestMethod.GET)
 	public @ResponseBody IndexDto indexData(HttpServletRequest request) throws ParseException {
