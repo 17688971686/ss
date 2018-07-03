@@ -243,7 +243,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 			if(hasShenBaoInfo){
 				//通过申报信息id获取项目名称
 				//String projectName = shenbaoInfoRepo.findById(shenBaoId).getProjectName();
-				//throw new IllegalArgumentException(String.format("申报项目：%s 已经存在编制计划中,请重新选择！", projectName));
+				throw new IllegalArgumentException("申报项目：%s 已经存在编制计划中,请重新选择！");
 			}else{
 				//根据申报信息id创建年度计划资金
 				YearPlanCapital entity = new YearPlanCapital();
@@ -555,6 +555,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 	}
 
 	@Override
+	@Transactional
 	public void addYearPlanPacks(String planId, String[] ids) {
 		//根据申报信息id创建年度计划资金
 		for (String id : ids) {
@@ -580,7 +581,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 			if(hasShenBaoInfo){
 				//通过打包计划id获取名称
 				//String name= packPlanRepo.findById(packId).getName();
-				//throw new IllegalArgumentException(String.format("申报项目：%s 已经存在编制计划中,请重新选择！", name));
+				throw new IllegalArgumentException("打包计划已经存在编制计划中,请重新选择！");
 			}else{
 				//根据申报信息id创建年度计划资金
 				PackPlan entity = packPlanRepo.findById(packId);

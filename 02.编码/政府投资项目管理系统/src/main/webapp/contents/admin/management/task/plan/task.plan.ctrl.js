@@ -176,7 +176,7 @@
 				filters.push({field:'isComplete',operator:'eq',value:false});//默认条件--没有完成的任务 
 				
 				if(vm.search.title !=null && vm.search.title !=''){//查询条件--标题
-	     			   filters.push({field:'title',operator:'contains',value:vm.search.title});
+	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.title});
 	     		   }
      		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--任务建设单位
      			   filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
@@ -224,7 +224,7 @@
 //				filters.push({field:'isComplete',operator:'eq',value:false});//默认条件--没有完成的任务 
 				
 				if(vm.search.title !=null && vm.search.title !=''){//查询条件--标题
-	     			   filters.push({field:'title',operator:'contains',value:vm.search.title});
+	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.title});
 	     		   }
      		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--任务建设单位
      			   filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
@@ -620,7 +620,7 @@
         		if(vm.isPass2 == 6){
         			vm.nextUsers = "";
         		}
-        		if((vm.model.shenBaoInfo.thisTaskName == 'usertask3' && vm.nextUsers == "" && str == "next" ) || (vm.model.shenBaoInfo.thisTaskName == 'usertask4' && vm.nextUsers == "" && str == "next")){
+        		if(vm.nextUsers == "" && str == "next"){
         			common.alert({
 						vm : vm,
 						msg : "请选择经办人后提交！",
@@ -664,7 +664,7 @@
         	vm.search=function(){
         		var filters = [];
 				if(vm.search.title !=null && vm.search.title !=''){//查询条件--标题
-	     			   filters.push({field:'title',operator:'contains',value:vm.search.title});
+	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.title});
 	     		   }
      		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--任务建设单位
      			   filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});

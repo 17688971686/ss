@@ -233,26 +233,26 @@
 				};
 			
 			var httpSuccess = function success(response) {
-				common.requestSuccess({
-					vm : vm,
-					response : response,
-					fn : function() {
-						common.alert({
-							vm : vm,
-							msg : "资金添加成功",
-							fn : function() {
+//				common.requestSuccess({
+//					vm : vm,
+//					response : response,
+//					fn : function() {
+//						common.alert({
+//							vm : vm,
+//							msg : "资金添加成功",
+//							fn : function() {
 								if(vm.page == 'packPlanEdit'){
 									vm.shenBaoInfo_gridOptions_plan.dataSource.read();
 					        	}
 								if(vm.page == 'edit'){
 									vm.shenBaoInfo_gridOptions.dataSource.read();//编制打包计划列表数据刷新	
 					        	}
-								
-								$('.alertDialog').modal('hide');
-							}
-						});
-					}
-				});
+//								
+//								$('.alertDialog').modal('hide');
+//							}
+//						});
+//					}
+//				});
 			};
 			
 			common.http({
@@ -1282,7 +1282,7 @@
 				{
 					field : "processState",
 					title : "审批状态",
-					width : 100,
+					width : 150,
 					filterable : false,
 					template:function(item){
 						return common.format("<span class='text-danger'>{0}</span>",common.getProcessStateDesc(item.processState));
@@ -1396,6 +1396,11 @@
 					operator:'eq',
 					value:true
 				},
+				{
+					field:'isIncludYearPlan',
+					operator:'eq',
+					value:false
+				}
 				]
 			});
 			var columns = [	
@@ -1630,7 +1635,7 @@
 					{
 						field : "processState",
 						title : "审批状态",
-						width : 80,
+						width : 150,
 						filterable : false,
 						template:function(item){
 							return common.format("<span class='text-danger'>{0}</span>",common.getProcessStateDesc(item.processState));
@@ -1959,7 +1964,7 @@
 					{
 						field : "processState",
 						title : "审批状态",
-						width : 80,
+						width : 150,
 						filterable : false,
 						template:function(item){
 							return common.format("<span class='text-danger'>{0}</span>",common.getProcessStateDesc(item.processState));

@@ -231,7 +231,6 @@
 				};
 			
 			var httpSuccess = function success(response) {
-				debugger
 				vm.projectInfo = response.data.value[0]||{};
 				//展示模态框
 	   	           $("#approvalAtts").modal({

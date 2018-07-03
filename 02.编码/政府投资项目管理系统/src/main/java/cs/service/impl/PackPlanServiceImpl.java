@@ -11,9 +11,11 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cs.common.BasicDataConfig;
 import cs.domain.AllocationCapital;
 import cs.domain.PackPlan;
 import cs.domain.PackPlan_;
+import cs.domain.ShenBaoInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.AllocationCapitalDto;
 import cs.model.DomainDto.PackPlanDto;
@@ -87,7 +89,25 @@ public class PackPlanServiceImpl extends AbstractServiceImpl<PackPlanDto, PackPl
 	@Override
 	@Transactional
 	public void delete(String id) {
+		PackPlan packPlan = super.findById(id);
+		
+
+		if (packPlan.getShenBaoInfos() != null) {
+			for (int j = 0; j < packPlan.getShenBaoInfos().size(); j++) {
+				ShenBaoInfo shenbaoInfo = packPlan.getShenBaoInfos().get(j);
+				if(shenbaoInfo.getProcessState().equals(BasicDataConfig.processState_jinxingzhong)){
+					throw new IllegalArgumentException(String.format("打包计划中存在审批中的项目,无法删除,请重新选着！", packPlan.getName()));
+				}
+			}
+		}
+//		if (!packPlan.getIsInPlan()) {
+		packPlan.getAllocationCapitals().clear();
+		packPlan.getShenBaoInfos().clear();
 		super.delete(id);
+//		}else{
+//			throw new IllegalArgumentException(String.format("打包计划已存在其他计划下达中,无法删除,请重新输入！", dto.getName()));
+//		}
+		
 	}
 
 	@Override

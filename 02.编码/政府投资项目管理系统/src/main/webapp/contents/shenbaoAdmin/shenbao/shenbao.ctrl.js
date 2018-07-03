@@ -154,7 +154,6 @@
 					.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质	   			   		
 			vm.basicData.unitProperty = common.getBacicDataByIndectity(common
 					.basicDataConfig().unitProperty);//单位性质
-			debugger;
 			vm.basicData.processState = [0,1,2,3,4,5];//审批状态
 			vm.basicData.auditState = common.getBacicDataByIndectity(common
 					.basicDataConfig().auditState);//审核状态
@@ -770,7 +769,61 @@
 
 			//确认提交
 			vm.submit = function() {
-				shenbaoSvc.createShenBaoInfo(vm);
+				var hasAtts = false;
+				var t1 = false;
+				var t2= false;
+				var t3 = false;
+				var t4 = false;
+				var t5 = false;
+				var t6 = false;
+				var t7 = false;
+				var t8 = false;
+				var t9 = false;
+				for (var i = 0; i < vm.model.attachmentDtos.length; i++) {
+					var att = vm.model.attachmentDtos[i];
+					if(att.type=="ApplyReport_pdf"){
+						t1 = true;
+					}else if(att.type=="ApplyReport_word"){
+						t2 = true;
+					}else if(att.type=="ProjectBasis"){
+						t3 = true;
+					}else if(att.type=="XMSQGW"){
+						t4 = true;
+					}else if(att.type=="ProjectProPosalReply_Scanning"){
+						t5 = true;
+					}else if(att.type=="BudgetReply_Scanning"){
+						t6 = true;
+					}else if(att.type=="IssuedReplyFile_Scanning"){
+						t7 = true;
+					}else if(att.type=="LastYearPlanReply_Copy"){
+						t8 = true;
+					}else if(att.type=="IssuedReplyFile_Scanning"){
+						t9 = true;
+					}
+				}
+																
+				if(vm.isProjectProposal&&t1&&t2){
+					hasAtts = true;
+				}else if(vm.isKXXYJBG&&t1&&t2&&t5){
+					hasAtts = true;
+				}else if(vm.isCapitalApplyReport&&t1&&t2&&t3){
+					hasAtts = true;
+				}else if(vm.isJihuaxiada&&t1&&t2&&t3&&t6&&t7&&t8&&t9){
+					hasAtts = true;
+				}else{
+					hasAtts = false;
+				}
+				if(!hasAtts){
+					common.alert({
+						vm : vm,
+						msg : "请上传必要的文件后提交！",
+						fn : function() {
+							$('.alertDialog').modal('hide');
+						}
+					});
+				}else{
+					shenbaoSvc.createShenBaoInfo(vm);
+				}
 			};
 		}//end#page_edit
 

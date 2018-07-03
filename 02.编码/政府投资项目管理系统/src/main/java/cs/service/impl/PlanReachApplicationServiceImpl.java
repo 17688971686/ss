@@ -872,13 +872,31 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 //			ShenBaoInfo array_element = plan.getShenBaoInfos().get(i);
 //			shenBaoInfoRepo.delete(shenBaoInfoRepo.findById(array_element.getId()));
 //		}
-		for (int i = 0; i < entity.getPackPlans().size(); i++) {
-			PackPlan array_element = entity.getPackPlans().get(i);
+		List<PackPlan> plan =entity.getPackPlans();
+		
+		
+		for (int i = 0; i < plan.size(); i++) {
+			PackPlan array_element = plan.get(i);
+			
+			if (array_element.getShenBaoInfos() != null) {
+				for (int j = 0; j < array_element.getShenBaoInfos().size(); j++) {
+					ShenBaoInfo shenbaoInfo = array_element.getShenBaoInfos().get(j);
+					if(shenbaoInfo.getProcessState().equals(BasicDataConfig.processState_jinxingzhong)){
+						throw new IllegalArgumentException(String.format("打包计划中存在审批中的项目,无法删除,请重新选着！", array_element.getName()));
+					}
+				}
+			}
+			
 			if(packId.equals(array_element.getId())){
-				entity.getPackPlans().remove(i);
+				array_element.setIsInPlan(false);
+				
+				packPlanRepo.save(array_element);
+				plan.remove(i);
 			}
 			
 		}
+		entity.getPackPlans().clear();
+		entity.setPackPlans(plan);
 		super.repository.save(entity);
 		
 	}

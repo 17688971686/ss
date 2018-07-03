@@ -243,12 +243,13 @@ textarea.form-control {
 					<div>
 						<label ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask1' || vm.model.shenBaoInfo.thisTaskName == 'usertask2'"> 
 							<input type="checkbox" name="nextProcess"
-							ng-true-value="5" ng-model="vm.isPass" />经办人协办
+							ng-true-value="5" ng-model="vm.isPass"  data-val="true" data-val-required="必选"/>经办人协办
 						</label>
 						<label> <input type="checkbox" name="nextProcess"
-							ng-true-value="1" ng-model="vm.isPass" />经办人办理
+							ng-true-value="1" ng-model="vm.isPass"  data-val="true" data-val-required="必选"/>经办人办理
 						</label>
 					</div>
+					<span data-valmsg-for="nextProcess" data-valmsg-replace="true" class="required"></span>
 					<div class="pull-left" ng-if="vm.isPass == '5' || vm.isPass == '1'">
 
 						<label ng-repeat="x in vm.model.dept.userDtos"> <input

@@ -449,6 +449,7 @@
 							vm:vm,
 							msg:"保存成功！",
 							fn:function(){
+								$('#shenbaoInfoEdit').modal('hide');
 								$('.alertDialog').modal('hide');
 							}
 						});

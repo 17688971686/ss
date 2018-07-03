@@ -172,7 +172,7 @@
 			        		
 						}
 					
-						$('.approval').modal({
+						$('#approval').modal({
 		                    backdrop: 'static',
 		                    keyboard:false
 		                });
@@ -211,7 +211,7 @@
 								msg:"保存成功！",
 								fn:function(){
 									$('.alertDialog').modal('hide');
-									$('.approval').modal('hide');
+									$('#approval').modal('hide');
 								}
 							});
 						}
@@ -264,7 +264,7 @@
 			        		}
 						}
 					
-						$('.draft_issued').modal({
+						$('#draft_issued').modal({
 						   backdrop: 'static',
 						   keyboard:false
 						});
@@ -303,7 +303,7 @@
 								msg:"保存成功！",
 								fn:function(){
 									$('.alertDialog').modal('hide');
-									$('.draft_issued').modal('hide');
+									$('#draft_issued').modal('hide');
 								}
 							});
 						}
@@ -360,7 +360,7 @@
             		vm:vm,
             		response:response,
             		fn:function(){
-            			$('.opinionEdit').modal('hide');
+            			$('#opinionEdit').modal('hide');
             			vm.opinionGrid.dataSource.read();
             			getOpinion(vm);
             		}
@@ -461,6 +461,7 @@
 							vm:vm,
 							msg:"保存成功！",
 							fn:function(){
+								$('#shenbaoInfoEdit').modal('hide');
 								$('.alertDialog').modal('hide');
 							}
 						});
