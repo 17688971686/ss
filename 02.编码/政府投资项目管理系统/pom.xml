@@ -13,10 +13,17 @@
 	</properties>
 	
 	<dependencies>
+		<!-- odata -->
+		<dependency>
+			<groupId>com.sn</groupId>
+			<artifactId>framework-odata</artifactId>
+			<version>1.0.0T-SNAPSHOT</version>
+		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 

@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.sn.framework.common.StringUtil;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricTaskInstance;
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.common.ICurrentUser;
-import cs.common.StringUtil;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;

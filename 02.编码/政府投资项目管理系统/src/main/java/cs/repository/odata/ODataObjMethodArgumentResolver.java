@@ -10,19 +10,24 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
  * Description: 自定义参数绑定（针对OdataCriteria）
- * Author: tzg
- * Date: 2017/7/26 10:26
+ * @Author: tzg
+ * @Date: 2017/7/26 10:26
  */
 public class ODataObjMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterType().equals(ODataObj.class);
+        Class cls = parameter.getParameterType();
+        return (ODataObj.class).equals(cls) || (ODataObjNew.class).equals(cls);
     }
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        return new ODataObj(webRequest.getNativeRequest(HttpServletRequest.class));
+        HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+        if ((ODataObjNew.class).equals(parameter.getParameterType())) {
+            return new ODataObjNew(request);
+        }
+        return new ODataObj(request);
     }
 
 }

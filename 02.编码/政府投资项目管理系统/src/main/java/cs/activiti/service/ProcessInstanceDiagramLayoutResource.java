@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sn.framework.common.StringUtil;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.task.Comment;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import cs.common.StringUtil;
 import cs.domain.framework.User;
 import cs.service.framework.UserService;
 
