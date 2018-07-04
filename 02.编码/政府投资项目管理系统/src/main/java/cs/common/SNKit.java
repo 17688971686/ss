@@ -23,6 +23,24 @@ public class SNKit {
     private static Logger logger = Logger.getLogger(SNKit.class);
 
     /**
+     * 密码加密
+     *
+     * @param username
+     * @param password
+     * @param passwordSalt
+     * @return
+     */
+    public static String decodePwd(String username, String password, String passwordSalt) {
+        if (logger.isDebugEnabled()) {
+            logger.debug("对用户密码进行加密");
+        }
+        //组装MD5密码,形式（ MD5（MD5(PASSWORD+SALT2))））
+        String salt2 = AZDGUtils.md5(passwordSalt, username);
+        password = AZDGUtils.md5(password, password + salt2, 2);
+        return password;
+    }
+
+    /**
      * 判断是否json的响应
      *
      * @param request
