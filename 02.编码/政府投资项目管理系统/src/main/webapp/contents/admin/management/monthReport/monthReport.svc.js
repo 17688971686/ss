@@ -155,9 +155,9 @@
 				schema : common.kendoGridConfig().schema({ //返回的数据的处理
 					id : "id",
 					fields : {
-						createdDate : {
-							type : "date"
-						}
+						// createdDate : {
+						// 	type : "date"
+						// }
 					}
 				}),
 				serverPaging : true,
