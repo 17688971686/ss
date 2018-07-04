@@ -427,11 +427,11 @@
 				transport : common.kendoGridConfig().transport(url_mediationManagement), //获取数据
 				schema : common.kendoGridConfig().schema({ //返回的数据的处理
 					id : "id",
-					fields : {
-						createdDate : {
-							type : "date"
-						}
-					}
+					// fields : {
+					// 	createdDate : {
+					// 		type : "date"
+					// 	}
+					// }
 				}),
 				serverPaging : true,
 				serverSorting : true,
