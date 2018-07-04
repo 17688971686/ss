@@ -11,6 +11,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
+import com.sn.framework.common.StringUtil;
 import cs.common.*;
 import cs.service.framework.UserService;
 import cs.service.sms.SmsService;
@@ -1234,7 +1235,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		
 		String projectShenBaoStage = entity.getProjectShenBaoStage();
 		String executionId = null;
-		if(StringUtil.isNoneBlank(projectShenBaoStage) && "projectShenBaoStage_1".equalsIgnoreCase(projectShenBaoStage)) {
+		if(StringUtil.isNotBlank(projectShenBaoStage) && "projectShenBaoStage_1".equalsIgnoreCase(projectShenBaoStage)) {
 			ProcessInstance process = activitiService.startProcess(processDefinitionKey, variables);
 			executionId = process.getId();
 		}else {
