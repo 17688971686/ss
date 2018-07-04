@@ -635,7 +635,7 @@
 					data:{"str":str,
 						"id":vm.id,
 						"msg":vm.processSuggestion,
-						"att":vm.attachmentDtos,
+						"shenbaoinfo":vm.model.shenBaoInfo,
 						"nextUsers":vm.nextUsers.toString(),
 						"isPass":vm.isPass,
 						"isPass2":vm.isPass2,

@@ -984,6 +984,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 			shenBaoInfo.get(0).setThisTaskName("");
 			shenBaoInfo.get(0).setZong_processId("");
 			shenBaoInfo.get(0).setThisTaskId("");
+			shenBaoInfo.get(0).setReceiver(null);
 			shenBaoInfoRepo.save(shenBaoInfo.get(0));
 			logger.debug("======>卸载pricessId为 " + entity.getZong_processId() + " 的流程!");
 		}else{

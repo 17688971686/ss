@@ -319,14 +319,14 @@
 	           	 if(e.XMLHttpRequest.status==200){
                      angular.forEach(eval("("+e.XMLHttpRequest.response+")").data, function (fileObj, index) {
                          $scope.$apply(function() {
-                             if(vm.attachmentDtos){
-                                 vm.attachmentDtos.push({
+                             if(vm.model.shenBaoInfo.attachmentDtos){
+                                 vm.model.shenBaoInfo.attachmentDtos.push({
                                      name: fileObj.originalFilename,
                                      url: fileObj.randomName,
                                      type: type
                                  });
                              } else {
-                                 vm.attachmentDtos = [{
+                                 vm.model.shenBaoInfo.attachmentDtos = [{
                                      name: fileObj.originalFilename,
                                      url: fileObj.randomName,
                                      type: type
@@ -336,10 +336,10 @@
                      })
 	           		 // var fileName=e.XMLHttpRequest.response;
 	           		 // $scope.$apply(function(){
-	           			//  if(vm.attachmentDtos){
-	           			// 	 vm.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
+	           			//  if(vm.model.shenBaoInfo.attachmentDtos){
+	           			// 	 vm.model.shenBaoInfo.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
 	           			//  }else{
-	           			// 	 vm.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
+	           			// 	 vm.model.shenBaoInfo.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
 	           			//  }
 	           		 // });
 	           	 }
@@ -380,11 +380,11 @@
 	   		};
 			//删除上传文件
 			vm.delFile=function(idx){
-				var file = vm.attachmentDtos[idx];
+				var file = vm.model.shenBaoInfo.attachmentDtos[idx];
 				if(file){//删除上传文件的同时删除批复文号
 					var pifuType = file.type;
 					vm.model.shenBaoInfo['pifu'+pifuType+'_wenhao'] = "";
-					vm.attachmentDtos.splice(idx,1);
+					vm.model.shenBaoInfo.attachmentDtos.splice(idx,1);
 				 }
 			 };
 			//展示批复文件选择模态框
@@ -410,10 +410,10 @@
             		var name = file[1];
             		var url =file[2];
             		vm.model.shenBaoInfo['pifu'+vm.pifuType+'_wenhao'] = number;
-            		if(vm.attachmentDtos){
-         				  vm.attachmentDtos.push({name:name,url:url,type:vm.pifuType});
+            		if(vm.model.shenBaoInfo.attachmentDtos){
+         				  vm.model.shenBaoInfo.attachmentDtos.push({name:name,url:url,type:vm.pifuType});
          			 }else{
-         				  vm.attachmentDtos=[{name:name,url:url,type:vm.pifuType}];
+         				  vm.model.shenBaoInfo.attachmentDtos=[{name:name,url:url,type:vm.pifuType}];
          			 }
             	}
 	        };
@@ -435,14 +435,14 @@
 	           	 if(e.XMLHttpRequest.status==200){
                      angular.forEach(eval("("+e.XMLHttpRequest.response+")").data, function (fileObj, index) {
                          $scope.$apply(function() {
-                             if(vm.attachmentDtos){
-                                 vm.attachmentDtos.push({
+                             if(vm.model.shenBaoInfo.attachmentDtos){
+                                 vm.model.shenBaoInfo.attachmentDtos.push({
                                      name: fileObj.originalFilename,
                                      url: fileObj.randomName,
                                      type: type
                                  });
                              } else {
-                                 vm.attachmentDtos = [{
+                                 vm.model.shenBaoInfo.attachmentDtos = [{
                                      name: fileObj.originalFilename,
                                      url: fileObj.randomName,
                                      type: type
@@ -452,10 +452,10 @@
                      })
 	           		 // var fileName=e.XMLHttpRequest.response;
 	           		 // $scope.$apply(function(){
-	           			//  if(vm.attachmentDtos){
-	           			// 	vm.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
+	           			//  if(vm.model.shenBaoInfo.attachmentDtos){
+	           			// 	vm.model.shenBaoInfo.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
 	           			//  }else{
-	           			// 	vm.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
+	           			// 	vm.model.shenBaoInfo.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
 	           			//  }
 	           		 // });
 	           	 }
@@ -477,9 +477,9 @@
 	   		
 	   		//删除上传文件
 	   		 vm.delFile_shenpi=function(idx){
-	   			 var file = vm.attachmentDtos[idx];
+	   			 var file = vm.model.shenBaoInfo.attachmentDtos[idx];
 	   			 if(file){
-	   				vm.attachmentDtos.splice(idx,1);
+	   				vm.model.shenBaoInfo.attachmentDtos.splice(idx,1);
 	   			 }
 	         };  	
 /****************审批附件相关 end**********************/

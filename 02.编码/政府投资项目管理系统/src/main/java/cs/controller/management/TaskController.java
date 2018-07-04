@@ -69,6 +69,15 @@ public class TaskController {
 		//关于流程记录根据创建用户id查找到名称用于显示
 		return shenBaoInfoDtos;
 	}
+	
+	@RequestMapping(name = "获取阅批待办数据", path = "yuepi", method = RequestMethod.GET)
+	public @ResponseBody PageModelDto<ShenBaoInfoDto> getToDo_yuepi(HttpServletRequest request,@RequestParam(required = false) String leixin) throws ParseException {
+		String str = "audit";
+		ODataObjNew odataObj = new ODataObjNew(request);	
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getToDo_yuepi(odataObj);
+		//关于流程记录根据创建用户id查找到名称用于显示
+		return shenBaoInfoDtos;
+	}
 	//@RequiresPermissions("management/task#audit#get")
 		@RequestMapping(name = "获取年度计划类个人待办数据", path = "yearPlan", method = RequestMethod.GET)
 		public @ResponseBody PageModelDto<ShenBaoInfoDto> getToDo_yearPlan(HttpServletRequest request) throws ParseException {
@@ -185,36 +194,6 @@ public class TaskController {
 	public void  taskPinglun(@RequestBody Map data,HttpServletRequest request) throws ParseException{
 		processService.taskPinglun(data);
 	}
-//	//@RequiresPermissions("management/task#plan#get")
-//	@RequestMapping(name = "获取计划类个人待办数据", path = "plan", method = RequestMethod.GET)
-//	public @ResponseBody PageModelDto<TaskHeadDto> getToDo_Plan(HttpServletRequest request) throws ParseException {
-//		ODataObj odataObj = new ODataObj(request);	
-//		PageModelDto<TaskHeadDto> taskHeadDtos = taskHeadService.getToDo_Plan(odataObj);
-//		//关于流程记录根据创建用户id查找到名称用于显示
-//		List<TaskHeadDto> taskHeadDtols = taskHeadDtos.getValue();
-//		if(taskHeadDtols !=null && taskHeadDtols.size()>0){
-//			taskHeadDtols.forEach(x->{
-//				if(x.getTaskRecordDtos() !=null && x.getTaskRecordDtos().size()>0){
-//					x.getTaskRecordDtos().forEach(y->{
-//						User user = userService.findById(y.getThisUser());
-//						if(user !=null){
-//							String name = user.getDisplayName()!=null&&!user.getDisplayName().equals("")?user.getDisplayName():user.getLoginName();
-//							y.setThisUser(name);
-//						}
-//					});
-//				}
-//			});
-//			taskHeadDtos.setValue(taskHeadDtols);
-//		}
-//		return taskHeadDtos;
-//	}
-	
-//	@RequiresPermissions("management/task#taskId#post")
-//	@RequestMapping(name="处理任务",path="{taskId}",method=RequestMethod.POST)
-//	@ResponseStatus(value = HttpStatus.CREATED)
-//	public void put(@RequestBody TaskRecordDto dto,@PathVariable String taskId){
-//		taskHeadService.handle(taskId, dto);
-//	}
 /****************申报阶段：下一年度计划******************/		
 	// begin#html
 	@RequiresPermissions("management/task#html/todo#get")
@@ -253,6 +232,12 @@ public class TaskController {
 		return ctrl + "/audit/handle_audit";
 	}
 	
+	@RequiresPermissions("management/task#html/handle_keshi#get")
+	@RequestMapping(name = "待办处理页--审批类", path = "html/handle_keshi", method = RequestMethod.GET)
+	public String handle_keshi() {
+		return ctrl + "/audit/handle_keshi";
+	}
+	
 	@RequiresPermissions("management/task#html/complete_shenPi#get")
 	@RequestMapping(name = "已办列表页--审批类", path = "html/complete_shenPi", method = RequestMethod.GET)
 	public String complete_shenPi() {
@@ -276,6 +261,18 @@ public class TaskController {
 	@RequestMapping(name = "科室列表页--计划类", path = "html/todo_plan_other", method = RequestMethod.GET)
 	public String todo_plan_other() {
 		return ctrl + "/plan/todo_plan_other";
+	}
+	
+	@RequiresPermissions("management/task#html/todo_yuepi#get")
+	@RequestMapping(name = "阅批栏", path = "html/todo_yuepi", method = RequestMethod.GET)
+	public String todo_plan_yuepi() {
+		return ctrl + "/yuepi/todo_yuepi";
+	}
+	
+	@RequiresPermissions("management/task#html/handle_yuepi#get")
+	@RequestMapping(name = "待办处理页--审批类", path = "html/handle_yuepi", method = RequestMethod.GET)
+	public String handle_yuepi() {
+		return ctrl + "/yuepi/handle_yuepi";
 	}
 	
 	@RequiresPermissions("management/task#html/handle_plan#get")

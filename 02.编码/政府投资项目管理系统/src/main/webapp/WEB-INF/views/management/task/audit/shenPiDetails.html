@@ -211,7 +211,7 @@ textarea.form-control {
 				<td class="formAlignRight" style="width:150px;">审批相关附件：</td>
 				<td>
 					<div>
-				        <div style="margin:3px;" ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos" ng-if="y.type == 'shenpiFile'">
+				        <div style="margin:3px;" ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos" ng-if="y.type=='JYS'&&y.type=='KXXYJBG' && y.type!='ZJSQBG' && y.type!='CBSJYGS'">
 				 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
 			 			</div>
 					</div>

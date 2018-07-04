@@ -23,6 +23,7 @@
 	function taskNewAudit($http,$location) {
 		var url_taskAudit = "/management/task/audit";
 		var url_taskAudit_other = "/management/task/auditOther";
+		var url_taskAudit_yuepi = "/management/task/yuepi";
 		var url_taskAudit_new = "/management/task";
 		var url_taskRecord_shenPi = "/management/taskRecord/shenPi";
 		var url_shenbao = "/management/shenbao";
@@ -62,7 +63,8 @@
 			getUnfinished:getUnfinished,//获取未进行的活动
 			showActiviti:showActiviti,
 			documentRecordsGird:documentRecordsGird,
-			otherGrid:otherGrid//科室办件列表
+			otherGrid:otherGrid,//科室办件列表
+			yuepiGrid:yuepiGrid//阅批列表
 		};
 		
 		return service;
@@ -609,7 +611,7 @@
 				var httpOptions = {
 					method : 'post',
 					url : url_taskAudit_new+"/pinglun",
-					data:{"id":vm.id,"msg":vm.processSuggestion,"att":vm.attachmentDtos}
+					data:{"id":vm.id,"msg":vm.processSuggestion,"shenbaoinfo":vm.model.shenBaoInfo}
 				};
 
 				var httpSuccess = function success(response) {
@@ -624,7 +626,12 @@
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
 									$('.modal-backdrop').remove();
-									location.href = url_back;
+									
+									if(vm.page=='handleYuepi'){
+										location.href = "#/task/todo_yuepi";
+									}else{
+										location.href = url_back;
+									}
 								}
 							});
 						}
@@ -970,7 +977,7 @@
 						filterable : true,
 						width:500,
 						template:function(item){
-							return common.format("<a class='text-primary' href='#/task/handle_audit/{1}'>{0}</a>",item.projectName,item.id);			
+							return common.format("<a class='text-primary' href='#/task/handle_keshi/{1}'>{0}</a>",item.projectName,item.id);			
 						}
 					},
 					 {
@@ -1020,7 +1027,7 @@
 
 			];
 			// End:column
-			if(window.todo_auditOption && window.todo_auditOption !=''){
+			if(window.todo_auditOption_other && window.todo_auditOption_other !=''){
 				vm.gridOptions_other = window.todo_auditOption_other;
 			}else{
 				vm.gridOptions_other = {
@@ -1034,6 +1041,119 @@
 					};
 			}
 		}// end fun grid
+		/**
+		 * 个人待办列表
+		 */
+		function yuepiGrid(vm) {
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(common.format(url_taskAudit_yuepi+"?leixin={0}","yuepi")),
+				schema : common.kendoGridConfig().schema({
+					id : "id"					
+				}),
+				serverPaging : false,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize : 10,
+				sort : {
+					field : "createdDate",
+					dir : "desc"
+				},
+//				requestEnd:function(e){						
+//					$('#todoNumber_audit').html(e.response.count);
+//				},
+				change:function(){
+					var grid = $(".grid").data("kendoGrid");
+					window.todo_auditOption_yuepi = grid.getOptions();
+				}
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+					{
+						template : function(item) {
+							return kendo
+									.format(
+											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+											item.id);
+						},
+						filterable : false,
+						width : 40,
+						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+
+					},
+					{
+						field : "title",
+						title : "标题",						
+						filterable : true,
+						width:500,
+						template:function(item){
+							return common.format("<a class='text-primary' href='#/task/handle_yuepi/{1}'>{0}</a>",item.projectName,item.id);			
+						}
+					},
+					 {
+						field : "unitName",
+						title : "建设单位",
+						width : 300,						
+						template:function(item){
+							return common.getUnitName(item.unitName);
+						}
+					},
+					{
+						field : "projectIndustry",
+						title : "项目行业",
+						width : 120,
+						template:function(item){
+							return common.getBasicDataDesc(item.projectIndustry);
+						},
+						filterable : {
+							 ui: function(element){
+			                        element.kendoDropDownList({
+			                            valuePrimitive: true,
+			                            dataSource: vm.basicData.projectIndustry_ZF,
+			                            dataTextField: "description",
+			                            dataValueField: "id",
+			                            filter: "startswith"
+			                        });
+			                    }
+						}
+					},
+					 {
+						field : "projectShenBaoStage",
+						title : "申报阶段",
+						width : 120,						
+						template:function(item){						
+							return common.getBasicDataDesc(item.projectShenBaoStage);
+						}
+					},
+					{
+						field : "",
+						title : "创建日期",
+						width : 180,
+						template : function(item) {
+							return kendo.toString(new Date(item.createdDate),"yyyy/MM/dd HH:mm:ss");
+						}
+
+					}
+
+			];
+			// End:column
+			if(window.todo_auditOption_yuepi && window.todo_auditOption_yuepi !=''){
+				vm.gridOptions_yuepi = window.todo_auditOption_yuepi;
+			}else{
+				vm.gridOptions_yuepi = {
+						dataSource : common.gridDataSource(dataSource),
+						filterable : common.kendoGridConfig().filterable,
+						pageable : common.kendoGridConfig().pageable,
+						noRecords : common.kendoGridConfig().noRecordMessage,
+						columns : columns,
+						resizable : true,
+						scrollable:true
+					};
+			}
+		}
 		
 		function complete_shenPiGird(vm) {
 			// Begin:dataSource

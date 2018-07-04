@@ -34,6 +34,12 @@
     		if($state.current.name=='task_handle_audit'){//处理页面--审批类
     			vm.page="handleAudit";
     		}
+    		if($state.current.name=='task_handle_yuepi'){//处理页面--阅批
+    			vm.page="handleYuepi";
+    		}
+    		if($state.current.name=='task_handle_keshi'){//处理页面--阅批
+    			vm.page="handleKeshi";
+    		}
     		if($state.current.name=='task_shenPi'){//已办列表--审批类
     			vm.page="complete_shenPi";
     		}
@@ -43,7 +49,9 @@
     		if($state.current.name=='task_todo_audit_other'){//科室列表--审批类
     			vm.page='task_todo_audit_other';
     		}
-    		
+    		if($state.current.name=='task_todo_yuepi'){//科室列表--审批类
+    			vm.page='task_todo_yuepi';
+    		}
     		vm.formatDate=function(str){
     			return common.formatDate(str);
     		}; 		
@@ -116,7 +124,7 @@
         	if(vm.page=='todoAuditList'){
         		init_todoAuditList();
         	}
-        	if(vm.page=='handleAudit'){
+        	if(vm.page=='handleAudit' || vm.page=='handleYuepi' || vm.page=="handleKeshi"){
         		init_handleAudit();
         	}
         	if(vm.page=='complete_shenPi'){
@@ -127,6 +135,9 @@
         	}
         	if(vm.page=='task_todo_audit_other'){
         		task_todo_audit_other();
+        	}
+        	if(vm.page=='task_todo_yuepi'){
+        		task_todo_yuepi();
         	}
         	vm.formatDateTime=function(time){
     			return common.formatDateTime(time);
@@ -160,6 +171,41 @@
         
         function task_todo_audit_other(){
         	taskNewAuditSvc.otherGrid(vm);
+        	
+        	vm.basicData.userUnit=common.getUserUnits().value;//获取所有单位
+		   	 var keys = [];
+	    	 vm.output = [];
+	    	 angular.forEach(vm.basicData.userUnit, function(item) {
+		          var key = item["id"];
+		          if(keys.indexOf(key) === -1) {
+		              keys.push(key);
+		              vm.output.push(item);
+		          }
+		      });
+        	//查询
+        	vm.search=function(){
+        		var filters = [];
+				filters.push({field:'complate',operator:'eq',value:false});//默认条件--没有完成的任务 
+				
+				if(vm.search.title !=null && vm.search.title !=''){//查询条件--标题
+	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.title});
+	     		   }
+     		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--任务建设单位
+     			   filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
+     		   }
+     		   if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){//查询条件--项目行业
+     			  filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
+     		   }
+     		  vm.gridOptions_other.dataSource.filter(filters);
+        	};
+        	//清空筛选条件
+        	vm.filterClear=function(){
+        		location.reload();
+        	};
+        };
+        
+        function task_todo_yuepi(){
+        	taskNewAuditSvc.yuepiGrid(vm);
         	
         	vm.basicData.userUnit=common.getUserUnits().value;//获取所有单位
 		   	 var keys = [];

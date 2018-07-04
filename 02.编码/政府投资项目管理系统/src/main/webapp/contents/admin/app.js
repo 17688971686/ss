@@ -637,6 +637,20 @@
 	            controller: 'taskNewAuditCtrl',
 	            controllerAs: 'vm'
 	        })
+	          //任务处理页--审批类
+	        .state('task_handle_keshi', {
+	            url: '/task/handle_keshi/:id',
+	            templateUrl: '/management/task/html/handle_keshi',
+	            controller: 'taskNewAuditCtrl',
+	            controllerAs: 'vm'
+	        })
+	          //任务处理页--阅卷栏
+	        .state('task_handle_yuepi', {
+	            url: '/task/handle_yuepi/:id',
+	            templateUrl: '/management/task/html/handle_yuepi',
+	            controller: 'taskNewAuditCtrl',
+	            controllerAs: 'vm'
+	        })
 	         //已办列表页--审批类(taskRecord)
 	        .state('task_shenPi', {
 	            url: '/task/shenPi',
@@ -662,6 +676,13 @@
 	            url: '/task/todo_plan_other',
 	            templateUrl: '/management/task/html/todo_plan_other',
 	            controller: 'taskPlanCtrl',
+	            controllerAs: 'vm'
+	        })
+	        //阅卷栏
+	            .state('task_todo_yuepi', {
+	            url: '/task/todo_yuepi',
+	            templateUrl: '/management/task/html/todo_yuepi',
+	            controller: 'taskNewAuditCtrl',
 	            controllerAs: 'vm'
 	        })
 	           //任务处理页--计划类

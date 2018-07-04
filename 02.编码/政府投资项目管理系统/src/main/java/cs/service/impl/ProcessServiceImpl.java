@@ -58,13 +58,16 @@ import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.UserUnitInfoDto;
 import cs.model.DtoMapper.IMapper;
+import cs.model.framework.OrgDto;
 import cs.model.framework.UserDto;
 import cs.repository.framework.OrgRepo;
 import cs.repository.framework.UserRepo;
 import cs.repository.impl.ShenBaoInfoRepoImpl;
 import cs.repository.interfaces.IRepository;
+import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.repository.odata.ODataObjNew;
+import cs.service.framework.OrgService;
 import cs.service.framework.UserService;
 import cs.service.interfaces.ProcessService;
 import cs.service.interfaces.UserUnitInfoService;
@@ -114,6 +117,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	private BasicDataService basicDataService;
 	@Autowired
 	private ProjectService projectService;
+	@Autowired
+	OrgService orgService;
 
 	@Override
 	@Transactional
@@ -133,8 +138,26 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		
 		List<Task> tasks1 = activitiService.getCandidateGroupInTask(ids);
-		List<Task> tasks2 = activitiService.getPersonalTask(currentUser.getUserId());
-		tasks1.addAll(tasks2);
+		List<Task> tasks2 = null;
+		ODataObj odataObj2 = new ODataObj();
+		ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
+		filterItem.setField("name");
+		filterItem.setOperator("eq");
+		filterItem.setValue("投资科");
+		odataObj2.getFilter().add(filterItem);
+		PageModelDto<OrgDto> orgs = orgService.get(odataObj2);
+		List<UserDto> users = orgs.getValue().get(0).getUserDtos();
+		if("geren".equals(leixin)){
+			tasks2 = activitiService.getPersonalTask(currentUser.getUserId());
+			tasks1.addAll(tasks2);
+		}else{
+			for (int i = 0; i < users.size(); i++) {
+				UserDto array_element = users.get(i);
+				tasks2 = activitiService.getPersonalTask(array_element.getId());
+				tasks1.addAll(tasks2);
+			}
+			
+		}
 		
 		List<String> taskIds = new ArrayList<>();
 		for (Task task : tasks1) {
@@ -169,17 +192,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			}else{
 				for (int i = 0; i < shenBaoInfoDtos.size(); i++) {
 					ShenBaoInfoDto array_element = shenBaoInfoDtos.get(i);
-					if(("audit").equals(str)){
-						Response response = this.getAssigneeByUserId(array_element.getZong_processId());
-						if(!"usertask1".equals(array_element.getThisTaskName()) && !"usertask5".equals(array_element.getThisTaskName())){
-							ourShenBaoInfoDtos.add(array_element);
-						}
-					}else{
-						Response response = this.getAssigneeByUserId_plan(array_element.getZong_processId());
-						if(!"usertask1".equals(array_element.getThisTaskName()) && !"usertask5".equals(array_element.getThisTaskName())){
-							ourShenBaoInfoDtos.add(array_element);
-						}
-					}
+					ourShenBaoInfoDtos.add(array_element);
 				
 				}
 			}
@@ -218,6 +231,60 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			
 			pageModelDto.setCount(odataObj.getCount());
 			pageModelDto.setValue(shenBaoInfoDtos);
+		}
+		
+		return pageModelDto;
+		
+	}
+	
+	@Override
+	@Transactional
+	public PageModelDto<ShenBaoInfoDto> getToDo_yuepi(ODataObjNew odataObj) {
+		PageModelDto<ShenBaoInfoDto> pageModelDto = new PageModelDto<>();
+		List<String> ids = new ArrayList<>();
+		User user = userRepo.findById(currentUser.getUserId());
+		for (Role role : user.getRoles()) {
+			ids.add(role.getId());
+		}
+		
+		List<Task> tasks1 = activitiService.getCandidateGroupInTask(ids);
+		List<Task> tasks2 = activitiService.getPersonalTask(currentUser.getUserId());
+		tasks1.addAll(tasks2);
+		
+		List<String> taskIds = new ArrayList<>();
+		for (Task task : tasks1) {
+			String processId = task.getProcessInstanceId();
+			taskIds.add(processId);
+		}
+		odataObj.setTop(0);
+		List<ShenBaoInfoDto> ourShenBaoInfoDtos = new ArrayList<>();
+		if(!taskIds.isEmpty()){
+			List<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoRepoImpl.findByOdata3(odataObj,taskIds).stream().map((x) -> {
+				return mapper.toDto(x);
+			}).collect(Collectors.toList());
+			
+			
+				for (int i = 0; i < shenBaoInfoDtos.size(); i++) {
+					ShenBaoInfoDto array_element = shenBaoInfoDtos.get(i);
+					if(array_element.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_KXXYJBG) ||
+							array_element.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_XMJYS) ||
+							array_element.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_ZJSQBG) ||
+							array_element.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_CBSJGS)){
+						Response response = this.getAssigneeByUserId(array_element.getZong_processId());
+						if(response.isSuccess() == false &&! ("usertask1").equals(array_element.getThisTaskName()) && !("usertask5").equals(array_element.getThisTaskName()) ){
+							ourShenBaoInfoDtos.add(array_element);
+						}
+					}else if(array_element.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)){
+						Response response = this.getAssigneeByUserId_plan(array_element.getZong_processId());
+						if(response.isSuccess() == false && !("usertask1").equals(array_element.getThisTaskName()) && !("usertask2").equals(array_element.getThisTaskName())){
+							ourShenBaoInfoDtos.add(array_element);
+						}
+					}
+					
+				}
+
+			pageModelDto.setCount(ourShenBaoInfoDtos.size());
+			pageModelDto.setValue(ourShenBaoInfoDtos);
 		}
 		
 		return pageModelDto;
@@ -334,7 +401,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		String shenbaoInfoId = (String) data.get("id");
 		String msg = (String) data.get("msg");
 		String str = (String) data.get("str");//具体操作
-		List att = (List) data.get("att");//附件
+		ShenBaoInfoDto shenbaoinfoDto =  JSON.parseObject(JSON.toJSONString(data.get("shenbaoinfo")), ShenBaoInfoDto.class);
 		String nextUsers = (String) data.get("nextUsers");//下一经办人
 		String isPass = (String) data.get("isPass");//下一经办人
 		String isPass2 = (String) data.get("isPass2");//下一经办人
@@ -394,7 +461,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		//经办人转办模式
 		if(shenBaoInfo.getThisTaskName().equals("usertask1") &&  !"1".equals(isPass) || shenBaoInfo.getThisTaskName().equals("usertask2") &&  !"1".equals(isPass) ){
 			task = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId()).taskAssignee(currentUser.getUserId()).orderByDueDate().desc().list();
-			
+			shenBaoInfo.setQianshouDate(new Date());//签收时间
+			shenBaoInfo.setReceiver(currentUser.getUserId());//签收人
 			Authentication.setAuthenticatedUserId(currentUser.getUserId());
 			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见："+msg);
 
@@ -422,19 +490,17 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		//如果有附件
-		if(att != null){
-			for (int i = 0; i < att.toArray().length; i++) {
-				map = gson.fromJson(att.toArray()[i].toString(), map.getClass());
-				Attachment newatt = new Attachment();
-				newatt.setId(UUID.randomUUID().toString());
-				newatt.setName(map.get("name").toString());
-				newatt.setUrl(map.get("url").toString());			
-				newatt.setType(map.get("type").toString());
-				newatt.setCreatedBy(currentUser.getUserId());
-				newatt.setModifiedBy(currentUser.getUserId());
-				shenBaoInfo.getAttachments().add(newatt);
-			}
+		shenBaoInfo.getAttachments().clear();
+		if(shenbaoinfoDto.getAttachmentDtos().size() >0){
+			shenbaoinfoDto.getAttachmentDtos().forEach(x -> {//添加新附件
+				Attachment attachment = new Attachment();
+				attachmentMapper.buildEntity(x, attachment);
+				attachment.setCreatedBy(shenBaoInfo.getCreatedBy());
+				attachment.setModifiedBy(shenBaoInfo.getModifiedBy());
+				shenBaoInfo.getAttachments().add(attachment);
+			});
 		}
+		
 		if(shenBaoInfo.getThisTaskName().equals("usertask5")){
 			shenBaoInfo.setApPlanReach_gtzj(apPlanReach_gtzj);
 			shenBaoInfo.setApPlanReach_ggys(apPlanReach_ggys);
@@ -717,7 +783,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		activitiService.taskComplete(task.get(0).getId());
 		
 		shenBaoInfo.setThisTaskId("00000");
-		
+		shenBaoInfo.setQianshouDate(new Date());//签收时间
+		shenBaoInfo.setReceiver(currentUser.getUserId());//签收人
 		if(!("next").equals(str)){
 			shenBaoInfo.setThisTaskName("已退文");
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_tuiwen);
@@ -866,7 +933,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见："+msg);
 
 		if(shenBaoInfo.getThisTaskName().equals("usertask1") &&  isPass !="" || shenBaoInfo.getThisTaskName().equals("usertask5") &&  isPass !="" ){
-
+			shenBaoInfo.setQianshouDate(new Date());//签收时间
+			shenBaoInfo.setReceiver(currentUser.getUserId());//签收人
 			processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(task.get(0).getId(), nextUsers);
 			processEngine.getProcessEngineConfiguration().getTaskService().setVariable(task.get(0).getId(), "isPass", isPass);
 
@@ -920,13 +988,15 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			attachmentRepo.delete(x);
 		});
 		shenBaoInfo.getAttachments().clear();
-		shenbaoinfoDto.getAttachmentDtos().forEach(x -> {//添加新附件
-			Attachment attachment = new Attachment();
-			attachmentMapper.buildEntity(x, attachment);
-			attachment.setCreatedBy(shenBaoInfo.getCreatedBy());
-			attachment.setModifiedBy(shenBaoInfo.getModifiedBy());
-			shenBaoInfo.getAttachments().add(attachment);
-		});
+		if(shenbaoinfoDto.getAttachmentDtos().size() >0){
+			shenbaoinfoDto.getAttachmentDtos().forEach(x -> {//添加新附件
+				Attachment attachment = new Attachment();
+				attachmentMapper.buildEntity(x, attachment);
+				attachment.setCreatedBy(shenBaoInfo.getCreatedBy());
+				attachment.setModifiedBy(shenBaoInfo.getModifiedBy());
+				shenBaoInfo.getAttachments().add(attachment);
+			});
+		}
 		projectRepo.save(project);
 		
 		if(shenBaoInfo.getThisTaskName().equals("usertask16") || str.equals("banjie")){
@@ -1017,29 +1087,27 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	public void taskPinglun(Map data) {
 		String shenbaoInfoId = (String) data.get("id");
 		String msg = (String) data.get("msg");
-		List att = (List) data.get("att");//附件
+		ShenBaoInfoDto shenbaoinfoDto =  JSON.parseObject(JSON.toJSONString(data.get("shenbaoinfo")), ShenBaoInfoDto.class);
 		
 		ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenbaoInfoId);
 
 		List<Task> task = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId()).taskCandidateUser(currentUser.getUserId()).orderByDueDate().desc().list();
 		
-		Gson gson = new Gson();
-		Map<String, Object> map = new HashMap<String, Object>();
-		
 		//如果有附件
-		if(att != null){
-			for (int i = 0; i < att.toArray().length; i++) {
-				map = gson.fromJson(att.toArray()[i].toString(), map.getClass());
-				Attachment newatt = new Attachment();
-				newatt.setId(UUID.randomUUID().toString());
-				newatt.setName(map.get("name").toString());
-				newatt.setUrl(map.get("url").toString());			
-				newatt.setType(map.get("type").toString());
-				newatt.setCreatedBy(currentUser.getUserId());
-				newatt.setModifiedBy(currentUser.getUserId());
-				shenBaoInfo.getAttachments().add(newatt);
-			}
+		shenBaoInfo.getAttachments().forEach(x -> {//删除历史附件
+			attachmentRepo.delete(x);
+		});
+		shenBaoInfo.getAttachments().clear();
+		if(shenbaoinfoDto.getAttachmentDtos().size() >0){
+			shenbaoinfoDto.getAttachmentDtos().forEach(x -> {//添加新附件
+				Attachment attachment = new Attachment();
+				attachmentMapper.buildEntity(x, attachment);
+				attachment.setCreatedBy(shenBaoInfo.getCreatedBy());
+				attachment.setModifiedBy(shenBaoInfo.getModifiedBy());
+				shenBaoInfo.getAttachments().add(attachment);
+			});
 		}
+		shenBaoInfoRepo.save(shenBaoInfo);
 		Authentication.setAuthenticatedUserId(currentUser.getUserId());
 		activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "阅批意见："+msg);
 		

@@ -118,7 +118,7 @@
 	</script>	
 	<script type="text/template" id="columnBtns_button_1">
 		<button class="btn btn-xs btn-success" ng-if="{1}" ng-click="vm.startProcessOne('{0}')"><span class="glyphicon glyphicon-pencil"></span>提交</button>
-		<button class="btn btn-xs btn-success" ng-click="vm.deleteProcessOne('{0}')"><span class="glyphicon glyphicon-pencil"></span>撤销</button>	
+		<button class="btn btn-xs btn-success" ng-if="{2}" ng-click="vm.deleteProcessOne('{0}')"><span class="glyphicon glyphicon-pencil"></span>撤销</button>	
 	</script>							
   	<!--项目申报记录模态框 -->
 	<div class="modal fade" id="myModal" role="dialog"> 

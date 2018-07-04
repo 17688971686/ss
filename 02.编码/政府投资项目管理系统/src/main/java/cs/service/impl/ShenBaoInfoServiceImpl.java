@@ -164,6 +164,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 		shenBaoInfo.get(0).setThisTaskName("");
 		shenBaoInfo.get(0).setZong_processId("");
 		shenBaoInfo.get(0).setThisTaskId("");
+		shenBaoInfo.get(0).setReceiver(null);
 		super.repository.save(shenBaoInfo.get(0));
 		logger.debug("======>卸载pricessId为 " + pricessId + " 的流程!");
 	}
@@ -225,8 +226,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 				entity.setProcessStage("投资科审核收件办理");//处理阶段为签收阶段
 				entity.setProcessState(BasicDataConfig.processState_pass);//状态为已签收通过
 				entity.setShenbaoDate(new Date());//申报时间
-				entity.setQianshouDate(new Date());//签收时间
-				entity.setReceiver(currentUser.getUserId());//签收人
+//				entity.setQianshouDate(new Date());//签收时间
+//				entity.setReceiver(currentUser.getUserId());//签收人
 				entity.setIsIncludLibrary(false);//设置初始化为未纳入项目库
 				logger.info(String.format("创建申报信息,项目名称 %s",project.getProjectName()));
 			}else{

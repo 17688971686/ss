@@ -642,7 +642,7 @@
 						}
 					}
 				}),
-				serverPaging : true,
+				serverPaging : false,
 				serverSorting : true,
 				serverFiltering : true,
 				pageSize : 10,
@@ -1657,7 +1657,8 @@
 							}else if(vm.isStartProcess == 'false' && isShow == false){
 								vm.isShow = false;
 							}
-							return common.format($('#columnBtns_button_1').html(),item.id,vm.isShow);
+							var isReceiver = item.receiver !=null?false:true;
+							return common.format($('#columnBtns_button_1').html(),item.id,vm.isShow,isReceiver);
 						},
 						attributes: {
 						      style: "font-size: 14.5px"
@@ -1986,7 +1987,8 @@
 							}else if(vm.isStartProcess == 'false' && isShow == false){
 								vm.isShow = false;
 							}
-							return common.format($('#columnBtns_button_2').html(),item.id,vm.isShow);
+							var isReceiver = item.receiver !=null?false:true;
+							return common.format($('#columnBtns_button_2').html(),item.id,vm.isShow,isReceiver);
 						},
 						attributes: {
 						      style: "font-size: 14.5px"

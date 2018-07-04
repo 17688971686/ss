@@ -66,6 +66,21 @@ public class ShenBaoInfoRepoImpl extends AbstractRepository<ShenBaoInfo	, String
 		
 		return odataObj.createQuery(getSession(), ShenBaoInfo.class).list();
 	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<ShenBaoInfo> findByOdata3(ODataObjNew odataObj, List<String> taskIds) {
+	logger.debug("findByOdata2");	
+		
+		List<OdataFilter> idsFilter = new ArrayList<OdataFilter>(taskIds.size());
+		taskIds.forEach(x -> {
+			idsFilter.add(new OdataFilter(ShenBaoInfo_.zong_processId.getName(), Operate.EQ, x));
+		});
+		
+			OdataFilter orFilter = new OdataFilter(null, Operate.OR, idsFilter);
+			odataObj.addFilter(orFilter);
+		
+		return odataObj.createQuery(getSession(), ShenBaoInfo.class).list();
+	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<ShenBaoInfo> getShenBaoInfoDtos_feedback(ODataObjNew odataObj, List<String> processInstIdList) {
