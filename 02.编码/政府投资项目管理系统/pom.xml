@@ -18,6 +18,12 @@
 			<groupId>com.sn</groupId>
 			<artifactId>framework-odata</artifactId>
 			<version>1.0.0T-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-lang3</artifactId>
+					<groupId>org.apache.commons</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
