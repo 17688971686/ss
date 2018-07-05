@@ -42,4 +42,6 @@ public interface UserService {
 
 	User getUserByName(HttpServletRequest request);
 
+	Map<String, Object> getRolesIntoMap(Map<String, Object> map);
+
 }

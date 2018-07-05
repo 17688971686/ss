@@ -27,7 +27,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-
 @RestController
 public class ProcessInstanceHighlightsResource {
 
@@ -45,7 +44,7 @@ public class ProcessInstanceHighlightsResource {
   
 	protected ObjectMapper objectMapper = new ObjectMapper();
 
-/*	@RequestMapping(value="/process-instance/{processInstanceId}/highlights", method = RequestMethod.GET, produces = "application/json")
+	/*@RequestMapping(value="/process-instance/{processInstanceId}/highlights", method = RequestMethod.GET, produces = "application/json")
 	public ObjectNode getHiComment(@PathVariable String processInstanceId) {
 		return null;
 	}*/

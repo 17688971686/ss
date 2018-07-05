@@ -23,6 +23,8 @@ public class Attachment extends BaseEntity{
 	private String comment;
 	@Column(columnDefinition="varchar(50) COMMENT '附件类型'")
 	private String type;
+	@Column(columnDefinition="varchar(50) COMMENT '附件业务相关类型'")
+	private String businessType;
 	
 	public String getId() {
 		return id;
@@ -53,6 +55,12 @@ public class Attachment extends BaseEntity{
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public String getBusinessType() {
+		return businessType;
+	}
+	public void setBusinessType(String businessType) {
+		this.businessType = businessType;
 	}
 	
 	

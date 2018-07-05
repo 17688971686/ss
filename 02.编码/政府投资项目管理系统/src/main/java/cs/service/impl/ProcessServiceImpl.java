@@ -23,9 +23,11 @@ import cs.domain.*;
 import cs.model.SendMsg;
 import cs.service.common.BasicDataService;
 import cs.service.interfaces.ProjectService;
+import cs.service.interfaces.ShenBaoInfoService;
 import cs.service.sms.SmsService;
 import cs.service.sms.exception.SMSException;
 import org.activiti.engine.HistoryService;
+import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricProcessInstance;
@@ -94,7 +96,9 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	@Autowired
 	private ICurrentUser currentUser;
 	@Autowired
-    ProcessEngineFactoryBean processEngine;
+    ProcessEngineFactoryBean processEngineFactoryBean;
+	@Autowired
+    private ProcessEngine processEngine;
 	@Autowired
 	private UserRepo userRepo;
 	@Autowired
@@ -111,6 +115,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	private SmsService smsService;
 	@Resource
 	private Map<String, String> shenbaoSMSContent;
+	@Autowired
+    private ShenBaoInfoService shenBaoInfoService;
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
 	@Autowired
@@ -360,7 +366,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		List<ShenBaoInfo> shenBaoInfo = shenBaoInfoRepo.findByCriteria(criterion);
 		User loginUser = userRepo.findById(currentUser.getUserId());
 		
-		List<HistoricVariableInstance> list = processEngine.getProcessEngineConfiguration().getHistoryService()  
+		List<HistoricVariableInstance> list = processEngineFactoryBean.getProcessEngineConfiguration().getHistoryService()  
 	            .createHistoricVariableInstanceQuery()//创建一个历史的流程变量查询对象  
 	            .variableName("nextUsers")
 	            .processInstanceId(processId)
@@ -468,8 +474,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			Authentication.setAuthenticatedUserId(currentUser.getUserId());
 			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见："+msg);
 
-			processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(task.get(0).getId(), nextUsers);
-			processEngine.getProcessEngineConfiguration().getTaskService().setVariable(task.get(0).getId(), "isPass", isPass);
+			processEngineFactoryBean.getProcessEngineConfiguration().getTaskService().setAssignee(task.get(0).getId(), nextUsers);
+			processEngineFactoryBean.getProcessEngineConfiguration().getTaskService().setVariable(task.get(0).getId(), "isPass", isPass);
 
 		}else{
 			//当前流程下，当前登录人员的任务--会签模式
@@ -550,7 +556,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		List<ShenBaoInfo> shenBaoInfo = shenBaoInfoRepo.findByCriteria(criterion);
 		User loginUser = userRepo.findById(userId);
 		
-		List<HistoricVariableInstance> list = processEngine.getProcessEngineConfiguration().getHistoryService()  
+		List<HistoricVariableInstance> list = processEngineFactoryBean.getProcessEngineConfiguration().getHistoryService()  
 	            .createHistoricVariableInstanceQuery()//创建一个历史的流程变量查询对象  
 	            .variableName("nextUsers")
 	            .processInstanceId(processId)
@@ -937,8 +943,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		if(shenBaoInfo.getThisTaskName().equals("usertask1") &&  isPass !="" || shenBaoInfo.getThisTaskName().equals("usertask5") &&  isPass !="" ){
 			shenBaoInfo.setQianshouDate(new Date());//签收时间
 			shenBaoInfo.setReceiver(currentUser.getUserId());//签收人
-			processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(task.get(0).getId(), nextUsers);
-			processEngine.getProcessEngineConfiguration().getTaskService().setVariable(task.get(0).getId(), "isPass", isPass);
+			processEngineFactoryBean.getProcessEngineConfiguration().getTaskService().setAssignee(task.get(0).getId(), nextUsers);
+			processEngineFactoryBean.getProcessEngineConfiguration().getTaskService().setVariable(task.get(0).getId(), "isPass", isPass);
 
 		}else{
 
@@ -1187,5 +1193,87 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	public List<ShenBaoInfoDto> findByDto(ODataObj odataObj) {
 		return null;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public void subShenBaoAtts(Map<String, Object> data) {
+		String shenBaoInfoId = (String) data.get("shenBaoInfoId");
+		List<Attachment> att = (List<Attachment>) data.get("shenBaoAtts");//附件
+		
+		ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenBaoInfoId);
+		
+		Gson gson = new Gson();
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		//如果有附件
+		if(att != null){
+			for (int i = 0; i < att.toArray().length; i++) {
+				map = gson.fromJson(att.toArray()[i].toString(), map.getClass());
+				Attachment newatt = new Attachment();
+				newatt.setId(UUID.randomUUID().toString());
+				newatt.setName(map.get("name").toString());
+				newatt.setUrl(map.get("url").toString());			
+				newatt.setType(map.get("type").toString());
+				newatt.setCreatedBy(currentUser.getUserId());
+				newatt.setModifiedBy(currentUser.getUserId());
+				shenBaoInfo.getAttachments().add(newatt);
+			}
+		}
+	}
+
+	@Override
+	@Transactional
+	public List<AttachmentDto> getAllAtts(String shenBaoInfoId, String taskId, String taskKey,
+			List<AttachmentDto> list) {
+		//查询申报附件
+			ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoService.getShenBaoInfoDtoById(shenBaoInfoId);
+			if(ObjectUtils.isNoneEmpty(shenBaoInfoDto)) {
+				List<AttachmentDto> attachmentDtos = shenBaoInfoDto.getAttachmentDtos();
+				if(!CollectionUtils.isEmpty(attachmentDtos)) {
+					attachmentDtos.forEach(x -> {
+						if(taskKey.equalsIgnoreCase(x.getType())) {
+							list.add(x);
+						}
+					});
+				}
+			}
+		return list;
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	@Transactional
+	public List<Object> getAllComments(String shenBaoInfoId, String taskId, String taskKey, List<Object> list) {
+		//查询审批记录
+		Calendar calendar = Calendar.getInstance();
+		List<Comment> comments = taskService.getTaskComments(taskId);
+		
+		for(Comment com : comments){
+			HistoricTaskInstance task = processEngine.getHistoryService().createHistoricTaskInstanceQuery().taskId(com.getTaskId()).singleResult();
+			Map<String, String> map = new HashMap<>();
+			
+			map.put("name", task.getName());
+			
+			map.put("endTime", com.getTime().toLocaleString());
+			map.put("msg", com.getFullMessage());
+			
+			String userId2 = com.getUserId();
+			if(StringUtil.isNotBlank(userId2)) {
+				User user = userService.findById(userId2);
+				
+				map.put("id",user.getDisplayName());
+			}else {
+				map.put("id","");
+			}
+
+			calendar.set(com.getTime().getYear(),com.getTime().getMonth(),com.getTime().getDay(),com.getTime().getHours(),com.getTime().getMinutes(),com.getTime().getSeconds());
+		    long millis = calendar.getTimeInMillis();
+			map.put("itemOrder",String.valueOf(millis));
+			list.add(map);
+		}
+		return list;
+	}
 
 }
+

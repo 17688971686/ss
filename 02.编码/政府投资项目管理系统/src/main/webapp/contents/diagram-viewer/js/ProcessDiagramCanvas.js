@@ -163,7 +163,7 @@ ProcessDiagramCanvas.prototype = {
 		h.style.width = this.canvasWidth;
 		h.style.height = this.canvasHeight;
 		
-		this.g = Raphael(this.canvasHolder);
+		this.g = Raphael(12,45,1458,1623);
 		this.g.clear();
 	
 		//this.setPaint(Color.DimGrey);
@@ -1890,7 +1890,6 @@ ProcessDiagramCanvas.prototype = {
 			console.log("--> highLightActivity: ", shape, shape.data("contextObject"));
 		
 		shape.attr("stroke-width", THICK_TASK_BORDER_STROKE);
-		debugger;
 		if(activitie.isHistory){
 			shape.attr("stroke", HISTORY_HIGHLIGHT_COLOR);
 		}else{

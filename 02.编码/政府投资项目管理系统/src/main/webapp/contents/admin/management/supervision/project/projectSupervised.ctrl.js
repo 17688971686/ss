@@ -20,9 +20,8 @@
         vm.page="list";
         
         //查询当前系统IP、端口、流程定义ID和流程流程实例ID
-        vm.getDiagramViewerInfo = function(id){
-        	debugger;
-        	projectSupervisedSvc.getDiagramViewerInfo(vm,id);
+        vm.getDiagramViewerInfo = function(id,shenBaoId){
+        	projectSupervisedSvc.getDiagramViewerInfo(vm,id,shenBaoId);
         }
         
         function init(){

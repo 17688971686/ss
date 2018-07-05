@@ -1050,7 +1050,7 @@ var ProcessDiagramGenerator = {
 		if (!diagramInfo) return;
 		
 		var template;
-		var values;
+		var values = {};
 		$.each(comments, function (i, comment) {
 			values = {
 				name: comment.name,

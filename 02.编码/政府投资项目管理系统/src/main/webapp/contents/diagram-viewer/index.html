@@ -3,10 +3,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <link rel="stylesheet" href="style.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/contents/libs/bootstrap/dist/css/bootstrap.min.css">
     <script src="js/jstools.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/raphael.js" type="text/javascript" charset="utf-8"></script>
-
-    <script src="js/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
+    
+	<script src="/contents/libs/jquery/jquery.js"></script>
     <script src="js/jquery/jquery.progressbar.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/jquery/jquery.asyncqueue.js" type="text/javascript" charset="utf-8"></script>
 
@@ -17,22 +18,40 @@
     <script src="js/LineBreakMeasurer.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/ProcessDiagramGenerator.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/ProcessDiagramCanvas.js" type="text/javascript" charset="utf-8"></script>
-
+    
+    
+	<script src="/contents/libs/jquery-validation/jquery.validate.min.js"></script>
+	<script src="/contents/libs/jquery-validation/jquery.validate.unobtrusive.min.js"></script>
+	
+	<script src="/contents/libs/bootstrap/customize/js/bootstrap.js"></script>
+	
+	<script src="/contents/libs/angular/angular.min.js"></script>
+	<script src="/contents/libs/angular/sanitize.js"></script>
+	<script src="/contents/libs/angular/angular-ui-router.js"></script>
+	
+	<script src="/contents/common/common.js"></script>
+	
+	<!--uploadify-->
+    <link rel="stylesheet" href="/contents/libs/uploadify/uploadify.css" />
+	<script src="/contents/libs/uploadify/jquery.uploadify.js"></script>
+	<!--uploadify-->
+    
     <style type="text/css" media="screen">
 
     </style>
 </head>
-<body>
+<body id="ng-app" ng-app="monitorApp" ng-controller="monitorCtrl as vm">
+<!-- <body> -->
 <div class="wrapper">
     <div id="pb1"></div>
-    
+
     <div id="overlayBox">
-        <div id="diagramBreadCrumbs" class="diagramBreadCrumbs" onmousedown="return false"
-             onselectstart="return false"></div>    
+        <!-- <div id="diagramBreadCrumbs" class="diagramBreadCrumbs" onmousedown="return false"
+             onselectstart="return false"></div>  -->   
         <!-- 流程图信息 -->
         <div id="diagramHolder" class="diagramHolder"></div>
         <!-- 显示信息 -->
-        <div class="diagram-info" id="diagramInfo"></div>
+        <!-- <div class="diagram-info" id="diagramInfo"></div> -->
     </div>
 </div>
 <script language='javascript'>
@@ -49,7 +68,9 @@
 
         var processDefinitionId = query_string["processDefinitionId"];
         var processInstanceId = query_string["processInstanceId"];
-
+        var shenBaoInfoId = query_string["shenBaoInfoId"];
+        var roleType = query_string["roleType"];
+        
         console.log("Initialize progress bar");
 
         pb1 = new $.ProgressBar({
@@ -70,60 +91,114 @@
             value: 0
         });
         console.log("Progress bar inited");
-
+        
         ProcessDiagramGenerator.options = {
             diagramBreadCrumbsId: "diagramBreadCrumbs",
             diagramHolderId: "diagramHolder",
             diagramInfoId: "diagramInfo",
             on: {
                 click: function (canvas, element, contextObject) {
-                    var mouseEvent = this;
-                    
-                    /* console.log("[CLICK] mouseEvent: %o, canvas: %o, clicked element: %o, contextObject: %o", mouseEvent, canvas, element, contextObject);
-
-                    if (contextObject.getProperty("type") == "callActivity") {
-                        var processDefinitonKey = contextObject.getProperty("processDefinitonKey");
-                        var processDefinitons = contextObject.getProperty("processDefinitons");
-                        var processDefiniton = processDefinitons[0];
-                        console.log("Load callActivity '" + processDefiniton.processDefinitionKey + "', contextObject: ", contextObject);
-
-                        // Load processDefinition
-                        ProcessDiagramGenerator.drawDiagram(processDefiniton.processDefinitionId);
-                    } */
-                    
            			var userId = contextObject.getProperty("userId");
 					var taskId = contextObject.getProperty("taskId");
 					var taskKey = contextObject.getId();
 					var isHistory = contextObject.getProperty("isHistory");
+					debugger
+					var $scope = angular.element("body").scope();
+				    $scope.$apply(function () {
+						$scope.vm.shenBaoInfoId = shenBaoInfoId;
+					})
 					
-					if(isHistory){
-						 ProcessDiagramGenerator.getHiComment(userId,taskId,taskKey,function(data){
-		                    	ProcessDiagramGenerator.showActivityInfo(contextObject,data);
-	                     });
-					}
+                	if(isHistory){
+                		$scope.vm.getShenPiDetails(shenBaoInfoId,taskId,taskKey);
+                    }else{
+                    	if(roleType && 'approvalUnit' == roleType){
+                    		$('#shenPiFiles').uploadify({
+                                uploader: '/common/save',
+                                swf: "/contents/libs/uploadify/uploadify.swf",
+                                method: 'post',
+                                multi: true,
+                                auto: true,//自动上传
+                                fileObjName: 'files',// 上传参数名称
+                                fileSizeLimit: "10MB",//上传文件大小限制
+                                buttonText: '选择文档',
+                                fileExt: '*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps',
+                                fileTypeExts: '*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps',
+                                fileTypeDesc: "请选择*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps",     // 文件说明
+                                removeCompleted: true,   //设置已完成上传的文件是否从队列中移除，默认为true
+                                onUploadSuccess: function (file, data, response) {
+                                	$scope.$apply(function () {
+                                		if($scope.vm.shenPiAtts){
+                                    		$scope.vm.shenPiAtts.push({name:data.split('_')[2],url:data,type:taskKey,businessType:'shenPi'});
+                               			 }else{
+                               				$scope.vm.shenPiAtts=[{name:data.split('_')[2],url:data,type:taskKey,businessType:'shenPi'}];
+                              			 }    
+                                	})
+                                }
+                            });
+                    		
+                    		//删除上传文件
+                   			$scope.vm.delFile_shenPi=function(idx){
+                       			var file = $scope.vm.shenPiAtts[idx];
+                       			if(file){
+                       				$scope.vm.shenPiAtts.splice(idx,1);
+                       			}
+                       	    };
+                       	    
+                       	    $scope.vm.checkLength = function(obj,max,id){
+	                  			common.checkLength(obj,max,id);
+	                       	};
+                       	    
+                       	 	$('#myModal_shenPi').modal('show');
+                    	}else if(roleType && 'constructionUnit' == roleType){
+                    		/****************************************************************上传附件 begin**********************************************************************************************************/ 
+                    		$('#shenBaoFiles').uploadify({
+                                uploader: '/common/save',
+                                swf: "/contents/libs/uploadify/uploadify.swf",
+                                method: 'post',
+                                multi: true,
+                                auto: true,//自动上传
+                                fileObjName: 'files',// 上传参数名称
+                                fileSizeLimit: "10MB",//上传文件大小限制
+                                buttonText: '选择文档',
+                                fileExt: '*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps',
+                                fileTypeExts: '*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps',
+                                fileTypeDesc: "请选择*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps",     // 文件说明
+                                removeCompleted: true,   //设置已完成上传的文件是否从队列中移除，默认为true
+                                onUploadSuccess: function (file, data, response) {
+                                	$scope.$apply(function () {
+                                		if($scope.vm.shenBaoAtts){
+                                    		$scope.vm.shenBaoAtts.push({name:data.split('_')[2],url:data,type:taskKey,businessType:'shenBao'});
+                               			 }else{
+                               				$scope.vm.shenBaoAtts=[{name:data.split('_')[2],url:data,type:taskKey,businessType:'shenBao'}];
+                              			 }    
+                                	})
+                                }
+                            });
+                        	
+                    		//删除上传文件
+                   			$scope.vm.delFile_shenBao=function(idx){
+                       			var file = $scope.vm.shenBaoAtts[idx];
+                       			if(file){
+                       				$scope.vm.shenBaoAtts.splice(idx,1);
+                       			}
+                       	    };  	
+                    		/****************************************************************上传附件 end**********************************************************************************************************/
+                    		
+                    		$('#myModal_shenBao').modal('show');
+                    	}
+                    }
                 },
                 rightClick: function (canvas, element, contextObject) {
-                    //var mouseEvent = this;
-                    //console.log("[RIGHTCLICK] mouseEvent: %o, canvas: %o, clicked element: %o, contextObject: %o", mouseEvent, canvas, element, contextObject);
+                	
                 }, 
                 over: function (canvas, element, contextObject) {
-                    //var mouseEvent = this;
-                    //console.log("[OVER] mouseEvent: %o, canvas: %o, clicked element: %o, contextObject: %o", mouseEvent, canvas, element, contextObject);
-
-                    // TODO: show tooltip-window with contextObject info
+                	
                 },
                	out: function (canvas, element, contextObject) {
-                    //var mouseEvent = this;
-                    //console.log("[OUT] mouseEvent: %o, canvas: %o, clicked element: %o, contextObject: %o", mouseEvent, canvas, element, contextObject);
-
-                    //ProcessDiagramGenerator.hideInfo();
+               		
                 } 
             }
         };
-		
-		//var baseUrl = window.document.location.protocol + "//" + window.document.location.host + "/";
-		//var shortenedUrl = window.document.location.href.replace(baseUrl, "");
-		//baseUrl = baseUrl + shortenedUrl.substring(0, shortenedUrl.indexOf("/"));
 
         ActivitiRest.options = {
             processInstanceHighLightsUrl: "/process-instance/{processInstanceId}/highlights",
@@ -141,5 +216,269 @@
 
 
 </script>
+<script>
+    (function () {
+        'use strict';
+        angular.module('monitorApp',[]).controller('monitorCtrl', function ($http,$scope) {
+            var vm = this;
+            var url_taskFeedback = "/management/supervision/task";
+            
+            vm.subShenBaoAtts = function(){
+            	if(!vm.shenBaoAtts || vm.shenBaoAtts.length == 0){
+            		common.alert({
+						vm : vm,
+						msg : "还未上传附件"
+					});
+            	}else{
+            		var httpOptions = {
+        					method : 'post',
+        					url : url_taskFeedback + "/subShenBaoAtts",
+        					data:{"shenBaoInfoId":vm.shenBaoInfoId,"shenBaoAtts":vm.shenBaoAtts}
+        				};
+        			
+        			var httpSuccess = function success(response) {
+        				common.requestSuccess({
+     						vm : vm,
+     						response : response,
+     						fn : function() {
+     							common.alert({
+     								vm : vm,
+     								msg : "提交成功",
+     								fn : function() {
+     									$('.alertDialog').modal('hide');
+     									$('#myModal_shenBao').modal('hide');
+     			        				vm.shenBaoAtts = [];
+     								}
+     							});
+     						}
+     					});
+        			};
+        			
+        			common.http({
+        				vm : vm,
+        				$http : $http,
+        				httpOptions : httpOptions,
+        				success : httpSuccess
+        			});
+            	}
+            }
+            
+            vm.subShenPi = function(){
+            	common.initJqValidation();
+     			var isValid = $('form').valid();
+     			if (isValid) {
+     				if(!vm.shenPiAtts || vm.shenPiAtts.length == 0){
+                		common.alert({
+    						vm : vm,
+    						msg : "还未上传附件"
+    					});
+                	}else{
+                		var httpOptions = {
+            					method : 'post',
+            					url : url_taskFeedback+"/feedback",
+            					data:{"shenbaoInfoId":vm.shenBaoInfoId,"msg":vm.shenPiContent,"att":vm.shenPiAtts}
+            				};
+             				
+             				var httpSuccess = function success(response) {
+             					common.requestSuccess({
+             						vm : vm,
+             						response : response,
+             						fn : function() {
+             							common.alert({
+             								vm : vm,
+             								msg : "提交成功",
+             								fn : function() {
+             									$('.alertDialog').modal('hide');
+             									$('#myModal_shenPi').modal('hide');
+             									window.location.reload();
+             								}
+             							});
+             						}
+             					});
+             				};
+             				
+             				common.http({
+             					vm : vm,
+             					$http : $http,
+             					httpOptions : httpOptions,
+             					success : httpSuccess
+             				});		
+                	}
+     			}
+            }
+            
+            vm.getShenPiDetails = function(shenBaoInfoId,taskId,taskKey){
+            	vm.getAllAtts(shenBaoInfoId,taskId,taskKey);
+            	vm.getAllComments(shenBaoInfoId,taskId,taskKey);
+            	$('#myModal_details').modal('show');
+    		}
+            
+            vm.getAllAtts = function(shenBaoInfoId,taskId,taskKey){
+            	var httpOptions = {
+    					method : 'get',
+    					url : url_taskFeedback + "/getAllAtts?shenBaoInfoId=" + shenBaoInfoId + "&taskId=" + taskId + "&taskKey=" + taskKey
+    				};
+    			
+    			var httpSuccess = function success(response) {
+    				console.info(response)
+    				vm.allAtts = response.data;
+    			};
+    			
+    			common.http({
+    				vm : vm,
+    				$http : $http,
+    				httpOptions : httpOptions,
+    				success : httpSuccess
+    			});
+            }
+            
+            vm.getAllComments = function(shenBaoInfoId,taskId,taskKey){
+            	var httpOptions = {
+    					method : 'get',
+    					url : url_taskFeedback + "/getAllComments?shenBaoInfoId=" + shenBaoInfoId + "&taskId=" + taskId + "&taskKey=" + taskKey
+    				};
+    			
+    			var httpSuccess = function success(response) {
+    				vm.allComments = response.data;
+    			};
+    			
+    			common.http({
+    				vm : vm,
+    				$http : $http,
+    				httpOptions : httpOptions,
+    				success : httpSuccess
+    			});
+            }
+        })
+    })();
+
+</script>
+
+<!-- 上传申报材料附件 start -->
+<div class="modal fade" id="myModal_shenBao" tabindex="-1" role="dialog"> 
+	<div class="modal-dialog" style="width: 800px"> 
+		<div class="modal-content">
+			<div class="modal-header bg-primary"> 
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button> 
+				<h4 class="modal-title" id="myModalLabel">申报附件</h4> 
+			</div> 
+			<div class="modal-body">
+				<table class="table table-bordered table-striped">
+					<tr>
+						<td>申报材料上传</td>
+						<td>
+					        <input type="file" name="files" id="shenBaoFiles"/>
+					        <div style="margin:3px;" ng-repeat="x in vm.shenBaoAtts">
+				 			<a href="/contents/upload/{{x.url}}" target="_blank" ng-bind="x.name"></a>
+							<button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenBao($index)">删除</button>
+			 			</div>
+						</td>
+					</tr>
+				</table>
+			</div> 
+			<div class="modal-footer"> 
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> 	
+				<button type="button" class="btn btn-success" ng-click="vm.subShenBaoAtts()">确认</button> 					
+			</div> 
+		</div><!-- /.modal-content -->
+	</div>  
+</div>
+<!-- 上传申报材料附件 end -->
+
+<!-- 审批模态框 start -->
+<div class="modal fade" id="myModal_shenPi" tabindex="-1" role="dialog"> 
+	<div class="modal-dialog" style="width: 800px"> 
+		<div class="modal-content">
+			<div class="modal-header bg-primary"> 
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button> 
+				<h4 class="modal-title" id="myModalLabel">审批信息</h4> 
+			</div> 
+			<div class="modal-body">
+				<form id="form" name="form">
+					<table class="table table-bordered table-striped">
+						<tr>
+							<td>审批内容</td>
+							<td>
+								<textarea class="form-control" id="shenPiContent" name="shenPiContent"  maxlength="500" rows="3"
+								ng-model="vm.shenPiContent" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+								ng-change="vm.checkLength(vm.shenPiContent,500,'shenPiContentTips')">
+								</textarea>
+								<span data-valmsg-for="shenPiContent" data-valmsg-replace="true" class="required"></span>
+								<div class="tipfont">您还可以输入<span id="shenPiContentTips"><font size="5">500</font></span>个字符!</div>
+							</td>
+						</tr>
+						<tr>
+							<td>审批材料上传</td>
+							<td>
+						        <input type="file" name="files" id="shenPiFiles"/>
+						        <div style="margin:3px;" ng-repeat="x in vm.shenPiAtts">
+					 			<a href="/contents/upload/{{x.url}}" target="_blank" ng-bind="x.name"></a>
+								<button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenPi($index)">删除</button>
+				 			</div>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div> 
+			<div class="modal-footer"> 
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> 	
+				<button type="button" class="btn btn-success" ng-click="vm.subShenPi()">确认</button> 					
+			</div> 
+		</div><!-- /.modal-content -->
+	</div>  
+</div>
+<!-- 审批模态框  end -->
+
+<!-- 审批详情模态框 start -->
+<div class="modal fade" id="myModal_details" tabindex="-1" role="dialog"> 
+	<div class="modal-dialog" style="width: 800px"> 
+		<div class="modal-content">
+			<div class="modal-header bg-primary"> 
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button> 
+				<h4 class="modal-title" id="myModalLabel">审批详情</h4> 
+			</div> 
+			<div class="modal-body">
+				<form id="form" name="form">
+					<table class="table table-bordered table-striped">
+						<tr>
+							<td>申报材料</td>
+							<td>
+						        <div style="margin:3px;" ng-repeat="x in vm.allAtts">
+						 			<a href="/contents/upload/{{x.url}}" target="_blank" ng-bind="x.name" ng-if="x.businessType == 'shenBao'"></a>
+				 				</div>
+							</td>
+						</tr>
+						<tr>
+							<td>审批材料</td>
+							<td>
+						        <div style="margin:3px;" ng-repeat="x in vm.allAtts">
+						 			<a href="/contents/upload/{{x.url}}" target="_blank" ng-bind="x.name" ng-if="x.businessType == 'shenPi'"></a>
+				 				</div>
+							</td>
+						</tr>
+					</table>
+					<div class="bg-info text-info" style="padding: 10px;">反馈意见</div>
+					<table class="table table-bordered table-striped">
+						<tr ng-repeat="x in vm.allComments | orderBy:'endTime'">
+							<td class="formAlignRight" style="width:150px;"  ng-bind="x.name"></td>
+							<td>
+								<div ng-bind="x.msg"></div>
+								<div class="text-right" ng-bind="x.id"></div>
+								<div class="text-right" ng-bind="x.endTime"></div>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div> 
+			<div class="modal-footer"> 
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> 	
+			</div> 
+		</div><!-- /.modal-content -->
+	</div>  
+</div>
+<!-- 审批详情模态框  end -->
+
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+
 </body>
 </html>

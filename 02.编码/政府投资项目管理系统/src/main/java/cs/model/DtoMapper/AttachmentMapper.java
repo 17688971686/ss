@@ -30,6 +30,7 @@ public class AttachmentMapper implements IMapper<AttachmentDto, Attachment>  {
 			attachmentDto.setModifiedDate(attachment.getModifiedDate());
 			attachmentDto.setModifiedBy(attachment.getModifiedBy());
 			attachmentDto.setItemOrder(attachment.getItemOrder());
+			attachmentDto.setBusinessType(attachment.getBusinessType());
 		}
 		return 	attachmentDto;		
 	}
@@ -51,6 +52,7 @@ public class AttachmentMapper implements IMapper<AttachmentDto, Attachment>  {
 			attachment.setModifiedDate(attachmentDto.getModifiedDate());
 			attachment.setModifiedBy(attachmentDto.getModifiedBy());
 			attachment.setItemOrder(attachmentDto.getItemOrder());
+			attachment.setBusinessType(attachmentDto.getBusinessType());
 		}
 		return attachment;
 	}

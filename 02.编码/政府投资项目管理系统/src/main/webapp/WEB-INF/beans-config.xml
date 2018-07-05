@@ -21,7 +21,7 @@
 	<mvc:annotation-driven></mvc:annotation-driven>
 	<mvc:resources location="/contents/" mapping="/contents/**" />
 
-	<context:component-scan base-package="cs,org.activiti.rest.diagram"></context:component-scan>
+	<context:component-scan base-package="cs"></context:component-scan>
 	<context:property-placeholder location="classpath:application.properties"/>
 <mvc:interceptors>
 		<bean class="cs.common.ApiFilter" />
@@ -45,6 +45,10 @@
 		<property name="prefix" value="" />
 		<property name="suffix" value=".html" />
 		<property name="contentType" value="text/html;charset=UTF-8" />
+		<property name="exposeRequestAttributes" value="true" />
+	    <property name="exposeSessionAttributes" value="true" />
+	    <property name="exposeSpringMacroHelpers" value="true" />
+	    <property name="requestContextAttribute" value="request" />
 	</bean>
 
 

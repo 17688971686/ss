@@ -8,6 +8,7 @@ import org.activiti.engine.history.HistoricActivityInstance;
 import cs.common.Response;
 import cs.domain.ShenBaoInfo;
 import cs.model.PageModelDto;
+import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.repository.odata.ODataObjNew;
 
@@ -48,5 +49,11 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
 	PageModelDto<ShenBaoInfoDto> getComplete_feedback(ODataObjNew odataObj);
 
 	PageModelDto<ShenBaoInfoDto> getToDo_yuepi(ODataObjNew odataObj);
+	
+	void subShenBaoAtts(Map<String, Object> data);
+
+	List<AttachmentDto> getAllAtts(String shenBaoInfoId, String taskId, String taskKey, List<AttachmentDto> list);
+
+	List<Object> getAllComments(String shenBaoInfoId, String taskId, String taskKey, List<Object> list);
 
 }

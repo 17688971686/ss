@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.common.ICurrentUser;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
+import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.repository.odata.ODataObjNew;
 import cs.service.framework.UserService;
@@ -93,6 +94,12 @@ public class FeedbackTaskController {
 		processService.handleFeedback(data);
 	}
 	
+	@RequestMapping(name = "上传申报附件", path = "subShenBaoAtts",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void subShenBaoAtts(@RequestBody Map<String,Object> data){
+		processService.subShenBaoAtts(data);
+	}
+	
 	@RequestMapping(name = "获取当前任务key值", path = "getCurrentTaskKey",method=RequestMethod.GET)
 	public @ResponseBody String getCurrentTaskKey(HttpServletRequest request){
 		String processInstanceId = request.getParameter("processInstanceId");
@@ -147,6 +154,36 @@ public class FeedbackTaskController {
 		
 		ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoService.getShenBaoInfoDtoById(shenbaoInfoId);
 		return shenBaoInfoDto;
+		
+	}
+	
+	@RequestMapping(name = "获取当前任务的所有附件", path = "getAllAtts",method=RequestMethod.GET)
+	public @ResponseBody List<AttachmentDto> getAllAtts(HttpServletRequest request){
+		String shenBaoInfoId = request.getParameter("shenBaoInfoId");
+		String taskId = request.getParameter("taskId");
+		String taskKey = request.getParameter("taskKey");
+		
+		List<AttachmentDto> list = new ArrayList<AttachmentDto>();
+		
+		//获取当前任务的审批详情
+		list = processService.getAllAtts(shenBaoInfoId,taskId,taskKey,list);
+		
+		return list;
+		
+	}
+	
+	@RequestMapping(name = "获取当前任务的所有审批记录", path = "getAllComments",method=RequestMethod.GET)
+	public @ResponseBody List<Object> getAllComments(HttpServletRequest request){
+		String shenBaoInfoId = request.getParameter("shenBaoInfoId");
+		String taskId = request.getParameter("taskId");
+		String taskKey = request.getParameter("taskKey");
+		
+		List<Object> list = new ArrayList<Object>();
+		
+		//获取当前任务的审批详情
+		list = processService.getAllComments(shenBaoInfoId,taskId,taskKey,list);
+		
+		return list;
 		
 	}
 	
