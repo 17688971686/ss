@@ -1,57 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans   
-	http://www.springframework.org/schema/beans/spring-beans.xsd">
-    
-    
-	<!-- spring负责创建流程引擎的配置文件 -->
-	<bean id="processEngineConfiguration"
-		class="org.activiti.spring.SpringProcessEngineConfiguration">
-		<!-- 数据源 -->
-		<property name="dataSource" ref="myDataSource" />
-		 <!-- 配置事务管理器，统一事务 -->
-        <property name="transactionManager" ref="myTransactionManager" />
-		<property name="databaseType" value="mysql"/>
-		<!-- 设置建表策略，如果没有表，自动创建表 -->
-		<property name="databaseSchema" value="act"/>
-		<property name="databaseSchemaUpdate" value="true" />
-		<!-- 是否启动jobExecutor --> 
-		<property name="jobExecutorActivate" value="false" />
-		<property name="processDefinitionCacheLimit" value="10" />
-		<property name="activityFontName" value="宋体"/>  
-        <property name="labelFontName" value="宋体"/>  
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+    <context:component-scan base-package="cs,org.activiti.rest.diagram"></context:component-scan>
+
+    <!-- spring负责创建流程引擎的配置文件 -->
+    <bean id="processEngineConfiguration"
+          class="org.activiti.spring.SpringProcessEngineConfiguration">
+        <!-- 数据源 -->
+        <property name="dataSource" ref="myDataSource"/>
+        <!-- 配置事务管理器，统一事务 -->
+        <property name="transactionManager" ref="myTransactionManager"/>
+        <property name="databaseType" value="mysql"/>
+        <!-- 设置建表策略，如果没有表，自动创建表 -->
+        <property name="databaseSchema" value="act"/>
+        <property name="databaseSchemaUpdate" value="true"/>
+        <!-- 是否启动jobExecutor -->
+        <property name="jobExecutorActivate" value="false"/>
+        <property name="processDefinitionCacheLimit" value="10"/>
+        <property name="activityFontName" value="宋体"/>
+        <property name="labelFontName" value="宋体"/>
         <!-- 自动部署 -->
         <!-- <property name="deploymentResources" value="classpath*:/bpmn/*.bpmn" /> -->
-	</bean>
-	
-	<!-- 创建流程引擎对象 -->
-	<bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
-		<property name="processEngineConfiguration" ref="processEngineConfiguration" />
-	</bean>
-	
-	<!-- 创建activiti提供的7种服务 -->
-	<!-- 工作流仓储服务 -->
-	<bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService" />
-	<!-- 工作流运行服务 -->
-	<bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService" />
-	<!-- 工作流任务服务-->
-	<bean id="taskService" factory-bean="processEngine" factory-method="getTaskService" />
-	<!-- 工作流历史数据服务--> 
-	<bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService" />
-	<!-- 工作流管理服务-->
-	<bean id="managementService" factory-bean="processEngine" factory-method="getManagementService" />
-	<!-- 工作流表单服务-->
-	<bean id="formService" factory-bean="processEngine" factory-method="getFormService" />
-	<!-- 工作流唯一服务 -->
+    </bean>
+
+    <!-- 创建流程引擎对象 -->
+    <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
+        <property name="processEngineConfiguration" ref="processEngineConfiguration"/>
+    </bean>
+
+    <!-- 创建activiti提供的7种服务 -->
+    <!-- 工作流仓储服务 -->
+    <bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService"/>
+    <!-- 工作流运行服务 -->
+    <bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService"/>
+    <!-- 工作流任务服务-->
+    <bean id="taskService" factory-bean="processEngine" factory-method="getTaskService"/>
+    <!-- 工作流历史数据服务-->
+    <bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService"/>
+    <!-- 工作流管理服务-->
+    <bean id="managementService" factory-bean="processEngine" factory-method="getManagementService"/>
+    <!-- 工作流表单服务-->
+    <bean id="formService" factory-bean="processEngine" factory-method="getFormService"/>
+    <!-- 工作流唯一服务 -->
     <bean id="IdentityService" factory-bean="processEngine" factory-method="getIdentityService"/>
-	
-	
-	<bean id="workflowDeployer"  class="cs.activiti.listener.WorkflowDeployerListener">  
-	    <property name="category" value="sn" />  
-	    <property name="deploymentResources" value="classpath*:/bpmn/*.bpmn" />  
-	</bean>  
-	
-	<bean id="configNextAssigneeListener" class="cs.activiti.listener.ConfigNextAssigneeListener" />
-	
+
+
+    <bean id="workflowDeployer" class="cs.activiti.listener.WorkflowDeployerListener">
+        <property name="category" value="sn"/>
+        <property name="deploymentResources" value="classpath*:/bpmn/*.bpmn"/>
+    </bean>
+
+    <bean id="configNextAssigneeListener" class="cs.activiti.listener.ConfigNextAssigneeListener"/>
+
 </beans>

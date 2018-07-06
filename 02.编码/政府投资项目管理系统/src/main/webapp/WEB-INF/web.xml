@@ -1,163 +1,189 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
-  <error-page>
-    <error-code>404</error-code>
-    <location>/error/404</location>
-  </error-page>
-  <servlet>
-    <servlet-name>framework</servlet-name>
-    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <init-param>
-      <param-name>contextConfigLocation</param-name>
-      <param-value>/WEB-INF/beans-config.xml,classpath*:activiti-config.xml,classpath:net/bull/javamelody/monitoring-spring-datasource.xml</param-value>
-    </init-param>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>framework</servlet-name>
-    <url-pattern>/</url-pattern>
-  </servlet-mapping>
-  
-  <!-- 单点登录begin -->
-	<!-- <filter>
-		<filter-name>CAS Single Sign Out Filter</filter-name>
-		<filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
-		<init-param>
-			<param-name>casServerUrlPrefix</param-name>
-			<param-value>http://192.168.189.142:7000/sso</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>CAS Single Sign Out Filter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error/404</location>
+    </error-page>
 
-	AuthenticationFilter用来拦截所有的请求，用以判断用户是否需要通过Cas Server进行认证
-	<filter>
-		<filter-name>CAS Authentication Filter</filter-name>
-		<filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
-		<init-param>
-			<param-name>casServerLoginUrl</param-name>
-			<param-value>http://192.168.189.142:7000/sso/login</param-value>
-		</init-param>
-		<init-param>
-			<param-name>serverName</param-name>
-			<param-value>http://192.168.189.235:8081</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>CAS Authentication Filter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring.xml,classpath:spring-*.xml,classpath:activiti-config.xml</param-value>
+    </context-param>
 
-	在请求通过AuthenticationFilter的认证之后，如果请求中携带了参数ticket则将会由TicketValidationFilter来对携带的ticket进行校验
-	<filter>
-		<filter-name>CAS Validation Filter</filter-name>
-		<filter-class>org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</filter-class>
-		<init-param>
-			<param-name>encoding</param-name>
-			<param-value>UTF-8</param-value>
-		</init-param>
-		<init-param>
-			<param-name>casServerUrlPrefix</param-name>
-			<param-value>http://192.168.189.142:7000/sso</param-value>
-		</init-param>
-		<init-param>
-			<param-name>serverName</param-name>
-			<param-value>http://192.168.189.235:8081</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>CAS Validation Filter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+    <servlet>
+        <servlet-name>framework</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>
+                classpath:spring-mvc.xml,classpath:net/bull/javamelody/monitoring-spring-datasource.xml
+            </param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>framework</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
 
-	HttpServletRequestWrapperFilter用于将每一个请求对应的HttpServletRequest封装为其内部定义的CasHttpServletRequestWrapper，该封装类将利用之前保存在Session或request中的Assertion对象重写HttpServletRequest的getUserPrincipal()、getRemoteUser()和isUserInRole()方法。这样在我们的应用中就可以非常方便的从HttpServletRequest中获取到用户的相关信息
-	<filter>
-		<filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
-		<filter-class>org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+    <filter>
+        <filter-name>openSessionInViewFilter</filter-name>
+        <filter-class>org.springframework.orm.hibernate5.support.OpenSessionInViewFilter</filter-class>
+        <init-param>
+            <param-name>singleSession</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>openSessionInViewFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
-	AssertionThreadLocalFilter是为了方便用户在应用的其它地方获取Assertion对象，其会将当前的Assertion对象存放到当前的线程变量中，那么以后用户在程序的任何地方都可以从线程变量中获取当前Assertion，无需再从Session或request中进行解析
-	<filter>
-		<filter-name>CAS Assertion Thread Local Filter</filter-name>
-		<filter-class>org.jasig.cas.client.util.AssertionThreadLocalFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>CAS Assertion Thread Local Filter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	<listener>
-		<listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
-	</listener> 
+    <!-- 单点登录begin -->
+    <!-- <filter>
+        <filter-name>CAS Single Sign Out Filter</filter-name>
+        <filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
+        <init-param>
+            <param-name>casServerUrlPrefix</param-name>
+            <param-value>http://192.168.189.142:7000/sso</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CAS Single Sign Out Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
-	<filter>
-		<filter-name>riseUserloginFilter</filter-name>
-		<filter-class>cs.common.CheckUserLoginFilter_RC8</filter-class>
-	</filter>
-	<filter-mapping>
+    AuthenticationFilter用来拦截所有的请求，用以判断用户是否需要通过Cas Server进行认证
+    <filter>
+        <filter-name>CAS Authentication Filter</filter-name>
+        <filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
+        <init-param>
+            <param-name>casServerLoginUrl</param-name>
+            <param-value>http://192.168.189.142:7000/sso/login</param-value>
+        </init-param>
+        <init-param>
+            <param-name>serverName</param-name>
+            <param-value>http://192.168.189.235:8081</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CAS Authentication Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    在请求通过AuthenticationFilter的认证之后，如果请求中携带了参数ticket则将会由TicketValidationFilter来对携带的ticket进行校验
+    <filter>
+        <filter-name>CAS Validation Filter</filter-name>
+        <filter-class>org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>casServerUrlPrefix</param-name>
+            <param-value>http://192.168.189.142:7000/sso</param-value>
+        </init-param>
+        <init-param>
+            <param-name>serverName</param-name>
+            <param-value>http://192.168.189.235:8081</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CAS Validation Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    HttpServletRequestWrapperFilter用于将每一个请求对应的HttpServletRequest封装为其内部定义的CasHttpServletRequestWrapper，该封装类将利用之前保存在Session或request中的Assertion对象重写HttpServletRequest的getUserPrincipal()、getRemoteUser()和isUserInRole()方法。这样在我们的应用中就可以非常方便的从HttpServletRequest中获取到用户的相关信息
+    <filter>
+        <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
+        <filter-class>org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    AssertionThreadLocalFilter是为了方便用户在应用的其它地方获取Assertion对象，其会将当前的Assertion对象存放到当前的线程变量中，那么以后用户在程序的任何地方都可以从线程变量中获取当前Assertion，无需再从Session或request中进行解析
+    <filter>
+        <filter-name>CAS Assertion Thread Local Filter</filter-name>
+        <filter-class>org.jasig.cas.client.util.AssertionThreadLocalFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CAS Assertion Thread Local Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <listener>
+        <listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
+    </listener>
+
+    <filter>
+        <filter-name>riseUserloginFilter</filter-name>
+        <filter-class>cs.common.CheckUserLoginFilter_RC8</filter-class>
+    </filter>
+    <filter-mapping>
     <filter-name>riseUserloginFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
   单点登录end
-  
+
   防止跨域
   <filter>
       <filter-name>XssFilter</filter-name>
-	  <filter-class>cs.common.XssFilter</filter-class>
+      <filter-class>cs.common.XssFilter</filter-class>
   </filter>
   <filter-mapping>
       <filter-name>XssFilter</filter-name>
       <url-pattern>/*</url-pattern>
   </filter-mapping> -->
-  <!-- 防止跨域end -->
-  
-  <filter>
-    <filter-name>mobileFilter</filter-name>
-  	<filter-class>cs.controller.mobile.MobileFilter</filter-class>
-  </filter>
-  <filter-mapping>
-  	<filter-name>mobileFilter</filter-name>
-  	<url-pattern>/mobile/*</url-pattern>
-  </filter-mapping>
-  
-  <filter>
-    <filter-name>shiroFilter</filter-name>
-    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-    <init-param>
-      <param-name>targetFilterLifecycle</param-name>
-      <param-value>true</param-value>
-    </init-param>
-  </filter>
-  <filter-mapping>
-    <filter-name>shiroFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
-  <display-name>Archetype Created Web Application</display-name>
-  
+    <!-- 防止跨域end -->
+
+    <filter>
+        <filter-name>mobileFilter</filter-name>
+        <filter-class>cs.controller.mobile.MobileFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>mobileFilter</filter-name>
+        <url-pattern>/mobile/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>shiroFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>targetFilterLifecycle</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>shiroFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <display-name>Archetype Created Web Application</display-name>
+
     <!-- java melody -->
-  	<filter>  
-      <filter-name>monitoring</filter-name>  
-      <filter-class>net.bull.javamelody.MonitoringFilter</filter-class>  
-      <init-param>  
-          <param-name>log</param-name>  
-              <param-value>true</param-value>  
-          </init-param>  
-  	</filter>  
-  	<filter-mapping>  
-      <filter-name>monitoring</filter-name>  
-      <url-pattern>/*</url-pattern>  
-  	</filter-mapping>  
-  	<listener>  
-      <listener-class>net.bull.javamelody.SessionListener</listener-class>  
-  	</listener>
-   <!-- java melody end -->
-  
-  <session-config>
+    <filter>
+        <filter-name>monitoring</filter-name>
+        <filter-class>net.bull.javamelody.MonitoringFilter</filter-class>
+        <init-param>
+            <param-name>log</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>monitoring</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <listener>
+        <listener-class>net.bull.javamelody.SessionListener</listener-class>
+    </listener>
+    <!-- java melody end -->
+
+    <session-config>
         <session-timeout>0</session-timeout>
-  </session-config>
+    </session-config>
 </web-app>
