@@ -1388,7 +1388,7 @@
 				pageable : common.kendoGridConfig().pageable,
 				noRecords : common.kendoGridConfig().noRecordMessage,
 				columns : columns,
-				dataBound:dataBound,
+//				dataBound:dataBound,
 				resizable : true,
 				scrollable:true
 			};
