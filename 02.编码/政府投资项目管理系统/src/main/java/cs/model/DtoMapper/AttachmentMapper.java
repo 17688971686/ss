@@ -31,6 +31,7 @@ public class AttachmentMapper implements IMapper<AttachmentDto, Attachment>  {
 			attachmentDto.setModifiedBy(attachment.getModifiedBy());
 			attachmentDto.setItemOrder(attachment.getItemOrder());
 			attachmentDto.setBusinessType(attachment.getBusinessType());
+			attachmentDto.setShenBaoAttType(attachment.getShenBaoAttType());
 		}
 		return 	attachmentDto;		
 	}
@@ -53,6 +54,7 @@ public class AttachmentMapper implements IMapper<AttachmentDto, Attachment>  {
 			attachment.setModifiedBy(attachmentDto.getModifiedBy());
 			attachment.setItemOrder(attachmentDto.getItemOrder());
 			attachment.setBusinessType(attachmentDto.getBusinessType());
+			attachment.setShenBaoAttType(attachmentDto.getShenBaoAttType());
 		}
 		return attachment;
 	}

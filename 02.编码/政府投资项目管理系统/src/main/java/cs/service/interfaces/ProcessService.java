@@ -6,9 +6,9 @@ import java.util.Map;
 import org.activiti.engine.history.HistoricActivityInstance;
 
 import cs.common.Response;
+import cs.domain.Attachment;
 import cs.domain.ShenBaoInfo;
 import cs.model.PageModelDto;
-import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.repository.odata.ODataObjNew;
 
@@ -52,8 +52,10 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
 	
 	void subShenBaoAtts(Map<String, Object> data);
 
-	List<AttachmentDto> getAllAtts(String shenBaoInfoId, String taskId, String taskKey, List<AttachmentDto> list);
+	List<Attachment> getAllAtts(String shenBaoInfoId, String taskId, String taskKey, List<Attachment> list);
 
 	List<Object> getAllComments(String shenBaoInfoId, String taskId, String taskKey, List<Object> list);
+
+	Map<String, Object> getCurrentKeyIntoMap(String processInstanceId, Map<String, Object> map);
 
 }

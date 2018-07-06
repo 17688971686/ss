@@ -180,6 +180,8 @@ public class ShenBaoInfo extends BaseProject{
 	//begin#在线监管
 	@Column(columnDefinition="varchar(125) NULL COMMENT '在线监管流程ID'")
 	private String monitor_processId;
+	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否提交申报附件'")
+	private Boolean isSubShenBaoAtt;
 	//end
 	
 	//begin#建议书相关
@@ -240,6 +242,12 @@ public class ShenBaoInfo extends BaseProject{
 	private List<Attachment> attachments=new ArrayList<>();
 	
 	
+	public Boolean getIsSubShenBaoAtt() {
+		return isSubShenBaoAtt;
+	}
+	public void setIsSubShenBaoAtt(Boolean isSubShenBaoAtt) {
+		this.isSubShenBaoAtt = isSubShenBaoAtt;
+	}
 	public String getMonitor_processId() {
 		return monitor_processId;
 	}

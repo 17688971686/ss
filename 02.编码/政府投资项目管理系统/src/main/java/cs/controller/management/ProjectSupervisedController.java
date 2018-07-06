@@ -25,6 +25,7 @@ import cs.model.DomainDto.ShenPiItemsDto;
 import cs.model.DomainDto.ShenPiUnitDto;
 import cs.repository.odata.ODataObj;
 import cs.service.framework.UserService;
+import cs.service.interfaces.ProcessService;
 import cs.service.interfaces.ProjectSupervisedService;
 import cs.service.interfaces.ShenBaoInfoService;
 import cs.service.interfaces.ShenPiItemsService;
@@ -49,6 +50,8 @@ public class ProjectSupervisedController {
 	private ShenPiItemsService shenPiItemsService ;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private ProcessService processService;
 	
 	ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
 	
@@ -281,6 +284,9 @@ public class ProjectSupervisedController {
 		 map.put("processDefinitionId", instance.getProcessDefinitionId());
 		 
 		 map = userService.getRolesIntoMap(map);
+		 
+		 //获取当前任务的key值
+		 map = processService.getCurrentKeyIntoMap(processInstanceId,map);
 		 
 		 return map;
 	}

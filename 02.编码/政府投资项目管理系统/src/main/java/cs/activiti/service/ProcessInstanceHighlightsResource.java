@@ -27,6 +27,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import cs.common.ObjectUtils;
+import cs.common.StringUtil;
+
 @RestController
 public class ProcessInstanceHighlightsResource {
 
@@ -99,6 +102,14 @@ public class ProcessInstanceHighlightsResource {
 				objectNode.put("taskId", x.getId());
 				objectNode.put("userId", x.getAssignee());
 				objectNode.put("isHistory", false);
+				
+				if(ObjectUtils.isNoneEmpty(processEngine.getTaskService().getVariableLocal(x.getId(), "isSubShenBaoAtt"))) {
+					String isSubShenBaoAtt = processEngine.getTaskService().getVariableLocal(x.getId(), "isSubShenBaoAtt").toString();
+					
+					if(StringUtil.isNoneBlank(isSubShenBaoAtt)) {
+						objectNode.put("isSubShenBaoAtt", isSubShenBaoAtt);
+					}
+				}
 				
 				activitiesArray.add(objectNode);
 			});

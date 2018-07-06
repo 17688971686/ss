@@ -9,7 +9,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.sn.framework.common.StringUtil;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricTaskInstance;
@@ -24,10 +23,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.sn.framework.common.StringUtil;
+
 import cs.common.ICurrentUser;
+import cs.domain.Attachment;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
-import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.repository.odata.ODataObjNew;
 import cs.service.framework.UserService;
@@ -158,12 +159,12 @@ public class FeedbackTaskController {
 	}
 	
 	@RequestMapping(name = "获取当前任务的所有附件", path = "getAllAtts",method=RequestMethod.GET)
-	public @ResponseBody List<AttachmentDto> getAllAtts(HttpServletRequest request){
+	public @ResponseBody List<Attachment> getAllAtts(HttpServletRequest request){
 		String shenBaoInfoId = request.getParameter("shenBaoInfoId");
 		String taskId = request.getParameter("taskId");
 		String taskKey = request.getParameter("taskKey");
 		
-		List<AttachmentDto> list = new ArrayList<AttachmentDto>();
+		List<Attachment> list = new ArrayList<Attachment>();
 		
 		//获取当前任务的审批详情
 		list = processService.getAllAtts(shenBaoInfoId,taskId,taskKey,list);

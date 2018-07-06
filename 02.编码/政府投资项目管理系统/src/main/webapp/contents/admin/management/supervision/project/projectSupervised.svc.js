@@ -1223,11 +1223,11 @@
         function getDiagramViewerInfo(vm,id,shenBaoInfoId){
             var httpOptions = {
                     method : 'get',
-                    url : url_project + '/getDiagramViewerInfo?processInstanceId=' + id,
+                    url : url_project + '/getDiagramViewerInfo?processInstanceId=' + id + "&shenBaoInfoId=" + shenBaoInfoId,
                 };
 
                 var httpSuccess = function success(response) {
-                	 vm.diagramViewerUrl = "contents/diagram-viewer/index.html?processDefinitionId=" + response.data.processDefinitionId + "&processInstanceId=" + response.data.processInstanceId + "&shenBaoInfoId=" + shenBaoInfoId + "&roleType=" + response.data.roleType;
+                	 vm.diagramViewerUrl = "contents/diagram-viewer/index.html?processDefinitionId=" + response.data.processDefinitionId + "&processInstanceId=" + response.data.processInstanceId + "&shenBaoInfoId=" + shenBaoInfoId + "&roleType=" + response.data.roleType + "&currentKey=" + response.data.currentKey;
                 	 
                 	 $('#myModal_monitor').modal('show');
                      

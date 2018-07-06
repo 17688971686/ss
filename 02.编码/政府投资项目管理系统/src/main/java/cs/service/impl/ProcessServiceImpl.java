@@ -364,7 +364,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		boolean isShow = false;
 		Criterion criterion = Restrictions.eq(ShenBaoInfo_.zong_processId.getName(), processId);
 		List<ShenBaoInfo> shenBaoInfo = shenBaoInfoRepo.findByCriteria(criterion);
-		User loginUser = userRepo.findById(currentUser.getUserId());
+		userRepo.findById(currentUser.getUserId());
 		
 		List<HistoricVariableInstance> list = processEngineFactoryBean.getProcessEngineConfiguration().getHistoryService()  
 	            .createHistoricVariableInstanceQuery()//创建一个历史的流程变量查询对象  
@@ -967,13 +967,28 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			attachmentRepo.delete(x);
 		});
 		project.getAttachments().clear();
-		shenbaoinfoDto.getAttachmentDtos().forEach(x -> {//添加新附件
+		for(AttachmentDto x : shenbaoinfoDto.getAttachmentDtos()) {//添加新附件
+			Attachment attachment = new Attachment();
+			attachmentMapper.buildEntity(x, attachment);
+			attachment.setCreatedBy(project.getCreatedBy());
+			attachment.setModifiedBy(project.getModifiedBy());
+			if(StringUtil.isBlank(attachment.getBusinessType())) {
+				attachment.setBusinessType("shenPi");
+			}
+			if(StringUtil.isBlank(attachment.getShenBaoAttType())) {
+				if(ObjectUtils.isNoneEmpty(monitorTask)) {
+					attachment.setShenBaoAttType(monitorTask.getTaskDefinitionKey());
+				}
+			}
+			project.getAttachments().add(attachment);
+		}
+		/*shenbaoinfoDto.getAttachmentDtos().forEach(x -> {//添加新附件
 			Attachment attachment = new Attachment();
 			attachmentMapper.buildEntity(x, attachment);
 			attachment.setCreatedBy(project.getCreatedBy());
 			attachment.setModifiedBy(project.getModifiedBy());
 			project.getAttachments().add(attachment);
-		});
+		});*/
 		project.setPifuCBSJYGS_date(shenbaoinfoDto.getPifuCBSJYGS_date());
 		project.setPifuKXXYJBG_date(shenbaoinfoDto.getPifuKXXYJBG_date());
 		project.setPifuJYS_date(shenbaoinfoDto.getPifuJYS_date());
@@ -997,13 +1012,21 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		});
 		shenBaoInfo.getAttachments().clear();
 		if(shenbaoinfoDto.getAttachmentDtos().size() >0){
-			shenbaoinfoDto.getAttachmentDtos().forEach(x -> {//添加新附件
+			for(AttachmentDto x : shenbaoinfoDto.getAttachmentDtos()) {
 				Attachment attachment = new Attachment();
 				attachmentMapper.buildEntity(x, attachment);
 				attachment.setCreatedBy(shenBaoInfo.getCreatedBy());
 				attachment.setModifiedBy(shenBaoInfo.getModifiedBy());
+				if(StringUtil.isBlank(attachment.getBusinessType())) {
+					attachment.setBusinessType("shenPi");
+				}
+				if(StringUtil.isBlank(attachment.getShenBaoAttType())) {
+					if(ObjectUtils.isNoneEmpty(monitorTask)) {
+						attachment.setShenBaoAttType(monitorTask.getTaskDefinitionKey());
+					}
+				}
 				shenBaoInfo.getAttachments().add(attachment);
-			});
+			}
 		}
 		projectRepo.save(project);
 		
@@ -1046,7 +1069,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setThisTaskName(tasknew.get(0).getTaskDefinitionKey());
 			shenBaoInfo.setProcessStage(tasknew.get(0).getName());
 		}
-
 		shenBaoInfoRepo.save(shenBaoInfo);
 		
 		logger.info(String.format("办结或阅批任务,用户名:%s", currentUser.getLoginName()));
@@ -1089,7 +1111,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "rawtypes" })
 	@Override
 	@Transactional
 	public void taskPinglun(Map data) {
@@ -1133,6 +1155,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		List<Attachment> att = (List<Attachment>) data.get("att");//附件
 		
 		ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenbaoInfoId);
+		Project project = projectRepo.findById(shenBaoInfo.getProjectId());
 		
 		List<Task> monitorTask = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getMonitor_processId()).taskCandidateUser(currentUser.getUserId()).active().list();
 		List<Task> monitorTask2 = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getMonitor_processId()).taskAssignee(currentUser.getUserId()).active().list();
@@ -1150,10 +1173,11 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				newatt.setId(UUID.randomUUID().toString());
 				newatt.setName(map.get("name").toString());
 				newatt.setUrl(map.get("url").toString());			
-				newatt.setType(map.get("type").toString());
 				newatt.setCreatedBy(currentUser.getUserId());
 				newatt.setModifiedBy(currentUser.getUserId());
-				shenBaoInfo.getAttachments().add(newatt);
+				newatt.setBusinessType(map.get("businessType").toString());
+				newatt.setShenBaoAttType(map.get("shenBaoAttType").toString());
+				project.getAttachments().add(newatt);
 			}
 		}
 		
@@ -1164,6 +1188,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			
 			taskService.complete(x.getId());
 		});
+		
+		shenBaoInfo.setIsSubShenBaoAtt(false);
 	}
 
 
@@ -1200,8 +1226,10 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	public void subShenBaoAtts(Map<String, Object> data) {
 		String shenBaoInfoId = (String) data.get("shenBaoInfoId");
 		List<Attachment> att = (List<Attachment>) data.get("shenBaoAtts");//附件
+		String taskId = (String) data.get("taskId");//附件
 		
 		ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenBaoInfoId);
+		Project project = projectRepo.findById(shenBaoInfo.getProjectId());
 		
 		Gson gson = new Gson();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -1214,25 +1242,30 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				newatt.setId(UUID.randomUUID().toString());
 				newatt.setName(map.get("name").toString());
 				newatt.setUrl(map.get("url").toString());			
-				newatt.setType(map.get("type").toString());
 				newatt.setCreatedBy(currentUser.getUserId());
 				newatt.setModifiedBy(currentUser.getUserId());
-				shenBaoInfo.getAttachments().add(newatt);
+				newatt.setBusinessType(map.get("businessType").toString());
+				newatt.setShenBaoAttType(map.get("shenBaoAttType").toString());
+				project.getAttachments().add(newatt);
 			}
 		}
+		
+		processEngine.getTaskService().setVariableLocal(taskId, "isSubShenBaoAtt", "true");
+		
 	}
 
 	@Override
 	@Transactional
-	public List<AttachmentDto> getAllAtts(String shenBaoInfoId, String taskId, String taskKey,
-			List<AttachmentDto> list) {
+	public List<Attachment> getAllAtts(String shenBaoInfoId, String taskId, String taskKey,
+			List<Attachment> list) {
 		//查询申报附件
 			ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoService.getShenBaoInfoDtoById(shenBaoInfoId);
-			if(ObjectUtils.isNoneEmpty(shenBaoInfoDto)) {
-				List<AttachmentDto> attachmentDtos = shenBaoInfoDto.getAttachmentDtos();
-				if(!CollectionUtils.isEmpty(attachmentDtos)) {
-					attachmentDtos.forEach(x -> {
-						if(taskKey.equalsIgnoreCase(x.getType())) {
+			Project project = projectRepo.findById(shenBaoInfoDto.getProjectId());
+			if(ObjectUtils.isNoneEmpty(project)) {
+				List<Attachment> attachments = project.getAttachments();
+				if(!CollectionUtils.isEmpty(attachments)) {
+					attachments.forEach(x -> {
+						if(taskKey.equalsIgnoreCase(x.getShenBaoAttType())) {
 							list.add(x);
 						}
 					});
@@ -1273,6 +1306,29 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			list.add(map);
 		}
 		return list;
+	}
+
+	@Override
+	@Transactional
+	public Map<String, Object> getCurrentKeyIntoMap(String processInstanceId,Map<String, Object> map) {
+		List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstanceId).taskCandidateUser(currentUser.getUserId()).active().list();
+		List<Task> tasks2 = taskService.createTaskQuery().processInstanceId(processInstanceId).taskAssignee(currentUser.getUserId()).active().list();
+		tasks.addAll(tasks2);
+		
+		if(CollectionUtils.isEmpty(tasks)) {
+			HistoricProcessInstance instance = historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+			String StartUserId = instance.getStartUserId();
+			if(StartUserId.equalsIgnoreCase(currentUser.getUserId())) {
+				map.put("currentKey", "Yes");
+			}else {
+				map.put("currentKey", "No");
+			}
+		}else {
+			String taskKey = tasks.get(0).getTaskDefinitionKey();
+			map.put("currentKey", taskKey);
+		}
+		
+		return map;
 	}
 
 }

@@ -25,6 +25,8 @@ public class Attachment extends BaseEntity{
 	private String type;
 	@Column(columnDefinition="varchar(50) COMMENT '附件业务相关类型'")
 	private String businessType;
+	@Column(columnDefinition="varchar(50) COMMENT '申报附件类型-用于监控端'")
+	private String shenBaoAttType;
 	
 	public String getId() {
 		return id;
@@ -62,7 +64,11 @@ public class Attachment extends BaseEntity{
 	public void setBusinessType(String businessType) {
 		this.businessType = businessType;
 	}
-	
-	
+	public String getShenBaoAttType() {
+		return shenBaoAttType;
+	}
+	public void setShenBaoAttType(String shenBaoAttType) {
+		this.shenBaoAttType = shenBaoAttType;
+	}
 	
 }

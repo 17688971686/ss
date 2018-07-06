@@ -1,12 +1,10 @@
 package cs.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
@@ -23,7 +21,6 @@ import org.activiti.spring.ProcessEngineFactoryBean;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
@@ -48,8 +45,6 @@ import cs.domain.TaskHead_;
 import cs.domain.TaskRecord;
 import cs.domain.framework.Org;
 import cs.domain.framework.Org_;
-import cs.domain.framework.Role;
-import cs.domain.framework.Role_;
 import cs.domain.framework.SysConfig;
 import cs.domain.framework.SysConfig_;
 import cs.domain.framework.User;
@@ -62,12 +57,10 @@ import cs.model.DomainDto.TaskRecordDto;
 import cs.model.DtoMapper.IMapper;
 import cs.model.Statistics.ProjectStatisticsBean;
 import cs.repository.framework.OrgRepo;
-import cs.repository.framework.RoleRepo;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
-import cs.service.common.BasicDataServiceImpl;
 import cs.service.interfaces.ShenBaoInfoService;
 /**
  * @Description: 申报信息服务层
@@ -103,8 +96,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 	private BasicDataService basicDataService;
 	@Autowired
 	private ICurrentUser currentUser;
-	@Autowired
-	private RoleRepo roleRepo;
 	@Autowired
 	private OrgRepo orgRepo;
 	@Autowired
@@ -254,8 +245,47 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 			attachmentMapper.buildEntity(x, attachment);
 			attachment.setCreatedBy(entity.getCreatedBy());
 			attachment.setModifiedBy(entity.getModifiedBy());
+			if(StringUtil.isBlank(attachment.getBusinessType())) {
+				attachment.setBusinessType("shenBao");
+			}
+			if(StringUtil.isBlank(attachment.getShenBaoAttType())) {
+				if("projectShenBaoStage_1".equalsIgnoreCase(dto.getProjectShenBaoStage())) {
+					attachment.setShenBaoAttType("usertask26");
+				}else if("projectShenBaoStage_2".equalsIgnoreCase(dto.getProjectShenBaoStage())) {
+					attachment.setShenBaoAttType("usertask4");
+				}else if("projectShenBaoStage_3".equalsIgnoreCase(dto.getProjectShenBaoStage())) {
+					attachment.setShenBaoAttType("usertask18");
+				}
+			}
+			
 			entity.getAttachments().add(attachment);
 		});
+		
+		Project project = projectRepo.findById(entity.getProjectId());
+		project.getAttachments().forEach(x -> {//删除历史附件
+			attachmentRepo.delete(x);
+		});
+		project.getAttachments().clear();
+		dto.getAttachmentDtos().forEach(x -> {//添加新附件
+			Attachment attachment = new Attachment();
+			attachmentMapper.buildEntity(x, attachment);
+			attachment.setCreatedBy(project.getCreatedBy());
+			attachment.setModifiedBy(project.getModifiedBy());
+			if(StringUtil.isBlank(attachment.getBusinessType())) {
+				attachment.setBusinessType("shenBao");
+			}
+			if(StringUtil.isBlank(attachment.getShenBaoAttType())) {
+				if("projectShenBaoStage_1".equalsIgnoreCase(dto.getProjectShenBaoStage())) {
+					attachment.setShenBaoAttType("usertask26");
+				}else if("projectShenBaoStage_2".equalsIgnoreCase(dto.getProjectShenBaoStage())) {
+					attachment.setShenBaoAttType("usertask4");
+				}else if("projectShenBaoStage_3".equalsIgnoreCase(dto.getProjectShenBaoStage())) {
+					attachment.setShenBaoAttType("usertask18");
+				}
+			}
+			project.getAttachments().add(attachment);
+		});
+		
 		//申报单位
 		ShenBaoUnitInfoDto shenBaoUnitInfoDto = dto.getShenBaoUnitInfoDto();
 		ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();

@@ -41,6 +41,7 @@
     </style>
 </head>
 <body id="ng-app" ng-app="monitorApp" ng-controller="monitorCtrl as vm">
+
 <!-- <body> -->
 <div class="wrapper">
     <div id="pb1"></div>
@@ -70,6 +71,7 @@
         var processInstanceId = query_string["processInstanceId"];
         var shenBaoInfoId = query_string["shenBaoInfoId"];
         var roleType = query_string["roleType"];
+        var currentKey = query_string["currentKey"];
         
         console.log("Initialize progress bar");
 
@@ -102,89 +104,66 @@
 					var taskId = contextObject.getProperty("taskId");
 					var taskKey = contextObject.getId();
 					var isHistory = contextObject.getProperty("isHistory");
-					debugger
+					var name = contextObject.getProperty("name");
+					var isSubShenBaoAtt = contextObject.getProperty("isSubShenBaoAtt");
+					
 					var $scope = angular.element("body").scope();
 				    $scope.$apply(function () {
 						$scope.vm.shenBaoInfoId = shenBaoInfoId;
+						$scope.vm.name = name;
+						$scope.vm.taskId = taskId;
 					})
-					
                 	if(isHistory){
                 		$scope.vm.getShenPiDetails(shenBaoInfoId,taskId,taskKey);
                     }else{
-                    	if(roleType && 'approvalUnit' == roleType){
-                    		$('#shenPiFiles').uploadify({
-                                uploader: '/common/save',
-                                swf: "/contents/libs/uploadify/uploadify.swf",
-                                method: 'post',
-                                multi: true,
-                                auto: true,//自动上传
-                                fileObjName: 'files',// 上传参数名称
-                                fileSizeLimit: "10MB",//上传文件大小限制
-                                buttonText: '选择文档',
-                                fileExt: '*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps',
-                                fileTypeExts: '*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps',
-                                fileTypeDesc: "请选择*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps",     // 文件说明
-                                removeCompleted: true,   //设置已完成上传的文件是否从队列中移除，默认为true
-                                onUploadSuccess: function (file, data, response) {
-                                	$scope.$apply(function () {
-                                		if($scope.vm.shenPiAtts){
-                                    		$scope.vm.shenPiAtts.push({name:data.split('_')[2],url:data,type:taskKey,businessType:'shenPi'});
-                               			 }else{
-                               				$scope.vm.shenPiAtts=[{name:data.split('_')[2],url:data,type:taskKey,businessType:'shenPi'}];
-                              			 }    
-                                	})
-                                }
-                            });
+                    	debugger
+                    	if(roleType && 'approvalUnit' == roleType && currentKey == taskKey && taskId){
+                    		if(isSubShenBaoAtt == 'true'){
+                    			$scope.vm.setShenPiconfig(taskKey);
+                    		}else{
+                    			$scope.$apply(function () {
+                        			common.alert({
+                            			vm : $scope.vm,
+                    					msg : "建设单位还未提交申报材料"
+                            		})
+                        		})
+                    		}
                     		
-                    		//删除上传文件
-                   			$scope.vm.delFile_shenPi=function(idx){
-                       			var file = $scope.vm.shenPiAtts[idx];
-                       			if(file){
-                       				$scope.vm.shenPiAtts.splice(idx,1);
-                       			}
-                       	    };
-                       	    
-                       	    $scope.vm.checkLength = function(obj,max,id){
-	                  			common.checkLength(obj,max,id);
-	                       	};
-                       	    
-                       	 	$('#myModal_shenPi').modal('show');
-                    	}else if(roleType && 'constructionUnit' == roleType){
-                    		/****************************************************************上传附件 begin**********************************************************************************************************/ 
-                    		$('#shenBaoFiles').uploadify({
-                                uploader: '/common/save',
-                                swf: "/contents/libs/uploadify/uploadify.swf",
-                                method: 'post',
-                                multi: true,
-                                auto: true,//自动上传
-                                fileObjName: 'files',// 上传参数名称
-                                fileSizeLimit: "10MB",//上传文件大小限制
-                                buttonText: '选择文档',
-                                fileExt: '*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps',
-                                fileTypeExts: '*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps',
-                                fileTypeDesc: "请选择*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps",     // 文件说明
-                                removeCompleted: true,   //设置已完成上传的文件是否从队列中移除，默认为true
-                                onUploadSuccess: function (file, data, response) {
-                                	$scope.$apply(function () {
-                                		if($scope.vm.shenBaoAtts){
-                                    		$scope.vm.shenBaoAtts.push({name:data.split('_')[2],url:data,type:taskKey,businessType:'shenBao'});
-                               			 }else{
-                               				$scope.vm.shenBaoAtts=[{name:data.split('_')[2],url:data,type:taskKey,businessType:'shenBao'}];
-                              			 }    
-                                	})
-                                }
-                            });
-                        	
-                    		//删除上传文件
-                   			$scope.vm.delFile_shenBao=function(idx){
-                       			var file = $scope.vm.shenBaoAtts[idx];
-                       			if(file){
-                       				$scope.vm.shenBaoAtts.splice(idx,1);
-                       			}
-                       	    };  	
-                    		/****************************************************************上传附件 end**********************************************************************************************************/
+                    	}else if(roleType && 'constructionUnit' == roleType && currentKey == taskKey && taskId && typeof(isSubShenBaoAtt) == "undefined"){
+                    		$scope.vm.setShenBaoconfig(taskKey);
                     		
-                    		$('#myModal_shenBao').modal('show');
+                    	}else if(roleType && 'constructionUnit' == roleType && currentKey == taskKey && taskId && isSubShenBaoAtt == "true"){
+                    		$scope.$apply(function () {
+                    			common.alert({
+                        			vm : $scope.vm,
+                					msg : "您已上传申报材料"
+                        		})
+                    		})
+                    		
+                    	}else if(roleType && 'constructionUnit' == roleType && currentKey == "Yes" && taskId && typeof(isSubShenBaoAtt) == "undefined" && taskKey != 'usertask26' && taskKey != 'usertask4' && taskKey != 'usertask18'){
+                   			$scope.vm.setShenBaoconfig(taskKey);
+                   			
+                    	}else if(roleType && 'constructionUnit' == roleType && currentKey == "Yes" && taskId && isSubShenBaoAtt == "true"){
+                    		$scope.$apply(function () {
+                    			common.alert({
+                        			vm : $scope.vm,
+                					msg : "您已上传申报材料"
+                        		})
+                    		})
+                    	}else if(taskId){
+                    		$scope.$apply(function () {
+                    			common.alert({
+                        			vm : $scope.vm,
+                					msg : "您无操作权限"
+                        		})
+                    		})
+                    	}else{
+                    		$scope.$apply(function () {
+                    			common.alert({
+                        			vm : $scope.vm,
+                					msg : "未能操作环节"
+                        		})
+                    		})
                     	}
                     }
                 },
@@ -223,6 +202,106 @@
             var vm = this;
             var url_taskFeedback = "/management/supervision/task";
             
+            vm.setShenPiconfig = function(taskKey){
+            	$('#shenPiFiles').uploadify({
+                    uploader: '/common/save',
+                    swf: "/contents/libs/uploadify/uploadify.swf",
+                    method: 'post',
+                    multi: true,
+                    auto: true,//自动上传
+                    fileObjName: 'files',// 上传参数名称
+                    fileSizeLimit: "10MB",//上传文件大小限制
+                    buttonText: '选择文档',
+                    fileExt: '*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps',
+                    fileTypeExts: '*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps',
+                    fileTypeDesc: "请选择*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps",     // 文件说明
+                    removeCompleted: true,   //设置已完成上传的文件是否从队列中移除，默认为true
+                    onUploadSuccess: function (file, data, response) {
+               			angular.forEach(eval("("+data+")").data, function (fileObj, index) {
+                               $scope.$apply(function() {
+                                   if(vm.shenPiAtts){
+                                   	vm.shenPiAtts.push({
+                                           name: fileObj.originalFilename,
+                                           url: fileObj.randomName,
+                                           shenBaoAttType: taskKey,
+                                           businessType:'shenPi'
+                                       });
+                                   } else {
+                                   	vm.shenPiAtts = [{
+                                           name: fileObj.originalFilename,
+                                           url: fileObj.randomName,
+                                           shenBaoAttType: taskKey,
+                                           businessType:'shenPi'
+                                       }];
+                                   }
+                               });
+                           })
+                    }
+                });
+        		
+        		//删除上传文件
+       			vm.delFile_shenPi=function(idx){
+           			var file = $scope.vm.shenPiAtts[idx];
+           			if(file){
+           				vm.shenPiAtts.splice(idx,1);
+           			}
+           	    };
+           	    
+           	    vm.checkLength = function(obj,max,id){
+          			common.checkLength(obj,max,id);
+               	};
+           	    
+           	 	$('#myModal_shenPi').modal('show');
+            }
+            
+            vm.setShenBaoconfig = function(taskKey){
+        		$('#shenBaoFiles').uploadify({
+                    uploader: '/common/save',
+                    swf: "/contents/libs/uploadify/uploadify.swf",
+                    method: 'post',
+                    multi: true,
+                    auto: true,//自动上传
+                    fileObjName: 'files',// 上传参数名称
+                    fileSizeLimit: "10MB",//上传文件大小限制
+                    buttonText: '选择文档',
+                    fileExt: '*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps',
+                    fileTypeExts: '*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps',
+                    fileTypeDesc: "请选择*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps",     // 文件说明
+                    removeCompleted: true,   //设置已完成上传的文件是否从队列中移除，默认为true
+                    onUploadSuccess: function (file, data, response) {
+                    	angular.forEach(eval("("+data+")").data, function (fileObj, index) {
+                            $scope.$apply(function() {
+                                if(vm.shenBaoAtts){
+                                	vm.shenBaoAtts.push({
+                                        name: fileObj.originalFilename,
+                                        url: fileObj.randomName,
+                                        shenBaoAttType: taskKey,
+                                        businessType:'shenBao'
+                                    });
+                                } else {
+                                	vm.shenBaoAtts = [{
+                                        name: fileObj.originalFilename,
+                                        url: fileObj.randomName,
+                                        shenBaoAttType: taskKey,
+                                        businessType:'shenBao'
+                                    }];
+                                }
+                            });
+                        })
+                    }
+                });
+            	
+        		//删除上传文件
+       			vm.delFile_shenBao=function(idx){
+           			var file = vm.shenBaoAtts[idx];
+           			if(file){
+           				vm.shenBaoAtts.splice(idx,1);
+           			}
+           	    };  	
+        		
+        		$('#myModal_shenBao').modal('show');
+            }
+            
             vm.subShenBaoAtts = function(){
             	if(!vm.shenBaoAtts || vm.shenBaoAtts.length == 0){
             		common.alert({
@@ -233,7 +312,7 @@
             		var httpOptions = {
         					method : 'post',
         					url : url_taskFeedback + "/subShenBaoAtts",
-        					data:{"shenBaoInfoId":vm.shenBaoInfoId,"shenBaoAtts":vm.shenBaoAtts}
+        					data:{"shenBaoInfoId":vm.shenBaoInfoId,"shenBaoAtts":vm.shenBaoAtts,"taskId":vm.taskId}
         				};
         			
         			var httpSuccess = function success(response) {
@@ -247,7 +326,7 @@
      								fn : function() {
      									$('.alertDialog').modal('hide');
      									$('#myModal_shenBao').modal('hide');
-     			        				vm.shenBaoAtts = [];
+     									window.location.reload();
      								}
      							});
      						}
@@ -360,7 +439,7 @@
 		<div class="modal-content">
 			<div class="modal-header bg-primary"> 
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button> 
-				<h4 class="modal-title" id="myModalLabel">申报附件</h4> 
+				<h4 class="modal-title" id="myModalLabel">{{vm.name}}（申报材料）</h4> 
 			</div> 
 			<div class="modal-body">
 				<table class="table table-bordered table-striped">
@@ -391,7 +470,7 @@
 		<div class="modal-content">
 			<div class="modal-header bg-primary"> 
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button> 
-				<h4 class="modal-title" id="myModalLabel">审批信息</h4> 
+				<h4 class="modal-title" id="myModalLabel">{{vm.name}}（审批单位审批）</h4> 
 			</div> 
 			<div class="modal-body">
 				<form id="form" name="form">
@@ -435,7 +514,7 @@
 		<div class="modal-content">
 			<div class="modal-header bg-primary"> 
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button> 
-				<h4 class="modal-title" id="myModalLabel">审批详情</h4> 
+				<h4 class="modal-title" id="myModalLabel">{{vm.name}}（详情）</h4> 
 			</div> 
 			<div class="modal-body">
 				<form id="form" name="form">
@@ -477,7 +556,6 @@
 	</div>  
 </div>
 <!-- 审批详情模态框  end -->
-
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 
 </body>
