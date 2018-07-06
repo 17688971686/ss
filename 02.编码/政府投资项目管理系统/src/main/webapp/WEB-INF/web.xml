@@ -12,7 +12,7 @@
     </listener>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring.xml,classpath:spring-*.xml,classpath:activiti-config.xml</param-value>
+        <param-value>classpath:spring.xml,classpath:spring-*.xml,classpath:activiti-config.xml,classpath:net/bull/javamelody/monitoring-spring-datasource.xml</param-value>
     </context-param>
 
     <servlet>
@@ -21,7 +21,7 @@
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>
-                classpath:spring-mvc.xml,classpath:net/bull/javamelody/monitoring-spring-datasource.xml
+                classpath:spring-mvc.xml
             </param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
