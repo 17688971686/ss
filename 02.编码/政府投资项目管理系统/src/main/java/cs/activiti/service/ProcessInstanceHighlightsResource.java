@@ -26,9 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.sn.framework.common.ObjectUtils;
+import com.sn.framework.common.StringUtil;
 
-import cs.common.ObjectUtils;
-import cs.common.StringUtil;
 
 @RestController
 public class ProcessInstanceHighlightsResource {
