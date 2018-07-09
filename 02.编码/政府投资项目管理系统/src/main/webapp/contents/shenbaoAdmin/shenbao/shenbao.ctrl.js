@@ -801,12 +801,13 @@
 						t9 = true;
 					}
 				}
-																
 				if(vm.isProjectProposal&&t1&&t2){
 					hasAtts = true;
-				}else if(vm.isKXXYJBG&&t1&&t2&&t5){
+				}else if(vm.isKXXYJBG&&t1&&t2){
 					hasAtts = true;
-				}else if(vm.isCapitalApplyReport&&t1&&t2&&t3){
+				}else if(vm.isCBSJYGS&&t1&&t2){
+					hasAtts = true;
+				}else if(vm.isCapitalApplyReport&&t1&&t2&&t4){
 					hasAtts = true;
 				}else if(vm.isJihuaxiada&&t1&&t2&&t3&&t6&&t7&&t8&&t9){
 					hasAtts = true;
