@@ -15,7 +15,7 @@ import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthenticatedException;
 @ControllerAdvice
 public class GlobalDefaultExceptionHandler {
-	private static Logger logger = Logger.getLogger(RoleServiceImpl.class);
+	private static Logger logger = Logger.getLogger(GlobalDefaultExceptionHandler.class);
 	
 	public static final String DEFAULT_ERROR_VIEW = "error";
 
@@ -44,7 +44,7 @@ public class GlobalDefaultExceptionHandler {
 	@ExceptionHandler(value = Exception.class)
 	public void  errorHandler(HttpServletRequest req, Exception e) throws Exception {
 		
-		logger.error(e.getMessage());
+		logger.error("通用错误处理", e.getCause());
 		throw e;		
 		
 		// If the exception is annotated with @ResponseStatus rethrow it and let

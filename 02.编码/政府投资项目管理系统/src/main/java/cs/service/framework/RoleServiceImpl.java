@@ -22,6 +22,7 @@ import cs.model.framework.RoleDto;
 import cs.model.framework.UserDto;
 import cs.repository.framework.RoleRepo;
 import cs.repository.odata.ODataObj;
+import org.springframework.util.CollectionUtils;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -44,34 +45,37 @@ public class RoleServiceImpl implements RoleService {
 
 		List<Role> listRole = roleRepository.findByOdata(odataObj);
 		List<RoleDto> roleDtoList = new ArrayList<RoleDto>();
-		for (Role item : listRole) {
-			RoleDto roleDto = new RoleDto();
-			roleDto.setId(item.getId());
-			roleDto.setRoleName(item.getRoleName());
-			roleDto.setCreatedDate(item.getCreatedDate());
-			roleDto.setComment(item.getComment());
+		if (!CollectionUtils.isEmpty(listRole)) {
+			for (Role item : listRole) {
+				RoleDto roleDto = new RoleDto();
+				roleDto.setId(item.getId());
+				roleDto.setRoleName(item.getRoleName());
+				roleDto.setCreatedDate(item.getCreatedDate());
+				roleDto.setComment(item.getComment());
 
-			List<ResourceDto> resourceDtoList = new ArrayList<>();
-			for (Resource resource : item.getResources()) {
-				ResourceDto resourceDto = new ResourceDto();
-				resourceDto.setMethod(resource.getMethod());
-				resourceDto.setName(resource.getName());
-				resourceDto.setPath(resource.getPath());
-				resourceDtoList.add(resourceDto);
+				List<ResourceDto> resourceDtoList = new ArrayList<>();
+				for (Resource resource : item.getResources()) {
+					ResourceDto resourceDto = new ResourceDto();
+					resourceDto.setMethod(resource.getMethod());
+					resourceDto.setName(resource.getName());
+					resourceDto.setPath(resource.getPath());
+					resourceDtoList.add(resourceDto);
+				}
+
+				List<UserDto> userDtoList = new ArrayList<>();
+				for(User user:item.getUsers()){
+					UserDto userDto = new UserDto();
+					userDto.setId(user.getId());
+					userDto.setDisplayName(user.getDisplayName());
+					userDto.setLoginName(user.getLoginName());
+					userDtoList.add(userDto);
+				}
+				roleDto.setResources(resourceDtoList);
+				roleDto.setUserDtos(userDtoList);
+				roleDtoList.add(roleDto);
 			}
-			
-			List<UserDto> userDtoList = new ArrayList<>();
-			for(User user:item.getUsers()){
-				UserDto userDto = new UserDto();
-				userDto.setId(user.getId());
-				userDto.setDisplayName(user.getDisplayName());
-				userDto.setLoginName(user.getLoginName());
-				userDtoList.add(userDto);
-			}
-			roleDto.setResources(resourceDtoList);
-			roleDto.setUserDtos(userDtoList);
-			roleDtoList.add(roleDto);
 		}
+
 		PageModelDto<RoleDto> pageModelDto = new PageModelDto<>();
 		pageModelDto.setCount(odataObj.getCount());
 		pageModelDto.setValue(roleDtoList);

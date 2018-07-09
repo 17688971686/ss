@@ -17,6 +17,19 @@ public class PageModelDto<T> {
 	public void setCount(int count) {
 		this.count = count;
 	}
-	
-	
+
+	public PageModelDto() {
+	}
+
+	public PageModelDto(List<T> value) {
+		this.value = value;
+		if (value != null) {
+			this.count = value.size();
+		}
+	}
+
+	public PageModelDto(List<T> value, int count) {
+		this.value = value;
+		this.count = count;
+	}
 }
