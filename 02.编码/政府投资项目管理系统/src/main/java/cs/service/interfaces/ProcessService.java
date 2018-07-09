@@ -3,6 +3,8 @@ package cs.service.interfaces;
 import java.util.List;
 import java.util.Map;
 
+import cs.domain.Attachment;
+import cs.domain.ShenBaoInfoRun;
 import org.activiti.engine.history.HistoricActivityInstance;
 
 import cs.common.Response;
