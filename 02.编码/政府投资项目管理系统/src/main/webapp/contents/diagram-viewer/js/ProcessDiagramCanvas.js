@@ -35,7 +35,7 @@ var TASK_STROKE_COLOR = Color.black; /*Color.SlateGrey; */
 var BOUNDARY_EVENT_COLOR = Color.white;
 var CONDITIONAL_INDICATOR_COLOR = Color.get(255, 255, 255);
 var HIGHLIGHT_COLOR = Color.Firebrick1;
-var HISTORY_HIGHLIGHT_COLOR = Color.Sienna;
+var HISTORY_HIGHLIGHT_COLOR = Color.Green;
 //var SEQUENCEFLOW_COLOR = Color.DimGrey;
 var SEQUENCEFLOW_COLOR = Color.black;
 
@@ -163,7 +163,7 @@ ProcessDiagramCanvas.prototype = {
 		h.style.width = this.canvasWidth;
 		h.style.height = this.canvasHeight;
 		
-		this.g = Raphael(this.canvasHolder);
+		this.g = Raphael(11,45,1458,1623);
 		this.g.clear();
 	
 		//this.setPaint(Color.DimGrey);
@@ -1883,6 +1883,7 @@ ProcessDiagramCanvas.prototype = {
 		contextObject.setProperty("userId",activitie.userId);
 		contextObject.setProperty("taskId",activitie.taskId);
 		contextObject.setProperty("isHistory",activitie.isHistory);
+		contextObject.setProperty("isSubShenBaoAtt",activitie.isSubShenBaoAtt);
 		
 		if (contextObject)
 			console.log("--> highLightActivity: ["+contextObject.getProperty("type")+"], activityId: " + contextObject.getId());
@@ -1890,7 +1891,6 @@ ProcessDiagramCanvas.prototype = {
 			console.log("--> highLightActivity: ", shape, shape.data("contextObject"));
 		
 		shape.attr("stroke-width", THICK_TASK_BORDER_STROKE);
-		debugger;
 		if(activitie.isHistory){
 			shape.attr("stroke", HISTORY_HIGHLIGHT_COLOR);
 		}else{

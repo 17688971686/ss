@@ -3,9 +3,9 @@
 
     angular.module('appSupervision').factory('projectSupervisedSvc', project);
 
-    project.$inject = [ '$http' ];
+    project.$inject = [ '$http','$timeout' ];
 
-    function project($http) {
+    function project($http,$timeout) {
         var url_project = "/management/supervision/project";//获取项目信息数据
         var url_userUnit = "/management/userUnit";//获取单位信息
         var url_back = "#/supervision/tzxm";
@@ -16,6 +16,7 @@
             statistical:statistical,
             grid_SH:grid_SH,
             getProjectById:getProjectById,
+            getProjectUnit:getProjectUnit,
             getUserUnits:getUserUnits,
             updateProject:updateProject,
             createProject:createProject,
@@ -769,6 +770,27 @@
                 success : httpSuccess
             });
         }
+        
+		/**
+		 *获取项目单位信息 
+		 */
+		function getProjectUnit(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_userUnit + "?$filter=id eq '{0}'", vm.model.unitName)
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.userUnit = response.data.value[0] || {};
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
         /**
          * 获取当前登录用户用户的单位信息
          */
@@ -1198,17 +1220,17 @@
             };
         }
         
-        function getDiagramViewerInfo(vm,id){
-        	var newTab=window.open('about:blank');  
+        function getDiagramViewerInfo(vm,id,shenBaoInfoId){
             var httpOptions = {
                     method : 'get',
-                    url : url_project + '/getDiagramViewerInfo?processInstanceId=' + id,
+                    url : url_project + '/getDiagramViewerInfo?processInstanceId=' + id + "&shenBaoInfoId=" + shenBaoInfoId,
                 };
 
                 var httpSuccess = function success(response) {
-                	debugger;
-                    var url = common.format("http://{0}:{1}/contents/diagram-viewer/index.html?processDefinitionId={2}&processInstanceId={3}",response.data.ip,response.data.port,response.data.processDefinitionId,response.data.processInstanceId);
-                    newTab.location.href = url;//
+                	 vm.diagramViewerUrl = "contents/diagram-viewer/index.html?processDefinitionId=" + response.data.processDefinitionId + "&processInstanceId=" + response.data.processInstanceId + "&shenBaoInfoId=" + shenBaoInfoId + "&roleType=" + response.data.roleType + "&currentKey=" + response.data.currentKey;
+                	 
+                	 $('#myModal_monitor').modal('show');
+                     
                 };
 
                 common.http({
@@ -1343,7 +1365,7 @@
                     title : "操作",
                     width : 250,
                     template : function(item) {
-                        return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,"vm.getDiagramViewerInfo('" + item.monitor_processId + "')","vm.isMonthReport('" +item.id+ "','"+item.isMonthReport+"')");
+                        return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,"vm.getDiagramViewerInfo('" + item.monitor_processId + "','"+ item.id +"')","vm.isMonthReport('" +item.id+ "','"+item.isMonthReport+"')");
                     }
 
                 }

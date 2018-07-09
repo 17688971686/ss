@@ -3,7 +3,6 @@ package cs.service.interfaces;
 import java.util.List;
 import java.util.Map;
 
-import cs.domain.ShenBaoInfoRun;
 import org.activiti.engine.history.HistoricActivityInstance;
 
 import cs.common.Response;
@@ -14,41 +13,49 @@ import cs.repository.odata.ODataObjNew;
 
 public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, String> {
 
-    PageModelDto<ShenBaoInfoDto> getTask_user(ODataObjNew odataObj, String str);
+	PageModelDto<ShenBaoInfoDto> getTask_user(ODataObjNew odataObj, String str);
 
-    List<Object> getHistoryInfo(String shenbaoInfoId);
+	List<Object> getHistoryInfo(String shenbaoInfoId);
 
-    @SuppressWarnings("rawtypes")
-    void taskComplete(Map data);
+	@SuppressWarnings("rawtypes")
+	void taskComplete(Map data);
 
-    Response getAssigneeByUserId(String processId);
+	Response getAssigneeByUserId(String processId);
 
-    Response getAssigneeByUserId(String processId, String userId);
+	Response getAssigneeByUserId(String processId, String userId);
 
-    @SuppressWarnings("rawtypes")
-    void taskPinglun(Map data);
+	@SuppressWarnings("rawtypes")
+	void taskPinglun(Map data);
 
-    PageModelDto<ShenBaoInfoDto> getAudit_complete(ODataObjNew odataObj, String str);
+	PageModelDto<ShenBaoInfoDto> getAudit_complete(ODataObjNew odataObj,String str);
 
-    List<HistoricActivityInstance> getUnfinished(String shenbaoInfoId);
+	List<HistoricActivityInstance> getUnfinished(String shenbaoInfoId);
 
-    @SuppressWarnings("rawtypes")
-    void yearPlanComplete(Map data);
+	@SuppressWarnings("rawtypes")
+	void yearPlanComplete(Map data);
 
-    Response getAssigneeByUserId_plan(String processId);
+	Response getAssigneeByUserId_plan(String processId);
 
-    @SuppressWarnings("rawtypes")
-    void taskComplete_plan(Map data);
+	@SuppressWarnings("rawtypes")
+	void taskComplete_plan(Map data);
 
-    PageModelDto<ShenBaoInfoDto> getTask_user(ODataObjNew odataObj, String str, String leixin);
+	PageModelDto<ShenBaoInfoDto> getTask_user(ODataObjNew odataObj, String str, String leixin);	
+	
+	PageModelDto<ShenBaoInfoDto> getTodoTask_feedback(ODataObjNew odataObj);
 
-    PageModelDto<ShenBaoInfoDto> getTodoTask_feedback(ODataObjNew odataObj);
+	void handleFeedback(Map<String, Object> data);
 
-    void handleFeedback(Map<String, Object> data);
+	PageModelDto<ShenBaoInfoDto> getComplete_feedback(ODataObjNew odataObj);
 
-    PageModelDto<ShenBaoInfoDto> getComplete_feedback(ODataObjNew odataObj);
+	PageModelDto<ShenBaoInfoDto> getToDo_yuepi(ODataObjNew odataObj);
 
-    PageModelDto<ShenBaoInfoDto> getToDo_yuepi(ODataObjNew odataObj);
+	void subShenBaoAtts(Map<String, Object> data);
+
+	List<Attachment> getAllAtts(String shenBaoInfoId, String taskId, String taskKey, List<Attachment> list);
+
+	List<Object> getAllComments(String shenBaoInfoId, String taskId, String taskKey, List<Object> list);
+
+	Map<String, Object> getCurrentKeyIntoMap(String processInstanceId, Map<String, Object> map);
 
     /**
      * 查询待办数据

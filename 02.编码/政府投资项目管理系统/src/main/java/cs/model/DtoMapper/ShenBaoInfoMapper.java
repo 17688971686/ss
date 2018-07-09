@@ -148,6 +148,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setComplate(entity.getComplate());
 			//begin监控流程实例ID
 			shenBaoInfoDto.setMonitor_processId(entity.getMonitor_processId());
+			shenBaoInfoDto.setIsSubShenBaoAtt(entity.getIsSubShenBaoAtt());
 			//end监控流程实例ID
 			//begin#财政局
 			shenBaoInfoDto.setFunctionSubjects(entity.getFunctionSubjects());
@@ -318,6 +319,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setComplate(shenBaoInfoDto.getComplate());
 			//流程监控实例ID
 			shenBaoInfo.setMonitor_processId(shenBaoInfoDto.getMonitor_processId());
+			shenBaoInfo.setIsSubShenBaoAtt(shenBaoInfoDto.getIsSubShenBaoAtt());
 			//begin#财政相关
 			shenBaoInfo.setFunctionSubjects(shenBaoInfoDto.getFunctionSubjects());
 			shenBaoInfo.setEconClassSubjects(shenBaoInfoDto.getEconClassSubjects());

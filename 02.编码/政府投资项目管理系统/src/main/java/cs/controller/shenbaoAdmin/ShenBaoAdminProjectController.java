@@ -162,13 +162,13 @@ public class ShenBaoAdminProjectController {
 		}
 	}
 	
-	@RequestMapping(name = "附件集合", path = "getApprovalAtts",method=RequestMethod.GET)
+	/*@RequestMapping(name = "附件集合", path = "getApprovalAtts",method=RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public @ResponseBody PageModelDto<ProjectDto> getApprovalAtts(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);
 		return ProjectDtos;
-	}
+	}*/
 	
 	@RequiresPermissions("shenbaoAdmin/project#html/list#get")
 	@RequestMapping(name = "列表页", path = "html/list",method=RequestMethod.GET)

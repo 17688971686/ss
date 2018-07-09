@@ -139,7 +139,9 @@
  -->
 <div class="well well-sm" style="background:white;">
 	<script type="text/template" id="columnBtns">
+		<!--
 		<a class="btn btn-xs btn-primary" href="#/projectEdit/{0}/{1}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+		-->
 		<a class="btn btn-xs btn-primary" ng-click="{2}"><span class="glyphicon glyphicon-eye-open"></span>流程监控图</a>
 	</script>
 	<div class="search">
@@ -165,7 +167,7 @@
 						<option value="">---请选择---</option>
 						<option value="true">是</option>
 						<option value="false">否</option>
-					</select>
+					</select> 
 				</td>
 			</tr>
 			<!-- <tr>
@@ -302,6 +304,24 @@ $(window).resize(function () {
 			<div class="modal-footer"> 
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> 						
 				<button type="button" class="btn btn-primary" ng-click="vm.updateIsMonthReport()">提交更改</button> 
+			</div> 
+		</div><!-- /.modal-content -->
+	</div>  
+</div><!-- /.modal -->
+
+<!-- 设置监控流程图模态框 -->
+<div class="modal fade" id="myModal_monitor" tabindex="-1" role="dialog"> 
+	<div class="modal-dialog" style="width: 1550px"> 
+		<div class="modal-content"> 
+			<div class="modal-header bg-primary"> 
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button> 
+				<h4 class="modal-title" id="myModalLabel">监控流程图</h4> 
+			</div> 
+			<div class="modal-body">
+				<iframe ng-src="{{!vm.diagramViewerUrl ? '' : '${request.contextPath}/' + vm.diagramViewerUrl}}" height="750px" width="1500px" id="myIframe"></iframe>
+			</div> 
+			<div class="modal-footer"> 
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> 						
 			</div> 
 		</div><!-- /.modal-content -->
 	</div>  

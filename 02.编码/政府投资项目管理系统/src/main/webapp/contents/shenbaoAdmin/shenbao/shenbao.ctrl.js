@@ -19,7 +19,7 @@
 		vm.sysConfig = {};
 		vm.page = 'list';
 		vm.title = '申报信息录入';
-		vm.projectInfo = {};
+		//vm.projectInfo = {};
 		$scope.animationsEnabled = true;
 
 		$(".menu li a").removeClass("focus");
@@ -343,7 +343,7 @@
 			//审批的附件类型
 			vm.approvalAttsType = common.uploadFileTypeConfig().approvalAttsType;
 			
-			/****************************************************************上传附件 begin**********************************************************************************************************/ 
+			/****************************************************************上传附件 begin**********************************************************************************************************//* 
 	    	//相关附件文件上传文件种类
 	   		vm.uploadSuccess=function(e){
 				var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
@@ -420,12 +420,12 @@
 			    });
 			}; 
 			
-			/****************************************************************上传附件 end**********************************************************************************************************/ 
+			*//****************************************************************上传附件 end**********************************************************************************************************//* */
 
-			vm.saveApprovalAttDtos = function(){
+			/*vm.saveApprovalAttDtos = function(){
 				vm.projectInfo.attachmentDtos = vm.projectInfo.attachmentDtos.concat(vm.approvalAtts);
 				shenbaoSvc.saveApprovalAttDtos(vm);
-			}
+			}*/
 			
 			//模态框中申报阶段下拉选发生变化时
 			vm.changeShenBaoStage = function() {
@@ -801,12 +801,13 @@
 						t9 = true;
 					}
 				}
-																
 				if(vm.isProjectProposal&&t1&&t2){
 					hasAtts = true;
-				}else if(vm.isKXXYJBG&&t1&&t2&&t5){
+				}else if(vm.isKXXYJBG&&t1&&t2){
 					hasAtts = true;
-				}else if(vm.isCapitalApplyReport&&t1&&t2&&t3){
+				}else if(vm.isCBSJYGS&&t1&&t2){
+					hasAtts = true;
+				}else if(vm.isCapitalApplyReport&&t1&&t2&&t4){
 					hasAtts = true;
 				}else if(vm.isJihuaxiada&&t1&&t2&&t3&&t6&&t7&&t8&&t9){
 					hasAtts = true;

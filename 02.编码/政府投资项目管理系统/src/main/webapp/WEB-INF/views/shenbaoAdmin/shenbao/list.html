@@ -102,7 +102,9 @@
 	  <script type="text/template" id="columnBtns">
 			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.shenbaoBtn('{0}','{1}','{2}')"><span class="glyphicon glyphicon-pencil"></span>申报</button>
 			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.checkShenBaoRecords('{0}')"><span class="glyphicon glyphicon-th-list"></span>申报记录<span id="tuiwenNumber{0}" class="badge"></span></button>
+			<!--
 			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.getApprovalAtts('{0}')"><span class="glyphicon glyphicon-pencil"></span>在线监管上传文件</button>
+			-->
 	  </script>	  
      <form id="form" name="form">
          <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
@@ -174,7 +176,7 @@
 	</div>
 </div>
 <!-- 审批资料模态框-->
-<div class="shenBaoRecords modal fade" id="approvalAtts" tabindex="-1" role="dialog"> 
+<!-- <div class="shenBaoRecords modal fade" id="approvalAtts" tabindex="-1" role="dialog"> 
 	<div class="modal-dialog" style="width:1000px;"> 
 
 		<div class="modal-content"> 
@@ -199,7 +201,7 @@
 								 	  ng-show="y.type=='{{x[0]}}'"
 								 		>
 									 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
-									<!-- <button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button> -->
+									<button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button>
 								 </div>
 							</td>
 						</tr>
@@ -238,5 +240,5 @@
 			</div> 
 		</div>
 	</div>
-</div>
+</div> -->
 
