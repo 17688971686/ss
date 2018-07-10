@@ -62,14 +62,15 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
     /**
      * 查询待办数据
      * @param odata
-     * @param leixin
      * @return
      */
-    List<ShenBaoInfoRun> findRunByOdata(ODataObjNew odata, String leixin);
+    List<ShenBaoInfoRun> findRunByOdata(ODataObjNew odata);
 
-    List<ShenBaoInfoRun> findAuditRunByOdata(ODataObjNew odata, String leixin);
+	List<ShenBaoInfoRun> findRunByOdata(ODataObjNew odata, boolean isPerson);
 
-    List<ShenBaoInfoRun> findYearPlanRunByOdata(ODataObjNew odata, String leixin);
+	List<ShenBaoInfoRun> findAuditRunByOdata(ODataObjNew odata, boolean isPerson);
 
-    List<ShenBaoInfoRun> findPlanRunByOdata(ODataObjNew odata, String leixin);
+	List<ShenBaoInfoRun> findYearPlanRunByOdata(ODataObjNew odata, boolean isPerson);
+
+	List<ShenBaoInfoRun> findPlanRunByOdata(ODataObjNew odata, boolean isPerson);
 }

@@ -55,6 +55,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.criterion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -545,7 +546,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
         List<ShenBaoInfo> shenBaoInfo = shenBaoInfoRepo.findByCriteria(criterion);
         User loginUser = userRepo.findById(userId);
 
-        List<HistoricVariableInstance> list =historyService
+        List<HistoricVariableInstance> list = historyService
                 .createHistoricVariableInstanceQuery()//创建一个历史的流程变量查询对象
                 .variableName("nextUsers")
                 .processInstanceId(processId)
@@ -1304,8 +1305,13 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
     }
 
     @Override
-    public List<ShenBaoInfoRun> findRunByOdata(ODataObjNew odata, String leixin) {
-        if (StringUtil.isNotBlank(leixin) && "geren".equals(leixin.toLowerCase())) {
+    public List<ShenBaoInfoRun> findRunByOdata(ODataObjNew odata) {
+        return shenBaoInfoRepoImpl.findRunByOdata(odata);
+    }
+
+    @Override
+    public List<ShenBaoInfoRun> findRunByOdata(ODataObjNew odata, boolean isPerson) {
+        if (isPerson) {
             odata.addFilter(new OdataFilter(ShenBaoInfoRun_.transactor.getName(), OdataFilter.Operate.EQ, currentUser.getUserId()));
         } else {
             odata.setProcessQuery((criteria) -> {
@@ -1321,7 +1327,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
     }
 
     @Override
-    public List<ShenBaoInfoRun> findAuditRunByOdata(ODataObjNew odata, String leixin) {
+    public List<ShenBaoInfoRun> findAuditRunByOdata(ODataObjNew odata, boolean isPerson) {
         odata.addOrFilter(
                 ShenBaoInfo_.projectShenBaoStage.getName(), OdataFilter.Operate.EQ,
                 projectShenBaoStage_XMJYS,
@@ -1329,25 +1335,34 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
                 projectShenBaoStage_ZJSQBG,
                 projectShenBaoStage_CBSJGS
         );
-        return findRunByOdata(odata, leixin);
+        if (isPerson) {
+            odata.addOrFilter(ShenBaoInfoRun_.taskDefKey.getName(), OdataFilter.Operate.NE, "usertask1", "usertask5");
+        }
+        return findRunByOdata(odata);
     }
 
     @Override
-    public List<ShenBaoInfoRun> findYearPlanRunByOdata(ODataObjNew odata, String leixin) {
+    public List<ShenBaoInfoRun> findYearPlanRunByOdata(ODataObjNew odata, boolean isPerson) {
         odata.addOrFilter(
                 ShenBaoInfo_.projectShenBaoStage.getName(), OdataFilter.Operate.EQ,
                 projectShenBaoStage_nextYearPlan
         );
-        return findRunByOdata(odata, leixin);
+        if (isPerson) {
+            odata.addOrFilter(ShenBaoInfoRun_.taskDefKey.getName(), OdataFilter.Operate.NE, "usertask1", "usertask2");
+        }
+        return findRunByOdata(odata);
     }
 
     @Override
-    public List<ShenBaoInfoRun> findPlanRunByOdata(ODataObjNew odata, String leixin) {
+    public List<ShenBaoInfoRun> findPlanRunByOdata(ODataObjNew odata, boolean isPerson) {
         odata.addOrFilter(
                 ShenBaoInfo_.projectShenBaoStage.getName(), OdataFilter.Operate.EQ,
                 projectShenBaoStage_planReach
         );
-        return findRunByOdata(odata, leixin);
+        if (isPerson) {
+            odata.addOrFilter(ShenBaoInfoRun_.taskDefKey.getName(), OdataFilter.Operate.NE, "usertask1", "usertask2");
+        }
+        return findRunByOdata(odata);
     }
 
 }
