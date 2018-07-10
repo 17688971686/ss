@@ -55,7 +55,6 @@ import org.apache.log4j.Logger;
 import org.hibernate.criterion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -163,10 +162,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
         odataObj.setTop(0);
         List<ShenBaoInfoDto> ourShenBaoInfoDtos = new ArrayList<>();
         if (!taskIds.isEmpty()) {
-            List<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoRepoImpl.findByOdata2(odataObj, taskIds, str).stream().map((x) -> {
-                return mapper.toDto(x);
-            }).collect(Collectors.toList());
-
+            List<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoRepoImpl.findByOdata2(odataObj, taskIds, str)
+                    .stream().map(mapper::toDto).collect(Collectors.toList());
 
             if ("geren".equals(leixin)) {
                 for (int i = 0; i < shenBaoInfoDtos.size(); i++) {
@@ -1309,25 +1306,32 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
         return shenBaoInfoRepoImpl.findRunByOdata(odata);
     }
 
+
     @Override
-    public List<ShenBaoInfoRun> findRunByOdata(ODataObjNew odata, boolean isPerson) {
-        if (isPerson) {
-            odata.addFilter(new OdataFilter(ShenBaoInfoRun_.transactor.getName(), OdataFilter.Operate.EQ, currentUser.getUserId()));
-        } else {
-            odata.setProcessQuery((criteria) -> {
-                DetachedCriteria existsCriteria = DetachedCriteria.forClass(Org.class, "o");
-                existsCriteria.createAlias("o.users", "u");
+    public List<ShenBaoInfoDto> findRunByOdata(ODataObjNew odata, boolean isPerson, Criterion flowCriterion) {
+        odata.setProcessQuery((criteria) -> {
+            DetachedCriteria existsCriteria = DetachedCriteria.forClass(WorkflowRunTask.class, "f");
+            if (isPerson) {
+                existsCriteria.add(Restrictions.eq("f.transactor", currentUser.getUserId()));
+            } else {
+                DetachedCriteria orgCriteria = DetachedCriteria.forClass(Org.class, "o");
+                orgCriteria.createAlias("users", "u");
 
-                existsCriteria.add(Restrictions.eq(Org_.name.getName(), "投资科"));
+                orgCriteria.add(Restrictions.eq("o.name", "投资科"));
 
-                criteria.add(Subqueries.propertyIn(ShenBaoInfoRun_.transactor.getName(), existsCriteria.setProjection(Property.forName("u.id"))));
-            });
-        }
-        return shenBaoInfoRepoImpl.findRunByOdata(odata);
+                existsCriteria.add(Subqueries.propertyIn("f.transactor", orgCriteria.setProjection(Projections.property("u.id"))));
+            }
+            existsCriteria.add(Property.forName("f.processInstanceId").eqProperty("this.zong_processId"));
+            if (null != flowCriterion) {
+                existsCriteria.add(flowCriterion);
+            }
+            criteria.add(Subqueries.exists(existsCriteria.setProjection(Projections.property("f.id"))));
+        });
+        return shenBaoInfoRepoImpl.findRunByOdata2(odata).stream().map(mapper::toDto).collect(Collectors.toList());
     }
 
     @Override
-    public List<ShenBaoInfoRun> findAuditRunByOdata(ODataObjNew odata, boolean isPerson) {
+    public List<ShenBaoInfoDto> findAuditRunByOdata(ODataObjNew odata, boolean isPerson) {
         odata.addOrFilter(
                 ShenBaoInfo_.projectShenBaoStage.getName(), OdataFilter.Operate.EQ,
                 projectShenBaoStage_XMJYS,
@@ -1335,34 +1339,28 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
                 projectShenBaoStage_ZJSQBG,
                 projectShenBaoStage_CBSJGS
         );
-        if (isPerson) {
-            odata.addOrFilter(ShenBaoInfoRun_.taskDefKey.getName(), OdataFilter.Operate.NE, "usertask1", "usertask5");
-        }
-        return findRunByOdata(odata);
+        return findRunByOdata(odata, isPerson, Restrictions.or(
+                Restrictions.eq("f.taskDefinitionKey", "usertask1"),
+                Restrictions.eq("f.taskDefinitionKey", "usertask5")
+        ));
     }
 
     @Override
-    public List<ShenBaoInfoRun> findYearPlanRunByOdata(ODataObjNew odata, boolean isPerson) {
-        odata.addOrFilter(
-                ShenBaoInfo_.projectShenBaoStage.getName(), OdataFilter.Operate.EQ,
-                projectShenBaoStage_nextYearPlan
-        );
-        if (isPerson) {
-            odata.addOrFilter(ShenBaoInfoRun_.taskDefKey.getName(), OdataFilter.Operate.NE, "usertask1", "usertask2");
-        }
-        return findRunByOdata(odata);
+    public List<ShenBaoInfoDto> findYearPlanRunByOdata(ODataObjNew odata, boolean isPerson) {
+        odata.addEQFilter(ShenBaoInfo_.projectShenBaoStage.getName(), projectShenBaoStage_nextYearPlan);
+        return findRunByOdata(odata, isPerson, Restrictions.or(
+                Restrictions.eq("f.taskDefinitionKey", "usertask1"),
+                Restrictions.eq("f.taskDefinitionKey", "usertask2")
+        ));
     }
 
     @Override
-    public List<ShenBaoInfoRun> findPlanRunByOdata(ODataObjNew odata, boolean isPerson) {
-        odata.addOrFilter(
-                ShenBaoInfo_.projectShenBaoStage.getName(), OdataFilter.Operate.EQ,
-                projectShenBaoStage_planReach
-        );
-        if (isPerson) {
-            odata.addOrFilter(ShenBaoInfoRun_.taskDefKey.getName(), OdataFilter.Operate.NE, "usertask1", "usertask2");
-        }
-        return findRunByOdata(odata);
+    public List<ShenBaoInfoDto> findPlanRunByOdata(ODataObjNew odata, boolean isPerson) {
+        odata.addEQFilter(ShenBaoInfo_.projectShenBaoStage.getName(), projectShenBaoStage_planReach);
+        return findRunByOdata(odata, isPerson, Restrictions.or(
+                Restrictions.eq("f.taskDefinitionKey", "usertask1"),
+                Restrictions.eq("f.taskDefinitionKey", "usertask2")
+        ));
     }
 
 }

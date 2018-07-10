@@ -12,6 +12,7 @@ import cs.domain.ShenBaoInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.repository.odata.ODataObjNew;
+import org.hibernate.criterion.Criterion;
 
 public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, String> {
 
@@ -66,11 +67,11 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
      */
     List<ShenBaoInfoRun> findRunByOdata(ODataObjNew odata);
 
-	List<ShenBaoInfoRun> findRunByOdata(ODataObjNew odata, boolean isPerson);
+    List<ShenBaoInfoDto> findRunByOdata(ODataObjNew odata, boolean isPerson, Criterion criterion);
 
-	List<ShenBaoInfoRun> findAuditRunByOdata(ODataObjNew odata, boolean isPerson);
+	List<ShenBaoInfoDto> findAuditRunByOdata(ODataObjNew odata, boolean isPerson);
 
-	List<ShenBaoInfoRun> findYearPlanRunByOdata(ODataObjNew odata, boolean isPerson);
+	List<ShenBaoInfoDto> findYearPlanRunByOdata(ODataObjNew odata, boolean isPerson);
 
-	List<ShenBaoInfoRun> findPlanRunByOdata(ODataObjNew odata, boolean isPerson);
+	List<ShenBaoInfoDto> findPlanRunByOdata(ODataObjNew odata, boolean isPerson);
 }

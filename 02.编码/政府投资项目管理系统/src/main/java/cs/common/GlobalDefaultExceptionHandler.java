@@ -45,6 +45,7 @@ public class GlobalDefaultExceptionHandler {
 	public void  errorHandler(HttpServletRequest req, Exception e) throws Exception {
 		
 		logger.error("通用错误处理", e.getCause());
+		e.printStackTrace();
 		throw e;		
 		
 		// If the exception is annotated with @ResponseStatus rethrow it and let

@@ -107,4 +107,13 @@ public class ShenBaoInfoRepoImpl extends AbstractRepository<ShenBaoInfo, String>
         return odata.createQuery(getSession(), ShenBaoInfoRun.class).list();
     }
 
+    /**
+     * 查询申报待办数据
+     * @param odata
+     * @return
+     */
+    public List<ShenBaoInfo> findRunByOdata2(ODataObjNew odata) {
+        return odata.createQuery(getSession(), ShenBaoInfo.class).list();
+    }
+
 }

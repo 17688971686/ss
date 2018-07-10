@@ -73,8 +73,8 @@ public class TaskController {
 
     @RequestMapping(name = "获取审批类个人待办数据", path = "audit", method = RequestMethod.GET)
     @ResponseBody
-    public PageModelDto<ShenBaoInfoRun> getToDoAudit(ODataObjNew odataObj) {
-        List<ShenBaoInfoRun> shenBaoInfoRuns = processService.findAuditRunByOdata(odataObj, true);
+    public PageModelDto<ShenBaoInfoDto> getToDoAudit(ODataObjNew odataObj) {
+        List<ShenBaoInfoDto> shenBaoInfoRuns = processService.findAuditRunByOdata(odataObj, true);
         return new PageModelDto<>(shenBaoInfoRuns, odataObj.isCount() ? odataObj.getCount() : shenBaoInfoRuns.size());
     }
 
@@ -89,8 +89,8 @@ public class TaskController {
 //    }
     @RequestMapping(name = "获取审批类科室待办数据", path = "auditOther", method = RequestMethod.GET)
     @ResponseBody
-    public PageModelDto<ShenBaoInfoRun> getToDoAuditOther(ODataObjNew odataObj) {
-        List<ShenBaoInfoRun> shenBaoInfoRuns = processService.findAuditRunByOdata(odataObj, false);
+    public PageModelDto<ShenBaoInfoDto> getToDoAuditOther(ODataObjNew odataObj) {
+        List<ShenBaoInfoDto> shenBaoInfoRuns = processService.findAuditRunByOdata(odataObj, false);
         return new PageModelDto<>(shenBaoInfoRuns, odataObj.isCount() ? odataObj.getCount() : shenBaoInfoRuns.size());
     }
 
@@ -114,8 +114,8 @@ public class TaskController {
 //    }
     @RequestMapping(name = "获取年度计划类个人待办数据", path = "yearPlan", method = RequestMethod.GET)
     @ResponseBody
-    public PageModelDto<ShenBaoInfoRun> getToDoYearPlan(ODataObjNew odataObj) {
-        List<ShenBaoInfoRun> shenBaoInfoRuns = processService.findYearPlanRunByOdata(odataObj, true);
+    public PageModelDto<ShenBaoInfoDto> getToDoYearPlan(ODataObjNew odataObj) {
+        List<ShenBaoInfoDto> shenBaoInfoRuns = processService.findYearPlanRunByOdata(odataObj, true);
         return new PageModelDto<>(shenBaoInfoRuns, odataObj.isCount() ? odataObj.getCount() : shenBaoInfoRuns.size());
     }
 
@@ -129,8 +129,8 @@ public class TaskController {
 //    }
     @RequestMapping(name = "获取计划类个人待办数据", path = "plan", method = RequestMethod.GET)
     @ResponseBody
-    public PageModelDto<ShenBaoInfoRun> getToDoPlan(ODataObjNew odataObj) {
-        List<ShenBaoInfoRun> shenBaoInfoRuns = processService.findPlanRunByOdata(odataObj, true);
+    public PageModelDto<ShenBaoInfoDto> getToDoPlan(ODataObjNew odataObj) {
+        List<ShenBaoInfoDto> shenBaoInfoRuns = processService.findPlanRunByOdata(odataObj, true);
         return new PageModelDto<>(shenBaoInfoRuns, odataObj.isCount() ? odataObj.getCount() : shenBaoInfoRuns.size());
     }
 
@@ -144,8 +144,8 @@ public class TaskController {
 //    }
     @RequestMapping(name = "获取计划类科室待办数据", path = "planOther", method = RequestMethod.GET)
     @ResponseBody
-    public PageModelDto<ShenBaoInfoRun> getToDoPlanOther(ODataObjNew odataObj) {
-        List<ShenBaoInfoRun> shenBaoInfoRuns = processService.findPlanRunByOdata(odataObj, false);
+    public PageModelDto<ShenBaoInfoDto> getToDoPlanOther(ODataObjNew odataObj) {
+        List<ShenBaoInfoDto> shenBaoInfoRuns = processService.findPlanRunByOdata(odataObj, false);
         return new PageModelDto<>(shenBaoInfoRuns, odataObj.isCount() ? odataObj.getCount() : shenBaoInfoRuns.size());
     }
 
