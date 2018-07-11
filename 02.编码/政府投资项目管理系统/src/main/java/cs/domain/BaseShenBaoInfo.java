@@ -172,7 +172,7 @@ public class BaseShenBaoInfo extends BaseProject {
     @Column(columnDefinition = "varchar(125) NULL COMMENT '在线监管流程ID'")
     private String monitor_processId;
     @Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否提交申报附件'")
-    private Boolean isSubShenBaoAtt;
+    private Boolean isSubShenBaoAtt= false;
     //end
 
     //begin#建议书相关
