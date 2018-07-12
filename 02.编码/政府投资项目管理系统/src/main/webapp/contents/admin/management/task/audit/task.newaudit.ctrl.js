@@ -217,7 +217,9 @@
 
         function task_todo_yuepi() {
             taskNewAuditSvc.yuepiGrid(vm);
-
+            vm.yuepi=function(id){
+        		taskNewAuditSvc.yuepi(vm,id);
+        	}
             vm.basicData.userUnit = common.getUserUnits().value;//获取所有单位
             var keys = [];
             vm.output = [];
@@ -295,6 +297,8 @@
             taskNewAuditSvc.opinionGird(vm);
             //查询意见
             taskNewAuditSvc.getOpinion(vm);
+            
+            taskNewAuditSvc.getSysConfigs(vm);
 
 //      		filters.push({field:'projectShenBaoStage',operator:'eq',value:vm.search.projectIndustry});
 //      		vm.gridOptions_complete_shenPi.dataSource.filter(filters);
@@ -639,13 +643,15 @@
 		   //处理
         	vm.handle=function(str){
         		
-    			if((vm.model.shenBaoInfo.thisTaskName == 'usertask1' || vm.model.shenBaoInfo.thisTaskName == 'usertask5') && vm.isPass == "1" && vm.nextUsers == "" && (str =="next" || str =="tuihui")){
-    				vm.nextUsers = '9e07fc47-e147-4b7d-81d7-a66383c216ec';
+    			if((vm.model.shenBaoInfo.thisTaskName == 'usertask1' || vm.model.shenBaoInfo.thisTaskName == 'usertask5') && vm.isPass == "1" && vm.nextUsers == "" && str =="next"){
+							vm.nextUsers = vm.banliUsers;
     			}else if(vm.model.shenBaoInfo.thisTaskName == 'usertask6' && vm.isPass == "1" && vm.nextUsers == ""){
-    				vm.nextUsers = '10fac944-1244-4279-9c8e-c6eb9a9c9dc5';
+							vm.nextUsers = vm.banwenUsers;
+//    				vm.nextUsers = '10fac944-1244-4279-9c8e-c6eb9a9c9dc5';//办文顾丽娜
     			}else if((vm.model.shenBaoInfo.thisTaskName == 'usertask17' || vm.model.shenBaoInfo.thisTaskName == 'usertask19' ||
-    					vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask21') && vm.isPass == "5" && vm.nextUsers == "" && (str =="next" || str =="tuihui")){
-    				vm.nextUsers = '6548a46b-c2c2-4650-b8dd-ae50a01cafaf';
+    					vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask21') && vm.isPass == "5" && vm.nextUsers == "" && str =="next"){
+							vm.nextUsers = vm.yinwenUsers;
+//    				vm.nextUsers = '6548a46b-c2c2-4650-b8dd-ae50a01cafaf';//印文胡伟军
     			}else if((vm.isPass == "" || vm.isPass == undefined ) && str =="next") {
         			common.alert({
 						vm : vm,
@@ -655,7 +661,15 @@
 						}
 					});
         		}else if(str =="next" && vm.nextUsers != "" || str =="reback" || str =="banjie" || str =="tuiwen"){
-    				taskNewAuditSvc.handle(vm,str);
+//        			common.alert({
+//						vm : vm,
+//						msg : "任务送出给：" + vm.nextUsers,
+//						fn : function() {
+//							$('.alertDialog').modal('hide');
+							taskNewAuditSvc.handle(vm,str);
+//						}
+//					});
+        			
     			}else {
     				common.alert({
 						vm : vm,
@@ -688,6 +702,9 @@
         	}
         	vm.pinglun=function(){
         		taskNewAuditSvc.pinglun(vm);
+        	}
+        	vm.yuepi=function(id){
+        		taskNewAuditSvc.yuepi(vm,id);
         	}
 /****************审批处理相关 end**********************/       	
         }//end init_handleAudit

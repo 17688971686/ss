@@ -78,7 +78,7 @@ public class SysController {
 //	@RequiresPermissions("sys#creatSysConfig#get")
 	@RequestMapping(name = "手动创建系统配置信息", path = "creatSysConfig", method = RequestMethod.GET)
 	public void creatSysConfig() {
-		sysService.creatSysConfig();
+		sysService.initSysConfig();
 	}
 	
 	@RequestMapping(name = "系统初始化", path = "init", method = RequestMethod.GET)

@@ -10,6 +10,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class BaseShenBaoInfo_ extends cs.domain.BaseProject_ {
 
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> capitalSCZ_qita_LastYear;
+	public static volatile SingularAttribute<BaseShenBaoInfo, Boolean> isLeaderHasRead;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> qianQiFeiApply;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> sqPlanReach_ggys;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Boolean> isApplyQianQiFei;

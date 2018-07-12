@@ -21,6 +21,7 @@ import org.hibernate.criterion.Subqueries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,16 +62,6 @@ public class TaskController {
         return shenBaoInfoDtos;
     }
 
-    //@RequiresPermissions("management/task#audit#get")
-//    @RequestMapping(name = "获取审批类个人待办数据", path = "audit", method = RequestMethod.GET)
-//    public @ResponseBody
-//    PageModelDto<ShenBaoInfoDto> getToDo_Audit(ODataObjNew odataObj, @RequestParam(required = false) String leixin) {
-//        String str = "audit";
-//        PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getTask_user(odataObj, str, leixin);
-//        //关于流程记录根据创建用户id查找到名称用于显示
-//        return shenBaoInfoDtos;
-//    }
-
     @RequestMapping(name = "获取审批类个人待办数据", path = "audit", method = RequestMethod.GET)
     @ResponseBody
     public PageModelDto<ShenBaoInfoDto> getToDoAudit(ODataObjNew odataObj) {
@@ -78,15 +69,6 @@ public class TaskController {
         return new PageModelDto<>(shenBaoInfoRuns, odataObj.isCount() ? odataObj.getCount() : shenBaoInfoRuns.size());
     }
 
-    //@RequiresPermissions("management/task#audit#get")
-//    @RequestMapping(name = "获取审批类科室待办数据", path = "auditOther", method = RequestMethod.GET)
-//    public @ResponseBody
-//    PageModelDto<ShenBaoInfoDto> getToDo_Audit_Other(ODataObjNew odataObj, @RequestParam(required = false) String leixin) {
-//        String str = "audit";
-//        PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getTask_user(odataObj, str, leixin);
-//        //关于流程记录根据创建用户id查找到名称用于显示
-//        return shenBaoInfoDtos;
-//    }
     @RequestMapping(name = "获取审批类科室待办数据", path = "auditOther", method = RequestMethod.GET)
     @ResponseBody
     public PageModelDto<ShenBaoInfoDto> getToDoAuditOther(ODataObjNew odataObj) {
@@ -97,21 +79,10 @@ public class TaskController {
     @RequestMapping(name = "获取阅批待办数据", path = "yuepi", method = RequestMethod.GET)
     public @ResponseBody
     PageModelDto<ShenBaoInfoDto> getToDoYuepi(ODataObjNew odataObj, @RequestParam(required = false) String leixin) {
-        String str = "audit";
-        PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getToDo_yuepi(odataObj);
-        //关于流程记录根据创建用户id查找到名称用于显示
-        return shenBaoInfoDtos;
+    	  List<ShenBaoInfoDto> shenBaoInfoRuns = processService.findYuepiByOdata(odataObj, false);
+          return new PageModelDto<>(shenBaoInfoRuns, odataObj.isCount() ? odataObj.getCount() : shenBaoInfoRuns.size());
     }
 
-    //@RequiresPermissions("management/task#audit#get")
-//    @RequestMapping(name = "获取年度计划类个人待办数据", path = "yearPlan", method = RequestMethod.GET)
-//    public @ResponseBody
-//    PageModelDto<ShenBaoInfoDto> getToDo_yearPlan(ODataObjNew odataObj) {
-//        String str = "yearPlan";
-//        PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getTask_user(odataObj, str);
-//        //关于流程记录根据创建用户id查找到名称用于显示
-//        return shenBaoInfoDtos;
-//    }
     @RequestMapping(name = "获取年度计划类个人待办数据", path = "yearPlan", method = RequestMethod.GET)
     @ResponseBody
     public PageModelDto<ShenBaoInfoDto> getToDoYearPlan(ODataObjNew odataObj) {
@@ -119,14 +90,6 @@ public class TaskController {
         return new PageModelDto<>(shenBaoInfoRuns, odataObj.isCount() ? odataObj.getCount() : shenBaoInfoRuns.size());
     }
 
-    //    @RequestMapping(name = "获取计划类个人待办数据", path = "plan", method = RequestMethod.GET)
-//    public @ResponseBody
-//    PageModelDto<ShenBaoInfoDto> getToDo_Plan(ODataObjNew odataObj, @RequestParam(required = false) String leixin) {
-//        String str = "plan";
-//        PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getTask_user(odataObj, str, leixin);
-//        //关于流程记录根据创建用户id查找到名称用于显示
-//        return shenBaoInfoDtos;
-//    }
     @RequestMapping(name = "获取计划类个人待办数据", path = "plan", method = RequestMethod.GET)
     @ResponseBody
     public PageModelDto<ShenBaoInfoDto> getToDoPlan(ODataObjNew odataObj) {
@@ -134,14 +97,6 @@ public class TaskController {
         return new PageModelDto<>(shenBaoInfoRuns, odataObj.isCount() ? odataObj.getCount() : shenBaoInfoRuns.size());
     }
 
-    //    @RequestMapping(name = "获取计划类科室待办数据", path = "planOther", method = RequestMethod.GET)
-//    public @ResponseBody
-//    PageModelDto<ShenBaoInfoDto> getToDo_Plan_other(ODataObjNew odataObj, @RequestParam(required = false) String leixin) {
-//        String str = "plan";
-//        PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getTask_user(odataObj, str, leixin);
-//        //关于流程记录根据创建用户id查找到名称用于显示
-//        return shenBaoInfoDtos;
-//    }
     @RequestMapping(name = "获取计划类科室待办数据", path = "planOther", method = RequestMethod.GET)
     @ResponseBody
     public PageModelDto<ShenBaoInfoDto> getToDoPlanOther(ODataObjNew odataObj) {
@@ -149,14 +104,6 @@ public class TaskController {
         return new PageModelDto<>(shenBaoInfoRuns, odataObj.isCount() ? odataObj.getCount() : shenBaoInfoRuns.size());
     }
 
-//    @RequestMapping(name = "获取所有个人待办数据", path = "all", method = RequestMethod.GET)
-//    public @ResponseBody
-//    PageModelDto<ShenBaoInfoDto> getToDo_all(ODataObjNew odataObj) {
-//        String str = "all";
-//        PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getTask_user(odataObj, str);
-//        //关于流程记录根据创建用户id查找到名称用于显示
-//        return shenBaoInfoDtos;
-//    }
     @RequestMapping(name = "获取所有个人待办数据", path = "all", method = RequestMethod.GET)
     public @ResponseBody
     PageModelDto<ShenBaoInfoRun> getToDoAll(ODataObjNew odataObj) {
@@ -209,6 +156,12 @@ public class TaskController {
     @ResponseStatus(value = HttpStatus.CREATED)
     public void taskComplete(@RequestBody Map data) {
         processService.taskComplete(data);
+    }
+    
+    @RequestMapping(name = "阅批任务", path = "yuepi/{id}", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void taskYuepi(@PathVariable String id) {
+        processService.taskYuepi(id);
     }
 
     @SuppressWarnings("rawtypes")

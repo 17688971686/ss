@@ -1,14 +1,14 @@
 <style>
-.table-bordered>thead>tr>th, 
-.table-bordered>tbody>tr>th, 
-.table-bordered>tfoot>tr>th, 
-.table-bordered>thead>tr>td, 
-.table-bordered>tbody>tr>td, 
-.table-bordered>tfoot>tr>td {
-    border: 1px solid #ddd;
-    vertical-align: middle;
+.table-bordered>thead>tr>th, .table-bordered>tbody>tr>th,
+	.table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td,
+	.table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td {
+	border: 1px solid #ddd;
+	vertical-align: middle;
 }
-label{font-weight:normal;}
+
+label {
+	font-weight: normal;
+}
 
 .uploadBox .k-upload-status {
 	display: none;
@@ -17,7 +17,7 @@ label{font-weight:normal;}
 .uploadBox .k-header {
 	background: transparent;
 	border: 0px;
-	float:right;
+	float: right;
 }
 
 .uploadBox em {
@@ -29,103 +29,109 @@ label{font-weight:normal;}
 	margin: 0px;
 }
 
-.uploadBox .k-upload-files{
-	display:none;
+.uploadBox .k-upload-files {
+	display: none;
 }
-input.input-sm{height:30px; margin:0px; padding:0px;}
+
+input.input-sm {
+	height: 30px;
+	margin: 0px;
+	padding: 0px;
+}
+
 textarea.form-control {
-	margin:0px; padding:0px;
+	margin: 0px;
+	padding: 0px;
 }
-.tab_content{
-	padding:20px;
+
+.tab_content {
+	padding: 20px;
 }
 </style>
 
-<div class="well well-sm" style="background:white;overflow:auto">
+<div class="well well-sm" style="background: white; overflow: auto">
 	<ol class="breadcrumb">
-		<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		<li style="color: #0b8d39; padding-left: 15px;">当前位置：</li>
 		<li><a href="#/">首页</a></li>
 		<li><a href="#/task/todo_audit">科室待办列表</a></li>
 		<li class="active">办理</li>
-	</ol>                
- 	<form id="form" name="form">
- 		<div class="bg-info text-info" style="padding: 10px;">申报基本信息</div>  		
- 		<table class="table table-bordered table-striped ">
+	</ol>
+	<form id="form" name="form">
+		<div class="bg-info text-info" style="padding: 10px;">申报基本信息</div>
+		<table class="table table-bordered table-striped ">
 			<tr>
-				<td class="formAlignRight" style="width:150px;">申报阶段：</td>
-				<td style="width:250px;" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectShenBaoStage)">
-					
-				<td class="formAlignRight" style="width:150px;">项目名称：</td>
-				<td>
-					<span ng-bind="vm.model.shenBaoInfo.projectName"></span>
-				</td>
+				<td class="formAlignRight" style="width: 150px;">申报阶段：</td>
+				<td style="width: 250px;"
+					ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectShenBaoStage)">
+				<td class="formAlignRight" style="width: 150px;">项目名称：</td>
+				<td><span ng-bind="vm.model.shenBaoInfo.projectName"></span></td>
 			</tr>
 			<tr>
 				<td class="formAlignRight">项目阶段：</td>
-				<td>
-					<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectStage)"></span>
+				<td><span
+					ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectStage)"></span>
 				</td>
 				<td class="formAlignRight">项目类型：</td>
-				<td>
-					<span ng-repeat="x in vm.projectTypes" ng-bind="vm.getBasicDataDesc(x)+' '"></span>
-				</td>
-			</tr>	
+				<td><span ng-repeat="x in vm.projectTypes"
+					ng-bind="vm.getBasicDataDesc(x)+' '"></span></td>
+			</tr>
 			<tr>
 				<td class="formAlignRight">项目行业归口：</td>
-				<td>
-					<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectIndustry)"></span>
+				<td><span
+					ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectIndustry)"></span>
 				</td>
 				<td class="formAlignRight">项目分类：</td>
-				<td>
-					<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectClassify)"></span>
+				<td><span
+					ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectClassify)"></span>
 				</td>
 			</tr>
 			<tr>
 				<td class="formAlignRight">国民经济行业分类：</td>
-				<td colspan="3" style="width:450px;">
-					<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustryParent)"  style="margin-right:24px;"></span>
-					<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustry)"></span>
+				<td colspan="3" style="width: 450px;"><span
+					ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustryParent)"
+					style="margin-right: 24px;"></span> <span
+					ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustry)"></span>
 				</td>
 			</tr>
 			<tr>
 				<td class="formAlignRight">项目建设地址：</td>
-				<td colspan="3">
-					光明新区
-			 		<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.divisionId)"></span>						
-			 		<span ng-bind="vm.model.shenBaoInfo.projectAddress"></span>
-				</td>		
-			</tr>	
+				<td colspan="3">光明新区 <span
+					ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.divisionId)"></span>
+					<span ng-bind="vm.model.shenBaoInfo.projectAddress"></span>
+				</td>
+			</tr>
 			<tr>
 				<td class="formAlignRight">项目总投资：</td>
-				<td>
-					<span  ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:4"></span>&nbsp;(万元)		
+				<td><span
+					ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:4"></span>&nbsp;(万元)
 				</td>
-				
+
 				<td class="formAlignRight">累计完成投资：</td>
-				<td>
-					<span ng-bind="vm.model.shenBaoInfo.projectInvestAccuSum | number:4"></span>&nbsp;(万元)
+				<td><span
+					ng-bind="vm.model.shenBaoInfo.projectInvestAccuSum | number:4"></span>&nbsp;(万元)
 				</td>
-			</tr>	
+			</tr>
 			<tr>
 				<td class="formAlignRight">项目简介：</td>
-				<td colspan="3">
-					<span ng-bind="vm.model.shenBaoInfo.projectIntro" ></span>
-				</td>
+				<td colspan="3"><span
+					ng-bind="vm.model.shenBaoInfo.projectIntro"></span></td>
 			</tr>
 			<tr>
 				<td class="formAlignRight">详细信息：</td>
-				<td colspan="3" >
-					<button class="btn btn-success btn-xs" ng-click="vm.dialog_shenbaoInfo()">查看申报信息</button>
-					<button class="btn btn-success btn-xs" ng-click="vm.dialog_shenbaoInfoEdit()" >复核申报信息</button>
-					<a class="btn btn-success btn-xs" href="http://192.168.189.235:8081/pic/task/picture/{{vm.model.shenBaoInfo.zong_processId}}" target="_blank">查看流程图</a>
+				<td colspan="3">
+					<button class="btn btn-success btn-xs"
+						ng-click="vm.dialog_shenbaoInfo()">查看申报信息</button>
+					<button class="btn btn-success btn-xs"
+						ng-click="vm.dialog_shenbaoInfoEdit()">复核申报信息</button>
 				</td>
-			</tr>		
-	</table>
-	  		
-		<div class="bg-info text-info" style="padding: 10px;">业务办理</div>  		
+			</tr>
+		</table>
+
+		<div class="bg-info text-info" style="padding: 10px;">业务办理</div>
 		<table class="table table-bordered table-striped ">
-			<tr ng-repeat="x in vm.taskRecord | orderBy:'endTime'" ng-if="x.isJuzhang != 'yes'">
-				<td class="formAlignRight" style="width:150px;"  ng-bind="x.name"></td>
+			<tr ng-repeat="x in vm.taskRecord | orderBy:'endTime'"
+				ng-if="x.isJuzhang != 'yes'">
+				<td class="formAlignRight" style="width: 150px;" ng-bind="x.name"></td>
 				<td>
 					<div ng-bind="x.msg"></div>
 					<div class="text-right" ng-bind="x.id"></div>
@@ -133,10 +139,11 @@ textarea.form-control {
 				</td>
 			</tr>
 		</table>
-		<div class="bg-info text-info" style="padding: 10px;">局领导意见</div>  		
+		<div class="bg-info text-info" style="padding: 10px;">局领导意见</div>
 		<table class="table table-bordered table-striped ">
-			<tr ng-repeat="x in vm.taskRecord | orderBy:'endTime'" ng-if="x.isJuzhang == 'yes'">
-				<td class="formAlignRight" style="width:150px;"  ng-bind="x.name"></td>
+			<tr ng-repeat="x in vm.taskRecord | orderBy:'endTime'"
+				ng-if="x.isJuzhang == 'yes'">
+				<td class="formAlignRight" style="width: 150px;" ng-bind="x.name"></td>
 				<td>
 					<div ng-bind="x.msg"></div>
 					<div class="text-right" ng-bind="x.id"></div>
@@ -144,271 +151,101 @@ textarea.form-control {
 				</td>
 			</tr>
 		</table>
-		<!-- <div class="bg-info text-info" style="padding: 10px;">相关附件</div>
-		<table class="table table-bordered table-striped">
-			<tr>
-				<td class="formAlignRight" style="width:150px;">审批相关附件：</td>
+		<div class="bg-info text-info" style="padding: 10px;"
+			ng-if="vm.isShow ">处理操作</div>
+		<table class="table table-bordered table-striped" ng-if="vm.isShow ">
+			<tr
+				ng-if="vm.model.shenBaoInfo.thisTaskName != 'usertask1' && vm.model.shenBaoInfo.thisTaskName != 'usertask5' && vm.model.shenBaoInfo.thisTaskName != 'usertask3' && vm.model.shenBaoInfo.thisTaskName != 'usertask2'">
+				<td class="formAlignRight" style="width: 150px;">查看信息：</td>
 				<td>
 					<div>
-				        <div style="margin:3px;" ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos" ng-if="y.type == 'shenpiFile'">
-				 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
-			 			</div>
-					</div>
-				</td>
-			</tr>
-		</table> -->
-		<div class="bg-info text-info" style="padding: 10px;" ng-if="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16'">项目批复信息</div>
-		<table class="table table-bordered table-striped "
-			ng-if="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask3'">
-			<tr>
-				<td style="width: 180px;">批复名称</td>
-				<td style="width: 180px;">批复时间</td>
-				<td style="width: 180px;">批复文号</td>
-				<td>文件上传</td>
-			</tr>
-			<tr ng-repeat="x in vm.uploadType">
-				<td>{{x[1]}}</td>
-				<td><input type="text" onkeydown="return false;"
-					kendo-date-picker
-					ng-model="vm.model.shenBaoInfo['pifu'+x[0]+'_date']"
-					k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" /></td>
-				<td><input type="text"
-					ng-model="vm.model.shenBaoInfo['pifu'+x[0]+'_wenhao']"
-					placeholder="格式：xxx〔xx〕xx号" /></td>
-				<td class="clearfix">
-					<div class="uploadBox pull-left" data-type="{{x[0]}}">
-						<button class="btn btn-sm btn-primary" style="margin-right: 10px;"
-							data-toggle="modal" ng-click="vm.choseDocument($event)">选择文件</button>
-						<input name="files" type="file" kendo-upload
-							k-options="vm.uploadOptions_pifu" />
-					</div>
-					<div style="margin: 3px;" class="pull-left"
-						ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos" ng-show="y.type=='{{x[0]}}'">
-						<a href="/contents/upload/{{y.url}}" target="_blank"
-							ng-bind="y.name"></a>
-						<button class="btn btn-xs btn-danger"
-							ng-click="vm.delFile($index)">删除</button>
-					</div>
-				</td>
-			</tr>
-		</table>
-		<div class="bg-info text-info" style="padding: 10px;" ng-if="vm.isShow ">处理操作</div>
-		<table class="table table-bordered table-striped" ng-if="vm.isShow ">
-			<tr  ng-if="vm.model.shenBaoInfo.thisTaskName != 'usertask1' && vm.model.shenBaoInfo.thisTaskName != 'usertask5' && vm.model.shenBaoInfo.thisTaskName != 'usertask3' && vm.model.shenBaoInfo.thisTaskName != 'usertask2'">
-				<td class="formAlignRight" style="width:150px;">查看信息：</td>
-				<td>
-				<div>
-						<button class="btn btn-success btn-xs" ng-click="vm.editApproval('look')">查看评审报批单</button>
-						<button class="btn btn-success btn-xs" ng-click="vm.draftOpen('look')">查看发文拟稿单</button>
+						<button class="btn btn-success btn-xs"
+							ng-click="vm.editApproval('look')">查看评审报批单</button>
+						<button class="btn btn-success btn-xs"
+							ng-click="vm.draftOpen('look')">查看发文拟稿单</button>
 					</div>
 				</td>
 			</tr>
 			<tr>
-				<td class="formAlignRight" style="width:150px;">填写处理意见：</td>
+				<td class="formAlignRight" style="width: 150px;">填写处理意见：</td>
 				<td>
 					<div style="margin-bottom: 10px;">
-						<label>个人自定义意见：</label>
-						<select class="form-control input-sm" style="width:200px;" id="opinion" name="opinion" ng-model="vm.model.opinion" ng-change="vm.changeOpin()">
-						  	<option value="">---请选择---</option>
-							<option ng-repeat="y in vm.model.opinionDtos" value="{{y.opinion}}">{{y.opinion}}</option>
+						<label>个人自定义意见：</label> <select class="form-control input-sm"
+							style="width: 200px;" id="opinion" name="opinion"
+							ng-model="vm.model.opinion" ng-change="vm.changeOpin()">
+							<option value="">---请选择---</option>
+							<option ng-repeat="y in vm.model.opinionDtos"
+								value="{{y.opinion}}">{{y.opinion}}</option>
 						</select>
 						<button class="btn btn-success btn-sm" ng-click="vm.saveOpinion()">保存常用意见</button>
 						<button class="btn btn-success btn-sm" ng-click="vm.showOpinion()">管理常用意见</button>
 					</div>
 					<div style="margin-bottom: 10px;">
-						<textarea class="form-control" id="processSuggestion" name="processSuggestion"  maxlength="500" rows="3"
-							ng-model="vm.processSuggestion" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+						<textarea class="form-control" id="processSuggestion"
+							name="processSuggestion" maxlength="500" rows="3"
+							ng-model="vm.processSuggestion" data-val="true"
+							data-val-required="必填" placeholder="注：500字符以内"
 							ng-change="vm.checkLength(vm.processSuggestion,500,'processSuggestionTips')">
 						</textarea>
-						<span data-valmsg-for="processSuggestion" data-valmsg-replace="true" class="required"></span>
-						<div class="tipfont">您还可以输入<span id="processSuggestionTips"><font size="5">500</font></span>个字符!</div>
+						<span data-valmsg-for="processSuggestion"
+							data-valmsg-replace="true" class="required"></span>
+						<div class="tipfont">
+							您还可以输入<span id="processSuggestionTips"><font size="5">500</font></span>个字符!
+						</div>
 					</div>
 					<div>
 						<label class="pull-left">上传附件：</label>
 						<div class="uploadBox pull-left" data-type="shenpiFile">
-						 	<input type="file" name="files" kendo-upload k-options="vm.uploadOptions_shenpi"/>
-				        </div>
-				        <div style="margin:3px;" ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos" ng-if="y.type =='shenpiFile'">
-				 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
-							<button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenpi($index)">删除</button>
-			 			</div>
+							<input type="file" name="files" kendo-upload
+								k-options="vm.uploadOptions_shenpi" />
+						</div>
+						<div style="margin: 3px;"
+							ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos"
+							ng-if="y.type =='shenpiFile'">
+							<a href="/contents/upload/{{y.url}}" target="_blank"
+								ng-bind="y.name"></a>
+							<button class="btn btn-xs btn-danger"
+								ng-click="vm.delFile_shenpi($index)">删除</button>
+						</div>
 					</div>
 				</td>
 			</tr>
-			<tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask1' || vm.model.shenBaoInfo.thisTaskName == 'usertask5' ">
-				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
+			<tr>
+				<td class="formAlignRight" style="width: 150px;">操作：</td>
 				<td>
-					<div>
-						<label>
-							<input type="checkbox" name="nextProcess" ng-true-value="5" ng-change="vm.selectNextProcess()" ng-model="vm.isPass"/>经办人协办
-						</label>
-					</div>
-					<div class="pull-left" ng-if="vm.isPass == '5'">
-					
-						<label ng-repeat="x in vm.model.dept.userDtos" >
-							<input type="radio" name="radio" value="{{x.id}}" ng-model="vm.nextUsers" data-val="true" data-val-required="必选"/>{{x.displayName}}&nbsp;&nbsp;
-						</label>
-					</div>
-				</td>		
-			</tr>
-			<tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask2'  && vm.isShow">
-				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
-				<td>
-					<div>
-						<label>
-							<input type="checkbox" id="nextProcess" name="nextProcess" ng-true-value="1" ng-change="vm.selectNextProcess()" ng-model="vm.isPass" data-val="true" data-val-required="必选"/>经办人办理
-							<span data-valmsg-for="nextProcess" data-valmsg-replace="true" class="required"></span>
-						</label>
-					</div>
-					<div class="pull-left" ng-if="vm.isPass == '1'">
-					
-						<label ng-repeat="x in vm.model.dept.userDtos" >
-							<input type="checkbox" id="nextUser" name="nextUser" value="{{x.id}}" ng-click="vm.selectionUser(x.id)" data-val="true" data-val-required="必选"/>{{x.displayName}}&nbsp;&nbsp;
-						</label>
-						<span data-valmsg-for="nextUser" data-valmsg-replace="true" class="required"></span>
-					</div>
-				</td>		
-			</tr>
-			<tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask3' && vm.isShow">
-				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
-				<td>
-					<div>
-						<label>
-							<input type="radio" name="nextProcess" value="8" ng-true-value="8" ng-model="vm.isPass" />评审报批
-						</label>
-						&nbsp;&nbsp;
-						<!-- <label>
-							<input type="radio" name="nextProcess" value="7" ng-true-value="7" ng-model="vm.isPass"/>发文拟稿
-						</label>
-						&nbsp;&nbsp;
-						<label>
-							<input type="radio" name="nextProcess" value="9" ng-true-value="9" ng-model="vm.isPass"/>请示领导
-						</label> -->
-						
-<!-- 						<span data-valmsg-for="nextProcess" data-valmsg-replace="true" class="required"></span>
- -->					</div>
-					<div>
-						<button ng-if="vm.isPass == 8" class="btn btn-success btn-xs" ng-click="vm.editApproval('edit')">填写评审报批单</button>
-						<!-- <button ng-if="vm.isPass == 7" class="btn btn-success btn-xs" ng-click="vm.draftOpen('edit')">填写发文信息</button>
-						<a class="btn btn-success btn-xs" href="/contents/admin/management/task/plan/html/edit/edit_dj.html" target="_blank">正文</a>
- -->					 </div>
+					<button ng-click="vm.pinglun()" class="btn btn-success btn-sm"
+						style="margin: 0 10px;">阅批</button>
 				</td>
-			</tr>
-			<tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask3' && vm.isPass == 8">
-				<td class="formAlignRight">下一处理人员：<span class="required">(*)</span></td>
-				<td>
-					<div>
-						<label>
-							<input type="radio" id="nextProcess2" name="nextProcess2" value="5" ng-true-value="5" ng-model="vm.isPass2" data-val="true" data-val-required="必选"/>直接评审
-						</label>
-						&nbsp;&nbsp;
-						<label>
-							<input type="radio" id="nextProcess2" name="nextProcess2" value="6" ng-true-value="6" ng-model="vm.isPass2" data-val="true" data-val-required="必选"/>科长审核
-						</label>
-						<span data-valmsg-for="nextProcess2" data-valmsg-replace="true" class="required"></span>
-					</div>
-					<div ng-if="vm.isPass2 == 5">
-						<label ng-repeat="x in vm.model.dept.userDtos" >
-							<input type="checkbox" id="nextUser" name="nextUser" value="{{x.id}}" ng-click="vm.selectionUser(x.id)" data-val="true" data-val-required="必选"/>{{x.displayName}}&nbsp;&nbsp;
-						</label>
-					</div>
-				</td>
-			</tr>
-			
-			<tr ng-if="vm.isShow &&(vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18')">
-				<td class="formAlignRight">下一处理环节：</td>
-				<td>
-					<div>
-						<label>
-							<input type="radio" id="nextProcess" name="nextProcess" value="5" ng-true-value="5" ng-model="vm.isPass" />副局长审核
-						</label>
-						&nbsp;&nbsp;
-						<label>
-							<input type="radio" id="nextProcess" name="nextProcess" value="6" ng-true-value="6" ng-model="vm.isPass" />局长审核
-						</label>
-					</div>
-				</td>
-			</tr>
-			<tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask17' || vm.model.shenBaoInfo.thisTaskName == 'usertask19'">
-				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
-				<td>
-					<div>
-						<label>
-							<input type="radio" id="nextProcess" name="nextProcess" value="5" ng-true-value="5" ng-model="vm.isPass" data-val="true" data-val-required="必选"/>办公室发文
-						</label>
-						&nbsp;&nbsp;
-						<label>
-							<input type="radio" id="nextProcess" name="nextProcess" value="6" ng-true-value="6" ng-model="vm.isPass" data-val="true" data-val-required="必选"/>局长审核
-						</label>
-						<span data-valmsg-for="nextProcess" data-valmsg-replace="true" class="required"></span>
-					</div>
-				</td>
-			</tr>
-			<tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask21'">
-				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
-				<td>
-					<div>
-						<label>
-							<input type="radio" id="nextProcess" name="nextProcess" value="5" ng-true-value="5" ng-model="vm.isPass" data-val="true" data-val-required="必选"/>办公室发文
-						</label>
-						<span data-valmsg-for="nextProcess" data-valmsg-replace="true" class="required"></span>
-					</div>
-				</td>
-			</tr>
-			<tr ng-if="vm.isShow || vm.model.shenBaoInfo.thisTaskName == 'usertask1' " ng-hide="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16'">
-				<td class="formAlignRight"  style="width:150px;">操作：</td>
-				<td>
-					<!-- 送出 -->
-					<button ng-click="vm.handle('next')" class="btn btn-success btn-sm" style="margin:0 10px;">送出</button>
-					<!-- 退回 -->
-					<button ng-click="vm.handle('reback')" class="btn btn-danger btn-sm" style="margin:0 10px;" ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask6' || vm.model.shenBaoInfo.thisTaskName == 'usertask7' || vm.model.shenBaoInfo.thisTaskName == 'usertask8' || vm.model.shenBaoInfo.thisTaskName == 'usertask10' 
-					 || vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask14' || vm.model.shenBaoInfo.thisTaskName == 'usertask18' || vm.model.shenBaoInfo.thisTaskName == 'usertask20'">退回</button>
-					 <!-- 返回经办人 -->
-					 <button ng-click="vm.handle('reback')" class="btn btn-success btn-sm" style="margin:0 10px;" ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask8'">返回经办人</button>
-					<!-- 退文 -->
-					<button ng-click="vm.handle('tuiwen')" class="btn btn-warning btn-sm" style="margin:0 10px;" ng-if="vm.model.shenBaoInfo.thisTaskName != 'usertask2' 
-					&& vm.model.shenBaoInfo.thisTaskName != 'usertask6' && vm.model.shenBaoInfo.thisTaskName != 'usertask7' && vm.model.shenBaoInfo.thisTaskName != 'usertask12' && vm.model.shenBaoInfo.thisTaskName != 'usertask18' 
-					&& vm.model.shenBaoInfo.thisTaskName != 'usertask8' && vm.model.shenBaoInfo.thisTaskName != 'usertask13' 
-					 && vm.model.shenBaoInfo.thisTaskName != 'usertask14' && vm.model.shenBaoInfo.thisTaskName != 'usertask17' && vm.model.shenBaoInfo.thisTaskName != 'usertask19' && vm.model.shenBaoInfo.thisTaskName != 'usertask20' && vm.model.shenBaoInfo.thisTaskName != 'usertask21' && vm.model.shenBaoInfo.thisTaskName != 'usertask10'">退文</button>
- 					<button ng-if="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask3' " ng-click="vm.handle('banjie')" class="btn btn-success btn-sm" style="margin:0 10px;">办结</button>
- 				</td>
-			</tr>
-			<tr ng-if="!vm.isShow && vm.model.shenBaoInfo.thisTaskName != 'usertask1' " ng-hide="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16'">
-				<td class="formAlignRight"  style="width:150px;">操作：</td>
-				<td>
-					<button ng-click="vm.pinglun()" class="btn btn-success btn-sm" style="margin:0 10px;">阅批</button>
- 				</td>
-			</tr>
-			<tr ng-if="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16' ">
-				<td class="formAlignRight"  style="width:150px;">操作：</td>
-				<td>
-					<button ng-click="vm.handle('next')" class="btn btn-success btn-sm" style="margin:0 10px;">办结</button>
- 				</td>
 			</tr>
 		</table>
-    </form>   
+	</form>
 </div>
-			
+
 <!-- 申报信息模态框 -->
 <div id="shenbaoInfo" class="modal fade" tabindex="-1" role="dialog">
 	<div class="modal-dialog"
 		style="margin: 80px auto; width: 80%; max-width: 1000px;">
 		<div class="modal-content">
 			<div class="modal-header bg-primary">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
-				<span aria-hidden="true">&times;</span>
-			</button>
-			<span class="modal-title">详细信息</span>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<span class="modal-title">详细信息</span>
 			</div>
 			<div class="modal-body">
-				<div ng-include  src="'/contents/admin/management/task/html/details/shenBaoInfoDetails.html'"></div>
+				<div ng-include
+					src="'/contents/admin/management/task/html/details/shenBaoInfoDetails.html'"></div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-success" data-dismiss="modal">确认</button>
 			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 <!-- 申报信息复核模态框 -->
 <div id="shenbaoInfoEdit" class="modal fade" tabindex="-1" role="dialog">
@@ -416,21 +253,27 @@ textarea.form-control {
 		style="margin: 80px auto; width: 80%; max-width: 1000px;">
 		<div class="modal-content">
 			<div class="modal-header bg-primary">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
-				<span aria-hidden="true">&times;</span>
-			</button>
-			<span class="modal-title">复核申报信息</span>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<span class="modal-title">复核申报信息</span>
 			</div>
 			<div class="modal-body">
-				<div ng-include  src="'/contents/admin/management/task/html/edit/shenBaoInfoEdit.html'"></div>
+				<div ng-include
+					src="'/contents/admin/management/task/html/edit/shenBaoInfoEdit.html'"></div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-				<button type="button" class="btn btn-success" ng-click="vm.saveShenBaoInfo()">保存</button>
+				<button type="button" class="btn btn-success"
+					ng-click="vm.saveShenBaoInfo()">保存</button>
 			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 <!-- 意见管理模态框 -->
 <div id="opinion" class="opinion modal fade" tabindex="-1" role="dialog">
@@ -438,116 +281,153 @@ textarea.form-control {
 		style="margin: 80px auto; width: 80%; max-width: 1000px;">
 		<div class="modal-content">
 			<div class="modal-header bg-primary">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
-				<span aria-hidden="true">&times;</span>
-			</button>
-			<span class="modal-title">常用意见管理</span>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<span class="modal-title">常用意见管理</span>
 			</div>
-			 <div class="modal-body">
-			 	<div class="toolbar">
-			 		<button class="btn btn-sm btn-danger" ng-click="vm.dels()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-trash"></span>&nbsp;批量删除</button>
-			 	</div>
-			 	<script type="text/template" id="columnBtns">
+			<div class="modal-body">
+				<div class="toolbar">
+					<button class="btn btn-sm btn-danger" ng-click="vm.dels()"
+						ng-disabled="vm.isSubmit">
+						<span class="glyphicon glyphicon-trash"></span>&nbsp;批量删除
+					</button>
+				</div>
+				<script type="text/template" id="columnBtns">
 					<button class="btn btn-xs btn-danger"  ng-click="vm.remove('{0}')" ><span class="glyphicon glyphicon-remove"></span>删除</button>
 					<button class="btn btn-xs btn-primary"  ng-click="vm.edit('{0}','{1}')" ><span class="glyphicon glyphicon-pencil"></span>编辑</button>
 				</script>
-                <div class="grid" kendo-grid="grid" k-options="vm.opinionGrid"></div>
-            </div>
+				<div class="grid" kendo-grid="grid" k-options="vm.opinionGrid"></div>
+			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 <!-- 意见编辑模态框 -->
-<div id="opinionEdit" class="opinionEdit modal fade" tabindex="-1" role="dialog">
+<div id="opinionEdit" class="opinionEdit modal fade" tabindex="-1"
+	role="dialog">
 	<div class="modal-dialog"
 		style="margin: 80px auto; width: 80%; max-width: 1000px;">
 		<div class="modal-content">
 			<div class="modal-header bg-primary">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
-				<span aria-hidden="true">&times;</span>
-			</button>
-			<span class="modal-title">常用意见编辑</span>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<span class="modal-title">常用意见编辑</span>
 			</div>
-			 <div class="modal-body">
-			 	<textarea class="form-control" id="opinString" name="opinString"  maxlength="500" rows="3"
-						ng-model="vm.model.opinion.opinion" value="vm.model.opinion.opinion" data-val="true" placeholder="注：500字符以内"
-						ng-change="vm.checkLength(vm.model.opinString,500,'opinStringTips')">
+			<div class="modal-body">
+				<textarea class="form-control" id="opinString" name="opinString"
+					maxlength="500" rows="3" ng-model="vm.model.opinion.opinion"
+					value="vm.model.opinion.opinion" data-val="true"
+					placeholder="注：500字符以内"
+					ng-change="vm.checkLength(vm.model.opinString,500,'opinStringTips')">
 				</textarea>
-				<div class="tipfont">您还可以输入<span id="opinString"><font size="5">500</font></span>个字符!</div>
-            </div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" ng-click="vm.editOpin()">修改</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-				
+				<div class="tipfont">
+					您还可以输入<span id="opinString"><font size="5">500</font></span>个字符!
+				</div>
 			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary"
+					ng-click="vm.editOpin()">修改</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 <!-- 发文拟稿模态框 -->
-<div id="draft_issued" class="draft_issued modal fade" tabindex="-1" role="dialog">
+<div id="draft_issued" class="draft_issued modal fade" tabindex="-1"
+	role="dialog">
 	<div class="modal-dialog"
 		style="margin: 80px auto; width: 80%; max-width: 1000px;">
 		<div class="modal-content">
 			<div class="modal-header bg-primary">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
-				<span aria-hidden="true">&times;</span>
-			</button>
-			<span class="modal-title">发文拟稿信息</span>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<span class="modal-title">发文拟稿信息</span>
 			</div>
-			 <div class="modal-body">
-			 	<div ng-if="vm.isEditDraft" ng-include  src="'/contents/admin/management/task/audit/html/edit/draftIssued.html'"></div>
-			 	<div ng-if="vm.isLookDraft" ng-include  src="'/contents/admin/management/task/audit/html/details/draftIssued.html'"></div>
-            </div>
+			<div class="modal-body">
+				<div ng-if="vm.isEditDraft" ng-include
+					src="'/contents/admin/management/task/audit/html/edit/draftIssued.html'"></div>
+				<div ng-if="vm.isLookDraft" ng-include
+					src="'/contents/admin/management/task/audit/html/details/draftIssued.html'"></div>
+			</div>
 			<div class="modal-footer">
-				<button ng-if="vm.isEditDraft" type="button" class="btn btn-primary" ng-click="vm.saveDraft()">保存</button>
+				<button ng-if="vm.isEditDraft" type="button" class="btn btn-primary"
+					ng-click="vm.saveDraft()">保存</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-				
+
 			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 <!-- 评审报批单模态框 -->
-<div id="approval" class="approval modal fade" tabindex="-1" role="dialog">
+<div id="approval" class="approval modal fade" tabindex="-1"
+	role="dialog">
 	<div class="modal-dialog"
 		style="margin: 80px auto; width: 80%; max-width: 1000px;">
 		<div class="modal-content">
 			<div class="modal-header bg-primary">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">				
-				<span aria-hidden="true">&times;</span>
-			</button>
-			<span class="modal-title">评审报批单信息</span>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<span class="modal-title">评审报批单信息</span>
 			</div>
-			 <div class="modal-body">
-			 	<div ng-if="vm.isEditApproval" ng-include  src="'/contents/admin/management/task/audit/html/edit/approval.html'"></div>
-			 	<div ng-if="vm.isLookApproval" ng-include  src="'/contents/admin/management/task/audit/html/details/approval.html'"></div>
-            </div>
-			<div class="modal-footer" >
-				<button ng-if="vm.isEditApproval" type="button" class="btn btn-success btn-sm" ng-click="vm.saveApproval()">保存</button>
-				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<!-- 文件选择模态框 -->
-<div class="documentRecords modal fade" id="documentRecords"> 
-	<div class="modal-dialog">
-		<div class="modal-content" style="width:850px;"> 
-			<div class="modal-header bg-primary">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			
-				<h4 class="modal-title" id="myModalLabel">批复文件列表</h4> 
-			</div> 
 			<div class="modal-body">
-				<div class="grid" kendo-grid="vm.grid_documentRecords" k-options="vm.gridOptions_documentRecords"></div>			
+				<div ng-if="vm.isEditApproval" ng-include
+					src="'/contents/admin/management/task/audit/html/edit/approval.html'"></div>
+				<div ng-if="vm.isLookApproval" ng-include
+					src="'/contents/admin/management/task/audit/html/details/approval.html'"></div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
-				<button type="button" class="btn btn-success" ng-click="vm.pifuChoseConfirm()">确定</button>	
-			</div> 
+				<button ng-if="vm.isEditApproval" type="button"
+					class="btn btn-success btn-sm" ng-click="vm.saveApproval()">保存</button>
+				<button type="button" class="btn btn-default btn-sm"
+					data-dismiss="modal">取消</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<!-- 文件选择模态框 -->
+<div class="documentRecords modal fade" id="documentRecords">
+	<div class="modal-dialog">
+		<div class="modal-content" style="width: 850px;">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">批复文件列表</h4>
+			</div>
+			<div class="modal-body">
+				<div class="grid" kendo-grid="vm.grid_documentRecords"
+					k-options="vm.gridOptions_documentRecords"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-success"
+					ng-click="vm.pifuChoseConfirm()">确定</button>
+			</div>
 		</div>
 	</div>
 </div>

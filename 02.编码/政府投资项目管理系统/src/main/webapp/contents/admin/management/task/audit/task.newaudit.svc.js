@@ -39,6 +39,7 @@
 		var url_review = "/management/review";
 		var url_pic = "/pic/task";
 		var url_document="/shenbaoAdmin/replyFile";
+		var url_getSysConfigs = "/sys/getSysConfigs";
 		
 		var service = {
 			grid : grid,//待办任务列表
@@ -64,10 +65,31 @@
 			showActiviti:showActiviti,
 			documentRecordsGird:documentRecordsGird,
 			otherGrid:otherGrid,//科室办件列表
-			yuepiGrid:yuepiGrid//阅批列表
+			yuepiGrid:yuepiGrid,//阅批列表
+			yuepi:yuepi,//阅批按钮
+			getSysConfigs:getSysConfigs//系统配置
 		};
 		
 		return service;
+		
+		function yuepi(vm,id) {
+			var httpOptions = {
+				method : 'post',
+				url : common.format(url_taskAudit_new + "/yuepi/"+id)
+			}
+			var httpSuccess = function success(response) {
+				if(vm.page == 'handleYuepi'){
+					location.href="javascript:window.history.back(-1)";
+				}
+				vm.gridOptions_yuepi.dataSource.read();
+			}
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
 		
 		function showActiviti(vm) {
 			var httpOptions = {
@@ -830,7 +852,7 @@
 				schema : common.kendoGridConfig().schema({
 					id : "id"					
 				}),
-				serverPaging : false,
+				serverPaging : true,
 				serverSorting : true,
 				serverFiltering : true,
 				pageSize : 10,
@@ -907,6 +929,15 @@
 						}
 					},
 					{
+						field : "processStage",
+						title : "审批阶段",
+						width : 150,
+						filterable : false,
+						template:function(item){
+							return common.format("<span class='text-danger'>{0}</span>",item.processStage);
+						}
+					},
+					{
 						field : "",
 						title : "创建日期",
 						width : 180,
@@ -945,7 +976,7 @@
 				schema : common.kendoGridConfig().schema({
 					id : "id"					
 				}),
-				serverPaging : false,
+				serverPaging : true,
 				serverSorting : true,
 				serverFiltering : true,
 				pageSize : 10,
@@ -959,7 +990,14 @@
 				change:function(){
 					var grid = $(".grid").data("kendoGrid");
 					window.todo_auditOption_other = grid.getOptions();
-				}
+				},
+				filter:[
+					{
+						field:"thisTaskName",
+						operator:"eq",
+						value:"usertask2"
+					}
+				]
 			});
 			// End:dataSource
 
@@ -1022,6 +1060,15 @@
 						}
 					},
 					{
+						field : "processStage",
+						title : "审批阶段",
+						width : 150,
+						filterable : false,
+						template:function(item){
+							return common.format("<span class='text-danger'>{0}</span>",item.processStage);
+						}
+					},
+					{
 						field : "",
 						title : "创建日期",
 						width : 180,
@@ -1058,7 +1105,7 @@
 				schema : common.kendoGridConfig().schema({
 					id : "id"					
 				}),
-				serverPaging : false,
+				serverPaging : true,
 				serverSorting : true,
 				serverFiltering : true,
 				pageSize : 10,
@@ -1072,7 +1119,14 @@
 				change:function(){
 					var grid = $(".grid").data("kendoGrid");
 					window.todo_auditOption_yuepi = grid.getOptions();
-				}
+				},
+				filter:[
+					{
+						field:"isLeaderHasRead",
+						operator:"eq",
+						value:false
+					}
+				]
 			});
 			// End:dataSource
 
@@ -1135,6 +1189,15 @@
 						}
 					},
 					{
+						field : "processStage",
+						title : "审批阶段",
+						width : 150,
+						filterable : false,
+						template:function(item){
+							return common.format("<span class='text-danger'>{0}</span>",item.processStage);
+						}
+					},
+					{
 						field : "",
 						title : "创建日期",
 						width : 180,
@@ -1142,7 +1205,17 @@
 							return kendo.toString(new Date(item.createdDate),"yyyy/MM/dd HH:mm:ss");
 						}
 
+					},
+					{
+						field : "",
+						title : "操作",
+						width : 180,
+						template : function(item) {
+							return common.format($('#columnBtns').html(),item.id,item.isLeaderHasRead);
+						},
+
 					}
+
 
 			];
 			// End:column
@@ -1243,6 +1316,15 @@
 					}
 				},
 				{
+					field : "processStage",
+					title : "审批阶段",
+					width : 150,
+					filterable : false,
+					template:function(item){
+						return common.format("<span class='text-danger'>{0}</span>",item.processStage);
+					}
+				},
+				{
 					field : "",
 					title : "创建日期",
 					width : 180,
@@ -1332,5 +1414,36 @@
 				scrollable:true
 			};
 		}
+		
+		/**
+		 * 获取所有需要的系统配置
+		 */
+		function getSysConfigs(vm){
+			var httpOptions = {
+					method : 'get',
+					url : url_getSysConfigs
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.configs = response.data;//所有的配置
+				for (var int = 0; int < vm.configs.length; int++) {
+					var array_element = vm.configs[int];
+					if(array_element.configName == "taskType_17"){
+						vm.banliUsers = array_element.configValue;
+					}else if(array_element.configName == "taskType_18"){
+						vm.banwenUsers = array_element.configValue;
+					}else if(array_element.configName == "taskType_19"){
+						vm.yinwenUsers = array_element.configValue;
+					}
+				}
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}//end fun getSysConfigs
 	}	
 })();

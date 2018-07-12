@@ -123,16 +123,22 @@ textarea.form-control {
 			</tr>
 			<tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask5'">
 				<td class="formAlignRight">计划安排资金-公共预算：</td>
-				<td>							
-					<input type="number" step="any" style="width: 130px;" class="form-control input-sm" id="apPlanReach_ggys" name="apPlanReach_ggys" ng-model="vm.model.shenBaoInfo.apPlanReach_ggys" data-val="true" data-val-required="必填"/>&nbsp;(万元)
-					<span data-valmsg-for="apPlanReach_ggys" data-valmsg-replace="true" class="required"></span>
-				</td>
+				<td><input type="number" step="any" style="width: 130px;"
+					class="form-control input-sm" id="apPlanReach_ggys"
+					name="apPlanReach_ggys"
+					ng-model="vm.model.shenBaoInfo.apPlanReach_ggys" data-val="true"
+					data-val-required="必填" />&nbsp;(万元) <span
+					data-valmsg-for="apPlanReach_ggys" data-valmsg-replace="true"
+					class="required"></span></td>
 
 				<td class="formAlignRight">计划安排资金-国土资金：</td>
-				<td>
-					<input type="number" step="any" style="width: 130px;" class="form-control input-sm" id="apPlanReach_gtzj" name="apPlanReach_gtzj" ng-model="vm.model.shenBaoInfo.apPlanReach_gtzj" data-val="true" data-val-required="必填"/>&nbsp;(万元)
-					<span data-valmsg-for="apPlanReach_gtzj" data-valmsg-replace="true" class="required"></span>
-				</td>
+				<td><input type="number" step="any" style="width: 130px;"
+					class="form-control input-sm" id="apPlanReach_gtzj"
+					name="apPlanReach_gtzj"
+					ng-model="vm.model.shenBaoInfo.apPlanReach_gtzj" data-val="true"
+					data-val-required="必填" />&nbsp;(万元) <span
+					data-valmsg-for="apPlanReach_gtzj" data-valmsg-replace="true"
+					class="required"></span></td>
 			</tr>
 			<tr>
 				<td class="formAlignRight">项目简介：</td>
@@ -145,17 +151,15 @@ textarea.form-control {
 					<button class="btn btn-success btn-xs"
 						ng-click="vm.dialog_shenbaoInfo()">查看申报信息</button>
 					<button class="btn btn-success btn-xs"
-						ng-click="vm.dialog_shenbaoInfoEdit()">复核申报信息</button> <a
-					class="btn btn-success btn-xs"
-					href="http://192.168.189.235:8081/pic/task/picture/{{vm.model.shenBaoInfo.zong_processId}}"
-					target="_blank">查看流程图</a>
+						ng-click="vm.dialog_shenbaoInfoEdit()">复核申报信息</button>
 				</td>
 			</tr>
 		</table>
 
 		<div class="bg-info text-info" style="padding: 10px;">业务办理</div>
 		<table class="table table-bordered table-striped ">
-			<tr ng-repeat="x in vm.taskRecord | orderBy:'endTime'" ng-if="x.isJuzhang != 'yes'">
+			<tr ng-repeat="x in vm.taskRecord | orderBy:'endTime'"
+				ng-if="x.isJuzhang != 'yes'">
 				<td class="formAlignRight" style="width: 150px;" ng-bind="x.name"></td>
 				<td>
 					<div ng-bind="x.msg"></div>
@@ -179,49 +183,10 @@ textarea.form-control {
 		<div class="bg-info text-info" style="padding: 10px;">处理操作</div>
 		<table class="table table-bordered table-striped">
 			<tr>
-				<td class="formAlignRight" style="width: 150px;">填写处理意见：</td>
-				<td>
-					<div style="margin-bottom: 10px;">
-						<label>个人自定义意见：</label> <select class="form-control input-sm"
-							style="width: 200px;" id="opinion" name="opinion"
-							ng-model="vm.model.opinion" ng-change="vm.changeOpin()">
-							<option value="">---请选择---</option>
-							<option ng-repeat="y in vm.model.opinionDtos"
-								value="{{y.opinion}}">{{y.opinion}}</option>
-						</select>
-						<button class="btn btn-success btn-sm" ng-click="vm.saveOpinion()">保存常用意见</button>
-						<button class="btn btn-success btn-sm" ng-click="vm.showOpinion()">管理常用意见</button>
-					</div>
-					<div style="margin-bottom: 10px;">
-						<textarea class="form-control" id="processSuggestion"
-							name="processSuggestion" maxlength="500" rows="3"
-							ng-model="vm.processSuggestion"  placeholder="注：500字符以内"
-							ng-change="vm.checkLength(vm.processSuggestion,500,'processSuggestionTips')">
-						</textarea>
-						<div class="tipfont">
-							您还可以输入<span id="processSuggestionTips"><font size="5">500</font></span>个字符!
-						</div>
-					</div>
-					<div>
-						<label class="pull-left">上传附件：</label>
-						<div class="uploadBox pull-left" data-type="shenpiFile">
-							<input type="file" name="files" kendo-upload
-								k-options="vm.uploadOptions_shenpi" />
-						</div>
-						<div style="margin: 3px;" ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos">
-							<a href="/contents/upload/{{y.url}}" target="_blank"
-								ng-bind="y.name"></a>
-							<button class="btn btn-xs btn-danger"
-								ng-click="vm.delFile_shenpi($index)">删除</button>
-						</div>
-					</div>
-				</td>
-			</tr>
-			<tr ng-if="!vm.isShow">
 				<td class="formAlignRight" style="width: 150px;">操作：</td>
 				<td>
-					<button ng-click="vm.pinglun()" class="btn btn-success btn-sm"
-						style="margin: 0 10px;">阅批</button>
+					<button ng-click="vm.yuepi(vm.model.shenBaoInfo.id)"
+						class="btn btn-success btn-sm" style="margin: 0 10px;">阅批</button>
 				</td>
 			</tr>
 		</table>

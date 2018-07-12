@@ -19,5 +19,5 @@ public interface SysService {
 	 void createTaskUser(SysConfigDto sysConfigDto);
 	 
 	 SysConfigDto getSysConfig(String configName);
-	void creatSysConfig();
+	Response initSysConfig();
 }

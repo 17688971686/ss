@@ -31,7 +31,7 @@
     <sequenceFlow id="flow17" name="转办" sourceRef="exclusivegateway4" targetRef="usertask1">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==5}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask6" name="科长核稿" activiti:candidateUsers="${user}">
+    <userTask id="usertask6" name="科长办理" activiti:candidateUsers="${user}">
       <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="userIds" activiti:elementVariable="user">
         <completionCondition>${shenpi==8}</completionCondition>
       </multiInstanceLoopCharacteristics>
@@ -49,7 +49,7 @@
     <sequenceFlow id="flow35" sourceRef="usertask10" targetRef="usertask3"></sequenceFlow>
     <exclusiveGateway id="exclusivegateway9" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow36" sourceRef="usertask6" targetRef="exclusivegateway9"></sequenceFlow>
-    <userTask id="usertask12" name="办公室核稿" activiti:candidateUsers="${user}">
+    <userTask id="usertask12" name="办公室办文" activiti:candidateUsers="${user}">
       <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="userIds" activiti:elementVariable="user">
         <completionCondition>${shenpi==8}</completionCondition>
       </multiInstanceLoopCharacteristics>
@@ -67,7 +67,7 @@
     <sequenceFlow id="flow40" name="局长审核" sourceRef="exclusivegateway10" targetRef="usertask13">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==6}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask14" name="办公室发文" activiti:candidateUsers="${user}">
+    <userTask id="usertask14" name="办公室印文" activiti:candidateUsers="${user}">
       <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="userIds" activiti:elementVariable="user">
         <completionCondition>${shenpi==8}</completionCondition>
       </multiInstanceLoopCharacteristics>
@@ -103,7 +103,7 @@
     </sequenceFlow>
     <exclusiveGateway id="exclusivegateway12" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow52" sourceRef="usertask7" targetRef="exclusivegateway12"></sequenceFlow>
-    <userTask id="usertask18" name="办公室核稿" activiti:candidateUsers="${user}">
+    <userTask id="usertask18" name="办公室办文" activiti:candidateUsers="${user}">
       <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="userIds" activiti:elementVariable="user">
         <completionCondition>${shenpi==8}</completionCondition>
       </multiInstanceLoopCharacteristics>
@@ -123,7 +123,7 @@
     </sequenceFlow>
     <exclusiveGateway id="exclusivegateway14" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow56" sourceRef="usertask19" targetRef="exclusivegateway14"></sequenceFlow>
-    <userTask id="usertask20" name="办公室发文" activiti:candidateUsers="${user}">
+    <userTask id="usertask20" name="办公室印文" activiti:candidateUsers="${user}">
       <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="userIds" activiti:elementVariable="user">
         <completionCondition>${shenpi==8}</completionCondition>
       </multiInstanceLoopCharacteristics>

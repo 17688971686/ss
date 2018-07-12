@@ -26,6 +26,19 @@
 										<span ng-bind="vm.getUserName(x.configValue).displayName"></span>
 										
 									</div>
+									<div ng-if="x.configName == 'taskType_17'" style="display: inline">
+										<span ng-bind="vm.getUserName(x.configValue).displayName"></span>
+										
+									</div>
+									
+									<div ng-if="x.configName == 'taskType_18'" style="display: inline">
+										<span ng-bind="vm.getUserName(x.configValue).displayName"></span>
+										
+									</div>
+									<div ng-if="x.configName == 'taskType_19'" style="display: inline">
+										<span ng-bind="vm.getUserName(x.configValue).displayName"></span>
+										
+									</div>
 									<div ng-if="x.configName == 'taskType_13'" style="display: inline">
 										本月
 										<span ng-bind="vm.monthReportConfigBegin"></span>号
@@ -42,9 +55,28 @@
 										/
 									</div>
 									
-									<span ng-bind="vm.getConfigValue(x.enable)" ng-if="x.configName != 'taskType_15'"></span>
+									<span ng-bind="vm.getConfigValue(x.enable)" ng-if="x.configName != 'taskType_15'  && x.configName != 'taskType_17'&& x.configName != 'taskType_18'&& x.configName != 'taskType_19'"></span>
+									
 								</td>
 								<td>
+									<div ng-if="x.configName == 'taskType_17'" style="display: inline">
+										<select style="height:30px;" ng-model="x.configValue">
+											<option value="">--请选择--</option>
+											<option ng-repeat="y in vm.model.userInTouzike" value="{{y.id}}" ng-selected="x.configValue==y.id">{{y.displayName}}</option>
+										</select>
+									</div>
+									<div ng-if="x.configName == 'taskType_18'" style="display: inline">
+										<select style="height:30px;" ng-model="x.configValue">
+											<option value="">--请选择--</option>
+											<option ng-repeat="y in vm.model.userInOffice" value="{{y.id}}" ng-selected="x.configValue==y.id">{{y.displayName}}</option>
+										</select>
+									</div>
+									<div ng-if="x.configName == 'taskType_19'" style="display: inline">
+										<select style="height:30px;" ng-model="x.configValue">
+											<option value="">--请选择--</option>
+											<option ng-repeat="y in vm.model.userInOffice" value="{{y.id}}" ng-selected="x.configValue==y.id">{{y.displayName}}</option>
+										</select>
+									</div>
 									<div ng-if="x.configName == 'taskType_15'" style="display: inline">
 										<select style="height:30px;" ng-model="x.configValue">
 											<option value="">--请选择--</option>
@@ -68,7 +100,7 @@
 			 							ng-model="vm.planReportConfigEnd" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>		号
 									/
 									</div>
-									<select style="height:30px;" ng-model="x.enable" ng-if="x.configName != 'taskType_15'">
+									<select style="height:30px;" ng-model="x.enable" ng-if="x.configName != 'taskType_15' && x.configName != 'taskType_17'&& x.configName != 'taskType_18'&& x.configName != 'taskType_19'">
 							  			<option value="">--请选择--</option>
 										<option ng-selected="x.enable ==true" value="true">是</option>
 							  			<option ng-selected="x.enable == false" value="false">否</option>

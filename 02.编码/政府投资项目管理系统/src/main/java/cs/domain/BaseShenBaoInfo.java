@@ -216,7 +216,11 @@ public class BaseShenBaoInfo extends BaseProject {
     @Column(columnDefinition = "varchar(500) NULL COMMENT '推进建议'")
     private String moveSuggestion;
     //end
-
+    
+    //领导是否已阅
+    @Column(columnDefinition = "bit(1) DEFAULT b'0' COMMENT '领导是否已阅'")
+    private Boolean isLeaderHasRead  = false;//默认为不申请
+    //end
     public Double getYearInvestApproval() {
         return yearInvestApproval;
     }
@@ -800,5 +804,13 @@ public class BaseShenBaoInfo extends BaseProject {
     public boolean getIsSubShenBaoAtt() {
         return isSubShenBaoAtt;
     }
+
+	public Boolean getIsLeaderHasRead() {
+		return isLeaderHasRead;
+	}
+
+	public void setIsLeaderHasRead(Boolean isLeaderHasRead) {
+		this.isLeaderHasRead = isLeaderHasRead;
+	}
 
 }

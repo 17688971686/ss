@@ -104,45 +104,16 @@ public class SysServiceImpl implements SysService{
 		}
 		return resources;
 	}
-
 	@Override
 	@Transactional
-	public Response SysInit() {
+	public Response initSysConfig(){
+		
 		Response response = new Response();
-		
-		Criterion criterion=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.role_admin);
-		Criterion criterion2=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.role_unit);
-		Criterion criterion3=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.role_manage);
-		Criterion criterion4=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.msFenBanRole);
-		Criterion criterion5=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.msFaWenRole);
-		Criterion criterion6=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.JuZhang);
-		Criterion criterion9=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.FuJuZhang);
-		Criterion criterion7=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.KeZhang);
-		Criterion criterion8=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.KeYuan);
-		Criterion criterion10=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.PingShenRenYuan);
-		Criterion criterionOr=Restrictions.or(criterion,criterion2,criterion3,criterion4,criterion5,criterion6,criterion10,criterion7,criterion8,criterion9);
-		
-		List<Role> roles=roleRepo.findByCriteria(criterionOr);
-		
-		roles.forEach(x->{
-			x.getUsers().forEach(y->{
-				y.getRoles().clear();
-//				userRepo.delete(y);
-			});			
-			roleRepo.delete(x);
-		});
 		List<SysConfig> sysConfigs = sysConfigRepo.findAll();
 		sysConfigs.forEach(x->{
 			sysConfigRepo.delete(x);
 		});
 		
-//		List<UserUnitInfo> userUnitInfos = userUnitInfoRepo.findAll();
-//		userUnitInfos.forEach(x->{
-//			userUnitInfoRepo.delete(x);
-//		});
-		
-		
-		//end
 		//初始化配置
 		SysConfig con = new SysConfig();
 		con.setConfigName(BasicDataConfig.taskType_sendMesg);
@@ -178,10 +149,70 @@ public class SysServiceImpl implements SysService{
 		con4.setCreatedDate(new Date());
 		con4.setEnable(false);
 		
+		SysConfig con5 = new SysConfig();
+		con5.setId(UUID.randomUUID().toString());
+		con5.setConfigName(BasicDataConfig.taskType_MOREN_PROJECT_HANDLE);
+		con5.setConfigValue("");
+		con5.setConfigType(BasicDataConfig.taskType);
+		con5.setCreatedBy("admin");
+		con5.setCreatedDate(new Date());
+		con5.setEnable(false);
+		
+		SysConfig con6 = new SysConfig();
+		con6.setId(UUID.randomUUID().toString());
+		con6.setConfigName(BasicDataConfig.taskType_Office_work);
+		con6.setConfigValue("");
+		con6.setConfigType(BasicDataConfig.taskType);
+		con6.setCreatedBy("admin");
+		con6.setCreatedDate(new Date());
+		con6.setEnable(false);
+		
+		SysConfig con7 = new SysConfig();
+		con7.setId(UUID.randomUUID().toString());
+		con7.setConfigName(BasicDataConfig.taskType_Office_printing);
+		con7.setConfigValue("");
+		con7.setConfigType(BasicDataConfig.taskType);
+		con7.setCreatedBy("admin");
+		con7.setCreatedDate(new Date());
+		con7.setEnable(false);
+		
 		sysConfigRepo.save(con);
 		sysConfigRepo.save(con2);
 		sysConfigRepo.save(con3);
 		sysConfigRepo.save(con4);
+		sysConfigRepo.save(con5);
+		sysConfigRepo.save(con6);
+		sysConfigRepo.save(con7);
+		response.setMessage("系统配置初始化成功");
+		response.setSuccess(true);
+		
+		logger.info("系统配置初始化成功!");
+		return response;
+	}
+
+	@Override
+	@Transactional
+	public Response SysInit() {
+		Response response = new Response();
+		
+		Criterion criterion=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.role_admin);
+		Criterion criterion2=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.role_unit);
+		Criterion criterion3=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.role_manage);
+		Criterion criterion6=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.JuZhang);
+		Criterion criterion9=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.FuJuZhang);
+		Criterion criterion7=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.KeZhang);
+		Criterion criterion8=Restrictions.eq(Role_.roleName.getName(), BasicDataConfig.KeYuan);
+		Criterion criterionOr=Restrictions.or(criterion,criterion2,criterion3,criterion6,criterion7,criterion8,criterion9);
+		
+		List<Role> roles=roleRepo.findByCriteria(criterionOr);
+		
+		roles.forEach(x->{
+			x.getUsers().forEach(y->{
+				y.getRoles().clear();
+//				userRepo.delete(y);
+			});			
+			roleRepo.delete(x);
+		});
 		
 		//初始化部门
 		Org org1 = new Org();
@@ -827,6 +858,9 @@ public class SysServiceImpl implements SysService{
 		this.createBasicData("taskType_14","taskType" , "taskType", "计划下达", "",false);
 		this.createBasicData("taskType_15","taskType" , "taskType", "审批分办人员配置", "",false);
 		this.createBasicData("taskType_16","taskType" , "taskType", "计划下达端口配置", "",false);
+		this.createBasicData("taskType_17","taskType" , "taskType", "项目办理人员配置", "",false);
+		this.createBasicData("taskType_18","taskType" , "taskType", "办公室办文人员配置", "",false);
+		this.createBasicData("taskType_19","taskType" , "taskType", "办公室印文人员配置", "",false);
 
 		this.createBasicData("auditState","" , "auditState", "审核状态", "审核状态",false);
 		this.createBasicData("auditState_1","auditState" , "auditState", "未审核", "",false);
@@ -1033,17 +1067,4 @@ public class SysServiceImpl implements SysService{
 		}
 	}
 
-	@Override
-	@Transactional
-	public void creatSysConfig() {
-		SysConfig con5 = new SysConfig();
-		con5.setConfigName(BasicDataConfig.taskType_JiHuaDK);
-		con5.setConfigType(BasicDataConfig.taskType);
-		con5.setId(UUID.randomUUID().toString());
-		con5.setCreatedBy("admin");
-		con5.setCreatedDate(new Date());
-		con5.setEnable(false);
-		
-		sysConfigRepo.save(con5);
-	}
 }
