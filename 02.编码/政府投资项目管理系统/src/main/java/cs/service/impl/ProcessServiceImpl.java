@@ -915,6 +915,12 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 						nextUsers = hai.getAssignee();
 					}
 				}
+			}else {
+				for (HistoricActivityInstance hai : hais) {
+					if (hai.getActivityId().equals("usertask3")) {
+						nextUsers = hai.getAssignee();
+					}
+				}
 			}
 		}
 		useridList.addAll(Arrays.asList(nextUsers.split(",")));

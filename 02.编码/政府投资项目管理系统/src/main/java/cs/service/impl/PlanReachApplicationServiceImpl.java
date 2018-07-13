@@ -324,6 +324,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 			shenBaoInfoDto.setModifiedDate(new Date());
 			shenBaoInfoDto.setCreatedDate(new Date());
 			shenBaoInfoDto.setCreatedBy(currentUser.getUserId());
+			
 			ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.createShenBaoInfo(shenBaoInfoDto, false);
 			//处理关联信息
 			//附件
@@ -348,6 +349,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 			bianZhiUnitInfo.setCreatedBy(entity.getCreatedBy());
 			bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
 			entity.setBianZhiUnitInfo(bianZhiUnitInfo);
+			entity.setIsIncludPack(true);
 			shenBaoInfoRepo.save(entity);
 			
 			if(planReach.getShenBaoInfos() != null){
@@ -359,8 +361,6 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 		}else{
 			throw new IllegalArgumentException(String.format("申报项目：%s 已经存在其他编制计划中,请重新选择！", entity.getProjectName()));
 		}
-		
-		
 		
 		planReachApplicationRepo.save(planReach);
 		logger.info(String.format("添加年度计划资金,名称：%s",planReach.getApplicationName()));	
@@ -482,7 +482,6 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 		//根据计划下达id查找到计划下达信息
 		PackPlan pack= packPlanRepo.findById(packId);
 		
-		ShenBaoInfo hasShenbaoinfo = new ShenBaoInfo();//存在的申报信息
 		//根据项目ID判断是否已有对应的计划下达申请
 //		Criterion criterion=Restrictions.eq(ShenBaoInfo_.projectId.getName(), shenbaoId);
 //		List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion);
@@ -505,7 +504,8 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 			shenBaoInfoDto.setThisTaskName(null);
 			shenBaoInfoDto.setZong_processId(null);
 			ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.createShenBaoInfo(shenBaoInfoDto, false);
-			
+			shenbaoinfo.setIsIncludPack(true);
+			shenBaoInfoRepo.save(shenbaoinfo);
 			if(pack.getShenBaoInfos() != null){
 				pack.getShenBaoInfos().add(shenBaoInfoentity);
 			}else{
@@ -844,19 +844,26 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 		//先根据id查找到对应的需要删除的对象
 		PlanReachApplication entity=super.findById(packPlanId);
 		boolean canDelete = true;
+		ShenBaoInfo shenbaoinfo = shenBaoInfoRepo.findById(shenbaoId);
 		//根据对象对应的申报信息，删除对应的申报信息和工作流信息
-		for (int i = 0; i < entity.getShenBaoInfos().size(); i++) {
-			ShenBaoInfo array_element = entity.getShenBaoInfos().get(i);
-			if(shenbaoId.equals(array_element.getId()) && !array_element.getProcessState().equals(BasicDataConfig.processState_jinxingzhong)){
-				entity.getShenBaoInfos().remove(i);
-			}else{
-				canDelete = false;
+	
+		if(shenbaoinfo.getProcessState().equals(BasicDataConfig.processState_jinxingzhong)){
+			throw new IllegalArgumentException("包含正在审批的项目,请重新选择！");
+		}else{
+			for (int i = 0; i < entity.getShenBaoInfos().size(); i++) {
+				ShenBaoInfo array_element = entity.getShenBaoInfos().get(i);
+
+				Criterion criterion=Restrictions.eq(ShenBaoInfo_.projectId.getName(), array_element.getProjectId());
+				Criterion criterion2=Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach);
+				Criterion criterion3=Restrictions.and(criterion, criterion2);
+				List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion3);
+				shenbaoinfoList.get(0).setIsIncludPack(false);
+				if(shenbaoId.equals(array_element.getId())){
+					entity.getShenBaoInfos().remove(i);
+				}
 			}
 		}
-		if(!canDelete){
-			throw new IllegalArgumentException("包含正在审批的项目,请重新选择！");
-		}
-		shenBaoInfoRepo.delete(shenBaoInfoRepo.findById(shenbaoId));
+		shenBaoInfoRepo.delete(shenbaoinfo);
 		super.repository.save(entity);
 		logger.info(String.format("删除计划下达申请表,名称 :%s",entity.getApplicationName()));
 	}
@@ -866,17 +873,17 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 	public void deletePack(String packPlanId, String packId) {
 		// TODO Auto-generated method stub
 		PlanReachApplication entity=super.findById(packPlanId);
-//		PackPlan plan = packPlanRepo.findById(packId);
+		PackPlan plan = packPlanRepo.findById(packId);
 		
-//		for (int i = 0; i < plan.getShenBaoInfos().size(); i++) {
-//			ShenBaoInfo array_element = plan.getShenBaoInfos().get(i);
-//			shenBaoInfoRepo.delete(shenBaoInfoRepo.findById(array_element.getId()));
-//		}
-		List<PackPlan> plan =entity.getPackPlans();
+		for (int i = 0; i < plan.getShenBaoInfos().size(); i++) {
+			ShenBaoInfo array_element = plan.getShenBaoInfos().get(i);
+			shenBaoInfoRepo.delete(shenBaoInfoRepo.findById(array_element.getId()));
+		}
+		List<PackPlan> planList =entity.getPackPlans();
 		
 		
-		for (int i = 0; i < plan.size(); i++) {
-			PackPlan array_element = plan.get(i);
+		for (int i = 0; i < planList.size(); i++) {
+			PackPlan array_element = planList.get(i);
 			
 			if (array_element.getShenBaoInfos() != null) {
 				for (int j = 0; j < array_element.getShenBaoInfos().size(); j++) {
@@ -891,12 +898,12 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 				array_element.setIsInPlan(false);
 				
 				packPlanRepo.save(array_element);
-				plan.remove(i);
+				planList.remove(i);
 			}
 			
 		}
 		entity.getPackPlans().clear();
-		entity.setPackPlans(plan);
+		entity.setPackPlans(planList);
 		super.repository.save(entity);
 		
 	}
@@ -908,6 +915,13 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 		
 		for (int i = 0; i < plan.getShenBaoInfos().size(); i++) {
 			ShenBaoInfo array_element = plan.getShenBaoInfos().get(i);
+			
+			Criterion criterion=Restrictions.eq(ShenBaoInfo_.projectId.getName(), array_element.getProjectId());
+			Criterion criterion2=Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach);
+			Criterion criterion3=Restrictions.and(criterion, criterion2);
+			List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion3);
+			shenbaoinfoList.get(0).setIsIncludPack(false);
+			shenBaoInfoRepo.save(shenbaoinfoList.get(0));
 			if(shenbaoId.equals(array_element.getId())){
 				shenBaoInfoRepo.delete(shenBaoInfoRepo.findById(shenbaoId));
 				plan.getShenBaoInfos().remove(i);

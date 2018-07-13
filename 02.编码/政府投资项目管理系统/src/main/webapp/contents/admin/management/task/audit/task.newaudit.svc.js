@@ -575,11 +575,11 @@
 							vm.nationalIndustryChange();
 						}
 						
-						if(vm.model.shenBaoInfo.thisTaskName == 'usertask1'|| vm.model.shenBaoInfo.thisTaskName == 'usertask10' || vm.model.shenBaoInfo.thisTaskName == 'usertask5' || vm.model.shenBaoInfo.thisTaskName == 'usertask2'){
+						if(vm.model.shenBaoInfo.thisTaskName == 'usertask1'|| vm.model.shenBaoInfo.thisTaskName == 'usertask3'||
+								vm.model.shenBaoInfo.thisTaskName == 'usertask10' || vm.model.shenBaoInfo.thisTaskName == 'usertask5' || 
+								vm.model.shenBaoInfo.thisTaskName == 'usertask2' || vm.model.shenBaoInfo.thisTaskName == 'usertask14' ||
+								vm.model.shenBaoInfo.thisTaskName == 'usertask20'){
 			        		getDeptByName(vm,"投资科");
-			        	}
-						if(vm.model.shenBaoInfo.thisTaskName != 'usertask1' || vm.model.shenBaoInfo.thisTaskName != 'usertask5'){
-							getAssigneeByUserId(vm,vm.model.shenBaoInfo.zong_processId);//查询登录人员是否是指定办理人员
 			        	}
 						if(vm.model.shenBaoInfo.thisTaskName == 'usertask3'){
 			        		getDeptByName(vm,"投资科");
@@ -590,7 +590,6 @@
 						if(vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18'){
 			        		getDeptByName(vm,"局领导");
 			        	}
-						getUnfinished(vm,vm.model.shenBaoInfo.zong_processId);
 						
 					}
 				});

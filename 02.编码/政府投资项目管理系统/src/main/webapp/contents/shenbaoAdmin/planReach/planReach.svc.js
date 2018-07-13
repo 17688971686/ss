@@ -373,7 +373,8 @@
 							msg : "操作成功",
 							fn : function() {
 								$('.alertDialog').modal('hide');
-								vm.shenBaoInfo_gridOptions.dataSource.read();//编制打包计划列表数据刷新								
+								vm.shenBaoInfo_gridOptions.dataSource.read();//编制打包计划列表数据刷新	
+								vm.gridOptions_project.dataSource.read();
 							}
 						});
 					}
@@ -659,6 +660,11 @@
 					field:'isLatestVersion',
 					operator:'eq',
 					value:true
+				},
+				{
+					field:'isIncludPack',
+					operator:'eq',
+					value:false
 				}
 				]
 			});
@@ -2048,6 +2054,11 @@
 					field:'processState',
 					operator:'eq',
 					value:common.basicDataConfig().processState_pass
+				},
+				{
+					field:'isIncludPack',
+					operator:'eq',
+					value:false
 				}]
 			});
 			var columns = [	

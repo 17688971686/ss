@@ -69,8 +69,8 @@
 					response:response,
 					fn:function(){
 						vm.model.userInOffice = response.data.value[0].userDtos || {}.userDtos;//投资科人员
-						vm.getUserName=function(userId){
-				        	var user=$linq(vm.model.userInTouzike)
+						vm.getUserNameForOffice=function(userId){
+				        	var user=$linq(vm.model.userInOffice)
 				    			.where(function(x){return x.id==userId;}).firstOrDefault();
 				        	return user;
 				        };
