@@ -178,7 +178,7 @@ angular.module('starter.services', ['ngResource'])
           },
           timeount: TIMEOUT
         }).success(function (data) {
-          if (data.isSuccess) {
+          if (data.success) {
           	
             var user = {
               id: data.object.id,
