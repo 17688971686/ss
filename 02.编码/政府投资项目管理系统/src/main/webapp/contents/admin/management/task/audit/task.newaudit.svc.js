@@ -584,7 +584,7 @@
 						if(vm.model.shenBaoInfo.thisTaskName == 'usertask3'){
 			        		getDeptByName(vm,"投资科");
 			        	}
-						if(vm.model.shenBaoInfo.thisTaskName == 'usertask6'){
+						if(vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask21'){
 			        		getDeptByName(vm,"办公室");
 			        	}
 						if(vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18'){

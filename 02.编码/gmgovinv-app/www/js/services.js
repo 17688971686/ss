@@ -5,7 +5,7 @@ angular.module('starter.services', ['ngResource'])
   .constant('REQUEST_URL_LIST', {
     url_projectlist: '/MobifindDatale/api/MobileApi/GetProjectInfos',
     url_snapshotlist: '/Mobile/api/MobileApi/GetSnapshootList',
-    url_login: '/mobile/account/login',
+    url_login: '/mobile/verifyNum/login',
     url_setrealname: '/Mobile/api/MobileApi/EditRealName',
     url_setpassword: '/Mobile/api/MobileApi/EditPassword',
     url_logout: '/Mobile/api/MobileApi/LogOut',
@@ -178,7 +178,7 @@ angular.module('starter.services', ['ngResource'])
           },
           timeount: TIMEOUT
         }).success(function (data) {
-          if (data.isSuccess) {
+          if (data.success) {
           	
             var user = {
               id: data.object.id,
