@@ -1218,10 +1218,12 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 				variables.put("users", useridList);
 			}
 		}else{
-			if(sysConfg !=null){
-				if(Util.isNotNull(sysConfg.getConfigValue()) && sysConfg.getEnable()){
+			if(sysConfg !=null && !"".equals(sysConfg.getConfigValue())){
+				if(sysConfg.getEnable()){
 					variables.put("users", sysConfg.getConfigValue());
 //					processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(task.getId(), sysConfg.getConfigValue());
+				}else{
+					throw new IllegalArgumentException(String.format("审批申报端口已关闭，请联系管理员！"));
 				}
 			}else{
 				throw new IllegalArgumentException(String.format("没有配置申报信息审核分办人员，请联系管理员！"));

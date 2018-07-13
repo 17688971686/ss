@@ -165,9 +165,9 @@ textarea.form-control {
 			</tr>
 		</table> -->
 		<div class="bg-info text-info" style="padding: 10px;"
-			ng-if="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16'">项目批复信息</div>
+			ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask16'">项目批复信息</div>
 		<table class="table table-bordered table-striped "
-			ng-if="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask3'  || vm.model.shenBaoInfo.thisTaskName == 'usertask23'">
+			ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask3'  || vm.model.shenBaoInfo.thisTaskName == 'usertask23'">
 			<tr>
 				<td style="width: 180px;">批复名称</td>
 				<td style="width: 180px;">批复时间</td>
@@ -291,7 +291,7 @@ textarea.form-control {
 				</td>
 			</tr>
 			<tr
-				ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask2'  && vm.isShow">
+				ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask2'">
 				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
 				<td>
 					<div>
@@ -312,7 +312,7 @@ textarea.form-control {
 				</td>
 			</tr>
 			<tr
-				ng-if="(vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask23') && vm.isShow">
+				ng-if="(vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask23')">
 				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
 				<td>
 					<div>
@@ -355,7 +355,7 @@ textarea.form-control {
 				</td>
 			</tr>
 			<tr
-				ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask6'  && vm.isShow">
+				ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask6'">
 				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
 				<td>
 					<div>
@@ -378,7 +378,7 @@ textarea.form-control {
 				</td>
 			</tr>
 			<tr
-				ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask10'  && vm.isShow">
+				ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask10'">
 				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
 				<td>
 					<div>
@@ -399,7 +399,7 @@ textarea.form-control {
 				</td>
 			</tr>
 			<tr
-				ng-if="vm.isShow &&(vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18')">
+				ng-if="(vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18')">
 				<td class="formAlignRight">下一处理环节：</td>
 				<td>
 					<div>
@@ -479,8 +479,27 @@ textarea.form-control {
 				</td>
 			</tr>
 			<tr
-				ng-if="vm.isShow || vm.model.shenBaoInfo.thisTaskName == 'usertask1' "
-				ng-hide="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16'">
+				ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask14' || vm.model.shenBaoInfo.thisTaskName == 'usertask20'">
+				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
+				<td>
+					<div>
+						<label> <input type="radio" id="nextProcess"
+							name="nextProcess" value="1" ng-true-value="1"
+							ng-model="vm.isPass" />转投资科办结
+						</label>
+					</div>
+					<div class="pull-left" ng-if="vm.isPass == 1">
+						<label ng-repeat="x in vm.model.dept.userDtos"> <input
+							type="radio" name="radio" value="{{x.id}}"
+							ng-model="vm.nextUsers"
+							/>{{x.displayName}}&nbsp;&nbsp;
+						</label>
+
+					</div>
+				</td>
+			</tr>
+			<tr
+				ng-hide="vm.model.shenBaoInfo.thisTaskName == 'usertask16'">
 				<td class="formAlignRight" style="width: 150px;">操作：</td>
 				<td>
 					<!-- 送出 -->
@@ -499,22 +518,13 @@ textarea.form-control {
 					&& vm.model.shenBaoInfo.thisTaskName != 'usertask8' && vm.model.shenBaoInfo.thisTaskName != 'usertask13' 
 					 && vm.model.shenBaoInfo.thisTaskName != 'usertask14' && vm.model.shenBaoInfo.thisTaskName != 'usertask17' && vm.model.shenBaoInfo.thisTaskName != 'usertask19' && vm.model.shenBaoInfo.thisTaskName != 'usertask20' && vm.model.shenBaoInfo.thisTaskName != 'usertask21' && vm.model.shenBaoInfo.thisTaskName != 'usertask10'">退文</button>
 					<button
-						ng-if="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask3'  || vm.model.shenBaoInfo.thisTaskName == 'usertask23'"
+						ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask3'  || vm.model.shenBaoInfo.thisTaskName == 'usertask23'"
 						ng-click="vm.handle('banjie')" class="btn btn-success btn-sm"
 						style="margin: 0 10px;">办结</button>
 				</td>
 			</tr>
 			<tr
-				ng-if="!vm.isShow && vm.model.shenBaoInfo.thisTaskName != 'usertask1' "
-				ng-hide="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16'">
-				<td class="formAlignRight" style="width: 150px;">操作：</td>
-				<td>
-					<button ng-click="vm.pinglun()" class="btn btn-success btn-sm"
-						style="margin: 0 10px;">阅批</button>
-				</td>
-			</tr>
-			<tr
-				ng-if="vm.isShow && vm.model.shenBaoInfo.thisTaskName == 'usertask16' ">
+				ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask16' ">
 				<td class="formAlignRight" style="width: 150px;">操作：</td>
 				<td>
 					<button ng-click="vm.handle('next')" class="btn btn-success btn-sm"
