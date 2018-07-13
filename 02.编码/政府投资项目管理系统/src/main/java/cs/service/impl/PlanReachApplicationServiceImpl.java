@@ -47,6 +47,7 @@ import cs.service.interfaces.PlanReachApplicationService;
 import cs.service.interfaces.ProjectService;
 import cs.service.interfaces.ShenBaoInfoService;
 import cs.service.interfaces.UserUnitInfoService;
+import org.springframework.util.Assert;
 
 @SuppressWarnings("deprecation")
 @Service
@@ -175,26 +176,23 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 		logger.info(String.format("更新计划下达申请表,名称 :%s",dto.getApplicationName()));
 		return entity;
 	}
-	
-	
-	
+
+
+
 	@Override
-	@Transactional
+	@Transactional(rollbackOn = Exception.class)
 	public void delete(String id) {
 		//先根据id查找到对应的需要删除的对象
-		PlanReachApplication entity=super.findById(id);
+		PlanReachApplication entity = super.findById(id);
 		//根据对象对应的申报信息，删除对应的申报信息和工作流信息
-		List<String> ids=new ArrayList<>();
-		entity.getShenBaoInfos().stream().forEach(x->{
-			ids.add(x.getId());
+//        List<String> ids = new ArrayList<>();
+		entity.getShenBaoInfos().forEach(x -> {
+			Assert.isTrue(!(x.getProcessState() > 0 && x.getProcessState() < 4), "计划包含审批中的项目，不可删除");
+			shenBaoInfoRepo.delete(x);
 		});
 		entity.getShenBaoInfos().clear();
-		ids.stream().forEach(y->{
-			ShenBaoInfo shenbaoinfo = shenBaoInfoRepo.findById(y);
-			shenBaoInfoRepo.delete(shenbaoinfo);
-		});
-		super.repository.delete(entity);
-		logger.info(String.format("删除计划下达申请表,名称 :%s",entity.getApplicationName()));
+		repository.delete(entity);
+		logger.info(String.format("删除计划下达申请表,名称 :%s", entity.getApplicationName()));
 	}
 
 	private ShenBaoInfoDto projectToShenBaoInfo(Project dto,ShenBaoInfoDto shenBaoInfoDto){
