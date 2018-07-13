@@ -809,7 +809,7 @@
 				schema : common.kendoGridConfig().schema({
 					id : "id"					
 				}),
-				serverPaging : false,
+				serverPaging : true,
 				serverSorting : true,
 				serverFiltering : true,
 				pageSize : 10,
@@ -920,7 +920,7 @@
 				schema : common.kendoGridConfig().schema({
 					id : "id"					
 				}),
-				serverPaging : false,
+				serverPaging : true,
 				serverSorting : true,
 				serverFiltering : true,
 				pageSize : 10,
@@ -958,7 +958,7 @@
 						filterable : true,
 						width:500,
 						template:function(item){
-							return common.format("<a class='text-primary' href='#/task/handle_plan/{1}'>{0}</a>",item.projectName,item.id);			
+							return common.format("<a class='text-primary' href='#/task/handle_keshi/{1}'>{0}</a>",item.projectName,item.id);			
 						}
 					},
 					 {

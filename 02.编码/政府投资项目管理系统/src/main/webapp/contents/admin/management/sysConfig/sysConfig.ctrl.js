@@ -24,6 +24,7 @@
         
 		function init(){
 			sysConfigSvc.getUsersInTouzike(vm);
+			sysConfigSvc.getUsersInOffice(vm);
 			sysConfigSvc.getSysConfigs(vm);	
 			
 			//修改按钮

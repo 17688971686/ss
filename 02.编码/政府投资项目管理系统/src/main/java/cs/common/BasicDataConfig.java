@@ -94,6 +94,9 @@ public class BasicDataConfig {
 	public static String taskType_monthReportPort="taskType_13";//月报端口配置
 	public static String taskType_shenpiFenBan="taskType_15";//审批分办人员配置
 	public static String taskType_JiHuaDK="taskType_16";//审批分办人员配置
+	public static String taskType_MOREN_PROJECT_HANDLE="taskType_17";//默认项目办理人员配置
+	public static String taskType_Office_work="taskType_18";//默认办公室办文人员配置
+	public static String taskType_Office_printing ="taskType_19";//默认办公室印文人员配置
 	
 	//审批流程中涉及到的角色名称
 	public static String msFenBanRole="办公室核稿人员";

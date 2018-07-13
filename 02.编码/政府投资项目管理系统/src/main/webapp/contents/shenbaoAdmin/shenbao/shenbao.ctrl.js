@@ -811,6 +811,8 @@
 					hasAtts = true;
 				}else if(vm.isJihuaxiada&&t1&&t2&&t3&&t6&&t7&&t8&&t9){
 					hasAtts = true;
+				}else if(vm.isYearPlan){
+					hasAtts = true;
 				}else{
 					hasAtts = false;
 				}

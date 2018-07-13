@@ -14,7 +14,8 @@
 		var service = {
 			getSysConfigs : getSysConfigs,
 			editSysConfigs:editSysConfigs,
-			getUsersInTouzike:getUsersInTouzike
+			getUsersInTouzike:getUsersInTouzike,
+			getUsersInOffice:getUsersInOffice
 		};
 
 		return service;
@@ -52,6 +53,38 @@
 			});
 		}//end fun getUsersInTouzike
 		
+		
+		/**
+		 * 获取投资科人员信息
+		 */
+		function getUsersInOffice(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_org+"?$filter=name eq '{0}'", "办公室")
+				};
+			
+			var httpSuccess = function success(response) {
+				common.requestSuccess({
+					vm:vm,
+					response:response,
+					fn:function(){
+						vm.model.userInOffice = response.data.value[0].userDtos || {}.userDtos;//投资科人员
+						vm.getUserName=function(userId){
+				        	var user=$linq(vm.model.userInTouzike)
+				    			.where(function(x){return x.id==userId;}).firstOrDefault();
+				        	return user;
+				        };
+					}
+				});
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}//end fun getUsersInTouzike
 		
 		/**
 		 * 获取所有需要的系统配置
