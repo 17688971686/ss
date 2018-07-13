@@ -44,7 +44,7 @@ public class MobileUserServiceImpl implements MobileUserService {
 				Boolean hasRole = false;
 				List<Role> roles = user.getRoles();
 				for(Role x:roles){
-					if(x.getRoleName().equals(roleName) || x.getRoleName().equals("超级管理员")){//如果有对应的角色则允许登录
+					if(x.getRoleName().equals(roleName) || x.getRoleName().equals("超级管理员") || x.getRoleName().equals("管理员")){//如果有对应的角色则允许登录
 						hasRole = true;
 						break;
 					}else{
