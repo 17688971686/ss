@@ -14,81 +14,81 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
- * 
-* @ClassName: planReachApproval 
-* @Description: 计划下达批复表 
-* @author cx
-* @date 2018年3月12日 下午3:45:45 
-*
+ * @author cx
+ * @ClassName: planReachApproval
+ * @Description: 计划下达批复表
+ * @date 2018年3月12日 下午3:45:45
  */
 @Entity
-@Table(name="cs_planReachApproval")
-public class PlanReachApproval extends BaseEntity{
-	@Id
-	private String id;
-	
-	@Column(columnDefinition="varchar(255)  not null COMMENT '标题'")
-	private String title;
-	
-	@Column(columnDefinition="varchar(255)  not null COMMENT '负责人'")
-	private String resPerson;
-	
-	@Column(columnDefinition="varchar(255)  not null COMMENT '负责人电话'")
-	private String resPersonTel;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(columnDefinition="datetime  not null COMMENT '批复时间'")
-	private Date approvalTime;
-	
-	//关联信息
-	@OneToMany(cascade=CascadeType.ALL)
-	private List<ShenBaoInfo> shenBaoInfos=new ArrayList<>();
+@Table(name = "cs_planReachApproval")
+public class PlanReachApproval extends BaseEntity {
+    @Id
+    private String id;
 
-	public String getId() {
-		return id;
-	}
+    @Column(columnDefinition = "varchar(255)  not null COMMENT '标题'")
+    private String title;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    @Column(columnDefinition = "varchar(255)  not null COMMENT '负责人'")
+    private String resPerson;
 
-	public String getTitle() {
-		return title;
-	}
+    @Column(columnDefinition = "varchar(255)  not null COMMENT '负责人电话'")
+    private String resPersonTel;
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(columnDefinition = "datetime  not null COMMENT '批复时间'")
+    private Date approvalTime;
 
-	public String getResPerson() {
-		return resPerson;
-	}
+    /**
+     * 关联信息
+     */
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<ShenBaoInfo> shenBaoInfos = new ArrayList<>();
 
-	public void setResPerson(String resPerson) {
-		this.resPerson = resPerson;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getResPersonTel() {
-		return resPersonTel;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setResPersonTel(String resPersonTel) {
-		this.resPersonTel = resPersonTel;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public Date getApprovalTime() {
-		return approvalTime;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public void setApprovalTime(Date approvalTime) {
-		this.approvalTime = approvalTime;
-	}
+    public String getResPerson() {
+        return resPerson;
+    }
 
-	public List<ShenBaoInfo> getShenBaoInfos() {
-		return shenBaoInfos;
-	}
+    public void setResPerson(String resPerson) {
+        this.resPerson = resPerson;
+    }
 
-	public void setShenBaoInfos(List<ShenBaoInfo> shenBaoInfos) {
-		this.shenBaoInfos = shenBaoInfos;
-	}
+    public String getResPersonTel() {
+        return resPersonTel;
+    }
+
+    public void setResPersonTel(String resPersonTel) {
+        this.resPersonTel = resPersonTel;
+    }
+
+    public Date getApprovalTime() {
+        return approvalTime;
+    }
+
+    public void setApprovalTime(Date approvalTime) {
+        this.approvalTime = approvalTime;
+    }
+
+    public List<ShenBaoInfo> getShenBaoInfos() {
+        return shenBaoInfos;
+    }
+
+    public void setShenBaoInfos(List<ShenBaoInfo> shenBaoInfos) {
+        this.shenBaoInfos = shenBaoInfos;
+    }
 }
