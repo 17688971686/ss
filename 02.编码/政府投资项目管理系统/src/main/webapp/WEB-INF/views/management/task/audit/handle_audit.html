@@ -465,15 +465,13 @@ textarea.form-control {
 						<label> <input type="radio" id="nextProcess"
 							name="nextProcess" value="5" ng-true-value="5"
 							ng-model="vm.isPass" data-val="true" data-val-required="必选" />办公室印文
-						</label> <span data-valmsg-for="nextProcess" data-valmsg-replace="true"
-							class="required"></span>
+						</label>
 					</div>
-					<div class="pull-left" ng-if="vm.isPass == '5'">
-
+					<div class="pull-left" ng-if="vm.isPass == 5">
 						<label ng-repeat="x in vm.model.dept.userDtos"> <input
 							type="radio" name="radio" value="{{x.id}}"
 							ng-model="vm.nextUsers"
-							ng-checked="x.id =='6548a46b-c2c2-4650-b8dd-ae50a01cafaf'"
+							ng-checked="x.id ==vm.yinwenUsers"
 							data-val="true" data-val-required="必选" />{{x.displayName}}&nbsp;&nbsp;
 						</label>
 
