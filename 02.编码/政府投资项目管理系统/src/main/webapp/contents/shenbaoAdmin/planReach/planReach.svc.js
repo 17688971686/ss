@@ -369,14 +369,14 @@
                     vm: vm,
                     response: response,
                     fn: function () {
-                        common.alert({
-                            vm: vm,
-                            msg: "操作成功",
-                            fn: function () {
+                        // common.alert({
+                        //     vm: vm,
+                        //     msg: "操作成功",
+                        //     fn: function () {
                                 $('.alertDialog').modal('hide');
                                 vm.shenBaoInfo_gridOptions.dataSource.read();//编制打包计划列表数据刷新
-                            }
-                        });
+                            // }
+                        // });
                     }
                 });
             };

@@ -183,15 +183,12 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
         PlanReachApplication entity = super.findById(id);
         //根据对象对应的申报信息，删除对应的申报信息和工作流信息
         List<String> ids = new ArrayList<>();
-        entity.getShenBaoInfos().stream().forEach(x -> {
-            ids.add(x.getId());
+        entity.getShenBaoInfos().forEach(x -> {
+            Assert.isTrue("未开始".equals(x.getProcessStage()) || "未开始".equals(x.getProcessState()), "计划包含审批中的项目，不可删除");
+            shenBaoInfoRepo.delete(x);
         });
         entity.getShenBaoInfos().clear();
-        ids.stream().forEach(y -> {
-            ShenBaoInfo shenbaoinfo = shenBaoInfoRepo.findById(y);
-            shenBaoInfoRepo.delete(shenbaoinfo);
-        });
-        super.repository.delete(entity);
+        repository.delete(entity);
         logger.info(String.format("删除计划下达申请表,名称 :%s", entity.getApplicationName()));
     }
 
@@ -286,7 +283,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     public void addShenBaoInfos(String planReachId, String[] ids) {
         for (int i = 0; i < ids.length; i++) {
             String id = ids[i];
@@ -296,7 +293,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     public void addShenBaoInfo(String planReachId, String id) {
         PlanReachApplication planReach = super.findById(planReachId);
         ShenBaoInfo entity = shenBaoInfoRepo.findById(id);
