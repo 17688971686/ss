@@ -184,7 +184,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
         //根据对象对应的申报信息，删除对应的申报信息和工作流信息
         List<String> ids = new ArrayList<>();
         entity.getShenBaoInfos().forEach(x -> {
-            Assert.isTrue("未开始".equals(x.getProcessStage()) || "未开始".equals(x.getProcessState()), "计划包含审批中的项目，不可删除");
+            Assert.isTrue(!"进行中".equals(x.getProcessState()), "计划包含审批中的项目，不可删除");
             shenBaoInfoRepo.delete(x);
         });
         entity.getShenBaoInfos().clear();
