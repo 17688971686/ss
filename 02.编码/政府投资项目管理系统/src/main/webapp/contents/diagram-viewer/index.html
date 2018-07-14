@@ -71,7 +71,7 @@
         var processInstanceId = query_string["processInstanceId"];
         var shenBaoInfoId = query_string["shenBaoInfoId"];
         var roleType = query_string["roleType"];
-        var currentKey = query_string["currentKey"];
+        /* var currentKey = query_string["currentKey"]; */
         
         console.log("Initialize progress bar");
 
@@ -113,59 +113,55 @@
 						$scope.vm.name = name;
 						$scope.vm.taskId = taskId;
 					})
-                	if(isHistory){
-                		$scope.vm.getShenPiDetails(shenBaoInfoId,taskId,taskKey);
-                    }else{
-                    	debugger
-                    	if(roleType && 'approvalUnit' == roleType && currentKey == taskKey && taskId){
-                    		if(isSubShenBaoAtt == 'true'){
-                    			$scope.vm.setShenPiconfig(taskKey);
-                    		}else{
-                    			$scope.$apply(function () {
-                        			common.alert({
-                            			vm : $scope.vm,
-                    					msg : "建设单位还未提交申报材料"
-                            		})
-                        		})
-                    		}
-                    		
-                    	}else if(roleType && 'constructionUnit' == roleType && currentKey == taskKey && taskId && typeof(isSubShenBaoAtt) == "undefined"){
-                    		$scope.vm.setShenBaoconfig(taskKey);
-                    		
-                    	}else if(roleType && 'constructionUnit' == roleType && currentKey == taskKey && taskId && isSubShenBaoAtt == "true"){
-                    		$scope.$apply(function () {
-                    			common.alert({
-                        			vm : $scope.vm,
-                					msg : "您已上传申报材料"
-                        		})
-                    		})
-                    		
-                    	}else if(roleType && 'constructionUnit' == roleType && currentKey == "Yes" && taskId && typeof(isSubShenBaoAtt) == "undefined" && taskKey != 'usertask26' && taskKey != 'usertask4' && taskKey != 'usertask18'){
-                   			$scope.vm.setShenBaoconfig(taskKey);
-                   			
-                    	}else if(roleType && 'constructionUnit' == roleType && currentKey == "Yes" && taskId && isSubShenBaoAtt == "true"){
-                    		$scope.$apply(function () {
-                    			common.alert({
-                        			vm : $scope.vm,
-                					msg : "您已上传申报材料"
-                        		})
-                    		})
-                    	}else if(taskId){
-                    		$scope.$apply(function () {
-                    			common.alert({
-                        			vm : $scope.vm,
-                					msg : "您无操作权限"
-                        		})
-                    		})
-                    	}else{
-                    		$scope.$apply(function () {
-                    			common.alert({
-                        			vm : $scope.vm,
-                					msg : "未能操作环节"
-                        		})
-                    		})
-                    	}
-                    }
+					
+					$scope.vm.getAuthorityForCurTask(processInstanceId,taskId,taskKey,function(data){
+						 var authorityForCurTask = data;
+						 
+	                	if(isHistory){
+	                		$scope.vm.getShenPiDetails(shenBaoInfoId,taskId,taskKey);
+	                    }else{
+	                    	debugger
+	                    	if(roleType && 'approvalUnit' == roleType && authorityForCurTask == 'true' && taskId){
+	                    		if(isSubShenBaoAtt == 'true'){
+	                    			$scope.vm.setShenPiconfig(taskKey);
+	                    		}else{
+	                    			/* $scope.$apply(function () { */
+	                        			common.alert({
+	                            			vm : $scope.vm,
+	                    					msg : "建设单位还未提交申报材料"
+	                            		})
+	                        		/* }) */
+	                    		}
+	                    		
+	                    	}else if(roleType && 'constructionUnit' == roleType && authorityForCurTask == 'true' && taskId && typeof(isSubShenBaoAtt) == "undefined" && taskKey != 'usertask26' && taskKey != 'usertask4' && taskKey != 'usertask18'){
+	                    		$scope.vm.setShenBaoconfig(taskKey);
+	                    		
+	                    	}else if(roleType && 'constructionUnit' == roleType && authorityForCurTask == 'true' && taskId && isSubShenBaoAtt == "true"){
+	                    		/* $scope.$apply(function () { */
+	                    			common.alert({
+	                        			vm : $scope.vm,
+	                					msg : "您已上传申报材料"
+	                        		})
+	                    		/* }) */
+	                    		
+	                    	}else if(taskId){
+	                    		/* $scope.$apply(function () { */
+	                    			common.alert({
+	                        			vm : $scope.vm,
+	                					msg : "您无操作权限"
+	                        		})
+	                    		/* }) */
+	                    	}else{
+	                    		/* $scope.$apply(function () { */
+	                    			common.alert({
+	                        			vm : $scope.vm,
+	                					msg : "未能操作环节"
+	                        		})
+	                    		/* }) */
+	                    	}
+	                    }
+					});
+					
                 },
                 rightClick: function (canvas, element, contextObject) {
                 	
@@ -210,7 +206,7 @@
                     multi: true,
                     auto: true,//自动上传
                     fileObjName: 'files',// 上传参数名称
-                    fileSizeLimit: "10MB",//上传文件大小限制
+                    fileSizeLimit: "1024MB",//上传文件大小限制
                     buttonText: '选择文档',
                     fileExt: '*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps',
                     fileTypeExts: '*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps',
@@ -262,7 +258,7 @@
                     multi: true,
                     auto: true,//自动上传
                     fileObjName: 'files',// 上传参数名称
-                    fileSizeLimit: "10MB",//上传文件大小限制
+                    fileSizeLimit: "1024MB",//上传文件大小限制
                     buttonText: '选择文档',
                     fileExt: '*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps',
                     fileTypeExts: '*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps',
@@ -355,7 +351,7 @@
                 		var httpOptions = {
             					method : 'post',
             					url : url_taskFeedback+"/feedback",
-            					data:{"shenBaoInfoId":vm.shenBaoInfoId,"msg":vm.shenPiContent,"att":vm.shenPiAtts}
+            					data:{"shenBaoInfoId":vm.shenBaoInfoId,"msg":vm.shenPiContent,"att":vm.shenPiAtts,"taskId":vm.taskId}
             				};
              				
              				var httpSuccess = function success(response) {
@@ -419,6 +415,25 @@
     			
     			var httpSuccess = function success(response) {
     				vm.allComments = response.data;
+    			};
+    			
+    			common.http({
+    				vm : vm,
+    				$http : $http,
+    				httpOptions : httpOptions,
+    				success : httpSuccess
+    			});
+            }
+            
+            vm.getAuthorityForCurTask = function(processInstanceId,taskId,taskKey,fn){
+            	var httpOptions = {
+    					method : 'get',
+    					async: true,
+    					url : url_taskFeedback + "/getAuthorityForCurTask?processInstanceId=" + processInstanceId + "&taskId=" + taskId + "&taskKey=" + taskKey
+    				};
+    			
+    			var httpSuccess = function success(response) {
+    				fn(response.data);
     			};
     			
     			common.http({

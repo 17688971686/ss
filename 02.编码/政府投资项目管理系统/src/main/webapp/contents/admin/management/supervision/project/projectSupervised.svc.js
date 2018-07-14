@@ -1227,7 +1227,7 @@
                 };
 
                 var httpSuccess = function success(response) {
-                	 vm.diagramViewerUrl = "contents/diagram-viewer/index.html?processDefinitionId=" + response.data.processDefinitionId + "&processInstanceId=" + response.data.processInstanceId + "&shenBaoInfoId=" + shenBaoInfoId + "&roleType=" + response.data.roleType + "&currentKey=" + response.data.currentKey;
+                	 vm.diagramViewerUrl = "contents/diagram-viewer/index.html?processDefinitionId=" + response.data.processDefinitionId + "&processInstanceId=" + response.data.processInstanceId + "&shenBaoInfoId=" + shenBaoInfoId + "&roleType=" + response.data.roleType;
                 	 
                 	 $('#myModal_monitor').modal('show');
                      

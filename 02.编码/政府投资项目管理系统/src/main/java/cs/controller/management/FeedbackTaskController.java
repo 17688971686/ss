@@ -188,4 +188,17 @@ public class FeedbackTaskController {
 		
 	}
 	
+	@RequestMapping(name = "获取当前人员对当前任务是否有操作权限", path = "getAuthorityForCurTask",method=RequestMethod.GET)
+	public @ResponseBody String getAuthorityForCurTask(HttpServletRequest request){
+		String processInstanceId = request.getParameter("processInstanceId");
+		String taskId = request.getParameter("taskId");
+		String taskKey = request.getParameter("taskKey");
+		
+		//获取当前任务的审批详情
+		String authorityForCurTask = processService.getAuthorityForCurTask(processInstanceId,taskId,taskKey);
+		
+		return authorityForCurTask;
+		
+	}
+	
 }

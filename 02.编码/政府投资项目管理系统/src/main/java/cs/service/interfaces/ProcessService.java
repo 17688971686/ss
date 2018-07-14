@@ -58,7 +58,7 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
 
 	List<Object> getAllComments(String shenBaoInfoId, String taskId, String taskKey, List<Object> list);
 
-	Map<String, Object> getCurrentKeyIntoMap(String processInstanceId, Map<String, Object> map);
+	/*Map<String, Object> getCurrentKeyIntoMap(String processInstanceId, Map<String, Object> map);*/
 	
 	void taskYuepi(String id);
 
@@ -78,6 +78,8 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
 	List<ShenBaoInfoDto> findPlanRunByOdata(ODataObjNew odata, boolean isPerson);
 
 	List<ShenBaoInfoDto> findYuepiByOdata(ODataObjNew odataObj, boolean b);
+
+	String getAuthorityForCurTask(String processInstanceId, String taskId, String taskKey);
 
 	
 }

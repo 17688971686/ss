@@ -1314,7 +1314,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		return list;
 	}
 
-	@Override
+	/*@Override
 	@Transactional
 	public Map<String, Object> getCurrentKeyIntoMap(String processInstanceId, Map<String, Object> map) {
 		List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstanceId)
@@ -1338,6 +1338,37 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 
 		return map;
+	}*/
+	
+	@Override
+	@Transactional
+	public String getAuthorityForCurTask(String processInstanceId, String taskId, String taskKey) {
+		String authorityForCurTask;
+		List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstanceId)
+				.taskCandidateUser(currentUser.getUserId()).taskId(taskId).active().list();
+		List<Task> tasks2 = taskService.createTaskQuery().processInstanceId(processInstanceId)
+				.taskAssignee(currentUser.getUserId()).taskId(taskId).active().list();
+		tasks.addAll(tasks2);
+		
+		if (CollectionUtils.isEmpty(tasks)) {
+			HistoricProcessInstance instance = historyService.createHistoricProcessInstanceQuery()
+					.processInstanceId(processInstanceId).singleResult();
+			String StartUserId = instance.getStartUserId();
+			if (StartUserId.equalsIgnoreCase(currentUser.getUserId())) {
+				authorityForCurTask = "true";
+			} else {
+				authorityForCurTask = "false";
+			}
+		} else {
+			String taskKey2 = tasks.get(0).getTaskDefinitionKey();
+			if(taskKey.equalsIgnoreCase(taskKey2)) {
+				authorityForCurTask = "true";
+			}else {
+				authorityForCurTask = "false";
+			}
+		}
+		
+		return authorityForCurTask;
 	}
 
 	@Override
