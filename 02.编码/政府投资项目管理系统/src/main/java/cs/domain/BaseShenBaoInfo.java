@@ -3,9 +3,7 @@ package cs.domain;
 import cs.common.BasicDataConfig;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @Description: 申报信息表

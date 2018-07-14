@@ -6,7 +6,6 @@ import com.sn.framework.common.ObjectUtils;
 import com.sn.framework.common.StringUtil;
 import com.sn.framework.odata.OdataFilter;
 import cs.activiti.service.ActivitiService;
-import cs.common.ActivitiPicture;
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.common.Response;
@@ -51,8 +50,6 @@ import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.impl.identity.Authentication;
-import org.activiti.engine.impl.task.TaskDefinition;
-import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
@@ -1117,7 +1114,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "rawtypes" })
 	@Override
 	@Transactional
 	public void taskPinglun(Map data) {
@@ -1153,15 +1150,17 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	@Transactional
-	public void handleFeedback(Map<String, Object> data) {
-		String shenbaoInfoId = (String) data.get("shenbaoInfoId");
-		String msg = (String) data.get("msg");
-		List<Attachment> att = (List<Attachment>) data.get("att");// 附件
 
-		ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenbaoInfoId);
+    @SuppressWarnings("unchecked")
+    @Override
+    @Transactional
+    public void handleFeedback(Map<String, Object> data) {
+        String shenBaoInfoId = (String) data.get("shenBaoInfoId");
+        String msg = (String) data.get("msg");
+        List<Attachment> att = (List<Attachment>) data.get("att");//附件
+        
+        ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenBaoInfoId);
+        Project project = projectRepo.findById(shenBaoInfo.getProjectId());
 
 		List<Task> monitorTask = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getMonitor_processId())
 				.taskCandidateUser(currentUser.getUserId()).active().list();
@@ -1173,22 +1172,23 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		Gson gson = new Gson();
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		// 如果有附件
-		if (att != null) {
-			for (int i = 0; i < att.toArray().length; i++) {
-				map = gson.fromJson(att.toArray()[i].toString(), map.getClass());
-				Attachment newatt = new Attachment();
-				newatt.setId(UUID.randomUUID().toString());
-				newatt.setName(map.get("name").toString());
-				newatt.setUrl(map.get("url").toString());
-				newatt.setType(map.get("type").toString());
-				newatt.setCreatedBy(currentUser.getUserId());
-				newatt.setModifiedBy(currentUser.getUserId());
-				shenBaoInfo.getAttachments().add(newatt);
-			}
-		}
-
-		Authentication.setAuthenticatedUserId(currentUser.getUserId());
+        //如果有附件
+        if (att != null) {
+            for (int i = 0; i < att.toArray().length; i++) {
+                map = gson.fromJson(att.toArray()[i].toString(), map.getClass());
+                Attachment newatt = new Attachment();	
+                newatt.setId(UUID.randomUUID().toString());
+                newatt.setName(map.get("name").toString());
+                newatt.setUrl(map.get("url").toString());
+                newatt.setCreatedBy(currentUser.getUserId());
+                newatt.setModifiedBy(currentUser.getUserId());
+                newatt.setBusinessType(map.get("businessType").toString());
+                newatt.setShenBaoAttType(map.get("shenBaoAttType").toString());
+                project.getAttachments().add(newatt);
+            }
+        }
+        
+        Authentication.setAuthenticatedUserId(currentUser.getUserId());
 
 		monitorTask.forEach(x -> {
 			activitiService.setTaskComment(x.getId(), shenBaoInfo.getMonitor_processId(), "反馈意见：" + msg);
