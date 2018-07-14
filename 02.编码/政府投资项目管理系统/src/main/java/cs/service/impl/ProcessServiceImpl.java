@@ -1157,17 +1157,18 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
     public void handleFeedback(Map<String, Object> data) {
         String shenBaoInfoId = (String) data.get("shenBaoInfoId");
         String msg = (String) data.get("msg");
+        String taskId = (String) data.get("taskId");
         List<Attachment> att = (List<Attachment>) data.get("att");//附件
         
         ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenBaoInfoId);
         Project project = projectRepo.findById(shenBaoInfo.getProjectId());
 
-		List<Task> monitorTask = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getMonitor_processId())
+		/*List<Task> monitorTask = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getMonitor_processId())
 				.taskCandidateUser(currentUser.getUserId()).active().list();
 		List<Task> monitorTask2 = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getMonitor_processId())
 				.taskAssignee(currentUser.getUserId()).active().list();
 
-		monitorTask.addAll(monitorTask2);
+		monitorTask.addAll(monitorTask2);*/
 
 		Gson gson = new Gson();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -1190,11 +1191,9 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
         
         Authentication.setAuthenticatedUserId(currentUser.getUserId());
 
-		monitorTask.forEach(x -> {
-			activitiService.setTaskComment(x.getId(), shenBaoInfo.getMonitor_processId(), "反馈意见：" + msg);
+		activitiService.setTaskComment(taskId, shenBaoInfo.getMonitor_processId(), "反馈意见：" + msg);
 
-			taskService.complete(x.getId());
-		});
+		taskService.complete(taskId);
 	}
 
 	@SuppressWarnings({})
