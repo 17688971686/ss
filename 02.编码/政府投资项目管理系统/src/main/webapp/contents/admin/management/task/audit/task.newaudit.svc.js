@@ -259,7 +259,7 @@
 		function getDraftIssued(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_draft + "?$filter=relId eq '{0}'",vm.model.shenBaoInfo.id)
+					url : common.format(url_draft + "?$filter=relId eq '{0}'",vm.id)
 				};
 			
 			var httpSuccess = function success(response) {
@@ -580,7 +580,7 @@
 						if(vm.model.shenBaoInfo.thisTaskName == 'usertask1'|| vm.model.shenBaoInfo.thisTaskName == 'usertask3'||
 								vm.model.shenBaoInfo.thisTaskName == 'usertask10' || vm.model.shenBaoInfo.thisTaskName == 'usertask5' || 
 								vm.model.shenBaoInfo.thisTaskName == 'usertask2' || vm.model.shenBaoInfo.thisTaskName == 'usertask14' ||
-								vm.model.shenBaoInfo.thisTaskName == 'usertask20'){
+								vm.model.shenBaoInfo.thisTaskName == 'usertask20' ||vm.model.shenBaoInfo.thisTaskName == 'usertask22'){
 			        		getDeptByName(vm,"投资科");
 			        	}
 						if(vm.model.shenBaoInfo.thisTaskName == 'usertask3'){

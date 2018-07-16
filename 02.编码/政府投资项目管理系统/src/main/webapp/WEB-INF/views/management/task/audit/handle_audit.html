@@ -338,8 +338,10 @@ textarea.form-control {
 							ng-click="vm.draftOpen('edit')">填写发文信息</button>
 						<!-- <a class="btn btn-success btn-xs"
 							href="/contents/admin/management/task/html/details/print.html">正文</a> -->
-						<a class="btn btn-success btn-xs" href="#/print/vm.model.shenBaoInfo.id"><span class="glyphicon glyphicon-eye-open"></span>正文打印预览</a>
+						<a class="btn btn-success btn-xs" href="#/print/{{vm.model.shenBaoInfo.id}}"><span class="glyphicon glyphicon-eye-open"></span>正文打印预览</a>
 					</div>
+					<a class="btn btn-success btn-xs" href="#/print/{{vm.model.shenBaoInfo.id}}"><span class="glyphicon glyphicon-eye-open"></span>正文打印预览</a>
+					
 					<div ng-if="vm.isPass == 8">
 						<label ng-repeat="x in vm.model.dept.userDtos"> <input
 							type="radio" id="nextUser" name="nextUser"
@@ -428,11 +430,11 @@ textarea.form-control {
 					<div>
 						<label> <input type="radio" id="nextProcess"
 							name="nextProcess" value="5" ng-true-value="5"
-							ng-click="vm.changeDeptUsers()" ng-model="vm.isPass"
+							ng-click="vm.changeDeptUsers(5)" ng-model="vm.isPass"
 							data-val="true" data-val-required="必选" />办公室印文
 						</label> &nbsp;&nbsp; <label> <input type="radio" id="nextProcess"
 							name="nextProcess" value="6" ng-true-value="6"
-							ng-click="vm.changeDeptUsers()" ng-model="vm.isPass"
+							ng-click="vm.changeDeptUsers(6)" ng-model="vm.isPass"
 							data-val="true" data-val-required="必选" />局长审核
 						</label> <span data-valmsg-for="nextProcess" data-valmsg-replace="true"
 							class="required"></span>
@@ -479,13 +481,34 @@ textarea.form-control {
 				</td>
 			</tr>
 			<tr
+				ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask22'">
+				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
+				<td>
+					<div>
+						<label> <input type="radio" id="nextProcess"
+							name="nextProcess" value="1" ng-true-value="1"
+							ng-model="vm.isPass" data-val="true" data-val-required="必选" />科长审核
+						</label>
+					</div>
+					<div class="pull-left" ng-if="vm.isPass == 1">
+						<label ng-repeat="x in vm.model.dept.userDtos"> <input
+							type="radio" name="radio" value="{{x.id}}"
+							ng-model="vm.nextUsers"
+							data-val="true" data-val-required="必选" />{{x.displayName}}&nbsp;&nbsp;
+						</label>
+
+					</div>
+				</td>
+			</tr>
+			
+			<tr
 				ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask14' || vm.model.shenBaoInfo.thisTaskName == 'usertask20'">
 				<td class="formAlignRight">下一处理环节：<span class="required">(*)</span></td>
 				<td>
 					<div>
 						<label> <input type="radio" id="nextProcess"
 							name="nextProcess" value="1" ng-true-value="1"
-							ng-model="vm.isPass" />转投资科办结
+							ng-model="vm.isPass" />转投资科办理
 						</label>
 					</div>
 					<div class="pull-left" ng-if="vm.isPass == 1">
@@ -527,7 +550,7 @@ textarea.form-control {
 				ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask16' ">
 				<td class="formAlignRight" style="width: 150px;">操作：</td>
 				<td>
-					<button ng-click="vm.handle('next')" class="btn btn-success btn-sm"
+					<button ng-click="vm.handle('banjie')" class="btn btn-success btn-sm"
 						style="margin: 0 10px;">办结</button>
 				</td>
 			</tr>

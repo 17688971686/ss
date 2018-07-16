@@ -38,6 +38,8 @@ public class DraftIssuedMapper  implements IMapper<DraftIssuedDto, DraftIssued> 
 			draftIssuedDto.setCapitalPifU(entity.getCapitalPifU());
 			draftIssuedDto.setProjectName(entity.getProjectName());
 			draftIssuedDto.setProjectNumber(entity.getProjectNumber());
+			draftIssuedDto.setMobileName(entity.getMobileName());
+			draftIssuedDto.setMobilePhone(entity.getMobilePhone());
 			//基础信息
 			draftIssuedDto.setCreatedBy(entity.getCreatedBy());
 			draftIssuedDto.setCreatedDate(entity.getCreatedDate());
@@ -72,6 +74,8 @@ public class DraftIssuedMapper  implements IMapper<DraftIssuedDto, DraftIssued> 
 			entity.setProjectNumber(dto.getProjectNumber());
 			entity.setUnitName(dto.getUnitName());
 			entity.setUserNameAndUnit(dto.getUserNameAndUnit());
+			entity.setMobileName(dto.getMobileName());
+			entity.setMobilePhone(dto.getMobilePhone());
 			//基础信息
 			entity.setModifiedBy(dto.getModifiedBy());
 			entity.setModifiedDate(dto.getModifiedDate());

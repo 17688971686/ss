@@ -44,7 +44,7 @@ public class DraftIssued extends BaseEntity{
 	@Column(columnDefinition="varchar(255) NULL COMMENT '标题'")
 	private String title;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '主题词'")
+	@Column(columnDefinition="varchar(255) NULL COMMENT '备注'")
 	private String keyWord;
 
 	@Column(columnDefinition="varchar(255) NULL COMMENT '发文种类'")
@@ -55,6 +55,12 @@ public class DraftIssued extends BaseEntity{
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目代码'")
 	private String projectNumber;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '联系人'")
+	private String mobileName;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '联系电话'")
+	private String mobilePhone;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '单位名称'")
 	private String unitName;
@@ -214,6 +220,22 @@ public class DraftIssued extends BaseEntity{
 
 	public void setProjectNumber(String projectNumber) {
 		this.projectNumber = projectNumber;
+	}
+
+	public String getMobileName() {
+		return mobileName;
+	}
+
+	public void setMobileName(String mobileName) {
+		this.mobileName = mobileName;
+	}
+
+	public String getMobilePhone() {
+		return mobilePhone;
+	}
+
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
 	}
 	
 }

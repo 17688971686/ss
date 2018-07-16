@@ -17,7 +17,7 @@
     <bean id="myDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
           destroy-method="close">
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-        <property name="jdbcUrl" value="jdbc:mysql://121.201.66.221:6200/gm_test?serverTimezone=GMT%2b8&amp;useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf8"/>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/gm_govinvestprojectmanagement?serverTimezone=GMT%2b8&amp;useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf8"/>
         <property name="user" value="root"/>
         <property name="password" value="Passw0rd"/>
 
@@ -25,7 +25,7 @@
         <property name="minPoolSize" value="5"/>
         <property name="maxPoolSize" value="20"/>
         <property name="maxIdleTime" value="30000"/>
-        <property name="testConnectionOnCheckout" value="true"/>
+       
     </bean>
 
 

@@ -686,7 +686,7 @@
         	vm.changeDeptUsers=function(num){
         		if(vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask23'){
         			if(num == "8"){
-        				taskNewAuditSvc.getDeptByName(vm,"办公室");
+        				taskNewAuditSvc.getDeptByName(vm,"评审中心");
         			}else{
         				taskNewAuditSvc.getDeptByName(vm,"投资科");
         			}
@@ -770,8 +770,12 @@
         
         function print(){
         	taskNewAuditSvc.getShenBaoInfoById(vm);
-        	taskNewAuditSvc.getUserUnit(vm);//获取当前登陆单位信息
+        	taskNewAuditSvc.getDraftIssued(vm);//获取当前登陆单位信息
+        	taskNewAuditSvc.getHistoryInfo(vm);
         	var nowDate=new Date();
+        	 vm.getBasicDataDesc = function (str) {//流转信息显示
+                 return common.getBasicDataDesc(str);
+             };
         	vm.nowDate = nowDate.getFullYear()+"年"+(nowDate.getMonth()+1)+"月"+nowDate.getDate()+"日";
         	//打印
         	vm.printBtn=function(){

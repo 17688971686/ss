@@ -41,13 +41,14 @@
 	  <ol class="breadcrumb">
 		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
 		  <li><a href="#/managerCenter">首页</a></li>
-	      <li><a class="text-primary" href="javascript:;" ui-sref="planReach">计划下达</a></li>	 
+	      <li><a class="text-primary" href="javascript:;" ui-sref="todo_audit">审批类个人待办</a></li>	 
 	      <li class="active">打印预览</li>
+	      <li><a href="javascript:window.history.back(-1)">返回</a></li>
 	  </ol>
 	  
 	<div class="toolbar">
-		<a class="btn btn-success btn-sm" href="javascript:;" ui-sref="planReach"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回</a>
-		<button type="button" class="btn btn-success btn-sm" ng-click="vm.printBtn()"><span class="glyphicon glyphicon-print"></span>&nbsp;打印</button>
+<!-- 		<a class="btn btn-success btn-sm" href="javascript:;" ui-sref="planReach"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回</a>
+ -->		<button type="button" class="btn btn-success btn-sm" ng-click="vm.printBtn()"><span class="glyphicon glyphicon-print"></span>&nbsp;打印</button>
 		<!-- <button type="button" class="btn btn-success btn-sm" ng-click="vm.clicks()"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;另存为...</button> -->	
 	</div>
 	
@@ -55,60 +56,51 @@
 		<div id="printWindow" style="padding-bottom: 15px;">
 			<h3 class="text-center" ng-bind="vm.model.applicationName"></h3>
 			<br>
-			<table class="_table" style="width:27.7cm;margin:0 auto;">
+			<table class="_table" style="width:26cm;margin:0 auto;">
 				<tr style="height:0.87cm;">
-					<td colspan="3" style="text-align:left;border: 0;">打印时间：{{vm.nowDate}}</td>
-					<td style="text-align:right;border: 0;">资金：万   元<br>面积：平方米</td>
+					<div style="    text-align: center;font-size: 36px;">深圳市光明新区发展和财政局呈批表</div>
 				</tr>
 				<tr style="height:0.87cm;">
-					<td style="width:3.5cm">申请单位：</td>
-					<td ng-bind="vm.userUnit.unitName"></td>
-					<td style="width:3.5cm">申请时间：</td>
-					<td ng-bind="vm.model.applicationTime"></td>
+					<td style="width:3.5cm; font-size: 23px;">拟稿单位：</td>
+					<td style="font-size: 23px;" ng-bind="vm.draft.unitName"></td>
+					<td style="width:3.5cm; font-size: 23px;">拟稿人：</td>
+					<td style="font-size: 23px;" ng-bind="vm.userNameAndUnitName"></td>
 				</tr>
 				<tr style="height:0.87cm;">
-					<td>负责人：</td>
-					<td ng-bind="vm.model.resPerson"></td>
-					<td>负责人电话：</td>
-					<td ng-bind="vm.model.resPersonTel"></td>
+					<td style="font-size: 23px;">发文字号：</td>
+					<td style="font-size: 23px;" ng-bind=""></td>
+					<td style="font-size: 23px;">拟稿时间：</td>
+					<td style="font-size: 23px;" ng-bind="vm.draft.draftDate"></td>
 				</tr>
 				<tr style="height:0.87cm;">
-					<td colspan="4" style="border-top: 0;border-bottom:0;"></td>
+					<td style="font-size: 23px;">标题：</td>
+					<td colspan="3" style="text-align: left;font-size: 23px;" ng-bind="vm.draft.title"></td>
 				</tr>
-				<tr>
-					<td>申请项目信息：</td>
-					<td colspan="3">
-						<table style="margin: 10px;" class="dataTable">
-							<tr class="text-center table_title">
-								<td style="width:1.49cm;" rowspan="2">序号</td>
-								<td style="width:5.00cm" rowspan="2">项目名称</td>
-								<td style="width:4.50cm" rowspan="2">建设规模</td>
-								<td style="width:2cm" rowspan="2">建设性质</td>
-								<td style="width:2cm" rowspan="2">总投资</td>
-								<td colspan="2">本年度安排投资</td>
-								<td colspan="2">申请资金</td>
-								<td style="width:3cm" rowspan="2">备注</td>
-							</tr>
-							<tr class="text-center table_title">
-								<td style="width:2cm;">公共预算</td>
-								<td style="width:2cm;">国土资金</td>
-								<td style="width:2cm;">公共预算</td>
-								<td style="width:2cm;">国土资金</td>
-							</tr>
-							<tr ng-repeat="x in vm.shenbaoList" class="dataTr">
-								<td ng-bind="$index+1"></td>
-								<td ng-bind="x.projectName"></td>
-								<td ng-bind="x.projectGuiMo"></td>
-								<td ng-bind="vm.getBasicDataDesc(x.projectConstrChar)"></td>
-								<td ng-bind="x.projectInvestSum"></td>
-								<td ng-bind="x.capitalAP_ggys_TheYear"></td>
-								<td ng-bind="x.capitalAP_gtzj_TheYear"></td>
-								<td ng-bind="x.sqPlanReach_ggys"></td>
-								<td ng-bind="x.sqPlanReach_gtzj"></td>
-								<td ng-bind="x.yearConstructionContentShenBao"></td>
-							</tr>
-						</table>
+				<tr  ng-repeat="x in vm.taskRecord">
+					<td colspan="4">
+						<div style="text-align: left; font-size: 27px;">{{x.name}}</div>
+						<div style="text-align: left; font-size: 20px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{x.msg}}</div>
+						<div style="text-align: right; font-size: 20px;">{{x.id}}&nbsp;&nbsp;&nbsp;{{vm.formatDateTime(x.endTime)}}</div>
 					</td>
+				</tr>
+				<tr style="height:0.87cm;">
+					<td style="font-size: 23px;">发行范围：</td>
+					<td colspan="3" style="text-align: left;style="font-size: 23px;"" ng-bind="vm.userNameAndUnitName"></td>
+				</tr>
+				<tr style="height:0.87cm;">
+					<td style="font-size: 23px;">公开属性：</td>
+					<td colspan="3"  style="text-align: left;style="font-size: 23px;"" ng-bind="vm.getBasicDataDesc(vm.draft.openType)"></td>
+				</tr>
+				<tr style="height:0.87cm;">
+					<td  style="text-align: left;font-size: 23px;" colspan="4">打字：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp; 校对：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;监印：</td>
+				</tr>
+				<tr style="height:0.87cm;">
+					<td  style="text-align: left;font-size: 23px;" colspan="4">联系人：{{vm.draft.mobileName}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;联系电话：{{vm.draft.mobilePhone}}</td>
+				</tr>
+				<tr style="height:0.87cm;">
+					<td  style="text-align: left;font-size: 23px;" colspan="4">备注：{{vm.draft.keyWord}}</td>
 				</tr>
 			</table>
 		</div>

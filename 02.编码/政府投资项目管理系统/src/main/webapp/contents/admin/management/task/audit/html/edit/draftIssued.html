@@ -35,37 +35,21 @@
 			</td>
 		</tr>
 		<tr>
+			<td class="formAlignRight">联系人：</td>
+			<td >
+				<input type="text" class="form-control input-sm" id="title" name="title" ng-model="vm.draft.mobileName"/>
+			</td>
+			<td class="formAlignRight">联系电话：</td>
+			<td >
+				<input type="text" class="form-control input-sm" id="title" name="title" ng-model="vm.draft.mobilePhone"/>
+			</td>
+		</tr>
+		<tr>
 			<td class="formAlignRight">拟稿时间：<span class="required">(*)</span></td>
 			<td >
 				<input type="text" id="draftDate" name="draftDate" onkeydown="return false;"
 				 ng-model="vm.draft.draftDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>	
 				 <span data-valmsg-for="draftDate" data-valmsg-replace="true" class="required"></span>	 						
-			</td>
-			<td class="formAlignRight">秘密等级：<span class="required">(*)</span></td>
-			<td >
-				<select class="form-control input-sm" style="width:200px;" id="hecretHierarchy" name="hecretHierarchy" ng-model="vm.draft.hecretHierarchy" data-val="true" data-val-required="必选">
-				  	<option value="">---请选择---</option>
-					<option ng-repeat="y in vm.basicData.hecretHierarchy" value="{{y.id}}">{{y.description}}</option>
-				</select>	
-				<span data-valmsg-for="hecretHierarchy" data-valmsg-replace="true" class="required"></span>							
-			</td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">文件缓急：<span class="required">(*)</span></td>
-			<td >
-				<select class="form-control input-sm" style="width:200px;" id="fileSet" name="fileSet" ng-model="vm.draft.fileSet" data-val="true" data-val-required="必选">
-				  	<option value="">---请选择---</option>
-					<option ng-repeat="y in vm.basicData.fileSet" value="{{y.id}}">{{y.description}}</option>
-				</select>	
-				<span data-valmsg-for="fileSet" data-valmsg-replace="true" class="required"></span>							
-			</td>
-			<td class="formAlignRight">文件种类：<span class="required">(*)</span></td>
-			<td >
-				<select class="form-control input-sm" style="width:200px;" id="documentType" name="documentType" ng-model="vm.draft.documentType" data-val="true" data-val-required="必选">
-				  	<option value="">---请选择---</option>
-					<option ng-repeat="y in vm.basicData.documentType" value="{{y.id}}">{{y.description}}</option>
-				</select>	
-				<span data-valmsg-for="documentType" data-valmsg-replace="true" class="required"></span>							
 			</td>
 		</tr>
 			<tr>
@@ -103,18 +87,20 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="formAlignRight">主题词：<span class="required">(*)</span></td>
-			<td colspan="3">
-				<input type="text" class="form-control input-sm" id="keyWord" name="keyWord" ng-model="vm.draft.keyWord" data-val="true" data-val-required="必填"/>
-				<span data-valmsg-for="keyWord" data-valmsg-replace="true" class="required"></span>
-			</td>
-		</tr>
-		<tr>
 			<td class="formAlignRight">正文编辑：<span class="required">(*)</span></td>
 			<td colspan="3">
 				<a class="btn btn-success btn-sm" href="/contents/admin/management/task/audit/html/edit/edit_dj.html" target="_blank">编辑正文</a>
 			</td>
 		</tr>		
+		<tr>
+			<td class="formAlignRight">备注：<span class="required">(*)</span></td>
+			<td colspan="3">
+				<textarea class="form-control" id="keyWord"
+							name="keyWord" maxlength="500" rows="3"
+							ng-model="vm.draft.keyWord" placeholder="注：500字符以内">
+						</textarea>
+			</td>
+		</tr>
 		<tr>
 			<td class="formAlignRight">正文附件：<span class="required">(*)</span></td>
 			<td colspan="3">
@@ -140,5 +126,6 @@
 	 			</div>
 			</td>
 		</tr>
+		
 	</table>
 </form>

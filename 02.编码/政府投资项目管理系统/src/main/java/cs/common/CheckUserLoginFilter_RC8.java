@@ -73,9 +73,9 @@ public class CheckUserLoginFilter_RC8 implements Filter {
 //			user.setCity(city);
 //			user.setDuty(duty);
 //			user.setDutyLevelName(dutyLevelName);
-//			user.setEmail(email);
+			user.setEmail(email);
 //			user.setSex(sex);
-//			user.setOfficePhone(officePhone);
+			user.setMobilePhone(officePhone);
 //			user.setWorktime(worktime);
 			user.setPassword(person.getPlainText());
 			session.setAttribute("riseUser", user);

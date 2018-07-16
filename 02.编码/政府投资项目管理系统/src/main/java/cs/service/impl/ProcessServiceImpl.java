@@ -1127,7 +1127,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenbaoInfoId);
 
 		List<Task> task = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId())
-				.taskCandidateUser(currentUser.getUserId()).orderByDueDate().desc().list();
+				.active().orderByDueDate().desc().list();
 
 		// 如果有附件
 		shenBaoInfo.getAttachments().forEach(x -> {// 删除历史附件
