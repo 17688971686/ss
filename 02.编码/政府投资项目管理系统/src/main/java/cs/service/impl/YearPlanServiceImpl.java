@@ -92,9 +92,13 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 	@Transactional
 	public YearPlan create (YearPlanDto dto){
 		Criterion criterion = Restrictions.eq(YearPlan_.name.getName(), dto.getName());
+		Criterion criterion2 = Restrictions.eq(YearPlan_.year.getName(), dto.getYear());
 		Optional<YearPlan> yearPlan = yearPlanRepo.findByCriteria(criterion).stream().findFirst();
+		Optional<YearPlan> yearPlan2 = yearPlanRepo.findByCriteria(criterion2).stream().findFirst();
 		if (yearPlan.isPresent()) {
 			throw new IllegalArgumentException(String.format("项目代码：%s 已经存在,请重新输入！", dto.getName()));
+		}if (yearPlan2.isPresent()) {
+			throw new IllegalArgumentException(String.format("当前年份：%s 的编制已经存在,请创建其他年份！", dto.getYear()));
 		} else {
 			YearPlan entity = super.create(dto);
 			//关联信息资金安排
@@ -140,6 +144,13 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 	@Override
 	@Transactional
 	public void delete(String id) {
+		YearPlan yearPlan = super.findById(id);
+		if (yearPlan.getPackPlans().size() >0) {
+			for (int i = 0; i < yearPlan.getPackPlans().size(); i++) {
+				yearPlan.getPackPlans().remove(i);
+			}
+			yearPlan.getPackPlans().clear();
+		}
 		super.delete(id);
 	}
 

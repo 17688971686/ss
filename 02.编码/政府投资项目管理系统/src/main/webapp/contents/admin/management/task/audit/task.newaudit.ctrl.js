@@ -50,6 +50,9 @@
             if ($state.current.name == 'task_todo_yuepi') {//科室列表--审批类
                 vm.page = 'task_todo_yuepi';
             }
+            if($state.current.name == 'print'){
+        		vm.page = 'print';
+        	}
             vm.formatDate = function (str) {
                 return common.formatDate(str);
             };
@@ -150,6 +153,9 @@
             if (vm.page == 'task_todo_yuepi') {
                 task_todo_yuepi();
             }
+            if(vm.page == 'print'){
+        		print();
+        	}
             vm.formatDateTime = function (time) {
                 return common.formatDateTime(time);
             };
@@ -645,12 +651,15 @@
         		
     			if((vm.model.shenBaoInfo.thisTaskName == 'usertask1' || vm.model.shenBaoInfo.thisTaskName == 'usertask5') && vm.isPass == "1" && vm.nextUsers == "" && str =="next"){
 							vm.nextUsers = vm.banliUsers;
-    			}else if(vm.model.shenBaoInfo.thisTaskName == 'usertask6' && vm.isPass == "1" && vm.nextUsers == ""){
+							taskNewAuditSvc.handle(vm,str);
+    			}else if((vm.model.shenBaoInfo.thisTaskName == 'usertask6' ||vm.model.shenBaoInfo.thisTaskName == 'usertask7' )&& vm.isPass == "1" && vm.nextUsers == ""){
 							vm.nextUsers = vm.banwenUsers;
+							taskNewAuditSvc.handle(vm,str);
 //    				vm.nextUsers = '10fac944-1244-4279-9c8e-c6eb9a9c9dc5';//办文顾丽娜
     			}else if((vm.model.shenBaoInfo.thisTaskName == 'usertask17' || vm.model.shenBaoInfo.thisTaskName == 'usertask19' ||
     					vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask21') && vm.isPass == "5" && vm.nextUsers == "" && str =="next"){
 							vm.nextUsers = vm.yinwenUsers;
+							taskNewAuditSvc.handle(vm,str);
 //    				vm.nextUsers = '6548a46b-c2c2-4650-b8dd-ae50a01cafaf';//印文胡伟军
     			}else if((vm.isPass == "" || vm.isPass == undefined ) && str =="next") {
         			common.alert({
@@ -661,15 +670,7 @@
 						}
 					});
         		}else if(str =="next" && vm.nextUsers != "" || str =="reback" || str =="banjie" || str =="tuiwen"){
-//        			common.alert({
-//						vm : vm,
-//						msg : "任务送出给：" + vm.nextUsers,
-//						fn : function() {
-//							$('.alertDialog').modal('hide');
 							taskNewAuditSvc.handle(vm,str);
-//						}
-//					});
-        			
     			}else {
     				common.alert({
 						vm : vm,
@@ -766,5 +767,25 @@
                 taskNewAuditSvc.saveShenBaoInfo(vm);
             };
         }//end#init_task_shenPiDetails
+        
+        function print(){
+        	taskNewAuditSvc.getShenBaoInfoById(vm);
+        	taskNewAuditSvc.getUserUnit(vm);//获取当前登陆单位信息
+        	var nowDate=new Date();
+        	vm.nowDate = nowDate.getFullYear()+"年"+(nowDate.getMonth()+1)+"月"+nowDate.getDate()+"日";
+        	//打印
+        	vm.printBtn=function(){
+        		$("#printWindow").printThis({
+          	        debug: false,
+          	        importCSS: true,       // import page CSS
+          	      	importStyle: true,    // import style tags
+          	        printContainer: true,
+          	        removeInline: false,
+          	        printDelay: 333,
+          	        header: null,
+          	        formValues: true
+          	      });
+        	};
+        }//end fun print
     }
 })();

@@ -644,6 +644,13 @@
 	            controller: 'taskNewAuditCtrl',
 	            controllerAs: 'vm'
 	        })
+	         .state('print', {
+	            url: '/print/:id',
+	            params:{"id":null},  
+	        	templateUrl:'/management/task/html/print', 
+	        	controller: 'taskNewAuditCtrl',
+	        	controllerAs: 'vm'
+	        })
 	          //任务处理页--阅卷栏
 	        .state('task_handle_yuepi', {
 	            url: '/task/handle_yuepi/:id',

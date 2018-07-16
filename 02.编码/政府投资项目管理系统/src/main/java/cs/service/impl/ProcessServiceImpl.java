@@ -883,18 +883,19 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
 		List<Role> findProjects = new ArrayList<>();
 		Criterion criterion = null;
-		Criterion criterion2 = null;
+//		Criterion criterion2 = null;
 		if (shenBaoInfo.getThisTaskName().equals("usertask6")) {
 			criterion = Restrictions.eq(Role_.roleName.getName(), "办公室主任");
 			findProjects = roleRepo.findByCriteria(criterion);
-		} else if (((shenBaoInfo.getThisTaskName().equals("usertask1")
-				|| shenBaoInfo.getThisTaskName().equals("usertask5")) && "1".equals(isPass))
-				|| (shenBaoInfo.getThisTaskName().equals("usertask2")
-						|| shenBaoInfo.getThisTaskName().equals("usertask23")) && "2".equals(isPass)) {
-			criterion = Restrictions.eq(Role_.roleName.getName(), "局领导");
-			criterion2 = Restrictions.eq(Role_.roleName.getName(), "科长");
-			findProjects = roleRepo.findByCriteria(Restrictions.or(criterion, criterion2));
 		}
+//		else if (((shenBaoInfo.getThisTaskName().equals("usertask1")
+//				|| shenBaoInfo.getThisTaskName().equals("usertask5")) && "1".equals(isPass))
+//				|| (shenBaoInfo.getThisTaskName().equals("usertask2")
+//						|| shenBaoInfo.getThisTaskName().equals("usertask23")) && "2".equals(isPass)) {
+//			criterion = Restrictions.eq(Role_.roleName.getName(), "局领导");
+//			criterion2 = Restrictions.eq(Role_.roleName.getName(), "科长");
+//			findProjects = roleRepo.findByCriteria(Restrictions.or(criterion, criterion2));
+//		}
 
 		for (Role role : findProjects) {
 			for (User user : role.getUsers()) {
@@ -1453,4 +1454,11 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		shenBaoInfoRepo.save(entity);
 	}
 
+	@Override
+	@Transactional
+	public List<ShenBaoInfoDto> findAuditKeshi(ODataObjNew odata) {
+		odata.addOrFilter(ShenBaoInfo_.thisTaskName.getName(), OdataFilter.Operate.EQ, "usertask1",
+				"usertask3", "usertask2", "usertask5","usertask6", "usertask7", "usertask16","usertask22", "usertask23");
+		return shenBaoInfoRepoImpl.findRunByOdata2(odata).stream().map(mapper::toDto).collect(Collectors.toList());
+	}
 }

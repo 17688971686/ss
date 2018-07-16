@@ -78,8 +78,10 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
 	List<ShenBaoInfoDto> findPlanRunByOdata(ODataObjNew odata, boolean isPerson);
 
 	List<ShenBaoInfoDto> findYuepiByOdata(ODataObjNew odataObj, boolean b);
-
+	
 	String getAuthorityForCurTask(String processInstanceId, String taskId, String taskKey);
+	
+	List<ShenBaoInfoDto> findAuditKeshi(ODataObjNew odata);
 
 	
 }

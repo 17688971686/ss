@@ -40,6 +40,7 @@
 		var url_pic = "/pic/task";
 		var url_document="/shenbaoAdmin/replyFile";
 		var url_getSysConfigs = "/sys/getSysConfigs";
+		var url_userUnit　= "/shenbaoAdmin/userUnitInfo";
 		
 		var service = {
 			grid : grid,//待办任务列表
@@ -67,7 +68,8 @@
 			otherGrid:otherGrid,//科室办件列表
 			yuepiGrid:yuepiGrid,//阅批列表
 			yuepi:yuepi,//阅批按钮
-			getSysConfigs:getSysConfigs//系统配置
+			getSysConfigs:getSysConfigs,//系统配置
+			getUserUnit:getUserUnit
 		};
 		
 		return service;
@@ -483,7 +485,7 @@
 					fn:function(){
 						common.alert({
 							vm:vm,
-							msg:"保存成功！123",
+							msg:"保存成功！",
 							fn:function(){
 								$('#shenbaoInfoEdit').modal('hide');
 								$('.alertDialog').modal('hide');
@@ -584,7 +586,8 @@
 						if(vm.model.shenBaoInfo.thisTaskName == 'usertask3'){
 			        		getDeptByName(vm,"投资科");
 			        	}
-						if(vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask21'){
+						if(vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask21' ||
+								vm.model.shenBaoInfo.thisTaskName == 'usertask6' || vm.model.shenBaoInfo.thisTaskName == 'usertask7'){
 			        		getDeptByName(vm,"办公室");
 			        	}
 						if(vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18'){
@@ -1444,5 +1447,25 @@
 				success : httpSuccess
 			});
 		}//end fun getSysConfigs
+		
+		/**
+		 * 获取当前登陆用户单位
+		 */
+		function getUserUnit(vm){
+			var httpOptions = {
+					method : 'get',
+					url : url_userUnit
+				};
+			var httpSuccess = function success(response) {
+				vm.userUnit = response.data || {};
+				vm.model.applicationUnit = vm.userUnit.id;//设置项目的所属单位名称
+			};
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}//end fun getUserUnit
 	}	
 })();

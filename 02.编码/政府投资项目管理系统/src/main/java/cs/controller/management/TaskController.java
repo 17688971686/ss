@@ -69,13 +69,20 @@ public class TaskController {
         return new PageModelDto<>(shenBaoInfoRuns, odataObj.isCount() ? odataObj.getCount() : shenBaoInfoRuns.size());
     }
 
+//    @RequestMapping(name = "获取审批类科室待办数据", path = "auditOther", method = RequestMethod.GET)
+//    @ResponseBody
+//    public PageModelDto<ShenBaoInfoDto> getToDoAuditOther(ODataObjNew odataObj) {
+//        List<ShenBaoInfoDto> shenBaoInfoRuns = processService.findAuditRunByOdata(odataObj, false);
+//        return new PageModelDto<>(shenBaoInfoRuns, odataObj.isCount() ? odataObj.getCount() : shenBaoInfoRuns.size());
+//    }
+
     @RequestMapping(name = "获取审批类科室待办数据", path = "auditOther", method = RequestMethod.GET)
     @ResponseBody
     public PageModelDto<ShenBaoInfoDto> getToDoAuditOther(ODataObjNew odataObj) {
-        List<ShenBaoInfoDto> shenBaoInfoRuns = processService.findAuditRunByOdata(odataObj, false);
+        List<ShenBaoInfoDto> shenBaoInfoRuns = processService.findAuditKeshi(odataObj);
         return new PageModelDto<>(shenBaoInfoRuns, odataObj.isCount() ? odataObj.getCount() : shenBaoInfoRuns.size());
     }
-
+    
     @RequestMapping(name = "获取阅批待办数据", path = "yuepi", method = RequestMethod.GET)
     public @ResponseBody
     PageModelDto<ShenBaoInfoDto> getToDoYuepi(ODataObjNew odataObj, @RequestParam(required = false) String leixin) {
@@ -301,5 +308,11 @@ public class TaskController {
     @RequestMapping(name = "已办列表页--计划类展示信息", path = "html/planDetails", method = RequestMethod.GET)
     public String planDetails() {
         return ctrl + "/plan/planDetails";
+    }
+    
+//    @RequiresPermissions("management/task#html/planDetails#get")
+    @RequestMapping(name = "正文打印", path = "html/print", method = RequestMethod.GET)
+    public String print() {
+        return ctrl + "/audit/print";
     }
 }
