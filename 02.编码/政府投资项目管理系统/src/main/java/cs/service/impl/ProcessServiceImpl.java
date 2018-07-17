@@ -1438,7 +1438,9 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				odataObj.addEQFilter(ShenBaoInfo_.thisTaskName.getName(), "usertask2");
 				break loop;
 			} else if (role.getRoleName().equals("办公室主任")) {
-				odataObj.addEQFilter(ShenBaoInfo_.thisTaskName.getName(), "usertask12");
+				odataObj.addOrFilter(ShenBaoInfo_.thisTaskName.getName(), OdataFilter.Operate.EQ, "usertask12",
+						"usertask18");
+//				odataObj.addEQFilter(ShenBaoInfo_.thisTaskName.getName(), "usertask12");
 				break loop;
 			}
 
