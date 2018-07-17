@@ -11,6 +11,7 @@ import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.history.HistoricActivityInstance;
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.pvm.PvmTransition;
@@ -64,10 +65,17 @@ public class ProcessInstanceHighlightsResource {
 		ArrayNode flowsArray = objectMapper.createArrayNode();
 		
 		try {
+			String processDefinitionId;
 			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
-			ProcessDefinitionEntity processDefinition = (ProcessDefinitionEntity) repositoryService.getProcessDefinition(processInstance.getProcessDefinitionId());
+			if(ObjectUtils.isEmpty(processInstance)) {
+				 HistoricProcessInstance processInstance2 = processEngine.getHistoryService().createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+				 processDefinitionId = processInstance2.getProcessDefinitionId();
+			 }else {
+				 processDefinitionId = processInstance.getProcessDefinitionId();
+			 }
+			ProcessDefinitionEntity processDefinition = (ProcessDefinitionEntity) repositoryService.getProcessDefinition(processDefinitionId);
 			
-			responseJSON.put("processDefinitionId", processInstance.getProcessDefinitionId());
+			responseJSON.put("processDefinitionId", processDefinitionId);
 			
 			//查询taskId
 			List<HistoricTaskInstance > list=processEngine.getHistoryService() //历史相关service 

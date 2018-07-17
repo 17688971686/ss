@@ -10,12 +10,15 @@ import cs.repository.odata.ODataFilterItem;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import com.sn.framework.common.ObjectUtils;
 
 import cs.domain.Project;
 import cs.model.PageModelDto;
@@ -275,10 +278,18 @@ public class ProjectSupervisedController {
 		 map.put("ip", request.getServerName());
 		 map.put("port", request.getServerPort());
 		
+		 String processDefinitionId;
+		 
 		 ProcessInstance instance = processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+		 if(ObjectUtils.isEmpty(instance)) {
+			 HistoricProcessInstance instance2 = processEngine.getHistoryService().createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+			 processDefinitionId = instance2.getProcessDefinitionId();
+		 }else {
+			 processDefinitionId = instance.getProcessDefinitionId();
+		 }
 		 
 		 map.put("processInstanceId", processInstanceId);
-		 map.put("processDefinitionId", instance.getProcessDefinitionId());
+		 map.put("processDefinitionId", processDefinitionId);
 		 
 		 map = userService.getRolesIntoMap(map);
 		 
