@@ -1,0 +1,33 @@
+<style>
+.table-bordered>thead>tr>th, 
+.table-bordered>tbody>tr>th, 
+.table-bordered>tfoot>tr>th, 
+.table-bordered>thead>tr>td, 
+.table-bordered>tbody>tr>td, 
+.table-bordered>tfoot>tr>td {
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+overflow: scroll !important;
+</style>
+
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+
+<div class="well well-sm" style="background:white;">
+    <ol class="breadcrumb">
+    	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+        <li><a class="text-primary" href="#/">首页</a></li>       
+        <li>
+        	<a class="text-primary" href="javascript:window.history.back(-1)" data-toggle="tooltip" data-placement="bottom" title="点击返回上一页面"><strong>返回</strong></a>
+        </li>	        
+        <li class="active">项目详情</li>
+    </ol>
+    
+    <form>
+  		<div  ng-include  src="'/contents/admin/management/supervision/html/ZFInverstmentDetails.html'"></div>
+  		<!-- <div  ng-include  src="'/contents/management/supervision/html/SHInverstmentDetails.html'"></div> -->
+    </form>
+</div>    
+    
+   
+         
