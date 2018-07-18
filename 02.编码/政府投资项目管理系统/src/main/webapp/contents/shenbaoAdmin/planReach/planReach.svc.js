@@ -1853,7 +1853,7 @@
 						field : "projectName",
 						title : "项目名称",
 						template:function(item){
-							return common.format('<a href="#/project/projectInfo/{0}" >{2}</a>',item.projectId,item.projectInvestmentType,item.projectName);
+							return common.format('<a href="#/project/projectInfo/{0}" >{2}</a>',item.id,item.projectInvestmentType,item.projectName);
 						},
 						width:300,
 						filterable : false,

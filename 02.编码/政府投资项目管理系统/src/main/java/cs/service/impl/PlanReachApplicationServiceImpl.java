@@ -917,16 +917,15 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 	@Transactional
 	public void deletePlanShenBaoInfo(String packPlanId, String shenbaoId) {
 		PackPlan plan = packPlanRepo.findById(packPlanId);
-		
+		ShenBaoInfo entity = shenBaoInfoRepo.findById(shenbaoId);
 		for (int i = 0; i < plan.getShenBaoInfos().size(); i++) {
 			ShenBaoInfo array_element = plan.getShenBaoInfos().get(i);
 			
 			if(shenbaoId.equals(array_element.getId())){
-				shenBaoInfoRepo.delete(shenBaoInfoRepo.findById(shenbaoId));
+				shenBaoInfoRepo.delete(entity);
 				plan.getShenBaoInfos().remove(i);
 			}
 		}
-		ShenBaoInfo entity = shenBaoInfoRepo.findById(shenbaoId);
 		Criterion criterion=Restrictions.eq(ShenBaoInfo_.projectId.getName(), entity.getProjectId());
 		Criterion criterion2=Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_nextYearPlan);
 		Criterion criterion3=Restrictions.and(criterion, criterion2);

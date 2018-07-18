@@ -620,7 +620,7 @@
         		if(vm.isPass2 == 6){
         			vm.nextUsers = "";
         		}
-        		if(vm.nextUsers == "" && str == "next"){
+        		if(vm.nextUsers == "" && str == "next" && vm.model.shenBaoInfo.thisTaskName != 'usertask5'){
         			common.alert({
 						vm : vm,
 						msg : "请选择经办人后提交！",
