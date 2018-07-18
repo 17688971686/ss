@@ -316,6 +316,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 			shenBaoInfoDto.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
 			shenBaoInfoDto.setThisTaskId(null);
 			shenBaoInfoDto.setThisTaskName(null);
+			shenBaoInfoDto.setReceiver(null);
 			shenBaoInfoDto.setZong_processId(null);
 			shenBaoInfoDto.setProcessStage("未开始");
 			shenBaoInfoDto.setProcessState(BasicDataConfig.processState_weikaishi);
@@ -378,7 +379,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 		List<YearPlan> yearPlanList = yearPlanRepo.findByCriteria(criterion);
 		if(yearPlanList.size() > 0){
 			yearPlan = yearPlanList.get(0);
-		}
+		
 		// TODO 筛选出包含有本单位的编制
 		if(!yearPlan.getPackPlans().isEmpty()){
 			UserUnitInfoDto userUnitInfoDto1 = null;
@@ -427,7 +428,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 			pageModelDto.setValue(packPlanList);
 			return pageModelDto;
 		}
-		
+		}
 		return null;
 	}
 	
@@ -501,6 +502,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 			shenBaoInfoDto.setThisTaskId(null);
 			shenBaoInfoDto.setThisTaskName(null);
 			shenBaoInfoDto.setZong_processId(null);
+			shenbaoinfo.setReceiver(null);
 			ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.createShenBaoInfo(shenBaoInfoDto, false);
 			shenbaoinfo.setIsIncludPack(true);
 			shenBaoInfoRepo.save(shenbaoinfo);
@@ -851,16 +853,21 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 			for (int i = 0; i < entity.getShenBaoInfos().size(); i++) {
 				ShenBaoInfo array_element = entity.getShenBaoInfos().get(i);
 
-				Criterion criterion=Restrictions.eq(ShenBaoInfo_.projectId.getName(), array_element.getProjectId());
-				Criterion criterion2=Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach);
-				Criterion criterion3=Restrictions.and(criterion, criterion2);
-				List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion3);
-				shenbaoinfoList.get(0).setIsIncludPack(false);
+				
 				if(shenbaoId.equals(array_element.getId())){
 					entity.getShenBaoInfos().remove(i);
 				}
 			}
 		}
+		Criterion criterion=Restrictions.eq(ShenBaoInfo_.projectId.getName(), shenbaoinfo.getProjectId());
+		Criterion criterion2=Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_nextYearPlan);
+		Criterion criterion3=Restrictions.and(criterion, criterion2);
+		List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion3);
+		if(!shenbaoinfoList.isEmpty()){
+			shenbaoinfoList.get(0).setIsIncludPack(false);
+			shenBaoInfoRepo.save(shenbaoinfoList.get(0));
+		}
+		
 		shenBaoInfoRepo.delete(shenbaoinfo);
 		super.repository.save(entity);
 		logger.info(String.format("删除计划下达申请表,名称 :%s",entity.getApplicationName()));
@@ -914,17 +921,18 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 		for (int i = 0; i < plan.getShenBaoInfos().size(); i++) {
 			ShenBaoInfo array_element = plan.getShenBaoInfos().get(i);
 			
-			Criterion criterion=Restrictions.eq(ShenBaoInfo_.projectId.getName(), array_element.getProjectId());
-			Criterion criterion2=Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach);
-			Criterion criterion3=Restrictions.and(criterion, criterion2);
-			List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion3);
-			shenbaoinfoList.get(0).setIsIncludPack(false);
-			shenBaoInfoRepo.save(shenbaoinfoList.get(0));
 			if(shenbaoId.equals(array_element.getId())){
 				shenBaoInfoRepo.delete(shenBaoInfoRepo.findById(shenbaoId));
 				plan.getShenBaoInfos().remove(i);
 			}
 		}
+		ShenBaoInfo entity = shenBaoInfoRepo.findById(shenbaoId);
+		Criterion criterion=Restrictions.eq(ShenBaoInfo_.projectId.getName(), entity.getProjectId());
+		Criterion criterion2=Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_nextYearPlan);
+		Criterion criterion3=Restrictions.and(criterion, criterion2);
+		List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion3);
+		shenbaoinfoList.get(0).setIsIncludPack(false);
+		shenBaoInfoRepo.save(shenbaoinfoList.get(0));
 		packPlanRepo.save(plan);
 	}
 

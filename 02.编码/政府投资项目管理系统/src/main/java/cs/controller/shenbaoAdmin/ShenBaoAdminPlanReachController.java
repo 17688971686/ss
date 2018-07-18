@@ -185,7 +185,7 @@ public class ShenBaoAdminPlanReachController {
         planReachApplicationService.addShenBaoInfos(planReachId, ids);
     }
 
-    @RequestMapping(name = "计划下达申请中添加申报项目", path = "addShenBaoInfoToPack/{packId}", method = RequestMethod.POST)
+    @RequestMapping(name = "打包中添加申报项目", path = "addShenBaoInfoToPack/{packId}", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public void addShenBaoInfoToPack(@RequestBody String projectId, @PathVariable String packId) {
         String[] ids = projectId.split(",");

@@ -882,12 +882,12 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		List<String> useridList = new ArrayList<String>();
 
 		List<Role> findProjects = new ArrayList<>();
-		Criterion criterion = null;
+//		Criterion criterion = null;
 //		Criterion criterion2 = null;
-		if (shenBaoInfo.getThisTaskName().equals("usertask6")) {
-			criterion = Restrictions.eq(Role_.roleName.getName(), "办公室主任");
-			findProjects = roleRepo.findByCriteria(criterion);
-		}
+//		if (shenBaoInfo.getThisTaskName().equals("usertask6")) {
+//			criterion = Restrictions.eq(Role_.roleName.getName(), "办公室主任");
+//			findProjects = roleRepo.findByCriteria(criterion);
+//		}
 //		else if (((shenBaoInfo.getThisTaskName().equals("usertask1")
 //				|| shenBaoInfo.getThisTaskName().equals("usertask5")) && "1".equals(isPass))
 //				|| (shenBaoInfo.getThisTaskName().equals("usertask2")
