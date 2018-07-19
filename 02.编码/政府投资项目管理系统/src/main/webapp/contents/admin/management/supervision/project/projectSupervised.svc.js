@@ -9,7 +9,6 @@
         var url_project = "/management/supervision/project";//获取项目信息数据
         var url_project_shenbaoAdmin = "/shenbaoAdmin/project";
         var url_userUnit　= "/shenbaoAdmin/userUnitInfo";
-        var url_back = "#/supervision/tzxm";
         var service = {
             grid : grid,
             getDiagramViewerInfo:getDiagramViewerInfo,
@@ -72,7 +71,7 @@
                 {
                     field : "unitName",
                     title : "项目所属单位",
-                    width : 150,
+                    width : 200,
                     filterable:{
                         ui: function(element){
                             element.kendoDropDownList({
@@ -108,29 +107,25 @@
                 {
                     field : "projectClassify",
                     title : "项目分类",
-                    width : 150,
+                    width : 100,
                     template:function(item){
                         return common.getBasicDataDesc(item.projectClassify);
                     },
-                    filterable : false
-                },
-                {
-                    field : "isMonthReport",
-                    title : "是否月报",
-                    template : function(item) {
-                        if(item.isMonthReport){
-                            return "是";
-                        }else if(!item.isMonthReport){
-                            return "否";
+                    filterable : {
+                        ui: function(element){
+                            element.kendoDropDownList({
+                                valuePrimitive: true,
+                                dataSource: common.getBasicData(),
+                                dataTextField: "description",
+                                dataValueField: "id"
+                            });
                         }
-                    },
-                    width : 150,
-                    filterable : true
+                    }
                 },
                 {
                     field : "",
                     title : "操作",
-                    width : 250,
+                    width : 100,
                     template : function(item) {
                         return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,"vm.getDiagramViewerInfo('" + item.monitor_processId + "','"+ item.id +"')","vm.isMonthReport('" +item.id+ "','"+item.isMonthReport+"')");
                     }

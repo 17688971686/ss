@@ -152,23 +152,23 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="formAlignRight">项目名称：</td>
+				<td class="formAlignRight" style="width:150px">项目名称：</td>
 				<td style="width:25%"><input type="text" style="width:360px;" placeholder="请输入项目名称（可少输不可输错）" ng-model="vm.search.projectName"/></td>
-				<td class="formAlignRight">项目阶段：</td>
+				<td class="formAlignRight" style="width:200px">项目阶段：</td>
 				<td>
 					<select style="height:30px;" ng-model="vm.search.projectStage">
 						<option value="">---请选择---</option>
 						<option ng-repeat="x in vm.basicData.projectStage" value="{{x.id}}">{{x.description}}</option>
 					</select>
 				</td>
-				<td class="formAlignRight">是否需要填写月报：</td>
+				<!-- <td class="formAlignRight">是否需要填写月报：</td>
 				<td>
 					<select style="height:30px;" ng-model="vm.search.isMonthReport">
 						<option value="">---请选择---</option>
 						<option value="true">是</option>
 						<option value="false">否</option>
 					</select> 
-				</td>
+				</td> -->
 			</tr>
 			<!-- <tr>
                 <td class="formAlignRight">项目所属单位：</td>

@@ -36,7 +36,7 @@
             //	alert(1);
             //用于查询、编辑、新增--基础数据
             vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
-            vm.basicData.userUnit=common.getUserUnits();
+            vm.basicData.userUnit=common.getUserUnits().value;
             vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类型
             vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别
             vm.basicData.investmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);//项目投资类型
@@ -99,16 +99,11 @@
                 if(vm.search.projectStage !=null && vm.search.projectStage !=''){//查询条件--项目阶段
                     filters.push({field:'projectStage',operator:'eq',value:vm.search.projectStage});
                 }
+                
+                filters.push({field:'projectInvestmentType',operator:'eq',value:common.basicDataConfig().projectInvestmentType_ZF});
+                
+                filters.push({field:'projectShenBaoStage',operator:'eq',value:"projectShenBaoStage_1"});
 
-                if(vm.search.isMonthReport !=null && vm.search.isMonthReport !=''){
-                    if(vm.search.isMonthReport == "true"){
-                        filters.push({field:'isMonthReport',operator:'eq',value:true});
-                    }else if(vm.search.isMonthReport == "false"){
-                        filters.push({field:'isMonthReport',operator:'eq',value:false});
-                    }
-                }
-                
-                
                 vm.gridOptions.dataSource.filter(filters);
             };
 
