@@ -1,0 +1,30 @@
+﻿<meta charset="UTF-8">
+
+<div class="modal fade" id="myModal_shenBao" tabindex="-1" role="dialog"> 
+	<div class="modal-dialog" style="width: 800px"> 
+		<div class="modal-content">
+			<div class="modal-header bg-primary"> 
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button> 
+				<h4 class="modal-title" id="myModalLabel">{{vm.name}}（申报材料）</h4> 
+			</div> 
+			<div class="modal-body">
+				<table class="table table-bordered table-striped">
+					<tr>
+						<td>申报材料上传</td>
+						<td>
+					        <input type="file" name="files" id="shenBaoFiles"/>
+					        <div style="margin:3px;" ng-repeat="x in vm.shenBaoAtts">
+				 			<a href="/contents/upload/{{x.url}}" target="_blank" ng-bind="x.name"></a>
+							<button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenBao($index)">删除</button>
+			 			</div>
+						</td>
+					</tr>
+				</table>
+			</div> 
+			<div class="modal-footer"> 
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> 	
+				<button type="button" class="btn btn-success" ng-click="vm.subShenBaoAtts()">确认</button> 					
+			</div> 
+		</div><!-- /.modal-content -->
+	</div>  
+</div>

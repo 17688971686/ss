@@ -41,12 +41,31 @@
         getRoles:getRoles,//获取所有的角色
         getRoleName:getRoleName,//获取角色名称
         getUserById:getUserById,
-        getProcessStateDesc:getProcessStateDesc//获取审批状态
+        getProcessStateDesc:getProcessStateDesc,//获取审批状态
+        uploadConfig : uploadConfig
 
     };
 
     window.common = service;
 
+    function uploadConfig(id,successMethod){
+    	$('#' + id).uploadify({
+            uploader: '/common/save',
+            swf: "/contents/libs/uploadify/uploadify.swf",
+            method: 'post',
+            multi: true,
+            auto: true,//自动上传
+            fileObjName: 'files',// 上传参数名称
+            fileSizeLimit: "1024MB",//上传文件大小限制
+            buttonText: '选择文档',
+            fileExt: '*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps',
+            fileTypeExts: '*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps',
+            fileTypeDesc: "请选择*.pdf;*.txt;*.png;*.jpg;*.doc;*.docx;*.wps",     // 文件说明
+            removeCompleted: true,   //设置已完成上传的文件是否从队列中移除，默认为true
+            onUploadSuccess: successMethod
+        });
+    }
+    
     function getLoginUser(){
     	var data = "";
     	if(window.global_User){ 

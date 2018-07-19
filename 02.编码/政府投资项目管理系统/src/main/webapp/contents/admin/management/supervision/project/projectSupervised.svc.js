@@ -63,7 +63,6 @@
                     title : "项目名称",
                     width : 250,
                     template:function(item){
-                    	debugger
                         return common.format("<a href='#/projectDetails/{0}/{1}'>{2}</a>",item.projectId,item.projectInvestmentType,item.projectName);
                     },
                     filterable : true

@@ -1,0 +1,43 @@
+﻿<meta charset="UTF-8">
+
+<div class="modal fade" id="myModal_shenPi" tabindex="-1" role="dialog"> 
+	<div class="modal-dialog" style="width: 800px"> 
+		<div class="modal-content">
+			<div class="modal-header bg-primary"> 
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button> 
+				<h4 class="modal-title" id="myModalLabel">{{vm.name}}（审批单位审批）</h4> 
+			</div> 
+			<div class="modal-body">
+				<form id="form" name="form">
+					<table class="table table-bordered table-striped">
+						<tr>
+							<td>审批内容</td>
+							<td>
+								<textarea class="form-control" id="shenPiContent" name="shenPiContent"  maxlength="500" rows="3"
+								ng-model="vm.shenPiContent" data-val="true" data-val-required="必填" placeholder="注：500字符以内"
+								ng-change="vm.checkLength(vm.shenPiContent,500,'shenPiContentTips')">
+								</textarea>
+								<span data-valmsg-for="shenPiContent" data-valmsg-replace="true" class="required"></span>
+								<div class="tipfont">您还可以输入<span id="shenPiContentTips"><font size="5">500</font></span>个字符!</div>
+							</td>
+						</tr>
+						<tr>
+							<td>审批材料上传</td>
+							<td>
+						        <input type="file" name="files" id="shenPiFiles"/>
+						        <div style="margin:3px;" ng-repeat="x in vm.shenPiAtts">
+					 			<a href="/contents/upload/{{x.url}}" target="_blank" ng-bind="x.name"></a>
+								<button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenPi($index)">删除</button>
+				 			</div>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div> 
+			<div class="modal-footer"> 
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> 	
+				<button type="button" class="btn btn-success" ng-click="vm.subShenPi()">确认</button> 					
+			</div> 
+		</div><!-- /.modal-content -->
+	</div>  
+</div>

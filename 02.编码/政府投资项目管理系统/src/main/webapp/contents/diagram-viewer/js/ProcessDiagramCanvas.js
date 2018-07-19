@@ -163,7 +163,7 @@ ProcessDiagramCanvas.prototype = {
 		h.style.width = this.canvasWidth;
 		h.style.height = this.canvasHeight;
 		
-		this.g = Raphael(11,45,1458,1623);
+		this.g = Raphael(6,34,1445,1610);
 		this.g.clear();
 	
 		//this.setPaint(Color.DimGrey);
