@@ -201,7 +201,7 @@
 					}
 						vm.projectIndustryChange();
 				}
-				if(vm.page == 'projectInfo'){
+				if(vm.page == 'details'){
 					if(vm.model.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
 			 			  vm.isZFInvestment = true;
 			 			 //相关附件文件上传文件种类
