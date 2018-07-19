@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.common.ICurrentUser;
-import cs.domain.UserUnitInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.MonthReportDto;
 import cs.model.DomainDto.ProjectDto;
@@ -33,15 +32,17 @@ import cs.service.interfaces.MonthReportService;
 import cs.service.interfaces.ProjectService;
 import cs.service.interfaces.UserUnitInfoService;
 
-
+/**
+ * @date 2018/07/18
+ * @authz wcq
+ */
 @Controller
 @RequestMapping(name = "申报端--月报管理", path = "shenbaoAdmin/projectMonthReport")
 public class ShenBaoAdminProjectMonthReportController {
-	//依赖注入服务层
 	@Autowired
 	private MonthReportService monthReportService;
 	@Autowired
-	private ProjectService ProjectService;
+	private ProjectService projectService;
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
 	@Autowired
@@ -53,7 +54,6 @@ public class ShenBaoAdminProjectMonthReportController {
 	@RequestMapping(name = "获取单位项目月报信息", path = "unitProject",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> getUnitProject(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
-//		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
 		//根据登陆名查找到单位信息
 				UserUnitInfoDto userUnitInfoDto1 = null;
 				List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
@@ -80,7 +80,7 @@ public class ShenBaoAdminProjectMonthReportController {
 			filterItem.setValue("noId");
 			odataObj.getFilter().add(filterItem);
 		}
-		PageModelDto<ProjectDto> projectDtos = ProjectService.get(odataObj);
+		PageModelDto<ProjectDto> projectDtos = projectService.get(odataObj);
 		return projectDtos;
 	}
 	
@@ -98,8 +98,10 @@ public class ShenBaoAdminProjectMonthReportController {
 	public void saveMonthReport(@RequestBody MonthReportDto monthReportDto){
 		monthReportService.saveMonthReport(monthReportDto);
 	}
-	
-	//begin#html	
+
+	/**
+	 * begin#html
+	 */
 	@RequiresPermissions("shenbaoAdmin/projectMonthReport#html/list#get")
 	@RequestMapping(name = "项目列表页", path = "html/list",method=RequestMethod.GET)
 	public String index() {
@@ -125,13 +127,6 @@ public class ShenBaoAdminProjectMonthReportController {
 		
 		return this.ctrlName + "/fillInfo";
 	}
-	
-//	@RequiresPermissions("shenbaoAdmin/projectMonthReport#html/projectInfo#get")
-//	@RequestMapping(name = "项目信息页面", path = "html/projectInfo",method=RequestMethod.GET)
-//	public String projectInfo()  {
-//		
-//		return this.ctrlName + "/projectInfo";
-//	}
 	
 	@RequiresPermissions("shenbaoAdmin/projectMonthReport#html/details#get")
 	@RequestMapping(name = "月报信息页面", path = "html/details",method=RequestMethod.GET)

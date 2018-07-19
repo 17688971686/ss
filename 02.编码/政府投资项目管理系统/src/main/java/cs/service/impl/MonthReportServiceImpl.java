@@ -34,7 +34,6 @@ import cs.service.interfaces.MonthReportService;
 @Service
 public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, MonthReport, String> implements MonthReportService {
 	private static Logger logger = Logger.getLogger(UserServiceImpl.class);
-	// 依赖注入持久层
 	@Autowired
 	private  IRepository<MonthReport, String> monthReportRepo;
 	@Autowired

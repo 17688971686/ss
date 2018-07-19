@@ -41,7 +41,6 @@ public class ShenBaoAdminTaskController {
 		return taskHeadDtos;
 	}
 				
-	//begin#html
 	@RequiresPermissions("shenbaoAdmin/task#html/list#get")
 	@RequestMapping(name = "列表页", path = "html/list",method=RequestMethod.GET)
 	public String list() {

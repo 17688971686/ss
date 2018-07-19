@@ -707,12 +707,12 @@
 					}
 				},
 				{
-					field : "isIncludYearPlan",
-					title : "是否纳入年度计划",
+					field : "isIncludPack",
+					title : "是否加入打包计划",
 					width : 150,
 					filterable : true,
 					template:function(item){
-						if(item.isIncludYearPlan){
+						if(item.isIncludPack){
 							return "是";
 						}else{
 							return "否";

@@ -1065,7 +1065,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setProcessStage("已退文");
 			shenBaoInfo.setEndDate(new Date());
 			// 退文时，撤销当前流程
-			runtimeService.deleteProcessInstance(shenBaoInfo.getZong_processId(), "已退文");
+//			runtimeService.deleteProcessInstance(shenBaoInfo.getZong_processId(), "已退文");
 		} else {
 
 			shenBaoInfo.setThisTaskName(tasknew.get(0).getTaskDefinitionKey());

@@ -169,7 +169,6 @@ public class ShenBaoAdminShenBaoController {
 		ProjectService.update(dto, id);
 	}*/
 		
-	//begin#html
 	@RequiresPermissions("shenbaoAdmin/shenbao#html/list#get")
 	@RequestMapping(name = "项目列表页面", path = "html/list",method=RequestMethod.GET)
 	public String list() {

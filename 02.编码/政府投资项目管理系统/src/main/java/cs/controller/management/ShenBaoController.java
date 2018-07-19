@@ -27,7 +27,7 @@ public class ShenBaoController {
 	@Autowired
 	private ShenBaoInfoService shenBaoInfoService;
 	
-	@RequiresPermissions("management/shenbao##get")
+//	@RequiresPermissions("management/shenbao##get")
 	@RequestMapping(name = "获取申报数据", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);

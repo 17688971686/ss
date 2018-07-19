@@ -53,7 +53,6 @@ public class ShenBaoAdminPlanReachController {
     @Autowired
     private PlanReachApplicationService planReachApplicationService;
 
-    //获取本单位计划下达申请列表数据
     //@RequiresPermissions("shenbaoAdmin/planReach##get")
     @RequestMapping(name = "获取计划下达申请信息", path = "", method = RequestMethod.GET)
     public @ResponseBody
@@ -134,8 +133,8 @@ public class ShenBaoAdminPlanReachController {
         filterItem.setValue(unit.getId());
         odataObj.getFilter().add(filterItem);
 
-        PageModelDto<ProjectDto> ProjectDtos = projectService.get(odataObj);
-        return ProjectDtos;
+        PageModelDto<ProjectDto> projectDtos = projectService.get(odataObj);
+        return projectDtos;
     }
 
     @RequiresPermissions("shenbaoAdmin/planReach#hasInclud#get")

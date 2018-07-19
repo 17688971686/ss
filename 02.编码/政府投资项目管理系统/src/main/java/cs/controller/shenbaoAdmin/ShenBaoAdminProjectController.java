@@ -36,7 +36,7 @@ public class ShenBaoAdminProjectController {
 	private String ctrlName = "shenbaoAdmin/project";
 	
 	@Autowired
-	private ProjectService ProjectService;
+	private ProjectService projectService;
 	@Autowired
 	ICurrentUser currentUser;
 	@Autowired
@@ -49,7 +49,7 @@ public class ShenBaoAdminProjectController {
 			return null;
 		};
 		ODataObj odataObj = new ODataObj(request);
-		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);
+		PageModelDto<ProjectDto> ProjectDtos = projectService.get(odataObj);
 		return ProjectDtos;
 	}
 	
@@ -70,20 +70,25 @@ public class ShenBaoAdminProjectController {
 			
 				
 		}
-//		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
 		ODataObj odataObj = new ODataObj(request);
 		//初始化设置过滤条件
-		Boolean isFilters = false;//是否有额外的筛选条件
-		Boolean hasUnitFilter = false;//是否有单位过滤
-		Boolean isUnitFilter = false;//筛选条件是否包含有本单位
-		if(odataObj.getFilter().size()>1){//默认的筛选条件为查询最新版本，如果有额外的条件
+		//是否有额外的筛选条件
+		Boolean isFilters = false;
+		//是否有单位过滤
+		Boolean hasUnitFilter = false;
+		//筛选条件是否包含有本单位
+		Boolean isUnitFilter = false;
+		//默认的筛选条件为查询最新版本，如果有额外的条件
+		if(odataObj.getFilter().size()>1){
 			isFilters = true;
 			//判断筛选条件中是否包含单位筛选，且筛选单位为本单位
 			for(int i=0;i<odataObj.getFilter().size();i++){
-				if(odataObj.getFilter().get(i).getField().equals("unitName")){//如果过滤条件中有项目所属单位过滤
+				//如果过滤条件中有项目所属单位过滤
+				if("unitName".equals(odataObj.getFilter().get(i).getField())){
 					hasUnitFilter = true;
 					if(userUnitInfoDto1 != null){
-						if(odataObj.getFilter().get(i).getValue().equals(userUnitInfoDto1.getId())){//如果查询的是本单位的话
+						//如果查询的是本单位的话
+						if(odataObj.getFilter().get(i).getValue().equals(userUnitInfoDto1.getId())){
 							isUnitFilter =true;
 							break;
 						}
@@ -92,14 +97,15 @@ public class ShenBaoAdminProjectController {
 				}
 			}
 		}
-		if(!isFilters || !hasUnitFilter){//如果没有额外的筛选或者没有单位筛选条件，即为初始化条件：查询查询本单位未纳入项目库的项目
+		//如果没有额外的筛选或者没有单位筛选条件，即为初始化条件：查询查询本单位未纳入项目库的项目
+		if(!isFilters || !hasUnitFilter){
 			ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
 			filterItem.setField("unitName");
 			filterItem.setOperator("eq");
 			filterItem.setValue(userUnitInfoDto1.getId());
 			odataObj.getFilter().add(filterItem);
 		}
-		PageModelDto<ProjectDto> ProjectDtos = ProjectService.getUnitAndAll(odataObj,isFilters,hasUnitFilter,isUnitFilter);
+		PageModelDto<ProjectDto> ProjectDtos = projectService.getUnitAndAll(odataObj,isFilters,hasUnitFilter,isUnitFilter);
 		return ProjectDtos;
 	}
 	
@@ -107,42 +113,48 @@ public class ShenBaoAdminProjectController {
 	@RequestMapping(name = "创建单位项目信息", path = "unitProject",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void createUnitProject(@RequestBody ProjectDto ProjectDto){		
-		ProjectService.create(ProjectDto);		
+		projectService.create(ProjectDto);
 	}
 	
 	@RequiresPermissions("shenbaoAdmin/project#updateUnitProject#post")
 	@RequestMapping(name = "更新单位项目信息", path = "updateUnitProject",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void updateUnitProject(@RequestBody ProjectDto ProjectDto){
-		Project entity = ProjectService.findById(ProjectDto.getId());	
-		if(entity.getProjectStage().equals(ProjectDto.getProjectStage())){//项目阶段没有发生变化
-			ProjectService.update(ProjectDto,ProjectDto.getId());
-		}else{//项目阶段发生变化
+	public void updateUnitProject(@RequestBody ProjectDto projectDto){
+		Project entity = projectService.findById(projectDto.getId());
+		//项目阶段没有发生变化
+		if(entity.getProjectStage().equals(projectDto.getProjectStage())){
+			projectService.update(projectDto,projectDto.getId());
+		}else{
+			//项目阶段发生变化
 			//根据number查询
-			List<ProjectDto> ProjectDtosForNumber = ProjectService.getProjectByNumber(ProjectDto.getProjectNumber());
+			List<ProjectDto> projectDtosForNumber = projectService.getProjectByNumber(projectDto.getProjectNumber());
 			
 			Map<String,ProjectDto> map = new HashMap<String,ProjectDto>();
-			ProjectDtosForNumber.stream().forEach(x->{
+			projectDtosForNumber.stream().forEach(x->{
 				map.put(x.getProjectStage(),x);				
 			});
 			//遍历map
 			Boolean hasProject = false;
 			Iterator<Map.Entry<String, ProjectDto>> it = map.entrySet().iterator();
 			while(it.hasNext()){
-				Map.Entry<String, ProjectDto> entry = it.next();  
-	            if(ProjectDto.getProjectStage().equals(entry.getKey())){//如果之前就存在更改后的阶段
+				Map.Entry<String, ProjectDto> entry = it.next();
+				//如果之前就存在更改后的阶段
+	            if(projectDto.getProjectStage().equals(entry.getKey())){
 	            	hasProject = true;
-	            	ProjectDto.setIsLatestVersion(entry.getValue().getIsLatestVersion());
-	            	ProjectDto.setIsMonthReport(entry.getValue().getIsMonthReport());
-	            	ProjectService.update(ProjectDto, entry.getValue().getId());//更新之前的数据
+	            	projectDto.setIsLatestVersion(entry.getValue().getIsLatestVersion());
+	            	projectDto.setIsMonthReport(entry.getValue().getIsMonthReport());
+					//更新之前的数据
+	            	projectService.update(projectDto, entry.getValue().getId());
 	            }
 			}
 			//如果之前不存在更改后的阶段
 			if(!hasProject){
 				//默认新增的项目为不填写月报
-				ProjectDto.setIsMonthReport(false);
-				ProjectService.create(ProjectDto);//创建一条新数据
-            	ProjectService.updateVersion(ProjectDto.getId(), false);//更新本条数据的版本            	
+				projectDto.setIsMonthReport(false);
+				//创建一条新数据
+				projectService.create(projectDto);
+				//更新本条数据的版本
+            	projectService.updateVersion(projectDto.getId(), false);
 			}
 		}
 
@@ -155,10 +167,10 @@ public class ShenBaoAdminProjectController {
 		String[] ids = id.split(",");
 		if(ids.length>1){
 			for(String idstr:ids){
-				ProjectService.delete(idstr);	
+				projectService.delete(idstr);
 			}
 		}else{
-			ProjectService.delete(id);
+			projectService.delete(id);
 		}
 	}
 	
