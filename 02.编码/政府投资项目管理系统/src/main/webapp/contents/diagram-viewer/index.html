@@ -81,7 +81,7 @@
             on: {
                 complete: function () {
                     console.log("Progress Bar COMPLETE");
-                    this.set('label', 'complete!');
+                    this.set('label', '');
                     if (processInstanceId) {
                         ProcessDiagramGenerator.drawHighLights(processInstanceId);
                     }

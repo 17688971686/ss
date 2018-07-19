@@ -29,6 +29,7 @@ import cs.service.interfaces.ProjectService;
 @RequestMapping(name="后台管理--项目管理",path="management/project")
 public class ProjectController {
 	private String ctrlName = "management/project";
+	private String ctrlName2 = "management/supervision/project";
 	
 	@Autowired
 	private ProjectService ProjectService;
@@ -177,7 +178,7 @@ public class ProjectController {
 	@RequiresPermissions("management/project#html/details#get")
 	@RequestMapping(name = "详情页", path = "html/details",method=RequestMethod.GET)
 	public String details() {
-		return this.ctrlName + "/details";
+		return this.ctrlName2 + "/projectInfo";
 	}
 	
 	@RequiresPermissions("management/project#html/list_SH#get")

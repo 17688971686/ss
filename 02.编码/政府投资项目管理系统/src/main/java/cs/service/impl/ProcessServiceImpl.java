@@ -986,6 +986,9 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				// activitiService.claimTask(monitorTask.getId(),
 				// currentUser.getUserId());
 				activitiService.taskComplete(monitorTask.getId());
+			}else if(shenBaoInfo.getThisTaskName().equals("usertask16") && StringUtil.isNoneBlank(shenBaoInfo.getMonitor_processId())
+					&& ObjectUtils.isNoneEmpty(monitorTask)) {
+				activitiService.taskComplete(monitorTask.getId());
 			}
 		}
 

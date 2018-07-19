@@ -158,37 +158,6 @@
 	            controller: 'projectCtrl',
 	            controllerAs: 'vm'
 	        })
-	        .state('task_todo_feedback', {
-	            url: '/task/todo_feedback',
-	            templateUrl: '/management/supervision/task/html/todo_feedback',
-	            controller: 'taskFeedbackCtrl',
-	            controllerAs: 'vm'
-	        })
-	        .state('task_complete_feedback', {
-	            url: '/task/complete_feedback',
-	            templateUrl: '/management/supervision/task/html/complete_feedback',
-	            controller: 'taskFeedbackCtrl',
-	            controllerAs: 'vm'
-	        })
-	        .state('handle_feedback', {
-	            url: '/task/handle_feedback/:processInstanceId/:shenbaoInfoId/:projectId',
-	            templateUrl: '/management/supervision/task/html/handle_feedback',
-	            controller: 'handleFeedbackCtrl',
-	            controllerAs: 'vm'
-	        })
-	        .state('handle_details_feedback', {
-	            url: '/task/handle_details_feedback/:processInstanceId/:shenbaoInfoId/:projectId',
-	            templateUrl: '/management/supervision/task/html/handle_details_feedback',
-	            controller: 'handleDetailsFeedbackCtrl',
-	            controllerAs: 'vm'
-	        })
-	        //编辑页
-	        .state('projectEdit', {
-	            url: '/projectEdit/:id/:projectInvestmentType',
-	            templateUrl: '/management/supervision/project/html/edit.html',
-	            controller: 'projectCtrl',
-	            controllerAs: 'vm'
-	        }) 
 	        //详情页
 	        .state('projectDetails', {
 	            url: '/projectDetails/:id/:projectInvestmentType',

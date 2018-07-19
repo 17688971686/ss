@@ -13,7 +13,6 @@ import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.task.Comment;
-import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -25,12 +24,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.sn.framework.common.StringUtil;
 
-import cs.common.ICurrentUser;
 import cs.domain.Attachment;
 import cs.domain.framework.User;
-import cs.model.PageModelDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
-import cs.repository.odata.ODataObjNew;
 import cs.service.framework.UserService;
 import cs.service.interfaces.ProcessService;
 import cs.service.interfaces.ShenBaoInfoService;
@@ -42,8 +38,8 @@ public class FeedbackTaskController {
 	ProcessService processService;
 	@Autowired
 	TaskService taskService;
-	@Autowired
-	private ICurrentUser currentUser;
+	/*@Autowired
+	private ICurrentUser currentUser;*/
 	@Autowired
     private ProcessEngine processEngine;
 	@Autowired
@@ -51,29 +47,7 @@ public class FeedbackTaskController {
 	@Autowired
     private ShenBaoInfoService shenBaoInfoService;
 	
-	private String ctrl = "management/supervision/task";
-
-	@RequestMapping(name = "待办列表页", path = "html/todo_feedback", method = RequestMethod.GET)
-	public String todo() {
-		return ctrl + "/todo";
-	}
-	
-	@RequestMapping(name = "已办列表页", path = "html/complete_feedback", method = RequestMethod.GET)
-	public String complete() {
-		return ctrl + "/complete";
-	}
-	
-	@RequestMapping(name = "反馈填报界面", path = "html/handle_feedback", method = RequestMethod.GET)
-	public String handle() {
-		return ctrl + "/handle";
-	}
-	
-	@RequestMapping(name = "反馈详情界面", path = "html/handle_details_feedback", method = RequestMethod.GET)
-	public String handleDetails() {
-		return ctrl + "/handleDetails";
-	}
-	
-	@RequestMapping(name = "获取反馈类个人待办数据", path = "todo_feedback", method = RequestMethod.GET)
+	/*@RequestMapping(name = "获取反馈类个人待办数据", path = "todo_feedback", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getToDo_feedback(HttpServletRequest request) throws ParseException {
 		ODataObjNew odataObj = new ODataObjNew(request);	
 		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getTodoTask_feedback(odataObj);
@@ -87,7 +61,7 @@ public class FeedbackTaskController {
 		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = processService.getComplete_feedback(odataObj);
 		//关于流程记录根据创建用户id查找到名称用于显示
 		return shenBaoInfoDtos;
-	}
+	}*/
 	
 	@RequestMapping(name = "反馈", path = "feedback",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
@@ -101,7 +75,7 @@ public class FeedbackTaskController {
 		processService.subShenBaoAtts(data);
 	}
 	
-	@RequestMapping(name = "获取当前任务key值", path = "getCurrentTaskKey",method=RequestMethod.GET)
+	/*@RequestMapping(name = "获取当前任务key值", path = "getCurrentTaskKey",method=RequestMethod.GET)
 	public @ResponseBody String getCurrentTaskKey(HttpServletRequest request){
 		String processInstanceId = request.getParameter("processInstanceId");
 		
@@ -112,7 +86,7 @@ public class FeedbackTaskController {
 		String taskKey = tasks.get(0).getTaskDefinitionKey();
 		
 		return taskKey;
-	}
+	}*/
 	
 	@SuppressWarnings("deprecation")
 	@RequestMapping(name = "查询当前流程中反馈的所有记录", path = "getFeedbackComments", method = RequestMethod.GET)
