@@ -117,6 +117,8 @@ public class ProcessInstanceHighlightsResource {
 					if(StringUtil.isNoneBlank(isSubShenBaoAtt)) {
 						objectNode.put("isSubShenBaoAtt", isSubShenBaoAtt);
 					}
+				}else {
+					objectNode.put("isSubShenBaoAtt", false);
 				}
 				
 				activitiesArray.add(objectNode);

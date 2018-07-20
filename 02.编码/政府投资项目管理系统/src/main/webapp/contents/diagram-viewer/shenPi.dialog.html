@@ -10,6 +10,24 @@
 			<div class="modal-body">
 				<form id="form" name="form">
 					<table class="table table-bordered table-striped">
+						<tr ng-if="!vm.isSubShenBaoAtt">
+							<td>申报材料上传</td>
+							<td>
+						        <input type="file" name="files" id="shenBaoFiles_shenpi"/>
+						        <div style="margin:3px;" ng-repeat="x in vm.shenBaoAtts">
+						 			<a href="/contents/upload/{{x.url}}" target="_blank" ng-bind="x.name"></a>
+									<button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenBao($index)">删除</button>
+				 				</div>
+							</td>
+						</tr>
+						<tr ng-if="vm.isSubShenBaoAtt">
+							<td>申报材料</td>
+							<td>
+						        <div style="margin:3px;" ng-repeat="x in vm.allAtts">
+						 			<a href="/contents/upload/{{x.url}}" target="_blank" ng-bind="x.name" ng-if="x.businessType == 'shenBao'"></a>
+				 				</div>
+							</td>
+						</tr>
 						<tr>
 							<td>审批内容</td>
 							<td>
@@ -36,7 +54,7 @@
 			</div> 
 			<div class="modal-footer"> 
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> 	
-				<button type="button" class="btn btn-success" ng-click="vm.subShenPi()">确认</button> 					
+				<button type="button" class="btn btn-success" ng-click="vm.subShenPi(vm.isSubShenBaoAtt)">确认</button> 					
 			</div> 
 		</div><!-- /.modal-content -->
 	</div>  

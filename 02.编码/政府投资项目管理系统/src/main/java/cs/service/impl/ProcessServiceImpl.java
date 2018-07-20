@@ -14,7 +14,6 @@ import cs.domain.*;
 import cs.domain.framework.Org;
 import cs.domain.framework.Org_;
 import cs.domain.framework.Role;
-import cs.domain.framework.Role_;
 import cs.domain.framework.User;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
@@ -25,7 +24,6 @@ import cs.model.SendMsg;
 import cs.model.framework.OrgDto;
 import cs.model.framework.UserDto;
 import cs.repository.framework.OrgRepo;
-import cs.repository.framework.RoleRepo;
 import cs.repository.framework.UserRepo;
 import cs.repository.impl.ShenBaoInfoRepoImpl;
 import cs.repository.interfaces.IRepository;
@@ -95,8 +93,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	private ActivitiService activitiService;
 	@Autowired
 	private OrgRepo orgRepo;
-	@Autowired
-	private RoleRepo roleRepo;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -1162,7 +1158,11 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
         String shenBaoInfoId = (String) data.get("shenBaoInfoId");
         String msg = (String) data.get("msg");
         String taskId = (String) data.get("taskId");
-        List<Attachment> att = (List<Attachment>) data.get("att");//附件
+        List<Attachment> shenPiAtts = (List<Attachment>) data.get("shenPiAtts");//审批附件
+        List<Attachment> shenBaoAtts = (List<Attachment>) data.get("shenBaoAtts");//申报附件
+        if(!CollectionUtils.isEmpty(shenBaoAtts)) {
+        	shenPiAtts.addAll(shenBaoAtts);
+        }
         
         ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenBaoInfoId);
         Project project = projectRepo.findById(shenBaoInfo.getProjectId());
@@ -1178,9 +1178,9 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		Map<String, Object> map = new HashMap<String, Object>();
 
         //如果有附件
-        if (att != null) {
-            for (int i = 0; i < att.toArray().length; i++) {
-                map = gson.fromJson(att.toArray()[i].toString(), map.getClass());
+        if (shenPiAtts != null) {
+            for (int i = 0; i < shenPiAtts.toArray().length; i++) {
+                map = gson.fromJson(shenPiAtts.toArray()[i].toString(), map.getClass());
                 Attachment newatt = new Attachment();	
                 newatt.setId(UUID.randomUUID().toString());
                 newatt.setName(map.get("name").toString());
@@ -1259,7 +1259,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			}
 		}
 
-		processEngine.getTaskService().setVariableLocal(taskId, "isSubShenBaoAtt", "true");
+		processEngine.getTaskService().setVariableLocal(taskId, "isSubShenBaoAtt", true);
 
 	}
 

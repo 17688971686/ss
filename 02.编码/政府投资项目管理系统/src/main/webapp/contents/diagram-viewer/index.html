@@ -137,23 +137,18 @@
 	                    }else{
 	                    	debugger
 	                    	if(roleType && 'approvalUnit' == roleType && authorityForCurTask == 'true' && taskId){
-	                    		if(isSubShenBaoAtt == 'true'){
-	                    			$scope.vm.setShenPiconfig(taskKey);
+                    			$scope.vm.setShenPiconfig(taskKey,isSubShenBaoAtt,shenBaoInfoId,taskId);
+	                    		
+	                    	}else if(roleType && 'constructionUnit' == roleType && authorityForCurTask == 'true' && taskId 
+	                    			&& taskKey != 'usertask26' && taskKey != 'usertask4' && taskKey != 'usertask18'){
+	                    		if(isSubShenBaoAtt){
+	                    			common.alert({
+	                        			vm : $scope.vm,
+	                					msg : "您已上传申报材料"
+	                        		})
 	                    		}else{
-                        			common.alert({
-                            			vm : $scope.vm,
-                    					msg : "建设单位还未提交申报材料"
-                            		})
+	                    			$scope.vm.setShenBaoconfig(taskKey);
 	                    		}
-	                    		
-	                    	}else if(roleType && 'constructionUnit' == roleType && authorityForCurTask == 'true' && taskId && typeof(isSubShenBaoAtt) == "undefined" && taskKey != 'usertask26' && taskKey != 'usertask4' && taskKey != 'usertask18'){
-	                    		$scope.vm.setShenBaoconfig(taskKey);
-	                    		
-	                    	}else if(roleType && 'constructionUnit' == roleType && authorityForCurTask == 'true' && taskId && isSubShenBaoAtt == "true"){
-                    			common.alert({
-                        			vm : $scope.vm,
-                					msg : "您已上传申报材料"
-                        		})
 	                    		
 	                    	}else if(taskId){
                     			common.alert({
@@ -205,7 +200,16 @@
             var vm = this;
             var url_taskFeedback = "/management/supervision/task";
             
-            vm.setShenPiconfig = function(taskKey){
+            //设置审批模态框 begin
+            vm.setShenPiconfig = function(taskKey,isSubShenBaoAtt,shenBaoInfoId,taskId){
+				vm.isSubShenBaoAtt = isSubShenBaoAtt;            	
+            	
+				if(vm.isSubShenBaoAtt){
+					vm.getAllAtts(shenBaoInfoId,taskId,taskKey);
+				}else{
+					setShenBaoUpload("shenBaoFiles_shenpi",taskKey);
+				}
+				
             	common.uploadConfig('shenPiFiles',function (file, data, response) {
            			angular.forEach(eval("("+data+")").data, function (fileObj, index) {
                         $scope.$apply(function() {
@@ -228,7 +232,6 @@
                     })
              	});
             	
-        		//删除上传文件
        			vm.delFile_shenPi=function(idx){
            			var file = $scope.vm.shenPiAtts[idx];
            			if(file){
@@ -242,9 +245,18 @@
            	    
            	 	$('#myModal_shenPi').modal('show');
             }
+          	//设置审批模态框 end
             
+          	//设置申报模态框 begin
             vm.setShenBaoconfig = function(taskKey){
-            	common.uploadConfig('shenBaoFiles',function (file, data, response) {
+            	setShenBaoUpload("shenBaoFiles",taskKey);
+        		
+        		$('#myModal_shenBao').modal('show');
+            }
+            //设置申报模态框 end
+            
+            function setShenBaoUpload(id,taskKey){
+            	common.uploadConfig(id,function (file, data, response) {
             		angular.forEach(eval("("+data+")").data, function (fileObj, index) {
                         $scope.$apply(function() {
                             if(vm.shenBaoAtts){
@@ -273,8 +285,6 @@
            				vm.shenBaoAtts.splice(idx,1);
            			}
            	    };  	
-        		
-        		$('#myModal_shenBao').modal('show');
             }
             
             vm.subShenBaoAtts = function(){
@@ -285,10 +295,10 @@
 					});
             	}else{
             		var httpOptions = {
-        					method : 'post',
-        					url : url_taskFeedback + "/subShenBaoAtts",
-        					data:{"shenBaoInfoId":vm.shenBaoInfoId,"shenBaoAtts":vm.shenBaoAtts,"taskId":vm.taskId}
-        				};
+       					method : 'post',
+       					url : url_taskFeedback + "/subShenBaoAtts",
+       					data:{"shenBaoInfoId":vm.shenBaoInfoId,"shenBaoAtts":vm.shenBaoAtts,"taskId":vm.taskId}
+       				};
         			
         			var httpSuccess = function success(response) {
         				common.requestSuccess({
@@ -317,20 +327,30 @@
             	}
             }
             
-            vm.subShenPi = function(){
+            vm.subShenPi = function(isSubShenBaoAtt){
             	common.initJqValidation();
      			var isValid = $('form').valid();
      			if (isValid) {
      				if(!vm.shenPiAtts || vm.shenPiAtts.length == 0){
                 		common.alert({
     						vm : vm,
-    						msg : "还未上传附件"
+    						msg : "还未上传审批附件"
+    					});
+                	}else if(!isSubShenBaoAtt && !vm.shenBaoAtts ){
+                		common.alert({
+    						vm : vm,
+    						msg : "还未上传申报附件"
+    					});
+                	}else if(!isSubShenBaoAtt && vm.shenBaoAtts.length == 0){
+                		common.alert({
+    						vm : vm,
+    						msg : "还未上传申报附件"
     					});
                 	}else{
                 		var httpOptions = {
             					method : 'post',
             					url : url_taskFeedback+"/feedback",
-            					data:{"shenBaoInfoId":vm.shenBaoInfoId,"msg":vm.shenPiContent,"att":vm.shenPiAtts,"taskId":vm.taskId}
+            					data:{"shenBaoInfoId":vm.shenBaoInfoId,"msg":vm.shenPiContent,"shenPiAtts":vm.shenPiAtts,"shenBaoAtts":vm.shenBaoAtts,"taskId":vm.taskId}
             				};
              				
              				var httpSuccess = function success(response) {
