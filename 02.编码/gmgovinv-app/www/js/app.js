@@ -12,7 +12,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','s
     app_name: '光明政府投资项目',
     platform: 'android',
     version: '1.0.0',
-    host: 'https://192.168.189.235:8443'
+    host: 'http://192.168.189.235:8081'
   })
 
   .constant('APP_EVENTS', {
