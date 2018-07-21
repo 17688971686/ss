@@ -673,7 +673,8 @@
 							taskNewAuditSvc.handle(vm,str);
 							//过滤出局领导退回的情况，单独判断
     			}else if (str =="tuiwen" ){
-        		   if((vm.model.shenBaoInfo.thisTaskName == 'usertask13' ||  vm.model.shenBaoInfo.thisTaskName == 'usertask17'||  vm.model.shenBaoInfo.thisTaskName == 'usertask19' || vm.model.shenBaoInfo.thisTaskName == 'usertask21' && vm.nextUsers != "")){
+        		   if((vm.model.shenBaoInfo.thisTaskName == 'usertask13' ||  vm.model.shenBaoInfo.thisTaskName == 'usertask17'
+        			   ||  vm.model.shenBaoInfo.thisTaskName == 'usertask19' || vm.model.shenBaoInfo.thisTaskName == 'usertask21') && vm.nextUsers == "" && vm.isPass=='7'){
                        common.alert({
                            vm : vm,
                            msg : "请选择经办人后提交！",
@@ -707,12 +708,17 @@
         		}else if(vm.model.shenBaoInfo.thisTaskName == 'usertask17' || vm.model.shenBaoInfo.thisTaskName == 'usertask19' || vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask21'){
         			if(num == "5"){
         				taskNewAuditSvc.getDeptByName(vm,"办公室");
-        			}else{
+        			}else if(num == "6"){
         				taskNewAuditSvc.getDeptByName(vm,"局领导");
+        			}else {
+        				taskNewAuditSvc.getDeptByName(vm,"投资科");
         			}
         			
         		}
         		
+        	}
+        	vm.updateNumber=function(){
+        		taskNewAuditSvc.saveShenBaoInfo(vm);
         	}
         	vm.pinglun=function(){
         		taskNewAuditSvc.pinglun(vm);

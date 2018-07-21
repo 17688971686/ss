@@ -8,9 +8,9 @@
 			<td>
 				<span ng-bind="vm.draft.projectName"></span>
 			</td>
-			<td class="formAlignRight" style="width:150px;">项目代码：</td>
+			<td class="formAlignRight" style="width:150px;">发文字号：</td>
 			<td>
-				<span ng-bind="vm.draft.projectNumber"></span>
+				<input type="text" class="form-control input-sm" id="issuedNumber" name="issuedNumber" ng-model="vm.draft.issuedNumber"/>
 			</td>
 		</tr>
 		<tr>
@@ -28,20 +28,23 @@
 			<td>
 				<span ng-bind="vm.draft.capitalTotal"></span>&nbsp;（万元）
 			</td>
-			<td class="formAlignRight">审定金额：<span class="required">(*)</span></td>
+			<td class="formAlignRight">发文种类：<span class="required">(*)</span></td>
 			<td>
-				<input type="number" step="any" class="form-control input-sm" style="width:180px;" id="capitalSD" name="capitalSD" ng-model="vm.draft.capitalSD" data-val="true" data-val-required="必填"/>&nbsp;（万元)
-				<span data-valmsg-for="capitalSD" data-valmsg-replace="true" class="required"></span>
+				<select class="form-control input-sm" style="width:200px;" id="postingCategory" name="postingCategory" ng-model="vm.draft.postingCategory" data-val="true" data-val-required="必选">
+				  	<option value="">---请选择---</option>
+					<option ng-repeat="y in vm.basicData.postingCategory" value="{{y.id}}">{{y.description}}</option>
+				</select>
+				<span data-valmsg-for="postingCategory" data-valmsg-replace="true" class="required"></span>								
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">联系人：</td>
 			<td >
-				<input type="text" class="form-control input-sm" id="title" name="title" ng-model="vm.draft.mobileName"/>
+				<input type="text" class="form-control input-sm" id="mobileName" name="mobileName" ng-model="vm.draft.mobileName"/>
 			</td>
 			<td class="formAlignRight">联系电话：</td>
 			<td >
-				<input type="text" class="form-control input-sm" id="title" name="title" ng-model="vm.draft.mobilePhone"/>
+				<input type="text" class="form-control input-sm" id="mobilePhone" name="mobilePhone" ng-model="vm.draft.mobilePhone"/>
 			</td>
 		</tr>
 		<tr>
@@ -51,24 +54,7 @@
 				 ng-model="vm.draft.draftDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>	
 				 <span data-valmsg-for="draftDate" data-valmsg-replace="true" class="required"></span>	 						
 			</td>
-		</tr>
-			<tr>
-			<td class="formAlignRight">发文种类：<span class="required">(*)</span></td>
-			<td>
-				<select class="form-control input-sm" style="width:200px;" id="postingCategory" name="postingCategory" ng-model="vm.draft.postingCategory" data-val="true" data-val-required="必选">
-				  	<option value="">---请选择---</option>
-					<option ng-repeat="y in vm.basicData.postingCategory" value="{{y.id}}">{{y.description}}</option>
-				</select>
-				<span data-valmsg-for="postingCategory" data-valmsg-replace="true" class="required"></span>								
-			</td>
-			<td class="formAlignRight">批复金额：<span class="required">(*)</span></td>
-			<td>
-				<div>
-					<input type="number" step="any" class="form-control input-sm" style="width:180px;" name="capitalPifU" id="capitalPifU"  ng-model="vm.draft.capitalPifU" data-val="true" data-val-required="必填"/>&nbsp;（万元)
-					<span data-valmsg-for="capitalPifU" data-valmsg-replace="true" class="required"></span>		
-				</div>
-			</td>
-		</tr>
+		
 			
 		<tr>
 			<td class="formAlignRight">公开类型：<span class="required">(*)</span></td>
@@ -77,6 +63,12 @@
 					 <input type="radio" name="openType" value="{{x.id}}" ng-model="vm.draft.openType" ng-checked="x.id == vm.draft.openType" data-val="true" data-val-required="必选"/>{{x.description}}&nbsp;&nbsp;
 				</label>
 				<span data-valmsg-for="openType" data-valmsg-replace="true" class="required"></span>								
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">发行范围：</td>
+			<td colspan="3">
+				<input type="text" class="form-control input-sm" id="scope" name="scope" ng-model="vm.draft.scope"/>
 			</td>
 		</tr>
 		<tr>

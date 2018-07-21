@@ -915,41 +915,12 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 						nextUsers = hai.getAssignee();
 					}
 				}
-			}else if (shenbaoinfoDto.getThisTaskName().equals("usertask13") || shenbaoinfoDto.getThisTaskName().equals("usertask17") ||shenbaoinfoDto.getThisTaskName().equals("usertask19") || shenbaoinfoDto.getThisTaskName().equals("usertask21")) {// 局领导退给科员或者科长
-				User user = userRepo.findById(nextUsers.toString());
-				boolean isKezhang = false;
-				if (user != null) {
-					if (!user.getRoles().isEmpty()) {
-						root:
-						for (Role role : user.getRoles()) {
-							if (role.getRoleName().equals("科长")) {
-								isKezhang = true;
-							}
-						}
-					}
-				}
-				if(isKezhang){
-					if(shenbaoinfoDto.getThisTaskName().equals("usertask13") || shenbaoinfoDto.getThisTaskName().equals("usertask17")){
-						for (HistoricActivityInstance hai : hais) {
-							if (hai.getActivityId().equals("usertask6")) {
-								nextUsers = hai.getAssignee();
+			}
+			else if (shenbaoinfoDto.getThisTaskName().equals("usertask13") || shenbaoinfoDto.getThisTaskName().equals("usertask17") ||shenbaoinfoDto.getThisTaskName().equals("usertask19") || shenbaoinfoDto.getThisTaskName().equals("usertask21")) {// 局领导退给科员或者科长
+				
 
-								isPass = "7";
-							}
-						}
-					}else{
-						for (HistoricActivityInstance hai : hais) {
-							if (hai.getActivityId().equals("usertask7")) {
-								nextUsers = hai.getAssignee();
-
-								isPass = "7";
-							}
-						}
-					}
-
-				}
-
-			}else {
+			}
+			else {
 				for (HistoricActivityInstance hai : hais) {
 					if (hai.getActivityId().equals("usertask3")) {
 						nextUsers = hai.getAssignee();
@@ -983,6 +954,19 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		Authentication.setAuthenticatedUserId(currentUser.getUserId());
 
+		if ((shenBaoInfo.getThisTaskName().equals("usertask14") || shenBaoInfo.getThisTaskName().equals("usertask20")) && "1".equals(isPass)) {
+			// 生成项目编码
+			if (StringUtils.isBlank(shenBaoInfo.getProjectNumber())) {
+				BasicData basicData = basicDataService.findById(shenBaoInfo.getProjectIndustry());
+				int projectSequenceNum = projectService.getProjectSequenceNumberInYear(shenBaoInfo.getProjectId());
+				String projectNumber = Util.getProjectNumber(shenBaoInfo.getProjectInvestmentType(), basicData,
+						projectSequenceNum);
+				shenBaoInfo.setProjectNumber(projectNumber);
+	
+				projectService.updateProjectNumber(shenBaoInfo.getProjectId(), projectNumber);
+			}
+		}
+		
 		Task monitorTask;
 		if (StringUtil.isNoneBlank(shenBaoInfo.getMonitor_processId())) {
 			monitorTask = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getMonitor_processId())
@@ -1088,17 +1072,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setComplate(true);
 			shenBaoInfo.setEndDate(new Date());
 
-			// 生成项目编码
-			if (StringUtils.isBlank(shenBaoInfo.getProjectNumber())) {
-				BasicData basicData = basicDataService.findById(shenBaoInfo.getProjectIndustry());
-				int projectSequenceNum = projectService.getProjectSequenceNumberInYear(shenBaoInfo.getProjectId());
-				String projectNumber = Util.getProjectNumber(shenBaoInfo.getProjectInvestmentType(), basicData,
-						projectSequenceNum);
-				shenBaoInfo.setProjectNumber(projectNumber);
-
-				projectService.updateProjectNumber(shenBaoInfo.getProjectId(), projectNumber);
-			}
-
 		} else if (str.equals("tuiwen")) {
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已退文");
@@ -1108,11 +1081,11 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			// 退文时，撤销当前流程
 //			runtimeService.deleteProcessInstance(shenBaoInfo.getZong_processId(), "已退文");
 		} else {
-
+			shenBaoInfo.setIsLeaderHasRead(false);
 			shenBaoInfo.setThisTaskName(tasknew.get(0).getTaskDefinitionKey());
 			shenBaoInfo.setProcessStage(tasknew.get(0).getName());
 		}
-
+		
 		shenBaoInfoRepo.save(shenBaoInfo);
 
 		logger.info(String.format("办结或阅批任务,用户名:%s", currentUser.getLoginName()));

@@ -8,9 +8,9 @@
 			<td>
 				<span ng-bind="vm.draft.projectName"></span>
 			</td>
-			<td class="formAlignRight" style="width:150px;">项目代码：</td>
+			<td class="formAlignRight" style="width:150px;">发文字号：</td>
 			<td>
-				<span ng-bind="vm.draft.projectNumber"></span>
+				<input type="text" class="form-control input-sm" id="issuedNumber" name="issuedNumber" ng-model="vm.draft.issuedNumber"/>
 			</td>
 		</tr>
 		<tr>
@@ -28,37 +28,16 @@
 			<td>
 				<span ng-bind="vm.draft.capitalTotal"></span>&nbsp;（万元）
 			</td>
-			<td class="formAlignRight">审定金额：<span class="required">(*)</span></td>
-			<td>
-				<span ng-bind="vm.draft.capitalSD"></span>&nbsp;（万元)
-			</td>
-		</tr>
-		<tr>
 			<td class="formAlignRight">拟稿时间：<span class="required">(*)</span></td>
 			<td>
 				<span ng-bind="vm.draft.draftDate"></span>
 			</td>
-			<td class="formAlignRight">秘密等级：<span class="required">(*)</span></td>
-			<td ng-bind="vm.getBasicDataDesc(vm.draft.hecretHierarchy)"></td>
 		</tr>
-		<tr>
-			<td class="formAlignRight">文件缓急：<span class="required">(*)</span></td>
-			<td ng-bind="vm.getBasicDataDesc(vm.draft.fileSet)"></td>
-			<td class="formAlignRight">文件种类：<span class="required">(*)</span></td>
-			<td ng-bind="vm.getBasicDataDesc(vm.draft.documentType)"></td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">发文种类：<span class="required">(*)</span></td>
-			<td ng-bind="vm.getBasicDataDesc(vm.draft.postingCategory)"></td>
-			<td class="formAlignRight">批复金额：<span class="required">(*)</span></td>
-			<td>
-				<span ng-bind="vm.draft.capitalPifU"></span>&nbsp;（万元)
-			</td>
-		</tr>
-			
 		<tr>
 			<td class="formAlignRight">公开类型：<span class="required">(*)</span></td>
-			<td colspan="3" ng-bind="vm.getBasicDataDesc(vm.draft.openType)"></td>
+			<td ng-bind="vm.getBasicDataDesc(vm.draft.openType)"></td>
+			<td class="formAlignRight">发文种类：<span class="required">(*)</span></td>
+			<td ng-bind="vm.getBasicDataDesc(vm.draft.postingCategory)"></td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">标题：<span class="required">(*)</span></td>
@@ -68,6 +47,12 @@
 			<td class="formAlignRight">主题词：<span class="required">(*)</span></td>
 			<td colspan="3" ng-bind="vm.draft.keyWord"></td>
 		</tr>
+		<tr>
+			<td class="formAlignRight">正文编辑：<span class="required">(*)</span></td>
+			<td colspan="3">
+				<a class="btn btn-success btn-sm" href="/contents/admin/management/task/audit/html/edit/edit_dj.html" target="_blank">编辑正文</a>
+			</td>
+		</tr>	
 		<tr>
 			<td class="formAlignRight">正文附件：<span class="required">(*)</span></td>
 			<td colspan="3">

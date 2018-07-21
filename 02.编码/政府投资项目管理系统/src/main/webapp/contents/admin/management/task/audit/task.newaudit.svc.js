@@ -153,6 +153,12 @@
 			var httpSuccess = function success(response) {
 
 				vm.taskRecord = response.data;
+				for (var int = 0; int < vm.taskRecord.length; int++) {
+					var array_element = vm.taskRecord[int];
+					if(array_element.isPingshen == "yes"){
+						vm.isPingshen = true;
+					}
+				}
 			}
 			common.http({
 				vm : vm,
@@ -927,12 +933,8 @@
 						title : "申报阶段",
 						width : 120,						
 						template:function(item){
-							if(item.thisUser == "" || item.thisUser == null){
-                                return common.getBasicDataDesc(item.projectShenBaoStage);
-							}else{
-                                return common.getBasicDataDesc(item.projectShenBaoStage)+"审批人员："+item.thisUser;
-							}
-
+                               return common.getBasicDataDesc(item.projectShenBaoStage);
+							
 						}
 					},
 					{
@@ -942,6 +944,15 @@
 						filterable : false,
 						template:function(item){
 							return common.format("<span class='text-danger'>{0}</span>",item.processStage);
+						}
+					},
+					{
+						field : "thisUser",
+						title : "当前办理人员",
+						width : 150,
+						filterable : false,
+						template:function(item){
+							return item.thisUser != null?common.getUserById(item.thisUser).value[0].displayName:null;
 						}
 					},
 					{
@@ -997,14 +1008,7 @@
 				change:function(){
 					var grid = $(".grid").data("kendoGrid");
 					window.todo_auditOption_other = grid.getOptions();
-				},
-				filter:[
-					{
-						field:"thisTaskName",
-						operator:"eq",
-						value:"usertask2"
-					}
-				]
+				}
 			});
 			// End:dataSource
 
@@ -1073,6 +1077,15 @@
 						filterable : false,
 						template:function(item){
 							return common.format("<span class='text-danger'>{0}</span>",item.processStage);
+						}
+					},
+					{
+						field : "thisUser",
+						title : "当前办理人员",
+						width : 150,
+						filterable : false,
+						template:function(item){
+							return item.thisUser != null?common.getUserById(item.thisUser).value[0].displayName:null;
 						}
 					},
 					{
@@ -1205,6 +1218,15 @@
 						}
 					},
 					{
+						field : "thisUser",
+						title : "当前办理人员",
+						width : 150,
+						filterable : false,
+						template:function(item){
+							return item.thisUser != null?common.getUserById(item.thisUser).value[0].displayName:null;
+						}
+					},
+					{
 						field : "",
 						title : "创建日期",
 						width : 180,
@@ -1329,6 +1351,15 @@
 					filterable : false,
 					template:function(item){
 						return common.format("<span class='text-danger'>{0}</span>",item.processStage);
+					}
+				},
+				{
+					field : "thisUser",
+					title : "当前办理人员",
+					width : 150,
+					filterable : false,
+					template:function(item){
+						return item.thisUser != null?common.getUserById(item.thisUser).value[0].displayName:null;
 					}
 				},
 				{

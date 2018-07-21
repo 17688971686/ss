@@ -23,23 +23,18 @@ public class DraftIssuedMapper  implements IMapper<DraftIssuedDto, DraftIssued> 
 			draftIssuedDto.setId(entity.getId());
 			draftIssuedDto.setTitle(entity.getTitle());
 			draftIssuedDto.setRelId(entity.getRelId());
-			draftIssuedDto.setCapitalSD(entity.getCapitalSD());
-			draftIssuedDto.setDocumentType(entity.getDocumentType());
 			draftIssuedDto.setDraftDate(entity.getDraftDate());
-			draftIssuedDto.setFileSet(entity.getFileSet());
-			draftIssuedDto.setFileType(entity.getFileType());
-			draftIssuedDto.setHecretHierarchy(entity.getHecretHierarchy());
 			draftIssuedDto.setKeyWord(entity.getKeyWord());
 			draftIssuedDto.setOpenType(entity.getOpenType());
 			draftIssuedDto.setPostingCategory(entity.getPostingCategory());
 			draftIssuedDto.setCapitalTotal(entity.getCapitalTotal());
 			draftIssuedDto.setUnitName(entity.getUnitName());
 			draftIssuedDto.setUserNameAndUnit(entity.getUserNameAndUnit());
-			draftIssuedDto.setCapitalPifU(entity.getCapitalPifU());
 			draftIssuedDto.setProjectName(entity.getProjectName());
-			draftIssuedDto.setProjectNumber(entity.getProjectNumber());
 			draftIssuedDto.setMobileName(entity.getMobileName());
 			draftIssuedDto.setMobilePhone(entity.getMobilePhone());
+			draftIssuedDto.setScope(entity.getScope());
+			draftIssuedDto.setIssuedNumber(entity.getIssuedNumber());
 			//基础信息
 			draftIssuedDto.setCreatedBy(entity.getCreatedBy());
 			draftIssuedDto.setCreatedDate(entity.getCreatedDate());
@@ -59,23 +54,19 @@ public class DraftIssuedMapper  implements IMapper<DraftIssuedDto, DraftIssued> 
 			}
 			entity.setTitle(dto.getTitle());
 			entity.setRelId(dto.getRelId());
-			entity.setCapitalSD(dto.getCapitalSD());
-			entity.setDocumentType(dto.getDocumentType());
 			entity.setDraftDate(dto.getDraftDate());
-			entity.setFileSet(dto.getFileSet());
-			entity.setFileType(dto.getFileType());
-			entity.setHecretHierarchy(dto.getHecretHierarchy());
 			entity.setKeyWord(dto.getKeyWord());
 			entity.setOpenType(dto.getOpenType());
 			entity.setPostingCategory(dto.getPostingCategory());
-			entity.setCapitalPifU(dto.getCapitalPifU());
 			entity.setCapitalTotal(dto.getCapitalTotal());
 			entity.setProjectName(dto.getProjectName());
-			entity.setProjectNumber(dto.getProjectNumber());
 			entity.setUnitName(dto.getUnitName());
 			entity.setUserNameAndUnit(dto.getUserNameAndUnit());
 			entity.setMobileName(dto.getMobileName());
 			entity.setMobilePhone(dto.getMobilePhone());
+			entity.setScope(dto.getScope());
+			entity.setIssuedNumber(dto.getIssuedNumber());
+			
 			//基础信息
 			entity.setModifiedBy(dto.getModifiedBy());
 			entity.setModifiedDate(dto.getModifiedDate());

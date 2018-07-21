@@ -20,23 +20,9 @@ public class DraftIssued extends BaseEntity{
 	@Id
 	private String id;
 	
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '审定金额'")
-	private Double capitalSD=0.0;
 	
 	@Column(columnDefinition="date NULL COMMENT '拟稿时间'")
 	private Date draftDate;
-	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '秘密等级'")
-	private String hecretHierarchy;
-	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '文件缓急'")
-	private String fileSet;
-	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '文件种类'")
-	private String documentType;
-
-	@Column(columnDefinition="varchar(255) NULL COMMENT '文件类型'")
-	private String fileType;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '公开类型'")
 	private String openType;
@@ -53,9 +39,6 @@ public class DraftIssued extends BaseEntity{
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目名称'")
 	private String projectName;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '项目代码'")
-	private String projectNumber;
-	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '联系人'")
 	private String mobileName;
 	
@@ -71,8 +54,11 @@ public class DraftIssued extends BaseEntity{
 	@Column(columnDefinition="varchar(255) NULL COMMENT '拟稿单位拟稿人'")
 	private String userNameAndUnit;
 	
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '批复金额'")
-	private Double capitalPifU=0.0;
+	@Column(columnDefinition="varchar(255) NULL COMMENT '发行范围'")
+	private String scope;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '发文字号'")
+	private String issuedNumber;
 	
 	//关联
 	@Column(columnDefinition="varchar(255) NULL COMMENT '相关ID'")
@@ -86,13 +72,6 @@ public class DraftIssued extends BaseEntity{
 		this.id = id;
 	}
 
-	public Double getCapitalSD() {
-		return capitalSD;
-	}
-
-	public void setCapitalSD(Double capitalSD) {
-		this.capitalSD = capitalSD;
-	}
 
 	public Date getDraftDate() {
 		return draftDate;
@@ -100,38 +79,6 @@ public class DraftIssued extends BaseEntity{
 
 	public void setDraftDate(Date draftDate) {
 		this.draftDate = draftDate;
-	}
-
-	public String getHecretHierarchy() {
-		return hecretHierarchy;
-	}
-
-	public void setHecretHierarchy(String hecretHierarchy) {
-		this.hecretHierarchy = hecretHierarchy;
-	}
-
-	public String getFileSet() {
-		return fileSet;
-	}
-
-	public void setFileSet(String fileSet) {
-		this.fileSet = fileSet;
-	}
-
-	public String getDocumentType() {
-		return documentType;
-	}
-
-	public void setDocumentType(String documentType) {
-		this.documentType = documentType;
-	}
-
-	public String getFileType() {
-		return fileType;
-	}
-
-	public void setFileType(String fileType) {
-		this.fileType = fileType;
 	}
 
 	public String getOpenType() {
@@ -206,22 +153,6 @@ public class DraftIssued extends BaseEntity{
 		this.userNameAndUnit = userNameAndUnit;
 	}
 
-	public Double getCapitalPifU() {
-		return capitalPifU;
-	}
-
-	public void setCapitalPifU(Double capitalPifU) {
-		this.capitalPifU = capitalPifU;
-	}
-
-	public String getProjectNumber() {
-		return projectNumber;
-	}
-
-	public void setProjectNumber(String projectNumber) {
-		this.projectNumber = projectNumber;
-	}
-
 	public String getMobileName() {
 		return mobileName;
 	}
@@ -237,5 +168,22 @@ public class DraftIssued extends BaseEntity{
 	public void setMobilePhone(String mobilePhone) {
 		this.mobilePhone = mobilePhone;
 	}
+
+	public String getScope() {
+		return scope;
+	}
+
+	public void setScope(String scope) {
+		this.scope = scope;
+	}
+
+	public String getIssuedNumber() {
+		return issuedNumber;
+	}
+
+	public void setIssuedNumber(String issuedNumber) {
+		this.issuedNumber = issuedNumber;
+	}
+	
 	
 }
