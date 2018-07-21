@@ -29,6 +29,9 @@ public class BaseShenBaoInfo extends BaseProject {
     @Column(columnDefinition = "varchar(125) NULL COMMENT '申报阶段'")
     private String projectShenBaoStage;
 
+    @Column(columnDefinition = "varchar(125) NULL COMMENT '当前办理人员'")
+    private String thisUser;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(columnDefinition = "datetime COMMENT '申报时间'")
     private Date shenbaoDate;
@@ -810,5 +813,13 @@ public class BaseShenBaoInfo extends BaseProject {
 	public void setIsLeaderHasRead(Boolean isLeaderHasRead) {
 		this.isLeaderHasRead = isLeaderHasRead;
 	}
+
+    public String getThisUser() {
+        return thisUser;
+    }
+
+    public void setThisUser(String thisUser) {
+        this.thisUser = thisUser;
+    }
 
 }

@@ -246,6 +246,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 		if(yearPlan !=null){
 			//判断年度计划编制中是否已有该项目申报
 			List<YearPlanCapital> capitals = yearPlan.getYearPlanCapitals();
+			String shenbaoName = null;
 			for(YearPlanCapital capital:capitals){
 				if(capital.getShenbaoInfoId().equals(shenBaoId)){
 					hasShenBaoInfo = true;
@@ -298,8 +299,9 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 	@Transactional
 	public void removeYearPlanCapital(String planId, String[] yearPlanCapitalId) {
 		YearPlan yearPlan=super.repository.findById(planId);
+		List<YearPlanCapital> yearPlanCapitals=yearPlan.getYearPlanCapitals();
 		if(yearPlan!=null){
-			List<YearPlanCapital> yearPlanCapitals=yearPlan.getYearPlanCapitals();
+
 			List<YearPlanCapital> removeItems=new ArrayList<>();
 			yearPlanCapitals.forEach(x->{
 				for (String capitalId : yearPlanCapitalId) {
@@ -319,8 +321,10 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 				}
 			});
 			yearPlanCapitals.removeAll(removeItems);
-					
+
 		}
+//		yearPlan.getYearPlanCapitals().clear();
+		yearPlan.setYearPlanCapitals(yearPlanCapitals);
 		super.repository.save(yearPlan);
 		logger.info(String.format("移除年度计划资金,名称：%s",yearPlan.getName()));	
 	}

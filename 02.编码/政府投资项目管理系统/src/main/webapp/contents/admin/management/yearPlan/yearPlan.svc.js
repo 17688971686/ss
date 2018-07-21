@@ -89,6 +89,7 @@
 							vm:vm,
 							msg:"操作成功!",
 							fn:function() {
+                                vm.packGridOptions.dataSource.read();
 								$('.alertDialog').modal('hide');
 							}
 						});

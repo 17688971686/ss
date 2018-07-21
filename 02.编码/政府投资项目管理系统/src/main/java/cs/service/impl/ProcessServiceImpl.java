@@ -745,6 +745,14 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 								}
 							}
 						}
+						if (!user.getRoles().isEmpty()) {
+							root: for (Role role : user.getRoles()) {
+								if (role.getRoleName().equals("评审中心评审人员")) {
+									map.put("isPingshen", "yes");
+									break root;
+								}
+							}
+						}
 					}
 					if (user.getOrgs() != null && user.getOrgs().size() > 1) {
 						StringBuffer sBuffer = new StringBuffer();
@@ -858,7 +866,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenbaoinfoDto.getId());
 
 		Map<String, Object> variables = new HashMap<String, Object>();
-
+		shenBaoInfo.setThisUser(nextUsers);
 		// 判断具体操作
 		if (shenBaoInfo.getThisTaskName().equals("usertask23") && !("5").equals(isPass)) {
 			String isOk = "1";
@@ -866,15 +874,13 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 
 		if (isPass != "" && !str.equals("tuiwen") && !str.equals("reback")) {// 其他方式通过
-			variables.put("isPass", isPass);
+
 		} else if (str.equals("tuiwen")) {
-			variables.put("isPass", 3);
+			isPass = "3";
 		} else if (str.equals("reback")) {
 			isPass = "2";
-			variables.put("isPass", 2);
 		} else if (str.equals("banjie")) {
 			isPass = "3";
-			variables.put("isPass", 3);
 		}
 
 		variables.put("shenpi", 8);
@@ -913,6 +919,40 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 						nextUsers = hai.getAssignee();
 					}
 				}
+			}else if (shenbaoinfoDto.getThisTaskName().equals("usertask13") || shenbaoinfoDto.getThisTaskName().equals("usertask17") ||shenbaoinfoDto.getThisTaskName().equals("usertask19") || shenbaoinfoDto.getThisTaskName().equals("usertask21")) {// 局领导退给科员或者科长
+				User user = userRepo.findById(nextUsers.toString());
+				boolean isKezhang = false;
+				if (user != null) {
+					if (!user.getRoles().isEmpty()) {
+						root:
+						for (Role role : user.getRoles()) {
+							if (role.getRoleName().equals("科长")) {
+								isKezhang = true;
+							}
+						}
+					}
+				}
+				if(isKezhang){
+					if(shenbaoinfoDto.getThisTaskName().equals("usertask13") || shenbaoinfoDto.getThisTaskName().equals("usertask17")){
+						for (HistoricActivityInstance hai : hais) {
+							if (hai.getActivityId().equals("usertask6")) {
+								nextUsers = hai.getAssignee();
+
+								isPass = "7";
+							}
+						}
+					}else{
+						for (HistoricActivityInstance hai : hais) {
+							if (hai.getActivityId().equals("usertask7")) {
+								nextUsers = hai.getAssignee();
+
+								isPass = "7";
+							}
+						}
+					}
+
+				}
+
 			}else {
 				for (HistoricActivityInstance hai : hais) {
 					if (hai.getActivityId().equals("usertask3")) {
@@ -921,6 +961,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				}
 			}
 		}
+
+		variables.put("isPass", isPass);
 		useridList.addAll(Arrays.asList(nextUsers.split(",")));
 
 		for (String id : useridList) {
@@ -1438,11 +1480,10 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		loop: for (int i = 0; i < user.getRoles().size(); i++) {
 			Role role = user.getRoles().get(i);
 			if (role.getRoleName().equals("局长") || role.getRoleName().equals("副局长")) {
-				odataObj.addEQFilter(ShenBaoInfo_.thisTaskName.getName(), "usertask2");
+				odataObj.addOrFilter(ShenBaoInfo_.thisTaskName.getName(),OdataFilter.Operate.EQ,"usertask2","usertask3","usertask6","usertask12","usertask13","usertask14","usertask16","usertask17","usertask23","usertask7","usertask18","usertask19","usertask20","usertask21","usertask22");
 				break loop;
 			} else if (role.getRoleName().equals("办公室主任")) {
-				odataObj.addOrFilter(ShenBaoInfo_.thisTaskName.getName(), OdataFilter.Operate.EQ, "usertask12",
-						"usertask18");
+				odataObj.addOrFilter(ShenBaoInfo_.thisTaskName.getName(), OdataFilter.Operate.EQ, "usertask12","usertask18");
 //				odataObj.addEQFilter(ShenBaoInfo_.thisTaskName.getName(), "usertask12");
 				break loop;
 			}
@@ -1462,8 +1503,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	@Override
 	@Transactional
 	public List<ShenBaoInfoDto> findAuditKeshi(ODataObjNew odata) {
-		odata.addOrFilter(ShenBaoInfo_.thisTaskName.getName(), OdataFilter.Operate.EQ, "usertask1",
-				"usertask3", "usertask2", "usertask5","usertask6", "usertask7", "usertask16","usertask22", "usertask23");
+		odata.addOrFilter(ShenBaoInfo_.thisTaskName.getName(), OdataFilter.Operate.EQ, "usertask2","usertask3","usertask6","usertask12","usertask13","usertask14","usertask16","usertask17","usertask23","usertask7","usertask18","usertask19","usertask20","usertask21","usertask22");
 		return shenBaoInfoRepoImpl.findRunByOdata2(odata).stream().map(mapper::toDto).collect(Collectors.toList());
 	}
 }

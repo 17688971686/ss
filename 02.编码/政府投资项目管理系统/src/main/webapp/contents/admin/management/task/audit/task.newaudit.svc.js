@@ -926,8 +926,13 @@
 						field : "projectShenBaoStage",
 						title : "申报阶段",
 						width : 120,						
-						template:function(item){						
-							return common.getBasicDataDesc(item.projectShenBaoStage);
+						template:function(item){
+							if(item.thisUser == "" || item.thisUser == null){
+                                return common.getBasicDataDesc(item.projectShenBaoStage);
+							}else{
+                                return common.getBasicDataDesc(item.projectShenBaoStage)+"审批人员："+item.thisUser;
+							}
+
 						}
 					},
 					{

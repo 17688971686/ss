@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
-  <process id="ShenpiReview" name="审批主流程" isExecutable="true">
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test" id="m1532054383549" name="">
+  <process id="ShenpiReview" name="审批主流程" isExecutable="true" isClosed="false" processType="None">
     <startEvent id="startevent1" name="Start"></startEvent>
     <userTask id="usertask1" name="材料签收" activiti:assignee="${users}"></userTask>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
@@ -239,6 +239,18 @@
     </sequenceFlow>
     <sequenceFlow id="flow99" name="退回" sourceRef="exclusivegateway14" targetRef="usertask3">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==2}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow100" sourceRef="exclusivegateway20" targetRef="usertask6">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==7}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow101" sourceRef="exclusivegateway11" targetRef="usertask6">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==7}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow102" sourceRef="exclusivegateway14" targetRef="usertask7">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==7}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow103" sourceRef="exclusivegateway21" targetRef="usertask7">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==7}]]></conditionExpression>
     </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_ShenpiReview">
@@ -717,6 +729,27 @@
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="14.0" width="24.0" x="1142.0" y="861.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow100" id="BPMNEdge_flow100">
+        <omgdi:waypoint x="1027.0" y="268.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1026.0" y="376.0"></omgdi:waypoint>
+        <omgdi:waypoint x="844.0" y="376.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow101" id="BPMNEdge_flow101">
+        <omgdi:waypoint x="1047.0" y="29.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1094.0" y="29.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1094.0" y="376.0"></omgdi:waypoint>
+        <omgdi:waypoint x="844.0" y="376.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow102" id="BPMNEdge_flow102">
+        <omgdi:waypoint x="1239.0" y="907.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1238.0" y="709.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1195.0" y="709.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow103" id="BPMNEdge_flow103">
+        <omgdi:waypoint x="1367.0" y="1036.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1366.0" y="709.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1195.0" y="709.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

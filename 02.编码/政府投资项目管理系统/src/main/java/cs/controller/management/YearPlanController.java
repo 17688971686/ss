@@ -69,7 +69,7 @@ public class YearPlanController {
 	}
 	
 	//@RequiresPermissions("management/yearPlan#addPackPlan/planId#post")
-	@RequestMapping(name="添加年度计划项目",path="addPackPlan/{planId}",method=RequestMethod.POST)
+	@RequestMapping(name="添加年度计划打包",path="addPackPlan/{planId}",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void addPackPlan(@RequestBody String packId,@PathVariable String planId){		
 		String[] ids=packId.split(",");
@@ -89,7 +89,7 @@ public class YearPlanController {
 	}
 	
 	//@RequiresPermissions("management/yearPlan#removePack#post")
-	@RequestMapping(name="移除年度计划项目",path="removePack",method=RequestMethod.POST)
+	@RequestMapping(name="移除年度计划打包",path="removePack",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void removePack(@RequestParam String planId,@RequestBody String yearPlanPackId){		
 		String[] ids=yearPlanPackId.split(",");

@@ -669,9 +669,22 @@
 							$('.alertDialog').modal('hide');
 						}
 					});
-        		}else if(str =="next" && vm.nextUsers != "" || str =="reback" || str =="banjie" || str =="tuiwen"){
+        		}else if(str =="next" && vm.nextUsers != "" || str =="reback" || str =="banjie"){
 							taskNewAuditSvc.handle(vm,str);
-    			}else {
+							//过滤出局领导退回的情况，单独判断
+    			}else if (str =="tuiwen" ){
+        		   if((vm.model.shenBaoInfo.thisTaskName == 'usertask13' ||  vm.model.shenBaoInfo.thisTaskName == 'usertask17'||  vm.model.shenBaoInfo.thisTaskName == 'usertask19' || vm.model.shenBaoInfo.thisTaskName == 'usertask21' && vm.nextUsers != "")){
+                       common.alert({
+                           vm : vm,
+                           msg : "请选择经办人后提交！",
+                           fn : function() {
+                               $('.alertDialog').modal('hide');
+                           }
+                       });
+                   }else{
+                       taskNewAuditSvc.handle(vm,str);
+                   }
+                }else {
     				common.alert({
 						vm : vm,
 						msg : "请选择经办人后提交！",

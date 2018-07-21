@@ -42,6 +42,7 @@ public abstract class BaseShenBaoInfo_ extends cs.domain.BaseProject_ {
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> capitalAP_ggys_TheYear;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> capitalSCZ_qita;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> capitalAP_ggys_LastYear;
+	public static volatile SingularAttribute<BaseShenBaoInfo, String> thisUser;
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> yearPlanCapitalId;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> applyYearInvest_LastTwoYear;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> capitalSCZ_ggys_LastTwoYear;
