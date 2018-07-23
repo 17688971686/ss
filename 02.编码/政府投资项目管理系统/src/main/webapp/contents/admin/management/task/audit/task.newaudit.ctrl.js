@@ -293,6 +293,7 @@
         }//end init_todoAuditList
 
         function init_handleAudit() {
+        	vm.isShow = true;
             //查询流转信息
             taskNewAuditSvc.getHistoryInfo(vm);
             //查询申报信息
