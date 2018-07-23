@@ -1,32 +1,10 @@
 package cs.controller.shenbaoAdmin;
 
-import java.text.ParseException;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.sn.framework.common.StringUtil;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
 import cs.common.ICurrentUser;
 import cs.domain.UserUnitInfo;
+import cs.model.DomainDto.*;
 import cs.model.PageModelDto;
-import cs.model.DomainDto.PackPlanDto;
-import cs.model.DomainDto.PlanReachApplicationDto;
-import cs.model.DomainDto.ProjectDto;
-import cs.model.DomainDto.ShenBaoInfoDto;
-import cs.model.DomainDto.UserUnitInfoDto;
 import cs.model.framework.UserDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
@@ -34,6 +12,17 @@ import cs.service.interfaces.PlanReachApplicationService;
 import cs.service.interfaces.ProjectService;
 import cs.service.interfaces.ShenBaoInfoService;
 import cs.service.interfaces.UserUnitInfoService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.util.List;
+import java.util.Map;
 
 import static com.sn.framework.common.StringUtil.SEPARATE_COMMA;
 
@@ -55,23 +44,21 @@ public class ShenBaoAdminPlanReachController {
 
     //@RequiresPermissions("shenbaoAdmin/planReach##get")
     @RequestMapping(name = "获取计划下达申请信息", path = "", method = RequestMethod.GET)
-    public @ResponseBody
-    PageModelDto<PlanReachApplicationDto> get(HttpServletRequest request) throws ParseException {
+    @ResponseBody
+    public PageModelDto<PlanReachApplicationDto> get(ODataObj odataObj) throws ParseException {
         //根据登陆名查找到单位信息addShenBaoInfo
         UserUnitInfoDto userUnitInfoDto1 = null;
         List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
         for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
-            if (!userUnitInfoDto.getUserDtos().isEmpty()) {
+            if (!CollectionUtils.isEmpty(userUnitInfoDto.getUserDtos())) {
                 for (UserDto user : userUnitInfoDto.getUserDtos()) {
                     if (user.getId().equals(currentUser.getUserId())) {
                         userUnitInfoDto1 = userUnitInfoDto;
+                        break;
                     }
                 }
             }
-
-
         }
-        ODataObj odataObj = new ODataObj(request);
         ODataFilterItem<String> filterItem = new ODataFilterItem<String>();
         if (userUnitInfoDto1 == null) {
             filterItem.setValue("noid");
@@ -87,19 +74,16 @@ public class ShenBaoAdminPlanReachController {
     }
 
     @RequestMapping(name = "获取计划下达申请信息", path = "getShenbaoInfoFromYearplan", method = RequestMethod.GET)
-    public @ResponseBody
-    PageModelDto<ShenBaoInfoDto> getShenbaoInfoFromYearplan(HttpServletRequest request) throws ParseException {
-
-        PageModelDto<ShenBaoInfoDto> shenBaoInfos = null;
-        ODataObj odataObj = new ODataObj(request);
-        shenBaoInfos = planReachApplicationService.getShenbaoInfoFromYearplan(odataObj);
+    @ResponseBody
+    public PageModelDto<ShenBaoInfoDto> getShenbaoInfoFromYearplan(ODataObj odataObj) {
+        PageModelDto<ShenBaoInfoDto> shenBaoInfos = planReachApplicationService.getShenbaoInfoFromYearplan(odataObj);
         return shenBaoInfos;
     }
 
     //@RequiresPermissions("shenbaoAdmin/planReach##post")
     @RequestMapping(name = "创建计划下达申请信息", path = "", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void create(@RequestBody PlanReachApplicationDto dto) throws ParseException {
+    public void create(@RequestBody PlanReachApplicationDto dto) {
         planReachApplicationService.create(dto);
     }
 
@@ -122,9 +106,8 @@ public class ShenBaoAdminPlanReachController {
 
     @RequiresPermissions("shenbaoAdmin/planReach#notInclud#get")
     @RequestMapping(name = "获取未纳入年度计划的项目", path = "notInclud", method = RequestMethod.GET)
-    public @ResponseBody
-    PageModelDto<ProjectDto> getNotInclud(HttpServletRequest request) throws ParseException {
-        ODataObj odataObj = new ODataObj(request);
+    @ResponseBody
+    public PageModelDto<ProjectDto> getNotInclud(ODataObj odataObj) {
         //设置过滤条件--查询登陆用户单位的项目信息
         UserUnitInfo unit = userUnitInfoService.getByUserName(currentUser.getUserId());
         ODataFilterItem<String> filterItem = new ODataFilterItem<String>();
@@ -139,9 +122,8 @@ public class ShenBaoAdminPlanReachController {
 
     @RequiresPermissions("shenbaoAdmin/planReach#hasInclud#get")
     @RequestMapping(name = "获取已纳入年度计划的项目", path = "hasInclud", method = RequestMethod.GET)
-    public @ResponseBody
-    PageModelDto<ShenBaoInfoDto> getHasInclud(HttpServletRequest request) throws ParseException {
-        ODataObj odataObj = new ODataObj(request);
+    @ResponseBody
+    public PageModelDto<ShenBaoInfoDto> getHasInclud(ODataObj odataObj) {
         //设置过滤条件--查询登陆用户单位的项目信息
         UserUnitInfo unit = userUnitInfoService.getByUserName(currentUser.getUserId());
         ODataFilterItem<String> filterItem = new ODataFilterItem<String>();
@@ -164,8 +146,7 @@ public class ShenBaoAdminPlanReachController {
 
     @RequestMapping(name = "获取计划下达中申报项目列表数据", path = "{id}/shenBaoInfoList", method = RequestMethod.GET)
     public @ResponseBody
-    PageModelDto<ShenBaoInfoDto> getShenBaoInfo(HttpServletRequest request, @PathVariable String id) throws ParseException {
-        ODataObj odataObj = new ODataObj(request);
+    PageModelDto<ShenBaoInfoDto> getShenBaoInfo(ODataObj odataObj, @PathVariable String id) {
         PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = planReachApplicationService.getShenBaoInfo(id, odataObj);
         return shenBaoInfoDtos;
     }
@@ -221,17 +202,15 @@ public class ShenBaoAdminPlanReachController {
     }
 
     @RequestMapping(name = "获取计划下达中打包列表数据", path = "{id}/packPlanList", method = RequestMethod.GET)
-    public @ResponseBody
-    PageModelDto<PackPlanDto> getPackPkan(HttpServletRequest request, @PathVariable String id) throws ParseException {
-        ODataObj odataObj = new ODataObj(request);
+    @ResponseBody
+    public PageModelDto<PackPlanDto> getPackPkan(ODataObj odataObj, @PathVariable String id) {
         PageModelDto<PackPlanDto> packPlanDtos = planReachApplicationService.getPackPlan(id, odataObj);
         return packPlanDtos;
     }
 
     @RequestMapping(name = "获取包列表数据", path = "packPlanList", method = RequestMethod.GET)
-    public @ResponseBody
-    PageModelDto<PackPlanDto> getPackPkan(HttpServletRequest request) throws ParseException {
-        ODataObj odataObj = new ODataObj(request);
+    @ResponseBody
+    public PageModelDto<PackPlanDto> getPackPkan(ODataObj odataObj) {
         PageModelDto<PackPlanDto> packPlanDtos = planReachApplicationService.getPackPlan(odataObj);
         return packPlanDtos;
     }
@@ -239,7 +218,7 @@ public class ShenBaoAdminPlanReachController {
     @RequestMapping(name = "计划下达申请中删除申报信息", path = "deleteShenBaoInfo/{packPlanId}", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public void deleteShenBaoInfo(@RequestBody String shenbaoId, @PathVariable String packPlanId) {
-        String[] ids = shenbaoId.split(",");
+        String[] ids = StringUtil.split(shenbaoId, SEPARATE_COMMA);
         if (ids.length > 1) {
             planReachApplicationService.deleteShenBaoInfos(packPlanId, ids);
         } else {
@@ -250,7 +229,7 @@ public class ShenBaoAdminPlanReachController {
     @RequestMapping(name = "计划下达申请中删除打包信息", path = "deletePack/{packPlanId}", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public void deletePack(@RequestBody String shenbaoId, @PathVariable String packPlanId) {
-        String[] ids = shenbaoId.split(",");
+        String[] ids = StringUtil.split(shenbaoId, SEPARATE_COMMA);
         if (ids.length > 1) {
             planReachApplicationService.deletePacks(packPlanId, ids);
         } else {
@@ -261,7 +240,7 @@ public class ShenBaoAdminPlanReachController {
     @RequestMapping(name = "删除打包信息中的申报信息", path = "deletePlanShenBaoInfo/{packPlanId}", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public void deletePlanShenBaoInfo(@RequestBody String shenbaoId, @PathVariable String packPlanId) {
-        String[] ids = shenbaoId.split(",");
+        String[] ids = StringUtil.split(shenbaoId, SEPARATE_COMMA);
         if (ids.length > 1) {
             planReachApplicationService.deletePlanShenBaoInfos(packPlanId, ids);
         } else {
@@ -272,7 +251,7 @@ public class ShenBaoAdminPlanReachController {
     @RequestMapping(name = "计划下达申请中添加打包信息", path = "addPackPlan/{planReachId}", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public void addPackPlanToPlanReach(@RequestBody String packPlanId, @PathVariable String planReachId) {
-        String[] ids = packPlanId.split(",");
+        String[] ids = StringUtil.split(packPlanId, SEPARATE_COMMA);
         if (ids.length > 1) {
             planReachApplicationService.addPackPlans(planReachId, ids);
         } else {

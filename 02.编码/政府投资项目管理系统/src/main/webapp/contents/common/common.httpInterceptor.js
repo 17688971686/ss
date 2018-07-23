@@ -12,7 +12,7 @@
 
         return {
             request: function (config) {
-                config.headers["Token"] = common.getToken();
+                // config.headers["Token"] = common.getToken();
                 config.headers["X-Requested-With"] = "XMLHttpRequest";  // 用于后台ajax请求的判断
                 return config;
             },
@@ -26,7 +26,6 @@
             responseError: function (response) {
                 // console.log("responseError", response);
                 if (!response.config.headers.commonHttp) { // 过滤掉用common.http发起的请求
-                    console.log("aaaaaa");
                     errorHandle(bsWin, response.status, response.data);
                 }
                 return $q.reject(response);
@@ -83,8 +82,9 @@
 
     if (jQuery) {  // 设置jQuery的ajax全局默认配置
         jQuery(document).ajaxSend(function (event, request, settings) {
-            request.setRequestHeader('Token', common.getToken());
+            // request.setRequestHeader('Token', common.getToken());
         }).ajaxError(function (event, jqXHR, settings, thrownError) {
+            console.log("ajaxError", event, jqXHR, settings, thrownError);
             var _body = angular.element("body"),
                 scope = _body.scope(),
                 bsWin = _body.injector().get("bsWin"),

@@ -138,35 +138,18 @@
         }
     }
 
-    /**
-     * 字符串格式，第一个参数为需要格式的字符串，以一对花括号和数字{0}获取后面的参数，第二个参数开始为字符串提供格式的数据
-     * 如：common.format("{0} {1} !", "Hello", "World");  浏览器的控制台的输出结果为Hello World !
-     * @returns {*}
-     */
     function format() {
-        var str = arguments[0] || "", _d;
-        if (!str) return false;
-        var data = Array.prototype.slice.call(arguments, 1);
-        if (data.length == 1 && (angular.isObject(data[0]) || angular.isArray(data[0]))) {
-            data = data[0];
+        var theString = arguments[0];
+
+        // start with the second argument (i = 1)
+        for (var i = 1; i < arguments.length; i++) {
+            // "gm" = RegEx options for Global search (more than one instance)
+            // and for Multiline search
+            var regEx = new RegExp("\\{" + (i - 1) + "\\}", "gm");
+            theString = theString.replace(regEx, arguments[i]);
         }
-        return str.replace(
-            /\{(\w+)(:[^\}]+)?(\.[^\}]+)?\}/g,
-            function (m, i, f) {
-                _d = data[i];
-                if (!_d) {
-                    return "";
-                } else if (angular.isDate(_d)) {
-                    return _d.format(f.substr(1));
-                } else if (angular.isObject(_d) || angular.isArray(_d)) {
-                    return JSON.stringify(_d);
-                } else {
-                    if (f && f.length > 1) {
-                        _d = new Date(_d).format(f.substr(1));
-                    }
-                    return _d;
-                }
-            });
+
+        return theString;
     }
 
     function blockNonNumber(val) {
@@ -257,8 +240,8 @@
                         dataType: "json",
                         type: "GET",
                         beforeSend: function (req) {
-                            
                             req.setRequestHeader('Token', service.getToken());
+                            req.setRequestHeader('commonHttp', true);
                         }
                     }
                 };

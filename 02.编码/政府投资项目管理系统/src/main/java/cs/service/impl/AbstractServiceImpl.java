@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import cs.repository.odata.ODataObjNew;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cs.common.ICurrentUser;
@@ -26,6 +27,11 @@ public abstract class AbstractServiceImpl<Dto, Entity extends BaseEntity, ID> im
     public IMapper<Dto, Entity> mapper;
     @Autowired
     public ICurrentUser currentUser;
+    protected Class<Entity> entityClass;
+
+    public AbstractServiceImpl() {
+        this.entityClass = (Class<Entity>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+    }
 
     @Override
     public PageModelDto<Dto> get(ODataObj odataObj) {
@@ -40,7 +46,7 @@ public abstract class AbstractServiceImpl<Dto, Entity extends BaseEntity, ID> im
 
     @Override
     public PageModelDto<Dto> findPageByOdata2(ODataObjNew odataObj) {
-        List<Dto> dtos =  repository.findByOdata2(odataObj).stream().map(mapper::toDto).collect(Collectors.toList());
+        List<Dto> dtos = repository.findByOdata2(odataObj).stream().map(mapper::toDto).collect(Collectors.toList());
         return new PageModelDto<>(dtos, odataObj.isCount() ? odataObj.getCount() : dtos.size());
     }
 
@@ -49,15 +55,7 @@ public abstract class AbstractServiceImpl<Dto, Entity extends BaseEntity, ID> im
     public Entity create(Dto dto) {
         Entity entity = null;
         if (dto != null) {
-            Class<Entity> entityClass = (Class<Entity>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
-
-            try {
-                entity = entityClass.newInstance();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
+            entity = BeanUtils.instantiate(this.entityClass);
             if (entity != null) {
                 mapper.buildEntity(dto, entity);
                 entity.setCreatedBy(currentUser.getUserId());

@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import cs.domain.framework.User;
+
 /**
  * @Description: 用户单位信息表
  * @author: cx
@@ -20,40 +21,40 @@ import cs.domain.framework.User;
  * @version：0.1
  */
 @Entity
-@Table(name="cs_userUnitInfo")
+@Table(name = "cs_userUnitInfo")
 public class UserUnitInfo extends BaseUnitInfo {
-	@Id
-	private String id;	
-	
-	@Column(columnDefinition="varchar(255)  COMMENT '和单位信息关联的用户名'")
-	private String userName;
-	
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	private List<User> users= new ArrayList<>();
-	
-	public String getId() {
-		return id;
-	}
+    @Id
+    private String id;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    @Column(columnDefinition = "varchar(255)  COMMENT '和单位信息关联的用户名'")
+    private String userName;
 
-	public String getUserName() {
-		return userName;
-	}
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<User> users = new ArrayList<>();
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public List<User> getUsers() {
-		return users;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
+    public String getUserName() {
+        return userName;
+    }
 
-	
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+
 }
