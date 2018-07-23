@@ -1,10 +1,16 @@
 package cs.service.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import javax.transaction.Transactional;
-
+import cs.common.BasicDataConfig;
+import cs.common.ICurrentUser;
+import cs.common.SQLConfig;
+import cs.domain.*;
+import cs.model.DomainDto.*;
+import cs.model.DtoMapper.IMapper;
+import cs.model.PageModelDto;
+import cs.model.framework.UserDto;
+import cs.repository.interfaces.IRepository;
+import cs.repository.odata.ODataObj;
+import cs.service.interfaces.*;
 import org.activiti.engine.RuntimeService;
 import org.apache.log4j.Logger;
 import org.hibernate.SQLQuery;
@@ -12,38 +18,11 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import cs.common.BasicDataConfig;
-import cs.common.ICurrentUser;
-import cs.common.SQLConfig;
-import cs.domain.Attachment;
-import cs.domain.PackPlan;
-import cs.domain.PlanReachApplication;
-import cs.domain.Project;
-import cs.domain.ShenBaoInfo;
-import cs.domain.ShenBaoInfo_;
-import cs.domain.ShenBaoUnitInfo;
-import cs.domain.UserUnitInfo;
-import cs.domain.YearPlan;
-import cs.domain.YearPlan_;
-import cs.model.PageModelDto;
-import cs.model.DomainDto.AttachmentDto;
-import cs.model.DomainDto.PackPlanDto;
-import cs.model.DomainDto.PlanReachApplicationDto;
-import cs.model.DomainDto.ShenBaoInfoDto;
-import cs.model.DomainDto.ShenBaoUnitInfoDto;
-import cs.model.DomainDto.UserUnitInfoDto;
-import cs.model.DtoMapper.IMapper;
-import cs.model.framework.UserDto;
-import cs.repository.interfaces.IRepository;
-import cs.repository.odata.ODataObj;
-import cs.service.interfaces.PackPlanService;
-import cs.service.interfaces.PlanReachApplicationService;
-import cs.service.interfaces.ProjectService;
-import cs.service.interfaces.ShenBaoInfoService;
-import cs.service.interfaces.UserUnitInfoService;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+
+import javax.transaction.Transactional;
+import java.util.*;
 
 @Service
 public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanReachApplicationDto, PlanReachApplication, String> implements PlanReachApplicationService {
@@ -64,8 +43,6 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
     private IRepository<PlanReachApplication, String> planReachApplicationRepo;
     @Autowired
     private IMapper<ShenBaoInfoDto, ShenBaoInfo> shenBaoInfoMapper;
-    @Autowired
-    ICurrentUser currentUser;
     @Autowired
     private UserUnitInfoService userUnitInfoService;
     @Autowired
@@ -466,7 +443,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
     @Override
     @Transactional(rollbackOn = Exception.class)
     public void addShenBaoInfoToPack(String packId, String shenbaoId) {
-        Boolean hasPackPlan = false;
+//        Boolean hasPackPlan = false;
         //根据计划下达id查找到计划下达信息
         PackPlan pack = packPlanRepo.findById(packId);
 
@@ -867,7 +844,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
                 for (int j = 0; j < array_element.getShenBaoInfos().size(); j++) {
                     ShenBaoInfo shenbaoInfo = array_element.getShenBaoInfos().get(j);
                     if (shenbaoInfo.getProcessState().equals(BasicDataConfig.processState_jinxingzhong)) {
-                        throw new IllegalArgumentException(String.format("打包计划中存在审批中的项目,无法删除,请重新选着！", array_element.getName()));
+                        throw new IllegalArgumentException("打包计划中存在审批中的项目,无法删除,请重新选着！");
                     }
                 }
             }
