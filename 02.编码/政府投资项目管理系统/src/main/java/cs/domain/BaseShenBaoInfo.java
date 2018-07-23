@@ -17,7 +17,7 @@ public class BaseShenBaoInfo extends BaseProject {
     private String id;
 
     //begin#与项目相关
-    @Column(columnDefinition = "varchar(255) NULL COMMENT '项目ID'")
+    @Column(columnDefinition = "varchar(100) NULL COMMENT '项目ID'")
     private String projectId;
 
     @Column(columnDefinition = "bit(1) DEFAULT b'0' COMMENT '项目是否纳入项目库'")
