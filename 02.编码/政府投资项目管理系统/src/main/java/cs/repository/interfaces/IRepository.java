@@ -2,26 +2,42 @@ package cs.repository.interfaces;
 
 import java.util.List;
 
+import cs.repository.odata.ODataObjNew;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 
 import cs.repository.odata.ODataObj;
 
 public interface IRepository<T, ID> {
-	public T findById(ID id);
+    T findById(ID id);
 
-	public List<T> findAll();
-	public List<T> findByCriteria(Criterion ... criterion);
-	public List<T> findByOdata(ODataObj oDataObj);
+    List<T> findAll();
 
-	public T save(T entity);
+    List<T> findByCriteria(Criterion... criterion);
 
-	public void delete(T entity);
+    /**
+     * 基于 odata 的查询
+     * @param oDataObj
+     * @return
+     */
+    List<T> findByOdata(ODataObj oDataObj);
 
-	public void flush();
+    /**
+     * 基于 odata 的查询
+     * @param odataObj
+     * @return
+     */
+    List<T> findByOdata2(ODataObjNew odataObj);
 
-	public void clear();
+    T save(T entity);
 
-	public void setSession(Session session);
-	public Session getSession();
+    void delete(T entity);
+
+    void flush();
+
+    void clear();
+
+    void setSession(Session session);
+
+    Session getSession();
 }
