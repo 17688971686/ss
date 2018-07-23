@@ -290,7 +290,7 @@ public static String packPlanByYearPlanId = String.format("SELECT"
 	 		+ " WHERE t3.id=:yearPlanId");
 
 public static String shenBaoInfoOfPlanReachApplication = String.format("SELECT"
-		 	+ " t1.id,t1.createdBy,t1.createdDate,t1.itemOrder,t1.modifiedBy,t1.modifiedDate,"
+		 	+ " t1.id,t1.createdBy,t1.createdDate,t1.itemOrder,t1.modifiedBy,t1.modifiedDate,t1.thisUser,"
 		 	+ " t1.approval_pzwh,t1.beginDate,t1.buidSafeInvestment,t1.capitalOther,t1.capitalOtherType,t1.capitalOtherDescription,"
 		 	+ " t1.CapitalQCZ_gtzj,t1.capitalQCZ_ggys,t1.capitalSCZ_ggys,t1.CapitalSCZ_gtzj,t1.capitalSCZ_zxzj,t1.capitalSHTZ,t1.capitalZYYS,"
 		 	+ " t1.companyName,t1.constructionCycle,t1.constructionLand,t1.divisionId,t1.endDate,t1.equipmentInvestment,t1.finalAmount,t1.financeProjectNumber,"
