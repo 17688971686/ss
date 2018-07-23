@@ -14,6 +14,7 @@ import java.util.Date;
 @MappedSuperclass
 public class BaseShenBaoInfo extends BaseProject {
     @Id
+    @Column(length = 64)
     private String id;
 
     //begin#与项目相关
