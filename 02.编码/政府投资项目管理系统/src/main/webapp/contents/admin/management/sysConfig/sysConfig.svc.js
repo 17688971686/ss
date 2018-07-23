@@ -27,7 +27,7 @@
 		function getUsersInTouzike(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_org+"?$filter=name eq '{0}'", "投资科")
+					url : common.format(url_org+"?$filter=name eq '{0}'", encodeURIComponent("投资科"))
 				};
 			
 			var httpSuccess = function success(response) {
@@ -60,7 +60,7 @@
 		function getUsersInOffice(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_org+"?$filter=name eq '{0}'", "办公室")
+					url : common.format(url_org+"?$filter=name eq '{0}'", encodeURIComponent("办公室"))
 				};
 			
 			var httpSuccess = function success(response) {
