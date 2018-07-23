@@ -65,7 +65,7 @@
         <!-- <div id="diagramBreadCrumbs" class="diagramBreadCrumbs" onmousedown="return false"
              onselectstart="return false"></div>  -->   
         <!-- 流程图信息 -->
-        <div id="diagramHolder" class="diagramHolder"></div>
+        <div id="diagramHolder" class="diagramHolder" style="width:100%"></div>
         <!-- 显示信息 -->
         <!-- <div class="diagram-info" id="diagramInfo"></div> -->
     </div>
@@ -121,12 +121,14 @@
 					var isHistory = contextObject.getProperty("isHistory");
 					var name = contextObject.getProperty("name");
 					var isSubShenBaoAtt = contextObject.getProperty("isSubShenBaoAtt");
+					var beginTime = contextObject.getProperty("beginTime");
 					
 					var $scope = angular.element("body").scope();
 				    $scope.$apply(function () {
 						$scope.vm.shenBaoInfoId = shenBaoInfoId;
 						$scope.vm.name = name;
 						$scope.vm.taskId = taskId;
+						$scope.vm.beginTime = beginTime;
 					})
 					
 					$scope.vm.getAuthorityForCurTask(processInstanceId,taskId,taskKey,function(data){

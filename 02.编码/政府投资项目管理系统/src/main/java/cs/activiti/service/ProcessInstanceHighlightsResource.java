@@ -19,6 +19,7 @@ import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -101,6 +102,12 @@ public class ProcessInstanceHighlightsResource {
 				node.put("userId", taskInst.getAssignee());
 				node.put("isHistory", true);
 				
+				String beginTime = historyService.createHistoricVariableInstanceQuery().taskId(taskInst.getId()).variableName("beginTime").singleResult().getValue().toString();
+				
+				if(StringUtil.isNoneBlank(beginTime)) {
+					node.put("beginTime", beginTime);
+				}
+				
 				activitiesArray.add(node);
 			}
 			
@@ -119,6 +126,14 @@ public class ProcessInstanceHighlightsResource {
 					}
 				}else {
 					objectNode.put("isSubShenBaoAtt", false);
+				}
+				
+				if(ObjectUtils.isNoneEmpty(processEngine.getTaskService().getVariableLocal(x.getId(), "beginTime"))) {
+					String beginTime = processEngine.getTaskService().getVariableLocal(x.getId(), "beginTime").toString();
+					
+					if(StringUtil.isNoneBlank(beginTime)) {
+						objectNode.put("beginTime", beginTime);
+					}
 				}
 				
 				activitiesArray.add(objectNode);

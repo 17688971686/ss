@@ -4,53 +4,22 @@
  .well-sm{
 	 border:0px; border-radius: 0px;
  }
- .cs-title{
-	 height: 30px;
-	 line-height: 30px;
-	 font-size: 16px;
-	 font-weight: bold;
+ iframe{
+	 width: 1500px;
+	 height: 700px;
  }
-.cs-box-custom{
-	background: #f5f5f6;
-	overflow: hidden;
-	margin: 2px;
-}
-.cs-list-text{
-	min-height: 110px;
-	text-align: center;
-	line-height: 100px;
-	font-size: 30px;
-	color: #6b6b6b;
-	font-weight: bold;
-}
-.custom-modal{
-	position: absolute;
-	display: none;
-	z-index: 1000;
-}
- .box-header {
-	 background: #e6f2f8;
+ #myModal_monitor .modal-dialog{
+	 width: 1550px;
  }
- .box{
-	 -moz-border-radius-topleft: 0px;
-	 -moz-border-radius-topright: 0px;
- }
-.cs-list-bottom{
-	background: #00c1de;height: 30px; line-height: 30px; text-align: center; color: #fff;
-}
-.cs-list-article
-{
-	padding-left:10px; height: 30px; overflow: visible; line-height: 30px; width: 0;
-	transition: width 1s;
-	-moz-transition: width 1s;	/* Firefox 4 */
-	-webkit-transition: width 1s;	/* Safari 和 Chrome */
-	-o-transition: width 1s;
-}
-.cs-list-garden
-{
-	width: 80px;height: 80px; line-height: 80px; border-radius: 100px; margin: auto;
-	font-weight: bold;text-align: center; color: #fff;
-}
+	@media (max-width: 1600px) {
+		iframe{
+			width: 1200px;
+			height: 500px;
+		}
+		#myModal_monitor .modal-dialog{
+			width: 1250px;
+		}
+	}
 </style>
 <div class="well well-sm" style="background:white;">
 	  <ol class="breadcrumb">
@@ -269,8 +238,8 @@ $(window).resize(function () {
 <div class="modal fade" id="myModal_add" tabindex="-1" role="dialog"> 
 	<div class="modal-dialog"> 
 		<div class="modal-content"> 
-			<div class="modal-header bg-primary"> 
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button> 
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title" id="myModalLabel">选择投资类型</h4> 
 			</div> 
 			<div class="modal-body">
@@ -290,8 +259,8 @@ $(window).resize(function () {
 <div class="modal fade" id="myModal_edit" tabindex="-1" role="dialog"> 
 	<div class="modal-dialog"> 
 		<div class="modal-content"> 
-			<div class="modal-header bg-primary"> 
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button> 
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title" id="myModalLabel">设置是否填报</h4> 
 			</div> 
 			<div class="modal-body">
@@ -311,14 +280,14 @@ $(window).resize(function () {
 
 <!-- 设置监控流程图模态框 -->
 <div class="modal fade" id="myModal_monitor" tabindex="-1" role="dialog"> 
-	<div class="modal-dialog" style="width: 1550px"> 
+	<div id="dialog" class="modal-dialog">
 		<div class="modal-content"> 
-			<div class="modal-header bg-primary"> 
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button> 
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title" id="myModalLabel">监控流程图</h4> 
 			</div> 
 			<div class="modal-body">
-				<iframe ng-src="{{!vm.diagramViewerUrl ? '' : '${request.contextPath}/' + vm.diagramViewerUrl}}" height="750px" width="1500px" id="myIframe"></iframe>
+				<iframe ng-src="{{!vm.diagramViewerUrl ? '' : '${request.contextPath}/' + vm.diagramViewerUrl}}" id="myIframe"></iframe>
 			</div> 
 			<div class="modal-footer"> 
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> 						
