@@ -674,7 +674,7 @@
 							//过滤出局领导退回的情况，单独判断
     			}else if (str =="tuiwen" ){
         		   if((vm.model.shenBaoInfo.thisTaskName == 'usertask13' ||  vm.model.shenBaoInfo.thisTaskName == 'usertask17'
-        			   ||  vm.model.shenBaoInfo.thisTaskName == 'usertask19' || vm.model.shenBaoInfo.thisTaskName == 'usertask21') && vm.nextUsers == "" && vm.isPass=='7'){
+        			   ||  vm.model.shenBaoInfo.thisTaskName == 'usertask19' || vm.model.shenBaoInfo.thisTaskName == 'usertask21') && vm.nextUsers == ""){
                        common.alert({
                            vm : vm,
                            msg : "请选择经办人后提交！",

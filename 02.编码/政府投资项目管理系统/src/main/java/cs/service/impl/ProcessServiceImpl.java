@@ -875,7 +875,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenbaoinfoDto.getId());
 
 		Map<String, Object> variables = new HashMap<String, Object>();
-		shenBaoInfo.setThisUser(nextUsers);
+		
 		// 判断具体操作
 		if (shenBaoInfo.getThisTaskName().equals("usertask23") && !("5").equals(isPass)) {
 			String isOk = "1";
@@ -918,7 +918,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 						isPass = "7";
 						break loop;
 					}else{
-						isPass = "7";
+						isPass = "2";
 					}
 				}
 			}
@@ -944,7 +944,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		if (!nextUsers.isEmpty()) {// 设置流程变量--下一任务处理人
 			variables.put("nextUsers", nextUsers);
 		}
-
+		shenBaoInfo.setThisUser(nextUsers);
 		List<Task> task = null;
 		// 当前流程下，当前登录人员的任务
 		task = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId())
