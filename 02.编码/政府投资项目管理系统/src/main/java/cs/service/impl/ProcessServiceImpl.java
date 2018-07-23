@@ -730,6 +730,19 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 					map.put("endTime", com.getTime().toLocaleString());
 					// map.put("dur", hai.getDurationInMillis().toString());
 					map.put("msg", com.getFullMessage());
+					
+					List<Attachment> atts = new ArrayList<>();
+					if(shenBaoInfo.getAttachments().size() >0){
+						for (int i = 0; i < shenBaoInfo.getAttachments().size(); i++) {
+							Attachment array_element = shenBaoInfo.getAttachments().get(i);
+							if(com.getUserId().equals(array_element.getCreatedBy())){
+								atts.add(array_element);
+							}
+						}
+						
+						map.put("atts", atts.toString());
+					}
+					
 
 					User user = userRepo.findById(com.getUserId());
 					if (user != null) {
@@ -883,27 +896,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
 		List<String> useridList = new ArrayList<String>();
 
-		List<Role> findProjects = new ArrayList<>();
-//		Criterion criterion = null;
-//		Criterion criterion2 = null;
-//		if (shenBaoInfo.getThisTaskName().equals("usertask6")) {
-//			criterion = Restrictions.eq(Role_.roleName.getName(), "办公室主任");
-//			findProjects = roleRepo.findByCriteria(criterion);
-//		}
-//		else if (((shenBaoInfo.getThisTaskName().equals("usertask1")
-//				|| shenBaoInfo.getThisTaskName().equals("usertask5")) && "1".equals(isPass))
-//				|| (shenBaoInfo.getThisTaskName().equals("usertask2")
-//						|| shenBaoInfo.getThisTaskName().equals("usertask23")) && "2".equals(isPass)) {
-//			criterion = Restrictions.eq(Role_.roleName.getName(), "局领导");
-//			criterion2 = Restrictions.eq(Role_.roleName.getName(), "科长");
-//			findProjects = roleRepo.findByCriteria(Restrictions.or(criterion, criterion2));
-//		}
-
-		for (Role role : findProjects) {
-			for (User user : role.getUsers()) {
-				useridList.add(user.getId().trim());
-			}
-		}
 		Set<String> set = new HashSet<>();// 同一用户如果有多个角色，同流程下会同时有多个任务，必须去重
 		if (str.equalsIgnoreCase("reback")) {
 			List<HistoricActivityInstance> hais = historyService.createHistoricActivityInstanceQuery()
@@ -918,7 +910,17 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			}
 			else if (shenbaoinfoDto.getThisTaskName().equals("usertask13") || shenbaoinfoDto.getThisTaskName().equals("usertask17") ||shenbaoinfoDto.getThisTaskName().equals("usertask19") || shenbaoinfoDto.getThisTaskName().equals("usertask21")) {// 局领导退给科员或者科长
 				
+				User user = userRepo.findById(nextUsers.toString());
 
+				loop:for (int i = 0; i < user.getRoles().size(); i++) {
+					Role array_element = user.getRoles().get(i);
+					if("科长".equals(array_element.getRoleName())){
+						isPass = "7";
+						break loop;
+					}else{
+						isPass = "7";
+					}
+				}
 			}
 			else {
 				for (HistoricActivityInstance hai : hais) {

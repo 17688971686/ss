@@ -714,6 +714,12 @@
         				taskNewAuditSvc.getDeptByName(vm,"投资科");
         			}
         			
+        		}else if(vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask21'){
+        			if(num == "5"){
+        				taskNewAuditSvc.getDeptByName(vm,"办公室");
+        			}else{
+        				taskNewAuditSvc.getDeptByName(vm,"投资科");
+        			}
         		}
         		
         	}

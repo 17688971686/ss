@@ -952,7 +952,12 @@
 						width : 150,
 						filterable : false,
 						template:function(item){
-							return item.thisUser != null?common.getUserById(item.thisUser).value[0].displayName:null;
+							if(item.thisUser == "" || item.thisUser == null){
+								return null
+							}else {
+								return item.thisUser != null?common.getUserById(item.thisUser).value[0].displayName:null;
+							}
+							
 						}
 					},
 					{
@@ -1085,7 +1090,11 @@
 						width : 150,
 						filterable : false,
 						template:function(item){
-							return item.thisUser != null?common.getUserById(item.thisUser).value[0].displayName:null;
+							if(item.thisUser == "" || item.thisUser == null){
+								return null
+							}else {
+								return item.thisUser != null?common.getUserById(item.thisUser).value[0].displayName:null;
+							}
 						}
 					},
 					{
@@ -1223,7 +1232,11 @@
 						width : 150,
 						filterable : false,
 						template:function(item){
-							return item.thisUser != null?common.getUserById(item.thisUser).value[0].displayName:null;
+							if(item.thisUser == "" || item.thisUser == null){
+								return null
+							}else {
+								return item.thisUser != null?common.getUserById(item.thisUser).value[0].displayName:null;
+							}
 						}
 					},
 					{
@@ -1359,7 +1372,11 @@
 					width : 150,
 					filterable : false,
 					template:function(item){
-						return item.thisUser != null?common.getUserById(item.thisUser).value[0].displayName:null;
+						if(item.thisUser == "" || item.thisUser == null){
+							return null
+						}else {
+							return item.thisUser != null?common.getUserById(item.thisUser).value[0].displayName:null;
+						}
 					}
 				},
 				{
