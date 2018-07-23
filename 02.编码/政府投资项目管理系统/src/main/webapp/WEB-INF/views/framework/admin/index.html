@@ -124,9 +124,9 @@ margin-left:310px;
 				<ul class="sidebar-menu">
 					<li class="header"></li>
 
-<!-- 
-					
-				
+<!--
+
+
 					<li class="treeview"><a href="javascript:void(0)"> <i
 							class="fa fa-link"></i> <span>项目评审管理</span> <span
 							class="pull-right-container"> <i
@@ -198,7 +198,7 @@ margin-left:310px;
 									</li>
 									<li>
 										<@shiro.hasPermission name="management/task#html/complete_shenPi#get">
-										<a href="javascript:void(0)" ui-sref="task_shenPi">个人已办 (审批类)</a> 
+										<a href="javascript:void(0)" ui-sref="task_shenPi">个人已办 (审批类)</a>
 										</@shiro.hasPermission>
 									</li>
 									<li>
@@ -210,7 +210,7 @@ margin-left:310px;
 							</li>
 						</ul>
 					</li>
-					
+
 						<li class="treeview"><a href="javascript:void(0)"> <i
 							class="fa fa-link"></i> <span>年度计划管理</span> <span
 							class="pull-right-container"> <i
@@ -276,7 +276,7 @@ margin-left:310px;
 							</li>
 						</ul>
 					</li>
-					
+
 					<li class="treeview">
 						<a href="javascript:void(0)"> <i
 							class="fa fa-link"></i> <span>项目管理</span> <span
@@ -309,7 +309,7 @@ margin-left:310px;
 					</li>
 					<li class="treeview">
 						<a href="javascript:void(0)">
-							<i class="fa fa-link"></i><span>目录管理</span> 
+							<i class="fa fa-link"></i><span>目录管理</span>
 							<span class="pull-right-container">
 								<i class="fa fa-angle-left pull-right"></i>
 							</span>
@@ -357,10 +357,10 @@ margin-left:310px;
 							</li>
 						</ul>
 					</li>
-					
+
 					<li class="treeview">
 						<a href="javascript:void(0)">
-							<i class="fa fa-link"></i><span>信用信息管理</span> 
+							<i class="fa fa-link"></i><span>信用信息管理</span>
 							<span class="pull-right-container">
 								<i class="fa fa-angle-left pull-right"></i>
 							</span>
@@ -383,8 +383,8 @@ margin-left:310px;
 							</li>
 						</ul>
 					</li>
-					
-					
+
+
 					<li class="treeview">
 						<@shiro.hasPermission name="management/auxDeci/statisticalAnalysis#html/index#get">
 						<a href="javascript:void(0)"> <i
@@ -404,7 +404,7 @@ margin-left:310px;
 							<li><a href="javascript:void(0)" ui-sref="projectProcess">项目全流程</a></li> -->
 						</ul>
 					</li>
-					
+
 					<li class="treeview">
 						<@shiro.hasPermission name="management/portal#html/list#get">
 						<a href="javascript:void(0)"> <i
@@ -432,11 +432,11 @@ margin-left:310px;
 						<ul class="treeview-menu">
 							<li><a href="javascript:void(0)" ui-sref="user">用户管理</a></li>
 							<li><a href="javascript:void(0)" ui-sref="org">部门管理</a></li>
-							
+
 
 						</ul></li>
 					<li class="treeview"><a href="javascript:void(0)"> <i
-							class="fa fa-link"></i> <span>系统管理</span> <span	
+							class="fa fa-link"></i> <span>系统管理</span> <span
 							class="pull-right-container"> <i
 								class="fa fa-angle-left pull-right"></i>
 						</span>
@@ -445,7 +445,7 @@ margin-left:310px;
 							<li><a href="javascript:void(0)" ui-sref="role">角色管理</a></li>
 							<li><a href="javascript:void(0)" ui-sref="log">日志管理</a></li>
 							<li><a href="#/basicData">基础数据管理</a></li>
-							<li><a href="javascript:void(0)" ui-sref="sysConfig">系统配置</a></li>							
+							<li><a href="javascript:void(0)" ui-sref="sysConfig">系统配置</a></li>
 						</ul></li>
 					<!-- <li class="treeview"><a href="javascript:void(0)"> <i
 							class="fa fa-link"></i> <span>Demo</span> <span
@@ -521,7 +521,7 @@ margin-left:310px;
 	<script src="/contents/libs/printThis/printThis.js"></script>
 	<!-- weboffice 在线编辑文档-->
 	<script type="text/javascript" src="/contents/libs/weboffice/main.js"></script>
-	
+
 	<!-- AdminLTE App -->
 	<script src="/contents/libs/adminLTE/dist/js/app.js"></script>
 	<!-- Optionally, you can add Slimscroll and FastClick plugins.
@@ -529,17 +529,19 @@ margin-left:310px;
          user experience. Slimscroll is required when using the
          fixed layout. -->
 
-<!-- textAngular -->
-<script src="/contents/libs/textAngular/textAngular-rangy.min.js"></script>
-<script src="/contents/libs/textAngular/textAngular-sanitize.min.js"></script>
-<script src="/contents/libs/textAngular/textAngular.js"></script>
-<script src="/contents/libs/textAngular/textAngularSetup.js"></script>
-<!-- echarts3 -->
-<script src="/contents/libs/echarts3/echarts.min.js"></script>
+    <!-- textAngular -->
+    <script src="/contents/libs/textAngular/textAngular-rangy.min.js"></script>
+    <script src="/contents/libs/textAngular/textAngular-sanitize.min.js"></script>
+    <script src="/contents/libs/textAngular/textAngular.js"></script>
+    <script src="/contents/libs/textAngular/textAngularSetup.js"></script>
+    <!-- echarts3 -->
+    <script src="/contents/libs/echarts3/echarts.min.js"></script>
 
 	<!-- Begin:自定义Js -->
 	<script src="/contents/common/common.js"></script>
 	<script src="/contents/admin/app.js"></script>
+	<script src="/contents/common/common.bsWin.svc.js"></script>
+	<script src="/contents/common/common.httpInterceptor.js"></script>
 	<!-- Role -->
 	<script src="/contents/admin/framework/role/role.svc.js"></script>
 	<script src="/contents/admin/framework/role/role.ctrl.js"></script>
@@ -563,7 +565,7 @@ margin-left:310px;
 	<!-- demo -->
 	<script src="/contents/admin/framework/demo/demo.ctrl.js"></script>
 	<script src="/contents/admin/framework/demo/demo.svc.js"></script>
-	
+
 	<!-- portal -->
 	<script src="/contents/admin/management/portal/portal.ctrl.js"></script>
 	<script src="/contents/admin/management/portal/portal.svc.js"></script>

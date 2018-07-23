@@ -137,19 +137,38 @@
             }
         }
     }
+
+    /**
+     * 字符串格式，第一个参数为需要格式的字符串，以一对花括号和数字{0}获取后面的参数，第二个参数开始为字符串提供格式的数据
+     * 如：common.format("{0} {1} !", "Hello", "World");  浏览器的控制台的输出结果为Hello World !
+     * @returns {*}
+     */
     function format() {
-        var theString = arguments[0];
-
-        // start with the second argument (i = 1)
-        for (var i = 1; i < arguments.length; i++) {
-            // "gm" = RegEx options for Global search (more than one instance)
-            // and for Multiline search
-            var regEx = new RegExp("\\{" + (i - 1) + "\\}", "gm");
-            theString = theString.replace(regEx, arguments[i]);
+        var str = arguments[0] || "", _d;
+        if (!str) return false;
+        var data = Array.prototype.slice.call(arguments, 1);
+        if (data.length == 1 && (angular.isObject(data[0]) || angular.isArray(data[0]))) {
+            data = data[0];
         }
-
-        return theString;
+        return str.replace(
+            /\{(\w+)(:[^\}]+)?(\.[^\}]+)?\}/g,
+            function (m, i, f) {
+                _d = data[i];
+                if (!_d) {
+                    return "";
+                } else if (angular.isDate(_d)) {
+                    return _d.format(f.substr(1));
+                } else if (angular.isObject(_d) || angular.isArray(_d)) {
+                    return JSON.stringify(_d);
+                } else {
+                    if (f && f.length > 1) {
+                        _d = new Date(_d).format(f.substr(1));
+                    }
+                    return _d;
+                }
+            });
     }
+
     function blockNonNumber(val) {
         var str = val.toString().replace(/[^0-9]/g, '');
         return parseInt(str, 10);
@@ -261,7 +280,7 @@
     }
 
     function http(options) {
-        options.headers = { Token: service.getToken()};
+        options.headers = { Token: service.getToken(), commonHttp: true};
         options.$http(options.httpOptions).then(options.success, function (response) {         
         	common.requestError({        		
         		vm:options.vm,
@@ -838,6 +857,31 @@
         
         //end#grid 处理
         
+    }
+
+    // 对Date的扩展，将 Date 转化为指定格式的String
+    // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
+    // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
+    // 例子：
+    // (new Date()).format("yyyy-MM-dd HH:mm:ss.S") ==> 2006-07-02 08:09:04.423
+    // (new Date()).format("yyyy-M-d H:m:s.S")      ==> 2006-7-2 8:9:4.18
+    if (!Date.prototype.format) {
+        Date.prototype.format = function (fmt) {
+            var o = {
+                "M+": this.getMonth() + 1, //月份
+                "d+": this.getDate(), //日
+                "H+": this.getHours(), //小时
+                "m+": this.getMinutes(), //分
+                "s+": this.getSeconds(), //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt))
+                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
     }
 
 })();

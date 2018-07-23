@@ -25,9 +25,10 @@ public class GlobalDefaultExceptionHandler {
     private HttpServletRequest request;
 
     @ExceptionHandler(value = IllegalArgumentException.class)
+//    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public Response illegalErrorHandler(IllegalArgumentException e) {
-        logger.error("错误处理", e.getCause());
+        logger.error("错误处理, URL[" + request.getRequestURI() + "]", e.getCause());
         Response response = new Response();
         response.setMessage(e.getMessage());
         response.setStatus(555);
@@ -37,7 +38,7 @@ public class GlobalDefaultExceptionHandler {
     @ExceptionHandler(value = {UnauthenticatedException.class, AuthorizationException.class})
     @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
     public String unAuthErrorHandler(Exception e) {
-        logger.error("无权限访问", e.getCause());
+        logger.error("无权限访问, URL[" + request.getRequestURI() + "]", e.getCause());
         //获取当前的请求url
         String url = request.getServletPath();
         String[] urls = url.split("\\/");
@@ -49,8 +50,9 @@ public class GlobalDefaultExceptionHandler {
     }
 
     @ExceptionHandler(value = Exception.class)
-    public void errorHandler(HttpServletRequest req, Exception e) throws Exception {
-        logger.error("通用错误处理", e.getCause());
+//    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public void errorHandler(Exception e) throws Exception {
+        logger.error("通用错误处理, URL[" + request.getRequestURI() + "]", e.getCause());
         e.printStackTrace();
         throw e;
 
