@@ -2,59 +2,163 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <process id="ShenpiMonitor_fjxm" name="房建类型项目监控流程图" isExecutable="true">
     <startEvent id="项目建议书" name="项目建议书"></startEvent>
-    <userTask id="usertask1" name="项目立项-新区发财局-5个工作日" activiti:candidateGroups="9aa9c2fa-d663-4187-901e-374c3a5cbb0e"></userTask>
-    <userTask id="usertask2" name="选择意见书及用地预审-管理局-20个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5"></userTask>
+    <userTask id="usertask1" name="项目立项-新区发财局-5个工作日" activiti:candidateGroups="f15ab83a-09ea-484f-9544-3ccb982aa37d">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="usertask2" name="选择意见书及用地预审-管理局-20个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <sequenceFlow id="flow2" sourceRef="usertask1" targetRef="usertask2"></sequenceFlow>
-    <userTask id="usertask3" name="环评审批-新区城建局-15个工作日" activiti:assignee="4d46ad6f-d25a-4a4a-9c17-7eebea7d64e8"></userTask>
+    <userTask id="usertask3" name="环评审批-新区城建局-15个工作日" activiti:assignee="4d46ad6f-d25a-4a4a-9c17-7eebea7d64e8">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <parallelGateway id="parallelgateway1" name="Parallel Gateway"></parallelGateway>
     <sequenceFlow id="flow3" sourceRef="usertask2" targetRef="parallelgateway1"></sequenceFlow>
     <parallelGateway id="parallelgateway2" name="Parallel Gateway"></parallelGateway>
     <sequenceFlow id="flow4" sourceRef="parallelgateway1" targetRef="usertask3"></sequenceFlow>
-    <userTask id="usertask4" name="可研报告审批-新区发财局-5个工作日"></userTask>
+    <userTask id="usertask4" name="可研报告审批-新区发财局-5个工作日">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <sequenceFlow id="flow5" sourceRef="parallelgateway1" targetRef="usertask4"></sequenceFlow>
     <sequenceFlow id="flow6" sourceRef="usertask3" targetRef="parallelgateway2"></sequenceFlow>
     <sequenceFlow id="flow7" sourceRef="usertask4" targetRef="parallelgateway2"></sequenceFlow>
-    <userTask id="usertask6" name="用地方案图-管理局-20个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5"></userTask>
+    <userTask id="usertask6" name="用地方案图-管理局-20个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <sequenceFlow id="flow8" sourceRef="parallelgateway2" targetRef="usertask6"></sequenceFlow>
-    <userTask id="usertask7" name="用地规划许可-管理局-20个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5"></userTask>
+    <userTask id="usertask7" name="用地规划许可-管理局-20个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <sequenceFlow id="flow9" sourceRef="usertask6" targetRef="usertask7"></sequenceFlow>
-    <userTask id="usertask8" name="土地使用权出让-管理局-40个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5"></userTask>
+    <userTask id="usertask8" name="土地使用权出让-管理局-40个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <sequenceFlow id="flow10" sourceRef="usertask7" targetRef="usertask8"></sequenceFlow>
-    <userTask id="usertask9" name="方案设计招投标-招投标平台-40个工作日" activiti:assignee="b3ca4326-bbca-4289-92c4-e5ee15300846"></userTask>
+    <userTask id="usertask9" name="方案设计招投标-招投标平台-40个工作日" activiti:assignee="b3ca4326-bbca-4289-92c4-e5ee15300846">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <sequenceFlow id="flow11" sourceRef="usertask8" targetRef="usertask9"></sequenceFlow>
-    <userTask id="usertask11" name="工程方案审查-管理局-20个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5"></userTask>
+    <userTask id="usertask11" name="工程方案审查-管理局-20个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <sequenceFlow id="flow12" sourceRef="usertask9" targetRef="usertask11"></sequenceFlow>
-    <userTask id="usertask12" name="扩初设计审查-管理局-15个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5"></userTask>
+    <userTask id="usertask12" name="扩初设计审查-管理局-15个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <sequenceFlow id="flow13" sourceRef="usertask11" targetRef="usertask12"></sequenceFlow>
-    <userTask id="usertask14" name="民房建设意见单-管理局-10个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5"></userTask>
+    <userTask id="usertask14" name="民房建设意见单-管理局-10个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <parallelGateway id="parallelgateway3" name="Parallel Gateway"></parallelGateway>
     <sequenceFlow id="flow16" sourceRef="usertask14" targetRef="parallelgateway3"></sequenceFlow>
-    <userTask id="usertask16" name="建筑物命名审批-管理局-10个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5"></userTask>
-    <userTask id="usertask17" name="消防设计审批-市消防局-20个工作日" activiti:assignee="d21b9ea6-aa2e-4d80-b7bc-e1aac9ecced8"></userTask>
-    <userTask id="usertask18" name="初步设计概算审批-新区发财局-5个工作日"></userTask>
+    <userTask id="usertask16" name="建筑物命名审批-管理局-10个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="usertask17" name="消防设计审批-市消防局-20个工作日" activiti:assignee="d21b9ea6-aa2e-4d80-b7bc-e1aac9ecced8">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="usertask18" name="初步设计概算审批-新区发财局-5个工作日">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <parallelGateway id="parallelgateway4" name="Parallel Gateway"></parallelGateway>
-    <userTask id="usertask19" name="建设工程施工图节能抽查-新区城建局-5个工作日" activiti:assignee="4d46ad6f-d25a-4a4a-9c17-7eebea7d64e8"></userTask>
-    <userTask id="usertask20" name="预算审核-新区纪检局-10个工作日" activiti:assignee="4b144bf5-920c-4d22-bb8a-c6f23ff81e44"></userTask>
-    <userTask id="usertask21" name="下达投资计划-新区发财局-5个工作日" activiti:candidateGroups="9aa9c2fa-d663-4187-901e-374c3a5cbb0e"></userTask>
-    <userTask id="usertask22" name="监理招标-招投标平台-20个工作日" activiti:assignee="b3ca4326-bbca-4289-92c4-e5ee15300846"></userTask>
+    <userTask id="usertask19" name="建设工程施工图节能抽查-新区城建局-5个工作日" activiti:assignee="4d46ad6f-d25a-4a4a-9c17-7eebea7d64e8">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="usertask20" name="预算审核-新区纪检局-10个工作日" activiti:assignee="4b144bf5-920c-4d22-bb8a-c6f23ff81e44">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="usertask21" name="下达投资计划-新区发财局-5个工作日" activiti:candidateGroups="f15ab83a-09ea-484f-9544-3ccb982aa37d">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="usertask22" name="监理招标-招投标平台-20个工作日" activiti:assignee="b3ca4326-bbca-4289-92c4-e5ee15300846">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <sequenceFlow id="flow26" sourceRef="usertask21" targetRef="usertask22"></sequenceFlow>
-    <userTask id="usertask23" name="施工招标-招投标平台-40个工作日" activiti:assignee="b3ca4326-bbca-4289-92c4-e5ee15300846"></userTask>
-    <userTask id="usertask24" name="施工许可-新区城建局-10个工作日" activiti:assignee="4d46ad6f-d25a-4a4a-9c17-7eebea7d64e8"></userTask>
-    <userTask id="usertask25" name="城市排水许可-新区城建局-20个工作日" activiti:assignee="4d46ad6f-d25a-4a4a-9c17-7eebea7d64e8"></userTask>
+    <userTask id="usertask23" name="施工招标-招投标平台-40个工作日" activiti:assignee="b3ca4326-bbca-4289-92c4-e5ee15300846">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="usertask24" name="施工许可-新区城建局-10个工作日" activiti:assignee="4d46ad6f-d25a-4a4a-9c17-7eebea7d64e8">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="usertask25" name="城市排水许可-新区城建局-20个工作日" activiti:assignee="4d46ad6f-d25a-4a4a-9c17-7eebea7d64e8">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <endEvent id="endevent1" name="End"></endEvent>
     <sequenceFlow id="flow30" sourceRef="usertask25" targetRef="endevent1"></sequenceFlow>
-    <userTask id="usertask26" name="项目建议书-建设单位-5个工作日"></userTask>
+    <userTask id="usertask26" name="项目建议书-建设单位-5个工作日">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <sequenceFlow id="flow31" sourceRef="项目建议书" targetRef="usertask26"></sequenceFlow>
     <sequenceFlow id="flow32" sourceRef="usertask26" targetRef="usertask1"></sequenceFlow>
-    <userTask id="usertask27" name="水务（水保、排水、节水和防洪）方案审查-新区城建局-20个工作日" activiti:assignee="4d46ad6f-d25a-4a4a-9c17-7eebea7d64e8"></userTask>
-    <userTask id="usertask28" name="民防建设核准单-新区城建局-10个工作日" activiti:assignee="4d46ad6f-d25a-4a4a-9c17-7eebea7d64e8"></userTask>
+    <userTask id="usertask27" name="水务（水保、排水、节水和防洪）方案审查-新区城建局-20个工作日" activiti:assignee="4d46ad6f-d25a-4a4a-9c17-7eebea7d64e8">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="usertask28" name="民防建设核准单-新区城建局-10个工作日" activiti:assignee="4d46ad6f-d25a-4a4a-9c17-7eebea7d64e8">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <parallelGateway id="parallelgateway5" name="Parallel Gateway"></parallelGateway>
     <sequenceFlow id="flow37" sourceRef="usertask19" targetRef="parallelgateway5"></sequenceFlow>
     <parallelGateway id="parallelgateway6" name="Parallel Gateway"></parallelGateway>
     <sequenceFlow id="flow40" sourceRef="parallelgateway6" targetRef="usertask21"></sequenceFlow>
-    <userTask id="usertask29" name="工程规划许可-管理局-20个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5"></userTask>
+    <userTask id="usertask29" name="工程规划许可-管理局-20个工作日" activiti:assignee="d2b1abf7-6308-4f9f-9798-b4698557d7b5">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <sequenceFlow id="flow41" sourceRef="parallelgateway5" targetRef="usertask29"></sequenceFlow>
-    <userTask id="usertask31" name="建设工程合同备案-新区城建局-5个工作日" activiti:assignee="4d46ad6f-d25a-4a4a-9c17-7eebea7d64e8"></userTask>
+    <userTask id="usertask31" name="建设工程合同备案-新区城建局-5个工作日" activiti:assignee="4d46ad6f-d25a-4a4a-9c17-7eebea7d64e8">
+      <extensionElements>
+        <activiti:taskListener event="create" class="cs.activiti.listener.MonitorListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <parallelGateway id="parallelgateway9" name="Parallel Gateway"></parallelGateway>
     <sequenceFlow id="flow49" sourceRef="usertask23" targetRef="parallelgateway9"></sequenceFlow>
     <sequenceFlow id="flow50" sourceRef="parallelgateway9" targetRef="usertask24"></sequenceFlow>

@@ -172,6 +172,8 @@ public class BaseShenBaoInfo extends BaseProject {
     //begin#在线监管
     @Column(columnDefinition = "varchar(125) NULL COMMENT '在线监管流程ID'")
     private String monitor_processId;
+    @Column(columnDefinition = "varchar(125) NULL COMMENT '在线监管流程状态'")
+    private String monitor_status;
     @Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否提交申报附件'")
     private Boolean isSubShenBaoAtt= false;
     //end
@@ -222,11 +224,25 @@ public class BaseShenBaoInfo extends BaseProject {
     @Column(columnDefinition = "bit(1) DEFAULT b'0' COMMENT '领导是否已阅'")
     private Boolean isLeaderHasRead  = false;//默认为不申请
     //end
+    
+    
     public Double getYearInvestApproval() {
         return yearInvestApproval;
     }
 
-    public void setYearInvestApproval(Double yearInvestApproval) {
+    public String getMonitor_status() {
+		return monitor_status;
+	}
+
+	public void setMonitor_status(String monitor_status) {
+		this.monitor_status = monitor_status;
+	}
+
+	public void setIsSubShenBaoAtt(Boolean isSubShenBaoAtt) {
+		this.isSubShenBaoAtt = isSubShenBaoAtt;
+	}
+
+	public void setYearInvestApproval(Double yearInvestApproval) {
         this.yearInvestApproval = yearInvestApproval;
     }
 

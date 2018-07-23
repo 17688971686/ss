@@ -121,12 +121,14 @@
 					var isHistory = contextObject.getProperty("isHistory");
 					var name = contextObject.getProperty("name");
 					var isSubShenBaoAtt = contextObject.getProperty("isSubShenBaoAtt");
+					var beginTime = contextObject.getProperty("beginTime");
 					
 					var $scope = angular.element("body").scope();
 				    $scope.$apply(function () {
 						$scope.vm.shenBaoInfoId = shenBaoInfoId;
 						$scope.vm.name = name;
 						$scope.vm.taskId = taskId;
+						$scope.vm.beginTime = beginTime;
 					})
 					
 					$scope.vm.getAuthorityForCurTask(processInstanceId,taskId,taskKey,function(data){

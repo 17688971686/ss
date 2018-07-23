@@ -1884,6 +1884,7 @@ ProcessDiagramCanvas.prototype = {
 		contextObject.setProperty("taskId",activitie.taskId);
 		contextObject.setProperty("isHistory",activitie.isHistory);
 		contextObject.setProperty("isSubShenBaoAtt",activitie.isSubShenBaoAtt);
+		contextObject.setProperty("beginTime",activitie.beginTime);
 		
 		if (contextObject)
 			console.log("--> highLightActivity: ["+contextObject.getProperty("type")+"], activityId: " + contextObject.getId());
