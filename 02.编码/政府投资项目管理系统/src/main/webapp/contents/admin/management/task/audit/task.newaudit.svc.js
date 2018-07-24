@@ -18,9 +18,9 @@
             return output;
         };
     });
-    taskNewAudit.$inject = ['$http', '$location'];
+    taskNewAudit.$inject = ['$http', 'bsWin'];
 
-    function taskNewAudit($http, $location) {
+    function taskNewAudit($http, bsWin) {
         var url_taskAudit = "/management/task/audit";
         var url_taskAudit_other = "/management/task/auditOther";
         var url_taskAudit_yuepi = "/management/task/yuepi";
@@ -634,42 +634,22 @@
             common.initJqValidation();
             var isValid = $('form').valid();
             if (isValid) {
-                var httpOptions = {
-                    method: 'post',
-                    url: url_taskAudit_new + "/pinglun",
-                    data: {"id": vm.id, "msg": vm.processSuggestion, "shenbaoinfo": vm.model.shenBaoInfo}
-                };
-
-                var httpSuccess = function success(response) {
-                    common.requestSuccess({
-                        vm: vm,
-                        response: response,
-                        fn: function () {
-                            common.alert({
-                                vm: vm,
-                                msg: "操作成功",
-                                fn: function () {
-                                    vm.isSubmit = false;
-                                    $('.alertDialog').modal('hide');
-                                    $('.modal-backdrop').remove();
-
-                                    if (vm.page == 'handleYuepi') {
-                                        location.href = "#/task/todo_yuepi";
-                                    } else {
-                                        location.href = url_back;
-                                    }
-                                }
-                            });
+                $http.post(url_taskAudit_new + "/pinglun", {
+                    "id": vm.id,
+                    "msg": vm.processSuggestion,
+                    "shenbaoinfo": vm.model.shenBaoInfo
+                }).then(function (response) {
+                    vm.isSubmit = false;
+                    bsWin.success("操作成功", function () {
+                        if (vm.page == 'handleYuepi') {
+                            location.href = "#/task/todo_yuepi";
+                        } else {
+                            location.href = url_back;
                         }
-                    });
-                };
-
-                common.http({
-                    vm: vm,
-                    $http: $http,
-                    httpOptions: httpOptions,
-                    success: httpSuccess
-                });
+                    })
+                }, function (response) {
+                    vm.isSubmit = false;
+                })
             }
         }//end fun handle
         /**
