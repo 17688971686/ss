@@ -1025,13 +1025,23 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			attachmentRepo.delete(x);
 		});
 		project.getAttachments().clear();
-		shenbaoinfoDto.getAttachmentDtos().forEach(x -> {// 添加新附件
+		for(AttachmentDto x : shenbaoinfoDto.getAttachmentDtos()) {
 			Attachment attachment = new Attachment();
 			attachmentMapper.buildEntity(x, attachment);
 			attachment.setCreatedBy(project.getCreatedBy());
 			attachment.setModifiedBy(project.getModifiedBy());
+			if(StringUtil.isBlank(attachment.getBusinessType())) {
+				attachment.setBusinessType("shenPi");
+			}
+			if(StringUtil.isBlank(attachment.getShenBaoAttType())) {
+				if(ObjectUtils.isNoneEmpty(monitorTask)) {
+					attachment.setShenBaoAttType(monitorTask.getTaskDefinitionKey());
+				}
+			}
+			
 			project.getAttachments().add(attachment);
-		});
+		}
+
 		project.setPifuCBSJYGS_date(shenbaoinfoDto.getPifuCBSJYGS_date());
 		project.setPifuKXXYJBG_date(shenbaoinfoDto.getPifuKXXYJBG_date());
 		project.setPifuJYS_date(shenbaoinfoDto.getPifuJYS_date());
@@ -1055,13 +1065,22 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		});
 		shenBaoInfo.getAttachments().clear();
 		if (shenbaoinfoDto.getAttachmentDtos().size() > 0) {
-			shenbaoinfoDto.getAttachmentDtos().forEach(x -> {// 添加新附件
+			for(AttachmentDto x : shenbaoinfoDto.getAttachmentDtos()) {
 				Attachment attachment = new Attachment();
 				attachmentMapper.buildEntity(x, attachment);
-				attachment.setCreatedBy(shenBaoInfo.getCreatedBy());
-				attachment.setModifiedBy(shenBaoInfo.getModifiedBy());
+				attachment.setCreatedBy(project.getCreatedBy());
+				attachment.setModifiedBy(project.getModifiedBy());
+				if(StringUtil.isBlank(attachment.getBusinessType())) {
+					attachment.setBusinessType("shenPi");
+				}
+				if(StringUtil.isBlank(attachment.getShenBaoAttType())) {
+					if(ObjectUtils.isNoneEmpty(monitorTask)) {
+						attachment.setShenBaoAttType(monitorTask.getTaskDefinitionKey());
+					}
+				}
+				
 				shenBaoInfo.getAttachments().add(attachment);
-			});
+			}
 		}
 		projectRepo.save(project);
 
