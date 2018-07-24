@@ -836,7 +836,13 @@
                 change: function () {
                     var grid = $(".grid").data("kendoGrid");
                     window.todo_auditOption = grid.getOptions();
-                }
+                },
+                filter:{
+					field:'thisUser',
+					operator:'eq',
+					value:window.profile_userId
+				}
+                //window.profile_userId
             });
             // End:dataSource
 
