@@ -18,7 +18,7 @@ public class BaseShenBaoInfo extends BaseProject {
     private String id;
 
     //begin#与项目相关
-    @Column(columnDefinition = "varchar(100) NULL COMMENT '项目ID'")
+    @Column(columnDefinition = "varchar(64) NULL COMMENT '项目ID'")
     private String projectId;
 
     @Column(columnDefinition = "bit(1) DEFAULT b'0' COMMENT '项目是否纳入项目库'")
@@ -27,7 +27,7 @@ public class BaseShenBaoInfo extends BaseProject {
     @Column(columnDefinition = "bit(1) DEFAULT b'0' COMMENT '项目是否纳入打包计划'")
     private Boolean isIncludPack = false;
 
-    @Column(columnDefinition = "varchar(125) NULL COMMENT '申报阶段'")
+    @Column(columnDefinition = "varchar(64) NULL COMMENT '申报阶段'")
     private String projectShenBaoStage;
 
     @Column(columnDefinition = "varchar(64) NULL COMMENT '当前办理人员'")
@@ -53,9 +53,9 @@ public class BaseShenBaoInfo extends BaseProject {
     private String constructionUnit;
     @Column(columnDefinition = "varchar(500) NULL COMMENT '年度建设任务'")
     private String yearConstructionTask;
-    @Column(columnDefinition = "varchar(255) NULL COMMENT '安排年度投资Id'")
+    @Column(columnDefinition = "varchar(64) NULL COMMENT '安排年度投资Id'")
     private String yearPlanCapitalId;
-    @Column(columnDefinition = "varchar(125) NULL COMMENT '打包类型'")
+    @Column(columnDefinition = "varchar(64) NULL COMMENT '打包类型'")
     private String packageType = BasicDataConfig.packageType_danLie;//默认为单列项目
     @Column(columnDefinition = "bit(1) DEFAULT b'0' COMMENT '是否需要申请指标外资金'")
     private Boolean isApplyOutsideCapital = false;
@@ -173,7 +173,7 @@ public class BaseShenBaoInfo extends BaseProject {
     //begin#在线监管
     @Column(columnDefinition = "varchar(125) NULL COMMENT '在线监管流程ID'")
     private String monitor_processId;
-    @Column(columnDefinition = "varchar(125) NULL COMMENT '在线监管流程状态'")
+    @Column(columnDefinition = "varchar(32) NULL COMMENT '在线监管流程状态'")
     private String monitor_status;
     @Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否提交申报附件'")
     private Boolean isSubShenBaoAtt= false;

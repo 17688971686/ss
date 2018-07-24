@@ -312,11 +312,10 @@
 						</label> &nbsp;&nbsp; <label> <input type="checkbox"
 							name="nextProcess" value="9" ng-click="vm.changeDeptUsers(9)"
 							ng-true-value="9" ng-model="vm.isPass" />请示领导
-						</label> &nbsp;&nbsp; <label> <input type="checkbox"
+						</label> &nbsp;&nbsp; <label ng-if="vm.isShow"> <input type="checkbox"
 							name="nextProcess" value="5" ng-click="vm.changeDeptUsers(5)"
 							ng-true-value="5" ng-model="vm.isPass" />转办
-						</label> <span data-valmsg-for="nextProcess" data-valmsg-replace="true"
-							class="required"></span>
+						</label> 
 					</div>
 					<div>
 						<button ng-if="vm.isPass == 8" class="btn btn-success btn-xs"
@@ -418,7 +417,7 @@
 							ng-click="vm.changeDeptUsers(6)" ng-model="vm.isPass" />局长审核
 						</label> <span data-valmsg-for="nextProcess" data-valmsg-replace="true"
 							class="required"></span> &nbsp;&nbsp; 
-						<label> <input type="radio" id="nextProcess" ng-click="vm.changeDeptUsers(7)"
+						<label ng-if="vm.isShow"> <input type="radio" id="nextProcess" ng-click="vm.changeDeptUsers(7)"
 							name="nextProcess" value="7" ng-true-value="7"
 							ng-model="vm.isPass" />退回办理人
 						</label>
@@ -450,7 +449,7 @@
 						<label> <input type="radio" id="nextProcess"
 							name="nextProcess" value="5" ng-true-value="5" ng-click="vm.changeDeptUsers(5)" ng-model="vm.isPass"/>办公室印文
 						</label>
-						<label> <input type="radio" id="nextProcess" ng-click="vm.changeDeptUsers(7)"
+						<label ng-if="vm.isShow"> <input type="radio" id="nextProcess" ng-click="vm.changeDeptUsers(7)"
 							name="nextProcess" value="7" ng-true-value="7"
 							ng-model="vm.isPass" />退回办理人
 						</label>
@@ -524,7 +523,11 @@
 					<button ng-click="vm.handle('reback')"
 						class="btn btn-danger btn-sm" style="margin: 0 10px;"
 						ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask6' || vm.model.shenBaoInfo.thisTaskName == 'usertask7' || vm.model.shenBaoInfo.thisTaskName == 'usertask8' 
-					 || vm.model.shenBaoInfo.thisTaskName == 'usertask12'  || vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask17' || vm.model.shenBaoInfo.thisTaskName == 'usertask14' || vm.model.shenBaoInfo.thisTaskName == 'usertask18' || vm.model.shenBaoInfo.thisTaskName == 'usertask20' || vm.model.shenBaoInfo.thisTaskName == 'usertask21'|| vm.model.shenBaoInfo.thisTaskName == 'usertask19' || vm.model.shenBaoInfo.thisTaskName == 'usertask23'">退回</button>
+					 || vm.model.shenBaoInfo.thisTaskName == 'usertask12'  ||  vm.model.shenBaoInfo.thisTaskName == 'usertask14'
+					  || vm.model.shenBaoInfo.thisTaskName == 'usertask18' || vm.model.shenBaoInfo.thisTaskName == 'usertask20'
+					   || (vm.model.shenBaoInfo.thisTaskName == 'usertask21' ||vm.model.shenBaoInfo.thisTaskName == 'usertask13' 
+					   || vm.model.shenBaoInfo.thisTaskName == 'usertask17'|| vm.model.shenBaoInfo.thisTaskName == 'usertask19') && vm.isShow
+					    || vm.model.shenBaoInfo.thisTaskName == 'usertask23'">退回</button>
 					<!-- 退文 -->
 					<button ng-click="vm.handle('tuiwen')"
 						class="btn btn-warning btn-sm" style="margin: 0 10px;"
