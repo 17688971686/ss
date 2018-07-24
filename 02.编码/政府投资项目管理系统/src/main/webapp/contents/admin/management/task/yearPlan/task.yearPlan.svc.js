@@ -1,23 +1,8 @@
 (function() {
 	'use strict';
 
-	var app = angular.module('app').factory('taskYearPlanSvc', task);
-	app.filter('unique', function() {
-		   return function(collection, keyname) {
-		      var output = [], 
-		          keys = [];
+	angular.module('app').factory('taskYearPlanSvc', task);
 
-		      angular.forEach(collection, function(item) {
-		          var key = item[keyname];
-		          if(keys.indexOf(key) === -1) {
-		              keys.push(key);
-		              output.push(item);
-		          }
-		      });
-
-		      return output;
-		   };
-		});
 	task.$inject = [ '$http' ];
 
 	function task($http) {

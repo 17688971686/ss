@@ -1,9 +1,7 @@
 (function () {
     'use strict';
 
-    angular
-        .module('app')
-        .controller('taskYearPlanCtrl', task);
+    angular.module('app').controller('taskYearPlanCtrl', task);
 
     task.$inject = ['$location','taskYearPlanSvc','$state','$scope','$sce']; 
 
