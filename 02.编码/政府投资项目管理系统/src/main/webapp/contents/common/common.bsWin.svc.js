@@ -79,9 +79,9 @@
                         var title;
                         if (!message || angular.isFunction(message)) {
                             onClose = onOk || function () {
-                                };
+                            };
                             onOk = message || function () {
-                                };
+                            };
                             message = options;
                         } else {
                             title = options;
@@ -190,7 +190,7 @@
             '<div class="alertDialog modal fade" tabindex="-1" role="dialog" style="z-index: {{10000 + winId}};">\
                 <div class="modal-dialog" role="document" style="margin:80px auto;width:80%;max-width:400px;">\
                     <div class="modal-content">\
-                        <div class="modal-header">\
+                        <div class="modal-header bg-primary" style="height:30px;padding:5px;">\
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
                             <h4 class="modal-title text-info">{{title || \'消息提醒\'}}</h4>\
                         </div>\
@@ -201,7 +201,7 @@
                             </p>\
                         </div>\
                         <div class="modal-footer">\
-                            <button type="button"  class="btn btn-default" data-dismiss="modal">关闭</button>\
+                            <button type="button"  class="btn btn-info btn-sm" data-dismiss="modal">关闭</button>\
                         </div>\
                     </div>\
                 </div>\
@@ -212,54 +212,14 @@
             '<div class="confirmDialog modal fade" tabindex="-1" role="dialog" style="z-index: {{10000 + winId}};">\
                 <div class="modal-dialog" role="document" style="margin:80px auto;width:80%;max-width:400px;">\
                     <div class="modal-content">\
-                        <div class="modal-header">\
+                        <div class="modal-header bg-primary" style="height:30px;padding:5px;">\
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
                             <h4 class="modal-title text-info">{{title||\'提示\'}}</h4>\
                         </div>\
                         <div class="modal-body text-primary"><p><i class="fa fa-question-circle" aria-hidden="true"></i> {{message}}</p></div>\
                         <div class="modal-footer">\
-                            <button type="button" ng-click="ok()" class="btn btn-info" >确认</button>\
-                            <button type="button"  class="btn btn-default" data-dismiss="modal">取消</button>\
-                        </div>\
-                    </div>\
-                </div>\
-            </div>');
-
-        // 重新登录窗口
-        $templateCache.put(reloginTplPath,
-            '<div class="confirmDialog modal fade" tabindex="-1" role="dialog" style="z-index: {{10000 + winId}};">\
-                <div class="modal-dialog" role="document" style="margin:80px auto;width:80%;max-width:400px;">\
-                    <div class="modal-content">\
-                        <div class="modal-header">\
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
-                            <h4 class="modal-title text-info">登录窗口</h4>\
-                        </div>\
-                        <div class="modal-body text-primary">\
-                            <p><i class="fa fa-warning" aria-hidden="true"></i> {{message}}</p>\
-                            <div><span ng-show="vm.message" class="errors" ng-bind="vm.message"></span></div>\
-                            <div><span data-valmsg-for="loginName" data-valmsg-replace="true" class="errors"></span></div>\
-                            <div class="form-group has-feedback">\
-                                <input type="text" class="form-control" placeholder="用户名" maxlength="100" name="loginName" id="loginName" ng-model="model.loginName" data-val="true" data-val-required="用户名必填">\
-                                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>\
-                            </div>\
-                            <div><span data-valmsg-for="password" data-valmsg-replace="true" class="errors"></span></div>\
-                            <div class="form-group has-feedback">\
-                                <input type="password" class="form-control" placeholder="密码" maxlength="100" name="loginPassword" id="loginPassword" ng-model="model.loginPassword" data-val="true" data-val-required="密码必填">\
-                                <span class="glyphicon glyphicon-lock form-control-feedback"></span>\
-                            </div>\
-                            <div><span data-valmsg-for="captcha" data-valmsg-replace="true" class="errors"></span></div>\
-                            <div class="form-group has-feedback">\
-                                <input type="text" class="form-control" placeholder="验证码" maxlength="10" name="captcha" id="captcha" ng-model="model.captcha" data-val="true" data-val-required="验证码必填"/>\
-                                <span>\
-                                    <label class="code_word" ng-click="reloadVerify()">看不清，换一张</label>\
-                                    <img id="verify" width="100" height="50" ng-click="reloadVerify()" ng-src="{{captchaImagePath}}" />\
-                                </span>\
-                            </div>\
-                        </div>\
-                        <div class="modal-footer">\
-                            <div class="pull-right col-sm-12">\
-                                <button type="button" ng-click="ok()"  class="btn btn-primary btn-block btn-flat l-icon">登 录</button>\
-                            </div>\
+                            <button type="button" ng-click="ok()" class="btn btn-success btn-sm" >确认</button>\
+                            <button type="button"  class="btn btn-default btn-sm" data-dismiss="modal">取消</button>\
                         </div>\
                     </div>\
                 </div>\
