@@ -119,7 +119,7 @@ label {
 				<td>
 					<div ng-bind="x.msg"></div>
 					<div class="text-right" ng-bind="x.id"></div>
-					<div class="text-right" ng-bind="vm.formatDateTime(x.endTime)"></div>
+					<div class="text-right" ng-bind="x.endTime | date:'yyyy-MM-dd hh:mm:ss'"></div>
 				</td>
 			</tr>
 		</table>
@@ -131,7 +131,7 @@ label {
 				<td>
 					<div ng-bind="x.msg"></div>
 					<div class="text-right" ng-bind="x.id"></div>
-					<div class="text-right" ng-bind="vm.formatDateTime(x.endTime)"></div>
+					<div class="text-right" ng-bind="x.endTime | date:'yyyy-MM-dd hh:mm:ss'"></div>
 				</td>
 			</tr>
 		</table>

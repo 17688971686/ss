@@ -529,7 +529,7 @@
 			var httpOptions = {
 					method : 'get',
 					async:false,
-					url : common.format(url_dept+ "?$filter=name eq '{0}'", name)
+					url : common.format(url_dept+ "?$filter=name eq '{0}'", encodeURIComponent(name))
 			};
 			
 			var httpSuccess = function success(response){

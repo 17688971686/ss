@@ -230,28 +230,9 @@
 		 * 查询部门信息
 		 */
 		function getDeptByName(vm,name){
-			var httpOptions = {
-					method : 'get',
-					async:false,
-					url : common.format(url_dept+ "?$filter=name eq '{0}'", name)
-			};
-			
-			var httpSuccess = function success(response){
-				common.requestSuccess({
-					vm:vm,
-					response:response,
-					fn:function(){
-						vm.model.dept = response.data.value[0]||{};
-					}
-				});
-			};
-			
-			common.http({
-				vm:vm,
-				$http:$http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});
+			$http.get(common.format(url_dept+ "?$filter=name eq '{0}'", encodeURIComponent(name))).success(function (data) {
+                vm.model.dept = data.value[0]||{};
+            })
 		}//end fun getDeptByName
 		
 		function handle(vm,str){
