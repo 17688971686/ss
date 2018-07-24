@@ -80,19 +80,19 @@
         $httpProvider.interceptors.push(commonHttpInterceptor);
     }]);
 
-    if (jQuery) {  // 设置jQuery的ajax全局默认配置
-        jQuery(document).ajaxSend(function (event, request, settings) {
-            // request.setRequestHeader('Token', common.getToken());
-        }).ajaxError(function (event, jqXHR, settings, thrownError) {
-            console.log("ajaxError", event, jqXHR, settings, thrownError);
-            var _body = angular.element("body"),
-                scope = _body.scope(),
-                bsWin = _body.injector().get("bsWin"),
-                data = angular.isString(jqXHR.responseText) ? JSON.parse(jqXHR.responseText || "{}") : jqXHR.responseText;
-
-            scope.$apply(function () {
-                errorHandle(bsWin, jqXHR.status, data || {});
-            });
-        });
-    }
+    // if (jQuery) {  // 设置jQuery的ajax全局默认配置
+    //     jQuery(document).ajaxSend(function (event, request, settings) {
+    //         // request.setRequestHeader('Token', common.getToken());
+    //     }).ajaxError(function (event, jqXHR, settings, thrownError) {
+    //         console.log("ajaxError", event, jqXHR, settings, thrownError);
+    //         var _body = angular.element("body"),
+    //             scope = _body.scope(),
+    //             bsWin = _body.injector().get("bsWin"),
+    //             data = angular.isString(jqXHR.responseText) ? JSON.parse(jqXHR.responseText || "{}") : jqXHR.responseText;
+    //
+    //         scope.$apply(function () {
+    //             errorHandle(bsWin, jqXHR.status, data || {});
+    //         });
+    //     });
+    // }
 })();
