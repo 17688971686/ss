@@ -43,9 +43,9 @@
 					ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustry)"></span>
 				</td>
 				<td class="formAlignRight" >项目编码：</td>
-				<td ng-show="vm.model.shenBaoInfo.thisTaskName != 'usertask3' && vm.model.shenBaoInfo.thisTaskName != 'usertask16'
-				&& vm.model.shenBaoInfo.thisTaskName != 'usertask22' && vm.model.shenBaoInfo.thisTaskName == 'usertask23'">
-					<span ng-bind="vm.model.shenBaoInfo.projectNumber" ></span>
+				<td>
+					<span ng-show="vm.model.shenBaoInfo.thisTaskName != 'usertask3' && vm.model.shenBaoInfo.thisTaskName != 'usertask16'
+				&& vm.model.shenBaoInfo.thisTaskName != 'usertask22' && vm.model.shenBaoInfo.thisTaskName == 'usertask23'" ng-bind="vm.model.shenBaoInfo.projectNumber" ></span>
 				</td>
 				<td ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask16'
 				|| vm.model.shenBaoInfo.thisTaskName == 'usertask22' || vm.model.shenBaoInfo.thisTaskName == 'usertask23'">
