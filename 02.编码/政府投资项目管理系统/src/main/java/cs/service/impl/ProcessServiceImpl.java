@@ -983,7 +983,9 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 					}
 				}
 			}
-			activitiService.setTaskComment(monitorTask.getId(), shenBaoInfo.getMonitor_processId(), "批复意见：" + msg);
+			if(ObjectUtils.isNoneEmpty(monitorTask)){
+				activitiService.setTaskComment(monitorTask.getId(), shenBaoInfo.getMonitor_processId(), "批复意见：" + msg);
+			}
 		} else {
 			monitorTask = null;
 		}
