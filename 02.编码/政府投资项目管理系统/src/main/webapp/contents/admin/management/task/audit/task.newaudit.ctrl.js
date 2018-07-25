@@ -702,6 +702,8 @@
         		if(vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask23'){
         			if(num == "8"){
         				taskNewAuditSvc.getDeptByName(vm,"评审中心");
+        			}else if(num == "7" || num == "9" ){
+        				taskNewAuditSvc.getKezhangByName(vm,"投资科");
         			}else{
         				taskNewAuditSvc.getDeptByName(vm,"投资科");
         			}

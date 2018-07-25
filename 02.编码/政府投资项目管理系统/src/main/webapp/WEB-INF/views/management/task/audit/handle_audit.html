@@ -331,8 +331,14 @@
 							ng-model="vm.nextUsers" value="{{x.id}}" />{{x.displayName}}&nbsp;&nbsp;
 						</label>
 					</div>
-					<div ng-if="vm.isPass == 5 || vm.isPass == 7 || vm.isPass == 9">
+					<div ng-if="vm.isPass == 5">
 						<label ng-repeat="x in vm.model.dept.userDtos"> <input
+							type="radio" id="nextUser" name="nextUser"
+							ng-model="vm.nextUsers" value="{{x.id}}" />{{x.displayName}}&nbsp;&nbsp;
+						</label>
+					</div>
+					<div ng-if="vm.isPass == 7 || vm.isPass == 9">
+						<label ng-repeat="x in vm.kezhangUser"> <input
 							type="radio" id="nextUser" name="nextUser"
 							ng-model="vm.nextUsers" value="{{x.id}}" />{{x.displayName}}&nbsp;&nbsp;
 						</label>
@@ -482,7 +488,7 @@
 						</label>
 					</div>
 					<div class="pull-left" ng-if="vm.isPass == 1">
-						<label ng-repeat="x in vm.model.dept.userDtos"> <input
+						<label ng-repeat="x in vm.kezhangUser"> <input
 							type="radio" name="radio" value="{{x.id}}"
 							ng-model="vm.nextUsers"  />{{x.displayName}}&nbsp;&nbsp;
 						</label>

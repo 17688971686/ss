@@ -58,8 +58,19 @@
 				};
 			
 			var httpSuccess = function success(response) {	
+				vm.shenpiNumber=0;
 				if(response.data.value != null && response.data.value != ""){
-					vm.shenpiNumber = response.data.value.length;
+					vm.shenbao = response.data.value;
+					for (var int = 0; int < vm.shenbao.length; int++) {
+						var array_element = vm.shenbao[int];
+						if(array_element.thisUser != "" && array_element.thisUser != null){
+							if(array_element.thisUser == window.profile_userId){
+								vm.shenpiNumber = vm.shenpiNumber+1;
+							}
+						}
+						
+					}
+					
 				}else{
 					vm.shenpiNumber = 0;
 				}

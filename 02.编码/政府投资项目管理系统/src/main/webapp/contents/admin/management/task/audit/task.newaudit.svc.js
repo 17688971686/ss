@@ -54,7 +54,8 @@
             yuepiGrid: yuepiGrid,//阅批列表
             yuepi: yuepi,//阅批按钮
             getSysConfigs: getSysConfigs,//系统配置
-            getUserUnit: getUserUnit
+            getUserUnit: getUserUnit,
+            getKezhangByName:getKezhangByName
         };
 
         return service;
@@ -583,9 +584,10 @@
                             vm.model.shenBaoInfo.thisTaskName == 'usertask20' || vm.model.shenBaoInfo.thisTaskName == 'usertask22') {
                             getDeptByName(vm, "投资科");
                         }
-                        if (vm.model.shenBaoInfo.thisTaskName == 'usertask3') {
-                            getDeptByName(vm, "投资科");
+                        if (vm.model.shenBaoInfo.thisTaskName == 'usertask22') {
+                        		getKezhangByName(vm, "投资科");
                         }
+                        
                         if (vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask21' ||
                             vm.model.shenBaoInfo.thisTaskName == 'usertask6' || vm.model.shenBaoInfo.thisTaskName == 'usertask7') {
                             getDeptByName(vm, "办公室");
@@ -614,7 +616,24 @@
                 vm.model.dept = data.value[0] || {};
             })
         }//end fun getDeptByName
-
+        function getKezhangByName(vm, name) {
+            $http.get(common.format(url_dept + "?$filter=name eq '{0}'", encodeURIComponent(name))).success(function (data) {
+                vm.kezhang = data.value[0] || {};
+                vm.kezhangUser = {};
+                for (var i = 0; i <  vm.kezhang.userDtos.length; i++) {
+					var array_element =  vm.kezhang.userDtos[i];
+					for (var j = 0; j < array_element.roles.length; j++) {
+						var role = array_element.roles[j];
+						if(role.roleName == "科长"){
+							 vm.kezhangUser[i] = array_element;
+						}
+					}
+				}
+               
+            })
+        }
+        
+        
         function pinglun(vm) {
             common.initJqValidation();
             var isValid = $('form').valid();

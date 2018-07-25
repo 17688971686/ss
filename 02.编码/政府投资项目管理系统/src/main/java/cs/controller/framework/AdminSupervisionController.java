@@ -23,7 +23,7 @@ public class AdminSupervisionController {
 	private UserService userService;
 	
 
-	@RequiresPermissions("adminSupervision#index#get")
+//	@RequiresPermissions("adminSupervision#index#get")
 	@RequestMapping(name = "监管首页", path = "index",method = RequestMethod.GET)
 	public String index(Model model) {
 
@@ -31,7 +31,7 @@ public class AdminSupervisionController {
 		return ctrlName + "/index_supervision";
 	}
 
-	@RequiresPermissions("adminSupervision#welcome_supervision#get")
+//	@RequiresPermissions("adminSupervision#welcome_supervision#get")
 	@RequestMapping(name = "在线监管欢迎页", path = "welcome_supervision",method = RequestMethod.GET)
 	public String welcome(Model model) {
 		User user=userService.findUserByName( currentUser.getLoginName());
