@@ -520,7 +520,8 @@
 				<td class="formAlignRight" style="width: 150px;">操作：</td>
 				<td>
 					<!-- 送出 -->
-					<button ng-click="vm.handle('next')" class="btn btn-success btn-sm"
+					<button ng-hide=" (vm.model.shenBaoInfo.thisTaskName == 'usertask21' ||vm.model.shenBaoInfo.thisTaskName == 'usertask13' 
+					   || vm.model.shenBaoInfo.thisTaskName == 'usertask17'|| vm.model.shenBaoInfo.thisTaskName == 'usertask19')&&vm.isPass == 7" ng-click="vm.handle('next')" class="btn btn-success btn-sm"
 						style="margin: 0 10px;">送出</button> <!-- 退回 -->
 					<button ng-click="vm.handle('reback')"
 						class="btn btn-danger btn-sm" style="margin: 0 10px;"
