@@ -1,0 +1,5 @@
+alter table cs_shenbaoinfo modify column yearPlanCapitalId varchar(64) ;
+alter table cs_shenbaoinfo modify column projectShenBaoStage varchar(64) ;
+alter table cs_shenbaoinfo modify column projectId varchar(64) ;
+alter table cs_shenbaoinfo modify column packageType varchar(64) ;
+alter table cs_shenbaoinfo modify column monitor_status varchar(64) ;

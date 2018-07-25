@@ -901,7 +901,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			List<HistoricActivityInstance> hais = historyService.createHistoricActivityInstanceQuery()
 					.processInstanceId(shenBaoInfo.getZong_processId()).activityType("userTask")
 					.orderByHistoricActivityInstanceEndTime().asc().list();
-			if (shenbaoinfoDto.getThisTaskName().equals("usertask3")) {// 经办人退给1
+			if (shenbaoinfoDto.getThisTaskName().equals("usertask3") || shenbaoinfoDto.getThisTaskName().equals("usertask23")) {// 经办人退给1
 				for (HistoricActivityInstance hai : hais) {
 					if (hai.getActivityId().equals("usertask1")) {
 						nextUsers = hai.getAssignee();
