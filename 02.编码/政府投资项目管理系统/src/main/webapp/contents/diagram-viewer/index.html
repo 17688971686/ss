@@ -37,7 +37,14 @@
 	<script src="/contents/common/common.js"></script>
 	
     <style type="text/css" media="screen">
-
+        .close{
+            color:#fff;
+            opacity:1;
+            margin-left:15px;
+        }
+        .close:hover{
+            opacity: .8;
+        }
     </style>
 </head>
 <body id="ng-app" ng-app="monitorApp" ng-controller="monitorCtrl as vm">
@@ -122,50 +129,52 @@
 					var name = contextObject.getProperty("name");
 					var isSubShenBaoAtt = contextObject.getProperty("isSubShenBaoAtt");
 					var beginTime = contextObject.getProperty("beginTime");
-					
-					var $scope = angular.element("body").scope();
-				    $scope.$apply(function () {
-						$scope.vm.shenBaoInfoId = shenBaoInfoId;
-						$scope.vm.name = name;
-						$scope.vm.taskId = taskId;
-						$scope.vm.beginTime = beginTime;
-					})
-					
-					$scope.vm.getAuthorityForCurTask(processInstanceId,taskId,taskKey,function(data){
-						 var authorityForCurTask = data;
-						 
-	                	if(isHistory){
-	                		$scope.vm.getShenPiDetails(shenBaoInfoId,taskId,taskKey);
-	                    }else{
-	                    	debugger
-	                    	if(roleType && 'approvalUnit' == roleType && authorityForCurTask == 'true' && taskId){
-                    			$scope.vm.setShenPiconfig(taskKey,isSubShenBaoAtt,shenBaoInfoId,taskId);
-	                    		
-	                    	}else if(roleType && 'constructionUnit' == roleType && authorityForCurTask == 'true' && taskId 
-	                    			&& taskKey != 'usertask26' && taskKey != 'usertask4' && taskKey != 'usertask18'){
-	                    		if(isSubShenBaoAtt){
-	                    			common.alert({
-	                        			vm : $scope.vm,
-	                					msg : "您已上传申报材料"
-	                        		})
-	                    		}else{
-	                    			$scope.vm.setShenBaoconfig(taskKey);
-	                    		}
-	                    		
-	                    	}else if(taskId){
-                    			common.alert({
-                        			vm : $scope.vm,
-                					msg : "您无操作权限"
-                        		})
-	                    	}else{
-                    			common.alert({
-                        			vm : $scope.vm,
-                					msg : "未能操作环节"
-                        		})
-	                    	}
-	                    }
-					});
-					
+                    debugger
+					if(taskId){
+                        var $scope = angular.element("body").scope();
+                        $scope.$apply(function () {
+                            $scope.vm.shenBaoInfoId = shenBaoInfoId;
+                            $scope.vm.name = name;
+                            $scope.vm.taskId = taskId;
+                            $scope.vm.beginTime = beginTime;
+                        })
+
+                        $scope.vm.getAuthorityForCurTask(processInstanceId,taskId,taskKey,function(data){
+                            var authorityForCurTask = data;
+
+                            if(isHistory){
+                                $scope.vm.getShenPiDetails(shenBaoInfoId,taskId,taskKey);
+                            }else{
+                                debugger
+                                if(roleType && 'approvalUnit' == roleType && authorityForCurTask == 'true' && taskId){
+                                    $scope.vm.setShenPiconfig(taskKey,isSubShenBaoAtt,shenBaoInfoId,taskId);
+
+                                }else if(roleType && 'constructionUnit' == roleType && authorityForCurTask == 'true' && taskId
+                                    && taskKey != 'usertask26' && taskKey != 'usertask4' && taskKey != 'usertask18'){
+                                    if(isSubShenBaoAtt){
+                                        common.alert({
+                                            vm : $scope.vm,
+                                            msg : "您已上传申报材料"
+                                        })
+                                    }else{
+                                        $scope.vm.setShenBaoconfig(taskKey);
+                                    }
+
+                                }else if(taskId){
+                                    common.alert({
+                                        vm : $scope.vm,
+                                        msg : "您无操作权限"
+                                    })
+                                }else{
+                                    common.alert({
+                                        vm : $scope.vm,
+                                        msg : "未能操作环节"
+                                    })
+                                }
+                            }
+                        });
+                    }
+
                 },
                 rightClick: function (canvas, element, contextObject) {
                 	

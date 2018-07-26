@@ -30,82 +30,6 @@
 	  </ol>
 </div>
 
-<!-- 
-<div class="well well-sm" style="background:white;">
-       <div class="row">
-		   <div class="col-md-3">
-			   <div class="cs-title"></div>
-			   <div class="cs-box-custom" style="min-height: 190px;">
-                    <p style="padding: 10px">项目总数（个）</p>
-				    <div class="cs-list-text" >{{vm.statistical.total}}</div>
-				    <div class="cs-list-bottom">统计列表</div>
-			   </div>
-		   </div>
-		   <div class="col-md-6">
-			   <div class="cs-title">项目阶段统计</div>
-			   <div style="overflow: hidden; height: 190px;">
-				   <div class="cs-box-custom" style="min-height: 30px;">
-					  <div class="cs-list-article"> 前期储备阶段（{{vm.statistical.Stage1.num}}）</div>
-				   </div>
-				   <div class="cs-box-custom" style="min-height: 30px;">
-					   <div class="cs-list-article" style="color: #fff;background:#167af4; width:{{vm.statistical.Stage2.width}};"> 前期阶段（{{vm.statistical.Stage2.num}}）</div>
-				   </div>
-				   <div class="cs-box-custom" style="min-height: 30px;">
-					   <div class="cs-list-article" style="color: #fff;background:#318fff; width: {{vm.statistical.Stage3.width}}; "> 施工阶段（{{vm.statistical.Stage3.num}}）</div>
-				   </div>
-				   <div class="cs-box-custom" style="min-height: 30px;">
-					   <div class="cs-list-article" style="color: #fff;background:#ecaf03; width: {{vm.statistical.Stage4.width}}; "> 停工阶段（{{vm.statistical.Stage4.num}}）</div>
-				   </div>
-				   <div class="cs-box-custom" style="min-height: 30px;">
-					   <div class="cs-list-article" style="color: #fff;background:#a5d207; width: {{vm.statistical.Stage5.width}}; ">  竣工阶段({{vm.statistical.Stage5.num}})</div>
-				   </div>
-				   <div class="cs-box-custom" style="min-height: 30px;">
-					   <div class="cs-list-article" style="color: #fff;background:#00cdff; width: {{vm.statistical.Stage6.width}}; "> 固定资产登记阶段({{vm.statistical.Stage6.num}})</div>
-				   </div>
-			   </div>
-		   </div>
-		   <div class="col-md-3">
-			   <div class="cs-title">项目月报分类统计</div>
-			   <div class="row">
-				   <div class="col-md-6">
-					   <div style="text-align: center; margin: 10px;padding: 10px;">月报分类</div>
-					   <div class="cs-list-garden" style="background:#00b7ee;">{{vm.statistical.tMonth.percent}}</div>
-				       <div class="cs-title" style="text-align: center;">{{vm.statistical.tMonth.num}}个</div>
-				    </div>
-				   <div class="col-md-6">
-					   <div style="text-align: center; margin: 10px;padding: 10px;">非月报类</div>
-					   <div class="cs-list-garden" style="background:#80c269;">{{vm.statistical.fMonth.percent}}</div>
-					   <div class="cs-title" style="text-align: center;">{{vm.statistical.fMonth.num}}个</div>
-				    </div>
-			   </div>
-		   </div>
-	   </div>
-</div>
--->
-
-<!-- 
-<div class="well well-sm" style="background:white;">
-	<div class="row">
-		<div>
-			<table>
-				<tr>
-					<td width="261">
-						<div style="text-align: center; margin: 10px;padding: 10px;">项目审批逾期</div>
-						<div class="cs-list-garden" style="background:#ec6941;">项目逾期</div>
-						<div class="cs-title" style="text-align: center;">{{}}</div>
-					</td>
-					<td>
-					<script type="text/template" id="shenpinColumnBtns">
-		             <buttom class="btn btn-xs btn-primary" ng-click="vm.projectItems('{0}')" data="custombtn" project="光明马田地铁11号线" protype="false"><span class="glyphicon glyphicon-pencil"></span>查看所有审批事项</buttom>
-	                </script>  
-                              <div class="grid" kendo-grid="shenpiOverdueGrid" k-options="vm.shenpiOverdueGridOptions"></div>
-					</td>
-				</tr>
-			</table>
-		</div>
-	</div>
-</div>
- -->
 <div class="well well-sm" style="background:white;">
 	<script type="text/template" id="columnBtns">
 		<!--
@@ -290,7 +214,7 @@ $(window).resize(function () {
 				<iframe ng-src="{{!vm.diagramViewerUrl ? '' : '${request.contextPath}/' + vm.diagramViewerUrl}}" id="myIframe"></iframe>
 			</div> 
 			<div class="modal-footer"> 
-				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> 						
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 			</div> 
 		</div><!-- /.modal-content -->
 	</div>  
