@@ -561,7 +561,7 @@
                 var httpOptions = {
                     method: 'post',
                     url: url_taskAudit_new + "/pinglun",
-                    data: {"id": vm.id, "msg": vm.processSuggestion, "att": vm.attachmentDtos}
+                    data: {"id": vm.id, "msg": vm.processSuggestion, "shenbaoinfo": vm.model.shenBaoInfo}
                 };
 
                 var httpSuccess = function success(response) {

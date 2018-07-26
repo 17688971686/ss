@@ -935,9 +935,9 @@
                     filterable: false,
                     template: function (item) {
                         if (item.thisUser == "" || item.thisUser == null) {
-                            return null
+                            return "无";
                         } else {
-                            return item.thisUser != null ? common.getUserById(item.thisUser).value[0].displayName : null;
+                            return common.getUserById(item.thisUser).value[0].displayName;
                         }
 
                     }
@@ -1073,9 +1073,9 @@
                     filterable: false,
                     template: function (item) {
                         if (item.thisUser == "" || item.thisUser == null) {
-                            return null
+                            return "无";
                         } else {
-                            return item.thisUser != null ? common.getUserById(item.thisUser).value[0].displayName : null;
+                            return common.getUserById(item.thisUser).value[0].displayName;
                         }
                     }
                 },
@@ -1215,9 +1215,9 @@
                     filterable: false,
                     template: function (item) {
                         if (item.thisUser == "" || item.thisUser == null) {
-                            return null
+                            return "无";
                         } else {
-                            return item.thisUser != null ? common.getUserById(item.thisUser).value[0].displayName : null;
+                            return common.getUserById(item.thisUser).value[0].displayName;
                         }
                     }
                 },
@@ -1355,9 +1355,9 @@
                     filterable: false,
                     template: function (item) {
                         if (item.thisUser == "" || item.thisUser == null) {
-                            return null
+                            return "无";
                         } else {
-                            return item.thisUser != null ? common.getUserById(item.thisUser).value[0].displayName : null;
+                            return common.getUserById(item.thisUser).value[0].displayName;
                         }
                     }
                 },
