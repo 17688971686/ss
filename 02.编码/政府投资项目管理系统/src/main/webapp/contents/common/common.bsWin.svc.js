@@ -201,7 +201,7 @@
                             </p>\
                         </div>\
                         <div class="modal-footer">\
-                            <button type="button"  class="btn btn-info btn-sm" data-dismiss="modal">关闭</button>\
+                            <button type="button"  class="btn btn-btn-default btn-sm" data-dismiss="modal">关闭</button>\
                         </div>\
                     </div>\
                 </div>\
