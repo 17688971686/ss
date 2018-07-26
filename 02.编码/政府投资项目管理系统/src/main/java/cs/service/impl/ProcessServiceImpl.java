@@ -912,15 +912,15 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				
 				User user = userRepo.findById(nextUsers.toString());
 
-				loop:for (int i = 0; i < user.getRoles().size(); i++) {
+				for (int i = 0; i < user.getRoles().size(); i++) {
 					Role array_element = user.getRoles().get(i);
 					if("科长".equals(array_element.getRoleName())){
 						isPass = "7";
-						break loop;
-					}else{
-						isPass = "2";
+						break;
 					}
 				}
+				
+				
 			}
 			else {
 				for (HistoricActivityInstance hai : hais) {
