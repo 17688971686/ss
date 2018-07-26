@@ -1094,7 +1094,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setIsIncludLibrary(true);
 			shenBaoInfo.setComplate(true);
 			shenBaoInfo.setEndDate(new Date());
-
 		} else if (str.equals("tuiwen")) {
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已退文");
