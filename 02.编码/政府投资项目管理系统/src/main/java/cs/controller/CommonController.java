@@ -1,6 +1,7 @@
 package cs.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,8 @@ import cs.service.common.BasicDataService;
 import cs.service.framework.RoleService;
 import cs.service.interfaces.UserUnitInfoService;
 import cs.service.interfaces.YearPlanService;
+
+import static com.sn.framework.common.JacksonUtils.objectMapper;
 
 @Controller
 @RequestMapping(name = "公共", path = "common")
@@ -138,8 +142,8 @@ public class CommonController {
     }
 	
 	@RequiresPermissions("common#save#post")
-	@RequestMapping(name = "上传文件", path = "save", method = RequestMethod.POST,produces ="application/json;charset=UTF-8")
-	public @ResponseBody Response Save(@RequestParam("files") MultipartFile file, HttpServletResponse res){
+	@RequestMapping(name = "上传文件", path = "save", method = RequestMethod.POST)
+	public void Save(@RequestParam("files") MultipartFile file, HttpServletResponse res) throws IOException {
 
     	Response response = new Response();
 
@@ -169,7 +173,8 @@ public class CommonController {
 			res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.setMessage("请选择要上传的文件！");
 		}
-		return response;
+
+		objectMapper.writeValue(res.getOutputStream(), response);
 	}
 	
 	@RequiresPermissions("common#remove#post")
