@@ -106,33 +106,33 @@
 /**********************************************end#月报*********************************/
 
 /**********************************************begin#计划下达*********************************/	        
-	         .state('planReach', {
-	            url: '/planReach',
-	            templateUrl:'/shenbaoAdmin/planReach/html/list',           
-	            controller: 'planReachCtrl',
-	            controllerAs: 'vm'
-	        })
-	        .state('planReachEdit', {
-	            url: '/planReachEdit/:id/:isStartProcess',
-	            params:{"id":null},  
-            	templateUrl:'/shenbaoAdmin/planReach/html/edit', 
-            	controller: 'planReachCtrl',
-            	controllerAs: 'vm'
-	        })
-	        .state('planReachPrint', {
-	            url: '/planReachPrint/:id',
-	            params:{"id":null},  
-	        	templateUrl:'/shenbaoAdmin/planReach/html/print', 
-	        	controller: 'planReachCtrl',
-	        	controllerAs: 'vm'
-	        })
-	        .state('planReachPackEdit', {
-	            url: '/planReach/packPlan/addProject/:id/:isStartProcess',
-	            params:{"id":null},  
-	        	templateUrl:'/shenbaoAdmin/planReach/html/packPlan', 
-	        	controller: 'planReachCtrl',
-	        	controllerAs: 'vm'
-	        })
+	        //  .state('planReach', {
+	        //     url: '/planReach',
+	        //     templateUrl:'/shenbaoAdmin/planReach/html/list',
+	        //     controller: 'planReachCtrl',
+	        //     controllerAs: 'vm'
+	        // })
+	        // .state('planReachEdit', {
+	        //     url: '/planReachEdit/:id/:isStartProcess',
+	        //     params:{"id":null},
+            	// templateUrl:'/shenbaoAdmin/planReach/html/edit',
+            	// controller: 'planReachCtrl',
+            	// controllerAs: 'vm'
+	        // })
+	        // .state('planReachPrint', {
+	        //     url: '/planReachPrint/:id',
+	        //     params:{"id":null},
+	        // 	templateUrl:'/shenbaoAdmin/planReach/html/print',
+	        // 	controller: 'planReachCtrl',
+	        // 	controllerAs: 'vm'
+	        // })
+	        // .state('planReachPackEdit', {
+	        //     url: '/planReach/packPlan/addProject/:id/:isStartProcess',
+	        //     params:{"id":null},
+	        // 	templateUrl:'/shenbaoAdmin/planReach/html/packPlan',
+	        // 	controller: 'planReachCtrl',
+	        // 	controllerAs: 'vm'
+	        // })
 /**********************************************end#计划下达*********************************/	        
 	        	        	        
  /**********************************************begin#项目申报****************************/

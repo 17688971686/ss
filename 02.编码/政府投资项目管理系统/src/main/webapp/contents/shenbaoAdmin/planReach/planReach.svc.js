@@ -100,35 +100,19 @@
 
 
         function getSysConfig(vm) {
-            var httpOptions = {
-                method: 'get',
-                url: common.format(url_getSysConfigs + "?configName={0}", common.basicDataConfig().taskType_jihuaPort)
-
-            };
-
-            var httpSuccess = function success(response) {
-                vm.sysconfig = response.data || {};
-                if (vm.sysconfig.configValue != null) {
+            $http.get(common.format(
+                url_getSysConfigs + "?configName={0}",
+                common.basicDataConfig().taskType_jihuaPort
+            )).success(function (data) {
+                vm.sysconfig = data || {};
+                if (vm.sysconfig.configValue) {
                     var time = vm.sysconfig.configValue.split("-");
                     var nowTime = new Date();
                     if (nowTime.getTime() > time[0] && nowTime.getTime() < time[1]) {
                         vm.isCan = false;
                     }
                 }
-
-                console.log(vm.model);
-                //刷新文字输入长度
-//				vm.checkLength(vm.model.remark,500,'remarkTips');
-                //vm.planYear = vm.model.plan.year;//用于编制列表表头年份的绑定
-//				vm.shenBaoInfo_gridOptions_plan.dataSource = vm.model.shenBaoInfoDtos;
-            };
-
-            common.http({
-                vm: vm,
-                $http: $http,
-                httpOptions: httpOptions,
-                success: httpSuccess
-            });
+            })
         }//end fun
 
         function deletePlanShenBaoInfo(vm, ids) {
@@ -479,12 +463,8 @@
          * 根据id获取计划下达申请信息
          */
         function getApplicationById(vm) {
-            var httpOptions = {
-                method: 'get',
-                url: common.format(url + "?$filter=id eq '{0}'", vm.id)
-            };
-            var httpSuccess = function success(response) {
-                vm.model = response.data.value[0] || {};
+            $http.get(common.format(url + "?$filter=id eq '{0}'", vm.id)).success(function (data) {
+                vm.model = data.value[0] || {};
                 //时间信息的展示
                 vm.model.applicationTime = common.formatDate(vm.model.applicationTime);
                 //移除按钮是否可点击
@@ -502,14 +482,7 @@
                         }
                     }
                 }
-
-            };
-            common.http({
-                vm: vm,
-                $http: $http,
-                httpOptions: httpOptions,
-                success: httpSuccess
-            });
+            })
         }//end fun getApplicationById
 
         /**
