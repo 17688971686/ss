@@ -24,7 +24,7 @@
             //     return response;
             // },
             responseError: function (response) {
-                // console.log("responseError", response);
+                console.log("responseError", response);
                 if (!response.config.headers.commonHttp) { // 过滤掉用common.http发起的请求
                     errorHandle(bsWin, response.status, response.data);
                 }
