@@ -271,68 +271,73 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
         PlanReachApplication planReach = super.findById(planReachId);
         ShenBaoInfo entity = shenBaoInfoRepo.findById(id);
 
-        //TODO 按照申报类型和项目名称，查询是否有同名的计划下达
-        //TODO 如果存在，说明其他编制中已有改项目，不能再次添加
-        Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectName.getName(), entity.getProjectName());
-        Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach);
-        Criterion criterion3 = Restrictions.and(criterion, criterion2);
-        List<ShenBaoInfo> entity2 = shenBaoInfoRepo.findByCriteria(criterion3);
-
-        if (entity2.size() == 0) {
-            List<ShenBaoInfo> shenBaoInfoList = new ArrayList<>();
-            // TODO 不存在，则生成一条计划下达的申报信息
-            ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(entity);
-            shenBaoInfoDto.setId(UUID.randomUUID().toString());
-            shenBaoInfoDto.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
-            shenBaoInfoDto.setThisTaskId(null);
-            shenBaoInfoDto.setThisTaskName(null);
-            shenBaoInfoDto.setReceiver(null);
-            shenBaoInfoDto.setZong_processId(null);
-            shenBaoInfoDto.setProcessStage("未开始");
-            shenBaoInfoDto.setProcessState(BasicDataConfig.processState_weikaishi);
-            shenBaoInfoDto.setModifiedDate(new Date());
-            shenBaoInfoDto.setCreatedDate(new Date());
-            shenBaoInfoDto.setCreatedBy(currentUser.getUserId());
-
-            ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.createShenBaoInfo(shenBaoInfoDto, false);
-            //处理关联信息
-            //附件
-            shenBaoInfoDto.getAttachmentDtos().forEach(x -> {
-                Attachment attachment = new Attachment();
-                attachmentMapper.buildEntity(x, attachment);
-                attachment.setCreatedBy(entity.getCreatedBy());
-                attachment.setModifiedBy(entity.getModifiedBy());
-                entity.getAttachments().add(attachment);
-            });
-            //申报单位
-            ShenBaoUnitInfoDto shenBaoUnitInfoDto = shenBaoInfoDto.getShenBaoUnitInfoDto();
-            ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
-            shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto, shenBaoUnitInfo);
-            shenBaoUnitInfo.setCreatedBy(entity.getCreatedBy());
-            shenBaoUnitInfo.setModifiedBy(entity.getModifiedBy());
-            entity.setShenBaoUnitInfo(shenBaoUnitInfo);
-            //编制单位
-            ShenBaoUnitInfoDto bianZhiUnitInfoDto = shenBaoInfoDto.getBianZhiUnitInfoDto();
-            ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
-            shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto, bianZhiUnitInfo);
-            bianZhiUnitInfo.setCreatedBy(entity.getCreatedBy());
-            bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
-            entity.setBianZhiUnitInfo(bianZhiUnitInfo);
-            entity.setIsIncludPack(true);
-            shenBaoInfoRepo.save(entity);
-
-            if (planReach.getShenBaoInfos() != null) {
-                planReach.getShenBaoInfos().add(shenBaoInfoentity);
-            } else {
-                shenBaoInfoList.add(shenBaoInfoentity);
-                planReach.setShenBaoInfos(shenBaoInfoList);
-            }
-        } else {
-            throw new IllegalArgumentException(String.format("申报项目：%s 已经存在其他编制计划中,请重新选择！", entity.getProjectName()));
+        if(planReach == null){
+        	throw new IllegalArgumentException("请创建计划下达后添加项目！");
+        }else {
+        	
+	        //TODO 按照申报类型和项目名称，查询是否有同名的计划下达
+	        //TODO 如果存在，说明其他编制中已有改项目，不能再次添加
+	        Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectName.getName(), entity.getProjectName());
+	        Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach);
+	        Criterion criterion3 = Restrictions.and(criterion, criterion2);
+	        List<ShenBaoInfo> entity2 = shenBaoInfoRepo.findByCriteria(criterion3);
+	
+	        if (entity2.size() == 0) {
+	            List<ShenBaoInfo> shenBaoInfoList = new ArrayList<>();
+	            // TODO 不存在，则生成一条计划下达的申报信息
+	            ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(entity);
+	            shenBaoInfoDto.setId(UUID.randomUUID().toString());
+	            shenBaoInfoDto.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
+	            shenBaoInfoDto.setThisTaskId(null);
+	            shenBaoInfoDto.setThisTaskName(null);
+	            shenBaoInfoDto.setReceiver(null);
+	            shenBaoInfoDto.setZong_processId(null);
+	            shenBaoInfoDto.setProcessStage("未开始");
+	            shenBaoInfoDto.setProcessState(BasicDataConfig.processState_weikaishi);
+	            shenBaoInfoDto.setModifiedDate(new Date());
+	            shenBaoInfoDto.setCreatedDate(new Date());
+	            shenBaoInfoDto.setCreatedBy(currentUser.getUserId());
+	
+	            ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.createShenBaoInfo(shenBaoInfoDto, false);
+	            //处理关联信息
+	            //附件
+	            shenBaoInfoDto.getAttachmentDtos().forEach(x -> {
+	                Attachment attachment = new Attachment();
+	                attachmentMapper.buildEntity(x, attachment);
+	                attachment.setCreatedBy(entity.getCreatedBy());
+	                attachment.setModifiedBy(entity.getModifiedBy());
+	                entity.getAttachments().add(attachment);
+	            });
+	            //申报单位
+	            ShenBaoUnitInfoDto shenBaoUnitInfoDto = shenBaoInfoDto.getShenBaoUnitInfoDto();
+	            ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
+	            shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto, shenBaoUnitInfo);
+	            shenBaoUnitInfo.setCreatedBy(entity.getCreatedBy());
+	            shenBaoUnitInfo.setModifiedBy(entity.getModifiedBy());
+	            entity.setShenBaoUnitInfo(shenBaoUnitInfo);
+	            //编制单位
+	            ShenBaoUnitInfoDto bianZhiUnitInfoDto = shenBaoInfoDto.getBianZhiUnitInfoDto();
+	            ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
+	            shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto, bianZhiUnitInfo);
+	            bianZhiUnitInfo.setCreatedBy(entity.getCreatedBy());
+	            bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
+	            entity.setBianZhiUnitInfo(bianZhiUnitInfo);
+	            entity.setIsIncludPack(true);
+	            shenBaoInfoRepo.save(entity);
+	
+	            if (planReach.getShenBaoInfos() != null) {
+	                planReach.getShenBaoInfos().add(shenBaoInfoentity);
+	            } else {
+	                shenBaoInfoList.add(shenBaoInfoentity);
+	                planReach.setShenBaoInfos(shenBaoInfoList);
+	            }
+	        } else {
+	            throw new IllegalArgumentException(String.format("申报项目：%s 已经存在其他编制计划中,请重新选择！", entity.getProjectName()));
+	        }
+	
+	        planReachApplicationRepo.save(planReach);
+	        logger.info(String.format("添加年度计划资金,名称：%s", planReach.getApplicationName()));
         }
-
-        planReachApplicationRepo.save(planReach);
-        logger.info(String.format("添加年度计划资金,名称：%s", planReach.getApplicationName()));
     }
 
     @Override

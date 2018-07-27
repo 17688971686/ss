@@ -311,7 +311,7 @@
 				},
 				requestEnd:function(e){
 					if(e.response.value){
-						$('#todoNumber').html(e.response.value.length);		
+						$('#todoNumber').html(e.response.count);		
 					}
 				},
 				change:function(){
