@@ -740,6 +740,7 @@
 					vm.model.nationalIndustryParent = child2.pId;
 					vm.nationalIndustryChange();
 				}
+				vm.planYear = vm.model.planYear;//初始化申报年份（三年滚动）
 			};
 			
 			common.http({

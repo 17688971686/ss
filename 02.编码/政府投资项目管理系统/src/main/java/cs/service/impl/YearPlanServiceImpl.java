@@ -587,13 +587,14 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 		if(yearPlan !=null){
 			//判断年度计划编制中是否已有打包计划
 			List<PackPlan> packPlans = yearPlan.getPackPlans();
-			if (!packPlans.isEmpty()) {
 				for(PackPlan packPlan : packPlans){
-					if(packPlan.getId().equals(packId)){
-						hasShenBaoInfo = true;
+					if(packPlan != null){
+						if(packPlan.getId().equals(packId)){
+							hasShenBaoInfo = true;
+						}
 					}
+					
 				}
-			}
 			
 			if(hasShenBaoInfo){
 				//通过打包计划id获取名称

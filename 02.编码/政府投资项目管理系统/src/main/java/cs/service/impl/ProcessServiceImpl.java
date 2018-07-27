@@ -901,7 +901,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			List<HistoricActivityInstance> hais = historyService.createHistoricActivityInstanceQuery()
 					.processInstanceId(shenBaoInfo.getZong_processId()).activityType("userTask")
 					.orderByHistoricActivityInstanceEndTime().asc().list();
-			if (shenbaoinfoDto.getThisTaskName().equals("usertask3")) {// 经办人退给1
+			if (shenbaoinfoDto.getThisTaskName().equals("usertask3") || shenbaoinfoDto.getThisTaskName().equals("usertask23")) {// 经办人退给1
 				for (HistoricActivityInstance hai : hais) {
 					if (hai.getActivityId().equals("usertask1")) {
 						nextUsers = hai.getAssignee();
@@ -912,15 +912,15 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				
 				User user = userRepo.findById(nextUsers.toString());
 
-				loop:for (int i = 0; i < user.getRoles().size(); i++) {
+				for (int i = 0; i < user.getRoles().size(); i++) {
 					Role array_element = user.getRoles().get(i);
 					if("科长".equals(array_element.getRoleName())){
 						isPass = "7";
-						break loop;
-					}else{
-						isPass = "2";
+						break;
 					}
 				}
+				
+				
 			}
 			else {
 				for (HistoricActivityInstance hai : hais) {
@@ -1094,7 +1094,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setIsIncludLibrary(true);
 			shenBaoInfo.setComplate(true);
 			shenBaoInfo.setEndDate(new Date());
-
 		} else if (str.equals("tuiwen")) {
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已退文");

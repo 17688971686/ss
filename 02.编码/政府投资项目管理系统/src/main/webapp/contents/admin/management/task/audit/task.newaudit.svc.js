@@ -515,11 +515,6 @@
                         vm.model.shenBaoInfo = response.data.value[0] || {};
                         //数据的展示处理
 
-                        var nowTime = new Date("2018-07-23");
-                        if (vm.model.shenBaoInfo.createdDate < nowTime.getTime()) {
-                            vm.isShow = false;
-                        }
-
                         //项目类型
                         vm.projectTypes = common.stringToArray(vm.model.shenBaoInfo.projectType, ",");
                         vm.attachmentDtos = vm.model.shenBaoInfo.attachmentDtos;
@@ -940,9 +935,9 @@
                     filterable: false,
                     template: function (item) {
                         if (item.thisUser == "" || item.thisUser == null) {
-                            return null
+                            return "无";
                         } else {
-                            return item.thisUser != null ? common.getUserById(item.thisUser).value[0].displayName : null;
+                            return common.getUserById(item.thisUser).value[0].displayName;
                         }
 
                     }
@@ -1078,9 +1073,9 @@
                     filterable: false,
                     template: function (item) {
                         if (item.thisUser == "" || item.thisUser == null) {
-                            return null
+                            return "无";
                         } else {
-                            return item.thisUser != null ? common.getUserById(item.thisUser).value[0].displayName : null;
+                            return common.getUserById(item.thisUser).value[0].displayName;
                         }
                     }
                 },
@@ -1220,9 +1215,9 @@
                     filterable: false,
                     template: function (item) {
                         if (item.thisUser == "" || item.thisUser == null) {
-                            return null
+                            return "无";
                         } else {
-                            return item.thisUser != null ? common.getUserById(item.thisUser).value[0].displayName : null;
+                            return common.getUserById(item.thisUser).value[0].displayName;
                         }
                     }
                 },
@@ -1360,9 +1355,9 @@
                     filterable: false,
                     template: function (item) {
                         if (item.thisUser == "" || item.thisUser == null) {
-                            return null
+                            return "无";
                         } else {
-                            return item.thisUser != null ? common.getUserById(item.thisUser).value[0].displayName : null;
+                            return common.getUserById(item.thisUser).value[0].displayName;
                         }
                     }
                 },
