@@ -211,7 +211,7 @@
                     <div class="modal-content">\
                         <div class="modal-header bg-primary" style="height:30px;padding:5px;">\
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
-                            <h4 class="modal-title text-info">{{title||\'提示\'}}</h4>\
+                            <strong class="modal-title">{{title||\'提示\'}}</strong>\
                         </div>\
                         <div class="modal-body text-primary"><p><i class="fa fa-question-circle" aria-hidden="true"></i> {{message}}</p></div>\
                         <div class="modal-footer">\
