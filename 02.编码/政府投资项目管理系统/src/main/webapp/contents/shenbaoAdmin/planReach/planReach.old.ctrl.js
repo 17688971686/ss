@@ -1,9 +1,7 @@
 (function () {
     'use strict';
 
-    angular
-        .module('app')
-        .controller('planReachCtrl', planReach);
+    angular.module('app').controller('planReachCtrl', planReach);
 
     planReach.$inject = ['$location', 'planReachSvc', '$state', '$scope', '$sce'];
 

@@ -9,13 +9,17 @@
             controller: 'planReachEditCtrl',
             controllerAs: 'vm'
         })
-    }]).controller('planReachEditCtrl', ["$state", "planReachSvc", planReachEditCtrl]);
+    }]).controller('planReachEditCtrl', ["$state", "planReachSvc", "bsWin", planReachEditCtrl]);
 
-    function planReachEditCtrl($state, planReachSvc) {
+    function planReachEditCtrl($state, planReachSvc, bsWin) {
         var vm = this;
         vm.id = $state.params.id;//请求中的id参数
         vm.isStartProcess = $state.params.isStartProcess;//请求中的id参数
         vm.model = {};
+        vm.gg = {};
+        vm.gt = {};
+        vm.pa = {};
+        vm.isSubmit = false;
 
         if (vm.id) {
             planReachSvc.getApplicationById(vm);
@@ -23,7 +27,12 @@
         } else {
             vm.title = "新增申请表";
         }
-        planReachSvc.getUserUnit(vm);//获取当前登陆单位信息
+        //获取当前登陆单位信息
+        planReachSvc.getUserUnit(vm, function () {
+            planReachSvc.projectGrid(vm);//获取项目数据
+            planReachSvc.packGrid(vm);//获取打包类数据
+            planReachSvc.shenbaoInfoGrid(vm);
+        });
         planReachSvc.getShenBaoInfoFromPlanReachApplicationGrid(vm);//获取计划下达中的申报项目
         planReachSvc.getPackFromPlanGrid(vm);//获取计划下达中的打包计划
         //项目批量选择
@@ -50,10 +59,7 @@
             //获取选中的申报信息的id
             var selectIds = common.getKendoCheckId('.shenbaogrid');
             if (selectIds.length == 0) {
-                common.alert({
-                    vm: vm,
-                    msg: '请选择数据!'
-                });
+                bsWin.warning('请选择数据!');
             } else {
                 var ids = [];
                 for (var i = 0; i < selectIds.length; i++) {
@@ -68,10 +74,7 @@
             //获取选中的申报信息的id
             var selectIds = common.getKendoCheckId('.packgrid');
             if (selectIds.length == 0) {
-                common.alert({
-                    vm: vm,
-                    msg: '请选择数据!'
-                });
+                bsWin.warning('请选择数据!');
             } else {
                 var ids = [];
                 for (var i = 0; i < selectIds.length; i++) {
@@ -103,10 +106,7 @@
             //获取选中的申报信息的id
             var selectIds = common.getKendoCheckId('.projectsGrid');
             if (selectIds.length == 0) {
-                common.alert({
-                    vm: vm,
-                    msg: '请选择数据!'
-                });
+                bsWin.warning('请选择数据!');
             } else {
                 var ids = [];
                 for (var i = 0; i < selectIds.length; i++) {
@@ -123,17 +123,13 @@
             //获取选中的申报信息的id
             var selectIds = common.getKendoCheckId('.packsGrid');
             if (selectIds.length == 0) {
-                common.alert({
-                    vm: vm,
-                    msg: '请选择数据!'
-                });
+                bsWin.warning('请选择数据!');
             } else {
                 var ids = [];
                 for (var i = 0; i < selectIds.length; i++) {
                     ids.push(selectIds[i].value);
                 }
                 var idStr = ids.join(',');
-                console.log(idStr);
                 $('#packModal').modal('toggle');//关闭模态框
                 planReachSvc.addPackPlanToPlanReack(vm, idStr);//添加申报信息到计划中
             }
@@ -154,20 +150,14 @@
             vm.unqualifiedNum = false;
             vm.unqualifiedNum = vm.unqualifiedNum_ggys || vm.unqualifiedNum_gtzj;
             if (vm.unqualifiedNum) {
-                common.alert({
-                    vm: vm,
-                    msg: '申请资金大于安排资金，请重新输入！'
-                });
+                bsWin.warning('申请资金大于安排资金，请重新输入！');
             }
         };
         //批量添加申请的项目
         vm.confirmProjects = function () {
             var selectIds = common.getKendoCheckId('.projectsGrid');
             if (selectIds.length == 0) {
-                common.alert({
-                    vm: vm,
-                    msg: '请选择数据!'
-                });
+                bsWin.warning('请选择数据!');
             } else {
                 for (var i = 0; i < selectIds.length; i++) {
                     vm.confirmProject(selectIds[i].value.split(",")[0], selectIds[i].value.split(",")[1], selectIds[i].value.split(",")[2] == "true" ? true : false,

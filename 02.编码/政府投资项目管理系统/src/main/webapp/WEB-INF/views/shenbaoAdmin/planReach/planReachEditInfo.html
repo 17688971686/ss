@@ -1,0 +1,84 @@
+<table class="table table-striped table-bordered">
+    <tr>
+        <td class="formAlignRight" style="width:120px;">标题：<span class="required">(*)</span></td>
+        <td>
+            <input type="text" class="form-control input-sm" id="applicationName" name="applicationName" ng-model="vm.model.applicationName" data-val="true" data-val-required="必填"/>
+            <span data-valmsg-for="applicationName" data-valmsg-replace="true" class="required"></span>
+        </td>
+        <td class="formAlignRight">申报单位：</td>
+        <td ng-bind="vm.userUnit.unitName"></td>
+    </tr>
+    <tr>
+        <td class="formAlignRight">负责人：<span class="required">(*)</span></td>
+        <td>
+            <input type="text" class="form-control input-sm" id="resPerson" name="resPerson" ng-model="vm.model.resPerson" data-val="true" data-val-required="必填"/>
+            <span data-valmsg-for="resPerson" data-valmsg-replace="true" class="required"></span>
+        </td>
+        <td class="formAlignRight">负责人电话：<span class="required">(*)</span></td>
+        <td>
+            <input type="text" class="form-control input-sm" id="resPersonTel" name="resPersonTel" ng-model="vm.model.resPersonTel" data-val="true" data-val-required="必填"/>
+            <span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>
+        </td>
+    </tr>
+    <tr>
+        <td class="formAlignRight">申请时间：<span class="required">(*)</span></td>
+        <td colspan="3">
+            <input type="text" class="Wdate form-control input-sm" style="width:180px;" ng-model="vm.model.applicationTime" id="applicationTime" name="applicationTime"
+                   onClick="WdatePicker({isShowClear:false,readOnly:false,dateFmt:'yyyy-MM-dd',onpicked: function(){$(this).trigger('change')}})" data-val="true" data-val-required="必填"/>
+            <span data-valmsg-for="applicationTime" data-valmsg-replace="true" class="required"></span>
+        </td>
+    </tr>
+    <!-- <tr>
+        <td class="formAlignRight" style="vertical-align: middle;">项目信息：</td>
+        <td colspan="3">
+            <table class="table table-striped table-bordered" style="margin-bottom:0">
+                <tr>
+                    <td class="text-center" colspan="10">
+                        <p>
+                            <strong style="font-size:1.2em">申请项目</strong>
+                        </p>
+                    </td>
+                </tr>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div>
+                                <button class="btn btn-sm btn-primary" ng-click="vm.addProject()"  ng-hide="vm.isStartProcess"><span class="glyphicon glyphicon-plus"></span>添加项目</button>
+                                <button class="btn btn-sm btn-danger" ng-click="vm.projectDeletes()" ng-disabled="vm.isSubmit" ng-hide="vm.isStartProcess"><span class="glyphicon glyphicon-trash"></span>&nbsp;批量删除</button>
+                          </div>
+                          <div class="shenbaogrid" kendo-grid="grid" k-options="vm.shenBaoInfo_gridOptions"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <script type="text/template" id="columnBtns_shenBaoInfo">
+          <a class="btn btn-xs btn-success" href="#/planReach/packPlan/addProject/{0}/{1}"><span class="glyphicon glyphicon-pencil"></span>添加项目</a>
+      </script>
+        <td class="formAlignRight" style="vertical-align: middle;">打包计划信息：</td>
+        <td colspan="3">
+            <table class="table table-striped table-bordered" style="margin-bottom:0">
+                <tr>
+                    <td class="text-center" colspan="10">
+                        <p>
+                            <strong style="font-size:1.2em">申请打包</strong>
+                        </p>
+                    </td>
+                </tr>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div>
+                                <button class="btn btn-sm btn-primary" ng-click="vm.addPack()"  ng-hide="vm.isStartProcess"><span class="glyphicon glyphicon-plus"></span>添加打包</button>
+                                <button class="btn btn-sm btn-danger" ng-click="vm.packDeletes()" ng-disabled="vm.isSubmit" ng-hide="vm.isStartProcess"><span class="glyphicon glyphicon-trash"></span>&nbsp;批量删除</button>
+                          </div>
+                          <div class="packgrid" kendo-grid="grid" k-options="vm.packPlan_gridOptions"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>-->
+</table>

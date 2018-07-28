@@ -3,9 +3,9 @@
 
     angular.module('app').factory('planReachSvc', planReach);
 
-    planReach.$inject = ['$http', '$compile', '$location'];
+    planReach.$inject = ['$http', '$compile', '$location', "bsWin"];
 
-    function planReach($http, $compile, $location) {
+    function planReach($http, $compile, $location, bsWin) {
         var url = "/shenbaoAdmin/planReach";
         var url_shenbao = "/shenbaoAdmin/shenbao";
         var url_project = "/shenbaoAdmin/project";
@@ -16,7 +16,8 @@
         var url_getSysConfigs = "/sys/getSysConfig";
         var url_planList = "/management/yearPlan";
         var url_shenbaoInfoList = "/management/shenbao";
-        var service = {
+
+        return {
             getHasIncludYearPlan: getHasIncludYearPlan,
             getNotIncludYearPlan: getNotIncludYearPlan,
             planReachRecords: planReachRecords,
@@ -48,54 +49,20 @@
             shenbaoInfoGrid: shenbaoInfoGrid,//所有下一年度计划
             startProcessOne: startProcessOne,//单个项目启动流程
             deleteProcessOne: deleteProcessOne//撤销流程
-        }
-
-        return service;
+        };
 
         function deleteProcessOne(vm, id) {
-            var httpOptions = {
-                method: 'get',
-                url: common.format(url + "/deleteProcessOne?shenbaoId={0}", id)
-
-            };
-
-            var httpSuccess = function success(response) {
-                if (vm.page == 'packPlanEdit') {
-                    vm.shenBaoInfo_gridOptions_plan.dataSource.read();
-                } else {
-                    vm.shenBaoInfo_gridOptions.dataSource.read();
-                }
-            };
-
-            common.http({
-                vm: vm,
-                $http: $http,
-                httpOptions: httpOptions,
-                success: httpSuccess
-            });
+            $http.get(common.format(url + "/deleteProcessOne?shenbaoId={0}", id)).then(function () {
+                vm.shenBaoInfo_gridOptions_plan && vm.shenBaoInfo_gridOptions_plan.dataSource.read();
+                vm.shenBaoInfo_gridOptions && vm.shenBaoInfo_gridOptions.dataSource.read();
+            })
         }//end fun
 
         function startProcessOne(vm, id) {
-            var httpOptions = {
-                method: 'get',
-                url: common.format(url + "/startProcessOne?shenbaoId={0}", id)
-
-            };
-
-            var httpSuccess = function success(response) {
-                if (vm.page == 'packPlanEdit') {
-                    vm.shenBaoInfo_gridOptions_plan.dataSource.read();
-                } else {
-                    vm.shenBaoInfo_gridOptions.dataSource.read();
-                }
-            };
-
-            common.http({
-                vm: vm,
-                $http: $http,
-                httpOptions: httpOptions,
-                success: httpSuccess
-            });
+            $http.get(common.format(url + "/startProcessOne?shenbaoId={0}", id)).then(function () {
+                vm.shenBaoInfo_gridOptions_plan && vm.shenBaoInfo_gridOptions_plan.dataSource.read();
+                vm.shenBaoInfo_gridOptions && vm.shenBaoInfo_gridOptions.dataSource.read();
+            })
         }//end fun
 
 
@@ -116,167 +83,39 @@
         }//end fun
 
         function deletePlanShenBaoInfo(vm, ids) {
-            var httpOptions = {
-                method: 'post',
-                url: common.format(url + "/deletePlanShenBaoInfo/{0}", vm.id),
-                data: ids
-            };
-
-            var httpSuccess = function success(response) {
-                common.requestSuccess({
-                    vm: vm,
-                    response: response,
-                    fn: function () {
-                        common.alert({
-                            vm: vm,
-                            msg: "操作成功",
-                            fn: function () {
-                                $('.alertDialog').modal('hide');
-                                vm.shenBaoInfo_gridOptions_plan.dataSource.read();//编制打包计划列表数据刷新
-                            }
-                        });
-                    }
-                });
-            };
-
-            common.http({
-                vm: vm,
-                $http: $http,
-                httpOptions: httpOptions,
-                success: httpSuccess
-            });
+            $http.post(common.format(url + "/deletePlanShenBaoInfo/{0}", vm.id), ids).then(function () {
+                bsWin.success("操作成功");
+                vm.shenBaoInfo_gridOptions_plan.dataSource.read();//编制打包计划列表数据刷新
+            })
         };
 
         function deletePacks(vm, ids) {
-            var httpOptions = {
-                method: 'post',
-                url: common.format(url + "/deletePack/{0}", vm.id),
-                data: ids
-            };
-
-            var httpSuccess = function success(response) {
-                common.requestSuccess({
-                    vm: vm,
-                    response: response,
-                    fn: function () {
-                        common.alert({
-                            vm: vm,
-                            msg: "操作成功",
-                            fn: function () {
-                                $('.alertDialog').modal('hide');
-                                vm.packPlan_gridOptions.dataSource.read();//编制打包计划列表数据刷新
-                            }
-                        });
-                    }
-                });
-            };
-
-            common.http({
-                vm: vm,
-                $http: $http,
-                httpOptions: httpOptions,
-                success: httpSuccess
-            });
+            $http.post(common.format(url + "/deletePack/{0}", vm.id), ids).then(function () {
+                bsWin.success("操作成功");
+                vm.packPlan_gridOptions.dataSource.read();//编制打包计划列表数据刷新
+            })
         };
 
         function deleteShenBaoInfo(vm, ids) {
-            var httpOptions = {
-                method: 'post',
-                url: common.format(url + "/deleteShenBaoInfo/{0}", vm.id),
-                data: ids
-            };
-
-            var httpSuccess = function success(response) {
-                common.requestSuccess({
-                    vm: vm,
-                    response: response,
-                    fn: function () {
-                        common.alert({
-                            vm: vm,
-                            msg: "操作成功",
-                            fn: function () {
-                                $('.alertDialog').modal('hide');
-                                vm.shenBaoInfo_gridOptions.dataSource.read();//编制打包计划列表数据刷新
-                            }
-                        });
-                    }
-                });
-            };
-
-            common.http({
-                vm: vm,
-                $http: $http,
-                httpOptions: httpOptions,
-                success: httpSuccess
-            });
+            $http.post(common.format(url + "/deleteShenBaoInfo/{0}", vm.id), ids).then(function () {
+                bsWin.success("操作成功");
+                vm.shenBaoInfo_gridOptions.dataSource.read();//编制打包计划列表数据刷新
+            })
         };
 
         function updateShnebaoInfo(vm, shenbaoId) {
-            var httpOptions = {
-                method: 'post',
-                url: common.format(url + "/updateShnebaoInfo/{0}/{1}/{2}", shenbaoId, vm.gg[shenbaoId], vm.gt[shenbaoId])
-            };
-
-            var httpSuccess = function success(response) {
-//				common.requestSuccess({
-//					vm : vm,
-//					response : response,
-//					fn : function() {
-//						common.alert({
-//							vm : vm,
-//							msg : "资金添加成功",
-//							fn : function() {
-                if (vm.page == 'packPlanEdit') {
-                    vm.shenBaoInfo_gridOptions_plan.dataSource.read();
-                }
-                if (vm.page == 'edit') {
-                    vm.shenBaoInfo_gridOptions.dataSource.read();//编制打包计划列表数据刷新
-                }
-//
-//								$('.alertDialog').modal('hide');
-//							}
-//						});
-//					}
-//				});
-            };
-
-            common.http({
-                vm: vm,
-                $http: $http,
-                httpOptions: httpOptions,
-                success: httpSuccess
-            });
+            $http.post(common.format(url + "/updateShnebaoInfo/{0}/{1}/{2}", shenbaoId, vm.gg[shenbaoId], vm.gt[shenbaoId])).then(function () {
+                vm.shenBaoInfo_gridOptions_plan && vm.shenBaoInfo_gridOptions_plan.dataSource && vm.shenBaoInfo_gridOptions_plan.dataSource.read();
+                //编制打包计划列表数据刷新
+                vm.shenBaoInfo_gridOptions && vm.shenBaoInfo_gridOptions.dataSource && vm.shenBaoInfo_gridOptions.dataSource.read();
+            })
         };
 
         function startProcess(vm, planId) {
-            var httpOptions = {
-                method: 'post',
-                url: common.format(url + "/startProcess/{0}", planId)
-            };
-
-            var httpSuccess = function success(response) {
-                common.requestSuccess({
-                    vm: vm,
-                    response: response,
-                    fn: function () {
-                        common.alert({
-                            vm: vm,
-                            msg: "操作成功",
-                            fn: function () {
-                                vm.gridOptions.dataSource.read();
-                                $('.alertDialog').modal('hide');
-                            }
-                        });
-                    }
-                });
-            };
-
-            common.http({
-                vm: vm,
-                $http: $http,
-                httpOptions: httpOptions,
-                success: httpSuccess
-            });
+            $http.post(common.format(url + "/startProcess/{0}", planId)).then(function () {
+                bsWin.success("操作成功");
+                vm.gridOptions.dataSource.read();
+            })
         };
 
         function getPackPlanById(vm) {
@@ -307,106 +146,31 @@
          * 为计划下达申请添加打包类型
          */
         function addPackPlanToPlanReack(vm, ids) {
-            var httpOptions = {
-                method: 'post',
-                url: common.format(url + "/addPackPlan/{0}", vm.id),
-                data: ids
-            };
-
-            var httpSuccess = function success(response) {
-                common.requestSuccess({
-                    vm: vm,
-                    response: response,
-                    fn: function () {
-                        common.alert({
-                            vm: vm,
-                            msg: "操作成功",
-                            fn: function () {
-                                $('.alertDialog').modal('hide');
-                                vm.packPlan_gridOptions.dataSource.read();//编制打包计划列表数据刷新
-                            }
-                        });
-                    }
-                });
-            };
-
-            common.http({
-                vm: vm,
-                $http: $http,
-                httpOptions: httpOptions,
-                success: httpSuccess
-            });
+            $http.post(common.format(url + "/addPackPlan/{0}", vm.id), ids).then(function () {
+                bsWin.success("操作成功");
+                vm.packPlan_gridOptions.dataSource.read();//编制打包计划列表数据刷新
+            })
         }//end function addPackPlanToPlanReack
 
         /**
          * 为计划下达申请添加申报项目
          */
         function addShenBaoInfoToPlanReach(vm, ids) {
-            var httpOptions = {
-                method: 'post',
-                url: common.format(url + "/addShenBaoInfo/{0}", vm.id),
-                data: ids
-            };
-
-            var httpSuccess = function success(response) {
-                common.requestSuccess({
-                    vm: vm,
-                    response: response,
-                    fn: function () {
-                        common.alert({
-                            vm: vm,
-                            msg: "操作成功",
-                            fn: function () {
-                                $('.alertDialog').modal('hide');
-                                vm.shenBaoInfo_gridOptions.dataSource.read();//编制打包计划列表数据刷新
-                                vm.gridOptions_project.dataSource.read();
-                            }
-                        });
-                    }
-                });
-            };
-
-            common.http({
-                vm: vm,
-                $http: $http,
-                httpOptions: httpOptions,
-                success: httpSuccess
-            });
+            $http.post(common.format(url + "/addShenBaoInfo/{0}", vm.id), ids).then(function () {
+                bsWin.success("操作成功");
+                vm.shenBaoInfo_gridOptions.dataSource.read();//编制打包计划列表数据刷新
+                vm.gridOptions_project.dataSource.read();
+            })
         }//end fun addShenBaoInfoToYearPlan
 
         /**
          * 为计划下达申请添加申报项目
          */
         function addShenBaoInfoToPack(vm, ids) {
-            var httpOptions = {
-                method: 'post',
-                url: common.format(url + "/addShenBaoInfoToPack/{0}", vm.id),
-                data: ids
-            };
-
-            var httpSuccess = function success(response) {
-                common.requestSuccess({
-                    vm: vm,
-                    response: response,
-                    fn: function () {
-                        common.alert({
-                            vm: vm,
-                            msg: "操作成功",
-                            fn: function () {
-                                $('.alertDialog').modal('hide');
-                                vm.shenBaoInfo_gridOptions_plan.dataSource.read();//编制打包计划列表数据刷新
-                            }
-                        });
-                    }
-                });
-            };
-
-            common.http({
-                vm: vm,
-                $http: $http,
-                httpOptions: httpOptions,
-                success: httpSuccess
-            });
+            $http.post(common.format(url + "/addShenBaoInfoToPack/{0}", vm.id), ids).then(function () {
+                bsWin.success("操作成功");
+                vm.shenBaoInfo_gridOptions_plan.dataSource.read();//编制打包计划列表数据刷新
+            })
         }//end fun addShenBaoInfoToYearPlan
 
         /**
@@ -489,34 +253,13 @@
          * 删除计划下达申请
          */
         function deleteApplication(vm, id) {
-            var httpOptions = {
-                method: 'post',
-                url: url + '/deletePlanReach',
-                data: id
-            };
-            var httpSuccess = function success(response) {
-                common.requestSuccess({
-                    vm: vm,
-                    response: response,
-                    fn: function () {
-                        common.alert({
-                            vm: vm,
-                            msg: "操作成功!",
-                            fn: function () {
-                                vm.isSubmit = false;
-                                $('.alertDialog').modal('hide');
-                                vm.gridOptions.dataSource.read();
-                            }
-                        });
-                    }
-                });
-            };
-            common.http({
-                vm: vm,
-                $http: $http,
-                httpOptions: httpOptions,
-                success: httpSuccess
-            });
+            $http.post(url + '/deletePlanReach', id).then(function () {
+                vm.isSubmit = false;
+                bsWin.success("操作成功！");
+                vm.gridOptions.dataSource.read();
+            }, function () {
+                vm.isSubmit = false;
+            })
         }//end fun deleteApplication
 
         /**
@@ -527,74 +270,34 @@
             var isValid = $('form').valid();
             if (isValid) {
                 vm.isSubmit = true;
-                var httpOptions = {
-                    method: 'post',
-                    url: url + '/updatePlanReach',
-                    data: vm.model
-                };
-                var httpSuccess = function success(response) {
-                    common.requestSuccess({
-                        vm: vm,
-                        response: response,
-                        fn: function () {
-                            common.alert({
-                                vm: vm,
-                                msg: "操作成功!",
-                                fn: function () {
-                                    vm.isSubmit = false;
-                                    $('.alertDialog').modal('hide');
-                                    $('.modal-backdrop').remove();
-                                    $location.path(url_back);//创建成功返回到列表页
-                                }
-                            });
-                        }
-                    });
-                };
-                common.http({
-                    vm: vm,
-                    $http: $http,
-                    httpOptions: httpOptions,
-                    success: httpSuccess
-                });
+                $http.post(url + '/updatePlanReach').then(function () {
+                    vm.isSubmit = false;
+                    bsWin.success("操作成功！");
+                    $location.path(url_back);//创建成功返回到列表页
+                }, function () {
+                    vm.isSubmit = false;
+                })
             }
         }//end fun updateApplication
 
         /**
          * 创建计划下达申请
          */
-        function createApplication(vm) {
+        function createApplication(vm, fn) {
             common.initJqValidation();
             var isValid = $('form').valid();
             if (isValid) {
                 vm.isSubmit = true;
-                var httpOptions = {
-                    method: 'post',
-                    url: url,
-                    data: vm.model
-                };
-                var httpSuccess = function success(response) {
-                    common.requestSuccess({
-                        vm: vm,
-                        response: response,
-                        fn: function () {
-                            common.alert({
-                                vm: vm,
-                                msg: "操作成功！",
-                                fn: function () {
-                                    vm.isSubmit = false;
-                                    $('.alertDialog').modal('hide');
-                                    $('.modal-backdrop').remove();
-                                    $location.path(url_back);//创建成功返回到列表页
-                                }
-                            });
-                        }
-                    });
-                };
-                common.http({
-                    vm: vm,
-                    $http: $http,
-                    httpOptions: httpOptions,
-                    success: httpSuccess
+                $http.post(url, vm.model).then(function () {
+                    vm.isSubmit = false;
+                    if (angular.isFunction(fn)) {
+                        fn();
+                    } else {
+                        $location.path(url_back);//创建成功返回到列表页
+                    }
+                    bsWin.success("操作成功！");
+                }, function () {
+                    vm.isSubmit = false;
                 });
             }
         }//end fun createApplication
@@ -602,24 +305,12 @@
         /**
          * 获取当前登陆用户单位
          */
-        function getUserUnit(vm) {
-            var httpOptions = {
-                method: 'get',
-                url: url_userUnit
-            };
-            var httpSuccess = function success(response) {
-                vm.userUnit = response.data || {};
+        function getUserUnit(vm, fn) {
+            $http.get(url_userUnit).success(function (data) {
+                vm.userUnit = data || {};
                 vm.model.applicationUnit = vm.userUnit.id;//设置项目的所属单位名称
-                projectGrid(vm);//获取项目数据
-                packGrid(vm);//获取打包类数据
-                shenbaoInfoGrid(vm);
-            };
-            common.http({
-                vm: vm,
-                $http: $http,
-                httpOptions: httpOptions,
-                success: httpSuccess
-            });
+                angular.isFunction(fn) && fn();
+            })
         }//end fun getUserUnit
 
         /**

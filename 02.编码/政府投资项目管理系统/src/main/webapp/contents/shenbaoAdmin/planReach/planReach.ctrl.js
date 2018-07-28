@@ -13,6 +13,7 @@
     function planReachCtrl($state, planReachSvc, bsWin) {
         var vm = this;
         vm.isCan = true;
+        vm.model = {};
 
         planReachSvc.grid(vm);
 
@@ -35,6 +36,19 @@
         vm.startProcess = function (planId) {
             planReachSvc.startProcess(vm, planId);
         };
+
+        vm.addApplication = function () {
+            planReachSvc.createApplication(vm, function () {
+                planReachCreatWin.modal('hide');
+                vm.gridOptions.dataSource.read();
+            });
+        };
+
+        var planReachCreatWin = $('#planReachCreatWin').on('show.bs.modal', function (e) {
+            planReachSvc.getUserUnit(vm);//获取当前登陆单位信息
+        }).on('hidden.bs.modal', function (e) {
+            vm.model = {};
+        });
 
         $(".menu li a").removeClass("focus");
         $(".menu li a:eq(4)").addClass("focus");
