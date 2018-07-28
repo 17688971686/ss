@@ -31,7 +31,9 @@
   				</td>
   				<td class="formAlignRight">负责人电话：<span class="required">(*)</span></td>
   				<td>
-  					<input type="text" class="form-control input-sm" id="resPersonTel" name="resPersonTel" ng-model="vm.model.resPersonTel" data-val="true" data-val-required="必填"/>
+  					<input type="text" class="form-control input-sm" id="resPersonTel" name="resPersonTel"
+						   ng-model="vm.model.resPersonTel" data-val="true" data-val-required="必填"
+                           maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
   					<span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>
   				</td>
   			</tr>

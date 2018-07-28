@@ -1,3 +1,4 @@
+<#assign path=request.contextPath/>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -13,19 +14,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
 	name="viewport">
 <!-- Bootstrap 3.3.6 -->
-<link rel="stylesheet" href="/contents/libs/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="${path}/contents/libs/bootstrap/dist/css/bootstrap.min.css">
 <!-- Font Awesome -->
-<link rel="stylesheet" href="/contents/libs/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="${path}/contents/libs/font-awesome/css/font-awesome.min.css">
 <!-- Ionicons -->
-<link rel="stylesheet" href="/contents/libs/ionicons/css/ionicons.min.css">
+<link rel="stylesheet" href="${path}/contents/libs/ionicons/css/ionicons.min.css">
 <!-- Theme style -->
-<link rel="stylesheet" href="/contents/libs/adminLTE/dist/css/AdminLTE.min.css">
+<link rel="stylesheet" href="${path}/contents/libs/adminLTE/dist/css/AdminLTE.min.css">
 <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
           page. However, you can choose any other skin. Make sure you
           apply the skin class to the body tag so the changes take effect.
     -->
 <!--<link rel="stylesheet" href="/contents/libs/adminLTE/dist/css/skins/skin-blue.min.css">-->
-<link href="/contents/libs/adminLTE/dist/css/skins/skin-green.min.css" rel="stylesheet" />
+<link href="${path}/contents/libs/adminLTE/dist/css/skins/skin-green.min.css" rel="stylesheet" />
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -33,11 +34,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-<link href="/contents/libs/kendoui/kendo.common.min.css" rel="stylesheet" />
-<link href="/contents/libs/kendoui/kendo.blueopal.min.css" rel="stylesheet" />
+<link href="${path}/contents/libs/kendoui/kendo.common.min.css" rel="stylesheet" />
+<link href="${path}/contents/libs/kendoui/kendo.blueopal.min.css" rel="stylesheet" />
 
 
-<link href="/contents/shared/css.css" rel="stylesheet" />
+<link href="${path}/contents/shared/css.css" rel="stylesheet" />
 <link rel="stylesheet"	href="/contents/libs/textAngular/textAngular.css">
 <!--Begin:自定义css-->
 <style>
@@ -67,7 +68,7 @@ margin-left:310px;
 		<header class="main-header">
 			<div class="pull-left" style="width:100px;">
 				<a href="/admin/index">
-					<img src="/contents/images/logo.jpg" />
+					<img src="${path}/contents/images/logo.jpg" />
 				</a>
 			</div>
 			<!-- Header Navbar -->
@@ -88,7 +89,7 @@ margin-left:310px;
 						<li class="dropdown user user-menu">
 							<!-- Menu Toggle Button --> <a href="javascript:void(0)"
 							class="dropdown-toggle" data-toggle="dropdown"> <!-- The user image in the navbar-->
-								<img src="/contents/images/user_icon.png" class="user-image"
+								<img src="${path}/contents/images/user_icon.png" class="user-image"
 								alt="User Image"> <!-- hidden-xs hides the username on small devices so only the image appears. -->
 								<span class="hidden-xs">${user}</span>
 
@@ -118,15 +119,10 @@ margin-left:310px;
 		<aside class="main-sidebar">
 			<!-- sidebar: style can be found in sidebar.less -->
 			<section class="sidebar">
-
-
 				<!-- Sidebar Menu -->
 				<ul class="sidebar-menu">
 					<li class="header"></li>
-
-<!--
-
-
+                    <!--
 					<li class="treeview"><a href="javascript:void(0)"> <i
 							class="fa fa-link"></i> <span>项目评审管理</span> <span
 							class="pull-right-container"> <i
@@ -496,123 +492,123 @@ margin-left:310px;
 
 	<!-- ./wrapper -->
 	<!-- REQUIRED JS SCRIPTS -->
-	<script src="/contents/libs/jquery/jquery.js"></script>
-	<script src="/contents/libs/jquery/jquery.md5.js"></script>
-	<script src="/contents/libs/bootstrap/customize/js/bootstrap.js"></script>
-	<script src="/contents/libs/angular/angular.js"></script>
-	<script src="/contents/libs/angular/sanitize.js"></script>
-	<script src="/contents/libs/angular/angular-ui-router.js"></script>
-	<script src="/contents/libs/boilerplate/plugins.js"></script>
-	<script src="/contents/libs/jquery-validation/jquery.validate.js"></script>
-	<script src="/contents/libs/jquery-validation/jquery.validate.unobtrusive.js"></script>
+	<script src="${path}/contents/libs/jquery/jquery.js"></script>
+	<script src="${path}/contents/libs/jquery/jquery.md5.js"></script>
+	<script src="${path}/contents/libs/bootstrap/customize/js/bootstrap.js"></script>
+	<script src="${path}/contents/libs/angular/angular.js"></script>
+	<script src="${path}/contents/libs/angular/sanitize.js"></script>
+	<script src="${path}/contents/libs/angular/angular-ui-router.js"></script>
+	<script src="${path}/contents/libs/boilerplate/plugins.js"></script>
+	<script src="${path}/contents/libs/jquery-validation/jquery.validate.js"></script>
+	<script src="${path}/contents/libs/jquery-validation/jquery.validate.unobtrusive.js"></script>
 
-	<script src="/contents/libs/jszip/jszip.min.js"></script>
-	<script src="/contents/libs/kendoui/kendo.all.min.js?r=1"></script>
-	<script src="/contents/libs/kendoui/kendo.message.zh-CN.js"></script>
-	<script src="/contents/libs/kendoui/kendo.culture.zh-CN.min.js"></script>
-	<script src="/contents/libs/jsLinq/jslinq.min.js"></script>
-	<script src="/contents/libs/My97DatePicker/WdatePicker.js"></script>
+	<script src="${path}/contents/libs/jszip/jszip.min.js"></script>
+	<script src="${path}/contents/libs/kendoui/kendo.all.min.js?r=1"></script>
+	<script src="${path}/contents/libs/kendoui/kendo.message.zh-CN.js"></script>
+	<script src="${path}/contents/libs/kendoui/kendo.culture.zh-CN.min.js"></script>
+	<script src="${path}/contents/libs/jsLinq/jslinq.min.js"></script>
+	<script src="${path}/contents/libs/My97DatePicker/WdatePicker.js"></script>
 	<!-- RSA加密用 -->
-	<script type="text/javascript" src="/contents/libs/rsa/jsbn.js"></script>
-	<script type="text/javascript" src="/contents/libs/rsa/prng4.js"></script>
-	<script type="text/javascript" src="/contents/libs/rsa/rng.js"></script>
-	<script type="text/javascript" src="/contents/libs/rsa/rsa.js"></script>
+	<script type="text/javascript" src="${path}/contents/libs/rsa/jsbn.js"></script>
+	<script type="text/javascript" src="${path}/contents/libs/rsa/prng4.js"></script>
+	<script type="text/javascript" src="${path}/contents/libs/rsa/rng.js"></script>
+	<script type="text/javascript" src="${path}/contents/libs/rsa/rsa.js"></script>
 	<!-- PrintThis 打印所用-->
-	<script src="/contents/libs/printThis/printThis.js"></script>
+	<script src="${path}/contents/libs/printThis/printThis.js"></script>
 	<!-- weboffice 在线编辑文档-->
-	<script type="text/javascript" src="/contents/libs/weboffice/main.js"></script>
+	<script type="text/javascript" src="${path}/contents/libs/weboffice/main.js"></script>
 
 	<!-- AdminLTE App -->
-	<script src="/contents/libs/adminLTE/dist/js/app.js"></script>
+	<script src="${path}/contents/libs/adminLTE/dist/js/app.js"></script>
 	<!-- Optionally, you can add Slimscroll and FastClick plugins.
          Both of these plugins are recommended to enhance the
          user experience. Slimscroll is required when using the
          fixed layout. -->
 
     <!-- textAngular -->
-    <script src="/contents/libs/textAngular/textAngular-rangy.min.js"></script>
-    <script src="/contents/libs/textAngular/textAngular-sanitize.min.js"></script>
-    <script src="/contents/libs/textAngular/textAngular.js"></script>
-    <script src="/contents/libs/textAngular/textAngularSetup.js"></script>
+    <script src="${path}/contents/libs/textAngular/textAngular-rangy.min.js"></script>
+    <script src="${path}/contents/libs/textAngular/textAngular-sanitize.min.js"></script>
+    <script src="${path}/contents/libs/textAngular/textAngular.js"></script>
+    <script src="${path}/contents/libs/textAngular/textAngularSetup.js"></script>
     <!-- echarts3 -->
-    <script src="/contents/libs/echarts3/echarts.min.js"></script>
+    <script src="${path}/contents/libs/echarts3/echarts.min.js"></script>
 
 	<!-- Begin:自定义Js -->
-	<script src="/contents/common/common.js"></script>
-	<script src="/contents/admin/app.js"></script>
-	<script src="/contents/common/common.filter.js"></script>
-	<script src="/contents/common/common.bsWin.svc.js"></script>
-	<script src="/contents/common/common.httpInterceptor.js"></script>
+	<script src="${path}/contents/common/common.js"></script>
+	<script src="${path}/contents/admin/app.js"></script>
+	<script src="${path}/contents/common/common.filter.js"></script>
+	<script src="${path}/contents/common/common.bsWin.svc.js"></script>
+	<script src="${path}/contents/common/common.httpInterceptor.js"></script>
 
 	<!-- Role -->
-	<script src="/contents/admin/framework/role/role.svc.js"></script>
-	<script src="/contents/admin/framework/role/role.ctrl.js"></script>
-	<script src="/contents/admin/framework/role/role.edit.ctrl.js"></script>
+	<script src="${path}/contents/admin/framework/role/role.svc.js"></script>
+	<script src="${path}/contents/admin/framework/role/role.ctrl.js"></script>
+	<script src="${path}/contents/admin/framework/role/role.edit.ctrl.js"></script>
 	<!-- User -->
-	<script src="/contents/admin/framework/user/user.svc.js"></script>
-	<script src="/contents/admin/framework/user/user.ctrl.js"></script>
-	<script src="/contents/admin/framework/user/user.edit.ctrl.js"></script>
+	<script src="${path}/contents/admin/framework/user/user.svc.js"></script>
+	<script src="${path}/contents/admin/framework/user/user.ctrl.js"></script>
+	<script src="${path}/contents/admin/framework/user/user.edit.ctrl.js"></script>
 	<!-- Org-->
-	<script src="/contents/admin/framework/org/org.svc.js"></script>
-	<script src="/contents/admin/framework/org/org.ctrl.js"></script>
-	<script src="/contents/admin/framework/org/org.edit.ctrl.js"></script>
-	<script src="/contents/admin/framework/org/orgUser.ctrl.js"></script>
-	<script src="/contents/admin/framework/org/orgUser.svc.js"></script>
+	<script src="${path}/contents/admin/framework/org/org.svc.js"></script>
+	<script src="${path}/contents/admin/framework/org/org.ctrl.js"></script>
+	<script src="${path}/contents/admin/framework/org/org.edit.ctrl.js"></script>
+	<script src="${path}/contents/admin/framework/org/orgUser.ctrl.js"></script>
+	<script src="${path}/contents/admin/framework/org/orgUser.svc.js"></script>
 	<!-- log -->
-	<script src="/contents/admin/framework/log/log.ctrl.js"></script>
-	<script src="/contents/admin/framework/log/log.svc.js"></script>
+	<script src="${path}/contents/admin/framework/log/log.ctrl.js"></script>
+	<script src="${path}/contents/admin/framework/log/log.svc.js"></script>
 	<!-- home -->
-	<script src="/contents/admin/framework/home/home.ctrl.js"></script>
-	<script src="/contents/admin/framework/home/home.svc.js"></script>
+	<script src="${path}/contents/admin/framework/home/home.ctrl.js"></script>
+	<script src="${path}/contents/admin/framework/home/home.svc.js"></script>
 	<!-- demo -->
-	<script src="/contents/admin/framework/demo/demo.ctrl.js"></script>
-	<script src="/contents/admin/framework/demo/demo.svc.js"></script>
+	<script src="${path}/contents/admin/framework/demo/demo.ctrl.js"></script>
+	<script src="${path}/contents/admin/framework/demo/demo.svc.js"></script>
 
 	<!-- portal -->
-	<script src="/contents/admin/management/portal/portal.ctrl.js"></script>
-	<script src="/contents/admin/management/portal/portal.svc.js"></script>
+	<script src="${path}/contents/admin/management/portal/portal.ctrl.js"></script>
+	<script src="${path}/contents/admin/management/portal/portal.svc.js"></script>
 	<!-- monthReport -->
-	<script src="/contents/admin/management/monthReport/monthReport.ctrl.js"></script>
-	<script src="/contents/admin/management/monthReport/monthReport.svc.js"></script>
+	<script src="${path}/contents/admin/management/monthReport/monthReport.ctrl.js"></script>
+	<script src="${path}/contents/admin/management/monthReport/monthReport.svc.js"></script>
 	<!-- statisticalAnalysis (统计分析)-->
-	<script src="/contents/admin/management/auxDeci/statisticalAnalysis/statisticalAnalysis.ctrl.js"></script>
-	<script src="/contents/admin/management/auxDeci/statisticalAnalysis/statisticalAnalysis.svc.js"></script>
+	<script src="${path}/contents/admin/management/auxDeci/statisticalAnalysis/statisticalAnalysis.ctrl.js"></script>
+	<script src="${path}/contents/admin/management/auxDeci/statisticalAnalysis/statisticalAnalysis.svc.js"></script>
 	<!-- project -->
-	<script src="/contents/admin/management/project/project.ctrl.js"></script>
-	<script src="/contents/admin/management/project/project.svc.js"></script>
-	<script src="/contents/admin/management/project/updateDisbursed.ctrl.js"></script>
+	<script src="${path}/contents/admin/management/project/project.ctrl.js"></script>
+	<script src="${path}/contents/admin/management/project/project.svc.js"></script>
+	<script src="${path}/contents/admin/management/project/updateDisbursed.ctrl.js"></script>
 	<!-- catalog -->
-	<script src="/contents/admin/management/catalog/catalog.ctrl.js"></script>
-	<script src="/contents/admin/management/catalog/catalog.svc.js"></script>
+	<script src="${path}/contents/admin/management/catalog/catalog.ctrl.js"></script>
+	<script src="${path}/contents/admin/management/catalog/catalog.svc.js"></script>
 	<!-- creditInfo -->
-	<script src="/contents/admin/management/creditInfo/creditInfo.ctrl.js"></script>
-	<script src="/contents/admin/management/creditInfo/creditInfo.svc.js"></script>
+	<script src="${path}/contents/admin/management/creditInfo/creditInfo.ctrl.js"></script>
+	<script src="${path}/contents/admin/management/creditInfo/creditInfo.svc.js"></script>
 	<!-- basicData -->
-	<script src="/contents/admin/management/basicData/basicData.ctrl.js"></script>
-	<script src="/contents/admin/management/basicData/basicData.svc.js"></script>
+	<script src="${path}/contents/admin/management/basicData/basicData.ctrl.js"></script>
+	<script src="${path}/contents/admin/management/basicData/basicData.svc.js"></script>
 	<!-- sysConfig(系统配置) -->
-	<script src="/contents/admin/management/sysConfig/sysConfig.ctrl.js"></script>
-	<script src="/contents/admin/management/sysConfig/sysConfig.svc.js"></script>
+	<script src="${path}/contents/admin/management/sysConfig/sysConfig.ctrl.js"></script>
+	<script src="${path}/contents/admin/management/sysConfig/sysConfig.svc.js"></script>
 	<!-- yearPlan(年度计划) -->
-	<script src="/contents/admin/management/yearPlan/yearPlan.ctrl.js"></script>
-	<script src="/contents/admin/management/yearPlan/yearPlan.svc.js"></script>
+	<script src="${path}/contents/admin/management/yearPlan/yearPlan.ctrl.js"></script>
+	<script src="${path}/contents/admin/management/yearPlan/yearPlan.svc.js"></script>
 	<!-- planReach(计划下达) -->
-	<script src="/contents/admin/management/planReachManage/planReach/planReach.ctrl.js"></script>
-	<script src="/contents/admin/management/planReachManage/planReach/planReach.svc.js"></script>
+	<script src="${path}/contents/admin/management/planReachManage/planReach/planReach.ctrl.js"></script>
+	<script src="${path}/contents/admin/management/planReachManage/planReach/planReach.svc.js"></script>
 	<!-- task_yearPlan -->
-	<script src="/contents/admin/management/task/yearPlan/task.yearPlan.ctrl.js"></script>
-	<script src="/contents/admin/management/task/yearPlan/task.yearPlan.svc.js"></script>
+	<script src="${path}/contents/admin/management/task/yearPlan/task.yearPlan.ctrl.js"></script>
+	<script src="${path}/contents/admin/management/task/yearPlan/task.yearPlan.svc.js"></script>
 	<!-- task_audit -->
-	<script src="/contents/admin/management/task/audit/task.newaudit.ctrl.js"></script>
-	<script src="/contents/admin/management/task/audit/task.newaudit.svc.js"></script>
+	<script src="${path}/contents/admin/management/task/audit/task.newaudit.ctrl.js"></script>
+	<script src="${path}/contents/admin/management/task/audit/task.newaudit.svc.js"></script>
 	<!-- <script src="/contents/admin/management/task/audit/task.audit.ctrl.js"></script>
 	<script src="/contents/admin/management/task/audit/task.audit.svc.js"></script> -->
 	<!-- task_audit -->
-	<script src="/contents/admin/management/task/plan/task.plan.ctrl.js"></script>
+	<script src="${path}/contents/admin/management/task/plan/task.plan.ctrl.js"></script>
 	<script src="/contents/admin/management/task/plan/task.plan.svc.js"></script>
 	<!-- mediationManagement -->
-	<script src="/contents/admin/management/mediationManagement/mediationManagement.ctrl.js"></script>
-	<script src="/contents/admin/management/mediationManagement/mediationManagement.svc.js"></script>
+	<script src="${path}/contents/admin/management/mediationManagement/mediationManagement.ctrl.js"></script>
+	<script src="${path}/contents/admin/management/mediationManagement/mediationManagement.svc.js"></script>
 	<!-- End:自定义Js-->
 </body>
 </html>

@@ -21,8 +21,9 @@
 		</td>
 	    <td width="100" class="formAlignRight">电话号码：<span class="required">(*)</span></td>
 	    <td>
-		    <input type="text" class="form-control input-sm" id="unitTel" name="unitTel" ng-model="vm.model.shenBaoUnitInfoDto.unitTel" 
-		    data-val="true" data-val-required="必填"/>
+		    <input type="text" class="form-control input-sm" id="unitTel" name="unitTel"
+				   ng-model="vm.model.shenBaoUnitInfoDto.unitTel"  data-val="true" data-val-required="必填"
+				   maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
 		    <span data-valmsg-for="unitTel" data-valmsg-replace="true" class="required"></span>
 	    </td>
    </tr>
@@ -34,7 +35,8 @@
 	        <span ng-show="myForm.unitEmail.$error.email" class="required"></span>
         <td class="formAlignRight">传真号码：</td>
         <td>
-	        <input type="text" class="form-control input-sm" id="unitFax" name="unitFax" ng-model="vm.model.shenBaoUnitInfoDto.unitFax"/>
+	        <input type="text" class="form-control input-sm" id="unitFax" name="unitFax" ng-model="vm.model.shenBaoUnitInfoDto.unitFax"
+				   maxlength="50" data-val-length-max="50" data-val-regex="最多只能输入50位字符"/>
    		</td>
    </tr>
 </table>
@@ -75,21 +77,24 @@
 	    </td>
 	    <td width="100px;" class="juzhong">电话号码</td>
 	    <td>
-	     	<input class="form-control input-sm" type="text" id="resPersonTel" name="resPersonTel" ng-model="vm.model.shenBaoUnitInfoDto.resPersonTel" 
-	     		data-val="true" data-val-required="必填"/>
+	     	<input class="form-control input-sm" type="text" id="resPersonTel" name="resPersonTel"
+				   ng-model="vm.model.shenBaoUnitInfoDto.resPersonTel" data-val="true" data-val-required="必填"
+				   maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
 	    	<span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>
 	    </td>
 	</tr>
 	<tr>
 	    <td class="juzhong">手机</td>	   
 	    <td>
-	     	<input class="form-control input-sm" type="text" id="resPersonMobile" name="resPersonMobile" ng-model="vm.model.shenBaoUnitInfoDto.resPersonMobile" 
-	     		data-val="true" data-val-required="必填"/>
+	     	<input class="form-control input-sm" type="text" id="resPersonMobile" name="resPersonMobile"
+				   ng-model="vm.model.shenBaoUnitInfoDto.resPersonMobile"  data-val="true" data-val-required="必填"
+				   maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
 	    	<span data-valmsg-for="resPersonMobile" data-valmsg-replace="true" class="required"></span>
 	    </td>
 	    <td class="juzhong">传真号码</td>
 	    <td>
-	     <input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.shenBaoUnitInfoDto.resPersonFax"  />
+	     <input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.shenBaoUnitInfoDto.resPersonFax"
+				maxlength="50" data-val-length-max="50" data-val-regex="最多只能输入50位字符"/>/>
 	    </td>
 	</tr>
 	<tr>
@@ -137,21 +142,24 @@
 		</td>
 		<td width="100px;" class="juzhong">电话号码</td>
 		<td>
-		 	<input class="form-control input-sm" type="text" id="resPersonTel_BZ" name="resPersonTel_BZ" ng-model="vm.model.bianZhiUnitInfoDto.resPersonTel" 
-		 		data-val="true" data-val-required="必填"/>
+		 	<input class="form-control input-sm" type="text" id="resPersonTel_BZ" name="resPersonTel_BZ"
+				   ng-model="vm.model.bianZhiUnitInfoDto.resPersonTel"  data-val="true" data-val-required="必填"
+				   maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
 			<span data-valmsg-for="resPersonTel_BZ" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
 	<tr>
 		<td class="juzhong">手机</td>	   
 		<td>
-		 	<input class="form-control input-sm" type="text" id="resPersonMobile_BZ" name="resPersonMobile_BZ" ng-model="vm.model.bianZhiUnitInfoDto.resPersonMobile" 
-		 		data-val="true" data-val-required="必填"/>
+		 	<input class="form-control input-sm" type="text" id="resPersonMobile_BZ" name="resPersonMobile_BZ"
+				   ng-model="vm.model.bianZhiUnitInfoDto.resPersonMobile"  data-val="true" data-val-required="必填"
+				   maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
 			<span data-valmsg-for="resPersonMobile_BZ" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="juzhong">传真号码</td>
 		<td>
-		 <input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.bianZhiUnitInfoDto.resPersonFax"  />
+		 <input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.bianZhiUnitInfoDto.resPersonFax"
+				maxlength="50" data-val-length-max="50" data-val-regex="最多只能输入50位字符"/>
 		</td>
 	</tr>
 	<tr>

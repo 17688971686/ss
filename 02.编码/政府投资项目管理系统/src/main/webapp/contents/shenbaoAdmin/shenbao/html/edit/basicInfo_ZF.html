@@ -35,9 +35,11 @@
 		</td>
 		<td class="formAlignRight">项目负责人电话：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" class="form-control input-sm" style="width:200px;" id="projectRepMobile" name="projectRepMobile" ng-model="vm.model.projectRepMobile"
-				data-val="true" data-val-required="必填" placeholder="填写固话或手机号"
-				data-val-regex="号码不合理！" data-val-regex-pattern="^((0\d{2,3}-\d{7,8})|(\d{7,8})|(1[3|4|5|8][0-9]\d{4,8}))$"/>
+			<!-- 旧的校验方法 data-val-regex="号码不合理！" data-val-regex-pattern="^((0\d{2,3}-\d{7,8})|(\d{7,8})|(1[3|4|5|8][0-9]\d{4,8}))$"  -->
+			<input type="text" class="form-control input-sm" style="width:200px;" id="projectRepMobile" name="projectRepMobile"
+				   ng-model="vm.model.projectRepMobile" data-val="true" data-val-required="必填"
+				   maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"
+				   placeholder="填写固话或手机号"/>
 			<span data-valmsg-for="projectRepMobile" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>

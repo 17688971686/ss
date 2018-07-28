@@ -158,7 +158,7 @@
 								return common.format('<a class="text-primary" href="#/shenbao_record/{0}">{1}</a>',item.relId,item.title);
 							}else if(item.taskType == vm.taskType_monthReport){
 								return common.format('<a class="text-primary" href="#/monthReportDetails/{0}">{1}</a>',item.relId,item.title);
-							}							
+							}
 						},
 						width:400,
 						filterable : false						

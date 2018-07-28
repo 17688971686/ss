@@ -292,7 +292,7 @@
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_task+"/"+"yearPlan"),
+				transport : common.kendoGridConfig().transport(url_task+"/yearPlan"),
 				schema : common.kendoGridConfig().schema({
 					id : "id"					
 				}),
@@ -341,7 +341,7 @@
 						width:500,
 						filterable : true,
 						template:function(item){
-							return common.format("<a href='#/task/todo/{1}'>{0}</a>",item.projectName,item.id);			
+							return common.format("<a href='#/task/todo/{0}'>{1}</a>",item.id,item.projectName);
 						}
 					},
 					 {
