@@ -28,7 +28,7 @@
 
     app.factory('bsWin', ["$rootScope", "$injector", "$templateCache", "bsWinConfig",
         function ($rootScope, $injector, $templateCache, bsWinConfig) {
-            var index = 0, reloginWin = false;
+            var index = 0;
 
             return {
                 success: function (message, onClose) {
