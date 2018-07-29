@@ -47,13 +47,6 @@
         vm.deleteProcessOne = function (id) {
             planReachSvc.deleteProcessOne(vm, id);
         };
-        vm.addProject = function () {
-            //展示项目数据模态框
-            $("#myModal").modal({
-                backdrop: 'static',
-                keyboard: true
-            });
-        };
 
         vm.projectDeletes = function () {
             //获取选中的申报信息的id
@@ -88,18 +81,14 @@
         //展示项目数据模态框 在打包计划中添加单列项目时使用
         vm.addProjectForPack = function () {
             planReachSvc.projectForPackGrid(vm);
-            $("#projectModalForPack").modal({
-                backdrop: 'static',
-                keyboard: true
-            });
         };
-        vm.addPack = function () {
-            //展示包含本单位的打包类计划
-            $("#packModal").modal({
-                backdrop: 'static',
-                keyboard: true
-            });
-        };
+        // vm.addPack = function () {
+        //     //展示包含本单位的打包类计划
+        //     $("#packModal").modal({
+        //         backdrop: 'static',
+        //         keyboard: true
+        //     });
+        // };
 
         //点击添加项目模态框确认按钮
         vm.dialogConfirmSubmit_shenBaoInfo = function () {

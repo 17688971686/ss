@@ -119,27 +119,15 @@
         };
 
         function getPackPlanById(vm) {
-            var httpOptions = {
-                method: 'get',
-                url: common.format(url_packPlan + "?$filter=id eq '{0}'", vm.id)
-            };
-
-            var httpSuccess = function success(response) {
-                vm.model = response.data.value[0] || {};
-                console.log(vm.model);
+            $http.get(common.format(url_packPlan + "?$filter=id eq '{0}'", vm.id)).success(function (data) {
+                vm.model = data.value[0] || {};
+                // console.log(vm.model);
                 vm.model.allocationCapitalDtos = vm.model.allocationCapitals;
                 //刷新文字输入长度
 //				vm.checkLength(vm.model.remark,500,'remarkTips');
                 //vm.planYear = vm.model.plan.year;//用于编制列表表头年份的绑定
 //				vm.shenBaoInfo_gridOptions_plan.dataSource = vm.model.shenBaoInfoDtos;
-            };
-
-            common.http({
-                vm: vm,
-                $http: $http,
-                httpOptions: httpOptions,
-                success: httpSuccess
-            });
+            })
         }//end fun getPackPlanById
 
         /**
@@ -157,8 +145,9 @@
          */
         function addShenBaoInfoToPlanReach(vm, ids) {
             $http.post(common.format(url + "/addShenBaoInfo/{0}", vm.id), ids).then(function () {
-                bsWin.success("操作成功");
-                vm.shenBaoInfo_gridOptions.dataSource.read();//编制打包计划列表数据刷新
+                // bsWin.success("操作成功");
+                //编制打包计划列表数据刷新
+                vm.shenBaoInfo_gridOptions.dataSource.read();
                 vm.gridOptions_project.dataSource.read();
             })
         }//end fun addShenBaoInfoToYearPlan

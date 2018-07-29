@@ -8,6 +8,7 @@ import cs.model.PageModelDto;
 import cs.model.framework.UserDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
+import cs.repository.odata.ODataObjNew;
 import cs.service.interfaces.PlanReachApplicationService;
 import cs.service.interfaces.ProjectService;
 import cs.service.interfaces.ShenBaoInfoService;
@@ -75,7 +76,7 @@ public class ShenBaoAdminPlanReachController {
 
     @RequestMapping(name = "获取计划下达申请信息", path = "getShenbaoInfoFromYearplan", method = RequestMethod.GET)
     @ResponseBody
-    public PageModelDto<ShenBaoInfoDto> getShenbaoInfoFromYearplan(ODataObj odataObj) {
+    public PageModelDto<ShenBaoInfoDto> getShenbaoInfoFromYearplan(ODataObjNew odataObj) {
         PageModelDto<ShenBaoInfoDto> shenBaoInfos = planReachApplicationService.getShenbaoInfoFromYearplan(odataObj);
         return shenBaoInfos;
     }
