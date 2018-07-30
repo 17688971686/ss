@@ -32,6 +32,8 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
 
     void updateShenBaoInfo(ShenBaoInfoDto dto, Boolean isAdminUpdate);
 
+    ShenBaoInfo create(ShenBaoInfoDto dto, Boolean isAdminCreate);
+
     ShenBaoInfo createShenBaoInfo(ShenBaoInfoDto dto, Boolean isAdminCreate);
 
     /**

@@ -286,11 +286,8 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
         shenBaoInfoDto.setZong_processId(null);
         shenBaoInfoDto.setProcessStage("未开始");
         shenBaoInfoDto.setProcessState(BasicDataConfig.processState_weikaishi);
-        shenBaoInfoDto.setModifiedDate(new Date());
-        shenBaoInfoDto.setCreatedDate(new Date());
-        shenBaoInfoDto.setCreatedBy(currentUser.getUserId());
 
-        ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.createShenBaoInfo(shenBaoInfoDto, false);
+        ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.create(shenBaoInfoDto, false);
         //处理关联信息
         //附件
 //        shenBaoInfoDto.getAttachmentDtos().forEach(x -> {
@@ -565,11 +562,11 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
     public void startProcess(String packId) {
 //		PackPlan packPlan=packPlanRepo.findById(packId);
         PlanReachApplication planReachApplication = planReachApplicationRepo.findById(packId);
-        List<ShenBaoInfo> shenbaoList = new ArrayList<ShenBaoInfo>();
-        shenbaoList.addAll(planReachApplication.getShenBaoInfos());
-        if (!CollectionUtils.isEmpty(planReachApplication.getPackPlans())) {
-            for (int i = 0; i < planReachApplication.getPackPlans().size(); i++) {
-                PackPlan array_element = planReachApplication.getPackPlans().get(i);
+        List<ShenBaoInfo> shenbaoList = planReachApplication.getShenBaoInfos();
+        List<PackPlan> packPlans = planReachApplication.getPackPlans();
+        if (!CollectionUtils.isEmpty(packPlans)) {
+            for (int i = 0; i < packPlans.size(); i++) {
+                PackPlan array_element = packPlans.get(i);
                 shenbaoList.addAll(array_element.getShenBaoInfos());
             }
         }
@@ -672,7 +669,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
         Assert.notNull(shenbaoinfo, "数据不存在");
         //根据对象对应的申报信息，删除对应的申报信息和工作流信息
 
-//        Assert.isTrue(processState_jinxingzhong != shenbaoinfo.getProcessState(), "包含正在审批的项目,请重新选择！");
+        Assert.isTrue(processState_jinxingzhong != shenbaoinfo.getProcessState(), "包含正在审批的项目,请重新选择！");
         List<ShenBaoInfo> shenBaoInfos = entity.getShenBaoInfos();
         ShenBaoInfo array_element;
         for (int i = 0; i < shenBaoInfos.size(); i++) {

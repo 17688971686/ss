@@ -62,6 +62,8 @@ import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.interfaces.ShenBaoInfoService;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 /**
  * @Description: 申报信息服务层
@@ -96,8 +98,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     @Autowired
     private BasicDataService basicDataService;
     @Autowired
-    private ICurrentUser currentUser;
-    @Autowired
     private OrgRepo orgRepo;
     @Autowired
     private ActivitiService activitiService;
@@ -111,8 +111,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     private UserService userService;
     @Resource
     private Map<String, String> shenbaoSMSContent;
-    @Autowired
-    private IRepository<ShenBaoInfo, String> shenBaoInfoRepo;
+
     private String processDefinitionKey = "ShenpiReview";
     private String processDefinitionKey_monitor_fjxm = "ShenpiMonitor_fjxm";
     private String processDefinitionKey_plan = "ShenpiPlan";
@@ -158,28 +157,26 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         shenBaoInfo.get(0).setZong_processId("");
         shenBaoInfo.get(0).setThisTaskId("");
         shenBaoInfo.get(0).setReceiver(null);
-        super.repository.save(shenBaoInfo.get(0));
+        repository.save(shenBaoInfo.get(0));
         logger.debug("======>卸载pricessId为 " + pricessId + " 的流程!");
     }
 
-    /**
-     * @param dto           申报信息数据
-     * @param isAdminCreate 是否是管理员创建
-     * @description 创建申报信息
-     */
     @Override
-    @Transactional
-    public ShenBaoInfo createShenBaoInfo(ShenBaoInfoDto dto, Boolean isAdminCreate) {
+    public ShenBaoInfo create(ShenBaoInfoDto dto, Boolean isAdminCreate) {
         //创建申报信息
         ShenBaoInfo entity = super.create(dto);
-        entity.setAuditState(BasicDataConfig.auditState_noAudit);//初始化审核状态--未审核
-        entity.setShenbaoDate(new Date());//初始化--申报时间
-        if (isAdminCreate) {//如果为后台管理员创建
+        //初始化审核状态--未审核
+        entity.setAuditState(BasicDataConfig.auditState_noAudit);
+        //初始化--申报时间
+        entity.setShenbaoDate(new Date());
+        //如果为后台管理员创建
+        if (isAdminCreate) {
             //创建项目
             //首先验证项目名称是否重复
             Criterion criterion = Restrictions.eq(Project_.projectName.getName(), dto.getProjectName());
             List<Project> findProjects = projectRepo.findByCriteria(criterion);
-            if (findProjects.isEmpty()) {//如果为空集合
+            //如果为空集合
+            if (CollectionUtils.isEmpty(findProjects)) {
                 Project project = new Project();
                 project.setCreatedBy(currentUser.getUserId());
                 project.setModifiedBy(currentUser.getUserId());
@@ -187,17 +184,15 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
                 shenBaoChangeToProject(dto, project);
                 //新创建的项目需要设置项目代码,根据行业类型id查询出基础数据
                 BasicData basicData = basicDataRepo.findById(project.getProjectIndustry());
-                if (basicData != null) {
+                Assert.notNull(basicData, "项目代码生成故障，请确认项目行业选择是否正确！");
 //					String number = Util.getProjectNumber(project.getProjectInvestmentType(), basicData);
 //					project.setProjectNumber(number);
-                    //行业项目统计累加
-                    basicData.setCount(basicData.getCount() + 1);
-                    basicData.setModifiedBy(currentUser.getUserId());
-                    basicData.setModifiedDate(new Date());
-                    basicDataRepo.save(basicData);
-                } else {
-                    throw new IllegalArgumentException(String.format("项目代码生成故障，请确认项目行业选择是否正确！"));
-                }
+                //行业项目统计累加
+                basicData.setCount(basicData.getCount() + 1);
+                basicData.setModifiedBy(currentUser.getUserId());
+                basicData.setModifiedDate(new Date());
+                basicDataRepo.save(basicData);
+
                 //批复文件
                 if (dto.getAttachmentDtos() != null && !dto.getAttachmentDtos().isEmpty()) {
                     dto.getAttachmentDtos().stream().forEach(x -> {
@@ -227,10 +222,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             } else {
                 throw new IllegalArgumentException(String.format("项目：%s 已存在,请重新确认！", dto.getProjectName()));
             }
-        }
-        if (!isAdminCreate) {//如果前台申报单位创建
+        } else {
+            //如果前台申报单位创建
             //因dto中创建时间和修改时间为项目的相关时间，需从新设置
-
             Project project = projectRepo.findById(entity.getProjectId());
             if (project != null && entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)) {
                 project.setIsPlanReach(true);
@@ -264,11 +258,13 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         });
 
         Project project = projectRepo.findById(entity.getProjectId());
-        project.getAttachments().forEach(x -> {//删除历史附件
+        //删除历史附件
+        project.getAttachments().forEach(x -> {
             attachmentRepo.delete(x);
         });
         project.getAttachments().clear();
-        dto.getAttachmentDtos().forEach(x -> {//添加新附件
+        //添加新附件
+        dto.getAttachmentDtos().forEach(x -> {
             Attachment attachment = new Attachment();
             attachmentMapper.buildEntity(x, attachment);
             attachment.setCreatedBy(project.getCreatedBy());
@@ -303,6 +299,22 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
         entity.setBianZhiUnitInfo(bianZhiUnitInfo);
         super.repository.save(entity);
+        //处理批复文件库
+        handlePiFuFile(entity);
+        return entity;
+    }
+
+
+    /**
+     * @param dto           申报信息数据
+     * @param isAdminCreate 是否是管理员创建
+     * @description 创建申报信息
+     */
+    @Override
+    public ShenBaoInfo createShenBaoInfo(ShenBaoInfoDto dto, Boolean isAdminCreate) {
+        // 创建申报数据
+        ShenBaoInfo entity = create(dto, isAdminCreate);
+
         //启动申报审批流程
         if (entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)) {
 //			startProcessShenbao(processDefinitionKey_plan,entity.getId());
@@ -311,29 +323,29 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             startProcessShenbao(processDefinitionKey_yearPlan, entity.getId());
         } else {
             startProcessShenbao(processDefinitionKey, entity.getId());
-            entity.setProcessStage("投资科审核收件办理");//设置申报信息的阶段为待签收
+            //设置申报信息的阶段为待签收
+            entity.setProcessStage("投资科审核收件办理");
             entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
             entity.setCreatedDate(new Date());
             entity.setModifiedDate(new Date());
         }
 
         if ("projectClassify_1_1".equalsIgnoreCase(dto.getProjectClassify())) {
-            entity.setProcessStage("投资科审核收件办理");//设置申报信息的阶段为待签收
+            //设置申报信息的阶段为待签收
+            entity.setProcessStage("投资科审核收件办理");
             entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
             entity.setCreatedDate(new Date());
             entity.setModifiedDate(new Date());
             startProcessMonitor_fjxm(processDefinitionKey_monitor_fjxm, entity.getId());
         }
 //		initWorkFlow(entity,isAdminCreate);
-        //处理批复文件库
-        handlePiFuFile(entity);
+
         logger.info(String.format("创建申报信息,项目名称 :%s,申报阶段：%s", entity.getProjectName(),
                 basicDataService.getDescriptionById(entity.getProjectShenBaoStage())));
         return entity;
     }
 
     @Override
-    @Transactional
     public void delete(String id) {
         ShenBaoInfo entity = super.repository.findById(id);
         if (entity != null) {
@@ -1257,12 +1269,13 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     @Transactional
-    private void startProcessMonitor_fjxm(String processDefinitionKey, String id) {
+    public void startProcessMonitor_fjxm(String processDefinitionKey, String id) {
         ShenBaoInfo entity = super.repository.findById(id);
         Map<String, Object> variables = new HashMap<String, Object>();
 
         variables.put("shenbaoInfoId", id);
-        activitiService.setStartProcessUserId(currentUser.getUserId());//谁启动的流程
+        //谁启动的流程
+        activitiService.setStartProcessUserId(currentUser.getUserId());
 
         String projectShenBaoStage = entity.getProjectShenBaoStage();
         String executionId = null;
@@ -1286,7 +1299,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             ODataFilterItemList.add(filterItem1);
 
             odataObj.setFilter(ODataFilterItemList);
-            List<ShenBaoInfo> shenBaoInfos = shenBaoInfoRepo.findByOdata(odataObj);
+            List<ShenBaoInfo> shenBaoInfos = repository.findByOdata(odataObj);
             if (shenBaoInfos.size() > 0) {
                 executionId = shenBaoInfos.get(0).getMonitor_processId();
             }
