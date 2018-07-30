@@ -27,8 +27,6 @@ public class YearPlanCapitalServiceImpl extends AbstractServiceImpl<YearPlanCapi
 	private static Logger logger = Logger.getLogger(YearPlanCapitalServiceImpl.class);
 	
 	@Autowired
-	private ICurrentUser currentUser;
-	@Autowired
 	private ShenBaoInfoService shenBaoInfoService;
 	@Autowired
 	private  IRepository<ShenBaoInfo, String> shenBaoInfoRepo;

@@ -28,7 +28,7 @@ public class GlobalDefaultExceptionHandler {
     @ResponseStatus(value = HttpStatus.PRECONDITION_FAILED)
     @ResponseBody
     public Response illegalErrorHandler(IllegalArgumentException e) {
-        logger.error("错误处理, URL[" + request.getRequestURI() + "]", e.getCause());
+        logger.error("错误处理, URL[" + request.getRequestURI() + "]", e);
         Response response = new Response();
         response.setMessage(e.getMessage());
         response.setStatus(555);

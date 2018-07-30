@@ -1,17 +1,28 @@
 package cs.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import javax.annotation.Resource;
-import javax.transaction.Transactional;
-
 import com.sn.framework.common.StringUtil;
-import cs.common.*;
+import cs.activiti.service.ActivitiService;
+import cs.common.BasicDataConfig;
+import cs.common.ICurrentUser;
+import cs.common.SQLConfig;
+import cs.common.Util;
+import cs.domain.*;
+import cs.domain.framework.*;
+import cs.model.DomainDto.AttachmentDto;
+import cs.model.DomainDto.ShenBaoInfoDto;
+import cs.model.DomainDto.ShenBaoUnitInfoDto;
+import cs.model.DomainDto.TaskRecordDto;
+import cs.model.DtoMapper.IMapper;
+import cs.model.PageModelDto;
+import cs.model.SendMsg;
+import cs.model.Statistics.ProjectStatisticsBean;
+import cs.repository.framework.OrgRepo;
+import cs.repository.interfaces.IRepository;
+import cs.repository.odata.ODataFilterItem;
+import cs.repository.odata.ODataObj;
+import cs.service.common.BasicDataService;
 import cs.service.framework.UserService;
+import cs.service.interfaces.ShenBaoInfoService;
 import cs.service.sms.SmsService;
 import cs.service.sms.exception.SMSException;
 import org.activiti.engine.RuntimeService;
@@ -30,40 +41,14 @@ import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import cs.activiti.service.ActivitiService;
-import cs.domain.Attachment;
-import cs.domain.BasicData;
-import cs.domain.Project;
-import cs.domain.Project_;
-import cs.domain.ReplyFile;
-import cs.domain.ShenBaoInfo;
-import cs.domain.ShenBaoInfo_;
-import cs.domain.ShenBaoUnitInfo;
-import cs.domain.TaskHead;
-import cs.domain.TaskHead_;
-import cs.domain.TaskRecord;
-import cs.domain.framework.Org;
-import cs.domain.framework.Org_;
-import cs.domain.framework.SysConfig;
-import cs.domain.framework.SysConfig_;
-import cs.domain.framework.User;
-import cs.model.PageModelDto;
-import cs.model.SendMsg;
-import cs.model.DomainDto.AttachmentDto;
-import cs.model.DomainDto.ShenBaoInfoDto;
-import cs.model.DomainDto.ShenBaoUnitInfoDto;
-import cs.model.DomainDto.TaskRecordDto;
-import cs.model.DtoMapper.IMapper;
-import cs.model.Statistics.ProjectStatisticsBean;
-import cs.repository.framework.OrgRepo;
-import cs.repository.interfaces.IRepository;
-import cs.repository.odata.ODataFilterItem;
-import cs.repository.odata.ODataObj;
-import cs.service.common.BasicDataService;
-import cs.service.interfaces.ShenBaoInfoService;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+
+import javax.annotation.Resource;
+import javax.transaction.Transactional;
+import java.util.*;
+
+import static cs.common.BasicDataConfig.*;
 
 /**
  * @Description: 申报信息服务层
@@ -202,11 +187,11 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
                 basicData.setModifiedDate(new Date());
                 basicDataRepo.save(basicData);
                 //批复文件
-                if (dto.getAttachmentDtos() != null && !dto.getAttachmentDtos().isEmpty()) {
+                if (!CollectionUtils.isEmpty(dto.getAttachmentDtos())) {
                     dto.getAttachmentDtos().stream().forEach(x -> {
-                        if (x.getType().equals(BasicDataConfig.attachment_type_jys) ||
-                                x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg) ||
-                                x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)) {
+                        if (attachment_type_jys.equals(x.getType()) ||
+                                x.getType().equals(attachment_type_kxxyjbg) ||
+                                x.getType().equals(attachment_type_cbsjygs)) {
                             Attachment attachment = new Attachment();
                             attachmentMapper.buildEntity(x, attachment);
                             attachment.setCreatedBy(currentUser.getUserId());
@@ -405,9 +390,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             project.getAttachments().clear();
             if (dto.getAttachmentDtos() != null && !dto.getAttachmentDtos().isEmpty()) {
                 dto.getAttachmentDtos().stream().forEach(x -> {
-                    if (x.getType().equals(BasicDataConfig.attachment_type_jys) ||
-                            x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg) ||
-                            x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)) {
+                    if (x.getType().equals(attachment_type_jys) ||
+                            x.getType().equals(attachment_type_kxxyjbg) ||
+                            x.getType().equals(attachment_type_cbsjygs)) {
                         Attachment attachment = new Attachment();
                         attachmentMapper.buildEntity(x, attachment);
                         attachment.setId(UUID.randomUUID().toString());
@@ -755,13 +740,13 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         Map<String, Attachment> pifuMap = new HashMap<>();
         shenBaoInfo.getAttachments().stream().forEach(x -> {
             if (Util.isNotNull(x.getType())) {//非空判断
-                if (x.getType().equals(BasicDataConfig.attachment_type_jys)) {
+                if (x.getType().equals(attachment_type_jys)) {
                     pifuMap.put(shenBaoInfo.getPifuJYS_wenhao(), x);
                 }
-                if (x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)) {
+                if (x.getType().equals(attachment_type_kxxyjbg)) {
                     pifuMap.put(shenBaoInfo.getPifuKXXYJBG_wenhao(), x);
                 }
-                if (x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)) {
+                if (x.getType().equals(attachment_type_cbsjygs)) {
                     pifuMap.put(shenBaoInfo.getPifuCBSJYGS_wenhao(), x);
                 }
             }
