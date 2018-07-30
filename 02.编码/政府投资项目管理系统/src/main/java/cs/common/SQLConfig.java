@@ -44,7 +44,7 @@ public class SQLConfig {
 
     public static String yearPlanProject_count = "select count(1) " + yearPlanProject_base;
 
-    public static String yearPlanByLBTJ = String.format("SELECT yp.year as planYear,bs.description as projectCategory,count(sbi.id) as projectSum," +
+    public static String yearPlanByLBTJ = "SELECT yp.year as planYear,bs.description as projectCategory,count(sbi.id) as projectSum," +
             " sum(IFNULL(sbi.projectInvestSum,0)) as investSum," +
             " sum(IFNULL(sbi.projectInvestAccuSum,0)) as investAccuSum," +
             " sum(IFNULL(sbi.apInvestSum,0)) as apInvestSum," +
@@ -59,9 +59,9 @@ public class SQLConfig {
             " and ypl.shenbaoInfoId = sbi.id" +
             " and sbi.projectCategory = bs.id" +
             " and yp.id = :yearPlanId" +
-            " group by sbi.projectCategory");
+            " group by sbi.projectCategory";
 
-    public static String yearPlanByHYTJ = String.format("SELECT yp.year as planYear,bs.description as projectIndustry," +
+    public static String yearPlanByHYTJ = "SELECT yp.year as planYear,bs.description as projectIndustry," +
             " count(sbi.id) AS projectSum," +
             " sum(CASE WHEN sbi.projectCategory = '" + BasicDataConfig.projectCategory_A + "' THEN 1 ELSE 0 END ) AS projectCategory_ASum," +
             " sum(CASE WHEN sbi.projectCategory = '" + BasicDataConfig.projectCategory_B + "' THEN 1 ELSE 0 END ) AS projectCategory_BSum," +
@@ -79,39 +79,35 @@ public class SQLConfig {
             " WHERE yp.id = ypy.YearPlan_id AND ypl.id = ypy.yearPlanCapitals_id AND ypl.shenbaoInfoId = sbi.id AND sbi.projectIndustry = bs.id" +
             " AND yp.id = :yearPlanId" +
             " GROUP BY sbi.projectIndustry" +
-            " ORDER BY bs.itemOrder");
+            " ORDER BY bs.itemOrder";
 
-    public static String yearPlanByDWTJ = String.format("SELECT a.planYear,a.constructionunit AS constrctionUnit," +
+    public static String yearPlanByDWTJ = "SELECT a.planYear,a.constructionunit AS constrctionUnit," +
             " SUM(a.packagetype_1 + a.packagetype_2 + a.packagetype_3 + a.packagetype_4) AS yearApSum," +
             " SUM(a.packagetype_1) AS yearAp_danLie," +
             " SUM(a.packagetype_2) AS yearAp_jieSunKuan," +
             " SUM(a.packagetype_3) AS yearAp_xiaohe," +
             " SUM(a.packagetype_4) AS yearAp_weiLiXYuLiu" +
-            " FROM(" +
-            " SELECT SUBSTRING_INDEX(sbi.constructionunit,',',1) AS 'constructionunit'," +
+            " FROM( SELECT SUBSTRING_INDEX(sbi.constructionunit,',',1) AS 'constructionunit'," +
             " CASE WHEN sbi.packagetype = '" + BasicDataConfig.packageType_danLie + "' THEN IFNULL(ypl.capitalSum,0) ELSE 0 END AS 'packagetype_1'," +
             " CASE WHEN sbi.packagetype = '" + BasicDataConfig.packageType_jieSuanKuan + "' THEN IFNULL(ypl.capitalSum,0) ELSE 0 END AS 'packagetype_2'," +
             " CASE WHEN sbi.packagetype = '" + BasicDataConfig.packageType_xiaoEr + "' THEN IFNULL(ypl.capitalSum,0) ELSE 0 END AS 'packagetype_3'," +
             " CASE WHEN sbi.packagetype = '" + BasicDataConfig.packageType_weiLiXian + "' THEN IFNULL(ypl.capitalSum,0) ELSE 0 END AS 'packagetype_4'," +
             " yp.year as planYear" +
             " FROM cs_yearplan AS yp,cs_yearplan_cs_yearplancapital AS ypy,cs_yearplancapital AS ypl,cs_shenbaoinfo sbi" +
-            " WHERE yp.id = ypy.YearPlan_id" +
-            " AND ypl.id = ypy.yearPlanCapitals_id" +
-            " AND ypl.shenbaoInfoId = sbi.id" +
-            " AND yp.id = :yearPlanId" +
-            " ) a" +
-            " GROUP BY a.constructionunit");
+            " WHERE yp.id = ypy.YearPlan_id AND ypl.id = ypy.yearPlanCapitals_id" +
+            " AND ypl.shenbaoInfoId = sbi.id AND yp.id = :yearPlanId" +
+            " ) a GROUP BY a.constructionunit";
 
-    public static String yearPlanByYS = String.format("SELECT yp.year AS planYear," +
-            " IFNULL(sbi.constructionUnit,\"\") AS ConstructionUnit," +
-            " IFNULL(sbi.projectName,\"\") AS ProjectName," +
-            " IFNULL(sbi.projectNumber,\"\") AS ProjectCode," +
-            " IFNULL(bs.description,\"\") AS ProjectType," +
-            " IFNULL(sbi.projectIndustry,\"\") AS ProjectIndustry," +
-            " IFNULL(sbi.projectGuiMo,\"\") AS ConstructionScale," +
-            " IFNULL(sbi.projectConstrChar,\"\") AS ConstructionType," +
-            " IFNULL(sbi.beginDate,\"\") AS beginDate," +
-            " IFNULL(sbi.endDate,\"\") AS endDate," +
+    public static String yearPlanByYS = "SELECT yp.year AS planYear," +
+            " IFNULL(sbi.constructionUnit,'') AS ConstructionUnit," +
+            " IFNULL(sbi.projectName,'') AS ProjectName," +
+            " IFNULL(sbi.projectNumber,'') AS ProjectCode," +
+            " IFNULL(bs.description,'') AS ProjectType," +
+            " IFNULL(sbi.projectIndustry,'') AS ProjectIndustry," +
+            " IFNULL(sbi.projectGuiMo,'') AS ConstructionScale," +
+            " IFNULL(sbi.projectConstrChar,'') AS ConstructionType," +
+            " IFNULL(sbi.beginDate,'') AS beginDate," +
+            " IFNULL(sbi.endDate,'') AS endDate," +
             " IFNULL(sbi.projectInvestSum, 0)AS TotalInvest," +
             " IFNULL(sbi.projectInvestAccuSum, 0)AS investAccuSum," +
             " IFNULL(sbi.apInvestSum, 0) AS apInvestSum," +
@@ -120,17 +116,13 @@ public class SQLConfig {
             " IFNULL(ypl.capitalQCZ_gtzj, 0)AS capitalAP_gtzj_TheYear," +
             " IFNULL(ypl.capitalQCZ_ggys, 0)AS capitalAP_ggys_TheYear," +
             " IFNULL(ypl.capitalOther, 0) AS yearAp_qitaSum," +
-            " IFNULL(sbi.yearConstructionContent,\"\") AS ConstructionContent," +
-            " IFNULL(sbi.yearConstructionContentShenBao,\"\") AS Remark" +
-            " FROM" +
-            " cs_yearplan AS yp,cs_yearplan_cs_yearplancapital AS ypy,cs_yearplancapital AS ypl,cs_shenbaoinfo AS sbi,cs_basicdata AS bs" +
-            " WHERE" +
-            " yp.id = ypy.YearPlan_id" +
-            " AND ypl.id = ypy.yearPlanCapitals_id" +
-            " AND ypl.shenbaoInfoId = sbi.id" +
-            " AND sbi.projectCategory = bs.id" +
-            " AND yp.id = :yearPlanId" +
-            " ORDER BY sbi.projectCategory,sbi.projectConstrChar desc,sbi.projectInvestSum desc");
+            " IFNULL(sbi.yearConstructionContent,'') AS ConstructionContent," +
+            " IFNULL(sbi.yearConstructionContentShenBao,'') AS Remark" +
+            " FROM cs_yearplan AS yp,cs_yearplan_cs_yearplancapital AS ypy,cs_yearplancapital AS ypl," +
+            "cs_shenbaoinfo AS sbi,cs_basicdata AS bs WHERE yp.id = ypy.YearPlan_id" +
+            " AND ypl.id = ypy.yearPlanCapitals_id AND ypl.shenbaoInfoId = sbi.id" +
+            " AND sbi.projectCategory = bs.id AND yp.id = :yearPlanId" +
+            " ORDER BY sbi.projectCategory,sbi.projectConstrChar desc,sbi.projectInvestSum desc";
 
     public static String yearPlanStatistics = String.format("SELECT"
             + " count(ypyc.yearPlanCapitals_id) AS total,"
