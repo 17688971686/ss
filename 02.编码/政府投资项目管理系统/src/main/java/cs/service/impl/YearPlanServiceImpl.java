@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import com.sn.framework.common.IdWorker;
 import org.apache.log4j.Logger;
 import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Criterion;
@@ -235,7 +236,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     public void addYearPlanCapital(String planId, String shenBaoId) {
         Boolean hasShenBaoInfo = false;
         //根据年度计划id查找到年度计划
@@ -247,6 +248,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
             for (YearPlanCapital capital : capitals) {
                 if (capital.getShenbaoInfoId().equals(shenBaoId)) {
                     hasShenBaoInfo = true;
+                    break;
                 }
             }
             if (hasShenBaoInfo) {
@@ -256,16 +258,19 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
             } else {
                 //根据申报信息id创建年度计划资金
                 YearPlanCapital entity = new YearPlanCapital();
-                entity.setId(UUID.randomUUID().toString());
+                entity.setId(IdWorker.get32UUID());
                 //设置关联的申报信息id
                 entity.setShenbaoInfoId(shenBaoId);
                 //设置安排资金
                 ShenBaoInfo shenBaoInfo = shenbaoInfoRepo.findById(shenBaoId);
                 if (shenBaoInfo != null) {
                     Project project = projectRepo.findById(shenBaoInfo.getProjectId());
-                    entity.setCapitalQCZ_ggys(shenBaoInfo.getCapitalAP_ggys_TheYear());//区财政--公共预算
-                    entity.setCapitalQCZ_gtzj(shenBaoInfo.getCapitalAP_gtzj_TheYear());//区财政--国土资金
-                    entity.setCapitalSum(shenBaoInfo.getYearInvestApproval());//安排资金总计
+                    //区财政--公共预算
+                    entity.setCapitalQCZ_ggys(shenBaoInfo.getCapitalAP_ggys_TheYear());
+                    //区财政--国土资金
+                    entity.setCapitalQCZ_gtzj(shenBaoInfo.getCapitalAP_gtzj_TheYear());
+                    //安排资金总计
+                    entity.setCapitalSum(shenBaoInfo.getYearInvestApproval());
                     shenBaoInfo.setIsIncludYearPlan(true);
                     shenbaoInfoRepo.save(shenBaoInfo);
                     if (project != null) {
