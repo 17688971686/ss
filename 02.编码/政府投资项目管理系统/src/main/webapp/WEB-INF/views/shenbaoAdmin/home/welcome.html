@@ -34,27 +34,29 @@
 			<div class="col-md-3 div_border_bottom">
 				<span class="cs-icon-index" style="background-position-x: -255px;padding: 3px 15px;"></span><span class="t-z-18 t-z-blueblack">最新动态</span>
 			</div>
+			<!-- 屏蔽更多链接（ldm-2018-07-28）
 			<div class="col-md-3  fl-right">
 				<a href="#/task" class="btn btn-info btn-xs pull-right m10 cs-btn">更多>></a>
 			</div>
+			-->
 		</div>
 		<div class="list-content-box">
 			<table class="table table-bordered" style="font-size:12px;">
 				<tr class="bg-info">
 					<th>项目名称</th>
-						<th>申报阶段</th>	
-						<th>审批阶段</th>
-						<th>审批状态</th>
-						<th width="100px;">申报时间</th>
+					<th>申报阶段</th>
+					<th>审批阶段</th>
+					<th>审批状态</th>
+					<th width="100px;">申报时间</th>
 				</tr>
 				<tr ng-repeat="x in vm.model.task | orderBy:'endDate':'desc' | limitTo :5" style="background: white;">
 					<td>
-   							<a href="#/project/projectInfo/{{x.projectId}}" class="text-primary">{{x.projectName}}</a>
-   						</td>
-   						<td ng-bind="vm.getBasicDataDesc(x.projectShenBaoStage)"></td>
-   						<td ng-bind="x.processStage"></td>
-   						<td ng-bind="vm.getProcessStateDesc(x.processState)"></td>
-   						<td ng-bind="vm.formatDate(x.createdDate)"></td>
+						<a href="#/project/projectInfo/{{x.projectId}}" class="text-primary">{{x.projectName}}</a>
+					</td>
+					<td ng-bind="vm.getBasicDataDesc(x.projectShenBaoStage)"></td>
+					<td ng-bind="x.processStage"></td>
+					<td ng-bind="vm.getProcessStateDesc(x.processState)"></td>
+					<td ng-bind="vm.formatDate(x.createdDate)"></td>
 				</tr>
 			</table>
 

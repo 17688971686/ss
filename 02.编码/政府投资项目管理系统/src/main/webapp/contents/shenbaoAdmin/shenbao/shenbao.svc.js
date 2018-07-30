@@ -418,7 +418,7 @@
 					width : 200,
 					template : function(item) {					
 						var isReceiver = item.receiver !=null?false:true;
-						var isShow=item.processState==common.basicDataConfig().processState_weikaishi ||item.processState==common.basicDataConfig().processState_notpass||item.processState==common.basicDataConfig().processState_tuiwen;
+						var isShow=item.processState==common.basicDataConfig().processState_weikaishi || item.processState==common.basicDataConfig().processState_notpass||item.processState==common.basicDataConfig().processState_tuiwen;
 						return common.format($('#columnBtns_Record').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShow?'':'display:none',"vm.deleteShenBaoInfo('"+item.id+"')",item.thisTaskName,item.zong_processId,isReceiver);
 					}
 				}

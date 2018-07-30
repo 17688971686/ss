@@ -1,28 +1,17 @@
 package cs.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import javax.annotation.Resource;
+import javax.transaction.Transactional;
+
 import com.sn.framework.common.StringUtil;
-import cs.activiti.service.ActivitiService;
-import cs.common.BasicDataConfig;
-import cs.common.ICurrentUser;
-import cs.common.SQLConfig;
-import cs.common.Util;
-import cs.domain.*;
-import cs.domain.framework.*;
-import cs.model.DomainDto.AttachmentDto;
-import cs.model.DomainDto.ShenBaoInfoDto;
-import cs.model.DomainDto.ShenBaoUnitInfoDto;
-import cs.model.DomainDto.TaskRecordDto;
-import cs.model.DtoMapper.IMapper;
-import cs.model.PageModelDto;
-import cs.model.SendMsg;
-import cs.model.Statistics.ProjectStatisticsBean;
-import cs.repository.framework.OrgRepo;
-import cs.repository.interfaces.IRepository;
-import cs.repository.odata.ODataFilterItem;
-import cs.repository.odata.ODataObj;
-import cs.service.common.BasicDataService;
+import cs.common.*;
 import cs.service.framework.UserService;
-import cs.service.interfaces.ShenBaoInfoService;
 import cs.service.sms.SmsService;
 import cs.service.sms.exception.SMSException;
 import org.activiti.engine.RuntimeService;
@@ -41,14 +30,38 @@ import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 
-import javax.annotation.Resource;
-import javax.transaction.Transactional;
-import java.util.*;
-
-import static cs.common.BasicDataConfig.*;
+import cs.activiti.service.ActivitiService;
+import cs.domain.Attachment;
+import cs.domain.BasicData;
+import cs.domain.Project;
+import cs.domain.Project_;
+import cs.domain.ReplyFile;
+import cs.domain.ShenBaoInfo;
+import cs.domain.ShenBaoInfo_;
+import cs.domain.ShenBaoUnitInfo;
+import cs.domain.TaskHead;
+import cs.domain.TaskHead_;
+import cs.domain.TaskRecord;
+import cs.domain.framework.Org;
+import cs.domain.framework.Org_;
+import cs.domain.framework.SysConfig;
+import cs.domain.framework.SysConfig_;
+import cs.domain.framework.User;
+import cs.model.PageModelDto;
+import cs.model.SendMsg;
+import cs.model.DomainDto.AttachmentDto;
+import cs.model.DomainDto.ShenBaoInfoDto;
+import cs.model.DomainDto.ShenBaoUnitInfoDto;
+import cs.model.DomainDto.TaskRecordDto;
+import cs.model.DtoMapper.IMapper;
+import cs.model.Statistics.ProjectStatisticsBean;
+import cs.repository.framework.OrgRepo;
+import cs.repository.interfaces.IRepository;
+import cs.repository.odata.ODataFilterItem;
+import cs.repository.odata.ODataObj;
+import cs.service.common.BasicDataService;
+import cs.service.interfaces.ShenBaoInfoService;
 
 /**
  * @Description: 申报信息服务层
@@ -155,22 +168,18 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
      * @description 创建申报信息
      */
     @Override
-    @Transactional(rollbackOn = Exception.class)
+    @Transactional
     public ShenBaoInfo createShenBaoInfo(ShenBaoInfoDto dto, Boolean isAdminCreate) {
         //创建申报信息
         ShenBaoInfo entity = super.create(dto);
-        //初始化审核状态--未审核
-        entity.setAuditState(BasicDataConfig.auditState_noAudit);
-        //初始化--申报时间
-        entity.setShenbaoDate(new Date());
-        //如果为后台管理员创建
-        if (isAdminCreate) {
+        entity.setAuditState(BasicDataConfig.auditState_noAudit);//初始化审核状态--未审核
+        entity.setShenbaoDate(new Date());//初始化--申报时间
+        if (isAdminCreate) {//如果为后台管理员创建
             //创建项目
             //首先验证项目名称是否重复
             Criterion criterion = Restrictions.eq(Project_.projectName.getName(), dto.getProjectName());
             List<Project> findProjects = projectRepo.findByCriteria(criterion);
-            //如果为空集合
-            if (CollectionUtils.isEmpty(findProjects)) {
+            if (findProjects.isEmpty()) {//如果为空集合
                 Project project = new Project();
                 project.setCreatedBy(currentUser.getUserId());
                 project.setModifiedBy(currentUser.getUserId());
@@ -178,20 +187,23 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
                 shenBaoChangeToProject(dto, project);
                 //新创建的项目需要设置项目代码,根据行业类型id查询出基础数据
                 BasicData basicData = basicDataRepo.findById(project.getProjectIndustry());
-                Assert.notNull(basicData, "项目代码生成故障，请确认项目行业选择是否正确！");
-//                String number = Util.getProjectNumber(project.getProjectInvestmentType(), basicData);
-//                project.setProjectNumber(number);
-                //行业项目统计累加
-                basicData.setCount(basicData.getCount() + 1);
-                basicData.setModifiedBy(currentUser.getUserId());
-                basicData.setModifiedDate(new Date());
-                basicDataRepo.save(basicData);
+                if (basicData != null) {
+//					String number = Util.getProjectNumber(project.getProjectInvestmentType(), basicData);
+//					project.setProjectNumber(number);
+                    //行业项目统计累加
+                    basicData.setCount(basicData.getCount() + 1);
+                    basicData.setModifiedBy(currentUser.getUserId());
+                    basicData.setModifiedDate(new Date());
+                    basicDataRepo.save(basicData);
+                } else {
+                    throw new IllegalArgumentException(String.format("项目代码生成故障，请确认项目行业选择是否正确！"));
+                }
                 //批复文件
-                if (!CollectionUtils.isEmpty(dto.getAttachmentDtos())) {
+                if (dto.getAttachmentDtos() != null && !dto.getAttachmentDtos().isEmpty()) {
                     dto.getAttachmentDtos().stream().forEach(x -> {
-                        if (attachment_type_jys.equals(x.getType()) ||
-                                x.getType().equals(attachment_type_kxxyjbg) ||
-                                x.getType().equals(attachment_type_cbsjygs)) {
+                        if (x.getType().equals(BasicDataConfig.attachment_type_jys) ||
+                                x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg) ||
+                                x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)) {
                             Attachment attachment = new Attachment();
                             attachmentMapper.buildEntity(x, attachment);
                             attachment.setCreatedBy(currentUser.getUserId());
@@ -326,8 +338,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         ShenBaoInfo entity = super.repository.findById(id);
         if (entity != null) {
             //判断申报信息的处理阶段
-            if (entity.getProcessStage().equals(BasicDataConfig.processStage_tianbao) ||
-                    (entity.getProcessStage().equals(BasicDataConfig.processStage_qianshou) && entity.getProcessState() != BasicDataConfig.processState_pass)) {
+            if (BasicDataConfig.processStage_tianbao.equals(entity.getProcessStage()) ||
+                    (BasicDataConfig.processStage_qianshou.equals(entity.getProcessStage()) && BasicDataConfig.processState_pass != entity.getProcessState())) {
                 //查询关联taskHead并且删除
                 Criterion criterion = Restrictions.eq("relId", id);
                 List<TaskHead> tasks = taskHeadRepo.findByCriteria(criterion);
@@ -390,9 +402,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             project.getAttachments().clear();
             if (dto.getAttachmentDtos() != null && !dto.getAttachmentDtos().isEmpty()) {
                 dto.getAttachmentDtos().stream().forEach(x -> {
-                    if (x.getType().equals(attachment_type_jys) ||
-                            x.getType().equals(attachment_type_kxxyjbg) ||
-                            x.getType().equals(attachment_type_cbsjygs)) {
+                    if (x.getType().equals(BasicDataConfig.attachment_type_jys) ||
+                            x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg) ||
+                            x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)) {
                         Attachment attachment = new Attachment();
                         attachmentMapper.buildEntity(x, attachment);
                         attachment.setId(UUID.randomUUID().toString());
@@ -740,13 +752,13 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         Map<String, Attachment> pifuMap = new HashMap<>();
         shenBaoInfo.getAttachments().stream().forEach(x -> {
             if (Util.isNotNull(x.getType())) {//非空判断
-                if (x.getType().equals(attachment_type_jys)) {
+                if (x.getType().equals(BasicDataConfig.attachment_type_jys)) {
                     pifuMap.put(shenBaoInfo.getPifuJYS_wenhao(), x);
                 }
-                if (x.getType().equals(attachment_type_kxxyjbg)) {
+                if (x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)) {
                     pifuMap.put(shenBaoInfo.getPifuKXXYJBG_wenhao(), x);
                 }
-                if (x.getType().equals(attachment_type_cbsjygs)) {
+                if (x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)) {
                     pifuMap.put(shenBaoInfo.getPifuCBSJYGS_wenhao(), x);
                 }
             }
@@ -1244,8 +1256,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    @Transactional(rollbackOn = Exception.class)
-    public void startProcessMonitor_fjxm(String processDefinitionKey, String id) {
+    @Transactional
+    private void startProcessMonitor_fjxm(String processDefinitionKey, String id) {
         ShenBaoInfo entity = super.repository.findById(id);
         Map<String, Object> variables = new HashMap<String, Object>();
 

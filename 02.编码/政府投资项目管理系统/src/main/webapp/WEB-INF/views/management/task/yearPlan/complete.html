@@ -1,12 +1,52 @@
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
 <div class="well well-sm" style="background:white;">
-	  <ol class="breadcrumb">
-		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
-		  <li><a href="#/">首页</a></li>	   
-	      <li class="active">已办列表（下一年度计划）</li>
-	  </ol>
-     <form id="form" name="form">          
-         <div class="grid" kendo-grid="grid" k-options="vm.gridOptions_complete"></div>
+    <ol class="breadcrumb">
+        <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+        <li><a href="#/">首页</a></li>
+        <li class="active">已办列表（下一年度计划）</li>
+    </ol>
+    <div class="search">
+        <table class="table table-bordered" style="margin-bottom:0px;">
+            <tr>
+                <td colspan="6" class="bg-info">
+                    <button class="btn btn-primary btn-sm pull-right" ng-click="vm.filterClear()"><span
+                            class="glyphicon glyphicon-refresh"></span>清空筛选条件
+                    </button>
+                    <span style="padding:10px;"><strong>任务查询</strong></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="formAlignRight">标题名称：</td>
+                <td style="width:25%"><input type="text" style="width:300px;" placeholder="请输入标题名称（可少输不可输错）"
+                                             ng-model="vm.search.projectName"/></td>
+                <td class="formAlignRight">项目所属单位：</td>
+                <td>
+                    <select style="height:30px;" ng-model="vm.search.unitName">
+                        <option value="">---请选择---</option>
+                        <option ng-repeat="x in vm.basicData.userUnit | unique: 'id'" value="{{x.id}}">{{x.unitName}}
+                        </option>
+                    </select>
+                </td>
+                <td class="formAlignRight">项目行业：</td>
+                <td>
+                    <select style="height:30px;" ng-model="vm.search.projectIndustry">
+                        <option value="">---请选择---</option>
+                        <option ng-repeat="x in vm.basicData.projectIndustry_ZF" value="{{x.id}}">{{x.description}}
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <button class="btn btn-success btn-sm pull-right" ng-click="vm.doSearch()"><span
+                            class="glyphicon glyphicon-search"></span>查询
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <form id="form" name="form">
+        <div class="grid" kendo-grid="grid" k-options="vm.gridOptions_complete"></div>
     </form>
 </div>
