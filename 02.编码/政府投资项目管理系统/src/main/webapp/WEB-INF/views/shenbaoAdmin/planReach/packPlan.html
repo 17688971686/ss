@@ -66,8 +66,7 @@
 		</tr>
 	</table>
 	<div>
-
-		<button class="btn btn-sm btn-primary" ng-click="vm.addProject()"
+		<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal"
 			ng-hide="vm.isStartProcess">
 			<span class="glyphicon glyphicon-plus"></span>添加项目
 		</button>
@@ -76,8 +75,7 @@
 			<span class="glyphicon glyphicon-trash"></span>&nbsp;批量删除
 		</button>
 	</div>
-	<div class="grid" kendo-grid="grid"
-		k-options="vm.shenBaoInfo_gridOptions_plan"></div>
+	<div class="grid" kendo-grid="grid" k-options="vm.shenBaoInfo_gridOptions_plan"></div>
 </div>
 <script type="text/template" id="columnBtns_button_2">
 	<button class="btn btn-xs btn-success" ng-if="{1}" ng-click="vm.startProcessOne('{0}')"><span class="glyphicon glyphicon-pencil"></span>提交</button>
@@ -92,7 +90,7 @@
 	<span ng-if="!{2}" ng-bind="vm.gt['{0}']"></span>
 </script>
 <!--项目申报记录模态框 -->
-<div class="modal fade" id="myModal" role="dialog">
+<div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="true">
 	<div class="modal-dialog" style="width: 800px;">
 		<div class="modal-content">
 			<div class="modal-header bg-primary">

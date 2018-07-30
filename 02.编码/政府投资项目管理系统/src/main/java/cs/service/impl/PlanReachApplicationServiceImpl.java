@@ -418,7 +418,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
             throw new IllegalArgumentException(String.format("申报项目：%s 已经存在其他编制计划中,请重新选择！", shenbaoinfo.getProjectName()));
         }
 
-        // TODO 不存在，则生成一条计划下达的申报信息
+        // 不存在，则生成一条计划下达的申报信息
         ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(shenbaoinfo);
         shenBaoInfoDto.setId(IdWorker.get32UUID());
         shenBaoInfoDto.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
@@ -428,7 +428,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
         shenBaoInfoDto.setThisTaskName(null);
         shenBaoInfoDto.setZong_processId(null);
         shenbaoinfo.setReceiver(null);
-        ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.createShenBaoInfo(shenBaoInfoDto, false);
+        ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.create(shenBaoInfoDto, false);
         shenbaoinfo.setIsIncludPack(true);
         shenBaoInfoRepo.save(shenbaoinfo);
         if (pack.getShenBaoInfos() == null) {

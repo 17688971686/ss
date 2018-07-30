@@ -16,19 +16,29 @@
         vm.id = $state.params.id;//请求中的id参数
         vm.isStartProcess = $state.params.isStartProcess;//请求中的id参数
         vm.model = {};
+        vm.gg = {};
+        vm.gt = {};
+        vm.pa = {};
+        vm.isSubmit = false;
 
         //        	planReachSvc.getPackPlanById(vm);
-        planReachSvc.getUserUnit(vm);//获取当前登陆单位信息
+        //获取当前登陆单位信息
+        planReachSvc.getUserUnit(vm, function () {
+            planReachSvc.shenbaoInfoGrid(vm);
+        });
         planReachSvc.getShenBaoInfoGridFromPackPlan(vm);
 
         planReachSvc.getPackPlanById(vm);
-        vm.addProject = function () {
-            //展示项目数据模态框
-            $("#myModal").modal({
-                backdrop: 'static',
-                keyboard: true
-            });
-        };
+
+        //项目批量选择
+        $(document).on('click', '#projects', function () {
+            var isSelected = $(this).is(':checked');
+            $('.projectsGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
+        });
+        $('#myModal').on('show.bs.modal', function (e) {
+            vm.gridOptions_shenbaoInfo.dataSource.read();
+        });
+
         vm.startProcessOne = function (id) {
             planReachSvc.startProcessOne(vm, id);
         };

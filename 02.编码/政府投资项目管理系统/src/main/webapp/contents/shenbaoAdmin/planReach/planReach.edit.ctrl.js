@@ -31,7 +31,6 @@
         planReachSvc.getUserUnit(vm, function () {
             planReachSvc.projectGrid(vm);//获取项目数据
             planReachSvc.packGrid(vm);//获取打包类数据
-            planReachSvc.shenbaoInfoGrid(vm);
         });
         planReachSvc.getShenBaoInfoFromPlanReachApplicationGrid(vm);//获取计划下达中的申报项目
         planReachSvc.getPackFromPlanGrid(vm);//获取计划下达中的打包计划
