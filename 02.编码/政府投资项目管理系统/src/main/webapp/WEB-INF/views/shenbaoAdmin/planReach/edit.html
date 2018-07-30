@@ -16,87 +16,85 @@
 			<span class="glyphicon glyphicon-ok"></span>&nbsp;更新
 		</button>
 	</div>
-	<div>
+<div>
 
-		<form id="form" name="form">
-			<#include "planReachEditInfo.html">
-			<div style="border: 1px solid;border-color: #a3d0e4;">
-				<div style="text-align: center;font-size: 26px;">添加单列项目</div>
-				<div style="margin-left: 10px;">
-					<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal" ng-hide="vm.isStartProcess">
-						<span class="glyphicon glyphicon-plus"></span> 添加项目
-					</button>
-					<button class="btn btn-sm btn-danger" ng-click="vm.projectDeletes()" ng-disabled="vm.isSubmit" ng-hide="vm.isStartProcess">
-						<span class="glyphicon glyphicon-trash"></span>&nbsp;批量删除
-					</button>
+<form id="form" name="form">
+	<#include "planReachEditInfo.html">
+	<div style="border: 1px solid;border-color: #a3d0e4;">
+		<div style="text-align: center;font-size: 26px;">添加单列项目</div>
+		<div style="margin-left: 10px;">
+			<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal" ng-hide="vm.isStartProcess">
+				<span class="glyphicon glyphicon-plus"></span> 添加项目
+			</button>
+			<button class="btn btn-sm btn-danger" ng-click="vm.projectDeletes()" ng-disabled="vm.isSubmit" ng-hide="vm.isStartProcess">
+				<span class="glyphicon glyphicon-trash"></span>&nbsp;批量删除
+			</button>
+		</div>
+		<div id="shenbaogrid" kendo-grid="grid" k-options="vm.shenBaoInfo_gridOptions"></div>
+	</div>
+	<div style="border: 1px solid;border-color: #a3d0e4;margin-top: 20px;">
+		<div style="text-align: center;font-size: 26px;">申请打包</div>
+		<div style="margin-left: 10px;">
+			<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#projectModalForPack" ng-click="vm.addProjectForPack()" ng-hide="vm.isStartProcess">
+				<span class="glyphicon glyphicon-plus"></span> 添加打包
+			</button>
+			<button class="btn btn-sm btn-danger" ng-click="vm.packDeletes()" ng-disabled="vm.isSubmit" ng-hide="vm.isStartProcess">
+				<span class="glyphicon glyphicon-trash"></span>&nbsp;批量删除
+			</button>
+		</div>
+		<div id="packgrid" kendo-grid="grid" k-options="vm.packPlan_gridOptions"></div>
+	</div>
+	<script type="text/template" id="columnBtns_shenBaoInfo">
+		<a class="btn btn-xs btn-success" href="#/planReach/packPlan/addProject/{0}/{1}"><span class="glyphicon glyphicon-pencil"></span>添加项目</a>
+	</script>
+	<script type="text/template" id="columnBtns_button_1">
+		<button class="btn btn-xs btn-success" ng-if="{1}" ng-click="vm.startProcessOne('{0}')"><span class="glyphicon glyphicon-pencil"></span>提交</button>
+		<button class="btn btn-xs btn-success" ng-if="{2}" ng-click="vm.deleteProcessOne('{0}')"><span class="glyphicon glyphicon-pencil"></span>撤销</button>
+	</script>
+	<!--项目申报记录模态框 -->
+	<div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="true">
+		<div class="modal-dialog" style="width:800px;">
+			<div class="modal-content">
+				<div class="modal-header bg-primary">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">项目数据</h4>
 				</div>
-				<div class="shenbaogrid" kendo-grid="grid" k-options="vm.shenBaoInfo_gridOptions"></div>
-			</div>
-			<div style="border: 1px solid;border-color: #a3d0e4;margin-top: 20px;">
-				<div style="text-align: center;font-size: 26px;">申请打包</div>
-				<div style="margin-left: 10px;">
-					<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#projectModalForPack" ng-click="vm.addProjectForPack()" ng-hide="vm.isStartProcess">
-						<span class="glyphicon glyphicon-plus"></span> 添加打包
-					</button>
-					<button class="btn btn-sm btn-danger" ng-click="vm.packDeletes()" ng-disabled="vm.isSubmit" ng-hide="vm.isStartProcess">
-						<span class="glyphicon glyphicon-trash"></span>&nbsp;批量删除
-					</button>
+				<div class="modal-body">
+					<div class="projectsGrid" kendo-grid="vm.projectsGrid" k-options="vm.gridOptions_project"></div>
 				</div>
-				<div class="packgrid" kendo-grid="grid" k-options="vm.packPlan_gridOptions"></div>
-			</div>
-			<script type="text/template" id="columnBtns_shenBaoInfo">
-				<a class="btn btn-xs btn-success" href="#/planReach/packPlan/addProject/{0}/{1}"><span class="glyphicon glyphicon-pencil"></span>添加项目</a>
-			</script>
-			<script type="text/template" id="columnBtns_button_1">
-				<button class="btn btn-xs btn-success" ng-if="{1}" ng-click="vm.startProcessOne('{0}')"><span class="glyphicon glyphicon-pencil"></span>提交</button>
-				<button class="btn btn-xs btn-success" ng-if="{2}" ng-click="vm.deleteProcessOne('{0}')"><span class="glyphicon glyphicon-pencil"></span>撤销</button>
-			</script>
-			<!--项目申报记录模态框 -->
-			<div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="true">
-				<div class="modal-dialog" style="width:800px;">
-					<div class="modal-content">
-						<div class="modal-header bg-primary">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-							<h4 class="modal-title" id="myModalLabel">项目数据</h4>
-						</div>
-						<div class="modal-body">
-							<div class="projectsGrid" kendo-grid="vm.projectsGrid" k-options="vm.gridOptions_project"></div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭</button>
-							<button type="button" class="btn btn-success btn-sm" ng-click="vm.dialogConfirmSubmit_shenBaoInfo()" >确认</button>
-						</div>
-					</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-success btn-sm" ng-click="vm.dialogConfirmSubmit_shenBaoInfo()" >确认</button>
 				</div>
 			</div>
-			<!--为打包计划添加项目申报显示模态框 -->
-			<div class="modal fade" id="projectModalForPack" role="dialog" data-backdrop="static" data-keyboard="true">
-				<div class="modal-dialog" style="width:800px;">
-					<div class="modal-content">
-						<div class="modal-header bg-primary">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-							<h4 class="modal-title" id="myModalLabel1">项目数据</h4>
-						</div>
-						<div class="modal-body">
-							<div class="projectsGrid" kendo-grid="vm.projectsGrid" k-options="vm.gridOptions_projectForPack"></div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭</button>
-						</div>
-					</div>
+		</div>
+	</div>
+	<!--为打包计划添加项目申报显示模态框 -->
+	<div class="modal fade" id="projectModalForPack" role="dialog" data-backdrop="static" data-keyboard="true">
+		<div class="modal-dialog" style="width:800px;">
+			<div class="modal-content">
+				<div class="modal-header bg-primary">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel1">项目数据</h4>
+				</div>
+				<div class="modal-body">
+					<div class="projectsGrid" kendo-grid="vm.projectsGrid" k-options="vm.gridOptions_projectForPack"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭</button>
 				</div>
 			</div>
+		</div>
+	</div>
+</form>
 
-		</form>
-
-
-		<script type="text/template" id="input">
-			<input style="width:100px" id="capitalSum1" ng-model="vm.gg['{0}']"  ng-if="{2}" value="{1}" ng-blur="vm.addmoney('{0}')"/>
-			<span ng-if="!{2}" ng-bind="vm.gg['{0}']"></span>
-		</script>
-		<script type="text/template" id="input2">
-			<input style="width:100px" id="capitalSum2" ng-model="vm.gt['{0}']" ng-if="{2}" value="{1}" ng-blur="vm.addmoney('{0}')"/>
-			<span ng-if="!{2}" ng-bind="vm.gt['{0}']"></span>
-		</script>
-		<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
-		<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<script type="text/template" id="input">
+	<input style="width:100px" id="capitalSum1" ng-model="vm.gg['{0}']"  ng-if="{2}" value="{1}" ng-blur="vm.addmoney('{0}')"/>
+	<span ng-if="!{2}" ng-bind="vm.gg['{0}']"></span>
+</script>
+<script type="text/template" id="input2">
+	<input style="width:100px" id="capitalSum2" ng-model="vm.gt['{0}']" ng-if="{2}" value="{1}" ng-blur="vm.addmoney('{0}')"/>
+	<span ng-if="!{2}" ng-bind="vm.gt['{0}']"></span>
+</script>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>

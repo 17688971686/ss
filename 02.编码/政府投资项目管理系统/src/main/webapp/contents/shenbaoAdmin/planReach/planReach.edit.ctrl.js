@@ -41,6 +41,16 @@
             $('.projectsGrid').find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
         });
 
+        var shenbaogrid = $('#shenbaogrid').on('click', '#checkboxAll', function () {
+            var isSelected = $(this).is(':checked');
+            shenbaogrid.find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
+        });
+
+        var packgrid = $('#packgrid').on('click', '#checkboxAll', function () {
+            var isSelected = $(this).is(':checked');
+            packgrid.find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
+        });
+
         vm.startProcessOne = function (id) {
             planReachSvc.startProcessOne(vm, id);
         };
