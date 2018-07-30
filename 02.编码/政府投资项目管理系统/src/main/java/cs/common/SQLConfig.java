@@ -345,7 +345,13 @@ public class SQLConfig {
             + " ON t2.PlanReachApplication_id=t3.id"
             + " WHERE t3.id=:planReachId");
 
-    public static String shenBaoInfoOfPackPlanOfPlanReach = String.format("SELECT"
+    private static String shenBaoInfoOfPackPlanOfPlanReach_base = " FROM cs_shenbaoinfo t1 " +
+            "LEFT JOIN cs_packplan_cs_shenbaoinfo t2 ON t1.id=t2.shenBaoInfos_id " +
+            "LEFT JOIN cs_packplan t3 ON t2.PackPlan_id=t3.id WHERE t3.id=:packPlanId";
+
+    public static String shenBaoInfoOfPackPlanOfPlanReach_count = "SELECT count(1)" + shenBaoInfoOfPackPlanOfPlanReach_base;
+
+    public static String shenBaoInfoOfPackPlanOfPlanReach = "SELECT"
             + " t1.id,t1.createdBy,t1.createdDate,t1.itemOrder,t1.modifiedBy,t1.modifiedDate,"
             + " t1.approval_pzwh,t1.beginDate,t1.buidSafeInvestment,t1.capitalOther,t1.capitalOtherType,t1.capitalOtherDescription,"
             + " t1.CapitalQCZ_gtzj,t1.capitalQCZ_ggys,t1.capitalSCZ_ggys,t1.CapitalSCZ_gtzj,t1.capitalSCZ_zxzj,t1.capitalSHTZ,t1.capitalZYYS,"
@@ -364,11 +370,6 @@ public class SQLConfig {
             + "t1.thisTaskName,t1.zong_processId,t1.pifuZJSQBG_date,t1.pifuZJSQBG_wenhao,t1.monitor_processId,t1.isSubShenBaoAtt,t1.isLeaderHasRead,t1.thisUser,t1.monitor_status"
 //	 		+ " p.id,p.createdBy,p.createdDate,p.itemOrder,p.modifiedBy,p.modifiedDate,"
 //	 		+ " p.applicationName,p.applicationTime,p.applicationUnit,p.resPerson,p.resPersonTel"
-            + " FROM cs_shenbaoinfo t1"
-            + " LEFT JOIN cs_packplan_cs_shenbaoinfo t2"
-            + " ON t1.id=t2.shenBaoInfos_id"
-            + " LEFT JOIN cs_packplan t3"
-            + " ON t2.PackPlan_id=t3.id"
-            + " WHERE t3.id=:packPlanId");
+            + shenBaoInfoOfPackPlanOfPlanReach_base;
 
 }
