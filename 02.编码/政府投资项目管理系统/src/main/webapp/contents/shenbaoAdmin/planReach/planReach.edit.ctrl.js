@@ -60,7 +60,7 @@
 
         vm.projectDeletes = function () {
             //获取选中的申报信息的id
-            var selectIds = common.getKendoCheckId('.shenbaogrid');
+            var selectIds = common.getKendoCheckId(shenbaogrid);
             if (selectIds.length == 0) {
                 bsWin.warning('请选择数据!');
             } else {
@@ -75,7 +75,7 @@
 
         vm.packDeletes = function () {
             //获取选中的申报信息的id
-            var selectIds = common.getKendoCheckId('.packgrid');
+            var selectIds = common.getKendoCheckId(packgrid);
             if (selectIds.length == 0) {
                 bsWin.warning('请选择数据!');
             } else {
