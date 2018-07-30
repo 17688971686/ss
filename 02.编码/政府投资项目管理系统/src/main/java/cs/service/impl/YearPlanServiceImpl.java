@@ -1,14 +1,20 @@
 package cs.service.impl;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import javax.transaction.Transactional;
-
 import com.sn.framework.common.IdWorker;
+import cs.common.SQLConfig;
+import cs.domain.*;
+import cs.model.DomainDto.PackPlanDto;
+import cs.model.DomainDto.ShenBaoInfoDto;
+import cs.model.DomainDto.YearPlanCapitalDto;
+import cs.model.DomainDto.YearPlanDto;
+import cs.model.DtoMapper.IMapper;
+import cs.model.PageModelDto;
+import cs.model.Statistics.sttisticsData;
+import cs.model.exportExcel.*;
+import cs.repository.interfaces.IRepository;
+import cs.repository.odata.ODataObj;
+import cs.repository.odata.ODataObjNew;
+import cs.service.interfaces.YearPlanService;
 import org.apache.log4j.Logger;
 import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Criterion;
@@ -22,30 +28,12 @@ import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cs.common.ICurrentUser;
-import cs.common.SQLConfig;
-import cs.domain.PackPlan;
-import cs.domain.Project;
-import cs.domain.ShenBaoInfo;
-import cs.domain.UserUnitInfo;
-import cs.domain.YearPlan;
-import cs.domain.YearPlanCapital;
-import cs.domain.YearPlan_;
-import cs.model.PageModelDto;
-import cs.model.DomainDto.PackPlanDto;
-import cs.model.DomainDto.ShenBaoInfoDto;
-import cs.model.DomainDto.YearPlanCapitalDto;
-import cs.model.DomainDto.YearPlanDto;
-import cs.model.DtoMapper.IMapper;
-import cs.model.Statistics.sttisticsData;
-import cs.model.exportExcel.ExcelDataDWTJ;
-import cs.model.exportExcel.ExcelDataHYTJ;
-import cs.model.exportExcel.ExcelDataLBTJ;
-import cs.model.exportExcel.ExcelDataYS;
-import cs.model.exportExcel.YearPlanStatistics;
-import cs.repository.interfaces.IRepository;
-import cs.repository.odata.ODataObj;
-import cs.service.interfaces.YearPlanService;
+import javax.transaction.Transactional;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @Description: 年度计划服务层
@@ -152,41 +140,32 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
         super.delete(id);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    @Transactional
-    public PageModelDto<ShenBaoInfoDto> getYearPlanShenBaoInfo(String planId, ODataObj odataObj) {
-        Integer skip = odataObj.getSkip();
-        Integer stop = odataObj.getTop();
-
-        YearPlan yearPlan = super.repository.findById(planId);
-        if (yearPlan != null) {
-            //分页查询数据
-            List<ShenBaoInfoDto> shenBaoInfoDtos = new ArrayList<>();
-            List<ShenBaoInfo> shenBaoInfos = ((SQLQuery) shenbaoInfoRepo.getSession()
-                    .createSQLQuery(SQLConfig.yearPlanProject)
-                    .setParameter("yearPlanId", planId)
-                    .setFirstResult(skip).setMaxResults(stop))
-                    .addEntity(ShenBaoInfo.class)
-                    .getResultList();
-            shenBaoInfos.forEach(x -> {
-                ShenBaoInfoDto shenBaoInfoDto = shenbaoInfoMapper.toDto(x);
-                shenBaoInfoDtos.add(shenBaoInfoDto);
-            });
+    @Transactional(rollbackOn = Exception.class)
+    public PageModelDto<ShenBaoInfoDto> getYearPlanShenBaoInfo(String planId, ODataObjNew odataObj) {
+//        YearPlan yearPlan = super.repository.findById(planId);
+//        if (yearPlan != null) {
             //查询总数
-            List<ShenBaoInfo> shenBaoInfos2 = shenbaoInfoRepo.getSession()
-                    .createSQLQuery(SQLConfig.yearPlanProject)
+            BigInteger countQuery = (BigInteger) shenbaoInfoRepo.getSession()
+                    .createNativeQuery(SQLConfig.yearPlanProject_count)
                     .setParameter("yearPlanId", planId)
-                    .addEntity(ShenBaoInfo.class)
-                    .getResultList();
-            int count = shenBaoInfos2.size();
+                    .getSingleResult();
+            int count = countQuery == null ? 0 : countQuery.intValue();
+            List<ShenBaoInfoDto> shenBaoInfoDtos = new ArrayList<>();
+            if (count > 0) {
+                int skip = odataObj.getSkip(), stop = odataObj.getTop();
+                //分页查询数据
+                List<ShenBaoInfo> shenBaoInfos = shenbaoInfoRepo.getSession()
+                        .createNativeQuery(SQLConfig.yearPlanProject, ShenBaoInfo.class)
+                        .setParameter("yearPlanId", planId)
+                        .setFirstResult(skip).setMaxResults(stop)
+                        .getResultList();
+                shenBaoInfos.forEach(x -> shenBaoInfoDtos.add(shenbaoInfoMapper.toDto(x)));
+            }
 
-            PageModelDto<ShenBaoInfoDto> pageModelDto = new PageModelDto<>();
-            pageModelDto.setCount(count);
-            pageModelDto.setValue(shenBaoInfoDtos);
-            return pageModelDto;
-        }
-        return null;
+            return new PageModelDto<>(shenBaoInfoDtos, count);
+//        }
+//        return null;
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})

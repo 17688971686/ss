@@ -41,10 +41,6 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
     @Autowired
     private ShenBaoInfoService shenBaoInfoService;
     @Autowired
-    private ProjectService projectService;
-    @Autowired
-    private IRepository<UserUnitInfo, String> userUnitInfoRepo;
-    @Autowired
     private IRepository<ShenBaoInfo, String> shenBaoInfoRepo;
     @Autowired
     private IRepository<PackPlan, String> packPlanRepo;
@@ -57,7 +53,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
     @Autowired
     private IMapper<ShenBaoUnitInfoDto, ShenBaoUnitInfo> shenBaoUnitInfoMapper;
     @Autowired
-    private PackPlanService packPlanService;
+    private YearPlanService yearPlanService;
     @Autowired
     private IMapper<PackPlanDto, PackPlan> packPlanMapper;
     @Autowired
@@ -757,39 +753,14 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
     @Override
     @Transactional(rollbackOn = Exception.class)
     public PageModelDto<ShenBaoInfoDto> getShenbaoInfoFromYearplan(ODataObjNew odataObj) {
-        Integer skip = odataObj.getSkip();
-        Integer stop = odataObj.getTop();
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
         int nextYear = cal.get(Calendar.YEAR) + 1;
         Criteria criteria = DetachedCriteria.forClass(YearPlan.class).getExecutableCriteria(repository.getSession());
         criteria.setProjection(Property.forName(YearPlan_.id.getName()).min());
         criteria.add(Restrictions.eq(YearPlan_.year.getName(), nextYear));
         String yearPlanId = (String) criteria.uniqueResult();
-        if (StringUtil.isNotBlank(yearPlanId)) {
-            //查询总数
-            BigInteger countQuery = (BigInteger) shenBaoInfoRepo.getSession().createNativeQuery(yearPlanProject_count)
-                    .setParameter("yearPlanId", yearPlanId).getSingleResult();
-            int count = countQuery == null ? 0 : countQuery.intValue();
-            List<ShenBaoInfoDto> shenBaoInfoDtos = null;
-            if (count > 0) {
-                //分页查询数据
-                List<ShenBaoInfo> shenBaoInfos = shenBaoInfoRepo.getSession()
-                        .createNativeQuery(SQLConfig.yearPlanProject, ShenBaoInfo.class)
-                        .setParameter("yearPlanId", yearPlanId)
-                        .setFirstResult(skip).setMaxResults(stop)
-                        .getResultList();
-                int len = shenBaoInfos.size();
-                shenBaoInfoDtos = new ArrayList<>(len);
 
-                for (int i = 0; i < len; i++) {
-                    ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(shenBaoInfos.get(i));
-                    shenBaoInfoDtos.add(shenBaoInfoDto);
-                }
-            }
-
-            return new PageModelDto<>(shenBaoInfoDtos, count);
-        }
-        return new PageModelDto<>();
+        return yearPlanService.getYearPlanShenBaoInfo(yearPlanId, odataObj);
     }
 
     @Override
