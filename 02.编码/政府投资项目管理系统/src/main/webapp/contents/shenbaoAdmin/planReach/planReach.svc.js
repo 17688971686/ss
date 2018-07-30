@@ -148,7 +148,8 @@
                 // bsWin.success("操作成功");
                 //编制打包计划列表数据刷新
                 vm.shenBaoInfo_gridOptions.dataSource.read();
-                vm.gridOptions_project.dataSource.read();
+
+                $('#myModal').modal('toggle');//关闭模态框
             })
         }//end fun addShenBaoInfoToYearPlan
 

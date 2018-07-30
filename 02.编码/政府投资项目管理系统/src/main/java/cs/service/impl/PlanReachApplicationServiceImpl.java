@@ -31,9 +31,8 @@ import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.util.*;
 
-import static cs.common.SQLConfig.shenBaoInfoOfPlanReachApplication;
-import static cs.common.SQLConfig.shenBaoInfoOfPlanReachApplication_count;
-import static cs.common.SQLConfig.yearPlanProject_count;
+import static cs.common.BasicDataConfig.processState_jinxingzhong;
+import static cs.common.SQLConfig.*;
 
 @Service
 public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanReachApplicationDto, PlanReachApplication, String> implements PlanReachApplicationService {
@@ -785,24 +784,23 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
         Assert.notNull(shenbaoinfo, "数据不存在");
         //根据对象对应的申报信息，删除对应的申报信息和工作流信息
 
-        if (shenbaoinfo.getProcessState().equals(BasicDataConfig.processState_jinxingzhong)) {
-            throw new IllegalArgumentException("包含正在审批的项目,请重新选择！");
-        } else {
-            for (int i = 0; i < entity.getShenBaoInfos().size(); i++) {
-                ShenBaoInfo array_element = entity.getShenBaoInfos().get(i);
-
-                if (shenbaoId.equals(array_element.getId())) {
-                    entity.getShenBaoInfos().remove(i);
-                }
+//        Assert.isTrue(processState_jinxingzhong != shenbaoinfo.getProcessState(), "包含正在审批的项目,请重新选择！");
+        List<ShenBaoInfo> shenBaoInfos = entity.getShenBaoInfos();
+        ShenBaoInfo array_element;
+        for (int i = 0; i < shenBaoInfos.size(); i++) {
+            array_element = shenBaoInfos.get(i);
+            if (shenbaoId.equals(array_element.getId())) {
+                shenBaoInfos.remove(i);
             }
         }
+
         Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), shenbaoinfo.getProjectId());
         Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_nextYearPlan);
-        Criterion criterion3 = Restrictions.and(criterion, criterion2);
-        List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion3);
+        List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion, criterion2);
         if (!CollectionUtils.isEmpty(shenbaoinfoList)) {
-            shenbaoinfoList.get(0).setIsIncludPack(false);
-            shenBaoInfoRepo.save(shenbaoinfoList.get(0));
+            array_element = shenbaoinfoList.get(0);
+            array_element.setIsIncludPack(false);
+            shenBaoInfoRepo.save(array_element);
         }
 
         shenBaoInfoRepo.delete(shenbaoinfo);
@@ -830,7 +828,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
             if (array_element.getShenBaoInfos() != null) {
                 for (int j = 0; j < array_element.getShenBaoInfos().size(); j++) {
                     ShenBaoInfo shenbaoInfo = array_element.getShenBaoInfos().get(j);
-                    if (shenbaoInfo.getProcessState().equals(BasicDataConfig.processState_jinxingzhong)) {
+                    if (shenbaoInfo.getProcessState().equals(processState_jinxingzhong)) {
                         throw new IllegalArgumentException("打包计划中存在审批中的项目,无法删除,请重新选着！");
                     }
                 }

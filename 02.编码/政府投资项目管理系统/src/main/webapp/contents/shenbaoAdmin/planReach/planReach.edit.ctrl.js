@@ -51,6 +51,10 @@
             packgrid.find('tr td:nth-child(1)').find('input:checkbox').prop('checked', isSelected);
         });
 
+        $('#myModal').on('show.bs.modal', function (e) {
+            vm.gridOptions_project.dataSource.read();
+        })
+
         vm.startProcessOne = function (id) {
             planReachSvc.startProcessOne(vm, id);
         };
@@ -112,7 +116,6 @@
                     ids.push(selectIds[i].value);
                 }
                 var idStr = ids.join(',');
-                $('#myModal').modal('toggle');//关闭模态框
                 planReachSvc.addShenBaoInfoToPlanReach(vm, idStr);//添加申报信息到计划下达中
             }
         };
