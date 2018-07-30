@@ -14,9 +14,10 @@ import cs.model.exportExcel.ExcelDataLBTJ;
 import cs.model.exportExcel.ExcelDataYS;
 import cs.model.exportExcel.YearPlanStatistics;
 import cs.repository.odata.ODataObj;
+import cs.repository.odata.ODataObjNew;
 
 public interface YearPlanService extends IService<YearPlanDto, YearPlan, String>{
-	PageModelDto<ShenBaoInfoDto> getYearPlanShenBaoInfo(String planId,ODataObj odataObj);
+	PageModelDto<ShenBaoInfoDto> getYearPlanShenBaoInfo(String planId, ODataObjNew odataObj);
 	
 	void addYearPlanCapitals(String planId,String[] ids);
 	

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.sn.framework.common.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,146 +26,152 @@ import cs.model.exportExcel.YearPlanStatistics;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.YearPlanService;
 
+import static com.sn.framework.common.StringUtil.SEPARATE_COMMA;
+
 @Controller
-@RequestMapping(name="后台管理--年度计划管理", path="management/yearPlan")
+@RequestMapping(name = "后台管理--年度计划管理", path = "management/yearPlan")
 public class YearPlanController {
-	private String ctrl ="management/yearPlan";
-	@Autowired
-	private YearPlanService yearPlanService;
-	
-	@RequiresPermissions("management/yearPlan##get")
-	@RequestMapping(name = "获取年度计划列表数据", path = "",method=RequestMethod.GET)
-	public @ResponseBody PageModelDto<YearPlanDto> get(HttpServletRequest request) throws ParseException {
-		ODataObj odataObj = new ODataObj(request);
-		PageModelDto<YearPlanDto>  yearPlanDtos= yearPlanService.get(odataObj);		
-		return yearPlanDtos;
-	}
-	
-	@RequiresPermissions("management/yearPlan#id/projectList#get")
-	@RequestMapping(name = "获取年度计划项目列表数据", path = "{id}/projectList",method=RequestMethod.GET)
-	public @ResponseBody PageModelDto<ShenBaoInfoDto> getShenBaoInfo(HttpServletRequest request,@PathVariable String id) throws ParseException {
-		ODataObj odataObj = new ODataObj(request);
-		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos=yearPlanService.getYearPlanShenBaoInfo(id,odataObj);
-		return shenBaoInfoDtos;
-	}
-	
-	//@RequiresPermissions("management/yearPlan#id/packPlanList#get")
-	@RequestMapping(name = "获取年度打包计划列表数据", path = "{id}/packPlanList",method=RequestMethod.GET)
-	public @ResponseBody PageModelDto<PackPlanDto> getPackPlan(HttpServletRequest request,@PathVariable String id) throws ParseException {
-		ODataObj odataObj = new ODataObj(request);
-		PageModelDto<PackPlanDto> packPlanDtos=yearPlanService.getYearPlanPack(id,odataObj);
-		return packPlanDtos;
-	}
-	
-	@RequiresPermissions("management/yearPlan#addCapital/planId#post")
-	@RequestMapping(name="添加年度计划项目",path="addCapital/{planId}",method=RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.CREATED)
-	public void addCapital(@RequestBody String shenBaoId,@PathVariable String planId){		
-		String[] ids=shenBaoId.split(",");
-		if(ids.length>1){
-			yearPlanService.addYearPlanCapitals(planId,ids);
-		}else{
-			yearPlanService.addYearPlanCapital(planId,shenBaoId);
-		}
-	}
-	
-	//@RequiresPermissions("management/yearPlan#addPackPlan/planId#post")
-	@RequestMapping(name="添加年度计划打包",path="addPackPlan/{planId}",method=RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.CREATED)
-	public void addPackPlan(@RequestBody String packId,@PathVariable String planId){		
-		String[] ids=packId.split(",");
-		if(ids.length>1){
-			yearPlanService.addYearPlanPacks(planId, ids);
-		}else{
-			yearPlanService.addYearPlanPack(planId,packId);
-		}
-	}
-	
-	@RequiresPermissions("management/yearPlan#removeCapital#post")
-	@RequestMapping(name="移除年度计划项目",path="removeCapital",method=RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.CREATED)
-	public void removeCapital(@RequestParam String planId,@RequestBody String yearPlanCapitalId){		
-		String[] ids=yearPlanCapitalId.split(",");
-		yearPlanService.removeYearPlanCapital(planId, ids);
-	}
-	
-	//@RequiresPermissions("management/yearPlan#removePack#post")
-	@RequestMapping(name="移除年度计划打包",path="removePack",method=RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.CREATED)
-	public void removePack(@RequestParam String planId,@RequestBody String yearPlanPackId){		
-		String[] ids=yearPlanPackId.split(",");
-		yearPlanService.removeYearPlanPack(planId, ids);
-	}
-	
-	@RequiresPermissions("management/yearPlan#getStatistics#get")
-	@RequestMapping(name="获取年度计划统计信息",path="getStatistics",method=RequestMethod.GET)
-	public @ResponseBody List<YearPlanStatistics> getStatistics(@RequestParam String planId){		
-		return yearPlanService.getStatistics(planId);
-	}
-	
-	@RequiresPermissions("management/yearPlan##post")
-	@RequestMapping(name="添加年度计划",path="",method=RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.CREATED)
-	public void post(@RequestBody YearPlanDto dto){
-		yearPlanService.create(dto);
-	}
-	
-	@RequiresPermissions("management/yearPlan#updateYearPlan#post")
-	@RequestMapping(name="更新年度计划",path="updateYearPlan",method=RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void put(@RequestBody YearPlanDto dto){
-		yearPlanService.update(dto,dto.getId());
-	}
-	
-	@RequiresPermissions("management/yearPlan#deleteYearPlan#post")
-	@RequestMapping(name="删除年度计划",path="deleteYearPlan",method=RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void delete(@RequestBody String id){
-		String[] ids=id.split(",");
-		if(ids.length>1){
-			for(String planId:ids){
-				yearPlanService.delete(planId);	
-			}
-		}else{
-			yearPlanService.delete(id);	
-		}		
-	}
-	
-	//begin#html
-	@RequiresPermissions("management/yearPlan#html/shenbaoInfoList#get")
-	@RequestMapping(name="年度计划项目库--政投列表页",path="html/shenbaoInfoList",method=RequestMethod.GET)
-	public String yearplanListZF(){
-		return ctrl+"/shenbaoInfoList";
-	}
-	
-	@RequiresPermissions("management/yearPlan#html/shenbaoInfoListSH#get")
-	@RequestMapping(name="年度计划项目库--社投列表页",path="html/shenbaoInfoListSH",method=RequestMethod.GET)
-	public String yearplanListSH(){
-		return ctrl+"/shenbaoInfoListSH";
-	}
-	
-	@RequiresPermissions("management/yearPlan#html/shenbaoInfoEdit#get")
-	@RequestMapping(name="年度计划项目申报编辑页",path="html/shenbaoInfoEdit",method=RequestMethod.GET)
-	public String shenBaoInfoEdit(){
-		return ctrl+"/shenbaoInfoEdit";
-	}
-	
-	@RequiresPermissions("management/yearPlan#html/planList#get")
-	@RequestMapping(name="年度计划--政投列表页",path="html/planList",method=RequestMethod.GET)
-	public String planBZList(){
-		return ctrl+"/planList";
-	}
-	
-	@RequiresPermissions("management/yearPlan#html/planEdit#get")
-	@RequestMapping(name="年度计划编辑页",path="html/planEdit",method=RequestMethod.GET)
-	public String planBZEdit(){
-		return ctrl+"/planEdit";
-	}
-	
-	@RequiresPermissions("management/yearPlan#html/planBZ#get")
-	@RequestMapping(name="年度计划编制页",path="html/planBZ",method=RequestMethod.GET)
-	public String planBZ(){
-		return ctrl+"/planBZ";
-	}
-	
+    private String ctrl = "management/yearPlan";
+    @Autowired
+    private YearPlanService yearPlanService;
+
+    @RequiresPermissions("management/yearPlan##get")
+    @RequestMapping(name = "获取年度计划列表数据", path = "", method = RequestMethod.GET)
+    public @ResponseBody
+    PageModelDto<YearPlanDto> get(HttpServletRequest request) throws ParseException {
+        ODataObj odataObj = new ODataObj(request);
+        PageModelDto<YearPlanDto> yearPlanDtos = yearPlanService.get(odataObj);
+        return yearPlanDtos;
+    }
+
+    @RequiresPermissions("management/yearPlan#id/projectList#get")
+    @RequestMapping(name = "获取年度计划项目列表数据", path = "{id}/projectList", method = RequestMethod.GET)
+    public @ResponseBody
+    PageModelDto<ShenBaoInfoDto> getShenBaoInfo(HttpServletRequest request, @PathVariable String id) throws ParseException {
+        ODataObj odataObj = new ODataObj(request);
+        PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = yearPlanService.getYearPlanShenBaoInfo(id, odataObj);
+        return shenBaoInfoDtos;
+    }
+
+    //@RequiresPermissions("management/yearPlan#id/packPlanList#get")
+    @RequestMapping(name = "获取年度打包计划列表数据", path = "{id}/packPlanList", method = RequestMethod.GET)
+    public @ResponseBody
+    PageModelDto<PackPlanDto> getPackPlan(HttpServletRequest request, @PathVariable String id) throws ParseException {
+        ODataObj odataObj = new ODataObj(request);
+        PageModelDto<PackPlanDto> packPlanDtos = yearPlanService.getYearPlanPack(id, odataObj);
+        return packPlanDtos;
+    }
+
+    @RequiresPermissions("management/yearPlan#addCapital/planId#post")
+    @RequestMapping(name = "添加年度计划项目", path = "addCapital/{planId}", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void addCapital(@RequestBody String shenBaoId, @PathVariable String planId) {
+        String[] ids = StringUtil.split(shenBaoId, SEPARATE_COMMA);
+        if (ids.length > 1) {
+            yearPlanService.addYearPlanCapitals(planId, ids);
+        } else {
+            yearPlanService.addYearPlanCapital(planId, shenBaoId);
+        }
+    }
+
+    //@RequiresPermissions("management/yearPlan#addPackPlan/planId#post")
+    @RequestMapping(name = "添加年度计划打包", path = "addPackPlan/{planId}", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void addPackPlan(@RequestBody String packId, @PathVariable String planId) {
+        String[] ids = packId.split(",");
+        if (ids.length > 1) {
+            yearPlanService.addYearPlanPacks(planId, ids);
+        } else {
+            yearPlanService.addYearPlanPack(planId, packId);
+        }
+    }
+
+    @RequiresPermissions("management/yearPlan#removeCapital#post")
+    @RequestMapping(name = "移除年度计划项目", path = "removeCapital", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void removeCapital(@RequestParam String planId, @RequestBody String yearPlanCapitalId) {
+        String[] ids = yearPlanCapitalId.split(",");
+        yearPlanService.removeYearPlanCapital(planId, ids);
+    }
+
+    //@RequiresPermissions("management/yearPlan#removePack#post")
+    @RequestMapping(name = "移除年度计划打包", path = "removePack", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void removePack(@RequestParam String planId, @RequestBody String yearPlanPackId) {
+        String[] ids = yearPlanPackId.split(",");
+        yearPlanService.removeYearPlanPack(planId, ids);
+    }
+
+    @RequiresPermissions("management/yearPlan#getStatistics#get")
+    @RequestMapping(name = "获取年度计划统计信息", path = "getStatistics", method = RequestMethod.GET)
+    public @ResponseBody
+    List<YearPlanStatistics> getStatistics(@RequestParam String planId) {
+        return yearPlanService.getStatistics(planId);
+    }
+
+    @RequiresPermissions("management/yearPlan##post")
+    @RequestMapping(name = "添加年度计划", path = "", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void post(@RequestBody YearPlanDto dto) {
+        yearPlanService.create(dto);
+    }
+
+    @RequiresPermissions("management/yearPlan#updateYearPlan#post")
+    @RequestMapping(name = "更新年度计划", path = "updateYearPlan", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void put(@RequestBody YearPlanDto dto) {
+        yearPlanService.update(dto, dto.getId());
+    }
+
+    @RequiresPermissions("management/yearPlan#deleteYearPlan#post")
+    @RequestMapping(name = "删除年度计划", path = "deleteYearPlan", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void delete(@RequestBody String id) {
+        String[] ids = id.split(",");
+        if (ids.length > 1) {
+            for (String planId : ids) {
+                yearPlanService.delete(planId);
+            }
+        } else {
+            yearPlanService.delete(id);
+        }
+    }
+
+    //begin#html
+    @RequiresPermissions("management/yearPlan#html/shenbaoInfoList#get")
+    @RequestMapping(name = "年度计划项目库--政投列表页", path = "html/shenbaoInfoList", method = RequestMethod.GET)
+    public String yearplanListZF() {
+        return ctrl + "/shenbaoInfoList";
+    }
+
+    @RequiresPermissions("management/yearPlan#html/shenbaoInfoListSH#get")
+    @RequestMapping(name = "年度计划项目库--社投列表页", path = "html/shenbaoInfoListSH", method = RequestMethod.GET)
+    public String yearplanListSH() {
+        return ctrl + "/shenbaoInfoListSH";
+    }
+
+    @RequiresPermissions("management/yearPlan#html/shenbaoInfoEdit#get")
+    @RequestMapping(name = "年度计划项目申报编辑页", path = "html/shenbaoInfoEdit", method = RequestMethod.GET)
+    public String shenBaoInfoEdit() {
+        return ctrl + "/shenbaoInfoEdit";
+    }
+
+    @RequiresPermissions("management/yearPlan#html/planList#get")
+    @RequestMapping(name = "年度计划--政投列表页", path = "html/planList", method = RequestMethod.GET)
+    public String planBZList() {
+        return ctrl + "/planList";
+    }
+
+    @RequiresPermissions("management/yearPlan#html/planEdit#get")
+    @RequestMapping(name = "年度计划编辑页", path = "html/planEdit", method = RequestMethod.GET)
+    public String planBZEdit() {
+        return ctrl + "/planEdit";
+    }
+
+    @RequiresPermissions("management/yearPlan#html/planBZ#get")
+    @RequestMapping(name = "年度计划编制页", path = "html/planBZ", method = RequestMethod.GET)
+    public String planBZ() {
+        return ctrl + "/planBZ";
+    }
+
 }

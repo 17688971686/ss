@@ -27,8 +27,10 @@ public class ProjectRepoImpl extends AbstractRepository<Project	, String> {
 		logger.debug("findByOdata2");		
 		Criteria crit = this.getSession().createCriteria(Project.class);
 		List<ODataFilterItem> filters = oDataObj.getFilter();
-		List<Criterion> unitFiltersCriterions = new ArrayList<>();//本单位过滤条件
-		List<Criterion> filterCriterions = new ArrayList<>();//已纳入项目库中的过滤条件
+		//本单位过滤条件
+		List<Criterion> unitFiltersCriterions = new ArrayList<>();
+		//已纳入项目库中的过滤条件
+		List<Criterion> filterCriterions = new ArrayList<>();
 		//默认查询已纳入项目库的项目
 		filterCriterions.add(Restrictions.eq(Project_.isIncludLibrary.getName(), true));
 		if(filters !=null && filters.size()>0){

@@ -25,10 +25,10 @@ public class GlobalDefaultExceptionHandler {
     private HttpServletRequest request;
 
     @ExceptionHandler(value = IllegalArgumentException.class)
-//    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(value = HttpStatus.PRECONDITION_FAILED)
     @ResponseBody
     public Response illegalErrorHandler(IllegalArgumentException e) {
-        logger.error("错误处理, URL[" + request.getRequestURI() + "]", e.getCause());
+        logger.error("错误处理, URL[" + request.getRequestURI() + "]", e);
         Response response = new Response();
         response.setMessage(e.getMessage());
         response.setStatus(555);
@@ -50,7 +50,7 @@ public class GlobalDefaultExceptionHandler {
     }
 
     @ExceptionHandler(value = Exception.class)
-//    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public void errorHandler(Exception e) throws Exception {
         logger.error("通用错误处理, URL[" + request.getRequestURI() + "]", e.getCause());
         e.printStackTrace();

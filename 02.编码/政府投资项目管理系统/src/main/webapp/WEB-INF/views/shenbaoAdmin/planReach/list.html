@@ -2,35 +2,37 @@
 	  <ol class="breadcrumb">
 		  <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
 		  <li><a href="#/managerCenter">首页</a></li>
-	      <li><a class="text-primary" href="javascript:;" ui-sref="planReach">计划下达</a></li>	 
+	      <li><a class="text-primary" href="javascript:;" ui-sref="planReach">计划下达</a></li>
 	      <li class="active">申请列表记录</li>
 	  </ol>
-	  
+
 	<div class="toolbar" ng-if="!vm.sysconfig.enable || vm.isCan">
-		<a type="button" class="btn btn-success btn-sm" href="javascript:;" ui-sref="planReachEdit"><span class="glyphicon glyphicon-plus"></span>&nbsp;新增</a>
+		<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#planReachCreatWin">
+			<span class="glyphicon glyphicon-plus"></span>&nbsp;新增
+		</button>
 	</div>
 	<div class="alert alert-info"  style="margin-top:10px;margin-bottom: 10px;width:600px;" ng-if="vm.sysconfig.enable && !vm.isCan">
-			    <button class="close" data-dismiss="alert">&times;</button>
-			    <strong>提示！</strong>计划下达端口已关闭，详情请咨询投资科！
+		<button class="close" data-dismiss="alert">&times;</button>
+		<strong>提示！</strong>计划下达端口已关闭，详情请咨询投资科！
 	</div>
-	
+
 	<script type="text/template" id="columnBtns_applications">
 		<a class="btn btn-primary btn-sm" href="#/planReachEdit/{0}/{1}"><span class="fa fa-edit"></span>编辑</a>
 		<button class="btn btn-danger btn-sm" ng-click="vm.deleteApplication('{0}')" ng-hide="{1}"><span class="glyphicon glyphicon-remove"></span>删除</button>
 		<a class="btn btn-primary btn-sm" href="#/planReachPrint/{0}"><span class="glyphicon glyphicon-eye-open"></span>打印预览</a>
-		<button class="btn btn-sm btn-primary" ng-click="vm.startProcess('{0}')" ng-disabled="vm.isSubmit" ng-hide="{1}"><span class="glyphicon glyphicon-primary"></span>提交审批</button> 
+		<button class="btn btn-sm btn-primary" ng-click="vm.startProcess('{0}')" ng-disabled="vm.isSubmit" ng-hide="{1}"><span class="glyphicon glyphicon-primary"></span>提交审批</button>
 	</script>
-	
+
 	<div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
-	 
+
 	 <!--项目申报记录模态框 -->
-	<div class="modal fade" id="shenBaoRecords" tabindex="-1" role="dialog"> 
-		<div class="modal-dialog" style="width:800px;"> 
-			<div class="modal-content"> 
+	<div class="modal fade" id="shenBaoRecords" tabindex="-1" role="dialog">
+		<div class="modal-dialog" style="width:800px;">
+			<div class="modal-content">
 				<div class="modal-header bg-primary">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>  			
-					<h4 class="modal-title" id="myModalLabel">计划下达申报记录列表</h4> 
-				</div> 
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>
+					<h4 class="modal-title" id="myModalLabel">计划下达申报记录列表</h4>
+				</div>
 				<div class="modal-body">
 					<script type="text/template" id="columnBtns_records">
 						<a class="btn btn-xs btn-primary" href="#/shenbao_record/{0}">申报详情</a>
@@ -40,16 +42,33 @@
 					<div class="toolbar">
 						<button class="btn btn-sm btn-danger" ng-disabled="vm.isSubmit" ng-click="vm.deletePlanReachs()" ng-hide="vm.isStartProcess"><span class="glyphicon glyphicon-trash"></span>&nbsp;批量删除</button>
 					</div>
-					<div class="shenBaoRecordsGrid" kendo-grid="vm.grid_shenBaoRecords" k-options="vm.gridOptions_shenBaoRecords"></div>			
+					<div class="shenBaoRecordsGrid" kendo-grid="vm.grid_shenBaoRecords" k-options="vm.gridOptions_shenBaoRecords"></div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
-					<button type="button" class="btn btn-success" data-dismiss="modal">确定</button>	
-				</div> 
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-success" data-dismiss="modal">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="planReachCreatWin" tabindex="-1" role="dialog" data-backdrop="static">
+		<div class="modal-dialog" style="width:800px;">
+			<div class="modal-content">
+				<div class="modal-header bg-primary">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>
+					<h4 class="modal-title" id="planReachCreatLabel">创建计划下达</h4>
+				</div>
+				<div class="modal-body">
+                    <form id="form" name="form">
+					<#include "planReachEditInfo.html">
+                    </form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-success" ng-click="vm.addApplication()">保存</button>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
-
-<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
-<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>

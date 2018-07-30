@@ -1,28 +1,27 @@
 
 package cs.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
+import cs.domain.UserUnitInfo;
+import cs.domain.UserUnitInfo_;
+import cs.domain.framework.User;
+import cs.model.DomainDto.UserUnitInfoDto;
+import cs.model.PageModelDto;
+import cs.repository.framework.UserRepo;
+import cs.repository.odata.ODataObj;
+import cs.service.interfaces.UserUnitInfoService;
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cs.common.ICurrentUser;
-import cs.domain.UserUnitInfo;
-import cs.domain.UserUnitInfo_;
-import cs.domain.framework.User;
-import cs.model.PageModelDto;
-import cs.model.DomainDto.UserUnitInfoDto;
-import cs.repository.framework.UserRepo;
-import cs.repository.odata.ODataObj;
-import cs.service.interfaces.UserUnitInfoService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 /**
  * @Description: 用户单位信息服务层
  * @author: cx
@@ -32,10 +31,11 @@ import cs.service.interfaces.UserUnitInfoService;
 @Service
 public class UserUnitInfoServiceImpl extends AbstractServiceImpl<UserUnitInfoDto, UserUnitInfo, String> implements UserUnitInfoService {
 	private static Logger logger = Logger.getLogger(UserUnitInfoServiceImpl.class);
-	@Autowired
-	private ICurrentUser currentUser;
+
 	@Autowired
 	private UserRepo userRepo;
+
+
 	@Override
 	@Transactional
 	public PageModelDto<UserUnitInfoDto> get(ODataObj odataObj) {		
@@ -114,6 +114,14 @@ public class UserUnitInfoServiceImpl extends AbstractServiceImpl<UserUnitInfoDto
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
+
+	@Override
+	public UserUnitInfoDto getByUserId(String userId) {
+		Criteria criteria = DetachedCriteria.forClass(UserUnitInfo.class)
+				.getExecutableCriteria(repository.getSession())
+				.createCriteria(UserUnitInfo_.users.getName(), "users")
+				.add(Property.forName("users.id").eq(userId));
+		UserUnitInfo userUnitInfo = (UserUnitInfo) criteria.uniqueResult();
+		return mapper.toDto(userUnitInfo);
+	}
 }

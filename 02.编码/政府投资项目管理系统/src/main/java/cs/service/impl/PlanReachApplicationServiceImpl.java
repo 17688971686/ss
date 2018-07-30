@@ -1,7 +1,8 @@
 package cs.service.impl;
 
+import com.sn.framework.common.IdWorker;
+import com.sn.framework.common.StringUtil;
 import cs.common.BasicDataConfig;
-import cs.common.ICurrentUser;
 import cs.common.SQLConfig;
 import cs.domain.*;
 import cs.model.DomainDto.*;
@@ -10,11 +11,15 @@ import cs.model.PageModelDto;
 import cs.model.framework.UserDto;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
+import cs.repository.odata.ODataObjNew;
 import cs.service.interfaces.*;
 import org.activiti.engine.RuntimeService;
 import org.apache.log4j.Logger;
-import org.hibernate.SQLQuery;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +27,11 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
+import java.math.BigInteger;
 import java.util.*;
+
+import static cs.common.BasicDataConfig.processState_jinxingzhong;
+import static cs.common.SQLConfig.*;
 
 @Service
 public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanReachApplicationDto, PlanReachApplication, String> implements PlanReachApplicationService {
@@ -31,10 +40,6 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 
     @Autowired
     private ShenBaoInfoService shenBaoInfoService;
-    @Autowired
-    private ProjectService projectService;
-    @Autowired
-    private IRepository<UserUnitInfo, String> userUnitInfoRepo;
     @Autowired
     private IRepository<ShenBaoInfo, String> shenBaoInfoRepo;
     @Autowired
@@ -48,7 +53,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
     @Autowired
     private IMapper<ShenBaoUnitInfoDto, ShenBaoUnitInfo> shenBaoUnitInfoMapper;
     @Autowired
-    private PackPlanService packPlanService;
+    private YearPlanService yearPlanService;
     @Autowired
     private IMapper<PackPlanDto, PackPlan> packPlanMapper;
     @Autowired
@@ -166,102 +171,84 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
         logger.info(String.format("删除计划下达申请表,名称 :%s", entity.getApplicationName()));
     }
 
-    private ShenBaoInfoDto projectToShenBaoInfo(Project dto, ShenBaoInfoDto shenBaoInfoDto) {
-        shenBaoInfoDto.setUnitName(dto.getUnitName());//项目所属单位
-        shenBaoInfoDto.setProjectName(dto.getProjectName());
-        shenBaoInfoDto.setProjectNumber(dto.getProjectNumber());
-        shenBaoInfoDto.setProjectStage(dto.getProjectStage());//项目阶段
-        shenBaoInfoDto.setProjectRepName(dto.getProjectRepName());//负责人名称
-        shenBaoInfoDto.setProjectRepMobile(dto.getProjectRepMobile());//负责人手机
-        shenBaoInfoDto.setProjectCategory(dto.getProjectCategory());//项目类别
-        shenBaoInfoDto.setProjectClassify(dto.getProjectClassify());//项目分类
-        shenBaoInfoDto.setProjectIndustry(dto.getProjectIndustry());//项目行业归口
-        shenBaoInfoDto.setProjectType(dto.getProjectType());//项目类型
-        shenBaoInfoDto.setDivisionId(dto.getDivisionId());//项目区域
-        shenBaoInfoDto.setProjectAddress(dto.getProjectAddress());//项目地址
-        shenBaoInfoDto.setBeginDate(dto.getBeginDate());//项目开工日期
-        shenBaoInfoDto.setEndDate(dto.getEndDate());//项目竣工日期
-        shenBaoInfoDto.setProjectInvestAccuSum(dto.getProjectInvestAccuSum());//累计完成投资
-        shenBaoInfoDto.setProjectInvestmentType(dto.getProjectInvestmentType());//投资类型
-        //资金来源
-        shenBaoInfoDto.setCapitalSCZ_ggys(dto.getCapitalSCZ_ggys());//市财政--公共预算
-        shenBaoInfoDto.setCapitalSCZ_gtzj(dto.getCapitalSCZ_gtzj());//市财政--国土基金
-        shenBaoInfoDto.setCapitalSCZ_zxzj(dto.getCapitalSCZ_zxzj());//市财政--专项基金
-        shenBaoInfoDto.setCapitalQCZ_gtzj(dto.getCapitalQCZ_gtzj());//区财政--国土基金
-        shenBaoInfoDto.setCapitalQCZ_ggys(dto.getCapitalQCZ_ggys());//区财政--公共预算
-        shenBaoInfoDto.setCapitalZYYS(dto.getCapitalZYYS());//中央预算
-        shenBaoInfoDto.setCapitalSHTZ(dto.getCapitalSHTZ());//社会投资
-        shenBaoInfoDto.setCapitalOther(dto.getCapitalOther());//其他
-        shenBaoInfoDto.setCapitalOtherDescription(dto.getCapitalOtherDescription());//其他来源说明
-        shenBaoInfoDto.setProjectIntro(dto.getProjectIntro());//项目简介
-        shenBaoInfoDto.setProjectGuiMo(dto.getProjectGuiMo());//项目规模
-        shenBaoInfoDto.setRemark(dto.getRemark());//项目基本信息备注
-        //批复日期&文号
-        shenBaoInfoDto.setPifuJYS_date(dto.getPifuJYS_date());
-        shenBaoInfoDto.setPifuCBSJYGS_date(dto.getPifuCBSJYGS_date());
-        shenBaoInfoDto.setPifuKXXYJBG_date(dto.getPifuKXXYJBG_date());
-        shenBaoInfoDto.setPifuJYS_wenhao(dto.getPifuJYS_wenhao());
-        shenBaoInfoDto.setPifuCBSJYGS_wenhao(dto.getPifuCBSJYGS_wenhao());
-        shenBaoInfoDto.setPifuKXXYJBG_wenhao(dto.getPifuKXXYJBG_wenhao());
+//    private ShenBaoInfoDto projectToShenBaoInfo(Project dto, ShenBaoInfoDto shenBaoInfoDto) {
+//        shenBaoInfoDto.setUnitName(dto.getUnitName());//项目所属单位
+//        shenBaoInfoDto.setProjectName(dto.getProjectName());
+//        shenBaoInfoDto.setProjectNumber(dto.getProjectNumber());
+//        shenBaoInfoDto.setProjectStage(dto.getProjectStage());//项目阶段
+//        shenBaoInfoDto.setProjectRepName(dto.getProjectRepName());//负责人名称
+//        shenBaoInfoDto.setProjectRepMobile(dto.getProjectRepMobile());//负责人手机
+//        shenBaoInfoDto.setProjectCategory(dto.getProjectCategory());//项目类别
+//        shenBaoInfoDto.setProjectClassify(dto.getProjectClassify());//项目分类
+//        shenBaoInfoDto.setProjectIndustry(dto.getProjectIndustry());//项目行业归口
+//        shenBaoInfoDto.setProjectType(dto.getProjectType());//项目类型
+//        shenBaoInfoDto.setDivisionId(dto.getDivisionId());//项目区域
+//        shenBaoInfoDto.setProjectAddress(dto.getProjectAddress());//项目地址
+//        shenBaoInfoDto.setBeginDate(dto.getBeginDate());//项目开工日期
+//        shenBaoInfoDto.setEndDate(dto.getEndDate());//项目竣工日期
+//        shenBaoInfoDto.setProjectInvestAccuSum(dto.getProjectInvestAccuSum());//累计完成投资
+//        shenBaoInfoDto.setProjectInvestmentType(dto.getProjectInvestmentType());//投资类型
+//        //资金来源
+//        shenBaoInfoDto.setCapitalSCZ_ggys(dto.getCapitalSCZ_ggys());//市财政--公共预算
+//        shenBaoInfoDto.setCapitalSCZ_gtzj(dto.getCapitalSCZ_gtzj());//市财政--国土基金
+//        shenBaoInfoDto.setCapitalSCZ_zxzj(dto.getCapitalSCZ_zxzj());//市财政--专项基金
+//        shenBaoInfoDto.setCapitalQCZ_gtzj(dto.getCapitalQCZ_gtzj());//区财政--国土基金
+//        shenBaoInfoDto.setCapitalQCZ_ggys(dto.getCapitalQCZ_ggys());//区财政--公共预算
+//        shenBaoInfoDto.setCapitalZYYS(dto.getCapitalZYYS());//中央预算
+//        shenBaoInfoDto.setCapitalSHTZ(dto.getCapitalSHTZ());//社会投资
+//        shenBaoInfoDto.setCapitalOther(dto.getCapitalOther());//其他
+//        shenBaoInfoDto.setCapitalOtherDescription(dto.getCapitalOtherDescription());//其他来源说明
+//        shenBaoInfoDto.setProjectIntro(dto.getProjectIntro());//项目简介
+//        shenBaoInfoDto.setProjectGuiMo(dto.getProjectGuiMo());//项目规模
+//        shenBaoInfoDto.setRemark(dto.getRemark());//项目基本信息备注
+//        //批复日期&文号
+//        shenBaoInfoDto.setPifuJYS_date(dto.getPifuJYS_date());
+//        shenBaoInfoDto.setPifuCBSJYGS_date(dto.getPifuCBSJYGS_date());
+//        shenBaoInfoDto.setPifuKXXYJBG_date(dto.getPifuKXXYJBG_date());
+//        shenBaoInfoDto.setPifuJYS_wenhao(dto.getPifuJYS_wenhao());
+//        shenBaoInfoDto.setPifuCBSJYGS_wenhao(dto.getPifuCBSJYGS_wenhao());
+//        shenBaoInfoDto.setPifuKXXYJBG_wenhao(dto.getPifuKXXYJBG_wenhao());
+//
+//        return shenBaoInfoDto;
+//    }
 
-        return shenBaoInfoDto;
-    }
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    @Transactional
     public PageModelDto<ShenBaoInfoDto> getShenBaoInfo(String planReachId, ODataObj odataObj) {
-        Integer skip = odataObj.getSkip();
-        Integer stop = odataObj.getTop();
-        PageModelDto<ShenBaoInfoDto> pageModelDto = new PageModelDto<>();
-        PlanReachApplication planReachApplication = super.findById(planReachId);
-        if (planReachApplication != null) {
-            //分页查询数据
-            List<ShenBaoInfoDto> shenBaoInfoDtos = new ArrayList<>();
-            List<ShenBaoInfo> shenBaoInfos = ((SQLQuery) planReachApplicationRepo.getSession()
-                    .createSQLQuery(SQLConfig.shenBaoInfoOfPlanReachApplication)
-                    .setParameter("planReachId", planReachId)
-                    .setFirstResult(skip).setMaxResults(stop))
-                    .addEntity(ShenBaoInfo.class)
-                    .getResultList();
-//			shenBaoInfos.forEach(x->{
-//				ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(x);
-//				shenBaoInfos.add(shenBaoInfoDto);
-//			});
-//			Iterator<ShenBaoInfo> iterator = shenBaoInfos.iterator();
-//			          while (iterator.hasNext()) {
-//			        	  ShenBaoInfo x = iterator.next();
-//			        	  ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(x);
-//			        	  shenBaoInfos.add(shenBaoInfoDto);
-//			                 iterator.remove();
-//			         }
-            for (int i = 0; i < shenBaoInfos.size(); i++) {
-                ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(shenBaoInfos.get(i));
-                shenBaoInfoDtos.add(shenBaoInfoDto);
-            }
-            //查询总数
-            List<ShenBaoInfoDto> shenBaoInfoDtos2 = planReachApplicationRepo.getSession()
-                    .createSQLQuery(SQLConfig.shenBaoInfoOfPlanReachApplication)
-                    .setParameter("planReachId", planReachId)
-                    .addEntity(ShenBaoInfo.class)
-                    .getResultList();
-            int count = shenBaoInfoDtos2.size();
+        Session session = planReachApplicationRepo.getSession();
 
-            pageModelDto.setCount(count);
-            pageModelDto.setValue(shenBaoInfoDtos);
-            return pageModelDto;
+        //查询总数
+        BigInteger countQuery = (BigInteger) session.createNativeQuery(shenBaoInfoOfPlanReachApplication_count)
+                .setParameter("planReachId", planReachId)
+                .getSingleResult();
+
+        int count = countQuery == null ? 0 : countQuery.intValue();
+
+        List<ShenBaoInfoDto> shenBaoInfoDtos = null;
+        if (count > 0) {
+            int skip = odataObj.getSkip(), stop = odataObj.getTop();
+            //分页查询数据
+            List<ShenBaoInfo> shenBaoInfos = session.createNativeQuery(shenBaoInfoOfPlanReachApplication, ShenBaoInfo.class)
+                    .setParameter("planReachId", planReachId)
+                    .setFirstResult(skip).setMaxResults(stop)
+                    .getResultList();
+            if (!CollectionUtils.isEmpty(shenBaoInfos)) {
+                int len = shenBaoInfos.size();
+                shenBaoInfoDtos = new ArrayList<>(len);
+                for (int i = 0; i < len; i++) {
+                    ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(shenBaoInfos.get(i));
+                    shenBaoInfoDtos.add(shenBaoInfoDto);
+                }
+            }
         }
-        pageModelDto.setCount(0);
-        pageModelDto.setValue(null);
-        return pageModelDto;
+
+        return new PageModelDto<>(shenBaoInfoDtos, count);
     }
 
     @Override
     @Transactional(rollbackOn = Exception.class)
     public void addShenBaoInfos(String planReachId, String[] ids) {
         for (int i = 0; i < ids.length; i++) {
-            String id = ids[i];
-            this.addShenBaoInfo(planReachId, id);
+            this.addShenBaoInfo(planReachId, ids[i]);
         }
     }
 
@@ -271,77 +258,68 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
         PlanReachApplication planReach = super.findById(planReachId);
         ShenBaoInfo entity = shenBaoInfoRepo.findById(id);
 
-        if(planReach == null){
-        	throw new IllegalArgumentException("请创建计划下达后添加项目！");
-        }else {
-        	
-	        //TODO 按照申报类型和项目名称，查询是否有同名的计划下达
-	        //TODO 如果存在，说明其他编制中已有改项目，不能再次添加
-	        Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectName.getName(), entity.getProjectName());
-	        Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach);
-	        Criterion criterion3 = Restrictions.and(criterion, criterion2);
-	        List<ShenBaoInfo> entity2 = shenBaoInfoRepo.findByCriteria(criterion3);
-	
-	        if (entity2.size() == 0) {
-	            List<ShenBaoInfo> shenBaoInfoList = new ArrayList<>();
-	            // TODO 不存在，则生成一条计划下达的申报信息
-	            ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(entity);
-	            shenBaoInfoDto.setId(UUID.randomUUID().toString());
-	            shenBaoInfoDto.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
-	            shenBaoInfoDto.setThisTaskId(null);
-	            shenBaoInfoDto.setThisTaskName(null);
-	            shenBaoInfoDto.setReceiver(null);
-	            shenBaoInfoDto.setZong_processId(null);
-	            shenBaoInfoDto.setProcessStage("未开始");
-	            shenBaoInfoDto.setProcessState(BasicDataConfig.processState_weikaishi);
-	            shenBaoInfoDto.setModifiedDate(new Date());
-	            shenBaoInfoDto.setCreatedDate(new Date());
-	            shenBaoInfoDto.setCreatedBy(currentUser.getUserId());
-	
-	            ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.createShenBaoInfo(shenBaoInfoDto, false);
-	            //处理关联信息
-	            //附件
-	            shenBaoInfoDto.getAttachmentDtos().forEach(x -> {
-	                Attachment attachment = new Attachment();
-	                attachmentMapper.buildEntity(x, attachment);
-	                attachment.setCreatedBy(entity.getCreatedBy());
-	                attachment.setModifiedBy(entity.getModifiedBy());
-	                entity.getAttachments().add(attachment);
-	            });
-	            //申报单位
-	            ShenBaoUnitInfoDto shenBaoUnitInfoDto = shenBaoInfoDto.getShenBaoUnitInfoDto();
-	            ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
-	            shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto, shenBaoUnitInfo);
-	            shenBaoUnitInfo.setCreatedBy(entity.getCreatedBy());
-	            shenBaoUnitInfo.setModifiedBy(entity.getModifiedBy());
-	            entity.setShenBaoUnitInfo(shenBaoUnitInfo);
-	            //编制单位
-	            ShenBaoUnitInfoDto bianZhiUnitInfoDto = shenBaoInfoDto.getBianZhiUnitInfoDto();
-	            ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
-	            shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto, bianZhiUnitInfo);
-	            bianZhiUnitInfo.setCreatedBy(entity.getCreatedBy());
-	            bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
-	            entity.setBianZhiUnitInfo(bianZhiUnitInfo);
-	            entity.setIsIncludPack(true);
-	            shenBaoInfoRepo.save(entity);
-	
-	            if (planReach.getShenBaoInfos() != null) {
-	                planReach.getShenBaoInfos().add(shenBaoInfoentity);
-	            } else {
-	                shenBaoInfoList.add(shenBaoInfoentity);
-	                planReach.setShenBaoInfos(shenBaoInfoList);
-	            }
-	        } else {
-	            throw new IllegalArgumentException(String.format("申报项目：%s 已经存在其他编制计划中,请重新选择！", entity.getProjectName()));
-	        }
-	
-	        planReachApplicationRepo.save(planReach);
-	        logger.info(String.format("添加年度计划资金,名称：%s", planReach.getApplicationName()));
+        Assert.notNull(planReach, "请创建计划下达后添加项目！");
+        Assert.notNull(entity, "添加的项目不存在");
+
+        // 按照申报类型和项目名称，查询是否有同名的计划下达
+        // 如果存在，说明其他编制中已有改项目，不能再次添加
+        Criteria criteria = DetachedCriteria.forClass(ShenBaoInfo.class).getExecutableCriteria(repository.getSession())
+                .setProjection(Property.forName(ShenBaoInfo_.id.getName()).count())
+                .add(Restrictions.eq(ShenBaoInfo_.projectName.getName(), entity.getProjectName()))
+                .add(Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach));
+
+        long len = (long) criteria.uniqueResult();
+
+        Assert.isTrue(len == 0, String.format("申报项目：%s 已经存在其他编制计划中,请重新选择！", entity.getProjectName()));
+
+        // TODO 不存在，则生成一条计划下达的申报信息
+        ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(entity);
+        shenBaoInfoDto.setId(IdWorker.get32UUID());
+        shenBaoInfoDto.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
+        shenBaoInfoDto.setThisTaskId(null);
+        shenBaoInfoDto.setThisTaskName(null);
+        shenBaoInfoDto.setReceiver(null);
+        shenBaoInfoDto.setZong_processId(null);
+        shenBaoInfoDto.setProcessStage("未开始");
+        shenBaoInfoDto.setProcessState(BasicDataConfig.processState_weikaishi);
+
+        ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.create(shenBaoInfoDto, false);
+        //处理关联信息
+        //附件
+//        shenBaoInfoDto.getAttachmentDtos().forEach(x -> {
+//            Attachment attachment = new Attachment();
+//            attachmentMapper.buildEntity(x, attachment);
+//            attachment.setCreatedBy(entity.getCreatedBy());
+//            attachment.setModifiedBy(entity.getModifiedBy());
+//            entity.getAttachments().add(attachment);
+//        });
+        //申报单位
+        ShenBaoUnitInfoDto shenBaoUnitInfoDto = shenBaoInfoDto.getShenBaoUnitInfoDto();
+        ShenBaoUnitInfo shenBaoUnitInfo = new ShenBaoUnitInfo();
+        shenBaoUnitInfoMapper.buildEntity(shenBaoUnitInfoDto, shenBaoUnitInfo);
+        shenBaoUnitInfo.setCreatedBy(entity.getCreatedBy());
+        shenBaoUnitInfo.setModifiedBy(entity.getModifiedBy());
+        entity.setShenBaoUnitInfo(shenBaoUnitInfo);
+        //编制单位
+        ShenBaoUnitInfoDto bianZhiUnitInfoDto = shenBaoInfoDto.getBianZhiUnitInfoDto();
+        ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
+        shenBaoUnitInfoMapper.buildEntity(bianZhiUnitInfoDto, bianZhiUnitInfo);
+        bianZhiUnitInfo.setCreatedBy(entity.getCreatedBy());
+        bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
+        entity.setBianZhiUnitInfo(bianZhiUnitInfo);
+        entity.setIsIncludPack(true);
+        shenBaoInfoRepo.save(entity);
+
+        if (planReach.getShenBaoInfos() == null) {
+            planReach.setShenBaoInfos(new ArrayList<>(1));
         }
+        planReach.getShenBaoInfos().add(shenBaoInfoentity);
+
+        planReachApplicationRepo.save(planReach);
+        logger.info(String.format("添加年度计划资金,名称：%s", planReach.getApplicationName()));
     }
 
     @Override
-    @Transactional(rollbackOn = Exception.class)
     public PageModelDto<PackPlanDto> getPackPlan(ODataObj odataObj) {
         YearPlan yearPlan = null;
         // TODO 查询下一年度计划编制
@@ -350,11 +328,11 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 
         Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), nextYear);
         List<YearPlan> yearPlanList = yearPlanRepo.findByCriteria(criterion);
-        if (yearPlanList.size() > 0) {
+        if (CollectionUtils.isEmpty(yearPlanList)) {
             yearPlan = yearPlanList.get(0);
 
             // TODO 筛选出包含有本单位的编制
-            if (!yearPlan.getPackPlans().isEmpty()) {
+            if (!CollectionUtils.isEmpty(yearPlan.getPackPlans())) {
                 UserUnitInfoDto userUnitInfoDto1 = null;
                 List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
                 for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
@@ -362,6 +340,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
                         for (UserDto user : userUnitInfoDto.getUserDtos()) {
                             if (user.getId().equals(currentUser.getUserId())) {
                                 userUnitInfoDto1 = userUnitInfoDto;
+                                break;
                             }
                         }
                     }
@@ -380,6 +359,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 //								d += yearPlan.getPackPlans().get(i).getAllocationCapitals().get(j).getCapital_ggys();
 //								a += yearPlan.getPackPlans().get(i).getAllocationCapitals().get(j).getCapital_gtzj();
                                     isOurUnit = true;
+                                    break;
                                 }
                             }
                         }
@@ -403,7 +383,6 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
     }
 
     @Override
-    @Transactional(rollbackOn = Exception.class)
     public void addPackPlans(String planReachId, String[] ids) {
         for (String id : ids) {
             this.addPackPlan(planReachId, id);
@@ -411,7 +390,6 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
     }
 
     @Override
-    @Transactional(rollbackOn = Exception.class)
     public void addShenBaoInfoToPacks(String packId, String[] ids) {
         for (String id : ids) {
             this.addShenBaoInfoToPack(packId, id);
@@ -419,7 +397,6 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
     }
 
     @Override
-    @Transactional(rollbackOn = Exception.class)
     public void deleteShenBaoInfos(String packPlanId, String[] ids) {
         for (String id : ids) {
             this.deleteShenBaoInfo(packPlanId, id);
@@ -427,7 +404,6 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
     }
 
     @Override
-    @Transactional(rollbackOn = Exception.class)
     public void deletePacks(String packPlanId, String[] ids) {
         for (String id : ids) {
             this.deletePack(packPlanId, id);
@@ -446,7 +422,6 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
      * 给打包信息添加申报项目
      */
     @Override
-    @Transactional(rollbackOn = Exception.class)
     public void addShenBaoInfoToPack(String packId, String shenbaoId) {
 //        Boolean hasPackPlan = false;
         //根据计划下达id查找到计划下达信息
@@ -455,150 +430,122 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
         //根据项目ID判断是否已有对应的计划下达申请
 //		Criterion criterion=Restrictions.eq(ShenBaoInfo_.projectId.getName(), shenbaoId);
 //		List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion);
-        ShenBaoInfo shenbaoinfo = shenBaoInfoRepo.findById(shenbaoId);//年度计划申报信息
+        //年度计划申报信息
+        ShenBaoInfo shenbaoinfo = shenBaoInfoRepo.findById(shenbaoId);
         Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), shenbaoinfo.getProjectId());
         Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach);
         Criterion criterion3 = Restrictions.and(criterion, criterion2);
         List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion3);
-        if (shenbaoinfoList.size() > 0) {
+        if (!CollectionUtils.isEmpty(shenbaoinfoList)) {
             throw new IllegalArgumentException(String.format("申报项目：%s 已经存在其他编制计划中,请重新选择！", shenbaoinfo.getProjectName()));
-        } else {
-            List<ShenBaoInfo> shenBaoInfoList = new ArrayList<>();
-            // TODO 不存在，则生成一条计划下达的申报信息
-            ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(shenbaoinfo);
-            shenBaoInfoDto.setId(UUID.randomUUID().toString());
-            shenBaoInfoDto.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
-            shenBaoInfoDto.setProcessStage("未开始");
-            shenBaoInfoDto.setProcessState(BasicDataConfig.processState_weikaishi);
-            shenBaoInfoDto.setThisTaskId(null);
-            shenBaoInfoDto.setThisTaskName(null);
-            shenBaoInfoDto.setZong_processId(null);
-            shenbaoinfo.setReceiver(null);
-            ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.createShenBaoInfo(shenBaoInfoDto, false);
-            shenbaoinfo.setIsIncludPack(true);
-            shenBaoInfoRepo.save(shenbaoinfo);
-            if (pack.getShenBaoInfos() != null) {
-                pack.getShenBaoInfos().add(shenBaoInfoentity);
-            } else {
-                shenBaoInfoList.add(shenBaoInfoentity);
-                pack.setShenBaoInfos(shenBaoInfoList);
-            }
-            packPlanRepo.save(pack);
         }
+
+        // TODO 不存在，则生成一条计划下达的申报信息
+        ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(shenbaoinfo);
+        shenBaoInfoDto.setId(IdWorker.get32UUID());
+        shenBaoInfoDto.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
+        shenBaoInfoDto.setProcessStage("未开始");
+        shenBaoInfoDto.setProcessState(BasicDataConfig.processState_weikaishi);
+        shenBaoInfoDto.setThisTaskId(null);
+        shenBaoInfoDto.setThisTaskName(null);
+        shenBaoInfoDto.setZong_processId(null);
+        shenbaoinfo.setReceiver(null);
+        ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.createShenBaoInfo(shenBaoInfoDto, false);
+        shenbaoinfo.setIsIncludPack(true);
+        shenBaoInfoRepo.save(shenbaoinfo);
+        if (pack.getShenBaoInfos() == null) {
+            pack.setShenBaoInfos(new ArrayList<>(1));
+        }
+        pack.getShenBaoInfos().add(shenBaoInfoentity);
+        packPlanRepo.save(pack);
         logger.info(String.format("打包计划添加申报项目,名称：%s", pack.getName()));
     }
 
     @Override
     @Transactional(rollbackOn = Exception.class)
     public void addPackPlan(String planReachId, String packPlanId) {
-        Boolean hasPackPlan = false;
         // TODO 根据计划下达id查找到计划下达信息
-        PlanReachApplication planReach = super.findById(planReachId);
+        PlanReachApplication planReach = findById(planReachId);
+        Assert.notNull(planReach, "请先创建计划下达后添加！");
+
         PackPlan entity = packPlanRepo.findById(packPlanId);
-        if (planReach != null) {
-            if (!entity.getIsInPlan()) {
-                // TODO 判断年度计划编制中是否已有打包计划
-                List<PackPlan> packPlans = planReach.getPackPlans();
+        Assert.notNull(entity, "数据不存在！");
+        Assert.isTrue(!entity.getIsInPlan(), String.format("申报项目：%s 已经存在编制计划中,请重新选择！", entity.getName()));
 
-                for (PackPlan packPlan : packPlans) {
-                    if (packPlan.getId().equals(packPlanId)) {
-                        hasPackPlan = true;
-                    }
-                }
-                if (hasPackPlan) {
-                    //通过打包计划id获取名称
-                    throw new IllegalArgumentException(String.format("申报项目：%s 已经存在编制计划中,请重新选择！", entity.getName()));
-                } else {
-                    // TODO 统计包含有本单位打包计划的资金
+        // TODO 判断年度计划编制中是否已有打包计划
+        List<PackPlan> packPlans = planReach.getPackPlans();
 
-
-                    UserUnitInfoDto userUnitInfoDto1 = null;
-                    List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
-                    for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
-                        if (!userUnitInfoDto.getUserDtos().isEmpty()) {
-                            for (UserDto user : userUnitInfoDto.getUserDtos()) {
-                                if (user.getId().equals(currentUser.getUserId())) {
-                                    userUnitInfoDto1 = userUnitInfoDto;
-                                }
-                            }
-                        }
-                    }
-                    double d = 0.0;
-                    double a = 0.0;
-                    boolean isOurUnit = false;
-                    if (entity != null) {
-                        for (int j = 0; j < entity.getAllocationCapitals().size(); j++) {
-                            if (entity.getAllocationCapitals().get(j) != null) {
-                                if (entity.getAllocationCapitals().get(j).getUnitName().equals(userUnitInfoDto1.getId())) {//如果有本单位的打包计划
-                                    d += entity.getAllocationCapitals().get(j).getCapital_ggys();
-                                    a += entity.getAllocationCapitals().get(j).getCapital_gtzj();
-                                    isOurUnit = true;
-                                }
-                            }
-                        }
-                    }
-                    if (isOurUnit) {
-                        entity.setCapitalSCZ_ggys_TheYear(d);
-                        entity.setCapitalSCZ_gtzj_TheYear(a);
-                    }
-                    entity.setIsInPlan(true);
-                    packPlanRepo.save(entity);
-                    //将打包计划保存到年度计划中
-                    if (planReach.getPackPlans() != null) {
-                        planReach.getPackPlans().add(entity);
-                    } else {
-                        List<PackPlan> packPlans2 = new ArrayList<>();
-                        packPlans2.add(entity);
-                        planReach.setPakckPlans(packPlans2);
-                    }
-                    super.repository.save(planReach);
-                    logger.info(String.format("添加年度计划资金,名称：%s", planReach.getApplicationName()));
-                }
-            } else {
-                throw new IllegalArgumentException(String.format("申报项目：%s 已经存在编制计划中,请重新选择！", entity.getName()));
+        boolean hasPackPlan = false;
+        for (PackPlan packPlan : packPlans) {
+            if (packPlan.getId().equals(packPlanId)) {
+                hasPackPlan = true;
+                break;
             }
-        } else {
-            throw new IllegalArgumentException("请先创建计划下达后添加！");
         }
+
+        //通过打包计划id获取名称
+        Assert.isTrue(!hasPackPlan, String.format("申报项目：%s 已经存在编制计划中,请重新选择！", entity.getName()));
+
+        // TODO 统计包含有本单位打包计划的资金
+
+        UserUnitInfoDto userUnitInfoDto1 = userUnitInfoService.getByUserId(currentUser.getUserId());
+        double d = 0.0, a = 0.0;
+        boolean isOurUnit = false;
+        if (entity != null) {
+            AllocationCapital capital;
+            for (int j = 0; j < entity.getAllocationCapitals().size(); j++) {
+                capital = entity.getAllocationCapitals().get(j);
+                if (capital != null) {
+                    //如果有本单位的打包计划
+                    if (capital.getUnitName().equals(userUnitInfoDto1.getId())) {
+                        d += capital.getCapital_ggys();
+                        a += capital.getCapital_gtzj();
+                        isOurUnit = true;
+                    }
+                }
+            }
+        }
+        if (isOurUnit) {
+            entity.setCapitalSCZ_ggys_TheYear(d);
+            entity.setCapitalSCZ_gtzj_TheYear(a);
+        }
+        entity.setIsInPlan(true);
+        packPlanRepo.save(entity);
+        //将打包计划保存到年度计划中
+        if (planReach.getPackPlans() == null) {
+            planReach.setPakckPlans(new ArrayList<>(1));
+        }
+        planReach.getPackPlans().add(entity);
+        repository.save(planReach);
+        logger.info(String.format("添加年度计划资金,名称：%s", planReach.getApplicationName()));
     }
 
     @Override
     public PageModelDto<ShenBaoInfoDto> getShenBaoInfoFromPackPlan(String packId, ODataObj odataObj) {
-        Integer skip = odataObj.getSkip();
-        Integer stop = odataObj.getTop();
-        //根据登陆名查找到单位信息(因为可能一个打包项目会关联到多个申报项目，建设单位查询的时候会都查出来，加上本单位的限制条件只查属于本建设单位的，--放在SQL中用的)
-//		UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
-//		String userUnitId = userUnitInfo.getId();
-        PackPlan packPlan = packPlanRepo.findById(packId);
-        if (packPlan != null) {
-            //分页查询数据
-            List<ShenBaoInfoDto> shenBaoInfoDtos = new ArrayList<>();
-            List<ShenBaoInfo> shenBaoInfos = ((SQLQuery) packPlanRepo.getSession()
-                    .createSQLQuery(SQLConfig.shenBaoInfoOfPackPlanOfPlanReach)
-                    .setParameter("packPlanId", packId)
-                    .setFirstResult(skip).setMaxResults(stop))
-                    .addEntity(ShenBaoInfo.class)
-                    .getResultList();
-            for (int i = 0; i < shenBaoInfos.size(); i++) {
-                ShenBaoInfo array_element = shenBaoInfos.get(i);
-                ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(array_element);
-                shenBaoInfoDtos.add(shenBaoInfoDto);
-            }
-//			shenBaoInfos.forEach(x->{
-//				ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(x);
-//				shenBaoInfos.add(shenBaoInfoDto);
-//			});
-            //查询总数
-            List<ShenBaoInfoDto> shenBaoInfoDtos2 = packPlanRepo.getSession()
-                    .createSQLQuery(SQLConfig.shenBaoInfoOfPackPlanOfPlanReach)
-                    .setParameter("packPlanId", packId)
-                    .addEntity(ShenBaoInfo.class)
-                    .getResultList();
-            int count = shenBaoInfoDtos2.size();
+        //查询总数
+        BigInteger countQuer = (BigInteger) packPlanRepo.getSession()
+                .createNativeQuery(shenBaoInfoOfPackPlanOfPlanReach_count)
+                .setParameter("packPlanId", packId).getSingleResult();
+        int count = countQuer == null ? 0 : countQuer.intValue();
 
-            return new PageModelDto<>(shenBaoInfoDtos, count);
+        List<ShenBaoInfoDto> shenBaoInfoDtos = null;
+        if (count > 0) {
+            int skip = odataObj.getSkip(), stop = odataObj.getTop();
+            //分页查询数据
+            List<ShenBaoInfo> shenBaoInfos = packPlanRepo.getSession()
+                    .createNativeQuery(shenBaoInfoOfPackPlanOfPlanReach, ShenBaoInfo.class)
+                    .setParameter("packPlanId", packId)
+                    .setFirstResult(skip).setMaxResults(stop)
+                    .getResultList();
+            int len = shenBaoInfos.size();
+            shenBaoInfoDtos = new ArrayList<>(len);
+            for (int i = 0; i < len; i++) {
+                shenBaoInfoDtos.add(shenBaoInfoMapper.toDto(shenBaoInfos.get(i)));
+            }
         }
-        return new PageModelDto<>();
+
+
+        return new PageModelDto<>(shenBaoInfoDtos, count);
     }
 
     @Override
@@ -611,11 +558,11 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
     public void startProcess(String packId) {
 //		PackPlan packPlan=packPlanRepo.findById(packId);
         PlanReachApplication planReachApplication = planReachApplicationRepo.findById(packId);
-        List<ShenBaoInfo> shenbaoList = new ArrayList<ShenBaoInfo>();
-        shenbaoList.addAll(planReachApplication.getShenBaoInfos());
-        if (!CollectionUtils.isEmpty(planReachApplication.getPackPlans())) {
-            for (int i = 0; i < planReachApplication.getPackPlans().size(); i++) {
-                PackPlan array_element = planReachApplication.getPackPlans().get(i);
+        List<ShenBaoInfo> shenbaoList = planReachApplication.getShenBaoInfos();
+        List<PackPlan> packPlans = planReachApplication.getPackPlans();
+        if (!CollectionUtils.isEmpty(packPlans)) {
+            for (int i = 0; i < packPlans.size(); i++) {
+                PackPlan array_element = packPlans.get(i);
                 shenbaoList.addAll(array_element.getShenBaoInfos());
             }
         }
@@ -646,142 +593,57 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
     @Override
     @Transactional(rollbackOn = Exception.class)
     public PageModelDto<PackPlanDto> getPackPlan(String planReachId, ODataObj odataObj) {
-
         PlanReachApplication planReachApplication = super.findById(planReachId);
         Integer skip = odataObj.getSkip();
         Integer stop = odataObj.getTop();
         if (planReachApplication != null) {
+            //查询总数
+            BigInteger countQuery = (BigInteger) planReachApplicationRepo.getSession()
+                    .createNativeQuery(SQLConfig.packPlanByPlanReachId_count)
+                    .setParameter("planReachId", planReachId)
+                    .getSingleResult();
+            int count = countQuery == null ? 0 : countQuery.intValue();
+
             //分页查询数据
             List<PackPlanDto> packPlanDtos = new ArrayList<>();
-            List<PackPlan> packPlans = ((SQLQuery) planReachApplicationRepo.getSession()
-                    .createSQLQuery(SQLConfig.packPlanByPlanReachId)
-                    .setParameter("planReachId", planReachId)
-                    .setFirstResult(skip).setMaxResults(stop))
-                    .addEntity(PackPlan.class)
-                    .getResultList();
-            packPlans.forEach(x -> {
-                PackPlanDto packPlanDto = packPlanMapper.toDto(x);
-                packPlanDtos.add(packPlanDto);
-            });
+            if (count > 0) {
+                List<PackPlan> packPlans = planReachApplicationRepo.getSession()
+                        .createNativeQuery(SQLConfig.packPlanByPlanReachId, PackPlan.class)
+                        .setParameter("planReachId", planReachId)
+                        .setFirstResult(skip).setMaxResults(stop)
+                        .getResultList();
+                packPlans.forEach(x -> {
+                    PackPlanDto packPlanDto = packPlanMapper.toDto(x);
+                    packPlanDtos.add(packPlanDto);
+                });
 
-            //查询总数
-            List<PackPlanDto> packPlanDtos2 = planReachApplicationRepo.getSession()
-                    .createSQLQuery(SQLConfig.packPlanByPlanReachId)
-                    .setParameter("planReachId", planReachId)
-                    .addEntity(PackPlan.class)
-                    .getResultList();
-            int count = packPlanDtos2.size();
-
-
-//			PageModelDto<PackPlanDto> packPlanDtos = packPlanService.get(odataObj);
-
-            UserUnitInfoDto userUnitInfoDto1 = null;
-            List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
-            for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
-                if (!userUnitInfoDto.getUserDtos().isEmpty()) {
-                    for (UserDto user : userUnitInfoDto.getUserDtos()) {
-                        if (user.getId().equals(currentUser.getUserId())) {
-                            userUnitInfoDto1 = userUnitInfoDto;
-                        }
-                    }
-                }
-
-
-            }
-            double d = 0.0;
-            double a = 0.0;
-            boolean isOurUnit = false;
-//			UserUnitInfo userUnitInfo = userUnitInfoService.getByUserName(currentUser.getUserId());
-            for (int i = 0; i < packPlanDtos.size(); i++) {
-                if (packPlanDtos.get(i) != null) {
-                    for (int j = 0; j < packPlanDtos.get(i).getAllocationCapitals().size(); j++) {
-                        if (packPlanDtos.get(i).getAllocationCapitals().get(j) != null) {
-                            if (packPlanDtos.get(i).getAllocationCapitals().get(j).getUnitName().equals(userUnitInfoDto1.getId())) {//如果有本单位的打包计划
-                                d += packPlanDtos.get(i).getAllocationCapitals().get(j).getCapital_ggys();
-                                a += packPlanDtos.get(i).getAllocationCapitals().get(j).getCapital_gtzj();
-                                isOurUnit = true;
+                UserUnitInfoDto userUnitInfoDto1 = userUnitInfoService.getByUserId(currentUser.getUserId());
+                double d = 0.0;
+                double a = 0.0;
+                boolean isOurUnit = false;
+                for (int i = 0; i < packPlanDtos.size(); i++) {
+                    if (packPlanDtos.get(i) != null) {
+                        for (int j = 0; j < packPlanDtos.get(i).getAllocationCapitals().size(); j++) {
+                            if (packPlanDtos.get(i).getAllocationCapitals().get(j) != null) {
+                                //如果有本单位的打包计划
+                                if (packPlanDtos.get(i).getAllocationCapitals().get(j).getUnitName().equals(userUnitInfoDto1.getId())) {
+                                    d += packPlanDtos.get(i).getAllocationCapitals().get(j).getCapital_ggys();
+                                    a += packPlanDtos.get(i).getAllocationCapitals().get(j).getCapital_gtzj();
+                                    isOurUnit = true;
+                                }
                             }
                         }
                     }
-                }
-                if (!isOurUnit) {
-//					packPlanDtos.remove(i);
-                } else {
-                    packPlanDtos.get(i).setCapitalSCZ_ggys_TheYear(d);
-                    packPlanDtos.get(i).setCapitalSCZ_gtzj_TheYear(a);
+                    if (isOurUnit) {
+                        packPlanDtos.get(i).setCapitalSCZ_ggys_TheYear(d);
+                        packPlanDtos.get(i).setCapitalSCZ_gtzj_TheYear(a);
+                    }
                 }
             }
 
             return new PageModelDto<>(packPlanDtos, count);
         }
         return new PageModelDto<>();
-//		YearPlan yearPlan = null;
-//		PageModelDto<PackPlanDto> pageModelDto = new PageModelDto<>();
-//	
-//		// TODO 查询下一年度计划,获取对应的打包信息
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-//        Date date = new Date();
-//	        
-//		int nextYear = Integer.parseInt(sdf.format(date)) +1;
-//		Criterion criterion=Restrictions.eq(YearPlan_.year.getName(), nextYear);
-//		List<YearPlan> yearPlanList = yearPlanRepo.findByCriteria(criterion);
-//		if(yearPlanList.size() > 0){
-//			yearPlan = yearPlanList.get(0);
-//		}
-//		
-//		if(yearPlan != null){
-//			
-//			
-//			List<PackPlan> packPlans = yearPlan.getPackPlans();
-//			List<PackPlanDto> packPlanDtos=new ArrayList<>();
-//			packPlans.forEach(x->{
-//				PackPlanDto packPlanDto = packPlanMapper.toDto(x);
-//				packPlanDtos.add(packPlanDto);
-//			});
-//			if(packPlanDtos != null){
-//				//TODO 计算本单位，打包信息中的资金总值
-//				UserUnitInfoDto userUnitInfoDto1 = null;
-//				List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
-//				for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
-//					if(!userUnitInfoDto.getUserDtos().isEmpty()){
-//						for (UserDto user : userUnitInfoDto.getUserDtos()) {
-//							if(user.getId().equals(currentUser.getUserId())){
-//								userUnitInfoDto1 =userUnitInfoDto;
-//							}
-//						} 
-//					}
-//				}
-//				double d = 0.0;
-//				double a = 0.0;
-//				boolean isOurUnit = false;
-//				for (int i = 0; i < packPlanDtos.size(); i++) {
-//					if(packPlanDtos.get(i) != null){
-//						for (int j = 0; j < packPlanDtos.get(i).getAllocationCapitals().size(); j++) {
-//							if(packPlanDtos.get(i).getAllocationCapitals().get(j) != null){
-//								if(packPlanDtos.get(i).getAllocationCapitals().get(j).getUnitName().equals(userUnitInfoDto1.getId())){//如果有本单位的打包计划
-//									d += packPlanDtos.get(i).getAllocationCapitals().get(j).getCapital_ggys();
-//									a += packPlanDtos.get(i).getAllocationCapitals().get(j).getCapital_gtzj();
-//									isOurUnit = true;
-//								}
-//							}
-//						}
-//					}
-//					if(isOurUnit == false){
-////						packPlanDtos.remove(i);
-//					}else{
-//						packPlanDtos.get(i).setCapitalSCZ_ggys_TheYear(d);
-//						packPlanDtos.get(i).setCapitalSCZ_gtzj_TheYear(a);
-//					}
-//				}
-//			}
-//			
-//			pageModelDto.setCount(packPlanDtos.size());
-//			pageModelDto.setValue(packPlanDtos);
-//			
-//			return pageModelDto;
-//		}
-//		return pageModelDto;			
-
     }
 
     @Override
@@ -803,24 +665,23 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
         Assert.notNull(shenbaoinfo, "数据不存在");
         //根据对象对应的申报信息，删除对应的申报信息和工作流信息
 
-        if (shenbaoinfo.getProcessState().equals(BasicDataConfig.processState_jinxingzhong)) {
-            throw new IllegalArgumentException("包含正在审批的项目,请重新选择！");
-        } else {
-            for (int i = 0; i < entity.getShenBaoInfos().size(); i++) {
-                ShenBaoInfo array_element = entity.getShenBaoInfos().get(i);
-
-                if (shenbaoId.equals(array_element.getId())) {
-                    entity.getShenBaoInfos().remove(i);
-                }
+        Assert.isTrue(processState_jinxingzhong != shenbaoinfo.getProcessState(), "包含正在审批的项目,请重新选择！");
+        List<ShenBaoInfo> shenBaoInfos = entity.getShenBaoInfos();
+        ShenBaoInfo array_element;
+        for (int i = 0; i < shenBaoInfos.size(); i++) {
+            array_element = shenBaoInfos.get(i);
+            if (shenbaoId.equals(array_element.getId())) {
+                shenBaoInfos.remove(i);
             }
         }
+
         Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), shenbaoinfo.getProjectId());
         Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_nextYearPlan);
-        Criterion criterion3 = Restrictions.and(criterion, criterion2);
-        List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion3);
+        List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion, criterion2);
         if (!CollectionUtils.isEmpty(shenbaoinfoList)) {
-            shenbaoinfoList.get(0).setIsIncludPack(false);
-            shenBaoInfoRepo.save(shenbaoinfoList.get(0));
+            array_element = shenbaoinfoList.get(0);
+            array_element.setIsIncludPack(false);
+            shenBaoInfoRepo.save(array_element);
         }
 
         shenBaoInfoRepo.delete(shenbaoinfo);
@@ -848,7 +709,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
             if (array_element.getShenBaoInfos() != null) {
                 for (int j = 0; j < array_element.getShenBaoInfos().size(); j++) {
                     ShenBaoInfo shenbaoInfo = array_element.getShenBaoInfos().get(j);
-                    if (shenbaoInfo.getProcessState().equals(BasicDataConfig.processState_jinxingzhong)) {
+                    if (shenbaoInfo.getProcessState().equals(processState_jinxingzhong)) {
                         throw new IllegalArgumentException("打包计划中存在审批中的项目,无法删除,请重新选着！");
                     }
                 }
@@ -883,57 +744,23 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
         }
         Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), entity.getProjectId());
         Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_nextYearPlan);
-        Criterion criterion3 = Restrictions.and(criterion, criterion2);
-        List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion3);
+        List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion, criterion2);
         shenbaoinfoList.get(0).setIsIncludPack(false);
         shenBaoInfoRepo.save(shenbaoinfoList.get(0));
         packPlanRepo.save(plan);
     }
 
     @Override
-    public PageModelDto<ShenBaoInfoDto> getShenbaoInfoFromYearplan(ODataObj odataObj) {
-        YearPlan yearPlan = null;
-        Integer skip = odataObj.getSkip();
-        Integer stop = odataObj.getTop();
+    @Transactional(rollbackOn = Exception.class)
+    public PageModelDto<ShenBaoInfoDto> getShenbaoInfoFromYearplan(ODataObjNew odataObj) {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
         int nextYear = cal.get(Calendar.YEAR) + 1;
-        Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), nextYear);
-        List<YearPlan> yearPlanList = yearPlanRepo.findByCriteria(criterion);
-        if (!CollectionUtils.isEmpty(yearPlanList)) {
-            yearPlan = yearPlanList.get(0);
-        }
-        if (yearPlan != null) {
-            //分页查询数据
-            List<ShenBaoInfoDto> shenBaoInfoDtos = new ArrayList<>();
-            List<ShenBaoInfo> shenBaoInfos = ((SQLQuery) shenBaoInfoRepo.getSession()
-                    .createSQLQuery(SQLConfig.yearPlanProject)
-                    .setParameter("yearPlanId", yearPlan.getId())
-                    .setFirstResult(skip).setMaxResults(stop))
-                    .addEntity(ShenBaoInfo.class)
-                    .getResultList();
-//			shenBaoInfos.forEach(x->{
-//				ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(x);
-//				shenBaoInfoDtos.add(shenBaoInfoDto);
-//			});
+        Criteria criteria = DetachedCriteria.forClass(YearPlan.class).getExecutableCriteria(repository.getSession());
+        criteria.setProjection(Property.forName(YearPlan_.id.getName()).min());
+        criteria.add(Restrictions.eq(YearPlan_.year.getName(), nextYear));
+        String yearPlanId = (String) criteria.uniqueResult();
 
-            for (int i = 0; i < shenBaoInfos.size(); i++) {
-                ShenBaoInfo array_element = shenBaoInfos.get(i);
-                ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(array_element);
-//				if(array_element.getUnitName().equals(id)){
-                shenBaoInfoDtos.add(shenBaoInfoDto);
-//				}
-            }
-            //查询总数
-//            List<ShenBaoInfo> shenBaoInfos2 = shenBaoInfoRepo.getSession()
-//                    .createSQLQuery(SQLConfig.yearPlanProject)
-//                    .setParameter("yearPlanId", yearPlan.getId())
-//                    .addEntity(ShenBaoInfo.class)
-//                    .getResultList();
-//            int count = shenBaoInfos2.size();
-
-            return new PageModelDto<>(shenBaoInfoDtos, shenBaoInfoDtos.size());
-        }
-        return new PageModelDto<>();
+        return yearPlanService.getYearPlanShenBaoInfo(yearPlanId, odataObj);
     }
 
     @Override
