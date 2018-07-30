@@ -16,7 +16,6 @@ import cs.service.interfaces.*;
 import org.activiti.engine.RuntimeService;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
@@ -438,7 +437,8 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
         //根据项目ID判断是否已有对应的计划下达申请
 //		Criterion criterion=Restrictions.eq(ShenBaoInfo_.projectId.getName(), shenbaoId);
 //		List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion);
-        ShenBaoInfo shenbaoinfo = shenBaoInfoRepo.findById(shenbaoId);//年度计划申报信息
+        //年度计划申报信息
+        ShenBaoInfo shenbaoinfo = shenBaoInfoRepo.findById(shenbaoId);
         Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), shenbaoinfo.getProjectId());
         Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach);
         Criterion criterion3 = Restrictions.and(criterion, criterion2);
@@ -672,7 +672,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
         Assert.notNull(shenbaoinfo, "数据不存在");
         //根据对象对应的申报信息，删除对应的申报信息和工作流信息
 
-        Assert.isTrue(processState_jinxingzhong != shenbaoinfo.getProcessState(), "包含正在审批的项目,请重新选择！");
+//        Assert.isTrue(processState_jinxingzhong != shenbaoinfo.getProcessState(), "包含正在审批的项目,请重新选择！");
         List<ShenBaoInfo> shenBaoInfos = entity.getShenBaoInfos();
         ShenBaoInfo array_element;
         for (int i = 0; i < shenBaoInfos.size(); i++) {
