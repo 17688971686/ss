@@ -15,13 +15,13 @@ overflow: scroll !important;
 		  <li><a href="#/">首页</a></li>
 		  <li>年度计划管理</li>
 		  <li>年度计划项目库</li>
-		  <li class="active"><a href="#/yearPlan_shenbaoInfoList">政府投资项目列表</a></li>  
+		  <li class="active"><a href="#/yearPlan_shenbaoInfoList">政府投资项目</a></li>
 	  </ol>
 	  <div class="search">
 	  		<table class="table table-bordered" style="margin-bottom:0px;">
 	  			<tr>
 	  				<td colspan="6" class="bg-info">
-	  					<button class="btn btn-primary btn-sm pull-right" ng-click="vm.filterClear()"><span class="glyphicon glyphicon-refresh"></span>清空筛选条件</button>
+	  					<button class="btn btn-primary btn-sm pull-right" ng-click="vm.filterClear('ZF')"><span class="glyphicon glyphicon-refresh"></span>清空筛选条件</button>
 	  					<span style="padding:10px;"><strong>年度计划项目库查询</strong></span>
 	  				</td>
 	  			</tr>
@@ -98,7 +98,7 @@ overflow: scroll !important;
 	  			</tr>
 	  			<tr>
 	  				<td colspan="6">
-	  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search('ZF')"><span class="glyphicon glyphicon-search"></span>查询</button>
+	  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.doSearch('ZF')"><span class="glyphicon glyphicon-search"></span>查询</button>
 	  				</td>
 	  			</tr>
 	  		</table>

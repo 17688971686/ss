@@ -51,7 +51,9 @@ overflow: scroll !important;
 		<div ng-if="vm.isZFInvestment" ng-include  src="'/contents/admin/management/monthReport/html/edit_ZF.html'"></div>
 		<div ng-if="vm.isSHInvestment" ng-include  src="'/contents/admin/management/monthReport/html/edit_SH.html'"></div>
 	</form>
+
 	<div style="text-align: center">
 		<button class="btn btn-success" ng-disabled="vm.model.isSubmit || vm.model.isReportExist" ng-click="vm.submit()">确认修改</button>
+		<a class="btn btn-success" href="#/monthReport">返回列表</a>
 	</div>
 </div>

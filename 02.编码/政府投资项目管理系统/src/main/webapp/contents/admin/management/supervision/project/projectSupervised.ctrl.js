@@ -18,8 +18,6 @@
         vm.page="list";
         
         function init(){
-            debugger;
-            var routeName=$state.current.name;
             if($state.current.name=='projectDetails'){
                 vm.page='details';
             }
@@ -32,8 +30,6 @@
             vm.html = function(val){
                 return $sce.trustAsHtml(val);
             };
-
-            //	alert(1);
             //用于查询、编辑、新增--基础数据
             vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
             vm.basicData.userUnit=common.getUserUnits().value;
@@ -72,14 +68,12 @@
         init();
         activate();
         function activate() {
-            debugger;
             if(vm.page=='list'){
                 init_list();
             }
             if(vm.page=='details'){
                 init_details();
             }
-
         }
         
         function init_list(){

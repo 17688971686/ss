@@ -20,7 +20,7 @@ overflow: scroll !important;
 	  		<table class="table table-bordered" style="margin-bottom:0px;">
 	  			<tr>
 	  				<td colspan="6" class="bg-info">
-	  					<button class="btn btn-primary btn-sm pull-right" ng-click="vm.filterClear()"><span class="glyphicon glyphicon-refresh"></span>清空筛选条件</button>
+	  					<button class="btn btn-primary btn-sm pull-right" ng-click="vm.filterClear('SH')"><span class="glyphicon glyphicon-refresh"></span>清空筛选条件</button>
 	  					<span style="padding:10px;"><strong>年度计划项目库查询</strong></span>
 	  				</td>
 	  			</tr>
@@ -91,7 +91,7 @@ overflow: scroll !important;
 	  			</tr>
 	  			<tr>
 	  				<td colspan="6">
-	  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search('SH')"><span class="glyphicon glyphicon-search"></span>查询</button>
+	  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.doSearch('SH')"><span class="glyphicon glyphicon-search"></span>查询</button>
 	  				</td>
 	  			</tr>
 	  		</table>

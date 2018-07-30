@@ -322,7 +322,6 @@
     	}
     	
     	function commonShenBaoListMethod(){
-    		
     		vm.basicData.userUnit=common.getUserUnits().value;//获取所有单位
 		   	 var keys = [];
 	    	 vm.output = [];
@@ -334,7 +333,7 @@
 		          }
 		      });
           	//条件查询
-          	vm.search=function(type){
+          	vm.doSearch = function(type){
     			var filters = [];//封装查询条件
     			//列表默认查询条件
 				filters.push({field:'projectShenBaoStage',operator:'eq',value:common.basicDataConfig().projectShenBaoStage_nextYearPlan});//默认条件--申报阶段为下一年度计划
@@ -383,9 +382,11 @@
      		  }
     		};
           	
-          	//清空查询条件
-    		vm.filterClear=function(){
-    			location.reload();
+          	//清空查询条件(重置查询条件，并根据默认值查询,不用重新加载整个页面【ldm 2018-07-30】)
+    		vm.filterClear=function(type){
+                vm.search = {};
+                vm.doSearch(type);
+    			//location.reload();
     		};
     		
     		//新增年度计划项目信息按钮

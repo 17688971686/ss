@@ -120,7 +120,7 @@
             });
 
             //查询
-            vm.search = function () {
+            vm.doSearch = function () {
                 var filters = [];
                 filters.push({field: 'complate', operator: 'eq', value: false});//默认条件--没有完成的任务
                 filters.push({
@@ -128,7 +128,6 @@
                     operator: 'eq',
                     value: common.basicDataConfig().projectShenBaoStage_nextYearPlan
                 });//默认条件--查询的任务为下一年度计划类
-
                 if (vm.search.projectName) {//查询条件--标题
                     filters.push({field: 'projectName', operator: 'contains', value: vm.search.projectName});
                 }
@@ -142,14 +141,15 @@
             };
         }//end init_todoList
 
-        //清空筛选条件
+        //清空筛选条件(修改ldm:2018-07-30)
         vm.filterClear = function () {
-            location.reload();
+            vm.search = {};
+            vm.doSearch();
+            //location.reload();
         };
 
         function init_completeList() {
             taskYearPlanSvc.completeGird(vm);
-
             vm.basicData.userUnit = common.getUserUnits().value;//获取所有单位
             var keys = [];
             vm.output = [];
@@ -172,7 +172,6 @@
                 if (vm.search.projectIndustry != null && vm.search.projectIndustry != '') {//查询条件--项目行业
                     filters.push({field: 'projectIndustry', operator: 'eq', value: vm.search.projectIndustry});
                 }
-                console.log(filters);
                 vm.gridOptions_complete.dataSource.filter(filters);
             };
         }//end init_completeList
