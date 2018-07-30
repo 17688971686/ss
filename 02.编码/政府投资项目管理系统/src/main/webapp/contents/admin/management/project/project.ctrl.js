@@ -17,6 +17,7 @@
         vm.id=$state.params.id;
         vm.projectInvestmentType=$state.params.projectInvestmentType;
     	vm.page="list";
+
     	function init(){
     		if($state.current.name=='project'){
     			vm.isZFInvestment = true;
@@ -79,7 +80,6 @@
     	init();    	
     	activate();
         function activate() {
-        	        	
         	if(vm.page=='list'){
         		init_list();
         	}
@@ -98,6 +98,8 @@
         }
     	
     	function init_list(){
+            vm.basicData.userUnit = common.getUserUnits().value;//获取所有单位
+
     		if(vm.isZFInvestment){
     			projectSvc.grid(vm);
 				// init_charts();
@@ -111,7 +113,7 @@
                 init_charData();
 			}
     		//查询
-    		vm.search=function(){
+    		vm.doSearch=function(){
     			var filters = [];
 				filters.push({field:'isLatestVersion',operator:'eq',value:true});//默认条件--项目最新版本
 				if(vm.isZFInvestment){

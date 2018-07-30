@@ -1918,7 +1918,6 @@
                     filterable: false,
                     width: 40,
                     title: "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
-
                 },
                 {
                     field: "projectName",
@@ -2077,8 +2076,23 @@
                     }
                 }
             ];
-            // End:column
-            if (window.yearPlanListOptions != null && window.yearPlanListOptions != '') {
+
+            vm.gridOptions = {
+                excel: {
+                    fileName: "年度计划项目库.xlsx"
+                },
+                dataSource: common.gridDataSource(dataSource),
+                filterable: common.kendoGridConfig().filterable,
+                pageable: common.kendoGridConfig().pageable,
+                noRecords: common.kendoGridConfig().noRecordMessage,
+                columns: columns,
+                resizable: true,
+                sortable: true,
+                scrollable: true
+            };
+
+            // End:column(修改：ldm 2018-07-30)
+           /* if (window.yearPlanListOptions != null && window.yearPlanListOptions != '') {
                 vm.gridOptions = window.yearPlanListOptions;
             } else {
                 vm.gridOptions = {
@@ -2094,7 +2108,7 @@
                     sortable: true,
                     scrollable: true
                 };
-            }
+            }*/
         }// end#fun grid_shenbaoInfoList
 
         /**

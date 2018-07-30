@@ -541,7 +541,7 @@
 			// End:dataSource
 			// Begin:column
 			var columns = [
-					{
+					/*{
 						template : function(item) {
 							return kendo
 									.format(
@@ -554,7 +554,7 @@
 //						attributes: {  
 //						      "class": "table-cell", 
 //						}
-					},
+					},*/
 					 {	field : "projectNumber",
 						title : "项目代码",
 						//width : 130,						

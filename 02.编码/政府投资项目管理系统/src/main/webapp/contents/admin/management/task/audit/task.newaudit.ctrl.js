@@ -271,7 +271,7 @@
                 }
             });
             //查询
-            vm.search = function () {
+            vm.doSearch = function () {
                 var filters = [];
                 filters.push({field: 'complate', operator: 'eq', value: false});//默认条件--没有完成的任务
                 filters.push({field: 'thisUser', operator: 'eq', value: window.profile_userId});//默认条件--当前登录人员
@@ -289,7 +289,9 @@
             };
             //清空筛选条件
             vm.filterClear = function () {
-                location.reload();
+                vm.search = {};
+                vm.doSearch();
+                //location.reload();
             };
         }//end init_todoAuditList
 
@@ -753,7 +755,7 @@
                 }
             });
             //查询
-            vm.search = function () {
+            vm.doSearch = function () {
                 var filters = [];
                 if (vm.search.title != null && vm.search.title != '') {//查询条件--标题
                     filters.push({field: 'projectName', operator: 'contains', value: vm.search.title});
@@ -768,7 +770,9 @@
             };
             //清空筛选条件
             vm.filterClear = function () {
-                location.reload();
+                vm.search = {};
+                vm.doSearch();
+                //location.reload();
             };
         }//end#init_complete_shenPiList
 

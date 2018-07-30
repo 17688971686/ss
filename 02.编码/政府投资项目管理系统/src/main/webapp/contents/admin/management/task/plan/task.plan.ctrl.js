@@ -111,7 +111,7 @@
     	   	
     	activate();
         function activate() {        	
-        	init(); 
+        	init();
         	if(vm.page=='todoPlanList'){
         		init_todoAuditList();
         	}
@@ -171,7 +171,7 @@
 		          }
 		      });
         	//查询
-        	vm.search=function(){
+        	vm.doSearch=function(){
         		var filters = [];
 				filters.push({field:'isComplete',operator:'eq',value:false});//默认条件--没有完成的任务 
 				
@@ -188,7 +188,9 @@
         	};
         	//清空筛选条件
         	vm.filterClear=function(){
-        		location.reload();
+                vm.search = {};
+                vm.doSearch();
+        		//location.reload();
         	};
         };
         
@@ -219,7 +221,7 @@
                 }   
     		};
         	//查询
-        	vm.search=function(){
+        	vm.doSearch=function(){
         		var filters = [];
 //				filters.push({field:'isComplete',operator:'eq',value:false});//默认条件--没有完成的任务 
 				
@@ -247,7 +249,9 @@
 		      });
         	//清空筛选条件
         	vm.filterClear=function(){
-        		location.reload();
+                vm.search = {};
+                vm.doSearch();
+        		//location.reload();
         	};
         }//end init_todoAuditList
         
@@ -661,7 +665,7 @@
 		          }
 		      });
         	//查询
-        	vm.search=function(){
+        	vm.doSearch=function(){
         		var filters = [];
 				if(vm.search.title !=null && vm.search.title !=''){//查询条件--标题
 	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.title});
@@ -674,9 +678,12 @@
      		   }
      		  vm.gridOptions_complete_plan.dataSource.filter(filters);
         	};
+
         	//清空筛选条件
-        	vm.filterClear=function(){
-        		location.reload();
+        	vm.filterClear = function(){
+                vm.search = {};
+                vm.doSearch();
+        		//location.reload();
         	};
         }//end#init_complete_shenPiList
         
