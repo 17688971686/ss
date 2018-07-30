@@ -53,6 +53,9 @@
 
         $('#myModal').on('show.bs.modal', function (e) {
             vm.gridOptions_project.dataSource.read();
+        });
+        $('#packModal').on('show.bs.modal', function (e) {
+            vm.gridOptions_pack.dataSource.read();
         })
 
         vm.startProcessOne = function (id) {
@@ -170,23 +173,14 @@
 
         //添加打包计划
         vm.confirmPack = function (name, totalMoney, year) {
-            if (vm.model.packPlanDtos) {
-                vm.model.packPlanDtos.push({
-                    name: name,
-                    totalMoney: totalMoney,
-                    capital_ggys: '',
-                    capital_gtzj: '',
-                    year: year
-                });
-            } else {
-                vm.model.packPlanDtos = [{
-                    name: name,
-                    totalMoney: totalMoney,
-                    capital_ggys: '',
-                    capital_gtzj: '',
-                    year: year
-                }];
-            }
+            vm.model.packPlanDtos = vm.model.packPlanDtos || [];
+            vm.model.packPlanDtos.push({
+                name: name,
+                totalMoney: totalMoney,
+                capital_ggys: '',
+                capital_gtzj: '',
+                year: year
+            });
         };
 
         vm.addmoney = function (shenbaoId) {

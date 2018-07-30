@@ -321,36 +321,14 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 
     @Override
     public PageModelDto<PackPlanDto> getPackPlan(ODataObj odataObj) {
-        YearPlan yearPlan = null;
-        // TODO 查询下一年度计划编制
-        Calendar cal = Calendar.getInstance();
-        int nextYear = cal.get(Calendar.YEAR) + 1;
-
-        Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), nextYear);
-        List<YearPlan> yearPlanList = yearPlanRepo.findByCriteria(criterion);
-        if (CollectionUtils.isEmpty(yearPlanList)) {
-            yearPlan = yearPlanList.get(0);
-
-            // TODO 筛选出包含有本单位的编制
+        YearPlan yearPlan = getYearPlan();
+        if (yearPlan != null) {
+            //  筛选出包含有本单位的编制
             if (!CollectionUtils.isEmpty(yearPlan.getPackPlans())) {
-                UserUnitInfoDto userUnitInfoDto1 = null;
-                List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
-                for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
-                    if (!userUnitInfoDto.getUserDtos().isEmpty()) {
-                        for (UserDto user : userUnitInfoDto.getUserDtos()) {
-                            if (user.getId().equals(currentUser.getUserId())) {
-                                userUnitInfoDto1 = userUnitInfoDto;
-                                break;
-                            }
-                        }
-                    }
-                }
+                UserUnitInfoDto userUnitInfoDto1 = userUnitInfoService.getByUserId(currentUser.getUserId());
 //                double d = 0.0;
 //                double a = 0.0;
                 boolean isOurUnit = false;
-//                if (null != userUnitInfoDto1) {
-//
-//                }
                 for (int i = 0; i < yearPlan.getPackPlans().size(); i++) {
                     if (yearPlan.getPackPlans().get(i) != null) {
                         for (int j = 0; j < yearPlan.getPackPlans().get(i).getAllocationCapitals().size(); j++) {
@@ -369,7 +347,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
                     }
                 }
                 List<PackPlanDto> packPlanList = new ArrayList<>();
-                PackPlanDto packPlanDto = null;
+                PackPlanDto packPlanDto;
                 for (int i = 0; i < yearPlan.getPackPlans().size(); i++) {
                     PackPlan array_element = yearPlan.getPackPlans().get(i);
                     packPlanDto = packPlanMapper.toDto(array_element);
@@ -750,17 +728,24 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
         packPlanRepo.save(plan);
     }
 
+    /**
+     * 获取下一年计划
+     * @return
+     */
+    public YearPlan getYearPlan() {
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
+        int nextYear = cal.get(Calendar.YEAR) + 1;
+        Criteria criteria = DetachedCriteria.forClass(YearPlan.class).getExecutableCriteria(repository.getSession())
+                .add(Restrictions.eq(YearPlan_.year.getName(), nextYear)).setMaxResults(1);
+        return (YearPlan) criteria.uniqueResult();
+    }
+
     @Override
     @Transactional(rollbackOn = Exception.class)
     public PageModelDto<ShenBaoInfoDto> getShenbaoInfoFromYearplan(ODataObjNew odataObj) {
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
-        int nextYear = cal.get(Calendar.YEAR) + 1;
-        Criteria criteria = DetachedCriteria.forClass(YearPlan.class).getExecutableCriteria(repository.getSession());
-        criteria.setProjection(Property.forName(YearPlan_.id.getName()).min());
-        criteria.add(Restrictions.eq(YearPlan_.year.getName(), nextYear));
-        String yearPlanId = (String) criteria.uniqueResult();
+        String yearPlanId = getYearPlan().getId();
 
-        return yearPlanService.getYearPlanShenBaoInfo(yearPlanId, odataObj);
+        return yearPlanService.getYearPlanShenBaoInfo(yearPlanId, odataObj, true);
     }
 
     @Override

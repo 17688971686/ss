@@ -35,6 +35,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
+import static cs.common.SQLConfig.getYearPlanProject;
+import static cs.common.SQLConfig.getYearPlanProjectCount;
+
 /**
  * @Description: 年度计划服务层
  * @author: cx
@@ -142,12 +145,12 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public PageModelDto<ShenBaoInfoDto> getYearPlanShenBaoInfo(String planId, ODataObjNew odataObj) {
+    public PageModelDto<ShenBaoInfoDto> getYearPlanShenBaoInfo(String planId, ODataObjNew odataObj, boolean exclude) {
 //        YearPlan yearPlan = super.repository.findById(planId);
 //        if (yearPlan != null) {
             //查询总数
             BigInteger countQuery = (BigInteger) shenbaoInfoRepo.getSession()
-                    .createNativeQuery(SQLConfig.yearPlanProject_count)
+                    .createNativeQuery(getYearPlanProjectCount(exclude))
                     .setParameter("yearPlanId", planId)
                     .getSingleResult();
             int count = countQuery == null ? 0 : countQuery.intValue();
@@ -156,7 +159,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
                 int skip = odataObj.getSkip(), stop = odataObj.getTop();
                 //分页查询数据
                 List<ShenBaoInfo> shenBaoInfos = shenbaoInfoRepo.getSession()
-                        .createNativeQuery(SQLConfig.yearPlanProject, ShenBaoInfo.class)
+                        .createNativeQuery(getYearPlanProject(exclude), ShenBaoInfo.class)
                         .setParameter("yearPlanId", planId)
                         .setFirstResult(skip).setMaxResults(stop)
                         .getResultList();

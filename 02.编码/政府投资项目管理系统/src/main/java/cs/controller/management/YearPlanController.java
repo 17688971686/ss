@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.sn.framework.common.StringUtil;
+import cs.repository.odata.ODataObjNew;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,10 +47,9 @@ public class YearPlanController {
 
     @RequiresPermissions("management/yearPlan#id/projectList#get")
     @RequestMapping(name = "获取年度计划项目列表数据", path = "{id}/projectList", method = RequestMethod.GET)
-    public @ResponseBody
-    PageModelDto<ShenBaoInfoDto> getShenBaoInfo(HttpServletRequest request, @PathVariable String id) throws ParseException {
-        ODataObj odataObj = new ODataObj(request);
-        PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = yearPlanService.getYearPlanShenBaoInfo(id, odataObj);
+    @ResponseBody
+    public PageModelDto<ShenBaoInfoDto> getShenBaoInfo(ODataObjNew odataObj, @PathVariable String id) {
+        PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = yearPlanService.getYearPlanShenBaoInfo(id, odataObj, false);
         return shenBaoInfoDtos;
     }
 

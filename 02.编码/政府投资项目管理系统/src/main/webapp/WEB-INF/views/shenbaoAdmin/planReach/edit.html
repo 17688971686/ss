@@ -35,7 +35,7 @@
 	<div style="border: 1px solid;border-color: #a3d0e4;margin-top: 20px;">
 		<div style="text-align: center;font-size: 26px;">申请打包</div>
 		<div style="margin-left: 10px;">
-			<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#projectModalForPack" ng-click="vm.addProjectForPack()" ng-hide="vm.isStartProcess">
+			<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#packModal" ng-click="vm.addProjectForPack()" ng-hide="vm.isStartProcess">
 				<span class="glyphicon glyphicon-plus"></span> 添加打包
 			</button>
 			<button class="btn btn-sm btn-danger" ng-click="vm.packDeletes()" ng-disabled="vm.isSubmit" ng-hide="vm.isStartProcess">
@@ -86,8 +86,26 @@
 			</div>
 		</div>
 	</div>
+	<!--打包计划模态框 -->
+	<div class="modal fade" id="packModal" role="dialog" data-backdrop="static" data-keyboard="true">
+		<div class="modal-dialog" style="width:800px;">
+			<div class="modal-content">
+				<div class="modal-header bg-primary">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>
+					<h4 class="modal-title" id="myModalLabel2">打包数据</h4>
+				</div>
+				<div class="modal-body">
+					<div class="packsGrid" kendo-grid="vm.packsGrid" k-options="vm.gridOptions_pack"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-success btn-sm" ng-click="vm.dialogConfirmSubmit_packPlan()" >确认</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </form>
-
+<script type="text/template" id="columnBtn_projectsForPack"></script>
 <script type="text/template" id="input">
 	<input style="width:100px" id="capitalSum1" ng-model="vm.gg['{0}']"  ng-if="{2}" value="{1}" ng-blur="vm.addmoney('{0}')"/>
 	<span ng-if="!{2}" ng-bind="vm.gg['{0}']"></span>

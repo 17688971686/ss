@@ -17,7 +17,7 @@ import cs.repository.odata.ODataObj;
 import cs.repository.odata.ODataObjNew;
 
 public interface YearPlanService extends IService<YearPlanDto, YearPlan, String>{
-	PageModelDto<ShenBaoInfoDto> getYearPlanShenBaoInfo(String planId, ODataObjNew odataObj);
+	PageModelDto<ShenBaoInfoDto> getYearPlanShenBaoInfo(String planId, ODataObjNew odataObj, boolean exclude);
 	
 	void addYearPlanCapitals(String planId,String[] ids);
 	
