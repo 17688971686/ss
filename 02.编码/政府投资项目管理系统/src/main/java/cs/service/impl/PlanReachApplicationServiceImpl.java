@@ -443,28 +443,28 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
         Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach);
         Criterion criterion3 = Restrictions.and(criterion, criterion2);
         List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion3);
-        if (shenbaoinfoList.size() > 0) {
+        if (!CollectionUtils.isEmpty(shenbaoinfoList)) {
             throw new IllegalArgumentException(String.format("申报项目：%s 已经存在其他编制计划中,请重新选择！", shenbaoinfo.getProjectName()));
-        } else {
-            // TODO 不存在，则生成一条计划下达的申报信息
-            ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(shenbaoinfo);
-            shenBaoInfoDto.setId(IdWorker.get32UUID());
-            shenBaoInfoDto.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
-            shenBaoInfoDto.setProcessStage("未开始");
-            shenBaoInfoDto.setProcessState(BasicDataConfig.processState_weikaishi);
-            shenBaoInfoDto.setThisTaskId(null);
-            shenBaoInfoDto.setThisTaskName(null);
-            shenBaoInfoDto.setZong_processId(null);
-            shenbaoinfo.setReceiver(null);
-            ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.createShenBaoInfo(shenBaoInfoDto, false);
-            shenbaoinfo.setIsIncludPack(true);
-            shenBaoInfoRepo.save(shenbaoinfo);
-            if (pack.getShenBaoInfos() == null) {
-                pack.setShenBaoInfos(new ArrayList<>(1));
-            }
-            pack.getShenBaoInfos().add(shenBaoInfoentity);
-            packPlanRepo.save(pack);
         }
+
+        // TODO 不存在，则生成一条计划下达的申报信息
+        ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(shenbaoinfo);
+        shenBaoInfoDto.setId(IdWorker.get32UUID());
+        shenBaoInfoDto.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
+        shenBaoInfoDto.setProcessStage("未开始");
+        shenBaoInfoDto.setProcessState(BasicDataConfig.processState_weikaishi);
+        shenBaoInfoDto.setThisTaskId(null);
+        shenBaoInfoDto.setThisTaskName(null);
+        shenBaoInfoDto.setZong_processId(null);
+        shenbaoinfo.setReceiver(null);
+        ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.createShenBaoInfo(shenBaoInfoDto, false);
+        shenbaoinfo.setIsIncludPack(true);
+        shenBaoInfoRepo.save(shenbaoinfo);
+        if (pack.getShenBaoInfos() == null) {
+            pack.setShenBaoInfos(new ArrayList<>(1));
+        }
+        pack.getShenBaoInfos().add(shenBaoInfoentity);
+        packPlanRepo.save(pack);
         logger.info(String.format("打包计划添加申报项目,名称：%s", pack.getName()));
     }
 
@@ -472,7 +472,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
     @Transactional(rollbackOn = Exception.class)
     public void addPackPlan(String planReachId, String packPlanId) {
         // TODO 根据计划下达id查找到计划下达信息
-        PlanReachApplication planReach = super.findById(planReachId);
+        PlanReachApplication planReach = findById(planReachId);
         Assert.notNull(planReach, "请先创建计划下达后添加！");
 
         PackPlan entity = packPlanRepo.findById(packPlanId);
@@ -495,18 +495,7 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 
         // TODO 统计包含有本单位打包计划的资金
 
-        UserUnitInfoDto userUnitInfoDto1 = null;
-        List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
-        for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
-            if (!userUnitInfoDto.getUserDtos().isEmpty()) {
-                for (UserDto user : userUnitInfoDto.getUserDtos()) {
-                    if (user.getId().equals(currentUser.getUserId())) {
-                        userUnitInfoDto1 = userUnitInfoDto;
-                        break;
-                    }
-                }
-            }
-        }
+        UserUnitInfoDto userUnitInfoDto1 = userUnitInfoService.getByUserId(currentUser.getUserId());
         double d = 0.0, a = 0.0;
         boolean isOurUnit = false;
         if (entity != null) {
