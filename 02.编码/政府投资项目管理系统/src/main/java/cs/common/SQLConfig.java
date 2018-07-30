@@ -334,16 +334,15 @@ public class SQLConfig {
 
     public static String shenBaoInfoOfPlanReachApplication_count = "SELECT count(1) " + shenBaoInfoOfPlanReachApplication_base;
 
+    private static String packPlanByPlanReachId_base = " FROM cs_packPlan p " +
+            "LEFT JOIN cs_planreachapplication_cs_packplan t2 ON p.id=t2.packPlans_id " +
+            "LEFT JOIN cs_planreachapplication t3 ON t2.PlanReachApplication_id=t3.id WHERE t3.id=:planReachId";
 
-    public static String packPlanByPlanReachId = String.format("SELECT"
-            + " p.id,p.createdBy,p.createdDate,p.itemOrder,p.modifiedBy,p.modifiedDate,p.name,p.remark,p.year,p.totalMoney,p.capitalSCZ_ggys_TheYear,p.capitalSCZ_gtzj_TheYear,p.isInPlan"
-//	 		+ " t3.id yearPlanId"
-            + " FROM cs_packPlan p"
-            + " LEFT JOIN cs_planreachapplication_cs_packplan t2"
-            + " ON p.id=t2.packPlans_id"
-            + " LEFT JOIN cs_planreachapplication t3"
-            + " ON t2.PlanReachApplication_id=t3.id"
-            + " WHERE t3.id=:planReachId");
+    public static String packPlanByPlanReachId_count = "SELECT count(1)" + packPlanByPlanReachId_base;
+
+    public static String packPlanByPlanReachId = "SELECT p.id,p.createdBy,p.createdDate,p.itemOrder,p.modifiedBy," +
+            "p.modifiedDate,p.name,p.remark,p.year,p.totalMoney,p.capitalSCZ_ggys_TheYear," +
+            "p.capitalSCZ_gtzj_TheYear,p.isInPlan" + packPlanByPlanReachId_base;
 
     private static String shenBaoInfoOfPackPlanOfPlanReach_base = " FROM cs_shenbaoinfo t1 " +
             "LEFT JOIN cs_packplan_cs_shenbaoinfo t2 ON t1.id=t2.shenBaoInfos_id " +
