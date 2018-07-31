@@ -50,4 +50,6 @@ public interface ProjectService extends IService<ProjectDto, Project, String> {
 
 	int getProjectSequenceNumberInYear(String projectId);
 
+	void handlePiFuFile(Project project);
+
 }

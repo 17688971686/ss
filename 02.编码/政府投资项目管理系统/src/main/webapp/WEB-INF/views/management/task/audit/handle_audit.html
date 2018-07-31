@@ -81,6 +81,7 @@
 				<td colspan="3"><span
 					ng-bind="vm.model.shenBaoInfo.projectIntro"></span></td>
 			</tr>
+			
 			<tr>
 				<td class="formAlignRight">详细信息：</td>
 				<td colspan="3">
@@ -91,8 +92,9 @@
 				</td>
 			</tr>
 		</table>
-
-		<div class="bg-info text-info" style="padding: 10px;">业务办理</div>
+		<div>
+		</div>
+		<div class="bg-info text-info" style="padding: 10px;">业务办理<img ng-if="vm.model.shenBaoInfo.isLeaderHasRead" alt="局领导已阅" style="float: right;" src="/contents/images/icon_yiyue.png"></div>
 		<table class="table table-bordered table-striped ">
 			<tr ng-repeat="x in vm.taskRecord | orderBy:'endTime'"
 				ng-if="x.isJuzhang != 'yes'">
@@ -137,10 +139,11 @@
 		</table> -->
 		<div class="bg-info text-info" style="padding: 10px;"
 			ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask16'">项目批复信息</div>
-		<table class="table table-bordered table-striped "
-			ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask3'  || vm.model.shenBaoInfo.thisTaskName == 'usertask23' 
+			<!-- ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask3'  || vm.model.shenBaoInfo.thisTaskName == 'usertask23' 
 			|| vm.model.shenBaoInfo.thisTaskName == 'usertask16'  || vm.model.shenBaoInfo.thisTaskName == 'usertask22'
-			|| vm.model.shenBaoInfo.thisTaskName == 'usertask14'  || vm.model.shenBaoInfo.thisTaskName == 'usertask20'">
+			|| vm.model.shenBaoInfo.thisTaskName == 'usertask14'  || vm.model.shenBaoInfo.thisTaskName == 'usertask20'" -->
+		<table class="table table-bordered table-striped "
+			>
 			<tr>
 				<td style="width: 180px;">批复名称</td>
 				<td style="width: 180px;">批复时间</td>
@@ -396,7 +399,15 @@
 							ng-model="vm.isPass" />局长审核
 						</label>
 					</div>
-					<div class="pull-left" ng-if="vm.isPass == '5' || vm.isPass == '6'">
+					<div class="pull-left" ng-if="vm.isPass == '5'">
+
+						<label ng-repeat="x in vm.model.dept.userDtos"> <input
+							type="radio" name="radio" value="{{x.id}}" ng-checked="x.id == 'e03930db-9e32-4158-afe4-9357945df1ae'"
+							ng-model="vm.nextUsers"/>{{x.displayName}}&nbsp;&nbsp;
+						</label>
+
+					</div>
+					<div class="pull-left" ng-if="vm.isPass == '6'">
 
 						<label ng-repeat="x in vm.model.dept.userDtos"> <input
 							type="radio" name="radio" value="{{x.id}}"

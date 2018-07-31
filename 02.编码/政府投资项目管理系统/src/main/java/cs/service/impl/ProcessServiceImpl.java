@@ -7,6 +7,7 @@ import com.sn.framework.common.StringUtil;
 import com.sn.framework.odata.OdataFilter;
 import cs.activiti.service.ActivitiService;
 import cs.common.BasicDataConfig;
+import cs.common.DateUtil;
 import cs.common.ICurrentUser;
 import cs.common.Response;
 import cs.common.Util;
@@ -33,12 +34,15 @@ import cs.repository.odata.ODataObjNew;
 import cs.service.common.BasicDataService;
 import cs.service.framework.OrgService;
 import cs.service.framework.UserService;
+import cs.service.interfaces.DraftIssuedService;
 import cs.service.interfaces.ProcessService;
 import cs.service.interfaces.ProjectService;
 import cs.service.interfaces.ShenBaoInfoService;
 import cs.service.interfaces.UserUnitInfoService;
 import cs.service.sms.SmsService;
 import cs.service.sms.exception.SMSException;
+import freemarker.core.ParseException;
+
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RuntimeService;
@@ -59,6 +63,10 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+
+import java.text.DateFormat;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -114,8 +122,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	@Autowired
 	private OrgService orgService;
 	@Autowired
-	private RuntimeService runtimeService;
-
+	private IRepository<DraftIssued, String> draftIssuedRepo;
 	@Override
 	@Transactional
 	public PageModelDto<ShenBaoInfoDto> get(ODataObj odataObj) {
@@ -861,7 +868,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		logger.info(String.format("签收或办理下一年度计划,用户名:%s", currentUser.getLoginName()));
 	}
 
-	@SuppressWarnings({ "rawtypes" })
+	@SuppressWarnings({ "rawtypes", "deprecation" })
 	@Override
 	@Transactional
 	public void taskComplete(Map data) {
@@ -957,6 +964,29 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		Authentication.setAuthenticatedUserId(currentUser.getUserId());
 
 		if ((shenBaoInfo.getThisTaskName().equals("usertask14") || shenBaoInfo.getThisTaskName().equals("usertask20")) && "1".equals(isPass)) {
+			if (shenBaoInfo.getThisTaskName().equals("usertask14")) {
+				Date date = new Date();
+				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_XMJYS)){
+					if(shenbaoinfoDto.getPifuJYS_date() == null){
+						shenbaoinfoDto.setPifuJYS_date(date);
+					}
+				}
+				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_KXXYJBG)){
+					if(shenbaoinfoDto.getPifuKXXYJBG_date() == null){
+						shenbaoinfoDto.setPifuKXXYJBG_date(date);
+					}
+				}
+				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_CBSJGS)){
+					if(shenbaoinfoDto.getPifuCBSJYGS_date() == null){
+						shenbaoinfoDto.setPifuCBSJYGS_date(date);
+					}
+				}
+				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_ZJSQBG)){
+					if(shenbaoinfoDto.getPifuZJSQBG_date() == null){
+						shenbaoinfoDto.setPifuZJSQBG_date(date);
+					}
+				}
+			}
 			// 生成项目编码
 			if (StringUtils.isBlank(shenBaoInfo.getProjectNumber())) {
 				BasicData basicData = basicDataService.findById(shenBaoInfo.getProjectIndustry());
@@ -1021,12 +1051,19 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		// 结束上一任务后，当前流程下产生的新任务
 		List<Task> tasknew = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId())
 				.orderByDueDate().desc().list();
+		
 		String preTaskName = shenBaoInfo.getThisTaskName();
 		Project project = projectRepo.findById(shenBaoInfo.getProjectId());
+		
+		List<Attachment> attList = new ArrayList<>();
 		project.getAttachments().forEach(x -> {// 删除历史附件
 			attachmentRepo.delete(x);
 		});
 		project.getAttachments().clear();
+		shenBaoInfo.getAttachments().forEach(x -> {// 删除历史附件
+			attachmentRepo.delete(x);
+		});
+		shenBaoInfo.getAttachments().clear();
 		for(AttachmentDto x : shenbaoinfoDto.getAttachmentDtos()) {
 			Attachment attachment = new Attachment();
 			attachmentMapper.buildEntity(x, attachment);
@@ -1040,7 +1077,36 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 					attachment.setShenBaoAttType(monitorTask.getTaskDefinitionKey());
 				}
 			}
-			
+			if(x.getType().equals("zhengwenFile") && x.getItemOrder() != 1){
+				attachment.setItemOrder(1);
+				Attachment attachment2 = new Attachment();
+				attachment2.setId(UUID.randomUUID().toString());
+				attachment2.setCreatedBy(x.getCreatedBy());
+				attachment2.setCreatedDate(new Date());
+				attachment2.setName(x.getName());
+				attachment2.setUrl(x.getUrl());
+				attachment2.setBusinessType(x.getBusinessType());
+				attachment2.setShenBaoAttType(x.getShenBaoAttType());
+				attList.add(attachment2);
+				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_XMJYS)){
+					attachment2.setType("JYS");
+				}
+				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_KXXYJBG)){
+					attachment2.setType("KXXYJBG");
+				}
+				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_CBSJGS)){
+					attachment2.setType("CBSJYGS");
+				}
+				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_ZJSQBG)){
+					attachment2.setType("ZJSQBG");
+				}
+				project.getAttachments().add(attachment2);
+				attachment2.setId(UUID.randomUUID().toString());
+				shenBaoInfo.getAttachments().add(attachment2);
+				
+			}
+			shenBaoInfo.getAttachments().add(attachment);
+			attachment.setId(UUID.randomUUID().toString());
 			project.getAttachments().add(attachment);
 		}
 
@@ -1062,28 +1128,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		shenBaoInfo.setPifuZJSQBG_date(shenbaoinfoDto.getPifuZJSQBG_date());
 		shenBaoInfo.setPifuZJSQBG_wenhao(shenbaoinfoDto.getPifuZJSQBG_wenhao());
 
-		shenBaoInfo.getAttachments().forEach(x -> {// 删除历史附件
-			attachmentRepo.delete(x);
-		});
-		shenBaoInfo.getAttachments().clear();
-		if (shenbaoinfoDto.getAttachmentDtos().size() > 0) {
-			for(AttachmentDto x : shenbaoinfoDto.getAttachmentDtos()) {
-				Attachment attachment = new Attachment();
-				attachmentMapper.buildEntity(x, attachment);
-				attachment.setCreatedBy(project.getCreatedBy());
-				attachment.setModifiedBy(project.getModifiedBy());
-				if(StringUtil.isBlank(attachment.getBusinessType())) {
-					attachment.setBusinessType("shenPi");
-				}
-				if(StringUtil.isBlank(attachment.getShenBaoAttType())) {
-					if(ObjectUtils.isNoneEmpty(monitorTask)) {
-						attachment.setShenBaoAttType(monitorTask.getTaskDefinitionKey());
-					}
-				}
-				
-				shenBaoInfo.getAttachments().add(attachment);
-			}
-		}
+		projectService.handlePiFuFile(project);
 		projectRepo.save(project);
 
 		if (shenBaoInfo.getThisTaskName().equals("usertask16") || str.equals("banjie")) {

@@ -28,44 +28,62 @@
 			<td>
 				<span ng-bind="vm.draft.capitalTotal"></span>&nbsp;（万元）
 			</td>
-			<td class="formAlignRight">拟稿时间：<span class="required">(*)</span></td>
+			<td class="formAlignRight">拟稿时间：</td>
 			<td>
 				<span ng-bind="vm.draft.draftDate"></span>
 			</td>
 		</tr>
 		<tr>
-			<td class="formAlignRight">公开类型：<span class="required">(*)</span></td>
+			<td class="formAlignRight">公开类型：</td>
 			<td ng-bind="vm.getBasicDataDesc(vm.draft.openType)"></td>
-			<td class="formAlignRight">发文种类：<span class="required">(*)</span></td>
+			<td class="formAlignRight">发文种类：</td>
 			<td ng-bind="vm.getBasicDataDesc(vm.draft.postingCategory)"></td>
 		</tr>
 		<tr>
-			<td class="formAlignRight">标题：<span class="required">(*)</span></td>
+			<td class="formAlignRight">联系人：</td>
+			<td ng-bind="vm.draft.mobileName">
+			</td>
+			<td class="formAlignRight">联系电话：</td>
+			<td ng-bind="vm.draft.mobilePhone">
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">发行范围：</td>
+			<td colspan="3" ng-bind="vm.draft.scope">
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">标题：</td>
 			<td colspan="3" ng-bind="vm.draft.title"></td>
 		</tr>
 		<tr>
-			<td class="formAlignRight">主题词：<span class="required">(*)</span></td>
-			<td colspan="3" ng-bind="vm.draft.keyWord"></td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">正文编辑：<span class="required">(*)</span></td>
+			<td class="formAlignRight">正文编辑：</td>
 			<td colspan="3">
 				<a class="btn btn-success btn-sm" href="/contents/admin/management/task/audit/html/edit/edit_dj.html" target="_blank">编辑正文</a>
 			</td>
 		</tr>	
 		<tr>
-			<td class="formAlignRight">正文附件：<span class="required">(*)</span></td>
+			<td class="formAlignRight">正文附件：</td>
 			<td colspan="3">
-				<div style="margin:3px;" ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos" ng-if="y.type == 'zhengwenFile'">
+				<!-- <a class="btn btn-success btn-xs" href="/contents/admin/management/task/audit/html/edit/edit_dj.html" target="_blank">编辑正文</a>
+				 --><div class="uploadBox pull-left" data-type="zhengwenFile">
+				 	<input type="file" name="files" kendo-upload k-options="vm.uploadOptions_shenpi"/>
+		        </div>
+				<div style="margin:3px;" ng-repeat="y in vm.attachmentDtos" ng-if="y.type == 'zhengwenFile'">
 		 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+					<button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenpi($index)">删除</button>
 	 			</div>
 			</td>
 		</tr>
 		<tr>
-			<td class="formAlignRight">发文附件：<span class="required">(*)</span></td>
+			<td class="formAlignRight">发文附件：</td>
 			<td colspan="3">
-				<div style="margin:3px;" ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos"  ng-if="y.type == 'fawemFile'">
+				<div class="uploadBox pull-left" data-type="fawemFile">
+				 	<input type="file" name="files" kendo-upload k-options="vm.uploadOptions_shenpi"/>
+		        </div>
+				<div style="margin:3px;" ng-repeat="y in vm.attachmentDtos" ng-if="y.type == 'fawemFile'">
 		 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+					<button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenpi($index)">删除</button>
 	 			</div>
 			</td>
 		</tr>

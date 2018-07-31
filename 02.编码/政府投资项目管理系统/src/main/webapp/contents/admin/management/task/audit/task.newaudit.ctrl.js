@@ -310,8 +310,6 @@
             
             taskNewAuditSvc.getSysConfigs(vm);
 
-//      		filters.push({field:'projectShenBaoStage',operator:'eq',value:vm.search.projectIndustry});
-//      		vm.gridOptions_complete_shenPi.dataSource.filter(filters);
 
             vm.selectionUser = function (id) {
 
@@ -688,7 +686,7 @@
                        });
                    }else{
                        taskNewAuditSvc.handle(vm,str);
-                   }
+                   } 
                 }else {
     				common.alert({
 						vm : vm,
@@ -698,9 +696,8 @@
 						}
 					});
     			}
-        			
-				
         	};
+        	
         	vm.changeDeptUsers=function(num){
         		if(vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask23'){
         			if(num == "8"){

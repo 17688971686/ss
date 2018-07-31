@@ -178,6 +178,15 @@ public class SysServiceImpl implements SysService {
         con7.setCreatedBy("admin");
         con7.setCreatedDate(new Date());
         con7.setEnable(false);
+        
+        SysConfig con8 = new SysConfig();
+        con8.setId(UUID.randomUUID().toString());
+        con8.setConfigName(BasicDataConfig.taskType_JiHuaDK);
+        con8.setConfigValue("");
+        con8.setConfigType(BasicDataConfig.taskType);
+        con8.setCreatedBy("admin");
+        con8.setCreatedDate(new Date());
+        con8.setEnable(false);
 
         sysConfigRepo.save(con);
         sysConfigRepo.save(con2);
@@ -186,6 +195,7 @@ public class SysServiceImpl implements SysService {
         sysConfigRepo.save(con5);
         sysConfigRepo.save(con6);
         sysConfigRepo.save(con7);
+        sysConfigRepo.save(con8);
         response.setMessage("系统配置初始化成功");
         response.setSuccess(true);
 

@@ -781,30 +781,30 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 //		return list;
 //	}
 
-    /**
-     * 批复文件库处理
-     */
-    public void handlePiFuFile(Project project) {
-        //获取文件库中所有的批复文件(map)
-        List<ReplyFile> replyFiles = replyFileRepo.findAll();
-        Map<String, Object> replyFileMap = new HashMap<String, Object>();
-        replyFiles.stream().forEach(x -> {
-            String key = x.getNumber();//文号
-            String value = x.getName();//文件名
-            replyFileMap.put(key, value);
-        });
-        //获取项目中批复文件以及文号(map)
-        Map<String, Attachment> pifuMap = new HashMap<>();
-        project.getAttachments().stream().forEach(x -> {
-            if (Util.isNotNull(x.getType())) {//非空判断
-                if (x.getType().equals(BasicDataConfig.attachment_type_jys)) {//如果是建议书批复文件
-                    pifuMap.put(project.getPifuJYS_wenhao(), x);
-                }
-                if (x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)) {//如果是可行性研究报告批复文件
-                    pifuMap.put(project.getPifuKXXYJBG_wenhao(), x);
-                }
-                if (x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)) {//如果是初步概算与设计批复文件
-
+	/**
+	 * 批复文件库处理
+	 */
+	@Override
+	public void handlePiFuFile(Project project){
+		//获取文件库中所有的批复文件(map)
+		List<ReplyFile> replyFiles = replyFileRepo.findAll();
+		Map<String,Object> replyFileMap = new HashMap<String,Object>();
+		replyFiles.stream().forEach(x->{
+			String key = x.getNumber();//文号
+			String value = x.getName();//文件名
+			replyFileMap.put(key, value);
+		});
+		//获取项目中批复文件以及文号(map)
+		Map<String,Attachment> pifuMap = new HashMap<>();
+		project.getAttachments().stream().forEach(x->{
+			if(Util.isNotNull(x.getType())){//非空判断
+				if(x.getType().equals(BasicDataConfig.attachment_type_jys)){//如果是建议书批复文件
+					pifuMap.put(project.getPifuJYS_wenhao(), x);
+				}
+				if(x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)){//如果是可行性研究报告批复文件
+					pifuMap.put(project.getPifuKXXYJBG_wenhao(), x);
+				}
+				if(x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)){//如果是初步概算与设计批复文件
                     pifuMap.put(project.getPifuCBSJYGS_wenhao(), x);
                 }
             }
