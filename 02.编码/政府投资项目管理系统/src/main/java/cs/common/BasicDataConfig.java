@@ -42,6 +42,7 @@ public class BasicDataConfig {
 	public static String attachment_type_jys="JYS"; 
 	public static String attachment_type_kxxyjbg="KXXYJBG"; 
 	public static String attachment_type_cbsjygs="CBSJYGS";
+	public static String attachment_type_zjsqbg="ZJSQBG";
 	
 	//申报阶段 projectShenBaoStage
 	public static String projectShenBaoStage_XMJYS="projectShenBaoStage_1";//项目建议书
