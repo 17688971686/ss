@@ -31,5 +31,5 @@ public class PackPlanDto extends PackPlan{
 	public void setShenBaoInfoDtos(List<ShenBaoInfoDto> shenBaoInfoDtos) {
 		this.shenBaoInfoDtos = shenBaoInfoDtos;
 	}
-	
+
 }

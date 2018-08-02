@@ -17,6 +17,7 @@ import cs.domain.framework.Org_;
 import cs.domain.framework.Role;
 import cs.domain.framework.User;
 import cs.model.DomainDto.AttachmentDto;
+import cs.model.DomainDto.ProjectDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.UserUnitInfoDto;
 import cs.model.DtoMapper.IMapper;
@@ -880,6 +881,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		String isPass = (String) data.get("isPass");// 下一经办人
 
 		ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenbaoinfoDto.getId());
+		ProjectDto projectDto = JSON.parseObject(JSON.toJSONString(data.get("project")),
+				ProjectDto.class);
 
 		Map<String, Object> variables = new HashMap<String, Object>();
 		
@@ -963,42 +966,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		Authentication.setAuthenticatedUserId(currentUser.getUserId());
 
-		if ((shenBaoInfo.getThisTaskName().equals("usertask14") || shenBaoInfo.getThisTaskName().equals("usertask20")) && "1".equals(isPass)) {
-			if (shenBaoInfo.getThisTaskName().equals("usertask14")) {
-				Date date = new Date();
-				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_XMJYS)){
-					if(shenbaoinfoDto.getPifuJYS_date() == null){
-						shenbaoinfoDto.setPifuJYS_date(date);
-					}
-				}
-				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_KXXYJBG)){
-					if(shenbaoinfoDto.getPifuKXXYJBG_date() == null){
-						shenbaoinfoDto.setPifuKXXYJBG_date(date);
-					}
-				}
-				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_CBSJGS)){
-					if(shenbaoinfoDto.getPifuCBSJYGS_date() == null){
-						shenbaoinfoDto.setPifuCBSJYGS_date(date);
-					}
-				}
-				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_ZJSQBG)){
-					if(shenbaoinfoDto.getPifuZJSQBG_date() == null){
-						shenbaoinfoDto.setPifuZJSQBG_date(date);
-					}
-				}
-			}
-			// 生成项目编码
-			if (StringUtils.isBlank(shenBaoInfo.getProjectNumber())) {
-				BasicData basicData = basicDataService.findById(shenBaoInfo.getProjectIndustry());
-				int projectSequenceNum = projectService.getProjectSequenceNumberInYear(shenBaoInfo.getProjectId());
-				String projectNumber = Util.getProjectNumber(shenBaoInfo.getProjectInvestmentType(), basicData,
-						projectSequenceNum);
-				shenBaoInfo.setProjectNumber(projectNumber);
-	
-				projectService.updateProjectNumber(shenBaoInfo.getProjectId(), projectNumber);
-			}
-		}
-		
 		Task monitorTask;
 		if (StringUtil.isNoneBlank(shenBaoInfo.getMonitor_processId())) {
 			monitorTask = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getMonitor_processId())
@@ -1055,11 +1022,25 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		String preTaskName = shenBaoInfo.getThisTaskName();
 		Project project = projectRepo.findById(shenBaoInfo.getProjectId());
 		
-		List<Attachment> attList = new ArrayList<>();
 		project.getAttachments().forEach(x -> {// 删除历史附件
 			attachmentRepo.delete(x);
 		});
 		project.getAttachments().clear();
+		for(AttachmentDto x : projectDto.getAttachmentDtos()) {
+			Attachment attachment = new Attachment();
+			attachmentMapper.buildEntity(x, attachment);
+			attachment.setCreatedBy(project.getCreatedBy());
+			attachment.setModifiedBy(project.getModifiedBy());
+			if(StringUtil.isBlank(attachment.getBusinessType())) {
+				attachment.setBusinessType("shenPi");
+			}
+			if(StringUtil.isBlank(attachment.getShenBaoAttType())) {
+				if(ObjectUtils.isNoneEmpty(monitorTask)) {
+					attachment.setShenBaoAttType(monitorTask.getTaskDefinitionKey());
+				}
+			}
+			project.getAttachments().add(attachment);
+		}
 		shenBaoInfo.getAttachments().forEach(x -> {// 删除历史附件
 			attachmentRepo.delete(x);
 		});
@@ -1077,7 +1058,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 					attachment.setShenBaoAttType(monitorTask.getTaskDefinitionKey());
 				}
 			}
-			if(x.getType().equals("zhengwenFile") && x.getItemOrder() != 1){
+			
+			if(x.getType().equals("zhengwenFile") && (x.getItemOrder() ==0 || "".equals(x.getItemOrder()))){
 				attachment.setItemOrder(1);
 				Attachment attachment2 = new Attachment();
 				attachment2.setId(UUID.randomUUID().toString());
@@ -1087,7 +1069,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				attachment2.setUrl(x.getUrl());
 				attachment2.setBusinessType(x.getBusinessType());
 				attachment2.setShenBaoAttType(x.getShenBaoAttType());
-				attList.add(attachment2);
 				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_XMJYS)){
 					attachment2.setType("JYS");
 				}
@@ -1101,33 +1082,45 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 					attachment2.setType("ZJSQBG");
 				}
 				project.getAttachments().add(attachment2);
-				attachment2.setId(UUID.randomUUID().toString());
-				shenBaoInfo.getAttachments().add(attachment2);
 				
 			}
 			shenBaoInfo.getAttachments().add(attachment);
-			attachment.setId(UUID.randomUUID().toString());
-			project.getAttachments().add(attachment);
 		}
-
-		project.setPifuCBSJYGS_date(shenbaoinfoDto.getPifuCBSJYGS_date());
-		project.setPifuKXXYJBG_date(shenbaoinfoDto.getPifuKXXYJBG_date());
-		project.setPifuJYS_date(shenbaoinfoDto.getPifuJYS_date());
-		project.setPifuCBSJYGS_wenhao(shenbaoinfoDto.getPifuCBSJYGS_wenhao());
-		project.setPifuKXXYJBG_wenhao(shenbaoinfoDto.getPifuKXXYJBG_wenhao());
-		project.setPifuJYS_wenhao(shenbaoinfoDto.getPifuJYS_wenhao());
-		project.setPifuZJSQBG_date(shenbaoinfoDto.getPifuZJSQBG_date());
-		project.setPifuZJSQBG_wenhao(shenbaoinfoDto.getPifuZJSQBG_wenhao());
-
-		shenBaoInfo.setPifuCBSJYGS_date(shenbaoinfoDto.getPifuCBSJYGS_date());
-		shenBaoInfo.setPifuKXXYJBG_date(shenbaoinfoDto.getPifuKXXYJBG_date());
-		shenBaoInfo.setPifuJYS_date(shenbaoinfoDto.getPifuJYS_date());
-		shenBaoInfo.setPifuCBSJYGS_wenhao(shenbaoinfoDto.getPifuCBSJYGS_wenhao());
-		shenBaoInfo.setPifuKXXYJBG_wenhao(shenbaoinfoDto.getPifuKXXYJBG_wenhao());
-		shenBaoInfo.setPifuJYS_wenhao(shenbaoinfoDto.getPifuJYS_wenhao());
-		shenBaoInfo.setPifuZJSQBG_date(shenbaoinfoDto.getPifuZJSQBG_date());
-		shenBaoInfo.setPifuZJSQBG_wenhao(shenbaoinfoDto.getPifuZJSQBG_wenhao());
-
+		if ((shenBaoInfo.getThisTaskName().equals("usertask14") || shenBaoInfo.getThisTaskName().equals("usertask20")) && "1".equals(isPass)) {
+			if (shenBaoInfo.getThisTaskName().equals("usertask14")) {
+				Date date = new Date();
+				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_XMJYS)){
+					if(projectDto.getPifuJYS_date() == null){
+						project.setPifuJYS_date(date);
+					}
+				}
+				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_KXXYJBG)){
+					if(projectDto.getPifuKXXYJBG_date() == null){
+						project.setPifuKXXYJBG_date(date);
+					}
+				}
+				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_CBSJGS)){
+					if(projectDto.getPifuCBSJYGS_date() == null){
+						project.setPifuCBSJYGS_date(date);
+					}
+				}
+				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_ZJSQBG)){
+					if(projectDto.getPifuZJSQBG_date() == null){
+						project.setPifuZJSQBG_date(date);
+					}
+				}
+			}
+			// 生成项目编码
+			if (StringUtils.isBlank(shenBaoInfo.getProjectNumber())) {
+				BasicData basicData = basicDataService.findById(shenBaoInfo.getProjectIndustry());
+				int projectSequenceNum = projectService.getProjectSequenceNumberInYear(shenBaoInfo.getProjectId());
+				String projectNumber = Util.getProjectNumber(shenBaoInfo.getProjectInvestmentType(), basicData,
+						projectSequenceNum);
+				shenBaoInfo.setProjectNumber(projectNumber);
+	
+				projectService.updateProjectNumber(shenBaoInfo.getProjectId(), projectNumber);
+			}
+		}
 		projectService.handlePiFuFile(project);
 		projectRepo.save(project);
 

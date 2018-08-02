@@ -24,45 +24,26 @@
 	</div>
 	<table class="table table-bordered table-striped ">
 		<tr>
-			<td class="formAlignRight" style="width: 150px;">名称：<span
-				class="required">(*)</span></td>
-			<td style="width: 300px;"><input type="text"
-				class="form-control input-sm" id="name" name="name"
-				ng-model="vm.model.name" data-val="true" data-val-required="必填" /> <span
-				data-valmsg-for="name" data-valmsg-replace="true" class="required"></span>
-				<!-- <span data-valmsg-for="name" class="text-red" ng-show="vm.showError">该计划已存在</span> -->
+			<td class="formAlignRight" style="width: 150px;">名称：</td>
+			<td style="width: 300px;" ng-bind="vm.model.name">
 			</td>
-			<td class="formAlignRight" style="width: 150px;">年度：<span
-				class="required">(*)</span></td>
-			<td><input class="Wdate form-control input-sm"
-				style="width: 200px;" type="text" id="d15"
-				onFocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy'})"
-				onchange="" ng-model="vm.model.year" data-val="true"
-				data-val-required="必填" /> <span data-valmsg-for="year"
-				data-valmsg-replace="true" class="required"></span></td>
+			<td class="formAlignRight" style="width: 150px;">年度：</td>
+			<td ng-bind="vm.model.year"></td>
 		</tr>
 		<tr>
-			<td class="formAlignRight">总指标：<span class="required">(*)</span></td>
-			<td colspan="3"><input type="number" step="any"
-				class="form-control input-sm width180" id="totalMoney"
-				name="totalMoney" ng-model="vm.model.totalMoney" data-val="true"
-				data-val-required="必填" />&nbsp;(万元) <span
-				data-valmsg-for="totalMoney" data-valmsg-replace="true"
-				class="required"></span></td>
-			<!-- <td class="formAlignRight">总指标剩余：</td>
-					<td>
-						<span ng-bind="vm.surplusMoney()"></span><span>(万元)</span>
-					</td> -->
+			<td class="formAlignRight">总指标：</td>
+			<td colspan="3" ng-bind="vm.model.totalMoney"></td>
+		</tr>
+		<tr>
+			<td class="formAlignRight" style="width: 150px;">国土指标：</td>
+			<td style="width: 300px;" ng-bind="vm.model.gtMoney">
+			</td>
+			<td class="formAlignRight" style="width: 150px;">公共指标：</td>
+			<td ng-bind="vm.model.ggMoney"></td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">备注：</td>
-			<td colspan="3"><textarea rows="3" cols="" maxlength="500"
-					class="form-control" data-val="false" id="remark" name="remark"
-					ng-model="vm.model.remark"
-					ng-change="vm.checkLength(vm.model.remark,500,'remarkTips')"></textarea>
-				<div class="tipfont">
-					您还可以输入<span id="remarkTips"><font size="5">500</font></span>个字符!
-				</div></td>
+			<td colspan="3" ng-bind="vm.model.remark"></td>
 		</tr>
 	</table>
 	<div>

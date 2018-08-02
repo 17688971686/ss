@@ -35,6 +35,12 @@ public class PackPlan extends BaseEntity{
 	@Column(columnDefinition="double(13,4) DEFAULT 0.0 COMMENT '总指标'")
 	private Double totalMoney=0.0;
 	
+	@Column(columnDefinition="double(13,4) DEFAULT 0.0 COMMENT '公共指标'")
+	private Double ggMoney=0.0;
+	
+	@Column(columnDefinition="double(13,4) DEFAULT 0.0 COMMENT '国土指标'")
+	private Double gtMoney=0.0;
+	
 	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否已加入计划下达'")
 	private Boolean isInPlan = false;//默认为不申请
 	
@@ -127,6 +133,22 @@ public class PackPlan extends BaseEntity{
 
 	public void setIsInPlan(Boolean isInPlan) {
 		this.isInPlan = isInPlan;
+	}
+
+	public Double getGgMoney() {
+		return ggMoney;
+	}
+
+	public void setGgMoney(Double ggMoney) {
+		this.ggMoney = ggMoney;
+	}
+
+	public Double getGtMoney() {
+		return gtMoney;
+	}
+
+	public void setGtMoney(Double gtMoney) {
+		this.gtMoney = gtMoney;
 	}
 	
 }

@@ -162,11 +162,11 @@ textarea.form-control {
 			</tr>
 			<tr>
 				<td>项目建议书</td>
-				<td ng-bind="vm.model.shenBaoInfo.pifuJYS_date | date:'yyyy-MM-dd'"></td>
-				<td ng-bind="vm.model.shenBaoInfo.pifuJYS_wenhao"></td>
+				<td ng-bind="vm.project.pifuJYS_date | date:'yyyy-MM-dd'"></td>
+				<td ng-bind="vm.project.pifuJYS_wenhao"></td>
 				<td>
 					<div style="margin: 3px;"
-						ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos"
+						ng-repeat="y in vm.project.attachmentDtos"
 						ng-show="y.type=='JYS'">
 						<a href="/contents/upload/{{y.url}}" target="_blank"
 							ng-bind="y.name"></a>
@@ -176,11 +176,11 @@ textarea.form-control {
 			<tr>
 				<td>可行性研究报告</td>
 				<td
-					ng-bind="vm.model.shenBaoInfo.pifuKXXYJBG_date | date:'yyyy-MM-dd'"></td>
-				<td ng-bind="vm.model.shenBaoInfo.pifuKXXYJBG_wenhao"></td>
+					ng-bind="vm.project.pifuKXXYJBG_date | date:'yyyy-MM-dd'"></td>
+				<td ng-bind="vm.project.pifuKXXYJBG_wenhao"></td>
 				<td>
 					<div style="margin: 3px;"
-						ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos"
+						ng-repeat="y in vm.project.attachmentDtos"
 						ng-show="y.type=='KXXYJBG'">
 						<a href="/contents/upload/{{y.url}}" target="_blank"
 							ng-bind="y.name"></a>
@@ -190,11 +190,11 @@ textarea.form-control {
 			<tr>
 				<td>项目总概算</td>
 				<td
-					ng-bind="vm.model.shenBaoInfo.pifuCBSJYGS_date | date:'yyyy-MM-dd'"></td>
-				<td ng-bind="vm.model.shenBaoInfo.pifuCBSJYGS_wenhao"></td>
+					ng-bind="vm.project.pifuCBSJYGS_date | date:'yyyy-MM-dd'"></td>
+				<td ng-bind="vm.project.pifuCBSJYGS_wenhao"></td>
 				<td>
 					<div style="margin: 3px;"
-						ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos"
+						ng-repeat="y in vm.project.attachmentDtos"
 						ng-show="y.type=='CBSJYGS'">
 						<a href="/contents/upload/{{y.url}}" target="_blank"
 							ng-bind="y.name"></a>
@@ -204,11 +204,11 @@ textarea.form-control {
 			<tr>
 				<td>资金申请报告</td>
 				<td
-					ng-bind="vm.model.shenBaoInfo.pifuZJSQBG_date | date:'yyyy-MM-dd'"></td>
-				<td ng-bind="vm.model.shenBaoInfo.pifuZJSQBG_wenhao"></td>
+					ng-bind="vm.project.pifuZJSQBG_date | date:'yyyy-MM-dd'"></td>
+				<td ng-bind="vm.project.pifuZJSQBG_wenhao"></td>
 				<td>
 					<div style="margin: 3px;"
-						ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos"
+						ng-repeat="y in vm.project.attachmentDtos"
 						ng-show="y.type=='ZJSQBG'">
 						<a href="/contents/upload/{{y.url}}" target="_blank"
 							ng-bind="y.name"></a>
@@ -224,7 +224,7 @@ textarea.form-control {
 					<div>
 						<div style="margin: 3px;"
 							ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos"
-							ng-if="y.type=='JYS'&&y.type=='KXXYJBG' && y.type!='ZJSQBG' && y.type!='CBSJYGS'">
+							>
 							<a href="/contents/upload/{{y.url}}" target="_blank"
 								ng-bind="y.name"></a>
 						</div>

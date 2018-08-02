@@ -1,14 +1,12 @@
 package cs.service.impl;
 
 import com.sn.framework.common.IdWorker;
-import com.sn.framework.common.StringUtil;
 import cs.common.BasicDataConfig;
 import cs.common.SQLConfig;
 import cs.domain.*;
 import cs.model.DomainDto.*;
 import cs.model.DtoMapper.IMapper;
 import cs.model.PageModelDto;
-import cs.model.framework.UserDto;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.repository.odata.ODataObjNew;
@@ -21,6 +19,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -57,11 +56,9 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
     @Autowired
     private IMapper<PackPlanDto, PackPlan> packPlanMapper;
     @Autowired
-    private IRepository<YearPlan, String> yearPlanRepo;
-    @Autowired
-    private IMapper<AttachmentDto, Attachment> attachmentMapper;
-    @Autowired
     private RuntimeService runtimeService;
+    @Autowired
+	private  IRepository<YearPlanCapital, String> yearPlanCapitalRepo;
 
     @Override
     @Transactional
@@ -257,7 +254,29 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
     public void addShenBaoInfo(String planReachId, String id) {
         PlanReachApplication planReach = super.findById(planReachId);
         ShenBaoInfo entity = shenBaoInfoRepo.findById(id);
-
+        SimpleExpression criteria1 = Restrictions.eq(YearPlanCapital_.shenbaoInfoId.getName(), id);
+        List<YearPlanCapital> list = yearPlanCapitalRepo.findByCriteria(criteria1);
+        if(list.size()>0){
+        	Double a =list.get(0).getCapitalQCZ_ggys();
+        	Double b =list.get(0).getCapitalSCZ_ggys();
+        	Double c =list.get(0).getCapitalQCZ_gtzj();
+        	Double d =list.get(0).getCapitalSCZ_gtzj();
+        	if(a == null){
+        		a=0.0;
+        	}
+        	if(b == null){
+        		b=0.0;
+        	}
+        	if(c == null){
+        		c=0.0;
+        	}
+        	if(d == null){
+        		d=0.0;
+        	}
+        	
+        	entity.setApPlanReach_ggys(a+b);
+        	entity.setApPlanReach_gtzj(c+d);
+        }
         Assert.notNull(planReach, "请创建计划下达后添加项目！");
         Assert.notNull(entity, "添加的项目不存在");
 
@@ -628,6 +647,12 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
     @Transactional(rollbackOn = Exception.class)
     public void updateShnebaoInfo(String shenbaoId, Double ggmoney, Double gtmoney) {
         ShenBaoInfo entity = shenBaoInfoRepo.findById(shenbaoId);
+        Double cont = ggmoney + gtmoney;
+        if(ggmoney > entity.getApPlanReach_ggys()){
+        	 throw new IllegalArgumentException("申请公共资金不能大于安排资金,请重新填写！");
+        }else if(gtmoney > entity.getApPlanReach_gtzj()){
+        	throw new IllegalArgumentException("申请国土资金不能大于安排资金,请重新填写！");
+        }
         entity.setSqPlanReach_ggys(ggmoney);
         entity.setSqPlanReach_gtzj(gtmoney);
         shenBaoInfoRepo.save(entity);

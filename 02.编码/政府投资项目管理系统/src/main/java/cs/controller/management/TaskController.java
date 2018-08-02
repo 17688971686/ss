@@ -204,6 +204,7 @@ public class TaskController {
     }
 
     @SuppressWarnings("rawtypes")
+    @RequiresPermissions("management/task#pinglun#post")
     @RequestMapping(name = "评论", path = "pinglun", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public void taskPinglun(@RequestBody Map data) {

@@ -1225,6 +1225,16 @@
                     }
                 },
                 {
+                    field: "apInvestSum",
+                    title: "累计安排投资",
+                    width: 140,
+                    filterable: false,
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;"
+                    }
+                },
+                {
                     title: "安排资金（万元）",
                     columns: [{
                         field: "apPlanReach_ggys",
@@ -1544,6 +1554,16 @@
                     field: "projectInvestSum",
                     title: "项目总投资",
                     width: 120,
+                    filterable: false,
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;"
+                    }
+                },
+                {
+                    field: "apInvestSum",
+                    title: "累计安排投资",
+                    width: 140,
                     filterable: false,
                     headerAttributes: {
                         "class": "table-header-cell",

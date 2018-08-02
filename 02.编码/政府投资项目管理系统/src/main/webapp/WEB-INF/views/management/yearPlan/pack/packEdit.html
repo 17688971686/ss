@@ -48,6 +48,18 @@
 					</td> -->
 				</tr>
 				<tr>
+					<td class="formAlignRight">国土指标：<span class="required">(*)</span></td>
+					<td>
+						<input type="number" step="any" class="form-control input-sm" style="    width: 130px;"  id="gtMoney" name="gtMoney" ng-model="vm.model.gtMoney" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+						<span data-valmsg-for="gtMoney" data-valmsg-replace="true" class="required"></span>
+					</td>
+					<td class="formAlignRight">公共指标：</td>
+					<td>
+						<input type="number" step="any" class="form-control input-sm" style="    width: 130px;" id="ggMoney" name="ggMoney" ng-model="vm.model.ggMoney" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+						<span data-valmsg-for="ggMoney" data-valmsg-replace="true" class="required"></span>
+					</td>
+				</tr>
+				<tr>
 					<td class="formAlignRight">备注：</td>
 					<td colspan="3">
 						<textarea rows="3" cols="" maxlength="500" class="form-control" data-val="false" id="remark" name="remark" ng-model="vm.model.remark" ng-change="vm.checkLength(vm.model.remark,500,'remarkTips')"></textarea>
