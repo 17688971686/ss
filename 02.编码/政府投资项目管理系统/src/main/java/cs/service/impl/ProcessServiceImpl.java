@@ -2,6 +2,7 @@ package cs.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
+import com.sn.framework.common.IdWorker;
 import com.sn.framework.common.ObjectUtils;
 import com.sn.framework.common.StringUtil;
 import com.sn.framework.odata.OdataFilter;
@@ -1029,6 +1030,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		for(AttachmentDto x : projectDto.getAttachmentDtos()) {
 			Attachment attachment = new Attachment();
 			attachmentMapper.buildEntity(x, attachment);
+			attachment.setId(IdWorker.get32UUID());
 			attachment.setCreatedBy(project.getCreatedBy());
 			attachment.setModifiedBy(project.getModifiedBy());
 			if(StringUtil.isBlank(attachment.getBusinessType())) {
@@ -1048,6 +1050,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		for(AttachmentDto x : shenbaoinfoDto.getAttachmentDtos()) {
 			Attachment attachment = new Attachment();
 			attachmentMapper.buildEntity(x, attachment);
+			attachment.setId(IdWorker.get32UUID());
 			attachment.setCreatedBy(project.getCreatedBy());
 			attachment.setModifiedBy(project.getModifiedBy());
 			if(StringUtil.isBlank(attachment.getBusinessType())) {

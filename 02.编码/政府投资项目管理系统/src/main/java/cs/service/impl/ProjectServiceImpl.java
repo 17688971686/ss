@@ -56,6 +56,8 @@ import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ProjectService;
 import org.springframework.util.CollectionUtils;
 
+import com.sn.framework.common.IdWorker;
+
 /**
  * @Description: 项目信息服务层
  * @author: cx
@@ -158,6 +160,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
         projectDto.getAttachmentDtos().forEach(x -> {//添加新附件
             Attachment attachment = new Attachment();
             attachmentMapper.buildEntity(x, attachment);
+            attachment.setId(IdWorker.get32UUID());
             attachment.setCreatedBy(project.getCreatedBy());
             attachment.setModifiedBy(project.getModifiedBy());
             project.getAttachments().add(attachment);

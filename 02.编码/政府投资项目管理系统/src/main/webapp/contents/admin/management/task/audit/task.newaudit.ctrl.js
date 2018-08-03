@@ -371,11 +371,11 @@
             
             //删除上传文件
             vm.delFile = function (idx) {
-                var file = vm.model.shenBaoInfo.attachmentDtos[idx];
+                var file = vm.project.attachmentDtos[idx];
                 if (file) {//删除上传文件的同时删除批复文号
                     var pifuType = file.type;
-                    vm.model.shenBaoInfo['pifu' + pifuType + '_wenhao'] = "";
-                    vm.model.shenBaoInfo.attachmentDtos.splice(idx, 1);
+                    vm.project['pifu' + pifuType + '_wenhao'] = "";
+                    vm.project.attachmentDtos.splice(idx, 1);
                 }
             };
 
@@ -602,8 +602,7 @@
 		   //处理
         	vm.handle=function(str){
         		if((vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18') && vm.isPass == "5" && vm.nextUsers == ""){
-        			vm.nextUsers = "2e0b2fea-b745-4b1c-8254-a1a4b421c8d5";
-					taskNewAuditSvc.handle(vm,str);
+        			vm.nextUsers = "e03930db-9e32-4158-afe4-9357945df1ae";
         		}
     			if((vm.model.shenBaoInfo.thisTaskName == 'usertask1' || vm.model.shenBaoInfo.thisTaskName == 'usertask5') && vm.isPass == "1" && vm.nextUsers == "" && str =="next"){
 							vm.nextUsers = vm.banliUsers;

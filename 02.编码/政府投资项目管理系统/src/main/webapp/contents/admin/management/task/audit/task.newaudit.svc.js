@@ -73,7 +73,9 @@
 			
 			var httpSuccess = function success(response) {
 				vm.project = response.data.value[0]||{};
-				
+				vm.project.pifuJYS_date=common.formatDate(vm.project.pifuJYS_date);//项目建议书批复日期			
+				vm.project.pifuKXXYJBG_date=common.formatDate(vm.project.pifuKXXYJBG_date);//可行性研究报告批复日期
+				vm.project.pifuCBSJYGS_date=common.formatDate(vm.project.pifuCBSJYGS_date);//初步设计与概算批复日期
 			};
 			
 			common.http({

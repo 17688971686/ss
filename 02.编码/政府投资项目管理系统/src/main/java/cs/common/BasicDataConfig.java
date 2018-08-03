@@ -6,6 +6,10 @@ public class BasicDataConfig {
 	public static int processState_tg=2;//审批通过
 	public static int processState_btg=3;//审批不通过
 	
+	public final static String  APPID="861b9769db254eb38e2cd6f1323cc78f";
+	public final static String  APPSECRET ="e9c3f577af8345d7ae4b6dcaf5442392";
+	public final static String AUTHORSECRET = "530ded1aeb7f47b3bda1e56e693ba9c2";//服务秘钥
+	
 	public final static String  ROLE_OPERATOR="办公室经办人";
 	public final static String  ROLE_SECTION_CHIEF="科长";
 	public final static String  ROLE_LEADERSHIP="局领导";

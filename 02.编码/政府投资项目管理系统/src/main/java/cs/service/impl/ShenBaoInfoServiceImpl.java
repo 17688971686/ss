@@ -237,6 +237,12 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         //处理关联信息
         //附件
         //删除历史附件
+//        project.getAttachments().forEach(x -> {
+//        	ids.add(x.getId());
+//            attachmentRepo.delete(x);
+//        });
+//        project.getAttachments().clear();
+        entity.setAttachments(null);
         dto.getAttachmentDtos().forEach(x -> {
             Attachment attachment = new Attachment();
             attachmentMapper.buildEntity(x, attachment);
