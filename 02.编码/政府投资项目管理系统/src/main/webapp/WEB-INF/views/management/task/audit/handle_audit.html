@@ -140,8 +140,9 @@
 		
 		 <div class="bg-info text-info" style="padding: 10px;"
 			ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask16'">项目批复信息</div>
-		<table class="table table-bordered table-striped "
-			>
+		<table class="table table-bordered table-striped " ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask3'  || vm.model.shenBaoInfo.thisTaskName == 'usertask23' 
+			|| vm.model.shenBaoInfo.thisTaskName == 'usertask16'  || vm.model.shenBaoInfo.thisTaskName == 'usertask22'
+			|| vm.model.shenBaoInfo.thisTaskName == 'usertask14'  || vm.model.shenBaoInfo.thisTaskName == 'usertask20'">
 			<tr>
 				<td style="width: 180px;">批复名称</td>
 				<td style="width: 180px;">批复时间</td>
@@ -234,7 +235,7 @@
 
 					<div ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask10'">
 						<label class="pull-left">上传附件：</label>
-						<div class="uploadBox1 pull-left" data-type="pingshenFile">
+						<div class="uploadBox pull-left" data-type="pingshenFile">
 							<input type="file" name="files" kendo-upload
 								   k-options="vm.uploadOptions_shenpi" />
 						</div>

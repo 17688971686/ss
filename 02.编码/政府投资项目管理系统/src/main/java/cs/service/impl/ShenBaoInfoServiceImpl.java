@@ -244,6 +244,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 //        project.getAttachments().clear();
         entity.setAttachments(null);
         dto.getAttachmentDtos().forEach(x -> {
+        	List<Attachment> list = new ArrayList<>();
             Attachment attachment = new Attachment();
             attachmentMapper.buildEntity(x, attachment);
             attachment.setId(UUID.randomUUID().toString());
@@ -261,8 +262,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
                     attachment.setShenBaoAttType("usertask18");
                 }
             }
-
-            entity.getAttachments().add(attachment);
+            list.add(attachment);
+            entity.setAttachments(list);
         });
 
         Project project = projectRepo.findById(entity.getProjectId());
