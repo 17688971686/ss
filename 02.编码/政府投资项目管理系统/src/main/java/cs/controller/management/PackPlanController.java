@@ -59,13 +59,19 @@ public class PackPlanController {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void delete(@RequestBody String id){
 		String[] ids=id.split(",");
-		if(ids.length>1){
-			for(String planId:ids){
-				packPlanService.delete(planId);	
-			}
-		}else{
-			packPlanService.delete(id);	
-		}		
+		try {
+			if(ids.length>1){
+				for(String planId:ids){
+					packPlanService.delete(planId);	
+				}
+			}else{
+				
+					packPlanService.delete(id);	
+			}	
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new IllegalArgumentException(String.format("无法删除,请重新选择！"));
+		}
 	}
 	
 	

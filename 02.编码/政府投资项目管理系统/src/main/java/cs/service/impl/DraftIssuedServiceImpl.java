@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 import cs.common.BasicDataConfig;
 import cs.domain.DraftIssued;
 import cs.domain.DraftIssued_;
+import cs.domain.Project;
 import cs.domain.ShenBaoInfo;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.DraftIssuedDto;
+import cs.repository.impl.ProjectRepoImpl;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.DraftIssuedService;
@@ -30,6 +32,8 @@ public class DraftIssuedServiceImpl extends AbstractServiceImpl<DraftIssuedDto, 
 	private static Logger logger = Logger.getLogger(DraftIssuedServiceImpl.class);
 	@Autowired
 	private IRepository<ShenBaoInfo, String> shenBaoInfoRepo;
+	@Autowired
+	private IRepository<Project, String> projectRepo;
 	
 	@Override
 	@Transactional
@@ -49,6 +53,7 @@ public class DraftIssuedServiceImpl extends AbstractServiceImpl<DraftIssuedDto, 
 		Criterion criterion = Restrictions.eq("relId", draftIssuedDto.getRelId());
 		List<DraftIssued> dtos = super.repository.findByCriteria(criterion);
 		ShenBaoInfo shenbaoinfo = shenBaoInfoRepo.findById(draftIssuedDto.getRelId());
+		Project project = projectRepo.findById(shenbaoinfo.getProjectId());
 		
 		DraftIssued entity;
 		if(dtos !=null && dtos.size()>0){
@@ -57,19 +62,19 @@ public class DraftIssuedServiceImpl extends AbstractServiceImpl<DraftIssuedDto, 
 			entity=super.create(draftIssuedDto);
 		}
 		
-		
 		if(shenbaoinfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_XMJYS)){
-				shenbaoinfo.setPifuJYS_wenhao(draftIssuedDto.getIssuedNumber());
+			project.setPifuJYS_wenhao(draftIssuedDto.getIssuedNumber());
 		}
 		if(shenbaoinfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_KXXYJBG)){
-				shenbaoinfo.setPifuKXXYJBG_wenhao(draftIssuedDto.getIssuedNumber());
+			project.setPifuKXXYJBG_wenhao(draftIssuedDto.getIssuedNumber());
 		}
 		if(shenbaoinfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_CBSJGS)){
-				shenbaoinfo.setPifuCBSJYGS_wenhao(draftIssuedDto.getIssuedNumber());
+			project.setPifuCBSJYGS_wenhao(draftIssuedDto.getIssuedNumber());
 		}
 		if(shenbaoinfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_ZJSQBG)){
-				shenbaoinfo.setPifuZJSQBG_wenhao(draftIssuedDto.getIssuedNumber());
+			project.setPifuZJSQBG_wenhao(draftIssuedDto.getIssuedNumber());
 		}
+		projectRepo.save(project);
 		super.repository.save(entity);
 		logger.info("保存发文拟稿信息");
 	}

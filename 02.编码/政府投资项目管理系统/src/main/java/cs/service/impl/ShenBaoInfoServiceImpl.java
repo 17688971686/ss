@@ -236,9 +236,18 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         }
         //处理关联信息
         //附件
+        //删除历史附件
+//        project.getAttachments().forEach(x -> {
+//        	ids.add(x.getId());
+//            attachmentRepo.delete(x);
+//        });
+//        project.getAttachments().clear();
+        entity.setAttachments(null);
         dto.getAttachmentDtos().forEach(x -> {
+        	List<Attachment> list = new ArrayList<>();
             Attachment attachment = new Attachment();
             attachmentMapper.buildEntity(x, attachment);
+            attachment.setId(UUID.randomUUID().toString());
             attachment.setCreatedBy(entity.getCreatedBy());
             attachment.setModifiedBy(entity.getModifiedBy());
             if (StringUtil.isBlank(attachment.getBusinessType())) {
@@ -253,35 +262,40 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
                     attachment.setShenBaoAttType("usertask18");
                 }
             }
-
-            entity.getAttachments().add(attachment);
+            list.add(attachment);
+            entity.setAttachments(list);
         });
 
         Project project = projectRepo.findById(entity.getProjectId());
         //删除历史附件
+        List<String> ids = new ArrayList<>();
         project.getAttachments().forEach(x -> {
-            attachmentRepo.delete(x);
+        	ids.add(x.getId());
+//            attachmentRepo.delete(x);
         });
-        project.getAttachments().clear();
+//        project.getAttachments().clear();
         //添加新附件
         dto.getAttachmentDtos().forEach(x -> {
-            Attachment attachment = new Attachment();
-            attachmentMapper.buildEntity(x, attachment);
-            attachment.setCreatedBy(project.getCreatedBy());
-            attachment.setModifiedBy(project.getModifiedBy());
-            if (StringUtil.isBlank(attachment.getBusinessType())) {
-                attachment.setBusinessType("shenBao");
-            }
-            if (StringUtil.isBlank(attachment.getShenBaoAttType())) {
-                if ("projectShenBaoStage_1".equalsIgnoreCase(dto.getProjectShenBaoStage())) {
-                    attachment.setShenBaoAttType("usertask26");
-                } else if ("projectShenBaoStage_2".equalsIgnoreCase(dto.getProjectShenBaoStage())) {
-                    attachment.setShenBaoAttType("usertask4");
-                } else if ("projectShenBaoStage_3".equalsIgnoreCase(dto.getProjectShenBaoStage())) {
-                    attachment.setShenBaoAttType("usertask18");
-                }
-            }
-            project.getAttachments().add(attachment);
+        	if(ids.indexOf(x.getId()) != 1){
+        		  Attachment attachment = new Attachment();
+                  attachmentMapper.buildEntity(x, attachment);
+                  attachment.setCreatedBy(project.getCreatedBy());
+                  attachment.setModifiedBy(project.getModifiedBy());
+                  if (StringUtil.isBlank(attachment.getBusinessType())) {
+                      attachment.setBusinessType("shenBao");
+                  }
+                  if (StringUtil.isBlank(attachment.getShenBaoAttType())) {
+                      if ("projectShenBaoStage_1".equalsIgnoreCase(dto.getProjectShenBaoStage())) {
+                          attachment.setShenBaoAttType("usertask26");
+                      } else if ("projectShenBaoStage_2".equalsIgnoreCase(dto.getProjectShenBaoStage())) {
+                          attachment.setShenBaoAttType("usertask4");
+                      } else if ("projectShenBaoStage_3".equalsIgnoreCase(dto.getProjectShenBaoStage())) {
+                          attachment.setShenBaoAttType("usertask18");
+                      }
+                  }
+                  project.getAttachments().add(attachment);
+        	}
+          
         });
 
         //申报单位
@@ -299,6 +313,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
         entity.setBianZhiUnitInfo(bianZhiUnitInfo);
         super.repository.save(entity);
+        projectRepo.save(project);
         //处理批复文件库
         handlePiFuFile(entity);
         return entity;

@@ -283,7 +283,7 @@ public class SQLConfig {
             + " GROUP BY sbi.projectConstrChar ORDER BY b.itemOrder");
 
     public static String packPlanByUnit = String.format("SELECT"
-            + " p.id,p.createdBy,p.createdDate,p.itemOrder,p.modifiedBy,p.modifiedDate,p.name,p.remark,p.year,p.totalMoney,p.isInPlan"
+            + " p.id,p.createdBy,p.createdDate,p.itemOrder,p.modifiedBy,p.modifiedDate,p.name,p.remark,p.year,p.totalMoney,p.ggMoney,p.gtMoney,p.isInPlan"
 //	 		+ 	" ,t3.capital_ggys,t3.capital_gtzj,t3.unitName,"
             + " FROM cs_packPlan p"
             + " LEFT JOIN cs_packplan_cs_allocationcapital t2"
@@ -293,7 +293,7 @@ public class SQLConfig {
             + " WHERE t3.unitName=:unitId");
 
     public static String packPlanByYearPlanId = String.format("SELECT"
-            + " p.id,p.createdBy,p.createdDate,p.itemOrder,p.modifiedBy,p.modifiedDate,p.name,p.remark,p.year,p.totalMoney,p.capitalSCZ_ggys_TheYear,p.capitalSCZ_gtzj_TheYear,p.isInPlan"
+            + " p.id,p.createdBy,p.createdDate,p.itemOrder,p.modifiedBy,p.modifiedDate,p.name,p.remark,p.year,p.totalMoney,p.ggMoney,p.gtMoney,p.capitalSCZ_ggys_TheYear,p.capitalSCZ_gtzj_TheYear,p.isInPlan"
 //	 		+ 	" t3.id yearPlanId"
             + " FROM cs_packPlan p"
             + " LEFT JOIN cs_yearplan_cs_packplan t2"
@@ -339,7 +339,7 @@ public class SQLConfig {
     public static String packPlanByPlanReachId_count = "SELECT count(1)" + packPlanByPlanReachId_base;
 
     public static String packPlanByPlanReachId = "SELECT p.id,p.createdBy,p.createdDate,p.itemOrder,p.modifiedBy," +
-            "p.modifiedDate,p.name,p.remark,p.year,p.totalMoney,p.capitalSCZ_ggys_TheYear," +
+            "p.modifiedDate,p.name,p.remark,p.year,p.totalMoney,p.ggMoney,p.gtMoney,p.capitalSCZ_ggys_TheYear," +
             "p.capitalSCZ_gtzj_TheYear,p.isInPlan" + packPlanByPlanReachId_base;
 
     private static String shenBaoInfoOfPackPlanOfPlanReach_base = " FROM cs_shenbaoinfo t1 " +

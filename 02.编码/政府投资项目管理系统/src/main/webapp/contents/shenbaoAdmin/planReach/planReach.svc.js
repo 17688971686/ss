@@ -1216,7 +1216,17 @@
                 },
                 {
                     field: "projectInvestSum",
-                    title: "项目总投资",
+                    title: "总投资",
+                    width: 140,
+                    filterable: false,
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;"
+                    }
+                },
+                {
+                    field: "apInvestSum",
+                    title: "累计安排资金",
                     width: 140,
                     filterable: false,
                     headerAttributes: {
@@ -1542,8 +1552,18 @@
                 },
                 {
                     field: "projectInvestSum",
-                    title: "项目总投资",
+                    title: "总投资",
                     width: 120,
+                    filterable: false,
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;"
+                    }
+                },
+                {
+                    field: "apInvestSum",
+                    title: "累计安排资金",
+                    width: 140,
                     filterable: false,
                     headerAttributes: {
                         "class": "table-header-cell",

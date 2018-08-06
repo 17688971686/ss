@@ -483,22 +483,6 @@
 					      "class": "table-header-cell",
 					       style: "text-align: center;vertical-align: middle;"
 					    }
-				},
-				{
-					field : "",
-					title : "操作",
-					width : 100,
-					template : function(item) {					
-						return common.format($('#columnBtn_planReachData').html(),
-								[item.id,item.projectName,item.constructionUnit,item.projectGuiMo,item.projectConstrChar,
-								common.formatDate(item.beginDate),common.formatDate(item.endDate),item.projectInvestSum,item.projectInvestAccuSum,item.planYear,
-								item.capitalAP_ggys_TheYear,item.capitalAP_gtzj_TheYear,item.sqPlanReach_ggys,item.sqPlanReach_gtzj,
-								item.apPlanReach_ggys,item.apPlanReach_gtzj]);
-					},
-					headerAttributes: {
-					      "class": "table-header-cell",
-					       style: "text-align: center;vertical-align: middle;"
-					    }
 				}
 			];
 			vm.gridOptions_planReachData = {

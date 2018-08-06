@@ -137,13 +137,12 @@
 				</td>
 			</tr>
 		</table> -->
-		<div class="bg-info text-info" style="padding: 10px;"
+		
+		 <div class="bg-info text-info" style="padding: 10px;"
 			ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask16'">项目批复信息</div>
-			<!-- ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask3'  || vm.model.shenBaoInfo.thisTaskName == 'usertask23' 
+		<table class="table table-bordered table-striped " ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask3'  || vm.model.shenBaoInfo.thisTaskName == 'usertask23' 
 			|| vm.model.shenBaoInfo.thisTaskName == 'usertask16'  || vm.model.shenBaoInfo.thisTaskName == 'usertask22'
-			|| vm.model.shenBaoInfo.thisTaskName == 'usertask14'  || vm.model.shenBaoInfo.thisTaskName == 'usertask20'" -->
-		<table class="table table-bordered table-striped "
-			>
+			|| vm.model.shenBaoInfo.thisTaskName == 'usertask14'  || vm.model.shenBaoInfo.thisTaskName == 'usertask20'">
 			<tr>
 				<td style="width: 180px;">批复名称</td>
 				<td style="width: 180px;">批复时间</td>
@@ -154,10 +153,10 @@
 				<td>{{x[1]}}</td>
 				<td><input type="text" onkeydown="return false;"
 					kendo-date-picker
-					ng-model="vm.model.shenBaoInfo['pifu'+x[0]+'_date']"
+					ng-model="vm.project['pifu'+x[0]+'_date']"
 					k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" /></td>
 				<td><input type="text"
-					ng-model="vm.model.shenBaoInfo['pifu'+x[0]+'_wenhao']"
+					ng-model="vm.project['pifu'+x[0]+'_wenhao']"
 					placeholder="格式：xxx〔xx〕xx号" /></td>
 				<td class="clearfix">
 					<div class="uploadBox pull-left" data-type="{{x[0]}}">
@@ -167,7 +166,7 @@
 							k-options="vm.uploadOptions_pifu" />
 					</div>
 					<div style="margin: 3px;" class="pull-left"
-						ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos"
+						ng-repeat="y in vm.project.attachmentDtos"
 						ng-show="y.type=='{{x[0]}}'">
 						<a href="/contents/upload/{{y.url}}" target="_blank"
 							ng-bind="y.name"></a>

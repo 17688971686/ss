@@ -26,6 +26,7 @@
         var url_document = "/shenbaoAdmin/replyFile";
         var url_getSysConfigs = "/sys/getSysConfigs";
         var url_userUnit = "/shenbaoAdmin/userUnitInfo";
+        var url_project = "/shenbaoAdmin/project";
 
         var service = {
             grid: grid,//待办任务列表
@@ -55,10 +56,35 @@
             yuepi: yuepi,//阅批按钮
             getSysConfigs: getSysConfigs,//系统配置
             getUserUnit: getUserUnit,
-            getKezhangByName:getKezhangByName
+            getKezhangByName:getKezhangByName,
+            getProjectById:getProjectById
         };
 
         return service;
+        
+        /**
+		 * 通过项目代码查询项目信息
+		 */
+		function getProjectById(vm,id){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_project + "?$filter=id eq '{0}'", id)
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.project = response.data.value[0]||{};
+				vm.project.pifuJYS_date=common.formatDate(vm.project.pifuJYS_date);//项目建议书批复日期			
+				vm.project.pifuKXXYJBG_date=common.formatDate(vm.project.pifuKXXYJBG_date);//可行性研究报告批复日期
+				vm.project.pifuCBSJYGS_date=common.formatDate(vm.project.pifuCBSJYGS_date);//初步设计与概算批复日期
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
 
         function yuepi(vm, id) {
             var httpOptions = {
@@ -590,7 +616,7 @@
                         if (vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18') {
                             getDeptByName(vm, "局领导");
                         }
-
+                        getProjectById(vm, vm.model.shenBaoInfo.projectId)
                     }
                 });
             };
@@ -640,11 +666,7 @@
                 }).then(function (response) {
                     vm.isSubmit = false;
                     bsWin.success("操作成功", function () {
-                        if (vm.page == 'handleYuepi') {
-                            location.href = "#/task/todo_yuepi";
-                        } else {
-                            location.href = url_back;
-                        }
+                       location.href = url_back;
                     })
                 }, function (response) {
                     vm.isSubmit = false;
@@ -667,7 +689,8 @@
                         "nextUsers": vm.nextUsers.toString(),
                         "isPass": vm.isPass,
                         "isPass2": vm.isPass2,
-                        "shenbaoinfo": vm.model.shenBaoInfo
+                        "shenbaoinfo": vm.model.shenBaoInfo,
+                        "project":vm.project
                     }
                 };
 

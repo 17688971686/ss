@@ -30,6 +30,8 @@ public class PackPlanMapper implements IMapper<PackPlanDto, PackPlan>{
 			packPlanDto.setName(entity.getName());
 			packPlanDto.setRemark(entity.getRemark());
 			packPlanDto.setTotalMoney(entity.getTotalMoney());
+			packPlanDto.setGgMoney(entity.getGgMoney());
+			packPlanDto.setGtMoney(entity.getGtMoney());
 			//基础数据
 			packPlanDto.setItemOrder(entity.getItemOrder());
 			packPlanDto.setModifiedDate(entity.getModifiedDate());
@@ -57,6 +59,8 @@ public class PackPlanMapper implements IMapper<PackPlanDto, PackPlan>{
 			entity.setName(dto.getName());
 			entity.setRemark(dto.getRemark());
 			entity.setTotalMoney(dto.getTotalMoney());
+			entity.setGgMoney(dto.getGtMoney());
+			entity.setGtMoney(dto.getGtMoney());
 			//基础数据
 			entity.setCreatedBy(dto.getCreatedBy());
 			entity.setCreatedDate(dto.getCreatedDate());		

@@ -97,18 +97,14 @@ public class PackPlanServiceImpl extends AbstractServiceImpl<PackPlanDto, PackPl
 				ShenBaoInfo shenbaoInfo = packPlan.getShenBaoInfos().get(j);
 				if(shenbaoInfo.getProcessState() != null){
 					if(BasicDataConfig.processState_jinxingzhong == shenbaoInfo.getProcessState()){
-						throw new IllegalArgumentException(String.format("打包计划中存在审批中的项目,无法删除,请重新选着！", packPlan.getName()));
+						throw new IllegalArgumentException(String.format("打包计划: %s 中存在审批中的项目,无法删除,请重新选着！", packPlan.getName()));
 					}
 				}
 			}
 		}
-//		if (!packPlan.getIsInPlan()) {
 		packPlan.getAllocationCapitals().clear();
 		packPlan.getShenBaoInfos().clear();
 		super.delete(id);
-//		}else{
-//			throw new IllegalArgumentException(String.format("打包计划已存在其他计划下达中,无法删除,请重新输入！", dto.getName()));
-//		}
 		
 	}
 

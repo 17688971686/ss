@@ -1,6 +1,6 @@
 <form id="formApproval" name="form">
 	<div class="page-header" style="text-align: center;">
-		<h1>项目评审报批单</h1>
+		<h3 style="margin: 0;font-size: 22px;">项目评审报批单</h3>
 	</div>
 	<div class="pull-right">
 		<p>日期：<span ng-bind="vm.approval.beginDate | date:'yyyy年MM月dd日'"></span></p>
@@ -8,27 +8,27 @@
 	<table class="table table-bordered table-striped ">
 		<tr>
 			<td class="formAlignRight" style="width:150px;">项目名称：</td>
-			<td style="text-align: center;">
+			<td>
 				<span ng-bind="vm.approval.projectName"></span>
 			</td>
 			<td class="formAlignRight" style="width:150px;">项目代码：</td>
-			<td style="text-align: center;">
+			<td>
 				<span ng-bind="vm.approval.projectNumber"></span>
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">建设单位：</td>
-			<td style="text-align: center;">
+			<td>
 				<span ng-bind="vm.approval.constructionUnit"></span>
 			</td>
 			<td class="formAlignRight">编制部门：</td>
-			<td style="text-align: center;">
+			<td>
 				<span ng-bind="vm.approval.unitName"></span>
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">评审类别：</td>
-			<td style="width: 333px;text-align: center;">
+			<td colspan="3" style="width: 333px;">
 				<span ng-bind="vm.getBasicDataDesc(vm.approval.approvalType)"></span>
 			</td>
 		</tr>

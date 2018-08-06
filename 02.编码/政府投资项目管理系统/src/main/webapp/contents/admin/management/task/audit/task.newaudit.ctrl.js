@@ -361,93 +361,21 @@
 
                 });
             };
-            //文件上传成功
-            vm.uploadSuccess = function (e) {
-                var type = $(e.sender.element).parents('.uploadBox').attr('data-type');
-                if (e.XMLHttpRequest.status == 200) {
-                    // var fileName=e.XMLHttpRequest.response;
-                    var fileObj = eval("(" + e.XMLHttpRequest.response + ")").data[0];
-                    $scope.$apply(function () {
-                        if (vm.model.shenBaoInfo.attachmentDtos) {
-                            if (vm.model.shenBaoInfo.thisTaskName == "usertask16") {
-                                if (vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_projectProposal) {
-                                    type = 'Project_ProPosal';
-                                } else if (vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_KXXYJBG) {
-                                    type = 'KXXYJ_Report';
-                                } else if (vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_CBSJYGS) {
-                                    type = 'CBSJYGS_Material';
-                                } else if (vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_capitalApplyReport) {
-                                    type = 'IssuedReplyFile_Scanning';
-                                }
-                            }
-
-                            vm.model.shenBaoInfo.attachmentDtos.push({
-                                name: fileObj.originalFilename,
-                                url: fileObj.randomName,
-                                type: type
-                            });
-                        } else {
-                            if (vm.model.shenBaoInfo.thisTaskName == "usertask16") {
-                                if (vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_projectProposal) {
-                                    type = 'Project_ProPosal';
-                                } else if (vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_KXXYJBG) {
-                                    type = 'KXXYJ_Report';
-                                } else if (vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_CBSJYGS) {
-                                    type = 'CBSJYGS_Material';
-                                } else if (vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_capitalApplyReport) {
-                                    type = 'IssuedReplyFile_Scanning';
-                                }
-                            }
-                            vm.model.shenBaoInfo.attachmentDtos = [{
-                                name: fileObj.originalFilename,
-                                url: fileObj.randomName,
-                                type: type
-                            }];
-                        }
-                    });
-                }
-            };
-
+           
             vm.uploadError = function (e) {
                 common.alert({
                     vm: vm,
                     msg: e.XMLHttpRequest.response.message
                 });
             }
-
-            //批复文件上传配置
-            vm.uploadOptions_pifu = {
-                async: {saveUrl: '/common/save', removeUrl: '/common/remove', autoUpload: true},
-                error: vm.uploadError,
-                success: vm.uploadSuccess,
-                localization: {select: '上传文件'},
-                showFileList: false,
-                multiple: false,
-                validation: {
-                    maxFileSize: common.basicDataConfig().uploadSize
-                },
-                select: vm.onSelect
-            };
-            //相关附件上传配置
-            vm.uploadOptions = {
-                async: {saveUrl: '/common/save', removeUrl: '/common/remove', autoUpload: true},
-                error: vm.uploadError,
-                success: vm.uploadSuccess,
-                localization: {select: '上传文件'},
-                showFileList: false,
-                multiple: true,
-                validation: {
-                    maxFileSize: common.basicDataConfig().uploadSize
-                },
-                select: vm.onSelect
-            };
+            
             //删除上传文件
             vm.delFile = function (idx) {
-                var file = vm.model.shenBaoInfo.attachmentDtos[idx];
+                var file = vm.project.attachmentDtos[idx];
                 if (file) {//删除上传文件的同时删除批复文号
                     var pifuType = file.type;
-                    vm.model.shenBaoInfo['pifu' + pifuType + '_wenhao'] = "";
-                    vm.model.shenBaoInfo.attachmentDtos.splice(idx, 1);
+                    vm.project['pifu' + pifuType + '_wenhao'] = "";
+                    vm.project.attachmentDtos.splice(idx, 1);
                 }
             };
 
@@ -518,14 +446,6 @@
                             }
                         });
                     })
-                    // var fileName=e.XMLHttpRequest.response;
-                    // $scope.$apply(function(){
-                    //  if(vm.model.shenBaoInfo.attachmentDtos){
-                    // 	vm.model.shenBaoInfo.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
-                    //  }else{
-                    // 	vm.model.shenBaoInfo.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
-                    //  }
-                    // });
                 }
             };
 
@@ -550,6 +470,45 @@
                     vm.model.shenBaoInfo.attachmentDtos.splice(idx, 1);
                 }
             };
+            
+            //文件上传成功
+            vm.uploadSuccess_pifu = function (e) {
+            	  var type = $(e.sender.element).parents('.uploadBox').attr('data-type');
+                  if (e.XMLHttpRequest.status == 200) {
+                      angular.forEach(eval("(" + e.XMLHttpRequest.response + ")").data, function (fileObj, index) {
+                          $scope.$apply(function () {
+                              if (vm.project.attachmentDtos) {
+                                  vm.project.attachmentDtos.push({
+                                      name: fileObj.originalFilename,
+                                      url: fileObj.randomName,
+                                      type: type
+                                  });
+                              } else {
+                                  vm.project.attachmentDtos = [{
+                                      name: fileObj.originalFilename,
+                                      url: fileObj.randomName,
+                                      type: type
+                                  }];
+                              }
+                          });
+                      })
+                  }
+            };
+            //批复文件上传配置
+            vm.uploadOptions_pifu = {
+            		  async: {saveUrl: '/common/save', removeUrl: '/common/remove', autoUpload: true},
+                      error: vm.uploadError,
+                      success: vm.uploadSuccess_pifu,
+                      localization: {select: '上传文件'},
+                      showFileList: false,
+                      multiple: true,
+                      validation: {
+                          maxFileSize: common.basicDataConfig().uploadSize
+                      },
+                      select: vm.onSelect
+            };
+         
+
             /****************审批附件相关 end**********************/
 
             /****************评审报批附件相关 begin**********************/
@@ -574,14 +533,6 @@
                             }
                         });
                     })
-                    // var fileName=e.XMLHttpRequest.response;
-                    // $scope.$apply(function(){
-                    //  if(vm.approval.attachmentDtos){
-                    // 	vm.approval.attachmentDtos.push({name:fileName.split('_')[2],url:fileName,type:type});
-                    //  }else{
-                    // 	vm.approval.attachmentDtos=[{name:fileName.split('_')[2],url:fileName,type:type}];
-                    //  }
-                    // });
                 }
             };
 
@@ -650,7 +601,9 @@
         	};
 		   //处理
         	vm.handle=function(str){
-        		
+        		if((vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18') && vm.isPass == "5" && vm.nextUsers == ""){
+        			vm.nextUsers = "e03930db-9e32-4158-afe4-9357945df1ae";
+        		}
     			if((vm.model.shenBaoInfo.thisTaskName == 'usertask1' || vm.model.shenBaoInfo.thisTaskName == 'usertask5') && vm.isPass == "1" && vm.nextUsers == "" && str =="next"){
 							vm.nextUsers = vm.banliUsers;
 							taskNewAuditSvc.handle(vm,str);
