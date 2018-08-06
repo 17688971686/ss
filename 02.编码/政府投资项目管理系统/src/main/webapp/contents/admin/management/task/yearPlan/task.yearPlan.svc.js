@@ -393,7 +393,7 @@
 
 			];
 			// End:column
-			if(window.userOptions && window.userOptions !=''){
+			if(window.userOptions && window.userOptions !='' && window.userOptions.$angular){
 				vm.gridOptions = window.userOptions;
         	}else{
         		vm.gridOptions = {

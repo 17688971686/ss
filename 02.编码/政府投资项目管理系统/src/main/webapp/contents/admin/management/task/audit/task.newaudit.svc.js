@@ -954,7 +954,7 @@
 
             ];
             // End:column
-            if (window.todo_auditOption && window.todo_auditOption != '') {
+            if (window.todo_auditOption && window.todo_auditOption != '' && window.todo_auditOption.$angular) {
                 vm.gridOptions = window.todo_auditOption;
             } else {
                 vm.gridOptions = {
@@ -1091,7 +1091,7 @@
 
             ];
             // End:column
-            if (window.todo_auditOption_other && window.todo_auditOption_other != '') {
+            if (window.todo_auditOption_other && window.todo_auditOption_other != '' && window.todo_auditOption_other.$angular) {
                 vm.gridOptions_other = window.todo_auditOption_other;
             } else {
                 vm.gridOptions_other = {
@@ -1243,7 +1243,7 @@
 
             ];
             // End:column
-            if (window.todo_auditOption_yuepi && window.todo_auditOption_yuepi != '') {
+            if (window.todo_auditOption_yuepi && window.todo_auditOption_yuepi != '' && window.todo_auditOption_yuepi.$angular) {
                 vm.gridOptions_yuepi = window.todo_auditOption_yuepi;
             } else {
                 vm.gridOptions_yuepi = {
