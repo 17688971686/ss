@@ -867,7 +867,7 @@
 
             ];
             // End:column
-            if (window.todo_planOption && window.todo_planOption != '') {
+            if (window.todo_planOption && window.todo_planOption != '' && window.todo_planOption.$angular) {
                 vm.gridOptions_plan = window.todo_planOption;
             } else {
                 vm.gridOptions_plan = {
@@ -978,7 +978,7 @@
 
             ];
             // End:column
-            if (window.todo_planOption_other && window.todo_planOption_other != '') {
+            if (window.todo_planOption_other && window.todo_planOption_other != '' && window.todo_planOption_other.$angular) {
                 vm.gridOptions_plan_other = window.todo_planOption_other;
             } else {
                 vm.gridOptions_plan_other = {
