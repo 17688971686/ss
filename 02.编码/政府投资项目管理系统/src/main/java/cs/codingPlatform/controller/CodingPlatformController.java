@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cs.codingPlatform.service.CodingPlatformService;
 import cs.common.ICurrentUser;
+import cs.domain.ShenBaoInfo;
+import cs.model.PageModelDto;
 
 
 @Controller
@@ -30,8 +32,8 @@ public class CodingPlatformController {
 	
 	@RequestMapping(value = "/getShenBaoInfo", method = RequestMethod.POST)
 	@ResponseBody
-	public void getShenBaoInfo(HttpServletRequest request,@RequestParam(required = true) String todaytime,@RequestParam(required = true) String pageIndex) {
-		codingPlatformService.getShenBaoInfo(request,todaytime,pageIndex);
+	public PageModelDto<ShenBaoInfo> getShenBaoInfo(HttpServletRequest request,@RequestParam(required = true) String todaytime,@RequestParam(required = true) String pageIndex) {
+		return codingPlatformService.getShenBaoInfo(request,todaytime,pageIndex);
 	}
 	
 }
