@@ -43,7 +43,7 @@ public class SQLConfig {
                 "t1.qianshouDate,t1.pifuDate,t1.nationalIndustry,t1.complate,t1.thisTaskId,t1.thisTaskName," +
                 "t1.zong_processId, t2.capitalSum YearInvestApproval,t2.id yearPlanCapitalId,t1.complate,t1.thisTaskId," +
                 "t1.thisTaskName,t1.zong_processId,t1.isIncludPack,t1.pifuZJSQBG_date,t1.pifuZJSQBG_wenhao," +
-                "t1.monitor_processId,t1.isSubShenBaoAtt,t1.isLeaderHasRead,t1.thisUser,t1.monitor_status"
+                "t1.monitor_processId,t1.isSubShenBaoAtt,t1.isLeaderHasRead,t1.thisUser,t1.monitor_status,t1.xdPlanReach_gtzj,t1.xdPlanReach_ggys"
                 + yearPlanProjectBase(exclude) + " order by t1.ProjectIndustry desc";
     }
 
@@ -325,7 +325,7 @@ public class SQLConfig {
             + " t1.yearConstructionContentLastTwoYear,t1.yearConstructionContentLastYear,t1.yearConstructionContentShenBao,t1.yearConstructionTask,t1.yearImageSchedule,t1.yearInvestApproval,t1.yearInvestApproval_lastTwoYear,t1.yearInvestApproval_lastYear,"
             + " t1.bianZhiUnitInfo_id,t1.shenBaoUnitInfo_id,t1.packageType,t1.receiver,t1.capitalOtherDescriptionShenBao_LastYear,t1.capitalOtherDescriptionShenBao_LastTwoYear,t1.isApplyOutsideCapital,t1.applyOutsideCapital,t1.isIncludYearPlan,"
             + " t1.sqPlanReach_ggys,t1.sqPlanReach_gtzj,t1.isPlanReach,t1.apPlanReach_ggys,t1.apPlanReach_gtzj,t1.shenbaoDate,t1.qianshouDate,t1.pifuDate,t1.nationalIndustry,t1.complate,t1.thisTaskId,t1.thisTaskName,t1.zong_processId,t1.yearPlanCapitalId,"
-            + "t1.isIncludPack,t1.pifuZJSQBG_date,t1.pifuZJSQBG_wenhao,t1.monitor_processId,t1.isSubShenBaoAtt,t1.isLeaderHasRead,t1.thisUser,t1.monitor_status"
+            + "t1.isIncludPack,t1.pifuZJSQBG_date,t1.pifuZJSQBG_wenhao,t1.monitor_processId,t1.isSubShenBaoAtt,t1.isLeaderHasRead,t1.thisUser,t1.monitor_status,t1.xdPlanReach_gtzj,t1.xdPlanReach_ggys"
 //	 		+ " p.id,p.createdBy,p.createdDate,p.itemOrder,p.modifiedBy,p.modifiedDate,"
 //	 		+ " p.applicationName,p.applicationTime,p.applicationUnit,p.resPerson,p.resPersonTel"
             + shenBaoInfoOfPlanReachApplication_base;
@@ -335,6 +335,8 @@ public class SQLConfig {
     private static String packPlanByPlanReachId_base = " FROM cs_packPlan p " +
             "LEFT JOIN cs_planreachapplication_cs_packplan t2 ON p.id=t2.packPlans_id " +
             "LEFT JOIN cs_planreachapplication t3 ON t2.PlanReachApplication_id=t3.id WHERE t3.id=:planReachId";
+    
+    public static String planReachApproval_count ="SELECT count(1) FROM cs_planreachapproval_cs_shenbaoinfo WHERE shenBaoInfos_id =:shenBaoInfos_id";
 
     public static String packPlanByPlanReachId_count = "SELECT count(1)" + packPlanByPlanReachId_base;
 
@@ -364,7 +366,7 @@ public class SQLConfig {
             + " t1.yearConstructionContentLastTwoYear,t1.yearConstructionContentLastYear,t1.yearConstructionContentShenBao,t1.yearConstructionTask,t1.yearImageSchedule,t1.yearInvestApproval,t1.yearInvestApproval_lastTwoYear,t1.yearInvestApproval_lastYear,"
             + " t1.bianZhiUnitInfo_id,t1.shenBaoUnitInfo_id,t1.packageType,t1.receiver,t1.capitalOtherDescriptionShenBao_LastYear,t1.capitalOtherDescriptionShenBao_LastTwoYear,t1.isApplyOutsideCapital,t1.applyOutsideCapital,t1.isIncludYearPlan,"
             + " t1.sqPlanReach_ggys,t1.sqPlanReach_gtzj,t1.isPlanReach,t1.apPlanReach_ggys,t1.apPlanReach_gtzj,t1.isIncludPack,t1.shenbaoDate,t1.qianshouDate,t1.nationalIndustry,t1.yearPlanCapitalId,t1.pifuDate,t1.complate,t1.thisTaskId,"
-            + "t1.thisTaskName,t1.zong_processId,t1.pifuZJSQBG_date,t1.pifuZJSQBG_wenhao,t1.monitor_processId,t1.isSubShenBaoAtt,t1.isLeaderHasRead,t1.thisUser,t1.monitor_status"
+            + "t1.thisTaskName,t1.zong_processId,t1.pifuZJSQBG_date,t1.pifuZJSQBG_wenhao,t1.monitor_processId,t1.isSubShenBaoAtt,t1.isLeaderHasRead,t1.thisUser,t1.monitor_status,t1.xdPlanReach_gtzj,t1.xdPlanReach_ggys"
 //	 		+ " p.id,p.createdBy,p.createdDate,p.itemOrder,p.modifiedBy,p.modifiedDate,"
 //	 		+ " p.applicationName,p.applicationTime,p.applicationUnit,p.resPerson,p.resPersonTel"
             + shenBaoInfoOfPackPlanOfPlanReach_base;

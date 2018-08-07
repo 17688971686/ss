@@ -9,6 +9,7 @@ import com.sn.framework.common.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -91,7 +92,27 @@ public class PlanReachController {
         shenbaoInfoService.comfirmPlanReach(map, true);
     }
 
+    @RequestMapping(name = "添加申请资金", path = "updateShnebaoInfo/{shenbaoId}/{ggmoney}/{gtmoney}", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void updateShnebaoInfo(@PathVariable String shenbaoId, @PathVariable String ggmoney, @PathVariable String gtmoney) {
 
+        double xdPlanReach_gtzj = Double.parseDouble(gtmoney);
+        double xdPlanReach_ggys = Double.parseDouble(ggmoney);
+        planReachApprovalService.updateShnebaoInfo(shenbaoId, xdPlanReach_ggys, xdPlanReach_gtzj);
+    }
+    
+    @RequestMapping(name = "办结单条任务--计划类", path = "endProcess/{id}", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void endProcess(@PathVariable String id) {
+    	planReachApprovalService.endProcess(id);
+    }
+    
+    @RequestMapping(name = "办结所有任务--计划类", path = "endProcesss/{id}", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void endProcesss(@PathVariable String id) {
+    	planReachApprovalService.endProcesss(id);
+    }
+    
     //@RequiresPermissions("management/planReachManage/planReach#html/list#get")
     @RequestMapping(name = "计划下达列表页面", path = "html/list", method = RequestMethod.GET)
     public String list() {

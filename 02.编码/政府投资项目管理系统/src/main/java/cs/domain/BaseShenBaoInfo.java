@@ -143,14 +143,18 @@ public class BaseShenBaoInfo extends BaseProject {
     //下一年度计划 End（三年滚动计划）
 
     //计划下达 Begin
-    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '计划下达申请--公共预算'")
+    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '计划下达申请资金--公共预算'")
     private Double sqPlanReach_ggys = 0.0;
-    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '计划下达申请--国土基金'")
+    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '计划下达申请资金--国土基金'")
     private Double sqPlanReach_gtzj = 0.0;
-    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '计划下达安排--公共预算'")
+    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '计划下达安排资金--公共预算'")
     private Double apPlanReach_ggys = 0.0;
-    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '计划下达安排--国土基金'")
+    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '计划下达安排资金--国土基金'")
     private Double apPlanReach_gtzj = 0.0;
+    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '计划下达下达资金--公共预算'")
+    private Double xdPlanReach_ggys = 0.0;
+    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '计划下达下达资金--国土基金'")
+    private Double xdPlanReach_gtzj = 0.0;
     @Column(columnDefinition = "varchar(125) NULL COMMENT '项目建设性质分类'")
     private String projectConstrChar;
     //计划下达 End
@@ -837,6 +841,22 @@ public class BaseShenBaoInfo extends BaseProject {
 
 	public void setThisUser(String thisUser) {
 		this.thisUser = thisUser;
+	}
+
+	public Double getXdPlanReach_ggys() {
+		return xdPlanReach_ggys;
+	}
+
+	public void setXdPlanReach_ggys(Double xdPlanReach_ggys) {
+		this.xdPlanReach_ggys = xdPlanReach_ggys;
+	}
+
+	public Double getXdPlanReach_gtzj() {
+		return xdPlanReach_gtzj;
+	}
+
+	public void setXdPlanReach_gtzj(Double xdPlanReach_gtzj) {
+		this.xdPlanReach_gtzj = xdPlanReach_gtzj;
 	}
 
 

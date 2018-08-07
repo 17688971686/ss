@@ -46,7 +46,9 @@
     <sequenceFlow id="flow100" name="退文" sourceRef="exclusivegateway4" targetRef="endevent11">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==3}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow101" sourceRef="exclusivegateway12" targetRef="endevent11"></sequenceFlow>
+    <sequenceFlow id="flow101" sourceRef="exclusivegateway12" targetRef="endevent11">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==1}]]></conditionExpression>
+    </sequenceFlow>
     <sequenceFlow id="flow102" sourceRef="exclusivegateway3" targetRef="usertask4">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isPass==1}]]></conditionExpression>
     </sequenceFlow>
@@ -151,7 +153,7 @@
         <omgdi:waypoint x="292.0" y="310.0"></omgdi:waypoint>
         <omgdi:waypoint x="292.0" y="225.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="272.0" y="254.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="60.0" x="272.0" y="254.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow100" id="BPMNEdge_flow100">

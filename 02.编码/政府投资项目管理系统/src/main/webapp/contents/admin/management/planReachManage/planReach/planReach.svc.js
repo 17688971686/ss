@@ -24,7 +24,8 @@
 		var url="/management/planReachManage/planReach";
 		var url_shenbao="/management/shenbao";
 		var url_back="/planReach_tabList";
-		
+		var url_taskAudit = "/management/task/plan";
+		var url_plan = "/shenbaoAdmin/planReach";
 		var service={
 				grid:grid,
 				getHasIncludYearPlan:getHasIncludYearPlan,
@@ -39,10 +40,29 @@
 				createApproval:createApproval,
 				updateApproval:updateApproval,
 				deleteApproval:deleteApproval,
-				getPlanReachApprovalById:getPlanReachApprovalById
+				getPlanReachApprovalById:getPlanReachApprovalById,
+				updateShnebaoInfo:updateShnebaoInfo,
+				endProcess:endProcess,
+				endProcesss:endProcesss
 		}
 		
 		return service;
+		
+		function endProcess(vm,id){
+			 $http.post(common.format(url + "/endProcess/{0}", id)).then(function () {
+				 getPlanReachApprovalById(vm);
+	            })
+		}
+		function endProcesss(vm){
+			 $http.post(common.format(url + "/endProcesss/{0}", vm.id)).then(function () {
+				 location.path(url_back);
+	            })
+		}
+		 function updateShnebaoInfo(vm, shenbaoId) {
+	            $http.post(common.format(url + "/updateShnebaoInfo/{0}/{1}/{2}", shenbaoId, vm.gg[shenbaoId], vm.gt[shenbaoId])).then(function () {
+	                vm.gridOptions && vm.gridOptions.dataSource && vm.gridOptions.dataSource.read();
+	            })
+	        };
 		
 		/**
 		 * 根据id获取计划下达批复表单信息
@@ -60,6 +80,8 @@
 				vm.model.shenBaoInfoDtos.forEach(function(item,index){
 					item.beginDate=common.formatDate(item.beginDate);
 					item.endDate=common.formatDate(item.endDate);
+					vm.gg[item.id] = item.xdPlanReach_ggys;
+					vm.gt[item.id] = item.xdPlanReach_gtzj;
 				});
 			};
 			common.http({
@@ -120,7 +142,7 @@
 				var httpOptions = {
 						method : 'post',
 						url : url+'/updatePlanReachManage',
-						data : {"id": vm.model.id,"ids" : isList,"resPersonTel":vm.model.resPersonTel,"resPerson":vm.model.resPerson,"approvalTime":vm.model.approvalTime,"title":vm.model.title}
+						data : {"id": vm.model.id,"ids" : isList,"resPersonTel":vm.model.resPersonTel,"resPerson":vm.model.resPerson,"approvalTime":vm.model.approvalTime,"title":vm.model.title,"gg":vm.gg,"gt":vm.gt}
 					};
 				var httpSuccess = function success(response) {
 					common.requestSuccess({
@@ -166,7 +188,7 @@
 				var httpOptions = {
 						method : 'post',
 						url : url,
-						data : {"ids" : isList,"resPersonTel":vm.model.resPersonTel,"resPerson":vm.model.resPerson,"approvalTime":vm.model.approvalTime,"title":vm.model.title}
+						data : {"ids" : isList,"resPersonTel":vm.model.resPersonTel,"resPerson":vm.model.resPerson,"approvalTime":vm.model.approvalTime,"title":vm.model.title,"gg":vm.gg,"gt":vm.gt}
 					};
 				var httpSuccess = function success(response) {
 					common.requestSuccess({
@@ -281,7 +303,7 @@
 		function planReachGrid(vm){
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_shenbao),						
+				transport: common.kendoGridConfig().transport(common.format(url_taskAudit + "?leixin={0}", "geren")),				
 				schema : common.kendoGridConfig().schema({
 					id : "id",
 					fields : {
@@ -299,20 +321,10 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:[{
-					field:'projectShenBaoStage',
+				filter:[{//过滤条件为审批状态不为退回状态
+					field:'thisTaskName',
 					operator:'eq',
-					value:common.basicDataConfig().projectShenBaoStage_jihuaxiada
-				}
-//				,{//TODO 这里过滤条件是审批阶段为“秘书科发文”，与OA对接成功之后这里应该是与OA返回同意的那个阶段
-//					field:'processStage',
-//					operator:'eq',
-//					value:common.basicDataConfig().processState_mskfawen
-//				}
-				,{//过滤条件为审批状态不为退回状态
-					field:'processState',
-					operator:'ne',
-					value:common.basicDataConfig().processState_notpass
+					value:"usertask5"
 				}]
 			});
 			var columns = [	
@@ -1324,7 +1336,7 @@
 		function grid(vm){
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport : common.kendoGridConfig().transport(url_shenbao),						
+                transport: common.kendoGridConfig().transport(common.format(url_taskAudit + "?leixin={0}", "geren")),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
 					fields : {
@@ -1342,21 +1354,12 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:[{
-					field:'projectShenBaoStage',
+				filter:[{//TODO 这里过滤条件是审批阶段为“秘书科发文”，与OA对接成功之后这里应该是与OA返回同意的那个阶段
+					field:'thisTaskName',
 					operator:'eq',
-					value:common.basicDataConfig().projectShenBaoStage_jihuaxiada
+					value:"usertask5"
 				}
-//				,{//TODO 这里过滤条件是审批阶段为“秘书科发文”，与OA对接成功之后这里应该是与OA返回同意的那个阶段
-//					field:'processStage',
-//					operator:'eq',
-//					value:common.basicDataConfig().processState_mskfawen
-//				}
-				,{//过滤条件为审批状态不为退回状态
-					field:'processState',
-					operator:'ne',
-					value:common.basicDataConfig().processState_notpass
-				}]
+				]
 			});
 			var columns = [	
 				{
@@ -1499,7 +1502,7 @@
 					    }
 				},
 				{
-					title: "计划下达安排(万元)",
+					title: "计划安排资金(万元)",
 					columns: [
 						{
 							field : "apPlanReach_ggys",
@@ -1522,23 +1525,45 @@
 						    }
 						}
 					],
-					headerAttributes: {
-					      "class": "table-header-cell",
-					       style: "text-align: center;vertical-align: middle;"
-					    }
-				},
-				{
-					field : "",
-					title : "操作",
-					width : 100,
-					template : function(item) {					
-						return common.format($('#columnBtns').html(),item.id);
+						headerAttributes: {
+						      "class": "table-header-cell",
+						       style: "text-align: center;vertical-align: middle;"
+						    }
 					},
-					headerAttributes: {
-					      "class": "table-header-cell",
-					       style: "text-align: center;vertical-align: middle;"
-					    }
-				}
+					{
+						title: "计划下达资金(万元)",
+						columns: [
+							{
+								field : "xdPlanReach_ggys",
+								title : "公共预算",
+								width:80,
+								filterable : false,
+							    template: function (item) {
+	                                vm.gg[item.id] = item.xdPlanReach_ggys;
+	                                return common.format($('#input').html(), item.id, item.xdPlanReach_ggys);
+	                            },
+								headerAttributes: {
+							      "class": "table-header-cell",
+							       style: "text-align: center;vertical-align: middle;"
+							    }
+							},
+							{
+								field : "xdPlanReach_gtzj",
+								title : "国土基金",
+								width:80,
+								filterable : false,
+								template: function (item) {
+	                               vm.gt[item.id] = item.xdPlanReach_gtzj;
+	                               return common.format($('#input2').html(), item.id, item.xdPlanReach_gtzj);
+	                            },
+								headerAttributes: {
+							      "class": "table-header-cell",
+							       style: "text-align: center;vertical-align: middle;"
+							    }
+							}
+						],
+					}
+				
 			];
 			vm.gridOptions = {
 				dataSource : common.gridDataSource(dataSource),

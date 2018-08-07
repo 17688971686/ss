@@ -419,14 +419,14 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		String nextUsers = (String) data.get("nextUsers");// 下一经办人
 		String isPass = (String) data.get("isPass");// 下一经办人
 		String isPass2 = (String) data.get("isPass2");// 下一经办人
-		double apPlanReach_ggys;
-		double apPlanReach_gtzj;
+		double xdPlanReach_ggys;
+		double xdPlanReach_gtzj;
 
-		Integer c = (int) data.get("apPlanReach_ggys");
-		apPlanReach_ggys = c.doubleValue();
+		Integer c = (int) data.get("xdPlanReach_ggys");
+		xdPlanReach_ggys = c.doubleValue();
 
-		Integer a = (int) data.get("apPlanReach_gtzj");
-		apPlanReach_gtzj = a.doubleValue();
+		Integer a = (int) data.get("xdPlanReach_gtzj");
+		xdPlanReach_gtzj = a.doubleValue();
 
 		ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenbaoInfoId);
 
@@ -520,8 +520,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 
 		if (shenBaoInfo.getThisTaskName().equals("usertask5")) {
-			shenBaoInfo.setApPlanReach_gtzj(apPlanReach_gtzj);
-			shenBaoInfo.setApPlanReach_ggys(apPlanReach_ggys);
+			shenBaoInfo.setXdPlanReach_gtzj(xdPlanReach_gtzj);
+			shenBaoInfo.setXdPlanReach_ggys(xdPlanReach_ggys);
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已办结");
 			shenBaoInfo.setProcessStage("已办结");

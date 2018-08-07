@@ -10,6 +10,7 @@
 	  	<a class="btn btn-success btn-sm" href="javascript:;" ui-sref="planReach_tabList"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回</a>
 		<button ng-if="!vm.id" type="button" class="btn btn-success btn-sm" ng-click="vm.addPlanReachApproval()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-ok"></span>&nbsp;创建</button>
 	  	<button ng-if="vm.id" type="button" class="btn btn-success btn-sm" ng-click="vm.editPlanReachApproval()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-ok"></span>&nbsp;更新</button>
+	  	<button ng-if="vm.id" type="button" class="btn btn-success btn-sm" ng-click="vm.endProcesss()" ng-disabled="vm.isSubmit">全部办结</button>
 	  </div>
 	  
 	    <div>
@@ -52,21 +53,20 @@
   							</td>
   						</tr>
 						<tr style="text-align: center;">
-							<td rowspan="2">建设单位及项目名称</td>
+							<td rowspan="2">建设单位</td>
+							<td rowspan="2">项目名称</td>
+							<td rowspan="2">建设性质</td>
 							<td rowspan="2">建设规模</td>
-							<td>建设性质</td>
-							<td>总投资</td>
-							<td rowspan="2">计划年度</td>
-							<td colspan="2">年度安排资金(万元)</td>
-							<td colspan="2">申请资金(万元)</td>
-							<td colspan="2">批复资金(万元)</td>
+							
+							<td rowspan="2">总投资</td>
+							<td rowspan="2">累计安排</td>
+							<td colspan="2">本计划安排投资</td>
+							<td colspan="2">计划下达资金</td>
+							<td rowspan="2">主要建设内容 </td>
+							<td rowspan="2">备注 </td>
 							<td rowspan="2" style="vertical-align: middle;"><button type="button" class="btn btn-success btn-sm" ng-click="vm.addPlanReach()"><span class="glyphicon glyphicon-plus"></span>&nbsp;添加</button></td>
 						</tr>
 						<tr style="text-align: center;">
-							<td>建设起止年月</td>
-							<td>累计拨款</td>
-							<td>公共预算</td>
-							<td>国土资金</td>
 							<td>公共预算</td>
 							<td>国土资金</td>
 							<td>公共预算</td>
@@ -75,26 +75,29 @@
  							<tbody ng-repeat="x in vm.model.shenBaoInfoDtos" style="text-align: center;">
  								<tr>
 		  							<td ng-bind="x.constructionUnit"></td>
+		  							<td ng-bind="x.projectName"></td>
+		  								<td ng-bind="vm.getBasicDataDesc(x.projectConstrChar)"></td>
 		  							<td rowspan="2" ng-bind="x.projectGuiMo" style="vertical-align: middle;"></td>
-		  							<td ng-bind="vm.getBasicDataDesc(x.projectConstrChar)"></td>
+		  						
 		  							<td ng-bind="x.projectInvestSum"></td>
-		  							<td rowspan="2" ng-bind="x.planYear" style="vertical-align: middle;"></td>
-		  							<td rowspan="2" ng-bind="x.capitalAP_ggys_TheYear" style="vertical-align: middle;"></td>
-		  							<td rowspan="2" ng-bind="x.capitalAP_gtzj_TheYear" style="vertical-align: middle;"></td>
-		  							<td rowspan="2" ng-bind="x.sqPlanReach_ggys" style="vertical-align: middle;"></td>
-		  							<td rowspan="2" ng-bind="x.sqPlanReach_gtzj" style="vertical-align: middle;"></td>
+		  							<td rowspan="2" ng-bind="x.apInvestSum" style="vertical-align: middle;"></td>
 		  							<td rowspan="2" ng-bind="x.apPlanReach_ggys" style="vertical-align: middle;"></td>
 		  							<td rowspan="2" ng-bind="x.apPlanReach_gtzj" style="vertical-align: middle;"></td>
 		  							<td rowspan="2" style="vertical-align: middle;">
-		  								<button type="button" class="btn btn-danger btn-sm" ng-click="vm.removePlanReach($index)"><span class="glyphicon glyphicon-remove"></span>&nbsp;移除</button>
+		  								<input style="width:100px" id="capitalSum1" ng-if="x.thisTaskName=='usertask5'" ng-model="vm.gg[x.id]" value="x.id" ng-blur="vm.addmoneys(x.id)"/>
+		  								<span ng-hide="x.thisTaskName=='usertask5'" ng-bind="x.xdPlanReach_ggys"></span>
 		  							</td>
- 								</tr>
- 								<tr class="text-center;">
- 									<td ng-bind="x.projectName"></td>
- 									<td>
- 										<span ng-bind="x.beginDate"></span><span>~</span><span ng-bind="x.endDate">
- 									</td>
- 									<td ng-bind="x.projectInvestAccuSum"></td>
+		  							<td rowspan="2" style="vertical-align: middle;">
+		  								<input style="width:100px" id="capitalSum2"  ng-if="x.thisTaskName=='usertask5'" ng-model="vm.gt[x.id]" value="x.id" ng-blur="vm.addmoneys(x.id)"/>
+		  								<span ng-hide="x.thisTaskName=='usertask5'" ng-bind="x.xdPlanReach_gtzj"></span>
+		  							</td>
+		  							<td rowspan="2" ng-bind="x.yearConstructionTask" style="vertical-align: middle;"></td>
+		  							<td rowspan="2" ng-bind="x.remark" style="vertical-align: middle;"></td>
+		  							<td rowspan="2" style="vertical-align: middle;">
+		  								<button type="button" class="btn btn-danger btn-sm" ng-click="vm.removePlanReach($index)"><span class="glyphicon glyphicon-remove"></span>&nbsp;移除</button>
+		  								<button type="button" class="btn btn-success btn-sm" ng-if="x.thisTaskName=='usertask5'" ng-click="vm.endProcess(x.id)">办结</button>
+		  								
+		  							</td>
  								</tr>
 						</tbody>
   					</table>

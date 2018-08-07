@@ -777,37 +777,41 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         });
         //获取项目中批复文件以及文号(map)
         Map<String, Attachment> pifuMap = new HashMap<>();
-        shenBaoInfo.getAttachments().stream().forEach(x -> {
-            if (Util.isNotNull(x.getType())) {//非空判断
-                if (x.getType().equals(BasicDataConfig.attachment_type_jys)) {
-                    pifuMap.put(shenBaoInfo.getPifuJYS_wenhao(), x);
+        if(shenBaoInfo.getAttachments().size()>0){
+        	shenBaoInfo.getAttachments().stream().forEach(x -> {
+                if (Util.isNotNull(x.getType())) {//非空判断
+                    if (x.getType().equals(BasicDataConfig.attachment_type_jys)) {
+                        pifuMap.put(shenBaoInfo.getPifuJYS_wenhao(), x);
+                    }
+                    if (x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)) {
+                        pifuMap.put(shenBaoInfo.getPifuKXXYJBG_wenhao(), x);
+                    }
+                    if (x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)) {
+                        pifuMap.put(shenBaoInfo.getPifuCBSJYGS_wenhao(), x);
+                    }
                 }
-                if (x.getType().equals(BasicDataConfig.attachment_type_kxxyjbg)) {
-                    pifuMap.put(shenBaoInfo.getPifuKXXYJBG_wenhao(), x);
-                }
-                if (x.getType().equals(BasicDataConfig.attachment_type_cbsjygs)) {
-                    pifuMap.put(shenBaoInfo.getPifuCBSJYGS_wenhao(), x);
-                }
-            }
-        });
-        //判断项目中批复文件在文件库中是否存在
-        List<Map<String, Object>> needList = Util.getCheck(pifuMap, replyFileMap);
-        //更新文件库
-        needList.stream().forEach(x -> {
-            for (String key : x.keySet()) {
-                Attachment obj = (Attachment) x.get(key);
-                ReplyFile replyfile = new ReplyFile();
-                replyfile.setId(UUID.randomUUID().toString());
-                replyfile.setNumber(key);
-                replyfile.setCreatedBy(obj.getCreatedBy());
-                replyfile.setName(obj.getName());
-                replyfile.setFullName(obj.getUrl());
-                replyfile.setItemOrder(obj.getItemOrder());
-                replyfile.setModifiedBy(obj.getModifiedBy());
-                replyfile.setType(obj.getType());
-                replyFileRepo.save(replyfile);//更新文件库
-            }
-        });
+            });
+       
+	        //判断项目中批复文件在文件库中是否存在
+	        List<Map<String, Object>> needList = Util.getCheck(pifuMap, replyFileMap);
+	        //更新文件库
+	        needList.stream().forEach(x -> {
+	            for (String key : x.keySet()) {
+	                Attachment obj = (Attachment) x.get(key);
+	                ReplyFile replyfile = new ReplyFile();
+	                replyfile.setId(UUID.randomUUID().toString());
+	                replyfile.setNumber(key);
+	                replyfile.setCreatedBy(obj.getCreatedBy());
+	                replyfile.setName(obj.getName());
+	                replyfile.setFullName(obj.getUrl());
+	                replyfile.setItemOrder(obj.getItemOrder());
+	                replyfile.setModifiedBy(obj.getModifiedBy());
+	                replyfile.setType(obj.getType());
+	                replyFileRepo.save(replyfile);//更新文件库
+	            }
+	        });
+        }
+        
     }
 
     /**

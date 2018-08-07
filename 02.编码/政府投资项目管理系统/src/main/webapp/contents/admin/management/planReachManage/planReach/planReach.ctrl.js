@@ -13,7 +13,8 @@
         var routeName = $state.current.name;
         vm.id=$state.params.id;//请求中的id参数
         vm.basicData={};vm.model={};vm.projectNumber='';vm.unqualifiedNum=false;
-        
+        vm.gg = {};
+        vm.gt = {};
         function init(){
         	if(routeName == 'planReach'){
         		vm.page = 'list';
@@ -40,7 +41,7 @@
         		}
         		return unqualifiedNum;
         	};
-        	
+        	  
         	vm.getBasicDataDesc=function(str){
         		return common.getBasicDataDesc(str);
         	};
@@ -81,6 +82,15 @@
         function list(){
         	planReachSvc.grid(vm);
         	
+        	vm.addmoney = function (shenbaoId) {
+                if (vm.gg[shenbaoId] == undefined) {
+                    vm.gg[shenbaoId] = 0;
+                }
+                if (vm.gt[shenbaoId] == undefined) {
+                    vm.gt[shenbaoId] = 0;
+                }
+                planReachSvc.updateShnebaoInfo(vm, shenbaoId);
+            }
         	vm.basicData.userUnit=common.getUserUnits().value;//获取所有单位
 		   	 var keys = [];
 	    	 vm.output = [];
@@ -235,6 +245,15 @@
         	if(vm.id){
         		planReachSvc.getPlanReachApprovalById(vm);
         	}
+        	
+        	vm.addmoneys = function (shenbaoId) {
+                if (vm.gg[shenbaoId] == undefined) {
+                    vm.gg[shenbaoId] = 0;
+                }
+                if (vm.gt[shenbaoId] == undefined) {
+                    vm.gt[shenbaoId] = 0;
+                }
+            }
         	//获取计划下达数据
         	planReachSvc.planReachGrid(vm);
         	//添加计划下达
@@ -303,6 +322,12 @@
         	//更新计划下达批复表单
         	vm.editPlanReachApproval=function(){
         		planReachSvc.updateApproval(vm);
+        	};
+        	vm.endProcess=function(id){
+        		planReachSvc.endProcess(vm,id);
+        	};
+        	vm.endProcesss=function(){
+        		planReachSvc.endProcesss(vm);
         	};
         }//end fun tabEdit
         

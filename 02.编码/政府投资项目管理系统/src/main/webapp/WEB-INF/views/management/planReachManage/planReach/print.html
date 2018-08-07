@@ -52,75 +52,49 @@
 	
 	<div style="position: relative;">
 		<div id="printWindow" style="padding-bottom: 15px;">
-			<h3 class="text-center" ng-bind="vm.model.title"></h3>
-			<br>
+			<!-- <h3 class="text-center" ng-bind="vm.model.title"></h3>
+			<br> -->
 			<table class="_table" style="width:27.7cm;margin:0 auto">
+				<tr style="text-align: center;font-size: 42px;" ng-bind="vm.model.title"></tr>
 				<tr style="height:0.87cm;">
-					<td colspan="3" style="text-align:left;border: 0;">打印时间：{{vm.nowDate}}</td>
-					<td style="text-align:right;border: 0;">资金：万   元<br>面积：平方米</td>
-				</tr>
-				<tr style="height:0.87cm;">
-					<td style="width:2.5cm">制表时间：</td>
-					<td colspan="3" ng-bind="vm.model.approvalTime"></td>
-				</tr>
-				<tr style="height:0.87cm;">
-					<td>负责人：</td>
-					<td ng-bind="vm.model.resPerson" style="width:40%"></td>
-					<td style="width:2.5cm">负责人电话：</td>
-					<td ng-bind="vm.model.resPersonTel"></td>
-				</tr>
-				<tr style="height:0.87cm;">
-					<td colspan="4" style="border-top: 0;border-bottom:0;"></td>
+					<td style="text-align:right;border: 0;">资金：万   元</td>
 				</tr>
 				<tr>
 					<td colspan="4">
 						<table style="margin: 10px;" class="dataTable">
-							<tr class="text-center table_title">
-								<td rowspan="2" style="width:1cm;">序号</td>
-								<td rowspan="2" style="width:4.50cm;">建设单位及项目名称</td>
-								<td rowspan="2" style="width:4.50cm">建设规模</td>
-								<td style="width:3.2cm">建设性质</td>
-								<td style="width:2cm">总投资</td>
-								<td rowspan="2" style="width:1.8cm">计划年度</td>
-								<td colspan="2">年度安排投资</td>
-								<td colspan="2">申请资金</td>
-								<td colspan="2">批复资金</td>
-								<td style="width:3cm" rowspan="2">备注</td>
-							</tr>
-							<tr class="text-center table_title">
-								<td>建设起止年月</td>
-								<td>累计拨款</td>
-								<td style="width:1.8cm;">公共预算</td>
-								<td style="width:1.8cm;">国土资金</td>
-								<td style="width:1.8cm;">公共预算</td>
-								<td style="width:1.8cm;">国土资金</td>
-								<td style="width:1.8cm;">公共预算</td>
-								<td style="width:1.8cm;">国土资金</td>
-							</tr>
-							<tbody ng-repeat="x in vm.model.shenBaoInfoDtos" style="text-align: center;">
- 								<tr class="dataTr" style="height:1cm;">
+						<tr style="text-align: center;">
+							<td rowspan="2">序号</td>
+							<td rowspan="2">建设单位</td>
+							<td rowspan="2">项目名称</td>
+							<td rowspan="2">建设性质</td>
+							<td rowspan="2">建设规模</td>
+							
+							<td rowspan="2">总投资</td>
+							<td rowspan="2">累计安排</td>
+							<td colspan="2">本计划安排投资</td>
+							<td rowspan="2">主要建设内容 </td>
+							<td rowspan="2">备注 </td>
+						</tr>
+						<tr style="text-align: center;">
+							<td>公共预算</td>
+							<td>国土资金</td>
+						</tr>
+ 							<tbody ng-repeat="x in vm.model.shenBaoInfoDtos" style="text-align: center;">
+ 								<tr>
  									<td rowspan="2" ng-bind="$index+1"></td>
 		  							<td ng-bind="x.constructionUnit"></td>
-		  							<td rowspan="2" ng-bind="x.projectGuiMo"></td>
-		  							<td ng-bind="vm.getBasicDataDesc(x.projectConstrChar)"></td>
+		  							<td ng-bind="x.projectName"></td>
+		  								<td ng-bind="vm.getBasicDataDesc(x.projectConstrChar)"></td>
+		  							<td rowspan="2" ng-bind="x.projectGuiMo" style="vertical-align: middle;"></td>
+		  						
 		  							<td ng-bind="x.projectInvestSum"></td>
-		  							<td rowspan="2" ng-bind="x.planYear"></td>
-		  							<td rowspan="2" ng-bind="x.capitalAP_ggys_TheYear"></td>
-		  							<td rowspan="2" ng-bind="x.capitalAP_gtzj_TheYear"></td>
-		  							<td rowspan="2" ng-bind="x.sqPlanReach_ggys"></td>
-		  							<td rowspan="2" ng-bind="x.sqPlanReach_gtzj"></td>
-		  							<td rowspan="2" ng-bind="x.apPlanReach_ggys"></td>
-		  							<td rowspan="2" ng-bind="x.apPlanReach_gtzj"></td>
-		  							<td rowspan="2" ng-bind="x.yearConstructionContentShenBao"></td>
+		  							<td rowspan="2" ng-bind="x.apInvestSum" style="vertical-align: middle;"></td>
+		  							<td rowspan="2" ng-bind="x.apPlanReach_ggys" style="vertical-align: middle;"></td>
+		  							<td rowspan="2" ng-bind="x.apPlanReach_gtzj" style="vertical-align: middle;"></td>
+		  							<td rowspan="2" ng-bind="x.yearConstructionTask" style="vertical-align: middle;"></td>
+		  							<td rowspan="2" ng-bind="x.remark" style="vertical-align: middle;"></td>
  								</tr>
- 								<tr class="dataTr">
- 									<td ng-bind="x.projectName"></td>
- 									<td>
- 										<span ng-bind="x.beginDate"></span><span>~</span><span ng-bind="x.endDate">
- 									</td>
- 									<td ng-bind="x.projectInvestAccuSum"></td>
- 								</tr>
-							</tbody>
+						</tbody>
 						</table>
 					</td>
 				</tr>
