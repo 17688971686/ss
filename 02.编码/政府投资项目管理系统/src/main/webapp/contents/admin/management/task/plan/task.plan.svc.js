@@ -560,7 +560,7 @@
             if (isValid) {
                 var httpOptions = {
                     method: 'post',
-                    url: url_taskAudit_new + "/pinglun",
+                    url: url_taskAudit_new + "/jihuaPinglun",
                     data: {"id": vm.id, "msg": vm.processSuggestion, "shenbaoinfo": vm.model.shenBaoInfo}
                 };
 
@@ -609,8 +609,8 @@
                         "nextUsers": vm.nextUsers.toString(),
                         "isPass": vm.isPass,
                         "isPass2": vm.isPass2,
-                        "apPlanReach_ggys": vm.model.shenBaoInfo.apPlanReach_ggys,
-                        "apPlanReach_gtzj": vm.model.shenBaoInfo.apPlanReach_gtzj
+                        "xdPlanReach_ggys": vm.model.shenBaoInfo.xdPlanReach_ggys,
+                        "xdPlanReach_gtzj": vm.model.shenBaoInfo.xdPlanReach_gtzj
                     }
                 };
 
@@ -853,6 +853,15 @@
                     width: 120,
                     template: function (item) {
                         return common.getBasicDataDesc(item.projectShenBaoStage);
+                    }
+                },
+                {
+                    field: "processStage",
+                    title: "审批阶段",
+                    width: 150,
+                    filterable: false,
+                    template: function (item) {
+                        return common.format("<span class='text-danger'>{0}</span>", item.processStage);
                     }
                 },
                 {

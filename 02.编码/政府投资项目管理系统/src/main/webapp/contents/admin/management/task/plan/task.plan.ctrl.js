@@ -632,7 +632,7 @@
 							$('.alertDialog').modal('hide');
 						}
 					});
-        		}else if(vm.model.shenBaoInfo.thisTaskName == 'usertask5' && (vm.model.shenBaoInfo.apPlanReach_ggys == 0 || vm.model.shenBaoInfo.apPlanReach_gtzj == 0)) {
+        		}else if(vm.model.shenBaoInfo.thisTaskName == 'usertask5' && (vm.model.shenBaoInfo.xdPlanReach_ggys == 0 || vm.model.shenBaoInfo.xdPlanReach_gtzj == 0)) {
         			common.alert({
 						vm : vm,
 						msg : "请填写安排资金后提交！",

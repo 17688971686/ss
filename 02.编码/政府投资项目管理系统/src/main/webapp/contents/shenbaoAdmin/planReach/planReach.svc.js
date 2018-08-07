@@ -1317,6 +1317,35 @@
 
                 },
                 {
+                    title: "下达资金（万元）",
+                    columns: [
+                        {
+                            field: "xdPlanReach_ggys",
+                            title: "公共预算",
+                            width: 100,
+                            filterable: false,
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center;"
+                            }
+                        },
+                        {
+                            field: "xdPlanReach_gtzj",
+                            title: "国土基金",
+                            width: 100,
+                            filterable: false,
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center;"
+                            }
+                        },
+                    ],
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;"
+                    }
+                },
+                {
                     field: "processStage",
                     title: "审批阶段",
                     width: 160,
@@ -1650,6 +1679,35 @@
                                 style: "text-align: center;vertical-align: middle;"
                             }
                         }
+                    ],
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;"
+                    }
+                },
+                {
+                    title: "下达资金（万元）",
+                    columns: [
+                        {
+                            field: "xdPlanReach_ggys",
+                            title: "公共预算",
+                            width: 100,
+                            filterable: false,
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center;"
+                            }
+                        },
+                        {
+                            field: "xdPlanReach_gtzj",
+                            title: "国土基金",
+                            width: 100,
+                            filterable: false,
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center;"
+                            }
+                        },
                     ],
                     headerAttributes: {
                         "class": "table-header-cell",

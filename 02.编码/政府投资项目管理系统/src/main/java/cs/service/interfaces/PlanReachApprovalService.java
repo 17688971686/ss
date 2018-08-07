@@ -12,4 +12,10 @@ public interface PlanReachApprovalService extends IService<PlanReachApprovalDto,
 
 	void update(Map data) throws ParseException;
 
+	void updateShnebaoInfo(String shenbaoId, Double ggmoney, Double gtmoney);
+
+	void endProcess(String id);
+
+	void endProcesss(String id);
+
 }

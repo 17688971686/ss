@@ -205,11 +205,20 @@ public class TaskController {
 
     @SuppressWarnings("rawtypes")
     @RequiresPermissions("management/task#pinglun#post")
-    @RequestMapping(name = "评论", path = "pinglun", method = RequestMethod.POST)
+    @RequestMapping(name = "审批评论", path = "pinglun", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public void taskPinglun(@RequestBody Map data) {
         processService.taskPinglun(data);
     }
+    
+    @SuppressWarnings("rawtypes")
+    @RequiresPermissions("management/task#jihuaPinglun#post")
+    @RequestMapping(name = "计划评论", path = "jihuaPinglun", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void jihuaPinglun(@RequestBody Map data) {
+        processService.taskPinglun(data);
+    }
+
 
     /****************申报阶段：下一年度计划******************/
     // begin#html
