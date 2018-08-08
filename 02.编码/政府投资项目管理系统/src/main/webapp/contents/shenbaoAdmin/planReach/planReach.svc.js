@@ -311,14 +311,9 @@
                 type: 'odata',
                 transport: common.kendoGridConfig().transport(url + "/getShenbaoInfoFromYearplan"),
                 schema: common.kendoGridConfig().schema({
-                    id: "id",
-                    fields: {
-                        isIncludYearPlan: {
-                            type: "boolean"
-                        }
-                    }
+                    id: "id"
                 }),
-                serverPaging: false,
+                serverPaging: true,
                 serverSorting: true,
                 serverFiltering: true,
                 pageSize: 10,
@@ -358,27 +353,28 @@
                     field: "projectName",
                     title: "项目名称",
                     width: 250,
-                    filterable: true
+                    filterable: false
                 },
                 {
                     field: "projectIndustry",
                     title: "项目行业",
                     width: 150,
-                    filterable: {
-                        ui: function (element) {
-                            element.kendoDropDownList({
-                                valuePrimitive: true,
-                                dataSource: $linq(common.getBasicData())
-                                    .where(function (x) {
-                                        return x.identity == common.basicDataConfig().projectIndustry && x.pId == common.basicDataConfig().projectIndustry_ZF;
-                                    })
-                                    .toArray(),
-                                dataTextField: "description",
-                                dataValueField: "id",
-                                filter: "startswith"
-                            });
-                        }
-                    },
+                    filterable: false,
+//                    {
+//                        ui: function (element) {
+//                            element.kendoDropDownList({
+//                                valuePrimitive: true,
+//                                dataSource: $linq(common.getBasicData())
+//                                    .where(function (x) {
+//                                        return x.identity == common.basicDataConfig().projectIndustry && x.pId == common.basicDataConfig().projectIndustry_ZF;
+//                                    })
+//                                    .toArray(),
+//                                dataTextField: "description",
+//                                dataValueField: "id",
+//                                filter: "startswith"
+//                            });
+//                        }
+//                    },
                     template: function (item) {
                         return common.getBasicDataDesc(item.projectIndustry);
                     }
@@ -387,7 +383,7 @@
                     field: "isIncludPack",
                     title: "是否加入打包计划",
                     width: 150,
-                    filterable: true,
+                    filterable: false,
                     template: function (item) {
                         if (item.isIncludPack) {
                             return "是";

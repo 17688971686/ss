@@ -83,8 +83,13 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
             if(count<1){
             	  ShenBaoInfo shenBaoInfo = shenBaoInfoService.findById(array_element);
             	  if(!ggs.isEmpty()){
-            		  shenBaoInfo.setXdPlanReach_ggys(Double.parseDouble(ggs.get(shenBaoInfo.getId()).toString()));
-                      shenBaoInfo.setXdPlanReach_gtzj(Double.parseDouble(gts.get(shenBaoInfo.getId()).toString()));
+            		  if(ggs.get(shenBaoInfo.getId()) != null){
+            			  shenBaoInfo.setXdPlanReach_ggys(Double.parseDouble(ggs.get(shenBaoInfo.getId()).toString()));
+            		  }
+            	  }else if(!gts.isEmpty()){
+            		  if(gts.get(shenBaoInfo.getId()) != null){
+            			  shenBaoInfo.setXdPlanReach_gtzj(Double.parseDouble(gts.get(shenBaoInfo.getId()).toString()));
+            		  }
             	  }
                   entity.getShenBaoInfos().add(shenBaoInfo);
             }
@@ -117,9 +122,14 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
             String array_element = idStrings.get(i);
             ShenBaoInfo shenBaoInfo = shenBaoInfoService.findById(array_element);
             if(!ggs.isEmpty()){
-		        shenBaoInfo.setXdPlanReach_ggys(Double.parseDouble(ggs.get(shenBaoInfo.getId()).toString()));
-		        shenBaoInfo.setXdPlanReach_gtzj(Double.parseDouble(gts.get(shenBaoInfo.getId()).toString()));
-            }
+      		  if(ggs.get(shenBaoInfo.getId()) != null){
+      			  shenBaoInfo.setXdPlanReach_ggys(Double.parseDouble(ggs.get(shenBaoInfo.getId()).toString()));
+      		  }
+      	  }else if(!gts.isEmpty()){
+      		  if(gts.get(shenBaoInfo.getId()) != null){
+      			  shenBaoInfo.setXdPlanReach_gtzj(Double.parseDouble(gts.get(shenBaoInfo.getId()).toString()));
+      		  }
+      	  }
             entity.getShenBaoInfos().add(shenBaoInfo);
         }
         repository.save(entity);
