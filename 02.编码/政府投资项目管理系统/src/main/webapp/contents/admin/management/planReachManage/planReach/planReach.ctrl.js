@@ -288,14 +288,16 @@
     					vm.model.shenBaoInfoDtos.push({id:dataList[0],projectName:dataList[1],constructionUnit:dataList[2],projectGuiMo:dataList[3],
     						projectConstrChar:dataList[4],beginDate:dataList[5],endDate:dataList[6],projectInvestSum:dataList[7],projectInvestAccuSum:dataList[8],
     						planYear:dataList[9],capitalAP_ggys_TheYear:dataList[10],capitalAP_gtzj_TheYear:dataList[11],sqPlanReach_ggys:dataList[12],sqPlanReach_gtzj:dataList[13],
-    						apPlanReach_ggys:dataList[14],apPlanReach_gtzj:dataList[15]});
+    						apPlanReach_ggys:dataList[14],apPlanReach_gtzj:dataList[15],xdPlanReach_ggys:dataList[16],xdPlanReach_gtzj:dataList[17],thisTaskName:dataList[18]});
         				}
         			}else{//如果没有申报集合
         				vm.model.shenBaoInfoDtos=[{id:dataList[0],projectName:dataList[1],constructionUnit:dataList[2],projectGuiMo:dataList[3],
     						projectConstrChar:dataList[4],beginDate:dataList[5],endDate:dataList[6],projectInvestSum:dataList[7],projectInvestAccuSum:dataList[8],
     						planYear:dataList[9],capitalAP_ggys_TheYear:dataList[10],capitalAP_gtzj_TheYear:dataList[11],sqPlanReach_ggys:dataList[12],sqPlanReach_gtzj:dataList[13],
-    						apPlanReach_ggys:dataList[14],apPlanReach_gtzj:dataList[15]}];
-    				}
+    						apPlanReach_ggys:dataList[14],apPlanReach_gtzj:dataList[15],xdPlanReach_ggys:dataList[16],xdPlanReach_gtzj:dataList[17],thisTaskName:dataList[18]}];
+        				vm.gg[dataList[0]] = dataList[16];
+        				vm.gt[dataList[0]] = dataList[17];
+        			}
         	};
         	//批量添加计划下达数据
         	vm.confirmPlanReachs=function(){

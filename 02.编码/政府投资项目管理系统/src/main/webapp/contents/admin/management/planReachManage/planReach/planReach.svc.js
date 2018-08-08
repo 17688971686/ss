@@ -180,9 +180,11 @@
 			if (isValid) {
 				vm.isSubmit = true;
 				var isList = [];
-				for (var int = 0; int < vm.model.shenBaoInfoDtos.length; int++) {
-					var array_element = vm.model.shenBaoInfoDtos[int];
-					isList.push(array_element.id);
+				if(vm.model.shenBaoInfoDtos != undefined){
+					for (var int = 0; int < vm.model.shenBaoInfoDtos.length; int++) {
+						var array_element = vm.model.shenBaoInfoDtos[int];
+						isList.push(array_element.id);
+					}
 				}
 				
 				var httpOptions = {
@@ -336,7 +338,7 @@
 										item.id+","+item.projectName+","+item.constructionUnit+","+item.projectGuiMo+","+item.projectConstrChar+","+
 											common.formatDate(item.beginDate)+","+common.formatDate(item.endDate)+","+item.projectInvestSum+","+item.projectInvestAccuSum+","+item.planYear+","+
 											item.capitalAP_ggys_TheYear+","+item.capitalAP_gtzj_TheYear+","+item.sqPlanReach_ggys+","+item.sqPlanReach_gtzj+","+
-											item.apPlanReach_ggys+","+item.apPlanReach_gtzj);
+											item.apPlanReach_ggys+","+item.apPlanReach_gtzj+","+item.xdPlanReach_ggys+","+item.xdPlanReach_gtzj+","+item.thisTaskName);
 					},
 					filterable : false,
 					width : 40,
@@ -439,7 +441,7 @@
 					    }
 				},
 				{
-					title: "计划下达申请(万元)",
+					title: "计划申请资金(万元)",
 					columns: [
 						{
 							field : "sqPlanReach_ggys",
@@ -468,7 +470,7 @@
 					    }
 				},
 				{
-					title: "计划下达安排(万元)",
+					title: "计划安排资金(万元)",
 					columns: [
 						{
 							field : "apPlanReach_ggys",
@@ -482,6 +484,35 @@
 						},
 						{
 							field : "apPlanReach_gtzj",
+							title : "国土基金",
+							width:80,
+							filterable : false,
+							headerAttributes: {
+						      "class": "table-header-cell",
+						       style: "text-align: center;vertical-align: middle;"
+						    }
+						}
+					],
+					headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
+				},
+				{
+					title: "计划下达资金(万元)",
+					columns: [
+						{
+							field : "xdPlanReach_ggys",
+							title : "公共预算",
+							width:80,
+							filterable : false,
+							headerAttributes: {
+						      "class": "table-header-cell",
+						       style: "text-align: center;vertical-align: middle;"
+						    }
+						},
+						{
+							field : "xdPlanReach_gtzj",
 							title : "国土基金",
 							width:80,
 							filterable : false,

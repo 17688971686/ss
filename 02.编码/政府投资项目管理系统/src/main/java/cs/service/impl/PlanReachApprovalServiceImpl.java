@@ -82,8 +82,10 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
             int count = countQuery == null ? 0 : countQuery.intValue();
             if(count<1){
             	  ShenBaoInfo shenBaoInfo = shenBaoInfoService.findById(array_element);
-            	  shenBaoInfo.setXdPlanReach_ggys(Double.parseDouble(ggs.get(shenBaoInfo.getId()).toString()));
-                  shenBaoInfo.setXdPlanReach_gtzj(Double.parseDouble(gts.get(shenBaoInfo.getId()).toString()));
+            	  if(!ggs.isEmpty()){
+            		  shenBaoInfo.setXdPlanReach_ggys(Double.parseDouble(ggs.get(shenBaoInfo.getId()).toString()));
+                      shenBaoInfo.setXdPlanReach_gtzj(Double.parseDouble(gts.get(shenBaoInfo.getId()).toString()));
+            	  }
                   entity.getShenBaoInfos().add(shenBaoInfo);
             }
           
@@ -114,8 +116,10 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
         for (int i = 0; i < idStrings.size(); i++) {
             String array_element = idStrings.get(i);
             ShenBaoInfo shenBaoInfo = shenBaoInfoService.findById(array_element);
-            shenBaoInfo.setXdPlanReach_ggys(Double.parseDouble(ggs.get(shenBaoInfo.getId()).toString()));
-            shenBaoInfo.setXdPlanReach_gtzj(Double.parseDouble(gts.get(shenBaoInfo.getId()).toString()));
+            if(!ggs.isEmpty()){
+		        shenBaoInfo.setXdPlanReach_ggys(Double.parseDouble(ggs.get(shenBaoInfo.getId()).toString()));
+		        shenBaoInfo.setXdPlanReach_gtzj(Double.parseDouble(gts.get(shenBaoInfo.getId()).toString()));
+            }
             entity.getShenBaoInfos().add(shenBaoInfo);
         }
         repository.save(entity);
