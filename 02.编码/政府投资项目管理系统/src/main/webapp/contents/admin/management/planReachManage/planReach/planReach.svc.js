@@ -98,7 +98,7 @@
 		}
 		function endProcesss(vm){
 			 $http.post(common.format(url + "/endProcesss/{0}", vm.id)).then(function () {
-				 location.path(url_back);
+				 $location.path(url_back);
 	            })
 		}
 		 function updateShnebaoInfo(vm, shenbaoId) {
