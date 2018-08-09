@@ -17,8 +17,8 @@
     <bean id="myDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
           destroy-method="close">
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
-        <property name="jdbcUrl" value="jdbc:mysql://121.201.66.221:6100/gm_test?serverTimezone=GMT%2b8&amp;useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf8"/>
-        <property name="user" value="gm_test"/>
+        <property name="jdbcUrl" value="jdbc:mysql://121.201.66.221:6200/gm_test?serverTimezone=GMT%2b8&amp;useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf8"/>
+        <property name="user" value="root"/>
         <property name="password" value="Passw0rd"/>
 
         <!-- these are connection pool properties for C3P0 -->

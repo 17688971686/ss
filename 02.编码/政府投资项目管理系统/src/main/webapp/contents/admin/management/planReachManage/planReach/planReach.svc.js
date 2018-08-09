@@ -49,10 +49,10 @@
 		
 		return service;
 		
-		function checkIsOnly(vm,ids){
+		function checkIsOnly(vm,dataList){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url + "/checkIsOnly/{0}", ids)
+					url : common.format(url + "/checkIsOnly/{0}", dataList[0])
 				};
 			var httpSuccess = function success(response) {
 				var resp = response.data;

@@ -273,8 +273,27 @@
         	vm.confirmPlanReach=function(data){
         		var dataList = data.split(",");
         		var applicationTime = parseInt(kendo.toString(new Date(vm.model.applicationTime),"yyyy"));//查询条件：下一年度计划的计划年度为本年
+        		if(vm.model.shenBaoInfoDtos){
+        			var isHas=false;
+        			vm.model.shenBaoInfoDtos.every(function (item, i) {
+        			    if (item.id == dataList[0]) {
+        			    	isHas=true;
+        			    	return false;//如果是重复的，则停止循环
+        			    }
+        			    return true;
+        			});
+        		}
+        		
 				//先判断是否有申报集合
-        		planReachSvc.checkIsOnly(vm,dataList[0]);
+        		if(!isHas){
+        			planReachSvc.checkIsOnly(vm,dataList);
+        		}else{
+        			common.alert({
+                    	vm:vm,
+                    	msg:'请勿重复添加!'             	
+                    });
+        		}
+        		
     			
         	};
         	//批量添加计划下达数据
