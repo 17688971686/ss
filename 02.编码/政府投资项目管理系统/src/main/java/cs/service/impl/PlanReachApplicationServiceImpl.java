@@ -467,21 +467,6 @@ public class PlanReachApplicationServiceImpl extends AbstractServiceImpl<PlanRea
 
         PackPlan entity = packPlanRepo.findById(packPlanId);
         Assert.notNull(entity, "数据不存在！");
-        Assert.isTrue(!entity.getIsInPlan(), String.format("申报项目：%s 已经存在编制计划中,请重新选择！", entity.getName()));
-
-        // TODO 判断年度计划编制中是否已有打包计划
-        List<PackPlan> packPlans = planReach.getPackPlans();
-
-        boolean hasPackPlan = false;
-        for (PackPlan packPlan : packPlans) {
-            if (packPlan.getId().equals(packPlanId)) {
-                hasPackPlan = true;
-                break;
-            }
-        }
-
-        //通过打包计划id获取名称
-        Assert.isTrue(!hasPackPlan, String.format("申报项目：%s 已经存在编制计划中,请重新选择！", entity.getName()));
 
         // TODO 统计包含有本单位打包计划的资金
 

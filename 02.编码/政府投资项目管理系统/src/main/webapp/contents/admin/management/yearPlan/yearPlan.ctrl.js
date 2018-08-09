@@ -317,12 +317,12 @@
   	   		vm.basicData.area_Street=$linq(common.getBasicData())
   	   			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
   	   			.toArray(); //行政区划街道
-  	   		vm.basicData.userUnit=common.getUserUnits();//建设单位信息
+  	   		vm.basicData.userUnit=common.getUserUnits().value;//建设单位信息
   	   		vm.basicData.users=[];
     	}
     	
     	function commonShenBaoListMethod(){
-    		vm.basicData.userUnit=common.getUserUnits().value;//获取所有单位
+    		vm.basicData.userUnit= common.getUserUnits().value;//获取所有单位
 		   	 var keys = [];
 	    	 vm.output = [];
 	    	 angular.forEach(vm.basicData.userUnit, function(item) {

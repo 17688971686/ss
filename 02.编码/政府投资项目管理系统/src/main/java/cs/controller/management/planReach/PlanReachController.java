@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import cs.common.Response;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.PlanReachApprovalDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
@@ -59,6 +60,7 @@ public class PlanReachController {
         return planReachApprovalDtos;
     }
 
+    
     //@RequiresPermissions("management/planReachManage/planReach##post")
     @SuppressWarnings("rawtypes")
     @RequestMapping(name = "创建计划下达批复信息", path = "", method = RequestMethod.POST)
@@ -82,6 +84,20 @@ public class PlanReachController {
         for (String idstr : ids) {
             planReachApprovalService.delete(idstr);
         }
+    }
+    
+    @RequestMapping(name = "检查项目", path = "checkIsOnly/{ids}", method = RequestMethod.GET)
+    @ResponseBody
+    public Response checkIsOnly(@PathVariable String ids) {
+    	Response resp = new Response();
+        String[] id = StringUtil.split(ids, SEPARATE_COMMA);
+        for (String idstr : id) {
+        	resp = planReachApprovalService.checkIsOnlys(idstr);
+        	if(resp.getMessage() != ""){
+        		break;
+        	}
+        }
+        return resp;
     }
 
     @SuppressWarnings("rawtypes")

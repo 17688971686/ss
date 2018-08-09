@@ -309,7 +309,7 @@
         function projectGrid(vm) {
             var dataSource = new kendo.data.DataSource({
                 type: 'odata',
-                transport: common.kendoGridConfig().transport(url + "/getShenbaoInfoFromYearplan"),
+                transport: common.kendoGridConfig().transport(url_shenbaoInfoList),
                 schema: common.kendoGridConfig().schema({
                     id: "id"
                 }),
@@ -321,15 +321,20 @@
                     field: "createdDate",
                     dir: "desc"
                 },
-                filter: [{
-                    field: 'unitName',
+                filter: [{//申报阶段为下一年度计划
+                    field: 'projectShenBaoStage',
                     operator: 'eq',
-                    value: vm.userUnit.id
+                    value: common.basicDataConfig().projectShenBaoStage_nextYearPlan
                 },
                     {
-                        field: 'isLatestVersion',
+                        field: 'unitName',
                         operator: 'eq',
-                        value: true
+                        value: vm.userUnit.id
+                    },
+                    {//审批状态为签收
+                        field: 'processState',
+                        operator: 'eq',
+                        value: common.basicDataConfig().processState_pass
                     },
                     {
                         field: 'isIncludPack',

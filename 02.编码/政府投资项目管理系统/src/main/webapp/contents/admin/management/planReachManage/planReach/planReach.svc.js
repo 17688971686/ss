@@ -43,10 +43,53 @@
 				getPlanReachApprovalById:getPlanReachApprovalById,
 				updateShnebaoInfo:updateShnebaoInfo,
 				endProcess:endProcess,
-				endProcesss:endProcesss
+				endProcesss:endProcesss,
+				checkIsOnly:checkIsOnly
 		}
 		
 		return service;
+		
+		function checkIsOnly(vm,ids){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url + "/checkIsOnly/{0}", ids)
+				};
+			var httpSuccess = function success(response) {
+				var resp = response.data;
+				if(!resp.success){//如果不重复
+					if(vm.model.shenBaoInfoDtos){
+	        			//判断是否是重复添加
+	    					vm.model.shenBaoInfoDtos.push({id:dataList[0],projectName:dataList[1],constructionUnit:dataList[2],projectGuiMo:dataList[3],
+	    						projectConstrChar:dataList[4],beginDate:dataList[5],endDate:dataList[6],projectInvestSum:dataList[7],projectInvestAccuSum:dataList[8],
+	    						planYear:dataList[9],capitalAP_ggys_TheYear:dataList[10],capitalAP_gtzj_TheYear:dataList[11],sqPlanReach_ggys:dataList[12],sqPlanReach_gtzj:dataList[13],
+	    						apPlanReach_ggys:dataList[14],apPlanReach_gtzj:dataList[15],xdPlanReach_ggys:dataList[16],xdPlanReach_gtzj:dataList[17],thisTaskName:dataList[18]});
+	        				
+	    			}else{//如果没有申报集合
+	    				vm.model.shenBaoInfoDtos=[{id:dataList[0],projectName:dataList[1],constructionUnit:dataList[2],projectGuiMo:dataList[3],
+							projectConstrChar:dataList[4],beginDate:dataList[5],endDate:dataList[6],projectInvestSum:dataList[7],projectInvestAccuSum:dataList[8],
+							planYear:dataList[9],capitalAP_ggys_TheYear:dataList[10],capitalAP_gtzj_TheYear:dataList[11],sqPlanReach_ggys:dataList[12],sqPlanReach_gtzj:dataList[13],
+							apPlanReach_ggys:dataList[14],apPlanReach_gtzj:dataList[15],xdPlanReach_ggys:dataList[16],xdPlanReach_gtzj:dataList[17],thisTaskName:dataList[18]}];
+	    				vm.gg[dataList[0]] = dataList[16];
+	    				vm.gt[dataList[0]] = dataList[17];
+	    			}
+				}else{
+					common.alert({
+						vm : vm,
+						msg : resp.message,
+						fn : function() {
+							vm.isSubmit = false;
+							$('.alertDialog').modal('hide');
+						}
+					});
+				}
+			};
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
 		
 		function endProcess(vm,id){
 			 $http.post(common.format(url + "/endProcess/{0}", id)).then(function () {

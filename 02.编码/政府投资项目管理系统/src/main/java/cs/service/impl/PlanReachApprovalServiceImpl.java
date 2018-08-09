@@ -21,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cs.activiti.service.ActivitiService;
+import cs.common.BasicDataConfig;
+import cs.common.Response;
 import cs.common.SQLConfig;
 import cs.domain.PlanReachApproval;
 import cs.domain.ShenBaoInfo;
@@ -69,19 +71,20 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
         dto.setCreatedDate(new Date());
         entity = super.create(dto);
         
-        Session session = planReachApprovalRepo.getSession();
+//        Session session = planReachApprovalRepo.getSession();
         Map ggs =  (Map)data.get("gg");
         Map gts =  (Map)data.get("gt");
         //处理关联信息
         for (int i = 0; i < idStrings.size(); i++) {
             String array_element = idStrings.get(i);
-            BigInteger countQuery = (BigInteger) session.createNativeQuery(SQLConfig.planReachApproval_count)
-                    .setParameter("shenBaoInfos_id", array_element)
-                    .getSingleResult();
-
-            int count = countQuery == null ? 0 : countQuery.intValue();
-            if(count<1){
-            	  ShenBaoInfo shenBaoInfo = shenBaoInfoService.findById(array_element);
+//            BigInteger countQuery = (BigInteger) session.createNativeQuery(SQLConfig.planReachApproval_count)
+//                    .setParameter("shenBaoInfos_id", array_element)
+//                    .getSingleResult();
+//
+//            int count = countQuery == null ? 0 : countQuery.intValue();
+            ShenBaoInfo shenBaoInfo = shenBaoInfoService.findById(array_element);
+//            if(count<1){
+            	 
             	  if(!ggs.isEmpty()){
             		  if(ggs.get(shenBaoInfo.getId()) != null){
             			  shenBaoInfo.setXdPlanReach_ggys(Double.parseDouble(ggs.get(shenBaoInfo.getId()).toString()));
@@ -92,7 +95,9 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
             		  }
             	  }
                   entity.getShenBaoInfos().add(shenBaoInfo);
-            }
+//            }else{
+//				throw new IllegalArgumentException(String.format("项目：%s已存在其他表单中，请重新选择", shenBaoInfo.getProjectName()));
+//			}
           
         }
 
@@ -105,37 +110,68 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
     @Transactional(rollbackOn = Exception.class)
     public void update(Map data) throws ParseException {
         PlanReachApprovalDto dto = new PlanReachApprovalDto();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-        dto.setResPerson((String) data.get("resPerson"));
-        dto.setApprovalTime(sdf.parse((String) data.get("approvalTime")));
-        dto.setId((String) data.get("id"));
-        dto.setResPersonTel((String) data.get("resPersonTel"));
-        dto.setTitle((String) data.get("title"));
-        
-		Map ggs =  (Map)data.get("gg");
-		Map gts =  (Map)data.get("gt");
-        List<String> idStrings = (List<String>) data.get("ids");
-        PlanReachApproval entity = super.update(dto, (String) data.get("id"));
-        //处理关联信息
-        entity.getShenBaoInfos().clear();
-        for (int i = 0; i < idStrings.size(); i++) {
-            String array_element = idStrings.get(i);
-            ShenBaoInfo shenBaoInfo = shenBaoInfoService.findById(array_element);
-            if(!ggs.isEmpty()){
-      		  if(ggs.get(shenBaoInfo.getId()) != null){
-      			  shenBaoInfo.setXdPlanReach_ggys(Double.parseDouble(ggs.get(shenBaoInfo.getId()).toString()));
-      		  }
-      	  }else if(!gts.isEmpty()){
-      		  if(gts.get(shenBaoInfo.getId()) != null){
-      			  shenBaoInfo.setXdPlanReach_gtzj(Double.parseDouble(gts.get(shenBaoInfo.getId()).toString()));
-      		  }
-      	  }
-            entity.getShenBaoInfos().add(shenBaoInfo);
-        }
-        repository.save(entity);
-        logger.info(String.format("更新计划下达批复表,名称 :%s", dto.getTitle()));
-    }
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+		dto.setResPerson((String) data.get("resPerson"));
+		dto.setApprovalTime(sdf.parse((String) data.get("approvalTime")));
+		dto.setId((String) data.get("id"));
+		dto.setResPersonTel((String) data.get("resPersonTel"));
+		dto.setTitle((String) data.get("title"));
 
+		Map ggs = (Map) data.get("gg");
+		Map gts = (Map) data.get("gt");
+		List<String> idStrings = (List<String>) data.get("ids");
+		PlanReachApproval entity = super.update(dto, (String) data.get("id"));
+
+//		Session session = planReachApprovalRepo.getSession();
+		// 处理关联信息
+		entity.getShenBaoInfos().clear();
+		for (int i = 0; i < idStrings.size(); i++) {
+			String array_element = idStrings.get(i);
+//			BigInteger countQuery = (BigInteger) session.createNativeQuery(SQLConfig.planReachApproval_count)
+//					.setParameter("shenBaoInfos_id", array_element).getSingleResult();
+//
+//			int count = countQuery == null ? 0 : countQuery.intValue();
+//			
+//			if (count < 1) {
+				ShenBaoInfo shenBaoInfo = shenBaoInfoService.findById(array_element);
+				if (!ggs.isEmpty()) {
+					if (ggs.get(shenBaoInfo.getId()) != null) {
+						shenBaoInfo.setXdPlanReach_ggys(Double.parseDouble(ggs.get(shenBaoInfo.getId()).toString()));
+					}
+				} else if (!gts.isEmpty()) {
+					if (gts.get(shenBaoInfo.getId()) != null) {
+						shenBaoInfo.setXdPlanReach_gtzj(Double.parseDouble(gts.get(shenBaoInfo.getId()).toString()));
+					}
+				}
+				entity.getShenBaoInfos().add(shenBaoInfo);
+//			}
+
+		}
+		repository.save(entity);
+		logger.info(String.format("更新计划下达批复表,名称 :%s", dto.getTitle()));
+	}
+
+    @Override
+    @Transactional
+    public Response checkIsOnlys (String id){
+    	Response resp = new Response();
+    	resp.setSuccess(false);
+    	Session session = planReachApprovalRepo.getSession();
+		// 处理关联信息
+		BigInteger countQuery = (BigInteger) session.createNativeQuery(SQLConfig.planReachApproval_count)
+				.setParameter("shenBaoInfos_id", id).getSingleResult();
+
+		int count = countQuery == null ? 0 : countQuery.intValue();
+		
+		if (count > 0) {
+			ShenBaoInfo shenBaoInfo = shenBaoInfoService.findById(id);
+			resp.setMessage(String.format("项目：%s已存在其他表单中，请重新选择",shenBaoInfo.getProjectName()));
+			resp.setSuccess(true);
+		}
+		return resp;
+    }
+    
+    
     @Override
     @Transactional
     public void endProcesss (String id){
@@ -173,6 +209,11 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 		activitiService.taskComplete(task.get(0).getId(), variables);
 		shenBaoInfo.setThisTaskId("00000");
 		shenBaoInfo.setThisTaskName("已办结");
+		shenBaoInfo.setProcessState(BasicDataConfig.processState_pass);
+		shenBaoInfo.setProcessStage("已办结");
+		shenBaoInfo.setIsIncludLibrary(true);
+		shenBaoInfo.setComplate(true);
+		shenBaoInfo.setEndDate(new Date());
 		
 		return;
     }
