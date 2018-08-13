@@ -273,9 +273,7 @@
         	vm.confirmPlanReach=function(data){
         		var dataList = data.split(",");
         		var applicationTime = parseInt(kendo.toString(new Date(vm.model.applicationTime),"yyyy"));//查询条件：下一年度计划的计划年度为本年
-				//先判断是否有申报集合
         		if(vm.model.shenBaoInfoDtos){
-        			//判断是否是重复添加
         			var isHas=false;
         			vm.model.shenBaoInfoDtos.every(function (item, i) {
         			    if (item.id == dataList[0]) {
@@ -284,18 +282,19 @@
         			    }
         			    return true;
         			});
-        			if(!isHas){//如果不重复
-    					vm.model.shenBaoInfoDtos.push({id:dataList[0],projectName:dataList[1],constructionUnit:dataList[2],projectGuiMo:dataList[3],
-    						projectConstrChar:dataList[4],beginDate:dataList[5],endDate:dataList[6],projectInvestSum:dataList[7],projectInvestAccuSum:dataList[8],
-    						planYear:dataList[9],capitalAP_ggys_TheYear:dataList[10],capitalAP_gtzj_TheYear:dataList[11],sqPlanReach_ggys:dataList[12],sqPlanReach_gtzj:dataList[13],
-    						apPlanReach_ggys:dataList[14],apPlanReach_gtzj:dataList[15]});
-        				}
-        			}else{//如果没有申报集合
-        				vm.model.shenBaoInfoDtos=[{id:dataList[0],projectName:dataList[1],constructionUnit:dataList[2],projectGuiMo:dataList[3],
-    						projectConstrChar:dataList[4],beginDate:dataList[5],endDate:dataList[6],projectInvestSum:dataList[7],projectInvestAccuSum:dataList[8],
-    						planYear:dataList[9],capitalAP_ggys_TheYear:dataList[10],capitalAP_gtzj_TheYear:dataList[11],sqPlanReach_ggys:dataList[12],sqPlanReach_gtzj:dataList[13],
-    						apPlanReach_ggys:dataList[14],apPlanReach_gtzj:dataList[15]}];
-    				}
+        		}
+        		
+				//先判断是否有申报集合
+        		if(!isHas){
+        			planReachSvc.checkIsOnly(vm,dataList);
+        		}else{
+        			common.alert({
+                    	vm:vm,
+                    	msg:'请勿重复添加!'             	
+                    });
+        		}
+        		
+    			
         	};
         	//批量添加计划下达数据
         	vm.confirmPlanReachs=function(){

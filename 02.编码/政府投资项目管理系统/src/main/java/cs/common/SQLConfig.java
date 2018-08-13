@@ -338,6 +338,8 @@ public class SQLConfig {
     
     public static String planReachApproval_count ="SELECT count(1) FROM cs_planreachapproval_cs_shenbaoinfo WHERE shenBaoInfos_id =:shenBaoInfos_id";
 
+    public static String deleteShenbaoInfoAttmsFK ="DELETE FROM cs_project_cs_attachment WHERE Project_id=:Project_id";
+
     public static String packPlanByPlanReachId_count = "SELECT count(1)" + packPlanByPlanReachId_base;
 
     public static String packPlanByPlanReachId = "SELECT p.id,p.createdBy,p.createdDate,p.itemOrder,p.modifiedBy," +

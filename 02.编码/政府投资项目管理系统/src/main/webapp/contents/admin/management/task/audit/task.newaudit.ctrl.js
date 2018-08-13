@@ -172,8 +172,10 @@
             vm.draftOpen = function (str) {
                 if (str == 'edit') {
                     vm.isEditDraft = true;
+                    vm.isLookDraft = false;
                 } else if (str == 'look') {
                     vm.isLookDraft = true;
+                    vm.isEditDraft = false;
                 }
                 taskNewAuditSvc.getDraftIssued(vm);//查询发文拟稿
             };

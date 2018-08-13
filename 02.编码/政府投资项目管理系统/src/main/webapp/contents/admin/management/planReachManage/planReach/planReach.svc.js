@@ -43,10 +43,53 @@
 				getPlanReachApprovalById:getPlanReachApprovalById,
 				updateShnebaoInfo:updateShnebaoInfo,
 				endProcess:endProcess,
-				endProcesss:endProcesss
+				endProcesss:endProcesss,
+				checkIsOnly:checkIsOnly
 		}
 		
 		return service;
+		
+		function checkIsOnly(vm,dataList){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url + "/checkIsOnly/{0}", dataList[0])
+				};
+			var httpSuccess = function success(response) {
+				var resp = response.data;
+				if(!resp.success){//如果不重复
+					if(vm.model.shenBaoInfoDtos){
+	        			//判断是否是重复添加
+	    					vm.model.shenBaoInfoDtos.push({id:dataList[0],projectName:dataList[1],constructionUnit:dataList[2],projectGuiMo:dataList[3],
+	    						projectConstrChar:dataList[4],beginDate:dataList[5],endDate:dataList[6],projectInvestSum:dataList[7],projectInvestAccuSum:dataList[8],
+	    						planYear:dataList[9],capitalAP_ggys_TheYear:dataList[10],capitalAP_gtzj_TheYear:dataList[11],sqPlanReach_ggys:dataList[12],sqPlanReach_gtzj:dataList[13],
+	    						apPlanReach_ggys:dataList[14],apPlanReach_gtzj:dataList[15],xdPlanReach_ggys:dataList[16],xdPlanReach_gtzj:dataList[17],thisTaskName:dataList[18]});
+	        				
+	    			}else{//如果没有申报集合
+	    				vm.model.shenBaoInfoDtos=[{id:dataList[0],projectName:dataList[1],constructionUnit:dataList[2],projectGuiMo:dataList[3],
+							projectConstrChar:dataList[4],beginDate:dataList[5],endDate:dataList[6],projectInvestSum:dataList[7],projectInvestAccuSum:dataList[8],
+							planYear:dataList[9],capitalAP_ggys_TheYear:dataList[10],capitalAP_gtzj_TheYear:dataList[11],sqPlanReach_ggys:dataList[12],sqPlanReach_gtzj:dataList[13],
+							apPlanReach_ggys:dataList[14],apPlanReach_gtzj:dataList[15],xdPlanReach_ggys:dataList[16],xdPlanReach_gtzj:dataList[17],thisTaskName:dataList[18]}];
+	    				vm.gg[dataList[0]] = dataList[16];
+	    				vm.gt[dataList[0]] = dataList[17];
+	    			}
+				}else{
+					common.alert({
+						vm : vm,
+						msg : resp.message,
+						fn : function() {
+							vm.isSubmit = false;
+							$('.alertDialog').modal('hide');
+						}
+					});
+				}
+			};
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
 		
 		function endProcess(vm,id){
 			 $http.post(common.format(url + "/endProcess/{0}", id)).then(function () {
@@ -55,7 +98,7 @@
 		}
 		function endProcesss(vm){
 			 $http.post(common.format(url + "/endProcesss/{0}", vm.id)).then(function () {
-				 location.path(url_back);
+				 $location.path(url_back);
 	            })
 		}
 		 function updateShnebaoInfo(vm, shenbaoId) {
@@ -180,9 +223,11 @@
 			if (isValid) {
 				vm.isSubmit = true;
 				var isList = [];
-				for (var int = 0; int < vm.model.shenBaoInfoDtos.length; int++) {
-					var array_element = vm.model.shenBaoInfoDtos[int];
-					isList.push(array_element.id);
+				if(vm.model.shenBaoInfoDtos != undefined){
+					for (var int = 0; int < vm.model.shenBaoInfoDtos.length; int++) {
+						var array_element = vm.model.shenBaoInfoDtos[int];
+						isList.push(array_element.id);
+					}
 				}
 				
 				var httpOptions = {
@@ -336,7 +381,7 @@
 										item.id+","+item.projectName+","+item.constructionUnit+","+item.projectGuiMo+","+item.projectConstrChar+","+
 											common.formatDate(item.beginDate)+","+common.formatDate(item.endDate)+","+item.projectInvestSum+","+item.projectInvestAccuSum+","+item.planYear+","+
 											item.capitalAP_ggys_TheYear+","+item.capitalAP_gtzj_TheYear+","+item.sqPlanReach_ggys+","+item.sqPlanReach_gtzj+","+
-											item.apPlanReach_ggys+","+item.apPlanReach_gtzj);
+											item.apPlanReach_ggys+","+item.apPlanReach_gtzj+","+item.xdPlanReach_ggys+","+item.xdPlanReach_gtzj+","+item.thisTaskName);
 					},
 					filterable : false,
 					width : 40,
@@ -439,7 +484,7 @@
 					    }
 				},
 				{
-					title: "计划下达申请(万元)",
+					title: "计划申请资金(万元)",
 					columns: [
 						{
 							field : "sqPlanReach_ggys",
@@ -468,7 +513,7 @@
 					    }
 				},
 				{
-					title: "计划下达安排(万元)",
+					title: "计划安排资金(万元)",
 					columns: [
 						{
 							field : "apPlanReach_ggys",
@@ -482,6 +527,35 @@
 						},
 						{
 							field : "apPlanReach_gtzj",
+							title : "国土基金",
+							width:80,
+							filterable : false,
+							headerAttributes: {
+						      "class": "table-header-cell",
+						       style: "text-align: center;vertical-align: middle;"
+						    }
+						}
+					],
+					headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
+				},
+				{
+					title: "计划下达资金(万元)",
+					columns: [
+						{
+							field : "xdPlanReach_ggys",
+							title : "公共预算",
+							width:80,
+							filterable : false,
+							headerAttributes: {
+						      "class": "table-header-cell",
+						       style: "text-align: center;vertical-align: middle;"
+						    }
+						},
+						{
+							field : "xdPlanReach_gtzj",
 							title : "国土基金",
 							width:80,
 							filterable : false,

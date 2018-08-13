@@ -1,3 +1,27 @@
+<style>
+.uploadBox .k-upload-status {
+	display: none;
+}
+
+.uploadBox .k-header {
+	background: transparent;
+	border: 0px;
+	float:right;
+}
+
+.uploadBox em {
+	display: none;
+}
+
+.uploadBox .k-dropzone {
+	padding: 0px;
+	margin: 0px;
+}
+
+.uploadBox .k-upload-files{
+	display:none;
+}
+</style>
 <div ng-show="vm.isYearPlan">
 <div class="bg-info text-info" style="padding: 10px;">项目批复信息</div>
 <table class="table table-bordered table-striped ">
@@ -33,7 +57,7 @@
 	</tr>
 	<tr ng-repeat="x in vm.materialsType">
 		<td ng-bind-html="vm.html(x[1])"></td>
-		<td>			
+		<td class="clearfix">			
 	      <div style="margin:3px;"  class="pull-left"
 		 	  ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos" 
 		 	  ng-show="y.type=='{{x[0]}}'"
