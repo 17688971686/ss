@@ -179,3 +179,32 @@ label {
 	<!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
+
+<!-- 申报信息复核模态框 -->
+<div id="shenbaoInfoEdit" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog"
+		 style="margin: 80px auto; width: 80%; max-width: 1000px;">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<span class="modal-title">复核申报信息</span>
+			</div>
+			<div class="modal-body">
+				<div ng-include
+					 src="'/contents/admin/management/task/html/edit/shenBaoInfoEdit.html'"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-success"
+						ng-click="vm.saveShenBaoInfo()">保存</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
