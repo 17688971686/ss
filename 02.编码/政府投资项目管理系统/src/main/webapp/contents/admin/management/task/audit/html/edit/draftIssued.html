@@ -8,10 +8,8 @@
 			<td>
 				<span ng-bind="vm.draft.projectName"></span>
 			</td>
-			<td class="formAlignRight" style="width:150px;">发文字号：</td>
-			<td>
-				<input type="text" class="form-control input-sm" id="issuedNumber" name="issuedNumber" ng-model="vm.draft.issuedNumber"/>
-			</td>
+			<td class="formAlignRight" style="width:150px;">项目编码：</td>
+			<td ng-bind="vm.model.shenBaoInfo.projectNumber"></td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">申报单位：</td>
@@ -28,13 +26,30 @@
 			<td>
 				<span ng-bind="vm.draft.capitalTotal"></span>&nbsp;（万元）
 			</td>
-			<td class="formAlignRight">发文种类：<span class="required">(*)</span></td>
-			<td>
-				<select class="form-control input-sm" style="width:200px;" id="postingCategory" name="postingCategory" ng-model="vm.draft.postingCategory" data-val="true" data-val-required="必选">
+			<td class="formAlignRight">公开类型：<span class="required">(*)</span></td>
+			<td colspan="3">
+				<label ng-repeat="x in vm.basicData.openType">
+					 <input type="radio" name="openType" value="{{x.id}}" ng-model="vm.draft.openType" ng-checked="x.id == vm.draft.openType" data-val="true" data-val-required="必选"/>{{x.description}}&nbsp;&nbsp;
+				</label>
+				<span data-valmsg-for="openType" data-valmsg-replace="true" class="required"></span>								
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">文件缓急：<span class="required">(*)</span></td>
+			<td >
+				<select class="form-control input-sm" style="width:200px;" id="fileSet" name="fileSet" ng-model="vm.draft.fileSet" data-val="true" data-val-required="必选">
 				  	<option value="">---请选择---</option>
-					<option ng-repeat="y in vm.basicData.postingCategory" value="{{y.id}}">{{y.description}}</option>
-				</select>
-				<span data-valmsg-for="postingCategory" data-valmsg-replace="true" class="required"></span>								
+					<option ng-repeat="y in vm.basicData.fileSet" value="{{y.id}}">{{y.description}}</option>
+				</select>	
+				<span data-valmsg-for="fileSet" data-valmsg-replace="true" class="required"></span>							
+			</td>
+			<td class="formAlignRight">文件种类：<span class="required">(*)</span></td>
+			<td >
+				<select class="form-control input-sm" style="width:200px;" id="documentType" name="documentType" ng-model="vm.draft.documentType" data-val="true" data-val-required="必选">
+				  	<option value="">---请选择---</option>
+					<option ng-repeat="y in vm.basicData.documentType" value="{{y.id}}">{{y.description}}</option>
+				</select>	
+				<span data-valmsg-for="documentType" data-valmsg-replace="true" class="required"></span>							
 			</td>
 		</tr>
 		<tr>
@@ -54,15 +69,13 @@
 				 ng-model="vm.draft.draftDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>	
 				 <span data-valmsg-for="draftDate" data-valmsg-replace="true" class="required"></span>	 						
 			</td>
-		
-			
-		<tr>
-			<td class="formAlignRight">公开类型：<span class="required">(*)</span></td>
-			<td colspan="3">
-				<label ng-repeat="x in vm.basicData.openType">
-					 <input type="radio" name="openType" value="{{x.id}}" ng-model="vm.draft.openType" ng-checked="x.id == vm.draft.openType" data-val="true" data-val-required="必选"/>{{x.description}}&nbsp;&nbsp;
-				</label>
-				<span data-valmsg-for="openType" data-valmsg-replace="true" class="required"></span>								
+			<td class="formAlignRight">秘密等级：<span class="required">(*)</span></td>
+			<td >
+				<select class="form-control input-sm" style="width:200px;" id="hecretHierarchy" name="hecretHierarchy" ng-model="vm.draft.hecretHierarchy" data-val="true" data-val-required="必选">
+				  	<option value="">---请选择---</option>
+					<option ng-repeat="y in vm.basicData.hecretHierarchy" value="{{y.id}}">{{y.description}}</option>
+				</select>	
+				<span data-valmsg-for="hecretHierarchy" data-valmsg-replace="true" class="required"></span>							
 			</td>
 		</tr>
 		<tr>
@@ -94,7 +107,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="formAlignRight">正文附件：<span class="required">(*)</span></td>
+			<td class="formAlignRight">正文：</td>
 			<td colspan="3">
 				<!-- <a class="btn btn-success btn-xs" href="/contents/admin/management/task/audit/html/edit/edit_dj.html" target="_blank">编辑正文</a>
 				 --><div class="uploadBox pull-left" data-type="zhengwenFile">
@@ -107,7 +120,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="formAlignRight">发文附件：<span class="required">(*)</span></td>
+			<td class="formAlignRight">相关附件：</td>
 			<td colspan="3">
 				<div class="uploadBox pull-left" data-type="fawemFile">
 				 	<input type="file" name="files" kendo-upload k-options="vm.uploadOptions_shenpi"/>

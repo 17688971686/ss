@@ -815,7 +815,7 @@
                     field: "title",
                     title: "标题",
                     filterable: true,
-                    width: 500,
+                    width: 400,
                     template: function (item) {
                         return common.format("<a class='text-primary' href='#/task/handle_plan/{1}'>{0}</a>", item.projectName, item.id);
                     }
@@ -823,7 +823,7 @@
                 {
                     field: "unitName",
                     title: "建设单位",
-                    width: 300,
+                    width: 150,
                     template: function (item) {
                         return common.getUnitName(item.unitName);
                     }
@@ -858,7 +858,7 @@
                 {
                     field: "processStage",
                     title: "审批阶段",
-                    width: 150,
+                    width: 120,
                     filterable: false,
                     template: function (item) {
                         return common.format("<span class='text-danger'>{0}</span>", item.processStage);
@@ -867,7 +867,7 @@
                 {
                     field: "",
                     title: "创建日期",
-                    width: 180,
+                    width: 150,
                     template: function (item) {
                         return kendo.toString(new Date(item.createdDate), "yyyy/MM/dd HH:mm:ss");
                     }

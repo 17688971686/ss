@@ -601,11 +601,13 @@
         	vm.saveDraft=function(){
         		taskNewAuditSvc.saveDraft(vm);
         	};
+        	
 		   //处理
         	vm.handle=function(str){
         		if((vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18') && vm.isPass == "5" && vm.nextUsers == ""){
         			vm.nextUsers = "e03930db-9e32-4158-afe4-9357945df1ae";
         		}
+        		
     			if((vm.model.shenBaoInfo.thisTaskName == 'usertask1' || vm.model.shenBaoInfo.thisTaskName == 'usertask5') && vm.isPass == "1" && vm.nextUsers == "" && str =="next"){
 							vm.nextUsers = vm.banliUsers;
 							taskNewAuditSvc.handle(vm,str);
@@ -627,6 +629,7 @@
 						}
 					});
         		}else if(str =="next" && vm.nextUsers != "" || str =="reback" || str =="banjie"){
+        			
 							taskNewAuditSvc.handle(vm,str);
 							//过滤出局领导退回的情况，单独判断
     			}else if (str =="tuiwen" ){
@@ -654,17 +657,19 @@
         	};
         	
         	vm.changeDeptUsers=function(num){
+    			vm.nextUsers = '';
+        		vm.num = num;
         		if(vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask23'){
         			if(num == "8"){
         				taskNewAuditSvc.getDeptByName(vm,"评审中心");
-        			}else if(num == "7" || num == "9" ){
-        				taskNewAuditSvc.getKezhangByName(vm,"投资科");
         			}else{
         				taskNewAuditSvc.getDeptByName(vm,"投资科");
         			}
         			
         		}else if(vm.model.shenBaoInfo.thisTaskName == 'usertask17' || vm.model.shenBaoInfo.thisTaskName == 'usertask19' || vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask21'){
+        			
         			if(num == "5"){
+        				
         				taskNewAuditSvc.getDeptByName(vm,"办公室");
         			}else if(num == "6"){
         				taskNewAuditSvc.getDeptByName(vm,"局领导");
@@ -678,6 +683,21 @@
         			}else{
         				taskNewAuditSvc.getDeptByName(vm,"投资科");
         			}
+        		}else if(vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18'){
+        			
+        				vm.user =[];
+        				for (var i = 0; i < vm.model.dept.userDtos.length; i++) {
+							var user = vm.model.dept.userDtos[i];
+							for (var j = 0; j < user.roles.length; j++) {
+								var role = user.roles[j];
+								if(role.roleName == "副局长" && num == "5"){
+										vm.user.push(user);
+									}else if(role.roleName == "局长" && num == "6"){
+										vm.user.push(user);
+									}
+							}
+							
+						}
         		}
         		
         	}

@@ -28,7 +28,7 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
 	Response getAssigneeByUserId(String processId, String userId);
 
 	@SuppressWarnings("rawtypes")
-	void taskPinglun(Map data);
+	void taskPinglun(Map data,boolean b);
 
 	PageModelDto<ShenBaoInfoDto> getAudit_complete(ODataObjNew odataObj,String str);
 
@@ -60,7 +60,7 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
 
 	/*Map<String, Object> getCurrentKeyIntoMap(String processInstanceId, Map<String, Object> map);*/
 	
-	void taskYuepi(String id);
+//	void taskYuepi(String id);
 
     /**
      * 查询待办数据

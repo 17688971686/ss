@@ -165,10 +165,11 @@ public class TaskController {
         processService.taskComplete(data);
     }
     
-    @RequestMapping(name = "阅批任务", path = "yuepi/{id}", method = RequestMethod.POST)
+    @SuppressWarnings("rawtypes")
+	@RequestMapping(name = "阅批任务", path = "yeupi", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void taskYuepi(@PathVariable String id) {
-        processService.taskYuepi(id);
+    public void taskYuepi(@RequestBody Map data) {
+        processService.taskPinglun(data,false);
     }
 
     @SuppressWarnings("rawtypes")
@@ -208,7 +209,7 @@ public class TaskController {
     @RequestMapping(name = "审批评论", path = "pinglun", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public void taskPinglun(@RequestBody Map data) {
-        processService.taskPinglun(data);
+        processService.taskPinglun(data,true);
     }
     
     @SuppressWarnings("rawtypes")
@@ -216,7 +217,7 @@ public class TaskController {
     @RequestMapping(name = "计划评论", path = "jihuaPinglun", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public void jihuaPinglun(@RequestBody Map data) {
-        processService.taskPinglun(data);
+        processService.taskPinglun(data,true);
     }
 
 

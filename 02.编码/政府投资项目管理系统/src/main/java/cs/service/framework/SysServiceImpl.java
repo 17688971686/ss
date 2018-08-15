@@ -487,8 +487,8 @@ public class SysServiceImpl implements SysService {
 
         this.createBasicData("fileSet", "", "fileSet", "文件缓急分类", "");
         this.createBasicData("fileSet_1", "fileSet", "fileSet", "平件", "");
-        this.createBasicData("fileSet_2", "fileSet", "fileSet", "平急", "");
-        this.createBasicData("fileSet_3", "fileSet", "fileSet", "急件", "");
+        this.createBasicData("fileSet_2", "fileSet", "fileSet", "加急", "");
+//        this.createBasicData("fileSet_3", "fileSet", "fileSet", "急件", "");
         this.createBasicData("fileSet_4", "fileSet", "fileSet", "特急", "");
         this.createBasicData("fileSet_5", "fileSet", "fileSet", "特提", "");
 
@@ -766,7 +766,7 @@ public class SysServiceImpl implements SysService {
         this.createBasicData("projectProgress_3", "projectProgress", "projectProgress", "进展大幅滞后于计划", "项目进度分类");
 
         this.createBasicData("projectShenBaoStage", "", "projectShenBaoStage", "项目申报阶段分类", "项目申报阶段分类");
-        this.createBasicData("projectShenBaoStage_1", "projectShenBaoStage", "projectShenBaoStage", "项目建议书", "项目申报阶段分类", 1, false);
+//        this.createBasicData("projectShenBaoStage_1", "projectShenBaoStage", "projectShenBaoStage", "项目建议书", "项目申报阶段分类", 1, false);
         this.createBasicData("projectShenBaoStage_2", "projectShenBaoStage", "projectShenBaoStage", "可行性研究报告", "项目申报阶段分类", 2, false);
         this.createBasicData("projectShenBaoStage_3", "projectShenBaoStage", "projectShenBaoStage", "初步设计概算", "项目申报阶段分类", 3, false);
         this.createBasicData("projectShenBaoStage_4", "projectShenBaoStage", "projectShenBaoStage", "资金申请报告", "项目申报阶段分类", 4, false);
