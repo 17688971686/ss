@@ -3,3 +3,8 @@ alter table cs_shenbaoinfo modify column projectShenBaoStage varchar(64) ;
 alter table cs_shenbaoinfo modify column projectId varchar(64) ;
 alter table cs_shenbaoinfo modify column packageType varchar(64) ;
 alter table cs_shenbaoinfo modify column monitor_status varchar(64) ;
+alter table cs_draftIssued modify column openType varchar(64) ;
+alter table cs_draftIssued modify column postingCategory varchar(64) ;
+alter table cs_draftIssued modify column mobileName varchar(64) ;
+alter table cs_draftIssued modify column mobilePhone varchar(64) ;
+alter table cs_draftIssued modify column issuedNumber varchar(64) ;

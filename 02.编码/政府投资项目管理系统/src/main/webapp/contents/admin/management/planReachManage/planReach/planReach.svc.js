@@ -484,6 +484,35 @@
 					    }
 				},
 				{
+					title: "累计资金(万元)",
+					columns: [
+						{
+							field : "apPlanReach_ggys",
+							title : "公共预算",
+							width:80,
+							filterable : false,
+							headerAttributes: {
+						      "class": "table-header-cell",
+						       style: "text-align: center;vertical-align: middle;"
+						    }
+						},
+						{
+							field : "apPlanReach_gtzj",
+							title : "国土基金",
+							width:80,
+							filterable : false,
+							headerAttributes: {
+						      "class": "table-header-cell",
+						       style: "text-align: center;vertical-align: middle;"
+						    }
+						}
+					],
+					headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
+				},
+				{
 					title: "计划申请资金(万元)",
 					columns: [
 						{
@@ -512,35 +541,7 @@
 					       style: "text-align: center;vertical-align: middle;"
 					    }
 				},
-				{
-					title: "计划安排资金(万元)",
-					columns: [
-						{
-							field : "apPlanReach_ggys",
-							title : "公共预算",
-							width:80,
-							filterable : false,
-							headerAttributes: {
-						      "class": "table-header-cell",
-						       style: "text-align: center;vertical-align: middle;"
-						    }
-						},
-						{
-							field : "apPlanReach_gtzj",
-							title : "国土基金",
-							width:80,
-							filterable : false,
-							headerAttributes: {
-						      "class": "table-header-cell",
-						       style: "text-align: center;vertical-align: middle;"
-						    }
-						}
-					],
-					headerAttributes: {
-					      "class": "table-header-cell",
-					       style: "text-align: center;vertical-align: middle;"
-					    }
-				},
+				
 				{
 					title: "计划下达资金(万元)",
 					columns: [

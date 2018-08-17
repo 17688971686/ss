@@ -34,8 +34,9 @@
 		<tr>
 			<td class="formAlignRight">公开类型：</td>
 			<td ng-bind="vm.getBasicDataDesc(vm.draft.openType)"></td>
-			<td class="formAlignRight">发行范围：</td>
-			<td ng-bind="vm.getBasicDataDesc(vm.draft.scope)"></td>
+			<td class="formAlignRight">秘密等级：</td>
+			<td  ng-bind="vm.getBasicDataDesc(vm.draft.hecretHierarchy)"></td>
+			
 		</tr>
 		<tr>
 			<td class="formAlignRight">文件缓急：</td>
@@ -52,8 +53,8 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="formAlignRight">秘密等级：</td>
-			<td colspan="3" ng-bind="vm.getBasicDataDesc(vm.draft.hecretHierarchy)"></td>
+			<td class="formAlignRight">发行范围：</td>
+			<td colspan="3" ng-bind="vm.draft.scope"></td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">标题：</td>

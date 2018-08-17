@@ -520,7 +520,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 
 		if (shenBaoInfo.getThisTaskName().equals("usertask5")) {
-			
+			shenBaoInfo.setApPlanReach_ggys(xdPlanReach_ggys+shenBaoInfo.getApPlanReach_ggys());
+			shenBaoInfo.setApPlanReach_gtzj(xdPlanReach_gtzj+shenBaoInfo.getApPlanReach_gtzj());
 			shenBaoInfo.setXdPlanReach_gtzj(xdPlanReach_gtzj);
 			shenBaoInfo.setXdPlanReach_ggys(xdPlanReach_ggys);
 			shenBaoInfo.setThisTaskId("00000");
@@ -850,15 +851,15 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setAuditState(BasicDataConfig.auditState_auditPass);
 
 			// 生成项目编码
-			if (StringUtils.isBlank(shenBaoInfo.getProjectNumber())) {
-				BasicData basicData = basicDataService.findById(shenBaoInfo.getProjectIndustry());
-				int projectSequenceNum = projectService.getProjectSequenceNumberInYear(shenBaoInfo.getProjectId());
-				String projectNumber = Util.getProjectNumber(shenBaoInfo.getProjectType(), basicData,
-						projectSequenceNum);
-				shenBaoInfo.setProjectNumber(projectNumber);
-
-				projectService.updateProjectNumber(shenBaoInfo.getProjectId(), projectNumber);
-			}
+//			if (StringUtils.isBlank(shenBaoInfo.getProjectNumber())) {
+//				BasicData basicData = basicDataService.findById(shenBaoInfo.getProjectIndustry());
+//				int projectSequenceNum = projectService.getProjectSequenceNumberInYear(shenBaoInfo.getProjectId());
+//				String projectNumber = Util.getProjectNumber(shenBaoInfo.getProjectType(), basicData,
+//						projectSequenceNum);
+//				shenBaoInfo.setProjectNumber(projectNumber);
+//
+//				projectService.updateProjectNumber(shenBaoInfo.getProjectId(), projectNumber);
+//			}
 
 		}
 		Project project = projectRepo.findById(shenBaoInfo.getProjectId());
@@ -1115,16 +1116,16 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 					}
 				}
 			}
-			// 生成项目编码
-			if (StringUtils.isBlank(shenBaoInfo.getProjectNumber())) {
-				BasicData basicData = basicDataService.findById(shenBaoInfo.getProjectIndustry());
-				int projectSequenceNum = projectService.getProjectSequenceNumberInYear(shenBaoInfo.getProjectId());
-				String projectNumber = Util.getProjectNumber(shenBaoInfo.getProjectInvestmentType(), basicData,
-						projectSequenceNum);
-				shenBaoInfo.setProjectNumber(projectNumber);
-	
-				projectService.updateProjectNumber(shenBaoInfo.getProjectId(), projectNumber);
-			}
+//			// 生成项目编码
+//			if (StringUtils.isBlank(shenBaoInfo.getProjectNumber())) {
+//				BasicData basicData = basicDataService.findById(shenBaoInfo.getProjectIndustry());
+//				int projectSequenceNum = projectService.getProjectSequenceNumberInYear(shenBaoInfo.getProjectId());
+//				String projectNumber = Util.getProjectNumber(shenBaoInfo.getProjectInvestmentType(), basicData,
+//						projectSequenceNum);
+//				shenBaoInfo.setProjectNumber(projectNumber);
+//	
+//				projectService.updateProjectNumber(shenBaoInfo.getProjectId(), projectNumber);
+//			}
 		}
 		projectService.handlePiFuFile(project);
 	

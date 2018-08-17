@@ -163,8 +163,10 @@
             vm.editApproval = function (str) {
                 if (str == 'edit') {
                     vm.isEditApproval = true;
+                    vm.isLookApproval = false;
                 } else if (str == 'look') {
                     vm.isLookApproval = true;
+                    vm.isEditApproval = false;
                 }
                 taskNewAuditSvc.getApproval(vm);//查询评审报批单
             };
@@ -394,7 +396,7 @@
                 });
                 vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
             };
-            vm.uploadType = [['JYS', '项目建议书批复'], ['KXXYJBG', '可行性研究报告批复'], ['CBSJYGS', '初步设计与概算批复'], ['ZJSQBG', '资金申请报告批复']];
+            vm.uploadType = [['KXXYJBG', '可行性研究报告批复'], ['CBSJYGS', '初步设计与概算批复'], ['ZJSQBG', '资金申请报告批复']];
             //批复文件选择模态框确认
             vm.pifuChoseConfirm = function () {
                 //关闭模态框
@@ -407,11 +409,11 @@
                     var number = file[0];
                     var name = file[1];
                     var url = file[2];
-                    vm.model.shenBaoInfo['pifu' + vm.pifuType + '_wenhao'] = number;
-                    if (vm.model.shenBaoInfo.attachmentDtos) {
-                        vm.model.shenBaoInfo.attachmentDtos.push({name: name, url: url, type: vm.pifuType});
+                    vm.project['pifu' + vm.pifuType + '_wenhao'] = number;
+                    if (vm.project.attachmentDtos) {
+                    	vm.project.attachmentDtos.push({name: name, url: url, type: vm.pifuType});
                     } else {
-                        vm.model.shenBaoInfo.attachmentDtos = [{name: name, url: url, type: vm.pifuType}];
+                    	vm.project.attachmentDtos = [{name: name, url: url, type: vm.pifuType}];
                     }
                 }
             };

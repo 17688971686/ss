@@ -252,7 +252,7 @@
 							ng-model="vm.isPass" />经办人办理
 						</label>
 					</div>
-					<div class="pull-left">
+					<div class="pull-left" ng-if="vm.isPass == '1'">
 
 						<label ng-repeat="x in vm.model.dept.userDtos"> <input
 							type="radio" name="radio" value="{{x.id}}"
@@ -309,7 +309,7 @@
 						<!-- <a class="btn btn-success btn-xs" href="#/print/{{vm.model.shenBaoInfo.id}}"><span class="glyphicon glyphicon-eye-open"></span>正文打印预览</a>
 					 -->
 					</div>
-					<div>
+					<div  ng-if="vm.isPass == '5' || vm.isPass == '7' || vm.isPass == '8' || vm.isPass == '9'">
 						<label ng-repeat="x in vm.user"> <input
 							type="radio" id="nextUser" name="nextUser"
 							ng-model="vm.nextUsers" value="{{x.id}}" />{{x.displayName}}&nbsp;&nbsp;
@@ -369,7 +369,7 @@
 							ng-model="vm.isPass" />局长审核
 						</label>
 					</div>
-					<div class="pull-left">
+					<div class="pull-left" ng-if="vm.isPass == '5' || vm.isPass == '6'">
 
 						<label ng-repeat="x in vm.user"> <input
 							type="radio" name="radio" value="{{x.id}}" ng-checked="x.id == 'e03930db-9e32-4158-afe4-9357945df1ae'"
@@ -400,7 +400,7 @@
 							ng-model="vm.isPass" />退回办理人
 						</label>
 					</div>
-					<div class="pull-left">
+					<div class="pull-left" ng-if="vm.isPass == '5' || vm.isPass == '7' || vm.isPass == '6'">
 						<label ng-repeat="x in vm.user"> <input
 							type="radio" name="radio" value="{{x.id}}"
 							ng-model="vm.nextUsers" ng-checked="x.id ==vm.yinwenUsers"
@@ -425,7 +425,7 @@
 						</label>
 					</div>
 					
-					<div class="pull-left">
+					<div class="pull-left" ng-if="vm.isPass == '5' || vm.isPass == '7'">
 						<label ng-repeat="x in vm.model.dept.userDtos"> <input
 							type="radio" name="radio" value="{{x.id}}"
 							ng-model="vm.nextUsers" ng-checked="x.id ==vm.yinwenUsers"/>{{x.displayName}}&nbsp;&nbsp;
@@ -464,7 +464,7 @@
 					<div>
 						<a class="btn btn-success btn-xs"
 							href="#/print/{{vm.model.shenBaoInfo.id}}"><span
-							class="glyphicon glyphicon-eye-open"></span>正文打印预览</a>
+							class="glyphicon glyphicon-eye-open"></span>打印呈批表</a>
 					</div>
 					<div>
 						<label> <input type="radio" id="nextProcess"

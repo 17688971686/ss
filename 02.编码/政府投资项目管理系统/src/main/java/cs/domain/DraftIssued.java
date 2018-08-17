@@ -24,7 +24,7 @@ public class DraftIssued extends BaseEntity{
 	@Column(columnDefinition="date NULL COMMENT '拟稿时间'")
 	private Date draftDate;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '公开类型'")
+	@Column(columnDefinition="varchar(64) NULL COMMENT '公开类型'")
 	private String openType;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '标题'")
@@ -33,16 +33,16 @@ public class DraftIssued extends BaseEntity{
 	@Column(columnDefinition="varchar(255) NULL COMMENT '备注'")
 	private String keyWord;
 
-	@Column(columnDefinition="varchar(255) NULL COMMENT '发文种类'")
+	@Column(columnDefinition="varchar(64) NULL COMMENT '发文种类'")
 	private String postingCategory;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目名称'")
 	private String projectName;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '联系人'")
+	@Column(columnDefinition="varchar(64) NULL COMMENT '联系人'")
 	private String mobileName;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '联系电话'")
+	@Column(columnDefinition="varchar(64) NULL COMMENT '联系电话'")
 	private String mobilePhone;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '单位名称'")
@@ -51,13 +51,22 @@ public class DraftIssued extends BaseEntity{
 	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '总投资'")
 	private Double capitalTotal=0.0;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '拟稿单位拟稿人'")
+	@Column(columnDefinition="varchar(64) NULL COMMENT '拟稿单位拟稿人'")
 	private String userNameAndUnit;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '发行范围'")
+	@Column(columnDefinition="varchar(225) NULL COMMENT '发行范围'")
 	private String scope;
 	
-	@Column(columnDefinition="varchar(255) NULL COMMENT '发文字号'")
+	@Column(columnDefinition="varchar(64) NULL COMMENT '文件缓急'")
+	private String fileSet;
+	
+	@Column(columnDefinition="varchar(64) NULL COMMENT '文件种类'")
+	private String documentType;
+	
+	@Column(columnDefinition="varchar(64) NULL COMMENT '秘密等级'")
+	private String hecretHierarchy;
+	
+	@Column(columnDefinition="varchar(64) NULL COMMENT '发文字号'")
 	private String issuedNumber;
 	
 	//关联
@@ -183,6 +192,30 @@ public class DraftIssued extends BaseEntity{
 
 	public void setIssuedNumber(String issuedNumber) {
 		this.issuedNumber = issuedNumber;
+	}
+
+	public String getFileSet() {
+		return fileSet;
+	}
+
+	public void setFileSet(String fileSet) {
+		this.fileSet = fileSet;
+	}
+
+	public String getDocumentType() {
+		return documentType;
+	}
+
+	public void setDocumentType(String documentType) {
+		this.documentType = documentType;
+	}
+
+	public String getHecretHierarchy() {
+		return hecretHierarchy;
+	}
+
+	public void setHecretHierarchy(String hecretHierarchy) {
+		this.hecretHierarchy = hecretHierarchy;
 	}
 	
 	

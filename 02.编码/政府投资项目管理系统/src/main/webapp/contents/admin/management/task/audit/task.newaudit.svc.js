@@ -664,7 +664,7 @@
         					var user = vm.model.dept.userDtos[i];
         					for (var j = 0; j < user.roles.length; j++) {
         						var role = user.roles[j];
-        						if(role.roleName == "科长长"){
+        						if(role.roleName == "科长"){
         								vm.user.push(user);
         							}
         					}

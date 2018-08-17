@@ -56,6 +56,10 @@ public class BasicDataConfig {
 	public static String projectShenBaoStage_planReach="projectShenBaoStage_5";//计划下达
 	public static String projectShenBaoStage_nextYearPlan="projectShenBaoStage_7";//下一年度计划
 	
+	public static String projectShenBaoStage_KXXYJBG_name="可行性研究报告";//可行性研究报告
+	public static String projectShenBaoStage_CBSJGS_name="初步设计概算";//初步设计概算
+	public static String projectShenBaoStage_ZJSQBG_name="资金申请报告";//资金申请报告
+	
 	//打包类型 packageType
 	public static String packageType_danLie="packageType_1";//打包类型--单列项目
 	public static String packageType_jieSuanKuan="packageType_2";//结算款项目
