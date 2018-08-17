@@ -338,7 +338,7 @@
 					{
 						field : "projectName",
 						title : "标题",
-						width:500,
+						width:400,
 						filterable : true,
 						template:function(item){
 							return common.format("<a href='#/task/todo/{0}'>{1}</a>",item.id,item.projectName);
@@ -347,7 +347,7 @@
 					 {
 						field : "unitName",
 						title : "建设单位",
-						width : 300,						
+						width : 150,						
 						filterable : true,
 						template:function(item){
 							return common.getUnitName(item.unitName);
@@ -384,7 +384,7 @@
 					{
 						field : "",
 						title : "创建日期",
-						width : 180,
+						width : 150,
 						template : function(item) {
 							return kendo.toString(new Date(item.createdDate),"yyyy/MM/dd HH:mm:ss");
 						}

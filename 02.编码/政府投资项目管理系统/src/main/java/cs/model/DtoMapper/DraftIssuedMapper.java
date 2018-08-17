@@ -35,6 +35,9 @@ public class DraftIssuedMapper  implements IMapper<DraftIssuedDto, DraftIssued> 
 			draftIssuedDto.setMobilePhone(entity.getMobilePhone());
 			draftIssuedDto.setScope(entity.getScope());
 			draftIssuedDto.setIssuedNumber(entity.getIssuedNumber());
+			draftIssuedDto.setFileSet(entity.getFileSet());
+			draftIssuedDto.setDocumentType(entity.getDocumentType());
+			draftIssuedDto.setHecretHierarchy(entity.getHecretHierarchy());
 			//基础信息
 			draftIssuedDto.setCreatedBy(entity.getCreatedBy());
 			draftIssuedDto.setCreatedDate(entity.getCreatedDate());
@@ -66,7 +69,9 @@ public class DraftIssuedMapper  implements IMapper<DraftIssuedDto, DraftIssued> 
 			entity.setMobilePhone(dto.getMobilePhone());
 			entity.setScope(dto.getScope());
 			entity.setIssuedNumber(dto.getIssuedNumber());
-			
+			entity.setFileSet(dto.getFileSet());
+			entity.setDocumentType(dto.getDocumentType());
+			entity.setHecretHierarchy(dto.getHecretHierarchy());
 			//基础信息
 			entity.setModifiedBy(dto.getModifiedBy());
 			entity.setModifiedDate(dto.getModifiedDate());

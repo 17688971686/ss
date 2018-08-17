@@ -541,20 +541,6 @@
 			// End:dataSource
 			// Begin:column
 			var columns = [
-					/*{
-						template : function(item) {
-							return kendo
-									.format(
-											"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
-											item.id);
-						},
-						filterable : false,
-						width : 40,
-						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>",
-//						attributes: {  
-//						      "class": "table-cell", 
-//						}
-					},*/
 					 {	field : "projectNumber",
 						title : "项目代码",
 						//width : 130,						

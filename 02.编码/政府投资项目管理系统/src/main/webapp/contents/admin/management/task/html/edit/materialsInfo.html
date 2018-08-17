@@ -65,13 +65,13 @@
 		<td ng-bind-html="vm.html(x[1])"></td>
 		<td class="clearfix">
 			<div class="uploadBox" data-type="{{x[0]}}">
-				<input name="files" type="file" kendo-upload  k-options="vm.uploadOptions"/>
+				<input name="files" type="file" kendo-upload  k-options="vm.uploadOptions_shenpi"/>
 			</div>
 		</td>
 		<td>
 			<div style="margin:3px;" class="pull-left" ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos" ng-show="y.type=='{{x[0]}}'">
 				<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
-				<button class="btn btn-xs btn-danger" ng-click="vm.delFile($index)">删除</button>
+				<button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenpi($index)">删除</button>
 			</div>
 		</td>
 	</tr>

@@ -89,7 +89,12 @@
         function yuepi(vm, id) {
             var httpOptions = {
                 method: 'post',
-                url: common.format(url_taskAudit_new + "/yuepi/" + id)
+                url: url_taskAudit_new + "/yeupi",
+                data:{
+                	 "id": id,
+                     "msg": vm.processSuggestion,
+                     "shenbaoinfo": vm.model.shenBaoInfo
+                }
             }
             var httpSuccess = function success(response) {
                 if (vm.page == 'handleYuepi') {
@@ -635,7 +640,41 @@
         function getDeptByName(vm, name) {
             $http.get(common.format(url_dept + "?$filter=name eq '{0}'", encodeURIComponent(name))).success(function (data) {
                 vm.model.dept = data.value[0] || {};
-            })
+            }).then(function(response){
+        		vm.user =[];
+    			if(vm.model.shenBaoInfo.thisTaskName == 'usertask17' || vm.model.shenBaoInfo.thisTaskName == 'usertask19' || vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask21'){
+    				if(vm.num == "6"){
+    					for (var i = 0; i < vm.model.dept.userDtos.length; i++) {
+        					var user = vm.model.dept.userDtos[i];
+        					for (var j = 0; j < user.roles.length; j++) {
+        						var role = user.roles[j];
+        						if(role.roleName == "局长"){
+        								vm.user.push(user);
+        							}
+        					}
+        					
+        				}
+    				}else{
+    					vm.user =vm.model.dept.userDtos;
+    				}
+    			}
+    			if(vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask23'){
+    				if(vm.num == "7" || vm.num == "9"){
+    					for (var i = 0; i < vm.model.dept.userDtos.length; i++) {
+        					var user = vm.model.dept.userDtos[i];
+        					for (var j = 0; j < user.roles.length; j++) {
+        						var role = user.roles[j];
+        						if(role.roleName == "科长"){
+        								vm.user.push(user);
+        							}
+        					}
+        					
+        				}
+    				}else{
+    					vm.user =vm.model.dept.userDtos;
+    				}
+    			}
+			})
         }//end fun getDeptByName
         function getKezhangByName(vm, name) {
             $http.get(common.format(url_dept + "?$filter=name eq '{0}'", encodeURIComponent(name))).success(function (data) {
@@ -901,7 +940,7 @@
                     field: "title",
                     title: "标题",
                     filterable: true,
-                    width: 500,
+                    width: 400,
                     template: function (item) {
                         return common.format("<a class='text-primary' href='#/task/handle_audit/{1}'>{0}</a>", item.projectName, item.id);
                     }
@@ -909,7 +948,7 @@
                 {
                     field: "unitName",
                     title: "建设单位",
-                    width: 300,
+                    width: 150,
                     template: function (item) {
                         return common.getUnitName(item.unitName);
                     }
@@ -945,7 +984,7 @@
                 {
                     field: "processStage",
                     title: "审批阶段",
-                    width: 150,
+                    width: 120,
                     filterable: false,
                     template: function (item) {
                         return common.format("<span class='text-danger'>{0}</span>", item.processStage);
@@ -954,7 +993,7 @@
                 {
                     field: "thisUser",
                     title: "当前办理人员",
-                    width: 150,
+                    width: 120,
                     filterable: false,
                     template: function (item) {
                         if (item.thisUser == "" || item.thisUser == null) {
@@ -968,7 +1007,7 @@
                 {
                     field: "",
                     title: "创建日期",
-                    width: 180,
+                    width: 150,
                     template: function (item) {
                         return kendo.toString(new Date(item.createdDate), "yyyy/MM/dd HH:mm:ss");
                     }

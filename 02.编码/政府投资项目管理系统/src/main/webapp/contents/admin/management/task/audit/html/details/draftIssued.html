@@ -8,10 +8,8 @@
 			<td>
 				<span ng-bind="vm.draft.projectName"></span>
 			</td>
-			<td class="formAlignRight" style="width:150px;">发文字号：</td>
-			<td>
-				<input type="text" class="form-control input-sm" id="issuedNumber" name="issuedNumber" ng-model="vm.draft.issuedNumber"/>
-			</td>
+			<td class="formAlignRight" style="width:150px;">项目编码：</td>
+			<td ng-bind="vm.model.shenBaoInfo.projectNumber"></td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">申报单位：</td>
@@ -36,8 +34,15 @@
 		<tr>
 			<td class="formAlignRight">公开类型：</td>
 			<td ng-bind="vm.getBasicDataDesc(vm.draft.openType)"></td>
-			<td class="formAlignRight">发文种类：</td>
-			<td ng-bind="vm.getBasicDataDesc(vm.draft.postingCategory)"></td>
+			<td class="formAlignRight">秘密等级：</td>
+			<td  ng-bind="vm.getBasicDataDesc(vm.draft.hecretHierarchy)"></td>
+			
+		</tr>
+		<tr>
+			<td class="formAlignRight">文件缓急：</td>
+			<td ng-bind="vm.getBasicDataDesc(vm.draft.fileSet)"></td>
+			<td class="formAlignRight">文件种类：</td>
+			<td ng-bind="vm.getBasicDataDesc(vm.draft.documentType)"></td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">联系人：</td>
@@ -49,8 +54,7 @@
 		</tr>
 		<tr>
 			<td class="formAlignRight">发行范围：</td>
-			<td colspan="3" ng-bind="vm.draft.scope">
-			</td>
+			<td colspan="3" ng-bind="vm.draft.scope"></td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">标题：</td>
@@ -63,7 +67,7 @@
 			</td>
 		</tr>	
 		<tr>
-			<td class="formAlignRight">正文附件：</td>
+			<td class="formAlignRight">正文：</td>
 			<td colspan="3">
 				<!-- <a class="btn btn-success btn-xs" href="/contents/admin/management/task/audit/html/edit/edit_dj.html" target="_blank">编辑正文</a>
 				 --><div class="uploadBox pull-left" data-type="zhengwenFile">
@@ -76,7 +80,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="formAlignRight">发文附件：</td>
+			<td class="formAlignRight">其他附件：</td>
 			<td colspan="3">
 				<div class="uploadBox pull-left" data-type="fawemFile">
 				 	<input type="file" name="files" kendo-upload k-options="vm.uploadOptions_shenpi"/>

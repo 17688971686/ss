@@ -163,8 +163,10 @@
             vm.editApproval = function (str) {
                 if (str == 'edit') {
                     vm.isEditApproval = true;
+                    vm.isLookApproval = false;
                 } else if (str == 'look') {
                     vm.isLookApproval = true;
+                    vm.isEditApproval = false;
                 }
                 taskNewAuditSvc.getApproval(vm);//查询评审报批单
             };
@@ -394,7 +396,7 @@
                 });
                 vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
             };
-            vm.uploadType = [['JYS', '项目建议书批复'], ['KXXYJBG', '可行性研究报告批复'], ['CBSJYGS', '初步设计与概算批复'], ['ZJSQBG', '资金申请报告批复']];
+            vm.uploadType = [['KXXYJBG', '可行性研究报告批复'], ['CBSJYGS', '初步设计与概算批复'], ['ZJSQBG', '资金申请报告批复']];
             //批复文件选择模态框确认
             vm.pifuChoseConfirm = function () {
                 //关闭模态框
@@ -407,11 +409,11 @@
                     var number = file[0];
                     var name = file[1];
                     var url = file[2];
-                    vm.model.shenBaoInfo['pifu' + vm.pifuType + '_wenhao'] = number;
-                    if (vm.model.shenBaoInfo.attachmentDtos) {
-                        vm.model.shenBaoInfo.attachmentDtos.push({name: name, url: url, type: vm.pifuType});
+                    vm.project['pifu' + vm.pifuType + '_wenhao'] = number;
+                    if (vm.project.attachmentDtos) {
+                    	vm.project.attachmentDtos.push({name: name, url: url, type: vm.pifuType});
                     } else {
-                        vm.model.shenBaoInfo.attachmentDtos = [{name: name, url: url, type: vm.pifuType}];
+                    	vm.project.attachmentDtos = [{name: name, url: url, type: vm.pifuType}];
                     }
                 }
             };
@@ -601,11 +603,13 @@
         	vm.saveDraft=function(){
         		taskNewAuditSvc.saveDraft(vm);
         	};
+        	
 		   //处理
         	vm.handle=function(str){
         		if((vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18') && vm.isPass == "5" && vm.nextUsers == ""){
         			vm.nextUsers = "e03930db-9e32-4158-afe4-9357945df1ae";
         		}
+        		
     			if((vm.model.shenBaoInfo.thisTaskName == 'usertask1' || vm.model.shenBaoInfo.thisTaskName == 'usertask5') && vm.isPass == "1" && vm.nextUsers == "" && str =="next"){
 							vm.nextUsers = vm.banliUsers;
 							taskNewAuditSvc.handle(vm,str);
@@ -627,6 +631,7 @@
 						}
 					});
         		}else if(str =="next" && vm.nextUsers != "" || str =="reback" || str =="banjie"){
+        			
 							taskNewAuditSvc.handle(vm,str);
 							//过滤出局领导退回的情况，单独判断
     			}else if (str =="tuiwen" ){
@@ -654,17 +659,19 @@
         	};
         	
         	vm.changeDeptUsers=function(num){
+    			vm.nextUsers = '';
+        		vm.num = num;
         		if(vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask23'){
         			if(num == "8"){
         				taskNewAuditSvc.getDeptByName(vm,"评审中心");
-        			}else if(num == "7" || num == "9" ){
-        				taskNewAuditSvc.getKezhangByName(vm,"投资科");
         			}else{
         				taskNewAuditSvc.getDeptByName(vm,"投资科");
         			}
         			
         		}else if(vm.model.shenBaoInfo.thisTaskName == 'usertask17' || vm.model.shenBaoInfo.thisTaskName == 'usertask19' || vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask21'){
+        			
         			if(num == "5"){
+        				
         				taskNewAuditSvc.getDeptByName(vm,"办公室");
         			}else if(num == "6"){
         				taskNewAuditSvc.getDeptByName(vm,"局领导");
@@ -678,6 +685,21 @@
         			}else{
         				taskNewAuditSvc.getDeptByName(vm,"投资科");
         			}
+        		}else if(vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18'){
+        			
+        				vm.user =[];
+        				for (var i = 0; i < vm.model.dept.userDtos.length; i++) {
+							var user = vm.model.dept.userDtos[i];
+							for (var j = 0; j < user.roles.length; j++) {
+								var role = user.roles[j];
+								if(role.roleName == "副局长" && num == "5"){
+										vm.user.push(user);
+									}else if(role.roleName == "局长" && num == "6"){
+										vm.user.push(user);
+									}
+							}
+							
+						}
         		}
         		
         	}

@@ -244,32 +244,24 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             attachment.setId(UUID.randomUUID().toString());
             attachment.setCreatedBy(entity.getCreatedBy());
             attachment.setModifiedBy(entity.getModifiedBy());
-            if (StringUtil.isBlank(attachment.getBusinessType())) {
-                attachment.setBusinessType("shenBao");
-            }
-            if (StringUtil.isBlank(attachment.getShenBaoAttType())) {
-                if ("projectShenBaoStage_1".equalsIgnoreCase(dto.getProjectShenBaoStage())) {
-                    attachment.setShenBaoAttType("usertask26");
-                } else if ("projectShenBaoStage_2".equalsIgnoreCase(dto.getProjectShenBaoStage())) {
-                    attachment.setShenBaoAttType("usertask4");
-                } else if ("projectShenBaoStage_3".equalsIgnoreCase(dto.getProjectShenBaoStage())) {
-                    attachment.setShenBaoAttType("usertask18");
-                }
-            }
             entity.getAttachments().add(attachment);
         });
+        
+        if(entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_KXXYJBG) || 
+        		entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_CBSJGS) ||
+        		entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_ZJSQBG)){
+        	
+        	try {
+				Attachment att = DocUtil.createDoc(entity.getProjectName(), entity.getProjectShenBaoStage());
+				entity.getAttachments().add(att);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        	
+        }
       
         Project project = projectRepo.findById(entity.getProjectId());
-        //删除历史附件
-//        List<String> ids = new ArrayList<>();
-//        project.getAttachments().forEach(x -> {
-//        	ids.add(x.getId());
-//        });
-        
-//        Session session = projectRepo.getSession();
-//        
-//        Object result = session.createNativeQuery(SQLConfig.deleteShenbaoInfoAttmsFK).setParameter("Project_id", project.getId()).executeUpdate();
-//      System.out.println(result);
         project.getAttachments().forEach(x -> {//删除历史附件
             attachmentRepo.delete(x);
         });
@@ -281,18 +273,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
               attachment.setId(IdWorker.get32UUID());
               attachment.setCreatedBy(project.getCreatedBy());
               attachment.setModifiedBy(project.getModifiedBy());
-              if (StringUtil.isBlank(attachment.getBusinessType())) {
-                  attachment.setBusinessType("shenBao");
-              }
-              if (StringUtil.isBlank(attachment.getShenBaoAttType())) {
-                  if ("projectShenBaoStage_1".equalsIgnoreCase(dto.getProjectShenBaoStage())) {
-                      attachment.setShenBaoAttType("usertask26");
-                  } else if ("projectShenBaoStage_2".equalsIgnoreCase(dto.getProjectShenBaoStage())) {
-                      attachment.setShenBaoAttType("usertask4");
-                  } else if ("projectShenBaoStage_3".equalsIgnoreCase(dto.getProjectShenBaoStage())) {
-                      attachment.setShenBaoAttType("usertask18");
-                  }
-              }
               project.getAttachments().add(attachment);
         });
 
@@ -335,6 +315,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             entity.setProcessStage("投资科审核收件办理");
             startProcessShenbao(processDefinitionKey_yearPlan, entity.getId());
         } else {
+        	
+        	
             startProcessShenbao(processDefinitionKey, entity.getId());
             //设置申报信息的阶段为待签收
             entity.setProcessStage("投资科审核收件办理");
@@ -351,8 +333,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             entity.setModifiedDate(new Date());
             startProcessMonitor_fjxm(processDefinitionKey_monitor_fjxm, entity.getId());
         }
-//		initWorkFlow(entity,isAdminCreate);
-
         logger.info(String.format("创建申报信息,项目名称 :%s,申报阶段：%s", entity.getProjectName(),
                 basicDataService.getDescriptionById(entity.getProjectShenBaoStage())));
         return entity;
