@@ -13,6 +13,16 @@ function window_onunload() {
 	//	alert("异常\r\nError:"+e+"\r\nError Code:"+e.number+"\r\nError Des:"+e.description);
 	}
 }
+
+function window_onload() {
+    try {
+        var webObj = document.getElementById("WebOffice1");
+        webObj.ShowToolBar = false;
+    } catch (e) {
+        alert("异常\r\nError:" + e + "\r\nError Code:" + e.number + "\r\nError Des:" + e.description);
+    }
+}
+
 /****************************************************
 *
 *		设置word显示试图 
@@ -64,19 +74,6 @@ function zhiPrint(){
 	try{
 		var webObj=document.getElementById("WebOffice1");
 		webObj.PrintDoc(0);
-	}catch(e){
-		alert("异常\r\nError:"+e+"\r\nError Code:"+e.number+"\r\nError Des:"+e.description);
-	}
-}
-/****************************************************
-*
-*			关闭页面时调用此函数，关闭文件 
-*
-****************************************************/
-function window_onunload() {
-	try{
-		var webObj=document.getElementById("WebOffice1");
-		webObj.Close();
 	}catch(e){
 		alert("异常\r\nError:"+e+"\r\nError Code:"+e.number+"\r\nError Des:"+e.description);
 	}
@@ -1314,3 +1311,35 @@ function moveMarkDetil(){
     //Selection.MoveRight Unit:=wdCharacter, Count:=3, Extend:=wdExtend
 }
 
+function WebOffice1_NotifyWordEvent(eventname) {
+    if (eventname == "DocumentBeforeSave") {
+        if (vNoSave) {
+            document.all.WebOffice1.lContinue = 0;
+            alert("此文档已经禁止保存");
+        } else {
+            document.all.WebOffice1.lContinue = 1;
+        }
+    } else if (eventname == "DocumentBeforePrint") {
+        if (vNoPrint) {
+            document.all.WebOffice1.lContinue = 0;
+            alert("此文档已经禁止打印");
+        } else {
+            document.all.WebOffice1.lContinue = 1;
+        }
+    } else if (eventname == "WindowSelectionChange") {
+        if (vNoCopy) {
+            document.all.WebOffice1.lContinue = 0;
+            //alert("此文档已经禁止复制");
+        } else {
+            document.all.WebOffice1.lContinue = 1;
+        }
+    } else if (eventname == "DocumentBeforeClose") {
+        if (vClose == 0) {
+            document.all.WebOffice1.lContinue = 0;
+        } else {
+            //alert("word");
+            document.all.WebOffice1.lContinue = 1;
+        }
+    }
+    //alert(eventname);
+}

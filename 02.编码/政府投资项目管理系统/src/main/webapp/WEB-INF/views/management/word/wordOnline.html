@@ -6,7 +6,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <title>光明新区投资项目管理平台</title>
 </head>
-<body>
+<body onunload="return window_onunload()" onload="window_onload()">
 
 <div style="max-width: 1366px; margin: 10px auto;">
     <table class="TableBlock" width="100%">
@@ -20,113 +20,114 @@
                 </p>
             </td>
         </tr>
-        <!-- <tr>
+         <tr>
             <td style="text-align: center;"><span
                 style="margin-left: 20px;">
-                    <button type=button class="btn" onclick="WebSave();">保存</button>
+                    <button type=button class="btn" onclick="saveToServer(attachId,'doc',closeConfirm);">保存</button>
                     <button type=button class="btn" onclick="showPrintDialog();">打印</button>
             </span></td>
-        </tr> -->
+        </tr>
         </tbody>
     </table>
 </div>
 <div style="max-width: 1366px; margin: 10px auto;">
-    <script language=javascript
-            src="/contents/libs/weboffice/LoadWebOffice.js" charset="utf-8"></script>
+    <script language=javascript src="/contents/libs/weboffice/main.js" charset="utf-8"></script>
+    <script language=javascript src="/contents/libs/weboffice/LoadWebOffice.js" charset="utf-8"></script>
+
 </div>
 
 <!-- --------------------=== 调用Weboffice初始化方法 ===--------------------- -->
+<script type="text/javascript" event=NotifyWordEvent(eventname) for=WebOffice1>
+    WebOffice1_NotifyWordEvent(eventname);
+</script>
+<script type="text/javascript" event=NotifyToolBarClick(iIndex) for=WebOffice1>
+    WebOffice1_NotifyToolBarClick(iIndex);
+</script>
 <script language=javascript event=NotifyCtrlReady for=WebOffice1>
     WebOffice_OpenOfficeFile();  //在装载完Weboffice(执行<object>...</object>)  控件后执行 "WebOffice1_NotifyCtrlReady"方法
 </script>
 
 <script type="text/javascript">
+    var attachId = getQueryVariable("attachId");
+
+    var url = window.location;
+    var hostname = url.hostname;
+    var protocol = url.protocol;
+    var port  = url.port;
+    var basePath = protocol+"//"+hostname+":"+port;
+
+    //打开服务器上的word
     function WebOffice_OpenOfficeFile(){
-        var filePath = 'C:\\Users\\Administrator\\Desktop\\word_online.doc';
+        var downloadUrl = basePath+"/management/word/download/"+attachId;
         try{
             document.all.WebOffice1.OptionFlag |= 128;
-            document.all.WebOffice1.LoadOriginalFile(filePath,"doc");
+            document.all.WebOffice1.LoadOriginalFile(downloadUrl,"doc");
         }catch(e){
             alert("异常\r\nError:"+e+"\r\nError Code:"+e.number+"\r\nError Des:"+e.description);
         }
     }
-</script>
 
-<script type="text/javascript">
-    /****************************************************
-     *
-     *					保存文件，保存在原路径
-     *
-     ****************************************************/
-    function WebSave(){
-        //先判断文件是否被修改，如果被修改，则更新；否则不做处理
-        /*  var isSaved = document.all.WebOffice.IsSaved(); */
-        /* if(isSaved == 0){ */
-        var base64Value =document.all.WebOffice1.GetFileBase64("",0);
-        $.ajax({
-            type: 'POST',
-            url: "/common/saveByFileBase64",
-            data: {
-                sysFileId : sysFileId,
-                base64String : base64Value,
-            },
-            success: function(data){
-                if(data.flag || data.reCode == 'ok'){
-                    alert("保存成功！");
-                }else{
-                    alert(data.reMsg);
+    function closeConfirm(){
+        if(window.confirm("保存成功,是否关闭当前窗口")){
+            window.close();
+        }
+    }
+
+    /**
+     * 上传文档到服务器
+     * @param id        业务ID
+     * @param docType   文件类型
+     * @param fn        回调函数
+     * @returns {boolean}
+     */
+    function saveToServer(id, docType, fn){
+        if (!id) {
+            alert("缺少业务主键");
+            return false;
+        }
+        if (typeof docType == "function") {
+            fn = docType;
+            docType = "doc";
+        } else {
+            docType = docType || "doc";
+        }
+        try {
+            var webObj = document.getElementById("WebOffice1");
+            var returnValue;
+
+            // 初始化Http引擎
+            webObj.HttpInit();
+            // 添加相应的Post元素
+            webObj.HttpAddPostString("attachId", id);
+            webObj.HttpAddPostCurrFile("docContent", "");		// 上传文件
+            returnValue = webObj.HttpPost(basePath+"/management/word/upload");	// 判断上传是否成功
+            if ("succeed" == returnValue) {
+                if (fn && (typeof fn == "function")) {
+                    fn();
+                } else {
+                    alert("文件上传成功");
                 }
-            },
-        });
-        /*  }else{
-             alert("文件未改动,无需保存！");
-         } */
-    }
-
-    /****************************************************
-     *
-     *				显示打印对话框
-     *
-     /***************************************************/
-    function showPrintDialog(){
-        try{
-            document.all.WebOffice1.PrintDoc(1);
-        }catch(e){
-            alert("异常\r\nError:"+e+"\r\nError Code:"+e.number+"\r\nError Des:"+e.description);
-        }
-    }
-    /****************************************************
-     *
-     *					直接打印
-     *
-     ****************************************************/
-    function zhiPrint(){
-        try{
-            document.all.WebOffice1.PrintDoc(0);
-        }catch(e){
-            alert("异常\r\nError:"+e+"\r\nError Code:"+e.number+"\r\nError Des:"+e.description);
-        }
-    }
-    /****************************************************
-     *
-     *			关闭页面时调用此函数，关闭文件
-     *
-     ****************************************************/
-    function window_onunload() {
-        try{
-            document.all.WebOffice1.Close();
-        }catch(e){
-            alert("异常\r\nError:"+e+"\r\nError Code:"+e.number+"\r\nError Des:"+e.description);
+            } else {
+                alert("文件上传失败");
+            }
+            return true;
+        } catch (e) {
+            alert("异常\r\nError:" + e + "\r\nError Code:" + e.number + "\r\nError Des:" + e.description);
         }
     }
 
-    function getUrlParms(name){
-        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-        var r = window.location.search.substr(1).match(reg);
-        if(r!=null)
-            return unescape(r[2]);
-        return null;
+    function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == variable) {
+                return pair[1];
+            }
+        }
+        return false;
     }
 </script>
+
 </body>
 </html>

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -175,6 +176,36 @@ public class SNKit {
         }
         response.setHeader("Content-disposition", "attachment;filename=" + filename);
         fileDownload(response, outFile);
+    }
+
+    /**
+     * 文件写入（文件上传）
+     *
+     * @param multipartFile
+     * @param rootPath
+     * @param outputPatch
+     */
+    public static void fileInput(MultipartFile multipartFile, String rootPath, String outputPatch) {
+        Assert.hasText(rootPath, "缺少附件主目录的系统配置");
+
+        File outFile = new File(rootPath, outputPatch);
+
+        if (!outFile.getParentFile().exists()) { //检测目录是否存在，不存在则创建
+            // 如果文件所在的目录不存在，则创建目录
+            if (!outFile.getParentFile().mkdir()) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("创建文件所在的目录失败!");
+                }
+                throw new SnRuntimeException("文件写入失败");
+            }
+        }
+        try {
+            multipartFile.transferTo(outFile);
+        } catch (IOException e) {
+//            e.printStackTrace();
+            logger.error("文件读写失败", e);
+            throw new SnRuntimeException("文件写入失败");
+        }
     }
 
 

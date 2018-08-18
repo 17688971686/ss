@@ -91,12 +91,12 @@
 				<span data-valmsg-for="title" data-valmsg-replace="true" class="required"></span>
 			</td>
 		</tr>
-		<tr>
+		<!--<tr>
 			<td class="formAlignRight">正文编辑：<span class="required">(*)</span></td>
 			<td colspan="3">
-                <a class="btn btn-success btn-sm" href="/management/word/html/online?attchId='001a8425-827c-48cb-86db-cff48ec58f5c'" target="_blank">编辑正文</a>
+                <a class="btn btn-success btn-sm" href="/management/word/html/online?attachId='vm.attachId'" target="_blank">编辑正文</a>
             </td>
-        </tr>
+        </tr>-->
         <tr>
             <td class="formAlignRight">备注：<span class="required">(*)</span></td>
             <td colspan="3">
@@ -106,23 +106,6 @@
                         </textarea>
             </td>
         </tr>
-        <tr>
-            <td class="formAlignRight">正文附件：<span class="required">(*)</span></td>
-            <td colspan="3">
-                <!-- <a class="btn btn-success btn-xs" href="/contents/admin/management/task/audit/html/edit/edit_dj.html" target="_blank">编辑正文</a>
-                 --><div class="uploadBox pull-left" data-type="zhengwenFile">
-				<a class="btn btn-success btn-sm" href="/contents/admin/management/task/audit/html/edit/edit_dj.html" target="_blank">编辑正文</a>
-			</td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">备注：<span class="required">(*)</span></td>
-			<td colspan="3">
-				<textarea class="form-control" id="keyWord"
-							name="keyWord" maxlength="500" rows="3"
-							ng-model="vm.draft.keyWord" placeholder="注：500字符以内">
-						</textarea>
-			</td>
-		</tr>
 		<tr>
 			<td class="formAlignRight">正文：</td>
 			<td colspan="3">
@@ -131,8 +114,9 @@
 				 	<input type="file" name="files" kendo-upload k-options="vm.uploadOptions_shenpi"/>
 		        </div>
 				<div style="margin:3px;" ng-repeat="y in vm.attachmentDtos" ng-if="y.type == 'zhengwenFile'">
-		 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+		 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name" ng-click=""></a>
 					<button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenpi($index)">删除</button>
+					<a class="btn btn-xs btn-danger" href="/management/word/html/online?attachId={{y.id}}" target="_blank">编辑正文</a>
 	 			</div>
 			</td>
 		</tr>
