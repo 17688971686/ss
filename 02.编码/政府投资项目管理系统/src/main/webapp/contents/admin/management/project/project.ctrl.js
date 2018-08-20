@@ -312,7 +312,7 @@
     		//end#基础数据
     		
     		//批复文件上传
-    		vm.uploadType=[['JYS','项目建议书批复'],['KXXYJBG','可行性研究报告批复'],['CBSJYGS','初步设计与概算批复']];
+    		vm.uploadType=[['KXXYJBG','可行性研究报告批复'],['CBSJYGS','初步设计与概算批复'], ['ZJSQBG', '资金申请报告批复']];
     		//相关附件文件上传文件种类
     		vm.relatedType=common.uploadFileTypeConfig().projectEdit;
 	   		
