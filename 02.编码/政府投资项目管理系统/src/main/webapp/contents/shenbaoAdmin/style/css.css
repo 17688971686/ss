@@ -1,6 +1,7 @@
 body{
-	background:#d8eaf0 url(images/bg1.jpg)no-repeat;
-    background-size:cover ;
+	background-image:url(images/bg1.jpg);
+    background-size: 100% 100%;
+    background-attachment:fixed;
 }
 
 ul{
@@ -28,8 +29,6 @@ ul li{
     margin-top: 5px;
     border-radius: 20px;
     margin-right: 10px;
-
-	
 }
 
 .logo{
