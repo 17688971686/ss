@@ -246,21 +246,21 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             attachment.setModifiedBy(entity.getModifiedBy());
             entity.getAttachments().add(attachment);
         });
-        
-        if(entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_KXXYJBG) || 
-        		entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_CBSJGS) ||
-        		entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_ZJSQBG)){
-        	
-        	try {
-				Attachment att = DocUtil.createDoc(entity.getProjectName(), entity.getProjectShenBaoStage());
-				entity.getAttachments().add(att);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        	
+
+        if(entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_KXXYJBG) ||
+                entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_CBSJGS) ||
+                entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_ZJSQBG)){
+
+            try {
+
+                Attachment att = DocUtil.createDoc(entity.getProjectName(), entity.getProjectShenBaoStage());
+                entity.getAttachments().add(att);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
         }
-      
         Project project = projectRepo.findById(entity.getProjectId());
         project.getAttachments().forEach(x -> {//删除历史附件
             attachmentRepo.delete(x);
