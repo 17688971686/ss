@@ -137,6 +137,7 @@
 					.basicDataConfig().projectStage);//项目阶段
 			vm.basicData.projectConstrChar = common
 					.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质
+			debugger;
 			vm.basicData.projectShenBaoStage = common
 					.getBacicDataByIndectity(common.basicDataConfig().projectShenBaoStage);//申报阶段用于模态框
 			vm.basicData.shenBaoStageForZF = [
@@ -144,7 +145,8 @@
 					common.basicDataConfig().projectShenBaoStage_KXXYJBG,
 					common.basicDataConfig().projectShenBaoStage_CBSJYGS,
 					common.basicDataConfig().projectShenBaoStage_capitalApplyReport,
-					common.basicDataConfig().projectShenBaoStage_nextYearPlan ];
+					common.basicDataConfig().projectShenBaoStage_nextYearPlan,
+					common.basicDataConfig().projectShenBaoStage_soucijihuaxiada];
 			vm.basicData.shenBaoStageForSH = [ common.basicDataConfig().projectShenBaoStage_nextYearPlan ];
 			vm.basicData.projectType = common.getBacicDataByIndectity(common
 					.basicDataConfig().projectType);//项目类型   			   			       		   		
@@ -506,7 +508,7 @@
 				vm.isKXXYJBG = vm.stage == common.basicDataConfig().projectShenBaoStage_KXXYJBG;//申报阶段为:可行性研究报告
 				vm.isCBSJYGS = vm.stage == common.basicDataConfig().projectShenBaoStage_CBSJYGS;//申报阶段为:初步设计与概算
 				vm.isCapitalApplyReport = vm.stage == common.basicDataConfig().projectShenBaoStage_capitalApplyReport;//申报阶段为:资金申请报告
-				vm.isJihuaxiada = vm.stage == common.basicDataConfig().projectShenBaoStage_jihuaxiada;//申报阶段为:计划下达
+				vm.isJihuaxiada = vm.stage == common.basicDataConfig().projectShenBaoStage_soucijihuaxiada;//申报阶段为:计划下达
 				vm.isYearPlan = vm.stage == common.basicDataConfig().projectShenBaoStage_nextYearPlan;//申报阶段为:下一年度计划
 
 				//申报材料初始化
@@ -778,7 +780,7 @@
 				var t6 = false;
 				var t7 = false;
 				var t8 = false;
-				var t9 = false;
+			
 				for (var i = 0; i < vm.model.attachmentDtos.length; i++) {
 					var att = vm.model.attachmentDtos[i];
 					if(att.type=="ApplyReport_pdf"){
@@ -797,8 +799,6 @@
 						t7 = true;
 					}else if(att.type=="LastYearPlanReply_Copy"){
 						t8 = true;
-					}else if(att.type=="IssuedReplyFile_Scanning"){
-						t9 = true;
 					}
 				}
 				if(vm.isProjectProposal&&t1&&t2){
@@ -809,7 +809,7 @@
 					hasAtts = true;
 				}else if(vm.isCapitalApplyReport&&t1&&t2&&t4){
 					hasAtts = true;
-				}else if(vm.isJihuaxiada&&t1&&t2&&t3&&t6&&t7&&t8&&t9){
+				}else if(vm.isJihuaxiada&&t1&&t2&&t3&&t6&&t7&&t8){
 					hasAtts = true;
 				}else if(vm.isYearPlan){
 					hasAtts = true;

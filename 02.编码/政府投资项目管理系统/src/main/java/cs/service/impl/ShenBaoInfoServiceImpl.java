@@ -249,11 +249,13 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 
         if(entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_KXXYJBG) ||
                 entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_CBSJGS) ||
-                entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_ZJSQBG)){
+                entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_ZJSQBG)||
+                entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_oncePlanReach)){
 
             try {
 
                 Attachment att = DocUtil.createDoc(entity.getProjectName(), entity.getProjectShenBaoStage());
+                Assert.notNull(att, "正文生成失败！");
                 entity.getAttachments().add(att);
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -315,8 +317,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             entity.setProcessStage("投资科审核收件办理");
             startProcessShenbao(processDefinitionKey_yearPlan, entity.getId());
         } else {
-        	
-        	
             startProcessShenbao(processDefinitionKey, entity.getId());
             //设置申报信息的阶段为待签收
             entity.setProcessStage("投资科审核收件办理");
@@ -614,6 +614,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             return taskType_ZJSQBG;
         } else if (shenbaoStage.equals(projectShenBaoStage_planReach)) {//如果申报阶段：是计划下达
             return taskType_JH;
+        } else if (shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_oncePlanReach)) {//如果申报阶段：是计划下达
+            return BasicDataConfig.taskType_SCQQJFXD;
         }
         return "";
     }

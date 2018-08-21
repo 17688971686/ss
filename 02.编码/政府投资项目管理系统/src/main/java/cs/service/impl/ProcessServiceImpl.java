@@ -275,7 +275,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				if (array_element.getProjectShenBaoStage().equals(projectShenBaoStage_KXXYJBG)
 						|| array_element.getProjectShenBaoStage().equals(projectShenBaoStage_XMJYS)
 						|| array_element.getProjectShenBaoStage().equals(projectShenBaoStage_ZJSQBG)
-						|| array_element.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_CBSJGS)) {
+						|| array_element.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_CBSJGS)
+						||array_element.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_oncePlanReach)) {
 					Response response = this.getAssigneeByUserId(array_element.getZong_processId());
 					if (response.isSuccess() == false && !("usertask1").equals(array_element.getThisTaskName())
 							&& !("usertask5").equals(array_element.getThisTaskName())) {
@@ -1495,7 +1496,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	@Override
 	public List<ShenBaoInfoDto> findAuditRunByOdata(ODataObjNew odata, boolean isPerson) {
 		odata.addOrFilter(ShenBaoInfo_.projectShenBaoStage.getName(), OdataFilter.Operate.EQ, projectShenBaoStage_XMJYS,
-				projectShenBaoStage_KXXYJBG, projectShenBaoStage_ZJSQBG, projectShenBaoStage_CBSJGS);
+				projectShenBaoStage_KXXYJBG, projectShenBaoStage_ZJSQBG, projectShenBaoStage_CBSJGS,projectShenBaoStage_oncePlanReach);
 		return findRunByOdata(odata, isPerson, null);
 		// Restrictions.or(
 		// Restrictions.eq("f.taskDefinitionKey", "usertask1"),

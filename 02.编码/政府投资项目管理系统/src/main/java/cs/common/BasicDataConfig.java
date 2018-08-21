@@ -54,12 +54,13 @@ public class BasicDataConfig {
 	public static String projectShenBaoStage_CBSJGS="projectShenBaoStage_3";//初步设计概算
 	public static String projectShenBaoStage_ZJSQBG="projectShenBaoStage_4";//资金申请报告
 	public static String projectShenBaoStage_planReach="projectShenBaoStage_5";//计划下达
+	public static String projectShenBaoStage_oncePlanReach="projectShenBaoStage_6";//首次前期计划下达
 	public static String projectShenBaoStage_nextYearPlan="projectShenBaoStage_7";//下一年度计划
 	
 	public static String projectShenBaoStage_KXXYJBG_name="可行性研究报告";//可行性研究报告
 	public static String projectShenBaoStage_CBSJGS_name="初步设计概算";//初步设计概算
 	public static String projectShenBaoStage_ZJSQBG_name="资金申请报告";//资金申请报告
-	
+	public static String projectShenBaoStage_oncePlanReach_name="首次前期经费下达";//首次前期经费下达
 	//打包类型 packageType
 	public static String packageType_danLie="packageType_1";//打包类型--单列项目
 	public static String packageType_jieSuanKuan="packageType_2";//结算款项目
@@ -95,6 +96,7 @@ public class BasicDataConfig {
 	public static String taskType_junGong="taskType_11";//竣工
 	public static String taskType_ZJSQBG="taskType_12";//资金申请报告
 	public static String taskType_JHXD="taskType_14";//计划下达
+	public static String taskType_SCQQJFXD="taskType_20";//首次前期经费下达
 	//系统配置信息
 	public static String taskType_monthReport="taskType_1";//月报填报
 	public static String taskType_nextYearPlan="taskType_2";//下一年度计划

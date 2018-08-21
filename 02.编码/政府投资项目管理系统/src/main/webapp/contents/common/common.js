@@ -532,6 +532,7 @@
             projectShenBaoStage_CBSJYGS: "projectShenBaoStage_3",//初步设计与概算
             projectShenBaoStage_capitalApplyReport: "projectShenBaoStage_4",//资金申请报告
             projectShenBaoStage_jihuaxiada: "projectShenBaoStage_5",//计划下达
+            projectShenBaoStage_soucijihuaxiada: "projectShenBaoStage_6",//计划下达
             projectShenBaoStage_nextYearPlan: "projectShenBaoStage_7",//下一年度计划
 
 
@@ -640,7 +641,7 @@
             projectShenBaoStage_newStart: [['ApplyReport_pdf', '申请报告（pdf版，加盖公章）<span class="required">(*)</span>'], ['ApplyReport_word', '申请报告（Word版）<span class="required">(*)</span>'], ['BudgetReply_Scanning', '概算批复扫描件 <span class="required">(*)</span>'],
                 ['GCGHXKZ_Scanning', '工程规划许可证扫描件'], ['IssuedReplyFile_Scanning', '全部已下达计划批复文件扫描件 <span class="required">(*)</span>'], ['other', '其他']],
             projectShenBaoStage_xuJian: [['ApplyReport_pdf', '申请报告（pdf版，加盖公章）<span class="required">(*)</span>'], ['ApplyReport_word', '申请报告（Word版）<span class="required">(*)</span>'], ['LastYearPlanReply_Copy', '上一年度计划批文复印件 <span class="required">(*)</span>'],
-                ['IssuedReplyFile_Scanning', '全部已下达计划批复文件扫描件 <span class="required">(*)</span>'], ['other', '其他']],
+            	['other', '其他']],
             projectShenBaoStage_YearPlan: [['XXJD', '项目工程形象进度及年度资金需求情况'], ['WCJSNR', '年度完成建设内容及各阶段工作内容完成时间表'], ['TTJH', '历年政府投资计划下达文件'],
                 ['GCXKZ', '建设工程规划许可证'], ['TDQK', '土地落实情况、征地拆迁有关情况'], ['XMJZ', '项目进展情况相关资料'], ['QQGZJH', '前期工作计划文件'], ['XMSSYJ', '项目实施依据文件'], ['HYJY', '会议纪要']],
             projectShenBaoStage_junGong: [['ApplyReport_pdf', '申请报告（pdf版，加盖公章）<span class="required">(*)</span>'], ['ApplyReport_word', '申请报告（Word版）<span class="required">(*)</span>'], ['LastYearPlanReply_Copy', '上一年度计划批文复印件 <span class="required">(*)</span>'],
@@ -656,7 +657,7 @@
                 ['QT', '2、其他']],
             projectShenBaoStage_jihuaxiada: [['ApplyReport_pdf', '申请报告（pdf版，加盖公章）<span class="required">(*)</span>'], ['ApplyReport_word', '申请报告（Word版）<span class="required">(*)</span>'], ['BudgetReply_Scanning', '概算批复扫描件 <span class="required">(*)</span>'],
                 ['GCGHXKZ_Scanning', '工程规划许可证扫描件'], ['IssuedReplyFile_Scanning', '全部已下达计划批复文件扫描件 <span class="required">(*)</span>'], ['LastYearPlanReply_Copy', '上一年度计划批文复印件 <span class="required">(*)</span>'],
-                ['IssuedReplyFile_Scanning', '全部已下达计划批复文件扫描件 <span class="required">(*)</span>'], ['ProjectBasis', '项目依据  <span class="required">(*)</span>'], ['other', '其他']],
+                ['ProjectBasis', '项目依据  <span class="required">(*)</span>'], ['other', '其他']],
             //projectShenBaoStage_qianQi:[['ProjectBasis','项目依据  <span class="required">(*)</span>'],['other','其他']],
             approvalAttsType: [['usertask1', '项目立项'], ['usertask2', '选择意见书及用地预审'], ['usertask3', '环评审批'], ['usertask4', '可研报告审批'], ['usertask6', '用地方案图'], ['usertask7', '用地规划许可'], ['usertask8', '土地使用权出让'], ['usertask9', '方案设计招投标'],
                 ['usertask11', '工程方案审查'], ['usertask12', '扩初设计审查'], ['usertask13', '民房建设意见单'], ['usertask14', '民房建设意见单'], ['usertask16', '建筑物命名审批'], ['usertask17', '消防设计审批'], ['usertask18', '初步设计概算审批'], ['usertask27', '水务（水保、排水、节水和防洪）方案审查'],

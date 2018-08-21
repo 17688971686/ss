@@ -771,6 +771,7 @@ public class SysServiceImpl implements SysService {
         this.createBasicData("projectShenBaoStage_3", "projectShenBaoStage", "projectShenBaoStage", "初步设计概算", "项目申报阶段分类", 3, false);
         this.createBasicData("projectShenBaoStage_4", "projectShenBaoStage", "projectShenBaoStage", "资金申请报告", "项目申报阶段分类", 4, false);
         this.createBasicData("projectShenBaoStage_5", "projectShenBaoStage", "projectShenBaoStage", "计划下达", "项目申报阶段分类", 5, false);
+        this.createBasicData("projectShenBaoStage_6", "projectShenBaoStage", "projectShenBaoStage", "首次前期经费下达", "项目申报阶段分类", 6, false);
         this.createBasicData("projectShenBaoStage_7", "projectShenBaoStage", "projectShenBaoStage", "下一年度计划", "项目申报阶段分类", 7, false);
 
 
@@ -875,6 +876,7 @@ public class SysServiceImpl implements SysService {
         this.createBasicData("taskType_17", "taskType", "taskType", "项目办理人员配置", "", false);
         this.createBasicData("taskType_18", "taskType", "taskType", "办公室办文人员配置", "", false);
         this.createBasicData("taskType_19", "taskType", "taskType", "办公室印文人员配置", "", false);
+        this.createBasicData("taskType_20", "taskType", "taskType", "首次前期经费下达", "", false);
 
         this.createBasicData("auditState", "", "auditState", "审核状态", "审核状态", false);
         this.createBasicData("auditState_1", "auditState", "auditState", "未审核", "", false);
