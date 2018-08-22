@@ -1,42 +1,32 @@
 <form id="formDraft" name="form">
 	<div class="page-header" style="text-align: center;">
-	<h1>深圳市光明新区发展和财政局（文件稿纸）</h1>
+		<h1>深圳市光明新区发展和财政局（文件稿纸）</h1>
 	</div>
 	<table class="table table-bordered table-striped ">
 		<tr>
-			<td class="formAlignRight" style="width:150px;">项目名称：</td>
-			<td>
-				<span ng-bind="vm.draft.projectName"></span>
-			</td>
-			<td class="formAlignRight" style="width:150px;">发文字号：</td>
+			<td class="formAlignRight" style="width: 150px;">项目名称：</td>
+			<td><span ng-bind="vm.draft.projectName"></span></td>
+			<td class="formAlignRight" style="width: 150px;">发文字号：</td>
 			<td ng-bind="vm.draft.issuedNumber"></td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">申报单位：</td>
-			<td>
-				<span ng-bind="vm.draft.unitName"></span>
-			</td>
+			<td><span ng-bind="vm.draft.unitName"></span></td>
 			<td class="formAlignRight">拟稿单位拟稿人：</td>
-			<td>
-				<span ng-bind="vm.userNameAndUnitName"></span>
-			</td>
+			<td><span ng-bind="vm.userNameAndUnitName"></span></td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">总投资：</td>
-			<td>
-				<span ng-bind="vm.draft.capitalTotal"></span>&nbsp;（万元）
-			</td>
+			<td><span ng-bind="vm.draft.capitalTotal"></span>&nbsp;（万元）</td>
 			<td class="formAlignRight">拟稿时间：</td>
-			<td>
-				<span ng-bind="vm.draft.draftDate"></span>
-			</td>
+			<td><span ng-bind="vm.draft.draftDate"></span></td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">公开类型：</td>
 			<td ng-bind="vm.getBasicDataDesc(vm.draft.openType)"></td>
 			<td class="formAlignRight">秘密等级：</td>
-			<td  ng-bind="vm.getBasicDataDesc(vm.draft.hecretHierarchy)"></td>
-			
+			<td ng-bind="vm.getBasicDataDesc(vm.draft.hecretHierarchy)"></td>
+
 		</tr>
 		<tr>
 			<td class="formAlignRight">文件缓急：</td>
@@ -46,11 +36,9 @@
 		</tr>
 		<tr>
 			<td class="formAlignRight">联系人：</td>
-			<td ng-bind="vm.draft.mobileName">
-			</td>
+			<td ng-bind="vm.draft.mobileName"></td>
 			<td class="formAlignRight">联系电话：</td>
-			<td ng-bind="vm.draft.mobilePhone">
-			</td>
+			<td ng-bind="vm.draft.mobilePhone"></td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">发行范围：</td>
@@ -66,39 +54,47 @@
 				<a class="btn btn-success btn-sm" href="/contents/admin/management/task/audit/html/edit/edit_dj.html" target="_blank">编辑正文</a>
 			</td>
 		</tr>	 -->
-		   <tr>
-            <td class="formAlignRight">备注：</td>
-            <td colspan="3"  ng-bind="vm.draft.keyWord">
-            </td>
-        </tr>
 		<tr>
-            <td class="formAlignRight">备注：</td>
-            <td colspan="3"  ng-bind="vm.draft.keyWord"></td>
-        </tr>
+			<td class="formAlignRight">备注：</td>
+			<td colspan="3" ng-bind="vm.draft.keyWord"></td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">备注：</td>
+			<td colspan="3" ng-bind="vm.draft.keyWord"></td>
+		</tr>
 		<tr>
 			<td class="formAlignRight">正文：</td>
 			<td colspan="3">
 				<!-- <a class="btn btn-success btn-xs" href="/contents/admin/management/task/audit/html/edit/edit_dj.html" target="_blank">编辑正文</a>
-				 --><!-- <div class="uploadBox pull-left" data-type="zhengwenFile">
+				 -->
+				<!-- <div class="uploadBox pull-left" data-type="zhengwenFile">
 				 	<input type="file" name="files" kendo-upload k-options="vm.uploadOptions_shenpi"/>
 		        </div> -->
-				<div style="margin:3px;" ng-repeat="y in vm.attachmentDtos" ng-if="y.type == 'zhengwenFile'">
-		 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+				<div style="margin: 3px;" ng-repeat="y in vm.attachmentDtos"
+					ng-if="y.type == 'zhengwenFile'">
+					<a href="/contents/upload/{{y.url}}" target="_blank"
+						ng-bind="y.name"></a>
 					<!-- <button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenpi($index)">删除</button> -->
-					<a class="btn btn-xs btn-success" href="/management/word/html/online?attachId={{y.id}}" target="_blank">编辑正文</a>
-	 			</div>
+					<a class="btn btn-xs btn-success"
+						href="/management/word/html/online?attachId={{y.id}}"
+						target="_blank">编辑正文</a>
+				</div>
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">其他附件：</td>
 			<td colspan="3">
 				<div class="uploadBox pull-left" data-type="fawemFile">
-				 	<input type="file" name="files" kendo-upload k-options="vm.uploadOptions_shenpi"/>
-		        </div>
-				<div style="margin:3px;" ng-repeat="y in vm.attachmentDtos" ng-if="y.type == 'fawemFile'">
-		 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
-					<button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenpi($index)">删除</button>
-	 			</div>
+					<input type="file" name="files" kendo-upload
+						k-options="vm.uploadOptions_shenpi" />
+				</div>
+				<div style="margin: 3px;" ng-repeat="y in vm.attachmentDtos"
+					ng-if="y.type == 'fawemFile'">
+					<a href="/contents/upload/{{y.url}}" target="_blank"
+						ng-bind="y.name"></a>
+					<button class="btn btn-xs btn-danger"
+						ng-click="vm.delFile_shenpi($index)">删除</button>
+				</div>
 			</td>
 		</tr>
 	</table>
