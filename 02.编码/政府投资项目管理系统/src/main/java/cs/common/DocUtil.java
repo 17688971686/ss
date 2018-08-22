@@ -38,20 +38,23 @@ public class DocUtil {
 		
 		//6100
 //		String sourceUrl="C:\\software\\gm_lg_tomcat_9.0\\apache-tomcat_lg_gm\\gmOnlineProjectManage9067\\ROOT\\contents\\upload\\template.docx";
-//		// 6100
-//		 String diskUrl ="C:\\software\\gm_lg_tomcat_9.0\\apache-tomcat_lg_gm\\gmOnlineProjectManage9067\\ROOT\\contents\\upload\\";
+//		String diskUrl ="C:\\software\\gm_lg_tomcat_9.0\\apache-tomcat_lg_gm\\gmOnlineProjectManage9067\\ROOT\\contents\\upload\\";
 		
 		// 本地
-		String sourceUrl="D:\\work\\test\\java1\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\framework-0.0.1-SNAPSHOT\\contents\\upload\\template.docx";
+//		String sourceUrl="D:\\work\\test\\java1\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\framework-0.0.1-SNAPSHOT\\contents\\upload\\template.docx";
+//		String diskUrl ="D:\\work\\test\\java1\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\framework-0.0.1-SNAPSHOT\\contents\\upload\\";
 		
 		// 6200
 		//String sourceUrl = "C:\\web_server\\tomcat\\apache-tomcat-9.0.0.M19\\gmOnlineProjectManage9314\\ROOT\\contents\\upload\\template.docx";
-		File sourceFile = new File(sourceUrl);
-		// 本地
-		String diskUrl ="D:\\work\\test\\java1\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\framework-0.0.1-SNAPSHOT\\contents\\upload\\";
-		
-		// 6200
 		//String diskUrl = "C:\\web_server\\tomcat\\apache-tomcat-9.0.0.M19\\gmOnlineProjectManage9314\\ROOT\\contents\\upload\\";
+	
+		//生产环境
+		String sourceUrl="D:\\gmGoverment\\environment\\tomcat\\apache-tomcat-9.0.0.M19\\gm_inversion\\ROOT\\contents\\upload\\template.docx";
+		String diskUrl ="D:\\gmGoverment\\environment\\tomcat\\apache-tomcat-9.0.0.M19\\gm_inversion\\ROOT\\contents\\upload\\";
+		
+		
+		File sourceFile = new File(sourceUrl);
+		
 		String filename = randomName + ".docx";
 		String destUrl = diskUrl + filename;
 
