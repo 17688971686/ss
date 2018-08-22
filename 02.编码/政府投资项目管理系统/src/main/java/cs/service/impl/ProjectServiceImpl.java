@@ -813,6 +813,9 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 				if(x.getType().equals(BasicDataConfig.attachment_type_zjsqbg)){//如果是资金申请报告批复文件
                     pifuMap.put(project.getPifuZJSQBG_wenhao(), x);
                 }
+				if(x.getType().equals(BasicDataConfig.attachment_type_SCQQJFXD)){//如果是资金申请报告批复文件
+                    pifuMap.put(project.getPifuSCQQJFXD_wenhao(), x);
+                }
             }
         });
         //判断项目中批复文件在文件库中是否存在,最后获取需要进行存储的批复文件
