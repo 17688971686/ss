@@ -74,6 +74,9 @@ public class DraftIssuedServiceImpl extends AbstractServiceImpl<DraftIssuedDto, 
 		if(shenbaoinfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_ZJSQBG)){
 			project.setPifuZJSQBG_wenhao(draftIssuedDto.getIssuedNumber());
 		}
+		if(shenbaoinfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_oncePlanReach)){
+			project.setPifuSCQQJFXD_wenhao(draftIssuedDto.getIssuedNumber());
+		}
 		projectRepo.save(project);
 		super.repository.save(entity);
 		logger.info("保存发文拟稿信息");

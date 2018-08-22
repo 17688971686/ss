@@ -74,6 +74,8 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			projectDto.setPifuJYS_wenhao(project.getPifuJYS_wenhao());
 			projectDto.setPifuZJSQBG_date(project.getPifuZJSQBG_date());
 			projectDto.setPifuZJSQBG_wenhao(project.getPifuZJSQBG_wenhao());
+			projectDto.setPifuSCQQJFXD_date(project.getPifuSCQQJFXD_date());
+			projectDto.setPifuSCQQJFXD_wenhao(project.getPifuSCQQJFXD_wenhao());
 			//基础数据
 			projectDto.setModifiedDate(project.getModifiedDate());
 			projectDto.setModifiedBy(project.getModifiedBy());
@@ -162,6 +164,8 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setPifuCBSJYGS_wenhao(projectDto.getPifuCBSJYGS_wenhao());
 			project.setPifuZJSQBG_date(projectDto.getPifuZJSQBG_date());
 			project.setPifuZJSQBG_wenhao(projectDto.getPifuZJSQBG_wenhao());
+			project.setPifuSCQQJFXD_date(projectDto.getPifuSCQQJFXD_date());
+			project.setPifuSCQQJFXD_wenhao(projectDto.getPifuSCQQJFXD_wenhao());
 			//基础信息
 			project.setCreatedDate(projectDto.getCreatedDate());
 			project.setModifiedDate(projectDto.getModifiedDate());

@@ -396,7 +396,7 @@
                 });
                 vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
             };
-            vm.uploadType = [['KXXYJBG', '可行性研究报告批复'], ['CBSJYGS', '初步设计与概算批复'], ['ZJSQBG', '资金申请报告批复']];
+            vm.uploadType = [['SCQQJFXD', '首次前期经费下达批复'],['KXXYJBG', '可行性研究报告批复'], ['CBSJYGS', '初步设计与概算批复'], ['ZJSQBG', '资金申请报告批复']];
             //批复文件选择模态框确认
             vm.pifuChoseConfirm = function () {
                 //关闭模态框

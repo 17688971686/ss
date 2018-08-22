@@ -79,6 +79,8 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setPifuJYS_wenhao(entity.getPifuJYS_wenhao());	
 			shenBaoInfoDto.setPifuZJSQBG_date(entity.getPifuZJSQBG_date());
 			shenBaoInfoDto.setPifuZJSQBG_wenhao(entity.getPifuZJSQBG_wenhao());
+			shenBaoInfoDto.setPifuSCQQJFXD_date(entity.getPifuSCQQJFXD_date());
+			shenBaoInfoDto.setPifuSCQQJFXD_wenhao(entity.getPifuSCQQJFXD_wenhao());
 			//begin#年度计划
 			shenBaoInfoDto.setProjectConstrChar(entity.getProjectConstrChar());
 			shenBaoInfoDto.setYearPlanCapitalId(entity.getYearPlanCapitalId());
@@ -260,6 +262,8 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setModifiedDate(shenBaoInfoDto.getModifiedDate());	
 			shenBaoInfo.setPifuZJSQBG_date(shenBaoInfoDto.getPifuZJSQBG_date());
 			shenBaoInfo.setPifuZJSQBG_wenhao(shenBaoInfoDto.getPifuZJSQBG_wenhao());
+			shenBaoInfo.setPifuSCQQJFXD_date(shenBaoInfoDto.getPifuSCQQJFXD_date());
+			shenBaoInfo.setPifuSCQQJFXD_wenhao(shenBaoInfoDto.getPifuSCQQJFXD_wenhao());
 			//begin#年度计划
 			shenBaoInfo.setProjectConstrChar(shenBaoInfoDto.getProjectConstrChar());
 			shenBaoInfo.setYearPlanCapitalId(shenBaoInfoDto.getYearPlanCapitalId());//安排年度投资Id

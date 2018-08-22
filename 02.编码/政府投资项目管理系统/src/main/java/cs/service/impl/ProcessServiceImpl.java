@@ -1088,6 +1088,9 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_ZJSQBG)){
 					attachment2.setType("ZJSQBG");
 				}
+				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_oncePlanReach)){
+					attachment2.setType("SCQQJFXD");
+				}
 				project.getAttachments().add(attachment2);
 				
 			}
@@ -1114,6 +1117,11 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_ZJSQBG)){
 					if(projectDto.getPifuZJSQBG_date() == null){
 						project.setPifuZJSQBG_date(date);
+					}
+				}
+				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_oncePlanReach)){
+					if(projectDto.getPifuSCQQJFXD_date() == null){
+						project.setPifuSCQQJFXD_date(date);
 					}
 				}
 			}
