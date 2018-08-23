@@ -61,6 +61,13 @@
 					<div style="    text-align: center;font-size: 36px;">深圳市光明新区发展和财政局呈批表</div>
 				</tr>
 				<tr style="height:0.87cm;">
+					<td colspan="2" style="text-align:left;border: 0;">紧急程度：<span ng-bind="vm.getBasicDataDesc(vm.draft.fileSet)"></span></td>
+					
+					<td colspan="2" style="text-align:right;border: 0;">密级：<span ng-bind="vm.getBasicDataDesc(vm.draft.hecretHierarchy)"></span></td>
+					
+					
+				</tr>
+				<tr style="height:0.87cm;">
 					<td style="width:3.5cm; font-size: 23px;">拟稿单位：</td>
 					<td style="font-size: 23px;" ng-bind="vm.draft.unitName"></td>
 					<td style="width:3.5cm; font-size: 23px;">拟稿人：</td>

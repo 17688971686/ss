@@ -43,8 +43,18 @@
 					ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustry)"></span>
 				</td>
 				<td class="formAlignRight" >项目编码：</td>
-				<td>
+				<td ng-hide="vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask16'
+				|| vm.model.shenBaoInfo.thisTaskName == 'usertask22' || vm.model.shenBaoInfo.thisTaskName == 'usertask23'" >
 					<span ng-bind="vm.model.shenBaoInfo.projectNumber" ></span>
+				</td>
+				<td ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask16'
+				|| vm.model.shenBaoInfo.thisTaskName == 'usertask22' || vm.model.shenBaoInfo.thisTaskName == 'usertask23'">
+					<input type="text" style="width: 200px;" class="form-control input-sm" id="projectNumber" name="projectNumber" ng-model="vm.model.shenBaoInfo.projectNumber"
+					/>
+					<button ng-click="vm.updateNumber()"
+						class="btn btn-success btn-sm" style="margin: 0 10px;"
+						ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask16'
+				|| vm.model.shenBaoInfo.thisTaskName == 'usertask22' || vm.model.shenBaoInfo.thisTaskName == 'usertask23'">更新编码</button>
 				</td>
 			</tr>
 			<tr>

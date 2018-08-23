@@ -937,7 +937,7 @@
                         //如果申报信息的申报阶段为下一年度计划
                         if (vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan) {
                             vm.materialsType = common.uploadFileTypeConfig().projectShenBaoStage_YearPlan;
-                            vm.uploadType = [['JYS', '项目建议书'], ['KXXYJBG', '可行性研究报告'], ['CBSJYGS', '初步设计与概算']];
+                            vm.uploadType = [['SCQQJFXD', '首次前期经费下达批复'],['KXXYJBG', '可行性研究报告'], ['CBSJYGS', '初步设计与概算'], ['ZJSQBG', '资金申请报告批复']];
                             vm.isYearPlan = true;
                         }
                     }

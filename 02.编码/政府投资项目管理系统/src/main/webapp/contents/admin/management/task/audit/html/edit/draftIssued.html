@@ -8,8 +8,10 @@
 			<td>
 				<span ng-bind="vm.draft.projectName"></span>
 			</td>
-			<td class="formAlignRight" style="width:150px;">项目编码：</td>
-			<td ng-bind="vm.model.shenBaoInfo.projectNumber"></td>
+			<td class="formAlignRight" style="width:150px;">发文字号：</td>
+				<td>
+				<input type="text" class="form-control input-sm" id="issuedNumber" name="issuedNumber" ng-model="vm.draft.issuedNumber"/>
+			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">申报单位：</td>
@@ -101,8 +103,8 @@
             <td class="formAlignRight">备注：<span class="required">(*)</span></td>
             <td colspan="3">
                 <textarea class="form-control" id="keyWord"
-                            name="keyWord" maxlength="500" rows="3"
-                            ng-model="vm.draft.keyWord" placeholder="注：500字符以内">
+                            name="keyWord" maxlength="255" rows="3"
+                            ng-model="vm.draft.keyWord" placeholder="注：255字符以内">
                         </textarea>
             </td>
         </tr>
@@ -110,12 +112,12 @@
 			<td class="formAlignRight">正文：</td>
 			<td colspan="3">
 				<!-- <a class="btn btn-success btn-xs" href="/contents/admin/management/task/audit/html/edit/edit_dj.html" target="_blank">编辑正文</a>
-				 --><div class="uploadBox pull-left" data-type="zhengwenFile">
+				 --><!-- <div class="uploadBox pull-left" data-type="zhengwenFile">
 				 	<input type="file" name="files" kendo-upload k-options="vm.uploadOptions_shenpi"/>
-		        </div>
+		        </div> -->
 				<div style="margin:3px;" ng-repeat="y in vm.attachmentDtos" ng-if="y.type == 'zhengwenFile'">
 		 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name" ng-click=""></a>
-					<button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenpi($index)">删除</button>
+					<!-- <button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenpi($index)">删除</button> -->
 					<a class="btn btn-xs btn-success" href="/management/word/html/online?attachId={{y.id}}" target="_blank">编辑正文</a>
 	 			</div>
 			</td>

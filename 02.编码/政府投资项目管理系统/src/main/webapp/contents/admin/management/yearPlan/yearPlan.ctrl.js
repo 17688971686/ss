@@ -457,7 +457,7 @@
 	 			 vm.isYearPlan = true;
    			   //初始化项目材料清单
    			   vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_YearPlan;
-   			   vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+   			   vm.uploadType=[['SCQQJFXD', '首次前期经费下达批复'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算'], ['ZJSQBG', '资金申请报告批复']];
 	 		  }
 	 	
 	 		//如果是新增下一年度计划信息--禁止点击Tab切换

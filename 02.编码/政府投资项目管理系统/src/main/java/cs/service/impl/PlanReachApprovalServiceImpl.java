@@ -345,6 +345,8 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 //        }
         entity.setXdPlanReach_ggys(ggmoney);
         entity.setXdPlanReach_gtzj(gtmoney);
+        entity.setApPlanReach_ggys(entity.getApPlanReach_ggys()+ggmoney);
+        entity.setApPlanReach_gtzj(entity.getApPlanReach_gtzj()+gtmoney);
         shenBaoInfoRepo.save(entity);
     }
     

@@ -887,7 +887,7 @@
 //		  		if(vm.page=='shenbaoInfoList'){//如果为列表页时--申报详情链接
 		  			if(vm.model.shenBaoInfo.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){
 						 vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_YearPlan;
-						 vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+						 vm.uploadType=[['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
 		    			   vm.isYearPlan = true;
 					}
 //		  		}

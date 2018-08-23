@@ -265,6 +265,19 @@ overflow: scroll !important;
 		 	</div>
 		</td>
 	</tr>	
+	<tr>
+		<td>首次前期经费下达</td>
+		<td ng-bind="vm.model.pifuSCQQJFXD_date | date:'yyyy-MM-dd'"></td>
+		<td ng-bind="vm.model.pifuSCQQJFXD_wenhao"></td>
+		<td>
+			<div style="margin:3px;"  
+			 	  ng-repeat="y in vm.model.attachmentDtos" 
+			 	  ng-show="y.type=='SCQQJFXD'"
+			 		>
+				 <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+		 	</div>
+		</td>
+	</tr>	
 </table>
 
 <div class="bg-info text-info" style="padding: 10px; margin-bottom: 10px">相关附件</div>

@@ -1,4 +1,4 @@
-package cs.rc8Util;
+package cs.controller.framework;
 
 import java.util.List;
 
@@ -49,11 +49,7 @@ public class Rc8utilController {
 				userDto.setPassword(person2.getPlainText());
 				userDto.setEmail(person2.getEmail());
 				userDto.setMobilePhone(person2.getMobile());
-				for (RoleDto role : roleList) {
-					if(role.getRoleName().equals("建设单位")){
-						userDto.getRoles().add(role);
-					}
-				}
+			
 				userService.createSYSUser(userDto);
 			}
 		}

@@ -580,11 +580,11 @@
 						}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){//申报阶段为:下一年度计划
 							vm.isYearPlan = true;
 							vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_YearPlan;
-		    			    vm.uploadType=[['JYS','项目建议书'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算']];
+		    			    vm.uploadType=[['SCQQJFXD', '首次前期经费下达批复'],['KXXYJBG','可行性研究报告'],['CBSJYGS','初步设计与概算'], ['ZJSQBG', '资金申请报告批复']];
 						}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_capitalApplyReport){//申报阶段为:资金申请报告
 							vm.isCapitalApplyReport=true;
 							vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_capitalApplyReport;
-						}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_jihuaxiada){//申报阶段为:计划下达
+						}else if(vm.model.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_soucijihuaxiada){//申报阶段为:计划下达
 							vm.isJihuaxiada=true;
 							vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_jihuaxiada;
 						}

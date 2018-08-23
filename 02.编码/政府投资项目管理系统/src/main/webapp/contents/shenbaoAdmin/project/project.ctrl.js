@@ -261,7 +261,7 @@
 	   		//end#基础数据
 	   		
 	   		//批复文件上传
-	   		vm.uploadType=[['KXXYJBG','可行性研究报告批复'],['CBSJYGS','初步设计与概算批复'],['ZJSQBG','资金申请报告批复']];
+	   		vm.uploadType=[['SCQQJFXD', '首次前期经费下达批复'],['KXXYJBG','可行性研究报告批复'],['CBSJYGS','初步设计与概算批复'],['ZJSQBG','资金申请报告批复']];
 	   		
 	   		vm.onSelect=function(e){
 	   			$.each(e.files, function (index, value) {

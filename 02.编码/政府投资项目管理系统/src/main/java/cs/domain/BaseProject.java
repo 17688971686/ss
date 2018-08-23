@@ -130,6 +130,12 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="varchar(255) NULL COMMENT '批复-初步设计与概算-文号'")
 	private String pifuZJSQBG_wenhao;
 	
+	@Column(columnDefinition="date NULL COMMENT '批复-首次前期经费下达-时间'")
+	private Date pifuSCQQJFXD_date;
+	
+	@Column(columnDefinition="varchar(255) NULL COMMENT '批复-首次前期经费下达-文号'")
+	private String pifuSCQQJFXD_wenhao;
+	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '建设周期'")
 	private String constructionCycle;
 	
@@ -595,5 +601,23 @@ public class BaseProject extends BaseEntity
 	public void setPifuZJSQBG_wenhao(String pifuZJSQBG_wenhao) {
 		this.pifuZJSQBG_wenhao = pifuZJSQBG_wenhao;
 	}
+
+	public Date getPifuSCQQJFXD_date() {
+		return pifuSCQQJFXD_date;
+	}
+
+	public void setPifuSCQQJFXD_date(Date pifuSCQQJFXD_date) {
+		this.pifuSCQQJFXD_date = pifuSCQQJFXD_date;
+	}
+
+	public String getPifuSCQQJFXD_wenhao() {
+		return pifuSCQQJFXD_wenhao;
+	}
+
+	public void setPifuSCQQJFXD_wenhao(String pifuSCQQJFXD_wenhao) {
+		this.pifuSCQQJFXD_wenhao = pifuSCQQJFXD_wenhao;
+	}
+	
+	
 	
 }
