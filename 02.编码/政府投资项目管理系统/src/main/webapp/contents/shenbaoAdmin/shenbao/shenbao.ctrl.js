@@ -135,11 +135,20 @@
 			//用于查询、申报--基础数据
 			vm.basicData.projectStage = common.getBacicDataByIndectity(common
 					.basicDataConfig().projectStage);//项目阶段
-			vm.basicData.projectConstrChar = common
-					.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质
+			vm.basicData.projectShenBaoStage = [];//项目建设性质
+			
+			vm.projectShenBaoStage = common.getBacicDataByIndectity(common.basicDataConfig().projectShenBaoStage);//申报阶段用于模态框
+			
+			for (var i = 0; i < vm.projectShenBaoStage.length; i++) {
+				var array_element = vm.projectShenBaoStage[i];
+				if(array_element.id=="projectShenBaoStage_1" || array_element.id=="projectShenBaoStage_5" ){
+					vm.projectShenBaoStage.splice(i,1);
+				}
+				
+			}
+			vm.basicData.projectShenBaoStage = vm.projectShenBaoStage;
 			debugger;
-			vm.basicData.projectShenBaoStage = common
-					.getBacicDataByIndectity(common.basicDataConfig().projectShenBaoStage);//申报阶段用于模态框
+			
 			vm.basicData.shenBaoStageForZF = [
 					common.basicDataConfig().projectShenBaoStage_projectProposal,
 					common.basicDataConfig().projectShenBaoStage_KXXYJBG,
