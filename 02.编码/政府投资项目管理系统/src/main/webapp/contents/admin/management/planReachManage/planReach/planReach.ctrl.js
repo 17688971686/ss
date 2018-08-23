@@ -347,6 +347,10 @@
 	      	        formValues: true
 	      	      });
         	};
+        	//导出excel
+            vm.exprotExcel=function(){
+                location.href = common.format("/management/planReachManage/planReach/exportExcelForPlanReach?id={0}",vm.id);
+			}
         }//end fun print
         
         active();

@@ -1,37 +1,37 @@
 package cs.service.impl;
 
 
-import java.math.BigInteger;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.transaction.Transactional;
-
-import org.activiti.engine.TaskService;
-import org.activiti.engine.impl.identity.Authentication;
-import org.activiti.engine.task.Task;
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import cs.activiti.service.ActivitiService;
 import cs.common.BasicDataConfig;
 import cs.common.Response;
 import cs.common.SQLConfig;
 import cs.domain.PlanReachApproval;
 import cs.domain.ShenBaoInfo;
-import cs.model.PageModelDto;
+import cs.model.DomainDto.ExcelReportPlanReachDto;
 import cs.model.DomainDto.PlanReachApprovalDto;
+import cs.model.PageModelDto;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.PlanReachApprovalService;
 import cs.service.interfaces.ShenBaoInfoService;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.impl.identity.Authentication;
+import org.activiti.engine.task.Task;
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.DoubleType;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachApprovalDto, PlanReachApproval, String> implements PlanReachApprovalService {
@@ -170,9 +170,112 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 		}
 		return resp;
     }
-    
-    
-    @Override
+
+	//根据计划下达id查询项目信息
+	@Override
+	@Transactional
+	public List<ExcelReportPlanReachDto> findBySql(String id) {
+		List<ExcelReportPlanReachDto> list= new ArrayList<ExcelReportPlanReachDto>();
+		StringBuffer sql = new StringBuffer();
+
+		sql.append("select '0' as orderNum")
+				.append(",'' as constructionUnit")
+				.append(",'' as projectName")
+				.append(",'' as projectCategory")
+				.append(",'' projectIndustry")
+				.append(",'' as pId")
+				.append(",'' as projectCategoryDesc")
+				.append(",'A' as projectIndustryDesc")
+				.append(",'' as projectConstrChar")
+				.append(",'' as projectGuiMo")
+				.append(",sum(c.projectInvestSum) as projectInvestSum")
+				.append(",sum(c.apInvestSum) as apInvestSum")
+				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
+				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
+				.append(",'' as yearConstructionTask")
+				.append(",'' as remark")
+				.append(" from cs_planreachapproval a")
+				.append(" left join cs_planreachapproval_cs_shenbaoinfo b on a.id = b.PlanReachApproval_id ")
+				.append(" left join cs_shenbaoinfo c on b.shenBaoInfos_id = c.id ")
+				.append(" where a.id = ").append("'").append(id).append("'")
+
+				.append(" union all  ")
+
+				.append("select '1' as orderNum")
+				.append(",'' as constructionUnit")
+				.append(",'' as projectName")
+				.append(",'' as projectCategory")
+				.append(",c.projectIndustry")
+				.append(",'' as pId")
+				.append(",'' as projectCategoryDesc")
+				.append(",e.description as projectIndustryDesc")
+				.append(",'' as projectConstrChar")
+				.append(",'' as projectGuiMo")
+				.append(",sum(c.projectInvestSum) as projectInvestSum")
+				.append(",sum(c.apInvestSum) as apInvestSum")
+				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
+				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
+				.append(",'' as yearConstructionTask")
+				.append(",'' as remark")
+				.append(" from cs_planreachapproval a")
+				.append(" left join cs_planreachapproval_cs_shenbaoinfo b on a.id = b.PlanReachApproval_id ")
+				.append(" left join cs_shenbaoinfo c on b.shenBaoInfos_id = c.id ")
+				.append(" left join cs_basicdata e on c.projectIndustry = e.id ")
+				.append(" where a.id = ").append("'").append(id).append("'")
+				.append(" group by c.projectIndustry ")
+
+				.append(" union all ")
+
+		        .append(" select '2' as orderNum")
+				.append(",c.constructionUnit")
+				.append(",c.projectName")
+				.append(",c.projectCategory")
+				.append(",c.projectIndustry")
+				.append(",d.pId")
+				.append(",d.description as projectCategoryDesc")
+				.append(",e.description as projectIndustryDesc")
+				.append(",c.projectConstrChar")
+				.append(",c.projectGuiMo")
+				.append(",c.projectInvestSum")
+				.append(",c.apInvestSum")
+				.append(",c.apPlanReach_ggys")
+				.append(",c.apPlanReach_gtzj")
+				.append(",c.yearConstructionTask")
+				.append(",c.remark")
+				.append(" from cs_planreachapproval a")
+				.append(" left join cs_planreachapproval_cs_shenbaoinfo b on a.id = b.PlanReachApproval_id ")
+				.append(" left join cs_shenbaoinfo c on b.shenBaoInfos_id = c.id ")
+				.append(" left join cs_basicdata d on c.projectCategory = d.id ")
+				.append(" left join cs_basicdata e on c.projectIndustry = e.id ")
+				.append(" where a.id = ").append("'").append(id).append("'")
+
+				.append(" order by projectIndustryDesc,orderNum ");
+
+		NativeQuery query = super.repository.getSession().createNativeQuery(sql.toString());
+		query.addScalar("orderNum", new IntegerType());
+		query.addScalar("constructionUnit", new StringType());
+		query.addScalar("projectName", new StringType());
+		query.addScalar("projectCategory", new StringType());
+		query.addScalar("projectIndustry",new StringType());
+		query.addScalar("projectIndustryDesc",new StringType());
+		query.addScalar("pId", new StringType());
+		query.addScalar("projectCategoryDesc", new StringType());
+		query.addScalar("projectConstrChar", new StringType());
+		query.addScalar("projectGuiMo", new StringType());
+		query.addScalar("projectInvestSum", new DoubleType());
+		query.addScalar("apInvestSum", new DoubleType());
+		query.addScalar("apPlanReach_ggys", new DoubleType());
+		query.addScalar("apPlanReach_gtzj", new DoubleType());
+		query.addScalar("yearConstructionTask", new StringType());
+		query.addScalar("remark", new StringType());
+
+		list = query.setResultTransformer(Transformers.aliasToBean(ExcelReportPlanReachDto.class)).list();
+		logger.info("计划下达Excel导出! sql================>>"+sql.toString());
+		return list;
+	}
+
+
+	@Override
     @Transactional
     public void endProcesss (String id){
     	 PlanReachApproval entity = super.findById(id);

@@ -188,4 +188,34 @@ public class DateUtil {
 		int value = i - 1;//0-星期日
 		return value;
 	}
+
+	/**
+	 * 获取当前年份
+	 * @return
+	 */
+	public static int getYear(){
+		Calendar calendarTemp = Calendar.getInstance();
+		int year = calendarTemp.get(Calendar.YEAR);
+		return year;
+	}
+
+	/**
+	 * 获取当前月份
+	 * @return
+	 */
+	public static int getMonth(){
+		Calendar calendarTemp = Calendar.getInstance();
+		int month = calendarTemp.get(Calendar.MONTH);
+		return month;
+	}
+
+	/**
+	 * 获取当前日期
+	 * @return
+	 */
+	public static int getDay(){
+		Calendar calendarTemp = Calendar.getInstance();
+		int month = calendarTemp.get(Calendar.DATE);
+		return month;
+	}
 }

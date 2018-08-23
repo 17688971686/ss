@@ -1,28 +1,26 @@
 package cs.controller.management.planReach;
 
-import java.text.ParseException;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.sn.framework.common.StringUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
 import cs.common.Response;
-import cs.model.PageModelDto;
+import cs.model.DomainDto.ExcelReportPlanReachDto;
 import cs.model.DomainDto.PlanReachApprovalDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
+import cs.model.PageModelDto;
+import cs.model.Statistics.ProjectStatisticsBean;
+import cs.model.exportExcel.ExcelReportPlanReachView;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.PlanReachApprovalService;
 import cs.service.interfaces.ShenBaoInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.util.List;
+import java.util.Map;
 
 import static com.sn.framework.common.StringUtil.SEPARATE_COMMA;
 
@@ -151,5 +149,11 @@ public class PlanReachController {
     @RequestMapping(name = "计划下达批复打印页面", path = "html/print", method = RequestMethod.GET)
     public String print() {
         return ctrl + "/print";
+    }
+
+    @RequestMapping(name="计划下达批复导出excel",path="exportExcelForPlanReach",method=RequestMethod.GET)
+    public ModelAndView exportExcelForProject(HttpServletRequest request,@RequestParam String id) throws ParseException{
+        List<ExcelReportPlanReachDto> data = planReachApprovalService.findBySql(id);
+        return new ModelAndView(new ExcelReportPlanReachView(), "data", data);
     }
 }
