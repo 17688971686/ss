@@ -42,19 +42,23 @@ public class CheckUserLoginFilter_RC8 implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpSession session = ((HttpServletRequest)request).getSession();
 		String loginUID = (String) session.getAttribute("loginUID");
+		System.out.println("=====>1:"+loginUID);
 		User riseUser = (User) session.getAttribute("riseUser");
+		System.out.println("=====>2:"+riseUser);
 		if(StringUtils.isBlank(loginUID) || riseUser == null) {
 			Assertion casAssertion = AssertionHolder.getAssertion();
 			AttributePrincipal ap = casAssertion.getPrincipal();
 			String loginName = ap.getName();
 			Map<String, Object> attr = ap.getAttributes();
 			loginUID = attr.get("ID").toString();
+			System.out.println("=====>3:"+loginUID);
 			PersonManager pm = HuasisoftUtil.getPersonManager();
 //			Person person = RisesoftUtil.getPersonManager().getPerson(loginUID);
 			ORGPerson person =null;
 			User user = new User();
 			try {
 				person = pm.get(loginUID);
+				System.out.println("=====>4:"+person);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -79,6 +83,8 @@ public class CheckUserLoginFilter_RC8 implements Filter {
 //			user.setWorktime(worktime);
 			user.setPassword(person.getPlainText());
 			session.setAttribute("riseUser", user);
+			User user333 = (User)session.getAttribute("riseUser");
+			System.out.println("=======8:"+user333);
 		}
 		chain.doFilter(request, response);
 	}
