@@ -43,50 +43,50 @@ public class ShenBaoHomeController {
 	@Autowired
 	private UserRepo userRepo;
 
-//	 @RequestMapping(name = "首页", path = "/",method = RequestMethod.GET)
-//	 public String index() {
-//	
-//	 return this.ctrlName + "/index";
-//	 }
-	private static Logger logger = Logger.getLogger(ShenBaoHomeController.class);
-
-	@RequestMapping(name = "首页", path = "/", method = RequestMethod.GET)
-	public String adminIndex(HttpServletRequest request, Model model) {
-		HttpSession session = ((HttpServletRequest) request).getSession();
-        User user = (User) session.getAttribute("riseUser");
-        User user2 = userRepo.findUserByName(user.getLoginName());
-//		User user2 = userService.getUserByName(request);
-		logger.info("=====>5:"+request);
-		System.out.println("=====>6:"+request);
-		Boolean hasRole = false;
-			if (user2 != null) {
-				currentUser.setLoginName(user2.getLoginName());
-				currentUser.setDisplayName(user2.getDisplayName());
-				currentUser.setUserId(user2.getId());
-				Date lastLoginDate = user2.getLastLoginDate();
-				if (lastLoginDate != null) {
-					currentUser.setLastLoginDate(user2.getLastLoginDate());
-				}
-				Date date = new Date();
-				String dateStr = String.format("%s %s", Util.formatDate(date, "yyyy/MM/dd"), Util.getDay(date));
-				model.addAttribute("userName", currentUser.getLoginName());
-				model.addAttribute("date", dateStr);
-				model.addAttribute("user", user2.getLoginName());
-				model.addAttribute("userId", user2.getId());
-				// shiro
-				UsernamePasswordToken token = new UsernamePasswordToken(user2.getLoginName(), user2.getPassword());
-				Subject currentUser = SecurityUtils.getSubject();
-				currentUser.login(token);
-				hasRole = userService.getRole(user2.getId());
-			} else {
-				throw new IllegalArgumentException("系统不存在该用户，请同步后重新登录！");
-			}
-		if (hasRole == true) {
-			return "adminLogin/adminIndex/index";
-		} else {
-			return "adminLogin/shenbaoIndex/index";
-		}
-	}
+	 @RequestMapping(name = "首页", path = "/",method = RequestMethod.GET)
+	 public String index() {
+	
+	 return this.ctrlName + "/index";
+	 }
+//	private static Logger logger = Logger.getLogger(ShenBaoHomeController.class);
+//
+//	@RequestMapping(name = "首页", path = "/", method = RequestMethod.GET)
+//	public String adminIndex(HttpServletRequest request, Model model) {
+//		HttpSession session = ((HttpServletRequest) request).getSession();
+//        User user = (User) session.getAttribute("riseUser");
+//        User user2 = userRepo.findUserByName(user.getLoginName());
+////		User user2 = userService.getUserByName(request);
+//		logger.info("=====>5:"+request);
+//		System.out.println("=====>6:"+request);
+//		Boolean hasRole = false;
+//			if (user2 != null) {
+//				currentUser.setLoginName(user2.getLoginName());
+//				currentUser.setDisplayName(user2.getDisplayName());
+//				currentUser.setUserId(user2.getId());
+//				Date lastLoginDate = user2.getLastLoginDate();
+//				if (lastLoginDate != null) {
+//					currentUser.setLastLoginDate(user2.getLastLoginDate());
+//				}
+//				Date date = new Date();
+//				String dateStr = String.format("%s %s", Util.formatDate(date, "yyyy/MM/dd"), Util.getDay(date));
+//				model.addAttribute("userName", currentUser.getLoginName());
+//				model.addAttribute("date", dateStr);
+//				model.addAttribute("user", user2.getLoginName());
+//				model.addAttribute("userId", user2.getId());
+//				// shiro
+//				UsernamePasswordToken token = new UsernamePasswordToken(user2.getLoginName(), user2.getPassword());
+//				Subject currentUser = SecurityUtils.getSubject();
+//				currentUser.login(token);
+//				hasRole = userService.getRole(user2.getId());
+//			} else {
+//				throw new IllegalArgumentException("系统不存在该用户，请同步后重新登录！");
+//			}
+//		if (hasRole == true) {
+//			return "adminLogin/adminIndex/index";
+//		} else {
+//			return "adminLogin/shenbaoIndex/index";
+//		}
+//	}
 
 	@RequestMapping(name = "获取首页数据", path = "/indexData", method = RequestMethod.GET)
 	public @ResponseBody IndexDto indexData(HttpServletRequest request) throws ParseException {
