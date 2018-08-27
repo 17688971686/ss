@@ -156,7 +156,8 @@
 					.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质	   			   		
 			vm.basicData.unitProperty = common.getBacicDataByIndectity(common
 					.basicDataConfig().unitProperty);//单位性质
-			vm.basicData.processState = [0,1,2,3,4,5];//审批状态
+            //vm.basicData.processState=common.getBacicDataByIndectity(common.basicDataConfig().processState);//审批状态
+			vm.basicData.processState = [{id:0,description:"未开始"},{id:1,description:"进行中"},{id:2,description:"审批通过"},{id:3,description:"转办他人"},{id:4,description:"审批不通过"},{id:5,description:"退文"}];//审批状态
 			vm.basicData.auditState = common.getBacicDataByIndectity(common
 					.basicDataConfig().auditState);//审核状态
 			vm.basicData.investmentType = common.getBacicDataByIndectity(common
@@ -192,7 +193,7 @@
 						return x.identity == common.basicDataConfig().area
 								&& x.pId == common.basicDataConfig().area_GM;
 					}).toArray(); //行政区划街道
-			vm.basicData.userUnit = common.getUserUnits();//获取所有单位
+			vm.basicData.userUnit = common.getUserUnits().value;//获取所有单位
 			//国民经济行业分类
 			vm.basicData.nationalIndustry = common
 					.getBacicDataByIndectity(common.basicDataConfig().projectGoverEconClassify);

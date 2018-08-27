@@ -95,7 +95,7 @@
 		</div><!-- <img ng-if="vm.model.shenBaoInfo.isLeaderHasRead" alt="局领导已阅" style="float: right;" src="/contents/images/icon_yiyue.png"> -->
 		<div class="bg-info text-info" style="padding: 10px;">业务办理</div>
 		<table class="table table-bordered table-striped ">
-			<tr ng-repeat="x in vm.taskRecord | orderBy:'endTime'"
+			<tr ng-repeat="x in vm.taskRecord"
 				ng-if="x.isJuzhang != 'yes'">
 				<td class="formAlignRight" style="width: 150px;" ng-bind="x.name"></td>
 				<td>
@@ -112,7 +112,7 @@
 		</table>
 		<div class="bg-info text-info" style="padding: 10px;">局领导意见</div>
 		<table class="table table-bordered table-striped ">
-			<tr ng-repeat="x in vm.taskRecord | orderBy:'endTime'"
+			<tr ng-repeat="x in vm.taskRecord"
 				ng-if="x.isJuzhang == 'yes'">
 				<td class="formAlignRight" style="width: 150px;" ng-bind="x.name"></td>
 				<td>

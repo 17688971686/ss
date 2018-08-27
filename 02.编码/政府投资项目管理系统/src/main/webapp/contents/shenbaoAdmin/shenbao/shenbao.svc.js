@@ -108,7 +108,7 @@
 				var httpSuccess = function success(response) {
 					vm.userUnit = response.data || {};
 					vm.model.unitName = vm.userUnit.id;//设置项目的所属单位名称
-					grid(vm)
+					grid(vm);
 				};
 				common.http({
 					vm : vm,

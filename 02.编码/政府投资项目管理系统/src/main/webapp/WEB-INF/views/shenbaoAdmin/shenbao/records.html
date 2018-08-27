@@ -39,14 +39,14 @@
 	  				<td>
 	  					<select style="height:30px;" ng-model="vm.search.unitName">
 				  			<option value="">---请选择---</option>
-				  			<option ng-repeat="x in vm.basicData.userUnit | unique: 'id'" value="{{x.id}}">{{x.unitName}}</option>
+							<option ng-repeat="x in vm.basicData.userUnit | unique: 'id'" value="{{x.id}}">{{x.unitName}}</option>
 				  		</select>
 	  				</td>
 	  				<td class="formAlignRight">审批状态：</td>
 	  				<td>
 	  					<select style="height:30px;" ng-model="vm.search.processState">
 				  			<option value="">---请选择---</option>
-				  			<option ng-repeat="x in vm.basicData.processState" value="{{x}}">{{x}}</option>
+				  			<option ng-repeat="x in vm.basicData.processState" value="{{x.id}}">{{x.description}}</option>
 				  		</select>
 	  				</td>
 	  				<td class="formAlignRight">审核状态：</td>
