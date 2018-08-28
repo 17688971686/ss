@@ -286,6 +286,12 @@
 	            controller: 'sysConfigCtrl',
 	            controllerAs: 'vm'
 	        })
+	        .state('workday', {
+	            url: '/workday',
+	            templateUrl: '/sys/html/index',
+	            controller: 'workdayCtrl',
+	            controllerAs: 'vm'
+	        })
 	        //end#系统配置
 	        
 /**********************begin#年度计划编制***************************************/

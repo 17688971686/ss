@@ -169,7 +169,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         //创建申报信息
         ShenBaoInfo entity = super.create(dto);
         //初始化审核状态--未审核
-        entity.setAuditState(BasicDataConfig.auditState_noAudit);
+//        entity.setAuditState(BasicDataConfig.auditState_noAudit);
         //初始化--申报时间
         entity.setShenbaoDate(new Date());
         //如果为后台管理员创建
@@ -217,9 +217,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
                 //设置相关的默认信息
                 entity.setProcessStage("投资科审核收件办理");//处理阶段为签收阶段
                 entity.setProcessState(BasicDataConfig.processState_pass);//状态为已签收通过
-                entity.setShenbaoDate(new Date());//申报时间
-//				entity.setQianshouDate(new Date());//签收时间
-//				entity.setReceiver(currentUser.getUserId());//签收人
                 entity.setIsIncludLibrary(false);//设置初始化为未纳入项目库
                 logger.info(String.format("创建申报信息,项目名称 %s", project.getProjectName()));
             } else {
@@ -437,7 +434,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         ShenBaoInfo shenbaoInfo = super.repository.findById(dto.getRelId());
         if (shenbaoInfo != null) {
             shenbaoInfo.setProcessState(dto.getThisProcessState());//设置状态为不通过
-            shenbaoInfo.setAuditState(BasicDataConfig.auditState_noAudit);//审核不通过
+//            shenbaoInfo.setAuditState(BasicDataConfig.auditState_noAudit);//审核不通过
             shenbaoInfo.setModifiedBy(currentUser.getUserId());
             shenbaoInfo.setModifiedDate(new Date());
 
@@ -1079,7 +1076,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         entity.setZong_processId(task.getProcessInstanceId());
         entity.setThisTaskId(task.getId());
         entity.setThisTaskName(task.getTaskDefinitionKey());
-        entity.setShenbaoDate(new Date());
         super.repository.save(entity);
 
         // 发送短信给第一处理人
