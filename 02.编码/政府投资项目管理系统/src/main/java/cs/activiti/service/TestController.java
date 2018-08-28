@@ -2,6 +2,7 @@ package cs.activiti.service;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -102,11 +103,18 @@ public class TestController {
 	 * @param taskId           任务ID
 	 * @param nextAssigneeId   下个办理人ID
 	 */
-	@RequestMapping(value = "/task/{taskId}/userId/{nextAssigneeId}/complele", method = RequestMethod.GET)
+	@RequestMapping(value = "/task/{taskId}/userId/{userId}/isPass/{isPass}/complele", method = RequestMethod.GET)
 	@ResponseBody
-	public void taskComplete(@PathVariable("taskId") String taskId,@PathVariable("nextAssigneeId") String nextAssigneeId) {
+	public void taskComplete(@PathVariable("taskId") String taskId
+			,@PathVariable("isPass") String isPass,@PathVariable("userId") String userId) {
 		Map<String,Object> variables = new HashMap<String,Object>();
-	    variables.put("nextAssignee", nextAssigneeId);
+		List<String> userIds = new ArrayList<>();
+		userIds.addAll(Arrays.asList(userId.split(",")));
+		
+		 variables.put("shenpi", 8);
+		 variables.put("isPass", isPass);
+		 variables.put("userIds", userIds);
+	    variables.put("nextUsers", userId);
 		activitiService.taskComplete(taskId, variables);
 	}
 	

@@ -49,7 +49,7 @@ public class XssFilter implements Filter{
                     boolean isExists = false;
                     String[] domains = domain.split(",");
                     for(String subDomain : domains){
-                        if(refererDomain.equals(subDomain)  || refererDomain.equals("192.168.180.63")){
+                        if(refererDomain.equals(subDomain)  || refererDomain.equals("192.168.180.63") || refererDomain.equals("192.168.189.142")){
                             isExists = true;
                             break;
                         }

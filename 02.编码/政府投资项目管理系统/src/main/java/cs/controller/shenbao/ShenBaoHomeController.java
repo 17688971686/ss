@@ -7,6 +7,7 @@ import java.util.function.Function;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -28,7 +29,6 @@ import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.framework.UserService;
 import cs.service.interfaces.ArticleService;
-import cs.service.interfaces.UserUnitInfoService;
 
 @Controller
 @RequestMapping(name = "申报端登陆页", path = "")
@@ -48,13 +48,17 @@ public class ShenBaoHomeController {
 	
 	 return this.ctrlName + "/index";
 	 }
-
+//	private static Logger logger = Logger.getLogger(ShenBaoHomeController.class);
+//
 //	@RequestMapping(name = "首页", path = "/", method = RequestMethod.GET)
 //	public String adminIndex(HttpServletRequest request, Model model) {
-//		User user2 = userService.getUserByName(request);
+//		HttpSession session = ((HttpServletRequest) request).getSession();
+//        User user = (User) session.getAttribute("riseUser");
+//        User user2 = userRepo.findUserByName(user.getLoginName());
+////		User user2 = userService.getUserByName(request);
+//		logger.info("=====>5:"+request);
+//		System.out.println("=====>6:"+request);
 //		Boolean hasRole = false;
-////		if (user != null) {// 028eaa66-9646-4c84-b65e-27120cbcea87
-////			User user2 = userService.findById(user.getId());// 3005faf9-12a6-42df-87b9-74f726498ed8
 //			if (user2 != null) {
 //				currentUser.setLoginName(user2.getLoginName());
 //				currentUser.setDisplayName(user2.getDisplayName());
@@ -77,10 +81,6 @@ public class ShenBaoHomeController {
 //			} else {
 //				throw new IllegalArgumentException("系统不存在该用户，请同步后重新登录！");
 //			}
-////		} else {
-////			throw new IllegalArgumentException("会话丢失，请重新登录！");
-////		}
-//
 //		if (hasRole == true) {
 //			return "adminLogin/adminIndex/index";
 //		} else {
