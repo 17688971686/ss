@@ -2,7 +2,7 @@
 	<ol class="breadcrumb">
 		<li style="color: #0b8d39; padding-left: 15px;">当前位置：</li>
 		<li><a href="#/">首页</a></li>
-		<li><a href="javascript::" ui-sref="planReach">计划下达</a></li>
+		<li><a ui-sref="planReach">计划下达</a></li>
 		<li class="active">项目列表</li>
 	</ol>
 
@@ -46,11 +46,11 @@
 		</table>
 	</div>
 	<script type="text/template" id="input">
-	<input style="width:100px" id="capitalSum1" ng-model="vm.gg['{0}']" value="{1}" ng-blur="vm.addmoney('{0}')"/>
+	<input style="width:100%" id="capitalSum1" ng-model="vm.gg['{0}']" value="{1}" ng-blur="vm.addmoney('{0}')"/>
 	
 	</script>
 	<script type="text/template" id="input2">
-	<input style="width:100px" id="capitalSum2" ng-model="vm.gt['{0}']" value="{1}" ng-blur="vm.addmoney('{0}')"/>
+	<input style="width:100%" id="capitalSum2" ng-model="vm.gt['{0}']" value="{1}" ng-blur="vm.addmoney('{0}')"/>
 	
 	</script>
 	<script type="text/template" id="columnBtns">
@@ -63,57 +63,6 @@
 	</div>
 	<div class="grid" kendo-grid="planReachGrid" k-options="vm.gridOptions"></div>
 
-	<!--<div id="tabStrip" kendo-tab-strip="vm.tabStrip">
-	  		<ul id="myTab">
-				<li id="hasInclud" class="k-state-active" style="padding-left:20px;padding-right:20px;">已纳入年度计划项目</li>
-				<li id="notInclud" style="padding-left:20px;padding-right:20px;">未纳入年度计划项目</li>
-			</ul>
-			
-			<div>
-				<script type="text/template" id="input_sq_ggys">
-					<input style="width:80px" type="number" min="0" max="{2}" step="any" id="ggys_sq{0}" value="{1}" disabled/>
-				</script>
-				<script type="text/template" id="input_sq_gtzj">
-					<input style="width:80px" type="number" min="0" max="{2}" step="any" id="gtzj_sq{0}" value="{1}" disabled/>
-				</script>
-				<script type="text/template" id="input_ap_ggys">
-					<input style="width:80px" type="number" min="0" max="{2}" step="any" id="ggys_ap{0}" value="{1}" ng-keyup="vm.checkNum_ggys('{0}','{2}')" ng-disabled="{3}"/>
-				</script>
-				<script type="text/template" id="input_ap_gtzj">
-					<input style="width:80px" type="number" min="0" max="{2}" step="any" id="gtzj_ap{0}" value="{1}" ng-keyup="vm.checkNum_gtzj('{0}','{2}')" ng-disabled="{3}"/>
-				</script>
-				<script type="text/template" id="columnBtns_hasInclud">
-					<button style="{1}" class="btn btn-success btn-sm" ng-click="vm.confirmPlanReach('{0}','pass')">通过</button>
-					<button style="{1}" class="btn btn-danger btn-sm" ng-click="vm.confirmPlanReach('{0}','notpass')">不通过</button>
-				</script>
-				<div class="grid" kendo-grid="hasIncludGrid" k-options="vm.hasIncludGridOptions"></div>
-			</div>
-			<div>
-				<div class="grid" kendo-grid="notIncludGrid" k-options="vm.notIncludGridOptions"></div>
-			</div>
-	  </div>-->
-
-	<!-- 申报详情模态框 -->
-	<!--<div id="shenbaoInfo" class="modal fade" tabindex="-1" role="dialog">
-		<div class="modal-dialog"
-			style="margin: 80px auto; width: 80%; max-width: 1000px;">
-			<div class="modal-content">
-				<div class="modal-header bg-primary">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<span class="modal-title">申请信息详情</span>
-				</div>
-				<div class="modal-body">
-					<div ng-include  src="'/contents/admin/management/task/html/details/shenBaoInfoDetails.html'"></div>  
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-success btn-sm" data-dismiss="modal">确认</button>
-				</div>
-			</div>
-		</div>
-	</div> -->
 	<!-- 退文信息输入模态框 -->
 	<div id="tuiWen" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog"

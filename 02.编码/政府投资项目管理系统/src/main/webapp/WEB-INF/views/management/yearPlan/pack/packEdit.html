@@ -1,126 +1,142 @@
-
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
 <div class="well well-sm" style="background:white;">
-	<ol class="breadcrumb">
-		<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
-		<li><a href="#/">首页</a></li>
-		<li><a href="#/yearPlan/planList">打包计划列表</a></li>	 
-		<li class="active">编辑</li>
-	</ol>
-		
-	<div class="toolbar">
-		<a class="btn btn-primary btn-sm"  href="#/yearPlan/packList"><span class="glyphicon glyphicon-chevron-left"></span>返回</a>
-		<button ng-hide="vm.isPackEdit" class="btn btn-success btn-sm"  ng-click="vm.create()" ng-disabled="vm.isSubmit">确认提交</button>
-		<button ng-show="vm.isPackEdit" class="btn btn-success btn-sm"  ng-click="vm.update()" ng-disabled="vm.isSubmit">确认更新</button>
-	</div>
-	 
-	 <div class="row">
-      <div class="col-sm-6">
-   		 <form id="form" name="form">
-   		 	<div class="bg-info text-info" style="padding: 10px; "><strong>基本信息</strong></div>
-			<table class="table table-bordered table-striped ">
-				<tr>
-					<td class="formAlignRight" style="width:150px;">名称：<span class="required">(*)</span></td>
-					<td style="width:300px;">
-						<input type="text" class="form-control input-sm"  id="name" name="name" ng-model="vm.model.name" 
-							data-val="true" data-val-required="必填"/>
-						<span data-valmsg-for="name" data-valmsg-replace="true" class="required"></span>
-						<!-- <span data-valmsg-for="name" class="text-red" ng-show="vm.showError">该计划已存在</span> -->
-					</td>
-					<td class="formAlignRight" style="width:150px;">年度：<span class="required">(*)</span></td>
-					<td>
-					<input class="Wdate form-control input-sm" style="width:200px;" type="text" 
-						id="d15" onFocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy'})" onchange=""
-						ng-model="vm.model.year" data-val="true" data-val-required="必填" />
-						<span data-valmsg-for="year" data-valmsg-replace="true" class="required"></span>
-					</td>
-				</tr>
-				<tr>
-					<td class="formAlignRight">总指标：<span class="required">(*)</span></td>
-					<td colspan="3">
-						<input type="number" step="any" class="form-control input-sm width180"  id="totalMoney" name="totalMoney" ng-model="vm.model.totalMoney" data-val="true" data-val-required="必填"/>&nbsp;(万元)
-						<span data-valmsg-for="totalMoney" data-valmsg-replace="true" class="required"></span>
-					</td>
-					<!-- <td class="formAlignRight">总指标剩余：</td>
-					<td>
-						<span ng-bind="vm.surplusMoney()"></span><span>(万元)</span>
-					</td> -->
-				</tr>
-				<tr>
-					<td class="formAlignRight">国土指标：<span class="required">(*)</span></td>
-					<td>
-						<input type="number" step="any" class="form-control input-sm" style="    width: 130px;"  id="gtMoney" name="gtMoney" ng-model="vm.model.gtMoney" data-val="true" data-val-required="必填"/>&nbsp;(万元)
-						<span data-valmsg-for="gtMoney" data-valmsg-replace="true" class="required"></span>
-					</td>
-					<td class="formAlignRight">公共指标：</td>
-					<td>
-						<input type="number" step="any" class="form-control input-sm" style="    width: 130px;" id="ggMoney" name="ggMoney" ng-model="vm.model.ggMoney" data-val="true" data-val-required="必填"/>&nbsp;(万元)
-						<span data-valmsg-for="ggMoney" data-valmsg-replace="true" class="required"></span>
-					</td>
-				</tr>
-				<tr>
-					<td class="formAlignRight">备注：</td>
-					<td colspan="3">
-						<textarea rows="3" cols="" maxlength="500" class="form-control" data-val="false" id="remark" name="remark" ng-model="vm.model.remark" ng-change="vm.checkLength(vm.model.remark,500,'remarkTips')"></textarea>
-						<div class="tipfont">您还可以输入<span id="remarkTips"><font size="5">500</font></span>个字符!</div>
-					</td>
-				</tr>
-			</table>
-			
-			<div class="bg-info text-info" style="padding: 10px; "><strong>建设单位资金编制</strong></div>
-			<table class="table table-striped table-bordered">
-  			<tr>
-  				<td colspan="3">
-  					<table class="table table-striped table-bordered" style="margin-bottom:0">
-  						<!-- <tr>
-  							<td class="text-center" colspan="9">
-  								<p>
-  									<strong style="font-size:1.2em">单位设置</strong>
-  								</p>
-  							</td>
-  						</tr> -->
-  						<tbody class="text-center">
-  							<tr>
-  								<td style="width:250px;">单位名称</td>
-  								<td>公共预算(万元)</td>
-  								<td>国土资金(万元)</td>
-  								<td><button type="button" class="btn btn-success btn-sm" ng-click="vm.addConstructionUnit()"><span class="glyphicon glyphicon-plus"></span>&nbsp;添加</button></td>
-  							</tr>
-  							<tr ng-repeat="x in vm.model.allocationCapitalDtos">
-  								<td>
-									<select id="unitName_{{$index}}" name="unitName_{{$index}}" class="form-select" ng-model="x.unitName" data-val="true" data-val-required="必选">
-										<option value="">---请选择---</option>
-										<option ng-repeat="y in vm.allUnit | unique: 'id'" ng-selected="x.unitName==y.id" value="{{y.id}}">{{y.unitName}}</option>
-									</select>
-									<span data-valmsg-for="unitName_{{$index}}" data-valmsg-replace="true" class="required"></span>
-								</td>
-								<td>
-									<input type="number"  style="text-align:right"
-											class="form-control input-sm" id="capital_ggys_{{$index}}"
-											name="capital_ggys_{{$index}}" ng-model="x.capital_ggys"
-											data-val="true" data-val-required="必填" /><span
-											data-valmsg-for="capital_ggys_{{$index}}"
-											data-valmsg-replace="true" class="required"></span>
-								</td>
-								<td>
-									<input type="number"  style="text-align:right"
-											class="form-control input-sm" id="capital_gtzj_{{$index}}"
-											name="capital_gtzj_{{$index}}" ng-model="x.capital_gtzj"
-											data-val="true" data-val-required="必填" /> <span
-											data-valmsg-for="capital_gtzj_{{$index}}"
-											data-valmsg-replace="true" class="required"></span>
-								</td>
-	  							<td>
-	  								<button type="button" class="btn btn-danger btn-xs" ng-click="vm.removeConstructionUnit($index)"><span class="glyphicon glyphicon-remove"></span>&nbsp;移除</button>
-	  							</td>
-  							</tr>
-  						</tbody>
-  					</table>
-  				</td>
-  			</tr>
-  		</table>
-		</form>
-     </div>
+    <ol class="breadcrumb">
+        <li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+        <li><a href="#/">首页</a></li>
+        <li><a href="#/yearPlan/planList">打包计划列表</a></li>
+        <li class="active">编辑</li>
+    </ol>
+
+    <div class="toolbar">
+        <a class="btn btn-primary btn-sm" href="#/yearPlan/packList"><span
+                class="glyphicon glyphicon-chevron-left"></span>返回</a>
+        <button ng-hide="vm.isPackEdit" class="btn btn-success btn-sm" ng-click="vm.create()" ng-disabled="vm.isSubmit">
+            确认提交
+        </button>
+        <button ng-show="vm.isPackEdit" class="btn btn-success btn-sm" ng-click="vm.update()" ng-disabled="vm.isSubmit">
+            确认更新
+        </button>
     </div>
+    <form id="form" name="form">
+        <div class="bg-info text-info" style="padding: 10px; "><strong>基本信息</strong></div>
+        <table class="table table-bordered table-striped ">
+            <tr>
+                <td class="formAlignRight" style="width:150px;">名称：<span class="required">(*)</span></td>
+                <td style="width:300px;">
+                    <input type="text" class="form-control input-sm" id="name" name="name" ng-model="vm.model.name"
+                           data-val="true" data-val-required="必填"/>
+                    <span data-valmsg-for="name" data-valmsg-replace="true" class="required"></span>
+                    <!-- <span data-valmsg-for="name" class="text-red" ng-show="vm.showError">该计划已存在</span> -->
+                </td>
+                <td class="formAlignRight" style="width:150px;">年度：<span class="required">(*)</span></td>
+                <td>
+                    <input class="Wdate form-control input-sm" style="width:200px;" type="text"
+                           id="d15" onFocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy'})" onchange=""
+                           ng-model="vm.model.year" data-val="true" data-val-required="必填"/>
+                    <span data-valmsg-for="year" data-valmsg-replace="true" class="required"></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="formAlignRight">总指标：<span class="required">(*)</span></td>
+                <td colspan="3">
+                    <input type="number" step="any" class="form-control input-sm width180" id="totalMoney"
+                           name="totalMoney" ng-model="vm.model.totalMoney" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+                    <span data-valmsg-for="totalMoney" data-valmsg-replace="true" class="required"></span>
+                </td>
+                <!-- <td class="formAlignRight">总指标剩余：</td>
+                <td>
+                    <span ng-bind="vm.surplusMoney()"></span><span>(万元)</span>
+                </td> -->
+            </tr>
+            <tr>
+                <td class="formAlignRight">国土指标：<span class="required">(*)</span></td>
+                <td>
+                    <input type="number" step="any" class="form-control input-sm" style="    width: 130px;" id="gtMoney"
+                           name="gtMoney" ng-model="vm.model.gtMoney" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+                    <span data-valmsg-for="gtMoney" data-valmsg-replace="true" class="required"></span>
+                </td>
+                <td class="formAlignRight">公共指标：</td>
+                <td>
+                    <input type="number" step="any" class="form-control input-sm" style="    width: 130px;" id="ggMoney"
+                           name="ggMoney" ng-model="vm.model.ggMoney" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+                    <span data-valmsg-for="ggMoney" data-valmsg-replace="true" class="required"></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="formAlignRight">备注：</td>
+                <td colspan="3">
+                    <textarea rows="3" cols="" maxlength="500" class="form-control" data-val="false" id="remark"
+                              name="remark" ng-model="vm.model.remark"
+                              ng-change="vm.checkLength(vm.model.remark,500,'remarkTips')"></textarea>
+                    <div class="tipfont">您还可以输入<span id="remarkTips"><font size="5">500</font></span>个字符!</div>
+                </td>
+            </tr>
+        </table>
+
+        <div class="bg-info text-info" style="padding: 10px; "><strong>建设单位资金编制</strong></div>
+        <table class="table table-striped table-bordered">
+            <tr>
+                <td colspan="3">
+                    <table class="table table-striped table-bordered" style="margin-bottom:0">
+                        <!-- <tr>
+                            <td class="text-center" colspan="9">
+                                <p>
+                                    <strong style="font-size:1.2em">单位设置</strong>
+                                </p>
+                            </td>
+                        </tr> -->
+                        <tbody class="text-center">
+                        <tr>
+                            <td style="width:250px;">单位名称</td>
+                            <td>公共预算(万元)</td>
+                            <td>国土资金(万元)</td>
+                            <td>
+                                <button type="button" class="btn btn-success btn-sm"
+                                        ng-click="vm.addConstructionUnit()"><span
+                                        class="glyphicon glyphicon-plus"></span>&nbsp;添加
+                                </button>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="x in vm.model.allocationCapitalDtos">
+                            <td>
+                                <select id="unitName_{{$index}}" name="unitName_{{$index}}" class="form-select"
+                                        ng-model="x.unitName" data-val="true" data-val-required="必选">
+                                    <option value="">---请选择---</option>
+                                    <option ng-repeat="y in vm.allUnit | unique: 'id'" ng-selected="x.unitName==y.id"
+                                            value="{{y.id}}">{{y.unitName}}
+                                    </option>
+                                </select>
+                                <span data-valmsg-for="unitName_{{$index}}" data-valmsg-replace="true"
+                                      class="required"></span>
+                            </td>
+                            <td>
+                                <input type="number" style="text-align:right"
+                                       class="form-control input-sm" id="capital_ggys_{{$index}}"
+                                       name="capital_ggys_{{$index}}" ng-model="x.capital_ggys"
+                                       data-val="true" data-val-required="必填"/><span
+                                    data-valmsg-for="capital_ggys_{{$index}}"
+                                    data-valmsg-replace="true" class="required"></span>
+                            </td>
+                            <td>
+                                <input type="number" style="text-align:right"
+                                       class="form-control input-sm" id="capital_gtzj_{{$index}}"
+                                       name="capital_gtzj_{{$index}}" ng-model="x.capital_gtzj"
+                                       data-val="true" data-val-required="必填"/> <span
+                                    data-valmsg-for="capital_gtzj_{{$index}}"
+                                    data-valmsg-replace="true" class="required"></span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-xs"
+                                        ng-click="vm.removeConstructionUnit($index)"><span
+                                        class="glyphicon glyphicon-remove"></span>&nbsp;移除
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </form>
 </div>

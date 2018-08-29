@@ -208,3 +208,8 @@ footer{
         background-size:auto;
     }
 }
+td .btn{
+    margin-bottom: 5px;
+    min-width: 60px;
+    padding: 3px 5px
+}

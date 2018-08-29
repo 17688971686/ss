@@ -1582,7 +1582,7 @@
 						{
 							field : "sqPlanReach_ggys",
 							title : "公共预算",
-							width:80,
+							width:60,
 							filterable : false,
 							headerAttributes: {
 						      "class": "table-header-cell",
@@ -1592,7 +1592,7 @@
 						{
 							field : "sqPlanReach_gtzj",
 							title : "国土基金",
-							width:80,
+							width:60,
 							filterable : false,
 							headerAttributes: {
 						      "class": "table-header-cell",
@@ -1612,7 +1612,7 @@
 							{
 								field : "xdPlanReach_ggys",
 								title : "公共预算",
-								width:80,
+								width:100,
 								filterable : false,
 							    template: function (item) {
 	                                vm.gg[item.id] = item.xdPlanReach_ggys;
@@ -1626,7 +1626,7 @@
 							{
 								field : "xdPlanReach_gtzj",
 								title : "国土基金",
-								width:80,
+								width:100,
 								filterable : false,
 								template: function (item) {
 	                               vm.gt[item.id] = item.xdPlanReach_gtzj;
@@ -1638,6 +1638,10 @@
 							    }
 							}
 						],
+                        headerAttributes: {
+                            "class": "table-header-cell",
+                            style: "text-align: center;vertical-align: middle;"
+                        }
 					}
 				
 			];
