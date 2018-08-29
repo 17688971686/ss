@@ -1,6 +1,9 @@
 (function () {
     'use strict';
 
+    //设置一个全局查询条件,解决本功能页面跳转查询条件不被重置的问题
+    var search_All = {};
+
     angular.module('app').controller('taskNewAuditCtrl', taskNewAudit);
 
     taskNewAudit.$inject = ['$location', 'taskNewAuditSvc', '$state', '$scope', '$sce', '$rootScope'];
@@ -263,6 +266,8 @@
         };
 
         function init_todoAuditList() {
+            //将全局变量查询条件的值赋给vm.search
+            vm.search = search_All;
             taskNewAuditSvc.grid(vm);
             vm.basicData.userUnit = common.getUserUnits().value;//获取所有单位
             var keys = [];
@@ -290,13 +295,19 @@
                     filters.push({field: 'projectIndustry', operator: 'eq', value: vm.search.projectIndustry});
                 }
                 vm.gridOptions.dataSource.filter(filters);
+                //给全局查询条件赋值
+                search_All = vm.search;
             };
             //清空筛选条件
             vm.filterClear = function () {
                 vm.search = {};
                 vm.doSearch();
+                //清空全局查询条件
+                search_All = {};
                 //location.reload();
             };
+            //页面加载的时候重新调用一次查询方法
+            vm.doSearch.call();
         }//end init_todoAuditList
 
         function init_handleAudit() {

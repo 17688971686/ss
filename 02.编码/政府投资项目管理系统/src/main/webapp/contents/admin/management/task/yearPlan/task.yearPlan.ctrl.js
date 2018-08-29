@@ -1,6 +1,9 @@
 (function () {
     'use strict';
 
+    //设置一个全局查询条件,解决本功能页面跳转查询条件不被重置的问题
+    var search_All = {};
+
     angular.module('app').controller('taskYearPlanCtrl', task);
 
     task.$inject = ['$location', 'taskYearPlanSvc', '$state', '$scope', '$sce'];
@@ -104,6 +107,8 @@
         }
 
         function init_todoList() {
+            //将全局变量查询条件的值赋给vm.search
+            vm.search = search_All;
             taskYearPlanSvc.gridForPlan(vm);//为了获取计划类申报信息的数量
             taskYearPlanSvc.gridForShenpi(vm);//为了获取审批类申报信息的数量
             taskYearPlanSvc.grid(vm);//获取下一年度计划待办列表数据
@@ -138,13 +143,20 @@
                     filters.push({field: 'projectIndustry', operator: 'eq', value: vm.search.projectIndustry});
                 }
                 vm.gridOptions.dataSource.filter(filters);
+                //给全局查询条件赋值
+                search_All = vm.search;
             };
+
+            //页面加载的时候重新调用一次查询方法
+            vm.doSearch.call();
         }//end init_todoList
 
         //清空筛选条件(修改ldm:2018-07-30)
         vm.filterClear = function () {
             vm.search = {};
             vm.doSearch();
+            //清空全局查询条件
+            search_All = {};
             //location.reload();
         };
 
