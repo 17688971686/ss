@@ -8,7 +8,7 @@ import java.net.URL;
 import javax.servlet.http.HttpServletRequest;
 
 public class HttpClientUtils {
-	public static String getHttpReturn(HttpServletRequest request,String url1) {
+	public static String getHttpReturn(String url1) {
 		String str = "";
         try {
             URL url = new URL(url1);    // 把字符串转换为URL请求地址
