@@ -480,7 +480,15 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setQianshouDate(new Date());// 签收时间
 			shenBaoInfo.setReceiver(currentUser.getUserId());// 签收人
 			Authentication.setAuthenticatedUserId(currentUser.getUserId());
-			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见：" + msg);
+			
+
+			if (shenBaoInfo.getThisTaskName().equals("usertask5")) {
+				activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "办结意见：" + msg);
+			} else if (str.equals("tuiwen")) {
+				activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "退文意见：" + msg);
+			} else {
+				activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见：" + msg);
+			}
 
 			taskService.setAssignee(task.get(0).getId(), nextUsers);
 			taskService.setVariable(task.get(0).getId(), "isPass", isPass);
@@ -495,7 +503,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
 			}
 			Authentication.setAuthenticatedUserId(currentUser.getUserId());
-			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见：" + msg);
+			
 
 			activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
 			activitiService.taskComplete(task.get(0).getId(), variables);
@@ -829,11 +837,9 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		// 设置批注的用户ID
 		Authentication.setAuthenticatedUserId(currentUser.getUserId());
 		// 添加批注
-		activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见：" + msg);
+		
 
-		// 办结任务
-		activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
-		activitiService.taskComplete(task.get(0).getId());
+	
 
 		shenBaoInfo.setThisTaskId("00000");
 		shenBaoInfo.setQianshouDate(new Date());// 签收时间
@@ -843,6 +849,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_tuiwen);
 			shenBaoInfo.setProcessStage("已退文");
 			shenBaoInfo.setAuditState(BasicDataConfig.auditState_noAudit);
+			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "退文意见：" + msg);
 			// 退文时，撤销当前流程
 //			runtimeService.deleteProcessInstance(shenBaoInfo.getZong_processId(), "已退文");
 		} else {
@@ -850,7 +857,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_pass);
 			shenBaoInfo.setProcessStage("已办结");
 			shenBaoInfo.setAuditState(BasicDataConfig.auditState_auditPass);
-
+			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见：" + msg);
 			// 生成项目编码
 //			if (StringUtils.isBlank(shenBaoInfo.getProjectNumber())) {
 //				BasicData basicData = basicDataService.findById(shenBaoInfo.getProjectIndustry());
@@ -863,6 +870,11 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 //			}
 
 		}
+		
+		// 办结任务
+		activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
+		activitiService.taskComplete(task.get(0).getId());
+		
 		Project project = projectRepo.findById(shenBaoInfo.getProjectId());
 		project.setIsIncludLibrary(true);
 		shenBaoInfo.setEndDate(new Date());
@@ -991,8 +1003,14 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		} else {
 			monitorTask = null;
 		}
-
-		activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见：" + msg);
+		if (shenBaoInfo.getThisTaskName().equals("usertask16") || str.equals("banjie")) {
+			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "办结意见：" + msg);
+		} else if (str.equals("tuiwen")) {
+			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "退文意见：" + msg);
+		} else {
+			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见：" + msg);
+		}
+		
 
 		if ((shenBaoInfo.getThisTaskName().equals("usertask1") || shenBaoInfo.getThisTaskName().equals("usertask5"))
 				&& !"1".equals(isPass)) {

@@ -897,6 +897,7 @@
 
 		function page_record() {
 			shenbaoSvc.getShenBaoInfoById(vm);//获取申报信息
+			shenbaoSvc.getHistoryInfo(vm);
 			$(".modal-backdrop").remove();
 
 			vm.update = function() {

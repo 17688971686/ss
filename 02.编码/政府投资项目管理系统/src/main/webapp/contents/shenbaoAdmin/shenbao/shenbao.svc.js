@@ -12,7 +12,8 @@
 		var url_document="/shenbaoAdmin/replyFile";
 		var url_sysConfig="/sys/getSysConfig";
 		var url_backToProjectList="/shenbao";
-		
+		var url_taskAudit_new = "/management/task";
+		 
 		var service = {
 			grid : grid,//项目列表
 			getProjectById:getProjectById,//根据id查询项目信息
@@ -26,12 +27,40 @@
 			getShenBaoInfoByProjectId:getShenBaoInfoByProjectId,//根据项目id查询申报信息
 			getShenBaoPortState:getShenBaoPortState,//查询申报端口的状态哦
 			getUserUnit:getUserUnit,
-			reback:reback,//撤销申请
+			getHistoryInfo: getHistoryInfo,//查询流转信息
+			reback:reback//撤销申请
 			/*getApprovalAtts : getApprovalAtts,
 			saveApprovalAttDtos : saveApprovalAttDtos*/
 		};		
 		return service;
 		
+		   /*
+         * 流转信息
+         */
+        function getHistoryInfo(vm) {
+            var httpOptions = {
+                method: 'get',
+                url: common.format(url_taskAudit_new + "/his/" + vm.id)
+            }
+            var httpSuccess = function success(response) {
+
+                vm.taskRecord = response.data;
+                for (var int = 0; int < vm.taskRecord.length; int++) {
+                    var array_element = vm.taskRecord[int];
+                    if (array_element.msg.substring(0,2) == "退文") {
+                    	 vm.taskRecord=[];
+                    	 vm.taskRecord.push(array_element);
+                    	 return;
+                    }
+                }
+            }
+            common.http({
+                vm: vm,
+                $http: $http,
+                httpOptions: httpOptions,
+                success: httpSuccess
+            });
+        }
 		function reback(vm,processId){
 			var httpOptions = {
 					method : 'post',
