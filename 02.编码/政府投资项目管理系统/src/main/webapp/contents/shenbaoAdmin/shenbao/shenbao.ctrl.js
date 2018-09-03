@@ -512,6 +512,7 @@
 		}//end#page_list
 
 		function page_edit() {
+			
 			//页面初始化
 			var init_page = function() {
 				vm.isProjectProposal = vm.stage == common.basicDataConfig().projectShenBaoStage_projectProposal;//申报阶段为:项目建议书

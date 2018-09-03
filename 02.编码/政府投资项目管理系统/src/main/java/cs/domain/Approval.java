@@ -25,7 +25,7 @@ public class Approval extends BaseEntity{
 	@Id
 	private String id;
 	
-	@Column(columnDefinition="double(11,4) NULL COMMENT '报送投资'")
+	@Column(columnDefinition="double(11,4) NULL COMMENT '评审金额'")
 	private Double capitalBaoSong;
 	
 	@Column(columnDefinition="date NULL COMMENT '经办时间'")

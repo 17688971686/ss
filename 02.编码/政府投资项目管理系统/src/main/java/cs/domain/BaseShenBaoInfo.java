@@ -48,6 +48,9 @@ public class BaseShenBaoInfo extends BaseProject {
     @Column(columnDefinition = "int NULL COMMENT '计划年度'")
     private Integer planYear;
 
+    @Column(columnDefinition = "bit(1) DEFAULT b'0' COMMENT '是否为备案--概算'")
+    private Boolean isRecords = false;
+    
     //begin#年度计划相关
     @Column(columnDefinition = "varchar(500) NULL COMMENT '建设单位'")
     private String constructionUnit;
@@ -61,7 +64,9 @@ public class BaseShenBaoInfo extends BaseProject {
     private Boolean isApplyOutsideCapital = false;
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '申请指标外资金'")
     private Double applyOutsideCapital = 0.0;
-
+    
+    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '项目批复总投资'")
+    private Double pfProjectInvestSum = 0.0;
     //下一年度计划 Begin（三年滚动计划）
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第一年申请年度投资累计'")
     private Double applyYearInvest = 0.0;
@@ -857,6 +862,22 @@ public class BaseShenBaoInfo extends BaseProject {
 
 	public void setXdPlanReach_gtzj(Double xdPlanReach_gtzj) {
 		this.xdPlanReach_gtzj = xdPlanReach_gtzj;
+	}
+
+	public Double getPfProjectInvestSum() {
+		return pfProjectInvestSum;
+	}
+
+	public void setPfProjectInvestSum(Double pfProjectInvestSum) {
+		this.pfProjectInvestSum = pfProjectInvestSum;
+	}
+
+	public Boolean getIsRecords() {
+		return isRecords;
+	}
+
+	public void setIsRecords(Boolean isRecords) {
+		this.isRecords = isRecords;
 	}
 
 

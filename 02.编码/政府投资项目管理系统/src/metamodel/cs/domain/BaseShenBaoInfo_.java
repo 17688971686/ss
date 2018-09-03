@@ -51,6 +51,7 @@ public abstract class BaseShenBaoInfo_ extends cs.domain.BaseProject_ {
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> projectId;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> xdPlanReach_gtzj;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> capitalSCZ_ggys_TheYear;
+	public static volatile SingularAttribute<BaseShenBaoInfo, Boolean> isRecords;
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> zong_processId;
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> projectShenBaoStage;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> applyOutsideCapital;
@@ -67,6 +68,7 @@ public abstract class BaseShenBaoInfo_ extends cs.domain.BaseProject_ {
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> functionSubjects;
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> constructionUnit;
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> yearConstructionTask;
+	public static volatile SingularAttribute<BaseShenBaoInfo, Double> pfProjectInvestSum;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> applyYearInvest_LastYear;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> applyYearInvest;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> yearInvestApproval_lastYear;

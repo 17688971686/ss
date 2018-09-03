@@ -1,9 +1,9 @@
 package cs.controller.codingPlatform;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import cs.common.ICurrentUser;
-import cs.service.interfaces.CodingPlatformService;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import cs.common.DateUtil;
+import cs.service.interfaces.CodingPlatformService;
 
 
 @Controller
@@ -23,8 +26,6 @@ public class CodingPlatformController {
 	private static Logger logger = Logger.getLogger(CodingPlatformController.class);
 	@Autowired 
 	protected CodingPlatformService codingPlatformService;
-	@Autowired
-	private ICurrentUser currentUser;
 	
 	@RequestMapping(value = "/getAccessToken", method = RequestMethod.GET)
 	@ResponseBody
@@ -65,14 +66,14 @@ public class CodingPlatformController {
 	}
 	
 	@SuppressWarnings("deprecation")
-	@Scheduled(cron="0 0 1/6 * * ? ")
+//	@Scheduled(cron="0 0 1/6 * * ? ")
 	public void scheduled() {
 		//<0/5 * * * * ? >每5秒
 		//<0 0 1/6 * * ? >每6小时
 		logger.info("=========>:定时任务开始");
 		String pageIndex = "1";
 		Date d = new Date();
-		String todaytime = String.valueOf(d.getYear())+"-"+String.valueOf(d.getMonth())+"-"+String.valueOf(d.getDay());
+		String todaytime = DateUtil.getYear()+"-"+DateUtil.getMonth()+"-"+DateUtil.getDay();
 		System.out.println(todaytime);
 		String str = null;
 		str = codingPlatformService.getShenBaoInfoFromCoding(todaytime,pageIndex);

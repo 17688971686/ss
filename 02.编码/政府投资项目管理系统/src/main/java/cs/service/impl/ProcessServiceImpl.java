@@ -8,10 +8,8 @@ import com.sn.framework.common.StringUtil;
 import com.sn.framework.odata.OdataFilter;
 import cs.activiti.service.ActivitiService;
 import cs.common.BasicDataConfig;
-import cs.common.DateUtil;
 import cs.common.ICurrentUser;
 import cs.common.Response;
-import cs.common.Util;
 import cs.domain.*;
 import cs.domain.framework.Org;
 import cs.domain.framework.Org_;
@@ -36,18 +34,15 @@ import cs.repository.odata.ODataObjNew;
 import cs.service.common.BasicDataService;
 import cs.service.framework.OrgService;
 import cs.service.framework.UserService;
-import cs.service.interfaces.DraftIssuedService;
 import cs.service.interfaces.ProcessService;
 import cs.service.interfaces.ProjectService;
 import cs.service.interfaces.ShenBaoInfoService;
 import cs.service.interfaces.UserUnitInfoService;
 import cs.service.sms.SmsService;
 import cs.service.sms.exception.SMSException;
-import freemarker.core.ParseException;
 
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricProcessInstance;
@@ -66,9 +61,6 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
-import java.text.DateFormat;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -118,13 +110,9 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	@Autowired
 	private IMapper<AttachmentDto, Attachment> attachmentMapper;
 	@Autowired
-	private BasicDataService basicDataService;
-	@Autowired
 	private ProjectService projectService;
 	@Autowired
 	private OrgService orgService;
-	@Autowired
-	private IRepository<DraftIssued, String> draftIssuedRepo;
 	@Override
 	@Transactional
 	public PageModelDto<ShenBaoInfoDto> get(ODataObj odataObj) {
@@ -707,24 +695,14 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		List<HistoricActivityInstance> hais = historyService.createHistoricActivityInstanceQuery()
 				.processInstanceId(shenBaoInfo.getZong_processId()).activityType("userTask")
 				.orderByHistoricActivityInstanceEndTime().asc().list();
-		List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
+		
 		for (HistoricProcessInstance list1 : lists1) {
+			UserUnitInfoDto userUnitInfo = userUnitInfoService.getByUserId(list1.getStartUserId());
 			User user = userRepo.findById(list1.getStartUserId());
-			UserUnitInfoDto userUnitInfoDto1 = null;
-			for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
-				if (!userUnitInfoDto.getUserDtos().isEmpty()) {
-					for (UserDto user1 : userUnitInfoDto.getUserDtos()) {
-						if (user1.getId().equals(user.getId())) {
-							userUnitInfoDto1 = userUnitInfoDto;
-						}
-					}
-				}
-
-			}
 			Map<String, String> map1 = new HashMap<>();
 
-			if (userUnitInfoDto1 != null) {
-				map1.put("id", userUnitInfoDto1.getUnitName() + ":" + user.getDisplayName());
+			if (userUnitInfo != null) {
+				map1.put("id", userUnitInfo.getUnitName() + ":" + user.getDisplayName());
 			} else {
 				map1.put("id", user.getDisplayName());
 			}
@@ -900,7 +878,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenbaoinfoDto.getId());
 		ProjectDto projectDto = JSON.parseObject(JSON.toJSONString(data.get("project")),
 				ProjectDto.class);
-
+		
 		Map<String, Object> variables = new HashMap<String, Object>();
 		
 		// 判断具体操作
@@ -1161,6 +1139,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已办结");
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_pass);
+			shenBaoInfo.setPfProjectInvestSum(shenbaoinfoDto.getPfProjectInvestSum());
 			shenBaoInfo.setProcessStage("已办结");
 			project.setIsIncludLibrary(true);
 			shenBaoInfo.setComplate(true);

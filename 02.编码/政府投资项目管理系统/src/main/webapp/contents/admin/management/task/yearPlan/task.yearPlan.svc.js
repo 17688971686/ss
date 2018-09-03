@@ -304,11 +304,11 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:{
-					field:'complate',
-					operator:'eq',
-					value:false
-				},
+//				filter:{
+//					field:'complate',
+//					operator:'eq',
+//					value:false
+//				},
 				requestEnd:function(e){
 					if(e.response.value){
 						$('#todoNumber').html(e.response.count);		
