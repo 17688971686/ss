@@ -287,8 +287,8 @@
 	            controllerAs: 'vm'
 	        })
 	        .state('workday', {
-	            url: '/workday',
-	            templateUrl: '/sys/html/index',
+	            url: '/workday/index',
+	            templateUrl: '/workday/html/index',
 	            controller: 'workdayCtrl',
 	            controllerAs: 'vm'
 	        })

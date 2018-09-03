@@ -29,12 +29,6 @@ public class Workday extends BaseEntity{
 	@Column(columnDefinition="VARCHAR(128)")
 	private String remark;	//备注
 	
-	/*@Column(columnDefinition="VARCHAR(2)")
-	private String workdayToDayoff;	//是否将工作日改为休息日(1:是   0：不是) 默认为：0
-	
-	@Column(columnDefinition="VARCHAR(2)")
-	private String dayoffToWorkday;	//是否将休息日改为工作日(1：是    0：不是) 默认为：0
-*/
 	public String getId() {
 		return id;
 	}

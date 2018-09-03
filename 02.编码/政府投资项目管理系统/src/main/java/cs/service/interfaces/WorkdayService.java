@@ -1,24 +1,52 @@
 package cs.service.interfaces;
 
-import cs.model.PageModelDto;
-import cs.model.DomainDto.OpinionDto;
+import cs.domain.Workday;
 import cs.model.DomainDto.WorkdayDto;
+import cs.model.PageModelDto;
 import cs.repository.odata.ODataObj;
 
-public interface WorkdayService {
+import java.util.Date;
+import java.util.List;
 
-	void saveWorkday(WorkdayDto WorkdayDto);
+public interface WorkdayService extends IService<WorkdayDto, Workday, String>{
 
+	PageModelDto<WorkdayDto> getWorkday(ODataObj odataObj);
 
-	void deleteWorkdays(String[] ids);
+	String createWorkday(WorkdayDto workdayDto);
 
+	/**
+	 * 判断工作日期是否有重复
+	 * @param dates
+	 * @return
+	 */
+	Boolean isRepeat(Date dates);
+
+	WorkdayDto getWorkdayById(String id);
+
+	void updateWorkday(WorkdayDto workdayDto);
 
 	void deleteWorkday(String id);
 
+	List<Workday> selectSpecialDays(String status);
 
-	void editWorkday(WorkdayDto opinDto);
+	/**
+	 * 计算从当前日期开始，一年内的调休记录
+	 * @return
+	 */
+	List<Workday> findWorkDayByNow();
 
+	/**
+	 * 通过时间段获取
+	 * @param startDate
+	 * @return
+	 */
+	List<Workday> getBetweenTimeDay(Date startDate, Date endDate);
 
-	PageModelDto<WorkdayDto> getWorkday(ODataObj odataObj);
+	/**
+	 * 判断当天是否是工作日
+	 * @param date
+	 * @return
+	 */
+	boolean isWorkDay(Date date);
 
 }

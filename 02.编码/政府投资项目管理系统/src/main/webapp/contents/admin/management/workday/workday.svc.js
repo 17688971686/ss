@@ -1,92 +1,254 @@
 (function() {
-	'use strict';
+    'use strict';
 
-	angular.module('app').factory('workdaySvc', workday);
+    angular.module('app').factory('workdaySvc', workday);
 
-	workday.$inject = [ '$http' ];
+    workday.$inject = ['$http','$state','bsWin'];
 
-	function workday($http) {
-		var url_work="/work";
-		
-		var service = {
-			getworkdays : getworkdays,
-			editworkdays:editworkdays
-		};
+    function workday($http,$state,bsWin) {
 
-		return service;
-		
-		
-		/**
-		 * 获取所有需要的系统配置
-		 */
-		function getworkdays(vm){
-			var httpOptions = {
-					method : 'get',
-					url : url_getworkdays
-				};
-			
-			var httpSuccess = function success(response) {
-				vm.configs = response.data;//所有的配置
-				vm.configs.forEach(function(value,index,array){
-					if(value.configName == common.basicDataConfig().taskType_monthReportPort){
-						var configValue = value.configValue.split("-");
-						if(configValue){
-							vm.monthReportConfigBegin = parseInt(configValue[0]);
-							vm.monthReportConfigEnd = parseInt(configValue[1]);
-						}
-					}
-					if(value.configName == common.basicDataConfig().taskType_jihuaPort){
-						var configValue = value.configValue.split("-");
-						if(configValue){
-							vm.planConfigBegin = new Date(parseInt(configValue[0])).toLocaleDateString();
-							vm.planReportConfigEnd = new Date(parseInt(configValue[1])).toLocaleDateString();
-						}
-					}
-				});
-			};
-			
-			common.http({
-				vm : vm,
-				$http : $http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});
-		}//end fun getworkdays
-		
-		/**
-		 * 编辑配置信息
-		 */
-		function editworkdays(vm){
-			//处理数据
-			var httpOptions = {
-					method : 'post',
-					url : url_taskUser,
-					data : vm.configs
-				};
-			
-			var httpSuccess = function success(response) {
-				common.requestSuccess({
-					vm:vm,
-					response:response,
-					fn:function(){
-						common.alert({
-							vm:vm,
-							msg:"保存成功！",
-							fn:function(){
-								$('.alertDialog').modal('hide');
-								location.href = url_back;
-							}
-						});
-					}
-				});
-			};
-			
-			common.http({
-				vm : vm,
-				$http : $http,
-				httpOptions : httpOptions,
-				success : httpSuccess
-			});
-		}//end fun editworkdays
-	}
+        var url_workday = '/workday';
+        var url_back = '#/workday';
+        var service = {
+            grid : grid,	//初始化数据
+            createWorkday : createWorkday,	//新增工作日
+            getWorkdayById : getWorkdayById,	//通过id查找该对象信息
+            updateWorkday : updateWorkday,		//更新
+            deleteWorkday : deleteWorkday,		//删除
+            queryWorkday : queryWorkday,		//模糊查询
+            clearValue : clearValue		//重置
+        }
+        return service;
+
+        //begin clearValue
+        function clearValue(vm){
+            var tab = $("#workdayForm").find('input,select');
+            $.each(tab, function(i, obj) {
+                obj.value = "";
+            });
+            vm.gridOptions.dataSource.read();
+        }
+
+        //begin getWorkdayById
+        function getWorkdayById(vm){
+            var httpOptions={
+                method:'get',
+                url :url_workday+"/getWorkdayById",
+                params:{id:vm.id}
+            }
+
+            var httpSuccess=function success(response){
+                vm.workday=response.data;
+            }
+
+            common.http({
+                vm: vm,
+                $http: $http,
+                httpOptions: httpOptions,
+                success: httpSuccess
+            });
+        }//end getWorkdayById
+
+        function queryWorkday(vm){
+            vm.gridOptions.dataSource.read();
+        }
+
+        //begin createWorkday
+        function createWorkday(vm){
+            var httpOptions={
+                method :'post',
+                url : url_workday+"/save",
+                data : vm.workday
+            }
+            var httpSuccess=function success(response){
+                console.log(response);
+                if(response.data.flag){
+                    bsWin.alert("保存成功！", function(){
+                        vm.gridOptions.dataSource.read();
+                        window.parent.$("#workDay").data("kendoWindow").close();
+                        vm.workday="";
+                    });
+                }else{
+                    bsWin.alert(response.data.reMsg+"已存在，不能重复添加！", function(){
+                        vm.gridOptions.dataSource.read();
+                        window.parent.$("#workDay").data("kendoWindow").close();
+                        vm.workday="";
+                    });
+                }
+
+
+            }
+            common.http({
+                vm: vm,
+                $http: $http,
+                httpOptions: httpOptions,
+                success: httpSuccess
+            });
+
+
+        }//end createWorkday
+
+        //begin updateWorkday
+        function updateWorkday(vm){
+            var httpOptions={
+                method: "put",
+                url : url_workday,
+                data : vm.workday
+            }
+
+            var httpSuccess=function success(response){
+                common.requestSuccess({
+                    vm:vm,
+                    response:response,
+                    fn:function(){
+                        common.alert({
+                            vm: vm,
+                            msg:"操作成功",
+                            fn:function(){
+                                vm.isSubmit = false;
+                                $('.alertDialog').modal('hide');
+                                $('.modal-backdrop').remove();
+                                location.href = url_back;
+                            }
+                        });
+                    }
+                });
+            }
+            common.http({
+                vm: vm,
+                $http: $http,
+                httpOptions: httpOptions,
+                success: httpSuccess
+            });
+        }
+        //end updateWorkday
+
+        //begin deleteWorkday
+        function deleteWorkday(vm,id){
+            var httpOptions={
+                method:'delete',
+                url:url_workday,
+                data:id
+            }
+
+            var httpSuccess=function success(response){
+                vm.gridOptions.dataSource.read();
+            }
+            common.http({
+                vm: vm,
+                $http: $http,
+                httpOptions: httpOptions,
+                success: httpSuccess
+            });
+
+        }
+        //end deleteWorkday
+
+        function grid(vm){
+            //begin dataSource
+            var dataSource=new kendo.data.DataSource({
+                type:'odata',
+                transport:common.kendoGridConfig().transport(url_workday+'/findByOdataObj',$("#workdayForm")),
+                schema:common.kendoGridConfig().schema({
+                    id:'id'
+                }),
+                serverPaging:true,
+                serverSorting:true,
+                serverFiltering:true,
+                pageSize :10,
+                sort:{
+                    field:"dates",
+                    dir:"desc"
+                }
+            });//end dataSource
+
+            //S_序号
+            var  dataBound=function () {
+                var rows = this.items();
+                var page = this.pager.page() - 1;
+                var pagesize = this.pager.pageSize();
+                $(rows).each(function () {
+                    var index = $(this).index() + 1 + page * pagesize;
+                    var rowLabel = $(this).find(".row-number");
+                    $(rowLabel).html(index);
+                });
+            };
+
+            var columns=[
+                {
+                    template: function (item) {
+                        return kendo
+                            .format(
+                                "<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox' />",
+                                item.id)
+                    },
+                    filterable: false,
+                    width: 40,
+                    title: "<input id='checkboxAll' type='checkbox'  class='checkbox'  />"
+
+                },
+                {
+                    field: "rowNumber",
+                    title: "序号",
+                    width: 50,
+                    filterable : false,
+                    template: "<span class='row-number'></span>"
+                },
+                {
+                    field: "dates",
+                    title: "时间",
+                    width: 200,
+                    filterable : false,
+                    template:function(item){
+                        return common.formatDate(item.dates);
+                    }
+
+                },
+                {
+                    field: "status",
+                    title: "状态",
+                    width: 100,
+                    filterable : false,
+                    template:function(item){
+                        if(item.status){
+                            if(item.status=="1"){
+                                return "调休";
+                            }
+                            if(item.status=="2"){
+                                return "加班";
+                            }
+                        }else{
+                            return "";
+                        }
+                    }
+                } ,
+                {
+                    field: "remark",
+                    title: "备注",
+                    width: 140,
+                    filterable : false
+                }
+                ,
+                {
+                    field: "",
+                    title: "操作",
+                    width: 140,
+                    template: function (item) {
+                        return common.format($('#columnBtns').html(),
+                            "vm.del('" + item.id + "')", item.id);
+                    }
+                }
+            ];
+            vm.gridOptions = {
+                dataSource: common.gridDataSource(dataSource),
+                filterable: common.kendoGridConfig().filterable,
+                pageable: common.kendoGridConfig().pageable,
+                noRecords: common.kendoGridConfig().noRecordMessage,
+                columns: columns,
+                dataBound:dataBound,
+                resizable: true,
+            };
+        }//end grid
+    }
+
 })();

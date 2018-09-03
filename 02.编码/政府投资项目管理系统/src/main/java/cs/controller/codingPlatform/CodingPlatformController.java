@@ -1,13 +1,11 @@
 package cs.controller.codingPlatform;
 
-import java.util.Date;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.http.HttpRequest;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import cs.common.ICurrentUser;
+import cs.service.interfaces.CodingPlatformService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,12 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import cs.common.ICurrentUser;
-import cs.service.impl.CodingPlatformServiceImpl;
-import cs.service.interfaces.CodingPlatformService;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 
 @Controller
