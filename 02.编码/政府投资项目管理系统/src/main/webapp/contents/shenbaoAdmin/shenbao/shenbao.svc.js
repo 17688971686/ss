@@ -28,7 +28,8 @@
 			getShenBaoPortState:getShenBaoPortState,//查询申报端口的状态哦
 			getUserUnit:getUserUnit,
 			getHistoryInfo: getHistoryInfo,//查询流转信息
-			reback:reback//撤销申请
+			reback:reback,//撤销申请
+			getShenBaoPortStateForYearPlan:getShenBaoPortStateForYearPlan
 			/*getApprovalAtts : getApprovalAtts,
 			saveApprovalAttDtos : saveApprovalAttDtos*/
 		};		
@@ -258,6 +259,40 @@
 			    		   }
 					}
 				});
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
+		
+		/**
+		 * 查询计划下达申报端口状态
+		 */
+		function getShenBaoPortStateForYearPlan(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_sysConfig + "?configName={0}", common.basicDataConfig().taskType_yearPlan)
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.sysConfing = response.data;
+				if(vm.sysConfing.enable){
+					location.href = "#/shenbao/" + vm.projectId + "/"
+					+ vm.projectInvestmentType + "/"
+					+ vm.projectShenBaoStage;//跳转申报信息编辑页面    
+	    		   }else{
+	    			   common.alert({
+							vm : vm,
+							msg : "下一年度计划申报端口未开启，请联系管理员！",
+							fn : function() {
+								$('.alertDialog').modal('hide');
+							}
+						});
+	    		   }
 			};
 			
 			common.http({
