@@ -54,7 +54,7 @@ public class CodingPlatformController {
 				codingPlatformService.saveAll(str);
 			}
 		}catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 	}

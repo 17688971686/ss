@@ -126,7 +126,7 @@ public class CodingPlatformServiceImpl extends AbstractServiceImpl<CodingProject
 					JsonObject subObject = array.get(i).getAsJsonObject();
 					
 					//只保存光明新区和没有区号的项目 440309为光明编号
-					if("440309".equals(subObject.get("BUILD_ADDRESS_DISTRICT").getAsString()) || subObject.get("BUILD_ADDRESS_DISTRICT").getAsString()==""){
+//					if("440309".equals(subObject.get("BUILD_ADDRESS_DISTRICT").getAsString()) || subObject.get("BUILD_ADDRESS_DISTRICT").getAsString()==""){
 						//查詢是否有同名項目
 						Criterion criterion = Restrictions.eq(Project_.projectName.getName(), subObject.get("P_NAME").getAsString());
 						List<Project> projects = projectRepo.findByCriteria(criterion);
@@ -160,7 +160,7 @@ public class CodingPlatformServiceImpl extends AbstractServiceImpl<CodingProject
 							cp.setId(IdWorker.get32UUID());
 							codingProjectRepo.save(cp);
 						}
-					}
+//					}
 				}
 				
 				
