@@ -698,7 +698,7 @@
   		};
   		//确认更新
      	vm.update = function(){
-     		vm.model.shenBaoInfo.auditState=common.basicDataConfig().auditState_noAudit;//后台修改保存申报信息之后默认为未审核状态
+//     		vm.model.shenBaoInfo.auditState=common.basicDataConfig().auditState_noAudit;//后台修改保存申报信息之后默认为未审核状态
      		yearPlanSvc.updateShenBaoInfo(vm);
      	};
      	//更新审核状态

@@ -1,4 +1,4 @@
-package cs.controller.framework;
+package cs.controller.management.rc8util;
 
 import java.util.List;
 
@@ -28,8 +28,6 @@ import net.risesoft.util.RisesoftUtil;
 public class Rc8utilController {
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private RoleService roleService;
 	
 	private static String[] tzk_id_list = {"4853bb99c50b413f89658af304e18698","{261F89FE-F016-4ADA-A5A0-B43EA7D9FFF0}","{BFA7B3F4-FFFF-FFFF-B32B-A23800000002}","{BFA7B3F4-FFFF-FFFF-B32B-D0B500000003}","{AC18B3FB-FFFF-FFFF-FB69-97BD00000015}","{BFA7B3F4-FFFF-FFFF-B32E-58DB00000008}","{AC18B3FB-0000-0000-6629-02E600000002}"};
 	
@@ -38,7 +36,7 @@ public class Rc8utilController {
 	@ResponseStatus(value = HttpStatus.OK)
 	public void getTZKUser() throws Exception{
 		PersonManager  dm = HuasisoftUtil.getPersonManager();
-		List<RoleDto> roleList = roleService.Get();
+		
 		for (int i = 0; i < tzk_id_list.length; i++) {
 			List<ORGPerson> person = dm.listByParentID(tzk_id_list[i]);
 			for (ORGPerson person2 : person) {

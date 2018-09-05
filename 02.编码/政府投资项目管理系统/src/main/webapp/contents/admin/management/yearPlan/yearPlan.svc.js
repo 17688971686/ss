@@ -404,7 +404,7 @@
                 vm.model.shenBaoInfo.endDate = (vm.model.shenBaoInfo.endDate != '') ? vm.model.shenBaoInfo.endDate : null;
                 var httpOptions = {
                     method: 'post',
-                    url: common.format(url_shenbaoInfoList + '/updateShenbao'),
+                    url: common.format(url_shenbaoInfoList + '/update'),
                     data: vm.model.shenBaoInfo
                 };
 
