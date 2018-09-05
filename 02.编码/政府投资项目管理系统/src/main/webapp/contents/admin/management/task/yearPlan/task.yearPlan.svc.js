@@ -426,11 +426,11 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:{
-					field:'complate',
-					operator:'eq',
-					value:true
-				},
+//				filter:{
+//					field:'complate',
+//					operator:'eq',
+//					value:true
+//				},
 				change: function(e) {//当数据发生变化时
 				    var filters = dataSource.filter();//获取所有的过滤条件
 				    vm.filters = filters;

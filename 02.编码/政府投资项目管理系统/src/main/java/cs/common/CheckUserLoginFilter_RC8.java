@@ -86,7 +86,12 @@ public class CheckUserLoginFilter_RC8 implements Filter {
 			User user333 = (User)session.getAttribute("riseUser");
 			System.out.println("=======8:"+user333);
 		}
-		chain.doFilter(request, response);
+		try {
+			chain.doFilter(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	public void init(FilterConfig fConfig) throws ServletException {
