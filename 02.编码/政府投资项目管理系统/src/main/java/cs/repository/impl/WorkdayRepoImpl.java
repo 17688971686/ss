@@ -1,10 +1,12 @@
 package cs.repository.impl;
 
+import cs.common.utils.DateUtils;
 import cs.common.utils.Validate;
 import cs.domain.Workday;
 import cs.domain.Workday_;
 import cs.repository.interfaces.WorkdayRepo;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -37,13 +39,13 @@ public class WorkdayRepoImpl extends AbstractRepository<Workday, String> impleme
         if (!Validate.isString(endTime)) {
             criteria.add(Restrictions.le(Workday_.dates.getName(), new Date()));
         } else {
-            //criteria.add(Restrictions.le(Workday_.dates.getName(), DateUtils.converToDate(endTime, DateUtils.DATE_PATTERN)));
+            criteria.add(Restrictions.le(Workday_.dates.getName(), DateUtils.converToDate(endTime, DateUtils.DATE_PATTERN)));
         }
         if (Validate.isString(beginTime)) {
-            //criteria.add(Restrictions.ge(Workday_.dates.getName(), DateUtils.converToDate(beginTime, DateUtils.DATE_PATTERN)));
+            criteria.add(Restrictions.ge(Workday_.dates.getName(), DateUtils.converToDate(beginTime, DateUtils.DATE_PATTERN)));
         }
         //按添加的日期排序
-        //criteria.addOrder(Order.asc(Workday_.dates.getName()));
+        criteria.addOrder(Order.asc(Workday_.dates.getName()));
         return criteria.list();
     }
 

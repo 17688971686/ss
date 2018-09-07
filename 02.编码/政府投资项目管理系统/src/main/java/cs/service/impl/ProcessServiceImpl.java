@@ -2,6 +2,8 @@ package cs.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.sn.framework.common.IdWorker;
 import com.sn.framework.common.ObjectUtils;
 import com.sn.framework.common.StringUtil;
@@ -11,16 +13,14 @@ import cs.common.BasicDataConfig;
 import cs.common.DateUtil;
 import cs.common.ICurrentUser;
 import cs.common.Response;
-import cs.common.Util;
+import cs.common.utils.DateUtils;
+import cs.common.utils.WorkDayUtil;
 import cs.domain.*;
 import cs.domain.framework.Org;
 import cs.domain.framework.Org_;
 import cs.domain.framework.Role;
 import cs.domain.framework.User;
-import cs.model.DomainDto.AttachmentDto;
-import cs.model.DomainDto.ProjectDto;
-import cs.model.DomainDto.ShenBaoInfoDto;
-import cs.model.DomainDto.UserUnitInfoDto;
+import cs.model.DomainDto.*;
 import cs.model.DtoMapper.IMapper;
 import cs.model.PageModelDto;
 import cs.model.SendMsg;
@@ -30,29 +30,23 @@ import cs.repository.framework.OrgRepo;
 import cs.repository.framework.UserRepo;
 import cs.repository.impl.ShenBaoInfoRepoImpl;
 import cs.repository.interfaces.IRepository;
+import cs.repository.interfaces.WorkdayRepo;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.repository.odata.ODataObjNew;
 import cs.service.common.BasicDataService;
 import cs.service.framework.OrgService;
 import cs.service.framework.UserService;
-import cs.service.interfaces.DraftIssuedService;
 import cs.service.interfaces.ProcessService;
 import cs.service.interfaces.ProjectService;
 import cs.service.interfaces.ShenBaoInfoService;
 import cs.service.interfaces.UserUnitInfoService;
 import cs.service.sms.SmsService;
 import cs.service.sms.exception.SMSException;
-import freemarker.core.ParseException;
-
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
-import org.activiti.engine.history.HistoricActivityInstance;
-import org.activiti.engine.history.HistoricProcessInstance;
-import org.activiti.engine.history.HistoricTaskInstance;
-import org.activiti.engine.history.HistoricVariableInstance;
+import org.activiti.engine.history.*;
 import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
@@ -60,14 +54,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
-
-import java.text.DateFormat;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -125,6 +118,10 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	private OrgService orgService;
 	@Autowired
 	private IRepository<DraftIssued, String> draftIssuedRepo;
+	@Autowired
+	private WorkdayRepo workdayrepo;
+
+
 	@Override
 	@Transactional
 	public PageModelDto<ShenBaoInfoDto> get(ODataObj odataObj) {
@@ -1523,12 +1520,238 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	public List<ShenBaoInfoDto> findAuditRunByOdata(ODataObjNew odata, boolean isPerson) {
 		odata.addOrFilter(ShenBaoInfo_.projectShenBaoStage.getName(), OdataFilter.Operate.EQ, projectShenBaoStage_XMJYS,
 				projectShenBaoStage_KXXYJBG, projectShenBaoStage_ZJSQBG, projectShenBaoStage_CBSJGS,projectShenBaoStage_oncePlanReach);
-		return findRunByOdata(odata, isPerson, null);
-		// Restrictions.or(
-		// Restrictions.eq("f.taskDefinitionKey", "usertask1"),
-		// Restrictions.eq("f.taskDefinitionKey", "usertask5")
-		// )
+
+		List<ShenBaoInfoDto> list = findRunByOdata(odata, isPerson, null);
+		/*boolean is_TZK_Signin_Task;//是否签收
+		boolean is_PSZX_Task;      //是否已提交评审中心
+		boolean is_PSZX_Audit_OK;  //是否评审完毕
+		try {
+			//遍历申报集合
+			for(ShenBaoInfoDto shenBaoInfoDto : list) {
+				String processId = shenBaoInfoDto.getZong_processId();
+				//查询签收任务
+				Task signin_task = findTaskForAuditTimeByProcessIdAndTaskId(processId, task_id_signin);
+				//查询评审任务
+				Task pszx_task = findTaskForAuditTimeByProcessIdAndTaskId(processId, task_id_pszx);
+				//查询已办评审任务
+				HistoricTaskInstance pszx_Historic = findHistroyForAuditTimeByProcessIdAndTaskId(processId, task_id_pszx);
+				//查询已签收任务
+				HistoricTaskInstance signin_Historic = findHistroyForAuditTimeByProcessIdAndTaskId(processId, task_id_signin);
+
+				is_PSZX_Task = pszx_task == null ? false : true;
+				is_PSZX_Audit_OK = pszx_Historic == null ? false : true;
+				is_TZK_Signin_Task = signin_task == null ? false : true;
+
+				Date nextTaskTime = pszx_Historic == null ? null : pszx_Historic.getEndTime();
+				Date submitTaskTime = pszx_task == null ? null : pszx_task.getCreateTime();
+				Date signinTaskTime = signin_task == null ? null : signin_task.getCreateTime();
+
+
+				is_PSZX_Task = true;
+				is_PSZX_Audit_OK = true;
+
+
+				String a = "2018-08-25 10:20:30";
+				String b = "2018-08-20 14:20:30";
+				String c = "2018-08-16 15:20:30";
+				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+				nextTaskTime = df.parse(a);
+				submitTaskTime = df.parse(b);
+				signinTaskTime = df.parse(c);
+
+
+				List<int[]> blanceTimeList = getOverDay(is_TZK_Signin_Task,is_PSZX_Task,is_PSZX_Audit_OK,nextTaskTime,submitTaskTime,signinTaskTime);
+				shenBaoInfoDto.setTzkBalanceTime(WorkDayUtil.getStringByIntList(blanceTimeList.get(0)));
+				shenBaoInfoDto.setPxzxBalanceTime(WorkDayUtil.getStringByIntList(blanceTimeList.get(1)));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error(e.getMessage());
+		}*/
+		return list;
 	}
+
+	@SuppressWarnings("deprecation")
+	@Scheduled(cron="0 2 * * * ?")
+	public void scheduled() {
+		//"0 0 0 * * ?"   每天凌晨执行一次
+		//"0 2 * * * ?"
+
+
+	}
+
+
+	@Value("${task_id_pszx}")
+	private String task_id_pszx;
+
+	@Value("${task_id_signin}")
+	private String task_id_signin;
+
+	@Value("${auditTime_PSZX}")
+	private Integer auditTime_PSZX;
+
+	@Value("${auditTime_TZK}")
+	private Integer auditTime_TZK;
+
+	@Value("${upHour}")
+	private Integer upHour;
+
+	@Value("${downHour}")
+	private Integer downHour;
+
+	/**
+	 * @param is_PSZX_Task        是否已提交评审中心
+	 * @param is_PSZX_Audit_OK    是否评审结束
+	 * @param is_TZK_Signin_Task  流程-建设单位是否提交投资科签收
+	 * @param endTaskTime         流程-评审中心评审结束时间
+	 * @param submitTaskTime      流程-投资科提交评审中心时间
+	 * @param signinTaskTime      流程-投资科签收时间
+	 * @return
+	 */
+	private List<int[]> getOverDay(
+			boolean is_TZK_Signin_Task
+			,boolean is_PSZX_Task
+			,boolean is_PSZX_Audit_OK
+			,Date endTaskTime
+			,Date submitTaskTime
+			,Date signinTaskTime) throws  Exception{
+
+		//数组是下标是4，分别代表:  0天，1小时，2分钟，3秒数
+		int[] pszx_useTime = new int[4];       //评审中心已用时间
+		int[] pszx_balance_Time = new int[4];  //评审中心剩余时间
+		int[] tzk_useTime = new int[4];        //投资科已用时间
+		int[] tzk_balance_Time = new int[4];   //投资科剩余时间
+		int[] tzk_addTime = new int[4];        //投资科追加时间
+		int[] tzk_psEnd_useTime = new int[4];  //投资科评审结束后所用时间
+
+		//当前时间
+		Date currentTime = new Date();
+		//投资科审核总时间
+		int[] auditTime_TZK_List = {auditTime_TZK,0,0,0};
+		//评审中心审核总时间
+		int[] auditTime_PSZX_List = {auditTime_PSZX,0,0,0};
+
+		//获取时间段工作日,工作日管理时间，调休或者加班或节假日
+		Calendar cl = Calendar.getInstance();
+		cl.setTime(signinTaskTime);
+		cl.add(Calendar.MONTH, 2);
+		//查询工作日从签收时间开始，截止到两个月。
+		List<Map<String, String>> workDayList = getWorkDay(signinTaskTime, cl.getTime());
+
+		//投资科是否签收申报信息
+		if(is_TZK_Signin_Task){
+			//是否提交评审中
+			if(is_PSZX_Task){
+				//评审中心是否评审完毕
+				if(is_PSZX_Audit_OK){
+					//评审中心评审时间
+					pszx_useTime  = WorkDayUtil.getUseWorkDayTime(submitTaskTime,endTaskTime,workDayList.get(0),workDayList.get(1),upHour,downHour);
+					//获取投资科从签收到提交评审中所用时间
+					tzk_useTime = WorkDayUtil.getUseWorkDayTime(signinTaskTime,submitTaskTime,workDayList.get(0),workDayList.get(1),upHour,downHour);
+					//获取投资科在评审中心评审完毕后所用时间
+					tzk_psEnd_useTime = WorkDayUtil.getUseWorkDayTime(endTaskTime,currentTime,workDayList.get(0),workDayList.get(1),upHour,downHour);
+					//获取评审未用完的时间追加给投资科
+					tzk_addTime = WorkDayUtil.getDiffWorkDay(pszx_useTime,auditTime_PSZX_List,downHour-upHour);
+				// 评审中心未评审完毕
+				}else{
+					//评审中心已用评审时间
+					pszx_useTime  = WorkDayUtil.getUseWorkDayTime(submitTaskTime,currentTime,workDayList.get(0),workDayList.get(1),upHour,downHour);
+					//计算投资科已使用时间
+					tzk_useTime = WorkDayUtil.getUseWorkDayTime(signinTaskTime,submitTaskTime,workDayList.get(0),workDayList.get(1),upHour,downHour);
+				}
+			}else{
+				//计算投资科已使用时间
+				tzk_useTime = WorkDayUtil.getUseWorkDayTime(signinTaskTime,currentTime,workDayList.get(0),workDayList.get(1),upHour,downHour);
+			}
+		//未签收
+		}else{
+			//计算投资科已使用时间
+			tzk_useTime = WorkDayUtil.getUseWorkDayTime(signinTaskTime,currentTime,workDayList.get(0),workDayList.get(1),upHour,downHour);
+		}
+
+		//投资科剩余审核时间   = (审核总时间+评审未用完时间) - (提交评审中心所用时间+评审结束后所用时间)
+		int[] auditTime_TZK_Balance_List = WorkDayUtil.getAddWorkDay(auditTime_TZK_List,tzk_addTime,downHour-upHour); //审核总时间+评审未用完时间
+		tzk_useTime = WorkDayUtil.getAddWorkDay(tzk_useTime,tzk_psEnd_useTime,downHour-upHour); //提交评审中心所用时间+评审结束后所用时间
+		tzk_balance_Time =  WorkDayUtil.getDiffWorkDay(tzk_useTime,auditTime_TZK_Balance_List,downHour-upHour);
+
+		//评审剩余评审时间   =  评审总时间 - 评审所用时间
+		pszx_balance_Time = WorkDayUtil.getDiffWorkDay(pszx_useTime,auditTime_PSZX_List,downHour-upHour);
+
+		//评审中心评审完毕
+		if(is_PSZX_Audit_OK){
+			//重置评审剩余时间
+			pszx_balance_Time = new int[]{0,0,0,0};
+		}
+
+		List<int[]> result = new ArrayList<int[]>();
+		result.add(tzk_balance_Time);
+		result.add(pszx_balance_Time);
+		return result;
+	}
+
+	/**
+	 * 根据流程id 和 任务 id查询act_ru_task 表任务信息
+	 * @param processId  流程id
+	 * @param taskId     任务id
+	 * @return
+	 */
+	private Task findTaskForAuditTimeByProcessIdAndTaskId(String processId,String taskId){
+		List<Task> taskList =  taskService.createTaskQuery().processInstanceId(processId).processDefinitionKey(taskId).orderByTaskCreateTime().desc().list();
+		Task  task = null;
+		if(!taskList.isEmpty() && taskList.size() > 0){
+			 task = taskList.get(0);
+		}
+		return task;
+	}
+
+	/**
+	 * 根据流程id 和 任务 id查询act_hi_taskinst表历史信息
+	 * @param processId
+	 * @param taskId
+	 * @return
+	 */
+	private HistoricTaskInstance findHistroyForAuditTimeByProcessIdAndTaskId(String processId,String taskId){
+		List<HistoricTaskInstance>  historicTaskInstanceList =  historyService
+				.createHistoricTaskInstanceQuery()
+				.processInstanceId(processId).taskId(taskId).orderByHistoricTaskInstanceEndTime().desc().list();
+		HistoricTaskInstance historictaskinstance = null;
+		if(!historicTaskInstanceList.isEmpty() && historicTaskInstanceList.size() > 0){
+			historictaskinstance = historicTaskInstanceList.get(0);
+		}
+		return historictaskinstance;
+	}
+
+	/**
+	 * 获取指定时间段 节假日或者特殊加班日期
+	 * @param startDate 开始日期
+	 * @param endDate   结束日期
+	 * @return
+	 */
+	private List<Map<String,String>> getWorkDay(Date startDate,Date endDate) throws Exception{
+		List<Map<String,String>> List = new ArrayList<Map<String,String>>();
+		Map<String,String> sleepMaps = new HashMap<String,String>();
+		Map<String,String> workMaps = new HashMap<String,String>();
+		//格式化日期
+		String start = WorkDayUtil.getFormatDateTime("yyyy-MM-dd",startDate);
+		String end = WorkDayUtil.getFormatDateTime("yyyy-MM-dd",endDate);
+		List<Workday> workdayList =  workdayrepo.findWorkDay(start,end);
+		if(!workdayList.isEmpty() && workdayList.size()>0){
+			for (Workday workday : workdayList){
+				String status = workday.getStatus();
+				String date = WorkDayUtil.getFormatDateTime("yyyy-MM-dd",workday.getDates());
+				if(status.equals("1")){
+					sleepMaps.put(date,null);
+				}else if(status.equals("2")){
+					workMaps.put(date,null);
+				}
+			}
+		}
+		List.add(sleepMaps);
+		List.add(workMaps);
+		return List;
+	}
+
 
 	@Override
 	public List<ShenBaoInfoDto> findYearPlanRunByOdata(ODataObjNew odata, boolean isPerson) {

@@ -943,7 +943,7 @@
                     field: "title",
                     title: "标题",
                     filterable: true,
-                    width: 400,
+                    width: 300,
                     template: function (item) {
                         return common.format("<a class='text-primary' href='#/task/handle_audit/{1}'>{0}</a>", item.projectName, item.id);
                     }
@@ -1015,6 +1015,22 @@
                         return kendo.toString(new Date(item.createdDate), "yyyy/MM/dd HH:mm:ss");
                     }
 
+                },
+                {
+                    field: "title",
+                    title: "投资科剩余时间",
+                    width: 100,
+                    template: function (item) {
+                        return item.tzkBalanceTime;
+                    }
+                },
+                {
+                    field: "title",
+                    title: "评审剩余时间",
+                    width: 100,
+                    template: function (item) {
+                        return item.pxzxBalanceTime;
+                    }
                 }
 
             ];
