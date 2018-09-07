@@ -1,6 +1,5 @@
 package cs.controller.codingPlatform;
 
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,7 +26,7 @@ public class CodingPlatformController {
 	@Autowired 
 	protected CodingPlatformService codingPlatformService;
 	
-	@RequestMapping(value = "/getAccessToken", method = RequestMethod.GET)
+	@RequestMapping(name="获取token", path = "/getAccessToken", method = RequestMethod.GET)
 	@ResponseBody
 	public void getAccessToken(HttpServletRequest request) {
 		codingPlatformService.getAccessToken();
@@ -40,7 +39,8 @@ public class CodingPlatformController {
 	 * @param pageIndex 页码
 	 * @return
 	 */
-	@RequestMapping(value = "/getShenBaoInfoAll", method = RequestMethod.GET)
+//	@RequiresPermissions("coding#getShenBaoInfoAll#get")
+	@RequestMapping(name="根据日期和页码查询所有并更新", path = "/getShenBaoInfoAll", method = RequestMethod.GET)
 	@ResponseBody
 	public void getShenBaoInfoAll(HttpServletRequest request,@RequestParam(required = true) String todaytime,@RequestParam(required = true) String pageIndex) {
 		String str = null;
@@ -59,20 +59,19 @@ public class CodingPlatformController {
 		
 	}
 	
-	@RequestMapping(value = "/getShenBaoInfoOne", method = RequestMethod.GET)
+//	@RequiresPermissions("coding#getShenBaoInfoOne#get")
+	@RequestMapping(name="根据日期和页码查询并更新", path = "/getShenBaoInfoOne", method = RequestMethod.GET)
 	@ResponseBody
 	public void getShenBaoInfoOne(HttpServletRequest request,@RequestParam(required = true) String todaytime,@RequestParam(required = true) String pageIndex) {
 		codingPlatformService.getShenBaoInfoFromCoding(todaytime,pageIndex);
 	}
 	
-	@SuppressWarnings("deprecation")
-//	@Scheduled(cron="0 0 1/6 * * ? ")
+	@Scheduled(cron="0 0 1/6 * * ? ")
 	public void scheduled() {
 		//<0/5 * * * * ? >每5秒
 		//<0 0 1/6 * * ? >每6小时
 		logger.info("=========>:定时任务开始");
 		String pageIndex = "1";
-		Date d = new Date();
 		String todaytime = DateUtil.getYear()+"-"+DateUtil.getMonth()+"-"+DateUtil.getDay();
 		System.out.println(todaytime);
 		String str = null;

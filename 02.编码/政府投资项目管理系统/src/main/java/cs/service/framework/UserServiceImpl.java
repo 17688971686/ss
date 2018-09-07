@@ -132,7 +132,7 @@ public class UserServiceImpl implements UserService {
                 user.setModifiedBy(currentUser.getUserId());
                 user.setPassword(userDto.getPassword());
                 user.setCreatedDate(new Date());
-                
+                System.out.println("===========新增");
             	for (RoleDto role : roleList) {
 					if(role.getRoleName().equals("建设单位")){
 						userDto.getRoles().add(role);
@@ -152,7 +152,7 @@ public class UserServiceImpl implements UserService {
                     findUser.setModifiedBy(currentUser.getUserId());
                     findUser.setPassword(userDto.getPassword());
                     findUser.setModifiedDate(new Date());
-                    
+                    System.out.println("==========更新");
                     userRepo.save(findUser);
                     // 创建候选人
                     logger.info(String.format("更新用户,用户名:%s", userDto.getLoginName()));

@@ -8,9 +8,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.apache.log4j.Logger;
 import org.apache.shiro.util.CollectionUtils;
 import org.hibernate.criterion.Criterion;
@@ -116,6 +113,8 @@ public class CodingPlatformServiceImpl extends AbstractServiceImpl<CodingProject
 		// 创建JSON解析器
         JsonParser parser = new JsonParser(); 
 		try {
+			if(str != ""){
+			
 			JsonObject object = (JsonObject) parser.parse(str);
 			
 			if(object.get("resultCode").getAsInt() == 1){
@@ -165,12 +164,15 @@ public class CodingPlatformServiceImpl extends AbstractServiceImpl<CodingProject
 				
 				
 			}
+			}
 			
 		} catch (Exception e){
 			 e.printStackTrace();
 		}finally {
 			logger.info("賦碼對接結束");
 		}
+		
+		
 	}
 
 	@Override
