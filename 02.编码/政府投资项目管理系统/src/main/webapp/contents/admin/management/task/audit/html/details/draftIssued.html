@@ -80,9 +80,10 @@
 					<a href="/contents/upload/{{y.url}}" target="_blank"
 						ng-bind="y.name"></a>
 					<!-- <button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenpi($index)">删除</button> -->
-					<a class="btn btn-xs btn-success"
+					<!-- <a class="btn btn-xs btn-success"
 						href="/management/word/html/online?attachId={{y.id}}"
-						target="_blank">编辑正文</a>
+						target="_blank">编辑正文</a> -->
+						<iframe ng-src="{{'/management/word/html/online?attachId='+y.id}}" width="100%" height="600px" id="wordOnlineIframe"></iframe>
 				</div>
 			</td>
 		</tr>

@@ -230,9 +230,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
                 project.setIsPlanReach(true);
                 projectRepo.save(project);
             }
-            if (entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)) {
-                entity.setIsPlanReach(true);
-            }
         }
         //处理关联信息
         dto.getAttachmentDtos().forEach(x -> {
@@ -295,17 +292,63 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         handlePiFuFile(entity);
         return entity;
     }
-
-
+    
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@Transactional
+    public Map isRecords(ShenBaoInfoDto dto){
+    	boolean hasBG = false;
+    	double pfMoney = 0.0;
+    	if(dto.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_CBSJGS)){
+    		Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), dto.getProjectId());
+    		List<ShenBaoInfo> entitys = shenbaoInfoRepo.findByCriteria(criterion);
+    		for (ShenBaoInfo shenBaoInfo : entitys) {
+				if(shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_KXXYJBG)
+						&&shenBaoInfo.getProcessState().equals(BasicDataConfig.processState_pass)){
+					pfMoney = shenBaoInfo.getPfProjectInvestSum();
+					hasBG = true;
+					break;
+				}
+			}
+    	}else{
+    		hasBG = true;
+    	}
+		if(dto.getProjectInvestSum()<pfMoney ){
+			dto.setIsRecords(false);
+		}else {
+			dto.setIsRecords(true);
+//			if(dto.getProjectInvestSum()>1.2*pfMoney){
+//				
+//			}
+		}
+    	Map map = new HashMap<>();
+//    	if(hasBG){
+//    		map.put("hasBG", true);
+//    		map.put("pfMoney", pfMoney);
+//          
+//    	}else{
+//    		map.put("hasBG", false);
+//    	}
+    	 return map;
+    }
+    
     /**
      * @param dto           申报信息数据
      * @param isAdminCreate 是否是管理员创建
      * @description 创建申报信息
      */
-    @Override
+    @SuppressWarnings("rawtypes")
+	@Override
     public ShenBaoInfo createShenBaoInfo(ShenBaoInfoDto dto, Boolean isAdminCreate) {
-        // 创建申报数据
-        ShenBaoInfo entity = create(dto, isAdminCreate);
+    	ShenBaoInfo entity = null;
+    
+    	Map map = isRecords(dto);
+    	
+//    	if((boolean) map.get("hasBG")){
+    		 // 创建申报数据
+            entity = create(dto, isAdminCreate);
+//    	}else{
+//    		throw new IllegalArgumentException("未申请可研或可研审批未结束，无法创建概算申请！");
+//    	}
 
         //启动申报审批流程
         if (entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)) {
@@ -542,6 +585,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     @Override
     @Transactional
     public void updateShenBaoInfo(ShenBaoInfoDto dto, Boolean isAdminUpdate) {
+    	Map map = isRecords(dto);
         ShenBaoInfo entity = super.update(dto, dto.getId());
         //处理关联信息
         //附件

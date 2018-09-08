@@ -28,12 +28,32 @@
 			getShenBaoPortState:getShenBaoPortState,//查询申报端口的状态哦
 			getUserUnit:getUserUnit,
 			getHistoryInfo: getHistoryInfo,//查询流转信息
-			reback:reback//撤销申请
+			reback:reback,//撤销申请
+			getShenBaoPortStateForYearPlan:getShenBaoPortStateForYearPlan
 			/*getApprovalAtts : getApprovalAtts,
 			saveApprovalAttDtos : saveApprovalAttDtos*/
 		};		
 		return service;
 		
+		/**
+		 * 概算申请时，查询是否为备案/审批
+		 */
+//		function getRecords(vm){
+//			var httpOptions = {
+//					method : 'get',
+//					url : url_shenbao+"/getRecords"+"?projectShenBaoStage="+vm.projectShenBaoStage+"&"+"id="+vm.id
+//				};
+//				var httpSuccess = function success(response) {
+//					vm.isRecords = response.data || {};
+//				};
+//				common.http({
+//					vm : vm,
+//					$http : $http,
+//					httpOptions : httpOptions,
+//					success : httpSuccess
+//				});
+//		}
+//		
 		   /*
          * 流转信息
          */
@@ -47,7 +67,7 @@
                 vm.taskRecord = response.data;
                 for (var int = 0; int < vm.taskRecord.length; int++) {
                     var array_element = vm.taskRecord[int];
-                    if (array_element.msg.substring(0,2) == "退文") {
+                    if (array_element.msg.substring(0,2) == "退文" || array_element.msg.substring(0,2) == "办结") {
                     	 vm.taskRecord=[];
                     	 vm.taskRecord.push(array_element);
                     	 return;
@@ -250,6 +270,40 @@
 		}
 		
 		/**
+		 * 查询计划下达申报端口状态
+		 */
+		function getShenBaoPortStateForYearPlan(vm){
+			var httpOptions = {
+					method : 'get',
+					url : common.format(url_sysConfig + "?configName={0}", common.basicDataConfig().taskType_yearPlan)
+				};
+			
+			var httpSuccess = function success(response) {
+				vm.sysConfing = response.data;
+				if(vm.sysConfing.enable){
+					location.href = "#/shenbao/" + vm.projectId + "/"
+					+ vm.projectInvestmentType + "/"
+					+ vm.projectShenBaoStage;//跳转申报信息编辑页面    
+	    		   }else{
+	    			   common.alert({
+							vm : vm,
+							msg : "下一年度计划申报端口未开启，请联系管理员！",
+							fn : function() {
+								$('.alertDialog').modal('hide');
+							}
+						});
+	    		   }
+			};
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
+		
+		/**
 		 * 查询审批附件
 		 * @param id 项目id
 		 *//*
@@ -413,7 +467,15 @@
 					title : "申报阶段",	
 					width : 120,
 					template:function(item){
-						return common.getBasicDataDesc(item.projectShenBaoStage);
+						if(item.projectShenBaoStage==common.basicDataConfig().projectShenBaoStage_CBSJYGS){
+                    		if(item.isRecords){
+                    			return common.getBasicDataDesc(item.projectShenBaoStage)+"--审批";
+	                       	}else{
+	                       		return common.getBasicDataDesc(item.projectShenBaoStage)+"--备案";
+	                       	}
+                    	}else{
+                    		return common.getBasicDataDesc(item.projectShenBaoStage);
+                    	}
 					},
 					filterable : false
 				},
@@ -738,7 +800,6 @@
 				
         		vm.model.constructionUnit = [];//初始化处理建设单位用于申报信息的数据录入
 				getProjectUnit(vm);//获取项目单位信息（用于设置申报单位信息、建设单位信息）
-				
 				if(vm.page=='edit'){//如果为申报信息填写页面
 					vm.model.projectType = common.stringToArray(vm.model.projectType,',');//多选框回显	
 					//日期展示处理
@@ -770,6 +831,7 @@
 					vm.nationalIndustryChange();
 				}
 				vm.planYear = vm.model.planYear;//初始化申报年份（三年滚动）
+				
 			};
 			
 			common.http({

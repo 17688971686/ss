@@ -8,3 +8,4 @@ alter table cs_draftIssued modify column postingCategory varchar(64) ;
 alter table cs_draftIssued modify column mobileName varchar(64) ;
 alter table cs_draftIssued modify column mobilePhone varchar(64) ;
 alter table cs_draftIssued modify column issuedNumber varchar(64) ;
+alter table cs_coding_project modify column DETAILED_ADDRESS varchar(500) ;

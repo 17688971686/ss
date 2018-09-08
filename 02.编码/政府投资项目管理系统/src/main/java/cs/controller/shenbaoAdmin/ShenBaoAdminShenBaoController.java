@@ -4,11 +4,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import cs.common.BasicDataConfig;
-import cs.common.DocUtil;
-import cs.domain.ShenBaoInfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,18 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import cs.common.ICurrentUser;
 import cs.common.ValidationSQLUtil;
-import cs.domain.Attachment;
 import cs.activiti.service.ActivitiService;
 import cs.model.PageModelDto;
-import cs.model.DomainDto.AttachmentDto;
-import cs.model.DomainDto.ProjectDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.UserUnitInfoDto;
-import cs.model.DtoMapper.IMapper;
 import cs.model.framework.UserDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
-import cs.service.interfaces.ProjectService;
 import cs.service.interfaces.ShenBaoInfoService;
 import cs.service.interfaces.UserUnitInfoService;
 
@@ -50,10 +41,6 @@ public class ShenBaoAdminShenBaoController {
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
 	private String processDefinitionKey = "ShenpiReview";
-	@Autowired
-	private ProjectService ProjectService;
-	@Autowired
-	private IMapper<AttachmentDto, Attachment> attachmentMapper;
 	
 	@RequiresPermissions("shenbaoAdmin/shenbao##get")
 	@RequestMapping(name = "获取申报信息", path = "",method=RequestMethod.GET)
@@ -118,6 +105,12 @@ public class ShenBaoAdminShenBaoController {
 		shenBaoInfoService.createShenBaoInfo(shenBaoInfoDto,false);
 
 	}
+	
+//	@RequestMapping(name = "查询是否为备案信息", path = "getRecords",method=RequestMethod.POST)
+//	public Map getRecords(@RequestBody ShenBaoInfoDto shenBaoInfoDto ){
+//		Map map= shenBaoInfoService.isRecords(shenBaoInfoDto);
+//		return map;
+//	}
 	
 	@RequestMapping(name = "启动项目上线申请审批", path = "start",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)

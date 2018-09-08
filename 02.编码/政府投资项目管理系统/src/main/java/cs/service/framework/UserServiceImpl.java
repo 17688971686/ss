@@ -48,6 +48,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleRepo roleRepo;
     @Autowired
+	private RoleService roleService;
+    @Autowired
     private ICurrentUser currentUser;
     @Autowired
     private UserUnitInfoService userUnitInfoService;
@@ -118,6 +120,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     public void createSYSUser(UserDto userDto) {
         User findUser = userRepo.findUserByName(userDto.getLoginName());
+        List<RoleDto> roleList = roleService.Get();
         if (findUser == null) {// 用户不存在
             try {
                 User user = new User();
@@ -128,7 +131,13 @@ public class UserServiceImpl implements UserService {
                 user.setCreatedBy(currentUser.getUserId());
                 user.setModifiedBy(currentUser.getUserId());
                 user.setPassword(userDto.getPassword());
-
+                user.setCreatedDate(new Date());
+                System.out.println("===========新增");
+            	for (RoleDto role : roleList) {
+					if(role.getRoleName().equals("建设单位")){
+						userDto.getRoles().add(role);
+					}
+				}
                 userRepo.save(user);
                 logger.info(String.format("创建用户,登录名:%s", userDto.getLoginName()));
             } catch (Exception e) {
@@ -143,26 +152,9 @@ public class UserServiceImpl implements UserService {
                     findUser.setModifiedBy(currentUser.getUserId());
                     findUser.setPassword(userDto.getPassword());
                     findUser.setModifiedDate(new Date());
-                    // 加入角色
-                    for (RoleDto roleDto : userDto.getRoles()) {
-                        Role role = roleRepo.findById(roleDto.getId());
-                        if (role != null) {
-                            findUser.getRoles().add(role);
-                        }
-                    }
-                    User userResult = userRepo.save(findUser);
+                    System.out.println("==========更新");
+                    userRepo.save(findUser);
                     // 创建候选人
-                    org.activiti.engine.identity.User activityUser = activitiService.createNewUser(userResult.getId());
-                    activityUser.setId(userResult.getId());
-                    activityUser.setFirstName(userResult.getDisplayName());
-                    activityUser.setPassword(userResult.getPassword());
-
-                    // activitiService.createUser(activityUser);
-                    // if(!userResult.getRoles().isEmpty()){
-                    // for (Role role : userResult.getRoles()) {
-                    // activitiService.createUserGroupMembership(userResult.getId(), role.getId());
-                    // }
-                    // }
                     logger.info(String.format("更新用户,用户名:%s", userDto.getLoginName()));
                 } catch (Exception e) {
                     e.printStackTrace();

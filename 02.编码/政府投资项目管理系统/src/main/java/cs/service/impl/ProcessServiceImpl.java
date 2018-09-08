@@ -10,7 +10,6 @@ import com.sn.framework.common.StringUtil;
 import com.sn.framework.odata.OdataFilter;
 import cs.activiti.service.ActivitiService;
 import cs.common.BasicDataConfig;
-import cs.common.DateUtil;
 import cs.common.ICurrentUser;
 import cs.common.Response;
 import cs.common.utils.DateUtils;
@@ -43,6 +42,7 @@ import cs.service.interfaces.ShenBaoInfoService;
 import cs.service.interfaces.UserUnitInfoService;
 import cs.service.sms.SmsService;
 import cs.service.sms.exception.SMSException;
+
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.TaskService;
@@ -62,6 +62,7 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -110,8 +111,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	private UserUnitInfoService userUnitInfoService;
 	@Autowired
 	private IMapper<AttachmentDto, Attachment> attachmentMapper;
-	@Autowired
-	private BasicDataService basicDataService;
 	@Autowired
 	private ProjectService projectService;
 	@Autowired
@@ -704,24 +703,14 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		List<HistoricActivityInstance> hais = historyService.createHistoricActivityInstanceQuery()
 				.processInstanceId(shenBaoInfo.getZong_processId()).activityType("userTask")
 				.orderByHistoricActivityInstanceEndTime().asc().list();
-		List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
-		for (HistoricProcessInstance list1 : lists1) {
-			User user = userRepo.findById(list1.getStartUserId());
-			UserUnitInfoDto userUnitInfoDto1 = null;
-			for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
-				if (!userUnitInfoDto.getUserDtos().isEmpty()) {
-					for (UserDto user1 : userUnitInfoDto.getUserDtos()) {
-						if (user1.getId().equals(user.getId())) {
-							userUnitInfoDto1 = userUnitInfoDto;
-						}
-					}
-				}
 
-			}
+		for (HistoricProcessInstance list1 : lists1) {
+			UserUnitInfoDto userUnitInfo = userUnitInfoService.getByUserId(list1.getStartUserId());
+			User user = userRepo.findById(list1.getStartUserId());
 			Map<String, String> map1 = new HashMap<>();
 
-			if (userUnitInfoDto1 != null) {
-				map1.put("id", userUnitInfoDto1.getUnitName() + ":" + user.getDisplayName());
+			if (userUnitInfo != null) {
+				map1.put("id", userUnitInfo.getUnitName() + ":" + user.getDisplayName());
 			} else {
 				map1.put("id", user.getDisplayName());
 			}
@@ -1158,6 +1147,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已办结");
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_pass);
+			shenBaoInfo.setPfProjectInvestSum(shenbaoinfoDto.getPfProjectInvestSum());
 			shenBaoInfo.setProcessStage("已办结");
 			project.setIsIncludLibrary(true);
 			shenBaoInfo.setComplate(true);

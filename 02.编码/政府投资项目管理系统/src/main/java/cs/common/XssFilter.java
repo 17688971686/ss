@@ -71,8 +71,12 @@ public class XssFilter implements Filter{
                 return ;
             }*/
         }
-
-        chain.doFilter(new XssHttpServletRequestWrapper(req),response);
+		try {
+			 chain.doFilter(new XssHttpServletRequestWrapper(req),response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		       
     }
 
     /**

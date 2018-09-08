@@ -103,4 +103,6 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
     void startProcessShenbao(String processDefinitionKey, String id);
 
     ShenBaoInfoDto getShenBaoInfoDtoById(String shenbaoInfoId);
+
+	Map isRecords(ShenBaoInfoDto dto);
 }

@@ -1,9 +1,8 @@
 package cs.controller.codingPlatform;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import cs.common.ICurrentUser;
-import cs.service.interfaces.CodingPlatformService;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import cs.common.DateUtil;
+import cs.service.interfaces.CodingPlatformService;
 
 
 @Controller
@@ -23,10 +25,8 @@ public class CodingPlatformController {
 	private static Logger logger = Logger.getLogger(CodingPlatformController.class);
 	@Autowired 
 	protected CodingPlatformService codingPlatformService;
-	@Autowired
-	private ICurrentUser currentUser;
 	
-	@RequestMapping(value = "/getAccessToken", method = RequestMethod.GET)
+	@RequestMapping(name="获取token", path = "/getAccessToken", method = RequestMethod.GET)
 	@ResponseBody
 	public void getAccessToken(HttpServletRequest request) {
 		codingPlatformService.getAccessToken();
@@ -39,7 +39,8 @@ public class CodingPlatformController {
 	 * @param pageIndex 页码
 	 * @return
 	 */
-	@RequestMapping(value = "/getShenBaoInfoAll", method = RequestMethod.GET)
+//	@RequiresPermissions("coding#getShenBaoInfoAll#get")
+	@RequestMapping(name="根据日期和页码查询所有并更新", path = "/getShenBaoInfoAll", method = RequestMethod.GET)
 	@ResponseBody
 	public void getShenBaoInfoAll(HttpServletRequest request,@RequestParam(required = true) String todaytime,@RequestParam(required = true) String pageIndex) {
 		String str = null;
@@ -53,26 +54,25 @@ public class CodingPlatformController {
 				codingPlatformService.saveAll(str);
 			}
 		}catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 	}
 	
-	@RequestMapping(value = "/getShenBaoInfoOne", method = RequestMethod.GET)
+//	@RequiresPermissions("coding#getShenBaoInfoOne#get")
+	@RequestMapping(name="根据日期和页码查询并更新", path = "/getShenBaoInfoOne", method = RequestMethod.GET)
 	@ResponseBody
 	public void getShenBaoInfoOne(HttpServletRequest request,@RequestParam(required = true) String todaytime,@RequestParam(required = true) String pageIndex) {
 		codingPlatformService.getShenBaoInfoFromCoding(todaytime,pageIndex);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Scheduled(cron="0 0 1/6 * * ? ")
 	public void scheduled() {
 		//<0/5 * * * * ? >每5秒
 		//<0 0 1/6 * * ? >每6小时
 		logger.info("=========>:定时任务开始");
 		String pageIndex = "1";
-		Date d = new Date();
-		String todaytime = String.valueOf(d.getYear())+"-"+String.valueOf(d.getMonth())+"-"+String.valueOf(d.getDay());
+		String todaytime = DateUtil.getYear()+"-"+DateUtil.getMonth()+"-"+DateUtil.getDay();
 		System.out.println(todaytime);
 		String str = null;
 		str = codingPlatformService.getShenBaoInfoFromCoding(todaytime,pageIndex);

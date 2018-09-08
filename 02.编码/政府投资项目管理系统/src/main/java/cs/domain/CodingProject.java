@@ -24,7 +24,7 @@ public class CodingProject extends BaseEntity{
 	@Column(columnDefinition="varchar(32) NULL COMMENT '项目名称'")
 	private String APPLY_YEAR;
 	
-	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '总投资'")
+	@Column(columnDefinition="double(11,2) DEFAULT 0 COMMENT '总投资'")
 	private Double TOTAL_INVEST=0.0;
 	
 	@Column(columnDefinition="varchar(128) NULL COMMENT '项目建设区代码地址'")
@@ -36,7 +36,7 @@ public class CodingProject extends BaseEntity{
 	@Column(columnDefinition="varchar(32) NULL COMMENT '项目建设类型'")
 	private String P_BUILD_TYPE;
 	
-	@Column(columnDefinition="varchar(128) NULL COMMENT '项目建设详细地址'")
+	@Column(columnDefinition="varchar(500) NULL COMMENT '项目建设详细地址'")
 	private String DETAILED_ADDRESS;
 	
 	@Column(columnDefinition="varchar(32) NULL COMMENT '国标行业（中文）'")

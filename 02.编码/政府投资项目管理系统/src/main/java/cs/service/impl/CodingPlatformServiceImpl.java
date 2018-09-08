@@ -8,10 +8,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.apache.log4j.Logger;
+import org.apache.shiro.util.CollectionUtils;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,6 +113,8 @@ public class CodingPlatformServiceImpl extends AbstractServiceImpl<CodingProject
 		// 创建JSON解析器
         JsonParser parser = new JsonParser(); 
 		try {
+			if(str != ""){
+			
 			JsonObject object = (JsonObject) parser.parse(str);
 			
 			if(object.get("resultCode").getAsInt() == 1){
@@ -131,7 +131,7 @@ public class CodingPlatformServiceImpl extends AbstractServiceImpl<CodingProject
 						List<Project> projects = projectRepo.findByCriteria(criterion);
 						
 						//如果有，更新項目編碼
-						if(!projects.isEmpty()){
+						if(!CollectionUtils.isEmpty(projects)){
 							for (Project project : projects) {
 								if(subObject.get("COUNTRY_CODE").getAsString() != ""){
 									project.setProjectNumber(subObject.get("COUNTRY_CODE").getAsString());
@@ -151,7 +151,7 @@ public class CodingPlatformServiceImpl extends AbstractServiceImpl<CodingProject
 						//保存赋码项目
 						Criterion criterion2 = Restrictions.eq(CodingProject_.COUNTRY_CODE.getName(),subObject.get("COUNTRY_CODE").getAsString());
 						List<CodingProject> codingProjects = codingProjectRepo.findByCriteria(criterion2);
-						if(!codingProjects.isEmpty()){
+						if(!CollectionUtils.isEmpty(codingProjects)){
 							CodingProjectDto cpDto = JSON.parseObject(subObject.toString(),CodingProjectDto.class);
 							super.update(cpDto, codingProjects.get(0).getId());
 						}else{
@@ -164,12 +164,15 @@ public class CodingPlatformServiceImpl extends AbstractServiceImpl<CodingProject
 				
 				
 			}
+			}
 			
 		} catch (Exception e){
 			 e.printStackTrace();
 		}finally {
 			logger.info("賦碼對接結束");
 		}
+		
+		
 	}
 
 	@Override

@@ -474,9 +474,15 @@
 			vm.confirm = function() {
 				$('#myModal').modal('hide');
 				$(".modal-backdrop").remove(); //去掉模态框背面的阴影
-				location.href = "#/shenbao/" + vm.projectId + "/"
-						+ vm.projectInvestmentType + "/"
-						+ vm.projectShenBaoStage;//跳转申报信息编辑页面       
+				
+				if(vm.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){
+					shenbaoSvc.getShenBaoPortStateForYearPlan(vm);
+				}else{
+					location.href = "#/shenbao/" + vm.projectId + "/"
+					+ vm.projectInvestmentType + "/"
+					+ vm.projectShenBaoStage;//跳转申报信息编辑页面    
+				}
+				
 			};
 			//点击列表中的申报记录按钮
 			vm.checkShenBaoRecords = function(id) {
@@ -512,6 +518,7 @@
 		}//end#page_list
 
 		function page_edit() {
+			
 			//页面初始化
 			var init_page = function() {
 				vm.isProjectProposal = vm.stage == common.basicDataConfig().projectShenBaoStage_projectProposal;//申报阶段为:项目建议书
