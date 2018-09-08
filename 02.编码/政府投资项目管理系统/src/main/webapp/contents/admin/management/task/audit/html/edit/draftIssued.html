@@ -1,35 +1,35 @@
-<form id="formDraft" name="form">
-	<div class="page-header" style="text-align: center;">
-	<h1>深圳市光明新区发展和财政局（文件稿纸）</h1>
-	</div>
-	<table class="table table-bordered table-striped ">
-		<tr>
-			<td class="formAlignRight" style="width:150px;">项目名称：</td>
-			<td>
-				<span ng-bind="vm.draft.projectName"></span>
-			</td>
-			<td class="formAlignRight" style="width:150px;">发文字号：</td>
-				<td>
-				<input type="text" class="form-control input-sm" id="issuedNumber" name="issuedNumber" ng-model="vm.draft.issuedNumber"/>
-			</td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">申报单位：</td>
-			<td>
-				<span ng-bind="vm.draft.unitName"></span>
-			</td>
-			<td class="formAlignRight">拟稿单位拟稿人：</td>
-			<td>
-				<span ng-bind="vm.userNameAndUnitName"></span>
-			</td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">总投资：</td>
-			<td>
-				<span ng-bind="vm.draft.capitalTotal"></span>&nbsp;（万元）
-			</td>
-			<td class="formAlignRight">公开类型：<span class="required">(*)</span></td>
-			<td colspan="3">
+<form id="formDraft" name="form" class="clearfix" autofocus="autofocus">
+    <div ng-repeat="y in vm.attachmentDtos" ng-if="y.type == 'zhengwenFile'" style="width: 60%;float:left;">
+        <!--<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name" ng-click=""></a>-->
+        <iframe style="height: 810px;border:none;"
+                ng-src="{{'/management/word/html/online?attachId='+y.id+'&edit='+vm.isEditDraft}}" width="100%"
+                id="wordOnlineIframe"></iframe>
+    </div>
+    <div class="form-info" style="margin-left:61%;">
+        <div class="input-group">
+            <span class="input-group-addon">发文字号</span>
+            <span class="form-control" ng-bind="vm.draft.projectName"></span>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">发文字号</span>
+            <input type="text" class="form-control input-sm" id="issuedNumber" name="issuedNumber"
+                   ng-model="vm.draft.issuedNumber"/>
+        </div>
+        <div class="input-group no_edit">
+            <span class="input-group-addon">申报单位</span>
+            <span class="form-control" ng-bind="vm.draft.unitName"></span>
+        </div>
+        <div class="input-group no_edit">
+            <span class="input-group-addon">拟稿单位拟稿人</span>
+            <span class="form-control" ng-bind="vm.userNameAndUnitName"></span>
+        </div>
+        <div class="input-group no_edit">
+            <span class="input-group-addon">总投资</span>
+            <span class="form-control">{{vm.draft.capitalTotal}}&nbsp;（万元）</span>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">公开类型</span>
+            <span class="form-control">
 				<label ng-repeat="x in vm.basicData.openType">
 					 <input type="radio" name="openType" value="{{x.id}}" ng-model="vm.draft.openType" ng-checked="x.id == vm.draft.openType" data-val="true" data-val-required="必选"/>{{x.description}}&nbsp;&nbsp;
 				</label>

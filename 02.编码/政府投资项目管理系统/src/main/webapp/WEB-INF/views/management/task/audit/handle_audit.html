@@ -1,4 +1,26 @@
-
+<style>
+	.input-group .input-group-addon{
+		background-color: #eeeeee;
+		min-width:125px;
+	}
+	.input-group{
+		margin-bottom: 10px;
+	}
+	.form-info-title{
+		border-bottom: 1px solid #337ab7;
+		text-align: center;
+		margin-bottom: 15px;
+		padding-bottom: 10px;
+		white-space:nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		margin-top: 0;
+	}
+	.no_edit .form-control{
+		background-color: #eee;
+		cursor: not-allowed;
+	}
+</style>
 <div class="well well-sm" style="background: white; overflow: auto">
 	<ol class="breadcrumb">
 		<li style="color: #0b8d39; padding-left: 15px;">当前位置：</li>
@@ -133,21 +155,6 @@
 				</td>
 			</tr>
 		</table>
-
-		<!-- <div class="bg-info text-info" style="padding: 10px;">相关附件</div>
-		<table class="table table-bordered table-striped">
-			<tr>
-				<td class="formAlignRight" style="width:150px;">审批相关附件：</td>
-				<td>
-					<div>
-				        <div style="margin:3px;" ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos" ng-if="y.type == 'shenpiFile'">
-				 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
-			 			</div>
-					</div>
-				</td>
-			</tr>
-		</table> -->
-		
 		 <div class="bg-info text-info" style="padding: 10px;"
 			ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask16'">项目批复信息</div>
 		<table class="table table-bordered table-striped " ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask3'  || vm.model.shenBaoInfo.thisTaskName == 'usertask23' 
@@ -668,36 +675,28 @@
 <!-- /.modal -->
 
 <!-- 发文拟稿模态框 -->
-<div id="draft_issued" class="draft_issued modal fade" tabindex="-1"
-	role="dialog">
-	<div class="modal-dialog"
-		style="margin: 80px auto; width: 80%; max-width: 1000px;">
+<div id="draft_issued" class="draft_issued modal fade" tabindex="-1" style="height: 100%;overflow-y: hidden;z-index: 9999">
+	<div class="modal-dialog" style="width: 80%;position: absolute;left: 50%;top: 50%;transform:translate(-50%,-50%);margin: 0;">
 		<div class="modal-content">
-			<div class="modal-header bg-primary">
-				<button type="button" class="close" data-dismiss="modal"
-					aria-label="Close">
+			<div class="modal-header bg-primary" style="padding: 8px;">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<span class="modal-title">发文拟稿信息</span>
+				<span class="modal-title">深圳市光明新区发展和财政局（文件稿纸）</span>
 			</div>
-			<div class="modal-body">
+			<div class="modal-body clearfix" style="padding-bottom: 0;">
 				<div ng-if="vm.isEditDraft" ng-include
 					src="'/contents/admin/management/task/audit/html/edit/draftIssued.html'"></div>
 				<div ng-if="vm.isLookDraft" ng-include
 					src="'/contents/admin/management/task/audit/html/details/draftIssued.html'"></div>
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-primary"
-					ng-click="vm.saveDraft()">保存</button>
+			<div class="modal-footer" style="padding: 8px;">
+				<button type="button" class="btn btn-primary" ng-click="vm.saveDraft()">保存</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-
 			</div>
 		</div>
-		<!-- /.modal-content -->
 	</div>
-	<!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
 
 <!-- 评审报批单模态框 -->
 <div id="approval" class="approval modal fade" tabindex="-1"
