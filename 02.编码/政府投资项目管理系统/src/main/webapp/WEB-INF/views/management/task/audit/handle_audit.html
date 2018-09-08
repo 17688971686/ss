@@ -675,28 +675,7 @@
 <!-- /.modal -->
 
 <!-- 发文拟稿模态框 -->
-<div id="draft_issued" class="draft_issued modal fade" tabindex="-1" style="height: 100%;overflow-y: hidden;z-index: 9999">
-	<div class="modal-dialog" style="width: 80%;position: absolute;left: 50%;top: 50%;transform:translate(-50%,-50%);margin: 0;">
-		<div class="modal-content">
-			<div class="modal-header bg-primary" style="padding: 8px;">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<span class="modal-title">深圳市光明新区发展和财政局（文件稿纸）</span>
-			</div>
-			<div class="modal-body clearfix" style="padding-bottom: 0;">
-				<div ng-if="vm.isEditDraft" ng-include
-					src="'/contents/admin/management/task/audit/html/edit/draftIssued.html'"></div>
-				<div ng-if="vm.isLookDraft" ng-include
-					src="'/contents/admin/management/task/audit/html/details/draftIssued.html'"></div>
-			</div>
-			<div class="modal-footer" style="padding: 8px;">
-				<button type="button" class="btn btn-primary" ng-click="vm.saveDraft()">保存</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-			</div>
-		</div>
-	</div>
-</div>
+<#include "draftIssuedCommon.html"/>
 
 <!-- 评审报批单模态框 -->
 <div id="approval" class="approval modal fade" tabindex="-1"

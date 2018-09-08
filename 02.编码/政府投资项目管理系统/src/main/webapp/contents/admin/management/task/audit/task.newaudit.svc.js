@@ -348,14 +348,9 @@
                         vm: vm,
                         response: response,
                         fn: function () {
-                            common.alert({
-                                vm: vm,
-                                msg: "保存成功！",
-                                fn: function () {
-                                    $('.alertDialog').modal('hide');
-                                    $('#draft_issued').modal('hide');
-                                }
-                            });
+                            alert('保存成功');
+                            $('.alertDialog').modal('hide');
+                            $('#draft_issued').modal('hide');
                         }
                     });
                 };
