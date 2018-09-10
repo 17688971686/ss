@@ -31,109 +31,82 @@
             <span class="input-group-addon">公开类型</span>
             <span class="form-control">
 				<label ng-repeat="x in vm.basicData.openType">
-					 <input type="radio" name="openType" value="{{x.id}}" ng-model="vm.draft.openType" ng-checked="x.id == vm.draft.openType" data-val="true" data-val-required="必选"/>{{x.description}}&nbsp;&nbsp;
-				</label>
-				<span data-valmsg-for="openType" data-valmsg-replace="true" class="required"></span>
-			</td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">文件缓急：<span class="required">(*)</span></td>
-			<td >
-				<select class="form-control input-sm" style="width:200px;" id="fileSet" name="fileSet" ng-model="vm.draft.fileSet" data-val="true" data-val-required="必选">
-				  	<option value="">---请选择---</option>
-					<option ng-repeat="y in vm.basicData.fileSet" value="{{y.id}}">{{y.description}}</option>
-				</select>
-				<span data-valmsg-for="fileSet" data-valmsg-replace="true" class="required"></span>
-			</td>
-			<td class="formAlignRight">文件种类：<span class="required">(*)</span></td>
-			<td >
-				<select class="form-control input-sm" style="width:200px;" id="documentType" name="documentType" ng-model="vm.draft.documentType" data-val="true" data-val-required="必选">
-				  	<option value="">---请选择---</option>
-					<option ng-repeat="y in vm.basicData.documentType" value="{{y.id}}">{{y.description}}</option>
-				</select>
-				<span data-valmsg-for="documentType" data-valmsg-replace="true" class="required"></span>
-			</td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">联系人：</td>
-			<td >
-				<input type="text" class="form-control input-sm" id="mobileName" name="mobileName" ng-model="vm.draft.mobileName"/>
-			</td>
-			<td class="formAlignRight">联系电话：</td>
-			<td >
-				<input type="text" class="form-control input-sm" id="mobilePhone" name="mobilePhone" ng-model="vm.draft.mobilePhone"/>
-			</td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">拟稿时间：<span class="required">(*)</span></td>
-			<td >
-				<input type="text" id="draftDate" name="draftDate" onkeydown="return false;"
-				 ng-model="vm.draft.draftDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>	
-				 <span data-valmsg-for="draftDate" data-valmsg-replace="true" class="required"></span>	 						
-			</td>
-			<td class="formAlignRight">秘密等级：<span class="required">(*)</span></td>
-			<td >
-				<select class="form-control input-sm" style="width:200px;" id="hecretHierarchy" name="hecretHierarchy" ng-model="vm.draft.hecretHierarchy" data-val="true" data-val-required="必选">
-				  	<option value="">---请选择---</option>
-					<option ng-repeat="y in vm.basicData.hecretHierarchy" value="{{y.id}}">{{y.description}}</option>
-				</select>
-				<span data-valmsg-for="hecretHierarchy" data-valmsg-replace="true" class="required"></span>
-			</td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">发行范围：</td>
-			<td colspan="3">
-				<input type="text" class="form-control input-sm" id="scope" name="scope" ng-model="vm.draft.scope"/>
-			</td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">标题：<span class="required">(*)</span></td>
-			<td colspan="3">
-				<input type="text" class="form-control input-sm" id="title" name="title" ng-model="vm.draft.title" data-val="true" data-val-required="必填"/>
-				<span data-valmsg-for="title" data-valmsg-replace="true" class="required"></span>
-			</td>
-		</tr>
-		<!--<tr>
-			<td class="formAlignRight">正文编辑：<span class="required">(*)</span></td>
-			<td colspan="3">
-                <a class="btn btn-success btn-sm" href="/management/word/html/online?attachId='vm.attachId'" target="_blank">编辑正文</a>
-            </td>
-        </tr>-->
-        <tr>
-            <td class="formAlignRight">备注：<span class="required">(*)</span></td>
-            <td colspan="3">
-                <textarea class="form-control" id="keyWord"
-                            name="keyWord" maxlength="255" rows="3"
-                            ng-model="vm.draft.keyWord" placeholder="注：255字符以内">
-                        </textarea>
-            </td>
-        </tr>
-		<tr>
-			<td class="formAlignRight">正文：</td>
-			<td colspan="3">
-				<!-- <a class="btn btn-success btn-xs" href="/contents/admin/management/task/audit/html/edit/edit_dj.html" target="_blank">编辑正文</a>
-				 --><!-- <div class="uploadBox pull-left" data-type="zhengwenFile">
-				 	<input type="file" name="files" kendo-upload k-options="vm.uploadOptions_shenpi"/>
-		        </div> -->
-				<div style="margin:3px;" ng-repeat="y in vm.attachmentDtos" ng-if="y.type == 'zhengwenFile'">
-		 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name" ng-click=""></a>
-					<!-- <button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenpi($index)">删除</button> -->
-					<a class="btn btn-xs btn-success" href="/management/word/html/online?attachId={{y.id}}" target="_blank">编辑正文</a>
-	 			</div>
-			</td>
-		</tr>
-		<tr>
-			<td class="formAlignRight">相关附件：</td>
-			<td colspan="3">
-				<div class="uploadBox pull-left" data-type="fawemFile">
-				 	<input type="file" name="files" kendo-upload k-options="vm.uploadOptions_shenpi"/>
-		        </div>
-				<div style="margin:3px;" ng-repeat="y in vm.attachmentDtos" ng-if="y.type == 'fawemFile'">
-		 			<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
-					<button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenpi($index)">删除</button>
-	 			</div>
-			</td>
-		</tr>
-		
-	</table>
+                    <input type="radio" name="openType" value="{{x.id}}" ng-model="vm.draft.openType"
+                           ng-checked="x.id == vm.draft.openType" data-val="true" data-val-required="必选"/>
+                    <span style="margin-right: 8px;">{{x.description}}</span>
+			    </label>
+			    <span data-valmsg-for="openType" data-valmsg-replace="true" class="required"></span>
+			</span>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">文件缓急</span>
+            <select class="form-control input-sm" id="fileSet" name="fileSet" ng-model="vm.draft.fileSet"
+                    data-val="true" data-val-required="必选">
+                <option value="">-&#45;&#45;请选择-&#45;&#45;</option>
+                <option ng-repeat="y in vm.basicData.fileSet" value="{{y.id}}">{{y.description}}</option>
+            </select>
+            <span data-valmsg-for="fileSet" data-valmsg-replace="true" class="required"></span>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">文件种类</span>
+            <select class="form-control input-sm" id="documentType" name="documentType" ng-model="vm.draft.documentType"
+                    data-val="true" data-val-required="必选">
+                <option value="">-&#45;&#45;请选择-&#45;&#45;</option>
+                <option ng-repeat="y in vm.basicData.documentType" value="{{y.id}}">{{y.description}}</option>
+            </select>
+            <span data-valmsg-for="documentType" data-valmsg-replace="true" class="required"></span>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">联系人</span>
+            <input type="text" class="form-control input-sm" name="mobileName" ng-model="vm.draft.mobileName"/>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">联系电话</span>
+            <input type="text" class="form-control input-sm" name="mobilePhone" ng-model="vm.draft.mobilePhone"/>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">拟稿时间</span>
+            <input class="form-control" type="text" id="draftDate" name="draftDate" onkeydown="return false;"
+                   ng-model="vm.draft.draftDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>
+            <span data-valmsg-for="draftDate" data-valmsg-replace="true" class="required"></span>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">秘密等级</span>
+            <select class="form-control input-sm" id="hecretHierarchy" name="hecretHierarchy"
+                    ng-model="vm.draft.hecretHierarchy" data-val="true" data-val-required="必选">
+                <option value="">-&#45;&#45;请选择-&#45;&#45;</option>
+                <option ng-repeat="y in vm.basicData.hecretHierarchy" value="{{y.id}}">{{y.description}}</option>
+            </select>
+            <span data-valmsg-for="hecretHierarchy" data-valmsg-replace="true" class="required"></span>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">发行范围</span>
+            <input type="text" class="form-control input-sm" id="scope" name="scope" ng-model="vm.draft.scope"/>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">标题</span>
+            <input type="text" class="form-control input-sm" id="scope" name="scope" ng-model="vm.draft.scope"/>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">备注</span>
+            <textarea class="form-control" id="keyWord" name="keyWord" maxlength="255" rows="3"
+                      ng-model="vm.draft.keyWord" placeholder="注：255字符以内"></textarea>
+        </div>
+        <div class="input-group" style="display: block;margin-bottom: 10px;">
+            <span class="input-group-addon" style="float: left;height: 30px;">正文下载</span>
+            <a ng-repeat="y in vm.attachmentDtos"
+                 style="display:block;padding: 5px;border:1px solid #ddd;height: 30px;margin-left:125px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
+                 ng-if="y.type == 'zhengwenFile'" href="/contents/upload/{{y.url}}" target="_blank"
+                 ng-bind="y.name"></a>
+        </div>
+        <div class="input-group">
+            <div class="uploadBox pull-left" data-type="fawemFile">
+                <input type="file" name="files" kendo-upload k-options="vm.uploadOptions_shenpi"/>
+            </div>
+            <div style="margin:3px;" ng-repeat="y in vm.attachmentDtos" ng-if="y.type == 'fawemFile'">
+                <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+                <button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenpi($index)">删除</button>
+            </div>
+        </div>
+    </div>
 </form>
