@@ -31,26 +31,7 @@ public class ShenBaoInfoDto extends ShenBaoInfo {
 	private String projectConstrCharDesc;
 	//资金其他来源类型
 	private String capitalOtherTypeDesc;
-	//投资科剩余审核时间
-	private String tzkBalanceTime;
-	//评审中心剩余评审时间
-	private String pxzxBalanceTime;
 
-	public String getTzkBalanceTime() {
-		return tzkBalanceTime;
-	}
-
-	public void setTzkBalanceTime(String tzkBalanceTime) {
-		this.tzkBalanceTime = tzkBalanceTime;
-	}
-
-	public String getPxzxBalanceTime() {
-		return pxzxBalanceTime;
-	}
-
-	public void setPxzxBalanceTime(String pxzxBalanceTime) {
-		this.pxzxBalanceTime = pxzxBalanceTime;
-	}
 
 	private ShenBaoUnitInfoDto bianZhiUnitInfoDto=new ShenBaoUnitInfoDto();
 	private ShenBaoUnitInfoDto shenBaoUnitInfoDto=new ShenBaoUnitInfoDto();

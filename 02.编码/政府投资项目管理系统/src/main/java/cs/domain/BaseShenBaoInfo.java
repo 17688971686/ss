@@ -234,8 +234,30 @@ public class BaseShenBaoInfo extends BaseProject {
     @Column(columnDefinition = "bit(1) DEFAULT b'0' COMMENT '领导是否已阅'")
     private Boolean isLeaderHasRead  = false;//默认为不申请
     //end
-    
-    
+
+    //投资科剩余审核时间
+    @Column(columnDefinition = "varchar(500) NULL COMMENT '投资科剩余审核时间'")
+    private String tzkBalanceTime;
+    //评审中心剩余评审时间
+    @Column(columnDefinition = "varchar(500) NULL COMMENT '评审中心剩余评审时间'")
+    private String pxzxBalanceTime;
+
+    public String getTzkBalanceTime() {
+        return tzkBalanceTime;
+    }
+
+    public void setTzkBalanceTime(String tzkBalanceTime) {
+        this.tzkBalanceTime = tzkBalanceTime;
+    }
+
+    public String getPxzxBalanceTime() {
+        return pxzxBalanceTime;
+    }
+
+    public void setPxzxBalanceTime(String pxzxBalanceTime) {
+        this.pxzxBalanceTime = pxzxBalanceTime;
+    }
+
     public Double getYearInvestApproval() {
         return yearInvestApproval;
     }
