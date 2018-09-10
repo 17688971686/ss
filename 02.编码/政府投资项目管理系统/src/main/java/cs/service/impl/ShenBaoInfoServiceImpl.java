@@ -312,22 +312,20 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     	}else{
     		hasBG = true;
     	}
-		if(dto.getProjectInvestSum()<pfMoney ){
-			dto.setIsRecords(false);
-		}else {
-			dto.setIsRecords(true);
-//			if(dto.getProjectInvestSum()>1.2*pfMoney){
-//				
-//			}
-		}
+		
     	Map map = new HashMap<>();
-//    	if(hasBG){
-//    		map.put("hasBG", true);
-//    		map.put("pfMoney", pfMoney);
-//          
-//    	}else{
-//    		map.put("hasBG", false);
-//    	}
+    	if(hasBG){
+    		map.put("hasBG", true);
+    		map.put("pfMoney", pfMoney);
+    		if(dto.getProjectInvestSum()<pfMoney ){
+    			dto.setIsRecords(false);
+    		}else {
+    			dto.setIsRecords(true);
+    		}
+          
+    	}else{
+    		map.put("hasBG", false);
+    	}
     	 return map;
     }
     
@@ -343,12 +341,12 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     
     	Map map = isRecords(dto);
     	
-//    	if((boolean) map.get("hasBG")){
+    	if((boolean) map.get("hasBG")){
     		 // 创建申报数据
             entity = create(dto, isAdminCreate);
-//    	}else{
-//    		throw new IllegalArgumentException("未申请可研或可研审批未结束，无法创建概算申请！");
-//    	}
+    	}else{
+    		throw new IllegalArgumentException("未申请可研或可研审批未结束，无法创建概算申请！");
+    	}
 
         //启动申报审批流程
         if (entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)) {
