@@ -25,6 +25,7 @@ public abstract class BaseShenBaoInfo_ extends cs.domain.BaseProject_ {
 	public static volatile SingularAttribute<BaseShenBaoInfo, Boolean> isIncludPack;
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> econClassSubjects;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> capitalAP_gtzj_LastYear;
+	public static volatile SingularAttribute<BaseShenBaoInfo, String> pxzxBalanceTime;
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> id;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> capitalSCZ_gtzj_TheYear;
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> projectConstrBasis;
@@ -66,6 +67,7 @@ public abstract class BaseShenBaoInfo_ extends cs.domain.BaseProject_ {
 	public static volatile SingularAttribute<BaseShenBaoInfo, Date> shenbaoDate;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> xdPlanReach_ggys;
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> functionSubjects;
+	public static volatile SingularAttribute<BaseShenBaoInfo, String> tzkBalanceTime;
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> constructionUnit;
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> yearConstructionTask;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> pfProjectInvestSum;
