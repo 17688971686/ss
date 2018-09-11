@@ -731,7 +731,7 @@ angular.module('starter.services', ['ngResource'])
     	  var deferred = $q.defer();
 			  $http({
 		      method: 'GET',
-		      url: APP_CONFIG.host + REQUEST_URL_LIST.url_shenbaoinfo+"?$inlinecount=allpages&$top=10&$orderby=createdDate desc&$filter=(projectShenBaoStage eq 'projectShenBaoStage_7' and processState eq 'processState_2')",
+		      url: APP_CONFIG.host + REQUEST_URL_LIST.url_shenbaoinfo+"?$inlinecount=allpages&$top=10&$orderby=createdDate desc&$filter=(projectShenBaoStage eq 'projectShenBaoStage_7' and processState eq 2 and projectInvestmentType eq 'projectInvestmentType_1')",
 		      timeount: TIMEOUT
 		    }).then(function(res){
 		    	deferred.resolve(res);
