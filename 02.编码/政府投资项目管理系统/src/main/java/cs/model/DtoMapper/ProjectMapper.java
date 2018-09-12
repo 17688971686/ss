@@ -53,7 +53,8 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			projectDto.setUnitName(project.getUnitName());//项目所属单位名称-对应用户单位中的userName
 			projectDto.setIsIncludYearPlan(project.getIsIncludYearPlan());
 			projectDto.setIsPlanReach(project.getIsPlanReach());
-			project.setAlreadyDisbursed(projectDto.getAlreadyDisbursed());
+			projectDto.setAlreadyDisbursed(project.getAlreadyDisbursed());
+			projectDto.setCountryNumber(project.getCountryNumber());
 			//资金来源			
 			projectDto.setCapitalQCZ_gtzj(project.getCapitalQCZ_gtzj());
 			projectDto.setCapitalQCZ_ggys(project.getCapitalQCZ_ggys());
@@ -144,6 +145,8 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setRemark(projectDto.getRemark());
 			project.setIsIncludYearPlan(projectDto.getIsIncludYearPlan());
 			project.setIsPlanReach(projectDto.getIsPlanReach());
+			project.setAlreadyDisbursed(projectDto.getAlreadyDisbursed());
+			project.setCountryNumber(projectDto.getCountryNumber());
 			//资金来源			
 			project.setCapitalQCZ_gtzj(projectDto.getCapitalQCZ_gtzj());
 			project.setCapitalQCZ_ggys(projectDto.getCapitalQCZ_ggys());

@@ -236,10 +236,10 @@ public class BaseShenBaoInfo extends BaseProject {
     //end
 
     //投资科剩余审核时间
-    @Column(columnDefinition = "varchar(500) NULL COMMENT '投资科剩余审核时间'")
+    @Column(columnDefinition = "varchar(64) NULL COMMENT '投资科剩余审核时间'")
     private String tzkBalanceTime;
     //评审中心剩余评审时间
-    @Column(columnDefinition = "varchar(500) NULL COMMENT '评审中心剩余评审时间'")
+    @Column(columnDefinition = "varchar(64) NULL COMMENT '评审中心剩余评审时间'")
     private String pxzxBalanceTime;
 
     public String getTzkBalanceTime() {

@@ -39,11 +39,16 @@
 			</tr>
 			<tr>
 				<td class="formAlignRight">国民经济行业分类：</td>
-				<td><span
+				<td colspan="3"><span
 					ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustryParent)"
 					style="margin-right: 24px;"></span> <span
 					ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustry)"></span>
 				</td>
+				
+			</tr>
+			<tr>
+				<td class="formAlignRight" >国家编码：</td>
+				<td><span ng-bind="vm.model.shenBaoInfo.countryNumber"></span></td> 
 				<td class="formAlignRight" >项目编码：<span class="required">(*)</span></td>
 				<td ng-hide="vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask16'
 				|| vm.model.shenBaoInfo.thisTaskName == 'usertask22' || vm.model.shenBaoInfo.thisTaskName == 'usertask23'" >
@@ -59,6 +64,7 @@
 						ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask16'
 				|| vm.model.shenBaoInfo.thisTaskName == 'usertask22' || vm.model.shenBaoInfo.thisTaskName == 'usertask23'">更新编码</button>
 				</td>
+				
 			</tr>
 			<tr>
 				<td class="formAlignRight">项目建设地址：</td>
