@@ -41,21 +41,21 @@ public class DocUtil {
 //		String diskUrl ="C:\\software\\gm_lg_tomcat_9.0\\apache-tomcat_lg_gm\\gmOnlineProjectManage9067\\ROOT\\contents\\upload\\";
 		
 		// 本地
-//		String sourceUrl="D:\\work\\test\\java1\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\framework-0.0.1-SNAPSHOT\\contents\\upload\\template.docx";
-//		String diskUrl ="D:\\work\\test\\java1\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\framework-0.0.1-SNAPSHOT\\contents\\upload\\";
+		String sourceUrl="D:\\work\\test\\java1\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\framework-0.0.1-SNAPSHOT\\contents\\upload\\template.doc";
+		String diskUrl ="D:\\work\\test\\java1\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\framework-0.0.1-SNAPSHOT\\contents\\upload\\";
 		
 		// 6200
 		//String sourceUrl = "C:\\web_server\\tomcat\\apache-tomcat-9.0.0.M19\\gmOnlineProjectManage9314\\ROOT\\contents\\upload\\template.docx";
 		//String diskUrl = "C:\\web_server\\tomcat\\apache-tomcat-9.0.0.M19\\gmOnlineProjectManage9314\\ROOT\\contents\\upload\\";
 	
 		//生产环境
-		String sourceUrl="D:\\gmGoverment\\environment\\tomcat\\apache-tomcat-9.0.0.M19\\gm_inversion\\ROOT\\contents\\upload\\template.docx";
-		String diskUrl ="D:\\gmGoverment\\environment\\tomcat\\apache-tomcat-9.0.0.M19\\gm_inversion\\ROOT\\contents\\upload\\";
+//		String sourceUrl="D:\\gmGoverment\\environment\\tomcat\\apache-tomcat-9.0.0.M19\\gm_inversion\\ROOT\\contents\\upload\\template.doc";
+//		String diskUrl ="D:\\gmGoverment\\environment\\tomcat\\apache-tomcat-9.0.0.M19\\gm_inversion\\ROOT\\contents\\upload\\";
 		
 		
 		File sourceFile = new File(sourceUrl);
 		
-		String filename = randomName + ".docx";
+		String filename = randomName + ".doc";
 		String destUrl = diskUrl + filename;
 
 		File destFile = new File(destUrl);
@@ -69,7 +69,7 @@ public class DocUtil {
 		att.setItemOrder(0);
 		att.setCreatedDate(new Date());
 		att.setType("zhengwenFile");
-		logger.info(fileName + ".docx 正文创建成功！");
+		logger.info(fileName + ".doc 正文创建成功！");
 		return att;
 
 	}
