@@ -295,11 +295,6 @@
                         if (vm.draft.id) {
                             vm.draft.draftDate = common.formatDate(vm.draft.draftDate);//开工日期
                             vm.userNameAndUnitName = vm.getUserName(vm.draft.userNameAndUnit);
-                            if(vm.draft.drafts){
-                            	vm.draft.drafts = "是";
-                            }else{
-                            	vm.draft.drafts = "否";
-                            }
                         } else {
                             //初始化相关数据
                             vm.draft.draftDate = common.formatDate(new Date());
