@@ -315,7 +315,7 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 		shenBaoInfo.setProcessState(BasicDataConfig.processState_pass);
 		shenBaoInfo.setProcessStage("已办结");
 		shenBaoInfo.setIsIncludLibrary(true);
-		shenBaoInfo.setComplate(true);
+//		shenBaoInfo.setComplate(true);
 		shenBaoInfo.setEndDate(new Date());
 		
 		return;

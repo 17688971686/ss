@@ -539,14 +539,14 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setPifuDate(new Date());
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_pass);
 			project.setIsIncludLibrary(true);
-			shenBaoInfo.setComplate(true);
+//			shenBaoInfo.setComplate(true);
 		} else if (str.equals("tuiwen")) {
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已退文");
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_notpass);
 			shenBaoInfo.setProcessStage("已退文");
 			shenBaoInfo.setEndDate(new Date());
-			shenBaoInfo.setComplate(true);
+//			shenBaoInfo.setComplate(true);
 		} else {
 
 			shenBaoInfo.setThisTaskId(task.get(0).getId());
@@ -868,7 +868,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		project.setIsIncludLibrary(true);
 		shenBaoInfo.setEndDate(new Date());
 		shenBaoInfo.setQianshouDate(new Date());
-		shenBaoInfo.setComplate(true);
+//		shenBaoInfo.setComplate(true);
 		projectRepo.save(project);
 		shenBaoInfoRepo.save(shenBaoInfo);
 
@@ -1153,7 +1153,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setPfProjectInvestSum(shenbaoinfoDto.getPfProjectInvestSum());
 			shenBaoInfo.setProcessStage("已办结");
 			project.setIsIncludLibrary(true);
-			shenBaoInfo.setComplate(true);
+//			shenBaoInfo.setComplate(true);
 			shenBaoInfo.setEndDate(new Date());
 		} else if (str.equals("tuiwen")) {
 			shenBaoInfo.setThisTaskId("00000");
