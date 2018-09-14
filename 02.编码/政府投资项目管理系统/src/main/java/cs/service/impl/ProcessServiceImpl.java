@@ -1510,36 +1510,64 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	public List<ShenBaoInfoDto> findAuditRunByOdata(ODataObjNew odata, boolean isPerson) {
 		odata.addOrFilter(ShenBaoInfo_.projectShenBaoStage.getName(), OdataFilter.Operate.EQ, projectShenBaoStage_XMJYS,
 				projectShenBaoStage_KXXYJBG, projectShenBaoStage_ZJSQBG, projectShenBaoStage_CBSJGS,projectShenBaoStage_oncePlanReach);
-
 		List<ShenBaoInfoDto> list = findRunByOdata(odata, isPerson, null);
-		/*boolean is_TZK_Signin_Task;//是否签收
+		return list;
+	}
+
+	public void updateAuditTime() {
+		logger.debug("查询审批剩余时间和评审剩余时间的定时任务开始!------------------");
+		// TODO: 2018/9/14  部署生产环境删除
+		System.out.println("查询审批剩余时间和评审剩余时间的定时任务开始!------------------");
+
+		ODataObjNew odata = new ODataObjNew();
+		//申报阶段为 可行性研究报告、初步设计概算、资金申请报告
+		odata.addOrFilter(ShenBaoInfo_.projectShenBaoStage.getName(), OdataFilter.Operate.EQ,
+				projectShenBaoStage_KXXYJBG, projectShenBaoStage_CBSJGS, projectShenBaoStage_ZJSQBG);
+		//流程状态为 进行中、转办
+		odata.addOrFilter(ShenBaoInfo_.processState.getName(), OdataFilter.Operate.EQ,
+				processState_jinxingzhong, processState_zhuanban);
+		//查询shenbaoinfo表
+		List<ShenBaoInfo>  list = shenBaoInfoRepoImpl.findRunByOdata2(odata);
+
+		boolean is_TZK_Signin_Task;//是否签收
 		boolean is_PSZX_Task;      //是否已提交评审中心
 		boolean is_PSZX_Audit_OK;  //是否评审完毕
 		try {
 			//遍历申报集合
-			for(ShenBaoInfoDto shenBaoInfoDto : list) {
-				String processId = shenBaoInfoDto.getZong_processId();
-				//查询签收任务
-				Task signin_task = findTaskForAuditTimeByProcessIdAndTaskId(processId, task_id_signin);
-				//查询评审任务
-				Task pszx_task = findTaskForAuditTimeByProcessIdAndTaskId(processId, task_id_pszx);
-				//查询已办评审任务
-				HistoricTaskInstance pszx_Historic = findHistroyForAuditTimeByProcessIdAndTaskId(processId, task_id_pszx);
-				//查询已签收任务
+			for(ShenBaoInfo shenbaoinfo : list) {
+				String processId = shenbaoinfo.getZong_processId();
+				//查询历史任务表，userTaskId为usertask1，userTaskName为材料签收环节的数据
 				HistoricTaskInstance signin_Historic = findHistroyForAuditTimeByProcessIdAndTaskId(processId, task_id_signin);
+				//查询历史任务表，userTaskId为usertask10，userTaskName为评审人员评审环节的数据
+				HistoricTaskInstance  pszx_Historic = findHistroyForAuditTimeByProcessIdAndTaskId(processId, task_id_pszx);
 
-				is_PSZX_Task = pszx_task == null ? false : true;
-				is_PSZX_Audit_OK = pszx_Historic == null ? false : true;
-				is_TZK_Signin_Task = signin_task == null ? false : true;
+				//如果签收历史数据endtime不为空，则代表已签收
+				if(signin_Historic.getEndTime()!=null){
+					is_TZK_Signin_Task = true;
+				}else{
+					is_TZK_Signin_Task = false;
+				}
+
+				//如果评审中心评审历史数据starttime不为空，则代表已提交评审中心
+				if(pszx_Historic !=null && pszx_Historic.getStartTime()!=null){
+					is_PSZX_Task = true;
+				}else{
+					is_PSZX_Task = false;
+				}
+
+				//如果评审中心评审历史数据endtime不为空，则代表评审中心已评审完毕
+				if(pszx_Historic !=null && pszx_Historic.getEndTime()!=null){
+					is_PSZX_Audit_OK = true;
+				}else{
+					is_PSZX_Audit_OK = false;
+				}
 
 				Date nextTaskTime = pszx_Historic == null ? null : pszx_Historic.getEndTime();
-				Date submitTaskTime = pszx_task == null ? null : pszx_task.getCreateTime();
-				Date signinTaskTime = signin_task == null ? null : signin_task.getCreateTime();
+				Date submitTaskTime = pszx_Historic == null ? null : pszx_Historic.getStartTime();
+				Date signinTaskTime = signin_Historic == null ? null : signin_Historic.getStartTime();
 
-
-				is_PSZX_Task = true;
+				/*is_PSZX_Task = true;
 				is_PSZX_Audit_OK = true;
-
 
 				String a = "2018-08-25 10:20:30";
 				String b = "2018-08-20 14:20:30";
@@ -1548,27 +1576,16 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
 				nextTaskTime = df.parse(a);
 				submitTaskTime = df.parse(b);
-				signinTaskTime = df.parse(c);
-
+				signinTaskTime = df.parse(c);*/
 
 				List<int[]> blanceTimeList = getOverDay(is_TZK_Signin_Task,is_PSZX_Task,is_PSZX_Audit_OK,nextTaskTime,submitTaskTime,signinTaskTime);
-				shenBaoInfoDto.setTzkBalanceTime(WorkDayUtil.getStringByIntList(blanceTimeList.get(0)));
-				shenBaoInfoDto.setPxzxBalanceTime(WorkDayUtil.getStringByIntList(blanceTimeList.get(1)));
+				shenbaoinfo.setTzkBalanceTime(WorkDayUtil.getStringByIntList(blanceTimeList.get(0),0));
+				shenbaoinfo.setPxzxBalanceTime(WorkDayUtil.getStringByIntList(blanceTimeList.get(1),0));
+				shenBaoInfoRepoImpl.save(shenbaoinfo);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error(e.getMessage());
-		}*/
-		return list;
-	}
-
-	@SuppressWarnings("deprecation")
-	@Scheduled(cron="0 2 * * * ?")
-	public void scheduled() {
-		//"0 0 0 * * ?"   每天凌晨执行一次
-		//"0 2 * * * ?"
-
-
+			logger.error("查询审批剩余时间和评审剩余时间出错!================>"+e.getMessage());
+		}
 	}
 
 
@@ -1593,7 +1610,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	/**
 	 * @param is_PSZX_Task        是否已提交评审中心
 	 * @param is_PSZX_Audit_OK    是否评审结束
-	 * @param is_TZK_Signin_Task  流程-建设单位是否提交投资科签收
+	 * @param is_TZK_Signin_Task  是否提交投资科签收
 	 * @param endTaskTime         流程-评审中心评审结束时间
 	 * @param submitTaskTime      流程-投资科提交评审中心时间
 	 * @param signinTaskTime      流程-投资科签收时间
@@ -1681,34 +1698,19 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	}
 
 	/**
-	 * 根据流程id 和 任务 id查询act_ru_task 表任务信息
-	 * @param processId  流程id
-	 * @param taskId     任务id
-	 * @return
-	 */
-	private Task findTaskForAuditTimeByProcessIdAndTaskId(String processId,String taskId){
-		List<Task> taskList =  taskService.createTaskQuery().processInstanceId(processId).processDefinitionKey(taskId).orderByTaskCreateTime().desc().list();
-		Task  task = null;
-		if(!taskList.isEmpty() && taskList.size() > 0){
-			 task = taskList.get(0);
-		}
-		return task;
-	}
-
-	/**
 	 * 根据流程id 和 任务 id查询act_hi_taskinst表历史信息
 	 * @param processId
-	 * @param taskId
+	 * @param userTaskId
 	 * @return
 	 */
-	private HistoricTaskInstance findHistroyForAuditTimeByProcessIdAndTaskId(String processId,String taskId){
-		List<HistoricTaskInstance>  historicTaskInstanceList =  historyService
+	private HistoricTaskInstance findHistroyForAuditTimeByProcessIdAndTaskId(String processId,String userTaskId){
+		logger.debug("processId:"+processId+"================================"+"userTaskId:"+userTaskId);
+		HistoricTaskInstance  historictaskinstance = null;
+		List<HistoricTaskInstance> list = historyService
 				.createHistoricTaskInstanceQuery()
-				.processInstanceId(processId).taskId(taskId).orderByHistoricTaskInstanceEndTime().desc().list();
-		HistoricTaskInstance historictaskinstance = null;
-		if(!historicTaskInstanceList.isEmpty() && historicTaskInstanceList.size() > 0){
-			historictaskinstance = historicTaskInstanceList.get(0);
-		}
+				.processInstanceId(processId)
+				.taskDefinitionKey(userTaskId).orderByHistoricActivityInstanceId().desc().list();
+		if(!list.isEmpty() && list.size()>0) historictaskinstance = list.get(0);
 		return historictaskinstance;
 	}
 
@@ -1789,7 +1791,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
 	@Override
 	@Transactional
-	public List<ShenBaoInfoDto> findAuditKeshi(ODataObjNew odata) {
+	public List<ShenBaoInfoDto>  findAuditKeshi(ODataObjNew odata) {
 		odata.addOrFilter(ShenBaoInfo_.thisTaskName.getName(), OdataFilter.Operate.EQ, "usertask2","usertask3","usertask6","usertask12","usertask13","usertask14","usertask16","usertask17","usertask23","usertask7","usertask18","usertask19","usertask20","usertask21","usertask22");
 		return shenBaoInfoRepoImpl.findRunByOdata2(odata).stream().map(mapper::toDto).collect(Collectors.toList());
 	}

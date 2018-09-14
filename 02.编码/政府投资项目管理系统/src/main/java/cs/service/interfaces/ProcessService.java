@@ -83,5 +83,9 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
 	
 	List<ShenBaoInfoDto> findAuditKeshi(ODataObjNew odata);
 
-	
+	/**
+	 * 定时任务，更新投资科审批剩余时间和评审中心剩余时间
+	 */
+	void updateAuditTime();
+
 }

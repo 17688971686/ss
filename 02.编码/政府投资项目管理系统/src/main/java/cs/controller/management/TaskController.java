@@ -20,6 +20,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -325,5 +326,12 @@ public class TaskController {
     @RequestMapping(name = "正文打印", path = "html/print", method = RequestMethod.GET)
     public String print() {
         return ctrl + "/audit/print";
+    }
+
+    @Scheduled(cron="0 0 0 * * ? ")
+    public void updateAuditTimeQuartz() {
+        //0 0 0 * * ?      每天凌晨执行一次
+        //0 0/5 * * * ?    每5分钟执行一次
+        processService.updateAuditTime();
     }
 }

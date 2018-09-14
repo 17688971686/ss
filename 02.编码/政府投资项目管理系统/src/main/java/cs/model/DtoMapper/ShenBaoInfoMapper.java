@@ -204,6 +204,12 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setShenBaoUnitInfoDto(shenBaoUnitInfoMapper.toDto(entity.getShenBaoUnitInfo()));
 			//编制单位
 			shenBaoInfoDto.setBianZhiUnitInfoDto(shenBaoUnitInfoMapper.toDto(entity.getBianZhiUnitInfo()));
+
+			//投资科剩余审核时间
+			shenBaoInfoDto.setTzkBalanceTime(entity.getTzkBalanceTime());
+			//评审中心剩余评审时间
+			shenBaoInfoDto.setPxzxBalanceTime(entity.getPxzxBalanceTime());
+
 		}
 		return  shenBaoInfoDto;
 	}

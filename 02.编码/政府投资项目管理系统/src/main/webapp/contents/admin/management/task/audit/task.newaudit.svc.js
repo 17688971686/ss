@@ -1000,7 +1000,7 @@
                 {
                     field: "thisUser",
                     title: "当前办理人员",
-                    width: 120,
+                    width: 100,
                     filterable: false,
                     template: function (item) {
                         if (item.thisUser == "" || item.thisUser == null) {
@@ -1014,7 +1014,7 @@
                 {
                     field: "",
                     title: "创建日期",
-                    width: 150,
+                    width: 140,
                     template: function (item) {
                         return kendo.toString(new Date(item.createdDate), "yyyy/MM/dd HH:mm:ss");
                     }
@@ -1024,6 +1024,7 @@
                     field: "title",
                     title: "投资科剩余时间",
                     width: 100,
+                    filterable: false,
                     template: function (item) {
                         return item.tzkBalanceTime;
                     }
@@ -1032,6 +1033,7 @@
                     field: "title",
                     title: "评审剩余时间",
                     width: 100,
+                    filterable: false,
                     template: function (item) {
                         return item.pxzxBalanceTime;
                     }

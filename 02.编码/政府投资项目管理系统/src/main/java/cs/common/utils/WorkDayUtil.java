@@ -42,8 +42,27 @@ public class WorkDayUtil {
 
     }
 
-    public static String getStringByIntList(int[] source){
-        String result = source[0] +"天"+source[1]+"时"+source[2]+"分"+source[3]+"秒";
+    /**
+     * @param source
+     * @param type
+     * @return
+     */
+    public static String getStringByIntList(int[] source,int type){
+        int day = source[0];
+        int hour = source[1];
+        int minutes = source[2];
+        int second = source[3];
+        String result = null;
+
+        switch (type){
+            case 0:
+                if(hour>0) day = day + 1;
+                result = day + "天";
+                break;
+            case 1:
+                result = day +"天"+hour+"时"+minutes+"分"+second+"秒";
+                break;
+        }
         return result;
     }
 
@@ -255,6 +274,8 @@ public class WorkDayUtil {
         }
 
         int[] result = {d0,h0,m0,s0};
+        log.debug("天："+d0+"小时："+h0+"分钟："+m0+"秒："+s0);
+        // TODO: 2018/9/14 部署生产环境时，删除
         System.out.println("天："+d0+"小时："+h0+"分钟："+m0+"秒："+s0);
         return result;
     }
@@ -377,6 +398,9 @@ public class WorkDayUtil {
         time[2] = Integer.parseInt(String.valueOf(minutes));
         time[3] = Integer.parseInt(String.valueOf(seconds));
 
+        log.debug( time[0] + " days " + time[1] + " hours " + time[2] + " minutes "
+                + time[3] + " seconds ");
+        // TODO: 2018/9/14 部署生产环境时，删除
         System.out.println( time[0] + " days " + time[1] + " hours " + time[2] + " minutes "
         		+ time[3] + " seconds ");
         return time;
@@ -405,6 +429,10 @@ public class WorkDayUtil {
         time[2] = Integer.parseInt(String.valueOf(minutes));
         time[3] = Integer.parseInt(String.valueOf(seconds));
 
+
+        log.debug( time[0] + " days " + time[1] + " hours " + time[2] + " minutes "
+                + time[3] + " seconds ");
+        // TODO: 2018/9/14 部署生产环境时，删除
         System.out.println( time[0] + " days " + time[1] + " hours " + time[2] + " minutes "
         		+ time[3] + " seconds ");
         return time;
