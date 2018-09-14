@@ -4,14 +4,14 @@
 	</div>
 	<table class="table table-bordered table-striped ">
 		<tr>
-			<td class="formAlignRight" style="width: 150px;">项目名称：</td>
+			<td class="formAlignRight" style="width: 150px;">文件标题：</td>
 			<td><span ng-bind="vm.draft.projectName"></span></td>
 			<td class="formAlignRight" style="width: 150px;">发文字号：</td>
 			<td ng-bind="vm.draft.issuedNumber"></td>
 		</tr>
 		<tr>
-			<td class="formAlignRight">申报单位：</td>
-			<td><span ng-bind="vm.draft.unitName"></span></td>
+			<td class="formAlignRight">代拟稿：</td>
+			<td><span ng-bind="vm.checkDraft(vm.draft.drafts)"></span></td>
 			<td class="formAlignRight">拟稿单位拟稿人：</td>
 			<td><span ng-bind="vm.userNameAndUnitName"></span></td>
 		</tr>
@@ -44,16 +44,6 @@
 			<td class="formAlignRight">发行范围：</td>
 			<td colspan="3" ng-bind="vm.draft.scope"></td>
 		</tr>
-		<tr>
-			<td class="formAlignRight">标题：</td>
-			<td colspan="3" ng-bind="vm.draft.title"></td>
-		</tr>
-		<!-- <tr>
-			<td class="formAlignRight">正文编辑：</td>
-			<td colspan="3">
-				<a class="btn btn-success btn-sm" href="/contents/admin/management/task/audit/html/edit/edit_dj.html" target="_blank">编辑正文</a>
-			</td>
-		</tr>	 -->
 		   <tr>
             <td class="formAlignRight">备注：</td>
             <td colspan="3"  ng-bind="vm.draft.keyWord">
@@ -83,23 +73,23 @@
 					<!-- <a class="btn btn-xs btn-success"
 						href="/management/word/html/online?attachId={{y.id}}"
 						target="_blank">编辑正文</a> -->
-						<iframe ng-src="{{'/management/word/html/online?attachId='+y.id}}" width="100%" height="600px" id="wordOnlineIframe"></iframe>
+						<!-- <iframe ng-src="{{'/management/word/html/online?attachId='+y.id}}" width="100%" height="600px" id="wordOnlineIframe"></iframe> -->
 				</div>
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">其他附件：</td>
 			<td colspan="3">
-				<div class="uploadBox pull-left" data-type="fawemFile">
+			<!-- 	<div class="uploadBox pull-left" data-type="fawemFile">
 					<input type="file" name="files" kendo-upload
 						k-options="vm.uploadOptions_shenpi" />
-				</div>
+				</div> -->
 				<div style="margin: 3px;" ng-repeat="y in vm.attachmentDtos"
 					ng-if="y.type == 'fawemFile'">
 					<a href="/contents/upload/{{y.url}}" target="_blank"
 						ng-bind="y.name"></a>
-					<button class="btn btn-xs btn-danger"
-						ng-click="vm.delFile_shenpi($index)">删除</button>
+					<!-- <button class="btn btn-xs btn-danger"
+						ng-click="vm.delFile_shenpi($index)">删除</button> -->
 				</div>
 			</td>
 		</tr>

@@ -183,7 +183,18 @@
                     vm.isEditDraft = false;
                 }
                 taskNewAuditSvc.getDraftIssued(vm);//查询发文拟稿
+                
+               
             };
+            
+            vm.checkDraft = function(drafts){
+                if(drafts){
+                	return "是";
+                }else{
+                	return "否";
+                }
+
+            }
             //弹出申报详情模态框
             vm.dialog_shenbaoInfo = function () {
                 $("#shenbaoInfo").modal({

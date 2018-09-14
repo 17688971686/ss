@@ -134,19 +134,18 @@ public class CodingPlatformServiceImpl extends AbstractServiceImpl<CodingProject
 						if(!CollectionUtils.isEmpty(projects)){
 							for (Project project : projects) {
 								if(subObject.get("COUNTRY_CODE").getAsString() != ""){
-									project.setProjectNumber(subObject.get("COUNTRY_CODE").getAsString());
+									project.setCountryNumber(subObject.get("COUNTRY_CODE").getAsString());
 									projectRepo.save(project);
 									
 									Criterion criterion1 = Restrictions.eq(ShenBaoInfo_.projectId.getName(),project.getId());
 									List<ShenBaoInfo> shenbaoinfos = shenbaoInfoRepo.findByCriteria(criterion1);
 									for (ShenBaoInfo shenbaoinfo : shenbaoinfos) {
-										shenbaoinfo.setProjectNumber(subObject.get("COUNTRY_CODE").getAsString());
+										shenbaoinfo.setCountryNumber(subObject.get("COUNTRY_CODE").getAsString());
 										shenbaoInfoRepo.save(shenbaoinfo);
 									}
 								}
 								
 							}
-							
 						}
 						//保存赋码项目
 						Criterion criterion2 = Restrictions.eq(CodingProject_.COUNTRY_CODE.getName(),subObject.get("COUNTRY_CODE").getAsString());

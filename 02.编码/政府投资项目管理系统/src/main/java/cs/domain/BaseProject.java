@@ -19,6 +19,9 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="varchar(125) NULL COMMENT '项目代码'")
 	private String projectNumber;
 	
+	@Column(columnDefinition="varchar(125) NULL COMMENT '国家代码'")
+	private String countryNumber;
+	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目名称'")
 	private String projectName;
 	
@@ -616,6 +619,14 @@ public class BaseProject extends BaseEntity
 
 	public void setPifuSCQQJFXD_wenhao(String pifuSCQQJFXD_wenhao) {
 		this.pifuSCQQJFXD_wenhao = pifuSCQQJFXD_wenhao;
+	}
+
+	public String getCountryNumber() {
+		return countryNumber;
+	}
+
+	public void setCountryNumber(String countryNumber) {
+		this.countryNumber = countryNumber;
 	}
 	
 	

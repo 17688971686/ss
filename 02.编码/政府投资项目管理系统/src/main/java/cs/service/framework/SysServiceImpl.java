@@ -439,6 +439,10 @@ public class SysServiceImpl implements SysService {
         this.createBasicData("documentType_11", "documentType", "documentType", "请示", "");
         this.createBasicData("documentType_12", "documentType", "documentType", "批复", "");
         this.createBasicData("documentType_13", "documentType", "documentType", "意见", "");
+        this.createBasicData("documentType_14", "documentType", "documentType", "纪要", "");
+        this.createBasicData("documentType_15", "documentType", "documentType", "公报", "");
+        this.createBasicData("documentType_16", "documentType", "documentType", "决议", "");
+        this.createBasicData("documentType_17", "documentType", "documentType", "政务活动安排", "");
 
         this.createBasicData("postingCategory", "", "postingCategory", "发文种类", "");
         this.createBasicData("postingCategory_1", "postingCategory", "postingCategory", "上行文", "");
@@ -483,11 +487,11 @@ public class SysServiceImpl implements SysService {
 
         this.createBasicData("hecretHierarchy", "", "hecretHierarchy", "拟稿秘密等级分类", "");
         this.createBasicData("hecretHierarchy_1", "hecretHierarchy", "hecretHierarchy", "公开", "");
-        this.createBasicData("hecretHierarchy_2", "hecretHierarchy", "hecretHierarchy", "国内", "");
+//        this.createBasicData("hecretHierarchy_2", "hecretHierarchy", "hecretHierarchy", "国内", "");
         this.createBasicData("hecretHierarchy_3", "hecretHierarchy", "hecretHierarchy", "内部", "");
-        this.createBasicData("hecretHierarchy_4", "hecretHierarchy", "hecretHierarchy", "秘密", "");
-        this.createBasicData("hecretHierarchy_5", "hecretHierarchy", "hecretHierarchy", "机密", "");
-        this.createBasicData("hecretHierarchy_6", "hecretHierarchy", "hecretHierarchy", "绝密", "");
+//        this.createBasicData("hecretHierarchy_4", "hecretHierarchy", "hecretHierarchy", "秘密", "");
+//        this.createBasicData("hecretHierarchy_5", "hecretHierarchy", "hecretHierarchy", "机密", "");
+//        this.createBasicData("hecretHierarchy_6", "hecretHierarchy", "hecretHierarchy", "绝密", "");
 
         this.createBasicData("draftStatus", "", "draftStatus", "拟稿状态分类", "");
         this.createBasicData("draftStatus_1", "draftStatus", "draftStatus", "经办人拟稿", "");

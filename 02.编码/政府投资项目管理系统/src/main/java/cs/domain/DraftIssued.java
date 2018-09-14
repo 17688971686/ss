@@ -42,7 +42,7 @@ public class DraftIssued extends BaseEntity{
 	@Column(columnDefinition="varchar(64) NULL COMMENT '联系人'")
 	private String mobileName;
 	
-	@Column(columnDefinition="varchar(64) NULL COMMENT '联系电话'")
+	@Column(columnDefinition="varchar(255) NULL COMMENT '联系电话'")
 	private String mobilePhone;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '单位名称'")
@@ -68,6 +68,10 @@ public class DraftIssued extends BaseEntity{
 	
 	@Column(columnDefinition="varchar(64) NULL COMMENT '发文字号'")
 	private String issuedNumber;
+	
+	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '代拟稿'")
+	private boolean drafts=false;
+	
 	
 	//关联
 	@Column(columnDefinition="varchar(255) NULL COMMENT '相关ID'")
@@ -216,6 +220,14 @@ public class DraftIssued extends BaseEntity{
 
 	public void setHecretHierarchy(String hecretHierarchy) {
 		this.hecretHierarchy = hecretHierarchy;
+	}
+
+	public boolean isDrafts() {
+		return drafts;
+	}
+
+	public void setDrafts(boolean drafts) {
+		this.drafts = drafts;
 	}
 	
 	

@@ -7,7 +7,7 @@
     </div>
     <div class="form-info" style="margin-left:61%;">
         <div class="input-group">
-            <span class="input-group-addon">发文字号</span>
+            <span class="input-group-addon">文件标题</span>
             <span class="form-control" ng-bind="vm.draft.projectName"></span>
         </div>
         <div class="input-group">
@@ -15,15 +15,15 @@
             <input type="text" class="form-control input-sm" id="issuedNumber" name="issuedNumber"
                    ng-model="vm.draft.issuedNumber"/>
         </div>
-        <div class="input-group no_edit">
+      <!--   <div class="input-group no_edit">
             <span class="input-group-addon">申报单位</span>
             <span class="form-control" ng-bind="vm.draft.unitName"></span>
-        </div>
+        </div> -->
         <div class="input-group no_edit">
             <span class="input-group-addon">拟稿单位拟稿人</span>
             <span class="form-control" ng-bind="vm.userNameAndUnitName"></span>
         </div>
-        <div class="input-group no_edit">
+       <div class="input-group no_edit">
             <span class="input-group-addon">总投资</span>
             <span class="form-control">{{vm.draft.capitalTotal}}&nbsp;（万元）</span>
         </div>
@@ -56,13 +56,23 @@
             </select>
             <span data-valmsg-for="documentType" data-valmsg-replace="true" class="required"></span>
         </div>
-        <div class="input-group">
+         <div class="input-group">
+            <span class="input-group-addon">代拟稿</span>
+            <span class="form-control">
+				<label >
+                    <input type="radio" name="drafts" id="drafts" value="true" ng-model="vm.draft.drafts" ng-checked="vm.draft.drafts"/>是&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="drafts" id="drafts" value="false" ng-model="vm.draft.drafts" ng-checked="!vm.draft.drafts"/>否
+			    </label>
+			    <span data-valmsg-for="openType" data-valmsg-replace="true" class="required"></span>
+			</span>
+        </div>
+       <div class="input-group">
             <span class="input-group-addon">联系人</span>
             <input type="text" class="form-control input-sm" name="mobileName" ng-model="vm.draft.mobileName"/>
         </div>
         <div class="input-group">
-            <span class="input-group-addon">联系电话</span>
-            <input type="text" class="form-control input-sm" name="mobilePhone" ng-model="vm.draft.mobilePhone"/>
+            <span class="input-group-addon">联系方式</span>
+            <textarea type="text" class="form-control input-sm" name="mobilePhone" ng-model="vm.draft.mobilePhone"/>
         </div>
         <div class="input-group">
             <span class="input-group-addon">拟稿时间</span>
@@ -83,15 +93,16 @@
             <span class="input-group-addon">发行范围</span>
             <input type="text" class="form-control input-sm" id="scope" name="scope" ng-model="vm.draft.scope"/>
         </div>
-        <div class="input-group">
+        <!-- <div class="input-group">
             <span class="input-group-addon">标题</span>
             <input type="text" class="form-control input-sm" id="title" name="title" ng-model="vm.draft.title"/>
-        </div>
+        </div> -->
         <div class="input-group">
             <span class="input-group-addon">备注</span>
             <textarea class="form-control" id="keyWord" name="keyWord" maxlength="255" rows="3"
                       ng-model="vm.draft.keyWord" placeholder="注：255字符以内"></textarea>
         </div>
+        
         <div class="input-group" style="display: block;margin-bottom: 10px;">
             <span class="input-group-addon" style="float: left;height: 30px;">正文下载</span>
             <a ng-repeat="y in vm.attachmentDtos"
@@ -99,7 +110,8 @@
                  ng-if="y.type == 'zhengwenFile'" href="/contents/upload/{{y.url}}" target="_blank"
                  ng-bind="y.name"></a>
         </div>
-        <div class="input-group">
+        <div class="input-group " style="display: block;margin-bottom: 10px;">
+        	<span class="input-group-addon" style="float: left;height: 30px;">其他附件</span>
             <div class="uploadBox pull-left" data-type="fawemFile">
                 <input type="file" name="files" kendo-upload k-options="vm.uploadOptions_shenpi"/>
             </div>
