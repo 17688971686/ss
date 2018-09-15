@@ -470,12 +470,13 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
      */
     @Override
     @Transactional
-    public void updateShenBaoInfoState(TaskRecordDto dto) {
+    public void updateShenBaoInfoState(ShenBaoInfoDto dto) {
         //更新申报信息的状态
-        ShenBaoInfo shenbaoInfo = super.repository.findById(dto.getRelId());
+        ShenBaoInfo shenbaoInfo = super.repository.findById(dto.getId());
         if (shenbaoInfo != null) {
-            shenbaoInfo.setProcessState(dto.getThisProcessState());//设置状态为不通过
-//            shenbaoInfo.setAuditState(BasicDataConfig.auditState_noAudit);//审核不通过
+            shenbaoInfo.setProcessState(BasicDataConfig.processState_notpass);//设置状态为不通过
+            shenbaoInfo.setAuditState(BasicDataConfig.auditState_noAudit);//审核不通过
+            shenbaoInfo.setProcessStage("已退文");
             shenbaoInfo.setModifiedBy(currentUser.getUserId());
             shenbaoInfo.setModifiedDate(new Date());
 

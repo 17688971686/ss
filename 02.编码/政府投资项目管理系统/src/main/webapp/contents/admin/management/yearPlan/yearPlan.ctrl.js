@@ -705,6 +705,7 @@
      	vm.updateAuditState=function(auditState){
      		vm.isAudit = true;//用于设置跳转到列表页面
      		vm.model.shenBaoInfo.auditState = auditState;
+     		 vm.model.shenBaoInfo.processStage = "已办结";
      		yearPlanSvc.updateShenBaoInfo(vm);
      	};
      	//确认创建

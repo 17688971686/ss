@@ -1248,29 +1248,6 @@
 				    }
 				},
 				{
-					field : "auditState",
-					title : "审核状态",	
-					width : 120,
-					template:function(item){
-						return common.getBasicDataDesc(item.auditState);
-					},
-					filterable : {
-						ui: function(element){
-	                        element.kendoDropDownList({
-	                            valuePrimitive: true,
-	                            dataSource: common.getBacicDataByIndectity(common.basicDataConfig().auditState),
-	                            dataTextField: "description",
-	                            dataValueField: "id",
-	                            filter:"startswith"
-	                        });
-						}
-					},
-					headerAttributes: {
-				      "class": "table-header-cell",
-				       style: "text-align: center;vertical-align: middle;"
-				    }
-				},
-				{
 					field : "",
 					title : "操作",
 					width : 200,

@@ -842,10 +842,9 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			// 退文时，撤销当前流程
 //			runtimeService.deleteProcessInstance(shenBaoInfo.getZong_processId(), "已退文");
 		} else {
-			shenBaoInfo.setThisTaskName("已办结");
+			shenBaoInfo.setThisTaskName("已签收");
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_pass);
-			shenBaoInfo.setProcessStage("已办结");
-			shenBaoInfo.setAuditState(BasicDataConfig.auditState_auditPass);
+			shenBaoInfo.setProcessStage("已签收");
 			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见：" + msg);
 			// 生成项目编码
 			if (StringUtils.isBlank(shenBaoInfo.getProjectNumber())) {

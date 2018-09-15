@@ -28,7 +28,7 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
      *
      * @param dto
      */
-    void updateShenBaoInfoState(TaskRecordDto dto);
+    void updateShenBaoInfoState(ShenBaoInfoDto dto);
 
     void updateShenBaoInfo(ShenBaoInfoDto dto, Boolean isAdminUpdate);
 
