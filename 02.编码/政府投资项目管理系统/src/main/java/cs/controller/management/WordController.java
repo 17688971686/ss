@@ -84,6 +84,37 @@ public class WordController {
         }
     }
 
+    /**
+     * 文件附件ID下载Word文件
+     *
+     * @param response
+     * @param fileName
+     * @return
+     * @Description:
+     */
+    @RequestMapping(name = "下载服务器Word", path = "downloadCommon/{fileName}")
+    public void downloadByDocPath(@PathVariable String fileName, HttpServletRequest request, HttpServletResponse response) {
+        if (null != fileName && !"".equals(fileName)) {
+            String realPath = request.getSession().getServletContext().getRealPath("/");
+            String basePath = realPath + "contents/upload/"+fileName;
+
+            logger.debug("文件下载============>"+basePath);
+            //下载文件
+            File file_Doc = new File(basePath+".doc");
+            File file_Docx = new File(basePath+".docx");
+            if (file_Doc.exists()) {
+                SNKit.fileDownload(request, response, file_Doc, fileName+".doc");
+            } else if(file_Docx.exists()){
+                SNKit.fileDownload(request, response, file_Doc, fileName+".docx");
+            }else{
+                throw new SnRuntimeException("文件不存在");
+            }
+        } else {
+            throw new SnRuntimeException("文件不存在");
+        }
+
+    }
+
     @PostMapping(name = "上传word", path = "upload")
     public void upload(@RequestParam String attachId, MultipartFile docContent, HttpServletResponse response) throws UnsupportedEncodingException {
         Assert.notNull(docContent, "缺少上传的word文件");

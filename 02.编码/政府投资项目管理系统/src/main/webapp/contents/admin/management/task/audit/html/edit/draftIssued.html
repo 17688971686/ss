@@ -2,7 +2,7 @@
     <div ng-repeat="y in vm.attachmentDtos" ng-if="y.type == 'zhengwenFile'" style="width: 60%;float:left;">
         <!--<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name" ng-click=""></a>-->
         <iframe style="height: 810px;border:none;"
-                ng-src="{{'/management/word/html/online?attachId='+y.id+'&edit='+vm.isEditDraft}}" width="100%"
+                ng-src="{{'/management/word/html/online?attachId='+y.id}}" width="100%"
                 id="wordOnlineIframe"></iframe>
     </div>
     <div class="form-info" style="margin-left:61%;">
@@ -107,7 +107,7 @@
             <span class="input-group-addon" style="float: left;height: 30px;">正文下载</span>
             <a ng-repeat="y in vm.attachmentDtos"
                  style="display:block;padding: 5px;border:1px solid #ddd;height: 30px;margin-left:125px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
-                 ng-if="y.type == 'zhengwenFile'" href="/contents/upload/{{y.url}}" target="_blank"
+                 ng-if="y.type == 'zhengwenFile'" href="/management/word/downloadCommon/{{y.url}}"
                  ng-bind="y.name"></a>
         </div>
         <div class="input-group " style="display: block;margin-bottom: 10px;">
@@ -116,7 +116,7 @@
                 <input type="file" name="files" kendo-upload k-options="vm.uploadOptions_shenpi"/>
             </div>
             <div style="margin:3px;" ng-repeat="y in vm.attachmentDtos" ng-if="y.type == 'fawemFile'">
-                <a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+                <a href="/contents/upload/{{y.url}}" ng-bind="y.name" target="_blank"></a>
                 <button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenpi($index)">删除</button>
             </div>
         </div>
