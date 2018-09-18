@@ -5,10 +5,11 @@
                 ng-src="{{'/management/word/html/online?attachId='+y.id}}" width="100%"
                 id="wordOnlineIframe"></iframe>
     </div>
-    <div class="form-info" style="margin-left:61%;">
-        <div class="input-group">
-            <span class="input-group-addon">文件标题</span>
-            <span class="form-control" ng-bind="vm.draft.projectName"></span>
+    <div class="form-info" style="margin-left:61%;max-height: 830px;overflow-y: auto">
+
+        <div class="input-group title" style="display:block;">
+            <span class="input-group-addon" style="float: left;height: 40px;line-height: 40px;padding: 0;">文件标题</span>
+            <div  ng-bind="vm.draft.projectName" title={{vm.draft.projectName}} ></div>
         </div>
         <div class="input-group">
             <span class="input-group-addon">发文字号</span>
@@ -29,7 +30,7 @@
         </div>
         <div class="input-group">
             <span class="input-group-addon">公开类型</span>
-            <span class="form-control">
+            <span class="form-control" style="height: auto;">
 				<label ng-repeat="x in vm.basicData.openType">
                     <input type="radio" name="openType" value="{{x.id}}" ng-model="vm.draft.openType"
                            ng-checked="x.id == vm.draft.openType" data-val="true" data-val-required="必选"/>
@@ -104,21 +105,21 @@
         </div>
         
         <div class="input-group" style="display: block;margin-bottom: 10px;">
-            <span class="input-group-addon" style="float: left;height: 30px;">正文下载</span>
+            <span class="input-group-addon" style="float: left;height: 40px;">正文下载</span>
             <a ng-repeat="y in vm.attachmentDtos"
-                 style="display:block;padding: 5px;border:1px solid #ddd;height: 30px;margin-left:125px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
+                 style="display:block;padding: 5px;border:1px solid #ddd;height: 40px;margin-left:125px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
                  ng-if="y.type == 'zhengwenFile'" href="/management/word/downloadCommon/{{y.url}}"
                  ng-bind="y.name"></a>
         </div>
-        <div class="input-group " style="display: block;margin-bottom: 10px;">
+        <div class="input-group clearfix " style="display: block;margin-bottom: 10px;">
         	<span class="input-group-addon" style="float: left;height: 30px;">其他附件</span>
             <div class="uploadBox pull-left" data-type="fawemFile">
                 <input type="file" name="files" kendo-upload k-options="vm.uploadOptions_shenpi"/>
             </div>
-            <div style="margin:3px;" ng-repeat="y in vm.attachmentDtos" ng-if="y.type == 'fawemFile'">
-                <a href="/contents/upload/{{y.url}}" ng-bind="y.name" target="_blank"></a>
-                <button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenpi($index)">删除</button>
-            </div>
         </div>
-    </div>
+        <div style="margin:3px;" ng-repeat="y in vm.attachmentDtos" ng-if="y.type == 'fawemFile'">
+            <a href="/contents/upload/{{y.url}}" ng-bind="y.name" target="_blank" style="font-size: 18px;"></a>
+            <button class="btn btn-xs btn-danger" ng-click="vm.delFile_shenpi($index)">删除</button>
+        </div>
+        </div>
 </form>

@@ -110,9 +110,9 @@ public class SQLConfig {
             " IFNULL(sbi.projectName,'') AS ProjectName," +
             " IFNULL(sbi.projectNumber,'') AS ProjectCode," +
             " IFNULL(bs.description,'') AS ProjectType," +
-            " IFNULL(sbi.projectIndustry,'') AS ProjectIndustry," +
+            " IFNULL((select description from cs_basicdata where id = sbi.projectIndustry),'') as ProjectIndustry," +
             " IFNULL(sbi.projectGuiMo,'') AS ConstructionScale," +
-            " IFNULL(sbi.projectConstrChar,'') AS ConstructionType," +
+            " IFNULL((select description from cs_basicdata where id = sbi.projectConstrChar),'') as ConstructionType," +
             " IFNULL(sbi.beginDate,'') AS beginDate," +
             " IFNULL(sbi.endDate,'') AS endDate," +
             " IFNULL(sbi.projectInvestSum, 0)AS TotalInvest," +

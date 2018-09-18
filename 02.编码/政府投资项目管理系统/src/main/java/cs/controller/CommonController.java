@@ -230,9 +230,8 @@ public class CommonController {
 			excelDataYSListZH.add(entity);
 			
 			for(ExcelDataYS y:excelDataYSList){
-				if(basicDataService.getDescriptionById(y.getProjectIndustry()).equals(x.getProjectIndustry())){
+				if(y.getProjectIndustry().equals(x.getProjectIndustry())){
 					y.setNo(String.valueOf(j));
-					y.setConstructionType(basicDataService.getDescriptionById(y.getConstructionType()));
 					y.setConstructionDate(Util.formatDate(y.getBeginDate(),"yyyy-MM")+"~"+"\n"+Util.formatDate(y.getEndDate(),"yyyy-MM"));
 					y.setHB(false);
 					excelDataYSListZH.add(y);
