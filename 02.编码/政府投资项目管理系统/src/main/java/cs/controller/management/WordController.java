@@ -95,9 +95,10 @@ public class WordController {
     @RequestMapping(name = "下载服务器Word", path = "downloadCommon/{fileName}")
     public void downloadByDocPath(@PathVariable String fileName, HttpServletRequest request, HttpServletResponse response) {
         if (null != fileName && !"".equals(fileName)) {
-            String realPath = request.getSession().getServletContext().getRealPath("/");
-            String basePath = realPath + "contents/upload/"+fileName;
+//            String realPath = request.getSession().getServletContext().getRealPath("/");
+//            String basePath = realPath + "contents/upload/"+fileName;
 
+        	String basePath =diskPath+"/"+fileName;
             logger.debug("文件下载============>"+basePath);
             //下载文件
             File file_Doc = new File(basePath+".doc");

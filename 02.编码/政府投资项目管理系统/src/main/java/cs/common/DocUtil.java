@@ -9,19 +9,18 @@ import org.apache.log4j.Logger;
 import com.sn.framework.common.IdWorker;
 
 import cs.domain.Attachment;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import cs.service.interfaces.YearPlanService;
 
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 public class DocUtil {
 
 	private static Logger logger = Logger.getLogger(DocUtil.class);
 
-//	@Value("${sourceUrl}")
-//	private static String sourceUrl;//
-//	@Value("${diskUrl}")
-//	private static String diskUrl;//
-	
-	public static Attachment createDoc(String projectName, String projectShenbaoStage) throws Exception {
+	public Attachment createDoc(String projectName, String projectShenbaoStage) throws Exception {
 		// Create Blank workbook
 		String projectShenbaoStageName = null;
 		if (projectShenbaoStage.equals(BasicDataConfig.projectShenBaoStage_KXXYJBG)) {
@@ -41,8 +40,8 @@ public class DocUtil {
 //		String diskUrl ="C:\\software\\gm_lg_tomcat_9.0\\apache-tomcat_lg_gm\\gmOnlineProjectManage9067\\ROOT\\contents\\upload\\";
 		
 		// 本地
-		String sourceUrl="D:\\work\\test\\java1\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\framework-0.0.1-SNAPSHOT\\contents\\upload\\template.doc";
-		String diskUrl ="D:\\work\\test\\java1\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\framework-0.0.1-SNAPSHOT\\contents\\upload\\";
+		String sourceUrl="C:\\software\\gm_lg_tomcat_9.0\\apache-tomcat_lg_gm\\gmOnlineProjectManage9067\\ROOT\\contents\\upload\\template.docx";
+		String diskUrl ="C:\\software\\gm_lg_tomcat_9.0\\apache-tomcat_lg_gm\\gmOnlineProjectManage9067\\ROOT\\contents\\upload\\";
 		
 		// 6200
 		//String sourceUrl = "C:\\web_server\\tomcat\\apache-tomcat-9.0.0.M19\\gmOnlineProjectManage9314\\ROOT\\contents\\upload\\template.docx";
