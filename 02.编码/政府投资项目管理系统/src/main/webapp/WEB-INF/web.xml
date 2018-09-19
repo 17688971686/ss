@@ -142,6 +142,16 @@
   </filter-mapping> -->
     <!-- 防止跨域end -->
 
+	<!-- 文件上传 -->
+	<filter>
+      <filter-name>FileRequestFilter</filter-name>
+      <filter-class>cs.common.FileRequestFilter</filter-class>
+  </filter>
+  <filter-mapping>
+      <filter-name>FileRequestFilter</filter-name>
+      <url-pattern>/contents/upload/*</url-pattern>
+  </filter-mapping>
+
     <filter>
         <filter-name>mobileFilter</filter-name>
         <filter-class>cs.controller.mobile.MobileFilter</filter-class>
