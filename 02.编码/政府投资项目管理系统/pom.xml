@@ -412,6 +412,12 @@
 	</dependencies>
 	<build>
 		<finalName>framework</finalName>
+		<resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -432,7 +438,25 @@
 					<port>9090</port>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <encoding>utf-8</encoding>
+                </configuration>
+            </plugin>
+			
 		</plugins>
+		
 	</build>
 
 	<repositories>
@@ -453,4 +477,60 @@
 			</snapshots>
 		</repository>
 	</repositories>
+	
+	
+	<profiles>
+        <!-- 本地开发环境 -->
+        <profile>
+            <id>dev</id>
+            <properties>
+                <db.ip>localhost</db.ip>
+                <db.port>3306</db.port>
+                <db.username>root</db.username>
+                <db.password>Passw0rd</db.password>
+                <db.name>gm_test</db.name>
+                <uploadPath>D:/upload</uploadPath>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <!-- 5002测试环境 -->
+        <profile>
+            <id>test</id>
+            <properties>
+                <db.ip>192.168.2.5</db.ip>
+                <db.port>3306</db.port>
+                <db.username>gm_test</db.username>
+                <db.password>Passw0rd</db.password>
+                <db.name>gm_test</db.name>
+                <uploadPath>D:/upload</uploadPath>
+            </properties>
+        </profile>
+        <!-- 5004演示环境 -->
+        <profile>
+            <id>demo</id>
+            <properties>
+                <db.ip>192.168.2.7</db.ip>
+                <db.port>3306</db.port>
+                <db.username>root</db.username>
+                <db.password>Passw0rd</db.password>
+                <db.name>gm_test</db.name>
+                <uploadPath>D:/upload</uploadPath>
+            </properties>
+        </profile>
+        <!--10.17.250.192 服务器生产环境-->
+        <profile>
+            <id>product</id>
+            <properties>
+                <db.ip>192.168.189.236</db.ip>
+                <db.port>3306</db.port>
+                <db.username>root</db.username>
+                <db.password>Passw0rd</db.password>
+                <db.name>gm_govinvestprojectmanagement</db.name>
+                <uploadPath>D:/upload</uploadPath>
+            </properties>
+        </profile>
+    </profiles>
+    
 </project>

@@ -1883,7 +1883,7 @@
                 serverFiltering: true,
                 pageSize: 10,
                 sort: {
-                    field: "projectIndustry",
+                    field: "planYear",
                     dir: "desc"
                 },
                 filter: [{

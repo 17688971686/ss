@@ -1,5 +1,6 @@
 package cs.service.impl;
 
+import java.io.File;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +21,7 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.spring.ProcessEngineFactoryBean;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -140,6 +142,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     private String taskType_ZJSQBG;//任务类型：资金申请报告
     @Value("${taskType_JH}")
     private String taskType_JH;//任务类型：计划下达
+    @Value("${diskPath}")
+	private String diskPath;//
+
 
     @Override
     @Transactional
@@ -247,8 +252,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
                 entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_oncePlanReach)){
 
             try {
-
-                Attachment att = DocUtil.createDoc(entity.getProjectName(), entity.getProjectShenBaoStage());
+                Attachment att = createDoc(entity.getProjectName(), entity.getProjectShenBaoStage());
                 Assert.notNull(att, "正文生成失败！");
                 entity.getAttachments().add(att);
             } catch (Exception e) {
@@ -1183,6 +1187,46 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         //更新项目的流程监控ID
 
     }
+    
+    public Attachment createDoc(String projectName, String projectShenbaoStage) throws Exception {
+		// Create Blank workbook
+		String projectShenbaoStageName = null;
+		if (projectShenbaoStage.equals(BasicDataConfig.projectShenBaoStage_KXXYJBG)) {
+			projectShenbaoStageName = BasicDataConfig.projectShenBaoStage_KXXYJBG_name;
+		} else if (projectShenbaoStage.equals(BasicDataConfig.projectShenBaoStage_CBSJGS)) {
+			projectShenbaoStageName = BasicDataConfig.projectShenBaoStage_CBSJGS_name;
+		} else if (projectShenbaoStage.equals(BasicDataConfig.projectShenBaoStage_ZJSQBG)){
+			projectShenbaoStageName = BasicDataConfig.projectShenBaoStage_ZJSQBG_name;
+		}else {
+			projectShenbaoStageName = BasicDataConfig.projectShenBaoStage_oncePlanReach_name;
+		}
+		String fileName = projectName + projectShenbaoStageName + "正文";
+		String randomName = Util.generateFileName(fileName);
+		
+		// 本地
+		String sourceUrl=diskPath+"\\template.doc";
+		String diskUrl =diskPath+"\\";
+		
+		File sourceFile = new File(sourceUrl);
+		
+		String filename = randomName + ".doc";
+		String destUrl = diskUrl + filename;
+
+		File destFile = new File(destUrl);
+
+		FileUtils.copyFile(sourceFile, destFile);
+
+		Attachment att = new Attachment();
+		att.setId(IdWorker.get32UUID());
+		att.setName(filename);
+		att.setUrl(filename);
+		att.setItemOrder(0);
+		att.setCreatedDate(new Date());
+		att.setType("zhengwenFile");
+		logger.info(fileName + ".doc 正文创建成功！");
+		return att;
+
+	}
 
     @Override
     public List<ShenBaoInfoDto> findByDto(ODataObj odataObj) {

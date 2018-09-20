@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,7 +64,8 @@ public class CommonController {
 	private ICurrentUser currentUser;
 	@Autowired
 	private YearPlanService yearPlanService;
-
+	@Value("${diskPath}")
+	private String diskPath;
 	
 	@RequiresPermissions("common#basicData/identity#get")
 	@RequestMapping(name="查询基础数据",path="basicData/{identity}",method=RequestMethod.GET)
@@ -153,11 +155,8 @@ public class CommonController {
             	String fileName=file.getOriginalFilename();
             	//随机名
 				String randomName = Util.generateFileName(fileName);
-                // 文件保存路径  
-                String filePath = request.getSession().getServletContext().getRealPath("/") + FILE_UPLOAD_TO
-                        + randomName;  
                 // 转存文件 
-                file.transferTo(new File(filePath));
+                file.transferTo(new File(diskPath+"/"+randomName));
 
 				Map<String, String> map = new HashMap<>();
 				map.put("originalFilename", fileName);
