@@ -187,7 +187,7 @@
     app.run(["$templateCache", function ($templateCache) {
         // 提示窗口模板
         $templateCache.put(alertTplPath,
-            '<div class="alertDialog modal fade" tabindex="-1" role="dialog" style="z-index: {{10000 + winId}};">\
+            '<div class="alertDialog modal fade" tabindex="-1" role="dialog" style="z-index: {{10003 + winId}};">\
                 <div class="modal-dialog" role="document" style="margin:80px auto;width:80%;max-width:400px;">\
                     <div class="modal-content">\
                         <div class="modal-header bg-primary" style="height:30px;padding:5px;">\

@@ -92,26 +92,38 @@ public class WorkDayUtil {
             throw new NullPointerException("结束日期为空！方法名：getUseWorkDayTime");
         }
 
-        //获取起始日期和结束日期工作日总量
+        //获取起始日期和结束日期之间的工作日总量
         Map workdayResult = getworkDay(start,end,holidayMapEnable,holidayMapDisEnable);
 
+        //工作日总量,不算起始和结束日期
         int workday = workdayResult.get("workDay") != null ? Integer.parseInt(String.valueOf(workdayResult.get("workDay"))) : 0;
         //起始日期是否为工作日
         boolean isStartWorkDay = workdayResult.get("isStartWorkDay")!= null ? Boolean.parseBoolean(String.valueOf(workdayResult.get("isStartWorkDay"))) : false;
         //结束日期是否为工作日
         boolean isEndWorkDay = workdayResult.get("isEndWorkDay")!= null ? Boolean.parseBoolean(String.valueOf(workdayResult.get("isEndWorkDay"))) : false;
+        //获取起始日期和结束日期是否为同一天
+        boolean isSameStartAndEnd = workdayResult.get("isSameStartAndEnd")!= null ? Boolean.parseBoolean(String.valueOf(workdayResult.get("isSameStartAndEnd"))) : false;
 
-        long startMills = 0l;
-        long endMills = 0l;
+        //接收计算结果
+        int[] allMills = {0,0,0,0};
 
-        //为工作日，则去结算毫秒数
-        if(isStartWorkDay){
-            startMills = getDatePoor(start,upHour,downHour,true);
+        //起始日期和结束日期为同一天,并且为工作日isEndWorkDay
+        if(isStartWorkDay && isEndWorkDay && isSameStartAndEnd){
+            //workday = workday + 1;   //测试使用
+        //结束日期比起始日期多一天以上
+        }else if(!isSameStartAndEnd){
+            long startMills = 0l;
+            long endMills = 0l;
+
+            //为工作日，则去结算毫秒数
+            if(isStartWorkDay){
+                startMills = getDatePoor(start,upHour,downHour,1);
+            }
+            if(isEndWorkDay){
+                endMills = getDatePoor(end,upHour,downHour,2);
+            }
+            allMills = formatDuring(startMills+endMills,downHour-upHour);
         }
-        if(isEndWorkDay){
-            endMills = getDatePoor(end,upHour,downHour,false);
-        }
-        int[] allMills = formatDuring(startMills+endMills,downHour-upHour);
         //起始日期和结束日期共用的工作时间和其他时间段的时期相加
         int temp = allMills[0];
         allMills[0] = temp + workday;
@@ -123,13 +135,13 @@ public class WorkDayUtil {
      * @param target   计算目标时间
      * @param upHour   上班时间
      * @param downHour 下班时间
-     * @param flag true用于标识下班时间减去目标小时(18点-目标小时),flag用于标识目标小时减去上班时间(目标小时-9点)
-     * @return getTimeInMillisByStartAndEnd   -1表示未过早上9点   0表示已过下午18点
+     * @param flag 1 用于标识下班时间减去目标小时(18点-目标小时),2 用于标识目标小时减去上班时间(目标小时-9点)
+     * @return
      */
     public static long getDatePoor(Date target
             ,int upHour
             ,int downHour
-            ,boolean flag) {
+            ,int flag) {
         //一天工作时间
         int workTime = downHour - upHour;
 
@@ -149,16 +161,27 @@ public class WorkDayUtil {
         downCl.set(Calendar.MINUTE, 0);
         downCl.set(Calendar.SECOND, 0);
 
-        if(targetCl.before(upCl)){
-            return 1000 * 60 * 60 * workTime;
-        }
-        if(targetCl.after(downCl)){
-            return 1000 * 60 * 60 * workTime;
-        }
-
-        if(flag){
+        // 1 为计算起始日期时间, 用下班时间 - 起始时间
+        if(flag  == 1){
+            //起始日期在9点上班之前，算一天工作日
+            if(targetCl.before(upCl)){
+                return 1000 * 60 * 60 * workTime;
+            }
+            //起始日期在18点下班以后，不算时间
+            if(targetCl.after(downCl)){
+                return 0;
+            }
             return getDiffTimeInMillisByStartAndEnd(downCl.getTime(),targetCl.getTime());
+        // 2 为计算结束日期时间,用结束时间 - 上班时间
         }else{
+            //结束日期在9点上班之前，不算时间
+            if(targetCl.before(upCl)){
+                return 0;
+            }
+            //结束日期在18点下班以后，算一天工作日
+            if(targetCl.after(downCl)){
+                return 1000 * 60 * 60 * workTime;
+            }
             return getDiffTimeInMillisByStartAndEnd(upCl.getTime(),targetCl.getTime());
         }
     }
@@ -170,7 +193,9 @@ public class WorkDayUtil {
         boolean isStartWorkDay = false;
         //结束日期是否为工作日
         boolean isEndWorkDay = false;
-        //除起始日期和结束日期之间的工作日
+        //开始日期和结束日期是否为同一天
+        boolean isSameStartAndEnd = false;
+        //起始日期和结束日期之间的工作日
         int workDay = 0;
 
         //返回结果:工作日总数/起始日期是否为工作日/结束日期是否为工作日
@@ -178,38 +203,46 @@ public class WorkDayUtil {
 
         //获取两个日期之间的天数
         int minusDay = 0;
-        //初始化日期的天数
+        //初始化日期的天数,为计算方便
         Calendar cl1 = init(start);
         Calendar cl2 = init(end);
-        try {
-            minusDay = daysBetween(cl1.getTime(),cl2.getTime())+2; //因为日期差不算开始和结束两天，所以加2
-            Calendar cl = Calendar.getInstance();
-            cl.setTime(start);
-            //遍历从起始日期开始到结束日期
-            for (int i = 0; i < minusDay; i++) {
-                // i==0,不加日期
-                if(i!=0){
-                    cl.add(Calendar.DATE,1);
-                }
 
-                boolean isWorkDay = checkHoliday(cl,holidayMapEnable,holidayMapDisEnable);
-                //不计算开始和结束的工作日,因为开始和结束工作日单独处理
-                if(isWorkDay && i!=0 && i!=minusDay){
-                    workDay++;
-                }
-                //起始日期
-                if(i==0){
-                    isStartWorkDay = isWorkDay;
-                }
-                //结束日期
-                if(i==minusDay-1){
-                    isEndWorkDay = isWorkDay;
+        int cl1_day = cl1.get(Calendar.DATE);
+        int cl2_day = cl2.get(Calendar.DATE);
+        try {
+            //起始日期是否为工作日
+            isStartWorkDay = checkHoliday(cl1,holidayMapEnable,holidayMapDisEnable);
+            //结束日期是否为工作日
+            isEndWorkDay = checkHoliday(cl2,holidayMapEnable,holidayMapDisEnable);
+
+            if(cl2_day == cl1_day ){
+                isSameStartAndEnd = true;
+            }
+
+            //如果起始日期和结束日期为同一天或两者就差一天
+            if((cl2_day - cl1_day) <= 1){
+                workDay = 0;
+            }
+            //结束日期 > 起始日期1天以上
+            else {
+                minusDay = daysBetween(cl1.getTime(),cl2.getTime()) - 1; //因为日期差不算开始和结束两天，所以减1
+                Calendar cl = Calendar.getInstance();
+                cl.setTime(start);
+                //遍历在起始日期和结束日期中间的天数
+                for (int i = 0; i < minusDay; i++) {
+                    cl.add(Calendar.DATE,1);
+                    boolean isWorkDay = checkHoliday(cl,holidayMapEnable,holidayMapDisEnable);
+                    //计算起始日期和结束日期之间的工作日
+                    if(isWorkDay){
+                        workDay++;
+                    }
                 }
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.debug("计算工作日出错，方法名：getworkDay ===>>>>>> "+e.getMessage());
         }
         map.put("workDay",workDay);
+        map.put("isSameStartAndEnd",isSameStartAndEnd);
         map.put("isStartWorkDay",isStartWorkDay);
         map.put("isEndWorkDay",isEndWorkDay);
         return map;

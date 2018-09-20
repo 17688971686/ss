@@ -1031,7 +1031,7 @@
                     width: 100,
                     filterable: false,
                     template: function (item) {
-                        return item.tzkBalanceTime;
+                        return common.trimValue(item.tzkBalanceTime);
                     }
                 },
                 {
@@ -1040,7 +1040,7 @@
                     width: 100,
                     filterable: false,
                     template: function (item) {
-                        return item.pxzxBalanceTime;
+                        return common.trimValue(item.pxzxBalanceTime);
                     }
                 }
 

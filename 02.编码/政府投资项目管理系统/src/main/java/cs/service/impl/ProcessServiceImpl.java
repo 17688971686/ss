@@ -1537,6 +1537,9 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		try {
 			//遍历申报集合
 			for(ShenBaoInfo shenbaoinfo : list) {
+			    /*if(!shenbaoinfo.getProjectName().equals("光明消防大队附件上传")){
+                    continue;
+                }*/
 				String processId = shenbaoinfo.getZong_processId();
 				//查询历史任务表，userTaskId为usertask1，userTaskName为材料签收环节的数据
 				HistoricTaskInstance signin_Historic = findHistroyForAuditTimeByProcessIdAndTaskId(processId, task_id_signin);
@@ -1741,8 +1744,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				}
 			}
 		}
-		List.add(sleepMaps);
 		List.add(workMaps);
+		List.add(sleepMaps);
 		return List;
 	}
 

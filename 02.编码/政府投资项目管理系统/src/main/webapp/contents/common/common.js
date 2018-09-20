@@ -42,7 +42,8 @@
         getRoleName: getRoleName,//获取角色名称
         getUserById: getUserById,
         getProcessStateDesc: getProcessStateDesc,//获取审批状态
-        uploadConfig: uploadConfig
+        uploadConfig: uploadConfig,
+        trimValue:trimValue//去空处理
 
     };
 
@@ -64,6 +65,16 @@
             removeCompleted: true,   //设置已完成上传的文件是否从队列中移除，默认为true
             onUploadSuccess: successMethod
         });
+    }
+
+    function trimValue(val){
+        var result;
+        if(!val || val == null){
+            result = "";
+        }else{
+            result = val;
+        }
+        return result;
     }
 
     function getLoginUser() {
