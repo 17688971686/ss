@@ -705,7 +705,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				.findHisProcessIntanceList(shenBaoInfo.getZong_processId());
 		List<HistoricActivityInstance> hais = historyService.createHistoricActivityInstanceQuery()
 				.processInstanceId(shenBaoInfo.getZong_processId()).activityType("userTask")
-				.orderByHistoricActivityInstanceEndTime().asc().list();
+				.orderByHistoricActivityInstanceStartTime().asc().list();
+
 
 		for (HistoricProcessInstance list1 : lists1) {
 			UserUnitInfoDto userUnitInfo = userUnitInfoService.getByUserId(list1.getStartUserId());
