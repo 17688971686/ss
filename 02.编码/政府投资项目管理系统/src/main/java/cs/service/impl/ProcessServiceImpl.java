@@ -729,6 +729,17 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		for (HistoricActivityInstance hai : hais) {
 			String historytaskId = hai.getTaskId();
 			List<Comment> comments = taskService.getTaskComments(historytaskId);
+
+			//按批注时间正序排列
+			comments.sort(new Comparator<Comment>() {
+				@Override
+				public int compare(Comment o1, Comment o2) {
+					Long d1 = o1.getTime().getTime();
+					Long d2 = o2.getTime().getTime();
+					return d1.intValue() - d2.intValue();
+				}
+			});
+
 			// 4）如果当前任务有批注信息，添加到集合中
 			if (comments != null && comments.size() > 0) {
 				for (Comment com : comments) {
