@@ -24,14 +24,18 @@
   <div class="bg-info text-info" style="padding: 10px; margin-bottom: 10px">项目基本信息</div>
 <table class="table table-bordered table-striped ">
 	<tr>
+		<td class="formAlignRight" style="width:150px;">项目名称：<span class="required">(*)</span></td>
+		<td >
+			<span ng-bind="vm.model.projectInfo.projectName"></span>			
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight" >国家编码：</td>
+		<td><span ng-bind="vm.model.projectInfo.countryNumber"></span></td> 
 		<td class="formAlignRight" style="width:150px;">项目代码：<span class="required">(*)</span></td>
 		<td style="width:350px;">
 			<span ng-bind="vm.model.projectInfo.id" style="display:none"></span>
 			<span ng-bind="vm.model.projectInfo.projectNumber"></span>			
-		</td>
-		<td class="formAlignRight" style="width:150px;">项目名称：<span class="required">(*)</span></td>
-		<td >
-			<span ng-bind="vm.model.projectInfo.projectName"></span>			
 		</td>
 	</tr>
 	<tr>
