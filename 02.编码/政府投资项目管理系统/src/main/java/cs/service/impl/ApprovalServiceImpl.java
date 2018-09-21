@@ -10,6 +10,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mysql.cj.core.exceptions.NumberOutOfRange;
+
 import cs.domain.Approval;
 import cs.domain.Attachment;
 import cs.model.PageModelDto;
@@ -51,6 +53,7 @@ public class ApprovalServiceImpl extends AbstractServiceImpl<ApprovalDto, Approv
 	@Override
 	@Transactional
 	public void createDraft(ApprovalDto approvalDto) {
+		
 		Criterion criterion = Restrictions.eq("relId", approvalDto.getRelId());
 		List<Approval> dtos = super.repository.findByCriteria(criterion);
 		Approval entity;
@@ -71,7 +74,10 @@ public class ApprovalServiceImpl extends AbstractServiceImpl<ApprovalDto, Approv
 			attachment.setModifiedBy(entity.getModifiedBy());
 			entity.getAttachments().add(attachment);
 		});
-		super.repository.save(entity);
+		
+		
+			super.repository.save(entity);
+		
 		logger.info("保存评审报批单信息");
 	}
 	
