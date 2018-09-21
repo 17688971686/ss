@@ -40,7 +40,13 @@ public class ApprovalController {
 	@RequiresPermissions("management/approval##post")
 	@RequestMapping(name = "保存评审报批信息", path = "",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void  post(@RequestBody ApprovalDto approvalDto)  {		
-		approvalService.createDraft(approvalDto);		
+	public void  post(@RequestBody ApprovalDto approvalDto)  throws Exception{		
+		try {
+		approvalService.createDraft(approvalDto);	
+		} catch (Exception e) {
+			System.err.println("================="+e.getMessage());
+		throw new IllegalArgumentException("评审金额填写错误:单位为：万元，最大到百亿。请核对后填写！");
+	}
+	
 	}
 }
