@@ -252,7 +252,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
                 entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_oncePlanReach)){
 
             try {
-                Attachment att = createDoc(entity.getProjectName(), entity.getProjectShenBaoStage());
+                Attachment att = DocUtil.createDoc(entity.getProjectName(), entity.getProjectShenBaoStage());
                 Assert.notNull(att, "正文生成失败！");
                 entity.getAttachments().add(att);
             } catch (Exception e) {
@@ -343,14 +343,14 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     public ShenBaoInfo createShenBaoInfo(ShenBaoInfoDto dto, Boolean isAdminCreate) {
     	ShenBaoInfo entity = null;
     
-    	Map map = isRecords(dto);
-    	
-    	if((boolean) map.get("hasBG")){
+//    	Map map = isRecords(dto);
+//    	
+//    	if((boolean) map.get("hasBG")){
     		 // 创建申报数据
             entity = create(dto, isAdminCreate);
-    	}else{
-    		throw new IllegalArgumentException("未申请可研或可研审批未结束，无法创建概算申请！");
-    	}
+//    	}else{
+//    		throw new IllegalArgumentException("未申请可研或可研审批未结束，无法创建概算申请！");
+//    	}
 
         //启动申报审批流程
         if (entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)) {
@@ -1187,47 +1187,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         //更新项目的流程监控ID
 
     }
-    
-    public Attachment createDoc(String projectName, String projectShenbaoStage) throws Exception {
-		// Create Blank workbook
-		String projectShenbaoStageName = null;
-		if (projectShenbaoStage.equals(BasicDataConfig.projectShenBaoStage_KXXYJBG)) {
-			projectShenbaoStageName = BasicDataConfig.projectShenBaoStage_KXXYJBG_name;
-		} else if (projectShenbaoStage.equals(BasicDataConfig.projectShenBaoStage_CBSJGS)) {
-			projectShenbaoStageName = BasicDataConfig.projectShenBaoStage_CBSJGS_name;
-		} else if (projectShenbaoStage.equals(BasicDataConfig.projectShenBaoStage_ZJSQBG)){
-			projectShenbaoStageName = BasicDataConfig.projectShenBaoStage_ZJSQBG_name;
-		}else {
-			projectShenbaoStageName = BasicDataConfig.projectShenBaoStage_oncePlanReach_name;
-		}
-		String fileName = projectName + projectShenbaoStageName + "正文";
-		String randomName = Util.generateFileName(fileName);
-		
-		// 本地
-		String sourceUrl=diskPath+"\\template.doc";
-		String diskUrl =diskPath+"\\";
-		
-		File sourceFile = new File(sourceUrl);
-		
-		String filename = randomName + ".doc";
-		String destUrl = diskUrl + filename;
-
-		File destFile = new File(destUrl);
-
-		FileUtils.copyFile(sourceFile, destFile);
-
-		Attachment att = new Attachment();
-		att.setId(IdWorker.get32UUID());
-		att.setName(filename);
-		att.setUrl(filename);
-		att.setItemOrder(0);
-		att.setCreatedDate(new Date());
-		att.setType("zhengwenFile");
-		logger.info(fileName + ".doc 正文创建成功！");
-		return att;
-
-	}
-
     @Override
     public List<ShenBaoInfoDto> findByDto(ODataObj odataObj) {
         // TODO Auto-generated method stub

@@ -799,7 +799,7 @@
         
         function print(){
         	taskNewAuditSvc.getShenBaoInfoById(vm);
-        	taskNewAuditSvc.getDraftIssued(vm);//获取当前登陆单位信息
+        	taskNewAuditSvc.getDraftIssued(vm);
         	taskNewAuditSvc.getHistoryInfo(vm);
         	var nowDate=new Date();
         	 vm.getBasicDataDesc = function (str) {//流转信息显示

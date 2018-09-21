@@ -489,7 +489,7 @@
                 <db.username>root</db.username>
                 <db.password>Passw0rd</db.password>
                 <db.name>gm_test</db.name>
-                <uploadPath>D:/upload</uploadPath>
+                <uploadPath>D:/gm_upload</uploadPath>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -504,7 +504,7 @@
                 <db.username>gm_test</db.username>
                 <db.password>Passw0rd</db.password>
                 <db.name>gm_test</db.name>
-                <uploadPath>D:/upload</uploadPath>
+                <uploadPath>D:/gm_upload</uploadPath>
             </properties>
         </profile>
         <!-- 5004演示环境 -->
@@ -516,7 +516,7 @@
                 <db.username>root</db.username>
                 <db.password>Passw0rd</db.password>
                 <db.name>gm_test</db.name>
-                <uploadPath>D:/upload</uploadPath>
+                <uploadPath>D:/gm_upload</uploadPath>
             </properties>
         </profile>
         <!--10.17.250.192 服务器生产环境-->
@@ -528,7 +528,7 @@
                 <db.username>root</db.username>
                 <db.password>Passw0rd</db.password>
                 <db.name>gm_govinvestprojectmanagement</db.name>
-                <uploadPath>D:/upload</uploadPath>
+                <uploadPath>D:/gm_upload</uploadPath>
             </properties>
         </profile>
     </profiles>
