@@ -18,7 +18,11 @@
     <table class="table table-bordered table-striped">				
 		<tr>
 			<td width="15%">项目名称：</td>
-			<td width="35%" ng-bind="vm.model.projectInfo.projectName"></td>
+			<td ng-bind="vm.model.projectInfo.projectName"></td>
+		</tr>
+		<tr>
+			<td width="15%" >国家编码：</td>
+			<td width="35%" ng-bind="vm.model.shenBaoInfo.countryNumber"></td> 
 			<td width="15%">项目代码：</td>
 			<td width="80px;"><span ng-bind="vm.model.projectInfo.projectNumber"></span></td>
 		</tr>
