@@ -95,6 +95,14 @@
 			<span id="endDate" name="endDate" ng-bind="vm.model.shenBaoInfo.endDate | date:'yyyy-MM-dd'"></span>									
 		</td>
 	</tr>
+
+	<tr>
+		<td class="formAlignRight"><span class="{{vm.getBasicDataComment(vm.model.shenBaoInfo.urgencyState)}}">申报文件缓急：</span></td>
+		<td colspan="3" style="width:450px;">
+			<span class="{{vm.getBasicDataComment(vm.model.shenBaoInfo.urgencyState)}}" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.urgencyState)"></span>
+		</td>
+	</tr>
+
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
 		<td>

@@ -140,6 +140,16 @@
 		</td>
 	</tr>
 	<tr>
+		<td class="formAlignRight">申报文件缓急：<span class="required">(*)</span></td>
+		<td colspan="3">
+			<select style="height:30px;" id="urgencyState" name="urgencyState" ng-model="vm.model.urgencyState" data-val="true" data-val-required="必选">
+				<option value="">---请选择---</option>
+				<option ng-repeat="x in vm.basicData.urgencyState" ng-selected="vm.model.urgencyState==x.id" value="{{x.id}}">{{x.description}}</option>
+			</select>
+			<span data-valmsg-for="urgencyState" data-valmsg-replace="true" class="required"></span>
+		</td>
+	</tr>
+	<tr>
 		<td class="formAlignRight">项目投资情况：<span class="required">(*)</span></td>
 		<td colspan="3">
 			<table class="table table-bordered table-striped table-hover">

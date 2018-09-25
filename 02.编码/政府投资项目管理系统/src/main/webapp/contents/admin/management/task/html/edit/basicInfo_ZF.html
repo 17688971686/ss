@@ -137,6 +137,12 @@
 		</td>
 	</tr>
 	<tr>
+		<td class="formAlignRight"><span class="{{vm.getBasicDataComment(vm.model.shenBaoInfo.urgencyState)}}">申报文件缓急：</span></td>
+		<td colspan="3" style="width:450px;">
+			<span class="{{vm.getBasicDataComment(vm.model.shenBaoInfo.urgencyState)}}" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.urgencyState)"></span>
+		</td>
+	</tr>
+	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
 		<td>
 			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.shenBaoInfo.projectInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)

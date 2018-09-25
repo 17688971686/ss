@@ -90,6 +90,13 @@
 			<span id="endDate" ng-bind="vm.model.endDate | date:'yyyy-MM-dd'"></span>
 		</td>
 	</tr>
+
+	<tr>
+		<td class="formAlignRight">申报文件缓急：</td>
+		<td colspan="3" style="width:450px;">
+			<span ng-bind="vm.getBasicDataDesc(vm.model.urgencyState)"></span>
+		</td>
+	</tr>
 	
 	<tr>
 		<td class="formAlignRight">项目投资情况：<span class="required">(*)</span></td>

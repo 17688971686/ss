@@ -63,6 +63,9 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setQianshouDate(entity.getQianshouDate());
 			shenBaoInfoDto.setPifuDate(entity.getPifuDate());
 			shenBaoInfoDto.setPlanYear(entity.getPlanYear());
+			//增加文件缓急字段  2018-9-21 by liux
+			shenBaoInfoDto.setUrgencyState(entity.getUrgencyState());
+
 			//资金来源
 			shenBaoInfoDto.setCapitalQCZ_ggys(entity.getCapitalQCZ_ggys());
 			shenBaoInfoDto.setCapitalQCZ_gtzj(entity.getCapitalQCZ_gtzj());
@@ -249,11 +252,14 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setPfProjectInvestSum(shenBaoInfoDto.getPfProjectInvestSum());
 			shenBaoInfo.setIsRecords(shenBaoInfoDto.getIsRecords());
 			shenBaoInfo.setCountryNumber(shenBaoInfoDto.getCountryNumber());
+
 			//申报信息相关时间
 			shenBaoInfo.setShenbaoDate(shenBaoInfoDto.getShenbaoDate());
 			shenBaoInfo.setQianshouDate(shenBaoInfoDto.getQianshouDate());
 			shenBaoInfo.setPifuDate(shenBaoInfoDto.getPifuDate());
 			shenBaoInfo.setPlanYear(shenBaoInfoDto.getPlanYear());
+			//增加文件缓急字段  2018-9-21 by liux
+			shenBaoInfo.setUrgencyState(shenBaoInfoDto.getUrgencyState());
 			//资金来源
 			shenBaoInfo.setCapitalQCZ_gtzj(shenBaoInfoDto.getCapitalQCZ_gtzj());
 			shenBaoInfo.setCapitalQCZ_ggys(shenBaoInfoDto.getCapitalQCZ_ggys());

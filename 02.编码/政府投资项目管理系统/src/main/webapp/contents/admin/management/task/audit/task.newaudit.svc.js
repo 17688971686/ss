@@ -307,6 +307,7 @@
                             vm.draft.relId = vm.model.shenBaoInfo.id;
                             vm.draft.userNameAndUnit = window.profile_userId;//初始化填写评审报批单的经办人为任务当前处理人
                             vm.userNameAndUnitName = window.profile_userName;
+                            vm.draft.fileSet = vm.model.shenBaoInfo.urgencyState;//申报文件缓急赋值给发文文件缓急
                             if (vm.isLookApproval == true) {
                                 vm.userNameAndUnitName = "";
                             } else {
