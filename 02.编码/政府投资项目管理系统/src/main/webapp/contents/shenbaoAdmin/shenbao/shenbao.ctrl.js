@@ -166,7 +166,7 @@
 					.basicDataConfig().projectType);//项目类型   			   			       		   		
 			vm.basicData.projectCategory = common
 					.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别
-            vm.basicData.urgencyState = common.getBacicDataByIndectity(common.basicDataConfig().urgencyState);//紧急类型
+            vm.basicData.urgencyState = common.getBacicDataByIndectity(common.basicDataConfig().fileSet);//紧急类型
 			vm.basicData.projectConstrChar = common
 					.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质	   			   		
 			vm.basicData.unitProperty = common.getBacicDataByIndectity(common
