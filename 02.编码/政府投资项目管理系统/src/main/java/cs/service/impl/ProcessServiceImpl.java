@@ -1493,11 +1493,13 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
 	@Override
 	public List<ShenBaoInfoRun> findRunByOdata(ODataObjNew odata) {
+		odata.addOrderby(ShenBaoInfo_.urgencyState.getName(),true); //文件缓急倒叙排列
 		return shenBaoInfoRepoImpl.findRunByOdata(odata);
 	}
 
 	@Override
 	public List<ShenBaoInfoDto> findRunByOdata(ODataObjNew odata, boolean isPerson, Criterion flowCriterion) {
+		odata.addOrderby(ShenBaoInfo_.urgencyState.getName(),true); //文件缓急倒叙排列
 		odata.setProcessQuery((criteria) -> {
 			DetachedCriteria existsCriteria = DetachedCriteria.forClass(WorkflowRunTask.class, "f");
 			if (isPerson) {
@@ -1810,6 +1812,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	@Transactional
 	public List<ShenBaoInfoDto>  findAuditKeshi(ODataObjNew odata) {
 		odata.addOrFilter(ShenBaoInfo_.thisTaskName.getName(), OdataFilter.Operate.EQ, "usertask2","usertask3","usertask6","usertask12","usertask13","usertask14","usertask16","usertask17","usertask23","usertask7","usertask18","usertask19","usertask20","usertask21","usertask22");
+		odata.addOrderby(ShenBaoInfo_.urgencyState.getName(),true);
 		return shenBaoInfoRepoImpl.findRunByOdata2(odata).stream().map(mapper::toDto).collect(Collectors.toList());
 	}
 

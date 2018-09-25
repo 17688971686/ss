@@ -40,11 +40,13 @@
 			</span>
         </div>
         <div class="input-group">
-            <span class="input-group-addon">文件缓急</span>
+            <span class="input-group-addon"><span class="{{vm.getBasicDataComment(vm.draft.fileSet)}}">文件缓急</span></span>
             <select class="form-control input-sm" id="fileSet" name="fileSet" ng-model="vm.draft.fileSet"
                     data-val="true" data-val-required="必选">
                 <option value="">-&#45;&#45;请选择-&#45;&#45;</option>
-                <option ng-repeat="y in vm.basicData.fileSet" value="{{y.id}}">{{y.description}}</option>
+                <option ng-repeat="y in vm.basicData.fileSet" ng-selected="vm.draft.fileSet==y.id" value="{{y.id}}" class="{{vm.getBasicDataComment(y.id)}}">
+                    {{y.description}}
+                </option>
             </select>
             <span data-valmsg-for="fileSet" data-valmsg-replace="true" class="required"></span>
         </div>

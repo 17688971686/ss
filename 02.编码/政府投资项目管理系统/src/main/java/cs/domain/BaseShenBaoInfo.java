@@ -241,6 +241,17 @@ public class BaseShenBaoInfo extends BaseProject {
     //评审中心剩余评审时间
     @Column(columnDefinition = "varchar(20) NULL COMMENT '评审中心剩余评审时间'")
     private String pxzxBalanceTime;
+    //申报文件缓急   add by liux  2018-9-21
+    @Column(columnDefinition = "varchar(20) NULL COMMENT '申报文件缓急'")
+    private String  urgencyState;
+
+    public String getUrgencyState() {
+        return urgencyState;
+    }
+
+    public void setUrgencyState(String urgencyState) {
+        this.urgencyState = urgencyState;
+    }
 
     public String getTzkBalanceTime() {
         return tzkBalanceTime;

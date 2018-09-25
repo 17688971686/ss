@@ -22,6 +22,7 @@
         loginUrl: '/',
         getBasicData: getBasicData,
         getBasicDataDesc: getBasicDataDesc,
+        getBasicDataComment: getBasicDataComment,
         getBacicDataByIndectity: getBacicDataByIndectity,
         toDate: toDate,
         toMoney: toMoney,
@@ -421,6 +422,18 @@
             }).firstOrDefault();
         if (data) {
             return data.description;
+        } else {
+            return "";
+        }
+    }
+
+    function getBasicDataComment(id){
+        var data = $linq(common.getBasicData())
+            .where(function (x) {
+                return x.id == id;
+            }).firstOrDefault();
+        if (data) {
+            return data.comment;
         } else {
             return "";
         }

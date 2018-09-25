@@ -48,6 +48,11 @@
 				return common.getBasicDataDesc(Str);
 			};
 
+            vm.getBasicDataComment = function (str) {//获取基础数据comment
+                return common.getBasicDataComment(str);
+            };
+
+
 			vm.checkLength = function(obj, max, id) {
 				common.checkLength(obj, max, id);
 			};
@@ -160,7 +165,8 @@
 			vm.basicData.projectType = common.getBacicDataByIndectity(common
 					.basicDataConfig().projectType);//项目类型   			   			       		   		
 			vm.basicData.projectCategory = common
-					.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别	   		
+					.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别
+            vm.basicData.urgencyState = common.getBacicDataByIndectity(common.basicDataConfig().urgencyState);//紧急类型
 			vm.basicData.projectConstrChar = common
 					.getBacicDataByIndectity(common.basicDataConfig().projectConstrChar);//项目建设性质	   			   		
 			vm.basicData.unitProperty = common.getBacicDataByIndectity(common

@@ -63,6 +63,11 @@
             vm.getBasicDataDesc = function (str) {//流转信息显示
                 return common.getBasicDataDesc(str);
             };
+
+            vm.getBasicDataComment = function (str) {//获取基础数据comment
+                return common.getBasicDataComment(str);
+            };
+
             vm.checkLength = function (obj, max, id) {
                 common.checkLength(obj, max, id);
             };
