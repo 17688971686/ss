@@ -1045,8 +1045,8 @@
 				vm.model.monthReport= response.data.value[0]||{};
 				getProjectById(vm);//根据关联的项目id获取项目信息
 				//处理数据
-				vm.model.monthReport.beginDate = common.formatDate(vm.model.monthReport.beginDate);
-				vm.model.monthReport.endDate = common.formatDate(vm.model.monthReport.endDate);
+				//vm.model.monthReport.beginDate = common.formatDate(vm.model.monthReport.beginDate);
+				//vm.model.monthReport.endDate = common.formatDate(vm.model.monthReport.endDate);
 				//上传文件类型
 				vm.uploadType=[['scenePicture','现场图片'],['other','其它材料']];
 			};
@@ -1772,8 +1772,8 @@
 						vm.model.monthReport.projectRepName=vm.model.projectInfo.projectRepName;
 						vm.model.monthReport.projectRepMobile=vm.model.projectInfo.projectRepMobile;
 						//项目开工以及竣工日期的获取
-						vm.model.monthReport.beginDate=common.formatDate(vm.model.projectInfo.beginDate);
-						vm.model.monthReport.endDate=common.formatDate(vm.model.projectInfo.endDate);
+						//vm.model.monthReport.beginDate=common.formatDate(vm.model.projectInfo.beginDate);
+						//vm.model.monthReport.endDate=common.formatDate(vm.model.projectInfo.endDate);
 						
 						vm.model.monthReport.invertPlanTotal=common.toMoney(vm.model.projectInfo.projectInvestSum);//项目总投资
 						//项目相关资金获取 （TODO 资金处理这一块可以不用了）
@@ -2543,8 +2543,8 @@
 			   	//项目类型的处理--多选框回显
 			   	vm.model.projectType = common.stringToArray(vm.model.projectType,',');
 				//日期展示
-				vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
-				vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
+				//vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
+				//vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
 				vm.model.pifuJYS_date=common.formatDate(vm.model.pifuJYS_date);//项目建议书批复日期			
 				vm.model.pifuKXXYJBG_date=common.formatDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
 				vm.model.pifuCBSJYGS_date=common.formatDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期
@@ -3923,8 +3923,8 @@
 						vm.canDelete = false;
 					}
 					//日期展示
-					vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
-					vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
+					//vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
+					//vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
 					vm.model.pifuJYS_date=common.formatDate(vm.model.pifuJYS_date);//项目建议书批复日期			
 					vm.model.pifuKXXYJBG_date=common.formatDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
 					vm.model.pifuCBSJYGS_date=common.formatDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期						
@@ -4120,8 +4120,8 @@
 					//多选框回显						
 					vm.model.projectType = common.stringToArray(vm.model.projectType,',');
 					//日期展示处理
-					vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
-					vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
+					//vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
+					//vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
 					vm.model.pifuJYS_date=common.formatDate(vm.model.pifuJYS_date);//项目建议书批复日期			
 					vm.model.pifuKXXYJBG_date=common.formatDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
 					vm.model.pifuCBSJYGS_date=common.formatDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期 					
@@ -4333,8 +4333,8 @@
 					width : 120,
 					template:function(item){
 						return common.format(
-								(common.formatDate(item.beginDate)?common.formatDate(item.beginDate):'')+"~\n"+
-								(common.formatDate(item.endDate)?common.formatDate(item.endDate):''));
+								(item.beginDate?item.beginDate:'')+"~\n"+
+								(item.endDate?item.endDate:''));
 
 					},
 					filterable : false,

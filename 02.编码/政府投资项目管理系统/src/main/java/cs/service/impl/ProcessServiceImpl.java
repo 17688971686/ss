@@ -535,7 +535,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已办结");
 			shenBaoInfo.setProcessStage("已办结");
-			shenBaoInfo.setEndDate(new Date());
+			shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
 			shenBaoInfo.setPifuDate(new Date());
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_pass);
 			project.setIsIncludLibrary(true);
@@ -545,7 +545,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setThisTaskName("已退文");
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_notpass);
 			shenBaoInfo.setProcessStage("已退文");
-			shenBaoInfo.setEndDate(new Date());
+			shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
 //			shenBaoInfo.setComplate(true);
 		} else {
 
@@ -877,7 +877,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		
 		Project project = projectRepo.findById(shenBaoInfo.getProjectId());
 		project.setIsIncludLibrary(true);
-		shenBaoInfo.setEndDate(new Date());
+		shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
 		shenBaoInfo.setQianshouDate(new Date());
 //		shenBaoInfo.setComplate(true);
 		projectRepo.save(project);
@@ -1165,13 +1165,13 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setProcessStage("已办结");
 			project.setIsIncludLibrary(true);
 //			shenBaoInfo.setComplate(true);
-			shenBaoInfo.setEndDate(new Date());
+			shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
 		} else if (str.equals("tuiwen")) {
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已退文");
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_notpass);
 			shenBaoInfo.setProcessStage("已退文");
-			shenBaoInfo.setEndDate(new Date());
+			shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
 			// 退文时，撤销当前流程
 //			runtimeService.deleteProcessInstance(shenBaoInfo.getZong_processId(), "已退文");
 		} else {

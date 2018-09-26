@@ -169,8 +169,8 @@
 			   	//项目类型的处理--多选框回显
 			   	vm.model.projectType = common.stringToArray(vm.model.projectType,',');
 				//日期展示
-				vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
-				vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
+				//vm.model.beginDate=common.formatDate(vm.model.beginDate);//开工日期
+				//vm.model.endDate=common.formatDate(vm.model.endDate);//竣工日期
 				vm.model.pifuJYS_date=common.formatDate(vm.model.pifuJYS_date);//项目建议书批复日期			
 				vm.model.pifuKXXYJBG_date=common.formatDate(vm.model.pifuKXXYJBG_date);//可行性研究报告批复日期
 				vm.model.pifuCBSJYGS_date=common.formatDate(vm.model.pifuCBSJYGS_date);//初步设计与概算批复日期

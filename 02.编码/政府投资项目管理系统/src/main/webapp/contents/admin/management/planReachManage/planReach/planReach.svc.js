@@ -121,8 +121,8 @@
 				vm.model.approvalTime=common.formatDate(vm.model.approvalTime);
 				//建设起止日期展示
 				vm.model.shenBaoInfoDtos.forEach(function(item,index){
-					item.beginDate=common.formatDate(item.beginDate);
-					item.endDate=common.formatDate(item.endDate);
+					//item.beginDate=common.formatDate(item.beginDate);
+					//item.endDate=common.formatDate(item.endDate);
 					vm.gg[item.id] = item.xdPlanReach_ggys;
 					vm.gt[item.id] = item.xdPlanReach_gtzj;
 				});
@@ -379,7 +379,7 @@
 								.format(
 										"<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
 										item.id+","+item.projectName+","+item.constructionUnit+","+item.projectGuiMo+","+item.projectConstrChar+","+
-											common.formatDate(item.beginDate)+","+common.formatDate(item.endDate)+","+item.projectInvestSum+","+item.projectInvestAccuSum+","+item.planYear+","+
+											item.beginDate+","+item.endDate+","+item.projectInvestSum+","+item.projectInvestAccuSum+","+item.planYear+","+
 											item.capitalAP_ggys_TheYear+","+item.capitalAP_gtzj_TheYear+","+item.sqPlanReach_ggys+","+item.sqPlanReach_gtzj+","+
 											item.apPlanReach_ggys+","+item.apPlanReach_gtzj+","+item.xdPlanReach_ggys+","+item.xdPlanReach_gtzj+","+item.thisTaskName);
 					},
@@ -636,8 +636,8 @@
 						//项目类型
 						vm.projectTypes = common.stringToArray(vm.model.shenBaoInfo.projectType,",");
 						//时间的显示
-						vm.model.shenBaoInfo.endDate=common.formatDate(vm.model.shenBaoInfo.endDate);//竣工日期
-						vm.model.shenBaoInfo.beginDate=common.formatDate(vm.model.shenBaoInfo.beginDate);//开工日期
+						//vm.model.shenBaoInfo.endDate=common.formatDate(vm.model.shenBaoInfo.endDate);//竣工日期
+						//vm.model.shenBaoInfo.beginDate=common.formatDate(vm.model.shenBaoInfo.beginDate);//开工日期
 						//判断项目的投资类型
 						if(vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_SH){//社会投资
 							vm.isSHInvestment = true;

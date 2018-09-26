@@ -52,11 +52,11 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="varchar(125) NULL COMMENT '项目分类'")
 	private String projectClassify;
 	
-	@Column(columnDefinition="date NULL COMMENT '开工日期'")
-	private Date beginDate;
+	@Column(columnDefinition="varchar(20) NULL COMMENT '开工日期'")
+	private String beginDate;
 	
-	@Column(columnDefinition="date NULL COMMENT '竣工日期'")
-	private Date endDate;
+	@Column(columnDefinition="varchar(20) COMMENT '竣工日期'")
+	private String endDate;
 	
 	@Column(columnDefinition="varchar(125) NULL COMMENT '项目建设区域'")
 	private String divisionId;
@@ -237,19 +237,19 @@ public class BaseProject extends BaseEntity
 		this.projectClassify = projectClassify;
 	}
 
-	public Date getBeginDate() {
+	public String getBeginDate() {
 		return beginDate;
 	}
 
-	public void setBeginDate(Date beginDate) {
+	public void setBeginDate(String beginDate) {
 		this.beginDate = beginDate;
 	}
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 
