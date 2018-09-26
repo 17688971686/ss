@@ -293,7 +293,7 @@
                     fn: function () {
                         vm.draft = response.data.value[0] || {};
                         if (vm.draft.id) {
-                            vm.draft.draftDate = common.formatDate(vm.draft.draftDate);//开工日期
+                            vm.draft.draftDate = common.formatDate(vm.draft.draftDate);
                             vm.userNameAndUnitName = vm.getUserName(vm.draft.userNameAndUnit);
                         } else {
                             //初始化相关数据
@@ -586,9 +586,9 @@
 							vm.materialsType=common.uploadFileTypeConfig().projectShenBaoStage_jihuaxiada;
 						}
                         //时间的显示
-                        vm.model.shenBaoInfo.createdDate = common.formatDate(vm.model.shenBaoInfo.createdDate);//开工日期
-                        vm.model.shenBaoInfo.beginDate = common.formatDate(vm.model.shenBaoInfo.beginDate);//开工日期
-                        vm.model.shenBaoInfo.endDate = common.formatDate(vm.model.shenBaoInfo.endDate);//竣工日期
+                        vm.model.shenBaoInfo.createdDate = common.formatDate(vm.model.shenBaoInfo.createdDate);
+                        //vm.model.shenBaoInfo.beginDate = common.formatDate(vm.model.shenBaoInfo.beginDate);//开工日期
+                        //vm.model.shenBaoInfo.endDate = common.formatDate(vm.model.shenBaoInfo.endDate);//竣工日期
                         vm.model.shenBaoInfo.pifuJYS_date = common.formatDate(vm.model.shenBaoInfo.pifuJYS_date);//项目建议书批复日期
                         vm.model.shenBaoInfo.pifuKXXYJBG_date = common.formatDate(vm.model.shenBaoInfo.pifuKXXYJBG_date);//可行性研究报告批复日期
                         vm.model.shenBaoInfo.pifuCBSJYGS_date = common.formatDate(vm.model.shenBaoInfo.pifuCBSJYGS_date);//初步设计与概算批复日期

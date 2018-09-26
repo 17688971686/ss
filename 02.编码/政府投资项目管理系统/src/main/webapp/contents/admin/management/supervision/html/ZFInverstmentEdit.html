@@ -112,13 +112,13 @@
 	<tr>
 		<td class="formAlignRight">项目开工日期：</td>
 		<td >
-			<input id="beginDate" name="beginDate" onkeydown="return false;" placeholder="格式：yyyy-MM-dd"
-			 ng-model="vm.model.beginDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>		 						
+			<input id="beginDate" name="beginDate"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM',readOnly:true})" class="Wdate" onChange=""
+				   ng-model="vm.model.beginDate" autocomplete="off" />
 		</td>
 		<td class="formAlignRight">项目竣工日期：</td>
 		<td >
-			<input id="endDate" name="endDate" onkeydown="return false;" placeholder="格式：yyyy-MM-dd"
-			 ng-model="vm.model.endDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>									
+			<input id="endDate" name="endDate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM',readOnly:true})" class="Wdate" onChange=""
+				   ng-model="vm.model.endDate" autocomplete="off" />
 		</td>
 	</tr>	
 	<tr>
