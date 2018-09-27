@@ -7,9 +7,10 @@
     </div>
     <div class="form-info" style="margin-left:61%;max-height: 830px;overflow-y: auto">
 
-        <div class="input-group title" style="display:block;">
-            <span class="input-group-addon" style="float: left;height: 40px;line-height: 40px;padding: 0;">文件标题</span>
-            <div  ng-bind="vm.draft.projectName" title={{vm.draft.projectName}} ></div>
+        <div class="input-group">
+            <span class="input-group-addon">文件标题</span>
+        	<input type="text" class="form-control input-sm" id="title" name="title"
+                   ng-model="vm.draft.title"/>
         </div>
         <div class="input-group">
             <span class="input-group-addon">发文字号</span>
@@ -63,8 +64,8 @@
             <span class="input-group-addon">代拟稿</span>
             <span class="form-control">
 				<label >
-                    <input type="radio" name="drafts" id="drafts" value="true" ng-model="vm.draft.drafts" ng-checked="vm.draft.drafts"/>是&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="radio" name="drafts" id="drafts" value="false" ng-model="vm.draft.drafts" ng-checked="!vm.draft.drafts"/>否
+                    <input type="radio" name="drafts" id="drafts" ng-value=true ng-model="vm.draft.drafts" />是&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="drafts" id="drafts" ng-value=false ng-model="vm.draft.drafts" />否
 			    </label>
 			    <span data-valmsg-for="openType" data-valmsg-replace="true" class="required"></span>
 			</span>

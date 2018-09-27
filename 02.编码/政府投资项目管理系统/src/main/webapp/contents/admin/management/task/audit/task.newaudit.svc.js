@@ -338,7 +338,7 @@
             common.initJqValidation();
             var isValid = $('#formDraft').valid();
             if (isValid) {
-            	if(vm.draft.drafts == "false"){
+            	if(vm.draft.drafts == "false" || vm.draft.drafts == false){
             		vm.draft.drafts = false;
             	}else{
             		vm.draft.drafts = true;
