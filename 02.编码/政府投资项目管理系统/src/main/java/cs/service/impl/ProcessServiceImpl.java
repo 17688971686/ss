@@ -1816,4 +1816,17 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		return shenBaoInfoRepoImpl.findRunByOdata2(odata).stream().map(mapper::toDto).collect(Collectors.toList());
 	}
 
+	@Override
+	public int findAllTodoTaskNumber(String id) {
+		boolean isPerson = true;
+		ODataObjNew odata = new ODataObjNew();
+		ODataObjNew odata2 = new ODataObjNew();
+		currentUser.setUserId(id);
+		odata.addAndFilter(ShenBaoInfo_.thisUser.getName(), OdataFilter.Operate.EQ,id);
+		List<ShenBaoInfoDto> list = this.findAuditRunByOdata(odata, isPerson);
+		List<ShenBaoInfoDto> list2 = this.findYearPlanRunByOdata(odata2, isPerson);
+		list2.addAll(list);
+		return list2.size();
+	}
+
 }

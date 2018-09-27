@@ -78,6 +78,7 @@ public abstract class BaseShenBaoInfo_ extends cs.domain.BaseProject_ {
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> yearImageSchedule;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> capitalAP_qita_LastTwoYear;
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> processStage;
+	public static volatile SingularAttribute<BaseShenBaoInfo, String> urgencyState;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> yearInvestApproval_lastTwoYear;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> yearInvestApproval;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> apPlanReach_ggys;
