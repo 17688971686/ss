@@ -88,4 +88,6 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
 	 */
 	void updateAuditTime();
 
+	int findAllTodoTaskNumber(String id);
+
 }
