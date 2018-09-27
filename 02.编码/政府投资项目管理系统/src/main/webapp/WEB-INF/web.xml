@@ -149,7 +149,7 @@
   </filter>
   <filter-mapping>
       <filter-name>FileRequestFilter</filter-name>
-      <url-pattern>/*</url-pattern>
+      <url-pattern>/contents/upload/*</url-pattern>
   </filter-mapping>
 
     <filter>
