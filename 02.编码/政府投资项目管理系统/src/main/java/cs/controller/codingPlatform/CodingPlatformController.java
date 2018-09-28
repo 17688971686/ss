@@ -50,6 +50,9 @@ public class CodingPlatformController {
 			JsonObject object = (JsonObject) parser.parse(str);
 			
 			for (int i = 1; i <= object.get("totalPage").getAsInt(); i++) {
+				if(i == 50 || i==70 || i==90){
+					Thread.sleep(5000);
+				}
 				str =codingPlatformService.getShenBaoInfoFromCoding(todaytime,String.valueOf(i));
 				codingPlatformService.saveAll(str);
 			}
