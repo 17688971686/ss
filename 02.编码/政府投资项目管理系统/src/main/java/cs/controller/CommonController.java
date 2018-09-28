@@ -231,7 +231,7 @@ public class CommonController {
 			for(ExcelDataYS y:excelDataYSList){
 				if(y.getProjectIndustry().equals(x.getProjectIndustry())){
 					y.setNo(String.valueOf(j));
-					y.setConstructionDate(Util.formatDate(y.getBeginDate(),"yyyy-MM")+"~"+"\n"+Util.formatDate(y.getEndDate(),"yyyy-MM"));
+					y.setConstructionDate(y.getBeginDate()+"~"+"\n"+y.getEndDate());
 					y.setHB(false);
 					excelDataYSListZH.add(y);
 					
