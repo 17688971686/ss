@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -81,11 +82,14 @@ public class CodingPlatformServiceImpl extends AbstractServiceImpl<CodingProject
             URL url = new URL(url1);    
             // 打开连接
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");//设置代理
             connection.setRequestMethod("POST");
             connection.setRequestProperty("authorSecret",BasicDataConfig.AUTHORSECRET);
             connection.setRequestProperty("accessToken",access_token);
             // 连接会话
             connection.connect();
+
+
             // 获取输入流,并指定字符集,如若不指定会有乱码问题
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream() , "utf-8"));
             String line;
@@ -135,6 +139,7 @@ public class CodingPlatformServiceImpl extends AbstractServiceImpl<CodingProject
 							for (Project project : projects) {
 								if(subObject.get("COUNTRY_CODE").getAsString() != ""){
 									project.setCountryNumber(subObject.get("COUNTRY_CODE").getAsString());
+									project.setModifiedDate(new Date());
 									projectRepo.save(project);
 									
 									Criterion criterion1 = Restrictions.eq(ShenBaoInfo_.projectId.getName(),project.getId());
