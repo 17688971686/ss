@@ -108,7 +108,7 @@ public class SQLConfig {
     public static String yearPlanByYS = "SELECT yp.year AS planYear," +
             " IFNULL(sbi.constructionUnit,'') AS ConstructionUnit," +
             " IFNULL(sbi.projectName,'') AS ProjectName," +
-            " IFNULL(sbi.projectNumber,'') AS ProjectCode," +
+            " IFNULL(sbi.countryNumber,'') AS ProjectCode," +
             " IFNULL(bs.description,'') AS ProjectType," +
             " IFNULL((select description from cs_basicdata where id = sbi.projectIndustry),'') as ProjectIndustry," +
             " IFNULL(sbi.projectGuiMo,'') AS ConstructionScale," +
