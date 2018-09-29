@@ -9,3 +9,10 @@ alter table cs_draftIssued modify column mobileName varchar(64) ;
 alter table cs_draftIssued modify column mobilePhone varchar(64) ;
 alter table cs_draftIssued modify column issuedNumber varchar(64) ;
 alter table cs_coding_project modify column DETAILED_ADDRESS varchar(500) ;
+
+-- add by liux
+alter table cs_shenbaoinfo modify column beginDate varchar(20);
+alter table cs_shenbaoinfo modify column endDate varchar(20);
+alter table cs_project modify column beginDate varchar(20);
+alter table cs_project modify column endDate varchar(20);
+update cs_basicdata set comment = 'required' where id in ('fileSet_3','fileSet_4','fileSet_5');
