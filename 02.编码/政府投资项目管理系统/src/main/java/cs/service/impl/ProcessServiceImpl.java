@@ -117,13 +117,29 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	@Autowired
 	private OrgService orgService;
 	@Autowired
-	private IRepository<DraftIssued, String> draftIssuedRepo;
-	@Autowired
 	private WorkdayRepo workdayrepo;
 	@Autowired
 	private BasicDataService basicDataService;
-	
-
+    @Value("${projectShenBaoStage_JYS}")
+    private String projectShenBaoStage_JYS;//申报阶段：建议书
+    @Value("${projectShenBaoStage_KXXYJBG}")
+    private String projectShenBaoStage_KXXYJBG;//申报阶段：可行性研究报告
+    @Value("${projectShenBaoStage_CBSJYGS}")
+    private String projectShenBaoStage_CBSJYGS;//申报阶段：初步设计与概算
+    @Value("${projectShenBaoStage_ZJSQBG}")
+    private String projectShenBaoStage_ZJSQBG;//申报阶段：资金申请报告
+    @Value("${projectShenBaoStage_planReach}")
+    private String projectShenBaoStage_planReach;//申报阶段：计划下达
+    @Value("${projectShenBaoStage_2}")
+    private String projectShenBaoStage_2;
+    @Value("${projectShenBaoStage_3}")
+    private String projectShenBaoStage_3;
+    @Value("${projectShenBaoStage_4}")
+    private String projectShenBaoStage_4;
+    @Value("${projectShenBaoStage_6}")
+    private String projectShenBaoStage_6;
+    @Value("${projectShenBaoStage_7}")
+    private String projectShenBaoStage_7;
 	@Override
 	@Transactional
 	public PageModelDto<ShenBaoInfoDto> get(ODataObj odataObj) {
@@ -371,15 +387,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		boolean isShow = false;
 		Criterion criterion = Restrictions.eq(ShenBaoInfo_.zong_processId.getName(), processId);
 		List<ShenBaoInfo> shenBaoInfo = shenBaoInfoRepo.findByCriteria(criterion);
-		User loginUser = userRepo.findById(currentUser.getUserId());
 
-		List<HistoricVariableInstance> list = historyService.createHistoricVariableInstanceQuery()// 创建一个历史的流程变量查询对象
-				.variableName("nextUsers").processInstanceId(processId).list();
 		List<Object> userList = new ArrayList<>();
-		for (HistoricVariableInstance historicVariableInstance : list) {
-			userList = Arrays.asList(historicVariableInstance.getValue().toString().split(","));
-			System.out.println(historicVariableInstance);
-		}
 		// if(shenBaoInfo.get(0).getThisTaskName().equals("usertask3")){
 		// root:for (Role role : loginUser.getRoles()) {
 		// if(role.getRoleName().equals(BasicDataConfig.KeZhang)){
@@ -1185,11 +1194,12 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		projectRepo.save(project);
 		logger.info(String.format("办结或阅批任务,用户名:%s", currentUser.getLoginName()));
 
+		User user = userService.findById(nextUsers);
 		// 准备短信内容
 		List<SendMsg> msgs = new ArrayList<>();
 		// 从配置文件中拿到短信模板并替换其中的占位符，若不能根据preTaskName拿到模板，则使用default模板
 		final String content = String.format(shenbaoSMSContent.get(preTaskName) == null
-				? shenbaoSMSContent.get("default") : shenbaoSMSContent.get(preTaskName), shenBaoInfo.getProjectName());
+				? shenbaoSMSContent.get("default") : shenbaoSMSContent.get(preTaskName), user.getDisplayName(),shenBaoInfo.getProjectName(),getStageType(shenBaoInfo.getProjectShenBaoStage()),shenBaoInfo.getProcessStage());
 
 		if ("usertask16".equalsIgnoreCase(preTaskName) || str.equals("banjie")) { // 到达最后一个节点的情况下，发送完结的短信给到编制单位负责人
 
@@ -1203,25 +1213,33 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		} else if (shenBaoInfo.getThisTaskName().equals("usertask1") && isPass != ""
 				|| shenBaoInfo.getThisTaskName().equals("usertask5") && isPass != "") { //
 
-			User user = userService.findById(nextUsers);
+			
 			msgs.add(new SendMsg(user.getMobilePhone(), content));
 
 		} else {
 			msgs = set.stream()
-					.filter(userId -> this.getAssigneeByUserId(shenBaoInfo.getZong_processId(), userId).isSuccess()) // 过滤出到达审批状态的用户
+					//.filter(userId -> this.getAssigneeByUserId(shenBaoInfo.getZong_processId(), userId).isSuccess()) // 过滤出到达审批状态的用户
 					.map(userId -> userService.findById(userId)) // 查询出用户对象
-					.filter(user -> StringUtils.isNotBlank(user.getMobilePhone())) // 过滤没有设置手机号的用户
-					.map(user -> new SendMsg(user.getMobilePhone(), content)) // 将用户对象转换成SendMsg对象
+					.filter(user1 -> StringUtils.isNotBlank(user1.getMobilePhone())) // 过滤没有设置手机号的用户
+					.map(user2 -> new SendMsg(user2.getMobilePhone(), content)) // 将用户对象转换成SendMsg对象
 					.collect(Collectors.toList());
 		}
-
+		
 		// 开始发送短信通知
 		try {
 			smsService.insertDownSms(null, msgs.toArray(new SendMsg[] {}));
 		} catch (SMSException e) {
 			logger.error("发送短信异常：" + e.getMessage(), e);
 		}
+		
+		//推送待办数据到OA
+		todoShenbaoInfo(shenBaoInfo);
 
+	}
+
+	private void todoShenbaoInfo(ShenBaoInfo shenBaoInfo) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@SuppressWarnings({ "rawtypes" })
@@ -1828,5 +1846,18 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		list2.addAll(list);
 		return list2.size();
 	}
-
+	 private String getStageType(String shenbaoStage) {
+	        if (shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)) {//如果是下一年度计划
+	            return projectShenBaoStage_7;
+	        }  else if (shenbaoStage.equals(projectShenBaoStage_KXXYJBG)) {//如果申报阶段：是可行性研究报告
+	            return  projectShenBaoStage_2;
+	        } else if (shenbaoStage.equals(projectShenBaoStage_CBSJYGS)) {//如果申报阶段：是初步概算与设计
+	            return projectShenBaoStage_3;
+	        } else if (shenbaoStage.equals(projectShenBaoStage_ZJSQBG)) {//如果申报阶段：是资金申请报告
+	            return projectShenBaoStage_4;
+	        } else if (shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_oncePlanReach)) {//如果申报阶段：是计划下达
+	            return projectShenBaoStage_6;
+	        }
+	        return "";
+	    }
 }

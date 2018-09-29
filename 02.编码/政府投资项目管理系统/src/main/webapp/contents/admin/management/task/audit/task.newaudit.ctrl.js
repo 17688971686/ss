@@ -633,6 +633,9 @@
         	
 		   //处理
         	vm.handle=function(str){
+        		if(vm.isPass == false){
+        			vm.isPass ="";
+        		}
         		if((vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18') && vm.isPass == "5" && vm.nextUsers == ""){
         			vm.nextUsers = "e03930db-9e32-4158-afe4-9357945df1ae";
         		}
