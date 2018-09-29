@@ -13,6 +13,7 @@ public class UserDto extends BaseDto {
 	private String comment;
 	private String email;
 	private String mobilePhone;
+	private String oaId;
 	private List<RoleDto> roles=new ArrayList<>();
 	private List<OrgDto> orgs=new ArrayList<>();
 	private List<OpinionDto> opinionDtos=new ArrayList<>();
@@ -75,6 +76,12 @@ public class UserDto extends BaseDto {
 	}
 	public void setMobilePhone(String mobilePhone) {
 		this.mobilePhone = mobilePhone;
+	}
+	public String getOaId() {
+		return oaId;
+	}
+	public void setOaId(String oaId) {
+		this.oaId = oaId;
 	}
 
 	
