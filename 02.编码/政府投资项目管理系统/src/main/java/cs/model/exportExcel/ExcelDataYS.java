@@ -19,8 +19,8 @@ public class ExcelDataYS {
     private String ProjectIndustry;//项目行业
     private String ConstructionScale;//建设规模
     private String ConstructionType;//建设性质
-    private Date beginDate;//开工日期
-    private Date endDate;//竣工日期
+    private String beginDate;//开工日期
+    private String endDate;//竣工日期
     private String ConstructionDate;//建设起止日期
     private double TotalInvest;//总投资
     private double investAccuSum;//累计投资
@@ -125,16 +125,16 @@ public class ExcelDataYS {
 	public void setRemark(String remark) {
 		Remark = remark;
 	}
-	public Date getBeginDate() {
+	public String getBeginDate() {
 		return beginDate;
 	}
-	public void setBeginDate(Date beginDate) {
+	public void setBeginDate(String beginDate) {
 		this.beginDate = beginDate;
 	}
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 	public double getInvestAccuSum() {

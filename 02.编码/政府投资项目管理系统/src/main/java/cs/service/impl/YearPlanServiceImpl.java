@@ -451,8 +451,8 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
                     .addScalar("ProjectIndustry", new StringType())  //项目行业
                     .addScalar("ConstructionScale", new StringType())  //建设规模
                     .addScalar("ConstructionType", new StringType())  //建设性质
-                    .addScalar("beginDate", new DateType())  //开工日期
-                    .addScalar("endDate", new DateType())  //竣工规模
+                    .addScalar("beginDate", new StringType())  //开工日期
+                    .addScalar("endDate", new StringType())  //竣工日期
                     .addScalar("TotalInvest", new DoubleType())  //总投资
                     .addScalar("investAccuSum", new DoubleType())  //累计投资
                     .addScalar("apInvestSum", new DoubleType())  //累计安排
