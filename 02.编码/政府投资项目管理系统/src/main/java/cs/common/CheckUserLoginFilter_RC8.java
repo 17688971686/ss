@@ -74,23 +74,17 @@ public class CheckUserLoginFilter_RC8 implements Filter {
 			} catch (Exception e) {
 				throw new IllegalArgumentException("查询RC8人员失败");
 			}
-			String email = person.getEmail();
-			String officePhone = person.getOfficePhone();
 
-			//如果本地数据库没有OAID，则更新
-			Criterion criterion = Restrictions.eq(User_.loginName.getName(), person.getLoginName());
-			List<User> localUser = userRepo.findByCriteria(criterion);
+			UserDto userDto = new UserDto();
+			userDto.setDisplayName(person.getName());
+			userDto.setLoginName(person.getLoginName());
+			userDto.setPassword(person.getPlainText());
+			userDto.setEmail(person.getEmail());
+			userDto.setMobilePhone(person.getMobile());
+			userDto.setOaId(person.getId());
+			userService.createSYSUser(userDto);
 			
-			if(!CollectionUtils.isEmpty(localUser)){
-				if(localUser.get(0).getOaId() == ""){
-					UserDto userDto = new UserDto();
-					userDto.setOaId(person.getId());
-					userService.createSYSUser(userDto);
-				}
-			}
 			user.setLoginName(loginName);
-			user.setEmail(email);
-			user.setMobilePhone(officePhone);
 			user.setPassword(person.getPlainText());
 			session.setAttribute("riseUser", user);
 		}
