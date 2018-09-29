@@ -66,6 +66,7 @@ import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
+import cs.service.interfaces.ProcessService;
 import cs.service.interfaces.ShenBaoInfoService;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -116,7 +117,9 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     private UserService userService;
     @Resource
     private Map<String, String> shenbaoSMSContent;
-
+    @Autowired
+    private ProcessService processService;
+    
     private String processDefinitionKey = "ShenpiReview";
     private String processDefinitionKey_monitor_fjxm = "ShenpiMonitor_fjxm";
     private String processDefinitionKey_plan = "ShenpiPlan";
@@ -144,7 +147,16 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     private String taskType_JH;//任务类型：计划下达
     @Value("${diskPath}")
 	private String diskPath;//
-
+    @Value("${projectShenBaoStage_2}")
+    private String projectShenBaoStage_2;
+    @Value("${projectShenBaoStage_3}")
+    private String projectShenBaoStage_3;
+    @Value("${projectShenBaoStage_4}")
+    private String projectShenBaoStage_4;
+    @Value("${projectShenBaoStage_6}")
+    private String projectShenBaoStage_6;
+    @Value("${projectShenBaoStage_7}")
+    private String projectShenBaoStage_7;
 
     @Override
     @Transactional
@@ -1130,9 +1142,11 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             User user = userService.findById(sysConfg.getConfigValue());
             if (user != null
                     && StringUtils.isNotBlank(user.getMobilePhone())) {
-                String content = String.format(shenbaoSMSContent.get(entity.getThisTaskName()) == null ? shenbaoSMSContent.get("default") : shenbaoSMSContent.get(entity.getThisTaskName()), entity.getProjectName());
+                String content = String.format(shenbaoSMSContent.get(entity.getThisTaskName()) == null ? shenbaoSMSContent.get("default") : shenbaoSMSContent.get(entity.getThisTaskName()), user.getDisplayName(),entity.getProjectName(),getStageType(entity.getProjectShenBaoStage()),entity.getProcessStage());
                 SendMsg msg = new SendMsg(user.getMobilePhone(), content);
-                smsService.insertDownSms(null, msg);
+                String resultXml =  smsService.insertDownSms(null, msg);
+    			System.out.println(resultXml);
+    			System.out.println(resultXml);
             }
         } catch (SMSException e) {
             logger.error("发送短信异常：" + e.getMessage(), e);
@@ -1199,6 +1213,21 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         ShenBaoInfo shenBaoInfo = super.repository.findById(shenbaoInfoId);
         return mapper.toDto(shenBaoInfo);
 
+    }
+    
+    private String getStageType(String shenbaoStage) {
+        if (shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)) {//如果是下一年度计划
+            return projectShenBaoStage_7;
+        }  else if (shenbaoStage.equals(projectShenBaoStage_KXXYJBG)) {//如果申报阶段：是可行性研究报告
+            return  projectShenBaoStage_2;
+        } else if (shenbaoStage.equals(projectShenBaoStage_CBSJYGS)) {//如果申报阶段：是初步概算与设计
+            return projectShenBaoStage_3;
+        } else if (shenbaoStage.equals(projectShenBaoStage_ZJSQBG)) {//如果申报阶段：是资金申请报告
+            return projectShenBaoStage_4;
+        } else if (shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_oncePlanReach)) {//如果申报阶段：是计划下达
+            return projectShenBaoStage_6;
+        }
+        return "";
     }
 }
 

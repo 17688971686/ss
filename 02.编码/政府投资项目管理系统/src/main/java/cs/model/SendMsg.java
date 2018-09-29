@@ -36,8 +36,10 @@ public class SendMsg {
 	public SendMsg(String mobile, String content) {
 		this.orgaddr = "";
 		this.sendtime = "";
-		this.mobile = "<![CDATA[" + mobile + "]]>";
-		this.content = "<![CDATA[" + content + "]]>";
+		//this.mobile = "<![CDATA[" + mobile + "]]>";
+		//this.content = "<![CDATA[" + content + "]]>";
+		this.mobile = mobile;
+		this.content = content;
 		this.needreport = "1";
 	}
 

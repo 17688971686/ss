@@ -79,7 +79,7 @@ public class Rc8utilController {
 
 		// 根据部门获取所有部门下的用户
 		for (ORGDepartment dept : departHashSet) {
-			List<ORGPerson> persons = pm.listByParentID(dept.getId());
+			List<ORGPerson> persons = pm.listByPath(dept.getId());
 			for (ORGPerson person : persons) {
 				UserDto userDto = new UserDto();
 				userDto.setDisplayName(person.getName());
