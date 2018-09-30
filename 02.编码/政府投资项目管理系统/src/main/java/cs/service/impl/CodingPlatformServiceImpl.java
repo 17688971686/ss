@@ -145,6 +145,7 @@ public class CodingPlatformServiceImpl extends AbstractServiceImpl<CodingProject
 									Criterion criterion1 = Restrictions.eq(ShenBaoInfo_.projectId.getName(),project.getId());
 									List<ShenBaoInfo> shenbaoinfos = shenbaoInfoRepo.findByCriteria(criterion1);
 									for (ShenBaoInfo shenbaoinfo : shenbaoinfos) {
+										shenbaoinfo.setModifiedDate(new Date());
 										shenbaoinfo.setCountryNumber(subObject.get("COUNTRY_CODE").getAsString());
 										shenbaoInfoRepo.save(shenbaoinfo);
 									}
@@ -157,9 +158,11 @@ public class CodingPlatformServiceImpl extends AbstractServiceImpl<CodingProject
 						List<CodingProject> codingProjects = codingProjectRepo.findByCriteria(criterion2);
 						if(!CollectionUtils.isEmpty(codingProjects)){
 							CodingProjectDto cpDto = JSON.parseObject(subObject.toString(),CodingProjectDto.class);
+							cpDto.setModifiedDate(new Date());
 							super.update(cpDto, codingProjects.get(0).getId());
 						}else{
 							CodingProject cp = JSON.parseObject(subObject.toString(),CodingProject.class);
+							cp.setCreatedDate(new Date());
 							cp.setId(IdWorker.get32UUID());
 							codingProjectRepo.save(cp);
 						}

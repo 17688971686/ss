@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.huasisoft.portal.model.Backlog;
 import com.sn.framework.common.IdWorker;
 import com.sn.framework.common.ObjectUtils;
 import com.sn.framework.common.StringUtil;
@@ -54,6 +55,7 @@ import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.*;
+import org.joda.time.format.ISODateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -140,6 +142,11 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
     private String projectShenBaoStage_6;
     @Value("${projectShenBaoStage_7}")
     private String projectShenBaoStage_7;
+    @Value("${sysPath}")
+    private String sysPath;
+    
+    
+    
 	@Override
 	@Transactional
 	public PageModelDto<ShenBaoInfoDto> get(ODataObj odataObj) {
@@ -1021,31 +1028,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		
 
-		if ((shenBaoInfo.getThisTaskName().equals("usertask1") || shenBaoInfo.getThisTaskName().equals("usertask5"))
-				&& !"1".equals(isPass)) {
-			shenBaoInfo.setQianshouDate(new Date());// 签收时间
-			shenBaoInfo.setReceiver(currentUser.getUserId());// 签收人
-			taskService.setAssignee(task.get(0).getId(), nextUsers);
-			taskService.setVariable(task.get(0).getId(), "isPass", isPass);
-
-		} else {
-
-			activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
-			activitiService.taskComplete(task.get(0).getId(), variables);
-
-			// 结束监控流程中的项目计划书任务
-			if (shenBaoInfo.getThisTaskName().equals("usertask3") && str.equals("banjie")
-					&& StringUtil.isNoneBlank(shenBaoInfo.getMonitor_processId())
-					&& ObjectUtils.isNoneEmpty(monitorTask)) {
-				// 加签收会在历史任务实例中多出assignee
-				// activitiService.claimTask(monitorTask.getId(),
-				// currentUser.getUserId());
-				activitiService.taskComplete(monitorTask.getId());
-			}else if(shenBaoInfo.getThisTaskName().equals("usertask16") && StringUtil.isNoneBlank(shenBaoInfo.getMonitor_processId())
-					&& ObjectUtils.isNoneEmpty(monitorTask)) {
-				activitiService.taskComplete(monitorTask.getId());
-			}
-		}
+		
 
 		// 结束上一任务后，当前流程下产生的新任务
 		List<Task> tasknew = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId())
@@ -1233,13 +1216,96 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		
 		//推送待办数据到OA
-		todoShenbaoInfo(shenBaoInfo);
+//		todoShenbaoInfo(shenBaoInfo,user);
 
+		if ((shenBaoInfo.getThisTaskName().equals("usertask1") || shenBaoInfo.getThisTaskName().equals("usertask5"))
+				&& !"1".equals(isPass)) {
+			shenBaoInfo.setQianshouDate(new Date());// 签收时间
+			shenBaoInfo.setReceiver(currentUser.getUserId());// 签收人
+			taskService.setAssignee(task.get(0).getId(), nextUsers);
+			taskService.setVariable(task.get(0).getId(), "isPass", isPass);
+
+		} else {
+
+			activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
+			activitiService.taskComplete(task.get(0).getId(), variables);
+
+			// 结束监控流程中的项目计划书任务
+			if (shenBaoInfo.getThisTaskName().equals("usertask3") && str.equals("banjie")
+					&& StringUtil.isNoneBlank(shenBaoInfo.getMonitor_processId())
+					&& ObjectUtils.isNoneEmpty(monitorTask)) {
+				// 加签收会在历史任务实例中多出assignee
+				// activitiService.claimTask(monitorTask.getId(),
+				// currentUser.getUserId());
+				activitiService.taskComplete(monitorTask.getId());
+			}else if(shenBaoInfo.getThisTaskName().equals("usertask16") && StringUtil.isNoneBlank(shenBaoInfo.getMonitor_processId())
+					&& ObjectUtils.isNoneEmpty(monitorTask)) {
+				activitiService.taskComplete(monitorTask.getId());
+			}
+		}
+		
 	}
 
-	private void todoShenbaoInfo(ShenBaoInfo shenBaoInfo) {
-		// TODO Auto-generated method stub
+	@SuppressWarnings("static-access")
+	private void todoShenbaoInfo(ShenBaoInfo shenBaoInfo,User user) {
+
+		try {
+			Date newEndTime = new Date();
+//			Date newEndTime1 = new Date();
+			Calendar calendar = new GregorianCalendar();
+			calendar.setTime(newEndTime);
+			if(shenBaoInfo.getTzkBalanceTime() != null && shenBaoInfo.getPxzxBalanceTime() != null){
+				calendar.add(calendar.DATE, Integer.valueOf(shenBaoInfo.getTzkBalanceTime())+Integer.valueOf(shenBaoInfo.getPxzxBalanceTime()));// 把日期往后增加一天.整数往后推,负数往前移动
+			}else{
+				newEndTime= null;
+			}
+			newEndTime = calendar.getTime();
+			Backlog backlog = new Backlog();
+			backlog.setBureauId(null);
+			backlog.setBureauName("光明新区发展和财政局");
+			backlog.setDeptId(null);
+			backlog.setDeptName(null);
+			backlog.setEndTime(newEndTime);
+			backlog.setEventId(null);
+			backlog.setId(shenBaoInfo.getId());
+			backlog.setPersonId(user.getOaId());
+			backlog.setPersonName(user.getDisplayName());
+			backlog.setSendBureauId(null);
+			backlog.setSendBureauName(null);
+			backlog.setSendDeptId(null);
+			backlog.setSendDeptName(null);
+			User loginUser = userRepo.findById(currentUser.getUserId());
+			backlog.setSendPersonId(loginUser.getOaId());
+			backlog.setSendPersonName(loginUser.getDisplayName());
+			backlog.setSendTime(new Date());
+			backlog.setSystemCode("GMZXXMGLXT");
+			backlog.setTitle(shenBaoInfo.getProjectName());
+			backlog.setUrgency(getUrgencyState(shenBaoInfo.getUrgencyState()));
+			backlog.setUrl(sysPath);
 		
+			Integer result = com.huasisoft.portal.util.HuasisoftUtil.getBacklogManager().save(backlog);
+			System.out.println(result);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private int getUrgencyState(String str){
+		int fileset = 0;
+		if(str !="" || str != null){
+			if(str.equals("fileSet_1")){
+				fileset = fileset+1;
+			}else if(str.equals("fileSet_2")){
+				fileset = fileset+2;
+			}else if(str.equals("fileSet_4")){
+				fileset = fileset+3;
+			}else if(str.equals("fileSet_5")){
+				fileset = fileset+4;
+			}
+		}
+		
+		return fileset;
 	}
 
 	@SuppressWarnings({ "rawtypes" })

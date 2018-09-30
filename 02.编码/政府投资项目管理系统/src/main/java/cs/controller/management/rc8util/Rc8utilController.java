@@ -145,14 +145,4 @@ public class Rc8utilController {
 		return num;
 	}
 
-	public void getodo() {
-		Backlog backlog = new Backlog();
-		try {
-			Integer result = com.huasisoft.portal.util.HuasisoftUtil.getBacklogManager().save(backlog);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
 }
