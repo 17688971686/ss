@@ -24,6 +24,8 @@ public class User extends BaseEntity {
 	private String id;
 	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '登录名'")
 	private String loginName;
+	@Column(columnDefinition="varchar(125) NOT NULL COMMENT 'OA系统ID'")
+	private String oaId;
 	@Column(columnDefinition="varchar(255) NOT NULL COMMENT '密码'")
 	private String password;
 	@Column(columnDefinition="varchar(255)  COMMENT '显示名'")
@@ -137,6 +139,12 @@ public class User extends BaseEntity {
 	}
 	public void setMobilePhone(String mobilePhone) {
 		this.mobilePhone = mobilePhone;
+	}
+	public String getOaId() {
+		return oaId;
+	}
+	public void setOaId(String oaId) {
+		this.oaId = oaId;
 	}
 	
 }

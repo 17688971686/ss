@@ -2,6 +2,7 @@ package cs.common;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.Filter;
@@ -15,9 +16,13 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.jasig.cas.client.util.AssertionHolder;
 import org.jasig.cas.client.validation.Assertion;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 
 import com.huasisoft.h1.api.org.PersonManager;
 import com.huasisoft.h1.model.ORGPerson;
@@ -28,9 +33,17 @@ import com.huasisoft.h1.model.ORGPerson;
 import com.huasisoft.h1.util.HuasisoftUtil;
 
 import cs.domain.framework.User;
+import cs.domain.framework.User_;
+import cs.model.framework.UserDto;
+import cs.repository.framework.UserRepo;
+import cs.service.framework.UserService;
 
 public class CheckUserLoginFilter_RC8 implements Filter {
 	private static Logger logger = Logger.getLogger(CheckUserLoginFilter_RC8.class);
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private UserRepo userRepo;
 	
     public CheckUserLoginFilter_RC8() {
     	
@@ -53,38 +66,27 @@ public class CheckUserLoginFilter_RC8 implements Filter {
 			loginUID = attr.get("ID").toString();
 			System.out.println("=====>3:"+loginUID);
 			PersonManager pm = HuasisoftUtil.getPersonManager();
-//			Person person = RisesoftUtil.getPersonManager().getPerson(loginUID);
 			ORGPerson person =null;
 			User user = new User();
 			try {
 				person = pm.get(loginUID);
 				System.out.println("=====>4:"+person);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new IllegalArgumentException("查询RC8人员失败");
 			}
-			String country = person.getCountry();
-			String city = person.getCity();
-			String duty = person.getDuty();
-			String dutyLevelName = person.getDutyLevelName();
-			String email = person.getEmail();
-			int sex = person.getSex();
-			String officePhone = person.getOfficePhone();
-			Date worktime = person.getWorktime();
 
+			UserDto userDto = new UserDto();
+			userDto.setDisplayName(person.getName());
+			userDto.setLoginName(person.getLoginName());
+			userDto.setPassword(person.getPlainText());
+			userDto.setEmail(person.getEmail());
+			userDto.setMobilePhone(person.getMobile());
+			userDto.setOaId(person.getId());
+			userService.createSYSUser(userDto);
+			
 			user.setLoginName(loginName);
-//			user.setCountry(country);
-//			user.setCity(city);
-//			user.setDuty(duty);
-//			user.setDutyLevelName(dutyLevelName);
-			user.setEmail(email);
-//			user.setSex(sex);
-			user.setMobilePhone(officePhone);
-//			user.setWorktime(worktime);
 			user.setPassword(person.getPlainText());
 			session.setAttribute("riseUser", user);
-			User user333 = (User)session.getAttribute("riseUser");
-			System.out.println("=======8:"+user333);
 		}
 		try {
 			chain.doFilter(request, response);

@@ -54,7 +54,10 @@ public class CodingPlatformController {
 					Thread.sleep(5000);
 				}
 				str =codingPlatformService.getShenBaoInfoFromCoding(todaytime,String.valueOf(i));
-				codingPlatformService.saveAll(str);
+				if(str != ""){
+					codingPlatformService.saveAll(str);
+				}
+				
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -82,12 +85,18 @@ public class CodingPlatformController {
 		System.out.println(str);
 		JsonParser parser = new JsonParser(); // 创建JSON解析器
 		try {
-			JsonObject object = (JsonObject) parser.parse(str);
-			
-			for (int i = 1; i <= object.get("totalPage").getAsInt(); i++) {
-				str =codingPlatformService.getShenBaoInfoFromCoding(todaytime,String.valueOf(i));
-				codingPlatformService.saveAll(str);
+			if(str != ""){
+				JsonObject object = (JsonObject) parser.parse(str);
+				
+				for (int i = 1; i <= object.get("totalPage").getAsInt(); i++) {
+					if(i == 50 || i==70 || i==90){
+						Thread.sleep(5000);
+					}
+					str =codingPlatformService.getShenBaoInfoFromCoding(todaytime,String.valueOf(i));
+					codingPlatformService.saveAll(str);
+				}
 			}
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
