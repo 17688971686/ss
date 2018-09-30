@@ -14,10 +14,10 @@ public class SQLConfig {
 
     public static String getYearPlanProject(boolean exclude) {
         return "SELECT t1.id,t1.createdBy,t1.createdDate,t1.itemOrder,t1.modifiedBy," +
-                "t1.modifiedDate,t1.approval_pzwh,t1.beginDate,t1.buidSafeInvestment,t1.capitalOther,t1.capitalOtherType," +
+                "t1.modifiedDate,t1.approval_pzwh,SUBSTRING(t1.beginDate,1,7) beginDate,t1.buidSafeInvestment,t1.capitalOther,t1.capitalOtherType," +
                 "t1.capitalOtherDescription, t1.CapitalQCZ_gtzj,t1.capitalQCZ_ggys,t1.capitalSCZ_ggys,t1.CapitalSCZ_gtzj," +
                 "t1.capitalSCZ_zxzj,t1.capitalSHTZ,t1.capitalZYYS, t1.companyName,t1.constructionCycle,t1.constructionLand," +
-                "t1.divisionId,t1.endDate,t1.equipmentInvestment,t1.finalAmount,t1.financeProjectNumber, t1.landPrice," +
+                "t1.divisionId,SUBSTRING(t1.endDate,1,7) endDate,t1.equipmentInvestment,t1.finalAmount,t1.financeProjectNumber, t1.landPrice," +
                 "t1.pifuCBSJYGS_date,t1.pifuCBSJYGS_wenhao,t1.pifuJYS_date,t1.pifuJYS_wenhao,t1.pifuKXXYJBG_date," +
                 "t1.pifuKXXYJBG_wenhao,t1.projectAddress, t1.projectCategory,t1.projectClassify,t1.projectGuiMo," +
                 "t1.projectIndustry,t1.projectIntro,t1.projectInvestAccuSum,t1.projectInvestSum,t1.projectInvestmentType," +
@@ -113,8 +113,8 @@ public class SQLConfig {
             " IFNULL((select description from cs_basicdata where id = sbi.projectIndustry),'') as ProjectIndustry," +
             " IFNULL(sbi.projectGuiMo,'') AS ConstructionScale," +
             " IFNULL((select description from cs_basicdata where id = sbi.projectConstrChar),'') as ConstructionType," +
-            " IFNULL(sbi.beginDate,'') AS beginDate," +
-            " IFNULL(sbi.endDate,'') AS endDate," +
+            " IFNULL(SUBSTRING(sbi.beginDate,1,7),'') AS beginDate," +
+            " IFNULL(SUBSTRING(sbi.endDate,1,7),'') AS endDate," +
             " IFNULL(sbi.projectInvestSum, 0)AS TotalInvest," +
             " IFNULL(sbi.projectInvestAccuSum, 0)AS investAccuSum," +
             " IFNULL(sbi.apInvestSum, 0) AS apInvestSum," +
@@ -311,9 +311,9 @@ public class SQLConfig {
 
     public static String shenBaoInfoOfPlanReachApplication = "SELECT"
             + " t1.id,t1.createdBy,t1.createdDate,t1.itemOrder,t1.modifiedBy,t1.modifiedDate,t1.thisUser,"
-            + " t1.approval_pzwh,t1.beginDate,t1.buidSafeInvestment,t1.capitalOther,t1.capitalOtherType,t1.capitalOtherDescription,"
+            + " t1.approval_pzwh,SUBSTRING(t1.beginDate,1,7) beginDate,t1.buidSafeInvestment,t1.capitalOther,t1.capitalOtherType,t1.capitalOtherDescription,"
             + " t1.CapitalQCZ_gtzj,t1.capitalQCZ_ggys,t1.capitalSCZ_ggys,t1.CapitalSCZ_gtzj,t1.capitalSCZ_zxzj,t1.capitalSHTZ,t1.capitalZYYS,"
-            + " t1.companyName,t1.constructionCycle,t1.constructionLand,t1.divisionId,t1.endDate,t1.equipmentInvestment,t1.finalAmount,t1.financeProjectNumber,"
+            + " t1.companyName,t1.constructionCycle,t1.constructionLand,t1.divisionId,SUBSTRING(t1.endDate,1,7) endDate,t1.equipmentInvestment,t1.finalAmount,t1.financeProjectNumber,"
             + " t1.landPrice,t1.pifuCBSJYGS_date,t1.pifuCBSJYGS_wenhao,t1.pifuJYS_date,t1.pifuJYS_wenhao,t1.pifuKXXYJBG_date,t1.pifuKXXYJBG_wenhao,t1.projectAddress,"
             + " t1.projectCategory,t1.projectClassify,t1.projectGuiMo,t1.projectIndustry,t1.projectIntro,t1.projectInvestAccuSum,t1.projectInvestSum,t1.projectInvestmentType,"
             + " t1.projectName,t1.projectNumber,t1.projectRepMobile,t1.projectRepName,t1.projectStage,t1.projectType,t1.remark,t1.repUnitRepMobile,t1.repUnitRepName,t1.unitName,"
@@ -354,9 +354,9 @@ public class SQLConfig {
 
     public static String shenBaoInfoOfPackPlanOfPlanReach = "SELECT"
             + " t1.id,t1.createdBy,t1.createdDate,t1.itemOrder,t1.modifiedBy,t1.modifiedDate,"
-            + " t1.approval_pzwh,t1.beginDate,t1.buidSafeInvestment,t1.capitalOther,t1.capitalOtherType,t1.capitalOtherDescription,"
+            + " t1.approval_pzwh,SUBSTRING(t1.beginDate,1,7) beginDate,t1.buidSafeInvestment,t1.capitalOther,t1.capitalOtherType,t1.capitalOtherDescription,"
             + " t1.CapitalQCZ_gtzj,t1.capitalQCZ_ggys,t1.capitalSCZ_ggys,t1.CapitalSCZ_gtzj,t1.capitalSCZ_zxzj,t1.capitalSHTZ,t1.capitalZYYS,"
-            + " t1.companyName,t1.constructionCycle,t1.constructionLand,t1.divisionId,t1.endDate,t1.equipmentInvestment,t1.finalAmount,t1.financeProjectNumber,"
+            + " t1.companyName,t1.constructionCycle,t1.constructionLand,t1.divisionId,SUBSTRING(t1.endDate,1,7) endDate,t1.equipmentInvestment,t1.finalAmount,t1.financeProjectNumber,"
             + " t1.landPrice,t1.pifuCBSJYGS_date,t1.pifuCBSJYGS_wenhao,t1.pifuJYS_date,t1.pifuJYS_wenhao,t1.pifuKXXYJBG_date,t1.pifuKXXYJBG_wenhao,t1.projectAddress,"
             + " t1.projectCategory,t1.projectClassify,t1.projectGuiMo,t1.projectIndustry,t1.projectIntro,t1.projectInvestAccuSum,t1.projectInvestSum,t1.projectInvestmentType,"
             + " t1.projectName,t1.projectNumber,t1.projectRepMobile,t1.projectRepName,t1.projectStage,t1.projectType,t1.remark,t1.repUnitRepMobile,t1.repUnitRepName,t1.unitName,"
