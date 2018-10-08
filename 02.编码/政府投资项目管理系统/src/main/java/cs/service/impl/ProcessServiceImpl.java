@@ -2,9 +2,8 @@ package cs.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.huasisoft.portal.model.Backlog;
+import com.huasisoft.portal.util.HuasisoftUtil;
 import com.sn.framework.common.IdWorker;
 import com.sn.framework.common.ObjectUtils;
 import com.sn.framework.common.StringUtil;
@@ -14,7 +13,6 @@ import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.common.Response;
 import cs.common.Util;
-import cs.common.utils.DateUtils;
 import cs.common.utils.WorkDayUtil;
 import cs.domain.*;
 import cs.domain.framework.Org;
@@ -55,10 +53,8 @@ import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.*;
-import org.joda.time.format.ISODateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -898,6 +894,19 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 //		shenBaoInfo.setComplate(true);
 		projectRepo.save(project);
 		shenBaoInfoRepo.save(shenBaoInfo);
+		
+//		try {
+//			Integer findresult = HuasisoftUtil.getBacklogManager().findByEventId(shenBaoInfo.getId());
+//			if(findresult == 105){
+//				Integer result = HuasisoftUtil.getBacklogManager().finishByEventId(shenBaoInfo.getId());
+//				if(result == 102){
+//					logger.info("待办完成！");
+//				}
+//			}
+//		} catch (Exception e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
 
 		logger.info(String.format("签收或办理下一年度计划,用户名:%s", currentUser.getLoginName()));
 	}
@@ -1030,6 +1039,17 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
 		
 
+//		try {
+//			Integer result = HuasisoftUtil.getBacklogManager().finishByEventId(shenBaoInfo.getId());
+//			if(result == 102){
+//				logger.info("待办完成！");
+//			}
+//		} catch (Exception e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+		
+		
 		// 结束上一任务后，当前流程下产生的新任务
 		List<Task> tasknew = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId())
 				.orderByDueDate().desc().list();
@@ -1216,7 +1236,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		
 		//推送待办数据到OA
-//		todoShenbaoInfo(shenBaoInfo,user);
+//		todoShenbaoInfo(shenBaoInfo ,nextUsers);
 
 		if ((shenBaoInfo.getThisTaskName().equals("usertask1") || shenBaoInfo.getThisTaskName().equals("usertask5"))
 				&& !"1".equals(isPass)) {
@@ -1246,66 +1266,42 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		
 	}
 
-	@SuppressWarnings("static-access")
-	private void todoShenbaoInfo(ShenBaoInfo shenBaoInfo,User user) {
-
+	public void todoShenbaoInfo(ShenBaoInfo shenBaoInfo ,String nextUsers) {
+		// TODO Auto-generated method stub
+//		Date newEndTime = new Date();
+//		Date newEndTime1 = new Date();
+//		Calendar calendar = new GregorianCalendar();
+//		calendar.setTime(newEndTime);
+//		if(shenBaoInfo.getTzkBalanceTime() != null && shenBaoInfo.getPxzxBalanceTime() != null){
+//			calendar.add(calendar.DATE, Integer.valueOf(shenBaoInfo.getTzkBalanceTime())+Integer.valueOf(shenBaoInfo.getPxzxBalanceTime()));// 把日期往后增加一天.整数往后推,负数往前移动
+//		}else{
+//			newEndTime= null;
+//		}
+//		newEndTime = calendar.getTime();
+		Backlog bl = new Backlog();
+		bl.setId(shenBaoInfo.getId());
+		bl.setTitle(shenBaoInfo.getProjectName());
+		bl.setUrgency(returnFileSet(shenBaoInfo.getUrgencyState()));
+		bl.setSystemCode("GMZXXMGLXT");
+		bl.setSystemName("光明新区政府投资管理系统");
+		bl.setUrl(sysPath);
+		User user = userRepo.findById(nextUsers);
+		bl.setPersonId(user.getOaId());
+		bl.setPersonName(user.getDisplayName());
+		bl.setEventId(shenBaoInfo.getId());
+		User user2 = userRepo.findById(currentUser.getUserId());
+		bl.setSendPersonId(user2.getOaId());
+		bl.setSendPersonName(user2.getDisplayName());
+		bl.setSendTime(new Date());
 		try {
-			Date newEndTime = new Date();
-//			Date newEndTime1 = new Date();
-			Calendar calendar = new GregorianCalendar();
-			calendar.setTime(newEndTime);
-			if(shenBaoInfo.getTzkBalanceTime() != null && shenBaoInfo.getPxzxBalanceTime() != null){
-				calendar.add(calendar.DATE, Integer.valueOf(shenBaoInfo.getTzkBalanceTime())+Integer.valueOf(shenBaoInfo.getPxzxBalanceTime()));// 把日期往后增加一天.整数往后推,负数往前移动
-			}else{
-				newEndTime= null;
+			Integer effect = HuasisoftUtil.getBacklogManager().save(bl);
+			if(effect == 101){
+				logger.info("插入待办成功！");
 			}
-			newEndTime = calendar.getTime();
-			Backlog backlog = new Backlog();
-			backlog.setBureauId(null);
-			backlog.setBureauName("光明新区发展和财政局");
-			backlog.setDeptId(null);
-			backlog.setDeptName(null);
-			backlog.setEndTime(newEndTime);
-			backlog.setEventId(null);
-			backlog.setId(shenBaoInfo.getId());
-			backlog.setPersonId(user.getOaId());
-			backlog.setPersonName(user.getDisplayName());
-			backlog.setSendBureauId(null);
-			backlog.setSendBureauName(null);
-			backlog.setSendDeptId(null);
-			backlog.setSendDeptName(null);
-			User loginUser = userRepo.findById(currentUser.getUserId());
-			backlog.setSendPersonId(loginUser.getOaId());
-			backlog.setSendPersonName(loginUser.getDisplayName());
-			backlog.setSendTime(new Date());
-			backlog.setSystemCode("GMZXXMGLXT");
-			backlog.setTitle(shenBaoInfo.getProjectName());
-			backlog.setUrgency(getUrgencyState(shenBaoInfo.getUrgencyState()));
-			backlog.setUrl(sysPath);
-		
-			Integer result = com.huasisoft.portal.util.HuasisoftUtil.getBacklogManager().save(backlog);
-			System.out.println(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	private int getUrgencyState(String str){
-		int fileset = 0;
-		if(str !="" || str != null){
-			if(str.equals("fileSet_1")){
-				fileset = fileset+1;
-			}else if(str.equals("fileSet_2")){
-				fileset = fileset+2;
-			}else if(str.equals("fileSet_4")){
-				fileset = fileset+3;
-			}else if(str.equals("fileSet_5")){
-				fileset = fileset+4;
-			}
-		}
-		
-		return fileset;
 	}
 
 	@SuppressWarnings({ "rawtypes" })
@@ -1913,17 +1909,32 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		return list2.size();
 	}
 	 private String getStageType(String shenbaoStage) {
-	        if (shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)) {//如果是下一年度计划
-	            return projectShenBaoStage_7;
-	        }  else if (shenbaoStage.equals(projectShenBaoStage_KXXYJBG)) {//如果申报阶段：是可行性研究报告
-	            return  projectShenBaoStage_2;
-	        } else if (shenbaoStage.equals(projectShenBaoStage_CBSJYGS)) {//如果申报阶段：是初步概算与设计
-	            return projectShenBaoStage_3;
-	        } else if (shenbaoStage.equals(projectShenBaoStage_ZJSQBG)) {//如果申报阶段：是资金申请报告
-	            return projectShenBaoStage_4;
-	        } else if (shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_oncePlanReach)) {//如果申报阶段：是计划下达
-	            return projectShenBaoStage_6;
-	        }
-	        return "";
-	    }
+        if (shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)) {//如果是下一年度计划
+            return projectShenBaoStage_7;
+        }  else if (shenbaoStage.equals(projectShenBaoStage_KXXYJBG)) {//如果申报阶段：是可行性研究报告
+            return  projectShenBaoStage_2;
+        } else if (shenbaoStage.equals(projectShenBaoStage_CBSJYGS)) {//如果申报阶段：是初步概算与设计
+            return projectShenBaoStage_3;
+        } else if (shenbaoStage.equals(projectShenBaoStage_ZJSQBG)) {//如果申报阶段：是资金申请报告
+            return projectShenBaoStage_4;
+        } else if (shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_oncePlanReach)) {//如果申报阶段：是计划下达
+            return projectShenBaoStage_6;
+        }
+        return "";
+    }
+	 
+	 public int returnFileSet(String fileSet){
+		 int num = 0;
+		 if(fileSet.equals(BasicDataConfig.fileSet_pingjian)){
+			 num = 1;
+		 }else if(fileSet.equals(BasicDataConfig.fileSet_jiaji)){
+			 num = 2;
+		 }else if(fileSet.equals(BasicDataConfig.fileSet_teji)){
+			 num = 3;
+		 }else{
+			 num = 4;
+		 }
+		 
+		 return num;
+	 }
 }
