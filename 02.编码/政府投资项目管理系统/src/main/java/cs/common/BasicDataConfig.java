@@ -138,6 +138,10 @@ public class BasicDataConfig {
 	public static String role_manage="管理员";
 	public static String role_shenpiUnit="审批单位";
 	
+	public static String fileSet_pingjian="fileSet_1";
+	public static String fileSet_jiaji="fileSet_2";
+	public static String fileSet_teji="fileSet_4";
+	public static String fileSet_teti="fileSet_5";
 	
 	
 }

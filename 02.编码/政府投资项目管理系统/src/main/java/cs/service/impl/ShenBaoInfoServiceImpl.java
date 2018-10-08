@@ -118,7 +118,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     @Resource
     private Map<String, String> shenbaoSMSContent;
     @Autowired
-    private ProcessService processService;
+    private ProcessServiceImpl processServiceImpl;
     
     private String processDefinitionKey = "ShenpiReview";
     private String processDefinitionKey_monitor_fjxm = "ShenpiMonitor_fjxm";
@@ -158,6 +158,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     @Value("${projectShenBaoStage_7}")
     private String projectShenBaoStage_7;
 
+    private String projectName;
     @Override
     @Transactional
     public PageModelDto<ShenBaoInfoDto> get(ODataObj odataObj) {
@@ -185,6 +186,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     public ShenBaoInfo create(ShenBaoInfoDto dto, Boolean isAdminCreate) {
         //创建申报信息
         ShenBaoInfo entity = super.create(dto);
+        projectName = entity.getProjectName();
         //初始化审核状态--未审核
 //        entity.setAuditState(BasicDataConfig.auditState_noAudit);
         //初始化--申报时间
@@ -1100,7 +1102,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 
         List<Org> findProjects = new ArrayList<>();
         List<String> useridList = new ArrayList<>();
-
+        ProcessInstance process = null;
         if (BasicDataConfig.projectShenBaoStage_nextYearPlan.equals(entity.getProjectShenBaoStage())) {
 
             Criterion criterion1 = Restrictions.eq(Org_.name.getName(), "投资科");
@@ -1118,6 +1120,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
                 if (sysConfg.getEnable()) {
                     variables.put("users", sysConfg.getConfigValue());
                     entity.setThisUser(sysConfg.getConfigValue());
+//                    processServiceImpl.todoShenbaoInfo(entity,sysConfg.getConfigValue());
+                    process = activitiService.startProcess(processDefinitionKey, variables);
 //					processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(task.getId(), sysConfg.getConfigValue());
                 } else {
                     throw new IllegalArgumentException(String.format("审批申报端口已关闭，请联系管理员！"));
@@ -1126,7 +1130,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
                 throw new IllegalArgumentException(String.format("没有配置申报信息审核分办人员，请联系管理员！"));
             }
         }
-        ProcessInstance process = activitiService.startProcess(processDefinitionKey, variables);
         String executionId = process.getId();
 
         Task task = activitiService.getTaskByExecutionId(executionId);
