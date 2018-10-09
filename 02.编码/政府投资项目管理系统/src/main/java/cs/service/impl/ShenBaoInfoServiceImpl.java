@@ -100,8 +100,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     @Autowired
     private IMapper<ShenBaoUnitInfoDto, ShenBaoUnitInfo> shenBaoUnitInfoMapper;
     @Autowired
-    private IMapper<TaskRecordDto, TaskRecord> taskRecordMapper;
-    @Autowired
     private BasicDataService basicDataService;
     @Autowired
     private OrgRepo orgRepo;
@@ -118,7 +116,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     @Resource
     private Map<String, String> shenbaoSMSContent;
     @Autowired
-    private ProcessServiceImpl processServiceImpl;
+    private ProcessService processService;
     
     private String processDefinitionKey = "ShenpiReview";
     private String processDefinitionKey_monitor_fjxm = "ShenpiMonitor_fjxm";
@@ -1120,7 +1118,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
                 if (sysConfg.getEnable()) {
                     variables.put("users", sysConfg.getConfigValue());
                     entity.setThisUser(sysConfg.getConfigValue());
-//                    processServiceImpl.todoShenbaoInfo(entity,sysConfg.getConfigValue());
+                    processService.todoShenbaoInfo(entity,sysConfg.getConfigValue());
                     process = activitiService.startProcess(processDefinitionKey, variables);
 //					processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(task.getId(), sysConfg.getConfigValue());
                 } else {

@@ -45,7 +45,7 @@
     </filter-mapping>
 
     <!-- 单点登录begin -->
-  <!--   <filter>
+	<!-- <filter>
         <filter-name>CAS Single Sign Out Filter</filter-name>
         <filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
         <init-param>
@@ -69,6 +69,14 @@
         <init-param>
             <param-name>serverName</param-name>
             <param-value>http://192.168.189.235:8081</param-value>
+        </init-param>
+        <init-param>
+            <param-name>ignoreUrlPatternType</param-name>
+            <param-value>EXACT</param-value>
+        </init-param>
+        <init-param>
+        	<param-name>ignoreUrlPattern</param-name>
+        	<param-value>http://192.168.189.235:8081/mobile/verifyNum/login</param-value>
         </init-param>
     </filter>
     <filter-mapping>

@@ -1236,7 +1236,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		
 		//推送待办数据到OA
-//		todoShenbaoInfo(shenBaoInfo ,nextUsers);
+		this.todoShenbaoInfo(shenBaoInfo ,nextUsers);
 
 		if ((shenBaoInfo.getThisTaskName().equals("usertask1") || shenBaoInfo.getThisTaskName().equals("usertask5"))
 				&& !"1".equals(isPass)) {
@@ -1266,6 +1266,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		
 	}
 
+	@Override
 	public void todoShenbaoInfo(ShenBaoInfo shenBaoInfo ,String nextUsers) {
 		// TODO Auto-generated method stub
 //		Date newEndTime = new Date();
