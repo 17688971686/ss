@@ -713,12 +713,15 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenbaoInfoId);
 
 		List<Object> hisList = new ArrayList<>();
-		List<HistoricProcessInstance> lists1 = activitiService
-				.findHisProcessIntanceList(shenBaoInfo.getZong_processId());
-		List<HistoricActivityInstance> hais = historyService.createHistoricActivityInstanceQuery()
-				.processInstanceId(shenBaoInfo.getZong_processId()).activityType("userTask")
-				.orderByHistoricActivityInstanceStartTime().asc().list();
-
+		List<HistoricProcessInstance> lists1 = new ArrayList<HistoricProcessInstance>();
+		List<HistoricActivityInstance> hais = new ArrayList<HistoricActivityInstance>();
+		if(null != shenBaoInfo.getZong_processId()){
+			lists1 = activitiService
+					.findHisProcessIntanceList(shenBaoInfo.getZong_processId());
+			hais = historyService.createHistoricActivityInstanceQuery()
+					.processInstanceId(shenBaoInfo.getZong_processId()).activityType("userTask")
+					.orderByHistoricActivityInstanceStartTime().asc().list();
+		}
 
 		for (HistoricProcessInstance list1 : lists1) {
 			UserUnitInfoDto userUnitInfo = userUnitInfoService.getByUserId(list1.getStartUserId());

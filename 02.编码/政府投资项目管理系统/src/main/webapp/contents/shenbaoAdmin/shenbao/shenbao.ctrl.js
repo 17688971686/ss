@@ -248,7 +248,8 @@
 		}
 
 		function page_list() {
-			shenbaoSvc.projectShenBaoRecordsGird(vm);//获取项目申报记录
+			shenbaoSvc.projectShenBaoRecordsGird(vm);      //获取项目申报记录
+            shenbaoSvc.projectUpdateShenBaoRecordsGird(vm);//获取项目代码查询暂存项目申报信息列表
 			//条件查询
 			vm.search = function() {
 				var filters = [];
@@ -351,6 +352,31 @@
 			vm.shenbaoBtn = function(id, projectInvestmentType, name) {
 				shenbaoSvc.getShenBaoPortState(vm, id, projectInvestmentType,
 						name);//查询申报端口状态
+			};
+
+			//判断是申报前修改还是提交走申报流程
+			vm.isUpdate = function(shenbaoId,zong_processId){
+                var isUpdate,h1,h2;
+				if(shenbaoId && shenbaoId != 'null' && shenbaoId != ''){
+					h1 = true;
+				}else{
+					h1 = false;
+				}
+				if(zong_processId && zong_processId != 'null' && zong_processId != ''){
+					h2 = true;
+				}else{
+					h2 = false;
+				}
+                if(h2){
+                    isUpdate = false;
+                }
+				if(h1==false && h2 ==false){
+                    isUpdate = false;
+				}
+				if(h1==true && h2 ==false){
+                    isUpdate = true;
+				}
+                return isUpdate;
 			};
 			
 			//查询审批附件
@@ -506,6 +532,23 @@
 				});
 				vm.gridOptions_shenBaoRecords.dataSource.read();
 			};
+
+            //点击列表中的申报记录按钮
+            vm.updateShenBaoRecords = function(id) {
+                //展示模态框
+                $("#UpdateShenBaoRecords").modal({
+                    backdrop : 'static',
+                    keyboard : true
+                });
+                vm.projectId = id;
+                //根据项目代码查询项目的申报记录
+                vm.grid_Update_shenBaoRecords.dataSource.filter({
+                    field : 'projectId',
+                    operator : 'eq',
+                    value : vm.projectId
+                });
+                vm.grid_Update_shenBaoRecords.dataSource.read();
+            };
 
 			//批量删除申报记录
 			vm.deleteShenBaoInfos = function() {
@@ -793,7 +836,8 @@
 			};
 
 			//确认提交
-			vm.submit = function() {
+			vm.submit = function(flag) { //flag 1为暂存，2为提交
+				vm.model.isUpdateOrSubmit = flag;
 				var hasAtts = false;
 				var t1 = false;
 				var t2= false;
@@ -913,7 +957,8 @@
 			shenbaoSvc.getHistoryInfo(vm);
 			$(".modal-backdrop").remove();
 
-			vm.update = function() {
+			vm.update = function(flag) {
+                vm.model.isUpdateOrSubmit = flag;
 				shenbaoSvc.updateShenBaoInfo(vm);
 			};
 		}//end#page_record

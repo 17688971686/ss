@@ -32,6 +32,8 @@ public class ShenBaoInfoDto extends ShenBaoInfo {
 	//资金其他来源类型
 	private String capitalOtherTypeDesc;
 
+	//暂存或提交
+	private Integer isUpdateOrSubmit;
 
 	private ShenBaoUnitInfoDto bianZhiUnitInfoDto=new ShenBaoUnitInfoDto();
 	private ShenBaoUnitInfoDto shenBaoUnitInfoDto=new ShenBaoUnitInfoDto();
@@ -39,6 +41,15 @@ public class ShenBaoInfoDto extends ShenBaoInfo {
 	public ShenBaoUnitInfoDto getBianZhiUnitInfoDto() {
 		return bianZhiUnitInfoDto;
 	}
+
+	public Integer getIsUpdateOrSubmit() {
+		return isUpdateOrSubmit;
+	}
+
+	public void setIsUpdateOrSubmit(Integer isUpdateOrSubmit) {
+		this.isUpdateOrSubmit = isUpdateOrSubmit;
+	}
+
 	public void setBianZhiUnitInfoDto(ShenBaoUnitInfoDto bianZhiUnitInfoDto) {
 		this.bianZhiUnitInfoDto = bianZhiUnitInfoDto;
 	}
