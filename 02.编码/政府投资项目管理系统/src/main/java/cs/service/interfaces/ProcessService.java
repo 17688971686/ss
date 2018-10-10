@@ -90,4 +90,6 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
 
 	int findAllTodoTaskNumber(String id);
 
+	void todoShenbaoInfo(ShenBaoInfo entity, String configValue);
+
 }

@@ -54,7 +54,10 @@ public class CodingPlatformController {
 					Thread.sleep(5000);
 				}
 				str =codingPlatformService.getShenBaoInfoFromCoding(todaytime,String.valueOf(i));
-				codingPlatformService.saveAll(str);
+				if(str != ""){
+					codingPlatformService.saveAll(str);
+				}
+				
 			}
 		}catch (Exception e) {
 			e.printStackTrace();

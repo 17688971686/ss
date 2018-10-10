@@ -2,8 +2,8 @@ package cs.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.huasisoft.portal.model.Backlog;
+import com.huasisoft.portal.util.HuasisoftUtil;
 import com.sn.framework.common.IdWorker;
 import com.sn.framework.common.ObjectUtils;
 import com.sn.framework.common.StringUtil;
@@ -13,7 +13,6 @@ import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.common.Response;
 import cs.common.Util;
-import cs.common.utils.DateUtils;
 import cs.common.utils.WorkDayUtil;
 import cs.domain.*;
 import cs.domain.framework.Org;
@@ -56,7 +55,6 @@ import org.apache.log4j.Logger;
 import org.hibernate.criterion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -140,6 +138,11 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
     private String projectShenBaoStage_6;
     @Value("${projectShenBaoStage_7}")
     private String projectShenBaoStage_7;
+    @Value("${sysPath}")
+    private String sysPath;
+
+
+
 	@Override
 	@Transactional
 	public PageModelDto<ShenBaoInfoDto> get(ODataObj odataObj) {
@@ -895,6 +898,19 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		projectRepo.save(project);
 		shenBaoInfoRepo.save(shenBaoInfo);
 
+//		try {
+//			Integer findresult = HuasisoftUtil.getBacklogManager().findByEventId(shenBaoInfo.getId());
+//			if(findresult == 105){
+//				Integer result = HuasisoftUtil.getBacklogManager().finishByEventId(shenBaoInfo.getId());
+//				if(result == 102){
+//					logger.info("待办完成！");
+//				}
+//			}
+//		} catch (Exception e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+
 		logger.info(String.format("签收或办理下一年度计划,用户名:%s", currentUser.getLoginName()));
 	}
 
@@ -1024,31 +1040,18 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		
 
-		if ((shenBaoInfo.getThisTaskName().equals("usertask1") || shenBaoInfo.getThisTaskName().equals("usertask5"))
-				&& !"1".equals(isPass)) {
-			shenBaoInfo.setQianshouDate(new Date());// 签收时间
-			shenBaoInfo.setReceiver(currentUser.getUserId());// 签收人
-			taskService.setAssignee(task.get(0).getId(), nextUsers);
-			taskService.setVariable(task.get(0).getId(), "isPass", isPass);
 
-		} else {
 
-			activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
-			activitiService.taskComplete(task.get(0).getId(), variables);
+//		try {
+//			Integer result = HuasisoftUtil.getBacklogManager().finishByEventId(shenBaoInfo.getId());
+//			if(result == 102){
+//				logger.info("待办完成！");
+//			}
+//		} catch (Exception e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
 
-			// 结束监控流程中的项目计划书任务
-			if (shenBaoInfo.getThisTaskName().equals("usertask3") && str.equals("banjie")
-					&& StringUtil.isNoneBlank(shenBaoInfo.getMonitor_processId())
-					&& ObjectUtils.isNoneEmpty(monitorTask)) {
-				// 加签收会在历史任务实例中多出assignee
-				// activitiService.claimTask(monitorTask.getId(),
-				// currentUser.getUserId());
-				activitiService.taskComplete(monitorTask.getId());
-			}else if(shenBaoInfo.getThisTaskName().equals("usertask16") && StringUtil.isNoneBlank(shenBaoInfo.getMonitor_processId())
-					&& ObjectUtils.isNoneEmpty(monitorTask)) {
-				activitiService.taskComplete(monitorTask.getId());
-			}
-		}
 
 		// 结束上一任务后，当前流程下产生的新任务
 		List<Task> tasknew = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId())
@@ -1236,13 +1239,73 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		
 		//推送待办数据到OA
-		todoShenbaoInfo(shenBaoInfo);
+		this.todoShenbaoInfo(shenBaoInfo ,nextUsers);
+
+		if ((shenBaoInfo.getThisTaskName().equals("usertask1") || shenBaoInfo.getThisTaskName().equals("usertask5"))
+				&& !"1".equals(isPass)) {
+			shenBaoInfo.setQianshouDate(new Date());// 签收时间
+			shenBaoInfo.setReceiver(currentUser.getUserId());// 签收人
+			taskService.setAssignee(task.get(0).getId(), nextUsers);
+			taskService.setVariable(task.get(0).getId(), "isPass", isPass);
+
+		} else {
+
+			activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
+			activitiService.taskComplete(task.get(0).getId(), variables);
+
+			// 结束监控流程中的项目计划书任务
+			if (shenBaoInfo.getThisTaskName().equals("usertask3") && str.equals("banjie")
+					&& StringUtil.isNoneBlank(shenBaoInfo.getMonitor_processId())
+					&& ObjectUtils.isNoneEmpty(monitorTask)) {
+				// 加签收会在历史任务实例中多出assignee
+				// activitiService.claimTask(monitorTask.getId(),
+				// currentUser.getUserId());
+				activitiService.taskComplete(monitorTask.getId());
+			}else if(shenBaoInfo.getThisTaskName().equals("usertask16") && StringUtil.isNoneBlank(shenBaoInfo.getMonitor_processId())
+					&& ObjectUtils.isNoneEmpty(monitorTask)) {
+				activitiService.taskComplete(monitorTask.getId());
+			}
+		}
 
 	}
 
-	private void todoShenbaoInfo(ShenBaoInfo shenBaoInfo) {
+	@Override
+	public void todoShenbaoInfo(ShenBaoInfo shenBaoInfo ,String nextUsers) {
 		// TODO Auto-generated method stub
-		
+//		Date newEndTime = new Date();
+//		Date newEndTime1 = new Date();
+//		Calendar calendar = new GregorianCalendar();
+//		calendar.setTime(newEndTime);
+//		if(shenBaoInfo.getTzkBalanceTime() != null && shenBaoInfo.getPxzxBalanceTime() != null){
+//			calendar.add(calendar.DATE, Integer.valueOf(shenBaoInfo.getTzkBalanceTime())+Integer.valueOf(shenBaoInfo.getPxzxBalanceTime()));// 把日期往后增加一天.整数往后推,负数往前移动
+//		}else{
+//			newEndTime= null;
+//		}
+//		newEndTime = calendar.getTime();
+		Backlog bl = new Backlog();
+		bl.setId(shenBaoInfo.getId());
+		bl.setTitle(shenBaoInfo.getProjectName());
+		bl.setUrgency(returnFileSet(shenBaoInfo.getUrgencyState()));
+		bl.setSystemCode("GMZXXMGLXT");
+		bl.setSystemName("光明新区政府投资管理系统");
+		bl.setUrl(sysPath);
+		User user = userRepo.findById(nextUsers);
+		bl.setPersonId(user.getOaId());
+		bl.setPersonName(user.getDisplayName());
+		bl.setEventId(shenBaoInfo.getId());
+		User user2 = userRepo.findById(currentUser.getUserId());
+		bl.setSendPersonId(user2.getOaId());
+		bl.setSendPersonName(user2.getDisplayName());
+		bl.setSendTime(new Date());
+		try {
+			Integer effect = HuasisoftUtil.getBacklogManager().save(bl);
+			if(effect == 101){
+				logger.info("插入待办成功！");
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@SuppressWarnings({ "rawtypes" })
@@ -1850,17 +1913,32 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		return list2.size();
 	}
 	 private String getStageType(String shenbaoStage) {
-	        if (shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)) {//如果是下一年度计划
-	            return projectShenBaoStage_7;
-	        }  else if (shenbaoStage.equals(projectShenBaoStage_KXXYJBG)) {//如果申报阶段：是可行性研究报告
-	            return  projectShenBaoStage_2;
-	        } else if (shenbaoStage.equals(projectShenBaoStage_CBSJYGS)) {//如果申报阶段：是初步概算与设计
-	            return projectShenBaoStage_3;
-	        } else if (shenbaoStage.equals(projectShenBaoStage_ZJSQBG)) {//如果申报阶段：是资金申请报告
-	            return projectShenBaoStage_4;
-	        } else if (shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_oncePlanReach)) {//如果申报阶段：是计划下达
-	            return projectShenBaoStage_6;
-	        }
-	        return "";
-	    }
+        if (shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)) {//如果是下一年度计划
+            return projectShenBaoStage_7;
+        }  else if (shenbaoStage.equals(projectShenBaoStage_KXXYJBG)) {//如果申报阶段：是可行性研究报告
+            return  projectShenBaoStage_2;
+        } else if (shenbaoStage.equals(projectShenBaoStage_CBSJYGS)) {//如果申报阶段：是初步概算与设计
+            return projectShenBaoStage_3;
+        } else if (shenbaoStage.equals(projectShenBaoStage_ZJSQBG)) {//如果申报阶段：是资金申请报告
+            return projectShenBaoStage_4;
+        } else if (shenbaoStage.equals(BasicDataConfig.projectShenBaoStage_oncePlanReach)) {//如果申报阶段：是计划下达
+            return projectShenBaoStage_6;
+        }
+        return "";
+    }
+
+	 public int returnFileSet(String fileSet){
+		 int num = 0;
+		 if(fileSet.equals(BasicDataConfig.fileSet_pingjian)){
+			 num = 1;
+		 }else if(fileSet.equals(BasicDataConfig.fileSet_jiaji)){
+			 num = 2;
+		 }else if(fileSet.equals(BasicDataConfig.fileSet_teji)){
+			 num = 3;
+		 }else{
+			 num = 4;
+		 }
+
+		 return num;
+	 }
 }

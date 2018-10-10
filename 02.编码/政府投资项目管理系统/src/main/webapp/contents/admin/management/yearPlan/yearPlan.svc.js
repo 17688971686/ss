@@ -1898,6 +1898,10 @@
                     field: 'projectInvestmentType',
                     operator: 'eq',
                     value: common.basicDataConfig().projectInvestmentType_ZF
+                }, {
+                    field: 'countryNumber',
+                    operator: 'ne',
+                    value: ""
                 }],
                 change: function () {
                     var grid = $(".grid").data("kendoGrid");
@@ -1937,7 +1941,7 @@
                 {
                     field: "constructionUnit",
                     title: "建设单位",
-                    width: 200,
+                    width: 180,
                     filterable: true,
                     attributes: {
                         style: "font-size: 14.5px"
@@ -2037,9 +2041,21 @@
                     }
                 },
                 {
+                    field: "countryNumber",
+                    title: "国家编码",
+                    width: 200,
+                    filterable: false,
+                    attributes: {
+                        style: "font-size: 14.5px"
+                    },
+                    headerAttributes: {
+                        style: "text-align:center;font-size: 14.5px"
+                    }
+                },
+                {
                     field: "auditState",
                     title: "审核状态",
-                    width: 100,
+                    width: 80,
                     template: function (item) {
                         return common.getBasicDataDesc(item.auditState);
                     },
@@ -2064,7 +2080,7 @@
                 {
                     filed: "",
                     title: "操作",
-                    width: 150,
+                    width: 110,
                     template: function (item) {
                         return common.format($('#columnBtns').html(), item.id, item.projectInvestmentType, item.projectShenBaoStage);
                     },
