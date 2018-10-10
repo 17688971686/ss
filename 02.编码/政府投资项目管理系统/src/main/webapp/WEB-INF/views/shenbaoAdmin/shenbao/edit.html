@@ -99,8 +99,10 @@ textarea.form-control {
 <!-- 				     	<button class="btn btn-sm btn-primary" ng-if="vm.isCapitalApplyReport" ng-click="vm.tabChange(5)">下一步 <span class="glyphicon glyphicon-forward"></span></button> -->
 				     	<button class="btn btn-sm btn-primary" ng-if="vm.isJihuaxiada" ng-click="vm.tabChange(6)">下一步 <span class="glyphicon glyphicon-forward"></span></button>
 				     	<!-- 第三页显示更新和提交按钮：下一年度计划、资金申请报告、计划下达不显示 -->
-				     	<button class="btn btn-sm btn-success" ng-hide="vm.isRecordEdit || vm.isYearPlan  || vm.isJihuaxiada" ng-click="vm.submit()" ng-disabled="vm.isSubmit">确认提交 </button>
-                 		<button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit && !vm.isYearPlan && !vm.isJihuaxiada" ng-click="vm.update()" ng-disabled="vm.isSubmit">确认更新 </button>
+						<button class="btn btn-sm btn-success" ng-hide="vm.isRecordEdit || vm.isYearPlan  || vm.isJihuaxiada" ng-click="vm.submit(1)" ng-disabled="vm.isSubmit">暂存 </button>
+				     	<button class="btn btn-sm btn-success" ng-hide="vm.isRecordEdit || vm.isYearPlan  || vm.isJihuaxiada" ng-click="vm.submit(2)" ng-disabled="vm.isSubmit">确认提交 </button>
+                 		<button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit && !vm.isYearPlan && !vm.isJihuaxiada" ng-click="vm.update(1)" ng-disabled="vm.isSubmit">确认更新 </button>
+						<button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit && !vm.isYearPlan && !vm.isJihuaxiada" ng-click="vm.update(2)" ng-disabled="vm.isSubmit">更新并提交 </button>
 				    </div>
               </div>
                <!-- 下一年度计划申报信息页面 -->                   
@@ -128,8 +130,10 @@ textarea.form-control {
                 <div ng-include  src="'/contents/shenbaoAdmin/shenbao/html/edit/stage/planReach.html'"></div>
                  <div style="text-align: center">
                  	<button class="btn btn-sm btn-primary" ng-click="vm.tabReturn(3)"><span class="glyphicon glyphicon-backward">上一步 </span></button>
-                 	<button class="btn btn-sm btn-success" ng-hide="vm.isRecordEdit" ng-click="vm.submit()" ng-disabled="vm.isSubmit">确认提交 </button>
-                 	<button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit" ng-click="vm.update()" ng-disabled="vm.isSubmit">确认更新 </button>
+					 <button class="btn btn-sm btn-success" ng-hide="vm.isRecordEdit" ng-click="vm.submit(1)" ng-disabled="vm.isSubmit">暂存 </button>
+                 	<button class="btn btn-sm btn-success" ng-hide="vm.isRecordEdit" ng-click="vm.submit(2)" ng-disabled="vm.isSubmit">确认提交 </button>
+                 	<button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit" ng-click="vm.update(1)" ng-disabled="vm.isSubmit">确认更新 </button>
+					 <button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit" ng-click="vm.update(2)" ng-disabled="vm.isSubmit">更新并提交 </button>
                  </div>
             </div>
          </div>

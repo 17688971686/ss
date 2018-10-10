@@ -29,6 +29,11 @@ public class ProjectDto extends Project {
 	private String projectInvestmentTypeDesc;
 	//项目建设区域
 	private String divisionIdDesc;
+
+	//修改--申报信息id
+	private String shenbaoId;
+	private String projectShenBaoStage;
+	private String zong_processId;
 	
 	//begin#关联信息
 	//附件信息
@@ -36,7 +41,31 @@ public class ProjectDto extends Project {
 	
 	//月报
 	private List<MonthReportDto> monthReportDtos=new ArrayList<>();
-	
+
+	public String getShenbaoId() {
+		return shenbaoId;
+	}
+
+	public void setShenbaoId(String shenbaoId) {
+		this.shenbaoId = shenbaoId;
+	}
+
+	public String getProjectShenBaoStage() {
+		return projectShenBaoStage;
+	}
+
+	public String getZong_processId() {
+		return zong_processId;
+	}
+
+	public void setZong_processId(String zong_processId) {
+		this.zong_processId = zong_processId;
+	}
+
+	public void setProjectShenBaoStage(String projectShenBaoStage) {
+		this.projectShenBaoStage = projectShenBaoStage;
+	}
+
 	public String getProjectStageDesc() {
 		return projectStageDesc;
 	}

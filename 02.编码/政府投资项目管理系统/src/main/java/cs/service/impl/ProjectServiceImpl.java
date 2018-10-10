@@ -16,6 +16,7 @@ import cs.common.*;
 import cs.excelHelper.PoiExcel2k3Helper;
 import cs.excelHelper.PoiExcel2k7Helper;
 import cs.excelHelper.PoiExcelHelper;
+import cs.model.DomainDto.ShenBaoInfoDto;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
@@ -139,6 +140,25 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 //				x.setUnitName("");
 //			}
 //		});
+
+        //查询项目未提交申报的数据
+        for (ProjectDto dto : dtos){
+            //项目id
+            String projectId = dto.getId();
+            //条件-项目id
+            Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), projectId);
+            //条件-流程id为空
+            Criterion criterion1 = Restrictions.eq(ShenBaoInfo_.zong_processId.getName(), null);
+            Criterion criterion3 = Restrictions.and(criterion,criterion1);
+            //查询
+            List<ShenBaoInfo> shenBaoInfos = shenBaoInfoRepo.findByCriteria(criterion);
+            if(!shenBaoInfos.isEmpty()){
+                ShenBaoInfo shenBaoInfo = shenBaoInfos.get(0);
+                dto.setShenbaoId(shenBaoInfo.getId());
+                dto.setProjectShenBaoStage(shenBaoInfo.getProjectStage());
+                dto.setZong_processId(shenBaoInfo.getZong_processId());
+            }
+        }
 
         PageModelDto<ProjectDto> pageModelDto = new PageModelDto<>();
         pageModelDto.setCount(odataObj.getCount());

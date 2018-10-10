@@ -363,7 +363,17 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 //    	}else{
 //    		throw new IllegalArgumentException("未申请可研或可研审批未结束，无法创建概算申请！");
 //    	}
+        //1为保存申请不提交，2 为提交申请，走审批流程
+        if(dto.getIsUpdateOrSubmit().equals(2)){
+            createProcessShenbao(entity,dto);
+        }
 
+        logger.info(String.format("创建申报信息,项目名称 :%s,申报阶段：%s", entity.getProjectName(),
+                basicDataService.getDescriptionById(entity.getProjectShenBaoStage())));
+        return entity;
+    }
+
+    private void createProcessShenbao (ShenBaoInfo entity,ShenBaoInfoDto dto){
         //启动申报审批流程
         if (entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)) {
 //			startProcessShenbao(processDefinitionKey_plan,entity.getId());
@@ -387,9 +397,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             entity.setModifiedDate(new Date());
             startProcessMonitor_fjxm(processDefinitionKey_monitor_fjxm, entity.getId());
         }
-        logger.info(String.format("创建申报信息,项目名称 :%s,申报阶段：%s", entity.getProjectName(),
-                basicDataService.getDescriptionById(entity.getProjectShenBaoStage())));
-        return entity;
     }
 
     @Override
@@ -632,25 +639,32 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         bianZhiUnitInfo.setCreatedBy(entity.getModifiedBy());
         bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
         entity.setBianZhiUnitInfo(bianZhiUnitInfo);
-        if (!isAdminUpdate) {
-            //更新申报信息的审批阶段和审批状态
-            entity.setProcessStage("投资科审核收件办理");
-            entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
+        // 2更新并提交流程
+        if(dto.getIsUpdateOrSubmit().equals(2)) {
+            if (!isAdminUpdate) {
+                //第一次走审批流程
+                if (entity.getZong_processId() == null) {
+                    createProcessShenbao(entity, dto);
+                } else {
+                    //更新申报信息的审批阶段和审批状态
+                    entity.setProcessStage("投资科审核收件办理");
+                    entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
 
-            if (entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)) {
-                startProcessShenbao(processDefinitionKey_plan, entity.getId());
-            } else if (entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)) {
-                entity.setProcessStage("投资科审核收件办理");
-                startProcessShenbao(processDefinitionKey_yearPlan, entity.getId());
-            } else {
-                startProcessShenbao(processDefinitionKey, entity.getId());
-                if ("projectClassify_1_1".equalsIgnoreCase(dto.getProjectClassify())) {
-                    startProcessMonitor_fjxm(processDefinitionKey_monitor_fjxm, entity.getId());
+                    if (entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)) {
+                        startProcessShenbao(processDefinitionKey_plan, entity.getId());
+                    } else if (entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)) {
+                        entity.setProcessStage("投资科审核收件办理");
+                        startProcessShenbao(processDefinitionKey_yearPlan, entity.getId());
+                    } else {
+                        startProcessShenbao(processDefinitionKey, entity.getId());
+                        if ("projectClassify_1_1".equalsIgnoreCase(dto.getProjectClassify())) {
+                            startProcessMonitor_fjxm(processDefinitionKey_monitor_fjxm, entity.getId());
+                        }
+                    }
                 }
             }
         }
         super.repository.save(entity);
-
         //处理批复文件库
         handlePiFuFile(entity);
         logger.info(String.format("更新申报信息,项目名称: %s,申报阶段：%s", entity.getProjectName(),

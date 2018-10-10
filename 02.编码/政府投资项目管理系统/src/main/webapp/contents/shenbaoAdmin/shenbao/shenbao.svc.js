@@ -17,7 +17,8 @@
 		var service = {
 			grid : grid,//项目列表
 			getProjectById:getProjectById,//根据id查询项目信息
-			projectShenBaoRecordsGird:projectShenBaoRecordsGird,//根据项目代码查询项目申报信息列表
+			projectShenBaoRecordsGird:projectShenBaoRecordsGird,            //根据项目代码查询项目申报信息列表
+            projectUpdateShenBaoRecordsGird:projectUpdateShenBaoRecordsGird,//根据项目代码查询暂存项目申报信息列表
 			createShenBaoInfo:createShenBaoInfo,//创建申报信息
 			recordsGird:recordsGird,//所有的申报记录列表
 			getShenBaoInfoById:getShenBaoInfoById,//根据id查询项目申报信息
@@ -499,7 +500,7 @@
 				},
 				{
 					field : "planYear",
-					title : "计划年度",	
+					title : "计划年度",
 					width : 100,
 					filterable : false
 				},
@@ -525,7 +526,96 @@
 				resizable : true
 			};
 		}
-				
+
+
+        /**
+         * 根据项目代码查询暂存项目申报信息列表
+         */
+        function projectUpdateShenBaoRecordsGird(vm){
+            // Begin:dataSource
+            var dataSource = new kendo.data.DataSource({
+                type : 'odata',
+                transport : common.kendoGridConfig().transport(url_shenbao),
+                schema : common.kendoGridConfig().schema({
+                    id : "id"
+//					fields : {
+//						createdDate : {
+//							type : "date"
+//						}
+//					}
+                }),
+                serverPaging : true,
+                serverSorting : true,
+                serverFiltering : true,
+                pageSize : 10,
+                sort : {
+                    field : "createdDate",
+                    dir : "desc"
+                }
+            });
+            // End:dataSource
+            // Begin:column
+            var columns = [
+                {
+                    template : function(item) {
+                        return kendo
+                            .format(
+                                "<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+                                item.id);
+                    },
+                    filterable : false,
+                    width : 40,
+                    title : "<input id='checkboxAll_projectShenBaoRecords' type='checkbox'  class='checkbox'/>"
+                },
+                {
+                    field : "projectName",
+                    title : "项目名称",
+                    width:250,
+                    template:function(item){
+                        return common.format('<a class="text-primary" href="#/project/projectInfo/{0}">{1}</a>',item.projectId,item.projectName);
+                    },
+                    filterable : false
+                },
+                {
+                    field : "projectShenBaoStage",
+                    title : "申报阶段",
+                    width : 120,
+                    template:function(item){
+                        if(item.projectShenBaoStage==common.basicDataConfig().projectShenBaoStage_CBSJYGS){
+                            if(item.isRecords){
+                                return common.getBasicDataDesc(item.projectShenBaoStage)+"--审批";
+                            }else{
+                                return common.getBasicDataDesc(item.projectShenBaoStage)+"--备案";
+                            }
+                        }else{
+                            return common.getBasicDataDesc(item.projectShenBaoStage);
+                        }
+                    },
+                    filterable : false
+                },
+                {
+                    field : "",
+                    title : "操作",
+                    width : 200,
+                    template : function(item) {
+                        var isReceiver = item.receiver !=null?false:true;
+                        var isShow=item.processState==common.basicDataConfig().processState_weikaishi || item.processState==common.basicDataConfig().processState_notpass||item.processState==common.basicDataConfig().processState_tuiwen;
+                        return common.format($('#Update_columnBtns_Record').html(),item.id,item.projectInvestmentType,item.projectShenBaoStage,isShow?'':'display:none',"vm.deleteShenBaoInfo('"+item.id+"')",item.thisTaskName,item.zong_processId,isReceiver);
+                    }
+                }
+            ];
+            // End:column
+
+            vm.grid_Update_shenBaoRecords = {
+                dataSource : common.gridDataSource(dataSource),
+                filterable : common.kendoGridConfig().filterable,
+                pageable : common.kendoGridConfig().pageable,
+                noRecords : common.kendoGridConfig().noRecordMessage,
+                columns : columns,
+                resizable : true
+            };
+        }
+
 		/**
 		 * 更新申报信息
 		 */
@@ -549,6 +639,12 @@
 					data : vm.model
 				};
 
+                var msg;
+                if(vm.model.isUpdateOrSubmit == 1){
+                    msg = "操作成功，申报信息暂存！";
+                }else{
+                    msg = "操作成功,开始审批流程！";
+                }
 				var httpSuccess = function success(response) {
 					common.requestSuccess({
 						vm : vm,
@@ -556,7 +652,7 @@
 						fn : function() {
 							common.alert({
 								vm : vm,
-								msg : "操作成功",
+								msg: msg,
 								fn : function() {
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
@@ -714,7 +810,12 @@
 					url : url_shenbao,
 					data : vm.model
 				};
-
+                var msg;
+                if(vm.model.isUpdateOrSubmit == 1){
+                    msg = "操作成功，申报信息暂存！";
+                }else{
+                    msg = "操作成功,开始审批流程！";
+                }
 				var httpSuccess = function success(response) {
 					common.requestSuccess({
 						vm : vm,
@@ -722,7 +823,7 @@
 						fn : function() {
 							common.alert({
 								vm : vm,
-								msg : "操作成功,开始审批流程！",
+								msg : msg,
 								fn : function() {
 									vm.isSubmit = false;
 									$('.alertDialog').modal('hide');
@@ -1434,7 +1535,7 @@
 					title : "操作",
 					width : 150,
 					template : function(item) {
-						return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,common.repSign(item.projectName),item.projectNumber);
+						return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,common.repSign(item.projectName),item.shenbaoId,item.projectShenBaoStage,item.zong_processId);
 					}
 
 				}
