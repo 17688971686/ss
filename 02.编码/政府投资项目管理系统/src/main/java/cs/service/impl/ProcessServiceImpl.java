@@ -140,6 +140,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
     private String projectShenBaoStage_7;
     @Value("${sysPath}")
     private String sysPath;
+	@Value("${isPushOA}")
+	private Boolean isPushOA;
 
 
 
@@ -1238,8 +1240,9 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			logger.error("发送短信异常：" + e.getMessage(), e);
 		}
 		
-		//推送待办数据到OA
+
 		this.todoShenbaoInfo(shenBaoInfo ,nextUsers);
+
 
 		if ((shenBaoInfo.getThisTaskName().equals("usertask1") || shenBaoInfo.getThisTaskName().equals("usertask5"))
 				&& !"1".equals(isPass)) {
@@ -1282,29 +1285,32 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 //			newEndTime= null;
 //		}
 //		newEndTime = calendar.getTime();
-		Backlog bl = new Backlog();
-		bl.setId(shenBaoInfo.getId());
-		bl.setTitle(shenBaoInfo.getProjectName());
-		bl.setUrgency(returnFileSet(shenBaoInfo.getUrgencyState()));
-		bl.setSystemCode("GMZXXMGLXT");
-		bl.setSystemName("光明新区政府投资管理系统");
-		bl.setUrl(sysPath);
-		User user = userRepo.findById(nextUsers);
-		bl.setPersonId(user.getOaId());
-		bl.setPersonName(user.getDisplayName());
-		bl.setEventId(shenBaoInfo.getId());
-		User user2 = userRepo.findById(currentUser.getUserId());
-		bl.setSendPersonId(user2.getOaId());
-		bl.setSendPersonName(user2.getDisplayName());
-		bl.setSendTime(new Date());
-		try {
-			Integer effect = HuasisoftUtil.getBacklogManager().save(bl);
-			if(effect == 101){
-				logger.info("插入待办成功！");
+		//推送待办数据到OA
+		if(isPushOA){
+			Backlog bl = new Backlog();
+			bl.setId(shenBaoInfo.getId());
+			bl.setTitle(shenBaoInfo.getProjectName());
+			bl.setUrgency(returnFileSet(shenBaoInfo.getUrgencyState()));
+			bl.setSystemCode("GMZXXMGLXT");
+			bl.setSystemName("光明新区政府投资管理系统");
+			bl.setUrl(sysPath);
+			User user = userRepo.findById(nextUsers);
+			bl.setPersonId(user.getOaId());
+			bl.setPersonName(user.getDisplayName());
+			bl.setEventId(shenBaoInfo.getId());
+			User user2 = userRepo.findById(currentUser.getUserId());
+			bl.setSendPersonId(user2.getOaId());
+			bl.setSendPersonName(user2.getDisplayName());
+			bl.setSendTime(new Date());
+			try {
+				Integer effect = HuasisoftUtil.getBacklogManager().save(bl);
+				if(effect == 101){
+					logger.info("插入待办成功！");
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 

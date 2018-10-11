@@ -1,3 +1,4 @@
+<div ng-include src="'/contents/shenbaoAdmin/shenbao/html/edit/tips_1.html'"></div>
 <div class="bg-info text-info" style="padding: 10px; ">项目所属单位</div>
 <table class="table table-bordered table-striped ">
 	<tr>
@@ -11,9 +12,10 @@
 <div class="bg-info text-info" style="padding: 10px;">项目基本信息</div>
 <table class="table table-bordered table-striped ">
 	<tr>
-		<td class="formAlignRight" style="width:150px;">项目名称：<span class="required">(*)</span></td>
+		<td class="formAlignRight" style="width:150px;">项目名称：<span class="required" ng-hide="vm.isYearPlan">(*)</span></td>
 		<td>
-			<input type="text" class="form-control input-sm" id="projectName" name="projectName" ng-model="vm.model.projectName" data-val="true" data-val-required="必填"/>
+			<input ng-hide="vm.isYearPlan" type="text" class="form-control input-sm" id="projectName" name="projectName" ng-model="vm.model.projectName" data-val="true" data-val-required="必填"/>
+			<span ng-show="vm.isYearPlan" ng-bind="vm.model.projectName"></span>
 			<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight" style="width:180px;">项目阶段：<span class="required">(*)</span></td>					
@@ -41,6 +43,19 @@
 				   maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"
 				   placeholder="填写固话或手机号"/>
 			<span data-valmsg-for="projectRepMobile" data-valmsg-replace="true" class="required"></span>
+		</td>
+	</tr>
+	<tr ng-show="vm.isYearPlan">
+		<td  class="formAlignRight">国家编码：</td>
+		<td>
+			<input type="hidden" class="form-control input-sm" id="countryNumber" name="countryNumber" ng-model="vm.model.countryNumber"/>
+			<span ng-bind="vm.model.countryNumber"></span>
+		</td>
+
+		<td class="formAlignRight">历史编码：</td>
+		<td>
+			<input type="hidden" class="form-control input-sm" id="projectNumber" name="projectNumber" ng-model="vm.model.projectNumber"/>
+			<span ng-bind="vm.model.projectNumber"></span>
 		</td>
 	</tr>
 	<tr>		
@@ -135,10 +150,11 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
+		<td class="formAlignRight">项目总投资：<span class="required" ng-hide="vm.isYearPlan">(*)</span></td>
 		<td>
-			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
-			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>			
+			<input ng-hide="vm.isYearPlan" type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/>
+			<span ng-show="vm.isYearPlan" ng-bind="vm.model.projectInvestSum"></span>&nbsp;(万元)
+			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight">累计完成投资：<span class="required">(*)</span></td>
 		<td>

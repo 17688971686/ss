@@ -148,10 +148,12 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
             //条件-项目id
             Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), projectId);
             //条件-流程id为空
-            Criterion criterion1 = Restrictions.eq(ShenBaoInfo_.zong_processId.getName(), null);
+            Criterion criterion1 = Restrictions.isNull(ShenBaoInfo_.zong_processId.getName());
+
+
             Criterion criterion3 = Restrictions.and(criterion,criterion1);
             //查询
-            List<ShenBaoInfo> shenBaoInfos = shenBaoInfoRepo.findByCriteria(criterion);
+            List<ShenBaoInfo> shenBaoInfos = shenBaoInfoRepo.findByCriteria(criterion3);
             if(!shenBaoInfos.isEmpty()){
                 ShenBaoInfo shenBaoInfo = shenBaoInfos.get(0);
                 dto.setShenbaoId(shenBaoInfo.getId());
