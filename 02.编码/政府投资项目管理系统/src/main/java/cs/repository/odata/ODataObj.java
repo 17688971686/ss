@@ -234,6 +234,8 @@ public class ODataObj {
                     case "le":
                         criteria.add(Restrictions.le(field, value));
                         break;
+                    case "isNull":
+                        criteria.add(Restrictions.isNull(field));
                     default:
                         break;
                 }

@@ -1,10 +1,12 @@
 package cs.controller.shenbaoAdmin;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import cs.domain.ShenBaoInfo_;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,6 +52,21 @@ public class ShenBaoAdminShenBaoController {
 			return shenBaoInfoDtos;
 		};
 		ODataObj odataObj = new ODataObj(request);
+
+		//查询暂存未提交流程的申报信息
+		String isUpdate = request.getParameter("isUpdate");
+		if(null != isUpdate && !isUpdate.isEmpty()){
+			List<ODataFilterItem> ODataFilterItemList = odataObj.getFilter();
+			if(ODataFilterItemList == null || ODataFilterItemList.isEmpty()){
+				ODataFilterItemList = new ArrayList<ODataFilterItem>();
+				odataObj.setFilter(ODataFilterItemList);
+			}
+			ODataFilterItem oDataFilterItem = new ODataFilterItem();
+			oDataFilterItem.setField(ShenBaoInfo_.zong_processId.getName());
+			oDataFilterItem.setOperator("isNull");
+			ODataFilterItemList.add(oDataFilterItem);
+		}
+
 		shenBaoInfoDtos = shenBaoInfoService.get(odataObj);
 		return shenBaoInfoDtos;	
 	}

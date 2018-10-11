@@ -1,3 +1,4 @@
+<div ng-include src="'/contents/shenbaoAdmin/shenbao/html/edit/tips_1.html'"></div>
 <div class="bg-info text-info" style="padding: 10px;">年度计划信息</div>
 <table class="table table-bordered table-striped ">
 	<tr>
@@ -22,10 +23,11 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
-		<td>	
-			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
-			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>			
+		<td class="formAlignRight">项目总投资：<span class="required" ng-hide="vm.isYearPlan">(*)</span></td>
+		<td>
+			<input ng-hide="vm.isYearPlan" type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/>
+			<span ng-show="vm.isYearPlan" ng-bind="vm.model.projectInvestSum"></span>&nbsp;(万元)
+			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight">累计安排投资：<span class="required">(*)</span></td>
 		<td>

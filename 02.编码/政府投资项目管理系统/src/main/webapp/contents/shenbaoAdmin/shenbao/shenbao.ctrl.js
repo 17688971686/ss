@@ -533,7 +533,7 @@
 				vm.gridOptions_shenBaoRecords.dataSource.read();
 			};
 
-            //点击列表中的申报记录按钮
+            //点击列表中的更新或提交按钮
             vm.updateShenBaoRecords = function(id) {
                 //展示模态框
                 $("#UpdateShenBaoRecords").modal({
@@ -542,11 +542,9 @@
                 });
                 vm.projectId = id;
                 //根据项目代码查询项目的申报记录
-                vm.grid_Update_shenBaoRecords.dataSource.filter({
-                    field : 'projectId',
-                    operator : 'eq',
-                    value : vm.projectId
-                });
+                var filters = [];
+                filters.push({field:'projectId',operator:'eq',value:vm.projectId});//项目id
+                vm.grid_Update_shenBaoRecords.dataSource.filter(filters);
                 vm.grid_Update_shenBaoRecords.dataSource.read();
             };
 

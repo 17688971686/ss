@@ -113,8 +113,10 @@ textarea.form-control {
                  	<button ng-if="vm.isZFInvestment" class="btn btn-sm btn-primary" ng-click="vm.tabReturn(3)"><span class="glyphicon glyphicon-backward">上一步 </span></button>
                  	<button ng-if="vm.isSHInvestment" class="btn btn-sm btn-primary" ng-click="vm.tabReturn(2)"><span class="glyphicon glyphicon-backward">上一步 </span></button>
                  	
-                 	<button class="btn btn-sm btn-success" ng-hide="vm.isRecordEdit" ng-click="vm.submit()" ng-disabled="vm.isSubmit">确认提交 </button>
-                 	<button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit" ng-click="vm.update()" ng-disabled="vm.isSubmit">确认更新 </button>
+					 <button class="btn btn-sm btn-success" ng-hide="vm.isRecordEdit" ng-click="vm.submit(1)" ng-disabled="vm.isSubmit">暂存 </button>
+					 <button class="btn btn-sm btn-success" ng-hide="vm.isRecordEdit" ng-click="vm.submit(2)" ng-disabled="vm.isSubmit">确认提交 </button>
+					 <button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit" ng-click="vm.update(1)" ng-disabled="vm.isSubmit">确认更新 </button>
+					 <button class="btn btn-sm btn-success" ng-show="vm.isRecordEdit" ng-click="vm.update(2)" ng-disabled="vm.isSubmit">更新并提交 </button>
                  </div>
             </div>
             <!-- 资金申请报告申报信息页面 -->
