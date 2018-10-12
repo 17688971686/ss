@@ -416,7 +416,7 @@
         </dependency>
 	</dependencies>
 	<build>
-		<finalName>framework</finalName>
+		<finalName>ROOT</finalName>
 		<resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -485,21 +485,22 @@
 	
 	
 	<profiles>
-        <!-- 本地开发环境 -->
-        <profile>
-            <id>dev</id>
-            <properties>
-                <db.ip>localhost</db.ip>
-                <db.port>3306</db.port>
-                <db.username>root</db.username>
-                <db.password>Passw0rd</db.password>
-                <db.name>gm_test</db.name>
-                <uploadPath>D:/gm_upload</uploadPath>
-            </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
+		<!-- 本地开发环境 -->
+		<profile>
+			<id>dev</id>
+			<properties>
+				<db.ip>localhost</db.ip>
+				<db.port>3306</db.port>
+				<db.username>root</db.username>
+				<db.password>root</db.password>
+				<db.name>gm_test</db.name>
+				<uploadPath>D:/gm_upload</uploadPath>
+				<isPushOA>false</isPushOA>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
         <!-- 5002测试环境 -->
         <profile>
             <id>test</id>
@@ -510,6 +511,7 @@
                 <db.password>Passw0rd</db.password>
                 <db.name>gm_test</db.name>
                 <uploadPath>D:/gm_upload</uploadPath>
+				<isPushOA>false</isPushOA>
             </properties>
         </profile>
         <!-- 5004演示环境 -->
@@ -522,6 +524,7 @@
                 <db.password>Passw0rd</db.password>
                 <db.name>gm_test</db.name>
                 <uploadPath>D:/gm_upload</uploadPath>
+				<isPushOA>false</isPushOA>
             </properties>
         </profile>
         <!--10.17.250.192 服务器生产环境-->
@@ -534,6 +537,7 @@
                 <db.password>Passw0rd</db.password>
                 <db.name>gm_govinvestprojectmanagement</db.name>
                 <uploadPath>D:/gm_upload</uploadPath>
+				<isPushOA>false</isPushOA>
             </properties>
         </profile>
     </profiles>
