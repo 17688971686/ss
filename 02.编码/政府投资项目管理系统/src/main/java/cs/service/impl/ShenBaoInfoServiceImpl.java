@@ -1114,6 +1114,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 
         List<Org> findProjects = new ArrayList<>();
         List<String> useridList = new ArrayList<>();
+        List<User> userList = new ArrayList<User>();
 
         if (BasicDataConfig.projectShenBaoStage_nextYearPlan.equals(entity.getProjectShenBaoStage())) {
 
@@ -1122,6 +1123,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             for (Org org : findProjects) {
                 for (User user : org.getUsers()) {
                     useridList.add(user.getId().trim());
+                    //设置审批短信发送人员
+                    userList.add(user);
                 }
             }
             if (!useridList.isEmpty()) {
@@ -1132,15 +1135,17 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
                 if (sysConfg.getEnable()) {
                     variables.put("users", sysConfg.getConfigValue());
                     entity.setThisUser(sysConfg.getConfigValue());
-                    processService.todoShenbaoInfo(entity,sysConfg.getConfigValue());
-//					processEngine.getProcessEngineConfiguration().getTaskService().setAssignee(task.getId(), sysConfg.getConfigValue());
+                    //设置审批短信发送人员
+                    User user = userService.findById(sysConfg.getConfigValue());
+                    userList.add(user);
                 } else {
-                    throw new IllegalArgumentException(String.format("审批申报端口已关闭，请联系管理员！"));
+                    throw new IllegalArgumentException("审批申报端口已关闭，请联系管理员！");
                 }
             } else {
-                throw new IllegalArgumentException(String.format("没有配置申报信息审核分办人员，请联系管理员！"));
+                throw new IllegalArgumentException("没有配置申报信息审核分办人员，请联系管理员！");
             }
         }
+        processService.todoShenbaoInfo(entity,sysConfg.getConfigValue());
         ProcessInstance process = activitiService.startProcess(processDefinitionKey, variables);
         String executionId = process.getId();
 
@@ -1153,21 +1158,39 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         super.repository.save(entity);
 
         // 发送短信给第一处理人
-        try {
-            User user = userService.findById(sysConfg.getConfigValue());
-            if (user != null
-                    && StringUtils.isNotBlank(user.getMobilePhone())) {
-                String content = String.format(shenbaoSMSContent.get(entity.getThisTaskName()) == null ? shenbaoSMSContent.get("default") : shenbaoSMSContent.get(entity.getThisTaskName()), user.getDisplayName(),entity.getProjectName(),getStageType(entity.getProjectShenBaoStage()),entity.getProcessStage());
-                SendMsg msg = new SendMsg(user.getMobilePhone(), content);
-                String resultXml =  smsService.insertDownSms(null, msg);
-    			System.out.println(resultXml);
-    			System.out.println(resultXml);
+        String content,phone;
+        SendMsg[] msg = null;
+        User user = null;
+        if(userList.isEmpty()){
+            logger.error("发送短信失败，发送短信对应用户为空!");
+        }else{
+            msg = new SendMsg[userList.size()];
+            for (int i = 0;i < userList.size();i++){
+                user = userList.get(i);
+                phone = user.getMobilePhone();
+                content = initSmsConent(user,entity);
+                msg[i] = new SendMsg(phone, content);
             }
-        } catch (SMSException e) {
-            logger.error("发送短信异常：" + e.getMessage(), e);
+            try {
+                String resultXml =  smsService.insertDownSms(null, msg);
+                System.out.println(resultXml);
+            } catch (SMSException e) {
+                logger.error("发送短信异常：" + e.getMessage(), e);
+            }
+            logger.info(String.format("启动审批流程,用户名:%s", currentUser.getLoginName()));
         }
+    }
 
-        logger.info(String.format("启动审批流程,用户名:%s", currentUser.getLoginName()));
+    private String initSmsConent(User user,ShenBaoInfo entity){
+        String shenbaoContent,content;
+        if(shenbaoSMSContent.get(entity.getThisTaskName()) == null
+                || shenbaoSMSContent.get(entity.getThisTaskName()).equals("")){
+            shenbaoContent = shenbaoSMSContent.get("default");
+        }else{
+            shenbaoContent = shenbaoSMSContent.get(entity.getThisTaskName());
+        }
+        content = String.format(shenbaoContent,user.getDisplayName(),entity.getProjectName(),getStageType(entity.getProjectShenBaoStage()),entity.getProcessStage());
+        return content;
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})

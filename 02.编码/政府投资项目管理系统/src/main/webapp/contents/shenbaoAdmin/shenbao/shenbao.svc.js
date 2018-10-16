@@ -730,7 +730,8 @@
 				};
 				var httpSuccess = function success(response) {
 					vm.model = response.data.value[0]||{};
-					
+					//解决angular.js select <option value="? object:null ?"></option>,解决方法:将绑定值 null改为""和前台页面的“<option value="">---请选择---</option>”value值对应
+					vm.model.urgencyState = vm.model.urgencyState == null ? "":vm.model.urgencyState;
 					//查询项目的所属单位的单位名称
 				   	getProjectUnit(vm);
 					//多选框、建设单位回显						
