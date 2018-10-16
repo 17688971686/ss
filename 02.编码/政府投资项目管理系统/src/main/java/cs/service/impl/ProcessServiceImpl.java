@@ -1041,9 +1041,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见：" + msg);
 		}
 		
-
-
-
 //		try {
 //			Integer result = HuasisoftUtil.getBacklogManager().finishByEventId(shenBaoInfo.getId());
 //			if(result == 102){
@@ -1054,6 +1051,31 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 //			e1.printStackTrace();
 //		}
 
+		if ((shenBaoInfo.getThisTaskName().equals("usertask1") || shenBaoInfo.getThisTaskName().equals("usertask5"))
+				&& !"1".equals(isPass)) {
+			shenBaoInfo.setQianshouDate(new Date());// 签收时间
+			shenBaoInfo.setReceiver(currentUser.getUserId());// 签收人
+			taskService.setAssignee(task.get(0).getId(), nextUsers);
+			taskService.setVariable(task.get(0).getId(), "isPass", isPass);
+
+		} else {
+
+			activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
+			activitiService.taskComplete(task.get(0).getId(), variables);
+
+			// 结束监控流程中的项目计划书任务
+			if (shenBaoInfo.getThisTaskName().equals("usertask3") && str.equals("banjie")
+					&& StringUtil.isNoneBlank(shenBaoInfo.getMonitor_processId())
+					&& ObjectUtils.isNoneEmpty(monitorTask)) {
+				// 加签收会在历史任务实例中多出assignee
+				// activitiService.claimTask(monitorTask.getId(),
+				// currentUser.getUserId());
+				activitiService.taskComplete(monitorTask.getId());
+			}else if(shenBaoInfo.getThisTaskName().equals("usertask16") && StringUtil.isNoneBlank(shenBaoInfo.getMonitor_processId())
+					&& ObjectUtils.isNoneEmpty(monitorTask)) {
+				activitiService.taskComplete(monitorTask.getId());
+			}
+		}
 
 		// 结束上一任务后，当前流程下产生的新任务
 		List<Task> tasknew = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId())
@@ -1240,36 +1262,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			logger.error("发送短信异常：" + e.getMessage(), e);
 		}
 		
-
 		this.todoShenbaoInfo(shenBaoInfo ,nextUsers);
-
-
-		if ((shenBaoInfo.getThisTaskName().equals("usertask1") || shenBaoInfo.getThisTaskName().equals("usertask5"))
-				&& !"1".equals(isPass)) {
-			shenBaoInfo.setQianshouDate(new Date());// 签收时间
-			shenBaoInfo.setReceiver(currentUser.getUserId());// 签收人
-			taskService.setAssignee(task.get(0).getId(), nextUsers);
-			taskService.setVariable(task.get(0).getId(), "isPass", isPass);
-
-		} else {
-
-			activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
-			activitiService.taskComplete(task.get(0).getId(), variables);
-
-			// 结束监控流程中的项目计划书任务
-			if (shenBaoInfo.getThisTaskName().equals("usertask3") && str.equals("banjie")
-					&& StringUtil.isNoneBlank(shenBaoInfo.getMonitor_processId())
-					&& ObjectUtils.isNoneEmpty(monitorTask)) {
-				// 加签收会在历史任务实例中多出assignee
-				// activitiService.claimTask(monitorTask.getId(),
-				// currentUser.getUserId());
-				activitiService.taskComplete(monitorTask.getId());
-			}else if(shenBaoInfo.getThisTaskName().equals("usertask16") && StringUtil.isNoneBlank(shenBaoInfo.getMonitor_processId())
-					&& ObjectUtils.isNoneEmpty(monitorTask)) {
-				activitiService.taskComplete(monitorTask.getId());
-			}
-		}
-
 	}
 
 	@Override
