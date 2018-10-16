@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 /**
@@ -44,8 +45,10 @@ public class PackPlan extends BaseEntity{
 	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否已加入计划下达'")
 	private Boolean isInPlan = false;//默认为不申请
 	
+	@Transient
 	private Double capitalSCZ_ggys_TheYear=0.0;
 	
+	@Transient
 	private Double capitalSCZ_gtzj_TheYear=0.0;
 	
 	//begin#关联信息

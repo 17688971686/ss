@@ -1057,7 +1057,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setReceiver(currentUser.getUserId());// 签收人
 			taskService.setAssignee(task.get(0).getId(), nextUsers);
 			taskService.setVariable(task.get(0).getId(), "isPass", isPass);
-
 		} else {
 
 			activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
@@ -1076,7 +1075,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				activitiService.taskComplete(monitorTask.getId());
 			}
 		}
-
 		// 结束上一任务后，当前流程下产生的新任务
 		List<Task> tasknew = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId())
 				.orderByDueDate().desc().list();

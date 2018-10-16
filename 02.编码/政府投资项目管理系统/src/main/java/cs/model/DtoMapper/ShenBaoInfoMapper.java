@@ -136,7 +136,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setYearConstructionContentShenBao(entity.getYearConstructionContentShenBao());
 			shenBaoInfoDto.setPackageType(entity.getPackageType());//打包类型
 			//计划下达
-			shenBaoInfoDto.setIsPlanReach(entity.getIsPlanReach());
+//			shenBaoInfoDto.setIsPlanReach(entity.getIsPlanReach());
 			shenBaoInfoDto.setSqPlanReach_ggys(entity.getSqPlanReach_ggys());
 			shenBaoInfoDto.setSqPlanReach_gtzj(entity.getSqPlanReach_gtzj());
 			shenBaoInfoDto.setApPlanReach_ggys(entity.getApPlanReach_ggys());
@@ -330,7 +330,7 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setYearConstructionContentShenBao(shenBaoInfoDto.getYearConstructionContentShenBao());
 			shenBaoInfo.setPackageType(shenBaoInfoDto.getPackageType());//打包类型
 			//计划下达
-			shenBaoInfo.setIsPlanReach(shenBaoInfoDto.getIsPlanReach());
+//			shenBaoInfo.setIsPlanReach(shenBaoInfoDto.getIsPlanReach());
 			shenBaoInfo.setSqPlanReach_ggys(shenBaoInfoDto.getSqPlanReach_ggys());
 			shenBaoInfo.setSqPlanReach_gtzj(shenBaoInfoDto.getSqPlanReach_gtzj());
 			shenBaoInfo.setApPlanReach_ggys(shenBaoInfoDto.getApPlanReach_ggys());

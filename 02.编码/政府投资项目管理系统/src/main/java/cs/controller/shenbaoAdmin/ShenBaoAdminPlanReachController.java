@@ -81,6 +81,18 @@ public class ShenBaoAdminPlanReachController {
         return shenBaoInfos;
     }
 
+    @RequestMapping(name = "获取单列申报数据", path = "getShenBaoInfoOutOfPlanReach/{planReachId}",method=RequestMethod.GET)
+	public @ResponseBody PageModelDto<ShenBaoInfoDto> getShenBaoInfoOutOfPlanReach(HttpServletRequest request,@PathVariable String planReachId) throws ParseException {
+    	ODataObj odataObj = new ODataObj(request);
+    	return planReachApplicationService.getShenBaoInfoOutOfPlanReach(odataObj,planReachId,false);
+	}
+    
+    @RequestMapping(name = "获取打包申报数据", path = "getShenBaoInfoOutOfPackPlan/{planReachId}",method=RequestMethod.GET)
+	public @ResponseBody PageModelDto<ShenBaoInfoDto> getShenBaoInfoOutOfPackPlan(HttpServletRequest request,@PathVariable String planReachId) throws ParseException {
+    	ODataObj odataObj = new ODataObj(request);
+    	return planReachApplicationService.getShenBaoInfoOutOfPlanReach(odataObj,planReachId,true);
+	}
+    
     //@RequiresPermissions("shenbaoAdmin/planReach##post")
     @RequestMapping(name = "创建计划下达申请信息", path = "", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)

@@ -244,7 +244,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             //因dto中创建时间和修改时间为项目的相关时间，需从新设置
             Project project = projectRepo.findById(entity.getProjectId());
             if (project != null && entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)) {
-                project.setIsPlanReach(true);
+//                project.setIsPlanReach(true);
                 projectRepo.save(project);
             }
         }
@@ -564,7 +564,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
                 Criterion criterion3 = Restrictions.eq(ShenBaoInfo_.planYear.getName(), entity.getPlanYear());
                 List<ShenBaoInfo> query = super.repository.findByCriteria(criterion1, criterion2, criterion3);
                 if (query.isEmpty()) {
-                    entity.setIsPlanReach(true);
+//                    entity.setIsPlanReach(true);
                     ShenBaoInfoDto dto = super.mapper.toDto(entity);
                     ShenBaoInfo newEntity = new ShenBaoInfo();
                     newEntity = super.mapper.buildEntity(dto, newEntity);

@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import cs.common.ICurrentUser;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.PackPlanDto;
+import cs.model.DomainDto.UserUnitInfoDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.PackPlanService;
+import cs.service.interfaces.UserUnitInfoService;
 
 /**
  * @Description: 打包计划控制类
@@ -30,13 +33,39 @@ public class PackPlanController {
 	private String ctrl ="management/yearPlan/pack";
 	@Autowired
 	private PackPlanService packPlanService;
-	
-	
+	@Autowired
+	private UserUnitInfoService userUnitInfoService;
+    @Autowired
+    ICurrentUser currentUser;
+    
 	//@RequiresPermissions("management/packPlan##get")
 	@RequestMapping(name = "获取打包计划列表数据", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<PackPlanDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<PackPlanDto>  packPlanDtos= packPlanService.get(odataObj);	
+//		UserUnitInfoDto userUnitInfoDto1 = userUnitInfoService.getByUserId(currentUser.getUserId());
+//		double d = 0.0;
+//		double a = 0.0;
+//		boolean isOurUnit = false;
+//		for (int i = 0; i < packPlanDtos.getValue().size(); i++) {
+//			if (packPlanDtos.getValue().get(i) != null) {
+//				for (int j = 0; j < packPlanDtos.getValue().get(i).getAllocationCapitals().size(); j++) {
+//					if (packPlanDtos.getValue().get(i).getAllocationCapitals().get(j) != null) {
+//						// 如果有本单位的打包计划
+//						if (packPlanDtos.getValue().get(i).getAllocationCapitals().get(j).getUnitName()
+//								.equals(userUnitInfoDto1.getId())) {
+//							d += packPlanDtos.getValue().get(i).getAllocationCapitals().get(j).getCapital_ggys();
+//							a += packPlanDtos.getValue().get(i).getAllocationCapitals().get(j).getCapital_gtzj();
+//							isOurUnit = true;
+//						}
+//					}
+//				}
+//			}
+//			if (isOurUnit) {
+//				packPlanDtos.getValue().get(i).setCapitalSCZ_ggys_TheYear(d);
+//				packPlanDtos.getValue().get(i).setCapitalSCZ_gtzj_TheYear(a);
+//			}
+//		}
 		return packPlanDtos;
 	}
 	
