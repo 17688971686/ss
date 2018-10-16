@@ -42,6 +42,13 @@
 			<td ng-bind="vm.model.ggMoney"></td>
 		</tr>
 		<tr>
+			<td class="formAlignRight" style="width: 150px;">本单位国土指标：</td>
+			<td style="width: 300px;" ng-bind="vm.model.capitalSCZ_gtzj_TheYear">
+			</td>
+			<td class="formAlignRight" style="width: 150px;">本单位公共指标：</td>
+			<td ng-bind="vm.model.capitalSCZ_ggys_TheYear"></td>
+		</tr>
+		<tr>
 			<td class="formAlignRight">备注：</td>
 			<td colspan="3" ng-bind="vm.model.remark"></td>
 		</tr>
@@ -63,13 +70,14 @@
 	<button class="btn btn-xs btn-success" ng-if="{2}" ng-click="vm.deleteProcessOne('{0}')"><span class="glyphicon glyphicon-pencil"></span>撤销</button>
 </script>
 <script type="text/template" id="input">
-	<input style="width:100px" id="capitalSum1" ng-if="{2}" ng-model="vm.gg['{0}']" value="{1}" ng-blur="vm.addmoney('{0}')"/>
+	<input style="width:100px" id="capitalSum1" ng-if="{2}" ng-model="vm.gg['{0}']" value="{1}" />
 	<span ng-if="!{2}" ng-bind="vm.gg['{0}']"></span>
 </script>
 <script type="text/template" id="input2">
-	<input style="width:100px" id="capitalSum2" ng-if="{2}" ng-model="vm.gt['{0}']" value="{1}" ng-blur="vm.addmoney('{0}')"/>
+	<input style="width:100px" id="capitalSum2" ng-if="{2}" ng-model="vm.gt['{0}']" value="{1}" />
 	<span ng-if="!{2}" ng-bind="vm.gt['{0}']"></span>
 </script>
+<!-- ng-blur="vm.addmoney('{0}')" -->
 <!--项目申报记录模态框 -->
 <div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="true">
 	<div class="modal-dialog" style="width: 800px;">

@@ -71,9 +71,9 @@ public class CodingPlatformServiceImpl extends AbstractServiceImpl<CodingProject
 	@Transactional
 	public String getShenBaoInfoFromCoding(String  todaytime,String pageIndex) {
 		
-		if(access_token == null){
+//		if(access_token == null){
 			getAccessToken();
-		}
+//		}
 		
 		String url1 = "http://203.91.46.83:9016/E/GovApi/GetGovernmentProjectData?todaytime="+todaytime+"&pageIndex="+pageIndex+"&Content-Type=application/json";
 		String str = "";

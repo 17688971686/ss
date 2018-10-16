@@ -178,8 +178,8 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否已纳入年度计划'")
 	private Boolean isIncludYearPlan=false;
 	
-	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否已申请下达资金'")
-	private Boolean isPlanReach=false;
+//	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否已申请下达资金'")
+//	private Boolean isPlanReach=false;
 
 	public String getUnitName() {
 		return unitName;
@@ -573,13 +573,13 @@ public class BaseProject extends BaseEntity
 		this.isIncludYearPlan = isIncludYearPlan;
 	}
 
-	public Boolean getIsPlanReach() {
-		return isPlanReach;
-	}
-
-	public void setIsPlanReach(Boolean isPlanReach) {
-		this.isPlanReach = isPlanReach;
-	}
+//	public Boolean getIsPlanReach() {
+//		return isPlanReach;
+//	}
+//
+//	public void setIsPlanReach(Boolean isPlanReach) {
+//		this.isPlanReach = isPlanReach;
+//	}
 
 	public String getNationalIndustry() {
 		return nationalIndustry;

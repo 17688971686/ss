@@ -22,6 +22,12 @@ import cs.model.SendMsg;
 
 
 public class Util {
+	
+	public static boolean isIndexOf(List<String> ids ,String id){
+		boolean rStr = false;
+		return rStr;
+	}
+	
 	public static String judgeString(String str){
 		String rStr = "";
 		if(str !=null){

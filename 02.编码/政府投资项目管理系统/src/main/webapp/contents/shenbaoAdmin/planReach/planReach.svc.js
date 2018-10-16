@@ -309,7 +309,7 @@
         function projectGrid(vm) {
             var dataSource = new kendo.data.DataSource({
                 type: 'odata',
-                transport: common.kendoGridConfig().transport(url_shenbaoInfoList),
+                transport: common.kendoGridConfig().transport(url+"/getShenBaoInfoOutOfPlanReach/"+vm.id),
                 schema: common.kendoGridConfig().schema({
                     id: "id"
                 }),
@@ -335,11 +335,6 @@
                         field: 'processState',
                         operator: 'eq',
                         value: common.basicDataConfig().processState_pass
-                    },
-                    {
-                        field: 'isIncludPack',
-                        operator: 'eq',
-                        value: false
                     }
                 ]
             });
@@ -365,36 +360,8 @@
                     title: "项目行业",
                     width: 150,
                     filterable: false,
-//                    {
-//                        ui: function (element) {
-//                            element.kendoDropDownList({
-//                                valuePrimitive: true,
-//                                dataSource: $linq(common.getBasicData())
-//                                    .where(function (x) {
-//                                        return x.identity == common.basicDataConfig().projectIndustry && x.pId == common.basicDataConfig().projectIndustry_ZF;
-//                                    })
-//                                    .toArray(),
-//                                dataTextField: "description",
-//                                dataValueField: "id",
-//                                filter: "startswith"
-//                            });
-//                        }
-//                    },
                     template: function (item) {
                         return common.getBasicDataDesc(item.projectIndustry);
-                    }
-                },
-                {
-                    field: "isIncludPack",
-                    title: "是否加入打包计划",
-                    width: 150,
-                    filterable: false,
-                    template: function (item) {
-                        if (item.isIncludPack) {
-                            return "是";
-                        } else {
-                            return "否";
-                        }
                     }
                 }
             ];
@@ -1600,35 +1567,35 @@
                         style: "text-align: center;vertical-align: middle;"
                     }
                 },
-                {
-                    title: "安排资金（万元）",
-                    columns: [
-                        {
-                            field: "apPlanReach_ggys",
-                            title: "公共预算",
-                            width: 100,
-                            filterable: false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;"
-                            }
-                        },
-                        {
-                            field: "apPlanReach_gtzj",
-                            title: "国土基金",
-                            width: 100,
-                            filterable: false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;"
-                            }
-                        },
-                    ],
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
+//                {
+//                    title: "安排资金（万元）",
+//                    columns: [
+//                        {
+//                            field: "apPlanReach_ggys",
+//                            title: "公共预算",
+//                            width: 100,
+//                            filterable: false,
+//                            headerAttributes: {
+//                                "class": "table-header-cell",
+//                                style: "text-align: center;"
+//                            }
+//                        },
+//                        {
+//                            field: "apPlanReach_gtzj",
+//                            title: "国土基金",
+//                            width: 100,
+//                            filterable: false,
+//                            headerAttributes: {
+//                                "class": "table-header-cell",
+//                                style: "text-align: center;"
+//                            }
+//                        },
+//                    ],
+//                    headerAttributes: {
+//                        "class": "table-header-cell",
+//                        style: "text-align: center;vertical-align: middle;"
+//                    }
+//                },
                 {
                     title: "申请资金（万元）",
                     columns: [
@@ -1779,7 +1746,7 @@
         function shenbaoInfoGrid(vm) {
             var dataSource = new kendo.data.DataSource({
                 type: 'odata',
-                transport: common.kendoGridConfig().transport(url_shenbaoInfoList),
+                transport: common.kendoGridConfig().transport(url),
                 schema: common.kendoGridConfig().schema({
                     id: "id",
                     fields: {
@@ -1810,12 +1777,8 @@
                         field: 'processState',
                         operator: 'eq',
                         value: common.basicDataConfig().processState_pass
-                    },
-                    {
-                        field: 'isIncludPack',
-                        operator: 'eq',
-                        value: false
-                    }]
+                    }
+                    ]
             });
             var columns = [
                 {

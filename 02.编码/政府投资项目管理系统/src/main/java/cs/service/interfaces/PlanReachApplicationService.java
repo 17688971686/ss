@@ -1,5 +1,7 @@
 package cs.service.interfaces;
 
+import java.util.List;
+
 import cs.domain.PlanReachApplication;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.PackPlanDto;
@@ -61,5 +63,7 @@ public interface PlanReachApplicationService extends IService<PlanReachApplicati
     void addShenBaoInfo(String planReachId, String id);
 
     void deleteProcessOne(String string);
+
+	PageModelDto<ShenBaoInfoDto> getShenBaoInfoOutOfPlanReach(ODataObj odataObj, String planReachId, boolean b);
 
 }
