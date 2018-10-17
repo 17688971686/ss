@@ -1225,15 +1225,17 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		logger.info(String.format("办结或阅批任务,用户名:%s", currentUser.getLoginName()));
 
 		User user = userService.findById(nextUsers);
+		String displayName = null;
+		if(user != null) displayName = user.getDisplayName();
 		// 准备短信内容
 		List<SendMsg> msgs = new ArrayList<>();
 		// 从配置文件中拿到短信模板并替换其中的占位符，若不能根据preTaskName拿到模板，则使用default模板
 		final String content = String.format(shenbaoSMSContent.get(preTaskName) == null
-				? shenbaoSMSContent.get("default") : shenbaoSMSContent.get(preTaskName), user.getDisplayName(),shenBaoInfo.getProjectName(),getStageType(shenBaoInfo.getProjectShenBaoStage()),shenBaoInfo.getProcessStage());
+				? shenbaoSMSContent.get("default") : shenbaoSMSContent.get(preTaskName), displayName,shenBaoInfo.getProjectName(),getStageType(shenBaoInfo.getProjectShenBaoStage()),shenBaoInfo.getProcessStage());
 
 		if ("usertask16".equalsIgnoreCase(preTaskName) || str.equals("banjie")) { // 到达最后一个节点的情况下，发送完结的短信给到编制单位负责人
-
-			msgs.add(new SendMsg(shenBaoInfo.getBianZhiUnitInfo().getResPersonMobile(), content));
+			String banjieContent = String.format(shenbaoSMSContent.get("usertask16"),shenBaoInfo.getProjectName());
+			msgs.add(new SendMsg(shenBaoInfo.getBianZhiUnitInfo().getResPersonMobile(), banjieContent));
 
 		} else if ("tuiwen".equalsIgnoreCase(str)) { // 退文的情况下，发送推文短信给到编制单位负责人
 
