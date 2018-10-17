@@ -22,6 +22,8 @@
         var url_proxy = "/management/proxy";
         var url_review = "/management/review";
         var url_pic = "/pic/task";
+        var url_packPlan = '/management/packPlan';
+        var url_planReach = "/shenbaoAdmin/planReach";
 
         var service = {
             grid: grid,//待办任务列表
@@ -866,6 +868,12 @@
                     template: function (item) {
                         return common.format("<span class='text-danger'>{0}</span>", item.processStage);
                     }
+                },
+                {
+                    field: "planOrPackName",
+                    title: "单列/打包",
+                    width: 120,
+                    filterable: false
                 },
                 {
                     field: "",

@@ -23,6 +23,8 @@ public class ShenBaoInfo extends BaseShenBaoInfo {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Attachment> attachments = new ArrayList<>();
 
+    @Transient
+    private String planOrPackName;
 
     public ShenBaoUnitInfo getBianZhiUnitInfo() {
         return bianZhiUnitInfo;
@@ -47,4 +49,13 @@ public class ShenBaoInfo extends BaseShenBaoInfo {
     public void setAttachments(List<Attachment> attachments) {
         this.attachments = attachments;
     }
+
+	public String getPlanOrPackName() {
+		return planOrPackName;
+	}
+
+	public void setPlanOrPackName(String planOrPackName) {
+		this.planOrPackName = planOrPackName;
+	}
+    
 }

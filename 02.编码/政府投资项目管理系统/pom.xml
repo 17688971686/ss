@@ -492,7 +492,7 @@
 				<db.ip>localhost</db.ip>
 				<db.port>3306</db.port>
 				<db.username>root</db.username>
-				<db.password>root</db.password>
+				<db.password>Passw0rd</db.password>
 				<db.name>gm_test</db.name>
 				<uploadPath>D:/gm_upload</uploadPath>
 				<isPushOA>false</isPushOA>

@@ -244,6 +244,12 @@ public class BaseShenBaoInfo extends BaseProject {
     //申报文件缓急   add by liux  2018-9-21
     @Column(columnDefinition = "varchar(20) NULL COMMENT '申报文件缓急'")
     private String  urgencyState;
+    
+    @Column(columnDefinition = "varchar(64) NULL COMMENT '关联packPlanId'")
+    private String packPlanId;
+    
+    @Column(columnDefinition = "varchar(64) NULL COMMENT '关联planReachId'")
+    private String planReachId;
 
     public String getUrgencyState() {
         return urgencyState;
@@ -911,6 +917,22 @@ public class BaseShenBaoInfo extends BaseProject {
 
 	public void setIsRecords(Boolean isRecords) {
 		this.isRecords = isRecords;
+	}
+
+	public String getPackPlanId() {
+		return packPlanId;
+	}
+
+	public void setPackPlanId(String packPlanId) {
+		this.packPlanId = packPlanId;
+	}
+
+	public String getPlanReachId() {
+		return planReachId;
+	}
+
+	public void setPlanReachId(String planReachId) {
+		this.planReachId = planReachId;
 	}
 
 
