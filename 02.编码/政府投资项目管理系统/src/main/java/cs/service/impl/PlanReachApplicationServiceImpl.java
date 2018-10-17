@@ -294,26 +294,11 @@ public class PlanReachApplicationServiceImpl
 		Assert.notNull(planReach, "请创建计划下达后添加项目！");
 		Assert.notNull(entity, "添加的项目不存在");
 		// 判断是否已存在同名的计划下达申请
-		// ch
 		Criteria criteria = DetachedCriteria.forClass(ShenBaoInfo.class).getExecutableCriteria(repository.getSession())
 				.add(Restrictions.eq(ShenBaoInfo_.projectId.getName(), entity.getProjectId())).add(Restrictions
 						.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach));
 
 		List<ShenBaoInfo> entitys = criteria.list();
-//		// 判断planReach中是否已包含这条计划下达申请
-//		if (!CollectionUtils.isEmpty(entitys)) {
-//			List<String> ids = entitys.stream().map(shenbaoinfo -> shenbaoinfo.getId()).collect(Collectors.toList());
-//			List<String> ids2 = planReach.getShenBaoInfos().stream().map(shenbaoinfo -> shenbaoinfo.getId())
-//					.collect(Collectors.toList());
-//			if (ids2.size() > 0) {
-//				for (int i = 0; i < ids.size(); i++) {
-//					String array_element = ids.get(i);
-//					Assert.isTrue(ids2.indexOf(array_element) == 0,
-//							String.format("申报项目：%s 已经存在其他编制计划中,请重新选择！", entity.getProjectName()));
-//				}
-//			}
-//
-//		}
 		// 每次添加都创建一条新的计划下达申请，根据ItemOrder区分，根据同名项目数量累加
 		ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(entity);
 		shenBaoInfoDto.setId(IdWorker.get32UUID());
@@ -349,7 +334,10 @@ public class PlanReachApplicationServiceImpl
 			shenBaoInfoDto.setApPlanReach_ggys(a + b);
 			shenBaoInfoDto.setApPlanReach_gtzj(c + d);
 		}
+		shenBaoInfoDto.setPlanOrPackName("单列项目");
+		shenBaoInfoDto.setPlanReachId(planReachId);
 		ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.create(shenBaoInfoDto, false);
+		
 
 		if (planReach.getShenBaoInfos() == null) {
 			planReach.setShenBaoInfos(new ArrayList<>(1));
@@ -468,6 +456,8 @@ public class PlanReachApplicationServiceImpl
 		shenBaoInfoDto.setThisTaskName(null);
 		shenBaoInfoDto.setZong_processId(null);
 		shenBaoInfoDto.setItemOrder(entitys.size()+1);
+		shenBaoInfoDto.setPackPlanId(packId);
+		shenBaoInfoDto.setPlanOrPackName("111111111");
 		ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.create(shenBaoInfoDto, false);
 		if (pack.getShenBaoInfos() == null) {
 			pack.setShenBaoInfos(new ArrayList<>(1));

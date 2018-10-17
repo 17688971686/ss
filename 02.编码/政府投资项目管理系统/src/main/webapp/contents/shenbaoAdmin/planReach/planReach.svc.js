@@ -1746,7 +1746,7 @@
         function shenbaoInfoGrid(vm) {
             var dataSource = new kendo.data.DataSource({
                 type: 'odata',
-                transport: common.kendoGridConfig().transport(url),
+                transport: common.kendoGridConfig().transport(url_shenbao),
                 schema: common.kendoGridConfig().schema({
                     id: "id",
                     fields: {

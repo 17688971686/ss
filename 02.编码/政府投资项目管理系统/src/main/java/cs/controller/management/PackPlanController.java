@@ -8,6 +8,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.common.ICurrentUser;
+import cs.domain.PackPlan;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.PackPlanDto;
 import cs.model.DomainDto.UserUnitInfoDto;
@@ -102,7 +104,6 @@ public class PackPlanController {
 			throw new IllegalArgumentException(String.format("无法删除,请重新选择！"));
 		}
 	}
-	
 	
 	//@RequiresPermissions("management/packPlan#html/packList#get")
 	@RequestMapping(name="打包计划列表页",path="html/packList",method=RequestMethod.GET)

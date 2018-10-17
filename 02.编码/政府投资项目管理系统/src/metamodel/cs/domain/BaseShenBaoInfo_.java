@@ -30,6 +30,7 @@ public abstract class BaseShenBaoInfo_ extends cs.domain.BaseProject_ {
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> capitalSCZ_gtzj_TheYear;
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> projectConstrBasis;
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> yearConstructionContentLastTwoYear;
+	public static volatile SingularAttribute<BaseShenBaoInfo, String> packPlanId;
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> capitalOtherDescriptionShenBao;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> capitalAP_qita;
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> receiver;
@@ -64,6 +65,7 @@ public abstract class BaseShenBaoInfo_ extends cs.domain.BaseProject_ {
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> monitor_processId;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> capitalSCZ_gtzj_LastTwoYear;
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> auditState;
+	public static volatile SingularAttribute<BaseShenBaoInfo, String> planReachId;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Date> shenbaoDate;
 	public static volatile SingularAttribute<BaseShenBaoInfo, Double> xdPlanReach_ggys;
 	public static volatile SingularAttribute<BaseShenBaoInfo, String> functionSubjects;
