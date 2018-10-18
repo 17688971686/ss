@@ -736,8 +736,8 @@
         	vm.updateNumber=function(){
         		taskNewAuditSvc.saveShenBaoInfo(vm);
         	}
-        	vm.pinglun=function(){
-        		taskNewAuditSvc.pinglun(vm);
+        	vm.pinglun=function(flag){
+        		taskNewAuditSvc.pinglun(vm,flag);
         	}
         	vm.yuepi=function(id){
         		taskNewAuditSvc.yuepi(vm,id);

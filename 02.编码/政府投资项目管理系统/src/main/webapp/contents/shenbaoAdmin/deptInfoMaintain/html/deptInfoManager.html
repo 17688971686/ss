@@ -45,7 +45,7 @@ font-size:15px;
 					    <td width="150px;">电话号码：<span class="required">(*)</span></td>
 					    <td>
 					    <input type="text" class="form-control input-sm" id="unitTel" name="unitTel" ng-model="vm.model.unitTel" 
-					    	data-val="true" data-val-required="必填"/>
+					    	data-val="true" data-val-required="必填" maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
 					    <span data-valmsg-for="unitTel" data-valmsg-replace="true" class="required"></span>
 					    </td>
 				   </tr>
@@ -105,7 +105,7 @@ font-size:15px;
 					    <td width="120px;">电话号码：<span class="required">(*)</span></td>
 					    <td>
 					     	<input class="form-control input-sm" type="text" id="resPersonTel" name="resPersonTel" ng-model="vm.model.resPersonTel" 
-					     		data-val="true" data-val-required="必填"/>
+					     		data-val="true" data-val-required="必填" maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
 					    	<span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>
 					    </td>
 				  </tr>
@@ -113,7 +113,7 @@ font-size:15px;
 					    <td>手机：<span class="required">(*)</span></td>	   
 					    <td>
 					     	<input class="form-control input-sm" type="text" id="resPersonMobile" name="resPersonMobile" ng-model="vm.model.resPersonMobile" 
-					     		data-val="true" data-val-required="必填"/>
+					     		data-val="true" maxlength="11" data-val-length-max="11" data-val-regex="最多只能输入11位字符" data-val-required="必填"/>
 					    	<span data-valmsg-for="resPersonMobile" data-valmsg-replace="true" class="required"></span>
 					    </td>
 					    <td>传真号码：</td>
