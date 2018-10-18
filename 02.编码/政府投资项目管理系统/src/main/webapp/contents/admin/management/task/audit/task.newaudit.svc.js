@@ -698,7 +698,7 @@
         }
         
         
-        function pinglun(vm) {
+        function pinglun(vm,flag) {
             common.initJqValidation();
             var isValid = $('form').valid();
             if (isValid) {
@@ -709,7 +709,11 @@
                 }).then(function (response) {
                     vm.isSubmit = false;
                     bsWin.success("操作成功", function () {
-                       location.href = url_back;
+                        if(flag){
+                            location.href = "#/task/todo_audit_other";
+                        }else{
+                            location.href = url_back;
+                        }
                     })
                 }, function (response) {
                     vm.isSubmit = false;
