@@ -458,69 +458,55 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 
 		variables.put("shenpi", 8);
-
-		List<Org> findProjects = new ArrayList<>();
-		Criterion criterion = Restrictions.eq(Org_.name.getName(), "投资科");
-		Criterion criterion2 = Restrictions.eq(Org_.name.getName(), "局领导");
-		Criterion criterion3 = Restrictions.or(criterion, criterion2);
-
-		findProjects = orgRepo.findByCriteria(criterion3);
 		Project project = projectRepo.findById(shenBaoInfo.getProjectId());
-		Set set = new HashSet<>();// 同一用户如果有多个角色，同流程下会同时有多个任务，必须去重
-		for (Org org : findProjects) {
-			for (User user : org.getUsers()) {
-				set.add(user.getId().trim());
+		
+		if(shenBaoInfo.getThisTaskName().equals("usertask1") || str.equals("reback")){
+			List<Org> findProjects = new ArrayList<>();
+			Criterion criterion = Restrictions.eq(Org_.name.getName(), "投资科");
+			Criterion criterion2 = Restrictions.eq(Org_.name.getName(), "局领导");
+			Criterion criterion3 = Restrictions.or(criterion, criterion2);
+
+			findProjects = orgRepo.findByCriteria(criterion3);
+			Set set = new HashSet<>();// 同一用户如果有多个角色，同流程下会同时有多个任务，必须去重
+			for (Org org : findProjects) {
+				for (User user : org.getUsers()) {
+					set.add(user.getId().trim());
+				}
+			}
+			List<String> list1 = new ArrayList<String>(set);
+			if (!list1.isEmpty()) {// 固定会签人员
+				variables.put("userIds", list1);
+			}
+		}else{
+			if (!nextUsers.isEmpty()) {// 设置流程变量--下一任务处理人
+				variables.put("userIds", Arrays.asList(nextUsers.split(",")));
+				variables.put("nextUsers", nextUsers);
+			} else if (nextUsers.isEmpty() && shenBaoInfo.getThisTaskName().equals("usertask4") && "next".equals(str) ) {
+				throw new IllegalArgumentException(String.format("请选择人员后提交！"));
 			}
 		}
-		List<String> list1 = new ArrayList<String>(set);
-		if (!list1.isEmpty()) {// 固定会签人员
-			variables.put("userIds", list1);
-		}
-
-		if (!nextUsers.isEmpty()) {// 设置流程变量--下一任务处理人
-			variables.put("nextUsers", nextUsers);
-		} else if (shenBaoInfo.getThisTaskName().equals("usertask4") && nextUsers.isEmpty() && "next".equals(str)) {
-			throw new IllegalArgumentException(String.format("请选择人员后提交！"));
-		}
-
+		
 		List<Task> task = null;
 
-		// 经办人转办模式
-		if (shenBaoInfo.getThisTaskName().equals("usertask1") && !"1".equals(isPass)
-				|| shenBaoInfo.getThisTaskName().equals("usertask2") && !"1".equals(isPass)) {
+		// 当前流程下，当前登录人员的任务--会签模式
+		task = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId())
+				.taskCandidateUser(currentUser.getUserId()).orderByDueDate().desc().list();
+		if (task.size() == 0) {
 			task = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId())
 					.taskAssignee(currentUser.getUserId()).orderByDueDate().desc().list();
-			shenBaoInfo.setQianshouDate(new Date());// 签收时间
-			shenBaoInfo.setReceiver(currentUser.getUserId());// 签收人
-			Authentication.setAuthenticatedUserId(currentUser.getUserId());
-			
 
-			if (shenBaoInfo.getThisTaskName().equals("usertask5")) {
-				activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "办结意见：" + msg);
-			} else if (str.equals("tuiwen")) {
-				activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "退文意见：" + msg);
-			} else {
-				activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见：" + msg);
-			}
-
-			taskService.setAssignee(task.get(0).getId(), nextUsers);
-			taskService.setVariable(task.get(0).getId(), "isPass", isPass);
-
-		} else {
-			// 当前流程下，当前登录人员的任务--会签模式
-			task = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId())
-					.taskCandidateUser(currentUser.getUserId()).orderByDueDate().desc().list();
-			if (task.size() == 0) {
-				task = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId())
-						.taskAssignee(currentUser.getUserId()).orderByDueDate().desc().list();
-
-			}
-			Authentication.setAuthenticatedUserId(currentUser.getUserId());
-			
-
-			activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
-			activitiService.taskComplete(task.get(0).getId(), variables);
 		}
+		Authentication.setAuthenticatedUserId(currentUser.getUserId());
+		if (shenBaoInfo.getThisTaskName().equals("usertask5")) {
+			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "办结意见：" + msg);
+		} else if (str.equals("tuiwen")) {
+			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "退文意见：" + msg);
+		} else {
+			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见：" + msg);
+		}
+
+		activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
+		activitiService.taskComplete(task.get(0).getId(), variables);
 
 		// 结束上一任务后，当前流程下产生的新任务
 		List<Task> tasknew = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId())
@@ -541,25 +527,31 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			});
 		}
 
-		if (shenBaoInfo.getThisTaskName().equals("usertask5")) {
-			shenBaoInfo.setApPlanReach_ggys(xdPlanReach_ggys+shenBaoInfo.getApPlanReach_ggys());
-			shenBaoInfo.setApPlanReach_gtzj(xdPlanReach_gtzj+shenBaoInfo.getApPlanReach_gtzj());
+		if (shenBaoInfo.getThisTaskName().equals("usertask5") && "next".equals(str) ) {
 			shenBaoInfo.setXdPlanReach_gtzj(xdPlanReach_gtzj);
 			shenBaoInfo.setXdPlanReach_ggys(xdPlanReach_ggys);
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已办结");
 			shenBaoInfo.setProcessStage("已办结");
-			shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
+//			shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
 			shenBaoInfo.setPifuDate(new Date());
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_pass);
 			project.setIsIncludLibrary(true);
+			
+			Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), shenBaoInfo.getProjectId());
+			Criterion criterion1 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_nextYearPlan);
+			Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.planYear.getName(), shenBaoInfo.getPlanYear());
+			Criterion criterion3 = Restrictions.and(criterion, criterion1,criterion2);
+			ShenBaoInfo nextyearplan = shenBaoInfoRepo.findByCriteria(criterion3).get(0);
+			nextyearplan.setApInvestSum(nextyearplan.getApInvestSum() +xdPlanReach_gtzj +xdPlanReach_ggys);
+			shenBaoInfoRepo.save(nextyearplan);
 //			shenBaoInfo.setComplate(true);
 		} else if (str.equals("tuiwen")) {
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已退文");
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_notpass);
 			shenBaoInfo.setProcessStage("已退文");
-			shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
+//			shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
 //			shenBaoInfo.setComplate(true);
 		} else {
 
@@ -770,7 +762,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 					map.put("msg", com.getFullMessage());
 					
 					List<Attachment> atts = new ArrayList<>();
-					if(shenBaoInfo.getAttachments().size() >0){
+					if(shenBaoInfo.getAttachments().size() >0 && !shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)
+							&& !shenBaoInfo.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)){
 						for (int i = 0; i < shenBaoInfo.getAttachments().size(); i++) {
 							Attachment array_element = shenBaoInfo.getAttachments().get(i);
 							if(com.getUserId().equals(array_element.getCreatedBy())){
@@ -894,7 +887,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		
 		Project project = projectRepo.findById(shenBaoInfo.getProjectId());
 		project.setIsIncludLibrary(true);
-		shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
+//		shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
 		shenBaoInfo.setQianshouDate(new Date());
 //		shenBaoInfo.setComplate(true);
 		projectRepo.save(project);
@@ -1202,13 +1195,13 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setProcessStage("已办结");
 			project.setIsIncludLibrary(true);
 //			shenBaoInfo.setComplate(true);
-			shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
+//			shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
 		} else if (str.equals("tuiwen")) {
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已退文");
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_notpass);
 			shenBaoInfo.setProcessStage("已退文");
-			shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
+//			shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
 			// 退文时，撤销当前流程
 //			runtimeService.deleteProcessInstance(shenBaoInfo.getZong_processId(), "已退文");
 		} else {
@@ -1602,7 +1595,14 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			}
 			criteria.add(Subqueries.exists(existsCriteria.setProjection(Projections.property("f.id"))));
 		});
-		return shenBaoInfoRepoImpl.findRunByOdata2(odata).stream().map(mapper::toDto).collect(Collectors.toList());
+		List<ShenBaoInfoDto> shenbaoinfo = null;
+		try {
+			shenbaoinfo =  shenBaoInfoRepoImpl.findRunByOdata2(odata).stream().map(mapper::toDto).collect(Collectors.toList());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return shenbaoinfo;
 	}
 
 	@Override

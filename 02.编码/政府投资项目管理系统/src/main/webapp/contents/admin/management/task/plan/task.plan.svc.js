@@ -870,7 +870,7 @@
                     }
                 },
                 {
-                    field: "planOrPackName",
+                    field: "planName",
                     title: "单列/打包",
                     width: 120,
                     filterable: false
@@ -906,7 +906,7 @@
             // Begin:dataSource
             var dataSource = new kendo.data.DataSource({
                 type: 'odata',
-                transport: common.kendoGridConfig().transport(common.format(url_taskAudit_other + "?leixin={0}", "other")),
+                transport: common.kendoGridConfig().transport(url_shenbao),
                 schema: common.kendoGridConfig().schema({
                     id: "id"
                 }),
@@ -918,9 +918,16 @@
                     field: "createdDate",
                     dir: "desc"
                 },
-//				requestEnd:function(e){						
-//					$('#todoNumber_plan').html(e.response.count);
-//				},
+				filter:[{//过滤条件为审批状态不为退回状态
+					field:'processState',
+					operator:'eq',
+					value:1
+				},
+				{
+					field:'projectShenBaoStage',
+					operator:'eq',
+					value:"projectShenBaoStage_5"
+				}],
                 change: function () {
                     var grid = $(".grid").data("kendoGrid");
                     window.todo_planOption_other = grid.getOptions();

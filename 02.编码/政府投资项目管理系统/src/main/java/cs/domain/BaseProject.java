@@ -25,19 +25,19 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="varchar(255) NULL COMMENT '项目名称'")
 	private String projectName;
 	
-	@Column(columnDefinition="varchar(125) NULL COMMENT '项目投资类型'")
+	@Column(columnDefinition="varchar(64) NULL COMMENT '项目投资类型'")
 	private String projectInvestmentType ;
 	
-	@Column(columnDefinition="varchar(125) NULL COMMENT '项目阶段'")
+	@Column(columnDefinition="varchar(64) NULL COMMENT '项目阶段'")
 	private String projectStage;
 	
-	@Column(columnDefinition="varchar(125) NULL COMMENT '项目类型'")
+	@Column(columnDefinition="varchar(64) NULL COMMENT '项目类型'")
 	private String projectType;
 	
-	@Column(columnDefinition="varchar(125) NULL COMMENT '项目类别'")
+	@Column(columnDefinition="varchar(64) NULL COMMENT '项目类别'")
 	private String projectCategory;
 	
-	@Column(columnDefinition="varchar(125) NULL COMMENT '项目所属行业'")
+	@Column(columnDefinition="varchar(64) NULL COMMENT '项目所属行业'")
 	private String projectIndustry;
 	
 	@Column(columnDefinition="varchar(255) NULL COMMENT '国民经济行业分类'")

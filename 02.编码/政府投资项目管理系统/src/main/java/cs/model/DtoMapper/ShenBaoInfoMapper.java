@@ -145,6 +145,8 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setXdPlanReach_gtzj(entity.getXdPlanReach_gtzj());
 			shenBaoInfoDto.setPackPlanId(entity.getPackPlanId());
 			shenBaoInfoDto.setPlanReachId(entity.getPlanReachId());
+			shenBaoInfoDto.setPlanName(entity.getPlanName());
+			shenBaoInfoDto.setIsFaWen(entity.getIsFaWen());
 			//基础数据		
 			shenBaoInfoDto.setCreatedDate(entity.getCreatedDate());
 			shenBaoInfoDto.setModifiedDate(entity.getModifiedDate());
@@ -341,7 +343,8 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setXdPlanReach_gtzj(shenBaoInfoDto.getXdPlanReach_gtzj());
 			shenBaoInfo.setPackPlanId(shenBaoInfoDto.getPackPlanId());
 			shenBaoInfo.setPlanReachId(shenBaoInfoDto.getPlanReachId());
-			
+			shenBaoInfo.setPlanName(shenBaoInfoDto.getPlanName());
+			shenBaoInfo.setIsFaWen(shenBaoInfoDto.getIsFaWen());
 			//begin#审批相关
 			shenBaoInfo.setProcessState(shenBaoInfoDto.getProcessState());
 			shenBaoInfo.setProcessStage(shenBaoInfoDto.getProcessStage());

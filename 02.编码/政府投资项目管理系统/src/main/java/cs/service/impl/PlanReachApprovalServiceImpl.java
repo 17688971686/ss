@@ -7,6 +7,7 @@ import cs.common.Response;
 import cs.common.SQLConfig;
 import cs.domain.PlanReachApproval;
 import cs.domain.ShenBaoInfo;
+import cs.domain.ShenBaoInfo_;
 import cs.model.DomainDto.ExcelReportPlanReachDto;
 import cs.model.DomainDto.PlanReachApprovalDto;
 import cs.model.PageModelDto;
@@ -19,6 +20,8 @@ import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.task.Task;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.DoubleType;
@@ -62,9 +65,9 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
         PlanReachApproval entity = new PlanReachApproval();
         PlanReachApprovalDto dto = new PlanReachApprovalDto();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-        dto.setResPerson((String) data.get("resPerson"));
+//        dto.setResPerson((String) data.get("resPerson"));
         dto.setApprovalTime(sdf.parse((String) data.get("approvalTime")));
-        dto.setResPersonTel((String) data.get("resPersonTel"));
+//        dto.setResPersonTel((String) data.get("resPersonTel"));
         dto.setTitle((String) data.get("title"));
         List<String> idStrings = (List<String>) data.get("ids");
         dto.setCreatedBy(currentUser.getUserId());
@@ -111,14 +114,12 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
     public void update(Map data) throws ParseException {
         PlanReachApprovalDto dto = new PlanReachApprovalDto();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-		dto.setResPerson((String) data.get("resPerson"));
 		dto.setApprovalTime(sdf.parse((String) data.get("approvalTime")));
 		dto.setId((String) data.get("id"));
-		dto.setResPersonTel((String) data.get("resPersonTel"));
 		dto.setTitle((String) data.get("title"));
 
-		Map ggs = (Map) data.get("gg");
-		Map gts = (Map) data.get("gt");
+//		Map ggs = (Map) data.get("gg");
+//		Map gts = (Map) data.get("gt");
 		List<String> idStrings = (List<String>) data.get("ids");
 		PlanReachApproval entity = super.update(dto, (String) data.get("id"));
 
@@ -126,23 +127,24 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 		// 处理关联信息
 		entity.getShenBaoInfos().clear();
 		for (int i = 0; i < idStrings.size(); i++) {
-			String array_element = idStrings.get(i);
+			String id = idStrings.get(i);
 //			BigInteger countQuery = (BigInteger) session.createNativeQuery(SQLConfig.planReachApproval_count)
 //					.setParameter("shenBaoInfos_id", array_element).getSingleResult();
 //
 //			int count = countQuery == null ? 0 : countQuery.intValue();
 //			
 //			if (count < 1) {
-				ShenBaoInfo shenBaoInfo = shenBaoInfoService.findById(array_element);
-				if (!ggs.isEmpty()) {
-					if (ggs.get(shenBaoInfo.getId()) != null) {
-						shenBaoInfo.setXdPlanReach_ggys(Double.parseDouble(ggs.get(shenBaoInfo.getId()).toString()));
-					}
-				} else if (!gts.isEmpty()) {
-					if (gts.get(shenBaoInfo.getId()) != null) {
-						shenBaoInfo.setXdPlanReach_gtzj(Double.parseDouble(gts.get(shenBaoInfo.getId()).toString()));
-					}
-				}
+				ShenBaoInfo shenBaoInfo = shenBaoInfoService.findById(id);
+//				if (!ggs.isEmpty()) {
+//					if (ggs.get(shenBaoInfo.getId()) != null) {
+//						shenBaoInfo.setXdPlanReach_ggys(Double.parseDouble(ggs.get(shenBaoInfo.getId()).toString()));
+//					}
+//				} else if (!gts.isEmpty()) {
+//					if (gts.get(shenBaoInfo.getId()) != null) {
+//						shenBaoInfo.setXdPlanReach_gtzj(Double.parseDouble(gts.get(shenBaoInfo.getId()).toString()));
+//					}
+//				}
+				shenBaoInfo.setIsFaWen(true);
 				entity.getShenBaoInfos().add(shenBaoInfo);
 //			}
 
@@ -316,7 +318,7 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 		shenBaoInfo.setProcessStage("已办结");
 		shenBaoInfo.setIsIncludLibrary(true);
 //		shenBaoInfo.setComplate(true);
-		shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
+//		shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
 		
 		return;
     }
@@ -337,16 +339,27 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
     @Transactional(rollbackOn = Exception.class)
     public void updateShnebaoInfo(String shenbaoId, Double ggmoney, Double gtmoney) {
         ShenBaoInfo entity = shenBaoInfoRepo.findById(shenbaoId);
+        Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), entity.getProjectId());
+       List<ShenBaoInfo> shenbaoList = shenBaoInfoRepo.findByCriteria(criterion);
+       double count_ggys = 0;
+       double count_gtzj = 0;
+       for (int i = 0; i < shenbaoList.size(); i++) {
+    	   ShenBaoInfo array_element = shenbaoList.get(i);
+    	   if(array_element.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach) && array_element.getProcessState().equals(BasicDataConfig.processState_pass)){
+    		   count_ggys += array_element.getXdPlanReach_ggys();
+    		   count_gtzj += array_element.getXdPlanReach_gtzj();
+    	   }
+		
+       }
         Double cont = ggmoney + gtmoney;
-//        if(ggmoney > entity.getApPlanReach_ggys()){
-//        	 throw new IllegalArgumentException("申请公共资金不能大于安排资金,请重新填写！");
-//        }else if(gtmoney > entity.getApPlanReach_gtzj()){
-//        	throw new IllegalArgumentException("申请国土资金不能大于安排资金,请重新填写！");
-//        }
+        if(ggmoney+entity.getApInvestSum() > entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
+        	 throw new IllegalArgumentException("申请公共资金不能大于安排资金,请重新填写！");
+        }
         entity.setXdPlanReach_ggys(ggmoney);
         entity.setXdPlanReach_gtzj(gtmoney);
         entity.setApPlanReach_ggys(entity.getApPlanReach_ggys()+ggmoney);
         entity.setApPlanReach_gtzj(entity.getApPlanReach_gtzj()+gtmoney);
+        entity.setApInvestSum(entity.getApInvestSum()+gtmoney+ggmoney);
         shenBaoInfoRepo.save(entity);
     }
     

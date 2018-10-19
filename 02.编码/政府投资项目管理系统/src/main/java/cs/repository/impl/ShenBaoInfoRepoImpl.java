@@ -1,10 +1,20 @@
 package cs.repository.impl;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.metamodel.SingularAttribute;
+
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
+import org.hibernate.transform.BasicTransformerAdapter;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
 
+import com.sn.framework.common.ObjectUtils;
 import com.sn.framework.odata.OdataFilter;
 import com.sn.framework.odata.OdataFilter.Operate;
 
@@ -12,8 +22,6 @@ import cs.common.BasicDataConfig;
 import cs.domain.ShenBaoInfo;
 import cs.domain.ShenBaoInfoRun;
 import cs.domain.ShenBaoInfo_;
-import cs.repository.odata.ODataFilterItem;
-import cs.repository.odata.ODataObj;
 import cs.repository.odata.ODataObjNew;
 
 /**
@@ -115,8 +123,71 @@ public class ShenBaoInfoRepoImpl extends AbstractRepository<ShenBaoInfo, String>
      * @param odata
      * @return
      */
-    public List<ShenBaoInfo> findRunByOdata2(ODataObjNew odata) {
-        return odata.createQuery(getSession(), ShenBaoInfo.class).list();
+    @SuppressWarnings({ "unchecked" })
+	public List<ShenBaoInfo> findRunByOdata2(ODataObjNew odata) {
+    	return odata.createQuery(getSession(), ShenBaoInfo.class).list();
+//        return createCriteria(odata.createQuery(getSession(), ShenBaoInfo.class), ShenBaoInfo.class,classLoac()).list();
+    }
+
+	public static List<String> classLoac(){
+    	ArrayList<String> list = new ArrayList<String>();
+    	Class<?> classs = null;
+		try {
+			classs = Class.forName("cs.domain.ShenBaoInfo");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Field[] field = classs.getDeclaredFields();
+
+		//    	Field[] field = ShenBaoInfo.class.getClass().getDeclaredFields();
+    	for (int i = 0; i < field.length; i++) {
+			String field2 = field[i].getName();
+			list.add(field2);
+		}
+    	return list;
+    }
+    
+    /**
+     * 创建自定义字段映射的查询
+     * @param session
+     * @param cls
+     * @param attribute
+     * @return
+     */
+    public static Criteria createCriteria(Criteria criteria, final Class cls, List<String> attribute) {
+//        Criteria criteria = session.createCriteria(cls);
+        return setProjectionResult(criteria, cls, attribute);
+    }
+
+    /**
+     * 自定义字段映射
+     * @param criteria
+     * @param cls
+     * @param attribute
+     * @return
+     */
+    @SuppressWarnings("serial")
+	public static Criteria setProjectionResult(final Criteria criteria, final Class cls, List<String> attribute) {
+        if (!ObjectUtils.isEmpty(attribute)) {
+            ProjectionList projectionList = Projections.projectionList();
+            for (String sa : attribute) {
+                projectionList.add(Projections.property(sa));
+            }
+            criteria.setProjection(projectionList).setResultTransformer(new BasicTransformerAdapter() {
+                @SuppressWarnings("unchecked")
+				@Override
+                public Object transformTuple(Object[] tuple, String[] aliases) {
+                    Object obj = BeanUtils.instantiate(cls);
+                    for (int i = 0; i < attribute.size(); i++) {
+                    	ObjectUtils.setFieldValue(obj, attribute.get(i), tuple[i]);
+                    }
+                    return obj;
+                }
+
+            });
+        }
+        return criteria;
     }
 
 }
