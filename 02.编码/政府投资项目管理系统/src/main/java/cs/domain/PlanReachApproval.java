@@ -28,8 +28,8 @@ public class PlanReachApproval extends BaseEntity {
     @Column(columnDefinition = "varchar(255)  not null COMMENT '标题'")
     private String title;
 
-    @Column(columnDefinition = "varchar(255)  not null COMMENT '负责人'")
-    private String resPerson;
+//    @Column(columnDefinition = "varchar(255)  not null COMMENT '负责人'")
+//    private String resPerson;
 
     @Column(columnDefinition = "varchar(255)  not null COMMENT '负责人电话'")
     private String resPersonTel;
@@ -60,13 +60,13 @@ public class PlanReachApproval extends BaseEntity {
         this.title = title;
     }
 
-    public String getResPerson() {
-        return resPerson;
-    }
-
-    public void setResPerson(String resPerson) {
-        this.resPerson = resPerson;
-    }
+//    public String getResPerson() {
+//        return resPerson;
+//    }
+//
+//    public void setResPerson(String resPerson) {
+//        this.resPerson = resPerson;
+//    }
 
     public String getResPersonTel() {
         return resPersonTel;

@@ -36,6 +36,7 @@ import cs.common.SQLConfig;
 import cs.domain.AllocationCapital;
 import cs.domain.PackPlan;
 import cs.domain.PlanReachApplication;
+import cs.domain.Project;
 import cs.domain.ShenBaoInfo;
 import cs.domain.ShenBaoInfo_;
 import cs.domain.ShenBaoUnitInfo;
@@ -51,6 +52,7 @@ import cs.model.DomainDto.ShenBaoUnitInfoDto;
 import cs.model.DomainDto.UserUnitInfoDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.framework.UserRepo;
+import cs.repository.impl.ProjectRepoImpl;
 import cs.repository.impl.ShenBaoInfoRepoImpl;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataFilterItem;
@@ -334,7 +336,7 @@ public class PlanReachApplicationServiceImpl
 			shenBaoInfoDto.setApPlanReach_ggys(a + b);
 			shenBaoInfoDto.setApPlanReach_gtzj(c + d);
 		}
-		shenBaoInfoDto.setPlanOrPackName("单列项目");
+		shenBaoInfoDto.setPlanName("单列项目");
 		shenBaoInfoDto.setPlanReachId(planReachId);
 		ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.create(shenBaoInfoDto, false);
 		
@@ -457,7 +459,7 @@ public class PlanReachApplicationServiceImpl
 		shenBaoInfoDto.setZong_processId(null);
 		shenBaoInfoDto.setItemOrder(entitys.size()+1);
 		shenBaoInfoDto.setPackPlanId(packId);
-		shenBaoInfoDto.setPlanOrPackName("111111111");
+		shenBaoInfoDto.setPlanName(pack.getName());
 		ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.create(shenBaoInfoDto, false);
 		if (pack.getShenBaoInfos() == null) {
 			pack.setShenBaoInfos(new ArrayList<>(1));
@@ -639,12 +641,10 @@ public class PlanReachApplicationServiceImpl
 	@Transactional(rollbackOn = Exception.class)
 	public void updateShnebaoInfo(String shenbaoId, Double ggmoney, Double gtmoney) {
 		ShenBaoInfo entity = shenBaoInfoRepo.findById(shenbaoId);
-		Double cont = ggmoney + gtmoney;
-		if (ggmoney > entity.getApPlanReach_ggys()) {
-			throw new IllegalArgumentException("申请公共资金不能大于安排资金,请重新填写！");
-		} else if (gtmoney > entity.getApPlanReach_gtzj()) {
-			throw new IllegalArgumentException("申请国土资金不能大于安排资金,请重新填写！");
-		}
+		
+	    if(ggmoney+entity.getApInvestSum() > entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
+       	 throw new IllegalArgumentException("申请公共资金+累计下达不能大于安排资金,请重新填写！");
+       }
 		entity.setSqPlanReach_ggys(ggmoney);
 		entity.setSqPlanReach_gtzj(gtmoney);
 		shenBaoInfoRepo.save(entity);

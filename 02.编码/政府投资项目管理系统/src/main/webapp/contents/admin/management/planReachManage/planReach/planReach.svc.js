@@ -348,7 +348,7 @@
 		function planReachGrid(vm){
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-				transport: common.kendoGridConfig().transport(common.format(url_taskAudit + "?leixin={0}", "geren")),				
+				transport: common.kendoGridConfig().transport(url_shenbao),				
 				schema : common.kendoGridConfig().schema({
 					id : "id",
 					fields : {
@@ -367,9 +367,19 @@
 					dir : "desc"
 				},
 				filter:[{//过滤条件为审批状态不为退回状态
-					field:'thisTaskName',
+					field:'processState',
 					operator:'eq',
-					value:"usertask5"
+					value:2
+				},
+				{
+					field:'projectShenBaoStage',
+					operator:'eq',
+					value:"projectShenBaoStage_5"
+				},
+				{
+					field:'isFaWen',
+					operator:'eq',
+					value:false
 				}]
 			});
 			var columns = [	
@@ -404,6 +414,16 @@
 				{
 					field : "constructionUnit",
 					title : "建设单位",
+					width : 150,
+					filterable :true,
+					headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
+				},
+				{
+					field : "planName",
+					title : "单列/打包",
 					width : 150,
 					filterable :true,
 					headerAttributes: {
@@ -1411,7 +1431,7 @@
 		function grid(vm){
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
-                transport: common.kendoGridConfig().transport(common.format(url_taskAudit + "?leixin={0}", "geren")),
+                transport: common.kendoGridConfig().transport(url_shenbao),
 				schema : common.kendoGridConfig().schema({
 					id : "id",
 					fields : {
@@ -1430,9 +1450,14 @@
 					dir : "desc"
 				},
 				filter:[{//TODO 这里过滤条件是审批阶段为“秘书科发文”，与OA对接成功之后这里应该是与OA返回同意的那个阶段
-					field:'thisTaskName',
+					field:'processState',
 					operator:'eq',
-					value:"usertask5"
+					value:2
+				},
+				{//TODO 这里过滤条件是审批阶段为“秘书科发文”，与OA对接成功之后这里应该是与OA返回同意的那个阶段
+					field:'projectShenBaoStage',
+					operator:'eq',
+					value:"projectShenBaoStage_5"
 				}
 				]
 			});
@@ -1614,10 +1639,10 @@
 								title : "公共预算",
 								width:100,
 								filterable : false,
-							    template: function (item) {
-	                                vm.gg[item.id] = item.xdPlanReach_ggys;
-	                                return common.format($('#input').html(), item.id, item.xdPlanReach_ggys);
-	                            },
+//							    template: function (item) {
+//	                                vm.gg[item.id] = item.xdPlanReach_ggys;
+//	                                return common.format($('#input').html(), item.id, item.xdPlanReach_ggys);
+//	                            },
 								headerAttributes: {
 							      "class": "table-header-cell",
 							       style: "text-align: center;vertical-align: middle;"
@@ -1628,10 +1653,10 @@
 								title : "国土基金",
 								width:100,
 								filterable : false,
-								template: function (item) {
-	                               vm.gt[item.id] = item.xdPlanReach_gtzj;
-	                               return common.format($('#input2').html(), item.id, item.xdPlanReach_gtzj);
-	                            },
+//								template: function (item) {
+//	                               vm.gt[item.id] = item.xdPlanReach_gtzj;
+//	                               return common.format($('#input2').html(), item.id, item.xdPlanReach_gtzj);
+//	                            },
 								headerAttributes: {
 							      "class": "table-header-cell",
 							       style: "text-align: center;vertical-align: middle;"
@@ -1642,6 +1667,16 @@
                             "class": "table-header-cell",
                             style: "text-align: center;vertical-align: middle;"
                         }
+					},
+					{
+						field : "planName",
+						title : "单列/打包",	
+						width : 100,
+						filterable : true,
+						headerAttributes: {
+						      "class": "table-header-cell",
+						       style: "text-align: center;vertical-align: middle;"
+						    }
 					}
 				
 			];

@@ -23,8 +23,10 @@ public class ShenBaoInfo extends BaseShenBaoInfo {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Attachment> attachments = new ArrayList<>();
 
-    @Transient
-    private String planOrPackName;
+    @Column(columnDefinition="varchar(64) NULL COMMENT '打包名称'")
+    private String planName;
+    @Column(columnDefinition = "bit(1) DEFAULT b'0' COMMENT '是否已发文'")
+    private Boolean isFaWen = false;
 
     public ShenBaoUnitInfo getBianZhiUnitInfo() {
         return bianZhiUnitInfo;
@@ -50,12 +52,21 @@ public class ShenBaoInfo extends BaseShenBaoInfo {
         this.attachments = attachments;
     }
 
-	public String getPlanOrPackName() {
-		return planOrPackName;
+	public String getPlanName() {
+		return planName;
 	}
 
-	public void setPlanOrPackName(String planOrPackName) {
-		this.planOrPackName = planOrPackName;
+	public void setPlanName(String planName) {
+		this.planName = planName;
 	}
+
+	public Boolean getIsFaWen() {
+		return isFaWen;
+	}
+
+	public void setIsFaWen(Boolean isFaWen) {
+		this.isFaWen = isFaWen;
+	}
+
     
 }

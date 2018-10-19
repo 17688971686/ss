@@ -21,7 +21,7 @@ public class PlanReachApprovalMappper implements IMapper<PlanReachApprovalDto, P
 		if(entity!=null){
 			dto.setId(entity.getId());
 			dto.setTitle(entity.getTitle());
-			dto.setResPerson(entity.getResPerson());
+//			dto.setResPerson(entity.getResPerson());
 			dto.setResPersonTel(entity.getResPersonTel());
 			dto.setApprovalTime(entity.getApprovalTime());
 			entity.getShenBaoInfos().stream().forEach(x->{
@@ -45,7 +45,7 @@ public class PlanReachApprovalMappper implements IMapper<PlanReachApprovalDto, P
 			}
 			entity.setTitle(dto.getTitle());
 			entity.setApprovalTime(dto.getApprovalTime());
-			entity.setResPerson(dto.getResPerson());
+//			entity.setResPerson(dto.getResPerson());
 			entity.setResPersonTel(dto.getResPersonTel());
 			entity.setCreatedBy(dto.getCreatedBy());
 			entity.setModifiedBy(dto.getModifiedBy());

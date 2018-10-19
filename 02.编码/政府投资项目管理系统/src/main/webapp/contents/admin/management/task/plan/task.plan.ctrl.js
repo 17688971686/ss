@@ -635,7 +635,7 @@
         		if(vm.isPass2 == 6){
         			vm.nextUsers = "";
         		}
-        		if(vm.nextUsers == "" && str == "next" && vm.model.shenBaoInfo.thisTaskName != 'usertask5'){
+        		if(vm.nextUsers == "" && str == "next" && vm.model.shenBaoInfo.thisTaskName == 'usertask4'){
         			common.alert({
 						vm : vm,
 						msg : "请选择经办人后提交！",
@@ -643,7 +643,7 @@
 							$('.alertDialog').modal('hide');
 						}
 					});
-        		}else if(vm.model.shenBaoInfo.thisTaskName == 'usertask5' && (vm.model.shenBaoInfo.xdPlanReach_ggys == 0 || vm.model.shenBaoInfo.xdPlanReach_gtzj == 0)) {
+        		}else if(vm.model.shenBaoInfo.thisTaskName == 'usertask5' && str == "next" && (vm.model.shenBaoInfo.xdPlanReach_ggys == 0 || vm.model.shenBaoInfo.xdPlanReach_gtzj == 0)) {
         			common.alert({
 						vm : vm,
 						msg : "请填写安排资金后提交！",

@@ -10,8 +10,8 @@
 	  	<a class="btn btn-success btn-sm" href="javascript:;" ui-sref="planReach_tabList"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回</a>
 		<button ng-if="!vm.id" type="button" class="btn btn-success btn-sm" ng-click="vm.addPlanReachApproval()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-ok"></span>&nbsp;创建</button>
 	  	<button ng-if="vm.id" type="button" class="btn btn-success btn-sm" ng-click="vm.editPlanReachApproval()" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-ok"></span>&nbsp;更新</button>
-	  	<button ng-if="vm.id" type="button" class="btn btn-success btn-sm" ng-click="vm.endProcesss()" ng-disabled="vm.isSubmit">全部办结</button>
-	  </div>
+<!-- 	  	<button ng-if="vm.id" type="button" class="btn btn-success btn-sm" ng-click="vm.endProcesss()" ng-disabled="vm.isSubmit">全部办结</button>
+ -->	  </div>
 	  
 	    <div>
   	<form id="form" name="form">
@@ -82,20 +82,20 @@
 		  							<td rowspan="2" ng-bind="x.apInvestSum" style="vertical-align: middle;"></td>
 		  							<td rowspan="2" ng-bind="x.apPlanReach_ggys" style="vertical-align: middle;"></td>
 		  							<td rowspan="2" ng-bind="x.apPlanReach_gtzj" style="vertical-align: middle;"></td>
-		  							<td rowspan="2" style="vertical-align: middle;">
-		  								<input style="width:70px" id="capitalSum1" ng-if="x.thisTaskName=='usertask5'" ng-model="vm.gg[x.id]" value="x.id" ng-blur="vm.addmoneys(x.id)"/>
-		  								<span ng-hide="x.thisTaskName=='usertask5'" ng-bind="x.xdPlanReach_ggys"></span>
+		  							<td rowspan="2" style="vertical-align: middle;" ng-bind="x.xdPlanReach_ggys">
+		  								<!-- 	<input style="width:70px" id="capitalSum1" ng-if="x.thisTaskName=='usertask5'" ng-model="vm.gg[x.id]" value="x.id" ng-blur="vm.addmoneys(x.id)"/>
+		  								<span ng-hide="x.thisTaskName=='usertask5'" ng-bind="x.xdPlanReach_ggys"></span> -->
 		  							</td>
-		  							<td rowspan="2" style="vertical-align: middle;">
-		  								<input style="width:70px" id="capitalSum2"  ng-if="x.thisTaskName=='usertask5'" ng-model="vm.gt[x.id]" value="x.id" ng-blur="vm.addmoneys(x.id)"/>
-		  								<span ng-hide="x.thisTaskName=='usertask5'" ng-bind="x.xdPlanReach_gtzj"></span>
+		  							<td rowspan="2" style="vertical-align: middle;" ng-bind="x.xdPlanReach_gtzj">
+		  							<!-- 	<input style="width:70px" id="capitalSum2"  ng-if="x.thisTaskName=='usertask5'" ng-model="vm.gt[x.id]" value="x.id" ng-blur="vm.addmoneys(x.id)"/>
+		  								<span ng-hide="x.thisTaskName=='usertask5'" ng-bind="x.xdPlanReach_gtzj"></span> -->
 		  							</td>
 		  							<td rowspan="2" ng-bind="x.yearConstructionTask" style="vertical-align: middle;"></td>
 		  							<td rowspan="2" ng-bind="x.remark" style="vertical-align: middle;"></td>
 		  							<td rowspan="2" style="vertical-align: middle;">
 		  								<button type="button" class="btn btn-danger btn-sm" ng-click="vm.removePlanReach($index)"><span class="glyphicon glyphicon-remove"></span>&nbsp;移除</button>
-		  								<button type="button" class="btn btn-success btn-sm" ng-if="x.thisTaskName=='usertask5'" ng-click="vm.endProcess(x.id)">办结</button>
-		  								
+		  								<!-- <button type="button" class="btn btn-success btn-sm" ng-if="x.thisTaskName=='usertask5'" ng-click="vm.endProcess(x.id)">办结</button>
+		  								 -->
 		  							</td>
  								</tr>
 						</tbody>
