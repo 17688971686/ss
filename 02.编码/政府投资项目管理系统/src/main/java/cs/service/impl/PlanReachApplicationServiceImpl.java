@@ -18,6 +18,7 @@ import javax.transaction.Transactional;
 
 import org.activiti.engine.RuntimeService;
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.formula.eval.BlankEval;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
@@ -62,6 +63,7 @@ import cs.service.interfaces.PlanReachApplicationService;
 import cs.service.interfaces.ShenBaoInfoService;
 import cs.service.interfaces.UserUnitInfoService;
 import cs.service.interfaces.YearPlanService;
+import jxl.write.Blank;
 
 @Service
 public class PlanReachApplicationServiceImpl
@@ -338,6 +340,9 @@ public class PlanReachApplicationServiceImpl
 		}
 		shenBaoInfoDto.setPlanName("单列项目");
 		shenBaoInfoDto.setPlanReachId(planReachId);
+		shenBaoInfoDto.setCreatedDate(new Date());
+		shenBaoInfoDto.setCreatedBy(currentUser.getUserId());
+		shenBaoInfoDto.setReceiver(null);
 		ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.create(shenBaoInfoDto, false);
 		
 
@@ -460,6 +465,9 @@ public class PlanReachApplicationServiceImpl
 		shenBaoInfoDto.setItemOrder(entitys.size()+1);
 		shenBaoInfoDto.setPackPlanId(packId);
 		shenBaoInfoDto.setPlanName(pack.getName());
+		shenBaoInfoDto.setCreatedDate(new Date());
+		shenBaoInfoDto.setCreatedBy(currentUser.getUserId());
+		shenBaoInfoDto.setReceiver(null);
 		ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.create(shenBaoInfoDto, false);
 		if (pack.getShenBaoInfos() == null) {
 			pack.setShenBaoInfos(new ArrayList<>(1));
@@ -475,10 +483,21 @@ public class PlanReachApplicationServiceImpl
 		// TODO 根据计划下达id查找到计划下达信息
 		PlanReachApplication planReach = findById(planReachId);
 		Assert.notNull(planReach, "请先创建计划下达后添加！");
-
+		
 		PackPlan entity = packPlanRepo.findById(packPlanId);
 		Assert.notNull(entity, "数据不存在！");
+		boolean isTrue = false;
+		loop:for (int i = 0; i < planReach.getPackPlans().size(); i++) {
+			PackPlan array_element = planReach.getPackPlans().get(i);
+			if(array_element.getId().equals(packPlanId)){
+				isTrue = true;
+				break loop;
+			}
+		}
 
+		if(isTrue){
+			return;
+		}
 		// TODO 统计包含有本单位打包计划的资金
 
 		UserUnitInfoDto userUnitInfoDto1 = userUnitInfoService.getByUserId(currentUser.getUserId());

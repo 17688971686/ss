@@ -110,8 +110,8 @@ label {
 				<td colspan="3">
 					<button class="btn btn-success btn-xs"
 						ng-click="vm.dialog_shenbaoInfo()">查看申报信息</button>
-					<button class="btn btn-success btn-xs"
-						ng-click="vm.dialog_shenbaoInfoEdit()">复核申报信息</button>
+					<!-- <button class="btn btn-success btn-xs"
+						ng-click="vm.dialog_shenbaoInfoEdit()">复核申报信息</button> -->
 				</td>
 			</tr>
 		</table>
@@ -148,7 +148,7 @@ label {
 					<div>
 						<div style="margin: 3px;"
 							ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos"
-							ng-if="y.type == 'shenpiFile'">
+							>
 							<a href="/contents/upload/{{y.url}}" target="_blank"
 								ng-bind="y.name"></a>
 						</div>

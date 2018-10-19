@@ -106,7 +106,7 @@
     			var filters = [];
 				filters.push({field:'projectShenBaoStage',operator:'eq',value:common.basicDataConfig().projectShenBaoStage_jihuaxiada});//默认条件--申报阶段为"计划下达"
 				//filters.push({field:'processStage',operator:'eq',value:common.basicDataConfig().processState_mskfawen});//默认条件
-				//filters.push({field:'processState',operator:'ne',value:common.basicDataConfig().processState_notpass});//默认条件
+				filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_pass});//默认条件
                 //filters.push({field:'processState',operator:'eq',value:Number(common.basicDataConfig().processState_jinxingzhong)});
 
 				if(vm.search.projectName !=null && vm.search.projectName !=''){//查询条件--项目名称

@@ -477,6 +477,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			if (!list1.isEmpty()) {// 固定会签人员
 				variables.put("userIds", list1);
 			}
+			nextUsers = list1.toString();
 		}else{
 			if (!nextUsers.isEmpty()) {// 设置流程变量--下一任务处理人
 				variables.put("userIds", Arrays.asList(nextUsers.split(",")));
@@ -508,6 +509,15 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
 		activitiService.taskComplete(task.get(0).getId(), variables);
 
+//		try {
+//		Integer result = HuasisoftUtil.getBacklogManager().finishByEventId(shenBaoInfo.getId());
+//		if(result == 102){
+//			logger.info("待办完成！");
+//		}
+//	} catch (Exception e1) {
+//		// TODO Auto-generated catch block
+//		e1.printStackTrace();
+//	}
 		// 结束上一任务后，当前流程下产生的新任务
 		List<Task> tasknew = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId())
 				.orderByDueDate().desc().list();
@@ -561,6 +571,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		projectRepo.save(project);
 		shenBaoInfoRepo.save(shenBaoInfo);
+		
+		this.todoShenbaoInfo(shenBaoInfo ,nextUsers);
 
 		logger.info(String.format("查询角色组已办结上线请求,用户名:%s", currentUser.getLoginName()));
 
