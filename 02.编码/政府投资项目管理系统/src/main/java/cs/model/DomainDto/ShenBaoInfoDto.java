@@ -19,8 +19,6 @@ public class ShenBaoInfoDto extends ShenBaoInfo {
 	private String projectCategoryDesc;
 	//所属行业
 	private String projectIndustryDesc;
-	//项目分类
-	private String projectClassifyDesc;
 	//功能科目
 	private String functionSubjectsDesc;
 	//经济分类科目
@@ -94,12 +92,6 @@ public class ShenBaoInfoDto extends ShenBaoInfo {
 	}
 	public void setProjectIndustryDesc(String projectIndustryDesc) {
 		this.projectIndustryDesc = projectIndustryDesc;
-	}
-	public String getProjectClassifyDesc() {
-		return projectClassifyDesc;
-	}
-	public void setProjectClassifyDesc(String projectClassifyDesc) {
-		this.projectClassifyDesc = projectClassifyDesc;
 	}
 	public String getCapitalOtherTypeDesc() {
 		return capitalOtherTypeDesc;

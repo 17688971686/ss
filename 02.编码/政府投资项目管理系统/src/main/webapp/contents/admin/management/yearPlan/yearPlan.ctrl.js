@@ -473,18 +473,10 @@
     		var init_basicData = function(){
     			if(vm.investmentType == common.basicDataConfig().projectInvestmentType_ZF){//如果为政府投资
     				vm.isZFInvestment = true; 
-       			 	//基础数据--项目分类
-         		   vm.basicData.projectClassify=$linq(common.getBasicData())
-     	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
-     	       		.toArray();
          		   //基础数据--行业归口
          		  vm.basicData.projectIndustry=vm.basicData.projectIndustry_ZF;
          	   }else if(vm.investmentType == common.basicDataConfig().projectInvestmentType_SH){//如果为社会投资
          		   vm.isSHInvestment = true;
-      			   //基础数据--项目分类
-         		   vm.basicData.projectClassify=$linq(common.getBasicData())
-     	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
-     	       		.toArray();
       			  //基础数据--行业归口
       			   vm.basicData.projectIndustry=vm.basicData.projectIndustry_SH;
          	   }

@@ -19,7 +19,7 @@ public class SQLConfig {
                 "t1.capitalSCZ_zxzj,t1.capitalSHTZ,t1.capitalZYYS, t1.companyName,t1.constructionCycle,t1.constructionLand," +
                 "t1.divisionId,SUBSTRING(t1.endDate,1,7) endDate,t1.equipmentInvestment,t1.finalAmount,t1.financeProjectNumber, t1.landPrice," +
                 "t1.pifuCBSJYGS_date,t1.pifuCBSJYGS_wenhao,t1.pifuJYS_date,t1.pifuJYS_wenhao,t1.pifuKXXYJBG_date," +
-                "t1.pifuKXXYJBG_wenhao,t1.projectAddress, t1.projectCategory,t1.projectClassify,t1.projectGuiMo," +
+                "t1.pifuKXXYJBG_wenhao,t1.projectAddress, t1.projectCategory,t1.projectGuiMo," +
                 "t1.projectIndustry,t1.projectIntro,t1.projectInvestAccuSum,t1.projectInvestSum,t1.projectInvestmentType," +
                 " t1.projectName,t1.projectNumber,t1.projectRepMobile,t1.projectRepName,t1.projectStage,t1.projectType," +
                 "t1.remark,t1.repUnitRepMobile,t1.repUnitRepName,t1.unitName, t1.useBenefits,t1.apInvestSum," +
@@ -317,7 +317,7 @@ public class SQLConfig {
             + " t1.CapitalQCZ_gtzj,t1.capitalQCZ_ggys,t1.capitalSCZ_ggys,t1.CapitalSCZ_gtzj,t1.capitalSCZ_zxzj,t1.capitalSHTZ,t1.capitalZYYS,"
             + " t1.companyName,t1.constructionCycle,t1.constructionLand,t1.divisionId,SUBSTRING(t1.endDate,1,7) endDate,t1.equipmentInvestment,t1.finalAmount,t1.financeProjectNumber,"
             + " t1.landPrice,t1.pifuCBSJYGS_date,t1.pifuCBSJYGS_wenhao,t1.pifuJYS_date,t1.pifuJYS_wenhao,t1.pifuKXXYJBG_date,t1.pifuKXXYJBG_wenhao,t1.projectAddress,"
-            + " t1.projectCategory,t1.projectClassify,t1.projectGuiMo,t1.projectIndustry,t1.projectIntro,t1.projectInvestAccuSum,t1.projectInvestSum,t1.projectInvestmentType,"
+            + " t1.projectCategory,t1.projectGuiMo,t1.projectIndustry,t1.projectIntro,t1.projectInvestAccuSum,t1.projectInvestSum,t1.projectInvestmentType,"
             + " t1.projectName,t1.projectNumber,t1.projectRepMobile,t1.projectRepName,t1.projectStage,t1.projectType,t1.remark,t1.repUnitRepMobile,t1.repUnitRepName,t1.unitName,"
             + " t1.useBenefits,t1.apInvestSum,t1.applyYearInvest,t1.applyYearInvest_LastYear,t1.applyYearInvest_LastTwoYear,t1.auditState,t1.capitalAP_ggys_LastYear,t1.capitalAP_ggys_LastTwoYear,"
             + " t1.capitalAP_ggys_TheYear,t1.capitalAP_gtzj_LastTwoYear,t1.capitalAP_gtzj_LastYear,t1.capitalAP_gtzj_TheYear,t1.capitalAP_qita,t1.capitalAP_qita_LastTwoYear,t1.capitalAP_qita_LastYear,"
@@ -361,7 +361,7 @@ public class SQLConfig {
             + " t1.CapitalQCZ_gtzj,t1.capitalQCZ_ggys,t1.capitalSCZ_ggys,t1.CapitalSCZ_gtzj,t1.capitalSCZ_zxzj,t1.capitalSHTZ,t1.capitalZYYS,"
             + " t1.companyName,t1.constructionCycle,t1.constructionLand,t1.divisionId,SUBSTRING(t1.endDate,1,7) endDate,t1.equipmentInvestment,t1.finalAmount,t1.financeProjectNumber,"
             + " t1.landPrice,t1.pifuCBSJYGS_date,t1.pifuCBSJYGS_wenhao,t1.pifuJYS_date,t1.pifuJYS_wenhao,t1.pifuKXXYJBG_date,t1.pifuKXXYJBG_wenhao,t1.projectAddress,"
-            + " t1.projectCategory,t1.projectClassify,t1.projectGuiMo,t1.projectIndustry,t1.projectIntro,t1.projectInvestAccuSum,t1.projectInvestSum,t1.projectInvestmentType,"
+            + " t1.projectCategory,t1.projectGuiMo,t1.projectIndustry,t1.projectIntro,t1.projectInvestAccuSum,t1.projectInvestSum,t1.projectInvestmentType,"
             + " t1.projectName,t1.projectNumber,t1.projectRepMobile,t1.projectRepName,t1.projectStage,t1.projectType,t1.remark,t1.repUnitRepMobile,t1.repUnitRepName,t1.unitName,"
             + " t1.useBenefits,t1.apInvestSum,t1.applyYearInvest,t1.applyYearInvest_LastYear,t1.applyYearInvest_LastTwoYear,t1.auditState,t1.capitalAP_ggys_LastYear,t1.capitalAP_ggys_LastTwoYear,"
             + " t1.capitalAP_ggys_TheYear,t1.capitalAP_gtzj_LastTwoYear,t1.capitalAP_gtzj_LastYear,t1.capitalAP_gtzj_TheYear,t1.capitalAP_qita,t1.capitalAP_qita_LastTwoYear,t1.capitalAP_qita_LastYear,"

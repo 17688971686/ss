@@ -191,18 +191,6 @@
 								return x.identity == common.basicDataConfig().projectIndustry
 										&& x.pId == common.basicDataConfig().projectIndustry_SH;
 							}).toArray();//社会投资项目行业
-			vm.basicData.projectClassify_ZF = $linq(common.getBasicData())
-					.where(
-							function(x) {
-								return x.identity == common.basicDataConfig().projectClassify
-										&& x.pId == common.basicDataConfig().projectClassify_ZF;
-							}).toArray();//政府投资项目分类
-			vm.basicData.projectClassify_SH = $linq(common.getBasicData())
-					.where(
-							function(x) {
-								return x.identity == common.basicDataConfig().projectClassify
-										&& x.pId == common.basicDataConfig().projectClassify_SH;
-							}).toArray();//社会投资项目分类
 			vm.basicData.area_Street = $linq(common.getBasicData()).where(
 					function(x) {
 						return x.identity == common.basicDataConfig().area
@@ -605,11 +593,9 @@
 			var init_basicData = function() {
 				if (vm.investmentType == common.basicDataConfig().projectInvestmentType_ZF) {//如果为政府投资
 					vm.isZFInvestment = true;
-					vm.basicData.projectClassify = vm.basicData.projectClassify_ZF;//基础数据--项目分类
 					vm.basicData.projectIndustry = vm.basicData.projectIndustry_ZF;//基础数据--行业归口
 				} else if (vm.investmentType == common.basicDataConfig().projectInvestmentType_SH) {//如果为社会投资
 					vm.isSHInvestment = true;
-					vm.basicData.projectClassify = vm.basicData.projectClassify_SH; //基础数据--项目分类
 					vm.basicData.projectIndustry = vm.basicData.projectIndustry_SH;//基础数据--行业归口
 					vm.projectIndustryChange = function() {//行业发生变化时触发		
 						vm.basicData.projectIndustryChildren = $linq(

@@ -389,14 +389,12 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             entity.setModifiedDate(new Date());
         }
 
-        if ("projectClassify_1_1".equalsIgnoreCase(dto.getProjectClassify())) {
-            //设置申报信息的阶段为待签收
-            entity.setProcessStage("投资科审核收件办理");
-            entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
-            entity.setCreatedDate(new Date());
-            entity.setModifiedDate(new Date());
-            startProcessMonitor_fjxm(processDefinitionKey_monitor_fjxm, entity.getId());
-        }
+        //设置申报信息的阶段为待签收
+        entity.setProcessStage("投资科审核收件办理");
+        entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
+        entity.setCreatedDate(new Date());
+        entity.setModifiedDate(new Date());
+        startProcessMonitor_fjxm(processDefinitionKey_monitor_fjxm, entity.getId());
     }
 
     @Override
@@ -657,9 +655,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
                         startProcessShenbao(processDefinitionKey_yearPlan, entity.getId());
                     } else {
                         startProcessShenbao(processDefinitionKey, entity.getId());
-                        if ("projectClassify_1_1".equalsIgnoreCase(dto.getProjectClassify())) {
-                            startProcessMonitor_fjxm(processDefinitionKey_monitor_fjxm, entity.getId());
-                        }
+                        startProcessMonitor_fjxm(processDefinitionKey_monitor_fjxm, entity.getId());
                     }
                 }
             }
@@ -750,7 +746,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         project.setProjectRepName(dto.getProjectRepName());//负责人名称
         project.setProjectRepMobile(dto.getProjectRepMobile());//负责人手机
         project.setProjectCategory(dto.getProjectCategory());//项目类别
-        project.setProjectClassify(dto.getProjectClassify());//项目分类
         project.setProjectIndustry(dto.getProjectIndustry());//项目行业归口
         project.setProjectType(dto.getProjectType());//项目类型
         project.setDivisionId(dto.getDivisionId());//项目区域

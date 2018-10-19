@@ -49,17 +49,6 @@ public class BasicDataConfig {
 	public static String attachment_type_zjsqbg="ZJSQBG";
 	public static String attachment_type_SCQQJFXD="SCQQJFXD";
 	
-	public static String zf_projectClassify="projectClassify_1";
-	public static String zf_projectClassify_fj="projectClassify_1_1";
-	public static String zf_projectClassify_sz="projectClassify_1_2";
-	public static String zf_projectClassify_sw="projectClassify_1_3";
-	public static String zf_projectClassify_qt="projectClassify_1_4";
-	public static String sh_projectClassify="projectClassify_2";
-	public static String sh_projectClassify_fj="projectClassify_2_1";
-	public static String sh_projectClassify_sz="projectClassify_2_2";
-	public static String sh_projectClassify_sw="projectClassify_2_3";
-	public static String sh_projectClassify_qt="projectClassify_2_4";
-	
 	
 	//申报阶段 projectShenBaoStage
 	public static String projectShenBaoStage_XMJYS="projectShenBaoStage_1";//项目建议书

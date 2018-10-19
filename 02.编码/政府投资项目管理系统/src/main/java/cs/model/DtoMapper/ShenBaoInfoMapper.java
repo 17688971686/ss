@@ -42,7 +42,6 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setProjectCategory(entity.getProjectCategory());
 			shenBaoInfoDto.setProjectIndustry(entity.getProjectIndustry());
 			shenBaoInfoDto.setProjectInvestmentType(entity.getProjectInvestmentType());
-			shenBaoInfoDto.setProjectClassify(entity.getProjectClassify());
 			shenBaoInfoDto.setProjectRepName(entity.getProjectRepName());
 			shenBaoInfoDto.setProjectRepMobile(entity.getProjectRepMobile());
 			shenBaoInfoDto.setProjectIntro(entity.getProjectIntro());
@@ -237,7 +236,6 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setProjectName(shenBaoInfoDto.getProjectName());		
 			shenBaoInfo.setProjectType(shenBaoInfoDto.getProjectType());
 			shenBaoInfo.setProjectInvestmentType(shenBaoInfoDto.getProjectInvestmentType());
-			shenBaoInfo.setProjectClassify(shenBaoInfoDto.getProjectClassify());
 			shenBaoInfo.setProjectIndustry(shenBaoInfoDto.getProjectIndustry());
 			shenBaoInfo.setProjectCategory(shenBaoInfoDto.getProjectCategory());
 			shenBaoInfo.setProjectInvestSum(shenBaoInfoDto.getProjectInvestSum());

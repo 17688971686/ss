@@ -24,3 +24,6 @@ alter table cs_project modify column projectStage varchar(64) ;
 alter table cs_project modify column projectType varchar(64) ;
 alter table cs_project modify column projectCategory varchar(64) ;
 alter table cs_project modify column projectIndustry varchar(64) ;
+-- add by  liux   2018/10/19
+alter table cs_project drop column projectClassify;
+alter table cs_shenbaoinfo drop column projectClassify;

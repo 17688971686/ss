@@ -215,7 +215,6 @@ public class PlanReachApplicationServiceImpl
 	// shenBaoInfoDto.setProjectRepName(dto.getProjectRepName());//负责人名称
 	// shenBaoInfoDto.setProjectRepMobile(dto.getProjectRepMobile());//负责人手机
 	// shenBaoInfoDto.setProjectCategory(dto.getProjectCategory());//项目类别
-	// shenBaoInfoDto.setProjectClassify(dto.getProjectClassify());//项目分类
 	// shenBaoInfoDto.setProjectIndustry(dto.getProjectIndustry());//项目行业归口
 	// shenBaoInfoDto.setProjectType(dto.getProjectType());//项目类型
 	// shenBaoInfoDto.setDivisionId(dto.getDivisionId());//项目区域

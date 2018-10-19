@@ -524,18 +524,6 @@ public class SysServiceImpl implements SysService {
         this.createBasicData("problemType_5", "problemType", "problemType", "中央及省部级部门审批问题", "");
         this.createBasicData("problemType_6", "problemType", "problemType", "其他", "");
 
-        this.createBasicData("projectClassify", "", "projectClassify", "项目分类", "");
-        this.createBasicData("projectClassify_1", "projectClassify", "projectClassify", "政府投资项目分类", "");
-        this.createBasicData("projectClassify_1_1", "projectClassify_1", "projectClassify", "政府投资房建类", "");
-        this.createBasicData("projectClassify_1_2", "projectClassify_1", "projectClassify", "政府投资市政类", "");
-        this.createBasicData("projectClassify_1_3", "projectClassify_1", "projectClassify", "政府投资水务类", "");
-        this.createBasicData("projectClassify_1_4", "projectClassify_1", "projectClassify", "其它", "");
-        this.createBasicData("projectClassify_2", "projectClassify", "projectClassify", "社会投资项目分类", "");
-        this.createBasicData("projectClassify_2_1", "projectClassify_2", "projectClassify", "社会投资房建类", "");
-        this.createBasicData("projectClassify_2_2", "projectClassify_2", "projectClassify", "社会投资市政类", "");
-        this.createBasicData("projectClassify_2_3", "projectClassify_2", "projectClassify", "社会投资水务类", "");
-        this.createBasicData("projectClassify_2_4", "projectClassify_2", "projectClassify", "其它", "");
-
         this.createBasicData("projectConstrChar", "", "projectConstrChar", "项目建设性质分类", "");
         this.createBasicData("projectConstrChar_1", "projectConstrChar", "projectConstrChar", "前期", "");
         this.createBasicData("projectConstrChar_2", "projectConstrChar", "projectConstrChar", "新开工", "");

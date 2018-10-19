@@ -36,7 +36,6 @@ public class ShenBaoMobileController {
 		//TODO 这一块可以不需要了
 		shenbaoInfoDtos.getValue().forEach(x->{	
 			//获取项目相关类型的名称
-			x.setProjectClassifyDesc(basicDataService.getDescriptionById(x.getProjectClassify()));//项目分类名称
 			x.setProjectIndustryDesc(basicDataService.getDescriptionById(x.getProjectIndustry()));//项目行业领域名称
 //			x.setProjectTypeDesc(basicDataService.getDescriptionById(x.getProjectType()));//项目类型名称
 			x.setProjectCategoryDesc(basicDataService.getDescriptionById(x.getProjectCategory()));//项目类别名称
