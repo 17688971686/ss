@@ -236,7 +236,8 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
             if (hasShenBaoInfo) {
                 //通过申报信息id获取项目名称
                 //String projectName = shenbaoInfoRepo.findById(shenBaoId).getProjectName();
-                throw new IllegalArgumentException("已经存在编制计划中,请重新选择！");
+//                throw new IllegalArgumentException("已经存在编制计划中,请重新选择！");
+            	return;
             } else {
                 //根据申报信息id创建年度计划资金
                 YearPlanCapital entity = new YearPlanCapital();
