@@ -27,23 +27,23 @@ public class PlanReachApplication extends BaseEntity{
 	@Id
 	private String id;
 	
-	@Column(columnDefinition="varchar(255)  not null COMMENT '申请名称'")
+	@Column(columnDefinition="varchar(255)  null COMMENT '申请名称'")
 	private String applicationName;
 	
-	@Column(columnDefinition="varchar(255)  not null COMMENT '申请单位'")
+	@Column(columnDefinition="varchar(255)  null COMMENT '申请单位'")
 	private String applicationUnit;
 	
-	@Column(columnDefinition="varchar(255)  not null COMMENT '负责人'")
+	@Column(columnDefinition="varchar(255)  null COMMENT '负责人'")
 	private String resPerson;
 	
-	@Column(columnDefinition="varchar(255)  not null COMMENT '负责人电话'")
+	@Column(columnDefinition="varchar(255)  null COMMENT '负责人电话'")
 	private String resPersonTel;
 	
 	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否已启动审批流程'")
 	private Boolean isStartProcess=false;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(columnDefinition="datetime  not null COMMENT '申请时间'")
+	@Column(columnDefinition="datetime COMMENT '申请时间'")
 	private Date applicationTime;
 	
 	//关联信息

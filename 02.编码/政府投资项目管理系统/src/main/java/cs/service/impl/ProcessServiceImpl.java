@@ -460,6 +460,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		variables.put("shenpi", 8);
 		Project project = projectRepo.findById(shenBaoInfo.getProjectId());
 		
+		List<String> taskUsers = Arrays.asList(nextUsers.split(","));
+		
 		if(shenBaoInfo.getThisTaskName().equals("usertask1") || str.equals("reback")){
 			List<Org> findProjects = new ArrayList<>();
 			Criterion criterion = Restrictions.eq(Org_.name.getName(), "投资科");
@@ -477,10 +479,10 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			if (!list1.isEmpty()) {// 固定会签人员
 				variables.put("userIds", list1);
 			}
-			nextUsers = list1.toString();
+			
 		}else{
 			if (!nextUsers.isEmpty()) {// 设置流程变量--下一任务处理人
-				variables.put("userIds", Arrays.asList(nextUsers.split(",")));
+				variables.put("userIds", taskUsers);
 				variables.put("nextUsers", nextUsers);
 			} else if (nextUsers.isEmpty() && shenBaoInfo.getThisTaskName().equals("usertask4") && "next".equals(str) ) {
 				throw new IllegalArgumentException(String.format("请选择人员后提交！"));
@@ -537,6 +539,47 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			});
 		}
 
+		User user = userService.findById(nextUsers);
+		String preTaskName = shenBaoInfo.getThisTaskName();
+		String displayName = null;
+		if(user != null) displayName = user.getDisplayName();
+		// 准备短信内容
+		List<SendMsg> msgs = new ArrayList<>();
+		// 从配置文件中拿到短信模板并替换其中的占位符，若不能根据preTaskName拿到模板，则使用default模板
+		final String content = String.format(shenbaoSMSContent.get(preTaskName) == null
+				? shenbaoSMSContent.get("default") : shenbaoSMSContent.get(preTaskName), displayName,shenBaoInfo.getProjectName(),getStageType(shenBaoInfo.getProjectShenBaoStage()),shenBaoInfo.getProcessStage());
+
+		if ("usertask5".equalsIgnoreCase(preTaskName) || str.equals("next")) { // 到达最后一个节点的情况下，发送完结的短信给到编制单位负责人
+			String banjieContent = String.format(shenbaoSMSContent.get("usertask16"),shenBaoInfo.getProjectName());
+			msgs.add(new SendMsg(shenBaoInfo.getBianZhiUnitInfo().getResPersonMobile(), banjieContent));
+
+		} else if ("tuiwen".equalsIgnoreCase(str)) { // 退文的情况下，发送推文短信给到编制单位负责人
+
+			String tuiwenCont = String.format(shenbaoSMSContent.get("tuiwen"), shenBaoInfo.getProjectName());
+			msgs.add(new SendMsg(shenBaoInfo.getBianZhiUnitInfo().getResPersonMobile(), tuiwenCont));
+
+		} else if (shenBaoInfo.getThisTaskName().equals("usertask1") && isPass != ""
+				) { //
+			msgs.add(new SendMsg(user.getMobilePhone(), content));
+
+		} else {
+			msgs = taskUsers.stream()
+					//.filter(userId -> this.getAssigneeByUserId(shenBaoInfo.getZong_processId(), userId).isSuccess()) // 过滤出到达审批状态的用户
+					.map(userId -> userService.findById(userId)) // 查询出用户对象
+					.filter(user1 -> StringUtils.isNotBlank(user1.getMobilePhone())) // 过滤没有设置手机号的用户
+					.map(user2 -> new SendMsg(user2.getMobilePhone(), content)) // 将用户对象转换成SendMsg对象
+					.collect(Collectors.toList());
+		}
+		
+		
+		// 开始发送短信通知
+		try {
+			smsService.insertDownSms(null, msgs.toArray(new SendMsg[] {}));
+		} catch (SMSException e) {
+			logger.error("发送短信异常：" + e.getMessage(), e);
+		}
+		
+		
 		if (shenBaoInfo.getThisTaskName().equals("usertask5") && "next".equals(str) ) {
 			shenBaoInfo.setXdPlanReach_gtzj(xdPlanReach_gtzj);
 			shenBaoInfo.setXdPlanReach_ggys(xdPlanReach_ggys);
@@ -571,7 +614,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		projectRepo.save(project);
 		shenBaoInfoRepo.save(shenBaoInfo);
-		
 		this.todoShenbaoInfo(shenBaoInfo ,nextUsers);
 
 		logger.info(String.format("查询角色组已办结上线请求,用户名:%s", currentUser.getLoginName()));
