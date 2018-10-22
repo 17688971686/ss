@@ -78,9 +78,25 @@ textarea.form-control {
 					ng-bind="vm.getBasicDataDesc(x)+' '"></span></td>
 			</tr>
 			<tr>
+				<td class="formAlignRight">国家编码：</td>
+				<td>
+					<span ng-bind="vm.model.shenBaoInfo.countryNumber"></span>
+				</td>
+				<td class="formAlignRight">项目类型：</td>
+				<td>
+					<span ng-bind="vm.model.shenBaoInfo.projectNumber"></span>
+				</td>
+			</tr>	
+			<tr>
 				<td class="formAlignRight">项目行业归口：</td>
 				<td><span
 					ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectIndustry)"></span>
+				</td>
+				<td class="formAlignRight">国民经济行业分类：</td>
+				<td colspan="3" style="width: 450px;"><span
+					ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustryParent)"
+					style="margin-right: 24px;"></span> <span
+					ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustry)"></span>
 				</td>
 				<!--
 				<td class="formAlignRight">项目分类：</td>
@@ -88,24 +104,6 @@ textarea.form-control {
 					ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectClassify)"></span>
 				</td>
 				-->
-			</tr>
-			<tr>
-				<td class="formAlignRight">国民经济行业分类：</td>
-				<td colspan="3" style="width: 450px;"><span
-					ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustryParent)"
-					style="margin-right: 24px;"></span> <span
-					ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustry)"></span>
-				</td>
-			</tr>
-				<tr>
-				<td class="formAlignRight">国家编码：</td>
-				<td><span
-					ng-bind="vm.model.shenBaoInfo.countryNumber"></span>
-				</td>
-				<td class="formAlignRight">项目编码：</td>
-				<td><span
-					ng-bind="vm.model.shenBaoInfo.projectNumber"></span>
-				</td>
 			</tr>
 			<tr>
 				<td class="formAlignRight">项目建设地址：</td>
