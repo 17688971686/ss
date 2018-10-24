@@ -25,17 +25,17 @@ public class PlanReachApproval extends BaseEntity {
     @Id
     private String id;
 
-    @Column(columnDefinition = "varchar(255)  not null COMMENT '标题'")
+    @Column(columnDefinition = "varchar(255)  null COMMENT '标题'")
     private String title;
 
 //    @Column(columnDefinition = "varchar(255)  not null COMMENT '负责人'")
 //    private String resPerson;
 
-    @Column(columnDefinition = "varchar(255)  not null COMMENT '负责人电话'")
+    @Column(columnDefinition = "varchar(255)  null COMMENT '负责人电话'")
     private String resPersonTel;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(columnDefinition = "datetime  not null COMMENT '批复时间'")
+    @Column(columnDefinition = "datetime COMMENT '批复时间'")
     private Date approvalTime;
 
     /**

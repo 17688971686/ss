@@ -31,65 +31,65 @@
 					
 				<td class="formAlignRight" style="width:150px;">项目名称：</td>
 				<td>
-					<span ng-hide="vm.isMonthReport" ng-bind="vm.model.shenBaoInfo.projectName"></span>
-					<span ng-show="vm.isMonthReport" ng-bind="vm.model.project.projectName"></span>				
+					<span ng-bind="vm.model.shenBaoInfo.projectName"></span>
 				</td>
 			</tr>
 			<tr>
 				<td class="formAlignRight">项目阶段：</td>
 				<td>
-					<span ng-hide="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectStage)"></span>
-					<span ng-show="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.project.projectStage)"></span>
+					<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectStage)"></span>
 				</td>
 				<td class="formAlignRight">项目类型：</td>
 				<td>
-					<span ng-hide="vm.isMonthReport" ng-repeat="x in vm.projectTypes" ng-bind="vm.getBasicDataDesc(x)+' '"></span>
-					<span ng-show="vm.isMonthReport" ng-repeat="x in vm.model.project.projectType" ng-bind="vm.getBasicDataDesc(x)+' '"></span>			
+					<span ng-repeat="x in vm.projectTypes" ng-bind="vm.getBasicDataDesc(x)+' '"></span>
+				</td>
+			</tr>	
+			<tr>
+				<td class="formAlignRight">国家编码：</td>
+				<td>
+					<span ng-bind="vm.model.shenBaoInfo.countryNumber"></span>
+				</td>
+				<td class="formAlignRight">项目类型：</td>
+				<td>
+					<span ng-bind="vm.model.shenBaoInfo.projectNumber"></span>
 				</td>
 			</tr>	
 			<tr>
 				<td class="formAlignRight">项目行业归口：</td>
 				<td>
-					<span ng-hide="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectIndustry)"></span>
-					<span ng-show="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.project.projectIndustry)"></span>
+					<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectIndustry)"></span>
+				</td>
+				<td class="formAlignRight">国民经济行业分类：</td>
+				<td colspan="3" style="width:450px;">
+					<span  ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustryParent)"  style="margin-right:24px;"></span>
+					<span  ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustry)"></span>
 				</td>
 				<!--
 				<td class="formAlignRight">项目分类：</td>
 				<td>
-					<span ng-hide="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectClassify)"></span>
+					<span  ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectClassify)"></span>
 					<span ng-show="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.project.projectClassify)"></span>
 				</td>
 				-->
 			</tr>
 			<tr>
-				<td class="formAlignRight">国民经济行业分类：</td>
-				<td colspan="3" style="width:450px;">
-					<span ng-hide="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustryParent)"  style="margin-right:24px;"></span>
-					<span ng-hide="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustry)"></span>
-					<span ng-show="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.project.nationalIndustryParent)"  style="margin-right:24px;"></span>
-					<span ng-show="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.project.nationalIndustry)"></span>
-				</td>
-			</tr>
-			<tr>
 				<td class="formAlignRight">项目建设地址：</td>
 				<td colspan="3">
 					光明新区
-			 		<span ng-hide="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.divisionId)"></span>						
-			 		<span ng-hide="vm.isMonthReport" ng-bind="vm.model.shenBaoInfo.projectAddress"></span>
-			 		<span ng-show="vm.isMonthReport" ng-bind="vm.getBasicDataDesc(vm.model.project.divisionId)"></span>						
-			 		<span ng-show="vm.isMonthReport" ng-bind="vm.model.project.projectAddress"></span>
+			 		<span  ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.divisionId)"></span>						
+			 		<span  ng-bind="vm.model.shenBaoInfo.projectAddress"></span>
 				</td>		
 			</tr>	
 			<tr>
 				<td class="formAlignRight">项目总投资：</td>
-				<td ng-hide="vm.isMonthReport">
+				<td >
 					<span ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:4"></span>&nbsp;(万元)		
 				</td>
 				<td ng-show="vm.isMonthReport">
 					<span  ng-bind="vm.model.project.projectInvestSum | number:4"></span>&nbsp;(万元)
 				</td>
 				<td class="formAlignRight">累计完成投资：</td>
-				<td ng-hide="vm.isMonthReport">
+				<td >
 					<span ng-bind="vm.model.shenBaoInfo.projectInvestAccuSum | number:4"></span>&nbsp;(万元)				
 				</td>
 				<td ng-show="vm.isMonthReport">
@@ -99,8 +99,7 @@
 			<tr ng-if="vm.isZFInvestment">
 				<td class="formAlignRight">项目简介：</td>
 				<td colspan="3">
-					<span ng-hide="vm.isMonthReport"  ng-bind="vm.model.shenBaoInfo.projectIntro"></span>
-					<span ng-show="vm.isMonthReport" ng-bind="vm.model.project.projectIntro" ></span>
+					<span ng-bind="vm.model.shenBaoInfo.projectIntro"></span>
 				</td>
 			</tr>
 			<tr>
@@ -155,8 +154,7 @@
 						<span class="modal-title">详细信息</span>
 					</div>
 					<div class="modal-body text-danger">
-						<div ng-if="!vm.isMonthReport" ng-include  src="'/contents/admin/management/task/html/details/shenBaoInfoDetails.html'"></div>
-						<div ng-if="vm.isMonthReport" ng-include  src="'/contents/admin/management/task/html/monthReport/master.html'"></div>   
+						<div ng-include  src="'/contents/admin/management/task/html/details/shenBaoInfoDetails.html'"></div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-info btn-sm" data-dismiss="modal">关闭</button>
