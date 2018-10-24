@@ -236,6 +236,7 @@ public class ODataObj {
                         break;
                     case "isNull":
                         criteria.add(Restrictions.isNull(field));
+                        break;
                     case "notIn":
                         criteria.add(Restrictions.not(Restrictions.in(field,value)));
                     default:

@@ -364,7 +364,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 //    		throw new IllegalArgumentException("未申请可研或可研审批未结束，无法创建概算申请！");
 //    	}
         //1为保存申请不提交，2 为提交申请，走审批流程
-        if(dto.getIsUpdateOrSubmit().equals(2)){
+        if(dto.getIsUpdateOrSubmit()!=null && dto.getIsUpdateOrSubmit().equals(2)){
             createProcessShenbao(entity,dto);
         }
 
@@ -640,7 +640,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
         entity.setBianZhiUnitInfo(bianZhiUnitInfo);
         // 2更新并提交流程
-        if(dto.getIsUpdateOrSubmit().equals(2)) {
+        if(dto.getIsUpdateOrSubmit()!=null && dto.getIsUpdateOrSubmit().equals(2)) {
             if (!isAdminUpdate) {
                 //第一次走审批流程
                 if (entity.getZong_processId() == null) {

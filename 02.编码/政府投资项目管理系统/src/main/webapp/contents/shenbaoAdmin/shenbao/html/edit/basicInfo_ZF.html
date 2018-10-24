@@ -142,12 +142,24 @@
 	<tr>
 		<td class="formAlignRight">项目开工日期：</td>
 		<td >
-			<input id="beginDate" name="beginDate"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM',readOnly:true})" class="Wdate" onChange=""
+			<input name="beginDate"
+				   ng-if="vm.isYearPlan" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM',readOnly:true})"
+				   class="Wdate" onChange=""
+				   ng-model="vm.model.beginDate" autocomplete="off" />
+			<input name="beginDate"
+				   ng-if="!vm.isYearPlan" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',readOnly:true})"
+				   class="Wdate" onChange=""
 				   ng-model="vm.model.beginDate" autocomplete="off" />
 		</td>
 		<td class="formAlignRight">项目竣工日期：</td>
 		<td >
-			<input id="endDate" name="endDate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM',readOnly:true})" class="Wdate" onChange=""
+			<input name="endDate"
+				   ng-if="vm.isYearPlan" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM',readOnly:true})"
+				   class="Wdate" onChange=""
+				   ng-model="vm.model.endDate" autocomplete="off" />
+			<input name="endDate"
+				   ng-if="!vm.isYearPlan" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',readOnly:true})"
+				   class="Wdate" onChange=""
 				   ng-model="vm.model.endDate" autocomplete="off" />
 		</td>
 	</tr>

@@ -27,6 +27,7 @@
         toDate: toDate,
         toMoney: toMoney,
         formatDate: formatDate,
+        formatDateByStr: formatDateByStr,
         formatDateTime: formatDateTime,
         basicDataConfig: basicDataConfig,
         checkLength: checkLength,
@@ -471,6 +472,15 @@
     function formatDate(dateStr) {
         if (dateStr) {
             return kendo.toString(new Date(dateStr), "yyyy-MM-dd");
+        } else {
+            return null;
+        }
+
+    }
+
+    function formatDateByStr(dateStr,Str) {
+        if (dateStr) {
+            return kendo.toString(new Date(dateStr), Str);
         } else {
             return null;
         }
