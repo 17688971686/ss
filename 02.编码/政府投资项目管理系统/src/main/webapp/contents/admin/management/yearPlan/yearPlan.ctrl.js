@@ -506,7 +506,7 @@
         
         //申报年份发生变化时触发
         vm.changeYear = function(){
-  		   vm.planYear = parseInt(vm.model.shenBaoInfo.planYear,10);
+  		   vm.planYear = parseInt(vm.model.shenBaoInfo.yearPlanYearContentDto.planYear,10);
   	    };
         
         //展示批复文件选择模态框

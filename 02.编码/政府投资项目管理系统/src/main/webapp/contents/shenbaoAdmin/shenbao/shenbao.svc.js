@@ -126,20 +126,20 @@
 			vm.model.capitalSHTZ=common.toMoney(vm.model.capitalSHTZ);//社会投资
 			vm.model.capitalOther=common.toMoney(vm.model.capitalOther);//其他
 			
-			vm.model.applyYearInvest=common.toMoney(vm.model.applyYearInvest);//申请第一年年度投资
-			vm.model.capitalSCZ_gtzj_TheYear =common.toMoney(vm.model.capitalSCZ_gtzj_TheYear);
-			vm.model.capitalSCZ_ggys_TheYear =common.toMoney(vm.model.capitalSCZ_ggys_TheYear);
-			vm.model.capitalSCZ_qita =common.toMoney(vm.model.capitalSCZ_qita);
-			vm.model.applyYearInvest_LastYear=common.toMoney(vm.model.applyYearInvest_LastYear);//申请第二年度投资
-			vm.model.capitalSCZ_gtzj_LastYear=common.toMoney(vm.model.capitalSCZ_gtzj_LastYear);
-			vm.model.capitalSCZ_ggys_LastYear=common.toMoney(vm.model.capitalSCZ_ggys_LastYear);
-			vm.model.capitalSCZ_qita_LastYear=common.toMoney(vm.model.capitalSCZ_qita_LastYear);
-			vm.model.applyYearInvest_LastTwoYear=common.toMoney(vm.model.applyYearInvest_LastTwoYear);//申请第三年度投资
-			vm.model.capitalSCZ_gtzj_LastTwoYear=common.toMoney(vm.model.capitalSCZ_gtzj_LastTwoYear);
-			vm.model.capitalSCZ_ggys_LastTwoYear=common.toMoney(vm.model.capitalSCZ_ggys_LastTwoYear);
-			vm.model.capitalSCZ_qita_LastTwoYear=common.toMoney(vm.model.capitalSCZ_qita_LastTwoYear);
+			vm.model.yearPlanYearContentDto.applyYearInvest=common.toMoney(vm.model.yearPlanYearContentDto.applyYearInvest);//申请第一年年度投资
+			vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_TheYear =common.toMoney(vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_TheYear);
+			vm.model.yearPlanYearContentDto.capitalSCZ_ggys_TheYear =common.toMoney(vm.model.yearPlanYearContentDto.capitalSCZ_ggys_TheYear);
+			vm.model.yearPlanYearContentDto.capitalSCZ_qita =common.toMoney(vm.model.yearPlanYearContentDto.capitalSCZ_qita);
+			vm.model.yearPlanYearContentDto.applyYearInvest_LastYear=common.toMoney(vm.model.yearPlanYearContentDto.applyYearInvest_LastYear);//申请第二年度投资
+			vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_LastYear=common.toMoney(vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_LastYear);
+			vm.model.yearPlanYearContentDto.capitalSCZ_ggys_LastYear=common.toMoney(vm.model.yearPlanYearContentDto.capitalSCZ_ggys_LastYear);
+			vm.model.yearPlanYearContentDto.capitalSCZ_qita_LastYear=common.toMoney(vm.model.yearPlanYearContentDto.capitalSCZ_qita_LastYear);
+			vm.model.yearPlanYearContentDto.applyYearInvest_LastTwoYear=common.toMoney(vm.model.yearPlanYearContentDto.applyYearInvest_LastTwoYear);//申请第三年度投资
+			vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_LastTwoYear=common.toMoney(vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_LastTwoYear);
+			vm.model.yearPlanYearContentDto.capitalSCZ_ggys_LastTwoYear=common.toMoney(vm.model.yearPlanYearContentDto.capitalSCZ_ggys_LastTwoYear);
+			vm.model.yearPlanYearContentDto.capitalSCZ_qita_LastTwoYear=common.toMoney(vm.model.yearPlanYearContentDto.capitalSCZ_qita_LastTwoYear);
 			
-			vm.model.apInvestSum = common.toMoney(vm.model.apInvestSum);//累计安排资金
+			vm.model.yearPlanYearContentDto.apInvestSum = common.toMoney(vm.model.yearPlanYearContentDto.apInvestSum);//累计安排资金
 			
 			//社投专用
 			vm.model.landPrice=common.toMoney(vm.model.landPrice);//总投资--地价（社投）

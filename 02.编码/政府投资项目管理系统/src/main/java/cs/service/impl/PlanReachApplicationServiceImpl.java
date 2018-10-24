@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import cs.domain.*;
 import org.activiti.engine.RuntimeService;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -33,17 +34,6 @@ import com.sn.framework.common.IdWorker;
 
 import cs.common.BasicDataConfig;
 import cs.common.SQLConfig;
-import cs.domain.AllocationCapital;
-import cs.domain.PackPlan;
-import cs.domain.PlanReachApplication;
-import cs.domain.Project;
-import cs.domain.ShenBaoInfo;
-import cs.domain.ShenBaoInfo_;
-import cs.domain.ShenBaoUnitInfo;
-import cs.domain.YearPlan;
-import cs.domain.YearPlanCapital;
-import cs.domain.YearPlanCapital_;
-import cs.domain.YearPlan_;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.PackPlanDto;
 import cs.model.DomainDto.PlanReachApplicationDto;
@@ -639,11 +629,17 @@ public class PlanReachApplicationServiceImpl
 	@Override
 	@Transactional(rollbackOn = Exception.class)
 	public void updateShnebaoInfo(String shenbaoId, Double ggmoney, Double gtmoney) {
-		ShenBaoInfo entity = shenBaoInfoRepo.findById(shenbaoId);
-		
+		/*ShenBaoInfo entity = shenBaoInfoRepo.findById(shenbaoId);
+
 	    if(ggmoney+entity.getApInvestSum() > entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
        	 throw new IllegalArgumentException("申请公共资金+累计下达不能大于安排资金,请重新填写！");
-       }
+       }*/
+		ShenBaoInfo entity = shenBaoInfoRepo.findById(shenbaoId);
+		YearPlanYearContent yearPlanYearContent = entity.getYearPlanYearContent();
+
+		if(ggmoney+yearPlanYearContent.getApInvestSum() > entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
+			throw new IllegalArgumentException("申请公共资金+累计下达不能大于安排资金,请重新填写！");
+		}
 		entity.setSqPlanReach_ggys(ggmoney);
 		entity.setSqPlanReach_gtzj(gtmoney);
 		shenBaoInfoRepo.save(entity);

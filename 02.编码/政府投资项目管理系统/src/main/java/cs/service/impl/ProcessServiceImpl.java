@@ -540,10 +540,15 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			
 			Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), shenBaoInfo.getProjectId());
 			Criterion criterion1 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_nextYearPlan);
-			Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.planYear.getName(), shenBaoInfo.getPlanYear());
+			Map<String,String> aliasMap = new HashMap<String,String>();
+			aliasMap.put("YearPlanYearContent","yearPlan");
+			Criterion criterion2 = Restrictions.eq("yearPlan."+YearPlanYearContent_.planYear.getName(), shenBaoInfo.getYearPlanYearContent().getPlanYear());
 			Criterion criterion3 = Restrictions.and(criterion, criterion1,criterion2);
-			ShenBaoInfo nextyearplan = shenBaoInfoRepo.findByCriteria(criterion3).get(0);
-			nextyearplan.setApInvestSum(nextyearplan.getApInvestSum() +xdPlanReach_gtzj +xdPlanReach_ggys);
+			/*ShenBaoInfo nextyearplan = shenBaoInfoRepo.findByCriteria(criterion3).get(0);
+			nextyearplan.setApInvestSum(nextyearplan.getApInvestSum() +xdPlanReach_gtzj +xdPlanReach_ggys);*/
+			ShenBaoInfo nextyearplan = shenBaoInfoRepo.findByCriteria(aliasMap,criterion3).get(0);
+			YearPlanYearContent yearPlanYearContent = nextyearplan.getYearPlanYearContent();
+			yearPlanYearContent.setApInvestSum(nextyearplan.getYearPlanYearContent().getApInvestSum() +xdPlanReach_gtzj +xdPlanReach_ggys);
 			shenBaoInfoRepo.save(nextyearplan);
 //			shenBaoInfo.setComplate(true);
 		} else if (str.equals("tuiwen")) {

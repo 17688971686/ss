@@ -80,24 +80,24 @@
 			};
 			//第一年度申请资金累计
 			vm.theYearCapitalTotal = function() {
-				vm.model.applyYearInvest = common.getSum([
-						vm.model.capitalSCZ_ggys_TheYear || 0,
-						vm.model.capitalSCZ_gtzj_TheYear || 0 ]);
-				return vm.model.applyYearInvest;
+				vm.model.yearPlanYearContentDto.applyYearInvest = common.getSum([
+						vm.model.yearPlanYearContentDto.capitalSCZ_ggys_TheYear || 0,
+						vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_TheYear || 0 ]);
+				return vm.model.yearPlanYearContentDto.applyYearInvest;
 			};
 			//第二年度申请资金累计
 			vm.lastTwoYearCapitalTotal = function() {
-				vm.model.applyYearInvest_LastTwoYear = common.getSum([
-						vm.model.capitalSCZ_ggys_LastTwoYear || 0,
-						vm.model.capitalSCZ_gtzj_LastTwoYear || 0 ]);
-				return vm.model.applyYearInvest_LastTwoYear;
+				vm.model.yearPlanYearContentDto.applyYearInvest_LastTwoYear = common.getSum([
+						vm.model.yearPlanYearContentDto.capitalSCZ_ggys_LastTwoYear || 0,
+						vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_LastTwoYear || 0 ]);
+				return vm.model.yearPlanYearContentDto.applyYearInvest_LastTwoYear;
 			};
 			//第三年度申请资金累计
 			vm.lastYearCapitalTotal = function() {
-				vm.model.applyYearInvest_LastYear = common.getSum([
-						vm.model.capitalSCZ_ggys_LastYear || 0,
-						vm.model.capitalSCZ_gtzj_LastYear || 0 ]);
-				return vm.model.applyYearInvest_LastYear;
+				vm.model.yearPlanYearContentDto.applyYearInvest_LastYear = common.getSum([
+						vm.model.yearPlanYearContentDto.capitalSCZ_ggys_LastYear || 0,
+						vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_LastYear || 0 ]);
+				return vm.model.yearPlanYearContentDto.applyYearInvest_LastYear;
 			};
 			//计划下达申请资金累计
 			vm.sqPlanReachTotal = function() {

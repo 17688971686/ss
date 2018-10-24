@@ -33,9 +33,19 @@ public class ShenBaoInfoDto extends ShenBaoInfo {
 	//暂存或提交
 	private Integer isUpdateOrSubmit;
 
+	private YearPlanYearContentDto yearPlanYearContentDto = new YearPlanYearContentDto();
 	private ShenBaoUnitInfoDto bianZhiUnitInfoDto=new ShenBaoUnitInfoDto();
 	private ShenBaoUnitInfoDto shenBaoUnitInfoDto=new ShenBaoUnitInfoDto();
 	private List<AttachmentDto> attachmentDtos=new ArrayList<>();
+
+	public YearPlanYearContentDto getYearPlanYearContentDto() {
+		return yearPlanYearContentDto;
+	}
+
+	public void setYearPlanYearContentDto(YearPlanYearContentDto yearPlanYearContentDto) {
+		this.yearPlanYearContentDto = yearPlanYearContentDto;
+	}
+
 	public ShenBaoUnitInfoDto getBianZhiUnitInfoDto() {
 		return bianZhiUnitInfoDto;
 	}

@@ -45,9 +45,6 @@ public class BaseShenBaoInfo extends BaseProject {
     @Column(columnDefinition = "datetime COMMENT '批复时间'")
     private Date pifuDate;
 
-    @Column(columnDefinition = "int NULL COMMENT '计划年度'")
-    private Integer planYear;
-
     @Column(columnDefinition = "bit(1) DEFAULT b'0' COMMENT '是否为备案--概算'")
     private Boolean isRecords = false;
     
@@ -60,54 +57,11 @@ public class BaseShenBaoInfo extends BaseProject {
     private String yearPlanCapitalId;
     @Column(columnDefinition = "varchar(64) NULL COMMENT '打包类型'")
     private String packageType = BasicDataConfig.packageType_danLie;//默认为单列项目
-    @Column(columnDefinition = "bit(1) DEFAULT b'0' COMMENT '是否需要申请指标外资金'")
-    private Boolean isApplyOutsideCapital = false;
-    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '申请指标外资金'")
-    private Double applyOutsideCapital = 0.0;
-    
+
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '项目批复总投资'")
     private Double pfProjectInvestSum = 0.0;
-    //下一年度计划 Begin（三年滚动计划）
-    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第一年申请年度投资累计'")
-    private Double applyYearInvest = 0.0;
-    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第一年资金筹措方案(申请)-公共预算'")
-    private Double capitalSCZ_ggys_TheYear = 0.0;
-    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第一年资金筹措方案(申请)-国土资金'")
-    private Double capitalSCZ_gtzj_TheYear = 0.0;
-    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第一年资金筹措方案(申请)-其他资金'")
-    private Double capitalSCZ_qita = 0.0;
-    @Column(columnDefinition = "varchar(500) NULL COMMENT '第一年其他资金来源'")
-    private String capitalOtherDescriptionShenBao;
 
-    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第二年申请年度投资累计'")
-    private Double applyYearInvest_LastYear = 0.0;
-    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第二年度资金筹措方案(申请)-公共预算'")
-    private Double capitalSCZ_ggys_LastYear = 0.0;
-    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第二年度资金筹措方案(申请)-国土资金'")
-    private Double capitalSCZ_gtzj_LastYear = 0.0;
-    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第二年资金筹措方案(申请)-其他资金'")
-    private Double capitalSCZ_qita_LastYear = 0.0;
-    @Column(columnDefinition = "varchar(500) NULL COMMENT '第二年其他资金来源'")
-    private String capitalOtherDescriptionShenBao_LastYear;
-
-    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第三年申请年度投资累计'")
-    private Double applyYearInvest_LastTwoYear = 0.0;
-    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第三年度资金筹措方案(申请)-公共预算'")
-    private Double capitalSCZ_ggys_LastTwoYear = 0.0;
-    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第三年度资金筹措方案(申请)-国土资金'")
-    private Double capitalSCZ_gtzj_LastTwoYear = 0.0;
-    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第三年度资金筹措方案(申请)-其他资金'")
-    private Double capitalSCZ_qita_LastTwoYear = 0.0;
-    @Column(columnDefinition = "varchar(500) NULL COMMENT '第三年其他资金来源'")
-    private String capitalOtherDescriptionShenBao_LastTwoYear;
-
-    @Column(columnDefinition = "varchar(500) NULL COMMENT '第一年度建设内容'")
-    private String yearConstructionContent;
-    @Column(columnDefinition = "varchar(500) NULL COMMENT '第二年度建设内容'")
-    private String yearConstructionContentLastYear;
-    @Column(columnDefinition = "varchar(500) NULL COMMENT '第三年度建设内容'")
-    private String yearConstructionContentLastTwoYear;
-
+    //审批端下一年度计划  start
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第一年安排年度投资累计'")
     private Double yearInvestApproval = 0.0;
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第一年安排年度资金筹措方案-公共预算'")
@@ -115,37 +69,33 @@ public class BaseShenBaoInfo extends BaseProject {
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第一年安排年度资金筹措方案-国土基金'")
     private Double capitalAP_gtzj_TheYear = 0.0;
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第一年安排年度资金筹措方案-其他'")
-    private Double capitalAP_qita = 0.0;
+    private Double capitalAP_qita = 0.0;                      //字段已停用
 
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第二年安排年度投资累计'")
-    private Double yearInvestApproval_lastYear = 0.0;
+    private Double yearInvestApproval_lastYear = 0.0;         //字段已停用
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第二年度安排年度资金筹措方案-公共预算'")
-    private Double capitalAP_ggys_LastYear = 0.0;
+    private Double capitalAP_ggys_LastYear = 0.0;             //字段已停用
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第二年度安排年度资金筹措方案-国土基金'")
-    private Double capitalAP_gtzj_LastYear = 0.0;
+    private Double capitalAP_gtzj_LastYear = 0.0;             //字段已停用
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第二年度安排年度资金筹措方案-其他'")
-    private Double capitalAP_qita_LastYear = 0.0;
+    private Double capitalAP_qita_LastYear = 0.0;             //字段已停用
 
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第三年安排年度投资累计'")
-    private Double yearInvestApproval_lastTwoYear = 0.0;
+    private Double yearInvestApproval_lastTwoYear = 0.0;      //字段已停用
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第三年度安排年度资金筹措方案-公共预算'")
-    private Double capitalAP_ggys_LastTwoYear = 0.0;
+    private Double capitalAP_ggys_LastTwoYear = 0.0;          //字段已停用
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第三年度安排年度资金筹措方案-国土基金'")
-    private Double capitalAP_gtzj_LastTwoYear = 0.0;
+    private Double capitalAP_gtzj_LastTwoYear = 0.0;          //字段已停用
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第三年度安排年度资金筹措方案-其他'")
-    private Double capitalAP_qita_LastTwoYear = 0.0;
+    private Double capitalAP_qita_LastTwoYear = 0.0;          //字段已停用
+    //审批端下一年度计划  end
 
-    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '累计安排投资'")
-    private Double apInvestSum = 0.0;
     //begin#财政相关
     @Column(columnDefinition = "varchar(125) NULL COMMENT '功能科目'")
     private String functionSubjects;
     @Column(columnDefinition = "varchar(125) NULL COMMENT '经济分类科目'")
     private String econClassSubjects;
     //end#财政相关
-    @Column(columnDefinition = "varchar(500) NULL COMMENT '申报信息备注'")
-    private String yearConstructionContentShenBao;
-    //下一年度计划 End（三年滚动计划）
 
     //计划下达 Begin
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '计划下达申请资金--公共预算'")
@@ -160,8 +110,7 @@ public class BaseShenBaoInfo extends BaseProject {
     private Double xdPlanReach_ggys = 0.0;
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '计划下达下达资金--国土基金'")
     private Double xdPlanReach_gtzj = 0.0;
-    @Column(columnDefinition = "varchar(125) NULL COMMENT '项目建设性质分类'")
-    private String projectConstrChar;
+
     //计划下达 End
 
     //begin#审批相关
@@ -275,10 +224,6 @@ public class BaseShenBaoInfo extends BaseProject {
         this.pxzxBalanceTime = pxzxBalanceTime;
     }
 
-    public Double getYearInvestApproval() {
-        return yearInvestApproval;
-    }
-
     public String getMonitor_status() {
 		return monitor_status;
 	}
@@ -290,10 +235,6 @@ public class BaseShenBaoInfo extends BaseProject {
 	public void setIsSubShenBaoAtt(Boolean isSubShenBaoAtt) {
 		this.isSubShenBaoAtt = isSubShenBaoAtt;
 	}
-
-	public void setYearInvestApproval(Double yearInvestApproval) {
-        this.yearInvestApproval = yearInvestApproval;
-    }
 
     public String getMonitor_processId() {
         return monitor_processId;
@@ -335,22 +276,6 @@ public class BaseShenBaoInfo extends BaseProject {
         this.projectShenBaoStage = projectShenBaoStage;
     }
 
-    public String getProjectConstrChar() {
-        return projectConstrChar;
-    }
-
-    public void setProjectConstrChar(String projectConstrChar) {
-        this.projectConstrChar = projectConstrChar;
-    }
-
-    public Integer getPlanYear() {
-        return planYear;
-    }
-
-    public void setPlanYear(Integer planYear) {
-        this.planYear = planYear;
-    }
-
     public String getConstructionUnit() {
         return constructionUnit;
     }
@@ -381,270 +306,6 @@ public class BaseShenBaoInfo extends BaseProject {
 
     public void setPackageType(String packageType) {
         this.packageType = packageType;
-    }
-
-    public Boolean getIsApplyOutsideCapital() {
-        return isApplyOutsideCapital;
-    }
-
-    public void setIsApplyOutsideCapital(Boolean isApplyOutsideCapital) {
-        this.isApplyOutsideCapital = isApplyOutsideCapital;
-    }
-
-    public Double getApplyOutsideCapital() {
-        return applyOutsideCapital;
-    }
-
-    public void setApplyOutsideCapital(Double applyOutsideCapital) {
-        this.applyOutsideCapital = applyOutsideCapital;
-    }
-
-    public Double getApplyYearInvest() {
-        return applyYearInvest;
-    }
-
-    public void setApplyYearInvest(Double applyYearInvest) {
-        this.applyYearInvest = applyYearInvest;
-    }
-
-    public Double getApplyYearInvest_LastYear() {
-        return applyYearInvest_LastYear;
-    }
-
-    public void setApplyYearInvest_LastYear(Double applyYearInvest_LastYear) {
-        this.applyYearInvest_LastYear = applyYearInvest_LastYear;
-    }
-
-    public Double getApplyYearInvest_LastTwoYear() {
-        return applyYearInvest_LastTwoYear;
-    }
-
-    public void setApplyYearInvest_LastTwoYear(Double applyYearInvest_LastTwoYear) {
-        this.applyYearInvest_LastTwoYear = applyYearInvest_LastTwoYear;
-    }
-
-    public Double getYearInvestApproval_lastYear() {
-        return yearInvestApproval_lastYear;
-    }
-
-    public void setYearInvestApproval_lastYear(Double yearInvestApproval_lastYear) {
-        this.yearInvestApproval_lastYear = yearInvestApproval_lastYear;
-    }
-
-    public Double getYearInvestApproval_lastTwoYear() {
-        return yearInvestApproval_lastTwoYear;
-    }
-
-    public void setYearInvestApproval_lastTwoYear(Double yearInvestApproval_lastTwoYear) {
-        this.yearInvestApproval_lastTwoYear = yearInvestApproval_lastTwoYear;
-    }
-
-    public String getYearConstructionContent() {
-        return yearConstructionContent;
-    }
-
-    public void setYearConstructionContent(String yearConstructionContent) {
-        this.yearConstructionContent = yearConstructionContent;
-    }
-
-    public String getYearConstructionContentLastYear() {
-        return yearConstructionContentLastYear;
-    }
-
-    public void setYearConstructionContentLastYear(String yearConstructionContentLastYear) {
-        this.yearConstructionContentLastYear = yearConstructionContentLastYear;
-    }
-
-    public String getYearConstructionContentLastTwoYear() {
-        return yearConstructionContentLastTwoYear;
-    }
-
-    public void setYearConstructionContentLastTwoYear(String yearConstructionContentLastTwoYear) {
-        this.yearConstructionContentLastTwoYear = yearConstructionContentLastTwoYear;
-    }
-
-    public String getYearConstructionContentShenBao() {
-        return yearConstructionContentShenBao;
-    }
-
-    public void setYearConstructionContentShenBao(String yearConstructionContentShenBao) {
-        this.yearConstructionContentShenBao = yearConstructionContentShenBao;
-    }
-
-    public Double getCapitalSCZ_ggys_TheYear() {
-        return capitalSCZ_ggys_TheYear;
-    }
-
-    public void setCapitalSCZ_ggys_TheYear(Double capitalSCZ_ggys_TheYear) {
-        this.capitalSCZ_ggys_TheYear = capitalSCZ_ggys_TheYear;
-    }
-
-    public Double getCapitalSCZ_gtzj_TheYear() {
-        return capitalSCZ_gtzj_TheYear;
-    }
-
-    public void setCapitalSCZ_gtzj_TheYear(Double capitalSCZ_gtzj_TheYear) {
-        this.capitalSCZ_gtzj_TheYear = capitalSCZ_gtzj_TheYear;
-    }
-
-    public Double getCapitalSCZ_qita() {
-        return capitalSCZ_qita;
-    }
-
-    public void setCapitalSCZ_qita(Double capitalSCZ_qita) {
-        this.capitalSCZ_qita = capitalSCZ_qita;
-    }
-
-    public String getCapitalOtherDescriptionShenBao() {
-        return capitalOtherDescriptionShenBao;
-    }
-
-    public void setCapitalOtherDescriptionShenBao(String capitalOtherDescriptionShenBao) {
-        this.capitalOtherDescriptionShenBao = capitalOtherDescriptionShenBao;
-    }
-
-    public Double getCapitalSCZ_ggys_LastYear() {
-        return capitalSCZ_ggys_LastYear;
-    }
-
-    public void setCapitalSCZ_ggys_LastYear(Double capitalSCZ_ggys_LastYear) {
-        this.capitalSCZ_ggys_LastYear = capitalSCZ_ggys_LastYear;
-    }
-
-    public Double getCapitalSCZ_gtzj_LastYear() {
-        return capitalSCZ_gtzj_LastYear;
-    }
-
-    public void setCapitalSCZ_gtzj_LastYear(Double capitalSCZ_gtzj_LastYear) {
-        this.capitalSCZ_gtzj_LastYear = capitalSCZ_gtzj_LastYear;
-    }
-
-    public Double getCapitalSCZ_qita_LastYear() {
-        return capitalSCZ_qita_LastYear;
-    }
-
-    public void setCapitalSCZ_qita_LastYear(Double capitalSCZ_qita_LastYear) {
-        this.capitalSCZ_qita_LastYear = capitalSCZ_qita_LastYear;
-    }
-
-    public String getCapitalOtherDescriptionShenBao_LastYear() {
-        return capitalOtherDescriptionShenBao_LastYear;
-    }
-
-    public void setCapitalOtherDescriptionShenBao_LastYear(String capitalOtherDescriptionShenBao_LastYear) {
-        this.capitalOtherDescriptionShenBao_LastYear = capitalOtherDescriptionShenBao_LastYear;
-    }
-
-    public Double getCapitalSCZ_ggys_LastTwoYear() {
-        return capitalSCZ_ggys_LastTwoYear;
-    }
-
-    public void setCapitalSCZ_ggys_LastTwoYear(Double capitalSCZ_ggys_LastTwoYear) {
-        this.capitalSCZ_ggys_LastTwoYear = capitalSCZ_ggys_LastTwoYear;
-    }
-
-    public Double getCapitalSCZ_gtzj_LastTwoYear() {
-        return capitalSCZ_gtzj_LastTwoYear;
-    }
-
-    public void setCapitalSCZ_gtzj_LastTwoYear(Double capitalSCZ_gtzj_LastTwoYear) {
-        this.capitalSCZ_gtzj_LastTwoYear = capitalSCZ_gtzj_LastTwoYear;
-    }
-
-    public Double getCapitalSCZ_qita_LastTwoYear() {
-        return capitalSCZ_qita_LastTwoYear;
-    }
-
-    public void setCapitalSCZ_qita_LastTwoYear(Double capitalSCZ_qita_LastTwoYear) {
-        this.capitalSCZ_qita_LastTwoYear = capitalSCZ_qita_LastTwoYear;
-    }
-
-    public String getCapitalOtherDescriptionShenBao_LastTwoYear() {
-        return capitalOtherDescriptionShenBao_LastTwoYear;
-    }
-
-    public void setCapitalOtherDescriptionShenBao_LastTwoYear(String capitalOtherDescriptionShenBao_LastTwoYear) {
-        this.capitalOtherDescriptionShenBao_LastTwoYear = capitalOtherDescriptionShenBao_LastTwoYear;
-    }
-
-    public Double getApInvestSum() {
-        return apInvestSum;
-    }
-
-    public void setApInvestSum(Double apInvestSum) {
-        this.apInvestSum = apInvestSum;
-    }
-
-    public Double getCapitalAP_ggys_TheYear() {
-        return capitalAP_ggys_TheYear;
-    }
-
-    public void setCapitalAP_ggys_TheYear(Double capitalAP_ggys_TheYear) {
-        this.capitalAP_ggys_TheYear = capitalAP_ggys_TheYear;
-    }
-
-    public Double getCapitalAP_gtzj_TheYear() {
-        return capitalAP_gtzj_TheYear;
-    }
-
-    public void setCapitalAP_gtzj_TheYear(Double capitalAP_gtzj_TheYear) {
-        this.capitalAP_gtzj_TheYear = capitalAP_gtzj_TheYear;
-    }
-
-    public Double getCapitalAP_qita() {
-        return capitalAP_qita;
-    }
-
-    public void setCapitalAP_qita(Double capitalAP_qita) {
-        this.capitalAP_qita = capitalAP_qita;
-    }
-
-    public Double getCapitalAP_ggys_LastYear() {
-        return capitalAP_ggys_LastYear;
-    }
-
-    public void setCapitalAP_ggys_LastYear(Double capitalAP_ggys_LastYear) {
-        this.capitalAP_ggys_LastYear = capitalAP_ggys_LastYear;
-    }
-
-    public Double getCapitalAP_gtzj_LastYear() {
-        return capitalAP_gtzj_LastYear;
-    }
-
-    public void setCapitalAP_gtzj_LastYear(Double capitalAP_gtzj_LastYear) {
-        this.capitalAP_gtzj_LastYear = capitalAP_gtzj_LastYear;
-    }
-
-    public Double getCapitalAP_qita_LastYear() {
-        return capitalAP_qita_LastYear;
-    }
-
-    public void setCapitalAP_qita_LastYear(Double capitalAP_qita_LastYear) {
-        this.capitalAP_qita_LastYear = capitalAP_qita_LastYear;
-    }
-
-    public Double getCapitalAP_ggys_LastTwoYear() {
-        return capitalAP_ggys_LastTwoYear;
-    }
-
-    public void setCapitalAP_ggys_LastTwoYear(Double capitalAP_ggys_LastTwoYear) {
-        this.capitalAP_ggys_LastTwoYear = capitalAP_ggys_LastTwoYear;
-    }
-
-    public Double getCapitalAP_gtzj_LastTwoYear() {
-        return capitalAP_gtzj_LastTwoYear;
-    }
-
-    public void setCapitalAP_gtzj_LastTwoYear(Double capitalAP_gtzj_LastTwoYear) {
-        this.capitalAP_gtzj_LastTwoYear = capitalAP_gtzj_LastTwoYear;
-    }
-
-    public Double getCapitalAP_qita_LastTwoYear() {
-        return capitalAP_qita_LastTwoYear;
-    }
-
-    public void setCapitalAP_qita_LastTwoYear(Double capitalAP_qita_LastTwoYear) {
-        this.capitalAP_qita_LastTwoYear = capitalAP_qita_LastTwoYear;
     }
 
     public Double getSqPlanReach_ggys() {
@@ -935,5 +596,99 @@ public class BaseShenBaoInfo extends BaseProject {
 		this.planReachId = planReachId;
 	}
 
+    public Double getYearInvestApproval() {
+        return yearInvestApproval;
+    }
 
+    public void setYearInvestApproval(Double yearInvestApproval) {
+        this.yearInvestApproval = yearInvestApproval;
+    }
+
+    public Double getCapitalAP_ggys_TheYear() {
+        return capitalAP_ggys_TheYear;
+    }
+
+    public void setCapitalAP_ggys_TheYear(Double capitalAP_ggys_TheYear) {
+        this.capitalAP_ggys_TheYear = capitalAP_ggys_TheYear;
+    }
+
+    public Double getCapitalAP_gtzj_TheYear() {
+        return capitalAP_gtzj_TheYear;
+    }
+
+    public void setCapitalAP_gtzj_TheYear(Double capitalAP_gtzj_TheYear) {
+        this.capitalAP_gtzj_TheYear = capitalAP_gtzj_TheYear;
+    }
+
+    public Double getCapitalAP_qita() {
+        return capitalAP_qita;
+    }
+
+    public void setCapitalAP_qita(Double capitalAP_qita) {
+        this.capitalAP_qita = capitalAP_qita;
+    }
+
+    public Double getYearInvestApproval_lastYear() {
+        return yearInvestApproval_lastYear;
+    }
+
+    public void setYearInvestApproval_lastYear(Double yearInvestApproval_lastYear) {
+        this.yearInvestApproval_lastYear = yearInvestApproval_lastYear;
+    }
+
+    public Double getCapitalAP_ggys_LastYear() {
+        return capitalAP_ggys_LastYear;
+    }
+
+    public void setCapitalAP_ggys_LastYear(Double capitalAP_ggys_LastYear) {
+        this.capitalAP_ggys_LastYear = capitalAP_ggys_LastYear;
+    }
+
+    public Double getCapitalAP_gtzj_LastYear() {
+        return capitalAP_gtzj_LastYear;
+    }
+
+    public void setCapitalAP_gtzj_LastYear(Double capitalAP_gtzj_LastYear) {
+        this.capitalAP_gtzj_LastYear = capitalAP_gtzj_LastYear;
+    }
+
+    public Double getCapitalAP_qita_LastYear() {
+        return capitalAP_qita_LastYear;
+    }
+
+    public void setCapitalAP_qita_LastYear(Double capitalAP_qita_LastYear) {
+        this.capitalAP_qita_LastYear = capitalAP_qita_LastYear;
+    }
+
+    public Double getYearInvestApproval_lastTwoYear() {
+        return yearInvestApproval_lastTwoYear;
+    }
+
+    public void setYearInvestApproval_lastTwoYear(Double yearInvestApproval_lastTwoYear) {
+        this.yearInvestApproval_lastTwoYear = yearInvestApproval_lastTwoYear;
+    }
+
+    public Double getCapitalAP_ggys_LastTwoYear() {
+        return capitalAP_ggys_LastTwoYear;
+    }
+
+    public void setCapitalAP_ggys_LastTwoYear(Double capitalAP_ggys_LastTwoYear) {
+        this.capitalAP_ggys_LastTwoYear = capitalAP_ggys_LastTwoYear;
+    }
+
+    public Double getCapitalAP_gtzj_LastTwoYear() {
+        return capitalAP_gtzj_LastTwoYear;
+    }
+
+    public void setCapitalAP_gtzj_LastTwoYear(Double capitalAP_gtzj_LastTwoYear) {
+        this.capitalAP_gtzj_LastTwoYear = capitalAP_gtzj_LastTwoYear;
+    }
+
+    public Double getCapitalAP_qita_LastTwoYear() {
+        return capitalAP_qita_LastTwoYear;
+    }
+
+    public void setCapitalAP_qita_LastTwoYear(Double capitalAP_qita_LastTwoYear) {
+        this.capitalAP_qita_LastTwoYear = capitalAP_qita_LastTwoYear;
+    }
 }

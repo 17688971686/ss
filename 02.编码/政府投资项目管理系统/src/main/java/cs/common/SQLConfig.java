@@ -45,7 +45,7 @@ public class SQLConfig {
                 "t1.thisTaskName,t1.zong_processId,t1.isIncludPack,t1.pifuZJSQBG_date,t1.pifuZJSQBG_wenhao," +
                 "t1.monitor_processId,t1.isSubShenBaoAtt,t1.isLeaderHasRead,t1.thisUser,t1.monitor_status,t1.xdPlanReach_gtzj,"
                 + "t1.pxzxBalanceTime,t1.tzkBalanceTime,t1.urgencyState,t1.xdPlanReach_ggys,t1.countryNumber,t1.pifuSCQQJFXD_wenhao,t1.isRecords,t1.pfProjectInvestSum,"+
-                "t1.pifuSCQQJFXD_date,t1.packPlanId,t1.planReachId,t1.planName,t1.isFaWen"
+                "t1.pifuSCQQJFXD_date,t1.packPlanId,t1.planReachId,t1.planName,t1.isFaWen,t1.yearPlanYearContent_id"
                 + yearPlanProjectBase(exclude) + " order by t1.ProjectIndustry desc";
     }
 

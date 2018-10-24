@@ -1883,8 +1883,6 @@
                 serverFiltering: true,
                 pageSize: 10,
                 sort: {
-                    field: "planYear",
-                    dir: "desc"
                 },
                 filter: [{
                     field: 'projectShenBaoStage',
