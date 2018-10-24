@@ -89,12 +89,14 @@
 	</tr>
 	<tr>
 		<td class="formAlignRight">项目开工日期：</td>
-		<td >
-			<span id="beginDate" name="beginDate" ng-bind="vm.model.shenBaoInfo.beginDate | date:'yyyy-MM'"></span>
+		<td>
+			<span ng-if="vm.isYearPlan" ng-bind="vm.model.shenBaoInfo.beginDate | date:'yyyy-MM'"></span>
+			<span ng-if="!vm.isYearPlan" ng-bind="vm.model.shenBaoInfo.beginDate | date:'yyyy-MM-dd'"></span>
 		</td>
 		<td class="formAlignRight">项目竣工日期：</td>
-		<td >
-			<span id="endDate" name="endDate" ng-bind="vm.model.shenBaoInfo.endDate | date:'yyyy-MM'"></span>
+		<td>
+			<span ng-if="vm.isYearPlan" ng-bind="vm.model.shenBaoInfo.endDate | date:'yyyy-MM'"></span>
+			<span ng-if="!vm.isYearPlan" ng-bind="vm.model.shenBaoInfo.endDate | date:'yyyy-MM-dd'"></span>
 		</td>
 	</tr>
 
