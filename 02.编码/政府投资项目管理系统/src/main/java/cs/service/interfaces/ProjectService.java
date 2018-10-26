@@ -14,15 +14,15 @@ import cs.repository.odata.ODataObj;
 
 public interface ProjectService extends IService<ProjectDto, Project, String> {		
 	
-	void updateProjectByIsMonthReport(String id,Boolean isMonthReport);//更新项目是否月报
+	void updateProjectByIsMonthReport(String id, Boolean isMonthReport);//更新项目是否月报
 	
 	List<ProjectDto> getProjectByNumber(String number);//根据项目代码查询项目
 	
-	void updateVersion(String id,Boolean isLatestVersion);//更新项目的版本
+	void updateVersion(String id, Boolean isLatestVersion);//更新项目的版本
 	
 	PageModelDto<ProjectDto> Get(ODataObj odataObj);//分页查询带有单位名的项目
 	
-	PageModelDto<ProjectDto> getUnitAndAll(ODataObj odataObj,Boolean isFilters,Boolean hasUnitFilter,Boolean isUnitFilter);//分页查询带有单位名且包含所有已纳入项目库的项目
+	PageModelDto<ProjectDto> getUnitAndAll(ODataObj odataObj, Boolean isFilters, Boolean hasUnitFilter, Boolean isUnitFilter);//分页查询带有单位名且包含所有已纳入项目库的项目
 
 	/*******以下方法用于项目统计************/
 	List<ProjectStageData> getStageProjects();
@@ -35,12 +35,15 @@ public interface ProjectService extends IService<ProjectDto, Project, String> {
 	
 	List<sttisticsData> getprojectInvestSourceData();
 	
-	List<ProjectStatisticsBean> getProjectStatistics(String type,String isIncludLibrary);//固定模板项目统计
+	List<ProjectStatisticsBean> getProjectStatistics(String type, String isIncludLibrary);//固定模板项目统计
+
+	List<ProjectStatisticsBean> getMoneyStatistics(String isIncludLibrary, String[] stageSelected, String[] projectStageSelected, String projectName,
+                                                   String[] unitSelected, String[] industrySelected, String[] categorySelected);//项目资金统计
 	
 //	List<ProjectStatisticsBean> getProjectStatisticsByCustom(List<String> industrySelected,List<String> stageSelected,List<String> categorySelected,
 //																List<String> unitSelected,Double investSumBegin,Double investSumEnd);//自定义条件项目统计
-	List<ProjectStatisticsBean> getProjectStatisticsByCustom(String[] industrySelected,String[] stageSelected,String[] categorySelected,
-			String[] unitSelected,Double investSumBegin,Double investSumEnd,String projectName);//自定义条件项目统计
+	List<ProjectStatisticsBean> getProjectStatisticsByCustom(String[] industrySelected, String[] stageSelected, String[] categorySelected,
+                                                             String[] unitSelected, Double investSumBegin, Double investSumEnd, String projectName);//自定义条件项目统计
 
 	Map<String, Object> updateAlreadyDisbursedByExcel(String filePath);
 

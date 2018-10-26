@@ -496,6 +496,116 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
         return list;
     }
 
+    /**
+     * @param isIncludLibrary 筛选条件：是否已纳入项目库
+     * @return 查询到的数据集合
+     * @throws
+     * @Title: getMoneyStatistics
+     * @Description: 统计分析项目分类统计获取数据
+     */
+    @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
+    @Override
+    @Transactional
+    public List<ProjectStatisticsBean> getMoneyStatistics(String isIncludLibrary,String[] stageSelected,String[] projectStageSelected,String projectName,
+                 String[] unitSelected,String[] industrySelected,String[] categorySelected) {
+        List<ProjectStatisticsBean> list = new ArrayList<>();
+
+        String Sql = String.format("SELECT"
+                + " a.projectName,u.unitName,b.description as projectStageDesc,IFNULL(a.projectInvestSum,0) AS projectInvestSum,IFNULL(a.pfProjectInvestSum,0) AS pfProjectInvestSum"
+                + " from cs_shenbaoinfo a"
+                + " left join cs_basicdata b on a.projectShenBaoStage = b.id"
+                + " left join cs_userunitinfo u on a.unitName = u.id"
+                + " where a.isIncludLibrary = :isIncluded ");
+
+        Boolean isIncluded = null;
+        if (isIncludLibrary.equals("true")) {
+            isIncluded = true;
+        } else if (isIncludLibrary.equals("false")) {
+            isIncluded = false;
+        }
+
+        if (Util.isNotNull(projectName)) {
+            Sql += " and a.projectName like \'%" + projectName + "%\' ";
+        }
+
+        if (stageSelected != null && stageSelected.length > 0) {
+            Sql += " and a.projectShenBaoStage IN (";
+            for (int i = 0; i < stageSelected.length; i++) {
+                if (i == stageSelected.length - 1) {
+                    Sql += "'" + stageSelected[i] + "'";
+                } else {
+                    Sql += "'" + stageSelected[i] + "',";
+                }
+            }
+            Sql += " ) ";
+        }
+
+        if (projectStageSelected != null && projectStageSelected.length > 0) {
+            Sql += " and a.projectStage IN (";
+            for (int i = 0; i < projectStageSelected.length; i++) {
+                if (i == projectStageSelected.length - 1) {
+                    Sql += "'" + projectStageSelected[i] + "'";
+                } else {
+                    Sql += "'" + projectStageSelected[i] + "',";
+                }
+            }
+            Sql += " ) ";
+        }
+
+        if (unitSelected != null && unitSelected.length > 0) {
+            Sql += " and u.id IN (";
+            for (int i = 0; i < unitSelected.length; i++) {
+                if (i == unitSelected.length - 1) {
+                    Sql += "'" + unitSelected[i] + "'";
+                } else {
+                    Sql += "'" + unitSelected[i] + "',";
+                }
+            }
+            Sql += " ) ";
+        }
+
+        if (industrySelected != null && industrySelected.length > 0) {
+            Sql += " and a.projectIndustry IN (";
+            for (int i = 0; i < industrySelected.length; i++) {
+                if (i == industrySelected.length - 1) {
+                    Sql += "'" + industrySelected[i] + "'";
+                } else {
+                    Sql += "'" + industrySelected[i] + "',";
+                }
+            }
+            Sql += " ) ";
+        }
+
+        if (categorySelected != null && categorySelected.length > 0) {
+            Sql += " and a.projectCategory IN (";
+            for (int i = 0; i < categorySelected.length; i++) {
+                if (i == categorySelected.length - 1) {
+                    Sql += "'" + categorySelected[i] + "'";
+                } else {
+                    Sql += "'" + categorySelected[i] + "',";
+                }
+            }
+            Sql += " ) ";
+        }
+
+        Sql += " GROUP BY a.projectName ";
+
+        NativeQuery query = super.repository.getSession().createNativeQuery(Sql);
+
+        //参数设置
+        query.setParameter("isIncluded", isIncluded);
+
+        //映射pojo
+        query.addScalar("projectName",new StringType());
+        query.addScalar("unitName",new StringType());
+        query.addScalar("projectStageDesc",new StringType());
+        query.addScalar("pfProjectInvestSum",new DoubleType());
+        query.addScalar("projectInvestSum", new DoubleType());
+
+        list = query.setResultTransformer(Transformers.aliasToBean(ProjectStatisticsBean.class)).list();
+        logger.info("项目资金统计报表导出");
+        return list;
+    }
 
     /**
      * @param industrySelected 选中的行业

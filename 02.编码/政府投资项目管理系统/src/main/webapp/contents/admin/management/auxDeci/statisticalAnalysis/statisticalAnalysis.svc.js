@@ -19,11 +19,16 @@
 			getProjectFixedData:getProjectFixedData,
 			getPlanFixedData:getPlanFixedData,
 			getApprovalFixedData:getApprovalFixedData,
+
 			//自定义条件获取数据
 			getApprovalCustomData:getApprovalCustomData,
 			getPlanCustomData:getPlanCustomData,
-			getProjectCustomData:getProjectCustomData
-		};		
+			getProjectCustomData:getProjectCustomData,
+
+			//项目资金统计与导出
+            getMoneyFixedData:getMoneyFixedData,
+            exportExcelForMoneyByCondition:exportExcelForMoneyByCondition
+		};
 		return service;
 		
 		/**
@@ -206,7 +211,63 @@
 				success:httpSuccess
 			});
 		}//end fun getProjectFixedData
-		
+
+        /**
+         * 获取项目资金统计数据
+         */
+        function getMoneyFixedData(vm){
+            var httpOptions = {
+                method: 'post',
+                url:url+"/getExcelForMoneyData",
+                data:{
+                    "unit":vm.model.unit,
+                    "stage":vm.model.stage,
+                    "projectStage":vm.model.projectStage,
+					"industry":vm.model.industry,
+					"category":vm.model.category,
+                    "projectName":vm.model.projectName,
+					"type":vm.type,
+					"isIncludLibrary":vm.model.isIncludLibrary
+                }
+            };
+            var httpSuccess = function success(response) {
+                common.requestSuccess({
+                    vm:vm,
+                    response:response,
+                    fn:function () {
+                        vm.moneyData = response.data||[];
+                    }
+                });
+            };
+            common.http({
+                vm:vm,
+                $http:$http,
+                httpOptions:httpOptions,
+                success:httpSuccess
+            });
+        }//end fun getProjectFixedData
+
+        /**
+         * 项目资金报表导出
+         */
+        function exportExcelForMoneyByCondition(vm){
+            vm.postDownLoadFile({
+                url:url+"/exportExcelForMoney",
+                data:{
+                    "unit":vm.model.unit,
+                    "stage":vm.model.stage,
+					"projectStage":vm.model.projectStage,
+                    "industry":vm.model.industry,
+                    "category":vm.model.category,
+                    "projectName":vm.model.projectName,
+                    "type":vm.type,
+                    "isIncludLibrary":vm.model.isIncludLibrary
+                	},
+                method:'post'
+            });
+        }
+
+
 		/**
 		 * 审批类自定义条件报表导出
 		 */

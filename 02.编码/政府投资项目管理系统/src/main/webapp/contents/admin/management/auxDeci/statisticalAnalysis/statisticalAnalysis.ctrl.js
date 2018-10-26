@@ -30,12 +30,16 @@
     		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
     		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别
     		vm.basicData.projectShenBaoStage=common.getBacicDataByIndectity(common.basicDataConfig().projectShenBaoStage);//项目申报阶段
-    		vm.basicData.userUnit=common.getUserUnits();//建设单位信息
+    		vm.basicData.userUnit=common.getUserUnits().value;//建设单位信息
     		vm.basicData.projectIndustry_ZF=$linq(common.getBasicData())
 	   			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
 	   			.toArray();//政府投资项目行业
-    		vm.basicData.approvalStage=[common.basicDataConfig().projectShenBaoStage_projectProposal,common.basicDataConfig().projectShenBaoStage_KXXYJBG,
-    									common.basicDataConfig().projectShenBaoStage_CBSJYGS,common.basicDataConfig().projectShenBaoStage_capitalApplyReport];
+    		vm.basicData.approvalStage=[
+                common.basicDataConfig().projectShenBaoStage_KXXYJBG,
+                common.basicDataConfig().projectShenBaoStage_CBSJYGS,
+                common.basicDataConfig().projectShenBaoStage_capitalApplyReport,
+                common.basicDataConfig().projectShenBaoStage_nextYearPlan,
+                common.basicDataConfig().projectShenBaoStage_soucijihuaxiada];
     		vm.formatDate=function(str){
     			return common.formatDate(str);
     		};
@@ -433,19 +437,32 @@
         	vm.showProjectCustomTemplate=function(){
         		location.href="#/statisticalAnalysis_edit/isProjectCustom";
         	};
+
+            vm.showMoneyFixedTemplate=function () {
+                location.href="#/statisticalAnalysis_edit/isMoneyFixed";
+            };
         }//end fun index
         
         function edit(){
-        	vm.model.industry=[],vm.model.unit=[],vm.model.stage=[],vm.model.category=[];
+        	vm.model.industry=[],vm.model.unit=[],vm.model.stage=[],vm.model.projectStage=[],vm.model.category=[];
         	//项目阶段选择框点击事件
         	vm.selectProjectStage=function(id){
-    			var indexStage = vm.model.stage.indexOf(id);
+    			var indexStage = vm.model.projectStage.indexOf(id);
 	        	if(indexStage == -1){
-	        		vm.model.stage.push(id);
+	        		vm.model.projectStage.push(id);
 		       	}else{
-		       		vm.model.stage.splice(index,1);
+		       		vm.model.projectStage.splice(index,1);
 		       	}
     		};
+            //项目阶段选择框点击事件
+            vm.selectShenBaoStage=function(id){
+                var indexStage = vm.model.stage.indexOf(id);
+                if(indexStage == -1){
+                    vm.model.stage.push(id);
+                }else{
+                    vm.model.stage.splice(index,1);
+                }
+            };
     		//项目类别选择框点击事件
     		vm.selectProjectCategory=function(id){
     			var indexCategory = vm.model.category.indexOf(id);
@@ -579,6 +596,31 @@
         			$state.go('statisticalAnalysis_show',{what: vm.what,parameter:queryParams});
         		};
         	}
+
+            /******项目资金******/
+            if(vm.what == 'isMoneyFixed'){
+                vm.isMoneyFixed=true;
+                vm.title="项目资金统计";
+                vm.isIncludLibrary="true";//初始化
+
+                vm.showMoneyFixed=function(type,isIncludLibrary){
+                    //项目名称
+                    vm.model.projectName=vm.model.projectName==undefined?"":vm.model.projectName.toString();
+                    //是否纳入项目库
+					vm.model.isIncludLibrary = isIncludLibrary;
+                    //多选
+                    vm.model.stage=vm.model.stage.length>0?vm.model.stage:"";
+                    vm.model.projectStage=vm.model.projectStage.length>0?vm.model.projectStage:"";
+                    vm.model.unit=vm.model.unit.length>0?vm.model.unit:"";
+                    vm.model.industry=vm.model.industry.length>0?vm.model.industry:"";
+                    vm.model.category=vm.model.category.length>0?vm.model.category:"";
+                    var queryParams=[];
+                    queryParams.push(vm.model);//查询参数的封装
+                    //跳转页面
+                    $state.go('statisticalAnalysis_show',{what: vm.what,type:type,parameter:queryParams});
+                };
+            }
+
         }//end fun edit
         
         function show(){
@@ -604,6 +646,9 @@
 	    					vm.type=='unit'?'isApprovalFixedByUnitShow':
 	    						vm.type=='approval'?'isApprovalFixedByApprovalShow':null;
 	    				break;
+					case 'isMoneyFixed':
+						id="isMoneyFixedShow";
+						break;
 	    			case 'isApprovalCustom':
 	    				id="isApprovalCustomShow";
 	    				break;
@@ -639,6 +684,9 @@
         			case 'isApprovalFixed':
         				location.href=common.format("/management/auxDeci/statisticalAnalysis/exportExcelForApproval?classDesc={0}&approvalYear={1}",vm.type,vm.parameter);
         				break;
+                    case 'isMoneyFixed':
+                        statisticalAnalysisSvc.exportExcelForMoneyByCondition(vm);
+                        break;
         			case 'isApprovalCustom':
             			statisticalAnalysisSvc.exportExcelForApprovalByCustom(vm);
             			break;
@@ -745,6 +793,19 @@
 						default:
 	    					break;	
 					};
+					break;
+				case 'isMoneyFixed':
+                    vm.title='项目资金统计';
+                    vm.isMoneyFixedShow=true;
+                    vm.model = vm.parameter[0];
+
+                    if(vm.model.isIncludLibrary == 'true'){
+                        vm.fileTitle='已纳入项目库';
+                    }else if(vm.model.isIncludLibrary == 'false'){
+                        vm.fileTitle='未纳入项目库';
+                    }
+                    vm.subTitle='项目资金统计数据展示';
+                    statisticalAnalysisSvc.getMoneyFixedData(vm);
 					break;
 				case 'isProjectCustom':
 					vm.title='项目总库自定义条件类';
