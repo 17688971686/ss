@@ -1,6 +1,9 @@
 package cs.controller.management.rc8util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +28,7 @@ import com.huasisoft.h1.model.ORGDepartment;
 import com.huasisoft.h1.model.ORGPerson;
 import com.huasisoft.h1.util.HuasisoftUtil;
 import com.huasisoft.portal.model.Backlog;
+import sun.misc.BASE64Encoder;
 
 import cs.domain.framework.User;
 import cs.domain.framework.User_;
@@ -120,13 +124,19 @@ public class Rc8utilController {
 
 	@RequestMapping(name = "返回待办数字", path = "todoNumber")
 	@ResponseBody
-	public int getTodoNumber(@RequestParam(name = "userId", required = false) String userId) {
+	public int getTodoNumber(@RequestParam(name = "userID", required = false) String userID) throws UnsupportedEncodingException {
 		int num = 0;
+		if(userID == null){
+			return num;
+		}
+		String id =URLDecoder.decode(userID, "UTF-8");
+
+//		 id = new String(Base64.getDecoder().decode(userID), "UTF-8");
 		try {
 			PersonManager pm = HuasisoftUtil.getPersonManager();
 			ORGPerson person = null;
 
-			person = pm.get(userId);
+			person = pm.get(id);
 			if (person != null) {
 				Criterion criterion = Restrictions.eq(User_.loginName.getName(), person.getLoginName());
 				List<User> localUser = userRepo.findByCriteria(criterion);
@@ -134,7 +144,7 @@ public class Rc8utilController {
 
 					num = processService.findAllTodoTaskNumber(localUser.get(0).getId());
 				} else {
-					throw new IllegalArgumentException("无当前登录人员");
+					return num;
 				}
 			}
 
