@@ -527,7 +527,7 @@
 				<isPushOA>false</isPushOA>
             </properties>
         </profile>
-        <!--10.17.250.192 服务器生产环境-->
+        <!--192.168.189.235 服务器生产环境-->
         <profile>
             <id>product</id>
             <properties>
@@ -537,7 +537,7 @@
                 <db.password>Passw0rd</db.password>
                 <db.name>gm_govinvestprojectmanagement</db.name>
                 <uploadPath>D:/gm_upload</uploadPath>
-				<isPushOA>false</isPushOA>
+				<isPushOA>true</isPushOA>
             </properties>
         </profile>
     </profiles>

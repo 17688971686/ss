@@ -14,6 +14,8 @@ import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.repository.odata.ODataObjNew;
 import org.hibernate.criterion.Criterion;
 
+import com.huasisoft.portal.model.Backlog;
+
 public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, String> {
 
 	PageModelDto<ShenBaoInfoDto> getTask_user(ODataObjNew odataObj, String str);
@@ -91,5 +93,7 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
 	int findAllTodoTaskNumber(String id);
 
 	void todoShenbaoInfo(ShenBaoInfo entity, String configValue);
+
+	void todoShenbaoInfo(ShenBaoInfo shenBaoInfo, String nextUsers, Backlog bl);
 
 }
