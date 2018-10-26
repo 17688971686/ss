@@ -12,6 +12,7 @@ import cs.activiti.service.ActivitiService;
 import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.common.Response;
+import cs.common.TodoNumberUtil;
 import cs.common.Util;
 import cs.common.utils.WorkDayUtil;
 import cs.domain.*;
@@ -42,6 +43,7 @@ import cs.service.interfaces.ShenBaoInfoService;
 import cs.service.interfaces.UserUnitInfoService;
 import cs.service.sms.SmsService;
 import cs.service.sms.exception.SMSException;
+import junit.framework.Assert;
 
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.ProcessEngine;
@@ -52,6 +54,7 @@ import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.formula.functions.WeekNum;
 import org.hibernate.criterion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -465,8 +468,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		if(shenBaoInfo.getThisTaskName().equals("usertask1") || str.equals("reback")){
 			List<Org> findProjects = new ArrayList<>();
 			Criterion criterion = Restrictions.eq(Org_.name.getName(), "投资科");
-			Criterion criterion2 = Restrictions.eq(Org_.name.getName(), "局领导");
-			Criterion criterion3 = Restrictions.or(criterion, criterion2);
+//			Criterion criterion2 = Restrictions.eq(Org_.name.getName(), "局领导");
+			Criterion criterion3 = Restrictions.or(criterion);
 
 			findProjects = orgRepo.findByCriteria(criterion3);
 			Set set = new HashSet<>();// 同一用户如果有多个角色，同流程下会同时有多个任务，必须去重
@@ -478,6 +481,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			List<String> list1 = new ArrayList<String>(set);
 			if (!list1.isEmpty()) {// 固定会签人员
 				variables.put("userIds", list1);
+				variables.put("nextUsers", list1);
+				taskUsers = list1;
 			}
 			
 		}else{
@@ -507,19 +512,20 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		} else {
 			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见：" + msg);
 		}
-
+		if(isPushOA){
+			//处理统一代办--查询--完成--删除
+			try {
+				String eventIds = (String) taskService.getVariable(shenBaoInfo.getThisTaskId(), "eventIds");
+				TodoNumberUtil.handleTodoMasg(eventIds);
+			} catch (Exception e) {
+				logger.info("task id not found");
+			}
+		}
+		
 		activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
 		activitiService.taskComplete(task.get(0).getId(), variables);
-
-//		try {
-//		Integer result = HuasisoftUtil.getBacklogManager().finishByEventId(shenBaoInfo.getId());
-//		if(result == 102){
-//			logger.info("待办完成！");
-//		}
-//	} catch (Exception e1) {
-//		// TODO Auto-generated catch block
-//		e1.printStackTrace();
-//	}
+	
+		
 		// 结束上一任务后，当前流程下产生的新任务
 		List<Task> tasknew = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId())
 				.orderByDueDate().desc().list();
@@ -608,17 +614,30 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 //			shenBaoInfo.setComplate(true);
 		} else {
 
-			shenBaoInfo.setThisTaskId(task.get(0).getId());
+			shenBaoInfo.setThisTaskId(tasknew.get(0).getId());
 			shenBaoInfo.setThisTaskName(tasknew.get(0).getTaskDefinitionKey());
 			shenBaoInfo.setProcessStage(tasknew.get(0).getName());
+			if(isPushOA){
+				StringBuffer sb = new StringBuffer();
+				for (int i = 0; i < taskUsers.size(); i++) {
+					String array_element = taskUsers.get(i);
+					Backlog bl = new Backlog();
+					bl.setEventId(UUID.randomUUID().toString());
+					sb.append(bl.getEventId()+",");
+					this.todoShenbaoInfo(shenBaoInfo ,array_element,bl);
+				}
+				activitiService.setTaskProcessVariable(tasknew.get(0).getId(), "eventIds", sb.toString());
+			}
+			
 		}
 		projectRepo.save(project);
 		shenBaoInfoRepo.save(shenBaoInfo);
-		this.todoShenbaoInfo(shenBaoInfo ,nextUsers);
-
+		
 		logger.info(String.format("查询角色组已办结上线请求,用户名:%s", currentUser.getLoginName()));
 
 	}
+
+	
 
 	/**************************************************************************************************************************/
 
@@ -902,10 +921,16 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		// 设置批注的用户ID
 		Authentication.setAuthenticatedUserId(currentUser.getUserId());
 		// 添加批注
-		
-
+		if(isPushOA){
+			//处理统一代办--查询--完成--删除
+			try {
+				String eventIds = (String) taskService.getVariable(shenBaoInfo.getThisTaskId(), "eventIds");
+				TodoNumberUtil.handleTodoMasg(eventIds);
+			} catch (Exception e) {
+				logger.info("task id not found");
+			}
+		}
 	
-
 		shenBaoInfo.setThisTaskId("00000");
 		shenBaoInfo.setQianshouDate(new Date());// 签收时间
 		shenBaoInfo.setReceiver(currentUser.getUserId());// 签收人
@@ -946,19 +971,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 //		shenBaoInfo.setComplate(true);
 		projectRepo.save(project);
 		shenBaoInfoRepo.save(shenBaoInfo);
-
-//		try {
-//			Integer findresult = HuasisoftUtil.getBacklogManager().findByEventId(shenBaoInfo.getId());
-//			if(findresult == 105){
-//				Integer result = HuasisoftUtil.getBacklogManager().finishByEventId(shenBaoInfo.getId());
-//				if(result == 102){
-//					logger.info("待办完成！");
-//				}
-//			}
-//		} catch (Exception e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
 
 		logger.info(String.format("签收或办理下一年度计划,用户名:%s", currentUser.getLoginName()));
 	}
@@ -1048,6 +1060,15 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		if (!nextUsers.isEmpty()) {// 设置流程变量--下一任务处理人
 			variables.put("nextUsers", nextUsers);
 		}
+		if(isPushOA){
+			//处理统一代办--查询--完成--删除
+			try {
+				String eventIds = (String) taskService.getVariable(shenBaoInfo.getThisTaskId(), "eventIds");
+				TodoNumberUtil.handleTodoMasg(eventIds);
+			} catch (Exception e) {
+				logger.info("task id not found");
+			}
+		}
 		shenBaoInfo.setThisUser(nextUsers);
 		List<Task> task = null;
 		// 当前流程下，当前登录人员的任务
@@ -1088,16 +1109,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见：" + msg);
 		}
 		
-//		try {
-//			Integer result = HuasisoftUtil.getBacklogManager().finishByEventId(shenBaoInfo.getId());
-//			if(result == 102){
-//				logger.info("待办完成！");
-//			}
-//		} catch (Exception e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-
 		if ((shenBaoInfo.getThisTaskName().equals("usertask1") || shenBaoInfo.getThisTaskName().equals("usertask5"))
 				&& !"1".equals(isPass)) {
 			shenBaoInfo.setQianshouDate(new Date());// 签收时间
@@ -1263,6 +1274,15 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setIsLeaderHasRead(false);
 			shenBaoInfo.setThisTaskName(tasknew.get(0).getTaskDefinitionKey());
 			shenBaoInfo.setProcessStage(tasknew.get(0).getName());
+			shenBaoInfo.setThisTaskId(tasknew.get(0).getId());
+			if(isPushOA){
+				StringBuffer sb = new StringBuffer();
+				Backlog bl = new Backlog();
+				bl.setEventId(UUID.randomUUID().toString());
+				sb.append(bl.getEventId()+",");
+				this.todoShenbaoInfo(shenBaoInfo ,nextUsers,bl);
+				activitiService.setTaskProcessVariable(tasknew.get(0).getId(), "eventIds", sb.toString());
+			}
 		}
 		
 		shenBaoInfoRepo.save(shenBaoInfo);
@@ -1308,36 +1328,28 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		} catch (SMSException e) {
 			logger.error("发送短信异常：" + e.getMessage(), e);
 		}
-		
-		this.todoShenbaoInfo(shenBaoInfo ,nextUsers);
 	}
 
 	@Override
-	public void todoShenbaoInfo(ShenBaoInfo shenBaoInfo ,String nextUsers) {
+	@Transactional	
+	public void todoShenbaoInfo(ShenBaoInfo shenBaoInfo ,String nextUsers,Backlog bl) {
 		// TODO Auto-generated method stub
-//		Date newEndTime = new Date();
-//		Date newEndTime1 = new Date();
-//		Calendar calendar = new GregorianCalendar();
-//		calendar.setTime(newEndTime);
-//		if(shenBaoInfo.getTzkBalanceTime() != null && shenBaoInfo.getPxzxBalanceTime() != null){
-//			calendar.add(calendar.DATE, Integer.valueOf(shenBaoInfo.getTzkBalanceTime())+Integer.valueOf(shenBaoInfo.getPxzxBalanceTime()));// 把日期往后增加一天.整数往后推,负数往前移动
-//		}else{
-//			newEndTime= null;
-//		}
-//		newEndTime = calendar.getTime();
 		//推送待办数据到OA
-		if(isPushOA){
-			Backlog bl = new Backlog();
+		if(true){
+			
 			bl.setId(shenBaoInfo.getId());
+		
 			bl.setTitle(shenBaoInfo.getProjectName());
 			bl.setUrgency(returnFileSet(shenBaoInfo.getUrgencyState()));
 			bl.setSystemCode("GMZXXMGLXT");
 			bl.setSystemName("光明新区政府投资管理系统");
 			bl.setUrl(sysPath);
 			User user = userRepo.findById(nextUsers);
-			bl.setPersonId(user.getOaId());
-			bl.setPersonName(user.getDisplayName());
-			bl.setEventId(shenBaoInfo.getId());
+			if(user != null){
+				bl.setPersonId(user.getOaId());
+				bl.setPersonName(user.getDisplayName());
+			}
+			
 			User user2 = userRepo.findById(currentUser.getUserId());
 			bl.setSendPersonId(user2.getOaId());
 			bl.setSendPersonName(user2.getDisplayName());
@@ -1936,14 +1948,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		return shenBaoInfoRepoImpl.findRunByOdata2(odataObj).stream().map(mapper::toDto).collect(Collectors.toList());
 	}
 
-//	@Override
-//	@Transactional
-//	public void taskYuepi(String id) {
-//		ShenBaoInfo entity = shenBaoInfoRepo.findById(id);
-//		entity.setIsLeaderHasRead(true);
-//		
-//		shenBaoInfoRepo.save(entity);
-//	}
 
 	@Override
 	@Transactional
@@ -1962,7 +1966,9 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		odata.addAndFilter(ShenBaoInfo_.thisUser.getName(), OdataFilter.Operate.EQ,id);
 		List<ShenBaoInfoDto> list = this.findAuditRunByOdata(odata, isPerson);
 		List<ShenBaoInfoDto> list2 = this.findYearPlanRunByOdata(odata2, isPerson);
+		List<ShenBaoInfoDto> list3 = this.findPlanRunByOdata(odata2,isPerson);
 		list2.addAll(list);
+		list2.addAll(list3);
 		return list2.size();
 	}
 	 private String getStageType(String shenbaoStage) {
@@ -1982,16 +1988,23 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
 	 public int returnFileSet(String fileSet){
 		 int num = 0;
-		 if(fileSet.equals(BasicDataConfig.fileSet_pingjian)){
-			 num = 1;
-		 }else if(fileSet.equals(BasicDataConfig.fileSet_jiaji)){
-			 num = 2;
-		 }else if(fileSet.equals(BasicDataConfig.fileSet_teji)){
-			 num = 3;
-		 }else{
-			 num = 4;
+		 if(fileSet != null && fileSet != ""){
+			 if(fileSet.equals(BasicDataConfig.fileSet_pingjian)){
+				 num = 1;
+			 }else if(fileSet.equals(BasicDataConfig.fileSet_jiaji)){
+				 num = 2;
+			 }else if(fileSet.equals(BasicDataConfig.fileSet_teji)){
+				 num = 3;
+			 }else{
+				 num = 4;
+			 }
 		 }
-
 		 return num;
 	 }
+	 
+	@Override
+	public void todoShenbaoInfo(ShenBaoInfo entity, String configValue) {
+		// TODO Auto-generated method stub
+		
+	}
 }

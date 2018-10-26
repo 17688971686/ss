@@ -11,6 +11,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
+import com.huasisoft.portal.model.Backlog;
 import com.sn.framework.common.IdWorker;
 import com.sn.framework.common.StringUtil;
 import cs.common.*;
@@ -1145,11 +1146,17 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
                 throw new IllegalArgumentException("没有配置申报信息审核分办人员，请联系管理员！");
             }
         }
-        processService.todoShenbaoInfo(entity,sysConfg.getConfigValue());
+        Backlog bl = new Backlog();
+		bl.setEventId(UUID.randomUUID().toString());
+		
         ProcessInstance process = activitiService.startProcess(processDefinitionKey, variables);
         String executionId = process.getId();
 
         Task task = activitiService.getTaskByExecutionId(executionId);
+        
+        activitiService.setTaskProcessVariable(task.getId(), "eventIds", bl.getEventId()+",");
+        processService.todoShenbaoInfo(entity,sysConfg.getConfigValue(),bl);
+        
         entity.setProcessStage("投资科审核收件办理");
         entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
         entity.setZong_processId(task.getProcessInstanceId());
