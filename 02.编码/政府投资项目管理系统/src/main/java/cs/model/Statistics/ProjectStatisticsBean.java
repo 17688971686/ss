@@ -33,6 +33,9 @@ public class ProjectStatisticsBean implements Serializable{
 	private Integer fixedAssetsNumbers;//固定资产登记阶段项目数
 	private Double projectInvestSum;//项目总投资
 	private Double projectInvestAccuSum;//项目已拨付资金
+
+	private Double pfProjectInvestSum; //批复资金
+
 	//审批专用
 	private Integer approvalStageXMJYSNumbers;//立项数量
 	private Integer approvalStageKXXYJBGNumbers;//可研数量
@@ -139,6 +142,12 @@ public class ProjectStatisticsBean implements Serializable{
 	}
 	public void setProjectInvestAccuSum(Double projectInvestAccuSum) {
 		this.projectInvestAccuSum = projectInvestAccuSum;
+	}
+	public Double getPfProjectInvestSum() {
+		return pfProjectInvestSum;
+	}
+	public void setPfProjectInvestSum(Double pfProjectInvestSum) {
+		this.pfProjectInvestSum = pfProjectInvestSum;
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;

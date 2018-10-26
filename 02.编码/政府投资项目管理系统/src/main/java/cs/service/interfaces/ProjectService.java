@@ -36,6 +36,9 @@ public interface ProjectService extends IService<ProjectDto, Project, String> {
 	List<sttisticsData> getprojectInvestSourceData();
 	
 	List<ProjectStatisticsBean> getProjectStatistics(String type,String isIncludLibrary);//固定模板项目统计
+
+	List<ProjectStatisticsBean> getMoneyStatistics(String isIncludLibrary,String[] stageSelected,String[] projectStageSelected,String projectName,
+			 String[] unitSelected,String[] industrySelected,String[] categorySelected);//项目资金统计
 	
 //	List<ProjectStatisticsBean> getProjectStatisticsByCustom(List<String> industrySelected,List<String> stageSelected,List<String> categorySelected,
 //																List<String> unitSelected,Double investSumBegin,Double investSumEnd);//自定义条件项目统计

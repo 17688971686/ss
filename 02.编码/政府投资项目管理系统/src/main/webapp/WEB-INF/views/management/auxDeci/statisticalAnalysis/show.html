@@ -54,7 +54,7 @@
 	
 	<div class="root_div">
 		<!-- 纵向页面展示 -->
-		<div ng-if="vm.isApprovalFixedShow || vm.isPlanFixedShow || vm.isProjectFixedShow" class="excel_div_portrait">
+		<div ng-if="vm.isApprovalFixedShow || vm.isPlanFixedShow || vm.isProjectFixedShow || vm.isMoneyFixedShow" class="excel_div_portrait">
 			<!-- 审批类固定模板数据展示 -->
 				<!-- 按行业分类数据展示 -->
 			<div ng-if="vm.isApprovalFixedByIndustryShow" id="isApprovalFixedByIndustryShow">
@@ -368,6 +368,43 @@
 					</tr>
 					<tr ng-if="vm.projectFixedData.length<=0" class="text-center table_text table_text_tip">
 						<td colspan="4">暂无数据！</td>
+					</tr>
+				</table>
+			</div>
+
+			<!-- 项目资金数据展示 -->
+			<div ng-if="vm.isMoneyFixedShow" id="isMoneyFixedShow">
+				<table class="_table" style="width:26.7cm;">
+					<tr>
+						<th colspan="6" class="text-center title_font">
+							光明新区政府投资项目库{{vm.fileTitle}}项目项目资金分类汇总表
+						</th>
+					</tr>
+					<tr>
+						<td colspan="6" style="height:0.50cm;border: 0;"></td>
+					</tr>
+					<tr style="height:0.87cm">
+						<td colspan="5" style="border:0;">打印时间：{{vm.nowDate}}</td>
+						<td style="text-align:right;border:0;">资金：万   元</td>
+					</tr>
+					<tr class="text-center table_title">
+						<td style="width:2.69cm">序号</td>
+						<td style="width:8.35cm">项目名称</td>
+						<td style="width:8.35cm">单位名称</td>
+						<td style="width:3.35cm">项目阶段</td>
+						<td style="width:3.35cm">申请金额</td>
+						<td style="width:3.35cm">批复金额</td>
+					</tr>
+					<tr ng-if="vm.moneyData.length>0" ng-repeat="x in vm.moneyData" class="text-center table_text">
+						<td>{{$index+1}}</td>
+						<td>{{x.projectName}}</td>
+						<td>{{x.unitName}}</td>
+						<td>{{x.projectStageDesc}}</td>
+						<td>{{x.projectInvestSum}}</td>
+						<td>{{x.pfProjectInvestSum}}</td>
+					</tr>
+					<tr ng-if="vm.moneyData.length<=0" class="text-center table_text table_text_tip">
+						<td colspan="6">暂无数据！</td>
 					</tr>
 				</table>
 			</div>

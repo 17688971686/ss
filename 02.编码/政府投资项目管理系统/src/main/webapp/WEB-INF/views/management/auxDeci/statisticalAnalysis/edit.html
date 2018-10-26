@@ -322,6 +322,83 @@
 				</div>
 			</form>
 		</div>
+        <!-- 项目资金统计 -->
+        <div ng-if="vm.isMoneyFixed">
+            <form class="form-horizontal" role="form" style="margin-top: 100px;">
+				<div class="form-group">
+					<div class="form-item">
+						<h4 class="title">筛选条件</h4>
+						<select class="form-control" ng-model="vm.isIncludLibrary" style="width: 300px;">
+							<option value="true" ng-selected="vm.isIncludLibrary == true">已纳入项目库</option>
+							<option value="false" ng-selected="vm.isIncludLibrary == false">未纳入项目库</option>
+						</select>
+					</div>
+
+					<div class="form-item">
+						<h4 class="title">行业分类</h4>
+						<label class="control-label" ng-repeat="x in vm.basicData.projectIndustry_ZF | orderBy:'itemOrder'">
+							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectIdustry(x.id)"/>
+							<span class="description">
+								<i class="glyphicon glyphicon-ok"></i>
+								{{x.description}}
+							</span>
+						</label>
+					</div>
+
+					<div class="form-item">
+						<h4 class="title">项目阶段：</h4>
+						<label class="control-label" ng-repeat="x in vm.basicData.projectStage | orderBy:'itemOrder'">
+							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectStage(x.id)"/>
+							<span class="description">
+								<i class="glyphicon glyphicon-ok"></i>
+								{{x.description}}
+							</span>
+						</label>
+					</div>
+					<div class="form-item">
+						<h4 class="title">申报单位：</h4>
+						<label class="control-label" ng-repeat="x in vm.basicData.userUnit | unique: 'id'">
+							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectUnit(x.id)"/>
+							<span class="description">
+								<i class="glyphicon glyphicon-ok"></i>
+								{{x.unitName}}
+							</span>
+						</label>
+					</div>
+
+					<div class="form-item">
+						<h4 class="title">申报阶段</h4>
+						<label class="control-label" ng-repeat="x in vm.basicData.projectShenBaoStage | orderBy:'itemOrder'" ng-show="vm.basicData.approvalStage.indexOf(x.id)>-1">
+							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectShenBaoStage(x.id)"/>
+							<span class="description">
+								<i class="glyphicon glyphicon-ok"></i>
+								{{x.description}}
+							</span>
+						</label>
+					</div>
+
+					<div class="form-item">
+						<h4 class="title">项目类别</h4>
+						<label class="control-label" ng-repeat="x in vm.basicData.projectCategory">
+							<input type="checkbox" value="{{x.id}}" ng-click="vm.selectProjectCategory(x.id)"/>
+							<span class="description">
+								<i class="glyphicon glyphicon-ok"></i>
+								{{x.description}}
+							</span>
+						</label>
+					</div>
+
+					<div class="form-item">
+						<h4 class="title">项目名称</h4>
+						<input type="text" class="form-control input-sm" placeholder="输入项名称（可以少输不可输错）" ng-model="vm.model.projectName"/>
+					</div>
+				</div>
+
+				<div class="form-group text-center">
+					<button class="btn btn-success btn-sm" ng-click="vm.showMoneyFixed('projectName',vm.isIncludLibrary)">确定</button>
+				</div>
+            </form>
+        </div>
 	</div>
 </div>
 

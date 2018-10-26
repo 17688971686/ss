@@ -8,9 +8,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cs.model.Statistics.view.newEdition.GenerateExcelForMoney;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.quartz.SimpleTrigger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -82,6 +84,69 @@ public class StatisticalAnalysisController {
 	@RequestMapping(name="项目总库-项目分类统计数据获取",path="getExcelForProjectData",method=RequestMethod.GET)
 	public @ResponseBody List<ProjectStatisticsBean> getExcelForProjectData(HttpServletRequest request,@RequestParam String classDesc,@RequestParam String isIncludLibrary) throws ParseException{
 		return ProjectService.getProjectStatistics(classDesc,isIncludLibrary);
+	}
+
+	@RequestMapping(name="资金类数据获取",path="getExcelForMoneyData",method=RequestMethod.POST)
+	public @ResponseBody List<ProjectStatisticsBean> getExcelForMoneyData(@SuppressWarnings("rawtypes") @RequestBody Map map) throws Exception{
+		//获取筛选条件
+		String type = (String) map.get("type");
+		String isIncludLibrary = (String)map.get("isIncludLibrary");
+		String stageSelect = StringUtils.strip(map.get("stage").toString(),"[]");
+		String unitSelect = StringUtils.strip(map.get("unit").toString(),"[]");
+		String industrySelect = StringUtils.strip(map.get("industry").toString(),"[]");
+		String categorySelect = StringUtils.strip(map.get("category").toString(),"[]");
+        String projectStageSelect = StringUtils.strip(map.get("projectStage").toString(),"[]");
+
+		String projectName = (String) map.get("projectName");
+
+		//处理请求参数
+		String[] stageSelected = Util.isNotNull(stageSelect)?stageSelect.split(",") : null;
+		String[] unitSelected = Util.isNotNull(unitSelect)?unitSelect.split(",") : null;
+		String[] industrySelected = Util.isNotNull(industrySelect)?industrySelect.split(",") : null;
+		String[] categorySelected = Util.isNotNull(categorySelect)?categorySelect.split(",") : null;
+        String[] projectStageSelected = Util.isNotNull(projectStageSelect)?projectStageSelect.split(",") : null;
+		projectName = Util.isNotNull(projectName) ? projectName.toString() : null;
+
+		//查询获取数据
+		return ProjectService.getMoneyStatistics(isIncludLibrary,stageSelected,projectStageSelected,projectName,unitSelected,industrySelected,categorySelected);
+	}
+
+	@RequestMapping(name="资金类统计下载",path="exportExcelForMoney",method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void exportExcelForMoney(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		//获取筛选条件
+		String type = request.getParameter("type");
+		String isIncludLibrary = request.getParameter("isIncludLibrary");
+        String stageSelect = StringUtils.strip(request.getParameter("stage"),"[]");
+        String unitSelect = StringUtils.strip(request.getParameter("unit"),"[]");
+		String industrySelect = StringUtils.strip(request.getParameter("industry"),"[]");
+		String categorySelect = StringUtils.strip(request.getParameter("category"),"[]");
+        String projectStageSelect = StringUtils.strip(request.getParameter("projectStage"),"[]");
+		String projectName = request.getParameter("projectName");
+
+		//处理请求参数
+		String[] stageSelected = Util.isNotNull(stageSelect)?stageSelect.split(",") :null;
+		String[] unitSelected = Util.isNotNull(unitSelect)?unitSelect.split(",") :null;
+		String[] industrySelected = Util.isNotNull(industrySelect)?industrySelect.split(",") : null;
+		String[] categorySelected = Util.isNotNull(categorySelect)?categorySelect.split(",") : null;
+        String[] projectStageSelected = Util.isNotNull(projectStageSelect)?projectStageSelect.split(",") : null;
+		projectName = Util.isNotNull(projectName) ? new String(projectName.getBytes("iso-8859-1"),"utf-8") :null;
+
+		//查询获取数据
+		List<ProjectStatisticsBean> data = ProjectService.getMoneyStatistics(isIncludLibrary,stageSelected,projectStageSelected,projectName,unitSelected,industrySelected,categorySelected);
+
+		try {
+			String fileName = "光明新区政府投资"+"项目资金"+"汇总表.xls";
+			String newexcelname = new String(fileName.getBytes("utf-8"),"ISO_8859_1");
+			response.reset();
+			response.setContentType("APPLICATION/OCTET-STREAM");
+			response.setHeader("Content-disposition", "attachment; filename=\"" + newexcelname + "\""); // 实现下载
+			HSSFWorkbook workbook = new GenerateExcelForMoney().getHSSFWorkBook(data,type,isIncludLibrary);//构建Excel
+			workbook.write(response.getOutputStream());// 实现输出
+			response.flushBuffer();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@RequestMapping(name="项目总库-分类统计下载",path="exportExcelForProject",method=RequestMethod.GET)
