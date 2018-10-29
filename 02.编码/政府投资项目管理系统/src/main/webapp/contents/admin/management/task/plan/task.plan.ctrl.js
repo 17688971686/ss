@@ -644,15 +644,17 @@
 							$('.alertDialog').modal('hide');
 						}
 					});
-        		}else if(vm.model.shenBaoInfo.thisTaskName == 'usertask5' && str == "next" && (vm.model.shenBaoInfo.xdPlanReach_ggys == 0 || vm.model.shenBaoInfo.xdPlanReach_gtzj == 0)) {
-        			common.alert({
-						vm : vm,
-						msg : "请填写安排资金后提交！",
-						fn : function() {
-							$('.alertDialog').modal('hide');
-						}
-					});
-        		}else{
+        		}
+//        		else if(vm.model.shenBaoInfo.thisTaskName == 'usertask5' && str == "next" && (vm.model.shenBaoInfo.xdPlanReach_ggys == 0 || vm.model.shenBaoInfo.xdPlanReach_gtzj == 0)) {
+//        			common.alert({
+//						vm : vm,
+//						msg : "请填写安排资金后提交！",
+//						fn : function() {
+//							$('.alertDialog').modal('hide');
+//						}
+//					});
+//        		}
+        		else{
         			taskPlanSvc.handle(vm,str);
         		}
         		

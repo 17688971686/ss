@@ -369,7 +369,7 @@
 				filter:[{//过滤条件为审批状态不为退回状态
 					field:'processState',
 					operator:'eq',
-					value:2
+					value:1
 				},
 				{
 					field:'projectShenBaoStage',
