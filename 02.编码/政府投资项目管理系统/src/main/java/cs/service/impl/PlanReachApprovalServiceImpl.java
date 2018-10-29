@@ -118,8 +118,8 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 		dto.setId((String) data.get("id"));
 		dto.setTitle((String) data.get("title"));
 
-//		Map ggs = (Map) data.get("gg");
-//		Map gts = (Map) data.get("gt");
+		Map ggs = (Map) data.get("gg");
+		Map gts = (Map) data.get("gt");
 		List<String> idStrings = (List<String>) data.get("ids");
 		PlanReachApproval entity = super.update(dto, (String) data.get("id"));
 
@@ -135,15 +135,16 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 //			
 //			if (count < 1) {
 				ShenBaoInfo shenBaoInfo = shenBaoInfoService.findById(id);
-//				if (!ggs.isEmpty()) {
-//					if (ggs.get(shenBaoInfo.getId()) != null) {
-//						shenBaoInfo.setXdPlanReach_ggys(Double.parseDouble(ggs.get(shenBaoInfo.getId()).toString()));
-//					}
-//				} else if (!gts.isEmpty()) {
-//					if (gts.get(shenBaoInfo.getId()) != null) {
-//						shenBaoInfo.setXdPlanReach_gtzj(Double.parseDouble(gts.get(shenBaoInfo.getId()).toString()));
-//					}
-//				}
+				if (!ggs.isEmpty()) {
+					if (ggs.get(shenBaoInfo.getId()) != null) {
+						shenBaoInfo.setXdPlanReach_ggys(Double.parseDouble(ggs.get(shenBaoInfo.getId()).toString()));
+					}
+				}
+				if (!gts.isEmpty()) {
+					if (gts.get(shenBaoInfo.getId()) != null) {
+						shenBaoInfo.setXdPlanReach_gtzj(Double.parseDouble(gts.get(shenBaoInfo.getId()).toString()));
+					}
+				}
 				shenBaoInfo.setIsFaWen(true);
 				entity.getShenBaoInfos().add(shenBaoInfo);
 //			}
