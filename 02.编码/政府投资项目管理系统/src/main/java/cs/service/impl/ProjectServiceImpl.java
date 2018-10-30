@@ -510,7 +510,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
                  String[] unitSelected,String[] industrySelected,String[] categorySelected) {
         List<ProjectStatisticsBean> list = new ArrayList<>();
 
-        String Sql = String.format("SELECT"
+        String Sql = String.format("SELECT "
                 + " a.projectName,u.unitName,b.description as projectStageDesc,IFNULL(a.projectInvestSum,0) AS projectInvestSum,IFNULL(a.pfProjectInvestSum,0) AS pfProjectInvestSum"
                 + " from cs_shenbaoinfo a"
                 + " left join cs_basicdata b on a.projectShenBaoStage = b.id"
@@ -532,9 +532,9 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
             Sql += " and a.projectShenBaoStage IN (";
             for (int i = 0; i < stageSelected.length; i++) {
                 if (i == stageSelected.length - 1) {
-                    Sql += "'" + stageSelected[i] + "'";
+                    Sql += "'" + stageSelected[i].trim() + "'";
                 } else {
-                    Sql += "'" + stageSelected[i] + "',";
+                    Sql += "'" + stageSelected[i].trim() + "',";
                 }
             }
             Sql += " ) ";
@@ -544,9 +544,9 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
             Sql += " and a.projectStage IN (";
             for (int i = 0; i < projectStageSelected.length; i++) {
                 if (i == projectStageSelected.length - 1) {
-                    Sql += "'" + projectStageSelected[i] + "'";
+                    Sql += "'" + projectStageSelected[i].trim() + "'";
                 } else {
-                    Sql += "'" + projectStageSelected[i] + "',";
+                    Sql += "'" + projectStageSelected[i].trim() + "',";
                 }
             }
             Sql += " ) ";
@@ -556,9 +556,9 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
             Sql += " and u.id IN (";
             for (int i = 0; i < unitSelected.length; i++) {
                 if (i == unitSelected.length - 1) {
-                    Sql += "'" + unitSelected[i] + "'";
+                    Sql += "'" + unitSelected[i].trim() + "'";
                 } else {
-                    Sql += "'" + unitSelected[i] + "',";
+                    Sql += "'" + unitSelected[i].trim() + "',";
                 }
             }
             Sql += " ) ";
@@ -568,9 +568,9 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
             Sql += " and a.projectIndustry IN (";
             for (int i = 0; i < industrySelected.length; i++) {
                 if (i == industrySelected.length - 1) {
-                    Sql += "'" + industrySelected[i] + "'";
+                    Sql += "'" + industrySelected[i].trim() + "'";
                 } else {
-                    Sql += "'" + industrySelected[i] + "',";
+                    Sql += "'" + industrySelected[i].trim() + "',";
                 }
             }
             Sql += " ) ";
@@ -580,15 +580,15 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
             Sql += " and a.projectCategory IN (";
             for (int i = 0; i < categorySelected.length; i++) {
                 if (i == categorySelected.length - 1) {
-                    Sql += "'" + categorySelected[i] + "'";
+                    Sql += "'" + categorySelected[i].trim() + "'";
                 } else {
-                    Sql += "'" + categorySelected[i] + "',";
+                    Sql += "'" + categorySelected[i].trim() + "',";
                 }
             }
             Sql += " ) ";
         }
 
-        Sql += " GROUP BY a.projectName ";
+        Sql += "order by a.projectName desc,a.projectShenBaoStage asc ";
 
         NativeQuery query = super.repository.getSession().createNativeQuery(Sql);
 

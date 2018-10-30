@@ -9,6 +9,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -106,21 +107,45 @@ public class GenerateExcelForMoney {
         //begin#数据列
         int rowNum=type.equals("projectName")?3
                 :3;//数据加载开始行
-        int index=1;
+
+        //要合并的单元格
+        List<int[]> mergeRows = new ArrayList<int[]>();
 
         for (ProjectStatisticsBean obj:data) {
             Row row = sheet.createRow(rowNum);
             //创建数据
-            createCellAlignCenter(workbook,row,0, index,cellStyleO);//序号
             if(type.equals("projectName")){
-                createCellAlignCenter(workbook,row,1, obj.getProjectName(),cellStyleO);//项目名称
-                createCellAlignCenter(workbook,row,2, obj.getUnitName(),cellStyleO);//单位名称
+                //设置要合并单元格的行
+                if(obj.getShenbaoStageNum()!=null && obj.getShenbaoStageNum() > 1){
+                    mergeRows.add(new int[]{rowNum,rowNum+obj.getShenbaoStageNum()-1});
+                }
+                //处理数据
+                if(obj.getRowNum() != null){
+                    createCellAlignCenter(workbook,row,0, obj.getRowNum(),cellStyleO);//序号
+                    createCellAlignCenter(workbook,row,1, obj.getProjectName(),cellStyleO);//项目名称
+                    createCellAlignCenter(workbook,row,2, obj.getUnitName(),cellStyleO);//单位名称
+                }else{
+                    createCellAlignCenter(workbook,row,0, "",cellStyleO);//序号
+                    createCellAlignCenter(workbook,row,1, "",cellStyleO);//项目名称
+                    createCellAlignCenter(workbook,row,2, "",cellStyleO);//单位名称
+                }
                 createCellAlignCenter(workbook,row,3, obj.getProjectStageDesc(),cellStyleO);//申报阶段
                 createCellAlignCenter(workbook,row,4, obj.getProjectInvestSum(),cellStyleO);//申请金额
                 createCellAlignCenter(workbook,row,5, obj.getPfProjectInvestSum(),cellStyleO);//批复金额
             }
-            rowNum++;index++;
+            rowNum++;
         }
+
+        //合并单元格
+        mergeRows.stream().forEach( x ->{
+            CellRangeAddress cellRangeDataColumn0 = new CellRangeAddress(x[0],x[1],0,0);
+            CellRangeAddress cellRangeDataColumn1 = new CellRangeAddress(x[0],x[1],1,1);
+            CellRangeAddress cellRangeDataColumn2 = new CellRangeAddress(x[0],x[1],2,2);
+            sheet.addMergedRegion(cellRangeDataColumn0);
+            sheet.addMergedRegion(cellRangeDataColumn1);
+            sheet.addMergedRegion(cellRangeDataColumn2);
+        });
+
 		return workbook;
 	}
 

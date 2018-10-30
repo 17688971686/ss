@@ -2,6 +2,7 @@ package cs.controller.management.auxiliaryDecision;
 
 import java.net.URLDecoder;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -107,8 +108,36 @@ public class StatisticalAnalysisController {
         String[] projectStageSelected = Util.isNotNull(projectStageSelect)?projectStageSelect.split(",") : null;
 		projectName = Util.isNotNull(projectName) ? projectName.toString() : null;
 
+		List<ProjectStatisticsBean> list = ProjectService.getMoneyStatistics(isIncludLibrary,stageSelected,projectStageSelected,projectName,unitSelected,industrySelected,categorySelected);
+		//数据处理
+		Map<String,Integer[]>  shenbaoStageNumMaps = new HashMap<String,Integer[]>();
+		int rowNum = 0;
+		for (int i = 0;i<list.size();i++){
+			ProjectStatisticsBean bean = list.get(i);
+			String proName = bean.getProjectName();
+			//申报类型个数处理
+			Integer stageNum = shenbaoStageNumMaps.get(proName) != null ? shenbaoStageNumMaps.get(proName)[0]+1 : 1;
+			//序号处理
+			rowNum = shenbaoStageNumMaps.get(proName) != null ? shenbaoStageNumMaps.get(proName)[1] : rowNum+1;
+			Integer[] list1 = {stageNum,rowNum};
+			shenbaoStageNumMaps.put(proName,list1);
+		}
+
+		//处理数据展示编号及合并行
+		if(!list.isEmpty()){
+			list.stream().forEach(x -> {
+                String proName = x.getProjectName();
+				Integer[] val = shenbaoStageNumMaps.get(proName);
+				if(val != null){
+					x.setShenbaoStageNum(val[0]);
+					x.setRowNum(val[1]);
+					shenbaoStageNumMaps.remove(proName);
+				}
+			});
+		}
+
 		//查询获取数据
-		return ProjectService.getMoneyStatistics(isIncludLibrary,stageSelected,projectStageSelected,projectName,unitSelected,industrySelected,categorySelected);
+		return list;
 	}
 
 	@RequestMapping(name="资金类统计下载",path="exportExcelForMoney",method=RequestMethod.POST)
@@ -133,7 +162,34 @@ public class StatisticalAnalysisController {
 		projectName = Util.isNotNull(projectName) ? new String(projectName.getBytes("iso-8859-1"),"utf-8") :null;
 
 		//查询获取数据
-		List<ProjectStatisticsBean> data = ProjectService.getMoneyStatistics(isIncludLibrary,stageSelected,projectStageSelected,projectName,unitSelected,industrySelected,categorySelected);
+		List<ProjectStatisticsBean> list = ProjectService.getMoneyStatistics(isIncludLibrary,stageSelected,projectStageSelected,projectName,unitSelected,industrySelected,categorySelected);
+
+		//数据处理
+		Map<String,Integer[]>  shenbaoStageNumMaps = new HashMap<String,Integer[]>();
+		int rowNum = 0;
+		for (int i = 0;i<list.size();i++){
+			ProjectStatisticsBean bean = list.get(i);
+			String proName = bean.getProjectName();
+			//申报类型个数处理
+			Integer stageNum = shenbaoStageNumMaps.get(proName) != null ? shenbaoStageNumMaps.get(proName)[0]+1 : 1;
+			//序号处理
+			rowNum = shenbaoStageNumMaps.get(proName) != null ? shenbaoStageNumMaps.get(proName)[1] : rowNum+1;
+			Integer[] list1 = {stageNum,rowNum};
+			shenbaoStageNumMaps.put(proName,list1);
+		}
+
+		//处理数据展示编号及合并行
+		if(!list.isEmpty()){
+			list.stream().forEach(x -> {
+				String proName = x.getProjectName();
+				Integer[] val = shenbaoStageNumMaps.get(proName);
+				if(val != null){
+					x.setShenbaoStageNum(val[0]);
+					x.setRowNum(val[1]);
+					shenbaoStageNumMaps.remove(proName);
+				}
+			});
+		}
 
 		try {
 			String fileName = "光明新区政府投资"+"项目资金"+"汇总表.xls";
@@ -141,7 +197,7 @@ public class StatisticalAnalysisController {
 			response.reset();
 			response.setContentType("APPLICATION/OCTET-STREAM");
 			response.setHeader("Content-disposition", "attachment; filename=\"" + newexcelname + "\""); // 实现下载
-			HSSFWorkbook workbook = new GenerateExcelForMoney().getHSSFWorkBook(data,type,isIncludLibrary);//构建Excel
+			HSSFWorkbook workbook = new GenerateExcelForMoney().getHSSFWorkBook(list,type,isIncludLibrary);//构建Excel
 			workbook.write(response.getOutputStream());// 实现输出
 			response.flushBuffer();
 		}catch (Exception e) {
