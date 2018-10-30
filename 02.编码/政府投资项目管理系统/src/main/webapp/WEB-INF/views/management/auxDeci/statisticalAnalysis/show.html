@@ -14,14 +14,14 @@
 }
 .excel_div_portrait{
 	position:relative;
-	top:50%
+	top:50%;
 	-webkit-transform:translateY(25%);
 	-ms-transform: translateX(25%);
 	transform: translateX(25%);
 }
 .excel_div_transverse{
 	position:relative;
-	top:50%
+	top:50%;
 	-webkit-transform:translateY(20%);
 	-ms-transform: translateX(20%);
 	transform: translateX(20%);
@@ -396,9 +396,9 @@
 						<td style="width:3.35cm">批复金额</td>
 					</tr>
 					<tr ng-if="vm.moneyData.length>0" ng-repeat="x in vm.moneyData" class="text-center table_text">
-						<td>{{$index+1}}</td>
-						<td>{{x.projectName}}</td>
-						<td>{{x.unitName}}</td>
+						<td ng-if="x.shenbaoStageNum !=null" rowspan="{{x.shenbaoStageNum}}">{{x.rowNum}}</td>
+						<td ng-if="x.shenbaoStageNum !=null" rowspan="{{x.shenbaoStageNum}}">{{x.projectName}}</td>
+						<td ng-if="x.shenbaoStageNum !=null" rowspan="{{x.shenbaoStageNum}}">{{x.unitName}}</td>
 						<td>{{x.projectStageDesc}}</td>
 						<td>{{x.projectInvestSum}}</td>
 						<td>{{x.pfProjectInvestSum}}</td>

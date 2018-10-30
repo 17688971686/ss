@@ -17,7 +17,7 @@ public class ProjectStatisticsBean implements Serializable{
 	* @Fields serialVersionUID : 用于序列化使用（暂时没用）
 	*/
 	private static final long serialVersionUID = 1L;
-	
+
 	private String projectName;//项目名称
 	private String classDesc;//分类标识
 	private String unitName;//单位名称
@@ -33,8 +33,6 @@ public class ProjectStatisticsBean implements Serializable{
 	private Integer fixedAssetsNumbers;//固定资产登记阶段项目数
 	private Double projectInvestSum;//项目总投资
 	private Double projectInvestAccuSum;//项目已拨付资金
-
-	private Double pfProjectInvestSum; //批复资金
 
 	//审批专用
 	private Integer approvalStageXMJYSNumbers;//立项数量
@@ -52,6 +50,11 @@ public class ProjectStatisticsBean implements Serializable{
 	private String yearConstructionContentShenBao;//备注
 	private String beginDate;//开始时间
 	private String endDate;//结束时间
+	//项目资金专用
+	private Integer rowNum;          //序号
+	private String projectId;       //申报id
+	private Integer shenbaoStageNum; //申报类型个数
+	private Double pfProjectInvestSum; //批复资金
 	
 	public String getProjectName() {
 		return projectName;
@@ -236,6 +239,28 @@ public class ProjectStatisticsBean implements Serializable{
 	public void setYearConstructionContentShenBao(String yearConstructionContentShenBao) {
 		this.yearConstructionContentShenBao = yearConstructionContentShenBao;
 	}
-	
-	
+
+	public Integer getRowNum() {
+		return rowNum;
+	}
+
+	public void setRowNum(Integer rowNum) {
+		this.rowNum = rowNum;
+	}
+
+	public Integer getShenbaoStageNum() {
+		return shenbaoStageNum;
+	}
+
+	public void setShenbaoStageNum(Integer shenbaoStageNum) {
+		this.shenbaoStageNum = shenbaoStageNum;
+	}
+
+	public String getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
 }

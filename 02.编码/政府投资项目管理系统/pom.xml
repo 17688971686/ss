@@ -414,6 +414,12 @@
            <artifactId>javamelody-core</artifactId>  
            <version>1.65.0</version>    
         </dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>RELEASE</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>ROOT</finalName>
