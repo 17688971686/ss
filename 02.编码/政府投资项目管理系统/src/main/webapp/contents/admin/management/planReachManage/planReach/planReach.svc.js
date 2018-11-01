@@ -377,6 +377,11 @@
 					value:"projectShenBaoStage_5"
 				},
 				{
+					field:'thisTaskName',
+					operator:'eq',
+					value:"usertask5"
+				},
+				{
 					field:'isFaWen',
 					operator:'eq',
 					value:false

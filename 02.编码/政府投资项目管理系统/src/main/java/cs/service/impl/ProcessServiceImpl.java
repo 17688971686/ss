@@ -623,6 +623,10 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 					String array_element = taskUsers.get(i);
 					Backlog bl = new Backlog();
 					bl.setEventId(UUID.randomUUID().toString());
+					bl.setBureauName("发展和财政局");
+					bl.setSendDeptName("投资科（重大项目办）");
+					bl.setBureauName("发展和财政局");
+					bl.setDeptName("投资科（重大项目办）");
 					sb.append(bl.getEventId()+",");
 					this.todoShenbaoInfo(shenBaoInfo ,array_element,bl);
 				}
@@ -1280,6 +1284,10 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				Backlog bl = new Backlog();
 				bl.setEventId(UUID.randomUUID().toString());
 				sb.append(bl.getEventId()+",");
+				bl.setBureauName("发展和财政局");
+//				bl.setSendDeptName("投资科（重大项目办）");
+				bl.setBureauName("发展和财政局");
+//				bl.setDeptName("投资科（重大项目办）");
 				this.todoShenbaoInfo(shenBaoInfo ,nextUsers,bl);
 				activitiService.setTaskProcessVariable(tasknew.get(0).getId(), "eventIds", sb.toString());
 			}

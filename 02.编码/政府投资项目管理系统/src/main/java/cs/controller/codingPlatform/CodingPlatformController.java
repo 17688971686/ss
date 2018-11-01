@@ -50,14 +50,11 @@ public class CodingPlatformController {
 			JsonObject object = (JsonObject) parser.parse(str);
 			
 			for (int i = 1; i <= object.get("totalPage").getAsInt(); i++) {
-				if(i == 50 || i==70 || i==90){
-					Thread.sleep(5000);
-				}
+				Thread.sleep(7000);
 				str =codingPlatformService.getShenBaoInfoFromCoding(todaytime,String.valueOf(i));
 				if(str != ""){
 					codingPlatformService.saveAll(str);
 				}
-				
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -89,9 +86,7 @@ public class CodingPlatformController {
 				JsonObject object = (JsonObject) parser.parse(str);
 				
 				for (int i = 1; i <= object.get("totalPage").getAsInt(); i++) {
-					if(i == 50 || i==70 || i==90){
-						Thread.sleep(5000);
-					}
+					Thread.sleep(7000);
 					str =codingPlatformService.getShenBaoInfoFromCoding(todaytime,String.valueOf(i));
 					codingPlatformService.saveAll(str);
 				}

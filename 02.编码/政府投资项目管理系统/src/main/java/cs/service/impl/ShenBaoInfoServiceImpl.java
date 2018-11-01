@@ -19,6 +19,7 @@ import cs.service.framework.UserService;
 import cs.service.sms.SmsService;
 import cs.service.sms.exception.SMSException;
 import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.spring.ProcessEngineFactoryBean;
@@ -156,7 +157,11 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     private String projectShenBaoStage_6;
     @Value("${projectShenBaoStage_7}")
     private String projectShenBaoStage_7;
-
+	@Value("${isPushOA}")
+	private Boolean isPushOA;
+	@Autowired
+	private TaskService taskService;
+    
     private String projectName;
     @Override
     @Transactional
@@ -171,6 +176,15 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         runtimeService.deleteProcessInstance(pricessId, "建设单位主动撤销");
         Criterion criterion = Restrictions.eq(ShenBaoInfo_.zong_processId.getName(), pricessId);
         List<ShenBaoInfo> shenBaoInfo = super.repository.findByCriteria(criterion);
+        if(isPushOA){
+			//处理统一代办--查询--完成--删除
+			try {
+				String eventIds = (String) taskService.getVariable(shenBaoInfo.get(0).getThisTaskId(), "eventIds");
+				TodoNumberUtil.handleTodoMasg(eventIds);
+			} catch (Exception e) {
+				logger.info("task id not found");
+			}
+		}
         shenBaoInfo.get(0).setProcessStage("建设单位主动撤销");
         shenBaoInfo.get(0).setProcessState(BasicDataConfig.processState_weikaishi);
         shenBaoInfo.get(0).setThisTaskName("");
@@ -1149,13 +1163,17 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         Backlog bl = new Backlog();
 		bl.setEventId(UUID.randomUUID().toString());
 		
+//		bl.setBureauName("发展和财政局");
+//		bl.setSendDeptName("投资科（重大项目办）");
+		bl.setBureauName("发展和财政局");
+		bl.setDeptName("投资科（重大项目办）");
         ProcessInstance process = activitiService.startProcess(processDefinitionKey, variables);
         String executionId = process.getId();
 
         Task task = activitiService.getTaskByExecutionId(executionId);
         
         activitiService.setTaskProcessVariable(task.getId(), "eventIds", bl.getEventId()+",");
-        processService.todoShenbaoInfo(entity,sysConfg.getConfigValue(),bl);
+//        processService.todoShenbaoInfo(entity,sysConfg.getConfigValue(),bl);
         
         entity.setProcessStage("投资科审核收件办理");
         entity.setProcessState(BasicDataConfig.processState_jinxingzhong);

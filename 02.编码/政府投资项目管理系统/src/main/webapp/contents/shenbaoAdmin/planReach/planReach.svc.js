@@ -260,7 +260,7 @@
             var isValid = $('form').valid();
             if (isValid) {
                 vm.isSubmit = true;
-                $http.post(url + '/updatePlanReach').then(function () {
+                $http.post(url + '/updatePlanReach',vm.model).then(function () {
                     vm.isSubmit = false;
                     bsWin.success("操作成功！");
                     $location.path(url_back);//创建成功返回到列表页
