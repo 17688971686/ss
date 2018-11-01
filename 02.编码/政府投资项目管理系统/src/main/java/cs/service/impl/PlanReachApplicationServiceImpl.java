@@ -680,28 +680,34 @@ public class PlanReachApplicationServiceImpl
 		// 根据对象对应的申报信息，删除对应的申报信息和工作流信息
 
 		Assert.isTrue(processState_jinxingzhong != shenbaoinfo.getProcessState(), "包含正在审批的项目,请重新选择！");
-		List<ShenBaoInfo> shenBaoInfos = entity.getShenBaoInfos();
-		ShenBaoInfo array_element;
-		for (int i = 0; i < shenBaoInfos.size(); i++) {
-			array_element = shenBaoInfos.get(i);
-			if (shenbaoId.equals(array_element.getId())) {
-				shenBaoInfos.remove(i);
+		if(!shenbaoinfo.getProcessState().equals(BasicDataConfig.processState_jinxingzhong) &&
+				!shenbaoinfo.getProcessState().equals(BasicDataConfig.processState_pass)){
+			List<ShenBaoInfo> shenBaoInfos = entity.getShenBaoInfos();
+			ShenBaoInfo array_element;
+			for (int i = 0; i < shenBaoInfos.size(); i++) {
+				array_element = shenBaoInfos.get(i);
+				if (shenbaoId.equals(array_element.getId())) {
+					shenBaoInfos.remove(i);
+				}
 			}
+	
+			Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), shenbaoinfo.getProjectId());
+			Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(),
+					BasicDataConfig.projectShenBaoStage_nextYearPlan);
+			List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion, criterion2);
+			if (!CollectionUtils.isEmpty(shenbaoinfoList)) {
+				array_element = shenbaoinfoList.get(0);
+				array_element.setIsIncludPack(false);
+				shenBaoInfoRepo.save(array_element);
+			}
+		
+				shenBaoInfoRepo.delete(shenbaoinfo);
+			
+			repository.save(entity);
+			logger.info(String.format("删除计划下达申请表,名称 :%s", entity.getApplicationName()));
+		}else{
+			Assert.isTrue(processState_jinxingzhong == shenbaoinfo.getProcessState(), "项目已发文,请重新选择！");
 		}
-
-		Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), shenbaoinfo.getProjectId());
-		Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(),
-				BasicDataConfig.projectShenBaoStage_nextYearPlan);
-		List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion, criterion2);
-		if (!CollectionUtils.isEmpty(shenbaoinfoList)) {
-			array_element = shenbaoinfoList.get(0);
-			array_element.setIsIncludPack(false);
-			shenBaoInfoRepo.save(array_element);
-		}
-
-		shenBaoInfoRepo.delete(shenbaoinfo);
-		repository.save(entity);
-		logger.info(String.format("删除计划下达申请表,名称 :%s", entity.getApplicationName()));
 	}
 
 	@Override
@@ -732,21 +738,28 @@ public class PlanReachApplicationServiceImpl
 	public void deletePlanShenBaoInfo(String packPlanId, String shenbaoId) {
 		PackPlan plan = packPlanRepo.findById(packPlanId);
 		ShenBaoInfo entity = shenBaoInfoRepo.findById(shenbaoId);
-		for (int i = 0; i < plan.getShenBaoInfos().size(); i++) {
-			ShenBaoInfo array_element = plan.getShenBaoInfos().get(i);
-
-			if (shenbaoId.equals(array_element.getId())) {
-				shenBaoInfoRepo.delete(entity);
-				plan.getShenBaoInfos().remove(i);
+		//进行中或者已审批通过的项目无法删除
+		if(!entity.getProcessState().equals(BasicDataConfig.processState_jinxingzhong) &&
+				!entity.getProcessState().equals(BasicDataConfig.processState_pass)){
+		
+			for (int i = 0; i < plan.getShenBaoInfos().size(); i++) {
+				ShenBaoInfo array_element = plan.getShenBaoInfos().get(i);
+	
+				if (shenbaoId.equals(array_element.getId())) {
+					shenBaoInfoRepo.delete(entity);
+					plan.getShenBaoInfos().remove(i);
+				}
 			}
+			Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), entity.getProjectId());
+			Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(),
+					BasicDataConfig.projectShenBaoStage_nextYearPlan);
+			List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion, criterion2);
+			shenbaoinfoList.get(0).setIsIncludPack(false);
+			shenBaoInfoRepo.save(shenbaoinfoList.get(0));
+			packPlanRepo.save(plan);
+		}else{
+			new IllegalArgumentException("项目正在审批或者已发文，无法删除");
 		}
-		Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), entity.getProjectId());
-		Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(),
-				BasicDataConfig.projectShenBaoStage_nextYearPlan);
-		List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion, criterion2);
-		shenbaoinfoList.get(0).setIsIncludPack(false);
-		shenBaoInfoRepo.save(shenbaoinfoList.get(0));
-		packPlanRepo.save(plan);
 	}
 
 	/**
