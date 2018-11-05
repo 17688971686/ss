@@ -257,10 +257,6 @@
     	function init_create(){
     		vm.model.projectInvestmentType = vm.projectInvestmentType;//项目投资类型用于数据收集
      	   if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
-     		   //基础数据--项目分类
-     		  vm.basicData.projectClassify=$linq(common.getBasicData())
- 	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
- 	       		.toArray();
      		  //基础数据--行业归口
      		  vm.basicData.projectIndustry=$linq(common.getBasicData())
  	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
@@ -275,10 +271,6 @@
   	 					 vm.model.capitalOther||0]);
   	 		 };
   		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资
-  			  //基础数据--项目分类
-  			  vm.basicData.projectClassify=$linq(common.getBasicData())
- 	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
- 	       		.toArray();
   			  //基础数据--行业归口
   			 vm.basicData.projectIndustry=$linq(common.getBasicData())
  	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_SH;})

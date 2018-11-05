@@ -3,6 +3,7 @@ package cs.repository.impl;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import java.util.Map;
 
 import cs.repository.odata.ODataObjNew;
 import org.apache.log4j.Logger;
@@ -50,6 +51,23 @@ public class AbstractRepository<T, ID extends Serializable> implements IReposito
         logger.debug("findByCriteria");
         Criteria crit = this.getSession().createCriteria(this.getPersistentClass());
 
+        for (Criterion c : criterion) {
+            crit.add(c);
+        }
+        return crit.list();
+
+    }
+
+    @Override
+    @SuppressWarnings({"unchecked", "deprecation"})
+    public List<T> findByCriteria(Map<String,String> alias,Criterion... criterion) {
+        logger.debug("findByCriteria");
+        Criteria crit = this.getSession().createCriteria(this.getPersistentClass());
+        if(!alias.isEmpty()){
+            alias.keySet().forEach(x -> {
+                crit.createAlias(x,alias.get(x));
+            });
+        }
         for (Criterion c : criterion) {
             crit.add(c);
         }

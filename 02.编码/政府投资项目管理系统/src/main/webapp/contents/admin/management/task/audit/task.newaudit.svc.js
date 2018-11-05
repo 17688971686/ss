@@ -553,7 +553,6 @@
                         //判断投资类型
                         if (vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_SH) {//社会投资
                             vm.isSHInvestment = true;
-                            vm.basicData.projectClassify = vm.basicData.projectClassify_SH;//基础数据--项目分类
                             vm.basicData.projectIndustry = vm.basicData.projectIndustry_SH;//基础数据--行业归口
                             vm.basicData.projectConstrChar = vm.basicData.projectConstrChar;//基础数据--项目建设性质
                             vm.projectIndustryChange = function () {
@@ -565,7 +564,6 @@
                             };
                         } else if (vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_ZF) {//政府投资
                             vm.isZFInvestment = true;
-                            vm.basicData.projectClassify = vm.basicData.projectClassify_ZF;//基础数据--项目分类
                             vm.basicData.projectIndustry = vm.basicData.projectIndustry_ZF;//基础数据--行业归口
                         }
                         //判断申报阶段

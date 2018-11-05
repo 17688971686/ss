@@ -76,12 +76,6 @@
         	vm.basicData.projectIndustry_SH=$linq(common.getBasicData())
 				.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_SH;})
 				.toArray();//社会投资行业
-        	vm.basicData.projectClassify_ZF=$linq(common.getBasicData())
-       			.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
-       			.toArray();//政府项目分类
-        	vm.basicData.projectClassify_SH=$linq(common.getBasicData())
-   				.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
-   				.toArray();//社会项目分类
         	vm.basicData.area_Street=$linq(common.getBasicData())
 				.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
 				.toArray(); //行政区划街道

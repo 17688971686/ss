@@ -1,9 +1,15 @@
 package cs.controller.management;
 
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.sn.framework.odata.OdataFilter;
+import cs.repository.odata.ODataObjNew;
+import cs.repository.odata.OdataUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,9 +36,19 @@ public class ShenBaoController {
 //	@RequiresPermissions("management/shenbao##get")
 	@RequestMapping(name = "获取申报数据", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> get(HttpServletRequest request) throws ParseException {
-		ODataObj odataObj = new ODataObj(request);
+		ODataObjNew odataObj = new ODataObjNew(request);
+		//转换查询条件数据类型
+        Map<String,String> map = new HashMap<String,String>();
+        map.put("processState","Integer");
+        OdataUtil.replaceOdataFilterByMap(odataObj,map);
+		//处理查询条件-计划年度
+		OdataFilter planYearFilter = OdataUtil.removeOdataFilterFromOdataByFiledName(odataObj,"planYear");
+		List<ShenBaoInfoDto> shenbaoInfoDtos = shenBaoInfoService.findYearPlanDataByOdata(odataObj,planYearFilter);
+		return new PageModelDto<>(shenbaoInfoDtos, odataObj.isCount() ? odataObj.getCount() : shenbaoInfoDtos.size());
+
+		/*ODataObj odataObj = new ODataObj(request);
 		PageModelDto<ShenBaoInfoDto>  shenbaoInfoDtos= shenBaoInfoService.get(odataObj);
-		return shenbaoInfoDtos;
+		return shenbaoInfoDtos;*/
 	}
 	
 	@RequiresPermissions("management/shenbao##post")

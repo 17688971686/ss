@@ -21,8 +21,6 @@ public class ProjectDto extends Project {
 	private String projectCategoryDesc;
 	//所属行业
 	private String projectIndustryDesc;
-	//项目分类
-	private String projectClassifyDesc;
 	//资金其他来源类型
 	private String capitalOtherTypeDesc;
 	//项目投资类型（政府投资/社会投资）
@@ -88,14 +86,6 @@ public class ProjectDto extends Project {
 
 	public void setProjectIndustryDesc(String projectIndustryDesc) {
 		this.projectIndustryDesc = projectIndustryDesc;
-	}
-
-	public String getProjectClassifyDesc() {
-		return projectClassifyDesc;
-	}
-
-	public void setProjectClassifyDesc(String projectClassifyDesc) {
-		this.projectClassifyDesc = projectClassifyDesc;
 	}
 
 	public List<AttachmentDto> getAttachmentDtos() {

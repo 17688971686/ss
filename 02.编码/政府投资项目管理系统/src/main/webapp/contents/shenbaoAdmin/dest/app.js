@@ -483,10 +483,6 @@
     		projectCategory_C:"projectCategory_3",//C类
     		projectCategory_D:"projectCategory_4",//D类
     		
-    		projectClassify:"projectClassify",//项目分类
-    		projectClassify_ZF:"projectClassify_1",//政府投资项目分类
-    		projectClassify_SH:"projectClassify_2",//社会投资项目分类
-    		
     		projectConstrChar:"projectConstrChar",//项目建设性质
     		projectConstrChar_qianqi:"projectConstrChar_1",//前期
     		projectConstrChar_xinkaigong:"projectConstrChar_2",//新开工
@@ -2195,10 +2191,6 @@
 			
     	   if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
     		   vm.isZFInvestment = true;
-    		   //基础数据--项目分类
-    		  vm.basicData.projectClassify=$linq(common.getBasicData())
-	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
-	       		.toArray();
     		  //基础数据--行业归口
     		  vm.basicData.projectIndustry=$linq(common.getBasicData())
 	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
@@ -3239,20 +3231,12 @@
     	   var init_basicData = function(){
     		   if(vm.investmentType == common.basicDataConfig().projectInvestmentType_ZF){//如果为政府投资
         		   vm.isZFInvestment = true; 
-      			 	//基础数据--项目分类
-        		   vm.basicData.projectClassify=$linq(common.getBasicData())
-    	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
-    	       		.toArray();
         		   //基础数据--行业归口
         		   vm.basicData.projectIndustry=$linq(common.getBasicData())
     	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
     	       		.toArray();
         	   }else if(vm.investmentType == common.basicDataConfig().projectInvestmentType_SH){//如果为社会投资
         		   vm.isSHInvestment = true;
-     			   //基础数据--项目分类
-        		   vm.basicData.projectClassify=$linq(common.getBasicData())
-    	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
-    	       		.toArray();
      			  //基础数据--行业归口
      			   vm.basicData.projectIndustry=$linq(common.getBasicData())
     	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_SH;})

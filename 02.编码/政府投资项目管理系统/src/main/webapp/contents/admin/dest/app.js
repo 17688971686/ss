@@ -483,10 +483,6 @@
     		projectCategory_C:"projectCategory_3",//C类
     		projectCategory_D:"projectCategory_4",//D类
     		
-    		projectClassify:"projectClassify",//项目分类
-    		projectClassify_ZF:"projectClassify_1",//政府投资项目分类
-    		projectClassify_SH:"projectClassify_2",//社会投资项目分类
-    		
     		projectConstrChar:"projectConstrChar",//项目建设性质
     		projectConstrChar_qianqi:"projectConstrChar_1",//前期
     		projectConstrChar_xinkaigong:"projectConstrChar_2",//新开工
@@ -9915,15 +9911,6 @@
 			                    });
 			                }
 						}
-					},
-					{
-						field : "projectClassify",
-						title : "项目分类",
-						width : 150,
-						template:function(item){
-							return common.getBasicDataDesc(item.projectClassify);
-						},
-						filterable : false
 					}
 					
 				
@@ -11255,10 +11242,6 @@
     	function init_create(){
     		vm.model.projectInvestmentType = vm.projectInvestmentType;//项目投资类型用于数据收集
      	   if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
-     		   //基础数据--项目分类
-     		  vm.basicData.projectClassify=$linq(common.getBasicData())
- 	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
- 	       		.toArray();
      		  //基础数据--行业归口
      		  vm.basicData.projectIndustry=$linq(common.getBasicData())
  	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
@@ -11273,10 +11256,6 @@
   	 					 vm.model.capitalOther||0]);
   	 		 };
   		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资
-  			  //基础数据--项目分类
-  			  vm.basicData.projectClassify=$linq(common.getBasicData())
- 	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
- 	       		.toArray();
   			  //基础数据--行业归口
   			 vm.basicData.projectIndustry=$linq(common.getBasicData())
  	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_SH;})
@@ -12674,20 +12653,12 @@
     	function init_create(){
     		vm.model.projectInvestmentType = vm.projectInvestmentType;//项目投资类型用于数据收集
      	   if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
-     		   //基础数据--项目分类
-     		  vm.basicData.projectClassify=$linq(common.getBasicData())
- 	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
- 	       		.toArray();
      		  //基础数据--行业归口
      		  vm.basicData.projectIndustry=$linq(common.getBasicData())
  	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
  	       		.toArray();
   			  vm.isZFInvestment = true; 			  
   		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资
-  			  //基础数据--项目分类
-  			  vm.basicData.projectClassify=$linq(common.getBasicData())
- 	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
- 	       		.toArray();
   			  //基础数据--行业归口
   			 vm.basicData.projectIndustry=$linq(common.getBasicData())
  	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_SH;})
@@ -13135,15 +13106,6 @@
 			                    });
 			                }
 						}
-					},
-					{
-						field : "projectClassify",
-						title : "项目分类",
-						width : 150,
-						template:function(item){
-							return common.getBasicDataDesc(item.projectClassify);
-						},
-						filterable : false
 					}
 					
 				
@@ -13783,15 +13745,6 @@
 						}
 					},
 					{
-						field : "projectClassify",
-						title : "项目分类",
-						width : 150,
-						template:function(item){
-							return common.getBasicDataDesc(item.projectClassify);
-						},
-						filterable : false
-					},
-					{
 						field : "isMonthReport",
 						title : "是否月报",
 						template : function(item) {
@@ -14227,15 +14180,6 @@
 			                    });
 			                }
 						}
-					},
-					{
-						field : "projectClassify",
-						title : "项目分类",
-						width : 150,
-						template:function(item){
-							return common.getBasicDataDesc(item.projectClassify);
-						},
-						filterable : false
 					},
 					{
 						field : "isMonthReport",
@@ -17060,10 +17004,6 @@
 						//判断投资类型
 						if(vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_SH){//社会投资
 							vm.isSHInvestment = true;
-							//基础数据--项目分类
-							vm.basicData.projectClassify=$linq(common.getBasicData())
-		    	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
-		    	       		.toArray();
 							//基础数据--行业归口
 							 vm.basicData.projectIndustry=$linq(common.getBasicData())
 			    	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
@@ -17075,10 +17015,6 @@
 			     			   };
 						}else if(vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_ZF){//政府投资
 							vm.isZFInvestment = true;
-							//基础数据--项目分类
-							vm.basicData.projectClassify=$linq(common.getBasicData())
-		    	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
-		    	       		.toArray();
 							//基础数据--行业归口
 		        		   vm.basicData.projectIndustry=$linq(common.getBasicData())
 		    	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
@@ -18676,10 +18612,6 @@
 						//判断投资类型
 						if(vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_SH){//社会投资
 							vm.isSHInvestment = true;
-							//基础数据--项目分类
-							vm.basicData.projectClassify=$linq(common.getBasicData())
-		    	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
-		    	       		.toArray();
 							//基础数据--行业归口
 							 vm.basicData.projectIndustry=$linq(common.getBasicData())
 			    	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
@@ -18691,10 +18623,6 @@
 			     			   };
 						}else if(vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_ZF){//政府投资
 							vm.isZFInvestment = true;
-							//基础数据--项目分类
-							vm.basicData.projectClassify=$linq(common.getBasicData())
-		    	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
-		    	       		.toArray();
 							//基础数据--行业归口
 		        		   vm.basicData.projectIndustry=$linq(common.getBasicData())
 		    	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
@@ -19412,20 +19340,12 @@
     		var init_basicData = function(){
     			if(vm.investmentType == common.basicDataConfig().projectInvestmentType_ZF){//如果为政府投资
          		   vm.isZFInvestment = true; 
-       			 	//基础数据--项目分类
-         		   vm.basicData.projectClassify=$linq(common.getBasicData())
-     	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
-     	       		.toArray();
          		   //基础数据--行业归口
          		   vm.basicData.projectIndustry=$linq(common.getBasicData())
      	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
      	       		.toArray();
          	   }else if(vm.investmentType == common.basicDataConfig().projectInvestmentType_SH){//如果为社会投资
          		   vm.isSHInvestment = true;
-      			   //基础数据--项目分类
-         		   vm.basicData.projectClassify=$linq(common.getBasicData())
-     	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
-     	       		.toArray();
       			  //基础数据--行业归口
       			   vm.basicData.projectIndustry=$linq(common.getBasicData())
      	       		.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_SH;})

@@ -1,6 +1,7 @@
 package cs.service.impl;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,13 +9,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
 import com.huasisoft.portal.model.Backlog;
 import com.sn.framework.common.IdWorker;
 import com.sn.framework.common.StringUtil;
+import com.sn.framework.odata.OdataFilter;
 import cs.common.*;
+import cs.domain.*;
+import cs.model.DomainDto.*;
+import cs.repository.impl.ShenBaoInfoRepoImpl;
+import cs.repository.odata.ODataObjNew;
 import cs.service.framework.UserService;
 import cs.service.sms.SmsService;
 import cs.service.sms.exception.SMSException;
@@ -27,8 +34,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.DoubleType;
@@ -39,17 +45,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import cs.activiti.service.ActivitiService;
-import cs.domain.Attachment;
-import cs.domain.BasicData;
-import cs.domain.Project;
-import cs.domain.Project_;
-import cs.domain.ReplyFile;
-import cs.domain.ShenBaoInfo;
-import cs.domain.ShenBaoInfo_;
-import cs.domain.ShenBaoUnitInfo;
-import cs.domain.TaskHead;
-import cs.domain.TaskHead_;
-import cs.domain.TaskRecord;
 import cs.domain.framework.Org;
 import cs.domain.framework.Org_;
 import cs.domain.framework.SysConfig;
@@ -57,10 +52,6 @@ import cs.domain.framework.SysConfig_;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.SendMsg;
-import cs.model.DomainDto.AttachmentDto;
-import cs.model.DomainDto.ShenBaoInfoDto;
-import cs.model.DomainDto.ShenBaoUnitInfoDto;
-import cs.model.DomainDto.TaskRecordDto;
 import cs.model.DtoMapper.IMapper;
 import cs.model.Statistics.ProjectStatisticsBean;
 import cs.repository.framework.OrgRepo;
@@ -72,6 +63,10 @@ import cs.service.interfaces.ProcessService;
 import cs.service.interfaces.ShenBaoInfoService;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+
+import static cs.common.BasicDataConfig.projectShenBaoStage_CBSJGS;
+import static cs.common.BasicDataConfig.projectShenBaoStage_XMJYS;
+import static cs.common.BasicDataConfig.projectShenBaoStage_oncePlanReach;
 
 /**
  * @Description: 申报信息服务层
@@ -102,6 +97,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     @Autowired
     private IMapper<ShenBaoUnitInfoDto, ShenBaoUnitInfo> shenBaoUnitInfoMapper;
     @Autowired
+    private IMapper<YearPlanYearContentDto,YearPlanYearContent> yearPlanYearContentIMapper;
+    @Autowired
     private BasicDataService basicDataService;
     @Autowired
     private OrgRepo orgRepo;
@@ -119,6 +116,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     private Map<String, String> shenbaoSMSContent;
     @Autowired
     private ProcessService processService;
+    @Autowired
+    private ShenBaoInfoRepoImpl shenBaoInfoRepoImpl;
     
     private String processDefinitionKey = "ShenpiReview";
     private String processDefinitionKey_monitor_fjxm = "ShenpiMonitor_fjxm";
@@ -317,6 +316,15 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         bianZhiUnitInfo.setCreatedBy(entity.getCreatedBy());
         bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
         entity.setBianZhiUnitInfo(bianZhiUnitInfo);
+        //年度计划
+        if (entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)) {
+            YearPlanYearContentDto yearPlanYearContentDto = dto.getYearPlanYearContentDto();
+            YearPlanYearContent yearPlanYearContent = new YearPlanYearContent();
+            yearPlanYearContentIMapper.buildEntity(yearPlanYearContentDto,yearPlanYearContent);
+            yearPlanYearContent.setCreatedBy(entity.getCreatedBy());
+            yearPlanYearContent.setModifiedBy(entity.getModifiedBy());
+            entity.setYearPlanYearContent(yearPlanYearContent);
+        }
         super.repository.save(entity);
         projectRepo.save(project);
         //处理批复文件库
@@ -404,14 +412,12 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             entity.setModifiedDate(new Date());
         }
 
-        if ("projectClassify_1_1".equalsIgnoreCase(dto.getProjectClassify())) {
-            //设置申报信息的阶段为待签收
-            entity.setProcessStage("投资科审核收件办理");
-            entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
-            entity.setCreatedDate(new Date());
-            entity.setModifiedDate(new Date());
-            startProcessMonitor_fjxm(processDefinitionKey_monitor_fjxm, entity.getId());
-        }
+        //设置申报信息的阶段为待签收
+        entity.setProcessStage("投资科审核收件办理");
+        entity.setProcessState(BasicDataConfig.processState_jinxingzhong);
+        entity.setCreatedDate(new Date());
+        entity.setModifiedDate(new Date());
+        startProcessMonitor_fjxm(processDefinitionKey_monitor_fjxm, entity.getId());
     }
 
     @Override
@@ -576,8 +582,10 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
                 //查询本年度是否存在计划下达
                 Criterion criterion1 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach);
                 Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.projectNumber.getName(), entity.getProjectNumber());
-                Criterion criterion3 = Restrictions.eq(ShenBaoInfo_.planYear.getName(), entity.getPlanYear());
-                List<ShenBaoInfo> query = super.repository.findByCriteria(criterion1, criterion2, criterion3);
+                Map<String,String> aliasMap = new HashMap<String,String>();
+                aliasMap.put("YearPlanYearContent","yearPlan");
+                Criterion criterion3 = Restrictions.eq("yearPlan."+YearPlanYearContent_.planYear.getName(), entity.getYearPlanYearContent().getPlanYear());
+                List<ShenBaoInfo> query = super.repository.findByCriteria(aliasMap , criterion1, criterion2, criterion3);
                 if (query.isEmpty()) {
 //                    entity.setIsPlanReach(true);
                     ShenBaoInfoDto dto = super.mapper.toDto(entity);
@@ -672,9 +680,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
                         startProcessShenbao(processDefinitionKey_yearPlan, entity.getId());
                     } else {
                         startProcessShenbao(processDefinitionKey, entity.getId());
-                        if ("projectClassify_1_1".equalsIgnoreCase(dto.getProjectClassify())) {
-                            startProcessMonitor_fjxm(processDefinitionKey_monitor_fjxm, entity.getId());
-                        }
+                        startProcessMonitor_fjxm(processDefinitionKey_monitor_fjxm, entity.getId());
                     }
                 }
             }
@@ -765,7 +771,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         project.setProjectRepName(dto.getProjectRepName());//负责人名称
         project.setProjectRepMobile(dto.getProjectRepMobile());//负责人手机
         project.setProjectCategory(dto.getProjectCategory());//项目类别
-        project.setProjectClassify(dto.getProjectClassify());//项目分类
         project.setProjectIndustry(dto.getProjectIndustry());//项目行业归口
         project.setProjectType(dto.getProjectType());//项目类型
         project.setDivisionId(dto.getDivisionId());//项目区域
@@ -1292,5 +1297,27 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         }
         return "";
     }
+
+    @Override
+    public List<ShenBaoInfoDto> findYearPlanDataByOdata(ODataObjNew odata,OdataFilter planYearFilter) {
+        //增加关联查询
+        odata.setProcessQuery((criteria) -> {
+            criteria.createAlias("yearPlanYearContent","yearPlan");
+            //增加计划年度查询条件
+            if(planYearFilter!=null){
+                criteria.add(Restrictions.eq("yearPlan.planYear",Integer.parseInt((String)planYearFilter.getValue())));
+            }
+            criteria.addOrder(Order.desc("yearPlan.planYear"));
+        });
+        List<ShenBaoInfoDto> shenbaoinfo = null;
+        try {
+            shenbaoinfo =  shenBaoInfoRepoImpl.findRunByOdata2(odata).stream().map(mapper::toDto).collect(Collectors.toList());
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return shenbaoinfo;
+    }
+
 }
 

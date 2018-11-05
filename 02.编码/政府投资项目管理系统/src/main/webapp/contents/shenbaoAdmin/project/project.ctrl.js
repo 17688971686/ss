@@ -72,12 +72,6 @@
    	   		vm.basicData.projectIndustry_SH=$linq(common.getBasicData())
    	   			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_SH;})
    	   			.toArray();//社会投资项目行业
-	   	   	vm.basicData.projectClassify_ZF=$linq(common.getBasicData())
-	  			.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
-	  			.toArray();//政府投资项目分类
-	  		vm.basicData.projectClassify_SH=$linq(common.getBasicData())
-	  			.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
-	  			.toArray();//社会投资项目分类
 	   		vm.basicData.userUnit=common.getUserUnits().value;//获取所有单位
 		   	 var keys = [];
 	    	 vm.output = [];
@@ -226,7 +220,6 @@
 			
     	   if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_ZF){//如果是政府投资
 				vm.isZFInvestment = true;
-				vm.basicData.projectClassify=vm.basicData.projectClassify_ZF; //基础数据--项目分类
 				vm.basicData.projectIndustry=vm.basicData.projectIndustry_ZF; //基础数据--行业归口
 				vm.relatedType=common.uploadFileTypeConfig().projectEdit;//相关附件文件上传文件种类
  		   }else if(vm.projectInvestmentType==common.basicDataConfig().projectInvestmentType_SH){//如果是社会投资

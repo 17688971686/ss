@@ -104,24 +104,6 @@
                     }
                 },
                 {
-                    field : "projectClassify",
-                    title : "项目分类",
-                    width : 100,
-                    template:function(item){
-                        return common.getBasicDataDesc(item.projectClassify);
-                    },
-                    filterable : {
-                        ui: function(element){
-                            element.kendoDropDownList({
-                                valuePrimitive: true,
-                                dataSource: common.getBasicData(),
-                                dataTextField: "description",
-                                dataValueField: "id"
-                            });
-                        }
-                    }
-                },
-                {
                     field : "",
                     title : "操作",
                     width : 100,

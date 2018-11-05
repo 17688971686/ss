@@ -464,7 +464,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		Project project = projectRepo.findById(shenBaoInfo.getProjectId());
 		
 		List<String> taskUsers = Arrays.asList(nextUsers.split(","));
-		
+
 		if(shenBaoInfo.getThisTaskName().equals("usertask1") || str.equals("reback")){
 			List<Org> findProjects = new ArrayList<>();
 			Criterion criterion = Restrictions.eq(Org_.name.getName(), "投资科");
@@ -484,7 +484,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				variables.put("nextUsers", list1);
 				taskUsers = list1;
 			}
-			
+
 		}else{
 			if (!nextUsers.isEmpty()) {// 设置流程变量--下一任务处理人
 				variables.put("userIds", taskUsers);
@@ -521,11 +521,11 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				logger.info("task id not found");
 			}
 		}
-		
+
 		activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
 		activitiService.taskComplete(task.get(0).getId(), variables);
-	
-		
+
+
 		// 结束上一任务后，当前流程下产生的新任务
 		List<Task> tasknew = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId())
 				.orderByDueDate().desc().list();
@@ -576,16 +576,16 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 					.map(user2 -> new SendMsg(user2.getMobilePhone(), content)) // 将用户对象转换成SendMsg对象
 					.collect(Collectors.toList());
 		}
-		
-		
+
+
 		// 开始发送短信通知
 		try {
 			smsService.insertDownSms(null, msgs.toArray(new SendMsg[] {}));
 		} catch (SMSException e) {
 			logger.error("发送短信异常：" + e.getMessage(), e);
 		}
-		
-		
+
+
 		if (shenBaoInfo.getThisTaskName().equals("usertask5") && "next".equals(str) ) {
 			shenBaoInfo.setXdPlanReach_gtzj(xdPlanReach_gtzj);
 			shenBaoInfo.setXdPlanReach_ggys(xdPlanReach_ggys);
@@ -599,10 +599,15 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			
 			Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), shenBaoInfo.getProjectId());
 			Criterion criterion1 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_nextYearPlan);
-			Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.planYear.getName(), shenBaoInfo.getPlanYear());
+			Map<String,String> aliasMap = new HashMap<String,String>();
+			aliasMap.put("YearPlanYearContent","yearPlan");
+			Criterion criterion2 = Restrictions.eq("yearPlan."+YearPlanYearContent_.planYear.getName(), shenBaoInfo.getYearPlanYearContent().getPlanYear());
 			Criterion criterion3 = Restrictions.and(criterion, criterion1,criterion2);
-			ShenBaoInfo nextyearplan = shenBaoInfoRepo.findByCriteria(criterion3).get(0);
-			nextyearplan.setApInvestSum(nextyearplan.getApInvestSum() +xdPlanReach_gtzj +xdPlanReach_ggys);
+			/*ShenBaoInfo nextyearplan = shenBaoInfoRepo.findByCriteria(criterion3).get(0);
+			nextyearplan.setApInvestSum(nextyearplan.getApInvestSum() +xdPlanReach_gtzj +xdPlanReach_ggys);*/
+			ShenBaoInfo nextyearplan = shenBaoInfoRepo.findByCriteria(aliasMap,criterion3).get(0);
+			YearPlanYearContent yearPlanYearContent = nextyearplan.getYearPlanYearContent();
+			yearPlanYearContent.setApInvestSum(nextyearplan.getYearPlanYearContent().getApInvestSum() +xdPlanReach_gtzj +xdPlanReach_ggys);
 			shenBaoInfoRepo.save(nextyearplan);
 //			shenBaoInfo.setComplate(true);
 		} else if (str.equals("tuiwen")) {
@@ -632,16 +637,16 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				}
 				activitiService.setTaskProcessVariable(tasknew.get(0).getId(), "eventIds", sb.toString());
 			}
-			
+
 		}
 		projectRepo.save(project);
 		shenBaoInfoRepo.save(shenBaoInfo);
-		
+
 		logger.info(String.format("查询角色组已办结上线请求,用户名:%s", currentUser.getLoginName()));
 
 	}
 
-	
+
 
 	/**************************************************************************************************************************/
 
@@ -934,7 +939,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				logger.info("task id not found");
 			}
 		}
-	
+
 		shenBaoInfo.setThisTaskId("00000");
 		shenBaoInfo.setQianshouDate(new Date());// 签收时间
 		shenBaoInfo.setReceiver(currentUser.getUserId());// 签收人
@@ -1112,7 +1117,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		} else {
 			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见：" + msg);
 		}
-		
+
 		if ((shenBaoInfo.getThisTaskName().equals("usertask1") || shenBaoInfo.getThisTaskName().equals("usertask5"))
 				&& !"1".equals(isPass)) {
 			shenBaoInfo.setQianshouDate(new Date());// 签收时间
@@ -1339,14 +1344,14 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	}
 
 	@Override
-	@Transactional	
+	@Transactional
 	public void todoShenbaoInfo(ShenBaoInfo shenBaoInfo ,String nextUsers,Backlog bl) {
 		// TODO Auto-generated method stub
 		//推送待办数据到OA
 		if(true){
-			
+
 			bl.setId(shenBaoInfo.getId());
-		
+
 			bl.setTitle(shenBaoInfo.getProjectName());
 			bl.setUrgency(returnFileSet(shenBaoInfo.getUrgencyState()));
 			bl.setSystemCode("GMZXXMGLXT");
@@ -1357,7 +1362,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				bl.setPersonId(user.getOaId());
 				bl.setPersonName(user.getDisplayName());
 			}
-			
+
 			User user2 = userRepo.findById(currentUser.getUserId());
 			bl.setSendPersonId(user2.getOaId());
 			bl.setSendPersonName(user2.getDisplayName());
@@ -1956,6 +1961,14 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		return shenBaoInfoRepoImpl.findRunByOdata2(odataObj).stream().map(mapper::toDto).collect(Collectors.toList());
 	}
 
+//	@Override
+//	@Transactional
+//	public void taskYuepi(String id) {
+//		ShenBaoInfo entity = shenBaoInfoRepo.findById(id);
+//		entity.setIsLeaderHasRead(true);
+//		
+//		shenBaoInfoRepo.save(entity);
+//	}
 
 	@Override
 	@Transactional
@@ -2009,10 +2022,10 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		 }
 		 return num;
 	 }
-	 
+
 	@Override
 	public void todoShenbaoInfo(ShenBaoInfo entity, String configValue) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

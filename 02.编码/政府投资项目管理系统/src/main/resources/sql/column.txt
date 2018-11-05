@@ -25,5 +25,35 @@ alter table cs_project modify column projectType varchar(64) ;
 alter table cs_project modify column projectCategory varchar(64) ;
 alter table cs_project modify column projectIndustry varchar(64) ;
 
--- add yb liux   2018-10-24   生产数据库里面申报表所有的下一年度计划申请信息的开工竣工日期都改成年月，其他概算，立项等信息不变
+-- add by  liux   2018/10/19
+alter table cs_project drop column projectClassify;
+alter table cs_shenbaoinfo drop column projectClassify;
+
+-- add by liux   2018-10-24   生产数据库里面申报表所有的下一年度计划申请信息的开工竣工日期都改成年月，其他概算，立项等信息不变
 update cs_shenbaoinfo set beginDate = left(beginDate,7),endDate = left(endDate,7) where projectShenBaoStage = 'projectShenBaoStage_7';
+
+-- add by  liux   2018/11/2
+alter table cs_shenbaoinfo drop column projectConstrChar;
+alter table cs_shenbaoinfo drop column capitalOtherDescriptionShenBao;
+alter table cs_shenbaoinfo drop column capitalOtherDescriptionShenBao_LastYear;
+alter table cs_shenbaoinfo drop column capitalOtherDescriptionShenBao_LastTwoYear;
+alter table cs_shenbaoinfo drop column yearConstructionContent;
+alter table cs_shenbaoinfo drop column yearConstructionContentLastYear;
+alter table cs_shenbaoinfo drop column yearConstructionContentLastTwoYear;
+alter table cs_shenbaoinfo drop column yearConstructionContentShenBao;
+alter table cs_shenbaoinfo drop column planYear;
+alter table cs_shenbaoinfo drop column isApplyOutsideCapital;
+alter table cs_shenbaoinfo drop column applyOutsideCapital;
+alter table cs_shenbaoinfo drop column applyYearInvest;
+alter table cs_shenbaoinfo drop column capitalSCZ_ggys_TheYear;
+alter table cs_shenbaoinfo drop column capitalSCZ_gtzj_TheYear;
+alter table cs_shenbaoinfo drop column capitalSCZ_qita ;
+alter table cs_shenbaoinfo drop column applyYearInvest_LastYear;
+alter table cs_shenbaoinfo drop column capitalSCZ_ggys_LastYear;
+alter table cs_shenbaoinfo drop column capitalSCZ_gtzj_LastYear;
+alter table cs_shenbaoinfo drop column capitalSCZ_qita_LastYear;
+alter table cs_shenbaoinfo drop column applyYearInvest_LastTwoYear;
+alter table cs_shenbaoinfo drop column capitalSCZ_ggys_LastTwoYear;
+alter table cs_shenbaoinfo drop column capitalSCZ_gtzj_LastTwoYear;
+alter table cs_shenbaoinfo drop column capitalSCZ_qita_LastTwoYear;
+alter table cs_shenbaoinfo drop column apInvestSum;

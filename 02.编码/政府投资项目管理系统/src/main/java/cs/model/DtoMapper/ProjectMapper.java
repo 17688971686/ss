@@ -34,7 +34,6 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			projectDto.setIsMonthReport(project.getIsMonthReport());//是否月报
 			projectDto.setProjectInvestmentType(project.getProjectInvestmentType());//项目投资类型
 			projectDto.setProjectStage(project.getProjectStage());//项目阶段
-			projectDto.setProjectClassify(project.getProjectClassify());//项目分类
 			projectDto.setProjectIndustry(project.getProjectIndustry());//项目行业
 			projectDto.setNationalIndustry(project.getNationalIndustry());//国民经济行业分类
 			projectDto.setProjectType(project.getProjectType());//项目类型
@@ -127,7 +126,6 @@ public class ProjectMapper implements IMapper<ProjectDto, Project> {
 			project.setIsMonthReport(projectDto.getIsMonthReport());
 			project.setProjectStage(projectDto.getProjectStage());
 			project.setProjectInvestmentType(projectDto.getProjectInvestmentType());//项目投资类型
-			project.setProjectClassify(projectDto.getProjectClassify());
 			project.setProjectIndustry(projectDto.getProjectIndustry());
 			project.setNationalIndustry(projectDto.getNationalIndustry());//国民经济行业分类
 			project.setProjectType(projectDto.getProjectType());

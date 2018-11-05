@@ -40,7 +40,7 @@ angular.module('starter.services', ['ngResource'])
         localforage.getItem('user').then(function (data) {
         	if(null != data){
         		$rootScope.user = data;
-        		
+
         		/*$http({
           		method: 'GET',
           		url: APP_CONFIG.host + REQUEST_URL_LIST.url_projectreposity,
@@ -64,16 +64,16 @@ angular.module('starter.services', ['ngResource'])
           	console.log(err);
         	});*/
         }
-          
+
       });
 
       //查询项目库数据
       Shenbaoinfo.pullData().then(function(res){
       	//console.log('查询申报数据');
       	//console.log(res);
-      	
+
       	localforage.setItem('shenbaolist',res.data.value||[]).then(function(){
-      		
+
       		$rootScope.$broadcast(APP_EVENTS.pullBaoList);
       		setTimeout(function () {
               localforage.getItem('shenbaolist').then(function (data) {
@@ -82,13 +82,13 @@ angular.module('starter.services', ['ngResource'])
                 console.log(err);
               })
             }, 2000);
-      		
+
       	}).catch(function(err){
             console.log(err);
         });
       });
-      
-			//查询基础数据		
+
+			//查询基础数据
 			$http({
           method: 'GET',
           url: APP_CONFIG.host + REQUEST_URL_LIST.url_basicData,
@@ -103,7 +103,7 @@ angular.module('starter.services', ['ngResource'])
          		$rootScope.basicData = basicData;
             localforage.setItem('basicData', basicData);
         });
-        
+
         //查询年度计划数据
         $http({
           method: 'GET',
@@ -114,7 +114,7 @@ angular.module('starter.services', ['ngResource'])
         			localforage.setItem('yearPlannings', res.value);
         		}
         });
-        
+
       },
       checkUpdate: function (platform, version) {
         var deferred = $q.defer();
@@ -179,7 +179,7 @@ angular.module('starter.services', ['ngResource'])
           timeount: TIMEOUT
         }).success(function (data) {
           if (data.success) {
-          	
+
             var user = {
               id: data.object.id,
               username: data.object.loginName,
@@ -189,7 +189,7 @@ angular.module('starter.services', ['ngResource'])
               //accessToken: data.Data.AuthToken
             };
             localforage.setItem('user', user);
-            
+
             //判断是否是管理员
             $rootScope.haseAnyRole(user,'管理员,超级管理员').then(function(){
 	          	$rootScope.isAdmin = true;
@@ -198,7 +198,7 @@ angular.module('starter.services', ['ngResource'])
 	          });
 	          //设置已登录状态
 	          $rootScope.isLogin = true;
-	          
+
             deferred.resolve({
               isSuccess: true,
               message: data.Message,
@@ -235,15 +235,15 @@ angular.module('starter.services', ['ngResource'])
         var deferred = $q.defer();
         localforage.getItem('user').then(function (data) {
           deferred.resolve(!!data);
-          
-          
+
+
           $rootScope.isLogin = true;
           $rootScope.haseAnyRole(data,'管理员,超级管理员').then(function(){
           	$rootScope.isAdmin = true;
           },function(){
           	$rootScope.isAdmin = false;
           });
-         
+
         });
 
         return deferred.promise;
@@ -422,36 +422,7 @@ angular.module('starter.services', ['ngResource'])
       }
     };
   })
-  .factory('ProjectClassifies', function ($q) {
 
-    var projecttypes = [{
-      'id': 'projectClassify_1_1',
-      'name': '政府投资房建类'
-    }, {
-      'id': 'projectClassify_1_2',
-      'name': '政府投资市政类'
-    }, {
-      'id': 'projectClassify_1_3',
-      'name': '政府投资水务类'
-    }, {
-      'id': 'projectClassify_1_4',
-      'name': '其他'
-    }];
-
-    return {
-      findAll: function () {
-        var deferred = $q.defer();
-        deferred.resolve(projecttypes);
-        return deferred.promise;
-      },
-      findById: function (id) {
-        var deferred = $q.defer();
-        var result = Enumerable.From(projecttypes).Where('$.id == ' + id).SingleOrDefault();
-        deferred.resolve(result);
-        return deferred.promise;
-      }
-    };
-  })
   .factory('ProjectCategories', function ($q) {
 
     var projecttypes = [{
@@ -582,7 +553,7 @@ angular.module('starter.services', ['ngResource'])
           url: APP_CONFIG.host + REQUEST_URL_LIST.url_yearPlan,
           params:{'$filter':common.buildFilter([
 					          	{name:'id',operator:'eq',value:plannningId}
-          				]) 
+          				])
           },
           timeount: TIMEOUT
         });
@@ -592,12 +563,12 @@ angular.module('starter.services', ['ngResource'])
           url: common.format(APP_CONFIG.host + REQUEST_URL_LIST.url_yearPlanProject,plannningId),
           timeount: TIMEOUT
         });
-        
+
 				$q.all([q1, q2]).then(function (results) {
           var planning = results[0].data.value[0]||{};
           planning.projects = results[1].data.value||[];
           localforage.setItem('yearPlanning-'+plannningId,planning.projects);
-          
+
           var statistics = {};//统计信息
 					//数据汇总数据计算
 					var Capitals = planning.yearPlanCapitalDtos;
@@ -611,7 +582,7 @@ angular.module('starter.services', ['ngResource'])
 					statistics.ChuBeiTotal = 0;//储备类
 					statistics.projectInvestSumTotal = 0;//项目总投资
 					statistics.applyYearInvestTotal = 0;//申请资金总额
-					
+
 					for(var j=0;j<shenBaoInfoList.length;j++){
 						var obj = shenBaoInfoList[j];
 						if(obj.projectConstrChar && obj.projectConstrChar == common.basicDataConfig().projectConstrChar_qianqi){//前期
@@ -636,7 +607,7 @@ angular.module('starter.services', ['ngResource'])
 //							vm.model.yearInvestApprovalTotal += obj.yearInvestApproval;
 //						}
 					}
-					//计划总规模						
+					//计划总规模
 					statistics.yearInvestApprovalTotal = 0;//安排资金总计
 					statistics.capitalSCZ_ggysTotal = 0;//市投资-公共预算
 					statistics.capitalSCZ_gtzjTotal = 0;//市投资-国土基金
@@ -647,7 +618,7 @@ angular.module('starter.services', ['ngResource'])
 					statistics.capitalSHTZTotal = 0;//社会投资
 
 					statistics.capitalOtherTotal = 0;
-					for(var i=0;i<Capitals.length;i++){		
+					for(var i=0;i<Capitals.length;i++){
 						var c = Capitals[i];
 						if(c.capitalSCZ_ggys){
 							statistics.capitalSCZ_ggysTotal += c.capitalSCZ_ggys;
@@ -677,7 +648,7 @@ angular.module('starter.services', ['ngResource'])
 							statistics.yearInvestApprovalTotal += c.capitalSum;
 						}
 					}
-				
+
 					planning.statistics = statistics;
           deferred.resolve(planning);
         });
@@ -689,7 +660,7 @@ angular.module('starter.services', ['ngResource'])
       	  localforage.getItem('yearPlanning-'+planningId).then(function(projects){
       	  	 deferred.resolve(projects);
       	  });
-      	  
+
       	  return deferred.promise;
       },
       get: function (id) {
@@ -739,7 +710,7 @@ angular.module('starter.services', ['ngResource'])
 	      	console.log(err);
 	      	deferred.reject();
 	    	});
-	    	
+
 	    	return deferred.promise;
     	},
     	findById:function(id){
@@ -755,7 +726,7 @@ angular.module('starter.services', ['ngResource'])
 	      	console.log(err);
 	      	deferred.reject();
 	    	});
-    		   		
+
     		return deferred.promise;
     	},
     	findTask:function(shenbaoId){
@@ -771,9 +742,9 @@ angular.module('starter.services', ['ngResource'])
 	      	console.log(err);
 	      	deferred.reject();
 	    	});
-    		   		
+
     		return deferred.promise;
-    		
+
     	}
   	};
   })
@@ -836,13 +807,13 @@ angular.module('starter.services', ['ngResource'])
           url: APP_CONFIG.host + REQUEST_URL_LIST.url_projectdetail,
           params:{'$filter':common.buildFilter([
 					          	{name:'id',operator:'eq',value:projectId}
-          				]) 
+          				])
           },
           timeount: TIMEOUT
         }).then(function(res){
         	deferred.resolve(res.data.value[0]||{});
         });
-        
+
     		return deferred.promise;
       },
       findByIdNumAndUnitName: function (projectId,unitName/*,projectNumber*/) {
@@ -855,34 +826,34 @@ angular.module('starter.services', ['ngResource'])
           url: APP_CONFIG.host + REQUEST_URL_LIST.url_projectdetail,
           params:{'$filter':common.buildFilter([
 					          	{name:'id',operator:'eq',value:projectId}
-          				]) 
+          				])
           },
           timeount: TIMEOUT
         });
-        
+
 				//用户单位信息
        	var q2 = $http({
           method: 'GET',
           url: APP_CONFIG.host + REQUEST_URL_LIST.url_userUnitInfo,
           params: {'$filter':common.buildFilter([
 					          	{name:'id',operator:'eq',value:unitName}
-          ])} 
+          ])}
         });
-       	//申报信息      	
+       	//申报信息
        	/*var q3 = $http({
           method: 'GET',
           url: APP_CONFIG.host + REQUEST_URL_LIST.url_shenbao,
           params: {'$filter':common.buildFilter([
 					          	{name:'projectNumber',operator:'eq',value:projectNumber}
-          ])} 
+          ])}
         });*/
- 			
+
 
         $q.all([q1, q2/*, q3, q4*/]).then(function (results) {
           var projectdetail = {};
           projectdetail = results[0].data.value[0];
           projectdetail.unit = results[1].data.value[0];
-         /* projectdetail.shenbaos = results[2].data.value;  */      
+         /* projectdetail.shenbaos = results[2].data.value;  */
           deferred.resolve(projectdetail);
         });
 
@@ -918,7 +889,7 @@ angular.module('starter.services', ['ngResource'])
           url: APP_CONFIG.host + REQUEST_URL_LIST.url_shenbao,
            params: {'$filter':common.buildFilter([
 					          	{name:'id',operator:'eq',value:shenbaoId}
-          ])}, 
+          ])},
           timeount: TIMEOUT
         }).success(function (res) {
           deferred.resolve(res.value[0]);
@@ -948,7 +919,7 @@ angular.module('starter.services', ['ngResource'])
 
         return deferred.promise;
       },
-      
+
       //获取项目月报详细信息
       findProjectScheduleDetail: function (projectId, year, month) {
         console.log('find project schedule detail: { projectId : ' + projectId + ', year : ' + year + ' , month : ' + month + ' }');
@@ -990,7 +961,7 @@ angular.module('starter.services', ['ngResource'])
 	    		if(i){
 	    			str.push(i);
 	    		}
-    		
+
     	})
 
     	return str.join(',');

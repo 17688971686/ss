@@ -31,12 +31,6 @@
 		<td>
 			<span ng-bind="vm.getBasicDataDesc(vm.model.projectCategory)"></span>				
 		</td>
-		<!--
-		<td class="formAlignRight">项目分类：</td>
-		<td>			
-			<span ng-bind="vm.getBasicDataDesc(vm.model.projectClassify)"></span>
-		</td>
-		-->
 	</tr>
 	<tr>
 		<td class="formAlignRight">项目行业归口：</td>
@@ -249,7 +243,7 @@
 		<tr>
 			<td class="formAlignRight" style="width:150px;">项目建设性质</td>
 			<td style="width:30%">
-				<span ng-bind="vm.getBasicDataDesc(vm.model.projectConstrChar)"></span>
+				<span ng-bind="vm.getBasicDataDesc(vm.model.yearPlanYearContentDto.projectConstrChar)"></span>
 			</td>
 			<td class="formAlignRight" style="width:180px;">建设单位名称：</td>
 			<td>
@@ -267,21 +261,21 @@
 			</td>
 			<td class="formAlignRight">累计安排投资：</td>
 			<td>
-				<span ng-bind="vm.model.apInvestSum | number:4"></span>&nbsp;(万元)
+				<span ng-bind="vm.model.yearPlanYearContentDto.apInvestSum | number:4"></span>&nbsp;(万元)
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight" style="width:150px;">计划年度：</td>
 			<td style="width:250px;">
-				<span ng-bind="vm.model.planYear"></span>
+				<span ng-bind="vm.model.yearPlanYearContentDto.planYear"></span>
 			</td>
 			<td class="formAlignRight">是否申请标外资金：</td>
 			<td>
-				<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="true" ng-checked="vm.model.isApplyOutsideCapital == true" disabled="disabled"/>&nbsp;是</label>
-				<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="false" ng-checked="vm.model.isApplyOutsideCapital == false" disabled="disabled"/>&nbsp;否</label>
-				<label ng-if="vm.model.isApplyOutsideCapital">
+				<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="true" ng-checked="vm.model.yearPlanYearContentDto.isApplyOutsideCapital == true" disabled="disabled"/>&nbsp;是</label>
+				<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="false" ng-checked="vm.model.yearPlanYearContentDto.isApplyOutsideCapital == false" disabled="disabled"/>&nbsp;否</label>
+				<label ng-if="vm.model.yearPlanYearContentDto.isApplyOutsideCapital">
 					申请标外资金：
-					<span ng-bind="vm.model.applyOutsideCapital"></span>
+					<span ng-bind="vm.model.yearPlanYearContentDto.applyOutsideCapital"></span>
 					&nbsp;(万元)
 				</label>
 			</td>
@@ -292,7 +286,7 @@
 				<table class="table table-bordered table-striped table-hover">
 					<tr class="text-primary text-center">
 						<td colspan="2">申请年度投资：
-							<span ng-bind="vm.model.applyYearInvest | number:4"></span>&nbsp;(万元)
+							<span ng-bind="vm.model.yearPlanYearContentDto.applyYearInvest | number:4"></span>&nbsp;(万元)
 						</td>
 					</tr>
 					<tr>
@@ -304,9 +298,9 @@
 									<td>其他</td>
 								</tr>
 								<tr>
-									<td><span ng-bind="vm.model.capitalSCZ_ggys_TheYear | number:4"></span></td>
-									<td><span ng-bind="vm.model.capitalSCZ_gtzj_TheYear | number:4"></span></td>
-									<td><span ng-bind="vm.model.capitalSCZ_qita | number:4"></span></td>
+									<td><span ng-bind="vm.model.yearPlanYearContentDto.capitalSCZ_ggys_TheYear | number:4"></span></td>
+									<td><span ng-bind="vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_TheYear | number:4"></span></td>
+									<td><span ng-bind="vm.model.yearPlanYearContentDto.capitalSCZ_qita | number:4"></span></td>
 								</tr>
 							</table>
 						</td>
@@ -317,25 +311,25 @@
 		<tr>
 			<td class="formAlignRight" >"其他"的来源途径说明：</td>
 			<td colspan="3">
-				<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.capitalOtherDescriptionShenBao" disabled></textarea>									
+				<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.yearPlanYearContentDto.capitalOtherDescriptionShenBao" disabled></textarea>
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">年度建设内容：</td>
 			<td colspan="3">
-				<textarea class="form-control" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.yearConstructionContent" disabled></textarea>
+				<textarea class="form-control" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.yearPlanYearContentDto.yearConstructionContent" disabled></textarea>
 			</td>
 		</tr>
 	</table>
 </div>
 
 <div ng-show="vm.isYearPlan">
-	<div class="bg-info text-info" style="padding: 10px;">{{vm.model.planYear +1}}年度计划信息</div>
+	<div class="bg-info text-info" style="padding: 10px;">{{vm.model.yearPlanYearContentDto.planYear +1}}年度计划信息</div>
 	<table class="table table-bordered table-striped ">
 		<tr>
 			<td class="formAlignRight" style="width:150px;">计划年度：</td>
 			<td style="width:250px;" colspan="3">
-				<span>{{vm.model.planYear +1}}</span>
+				<span>{{vm.model.yearPlanYearContentDto.planYear +1}}</span>
 			</td>
 		</tr>
 		<tr>
@@ -344,7 +338,7 @@
 				<table class="table table-bordered table-striped table-hover">
 					<tr class="text-primary text-center">
 						<td colspan="2">申请年度投资：
-							<span ng-bind="vm.model.applyYearInvest_LastYear | number:4"></span>&nbsp;(万元)
+							<span ng-bind="vm.model.yearPlanYearContentDto.applyYearInvest_LastYear | number:4"></span>&nbsp;(万元)
 						</td>
 					</tr>
 					<tr>
@@ -356,9 +350,9 @@
 									<td>其他</td>
 								</tr>
 								<tr>
-									<td><span ng-bind="vm.model.capitalSCZ_ggys_LastYear | number:4"></span></td>
-									<td><span ng-bind="vm.model.capitalSCZ_gtzj_LastYear | number:4"></span></td>
-									<td><span ng-bind="vm.model.capitalSCZ_qita_LastYear | number:4"></span></td>
+									<td><span ng-bind="vm.model.yearPlanYearContentDto.capitalSCZ_ggys_LastYear | number:4"></span></td>
+									<td><span ng-bind="vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_LastYear | number:4"></span></td>
+									<td><span ng-bind="vm.model.yearPlanYearContentDto.capitalSCZ_qita_LastYear | number:4"></span></td>
 								</tr>
 							</table>
 						</td>
@@ -369,25 +363,25 @@
 		<tr>
 			<td class="formAlignRight" >"其他"的来源途径说明：</td>
 			<td colspan="3">
-				<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.capitalOtherDescriptionShenBao_LastYear" disabled></textarea>									
+				<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.yearPlanYearContentDto.capitalOtherDescriptionShenBao_LastYear" disabled></textarea>
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">年度建设内容：</td>
 			<td colspan="3">
-				<textarea class="form-control" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.yearConstructionContentLastYear" disabled></textarea>
+				<textarea class="form-control" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.yearPlanYearContentDto.yearConstructionContentLastYear" disabled></textarea>
 			</td>
 		</tr>	
 	</table>
 </div>
 
 <div ng-show="vm.isYearPlan">
-	<div class="bg-info text-info" style="padding: 10px;">{{vm.model.planYear +2}}年度计划信息</div>
+	<div class="bg-info text-info" style="padding: 10px;">{{vm.model.yearPlanYearContentDto.planYear+2}}年度计划信息</div>
 	<table class="table table-bordered table-striped ">
 		<tr>
 			<td class="formAlignRight" style="width:150px;">计划年度：</td>
 			<td style="width:250px;" colspan="3">
-				<span>{{vm.model.planYear +2}}</span>
+				<span>{{vm.model.yearPlanYearContentDto.planYear +2}}</span>
 			</td>
 		</tr>
 		<tr>
@@ -396,7 +390,7 @@
 				<table class="table table-bordered table-striped table-hover">
 					<tr class="text-primary text-center">
 						<td colspan="2">申请年度投资：
-							<span ng-bind="vm.model.applyYearInvest_LastTwoYear | number:4"></span>&nbsp;(万元)
+							<span ng-bind="vm.model.yearPlanYearContentDto.applyYearInvest_LastTwoYear | number:4"></span>&nbsp;(万元)
 						</td>
 					</tr>
 					<tr>
@@ -408,9 +402,9 @@
 									<td>其他</td>
 								</tr>
 								<tr>
-									<td><span ng-bind="vm.model.capitalSCZ_ggys_LastTwoYear | number:4"/></span></td>
-									<td><span ng-bind="vm.model.capitalSCZ_gtzj_LastTwoYear | number:4"/></span></td>
-									<td><span ng-bind="vm.model.capitalSCZ_qita_LastTwoYear | number:4"/></span></td>
+									<td><span ng-bind="vm.model.yearPlanYearContentDto.capitalSCZ_ggys_LastTwoYear | number:4"/></span></td>
+									<td><span ng-bind="vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_LastTwoYear | number:4"/></span></td>
+									<td><span ng-bind="vm.model.yearPlanYearContentDto.capitalSCZ_qita_LastTwoYear | number:4"/></span></td>
 								</tr>
 							</table>
 						</td>
@@ -421,13 +415,13 @@
 		<tr>
 			<td class="formAlignRight" >"其他"的来源途径说明：</td>
 			<td colspan="3">
-				<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.capitalOtherDescriptionShenBao_LastTwoYear" disabled></textarea>									
+				<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.yearPlanYearContentDto.capitalOtherDescriptionShenBao_LastTwoYear" disabled></textarea>
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">年度建设内容：</td>
 			<td colspan="3">
-				<textarea class="form-control" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.yearConstructionContentLastTwoYear" disabled></textarea>
+				<textarea class="form-control" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.yearPlanYearContentDto.yearConstructionContentLastTwoYear" disabled></textarea>
 			</td>
 		</tr>
 	</table>
@@ -439,7 +433,7 @@
 		<tr>
 			<td class="formAlignRight" style="width:150px;">申报信息备注：</td>
 			<td colspan="3" >
-				<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（200字符以内）" ng-model="vm.model.yearConstructionContentShenBao" disabled></textarea>												
+				<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（200字符以内）" ng-model="vm.model.yearPlanYearContentDto.yearConstructionContentShenBao" disabled></textarea>
 			</td>
 		</tr>
 	</table>

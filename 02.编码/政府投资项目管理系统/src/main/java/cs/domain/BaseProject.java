@@ -49,9 +49,6 @@ public class BaseProject extends BaseEntity
 	@Column(columnDefinition="varchar(50) NULL COMMENT '项目负责人电话'")
 	private String projectRepMobile;
 	
-	@Column(columnDefinition="varchar(125) NULL COMMENT '项目分类'")
-	private String projectClassify;
-	
 	@Column(columnDefinition="varchar(20) NULL COMMENT '开工日期'")
 	private String beginDate;
 	
@@ -227,14 +224,6 @@ public class BaseProject extends BaseEntity
 
 	public void setProjectIndustry(String projectIndustry) {
 		this.projectIndustry = projectIndustry;
-	}
-
-	public String getProjectClassify() {
-		return projectClassify;
-	}
-
-	public void setProjectClassify(String projectClassify) {
-		this.projectClassify = projectClassify;
 	}
 
 	public String getBeginDate() {

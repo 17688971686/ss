@@ -32,29 +32,29 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
                 $rootScope.showLoginView();
             };
         });
-        
+
        Planning.findAll().then(function(data){
        		$scope.yearPlannings = data;
-       		
+
        });
-        
+
     })
-	.controller('PlanningDetailCtrl', function ($scope, $rootScope, $stateParams,$ionicLoading,Account,Planning) {	 
+	.controller('PlanningDetailCtrl', function ($scope, $rootScope, $stateParams,$ionicLoading,Account,Planning) {
 		$scope.planningId = $stateParams.id;
 		$ionicLoading.show();
 	       Planning.findById($scope.planningId).then(function(res){
 	       		$ionicLoading.hide();
-	       		$scope.yearPlanning = res;	       		
+	       		$scope.yearPlanning = res;
 	       });
-	        
+
 	})
 	//年度计划项目
-	.controller('PlanningProjectsCtrl', function ($scope, $rootScope, $stateParams,$ionicLoading,Planning) {	 
+	.controller('PlanningProjectsCtrl', function ($scope, $rootScope, $stateParams,$ionicLoading,Planning) {
 		$scope.planningId = $stateParams.id;
         Planning.findProjectsById($scope.planningId).then(function(projects){
-       		$scope.projects = projects;      		
+       		$scope.projects = projects;
        });
-	        
+
 	})
     .controller('PlanningSlideboxCtrl', function ($scope, $rootScope, $state, $ionicSlideBoxDelegate, $ionicSideMenuDelegate) {
 
@@ -254,7 +254,7 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
     })
 
     .controller('GeneralCtrl', function ($scope, $rootScope, $ionicActionSheet, Account) {
-		
+
         $scope.logout = function () {
             $ionicActionSheet.show({
 
@@ -264,7 +264,7 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
                 destructiveButtonClicked: function () {
                     Account.logout();
                     $rootScope.showLoginView();
-                    
+
                     return true;
                 }
             });
@@ -306,7 +306,7 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
                 $rootScope.showLoginView();
             };
         });
-       
+
        /*$http({
           method: 'GET',
           url: APP_CONFIG.host + REQUEST_URL_LIST.url_projectreposity,
@@ -314,7 +314,7 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
         }).then(function(res){
         	console.log(res.data);
         });*/
-       
+
 
         if (!$rootScope.querydata) {
             $rootScope.querydata = {};
@@ -347,10 +347,10 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
             })
         }
     })
-	//项目库(申报信息)	
+	//项目库(申报信息)
 	 .controller('ShenbaoinfoListCtrl', function (Account,$scope, $rootScope, $ionicScrollDelegate, $ionicModal, $ionicLoading,APP_EVENTS,
-	 	$state, $stateParams, $ionicPopup, $cordovaToast, Projects, Shenbaoinfo,Industries, Investments, ProjectTypes, InvestSources,ProjectClassifies, ProjectCategories,Snapshots) {
-		
+	 	$state, $stateParams, $ionicPopup, $cordovaToast, Projects, Shenbaoinfo,Industries, Investments, ProjectTypes, InvestSources, ProjectCategories,Snapshots) {
+
 		//登陆验证
         Account.isLogin().then(function (data) {
             if (!data) {
@@ -358,7 +358,7 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
                 return ;
             }
         });
-        
+
         if (!$rootScope.querydata) {
             $rootScope.querydata = {};
         };
@@ -371,7 +371,7 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
             investSrc: null,
             saveToSnapshot: false
         };
-	
+
         $scope.isInitData = false; //是否初始化
         $scope.projects = [];
         $scope.pageSize = 10; //默认值
@@ -389,7 +389,7 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
         $scope.more = true;
         //linq.js 查询方法
         $scope.query = null;
-		
+
         (function () {
             ProjectCategories.findAll().then(function (data) {
                 $scope.projectCategories = data;
@@ -397,10 +397,6 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
 
             InvestSources.findAll().then(function (data) {
                 $scope.investSources = data;
-            });
-
-            ProjectClassifies.findAll().then(function (data) {
-                $scope.projectClassifies = data;
             });
 
             Investments.findAll().then(function (data) {
@@ -424,9 +420,6 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
             };
             if (!!$rootScope.querydata.investment) {
                 query += $rootScope.querydata.investmentQuery + " &&";
-            };
-            if (!!$rootScope.querydata.projectClassify) {
-                query += "$.projectClassify == '" + $rootScope.querydata.projectClassify + "' &&";
             };
             if (!!$rootScope.querydata.investSource) {
                 query += "$.InvestSources == '" + $rootScope.querydata.investSource + "' &&";
@@ -462,19 +455,19 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
         };
 
         $scope.industrySelected = function (id) {
-		
+
             $scope.industry = !$scope.industry;
             $scope.investment = $scope.year = $scope.more = true;
             $scope.isActive = !$scope.industry
-            
+
             if(-1 == id){
             	$scope.querydata.category = null;
             }else{
-            	$scope.querydata.category = id;            	 
+            	$scope.querydata.category = id;
             }
-            
+
             $scope.search();
-            
+
 
 
         };
@@ -485,15 +478,15 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
   			$scope.industry = !$scope.industry;
             $scope.investment = $scope.year = $scope.more = true;
             $scope.isActive = !$scope.industry
-            
+
             $scope.category = id;
 
             $scope.search();
-            
+
 
         };
         $scope.investmentSelected = function (id) {
-		
+
 
             $scope.investment = !$scope.investment;
             $scope.industry = $scope.year = $scope.more = true;
@@ -514,14 +507,6 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
         $scope.typeSelected = function (id) {
             $scope.year = !$scope.year;
             $scope.industry = $scope.investment = $scope.more = true;
-            $scope.isActive = !$scope.year
-
-            $scope.search();
-        };
-
-		$scope.classifySelected = function (id) {
-			$scope.year = !$scope.year;
-            $scope.querydata.projectClassify = id;
             $scope.isActive = !$scope.year
 
             $scope.search();
@@ -597,11 +582,11 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
 
             $scope.search();
 
-          
+
         }
-		
+
 		$scope.doRefresh = function(){
-		    Shenbaoinfo.pullData().then(function(res){		      	
+		    Shenbaoinfo.pullData().then(function(res){
 		      	localforage.setItem('shenbaolist',res.data.value||[]).then(function(){
 		      		$scope.search();
 		      	}).catch(function(err){
@@ -647,21 +632,21 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
 	.controller('ShenbaoinfoDetailCtrl', function ($scope, $stateParams, $ionicLoading, Shenbaoinfo) {
         $ionicLoading.show();
         $scope.id = $stateParams.id;
-      
+
         $scope.shenbaoinfo = {};
 
         Shenbaoinfo.findById($scope.id).then(function (data) {
             $scope.shenBaoInfo = data;
             $ionicLoading.hide();
-            
+
         });
-        
+
         //查找审批信息
         Shenbaoinfo.findTask($scope.id).then(function(data){
         	$scope.taskRecords = data;
         });
-    }) 
-	 
+    })
+
     .controller('ProjectListCtrl', function (Account,$scope, $rootScope, $ionicScrollDelegate, $ionicModal, $ionicLoading, $state, $stateParams, $ionicPopup, $cordovaToast, Projects, Industries, Investments, ProjectTypes, InvestSources, Snapshots) {
 
 		//登陆验证
@@ -670,7 +655,7 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
                 $rootScope.showLoginView();
             };
         });
-        
+
         if (!$rootScope.querydata) {
             $rootScope.querydata = {};
         };
@@ -971,7 +956,7 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
         $scope.submitYearMonth = {};
         var date=new Date();
         var currentYear = date.getFullYear();
-        $scope.years = [];	
+        $scope.years = [];
         for(var i = 2013;i<=currentYear;i++){
         	$scope.years.push(i);
         }
@@ -980,12 +965,12 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
         Projects.findById($scope.projectId).then(function (data) {
 			$ionicLoading.hide();
             $scope.project = data;
-            
+
             calMonthReports($scope.currentYear);
-            
+
         });
-        
-        
+
+
         function calMonthReports(year){
         	//将月份暂时全部设为未填状态
     		for (var i =1; i <= 12; i++) {
@@ -1010,10 +995,10 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
         }
         //月报年份改变时
         $scope.setMonthSelected = function(year){
-        	 calMonthReports(year);       		 
+        	 calMonthReports(year);
         }
-        
-        
+
+
     })
 	//月报详细页面控制器
 	.controller('MonthReportDetailCtrl', function ($scope, $stateParams, $ionicLoading, Projects) {
@@ -1037,7 +1022,7 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
 						$scope.monthReport=report[i];
 					}
 				}
-            
+
         	};
         	//关联上项目
 			$scope.monthReport.projectId = $scope.project.id;
@@ -1054,18 +1039,18 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
 			$scope.monthReport.releasePlanTotal = $scope.monthReport.releasePlanTotal;//截止上年底累计下达计划
 			$scope.monthReport.thisYearPlanInvestment = $scope.monthReport.thisYearPlanInvestment;//本年度计划完成投资
 			$scope.monthReport.thisYearPlanHasInvestment = $scope.monthReport.thisYearPlanHasInvestment;//本年度已下达计划
-			$scope.monthReport.thisYearAccumulatedInvestment = $scope.monthReport.thisYearAccumulatedInvestment;				
+			$scope.monthReport.thisYearAccumulatedInvestment = $scope.monthReport.thisYearAccumulatedInvestment;
 			$scope.monthReport.thisMonthPlanInvestTotal = $scope.monthReport.thisMonthPlanInvestTotal;//本月计划完成投资
 			$scope.monthReport.thisMonthInvestTotal = $scope.monthReport.thisMonthInvestTotal;//本月完成投资
-			$scope.monthReport.thisYearAccumulatedInvestment = $scope.monthReport.thisYearAccumulatedInvestment;//本年度已完成投资						
+			$scope.monthReport.thisYearAccumulatedInvestment = $scope.monthReport.thisYearAccumulatedInvestment;//本年度已完成投资
 			$scope.monthReport.firstQuarCompInvestment = $scope.monthReport.firstQuarCompInvestment;//1到3月份完成投资
 			$scope.monthReport.secondQuarCompInvestment = $scope.monthReport.secondQuarCompInvestment;//1到6月份完成投资
 			$scope.monthReport.thirdQuarCompInvestment = $scope.monthReport.thirdQuarCompInvestment;//1到9月份完成投资
 			$scope.monthReport.fourthQuarCompInvestment = $scope.monthReport.fourthQuarCompInvestment;//1到12月份完成投资
-			
-			$scope.uploadType=[['scenePicture','现场图片'],['other','其它材料']]; 
+
+			$scope.uploadType=[['scenePicture','现场图片'],['other','其它材料']];
 		});
-        
+
     })
 
     //项目申报详情控制器
@@ -1076,7 +1061,7 @@ angular.module('starter.controllers', ["chart.js", "ngCordova"])
         $scope.projectType = null; //1：项建、可研、概算；2：前期计划、新开工计划、续建计划、清资结算计划
         Projects.findProjectShenbaoDetail($scope.projectId).then(function (data) {
             if (!!data) {
-            	
+
             	$scope.projectshenbao = data;
             	if($scope.projectshenbao.constructionUnit){
             		$scope.projectshenbao.constructionUnit = $scope.projectshenbao.constructionUnit.split(',');

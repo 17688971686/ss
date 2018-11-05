@@ -3,7 +3,7 @@
 		<tr>
 			<td class="formAlignRight" style="width:150px;">项目建设性质：</td>
 			<td>
-				<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectConstrChar)"></span>				
+				<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.yearPlanYearContentDto.projectConstrChar)"></span>
 			</td>
 			<td class="formAlignRight" style="width:150px;">建设单位名称：</td>
 			<td>
@@ -21,21 +21,21 @@
 			</td>
 			<td class="formAlignRight">累计安排投资：</td>
 			<td>
-				<span ng-bind="vm.model.shenBaoInfo.apInvestSum | number:4"></span>&nbsp;(万元)			
+				<span ng-bind="vm.model.shenBaoInfo.yearPlanYearContentDto.apInvestSum | number:4"></span>&nbsp;(万元)
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight" style="width:150px;">计划年度：</td>
 			<td style="width:250px;">
-				<span ng-bind="vm.model.shenBaoInfo.planYear"></span>
+				<span ng-bind="vm.model.shenBaoInfo.yearPlanYearContentDto.planYear"></span>
 			</td>
 			<td class="formAlignRight">是否申请标外资金：</td>
 			<td>
-				<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="true" ng-checked="vm.model.shenBaoInfo.isApplyOutsideCapital == true" disabled="disabled"/>&nbsp;是</label>
-				<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="false" ng-checked="vm.model.shenBaoInfo.isApplyOutsideCapital == false" disabled="disabled"/>&nbsp;否</label>
-				<label ng-if="vm.model.shenBaoInfo.isApplyOutsideCapital">
+				<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="true" ng-checked="vm.model.shenBaoInfo.yearPlanYearContentDto.isApplyOutsideCapital == true" disabled="disabled"/>&nbsp;是</label>
+				<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="false" ng-checked="vm.model.shenBaoInfo.yearPlanYearContentDto.isApplyOutsideCapital == false" disabled="disabled"/>&nbsp;否</label>
+				<label ng-if="vm.model.shenBaoInfo.yearPlanYearContentDto.isApplyOutsideCapital">
 					申请标外资金：
-					<span ng-bind="vm.model.shenBaoInfo.applyOutsideCapital"></span>
+					<span ng-bind="vm.model.shenBaoInfo.yearPlanYearContentDto.applyOutsideCapital"></span>
 					&nbsp;(万元)
 				</label>
 			</td>
@@ -46,7 +46,7 @@
 				<table class="table table-bordered table-striped table-hover">
 					<tr class="text-primary text-center">
 						<td colspan="2">申请年度投资：
-							<span ng-bind="vm.model.shenBaoInfo.applyYearInvest | number:4"></span>&nbsp;(万元)
+							<span ng-bind="vm.model.shenBaoInfo.yearPlanYearContentDto.applyYearInvest | number:4"></span>&nbsp;(万元)
 						</td>
 					</tr>
 					<tr>
@@ -58,9 +58,9 @@
 									<td>其他</td>
 								</tr>
 								<tr>
-									<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_ggys_TheYear | number:4"></span></td>
-									<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_gtzj_TheYear | number:4"></span></td>
-									<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_qita | number:4"></span></td>
+									<td><span ng-bind="vm.model.shenBaoInfo.yearPlanYearContentDto.capitalSCZ_ggys_TheYear | number:4"></span></td>
+									<td><span ng-bind="vm.model.shenBaoInfo.yearPlanYearContentDto.capitalSCZ_gtzj_TheYear | number:4"></span></td>
+									<td><span ng-bind="vm.model.shenBaoInfo.yearPlanYearContentDto.capitalSCZ_qita | number:4"></span></td>
 								</tr>
 							</table>
 						</td>
@@ -71,13 +71,13 @@
 		<tr>
 			<td class="formAlignRight" >"其他"的来源途径说明：</td>
 			<td colspan="3">
-				<textarea class="form-control" style="width:99%;" ng-model="vm.model.shenBaoInfo.capitalOtherDescriptionShenBao" disabled></textarea>									
+				<textarea class="form-control" style="width:99%;" ng-model="vm.model.shenBaoInfo.yearPlanYearContentDto.capitalOtherDescriptionShenBao" disabled></textarea>
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">年度建设内容：</td>
 			<td colspan="3">
-				<textarea class="form-control" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.shenBaoInfo.yearConstructionContent" disabled></textarea>
+				<textarea class="form-control" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.shenBaoInfo.yearPlanYearContentDto.yearConstructionContent" disabled></textarea>
 			</td>
 		</tr>	
 	</table>
@@ -86,7 +86,7 @@
 		<tr>
 			<td class="formAlignRight" style="width:150px;">计划年度：</td>
 			<td style="width:250px;" colspan="3">
-				<span>{{vm.model.shenBaoInfo.planYear +1}}</span>
+				<span>{{vm.model.shenBaoInfo.yearPlanYearContentDto.planYear +1}}</span>
 			</td>
 		</tr>
 		<tr>
@@ -95,7 +95,7 @@
 				<table class="table table-bordered table-striped table-hover">
 					<tr class="text-primary text-center">
 						<td colspan="2">申请年度投资：
-							<span ng-bind="vm.model.shenBaoInfo.applyYearInvest_LastYear | number:4"></span>&nbsp;(万元)
+							<span ng-bind="vm.model.shenBaoInfo.yearPlanYearContentDto.applyYearInvest_LastYear | number:4"></span>&nbsp;(万元)
 						</td>
 					</tr>
 					<tr>
@@ -107,9 +107,9 @@
 									<td>其他</td>
 								</tr>
 								<tr>
-									<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_ggys_LastYear | number:4"></span></td>
-									<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_gtzj_LastYear | number:4"></span></td>
-									<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_qita_LastYear | number:4"></span></td>
+									<td><span ng-bind="vm.model.shenBaoInfo.yearPlanYearContentDto.capitalSCZ_ggys_LastYear | number:4"></span></td>
+									<td><span ng-bind="vm.model.shenBaoInfo.yearPlanYearContentDto.capitalSCZ_gtzj_LastYear | number:4"></span></td>
+									<td><span ng-bind="vm.model.shenBaoInfo.yearPlanYearContentDto.capitalSCZ_qita_LastYear | number:4"></span></td>
 								</tr>
 							</table>
 						</td>
@@ -120,13 +120,13 @@
 		<tr>
 			<td class="formAlignRight" >"其他"的来源途径说明：</td>
 			<td colspan="3">
-				<textarea class="form-control" style="width:99%;" ng-model="vm.model.shenBaoInfo.capitalOtherDescriptionShenBao_LastYear" disabled></textarea>									
+				<textarea class="form-control" style="width:99%;" ng-model="vm.model.shenBaoInfo.yearPlanYearContentDto.capitalOtherDescriptionShenBao_LastYear" disabled></textarea>
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">年度建设内容：</td>
 			<td colspan="3">
-				<textarea class="form-control" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.shenBaoInfo.yearConstructionContentLastYear" disabled></textarea>
+				<textarea class="form-control" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.shenBaoInfo.yearPlanYearContentDto.yearConstructionContentLastYear" disabled></textarea>
 			</td>
 		</tr>	
 	</table>
@@ -135,7 +135,7 @@
 		<tr>
 			<td class="formAlignRight" style="width:150px;">计划年度：</td>
 			<td style="width:250px;" colspan="3">
-				<span>{{vm.model.shenBaoInfo.planYear +2}}</span>
+				<span>{{vm.model.shenBaoInfo.yearPlanYearContentDto.planYear +2}}</span>
 			</td>
 		</tr>
 		<tr>
@@ -144,7 +144,7 @@
 				<table class="table table-bordered table-striped table-hover">
 					<tr class="text-primary text-center">
 						<td colspan="2">申请年度投资：
-							<span ng-bind="vm.model.shenBaoInfo.applyYearInvest_LastTwoYear | number:4"></span>&nbsp;(万元)
+							<span ng-bind="vm.model.shenBaoInfo.yearPlanYearContentDto.applyYearInvest_LastTwoYear | number:4"></span>&nbsp;(万元)
 						</td>
 					</tr>
 					<tr>
@@ -156,9 +156,9 @@
 									<td>其他</td>
 								</tr>
 								<tr>
-									<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_ggys_LastTwoYear | number:4"></span></td>
-									<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_gtzj_LastTwoYear | number:4"></span></td>
-									<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear | number:4"></span></td>
+									<td><span ng-bind="vm.model.shenBaoInfo.yearPlanYearContentDto.capitalSCZ_ggys_LastTwoYear | number:4"></span></td>
+									<td><span ng-bind="vm.model.shenBaoInfo.yearPlanYearContentDto.capitalSCZ_gtzj_LastTwoYear | number:4"></span></td>
+									<td><span ng-bind="vm.model.shenBaoInfo.yearPlanYearContentDto.capitalSCZ_qita_LastTwoYear | number:4"></span></td>
 								</tr>
 							</table>
 						</td>
@@ -169,13 +169,13 @@
 		<tr>
 			<td class="formAlignRight" >"其他"的来源途径说明：</td>
 			<td colspan="3">
-				<textarea class="form-control" style="width:99%;" ng-model="vm.model.shenBaoInfo.capitalOtherDescriptionShenBao_LastTwoYear" disabled></textarea>									
+				<textarea class="form-control" style="width:99%;" ng-model="vm.model.shenBaoInfo.yearPlanYearContentDto.capitalOtherDescriptionShenBao_LastTwoYear" disabled></textarea>
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">年度建设内容：</td>
 			<td colspan="3">
-				<textarea class="form-control" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.shenBaoInfo.yearConstructionContentLastTwoYear" disabled></textarea>
+				<textarea class="form-control" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.shenBaoInfo.yearPlanYearContentDto.yearConstructionContentLastTwoYear" disabled></textarea>
 			</td>
 		</tr>	
 	</table>
@@ -183,7 +183,7 @@
 		<tr>
 		<td class="formAlignRight"  style="width:150px;">申报信息备注：</td>
 		<td colspan="3" >
-			<textarea class="form-control" style="height:121px;width: 99%;" placeholder="注：备注（200字符以内）" ng-model="vm.model.shenBaoInfo.yearConstructionContentShenBao" disabled></textarea>												
+			<textarea class="form-control" style="height:121px;width: 99%;" placeholder="注：备注（200字符以内）" ng-model="vm.model.shenBaoInfo.yearPlanYearContentDto.yearConstructionContentShenBao" disabled></textarea>
 		</td>
 	</tr>
 </table>

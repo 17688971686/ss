@@ -4,49 +4,47 @@ import static cs.common.BasicDataConfig.projectShenBaoStage_planReach;
 
 public class SQLConfig {
 
+    public static String commonShenBaoInfo = "SELECT t1.id,t1.createdBy,t1.createdDate,t1.itemOrder,t1.modifiedBy," +
+            "t1.modifiedDate,t1.approval_pzwh,SUBSTRING(t1.beginDate,1,7) beginDate,t1.buidSafeInvestment,t1.capitalOther,t1.capitalOtherType," +
+            "t1.capitalOtherDescription, t1.CapitalQCZ_gtzj,t1.capitalQCZ_ggys,t1.capitalSCZ_ggys,t1.CapitalSCZ_gtzj," +
+            "t1.capitalSCZ_zxzj,t1.capitalSHTZ,t1.capitalZYYS, t1.companyName,t1.constructionCycle,t1.constructionLand," +
+            "t1.divisionId,SUBSTRING(t1.endDate,1,7) endDate,t1.equipmentInvestment,t1.finalAmount,t1.financeProjectNumber, t1.landPrice," +
+            "t1.pifuCBSJYGS_date,t1.pifuCBSJYGS_wenhao,t1.pifuJYS_date,t1.pifuJYS_wenhao,t1.pifuKXXYJBG_date," +
+            "t1.pifuKXXYJBG_wenhao,t1.projectAddress, t1.projectCategory,t1.projectGuiMo," +
+            "t1.projectIndustry,t1.projectIntro,t1.projectInvestAccuSum,t1.projectInvestSum,t1.projectInvestmentType," +
+            "t1.projectName,t1.projectNumber,t1.projectRepMobile,t1.projectRepName,t1.projectStage,t1.projectType," +
+            "t1.remark,t1.repUnitRepMobile,t1.repUnitRepName,t1.unitName, t1.useBenefits," +
+            "t1.capitalAP_ggys_LastYear,t1.capitalAP_ggys_LastTwoYear, t1.capitalAP_ggys_TheYear,t1.auditState," +
+            "t1.capitalAP_gtzj_LastTwoYear,t1.capitalAP_gtzj_LastYear,t1.capitalAP_gtzj_TheYear,t1.capitalAP_qita," +
+            "t1.capitalAP_qita_LastTwoYear,t1.capitalAP_qita_LastYear,t1.constructionUnit," +
+            "t1.econClassSubjects,t1.existingProblem,t1.functionSubjects,t1.isApplyQianQiFei,t1.isIncludLibrary," +
+            "t1.lastYearImageSchedule, t1.moveSuggestion,t1.processStage,t1.processState," +
+            "y1.projectConstrChar,y1.planYear,y1.isApplyOutsideCapital,y1.applyOutsideCapital,y1.applyYearInvest,y1.capitalSCZ_ggys_TheYear,"+
+            "y1.capitalSCZ_gtzj_TheYear,y1.capitalSCZ_qita,y1.capitalOtherDescriptionShenBao,y1.applyYearInvest_LastYear,"+
+            "y1.capitalSCZ_ggys_LastYear,y1.capitalSCZ_gtzj_LastYear,y1.capitalSCZ_qita_LastYear,y1.capitalOtherDescriptionShenBao_LastYear,"+
+            "y1.applyYearInvest_LastTwoYear,y1.capitalSCZ_ggys_LastTwoYear,y1.capitalSCZ_gtzj_LastTwoYear,y1.capitalSCZ_qita_LastTwoYear,"+
+            "y1.capitalOtherDescriptionShenBao_LastTwoYear,y1.yearConstructionContent,y1.yearConstructionContentLastYear,"+
+            "y1.yearConstructionContentLastTwoYear,y1.apInvestSum,y1.yearConstructionContentShenBao,"+
+            "t1.projectConstrBasis,t1.projectId,t1.projectShenBaoStage,t1.qianQiFeiApply,t1.recomProgram,t1.socialAndEconomic,t1.yearConstructionTask," +
+            "t1.yearImageSchedule,t1.yearInvestApproval,t1.yearInvestApproval_lastTwoYear,t1.isIncludYearPlan, t1.sqPlanReach_ggys," +
+            "t1.yearInvestApproval_lastYear, t1.bianZhiUnitInfo_id,t1.shenBaoUnitInfo_id,t1.packageType,t1.receiver," +
+            "t1.sqPlanReach_gtzj,t1.isPlanReach,t1.apPlanReach_ggys,t1.apPlanReach_gtzj,t1.shenbaoDate," +
+            "t1.qianshouDate,t1.pifuDate,t1.nationalIndustry,t1.complate,t1.thisTaskId,t1.thisTaskName," +
+            "t1.zong_processId, t2.capitalSum YearInvestApproval,t2.id yearPlanCapitalId,t1.thisTaskId," +
+            "t1.thisTaskName,t1.zong_processId,t1.isIncludPack,t1.pifuZJSQBG_date,t1.pifuZJSQBG_wenhao," +
+            "t1.monitor_processId,t1.isSubShenBaoAtt,t1.isLeaderHasRead,t1.thisUser,t1.monitor_status,t1.xdPlanReach_gtzj," +
+            "t1.pxzxBalanceTime,t1.tzkBalanceTime,t1.urgencyState,t1.xdPlanReach_ggys,t1.countryNumber,t1.pifuSCQQJFXD_wenhao,t1.isRecords,t1.pfProjectInvestSum,"+
+            "t1.pifuSCQQJFXD_date,t1.packPlanId,t1.planReachId,t1.planName,t1.isFaWen,t1.yearPlanYearContent_id ";
 
     protected static String yearPlanProjectBase(boolean exclude) {
-        return " FROM cs_shenbaoinfo t1 INNER JOIN cs_yearplancapital t2 " +
+        return " FROM cs_shenbaoinfo t1 left join cs_yearplan_yearcontent y1 on t1.yearPlanYearContent_id = y1.id  INNER JOIN cs_yearplancapital t2 " +
                 "on t1.id = t2.shenbaoInfoId inner join cs_yearplan_cs_yearplancapital t3 on t2.id=t3.yearPlanCapitals_id " +
                 "WHERE t3.yearplan_id=:yearPlanId " + (exclude ? " AND NOT EXISTS (SELECT 1 FROM cs_shenbaoinfo s" +
                 " WHERE t1.projectName=s.projectName AND s.projectShenBaoStage='" + projectShenBaoStage_planReach + "')" : "");
     }
 
     public static String getYearPlanProject(boolean exclude) {
-        return "SELECT t1.id,t1.createdBy,t1.createdDate,t1.itemOrder,t1.modifiedBy," +
-                "t1.modifiedDate,t1.approval_pzwh,SUBSTRING(t1.beginDate,1,7) beginDate,t1.buidSafeInvestment,t1.capitalOther,t1.capitalOtherType," +
-                "t1.capitalOtherDescription, t1.CapitalQCZ_gtzj,t1.capitalQCZ_ggys,t1.capitalSCZ_ggys,t1.CapitalSCZ_gtzj," +
-                "t1.capitalSCZ_zxzj,t1.capitalSHTZ,t1.capitalZYYS, t1.companyName,t1.constructionCycle,t1.constructionLand," +
-                "t1.divisionId,SUBSTRING(t1.endDate,1,7) endDate,t1.equipmentInvestment,t1.finalAmount,t1.financeProjectNumber, t1.landPrice," +
-                "t1.pifuCBSJYGS_date,t1.pifuCBSJYGS_wenhao,t1.pifuJYS_date,t1.pifuJYS_wenhao,t1.pifuKXXYJBG_date," +
-                "t1.pifuKXXYJBG_wenhao,t1.projectAddress, t1.projectCategory,t1.projectClassify,t1.projectGuiMo," +
-                "t1.projectIndustry,t1.projectIntro,t1.projectInvestAccuSum,t1.projectInvestSum,t1.projectInvestmentType," +
-                " t1.projectName,t1.projectNumber,t1.projectRepMobile,t1.projectRepName,t1.projectStage,t1.projectType," +
-                "t1.remark,t1.repUnitRepMobile,t1.repUnitRepName,t1.unitName, t1.useBenefits,t1.apInvestSum," +
-                "t1.applyYearInvest,t1.applyYearInvest_LastYear,t1.applyYearInvest_LastTwoYear,t1.auditState," +
-                "t1.capitalAP_ggys_LastYear,t1.capitalAP_ggys_LastTwoYear, t1.capitalAP_ggys_TheYear," +
-                "t1.capitalAP_gtzj_LastTwoYear,t1.capitalAP_gtzj_LastYear,t1.capitalAP_gtzj_TheYear,t1.capitalAP_qita," +
-                "t1.capitalAP_qita_LastTwoYear,t1.capitalAP_qita_LastYear, t1.capitalOtherDescriptionShenBao," +
-                "t1.capitalSCZ_ggys_LastTwoYear,t1.capitalSCZ_ggys_LastYear,t1.capitalSCZ_ggys_TheYear," +
-                "t1.capitalSCZ_gtzj_LastTwoYear,t1.capitalSCZ_gtzj_LastYear,t1.capitalSCZ_gtzj_TheYear," +
-                " t1.capitalSCZ_qita,t1.capitalSCZ_qita_LastTwoYear,t1.capitalSCZ_qita_LastYear,t1.constructionUnit," +
-                "t1.econClassSubjects,t1.existingProblem,t1.functionSubjects,t1.isApplyQianQiFei,t1.isIncludLibrary," +
-                "t1.lastYearImageSchedule, t1.moveSuggestion,t1.planYear,t1.processStage,t1.processState," +
-                "t1.projectConstrBasis,t1.projectConstrChar,t1.projectId,t1.projectShenBaoStage,t1.qianQiFeiApply," +
-                "t1.recomProgram,t1.socialAndEconomic,t1.yearConstructionContent, t1.yearConstructionContentLastTwoYear," +
-                "t1.yearConstructionContentLastYear,t1.yearConstructionContentShenBao,t1.yearConstructionTask," +
-                "t1.yearImageSchedule,t1.yearInvestApproval,t1.yearInvestApproval_lastTwoYear," +
-                "t1.yearInvestApproval_lastYear, t1.bianZhiUnitInfo_id,t1.shenBaoUnitInfo_id,t1.packageType,t1.receiver," +
-                "t1.capitalOtherDescriptionShenBao_LastYear,t1.capitalOtherDescriptionShenBao_LastTwoYear," +
-                "t1.isApplyOutsideCapital,t1.applyOutsideCapital,t1.isIncludYearPlan, t1.sqPlanReach_ggys," +
-                "t1.sqPlanReach_gtzj,t1.isPlanReach,t1.apPlanReach_ggys,t1.apPlanReach_gtzj,t1.shenbaoDate," +
-                "t1.qianshouDate,t1.pifuDate,t1.nationalIndustry,t1.complate,t1.thisTaskId,t1.thisTaskName," +
-                "t1.zong_processId, t2.capitalSum YearInvestApproval,t2.id yearPlanCapitalId,t1.thisTaskId," +
-                "t1.thisTaskName,t1.zong_processId,t1.isIncludPack,t1.pifuZJSQBG_date,t1.pifuZJSQBG_wenhao," +
-                "t1.monitor_processId,t1.isSubShenBaoAtt,t1.isLeaderHasRead,t1.thisUser,t1.monitor_status,t1.xdPlanReach_gtzj,"
-                + "t1.pxzxBalanceTime,t1.tzkBalanceTime,t1.urgencyState,t1.xdPlanReach_ggys,t1.countryNumber,t1.pifuSCQQJFXD_wenhao,t1.isRecords,t1.pfProjectInvestSum,"+
-                "t1.pifuSCQQJFXD_date,t1.packPlanId,t1.planReachId,t1.planName,t1.isFaWen"
-                + yearPlanProjectBase(exclude) + " order by t1.ProjectIndustry desc";
+        return commonShenBaoInfo + yearPlanProjectBase(exclude) + " order by t1.ProjectIndustry desc";
     }
 
     public static String getYearPlanProjectCount(boolean exclude) {
@@ -56,18 +54,20 @@ public class SQLConfig {
     public static String yearPlanByLBTJ = "SELECT yp.year as planYear,bs.description as projectCategory,count(sbi.id) as projectSum," +
             " sum(IFNULL(sbi.projectInvestSum,0)) as investSum," +
             " sum(IFNULL(sbi.projectInvestAccuSum,0)) as investAccuSum," +
-            " sum(IFNULL(sbi.apInvestSum,0)) as apInvestSum," +
+            " sum(IFNULL(y1.apInvestSum,0)) as apInvestSum," +
             " sum(IFNULL(ypl.capitalSum,0)) as yearInvestApprovalSum" +
             " FROM cs_yearplan as yp," +
             " cs_yearplan_cs_yearplancapital as ypy," +
             " cs_yearplancapital as ypl," +
             " cs_shenbaoinfo as sbi," +
-            " cs_basicdata as bs" +
+            " cs_basicdata as bs," +
+            " cs_yearplan_yearcontent y1" +
             " where yp.id = ypy.YearPlan_id" +
             " and ypl.id = ypy.yearPlanCapitals_id" +
             " and ypl.shenbaoInfoId = sbi.id" +
             " and sbi.projectCategory = bs.id" +
             " and yp.id = :yearPlanId" +
+            " and sbi.yearPlanYearContent_id = y1.id" +
             " group by sbi.projectCategory";
 
     public static String yearPlanByHYTJ = "SELECT yp.year as planYear,bs.description as projectIndustry," +
@@ -78,14 +78,14 @@ public class SQLConfig {
             " sum(CASE WHEN sbi.projectCategory = '" + BasicDataConfig.projectCategory_D + "' THEN 1 ELSE 0 END ) AS projectCategory_DSum," +
             " sum(IFNULL(sbi.projectInvestSum,0)) as investSum," +
             " sum(IFNULL(sbi.projectInvestAccuSum,0)) as investAccuSum," +
-            " sum(IFNULL(sbi.apInvestSum,0)) as apInvestSum," +
+            " sum(IFNULL(y1.apInvestSum,0)) as apInvestSum," +
             " sum(IFNULL(ypl.capitalSum,0)) as yapInvestSum," +
             " sum(IFNULL(ypl.capitalQCZ_ggys,0)) as yearAp_ggysSum," +
             " sum(IFNULL(ypl.capitalQCZ_gtzj,0)) as yearAp_gtjjSum," +
             " sum(IFNULL(ypl.capitalOther,0)) as yearAp_qitaSum," +
             " sum(IFNULL(ypl.capitalQCZ_ggys,0)+IFNULL(ypl.capitalQCZ_gtzj,0)+IFNULL(ypl.capitalOther,0)) as yearApSum" +
-            " FROM cs_yearplan AS yp,cs_yearplan_cs_yearplancapital AS ypy,cs_yearplancapital AS ypl,cs_shenbaoinfo AS sbi,cs_basicdata AS bs" +
-            " WHERE yp.id = ypy.YearPlan_id AND ypl.id = ypy.yearPlanCapitals_id AND ypl.shenbaoInfoId = sbi.id AND sbi.projectIndustry = bs.id" +
+            " FROM cs_yearplan AS yp,cs_yearplan_cs_yearplancapital AS ypy,cs_yearplancapital AS ypl,cs_shenbaoinfo AS sbi,cs_basicdata AS bs,cs_yearplan_yearcontent y1" +
+            " WHERE yp.id = ypy.YearPlan_id AND ypl.id = ypy.yearPlanCapitals_id AND ypl.shenbaoInfoId = sbi.id AND sbi.projectIndustry = bs.id AND sbi.yearPlanYearContent_id = y1.id" +
             " AND yp.id = :yearPlanId" +
             " GROUP BY sbi.projectIndustry" +
             " ORDER BY bs.itemOrder";
@@ -119,28 +119,28 @@ public class SQLConfig {
             " IFNULL(SUBSTRING(sbi.endDate,1,7),'') AS endDate," +
             " IFNULL(sbi.projectInvestSum, 0)AS TotalInvest," +
             " IFNULL(sbi.projectInvestAccuSum, 0)AS investAccuSum," +
-            " IFNULL(sbi.apInvestSum, 0) AS apInvestSum," +
             " IFNULL(sbi.yearInvestApproval, 0)AS applyYearInvest," +
             " IFNULL(ypl.capitalSum, 0)AS yearApSum," +
             " IFNULL(ypl.capitalQCZ_gtzj, 0)AS capitalAP_gtzj_TheYear," +
             " IFNULL(ypl.capitalQCZ_ggys, 0)AS capitalAP_ggys_TheYear," +
             " IFNULL(ypl.capitalOther, 0) AS yearAp_qitaSum," +
-            " IFNULL(sbi.yearConstructionContent,'') AS ConstructionContent," +
-            " IFNULL(sbi.yearConstructionContentShenBao,'') AS Remark" +
+            " IFNULL(y1.apInvestSum, 0) AS apInvestSum," +
+            " IFNULL(y1.yearConstructionContent,'') AS ConstructionContent," +
+            " IFNULL(y1.yearConstructionContentShenBao,'') AS Remark" +
             " FROM cs_yearplan AS yp,cs_yearplan_cs_yearplancapital AS ypy,cs_yearplancapital AS ypl," +
-            "cs_shenbaoinfo AS sbi,cs_basicdata AS bs WHERE yp.id = ypy.YearPlan_id" +
+            "cs_shenbaoinfo AS sbi,cs_basicdata AS bs,cs_yearplan_yearcontent y1 WHERE yp.id = ypy.YearPlan_id" +
             " AND ypl.id = ypy.yearPlanCapitals_id AND ypl.shenbaoInfoId = sbi.id" +
-            " AND sbi.projectCategory = bs.id AND yp.id = :yearPlanId" +
+            " AND sbi.projectCategory = bs.id AND yp.id = :yearPlanId AND sbi.yearPlanYearContent_id = y1.id " +
             " ORDER BY sbi.projectCategory,sbi.projectConstrChar desc,sbi.projectInvestSum desc";
 
     public static String yearPlanStatistics = String.format("SELECT"
             + " count(ypyc.yearPlanCapitals_id) AS total,"
-            + " SUM( CASE WHEN sbi.projectConstrChar = 'projectConstrChar_1' THEN 1 ELSE 0 END ) AS qianQiTotal,"
-            + " SUM( CASE WHEN sbi.projectConstrChar = 'projectConstrChar_2' THEN 1 ELSE 0 END ) AS newStratTotal,"
-            + " SUM( CASE WHEN sbi.projectConstrChar = 'projectConstrChar_3' THEN 1 ELSE 0 END ) AS xuJianTotal,"
-            + " SUM( CASE WHEN sbi.projectConstrChar = 'projectConstrChar_4' THEN 1 ELSE 0 END ) AS chuBeiTotal,"
+            + " SUM( CASE WHEN y1.projectConstrChar = 'projectConstrChar_1' THEN 1 ELSE 0 END ) AS qianQiTotal,"
+            + " SUM( CASE WHEN y1.projectConstrChar = 'projectConstrChar_2' THEN 1 ELSE 0 END ) AS newStratTotal,"
+            + " SUM( CASE WHEN y1.projectConstrChar = 'projectConstrChar_3' THEN 1 ELSE 0 END ) AS xuJianTotal,"
+            + " SUM( CASE WHEN y1.projectConstrChar = 'projectConstrChar_4' THEN 1 ELSE 0 END ) AS chuBeiTotal,"
+            + " SUM( IFNULL(y1.applyYearInvest,0)) AS applyTotal,"
             + " SUM( IFNULL(sbi.projectInvestSum,0)) AS investTotal,"
-            + " SUM( IFNULL(sbi.applyYearInvest,0)) AS applyTotal,"
             + " SUM( IFNULL(yc.capitalSum,0)) AS arrangeTotal,"
             + " SUM( IFNULL(yc.capitalSCZ_ggys,0)) AS capitalSCZ_ggysTotal,"
             + " SUM( IFNULL(yc.capitalSCZ_gtzj,0)) AS capitalSCZ_gtzjTotal,"
@@ -150,8 +150,8 @@ public class SQLConfig {
             + " SUM( IFNULL(yc.capitalZYYS,0)) AS capitalZYYSTotal,"
             + " SUM( IFNULL(yc.capitalSHTZ,0)) AS capitalSHTZTotal,"
             + " SUM( IFNULL(yc.capitalOther,0)) AS capitalOtherTotal"
-            + " FROM cs_yearplan as yp,cs_yearplan_cs_yearplancapital as ypyc,cs_yearplancapital as yc,cs_shenbaoinfo as sbi"
-            + " WHERE yp.id = ypyc.YearPlan_id AND yc.id = ypyc.yearPlanCapitals_id AND yc.shenbaoInfoId = sbi.id"
+            + " FROM cs_yearplan as yp,cs_yearplan_cs_yearplancapital as ypyc,cs_yearplancapital as yc,cs_shenbaoinfo as sbi,cs_yearplan_yearcontent y1"
+            + " WHERE yp.id = ypyc.YearPlan_id AND yc.id = ypyc.yearPlanCapitals_id AND yc.shenbaoInfoId = sbi.id AND sbi.yearPlanYearContent_id = y1.id"
             + " AND yp.id=:yearPlanId");
 
     public static String projectByHY = String.format("SELECT"
@@ -311,24 +311,7 @@ public class SQLConfig {
             + " ON t2.PlanReachApplication_id=t3.id"
             + " WHERE t3.id=:planReachId AND t1.projectShenBaoStage='projectShenBaoStage_5'";
 
-    public static String shenBaoInfoOfPlanReachApplication = "SELECT"
-            + " t1.id,t1.createdBy,t1.createdDate,t1.itemOrder,t1.modifiedBy,t1.modifiedDate,t1.thisUser,"
-            + " t1.approval_pzwh,SUBSTRING(t1.beginDate,1,7) beginDate,t1.buidSafeInvestment,t1.capitalOther,t1.capitalOtherType,t1.capitalOtherDescription,"
-            + " t1.CapitalQCZ_gtzj,t1.capitalQCZ_ggys,t1.capitalSCZ_ggys,t1.CapitalSCZ_gtzj,t1.capitalSCZ_zxzj,t1.capitalSHTZ,t1.capitalZYYS,"
-            + " t1.companyName,t1.constructionCycle,t1.constructionLand,t1.divisionId,SUBSTRING(t1.endDate,1,7) endDate,t1.equipmentInvestment,t1.finalAmount,t1.financeProjectNumber,"
-            + " t1.landPrice,t1.pifuCBSJYGS_date,t1.pifuCBSJYGS_wenhao,t1.pifuJYS_date,t1.pifuJYS_wenhao,t1.pifuKXXYJBG_date,t1.pifuKXXYJBG_wenhao,t1.projectAddress,"
-            + " t1.projectCategory,t1.projectClassify,t1.projectGuiMo,t1.projectIndustry,t1.projectIntro,t1.projectInvestAccuSum,t1.projectInvestSum,t1.projectInvestmentType,"
-            + " t1.projectName,t1.projectNumber,t1.projectRepMobile,t1.projectRepName,t1.projectStage,t1.projectType,t1.remark,t1.repUnitRepMobile,t1.repUnitRepName,t1.unitName,"
-            + " t1.useBenefits,t1.apInvestSum,t1.applyYearInvest,t1.applyYearInvest_LastYear,t1.applyYearInvest_LastTwoYear,t1.auditState,t1.capitalAP_ggys_LastYear,t1.capitalAP_ggys_LastTwoYear,"
-            + " t1.capitalAP_ggys_TheYear,t1.capitalAP_gtzj_LastTwoYear,t1.capitalAP_gtzj_LastYear,t1.capitalAP_gtzj_TheYear,t1.capitalAP_qita,t1.capitalAP_qita_LastTwoYear,t1.capitalAP_qita_LastYear,"
-            + " t1.capitalOtherDescriptionShenBao,t1.capitalSCZ_ggys_LastTwoYear,t1.capitalSCZ_ggys_LastYear,t1.capitalSCZ_ggys_TheYear,t1.capitalSCZ_gtzj_LastTwoYear,t1.capitalSCZ_gtzj_LastYear,t1.capitalSCZ_gtzj_TheYear,"
-            + " t1.capitalSCZ_qita,t1.capitalSCZ_qita_LastTwoYear,t1.capitalSCZ_qita_LastYear,t1.constructionUnit,t1.econClassSubjects,t1.existingProblem,t1.functionSubjects,t1.isApplyQianQiFei,t1.isIncludLibrary,t1.lastYearImageSchedule,"
-            + " t1.moveSuggestion,t1.planYear,t1.processStage,t1.processState,t1.projectConstrBasis,t1.projectConstrChar,t1.projectId,t1.projectShenBaoStage,t1.qianQiFeiApply,t1.recomProgram,t1.socialAndEconomic,t1.yearConstructionContent,"
-            + " t1.yearConstructionContentLastTwoYear,t1.yearConstructionContentLastYear,t1.yearConstructionContentShenBao,t1.yearConstructionTask,t1.yearImageSchedule,t1.yearInvestApproval,t1.yearInvestApproval_lastTwoYear,t1.yearInvestApproval_lastYear,"
-            + " t1.bianZhiUnitInfo_id,t1.shenBaoUnitInfo_id,t1.packageType,t1.receiver,t1.capitalOtherDescriptionShenBao_LastYear,t1.capitalOtherDescriptionShenBao_LastTwoYear,t1.isApplyOutsideCapital,t1.applyOutsideCapital,t1.isIncludYearPlan,"
-            + " t1.sqPlanReach_ggys,t1.sqPlanReach_gtzj,t1.isPlanReach,t1.apPlanReach_ggys,t1.apPlanReach_gtzj,t1.shenbaoDate,t1.qianshouDate,t1.pifuDate,t1.nationalIndustry,t1.complate,t1.thisTaskId,t1.thisTaskName,t1.zong_processId,t1.yearPlanCapitalId,"
-            + "t1.isIncludPack,t1.pifuZJSQBG_date,t1.pifuZJSQBG_wenhao,t1.monitor_processId,t1.isSubShenBaoAtt,t1.isLeaderHasRead,t1.thisUser,t1.monitor_status,t1.xdPlanReach_gtzj,t1.pxzxBalanceTime,t1.tzkBalanceTime,t1.urgencyState,t1.pfProjectInvestSum,"
-            + "t1.countryNumber,t1.xdPlanReach_ggys,t1.pifuSCQQJFXD_wenhao,t1.isRecords,t1.pifuSCQQJFXD_date,t1.packPlanId,t1.planReachId,t1.planName,t1.isFaWen"
+    public static String shenBaoInfoOfPlanReachApplication = commonShenBaoInfo
 //	 		+ " p.id,p.createdBy,p.createdDate,p.itemOrder,p.modifiedBy,p.modifiedDate,"
 //	 		+ " p.applicationName,p.applicationTime,p.applicationUnit,p.resPerson,p.resPersonTel"
             + shenBaoInfoOfPlanReachApplication_base;
@@ -355,24 +338,7 @@ public class SQLConfig {
 
     public static String shenBaoInfoOfPackPlanOfPlanReach_count = "SELECT count(1)" + shenBaoInfoOfPackPlanOfPlanReach_base;
 
-    public static String shenBaoInfoOfPackPlanOfPlanReach = "SELECT"
-            + " t1.id,t1.createdBy,t1.createdDate,t1.itemOrder,t1.modifiedBy,t1.modifiedDate,"
-            + " t1.approval_pzwh,SUBSTRING(t1.beginDate,1,7) beginDate,t1.buidSafeInvestment,t1.capitalOther,t1.capitalOtherType,t1.capitalOtherDescription,"
-            + " t1.CapitalQCZ_gtzj,t1.capitalQCZ_ggys,t1.capitalSCZ_ggys,t1.CapitalSCZ_gtzj,t1.capitalSCZ_zxzj,t1.capitalSHTZ,t1.capitalZYYS,"
-            + " t1.companyName,t1.constructionCycle,t1.constructionLand,t1.divisionId,SUBSTRING(t1.endDate,1,7) endDate,t1.equipmentInvestment,t1.finalAmount,t1.financeProjectNumber,"
-            + " t1.landPrice,t1.pifuCBSJYGS_date,t1.pifuCBSJYGS_wenhao,t1.pifuJYS_date,t1.pifuJYS_wenhao,t1.pifuKXXYJBG_date,t1.pifuKXXYJBG_wenhao,t1.projectAddress,"
-            + " t1.projectCategory,t1.projectClassify,t1.projectGuiMo,t1.projectIndustry,t1.projectIntro,t1.projectInvestAccuSum,t1.projectInvestSum,t1.projectInvestmentType,"
-            + " t1.projectName,t1.projectNumber,t1.projectRepMobile,t1.projectRepName,t1.projectStage,t1.projectType,t1.remark,t1.repUnitRepMobile,t1.repUnitRepName,t1.unitName,"
-            + " t1.useBenefits,t1.apInvestSum,t1.applyYearInvest,t1.applyYearInvest_LastYear,t1.applyYearInvest_LastTwoYear,t1.auditState,t1.capitalAP_ggys_LastYear,t1.capitalAP_ggys_LastTwoYear,"
-            + " t1.capitalAP_ggys_TheYear,t1.capitalAP_gtzj_LastTwoYear,t1.capitalAP_gtzj_LastYear,t1.capitalAP_gtzj_TheYear,t1.capitalAP_qita,t1.capitalAP_qita_LastTwoYear,t1.capitalAP_qita_LastYear,"
-            + " t1.capitalOtherDescriptionShenBao,t1.capitalSCZ_ggys_LastTwoYear,t1.capitalSCZ_ggys_LastYear,t1.capitalSCZ_ggys_TheYear,t1.capitalSCZ_gtzj_LastTwoYear,t1.capitalSCZ_gtzj_LastYear,t1.capitalSCZ_gtzj_TheYear,"
-            + " t1.capitalSCZ_qita,t1.capitalSCZ_qita_LastTwoYear,t1.capitalSCZ_qita_LastYear,t1.constructionUnit,t1.econClassSubjects,t1.existingProblem,t1.functionSubjects,t1.isApplyQianQiFei,t1.isIncludLibrary,t1.lastYearImageSchedule,"
-            + " t1.moveSuggestion,t1.planYear,t1.processStage,t1.processState,t1.projectConstrBasis,t1.projectConstrChar,t1.projectId,t1.projectShenBaoStage,t1.qianQiFeiApply,t1.recomProgram,t1.socialAndEconomic,t1.yearConstructionContent,"
-            + " t1.yearConstructionContentLastTwoYear,t1.yearConstructionContentLastYear,t1.yearConstructionContentShenBao,t1.yearConstructionTask,t1.yearImageSchedule,t1.yearInvestApproval,t1.yearInvestApproval_lastTwoYear,t1.yearInvestApproval_lastYear,"
-            + " t1.bianZhiUnitInfo_id,t1.shenBaoUnitInfo_id,t1.packageType,t1.receiver,t1.capitalOtherDescriptionShenBao_LastYear,t1.capitalOtherDescriptionShenBao_LastTwoYear,t1.isApplyOutsideCapital,t1.applyOutsideCapital,t1.isIncludYearPlan,"
-            + " t1.sqPlanReach_ggys,t1.sqPlanReach_gtzj,t1.isPlanReach,t1.apPlanReach_ggys,t1.apPlanReach_gtzj,t1.isIncludPack,t1.shenbaoDate,t1.qianshouDate,t1.nationalIndustry,t1.yearPlanCapitalId,t1.pifuDate,t1.complate,t1.thisTaskId,"
-            + "t1.thisTaskName,t1.zong_processId,t1.pifuZJSQBG_date,t1.pifuZJSQBG_wenhao,t1.monitor_processId,t1.isSubShenBaoAtt,t1.isLeaderHasRead,t1.thisUser,t1.monitor_status,t1.xdPlanReach_gtzj,t1.pxzxBalanceTime,t1.tzkBalanceTime,t1.urgencyState,t1.countryNumber,t1.isRecords,"
-            + "t1.pfProjectInvestSum,t1.xdPlanReach_ggys,t1.pifuSCQQJFXD_wenhao,t1.pifuSCQQJFXD_date,t1.packPlanId,t1.planReachId,t1.planName,t1.isFaWen"
+    public static String shenBaoInfoOfPackPlanOfPlanReach =  commonShenBaoInfo
 //	 		+ " p.id,p.createdBy,p.createdDate,p.itemOrder,p.modifiedBy,p.modifiedDate,"
 //	 		+ " p.applicationName,p.applicationTime,p.applicationUnit,p.resPerson,p.resPersonTel"
             + shenBaoInfoOfPackPlanOfPlanReach_base;

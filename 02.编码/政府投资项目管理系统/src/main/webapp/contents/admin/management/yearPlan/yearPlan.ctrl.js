@@ -337,7 +337,7 @@
     			var filters = [];//封装查询条件
     			//列表默认查询条件
 				filters.push({field:'projectShenBaoStage',operator:'eq',value:common.basicDataConfig().projectShenBaoStage_nextYearPlan});//默认条件--申报阶段为下一年度计划
-				filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_pass});//默认条件--申报信息的状态为签收状态   
+				//filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_pass});//默认条件--申报信息的状态为签收状态
 				if(type=='ZF'){
 					filters.push({field:'projectInvestmentType',operator:'eq',value:common.basicDataConfig().projectInvestmentType_ZF});//默认条件--政投
           		}else if(type=='SH'){
@@ -351,7 +351,7 @@
      			   filters.push({field:'projectCategory',operator:'eq',value:vm.search.projectCategory});
      		   }
      		   if(vm.search.planYear !=null && vm.search.planYear !=''){//查询条件--计划年度
-     			  filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear,10)});
+     			  filters.push({field:'planYear',operator:'eq',value:vm.search.planYear});
      		   }
      		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--建设单位名称
      			  filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
@@ -473,18 +473,10 @@
     		var init_basicData = function(){
     			if(vm.investmentType == common.basicDataConfig().projectInvestmentType_ZF){//如果为政府投资
     				vm.isZFInvestment = true; 
-       			 	//基础数据--项目分类
-         		   vm.basicData.projectClassify=$linq(common.getBasicData())
-     	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_ZF;})
-     	       		.toArray();
          		   //基础数据--行业归口
          		  vm.basicData.projectIndustry=vm.basicData.projectIndustry_ZF;
          	   }else if(vm.investmentType == common.basicDataConfig().projectInvestmentType_SH){//如果为社会投资
          		   vm.isSHInvestment = true;
-      			   //基础数据--项目分类
-         		   vm.basicData.projectClassify=$linq(common.getBasicData())
-     	       		.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
-     	       		.toArray();
       			  //基础数据--行业归口
       			   vm.basicData.projectIndustry=vm.basicData.projectIndustry_SH;
          	   }
@@ -514,7 +506,7 @@
         
         //申报年份发生变化时触发
         vm.changeYear = function(){
-  		   vm.planYear = parseInt(vm.model.shenBaoInfo.planYear,10);
+  		   vm.planYear = parseInt(vm.model.shenBaoInfo.yearPlanYearContentDto.planYear,10);
   	    };
         
         //展示批复文件选择模态框
@@ -809,7 +801,7 @@
      			   filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
      		   }
      		   if(vm.search.planYear !=null && vm.search.planYear !=''){//查询条件--计划年度
-     			  filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear,10)});
+     			  filters.push({field:'planYear',operator:'eq',value:vm.search.planYear});
      		   }
      		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--建设单位名称
      			  filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});

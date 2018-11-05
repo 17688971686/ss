@@ -197,14 +197,7 @@ public class CodingPlatformServiceImpl extends AbstractServiceImpl<CodingProject
 //entity.setDivisionId(subObject.get("BUILD_ADDRESS_STREET").getAsString());
 ////详细地址
 //entity.setProjectAddress(subObject.get("DETAILED_ADDRESS").getAsString());
-////行业
-//if(subObject.get("P_BUILD_TYPE").getAsInt() == 1){
-//	entity.setProjectClassify(BasicDataConfig.zf_projectClassify_fj);
-//}else if(subObject.get("P_BUILD_TYPE").getAsInt() == 2){
-//	entity.setProjectClassify(BasicDataConfig.zf_projectClassify_sz);
-//}else if(subObject.get("P_BUILD_TYPE").getAsInt() == 9){
-//	entity.setProjectClassify(BasicDataConfig.zf_projectClassify_qt);
-//}
+
 ////TODO 行业归口  无码表
 ////entity.setProjectIndustry(subObject.get("INDUSTRY").getAsString());
 ////建设规模及内容

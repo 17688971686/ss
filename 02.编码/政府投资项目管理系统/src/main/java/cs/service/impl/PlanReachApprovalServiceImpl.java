@@ -8,6 +8,7 @@ import cs.common.SQLConfig;
 import cs.domain.PlanReachApproval;
 import cs.domain.ShenBaoInfo;
 import cs.domain.ShenBaoInfo_;
+import cs.domain.YearPlanYearContent;
 import cs.model.DomainDto.ExcelReportPlanReachDto;
 import cs.model.DomainDto.PlanReachApprovalDto;
 import cs.model.PageModelDto;
@@ -353,14 +354,26 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 		
        }
         Double cont = ggmoney + gtmoney;
-        if(ggmoney+entity.getApInvestSum() > entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
+
+		/*YearPlanYearContent yearPlanYearContent = entity.getYearPlanYearContent();
+        if(ggmoney+yearPlanYearContent.getApInvestSum() > entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
         	 throw new IllegalArgumentException("申请公共资金不能大于安排资金,请重新填写！");
         }
         entity.setXdPlanReach_ggys(ggmoney);
         entity.setXdPlanReach_gtzj(gtmoney);
         entity.setApPlanReach_ggys(entity.getApPlanReach_ggys()+ggmoney);
         entity.setApPlanReach_gtzj(entity.getApPlanReach_gtzj()+gtmoney);
-        entity.setApInvestSum(entity.getApInvestSum()+gtmoney+ggmoney);
+		yearPlanYearContent.setApInvestSum(yearPlanYearContent.getApInvestSum()+gtmoney+ggmoney);*/
+
+		YearPlanYearContent yearPlanYearContent = entity.getYearPlanYearContent();
+		if(ggmoney+yearPlanYearContent.getApInvestSum() > entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
+			throw new IllegalArgumentException("申请公共资金不能大于安排资金,请重新填写！");
+		}
+		entity.setXdPlanReach_ggys(ggmoney);
+		entity.setXdPlanReach_gtzj(gtmoney);
+		entity.setApPlanReach_ggys(entity.getApPlanReach_ggys()+ggmoney);
+		entity.setApPlanReach_gtzj(entity.getApPlanReach_gtzj()+gtmoney);
+		yearPlanYearContent.setApInvestSum(yearPlanYearContent.getApInvestSum()+gtmoney+ggmoney);
         shenBaoInfoRepo.save(entity);
     }
     

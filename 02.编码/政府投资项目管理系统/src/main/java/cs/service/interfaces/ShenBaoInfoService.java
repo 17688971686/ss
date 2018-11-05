@@ -3,10 +3,13 @@ package cs.service.interfaces;
 import java.util.List;
 import java.util.Map;
 
+import com.sn.framework.odata.OdataFilter;
 import cs.domain.ShenBaoInfo;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.TaskRecordDto;
+import cs.model.PageModelDto;
 import cs.model.Statistics.ProjectStatisticsBean;
+import cs.repository.odata.ODataObjNew;
 
 public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo, String> {
     /**
@@ -105,4 +108,12 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
     ShenBaoInfoDto getShenBaoInfoDtoById(String shenbaoInfoId);
 
 	Map isRecords(ShenBaoInfoDto dto);
+
+    /**
+     * 查询年度计划管理数据
+     * @param odata
+     * @return
+     */
+    List<ShenBaoInfoDto> findYearPlanDataByOdata(ODataObjNew odata,OdataFilter planYearFilter);
+
 }

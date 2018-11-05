@@ -1,6 +1,7 @@
 package cs.repository.interfaces;
 
 import java.util.List;
+import java.util.Map;
 
 import cs.repository.odata.ODataObjNew;
 import org.hibernate.Session;
@@ -14,6 +15,8 @@ public interface IRepository<T, ID> {
     List<T> findAll();
 
     List<T> findByCriteria(Criterion... criterion);
+
+    List<T> findByCriteria(Map<String,String> alias,Criterion... criterion);
 
     /**
      * 基于 odata 的查询

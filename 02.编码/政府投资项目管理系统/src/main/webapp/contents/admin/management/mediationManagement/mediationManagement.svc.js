@@ -651,15 +651,6 @@
 			                    });
 			                }
 						}
-					},
-					{
-						field : "projectClassify",
-						title : "项目分类",
-						width : 150,
-						template:function(item){
-							return common.getBasicDataDesc(item.projectClassify);
-						},
-						filterable : false
 					}
 					
 				

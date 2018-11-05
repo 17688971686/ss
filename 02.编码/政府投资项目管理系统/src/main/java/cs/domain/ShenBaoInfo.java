@@ -14,6 +14,10 @@ import java.util.List;
 @Table(name = "cs_shenBaoInfo")
 public class ShenBaoInfo extends BaseShenBaoInfo {
 
+    //#关联信息  下一年度计划
+    @OneToOne(cascade = CascadeType.ALL)
+    private YearPlanYearContent yearPlanYearContent = new YearPlanYearContent();
+
     //begin#关联信息
     @OneToOne(cascade = CascadeType.ALL)
     private ShenBaoUnitInfo bianZhiUnitInfo = new ShenBaoUnitInfo();
@@ -68,5 +72,11 @@ public class ShenBaoInfo extends BaseShenBaoInfo {
 		this.isFaWen = isFaWen;
 	}
 
-    
+    public YearPlanYearContent getYearPlanYearContent() {
+        return yearPlanYearContent;
+    }
+
+    public void setYearPlanYearContent(YearPlanYearContent yearPlanYearContent) {
+        this.yearPlanYearContent = yearPlanYearContent;
+    }
 }
