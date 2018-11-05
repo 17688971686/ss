@@ -1953,7 +1953,7 @@
                     title: "建设性质",
                     width: 105,
                     template: function (item) {
-                        return common.getBasicDataDesc(item.projectConstrChar);
+                        return common.getBasicDataDesc(item.yearPlanYearContentDto.projectConstrChar);
                     },
                     filterable: {
                         ui: function (element) {
@@ -2036,6 +2036,9 @@
                     },
                     headerAttributes: {
                         style: "text-align:center;font-size: 14.5px"
+                    },
+                    template: function (item) {
+                        return item.yearPlanYearContentDto.planYear;
                     }
                 },
                 {
@@ -2211,7 +2214,7 @@
                     title: "建设性质",
                     width: 105,
                     template: function (item) {
-                        return common.getBasicDataDesc(item.projectConstrChar);
+                        return common.getBasicDataDesc(item.yearPlanYearContentDto.projectConstrChar);
                     },
                     filterable: {
                         ui: function (element) {
@@ -2294,6 +2297,9 @@
                     },
                     headerAttributes: {
                         style: "text-align:center;font-size: 14.5px"
+                    },
+                    template: function (item) {
+                        return item.yearPlanYearContentDto.planYear;
                     }
                 },
                 {

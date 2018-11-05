@@ -337,7 +337,7 @@
     			var filters = [];//封装查询条件
     			//列表默认查询条件
 				filters.push({field:'projectShenBaoStage',operator:'eq',value:common.basicDataConfig().projectShenBaoStage_nextYearPlan});//默认条件--申报阶段为下一年度计划
-				filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_pass});//默认条件--申报信息的状态为签收状态   
+				//filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_pass});//默认条件--申报信息的状态为签收状态
 				if(type=='ZF'){
 					filters.push({field:'projectInvestmentType',operator:'eq',value:common.basicDataConfig().projectInvestmentType_ZF});//默认条件--政投
           		}else if(type=='SH'){
@@ -351,7 +351,7 @@
      			   filters.push({field:'projectCategory',operator:'eq',value:vm.search.projectCategory});
      		   }
      		   if(vm.search.planYear !=null && vm.search.planYear !=''){//查询条件--计划年度
-     			  filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear,10)});
+     			  filters.push({field:'planYear',operator:'eq',value:vm.search.planYear});
      		   }
      		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--建设单位名称
      			  filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
@@ -801,7 +801,7 @@
      			   filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
      		   }
      		   if(vm.search.planYear !=null && vm.search.planYear !=''){//查询条件--计划年度
-     			  filters.push({field:'planYear',operator:'eq',value:parseInt(vm.search.planYear,10)});
+     			  filters.push({field:'planYear',operator:'eq',value:vm.search.planYear});
      		   }
      		   if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--建设单位名称
      			  filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});

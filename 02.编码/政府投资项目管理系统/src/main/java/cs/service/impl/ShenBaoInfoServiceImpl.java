@@ -1,6 +1,7 @@
 package cs.service.impl;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,14 +9,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
 import com.sn.framework.common.IdWorker;
 import com.sn.framework.common.StringUtil;
+import com.sn.framework.odata.OdataFilter;
 import cs.common.*;
 import cs.domain.*;
 import cs.model.DomainDto.*;
+import cs.repository.impl.ShenBaoInfoRepoImpl;
+import cs.repository.odata.ODataObjNew;
 import cs.service.framework.UserService;
 import cs.service.sms.SmsService;
 import cs.service.sms.exception.SMSException;
@@ -27,8 +32,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.DoubleType;
@@ -57,6 +61,10 @@ import cs.service.interfaces.ProcessService;
 import cs.service.interfaces.ShenBaoInfoService;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+
+import static cs.common.BasicDataConfig.projectShenBaoStage_CBSJGS;
+import static cs.common.BasicDataConfig.projectShenBaoStage_XMJYS;
+import static cs.common.BasicDataConfig.projectShenBaoStage_oncePlanReach;
 
 /**
  * @Description: 申报信息服务层
@@ -106,6 +114,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     private Map<String, String> shenbaoSMSContent;
     @Autowired
     private ProcessService processService;
+    @Autowired
+    private ShenBaoInfoRepoImpl shenBaoInfoRepoImpl;
     
     private String processDefinitionKey = "ShenpiReview";
     private String processDefinitionKey_monitor_fjxm = "ShenpiMonitor_fjxm";
@@ -362,7 +372,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 //    		throw new IllegalArgumentException("未申请可研或可研审批未结束，无法创建概算申请！");
 //    	}
         //1为保存申请不提交，2 为提交申请，走审批流程
-        if(dto.getIsUpdateOrSubmit().equals(2)){
+        if(dto.getIsUpdateOrSubmit()!=null && dto.getIsUpdateOrSubmit().equals(2)){
             createProcessShenbao(entity,dto);
         }
 
@@ -638,7 +648,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
         entity.setBianZhiUnitInfo(bianZhiUnitInfo);
         // 2更新并提交流程
-        if(dto.getIsUpdateOrSubmit().equals(2)) {
+        if(dto.getIsUpdateOrSubmit()!=null && dto.getIsUpdateOrSubmit().equals(2)) {
             if (!isAdminUpdate) {
                 //第一次走审批流程
                 if (entity.getZong_processId() == null) {
@@ -1262,5 +1272,27 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         }
         return "";
     }
+
+    @Override
+    public List<ShenBaoInfoDto> findYearPlanDataByOdata(ODataObjNew odata,OdataFilter planYearFilter) {
+        //增加关联查询
+        odata.setProcessQuery((criteria) -> {
+            criteria.createAlias("yearPlanYearContent","yearPlan");
+            //增加计划年度查询条件
+            if(planYearFilter!=null){
+                criteria.add(Restrictions.eq("yearPlan.planYear",Integer.parseInt((String)planYearFilter.getValue())));
+            }
+            criteria.addOrder(Order.desc("yearPlan.planYear"));
+        });
+        List<ShenBaoInfoDto> shenbaoinfo = null;
+        try {
+            shenbaoinfo =  shenBaoInfoRepoImpl.findRunByOdata2(odata).stream().map(mapper::toDto).collect(Collectors.toList());
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return shenbaoinfo;
+    }
+
 }
 
