@@ -324,6 +324,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             yearPlanYearContent.setCreatedBy(entity.getCreatedBy());
             yearPlanYearContent.setModifiedBy(entity.getModifiedBy());
             entity.setYearPlanYearContent(yearPlanYearContent);
+        }else{
+            entity.setYearPlanYearContent(null);
         }
         super.repository.save(entity);
         projectRepo.save(project);
@@ -662,6 +664,15 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         bianZhiUnitInfo.setCreatedBy(entity.getModifiedBy());
         bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
         entity.setBianZhiUnitInfo(bianZhiUnitInfo);
+        //年度计划
+        if (entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)) {
+            YearPlanYearContentDto yearPlanYearContentDto = dto.getYearPlanYearContentDto();
+            YearPlanYearContent yearPlanYearContent = new YearPlanYearContent();
+            yearPlanYearContentIMapper.buildEntity(yearPlanYearContentDto,yearPlanYearContent);
+            yearPlanYearContent.setCreatedBy(entity.getCreatedBy());
+            yearPlanYearContent.setModifiedBy(entity.getModifiedBy());
+            entity.setYearPlanYearContent(yearPlanYearContent);
+        }
         // 2更新并提交流程
         if(dto.getIsUpdateOrSubmit()!=null && dto.getIsUpdateOrSubmit().equals(2)) {
             if (!isAdminUpdate) {

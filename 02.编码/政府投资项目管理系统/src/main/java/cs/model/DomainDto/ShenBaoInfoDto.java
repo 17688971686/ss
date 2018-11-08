@@ -179,8 +179,16 @@ public class ShenBaoInfoDto extends ShenBaoInfo {
 		this.planYear = planYear;
 	}
 
-	public Boolean getApplyOutsideCapital() {
+	public Boolean getIsApplyOutsideCapital() {
 		return isApplyOutsideCapital;
+	}
+
+	public void setIsApplyOutsideCapital(Boolean isApplyOutsideCapital) {
+		this.isApplyOutsideCapital = isApplyOutsideCapital;
+	}
+
+	public Double getApplyOutsideCapital() {
+		return applyOutsideCapital;
 	}
 
 	public void setApplyOutsideCapital(Double applyOutsideCapital) {
@@ -345,9 +353,5 @@ public class ShenBaoInfoDto extends ShenBaoInfo {
 
 	public void setYearConstructionContentShenBao(String yearConstructionContentShenBao) {
 		this.yearConstructionContentShenBao = yearConstructionContentShenBao;
-	}
-
-	public void setApplyOutsideCapital(Boolean applyOutsideCapital) {
-		isApplyOutsideCapital = applyOutsideCapital;
 	}
 }

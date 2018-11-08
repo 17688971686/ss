@@ -80,24 +80,36 @@
 			};
 			//第一年度申请资金累计
 			vm.theYearCapitalTotal = function() {
-				vm.model.yearPlanYearContentDto.applyYearInvest = common.getSum([
-						vm.model.yearPlanYearContentDto.capitalSCZ_ggys_TheYear || 0,
-						vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_TheYear || 0 ]);
-				return vm.model.yearPlanYearContentDto.applyYearInvest;
+				if(vm.model.yearPlanYearContentDto){
+                    vm.model.yearPlanYearContentDto.applyYearInvest = common.getSum([
+                        vm.model.yearPlanYearContentDto.capitalSCZ_ggys_TheYear || 0,
+                        vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_TheYear || 0 ]);
+                    return vm.model.yearPlanYearContentDto.applyYearInvest;
+				}else{
+					return 0;
+				}
 			};
 			//第二年度申请资金累计
 			vm.lastTwoYearCapitalTotal = function() {
-				vm.model.yearPlanYearContentDto.applyYearInvest_LastTwoYear = common.getSum([
-						vm.model.yearPlanYearContentDto.capitalSCZ_ggys_LastTwoYear || 0,
-						vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_LastTwoYear || 0 ]);
-				return vm.model.yearPlanYearContentDto.applyYearInvest_LastTwoYear;
+				if(vm.model.yearPlanYearContentDto){
+                    vm.model.yearPlanYearContentDto.applyYearInvest_LastTwoYear = common.getSum([
+                        vm.model.yearPlanYearContentDto.capitalSCZ_ggys_LastTwoYear || 0,
+                        vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_LastTwoYear || 0 ]);
+                    return vm.model.yearPlanYearContentDto.applyYearInvest_LastTwoYear;
+				}else{
+					return 0;
+				}
 			};
 			//第三年度申请资金累计
 			vm.lastYearCapitalTotal = function() {
-				vm.model.yearPlanYearContentDto.applyYearInvest_LastYear = common.getSum([
-						vm.model.yearPlanYearContentDto.capitalSCZ_ggys_LastYear || 0,
-						vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_LastYear || 0 ]);
-				return vm.model.yearPlanYearContentDto.applyYearInvest_LastYear;
+				if(vm.model.yearPlanYearContentDto){
+                    vm.model.yearPlanYearContentDto.applyYearInvest_LastYear = common.getSum([
+                        vm.model.yearPlanYearContentDto.capitalSCZ_ggys_LastYear || 0,
+                        vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_LastYear || 0 ]);
+                    return vm.model.yearPlanYearContentDto.applyYearInvest_LastYear;
+				}else{
+					return 0;
+				}
 			};
 			//计划下达申请资金累计
 			vm.sqPlanReachTotal = function() {
@@ -614,7 +626,7 @@
 			init_basicData();
 			//申报年份发生变化时触发
 			vm.changeYear = function() {
-				vm.planYear = parseInt(vm.model.planYear, 10);//以10进制格式化申报年度
+				vm.planYear = parseInt(vm.model.yearPlanYearContentDto.planYear, 10);//以10进制格式化申报年度
 			};
 
 			if (vm.page == 'edit') {//如果为申报信息填报
