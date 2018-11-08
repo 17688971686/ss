@@ -983,17 +983,9 @@
                     title: "申报阶段",
                     width: 120,
                     template: function (item) {
-                    	if(item.projectShenBaoStage==common.basicDataConfig().projectShenBaoStage_CBSJYGS){
-                    		if(item.isRecords){
-                    			return common.getBasicDataDesc(item.projectShenBaoStage)+"--审批";
-	                       	}else{
-	                       		return common.getBasicDataDesc(item.projectShenBaoStage)+"--备案";
-	                       	}
-                    	}else{
-                    		return common.getBasicDataDesc(item.projectShenBaoStage);
-                    	}
                     	
-                    
+                    		return common.getBasicDataDesc(item.projectShenBaoStage);
+                    	
                     }
                 },
                 {
@@ -1299,15 +1291,9 @@
                     title: "申报阶段",
                     width: 120,
                     template: function (item) {
-                    	if(item.projectShenBaoStage==common.basicDataConfig().projectShenBaoStage_CBSJYGS){
-                    		if(item.isRecords){
-                    			return common.getBasicDataDesc(item.projectShenBaoStage)+"--审批";
-	                       	}else{
-	                       		return common.getBasicDataDesc(item.projectShenBaoStage)+"--备案";
-	                       	}
-                    	}else{
+                    	
                     		return common.getBasicDataDesc(item.projectShenBaoStage);
-                    	}
+                    
                     }
                 },
                 {
@@ -1447,15 +1433,9 @@
                     title: "申报阶段",
                     width: 120,
                     template: function (item) {
-                    	if(item.projectShenBaoStage==common.basicDataConfig().projectShenBaoStage_CBSJYGS){
-                    		if(item.isRecords){
-                    			return common.getBasicDataDesc(item.projectShenBaoStage)+"--审批";
-	                       	}else{
-	                       		return common.getBasicDataDesc(item.projectShenBaoStage)+"--备案";
-	                       	}
-                    	}else{
+                    	
                     		return common.getBasicDataDesc(item.projectShenBaoStage);
-                    	}
+                    	
                     }
                 },
                 {
