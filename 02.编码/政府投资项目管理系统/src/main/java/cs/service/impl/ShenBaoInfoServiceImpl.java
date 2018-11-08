@@ -1313,7 +1313,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     public List<ShenBaoInfoDto> findYearPlanDataByOdata(ODataObjNew odata,OdataFilter planYearFilter) {
         //增加关联查询
         odata.setProcessQuery((criteria) -> {
-            criteria.createAlias("yearPlanYearContent","yearPlan");
+            criteria.createAlias("yearPlanYearContent","yearPlan",CriteriaSpecification.LEFT_JOIN);
             //增加计划年度查询条件
             if(planYearFilter!=null){
                 criteria.add(Restrictions.eq("yearPlan.planYear",Integer.parseInt((String)planYearFilter.getValue())));
