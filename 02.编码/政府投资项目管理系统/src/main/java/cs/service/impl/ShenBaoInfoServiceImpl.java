@@ -317,14 +317,14 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         bianZhiUnitInfo.setModifiedBy(entity.getModifiedBy());
         entity.setBianZhiUnitInfo(bianZhiUnitInfo);
         //年度计划
-        if (entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)) {
+//        if (entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_nextYearPlan)) {
             YearPlanYearContentDto yearPlanYearContentDto = dto.getYearPlanYearContentDto();
             YearPlanYearContent yearPlanYearContent = new YearPlanYearContent();
             yearPlanYearContentIMapper.buildEntity(yearPlanYearContentDto,yearPlanYearContent);
             yearPlanYearContent.setCreatedBy(entity.getCreatedBy());
             yearPlanYearContent.setModifiedBy(entity.getModifiedBy());
             entity.setYearPlanYearContent(yearPlanYearContent);
-        }
+//        }
         super.repository.save(entity);
         projectRepo.save(project);
         //处理批复文件库

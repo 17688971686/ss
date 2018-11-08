@@ -71,9 +71,9 @@ public class CodingPlatformServiceImpl extends AbstractServiceImpl<CodingProject
 	@Transactional
 	public String getShenBaoInfoFromCoding(String  todaytime,String pageIndex) {
 		
-//		if(access_token == null){
+		if(access_token == null){
 			getAccessToken();
-//		}
+		}
 		
 		String url1 = "http://203.91.46.83:9016/E/GovApi/GetGovernmentProjectData?todaytime="+todaytime+"&pageIndex="+pageIndex+"&Content-Type=application/json";
 		String str = "";
@@ -197,7 +197,14 @@ public class CodingPlatformServiceImpl extends AbstractServiceImpl<CodingProject
 //entity.setDivisionId(subObject.get("BUILD_ADDRESS_STREET").getAsString());
 ////详细地址
 //entity.setProjectAddress(subObject.get("DETAILED_ADDRESS").getAsString());
-
+////行业
+//if(subObject.get("P_BUILD_TYPE").getAsInt() == 1){
+//	entity.setProjectClassify(BasicDataConfig.zf_projectClassify_fj);
+//}else if(subObject.get("P_BUILD_TYPE").getAsInt() == 2){
+//	entity.setProjectClassify(BasicDataConfig.zf_projectClassify_sz);
+//}else if(subObject.get("P_BUILD_TYPE").getAsInt() == 9){
+//	entity.setProjectClassify(BasicDataConfig.zf_projectClassify_qt);
+//}
 ////TODO 行业归口  无码表
 ////entity.setProjectIndustry(subObject.get("INDUSTRY").getAsString());
 ////建设规模及内容

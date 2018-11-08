@@ -30,7 +30,7 @@ public class SQLConfig {
             "t1.yearInvestApproval_lastYear, t1.bianZhiUnitInfo_id,t1.shenBaoUnitInfo_id,t1.packageType,t1.receiver," +
             "t1.sqPlanReach_gtzj,t1.isPlanReach,t1.apPlanReach_ggys,t1.apPlanReach_gtzj,t1.shenbaoDate," +
             "t1.qianshouDate,t1.pifuDate,t1.nationalIndustry,t1.complate,t1.thisTaskId,t1.thisTaskName," +
-            "t1.zong_processId, t2.capitalSum YearInvestApproval,t2.id yearPlanCapitalId,t1.thisTaskId," +
+            "t1.zong_processId, t1.yearInvestApproval,t1.yearPlanCapitalId,t1.thisTaskId," +
             "t1.thisTaskName,t1.zong_processId,t1.isIncludPack,t1.pifuZJSQBG_date,t1.pifuZJSQBG_wenhao," +
             "t1.monitor_processId,t1.isSubShenBaoAtt,t1.isLeaderHasRead,t1.thisUser,t1.monitor_status,t1.xdPlanReach_gtzj," +
             "t1.pxzxBalanceTime,t1.tzkBalanceTime,t1.urgencyState,t1.xdPlanReach_ggys,t1.countryNumber,t1.pifuSCQQJFXD_wenhao,t1.isRecords,t1.pfProjectInvestSum,"+
@@ -307,6 +307,8 @@ public class SQLConfig {
     public static String shenBaoInfoOfPlanReachApplication_base = " FROM cs_shenbaoinfo t1"
             + " LEFT JOIN cs_planreachapplication_cs_shenbaoinfo t2"
             + " ON t1.id=t2.shenBaoInfos_id"
+            + " LEFT JOIN cs_yearPlan_yearContent y1"
+            + " ON t1.id=y1.id"
             + " LEFT JOIN cs_planreachapplication t3"
             + " ON t2.PlanReachApplication_id=t3.id"
             + " WHERE t3.id=:planReachId AND t1.projectShenBaoStage='projectShenBaoStage_5'";
@@ -333,6 +335,8 @@ public class SQLConfig {
             "p.capitalSCZ_gtzj_TheYear,p.isInPlan" + packPlanByPlanReachId_base;
 
     private static String shenBaoInfoOfPackPlanOfPlanReach_base = " FROM cs_shenbaoinfo t1 " +
+    		" LEFT JOIN cs_yearPlan_yearContent y1"+
+			" ON t1.id=y1.id "+
             "LEFT JOIN cs_packplan_cs_shenbaoinfo t2 ON t1.id=t2.shenBaoInfos_id " +
             "LEFT JOIN cs_packplan t3 ON t2.PackPlan_id=t3.id WHERE t3.id=:packPlanId";
 

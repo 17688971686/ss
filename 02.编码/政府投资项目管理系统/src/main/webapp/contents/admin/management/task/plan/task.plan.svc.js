@@ -593,7 +593,7 @@
                     success: httpSuccess
                 });
             }
-        }//end fun handle
+        }
         /**
          * 送出处理
          */

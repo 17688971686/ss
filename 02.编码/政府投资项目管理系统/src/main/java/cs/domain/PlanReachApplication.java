@@ -42,9 +42,8 @@ public class PlanReachApplication extends BaseEntity{
 	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否已启动审批流程'")
 	private Boolean isStartProcess=false;
 	
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(columnDefinition="datetime COMMENT '申请时间'")
-	private Date applicationTime;
+	private String applicationTime;
 	
 	//关联信息
 	@OneToMany(cascade=CascadeType.ALL)
@@ -78,11 +77,12 @@ public class PlanReachApplication extends BaseEntity{
 		this.applicationUnit = applicationUnit;
 	}
 
-	public Date getApplicationTime() {
+
+	public String getApplicationTime() {
 		return applicationTime;
 	}
 
-	public void setApplicationTime(Date applicationTime) {
+	public void setApplicationTime(String applicationTime) {
 		this.applicationTime = applicationTime;
 	}
 
