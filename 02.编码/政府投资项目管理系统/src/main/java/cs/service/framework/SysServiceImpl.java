@@ -368,7 +368,7 @@ public class SysServiceImpl implements SysService {
                 "光明公安分局", "环境保护和水务局", "经济服务局", "纪检监察局", "市规划和国土资源委员会光明管理局",
                 "综合办", "公明办事处", "光明办事处", "马田办事处", "凤凰办事处",
                 "公共资源交易中心", "城市发展促进中心", "机关后勤服务中心", "土地整备中心", "建筑工务局",
-                "光明消防大队", "光明现役消防支队光明新区大队", "规划土地监察大队", "深水光明", "经发公司"};
+                "光明消防大队", "光明现役消防支队光明区大队", "规划土地监察大队", "深水光明", "经发公司"};
         List<UserUnitInfo> userUnitInfos = userUnitInfoRepo.findAll();
         boolean hasUnit = false;
         for (String userName : userNames) {
@@ -841,7 +841,7 @@ public class SysServiceImpl implements SysService {
         this.createBasicData("unitProperty_13", "unitProperty", "unitProperty", "其他", "单位性质分类");
 
         this.createBasicData("area", "", "area", "行政区域", "行政区域");
-        this.createBasicData("area_1", "area", "area", "光明新区", "行政区域");
+        this.createBasicData("area_1", "area", "area", "光明区", "行政区域");
         this.createBasicData("area_1_1", "area_1", "area", "光明街道", "行政区域-街道");
         this.createBasicData("area_1_2", "area_1", "area", "公明街道", "行政区域-街道");
         this.createBasicData("area_1_3", "area_1", "area", "新湖街道", "行政区域-街道");

@@ -6,6 +6,9 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.web.servlet.view.document.AbstractXlsView;
+
+import cs.common.BasicDataConfig;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,7 +32,7 @@ public class ExcelReportLBTJView extends AbstractXlsView {
 	@SuppressWarnings("deprecation")
 	@Override
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String fileName = "光明新区"+year+"年区级政府投资项目计划类别汇总表.xls";
+        String fileName = BasicDataConfig.gm_name+year+"年区级政府投资项目计划类别汇总表.xls";
         response.setHeader("Content-Disposition", "attachment;filename=" +new String(fileName.getBytes("gb2312"), "iso8859-1"));
         Sheet sheet = workbook.createSheet("表1");
         CellStyle cellStyleO = workbook.createCellStyle();
@@ -63,7 +66,7 @@ public class ExcelReportLBTJView extends AbstractXlsView {
         row_head.setHeight((short)600);
         //begin#标题
         //创建列
-        createCellAlignCenter(workbook,title,0,"光明新区"+year+"年区级政府投资项目计划汇总表",cellStyleTitle);
+        createCellAlignCenter(workbook,title,0,BasicDataConfig.gm_name+year+"年区级政府投资项目计划汇总表",cellStyleTitle);
         //合并标题
         //参数1：开始行、结束行、开始列、结束列
         CellRangeAddress cellRangeTitle = new CellRangeAddress(0,0,0,6);

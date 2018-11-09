@@ -192,7 +192,7 @@ public class StatisticalAnalysisController {
 		}
 
 		try {
-			String fileName = "光明新区政府投资"+"项目资金"+"汇总表.xls";
+			String fileName = "光明区政府投资"+"项目资金"+"汇总表.xls";
 			String newexcelname = new String(fileName.getBytes("utf-8"),"ISO_8859_1");
 			response.reset();
 			response.setContentType("APPLICATION/OCTET-STREAM");
@@ -281,7 +281,7 @@ public class StatisticalAnalysisController {
  	   List<ProjectStatisticsBean> data = shenBaoInfoService.getApprovalStatisticsByCustom(pifuDateBegin,pifuDateEnd,industrySelected,stageSelected,unitSelected,investSumBegin,investSumEnd,projectName);
 		
  	   try {
-			String fileName="光明新区政府投资计划类统计表.xls";
+			String fileName="光明区政府投资计划类统计表.xls";
 			String newexcelname = new String(fileName.getBytes("utf-8"),"ISO_8859_1");
 			response.reset();
 			response.setContentType("APPLICATION/OCTET-STREAM");
@@ -352,7 +352,7 @@ public class StatisticalAnalysisController {
  			   unitSelected,investSumBegin,investSumEnd,apPlanReachSumBegin,apPlanReachSumEnd,projectName);
  	  
  	   try {
- 		   String fileName="光明新区政府投资计划类统计表.xls";
+ 		   String fileName="光明区政府投资计划类统计表.xls";
  		   String newexcelname = new String(fileName.getBytes("utf-8"),"ISO_8859_1");
  		   response.reset();
  		   response.setContentType("APPLICATION/OCTET-STREAM");
@@ -410,7 +410,7 @@ public class StatisticalAnalysisController {
  	   List<ProjectStatisticsBean> data = ProjectService.getProjectStatisticsByCustom(industrySelected,stageSelected,categorySelected,unitSelected,investSumBegin,investSumEnd,projectName);
  	  
  	   try {
- 		   String fileName="光明新区政府投资项目总库统计表.xls";
+ 		   String fileName="光明区政府投资项目总库统计表.xls";
  		   String newexcelname = new String(fileName.getBytes("utf-8"),"ISO_8859_1");
  		   response.reset();
  		   response.setContentType("APPLICATION/OCTET-STREAM");
