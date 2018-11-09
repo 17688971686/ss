@@ -1355,7 +1355,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			bl.setTitle(shenBaoInfo.getProjectName());
 			bl.setUrgency(returnFileSet(shenBaoInfo.getUrgencyState()));
 			bl.setSystemCode("GMZXXMGLXT");
-			bl.setSystemName("光明新区政府投资管理系统");
+			bl.setSystemName("光明区政府投资管理系统");
 			bl.setUrl(sysPath);
 			User user = userRepo.findById(nextUsers);
 			if(user != null){

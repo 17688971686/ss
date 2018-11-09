@@ -6,6 +6,9 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.web.servlet.view.document.AbstractXlsView;
+
+import cs.common.BasicDataConfig;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,7 +27,7 @@ public class ExcelReportYSView extends AbstractXlsView {
 	@SuppressWarnings("deprecation")
 	@Override
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String fileName = "光明新区"+year+"年区级政府投资项目计划.xls";
+		String fileName = BasicDataConfig.gm_name+year+"年区级政府投资项目计划.xls";
         response.setHeader("Content-Disposition", "attachment;filename=" +new String(fileName.getBytes("gb2312"), "iso8859-1"));
         Sheet sheet = workbook.createSheet("表1");
         CellStyle cellStyleO = workbook.createCellStyle();
@@ -61,7 +64,7 @@ public class ExcelReportYSView extends AbstractXlsView {
 
         //begin#标题
         //创建列
-        createCellAlignCenter(workbook,title,0,"光明新区"+year+"年政府投资项目计划",cellStyleTitle);
+        createCellAlignCenter(workbook,title,0,BasicDataConfig.gm_name+year+"年政府投资项目计划",cellStyleTitle);
         //合并
         CellRangeAddress cellRangeTitle=new CellRangeAddress(0,0,0,11);
         setRegionStyle(sheet,cellRangeTitle,cellStyleTitle);

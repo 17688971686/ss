@@ -167,7 +167,7 @@ public class TaskController {
     }
     
     @SuppressWarnings("rawtypes")
-	@RequestMapping(name = "阅批任务", path = "yeupi", method = RequestMethod.POST)
+//	@RequestMapping(name = "阅批任务", path = "yeupi", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public void taskYuepi(@RequestBody Map data) {
         processService.taskPinglun(data,false);

@@ -1,5 +1,6 @@
 package cs.model.exportExcel;
 
+import cs.common.BasicDataConfig;
 import cs.common.DateUtil;
 import cs.model.DomainDto.ExcelReportPlanReachDto;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -26,7 +27,7 @@ public class ExcelReportPlanReachView extends AbstractXlsView {
     @Override
     protected void buildExcelDocument(Map<String, Object> map, Workbook workbook, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         int year = DateUtil.getYear();
-        String fileName = "光明新区"+year+"年政府投资项目计划表.xls";
+        String fileName = BasicDataConfig.gm_name+year+"年政府投资项目计划表.xls";
 
         httpServletResponse.setHeader("Content-Disposition", "attachment;filename=" +new String(fileName.getBytes("gb2312"), "iso8859-1"));
         //sheet 动态合并的行的集合
@@ -48,7 +49,7 @@ public class ExcelReportPlanReachView extends AbstractXlsView {
         // 在sheet里创建第二行
         Row row_1 = sheet.createRow(1);
         // 创建单元格并设置样式
-        createCell(workbook,row_1, 0,"光明新区"+year+"年政府投资项目计划表",HorizontalAlignment.CENTER,VerticalAlignment.CENTER,(short)30,"",null,false);
+        createCell(workbook,row_1, 0,BasicDataConfig.gm_name+year+"年政府投资项目计划表",HorizontalAlignment.CENTER,VerticalAlignment.CENTER,(short)30,"",null,false);
 
         // 在sheet里创建第三行
         Row row_2 = sheet.createRow(2);

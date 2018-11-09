@@ -48,7 +48,7 @@ public class ProjectStatisticsView extends AbstractXlsView {
                 :isIncludLibrary.equals("all")?"项目总库"
                 :"";
 		
-		String fileName = "光明新区政府投资项目库"+isIncludLibrary+typeDesc+"分类汇总表.xls";
+		String fileName = "光明区政府投资项目库"+isIncludLibrary+typeDesc+"分类汇总表.xls";
         response.setHeader("Content-Disposition", "attachment;filename=" +new String(fileName.getBytes("gb2312"), "iso8859-1"));
         Sheet sheet = workbook.createSheet("表1");
         
@@ -87,7 +87,7 @@ public class ProjectStatisticsView extends AbstractXlsView {
         
         //begin#标题
         //创建列
-        createCellAlignCenter(workbook,title,0,"光明新区政府投资项目库"+isIncludLibrary+typeDesc+"分类汇总表",cellStyleTitle);
+        createCellAlignCenter(workbook,title,0,"光明区政府投资项目库"+isIncludLibrary+typeDesc+"分类汇总表",cellStyleTitle);
         //合并标题
         //参数1：开始行、结束行、开始列、结束列
         CellRangeAddress cellRangeTitle = null;

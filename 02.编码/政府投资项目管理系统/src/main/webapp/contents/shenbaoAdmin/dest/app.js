@@ -506,7 +506,7 @@
     		approvalType:"approvalType",//批复类型
     		unitProperty:"unitProperty",//单位性质
     		area:"area",//行政区划
-    		area_GM:"area_1",//光明新区
+    		area_GM:"area_1",//光明区
     		capitalOtherType:"capitalOtherType",//资金其他来源分类
     		
     		taskType:"taskType",//任务类型

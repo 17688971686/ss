@@ -17,6 +17,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 
+import cs.common.BasicDataConfig;
 import cs.model.Statistics.ProjectStatisticsBean;
 
 public class GenerateExcelForPlan {
@@ -63,7 +64,7 @@ public class GenerateExcelForPlan {
         
         //begin#标题
         //创建列
-        createCellAlignCenter(workbook,title,0,"光明新区政府投资计划类统计表",cellStyleTitle);
+        createCellAlignCenter(workbook,title,0,BasicDataConfig.gm_name+"政府投资计划类统计表",cellStyleTitle);
         //合并标题
         //参数1：开始行、结束行、开始列、结束列
         CellRangeAddress cellRangeTitle = new CellRangeAddress(0,0,0,10);;

@@ -38,7 +38,7 @@ public class ApprovalStatisticsView extends AbstractXlsView {
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String typeDesc=type.equals("approval")?"审批阶段":type.equals("industry")?"项目行业":type.equals("unit")?"申报单位":"";
 	
-		String fileName = "光明新区政府投资审批类"+approvalYear+"年"+typeDesc+"分类汇总表.xls";
+		String fileName = "光明区政府投资审批类"+approvalYear+"年"+typeDesc+"分类汇总表.xls";
         response.setHeader("Content-Disposition", "attachment;filename=" +new String(fileName.getBytes("gb2312"), "iso8859-1"));
         Sheet sheet = workbook.createSheet("表1");
         
@@ -77,7 +77,7 @@ public class ApprovalStatisticsView extends AbstractXlsView {
         
         //begin#标题
         //创建列
-        createCellAlignCenter(workbook,title,0,"光明新区政府投资审批类"+approvalYear+"年"+typeDesc+"分类汇总表",cellStyleTitle);
+        createCellAlignCenter(workbook,title,0,"光明区政府投资审批类"+approvalYear+"年"+typeDesc+"分类汇总表",cellStyleTitle);
         //合并标题
         //参数1：开始行、结束行、开始列、结束列
         CellRangeAddress cellRangeTitle = null;
