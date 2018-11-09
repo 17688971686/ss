@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import com.sn.framework.common.IdWorker;
 
@@ -655,9 +656,15 @@ public class PlanReachApplicationServiceImpl
        }*/
 		ShenBaoInfo entity = shenBaoInfoRepo.findById(shenbaoId);
 		YearPlanYearContent yearPlanYearContent = entity.getYearPlanYearContent();
-
-		if(ggmoney+yearPlanYearContent.getApInvestSum() > entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
-			throw new IllegalArgumentException("申请公共资金+累计下达不能大于安排资金,请重新填写！");
+		
+		if(!ObjectUtils.isEmpty(yearPlanYearContent)){
+		
+			if(ggmoney+yearPlanYearContent.getApInvestSum() > entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
+				throw new IllegalArgumentException("申请公共资金+累计下达不能大于安排资金,请重新填写！");
+			}
+		}else if(ggmoney>entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
+			throw new IllegalArgumentException("申请公共资金不能大于安排资金,请重新填写！");
+			
 		}
 		entity.setSqPlanReach_ggys(ggmoney);
 		entity.setSqPlanReach_gtzj(gtmoney);

@@ -30,6 +30,7 @@ import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import javax.transaction.Transactional;
 import java.math.BigInteger;
@@ -355,19 +356,15 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
        }
         Double cont = ggmoney + gtmoney;
 
-		/*YearPlanYearContent yearPlanYearContent = entity.getYearPlanYearContent();
-        if(ggmoney+yearPlanYearContent.getApInvestSum() > entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
-        	 throw new IllegalArgumentException("申请公共资金不能大于安排资金,请重新填写！");
-        }
-        entity.setXdPlanReach_ggys(ggmoney);
-        entity.setXdPlanReach_gtzj(gtmoney);
-        entity.setApPlanReach_ggys(entity.getApPlanReach_ggys()+ggmoney);
-        entity.setApPlanReach_gtzj(entity.getApPlanReach_gtzj()+gtmoney);
-		yearPlanYearContent.setApInvestSum(yearPlanYearContent.getApInvestSum()+gtmoney+ggmoney);*/
-
 		YearPlanYearContent yearPlanYearContent = entity.getYearPlanYearContent();
-		if(ggmoney+yearPlanYearContent.getApInvestSum() > entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
+		if(!ObjectUtils.isEmpty(yearPlanYearContent)){
+			
+			if(ggmoney+yearPlanYearContent.getApInvestSum() > entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
+				throw new IllegalArgumentException("申请公共资金+累计下达不能大于安排资金,请重新填写！");
+			}
+		}else if(ggmoney>entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
 			throw new IllegalArgumentException("申请公共资金不能大于安排资金,请重新填写！");
+			
 		}
 		entity.setXdPlanReach_ggys(ggmoney);
 		entity.setXdPlanReach_gtzj(gtmoney);
