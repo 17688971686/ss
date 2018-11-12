@@ -1,5 +1,6 @@
 package cs.model.Statistics.view.newEdition;
 
+import cs.common.BasicDataConfig;
 import cs.model.Statistics.ProjectStatisticsBean;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -66,7 +67,7 @@ public class GenerateExcelForMoney {
 
         //begin#标题
         //创建列
-        createCellAlignCenter(workbook,title,0,"光明新区政府投资"+isIncludLibrary+"项目资金汇总表",cellStyleTitle);
+        createCellAlignCenter(workbook,title,0,BasicDataConfig.gm_name+"政府投资"+isIncludLibrary+"项目资金汇总表",cellStyleTitle);
         //合并标题
         //参数1：开始行、结束行、开始列、结束列
         CellRangeAddress cellRangeTitle = type.equals("projectName")?new CellRangeAddress(0,0,0,5)

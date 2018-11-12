@@ -101,8 +101,8 @@
 				 $location.path(url_back);
 	            })
 		}
-		 function updateShnebaoInfo(vm, shenbaoId) {
-	            $http.post(common.format(url + "/updateShnebaoInfo/{0}/{1}/{2}", shenbaoId, vm.gg[shenbaoId], vm.gt[shenbaoId])).then(function () {
+		 function updateShnebaoInfo(vm, shenbaoId,xdPlanReach_ggys,xdPlanReach_gtzj) {
+	            $http.post(common.format(url + "/updateShnebaoInfo/{0}/{1}/{2}", shenbaoId, xdPlanReach_ggys, xdPlanReach_gtzj)).then(function () {
 	                vm.gridOptions && vm.gridOptions.dataSource && vm.gridOptions.dataSource.read();
 	            })
 	        };
@@ -366,11 +366,12 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:[{//过滤条件为审批状态不为退回状态
-					field:'processState',
-					operator:'eq',
-					value:1
-				},
+				filter:[
+//					{//过滤条件为审批状态不为退回状态
+//					field:'processState',
+//					operator:'eq',
+//					value:1
+//				},
 				{
 					field:'projectShenBaoStage',
 					operator:'eq',
@@ -380,12 +381,13 @@
 					field:'thisTaskName',
 					operator:'eq',
 					value:"usertask5"
-				},
-				{
-					field:'isFaWen',
-					operator:'eq',
-					value:false
-				}]
+				}
+//				{
+//					field:'isFaWen',
+//					operator:'eq',
+//					value:false
+//				}
+				]
 			});
 			var columns = [	
 				{

@@ -1166,7 +1166,7 @@
                     field: "projectConstrChar",
                     title: "建设性质",
                     template: function (item) {
-                        return common.getBasicDataDesc(item.projectConstrChar);
+                        return common.getBasicDataDesc(item.yearPlanYearContentDto.projectConstrChar);
                     },
                     width: 80,
                     filterable: false,
@@ -1532,6 +1532,9 @@
                     field: "planYear",
                     title: "计划年度",
                     width: 80,
+                    template: function (item) {
+                        return item.yearPlanYearContentDto.planYear;
+                    },
                     filterable: false
                 },
                 {
@@ -1551,7 +1554,7 @@
                     title: "建设性质",
                     width: 120,
                     template: function (item) {
-                        return common.getBasicDataDesc(item.projectConstrChar);
+                        return common.getBasicDataDesc(item.yearPlanYearContentDto.projectConstrChar);
                     },
                     filterable: {
                         ui: function (element) {

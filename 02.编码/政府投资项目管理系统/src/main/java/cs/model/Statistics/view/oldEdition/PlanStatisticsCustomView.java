@@ -36,7 +36,7 @@ public class PlanStatisticsCustomView extends AbstractXlsView {
 	@SuppressWarnings("deprecation")
 	@Override
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String fileName = Util.generateFileName("光明新区政府投资计划类统计表")+".xls";
+		String fileName = Util.generateFileName("光明区政府投资计划类统计表")+".xls";
         response.setHeader("Content-Disposition", "attachment;filename=" +new String(fileName.getBytes("gb2312"), "iso8859-1"));
         Sheet sheet = workbook.createSheet("表1");
         
@@ -77,7 +77,7 @@ public class PlanStatisticsCustomView extends AbstractXlsView {
         
         //begin#标题
         //创建列
-        createCellAlignCenter(workbook,title,0,"光明新区政府投资计划类统计表",cellStyleTitle);
+        createCellAlignCenter(workbook,title,0,"光明区政府投资计划类统计表",cellStyleTitle);
         //合并标题
         //参数1：开始行、结束行、开始列、结束列
         CellRangeAddress cellRangeTitle = new CellRangeAddress(0,0,0,9);;

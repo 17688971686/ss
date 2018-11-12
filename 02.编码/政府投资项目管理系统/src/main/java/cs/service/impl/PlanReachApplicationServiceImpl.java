@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import com.sn.framework.common.IdWorker;
 
@@ -98,38 +99,11 @@ public class PlanReachApplicationServiceImpl
 	@Transactional
 	public PlanReachApplication create(PlanReachApplicationDto dto) {
 		PlanReachApplication entity = super.create(dto);
+		if(ObjectUtils.isEmpty(entity.getApplicationUnit())){
+			throw new IllegalArgumentException("请绑定单位信息后创建！");
+		}
 		entity.setCreatedDate(new Date());
 		entity.setModifiedDate(new Date());
-		// 关联数据的处理
-		// if(dto.getShenBaoInfoDtos().size()>0){
-		// dto.getShenBaoInfoDtos().stream().forEach(x->{
-		// ShenBaoInfo shenBaoInfo=new ShenBaoInfo();
-		// ShenBaoInfoDto shenBaoInfoDto=new ShenBaoInfoDto();
-		// //根据id判断是否为纳入年度计划的项目
-		// if(Util.isNotNull(x.getId())){
-		// shenBaoInfoDto=shenBaoInfoMapper.toDto(shenBaoInfoService.findById(x.getId()));
-		// }else{//非纳入年度计划库的项目
-		// shenBaoInfoDto=x;
-		// //查询项目的基础信息
-		// Project
-		// project=projectService.findById(shenBaoInfoDto.getProjectId());
-		// //基础信息进行转换
-		// projectToShenBaoInfo(project,shenBaoInfoDto);
-		// shenBaoInfoDto.setShenBaoUnitInfoDto(new ShenBaoUnitInfoDto());
-		// shenBaoInfoDto.setBianZhiUnitInfoDto(new ShenBaoUnitInfoDto());
-		// shenBaoInfoDto.setConstructionUnit(userUnitInfoRepo.findById(x.getUnitName()).getUnitName());
-		// }
-		// shenBaoInfoDto.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
-		// shenBaoInfoDto.setSqPlanReach_ggys(x.getSqPlanReach_ggys());
-		// shenBaoInfoDto.setSqPlanReach_gtzj(x.getSqPlanReach_gtzj());
-		// shenBaoInfoDto.setThisTaskId(null);
-		// shenBaoInfoDto.setThisTaskName(null);
-		// shenBaoInfoDto.setZong_processId(null);
-		// shenBaoInfo = shenBaoInfoService.createShenBaoInfo(shenBaoInfoDto,
-		// false);//创建申报信息并开启工作流
-		// entity.getShenBaoInfos().add(shenBaoInfo);
-		// });
-		// }
 		repository.save(entity);
 		logger.info(String.format("创建计划下达申请表,名称 :%s", dto.getApplicationName()));
 		return entity;
@@ -139,44 +113,6 @@ public class PlanReachApplicationServiceImpl
 	@Transactional(rollbackOn = Exception.class)
 	public PlanReachApplication update(PlanReachApplicationDto dto, String id) {
 		PlanReachApplication entity = super.update(dto, id);
-		// 关联数据的处理
-		// 删除掉相应的申报记录以及工作流
-		// List<String> ids=new ArrayList<>();
-		// if(entity.getShenBaoInfos().size()>0){
-		// entity.getShenBaoInfos().stream().forEach(x->{
-		// ids.add(x.getId());
-		// });
-		// entity.getShenBaoInfos().clear();
-		// //重新关联创建申报信息和工作流
-		// if(dto.getShenBaoInfoDtos().size()>0){
-		// dto.getShenBaoInfoDtos().stream().forEach(x->{
-		// ShenBaoInfo shenBaoInfo=new ShenBaoInfo();
-		// ShenBaoInfoDto shenBaoInfoDto=new ShenBaoInfoDto();
-		// //根据id判断是否为纳入年度计划的项目或者是之前就以关联上的申报信息
-		// if(Util.isNotNull(x.getId())){
-		// shenBaoInfoDto=shenBaoInfoMapper.toDto(shenBaoInfoService.findById(x.getId()));
-		// }else{//新添加的非纳入年度计划库的项目
-		// shenBaoInfoDto=x;
-		// //查询项目的基础信息
-		// Project
-		// project=projectService.findById(shenBaoInfoDto.getProjectId());
-		// //基础信息进行转换
-		// projectToShenBaoInfo(project,shenBaoInfoDto);
-		// shenBaoInfoDto.setShenBaoUnitInfoDto(new ShenBaoUnitInfoDto());
-		// shenBaoInfoDto.setBianZhiUnitInfoDto(new ShenBaoUnitInfoDto());
-		// }
-		// shenBaoInfoDto.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
-		// shenBaoInfoDto.setSqPlanReach_ggys(x.getSqPlanReach_ggys());
-		// shenBaoInfoDto.setSqPlanReach_gtzj(x.getSqPlanReach_gtzj());
-		// shenBaoInfo = shenBaoInfoService.createShenBaoInfo(shenBaoInfoDto,
-		// false);//创建申报信息并开启工作流
-		// entity.getShenBaoInfos().add(shenBaoInfo);
-		// });
-		// }
-		// ids.stream().forEach(y->{
-		// shenBaoInfoService.delete(y);
-		// });
-		// }
 		super.repository.save(entity);
 		logger.info(String.format("更新计划下达申请表,名称 :%s", dto.getApplicationName()));
 		return entity;
@@ -648,17 +584,12 @@ public class PlanReachApplicationServiceImpl
 	@Override
 	@Transactional(rollbackOn = Exception.class)
 	public void updateShnebaoInfo(String shenbaoId, Double ggmoney, Double gtmoney) {
-		/*ShenBaoInfo entity = shenBaoInfoRepo.findById(shenbaoId);
-
-	    if(ggmoney+entity.getApInvestSum() > entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
-       	 throw new IllegalArgumentException("申请公共资金+累计下达不能大于安排资金,请重新填写！");
-       }*/
 		ShenBaoInfo entity = shenBaoInfoRepo.findById(shenbaoId);
 		YearPlanYearContent yearPlanYearContent = entity.getYearPlanYearContent();
-
-		if(ggmoney+yearPlanYearContent.getApInvestSum() > entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
-			throw new IllegalArgumentException("申请公共资金+累计下达不能大于安排资金,请重新填写！");
-		}
+		
+	    if(ggmoney+gtmoney+yearPlanYearContent.getApInvestSum() > entity.getProjectInvestSum()){
+       	 throw new IllegalArgumentException("超过总投资,请重新填写！");
+       }
 		entity.setSqPlanReach_ggys(ggmoney);
 		entity.setSqPlanReach_gtzj(gtmoney);
 		shenBaoInfoRepo.save(entity);
@@ -713,19 +644,19 @@ public class PlanReachApplicationServiceImpl
 
 		// TODO 不能删除，否则其他计划下达添加的申报信息也会被删掉，打包作为公共信息
 		List<PackPlan> planList = entity.getPackPlans();
-
-		for (int i = 0; i < planList.size(); i++) {
-			PackPlan array_element = planList.get(i);
-
-			if (packId.equals(array_element.getId())) {
-				packPlanRepo.save(array_element);
-				planList.remove(i);
+		if(!CollectionUtils.isEmpty(planList)){
+			for (int i = 0; i < planList.size(); i++) {
+				PackPlan array_element = planList.get(i);
+		
+				if (packId.equals(array_element.getId())) {
+					packPlanRepo.save(array_element);
+					planList.remove(i);
+				}
 			}
+			entity.getPackPlans().clear();
+			entity.setPackPlans(planList);
+			super.repository.save(entity);
 		}
-		entity.getPackPlans().clear();
-		entity.setPackPlans(planList);
-		super.repository.save(entity);
-
 	}
 
 	@Override

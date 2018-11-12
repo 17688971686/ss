@@ -590,7 +590,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setXdPlanReach_gtzj(xdPlanReach_gtzj);
 			shenBaoInfo.setXdPlanReach_ggys(xdPlanReach_ggys);
 			shenBaoInfo.setThisTaskId("00000");
-			shenBaoInfo.setThisTaskName("已办结");
 			shenBaoInfo.setProcessStage("已办结");
 //			shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
 			shenBaoInfo.setPifuDate(new Date());
@@ -603,13 +602,15 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			aliasMap.put("YearPlanYearContent","yearPlan");
 			Criterion criterion2 = Restrictions.eq("yearPlan."+YearPlanYearContent_.planYear.getName(), shenBaoInfo.getYearPlanYearContent().getPlanYear());
 			Criterion criterion3 = Restrictions.and(criterion, criterion1,criterion2);
-			/*ShenBaoInfo nextyearplan = shenBaoInfoRepo.findByCriteria(criterion3).get(0);
-			nextyearplan.setApInvestSum(nextyearplan.getApInvestSum() +xdPlanReach_gtzj +xdPlanReach_ggys);*/
-			ShenBaoInfo nextyearplan = shenBaoInfoRepo.findByCriteria(aliasMap,criterion3).get(0);
-			YearPlanYearContent yearPlanYearContent = nextyearplan.getYearPlanYearContent();
-			yearPlanYearContent.setApInvestSum(nextyearplan.getYearPlanYearContent().getApInvestSum() +xdPlanReach_gtzj +xdPlanReach_ggys);
-			shenBaoInfoRepo.save(nextyearplan);
-//			shenBaoInfo.setComplate(true);
+			List<ShenBaoInfo> nextyearplan = shenBaoInfoRepo.findByCriteria(aliasMap,criterion3);
+			if(!CollectionUtils.isEmpty(nextyearplan)){
+				YearPlanYearContent yearPlanYearContent = nextyearplan.get(0).getYearPlanYearContent();
+				if(!ObjectUtils.isEmpty(yearPlanYearContent)){
+					yearPlanYearContent.setApInvestSum(nextyearplan.get(0).getYearPlanYearContent().getApInvestSum() +xdPlanReach_gtzj +xdPlanReach_ggys);
+					shenBaoInfoRepo.save(nextyearplan.get(0));
+				}
+				
+			}
 		} else if (str.equals("tuiwen")) {
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已退文");
@@ -1355,7 +1356,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			bl.setTitle(shenBaoInfo.getProjectName());
 			bl.setUrgency(returnFileSet(shenBaoInfo.getUrgencyState()));
 			bl.setSystemCode("GMZXXMGLXT");
-			bl.setSystemName("光明新区政府投资管理系统");
+			bl.setSystemName("光明区政府投资管理系统");
 			bl.setUrl(sysPath);
 			User user = userRepo.findById(nextUsers);
 			if(user != null){
