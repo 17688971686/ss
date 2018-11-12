@@ -136,13 +136,13 @@ textarea.form-control {
 			</tr>
 			<tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask5'">
 				<td class="formAlignRight">计划下达资金-公共预算：</td>
-				<td ng-bind="vm.model.shenBaoInfo.xdPlanReach_ggys">							
+				<td ng-bind="vm.model.shenBaoInfo.xdPlanReach_ggys | number:4">							
 					<!-- <input type="number" step="any" style="width: 130px;" class="form-control input-sm" id="xdPlanReach_ggys" name="xdPlanReach_ggys" ng-model="vm.model.shenBaoInfo.xdPlanReach_ggys" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 					<span data-valmsg-for="xdPlanReach_ggys" data-valmsg-replace="true" class="required"></span> -->
 				</td>
 
 				<td class="formAlignRight">计划下达资金-国土资金：</td>
-				<td ng-bind="vm.model.shenBaoInfo.xdPlanReach_gtzj">
+				<td ng-bind="vm.model.shenBaoInfo.xdPlanReach_gtzj | number:4">
 					<!-- <input type="number" step="any" style="width: 130px;" class="form-control input-sm" id="xdPlanReach_gtzj" name="xdPlanReach_gtzj" ng-model="vm.model.shenBaoInfo.xdPlanReach_gtzj" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 					<span data-valmsg-for="xdPlanReach_gtzj" data-valmsg-replace="true" class="required"></span> -->
 				</td>

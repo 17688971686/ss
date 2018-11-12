@@ -619,9 +619,11 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setThisTaskName(tasknew.get(0).getTaskDefinitionKey());
 			shenBaoInfo.setProcessStage(tasknew.get(0).getName());
 			if(isPushOA){
+				System.out.println("=========1>"+isPushOA);
 				StringBuffer sb = new StringBuffer();
 				for (int i = 0; i < taskUsers.size(); i++) {
 					String array_element = taskUsers.get(i);
+					System.out.println("=========2>"+array_element);
 					Backlog bl = new Backlog();
 					bl.setEventId(UUID.randomUUID().toString());
 					bl.setBureauName("发展和财政局");
@@ -630,6 +632,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 					bl.setDeptName("投资科（重大项目办）");
 					sb.append(bl.getEventId()+",");
 					this.todoShenbaoInfo(shenBaoInfo ,array_element,bl);
+					System.out.println("=========3>"+array_element);
 				}
 				activitiService.setTaskProcessVariable(tasknew.get(0).getId(), "eventIds", sb.toString());
 			}
@@ -1366,6 +1369,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			try {
 				Integer effect = HuasisoftUtil.getBacklogManager().save(bl);
 				if(effect == 101){
+					System.out.println("=========4>"+"插入待办成功！");
 					logger.info("插入待办成功！");
 				}
 			} catch (Exception e) {
@@ -1978,6 +1982,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		List<ShenBaoInfoDto> list3 = this.findPlanRunByOdata(odata2,isPerson);
 		list2.addAll(list);
 		list2.addAll(list3);
+		System.out.println("list2.size()========>"+list2.size());
 		return list2.size();
 	}
 	 private String getStageType(String shenbaoStage) {

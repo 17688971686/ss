@@ -21,7 +21,7 @@ public interface PlanReachApprovalService extends IService<PlanReachApprovalDto,
 
 	void endProcesss(String id);
 
-	Response checkIsOnlys(String idstr);
+	Response checkIsOnlys(String idstr,String planID);
 
 	//根据计划下达id查询项目信息
 	List<ExcelReportPlanReachDto> findBySql(String id);

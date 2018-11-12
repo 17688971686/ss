@@ -84,13 +84,13 @@ public class PlanReachController {
         }
     }
     
-    @RequestMapping(name = "检查项目", path = "checkIsOnly/{ids}", method = RequestMethod.GET)
+    @RequestMapping(name = "检查项目", path = "checkIsOnly/{ids}/{planID}", method = RequestMethod.GET)
     @ResponseBody
-    public Response checkIsOnly(@PathVariable String ids) {
+    public Response checkIsOnly(@PathVariable String ids,@PathVariable String planID) {
     	Response resp = new Response();
         String[] id = StringUtil.split(ids, SEPARATE_COMMA);
         for (String idstr : id) {
-        	resp = planReachApprovalService.checkIsOnlys(idstr);
+        	resp = planReachApprovalService.checkIsOnlys(idstr ,planID);
         	if(resp.getMessage() != ""){
         		break;
         	}

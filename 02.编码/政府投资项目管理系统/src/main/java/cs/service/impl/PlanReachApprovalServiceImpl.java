@@ -65,45 +65,12 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
         PlanReachApproval entity = new PlanReachApproval();
         PlanReachApprovalDto dto = new PlanReachApprovalDto();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-//        dto.setResPerson((String) data.get("resPerson"));
         dto.setApprovalTime(sdf.parse((String) data.get("approvalTime")));
-//        dto.setResPersonTel((String) data.get("resPersonTel"));
         dto.setTitle((String) data.get("title"));
-        List<String> idStrings = (List<String>) data.get("ids");
         dto.setCreatedBy(currentUser.getUserId());
         dto.setCreatedDate(new Date());
         entity = super.create(dto);
         
-//        Session session = planReachApprovalRepo.getSession();
-        Map ggs =  (Map)data.get("gg");
-        Map gts =  (Map)data.get("gt");
-        //处理关联信息
-        for (int i = 0; i < idStrings.size(); i++) {
-            String array_element = idStrings.get(i);
-//            BigInteger countQuery = (BigInteger) session.createNativeQuery(SQLConfig.planReachApproval_count)
-//                    .setParameter("shenBaoInfos_id", array_element)
-//                    .getSingleResult();
-//
-//            int count = countQuery == null ? 0 : countQuery.intValue();
-            ShenBaoInfo shenBaoInfo = shenBaoInfoService.findById(array_element);
-//            if(count<1){
-            	 
-            	  if(!ggs.isEmpty()){
-            		  if(ggs.get(shenBaoInfo.getId()) != null){
-            			  shenBaoInfo.setXdPlanReach_ggys(Double.parseDouble(ggs.get(shenBaoInfo.getId()).toString()));
-            		  }
-            	  }else if(!gts.isEmpty()){
-            		  if(gts.get(shenBaoInfo.getId()) != null){
-            			  shenBaoInfo.setXdPlanReach_gtzj(Double.parseDouble(gts.get(shenBaoInfo.getId()).toString()));
-            		  }
-            	  }
-                  entity.getShenBaoInfos().add(shenBaoInfo);
-//            }else{
-//				throw new IllegalArgumentException(String.format("项目：%s已存在其他表单中，请重新选择", shenBaoInfo.getProjectName()));
-//			}
-          
-        }
-
         super.repository.save(entity);
         logger.info(String.format("创建计划下达批复表,名称 :%s", dto.getTitle()));
     }
@@ -118,58 +85,55 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 		dto.setId((String) data.get("id"));
 		dto.setTitle((String) data.get("title"));
 
-		Map ggs = (Map) data.get("gg");
-		Map gts = (Map) data.get("gt");
 		List<String> idStrings = (List<String>) data.get("ids");
 		PlanReachApproval entity = super.update(dto, (String) data.get("id"));
-
-//		Session session = planReachApprovalRepo.getSession();
 		// 处理关联信息
 		entity.getShenBaoInfos().clear();
 		for (int i = 0; i < idStrings.size(); i++) {
 			String id = idStrings.get(i);
-//			BigInteger countQuery = (BigInteger) session.createNativeQuery(SQLConfig.planReachApproval_count)
-//					.setParameter("shenBaoInfos_id", array_element).getSingleResult();
-//
-//			int count = countQuery == null ? 0 : countQuery.intValue();
-//			
-//			if (count < 1) {
 				ShenBaoInfo shenBaoInfo = shenBaoInfoService.findById(id);
-				if (!ggs.isEmpty()) {
-					if (ggs.get(shenBaoInfo.getId()) != null) {
-						shenBaoInfo.setXdPlanReach_ggys(Double.parseDouble(ggs.get(shenBaoInfo.getId()).toString()));
-					}
-				}
-				if (!gts.isEmpty()) {
-					if (gts.get(shenBaoInfo.getId()) != null) {
-						shenBaoInfo.setXdPlanReach_gtzj(Double.parseDouble(gts.get(shenBaoInfo.getId()).toString()));
-					}
-				}
 //				shenBaoInfo.setIsFaWen(true);
 				entity.getShenBaoInfos().add(shenBaoInfo);
-//			}
 
 		}
 		repository.save(entity);
 		logger.info(String.format("更新计划下达批复表,名称 :%s", dto.getTitle()));
 	}
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     @Transactional
-    public Response checkIsOnlys (String id){
+    public Response checkIsOnlys (String id,String planID){
     	Response resp = new Response();
     	resp.setSuccess(false);
+    	PlanReachApproval planReachApproval = planReachApprovalRepo.findById(planID);
     	Session session = planReachApprovalRepo.getSession();
 		// 处理关联信息
 		BigInteger countQuery = (BigInteger) session.createNativeQuery(SQLConfig.planReachApproval_count)
 				.setParameter("shenBaoInfos_id", id).getSingleResult();
 
 		int count = countQuery == null ? 0 : countQuery.intValue();
-		
+		ShenBaoInfo shenBaoInfo =shenBaoInfoService.findById(id);
 		if (count > 0) {
-			ShenBaoInfo shenBaoInfo = shenBaoInfoService.findById(id);
 			resp.setMessage(String.format("项目：%s已存在其他表单中，请重新选择",shenBaoInfo.getProjectName()));
 			resp.setSuccess(true);
+		}else{
+			Map map = new HashMap<>();
+			List<String> ids = new ArrayList<>();
+			map.put("id", planReachApproval.getId());
+			map.put("approvalTime", planReachApproval.getApprovalTime().toString());
+			map.put("title", planReachApproval.getTitle());
+			ids.add(shenBaoInfo.getId());
+			for (ShenBaoInfo shenBaoInfos : planReachApproval.getShenBaoInfos()) {
+				ids.add(shenBaoInfos.getId());
+			}
+			map.put("ids", ids);
+			try {
+				this.update(map);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return resp;
     }
@@ -352,15 +316,16 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
     	   }
 		
        }
-        Double cont = ggmoney + gtmoney;
-        if(ggmoney+gtmoney+entity.getApInvestSum() > entity.getProjectInvestSum()){
+        if(ggmoney+entity.getApInvestSum() -entity.getXdPlanReach_ggys() > entity.getProjectInvestSum() || 
+        		gtmoney+entity.getApInvestSum() -entity.getXdPlanReach_gtzj()> entity.getProjectInvestSum()){
         	 throw new IllegalArgumentException("超过总投资,请重新填写！");
         }
+        entity.setApPlanReach_ggys(entity.getApPlanReach_ggys()+ggmoney-entity.getXdPlanReach_ggys());
+        entity.setApPlanReach_gtzj(entity.getApPlanReach_gtzj()+gtmoney-entity.getXdPlanReach_gtzj());
+        entity.setApInvestSum(entity.getApInvestSum()+gtmoney+ggmoney-entity.getXdPlanReach_ggys()-entity.getXdPlanReach_gtzj());
         entity.setXdPlanReach_ggys(ggmoney);
         entity.setXdPlanReach_gtzj(gtmoney);
-        entity.setApPlanReach_ggys(entity.getApPlanReach_ggys()+ggmoney);
-        entity.setApPlanReach_gtzj(entity.getApPlanReach_gtzj()+gtmoney);
-        entity.setApInvestSum(entity.getApInvestSum()+gtmoney+ggmoney);
+       
         shenBaoInfoRepo.save(entity);
     }
     
