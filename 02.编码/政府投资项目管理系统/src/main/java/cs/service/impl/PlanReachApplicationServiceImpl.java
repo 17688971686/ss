@@ -584,23 +584,12 @@ public class PlanReachApplicationServiceImpl
 	@Override
 	@Transactional(rollbackOn = Exception.class)
 	public void updateShnebaoInfo(String shenbaoId, Double ggmoney, Double gtmoney) {
-		/*ShenBaoInfo entity = shenBaoInfoRepo.findById(shenbaoId);
-
-	    if(ggmoney+entity.getApInvestSum() > entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
-       	 throw new IllegalArgumentException("申请公共资金+累计下达不能大于安排资金,请重新填写！");
-       }*/
 		ShenBaoInfo entity = shenBaoInfoRepo.findById(shenbaoId);
 		YearPlanYearContent yearPlanYearContent = entity.getYearPlanYearContent();
 		
-		if(!ObjectUtils.isEmpty(yearPlanYearContent)){
-		
-			if(ggmoney+yearPlanYearContent.getApInvestSum() > entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
-				throw new IllegalArgumentException("申请公共资金+累计下达不能大于安排资金,请重新填写！");
-			}
-		}else if(ggmoney>entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
-			throw new IllegalArgumentException("申请公共资金不能大于安排资金,请重新填写！");
-			
-		}
+	    if(ggmoney+gtmoney+yearPlanYearContent.getApInvestSum() > entity.getProjectInvestSum()){
+       	 throw new IllegalArgumentException("超过总投资,请重新填写！");
+       }
 		entity.setSqPlanReach_ggys(ggmoney);
 		entity.setSqPlanReach_gtzj(gtmoney);
 		shenBaoInfoRepo.save(entity);
@@ -655,19 +644,19 @@ public class PlanReachApplicationServiceImpl
 
 		// TODO 不能删除，否则其他计划下达添加的申报信息也会被删掉，打包作为公共信息
 		List<PackPlan> planList = entity.getPackPlans();
-
-		for (int i = 0; i < planList.size(); i++) {
-			PackPlan array_element = planList.get(i);
-
-			if (packId.equals(array_element.getId())) {
-				packPlanRepo.save(array_element);
-				planList.remove(i);
+		if(!CollectionUtils.isEmpty(planList)){
+			for (int i = 0; i < planList.size(); i++) {
+				PackPlan array_element = planList.get(i);
+		
+				if (packId.equals(array_element.getId())) {
+					packPlanRepo.save(array_element);
+					planList.remove(i);
+				}
 			}
+			entity.getPackPlans().clear();
+			entity.setPackPlans(planList);
+			super.repository.save(entity);
 		}
-		entity.getPackPlans().clear();
-		entity.setPackPlans(planList);
-		super.repository.save(entity);
-
 	}
 
 	@Override

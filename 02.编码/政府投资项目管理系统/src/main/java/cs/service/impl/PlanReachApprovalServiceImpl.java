@@ -147,7 +147,7 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 						shenBaoInfo.setXdPlanReach_gtzj(Double.parseDouble(gts.get(shenBaoInfo.getId()).toString()));
 					}
 				}
-				shenBaoInfo.setIsFaWen(true);
+//				shenBaoInfo.setIsFaWen(true);
 				entity.getShenBaoInfos().add(shenBaoInfo);
 //			}
 
@@ -341,36 +341,33 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
     @Override
     @Transactional(rollbackOn = Exception.class)
     public void updateShnebaoInfo(String shenbaoId, Double ggmoney, Double gtmoney) {
-        ShenBaoInfo entity = shenBaoInfoRepo.findById(shenbaoId);
-        Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), entity.getProjectId());
+       ShenBaoInfo entity = shenBaoInfoRepo.findById(shenbaoId);
+       Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), entity.getProjectId());
        List<ShenBaoInfo> shenbaoList = shenBaoInfoRepo.findByCriteria(criterion);
        double count_ggys = 0;
        double count_gtzj = 0;
        for (int i = 0; i < shenbaoList.size(); i++) {
     	   ShenBaoInfo array_element = shenbaoList.get(i);
-    	   if(array_element.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach) && array_element.getProcessState().equals(BasicDataConfig.processState_pass)){
+    	   if(array_element.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)){
     		   count_ggys += array_element.getXdPlanReach_ggys();
     		   count_gtzj += array_element.getXdPlanReach_gtzj();
     	   }
 		
        }
-        Double cont = ggmoney + gtmoney;
 
 		YearPlanYearContent yearPlanYearContent = entity.getYearPlanYearContent();
 		if(!ObjectUtils.isEmpty(yearPlanYearContent)){
 			
-			if(ggmoney+yearPlanYearContent.getApInvestSum() > entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
-				throw new IllegalArgumentException("申请公共资金+累计下达不能大于安排资金,请重新填写！");
-			}
-		}else if(ggmoney>entity.getApPlanReach_ggys()+entity.getApPlanReach_gtzj()){
-			throw new IllegalArgumentException("申请公共资金不能大于安排资金,请重新填写！");
-			
+	        if(ggmoney+gtmoney+yearPlanYearContent.getApInvestSum() > entity.getProjectInvestSum()){
+	        	 throw new IllegalArgumentException("超过总投资,请重新填写！");
+	        }
+	        entity.setXdPlanReach_ggys(ggmoney);
+	        entity.setXdPlanReach_gtzj(gtmoney);
+	        entity.setApPlanReach_ggys(entity.getApPlanReach_ggys()+ggmoney);
+	        entity.setApPlanReach_gtzj(entity.getApPlanReach_gtzj()+gtmoney);
+	        yearPlanYearContent.setApInvestSum(yearPlanYearContent.getApInvestSum()+gtmoney+ggmoney);
 		}
-		entity.setXdPlanReach_ggys(ggmoney);
-		entity.setXdPlanReach_gtzj(gtmoney);
-		entity.setApPlanReach_ggys(entity.getApPlanReach_ggys()+ggmoney);
-		entity.setApPlanReach_gtzj(entity.getApPlanReach_gtzj()+gtmoney);
-		yearPlanYearContent.setApInvestSum(yearPlanYearContent.getApInvestSum()+gtmoney+ggmoney);
+        
         shenBaoInfoRepo.save(entity);
     }
     
