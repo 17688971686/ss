@@ -590,7 +590,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setXdPlanReach_gtzj(xdPlanReach_gtzj);
 			shenBaoInfo.setXdPlanReach_ggys(xdPlanReach_ggys);
 			shenBaoInfo.setThisTaskId("00000");
-			shenBaoInfo.setThisTaskName("已办结");
 			shenBaoInfo.setProcessStage("已办结");
 //			shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
 			shenBaoInfo.setPifuDate(new Date());
@@ -601,10 +600,12 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			Criterion criterion1 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_nextYearPlan);
 			Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.planYear.getName(), shenBaoInfo.getPlanYear());
 			Criterion criterion3 = Restrictions.and(criterion, criterion1,criterion2);
-			ShenBaoInfo nextyearplan = shenBaoInfoRepo.findByCriteria(criterion3).get(0);
-			nextyearplan.setApInvestSum(nextyearplan.getApInvestSum() +xdPlanReach_gtzj +xdPlanReach_ggys);
-			shenBaoInfoRepo.save(nextyearplan);
-//			shenBaoInfo.setComplate(true);
+			List<ShenBaoInfo> nextyearplan = shenBaoInfoRepo.findByCriteria(criterion3);
+			if(!CollectionUtils.isEmpty(nextyearplan)){
+				nextyearplan.get(0).setApInvestSum(nextyearplan.get(0).getApInvestSum() +xdPlanReach_gtzj +xdPlanReach_ggys);
+				shenBaoInfoRepo.save(nextyearplan.get(0));
+			}
+		
 		} else if (str.equals("tuiwen")) {
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setThisTaskName("已退文");

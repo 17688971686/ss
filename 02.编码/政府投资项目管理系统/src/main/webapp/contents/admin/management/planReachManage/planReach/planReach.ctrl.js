@@ -167,13 +167,9 @@
         		planReachSvc.getPlanReachApprovalById(vm);
         	}
         	
-        	vm.addmoneys = function (shenbaoId) {
-                if (vm.gg[shenbaoId] == undefined) {
-                    vm.gg[shenbaoId] = 0;
-                }
-                if (vm.gt[shenbaoId] == undefined) {
-                    vm.gt[shenbaoId] = 0;
-                }
+        	vm.addmoneysGg = function (shenbaoId,xdPlanReach_ggys,xdPlanReach_gtzj) {
+               
+                planReachSvc.updateShnebaoInfo(vm, shenbaoId,xdPlanReach_ggys,xdPlanReach_gtzj);
             }
         	//获取计划下达数据
         	planReachSvc.planReachGrid(vm);
