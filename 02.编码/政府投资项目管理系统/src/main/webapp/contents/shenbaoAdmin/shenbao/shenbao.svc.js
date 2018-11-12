@@ -356,7 +356,7 @@
 			        			   if(shenBaoRecordStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){
 			        				   var nowDate = new Date();
 			        				   var nowYear = nowDate.getFullYear();
-			        				   if(nowYear+1 == value.planYear){
+			        				   if(nowYear+1 == value.yearPlanYearContentDto.planYear){
 			        					   vm.isHased = vm.projectShenBaoStage==shenBaoRecordStage?true:false;
 			        				   }
 			        			   }else{

@@ -809,7 +809,7 @@
                         vm.model.shenBaoInfo = response.data.value[0] || {};
                         if (vm.shenBaoInfoEdit) {//如果是编辑页面
                             //年度计划申报年份处理
-                            vm.planYear = vm.model.shenBaoInfo.planYear;
+                            vm.planYear = vm.model.shenBaoInfo.yearPlanYearContentDto.planYear;
                             vm.isSHInvestment = false;
                             vm.isZFInvestment = false;
                         }
@@ -844,7 +844,7 @@
                             vm.model.shenBaoInfo.projectShenBaoStage = vm.stage;//申报阶段
                             //初始化申报年份（三年滚动）
                             var date = new Date();
-                            vm.planYear = vm.model.shenBaoInfo.planYear = parseInt(date.getFullYear() + 1, 10);
+                            vm.planYear = vm.model.shenBaoInfo.yearPlanYearContentDto.planYear = parseInt(date.getFullYear() + 1, 10);
                         }
                         //没有打包类型时默认打包类型为单列项目
                         vm.model.shenBaoInfo.packageType = vm.model.shenBaoInfo.packageType || common.basicDataConfig().packageType_danLie;
