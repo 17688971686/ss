@@ -1189,7 +1189,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         Task task = activitiService.getTaskByExecutionId(executionId);
         
         activitiService.setTaskProcessVariable(task.getId(), "eventIds", bl.getEventId()+",");
-//        processService.todoShenbaoInfo(entity,sysConfg.getConfigValue(),bl);
+        processService.todoShenbaoInfo(entity,sysConfg.getConfigValue(),bl);
         
         entity.setProcessStage("投资科审核收件办理");
         entity.setProcessState(BasicDataConfig.processState_jinxingzhong);

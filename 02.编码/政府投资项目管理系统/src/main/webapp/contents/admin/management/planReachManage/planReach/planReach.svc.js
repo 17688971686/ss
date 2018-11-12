@@ -52,7 +52,7 @@
 		function checkIsOnly(vm,dataList){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url + "/checkIsOnly/{0}", dataList[0])
+					url : common.format(url + "/checkIsOnly/{0}/{1}", dataList[0],vm.id)
 				};
 			var httpSuccess = function success(response) {
 				var resp = response.data;
@@ -69,9 +69,8 @@
 							projectConstrChar:dataList[4],beginDate:dataList[5],endDate:dataList[6],projectInvestSum:dataList[7],projectInvestAccuSum:dataList[8],
 							planYear:dataList[9],capitalAP_ggys_TheYear:dataList[10],capitalAP_gtzj_TheYear:dataList[11],sqPlanReach_ggys:dataList[12],sqPlanReach_gtzj:dataList[13],
 							apPlanReach_ggys:dataList[14],apPlanReach_gtzj:dataList[15],xdPlanReach_ggys:dataList[16],xdPlanReach_gtzj:dataList[17],thisTaskName:dataList[18]}];
-	    				vm.gg[dataList[0]] = dataList[16];
-	    				vm.gt[dataList[0]] = dataList[17];
 	    			}
+					
 				}else{
 					common.alert({
 						vm : vm,
@@ -185,7 +184,7 @@
 				var httpOptions = {
 						method : 'post',
 						url : url+'/updatePlanReachManage',
-						data : {"id": vm.model.id,"ids" : isList,"resPersonTel":vm.model.resPersonTel,"resPerson":vm.model.resPerson,"approvalTime":vm.model.approvalTime,"title":vm.model.title,"gg":vm.gg,"gt":vm.gt}
+						data : {"id": vm.model.id,"ids" : isList,"resPersonTel":vm.model.resPersonTel,"resPerson":vm.model.resPerson,"approvalTime":vm.model.approvalTime,"title":vm.model.title}
 					};
 				var httpSuccess = function success(response) {
 					common.requestSuccess({
@@ -233,7 +232,7 @@
 				var httpOptions = {
 						method : 'post',
 						url : url,
-						data : {"ids" : isList,"resPersonTel":vm.model.resPersonTel,"resPerson":vm.model.resPerson,"approvalTime":vm.model.approvalTime,"title":vm.model.title,"gg":vm.gg,"gt":vm.gt}
+						data : {"ids" : isList,"resPersonTel":vm.model.resPersonTel,"resPerson":vm.model.resPerson,"approvalTime":vm.model.approvalTime,"title":vm.model.title}
 					};
 				var httpSuccess = function success(response) {
 					common.requestSuccess({
