@@ -88,11 +88,11 @@
 		  							<td rowspan="2" ng-bind="x.sqPlanReach_ggys" style="vertical-align: middle;"></td>
 		  							<td rowspan="2" ng-bind="x.sqPlanReach_gtzj" style="vertical-align: middle;"></td>
 		  							<td rowspan="2" style="vertical-align: middle;">
-		  								<input type="number" style="width:70px" id="capitalSum1" ng-if="x.processState != '2'" ng-model="x.xdPlanReach_ggys" ng-value="x.xdPlanReach_ggys" ng-blur="vm.addmoneysGg(x.id,x.xdPlanReach_ggys,x.xdPlanReach_gtzj)"/>
+		  								<input type="text" style="width:70px" ng-hide="x.processState == '2'" ng-model="x.xdPlanReach_ggys"  ng-blur="vm.addmoneysGg(x.id,x.xdPlanReach_ggys,x.xdPlanReach_gtzj)"/>
 		  								<span ng-if="x.processState == '2'" ng-bind="x.xdPlanReach_ggys"></span>
 		  							</td>
 		  							<td rowspan="2" style="vertical-align: middle;">
-		  								<input type="number" style="width:70px" id="capitalSum2"  ng-if="x.processState != '2'" ng-model="x.xdPlanReach_gtzj" ng-value="x.xdPlanReach_gtzj" ng-blur="vm.addmoneysGg(x.id,x.xdPlanReach_ggys,x.xdPlanReach_gtzj)"/>
+		  								<input type="text" style="width:70px"  ng-hide="x.processState == '2'" ng-model="x.xdPlanReach_gtzj"  ng-blur="vm.addmoneysGg(x.id,x.xdPlanReach_ggys,x.xdPlanReach_gtzj)"/>
 		  								<span ng-if="x.processState == '2'" ng-bind="x.xdPlanReach_gtzj"></span>
 		  							</td>
 		  							<td rowspan="2" ng-bind="x.yearConstructionTask" style="vertical-align: middle;"></td>

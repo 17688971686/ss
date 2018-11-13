@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import cs.common.BasicDataConfig;
 import cs.common.ICurrentUser;
 import cs.common.ValidationSQLUtil;
 import cs.activiti.service.ActivitiService;
@@ -66,7 +68,17 @@ public class ShenBaoAdminShenBaoController {
 			oDataFilterItem.setOperator("isNull");
 			ODataFilterItemList.add(oDataFilterItem);
 		}
-
+		
+		String isRecord = request.getParameter("isRecord");
+		if(null != isRecord && !isRecord.isEmpty()){
+			ODataFilterItem<String> filterItem=new ODataFilterItem<String>();
+			filterItem.setField("projectShenBaoStage");
+			filterItem.setOperator("ne");
+			filterItem.setValue(BasicDataConfig.projectShenBaoStage_planReach);
+			odataObj.getFilter().add(filterItem);
+		}
+	
+		
 		shenBaoInfoDtos = shenBaoInfoService.get(odataObj);
 		return shenBaoInfoDtos;	
 	}

@@ -1995,7 +1995,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		List<ShenBaoInfoDto> list3 = this.findPlanRunByOdata(odata2,isPerson);
 		list2.addAll(list);
 		list2.addAll(list3);
-		System.out.println("list2.size()========>"+list2.size());
+		System.out.println("待办数字========>"+list2.size());
 		return list2.size();
 	}
 	 private String getStageType(String shenbaoStage) {
