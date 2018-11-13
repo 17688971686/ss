@@ -106,14 +106,10 @@ public class PlanReachController {
         shenbaoInfoService.comfirmPlanReach(map, true);
     }
 
-    @RequestMapping(name = "添加申请资金", path = "updateShnebaoInfo/{shenbaoId}/{xdPlanReach_ggys}/{xdPlanReach_gtzj}", method = RequestMethod.POST)
+    @RequestMapping(name = "添加申请资金", path = "updateShnebaoInfo", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void updateShnebaoInfo(@PathVariable String shenbaoId, @PathVariable String xdPlanReach_ggys, @PathVariable String xdPlanReach_gtzj) {
-    	double xdPlanReach_gtzj1 = 0.0;
-    	double xdPlanReach_ggys1 =0.0;
-    		  xdPlanReach_ggys1 = Double.parseDouble(xdPlanReach_ggys);
-    		xdPlanReach_gtzj1 = Double.parseDouble(xdPlanReach_gtzj);
-        planReachApprovalService.updateShnebaoInfo(shenbaoId, xdPlanReach_ggys1, xdPlanReach_gtzj1);
+    public void updateShnebaoInfo(@RequestBody ShenBaoInfoDto dto) {
+        planReachApprovalService.updateShnebaoInfo(dto.getId(), dto.getXdPlanReach_ggys(), dto.getXdPlanReach_gtzj());
     }
     
     @RequestMapping(name = "办结单条任务--计划类", path = "endProcess/{id}", method = RequestMethod.POST)

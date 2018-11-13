@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -205,13 +206,12 @@ public class ShenBaoAdminPlanReachController {
 
     }
 
-    @RequestMapping(name = "添加申请资金", path = "updateShnebaoInfo/{shenbaoId}/{ggmoney}/{gtmoney}", method = RequestMethod.POST)
+    @RequestMapping(name = "添加申请资金", path = "updateShnebaoInfo", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void updateShnebaoInfo(@PathVariable String shenbaoId, @PathVariable String ggmoney, @PathVariable String gtmoney) {
-
-        double apPlanReach_gtzj = Double.parseDouble(gtmoney);
-        double apPlanReach_ggys = Double.parseDouble(ggmoney);
-        planReachApplicationService.updateShnebaoInfo(shenbaoId, apPlanReach_ggys, apPlanReach_gtzj);
+    public void updateShnebaoInfo(@RequestBody ShenBaoInfoDto dto) {
+//        double apPlanReach_gtzj = Double.parseDouble(gtmoney);
+//        double apPlanReach_ggys = Double.parseDouble(ggmoney);
+        planReachApplicationService.updateShnebaoInfo(dto.getId(), dto.getSqPlanReach_ggys(), dto.getSqPlanReach_gtzj());
     }
 
     @RequestMapping(name = "获取计划下达中打包列表数据", path = "{id}/packPlanList", method = RequestMethod.GET)

@@ -102,8 +102,8 @@
 				 $location.path(url_back);
 	            })
 		}
-		 function updateShnebaoInfo(vm, shenbaoId,xdPlanReach_ggys,xdPlanReach_gtzj) {
-	            $http.post(common.format(url + "/updateShnebaoInfo/{0}/{1}/{2}", shenbaoId, xdPlanReach_ggys, xdPlanReach_gtzj)).then(function () {
+		 function updateShnebaoInfo(vm, shenbaoinfo) {
+	            $http.post(common.format(url + "/updateShnebaoInfo"),shenbaoinfo).then(function () {
 	                vm.gridOptions && vm.gridOptions.dataSource && vm.gridOptions.dataSource.read();
 	            })
 	        };

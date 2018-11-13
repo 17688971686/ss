@@ -83,32 +83,23 @@
                 planReachSvc.deletePlanShenBaoInfo(vm, idStr);//添加申报信息到计划下达中
             }
         };
-        vm.addmoney = function (shenbaoId) {
-            if (vm.gg[shenbaoId] == undefined) {
-                vm.gg[shenbaoId] = 0;
-            }
-            if (vm.gt[shenbaoId] == undefined) {
-                vm.gt[shenbaoId] = 0;
-            }
-//        		var gg_total = 0;
-//        		var gt_total = 0;
-//        		for (var int = 0; int < vm.gg.length; int++) {
-//        			gg_total += vm.gg[int];
-//
-//				}
-//        		for (var int = 0; int < vm.gt.length; int++) {
-//        			gt_total += vm.gt[int];
-//
-//				}
-//        		var test =  $("#capitalSum1").siblings();
-//        		if(gt_total> vm.capitalSCZ_gtzj_TheYear){
-//        			common.alert({
-//                    	vm:vm,
-//                    	msg:'申请资金数超过计划安排数!'
-//                    });
-//        		}else{
-            planReachSvc.updateShnebaoInfo(vm, shenbaoId);
-//        		}
+        
+        function format(val) {
+    	    if (val == null || val == '' || val == 'undefined' || isNaN(val)) {
+    	        return 0;
+    	    }
+    	    return  val.toFixed("4");
+        }
+        
+        vm.addmoney = function (shenbaoId ,num1,num2) {
+        	for (var int = 0; int < vm.model.shenBaoInfoDtos.length; int++) {
+				var array_element = vm.model.shenBaoInfoDtos[int];
+				if(shenbaoId==array_element.id){
+					array_element.sqPlanReach_ggys = num1;
+					array_element.sqPlanReach_gtzj = num2;
+					planReachSvc.updateShnebaoInfo(vm,array_element);
+				}
+			}
 
         }
 
