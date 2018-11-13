@@ -167,20 +167,15 @@
         		planReachSvc.getPlanReachApprovalById(vm);
         	}
         	
-        	vm.addmoneysGg = function (shenbaoId,xdPlanReach_ggys,xdPlanReach_gtzj) {
-//               for (var int = 0; int < vm.model.shenBaoInfoDtos.length; int++) {
-//				var array_element = vm.model.shenBaoInfoDtos[int];
-//				if(array_element.id == shenbaoId){
-//					
-//					array_element.apPlanReach_ggys = array_element.apPlanReach_ggys - array_element.xdPlanReach_ggys+xdPlanReach_ggys;
-//					array_element.apPlanReach_gtzj = array_element.xdPlanReach_gtzj - array_element.xdPlanReach_gtzj+xdPlanReach_gtzj;
-//					array_element.apInvestSum = array_element.apInvestSum-array_element.xdPlanReach_ggys-array_element.xdPlanReach_gtzj+xdPlanReach_ggys+xdPlanReach_gtzj;
-//					array_element.xdPlanReach_ggys = xdPlanReach_ggys;
-//					array_element.xdPlanReach_gtzj = xdPlanReach_gtzj;
-//				}
-//			}
+        	vm.addmoneys = function (shenbaoId,xdPlanReach_ggys,xdPlanReach_gtzj) {
+               for (var int = 0; int < vm.model.shenBaoInfoDtos.length; int++) {
+				var array_element = vm.model.shenBaoInfoDtos[int];
+				if(array_element.id == shenbaoId){
+					 planReachSvc.updateShnebaoInfo(vm, array_element);
+				}
+			}
         		
-                planReachSvc.updateShnebaoInfo(vm, shenbaoId,xdPlanReach_ggys,xdPlanReach_gtzj);
+               
             }
         	//获取计划下达数据
         	planReachSvc.planReachGrid(vm);

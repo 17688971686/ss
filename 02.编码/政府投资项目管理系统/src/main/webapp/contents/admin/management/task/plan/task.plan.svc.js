@@ -611,9 +611,7 @@
                         "shenbaoinfo": vm.model.shenBaoInfo,
                         "nextUsers": vm.nextUsers.toString(),
                         "isPass": vm.isPass,
-                        "isPass2": vm.isPass2,
-                        "xdPlanReach_ggys": vm.model.shenBaoInfo.xdPlanReach_ggys,
-                        "xdPlanReach_gtzj": vm.model.shenBaoInfo.xdPlanReach_gtzj
+                        "isPass2": vm.isPass2
                     }
                 };
 

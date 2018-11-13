@@ -181,15 +181,24 @@
                 year: year
             });
         };
+        
+        function format(val) {
+    	    if (val == null || val == '' || val == 'undefined' || isNaN(val)) {
+    	        return 0;
+    	    }
+    	    return  val.toFixed("4");
+        }
 
-        vm.addmoney = function (shenbaoId) {
-            if (vm.gg[shenbaoId] == undefined) {
-                vm.gg[shenbaoId] = 0;
-            }
-            if (vm.gt[shenbaoId] == undefined) {
-                vm.gt[shenbaoId] = 0;
-            }
-            planReachSvc.updateShnebaoInfo(vm, shenbaoId);
+        vm.addmoney = function (shenbaoId ,num1,num2) {
+        	for (var int = 0; int < vm.model.shenBaoInfoDtos.length; int++) {
+				var array_element = vm.model.shenBaoInfoDtos[int];
+				if(shenbaoId==array_element.id){
+					array_element.sqPlanReach_ggys = num1;
+					array_element.sqPlanReach_gtzj = num2;
+					planReachSvc.updateShnebaoInfo(vm,array_element);
+				}
+			}
+            
         }
         //移除打包计划
         vm.removePack = function (idx) {

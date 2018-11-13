@@ -70,11 +70,11 @@
 	<button class="btn btn-xs btn-success" ng-click="vm.deleteProcessOne('{0}')"><span class="glyphicon glyphicon-pencil"></span>撤销</button>
 </script>
 <script type="text/template" id="input">
-	<input style="width:100px" id="capitalSum1" ng-if="{2}" ng-model="vm.gg['{0}']" value="{1}" />
+	<input type="number" step="any" style="width:100px" id="capitalSum1" ng-if="{2}" ng-model="dataItem.sqPlanReach_ggys" value="{1}" ng-blur="vm.addmoney('{0}',dataItem.sqPlanReach_ggys,dataItem.sqPlanReach_gtzj)"/>
 	<span ng-if="!{2}" ng-bind="vm.gg['{0}']"></span>
 </script>
 <script type="text/template" id="input2">
-	<input style="width:100px" id="capitalSum2" ng-if="{2}" ng-model="vm.gt['{0}']" value="{1}" />
+	<input type="number" step="any" style="width:100px" id="capitalSum2" ng-if="{2}" ng-model="dataItem.sqPlanReach_gtzj" value="{1}" ng-blur="vm.addmoney('{0}',dataItem.sqPlanReach_ggys,dataItem.sqPlanReach_gtzj)"/>
 	<span ng-if="!{2}" ng-bind="vm.gt['{0}']"></span>
 </script>
 <!-- ng-blur="vm.addmoney('{0}')" -->

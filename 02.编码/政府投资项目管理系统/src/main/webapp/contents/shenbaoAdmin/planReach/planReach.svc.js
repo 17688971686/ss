@@ -103,8 +103,8 @@
             })
         };
 
-        function updateShnebaoInfo(vm, shenbaoId) {
-            $http.post(common.format(url + "/updateShnebaoInfo/{0}/{1}/{2}", shenbaoId, vm.gg[shenbaoId], vm.gt[shenbaoId])).then(function () {
+        function updateShnebaoInfo(vm, shenbaoinfo) {
+            $http.post(common.format(url + "/updateShnebaoInfo"),shenbaoinfo).then(function () {
                 vm.shenBaoInfo_gridOptions_plan && vm.shenBaoInfo_gridOptions_plan.dataSource && vm.shenBaoInfo_gridOptions_plan.dataSource.read();
                 //编制打包计划列表数据刷新
                 vm.shenBaoInfo_gridOptions && vm.shenBaoInfo_gridOptions.dataSource && vm.shenBaoInfo_gridOptions.dataSource.read();

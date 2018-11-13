@@ -436,15 +436,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		String nextUsers = (String) data.get("nextUsers");// 下一经办人
 		String isPass = (String) data.get("isPass");// 下一经办人
 		String isPass2 = (String) data.get("isPass2");// 下一经办人
-		double xdPlanReach_ggys;
-		double xdPlanReach_gtzj;
-
-		Integer c = (int) data.get("xdPlanReach_ggys");
-		xdPlanReach_ggys = c.doubleValue();
-
-		Integer a = (int) data.get("xdPlanReach_gtzj");
-		xdPlanReach_gtzj = a.doubleValue();
-
+	
 		ShenBaoInfo shenBaoInfo = shenBaoInfoRepo.findById(shenbaoInfoId);
 
 		Map<String, Object> variables = new HashMap<String, Object>();
@@ -587,8 +579,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
 
 		if (shenBaoInfo.getThisTaskName().equals("usertask5") && "next".equals(str) ) {
-			shenBaoInfo.setXdPlanReach_gtzj(xdPlanReach_gtzj);
-			shenBaoInfo.setXdPlanReach_ggys(xdPlanReach_ggys);
+			shenBaoInfo.setXdPlanReach_gtzj(shenbaoinfoDto.getXdPlanReach_gtzj());
+			shenBaoInfo.setXdPlanReach_ggys(shenbaoinfoDto.getXdPlanReach_ggys());
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setProcessStage("已办结");
 //			shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
@@ -606,7 +598,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			if(!CollectionUtils.isEmpty(nextyearplan)){
 				YearPlanYearContent yearPlanYearContent = nextyearplan.get(0).getYearPlanYearContent();
 				if(!ObjectUtils.isEmpty(yearPlanYearContent)){
-					yearPlanYearContent.setApInvestSum(nextyearplan.get(0).getYearPlanYearContent().getApInvestSum() +xdPlanReach_gtzj +xdPlanReach_ggys);
+					yearPlanYearContent.setApInvestSum(nextyearplan.get(0).getYearPlanYearContent().getApInvestSum() +shenbaoinfoDto.getXdPlanReach_gtzj() +shenbaoinfoDto.getXdPlanReach_ggys());
 					shenBaoInfoRepo.save(nextyearplan.get(0));
 				}
 				
