@@ -130,7 +130,7 @@ public class Rc8utilController {
 			return num;
 		}
 		String id =URLDecoder.decode(userID, "UTF-8");
-
+		System.out.println("待办数字--人员ID："+id);
 //		 id = new String(Base64.getDecoder().decode(userID), "UTF-8");
 		try {
 			PersonManager pm = HuasisoftUtil.getPersonManager();
@@ -138,10 +138,11 @@ public class Rc8utilController {
 
 			person = pm.get(id);
 			if (person != null) {
+				System.out.println("待办数字--OA名称："+person.getLoginName());
 				Criterion criterion = Restrictions.eq(User_.loginName.getName(), person.getLoginName());
 				List<User> localUser = userRepo.findByCriteria(criterion);
 				if (!CollectionUtils.isEmpty(localUser)) {
-
+					System.out.println("待办数字--人员名称："+localUser.get(0).getLoginName());
 					num = processService.findAllTodoTaskNumber(localUser.get(0).getId());
 				} else {
 					return num;
@@ -152,6 +153,14 @@ public class Rc8utilController {
 			// TODO Auto-generated catch block
 			throw new IllegalArgumentException("rc8人员查询失败");
 		}
+		return num;
+	}
+	
+	@RequestMapping(name = "查询RC8投资科人员", path = "getnum", method = RequestMethod.GET)
+	@ResponseBody
+	public int getnum(){
+		int num = processService.findAllTodoTaskNumber("2c30f464-8e99-4cae-8985-238b06b798a4");
+		System.out.println(num);
 		return num;
 	}
 

@@ -29,6 +29,7 @@ import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import javax.transaction.Transactional;
 import java.math.BigInteger;
@@ -69,8 +70,13 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
         dto.setTitle((String) data.get("title"));
         dto.setCreatedBy(currentUser.getUserId());
         dto.setCreatedDate(new Date());
+        List<String> idStrings = (List<String>) data.get("ids");
         entity = super.create(dto);
-        
+        for (int i = 0; i < idStrings.size(); i++) {
+            String array_element = idStrings.get(i);
+            ShenBaoInfo shenBaoInfo = shenBaoInfoService.findById(array_element);
+            entity.getShenBaoInfos().add(shenBaoInfo);
+        }
         super.repository.save(entity);
         logger.info(String.format("创建计划下达批复表,名称 :%s", dto.getTitle()));
     }
@@ -118,21 +124,23 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 			resp.setMessage(String.format("项目：%s已存在其他表单中，请重新选择",shenBaoInfo.getProjectName()));
 			resp.setSuccess(true);
 		}else{
-			Map map = new HashMap<>();
-			List<String> ids = new ArrayList<>();
-			map.put("id", planReachApproval.getId());
-			map.put("approvalTime", planReachApproval.getApprovalTime().toString());
-			map.put("title", planReachApproval.getTitle());
-			ids.add(shenBaoInfo.getId());
-			for (ShenBaoInfo shenBaoInfos : planReachApproval.getShenBaoInfos()) {
-				ids.add(shenBaoInfos.getId());
-			}
-			map.put("ids", ids);
-			try {
-				this.update(map);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(!ObjectUtils.isEmpty(planReachApproval)){
+				Map map = new HashMap<>();
+				List<String> ids = new ArrayList<>();
+				map.put("id", planReachApproval.getId());
+				map.put("approvalTime", planReachApproval.getApprovalTime().toString());
+				map.put("title", planReachApproval.getTitle());
+				ids.add(shenBaoInfo.getId());
+				for (ShenBaoInfo shenBaoInfos : planReachApproval.getShenBaoInfos()) {
+					ids.add(shenBaoInfos.getId());
+				}
+				map.put("ids", ids);
+				try {
+					this.update(map);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		return resp;
