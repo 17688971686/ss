@@ -8,10 +8,12 @@ import java.util.Map;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
@@ -22,7 +24,13 @@ import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.jasig.cas.client.util.AssertionHolder;
 import org.jasig.cas.client.validation.Assertion;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.web.context.support.XmlWebApplicationContext;
 
 import com.huasisoft.h1.api.org.PersonManager;
 import com.huasisoft.h1.model.ORGPerson;
@@ -37,13 +45,10 @@ import cs.domain.framework.User_;
 import cs.model.framework.UserDto;
 import cs.repository.framework.UserRepo;
 import cs.service.framework.UserService;
+import cs.service.framework.UserServiceImpl;
 
 public class CheckUserLoginFilter_RC8 implements Filter {
 	private static Logger logger = Logger.getLogger(CheckUserLoginFilter_RC8.class);
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private UserRepo userRepo;
 	
     public CheckUserLoginFilter_RC8() {
     	
@@ -56,18 +61,16 @@ public class CheckUserLoginFilter_RC8 implements Filter {
 		HttpSession session = ((HttpServletRequest)request).getSession();
 		String loginUID = (String) session.getAttribute("loginUID");
 		System.out.println("=====>1:"+loginUID);
-		User riseUser = (User) session.getAttribute("riseUser");
+		UserDto riseUser = (UserDto) session.getAttribute("riseUser");
 		System.out.println("=====>2:"+riseUser);
 		if(StringUtils.isBlank(loginUID) || riseUser == null) {
 			Assertion casAssertion = AssertionHolder.getAssertion();
 			AttributePrincipal ap = casAssertion.getPrincipal();
-			String loginName = ap.getName();
 			Map<String, Object> attr = ap.getAttributes();
 			loginUID = attr.get("ID").toString();
 			System.out.println("=====>3:"+loginUID);
 			PersonManager pm = HuasisoftUtil.getPersonManager();
 			ORGPerson person =null;
-			User user = new User();
 			try {
 				person = pm.get(loginUID);
 				System.out.println("=====>4:"+person);
@@ -82,11 +85,7 @@ public class CheckUserLoginFilter_RC8 implements Filter {
 			userDto.setEmail(person.getEmail());
 			userDto.setMobilePhone(person.getMobile());
 			userDto.setOaId(person.getId());
-			userService.createSYSUser(userDto);
-			
-			user.setLoginName(loginName);
-			user.setPassword(person.getPlainText());
-			session.setAttribute("riseUser", user);
+			session.setAttribute("riseUser", userDto);
 		}
 		try {
 			chain.doFilter(request, response);

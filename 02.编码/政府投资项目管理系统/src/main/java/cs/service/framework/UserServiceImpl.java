@@ -39,6 +39,7 @@ import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.UserUnitInfoService;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -118,54 +119,45 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void createSYSUser(UserDto userDto) {
-        User findUser = userRepo.findUserByName(userDto.getLoginName());
+    public User createSYSUser(UserDto userDto) {
+        User user = userRepo.findUserByName(userDto.getLoginName());
         List<RoleDto> roleList = roleService.Get();
-        if (findUser == null) {// 用户不存在
+      
             try {
-                User user = new User();
+            	//如果登录用户为null，则创建，有则更新
+            	if(ObjectUtils.isEmpty(user)){
+            		System.out.println("本地user为null!");
+            		user = new User();
+                    user.setId(UUID.randomUUID().toString());
+            	}
                 user.setComment(userDto.getComment());
                 user.setLoginName(userDto.getLoginName());
                 user.setDisplayName(userDto.getDisplayName());
-                user.setId(UUID.randomUUID().toString());
+               
                 user.setCreatedBy(currentUser.getUserId());
                 user.setModifiedBy(currentUser.getUserId());
                 user.setPassword(userDto.getPassword());
                 user.setCreatedDate(new Date());
                 user.setMobilePhone(userDto.getMobilePhone());
                 user.setOaId(userDto.getOaId());
-                System.out.println("===========新增");
-            	for (RoleDto role : roleList) {
-					if(role.getRoleName().equals("建设单位")){
-						userDto.getRoles().add(role);
-					}
-				}
+                //如果没有角色，自动添加建设单位角色----------不考虑手动去掉建设单位的情况
+                if(CollectionUtils.isEmpty(user.getRoles())){
+                	for (RoleDto roleDto : roleList) {
+    					if(roleDto.getRoleName().equals("建设单位")){
+    						List<Role> roles = new ArrayList<>();
+    						Role role = new Role();
+    						role.setId(roleDto.getId());
+    						roles.add(role);
+    						user.setRoles(roles);
+    					}
+    				}
+                }
                 userRepo.save(user);
-                logger.info(String.format("创建用户,登录名:%s", userDto.getLoginName()));
+                logger.info(String.format("用户,登录名:%s", userDto.getLoginName()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else {// 如果用户存在就更新
-            if (!"超级管理员".equals(findUser.getDisplayName())) {
-                try {
-                    findUser.setLoginName(userDto.getLoginName());
-                    findUser.setComment(userDto.getComment());
-                    findUser.setDisplayName(userDto.getDisplayName());
-                    findUser.setModifiedBy(currentUser.getUserId());
-                    findUser.setPassword(userDto.getPassword());
-                    findUser.setModifiedDate(new Date());
-                    findUser.setMobilePhone(userDto.getMobilePhone());
-                    findUser.setOaId(userDto.getOaId());
-                    System.out.println("==========更新");
-                    userRepo.save(findUser);
-                    // 创建候选人
-                    logger.info(String.format("更新用户,用户名:%s", userDto.getLoginName()));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
+            return user;
     }
 
     @Override
@@ -461,13 +453,16 @@ public class UserServiceImpl implements UserService {
         Boolean hasRole = false;
         User user2 = userRepo.findById(id);
         loop2:
-        for (Role x : user2.getRoles()) {
-            if (x.getRoleName().equals("管理员") || x.getRoleName().equals("超级管理员")) {//如果有对应的角色则允许登录
-                hasRole = true;
-                break loop2;
-            } else {
-            }
+        if(!CollectionUtils.isEmpty(user2.getRoles())){
+        	 for (Role x : user2.getRoles()) {
+                 if (x.getRoleName().equals("管理员") || x.getRoleName().equals("超级管理员")) {//如果有对应的角色则允许登录
+                     hasRole = true;
+                     break loop2;
+                 } else {
+                 }
+             }
         }
+       
         return hasRole;
     }
 

@@ -169,8 +169,6 @@ public class BaseShenBaoInfo extends BaseProject {
     private String processStage;
     @Column(columnDefinition = "int(1) NULL COMMENT '审批状态'")
     private Integer processState;
-    @Column(columnDefinition = "bit(1) DEFAULT b'0' COMMENT '审批是否完结'")
-    private boolean complate;
     @Column(columnDefinition = "varchar(125) NULL COMMENT '审批流程ID'")
     private String zong_processId;
     @Column(columnDefinition = "varchar(125) NULL COMMENT '审批任务ID'")
@@ -845,14 +843,6 @@ public class BaseShenBaoInfo extends BaseProject {
 
     public void setThisTaskName(String thisTaskName) {
         this.thisTaskName = thisTaskName;
-    }
-
-    public boolean getComplate() {
-        return complate;
-    }
-
-    public void setComplate(boolean complate) {
-        this.complate = complate;
     }
 
     public Boolean getIsIncludPack() {

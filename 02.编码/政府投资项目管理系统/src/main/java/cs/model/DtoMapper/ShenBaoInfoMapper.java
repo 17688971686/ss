@@ -159,7 +159,6 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setZong_processId(entity.getZong_processId());
 			shenBaoInfoDto.setThisTaskId(entity.getThisTaskId());
 			shenBaoInfoDto.setThisTaskName(entity.getThisTaskName());
-			shenBaoInfoDto.setComplate(entity.getComplate());
 			shenBaoInfoDto.setIsLeaderHasRead(entity.getIsLeaderHasRead());
 			shenBaoInfoDto.setThisUser(entity.getThisUser());
 			//begin监控流程实例ID
@@ -351,7 +350,6 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setZong_processId(shenBaoInfoDto.getZong_processId());
 			shenBaoInfo.setThisTaskId(shenBaoInfoDto.getThisTaskId());
 			shenBaoInfo.setThisTaskName(shenBaoInfoDto.getThisTaskName());
-			shenBaoInfo.setComplate(shenBaoInfoDto.getComplate());
 			shenBaoInfo.setIsLeaderHasRead(shenBaoInfoDto.getIsLeaderHasRead());
 			shenBaoInfo.setThisUser(shenBaoInfoDto.getThisUser());
 			//流程监控实例ID
