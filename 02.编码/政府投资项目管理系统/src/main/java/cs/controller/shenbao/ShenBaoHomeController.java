@@ -14,15 +14,19 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cs.common.ICurrentUser;
 import cs.common.Util;
+import cs.domain.framework.Role;
 import cs.domain.framework.User;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ArticleDto;
+import cs.model.framework.UserDto;
 import cs.model.shenbao.IndexDto;
 import cs.repository.framework.UserRepo;
 import cs.repository.odata.ODataFilterItem;
@@ -53,13 +57,13 @@ public class ShenBaoHomeController {
 //	@RequestMapping(name = "首页", path = "/", method = RequestMethod.GET)
 //	public String adminIndex(HttpServletRequest request, Model model) {
 //		HttpSession session = ((HttpServletRequest) request).getSession();
-//        User user = (User) session.getAttribute("riseUser");
-//        User user2 = userRepo.findUserByName(user.getLoginName());
-////		User user2 = userService.getUserByName(request);
+//		UserDto userDto = (UserDto) session.getAttribute("riseUser");
+////        User user2 = userRepo.findUserByName(user.getLoginName());
+//		User user2 = userService.createSYSUser(userDto);
 //		logger.info("=====>5:"+request);
 //		System.out.println("=====>6:"+request);
 //		Boolean hasRole = false;
-//			if (user2 != null) {
+//			if (!ObjectUtils.isEmpty(user2)) {
 //				currentUser.setLoginName(user2.getLoginName());
 //				currentUser.setDisplayName(user2.getDisplayName());
 //				currentUser.setUserId(user2.getId());
@@ -77,7 +81,16 @@ public class ShenBaoHomeController {
 //				UsernamePasswordToken token = new UsernamePasswordToken(user2.getLoginName(), user2.getPassword());
 //				Subject currentUser = SecurityUtils.getSubject();
 //				currentUser.login(token);
-//				hasRole = userService.getRole(user2.getId());
+//				 if(!CollectionUtils.isEmpty(user2.getRoles())){
+//					 loop2:for (Role x : user2.getRoles()) {
+//		                 if (x.getRoleName().equals("管理员") || x.getRoleName().equals("超级管理员")) {//如果有对应的角色则允许登录
+//		                     hasRole = true;
+//		                     break loop2;
+//		                 } else {
+//		                 }
+//		             }
+//		        }
+////				hasRole = userService.getRole(user2.getId());
 //			} else {
 //				throw new IllegalArgumentException("系统不存在该用户，请同步后重新登录！");
 //			}

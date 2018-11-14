@@ -497,7 +497,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
 		}
 		Authentication.setAuthenticatedUserId(currentUser.getUserId());
-		if (shenBaoInfo.getThisTaskName().equals("usertask5")) {
+		if (shenBaoInfo.getThisTaskName().equals("usertask5")&& str.equals("next")) {
 			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "办结意见：" + msg);
 		} else if (str.equals("tuiwen")) {
 			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "退文意见：" + msg);

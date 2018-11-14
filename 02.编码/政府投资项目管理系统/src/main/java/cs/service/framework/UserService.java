@@ -36,7 +36,7 @@ public interface UserService {
 
 	Response DandianLogin(String userName, String password, String role);
 
-	void createSYSUser(UserDto userDto);
+	User createSYSUser(UserDto userDto);
 
 	boolean getRole(String id);
 
