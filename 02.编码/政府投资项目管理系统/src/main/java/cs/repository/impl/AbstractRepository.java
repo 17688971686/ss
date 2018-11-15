@@ -60,23 +60,6 @@ public class AbstractRepository<T, ID extends Serializable> implements IReposito
 
     @Override
     @SuppressWarnings({"unchecked", "deprecation"})
-    public List<T> findByCriteria(Map<String,String> alias,Criterion... criterion) {
-        logger.debug("findByCriteria");
-        Criteria crit = this.getSession().createCriteria(this.getPersistentClass());
-        if(!alias.isEmpty()){
-            alias.keySet().forEach(x -> {
-                crit.createAlias(x,alias.get(x));
-            });
-        }
-        for (Criterion c : criterion) {
-            crit.add(c);
-        }
-        return crit.list();
-
-    }
-
-    @Override
-    @SuppressWarnings({"unchecked", "deprecation"})
     public List<T> findByOdata(ODataObj oDataObj) {
         logger.debug("findByOdata");
         Criteria crit = this.getSession().createCriteria(this.getPersistentClass());

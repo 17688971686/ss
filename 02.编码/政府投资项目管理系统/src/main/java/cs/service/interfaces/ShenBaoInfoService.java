@@ -116,4 +116,11 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
      */
     List<ShenBaoInfoDto> findYearPlanDataByOdata(ODataObjNew odata,OdataFilter planYearFilter);
 
+    /**
+     * 查询年度计划管理数据
+     * @param odata
+     * @return
+     */
+    List<ShenBaoInfo> findYearPlanDataInfoByOdata(ODataObjNew odata,OdataFilter planYearFilter);
+
 }

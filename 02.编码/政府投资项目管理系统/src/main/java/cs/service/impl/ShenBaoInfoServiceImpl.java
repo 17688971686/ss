@@ -17,6 +17,7 @@ import com.huasisoft.portal.model.Backlog;
 import com.sn.framework.common.IdWorker;
 import com.sn.framework.common.StringUtil;
 import com.sn.framework.odata.OdataFilter;
+import com.sn.framework.odata.impl.criteria.OdataCriteria;
 import cs.common.*;
 import cs.domain.*;
 import cs.model.DomainDto.*;
@@ -33,6 +34,7 @@ import org.activiti.spring.ProcessEngineFactoryBean;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.hibernate.Filter;
 import org.hibernate.Session;
 import org.hibernate.criterion.*;
 import org.hibernate.query.NativeQuery;
@@ -582,12 +584,15 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
                 entity.setSqPlanReach_gtzj(sqPlanReach_gtzj);
 
                 //查询本年度是否存在计划下达
-                Criterion criterion1 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach);
-                Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.projectNumber.getName(), entity.getProjectNumber());
-                Map<String,String> aliasMap = new HashMap<String,String>();
-                aliasMap.put("YearPlanYearContent","yearPlan");
-                Criterion criterion3 = Restrictions.eq("yearPlan."+YearPlanYearContent_.planYear.getName(), entity.getYearPlanYearContent().getPlanYear());
-                List<ShenBaoInfo> query = super.repository.findByCriteria(aliasMap , criterion1, criterion2, criterion3);
+                OdataFilter<String> filter1 = new OdataFilter<String>(ShenBaoInfo_.projectShenBaoStage.getName(),"eq",BasicDataConfig.projectShenBaoStage_planReach);
+                OdataFilter<String> filter2 = new OdataFilter<String>(ShenBaoInfo_.projectNumber.getName(),"eq",entity.getProjectNumber());
+                OdataFilter<Integer> filter3 = new OdataFilter<Integer>(YearPlanYearContent_.planYear.getName(),"eq",entity.getYearPlanYearContent().getPlanYear());
+
+                ODataObjNew odata = new ODataObjNew(null,null);
+                odata.getFilterList().add(filter1);
+                odata.getFilterList().add(filter2);
+                List<ShenBaoInfo> query = findYearPlanDataInfoByOdata(odata,filter3);
+
                 if (query.isEmpty()) {
 //                    entity.setIsPlanReach(true);
                     ShenBaoInfoDto dto = super.mapper.toDto(entity);
@@ -1311,18 +1316,38 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 
     @Override
     public List<ShenBaoInfoDto> findYearPlanDataByOdata(ODataObjNew odata,OdataFilter planYearFilter) {
+        List<ShenBaoInfo> infoList = null;
+        List<ShenBaoInfoDto> shenbaoinfo = null;
+        try {
+            infoList = this.findYearPlanDataInfoByOdata(odata,planYearFilter);
+            if(!infoList.isEmpty()){
+                shenbaoinfo =  infoList.stream().map(mapper::toDto).collect(Collectors.toList());
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return shenbaoinfo;
+    }
+
+    @Override
+    public List<ShenBaoInfo> findYearPlanDataInfoByOdata(ODataObjNew odata,OdataFilter planYearFilter) {
         //增加关联查询
         odata.setProcessQuery((criteria) -> {
             criteria.createAlias("yearPlanYearContent","yearPlan",CriteriaSpecification.LEFT_JOIN);
             //增加计划年度查询条件
             if(planYearFilter!=null){
-                criteria.add(Restrictions.eq("yearPlan.planYear",Integer.parseInt((String)planYearFilter.getValue())));
+                if(planYearFilter.getValue() instanceof  java.lang.String){
+                    criteria.add(Restrictions.eq("yearPlan.planYear",Integer.parseInt((String)planYearFilter.getValue())));
+                }else{
+                    criteria.add(Restrictions.eq("yearPlan.planYear",planYearFilter.getValue()));
+                }
             }
             criteria.addOrder(Order.desc("yearPlan.planYear"));
         });
-        List<ShenBaoInfoDto> shenbaoinfo = null;
+        List<ShenBaoInfo> shenbaoinfo = null;
         try {
-            shenbaoinfo =  shenBaoInfoRepoImpl.findRunByOdata2(odata).stream().map(mapper::toDto).collect(Collectors.toList());
+            shenbaoinfo =  shenBaoInfoRepoImpl.findRunByOdata2(odata);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

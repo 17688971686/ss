@@ -587,14 +587,16 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setPifuDate(new Date());
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_pass);
 			project.setIsIncludLibrary(true);
-			
-			Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), shenBaoInfo.getProjectId());
-			Criterion criterion1 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_nextYearPlan);
-			Map<String,String> aliasMap = new HashMap<String,String>();
-			aliasMap.put("YearPlanYearContent","yearPlan");
-			Criterion criterion2 = Restrictions.eq("yearPlan."+YearPlanYearContent_.planYear.getName(), shenBaoInfo.getYearPlanYearContent().getPlanYear());
-			Criterion criterion3 = Restrictions.and(criterion, criterion1,criterion2);
-			List<ShenBaoInfo> nextyearplan = shenBaoInfoRepo.findByCriteria(aliasMap,criterion3);
+
+			OdataFilter<String> filter1 = new OdataFilter<String>(ShenBaoInfo_.projectId.getName(),"eq",shenBaoInfo.getProjectId());
+			OdataFilter<String> filter2 = new OdataFilter<String>(ShenBaoInfo_.projectShenBaoStage.getName(),"eq",BasicDataConfig.projectShenBaoStage_nextYearPlan);
+			OdataFilter<Integer> filter3 = new OdataFilter<Integer>(YearPlanYearContent_.planYear.getName(),"eq",shenBaoInfo.getYearPlanYearContent().getPlanYear());
+
+			ODataObjNew odata = new ODataObjNew(null,null);
+			odata.getFilterList().add(filter1);
+			odata.getFilterList().add(filter2);
+			List<ShenBaoInfo> nextyearplan = shenBaoInfoService.findYearPlanDataInfoByOdata(odata,filter3);
+
 			if(!CollectionUtils.isEmpty(nextyearplan)){
 				YearPlanYearContent yearPlanYearContent = nextyearplan.get(0).getYearPlanYearContent();
 				if(!ObjectUtils.isEmpty(yearPlanYearContent)){

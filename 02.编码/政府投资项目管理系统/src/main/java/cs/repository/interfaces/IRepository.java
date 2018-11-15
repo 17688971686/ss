@@ -16,8 +16,6 @@ public interface IRepository<T, ID> {
 
     List<T> findByCriteria(Criterion... criterion);
 
-    List<T> findByCriteria(Map<String,String> alias,Criterion... criterion);
-
     /**
      * 基于 odata 的查询
      * @param oDataObj
