@@ -26,7 +26,10 @@
 			<span data-valmsg-for="projectNumber" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight" >国家编码：</td>
-		<td><span ng-bind="vm.model.shenBaoInfo.countryNumber"></span></td> 
+		
+		<td>
+			<input type="text" style="width: 80%" id="countryNumber" name="countryNumber" class="form-control input-sm" ng-model="vm.model.countryNumber" data-val="true" data-val-required="必填" />
+		</td> 
 	</tr>
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目名称：<span class="required">(*)</span></td>

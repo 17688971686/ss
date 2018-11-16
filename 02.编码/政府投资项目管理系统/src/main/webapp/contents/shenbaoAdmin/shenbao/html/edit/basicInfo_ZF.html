@@ -45,19 +45,6 @@
 			<span data-valmsg-for="projectRepMobile" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
-	<tr ng-show="vm.isYearPlan">
-		<td  class="formAlignRight">国家编码：</td>
-		<td>
-			<input type="hidden" class="form-control input-sm" id="countryNumber" name="countryNumber" ng-model="vm.model.countryNumber"/>
-			<span ng-bind="vm.model.countryNumber"></span>
-		</td>
-
-		<td class="formAlignRight">历史编码：</td>
-		<td>
-			<input type="hidden" class="form-control input-sm" id="projectNumber" name="projectNumber" ng-model="vm.model.projectNumber"/>
-			<span ng-bind="vm.model.projectNumber"></span>
-		</td>
-	</tr>
 	<tr>		
 		<td class="formAlignRight">项目类别：<span class="required">(*)</span></td>
 		<td>
@@ -66,6 +53,11 @@
 				<option ng-repeat="x in vm.basicData.projectCategory" ng-selected="vm.model.projectCategory==x.id" value="{{x.id}}">{{x.description}}</option>		
 			</select>
 			<span data-valmsg-for="projectCategory" data-valmsg-replace="true" class="required"></span>					
+		</td>
+		<td  class="formAlignRight">国家编码：</td>
+		<td>
+			<input type="hidden" class="form-control input-sm" id="countryNumber" name="countryNumber" ng-model="vm.model.countryNumber"/>
+			<span ng-bind="vm.model.countryNumber"></span>
 		</td>
 	</tr>
 	<tr ng-if="vm.isYearPlan">
