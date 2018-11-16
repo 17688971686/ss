@@ -53,16 +53,10 @@
 			</select>
 			<span data-valmsg-for="projectCategory" data-valmsg-replace="true" class="required"></span>					
 		</td>
-		<!--
-		<td class="formAlignRight">项目分类：<span class="required">(*)</span></td>
+		<td class="formAlignRight">国家编码：<span class="required">(*)</span></td>
 		<td >
-			<select id="projectClassify" name="projectClassify"  style="height:30px;" ng-model="vm.model.shenBaoInfo.projectClassify" data-val="true" data-val-required="必选">
-				<option value="">---请选择---</option>
-				<option ng-repeat="x in vm.basicData.projectClassify" ng-selected="vm.model.shenBaoInfo.projectClassify==x.id" value="{{x.id}}">{{x.description}}</option>
-			</select>
-			<span data-valmsg-for="projectClassify" data-valmsg-replace="true" class="required"></span>
+			<input type="text" class="form-control input-sm" id="countryNumber" name="countryNumber" ng-model="vm.model.shenBaoInfo.countryNumber" />
 		</td>
-		-->
 	</tr>
 	<tr>
 		<td class="formAlignRight">功能科目：<span class="required">(*)</span></td>
