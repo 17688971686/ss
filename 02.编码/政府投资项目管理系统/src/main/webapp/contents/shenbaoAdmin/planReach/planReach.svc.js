@@ -121,7 +121,6 @@
         function getPackPlanById(vm) {
             $http.get(common.format(url_packPlan + "?$filter=id eq '{0}'", vm.id)).success(function (data) {
                 vm.model = data.value[0] || {};
-                // console.log(vm.model);
                 vm.model.allocationCapitalDtos = vm.model.allocationCapitals;
                 //刷新文字输入长度
 //				vm.checkLength(vm.model.remark,500,'remarkTips');
@@ -148,7 +147,7 @@
                 // bsWin.success("操作成功");
                 //编制打包计划列表数据刷新
                 vm.shenBaoInfo_gridOptions.dataSource.read();
-
+                getApplicationById(vm);
                 $('#myModal').modal('toggle');//关闭模态框
             })
         }//end fun addShenBaoInfoToYearPlan
@@ -159,6 +158,7 @@
         function addShenBaoInfoToPack(vm, ids) {
             $http.post(common.format(url + "/addShenBaoInfoToPack/{0}", vm.id), ids).then(function () {
                 bsWin.success("操作成功");
+                getPackPlanById(vm);
                 vm.shenBaoInfo_gridOptions_plan.dataSource.read();//编制打包计划列表数据刷新
             })
         }//end fun addShenBaoInfoToYearPlan

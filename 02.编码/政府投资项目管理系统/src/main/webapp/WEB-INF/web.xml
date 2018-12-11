@@ -71,12 +71,8 @@
             <param-value>http://192.168.189.235:8081</param-value>
         </init-param>
         <init-param>
-            <param-name>ignoreUrlPatternType</param-name>
-            <param-value>EXACT</param-value>
-        </init-param>
-        <init-param>
         	<param-name>ignoreUrlPattern</param-name>
-        	<param-value>http://192.168.189.235:8081/mobile/verifyNum/login</param-value>
+        	<param-value>risesoft/todoNumber</param-value>
         </init-param>
     </filter>
     <filter-mapping>
@@ -129,13 +125,6 @@
         <listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
     </listener>
 
-    <filter>
-        <filter-name>riseUserloginFilter</filter-name>
-        <filter-class>cs.common.CheckUserLoginFilter_RC8</filter-class>
-    </filter>
-    <filter-mapping>
-    <filter-name>riseUserloginFilter</filter-name>
-    <url-pattern>/*</url-pattern>
   </filter-mapping> -->
 <!--   单点登录end
  -->

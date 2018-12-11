@@ -107,11 +107,11 @@
 </form>
 <script type="text/template" id="columnBtn_projectsForPack"></script>
 <script type="text/template" id="input">
-	<input type="number" step="any" style="width:100px" id="capitalSum1" ng-model="dataItem.sqPlanReach_ggys"  ng-if="{2}" value="{1}" ng-blur="vm.addmoney('{0}',dataItem.sqPlanReach_ggys,dataItem.sqPlanReach_gtzj)"/>
+	<input type="number" step="any" style="width:100px" id="capitalSum1" ng-model="dataItem.sqPlanReach_ggys"  ng-if="{2}" value="{1}" ng-blur="vm.addmoney(dataItem.id,dataItem.sqPlanReach_ggys,dataItem.sqPlanReach_gtzj)"/>
 	<span ng-if="!{2}" ng-bind="vm.gg['{0}']"></span>
 </script>
 <script type="text/template" id="input2">
-	<input type="number" step="any" style="width:100px" id="capitalSum2" ng-model="dataItem.sqPlanReach_gtzj" ng-if="{2}" value="{1}" ng-blur="vm.addmoney('{0}',dataItem.sqPlanReach_ggys,dataItem.sqPlanReach_gtzj)"/>
+	<input type="number" step="any" style="width:100px" id="capitalSum2" ng-model="dataItem.sqPlanReach_gtzj" ng-if="{2}" value="{1}" ng-blur="vm.addmoney(dataItem.id,dataItem.sqPlanReach_ggys,dataItem.sqPlanReach_gtzj)"/>
 	<span ng-if="!{2}" ng-bind="vm.gt['{0}']"></span>
 </script>
 <div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>

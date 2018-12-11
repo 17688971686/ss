@@ -938,7 +938,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setThisTaskName("已退文");
 			shenBaoInfo.setProcessState(BasicDataConfig.processState_tuiwen);
 			shenBaoInfo.setProcessStage("已退文");
-			shenBaoInfo.setAuditState(BasicDataConfig.auditState_noAudit);
+			
 			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "退文意见：" + msg);
 			// 退文时，撤销当前流程
 //			runtimeService.deleteProcessInstance(shenBaoInfo.getZong_processId(), "已退文");
@@ -967,6 +967,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		Project project = projectRepo.findById(shenBaoInfo.getProjectId());
 		project.setIsIncludLibrary(true);
 //		shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
+		shenBaoInfo.setAuditState(BasicDataConfig.auditState_noAudit);
 		shenBaoInfo.setQianshouDate(new Date());
 //		shenBaoInfo.setComplate(true);
 		projectRepo.save(project);

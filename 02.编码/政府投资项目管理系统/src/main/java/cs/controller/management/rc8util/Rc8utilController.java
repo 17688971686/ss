@@ -133,13 +133,13 @@ public class Rc8utilController {
 		System.out.println("待办数字--人员ID："+id);
 //		 id = new String(Base64.getDecoder().decode(userID), "UTF-8");
 		try {
-			PersonManager pm = HuasisoftUtil.getPersonManager();
-			ORGPerson person = null;
-
-			person = pm.get(id);
-			if (person != null) {
-				System.out.println("待办数字--OA名称："+person.getLoginName());
-				Criterion criterion = Restrictions.eq(User_.loginName.getName(), person.getLoginName());
+//			PersonManager pm = HuasisoftUtil.getPersonManager();
+//			ORGPerson person = null;
+//
+//			person = pm.get(id);
+//			if (person != null) {
+//				System.out.println("待办数字--OA名称："+person.getLoginName());
+				Criterion criterion = Restrictions.eq(User_.oaId.getName(), id);
 				List<User> localUser = userRepo.findByCriteria(criterion);
 				if (!CollectionUtils.isEmpty(localUser)) {
 					System.out.println("待办数字--人员名称："+localUser.get(0).getLoginName());
@@ -147,7 +147,7 @@ public class Rc8utilController {
 				} else {
 					return num;
 				}
-			}
+//			}
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
