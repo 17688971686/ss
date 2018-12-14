@@ -68,8 +68,9 @@ public class ShenBaoHomeController {
 	public String adminIndex(HttpServletRequest request, Model model) {
 		HttpSession session = ((HttpServletRequest) request).getSession();
 		String loginUID = (String) session.getAttribute("loginUID");
-		UserDto userDto = (UserDto) session.getAttribute("riseUser");
-		if (StringUtils.isBlank(loginUID) || userDto == null) {
+		  UserDto riseUser = (UserDto) session.getAttribute("riseUser");
+          UserDto userDto = new UserDto();
+		if (StringUtils.isBlank(loginUID) || riseUser == null) {
 			Assertion casAssertion = AssertionHolder.getAssertion();
 			AttributePrincipal ap = casAssertion.getPrincipal();
 			Map<String, Object> attr = ap.getAttributes();
@@ -89,7 +90,9 @@ public class ShenBaoHomeController {
 			userDto.setMobilePhone(person.getMobile());
 			userDto.setOaId(person.getId());
 			session.setAttribute("riseUser", userDto);
-		}
+		}else{
+            userDto =riseUser;
+        }
 		Boolean hasRole = false;
 		if(!ObjectUtils.isEmpty(userDto)){
 			User user2 = userService.createSYSUser(userDto);
