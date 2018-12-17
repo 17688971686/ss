@@ -1,5 +1,10 @@
 package cs.common;
 
+/**
+ * @author Administrator
+ * 发送短信返回结果实体
+ *
+ */
 public class MobileResponse {
 	private String message;
 	private int status;

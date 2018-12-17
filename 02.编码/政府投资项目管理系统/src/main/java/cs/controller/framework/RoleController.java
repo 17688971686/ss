@@ -19,6 +19,11 @@ import cs.model.framework.RoleDto;
 import cs.repository.odata.ODataObj;
 import cs.service.framework.RoleService;
 
+
+/**
+ * @author Administrator
+ *角色管理控制层
+ */
 @Controller
 @RequestMapping(name = "角色", path = "role")
 public class RoleController {

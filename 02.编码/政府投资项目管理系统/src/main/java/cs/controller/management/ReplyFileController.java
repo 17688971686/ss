@@ -16,6 +16,11 @@ import cs.model.DomainDto.ReplyFileDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ReplyFileService;
 
+
+/**
+ * @author Administrator
+ * @Description 获取批复文件信息
+ */
 @Controller
 @RequestMapping(name="后台管理--批复文件管理",path="management/replyFile")
 public class ReplyFileController {

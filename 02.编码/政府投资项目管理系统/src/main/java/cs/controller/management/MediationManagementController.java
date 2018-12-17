@@ -22,6 +22,10 @@ import cs.service.interfaces.AssistReviewService;
 import cs.service.interfaces.MediationUnitService;
 
 
+/**
+ * @author Administrator
+ * @Description 中介单位管理控制层
+ */
 @Controller
 @RequestMapping(name="后台管理--中介单位管理",path="management/mediationManagement")
 public class MediationManagementController {

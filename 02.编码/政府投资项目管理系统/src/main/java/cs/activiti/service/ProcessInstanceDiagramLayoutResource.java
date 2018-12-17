@@ -32,11 +32,23 @@ public class ProcessInstanceDiagramLayoutResource extends BaseProcessDefinitionD
   @Autowired
   private UserService userService;
 	
+
+	/**
+	 * 页面获取已办流程图
+	 * @param processDefinitionId 流程ID
+	 * @return 流程图实例
+	 */
   @RequestMapping(value="/process-instance/{processInstanceId}/diagram-layout", method = RequestMethod.GET, produces = "application/json")
   public ObjectNode getDiagram(@PathVariable String processInstanceId) {
     return getDiagramNode(processInstanceId, null);
   }
   
+  /**
+   * 流转记录
+   * @param taskId
+   * @param userId
+   * @return
+   */
   @SuppressWarnings("deprecation")
   @RequestMapping(value="/getHiComment", method = RequestMethod.GET, produces = "application/json")
   public @ResponseBody List<Object> getHiComment(@RequestParam String taskId,String userId) {

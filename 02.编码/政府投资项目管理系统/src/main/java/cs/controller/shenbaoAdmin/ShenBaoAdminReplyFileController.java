@@ -15,7 +15,10 @@ import cs.model.PageModelDto;
 import cs.model.DomainDto.ReplyFileDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ReplyFileService;
-
+/**
+ * @author Administrator
+ * @Description 申报端批复文件管理控制层
+ */
 @Controller
 @RequestMapping(name="申报端--批复文件管理",path="shenbaoAdmin/replyFile")
 public class ShenBaoAdminReplyFileController {

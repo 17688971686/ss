@@ -23,7 +23,10 @@ import cs.model.DomainDto.TaskRecordDto;
 import cs.repository.odata.ODataObj;
 import cs.service.framework.UserService;
 import cs.service.interfaces.TaskHeadService;
-
+/**
+ * @author Administrator
+ * @Description APP任务流转信息管理控制层
+ */
 @Controller
 @RequestMapping(name = "手机端--流转信息", path = "mobile/management/task")
 public class TaskMobileController {

@@ -21,6 +21,10 @@ import cs.model.ActionResult;
 import cs.model.SendMsg;
 
 
+/**
+ * @author Administrator
+ *基础工具类
+ */
 public class Util {
 	
 	public static boolean isIndexOf(List<String> ids ,String id){

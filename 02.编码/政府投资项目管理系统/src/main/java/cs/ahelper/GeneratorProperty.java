@@ -10,8 +10,16 @@ import cs.domain.ShenBaoInfo;
 import cs.domain.TaskHead;
 import cs.model.DomainDto.SysConfigDto;
 
+/**
+ * @author Administrator
+ * 手动生产mapper代码
+ *
+ */
 public class GeneratorProperty {
 
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//System.out.println("roleName:"+Role_.roleName.getName());

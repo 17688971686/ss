@@ -25,6 +25,11 @@ import cs.model.Statistics.ProjectStageData;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ProjectService;
 
+
+/**
+ * @author Administrator
+ * @Description 项目管理控制层
+ */
 @Controller
 @RequestMapping(name="后台管理--项目管理",path="management/project")
 public class ProjectController {

@@ -62,6 +62,12 @@ public class BaseProcessDefinitionDiagramLayoutResource {
   @Autowired
   private HistoryService historyService;
   
+  /**
+   * 绘制流程图
+   * @param processInstanceId 流程ID
+   * @param processDefinitionId 流程中文名
+   * @return
+   */
   @SuppressWarnings("deprecation")
 public ObjectNode getDiagramNode(String processInstanceId, String processDefinitionId) {
     

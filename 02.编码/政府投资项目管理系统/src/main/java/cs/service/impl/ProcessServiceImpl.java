@@ -197,7 +197,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		if (!taskIds.isEmpty()) {
 			List<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoRepoImpl.findByOdata2(odataObj, taskIds, str).stream()
 					.map(mapper::toDto).collect(Collectors.toList());
-
+			//个人审批待办
 			if ("geren".equals(leixin)) {
 				for (int i = 0; i < shenBaoInfoDtos.size(); i++) {
 					ShenBaoInfoDto array_element = shenBaoInfoDtos.get(i);
@@ -243,7 +243,9 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			ids.add(role.getId());
 		}
 
+		//查询候选组人员任务
 		List<Task> tasks1 = activitiService.getCandidateGroupInTask(ids);
+		//查询登录人员任务
 		List<Task> tasks2 = activitiService.getPersonalTask(currentUser.getUserId());
 		tasks1.addAll(tasks2);
 
@@ -252,6 +254,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			String processId = task.getProcessInstanceId();
 			taskIds.add(processId);
 		}
+		//根据任务ID查询待办申报信息
 		if (!taskIds.isEmpty()) {
 			List<ShenBaoInfoDto> shenBaoInfoDtos = shenBaoInfoRepoImpl.findByOdata2(odataObj, taskIds, str).stream()
 					.map((x) -> {
@@ -293,6 +296,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 						return mapper.toDto(x);
 					}).collect(Collectors.toList());
 
+			//过滤出审批类
 			for (int i = 0; i < shenBaoInfoDtos.size(); i++) {
 				ShenBaoInfoDto array_element = shenBaoInfoDtos.get(i);
 				if (array_element.getProjectShenBaoStage().equals(projectShenBaoStage_KXXYJBG)
@@ -335,6 +339,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		List<Task> taskList2 = taskService.createTaskQuery().processDefinitionKey("ShenpiMonitor_fjxm")
 				.taskAssignee(currentUser.getUserId()).orderByTaskCreateTime().desc().list();
 		taskList.addAll(taskList2);
+		//未完结登陆人员的流程ID
 		taskList.forEach(x -> {
 			String processId = x.getProcessInstanceId();
 			if (StringUtil.isNotBlank(processId)) {
@@ -388,6 +393,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	}
 
 	/******************************************************** -plan- ******************************************************************/
+	//弃用
 	@Override
 	@Transactional
 	public Response getAssigneeByUserId_plan(String processId) {
@@ -610,6 +616,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setThisTaskId(tasknew.get(0).getId());
 			shenBaoInfo.setThisTaskName(tasknew.get(0).getTaskDefinitionKey());
 			shenBaoInfo.setProcessStage(tasknew.get(0).getName());
+			//对接OA工作圈
 			if(isPushOA){
 				System.out.println("=========1>"+isPushOA);
 				StringBuffer sb = new StringBuffer();
@@ -782,6 +789,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		List<Object> hisList = new ArrayList<>();
 		List<HistoricProcessInstance> lists1 = new ArrayList<HistoricProcessInstance>();
 		List<HistoricActivityInstance> hais = new ArrayList<HistoricActivityInstance>();
+		//查询活动历史及一般历史
 		if(null != shenBaoInfo.getZong_processId()){
 			lists1 = activitiService
 					.findHisProcessIntanceList(shenBaoInfo.getZong_processId());
@@ -790,6 +798,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 					.orderByHistoricActivityInstanceStartTime().asc().list();
 		}
 
+		//数据整形
 		for (HistoricProcessInstance list1 : lists1) {
 			UserUnitInfoDto userUnitInfo = userUnitInfoService.getByUserId(list1.getStartUserId());
 			User user = userRepo.findById(list1.getStartUserId());
@@ -847,7 +856,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 						map.put("atts", atts.toString());
 					}
 					
-
+					//领导意见标识
 					User user = userRepo.findById(com.getUserId());
 					if (user != null) {
 						if (!user.getRoles().isEmpty()) {

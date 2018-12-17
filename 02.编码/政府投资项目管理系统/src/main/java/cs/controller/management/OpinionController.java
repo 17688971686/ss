@@ -19,6 +19,11 @@ import cs.model.DomainDto.OpinionDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.OpinionService;
 
+
+/**
+ * @author Administrator
+ * @Description 意见管理控制层
+ */
 @Controller
 @RequestMapping(name = "后台管理--审批流程--意见信息", path = "opin")
 public class OpinionController {

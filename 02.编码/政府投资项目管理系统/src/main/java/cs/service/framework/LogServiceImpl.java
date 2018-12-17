@@ -15,6 +15,10 @@ import cs.model.framework.LogDto;
 import cs.repository.framework.LogRepo;
 import cs.repository.odata.ODataObj;
 
+/**
+ * @author Administrator
+ *  日志服务层
+ */
 @Service
 public class LogServiceImpl implements LogService {
 	private static Logger logger = Logger.getLogger(LogServiceImpl.class);

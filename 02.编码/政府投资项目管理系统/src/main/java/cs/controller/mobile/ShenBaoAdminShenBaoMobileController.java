@@ -12,7 +12,10 @@ import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.interfaces.ShenBaoInfoService;
-
+/**
+ * @author Administrator
+ * @Description 申报信息管理控制层
+ */
 @Controller
 @RequestMapping(name="手机端--项目申报",path="mobile/shenbaoAdmin/shenbao")
 public class ShenBaoAdminShenBaoMobileController {

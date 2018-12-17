@@ -50,11 +50,20 @@ public class ActivitiService implements IActivitiService{
 	@Autowired
 	private HistoryService historyService;
 	
+	
+	/**
+	 * 卸载流程
+	 * deploymentId 流程ID
+	 */
 	@Override
 	public void undeploymentById(String deploymentId) {
 		repositoryService.deleteDeployment(deploymentId, true);
 		logger.debug("======>卸载deploymentId为 " + deploymentId + " 的流程!");
 	}
+	
+	/**
+	 * 发送邮件
+	 */
 	@Override
 	public void sendMail(){
 		processEngineConfiguration.setMailServerDefaultFrom("xmqlcglxt@longgang.gov.cn");
@@ -66,6 +75,11 @@ public class ActivitiService implements IActivitiService{
 		
 	}
 	
+	/**
+	 * 启动流程
+	 * processDefinitionKey 流程实例名称
+	 * variables 流程变量集
+	 */
 	@Override
 	public ProcessInstance startProcess(String processDefinitionKey,Map<String, Object> variables) {
 		logger.debug("======>启动流程实例，processDefinitionKey："+processDefinitionKey);
@@ -73,12 +87,20 @@ public class ActivitiService implements IActivitiService{
 		return processInstance;
 	}
 
+	/**
+	 * 记录流程启动人员
+	 * userID 用户ID
+	 */
 	@Override
 	public void setStartProcessUserId(String userId) {
 		logger.debug("======>"+userId+"启动流程实例");
 		identityService.setAuthenticatedUserId(userId);
 	}
 	
+	/**
+	 * 根据流程ID查询流程实例
+	 * processDefinitionId 流程ID
+	 */
 	@Override
 	public ProcessDefinition getRuntimeProcessDefinition(String processDefinitionId) {
 		ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
@@ -89,6 +111,9 @@ public class ActivitiService implements IActivitiService{
 	}
 
 
+	/**
+	 * 办结任务，并指定下一环节的办理人人员
+	 */
 	@Override
 	public void taskComplete(String taskId,Map<String, Object> variables) {
 		String nextAssignee = (String) variables.get("nextAssignee");
@@ -96,13 +121,19 @@ public class ActivitiService implements IActivitiService{
 		logger.debug("======>taskId为 " + taskId + " 的任务已经完结,下个办理人为：" + nextAssignee);
 	}
 	
-
+	/**
+	 * 办结任务
+	 */
 	@Override
 	public void taskComplete(String taskId) {
 		taskService.complete(taskId);
 		logger.debug("======>taskId为 " + taskId + " 的任务已经完结");
 	}
 	
+	/**
+	 * 查询历史记录
+	 * processID 流程ID
+	 */
 	@Override
 	public List<HistoricTaskInstance> getHistoryInfo(String processId) {
 		List<HistoricTaskInstance> list = historyService.createHistoricTaskInstanceQuery().processInstanceId(processId).finished().list();
@@ -110,7 +141,11 @@ public class ActivitiService implements IActivitiService{
 		return list;
 	}
 	
-	//流程经历的活动
+	/**
+	 * 查询指定人员的任务历史
+	 * userID 用户ID
+	 */
+	//流程任务
 	@Override
 	public List<HistoricTaskInstance> getHistoryInfoByAssignee(String userId) {
 		List<HistoricTaskInstance> list = historyService.createHistoricTaskInstanceQuery().taskAssignee(userId).finished().list();
@@ -118,6 +153,9 @@ public class ActivitiService implements IActivitiService{
 		return list;
 	}
 	
+	/**
+	 * 查询人员的活动历史
+	 */
 	//流程的步数
 	@Override
 	public List<HistoricActivityInstance> getHistoryInfoByActivity(String processId) {
@@ -126,6 +164,9 @@ public class ActivitiService implements IActivitiService{
 		return list;
 	}
 	
+	/**
+	 * 查询人员的流程历史
+	 */
 	//流程的历史
 	@Override
 	public List<HistoricProcessInstance> getHistoryInfoByProcess(String processId){
@@ -134,6 +175,10 @@ public class ActivitiService implements IActivitiService{
 		return list;
 	}
 	
+	/**
+	 * 根据任务ID查询流转意见
+	 * taskID 任务ID
+	 */
 	@Override
 	public List<Comment> getTaskComment(String taskId) {
 		List<Comment> coms = taskService.getTaskComments(taskId);
@@ -141,6 +186,12 @@ public class ActivitiService implements IActivitiService{
 		return coms;
 	}
 	
+	/**
+	 * 设置任务流转意见
+	 * taskID 任务ID
+	 * processInstanceid 流程ID
+	 * msg 意见
+	 */
 	@Override
 	public void setTaskComment(String taskId,String processInstanceId,String msg) {
 		taskService.addComment(taskId, processInstanceId, msg);
@@ -148,6 +199,10 @@ public class ActivitiService implements IActivitiService{
 		logger.debug("======>添加任务的意见");
 	}
 	
+	/**
+	 * 查询人员任务
+	 * assignee 指定人的ID
+	 */
 	@Override
 	public List<Task> getPersonalTask(String assignee) {
 		List<Task> tasks = taskService.createTaskQuery().taskAssignee(assignee).orderByTaskCreateTime().desc().list();
@@ -166,7 +221,10 @@ public class ActivitiService implements IActivitiService{
 		return tasks;
 	}
 
-
+	/**
+	 * 查询人员任务
+	 * assignee 指定人的ID
+	 */
 	@Override
 	public List<Task> getAssigneeTask(String assignee) {
 		List<Task> tasks = taskService.createTaskQuery().taskAssignee(assignee).orderByTaskCreateTime().desc().list();
@@ -184,7 +242,10 @@ public class ActivitiService implements IActivitiService{
 	}
 	
 	
-	
+	/**
+	 * 查询候选人员任务
+	 * assignee 候选人的ID
+	 */
 	@Override
 	public List<Task> getUserTask(String assignee) {
 		List<Task> tasks = taskService.createTaskQuery().taskCandidateUser(assignee).orderByTaskCreateTime().desc().list();
@@ -201,6 +262,11 @@ public class ActivitiService implements IActivitiService{
 		return tasks;
 	}
 	
+	
+	/**
+	 * 查询角色组任务
+	 * candidateGroup 组ID
+	 */
 	@Override
 	public List<Task> getGroupTask(String candidateGroup) {
 		logger.debug("--------------------候选组组任务----------------------");
@@ -217,12 +283,22 @@ public class ActivitiService implements IActivitiService{
 		return tasks;
 	}
 
+	/**
+	 * 签收任务
+	 * taskID 任务ID
+	 * userID 人员ID
+	 */
 	@Override
 	public void claimTask(String taskId, String userId) {
 		taskService.claim(taskId, userId);
 		logger.debug("======>taskId为 " + taskId + " 的任务已被userId为 " + userId + "认领!");
 	}
 
+	/**
+	 * 任务添加候选人
+	 * taskId 任务ID
+	 * candidateUsers 候选人
+	 */
 	@Override
 	public void addCandidateUsers(String taskId,Collection<String> candidateUsers) {
 		for (String candidateUser : candidateUsers) {
@@ -231,6 +307,11 @@ public class ActivitiService implements IActivitiService{
 		}
 	}
 
+	/**
+	 * 任务添加候选组
+	 * taskId 任务ID
+	 * candidateGroups 候选组
+	 */
 	@Override
 	public void addCandidateGroups(String taskId,Collection<String> candidateGroups) {
 		for (String candidateGroup : candidateGroups) {
@@ -245,18 +326,27 @@ public class ActivitiService implements IActivitiService{
 		return null;
 	}
 
+	/**
+	 * 创建activity用户
+	 */
 	@Override
 	public void createUser(User user) {
 		identityService.saveUser(user);
 		logger.debug("======>userId为 " + user.getId() + " 的用户已保存！");
 	}
 
+	/**
+	 * 创建activity组
+	 */
 	@Override
 	public void createGroup(Group group) {
 		identityService.saveGroup(group);
 		logger.debug("======>groupId为 " + group.getId() + " 的组已保存！");
 	}
 
+	/**
+	 * 关联组和 人员
+	 */
 	@Override
 	public void createUserGroupMembership(String userId, String groupId) {
 		identityService.createMembership(userId, groupId);
@@ -268,6 +358,10 @@ public class ActivitiService implements IActivitiService{
 		
 	}
 
+	/**
+	 * 查询单个任务变量
+	 * variableName 变量名称
+	 */
 	@Override
 	public Object getTaskVariable(String taskId,String variableName) {
 		Object obj = taskService.getVariableLocal(taskId, variableName);
@@ -277,6 +371,10 @@ public class ActivitiService implements IActivitiService{
 		return obj;
 	}
 
+	/**
+	 * 查询单个流程变量
+	 * variableName 变量名称
+	 */
 	@Override
 	public Object getTaskProcessVariable(String taskId,String variableName) {
 		Object obj = taskService.getVariable(taskId, variableName);
@@ -286,6 +384,9 @@ public class ActivitiService implements IActivitiService{
 		return obj;
 	}
 	
+	/**
+	 * 历史流程变量
+	 */
 	@Override
 	public List<HistoricVariableInstance> findHisVariablesList(String processInstanceId){
 		List<HistoricVariableInstance> list = historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstanceId).list();
@@ -305,12 +406,20 @@ public class ActivitiService implements IActivitiService{
 		return list;
 	}
 	
+	/**
+	 * 设置流程变量
+	 * variableName 变量名称
+	 * value 变量值
+	 */
 	@Override
 	public void setTaskProcessVariable(String taskId,String variableName,String value) {
 		taskService.setVariableLocal(taskId, variableName, value);
 		
 	}
 
+	/**
+	 * 根据流程ID查询任务
+	 */
 	@Override
 	public Task getTaskByExecutionId(String id) {
 		Task task = taskService.createTaskQuery().executionId(id).singleResult();
@@ -322,6 +431,9 @@ public class ActivitiService implements IActivitiService{
 	}
 	
 
+	/**
+	 * 新增activity组
+	 */
 	@Override
 	public Group createNewGroup(String groupId){
 		Group group = identityService.newGroup(groupId);
@@ -329,6 +441,9 @@ public class ActivitiService implements IActivitiService{
 		return group;
 	}
 
+	/**
+	 * 新增activity用户
+	 */
 	@Override
 	public User createNewUser(String userId){
 		User user = identityService.newUser(userId);
@@ -382,6 +497,9 @@ public class ActivitiService implements IActivitiService{
 		logger.debug("=====>查询候选人员：" + userId);
 		return user;
 	}
+	/**
+	 * 我的分配任务或签收任务
+	 */
 	@Override
 	public List<Task> getCandidateGroupInTask(List<String> ids) {
 	List<Task> tasks = taskService.createTaskQuery().taskCandidateGroupIn(ids).orderByTaskCreateTime().desc().list();

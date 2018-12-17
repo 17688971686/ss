@@ -6,7 +6,12 @@ import org.springframework.stereotype.Component;
 
 import cs.domain.ShenPiItems;
 import cs.model.DomainDto.ShenPiItemsDto;
-
+/**
+ * @Description: 审批事项实体类与数据库资源转换类
+ * @author: wcq
+ * @Date：2017年9月13日
+ * @version：0.1
+ */
 @Component
 public class ShenPiItemsMapper implements IMapper<ShenPiItemsDto, ShenPiItems>{
 

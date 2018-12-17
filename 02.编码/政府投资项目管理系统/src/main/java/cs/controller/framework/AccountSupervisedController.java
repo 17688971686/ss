@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cs.service.framework.UserService;
 
+/**
+ * @author Administrator
+ *在线监管退出
+ */
 @Controller
 @RequestMapping(name = "在线监管账户", path = "verifyNumSupervision")
 public class AccountSupervisedController {

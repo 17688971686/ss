@@ -37,6 +37,10 @@ import cs.repository.framework.UserRepo;
 import cs.service.framework.UserService;
 import cs.service.interfaces.ProcessService;
 
+/**
+ * @author Administrator
+ * @Description RC8账户管理控制器
+ */
 @Controller
 @RequestMapping(name = "RC8账户管理", path = "risesoft")
 public class Rc8utilController {

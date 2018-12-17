@@ -15,6 +15,7 @@ import org.springframework.http.HttpMethod;
 
 /**
  * Created by lqs on 2017/8/17.
+ * xss攻击检查过滤器
  */
 public class XssFilter implements Filter{
 

@@ -1,7 +1,9 @@
 package cs.model.DomainDto;
 
 import cs.domain.ShenPiItems;
-
+/*
+ * 审批事项表
+ */
 public class ShenPiItemsDto extends ShenPiItems{
 	private ProjectDto projectDto=new ProjectDto();
 	private ShenPiUnitDto shenPiUnitDto=new ShenPiUnitDto();

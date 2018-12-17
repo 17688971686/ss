@@ -29,7 +29,10 @@ import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.framework.UserService;
 import cs.service.interfaces.UserUnitInfoService;
-
+/**
+ * @author Administrator
+ * @Description 申报端建设单位管理控制层
+ */
 @Controller
 @RequestMapping(name = "申报端--用户单位信息", path = "shenbaoAdmin/userUnitInfo")
 public class ShenBaoAdminUserUnitInfoController {

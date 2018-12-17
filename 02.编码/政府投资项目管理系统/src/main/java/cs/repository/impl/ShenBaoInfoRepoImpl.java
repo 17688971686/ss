@@ -33,6 +33,13 @@ import cs.repository.odata.ODataObjNew;
 @Repository
 public class ShenBaoInfoRepoImpl extends AbstractRepository<ShenBaoInfo, String> {
 
+	/**
+	 * 根据任务ID查询待办申报信息 
+	 * @param odataObj
+	 * @param taskIds 任务ID集合
+	 * @param str 项目类型标识
+	 * @return
+	 */
     @SuppressWarnings({"unchecked", "rawtypes"})
     public List<ShenBaoInfo> findByOdata2(ODataObjNew odataObj, List<String> taskIds, String str) {
         logger.debug("findByOdata2");
@@ -80,6 +87,12 @@ public class ShenBaoInfoRepoImpl extends AbstractRepository<ShenBaoInfo, String>
         return odataObj.createQuery(getSession(), ShenBaoInfo.class).list();
     }
 
+    /**
+     * 查询个人所有待办申报信息
+     * @param odataObj
+     * @param taskIds 任务ID集合
+     * @return
+     */
     @SuppressWarnings({"unchecked", "rawtypes"})
     public List<ShenBaoInfo> findByOdata3(ODataObjNew odataObj, List<String> taskIds) {
         logger.debug("findByOdata2");
@@ -95,6 +108,12 @@ public class ShenBaoInfoRepoImpl extends AbstractRepository<ShenBaoInfo, String>
         return odataObj.createQuery(getSession(), ShenBaoInfo.class).list();
     }
 
+    /**
+     * 根据流程ID查询待办深白信息
+     * @param odataObj
+     * @param processInstIdList 流程ID集合
+     * @return
+     */
     @SuppressWarnings({"unchecked", "rawtypes"})
     public List<ShenBaoInfo> getShenBaoInfoDtos_feedback(ODataObjNew odataObj, List<String> processInstIdList) {
         List<OdataFilter> processInstIdListFilter = new ArrayList<OdataFilter>(processInstIdList.size());
@@ -129,6 +148,10 @@ public class ShenBaoInfoRepoImpl extends AbstractRepository<ShenBaoInfo, String>
 //        return createCriteria(odata.createQuery(getSession(), ShenBaoInfo.class), ShenBaoInfo.class,classLoac()).list();
     }
 
+    /**
+     * 获取类字段
+     * @return
+     */
 	public static List<String> classLoac(){
     	ArrayList<String> list = new ArrayList<String>();
     	Class<?> classs = null;

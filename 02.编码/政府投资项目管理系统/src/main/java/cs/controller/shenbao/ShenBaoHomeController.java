@@ -42,7 +42,10 @@ import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.framework.UserService;
 import cs.service.interfaces.ArticleService;
-
+/**
+ * @author Administrator
+ * @Description 登录管理控制层
+ */
 @Controller
 @RequestMapping(name = "申报端登陆页", path = "")
 public class ShenBaoHomeController {

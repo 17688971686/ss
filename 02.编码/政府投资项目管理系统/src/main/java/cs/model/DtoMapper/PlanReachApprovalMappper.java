@@ -9,7 +9,13 @@ import cs.domain.PlanReachApproval;
 import cs.domain.ShenBaoInfo;
 import cs.model.DomainDto.PlanReachApprovalDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
-
+/**
+ * @Description: 申报信息实体转换
+ * @author: cx
+ * @Date：2018年3月6日
+ * @version：0.1
+ *
+ */
 @Component
 public class PlanReachApprovalMappper implements IMapper<PlanReachApprovalDto, PlanReachApproval> {
 	@Autowired

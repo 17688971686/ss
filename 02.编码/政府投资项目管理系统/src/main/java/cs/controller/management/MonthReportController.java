@@ -21,6 +21,10 @@ import cs.service.interfaces.MonthReportService;
 
 
 
+/**
+ * @author Administrator
+ * @Description 月报管理控制层
+ */
 @Controller
 @RequestMapping(name = "后台管理--项目进度管理", path = "management/monthReport")
 public class MonthReportController {

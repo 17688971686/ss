@@ -15,7 +15,10 @@ import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ProjectService;
 import cs.service.interfaces.UserUnitInfoService;
-
+/**
+ * @author Administrator
+ * @Description APP项目信息管理控制层
+ */
 @Controller
 @RequestMapping(name="手机端--项目管理",path="mobile/shenbaoAdmin/project")
 public class ShenBaoAdminProjectMobileController {

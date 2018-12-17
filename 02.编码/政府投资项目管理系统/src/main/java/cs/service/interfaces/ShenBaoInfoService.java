@@ -8,6 +8,10 @@ import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.TaskRecordDto;
 import cs.model.Statistics.ProjectStatisticsBean;
 
+/**
+ * @author Administrator
+ *项目信息管理服务层
+ */
 public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo, String> {
     /**
      * 后台管理--项目纳入项目库
@@ -30,10 +34,21 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
      */
     void updateShenBaoInfoState(ShenBaoInfoDto dto);
 
+    /**
+     * 更新项目信息
+     * @param dto
+     * @param isAdminUpdate 前后端用户区分
+     */
     void updateShenBaoInfo(ShenBaoInfoDto dto, Boolean isAdminUpdate);
 
     ShenBaoInfo create(ShenBaoInfoDto dto, Boolean isAdminCreate);
 
+    /**
+     * 创建申报信息
+     * @param dto
+     * @param isAdminCreate
+     * @return
+     */
     ShenBaoInfo createShenBaoInfo(ShenBaoInfoDto dto, Boolean isAdminCreate);
 
     /**
@@ -98,11 +113,30 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
                                                           Double investSumEnd, Double apPlanReachSumBegin,
                                                           Double apPlanReachSumEnd, String projectName);
 
+    /**
+     * 撤回审批
+     * @param pricessId
+     */
     void reback(String pricessId);
 
+    /**
+     * 开始审批
+     * @param processDefinitionKey
+     * @param id
+     */
     void startProcessShenbao(String processDefinitionKey, String id);
 
+    /**
+     * 根据ID查询项目信息
+     * @param shenbaoInfoId 申报信息ID
+     * @return
+     */
     ShenBaoInfoDto getShenBaoInfoDtoById(String shenbaoInfoId);
 
+    /**
+     * 查询申报信息是否审批结束
+     * @param dto
+     * @return
+     */
 	Map isRecords(ShenBaoInfoDto dto);
 }

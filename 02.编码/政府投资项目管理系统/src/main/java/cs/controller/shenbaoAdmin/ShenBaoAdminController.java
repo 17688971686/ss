@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import cs.common.ICurrentUser;
 import cs.common.Util;
-
+/**
+ * @author Administrator
+ * @Description 申报端首页管理控制层
+ */
 @Controller
 @RequestMapping(name = "申报端--管理首页", path = "shenbaoAdmin")
 public class ShenBaoAdminController {

@@ -18,7 +18,10 @@ import cs.model.framework.RoleDto;
 import cs.model.framework.UserDto;
 import cs.repository.framework.UserRepo;
 
-
+/**
+ * @author Administrator
+ * @Description APP用户管理控制层
+ */
 @Service
 public class MobileUserServiceImpl implements MobileUserService {
 	private static Logger logger = Logger.getLogger(MobileUserServiceImpl.class);

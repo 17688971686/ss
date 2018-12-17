@@ -5,10 +5,14 @@ import java.util.List;
 import cs.domain.UserUnitInfo;
 import cs.model.DomainDto.UserUnitInfoDto;
 
+/**
+ * @author Administrator
+ *用户单位管理服务层
+ */
 public interface UserUnitInfoService extends IService<UserUnitInfoDto, UserUnitInfo, String>{
 
 	/**
-	 *
+	 *保存单位
 	 * @param userName
 	 * @param unitInfoDto
 	 */
@@ -22,8 +26,8 @@ public interface UserUnitInfoService extends IService<UserUnitInfoDto, UserUnitI
 	UserUnitInfo getByUserName(String userName);
 
 	/**
-	 *
-	 * @return
+	 *查询单位
+	 * @return unit list
 	 */
 	List<UserUnitInfoDto> Get();
 

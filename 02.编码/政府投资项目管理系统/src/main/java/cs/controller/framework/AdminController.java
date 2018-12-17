@@ -12,6 +12,10 @@ import cs.common.Util;
 import cs.domain.framework.User;
 import cs.service.framework.UserService;
 
+/**
+ * @author Administrator
+ *管理页控制器
+ */
 @Controller
 @RequestMapping(name = "管理界面", path = "admin")
 public class AdminController {

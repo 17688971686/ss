@@ -2,6 +2,10 @@ package cs.common;
 
 import static cs.common.BasicDataConfig.projectShenBaoStage_planReach;
 
+/**
+ * @author Administrator
+ *sql工具类
+ */
 public class SQLConfig {
 
 

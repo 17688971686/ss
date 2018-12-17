@@ -45,7 +45,10 @@ import cs.service.interfaces.UserUnitInfoService;
 import cs.service.interfaces.YearPlanService;
 
 import static com.sn.framework.common.JacksonUtils.objectMapper;
-
+/**
+ * @author Administrator
+ * @Description 基础数据管理控制层
+ */
 @Controller
 @RequestMapping(name = "公共", path = "common")
 public class CommonController {

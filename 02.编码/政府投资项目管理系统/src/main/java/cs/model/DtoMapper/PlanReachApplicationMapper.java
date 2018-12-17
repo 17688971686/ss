@@ -11,7 +11,13 @@ import cs.domain.ShenBaoInfo;
 import cs.model.DomainDto.PackPlanDto;
 import cs.model.DomainDto.PlanReachApplicationDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
-
+/**
+ * @Description: 计划下达申请实体转换
+ * @author: cx
+ * @Date：2018年3月6日
+ * @version：0.1
+ *
+ */
 @Component
 public class PlanReachApplicationMapper implements IMapper<PlanReachApplicationDto, PlanReachApplication>{
 	@Autowired

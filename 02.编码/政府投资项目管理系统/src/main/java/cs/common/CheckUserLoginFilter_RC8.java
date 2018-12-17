@@ -47,6 +47,11 @@ import cs.repository.framework.UserRepo;
 import cs.service.framework.UserService;
 import cs.service.framework.UserServiceImpl;
 
+/**
+ * 单点登录过滤器--非必要，模拟获得session
+ * @author Administrator
+ *
+ */
 public class CheckUserLoginFilter_RC8 implements Filter {
 	private static Logger logger = Logger.getLogger(CheckUserLoginFilter_RC8.class);
 	

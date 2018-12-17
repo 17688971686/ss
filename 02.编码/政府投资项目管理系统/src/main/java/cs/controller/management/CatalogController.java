@@ -25,10 +25,10 @@ import cs.service.interfaces.InvestmentProjectService;
 import cs.service.interfaces.PartApprovalMattersService;
 import cs.service.interfaces.PolicyCatalogService;
 
-
-
-
-
+/**
+ * @author Administrator
+ * @Description 目录管理控制层
+ */
 @Controller
 @RequestMapping(name="后台管理--目录管理", path="management/catalog")
 public class CatalogController {

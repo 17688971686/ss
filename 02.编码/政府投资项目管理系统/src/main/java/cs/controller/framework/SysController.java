@@ -25,6 +25,11 @@ import cs.model.DomainDto.SysConfigDto;
 import cs.service.common.BasicDataService;
 import cs.service.framework.SysService;
 
+
+/**
+ * @author Administrator
+ *系统资源管理控制层
+ */
 @Controller
 @RequestMapping(name = "系统资源", path = "sys")
 public class SysController {

@@ -30,7 +30,10 @@ import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ShenBaoInfoService;
 import cs.service.interfaces.UserUnitInfoService;
-
+/**
+ * @author Administrator
+ * @Description 申报端项目申报管理控制层
+ */
 @Controller
 @RequestMapping(name="申报端--项目申报",path="shenbaoAdmin/shenbao")
 public class ShenBaoAdminShenBaoController {

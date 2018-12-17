@@ -12,6 +12,11 @@ import cs.common.Util;
 import cs.domain.framework.User;
 import cs.service.framework.UserService;
 
+
+/**
+ * @author Administrator
+ *在线监管管理页控制器
+ */
 @Controller
 @RequestMapping(name = "监管管理界面", path = "adminSupervision")
 public class AdminSupervisionController {

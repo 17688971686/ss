@@ -4,7 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cs.domain.PlanReachApplication;
-
+/**
+ * @Description: 计划下达申请实体表
+ * @author: cx
+ * @Date：2018年3月6日
+ * @version：0.1
+ *
+ */
 public class PlanReachApplicationDto extends PlanReachApplication{
 	private List<ShenBaoInfoDto> shenBaoInfoDtos=new ArrayList<>();
 	

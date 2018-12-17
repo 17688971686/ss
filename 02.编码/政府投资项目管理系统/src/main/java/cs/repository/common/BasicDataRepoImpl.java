@@ -7,7 +7,7 @@ import cs.repository.impl.AbstractRepository;
 
 
 /**
- * @deprecated 基础数据的相关操作（持久层）
+ *  基础数据的相关操作（持久层）
  * @author cx
  * @date 2017-05-08
  */

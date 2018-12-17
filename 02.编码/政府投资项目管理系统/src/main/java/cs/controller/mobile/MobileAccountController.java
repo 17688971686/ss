@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cs.common.MobileResponse;
 import cs.model.framework.UserDto;
 import cs.controller.mobile.MobileUserService;
-
+/**
+ * @author Administrator
+ * @Description APP登录管理控制层
+ */
 @Controller
 @RequestMapping(name = "手机账户", path = "mobile/verifyNum")
 public class MobileAccountController {

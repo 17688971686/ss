@@ -29,7 +29,10 @@ import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ProjectService;
 import cs.service.interfaces.UserUnitInfoService;
-
+/**
+ * @author Administrator
+ * @Description 申报端项目管理控制层
+ */
 @Controller
 @RequestMapping(name="申报端--项目管理",path="shenbaoAdmin/project")
 public class ShenBaoAdminProjectController {

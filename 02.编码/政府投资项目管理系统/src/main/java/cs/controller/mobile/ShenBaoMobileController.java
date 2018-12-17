@@ -20,7 +20,10 @@ import cs.model.DomainDto.TaskRecordDto;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
 import cs.service.interfaces.ShenBaoInfoService;
-
+/**
+ * @author Administrator
+ * @Description APP申报信息管理控制层
+ */
 @Controller
 @RequestMapping(name="手机端--申报信息管理", path="mobile/management/shenbao")
 public class ShenBaoMobileController {

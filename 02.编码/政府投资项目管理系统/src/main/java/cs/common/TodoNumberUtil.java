@@ -5,6 +5,10 @@ import org.apache.log4j.Logger;
 import com.huasisoft.portal.util.HuasisoftUtil;
 
 
+/**
+ * @author Administrator
+ *对接OA门户-工作圈功能
+ */
 public class TodoNumberUtil {
 	
 	private static Logger logger = Logger.getLogger(TodoNumberUtil.class);

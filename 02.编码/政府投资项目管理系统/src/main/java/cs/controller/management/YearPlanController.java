@@ -28,7 +28,10 @@ import cs.repository.odata.ODataObj;
 import cs.service.interfaces.YearPlanService;
 
 import static com.sn.framework.common.StringUtil.SEPARATE_COMMA;
-
+/**
+ * @author Administrator
+ * @Description 年度计划管理控制层
+ */
 @Controller
 @RequestMapping(name = "后台管理--年度计划管理", path = "management/yearPlan")
 public class YearPlanController {

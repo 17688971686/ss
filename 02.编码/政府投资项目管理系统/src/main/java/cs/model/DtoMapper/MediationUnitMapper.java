@@ -6,7 +6,10 @@ import org.springframework.stereotype.Component;
 
 import cs.domain.MediationUnit;
 import cs.model.DomainDto.MediationUnitDto;
-
+/*
+ * 中介信息表实体转换
+ * 
+ */
 @Component
 public class MediationUnitMapper implements IMapper<MediationUnitDto,MediationUnit> {
 

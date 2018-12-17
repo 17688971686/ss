@@ -6,6 +6,11 @@ import java.text.ParseException;
 import java.util.*;
 
 
+/**
+ * 时间工具类
+ * @author Administrator
+ *
+ */
 public class DateUtil {
 	private final static FastDateFormat DATE_FORMAT = FastDateFormat.getInstance("yyyy-MM-dd");
 

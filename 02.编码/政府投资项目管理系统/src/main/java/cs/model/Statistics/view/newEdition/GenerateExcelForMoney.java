@@ -13,7 +13,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+/**
+ * @author Administrator
+ * 导出资金Excel
+ */
 public class GenerateExcelForMoney {
 
 	@SuppressWarnings("deprecation")

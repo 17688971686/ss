@@ -13,6 +13,10 @@ import cs.model.DomainDto.BasicDataDto;
 import cs.service.common.BasicDataService;
 
 
+/**
+ * @author Administrator
+ * @Description 基础数据管理控制层
+ */
 @Controller
 @RequestMapping(name="后台管理--基础数据管理", path="management/basicData")
 public class BasicDataController {

@@ -17,7 +17,10 @@ import cs.model.DomainDto.YearPlanDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.UserUnitInfoService;
 import cs.service.interfaces.YearPlanService;
-
+/**
+ * @author Administrator
+ * @Description 申报端年度计划管理控制层
+ */
 @Controller
 @RequestMapping(name="申报端--年度计划",path="shenbaoAdmin/yearPlan")
 public class ShenBaoAdminYearPlan {

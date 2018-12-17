@@ -27,7 +27,10 @@ import java.util.List;
 import java.util.Map;
 
 import static com.sn.framework.common.StringUtil.SEPARATE_COMMA;
-
+/**
+ * @author Administrator
+ * @Description 申报端计划下达管理控制层
+ */
 @Controller
 @RequestMapping(name = "申报端--计划下达", path = "shenbaoAdmin/planReach")
 public class ShenBaoAdminPlanReachController {

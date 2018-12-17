@@ -15,6 +15,11 @@ import cs.service.framework.RoleServiceImpl;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthenticatedException;
 
+/**
+ * 通用错误处理
+ * @author Administrator
+ *
+ */
 @ControllerAdvice
 public class GlobalDefaultExceptionHandler {
     private static Logger logger = Logger.getLogger(GlobalDefaultExceptionHandler.class);

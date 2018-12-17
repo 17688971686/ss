@@ -21,6 +21,12 @@ import cs.model.framework.UserDto;
 import cs.repository.odata.ODataObj;
 import cs.service.framework.OrgService;
 
+
+/**
+ * @author Administrator
+ * 部门模块控制层
+ *
+ */
 @Controller
 @RequestMapping(name = "部门", path = "org")
 public class OrgController {

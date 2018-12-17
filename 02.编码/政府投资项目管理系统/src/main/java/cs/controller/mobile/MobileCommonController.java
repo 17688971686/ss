@@ -12,7 +12,10 @@ import cs.model.DomainDto.BasicDataDto;
 import cs.model.DomainDto.UserUnitInfoDto;
 import cs.service.common.BasicDataService;
 import cs.service.interfaces.UserUnitInfoService;
-
+/**
+ * @author Administrator
+ * @Description APP基础数据理控制层
+ */
 @Controller
 @RequestMapping(name = "手机公共", path = "mobile/common")
 public class MobileCommonController {

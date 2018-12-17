@@ -24,6 +24,11 @@ import cs.repository.framework.UserRepo;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 
+/**
+ * @deprecated 部门服务实现类
+ * @author Administrator
+ *
+ */
 @Service
 public class OrgServiceImpl implements OrgService {
 	private static Logger logger = Logger.getLogger(UserServiceImpl.class);
@@ -34,10 +39,11 @@ public class OrgServiceImpl implements OrgService {
 	@Autowired
 	private ICurrentUser currentUser;
 
-	/*
-	 * (non-Javadoc)
+
+	/**
 	 * 
-	 * @see cs.service.OrgService#get(cs.repository.odata.ODataObj)
+	 * @param odataObj
+	 * @return 查询部门
 	 */
 	@Override
 	@Transactional
@@ -87,7 +93,10 @@ public class OrgServiceImpl implements OrgService {
 		logger.info("查询部门数据");		
 		return pageModelDto;
 	}
-
+	/**
+	 * 创建部门
+	 * @param orgDto 部门实体
+	 */
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
 	@Transactional
@@ -113,7 +122,10 @@ public class OrgServiceImpl implements OrgService {
 			throw new IllegalArgumentException(String.format("部门标识：%s 已经存在,请重新输入！", orgDto.getOrgIdentity()));
 		}
 	}
-
+	/**
+	 * @deprecated 更新部门
+	 * @param orgDto
+	 */
 	@Override
 	@Transactional
 	public void updateOrg(OrgDto orgDto) {
@@ -125,7 +137,10 @@ public class OrgServiceImpl implements OrgService {
 		orgRepo.save(org);
 		logger.info(String.format("更新部门,部门名:%s", orgDto.getName()));
 	}
-
+	/**
+	 * @deprecated 删除部门
+	 * @param id
+	 */
 	@Override
 	@Transactional
 	public void deleteOrg(String id) {
@@ -150,7 +165,11 @@ public class OrgServiceImpl implements OrgService {
 		}
 		logger.info("批量删除部门");
 	}
-
+	/**
+	 * 查询部门
+	 * @param id 主键
+	 * @return
+	 */
 	@Override
 	@Transactional
 	public PageModelDto<UserDto> getOrgUsers(String id) {
@@ -196,7 +215,12 @@ public class OrgServiceImpl implements OrgService {
 
 		return pageModelDto;
 	}
-
+	/**
+	 * @deprecated 查找非部门用户
+	 * @param id 部门ID
+	 * @param oDataObj
+	 * @return
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	@Transactional
@@ -237,7 +261,11 @@ public class OrgServiceImpl implements OrgService {
 
 		return pageModelDto;
 	}
-
+	/**
+	 * @deprecated 部门添加用户
+	 * @param userId
+	 * @param orgId
+	 */
 	@Override
 	@Transactional
 	public void addUserToOrg(String userId, String orgId) {
@@ -254,7 +282,11 @@ public class OrgServiceImpl implements OrgService {
 		}
 
 	}
-
+	/**
+	 * @deprecated 删除部门用户
+	 * @param userId 用户ID
+	 * @param orgId部门ID
+	 */
 	@Override
 	@Transactional
 	public void removeOrgUser(String userId, String orgId) {

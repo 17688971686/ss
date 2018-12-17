@@ -19,7 +19,10 @@ import org.apache.poi.ss.util.CellRangeAddress;
 
 import cs.common.BasicDataConfig;
 import cs.model.Statistics.ProjectStatisticsBean;
-
+/**
+ * @author Administrator
+ * 导出年度计划Excel
+ */
 public class GenerateExcelForPlan {
 	@SuppressWarnings("deprecation")
 	public HSSFWorkbook getHSSFWorkBook(List<ProjectStatisticsBean> data){

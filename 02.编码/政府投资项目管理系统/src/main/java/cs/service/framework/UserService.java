@@ -12,9 +12,17 @@ import cs.model.framework.UserDto;
 import cs.repository.odata.ODataObj;
 
 public interface UserService {
-
+	/**
+	 *  查询用户集合
+	 * @param odataObj
+	 * @return list
+	 */
 	PageModelDto<UserDto> get(ODataObj odataObj);
 
+	/**
+	 *  创建用户
+	 * @param userDto
+	 */
 	void createUser(UserDto userDto);
 
 	void deleteUser(String id);

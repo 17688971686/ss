@@ -23,6 +23,11 @@ import cs.service.interfaces.CreditBlackListService;
 import cs.service.interfaces.CreditIllegalNameService;
 import cs.service.interfaces.CreditProjectAnomalyService;
 
+
+/**
+ * @author Administrator
+ * @Description 信用信息管理控制层
+ */
 @Controller
 @RequestMapping(name="后台管理--信用信息管理", path="management/creditInfo")
 public class CreditInfoController {

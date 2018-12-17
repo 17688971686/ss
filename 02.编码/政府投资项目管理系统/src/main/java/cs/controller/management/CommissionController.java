@@ -16,6 +16,11 @@ import cs.common.ICurrentUser;
 import cs.model.DomainDto.CommissionDto;
 import cs.service.interfaces.CommissionService;
 
+
+/**
+ * @author Administrator
+ * @Description 评审委托控制层
+ */
 @Controller
 @RequestMapping(name = "后台管理--审批流程--评审委托", path = "management/proxy")
 public class CommissionController {

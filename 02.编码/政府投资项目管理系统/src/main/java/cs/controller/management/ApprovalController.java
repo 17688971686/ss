@@ -20,6 +20,10 @@ import cs.model.DomainDto.ApprovalDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ApprovalService;
 
+/**
+ * @author Administrator
+ *@Description 评审报批单控制层
+ */
 @Controller
 @RequestMapping(name = "后台管理--审批流程--评审报批", path = "management/approval")
 public class ApprovalController {

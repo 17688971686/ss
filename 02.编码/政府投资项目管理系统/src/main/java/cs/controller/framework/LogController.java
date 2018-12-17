@@ -16,6 +16,11 @@ import cs.model.framework.LogDto;
 import cs.repository.odata.ODataObj;
 import cs.service.framework.LogService;
 
+
+/**
+ * @author Administrator
+ *日志控制层
+ */
 @Controller
 @RequestMapping(name = "日志", path = "log")
 public class LogController {

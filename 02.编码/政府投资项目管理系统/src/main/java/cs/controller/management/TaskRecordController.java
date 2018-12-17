@@ -16,6 +16,10 @@ import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.TaskRecordService;
 
+/**
+ * @author Administrator
+ * @Description 任务流程管理控制层
+ */
 @Controller
 @RequestMapping(name = "后台管理--任务流程", path = "management/taskRecord")
 public class TaskRecordController {

@@ -11,7 +11,10 @@ import cs.model.PageModelDto;
 import cs.model.DomainDto.UserUnitInfoDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.UserUnitInfoService;
-
+/**
+ * @author Administrator
+ * @Description APP用户单位管理控制层
+ */
 @Controller
 @RequestMapping(name = "手机端--用户单位信息", path = "mobile/shenbaoAdmin/userUnitInfo")
 public class ShenBaoAdminUserUnitInfoMobileController {

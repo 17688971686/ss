@@ -9,7 +9,12 @@ import cs.domain.Attachment;
 import cs.domain.ServiceEvaluation;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.ServiceEvaluationDto;
-
+/**
+ * @Description: 服务质量评价体类与数据库资源转换类
+ * @author: wcq
+ * @Date：2017年9月13日
+ * @version：0.1
+ */
 @Component
 public class ServiceEvaluationMapper implements IMapper<ServiceEvaluationDto, ServiceEvaluation> {
 	@Autowired

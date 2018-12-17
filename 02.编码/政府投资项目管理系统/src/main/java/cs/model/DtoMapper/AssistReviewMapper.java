@@ -13,7 +13,9 @@ import cs.model.DomainDto.AssistReviewDto;
 import cs.model.DomainDto.MediationUnitDto;
 import cs.model.DomainDto.ServiceEvaluationDto;
 import cs.model.DomainDto.SubmitReviewEvaluationDto;
-
+/*
+ * 协审活动实体转换
+ */
 @Component
 public class AssistReviewMapper implements IMapper<AssistReviewDto, AssistReview> {
 	@Autowired

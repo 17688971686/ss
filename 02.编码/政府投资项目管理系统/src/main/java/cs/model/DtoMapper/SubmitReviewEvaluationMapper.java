@@ -9,7 +9,12 @@ import cs.domain.Attachment;
 import cs.domain.SubmitReviewEvaluation;
 import cs.model.DomainDto.AttachmentDto;
 import cs.model.DomainDto.SubmitReviewEvaluationDto;
-
+/**
+ * @Description: 送审文件内容质量评价实体类与数据库资源转换类
+ * @author: wcq
+ * @Date：2017年9月13日
+ * @version：0.1
+ */
 @Component
 public class SubmitReviewEvaluationMapper implements IMapper<SubmitReviewEvaluationDto, SubmitReviewEvaluation> {
 	@Autowired

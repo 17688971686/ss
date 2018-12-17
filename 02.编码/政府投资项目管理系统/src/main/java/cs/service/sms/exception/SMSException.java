@@ -1,5 +1,9 @@
 package cs.service.sms.exception;
 
+/**
+ * @author Administrator
+ *短信异常处理
+ */
 public class SMSException extends Exception {
     public SMSException() {
         super();

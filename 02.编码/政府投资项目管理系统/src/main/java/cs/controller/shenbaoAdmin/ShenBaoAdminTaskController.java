@@ -16,7 +16,10 @@ import cs.model.DomainDto.TaskHeadDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.TaskHeadService;
-
+/**
+ * @author Administrator
+ * @Description 申报端任务流程管理控制层
+ */
 @Controller
 @RequestMapping(name="申报端--任务流程",path="shenbaoAdmin/task")
 public class ShenBaoAdminTaskController {

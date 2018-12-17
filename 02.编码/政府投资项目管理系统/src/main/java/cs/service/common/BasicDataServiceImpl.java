@@ -18,7 +18,10 @@ import cs.domain.BasicData_;
 import cs.model.DomainDto.BasicDataDto;
 import cs.model.DtoMapper.BasicDataMapper;
 import cs.repository.common.BasicDataRepo;
-
+/**
+ * @author Administrator
+ *  基础数据服务层
+ */
 @Service
 public class BasicDataServiceImpl implements BasicDataService {
 	private static Logger logger = Logger.getLogger(BasicDataServiceImpl.class);

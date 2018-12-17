@@ -19,6 +19,11 @@ import cs.domain.framework.User;
 import cs.model.framework.UserDto;
 import cs.service.framework.UserService;
 
+
+/**
+ * @author Administrator
+ *账户及登录管理
+ */
 @Controller
 @RequestMapping(name = "账户管理", path = "verifyNum")
 public class AccountController {

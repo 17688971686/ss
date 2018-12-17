@@ -19,6 +19,11 @@ import cs.model.DomainDto.DraftIssuedDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.DraftIssuedService;
 
+
+/**
+ * @author Administrator
+ * @Description 发文拟稿控制层
+ */
 @Controller
 @RequestMapping(name = "后台管理--审批流程--发文拟稿", path = "management/draft")
 public class DraftIssuedController {

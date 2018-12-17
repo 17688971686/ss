@@ -8,10 +8,24 @@ import cs.repository.odata.ODataObj;
 import java.util.Date;
 import java.util.List;
 
+
+/**
+ * @author Administrator
+ *工作日管理服务层
+ */
 public interface WorkdayService extends IService<WorkdayDto, Workday, String>{
 
+	/**
+	 * 查询工作日
+	 * @param odataObj
+	 * @return
+	 */
 	PageModelDto<WorkdayDto> getWorkday(ODataObj odataObj);
-
+	/**
+	 * 创建工作日
+	 * @param workdayDto
+	 * @return
+	 */
 	String createWorkday(WorkdayDto workdayDto);
 
 	/**
@@ -21,10 +35,22 @@ public interface WorkdayService extends IService<WorkdayDto, Workday, String>{
 	 */
 	Boolean isRepeat(Date dates);
 
+	/**
+	 * 根据ID查询工作日
+	 * @param id
+	 * @return
+	 */
 	WorkdayDto getWorkdayById(String id);
 
+	/**
+	 * 更新工作日
+	 */
 	void updateWorkday(WorkdayDto workdayDto);
 
+	/**
+	 * 删除工作日
+	 * @param id
+	 */
 	void deleteWorkday(String id);
 
 	List<Workday> selectSpecialDays(String status);

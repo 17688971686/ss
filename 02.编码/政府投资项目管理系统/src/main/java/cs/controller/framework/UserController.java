@@ -21,6 +21,11 @@ import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.service.framework.UserService;
 
+
+/**
+ * @author Administrator
+ *用户管理控制层
+ */
 @Controller
 @RequestMapping(name = "用户管理", path = "user")
 public class UserController {

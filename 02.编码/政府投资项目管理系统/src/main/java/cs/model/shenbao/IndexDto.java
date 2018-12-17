@@ -5,6 +5,10 @@ import java.util.List;
 
 import cs.model.DomainDto.ArticleDto;
 
+/**
+ * @author Administrator
+ * 首页数据实体
+ */
 public class IndexDto {
 	private List<ArticleDto> article_tzgg =new ArrayList<>();
 	private List<ArticleDto> article_zcfg=new ArrayList<>();

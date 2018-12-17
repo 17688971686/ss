@@ -19,6 +19,10 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import cs.common.BasicDataConfig;
 import cs.model.Statistics.ProjectStatisticsBean;
 
+/**
+ * @author Administrator
+ * 导出项目Excel
+ */
 public class GenerateExcelForProject {
 
 	@SuppressWarnings("deprecation")

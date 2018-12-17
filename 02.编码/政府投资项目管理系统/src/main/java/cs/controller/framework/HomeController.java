@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import cs.common.Util;
 import cs.domain.framework.User;
 
+
+/**
+ * @author Administrator
+ *登录控制器
+ */
 @Controller
 public class HomeController {
 	private String ctrlName = "framework/home";

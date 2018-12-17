@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+/**
+ * @author Administrator
+ * @Description APP年度计划管理控制层
+ */
 @Controller
 @RequestMapping(name = "手机端--年度计划管理", path = "mobile/management/yearPlan")
 public class YearPlanMobileController {

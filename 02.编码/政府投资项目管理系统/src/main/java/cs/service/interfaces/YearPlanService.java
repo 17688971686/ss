@@ -16,36 +16,101 @@ import cs.model.exportExcel.YearPlanStatistics;
 import cs.repository.odata.ODataObj;
 import cs.repository.odata.ODataObjNew;
 
+/**
+ * @author Administrator
+ *年度计划管理服务层
+ */
 public interface YearPlanService extends IService<YearPlanDto, YearPlan, String>{
+	/**
+	 * 查询年度计划申报信息
+	 * @param planId 年度计划ID
+	 * @param odataObj
+	 * @param exclude
+	 * @return
+	 */
 	PageModelDto<ShenBaoInfoDto> getYearPlanShenBaoInfo(String planId, ODataObjNew odataObj, boolean exclude);
-	
+	/**
+	 * 添加年度计划资金
+	 * @param planId
+	 * @param ids
+	 */
 	void addYearPlanCapitals(String planId,String[] ids);
-	
+	/**
+	 * 添加年度计划资金
+	 * @param planId
+	 * @param shenBaoId
+	 */
 	void addYearPlanCapital(String planId,String shenBaoId);
-	
+	/**
+	 * 删除年度计划资金安排
+	 * @param planId
+	 * @param yearPlanCapitalId
+	 */
 	void removeYearPlanCapital(String planId,String[] yearPlanCapitalId);
-	
+	/**
+	 * 查询年度计划
+	 * @param planId
+	 * @return
+	 */
 	List<YearPlanStatistics> getStatistics(String planId);
-	
-	List<ExcelDataLBTJ> getYearPlanShenBaoInfoByLBTJ(String planId);//根据项目类别统计
-	
-	List<ExcelDataHYTJ> getYearPlanShenBaoInfoByHYTJ(String planId);//根据项目行业统计
-	
-	List<ExcelDataDWTJ> getYearPlanShenBaoInfoByDWTJ(String planId);//根据建设单位统计
-	
-	List<ExcelDataYS> getYearPlanShenBaoInfoByYS(String planId);//印刷版统计
+	/**
+	 * 根据项目类别统计
+	 * @param planId
+	 * @return
+	 */
+	List<ExcelDataLBTJ> getYearPlanShenBaoInfoByLBTJ(String planId);
+	/**
+	 * 根据项目行业统计
+	 * @param planId
+	 * @return
+	 */
+	List<ExcelDataHYTJ> getYearPlanShenBaoInfoByHYTJ(String planId);
+	/**
+	 * 根据建设单位统计
+	 * @param planId
+	 * @return
+	 */
+	List<ExcelDataDWTJ> getYearPlanShenBaoInfoByDWTJ(String planId);
+	/**
+	 * 印刷版统计
+	 * @param planId
+	 * @return
+	 */
+	List<ExcelDataYS> getYearPlanShenBaoInfoByYS(String planId);
 	
 	List<sttisticsData> getyearPlanByHYData();
 	
 	List<sttisticsData> getyearPlanInvestSourceData();
-	
-	PageModelDto<YearPlanDto> getYearPlanAllocationCapital(String unitId,ODataObj odataObj);//根据建设单位id查找，包含本建设单位的打包计划
-	
+	/**
+	 * 根据建设单位id查找，包含本建设单位的打包计划
+	 * @param unitId 单位ID
+	 * @param odataObj
+	 * @return
+	 */
+	PageModelDto<YearPlanDto> getYearPlanAllocationCapital(String unitId,ODataObj odataObj);
+	/**
+	 * 查询年度计划打包信息
+	 * @param planId 年度计划ID
+	 * @param odataObj
+	 * @return
+	 */
 	PageModelDto<PackPlanDto> getYearPlanPack(String planId,ODataObj odataObj);
-	
+	/**
+	 * 年度计划添加打包信息
+	 * @param planId 年度计划ID
+	 * @param ids 打包信息ID 集合
+	 */
 	void addYearPlanPacks(String planId,String[] ids);
-	
+	/**
+	 * 年度计划添加打包信息
+	 * @param planId
+	 * @param ids
+	 */
 	void addYearPlanPack(String planId,String packId);
-	
+	/**
+	 * 删除年度计划打包信息
+	 * @param planId 年度计划ID
+	 * @param yearPlanPackId 打包信息ID
+	 */
 	void removeYearPlanPack(String planId,String[] yearPlanPackId);
 }

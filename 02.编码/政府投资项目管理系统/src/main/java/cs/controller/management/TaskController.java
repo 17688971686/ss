@@ -40,6 +40,10 @@ import cs.service.framework.UserService;
 import cs.service.interfaces.ProcessService;
 import cs.service.interfaces.TaskHeadService;
 
+/**
+ * @author Administrator
+ * @Description 工作台管理控制层
+ */
 @Controller
 @RequestMapping(name = "后台管理--工作台管理", path = "management/task")
 public class TaskController {

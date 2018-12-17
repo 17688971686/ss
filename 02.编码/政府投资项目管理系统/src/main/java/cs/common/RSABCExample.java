@@ -1,6 +1,7 @@
 package cs.common;
 
 import java.security.KeyFactory;
+
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
@@ -17,6 +18,10 @@ import org.bouncycastle.jce.provider.JCERSAPublicKey;
 import org.bouncycastle.util.encoders.Base64;
 import org.bouncycastle.util.encoders.Hex;
 
+/**
+ * @author Administrator
+ *加解密通用工具类
+ */
 public class RSABCExample {
 
 	/** 可以先注册到虚拟机中,再通过名称使用;也可以不注册,直接传入使用 */

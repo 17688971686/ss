@@ -7,6 +7,12 @@ import java.net.URL;
 
 import javax.servlet.http.HttpServletRequest;
 
+
+/**
+ * http请求通用类
+ * @author Administrator
+ *
+ */
 public class HttpClientUtils {
 	public static String getHttpReturn(String url1) {
 		String str = "";

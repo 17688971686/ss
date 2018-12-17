@@ -19,7 +19,10 @@ import cs.model.DomainDto.YearPlanCapitalDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.YearPlanCapitalService;
 
-
+/**
+ * @author Administrator
+ * @Description 年度计划资金管理控制层
+ */
 @Controller
 @RequestMapping(name="后台管理--年度计划资金管理", path="management/yearPlanCapital")
 public class YearPlanCapitalController {

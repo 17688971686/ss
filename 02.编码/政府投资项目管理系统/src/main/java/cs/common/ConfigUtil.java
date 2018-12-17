@@ -1,5 +1,9 @@
 package cs.common;
 
+/**
+ * @author Administrator
+ *短信配置
+ */
 public class ConfigUtil{
 	//短信的配置
 	public static String msgUrl = "http://120.77.208.59:9021/Home/sendsms";

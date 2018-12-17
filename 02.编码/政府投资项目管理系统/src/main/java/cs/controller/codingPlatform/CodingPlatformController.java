@@ -19,6 +19,11 @@ import cs.common.DateUtil;
 import cs.service.interfaces.CodingPlatformService;
 
 
+/**
+ * @author Administrator
+ *对接赋码平台
+ */
+
 @Controller
 @RequestMapping(name = "赋码平台", path = "coding")
 public class CodingPlatformController {
@@ -69,6 +74,9 @@ public class CodingPlatformController {
 		codingPlatformService.getShenBaoInfoFromCoding(todaytime,pageIndex);
 	}
 	
+	/**
+	 * 每6小时自动更新赋码项目
+	 */
 	@Scheduled(cron="0 0 1/6 * * ? ")
 	public void scheduled() {
 		//<0/5 * * * * ? >每5秒

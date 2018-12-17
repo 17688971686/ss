@@ -18,7 +18,10 @@ import org.apache.poi.ss.util.CellRangeAddress;
 
 import cs.common.BasicDataConfig;
 import cs.model.Statistics.ProjectStatisticsBean;
-
+/**
+ * @author Administrator
+ * 导出审批Excel
+ */
 public class GenerateExcelForApproval {
 	@SuppressWarnings("deprecation")
 	public HSSFWorkbook getHSSFWorkBook(List<ProjectStatisticsBean> data){

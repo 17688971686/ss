@@ -9,6 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * API过滤器
+ * @author Administrator
+ *
+ */
 public class ApiFilter implements HandlerInterceptor{
 	private static Logger logger = Logger.getLogger(ApiFilter.class);
 	@Autowired

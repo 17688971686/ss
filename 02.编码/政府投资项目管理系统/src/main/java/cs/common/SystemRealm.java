@@ -15,6 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import cs.service.framework.UserService;
 
+/**
+ * @author Administrator
+ *shiro注册
+ */
 public class SystemRealm  extends AuthorizingRealm {
 
 	@Autowired

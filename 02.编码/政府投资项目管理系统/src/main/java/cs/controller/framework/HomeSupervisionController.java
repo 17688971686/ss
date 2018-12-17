@@ -4,6 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+
+/**
+ * @author Administrator
+ *在线监管控制器
+ */
 @Controller
 public class HomeSupervisionController {
 	private String ctrlName = "framework/homeSupervision";

@@ -1,5 +1,10 @@
 package cs.common;
 
+/**
+ *	基本数据转换
+ * @author Administrator
+ *
+ */
 public class BasicDataConfig {
 	public static int processState_wqd=0;//未启动
 	public static int processState_jxz=1;//进行中

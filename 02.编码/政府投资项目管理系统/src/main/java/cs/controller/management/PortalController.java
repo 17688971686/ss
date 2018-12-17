@@ -22,6 +22,10 @@ import cs.service.interfaces.IService;
 
 
 
+/**
+ * @author Administrator
+ * @Description 统一门户管理控制层
+ */
 @Controller
 @RequestMapping(name = "后台管理--统一门户管理", path = "management/portal")
 public class PortalController {

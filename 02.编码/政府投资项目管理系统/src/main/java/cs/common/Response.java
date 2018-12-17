@@ -3,6 +3,11 @@ package cs.common;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Administrator
+ * 通用返回结果
+ *
+ */
 public class Response {
 	private String message;
 	private int status;

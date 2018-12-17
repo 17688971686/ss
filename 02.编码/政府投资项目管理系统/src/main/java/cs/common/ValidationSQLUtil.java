@@ -12,6 +12,10 @@ import org.apache.log4j.Logger;
 
 
 
+/**
+ * @author Administrator
+ *sql检查
+ */
 public class ValidationSQLUtil {
 	private static Logger logger = Logger.getLogger(ValidationSQLUtil.class);
 	/** 

@@ -9,6 +9,11 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+/**
+ * 工作日工具类
+ * @author Administrator
+ *
+ */
 public class WorkDayUtil {
     private static Logger log = Logger.getLogger(WorkDayUtil.class);
 

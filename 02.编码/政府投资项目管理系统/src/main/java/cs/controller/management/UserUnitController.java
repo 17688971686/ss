@@ -15,7 +15,10 @@ import cs.model.PageModelDto;
 import cs.model.DomainDto.UserUnitInfoDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.UserUnitInfoService;
-
+/**
+ * @author Administrator
+ * @Description 用户单位管理控制层
+ */
 @Controller
 @RequestMapping(name="后台管理--用户单位管理",path="management/userUnit")
 public class UserUnitController {

@@ -5,6 +5,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+
+/**
+ * @author Administrator
+ *修改密码
+ */
 @Controller
 @RequestMapping(name = "修改密码", path = "changePwd")
 public class ChangePwd {

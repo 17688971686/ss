@@ -3,7 +3,10 @@ package cs.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+/**
+ * @author Administrator
+ * @Description 错误页面控制层
+ */
 @Controller
 @RequestMapping(name = "错误页面", path = "error")
 public class ErrorController {

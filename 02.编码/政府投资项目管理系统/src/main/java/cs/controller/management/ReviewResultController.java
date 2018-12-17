@@ -16,6 +16,11 @@ import cs.common.ICurrentUser;
 import cs.model.DomainDto.ReviewResultDto;
 import cs.service.interfaces.ReviewResultService;
 
+
+/**
+ * @author Administrator
+ * @Description 评审报批信息控制层
+ */
 @Controller
 @RequestMapping(name = "后台管理--审批流程--评审结果", path = "management/review")
 public class ReviewResultController {

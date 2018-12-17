@@ -21,6 +21,11 @@ import cs.model.DomainDto.TaskRecordDto;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ShenBaoInfoService;
 
+
+/**
+ * @author Administrator
+ * @Description 申报信息管理控制层
+ */
 @Controller
 @RequestMapping(name="后台管理--申报信息管理", path="management/shenbao")
 public class ShenBaoController {
