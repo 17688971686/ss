@@ -40,8 +40,8 @@
 		<td class="formAlignRight">项目负责人电话：<span class="required">(*)</span></td>
 		<td>
 			<input type="text" class="form-control input-sm" style="width:200px;" id="projectRepMobile" name="projectRepMobile" ng-model="vm.model.projectRepMobile"
-				data-val="true" data-val-required="必填" placeholder="填写固话或手机号"
-				data-val-regex="号码不合理！" data-val-regex-pattern="^((0\d{2,3}-\d{7,8})|(\d{7,8})|(1[3|4|5|7|8][0-9]\d{4,8}))$"/>
+				data-val="true" data-val-required="必填" placeholder="填写固话或手机号" maxlength="13"
+				data-val-regex="号码不合理！" data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 			<span data-valmsg-for="projectRepMobile" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
@@ -116,12 +116,12 @@
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/> (万元)
+			<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/> (万元)
 			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight">累计完成投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.projectInvestAccuSum" data-val="true" data-val-required="必填"/> (万元)
+			<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.projectInvestAccuSum" data-val="true" data-val-required="必填"/> (万元)
 			<span data-valmsg-for="projectInvestAccuSum" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
@@ -146,9 +146,9 @@
 								<td>专项基金</td>
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys" /></td>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_gtzj"  /></td>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_zxzj" /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys" /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalSCZ_gtzj"  /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalSCZ_zxzj" /></td>
 							</tr>
 						</table>
 					</td>
@@ -160,8 +160,8 @@
 								
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalQCZ_ggys"  /></td>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalQCZ_gtzj"  /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalQCZ_ggys"  /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalQCZ_gtzj"  /></td>
 							</tr>
 						</table>
 					</td>
@@ -171,7 +171,7 @@
 								<td>-</td>
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalZYYS"  /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalZYYS"  /></td>
 							</tr>
 						</table>
 					</td>
@@ -181,7 +181,7 @@
 								<td>-</td>
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalSHTZ"  /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalSHTZ"  /></td>
 							</tr>
 						</table>
 					</td>
@@ -197,7 +197,7 @@
 								<td>-</td>															
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalOther"/></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalOther"/></td>
 							</tr>
 						</table>
 					</td>

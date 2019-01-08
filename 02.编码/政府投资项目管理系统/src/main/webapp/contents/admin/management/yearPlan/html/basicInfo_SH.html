@@ -15,8 +15,8 @@
 		<td class="formAlignRight" style="width:160px;">责任单位联系电话：<span class="required">(*)</span></td>
 		<td>
 			<input type="text" class="form-control input-sm" style="width:200px;" id="repUnitRepMobile" name="repUnitRepMobile" ng-model="vm.model.shenBaoInfo.repUnitRepMobile"
-				data-val="true" data-val-required="必填" placeholder="填写手机号或固话"
-				data-val-regex="号码不合理！" data-val-regex-pattern="^((0\d{2,3}-\d{7,8})|(\d{7,8})|(1[3|4|5|7|8][0-9]\d{4,8}))$"/>
+				data-val="true" data-val-required="必填" placeholder="填写手机号或固话" maxlength="13"
+				data-val-regex="号码不合理！" data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 			<span data-valmsg-for="repUnitRepMobile" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
@@ -62,8 +62,8 @@
 		<td class="formAlignRight">项目联系人电话：<span class="required">(*)</span></td>
 		<td>
 			<input type="text" class="form-control input-sm" style="width:200px;" id="projectRepMobile" name="projectRepMobile" ng-model="vm.model.shenBaoInfo.projectRepMobile"
-				data-val="true" data-val-required="必填" placeholder="填写手机号或固话"
-				data-val-regex="号码不合理！" data-val-regex-pattern="^((0\d{2,3}-\d{7,8})|(\d{7,8})|(1[3|4|5|7|8][0-9]\d{4,8}))$"/>
+				data-val="true" data-val-required="必填" placeholder="填写手机号或固话" maxlength="13"
+				data-val-regex="号码不合理！" data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 			<span data-valmsg-for="projectRepMobile" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
@@ -151,16 +151,16 @@
 				</tr>
 				<tr class="text-center">
 					<td>
-						<input type="number" step="any" style="width:150px" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.landPrice"/>
+						<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:150px" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.landPrice"/>
 					</td>
 					<td>
-						<input type="number" step="any" style="width:150px" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.equipmentInvestment"/>
+						<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:150px" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.equipmentInvestment"/>
 					</td>
 					<td>
-						<input type="number" step="any" style="width:150px" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.buidSafeInvestment"/>
+						<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:150px" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.buidSafeInvestment"/>
 					</td>
 					<td>
-						<input type="number" step="any" style="width:150px" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalOther"/>
+						<input type="number" min="0" step="any" style="width:150px" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalOther"/>
 					</td>
 				</tr>
 			</table>

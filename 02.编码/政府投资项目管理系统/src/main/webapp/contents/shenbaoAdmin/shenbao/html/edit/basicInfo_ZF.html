@@ -38,10 +38,18 @@
 		<td class="formAlignRight">项目负责人电话：<span class="required">(*)</span></td>
 		<td>
 			<!-- 旧的校验方法 data-val-regex="号码不合理！" data-val-regex-pattern="^((0\d{2,3}-\d{7,8})|(\d{7,8})|(1[3|4|5|8][0-9]\d{4,8}))$"  -->
-			<input type="text" class="form-control input-sm" style="width:200px;" id="projectRepMobile" name="projectRepMobile"
+			<!--<input type="text" class="form-control input-sm" style="width:200px;" id="projectRepMobile" name="projectRepMobile"
 				   ng-model="vm.model.projectRepMobile" data-val="true" data-val-required="必填"
 				   maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"
 				   placeholder="填写固话或手机号"/>
+			<span data-valmsg-for="projectRepMobile" data-valmsg-replace="true" class="required"></span>-->
+
+			<input type="text" class="form-control input-sm" id="projectRepMobile" name="projectRepMobile"
+				   ng-model="vm.model.projectRepMobile"
+				   style="width:200px;"
+				   data-val="true" data-val-required="必填" maxlength="13"
+				   data-val-regex="项目负责人电话不合理！"
+				   data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 			<span data-valmsg-for="projectRepMobile" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
@@ -64,14 +72,14 @@
 		<td class="formAlignRight">功能科目：<span class="required">(*)</span></td>
 		<td>
 			<input type="text" class="form-control input-sm" style="width:200px;" id="functionSubjects" name="functionSubjects"
-			ng-model="vm.model.functionSubjects" data-val="true" data-val-required="必填" placeholder="请输入7位数字代码"
+			ng-model="vm.model.functionSubjects" data-val="true" data-val-required="必填" maxlength="7" placeholder="请输入7位数字代码"
 			data-val-regex="代码不合理！" data-val-regex-pattern="^[0-9]{7}$"/>
 			<span data-valmsg-for="functionSubjects" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight">经济分类科目：<span class="required">(*)</span></td>
 		<td>
 			<input type="text" class="form-control input-sm" style="width:200px;" id="econClassSubjects" name="econClassSubjects"
-			ng-model="vm.model.econClassSubjects" data-val="true" data-val-required="必填" placeholder="请输入5位数字代码"
+			ng-model="vm.model.econClassSubjects" data-val="true" data-val-required="必填" maxlength="5" placeholder="请输入5位数字代码"
 			data-val-regex="代码不合理！" data-val-regex-pattern="^[0-9]{5}$"/>
 			<span data-valmsg-for="econClassSubjects" data-valmsg-replace="true" class="required"></span>
 		</td>
@@ -148,13 +156,13 @@
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required" ng-hide="vm.isYearPlan">(*)</span></td>
 		<td>
-			<input ng-hide="vm.isYearPlan" type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/>
+			<input ng-hide="vm.isYearPlan" min="0" type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/>
 			<span ng-show="vm.isYearPlan" ng-bind="vm.model.projectInvestSum"></span>&nbsp;(万元)
 			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight">累计完成投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.projectInvestAccuSum" data-val="true" data-val-required="必填"/> (万元)
+			<input type="number" min="0" step="any" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.projectInvestAccuSum" data-val="true" data-val-required="必填"/> (万元)
 			<span data-valmsg-for="projectInvestAccuSum" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
@@ -188,9 +196,9 @@
 								<td>专项基金</td>
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys" /></td>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_gtzj"  /></td>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_zxzj" /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys" /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalSCZ_gtzj"  /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalSCZ_zxzj" /></td>
 							</tr>
 						</table>
 					</td>
@@ -202,8 +210,8 @@
 								
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalQCZ_ggys"  /></td>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalQCZ_gtzj"  /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalQCZ_ggys"  /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalQCZ_gtzj"  /></td>
 							</tr>
 						</table>
 					</td>
@@ -213,7 +221,7 @@
 								<td>-</td>
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalZYYS"  /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalZYYS"  /></td>
 							</tr>
 						</table>
 					</td>
@@ -223,17 +231,17 @@
 								<td>-</td>
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalSHTZ"  /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalSHTZ"  /></td>
 							</tr>
 						</table>
 					</td>
 					<td style="padding:0px;border: 0px;">
-						<table class="table table-bordered" style="margin:0px">
+						<table class="table table-bordered" min="0" style="margin:0px">
 							<tr>
 								<td>-</td>														
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.capitalOther"/></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalOther"/></td>
 							</tr>
 						</table>
 					</td>

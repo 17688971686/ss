@@ -24,8 +24,8 @@
 						<td>国土基金</td>
 					</tr>
 					<tr>
-						<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.sqPlanReach_ggys"/></td>
-						<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.sqPlanReach_gtzj"/></td>
+						<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.sqPlanReach_ggys"/></td>
+						<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.sqPlanReach_gtzj"/></td>
 					</tr>
 				</table>
 			</td>

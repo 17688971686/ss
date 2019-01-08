@@ -18,7 +18,7 @@
 		</td>
 		<td class="formAlignRight" style="width:150px;">年度投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" step="any" style="width:180px;" class="form-control input-sm" ng-model="vm.model.applyYearInvest"
+			<input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" style="width:180px;" class="form-control input-sm" ng-model="vm.model.applyYearInvest"
 				id="applyYearInvest" name="applyYearInvest"  data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="applyYearInvest" data-valmsg-replace="true" class="required"></span>
 		</td>

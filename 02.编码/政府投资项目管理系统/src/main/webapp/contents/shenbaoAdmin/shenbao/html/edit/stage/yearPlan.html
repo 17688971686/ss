@@ -25,13 +25,13 @@
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required" ng-hide="vm.isYearPlan">(*)</span></td>
 		<td>
-			<input ng-hide="vm.isYearPlan" type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/>
+			<input ng-hide="vm.isYearPlan" min="0" type="number" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/>
 			<span ng-show="vm.isYearPlan" ng-bind="vm.model.projectInvestSum"></span>&nbsp;(万元)
 			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight">累计安排投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="apInvestSum" name="apInvestSum" ng-model="vm.model.yearPlanYearContentDto.apInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:100px" data-val="true" data-val-required="必填" class="form-control input-sm" id="apInvestSum" name="apInvestSum" ng-model="vm.model.yearPlanYearContentDto.apInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="apInvestSum" data-valmsg-replace="true" class="required"></span>			
 		</td>
 	</tr>
@@ -48,7 +48,7 @@
 			<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="false" ng-model="vm.model.yearPlanYearContentDto.isApplyOutsideCapital" ng-checked="vm.model.yearPlanYearContentDto.isApplyOutsideCapital == false"/>&nbsp;否</label>
 			<label ng-if="vm.model.yearPlanYearContentDto.isApplyOutsideCapital">
 				申请标外资金：
-				<input type="number" step="any" style="width:100px" class="form-control input-sm" ng-model="vm.model.yearPlanYearContentDto.applyOutsideCapital"/>
+				<input type="number" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:100px" class="form-control input-sm" ng-model="vm.model.yearPlanYearContentDto.applyOutsideCapital"/>
 				&nbsp;(万元)
 			</label>
 		</td>
@@ -71,9 +71,9 @@
 								<td>其他</td>
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_ggys_TheYear"/></td>
-								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_TheYear"/></td>
-								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_qita"/></td>
+								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm" ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_ggys_TheYear"/></td>
+								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_TheYear"/></td>
+								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_qita"/></td>
 							</tr>
 						</table>
 					</td>
@@ -124,9 +124,9 @@
 								<td>其他</td>
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_ggys_LastYear"/></td>
-								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_LastYear"/></td>
-								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_qita_LastYear"/></td>
+								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm" ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_ggys_LastYear"/></td>
+								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_LastYear"/></td>
+								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_qita_LastYear"/></td>
 							</tr>
 						</table>
 					</td>
@@ -177,9 +177,9 @@
 								<td>其他</td>
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_ggys_LastTwoYear"/></td>
-								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_LastTwoYear"/></td>
-								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_qita_LastTwoYear"/></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_ggys_LastTwoYear"/></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm"  ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_LastTwoYear"/></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm"  ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_qita_LastTwoYear"/></td>
 							</tr>
 						</table>
 					</td>
