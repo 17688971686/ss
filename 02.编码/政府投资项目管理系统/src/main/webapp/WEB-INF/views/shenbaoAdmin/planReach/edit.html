@@ -23,10 +23,10 @@
 	<div style="border: 1px solid;border-color: #a3d0e4;">
 		<div style="text-align: center;font-size: 26px;">添加单列项目</div>
 		<div style="margin-left: 10px;">
-			<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal" ng-hide="vm.isStartProcess">
+			<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal">
 				<span class="glyphicon glyphicon-plus"></span> 添加项目
 			</button>
-			<button class="btn btn-sm btn-danger" ng-click="vm.projectDeletes()" ng-disabled="vm.isSubmit" ng-hide="vm.isStartProcess">
+			<button class="btn btn-sm btn-danger" ng-click="vm.projectDeletes()">
 				<span class="glyphicon glyphicon-trash"></span>&nbsp;批量删除
 			</button>
 		</div>
@@ -35,10 +35,10 @@
 	<div style="border: 1px solid;border-color: #a3d0e4;margin-top: 20px;">
 		<div style="text-align: center;font-size: 26px;">申请打包</div>
 		<div style="margin-left: 10px;">
-			<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#packModal" ng-click="vm.addProjectForPack()" ng-hide="vm.isStartProcess">
+			<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#packModal" ng-click="vm.addProjectForPack()">
 				<span class="glyphicon glyphicon-plus"></span> 添加打包
 			</button>
-			<button class="btn btn-sm btn-danger" ng-click="vm.packDeletes()" ng-disabled="vm.isSubmit" ng-hide="vm.isStartProcess">
+			<button class="btn btn-sm btn-danger" ng-click="vm.packDeletes()" ng-disabled="vm.isSubmit">
 				<span class="glyphicon glyphicon-trash"></span>&nbsp;批量删除
 			</button>
 		</div>

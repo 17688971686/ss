@@ -986,11 +986,11 @@
                     },
                     filterable: false,
                     width: 40,
-                    title: "<input id='projects' type='checkbox'  class='checkbox'/>"
+                    title: "<input id='checkboxAll_packPlan' type='checkbox'  class='checkbox'/>"
                 },
                 {
                     field: "name",
-                    title: "项目名称",
+                    title: "打包名称",
                     filterable: true
                 },
                 {
