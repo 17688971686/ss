@@ -87,14 +87,14 @@ public class ShenBaoAdminPlanReachController {
 
     @RequestMapping(name = "获取单列申报数据", path = "getShenBaoInfoOutOfPlanReach/{planReachId}",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getShenBaoInfoOutOfPlanReach(HttpServletRequest request,@PathVariable String planReachId) throws ParseException {
-    	ODataObj odataObj = new ODataObj(request);
+    	ODataObjNew odataObj = new ODataObjNew(request);
     	return planReachApplicationService.getShenBaoInfoOutOfPlanReach(odataObj,planReachId,false);
 	}
     
     @RequestMapping(name = "获取打包申报数据", path = "getShenBaoInfoOutOfPackPlan/{planReachId}",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getShenBaoInfoOutOfPackPlan(HttpServletRequest request,@PathVariable String planReachId) throws ParseException {
-    	ODataObj odataObj = new ODataObj(request);
-    	return planReachApplicationService.getShenBaoInfoOutOfPlanReach(odataObj,planReachId,true);
+    	ODataObjNew odataObj = new ODataObjNew(request);
+    	return planReachApplicationService.getShenBaoInfoOutOfPackPlan(odataObj,planReachId);
 	}
     
     //@RequiresPermissions("shenbaoAdmin/planReach##post")
@@ -219,15 +219,15 @@ public class ShenBaoAdminPlanReachController {
 
     @RequestMapping(name = "获取计划下达中打包列表数据", path = "{id}/packPlanList", method = RequestMethod.GET)
     @ResponseBody
-    public PageModelDto<PackPlanDto> getPackPkan(ODataObj odataObj, @PathVariable String id) {
+    public PageModelDto<PackPlanDto> getPackPkan( @PathVariable String id,ODataObj odataObj) {
         PageModelDto<PackPlanDto> packPlanDtos = planReachApplicationService.getPackPlan(id, odataObj);
         return packPlanDtos;
     }
 
-    @RequestMapping(name = "获取包列表数据", path = "packPlanList", method = RequestMethod.GET)
+    @RequestMapping(name = "获取包列表数据", path = "packPlanList/{planReachId}", method = RequestMethod.GET)
     @ResponseBody
-    public PageModelDto<PackPlanDto> getPackPkan(ODataObj odataObj) {
-        PageModelDto<PackPlanDto> packPlanDtos = planReachApplicationService.getPackPlan(odataObj);
+    public PageModelDto<PackPlanDto> getPackPkan(ODataObj odataObj, @PathVariable String planReachId) {
+        PageModelDto<PackPlanDto> packPlanDtos = planReachApplicationService.getPackPlan(odataObj,planReachId);
         return packPlanDtos;
     }
 

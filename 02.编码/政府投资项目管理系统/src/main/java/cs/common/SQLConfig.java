@@ -16,6 +16,49 @@ public class SQLConfig {
                 " WHERE t1.projectName=s.projectName AND s.projectShenBaoStage='" + projectShenBaoStage_planReach + "')" : "");
     }
 
+    public static String getYearPlanProjectForPage(boolean exclude) {
+        return "SELECT t1.id,t1.createdBy,t1.createdDate,t1.itemOrder,t1.modifiedBy," +
+                "t1.modifiedDate,t1.approval_pzwh,SUBSTRING(t1.beginDate,1,7) beginDate,t1.buidSafeInvestment,t1.capitalOther,t1.capitalOtherType," +
+                "t1.capitalOtherDescription, t1.CapitalQCZ_gtzj,t1.capitalQCZ_ggys,t1.capitalSCZ_ggys,t1.CapitalSCZ_gtzj," +
+                "t1.capitalSCZ_zxzj,t1.capitalSHTZ,t1.capitalZYYS, t1.companyName,t1.constructionCycle,t1.constructionLand," +
+                "t1.divisionId,SUBSTRING(t1.endDate,1,7) endDate,t1.equipmentInvestment,t1.finalAmount,t1.financeProjectNumber, t1.landPrice," +
+                "t1.pifuCBSJYGS_date,t1.pifuCBSJYGS_wenhao,t1.pifuJYS_date,t1.pifuJYS_wenhao,t1.pifuKXXYJBG_date," +
+                "t1.pifuKXXYJBG_wenhao,t1.projectAddress, t1.projectCategory,t1.projectClassify,t1.projectGuiMo," +
+                "t1.projectIndustry,t1.projectIntro,t1.projectInvestAccuSum,t1.projectInvestSum,t1.projectInvestmentType," +
+                " t1.projectName,t1.projectNumber,t1.projectRepMobile,t1.projectRepName,t1.projectStage,t1.projectType," +
+                "t1.remark,t1.repUnitRepMobile,t1.repUnitRepName,t1.unitName, t1.useBenefits,t1.apInvestSum," +
+                "t1.applyYearInvest,t1.applyYearInvest_LastYear,t1.applyYearInvest_LastTwoYear,t1.auditState," +
+                "t1.capitalAP_ggys_LastYear,t1.capitalAP_ggys_LastTwoYear, t1.capitalAP_ggys_TheYear," +
+                "t1.capitalAP_gtzj_LastTwoYear,t1.capitalAP_gtzj_LastYear,t1.capitalAP_gtzj_TheYear,t1.capitalAP_qita," +
+                "t1.capitalAP_qita_LastTwoYear,t1.capitalAP_qita_LastYear, t1.capitalOtherDescriptionShenBao," +
+                "t1.capitalSCZ_ggys_LastTwoYear,t1.capitalSCZ_ggys_LastYear,t1.capitalSCZ_ggys_TheYear," +
+                "t1.capitalSCZ_gtzj_LastTwoYear,t1.capitalSCZ_gtzj_LastYear,t1.capitalSCZ_gtzj_TheYear," +
+                " t1.capitalSCZ_qita,t1.capitalSCZ_qita_LastTwoYear,t1.capitalSCZ_qita_LastYear,t1.constructionUnit," +
+                "t1.econClassSubjects,t1.existingProblem,t1.functionSubjects,t1.isApplyQianQiFei,t1.isIncludLibrary," +
+                "t1.lastYearImageSchedule, t1.moveSuggestion,t1.planYear,t1.processStage,t1.processState," +
+                "t1.projectConstrBasis,t1.projectConstrChar,t1.projectId,t1.projectShenBaoStage,t1.qianQiFeiApply," +
+                "t1.recomProgram,t1.socialAndEconomic,t1.yearConstructionContent, t1.yearConstructionContentLastTwoYear," +
+                "t1.yearConstructionContentLastYear,t1.yearConstructionContentShenBao,t1.yearConstructionTask," +
+                "t1.yearImageSchedule,t1.yearInvestApproval,t1.yearInvestApproval_lastTwoYear," +
+                "t1.yearInvestApproval_lastYear, t1.bianZhiUnitInfo_id,t1.shenBaoUnitInfo_id,t1.packageType,t1.receiver," +
+                "t1.capitalOtherDescriptionShenBao_LastYear,t1.capitalOtherDescriptionShenBao_LastTwoYear," +
+                "t1.isApplyOutsideCapital,t1.applyOutsideCapital,t1.isIncludYearPlan, t1.sqPlanReach_ggys," +
+                "t1.sqPlanReach_gtzj,t1.isPlanReach,t1.apPlanReach_ggys,t1.apPlanReach_gtzj,t1.shenbaoDate," +
+                "t1.qianshouDate,t1.pifuDate,t1.nationalIndustry,t1.complate,t1.thisTaskId,t1.thisTaskName," +
+                "t1.zong_processId, t2.capitalSum YearInvestApproval,t2.id yearPlanCapitalId,t1.thisTaskId," +
+                "t1.thisTaskName,t1.zong_processId,t1.isIncludPack,t1.pifuZJSQBG_date,t1.pifuZJSQBG_wenhao," +
+                "t1.monitor_processId,t1.isSubShenBaoAtt,t1.isLeaderHasRead,t1.thisUser,t1.monitor_status,t1.xdPlanReach_gtzj,"
+                + "t1.pxzxBalanceTime,t1.tzkBalanceTime,t1.urgencyState,t1.xdPlanReach_ggys,t1.countryNumber,t1.pifuSCQQJFXD_wenhao,t1.isRecords,t1.pfProjectInvestSum,"+
+                "t1.pifuSCQQJFXD_date,t1.packPlanId,t1.planReachId,t1.planName,t1.isFaWen"
+                + getYearPlanProjectForPageBase(exclude) + " order by t1.ProjectIndustry desc";
+    }
+    protected static String getYearPlanProjectForPageBase(boolean exclude) {
+        return " FROM cs_shenbaoinfo t1 INNER JOIN cs_yearplancapital t2 " +
+                "on t1.id = t2.shenbaoInfoId inner join cs_yearplan_cs_yearplancapital t3 on t2.id=t3.yearPlanCapitals_id " +
+                "WHERE t3.yearplan_id=:yearPlanId and t1.projectName=:projectName" + (exclude ? " AND NOT EXISTS (SELECT 1 FROM cs_shenbaoinfo s" +
+                " WHERE t1.projectName=s.projectName AND s.projectShenBaoStage='" + projectShenBaoStage_planReach + "')" : "");
+    }
+
     public static String getYearPlanProject(boolean exclude) {
         return "SELECT t1.id,t1.createdBy,t1.createdDate,t1.itemOrder,t1.modifiedBy," +
                 "t1.modifiedDate,t1.approval_pzwh,SUBSTRING(t1.beginDate,1,7) beginDate,t1.buidSafeInvestment,t1.capitalOther,t1.capitalOtherType," +
@@ -52,7 +95,6 @@ public class SQLConfig {
                 "t1.pifuSCQQJFXD_date,t1.packPlanId,t1.planReachId,t1.planName,t1.isFaWen"
                 + yearPlanProjectBase(exclude) + " order by t1.ProjectIndustry desc";
     }
-
     public static String getYearPlanProjectCount(boolean exclude) {
         return "select count(1) " + yearPlanProjectBase(exclude);
     }

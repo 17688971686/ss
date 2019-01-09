@@ -27,7 +27,8 @@ public class YearPlan extends BaseEntity {
 
     @Column(columnDefinition = "double(13,4) DEFAULT 0.0 COMMENT '总指标'")
     private Double totalMoney = 0.0;
-
+    @Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '用途 ，作为：草稿或者计划下达。0：草稿，1：计划下达'")
+	private Boolean isDraftOrPlan = false;//默认为草稿
 
     //begin#关联信息
 
@@ -92,6 +93,14 @@ public class YearPlan extends BaseEntity {
     public void setPackPlans(List<PackPlan> packPlans) {
         this.packPlans = packPlans;
     }
+
+	public Boolean getIsDraftOrPlan() {
+		return isDraftOrPlan;
+	}
+
+	public void setIsDraftOrPlan(Boolean isDraftOrPlan) {
+		this.isDraftOrPlan = isDraftOrPlan;
+	}
 
 
 }

@@ -473,6 +473,16 @@
 					    }
 				},
 				{
+					field : "itemOrder",
+					title : "申报次数",	
+					width : 100,
+					filterable : true,
+					headerAttributes: {
+					      "class": "table-header-cell",
+					       style: "text-align: center;vertical-align: middle;"
+					    }
+				},
+				{
 					field:"projectInvestSum",
 					title:"总投资",
 					width:80,
@@ -482,35 +492,7 @@
 					       style: "text-align: center;vertical-align: middle;"
 					    }
 				},
-				{
-					title: "年度安排资金(万元)",
-					columns: [
-						{
-							field : "capitalAP_ggys_TheYear",
-							title : "公共预算",
-							width:80,
-							filterable : false,
-							headerAttributes: {
-						      "class": "table-header-cell",
-						       style: "text-align: center;vertical-align: middle;"
-						    }
-						},
-						{
-							field : "capitalAP_gtzj_TheYear",
-							title : "国土基金",
-							width:80,
-							filterable : false,
-							headerAttributes: {
-						      "class": "table-header-cell",
-						       style: "text-align: center;vertical-align: middle;"
-						    }
-						}
-					],
-					headerAttributes: {
-					      "class": "table-header-cell",
-					       style: "text-align: center;vertical-align: middle;"
-					    }
-				},
+				
 				{
 					title: "累计资金(万元)",
 					columns: [
@@ -1551,35 +1533,16 @@
 					       style: "text-align: center;vertical-align: middle;"
 					    }
 				},
-				/*{
-					title: "年度安排资金(万元)",
-					columns: [
-						{
-							field : "capitalAP_ggys_TheYear",
-							title : "公共预算",
-							width:80,
-							filterable : false,
-							headerAttributes: {
-						      "class": "table-header-cell",
-						       style: "text-align: center;vertical-align: middle;"
-						    }
-						},
-						{
-							field : "capitalAP_gtzj_TheYear",
-							title : "国土基金",
-							width:80,
-							filterable : false,
-							headerAttributes: {
-						      "class": "table-header-cell",
-						       style: "text-align: center;vertical-align: middle;"
-						    }
-						}
-					],
-					headerAttributes: {
-					      "class": "table-header-cell",
-					       style: "text-align: center;vertical-align: middle;"
-					    }
-				},*/
+				{
+                    field: "apInvestSum",
+                    title: "累计安排资金",
+                    width: 140,
+                    filterable: false,
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;"
+                    }
+                },
 				{
 					title: "累计安排资金(万元)",
 					columns: [

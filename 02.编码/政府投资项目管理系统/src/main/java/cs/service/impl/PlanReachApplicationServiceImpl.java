@@ -34,6 +34,7 @@ import org.springframework.util.ObjectUtils;
 import com.sn.framework.common.IdWorker;
 
 import cs.common.BasicDataConfig;
+import cs.common.DateUtil;
 import cs.common.SQLConfig;
 import cs.domain.AllocationCapital;
 import cs.domain.PackPlan;
@@ -97,6 +98,8 @@ public class PlanReachApplicationServiceImpl
 	private IRepository<YearPlanCapital, String> yearPlanCapitalRepo;
 	@Autowired
 	private ShenBaoInfoRepoImpl shenBaoInfoRepoImpl;
+	@Autowired
+	private IRepository<YearPlan, String> yearRepo;
 
 	@Override
 	@Transactional
@@ -292,8 +295,18 @@ public class PlanReachApplicationServiceImpl
 	}
 
 	@Override
-	public PageModelDto<PackPlanDto> getPackPlan(ODataObj odataObj) {
-		YearPlan yearPlan = getYearPlan();
+	public PageModelDto<PackPlanDto> getPackPlan(ODataObj odataObj,String planReachId) {
+		PlanReachApplication entity = super.findById(planReachId);
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = null;
+		Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), entity.getYear());
+    	List<YearPlan> entitys = yearRepo.findByCriteria(criterion);
+    	YearPlan yearPlan = null;
+    	loop:for (int i = 0; i < entitys.size(); i++) {
+    		if(entitys.get(i).getIsDraftOrPlan()){
+    			yearPlan = entitys.get(i);
+    			break loop;
+    		}
+		}
 		if (yearPlan != null) {
 			// 筛选出包含有本单位的编制
 			if (!CollectionUtils.isEmpty(yearPlan.getPackPlans())) {
@@ -493,7 +506,7 @@ public class PlanReachApplicationServiceImpl
 			}
 		}
 
-		return new PageModelDto<>(shenBaoInfoDtos, count);
+		return new PageModelDto<>(shenBaoInfoDtos, shenBaoInfoDtos == null?0:shenBaoInfoDtos.size());
 	}
 
 	@Override
@@ -745,36 +758,98 @@ public class PlanReachApplicationServiceImpl
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	@Transactional(rollbackOn = Exception.class)
-	public PageModelDto<ShenBaoInfoDto> getShenBaoInfoOutOfPlanReach(ODataObj odataObj, String planReachId, boolean isPackPlan) {
-		// TODO Auto-generated method stub
-		List<String> projectsID = null;
-		List<ShenBaoInfo> shenBaoInfos = null;
-		if(!isPackPlan){
-			shenBaoInfos = super.findById(planReachId).getShenBaoInfos();
-		}else{
-			shenBaoInfos = packPlanRepo.findById(planReachId).getShenBaoInfos();
-		}
+	public PageModelDto<ShenBaoInfoDto> getShenBaoInfoOutOfPlanReach(ODataObjNew odataObj, String planReachId, boolean isPackPlan) {
+		PlanReachApplication entity = super.findById(planReachId);
 		
-		projectsID = shenBaoInfos.stream().map(shenbaoinfo -> shenbaoinfo.getProjectId())
-				.collect(Collectors.toList());
-		List<ODataFilterItem> ODataFilterItemList = odataObj.getFilter();
-		if (CollectionUtils.isEmpty(ODataFilterItemList)) {
-			ODataFilterItemList = new ArrayList<ODataFilterItem>();
-		}
-
-		if (!CollectionUtils.isEmpty(projectsID)) {
-			for (int i = 0; i < projectsID.size(); i++) {
-				String array_element = projectsID.get(i);
-				ODataFilterItem item = new ODataFilterItem();
-				item.setField(ShenBaoInfo_.projectId.getName());
-				item.setOperator("notIn");
-				item.setValue(array_element);
-				ODataFilterItemList.add(item);
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = null;
+		if(!ObjectUtils.isEmpty(entity)){
+		
+			Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), entity.getYear());
+	    	List<YearPlan> entitys = yearRepo.findByCriteria(criterion);
+	    	loop:for (int i = 0; i < entitys.size(); i++) {
+	    		if(entitys.get(i).getIsDraftOrPlan()){
+	    			shenBaoInfoDtos = yearPlanService.getYearPlanShenBaoInfo(entitys.get(i).getId(), odataObj, false);
+	    			break loop;
+	    		}
+				
 			}
 		}
-		odataObj.setFilter(ODataFilterItemList);
-
-		return shenBaoInfoService.get(odataObj);
+		if(!ObjectUtils.isEmpty(shenBaoInfoDtos)){
+			UserUnitInfoDto userUnitInfoDto = userUnitInfoService.getByUserId(currentUser.getUserId());
+			List<ShenBaoInfoDto> shenBaoInfoDtoList = new ArrayList<>();
+			for (int i = 0; i < shenBaoInfoDtos.getValue().size(); i++) {
+				ShenBaoInfoDto array_element = shenBaoInfoDtos.getValue().get(i);
+				if(array_element.getUnitName().equals(userUnitInfoDto.getId())){
+					shenBaoInfoDtoList.add(array_element);
+				}
+			}
+			
+			return new PageModelDto<>(shenBaoInfoDtoList,shenBaoInfoDtoList==null?0:shenBaoInfoDtoList.size());
+		}
+    	return shenBaoInfoDtos;
+		// TODO Auto-generated method stub
+//		List<String> projectsID = null;
+//		List<ShenBaoInfo> shenBaoInfos = null;
+//		if(!isPackPlan){
+//			shenBaoInfos = super.findById(planReachId).getShenBaoInfos();
+//		}else{
+//			shenBaoInfos = packPlanRepo.findById(planReachId).getShenBaoInfos();
+//		}
+//		
+//		projectsID = shenBaoInfos.stream().map(shenbaoinfo -> shenbaoinfo.getProjectId())
+//				.collect(Collectors.toList());
+//		List<ODataFilterItem> ODataFilterItemList = odataObj.getFilter();
+//		if (CollectionUtils.isEmpty(ODataFilterItemList)) {
+//			ODataFilterItemList = new ArrayList<ODataFilterItem>();
+//		}
+//
+//		if (!CollectionUtils.isEmpty(projectsID)) {
+//			for (int i = 0; i < projectsID.size(); i++) {
+//				String array_element = projectsID.get(i);
+//				ODataFilterItem item = new ODataFilterItem();
+//				item.setField(ShenBaoInfo_.projectId.getName());
+//				item.setOperator("notIn");
+//				item.setValue(array_element);
+//				ODataFilterItemList.add(item);
+//			}
+//		}
+//		odataObj.setFilter(ODataFilterItemList);
+//
+//		return shenBaoInfoService.get(odataObj);
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	@Transactional(rollbackOn = Exception.class)
+	public PageModelDto<ShenBaoInfoDto> getShenBaoInfoOutOfPackPlan(ODataObjNew odataObj, String packPlanId) {
+		PackPlan entity = packPlanRepo.findById(packPlanId);
+		
+		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = null;
+		if(!ObjectUtils.isEmpty(entity)){
+		
+			Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), entity.getYear());
+	    	List<YearPlan> entitys = yearRepo.findByCriteria(criterion);
+	    	loop:for (int i = 0; i < entitys.size(); i++) {
+	    		if(entitys.get(i).getIsDraftOrPlan()){
+	    			shenBaoInfoDtos = yearPlanService.getYearPlanShenBaoInfo(entitys.get(i).getId(), odataObj, false);
+	    			break loop;
+	    		}
+				
+			}
+		}
+		if(!ObjectUtils.isEmpty(shenBaoInfoDtos)){
+//			PageModelDto<ShenBaoInfoDto> shenBaoInfoDtoNews = new PageModelDto<>();
+			List<ShenBaoInfoDto> shenBaoInfoDtoList = new ArrayList<>();
+			for (int i = 0; i < shenBaoInfoDtos.getValue().size(); i++) {
+				ShenBaoInfoDto array_element = shenBaoInfoDtos.getValue().get(i);
+				if(array_element.getUnitName().equals(odataObj.getFilterList().get(0).getValue())){
+					shenBaoInfoDtoList.add(array_element);
+				}
+			}
+			shenBaoInfoDtos.setCount(shenBaoInfoDtoList.size());
+			shenBaoInfoDtos.setValue(shenBaoInfoDtoList);
+			return shenBaoInfoDtos;
+		}
+    	return shenBaoInfoDtos;
 	}
 
 }

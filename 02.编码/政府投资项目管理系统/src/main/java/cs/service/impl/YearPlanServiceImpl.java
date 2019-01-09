@@ -15,6 +15,8 @@ import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.repository.odata.ODataObjNew;
 import cs.service.interfaces.YearPlanService;
+import net.sf.ehcache.concurrent.ConcurrencyUtil;
+
 import org.apache.log4j.Logger;
 import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Criterion;
@@ -27,6 +29,7 @@ import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
 import java.math.BigInteger;
@@ -80,16 +83,25 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
     @Override
     @Transactional
     public YearPlan create(YearPlanDto dto) {
-        Criterion criterion = Restrictions.eq(YearPlan_.name.getName(), dto.getName());
-        Criterion criterion2 = Restrictions.eq(YearPlan_.year.getName(), dto.getYear());
-        Optional<YearPlan> yearPlan = repository.findByCriteria(criterion).stream().findFirst();
-        Optional<YearPlan> yearPlan2 = repository.findByCriteria(criterion2).stream().findFirst();
-        if (yearPlan.isPresent()) {
-            throw new IllegalArgumentException(String.format("项目代码：%s 已经存在,请重新输入！", dto.getName()));
-        }
-        if (yearPlan2.isPresent()) {
-            throw new IllegalArgumentException(String.format("当前年份：%s 的编制已经存在,请创建其他年份！", dto.getYear()));
-        } else {
+    	Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), dto.getYear());
+    	List<YearPlan> entitys = super.repository.findByCriteria(criterion);
+    	for (int i = 0; i < entitys.size(); i++) {
+    		YearPlan yearPlan = entitys.get(i);
+    		if(dto.getYear().equals(yearPlan.getYear()) && dto.getIsDraftOrPlan() && yearPlan.getIsDraftOrPlan()){
+    			throw new IllegalArgumentException("当前年份："+yearPlan.getYear()+"已存在计划下达编制，其他编制信息只能用作草稿！");
+    		}
+			
+		}
+//        Criterion criterion = Restrictions.eq(YearPlan_.name.getName(), dto.getName());
+//        Criterion criterion2 = Restrictions.eq(YearPlan_.year.getName(), dto.getYear());
+//        Optional<YearPlan> yearPlan = repository.findByCriteria(criterion).stream().findFirst();
+//        Optional<YearPlan> yearPlan2 = repository.findByCriteria(criterion2).stream().findFirst();
+//        if (yearPlan.isPresent()) {
+//            throw new IllegalArgumentException(String.format("项目代码：%s 已经存在,请重新输入！", dto.getName()));
+//        }
+//        if (yearPlan2.isPresent()) {
+//            throw new IllegalArgumentException(String.format("当前年份：%s 的编制已经存在,请创建其他年份！", dto.getYear()));
+//        } else {
             YearPlan entity = super.create(dto);
             //关联信息资金安排
             dto.getYearPlanCapitalDtos().stream().forEach(x -> {
@@ -100,12 +112,22 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
             logger.info(String.format("创建年度计划,名称：%s", dto.getName()));
             super.repository.save(entity);
             return entity;
-        }
+//        }
     }
 
     @Override
     @Transactional
     public YearPlan update(YearPlanDto dto, String id) {
+    	Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), dto.getYear());
+    	List<YearPlan> entitys = super.repository.findByCriteria(criterion);
+    	for (int i = 0; i < entitys.size(); i++) {
+    		YearPlan yearPlan = entitys.get(i);
+    		if(dto.getYear().equals(yearPlan.getYear()) && dto.getIsDraftOrPlan() && yearPlan.getIsDraftOrPlan()){
+    			throw new IllegalArgumentException("当前年份："+yearPlan.getYear()+"已存在计划下达编制，其他编制信息只能用作草稿！");
+    		}
+			
+		}
+    	
         YearPlan entity = super.update(dto, id);
         //关联信息资金安排
         entity.getYearPlanCapitals().forEach(x -> {//删除历史资金安排记录
@@ -115,14 +137,6 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
         dto.getYearPlanCapitalDtos().forEach(x -> {//添加新的资金安排记录
             entity.getYearPlanCapitals().add(yearPlanCapitalMapper.buildEntity(x, new YearPlanCapital()));
         });
-        //关联打包类建设单位
-//		entity.getAllocationCapitals().forEach(x->{//删除历史建设单位资金编制记录
-//			allocationCapitalRepo.delete(x);
-//		});
-//		entity.getAllocationCapitals().clear();
-//		dto.getAllocationCapitalDtos().forEach(x->{//添加新的建设单位资金编制记录
-//			entity.getAllocationCapitals().add(allocationCapitalMapper.buildEntity(x, new AllocationCapital()));
-//		});
 
         logger.info(String.format("更新年度计划,名称：%s", dto.getName()));
         super.repository.save(entity);
@@ -157,13 +171,25 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
             List<ShenBaoInfoDto> shenBaoInfoDtos = new ArrayList<>();
             if (count > 0) {
                 int skip = odataObj.getSkip(), stop = odataObj.getTop();
-                //分页查询数据
-                List<ShenBaoInfo> shenBaoInfos = shenbaoInfoRepo.getSession()
-                        .createNativeQuery(getYearPlanProject(exclude), ShenBaoInfo.class)
-                        .setParameter("yearPlanId", planId)
-                        .setFirstResult(skip).setMaxResults(stop)
-                        .getResultList();
-                shenBaoInfos.forEach(x -> shenBaoInfoDtos.add(shenbaoInfoMapper.toDto(x)));
+                if(odataObj.getFilterList().size()>0){
+                	 //分页查询数据
+                    List<ShenBaoInfo> shenBaoInfos = shenbaoInfoRepo.getSession()
+                            .createNativeQuery(SQLConfig.getYearPlanProjectForPage(exclude), ShenBaoInfo.class)
+                            .setParameter("yearPlanId", planId)
+                            .setParameter("projectName", odataObj.getFilterList().get(0).getValue())
+                            .setFirstResult(skip).setMaxResults(stop)
+                            .getResultList();
+                    shenBaoInfos.forEach(x -> shenBaoInfoDtos.add(shenbaoInfoMapper.toDto(x)));
+                }else{
+                	 //分页查询数据
+                    List<ShenBaoInfo> shenBaoInfos = shenbaoInfoRepo.getSession()
+                            .createNativeQuery(getYearPlanProject(exclude), ShenBaoInfo.class)
+                            .setParameter("yearPlanId", planId)
+                            .setFirstResult(skip).setMaxResults(stop)
+                            .getResultList();
+                    shenBaoInfos.forEach(x -> shenBaoInfoDtos.add(shenbaoInfoMapper.toDto(x)));
+                }
+               
             }
 
             return new PageModelDto<>(shenBaoInfoDtos, count);
