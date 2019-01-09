@@ -774,18 +774,18 @@ public class PlanReachApplicationServiceImpl
 				
 			}
 		}
-		if(!ObjectUtils.isEmpty(shenBaoInfoDtos)){
-			UserUnitInfoDto userUnitInfoDto = userUnitInfoService.getByUserId(currentUser.getUserId());
-			List<ShenBaoInfoDto> shenBaoInfoDtoList = new ArrayList<>();
-			for (int i = 0; i < shenBaoInfoDtos.getValue().size(); i++) {
-				ShenBaoInfoDto array_element = shenBaoInfoDtos.getValue().get(i);
-				if(array_element.getUnitName().equals(userUnitInfoDto.getId())){
-					shenBaoInfoDtoList.add(array_element);
-				}
-			}
-			
-			return new PageModelDto<>(shenBaoInfoDtoList,shenBaoInfoDtoList==null?0:shenBaoInfoDtoList.size());
-		}
+//		if(!ObjectUtils.isEmpty(shenBaoInfoDtos)){
+//			UserUnitInfoDto userUnitInfoDto = userUnitInfoService.getByUserId(currentUser.getUserId());
+//			List<ShenBaoInfoDto> shenBaoInfoDtoList = new ArrayList<>();
+//			for (int i = 0; i < shenBaoInfoDtos.getValue().size(); i++) {
+//				ShenBaoInfoDto array_element = shenBaoInfoDtos.getValue().get(i);
+//				if(array_element.getUnitName().equals(userUnitInfoDto.getId())){
+//					shenBaoInfoDtoList.add(array_element);
+//				}
+//			}
+//			
+//			return new PageModelDto<>(shenBaoInfoDtoList,shenBaoInfoDtoList==null?0:shenBaoInfoDtoList.size());
+//		}
     	return shenBaoInfoDtos;
 		// TODO Auto-generated method stub
 //		List<String> projectsID = null;

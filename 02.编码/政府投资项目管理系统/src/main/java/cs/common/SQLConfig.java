@@ -55,7 +55,7 @@ public class SQLConfig {
     protected static String getYearPlanProjectForPageBase(boolean exclude) {
         return " FROM cs_shenbaoinfo t1 INNER JOIN cs_yearplancapital t2 " +
                 "on t1.id = t2.shenbaoInfoId inner join cs_yearplan_cs_yearplancapital t3 on t2.id=t3.yearPlanCapitals_id " +
-                "WHERE t3.yearplan_id=:yearPlanId and t1.projectName=:projectName" + (exclude ? " AND NOT EXISTS (SELECT 1 FROM cs_shenbaoinfo s" +
+                "WHERE t3.yearplan_id=:yearPlanId and t1.unitName=:unitName" + (exclude ? " AND NOT EXISTS (SELECT 1 FROM cs_shenbaoinfo s" +
                 " WHERE t1.projectName=s.projectName AND s.projectShenBaoStage='" + projectShenBaoStage_planReach + "')" : "");
     }
 
@@ -97,6 +97,9 @@ public class SQLConfig {
     }
     public static String getYearPlanProjectCount(boolean exclude) {
         return "select count(1) " + yearPlanProjectBase(exclude);
+    }
+    public static String getYearPlanProjectForPageCount(boolean exclude) {
+        return "select count(1) " + getYearPlanProjectForPageBase(exclude);
     }
 
     public static String yearPlanByLBTJ = "SELECT yp.year as planYear,bs.description as projectCategory,count(sbi.id) as projectSum," +

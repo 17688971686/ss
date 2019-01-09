@@ -1538,7 +1538,7 @@
                     field: "projectName",
                     title: "项目名称",
                     template: function (item) {
-                        return common.format('<a href="#/project/projectInfo/{0}" >{2}</a>', item.id, item.projectInvestmentType, item.projectName);
+                        return common.format('<a href="#/project/projectInfo/{0}" >{2}</a>', item.projectId, item.projectInvestmentType, item.projectName);
                     },
                     width: 300,
                     filterable: false,
@@ -1578,35 +1578,6 @@
                         style: "text-align: center;vertical-align: middle;"
                     }
                 },
-//                {
-//                    title: "安排资金（万元）",
-//                    columns: [
-//                        {
-//                            field: "apPlanReach_ggys",
-//                            title: "公共预算",
-//                            width: 100,
-//                            filterable: false,
-//                            headerAttributes: {
-//                                "class": "table-header-cell",
-//                                style: "text-align: center;"
-//                            }
-//                        },
-//                        {
-//                            field: "apPlanReach_gtzj",
-//                            title: "国土基金",
-//                            width: 100,
-//                            filterable: false,
-//                            headerAttributes: {
-//                                "class": "table-header-cell",
-//                                style: "text-align: center;"
-//                            }
-//                        },
-//                    ],
-//                    headerAttributes: {
-//                        "class": "table-header-cell",
-//                        style: "text-align: center;vertical-align: middle;"
-//                    }
-//                },
                 {
                     title: "申请资金（万元）",
                     columns: [
