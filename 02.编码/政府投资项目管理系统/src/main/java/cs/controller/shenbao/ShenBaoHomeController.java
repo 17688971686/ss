@@ -65,7 +65,7 @@ public class ShenBaoHomeController {
 		return this.ctrlName + "/index";
 	}
 
-	private static Logger logger = Logger.getLogger(ShenBaoHomeController.class);
+	/*private static Logger logger = Logger.getLogger(ShenBaoHomeController.class);
 
 	@RequestMapping(name = "首页", path = "/", method = RequestMethod.GET)
 	public String adminIndex(HttpServletRequest request, Model model) {
@@ -133,7 +133,7 @@ public class ShenBaoHomeController {
 			return "adminLogin/shenbaoIndex/index";
 		}
 
-	}
+	}*/
 
 	@RequestMapping(name = "获取首页数据", path = "/indexData", method = RequestMethod.GET)
 	public @ResponseBody IndexDto indexData(HttpServletRequest request) throws ParseException {

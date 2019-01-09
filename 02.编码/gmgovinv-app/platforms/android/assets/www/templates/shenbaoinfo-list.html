@@ -1,12 +1,12 @@
 <ion-view view-title="项目库">
-<ion-content overflow-scroll="false"  delegate-handle="mainScroll"> 	
+<ion-content overflow-scroll="false"  delegate-handle="mainScroll">
     <div class="bg-search bg-search-none">
       <div class="item item-input search">
         <input type="text" placeholder="搜索" ng-model="querydata.keyword">
         <button id="search" class="ion-search" ng-click="search()"></button>
       </div>
-    </div>    
-    
+    </div>
+
     <!--B:search-condition-->
     <div class="search-condition text-center">
          <ul class="search-property" id="search-property">
@@ -34,7 +34,7 @@
                 </label>
               </div>
              </ion-scroll>
-        
+
           <div class="list" ng-hide="investment">
             <label class="item item-radio">
               <input type="radio" name="group2"  ng-model="querydata.investment" ng-change="investmentSelected(-1)" >
@@ -50,25 +50,9 @@
                 <i class="radio-icon ion-checkmark"></i>
               </div>
             </label>
-        
+
           </div>
-        
-          <div class="list" ng-hide="year">
-            <label class="item item-radio">
-              <input type="radio" name="group3" ng-model="querydata.projectClassify" ng-change="classifySelected(-1)">
-              <div class="radio-content">
-                <div class="item-content text-center">- 不限 -</div>
-                <i class="radio-icon ion-checkmark"></i>
-              </div>
-            </label>
-            <label class="item item-radio" ng-repeat="type in projectClassifies track by type.id">
-              <input type="radio" name="group3" value="{{type.id}}" ng-model="querydata.projectClassify" ng-change="classifySelected(type.id)">
-              <div class="radio-content">
-                <div class="item-content text-center">{{type.name}}</div>
-                <i class="radio-icon ion-checkmark"></i>
-              </div>
-            </label>
-          </div>
+
         <!--
           <div class="list list-search" ng-hide="more">
            <div class="item item-input">
@@ -83,27 +67,27 @@
             <div class="input-label">行业归口</div>
             <select ng-options="indu.name for indu in industries track by indu.id" ng-model="form.industry" >
               <option value="">- 不限 -</option>
-            </select> 
+            </select>
           </div>
           <div class="item item-input item-select">
             <div class="input-label">总投资</div>
             <select ng-options="inve.name for inve in investments track by inve.id" ng-model="form.investment" >
               <option value="">- 不限 -</option>
-            </select> 
+            </select>
           </div>
           <div class="item item-input item-select">
             <div class="input-label">项目类型</div>
             <select ng-options="type.name for type in projectTypes track by type.id" ng-model="form.prjType" >
               <option value="">- 不限 -</option>
-            </select> 
-        
+            </select>
+
           </div>
           <div class="item item-input item-select">
             <div class="input-label">资金来源</div>
             <select ng-options="src.name for src in investSources track by src.id" ng-model="form.investSrc" >
               <option value="">- 不限 -</option>
-            </select> 
-        
+            </select>
+
           </div>
           <div class="item item-toggle">
            <div class="input-label">存为快照</div>
@@ -113,7 +97,7 @@
                <div class="handle"></div>
              </div>
            </label>
-         </div> 
+         </div>
          <div class="row pop-footer">
            <div class="col"><button class="button button-stable button-full" ng-click="cancel()">取消</button></div>
            <div class="col"><button class="button button-positive button-full" ng-click="ok()">确定</button></div>
@@ -141,7 +125,7 @@
     </ion-list>
     <ion-infinite-scroll on-infinite="loadMore()" ng-if="moreDataCanBeLoaded()" distance="1%">
     </ion-infinite-scroll>
- 
+
 </ion-content>
 </ion-view>
 
