@@ -85,7 +85,7 @@ public interface PlanReachApplicationService extends IService<PlanReachApplicati
      * @param odataObj
      * @return
      */
-    PageModelDto<PackPlanDto> getPackPlan(ODataObj odataObj);
+    PageModelDto<PackPlanDto> getPackPlan(ODataObj odataObj,String id);
 
     /**
      * 添加申请资金
@@ -159,6 +159,8 @@ public interface PlanReachApplicationService extends IService<PlanReachApplicati
      * @param b
      * @return pagemodel
      */
-	PageModelDto<ShenBaoInfoDto> getShenBaoInfoOutOfPlanReach(ODataObj odataObj, String planReachId, boolean b);
+	PageModelDto<ShenBaoInfoDto> getShenBaoInfoOutOfPlanReach(ODataObjNew odataObj, String planReachId, boolean b);
+
+	PageModelDto<ShenBaoInfoDto> getShenBaoInfoOutOfPackPlan(ODataObjNew odataObj, String packPlanId);
 
 }

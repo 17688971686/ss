@@ -39,6 +39,9 @@ public class PlanReachApplication extends BaseEntity{
 	@Column(columnDefinition="varchar(255)  null COMMENT '负责人电话'")
 	private String resPersonTel;
 	
+	@Column(columnDefinition="int NULL COMMENT '年度'")
+	private Integer year;
+	
 	@Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否已启动审批流程'")
 	private Boolean isStartProcess=false;
 	
@@ -128,6 +131,14 @@ public class PlanReachApplication extends BaseEntity{
 
 	public void setPackPlans(List<PackPlan> packPlans) {
 		this.packPlans = packPlans;
+	}
+
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
 	}
 	
 }

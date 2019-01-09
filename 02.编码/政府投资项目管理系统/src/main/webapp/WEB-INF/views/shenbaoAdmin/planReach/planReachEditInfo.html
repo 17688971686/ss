@@ -22,11 +22,18 @@
     </tr>
     <tr>
         <td class="formAlignRight">申请时间：<span class="required">(*)</span></td>
-        <td colspan="3">
+        <td>
             <input type="text" class="Wdate form-control input-sm" style="width:180px;" ng-model="vm.model.applicationTime" id="applicationTime" name="applicationTime"
                    onClick="WdatePicker({isShowClear:false,readOnly:false,dateFmt:'yyyy-MM-dd',onpicked: function(){$(this).trigger('change')}})" data-val="true" data-val-required="必填"/>
             <span data-valmsg-for="applicationTime" data-valmsg-replace="true" class="required"></span>
         </td>
+        <td class="formAlignRight" style="width:150px;">计划年度：<span class="required">(*)</span></td>
+		<td>
+			<input class="Wdate form-control input-sm" style="width:200px;" type="text" 
+			id="d15" onFocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy'})" onchange=""
+			ng-model="vm.model.year" data-val="true" data-val-required="必填" />
+			<span data-valmsg-for="year" data-valmsg-replace="true" class="required"></span>
+		</td>
     </tr>
     <!-- <tr>
         <td class="formAlignRight" style="vertical-align: middle;">项目信息：</td>

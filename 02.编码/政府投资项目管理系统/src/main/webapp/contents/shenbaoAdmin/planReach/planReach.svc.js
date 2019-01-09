@@ -321,20 +321,11 @@
                     field: "createdDate",
                     dir: "desc"
                 },
-                filter: [{//申报阶段为下一年度计划
-                    field: 'projectShenBaoStage',
-                    operator: 'eq',
-                    value: common.basicDataConfig().projectShenBaoStage_nextYearPlan
-                },
+                filter: [
                     {
                         field: 'unitName',
                         operator: 'eq',
                         value: vm.userUnit.id
-                    },
-                    {//审批状态为签收
-                        field: 'processState',
-                        operator: 'eq',
-                        value: common.basicDataConfig().processState_pass
                     }
                 ]
             });
@@ -973,7 +964,7 @@
         function packGrid(vm) {
             var dataSource = new kendo.data.DataSource({
                 type: 'odata',
-                transport: common.kendoGridConfig().transport(url + "/packPlanList"),
+                transport: common.kendoGridConfig().transport(url + "/packPlanList/"+vm.id),
                 schema: common.kendoGridConfig().schema({
                     id: "id"
                 }),
@@ -1180,6 +1171,16 @@
                         "class": "table-header-cell",
                         style: "text-align: center;vertical-align: middle;",
                         rowspan: 2
+                    }
+                },
+                {
+                    field: "itemOrder",
+                    title: "申报次数",
+                    width: 120,
+                    filterable: false,
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;"
                     }
                 },
                 {
@@ -1548,6 +1549,16 @@
                     }
                 },
                 {
+                    field: "itemOrder",
+                    title: "申报次数",
+                    width: 120,
+                    filterable: false,
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;"
+                    }
+                },
+                {
                     field: "projectInvestSum",
                     title: "总投资",
                     width: 120,
@@ -1616,7 +1627,7 @@
                                 } else if (vm.isStartProcess == 'false' && isShow == false) {
                                     vm.isShow = false;
                                 }
-                                return common.format($('#input').html(), item.id, item.sqPlanReach_ggys, vm.isShow);
+                                return common.format($('#input_plan').html(), item.id, item.sqPlanReach_ggys, vm.isShow);
                             },
                             headerAttributes: {
                                 "class": "table-header-cell",
@@ -1640,7 +1651,7 @@
                                 } else if (vm.isStartProcess == 'false' && isShow == false) {
                                     vm.isShow = false;
                                 }
-                                return common.format($('#input2').html(), item.id, item.sqPlanReach_gtzj, vm.isShow);
+                                return common.format($('#input2_plan').html(), item.id, item.sqPlanReach_gtzj, vm.isShow);
                             },
                             headerAttributes: {
                                 "class": "table-header-cell",
@@ -1746,7 +1757,7 @@
         function shenbaoInfoGrid(vm) {
             var dataSource = new kendo.data.DataSource({
                 type: 'odata',
-                transport: common.kendoGridConfig().transport(url_shenbao),
+                transport: common.kendoGridConfig().transport(url+"/getShenBaoInfoOutOfPackPlan/"+vm.id),
                 schema: common.kendoGridConfig().schema({
                     id: "id",
                     fields: {
@@ -1763,20 +1774,11 @@
                     field: "createdDate",
                     dir: "desc"
                 },
-                filter: [{//申报阶段为下一年度计划
-                    field: 'projectShenBaoStage',
-                    operator: 'eq',
-                    value: common.basicDataConfig().projectShenBaoStage_nextYearPlan
-                },
+                filter: [
                     {
                         field: 'unitName',
                         operator: 'eq',
                         value: vm.userUnit.id
-                    },
-                    {//审批状态为签收
-                        field: 'processState',
-                        operator: 'eq',
-                        value: common.basicDataConfig().processState_pass
                     }
                     ]
             });

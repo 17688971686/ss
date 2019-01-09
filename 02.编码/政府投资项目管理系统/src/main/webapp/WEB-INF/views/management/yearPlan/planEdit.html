@@ -35,9 +35,16 @@
 				</tr>
 				<tr>
 					<td class="formAlignRight">总指标：<span class="required">(*)</span></td>
-					<td colspan="3">
-						<input type="number" step="any" class="form-control input-sm width180"  id="totalMoney" name="totalMoney" ng-model="vm.model.totalMoney" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+					<td>
+						<input type="number" step="any" class="form-control input-sm width120"  id="totalMoney" name="totalMoney" ng-model="vm.model.totalMoney" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 						<span data-valmsg-for="totalMoney" data-valmsg-replace="true" class="required"></span>
+					</td>
+					<td class="formAlignRight">使用情况：<span class="required">(*)</span></td>
+					<td>
+						<label><input name="isDraftOrPlan" type="radio" ng-value="true" ng-model="vm.model.isDraftOrPlan" />计划下达 </label>
+		                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		                <label><input name="isDraftOrPlan" type="radio" ng-value="false" ng-checked="true" ng-model="vm.model.isDraftOrPlan" />草稿 </label>
+		                <span data-valmsg-for="isDraftOrPlan" data-valmsg-replace="true" class="required"></span>
 					</td>
 				</tr>
 				<tr>

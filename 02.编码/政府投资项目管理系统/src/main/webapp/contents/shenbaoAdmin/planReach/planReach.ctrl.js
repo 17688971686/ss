@@ -57,6 +57,7 @@
             $(".menu li a").removeClass("focus");
             $(this).addClass("focus");
         });
+        
     }
 
 })();

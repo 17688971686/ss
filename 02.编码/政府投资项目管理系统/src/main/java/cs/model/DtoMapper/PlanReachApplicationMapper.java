@@ -48,6 +48,7 @@ public class PlanReachApplicationMapper implements IMapper<PlanReachApplicationD
 			dto.setCreatedDate(entity.getCreatedDate());
 			dto.setModifiedDate(entity.getModifiedDate());
 			dto.setItemOrder(entity.getItemOrder());
+			dto.setYear(entity.getYear());
 			
 		}
 		return dto;
@@ -70,6 +71,7 @@ public class PlanReachApplicationMapper implements IMapper<PlanReachApplicationD
 			entity.setModifiedDate(dto.getModifiedDate());
 			entity.setItemOrder(dto.getItemOrder());
 			entity.setIsStartProcess(dto.getIsStartProcess());
+			entity.setYear(dto.getYear());
 			//关联关系在外面编写
 			
 		}

@@ -1109,7 +1109,7 @@
                         return common.format('<a href="#/projectDetails/{0}/{1}" >{2}</a>', item.projectId, item.projectInvestmentType, item.projectName);
                     },
                     width: 300,
-                    filterable: false,
+                    filterable: true,
                     headerAttributes: {
                         "class": "table-header-cell",
                         style: "text-align: center;vertical-align: middle;",
@@ -1812,6 +1812,7 @@
                     title: "编制名称",
                     filterable: true
                 },
+                
                 {
                     field: "year",
                     title: "计划年度",
@@ -1825,6 +1826,18 @@
                             lte: "Less than or equal to",//小于等于
                             lt: "Less than"//小于
                         },
+                    }
+                },
+                {
+                    field: "isDraftOrPlan",
+                    title: "使用情况",
+                    filterable: false,
+                    template: function (item) {
+                        if(item.isDraftOrPlan){
+                        	return "计划下达";
+                        }else{
+                        	return "草稿";
+                        }
                     }
                 },
                 {

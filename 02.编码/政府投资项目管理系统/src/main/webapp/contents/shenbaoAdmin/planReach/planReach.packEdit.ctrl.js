@@ -9,9 +9,9 @@
             controller: 'planReachPackEditCtrl',
             controllerAs: 'vm'
         });
-    }]).controller('planReachPackEditCtrl', ["$state", "planReachSvc", planReachPackEditCtrl]);
+    }]).controller('planReachPackEditCtrl', ["$state", "planReachSvc","bsWin", planReachPackEditCtrl]);
 
-    function planReachPackEditCtrl($state, planReachSvc) {
+    function planReachPackEditCtrl($state, planReachSvc,bsWin) {
         var vm = this;
         vm.id = $state.params.id;//请求中的id参数
         vm.isStartProcess = $state.params.isStartProcess;//请求中的id参数
@@ -97,7 +97,13 @@
 				if(shenbaoId==array_element.id){
 					array_element.sqPlanReach_ggys = num1;
 					array_element.sqPlanReach_gtzj = num2;
-					planReachSvc.updateShnebaoInfo(vm,array_element);
+					if(num1 + num2 +array_element.apInvestSum > array_element.projectInvestSum){
+						vm.isSubmit = true;
+						bsWin.success("申请资金+累计投资超过总投资,请重新填写！");
+					}else{
+						vm.isSubmit = false;
+						planReachSvc.updateShnebaoInfo(vm,array_element);
+					}
 				}
 			}
 

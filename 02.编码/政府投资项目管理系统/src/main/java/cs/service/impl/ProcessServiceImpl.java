@@ -587,6 +587,12 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		if (shenBaoInfo.getThisTaskName().equals("usertask5") && "next".equals(str) ) {
 			shenBaoInfo.setXdPlanReach_gtzj(shenbaoinfoDto.getXdPlanReach_gtzj());
 			shenBaoInfo.setXdPlanReach_ggys(shenbaoinfoDto.getXdPlanReach_ggys());
+			//累计安排总资金累加
+			shenBaoInfo.setApInvestSum(shenBaoInfo.getApInvestSum()+shenbaoinfoDto.getXdPlanReach_gtzj()+shenbaoinfoDto.getXdPlanReach_ggys());
+			//累计安排 公共预算累加
+			shenBaoInfo.setApPlanReach_ggys(shenBaoInfo.getApPlanReach_ggys()+shenbaoinfoDto.getXdPlanReach_ggys());
+			//累计安排 国土资金累加
+			shenBaoInfo.setApPlanReach_gtzj(shenBaoInfo.getApPlanReach_gtzj()+shenbaoinfoDto.getXdPlanReach_gtzj());
 			shenBaoInfo.setThisTaskId("00000");
 			shenBaoInfo.setProcessStage("已办结");
 //			shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
