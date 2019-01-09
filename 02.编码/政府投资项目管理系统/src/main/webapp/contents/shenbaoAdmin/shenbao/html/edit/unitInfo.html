@@ -1,8 +1,8 @@
 <style>
-.juzhong{
-	vertical-align: middle;
-	text-align:center;
-}
+	.juzhong{
+		vertical-align: middle;
+		text-align:center;
+	}
 </style>
 <div ng-include src="'/contents/shenbaoAdmin/shenbao/html/edit/tips_1.html'"></div>
 <div class="bg-info text-info" style="padding: 10px;">单位基本信息</div>
@@ -16,32 +16,50 @@
 	</tr>
 	<tr>
 		<td class="formAlignRight">组织机构代码：<span class="required ">(*)</span></td>
-		<td colspan="2">
+		<!--<td colspan="2">
 			<input type="text" class="form-control input-sm" maxlength="50" id="orgCode" name="orgCode" ng-model="vm.model.shenBaoUnitInfoDto.orgCode" data-val="true" data-val-required="必填"/>
+			<span data-valmsg-for="orgCode" data-valmsg-replace="true" class="required"></span>-->
+		<td colspan="2">
+			<input type="text" class="form-control input-sm" id="orgCode" maxlength="50" name="orgCode"
+				   ng-model="vm.model.shenBaoUnitInfoDto.orgCode"
+				   data-val="true" data-val-required="必填" data-val-regex="组织机构代码不合理！"
+				   data-val-regex-pattern="^\w\w\d{6}\w{9}\w$"/>
 			<span data-valmsg-for="orgCode" data-valmsg-replace="true" class="required"></span>
 		</td>
-	    <td width="100" class="formAlignRight">电话号码：<span class="required">(*)</span></td>
-	    <td>
-		    <input type="text" class="form-control input-sm" id="unitTel" name="unitTel"
-				   ng-model="vm.model.shenBaoUnitInfoDto.unitTel"  data-val="true" data-val-required="必填"
-				   maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
-		    <span data-valmsg-for="unitTel" data-valmsg-replace="true" class="required"></span>
-	    </td>
-   </tr>
-   <tr>
-        <td class="formAlignRight">电子邮箱：</td>
-        <td colspan="2">
-	        <input type="email" class="form-control input-sm" id="email" name="unitEmail" ng-model="vm.model.shenBaoUnitInfoDto.unitEmail"/>
-	        <span data-valmsg-for="unitEmail" data-valmsg-replace="true" class="required"></span>
-	        <span ng-show="myForm.unitEmail.$error.email" class="required"></span>
-        <td class="formAlignRight">传真号码：</td>
-        <td>
-	        <input type="text" class="form-control input-sm" id="unitFax" name="unitFax" ng-model="vm.model.shenBaoUnitInfoDto.unitFax"
-				   maxlength="50" data-val-length-max="50" data-val-regex="最多只能输入50位字符"/>
-   		</td>
-   </tr>
+		<td width="100" class="formAlignRight">电话号码：<span class="required">(*)</span></td>
+		<td>
+			<!-- <input type="text" class="form-control input-sm" id="unitTel" name="unitTel"
+                    ng-model="vm.model.shenBaoUnitInfoDto.unitTel"  data-val="true" data-val-required="必填"
+                    maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
+             <span data-valmsg-for="unitTel" data-valmsg-replace="true" class="required"></span>-->
+			<input type="text" class="form-control input-sm" id="unitTel" name="unitTel"
+				   ng-model="vm.model.shenBaoUnitInfoDto.unitTel"
+				   data-val="true" data-val-required="必填" maxlength="13"
+				   data-val-regex="电话号码不合理！"
+				   data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
+			<span data-valmsg-for="unitTel" data-valmsg-replace="true" class="required"></span>
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">电子邮箱：</td>
+		<td colspan="2">
+			<input type="email" class="form-control input-sm" id="email" name="unitEmail" ng-model="vm.model.shenBaoUnitInfoDto.unitEmail"/>
+			<span data-valmsg-for="unitEmail" data-valmsg-replace="true" class="required"></span>
+			<span ng-show="myForm.unitEmail.$error.email" class="required"></span>
+		<td class="formAlignRight">传真号码：</td>
+		<td>
+			<!-- <input type="text" class="form-control input-sm" id="unitFax" name="unitFax" ng-model="vm.model.shenBaoUnitInfoDto.unitFax"
+                    maxlength="50" data-val-length-max="50" data-val-regex="最多只能输入50位字符"/>-->
+			<input type="text" class="form-control input-sm" id="unitFax" name="unitFax"
+				   ng-model="vm.model.shenBaoUnitInfoDto.unitFax"
+				   data-val="true"
+				   data-val-regex="传真号码不合理！"
+				   data-val-regex-pattern="^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$"/>
+			<span data-valmsg-for="unitFax" data-valmsg-replace="true" class="required"></span>
+		</td>
+	</tr>
 </table>
-		   
+
 <div class="bg-info text-info" style="padding: 10px;">申报信息</div>
 <table width="100%" class="table  table-bordered table-striped">
 	<tr>
@@ -55,121 +73,156 @@
 		</td>
 	</tr>
 	<tr>
-    	<td class="formAlignRight">单位地址：<span class="required">(*)</span></td>
-	    <td colspan="4">
-		    <select class="form-select pull-left" style="margin-right:10px;height:30px;">
-		    	<option>光明区</option>
-		    </select>
-		    <select class="form-select pull-left" style="margin-right:10px;height:30px;" id="divisionId" name="divisionId" ng-model="vm.model.shenBaoUnitInfoDto.divisionId" data-val="true" data-val-required="必选">
-		    	<option value="">---请选择---</option>
+		<td class="formAlignRight">单位地址：<span class="required">(*)</span></td>
+		<td colspan="4">
+			<select class="form-select pull-left" style="margin-right:10px;height:30px;">
+				<option>光明区</option>
+			</select>
+			<select class="form-select pull-left" style="margin-right:10px;height:30px;" id="divisionId" name="divisionId" ng-model="vm.model.shenBaoUnitInfoDto.divisionId" data-val="true" data-val-required="必选">
+				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.area_Street" value="{{x.id}}" ng-selected="vm.model.shenBaoUnitInfoDto.divisionId == x.id">{{x.description}}</option>
 			</select>
 			<span data-valmsg-for="divisionId" data-valmsg-replace="true" class="errors"></span>
-			 <input type="text" class="form-control input-sm pull-left" style="width:500px;" id="unitAddress" name="unitAddress" ng-model="vm.model.shenBaoUnitInfoDto.unitAddress" data-val="true" data-val-required="必填"/>
-				 <span data-valmsg-for="unitAddress" data-valmsg-replace="true" class="required"></span>
-			</td>
-	</tr>
-	<tr>
-	    <td rowspan="3" class="formAlignRight">单位负责人：<span class="required">(*)</span></td>
-	    <td width="100px;" class="juzhong">姓名</td>
-	    <td width="275px;">
-	    	<input class="form-control input-sm" type="text" id="unitResPerson" name="unitResPerson" ng-model="vm.model.shenBaoUnitInfoDto.unitResPerson" data-val="true" data-val-required="必填"/>
-	    	<span data-valmsg-for="unitResPerson" data-valmsg-replace="true" class="required"></span>
-	    </td>
-	    <td width="100px;" class="juzhong">电话号码</td>
-	    <td>
-	     	<input class="form-control input-sm" type="text" id="resPersonTel" name="resPersonTel"
-				   ng-model="vm.model.shenBaoUnitInfoDto.resPersonTel" data-val="true" data-val-required="必填"
-				   maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
-	    	<span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>
-	    </td>
-	</tr>
-	<tr>
-	    <td class="juzhong">手机</td>	   
-	    <td>
-	     	<input class="form-control input-sm" type="text" id="resPersonMobile" name="resPersonMobile"
-				   ng-model="vm.model.shenBaoUnitInfoDto.resPersonMobile"  data-val="true" data-val-required="必填"
-				   maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
-	    	<span data-valmsg-for="resPersonMobile" data-valmsg-replace="true" class="required"></span>
-	    </td>
-	    <td class="juzhong">传真号码</td>
-	    <td>
-	     <input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.shenBaoUnitInfoDto.resPersonFax"
-				maxlength="50" data-val-length-max="50" data-val-regex="最多只能输入50位字符"/>
-	    </td>
-	</tr>
-	<tr>
-	    <td class="juzhong">Email</td>
-	    <td colspan="3">
-	     	<input type="email" class="form-control input-sm" id="resPersonEmail" name="resPersonEmail" ng-model="vm.model.shenBaoUnitInfoDto.resPersonEmail"/>
-	    	<span data-valmsg-for="resPersonEmail" data-valmsg-replace="true" class="required"></span>
-	    	<span ng-show="myForm.resPersonEmail.$error.email" class="required"></span>
-	    </td>
-	</tr>	  
-</table>
-
-<!-- 下一年度计划、计划下达 没有编制单位 -->
-<div ng-hide="vm.isYearPlan || vm.isJihuaxiada">
-<div class="bg-info text-info" style="padding: 10px;">编制单位信息</div>
-<table width="100%" class="table  table-bordered table-striped">
-	<tr>
-		<td class="formAlignRight" width="150px;">单位名称：<span class="required">(*)</span></td>
-		<td colspan="2">
-			<input class="form-control input-sm" id="unitName_BZ" name="unitName_BZ" ng-model="vm.model.bianZhiUnitInfoDto.unitName" data-val="true" data-val-required="必选"/>
-			<span data-valmsg-for="unitName_BZ" data-valmsg-replace="true" class="required"></span>
-		</td>
-		<td width="150px;" class="formAlignRight">单位性质：<span class="required">(*)</span></td>
-		<td>
-			<select style="height:30px;" id="unitProperty_BZ" name="unitProperty_BZ" ng-model="vm.model.bianZhiUnitInfoDto.unitProperty" data-val="true" data-val-required="必选">
-				<option value="">---请选择---</option>
-				<option ng-repeat="x in vm.basicData.unitProperty" value="{{x.id}}" ng-selected="vm.model.bianZhiUnitInfoDto.unitProperty == x.id">{{x.description}}</option>
-			</select>
-			<span data-valmsg-for="unitProperty_BZ" data-valmsg-replace="true" class="required"></span>
-		</td>
-	</tr>
-	<tr>
-    	<td class="formAlignRight">单位地址：<span class="required">(*)</span></td>
-	    <td colspan="4">
-			 <input type="text" class="form-control input-sm pull-left" style="width:500px;" id="unitAddress_BZ" name="unitAddress_BZ" ng-model="vm.model.bianZhiUnitInfoDto.unitAddress" data-val="true" data-val-required="必填"/>
-			 <span data-valmsg-for="unitAddress_BZ" data-valmsg-replace="true" class="required"></span>
+			<input type="text" class="form-control input-sm pull-left" style="width:500px;" id="unitAddress" name="unitAddress" ng-model="vm.model.shenBaoUnitInfoDto.unitAddress" data-val="true" data-val-required="必填"/>
+			<span data-valmsg-for="unitAddress" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
 	<tr>
 		<td rowspan="3" class="formAlignRight">单位负责人：<span class="required">(*)</span></td>
 		<td width="100px;" class="juzhong">姓名</td>
 		<td width="275px;">
-			<input class="form-control input-sm" type="text" id="unitResPerson_BZ" name="unitResPerson_BZ" ng-model="vm.model.bianZhiUnitInfoDto.unitResPerson" data-val="true" data-val-required="必填"/>
-			<span data-valmsg-for="unitResPerson_BZ" data-valmsg-replace="true" class="required"></span>
+			<input class="form-control input-sm" type="text" id="unitResPerson" name="unitResPerson" ng-model="vm.model.shenBaoUnitInfoDto.unitResPerson" data-val="true" data-val-required="必填"/>
+			<span data-valmsg-for="unitResPerson" data-valmsg-replace="true" class="required"></span>
 		</td>
-		<td width="100px;" class="juzhong">电话号码</td>
+		<td width="100px;" class="juzhong">电话号码:<span class="required">(*)</span></td>
 		<td>
-		 	<input class="form-control input-sm" type="text" id="resPersonTel_BZ" name="resPersonTel_BZ"
-				   ng-model="vm.model.bianZhiUnitInfoDto.resPersonTel"  data-val="true" data-val-required="必填"
-				   maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
-			<span data-valmsg-for="resPersonTel_BZ" data-valmsg-replace="true" class="required"></span>
+			<!--	<input class="form-control input-sm" type="text" id="resPersonTel" name="resPersonTel"
+                      ng-model="vm.model.shenBaoUnitInfoDto.resPersonTel" data-val="true" data-val-required="必填"
+                      maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
+               <span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>-->
+			<input type="text" class="form-control input-sm" id="resPersonTel" name="resPersonTel"
+				   placeholder="手机或固话"
+				   ng-model="vm.model.shenBaoUnitInfoDto.resPersonTel"
+				   data-val="true" data-val-required="必填" maxlength="13"
+				   data-val-regex="电话号码不合理！"
+				   data-val-regex-pattern="0\d{2,3}-\d{7,8}"/>
+			<span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
 	<tr>
-		<td class="juzhong">手机</td>	   
+		<td class="juzhong">手机</td>
 		<td>
-		 	<input class="form-control input-sm" type="text" id="resPersonMobile_BZ" name="resPersonMobile_BZ"
-				   ng-model="vm.model.bianZhiUnitInfoDto.resPersonMobile"  data-val="true" data-val-required="必填"
-				   maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
-			<span data-valmsg-for="resPersonMobile_BZ" data-valmsg-replace="true" class="required"></span>
+			<!--<input class="form-control input-sm" type="text" id="resPersonMobile" name="resPersonMobile"
+                  ng-model="vm.model.shenBaoUnitInfoDto.resPersonMobile"  data-val="true" data-val-required="必填"
+                  maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
+           <span data-valmsg-for="resPersonMobile" data-valmsg-replace="true" class="required"></span>-->
+			<input type="text" class="form-control input-sm" id="resPersonMobile" name="resPersonMobile"
+				   ng-model="vm.model.shenBaoUnitInfoDto.resPersonMobile"
+				   data-val="true" data-val-required="必填" maxlength="11" data-val-length-max="11"
+				   data-val-regex="手机号码不合理！" data-val-regex-pattern="^1[34578]\d{9}$"/>
+			<span data-valmsg-for="resPersonMobile" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="juzhong">传真号码</td>
 		<td>
-		 <input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.bianZhiUnitInfoDto.resPersonFax"
-				maxlength="50" data-val-length-max="50" data-val-regex="最多只能输入50位字符"/>
+			<!-- <input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.shenBaoUnitInfoDto.resPersonFax"
+                    maxlength="50" data-val-length-max="50" data-val-regex="最多只能输入50位字符"/>-->
+			<input type="text" class="form-control input-sm" id="resPersonFax" maxlength="50"
+				   name="resPersonFax" ng-model="vm.model.shenBaoUnitInfoDto.resPersonFax"
+				   data-val="true"
+				   data-val-regex="传真号码不合理！"
+				   data-val-regex-pattern="^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$"/>
+			<span data-valmsg-for="resPersonFax" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
 	<tr>
 		<td class="juzhong">Email</td>
 		<td colspan="3">
-			<input type="email" class="form-control input-sm" id="resPersonEmail_BZ" name="resPersonEmail_BZ" ng-model="vm.model.bianZhiUnitInfoDto.resPersonEmail"/>
-			<span data-valmsg-for="resPersonEmail_BZ" data-valmsg-replace="true" class="required"></span>
-			<span ng-show="myForm.resPersonEmail_BZ.$error.email" class="required"></span>
+			<input type="email" class="form-control input-sm" id="resPersonEmail" name="resPersonEmail" ng-model="vm.model.shenBaoUnitInfoDto.resPersonEmail"/>
+			<span data-valmsg-for="resPersonEmail" data-valmsg-replace="true" class="required"></span>
+			<span ng-show="myForm.resPersonEmail.$error.email" class="required"></span>
 		</td>
-	</tr>	  
+	</tr>
 </table>
+
+<!-- 下一年度计划、计划下达 没有编制单位 -->
+<div ng-hide="vm.isYearPlan || vm.isJihuaxiada">
+	<div class="bg-info text-info" style="padding: 10px;">编制单位信息</div>
+	<table width="100%" class="table  table-bordered table-striped">
+		<tr>
+			<td class="formAlignRight" width="150px;">单位名称：<span class="required">(*)</span></td>
+			<td colspan="2">
+				<input class="form-control input-sm" id="unitName_BZ" name="unitName_BZ" ng-model="vm.model.bianZhiUnitInfoDto.unitName" data-val="true" data-val-required="必选"/>
+				<span data-valmsg-for="unitName_BZ" data-valmsg-replace="true" class="required"></span>
+			</td>
+			<td width="150px;" class="formAlignRight">单位性质：<span class="required">(*)</span></td>
+			<td>
+				<select style="height:30px;" id="unitProperty_BZ" name="unitProperty_BZ" ng-model="vm.model.bianZhiUnitInfoDto.unitProperty" data-val="true" data-val-required="必选">
+					<option value="">---请选择---</option>
+					<option ng-repeat="x in vm.basicData.unitProperty" value="{{x.id}}" ng-selected="vm.model.bianZhiUnitInfoDto.unitProperty == x.id">{{x.description}}</option>
+				</select>
+				<span data-valmsg-for="unitProperty_BZ" data-valmsg-replace="true" class="required"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">单位地址：<span class="required">(*)</span></td>
+			<td colspan="4">
+				<input type="text" class="form-control input-sm pull-left" style="width:500px;" id="unitAddress_BZ" name="unitAddress_BZ" ng-model="vm.model.bianZhiUnitInfoDto.unitAddress" data-val="true" data-val-required="必填"/>
+				<span data-valmsg-for="unitAddress_BZ" data-valmsg-replace="true" class="required"></span>
+			</td>
+		</tr>
+		<tr>
+			<td rowspan="3" class="formAlignRight">单位负责人：<span class="required">(*)</span></td>
+			<td width="100px;" class="juzhong">姓名:<span class="required">(*)</span></td>
+			<td width="275px;">
+				<input class="form-control input-sm" type="text" id="unitResPerson_BZ" name="unitResPerson_BZ" ng-model="vm.model.bianZhiUnitInfoDto.unitResPerson" data-val="true" data-val-required="必填"/>
+				<span data-valmsg-for="unitResPerson_BZ" data-valmsg-replace="true" class="required"></span>
+			</td>
+			<td width="100px;" class="juzhong">电话号码</span></td>
+			<td>
+				<!--	<input class="form-control input-sm" type="text" id="resPersonTel_BZ" name="resPersonTel_BZ"
+                          ng-model="vm.model.bianZhiUnitInfoDto.resPersonTel"  data-val="true" data-val-required="必填"
+                          maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
+                   <span data-valmsg-for="resPersonTel_BZ" data-valmsg-replace="true" class="required"></span>-->
+				<input type="text" class="form-control input-sm" id="resPersonTel_BZ" name="resPersonTel_BZ"
+					   ng-model="vm.model.bianZhiUnitInfoDto.resPersonTel"
+					   data-val="true" maxlength="13"
+					   data-val-regex="电话号码不合理！"
+					   data-val-regex-pattern="0\d{2,3}-\d{7,8}"/>
+				<span data-valmsg-for="resPersonTel_BZ" data-valmsg-replace="true" class="required"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="juzhong">手机:<span class="required">(*)</span></td>
+			<td>
+				<!--<input class="form-control input-sm" type="text" id="resPersonMobile_BZ" name="resPersonMobile_BZ"
+                      ng-model="vm.model.bianZhiUnitInfoDto.resPersonMobile"  data-val="true" data-val-required="必填"
+                      maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
+               <span data-valmsg-for="resPersonMobile_BZ" data-valmsg-replace="true" class="required"></span>-->
+				<input type="text" class="form-control input-sm" id="resPersonMobile_BZ" name="resPersonMobile_BZ"
+					   ng-model="vm.model.bianZhiUnitInfoDto.resPersonMobile"
+					   data-val="true" data-val-required="必填" maxlength="11" data-val-length-max="11"
+					   data-val-regex="手机号码不合理！" data-val-regex-pattern="^1[34578]\d{9}$"/>
+				<span data-valmsg-for="resPersonMobile_BZ" data-valmsg-replace="true" class="required"></span>
+			</td>
+			<td class="juzhong">传真号码</td>
+			<td>
+				<!-- <input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.bianZhiUnitInfoDto.resPersonFax"
+                        maxlength="50" data-val-length-max="50" data-val-regex="最多只能输入50位字符"/>-->
+				<input type="text" class="form-control input-sm" id="resPersonFax1" maxlength="50"
+					   name="resPersonFax1" ng-model="vm.model.bianZhiUnitInfoDto.resPersonFax"
+					   data-val="true"
+					   data-val-regex="传真号码不合理！"
+					   data-val-regex-pattern="^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$"/>
+				<span data-valmsg-for="resPersonFax1" data-valmsg-replace="true" class="required"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="juzhong">Email</td>
+			<td colspan="3">
+				<input type="email" class="form-control input-sm" id="resPersonEmail_BZ" name="resPersonEmail_BZ" ng-model="vm.model.bianZhiUnitInfoDto.resPersonEmail"/>
+				<span data-valmsg-for="resPersonEmail_BZ" data-valmsg-replace="true" class="required"></span>
+				<span ng-show="myForm.resPersonEmail_BZ.$error.email" class="required"></span>
+			</td>
+		</tr>
+	</table>
 </div>

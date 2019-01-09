@@ -497,36 +497,46 @@
          * 保存申报信息
          */
         function saveShenBaoInfo(vm) {
-            var httpOptions = {
-                method: 'post',
-                url: url_shenbao + '/update',
-                data: vm.model.shenBaoInfo
-            };
+            common.initJqValidation();
+            var isValid = $('#formReply').valid();
+            if (isValid) {
+                var httpOptions = {
+                    method: 'post',
+                    url: url_shenbao + '/update',
+                    data: vm.model.shenBaoInfo
+                };
 
-            var httpSuccess = function success(response) {
-                common.requestSuccess({
+                var httpSuccess = function success(response) {
+                    common.requestSuccess({
+                        vm: vm,
+                        response: response,
+                        fn: function () {
+                            common.alert({
+                                vm: vm,
+                                msg: "保存成功！",
+                                fn: function () {
+                                    $('#shenbaoInfoEdit').modal('hide');
+                                    $('.alertDialog').modal('hide');
+                                }
+                            });
+                        }
+                    });
+                };
+
+                common.http({
                     vm: vm,
-                    response: response,
-                    fn: function () {
-                        common.alert({
-                            vm: vm,
-                            msg: "保存成功！",
-                            fn: function () {
-                                $('#shenbaoInfoEdit').modal('hide');
-                                $('.alertDialog').modal('hide');
-                            }
-                        });
-                    }
+                    $http: $http,
+                    httpOptions: httpOptions,
+                    success: httpSuccess
                 });
-            };
+            }else {
+               /* common.alert({
+                    vm:vm,
+                    msg:"您填写的信息不正确,请核对后提交!",
+                });*/
+            }
 
-            common.http({
-                vm: vm,
-                $http: $http,
-                httpOptions: httpOptions,
-                success: httpSuccess
-            });
-        }//end fun saveShenBaoInfo
+            }//end fun saveShenBaoInfo
 
         /**
          * 根据id查询申报信息

@@ -1,7 +1,7 @@
 <style>
 	.modal-open {
-       overflow: scroll !important;
-    }
+		overflow: scroll !important;
+	}
 </style>
 <div class="bg-info text-info" style="padding: 10px; ">项目责任单位信息</div>
 <table class="table table-bordered table-striped ">
@@ -20,8 +20,8 @@
 		<td class="formAlignRight" style="width:160px;">责任单位联系电话：<span class="required">(*)</span></td>
 		<td>
 			<input type="text" class="form-control input-sm" style="width:200px;" id="repUnitRepMobile" name="repUnitRepMobile" ng-model="vm.model.repUnitRepMobile"
-				data-val="true" data-val-required="必填" placeholder="填写手机号或固话"
-				data-val-regex="号码不合理！" data-val-regex-pattern="^((0\d{2,3}-\d{7,8})|(\d{7,8})|(1[3|4|5|7|8][0-9]\d{4,8}))$"/>
+				   data-val="true" data-val-required="必填" placeholder="填写手机号或固话" maxlength="13"
+				   data-val-regex="号码不合理！" data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 			<span data-valmsg-for="repUnitRepMobile" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
@@ -44,7 +44,7 @@
 			<span data-valmsg-for="projectStage" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
-	
+
 	<tr>
 		<td class="formAlignRight">企业名称：<span class="required">(*)</span></td>
 		<td>
@@ -56,46 +56,46 @@
 			<input type="text" placeholder="格式：xxx〔xx〕xx号" style="width:200px" class="form-control input-sm" ng-model="vm.model.approval_pzwh"/>
 		</td>
 	</tr>
-	
+
 	<tr>
 		<td class="formAlignRight">项目联系人：<span class="required">(*)</span></td>
 		<td>
 			<input type="text" class="form-control input-sm" id="projectRepName" name="projectRepName" ng-model="vm.model.projectRepName"
-				data-val="true" data-val-required="必填"/>
+				   data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="projectRepName" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight">项目联系人电话：<span class="required">(*)</span></td>
 		<td>
 			<input type="text" class="form-control input-sm" style="width:200px;" id="projectRepMobile" name="projectRepMobile" ng-model="vm.model.projectRepMobile"
-				data-val="true" data-val-required="必填" placeholder="填写手机号或固话"
-				data-val-regex="号码不合理！" data-val-regex-pattern="^((0\d{2,3}-\d{7,8})|(\d{7,8})|(1[3|4|5|7|8][0-9]\d{4,8}))$"/>
+				   data-val="true" data-val-required="必填" placeholder="填写手机号或固话"
+				   data-val-regex="项目联系人电话不合理！" data-val-regex-pattern="^^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 			<span data-valmsg-for="projectRepMobile" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
-	
+
 	<tr>
 		<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
 		<td>
 			<select id="projectIndustry" name="projectIndustry" style="height:30px;" ng-model="vm.model.projectIndustryParent"  ng-change="vm.projectIndustryChange()"
-			 data-val="true" data-val-required="必选">
+					data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.projectIndustry" value="{{x.id}}" ng-bind="x.description"></option>
 			</select>
 			<span data-valmsg-for="projectIndustry" data-valmsg-replace="true" class="required"></span>
-			
+
 			<select id="industry" name="industry"  style="height:30px;" ng-model="vm.model.projectIndustry"  ng-show="vm.basicData.projectIndustryChildren.length>1" data-val="true" data-val-required="必选">
-				<option value="">---请选择---</option>	
+				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.projectIndustryChildren" ng-selected="vm.model.projectIndustry==x.id" value="{{x.id}}" ng-bind="x.description"></option>
 			</select>
-			<span data-valmsg-for="industry" data-valmsg-replace="true" class="required"></span>	
+			<span data-valmsg-for="industry" data-valmsg-replace="true" class="required"></span>
 		</td>
-		
+
 		<td class="formAlignRight">项目类型：</td>
 		<td colspan="3">
 			<label ng-repeat="x in vm.basicData.projectType" ng-hide="x.description == '海绵项目' || x.description == '治水项目'">
 				<input type="checkbox" name="projectType" ng-checked="vm.model.projectType.indexOf(x.id) != -1" ng-click="vm.updateSelection(x.id)"
-				 />{{x.description}}&nbsp;&nbsp;
-			</label>					
+				/>{{x.description}}&nbsp;&nbsp;
+			</label>
 		</td>
 	</tr>
 	<tr>
@@ -111,7 +111,7 @@
 			</select>
 		</td>
 	</tr>
-	
+
 	<tr>
 		<td class="formAlignRight">项目开工日期：</td>
 		<td >
@@ -124,20 +124,20 @@
 				   ng-model="vm.model.endDate" autocomplete="off" />
 		</td>
 	</tr>
-	
+
 	<tr>
-		<td class="formAlignRight">项目建设地址：<span class="required">(*)</span></td>	
+		<td class="formAlignRight">项目建设地址：<span class="required">(*)</span></td>
 		<td colspan="3">
-		    <select class="form-select pull-left" style="margin-right:10px;height:30px;">
-		    	<option>光明区</option>
-		    </select>
-		    <select class="form-select pull-left" style="margin-right:10px;height:30px;" id="divisionId" name="divisionId" ng-model="vm.model.divisionId" data-val="true" data-val-required="必选">
-		    	<option value="">---请选择---</option>
+			<select class="form-select pull-left" style="margin-right:10px;height:30px;">
+				<option>光明区</option>
+			</select>
+			<select class="form-select pull-left" style="margin-right:10px;height:30px;" id="divisionId" name="divisionId" ng-model="vm.model.divisionId" data-val="true" data-val-required="必选">
+				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.area_Street" value="{{x.id}}">{{x.description}}</option>
 			</select>
 			<span data-valmsg-for="divisionId" data-valmsg-replace="true" class="required"></span>
-			 <input type="text" class="form-control input-sm pull-left" style="width:500px;" id="projectAddress" name="projectAddress" ng-model="vm.model.projectAddress" data-val="true" data-val-required="必填"/>
-			 <span data-valmsg-for="projectAddress" data-valmsg-replace="true" class="required"></span>
+			<input type="text" class="form-control input-sm pull-left" style="width:500px;" id="projectAddress" name="projectAddress" ng-model="vm.model.projectAddress" data-val="true" data-val-required="必填"/>
+			<span data-valmsg-for="projectAddress" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
 	<tr>
@@ -155,27 +155,27 @@
 				</tr>
 				<tr class="text-center">
 					<td>
-						<input type="number" step="any" style="width:150px" class="form-control input-sm" ng-model="vm.model.landPrice"/>
+						<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.landPrice"/>
 					</td>
 					<td>
-						<input type="number" step="any" style="width:150px" class="form-control input-sm" ng-model="vm.model.equipmentInvestment"/>
+						<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:150px" class="form-control input-sm" ng-model="vm.model.equipmentInvestment"/>
 					</td>
 					<td>
-						<input type="number" step="any" style="width:150px" class="form-control input-sm" ng-model="vm.model.buidSafeInvestment"/>
+						<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:150px" class="form-control input-sm" ng-model="vm.model.buidSafeInvestment"/>
 					</td>
 					<td>
-						<input type="number" step="any" style="width:150px" class="form-control input-sm" ng-model="vm.model.capitalOther"/>
+						<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:150px" class="form-control input-sm" ng-model="vm.model.capitalOther"/>
 					</td>
 				</tr>
 			</table>
 		</td>
 	</tr>
-	
-	
+
+
 	<tr>
 		<td class="formAlignRight">建设规模：<span class="required">(*)</span></td>
 		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" id="projectGuiMo" name="projectGuiMo" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（500字符以内）" ng-model="vm.model.projectGuiMo" ng-change="vm.checkLength(vm.model.projectGuiMo,500,'projectGuiMo_SHTips')" data-val="true" data-val-required="必填"></textarea>													
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" id="projectGuiMo" name="projectGuiMo" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（500字符以内）" ng-model="vm.model.projectGuiMo" ng-change="vm.checkLength(vm.model.projectGuiMo,500,'projectGuiMo_SHTips')" data-val="true" data-val-required="必填"></textarea>
 			<div class="tipfont">您还可以输入<span id="projectGuiMo_SHTips"><font size="5">500</font></span>个字符!</div>
 			<span data-valmsg-for="projectGuiMo" data-valmsg-replace="true" class="required"></span>
 		</td>
@@ -183,24 +183,24 @@
 	<tr>
 		<td class="formAlignRight">项目建设用地情况：</td>
 		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" id="constructionLand" name="constructionLand" placeholder="注：项目选址、项目用地面积及用地性质等（500字符以内）" ng-model="vm.model.constructionLand" ng-change="vm.checkLength(vm.model.constructionLand,500,'constructionLandTips')"></textarea>													
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" id="constructionLand" name="constructionLand" placeholder="注：项目选址、项目用地面积及用地性质等（500字符以内）" ng-model="vm.model.constructionLand" ng-change="vm.checkLength(vm.model.constructionLand,500,'constructionLandTips')"></textarea>
 			<div class="tipfont">您还可以输入<span id="constructionLandTips"><font size="5">500</font></span>个字符!</div>
 		</td>
 	</tr>
-	
+
 	<tr>
 		<td class="formAlignRight">投入使用后的效益：<span class="required">(*)</span></td>
 		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" id="useBenefits" name="useBenefits" placeholder="注：请简单说明项目投入使用后的效益（500字符以内）" ng-model="vm.model.useBenefits" ng-change="vm.checkLength(vm.model.useBenefits,500,'useBenefitsTips')" data-val="true" data-val-required="必填"></textarea>													
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" id="useBenefits" name="useBenefits" placeholder="注：请简单说明项目投入使用后的效益（500字符以内）" ng-model="vm.model.useBenefits" ng-change="vm.checkLength(vm.model.useBenefits,500,'useBenefitsTips')" data-val="true" data-val-required="必填"></textarea>
 			<div class="tipfont">您还可以输入<span id="useBenefitsTips"><font size="5">500</font></span>个字符!</div>
 			<span data-valmsg-for="useBenefits" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
-	
+
 	<tr>
 		<td class="formAlignRight">备注：</td>
 		<td colspan="3" >
-			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（500字符以内）" ng-model="vm.model.remark" ng-change="vm.checkLength(vm.model.remark,500,'remark_SHTips')"></textarea>												
+			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（500字符以内）" ng-model="vm.model.remark" ng-change="vm.checkLength(vm.model.remark,500,'remark_SHTips')"></textarea>
 			<div class="tipfont">您还可以输入<span id="remark_SHTips"><font size="5">500</font></span>个字符!</div>
 		</td>
 	</tr>

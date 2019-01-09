@@ -1,137 +1,175 @@
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 
 <style>
-.title{
-font-weight: bold;
-font-size:15px;
-}
+	.title {
+		font-weight: bold;
+		font-size: 15px;
+	}
 </style>
 
 <div class="well" style="border:0;background:white;">
-  <ol class="breadcrumb">
-  	<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
-  	<li><a class="text-primary" href="#/">首页</a></li>
-    <li><a class="text-primary" href="#/deptInfoMaintain">单位信息维护</a></li>
-    <li class="active">单位基本信息</li>
-  </ol>
-  
+	<ol class="breadcrumb">
+		<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		<li><a class="text-primary" href="#/">首页</a></li>
+		<li><a class="text-primary" href="#/deptInfoMaintain">单位信息维护</a></li>
+		<li class="active">单位基本信息</li>
+	</ol>
+
 	<form name="myForm" novalidate>
 		<div class="text-danger bg-danger" style="padding:10px; margin:5px 0;">
 			<strong>温馨提示：填写相关信息后，在项目申报时就不用重复填写了！</strong>
 		</div>
-		
-		<div class="panel panel-info"> 
-			<div class="panel-heading"> 
-				<h3 class="panel-title title">单位基本信息</h3> 
-			</div> 
-			<div class="panel-body"> 
+
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title title">单位基本信息</h3>
+			</div>
+			<div class="panel-body">
 				<table class="table table-bordered table-striped" style="margin-bottom: 0;">
 					<tr>
-						<td  width="150px;" class="formAlignRight">单位名称：<span class="required ">(*)</span></td>
+						<td width="150px;" class="formAlignRight">单位名称：<span class="required ">(*)</span></td>
 						<td colspan="4" class="RborderNone">
-							<input type="text" class="form-control input-sm" style="width:300px;" ng-model="vm.model.unitName"  disabled="disabled"/>
-						
-							<select id="unitName" name="unitName" class="form-select" ng-model="vm.model.unitName1" ng-change="vm.changeUnit()">
+							<input type="text" class="form-control input-sm" style="width:300px;"
+								   ng-model="vm.model.unitName" disabled="disabled"/>
+
+							<select id="unitName" name="unitName" class="form-select" ng-model="vm.model.unitName1"
+									ng-change="vm.changeUnit()">
 								<option value="">---请选择---</option>
-								<option ng-repeat="x in vm.allUnit | unique: 'id'" value="{{x.id}}">{{x.unitName}}</option>
+								<option ng-repeat="x in vm.allUnit | unique: 'id'" value="{{x.id}}">{{x.unitName}}
+								</option>
 							</select>
 						</td>
 					</tr>
 					<tr>
 						<td class="formAlignRight">组织机构代码：</td>
-			 				<td colspan="2">
-			 					<input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.orgCode"/>
-			 				</td>
-					    <td width="150px;">电话号码：<span class="required">(*)</span></td>
-					    <td>
-					    <input type="text" class="form-control input-sm" id="unitTel" name="unitTel" ng-model="vm.model.unitTel" 
-					    	data-val="true" data-val-required="必填" maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
-					    <span data-valmsg-for="unitTel" data-valmsg-replace="true" class="required"></span>
-					    </td>
-				   </tr>
-				   	<tr>
-				        <td class="formAlignRight">电子邮箱：<span class="required">(*)</span></td>
-				        <td colspan="2">
-				        <input type="email" class="form-control input-sm" id="email" name="unitEmail" ng-model="vm.model.unitEmail" data-val="true" data-val-required="必填"/>
-				        <span data-valmsg-for="unitEmail" data-valmsg-replace="true" class="required"></span>
-				        <span ng-show="myForm.unitEmail.$error.email" class="required"></span>
-				        <td>传真号码：</td>
-				        <td>
-				        <input type="text" class="form-control input-sm" id="unitFax" name="unitFax" ng-model="vm.model.unitFax"/>
-				        </td>
-				   </tr>
+						<td colspan="2">
+							<input type="text" class="form-control input-sm" id="orgCode" maxlength="50" name="orgCode"
+								   ng-model="vm.model.orgCode"
+								   data-val="true" data-val-regex="组织机构代码不合理！"
+								   data-val-regex-pattern="^\w\w\d{6}\w{9}\w$"/>
+							<span data-valmsg-for="orgCode" data-valmsg-replace="true" class="required"></span>
+						</td>
+						</td>
+						<td width="150px;">电话号码：<span class="required">(*)</span></td>
+						<td>
+							<input type="text" class="form-control input-sm" id="unitTel" name="unitTel"
+								   ng-model="vm.model.unitTel"
+								   data-val="true" data-val-required="必填" maxlength="13"
+								   data-val-regex="电话号码不合理！"
+								   data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
+							<span data-valmsg-for="unitTel" data-valmsg-replace="true" class="required"></span>
+						</td>
+					</tr>
+					<tr>
+						<td class="formAlignRight">电子邮箱：<span class="required">(*)</span></td>
+						<td colspan="2">
+							<input type="email" class="form-control input-sm" id="email" name="unitEmail"
+								   ng-model="vm.model.unitEmail" data-val="true" data-val-required="必填"/>
+							<span data-valmsg-for="unitEmail" data-valmsg-replace="true" class="required"></span>
+							<span ng-show="myForm.unitEmail.$error.email" class="required"></span>
+						<td>传真号码：</td>
+						<td>
+							<input type="text" class="form-control input-sm" id="unitFax" name="unitFax"
+								   ng-model="vm.model.unitFax"
+								   data-val="true"
+								   data-val-regex="传真号码不合理！"
+								   data-val-regex-pattern="^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$"/>
+							<span data-valmsg-for="unitFax" data-valmsg-replace="true" class="required"></span>
+						</td>
+
+					</tr>
 				</table>
-			</div> 
+			</div>
 		</div>
-		
-		<div class="panel panel-info"> 
-			<div class="panel-heading"> 
-				<h3 class="panel-title title">常用申报信息</h3> 
+
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title title">常用申报信息</h3>
 			</div>
 			<div class="panel-body">
-				<table class="table table-bordered table-striped" style="margin-bottom: 0;">		
+				<table class="table table-bordered table-striped" style="margin-bottom: 0;">
 					<tr>
 						<td width="150px;" class="formAlignRight">单位性质：<span class="required">(*)</span></td>
 						<td colspan="4">
-							<select id="unitProperty" name="unitProperty" class="form-select" ng-model="vm.model.unitProperty" data-val="true" data-val-required="必选">
+							<select id="unitProperty" name="unitProperty" class="form-select"
+									ng-model="vm.model.unitProperty" data-val="true" data-val-required="必选">
 								<option value="">---请选择---</option>
-								<option ng-repeat="x in vm.basicData_unitProperty" value="{{x.id}}">{{x.description}}</option>
+								<option ng-repeat="x in vm.basicData_unitProperty" value="{{x.id}}">{{x.description}}
+								</option>
 							</select>
 							<span data-valmsg-for="unitProperty" data-valmsg-replace="true" class="required"></span>
 						</td>
 					</tr>
 					<tr>
-					    <td class="formAlignRight">单位地址：<span class="required">(*)</span></td>
-					    <td colspan="4">
-						    <select class="form-select pull-left" style="margin-right:10px;">
-						    	<option>光明区</option>
-						    </select>
-						    <select class="form-select pull-left" style="margin-right:10px;" id="divisionId" name="divisionId" ng-model="vm.model.divisionId" data-val="true" data-val-required="必选">
-						    	<option value="">---请选择---</option>
-								<option ng-repeat="x in vm.basicData_area_Street" value="{{x.id}}">{{x.description}}</option>
+						<td class="formAlignRight">单位地址：<span class="required">(*)</span></td>
+						<td colspan="4">
+							<select class="form-select pull-left" style="margin-right:10px;">
+								<option>光明区</option>
+							</select>
+							<select class="form-select pull-left" style="margin-right:10px;" id="divisionId"
+									name="divisionId" ng-model="vm.model.divisionId" data-val="true"
+									data-val-required="必选">
+								<option value="">---请选择---</option>
+								<option ng-repeat="x in vm.basicData_area_Street" value="{{x.id}}">{{x.description}}
+								</option>
 							</select>
 							<span data-valmsg-for="divisionId" data-valmsg-replace="true" class="errors"></span>
-							 <input type="text" class="form-control input-sm pull-left" style="width:500px;" id="unitAddress" name="unitAddress" ng-model="vm.model.unitAddress" data-val="true" data-val-required="必填"/>
-							 <span data-valmsg-for="unitAddress" data-valmsg-replace="true" class="required"></span>
-							</td>
-				  </tr>
-				  	<tr>
-					    <td rowspan="3" class="formAlignRight">单位负责人：<span class="required">(*)</span></td>
-					    <td width="100px;">姓名：<span class="required">(*)</span></td>
-					    <td>
-					    	 <input class="form-control input-sm" type="text" id="unitResPerson" name="unitResPerson" ng-model="vm.model.unitResPerson" data-val="true" data-val-required="必填"/>
-					    	<span data-valmsg-for="unitResPerson" data-valmsg-replace="true" class="errors"></span>
-					    </td>
-					    <td width="120px;">电话号码：<span class="required">(*)</span></td>
-					    <td>
-					     	<input class="form-control input-sm" type="text" id="resPersonTel" name="resPersonTel" ng-model="vm.model.resPersonTel" 
-					     		data-val="true" data-val-required="必填" maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
-					    	<span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>
-					    </td>
-				  </tr>
-				  	<tr>
-					    <td>手机：<span class="required">(*)</span></td>	   
-					    <td>
-					     	<input class="form-control input-sm" type="text" id="resPersonMobile" name="resPersonMobile" ng-model="vm.model.resPersonMobile" 
-					     		data-val="true" maxlength="11" data-val-length-max="11" data-val-regex="最多只能输入11位字符" data-val-required="必填"/>
-					    	<span data-valmsg-for="resPersonMobile" data-valmsg-replace="true" class="required"></span>
-					    </td>
-					    <td>传真号码：</td>
-					    <td>
-					     <input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.resPersonFax"  />
-					    </td>
-				  	</tr>
-				   	<tr>
-					    <td>Email：</td>
-					    <td colspan="3">
-					     <input type="email" class="form-control input-sm" id="resPersonEmail" name="resPersonEmail" ng-model="vm.model.resPersonEmail"/>
-					    	 <span ng-show="myForm.resPersonEmail.$error.email" class="required"></span>
-					    </td>
-				  	</tr>
+							<input type="text" class="form-control input-sm pull-left" style="width:500px;"
+								   id="unitAddress" name="unitAddress" ng-model="vm.model.unitAddress" data-val="true"
+								   data-val-required="必填"/>
+							<span data-valmsg-for="unitAddress" data-valmsg-replace="true" class="required"></span>
+						</td>
+					</tr>
+					<tr>
+						<td rowspan="3" class="formAlignRight">单位负责人：<span class="required">(*)</span></td>
+						<td width="100px;">姓名：<span class="required">(*)</span></td>
+						<td>
+							<input class="form-control input-sm" type="text" id="unitResPerson" name="unitResPerson"
+								   ng-model="vm.model.unitResPerson" data-val="true" data-val-required="必填"/>
+							<span data-valmsg-for="unitResPerson" data-valmsg-replace="true" class="errors"></span>
+						</td>
+						<td width="120px;">电话号码：<span class="required">(*)</span></td>
+						<td>
+							<input type="text" class="form-control input-sm" id="resPersonTel" name="resPersonTel"
+								   ng-model="vm.model.resPersonTel"
+								   data-val="true" data-val-required="必填" maxlength="13"
+								   data-val-regex="电话号码不合理！"
+								   data-val-regex-pattern="0\d{2,3}-\d{7,8}"/>
+							<span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>
+						</td>
+					</tr>
+					<tr>
+						<td>手机：<span class="required">(*)</span></td>
+						<td>
+							<input type="text" class="form-control input-sm" id="resPersonMobile" name="resPersonMobile"
+								   ng-model="vm.model.resPersonMobile"
+								   data-val="true" data-val-required="必填" maxlength="11" data-val-length-max="11"
+								   data-val-regex="手机号码不合理！" data-val-regex-pattern="^1[34578]\d{9}$"/>
+							<span data-valmsg-for="resPersonMobile" data-valmsg-replace="true" class="required"></span>
+
+						</td>
+						<td>传真号码：</td>
+						<td>
+							<input type="text" class="form-control input-sm" id="resPersonFax" maxlength="50"
+								   name="resPersonFax" ng-model="vm.model.resPersonFax"
+								   data-val="true"
+								   data-val-regex="传真号码不合理！"
+								   data-val-regex-pattern="^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$"/>
+							<span data-valmsg-for="resPersonFax" data-valmsg-replace="true" class="required"></span>
+						</td>
+					</tr>
+					<tr>
+						<td>Email：</td>
+						<td colspan="3">
+							<input type="email" class="form-control input-sm" id="resPersonEmail" name="resPersonEmail"
+								   ng-model="vm.model.resPersonEmail"/>
+							<span ng-show="myForm.resPersonEmail.$error.email" class="required"></span>
+						</td>
+					</tr>
 				</table>
 			</div>
-		</div>	
-		
+		</div>
+
 		<div style="text-align:center;">
 			<button class="btn btn-success" ng-click="vm.submit()" ng-disabled="vm.isSubmit">确认提交</button>
 		</div>

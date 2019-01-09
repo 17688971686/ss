@@ -335,34 +335,43 @@
 		 * 保存申报信息
 		 */
 		function saveShenBaoInfo(vm){
-			var httpOptions = {
-					method : 'post',
-					url : url_shenbao+'/updateShenbao',
-					data:vm.model.shenBaoInfo
-				};
-			
-			var httpSuccess = function success(response) {
-				common.requestSuccess({
-					vm:vm,
-					response:response,
-					fn:function(){
-						common.alert({
-							vm:vm,
-							msg:"保存成功！",
-							fn:function(){
-								$('.alertDialog').modal('hide');
-							}
-						});
-					}
-				});
-			};
-				
-			common.http({
-				vm:vm,
-				$http:$http,
-				httpOptions:httpOptions,
-				success:httpSuccess
-			});
+            common.initJqValidation();
+            var isValid = $('#formReply').valid();
+            if (isValid) {
+                var httpOptions = {
+                    method: 'post',
+                    url: url_shenbao + '/updateShenbao',
+                    data: vm.model.shenBaoInfo
+                };
+
+                var httpSuccess = function success(response) {
+                    common.requestSuccess({
+                        vm: vm,
+                        response: response,
+                        fn: function () {
+                            common.alert({
+                                vm: vm,
+                                msg: "保存成功！",
+                                fn: function () {
+                                    $('.alertDialog').modal('hide');
+                                }
+                            });
+                        }
+                    });
+                };
+
+                common.http({
+                    vm: vm,
+                    $http: $http,
+                    httpOptions: httpOptions,
+                    success: httpSuccess
+                });
+            }else {
+               /* common.alert({
+                    vm:vm,
+                    msg:"您填写的信息不正确,请核对后提交!",
+                });*/
+			}
 		}//end fun saveShenBaoInfo
 		
 		/**
