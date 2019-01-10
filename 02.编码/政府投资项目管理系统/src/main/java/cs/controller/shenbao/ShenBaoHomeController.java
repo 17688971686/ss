@@ -17,6 +17,7 @@ import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.jasig.cas.client.util.AssertionHolder;
 import org.jasig.cas.client.validation.Assertion;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
@@ -49,6 +50,7 @@ import cs.service.interfaces.ArticleService;
 @Controller
 @RequestMapping(name = "申报端登陆页", path = "")
 public class ShenBaoHomeController {
+	private static Logger logger = Logger.getLogger(ShenBaoHomeController.class);
 	private String ctrlName = "shenbao/home";
 	@Autowired
 	private ICurrentUser currentUser;
@@ -58,14 +60,84 @@ public class ShenBaoHomeController {
 	private UserService userService;
 	@Autowired
 	private UserRepo userRepo;
+	@Value("${isPushOA}")
+	private Boolean isPushOA;
+
 
 	@RequestMapping(name = "首页", path = "/", method = RequestMethod.GET)
-	public String index() {
+	public String index(HttpServletRequest request, Model model) {
 
-		return this.ctrlName + "/index";
+		if(!isPushOA){
+			return this.ctrlName + "/index";
+		}else{
+			HttpSession session = ((HttpServletRequest) request).getSession();
+			String loginUID = (String) session.getAttribute("loginUID");
+			  UserDto riseUser = (UserDto) session.getAttribute("riseUser");
+	          UserDto userDto = new UserDto();
+			if (StringUtils.isBlank(loginUID) || riseUser == null) {
+				Assertion casAssertion = AssertionHolder.getAssertion();
+				AttributePrincipal ap = casAssertion.getPrincipal();
+				Map<String, Object> attr = ap.getAttributes();
+				loginUID = attr.get("ID").toString();
+				PersonManager pm = HuasisoftUtil.getPersonManager();
+				ORGPerson person = null;
+				try {
+					person = pm.get(loginUID);
+				} catch (Exception e) {
+					throw new IllegalArgumentException("查询RC8人员失败");
+				}
+	
+				userDto.setDisplayName(person.getName());
+				userDto.setLoginName(person.getLoginName());
+				userDto.setPassword(person.getPlainText());
+				userDto.setEmail(person.getEmail());
+				userDto.setMobilePhone(person.getMobile());
+				userDto.setOaId(person.getId());
+				session.setAttribute("riseUser", userDto);
+			}else{
+	            userDto =riseUser;
+	        }
+			Boolean hasRole = false;
+			if(!ObjectUtils.isEmpty(userDto)){
+				User user2 = userService.createSYSUser(userDto);
+			
+				currentUser.setLoginName(user2.getLoginName());
+				currentUser.setDisplayName(user2.getDisplayName());
+				currentUser.setUserId(user2.getId());
+				Date lastLoginDate = user2.getLastLoginDate();
+				if (lastLoginDate != null) {
+					currentUser.setLastLoginDate(user2.getLastLoginDate());
+				}
+				Date date = new Date();
+				String dateStr = String.format("%s %s", Util.formatDate(date, "yyyy/MM/dd"), Util.getDay(date));
+				model.addAttribute("userName", currentUser.getLoginName());
+				model.addAttribute("date", dateStr);
+				model.addAttribute("user", user2.getLoginName());
+				model.addAttribute("userId", user2.getId());
+				// shiro
+				UsernamePasswordToken token = new UsernamePasswordToken(user2.getLoginName(), user2.getPassword());
+				Subject currentUser = SecurityUtils.getSubject();
+				currentUser.login(token);
+				if (!CollectionUtils.isEmpty(user2.getRoles())) {
+					loop2: for (Role x : user2.getRoles()) {
+						if (x.getRoleName().equals("管理员") || x.getRoleName().equals("超级管理员")) {// 如果有对应的角色则允许登录
+							hasRole = true;
+							break loop2;
+						} else {
+						}
+					}
+				}
+			}
+			if (hasRole == true) {
+				return "adminLogin/adminIndex/index";
+			} else {
+				return "adminLogin/shenbaoIndex/index";
+			}
+		}
+		
 	}
 
-//	private static Logger logger = Logger.getLogger(ShenBaoHomeController.class);
+
 //
 //	@RequestMapping(name = "首页", path = "/", method = RequestMethod.GET)
 //	public String adminIndex(HttpServletRequest request, Model model) {

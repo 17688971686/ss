@@ -650,6 +650,12 @@
 	            controller: 'taskNewAuditCtrl',
 	            controllerAs: 'vm'
 	        })
+	        .state('task_plan_keshi', {
+	            url: '/task/plan_keshi/:id',
+	            templateUrl: '/management/task/html/handle_keshi',
+	            controller: 'taskPlanCtrl',
+	            controllerAs: 'vm'
+	        })
 	         .state('print', {
 	            url: '/print/:id',
 	            params:{"id":null},  

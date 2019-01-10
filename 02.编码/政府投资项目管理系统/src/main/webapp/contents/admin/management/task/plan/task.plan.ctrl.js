@@ -45,6 +45,9 @@
     		if($state.current.name=='task_todo_plan_other'){//科室列表--计划类
     			vm.page='task_todo_plan_other';
     		}
+    		  if ($state.current.name == 'task_plan_keshi') {//处理页面--阅批
+                  vm.page = "handleKeshi";
+              }
     		vm.formatDate=function(str){
     			return common.formatDate(str);
     		}; 		
@@ -117,7 +120,7 @@
         	if(vm.page=='todoPlanList'){
         		init_todoAuditList();
         	}
-        	if(vm.page=='handlePlan'){
+        	if(vm.page=='handlePlan' || vm.page=='handleKeshi'){
         		init_handleAudit();
         	}
         	if(vm.page=='task_plan'){

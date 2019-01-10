@@ -953,7 +953,7 @@
                     filterable: true,
                     width: 500,
                     template: function (item) {
-                        return common.format("<a class='text-primary' href='#/task/handle_keshi/{1}'>{0}</a>", item.projectName, item.id);
+                        return common.format("<a class='text-primary' href='#/task/plan_keshi/{1}'>{0}</a>", item.projectName, item.id);
                     }
                 },
                 {

@@ -162,11 +162,22 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
     public PageModelDto<ShenBaoInfoDto> getYearPlanShenBaoInfo(String planId, ODataObjNew odataObj, boolean exclude) {
 //        YearPlan yearPlan = super.repository.findById(planId);
 //        if (yearPlan != null) {
-            //查询总数
-            BigInteger countQuery = (BigInteger) shenbaoInfoRepo.getSession()
-                    .createNativeQuery(getYearPlanProjectCount(exclude))
-                    .setParameter("yearPlanId", planId)
-                    .getSingleResult();
+    	//查询总数
+	    	BigInteger countQuery= null;
+	    	 if(odataObj.getFilterList().size()>0){
+	    		 countQuery = (BigInteger) shenbaoInfoRepo.getSession()
+	                     .createNativeQuery(SQLConfig.getYearPlanProjectForPageCount(exclude))
+	                     .setParameter("yearPlanId", planId)
+	                     .setParameter("unitName", odataObj.getFilterList().get(0).getValue())
+	                     .getSingleResult();
+	    	 }else{
+	    		  countQuery = (BigInteger) shenbaoInfoRepo.getSession()
+	                      .createNativeQuery(getYearPlanProjectCount(exclude))
+	                      .setParameter("yearPlanId", planId)
+	                      .getSingleResult();
+	    	 }
+            
+          
             int count = countQuery == null ? 0 : countQuery.intValue();
             List<ShenBaoInfoDto> shenBaoInfoDtos = new ArrayList<>();
             if (count > 0) {
@@ -176,7 +187,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
                     List<ShenBaoInfo> shenBaoInfos = shenbaoInfoRepo.getSession()
                             .createNativeQuery(SQLConfig.getYearPlanProjectForPage(exclude), ShenBaoInfo.class)
                             .setParameter("yearPlanId", planId)
-                            .setParameter("projectName", odataObj.getFilterList().get(0).getValue())
+                            .setParameter("unitName", odataObj.getFilterList().get(0).getValue())
                             .setFirstResult(skip).setMaxResults(stop)
                             .getResultList();
                     shenBaoInfos.forEach(x -> shenBaoInfoDtos.add(shenbaoInfoMapper.toDto(x)));

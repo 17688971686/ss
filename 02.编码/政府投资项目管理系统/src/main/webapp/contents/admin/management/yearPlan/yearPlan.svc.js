@@ -1109,7 +1109,7 @@
                         return common.format('<a href="#/projectDetails/{0}/{1}" >{2}</a>', item.projectId, item.projectInvestmentType, item.projectName);
                     },
                     width: 300,
-                    filterable: true,
+                    filterable: false,
                     headerAttributes: {
                         "class": "table-header-cell",
                         style: "text-align: center;vertical-align: middle;",

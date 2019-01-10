@@ -210,7 +210,7 @@ public class TaskController {
     }
 
     @SuppressWarnings("rawtypes")
-    @RequiresPermissions("management/task#pinglun#post")
+//    @RequiresPermissions("management/task#pinglun#post")
     @RequestMapping(name = "审批评论", path = "pinglun", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public void taskPinglun(@RequestBody Map data) {
@@ -218,7 +218,7 @@ public class TaskController {
     }
     
     @SuppressWarnings("rawtypes")
-    @RequiresPermissions("management/task#jihuaPinglun#post")
+//    @RequiresPermissions("management/task#jihuaPinglun#post")
     @RequestMapping(name = "计划评论", path = "jihuaPinglun", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public void jihuaPinglun(@RequestBody Map data) {
