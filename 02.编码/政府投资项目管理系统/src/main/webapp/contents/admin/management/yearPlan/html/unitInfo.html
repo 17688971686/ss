@@ -8,13 +8,13 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="formAlignRight">组织机构代码：</td>
+		<td class="formAlignRight">组织机构代码：<span class="required">(*)</span></td>
 		<td colspan="2">
 			<!--<input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.orgCode"  />-->
 			<input type="text" class="form-control input-sm" id="orgCode" maxlength="50" name="orgCode"
 				   ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.orgCode"
-				   data-val="true" data-val-regex="组织机构代码不合理！"
-				   data-val-regex-pattern="^\w\w\d{6}\w{9}\w$"/>
+				   data-val="true" data-val-required="必填"  data-val-regex="组织机构代码不合理！" placeholder="请填写非中文代码"
+				   data-val-regex-pattern="^[^\u4e00-\u9fa5]+$"/>
 			<span data-valmsg-for="orgCode" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td width="100" class="formAlignRight">电话号码：<span class="required">(*)</span></td>
@@ -23,7 +23,7 @@
               data-val="true" data-val-required="必填"/>
               <span data-valmsg-for="unitTel" data-valmsg-replace="true" class="errors"></span>-->
 			<input type="text" class="form-control input-sm" id="unitTel" name="unitTel"
-				   ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitTel"
+				   ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitTel" placeholder="填写手机号或固话"
 				   data-val="true" data-val-required="必填" maxlength="13"
 				   data-val-regex="电话号码不合理！"
 				   data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
@@ -61,7 +61,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="formAlignRight">单位地址<span class="required">(*)</span></td>
+		<td class="formAlignRight">单位地址：<span class="required">(*)</span></td>
 		<td colspan="4">
 			<select class="form-select pull-left" style="margin-right:10px;height:30px;">
 				<option>光明区</option>
@@ -82,16 +82,16 @@
 			<input class="form-control input-sm" type="text" id="unitResPerson" name="unitResPerson" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitResPerson" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="unitResPerson" data-valmsg-replace="true" class="errors"></span>
 		</td>
-		<td width="100px;">电话号码</td>
+		<td width="100px;">电话号码：<span class="required">(*)</span></td>
 		<td>
 			<!--<input class="form-control input-sm" type="text" id="resPersonTel" name="resPersonTel" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonTel"
                 data-val="true" data-val-required="必填"/>
            <span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="errors"></span>-->
 			<input type="text" class="form-control input-sm" id="resPersonTel" name="resPersonTel"
 				   ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonTel"
-				   data-val="true" data-val-required="必填" maxlength="13"
+				   data-val="true" data-val-required="必填" maxlength="13" placeholder="填写手机号或固话"
 				   data-val-regex="电话号码不合理！"
-				   data-val-regex-pattern="0\d{2,3}-\d{7,8}"/>
+				   data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 			<span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
@@ -104,13 +104,13 @@
 
 			<input type="text" class="form-control input-sm" id="resPersonMobile" name="resPersonMobile"
 				   ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonMobile"
-				   data-val="true" data-val-required="必填" maxlength="11" data-val-length-max="11"
+				   data-val="true" data-val-required="必填" maxlength="11" data-val-length-max="11" placeholder="填写手机号"
 				   data-val-regex="手机号码不合理！" data-val-regex-pattern="^1[34578]\d{9}$"/>
 			<span data-valmsg-for="resPersonMobile" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td>传真号码</td>
 		<td>
-			<input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonFax"  />
+			<!--<input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonFax"  />-->
 			<input type="text" class="form-control input-sm" id="resPersonFax" maxlength="50"
 				   name="resPersonFax" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonFax"
 				   data-val="true"

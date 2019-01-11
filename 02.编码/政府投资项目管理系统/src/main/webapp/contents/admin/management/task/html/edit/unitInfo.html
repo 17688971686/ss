@@ -20,8 +20,8 @@
             <span data-valmsg-for="orgCode" data-valmsg-replace="true" class="required"></span>-->
 			<input type="text" class="form-control input-sm" id="orgCode" maxlength="50" name="orgCode"
 				   ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.orgCode"
-				   data-val="true" data-val-regex="组织机构代码不合理！"
-				   data-val-regex-pattern="^\w\w\d{6}\w{9}\w$"/>
+				   data-val="true" data-val-regex="组织机构代码不合理！" placeholder="请填写非中文代码"
+				   data-val-regex-pattern="^[^\u4e00-\u9fa5]+$"/>
 			<span data-valmsg-for="orgCode" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td width="100px;" class="formAlignRight">电话号码：<span class="required">(*)</span></td>
@@ -32,7 +32,7 @@
 
 			<input type="text" class="form-control input-sm" id="unitTel" name="unitTel"
 				   ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitTel"
-				   data-val="true" data-val-required="必填" maxlength="13"
+				   data-val="true" data-val-required="必填" maxlength="13" placeholder="填写手机号或固话"
 				   data-val-regex="电话号码不合理！"
 				   data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 			<span data-valmsg-for="unitTel" data-valmsg-replace="true" class="required"></span>
@@ -91,14 +91,14 @@
 			<input class="form-control input-sm" type="text" id="unitResPerson" name="unitResPerson" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitResPerson" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="unitResPerson" data-valmsg-replace="true" class="required"></span>
 		</td>
-		<td width="100px;" class="juzhong">电话号码</span></td>
+		<td width="100px;" class="juzhong">电话号码：<span class="required">(*)</span></td>
 		<td>
 			<!--	<input class="form-control input-sm" type="text" id="resPersonTel" name="resPersonTel" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonTel"
                     data-val="true" data-val-required="必填"/>
                <span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>-->
 			<input type="text" class="form-control input-sm" id="resPersonTel" name="resPersonTel"
 				   ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonTel"
-				   data-val="true" data-val-required="必填" maxlength="13"
+				   data-val="true" data-val-required="必填" maxlength="13" placeholder="填写固话"
 				   data-val-regex="电话号码不合理！"
 				   data-val-regex-pattern="0\d{2,3}-\d{7,8}"/>
 			<span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>
@@ -111,7 +111,7 @@
                     data-val="true" data-val-required="必填"/>
                <span data-valmsg-for="resPersonMobile" data-valmsg-replace="true" class="required"></span>-->
 			<input type="text" class="form-control input-sm" id="resPersonMobile" name="resPersonMobile"
-				   ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonMobile"
+				   ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonMobile" placeholder="填写手机号码"
 				   data-val="true" data-val-required="必填" maxlength="11" data-val-length-max="11"
 				   data-val-regex="手机号码不合理！" data-val-regex-pattern="^1[34578]\d{9}$"/>
 			<span data-valmsg-for="resPersonMobile" data-valmsg-replace="true" class="required"></span>
@@ -176,7 +176,7 @@
                <span data-valmsg-for="resPersonTel_BZ" data-valmsg-replace="true" class="required"></span>-->
 				<input type="text" class="form-control input-sm" id="resPersonTel_BZ" name="resPersonTel_BZ"
 					   ng-model="vm.model.shenBaoInfo.bianZhiUnitInfoDto.resPersonTel"
-					   data-val="true" data-val-required="必填" maxlength="13"
+					   data-val="true" data-val-required="必填" maxlength="13" placeholder="填写固话"
 					   data-val-regex="电话号码不合理！"
 					   data-val-regex-pattern="0\d{2,3}-\d{7,8}"/>
 				<span data-valmsg-for="resPersonTel_BZ" data-valmsg-replace="true" class="required"></span>
@@ -189,7 +189,7 @@
                         data-val="true" data-val-required="必填"/>
                    <span data-valmsg-for="resPersonMobile_BZ" data-valmsg-replace="true" class="required"></span>-->
 				<input type="text" class="form-control input-sm" id="resPersonMobile_BZ" name="resPersonMobile_BZ"
-					   ng-model="vm.model.shenBaoInfo.bianZhiUnitInfoDto.resPersonMobile"
+					   ng-model="vm.model.shenBaoInfo.bianZhiUnitInfoDto.resPersonMobile" placeholder="填写手机号码"
 					   data-val="true" data-val-required="必填" maxlength="11" data-val-length-max="11"
 					   data-val-regex="手机号码不合理！" data-val-regex-pattern="^1[34578]\d{9}$"/>
 				<span data-valmsg-for="resPersonMobile_BZ" data-valmsg-replace="true" class="required"></span>

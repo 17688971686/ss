@@ -36,7 +36,7 @@
 				<tr>
 					<td class="formAlignRight">总指标：<span class="required">(*)</span></td>
 					<td>
-						<input type="number" step="any" class="form-control input-sm width120"  id="totalMoney" name="totalMoney" ng-model="vm.model.totalMoney" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+						<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm width120"  id="totalMoney" name="totalMoney" ng-model="vm.model.totalMoney" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 						<span data-valmsg-for="totalMoney" data-valmsg-replace="true" class="required"></span>
 					</td>
 					<td class="formAlignRight">使用情况：<span class="required">(*)</span></td>

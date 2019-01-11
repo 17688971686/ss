@@ -24,7 +24,7 @@
 		<td width="30%">
 			<input type="text" class="form-control input-sm" style="width:200px;" ng-model="vm.model.monthReport.fillMobile"
 				id="fillMobile" name="fillMobile"  data-val="true" data-val-required="必填" placeholder="填写固话或手机号"
-				data-val-regex="号码不合理！" data-val-regex-pattern="^((0\d{2,3}-\d{7,8})|(\d{7,8})|(1[3|4|5|8][0-9]\d{4,8}))$"/>
+				data-val-regex="号码不合理！" data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 			<span data-valmsg-for="fillMobile" data-valmsg-replace="true" class="required"></span>	
 		</td>
 	</tr>	
@@ -82,13 +82,13 @@
 	<tr>
 		<td>本月计划完成投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" step="any" class="form-control input-sm" style="width:200px;" id="thisMonthPlanInvestTotal" name="thisMonthPlanInvestTotal"
+			<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" style="width:200px;" id="thisMonthPlanInvestTotal" name="thisMonthPlanInvestTotal"
 			ng-model="vm.model.monthReport.thisMonthPlanInvestTotal" data-val="true" data-val-required="必填"/>&nbsp;（万元）
 			<span data-valmsg-for="thisMonthPlanInvestTotal" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td>本月已完成投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" step="any" class="form-control input-sm" style="width:200px;" id="thisMonthInvestTotal" name="thisMonthInvestTotal"
+			<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" style="width:200px;" id="thisMonthInvestTotal" name="thisMonthInvestTotal"
 			ng-model="vm.model.monthReport.thisMonthInvestTotal" data-val="true" data-val-required="必填"/>&nbsp;（万元）
 			<span data-valmsg-for="thisMonthInvestTotal" data-valmsg-replace="true" class="required"></span>
 		</td>
@@ -117,7 +117,7 @@
 	<tr>
 		<td colspan="3">
 			<p>
-				预计1到3月份完成投资（万元）： <input type="number" step="any" id="firstQuarCompInvestment"
+				预计1到3月份完成投资（万元）： <input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" id="firstQuarCompInvestment"
 					ng-model="vm.model.monthReport.firstQuarCompInvestment" class="form-control input-sm "
 					style="width: 80px; height: 28px">
 			</p>			
@@ -126,7 +126,7 @@
 	<tr>
 		<td colspan="3">
 			<p>
-				预计1到6月份完成投资（万元）： <input type="number" step="any" id="secondQuarCompInvestment"
+				预计1到6月份完成投资（万元）： <input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" id="secondQuarCompInvestment"
 					ng-model="vm.model.monthReport.secondQuarCompInvestment" class="form-control input-sm "
 					style="width: 80px; height: 28px">
 			</p>			
@@ -135,7 +135,7 @@
 	<tr>
 		<td colspan="3">
 			<p>
-				预计1到9月份完成投资（万元）： <input type="number" step="any" id="thirdQuarCompInvestment"
+				预计1到9月份完成投资（万元）： <input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" id="thirdQuarCompInvestment"
 					ng-model="vm.model.monthReport.thirdQuarCompInvestment" class="form-control input-sm "
 					style="width: 80px; height: 28px">
 			</p>			
@@ -144,7 +144,7 @@
 	<tr>
 		<td colspan="3">
 			<p>
-				预计1到12月份完成投资（万元）： <input type="number" step="any" id="fourthQuarCompInvestment"
+				预计1到12月份完成投资（万元）： <input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" id="fourthQuarCompInvestment"
 					ng-model="vm.model.monthReport.fourthQuarCompInvestment" class="form-control input-sm "
 					style="width: 80px; height: 28px">
 			</p>			

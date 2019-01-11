@@ -126,9 +126,9 @@
 					
 					<div class="form-item">
 						<h4 class="title">总投资范围</h4>
-						<input type="number" step="any" class="form-control" style="width:200px;" ng-model="vm.projectInvestSumBegin"/>
+						<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')"  class="form-control" style="width:200px;" ng-model="vm.projectInvestSumBegin"/>
 						<span>~</span>
-						<input type="number" step="any" class="form-control" style="width:200px;" min={{vm.projectInvestSumBegin}} ng-model="vm.projectInvestSumEnd"/>
+						<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control" style="width:200px;" min={{vm.projectInvestSumBegin}} ng-model="vm.projectInvestSumEnd"/>
 						<span>（万元）</span>
 					</div>
 					
@@ -210,16 +210,16 @@
 					</div>
 					<div class="form-item">
 						<h4 class="title">总投资范围：</h4>
-						<input type="number" step="any" class="form-control" style="width:200px;" ng-model="vm.projectInvestSumBegin"/>
+						<input type="number" min="0" step="any"  onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control" style="width:200px;" ng-model="vm.projectInvestSumBegin"/>
 						<span>~</span>
-						<input type="number" step="any" class="form-control" style="width:200px;" min={{vm.projectInvestSumBegin}} ng-model="vm.projectInvestSumEnd"/>
+						<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control" style="width:200px;" min={{vm.projectInvestSumBegin}} ng-model="vm.projectInvestSumEnd"/>
 						<span>（万元）</span>
 					</div>
 					<div class="form-item">
 						<h4 class="title">下达资金范围：</h4>
-						<input type="number" step="any" class="form-control" style="width:200px;" ng-model="vm.projectApPlanReachSumBegin"/>
+						<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control" style="width:200px;" ng-model="vm.projectApPlanReachSumBegin"/>
 						<span>~</span>
-						<input type="number" step="any" class="form-control" style="width:200px;" min={{vm.projectApPlanReachSumBegin}} ng-model="vm.projectApPlanReachSumEnd"/>
+						<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control" style="width:200px;" min={{vm.projectApPlanReachSumBegin}} ng-model="vm.projectApPlanReachSumEnd"/>
 						<span>（万元）</span>
 					</div>
 					<div class="form-item">

@@ -134,7 +134,7 @@ textarea.form-control {
 			</tr>
 			<tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask5'">
 				<td class="formAlignRight">计划安排资金-公共预算：</td>
-				<td><input type="number" step="any" style="width: 130px;"
+				<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width: 130px;"
 					class="form-control input-sm" id="apPlanReach_ggys"
 					name="apPlanReach_ggys"
 					ng-model="vm.model.shenBaoInfo.apPlanReach_ggys" data-val="true"
@@ -143,7 +143,7 @@ textarea.form-control {
 					class="required"></span></td>
 
 				<td class="formAlignRight">计划安排资金-国土资金：</td>
-				<td><input type="number" step="any" style="width: 130px;"
+				<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width: 130px;"
 					class="form-control input-sm" id="apPlanReach_gtzj"
 					name="apPlanReach_gtzj"
 					ng-model="vm.model.shenBaoInfo.apPlanReach_gtzj" data-val="true"

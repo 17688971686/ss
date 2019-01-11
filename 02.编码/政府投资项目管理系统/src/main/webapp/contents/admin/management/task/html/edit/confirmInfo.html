@@ -243,7 +243,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="formAlignRight">组织机构代码：</td>
+		<td class="formAlignRight">组织机构代码：<span class="required">(*)</span></td>
 		<td colspan="2">
 			<span id="orgCode" ng-bind="vm.model.shenBaoUnitInfoDto.orgCode"></span>			
 		</td>
@@ -284,17 +284,17 @@
 	 </tr>
 	 <tr>
 	    <td rowspan="3" class="formAlignRight">单位负责人：<span class="required">(*)</span></td>
-	    <td width="100px;">姓名</td>
+	    <td width="100px;">姓名：<span class="required">(*)</span></td>
 	    <td>
 	    	<span id="unitResPerson" ng-bind="vm.model.shenBaoUnitInfoDto.unitResPerson"></span>
 	    </td>
-	    <td width="100px;">电话号码</td>
+	    <td width="100px;">电话号码：<span class="required">(*)</span></td>
 	    <td>
 	    	<span id="resPersonTel" ng-bind="vm.model.shenBaoUnitInfoDto.resPersonTel"></span>
 	    </td>
 	 </tr>
 	 <tr>
-	    <td>手机</td>	   
+	    <td>手机：<span class="required">(*)</span></td>
 	    <td>
 	    	<span id="resPersonMobile" ng-bind="vm.model.shenBaoUnitInfoDto.resPersonMobile"></span>
 	    </td>
@@ -311,17 +311,17 @@
 	 </tr>	
 	<tr>
 	  <td rowspan="3" class="formAlignRight">项目联系人：<span class="required">(*)</span></td>
-	  <td>姓名</td>
+	  <td>姓名：<span class="required">(*)</span></td>
 	  <td>
 	  	<span id="unitContactPerson" ng-bind="vm.model.shenBaoUnitInfoDto.unitContactPerson"></span>
 	  </td>
-	  <td>电话号码</td>
+	  <td>电话号码：<span class="required">(*)</span></td>
 	  <td>
 	  	<span id="contactPersonTel" ng-bind="vm.model.shenBaoUnitInfoDto.contactPersonTel"></span>
 	  </td>
 	</tr>
 	<tr>
-	  <td>手机</td>	
+	  <td>手机：<span class="required">(*)</span></td>
 	  <td>
 	  	<span id="contactPersonMobile" ng-bind="vm.model.shenBaoUnitInfoDto.contactPersonMobile"></span>
 	  </td>

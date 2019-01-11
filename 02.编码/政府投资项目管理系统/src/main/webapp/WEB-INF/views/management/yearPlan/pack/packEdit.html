@@ -40,7 +40,7 @@
             <tr>
                 <td class="formAlignRight">总指标：<span class="required">(*)</span></td>
                 <td colspan="3">
-                    <input type="number" step="any" class="form-control input-sm width180" id="totalMoney"
+                    <input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm width180" id="totalMoney"
                            name="totalMoney" ng-model="vm.model.totalMoney" data-val="true" data-val-required="必填"/>&nbsp;(万元)
                     <span data-valmsg-for="totalMoney" data-valmsg-replace="true" class="required"></span>
                 </td>
@@ -52,13 +52,13 @@
             <tr>
                 <td class="formAlignRight">国土指标：<span class="required">(*)</span></td>
                 <td>
-                    <input type="number" step="any" class="form-control input-sm" style="    width: 130px;" id="gtMoney"
+                    <input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" style="    width: 130px;" id="gtMoney"
                            name="gtMoney" ng-model="vm.model.gtMoney" data-val="true" data-val-required="必填"/>&nbsp;(万元)
                     <span data-valmsg-for="gtMoney" data-valmsg-replace="true" class="required"></span>
                 </td>
                 <td class="formAlignRight">公共指标：</td>
                 <td>
-                    <input type="number" step="any" class="form-control input-sm" style="    width: 130px;" id="ggMoney"
+                    <input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" style="    width: 130px;" id="ggMoney"
                            name="ggMoney" ng-model="vm.model.ggMoney" data-val="true" data-val-required="必填"/>&nbsp;(万元)
                     <span data-valmsg-for="ggMoney" data-valmsg-replace="true" class="required"></span>
                 </td>
@@ -111,7 +111,7 @@
                                       class="required"></span>
                             </td>
                             <td>
-                                <input type="number" style="text-align:right"
+                                <input type="number" min="0" style="text-align:right" onkeyup="this.value=this.value.replace(/[^\d]/g,'')"
                                        class="form-control input-sm" id="capital_ggys_{{$index}}"
                                        name="capital_ggys_{{$index}}" ng-model="x.capital_ggys"
                                        data-val="true" data-val-required="必填"/><span
@@ -119,7 +119,7 @@
                                     data-valmsg-replace="true" class="required"></span>
                             </td>
                             <td>
-                                <input type="number" style="text-align:right"
+                                <input type="number" min="0" style="text-align:right" onkeyup="this.value=this.value.replace(/[^\d]/g,'')"
                                        class="form-control input-sm" id="capital_gtzj_{{$index}}"
                                        name="capital_gtzj_{{$index}}" ng-model="x.capital_gtzj"
                                        data-val="true" data-val-required="必填"/> <span

@@ -46,7 +46,7 @@
 
 			<input type="text" class="form-control input-sm" id="projectRepMobile" name="projectRepMobile"
 				   ng-model="vm.model.projectRepMobile"
-				   style="width:200px;"
+				   style="width:200px;" placeholder="填写手机号或固话"
 				   data-val="true" data-val-required="必填" maxlength="13"
 				   data-val-regex="项目负责人电话不合理！"
 				   data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
@@ -156,20 +156,20 @@
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required" ng-hide="vm.isYearPlan">(*)</span></td>
 		<td>
-			<input ng-hide="vm.isYearPlan" min="0" type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/>
+			<input ng-hide="vm.isYearPlan" min="0" type="number" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.projectInvestSum" data-val="true" data-val-required="必填"/>
 			<span ng-show="vm.isYearPlan" ng-bind="vm.model.projectInvestSum"></span>&nbsp;(万元)
 			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight">累计完成投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" min="0" step="any" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.projectInvestAccuSum" data-val="true" data-val-required="必填"/> (万元)
+			<input type="number" min="0" step="any" style="width:100px" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.projectInvestAccuSum" data-val="true" data-val-required="必填"/> (万元)
 			<span data-valmsg-for="projectInvestAccuSum" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">申报文件缓急：<span class="required">(*)</span></td>
 		<td colspan="3">
-			<select style="height:30px;" id="urgencyState" name="urgencyState" ng-model="vm.model.urgencyState" data-val="true" data-val-required="必选">
+			<select style="height:30px;" id="urgencyState" name="urgencyState"  ng-model="vm.model.urgencyState" data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.urgencyState" ng-selected="vm.model.urgencyState==x.id" value="{{x.id}}">{{x.description}}</option>
 			</select>

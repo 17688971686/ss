@@ -123,7 +123,7 @@
 			 		资料名称:<input type="text" id="dataName" name="dataName" ng-model="vm.dataName"/>
 			 	</div>
 			 	<div>
-			 		套数(单位：份):<input type="number" id="number" name="number" ng-model="vm.dataNumber"/>
+			 		套数(单位：份):<input type="number" min="0" id="number" name="number" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" ng-model="vm.dataNumber"/>
 			 	</div>
             </div>
 			<div class="modal-footer" >

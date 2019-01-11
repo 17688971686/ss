@@ -22,7 +22,7 @@
 		<tr>
 			<td class="formAlignRight">审定金额：<span class="required">(*)</span></td>
 			<td>
-				<input type="number" class="form-control input-sm" id="capitalSD" name="capitalSD" ng-model="vm.draft.capitalSD" data-val="true" data-val-required="必填"/>
+				<input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" id="capitalSD" name="capitalSD" ng-model="vm.draft.capitalSD" data-val="true" data-val-required="必填"/>
 				<span data-valmsg-for="capitalSD" data-valmsg-replace="true" class="required"></span>
 			</td>
 			<td class="formAlignRight">总投资：</td>

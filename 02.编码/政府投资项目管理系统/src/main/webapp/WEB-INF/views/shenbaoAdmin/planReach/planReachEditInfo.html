@@ -16,8 +16,16 @@
         </td>
         <td class="formAlignRight">负责人电话：<span class="required">(*)</span></td>
         <td>
-            <input type="text" class="form-control input-sm" id="resPersonTel" name="resPersonTel" ng-model="vm.model.resPersonTel" data-val="true" data-val-required="必填"/>
+          <!--  <input type="text" class="form-control input-sm" id="resPersonTel" name="resPersonTel" ng-model="vm.model.resPersonTel" data-val="true" data-val-required="必填"/>
+            <span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>-->
+            <input type="text" class="form-control input-sm" id="resPersonTel" name="resPersonTel"
+                   placeholder="填写手机号或固话"
+                   ng-model="vm.model.resPersonTel"
+                   data-val="true" data-val-required="必填" maxlength="13"
+                   data-val-regex="负责人电话不合理！"
+                   data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
             <span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>
+
         </td>
     </tr>
     <tr>

@@ -24,12 +24,12 @@
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
 		<td>	
-			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.shenBaoInfo.projectInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" min="0" step="any" style="width:100px" onkeyup="this.value=this.value.replace(/[^\d]/g,'')"   class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.shenBaoInfo.projectInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>			
 		</td>
 		<td class="formAlignRight">累计安排投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="apInvestSum" name="apInvestSum" ng-model="vm.model.shenBaoInfo.apInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" min="0" step="any" style="width:100px" onkeyup="this.value=this.value.replace(/[^\d]/g,'')"  class="form-control input-sm" id="apInvestSum" name="apInvestSum" ng-model="vm.model.shenBaoInfo.apInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="apInvestSum" data-valmsg-replace="true" class="required"></span>			
 		</td>
 	</tr>
@@ -45,7 +45,7 @@
 				<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="false" ng-model="vm.model.shenBaoInfo.isApplyOutsideCapital" ng-checked="vm.model.shenBaoInfo.isApplyOutsideCapital == false"/>&nbsp;否</label>
 				<label ng-if="vm.model.shenBaoInfo.isApplyOutsideCapital">
 					申请标外资金：
-					<input type="number" step="any" style="width:100px" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.applyOutsideCapital"/>
+					<input type="number" min="0" step="any" style="width:100px" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.applyOutsideCapital"/>
 					&nbsp;(万元)
 				</label>
 			</div>
@@ -83,9 +83,9 @@
 								<td>其他</td>
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalSCZ_ggys_TheYear" /></td>
-								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.shenBaoInfo.capitalSCZ_gtzj_TheYear"  /></td>
-								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.shenBaoInfo.capitalSCZ_qita" /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalSCZ_ggys_TheYear" /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm"  ng-model="vm.model.shenBaoInfo.capitalSCZ_gtzj_TheYear"  /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm"  ng-model="vm.model.shenBaoInfo.capitalSCZ_qita" /></td>
 							</tr>
 						</table>
 					</td>
@@ -96,8 +96,8 @@
 								<td>国土基金</td>
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalAP_ggys_TheYear"  /></td>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalAP_gtzj_TheYear"  /></td>
+								<td><input min="0" type="number" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalAP_ggys_TheYear"  /></td>
+								<td><input min="0" type="number" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalAP_gtzj_TheYear"  /></td>
 							</tr>
 						</table>
 					</td>
@@ -154,9 +154,9 @@
 								<td>其他</td>
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalSCZ_ggys_LastYear" /></td>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalSCZ_gtzj_LastYear"  /></td>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalSCZ_qita_LastYear" /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalSCZ_ggys_LastYear" /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalSCZ_gtzj_LastYear"  /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalSCZ_qita_LastYear" /></td>
 							</tr>
 						</table>
 					</td>
@@ -228,9 +228,9 @@
 								<td>其他</td>
 							</tr>
 							<tr>
-								<td><input type="number" step="any" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalSCZ_ggys_LastTwoYear" /></td>
-								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.shenBaoInfo.capitalSCZ_gtzj_LastTwoYear"  /></td>
-								<td><input type="number" step="any" class="form-control input-sm"  ng-model="vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear" /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.capitalSCZ_ggys_LastTwoYear" /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm"  ng-model="vm.model.shenBaoInfo.capitalSCZ_gtzj_LastTwoYear"  /></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm"  ng-model="vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear" /></td>
 							</tr>
 						</table>
 					</td>

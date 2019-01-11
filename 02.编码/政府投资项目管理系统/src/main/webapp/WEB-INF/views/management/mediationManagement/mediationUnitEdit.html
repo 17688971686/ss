@@ -47,7 +47,14 @@
                 </td>
                 <td class="formAlignRight" style="width:15%">主要联系人电话： <span class="required">(*)</span></td>
                 <td>
-                    <input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.contactsTel" id="contactsTel" name="contactsTel" data-val="true" data-val-required="必填">
+                    <!--<input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.contactsTel" id="contactsTel" name="contactsTel" data-val="true" data-val-required="必填">
+                    <span data-valmsg-for="contactsTel" data-valmsg-replace="true" class="required"></span>-->
+                    <input type="text" class="form-control input-sm" id="contactsTel" name="contactsTel"
+                           placeholder="填写手机号或固话"
+                           ng-model="vm.model.contactsTel"
+                           data-val="true" data-val-required="必填" maxlength="13"
+                           data-val-regex="电话号码不合理！"
+                           data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
                     <span data-valmsg-for="contactsTel" data-valmsg-replace="true" class="required"></span>
                 </td>
             </tr>

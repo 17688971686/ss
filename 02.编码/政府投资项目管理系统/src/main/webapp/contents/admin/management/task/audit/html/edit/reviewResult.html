@@ -49,13 +49,13 @@
 					</tr>
 					<tr>
 						<td ng-if="vm.taskAudit.processState == 'processState_9'">
-							<input type="number" id="projectInvestSum" name="projectInvestSum" ng-blur="vm.cal()" ng-model="vm.review.projectInvestSum"/>
+							<input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" id="projectInvestSum" name="projectInvestSum" ng-blur="vm.cal()" ng-model="vm.review.projectInvestSum"/>
 						</td>
 						<td ng-if="vm.taskAudit.processState != 'processState_9'">
 							<span ng-bind="vm.review.projectInvestSum"></span>
 						</td>
 						<td ng-if="vm.taskAudit.processState == 'processState_9'">
-							<input type="number" id="authorize" name="authorize" ng-blur="vm.cal()" ng-model="vm.review.authorize"/>
+							<input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" id="authorize" name="authorize" ng-blur="vm.cal()" ng-model="vm.review.authorize"/>
 						</td>
 						<td ng-if="vm.taskAudit.processState != 'processState_9'">
 							<span ng-bind="vm.review.authorize"></span>

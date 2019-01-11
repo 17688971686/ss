@@ -6,7 +6,6 @@
 		font-size: 15px;
 	}
 </style>
-
 <div class="well" style="border:0;background:white;">
 	<ol class="breadcrumb">
 		<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
@@ -41,21 +40,22 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="formAlignRight">组织机构代码：</td>
+						<td class="formAlignRight">组织机构代码：<span class="required">(*)</span></td>
 						<td colspan="2">
-							<input type="text" class="form-control input-sm" id="orgCode" maxlength="50" name="orgCode"
-								   ng-model="vm.model.orgCode"
-								   data-val="true" data-val-regex="组织机构代码不合理！"
-								   data-val-regex-pattern="^\w\w\d{6}\w{9}\w$"/>
+							<input type="text" class="form-control input-sm" id="orgCode" name="orgCode"
+								   ng-model="vm.model.orgCode" placeholder="请填写非中文代码"
+								   data-val="true" data-val-required="必填" data-val-regex="组织机构代码不合理！"
+								   required="true"
+								   data-val-regex-pattern="^[^\u4e00-\u9fa5]+$"/>
 							<span data-valmsg-for="orgCode" data-valmsg-replace="true" class="required"></span>
 						</td>
 						</td>
 						<td width="150px;">电话号码：<span class="required">(*)</span></td>
 						<td>
 							<input type="text" class="form-control input-sm" id="unitTel" name="unitTel"
-								   ng-model="vm.model.unitTel"
+								   ng-model="vm.model.unitTel" placeholder="填写手机号或固话"
 								   data-val="true" data-val-required="必填" maxlength="13"
-								   data-val-regex="电话号码不合理！"
+								   data-val-regex="电话号码不合理"
 								   data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 							<span data-valmsg-for="unitTel" data-valmsg-replace="true" class="required"></span>
 						</td>
@@ -131,10 +131,10 @@
 						<td width="120px;">电话号码：<span class="required">(*)</span></td>
 						<td>
 							<input type="text" class="form-control input-sm" id="resPersonTel" name="resPersonTel"
-								   ng-model="vm.model.resPersonTel"
+								   ng-model="vm.model.resPersonTel" placeholder="填写手机号或固话"
 								   data-val="true" data-val-required="必填" maxlength="13"
 								   data-val-regex="电话号码不合理！"
-								   data-val-regex-pattern="0\d{2,3}-\d{7,8}"/>
+								   data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 							<span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>
 						</td>
 					</tr>
@@ -142,7 +142,7 @@
 						<td>手机：<span class="required">(*)</span></td>
 						<td>
 							<input type="text" class="form-control input-sm" id="resPersonMobile" name="resPersonMobile"
-								   ng-model="vm.model.resPersonMobile"
+								   ng-model="vm.model.resPersonMobile" placeholder="填写手机号码"
 								   data-val="true" data-val-required="必填" maxlength="11" data-val-length-max="11"
 								   data-val-regex="手机号码不合理！" data-val-regex-pattern="^1[34578]\d{9}$"/>
 							<span data-valmsg-for="resPersonMobile" data-valmsg-replace="true" class="required"></span>

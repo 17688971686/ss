@@ -21,9 +21,9 @@
 			<span data-valmsg-for="orgCode" data-valmsg-replace="true" class="required"></span>-->
 		<td colspan="2">
 			<input type="text" class="form-control input-sm" id="orgCode" maxlength="50" name="orgCode"
-				   ng-model="vm.model.shenBaoUnitInfoDto.orgCode"
+				   ng-model="vm.model.shenBaoUnitInfoDto.orgCode" placeholder="请输入非中文代码"
 				   data-val="true" data-val-required="必填" data-val-regex="组织机构代码不合理！"
-				   data-val-regex-pattern="^\w\w\d{6}\w{9}\w$"/>
+				   data-val-regex-pattern="^[^\u4e00-\u9fa5]+$"/>
 			<span data-valmsg-for="orgCode" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td width="100" class="formAlignRight">电话号码：<span class="required">(*)</span></td>
@@ -33,7 +33,7 @@
                     maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
              <span data-valmsg-for="unitTel" data-valmsg-replace="true" class="required"></span>-->
 			<input type="text" class="form-control input-sm" id="unitTel" name="unitTel"
-				   ng-model="vm.model.shenBaoUnitInfoDto.unitTel"
+				   ng-model="vm.model.shenBaoUnitInfoDto.unitTel" placeholder="填写手机号或固话"
 				   data-val="true" data-val-required="必填" maxlength="13"
 				   data-val-regex="电话号码不合理！"
 				   data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
@@ -101,11 +101,11 @@
                       maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
                <span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>-->
 			<input type="text" class="form-control input-sm" id="resPersonTel" name="resPersonTel"
-				   placeholder="手机或固话"
+				   placeholder="填写手机号或固话"
 				   ng-model="vm.model.shenBaoUnitInfoDto.resPersonTel"
 				   data-val="true" data-val-required="必填" maxlength="13"
 				   data-val-regex="电话号码不合理！"
-				   data-val-regex-pattern="0\d{2,3}-\d{7,8}"/>
+				   data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 			<span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
@@ -184,10 +184,10 @@
                           maxlength="12" data-val-length-max="12" data-val-regex="最多只能输入12位字符"/>
                    <span data-valmsg-for="resPersonTel_BZ" data-valmsg-replace="true" class="required"></span>-->
 				<input type="text" class="form-control input-sm" id="resPersonTel_BZ" name="resPersonTel_BZ"
-					   ng-model="vm.model.bianZhiUnitInfoDto.resPersonTel"
+					   ng-model="vm.model.bianZhiUnitInfoDto.resPersonTel" placeholder="填写手机号或固话"
 					   data-val="true" maxlength="13"
 					   data-val-regex="电话号码不合理！"
-					   data-val-regex-pattern="0\d{2,3}-\d{7,8}"/>
+					   data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 				<span data-valmsg-for="resPersonTel_BZ" data-valmsg-replace="true" class="required"></span>
 			</td>
 		</tr>
