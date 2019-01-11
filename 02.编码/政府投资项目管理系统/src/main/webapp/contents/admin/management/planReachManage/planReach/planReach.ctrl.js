@@ -5,9 +5,9 @@
         .module('app')
         .controller('planReachCtrl', planReach);
 
-    planReach.$inject = ['$location','planReachSvc','$state','$scope','$sce']; 
+    planReach.$inject = ['$location','planReachSvc','$state','$scope','$sce','bsWin']; 
 
-    function planReach($location, planReachSvc,$state,$scope,$sce) {
+    function planReach($location, planReachSvc,$state,$scope,$sce,bsWin) {
         /* jshint validthis:true */
         var vm = this;
         var routeName = $state.current.name;
@@ -168,13 +168,26 @@
         	}
         	
         	vm.addmoneys = function (shenbaoId,xdPlanReach_ggys,xdPlanReach_gtzj) {
-               for (var int = 0; int < vm.model.shenBaoInfoDtos.length; int++) {
-				var array_element = vm.model.shenBaoInfoDtos[int];
-				if(array_element.id == shenbaoId){
-					 planReachSvc.updateShnebaoInfo(vm, array_element);
-				}
-			}
-        		
+        		if(xdPlanReach_ggys == null ||
+        				xdPlanReach_gtzj == null ){
+        			bsWin.success("请正确填写资金！");
+        		}else{
+        			for (var int = 0; int < vm.model.shenBaoInfoDtos.length; int++) {
+        				var array_element = vm.model.shenBaoInfoDtos[int];
+        				if(array_element.id == shenbaoId){
+        					array_element.xdPlanReach_ggys = xdPlanReach_ggys;
+        					array_element.xdPlanReach_gtzj = xdPlanReach_gtzj;
+        					if(xdPlanReach_ggys + xdPlanReach_gtzj +array_element.apInvestSum > array_element.projectInvestSum){
+        						vm.isSubmit = true;
+        						bsWin.success("申请资金+累计投资超过总投资,请重新填写！");
+        					}else{
+        						vm.isSubmit = false;
+        						planReachSvc.updateShnebaoInfo(vm, array_element);
+        					}
+   
+        				}
+        			}
+        		}
                
             }
         	//获取计划下达数据

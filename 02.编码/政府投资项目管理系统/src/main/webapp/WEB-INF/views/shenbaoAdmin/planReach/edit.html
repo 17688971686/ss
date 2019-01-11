@@ -107,12 +107,18 @@
 </form>
 <script type="text/template" id="columnBtn_projectsForPack"></script>
 <script type="text/template" id="input">
-	<input type="number" step="any" style="width:100px" id="capitalSum1" ng-model="dataItem.sqPlanReach_ggys"  ng-if="{2}" value="{1}" ng-blur="vm.addmoney(dataItem.id,dataItem.sqPlanReach_ggys,dataItem.sqPlanReach_gtzj)"/>
+	<input type="number" step="any" style="width:100px" id="capitalSum1" name="capitalSum1" 
+data-val="true" data-val-regex="金额格式有误"  data-val-regex-pattern="^\d+(\.\d+)?$"
+ng-model="dataItem.sqPlanReach_ggys"  ng-if="{2}" value="{1}" ng-blur="vm.addmoney(dataItem.id,dataItem.sqPlanReach_ggys,dataItem.sqPlanReach_gtzj)"/>
 	<span ng-if="!{2}" ng-bind="vm.gg['{0}']"></span>
+<span data-valmsg-for="capitalSum1" data-valmsg-replace="true" class="required"></span>
 </script>
 <script type="text/template" id="input2">
-	<input type="number" step="any" style="width:100px" id="capitalSum2" ng-model="dataItem.sqPlanReach_gtzj" ng-if="{2}" value="{1}" ng-blur="vm.addmoney(dataItem.id,dataItem.sqPlanReach_ggys,dataItem.sqPlanReach_gtzj)"/>
+	<input type="number" step="any" style="width:100px" id="capitalSum2" name="capitalSum2" 
+data-val="true" data-val-regex="金额格式有误"  data-val-regex-pattern="^\d+(\.\d+)?$"
+ng-model="dataItem.sqPlanReach_gtzj" ng-if="{2}" value="{1}" ng-blur="vm.addmoney(dataItem.id,dataItem.sqPlanReach_ggys,dataItem.sqPlanReach_gtzj)"/>
 	<span ng-if="!{2}" ng-bind="vm.gt['{0}']"></span>
+<span data-valmsg-for="capitalSum2" data-valmsg-replace="true" class="required"></span>
 </script>
 <div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>

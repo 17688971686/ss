@@ -1171,10 +1171,10 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         String executionId = process.getId();
 
         Task task = activitiService.getTaskByExecutionId(executionId);
-        if(isPushOA){
-        	 activitiService.setTaskProcessVariable(task.getId(), "eventIds", bl.getEventId()+",");
-             processService.todoShenbaoInfo(entity,sysConfg.getConfigValue(),bl);
-        }
+//        if(isPushOA){
+//        	 activitiService.setTaskProcessVariable(task.getId(), "eventIds", bl.getEventId()+",");
+//             processService.todoShenbaoInfo(entity,sysConfg.getConfigValue(),bl);
+//        }
        
         entity.setProcessStage("投资科审核收件办理");
         entity.setProcessState(BasicDataConfig.processState_jinxingzhong);

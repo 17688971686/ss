@@ -58,7 +58,11 @@
         })
 
         vm.startProcessOne = function (id) {
-            planReachSvc.startProcessOne(vm, id);
+        	 common.initJqValidation();
+             var isValid = $('form').valid();
+             if (isValid) {
+            	 planReachSvc.startProcessOne(vm, id);
+             }
         };
         vm.deleteProcessOne = function (id) {
             planReachSvc.deleteProcessOne(vm, id);
@@ -190,21 +194,27 @@
         }
 
         vm.addmoney = function (shenbaoId ,num1,num2) {
-        	for (var int = 0; int < vm.model.shenBaoInfoDtos.length; int++) {
-				var array_element = vm.model.shenBaoInfoDtos[int];
-				if(shenbaoId==array_element.id){
-					array_element.sqPlanReach_ggys = num1;
-					array_element.sqPlanReach_gtzj = num2;
-					if(num1 + num2 +array_element.apInvestSum > array_element.projectInvestSum){
-						vm.isSubmit = true;
-						bsWin.success("申请资金+累计投资超过总投资,请重新填写！");
-					}else{
-						vm.isSubmit = false;
-						planReachSvc.updateShnebaoInfo(vm,array_element);
-					}
-					
-				}
-			}
+        	if(num1 == null ||
+        			num2 == null ){
+    			bsWin.success("请正确填写资金！");
+    		}else{
+    			for (var int = 0; int < vm.model.shenBaoInfoDtos.length; int++) {
+    				var array_element = vm.model.shenBaoInfoDtos[int];
+    				if(shenbaoId==array_element.id){
+    					array_element.sqPlanReach_ggys = num1;
+    					array_element.sqPlanReach_gtzj = num2;
+    					if(num1 + num2 +array_element.apInvestSum > array_element.projectInvestSum){
+    						vm.isSubmit = true;
+    						bsWin.success("申请资金+累计投资超过总投资,请重新填写！");
+    					}else{
+    						vm.isSubmit = false;
+    						planReachSvc.updateShnebaoInfo(vm,array_element);
+    					}
+    					
+    				}
+    			}
+    		}
+        	
             
         }
         //移除打包计划

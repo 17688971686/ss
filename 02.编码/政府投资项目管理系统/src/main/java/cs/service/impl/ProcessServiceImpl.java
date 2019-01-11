@@ -623,24 +623,24 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setThisTaskName(tasknew.get(0).getTaskDefinitionKey());
 			shenBaoInfo.setProcessStage(tasknew.get(0).getName());
 			//对接OA工作圈
-			if(isPushOA){
-				System.out.println("=========1>"+isPushOA);
-				StringBuffer sb = new StringBuffer();
-				for (int i = 0; i < taskUsers.size(); i++) {
-					String array_element = taskUsers.get(i);
-					System.out.println("=========2>"+array_element);
-					Backlog bl = new Backlog();
-					bl.setEventId(UUID.randomUUID().toString());
-					bl.setBureauName("发展和财政局");
-					bl.setSendDeptName("投资科（重大项目办）");
-					bl.setBureauName("发展和财政局");
-					bl.setDeptName("投资科（重大项目办）");
-					sb.append(bl.getEventId()+",");
-					this.todoShenbaoInfo(shenBaoInfo ,array_element,bl);
-					System.out.println("=========3>"+array_element);
-				}
-				activitiService.setTaskProcessVariable(tasknew.get(0).getId(), "eventIds", sb.toString());
-			}
+//			if(isPushOA){
+//				System.out.println("=========1>"+isPushOA);
+//				StringBuffer sb = new StringBuffer();
+//				for (int i = 0; i < taskUsers.size(); i++) {
+//					String array_element = taskUsers.get(i);
+//					System.out.println("=========2>"+array_element);
+//					Backlog bl = new Backlog();
+//					bl.setEventId(UUID.randomUUID().toString());
+//					bl.setBureauName("发展和财政局");
+//					bl.setSendDeptName("投资科（重大项目办）");
+//					bl.setBureauName("发展和财政局");
+//					bl.setDeptName("投资科（重大项目办）");
+//					sb.append(bl.getEventId()+",");
+////					this.todoShenbaoInfo(shenBaoInfo ,array_element,bl);
+//					System.out.println("=========3>"+array_element);
+//				}
+//				activitiService.setTaskProcessVariable(tasknew.get(0).getId(), "eventIds", sb.toString());
+//			}
 			
 		}
 		projectRepo.save(project);
@@ -1291,18 +1291,18 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			shenBaoInfo.setThisTaskName(tasknew.get(0).getTaskDefinitionKey());
 			shenBaoInfo.setProcessStage(tasknew.get(0).getName());
 			shenBaoInfo.setThisTaskId(tasknew.get(0).getId());
-			if(isPushOA){
-				StringBuffer sb = new StringBuffer();
-				Backlog bl = new Backlog();
-				bl.setEventId(UUID.randomUUID().toString());
-				sb.append(bl.getEventId()+",");
-				bl.setBureauName("发展和财政局");
-//				bl.setSendDeptName("投资科（重大项目办）");
-				bl.setBureauName("发展和财政局");
-//				bl.setDeptName("投资科（重大项目办）");
-				this.todoShenbaoInfo(shenBaoInfo ,nextUsers,bl);
-				activitiService.setTaskProcessVariable(tasknew.get(0).getId(), "eventIds", sb.toString());
-			}
+//			if(isPushOA){
+//				StringBuffer sb = new StringBuffer();
+//				Backlog bl = new Backlog();
+//				bl.setEventId(UUID.randomUUID().toString());
+//				sb.append(bl.getEventId()+",");
+//				bl.setBureauName("发展和财政局");
+////				bl.setSendDeptName("投资科（重大项目办）");
+//				bl.setBureauName("发展和财政局");
+////				bl.setDeptName("投资科（重大项目办）");
+////				this.todoShenbaoInfo(shenBaoInfo ,nextUsers,bl);
+//				activitiService.setTaskProcessVariable(tasknew.get(0).getId(), "eventIds", sb.toString());
+//			}
 		}
 		
 		shenBaoInfoRepo.save(shenBaoInfo);
@@ -1377,11 +1377,14 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			try {
 				Integer effect = HuasisoftUtil.getBacklogManager().save(bl);
 				if(effect == 101){
-					System.out.println("=========4>"+"插入待办成功！");
+					System.out.println("=========success>"+"插入待办成功！");
 					logger.info("插入待办成功！");
+				}else if(effect == 103){
+					System.out.println("=========log>"+"您在重复推送待办！");
 				}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				
+				System.out.println("=========log>"+"插入待办失败！");
 				e.printStackTrace();
 			}
 		}

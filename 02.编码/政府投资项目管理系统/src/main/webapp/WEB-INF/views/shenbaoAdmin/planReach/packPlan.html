@@ -68,12 +68,18 @@
 	<button class="btn btn-xs btn-success" ng-click="vm.deleteProcessOne('{0}')"><span class="glyphicon glyphicon-pencil"></span>撤销</button>
 </script>
 <script type="text/template" id="input_plan">
-	<input type="number" step="any" style="width:100px" id="capitalSum1" ng-if="{2}" ng-model="dataItem.sqPlanReach_ggys" value="{1}" ng-blur="vm.addmoney('{0}',dataItem.sqPlanReach_ggys,dataItem.sqPlanReach_gtzj)"/>
+	<input type="number" step="any" style="width:100px" id="capitalSum1" ng-if="{2}" 
+data-val="true" data-val-regex="金额格式有误"  data-val-regex-pattern="^\d+(\.\d+)?$"
+ng-model="dataItem.sqPlanReach_ggys" value="{1}" ng-blur="vm.addmoney('{0}',dataItem.sqPlanReach_ggys,dataItem.sqPlanReach_gtzj)"/>
 	<span ng-if="!{2}" ng-bind="vm.gg['{0}']"></span>
+<span data-valmsg-for="capitalSum1" data-valmsg-replace="true" class="required"></span>
 </script>
 <script type="text/template" id="input2_plan">
-	<input type="number" step="any" style="width:100px" id="capitalSum2" ng-if="{2}" ng-model="dataItem.sqPlanReach_gtzj" value="{1}" ng-blur="vm.addmoney('{0}',dataItem.sqPlanReach_ggys,dataItem.sqPlanReach_gtzj)"/>
+	<input type="number" step="any" style="width:100px" id="capitalSum2" ng-if="{2}" 
+data-val="true" data-val-regex="金额格式有误"  data-val-regex-pattern="^\d+(\.\d+)?$"
+ng-model="dataItem.sqPlanReach_gtzj" value="{1}" ng-blur="vm.addmoney('{0}',dataItem.sqPlanReach_ggys,dataItem.sqPlanReach_gtzj)"/>
 	<span ng-if="!{2}" ng-bind="vm.gt['{0}']"></span>
+<span data-valmsg-for="capitalSum2" data-valmsg-replace="true" class="required"></span>
 </script>
 <!-- ng-blur="vm.addmoney('{0}')" -->
 <!--项目申报记录模态框 -->
