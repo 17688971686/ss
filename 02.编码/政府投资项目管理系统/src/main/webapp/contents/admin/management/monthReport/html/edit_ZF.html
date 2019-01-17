@@ -14,14 +14,14 @@
 	<tr>
 		<td width="15%">填报人姓名：<span class="required">(*)</span></td>				
 		<td width="35%">
-		<input type="text" class="form-control input-sm" style="width:200px;" ng-model="vm.model.monthReport.fillName"
+		<input type="text" class="form-control input-sm" style="width:200px;" ng-model="vm.model.monthReport.fillName" autocomplete="off"
 		id="fillName" name="fillName" data-val="true" data-val-required="必填">					
 		</td>					
 		<td width="15%">填报人手机：<span class="required">(*)</span></td>
 		
 		<td width="35%" >
 			<input type="text" class="form-control input-sm" style="width:200px;" ng-model="vm.model.monthReport.fillMobile"
-			id="fillMobile" name="fillMobile"  data-val="true" data-val-required="必填" placeholder="填写固话或手机号"
+			id="fillMobile" name="fillMobile"  data-val="true" data-val-required="必填" placeholder="填写固话或手机号" autocomplete="off"
 			data-val-regex="号码不合理！" data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 			<span data-valmsg-for="fillMobile" data-valmsg-replace="true" class="required"></span>	
 		</td>
@@ -29,13 +29,13 @@
 	<tr>
 		<td>项目负责人：</td>
 		<td>
-			<input type="text" class="form-control input-sm" style="width:200px;" ng-model="vm.model.monthReport.projectRepName"
+			<input type="text" class="form-control input-sm" style="width:200px;" ng-model="vm.model.monthReport.projectRepName" autocomplete="off"
 			id="projectRepName" name="projectRepName">	
 		</td>
 		<td>项目负责人电话：</td>
 		<td>
 			<input type="text" class="form-control input-sm" style="width:200px;" ng-model="vm.model.monthReport.projectRepMobile"
-				id="projectRepMobile" name="projectRepMobile"  data-val="true" data-val-required="必填" placeholder="填写固话或手机号"
+				id="projectRepMobile" name="projectRepMobile"  data-val="true" data-val-required="必填" placeholder="填写固话或手机号" autocomplete="off"
 				data-val-regex="号码不合理！" data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 				<span data-valmsg-for="projectRepMobile" data-valmsg-replace="true" class="required"></span>
 			</td>
@@ -47,13 +47,17 @@
 			<td width="15%">开工日期：<span class="required">(*)</span></td>
 			<td width="35%">
 				<input type="text" id="beginDate" name="beginDate" onkeydown="return false;"
-		 	ng-model="vm.model.monthReport.beginDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>
+		 	ng-model="vm.model.monthReport.beginDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"
+					   data-val="true" data-val-required="必填"
+				/>
 		 	<span data-valmsg-for="beginDate" data-valmsg-replace="true" class="required"></span>
 		</td>					
 		<td width="15%">竣工日期：<span class="required">(*)</span></td>				
 		<td width="35%">
 			<input type="text" id="endDate" name="endDate" onkeydown="return false;"
-		 	ng-model="vm.model.monthReport.endDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>
+		 	ng-model="vm.model.monthReport.endDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"
+				   data-val="true" data-val-required="必填"
+			/>
 		 	<span data-valmsg-for="endDate" data-valmsg-replace="true" class="required"></span>
 		</td>				
 	</tr>

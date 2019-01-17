@@ -168,7 +168,8 @@
 					url : common.format(url_mediationManagement + "?$filter=id eq '{0}'", vm.id)
 				};
 				var httpSuccess = function success(response) {
-					vm.model = response.data.value[0];	
+					vm.model = response.data.value[0];
+                    vm.selectedIndex = vm.model.credentialsType;
 				};
 				
 				common.http({

@@ -13,7 +13,7 @@
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目名称：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" class="form-control input-sm" id="projectName" name="projectName" ng-model="vm.model.shenBaoInfo.projectName" data-val="true" data-val-required="必填"/>
+			<input type="text" autocomplete="off" class="form-control input-sm" id="projectName" name="projectName" ng-model="vm.model.shenBaoInfo.projectName" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight" style="width:180px;">项目阶段：<span class="required">(*)</span></td>
@@ -33,7 +33,7 @@
 		</td>
 		<td class="formAlignRight">项目负责人电话：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" class="form-control input-sm" style="width:200px;" id="projectRepMobile" name="projectRepMobile" ng-model="vm.model.shenBaoInfo.projectRepMobile"
+			<input type="text" autocomplete="off" class="form-control input-sm" style="width:200px;" id="projectRepMobile" name="projectRepMobile" ng-model="vm.model.shenBaoInfo.projectRepMobile"
 				   data-val="true" data-val-required="必填" placeholder="填写固话或手机号" maxlength="13"
 				   data-val-regex="号码不合理！" data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 			<span data-valmsg-for="projectRepMobile" data-valmsg-replace="true" class="required"></span>
@@ -112,7 +112,7 @@
 				<option ng-repeat="x in vm.basicData.area_Street" value="{{x.id}}" ng-selected="vm.model.shenBaoInfo.divisionId==x.id">{{x.description}}</option>
 			</select>
 			<span data-valmsg-for="divisionId" data-valmsg-replace="true" class="required"></span>
-			<input type="text" class="form-control input-sm pull-left" style="width:500px;" id="projectAddress" name="projectAddress" ng-model="vm.model.shenBaoInfo.projectAddress" data-val="true" data-val-required="必填"/>
+			<input type="text" autocomplete="off" class="form-control input-sm pull-left" style="width:500px;" id="projectAddress" name="projectAddress" ng-model="vm.model.shenBaoInfo.projectAddress" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="projectAddress" data-valmsg-replace="true" class="errors"></span>
 		</td>
 	</tr>

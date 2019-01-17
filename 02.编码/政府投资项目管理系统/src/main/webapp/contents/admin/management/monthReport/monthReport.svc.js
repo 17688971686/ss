@@ -63,8 +63,8 @@
 								vm.model.monthReport.pifuKXXYJBG_date=common.toDate(vm.model.projectInfo.pifuKXXYJBG_date);
 								vm.model.monthReport.pifuCBSJYGS_date=common.toDate(vm.model.projectInfo.pifuCBSJYGS_date);
 								//开工日期&竣工日期处理
-								//vm.model.monthReport.beginDate=common.formatDate(vm.model.monthReport.beginDate);
-								//vm.model.monthReport.endDate=common.formatDate(vm.model.monthReport.endDate);
+								vm.model.monthReport.beginDate=common.formatDate(vm.model.monthReport.beginDate);
+								vm.model.monthReport.endDate=common.formatDate(vm.model.monthReport.endDate);
 								//金钱处理(TODO 这一块没必要了)
 								vm.model.monthReport.invertPlanTotal=common.toMoney(vm.model.monthReport.invertPlanTotal);//项目总投资
 								vm.model.monthReport.actuallyFinishiInvestment=common.toMoney(vm.model.monthReport.actuallyFinishiInvestment);//至今完成投资

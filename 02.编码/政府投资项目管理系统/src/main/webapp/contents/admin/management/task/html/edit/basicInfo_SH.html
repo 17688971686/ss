@@ -29,13 +29,13 @@
 	<tr>
 		<td class="formAlignRight">项目负责人名称：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" class="form-control input-sm" id="projectRepName" name="projectRepName" ng-model="vm.model.projectRepName"
+			<input type="text" autocomplete="off" class="form-control input-sm" id="projectRepName" name="projectRepName" ng-model="vm.model.projectRepName"
 				   data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="projectRepName" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight">项目负责人电话：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" class="form-control input-sm" style="width:200px;" id="projectRepMobile" name="projectRepMobile" ng-model="vm.model.projectRepMobile"
+			<input type="text" autocomplete="off" class="form-control input-sm" style="width:200px;" id="projectRepMobile" name="projectRepMobile" ng-model="vm.model.projectRepMobile"
 				   data-val="true" data-val-required="必填" placeholder="填写固话或手机号" maxlength="13"
 				   data-val-regex="号码不合理！" data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 			<span data-valmsg-for="projectRepMobile" data-valmsg-replace="true" class="required"></span>
@@ -54,7 +54,7 @@
 	<tr>
 		<td class="formAlignRight">功能科目：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" class="form-control input-sm" style="width:200px;" id="functionSubjects" name="functionSubjects"
+			<input type="text" autocomplete="off" class="form-control input-sm" style="width:200px;" id="functionSubjects" name="functionSubjects"
 				   ng-model="vm.model.functionSubjects" data-val="true" data-val-required="必填" placeholder="请输入7位数字代码"
 				   maxlength="7"
 				   data-val-regex="代码不合理！" data-val-regex-pattern="^[0-9]{7}$"/>
@@ -62,7 +62,7 @@
 		</td>
 		<td class="formAlignRight">经济分类科目：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" class="form-control input-sm" style="width:200px;" id="econClassSubjects" name="econClassSubjects"
+			<input type="text" autocomplete="off" class="form-control input-sm" style="width:200px;" id="econClassSubjects" name="econClassSubjects"
 				   ng-model="vm.model.econClassSubjects" data-val="true" data-val-required="必填" placeholder="请输入5位数字代码"
 				   maxlength="5"
 				   data-val-regex="代码不合理！" data-val-regex-pattern="^[0-9]{5}$"/>
@@ -119,7 +119,7 @@
 				<option ng-repeat="x in vm.basicData.area_Street" value="{{x.id}}">{{x.description}}</option>
 			</select>
 			<span data-valmsg-for="divisionId" data-valmsg-replace="true" class="errors"></span>
-			<input type="text" class="form-control input-sm pull-left" style="width:500px;" id="projectAddress" name="projectAddress" ng-model="vm.model.projectAddress" data-val="true" data-val-required="必填"/>
+			<input type="text" autocomplete="off" class="form-control input-sm pull-left" style="width:500px;" id="projectAddress" name="projectAddress" ng-model="vm.model.projectAddress" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="projectAddress" data-valmsg-replace="true" class="errors"></span>
 		</td>
 	</tr>

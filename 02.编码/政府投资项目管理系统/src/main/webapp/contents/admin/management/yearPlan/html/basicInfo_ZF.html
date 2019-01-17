@@ -16,7 +16,7 @@
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目名称：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" class="form-control input-sm" id="projectName" name="projectName" ng-model="vm.model.shenBaoInfo.projectName" data-val="true" data-val-required="必填"/>
+			<input type="text" autocomplete="off" class="form-control input-sm" id="projectName" name="projectName" ng-model="vm.model.shenBaoInfo.projectName" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight" style="width:180px;">项目阶段：<span class="required">(*)</span></td>
@@ -32,13 +32,13 @@
 	<tr>
 		<td class="formAlignRight">项目负责人名称：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" class="form-control input-sm" id="projectRepName" name="projectRepName" ng-model="vm.model.shenBaoInfo.projectRepName"
+			<input type="text" autocomplete="off" class="form-control input-sm" id="projectRepName" name="projectRepName" ng-model="vm.model.shenBaoInfo.projectRepName"
 				   data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="projectRepName" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight">项目负责人电话：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" class="form-control input-sm" style="width:200px;" id="projectRepMobile" name="projectRepMobile" ng-model="vm.model.shenBaoInfo.projectRepMobile"
+			<input type="text" autocomplete="off" class="form-control input-sm" style="width:200px;" id="projectRepMobile" name="projectRepMobile" ng-model="vm.model.shenBaoInfo.projectRepMobile"
 				   data-val="true" data-val-required="必填" placeholder="填写固话或手机号" maxlength="13"
 				   data-val-regex="号码不合理！" data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 			<span data-valmsg-for="projectRepMobile" data-valmsg-replace="true" class="required"></span>
@@ -57,19 +57,19 @@
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目代码：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" style="width: 40%" id="projectNumber" name="projectNumber" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.projectNumber" data-val="true" data-val-required="必填" />
+			<input type="text" autocomplete="off" style="width: 40%" id="projectNumber" name="projectNumber" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.projectNumber" data-val="true" data-val-required="必填" />
 			<span data-valmsg-for="projectNumber" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight" >国家编码：</td>
 
 		<td>
-			<input type="text" style="width: 80%" id="countryNumber" name="countryNumber" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.countryNumber" data-val="true" data-val-required="必填" />
+			<input type="text" autocomplete="off" style="width: 80%" id="countryNumber" name="countryNumber" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.countryNumber" data-val="true" data-val-required="必填" />
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">功能科目：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" class="form-control input-sm" style="width:200px;" id="functionSubjects" name="functionSubjects"
+			<input type="text" autocomplete="off" class="form-control input-sm" style="width:200px;" id="functionSubjects" name="functionSubjects"
 				   ng-model="vm.model.shenBaoInfo.functionSubjects" data-val="true" data-val-required="必填" placeholder="请输入7位数字代码"
 				   maxlength="7"
 				   data-val-regex="代码不合理！" data-val-regex-pattern="^[0-9]{7}$"/>
@@ -77,7 +77,7 @@
 		</td>
 		<td class="formAlignRight">经济分类科目：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" class="form-control input-sm" style="width:200px;" id="econClassSubjects" name="econClassSubjects"
+			<input type="text" autocomplete="off" class="form-control input-sm" style="width:200px;" id="econClassSubjects" name="econClassSubjects"
 				   ng-model="vm.model.shenBaoInfo.econClassSubjects" data-val="true" data-val-required="必填" placeholder="请输入5位数字代码"
 				   maxlength="5"
 				   data-val-regex="代码不合理！" data-val-regex-pattern="^[0-9]{5}$"/>
@@ -126,7 +126,7 @@
 				<option ng-repeat="x in vm.basicData.area_Street" value="{{x.id}}">{{x.description}}</option>
 			</select>
 			<span data-valmsg-for="divisionId" data-valmsg-replace="true" class="errors"></span>
-			<input type="text" class="form-control input-sm pull-left" style="width:500px;" id="projectAddress" name="projectAddress" ng-model="vm.model.shenBaoInfo.projectAddress" data-val="true" data-val-required="必填"/>
+			<input type="text" autocomplete="off" class="form-control input-sm pull-left" style="width:500px;" id="projectAddress" name="projectAddress" ng-model="vm.model.shenBaoInfo.projectAddress" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="projectAddress" data-valmsg-replace="true" class="errors"></span>
 		</td>
 	</tr>
@@ -145,12 +145,12 @@
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.shenBaoInfo.projectInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" min="0" step="any" style="width:100px" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.shenBaoInfo.projectInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight">累计完成投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" step="any" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.shenBaoInfo.projectInvestAccuSum" data-val="true" data-val-required="必填"/> (万元)
+			<input type="number" min="0" step="any" style="width:100px" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.shenBaoInfo.projectInvestAccuSum" data-val="true" data-val-required="必填"/> (万元)
 			<span data-valmsg-for="projectInvestAccuSum" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>

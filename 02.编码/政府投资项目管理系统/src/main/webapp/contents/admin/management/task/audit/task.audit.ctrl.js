@@ -332,7 +332,11 @@
 	        };
 	      //复核申报信息保存
 	        vm.saveShenBaoInfo=function(){
-	        	taskAuditSvc.saveShenBaoInfo(vm);
+                common.initJqValidation();
+                var isValid = $('#formReply').valid();
+                if (isValid) {
+                    taskAuditSvc.saveShenBaoInfo(vm);
+                }
 	        };	
 /****************申报信息相关 end**********************/ 
         	

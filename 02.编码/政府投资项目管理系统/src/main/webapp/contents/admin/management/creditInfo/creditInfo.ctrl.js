@@ -23,7 +23,9 @@
         vm.unitName = $state.params.unitName;
         vm.createdDate = $state.params.createdDate;
         vm.shenBaoInfoId = $state.params.shenBaoInfoId;
-        
+        vm.selectedIndex = '';
+
+
         function init(){
         	if($state.current.name=='credit_illegalNameList'){
         		vm.page = 'illegalNameList';
@@ -254,10 +256,16 @@
         
         //黑名单修改页
         function page_blackListAlter(){
+            var myselect = document.getElementById('legalRepCertType');
+            vm.selectedIndex = myselect.value;
         	//根据黑名单id获取数据
         	creditInfoSvc.getBlackListById(vm);
         	vm.basicData.legalRepCertType=common.getBacicDataByIndectity(common.basicDataConfig().credentialsType);
         	//点击更新按钮，进行数据更新操作
+            vm.change = function () {
+                vm.model.legalRepCertNumber = '';
+                vm.selectedIndex = myselect.value;
+            }
         	vm.updateBlackListInfo = function(){
         		common.initJqValidation();
             	var isValid = $('form').valid();
@@ -280,6 +288,8 @@
         
         //黑名单录入页面
         function page_addBlackList(){
+            var myselect = document.getElementById('legalRepCertType');
+            vm.selectedIndex = myselect.value;
         	vm.basicData.legalRepCertType=common.getBacicDataByIndectity(common.basicDataConfig().credentialsType);
         	vm.title='黑名单信息录入';
         	vm.blackListModel.projectNumber=vm.projectNumber;
@@ -287,6 +297,11 @@
         	vm.blackListModel.unitName=vm.unitName;
         	vm.blackListModel.shenbaoDate=vm.createdDate;
         	vm.blackListModel.shenBaoInfoId = vm.shenBaoInfoId;
+
+            vm.change = function () {
+                vm.blackListModel.legalRepCertNumber = '';
+                vm.selectedIndex = myselect.value;
+            }
         	//点击确定按钮，把页面录入的数据保存到数据库
         	vm.saveBlackListInfo=function(){
         		common.initJqValidation();

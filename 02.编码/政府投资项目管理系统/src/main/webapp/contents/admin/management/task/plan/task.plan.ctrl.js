@@ -441,8 +441,12 @@
 	        };
 	      //复核申报信息保存
 	        vm.saveShenBaoInfo=function(){
-                vm.model.shenBaoInfo.isUpdateOrSubmit = 1;
-	        	taskPlanSvc.saveShenBaoInfo(vm);
+                common.initJqValidation();
+                var isValid = $('#formReply').valid();
+                if (isValid) {
+                    vm.model.shenBaoInfo.isUpdateOrSubmit = 1;
+                    taskPlanSvc.saveShenBaoInfo(vm);
+                }
 	        };	
 /****************申报信息相关 end**********************/ 
         	
@@ -725,7 +729,11 @@
         	
         	 //复核申报信息保存
 	        vm.saveShenBaoInfo=function(){
-	        	taskPlanSvc.saveShenBaoInfo(vm);
+                common.initJqValidation();
+                var isValid = $('#formReply').valid();
+                if (isValid) {
+                    taskPlanSvc.saveShenBaoInfo(vm);
+                }
 	        };
         }//end#init_task_shenPiDetails
     

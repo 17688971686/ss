@@ -55,7 +55,7 @@
 				</td>
 				<td ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask16'
 				|| vm.model.shenBaoInfo.thisTaskName == 'usertask22' || vm.model.shenBaoInfo.thisTaskName == 'usertask23'">
-					<input type="text" style="width: 200px;" class="form-control input-sm" id="projectNumber" name="projectNumber" ng-model="vm.model.shenBaoInfo.projectNumber"
+					<input type="text" autocomplete="off" style="width: 200px;" class="form-control input-sm" id="projectNumber" name="projectNumber" ng-model="vm.model.shenBaoInfo.projectNumber"
 					/>
 					<span data-valmsg-for="projectNumber" data-valmsg-replace="true" class="required"></span>
 					<button ng-click="vm.updateNumber()"

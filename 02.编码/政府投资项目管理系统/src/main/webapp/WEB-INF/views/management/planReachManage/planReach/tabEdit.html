@@ -88,7 +88,7 @@
 		  							<td rowspan="2" ng-bind="x.sqPlanReach_ggys" style="vertical-align: middle;"></td>
 		  							<td rowspan="2" ng-bind="x.sqPlanReach_gtzj" style="vertical-align: middle;"></td>
 		  							<td rowspan="2" style="vertical-align: middle;">
-		  								<input type="number" style="width:70px" ng-hide="x.processState == '2'" 
+		  								<input type="number" min="0" style="width:70px" ng-hide="x.processState == '2'"
 		  								id="xdPlanReach_ggys" name="xdPlanReach_ggys"
 		  								 data-val="true" data-val-regex="金额格式有误"  data-val-regex-pattern="^\d+(\.\d+)?$"
 		  								ng-model="x.xdPlanReach_ggys"  ng-blur="vm.addmoneys(x.id,x.xdPlanReach_ggys,x.xdPlanReach_gtzj)"/>
@@ -96,7 +96,7 @@
 		  								<span data-valmsg-for="xdPlanReach_ggys" data-valmsg-replace="true" class="required"></span>
 		  							</td>
 		  							<td rowspan="2" style="vertical-align: middle;">
-		  								<input type="number" style="width:70px"  ng-hide="x.processState == '2'" 
+		  								<input type="number" min="0" style="width:70px"  ng-hide="x.processState == '2'"
 		  								id="xdPlanReach_gtzj" name="xdPlanReach_gtzj"
 		  								 data-val="true" data-val-regex="金额格式有误"  data-val-regex-pattern="^\d+(\.\d+)?$"
 		  								ng-model="x.xdPlanReach_gtzj"  ng-blur="vm.addmoneys(x.id,x.xdPlanReach_ggys,x.xdPlanReach_gtzj)"/>

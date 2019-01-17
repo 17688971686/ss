@@ -53,9 +53,9 @@
             if ($state.current.name == 'task_todo_yuepi') {//科室列表--审批类
                 vm.page = 'task_todo_yuepi';
             }
-            if($state.current.name == 'print'){
-        		vm.page = 'print';
-        	}
+            if ($state.current.name == 'print') {
+                vm.page = 'print';
+            }
             vm.formatDate = function (str) {
                 return common.formatDate(str);
             };
@@ -161,9 +161,9 @@
             if (vm.page == 'task_todo_yuepi') {
                 task_todo_yuepi();
             }
-            if(vm.page == 'print'){
-        		print();
-        	}
+            if (vm.page == 'print') {
+                print();
+            }
             vm.formatDateTime = function (time) {
                 return common.formatDateTime(time);
             };
@@ -188,15 +188,15 @@
                     vm.isEditDraft = false;
                 }
                 taskNewAuditSvc.getDraftIssued(vm);//查询发文拟稿
-                
-               
+
+
             };
-            
-            vm.checkDraft = function(drafts){
-                if(drafts){
-                	return "是";
-                }else{
-                	return "否";
+
+            vm.checkDraft = function (drafts) {
+                if (drafts) {
+                    return "是";
+                } else {
+                    return "否";
                 }
 
             }
@@ -246,9 +246,9 @@
 
         function task_todo_yuepi() {
             taskNewAuditSvc.yuepiGrid(vm);
-            vm.yuepi=function(id){
-        		taskNewAuditSvc.yuepi(vm,id);
-        	}
+            vm.yuepi = function (id) {
+                taskNewAuditSvc.yuepi(vm, id);
+            }
             vm.basicData.userUnit = common.getUserUnits().value;//获取所有单位
             var keys = [];
             vm.output = [];
@@ -327,7 +327,7 @@
         }//end init_todoAuditList
 
         function init_handleAudit() {
-        	vm.isShow = true;
+            vm.isShow = true;
             //查询流转信息
             taskNewAuditSvc.getHistoryInfo(vm);
             //查询申报信息
@@ -338,7 +338,7 @@
             taskNewAuditSvc.opinionGird(vm);
             //查询意见
             taskNewAuditSvc.getOpinion(vm);
-            
+
             taskNewAuditSvc.getSysConfigs(vm);
 
 
@@ -392,14 +392,14 @@
 
                 });
             };
-           
+
             vm.uploadError = function (e) {
                 common.alert({
                     vm: vm,
                     msg: e.XMLHttpRequest.response.message
                 });
             }
-            
+
             //删除上传文件
             vm.delFile = function (idx) {
                 var file = vm.project.attachmentDtos[idx];
@@ -423,7 +423,7 @@
                 });
                 vm.grid_documentRecords.dataSource.read();//批复文件列表数据刷新
             };
-            vm.uploadType = [['SCQQJFXD', '首次前期经费下达批复'],['KXXYJBG', '可行性研究报告批复'], ['CBSJYGS', '初步设计与概算批复'], ['ZJSQBG', '资金申请报告批复']];
+            vm.uploadType = [['SCQQJFXD', '首次前期经费下达批复'], ['KXXYJBG', '可行性研究报告批复'], ['CBSJYGS', '初步设计与概算批复'], ['ZJSQBG', '资金申请报告批复']];
             //批复文件选择模态框确认
             vm.pifuChoseConfirm = function () {
                 //关闭模态框
@@ -438,9 +438,9 @@
                     var url = file[2];
                     vm.project['pifu' + vm.pifuType + '_wenhao'] = number;
                     if (vm.project.attachmentDtos) {
-                    	vm.project.attachmentDtos.push({name: name, url: url, type: vm.pifuType});
+                        vm.project.attachmentDtos.push({name: name, url: url, type: vm.pifuType});
                     } else {
-                    	vm.project.attachmentDtos = [{name: name, url: url, type: vm.pifuType}];
+                        vm.project.attachmentDtos = [{name: name, url: url, type: vm.pifuType}];
                     }
                 }
             };
@@ -448,11 +448,25 @@
             vm.dismissReplyFile = function () {
                 $("#documentRecords").modal('hide');
             };
+
             //复核申报信息保存
             vm.saveShenBaoInfo = function () {
-                vm.model.shenBaoInfo.isUpdateOrSubmit = 1;
-                taskNewAuditSvc.saveShenBaoInfo(vm);
+                //$("#div_tab2").load('/contents/admin/management/task/html/edit/unitInfo.html');
+              /*  if(document.getElementById('unitName').innerText== ''){
+                    alert('xxxx');
+                }else{
+                    alert('aaaa');
+                }
+                return;*/
+                common.initJqValidation();
+                var isValid = $('#formReply').valid();
+                if (isValid) {
+                    vm.model.shenBaoInfo.isUpdateOrSubmit = 1;
+                    taskNewAuditSvc.saveShenBaoInfo(vm);
+                }
             };
+
+           ;
             /****************申报信息相关 end**********************/
 
 
@@ -502,44 +516,44 @@
                     vm.model.shenBaoInfo.attachmentDtos.splice(idx, 1);
                 }
             };
-            
+
             //文件上传成功
             vm.uploadSuccess_pifu = function (e) {
-            	  var type = $(e.sender.element).parents('.uploadBox').attr('data-type');
-                  if (e.XMLHttpRequest.status == 200) {
-                      angular.forEach(eval("(" + e.XMLHttpRequest.response + ")").data, function (fileObj, index) {
-                          $scope.$apply(function () {
-                              if (vm.project.attachmentDtos) {
-                                  vm.project.attachmentDtos.push({
-                                      name: fileObj.originalFilename,
-                                      url: fileObj.randomName,
-                                      type: type
-                                  });
-                              } else {
-                                  vm.project.attachmentDtos = [{
-                                      name: fileObj.originalFilename,
-                                      url: fileObj.randomName,
-                                      type: type
-                                  }];
-                              }
-                          });
-                      })
-                  }
+                var type = $(e.sender.element).parents('.uploadBox').attr('data-type');
+                if (e.XMLHttpRequest.status == 200) {
+                    angular.forEach(eval("(" + e.XMLHttpRequest.response + ")").data, function (fileObj, index) {
+                        $scope.$apply(function () {
+                            if (vm.project.attachmentDtos) {
+                                vm.project.attachmentDtos.push({
+                                    name: fileObj.originalFilename,
+                                    url: fileObj.randomName,
+                                    type: type
+                                });
+                            } else {
+                                vm.project.attachmentDtos = [{
+                                    name: fileObj.originalFilename,
+                                    url: fileObj.randomName,
+                                    type: type
+                                }];
+                            }
+                        });
+                    })
+                }
             };
             //批复文件上传配置
             vm.uploadOptions_pifu = {
-            		  async: {saveUrl: '/common/save', removeUrl: '/common/remove', autoUpload: true},
-                      error: vm.uploadError,
-                      success: vm.uploadSuccess_pifu,
-                      localization: {select: '上传文件'},
-                      showFileList: false,
-                      multiple: true,
-                      validation: {
-                          maxFileSize: common.basicDataConfig().uploadSize
-                      },
-                      select: vm.onSelect
+                async: {saveUrl: '/common/save', removeUrl: '/common/remove', autoUpload: true},
+                error: vm.uploadError,
+                success: vm.uploadSuccess_pifu,
+                localization: {select: '上传文件'},
+                showFileList: false,
+                multiple: true,
+                validation: {
+                    maxFileSize: common.basicDataConfig().uploadSize
+                },
+                select: vm.onSelect
             };
-         
+
 
             /****************审批附件相关 end**********************/
 
@@ -610,140 +624,140 @@
                     backdrop: 'static',
                     keyboard: true
                 });
-        		vm.model.opinion = {"opinion":opin,"id":id};
-        	};
-        	
-        	//编辑意见
-        	vm.editOpin=function(){
-        		taskNewAuditSvc.editOpin(vm);
-        	};
-        	//删除意见
-        	vm.remove=function(id){
-        		taskNewAuditSvc.deleteOpin(vm,id);
-        	};
-/****************常用意见相关 end**********************/        	
-        	
-	  	   	//保存审批单
-	       	vm.saveApproval=function(){
-	       		taskNewAuditSvc.saveApproval(vm);
-	       	};
-	       	//保存发文拟稿
-        	vm.saveDraft=function(){
-        		taskNewAuditSvc.saveDraft(vm);
-        	};
-        	
-		   //处理
-        	vm.handle=function(str){
-        		if(vm.isPass == false){
-        			vm.isPass ="";
-        		}
-        		if((vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18') && vm.isPass == "5" && vm.nextUsers == ""){
-        			vm.nextUsers = "e03930db-9e32-4158-afe4-9357945df1ae";
-        		}
-        		
-    			if((vm.model.shenBaoInfo.thisTaskName == 'usertask1' || vm.model.shenBaoInfo.thisTaskName == 'usertask5') && vm.isPass == "1" && vm.nextUsers == "" && str =="next"){
-							vm.nextUsers = vm.banliUsers;
-							taskNewAuditSvc.handle(vm,str);
-    			}else if((vm.model.shenBaoInfo.thisTaskName == 'usertask6' ||vm.model.shenBaoInfo.thisTaskName == 'usertask7' )&& vm.isPass == "1" && vm.nextUsers == ""){
-							vm.nextUsers = vm.banwenUsers;
-							taskNewAuditSvc.handle(vm,str);
+                vm.model.opinion = {"opinion": opin, "id": id};
+            };
+
+            //编辑意见
+            vm.editOpin = function () {
+                taskNewAuditSvc.editOpin(vm);
+            };
+            //删除意见
+            vm.remove = function (id) {
+                taskNewAuditSvc.deleteOpin(vm, id);
+            };
+            /****************常用意见相关 end**********************/
+
+            //保存审批单
+            vm.saveApproval = function () {
+                taskNewAuditSvc.saveApproval(vm);
+            };
+            //保存发文拟稿
+            vm.saveDraft = function () {
+                taskNewAuditSvc.saveDraft(vm);
+            };
+
+            //处理
+            vm.handle = function (str) {
+                if (vm.isPass == false) {
+                    vm.isPass = "";
+                }
+                if ((vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18') && vm.isPass == "5" && vm.nextUsers == "") {
+                    vm.nextUsers = "e03930db-9e32-4158-afe4-9357945df1ae";
+                }
+
+                if ((vm.model.shenBaoInfo.thisTaskName == 'usertask1' || vm.model.shenBaoInfo.thisTaskName == 'usertask5') && vm.isPass == "1" && vm.nextUsers == "" && str == "next") {
+                    vm.nextUsers = vm.banliUsers;
+                    taskNewAuditSvc.handle(vm, str);
+                } else if ((vm.model.shenBaoInfo.thisTaskName == 'usertask6' || vm.model.shenBaoInfo.thisTaskName == 'usertask7' ) && vm.isPass == "1" && vm.nextUsers == "") {
+                    vm.nextUsers = vm.banwenUsers;
+                    taskNewAuditSvc.handle(vm, str);
 //    				vm.nextUsers = '10fac944-1244-4279-9c8e-c6eb9a9c9dc5';//办文顾丽娜
-    			}else if((vm.model.shenBaoInfo.thisTaskName == 'usertask17' || vm.model.shenBaoInfo.thisTaskName == 'usertask19' ||
-    					vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask21') && vm.isPass == "5" && vm.nextUsers == "" && str =="next"){
-							vm.nextUsers = vm.yinwenUsers;
-							taskNewAuditSvc.handle(vm,str);
+                } else if ((vm.model.shenBaoInfo.thisTaskName == 'usertask17' || vm.model.shenBaoInfo.thisTaskName == 'usertask19' ||
+                    vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask21') && vm.isPass == "5" && vm.nextUsers == "" && str == "next") {
+                    vm.nextUsers = vm.yinwenUsers;
+                    taskNewAuditSvc.handle(vm, str);
 //    				vm.nextUsers = '6548a46b-c2c2-4650-b8dd-ae50a01cafaf';//印文胡伟军
-    			}else if((vm.isPass == "" || vm.isPass == undefined ) && str =="next") {
-        			common.alert({
-						vm : vm,
-						msg : "请选择办理环节后提交！",
-						fn : function() {
-							$('.alertDialog').modal('hide');
-						}
-					});
-        		}else if(str =="next" && vm.nextUsers != "" || str =="reback" || str =="banjie"){
-        			
-							taskNewAuditSvc.handle(vm,str);
-							//过滤出局领导退回的情况，单独判断
-    			}else if (str =="tuiwen" ){
-        		   if((vm.model.shenBaoInfo.thisTaskName == 'usertask13' ||  vm.model.shenBaoInfo.thisTaskName == 'usertask17'
-        			   ||  vm.model.shenBaoInfo.thisTaskName == 'usertask19' || vm.model.shenBaoInfo.thisTaskName == 'usertask21') && vm.nextUsers == ""){
-                       common.alert({
-                           vm : vm,
-                           msg : "请选择经办人后提交！",
-                           fn : function() {
-                               $('.alertDialog').modal('hide');
-                           }
-                       });
-                   }else{
-                       taskNewAuditSvc.handle(vm,str);
-                   } 
-                }else {
-    				common.alert({
-						vm : vm,
-						msg : "请选择经办人后提交！",
-						fn : function() {
-							$('.alertDialog').modal('hide');
-						}
-					});
-    			}
-        	};
-        	
-        	vm.changeDeptUsers=function(num){
-    			vm.nextUsers = '';
-        		vm.num = num;
-        		if(vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask23'){
-        			if(num == "8"){
-        				taskNewAuditSvc.getDeptByName(vm,"评审中心");
-        			}else{
-        				taskNewAuditSvc.getDeptByName(vm,"投资科");
-        			}
-        			
-        		}else if(vm.model.shenBaoInfo.thisTaskName == 'usertask17' || vm.model.shenBaoInfo.thisTaskName == 'usertask19' || vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask21'){
-        			
-        			if(num == "5"){
-        				
-        				taskNewAuditSvc.getDeptByName(vm,"办公室");
-        			}else if(num == "6"){
-        				taskNewAuditSvc.getDeptByName(vm,"局领导");
-        			}else {
-        				taskNewAuditSvc.getDeptByName(vm,"投资科");
-        			}
-        			
-        		}else if(vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask21'){
-        			if(num == "5"){
-        				taskNewAuditSvc.getDeptByName(vm,"办公室");
-        			}else{
-        				taskNewAuditSvc.getDeptByName(vm,"投资科");
-        			}
-        		}else if(vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18'){
-        			
-        				vm.user =[];
-        				for (var i = 0; i < vm.model.dept.userDtos.length; i++) {
-							var user = vm.model.dept.userDtos[i];
-							for (var j = 0; j < user.roles.length; j++) {
-								var role = user.roles[j];
-								if(role.roleName == "副局长" && num == "5"){
-										vm.user.push(user);
-									}else if(role.roleName == "局长" && num == "6"){
-										vm.user.push(user);
-									}
-							}
-							
-						}
-        		}
-        		
-        	}
-        	vm.updateNumber=function(){
-        		taskNewAuditSvc.saveShenBaoInfo(vm);
-        	}
-        	vm.pinglun=function(flag){
-        		taskNewAuditSvc.pinglun(vm,flag);
-        	}
-        	vm.yuepi=function(id){
-        		taskNewAuditSvc.yuepi(vm,id);
-        	}
-/****************审批处理相关 end**********************/       	
+                } else if ((vm.isPass == "" || vm.isPass == undefined ) && str == "next") {
+                    common.alert({
+                        vm: vm,
+                        msg: "请选择办理环节后提交！",
+                        fn: function () {
+                            $('.alertDialog').modal('hide');
+                        }
+                    });
+                } else if (str == "next" && vm.nextUsers != "" || str == "reback" || str == "banjie") {
+
+                    taskNewAuditSvc.handle(vm, str);
+                    //过滤出局领导退回的情况，单独判断
+                } else if (str == "tuiwen") {
+                    if ((vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask17'
+                        || vm.model.shenBaoInfo.thisTaskName == 'usertask19' || vm.model.shenBaoInfo.thisTaskName == 'usertask21') && vm.nextUsers == "") {
+                        common.alert({
+                            vm: vm,
+                            msg: "请选择经办人后提交！",
+                            fn: function () {
+                                $('.alertDialog').modal('hide');
+                            }
+                        });
+                    } else {
+                        taskNewAuditSvc.handle(vm, str);
+                    }
+                } else {
+                    common.alert({
+                        vm: vm,
+                        msg: "请选择经办人后提交！",
+                        fn: function () {
+                            $('.alertDialog').modal('hide');
+                        }
+                    });
+                }
+            };
+
+            vm.changeDeptUsers = function (num) {
+                vm.nextUsers = '';
+                vm.num = num;
+                if (vm.model.shenBaoInfo.thisTaskName == 'usertask3' || vm.model.shenBaoInfo.thisTaskName == 'usertask23') {
+                    if (num == "8") {
+                        taskNewAuditSvc.getDeptByName(vm, "评审中心");
+                    } else {
+                        taskNewAuditSvc.getDeptByName(vm, "投资科");
+                    }
+
+                } else if (vm.model.shenBaoInfo.thisTaskName == 'usertask17' || vm.model.shenBaoInfo.thisTaskName == 'usertask19' || vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask21') {
+
+                    if (num == "5") {
+
+                        taskNewAuditSvc.getDeptByName(vm, "办公室");
+                    } else if (num == "6") {
+                        taskNewAuditSvc.getDeptByName(vm, "局领导");
+                    } else {
+                        taskNewAuditSvc.getDeptByName(vm, "投资科");
+                    }
+
+                } else if (vm.model.shenBaoInfo.thisTaskName == 'usertask13' || vm.model.shenBaoInfo.thisTaskName == 'usertask21') {
+                    if (num == "5") {
+                        taskNewAuditSvc.getDeptByName(vm, "办公室");
+                    } else {
+                        taskNewAuditSvc.getDeptByName(vm, "投资科");
+                    }
+                } else if (vm.model.shenBaoInfo.thisTaskName == 'usertask12' || vm.model.shenBaoInfo.thisTaskName == 'usertask18') {
+
+                    vm.user = [];
+                    for (var i = 0; i < vm.model.dept.userDtos.length; i++) {
+                        var user = vm.model.dept.userDtos[i];
+                        for (var j = 0; j < user.roles.length; j++) {
+                            var role = user.roles[j];
+                            if (role.roleName == "副局长" && num == "5") {
+                                vm.user.push(user);
+                            } else if (role.roleName == "局长" && num == "6") {
+                                vm.user.push(user);
+                            }
+                        }
+
+                    }
+                }
+
+            }
+            vm.updateNumber = function () {
+                taskNewAuditSvc.saveShenBaoInfo(vm);
+            }
+            vm.pinglun = function (flag) {
+                taskNewAuditSvc.pinglun(vm, flag);
+            }
+            vm.yuepi = function (id) {
+                taskNewAuditSvc.yuepi(vm, id);
+            }
+            /****************审批处理相关 end**********************/
         }//end init_handleAudit
 
         function init_complete_shenPiList() {
@@ -802,32 +816,36 @@
 
             //复核申报信息保存
             vm.saveShenBaoInfo = function () {
-                taskNewAuditSvc.saveShenBaoInfo(vm);
+                common.initJqValidation();
+                var isValid = $('#formReply').valid();
+                if (isValid) {
+                    taskNewAuditSvc.saveShenBaoInfo(vm);
+                }
             };
         }//end#init_task_shenPiDetails
-        
-        function print(){
-        	taskNewAuditSvc.getShenBaoInfoById(vm);
-        	taskNewAuditSvc.getDraftIssued(vm);
-        	taskNewAuditSvc.getHistoryInfo(vm);
-        	var nowDate=new Date();
-        	 vm.getBasicDataDesc = function (str) {//流转信息显示
-                 return common.getBasicDataDesc(str);
-             };
-        	vm.nowDate = nowDate.getFullYear()+"年"+(nowDate.getMonth()+1)+"月"+nowDate.getDate()+"日";
-        	//打印
-        	vm.printBtn=function(){
-        		$("#printWindow").printThis({
-          	        debug: false,
-          	        importCSS: true,       // import page CSS
-          	      	importStyle: true,    // import style tags
-          	        printContainer: true,
-          	        removeInline: false,
-          	        printDelay: 333,
-          	        header: null,
-          	        formValues: true
-          	      });
-        	};
+
+        function print() {
+            taskNewAuditSvc.getShenBaoInfoById(vm);
+            taskNewAuditSvc.getDraftIssued(vm);
+            taskNewAuditSvc.getHistoryInfo(vm);
+            var nowDate = new Date();
+            vm.getBasicDataDesc = function (str) {//流转信息显示
+                return common.getBasicDataDesc(str);
+            };
+            vm.nowDate = nowDate.getFullYear() + "年" + (nowDate.getMonth() + 1) + "月" + nowDate.getDate() + "日";
+            //打印
+            vm.printBtn = function () {
+                $("#printWindow").printThis({
+                    debug: false,
+                    importCSS: true,       // import page CSS
+                    importStyle: true,    // import style tags
+                    printContainer: true,
+                    removeInline: false,
+                    printDelay: 333,
+                    header: null,
+                    formValues: true
+                });
+            };
         }//end fun print
     }
 })();

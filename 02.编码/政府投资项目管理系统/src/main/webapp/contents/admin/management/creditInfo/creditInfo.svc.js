@@ -342,6 +342,7 @@
 			};
 			var httpSuccess = function (response) {
 				vm.model = response.data.value[0]||{};
+                vm.selectedIndex =vm.model.legalRepCertType;
 				//处理时间问题
 				vm.model.blackDate=vm.formatDate(vm.model.blackDate);
 				vm.model.shenbaoDate=vm.formatDate(vm.model.shenbaoDate);

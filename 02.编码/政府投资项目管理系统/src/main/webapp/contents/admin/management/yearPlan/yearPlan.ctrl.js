@@ -694,7 +694,19 @@
   		};
       	//更新项目信息
   		vm.updateProject=function(){
-  			yearPlanSvc.updateProject(vm);
+            common.initJqValidation();
+            var isValid = $('#form').valid();
+            if (isValid){
+                yearPlanSvc.updateProject(vm);
+			}else {
+                common.alert({
+                    vm: vm,
+                    msg: "您填写的信息不正确,请核对后提交!",
+                });
+
+
+			}
+
   		};
   		//确认更新
      	vm.update = function(){

@@ -43,24 +43,37 @@
 	  			<tr>
 	  				<td class="formAlignRight">监管部门：<span class="required">(*)</span></td>
 	  				<td style="width:25%">
-	  					<input type="text" style="width:360px;" id="departmentName" name="departmentName" ng-model="vm.illegalNameModel.departmentName" placeholder="请输入监管部门名称" data-val="true" data-val-required="必填"/>
+	  					<input type="text" autocomplete="off" style="width:360px;" id="departmentName" name="departmentName" ng-model="vm.illegalNameModel.departmentName" placeholder="请输入监管部门名称" data-val="true" data-val-required="必填"/>
 	  					<span data-valmsg-for="departmentName" data-valmsg-replace="true" class="errors"></span>
 	  				</td>
 	  				<td class="formAlignRight">监管部门区划代码：<span class="required">(*)</span></td>
 	  				<td style="width:25%">
-	  					<input type="text" style="width:360px;" id="divisionCode" name="divisionCode" ng-model="vm.illegalNameModel.divisionCode" placeholder="请输入监管部门区划代码，如：210000" data-val="true" data-val-required="必填"/>
-	  					<span data-valmsg-for="divisionCode" data-valmsg-replace="true" class="errors"></span>
+						<input type="text" autocomplete="off" style="width:360px;" id="divisionCode" name="divisionCode" ng-model="vm.illegalNameModel.divisionCode"
+							   placeholder="例如：辽宁省：210000；大连市：210200。" data-val="true" data-val-required="必填"
+							   data-val-regex="请填写监管部门区划代码例如：辽宁省：210000；大连市：210200！"
+							   data-val-regex-pattern="^\d{6}$"
+						/>
+						<span data-valmsg-for="divisionCode" data-valmsg-replace="true" class="errors"></span>
 	  				</td>
 	  			</tr>
 	  			<tr>
 	  				<td class="formAlignRight">异常情形代码：<span class="required">(*)</span></td>
 	  				<td style="width:25%">
-	  					<input type="text" style="width:360px;" id="illegalType" name="illegalType" ng-model="vm.illegalNameModel.illegalType" placeholder="请输入异常情形代码，如A06100" data-val="true" data-val-required="必填"/>
+	  					<input type="text" autocomplete="off" style="width:360px;" id="illegalType" name="illegalType" ng-model="vm.illegalNameModel.illegalType"
+							   placeholder="请输入异常情形代码，如A06100" data-val="true" data-val-required="必填"
+							   data-val-regex="异常情形代码填写不合理！"
+							   data-val-regex-pattern="^[A-Z]\d{5}$"
+							/>
 	  					<span data-valmsg-for="illegalType" data-valmsg-replace="true" class="errors"></span>
 	  				</td>
 	  				<td class="formAlignRight">异常级别：<span class="required">(*)</span></td>
 	  				<td style="width:25%">
-	  					<input type="text" style="width:360px;" id="illegalLevel" name="illegalLevel" ng-model="vm.illegalNameModel.illegalLevel" data-val="true" data-val-required="必填"/>
+	  					<input type="text" autocomplete="off" style="width:360px;" id="illegalLevel" name="illegalLevel" ng-model="vm.illegalNameModel.illegalLevel" data-val="true"
+							   data-val-required="必填"
+							   placeholder="填写数字1-5，数字越大级别越小"
+							   data-val-regex="异常级别填写不合理！"
+							   data-val-regex-pattern="^[1,2,3,4,5]$"
+						/>
 	  					<span data-valmsg-for="illegalLevel" data-valmsg-replace="true" class="errors"></span>
 	  				</td>
 	  			</tr>
@@ -73,14 +86,19 @@
 	  			<tr>
 	  				<td class="formAlignRight">记录异常日期：<span class="required">(*)</span></td>
 	  				<td >
-						<input type="text" id="illegalDate" name="illegalDate" onkeydown="return false;"
+						<input type="text"  id="illegalDate" name="illegalDate" onkeydown="return false;"
 						 ng-model="vm.illegalNameModel.illegalDate" kendo-date-picker k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" />		 						
 						 <span data-valmsg-for="illegalDate" data-valmsg-replace="true" class="errors"></span>
 					</td>
 	  				<td class="formAlignRight">有效标识：<span class="required">(*)</span></td>
 	  				<td style="width:25%">
-	  					<input type="text" style="width:360px;" id="validityFlag" name="validityFlag" ng-model="vm.illegalNameModel.validityFlag" placeholder="数据有效标识：0无效；1有效" data-val="true" data-val-required="必填"/>
-	  					<span data-valmsg-for="validityFlag" data-valmsg-replace="true" class="errors"></span>
+						<input type="text" autocomplete="off" style="width:360px;" id="validityFlag" name="validityFlag" ng-model="vm.illegalNameModel.validityFlag"
+							   placeholder="数据有效标识：0无效；1有效"
+							   data-val="true" data-val-required="必填" maxlength="1"
+							   data-val-regex="请填写有效标识0或1！"
+							   data-val-regex-pattern="^[0,1]$"
+						/>
+						<span data-valmsg-for="validityFlag" data-valmsg-replace="true" class="errors"></span>
 	  				</td>
 	  			</tr>
 	  			<tr>

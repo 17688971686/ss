@@ -43,19 +43,23 @@
 	  			<tr>
 	  				<td class="formAlignRight">监管部门：<span class="required">(*)</span></td>
 	  				<td style="width:25%">
-	  					<input type="text" style="width:360px;" id="departmentName" name="departmentName" ng-model="vm.blackListModel.departmentName" placeholder="请输入监管部门名称" data-val="true" data-val-required="必填"/>
+	  					<input type="text" autocomplete="off" style="width:360px;" id="departmentName" name="departmentName" ng-model="vm.blackListModel.departmentName" placeholder="请输入监管部门名称" data-val="true" data-val-required="必填"/>
 	  					<span data-valmsg-for="departmentName" data-valmsg-replace="true" class="errors"></span>
 	  				</td>
 	  				<td class="formAlignRight">监管部门区划代码：<span class="required">(*)</span></td>
 	  				<td style="width:25%">
-	  					<input type="text" style="width:360px;" id="divisionCode" name="divisionCode" ng-model="vm.blackListModel.divisionCode" placeholder="例如：辽宁省：210000；大连市：210200。" data-val="true" data-val-required="必填"/>
+	  					<input type="text" autocomplete="off" style="width:360px;" id="divisionCode" name="divisionCode" ng-model="vm.blackListModel.divisionCode"
+							   placeholder="例如：辽宁省：210000；大连市：210200。" data-val="true" data-val-required="必填"
+							   data-val-regex="请填写监管部门区划代码例如：辽宁省：210000；大连市：210200！"
+							   data-val-regex-pattern="^\d{6}$"
+						/>
 	  					<span data-valmsg-for="divisionCode" data-valmsg-replace="true" class="errors"></span>
 	  				</td>
 	  			</tr>
 	  			<tr>
 	  				<td class="formAlignRight">建设单位名称：<span class="required">(*)</span></td>
 	  				<td style="width:25%" colspan="10">
-	  					<input type="text" style="width:360px;" id="enterpriseName" name="enterpriseName" ng-model="vm.blackListModel.enterpriseName" data-val="true" data-val-required="必填"/>
+	  					<input type="text" autocomplete="off" style="width:360px;" id="enterpriseName" name="enterpriseName" ng-model="vm.blackListModel.enterpriseName" data-val="true" data-val-required="必填"/>
 	  					<span data-valmsg-for="enterpriseName" data-valmsg-replace="true" class="errors"></span>
 	  				</td>
 	  			</tr>
@@ -66,7 +70,8 @@
 	  					<span data-valmsg-for="legalRepCertType" data-valmsg-replace="true" class="errors"></span>
 	  				</td> -->
 	  				<td>
-	                    <select id="legalRepCertType" name="legalRepCertType" style="height:30px;" ng-model="vm.blackListModel.legalRepCertType" data-val="true" data-val-required="必选">
+	                    <select id="legalRepCertType" name="legalRepCertType" style="height:30px;" ng-model="vm.blackListModel.legalRepCertType"
+								data-val="true" data-val-required="必选" ng-change="vm.change()">
 							<option value="">---请选择---</option>
 							<option ng-repeat="x in vm.basicData.legalRepCertType" value="{{x.id}}">{{x.description}}</option>
 						</select>
@@ -75,8 +80,45 @@
                 	
 	  				<td class="formAlignRight">建设单位法人证件编码：<span class="required">(*)</span></td>
 	  				<td style="width:25%">
-	  					<input type="text" style="width:360px;" id="legalRepCertNumber" name="legalRepCertNumber" ng-model="vm.blackListModel.legalRepCertNumber" data-val="true" data-val-required="必填"/>
-	  					<span data-valmsg-for="legalRepCertNumber" data-valmsg-replace="true" class="errors"></span>
+						<input ng-if="vm.selectedIndex == ''" type="text" maxlength="200" style="width:50%" class="form-control input-sm "
+							   ng-model="vm.blackListModel.legalRepCertNumber" id="legalRepCertNumber" name="legalRepCertNumber" autocomplete="off" disabled="disabled"
+							   data-val="true" data-val-required="必填" placeholder="请先选择证照类型"
+						/>
+						<input ng-if="vm.selectedIndex == 'credentialsType_1'" type="text" maxlength="200" style="width:50%" class="form-control input-sm "
+							   ng-model="vm.blackListModel.legalRepCertNumber" id="legalRepCertNumber" name="legalRepCertNumber" autocomplete="off"
+							   placeholder="请输入身份证证照号" data-val-regex="身份证证照号格式不正确" data-val-regex-pattern="(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)"
+							   data-val="true" data-val-required="必填"
+						/>
+						<input ng-if="vm.selectedIndex == 'credentialsType_2'" type="text" maxlength="200" style="width:50%" class="form-control input-sm "
+							   ng-model="vm.blackListModel.legalRepCertNumber" id="legalRepCertNumber" name="legalRepCertNumber" autocomplete="off"
+							   placeholder="请输入护照证照号" data-val-regex="护照证照号格式不正确" data-val-regex-pattern="^([a-zA-z]|[0-9]){5,17}$"
+							   data-val="true" data-val-required="必填"
+						/>
+						<input ng-if="vm.selectedIndex == 'credentialsType_3'" type="text" maxlength="200" style="width:50%" class="form-control input-sm "
+							   ng-model="vm.blackListModel.legalRepCertNumber" id="legalRepCertNumber" name="legalRepCertNumber" autocomplete="off"
+							   placeholder="请输入户口本证照号" data-val-regex="户口本证照号格式不正确" data-val-regex-pattern="(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)"
+							   data-val="true" data-val-required="必填"
+						/>
+						<input ng-if="vm.selectedIndex == 'credentialsType_4'" type="text" maxlength="200" style="width:50%" class="form-control input-sm "
+							   ng-model="vm.blackListModel.legalRepCertNumber" id="legalRepCertNumber" name="legalRepCertNumber" autocomplete="off"
+							   placeholder="请输入军人证照号" data-val-regex="军人证证照号格式不正确" data-val-regex-pattern="^[\u4E00-\u9FA5](字第)([0-9a-zA-Z]{4,8})(号?)$"
+							   data-val="true" data-val-required="必填"
+						/>
+						<input ng-if="vm.selectedIndex == 'credentialsType_5'" type="text" maxlength="200" style="width:50%" class="form-control input-sm "
+							   ng-model="vm.blackListModel.legalRepCertNumber" id="legalRepCertNumber" name="legalRepCertNumber" autocomplete="off"
+							   placeholder="请输入党员证照号"
+							   data-val="true" data-val-required="必填"
+						/>
+						<input ng-if="vm.selectedIndex == 'credentialsType_6'" type="text" maxlength="200" style="width:50%" class="form-control input-sm "
+							   ng-model="vm.blackListModel.legalRepCertNumber" id="legalRepCertNumber" name="legalRepCertNumber" autocomplete="off"
+							   placeholder="其他证件号"
+							   data-val="true" data-val-required="必填"
+						/>
+						<span data-valmsg-for="legalRepCertNumber"  data-valmsg-replace="true" class="required"></span>
+
+
+	  					<!--<input type="text" style="width:360px;" id="legalRepCertNumber" name="legalRepCertNumber" ng-model="vm.blackListModel.legalRepCertNumber" data-val="true" data-val-required="必填"/>
+	  					<span data-valmsg-for="legalRepCertNumber" data-valmsg-replace="true" class="errors"></span>-->
 	  				</td>
 	  			</tr>
 	  			<tr>
@@ -94,7 +136,12 @@
 					</td>
 	  				<td class="formAlignRight">有效标识：<span class="required">(*)</span></td>
 	  				<td style="width:25%">
-	  					<input type="text" style="width:360px;" id="validityFlag" name="validityFlag" ng-model="vm.blackListModel.validityFlag" placeholder="数据有效标识：0无效；1有效" data-val="true" data-val-required="必填"/>
+	  					<input type="text" autocomplete="off" style="width:360px;" id="validityFlag" name="validityFlag" ng-model="vm.blackListModel.validityFlag"
+							   placeholder="数据有效标识：0无效；1有效"
+							   data-val="true" data-val-required="必填" maxlength="1"
+							   data-val-regex="请填写有效标识0或1！"
+							   data-val-regex-pattern="^[0,1]$"
+						/>
 	  					<span data-valmsg-for="validityFlag" data-valmsg-replace="true" class="errors"></span>
 	  				</td>
 	  			</tr>

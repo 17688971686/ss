@@ -422,6 +422,9 @@
          * 保存申报信息
          */
         function saveShenBaoInfo(vm) {
+            common.initJqValidation();
+            var isValid = $('#formReply').valid();
+            if (isValid) {
             var httpOptions = {
                 method: 'post',
                 url: url_shenbao + '/updateShenbao',
@@ -443,6 +446,7 @@
                         });
                     }
                 });
+            }
             };
 
             common.http({

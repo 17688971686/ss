@@ -22,19 +22,19 @@
 	<tr ng-if="vm.page=='update'">
 		<td class="formAlignRight" style="width:150px;">项目代码：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" style="width: 40%" id="projectNumber" name="projectNumber" class="form-control input-sm" ng-model="vm.model.projectNumber" data-val="true" data-val-required="必填" />
+			<input type="text" style="width: 40%" autocomplete="off" id="projectNumber" name="projectNumber" class="form-control input-sm" ng-model="vm.model.projectNumber" data-val="true" data-val-required="必填" />
 			<span data-valmsg-for="projectNumber" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight" >国家编码：</td>
 
 		<td>
-			<input type="text" style="width: 80%" id="countryNumber" name="countryNumber" class="form-control input-sm" ng-model="vm.model.countryNumber" data-val="true" data-val-required="必填" />
+			<input type="text" style="width: 80%" autocomplete="off" id="countryNumber" name="countryNumber" class="form-control input-sm" ng-model="vm.model.countryNumber" data-val="true" data-val-required="必填" />
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目名称：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" class="form-control input-sm" id="projectName" name="projectName" ng-model="vm.model.projectName" data-val="true" data-val-required="必填"/>
+			<input type="text" class="form-control input-sm" autocomplete="off" id="projectName" name="projectName" ng-model="vm.model.projectName" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight" style="width:180px;">项目阶段：<span class="required">(*)</span></td>
@@ -49,14 +49,14 @@
 	<tr>
 		<td class="formAlignRight">项目负责人名称：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" class="form-control input-sm" id="projectRepName" name="projectRepName" ng-model="vm.model.projectRepName"
+			<input type="text" class="form-control autocomplete="off" input-sm" id="projectRepName" name="projectRepName" ng-model="vm.model.projectRepName"
 				   data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="projectRepName" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight">项目负责人电话：<span class="required">(*)</span></td>
 		<td>
 			<input type="text" class="form-control input-sm" style="width:200px;" id="projectRepMobile" name="projectRepMobile" ng-model="vm.model.projectRepMobile"
-				   data-val="true" data-val-required="必填" placeholder="填写固话或手机号" maxlength="13"
+				   data-val="true" data-val-required="必填" placeholder="填写固话或手机号" maxlength="13" autocomplete="off"
 				   data-val-regex="号码不合理！" data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 			<span data-valmsg-for="projectRepMobile" data-valmsg-replace="true" class="required"></span>
 		</td>

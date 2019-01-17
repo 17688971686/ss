@@ -24,7 +24,7 @@
 		<td width="30%">
 			<input type="text" class="form-control input-sm" style="width:200px;" ng-model="vm.model.monthReport.fillMobile"
 				id="fillMobile" name="fillMobile"  data-val="true" data-val-required="必填" placeholder="填写固话或手机号"
-				data-val-regex="号码不合理！" data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
+				data-val-regex="填报人电话不合理！" data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 			<span data-valmsg-for="fillMobile" data-valmsg-replace="true" class="required"></span>	
 		</td>
 	</tr>	
@@ -43,14 +43,16 @@
 <div class="bg-info text-info title">项目进度信息</div>
 <table class="table table-bordered table-striped">
 	<tr>
-		<td width="20%">开工日期：</td>			
+		<td width="20%">开工日期：<span class="required">(*)</span></td>
 		<td width="30%">	
 		 	<span ng-bind="vm.model.monthReport.beginDate | date:'yyyy-MM-dd'"></span>		
 		</td>
 		<td width="20%">预计竣工日期：<span class="required">(*)</span></td>			
 		<td>
 			<input type="text" id="endDate" name="endDate" onkeydown="return false;"
-		 		ng-model="vm.model.monthReport.endDate"  kendo-date-picker  k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"/>
+		 		ng-model="vm.model.monthReport.endDate"  kendo-date-picker  k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"
+				   data-val="true" data-val-required="必填"
+			/>
 		</td>
 	</tr>
 	<tr>

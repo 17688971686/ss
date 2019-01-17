@@ -664,6 +664,9 @@
          *更新申报信息的状态
          */
         function updateShenBaoInfoState(vm) {
+            common.initJqValidation();
+            var isValid = $('form').valid();
+            if (isValid) {
             var httpOptions = {
                 method: 'post',
                 url: common.format(url_shenbaoInfoList + "/updateState"),
@@ -694,6 +697,12 @@
                 httpOptions: httpOptions,
                 success: httpSuccess
             });
+            } else {
+                common.alert({
+                    vm: vm,
+                    msg: "您填写的信息不正确,请核对后提交!"
+                });
+            }
         }
 
 

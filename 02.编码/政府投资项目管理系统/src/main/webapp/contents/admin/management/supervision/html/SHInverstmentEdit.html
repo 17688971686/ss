@@ -14,12 +14,12 @@
 	<tr>
 		<td class="formAlignRight">责任单位联系人：<span class="required">(*)</span></td>
 		<td style="width:35%">
-			<input type="text" class="form-control input-sm" id="repUnitRepName" name="repUnitRepName" ng-model="vm.model.repUnitRepName" data-val="true" data-val-required="必填"/>
+			<input type="text" class="form-control autocomplete="off" input-sm" id="repUnitRepName" name="repUnitRepName" ng-model="vm.model.repUnitRepName" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="repUnitRepName" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight" style="width:160px;">责任单位联系电话：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" class="form-control input-sm" style="width:200px;" id="repUnitRepMobile" name="repUnitRepMobile" ng-model="vm.model.repUnitRepMobile"
+			<input type="text" autocomplete="off" class="form-control input-sm" style="width:200px;" id="repUnitRepMobile" name="repUnitRepMobile" ng-model="vm.model.repUnitRepMobile"
 				   data-val="true" data-val-required="必填" placeholder="填写手机号或固话" maxlength="13"
 				   data-val-regex="号码不合理！" data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 			<span data-valmsg-for="repUnitRepMobile" data-valmsg-replace="true" class="required"></span>
@@ -32,7 +32,7 @@
 	<tr>
 		<td class="formAlignRight" style="width:160px;">项目名称：<span class="required">(*)</span></td>
 		<td style="width:35%">
-			<input type="text" class="form-control input-sm" id="projectName" name="projectName" ng-model="vm.model.projectName" data-val="true" data-val-required="必填"/>
+			<input type="text" autocomplete="off" class="form-control input-sm" id="projectName" name="projectName" ng-model="vm.model.projectName" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight" style="width:160px;">项目阶段：<span class="required">(*)</span></td>
@@ -48,25 +48,25 @@
 	<tr>
 		<td class="formAlignRight">企业名称：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" class="form-control input-sm" id="companyName" name="companyName" ng-model="vm.model.companyName" data-val="true" data-val-required="必选"/>
+			<input type="text" autocomplete="off" class="form-control input-sm" id="companyName" name="companyName" ng-model="vm.model.companyName" data-val="true" data-val-required="必选"/>
 			<span data-valmsg-for="companyName" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight">核准/备案批准文号：</td>
 		<td>
-			<input type="text" placeholder="格式：xxx〔xx〕xx号" style="width:200px" class="form-control input-sm" ng-model="vm.model.approval_pzwh"/>
+			<input type="text" autocomplete="off" placeholder="格式：xxx〔xx〕xx号" style="width:200px" class="form-control input-sm" ng-model="vm.model.approval_pzwh"/>
 		</td>
 	</tr>
 
 	<tr>
 		<td class="formAlignRight">项目联系人：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" class="form-control input-sm" id="projectRepName" name="projectRepName" ng-model="vm.model.projectRepName"
+			<input type="text" autocomplete="off" class="form-control input-sm" id="projectRepName" name="projectRepName" ng-model="vm.model.projectRepName"
 				   data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="projectRepName" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight">项目联系人电话：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" class="form-control input-sm" style="width:200px;" id="projectRepMobile" name="projectRepMobile" ng-model="vm.model.projectRepMobile"
+			<input type="text" autocomplete="off" class="form-control input-sm" style="width:200px;" id="projectRepMobile" name="projectRepMobile" ng-model="vm.model.projectRepMobile"
 				   data-val="true" data-val-required="必填" placeholder="填写手机号或固话"
 				   data-val-regex="号码不合理！" data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
 			<span data-valmsg-for="projectRepMobile" data-valmsg-replace="true" class="required"></span>
@@ -136,7 +136,7 @@
 				<option ng-repeat="x in vm.basicData.area_Street" value="{{x.id}}">{{x.description}}</option>
 			</select>
 			<span data-valmsg-for="divisionId" data-valmsg-replace="true" class="required"></span>
-			<input type="text" class="form-control input-sm pull-left" style="width:500px;" id="projectAddress" name="projectAddress" ng-model="vm.model.projectAddress" data-val="true" data-val-required="必填"/>
+			<input type="text" autocomplete="off" class="form-control input-sm pull-left" style="width:500px;" id="projectAddress" name="projectAddress" ng-model="vm.model.projectAddress" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="projectAddress" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>

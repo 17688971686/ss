@@ -15,7 +15,7 @@
 			<div>
 				<div ng-repeat="x in vm.model.constructionUnit track by $index">
 					<span>单位{{$index+1}}：</span>
-					<input class="form-control input-sm" type="text" style="width:300px;" placeholder="请输入单位名称" ng-model="vm.model.constructionUnit[$index]"/>&nbsp;&nbsp;
+					<input class="form-control input-sm" type="text" autocomplete="off" style="width:300px;" placeholder="请输入单位名称" ng-model="vm.model.constructionUnit[$index]"/>&nbsp;&nbsp;
 					<input class='btn btn-xs btn-danger' type='button' ng-click='vm.deleteUnit($index)' value='删除单位' ng-disabled="!vm.canDelete"/>
 				</div>
 			</div>
@@ -38,7 +38,7 @@
 	<tr>
 		<td class="formAlignRight">计划年度：<span class="required">(*)</span></td>
 		<td style="width:250px;">
-			<input class="Wdate form-control input-sm" style="width:180px;" type="text" id="planYear" name="planYear"
+			<input class="Wdate form-control input-sm" style="width:180px;" type="text" autocomplete="off" id="planYear" name="planYear"
 				   onFocus="WdatePicker({dateFmt:'yyyy'})" ng-change="vm.changeYear()" onChange="" ng-model="vm.model.yearPlanYearContentDto.planYear" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="planYear" data-valmsg-replace="true" class="required"></span>
 		</td>

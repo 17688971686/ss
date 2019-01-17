@@ -3,7 +3,7 @@
 	<tr>
 		<td width="150px;" class="formAlignRight">单位名称：<span class="required ">(*)</span></td>
 		<td colspan="4">
-			<input type="text" class="form-control input-sm" id="unitName" name="unitName" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitName" data-val="true" data-val-required="必填"/>
+			<input type="text" autocomplete="off" class="form-control input-sm" id="unitName" name="unitName" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitName" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="unitName" data-valmsg-replace="true" class="errors"></span>
 		</td>
 	</tr>
@@ -11,7 +11,7 @@
 		<td class="formAlignRight">组织机构代码：<span class="required">(*)</span></td>
 		<td colspan="2">
 			<!--<input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.orgCode"  />-->
-			<input type="text" class="form-control input-sm" id="orgCode" maxlength="50" name="orgCode"
+			<input type="text" autocomplete="off" class="form-control input-sm" id="orgCode" maxlength="50" name="orgCode"
 				   ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.orgCode"
 				   data-val="true" data-val-required="必填"  data-val-regex="组织机构代码不合理！" placeholder="请填写非中文代码"
 				   data-val-regex-pattern="^[^\u4e00-\u9fa5]+$"/>
@@ -22,7 +22,7 @@
 			<!--  <input type="text" class="form-control input-sm" id="unitTel" name="unitTel" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitTel"
               data-val="true" data-val-required="必填"/>
               <span data-valmsg-for="unitTel" data-valmsg-replace="true" class="errors"></span>-->
-			<input type="text" class="form-control input-sm" id="unitTel" name="unitTel"
+			<input type="text" autocomplete="off" class="form-control input-sm" id="unitTel" name="unitTel"
 				   ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitTel" placeholder="填写手机号或固话"
 				   data-val="true" data-val-required="必填" maxlength="13"
 				   data-val-regex="电话号码不合理！"
@@ -33,13 +33,13 @@
 	<tr>
 		<td class="formAlignRight">电子邮箱：<span class="required">(*)</span></td>
 		<td colspan="2">
-			<input type="email" class="form-control input-sm" id="email" name="unitEmail" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitEmail" data-val="true" data-val-required="必填"/>
+			<input type="email" autocomplete="off" class="form-control input-sm" id="email" name="unitEmail" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitEmail" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="unitEmail" data-valmsg-replace="true" class="errors"></span>
 			<span ng-show="myForm.unitEmail.$error.email" class="errors">请输入合法邮箱地址</span>
 		<td class="formAlignRight">传真号码：</td>
 		<td>
 			<!-- <input type="text" class="form-control input-sm" id="unitFax" name="unitFax" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitFax"/>-->
-			<input type="text" class="form-control input-sm" id="unitFax" maxlength="50"
+			<input type="text" autocomplete="off" class="form-control input-sm" id="unitFax" maxlength="50"
 				   name="unitFax" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitFax"
 				   data-val="true"
 				   data-val-regex="传真号码不合理！"
@@ -71,7 +71,7 @@
 				<option ng-repeat="x in vm.basicData.area_Street" value="{{x.id}}">{{x.description}}</option>
 			</select>
 			<span data-valmsg-for="divisionId" data-valmsg-replace="true" class="errors"></span>
-			<input type="text" class="form-control input-sm pull-left" style="width:500px;" id="unitAddress" name="unitAddress" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitAddress" data-val="true" data-val-required="必填"/>
+			<input type="text" autocomplete="off" class="form-control input-sm pull-left" style="width:500px;" id="unitAddress" name="unitAddress" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitAddress" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="unitAddress" data-valmsg-replace="true" class="errors"></span>
 		</td>
 	</tr>
@@ -79,7 +79,7 @@
 		<td rowspan="3" class="formAlignRight">单位负责人：<span class="required">(*)</span></td>
 		<td width="100px;">姓名</td>
 		<td>
-			<input class="form-control input-sm" type="text" id="unitResPerson" name="unitResPerson" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitResPerson" data-val="true" data-val-required="必填"/>
+			<input class="form-control input-sm" type="text" autocomplete="off" id="unitResPerson" name="unitResPerson" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitResPerson" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="unitResPerson" data-valmsg-replace="true" class="errors"></span>
 		</td>
 		<td width="100px;">电话号码：<span class="required">(*)</span></td>
@@ -87,7 +87,7 @@
 			<!--<input class="form-control input-sm" type="text" id="resPersonTel" name="resPersonTel" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonTel"
                 data-val="true" data-val-required="必填"/>
            <span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="errors"></span>-->
-			<input type="text" class="form-control input-sm" id="resPersonTel" name="resPersonTel"
+			<input type="text" autocomplete="off" class="form-control input-sm" id="resPersonTel" name="resPersonTel"
 				   ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonTel"
 				   data-val="true" data-val-required="必填" maxlength="13" placeholder="填写手机号或固话"
 				   data-val-regex="电话号码不合理！"
@@ -102,7 +102,7 @@
                 data-val="true" data-val-required="必填"/>
            <span data-valmsg-for="resPersonMobile" data-valmsg-replace="true" class="errors"></span>-->
 
-			<input type="text" class="form-control input-sm" id="resPersonMobile" name="resPersonMobile"
+			<input type="text" autocomplete="off" class="form-control input-sm" id="resPersonMobile" name="resPersonMobile"
 				   ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonMobile"
 				   data-val="true" data-val-required="必填" maxlength="11" data-val-length-max="11" placeholder="填写手机号"
 				   data-val-regex="手机号码不合理！" data-val-regex-pattern="^1[34578]\d{9}$"/>
@@ -111,7 +111,7 @@
 		<td>传真号码</td>
 		<td>
 			<!--<input class="form-control input-sm" type="text" maxlength="50" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonFax"  />-->
-			<input type="text" class="form-control input-sm" id="resPersonFax" maxlength="50"
+			<input type="text" autocomplete="off" class="form-control input-sm" id="resPersonFax" maxlength="50"
 				   name="resPersonFax" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonFax"
 				   data-val="true"
 				   data-val-regex="传真号码不合理！"
@@ -122,7 +122,7 @@
 	<tr>
 		<td>Email</td>
 		<td colspan="3">
-			<input type="email" class="form-control input-sm" id="resPersonEmail" name="resPersonEmail" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonEmail" data-val="true" data-val-required="必填"/>
+			<input type="email" autocomplete="off" class="form-control input-sm" id="resPersonEmail" name="resPersonEmail" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonEmail" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="resPersonEmail" data-valmsg-replace="true" class="errors"></span>
 			<span ng-show="myForm.resPersonEmail.$error.email" class="errors">请输入合法邮箱地址</span>
 		</td>

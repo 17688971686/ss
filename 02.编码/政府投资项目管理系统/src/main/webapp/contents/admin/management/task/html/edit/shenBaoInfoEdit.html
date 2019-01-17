@@ -11,23 +11,23 @@
 	      <li id="tab5" ng-show="vm.isJihuaxiada">计划下达申请信息</li>
 	    </ul>
       
-		<div class="tab_content">
+		<div class="tab_content" id="div_tab1">
 			<div ng-if="vm.isZFInvestment" ng-include  src="'/contents/admin/management/task/html/edit/basicInfo_ZF.html'"></div>
 			<div ng-if="vm.isSHInvestment" ng-include  src="'/contents/admin/management/task/html/edit/basicInfo_SH.html'"></div>
 		</div>
-		<div class="tab_content">
+		<div class="tab_content" id="div_tab2">
 		     <div ng-include  src="'/contents/admin/management/task/html/edit/unitInfo.html'"></div>
 		</div>
-         
-        <div class="tab_content">
+
+        <div class="tab_content" id="div_tab3">
            	<div ng-include  src="'/contents/admin/management/task/html/edit/materialsInfo.html'"></div>
    		</div>
    		
-   		<div class="tab_content" ng-show="vm.isCapitalApplyReport">
+   		<div class="tab_content" id="div_tab4" ng-show="vm.isCapitalApplyReport">
            	<div ng-include  src="'/contents/admin/management/task/html/edit/capitalApplyReport.html'"></div>
    		</div>
    		
-   		<div class="tab_content" ng-show="vm.isJihuaxiada">
+   		<div class="tab_content" id="div_tab5" ng-show="vm.isJihuaxiada">
            	<div ng-include  src="'/contents/admin/management/task/html/edit/planReach.html'"></div>
    		</div>
    	</div>	

@@ -16,19 +16,20 @@
             <tr>
                 <td class="formAlignRight" style="width:15%">中介单位名称： <span class="required">(*)</span></td>
                 <td>
-                    <input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.mediationUnitName" id="mediationUnitName" name="mediationUnitName" data-val="true" data-val-required="必填">
+                    <input  type="text" autocomplete="off" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.mediationUnitName" id="mediationUnitName" name="mediationUnitName" data-val="true" data-val-required="必填">
                     <span data-valmsg-for="mediationUnitName" data-valmsg-replace="true" class="required"></span>
                 </td>
                 <td class="formAlignRight" style="width:15%">中介单位地址： <span class="required">(*)</span></td>
                 <td>
-                    <input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.mediationUnitAddress" id="mediationUnitAddress" name="mediationUnitAddress" data-val="true" data-val-required="必填">
+                    <input  type="text" autocomplete="off" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.mediationUnitAddress" id="mediationUnitAddress" name="mediationUnitAddress" data-val="true" data-val-required="必填">
                     <span data-valmsg-for="mediationUnitAddress" data-valmsg-replace="true" class="required"></span>
                 </td>
             </tr>
             <tr>
                 <td class="formAlignRight" style="width:15%">中介单位法人证照类型： <span class="required">(*)</span></td>
                 <td>
-                    <select id="credentialsType" name="credentialsType" style="height:30px;" ng-model="vm.model.credentialsType" data-val="true" data-val-required="必选">
+                    <select id="credentialsType" name="credentialsType" style="height:30px;" ng-model="vm.model.credentialsType" data-val="true" data-val-required="必选"
+                            ng-change="vm.change()">
 						<option value="">---请选择---</option>
 						<option ng-repeat="x in vm.basicData.credentialsType" value="{{x.id}}">{{x.description}}</option>
 					</select>
@@ -36,20 +37,54 @@
                 </td>
                 <td class="formAlignRight" style="width:15%">中介单位法人证照号： <span class="required">(*)</span></td>
                 <td>
-                    <input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.credentialsNum" id="credentialsNum" name="credentialsNum" data-val="true" data-val-required="必填">
-                    <span data-valmsg-for="credentialsNum" data-valmsg-replace="true" class="required"></span>
+                    <input ng-if="vm.selectedIndex == ''" type="text" maxlength="200" style="width:50%" class="form-control input-sm "
+                           ng-model="vm.model.credentialsNum" id="credentialsNum" name="credentialsNum" autocomplete="off" disabled="disabled"
+                           data-val="true" data-val-required="必填" placeholder="请先选择证照类型"
+                    />
+                    <input ng-if="vm.selectedIndex == 'credentialsType_1'" type="text" maxlength="200" style="width:50%" class="form-control input-sm "
+                            ng-model="vm.model.credentialsNum" id="credentialsNum" name="credentialsNum" autocomplete="off"
+                            placeholder="请输入身份证证照号" data-val-regex="身份证证照号格式不正确" data-val-regex-pattern="(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)"
+                            data-val="true" data-val-required="必填"
+                    />
+                    <input ng-if="vm.selectedIndex == 'credentialsType_2'" type="text" maxlength="200" style="width:50%" class="form-control input-sm "
+                           ng-model="vm.model.credentialsNum" id="credentialsNum" name="credentialsNum" autocomplete="off"
+                           placeholder="请输入护照证照号" data-val-regex="护照证照号格式不正确" data-val-regex-pattern="^([a-zA-z]|[0-9]){5,17}$"
+                           data-val="true" data-val-required="必填"
+                    />
+                    <input ng-if="vm.selectedIndex == 'credentialsType_3'" type="text" maxlength="200" style="width:50%" class="form-control input-sm "
+                           ng-model="vm.model.credentialsNum" id="credentialsNum" name="credentialsNum" autocomplete="off"
+                           placeholder="请输入户口本证照号" data-val-regex="户口本证照号格式不正确" data-val-regex-pattern="(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)"
+                           data-val="true" data-val-required="必填"
+                    />
+                    <input ng-if="vm.selectedIndex == 'credentialsType_4'" type="text" maxlength="200" style="width:50%" class="form-control input-sm "
+                           ng-model="vm.model.credentialsNum" id="credentialsNum" name="credentialsNum" autocomplete="off"
+                           placeholder="请输入军人证照号" data-val-regex="军人证证照号格式不正确" data-val-regex-pattern="^[\u4E00-\u9FA5](字第)([0-9a-zA-Z]{4,8})(号?)$"
+                           data-val="true" data-val-required="必填"
+                    />
+                    <input ng-if="vm.selectedIndex == 'credentialsType_5'" type="text" maxlength="200" style="width:50%" class="form-control input-sm "
+                           ng-model="vm.model.credentialsNum" id="credentialsNum" name="credentialsNum" autocomplete="off"
+                           placeholder="请输入党员证照号"
+                           data-val="true" data-val-required="必填"
+                    />
+                    <input ng-if="vm.selectedIndex == 'credentialsType_6'" type="text" maxlength="200" style="width:50%" class="form-control input-sm "
+                           ng-model="vm.model.credentialsNum" id="credentialsNum" name="credentialsNum" autocomplete="off"
+                           placeholder="其他证件号"
+                           data-val="true" data-val-required="必填"
+                    />
+                    <span data-valmsg-for="credentialsNum"  data-valmsg-replace="true" class="required"></span>
                 </td>
              <tr>
                <td class="formAlignRight" style="width:15%">主要联系人： <span class="required">(*)</span></td>
                 <td>
-                    <input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.contacts" id="contacts" name="contacts" data-val="true" data-val-required="必填">
+                    <input  type="text" autocomplete="off" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.contacts" id="contacts" name="contacts" data-val="true" data-val-required="必填">
                     <span data-valmsg-for="contacts" data-valmsg-replace="true" class="required"></span>
                 </td>
                 <td class="formAlignRight" style="width:15%">主要联系人电话： <span class="required">(*)</span></td>
                 <td>
                     <!--<input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.contactsTel" id="contactsTel" name="contactsTel" data-val="true" data-val-required="必填">
                     <span data-valmsg-for="contactsTel" data-valmsg-replace="true" class="required"></span>-->
-                    <input type="text" class="form-control input-sm" id="contactsTel" name="contactsTel"
+                    <input type="text" autocomplete="off" class="form-control input-sm" id="contactsTel" name="contactsTel"
+                           style="width:50%"
                            placeholder="填写手机号或固话"
                            ng-model="vm.model.contactsTel"
                            data-val="true" data-val-required="必填" maxlength="13"
@@ -61,7 +96,7 @@
             <tr>
                <td class="formAlignRight" style="width:15%">中介单位资质： <span class="required">(*)</span></td>
                 <td>
-                    <input  type="text" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.credentialsAptitude" id="credentialsAptitude" name="credentialsAptitude" data-val="true" data-val-required="必填">
+                    <input  type="text" autocomplete="off" maxlength="200" style="width:50%" class="form-control input-sm "   ng-model="vm.model.credentialsAptitude" id="credentialsAptitude" name="credentialsAptitude" data-val="true" data-val-required="必填">
                     <span data-valmsg-for="credentialsAptitude" data-valmsg-replace="true" class="required"></span>
                 </td>
              </tr>

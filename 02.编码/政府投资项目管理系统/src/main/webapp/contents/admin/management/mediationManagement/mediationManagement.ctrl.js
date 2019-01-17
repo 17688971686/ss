@@ -16,6 +16,7 @@
     	vm.basicData={};
     	vm.model.display = false;
     	vm.id=$state.params.id;
+    	vm.selectedIndex = '';
     	vm.init=function(){
          	var routeName=$state.current.name;  
          	switch (routeName) {
@@ -453,17 +454,30 @@
         	
         }
         function page_mediationUnitUpdate(){
+            var myselect = document.getElementById('credentialsType');
         	mediationManagementSvc.geMediationUnitById(vm);
         	vm.basicData.credentialsType=common.getBacicDataByIndectity(common.basicDataConfig().credentialsType);
         	vm.updateMediationUnit=function(){
         		mediationManagementSvc.updateMediationUnit(vm);
         	};
+
+            vm.change = function () {
+                vm.model.credentialsNum = '';
+                vm.selectedIndex = myselect.value;
+            }
+
         }
         function page_mediationUnitCreate(){
+            var myselect = document.getElementById('credentialsType');
+            vm.selectedIndex = myselect.value;
         	vm.basicData.credentialsType=common.getBacicDataByIndectity(common.basicDataConfig().credentialsType);
         	vm.createMediationUnit=function (){
         		mediationManagementSvc.createMediationUnit(vm);
         	};
+            vm.change = function () {
+                vm.model.credentialsNum = '';
+                vm.selectedIndex = myselect.value;
+            }
         }
         
         function page_mediationManagementList(){
@@ -497,7 +511,7 @@
                     }   
                };
         }
-      
-       
+
+
     }
 })();
