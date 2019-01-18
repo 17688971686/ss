@@ -13,40 +13,45 @@
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目名称：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" autocomplete="off" class="form-control input-sm" id="projectName" name="projectName" ng-model="vm.model.shenBaoInfo.projectName" data-val="true" data-val-required="必填"/>
-			<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>
+			<input type="text" autocomplete="off" class="form-control input-sm" id="projectName" name="projectName" ng-model="vm.model.shenBaoInfo.projectName" data-val="true" data-val-required="必填" required/>
+			<!--<span data-valmsg-for="projectName" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.projectName.$dirty && formReply.projectName.$invalid">必填</span>
 		</td>
 		<td class="formAlignRight" style="width:180px;">项目阶段：<span class="required">(*)</span></td>
 		<td>
-			<select id="projectStage" name="projectStage" style="height:30px;" ng-model="vm.model.shenBaoInfo.projectStage" data-val="true" data-val-required="必选">
+			<select id="projectStage" name="projectStage" style="height:30px;" ng-model="vm.model.shenBaoInfo.projectStage" data-val="true" data-val-required="必选" required>
 				<option value="">---请选择---</option>
 				<option ng-repeat="stage in vm.basicData.projectStage" value="{{stage.id}}" ng-selected="vm.model.shenBaoInfo.projectStage == stage.id">{{stage.description}}</option>
 			</select>
-			<span data-valmsg-for="projectStage" data-valmsg-replace="true" class="required"></span>
+			<!--<span data-valmsg-for="projectStage" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.projectStage.$dirty && formReply.projectStage.$invalid">必选</span>
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">项目负责人名称：<span class="required">(*)</span></td>
 		<td>
-			<input type="text" class="form-control input-sm" id="projectRepName" name="projectRepName" ng-model="vm.model.shenBaoInfo.projectRepName" data-val="true" data-val-required="必填"/>
-			<span data-valmsg-for="projectRepName" data-valmsg-replace="true" class="required"></span>
+			<input type="text" class="form-control input-sm" id="projectRepName" name="projectRepName" ng-model="vm.model.shenBaoInfo.projectRepName" data-val="true" data-val-required="必填" required/>
+			<!--<span data-valmsg-for="projectRepName" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.projectRepName.$dirty && formReply.projectRepName.$invalid">必填</span>
 		</td>
 		<td class="formAlignRight">项目负责人电话：<span class="required">(*)</span></td>
 		<td>
 			<input type="text" autocomplete="off" class="form-control input-sm" style="width:200px;" id="projectRepMobile" name="projectRepMobile" ng-model="vm.model.shenBaoInfo.projectRepMobile"
 				   data-val="true" data-val-required="必填" placeholder="填写固话或手机号" maxlength="13"
-				   data-val-regex="号码不合理！" data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
-			<span data-valmsg-for="projectRepMobile" data-valmsg-replace="true" class="required"></span>
+				   data-val-regex="号码不合理！" ng-pattern="/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/" required/>
+			<!--<span data-valmsg-for="projectRepMobile" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.projectRepMobile.$dirty && formReply.projectRepMobile.$invalid">项目负责人电话格式不正确</span>
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">项目类别：<span class="required">(*)</span></td>
 		<td>
-			<select style="height:30px;" id="projectCategory" name="projectCategory" ng-model="vm.model.shenBaoInfo.projectCategory" data-val="true" data-val-required="必选">
+			<select style="height:30px;" id="projectCategory" name="projectCategory" ng-model="vm.model.shenBaoInfo.projectCategory" data-val="true" data-val-required="必选" required>
 				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.projectCategory" ng-selected="vm.model.shenBaoInfo.projectCategory==x.id" value="{{x.id}}">{{x.description}}</option>
 			</select>
-			<span data-valmsg-for="projectCategory" data-valmsg-replace="true" class="required"></span>
+			<!--<span data-valmsg-for="projectCategory" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.projectCategory.$dirty && formReply.projectCategory.$invalid">必选</span>
 		</td>
 	</tr>
 	<!--<tr>
@@ -64,19 +69,21 @@
 		<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
 		<td>
 			<select id="projectIndustry" name="projectIndustry" style="height:30px;" ng-model="vm.model.shenBaoInfo.projectIndustry"
-					data-val="true" data-val-required="必选">
+					data-val="true" data-val-required="必选" required>
 				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.projectIndustry" value="{{x.id}}" ng-bind="x.description" ng-selected="vm.model.shenBaoInfo.projectIndustry==x.id"></option>
 			</select>
-			<span data-valmsg-for="projectIndustry" data-valmsg-replace="true" class="required"></span>
+			<!--<span data-valmsg-for="projectIndustry" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.projectIndustry.$dirty && formReply.projectIndustry.$invalid">必选</span>
 		</td>
 		<td class="formAlignRight">项目建设性质：<span class="required">(*)</span></td>
 		<td>
-			<select id="projectConstrChar" name="projectConstrChar"  style="height:30px;" ng-model="vm.model.shenBaoInfo.projectConstrChar" data-val="true" data-val-required="必选">
+			<select id="projectConstrChar" name="projectConstrChar"  style="height:30px;" ng-model="vm.model.shenBaoInfo.projectConstrChar" data-val="true" data-val-required="必选" required>
 				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.projectConstrChar" ng-selected="vm.model.shenBaoInfo.projectConstrChar==x.id" value="{{x.id}}">{{x.description}}</option>
 			</select>
-			<span data-valmsg-for="projectConstrChar" data-valmsg-replace="true" class="required"></span>
+			<!--<span data-valmsg-for="projectConstrChar" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.projectConstrChar.$dirty && formReply.projectConstrChar.$invalid">必选</span>
 		</td>
 	</tr>
 	<tr>
@@ -107,13 +114,15 @@
 			<select class="form-select pull-left" style="margin-right:10px;height:30px;">
 				<option>光明区</option>
 			</select>
-			<select class="form-select pull-left" style="margin-right:10px;height:30px;" id="divisionId" name="divisionId" ng-model="vm.model.shenBaoInfo.divisionId" data-val="true" data-val-required="必选">
+			<select class="form-select pull-left" style="margin-right:10px;height:30px;" id="divisionId" name="divisionId" ng-model="vm.model.shenBaoInfo.divisionId" data-val="true" data-val-required="必选" required>
 				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.area_Street" value="{{x.id}}" ng-selected="vm.model.shenBaoInfo.divisionId==x.id">{{x.description}}</option>
 			</select>
-			<span data-valmsg-for="divisionId" data-valmsg-replace="true" class="required"></span>
-			<input type="text" autocomplete="off" class="form-control input-sm pull-left" style="width:500px;" id="projectAddress" name="projectAddress" ng-model="vm.model.shenBaoInfo.projectAddress" data-val="true" data-val-required="必填"/>
-			<span data-valmsg-for="projectAddress" data-valmsg-replace="true" class="errors"></span>
+			<!--<span data-valmsg-for="divisionId" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.divisionId.$dirty && formReply.divisionId.$invalid">必选</span>
+			<input type="text" autocomplete="off" class="form-control input-sm pull-left" style="width:500px;" id="projectAddress" name="projectAddress" ng-model="vm.model.shenBaoInfo.projectAddress" data-val="true" data-val-required="必填" required/>
+			<!--<span data-valmsg-for="projectAddress" data-valmsg-replace="true" class="errors"></span>-->
+			<span class="required" ng-show="formReply.projectAddress.$dirty && formReply.projectAddress.$invalid">必填</span>
 		</td>
 	</tr>
 	<tr>
@@ -137,13 +146,15 @@
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.shenBaoInfo.projectInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
-			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>
+			<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:100px" class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.shenBaoInfo.projectInvestSum" data-val="true" data-val-required="必填" required/>&nbsp;(万元)
+			<!--<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.projectInvestSum.$dirty && formReply.projectInvestSum.$invalid">必填</span>
 		</td>
 		<td class="formAlignRight">累计完成投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.shenBaoInfo.projectInvestAccuSum" data-val="true" data-val-required="必填"/> (万元)
-			<span data-valmsg-for="projectInvestAccuSum" data-valmsg-replace="true" class="required"></span>
+			<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:100px" class="form-control input-sm" id="projectInvestAccuSum" name="projectInvestAccuSum" ng-model="vm.model.shenBaoInfo.projectInvestAccuSum" data-val="true" data-val-required="必填" required/> (万元)
+			<!--<span data-valmsg-for="projectInvestAccuSum" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.projectInvestAccuSum.$dirty && formReply.projectInvestAccuSum.$invalid">必填</span>
 		</td>
 	</tr>
 	<tr>
@@ -237,18 +248,20 @@
 	<tr>
 		<td class="formAlignRight">项目简介：<span class="required">(*)</span></td>
 		<td colspan="3" >
-			<textarea class="form-control" name="projectIntro" id="projectIntro" maxlength="500" style="height:121px;width: 99%;" placeholder="注：项目简介（500字符以内）" ng-model="vm.model.shenBaoInfo.projectIntro" ng-change="vm.checkLength(vm.model.shenBaoInfo.projectIntro,500,'projectIntroTips')" data-val="true" data-val-required="必填" ></textarea>
+			<textarea class="form-control" name="projectIntro" id="projectIntro" maxlength="500" style="height:121px;width: 99%;" placeholder="注：项目简介（500字符以内）" ng-model="vm.model.shenBaoInfo.projectIntro" ng-change="vm.checkLength(vm.model.shenBaoInfo.projectIntro,500,'projectIntroTips')" data-val="true" data-val-required="必填" required ></textarea>
 			<div class="tipfont">您还可以输入<span id="projectIntroTips"><font size="5">500</font></span>个字符!</div>
-			<span data-valmsg-for="projectIntro" data-valmsg-replace="true" class="required"></span>
+			<!--<span data-valmsg-for="projectIntro" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.projectIntro.$dirty && formReply.projectIntro.$invalid">必填</span>
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">建设规模：<span class="required">(*)</span></td>
 		<td colspan="3" >
 			<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（500字符以内）"
-					  ng-model="vm.model.shenBaoInfo.projectGuiMo" ng-change="vm.checkLength(vm.model.shenBaoInfo.projectGuiMo,500,'projectGuiMoTips')" id="projectGuiMo" name="projectGuiMo" data-val="true" data-val-required="必填"></textarea>
+					  ng-model="vm.model.shenBaoInfo.projectGuiMo" ng-change="vm.checkLength(vm.model.shenBaoInfo.projectGuiMo,500,'projectGuiMoTips')" id="projectGuiMo" name="projectGuiMo" data-val="true" data-val-required="必填" required></textarea>
 			<div class="tipfont">您还可以输入<span id="projectGuiMoTips"><font size="5">500</font></span>个字符!</div>
-			<span data-valmsg-for="projectGuiMo" data-valmsg-replace="true" class="required"></span>
+			<!--<span data-valmsg-for="projectGuiMo" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.projectGuiMo.$dirty && formReply.projectGuiMo.$invalid">必填</span>
 		</td>
 	</tr>
 	<tr ng-hide="vm.isYearPlan || vm.isJihuaxiada">

@@ -1,7 +1,7 @@
 <!-- <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 <div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
  -->
-<form id="formReply" name="form">
+<form id="formReply" name="formReply">
 	<div id="tabStrip" kendo-tab-strip="vm.tabStrip">
 	    <ul >
 	      <li id="tab1" class="k-state-active">项目基本信息</li>
@@ -24,11 +24,16 @@
    		</div>
    		
    		<div class="tab_content" id="div_tab4" ng-show="vm.isCapitalApplyReport">
-           	<div ng-include  src="'/contents/admin/management/task/html/edit/capitalApplyReport.html'"></div>
+           	<div ng-if="vm.isCapitalApplyReport" ng-include  src="'/contents/admin/management/task/html/edit/capitalApplyReport.html'"></div>
    		</div>
    		
    		<div class="tab_content" id="div_tab5" ng-show="vm.isJihuaxiada">
-           	<div ng-include  src="'/contents/admin/management/task/html/edit/planReach.html'"></div>
+           	<div ng-if="vm.isJihuaxiada" ng-include  src="'/contents/admin/management/task/html/edit/planReach.html'"></div>
    		</div>
-   	</div>	
+   	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+		<button type="button" class="btn btn-success" ng-disabled="formReply.$invalid"
+				ng-click="vm.saveShenBaoInfo()">保存</button>
+	</div>
 </form>

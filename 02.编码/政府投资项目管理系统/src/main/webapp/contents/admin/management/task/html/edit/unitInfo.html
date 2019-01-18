@@ -9,8 +9,9 @@
 	<tr>
 		<td width="150px;" class="formAlignRight">单位名称：<span class="required ">(*)</span></td>
 		<td colspan="4">
-			<input type="text" autocomplete="off" class="form-control input-sm" id="unitName" name="unitName" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitName" data-val="true" data-val-required="必填"/>
-			<span data-valmsg-for="unitName" data-valmsg-replace="true" class="required"></span>
+			<input type="text" autocomplete="off" class="form-control input-sm" id="unitName" name="unitName" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitName" data-val="true" data-val-required="必填" required/>
+			<!--<span data-valmsg-for="unitName" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.unitName.$dirty && formReply.unitName.$invalid">必填</span>
 		</td>
 	</tr>
 	<tr>
@@ -21,8 +22,9 @@
 			<input type="text" autocomplete="off" class="form-control input-sm" id="orgCode" maxlength="50" name="orgCode"
 				   ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.orgCode"
 				   data-val="true" data-val-regex="组织机构代码不合理！" placeholder="请填写非中文代码"
-				   data-val-regex-pattern="^[^\u4e00-\u9fa5]+$"/>
-			<span data-valmsg-for="orgCode" data-valmsg-replace="true" class="required"></span>
+				   ng-pattern="/^[^\u4e00-\u9fa5]+$/" required/>
+			<!--<span data-valmsg-for="orgCode" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.orgCode.$dirty && formReply.orgCode.$invalid">组织机构代码不合理！</span>
 		</td>
 		<td width="100px;" class="formAlignRight">电话号码：<span class="required">(*)</span></td>
 		<td>
@@ -34,16 +36,18 @@
 				   ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitTel"
 				   data-val="true" data-val-required="必填" maxlength="13" placeholder="填写手机号或固话"
 				   data-val-regex="电话号码不合理！"
-				   data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
-			<span data-valmsg-for="unitTel" data-valmsg-replace="true" class="required"></span>
+				   ng-pattern="/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/" required/>
+			<!--<span data-valmsg-for="unitTel" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.unitTel.$dirty && formReply.unitTel.$invalid">电话号码不合理！</span>
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">电子邮箱：</td>
 		<td colspan="2">
-			<input type="email" class="form-control input-sm" id="email" name="unitEmail" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitEmail"/>
-			<span data-valmsg-for="unitEmail" data-valmsg-replace="true" class="required"></span>
-			<span ng-show="myForm.unitEmail.$error.email" class="required"></span>
+			<input type="email" autocomplete="off" class="form-control input-sm" id="email" name="unitEmail" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitEmail"/>
+			<span data-valmsg-for="unitEmail" data-valmsg-replace="true" class="required" ></span>
+			<!--<span ng-show="myForm.unitEmail.$error.email" class="required"></span>-->
+			<span class="required" ng-show="formReply.unitEmail.$dirty && formReply.unitEmail.$invalid">电子邮箱格式不正确</span>
 		<td class="formAlignRight">传真号码：</td>
 		<td>
 			<!--   <input type="text" class="form-control input-sm" id="unitFax" name="unitFax" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitFax"/>-->
@@ -51,8 +55,9 @@
 				   ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitFax"
 				   data-val="true"
 				   data-val-regex="传真号码不合理！"
-				   data-val-regex-pattern="^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$"/>
-			<span data-valmsg-for="unitFax" data-valmsg-replace="true" class="required"></span>
+				   ng-pattern="/^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/"/>
+			<!--<span data-valmsg-for="unitFax" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.unitFax.$dirty && formReply.unitFax.$invalid">传真号码不合理</span>
 		</td>
 	</tr>
 </table>
@@ -62,11 +67,12 @@
 	<tr>
 		<td width="150px;" class="formAlignRight">单位性质：<span class="required">(*)</span></td>
 		<td colspan="4">
-			<select style="height:30px;" id="unitProperty" name="unitProperty" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitProperty" data-val="true" data-val-required="必选">
+			<select style="height:30px;" id="unitProperty" name="unitProperty" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitProperty" data-val="true" data-val-required="必选" required>
 				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.unitProperty" value="{{x.id}}" ng-selected="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitProperty == x.id">{{x.description}}</option>
 			</select>
-			<span data-valmsg-for="unitProperty" data-valmsg-replace="true" class="required"></span>
+			<!--<span data-valmsg-for="unitProperty" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.unitProperty.$dirty && formReply.unitProperty.$invalid">必选</span>
 		</td>
 	</tr>
 	<tr>
@@ -75,21 +81,25 @@
 			<select class="form-select pull-left" style="margin-right:10px;height:30px;">
 				<option>光明区</option>
 			</select>
-			<select class="form-select pull-left" style="margin-right:10px;height:30px;" id="divisionId" name="divisionId" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.divisionId" data-val="true" data-val-required="必选">
+			<select class="form-select pull-left" style="margin-right:10px;height:30px;" id="divisionId_1" name="divisionId_1"
+					ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.divisionId" data-val="true" data-val-required="必选" required>
 				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.area_Street" value="{{x.id}}" ng-selected="vm.model.shenBaoInfo.shenBaoUnitInfoDto.divisionId == x.id">{{x.description}}</option>
 			</select>
-			<span data-valmsg-for="divisionId" data-valmsg-replace="true" class="required"></span>
-			<input type="text" autocomplete="off" class="form-control input-sm pull-left" style="width:500px;" id="unitAddress" name="unitAddress" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitAddress" data-val="true" data-val-required="必填"/>
-			<span data-valmsg-for="unitAddress" data-valmsg-replace="true" class="required"></span>
+			<!--<span data-valmsg-for="divisionId" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.divisionId_1.$dirty && formReply.divisionId_1.$invalid">必选</span>
+			<input type="text" autocomplete="off" class="form-control input-sm pull-left" style="width:500px;" id="unitAddress" name="unitAddress" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitAddress" data-val="true" data-val-required="必填" required/>
+			<!--<span data-valmsg-for="unitAddress" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.unitAddress.$dirty && formReply.unitAddress.$invalid">必填</span>
 		</td>
 	</tr>
 	<tr>
 		<td rowspan="3" class="formAlignRight">单位负责人：<span class="required">(*)</span></td>
 		<td width="100px;" class="juzhong">姓名：<span class="required ">(*)</span></td>
 		<td width="265px;">
-			<input class="form-control input-sm" type="text" autocomplete="off" id="unitResPerson" name="unitResPerson" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitResPerson" data-val="true" data-val-required="必填"/>
-			<span data-valmsg-for="unitResPerson" data-valmsg-replace="true" class="required"></span>
+			<input class="form-control input-sm" type="text" autocomplete="off" id="unitResPerson" name="unitResPerson" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitResPerson" data-val="true" data-val-required="必填" required/>
+			<!--<span data-valmsg-for="unitResPerson" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.unitResPerson.$dirty && formReply.unitResPerson.$invalid">必填</span>
 		</td>
 		<td width="100px;" class="juzhong">电话号码：<span class="required">(*)</span></td>
 		<td>
@@ -99,9 +109,10 @@
 			<input type="text" autocomplete="off" class="form-control input-sm" id="resPersonTel" name="resPersonTel"
 				   ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonTel"
 				   data-val="true" data-val-required="必填" maxlength="13" placeholder="填写手机号码或固话"
-				   data-val-regex="电话号码不合理！"
-				   data-val-regex-pattern="^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$"/>
-			<span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>
+				   data-val-regex="电话号码不合理！" required
+				   ng-pattern="/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/"/>
+			<!--<span data-valmsg-for="resPersonTel" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.resPersonTel.$dirty && formReply.resPersonTel.$invalid">电话号码不合理</span>
 		</td>
 	</tr>
 	<tr>
@@ -113,8 +124,9 @@
 			<input type="text" autocomplete="off" class="form-control input-sm" id="resPersonMobile" name="resPersonMobile"
 				   ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonMobile" placeholder="填写手机号码"
 				   data-val="true" data-val-required="必填" maxlength="11" data-val-length-max="11"
-				   data-val-regex="手机号码不合理！" data-val-regex-pattern="^1[34578]\d{9}$"/>
-			<span data-valmsg-for="resPersonMobile" data-valmsg-replace="true" class="required"></span>
+				   data-val-regex="手机号码不合理！" ng-pattern="/^1[34578]\d{9}$/" required/>
+			<!--<span data-valmsg-for="resPersonMobile" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.resPersonMobile.$dirty && formReply.resPersonMobile.$invalid">手机号码不合理</span>
 		</td>
 		<td class="juzhong">传真号码</td>
 		<td>
@@ -123,51 +135,57 @@
 				   name="resPersonFax" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonFax"
 				   data-val="true"
 				   data-val-regex="传真号码不合理！"
-				   data-val-regex-pattern="^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$"/>
-			<span data-valmsg-for="resPersonFax" data-valmsg-replace="true" class="required"></span>
+				   ng-pattern="/^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/"/>
+			<!--<span data-valmsg-for="resPersonFax" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="formReply.resPersonFax.$dirty && formReply.resPersonFax.$invalid">传真号码不合理</span>
 		</td>
 	</tr>
 	<tr>
 		<td class="juzhong">Email</td>
 		<td colspan="3">
-			<input type="email" class="form-control input-sm" id="resPersonEmail" name="resPersonEmail" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonEmail"/>
+			<input type="email" autocomplete="off"  class="form-control input-sm" id="resPersonEmail" name="resPersonEmail" ng-model="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonEmail"/>
 			<span data-valmsg-for="resPersonEmail" data-valmsg-replace="true" class="required"></span>
-			<span ng-show="myForm.resPersonEmail.$error.email" class="required"></span>
+			<!--<span ng-show="myForm.resPersonEmail.$error.email" class="required"></span>-->
+			<span class="required" ng-show="formReply.resPersonEmail.$dirty && formReply.resPersonEmail.$invalid">电子邮箱格式不正确</span>
 		</td>
 	</tr>
 </table>
 
 <!-- 下一年度计划、计划下达没有编制单位 -->
-<div ng-hide="vm.isYearPlan || vm.isJihuaxiada">
+<div ng-if="!vm.isYearPlan && !vm.isJihuaxiada">
 	<div class="bg-info text-info" style="padding: 10px;">编制单位信息</div>
 	<table width="100%" class="table  table-bordered table-striped">
 		<tr>
 			<td class="formAlignRight" width="150px;">单位名称：<span class="required">(*)</span></td>
 			<td colspan="2">
-				<input class="form-control input-sm" id="unitName_BZ" name="unitName_BZ" ng-model="vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitName" data-val="true" data-val-required="必选"/>
+				<input class="form-control input-sm" id="unitName_BZ" name="unitName_BZ" ng-model="vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitName" data-val="true" data-val-required="必填" required/>
+				<span class="required" ng-show="formReply.unitName_BZ.$dirty && formReply.unitName_BZ.$invalid">必填</span>
 			</td>
 			<td width="150px;" class="formAlignRight">单位性质：<span class="required">(*)</span></td>
 			<td>
-				<select style="height:30px;" id="unitProperty_BZ" name="unitProperty_BZ" ng-model="vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitProperty" data-val="true" data-val-required="必选">
+				<select style="height:30px;" id="unitProperty_BZ" name="unitProperty_BZ" ng-model="vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitProperty" data-val="true" data-val-required="必选" required>
 					<option value="">---请选择---</option>
 					<option ng-repeat="x in vm.basicData.unitProperty" value="{{x.id}}" ng-selected="vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitProperty == x.id">{{x.description}}</option>
 				</select>
-				<span data-valmsg-for="unitProperty_BZ" data-valmsg-replace="true" class="required"></span>
+				<!--<span data-valmsg-for="unitProperty_BZ" data-valmsg-replace="true" class="required"></span>-->
+				<span class="required" ng-show="formReply.unitProperty_BZ.$dirty && formReply.unitProperty_BZ.$invalid">必选</span>
 			</td>
 		</tr>
 		<tr>
 			<td class="formAlignRight">单位地址<span class="required">(*)</span></td>
 			<td colspan="4">
-				<input type="text" autocomplete="off" class="form-control input-sm pull-left" style="width:500px;" id="unitAddress_BZ" name="unitAddress_BZ" ng-model="vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitAddress" data-val="true" data-val-required="必填"/>
-				<span data-valmsg-for="unitAddress_BZ" data-valmsg-replace="true" class="required"></span>
+				<input type="text" autocomplete="off" class="form-control input-sm pull-left" style="width:500px;" id="unitAddress_BZ" name="unitAddress_BZ" ng-model="vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitAddress" data-val="true" data-val-required="必填" required/>
+				<!--<span data-valmsg-for="unitAddress_BZ" data-valmsg-replace="true" class="required"></span>-->
+				<span class="required" ng-show="formReply.unitAddress_BZ.$dirty && formReply.unitAddress_BZ.$invalid">必填</span>
 			</td>
 		</tr>
 		<tr>
 			<td rowspan="3" class="formAlignRight">单位负责人：<span class="required">(*)</span></td>
 			<td width="100px;" class="juzhong">姓名：<span class="required">(*)</span></td>
 			<td width="265px;">
-				<input class="form-control input-sm" type="text" autocomplete="off" id="unitResPerson_BZ" name="unitResPerson_BZ" ng-model="vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitResPerson" data-val="true" data-val-required="必填"/>
-				<span data-valmsg-for="unitResPerson_BZ" data-valmsg-replace="true" class="required"></span>
+				<input class="form-control input-sm" type="text" autocomplete="off" id="unitResPerson_BZ" name="unitResPerson_BZ" ng-model="vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitResPerson" data-val="true" data-val-required="必填" required/>
+				<!--<span data-valmsg-for="unitResPerson_BZ" data-valmsg-replace="true" class="required"></span>-->
+				<span class="required" ng-show="formReply.unitResPerson_BZ.$dirty && formReply.unitResPerson_BZ.$invalid">必填</span>
 			</td>
 			<td width="100px;" class="juzhong">电话号码：<span class="required ">(*)</span></td>
 			<td>
@@ -176,10 +194,11 @@
                <span data-valmsg-for="resPersonTel_BZ" data-valmsg-replace="true" class="required"></span>-->
 				<input type="text"  class="form-control input-sm" id="resPersonTel_BZ" name="resPersonTel_BZ"
 					   ng-model="vm.model.shenBaoInfo.bianZhiUnitInfoDto.resPersonTel"
-					   data-val="true" data-val-required="必填" maxlength="13" placeholder="填写固话"
+					   data-val="true" data-val-required="必填" maxlength="13" placeholder="填写手机号或固话"
 					   data-val-regex="电话号码不合理！"
-					   data-val-regex-pattern="0\d{2,3}-\d{7,8}"/>
-				<span data-valmsg-for="resPersonTel_BZ" data-valmsg-replace="true" class="required"></span>
+					   ng-pattern="/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/" required/>
+				<!--<span data-valmsg-for="resPersonTel_BZ" data-valmsg-replace="true" class="required"></span>-->
+				<span class="required" ng-show="formReply.resPersonTel_BZ.$dirty && formReply.resPersonTel_BZ.$invalid">电话号码不合理</span>
 			</td>
 		</tr>
 		<tr>
@@ -191,8 +210,9 @@
 				<input type="text" class="form-control input-sm" id="resPersonMobile_BZ" name="resPersonMobile_BZ"
 					   ng-model="vm.model.shenBaoInfo.bianZhiUnitInfoDto.resPersonMobile" placeholder="填写手机号码"
 					   data-val="true" data-val-required="必填" maxlength="11" data-val-length-max="11"
-					   data-val-regex="手机号码不合理！" data-val-regex-pattern="^1[34578]\d{9}$"/>
-				<span data-valmsg-for="resPersonMobile_BZ" data-valmsg-replace="true" class="required"></span>
+					   data-val-regex="手机号码不合理！" ng-pattern="/^1[34578]\d{9}$/" required/>
+				<!--<span data-valmsg-for="resPersonMobile_BZ" data-valmsg-replace="true" class="required"></span>-->
+				<span class="required" ng-show="formReply.resPersonMobile_BZ.$dirty && formReply.resPersonMobile_BZ.$invalid">手机号码不合理</span>
 			</td>
 			<td class="juzhong">传真号码</td>
 			<td>
@@ -201,16 +221,18 @@
 					   name="resPersonFax1" ng-model="vm.model.shenBaoInfo.bianZhiUnitInfoDto.resPersonFax"
 					   data-val="true"
 					   data-val-regex="传真号码不合理！"
-					   data-val-regex-pattern="^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$"/>
-				<span data-valmsg-for="resPersonFax1" data-valmsg-replace="true" class="required"></span>
+					   ng-pattern="/^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/"/>
+				<!--<span data-valmsg-for="resPersonFax1" data-valmsg-replace="true" class="required"></span>-->
+				<span class="required" ng-show="formReply.resPersonFax1.$dirty && formReply.resPersonFax1.$invalid">传真号码不合理</span>
 			</td>
 		</tr>
 		<tr>
 			<td class="juzhong">Email</td>
 			<td colspan="3">
-				<input type="email" class="form-control input-sm" id="resPersonEmail_BZ" name="resPersonEmail_BZ" ng-model="vm.model.shenBaoInfo.bianZhiUnitInfoDto.resPersonEmail"/>
+				<input type="email"  class="form-control input-sm" id="resPersonEmail_BZ" name="resPersonEmail_BZ" ng-model="vm.model.shenBaoInfo.bianZhiUnitInfoDto.resPersonEmail"/>
 				<span data-valmsg-for="resPersonEmail_BZ" data-valmsg-replace="true" class="required"></span>
-				<span ng-show="myForm.resPersonEmail_BZ.$error.email" class="required"></span>
+				<!--<span ng-show="myForm.resPersonEmail_BZ.$error.email" class="required"></span>-->
+				<span class="required" ng-show="formReply.resPersonEmail_BZ.$dirty && formReply.resPersonEmail_BZ.$invalid">电子邮箱格式不正确</span>
 			</td>
 		</tr>
 	</table>

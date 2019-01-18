@@ -3,11 +3,12 @@
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目建设性质：<span class="required">(*)</span></td>
 		<td>
-			<select style="height:30px;" id="projectConstrChar" name="projectConstrChar" ng-model="vm.model.shenBaoInfo.projectConstrChar" data-val="true" data-val-required="必选">
+			<select style="height:30px;" id="projectConstrChar" name="projectConstrChar" ng-model="vm.model.shenBaoInfo.projectConstrChar" data-val="true" data-val-required="必选" required>
 				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.projectConstrChar" value="{{x.id}}" ng-selected="vm.model.shenBaoInfo.projectConstrChar==x.id">{{x.description}}</option>
 			</select>
-			<span data-valmsg-for="projectConstrChar" data-valmsg-replace="true" class="required"></span>
+			<!--<span data-valmsg-for="projectConstrChar" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="form.projectConstrChar.$dirty && form.projectConstrChar.$invalid">必选</span>
 		</td>
 		<td class="formAlignRight" style="width:150px;">建设单位名称：</td>
 		<td>
@@ -24,21 +25,24 @@
 	<tr>
 		<td class="formAlignRight">项目总投资：<span class="required">(*)</span></td>
 		<td>	
-			<input type="number" min="0" step="any" style="width:100px" onkeyup="this.value=this.value.replace(/[^\d]/g,'')"   class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.shenBaoInfo.projectInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
-			<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>			
+			<input type="number" min="0" step="any" style="width:100px" onkeyup="this.value=this.value.replace(/[^\d]/g,'')"   class="form-control input-sm" id="projectInvestSum" name="projectInvestSum" ng-model="vm.model.shenBaoInfo.projectInvestSum" data-val="true" data-val-required="必填" required/>&nbsp;(万元)
+			<!--<span data-valmsg-for="projectInvestSum" data-valmsg-replace="true" class="required"></span>			-->
+			<span class="required" ng-show="form.projectInvestSum.$dirty && form.projectInvestSum.$invalid">必填</span>
 		</td>
 		<td class="formAlignRight">累计安排投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" min="0" step="any" style="width:100px" onkeyup="this.value=this.value.replace(/[^\d]/g,'')"  class="form-control input-sm" id="apInvestSum" name="apInvestSum" ng-model="vm.model.shenBaoInfo.apInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
-			<span data-valmsg-for="apInvestSum" data-valmsg-replace="true" class="required"></span>			
+			<input type="number" min="0" step="any" style="width:100px" onkeyup="this.value=this.value.replace(/[^\d]/g,'')"  class="form-control input-sm" id="apInvestSum" name="apInvestSum" ng-model="vm.model.shenBaoInfo.apInvestSum" data-val="true" data-val-required="必填" required/>&nbsp;(万元)
+			<!--<span data-valmsg-for="apInvestSum" data-valmsg-replace="true" class="required"></span>	-->
+			<span class="required" ng-show="form.apInvestSum.$dirty && form.apInvestSum.$invalid">必填</span>
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">计划年度：<span class="required">(*)</span></td>
 		<td>
 			<input class="Wdate form-control input-sm" style="width:180px;" type="text" id="planYear" name="planYear"
-			 onFocus="WdatePicker({dateFmt:'yyyy'})" ng-change="vm.changeYear()" onChange="" ng-model="vm.model.shenBaoInfo.planYear" data-val="true" data-val-required="必填" />
-			<span data-valmsg-for="planYear" data-valmsg-replace="true" class="required"></span>
+			 onFocus="WdatePicker({dateFmt:'yyyy'})" ng-change="vm.changeYear()" onChange="" ng-model="vm.model.shenBaoInfo.planYear" data-val="true" data-val-required="必填"  required/>
+			<!--<span data-valmsg-for="planYear" data-valmsg-replace="true" class="required"></span>-->
+			<span class="required" ng-show="form.planYear.$dirty && form.planYear.$invalid">必填</span>
 			<div>
 				<span>是否申请标外资金：</span>
 				<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="true" ng-model="vm.model.shenBaoInfo.isApplyOutsideCapital" ng-checked="vm.model.shenBaoInfo.isApplyOutsideCapital == true"/>&nbsp;是</label>
@@ -52,11 +56,12 @@
 		</td>
 		<td class="formAlignRight">打包类型：<span class="required">(*)</span></td>
 		<td>
-			<select class="pull-left" style="height:30px;" id="packageType" name="packageType" ng-model="vm.model.shenBaoInfo.packageType" data-val="true" data-val-required="必选" ng-change="vm.packageTypeChange()">
+			<select class="pull-left" style="height:30px;" id="packageType" name="packageType" ng-model="vm.model.shenBaoInfo.packageType" data-val="true" data-val-required="必选" ng-change="vm.packageTypeChange()" required>
 				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.packageType" value="{{x.id}}" ng-selected="vm.model.shenBaoInfo.packageType == x.id">{{x.description}}</option>
 				<option value="other">其他</option>
 			</select>
+			<span class="required" ng-show="form.packageType.$dirty && form.packageType.$invalid">必选</span>
 			<div ng-if="vm.isOtherPackageType">
 				<input class="form-control input-sm pull-left" type="text" style="width:145px;margin-left:10px;margin-right:10px;" ng-model="vm.packageType.description"/>
 				<button class="btn btn-xs btn-success pull-right" style="margin-top:7px;" ng-click="vm.savePackageType()">保存此类型</button>
