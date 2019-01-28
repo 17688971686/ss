@@ -64,7 +64,7 @@
           	//用于查询--基础数据
 	   		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
 	   		vm.basicData.projectInvestmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);//投资类型
-	   		vm.basicData.userUnit=common.getUserUnits();//获取所有用户单位
+	   		vm.basicData.userUnit=common.getUserUnits().value;//获取所有用户单位
 	   		vm.basicData.projectIndustry_ZF=$linq(common.getBasicData())
 	   			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
 	   			.toArray();//政府投资项目行业
