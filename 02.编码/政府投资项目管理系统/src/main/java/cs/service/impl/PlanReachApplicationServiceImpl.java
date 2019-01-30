@@ -6,6 +6,10 @@ import static cs.common.SQLConfig.shenBaoInfoOfPackPlanOfPlanReach_count;
 import static cs.common.SQLConfig.shenBaoInfoOfPlanReachApplication;
 import static cs.common.SQLConfig.shenBaoInfoOfPlanReachApplication_count;
 
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,8 +21,10 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.activiti.engine.RuntimeService;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.formula.eval.BlankEval;
+import org.apache.poi.ss.formula.functions.T;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
@@ -79,6 +85,8 @@ public class PlanReachApplicationServiceImpl
 	private ShenBaoInfoService shenBaoInfoService;
 	@Autowired
 	private IRepository<ShenBaoInfo, String> shenBaoInfoRepo;
+	@Autowired
+	private IRepository<Project, String> projectRepo;
 	@Autowired
 	private IRepository<PackPlan, String> packPlanRepo;
 	@Autowired
@@ -388,6 +396,31 @@ public class PlanReachApplicationServiceImpl
 		}
 	}
 
+	public static void Copy(Object source, Object to) throws Exception {  
+        // 获取属性  
+        BeanInfo sourceBean = Introspector.getBeanInfo(source.getClass(),java.lang.Object.class);  
+        PropertyDescriptor[] sourceProperty = sourceBean.getPropertyDescriptors();  
+  
+        BeanInfo destBean = Introspector.getBeanInfo(to.getClass(),java.lang.Object.class);  
+        PropertyDescriptor[] destProperty = destBean.getPropertyDescriptors();  
+  
+        try {  
+            for (int i = 0; i < sourceProperty.length; i++) {  
+  
+                for (int j = 0; j < destProperty.length; j++) {  
+  
+                    if (sourceProperty[i].getName().equals(destProperty[j].getName())) {  
+                        // 调用source的getter方法和dest的setter方法  
+                        destProperty[j].getWriteMethod().invoke(to,sourceProperty[i].getReadMethod().invoke(source));  
+                        break;  
+                    }  
+                }  
+            }  
+        } catch (Exception e) {  
+            throw new Exception("属性复制失败:" + e.getMessage());  
+        }  
+    } 
+	
 	/**
 	 * 给打包信息添加申报项目
 	 */
@@ -397,11 +430,21 @@ public class PlanReachApplicationServiceImpl
 		// 根据计划下达id查找到计划下达信息
 		PackPlan pack = packPlanRepo.findById(packId);
 
+		
+		
+		Project project = projectRepo.findById(shenbaoId);
+		Assert.notNull(project);
 		// 年度计划申报信息
-		ShenBaoInfo shenbaoinfo = shenBaoInfoRepo.findById(shenbaoId);
+		ShenBaoInfo shenbaoinfo = new ShenBaoInfo();
+		try {
+			Copy(project,shenbaoinfo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 		
 		Criteria criteria = DetachedCriteria.forClass(ShenBaoInfo.class).getExecutableCriteria(repository.getSession())
-				.add(Restrictions.eq(ShenBaoInfo_.projectId.getName(), shenbaoinfo.getProjectId())).add(Restrictions
+				.add(Restrictions.eq(ShenBaoInfo_.projectId.getName(), project.getId())).add(Restrictions
 						.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach));
 
 		List<ShenBaoInfo> entitys = criteria.list();
@@ -421,6 +464,7 @@ public class PlanReachApplicationServiceImpl
 		shenBaoInfoDto.setCreatedDate(new Date());
 		shenBaoInfoDto.setCreatedBy(currentUser.getUserId());
 		shenBaoInfoDto.setReceiver(null);
+		shenBaoInfoDto.setProjectId(project.getId());
 		if(StringUtil.isEmpty(shenBaoInfoDto.getRemark())){
 			shenBaoInfoDto.setRemark("");
 		}

@@ -58,6 +58,7 @@ import org.apache.poi.ss.formula.functions.WeekNum;
 import org.hibernate.criterion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -1300,7 +1301,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 ////				bl.setSendDeptName("投资科（重大项目办）");
 //				bl.setBureauName("发展和财政局");
 ////				bl.setDeptName("投资科（重大项目办）");
-////				this.todoShenbaoInfo(shenBaoInfo ,nextUsers,bl);
+//				this.todoShenbaoInfo(shenBaoInfo ,nextUsers,bl);
 //				activitiService.setTaskProcessVariable(tasknew.get(0).getId(), "eventIds", sb.toString());
 //			}
 		}
@@ -1351,6 +1352,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	}
 
 	@Override
+	@Async
 	@Transactional	
 	public void todoShenbaoInfo(ShenBaoInfo shenBaoInfo ,String nextUsers,Backlog bl) {
 		// TODO Auto-generated method stub
