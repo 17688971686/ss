@@ -83,8 +83,9 @@ public class ShenBaoHomeController {
 				ORGPerson person = null;
 				try {
 					person = pm.get(loginUID);
+					System.out.println("=======>person:"+person);
 				} catch (Exception e) {
-					throw new IllegalArgumentException("查询RC8人员失败");
+					e.printStackTrace();
 				}
 	
 				userDto.setDisplayName(person.getName());

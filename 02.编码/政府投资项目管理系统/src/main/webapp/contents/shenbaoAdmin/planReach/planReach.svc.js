@@ -1728,7 +1728,7 @@
         function shenbaoInfoGrid(vm) {
             var dataSource = new kendo.data.DataSource({
                 type: 'odata',
-                transport: common.kendoGridConfig().transport(url+"/getShenBaoInfoOutOfPackPlan/"+vm.id),
+                transport: common.kendoGridConfig().transport(url_project+"/unitProject"),
                 schema: common.kendoGridConfig().schema({
                     id: "id",
                     fields: {
@@ -1745,13 +1745,15 @@
                     field: "createdDate",
                     dir: "desc"
                 },
-                filter: [
-                    {
-                        field: 'unitName',
-                        operator: 'eq',
-                        value: vm.userUnit.id
-                    }
-                    ]
+                filter:[{
+					field:'isLatestVersion',
+					operator:'eq',
+					value:true
+				},{
+					field:'unitName',
+					operator:'eq',
+					value:vm.userUnit.id != null?vm.userUnit.id:"noId"
+				}],
             });
             var columns = [
                 {

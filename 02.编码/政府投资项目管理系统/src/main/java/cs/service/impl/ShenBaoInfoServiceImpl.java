@@ -257,11 +257,11 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         } else {
             //如果前台申报单位创建
             //因dto中创建时间和修改时间为项目的相关时间，需从新设置
-            Project project = projectRepo.findById(entity.getProjectId());
-            if (project != null && entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)) {
-//                project.setIsPlanReach(true);
-                projectRepo.save(project);
-            }
+//            Project project = projectRepo.findById(entity.getProjectId());
+//            if (project != null && entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)) {
+////                project.setIsPlanReach(true);
+//                projectRepo.save(project);
+//            }
         }
         //处理关联信息
         dto.getAttachmentDtos().forEach(x -> {
@@ -1160,16 +1160,14 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
                 throw new IllegalArgumentException("没有配置申报信息审核分办人员，请联系管理员！");
             }
         }
-        Backlog bl = new Backlog();
-		bl.setEventId(UUID.randomUUID().toString());
-		
+//        Backlog bl = new Backlog();
+//		bl.setEventId(UUID.randomUUID().toString());
+//		
 //		bl.setBureauName("发展和财政局");
-//		bl.setSendDeptName("投资科（重大项目办）");
-		bl.setBureauName("发展和财政局");
-		bl.setDeptName("投资科（重大项目办）");
+//		bl.setDeptName("投资科（重大项目办）");
         ProcessInstance process = activitiService.startProcess(processDefinitionKey, variables);
         String executionId = process.getId();
-
+//
         Task task = activitiService.getTaskByExecutionId(executionId);
 //        if(isPushOA){
 //        	 activitiService.setTaskProcessVariable(task.getId(), "eventIds", bl.getEventId()+",");
