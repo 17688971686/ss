@@ -153,4 +153,10 @@ public class PlanReachController {
         List<ExcelReportPlanReachDto> data = planReachApprovalService.findBySql(id);
         return new ModelAndView(new ExcelReportPlanReachView(), "data", data);
     }
+
+    @RequestMapping(name="计划下达申报端导出excel",path="exportExcelForShenBao",method=RequestMethod.GET)
+    public ModelAndView exportExcelForShenBao(HttpServletRequest request,@RequestParam String id) throws ParseException{
+        List<ExcelReportPlanReachDto> data = planReachApprovalService.findBySql(id);
+        return new ModelAndView(new ExcelReportPlanReachView(), "data", data);
+    }
 }

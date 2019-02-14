@@ -41,6 +41,11 @@
             $(".menu li a").removeClass("focus");
             $(this).addClass("focus");
         });
+
+        vm.getBasicDataDesc = function (str) {
+            return common.getBasicDataDesc(str);
+        };
+
     }
 
 })();

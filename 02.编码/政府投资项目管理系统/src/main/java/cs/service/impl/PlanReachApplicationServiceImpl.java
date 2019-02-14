@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import cs.model.DomainDto.*;
 import org.activiti.engine.RuntimeService;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.formula.eval.BlankEval;
@@ -25,6 +26,11 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.SimpleExpression;
+import org.hibernate.query.NativeQuery;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.DoubleType;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -49,11 +55,6 @@ import cs.domain.YearPlanCapital;
 import cs.domain.YearPlanCapital_;
 import cs.domain.YearPlan_;
 import cs.model.PageModelDto;
-import cs.model.DomainDto.PackPlanDto;
-import cs.model.DomainDto.PlanReachApplicationDto;
-import cs.model.DomainDto.ShenBaoInfoDto;
-import cs.model.DomainDto.ShenBaoUnitInfoDto;
-import cs.model.DomainDto.UserUnitInfoDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.framework.UserRepo;
 import cs.repository.impl.ProjectRepoImpl;
@@ -846,5 +847,213 @@ public class PlanReachApplicationServiceImpl
 		
     	return shenBaoInfoDtos;
 	}
+
+	//根据计划下达id查询项目信息
+	@Override
+	@Transactional
+	public List<ExcelReportPlanReachDto> findPlanreachBySql(String id) {
+		List<ExcelReportPlanReachDto> list= new ArrayList<ExcelReportPlanReachDto>();
+		StringBuffer sql = new StringBuffer();
+
+		sql.append("select '0' as orderNum")
+				.append(",'' as constructionUnit")
+				.append(",'' as projectName")
+				.append(",'' as projectCategory")
+				.append(",'' projectIndustry")
+				.append(",'' as pId")
+				.append(",'' as projectCategoryDesc")
+				.append(",'A' as projectIndustryDesc")
+				.append(",'' as projectConstrChar")
+				.append(",'' as projectGuiMo")
+				.append(",sum(c.projectInvestSum) as projectInvestSum")
+				.append(",sum(c.apInvestSum) as apInvestSum")
+				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
+				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
+				.append(",'' as yearConstructionTask")
+				.append(",'' as remark")
+				.append(" from cs_planReachApplication a")
+				.append(" left join cs_planReachApplication_cs_shenbaoinfo b on a.id = b.PlanReachApplication_id ")
+				.append(" left join cs_shenbaoinfo c on b.shenBaoInfos_id = c.id ")
+				.append(" where a.id = ").append("'").append(id).append("'")
+
+				.append(" union all  ")
+
+				.append("select '1' as orderNum")
+				.append(",'' as constructionUnit")
+				.append(",'' as projectName")
+				.append(",'' as projectCategory")
+				.append(",c.projectIndustry")
+				.append(",'' as pId")
+				.append(",'' as projectCategoryDesc")
+				.append(",e.description as projectIndustryDesc")
+				.append(",'' as projectConstrChar")
+				.append(",'' as projectGuiMo")
+				.append(",sum(c.projectInvestSum) as projectInvestSum")
+				.append(",sum(c.apInvestSum) as apInvestSum")
+				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
+				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
+				.append(",'' as yearConstructionTask")
+				.append(",'' as remark")
+				.append(" from cs_planReachApplication a")
+				.append(" left join cs_planReachApplication_cs_shenbaoinfo b on a.id = b.PlanReachApplication_id ")
+				.append(" left join cs_shenbaoinfo c on b.shenBaoInfos_id = c.id ")
+				.append(" left join cs_basicdata e on c.projectIndustry = e.id ")
+				.append(" where a.id = ").append("'").append(id).append("'")
+				.append(" group by c.projectIndustry ")
+
+				.append(" union all ")
+
+				.append(" select '2' as orderNum")
+				.append(",c.constructionUnit")
+				.append(",CONCAT_WS(':',c.projectName,c.countryNumber)")
+				.append(",c.projectCategory")
+				.append(",c.projectIndustry")
+				.append(",d.pId")
+				.append(",d.description as projectCategoryDesc")
+				.append(",e.description as projectIndustryDesc")
+				.append(",c.projectConstrChar")
+				.append(",c.projectGuiMo")
+				.append(",c.projectInvestSum")
+				.append(",c.apInvestSum")
+				.append(",c.apPlanReach_ggys")
+				.append(",c.apPlanReach_gtzj")
+				.append(",c.yearConstructionTask")
+				.append(",c.remark")
+				.append(" from cs_planReachApplication a")
+				.append(" left join cs_planReachApplication_cs_shenbaoinfo b on a.id = b.PlanReachApplication_id ")
+				.append(" left join cs_shenbaoinfo c on b.shenBaoInfos_id = c.id ")
+				.append(" left join cs_basicdata d on c.projectCategory = d.id ")
+				.append(" left join cs_basicdata e on c.projectIndustry = e.id ")
+				.append(" where a.id = ").append("'").append(id).append("'")
+
+				.append(" order by projectIndustryDesc,orderNum ");
+
+		NativeQuery query = super.repository.getSession().createNativeQuery(sql.toString());
+		query.addScalar("orderNum", new IntegerType());
+		query.addScalar("constructionUnit", new StringType());
+		query.addScalar("projectName", new StringType());
+		query.addScalar("projectCategory", new StringType());
+		query.addScalar("projectIndustry",new StringType());
+		query.addScalar("projectIndustryDesc",new StringType());
+		query.addScalar("pId", new StringType());
+		query.addScalar("projectCategoryDesc", new StringType());
+		query.addScalar("projectConstrChar", new StringType());
+		query.addScalar("projectGuiMo", new StringType());
+		query.addScalar("projectInvestSum", new DoubleType());
+		query.addScalar("apInvestSum", new DoubleType());
+		query.addScalar("apPlanReach_ggys", new DoubleType());
+		query.addScalar("apPlanReach_gtzj", new DoubleType());
+		query.addScalar("yearConstructionTask", new StringType());
+		query.addScalar("remark", new StringType());
+
+		list = query.setResultTransformer(Transformers.aliasToBean(ExcelReportPlanReachDto.class)).list();
+		logger.info("计划下达Excel导出! sql================>>"+sql.toString());
+		return list;
+	}
+
+
+	//根据计划下达id查询项目信息
+	@Override
+	@Transactional
+	public List<ExcelReportPlanReachDto> findPlanBySql(String id) {
+		List<ExcelReportPlanReachDto> list= new ArrayList<ExcelReportPlanReachDto>();
+		StringBuffer sql = new StringBuffer();
+
+		sql.append("select '0' as orderNum")
+				.append(",'' as constructionUnit")
+				.append(",'' as projectName")
+				.append(",'' as projectCategory")
+				.append(",'' projectIndustry")
+				.append(",'' as pId")
+				.append(",'' as projectCategoryDesc")
+				.append(",'A' as projectIndustryDesc")
+				.append(",'' as projectConstrChar")
+				.append(",'' as projectGuiMo")
+				.append(",sum(c.projectInvestSum) as projectInvestSum")
+				.append(",sum(c.apInvestSum) as apInvestSum")
+				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
+				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
+				.append(",'' as yearConstructionTask")
+				.append(",'' as remark")
+				.append(" from cs_packPlan a")
+				.append(" left join cs_packPlan_cs_shenbaoinfo b on a.id = b.PackPlan_id ")
+				.append(" left join cs_shenbaoinfo c on b.shenBaoInfos_id = c.id ")
+				.append(" where a.id = ").append("'").append(id).append("'")
+
+				.append(" union all  ")
+
+				.append("select '1' as orderNum")
+				.append(",'' as constructionUnit")
+				.append(",'' as projectName")
+				.append(",'' as projectCategory")
+				.append(",c.projectIndustry")
+				.append(",'' as pId")
+				.append(",'' as projectCategoryDesc")
+				.append(",e.description as projectIndustryDesc")
+				.append(",'' as projectConstrChar")
+				.append(",'' as projectGuiMo")
+				.append(",sum(c.projectInvestSum) as projectInvestSum")
+				.append(",sum(c.apInvestSum) as apInvestSum")
+				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
+				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
+				.append(",'' as yearConstructionTask")
+				.append(",'' as remark")
+				.append(" from cs_packPlan a")
+				.append(" left join cs_packPlan_cs_shenbaoinfo b on a.id = b.PackPlan_id ")
+				.append(" left join cs_shenbaoinfo c on b.shenBaoInfos_id = c.id ")
+				.append(" left join cs_basicdata e on c.projectIndustry = e.id ")
+				.append(" where a.id = ").append("'").append(id).append("'")
+				.append(" group by c.projectIndustry ")
+
+				.append(" union all ")
+
+				.append(" select '2' as orderNum")
+				.append(",c.constructionUnit")
+				.append(",CONCAT_WS(':',c.projectName,c.countryNumber)")
+				.append(",c.projectCategory")
+				.append(",c.projectIndustry")
+				.append(",d.pId")
+				.append(",d.description as projectCategoryDesc")
+				.append(",e.description as projectIndustryDesc")
+				.append(",c.projectConstrChar")
+				.append(",c.projectGuiMo")
+				.append(",c.projectInvestSum")
+				.append(",c.apInvestSum")
+				.append(",c.apPlanReach_ggys")
+				.append(",c.apPlanReach_gtzj")
+				.append(",c.yearConstructionTask")
+				.append(",c.remark")
+				.append(" from cs_packPlan a")
+				.append(" left join cs_packPlan_cs_shenbaoinfo b on a.id = b.PackPlan_id ")
+				.append(" left join cs_shenbaoinfo c on b.shenBaoInfos_id = c.id ")
+				.append(" left join cs_basicdata d on c.projectCategory = d.id ")
+				.append(" left join cs_basicdata e on c.projectIndustry = e.id ")
+				.append(" where a.id = ").append("'").append(id).append("'")
+
+				.append(" order by projectIndustryDesc,orderNum ");
+
+		NativeQuery query = super.repository.getSession().createNativeQuery(sql.toString());
+		query.addScalar("orderNum", new IntegerType());
+		query.addScalar("constructionUnit", new StringType());
+		query.addScalar("projectName", new StringType());
+		query.addScalar("projectCategory", new StringType());
+		query.addScalar("projectIndustry",new StringType());
+		query.addScalar("projectIndustryDesc",new StringType());
+		query.addScalar("pId", new StringType());
+		query.addScalar("projectCategoryDesc", new StringType());
+		query.addScalar("projectConstrChar", new StringType());
+		query.addScalar("projectGuiMo", new StringType());
+		query.addScalar("projectInvestSum", new DoubleType());
+		query.addScalar("apInvestSum", new DoubleType());
+		query.addScalar("apPlanReach_ggys", new DoubleType());
+		query.addScalar("apPlanReach_gtzj", new DoubleType());
+		query.addScalar("yearConstructionTask", new StringType());
+		query.addScalar("remark", new StringType());
+
+		list = query.setResultTransformer(Transformers.aliasToBean(ExcelReportPlanReachDto.class)).list();
+		logger.info("计划下达Excel导出! sql================>>"+sql.toString());
+		return list;
+	}
+
 
 }

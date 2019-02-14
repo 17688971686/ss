@@ -29,6 +29,8 @@ public class AllocationCapitalMapper implements IMapper<AllocationCapitalDto,All
 			allocationCapitalDto.setUnitName(entity.getUnitName());
 			allocationCapitalDto.setCapital_ggys(entity.getCapital_ggys());
 			allocationCapitalDto.setCapital_gtzj(entity.getCapital_gtzj());
+			allocationCapitalDto.setCapital_ggys_surplus(entity.getCapital_ggys_surplus());
+			allocationCapitalDto.setCapital_gtzj_surplus(entity.getCapital_gtzj_surplus());
 		}
 		return allocationCapitalDto;
 	}
@@ -43,6 +45,8 @@ public class AllocationCapitalMapper implements IMapper<AllocationCapitalDto,All
 			entity.setUnitName(dto.getUnitName());
 			entity.setCapital_ggys(dto.getCapital_ggys());
 			entity.setCapital_gtzj(dto.getCapital_gtzj());
+			entity.setCapital_ggys_surplus(dto.getCapital_ggys_surplus());
+			entity.setCapital_gtzj_surplus(dto.getCapital_gtzj_surplus());
 		}
 		return entity;
 	}

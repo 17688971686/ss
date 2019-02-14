@@ -5,6 +5,8 @@ import cs.common.ICurrentUser;
 import cs.domain.UserUnitInfo;
 import cs.model.DomainDto.*;
 import cs.model.PageModelDto;
+import cs.model.exportExcel.ExcelReportPlanReachView;
+import cs.model.exportExcel.ExcelShenBaoPlanReachView;
 import cs.model.framework.UserDto;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
@@ -273,6 +276,18 @@ public class ShenBaoAdminPlanReachController {
         } else {
             planReachApplicationService.addPackPlan(planReachId, packPlanId);
         }
+    }
+
+    @RequestMapping(name="计划下达导出单列excel",path="exportExcelForDL",method=RequestMethod.GET)
+    public ModelAndView exportExcelForProject(HttpServletRequest request, @RequestParam String id) throws ParseException{
+        List<ExcelReportPlanReachDto> data = planReachApplicationService.findPlanreachBySql(id);
+        return new ModelAndView(new ExcelShenBaoPlanReachView(), "data", data);
+    }
+
+    @RequestMapping(name="计划下达导出打包excel",path="exportExcelForDB",method=RequestMethod.GET)
+    public ModelAndView exportExcelForDB(HttpServletRequest request, @RequestParam String id) throws ParseException{
+        List<ExcelReportPlanReachDto> data = planReachApplicationService.findPlanBySql(id);
+        return new ModelAndView(new ExcelShenBaoPlanReachView(), "data", data);
     }
 
 

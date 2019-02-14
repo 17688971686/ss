@@ -124,6 +124,10 @@
             $(".menu li a").removeClass("focus");
             $(this).addClass("focus");
         });
+
+        vm.exprotExcel =function(){
+            location.href = common.format("/shenbaoAdmin/planReach/exportExcelForDB?id={0}",vm.id);
+        };
     }
 
 })();

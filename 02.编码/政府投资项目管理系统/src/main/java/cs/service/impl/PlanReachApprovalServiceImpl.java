@@ -249,7 +249,6 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 		return list;
 	}
 
-
 	@Override
     @Transactional
     public void endProcesss (String id){

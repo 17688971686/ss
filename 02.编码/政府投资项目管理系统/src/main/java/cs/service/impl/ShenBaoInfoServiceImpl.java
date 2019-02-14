@@ -176,15 +176,15 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         runtimeService.deleteProcessInstance(pricessId, "建设单位主动撤销");
         Criterion criterion = Restrictions.eq(ShenBaoInfo_.zong_processId.getName(), pricessId);
         List<ShenBaoInfo> shenBaoInfo = super.repository.findByCriteria(criterion);
-        if(isPushOA){
-			//处理统一代办--查询--完成--删除
-			try {
-				String eventIds = (String) taskService.getVariable(shenBaoInfo.get(0).getThisTaskId(), "eventIds");
-				TodoNumberUtil.handleTodoMasg(eventIds);
-			} catch (Exception e) {
-				logger.info("task id not found");
-			}
-		}
+//        if(isPushOA){
+//			//处理统一代办--查询--完成--删除
+//			try {
+//				String eventIds = (String) taskService.getVariable(shenBaoInfo.get(0).getThisTaskId(), "eventIds");
+//				TodoNumberUtil.handleTodoMasg(eventIds);
+//			} catch (Exception e) {
+//				logger.info("task id not found");
+//			}
+//		}
         shenBaoInfo.get(0).setProcessStage("建设单位主动撤销");
         shenBaoInfo.get(0).setProcessState(BasicDataConfig.processState_weikaishi);
         shenBaoInfo.get(0).setThisTaskName("");

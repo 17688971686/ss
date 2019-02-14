@@ -3,6 +3,7 @@ package cs.service.interfaces;
 import java.util.List;
 
 import cs.domain.PlanReachApplication;
+import cs.model.DomainDto.ExcelReportPlanReachDto;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.PackPlanDto;
 import cs.model.DomainDto.PlanReachApplicationDto;
@@ -162,5 +163,10 @@ public interface PlanReachApplicationService extends IService<PlanReachApplicati
 	PageModelDto<ShenBaoInfoDto> getShenBaoInfoOutOfPlanReach(ODataObjNew odataObj, String planReachId, boolean b);
 
 	PageModelDto<ShenBaoInfoDto> getShenBaoInfoOutOfPackPlan(ODataObjNew odataObj, String packPlanId);
+
+
+    List<ExcelReportPlanReachDto> findPlanreachBySql(String id);
+
+    List<ExcelReportPlanReachDto> findPlanBySql(String id);
 
 }

@@ -510,15 +510,15 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		} else {
 			activitiService.setTaskComment(task.get(0).getId(), shenBaoInfo.getZong_processId(), "批复意见：" + msg);
 		}
-		if(isPushOA){
-			//处理统一代办--查询--完成--删除
-			try {
-				String eventIds = (String) taskService.getVariable(shenBaoInfo.getThisTaskId(), "eventIds");
-				TodoNumberUtil.handleTodoMasg(eventIds);
-			} catch (Exception e) {
-				logger.info("task id not found");
-			}
-		}
+//		if(isPushOA){
+//			//处理统一代办--查询--完成--删除
+//			try {
+//				String eventIds = (String) taskService.getVariable(shenBaoInfo.getThisTaskId(), "eventIds");
+//				TodoNumberUtil.handleTodoMasg(eventIds);
+//			} catch (Exception e) {
+//				logger.info("task id not found");
+//			}
+//		}
 		
 		activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
 		activitiService.taskComplete(task.get(0).getId(), variables);
@@ -936,15 +936,15 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		// 设置批注的用户ID
 		Authentication.setAuthenticatedUserId(currentUser.getUserId());
 		// 添加批注
-		if(isPushOA){
-			//处理统一代办--查询--完成--删除
-			try {
-				String eventIds = (String) taskService.getVariable(shenBaoInfo.getThisTaskId(), "eventIds");
-				TodoNumberUtil.handleTodoMasg(eventIds);
-			} catch (Exception e) {
-				logger.info("task id not found");
-			}
-		}
+//		if(isPushOA){
+//			//处理统一代办--查询--完成--删除
+//			try {
+//				String eventIds = (String) taskService.getVariable(shenBaoInfo.getThisTaskId(), "eventIds");
+//				TodoNumberUtil.handleTodoMasg(eventIds);
+//			} catch (Exception e) {
+//				logger.info("task id not found");
+//			}
+//		}
 	
 		shenBaoInfo.setThisTaskId("00000");
 		shenBaoInfo.setQianshouDate(new Date());// 签收时间
@@ -1076,15 +1076,15 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		if (!nextUsers.isEmpty()) {// 设置流程变量--下一任务处理人
 			variables.put("nextUsers", nextUsers);
 		}
-		if(isPushOA){
-			//处理统一代办--查询--完成--删除
-			try {
-				String eventIds = (String) taskService.getVariable(shenBaoInfo.getThisTaskId(), "eventIds");
-				TodoNumberUtil.handleTodoMasg(eventIds);
-			} catch (Exception e) {
-				logger.info("task id not found");
-			}
-		}
+//		if(isPushOA){
+//			//处理统一代办--查询--完成--删除
+//			try {
+//				String eventIds = (String) taskService.getVariable(shenBaoInfo.getThisTaskId(), "eventIds");
+//				TodoNumberUtil.handleTodoMasg(eventIds);
+//			} catch (Exception e) {
+//				logger.info("task id not found");
+//			}
+//		}
 		shenBaoInfo.setThisUser(nextUsers);
 		List<Task> task = null;
 		// 当前流程下，当前登录人员的任务

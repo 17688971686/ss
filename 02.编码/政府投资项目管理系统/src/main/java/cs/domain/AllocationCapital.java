@@ -30,6 +30,12 @@ public class AllocationCapital extends BaseEntity{
 	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '资金设置-国土资金'")
 	private Double capital_gtzj=0.0;
 
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '剩余资金-公共预算'")
+	private Double capital_ggys_surplus=0.0;
+
+	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '剩余资金-国土资金'")
+	private Double capital_gtzj_surplus=0.0;
+
 	public String getId() {
 		return id;
 	}
@@ -69,7 +75,22 @@ public class AllocationCapital extends BaseEntity{
 	public void setCapital_gtzj(Double capital_gtzj) {
 		this.capital_gtzj = capital_gtzj;
 	}
-	
-	
+
+	public Double getCapital_ggys_surplus() {
+		return capital_ggys_surplus;
+	}
+
+	public void setCapital_ggys_surplus(Double capital_ggys_surplus) {
+		this.capital_ggys_surplus = capital_ggys_surplus;
+	}
+
+	public Double getCapital_gtzj_surplus() {
+		return capital_gtzj_surplus;
+	}
+
+	public void setCapital_gtzj_surplus(Double capital_gtzj_surplus) {
+		this.capital_gtzj_surplus = capital_gtzj_surplus;
+	}
+
 
 }

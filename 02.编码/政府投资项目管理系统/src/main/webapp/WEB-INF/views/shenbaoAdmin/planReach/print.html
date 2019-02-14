@@ -48,7 +48,6 @@
 	<div class="toolbar">
 		<a class="btn btn-success btn-sm" href="javascript:;" ui-sref="planReach"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回</a>
 		<button type="button" class="btn btn-success btn-sm" ng-click="vm.printBtn()"><span class="glyphicon glyphicon-print"></span>&nbsp;打印</button>
-		<!-- <button type="button" class="btn btn-success btn-sm" ng-click="vm.clicks()"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;另存为...</button> -->	
 	</div>
 	
 	<div style="position: relative;">
@@ -57,37 +56,23 @@
 			<br>
 			<table class="_table" style="width:27.7cm;margin:0 auto;">
 				<tr style="height:0.87cm;">
-					<td colspan="3" style="text-align:left;border: 0;">打印时间：{{vm.nowDate}}</td>
-					<td style="text-align:right;border: 0;">资金：万   元<br>面积：平方米</td>
-				</tr>
-				<tr style="height:0.87cm;">
-					<td style="width:3.5cm">申请单位：</td>
-					<td ng-bind="vm.userUnit.unitName"></td>
-					<td style="width:3.5cm">申请时间：</td>
-					<td ng-bind="vm.model.applicationTime"></td>
-				</tr>
-				<tr style="height:0.87cm;">
-					<td>负责人：</td>
-					<td ng-bind="vm.model.resPerson"></td>
-					<td>负责人电话：</td>
-					<td ng-bind="vm.model.resPersonTel"></td>
-				</tr>
-				<tr style="height:0.87cm;">
-					<td colspan="4" style="border-top: 0;border-bottom:0;"></td>
+					<td colspan="3" style="text-align:left;border: 0;"></td>
+					<td style="text-align:right;border: 0;">资金：万   元</td>
 				</tr>
 				<tr>
-					<td>申请项目信息：</td>
-					<td colspan="3">
+					<td colspan="4">
 						<table style="margin: 10px;" class="dataTable">
 							<tr class="text-center table_title">
 								<td style="width:1.49cm;" rowspan="2">序号</td>
+								<td style="width:5.00cm" rowspan="2">建设单位</td>
 								<td style="width:5.00cm" rowspan="2">项目名称</td>
 								<td style="width:4.50cm" rowspan="2">建设规模</td>
-								<td style="width:2cm" rowspan="2">建设性质</td>
+								<td style="width:2cm" rowspan="2">项目类别</td>
 								<td style="width:2cm" rowspan="2">总投资</td>
 								<td colspan="2">本年度安排投资</td>
 								<td colspan="2">申请资金</td>
 								<td style="width:3cm" rowspan="2">备注</td>
+								<!--<td style="width:3cm" rowspan="2">计划文号</td>-->
 							</tr>
 							<tr class="text-center table_title">
 								<td style="width:2cm;">公共预算</td>
@@ -97,15 +82,17 @@
 							</tr>
 							<tr ng-repeat="x in vm.shenbaoList" class="dataTr">
 								<td ng-bind="$index+1"></td>
-								<td ng-bind="x.projectName"></td>
+                                <td ng-bind="vm.userUnit.unitName"></td>
+                                <td>{{x.projectName}}<br>{{x.countryNumber}}</td>
 								<td ng-bind="x.projectGuiMo"></td>
-								<td ng-bind="vm.getBasicDataDesc(x.projectConstrChar)"></td>
+								<td ng-bind="vm.getBasicDataDesc(x.projectCategory)"></td>
 								<td ng-bind="x.projectInvestSum"></td>
 								<td ng-bind="x.capitalAP_ggys_TheYear"></td>
 								<td ng-bind="x.capitalAP_gtzj_TheYear"></td>
 								<td ng-bind="x.sqPlanReach_ggys"></td>
 								<td ng-bind="x.sqPlanReach_gtzj"></td>
-								<td ng-bind="x.yearConstructionContentShenBao"></td>
+								<td ng-bind="x.remark"></td>
+								<!--<td ng-bind="x.projectInvestSum"></td>-->
 							</tr>
 						</table>
 					</td>
