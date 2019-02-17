@@ -91,6 +91,9 @@
                             <td style="width:250px;">单位名称</td>
                             <td>公共预算(万元)</td>
                             <td>国土资金(万元)</td>
+                            <td>总额度(万元)</td>
+                            <td>公共预算已用额度(万元)</td>
+                            <td>国土资金已用额度(万元)</td>
                             <td>
                                 <button type="button" class="btn btn-success btn-sm"
                                         ng-click="vm.addConstructionUnit()"><span
@@ -124,6 +127,25 @@
                                        name="capital_gtzj_{{$index}}" ng-model="x.capital_gtzj"
                                        data-val="true" data-val-required="必填"/> <span
                                     data-valmsg-for="capital_gtzj_{{$index}}"
+                                    data-valmsg-replace="true" class="required"></span>
+                            </td>
+                            <td>
+                                <span ng-bind="x.capital_gtzj + x.capital_ggys"></span>
+                            </td>
+                            <td>
+                                <input type="number" min="0" style="text-align:right" onkeyup="this.value=this.value.replace(/[^\d]/g,'')"
+                                       class="form-control input-sm" id="capital_ggys_surplus_{{$index}}"
+                                       name="capital_ggys_surplus_{{$index}}" ng-model="x.capital_ggys_surplus"
+                                       data-val="true" data-val-required="必填"/><span
+                                    data-valmsg-for="capital_ggys_surplus_{{$index}}"
+                                    data-valmsg-replace="true" class="required"></span>
+                            </td>
+                            <td>
+                                <input type="number" min="0" style="text-align:right" onkeyup="this.value=this.value.replace(/[^\d]/g,'')"
+                                       class="form-control input-sm" id="capital_gtzj_surplus_{{$index}}"
+                                       name="capital_gtzj_surplus_{{$index}}" ng-model="x.capital_gtzj_surplus"
+                                       data-val="true" data-val-required="必填"/> <span
+                                    data-valmsg-for="capital_gtzj_surplus_{{$index}}"
                                     data-valmsg-replace="true" class="required"></span>
                             </td>
                             <td>

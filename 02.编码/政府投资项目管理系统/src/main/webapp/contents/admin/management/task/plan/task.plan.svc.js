@@ -24,6 +24,7 @@
         var url_pic = "/pic/task";
         var url_packPlan = '/management/packPlan';
         var url_planReach = "/shenbaoAdmin/planReach";
+        var url_application = "management/yearPlanCapital";
 
         var service = {
             grid: grid,//待办任务列表
@@ -47,7 +48,8 @@
             pinglun: pinglun,//评论
             getUnfinished: getUnfinished,//获取未进行的活动
             showActiviti: showActiviti,
-            otherGrid: otherGrid//科室办件列表
+            otherGrid: otherGrid,//科室办件列表
+            getPackPlanInfo:getPackPlanInfo
         };
 
         return service;
@@ -534,8 +536,8 @@
                             vm.model.shenBaoInfo.nationalIndustryParent = child2.pId;
                             vm.nationalIndustryChange();
                         }
-
                         getDeptByName(vm, "投资科");
+                        getPackPlanInfo(vm);
 
                         if (vm.model.shenBaoInfo.thisTaskName != 'usertask1' || vm.model.shenBaoInfo.thisTaskName != 'usertask2') {
                             getAssigneeByUserId(vm, vm.model.shenBaoInfo.zong_processId);//查询登录人员是否是指定办理人员
@@ -553,6 +555,22 @@
                 success: httpSuccess
             });
         }//end fun getShenBaoInfoById
+
+        function getPackPlanInfo(vm) {
+            $http.get(common.format(url_packPlan + "?$filter=id eq '{0}'", vm.model.shenBaoInfo.packPlanId)).success(function (data) {
+                vm.model.allocationCapitals
+                    var response= data.value[0] || {};
+                vm.model.allocationCapitals = response.allocationCapitals;
+                angular.forEach(vm.model.allocationCapitals, function(item) {
+                    if(item.unitName == vm.model.shenBaoInfo.unitName){
+                        vm.capital_ggys = item.capital_ggys;
+                        vm.capital_gtzj = item.capital_gtzj;
+                        vm.capital_ggys_surplus = item.capital_ggys_surplus;
+                        vm.capital_gtzj_surplus = item.capital_gtzj_surplus;
+                    }
+                });
+            })
+        }//end fun getDeptByName
 
         /**
          * 查询部门人员

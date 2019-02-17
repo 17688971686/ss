@@ -37,13 +37,9 @@ import cs.repository.odata.ODataObjNew;
 import cs.service.common.BasicDataService;
 import cs.service.framework.OrgService;
 import cs.service.framework.UserService;
-import cs.service.interfaces.ProcessService;
-import cs.service.interfaces.ProjectService;
-import cs.service.interfaces.ShenBaoInfoService;
-import cs.service.interfaces.UserUnitInfoService;
+import cs.service.interfaces.*;
 import cs.service.sms.SmsService;
 import cs.service.sms.exception.SMSException;
-import junit.framework.Assert;
 
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.ProcessEngine;
@@ -56,10 +52,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.formula.functions.WeekNum;
 import org.hibernate.criterion.*;
+import org.hibernate.query.NativeQuery;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.DoubleType;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -120,6 +122,10 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	private OrgService orgService;
 	@Autowired
 	private WorkdayRepo workdayrepo;
+	@Autowired
+	private PackPlanService packPlanService;
+	@Autowired
+	private IRepository<PackPlan, String> packPlanRepo;
 	@Autowired
 	private BasicDataService basicDataService;
     @Value("${projectShenBaoStage_JYS}")
@@ -523,8 +529,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		
 		activitiService.claimTask(task.get(0).getId(), currentUser.getUserId());
 		activitiService.taskComplete(task.get(0).getId(), variables);
-	
-		
+
 		// 结束上一任务后，当前流程下产生的新任务
 		List<Task> tasknew = taskService.createTaskQuery().processInstanceId(shenBaoInfo.getZong_processId())
 				.orderByDueDate().desc().list();
@@ -569,23 +574,15 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
 		} else {
 			msgs = taskUsers.stream()
-					//.filter(userId -> this.getAssigneeByUserId(shenBaoInfo.getZong_processId(), userId).isSuccess()) // 过滤出到达审批状态的用户
+//					.filter(userId -> this.getAssigneeByUserId(shenBaoInfo.getZong_processId(), userId).isSuccess()) // 过滤出到达审批状态的用户
 					.map(userId -> userService.findById(userId)) // 查询出用户对象
 					.filter(user1 -> StringUtils.isNotBlank(user1.getMobilePhone())) // 过滤没有设置手机号的用户
 					.map(user2 -> new SendMsg(user2.getMobilePhone(), content)) // 将用户对象转换成SendMsg对象
 					.collect(Collectors.toList());
 		}
-		
-		
-		// 开始发送短信通知
-		try {
-			smsService.insertDownSms(null, msgs.toArray(new SendMsg[] {}));
-		} catch (SMSException e) {
-			logger.error("发送短信异常：" + e.getMessage(), e);
-		}
-		
-		
+
 		if (shenBaoInfo.getThisTaskName().equals("usertask5") && "next".equals(str) ) {
+			shenBaoInfo.setPlan_wenhao(shenbaoinfoDto.getPlan_wenhao());
 			shenBaoInfo.setXdPlanReach_gtzj(shenbaoinfoDto.getXdPlanReach_gtzj());
 			shenBaoInfo.setXdPlanReach_ggys(shenbaoinfoDto.getXdPlanReach_ggys());
 			//累计安排总资金累加
@@ -607,9 +604,35 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 			Criterion criterion3 = Restrictions.and(criterion, criterion1,criterion2);
 			List<ShenBaoInfo> nextyearplan = shenBaoInfoRepo.findByCriteria(criterion3);
 			if(!CollectionUtils.isEmpty(nextyearplan)){
+				Assert.isTrue(nextyearplan.get(0).getApplyAPYearInvest() +shenbaoinfoDto.getXdPlanReach_gtzj() +shenbaoinfoDto.getXdPlanReach_ggys()<=nextyearplan.get(0).getCapitalAP_ggys_TheYear()+nextyearplan.get(0).getCapitalAP_gtzj_TheYear(),"下达资金不能超过安排资金总和");
+				Assert.isTrue(nextyearplan.get(0).getApInvestSum() +shenbaoinfoDto.getXdPlanReach_gtzj() +shenbaoinfoDto.getXdPlanReach_ggys()<=nextyearplan.get(0).getProjectInvestSum(),"不能超过项目总投资："+nextyearplan.get(0).getProjectInvestSum());
+				//项目累计投资
 				nextyearplan.get(0).setApInvestSum(nextyearplan.get(0).getApInvestSum() +shenbaoinfoDto.getXdPlanReach_gtzj() +shenbaoinfoDto.getXdPlanReach_ggys());
+				//年度安排总投资
+				nextyearplan.get(0).setApplyAPYearInvest(nextyearplan.get(0).getApplyAPYearInvest() +shenbaoinfoDto.getXdPlanReach_gtzj() +shenbaoinfoDto.getXdPlanReach_ggys());
 				shenBaoInfoRepo.save(nextyearplan.get(0));
 			}
+
+			//建设资金预留判断
+			if(ObjectUtils.isNotEmpty(shenbaoinfoDto.getPackPlanId())){
+				//查询打包资金
+
+				PackPlan pack = packPlanService.findById(shenbaoinfoDto.getPackPlanId());
+				if(pack != null){
+					for (int x=0;x<pack.getAllocationCapitals().size();x++){
+						AllocationCapital ac = pack.getAllocationCapitals().get(x);
+						if(ac.getUnitName().equals(shenBaoInfo.getUnitName())){
+							Assert.isTrue(ac.getCapital_ggys_surplus()+shenbaoinfoDto.getXdPlanReach_ggys()<ac.getCapital_ggys(),"超过建设资金预留-公共预算,无法提交！");
+							Assert.isTrue(ac.getCapital_gtzj_surplus()+shenbaoinfoDto.getXdPlanReach_gtzj()<ac.getCapital_gtzj(),"超过建设资金预留-国土资金，无法提交！");
+							ac.setCapital_ggys_surplus(ac.getCapital_ggys_surplus()+shenbaoinfoDto.getXdPlanReach_ggys());
+							ac.setCapital_gtzj_surplus(ac.getCapital_gtzj_surplus()+shenbaoinfoDto.getXdPlanReach_gtzj());
+						}
+					};
+
+					packPlanRepo.save(pack);
+				}
+			}
+
 		
 		} else if (str.equals("tuiwen")) {
 			shenBaoInfo.setThisTaskId("00000");
@@ -646,6 +669,13 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 		}
 		projectRepo.save(project);
 		shenBaoInfoRepo.save(shenBaoInfo);
+
+		// 开始发送短信通知
+		try {
+			smsService.insertDownSms(null, msgs.toArray(new SendMsg[] {}));
+		} catch (SMSException e) {
+			logger.error("发送短信异常：" + e.getMessage(), e);
+		}
 		
 		logger.info(String.format("查询角色组已办结上线请求,用户名:%s", currentUser.getLoginName()));
 
@@ -654,6 +684,37 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 	
 
 	/**************************************************************************************************************************/
+
+	@Override
+	@Transactional
+	public List<AllocationCapitalDto> findPlanBySql(String id,String planId) {
+		List<AllocationCapitalDto> list= new ArrayList<AllocationCapitalDto>();
+		StringBuffer sql = new StringBuffer();
+
+		sql.append("select ")
+				.append("SUM(a.capital_ggys_surplus) as sumggys_surplus,")
+				.append("SUM(a.capital_gtzj_surplus) as sumgtzj_surplus,")
+				.append("SUM(a.capital_ggys) as sumggys,")
+				.append("SUM(a.capital_gtzj) as sumgtzj")
+
+				.append(" from cs_packPlan p")
+				.append(" left join cs_packplan_cs_allocationcapital pa p.id = pa.PackPlan_id")
+				.append(" left join cs_allocationcapital a on pa.allocationCapitals_id = a.id")
+				.append(" where a.unitName = ").append("'").append(id).append("'")
+		.append("and p.id = ").append("'").append(planId).append("'");
+
+
+
+		NativeQuery query = super.repository.getSession().createNativeQuery(sql.toString());
+		query.addScalar("sumggys_surplus", new DoubleType());
+		query.addScalar("sumgtzj_surplus", new DoubleType());
+		query.addScalar("sumggys", new DoubleType());
+		query.addScalar("sumgtzj", new DoubleType());
+
+		list = query.setResultTransformer(Transformers.aliasToBean(AllocationCapitalDto.class)).list();
+		logger.info("查询打包资金! sql================>>"+sql.toString());
+		return list;
+	}
 
 	@Override
 	@Transactional
@@ -1904,7 +1965,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 				.createHistoricTaskInstanceQuery()
 				.processInstanceId(processId)
 				.taskDefinitionKey(userTaskId).orderByHistoricActivityInstanceId().desc().list();
-		if(!list.isEmpty() && list.size()>0) historictaskinstance = list.get(0);
+		if(!list.isEmpty() && list.size()>0){ historictaskinstance = list.get(0);}
 		return historictaskinstance;
 	}
 

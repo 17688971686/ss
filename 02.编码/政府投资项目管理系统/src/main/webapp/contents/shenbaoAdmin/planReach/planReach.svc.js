@@ -1194,8 +1194,8 @@
                     }
                 },
                 {
-                    field: "apInvestSum",
-                    title: "累计安排资金",
+                    field: "applyAPYearInvest",
+                    title: "年度累计安排资金",
                     width: 140,
                     filterable: false,
                     headerAttributes: {
@@ -1206,7 +1206,7 @@
                 {
                     title: "安排资金（万元）",
                     columns: [{
-                        field: "apPlanReach_ggys",
+                        field: "capitalAP_ggys_TheYear",
                         title: "公共预算",
                         width: 80,
                         filterable: false,
@@ -1215,7 +1215,7 @@
                             style: "text-align: center;"
                         }
                     }, {
-                        field: "apPlanReach_gtzj",
+                        field: "capitalAP_gtzj_TheYear",
                         title: "国土基金",
                         width: 80,
                         filterable: false,

@@ -1,7 +1,6 @@
 package cs.service.impl;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import javax.transaction.Transactional;
 
@@ -23,6 +22,7 @@ import cs.model.DtoMapper.IMapper;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.PackPlanService;
+import org.springframework.util.Assert;
 
 /**
  * @Description: 打包计划服务层
@@ -60,6 +60,8 @@ public class PackPlanServiceImpl extends AbstractServiceImpl<PackPlanDto, PackPl
 			dto.getAllocationCapitalDtos().stream().forEach(x->{
 				AllocationCapital allocationCapital = new AllocationCapital();
 				allocationCapitalMapper.buildEntity(x, allocationCapital);
+				allocationCapital.setCapital_ggys_surplus(allocationCapital.getCapital_ggys());
+				allocationCapital.setCapital_gtzj_surplus(allocationCapital.getCapital_gtzj());
 				entity.getAllocationCapitals().add(allocationCapital);
 			});
 			logger.info(String.format("创建年度计划,名称：%s",dto.getName()));
@@ -72,15 +74,34 @@ public class PackPlanServiceImpl extends AbstractServiceImpl<PackPlanDto, PackPl
 	@Transactional
 	public PackPlan update(PackPlanDto dto,String id) {		
 		PackPlan entity =  super.update(dto, id);
+        List<AllocationCapital> oldacs = entity.getAllocationCapitals();
 		//关联打包类建设单位
 		entity.getAllocationCapitals().forEach(x->{//删除历史建设单位资金编制记录
 			allocationCapitalRepo.delete(x);
 		});
-		entity.getAllocationCapitals().clear();
+//		entity.getAllocationCapitals().clear();
+        List<AllocationCapital> newacs = new ArrayList<>();
+        String temp = "";
+        List<String> idlist = new ArrayList<>();
+        for (int i = 0; i < dto.getAllocationCapitalDtos().size(); i++)
+        {
+            idlist.add(dto.getAllocationCapitalDtos().get(i).getUnitName());
+        }
+        for (int i = 0; i < idlist.size() - 1; i++)
+        {
+            temp = idlist.get(i);
+            for (int j = i + 1; j < idlist.size(); j++)
+            {
+                Assert.isTrue(!temp.equals(idlist.get(j)),"不能添加重复的单位资金!");
+            }
+        }
+
 		dto.getAllocationCapitalDtos().forEach(x->{//添加新的建设单位资金编制记录
-			entity.getAllocationCapitals().add(allocationCapitalMapper.buildEntity(x, new AllocationCapital()));
+
+            newacs.add(allocationCapitalMapper.buildEntity(x, new AllocationCapital()));
 		});
-		
+
+        entity.setAllocationCapitals(newacs);
 		logger.info(String.format("更新年度计划,名称：%s",dto.getName()));
 		super.repository.save(entity);
 		return entity;		

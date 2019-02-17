@@ -308,6 +308,14 @@
                     keyboard:false
                 });
         	};
+
+            //弹出资金安排信息模态款
+            vm.dialog_applicationInfo=function(){
+                $("#dialog_applicationInfo").modal({
+                    backdrop: 'static',
+                    keyboard:false
+                });
+            };
         	//获取项目类型， 多选
 	   		vm.updateSelection = function(id){
 	        	var index = vm.projectTypes.indexOf(id);

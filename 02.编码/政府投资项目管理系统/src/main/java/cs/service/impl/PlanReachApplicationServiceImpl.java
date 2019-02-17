@@ -661,10 +661,15 @@ public class PlanReachApplicationServiceImpl
 	@Transactional(rollbackOn = Exception.class)
 	public void updateShnebaoInfo(String shenbaoId, Double ggmoney, Double gtmoney) {
 		ShenBaoInfo entity = shenBaoInfoRepo.findById(shenbaoId);
-		
+		if(ObjectUtils.isEmpty(entity.getPackPlanId())) {
+			if (ggmoney + gtmoney + entity.getApplyAPYearInvest() > entity.getYearInvestApproval()) {
+				throw new IllegalArgumentException("超过年度安排总投资：" + entity.getYearInvestApproval() + ",请重新填写！");
+			}
+		}
 	    if(ggmoney+gtmoney+entity.getApInvestSum() > entity.getProjectInvestSum()){
-       	 throw new IllegalArgumentException("超过总投资,请重新填写！");
+       	 throw new IllegalArgumentException("超过总投资:"+entity.getProjectInvestSum()+",请重新填写！");
        }
+//		entity.setApInvestSum(ggmoney+gtmoney);
 		entity.setSqPlanReach_ggys(ggmoney);
 		entity.setSqPlanReach_gtzj(gtmoney);
 		shenBaoInfoRepo.save(entity);
@@ -914,6 +919,7 @@ public class PlanReachApplicationServiceImpl
 				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
 				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
 				.append(",'' as yearConstructionTask")
+				.append(",'' as plan_wenhao")
 				.append(",'' as remark")
 				.append(" from cs_planReachApplication a")
 				.append(" left join cs_planReachApplication_cs_shenbaoinfo b on a.id = b.PlanReachApplication_id ")
@@ -937,6 +943,7 @@ public class PlanReachApplicationServiceImpl
 				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
 				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
 				.append(",'' as yearConstructionTask")
+				.append(",'' as plan_wenhao")
 				.append(",'' as remark")
 				.append(" from cs_planReachApplication a")
 				.append(" left join cs_planReachApplication_cs_shenbaoinfo b on a.id = b.PlanReachApplication_id ")
@@ -962,6 +969,7 @@ public class PlanReachApplicationServiceImpl
 				.append(",c.apPlanReach_ggys")
 				.append(",c.apPlanReach_gtzj")
 				.append(",c.yearConstructionTask")
+				.append(",c.plan_wenhao")
 				.append(",c.remark")
 				.append(" from cs_planReachApplication a")
 				.append(" left join cs_planReachApplication_cs_shenbaoinfo b on a.id = b.PlanReachApplication_id ")
@@ -987,6 +995,7 @@ public class PlanReachApplicationServiceImpl
 		query.addScalar("apInvestSum", new DoubleType());
 		query.addScalar("apPlanReach_ggys", new DoubleType());
 		query.addScalar("apPlanReach_gtzj", new DoubleType());
+		query.addScalar("plan_wenhao", new StringType());
 		query.addScalar("yearConstructionTask", new StringType());
 		query.addScalar("remark", new StringType());
 
@@ -1018,6 +1027,7 @@ public class PlanReachApplicationServiceImpl
 				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
 				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
 				.append(",'' as yearConstructionTask")
+				.append(",'' as plan_wenhao")
 				.append(",'' as remark")
 				.append(" from cs_packPlan a")
 				.append(" left join cs_packPlan_cs_shenbaoinfo b on a.id = b.PackPlan_id ")
@@ -1041,6 +1051,7 @@ public class PlanReachApplicationServiceImpl
 				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
 				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
 				.append(",'' as yearConstructionTask")
+				.append(",'' as plan_wenhao")
 				.append(",'' as remark")
 				.append(" from cs_packPlan a")
 				.append(" left join cs_packPlan_cs_shenbaoinfo b on a.id = b.PackPlan_id ")
@@ -1066,6 +1077,7 @@ public class PlanReachApplicationServiceImpl
 				.append(",c.apPlanReach_ggys")
 				.append(",c.apPlanReach_gtzj")
 				.append(",c.yearConstructionTask")
+				.append(",c.plan_wenhao")
 				.append(",c.remark")
 				.append(" from cs_packPlan a")
 				.append(" left join cs_packPlan_cs_shenbaoinfo b on a.id = b.PackPlan_id ")
@@ -1092,6 +1104,7 @@ public class PlanReachApplicationServiceImpl
 		query.addScalar("apPlanReach_ggys", new DoubleType());
 		query.addScalar("apPlanReach_gtzj", new DoubleType());
 		query.addScalar("yearConstructionTask", new StringType());
+		query.addScalar("plan_wenhao", new StringType());
 		query.addScalar("remark", new StringType());
 
 		list = query.setResultTransformer(Transformers.aliasToBean(ExcelReportPlanReachDto.class)).list();

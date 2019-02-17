@@ -155,9 +155,9 @@
         	//添加建设资金配置
         	vm.addConstructionUnit = function(){
         		if(vm.model.allocationCapitalDtos){
-        			vm.model.allocationCapitalDtos.push({unitName:'',capital_ggys:'',capital_gtzj:''});
+        			vm.model.allocationCapitalDtos.push({unitName:'',capital_ggys:'',capital_gtzj:'',capital_ggys_surplus:'',capital_gtzj_surplus:''});
             	}else{
-            		vm.model.allocationCapitalDtos=[{unitName:'',capital_ggys:'',capital_gtzj:''}];
+            		vm.model.allocationCapitalDtos=[{unitName:'',capital_ggys:'',capital_gtzj:'',capital_ggys_surplus:'',capital_gtzj_surplus:''}];
             	}
         	};
         	
@@ -202,9 +202,9 @@
         	//添加建设资金配置
         	vm.addConstructionUnit = function(){
         		if(vm.model.allocationCapitalDtos){
-        			vm.model.allocationCapitalDtos.push({unitName:'',capital_ggys:'',capital_gtzj:''});
+        			vm.model.allocationCapitalDtos.push({unitName:'',capital_ggys:'',capital_gtzj:'',capital_ggys_surplus:'',capital_gtzj_surplus:''});
             	}else{
-            		vm.model.allocationCapitalDtos=[{unitName:'',capital_ggys:'',capital_gtzj:''}];
+            		vm.model.allocationCapitalDtos=[{unitName:'',capital_ggys:'',capital_gtzj:'',capital_ggys_surplus:'',capital_gtzj_surplus:''}];
             	}
         	};
         	

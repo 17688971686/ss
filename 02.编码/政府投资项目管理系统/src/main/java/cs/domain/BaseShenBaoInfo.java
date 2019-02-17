@@ -67,7 +67,28 @@ public class BaseShenBaoInfo extends BaseProject {
     
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '项目批复总投资'")
     private Double pfProjectInvestSum = 0.0;
+
+    public Double getApplyAPYearInvest() {
+        return applyAPYearInvest;
+    }
+
+    public void setApplyAPYearInvest(Double applyAPYearInvest) {
+        this.applyAPYearInvest = applyAPYearInvest;
+    }
+
+    public String getPlan_wenhao() {
+        return plan_wenhao;
+    }
+
+    public void setPlan_wenhao(String plan_wenhao) {
+        this.plan_wenhao = plan_wenhao;
+    }
+
     //下一年度计划 Begin（三年滚动计划）
+    @Column(columnDefinition="varchar(255) NULL COMMENT '批复-计划下达-文号'")
+    private String plan_wenhao;
+    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '年度累计批复资金总额'")
+    private Double applyAPYearInvest = 0.0;
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第一年申请年度投资累计'")
     private Double applyYearInvest = 0.0;
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第一年资金筹措方案(申请)-公共预算'")

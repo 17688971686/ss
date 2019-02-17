@@ -168,6 +168,7 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
 				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
 				.append(",'' as yearConstructionTask")
+				.append(",'' as plan_wenhao")
 				.append(",'' as remark")
 				.append(" from cs_planreachapproval a")
 				.append(" left join cs_planreachapproval_cs_shenbaoinfo b on a.id = b.PlanReachApproval_id ")
@@ -191,6 +192,7 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
 				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
 				.append(",'' as yearConstructionTask")
+				.append(",'' as plan_wenhao")
 				.append(",'' as remark")
 				.append(" from cs_planreachapproval a")
 				.append(" left join cs_planreachapproval_cs_shenbaoinfo b on a.id = b.PlanReachApproval_id ")
@@ -216,6 +218,7 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 				.append(",c.apPlanReach_ggys")
 				.append(",c.apPlanReach_gtzj")
 				.append(",c.yearConstructionTask")
+				.append(",c.plan_wenhao")
 				.append(",c.remark")
 				.append(" from cs_planreachapproval a")
 				.append(" left join cs_planreachapproval_cs_shenbaoinfo b on a.id = b.PlanReachApproval_id ")
@@ -242,6 +245,7 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 		query.addScalar("apPlanReach_ggys", new DoubleType());
 		query.addScalar("apPlanReach_gtzj", new DoubleType());
 		query.addScalar("yearConstructionTask", new StringType());
+		query.addScalar("plan_wenhao", new StringType());
 		query.addScalar("remark", new StringType());
 
 		list = query.setResultTransformer(Transformers.aliasToBean(ExcelReportPlanReachDto.class)).list();

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import cs.domain.Attachment;
 import cs.domain.ShenBaoInfoRun;
+import cs.model.DomainDto.AllocationCapitalDto;
 import org.activiti.engine.history.HistoricActivityInstance;
 
 import cs.common.Response;
@@ -233,4 +234,5 @@ public interface ProcessService extends IService<ShenBaoInfoDto, ShenBaoInfo, St
 	 */
 	void todoShenbaoInfo(ShenBaoInfo shenBaoInfo, String nextUsers, Backlog bl);
 
+	List<AllocationCapitalDto> findPlanBySql(String id,String planId);
 }

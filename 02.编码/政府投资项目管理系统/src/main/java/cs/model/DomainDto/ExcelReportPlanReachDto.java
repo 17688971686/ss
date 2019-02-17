@@ -45,6 +45,15 @@ public class ExcelReportPlanReachDto implements Serializable {
 	//备注
 	private  String remark;
 
+	public String getPlan_wenhao() {
+		return plan_wenhao;
+	}
+
+	public void setPlan_wenhao(String plan_wenhao) {
+		this.plan_wenhao = plan_wenhao;
+	}
+
+	private  String plan_wenhao;
 	/** 业务处理需要的字段 */
     //排序号
     private Integer orderNum;
