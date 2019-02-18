@@ -558,10 +558,8 @@
 
         function getPackPlanInfo(vm) {
             $http.get(common.format(url_packPlan + "?$filter=id eq '{0}'", vm.model.shenBaoInfo.packPlanId)).success(function (data) {
-                vm.model.allocationCapitals
-                    var response= data.value[0] || {};
-                vm.model.allocationCapitals = response.allocationCapitals;
-                angular.forEach(vm.model.allocationCapitals, function(item) {
+                vm.model.allocationCapitals = data.value[0] || {};
+                angular.forEach(vm.model.allocationCapitals.allocationCapitals, function(item) {
                     if(item.unitName == vm.model.shenBaoInfo.unitName){
                         vm.capital_ggys = item.capital_ggys;
                         vm.capital_gtzj = item.capital_gtzj;

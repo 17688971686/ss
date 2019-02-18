@@ -2509,6 +2509,9 @@
                 {
                     field: "name",
                     title: "打包计划名称",
+                    template: function (item) {
+                        return common.format("<a href='#/yearPlan/packEdit/{0}' data-toggle='tooltip' data-placement='right' title='点击查看申报详情'>{1}</a>", item.id,item.name);
+                    },
                     filterable: true
                 },
                 {
