@@ -46,7 +46,7 @@
 		<div id="packgrid" kendo-grid="grid" k-options="vm.packPlan_gridOptions"></div>
 	</div>
 	<script type="text/template" id="columnBtns_shenBaoInfo">
-		<a class="btn btn-xs btn-success" href="#/planReach/packPlan/addProject/{0}/{1}"><span class="glyphicon glyphicon-pencil"></span>添加项目</a>
+		<a class="btn btn-xs btn-success" href="#/planReach/packPlan/addProject/{0}/{1}/vm.model.id"><span class="glyphicon glyphicon-pencil"></span>添加项目</a>
 	</script>
 	<script type="text/template" id="columnBtns_button_1">
 		<button class="btn btn-xs btn-success" ng-if="{1}" ng-click="vm.startProcessOne('{0}')" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-pencil"></span>提交</button>

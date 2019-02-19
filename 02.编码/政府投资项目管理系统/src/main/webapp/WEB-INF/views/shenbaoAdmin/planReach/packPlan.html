@@ -61,24 +61,28 @@
                     <tbody class="text-center">
                     <tr>
                         <td style="width:250px;">单位名称</td>
+                        <td>总额度(万元)</td>
                         <td>公共预算(万元)</td>
                         <td>国土资金(万元)</td>
-                        <td>总额度(万元)</td>
                         <td>公共预算已用额度(万元)</td>
                         <td>国土资金已用额度(万元)</td>
+                        <td>已用总额度(万元)</td>
                     </tr>
                     <tr ng-repeat="x in vm.model.allocationCapitalDtos" ng-if="x.unitName ==vm.userUnit.id">
                         <td ng-bind="vm.getUnitName(x.unitName)"></td>
+                        <td>
+                            <span ng-bind="x.capital_gtzj + x.capital_ggys"></span>
+                        </td>
                         <td ng-bind="x.capital_ggys">
                         </td>
                         <td ng-bind="x.capital_gtzj">
                         </td>
-                        <td>
-                            <span ng-bind="x.capital_gtzj + x.capital_ggys"></span>
-                        </td>
                         <td ng-bind="x.capital_ggys_surplus">
                         </td>
                         <td ng-bind="x.capital_gtzj_surplus">
+                        </td>
+                        <td>
+                            <span ng-bind="x.capital_ggys_surplus+x.capital_gtzj_surplus"></span>
                         </td>
                     </tr>
                     </tbody>

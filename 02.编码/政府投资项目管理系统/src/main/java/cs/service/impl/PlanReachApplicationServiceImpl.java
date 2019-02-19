@@ -442,9 +442,20 @@ public class PlanReachApplicationServiceImpl
 
 		List<ShenBaoInfo> entitys = criteria.list();
 		if(entitys.size()>0){
-			for (int i=0;i<entitys.size();i++){
+			boolean isOk = false;
+			loop:for (int i=0;i<entitys.size();i++){
 				if(entitys.get(i).getItemOrder()==entitys.size()){
 					shenbaoinfo = entitys.get(i);
+					isOk = true;
+					break loop;
+				}
+			}
+			if(!isOk){
+				try {
+					Copy(project,shenbaoinfo);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 
@@ -546,30 +557,34 @@ public class PlanReachApplicationServiceImpl
 	@Override
 	public PageModelDto<ShenBaoInfoDto> getShenBaoInfoFromPackPlan(String packId, ODataObj odataObj) {
 		// 查询总数
+		UserUnitInfoDto userUnitInfoDto = userUnitInfoService.getByUserId(currentUser.getUserId());
 		BigInteger countQuer = (BigInteger) packPlanRepo.getSession()
-				.createNativeQuery(shenBaoInfoOfPackPlanOfPlanReach_count).setParameter("packPlanId", packId)
+				.createNativeQuery(shenBaoInfoOfPackPlanOfPlanReach_count)
+				.setParameter("packPlanId", packId)
+				.setParameter("unitName", userUnitInfoDto.getId())
 				.getSingleResult();
 		int count = countQuer == null ? 0 : countQuer.intValue();
 
 		List<ShenBaoInfoDto> shenBaoInfoDtos = null;
 		if (count > 0) {
 			int skip = odataObj.getSkip(), stop = odataObj.getTop();
+
 			// 分页查询数据
 			List<ShenBaoInfo> shenBaoInfos = packPlanRepo.getSession()
 					.createNativeQuery(shenBaoInfoOfPackPlanOfPlanReach, ShenBaoInfo.class)
-					.setParameter("packPlanId", packId).setFirstResult(skip).setMaxResults(stop).getResultList();
+					.setParameter("packPlanId", packId)
+					.setParameter("unitName", userUnitInfoDto.getId())
+					.setFirstResult(skip).setMaxResults(stop).getResultList();
 			int len = shenBaoInfos.size();
 			shenBaoInfoDtos = new ArrayList<>(len);
-			UserUnitInfoDto userUnitInfoDto = userUnitInfoService.getByUserId(currentUser.getUserId());
+
 			for (int i = 0; i < len; i++) {
 				//只显示自己单位的打包计划下达申请
-				if(shenBaoInfos.get(i).getUnitName().equals(userUnitInfoDto.getId())){
 					shenBaoInfoDtos.add(shenBaoInfoMapper.toDto(shenBaoInfos.get(i)));
-				}
 			}
 		}
 
-		return new PageModelDto<>(shenBaoInfoDtos, shenBaoInfoDtos == null?0:shenBaoInfoDtos.size());
+		return new PageModelDto<>(shenBaoInfoDtos,count);
 	}
 
 	@Override
@@ -784,12 +799,6 @@ public class PlanReachApplicationServiceImpl
 					plan.getShenBaoInfos().remove(i);
 				}
 			}
-			Criterion criterion = Restrictions.eq(ShenBaoInfo_.projectId.getName(), entity.getProjectId());
-			Criterion criterion2 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(),
-					BasicDataConfig.projectShenBaoStage_nextYearPlan);
-			List<ShenBaoInfo> shenbaoinfoList = shenBaoInfoRepo.findByCriteria(criterion, criterion2);
-			shenbaoinfoList.get(0).setIsIncludPack(false);
-			shenBaoInfoRepo.save(shenbaoinfoList.get(0));
 			packPlanRepo.save(plan);
 		}else{
 			throw new IllegalArgumentException("项目正在审批或者已发文，无法删除");
@@ -947,7 +956,6 @@ public class PlanReachApplicationServiceImpl
 				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
 				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
 				.append(",'' as yearConstructionTask")
-				.append(",'' as plan_wenhao")
 				.append(",'' as remark")
 				.append(" from cs_planReachApplication a")
 				.append(" left join cs_planReachApplication_cs_shenbaoinfo b on a.id = b.PlanReachApplication_id ")
@@ -971,7 +979,6 @@ public class PlanReachApplicationServiceImpl
 				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
 				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
 				.append(",'' as yearConstructionTask")
-				.append(",'' as plan_wenhao")
 				.append(",'' as remark")
 				.append(" from cs_planReachApplication a")
 				.append(" left join cs_planReachApplication_cs_shenbaoinfo b on a.id = b.PlanReachApplication_id ")
@@ -997,7 +1004,6 @@ public class PlanReachApplicationServiceImpl
 				.append(",c.apPlanReach_ggys")
 				.append(",c.apPlanReach_gtzj")
 				.append(",c.yearConstructionTask")
-				.append(",c.plan_wenhao")
 				.append(",c.remark")
 				.append(" from cs_planReachApplication a")
 				.append(" left join cs_planReachApplication_cs_shenbaoinfo b on a.id = b.PlanReachApplication_id ")
@@ -1023,7 +1029,6 @@ public class PlanReachApplicationServiceImpl
 		query.addScalar("apInvestSum", new DoubleType());
 		query.addScalar("apPlanReach_ggys", new DoubleType());
 		query.addScalar("apPlanReach_gtzj", new DoubleType());
-		query.addScalar("plan_wenhao", new StringType());
 		query.addScalar("yearConstructionTask", new StringType());
 		query.addScalar("remark", new StringType());
 
@@ -1055,7 +1060,6 @@ public class PlanReachApplicationServiceImpl
 				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
 				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
 				.append(",'' as yearConstructionTask")
-				.append(",'' as plan_wenhao")
 				.append(",'' as remark")
 				.append(" from cs_packPlan a")
 				.append(" left join cs_packPlan_cs_shenbaoinfo b on a.id = b.PackPlan_id ")
@@ -1079,7 +1083,6 @@ public class PlanReachApplicationServiceImpl
 				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
 				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
 				.append(",'' as yearConstructionTask")
-				.append(",'' as plan_wenhao")
 				.append(",'' as remark")
 				.append(" from cs_packPlan a")
 				.append(" left join cs_packPlan_cs_shenbaoinfo b on a.id = b.PackPlan_id ")
@@ -1105,7 +1108,6 @@ public class PlanReachApplicationServiceImpl
 				.append(",c.apPlanReach_ggys")
 				.append(",c.apPlanReach_gtzj")
 				.append(",c.yearConstructionTask")
-				.append(",c.plan_wenhao")
 				.append(",c.remark")
 				.append(" from cs_packPlan a")
 				.append(" left join cs_packPlan_cs_shenbaoinfo b on a.id = b.PackPlan_id ")
@@ -1132,7 +1134,6 @@ public class PlanReachApplicationServiceImpl
 		query.addScalar("apPlanReach_ggys", new DoubleType());
 		query.addScalar("apPlanReach_gtzj", new DoubleType());
 		query.addScalar("yearConstructionTask", new StringType());
-		query.addScalar("plan_wenhao", new StringType());
 		query.addScalar("remark", new StringType());
 
 		list = query.setResultTransformer(Transformers.aliasToBean(ExcelReportPlanReachDto.class)).list();

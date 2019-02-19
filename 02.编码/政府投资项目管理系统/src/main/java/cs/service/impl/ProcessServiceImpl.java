@@ -627,10 +627,11 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
                             ac.setCapital_ggys_surplus(ac.getCapital_ggys_surplus() + shenbaoinfoDto.getXdPlanReach_ggys());
                             ac.setCapital_gtzj_surplus(ac.getCapital_gtzj_surplus() + shenbaoinfoDto.getXdPlanReach_gtzj());
                         }
-                    }
-                    shenBaoInfo.setApInvestSum(shenBaoInfo.getApInvestSum() + shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
-                    ;
-                    shenBaoInfoRepo.save(shenBaoInfo);
+                    };
+//                    if()
+//                    shenBaoInfo.setApInvestSum(shenBaoInfo.getApInvestSum() + shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
+
+//                    shenBaoInfoRepo.save(shenBaoInfo);
                     packPlanRepo.save(pack);
                 }
             }
