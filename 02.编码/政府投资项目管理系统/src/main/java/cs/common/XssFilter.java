@@ -44,13 +44,14 @@ public class XssFilter implements Filter{
             if(referer != null&&!referer.isEmpty()){
                 URL url = new URL(referer);
                 String refererDomain = url.getHost();
-                String domain = "192.168.189.235";
+                //需要过滤的地址
+                String domain = "192.168.189.235,192.168.180.63,192.168.189.142,localhost,121.201.66.221,192.168.2.4";
                 if(domain != null&&!domain.isEmpty()){
                     //Referer要和domain一直才通过
                     boolean isExists = false;
                     String[] domains = domain.split(",");
                     for(String subDomain : domains){
-                        if(refererDomain.equals(subDomain)  || refererDomain.equals("192.168.180.63") || refererDomain.equals("192.168.189.142")){
+                        if(refererDomain.equals(subDomain)){
                             isExists = true;
                             break;
                         }

@@ -132,7 +132,7 @@
                     <tr>
                         <td style="text-align: center;">公共预算&nbsp;(万元)</td>
                         <td style="text-align: center;">国土资金&nbsp;(万元)</td>
-                        <td style="text-align: center;">资金总和&nbsp;(万元)</td>
+                        <td style="text-align: center;">申请资金总和&nbsp;(万元)</td>
                     </tr>
                     <tr>
                         <td><span
@@ -155,10 +155,10 @@
                         <tr>
                             <td style="text-align: center;">公共资金&nbsp;(万元)</td>
                             <td style="text-align: center;">国土资金&nbsp;(万元)</td>
-                            <td style="text-align: center;">年度安排累计&nbsp;(万元)</td>
+                            <td style="text-align: center;">年度安排资金已下达累计&nbsp;(万元)</td>
                         </tr>
                         <tr>
-                            <td><span ng-bind="vm.model.shenBaoInfo.capitalAP_ggys_TheYear | number:4"></span>)</td>
+                            <td><span ng-bind="vm.model.shenBaoInfo.capitalAP_ggys_TheYear | number:4"></span></td>
                             <td><span ng-bind="vm.model.shenBaoInfo.capitalAP_gtzj_TheYear | number:4"></span></td>
                             <td><span ng-bind="vm.model.shenBaoInfo.applyAPYearInvest | number:4"></span></td>
                         </tr>
@@ -182,7 +182,7 @@
                     </table>
                 </td>
             </tr>
-            <tr>
+            <tr ng-if="vm.model.shenBaoInfo.packPlanId !=null">
                 <td>建设资金预留资金来源</td>
                 <td colspan="3"><a href="#/yearPlan/packEdit/{{vm.model.allocationCapitals.id}}" ng-bind="vm.model.allocationCapitals.name"></a></td>
             </tr>
@@ -206,7 +206,7 @@
             <tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask5'">
                 <td class="formAlignRight">计划下达-公共预算：</td>
                 <td>
-                    <input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')"
+                    <input type="number" min="0" step="any"
                            style="width: 130px;" class="form-control input-sm" id="xdPlanReach_ggys"
                            name="xdPlanReach_ggys" ng-model="vm.model.shenBaoInfo.xdPlanReach_ggys" data-val="true"
                            data-val-required="必填"/>&nbsp;(万元)
@@ -215,7 +215,7 @@
 
                 <td class="formAlignRight">计划下达-国土资金：</td>
                 <td>
-                    <input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')"
+                    <input type="number" min="0" step="any"
                            style="width: 130px;" class="form-control input-sm" id="xdPlanReach_gtzj"
                            name="xdPlanReach_gtzj" ng-model="vm.model.shenBaoInfo.xdPlanReach_gtzj" data-val="true"
                            data-val-required="必填"/>&nbsp;(万元)

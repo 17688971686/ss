@@ -67,23 +67,6 @@ public class BaseShenBaoInfo extends BaseProject {
     
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '项目批复总投资'")
     private Double pfProjectInvestSum = 0.0;
-
-    public Double getApplyAPYearInvest() {
-        return applyAPYearInvest;
-    }
-
-    public void setApplyAPYearInvest(Double applyAPYearInvest) {
-        this.applyAPYearInvest = applyAPYearInvest;
-    }
-
-    public String getPlan_wenhao() {
-        return plan_wenhao;
-    }
-
-    public void setPlan_wenhao(String plan_wenhao) {
-        this.plan_wenhao = plan_wenhao;
-    }
-
     //下一年度计划 Begin（三年滚动计划）
     @Column(columnDefinition="varchar(255) NULL COMMENT '批复-计划下达-文号'")
     private String plan_wenhao;
@@ -946,5 +929,19 @@ public class BaseShenBaoInfo extends BaseProject {
 		this.planReachId = planReachId;
 	}
 
+    public Double getApplyAPYearInvest() {
+        return applyAPYearInvest;
+    }
 
+    public void setApplyAPYearInvest(Double applyAPYearInvest) {
+        this.applyAPYearInvest = applyAPYearInvest;
+    }
+
+    public String getPlan_wenhao() {
+        return plan_wenhao;
+    }
+
+    public void setPlan_wenhao(String plan_wenhao) {
+        this.plan_wenhao = plan_wenhao;
+    }
 }

@@ -62,6 +62,7 @@
 							<td colspan="2">计划安排资金</td>
 							<td colspan="2">计划申请资金</td>
 							<td colspan="2">计划下达资金</td>
+							<td rowspan="2" style="width: 160px;">项目来源</td>
 							<td rowspan="2" style="width: 160px;">主要建设内容 </td>
 							<td rowspan="2" style="width: 160px;">备注 </td>
 							<td rowspan="2" style="vertical-align: middle;"><button type="button" class="btn btn-success btn-sm" ng-click="vm.addPlanReach()"><span class="glyphicon glyphicon-plus"></span>&nbsp;添加</button></td>
@@ -76,10 +77,10 @@
 						</tr>
  							<tbody ng-repeat="x in vm.model.shenBaoInfoDtos" style="text-align: center;">
  								<tr>
-		  							<td ng-bind="x.constructionUnit"></td>
+		  							<td ng-bind="vm.getUnitName(x.unitName)"></td>
 		  							<td ng-bind="x.projectName"></td>
 		  								<td ng-bind="vm.getBasicDataDesc(x.projectConstrChar)"></td>
-		  							<td rowspan="2" ng-bind="x.projectGuiMo" style="vertical-align: middle;word-wrap:break-word;word-break:break-all;"></td>
+		  							<td rowspan="2" ng-bind="x.projectGuiMo==null?'':x.projectGuiMo" style="vertical-align: middle;word-wrap:break-word;word-break:break-all;"></td>
 		  						
 		  							<td rowspan="2" ng-bind="x.projectInvestSum" style="vertical-align: middle;"></td>
 		  							<td rowspan="2" ng-bind="x.apInvestSum" style="vertical-align: middle;"></td>
@@ -87,24 +88,27 @@
 		  							<td rowspan="2" ng-bind="x.apPlanReach_gtzj" style="vertical-align: middle;"></td>
 		  							<td rowspan="2" ng-bind="x.sqPlanReach_ggys" style="vertical-align: middle;"></td>
 		  							<td rowspan="2" ng-bind="x.sqPlanReach_gtzj" style="vertical-align: middle;"></td>
-		  							<td rowspan="2" style="vertical-align: middle;">
-		  								<input type="number" min="0" style="width:70px" ng-hide="x.processState == '2'"
-		  								id="xdPlanReach_ggys" name="xdPlanReach_ggys"
-		  								 data-val="true" data-val-regex="金额格式有误"  data-val-regex-pattern="^\d+(\.\d+)?$"
-		  								ng-model="x.xdPlanReach_ggys"  ng-blur="vm.addmoneys(x.id,x.xdPlanReach_ggys,x.xdPlanReach_gtzj)"/>
-		  								<span ng-if="x.processState == '2'" ng-bind="x.xdPlanReach_ggys"></span>
-		  								<span data-valmsg-for="xdPlanReach_ggys" data-valmsg-replace="true" class="required"></span>
-		  							</td>
-		  							<td rowspan="2" style="vertical-align: middle;">
-		  								<input type="number" min="0" style="width:70px"  ng-hide="x.processState == '2'"
-		  								id="xdPlanReach_gtzj" name="xdPlanReach_gtzj"
-		  								 data-val="true" data-val-regex="金额格式有误"  data-val-regex-pattern="^\d+(\.\d+)?$"
-		  								ng-model="x.xdPlanReach_gtzj"  ng-blur="vm.addmoneys(x.id,x.xdPlanReach_ggys,x.xdPlanReach_gtzj)"/>
-		  								<span ng-if="x.processState == '2'" ng-bind="x.xdPlanReach_gtzj"></span>
-		  								<span data-valmsg-for="xdPlanReach_gtzj" data-valmsg-replace="true" class="required"></span>
-		  							</td>
-		  							<td rowspan="2" ng-bind="x.yearConstructionContent" style="vertical-align: middle;word-wrap:break-word;word-break:break-all;"></td>
-		  							<td rowspan="2" ng-bind="x.remark" style="vertical-align: middle;word-wrap:break-word;word-break:break-all;"></td>
+									<td rowspan="2" ng-bind="x.xdPlanReach_ggys" style="vertical-align: middle;"></td>
+									<td rowspan="2" ng-bind="x.xdPlanReach_gtzj" style="vertical-align: middle;"></td>
+		  							<!--<td rowspan="2" style="vertical-align: middle;">-->
+		  								<!--<input type="number" min="0" style="width:70px" ng-hide="x.processState == '2'"-->
+		  								<!--id="xdPlanReach_ggys" name="xdPlanReach_ggys"-->
+		  								 <!--data-val="true" data-val-regex="金额格式有误"  data-val-regex-pattern="^\d+(\.\d+)?$"-->
+		  								<!--ng-model="x.xdPlanReach_ggys"  ng-blur="vm.addmoneys(x.id,x.xdPlanReach_ggys,x.xdPlanReach_gtzj)"/>-->
+		  								<!--<span ng-if="x.processState == '2'" ng-bind="x.xdPlanReach_ggys"></span>-->
+		  								<!--<span data-valmsg-for="xdPlanReach_ggys" data-valmsg-replace="true" class="required"></span>-->
+		  							<!--</td>-->
+		  							<!--<td rowspan="2" style="vertical-align: middle;">-->
+		  								<!--<input type="number" min="0" style="width:70px"  ng-hide="x.processState == '2'"-->
+		  								<!--id="xdPlanReach_gtzj" name="xdPlanReach_gtzj"-->
+		  								 <!--data-val="true" data-val-regex="金额格式有误"  data-val-regex-pattern="^\d+(\.\d+)?$"-->
+		  								<!--ng-model="x.xdPlanReach_gtzj"  ng-blur="vm.addmoneys(x.id,x.xdPlanReach_ggys,x.xdPlanReach_gtzj)"/>-->
+		  								<!--<span ng-if="x.processState == '2'" ng-bind="x.xdPlanReach_gtzj"></span>-->
+		  								<!--<span data-valmsg-for="xdPlanReach_gtzj" data-valmsg-replace="true" class="required"></span>-->
+		  							<!--</td>-->
+									<td rowspan="2" ng-bind="x.planName" style="vertical-align: middle;word-wrap:break-word;word-break:break-all;"></td>
+		  							<td rowspan="2" ng-bind="x.yearConstructionContent==null?'':x.yearConstructionContent" style="vertical-align: middle;word-wrap:break-word;word-break:break-all;"></td>
+		  							<td rowspan="2" ng-bind="x.remark==null?'':x.remark" style="vertical-align: middle;word-wrap:break-word;word-break:break-all;"></td>
 		  							<td rowspan="2" style="vertical-align: middle;">
 		  								<button type="button" class="btn btn-danger btn-sm" ng-click="vm.removePlanReach($index)"><span class="glyphicon glyphicon-remove"></span>&nbsp;移除</button>
 		  								<!-- <button type="button" class="btn btn-success btn-sm" ng-if="x.thisTaskName=='usertask5'" ng-click="vm.endProcess(x.id)">办结</button>

@@ -908,7 +908,7 @@
                     },
                     filterable: false,
                     width: 40,
-                    title: "<input id='checkboxAll_planReachRecords' type='checkbox'  class='checkbox'/>"
+                    title: "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
                 },
                 {
                     field: "projectName",
@@ -982,11 +982,12 @@
                     template: function (item) {
                         return kendo
                             .format(
-                                "<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>", item.id);
+                                "<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+                                item.id);
                     },
                     filterable: false,
                     width: 40,
-                    title: "<input id='checkboxAll_packPlan' type='checkbox'  class='checkbox'/>"
+                    title: "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
                 },
                 {
                     field: "name",
@@ -1186,6 +1187,16 @@
                 {
                     field: "projectInvestSum",
                     title: "总投资",
+                    width: 140,
+                    filterable: false,
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;"
+                    }
+                },
+                {
+                    field: "apInvestSum",
+                    title: "累计投资",
                     width: 140,
                     filterable: false,
                     headerAttributes: {

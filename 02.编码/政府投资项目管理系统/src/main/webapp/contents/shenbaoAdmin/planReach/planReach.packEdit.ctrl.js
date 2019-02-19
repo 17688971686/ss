@@ -29,6 +29,10 @@
         planReachSvc.getShenBaoInfoGridFromPackPlan(vm);
 
         planReachSvc.getPackPlanById(vm);
+        //获取建设单位名称
+        vm.getUnitName=function(unitId){
+            return common.getUnitName(unitId);
+        };
 
         //项目批量选择
         $(document).on('click', '#projects', function () {

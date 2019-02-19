@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import cs.model.DomainDto.*;
+import cs.service.interfaces.*;
 import org.activiti.engine.RuntimeService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
@@ -69,10 +70,6 @@ import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.repository.odata.ODataObjNew;
-import cs.service.interfaces.PlanReachApplicationService;
-import cs.service.interfaces.ShenBaoInfoService;
-import cs.service.interfaces.UserUnitInfoService;
-import cs.service.interfaces.YearPlanService;
 import jxl.write.Blank;
 
 @Service
@@ -110,6 +107,8 @@ public class PlanReachApplicationServiceImpl
 	private ShenBaoInfoRepoImpl shenBaoInfoRepoImpl;
 	@Autowired
 	private IRepository<YearPlan, String> yearRepo;
+	@Autowired
+	private PackPlanService packPlanService;
 
 	@Override
 	@Transactional
@@ -427,29 +426,37 @@ public class PlanReachApplicationServiceImpl
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void addShenBaoInfoToPack(String packId, String shenbaoId) {
+	public void addShenBaoInfoToPack(String packId, String ProjectId) {
 		// 根据计划下达id查找到计划下达信息
 		PackPlan pack = packPlanRepo.findById(packId);
+		Assert.notNull(pack,"建设资金预留包查询失败，请刷新后重试！");
 
-		
-		
-		Project project = projectRepo.findById(shenbaoId);
-		Assert.notNull(project);
+		Project project = projectRepo.findById(ProjectId);
+		Assert.notNull(project,"查询不到项目，请重新添加！");
+
 		// 年度计划申报信息
 		ShenBaoInfo shenbaoinfo = new ShenBaoInfo();
-		try {
-			Copy(project,shenbaoinfo);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
-		
 		Criteria criteria = DetachedCriteria.forClass(ShenBaoInfo.class).getExecutableCriteria(repository.getSession())
 				.add(Restrictions.eq(ShenBaoInfo_.projectId.getName(), project.getId())).add(Restrictions
 						.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach));
 
 		List<ShenBaoInfo> entitys = criteria.list();
-		
+		if(entitys.size()>0){
+			for (int i=0;i<entitys.size();i++){
+				if(entitys.get(i).getItemOrder()==entitys.size()){
+					shenbaoinfo = entitys.get(i);
+				}
+			}
+
+		}else{
+			try {
+				Copy(project,shenbaoinfo);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
 		// 生成一条计划下达的申报信息
 		ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(shenbaoinfo);
 		shenBaoInfoDto.setId(IdWorker.get32UUID());
@@ -466,6 +473,10 @@ public class PlanReachApplicationServiceImpl
 		shenBaoInfoDto.setCreatedBy(currentUser.getUserId());
 		shenBaoInfoDto.setReceiver(null);
 		shenBaoInfoDto.setProjectId(project.getId());
+		shenBaoInfoDto.setSqPlanReach_ggys(0.0);
+		shenBaoInfoDto.setSqPlanReach_gtzj(0.0);
+		shenBaoInfoDto.setXdPlanReach_ggys(0.0);
+		shenBaoInfoDto.setXdPlanReach_gtzj(0.0);
 		if(StringUtil.isEmpty(shenBaoInfoDto.getRemark())){
 			shenBaoInfoDto.setRemark("");
 		}
@@ -666,6 +677,23 @@ public class PlanReachApplicationServiceImpl
 				throw new IllegalArgumentException("超过年度安排总投资：" + entity.getYearInvestApproval() + ",请重新填写！");
 			}
 		}
+		if(!ObjectUtils.isEmpty(entity.getPackPlanId())) {
+			PackPlan pack = packPlanService.findById(entity.getPackPlanId());
+			if (pack != null) {
+				for (int x = 0; x < pack.getAllocationCapitals().size(); x++) {
+					AllocationCapital ac = pack.getAllocationCapitals().get(x);
+					if (ac.getUnitName().equals(entity.getUnitName())) {
+						Assert.isTrue(ac.getCapital_ggys_surplus() + entity.getXdPlanReach_ggys() <= ac.getCapital_ggys(), "超过建设资金预留-公共预算,无法提交！");
+						Assert.isTrue(ac.getCapital_gtzj_surplus() + entity.getXdPlanReach_gtzj() <= ac.getCapital_gtzj(), "超过建设资金预留-国土资金，无法提交！");
+						ac.setCapital_ggys_surplus(ac.getCapital_ggys_surplus() + entity.getXdPlanReach_ggys());
+						ac.setCapital_gtzj_surplus(ac.getCapital_gtzj_surplus() + entity.getXdPlanReach_gtzj());
+					}
+				}
+				;
+
+				packPlanRepo.save(pack);
+			}
+		}
 	    if(ggmoney+gtmoney+entity.getApInvestSum() > entity.getProjectInvestSum()){
        	 throw new IllegalArgumentException("超过总投资:"+entity.getProjectInvestSum()+",请重新填写！");
        }
@@ -718,9 +746,9 @@ public class PlanReachApplicationServiceImpl
 
 	@Override
 	@Transactional(rollbackOn = Exception.class)
-	public void deletePack(String packPlanId, String packId) {
+	public void deletePack(String planReachId, String packId) {
 		// TODO 单条删除计划下达中的打包信息
-		PlanReachApplication entity = super.findById(packPlanId);
+		PlanReachApplication entity = super.findById(planReachId);
 
 		// TODO 不能删除，否则其他计划下达添加的申报信息也会被删掉，打包作为公共信息
 		List<PackPlan> planList = entity.getPackPlans();
@@ -733,7 +761,7 @@ public class PlanReachApplicationServiceImpl
 					planList.remove(i);
 				}
 			}
-			entity.getPackPlans().clear();
+//			entity.getPackPlans().clear();
 			entity.setPackPlans(planList);
 			super.repository.save(entity);
 		}
@@ -764,7 +792,7 @@ public class PlanReachApplicationServiceImpl
 			shenBaoInfoRepo.save(shenbaoinfoList.get(0));
 			packPlanRepo.save(plan);
 		}else{
-			new IllegalArgumentException("项目正在审批或者已发文，无法删除");
+			throw new IllegalArgumentException("项目正在审批或者已发文，无法删除");
 		}
 	}
 
