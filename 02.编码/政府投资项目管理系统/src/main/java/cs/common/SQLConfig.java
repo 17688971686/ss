@@ -400,7 +400,7 @@ public class SQLConfig {
 
     private static String shenBaoInfoOfPackPlanOfPlanReach_base = " FROM cs_shenbaoinfo t1 " +
             "LEFT JOIN cs_packplan_cs_shenbaoinfo t2 ON t1.id=t2.shenBaoInfos_id " +
-            "LEFT JOIN cs_packplan t3 ON t2.PackPlan_id=t3.id WHERE t3.id=:packPlanId and t1.unitName=:unitName";
+            "LEFT JOIN cs_packplan t3 ON t2.PackPlan_id=t3.id WHERE t3.id=:packPlanId and t1.unitName=:unitName and t1.planReachId = :planReachId";
 
     public static String shenBaoInfoOfPackPlanOfPlanReach_count = "SELECT count(1)" + shenBaoInfoOfPackPlanOfPlanReach_base;
 

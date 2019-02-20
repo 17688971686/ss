@@ -59,21 +59,21 @@ public interface PlanReachApplicationService extends IService<PlanReachApplicati
      * @param odataObj
      * @return
      */
-    PageModelDto<ShenBaoInfoDto> getShenBaoInfoFromPackPlan(String packId, ODataObj odataObj);
+    PageModelDto<ShenBaoInfoDto> getShenBaoInfoFromPackPlan(String packId,String planReachId, ODataObj odataObj);
 
     /**
      * 打包类中添加申报信息
      * @param packId
      * @param ids
      */
-    void addShenBaoInfoToPacks(String packId, String[] ids);
+    void addShenBaoInfoToPacks(String packId, String[] ids,String planReachId);
 
     /**
      * 
      * @param packId
      * @param shenbaoInfoId
      */
-    void addShenBaoInfoToPack(String packId, String shenbaoInfoId);
+    void addShenBaoInfoToPack(String packId, String shenbaoInfoId,String planReachId);
 
     /**
      * 开始计划流程

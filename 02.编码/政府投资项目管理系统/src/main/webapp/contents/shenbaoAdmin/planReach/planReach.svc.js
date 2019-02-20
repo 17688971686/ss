@@ -156,7 +156,7 @@
          * 为计划下达申请添加申报项目
          */
         function addShenBaoInfoToPack(vm, ids) {
-            $http.post(common.format(url + "/addShenBaoInfoToPack/{0}", vm.id), ids).then(function () {
+            $http.post(common.format(url + "/addShenBaoInfoToPack/{0}/{1}", vm.id,vm.planReachId), ids).then(function () {
                 bsWin.success("操作成功");
                 getPackPlanById(vm);
                 vm.shenBaoInfo_gridOptions_plan.dataSource.read();//编制打包计划列表数据刷新
@@ -232,7 +232,11 @@
                     for (var int = 0; int < vm.model.planPackDtos.length; int++) {
                         var array_element = vm.model.planPackDtos[int];
                         if (array_element.shenBaoInfoDtos != "") {
-                            vm.shenbaoList = vm.shenbaoList.concat(array_element.shenBaoInfoDtos);
+                            for(var i=0;i<array_element.shenBaoInfoDtos.length;i++){
+                                if(array_element.shenBaoInfoDtos[i].planReachId==vm.id){
+                                    vm.shenbaoList = vm.shenbaoList.concat(array_element.shenBaoInfoDtos[i]);
+                                }
+                            }
                         }
                     }
                 }
@@ -1513,7 +1517,7 @@
         function getShenBaoInfoGridFromPackPlan(vm) {
             var dataSource = new kendo.data.DataSource({
                 type: 'odata',
-                transport: common.kendoGridConfig().transport(url + "/" + vm.id + "/shenBaoInfoFromPack"),
+                transport: common.kendoGridConfig().transport(url + "/" + vm.id + "/"+vm.planReachId+"/shenBaoInfoFromPack"),
                 schema: common.kendoGridConfig().schema({
                     id: "id"
                 }),

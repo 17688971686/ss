@@ -622,8 +622,14 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
                     for (int x = 0; x < pack.getAllocationCapitals().size(); x++) {
                         AllocationCapital ac = pack.getAllocationCapitals().get(x);
                         if (ac.getUnitName().equals(shenBaoInfo.getUnitName())) {
-                            Assert.isTrue(ac.getCapital_ggys_surplus() + shenbaoinfoDto.getXdPlanReach_ggys() <= ac.getCapital_ggys(), "超过建设资金预留-公共预算,无法提交！");
-                            Assert.isTrue(ac.getCapital_gtzj_surplus() + shenbaoinfoDto.getXdPlanReach_gtzj() <= ac.getCapital_gtzj(), "超过建设资金预留-国土资金，无法提交！");
+                            if(ac.getCapital_ggys()-ac.getCapital_ggys_surplus() < shenbaoinfoDto.getXdPlanReach_ggys()){
+                                throw new IllegalArgumentException("超过建设资金预留-公共预算,无法提交！");
+                            }
+                            if(ac.getCapital_ggys()-ac.getCapital_gtzj_surplus() < shenbaoinfoDto.getXdPlanReach_gtzj()){
+                                throw new IllegalArgumentException("超过建设资金预留-国土资金，无法提交！！");
+                            }
+//                            Assert.isTrue(ac.getCapital_ggys_surplus() + shenbaoinfoDto.getXdPlanReach_ggys() <= ac.getCapital_ggys(), "超过建设资金预留-公共预算,无法提交！");
+//                            Assert.isTrue(ac.getCapital_gtzj_surplus() + shenbaoinfoDto.getXdPlanReach_gtzj() <= ac.getCapital_gtzj(), "超过建设资金预留-国土资金，无法提交！");
                             ac.setCapital_ggys_surplus(ac.getCapital_ggys_surplus() + shenbaoinfoDto.getXdPlanReach_ggys());
                             ac.setCapital_gtzj_surplus(ac.getCapital_gtzj_surplus() + shenbaoinfoDto.getXdPlanReach_gtzj());
                         }

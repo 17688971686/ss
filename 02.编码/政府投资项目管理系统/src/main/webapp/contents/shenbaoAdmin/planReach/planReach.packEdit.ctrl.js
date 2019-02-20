@@ -3,7 +3,7 @@
 
     angular.module('app').config(["$stateProvider", function ($stateProvider) {
         $stateProvider.state('planReachPackEdit', {
-            url: '/planReach/packPlan/addProject/:id/:isStartProcess',
+            url: '/planReach/packPlan/addProject/:id/:isStartProcess/:planReachId',
             params: {"id": null},
             templateUrl: '/shenbaoAdmin/planReach/html/packPlan',
             controller: 'planReachPackEditCtrl',
@@ -14,6 +14,7 @@
     function planReachPackEditCtrl($state, planReachSvc,bsWin) {
         var vm = this;
         vm.id = $state.params.id;//请求中的id参数
+        vm.planReachId = $state.params.planReachId;//请求中的id参数
         vm.isStartProcess = $state.params.isStartProcess;//请求中的id参数
         vm.model = {};
         vm.gg = {};
@@ -70,7 +71,7 @@
                 }
                 var idStr = ids.join(',');
                 $('#myModal').modal('toggle');//关闭模态框
-                planReachSvc.addShenBaoInfoToPack(vm, idStr);//添加申报信息到计划下达中
+                planReachSvc.addShenBaoInfoToPack(vm, idStr,vm.planReachId);//添加申报信息到打包列表中
             }
         };
 
@@ -88,7 +89,7 @@
                     ids.push(selectIds[i].value);
                 }
                 var idStr = ids.join(',');
-                planReachSvc.deletePlanShenBaoInfo(vm, idStr);//添加申报信息到计划下达中
+                planReachSvc.deletePlanShenBaoInfo(vm, idStr);//添加申报信息到打包列表中
             }
         };
         

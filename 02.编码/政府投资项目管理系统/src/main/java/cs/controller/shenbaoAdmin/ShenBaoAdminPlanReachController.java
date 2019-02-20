@@ -55,23 +55,12 @@ public class ShenBaoAdminPlanReachController {
     @ResponseBody
     public PageModelDto<PlanReachApplicationDto> get(ODataObj odataObj) throws ParseException {
         //根据登陆名查找到单位信息addShenBaoInfo
-        UserUnitInfoDto userUnitInfoDto1 = null;
-        List<UserUnitInfoDto> userUnitInfo = userUnitInfoService.Get();
-        for (UserUnitInfoDto userUnitInfoDto : userUnitInfo) {
-            if (!CollectionUtils.isEmpty(userUnitInfoDto.getUserDtos())) {
-                for (UserDto user : userUnitInfoDto.getUserDtos()) {
-                    if (user.getId().equals(currentUser.getUserId())) {
-                        userUnitInfoDto1 = userUnitInfoDto;
-                        break;
-                    }
-                }
-            }
-        }
+        UserUnitInfoDto userUnitInfoDto = userUnitInfoService.getByUserId(currentUser.getUserId());
         ODataFilterItem<String> filterItem = new ODataFilterItem<String>();
-        if (userUnitInfoDto1 == null) {
+        if (userUnitInfoDto == null) {
             filterItem.setValue("noid");
         } else {
-            filterItem.setValue(userUnitInfoDto1.getId());
+            filterItem.setValue(userUnitInfoDto.getId());
         }
         filterItem.setField("applicationUnit");
         filterItem.setOperator("eq");
@@ -171,10 +160,10 @@ public class ShenBaoAdminPlanReachController {
         return shenBaoInfoDtos;
     }
 
-    @RequestMapping(name = "获取计划下达中打包类中添加的申报数据", path = "{id}/shenBaoInfoFromPack", method = RequestMethod.GET)
+    @RequestMapping(name = "获取计划下达中打包类中添加的申报数据", path = "{id}/{planReachId}/shenBaoInfoFromPack", method = RequestMethod.GET)
     public @ResponseBody
-    PageModelDto<ShenBaoInfoDto> getShenBaoInfoFromPackPlan(ODataObj odataObj, @PathVariable String id) {
-        PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = planReachApplicationService.getShenBaoInfoFromPackPlan(id, odataObj);
+    PageModelDto<ShenBaoInfoDto> getShenBaoInfoFromPackPlan(ODataObj odataObj, @PathVariable String id,@PathVariable String planReachId) {
+        PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = planReachApplicationService.getShenBaoInfoFromPackPlan(id, planReachId,odataObj);
         return shenBaoInfoDtos;
     }
 
@@ -185,11 +174,11 @@ public class ShenBaoAdminPlanReachController {
         planReachApplicationService.addShenBaoInfos(planReachId, ids);
     }
 
-    @RequestMapping(name = "打包中添加申报项目", path = "addShenBaoInfoToPack/{packId}", method = RequestMethod.POST)
+    @RequestMapping(name = "打包中添加申报项目", path = "addShenBaoInfoToPack/{packId}/{planReachId}", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void addShenBaoInfoToPack(@RequestBody String projectId, @PathVariable String packId) {
+    public void addShenBaoInfoToPack(@RequestBody String projectId, @PathVariable String packId, @PathVariable String planReachId) {
         String[] ids = StringUtil.split(projectId, SEPARATE_COMMA);
-        planReachApplicationService.addShenBaoInfoToPacks(packId, ids);
+        planReachApplicationService.addShenBaoInfoToPacks(packId, ids,planReachId);
     }
 
     @RequestMapping(name = "启动计划下达审批流程", path = "startProcess/{packId}", method = RequestMethod.POST)

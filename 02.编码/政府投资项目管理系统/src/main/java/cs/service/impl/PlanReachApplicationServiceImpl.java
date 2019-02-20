@@ -254,6 +254,7 @@ public class PlanReachApplicationServiceImpl
 		// 每次添加都创建一条新的计划下达申请，根据ItemOrder区分，根据同名项目数量累加
 		ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(entity);
 		shenBaoInfoDto.setId(IdWorker.get32UUID());
+		shenBaoInfoDto.setPlanReachId(planReachId);
 		shenBaoInfoDto.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
 		shenBaoInfoDto.setThisTaskId(null);
 		shenBaoInfoDto.setThisTaskName(null);
@@ -368,9 +369,9 @@ public class PlanReachApplicationServiceImpl
 	}
 
 	@Override
-	public void addShenBaoInfoToPacks(String packId, String[] ids) {
+	public void addShenBaoInfoToPacks(String packId, String[] ids,String planReachId) {
 		for (String id : ids) {
-			this.addShenBaoInfoToPack(packId, id);
+			this.addShenBaoInfoToPack(packId, id,planReachId);
 		}
 	}
 
@@ -426,7 +427,7 @@ public class PlanReachApplicationServiceImpl
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void addShenBaoInfoToPack(String packId, String ProjectId) {
+	public void addShenBaoInfoToPack(String packId, String ProjectId,String planReachId) {
 		// 根据计划下达id查找到计划下达信息
 		PackPlan pack = packPlanRepo.findById(packId);
 		Assert.notNull(pack,"建设资金预留包查询失败，请刷新后重试！");
@@ -467,10 +468,13 @@ public class PlanReachApplicationServiceImpl
 				e.printStackTrace();
 			}
 		}
-
+		UserUnitInfoDto userUnitInfoDto = userUnitInfoService.getByUserId(currentUser.getUserId());
 		// 生成一条计划下达的申报信息
 		ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(shenbaoinfo);
 		shenBaoInfoDto.setId(IdWorker.get32UUID());
+		shenBaoInfoDto.setPlanReachId(planReachId);
+		shenBaoInfoDto.setUnitName(userUnitInfoDto.getId());
+		shenBaoInfoDto.setConstructionUnit(userUnitInfoDto.getUnitName());
 		shenBaoInfoDto.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
 		shenBaoInfoDto.setProcessStage("未开始");
 		shenBaoInfoDto.setProcessState(BasicDataConfig.processState_weikaishi);
@@ -555,13 +559,14 @@ public class PlanReachApplicationServiceImpl
 	}
 
 	@Override
-	public PageModelDto<ShenBaoInfoDto> getShenBaoInfoFromPackPlan(String packId, ODataObj odataObj) {
+	public PageModelDto<ShenBaoInfoDto> getShenBaoInfoFromPackPlan(String packId, String planReachId,ODataObj odataObj) {
 		// 查询总数
 		UserUnitInfoDto userUnitInfoDto = userUnitInfoService.getByUserId(currentUser.getUserId());
 		BigInteger countQuer = (BigInteger) packPlanRepo.getSession()
 				.createNativeQuery(shenBaoInfoOfPackPlanOfPlanReach_count)
 				.setParameter("packPlanId", packId)
 				.setParameter("unitName", userUnitInfoDto.getId())
+				.setParameter("planReachId", planReachId)
 				.getSingleResult();
 		int count = countQuer == null ? 0 : countQuer.intValue();
 
@@ -574,6 +579,7 @@ public class PlanReachApplicationServiceImpl
 					.createNativeQuery(shenBaoInfoOfPackPlanOfPlanReach, ShenBaoInfo.class)
 					.setParameter("packPlanId", packId)
 					.setParameter("unitName", userUnitInfoDto.getId())
+					.setParameter("planReachId", planReachId)
 					.setFirstResult(skip).setMaxResults(stop).getResultList();
 			int len = shenBaoInfos.size();
 			shenBaoInfoDtos = new ArrayList<>(len);
@@ -698,13 +704,14 @@ public class PlanReachApplicationServiceImpl
 				for (int x = 0; x < pack.getAllocationCapitals().size(); x++) {
 					AllocationCapital ac = pack.getAllocationCapitals().get(x);
 					if (ac.getUnitName().equals(entity.getUnitName())) {
-						Assert.isTrue(ac.getCapital_ggys_surplus() + entity.getXdPlanReach_ggys() <= ac.getCapital_ggys(), "超过建设资金预留-公共预算,无法提交！");
-						Assert.isTrue(ac.getCapital_gtzj_surplus() + entity.getXdPlanReach_gtzj() <= ac.getCapital_gtzj(), "超过建设资金预留-国土资金，无法提交！");
-						ac.setCapital_ggys_surplus(ac.getCapital_ggys_surplus() + entity.getXdPlanReach_ggys());
-						ac.setCapital_gtzj_surplus(ac.getCapital_gtzj_surplus() + entity.getXdPlanReach_gtzj());
+						if(ggmoney > ac.getCapital_ggys()-ac.getCapital_ggys_surplus()){
+							throw new IllegalArgumentException("超过建设资金预留-公共预算,无法提交！");
+						}
+						if(gtmoney > ac.getCapital_gtzj()-ac.getCapital_gtzj_surplus()){
+							throw new IllegalArgumentException("超过建设资金预留-国土资金，无法提交！");
+						}
 					}
-				}
-				;
+				};
 
 				packPlanRepo.save(pack);
 			}
@@ -712,7 +719,6 @@ public class PlanReachApplicationServiceImpl
 	    if(ggmoney+gtmoney+entity.getApInvestSum() > entity.getProjectInvestSum()){
        	 throw new IllegalArgumentException("超过总投资:"+entity.getProjectInvestSum()+",请重新填写！");
        }
-//		entity.setApInvestSum(ggmoney+gtmoney);
 		entity.setSqPlanReach_ggys(ggmoney);
 		entity.setSqPlanReach_gtzj(gtmoney);
 		shenBaoInfoRepo.save(entity);
@@ -726,6 +732,7 @@ public class PlanReachApplicationServiceImpl
 		// boolean canDelete = true;
 		ShenBaoInfo shenbaoinfo = shenBaoInfoRepo.findById(shenbaoId);
 		Assert.notNull(shenbaoinfo, "数据不存在");
+
 		// 根据对象对应的申报信息，删除对应的申报信息和工作流信息
 
 		Assert.isTrue(processState_jinxingzhong != shenbaoinfo.getProcessState(), "包含正在审批的项目,请重新选择！");
@@ -940,7 +947,8 @@ public class PlanReachApplicationServiceImpl
 	public List<ExcelReportPlanReachDto> findPlanreachBySql(String id) {
 		List<ExcelReportPlanReachDto> list= new ArrayList<ExcelReportPlanReachDto>();
 		StringBuffer sql = new StringBuffer();
-
+		UserUnitInfoDto userUnitInfoDto = userUnitInfoService.getByUserId(currentUser.getUserId());
+		String userUnitId = userUnitInfoDto.getId();
 		sql.append("select '0' as orderNum")
 				.append(",'' as constructionUnit")
 				.append(",'' as projectName")
@@ -957,11 +965,9 @@ public class PlanReachApplicationServiceImpl
 				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
 				.append(",'' as yearConstructionTask")
 				.append(",'' as remark")
-				.append(" from cs_planReachApplication a")
-				.append(" left join cs_planReachApplication_cs_shenbaoinfo b on a.id = b.PlanReachApplication_id ")
-				.append(" left join cs_shenbaoinfo c on b.shenBaoInfos_id = c.id ")
-				.append(" where a.id = ").append("'").append(id).append("'")
-
+				.append(" from cs_shenbaoinfo c")
+				.append(" where c.planReachId=").append("'").append(id).append("'")
+				.append(" and c.unitName=").append("'").append(userUnitId).append("'")
 				.append(" union all  ")
 
 				.append("select '1' as orderNum")
@@ -980,15 +986,13 @@ public class PlanReachApplicationServiceImpl
 				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
 				.append(",'' as yearConstructionTask")
 				.append(",'' as remark")
-				.append(" from cs_planReachApplication a")
-				.append(" left join cs_planReachApplication_cs_shenbaoinfo b on a.id = b.PlanReachApplication_id ")
-				.append(" left join cs_shenbaoinfo c on b.shenBaoInfos_id = c.id ")
-				.append(" left join cs_basicdata e on c.projectIndustry = e.id ")
-				.append(" where a.id = ").append("'").append(id).append("'")
+				.append(" from cs_shenbaoinfo c")
+				.append(" LEFT JOIN cs_basicdata e ON c.projectIndustry = e.id")
+				.append(" where c.planReachId=").append("'").append(id).append("'")
+				.append(" and c.unitName=").append("'").append(userUnitId).append("'")
 				.append(" group by c.projectIndustry ")
 
 				.append(" union all ")
-
 				.append(" select '2' as orderNum")
 				.append(",c.constructionUnit")
 				.append(",CONCAT_WS(':',c.projectName,c.countryNumber)")
@@ -1005,12 +1009,11 @@ public class PlanReachApplicationServiceImpl
 				.append(",c.apPlanReach_gtzj")
 				.append(",c.yearConstructionTask")
 				.append(",c.remark")
-				.append(" from cs_planReachApplication a")
-				.append(" left join cs_planReachApplication_cs_shenbaoinfo b on a.id = b.PlanReachApplication_id ")
-				.append(" left join cs_shenbaoinfo c on b.shenBaoInfos_id = c.id ")
-				.append(" left join cs_basicdata d on c.projectCategory = d.id ")
-				.append(" left join cs_basicdata e on c.projectIndustry = e.id ")
-				.append(" where a.id = ").append("'").append(id).append("'")
+				.append(" from cs_shenbaoinfo c")
+				.append(" LEFT JOIN cs_basicdata d ON c.projectCategory = d.id\n" +
+						" LEFT JOIN cs_basicdata e ON c.projectIndustry = e.id\n")
+				.append(" where c.planReachId=").append("'").append(id).append("'")
+				.append(" and c.unitName=").append("'").append(userUnitId).append("'")
 
 				.append(" order by projectIndustryDesc,orderNum ");
 
