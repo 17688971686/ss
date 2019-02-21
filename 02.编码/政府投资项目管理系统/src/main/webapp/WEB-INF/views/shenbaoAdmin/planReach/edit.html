@@ -51,6 +51,9 @@
 	<script type="text/template" id="columnBtns_button_1">
 		<button class="btn btn-xs btn-success" ng-if="{1}" ng-click="vm.startProcessOne('{0}')" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-pencil"></span>提交</button>
 		<button class="btn btn-xs btn-success" ng-click="vm.deleteProcessOne('{0}')"><span class="glyphicon glyphicon-pencil"></span>撤销</button>
+		<button class="btn btn-xs btn-success" data-toggle="modal" data-target="#editShenBaoInfo" ng-click="vm.getShenBaoInfo('{0}')">
+			编辑
+		</button>
 	</script>
 	<!--项目申报记录模态框 -->
 	<div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="true">
@@ -101,6 +104,48 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭</button>
 					<button type="button" class="btn btn-success btn-sm" ng-click="vm.dialogConfirmSubmit_packPlan()" >确认</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--提交备注模态框 -->
+	<div class="modal fade" id="editShenBaoInfo" role="dialog" data-backdrop="static" data-keyboard="true">
+		<div class="modal-dialog" style="width:800px;">
+			<div class="modal-content">
+				<div class="modal-header bg-primary">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button>
+					<h4 class="modal-title">添加信息</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table table-bordered ">
+						<tr>
+							<td class="text-center" style="width:100px;"> 备注 </td>
+							<td>
+                        <textarea class="form-control input-sm" style="width:99%;"
+								  ng-model="vm.model.shenBaoInfo.yearPlanRemark" placeholder="注：200字符以内" maxlength="200"
+								  ng-change="vm.checkLength(vm.model.shenBaoInfo.yearPlanRemark,200,'yearPlanRemark')"></textarea>
+								<div class="tipfont">您还可以输入<span id="yearPlanRemark"><font
+										size="5">200</font></span>个字符!
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-center" style="width:100px;"> 计划建设类容 </td>
+							<td>
+                        <textarea class="form-control input-sm" style="width:99%;"
+								  ng-model="vm.model.shenBaoInfo.planReachConstructionContent" placeholder="注：200字符以内" maxlength="200"
+								  ng-change="vm.checkLength(vm.model.shenBaoInfo.planReachConstructionContent,200,'planReachConstructionContent')"></textarea>
+								<div class="tipfont">您还可以输入<span id="planReachConstructionContent"><font
+										size="5">200</font></span>个字符!
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-success btn-sm" ng-click="vm.editShenBaoInfo()" >确认</button>
 				</div>
 			</div>
 		</div>

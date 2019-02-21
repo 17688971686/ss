@@ -27,3 +27,12 @@ alter table cs_project modify column projectIndustry varchar(64) ;
 
 -- add yb liux   2018-10-24   生产数据库里面申报表所有的下一年度计划申请信息的开工竣工日期都改成年月，其他概算，立项等信息不变
 update cs_shenbaoinfo set beginDate = left(beginDate,7),endDate = left(endDate,7) where projectShenBaoStage = 'projectShenBaoStage_7';
+
+alter table cs_project modify column constructionUnit varchar(125) ;
+alter table cs_project modify column processStage varchar(64) ;
+alter table cs_project modify column zong_processId varchar(32) ;
+alter table cs_project modify column thisTaskId varchar(32) ;
+alter table cs_project modify column thisTaskName varchar(64) ;
+
+
+

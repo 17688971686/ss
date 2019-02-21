@@ -411,8 +411,8 @@ public class ExcelReportPlanReachView extends AbstractXlsView {
             createCell(dto.getApInvestSum(),6,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
             createCell(dto.getApPlanReach_ggys(),7,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
             createCell(dto.getApPlanReach_gtzj(),8,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
-            createCell(dto.getYearConstructionTask(),9,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
-            createCell(dto.getRemark(),10,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
+            createCell(dto.getPlanReachConstructionContent(),9,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
+            createCell(dto.getYearPlanRemark(),10,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
             createCell(dto.getPlan_wenhao(),11,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
             startRowNum++;
         }

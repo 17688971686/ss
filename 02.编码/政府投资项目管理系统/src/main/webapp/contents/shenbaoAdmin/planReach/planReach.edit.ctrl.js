@@ -68,6 +68,9 @@
             planReachSvc.deleteProcessOne(vm, id);
         };
 
+        vm.checkLength = function(obj,max,id){
+            common.checkLength(obj,max,id);
+        };
         vm.projectDeletes = function () {
             //获取选中的申报信息的id
             var selectIds = common.getKendoCheckId(shenbaogrid);
@@ -239,6 +242,14 @@
         vm.editApplication = function () {
             planReachSvc.updateApplication(vm);
         };
+
+        vm.getShenBaoInfo = function(shenbaoId){
+            planReachSvc.getShenBaoInfoById(vm,shenbaoId);
+        }
+
+        vm.editShenBaoInfo = function(shenbaoId){
+            planReachSvc.updateShenBaoInfo(vm);
+        }
 
         $(".menu li a").removeClass("focus");
         $(".menu li a:eq(4)").addClass("focus");

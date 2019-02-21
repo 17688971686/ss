@@ -48,9 +48,53 @@
             getSysConfig: getSysConfig,//查询配置信息
             shenbaoInfoGrid: shenbaoInfoGrid,//所有下一年度计划
             startProcessOne: startProcessOne,//单个项目启动流程
-            deleteProcessOne: deleteProcessOne//撤销流程
+            deleteProcessOne: deleteProcessOne,//撤销流程
+            getShenBaoInfoById:getShenBaoInfoById,//根据id查询项目申报信息
+            updateShenBaoInfo:updateShenBaoInfo
         };
 
+        /**
+         * 更新申报信息
+         */
+        function updateShenBaoInfo(vm){
+                var httpOptions = {
+                    method : 'post',
+                    url : url_shenbao+'/updateShenbao',
+                    data : vm.model.shenBaoInfo
+                };
+                var httpSuccess = function success(response) {
+                    $('#editShenBaoInfo').modal('hide')
+                    bsWin.success("操作成功");
+
+                };
+
+                common.http({
+                    vm : vm,
+                    $http : $http,
+                    httpOptions : httpOptions,
+                    success : httpSuccess
+                });
+        }//end#updateShenBaoInfo
+        /**
+         * 根据id获取申报信息
+         */
+        function getShenBaoInfoById(vm,id){
+            var httpOptions = {
+                method : 'get',
+                url : common.format(url_shenbao + "?$filter=id eq '{0}'",id)
+            };
+            var httpSuccess = function success(response) {
+                vm.model.shenBaoInfo = response.data.value[0]||{};
+
+                vm.planYear = vm.model.shenBaoInfo.planYear;//初始化申报年份（三年滚动）
+            };
+            common.http({
+                vm : vm,
+                $http : $http,
+                httpOptions : httpOptions,
+                success : httpSuccess
+            });
+        }
         function deleteProcessOne(vm, id) {
             $http.get(common.format(url + "/deleteProcessOne?shenbaoId={0}", id)).then(function () {
                 vm.shenBaoInfo_gridOptions_plan && vm.shenBaoInfo_gridOptions_plan.dataSource.read();

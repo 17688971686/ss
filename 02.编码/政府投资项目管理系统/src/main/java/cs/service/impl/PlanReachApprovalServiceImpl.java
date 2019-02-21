@@ -167,9 +167,9 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 				.append(",sum(c.apInvestSum) as apInvestSum")
 				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
 				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
-				.append(",'' as yearConstructionTask")
+				.append(",'' as yearPlanRemark")
+				.append(",'' as planReachConstructionContent")
 				.append(",'' as plan_wenhao")
-				.append(",'' as remark")
 				.append(" from cs_planreachapproval a")
 				.append(" left join cs_planreachapproval_cs_shenbaoinfo b on a.id = b.PlanReachApproval_id ")
 				.append(" left join cs_shenbaoinfo c on b.shenBaoInfos_id = c.id ")
@@ -191,9 +191,9 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 				.append(",sum(c.apInvestSum) as apInvestSum")
 				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
 				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
-				.append(",'' as yearConstructionTask")
+				.append(",'' as yearPlanRemark")
+				.append(",'' as planReachConstructionContent")
 				.append(",'' as plan_wenhao")
-				.append(",'' as remark")
 				.append(" from cs_planreachapproval a")
 				.append(" left join cs_planreachapproval_cs_shenbaoinfo b on a.id = b.PlanReachApproval_id ")
 				.append(" left join cs_shenbaoinfo c on b.shenBaoInfos_id = c.id ")
@@ -217,9 +217,9 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 				.append(",c.apInvestSum")
 				.append(",c.apPlanReach_ggys")
 				.append(",c.apPlanReach_gtzj")
-				.append(",c.yearConstructionTask")
+				.append(",c.yearPlanRemark")
+				.append(",c.planReachConstructionContent")
 				.append(",c.plan_wenhao")
-				.append(",c.remark")
 				.append(" from cs_planreachapproval a")
 				.append(" left join cs_planreachapproval_cs_shenbaoinfo b on a.id = b.PlanReachApproval_id ")
 				.append(" left join cs_shenbaoinfo c on b.shenBaoInfos_id = c.id ")
@@ -244,9 +244,9 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 		query.addScalar("apInvestSum", new DoubleType());
 		query.addScalar("apPlanReach_ggys", new DoubleType());
 		query.addScalar("apPlanReach_gtzj", new DoubleType());
-		query.addScalar("yearConstructionTask", new StringType());
+		query.addScalar("planReachConstructionContent", new StringType());
+		query.addScalar("yearPlanRemark", new StringType());
 		query.addScalar("plan_wenhao", new StringType());
-		query.addScalar("remark", new StringType());
 
 		list = query.setResultTransformer(Transformers.aliasToBean(ExcelReportPlanReachDto.class)).list();
 		logger.info("计划下达Excel导出! sql================>>"+sql.toString());

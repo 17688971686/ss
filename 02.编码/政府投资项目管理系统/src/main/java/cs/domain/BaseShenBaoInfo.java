@@ -166,6 +166,10 @@ public class BaseShenBaoInfo extends BaseProject {
     private Double xdPlanReach_gtzj = 0.0;
     @Column(columnDefinition = "varchar(125) NULL COMMENT '项目建设性质分类'")
     private String projectConstrChar;
+    @Column(columnDefinition = "varchar(200) NULL COMMENT '计划备注'")
+    private String yearPlanRemark;
+    @Column(columnDefinition = "varchar(200) NULL COMMENT '计划建设类容'")
+    private String planReachConstructionContent;
     //计划下达 End
 
     //begin#审批相关
@@ -943,5 +947,21 @@ public class BaseShenBaoInfo extends BaseProject {
 
     public void setPlan_wenhao(String plan_wenhao) {
         this.plan_wenhao = plan_wenhao;
+    }
+
+    public String getYearPlanRemark() {
+        return yearPlanRemark;
+    }
+
+    public void setYearPlanRemark(String yearPlanRemark) {
+        this.yearPlanRemark = yearPlanRemark;
+    }
+
+    public String getPlanReachConstructionContent() {
+        return planReachConstructionContent;
+    }
+
+    public void setPlanReachConstructionContent(String planReachConstructionContent) {
+        this.planReachConstructionContent = planReachConstructionContent;
     }
 }

@@ -41,18 +41,13 @@ public class ExcelReportPlanReachDto implements Serializable {
 	//公共预算
 	private  Double apPlanReach_gtzj;
 	//建设内容
-	private  String yearConstructionTask;
+	private  String planReachConstructionContent;
 	//备注
-	private  String remark;
+	private  String yearPlanRemark;
+	//资金出处
+	private  String planName;
 
-	public String getPlan_wenhao() {
-		return plan_wenhao;
-	}
-
-	public void setPlan_wenhao(String plan_wenhao) {
-		this.plan_wenhao = plan_wenhao;
-	}
-
+	//文号
 	private  String plan_wenhao;
 	/** 业务处理需要的字段 */
     //排序号
@@ -165,20 +160,20 @@ public class ExcelReportPlanReachDto implements Serializable {
 		this.apPlanReach_gtzj = apPlanReach_gtzj;
 	}
 
-	public String getYearConstructionTask() {
-		return yearConstructionTask;
+	public String getPlanReachConstructionContent() {
+		return planReachConstructionContent;
 	}
 
-	public void setYearConstructionTask(String yearConstructionTask) {
-		this.yearConstructionTask = yearConstructionTask;
+	public void setPlanReachConstructionContent(String planReachConstructionContent) {
+		this.planReachConstructionContent = planReachConstructionContent;
 	}
 
-	public String getRemark() {
-		return remark;
+	public String getYearPlanRemark() {
+		return yearPlanRemark;
 	}
 
-	public void setRemark(String remark) {
-		this.remark = remark;
+	public void setYearPlanRemark(String yearPlanRemark) {
+		this.yearPlanRemark = yearPlanRemark;
 	}
 
 	public String getRowNum() {
@@ -203,5 +198,20 @@ public class ExcelReportPlanReachDto implements Serializable {
 
 	public void setProjectIndustryDesc(String projectIndustryDesc) {
 		this.projectIndustryDesc = projectIndustryDesc;
+	}
+	public String getPlan_wenhao() {
+		return plan_wenhao;
+	}
+
+	public void setPlan_wenhao(String plan_wenhao) {
+		this.plan_wenhao = plan_wenhao;
+	}
+
+	public String getPlanName() {
+		return planName;
+	}
+
+	public void setPlanName(String planName) {
+		this.planName = planName;
 	}
 }
