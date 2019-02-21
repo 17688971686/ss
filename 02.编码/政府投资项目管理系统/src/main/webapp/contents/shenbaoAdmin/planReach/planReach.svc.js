@@ -166,10 +166,6 @@
             $http.get(common.format(url_packPlan + "?$filter=id eq '{0}'", vm.id)).success(function (data) {
                 vm.model = data.value[0] || {};
                 vm.model.allocationCapitalDtos = vm.model.allocationCapitals;
-                //刷新文字输入长度
-//				vm.checkLength(vm.model.remark,500,'remarkTips');
-                //vm.planYear = vm.model.plan.year;//用于编制列表表头年份的绑定
-//				vm.shenBaoInfo_gridOptions_plan.dataSource = vm.model.shenBaoInfoDtos;
             })
         }//end fun getPackPlanById
 

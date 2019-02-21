@@ -168,7 +168,7 @@ public class BaseShenBaoInfo extends BaseProject {
     private String projectConstrChar;
     @Column(columnDefinition = "varchar(200) NULL COMMENT '计划备注'")
     private String yearPlanRemark;
-    @Column(columnDefinition = "varchar(200) NULL COMMENT '计划建设类容'")
+    @Column(columnDefinition = "varchar(200) NULL COMMENT '主要内容'")
     private String planReachConstructionContent;
     //计划下达 End
 

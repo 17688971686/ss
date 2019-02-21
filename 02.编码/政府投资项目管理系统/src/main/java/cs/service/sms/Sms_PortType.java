@@ -29,7 +29,7 @@ public interface Sms_PortType extends java.rmi.Remote {
     /**
      * 下发短信
      * @param batch 号码
-     * @param sendbody  类容
+     * @param sendbody  内容
      * @return
      * @throws java.rmi.RemoteException
      */

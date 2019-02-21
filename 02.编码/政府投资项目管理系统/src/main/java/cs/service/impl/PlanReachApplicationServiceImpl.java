@@ -312,20 +312,17 @@ public class PlanReachApplicationServiceImpl
 		PlanReachApplication entity = super.findById(planReachId);
 		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = null;
 		Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), entity.getYear());
-    	List<YearPlan> entitys = yearRepo.findByCriteria(criterion);
-    	YearPlan yearPlan = null;
-    	loop:for (int i = 0; i < entitys.size(); i++) {
-    		if(entitys.get(i).getIsDraftOrPlan()){
-    			yearPlan = entitys.get(i);
-    			break loop;
-    		}
-		}
-		if (yearPlan != null) {
+		Criterion criterion1 = Restrictions.eq(YearPlan_.isDraftOrPlan.getName(), true);
+		Criterion criterion2 = Restrictions.and(criterion1,criterion);
+    	List<YearPlan> entitys = yearRepo.findByCriteria(criterion2);
+
+		if (entitys.size()>0) {
 			// 筛选出包含有本单位的编制
+			YearPlan yearPlan = entitys.get(0);
+			List<PackPlanDto> packPlanList = new ArrayList<>();
+			PackPlanDto packPlanDto;
 			if (!CollectionUtils.isEmpty(yearPlan.getPackPlans())) {
 				UserUnitInfoDto userUnitInfoDto1 = userUnitInfoService.getByUserId(currentUser.getUserId());
-				// double d = 0.0;
-				// double a = 0.0;
 				boolean isOurUnit = false;
 				for (int i = 0; i < yearPlan.getPackPlans().size(); i++) {
 					if (yearPlan.getPackPlans().get(i) != null) {
@@ -333,28 +330,13 @@ public class PlanReachApplicationServiceImpl
 							if (yearPlan.getPackPlans().get(i).getAllocationCapitals().get(j) != null) {
 								if (yearPlan.getPackPlans().get(i).getAllocationCapitals().get(j).getUnitName()
 										.equals(userUnitInfoDto1.getId())) {// 如果有本单位的打包计划
-									// d +=
-									// yearPlan.getPackPlans().get(i).getAllocationCapitals().get(j).getCapital_ggys();
-									// a +=
-									// yearPlan.getPackPlans().get(i).getAllocationCapitals().get(j).getCapital_gtzj();
-									isOurUnit = true;
-									break;
+									packPlanDto = packPlanMapper.toDto(yearPlan.getPackPlans().get(i));
+									packPlanList.add(packPlanDto);
 								}
 							}
 						}
 					}
-					if (isOurUnit == false) {
-						yearPlan.getPackPlans().remove(i);
-					}
 				}
-				List<PackPlanDto> packPlanList = new ArrayList<>();
-				PackPlanDto packPlanDto;
-				for (int i = 0; i < yearPlan.getPackPlans().size(); i++) {
-					PackPlan array_element = yearPlan.getPackPlans().get(i);
-					packPlanDto = packPlanMapper.toDto(array_element);
-					packPlanList.add(packPlanDto);
-				}
-
 				return new PageModelDto<>(packPlanList, yearPlan.getPackPlans().size());
 			}
 		}
@@ -659,32 +641,8 @@ public class PlanReachApplicationServiceImpl
 					packPlanDtos.add(packPlanDto);
 				});
 
-				UserUnitInfoDto userUnitInfoDto1 = userUnitInfoService.getByUserId(currentUser.getUserId());
-				double d = 0.0;
-				double a = 0.0;
-				boolean isOurUnit = false;
-				for (int i = 0; i < packPlanDtos.size(); i++) {
-					if (packPlanDtos.get(i) != null) {
-						for (int j = 0; j < packPlanDtos.get(i).getAllocationCapitals().size(); j++) {
-							if (packPlanDtos.get(i).getAllocationCapitals().get(j) != null) {
-								// 如果有本单位的打包计划
-								if (packPlanDtos.get(i).getAllocationCapitals().get(j).getUnitName()
-										.equals(userUnitInfoDto1.getId())) {
-									d += packPlanDtos.get(i).getAllocationCapitals().get(j).getCapital_ggys();
-									a += packPlanDtos.get(i).getAllocationCapitals().get(j).getCapital_gtzj();
-									isOurUnit = true;
-								}
-							}
-						}
-					}
-					if (isOurUnit) {
-						packPlanDtos.get(i).setCapitalSCZ_ggys_TheYear(d);
-						packPlanDtos.get(i).setCapitalSCZ_gtzj_TheYear(a);
-					}
-				}
+				return new PageModelDto<>(packPlanDtos, count);
 			}
-
-			return new PageModelDto<>(packPlanDtos, count);
 		}
 		return new PageModelDto<>();
 	}

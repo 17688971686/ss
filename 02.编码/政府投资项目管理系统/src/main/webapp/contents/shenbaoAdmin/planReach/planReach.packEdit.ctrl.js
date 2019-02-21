@@ -35,6 +35,14 @@
             return common.getUnitName(unitId);
         };
 
+        //获取申报信息
+        vm.getShenBaoInfo = function(shenbaoId){
+            planReachSvc.getShenBaoInfoById(vm,shenbaoId);
+        }
+        //更新申报信息
+        vm.editShenBaoInfo = function(shenbaoId){
+            planReachSvc.updateShenBaoInfo(vm);
+        }
         //项目批量选择
         $(document).on('click', '#projects', function () {
             var isSelected = $(this).is(':checked');
