@@ -170,6 +170,7 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 				.append(",'' as yearPlanRemark")
 				.append(",'' as planReachConstructionContent")
 				.append(",'' as plan_wenhao")
+				.append(",'' as planName")
 				.append(" from cs_planreachapproval a")
 				.append(" left join cs_planreachapproval_cs_shenbaoinfo b on a.id = b.PlanReachApproval_id ")
 				.append(" left join cs_shenbaoinfo c on b.shenBaoInfos_id = c.id ")
@@ -194,6 +195,7 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 				.append(",'' as yearPlanRemark")
 				.append(",'' as planReachConstructionContent")
 				.append(",'' as plan_wenhao")
+				.append(",'' as planName")
 				.append(" from cs_planreachapproval a")
 				.append(" left join cs_planreachapproval_cs_shenbaoinfo b on a.id = b.PlanReachApproval_id ")
 				.append(" left join cs_shenbaoinfo c on b.shenBaoInfos_id = c.id ")
@@ -220,6 +222,7 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 				.append(",c.yearPlanRemark")
 				.append(",c.planReachConstructionContent")
 				.append(",c.plan_wenhao")
+				.append(",c.planName")
 				.append(" from cs_planreachapproval a")
 				.append(" left join cs_planreachapproval_cs_shenbaoinfo b on a.id = b.PlanReachApproval_id ")
 				.append(" left join cs_shenbaoinfo c on b.shenBaoInfos_id = c.id ")
@@ -247,6 +250,7 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 		query.addScalar("planReachConstructionContent", new StringType());
 		query.addScalar("yearPlanRemark", new StringType());
 		query.addScalar("plan_wenhao", new StringType());
+		query.addScalar("planName", new StringType());
 
 		list = query.setResultTransformer(Transformers.aliasToBean(ExcelReportPlanReachDto.class)).list();
 		logger.info("计划下达Excel导出! sql================>>"+sql.toString());

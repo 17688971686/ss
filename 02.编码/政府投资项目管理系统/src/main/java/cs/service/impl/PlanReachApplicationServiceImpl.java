@@ -965,7 +965,6 @@ public class PlanReachApplicationServiceImpl
 				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
 				.append(",'' as yearPlanRemark")
 				.append(",'' as planReachConstructionContent")
-				.append(",'' as planName")
 				.append(" from cs_shenbaoinfo c")
 				.append(" where c.planReachId=").append("'").append(id).append("'")
 				.append(" and c.unitName=").append("'").append(userUnitId).append("'")
@@ -987,7 +986,6 @@ public class PlanReachApplicationServiceImpl
 				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
 				.append(",'' as yearPlanRemark")
 				.append(",'' as planReachConstructionContent")
-				.append(",'' as planName")
 				.append(" from cs_shenbaoinfo c")
 				.append(" LEFT JOIN cs_basicdata e ON c.projectIndustry = e.id")
 				.append(" where c.planReachId=").append("'").append(id).append("'")
@@ -1011,7 +1009,6 @@ public class PlanReachApplicationServiceImpl
 				.append(",c.apPlanReach_gtzj")
 				.append(",c.yearPlanRemark")
 				.append(",c.planReachConstructionContent")
-				.append(",c.planName")
 				.append(" from cs_shenbaoinfo c")
 				.append(" LEFT JOIN cs_basicdata d ON c.projectCategory = d.id\n" +
 						" LEFT JOIN cs_basicdata e ON c.projectIndustry = e.id\n")
@@ -1037,7 +1034,6 @@ public class PlanReachApplicationServiceImpl
 		query.addScalar("apPlanReach_gtzj", new DoubleType());
 		query.addScalar("planReachConstructionContent", new StringType());
 		query.addScalar("yearPlanRemark", new StringType());
-		query.addScalar("planName", new StringType());
 
 		list = query.setResultTransformer(Transformers.aliasToBean(ExcelReportPlanReachDto.class)).list();
 		logger.info("计划下达Excel导出! sql================>>"+sql.toString());

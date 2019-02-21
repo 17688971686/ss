@@ -56,7 +56,7 @@ public class ExcelReportPlanReachView extends AbstractXlsView {
         // 创建单元格并设置样式
         createCell(workbook,row_2, 10,"单位：万元",HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,(short)14,"",null,false);
 
-        String[] tData1 = {"序号","项目单位","项目名称","项目类别","建设规模","总投资","累计安排","本计划安排投资","","主要建设内容","备注","计划文号"};
+        String[] tData1 = {"序号","项目单位","项目名称","项目类别","建设规模","总投资","累计安排","本计划安排投资","","主要建设内容","备注","计划文号","资金出处"};
         String[] tData2 = {"","","","","","","","国土","公共预算","",""};
 
         // 在sheet里创建第四行
@@ -84,6 +84,7 @@ public class ExcelReportPlanReachView extends AbstractXlsView {
         mergeCell(sheet,3,4,9,9);
         mergeCell(sheet,3,4,10,10);
         mergeCell(sheet,3,4,11,11);
+        mergeCell(sheet,3,4,12,12);
         //动态合并单元格
         mergeCell(workbook,sheet,mergeRows);
 
@@ -105,6 +106,8 @@ public class ExcelReportPlanReachView extends AbstractXlsView {
         sheet.setColumnWidth(8,256*15);
         sheet.setColumnWidth(9,256*25);
         sheet.setColumnWidth(10,256*30);
+        sheet.setColumnWidth(11,256*30);
+        sheet.setColumnWidth(12,256*30);
     }
 
     //合并单元格
@@ -414,6 +417,7 @@ public class ExcelReportPlanReachView extends AbstractXlsView {
             createCell(dto.getPlanReachConstructionContent(),9,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
             createCell(dto.getYearPlanRemark(),10,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
             createCell(dto.getPlan_wenhao(),11,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
+            createCell(dto.getPlanName(),12,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
             startRowNum++;
         }
     }
