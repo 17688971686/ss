@@ -9,11 +9,7 @@ import com.sn.framework.common.ObjectUtils;
 import com.sn.framework.common.StringUtil;
 import com.sn.framework.odata.OdataFilter;
 import cs.activiti.service.ActivitiService;
-import cs.common.BasicDataConfig;
-import cs.common.ICurrentUser;
-import cs.common.Response;
-import cs.common.TodoNumberUtil;
-import cs.common.Util;
+import cs.common.*;
 import cs.common.utils.WorkDayUtil;
 import cs.domain.*;
 import cs.domain.framework.Org;
@@ -622,16 +618,17 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
                     for (int x = 0; x < pack.getAllocationCapitals().size(); x++) {
                         AllocationCapital ac = pack.getAllocationCapitals().get(x);
                         if (ac.getUnitName().equals(shenBaoInfo.getUnitName())) {
-                            if(ac.getCapital_ggys()-ac.getCapital_ggys_surplus() < shenbaoinfoDto.getXdPlanReach_ggys()){
+
+                            if(Double.doubleToLongBits(shenbaoinfoDto.getXdPlanReach_ggys().doubleValue())>Double.doubleToLongBits(DoubleUtils.sub(ac.getCapital_ggys(),ac.getCapital_ggys_surplus())) ){
                                 throw new IllegalArgumentException("超过建设资金预留-公共预算,无法提交！");
                             }
-                            if(ac.getCapital_ggys()-ac.getCapital_gtzj_surplus() < shenbaoinfoDto.getXdPlanReach_gtzj()){
+                            if(Double.doubleToLongBits(shenbaoinfoDto.getXdPlanReach_gtzj())>Double.doubleToLongBits(DoubleUtils.sub(ac.getCapital_gtzj(),ac.getCapital_gtzj_surplus()))){
                                 throw new IllegalArgumentException("超过建设资金预留-国土资金，无法提交！！");
                             }
 //                            Assert.isTrue(ac.getCapital_ggys_surplus() + shenbaoinfoDto.getXdPlanReach_ggys() <= ac.getCapital_ggys(), "超过建设资金预留-公共预算,无法提交！");
 //                            Assert.isTrue(ac.getCapital_gtzj_surplus() + shenbaoinfoDto.getXdPlanReach_gtzj() <= ac.getCapital_gtzj(), "超过建设资金预留-国土资金，无法提交！");
-                            ac.setCapital_ggys_surplus(ac.getCapital_ggys_surplus() + shenbaoinfoDto.getXdPlanReach_ggys());
-                            ac.setCapital_gtzj_surplus(ac.getCapital_gtzj_surplus() + shenbaoinfoDto.getXdPlanReach_gtzj());
+                            ac.setCapital_ggys_surplus(DoubleUtils.sum(ac.getCapital_ggys_surplus() , shenbaoinfoDto.getXdPlanReach_ggys()));
+                            ac.setCapital_gtzj_surplus(DoubleUtils.sum(ac.getCapital_gtzj_surplus() , shenbaoinfoDto.getXdPlanReach_gtzj()));
                         }
                     };
 //                    if()

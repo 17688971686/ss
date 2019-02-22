@@ -2,6 +2,8 @@ package cs.model.DtoMapper;
 
 import java.util.UUID;
 
+import cs.domain.Attachment;
+import cs.model.DomainDto.AttachmentDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +26,8 @@ public class PlanReachApplicationMapper implements IMapper<PlanReachApplicationD
 	IMapper<ShenBaoInfoDto,ShenBaoInfo> shenBaoInfoMapper;
 	@Autowired
 	IMapper<PackPlanDto,PackPlan> packPlanMapper;
+	@Autowired
+	IMapper<AttachmentDto, Attachment> attachmentMapper;
 
 	@Override
 	public PlanReachApplicationDto toDto(PlanReachApplication entity) {
@@ -49,6 +53,11 @@ public class PlanReachApplicationMapper implements IMapper<PlanReachApplicationD
 			dto.setModifiedDate(entity.getModifiedDate());
 			dto.setItemOrder(entity.getItemOrder());
 			dto.setYear(entity.getYear());
+
+			//附件
+			entity.getAttachments().stream().forEach(x->{
+				dto.getAttachmentDtos().add(attachmentMapper.toDto(x));
+			});
 			
 		}
 		return dto;

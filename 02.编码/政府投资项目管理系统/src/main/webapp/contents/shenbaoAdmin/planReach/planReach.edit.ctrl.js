@@ -9,9 +9,9 @@
             controller: 'planReachEditCtrl',
             controllerAs: 'vm'
         })
-    }]).controller('planReachEditCtrl', ["$state", "planReachSvc", "bsWin", planReachEditCtrl]);
+    }]).controller('planReachEditCtrl', ["$state", "planReachSvc", "bsWin",'$scope', planReachEditCtrl]);
 
-    function planReachEditCtrl($state, planReachSvc, bsWin) {
+    function planReachEditCtrl($state, planReachSvc, bsWin,$scope) {
         var vm = this;
         vm.id = $state.params.id;//请求中的id参数
         vm.isStartProcess = $state.params.isStartProcess;//请求中的id参数
@@ -262,6 +262,69 @@
         vm.exprotExcel =function(){
             location.href = common.format("/shenbaoAdmin/planReach/exportExcelForDL?id={0}",vm.id);
         };
+
+        //选择上传文件验证文件大小
+        vm.onSelect=function(e){
+            $.each(e.files, function (index, value) {
+                if(value.size > common.basicDataConfig().uploadSize){
+                    $scope.$apply(function(){
+                        common.alert({
+                            vm : vm,
+                            msg : "上传文件过大！"
+                        });
+                    });
+                }
+
+            });
+        };
+
+        //文件上传成功
+        vm.uploadSuccess=function(e){
+            var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
+            if(e.XMLHttpRequest.status==200){
+                angular.forEach(eval("("+e.XMLHttpRequest.response+")").data, function (fileObj, index) {
+                    $scope.$apply(function() {
+                        if(vm.model.attachmentDtos){
+                            vm.model.attachmentDtos.push({
+                                name: fileObj.originalFilename,
+                                url: fileObj.randomName,
+                                type: type
+                            });
+                        } else {
+                            vm.model.attachmentDtos = [{
+                                name: fileObj.originalFilename,
+                                url: fileObj.randomName,
+                                type: type
+                            }];
+                        }
+                    });
+                })
+            }
+        };
+
+        //扫描文件上传配置
+        vm.uploadOptions={
+            async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
+            error:vm.uploadError,
+            success:vm.uploadSuccess,
+            localization:{select:'上传文件'},
+            showFileList:false,
+            multiple:false,
+            validation: {
+                maxFileSize: common.basicDataConfig().uploadSize
+            },
+            select:vm.onSelect
+        };
+
+        //删除上传文件
+        vm.delFile=function(idx){
+            var file = vm.model.attachmentDtos[idx];
+            if(file){
+                vm.model.attachmentDtos.splice(idx,1);
+            }
+        };
+
+
     }
 
 })();

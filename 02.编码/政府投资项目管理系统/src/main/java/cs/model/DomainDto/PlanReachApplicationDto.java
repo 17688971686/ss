@@ -3,6 +3,7 @@ package cs.model.DomainDto;
 import java.util.ArrayList;
 import java.util.List;
 
+import cs.domain.Attachment;
 import cs.domain.PlanReachApplication;
 /**
  * @Description: 计划下达申请实体表
@@ -15,6 +16,8 @@ public class PlanReachApplicationDto extends PlanReachApplication{
 	private List<ShenBaoInfoDto> shenBaoInfoDtos=new ArrayList<>();
 	
 	private List<PackPlanDto> planPackDtos=new ArrayList<>();
+
+	private List<AttachmentDto> attachmentDtos=new ArrayList<>();
 
 	public List<ShenBaoInfoDto> getShenBaoInfoDtos() {
 		return shenBaoInfoDtos;
@@ -31,5 +34,12 @@ public class PlanReachApplicationDto extends PlanReachApplication{
 	public void setPlanPackDtos(List<PackPlanDto> planPackDtos) {
 		this.planPackDtos = planPackDtos;
 	}
-	
+
+	public List<AttachmentDto> getAttachmentDtos() {
+		return attachmentDtos;
+	}
+
+	public void setAttachmentDtos(List<AttachmentDto> attachmentDtos) {
+		this.attachmentDtos = attachmentDtos;
+	}
 }

@@ -20,6 +20,8 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import cs.common.DoubleUtils;
+import cs.domain.*;
 import cs.model.DomainDto.*;
 import cs.service.interfaces.*;
 import org.activiti.engine.RuntimeService;
@@ -50,17 +52,6 @@ import com.sn.framework.common.StringUtil;
 import cs.common.BasicDataConfig;
 import cs.common.DateUtil;
 import cs.common.SQLConfig;
-import cs.domain.AllocationCapital;
-import cs.domain.PackPlan;
-import cs.domain.PlanReachApplication;
-import cs.domain.Project;
-import cs.domain.ShenBaoInfo;
-import cs.domain.ShenBaoInfo_;
-import cs.domain.ShenBaoUnitInfo;
-import cs.domain.YearPlan;
-import cs.domain.YearPlanCapital;
-import cs.domain.YearPlanCapital_;
-import cs.domain.YearPlan_;
 import cs.model.PageModelDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.framework.UserRepo;
@@ -109,6 +100,10 @@ public class PlanReachApplicationServiceImpl
 	private IRepository<YearPlan, String> yearRepo;
 	@Autowired
 	private PackPlanService packPlanService;
+	@Autowired
+	private IRepository<Attachment, String> attachmentRepo;
+	@Autowired
+	private IMapper<AttachmentDto, Attachment> attachmentMapper;
 
 	@Override
 	@Transactional
@@ -135,6 +130,50 @@ public class PlanReachApplicationServiceImpl
 	@Transactional(rollbackOn = Exception.class)
 	public PlanReachApplication update(PlanReachApplicationDto dto, String id) {
 		PlanReachApplication entity = super.update(dto, id);
+		//附件
+		entity.getAttachments().forEach(x -> {//删除历史附件
+			attachmentRepo.delete(x);
+		});
+		entity.getAttachments().clear();
+		dto.getAttachmentDtos().forEach(x -> {//添加新附件
+			Attachment attachment = new Attachment();
+			attachmentMapper.buildEntity(x, attachment);
+			attachment.setCreatedBy(entity.getModifiedBy());
+			attachment.setModifiedBy(entity.getModifiedBy());
+			entity.getAttachments().add(attachment);
+		});
+		//计划下达的附件共享给其中的每一个申报信息
+		//先判断计划下达是否有附件
+		if(entity.getAttachments().size()>0){
+			List<ShenBaoInfoDto> shenBaoList = new ArrayList<>();
+			shenBaoList.addAll(dto.getShenBaoInfoDtos());
+			//获取附件类型
+			String fileType = entity.getAttachments().get(0).getType();
+
+			UserUnitInfoDto userUnitInfoDto = userUnitInfoService.getByUserId(currentUser.getUserId());
+			for(int i=0;i<dto.getPlanPackDtos().size();i++ ){
+				//打包里面的申报信息是本单位的
+				for(int b=0;b<dto.getPlanPackDtos().get(i).getShenBaoInfoDtos().size();b++){
+					if(dto.getPlanPackDtos().get(i).getShenBaoInfoDtos().get(b).getUnitName().equals(userUnitInfoDto.getId())
+							&& dto.getPlanPackDtos().get(i).getShenBaoInfoDtos().get(b).getPlanReachId().equals(entity.getId())){
+						shenBaoList.add(dto.getPlanPackDtos().get(i).getShenBaoInfoDtos().get(b));
+
+					}
+				}
+
+			}
+			//筛选出申报信息里面附件为同类型的附件
+			for (int j=0;j<shenBaoList.size();j++ ){
+				for(int s=0;s<shenBaoList.get(j).getAttachmentDtos().size();s++){
+					if(shenBaoList.get(j).getAttachmentDtos().get(s).getType().equals(fileType)){
+						shenBaoList.get(j).getAttachmentDtos().remove(s);
+					}
+				}
+				shenBaoList.get(j).getAttachmentDtos().addAll(dto.getAttachmentDtos());
+				shenBaoInfoService.updateShenBaoInfo(shenBaoList.get(j),false);
+			}
+		}
+
 		super.repository.save(entity);
 		logger.info(String.format("更新计划下达申请表,名称 :%s", dto.getApplicationName()));
 		return entity;
@@ -263,9 +302,8 @@ public class PlanReachApplicationServiceImpl
 		shenBaoInfoDto.setProcessStage("未开始");
 		shenBaoInfoDto.setProcessState(BasicDataConfig.processState_weikaishi);
 		shenBaoInfoDto.setItemOrder(entitys.size()+1);
-		if(StringUtil.isEmpty(shenBaoInfoDto.getRemark())){
-			shenBaoInfoDto.setRemark("");
-		}
+		shenBaoInfoDto.setYearPlanRemark(entity.getYearConstructionContentShenBao());
+		shenBaoInfoDto.setPlanReachConstructionContent(entity.getYearConstructionContent());
 
 		SimpleExpression criteria1 = Restrictions.eq(YearPlanCapital_.shenbaoInfoId.getName(), id);
 		List<YearPlanCapital> list = yearPlanCapitalRepo.findByCriteria(criteria1);
@@ -424,6 +462,8 @@ public class PlanReachApplicationServiceImpl
 						.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach));
 
 		List<ShenBaoInfo> entitys = criteria.list();
+		//在有同项目ID的申报信息，直接复制最新一次计划申请的信息
+		//如果itemorder为null，则复制项目信息
 		if(entitys.size()>0){
 			boolean isOk = false;
 			loop:for (int i=0;i<entitys.size();i++){
@@ -474,6 +514,8 @@ public class PlanReachApplicationServiceImpl
 		shenBaoInfoDto.setSqPlanReach_gtzj(0.0);
 		shenBaoInfoDto.setXdPlanReach_ggys(0.0);
 		shenBaoInfoDto.setXdPlanReach_gtzj(0.0);
+		shenBaoInfoDto.setYearPlanRemark("");
+		shenBaoInfoDto.setPlanReachConstructionContent("");
 		if(StringUtil.isEmpty(shenBaoInfoDto.getRemark())){
 			shenBaoInfoDto.setRemark("");
 		}
@@ -652,7 +694,7 @@ public class PlanReachApplicationServiceImpl
 	public void updateShnebaoInfo(String shenbaoId, Double ggmoney, Double gtmoney) {
 		ShenBaoInfo entity = shenBaoInfoRepo.findById(shenbaoId);
 		if(ObjectUtils.isEmpty(entity.getPackPlanId())) {
-			if (ggmoney + gtmoney + entity.getApplyAPYearInvest() > entity.getYearInvestApproval()) {
+			if (Double.doubleToLongBits(ggmoney + gtmoney + entity.getApplyAPYearInvest()) > Double.doubleToLongBits(entity.getYearInvestApproval())) {
 				throw new IllegalArgumentException("超过年度安排总投资：" + entity.getYearInvestApproval() + ",请重新填写！");
 			}
 		}
@@ -662,10 +704,10 @@ public class PlanReachApplicationServiceImpl
 				for (int x = 0; x < pack.getAllocationCapitals().size(); x++) {
 					AllocationCapital ac = pack.getAllocationCapitals().get(x);
 					if (ac.getUnitName().equals(entity.getUnitName())) {
-						if(ggmoney > ac.getCapital_ggys()-ac.getCapital_ggys_surplus()){
+						if(Double.doubleToLongBits(ggmoney) > Double.doubleToLongBits(DoubleUtils.sub(ac.getCapital_ggys(),ac.getCapital_ggys_surplus()))){
 							throw new IllegalArgumentException("超过建设资金预留-公共预算,无法提交！");
 						}
-						if(gtmoney > ac.getCapital_gtzj()-ac.getCapital_gtzj_surplus()){
+						if(Double.doubleToLongBits(gtmoney) > Double.doubleToLongBits(DoubleUtils.sub(ac.getCapital_gtzj(),ac.getCapital_gtzj_surplus()))){
 							throw new IllegalArgumentException("超过建设资金预留-国土资金，无法提交！");
 						}
 					}
@@ -674,7 +716,7 @@ public class PlanReachApplicationServiceImpl
 				packPlanRepo.save(pack);
 			}
 		}
-	    if(ggmoney+gtmoney+entity.getApInvestSum() > entity.getProjectInvestSum()){
+	    if(Double.doubleToLongBits(ggmoney+gtmoney+entity.getApInvestSum()) > Double.doubleToLongBits(entity.getProjectInvestSum())){
        	 throw new IllegalArgumentException("超过总投资:"+entity.getProjectInvestSum()+",请重新填写！");
        }
 		entity.setSqPlanReach_ggys(ggmoney);
@@ -919,8 +961,8 @@ public class PlanReachApplicationServiceImpl
 				.append(",'' as projectGuiMo")
 				.append(",sum(c.projectInvestSum) as projectInvestSum")
 				.append(",sum(c.apInvestSum) as apInvestSum")
-				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
-				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
+				.append(",sum(c.sqPlanReach_ggys) as sqPlanReach_ggys")
+				.append(",sum(c.sqPlanReach_gtzj) as sqPlanReach_gtzj")
 				.append(",'' as yearPlanRemark")
 				.append(",'' as planReachConstructionContent")
 				.append(" from cs_shenbaoinfo c")
@@ -940,8 +982,8 @@ public class PlanReachApplicationServiceImpl
 				.append(",'' as projectGuiMo")
 				.append(",sum(c.projectInvestSum) as projectInvestSum")
 				.append(",sum(c.apInvestSum) as apInvestSum")
-				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
-				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
+				.append(",sum(c.sqPlanReach_ggys) as sqPlanReach_ggys")
+				.append(",sum(c.sqPlanReach_gtzj) as sqPlanReach_gtzj")
 				.append(",'' as yearPlanRemark")
 				.append(",'' as planReachConstructionContent")
 				.append(" from cs_shenbaoinfo c")
@@ -963,8 +1005,8 @@ public class PlanReachApplicationServiceImpl
 				.append(",c.projectGuiMo")
 				.append(",c.projectInvestSum")
 				.append(",c.apInvestSum")
-				.append(",c.apPlanReach_ggys")
-				.append(",c.apPlanReach_gtzj")
+				.append(",c.sqPlanReach_ggys")
+				.append(",c.sqPlanReach_gtzj")
 				.append(",c.yearPlanRemark")
 				.append(",c.planReachConstructionContent")
 				.append(" from cs_shenbaoinfo c")
@@ -988,8 +1030,8 @@ public class PlanReachApplicationServiceImpl
 		query.addScalar("projectGuiMo", new StringType());
 		query.addScalar("projectInvestSum", new DoubleType());
 		query.addScalar("apInvestSum", new DoubleType());
-		query.addScalar("apPlanReach_ggys", new DoubleType());
-		query.addScalar("apPlanReach_gtzj", new DoubleType());
+		query.addScalar("sqPlanReach_ggys", new DoubleType());
+		query.addScalar("sqPlanReach_gtzj", new DoubleType());
 		query.addScalar("planReachConstructionContent", new StringType());
 		query.addScalar("yearPlanRemark", new StringType());
 

@@ -65,7 +65,12 @@
                 var httpSuccess = function success(response) {
                     $('#editShenBaoInfo').modal('hide')
                     bsWin.success("操作成功");
-
+                    if(vm.shenBaoInfo_gridOptions_plan != undefined){
+                        vm.shenBaoInfo_gridOptions_plan.dataSource.read();
+                    };
+                    if(vm.shenBaoInfo_gridOptions != undefined){
+                        vm.shenBaoInfo_gridOptions.dataSource.read();
+                    };
                 };
 
                 common.http({
@@ -1388,6 +1393,18 @@
                     }
                 },
                 {
+                    field: "planReachConstructionContent",
+                    title: "主要内容",
+                    width: 150,
+                    filterable: false
+                },
+                {
+                    field: "yearPlanRemark",
+                    title: "备注",
+                    width: 150,
+                    filterable: false
+                },
+                {
                     field: "",
                     title: "操作",
                     width: 150,
@@ -1736,6 +1753,18 @@
                     template: function (item) {
                         return common.format("<span class='text-danger'>{0}</span>", common.getProcessStateDesc(item.processState));
                     }
+                },
+                {
+                    field: "planReachConstructionContent",
+                    title: "主要内容",
+                    width: 150,
+                    filterable: false
+                },
+                {
+                    field: "yearPlanRemark",
+                    title: "备注",
+                    width: 150,
+                    filterable: false
                 },
                 {
                     field: "",

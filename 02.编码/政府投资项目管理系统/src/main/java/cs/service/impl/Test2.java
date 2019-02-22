@@ -10,8 +10,14 @@ import java.util.*;
 public class Test2 {
 
     public static void main(String[] args){
-        String s=new String();
-        System.out.println(s);
+        double a = 0.0;
+        double b =0.0;
+
+        Double.doubleToLongBits(a);
+        Double.doubleToLongBits(b);
+        System.out.println(a <= b);
+
+        System.out.println(Double.doubleToLongBits(a) > Double.doubleToLongBits(b));
     }
 
 }

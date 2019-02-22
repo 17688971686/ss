@@ -48,7 +48,10 @@ public class PlanReachApplication extends BaseEntity{
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(columnDefinition="datetime COMMENT '申请时间'")
 	private Date applicationTime;
-	
+
+	//关联附件
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Attachment> attachments = new ArrayList<>();
 	//关联信息
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<ShenBaoInfo> shenBaoInfos=new ArrayList<>();
@@ -140,5 +143,12 @@ public class PlanReachApplication extends BaseEntity{
 	public void setYear(Integer year) {
 		this.year = year;
 	}
-	
+
+	public List<Attachment> getAttachments() {
+		return attachments;
+	}
+
+	public void setAttachments(List<Attachment> attachments) {
+		this.attachments = attachments;
+	}
 }
