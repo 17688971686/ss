@@ -165,8 +165,8 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 				.append(",'' as projectGuiMo")
 				.append(",sum(c.projectInvestSum) as projectInvestSum")
 				.append(",sum(c.apInvestSum) as apInvestSum")
-				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
-				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
+				.append(",sum(c.shPlanReach_ggys) as shPlanReach_ggys")
+				.append(",sum(c.shPlanReach_gtzj) as shPlanReach_gtzj")
 				.append(",'' as yearPlanRemark")
 				.append(",'' as planReachConstructionContent")
 				.append(",'' as plan_wenhao")
@@ -190,8 +190,8 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 				.append(",'' as projectGuiMo")
 				.append(",sum(c.projectInvestSum) as projectInvestSum")
 				.append(",sum(c.apInvestSum) as apInvestSum")
-				.append(",sum(c.apPlanReach_ggys) as apPlanReach_ggys")
-				.append(",sum(c.apPlanReach_gtzj) as apPlanReach_gtzj")
+				.append(",sum(c.shPlanReach_ggys) as apPlanReach_ggys")
+				.append(",sum(c.shPlanReach_gtzj) as shPlanReach_gtzj")
 				.append(",'' as yearPlanRemark")
 				.append(",'' as planReachConstructionContent")
 				.append(",'' as plan_wenhao")
@@ -217,8 +217,8 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 				.append(",c.projectGuiMo")
 				.append(",c.projectInvestSum")
 				.append(",c.apInvestSum")
-				.append(",c.apPlanReach_ggys")
-				.append(",c.apPlanReach_gtzj")
+				.append(",c.shPlanReach_ggys")
+				.append(",c.shPlanReach_gtzj")
 				.append(",c.yearPlanRemark")
 				.append(",c.planReachConstructionContent")
 				.append(",c.plan_wenhao")
@@ -245,8 +245,8 @@ public class PlanReachApprovalServiceImpl extends AbstractServiceImpl<PlanReachA
 		query.addScalar("projectGuiMo", new StringType());
 		query.addScalar("projectInvestSum", new DoubleType());
 		query.addScalar("apInvestSum", new DoubleType());
-		query.addScalar("apPlanReach_ggys", new DoubleType());
-		query.addScalar("apPlanReach_gtzj", new DoubleType());
+		query.addScalar("shPlanReach_ggys", new DoubleType());
+		query.addScalar("shPlanReach_gtzj", new DoubleType());
 		query.addScalar("planReachConstructionContent", new StringType());
 		query.addScalar("yearPlanRemark", new StringType());
 		query.addScalar("plan_wenhao", new StringType());

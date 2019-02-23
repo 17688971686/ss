@@ -145,6 +145,8 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfoDto.setApPlanReach_gtzj(entity.getApPlanReach_gtzj());
 			shenBaoInfoDto.setXdPlanReach_ggys(entity.getXdPlanReach_ggys());
 			shenBaoInfoDto.setXdPlanReach_gtzj(entity.getXdPlanReach_gtzj());
+			shenBaoInfoDto.setShPlanReach_ggys(entity.getShPlanReach_ggys());
+			shenBaoInfoDto.setShPlanReach_gtzj(entity.getShPlanReach_gtzj());
 			shenBaoInfoDto.setPackPlanId(entity.getPackPlanId());
 			shenBaoInfoDto.setPlanReachId(entity.getPlanReachId());
 			shenBaoInfoDto.setPlanName(entity.getPlanName());
@@ -346,6 +348,8 @@ public class ShenBaoInfoMapper implements IMapper<ShenBaoInfoDto, ShenBaoInfo> {
 			shenBaoInfo.setApPlanReach_gtzj(shenBaoInfoDto.getApPlanReach_gtzj());
 			shenBaoInfo.setXdPlanReach_ggys(shenBaoInfoDto.getXdPlanReach_ggys());
 			shenBaoInfo.setXdPlanReach_gtzj(shenBaoInfoDto.getXdPlanReach_gtzj());
+			shenBaoInfo.setShPlanReach_ggys(shenBaoInfoDto.getShPlanReach_ggys());
+			shenBaoInfo.setShPlanReach_gtzj(shenBaoInfoDto.getShPlanReach_gtzj());
 			shenBaoInfo.setPackPlanId(shenBaoInfoDto.getPackPlanId());
 			shenBaoInfo.setPlanReachId(shenBaoInfoDto.getPlanReachId());
 			shenBaoInfo.setPlanName(shenBaoInfoDto.getPlanName());

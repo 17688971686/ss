@@ -204,6 +204,25 @@
                 </td>
             </tr>
             <tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask5'">
+                <td>计划审核</td>
+                <td colspan="3">
+                    <table class="table table-bordered table-striped ">
+                        <tr>
+                            <td style="text-align: center;">公共预算&nbsp;(万元)</td>
+                            <td style="text-align: center;">国土资金&nbsp;(万元)</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span ng-bind="vm.model.shenBaoInfo.shPlanReach_ggys"></span>
+                            </td>
+                            <td>
+                                <span ng-bind="vm.model.shenBaoInfo.shPlanReach_gtzj"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask5'">
                 <td class="formAlignRight">计划下达-公共预算：</td>
                 <td>
                     <input type="number" min="0" step="any"
@@ -222,6 +241,25 @@
                     <span data-valmsg-for="xdPlanReach_gtzj" data-valmsg-replace="true" class="required"></span>
                 </td>
             </tr>
+            <tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask4'">
+                <td class="formAlignRight">计划审核-公共预算：</td>
+                <td>
+                    <input type="number" min="0" step="any"
+                           style="width: 130px;" class="form-control input-sm" id="shPlanReach_ggys"
+                           name="shPlanReach_ggys" ng-model="vm.model.shenBaoInfo.shPlanReach_ggys" data-val="true"
+                           data-val-required="必填"/>&nbsp;(万元)
+                    <span data-valmsg-for="shPlanReach_ggys" data-valmsg-replace="true" class="required"></span>
+                </td>
+
+                <td class="formAlignRight">计划审核-国土资金：</td>
+                <td>
+                    <input type="number" min="0" step="any"
+                           style="width: 130px;" class="form-control input-sm" id="shPlanReach_gtzj"
+                           name="shPlanReach_gtzj" ng-model="vm.model.shenBaoInfo.shPlanReach_gtzj" data-val="true"
+                           data-val-required="必填"/>&nbsp;(万元)
+                    <span data-valmsg-for="shPlanReach_gtzj" data-valmsg-replace="true" class="required"></span>
+                </td>
+            </tr>
             <tr ng-if="vm.model.shenBaoInfo.thisTaskName == 'usertask5'">
                 <td class="formAlignRight">计划文号：</td>
                 <td colspan="3">
@@ -229,6 +267,28 @@
                            id="plan_wenhao" name="plan_wenhao" ng-model="vm.model.shenBaoInfo.plan_wenhao"/>
                 </td>
             </tr>
+                <tr>
+                    <td class="text-center" style="width:100px;"> 备注 </td>
+                    <td colspan="3">
+                        <textarea class="form-control input-sm" style="width:99%;"
+                                  ng-model="vm.model.shenBaoInfo.yearPlanRemark" placeholder="注：200字符以内" maxlength="200"
+                                  ng-change="vm.checkLength(vm.model.shenBaoInfo.yearPlanRemark,200,'yearPlanRemark')"></textarea>
+                        <div class="tipfont">您还可以输入<span id="yearPlanRemark"><font
+                                size="5">200</font></span>个字符!
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center" style="width:100px;"> 主要内容 </td>
+                    <td colspan="3">
+                        <textarea class="form-control input-sm" style="width:99%;"
+                                  ng-model="vm.model.shenBaoInfo.planReachConstructionContent" placeholder="注：200字符以内" maxlength="200"
+                                  ng-change="vm.checkLength(vm.model.shenBaoInfo.planReachConstructionContent,200,'planReachConstructionContent')"></textarea>
+                        <div class="tipfont">您还可以输入<span id="planReachConstructionContent"><font
+                                size="5">200</font></span>个字符!
+                        </div>
+                    </td>
+                </tr>
             <tr>
                 <td class="formAlignRight">项目简介：</td>
                 <td colspan="3"><span

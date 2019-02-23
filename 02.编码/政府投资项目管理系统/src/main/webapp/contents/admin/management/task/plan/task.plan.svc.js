@@ -25,6 +25,7 @@
         var url_packPlan = '/management/packPlan';
         var url_planReach = "/shenbaoAdmin/planReach";
         var url_application = "management/yearPlanCapital";
+        var url_userUnit　= "/shenbaoAdmin/userUnitInfo";
 
         var service = {
             grid: grid,//待办任务列表
@@ -543,7 +544,7 @@
                             getAssigneeByUserId(vm, vm.model.shenBaoInfo.zong_processId);//查询登录人员是否是指定办理人员
                         }
                         getUnfinished(vm, vm.model.shenBaoInfo.zong_processId);
-
+                        getProjectUnit(vm,vm.model.shenBaoInfo.unitName);
                     }
                 });
             };
@@ -555,6 +556,25 @@
                 success: httpSuccess
             });
         }//end fun getShenBaoInfoById
+
+        function getProjectUnit(vm,id){
+            var httpOptions = {
+                method : 'get',
+                url : common.format(url_userUnit + "/id?$filter=id eq '{0}'",id)
+            };
+
+            var httpSuccess = function success(response) {
+                var userUnit = response.data.value[0] || {};
+                vm.model.shenBaoInfo.shenBaoUnitInfoDto = userUnit;//初始化申报单位
+            };
+
+            common.http({
+                vm : vm,
+                $http : $http,
+                httpOptions : httpOptions,
+                success : httpSuccess
+            });
+        }
 
         function getPackPlanInfo(vm) {
             $http.get(common.format(url_packPlan + "?$filter=id eq '{0}'", vm.model.shenBaoInfo.packPlanId)).success(function (data) {

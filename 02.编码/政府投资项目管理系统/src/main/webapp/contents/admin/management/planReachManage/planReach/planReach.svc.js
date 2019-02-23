@@ -63,14 +63,14 @@
 	    						projectConstrChar:dataList[4],beginDate:dataList[5],endDate:dataList[6],projectInvestSum:dataList[7],projectInvestAccuSum:dataList[8],
 	    						planYear:dataList[9],capitalAP_ggys_TheYear:dataList[10],capitalAP_gtzj_TheYear:dataList[11],sqPlanReach_ggys:dataList[12],sqPlanReach_gtzj:dataList[13],
 	    						apPlanReach_ggys:dataList[14],apPlanReach_gtzj:dataList[15],xdPlanReach_ggys:dataList[16],xdPlanReach_gtzj:dataList[17],thisTaskName:dataList[18],
-	    						processState:dataList[19],apInvestSum:dataList[20],yearConstructionContent:dataList[21],remark:dataList[22]});
+	    						processState:dataList[19],apInvestSum:dataList[20],planReachConstructionContent:dataList[21],yearPlanRemark:dataList[22]});
 	        				
 	    			}else{//如果没有申报集合
 	    				vm.model.shenBaoInfoDtos=[{id:dataList[0],projectName:dataList[1],constructionUnit:dataList[2],projectGuiMo:dataList[3],
 							projectConstrChar:dataList[4],beginDate:dataList[5],endDate:dataList[6],projectInvestSum:dataList[7],projectInvestAccuSum:dataList[8],
 							planYear:dataList[9],capitalAP_ggys_TheYear:dataList[10],capitalAP_gtzj_TheYear:dataList[11],sqPlanReach_ggys:dataList[12],sqPlanReach_gtzj:dataList[13],
 							apPlanReach_ggys:dataList[14],apPlanReach_gtzj:dataList[15],xdPlanReach_ggys:dataList[16],xdPlanReach_gtzj:dataList[17],thisTaskName:dataList[18],
-							processState:dataList[19],apInvestSum:dataList[20],yearConstructionContent:dataList[21],remark:dataList[22]}];
+							processState:dataList[19],apInvestSum:dataList[20],planReachConstructionContent:dataList[21],yearPlanRemark:dataList[22]}];
 	    			}
 					common.alert({
 						vm : vm,
@@ -409,7 +409,7 @@
 											item.beginDate+","+item.endDate+","+item.projectInvestSum+","+item.projectInvestAccuSum+","+item.planYear+","+
 											item.capitalAP_ggys_TheYear+","+item.capitalAP_gtzj_TheYear+","+item.sqPlanReach_ggys+","+item.sqPlanReach_gtzj+","+
 											item.apPlanReach_ggys+","+item.apPlanReach_gtzj+","+item.xdPlanReach_ggys+","+item.xdPlanReach_gtzj+","+item.thisTaskName+","+item.processState
-											+","+item.apInvestSum+","+item.yearConstructionContent+","+item.remark);
+											+","+item.apInvestSum+","+item.planReachConstructionContent+","+item.yearPlanRemark);
 					},
 					filterable : false,
 					width : 40,
@@ -561,36 +561,35 @@
 					       style: "text-align: center;vertical-align: middle;"
 					    }
 				},
-				
-				{
-					title: "计划下达资金(万元)",
-					columns: [
-						{
-							field : "xdPlanReach_ggys",
-							title : "公共预算",
-							width:80,
-							filterable : false,
-							headerAttributes: {
-						      "class": "table-header-cell",
-						       style: "text-align: center;vertical-align: middle;"
-						    }
-						},
-						{
-							field : "xdPlanReach_gtzj",
-							title : "国土基金",
-							width:80,
-							filterable : false,
-							headerAttributes: {
-						      "class": "table-header-cell",
-						       style: "text-align: center;vertical-align: middle;"
-						    }
-						}
-					],
-					headerAttributes: {
-					      "class": "table-header-cell",
-					       style: "text-align: center;vertical-align: middle;"
-					    }
-				}
+                {
+                    title: "计划审核资金(万元)",
+                    columns: [
+                        {
+                            field : "shPlanReach_ggys",
+                            title : "公共预算",
+                            width:80,
+                            filterable : false,
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center;vertical-align: middle;"
+                            }
+                        },
+                        {
+                            field : "shPlanReach_gtzj",
+                            title : "国土基金",
+                            width:80,
+                            filterable : false,
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center;vertical-align: middle;"
+                            }
+                        }
+                    ],
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;"
+                    }
+                }
 			];
 			vm.gridOptions_planReachData = {
 				dataSource : common.gridDataSource(dataSource),
@@ -917,6 +916,35 @@
 					       style: "text-align: center;vertical-align: middle;"
 					    }
 				},
+                {
+                    title: "计划审核资金(万元)",
+                    columns: [
+                        {
+                            field : "shPlanReach_ggys",
+                            title : "公共预算",
+                            width:80,
+                            filterable : false,
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center;vertical-align: middle;"
+                            }
+                        },
+                        {
+                            field : "shPlanReach_gtzj",
+                            title : "国土基金",
+                            width:80,
+                            filterable : false,
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center;vertical-align: middle;"
+                            }
+                        }
+                    ],
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;"
+                    }
+                },
 				{
 					title: "年度计划安排(万元)",
 					columns: [
@@ -1225,6 +1253,35 @@
 					       style: "text-align: center;vertical-align: middle;"
 					    }
 				},
+                {
+                    title: "计划审核资金(万元)",
+                    columns: [
+                        {
+                            field : "shPlanReach_ggys",
+                            title : "公共预算",
+                            width:80,
+                            filterable : false,
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center;vertical-align: middle;"
+                            }
+                        },
+                        {
+                            field : "shPlanReach_gtzj",
+                            title : "国土基金",
+                            width:80,
+                            filterable : false,
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center;vertical-align: middle;"
+                            }
+                        }
+                    ],
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;"
+                    }
+                },
 				{
 					title: "年度安排资金(万元)",
 					columns: [
@@ -1289,6 +1346,35 @@
 					       style: "text-align: center;vertical-align: middle;"
 					    }
 				},
+                {
+                    title: "计划审核资金(万元)",
+                    columns: [
+                        {
+                            field : "shPlanReach_ggys",
+                            title : "公共预算",
+                            width:80,
+                            filterable : false,
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center;vertical-align: middle;"
+                            }
+                        },
+                        {
+                            field : "shPlanReach_gtzj",
+                            title : "国土基金",
+                            width:80,
+                            filterable : false,
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center;vertical-align: middle;"
+                            }
+                        }
+                    ],
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;"
+                    }
+                },
 				{
 					title: "计划下达安排(万元)",
 					columns: [
@@ -1554,7 +1640,7 @@
                     }
                 },
 				{
-					title: "累计安排资金(万元)",
+					title: "安排资金(万元)",
 					columns: [
 						{
 							field : "apPlanReach_ggys",
@@ -1611,7 +1697,35 @@
 					       style: "text-align: center;vertical-align: middle;"
 					    }
 				},
-				
+                {
+                    title: "计划审核资金(万元)",
+                    columns: [
+                        {
+                            field : "shPlanReach_ggys",
+                            title : "公共预算",
+                            width:80,
+                            filterable : false,
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center;vertical-align: middle;"
+                            }
+                        },
+                        {
+                            field : "shPlanReach_gtzj",
+                            title : "国土基金",
+                            width:80,
+                            filterable : false,
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center;vertical-align: middle;"
+                            }
+                        }
+                    ],
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;"
+                    }
+                },
 					{
 						title: "计划下达资金(万元)",
 						columns: [

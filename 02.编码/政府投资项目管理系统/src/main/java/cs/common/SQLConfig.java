@@ -49,7 +49,7 @@ public class SQLConfig {
                 "t1.thisTaskName,t1.zong_processId,t1.isIncludPack,t1.pifuZJSQBG_date,t1.pifuZJSQBG_wenhao," +
                 "t1.monitor_processId,t1.isSubShenBaoAtt,t1.isLeaderHasRead,t1.thisUser,t1.monitor_status,t1.xdPlanReach_gtzj,"
                 + "t1.pxzxBalanceTime,t1.tzkBalanceTime,t1.urgencyState,t1.xdPlanReach_ggys,t1.countryNumber,t1.pifuSCQQJFXD_wenhao,t1.isRecords,t1.pfProjectInvestSum,"+
-                "t1.pifuSCQQJFXD_date,t1.packPlanId,t1.planReachId,t1.planName,t1.isFaWen,t1.applyAPYearInvest,t1.plan_wenhao,t1.yearPlanRemark,t1.planReachConstructionContent"
+                "t1.pifuSCQQJFXD_date,t1.packPlanId,t1.planReachId,t1.planName,t1.isFaWen,t1.applyAPYearInvest,t1.plan_wenhao,t1.yearPlanRemark,t1.planReachConstructionContent,t1.shPlanReach_ggys,t1.shPlanReach_gtzj"
                 + getYearPlanProjectForPageBase(exclude) + " order by t1.ProjectIndustry desc";
     }
     protected static String getYearPlanProjectForPageBase(boolean exclude) {
@@ -92,7 +92,7 @@ public class SQLConfig {
                 "t1.thisTaskName,t1.zong_processId,t1.isIncludPack,t1.pifuZJSQBG_date,t1.pifuZJSQBG_wenhao," +
                 "t1.monitor_processId,t1.isSubShenBaoAtt,t1.isLeaderHasRead,t1.thisUser,t1.monitor_status,t1.xdPlanReach_gtzj,"
                 + "t1.pxzxBalanceTime,t1.tzkBalanceTime,t1.urgencyState,t1.xdPlanReach_ggys,t1.countryNumber,t1.pifuSCQQJFXD_wenhao,t1.isRecords,t1.pfProjectInvestSum,"+
-                "t1.pifuSCQQJFXD_date,t1.packPlanId,t1.planReachId,t1.planName,t1.isFaWen,t1.applyAPYearInvest,t1.plan_wenhao,t1.yearPlanRemark,t1.planReachConstructionContent"
+                "t1.pifuSCQQJFXD_date,t1.packPlanId,t1.planReachId,t1.planName,t1.isFaWen,t1.applyAPYearInvest,t1.plan_wenhao,t1.yearPlanRemark,t1.planReachConstructionContent,t1.shPlanReach_ggys,t1.shPlanReach_gtzj"
                 + yearPlanProjectBase(exclude) + " order by t1.ProjectIndustry desc";
     }
     public static String getYearPlanProjectCount(boolean exclude) {
@@ -377,7 +377,7 @@ public class SQLConfig {
             + " t1.bianZhiUnitInfo_id,t1.shenBaoUnitInfo_id,t1.packageType,t1.receiver,t1.capitalOtherDescriptionShenBao_LastYear,t1.capitalOtherDescriptionShenBao_LastTwoYear,t1.isApplyOutsideCapital,t1.applyOutsideCapital,t1.isIncludYearPlan,"
             + " t1.sqPlanReach_ggys,t1.sqPlanReach_gtzj,t1.isPlanReach,t1.apPlanReach_ggys,t1.apPlanReach_gtzj,t1.shenbaoDate,t1.qianshouDate,t1.pifuDate,t1.nationalIndustry,t1.complate,t1.thisTaskId,t1.thisTaskName,t1.zong_processId,t1.yearPlanCapitalId,"
             + "t1.isIncludPack,t1.pifuZJSQBG_date,t1.pifuZJSQBG_wenhao,t1.monitor_processId,t1.isSubShenBaoAtt,t1.isLeaderHasRead,t1.thisUser,t1.monitor_status,t1.xdPlanReach_gtzj,t1.pxzxBalanceTime,t1.tzkBalanceTime,t1.urgencyState,t1.pfProjectInvestSum,"
-            + "t1.countryNumber,t1.xdPlanReach_ggys,t1.pifuSCQQJFXD_wenhao,t1.isRecords,t1.pifuSCQQJFXD_date,t1.packPlanId,t1.planReachId,t1.planName,t1.isFaWen,t1.applyAPYearInvest,t1.plan_wenhao,t1.yearPlanRemark,t1.planReachConstructionContent"
+            + "t1.countryNumber,t1.xdPlanReach_ggys,t1.pifuSCQQJFXD_wenhao,t1.isRecords,t1.pifuSCQQJFXD_date,t1.packPlanId,t1.planReachId,t1.planName,t1.isFaWen,t1.applyAPYearInvest,t1.plan_wenhao,t1.yearPlanRemark,t1.planReachConstructionContent,t1.shPlanReach_ggys,t1.shPlanReach_gtzj"
 //	 		+ " p.id,p.createdBy,p.createdDate,p.itemOrder,p.modifiedBy,p.modifiedDate,"
 //	 		+ " p.applicationName,p.applicationTime,p.applicationUnit,p.resPerson,p.resPersonTel"
             + shenBaoInfoOfPlanReachApplication_base;
@@ -421,7 +421,7 @@ public class SQLConfig {
             + " t1.bianZhiUnitInfo_id,t1.shenBaoUnitInfo_id,t1.packageType,t1.receiver,t1.capitalOtherDescriptionShenBao_LastYear,t1.capitalOtherDescriptionShenBao_LastTwoYear,t1.isApplyOutsideCapital,t1.applyOutsideCapital,t1.isIncludYearPlan,"
             + " t1.sqPlanReach_ggys,t1.sqPlanReach_gtzj,t1.isPlanReach,t1.apPlanReach_ggys,t1.apPlanReach_gtzj,t1.isIncludPack,t1.shenbaoDate,t1.qianshouDate,t1.nationalIndustry,t1.yearPlanCapitalId,t1.pifuDate,t1.complate,t1.thisTaskId,"
             + "t1.thisTaskName,t1.zong_processId,t1.pifuZJSQBG_date,t1.pifuZJSQBG_wenhao,t1.monitor_processId,t1.isSubShenBaoAtt,t1.isLeaderHasRead,t1.thisUser,t1.monitor_status,t1.xdPlanReach_gtzj,t1.pxzxBalanceTime,t1.tzkBalanceTime,t1.urgencyState,t1.countryNumber,t1.isRecords,"
-            + "t1.pfProjectInvestSum,t1.xdPlanReach_ggys,t1.pifuSCQQJFXD_wenhao,t1.pifuSCQQJFXD_date,t1.packPlanId,t1.planReachId,t1.planName,t1.isFaWen,t1.applyAPYearInvest,t1.plan_wenhao,t1.yearPlanRemark,t1.planReachConstructionContent"
+            + "t1.pfProjectInvestSum,t1.xdPlanReach_ggys,t1.pifuSCQQJFXD_wenhao,t1.pifuSCQQJFXD_date,t1.packPlanId,t1.planReachId,t1.planName,t1.isFaWen,t1.applyAPYearInvest,t1.plan_wenhao,t1.yearPlanRemark,t1.planReachConstructionContent,t1.shPlanReach_ggys,t1.shPlanReach_gtzj"
 //	 		+ " p.id,p.createdBy,p.createdDate,p.itemOrder,p.modifiedBy,p.modifiedDate,"
 //	 		+ " p.applicationName,p.applicationTime,p.applicationUnit,p.resPerson,p.resPersonTel"
             + shenBaoInfoOfPackPlanOfPlanReach_base;

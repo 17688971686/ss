@@ -62,6 +62,7 @@ import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObj;
 import cs.repository.odata.ODataObjNew;
 import jxl.write.Blank;
+import org.springframework.util.StringUtils;
 
 @Service
 public class PlanReachApplicationServiceImpl
@@ -154,7 +155,8 @@ public class PlanReachApplicationServiceImpl
 			for(int i=0;i<dto.getPlanPackDtos().size();i++ ){
 				//打包里面的申报信息是本单位的
 				for(int b=0;b<dto.getPlanPackDtos().get(i).getShenBaoInfoDtos().size();b++){
-					if(dto.getPlanPackDtos().get(i).getShenBaoInfoDtos().get(b).getUnitName().equals(userUnitInfoDto.getId())
+					if(!StringUtils.isEmpty(dto.getPlanPackDtos().get(i).getShenBaoInfoDtos().get(b).getPlanReachId())
+							&&dto.getPlanPackDtos().get(i).getShenBaoInfoDtos().get(b).getUnitName().equals(userUnitInfoDto.getId())
 							&& dto.getPlanPackDtos().get(i).getShenBaoInfoDtos().get(b).getPlanReachId().equals(entity.getId())){
 						shenBaoList.add(dto.getPlanPackDtos().get(i).getShenBaoInfoDtos().get(b));
 
@@ -467,7 +469,8 @@ public class PlanReachApplicationServiceImpl
 		if(entitys.size()>0){
 			boolean isOk = false;
 			loop:for (int i=0;i<entitys.size();i++){
-				if(entitys.get(i).getItemOrder()==entitys.size()){
+
+				if(!StringUtils.isEmpty(entitys.get(i).getItemOrder())&&entitys.get(i).getItemOrder()==entitys.size()){
 					shenbaoinfo = entitys.get(i);
 					isOk = true;
 					break loop;
@@ -674,12 +677,19 @@ public class PlanReachApplicationServiceImpl
 			// 分页查询数据
 			List<PackPlanDto> packPlanDtos = new ArrayList<>();
 			if (count > 0) {
+				UserUnitInfoDto userUnitInfoDto = userUnitInfoService.getByUserId(currentUser.getUserId());
 				List<PackPlan> packPlans = planReachApplicationRepo.getSession()
 						.createNativeQuery(SQLConfig.packPlanByPlanReachId, PackPlan.class)
 						.setParameter("planReachId", planReachId).setFirstResult(skip).setMaxResults(stop)
 						.getResultList();
 				packPlans.forEach(x -> {
 					PackPlanDto packPlanDto = packPlanMapper.toDto(x);
+					packPlanDto.getAllocationCapitals().forEach(y->{
+						if(y.getUnitName().equals(userUnitInfoDto.getId())){
+							packPlanDto.setCapitalSCZ_ggys_TheYear(y.getCapital_ggys());
+							packPlanDto.setCapitalSCZ_gtzj_TheYear(y.getCapital_gtzj());
+						}
+					});
 					packPlanDtos.add(packPlanDto);
 				});
 

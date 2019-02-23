@@ -185,15 +185,6 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
             if (count > 0) {
                 int skip = odataObj.getSkip(), stop = odataObj.getTop();
                 if(odataObj.getFilterList().size()>0){
-//                    String unitName=null;
-//                    String projectName=null;
-//                    for(int i=0;i<odataObj.getFilterList().size();i++){
-//                        if(odataObj.getFilterList().get(i).getFiledName().equals("unitName")){
-//                            unitName = odataObj.getFilterList().get(i).getValue().toString();
-//                        }if(odataObj.getFilterList().get(i).getFiledName().equals("projectName")){
-//                            projectName = odataObj.getFilterList().get(i).getValue().toString();
-//                        }
-//                    }
                 	 //分页查询数据
                     List<ShenBaoInfo> shenBaoInfos = shenbaoInfoRepo.getSession()
                             .createNativeQuery(SQLConfig.getYearPlanProjectForPage(exclude), ShenBaoInfo.class)

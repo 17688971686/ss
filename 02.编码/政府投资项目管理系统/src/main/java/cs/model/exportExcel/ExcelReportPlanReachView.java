@@ -56,7 +56,7 @@ public class ExcelReportPlanReachView extends AbstractXlsView {
         // 创建单元格并设置样式
         createCell(workbook,row_2, 10,"单位：万元",HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,(short)14,"",null,false);
 
-        String[] tData1 = {"序号","项目单位","项目名称","项目类别","建设规模","总投资","累计安排","本计划安排投资","","主要内容","备注","计划文号","资金出处"};
+        String[] tData1 = {"序号","项目单位","项目名称","项目类别","建设规模","总投资","累计安排","计划审核资金","","主要内容","备注","计划文号","资金出处"};
         String[] tData2 = {"","","","","","","","国土","公共预算","",""};
 
         // 在sheet里创建第四行
@@ -412,8 +412,8 @@ public class ExcelReportPlanReachView extends AbstractXlsView {
             createCell(dto.getProjectGuiMo(),4,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
             createCell(dto.getProjectInvestSum(),5,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
             createCell(dto.getApInvestSum(),6,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
-            createCell(dto.getApPlanReach_ggys(),7,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
-            createCell(dto.getApPlanReach_gtzj(),8,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
+            createCell(dto.getShPlanReach_ggys(),7,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
+            createCell(dto.getShPlanReach_gtzj(),8,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
             createCell(dto.getPlanReachConstructionContent(),9,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
             createCell(dto.getYearPlanRemark(),10,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);
             createCell(dto.getPlan_wenhao(),11,row,wb,ha,va,fontHeight,fontName,fontCs,isBorder);

@@ -1,16 +1,6 @@
 <div class="well well-lg">
 	<table class="table table-bordered table-striped">
 		<tr>
-			<td class="formAlignRight" style="width:150px;">建设性质：<span class="required">(*)</span></td>
-			<td>
-				<select style="height:30px;" id="projectConstrChar_2" name="projectConstrChar_2" ng-model="vm.model.shenBaoInfo.projectConstrChar"
-						ng-selected="vm.model.shenBaoInfo.projectConstrChar==x.id" data-val="true" data-val-required="必选" required>
-					<option value="">---请选择---</option>
-					<option ng-repeat="x in vm.basicData.projectConstrChar" value="{{x.id}}" ng-selected="vm.model.shenBaoInfo.projectConstrChar==x.id">{{x.description}}</option>
-				</select>
-				<!--	<span data-valmsg-for="projectConstrChar" data-valmsg-replace="true" class="required"></span>-->
-				<span class="required" ng-show="formReply.projectConstrChar_2.$dirty && formReply.projectConstrChar_2.$invalid">必选</span>
-			</td>
 			<td style="width:50%;">
 				<table class="table table-bordered table-striped" style="margin-bottom: 0;text-align: center;">
 					<tr>

@@ -44,6 +44,10 @@ public class ExcelReportPlanReachDto implements Serializable {
 	private Double sqPlanReach_ggys;
 	//申请-公共预算
 	private  Double sqPlanReach_gtzj;
+	//审核-国土
+	private Double shPlanReach_ggys;
+	//审核-公共预算
+	private  Double shPlanReach_gtzj;
 	//建设内容
 	private  String planReachConstructionContent;
 	//备注
@@ -233,5 +237,21 @@ public class ExcelReportPlanReachDto implements Serializable {
 
 	public void setSqPlanReach_gtzj(Double sqPlanReach_gtzj) {
 		this.sqPlanReach_gtzj = sqPlanReach_gtzj;
+	}
+
+	public Double getShPlanReach_ggys() {
+		return shPlanReach_ggys;
+	}
+
+	public void setShPlanReach_ggys(Double shPlanReach_ggys) {
+		this.shPlanReach_ggys = shPlanReach_ggys;
+	}
+
+	public Double getShPlanReach_gtzj() {
+		return shPlanReach_gtzj;
+	}
+
+	public void setShPlanReach_gtzj(Double shPlanReach_gtzj) {
+		this.shPlanReach_gtzj = shPlanReach_gtzj;
 	}
 }

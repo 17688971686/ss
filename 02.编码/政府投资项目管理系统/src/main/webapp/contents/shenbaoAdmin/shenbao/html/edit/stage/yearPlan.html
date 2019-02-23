@@ -4,9 +4,9 @@
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目建设性质：<span class="required">(*)</span></td>
 		<td>
-			<select style="height:30px;" id="projectConstrChar" name="projectConstrChar" ng-model="vm.model.yearPlanYearContentDto.projectConstrChar" data-val="true" data-val-required="必选">
+			<select style="height:30px;" id="projectConstrChar" name="projectConstrChar" ng-model="vm.model.projectConstrChar" data-val="true" data-val-required="必选">
 				<option value="">---请选择---</option>
-				<option ng-repeat="x in vm.basicData.projectConstrChar" value="{{x.id}}" ng-selected="vm.model.yearPlanYearContentDto.projectConstrChar==x.id">{{x.description}}</option>
+				<option ng-repeat="x in vm.basicData.projectConstrChar" value="{{x.id}}" ng-selected="vm.model.projectConstrChar==x.id">{{x.description}}</option>
 			</select>
 			<span data-valmsg-for="projectConstrChar" data-valmsg-replace="true" class="required"></span>
 		</td>
@@ -31,7 +31,7 @@
 		</td>
 		<td class="formAlignRight">累计安排投资：<span class="required">(*)</span></td>
 		<td>
-			<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:100px" data-val="true" data-val-required="必填" class="form-control input-sm" id="apInvestSum" name="apInvestSum" ng-model="vm.model.yearPlanYearContentDto.apInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+			<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:100px" data-val="true" data-val-required="必填" class="form-control input-sm" id="apInvestSum" name="apInvestSum" ng-model="vm.model.apInvestSum" data-val="true" data-val-required="必填"/>&nbsp;(万元)
 			<span data-valmsg-for="apInvestSum" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
@@ -39,16 +39,16 @@
 		<td class="formAlignRight">计划年度：<span class="required">(*)</span></td>
 		<td style="width:250px;">
 			<input class="Wdate form-control input-sm" style="width:180px;" type="text" autocomplete="off" id="planYear" name="planYear"
-				   onFocus="WdatePicker({dateFmt:'yyyy'})" ng-change="vm.changeYear()" onChange="" ng-model="vm.model.yearPlanYearContentDto.planYear" data-val="true" data-val-required="必填"/>
+				   onFocus="WdatePicker({dateFmt:'yyyy'})" ng-change="vm.changeYear()" onChange="" ng-model="vm.model.planYear" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="planYear" data-valmsg-replace="true" class="required"></span>
 		</td>
 		<td class="formAlignRight">是否申请标外资金：</td>
 		<td>
-			<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="true" ng-model="vm.model.yearPlanYearContentDto.isApplyOutsideCapital" ng-checked="vm.model.yearPlanYearContentDto.isApplyOutsideCapital == true"/>&nbsp;是</label>
-			<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="false" ng-model="vm.model.yearPlanYearContentDto.isApplyOutsideCapital" ng-checked="vm.model.yearPlanYearContentDto.isApplyOutsideCapital == false"/>&nbsp;否</label>
-			<label ng-if="vm.model.yearPlanYearContentDto.isApplyOutsideCapital">
+			<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="true" ng-model="vm.model.isApplyOutsideCapital" ng-checked="vm.model.isApplyOutsideCapital == true"/>&nbsp;是</label>
+			<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="false" ng-model="vm.model.isApplyOutsideCapital" ng-checked="vm.model.isApplyOutsideCapital == false"/>&nbsp;否</label>
+			<label ng-if="vm.model.isApplyOutsideCapital">
 				申请标外资金：
-				<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:100px" class="form-control input-sm" ng-model="vm.model.yearPlanYearContentDto.applyOutsideCapital"/>
+				<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:100px" class="form-control input-sm" ng-model="vm.model.applyOutsideCapital"/>
 				&nbsp;(万元)
 			</label>
 		</td>
@@ -59,7 +59,7 @@
 			<table class="table table-bordered table-striped table-hover">
 				<tr class="text-primary text-center">
 					<td colspan="2">申请年度投资：
-						<span ng-bind="vm.theYearCapitalTotal() | number:4" ng-model="vm.model.yearPlanYearContentDto.applyYearInvest"></span>&nbsp;(万元)
+						<span ng-bind="vm.theYearCapitalTotal() | number:4" ng-model="vm.model.applyYearInvest"></span>&nbsp;(万元)
 					</td>
 				</tr>
 				<tr>
@@ -71,9 +71,9 @@
 								<td>其他</td>
 							</tr>
 							<tr>
-								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm" ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_ggys_TheYear"/></td>
-								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_TheYear"/></td>
-								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_qita"/></td>
+								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys_TheYear"/></td>
+								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj_TheYear"/></td>
+								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_qita"/></td>
 							</tr>
 						</table>
 					</td>
@@ -84,15 +84,15 @@
 	<tr>
 		<td class="formAlignRight" >"其他"的来源途径说明：</td>
 		<td colspan="3">
-			<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.yearPlanYearContentDto.capitalOtherDescriptionShenBao" placeholder="注：200字符以内" maxlength="200" ng-change="vm.checkLength(vm.model.yearPlanYearContentDto.capitalOtherDescriptionShenBao,200,'capitalOtherDescriptionShenBaoTips')"></textarea>
+			<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.capitalOtherDescriptionShenBao" placeholder="注：200字符以内" maxlength="200" ng-change="vm.checkLength(vm.model.capitalOtherDescriptionShenBao,200,'capitalOtherDescriptionShenBaoTips')"></textarea>
 			<div class="tipfont">您还可以输入<span id="capitalOtherDescriptionShenBaoTips"><font size="5">200</font></span>个字符!</div>
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">年度建设内容：</td>
 		<td colspan="3">
-			<textarea rows="3" cols="20" maxlength="500" style="height:121px;width: 99%;" id="yearConstructionContent" name="yearConstructionContent" ng-model="vm.model.yearPlanYearContentDto.yearConstructionContent"
-					  placeholder="请简要概述年度计划建设的内容：备注（500字符以内）"  ng-change="vm.checkLength(vm.model.yearPlanYearContentDto.yearConstructionContent,500,'yearConstructionContentTips')"></textarea>
+			<textarea rows="3" cols="20" maxlength="500" style="height:121px;width: 99%;" id="yearConstructionContent" name="yearConstructionContent" ng-model="vm.model.yearConstructionContent"
+					  placeholder="请简要概述年度计划建设的内容：备注（500字符以内）"  ng-change="vm.checkLength(vm.model.yearConstructionContent,500,'yearConstructionContentTips')"></textarea>
 			<div class="tipfont">您还可以输入<span id="yearConstructionContentTips"><font size="5">500</font></span>个字符!</div>
 		</td>
 	</tr>
@@ -112,7 +112,7 @@
 			<table class="table table-bordered table-striped table-hover">
 				<tr class="text-primary text-center">
 					<td colspan="2">申请年度投资：
-						<span ng-bind="vm.lastYearCapitalTotal() | number:4" ng-model="vm.model.yearPlanYearContentDto.applyYearInvest_LastYear"></span>&nbsp;(万元)
+						<span ng-bind="vm.lastYearCapitalTotal() | number:4" ng-model="vm.model.applyYearInvest_LastYear"></span>&nbsp;(万元)
 					</td>
 				</tr>
 				<tr>
@@ -124,9 +124,9 @@
 								<td>其他</td>
 							</tr>
 							<tr>
-								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm" ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_ggys_LastYear"/></td>
-								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_LastYear"/></td>
-								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_qita_LastYear"/></td>
+								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys_LastYear"/></td>
+								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj_LastYear"/></td>
+								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_qita_LastYear"/></td>
 							</tr>
 						</table>
 					</td>
@@ -137,15 +137,15 @@
 	<tr>
 		<td class="formAlignRight" >"其他"的来源途径说明：</td>
 		<td colspan="3">
-			<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.yearPlanYearContentDto.capitalOtherDescriptionShenBao_LastYear" placeholder="注：200字符以内" maxlength="200" ng-change="vm.checkLength(vm.model.yearPlanYearContentDto.capitalOtherDescriptionShenBao_LastYear,200,'capitalOtherDescriptionShenBao_LastYearTips')"></textarea>
+			<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.capitalOtherDescriptionShenBao_LastYear" placeholder="注：200字符以内" maxlength="200" ng-change="vm.checkLength(vm.model.capitalOtherDescriptionShenBao_LastYear,200,'capitalOtherDescriptionShenBao_LastYearTips')"></textarea>
 			<div class="tipfont">您还可以输入<span id="capitalOtherDescriptionShenBao_LastYearTips"><font size="5">200</font></span>个字符!</div>
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">年度建设内容：</td>
 		<td colspan="3">
-			<textarea rows="3" cols="20" maxlength="500" style="height:121px;width: 99%;" id="yearConstructionContentLastYear" name="yearConstructionContentLastYear" ng-model="vm.model.yearPlanYearContentDto.yearConstructionContentLastYear"
-					  placeholder="请简要概述年度计划建设的内容：备注（500字符以内）"  ng-change="vm.checkLength(vm.model.yearPlanYearContentDto.yearConstructionContentLastYear,500,'yearConstructionContentLastYearTips')"></textarea>
+			<textarea rows="3" cols="20" maxlength="500" style="height:121px;width: 99%;" id="yearConstructionContentLastYear" name="yearConstructionContentLastYear" ng-model="vm.model.yearConstructionContentLastYear"
+					  placeholder="请简要概述年度计划建设的内容：备注（500字符以内）"  ng-change="vm.checkLength(vm.model.yearConstructionContentLastYear,500,'yearConstructionContentLastYearTips')"></textarea>
 			<div class="tipfont">您还可以输入<span id="yearConstructionContentLastYearTips"><font size="5">500</font></span>个字符!</div>
 		</td>
 	</tr>
@@ -165,7 +165,7 @@
 			<table class="table table-bordered table-striped table-hover">
 				<tr class="text-primary text-center">
 					<td colspan="2">申请年度投资：
-						<span ng-bind="vm.lastTwoYearCapitalTotal() | number:4" ng-model="vm.model.yearPlanYearContentDto.applyYearInvest_LastTwoYear"></span>&nbsp;(万元)
+						<span ng-bind="vm.lastTwoYearCapitalTotal() | number:4" ng-model="vm.model.applyYearInvest_LastTwoYear"></span>&nbsp;(万元)
 					</td>
 				</tr>
 				<tr>
@@ -177,9 +177,9 @@
 								<td>其他</td>
 							</tr>
 							<tr>
-								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_ggys_LastTwoYear"/></td>
-								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm"  ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_gtzj_LastTwoYear"/></td>
-								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm"  ng-model="vm.model.yearPlanYearContentDto.capitalSCZ_qita_LastTwoYear"/></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys_LastTwoYear"/></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj_LastTwoYear"/></td>
+								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_qita_LastTwoYear"/></td>
 							</tr>
 						</table>
 					</td>
@@ -190,15 +190,15 @@
 	<tr>
 		<td class="formAlignRight" >"其他"的来源途径说明：</td>
 		<td colspan="3">
-			<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.yearPlanYearContentDto.capitalOtherDescriptionShenBao_LastTwoYear" placeholder="注：200字符以内" maxlength="200" ng-change="vm.checkLength(vm.model.yearPlanYearContentDto.capitalOtherDescriptionShenBao_LastTwoYear,200,'capitalOtherDescriptionShenBao_LastTwoYearTips')"></textarea>
+			<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.capitalOtherDescriptionShenBao_LastTwoYear" placeholder="注：200字符以内" maxlength="200" ng-change="vm.checkLength(vm.model.capitalOtherDescriptionShenBao_LastTwoYear,200,'capitalOtherDescriptionShenBao_LastTwoYearTips')"></textarea>
 			<div class="tipfont">您还可以输入<span id="capitalOtherDescriptionShenBao_LastTwoYearTips"><font size="5">200</font></span>个字符!</div>
 		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight">年度建设内容：</td>
 		<td colspan="3">
-			<textarea rows="3" cols="20" maxlength="500" style="height:121px;width: 99%;" id="yearConstructionContentLastTwoYear" name="yearConstructionContentLastTwoYear" ng-model="vm.model.yearPlanYearContentDto.yearConstructionContentLastTwoYear"
-					  placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-change="vm.checkLength(vm.model.yearPlanYearContentDto.yearConstructionContentLastTwoYear,500,'yearConstructionContentLastTwoYearTips')"></textarea>
+			<textarea rows="3" cols="20" maxlength="500" style="height:121px;width: 99%;" id="yearConstructionContentLastTwoYear" name="yearConstructionContentLastTwoYear" ng-model="vm.model.yearConstructionContentLastTwoYear"
+					  placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-change="vm.checkLength(vm.model.yearConstructionContentLastTwoYear,500,'yearConstructionContentLastTwoYearTips')"></textarea>
 			<div class="tipfont">您还可以输入<span id="yearConstructionContentLastTwoYearTips"><font size="5">500</font></span>个字符!</div>
 		</td>
 	</tr>
@@ -209,8 +209,8 @@
 	<tr>
 		<td class="formAlignRight"  style="width:150px;">申报信息备注：</td>
 		<td colspan="3">
-			<textarea rows="3" cols="20" maxlength="500" style="height:121px;width: 99%;" id="yearConstructionContentShenBao" name="yearConstructionContentShenBao" ng-model="vm.model.yearPlanYearContentDto.yearConstructionContentShenBao"
-					  placeholder="请简要概述申报信息备注：备注（500字符以内）" ng-change="vm.checkLength(vm.model.yearPlanYearContentDto.yearConstructionContentShenBao,500,'yearConstructionContentShenBaoTips')"></textarea>
+			<textarea rows="3" cols="20" maxlength="500" style="height:121px;width: 99%;" id="yearConstructionContentShenBao" name="yearConstructionContentShenBao" ng-model="vm.model.yearConstructionContentShenBao"
+					  placeholder="请简要概述申报信息备注：备注（500字符以内）" ng-change="vm.checkLength(vm.model.yearConstructionContentShenBao,500,'yearConstructionContentShenBaoTips')"></textarea>
 			<div class="tipfont">您还可以输入<span id="yearConstructionContentShenBaoTips"><font size="5">500</font></span>个字符!</div>
 		</td>
 	</tr>

@@ -164,6 +164,11 @@ public class BaseShenBaoInfo extends BaseProject {
     private Double xdPlanReach_ggys = 0.0;
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '计划下达下达资金--国土基金'")
     private Double xdPlanReach_gtzj = 0.0;
+
+    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '计划下达审核资金--公共预算'")
+    private Double shPlanReach_ggys = 0.0;
+    @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '计划下达审核资金--国土基金'")
+    private Double shPlanReach_gtzj = 0.0;
     @Column(columnDefinition = "varchar(125) NULL COMMENT '项目建设性质分类'")
     private String projectConstrChar;
     @Column(columnDefinition = "varchar(200) NULL COMMENT '计划备注'")
@@ -963,5 +968,21 @@ public class BaseShenBaoInfo extends BaseProject {
 
     public void setPlanReachConstructionContent(String planReachConstructionContent) {
         this.planReachConstructionContent = planReachConstructionContent;
+    }
+
+    public Double getShPlanReach_ggys() {
+        return shPlanReach_ggys;
+    }
+
+    public void setShPlanReach_ggys(Double shPlanReach_ggys) {
+        this.shPlanReach_ggys = shPlanReach_ggys;
+    }
+
+    public Double getShPlanReach_gtzj() {
+        return shPlanReach_gtzj;
+    }
+
+    public void setShPlanReach_gtzj(Double shPlanReach_gtzj) {
+        this.shPlanReach_gtzj = shPlanReach_gtzj;
     }
 }
