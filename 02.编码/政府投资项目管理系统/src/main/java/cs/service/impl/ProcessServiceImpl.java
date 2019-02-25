@@ -575,10 +575,10 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
                     .map(user2 -> new SendMsg(user2.getMobilePhone(), content)) // 将用户对象转换成SendMsg对象
                     .collect(Collectors.toList());
         }
-        if(Double.doubleToLongBits(shenbaoinfoDto.getProjectInvestSum())<Double.doubleToLongBits(DoubleUtils.sum(shenbaoinfoDto.getXdPlanReach_ggys().doubleValue(),shenbaoinfoDto.getXdPlanReach_gtzj()))){
+        if(Double.doubleToLongBits(shenbaoinfoDto.getProjectInvestSum())<Double.doubleToLongBits(DoubleUtils.sum(shenbaoinfoDto.getXdPlanReach_ggys().doubleValue(),shenbaoinfoDto.getXdPlanReach_gtzj())+shenbaoinfoDto.getProjectInvestAccuSum())){
             throw new IllegalArgumentException("超过项目总投资，无法提交！！");
         }
-        if(Double.doubleToLongBits(shenbaoinfoDto.getProjectInvestSum())<Double.doubleToLongBits(DoubleUtils.sum(shenbaoinfoDto.getShPlanReach_ggys().doubleValue(),shenbaoinfoDto.getShPlanReach_gtzj()))){
+        if(Double.doubleToLongBits(shenbaoinfoDto.getProjectInvestSum())<Double.doubleToLongBits(DoubleUtils.sum(shenbaoinfoDto.getShPlanReach_ggys().doubleValue(),shenbaoinfoDto.getShPlanReach_gtzj())+shenbaoinfoDto.getProjectInvestAccuSum())){
             throw new IllegalArgumentException("超过项目总投资，无法提交！！");
         }
         //单列项目
@@ -589,11 +589,20 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
             if(shenbaoinfoDto.getShPlanReach_gtzj()>shenbaoinfoDto.getCapitalAP_gtzj_TheYear()){
                 throw new IllegalArgumentException("超过年度安排资金-国土资金,无法提交！");
             }
+
+            if(shenbaoinfoDto.getApplyAPYearInvest()+shenbaoinfoDto.getShPlanReach_ggys()+shenbaoinfoDto.getShPlanReach_gtzj()>shenbaoinfoDto.getCapitalAP_gtzj_TheYear()+shenbaoinfoDto.getCapitalAP_ggys_TheYear()){
+                throw new IllegalArgumentException("超过年度安排总投资,无法提交！");
+            }
+
             if(shenbaoinfoDto.getXdPlanReach_ggys()>shenbaoinfoDto.getCapitalAP_ggys_TheYear()){
                 throw new IllegalArgumentException("超过年度安排资金-公共预算,无法提交！");
             }
             if(shenbaoinfoDto.getXdPlanReach_gtzj()>shenbaoinfoDto.getCapitalAP_gtzj_TheYear()){
                 throw new IllegalArgumentException("超过年度安排资金-国土资金,无法提交！");
+            }
+
+            if(shenbaoinfoDto.getApplyAPYearInvest()+shenbaoinfoDto.getXdPlanReach_ggys()+shenbaoinfoDto.getXdPlanReach_gtzj()>shenbaoinfoDto.getCapitalAP_gtzj_TheYear()+shenbaoinfoDto.getCapitalAP_ggys_TheYear()){
+                throw new IllegalArgumentException("超过年度安排总投资,无法提交！");
             }
             //年度安排总投资
             shenBaoInfo.setApplyAPYearInvest(shenBaoInfo.getApplyAPYearInvest() + shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
@@ -603,6 +612,17 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
             //实际下达资金
             shenBaoInfo.setXdPlanReach_gtzj(shenbaoinfoDto.getXdPlanReach_gtzj());
             shenBaoInfo.setXdPlanReach_ggys(shenbaoinfoDto.getXdPlanReach_ggys());
+
+            //同时更新年度计划
+            Criterion criterion = Restrictions.eq(ShenBaoInfo_.planYear.getName(), shenBaoInfo.getPlanYear());
+            Criterion criterion1 = Restrictions.eq(ShenBaoInfo_.projectId.getName(), shenBaoInfo.getProjectId());
+            Criterion criterion3 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_nextYearPlan);
+            Criterion criterion2 = Restrictions.and(criterion,criterion1,criterion3);
+            List<ShenBaoInfo> nextyearplan = shenBaoInfoRepo.findByCriteria(criterion2);
+            if(nextyearplan.size()>0){
+                nextyearplan.get(0).setApplyAPYearInvest(nextyearplan.get(0).getApplyAPYearInvest() + shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
+            }
+
         }
 
         //建设资金预留判断

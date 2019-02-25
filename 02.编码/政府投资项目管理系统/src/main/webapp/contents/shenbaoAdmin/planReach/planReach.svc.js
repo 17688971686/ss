@@ -1244,8 +1244,8 @@
                     }
                 },
                 {
-                    field: "apInvestSum",
-                    title: "累计投资",
+                    field: "projectInvestAccuSum",
+                    title: "累计完成投资",
                     width: 140,
                     filterable: false,
                     headerAttributes: {
@@ -1641,8 +1641,8 @@
                     }
                 },
                 {
-                    field: "apInvestSum",
-                    title: "累计安排资金",
+                    field: "projectInvestAccuSum",
+                    title: "累计完成投资",
                     width: 140,
                     filterable: false,
                     headerAttributes: {

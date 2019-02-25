@@ -704,6 +704,13 @@ public class PlanReachApplicationServiceImpl
 	public void updateShnebaoInfo(String shenbaoId, Double ggmoney, Double gtmoney) {
 		ShenBaoInfo entity = shenBaoInfoRepo.findById(shenbaoId);
 		if(ObjectUtils.isEmpty(entity.getPackPlanId())) {
+
+			if(ggmoney>entity.getCapitalAP_ggys_TheYear()){
+				throw new IllegalArgumentException("超过年度安排资金-公共预算,无法提交！");
+			}
+			if(gtmoney>entity.getCapitalAP_gtzj_TheYear()){
+				throw new IllegalArgumentException("超过年度安排资金-国土资金,无法提交！");
+			}
 			if (Double.doubleToLongBits(ggmoney + gtmoney + entity.getApplyAPYearInvest()) > Double.doubleToLongBits(entity.getYearInvestApproval())) {
 				throw new IllegalArgumentException("超过年度安排总投资：" + entity.getYearInvestApproval() + ",请重新填写！");
 			}
@@ -970,7 +977,7 @@ public class PlanReachApplicationServiceImpl
 				.append(",'' as projectConstrChar")
 				.append(",'' as projectGuiMo")
 				.append(",sum(c.projectInvestSum) as projectInvestSum")
-				.append(",sum(c.apInvestSum) as apInvestSum")
+				.append(",sum(c.projectInvestAccuSum + c.applyAPYearInvest) as apInvestSum")
 				.append(",sum(c.sqPlanReach_ggys) as sqPlanReach_ggys")
 				.append(",sum(c.sqPlanReach_gtzj) as sqPlanReach_gtzj")
 				.append(",'' as yearPlanRemark")
@@ -991,7 +998,7 @@ public class PlanReachApplicationServiceImpl
 				.append(",'' as projectConstrChar")
 				.append(",'' as projectGuiMo")
 				.append(",sum(c.projectInvestSum) as projectInvestSum")
-				.append(",sum(c.apInvestSum) as apInvestSum")
+				.append(",sum(c.projectInvestAccuSum + c.applyAPYearInvest) as apInvestSum")
 				.append(",sum(c.sqPlanReach_ggys) as sqPlanReach_ggys")
 				.append(",sum(c.sqPlanReach_gtzj) as sqPlanReach_gtzj")
 				.append(",'' as yearPlanRemark")
@@ -1014,7 +1021,7 @@ public class PlanReachApplicationServiceImpl
 				.append(",c.projectConstrChar")
 				.append(",c.projectGuiMo")
 				.append(",c.projectInvestSum")
-				.append(",c.apInvestSum")
+				.append(",(c.projectInvestAccuSum + c.applyAPYearInvest) as apInvestSum")
 				.append(",c.sqPlanReach_ggys")
 				.append(",c.sqPlanReach_gtzj")
 				.append(",c.yearPlanRemark")
