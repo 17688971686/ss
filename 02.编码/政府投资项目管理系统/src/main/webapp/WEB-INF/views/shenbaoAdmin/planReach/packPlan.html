@@ -71,7 +71,7 @@
                     <tr ng-repeat="x in vm.model.allocationCapitalDtos" ng-if="x.unitName ==vm.userUnit.id">
                         <td ng-bind="vm.getUnitName(x.unitName)"></td>
                         <td>
-                            <span ng-bind="x.capital_gtzj + x.capital_ggys"></span>
+                            <span ng-bind="x.capital_gtzj + x.capital_ggys | number:4"></span>
                         </td>
                         <td ng-bind="x.capital_ggys">
                         </td>

@@ -3,6 +3,7 @@ package cs.service.interfaces;
 import java.util.List;
 
 import cs.domain.YearPlan;
+import cs.model.DomainDto.ProjectDto;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.PackPlanDto;
 import cs.model.DomainDto.ShenBaoInfoDto;
@@ -113,4 +114,18 @@ public interface YearPlanService extends IService<YearPlanDto, YearPlan, String>
 	 * @param yearPlanPackId 打包信息ID
 	 */
 	void removeYearPlanPack(String planId,String[] yearPlanPackId);
+
+	/**
+	 * 主动计划下达
+	 * @param odataObj
+	 * @param dto
+	 */
+	void activeRelease(ODataObjNew odataObj,ShenBaoInfoDto dto);
+
+	void activeReleasePack(ODataObjNew odataObj,ShenBaoInfoDto dto);
+
+
+	ShenBaoInfoDto getShenBaoInfoById(String id);
+
+	ShenBaoInfoDto getProjectInfoById(String id);
 }

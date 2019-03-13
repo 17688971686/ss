@@ -8,6 +8,7 @@
     function yearPlan($http, $location) {
         var url_shenbaoInfoList = "/management/shenbao";
         var url_project = "/management/project";
+        var url_shenbaoproject = "/shenbaoAdmin/project";
         var url_userUnitInfo = "/management/userUnit";
         var url_planList = "/management/yearPlan";
         var url_planCapital = "/management/yearPlanCapital";
@@ -55,8 +56,102 @@
             grid_yearPlan_packPlan: grid_yearPlan_packPlan,//年度计划打包信息列表
             addPackPlanToYearPlan: addPackPlanToYearPlan,//把打包计划关联到年度计划中
             grid_packListForYeanPlan: grid_packListForYeanPlan,//为年度计划添加打包数据的显示列表
-            removeYearPlanPack: removeYearPlanPack//移除年度计划中打包类
+            removeYearPlanPack: removeYearPlanPack,//移除年度计划中打包类;
+            getProjectById:getProjectById,//获取项目信息
+            getPlanreachList:getPlanreachList,//单列主动下达列表
+            activeRelease:activeRelease,//主动下达
+            projectList:projectList,//打包单位项目
+            getProjectinfo:getProjectinfo
         };
+
+
+        function getProjectinfo(vm) {
+            var httpOptions = {
+                method: 'get',
+                url: common.format(url_planList +"/projectinfo/"+ vm.projectId)
+            };
+
+            var httpSuccess = function success(response) {
+                vm.model.shenBaoInfo = response.data || {};
+                vm.model.shenBaoInfo.packPlanId = vm.id;
+            };
+
+            common.http({
+                vm: vm,
+                $http: $http,
+                httpOptions: httpOptions,
+                success: httpSuccess
+            });
+        }//end fun getPackPlanById
+
+
+        function activeRelease(vm) {
+            var httpOptions = {
+                method: 'post',
+                url: url_planList + "/activeRelease",
+                data:vm.model.shenBaoInfo
+            };
+
+            var httpSuccess = function success(response) {
+                common.requestSuccess({
+                    vm: vm,
+                    response: response,
+                    fn: function () {
+                        common.alert({
+                            vm: vm,
+                            msg: "下达成功!",
+                            fn: function () {
+                                $('.alertDialog').modal('hide');
+                            }
+                        });
+                    }
+                });
+            };
+
+            common.http({
+                vm: vm,
+                $http: $http,
+                httpOptions: httpOptions,
+                success: httpSuccess
+            });
+        }//end fun getPackPlanById
+
+        function getPlanreachList(vm) {
+            var httpOptions = {
+                method: 'get',
+                url: common.format(url_planList +"/planreachShenbaoList"+ "?$filter=projectId eq '{0}' ", vm.projectId)
+            };
+
+            var httpSuccess = function success(response) {
+                vm.model.shenBaoInfoList = response.data.value || {};
+            };
+
+            common.http({
+                vm: vm,
+                $http: $http,
+                httpOptions: httpOptions,
+                success: httpSuccess
+            });
+        }//end fun getPackPlanById
+
+        function getProjectById(vm) {
+            var httpOptions = {
+                method: 'get',
+                url: common.format(url_planList +"/shenbaoinfo/"+ vm.id)
+            };
+
+            var httpSuccess = function success(response) {
+                vm.model.shenBaoInfo = response.data || {};
+            };
+
+            common.http({
+                vm: vm,
+                $http: $http,
+                httpOptions: httpOptions,
+                success: httpSuccess
+            });
+        }//end fun getPackPlanById
+
 
         function removeYearPlanPack(vm, yearPlanPackId) {
             var httpOptions = {
@@ -1453,6 +1548,18 @@
                         "class": "table-header-cell",
                         style: "text-align: center;vertical-align: middle;"
                     }
+                },
+                {
+                    field : "",
+                    title : "操作",
+                    width : 150,
+                    template : function(item) {
+                        return common.format($('#columnBtns_plan').html(),item.id,item.projectId,item.projectInvestmentType);
+                    },
+                    attributes: {
+                        "class": "table-cell",
+                        //style: "width:150px"
+                    }
                 }
 
             ];
@@ -2657,6 +2764,170 @@
                 scrollable: true
             };
         }//end fun grid_packListForYeanPlan
+
+        /**
+         * 单位项目列表
+         */
+        function projectList(vm) {
+            // Begin:dataSource
+            var dataSource = new kendo.data.DataSource({
+                type : 'odata',
+                transport : common.kendoGridConfig().transport(common.format(url_shenbaoproject+"/unitProject")),
+                schema : common.kendoGridConfig().schema({
+                    id : "id",
+                }),
+                serverPaging : true,
+                serverSorting : true,
+                serverFiltering : true,
+                pageSize : 10,
+                sort : {
+                    field : "createdDate",
+                    dir : "desc"
+                },
+                filter:[{
+                    field:'isLatestVersion',
+                    operator:'eq',
+                    value:true
+                },{
+                    field:'unitName',
+                    operator:'eq',
+                    value:vm.unitId
+                }],
+                requestStart: function () {
+                    kendo.ui.progress($("#loading"), true);
+                },
+                requestEnd : function () {
+                    kendo.ui.progress($("#loading"), false);
+                }
+            });
+            // End:dataSource
+
+            // Begin:column
+            var columns = [
+                {
+                    template : function(item) {
+                        return kendo
+                            .format(
+                                "<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+                                item.id);
+                    },
+                    filterable : false,
+                    width : 40,
+                    title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+                },
+                {
+                    field : "projectName",
+                    title : "项目名称",
+                    width:250,
+                    filterable : true,
+                    template:function(item){
+                        return common.format('<a class="text-primary" href="#/project/projectInfo/{0}">{1}</a>',item.id,item.projectName);
+                    }
+                },
+                {
+                    field : "unitName",
+                    title : "所属单位",
+                    width:200,
+                    template:function(item){
+                        return common.getUnitName(item.unitName);
+                    },
+                    filterable : {
+                        ui: function(element){
+                            element.kendoDropDownList({
+                                valuePrimitive: true,
+                                dataSource: vm.basicData.userUnit,
+                                dataTextField: "unitName",
+                                dataValueField: "id",
+                                filter: "startswith"
+                            });
+                        }
+                    }
+                },
+                {
+                    field : "projectStage",
+                    title : "项目阶段",
+                    template:function(item){
+                        return common.getBasicDataDesc(item.projectStage);
+                    },
+                    width : 150,
+                    filterable : {
+                        ui: function(element){
+                            element.kendoDropDownList({
+                                valuePrimitive: true,
+                                dataSource: vm.basicData.projectStage,
+                                dataTextField: "description",
+                                dataValueField: "id",
+                                filter: "startswith"
+                            });
+                        }
+                    }
+                },
+                {
+                    field : "projectInvestmentType",
+                    title : "项目投资类型",
+                    width : 120,
+                    template:function(item){
+                        return common.getBasicDataDesc(item.projectInvestmentType);
+                    },
+                    filterable : {
+                        ui: function(element){
+                            element.kendoDropDownList({
+                                valuePrimitive: true,
+                                dataSource: vm.basicData.investmentType,
+                                dataTextField: "description",
+                                dataValueField: "id",
+                                filter: "startswith"
+                            });
+                        }
+                    }
+                },
+                {
+                    field : "projectIndustry",
+                    title : "项目行业",
+                    template:function(item){
+                        return common.getBasicDataDesc(item.projectIndustry);
+                    },
+                    width : 120,
+                    filterable : false
+                },
+
+                {
+                    field : "isIncludLibrary",
+                    title : "是否已纳入项目库",
+                    template:function(item){
+                        if(item.isIncludLibrary){
+                            return '已纳入';
+                        }else{
+                            return '未纳入';
+                        }
+                    },
+                    width : 100,
+                    filterable : true
+                },
+                {
+                    field : "",
+                    title : "操作",
+                    width : 120,
+                    template : function(item) {
+                        var isHide = item.isIncludLibrary;
+                        return common.format($('#columnBtns').html(),item.id);
+                    }
+                }
+
+            ];
+            // End:column
+            vm.gridOptions_packproject = {
+                dataSource : common.gridDataSource(dataSource),
+                filterable : common.kendoGridConfig().filterable,
+                pageable : common.kendoGridConfig().pageable,
+                noRecords : common.kendoGridConfig().noRecordMessage,
+                columns : columns,
+                resizable : true,
+                sortable:true,
+                scrollable:true
+            };
+
+        }// end fun grid
 
     }
 })();

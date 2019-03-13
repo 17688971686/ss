@@ -1,12 +1,13 @@
 package cs.service.impl;
 
 import com.sn.framework.common.IdWorker;
+import com.sn.framework.common.ObjectUtils;
+import com.sn.framework.common.StringUtil;
+import cs.common.BasicDataConfig;
+import cs.common.DoubleUtils;
 import cs.common.SQLConfig;
 import cs.domain.*;
-import cs.model.DomainDto.PackPlanDto;
-import cs.model.DomainDto.ShenBaoInfoDto;
-import cs.model.DomainDto.YearPlanCapitalDto;
-import cs.model.DomainDto.YearPlanDto;
+import cs.model.DomainDto.*;
 import cs.model.DtoMapper.IMapper;
 import cs.model.PageModelDto;
 import cs.model.Statistics.sttisticsData;
@@ -14,13 +15,18 @@ import cs.model.exportExcel.*;
 import cs.repository.interfaces.IRepository;
 import cs.repository.odata.ODataObj;
 import cs.repository.odata.ODataObjNew;
+import cs.service.interfaces.PackPlanService;
+import cs.service.interfaces.ShenBaoInfoService;
 import cs.service.interfaces.YearPlanService;
 import net.sf.ehcache.concurrent.ConcurrencyUtil;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
 import org.hibernate.query.Query;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.DateType;
@@ -29,14 +35,16 @@ import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static cs.common.SQLConfig.getYearPlanProject;
 import static cs.common.SQLConfig.getYearPlanProjectCount;
@@ -53,6 +61,8 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
     private static Logger logger = Logger.getLogger(YearPlanServiceImpl.class);
 
     @Autowired
+    private PackPlanService packPlanService;
+    @Autowired
     private IRepository<YearPlanCapital, String> yearPlanCapitalRepo;
     @Autowired
     private IRepository<ShenBaoInfo, String> shenbaoInfoRepo;
@@ -63,11 +73,17 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
     @Autowired
     private IRepository<UserUnitInfo, String> userUnitInfoRepo;
     @Autowired
+    private IRepository<AllocationCapital, String> allocationCapitalRepo;
+    @Autowired
     private IMapper<YearPlanCapitalDto, YearPlanCapital> yearPlanCapitalMapper;
     @Autowired
     private IMapper<ShenBaoInfoDto, ShenBaoInfo> shenbaoInfoMapper;
     @Autowired
     private IMapper<PackPlanDto, PackPlan> packPlanMapper;
+    @Autowired
+    private ShenBaoInfoService shenBaoInfoService;
+    @Autowired
+    private IMapper<ProjectDto, Project> projectMapper;
 
     Calendar c = Calendar.getInstance();//可以对每个时间域单独修改
     int year = c.get(Calendar.YEAR);
@@ -90,7 +106,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
     		if(dto.getYear().equals(yearPlan.getYear()) && dto.getIsDraftOrPlan() && yearPlan.getIsDraftOrPlan()){
     			throw new IllegalArgumentException("当前年份："+yearPlan.getYear()+"已存在计划下达编制，其他编制信息只能用作草稿！");
     		}
-			
+
 		}
 //        Criterion criterion = Restrictions.eq(YearPlan_.name.getName(), dto.getName());
 //        Criterion criterion2 = Restrictions.eq(YearPlan_.year.getName(), dto.getYear());
@@ -125,9 +141,9 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
     		if(dto.getYear().equals(yearPlan.getYear()) && dto.getIsDraftOrPlan() && yearPlan.getIsDraftOrPlan()){
     			throw new IllegalArgumentException("当前年份："+yearPlan.getYear()+"已存在计划下达编制，其他编制信息只能用作草稿！");
     		}
-			
+
 		}
-    	
+
         YearPlan entity = super.update(dto, id);
         //关联信息资金安排
         entity.getYearPlanCapitals().forEach(x -> {//删除历史资金安排记录
@@ -178,8 +194,8 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 	                      .setParameter("yearPlanId", planId)
 	                      .getSingleResult();
 	    	 }
-            
-          
+
+
             int count = countQuery == null ? 0 : countQuery.intValue();
             List<ShenBaoInfoDto> shenBaoInfoDtos = new ArrayList<>();
             if (count > 0) {
@@ -202,7 +218,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
                             .getResultList();
                     shenBaoInfos.forEach(x -> shenBaoInfoDtos.add(shenbaoInfoMapper.toDto(x)));
                 }
-               
+
             }
 
             return new PageModelDto<>(shenBaoInfoDtos, count);
@@ -653,6 +669,365 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
         }
         super.repository.save(yearPlan);
         logger.info(String.format("移除年度计划资金,名称：%s", yearPlan.getName()));
+
+    }
+    @Override
+    public ShenBaoInfoDto getShenBaoInfoById(String id){
+       YearPlanCapital yc = yearPlanCapitalRepo.findById(id);
+        ShenBaoInfoDto dto = shenbaoInfoMapper.toDto(shenbaoInfoRepo.findById(yc.getShenbaoInfoId()));
+        return dto;
+    }
+
+    @Override
+    public ShenBaoInfoDto getProjectInfoById(String id){
+        ProjectDto dto = projectMapper.toDto(projectRepo.findById(id));
+        ShenBaoInfoDto shenbaoinfoDto = new ShenBaoInfoDto();
+        try {
+            Copy(dto,shenbaoinfoDto);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        shenbaoinfoDto.setId(UUID.randomUUID().toString());
+        shenbaoinfoDto.setProjectId(id);
+        return shenbaoinfoDto;
+    }
+
+    public static void Copy(Object source, Object to) throws Exception {
+        // 获取属性
+        BeanInfo sourceBean = Introspector.getBeanInfo(source.getClass(),java.lang.Object.class);
+        PropertyDescriptor[] sourceProperty = sourceBean.getPropertyDescriptors();
+
+        BeanInfo destBean = Introspector.getBeanInfo(to.getClass(),java.lang.Object.class);
+        PropertyDescriptor[] destProperty = destBean.getPropertyDescriptors();
+
+        try {
+            for (int i = 0; i < sourceProperty.length; i++) {
+
+                for (int j = 0; j < destProperty.length; j++) {
+
+                    if (sourceProperty[i].getName().equals(destProperty[j].getName())) {
+                        // 调用source的getter方法和dest的setter方法
+                        destProperty[j].getWriteMethod().invoke(to,sourceProperty[i].getReadMethod().invoke(source));
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new Exception("属性复制失败:" + e.getMessage());
+        }
+    }
+
+
+    @Override
+    public void activeRelease(ODataObjNew odataObj, ShenBaoInfoDto dot){
+        List<ShenBaoInfo> entitys = new ArrayList<>();
+        if(ObjectUtils.isEmpty(dot.getPackPlanId())){
+
+            ShenBaoInfo entity = shenbaoInfoRepo.findById(dot.getId());
+
+            Assert.notNull(entity, "添加的项目不存在");
+            if(Double.doubleToLongBits(dot.getProjectInvestSum())<Double.doubleToLongBits(DoubleUtils.sum(dot.getXdPlanReach_ggys().doubleValue(),dot.getXdPlanReach_gtzj())+dot.getProjectInvestAccuSum())){
+                throw new IllegalArgumentException("超过项目总投资，无法提交！！");
+            }
+            if(Double.doubleToLongBits(dot.getProjectInvestSum())<Double.doubleToLongBits(DoubleUtils.sum(dot.getShPlanReach_ggys().doubleValue(),dot.getShPlanReach_gtzj())+dot.getProjectInvestAccuSum())){
+                throw new IllegalArgumentException("超过项目总投资，无法提交！！");
+            }
+
+            if(dot.getCapitalAP_ggys_TheYear()==null){
+                dot.setCapitalAP_ggys_TheYear(0.0);
+            }
+            if(dot.getCapitalAP_gtzj_TheYear()==null){
+                dot.setCapitalAP_gtzj_TheYear(0.0);
+            }
+            if(Double.doubleToLongBits(dot.getXdPlanReach_ggys())>Double.doubleToLongBits(dot.getCapitalAP_ggys_TheYear())){
+                throw new IllegalArgumentException("超过年度安排资金-公共预算,无法提交！");
+            }
+            if(Double.doubleToLongBits(dot.getXdPlanReach_gtzj())>Double.doubleToLongBits(dot.getCapitalAP_gtzj_TheYear())){
+                throw new IllegalArgumentException("超过年度安排资金-国土资金,无法提交！");
+            }
+
+            if(Double.doubleToLongBits(dot.getApplyAPYearInvest())+Double.doubleToLongBits(dot.getXdPlanReach_ggys())+Double.doubleToLongBits(dot.getXdPlanReach_gtzj())>Double.doubleToLongBits(dot.getCapitalAP_gtzj_TheYear())+Double.doubleToLongBits(dot.getCapitalAP_ggys_TheYear())){
+                throw new IllegalArgumentException("超过年度安排总投资,无法提交！");
+            }
+
+            // 判断是否已存在同名的计划下达申请
+            Criteria criteria = DetachedCriteria.forClass(ShenBaoInfo.class).getExecutableCriteria(repository.getSession())
+                    .add(Restrictions.eq(ShenBaoInfo_.projectId.getName(), entity.getProjectId())).add(Restrictions
+                            .eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach));
+
+            entitys = criteria.list();
+            //年度安排总投资
+            //同时更新年度计划
+            entity.setApplyAPYearInvest(entity.getApplyAPYearInvest() + dot.getXdPlanReach_gtzj() + dot.getXdPlanReach_ggys());
+            SimpleExpression criteria1 = Restrictions.eq(YearPlanCapital_.shenbaoInfoId.getName(), entity.getId());
+            List<YearPlanCapital> list = yearPlanCapitalRepo.findByCriteria(criteria1);
+            if (list.size() > 0) {
+                Double a = list.get(0).getCapitalQCZ_ggys();
+                Double b = list.get(0).getCapitalSCZ_ggys();
+                Double c = list.get(0).getCapitalQCZ_gtzj();
+                Double d = list.get(0).getCapitalSCZ_gtzj();
+                if (a == null) {
+                    a = 0.0;
+                }
+                if (b == null) {
+                    b = 0.0;
+                }
+                if (c == null) {
+                    c = 0.0;
+                }
+                if (d == null) {
+                    d = 0.0;
+                }
+
+                dot.setApPlanReach_ggys(a + b);
+                dot.setApPlanReach_gtzj(c + d);
+            }
+            dot.setApplyAPYearInvest(dot.getApplyAPYearInvest() + dot.getXdPlanReach_gtzj() + dot.getXdPlanReach_ggys());
+            dot.setApInvestSum(dot.getApInvestSum() + dot.getXdPlanReach_gtzj() + dot.getXdPlanReach_ggys());
+            //累计安排总资金累加
+            entity.setApInvestSum(dot.getApInvestSum() + dot.getXdPlanReach_gtzj() + dot.getXdPlanReach_ggys());
+            entity.setXdPlanReach_gtzj(0.0);
+            entity.setXdPlanReach_ggys(0.0);
+            entity.setYearPlanRemark(null);
+            entity.setPlanReachConstructionContent(null);
+            shenbaoInfoRepo.save(entity);
+
+        }else{
+            Criteria criteria = DetachedCriteria.forClass(ShenBaoInfo.class).getExecutableCriteria(repository.getSession())
+                    .add(Restrictions.eq(ShenBaoInfo_.projectId.getName(), dot.getProjectId())).add(Restrictions
+                            .eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach));
+
+            entitys = criteria.list();
+
+            ShenBaoInfo shenbaoinfo = new ShenBaoInfo();
+            if(entitys.size()>0){
+                boolean isOk = false;
+                loop:for (int i=0;i<entitys.size();i++){
+
+                    if(!StringUtils.isEmpty(entitys.get(i).getItemOrder())&&entitys.get(i).getItemOrder()==entitys.size()){
+                        shenbaoinfo = entitys.get(i);
+
+                        break loop;
+                    }
+                }
+            }
+            dot.setApplyAPYearInvest(shenbaoinfo.getApplyAPYearInvest() + dot.getXdPlanReach_gtzj() + dot.getXdPlanReach_ggys());
+            dot.setApInvestSum(shenbaoinfo.getApInvestSum() + dot.getXdPlanReach_gtzj() + dot.getXdPlanReach_ggys());
+            AllocationCapital ac = allocationCapitalRepo.findById(dot.getPackPlanId());
+
+            if(Double.doubleToLongBits(dot.getShPlanReach_ggys().doubleValue())>Double.doubleToLongBits(DoubleUtils.sub(ac.getCapital_ggys(),ac.getCapital_ggys_surplus())) ){
+                            throw new IllegalArgumentException("超过建设资金预留-公共预算,无法提交！");
+                        }
+                        if(Double.doubleToLongBits(dot.getShPlanReach_gtzj())>Double.doubleToLongBits(DoubleUtils.sub(ac.getCapital_gtzj(),ac.getCapital_gtzj_surplus()))){
+                            throw new IllegalArgumentException("超过建设资金预留-国土资金，无法提交！！");
+                        }
+                        if(Double.doubleToLongBits(dot.getXdPlanReach_ggys().doubleValue())>Double.doubleToLongBits(DoubleUtils.sub(ac.getCapital_ggys(),ac.getCapital_ggys_surplus())) ){
+                            throw new IllegalArgumentException("超过建设资金预留-公共预算,无法提交！");
+                        }
+                        if(Double.doubleToLongBits(dot.getXdPlanReach_gtzj())>Double.doubleToLongBits(DoubleUtils.sub(ac.getCapital_gtzj(),ac.getCapital_gtzj_surplus()))){
+                            throw new IllegalArgumentException("超过建设资金预留-国土资金，无法提交！！");
+                        }
+                        ac.setCapital_ggys_surplus(DoubleUtils.sum(ac.getCapital_ggys_surplus() , dot.getXdPlanReach_ggys()));
+                        ac.setCapital_gtzj_surplus(DoubleUtils.sum(ac.getCapital_gtzj_surplus() , dot.getXdPlanReach_gtzj()));
+            allocationCapitalRepo.save(ac);
+        }
+
+// 每次添加都创建一条新的计划下达申请，根据ItemOrder区分，根据同名项目数量累加
+        dot.setId(IdWorker.get32UUID());
+        dot.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
+        dot.setThisTaskId(null);
+        dot.setThisTaskName(null);
+        dot.setReceiver(null);
+        dot.setZong_processId(null);
+        dot.setProcessStage("未开始");
+        dot.setProcessState(BasicDataConfig.processState_weikaishi);
+        dot.setItemOrder(entitys.size()+1);
+
+        dot.setPlanName("主动下达");
+        dot.setCreatedDate(new Date());
+        dot.setCreatedBy(currentUser.getUserId());
+        dot.setReceiver(null);
+        dot.setActiveRelease(true);
+
+        ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.create(dot, false);
+
+    }
+
+    @Override
+    public void activeReleasePack(ODataObjNew odataObj, ShenBaoInfoDto dot){
+        Project project = projectRepo.findById(dot.getId());
+        Assert.notNull(project,"查询不到项目，请重新添加！");
+
+        // 年度计划申报信息
+        ShenBaoInfo shenbaoinfo = new ShenBaoInfo();
+        Criteria criteria = DetachedCriteria.forClass(ShenBaoInfo.class).getExecutableCriteria(repository.getSession())
+                .add(Restrictions.eq(ShenBaoInfo_.projectId.getName(), project.getId())).add(Restrictions
+                        .eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach));
+
+//        List<ShenBaoInfo> entitys = criteria.list();
+//        //在有同项目ID的申报信息，直接复制最新一次计划申请的信息
+//        //如果itemorder为null，则复制项目信息
+//        if(entitys.size()>0){
+//            boolean isOk = false;
+//            loop:for (int i=0;i<entitys.size();i++){
+//
+//                if(!StringUtils.isEmpty(entitys.get(i).getItemOrder())&&entitys.get(i).getItemOrder()==entitys.size()){
+//                    shenbaoinfo = entitys.get(i);
+//                    isOk = true;
+//                    break loop;
+//                }
+//            }
+//            if(!isOk){
+//                try {
+//                    Copy(project,shenbaoinfo);
+//                } catch (Exception e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//        }else{
+//            try {
+//                Copy(project,shenbaoinfo);
+//            } catch (Exception e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//        }
+//        UserUnitInfoDto userUnitInfoDto = userUnitInfoService.getByUserId(currentUser.getUserId());
+//        // 生成一条计划下达的申报信息
+//        ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(shenbaoinfo);
+//        shenBaoInfoDto.setId(IdWorker.get32UUID());
+//        shenBaoInfoDto.setPlanReachId(planReachId);
+//        shenBaoInfoDto.setUnitName(userUnitInfoDto.getId());
+//        shenBaoInfoDto.setConstructionUnit(userUnitInfoDto.getUnitName());
+//        shenBaoInfoDto.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
+//        shenBaoInfoDto.setProcessStage("未开始");
+//        shenBaoInfoDto.setProcessState(BasicDataConfig.processState_weikaishi);
+//        shenBaoInfoDto.setThisTaskId(null);
+//        shenBaoInfoDto.setThisTaskName(null);
+//        shenBaoInfoDto.setZong_processId(null);
+//        shenBaoInfoDto.setItemOrder(entitys.size()+1);
+//        shenBaoInfoDto.setPackPlanId(packId);
+//        shenBaoInfoDto.setPlanName(pack.getName());
+//        shenBaoInfoDto.setCreatedDate(new Date());
+//        shenBaoInfoDto.setCreatedBy(currentUser.getUserId());
+//        shenBaoInfoDto.setReceiver(null);
+//        shenBaoInfoDto.setProjectId(project.getId());
+//        shenBaoInfoDto.setSqPlanReach_ggys(0.0);
+//        shenBaoInfoDto.setSqPlanReach_gtzj(0.0);
+//        shenBaoInfoDto.setXdPlanReach_ggys(0.0);
+//        shenBaoInfoDto.setXdPlanReach_gtzj(0.0);
+//        shenBaoInfoDto.setYearPlanRemark("");
+//        shenBaoInfoDto.setPlanReachConstructionContent("");
+//        if(StringUtil.isEmpty(shenBaoInfoDto.getRemark())){
+//            shenBaoInfoDto.setRemark("");
+//        }
+//        ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.create(shenBaoInfoDto, false);
+//
+//        //建设资金预留判断
+//        if (ObjectUtils.isNotEmpty(shenbaoinfoDto.getPackPlanId())) {
+//            //查询打包资金
+//            PackPlan pack = packPlanService.findById(shenbaoinfoDto.getPackPlanId());
+//            if (pack != null) {
+//                for (int x = 0; x < pack.getAllocationCapitals().size(); x++) {
+//                    AllocationCapital ac = pack.getAllocationCapitals().get(x);
+//                    if (ac.getUnitName().equals(shenBaoInfo.getUnitName())) {
+//
+//                        if(Double.doubleToLongBits(shenbaoinfoDto.getShPlanReach_ggys().doubleValue())>Double.doubleToLongBits(DoubleUtils.sub(ac.getCapital_ggys(),ac.getCapital_ggys_surplus())) ){
+//                            throw new IllegalArgumentException("超过建设资金预留-公共预算,无法提交！");
+//                        }
+//                        if(Double.doubleToLongBits(shenbaoinfoDto.getShPlanReach_gtzj())>Double.doubleToLongBits(DoubleUtils.sub(ac.getCapital_gtzj(),ac.getCapital_gtzj_surplus()))){
+//                            throw new IllegalArgumentException("超过建设资金预留-国土资金，无法提交！！");
+//                        }
+//                        if(Double.doubleToLongBits(shenbaoinfoDto.getXdPlanReach_ggys().doubleValue())>Double.doubleToLongBits(DoubleUtils.sub(ac.getCapital_ggys(),ac.getCapital_ggys_surplus())) ){
+//                            throw new IllegalArgumentException("超过建设资金预留-公共预算,无法提交！");
+//                        }
+//                        if(Double.doubleToLongBits(shenbaoinfoDto.getXdPlanReach_gtzj())>Double.doubleToLongBits(DoubleUtils.sub(ac.getCapital_gtzj(),ac.getCapital_gtzj_surplus()))){
+//                            throw new IllegalArgumentException("超过建设资金预留-国土资金，无法提交！！");
+//                        }
+//                        ac.setCapital_ggys_surplus(DoubleUtils.sum(ac.getCapital_ggys_surplus() , shenbaoinfoDto.getXdPlanReach_ggys()));
+//                        ac.setCapital_gtzj_surplus(DoubleUtils.sum(ac.getCapital_gtzj_surplus() , shenbaoinfoDto.getXdPlanReach_gtzj()));
+//                        //计划审核资金
+//                        shenBaoInfo.setShPlanReach_gtzj(shenbaoinfoDto.getShPlanReach_gtzj());
+//                        shenBaoInfo.setShPlanReach_ggys(shenbaoinfoDto.getShPlanReach_ggys());
+//                        //实际下达资金
+//                        shenBaoInfo.setXdPlanReach_gtzj(shenbaoinfoDto.getXdPlanReach_gtzj());
+//                        shenBaoInfo.setXdPlanReach_ggys(shenbaoinfoDto.getXdPlanReach_ggys());
+//                    }
+//                };
+//                packPlanRepo.save(pack);
+//            }
+//        }
+//
+//        Assert.notNull(entity, "添加的项目不存在");
+//        if(Double.doubleToLongBits(dot.getProjectInvestSum())<Double.doubleToLongBits(DoubleUtils.sum(dot.getXdPlanReach_ggys().doubleValue(),dot.getXdPlanReach_gtzj())+dot.getProjectInvestAccuSum())){
+//            throw new IllegalArgumentException("超过项目总投资，无法提交！！");
+//        }
+//        if(Double.doubleToLongBits(dot.getProjectInvestSum())<Double.doubleToLongBits(DoubleUtils.sum(dot.getShPlanReach_ggys().doubleValue(),dot.getShPlanReach_gtzj())+dot.getProjectInvestAccuSum())){
+//            throw new IllegalArgumentException("超过项目总投资，无法提交！！");
+//        }
+//
+//
+//        // 判断是否已存在同名的计划下达申请
+//        Criteria criteria = DetachedCriteria.forClass(ShenBaoInfo.class).getExecutableCriteria(repository.getSession())
+//                .add(Restrictions.eq(ShenBaoInfo_.projectId.getName(), entity.getProjectId())).add(Restrictions
+//                        .eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach));
+//
+//        List<ShenBaoInfo> entitys = criteria.list();
+//        // 每次添加都创建一条新的计划下达申请，根据ItemOrder区分，根据同名项目数量累加
+//        ShenBaoInfoDto shenBaoInfoDto = shenbaoInfoMapper.toDto(entity);
+//        dot.setId(IdWorker.get32UUID());
+//        dot.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
+//        dot.setThisTaskId(null);
+//        dot.setThisTaskName(null);
+//        dot.setReceiver(null);
+//        dot.setZong_processId(null);
+//        dot.setProcessStage("未开始");
+//        dot.setProcessState(BasicDataConfig.processState_weikaishi);
+//        dot.setItemOrder(entitys.size()+1);
+//
+//        SimpleExpression criteria1 = Restrictions.eq(YearPlanCapital_.shenbaoInfoId.getName(), entity.getId());
+//        List<YearPlanCapital> list = yearPlanCapitalRepo.findByCriteria(criteria1);
+//        if (list.size() > 0) {
+//            Double a = list.get(0).getCapitalQCZ_ggys();
+//            Double b = list.get(0).getCapitalSCZ_ggys();
+//            Double c = list.get(0).getCapitalQCZ_gtzj();
+//            Double d = list.get(0).getCapitalSCZ_gtzj();
+//            if (a == null) {
+//                a = 0.0;
+//            }
+//            if (b == null) {
+//                b = 0.0;
+//            }
+//            if (c == null) {
+//                c = 0.0;
+//            }
+//            if (d == null) {
+//                d = 0.0;
+//            }
+//
+//            dot.setApPlanReach_ggys(a + b);
+//            dot.setApPlanReach_gtzj(c + d);
+//        }
+//        dot.setPlanName("主动下达");
+//        dot.setCreatedDate(new Date());
+//        dot.setCreatedBy(currentUser.getUserId());
+//        dot.setReceiver(null);
+//        dot.setActiveRelease(true);
+//        dot.setApplyAPYearInvest(dot.getApplyAPYearInvest() + dot.getXdPlanReach_gtzj() + dot.getXdPlanReach_ggys());
+//
+//        //累计安排总资金累加
+//        entity.setApInvestSum(dot.getApInvestSum() + dot.getXdPlanReach_gtzj() + dot.getXdPlanReach_ggys());
+//        dot.setApInvestSum(dot.getApInvestSum() + dot.getXdPlanReach_gtzj() + dot.getXdPlanReach_ggys());
+//        ShenBaoInfo shenBaoInfoentity = shenBaoInfoService.create(dot, false);
+//
+//        entity.setXdPlanReach_gtzj(0.0);
+//        entity.setXdPlanReach_ggys(0.0);
+//        entity.setYearPlanRemark(null);
+//        entity.setPlanReachConstructionContent(null);
+//        shenbaoInfoRepo.save(entity);
 
     }
 

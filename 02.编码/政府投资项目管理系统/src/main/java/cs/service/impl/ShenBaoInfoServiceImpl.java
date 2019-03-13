@@ -254,14 +254,6 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             } else {
                 throw new IllegalArgumentException(String.format("项目：%s 已存在,请重新确认！", dto.getProjectName()));
             }
-        } else {
-            //如果前台申报单位创建
-            //因dto中创建时间和修改时间为项目的相关时间，需从新设置
-//            Project project = projectRepo.findById(entity.getProjectId());
-//            if (project != null && entity.getProjectShenBaoStage().equals(BasicDataConfig.projectShenBaoStage_planReach)) {
-////                project.setIsPlanReach(true);
-//                projectRepo.save(project);
-//            }
         }
         //处理关联信息
         dto.getAttachmentDtos().forEach(x -> {

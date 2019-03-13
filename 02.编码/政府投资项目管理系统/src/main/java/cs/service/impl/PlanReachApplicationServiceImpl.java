@@ -255,7 +255,9 @@ public class PlanReachApplicationServiceImpl
 			// 分页查询数据
 			List<ShenBaoInfo> shenBaoInfos = session
 					.createNativeQuery(shenBaoInfoOfPlanReachApplication, ShenBaoInfo.class)
-					.setParameter("planReachId", planReachId).setFirstResult(skip).setMaxResults(stop).getResultList();
+					.setParameter("planReachId", planReachId)
+					.setFirstResult(skip).setMaxResults(stop)
+					.getResultList();
 			if (!CollectionUtils.isEmpty(shenBaoInfos)) {
 				int len = shenBaoInfos.size();
 				shenBaoInfoDtos = new ArrayList<>(len);

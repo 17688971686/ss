@@ -1,0 +1,56 @@
+<div class="well well-lg">
+	<table class="table table-bordered table-striped">
+		<tr>
+			<td colspan="2">
+				<table class="table table-bordered table-striped" style="margin-bottom: 0;text-align: center;">
+					<tr style="    text-align: left;">
+						<td colspan="1">
+							<label>计划文号</label>
+						</td>
+						<td>
+							<input type="text" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.plan_wenhao">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<label>下达资金：</label>
+							<span ng-bind="vm.sqPlanReachTotal()"></span>
+							<label class="pull-right" style="color:silver">单位：万元</label>
+						</td>
+					</tr>
+					<tr>
+						<td>公共预算</td>
+						<td>国土基金</td>
+					</tr>
+					<tr>
+						<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(?!0$|0\.00|0\.0|0\d+$,'')" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.xdPlanReach_ggys"/></td>
+						<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(?!0$|0\.00|0\.0|0\d+$,'')" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.xdPlanReach_gtzj"/></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td class="text-center" style="width:100px;"> 主要内容 </td>
+			<td>
+                        <textarea class="form-control input-sm" style="width:99%;"
+								  ng-model="vm.model.shenBaoInfo.planReachConstructionContent" placeholder="注：200字符以内" maxlength="200"
+								  ng-change="vm.checkLength(vm.model.shenBaoInfo.planReachConstructionContent,200,'planReachConstructionContent')"></textarea>
+				<div class="tipfont">您还可以输入<span id="planReachConstructionContent"><font
+						size="5">200</font></span>个字符!
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="text-center" style="width:100px;"> 备注 </td>
+			<td>
+                        <textarea class="form-control input-sm" style="width:99%;"
+								  ng-model="vm.model.shenBaoInfo.yearPlanRemark" placeholder="注：200字符以内" maxlength="200"
+								  ng-change="vm.checkLength(vm.model.shenBaoInfo.yearPlanRemark,200,'yearPlanRemark')"></textarea>
+				<div class="tipfont">您还可以输入<span id="yearPlanRemark"><font
+						size="5">200</font></span>个字符!
+				</div>
+			</td>
+		</tr>
+
+	</table>
+</div>

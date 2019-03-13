@@ -1,0 +1,49 @@
+<!--<div class="well well-sm" style="background:white;">-->
+	<!--<div class="grid" kendo-grid="grid" k-options="vm.gridOptions_active"></div>-->
+
+<!--</div>-->
+<div class="well well-lg">
+	<table class="table table-bordered table-striped">
+		<tr>
+			<td style="width:50%;">
+				<table class="table table-bordered table-striped" style="margin-bottom: 0;text-align: center;">
+					<tr style="text-align: center;">
+						<td rowspan="2" width="50px">序号</td>
+						<td rowspan="2" width="100px">建设单位</td>
+						<td rowspan="2" width="260">项目名称</td>
+						<td rowspan="2" width="100">下达次数</td>
+						<td rowspan="2" width="200">建设规模</td>
+						<td rowspan="2" width="100">总投资</td>
+						<td rowspan="2" width="130">累计安排</td>
+						<td colspan="2" width="160">计划下达资金</td>
+						<td rowspan="2" width="200">主要内容</td>
+						<td rowspan="2" width="200">备注</td>
+						<td rowspan="2" width="200">计划文号</td>
+					</tr>
+					<tr style="text-align: center;">
+						<td>公共预算</td>
+						<td>国土资金</td>
+					</tr>
+					<tbody ng-repeat="x in vm.model.shenBaoInfoList | orderBy: '-itemOrder'" style="text-align: center;">
+					<tr>
+						<td rowspan="2" ng-bind="$index+1"></td>
+						<td ng-bind="vm.getUnitName(x.unitName)"></td>
+						<td ng-bind="x.projectName"></td>
+						<td ng-bind="x.itemOrder"></td>
+						<td rowspan="2" ng-bind="x.projectGuiMo" style="vertical-align: middle;text-align: left;"></td>
+
+						<td ng-bind="x.projectInvestSum"></td>
+						<td rowspan="2" ng-bind="x.apInvestSum" style="vertical-align: middle;"></td>
+						<td rowspan="2" ng-bind="x.xdPlanReach_ggys" style="vertical-align: middle;"></td>
+						<td rowspan="2" ng-bind="x.xdPlanReach_gtzj" style="vertical-align: middle;"></td>
+						<td rowspan="2" ng-bind="x.planReachConstructionContent" style="vertical-align: middle;"></td>
+						<td rowspan="2" ng-bind="x.yearPlanRemark" style="vertical-align: middle;text-align: left;"></td>
+						<td rowspan="2" ng-bind="x.plan_wenhao" style="vertical-align: middle;text-align: left;"></td>
+					</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+		<tr></tr>
+	</table>
+</div>

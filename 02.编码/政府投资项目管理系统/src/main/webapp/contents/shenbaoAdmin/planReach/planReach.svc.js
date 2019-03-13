@@ -50,7 +50,8 @@
             startProcessOne: startProcessOne,//单个项目启动流程
             deleteProcessOne: deleteProcessOne,//撤销流程
             getShenBaoInfoById:getShenBaoInfoById,//根据id查询项目申报信息
-            updateShenBaoInfo:updateShenBaoInfo
+            updateShenBaoInfo:updateShenBaoInfo,
+            activeGrid:activeGrid//主动下达计划列表
         };
 
         /**
@@ -488,6 +489,151 @@
                 }
             ];
             vm.gridOptions = {
+                dataSource: common.gridDataSource(dataSource),
+                filterable: common.kendoGridConfig().filterable,
+                pageable: common.kendoGridConfig().pageable,
+                noRecords: common.kendoGridConfig().noRecordMessage,
+                columns: columns,
+                resizable: true
+            };
+        }//end fun grid
+
+        function activeGrid(vm) {
+            var dataSource = new kendo.data.DataSource({
+                type: 'odata',
+                transport: common.kendoGridConfig().transport(url+"/active"),
+                schema: common.kendoGridConfig().schema({
+                    id: "id"
+                }),
+                serverPaging: true,
+                serverSorting: true,
+                serverFiltering: true,
+                pageSize: 10,
+                sort: {
+                    field: "createdDate",
+                    dir: "desc"
+                },
+                filter:[{
+                    field:'activeRelease',
+                    operator:'eq',
+                    value:true
+                }],
+                requestStart: function () {
+                    kendo.ui.progress($("#loading"), true);
+                },
+                requestEnd: function () {
+                    kendo.ui.progress($("#loading"), false);
+                }
+            });
+            var columns = [
+                {
+                    template: function (item) {
+                        return kendo
+                            .format(
+                                "<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
+                                item.id);
+                    },
+                    filterable: false,
+                    width: 40,
+                    title: "<input id='checkboxAll' type='checkbox'  class='checkbox'/>"
+                },
+                {
+                    field: "projectName",
+                    title: "项目名称",
+                    width: 300,
+                    template: function (item) {
+                        return common.format('<a href="#/project/projectInfo/{0}">{2}</a>', item.projectId, item.projectInvestmentType, item.projectName);
+                    },
+                    filterable: false,
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;",
+                        rowspan: 2
+                    }
+                },
+                {
+                    field: "itemOrder",
+                    title: "申报次数",
+                    width: 120,
+                    filterable: false,
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;"
+                    }
+                },
+                {
+                    field: "projectInvestSum",
+                    title: "总投资",
+                    width: 140,
+                    filterable: false,
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;"
+                    }
+                },
+                {
+                    field: "projectInvestAccuSum",
+                    title: "累计完成投资",
+                    width: 140,
+                    filterable: false,
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;"
+                    }
+                },
+                {
+                    field: "applyAPYearInvest",
+                    title: "年度累计安排资金",
+                    width: 140,
+                    filterable: false,
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;"
+                    }
+                },
+                {
+                    title: "下达资金（万元）",
+                    columns: [
+                        {
+                            field: "xdPlanReach_ggys",
+                            title: "公共预算",
+                            width: 100,
+                            filterable: false,
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center;"
+                            }
+                        },
+                        {
+                            field: "xdPlanReach_gtzj",
+                            title: "国土基金",
+                            width: 100,
+                            filterable: false,
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center;"
+                            }
+                        },
+                    ],
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center;vertical-align: middle;"
+                    }
+                },
+                {
+                    field: "planReachConstructionContent",
+                    title: "主要内容",
+                    width: 150,
+                    filterable: false
+                },
+                {
+                    field: "yearPlanRemark",
+                    title: "备注",
+                    width: 150,
+                    filterable: false
+                }
+            ];
+            vm.gridOptions_active = {
                 dataSource: common.gridDataSource(dataSource),
                 filterable: common.kendoGridConfig().filterable,
                 pageable: common.kendoGridConfig().pageable,

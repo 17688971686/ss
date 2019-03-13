@@ -1,0 +1,34 @@
+<!-- <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+ -->
+<form id="formReply" name="formReply">
+	<div id="tabStrip" kendo-tab-strip="vm.tabStrip">
+	    <ul >
+	      <li id="tab1" class="k-state-active">项目基本信息</li>
+	      <li id="tab2">计划下达历史信息</li>
+		  <li id="tab3">下达资金</li>
+	    </ul>
+      
+		<div class="tab_content" id="div_tab1">
+			<div ng-include  src="'/contents/admin/management/yearPlan/html/basicInfo_ZF.html'"></div>
+		</div>
+		<!--<div class="tab_content" id="div_tab2">-->
+		     <!--<div ng-include  src="'/contents/admin/management/yearPlan/html/unitInfo.html'"></div>-->
+		<!--</div>-->
+
+        <!--<div class="tab_content" id="div_tab3">-->
+           	<!--<div ng-include  src="'/contents/admin/management/yearPlan/html/materialsInfo.html'"></div>-->
+   		<!--</div>-->
+		<div class="tab_content" id="div_tab2">
+			<div ng-include  src="'/contents/admin/management/yearPlan/html/planreachShenbaoList.html'"></div>
+		</div>
+		<div class="tab_content" id="div_tab3">
+			<div ng-include  src="'/contents/admin/management/yearPlan/html/planReach.html'"></div>
+		</div>
+   	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+		<button type="button" class="btn btn-success"
+				ng-click="vm.saveShenBaoInfo()">保存</button>
+	</div>
+</form>

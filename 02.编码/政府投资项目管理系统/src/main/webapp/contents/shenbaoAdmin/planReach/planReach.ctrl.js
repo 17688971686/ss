@@ -19,6 +19,8 @@
 
         planReachSvc.getSysConfig(vm);
 
+        planReachSvc.activeGrid(vm);
+
         vm.deleteApplication = function (id) {
             // common.confirm({
             //     vm: vm,

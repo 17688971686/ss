@@ -316,6 +316,7 @@
 	            controller: 'yearPlanCtrl',
 	            controllerAs: 'vm'
 	        })
+
 	         /*************************************************begin 新增加的打包计划*/
 	        //打包计划 列表页
 	        .state('yearPlan_packList', {
@@ -331,6 +332,13 @@
 	            controller: 'yearPlanCtrl',
 	            controllerAs: 'vm'
 	        })
+			//打包单位项目
+            .state('packPlanShenbaoinfos', {
+                url: '/packPlanShenbaoinfos/:id/:unitid',
+                templateUrl: '/management/yearPlan/html/projectList',
+                controller: 'yearPlanCtrl',
+                controllerAs: 'vm'
+            })
 	        /*************************************************end 新增加的打包计划*/
 
 	        //政投年度计划编制列表

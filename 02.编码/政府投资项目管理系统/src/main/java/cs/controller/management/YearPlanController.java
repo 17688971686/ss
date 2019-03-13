@@ -6,7 +6,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.sn.framework.common.StringUtil;
+import com.sn.framework.odata.OdataFilter;
+import cs.domain.ShenBaoInfo;
+import cs.domain.ShenBaoInfo_;
+import cs.model.DomainDto.ProjectDto;
+import cs.repository.odata.ODataFilterItem;
 import cs.repository.odata.ODataObjNew;
+import cs.service.interfaces.ShenBaoInfoService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,6 +44,8 @@ public class YearPlanController {
     private String ctrl = "management/yearPlan";
     @Autowired
     private YearPlanService yearPlanService;
+    @Autowired
+    private ShenBaoInfoService shenBaoInfoService;
 
     @RequiresPermissions("management/yearPlan##get")
     @RequestMapping(name = "获取年度计划列表数据", path = "", method = RequestMethod.GET)
@@ -54,6 +62,47 @@ public class YearPlanController {
     public PageModelDto<ShenBaoInfoDto> getShenBaoInfo(ODataObjNew odataObj, @PathVariable String id) {
         PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = yearPlanService.getYearPlanShenBaoInfo(id, odataObj, false);
         return shenBaoInfoDtos;
+    }
+
+    @RequestMapping(name = "主动下达计划", path = "activeRelease", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void activeRelease(HttpServletRequest request ,@RequestBody ShenBaoInfoDto dto) {
+        ODataObjNew odataObj = new ODataObjNew(request);
+        yearPlanService.activeRelease( odataObj, dto);
+    }
+
+    @RequestMapping(name = "主动下达计划", path = "activeReleasePack", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void activeReleasePack(HttpServletRequest request ,@RequestBody ShenBaoInfoDto dto) {
+        ODataObjNew odataObj = new ODataObjNew(request);
+        yearPlanService.activeReleasePack( odataObj, dto);
+    }
+
+    @RequestMapping(name = "获取年度计划申报信息", path = "shenbaoinfo/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public ShenBaoInfoDto getShenBaoInfoById(ODataObjNew odataObj, @PathVariable String id) {
+        ShenBaoInfoDto shenBaoInfoDtos = yearPlanService.getShenBaoInfoById(id);
+        return shenBaoInfoDtos;
+    }
+
+    @RequestMapping(name = "获取年度计划申报信息", path = "projectinfo/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public ShenBaoInfoDto getProjectInfoById(ODataObjNew odataObj, @PathVariable String id) {
+        ShenBaoInfoDto projectDto = yearPlanService.getProjectInfoById(id);
+        return projectDto;
+    }
+
+    @RequestMapping(name = "获取申报数据", path = "planreachShenbaoList",method=RequestMethod.GET)
+    public @ResponseBody PageModelDto<ShenBaoInfoDto> getShenbaoInfoDtos(HttpServletRequest request) throws ParseException {
+        ODataObj odataObj = new ODataObj(request);
+        ODataFilterItem<String> filterItem = new ODataFilterItem<String>();
+        filterItem.setField("projectShenBaoStage");
+        filterItem.setOperator("eq");
+        filterItem.setValue("projectShenBaoStage_5");
+        odataObj.getFilter().add(filterItem);
+
+        PageModelDto<ShenBaoInfoDto>  shenbaoInfoDtos= shenBaoInfoService.get(odataObj);
+        return shenbaoInfoDtos;
     }
 
     //@RequiresPermissions("management/yearPlan#id/packPlanList#get")
@@ -175,6 +224,11 @@ public class YearPlanController {
     @RequestMapping(name = "年度计划编制页", path = "html/planBZ", method = RequestMethod.GET)
     public String planBZ() {
         return ctrl + "/planBZ";
+    }
+
+    @RequestMapping(name = "打包项目列表", path = "html/projectList", method = RequestMethod.GET)
+    public String projectList() {
+        return ctrl + "/pack/projectList";
     }
 
 }

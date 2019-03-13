@@ -105,7 +105,13 @@
 	        })	        
 /**********************************************end#月报*********************************/
 
-/**********************************************begin#计划下达*********************************/	        
+/**********************************************begin#计划下达*********************************/
+            .state('activeRelecesList', {
+                url: '/activeRelecesList',
+                templateUrl: '/shenbaoAdmin/planReach/html/activeRelecesList.html',
+                controller: 'planReachCtrl',
+                controllerAs: 'vm'
+            })
 	        //  .state('planReach', {
 	        //     url: '/planReach',
 	        //     templateUrl:'/shenbaoAdmin/planReach/html/list',

@@ -70,6 +70,25 @@ public class ShenBaoAdminPlanReachController {
         return planReachApplications;
     }
 
+    @RequestMapping(name = "获取计划下达申请信息", path = "active", method = RequestMethod.GET)
+    @ResponseBody
+    public PageModelDto<ShenBaoInfoDto> getActive(ODataObj odataObj) throws ParseException {
+        //根据登陆名查找到单位信息addShenBaoInfo
+        UserUnitInfoDto userUnitInfoDto = userUnitInfoService.getByUserId(currentUser.getUserId());
+        ODataFilterItem<String> filterItem = new ODataFilterItem<String>();
+        if (userUnitInfoDto == null) {
+            filterItem.setValue("noid");
+        } else {
+            filterItem.setValue(userUnitInfoDto.getId());
+        }
+        filterItem.setField("unitName");
+        filterItem.setOperator("eq");
+
+        odataObj.getFilter().add(filterItem);
+        PageModelDto<ShenBaoInfoDto> dto = shenbaoInfoService.get(odataObj);
+        return dto;
+    }
+
     @RequestMapping(name = "获取计划下达申请信息", path = "getShenbaoInfoFromYearplan", method = RequestMethod.GET)
     @ResponseBody
     public PageModelDto<ShenBaoInfoDto> getShenbaoInfoFromYearplan(ODataObjNew odataObj) {
@@ -301,5 +320,10 @@ public class ShenBaoAdminPlanReachController {
     @RequestMapping(name = "打包计划编制", path = "html/packPlan", method = RequestMethod.GET)
     public String packPlan() {
         return this.ctrlName + "/packPlan";
+    }
+
+    @RequestMapping(name = "打包计划编制", path = "html/activeRelecesList", method = RequestMethod.GET)
+    public String activeRelecesList() {
+        return this.ctrlName + "/activeRelecesList";
     }
 }
