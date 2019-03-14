@@ -120,7 +120,7 @@ public interface YearPlanService extends IService<YearPlanDto, YearPlan, String>
 	 * @param odataObj
 	 * @param dto
 	 */
-	void activeRelease(ODataObjNew odataObj,ShenBaoInfoDto dto);
+	void activeRelease(ODataObjNew odataObj,ShenBaoInfoDto dto,String packid);
 
 	void activeReleasePack(ODataObjNew odataObj,ShenBaoInfoDto dto);
 

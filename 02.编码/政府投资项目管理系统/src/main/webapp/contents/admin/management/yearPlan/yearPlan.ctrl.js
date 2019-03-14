@@ -21,6 +21,8 @@
         vm.stage=$state.params.stage;
         vm.isZhudongxiada = true;
         vm.unitId = $state.params.unitid;
+        vm.packid = $state.params.packid;
+
 
         vm.testtest = true;
 
@@ -143,7 +145,7 @@
 		};
 
         vm.dialog_addPackPlan = function(id,unitId){
-           location.href="#/packPlanShenbaoinfos/"+id+"/"+unitId;
+           location.href="#/packPlanShenbaoinfos/"+id+"/"+unitId+"/"+vm.id;
         };
         
         function init_packList(){

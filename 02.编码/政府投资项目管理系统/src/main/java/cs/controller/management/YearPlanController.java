@@ -64,11 +64,11 @@ public class YearPlanController {
         return shenBaoInfoDtos;
     }
 
-    @RequestMapping(name = "主动下达计划", path = "activeRelease", method = RequestMethod.POST)
+    @RequestMapping(name = "主动下达计划", path = "activeRelease/{packid}", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void activeRelease(HttpServletRequest request ,@RequestBody ShenBaoInfoDto dto) {
+    public void activeRelease(HttpServletRequest request ,@RequestBody ShenBaoInfoDto dto,@PathVariable String packid) {
         ODataObjNew odataObj = new ODataObjNew(request);
-        yearPlanService.activeRelease( odataObj, dto);
+        yearPlanService.activeRelease( odataObj, dto,packid);
     }
 
     @RequestMapping(name = "主动下达计划", path = "activeReleasePack", method = RequestMethod.POST)
