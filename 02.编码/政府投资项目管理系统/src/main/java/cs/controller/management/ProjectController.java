@@ -140,6 +140,16 @@ public class ProjectController {
 		}	
 	}
 
+//	@RequiresPermissions("management/project#updateProjectToLibrary#post")
+	@RequestMapping(name="更新项目纳入/出项目库", path="updateProjectToLibray", method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public	void updateProjectToLibary(@RequestBody Map data){
+		String id = data.get("id").toString();
+		Boolean isIncludLibary = Boolean.parseBoolean(data.get("isIncludLibary").toString());
+		ProjectService.updateProjectForLibary(id, isIncludLibary);
+	}
+
+
 	@RequiresPermissions("management/project#updateDisbursed#post")
 	@RequestMapping(name = "更新已拨付资金", path = "updateDisbursed", method = RequestMethod.POST)
 	@ResponseBody

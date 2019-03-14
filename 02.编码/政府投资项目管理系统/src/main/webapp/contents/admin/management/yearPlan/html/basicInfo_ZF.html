@@ -58,6 +58,10 @@
 			<!--<span data-valmsg-for="projectCategory" data-valmsg-replace="true" class="required"></span>-->
 			<span class="required" ng-show="form.projectCategory.$dirty && form.projectCategory.$invalid">必选</span>
 		</td>
+		<td class="formAlignRight">项目是否纳入项目库：</td>
+		<td>
+			<span class="required">{{(vm.model.shenBaoInfo.isIncludLibrary)==1?"是":"否";}}</span>
+		</td>
 	</tr>
 	<tr>
 		<td class="formAlignRight" style="width:150px;">项目代码：<span class="required">(*)</span></td>

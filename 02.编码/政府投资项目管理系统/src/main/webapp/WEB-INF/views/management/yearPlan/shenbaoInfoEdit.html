@@ -61,7 +61,8 @@ textarea.form-control {
   	<form id="form" name="form">
 		<div class="toolbar" style="height:36px;">
 			<div class="pull-right">
-				<button class="btn btn-sm btn-warning" ng-disabled="form.$invalid" ng-click="vm.addProjectToLibray()"><span class="glyphicon glyphicon-check"></span> 纳入项目库</button>
+				<button class="btn btn-sm btn-warning" ng-if="!vm.model.shenBaoInfo.isIncludLibrary" ng-disabled="form.$invalid" ng-click="vm.addProjectToLibray()"><span class="glyphicon glyphicon-check"></span> 纳入项目库</button>
+				<button class="btn btn-sm btn-warning" style='background-color:#ff545d' ng-if="vm.model.shenBaoInfo.isIncludLibrary" ng-disabled="form.$invalid" ng-click="vm.outProjectToLibrary()"><span class="glyphicon glyphicon-remove"></span> 纳出项目库</button>
 				<button class="btn btn-sm btn-success" ng-disabled="form.$invalid" ng-click="vm.updateProject()"><span class="glyphicon glyphicon-refresh"></span> 更新项目信息</button>
 			</div>
 		</div>

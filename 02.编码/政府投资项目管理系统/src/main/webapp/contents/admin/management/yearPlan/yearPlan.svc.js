@@ -24,6 +24,7 @@
             grid_shenbaoInfoListSH: grid_shenbaoInfoListSH,//社投申报项目列表
             updateShenBaoInfoState: updateShenBaoInfoState,//更新申报信息的状态
             addProjectToLibrary: addProjectToLibrary,//项目纳入项目库
+            outProjectToLibrary: outProjectToLibrary,//项目纳出项目库
             updateShenBaoInfo: updateShenBaoInfo,//更新申报信息
             createShenBaoInfo: createShenBaoInfo,//创建申报信息
             updateProject: updateProject,//更新项目基本信息
@@ -299,6 +300,7 @@
                 success: httpSuccess
             });
         }
+
 
         /**
          * 保存打包类型
@@ -606,6 +608,7 @@
                             msg: "操作成功",
                             fn: function () {
                                 $('.alertDialog').modal('hide');
+                                vm.model.shenBaoInfo.isIncludLibrary = !vm.model.shenBaoInfo.isIncludLibrary;
                             }
                         });
                     }
@@ -620,6 +623,43 @@
                 success: httpSuccess
             });
         }
+
+        /**
+         * 更新项目纳出项目库
+         * @param vm
+         */
+        function outProjectToLibrary(vm){
+        //    发出请求
+            var httpOptions = {
+                method : 'post',
+                url : url_shenbaoInfoList + "/outProjectToLibrary",
+                data : vm.id
+            };
+            var httpSuccess = function success(response){
+                common.requestSuccess({
+                    vm: vm,
+                    response: response,
+                    fn: function () {
+                        common.alert({
+                            vm: vm,
+                            msg: "操作成功",
+                            fn: function () {
+                                $('.alertDialog').modal('hide');
+                                vm.model.shenBaoInfo.isIncludLibrary = !vm.model.shenBaoInfo.isIncludLibrary;
+                            }
+                        });
+                    }
+                });
+            };
+
+            common.http({
+                vm: vm,
+                $http: $http,
+                httpOptions: httpOptions,
+                success: httpSuccess
+            });
+        }
+
 
         /**
          * 更新项目基本信息
@@ -2104,7 +2144,7 @@
                     title: "操作",
                     width: 110,
                     template: function (item) {
-                        return common.format($('#columnBtns').html(), item.id, item.projectInvestmentType, item.projectShenBaoStage);
+                        return common.format($('#columnBtns').html(), item.id, item.projectInvestmentType, item.projectShenBaoStage, item.isIncludLibrary);
                     },
                     attributes: {
                         style: "font-size: 14.5px"

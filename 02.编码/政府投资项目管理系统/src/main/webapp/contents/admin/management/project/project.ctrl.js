@@ -14,9 +14,11 @@
     	vm.search={};
     	vm.model={};
     	vm.basicData={};
+    	vm.libary={};
         vm.id=$state.params.id;
         vm.projectInvestmentType=$state.params.projectInvestmentType;
     	vm.page="list";
+
 
     	function init(){
     		if($state.current.name=='project'){
@@ -196,13 +198,28 @@
 	                keyboard:false
 	            });   			
 			};
-			
+
+			vm.isInLibary = function(id, isIncludLibrary){
+				vm.libary.isIncludLibrary = isIncludLibrary;
+				vm.libary.id = id;
+				$("#myModal_update").modal({
+					backdrop:'static',
+					keyboard:false
+				});
+			};
+
+			//更新项目的纳入/纳出
+			vm.updateProjectToLibray = function(){
+				projectSvc.updateProjectToLibray(vm);
+			};
+
+
 			vm.isMonthReports=function(){
 				var selectIds = common.getKendoCheckId('.grid');
                 if (selectIds.length == 0) {
                 	common.alert({
                     	vm:vm,
-                    	msg:'请选择数据！'                	
+                    	msg:'请选择数据！'
                     });
                 } else {
                 	//弹出模态框
@@ -231,7 +248,7 @@
                	 msg:"确认删除数据吗？",
                	 fn:function () { 
                		$('.confirmDialog').modal('hide');
-                    projectSvc.deleteProject(vm,id);
+                    	projectSvc.deleteProject(vm,id);
                     }
                 });
            };//del

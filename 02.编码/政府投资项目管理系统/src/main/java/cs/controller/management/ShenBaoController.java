@@ -67,6 +67,13 @@ public class ShenBaoController {
 	public void addProjectToLibrary(@RequestParam String shenbaoInfoId){
 		shenBaoInfoService.addProjectToLibrary(shenbaoInfoId);
 	}
+
+//	@RequiresPermissions("management/shenbao#outProjectToLibrary#post")
+	@RequestMapping(name = "项目纳出项目库", path = "outProjectToLibrary", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void outProjectToLibrary(@RequestBody String shenbaoInfoId){
+		shenBaoInfoService.outProjectToLibrary(shenbaoInfoId);
+	}
 	
 	@RequiresPermissions("management/shenbao#updateProjectBasic#post")
 	@RequestMapping(name = "更新项目基础信息", path = "updateProjectBasic",method=RequestMethod.POST)

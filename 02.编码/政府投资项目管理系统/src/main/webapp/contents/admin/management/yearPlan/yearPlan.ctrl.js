@@ -19,7 +19,8 @@
         vm.id=$state.params.id;
         vm.investmentType=$state.params.projectInvestmentType;
         vm.stage=$state.params.stage;
-        
+        vm.testtest = true;
+
     	function initPage(){
     		if(routName=='yearPlan_shenbaoInfoList'){//年度计划项目库--政投列表页
     			vm.page="shenbaoInfoList";
@@ -407,6 +408,7 @@
     		vm.dialog_shenbaoInfo = function(id){
     			vm.id = id;
     			yearPlanSvc.getShenBaoInfoById(vm);
+
     			$('#shenbaoInfo').modal({
                     backdrop: 'static',
                     keyboard:true
@@ -692,6 +694,10 @@
   		vm.addProjectToLibray=function(){
   			yearPlanSvc.addProjectToLibrary(vm);
   		};
+		//项目纳出项目库
+		vm.outProjectToLibrary=function(){
+			yearPlanSvc.outProjectToLibrary(vm);
+		}
       	//更新项目信息
   		vm.updateProject=function(){
             common.initJqValidation();
@@ -976,7 +982,7 @@
     	  //更新项目是否填报状态
     		vm.updateIsMonthReport = function(){
     			yearPlanSvc.updateIsMonthReport(vm);
-    		}; 
+    		};
     	    //导出印刷版Excel
 	    	vm.exportExcelForYS=function(){
 	    		yearPlanSvc.exportExcelForYS(vm);

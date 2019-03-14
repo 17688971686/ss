@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import cs.common.*;
 import cs.excelHelper.PoiExcel2k3Helper;
 import cs.excelHelper.PoiExcel2k7Helper;
@@ -21,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.util.SystemOutLogger;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Projections;
@@ -95,6 +97,25 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
         return super.get(odataObj);
     }
 
+    /**
+     * 更新项目在项目库的状态
+     * @param projectId 项目Id
+     */
+    @Override
+    public void updateProjectForLibary(String projectId, Boolean isIncludLibary) {
+        Project project = super.repository.findById(projectId);
+        if(project!=null){
+            if(project.getIsIncludLibrary() != isIncludLibary){
+                project.setIsIncludLibrary(isIncludLibary);
+                project.setModifiedBy(currentUser.getUserId());
+                project.setModifiedDate(new Date());
+                super.repository.save(project);
+                logger.info(String.format("修改项目是否在项目库内,项目名称 %s", project.getProjectName()));
+            }
+        } else {
+            throw new IllegalArgumentException(String.format("没有查找到对应的项目"));
+        }
+    }
 
     /**
      * 列表获取具有所属单位名的项目

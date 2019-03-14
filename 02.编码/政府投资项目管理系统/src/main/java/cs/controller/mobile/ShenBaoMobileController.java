@@ -37,7 +37,7 @@ public class ShenBaoMobileController {
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<ShenBaoInfoDto>  shenbaoInfoDtos= shenBaoInfoService.get(odataObj);
 		//TODO 这一块可以不需要了
-		shenbaoInfoDtos.getValue().forEach(x->{	
+		shenbaoInfoDtos.getValue().forEach(x->{
 			//获取项目相关类型的名称
 			x.setProjectClassifyDesc(basicDataService.getDescriptionById(x.getProjectClassify()));//项目分类名称
 			x.setProjectIndustryDesc(basicDataService.getDescriptionById(x.getProjectIndustry()));//项目行业领域名称

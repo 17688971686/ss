@@ -523,7 +523,7 @@
 					width : 100,
 					filterable : true
 				},
-				{
+				{//colums的一个{}
 					field : "",
 					title : "操作",
 					width : 120,
