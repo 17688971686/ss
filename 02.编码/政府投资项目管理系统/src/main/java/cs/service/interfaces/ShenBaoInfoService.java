@@ -21,6 +21,12 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
     void addProjectToLibrary(String shenbaoInfoId);
 
     /**
+     * 后台管理--项目纳出项目库
+     * @param shenbaoInfoId
+     */
+    void outProjectToLibrary(String shenbaoInfoId);
+
+    /**
      * 后台管理--更新项目基础信息
      *
      * @param dto

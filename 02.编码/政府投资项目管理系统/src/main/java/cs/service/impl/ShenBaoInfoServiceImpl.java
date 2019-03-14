@@ -456,6 +456,35 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 
     @Override
     @Transactional
+    public void outProjectToLibrary(String shenbaoInfoId){
+        ShenBaoInfo shenBaoInfo = super.findById(shenbaoInfoId);
+        if(shenBaoInfo != null){
+            Project project = projectRepo.findById(shenBaoInfo.getProjectId());
+            if(project != null){
+                if(shenBaoInfo.getIsIncludLibrary() && project.getIsIncludLibrary()){
+                    shenBaoInfo.setIsIncludLibrary(false);
+                    shenBaoInfo.setModifiedBy(currentUser.getUserId());
+                    shenBaoInfo.setModifiedDate(new Date());
+                    super.repository.save(shenBaoInfo);
+
+                    project.setIsIncludLibrary(false);
+                    project.setModifiedBy(currentUser.getUserId());
+                    project.setModifiedDate(new Date());
+                    projectRepo.save(project);
+                    logger.info(String.format("项目纳出项目库,项目名称 %s", project.getProjectName()));
+                } else {
+                    throw new IllegalArgumentException(String.format("项目：%s 未纳入项目库", project.getProjectName()));
+                }
+            } else {
+                throw new IllegalArgumentException(String.format("没有查找到对应的项目"));
+            }
+        } else {
+            throw  new IllegalArgumentException(String.format("没有查到对应的申报信息"));
+        }
+    }
+
+    @Override
+    @Transactional
     public void updateProjectBasic(ShenBaoInfoDto dto) {
         Project project = projectRepo.findById(dto.getProjectId());
         if (project != null) {

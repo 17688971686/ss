@@ -11,6 +11,7 @@
 		var url_back = "#/project";
 		var url_backSH = "#/project_SH";
 		var url_document="/management/replyFile";
+
 		var service = {
 			grid : grid,
 			grid_SH:grid_SH,
@@ -20,6 +21,7 @@
 			createProject:createProject,
 			updateIsMonthReport:updateIsMonthReport,
 			documentRecordsGird:documentRecordsGird,
+			updateProjectToLibray:updateProjectToLibray,
 			//统计分析
 			getProjects:getProjects,
             updateAlreadyDisbursedByExcel:updateAlreadyDisbursedByExcel,
@@ -28,7 +30,30 @@
 		};
 
 		return service;
-		
+
+		function updateProjectToLibray(vm){
+			var httpOptions = {
+				method : 'post',
+				url : url_project+"/updateProjectToLibray",
+				data : {id : vm.libary.id, isIncludLibary : vm.libary.isIncludLibrary}
+			};
+			var httpSuccess = function success(response){
+				//关闭提示框
+				$("#myModal_update").modal('hide');
+				//刷新表格数据
+				$('.alertDialog').modal('hide');
+				vm.gridOptions.dataSource.read();
+			};
+
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
+
+
 		function getProjects(vm){
 			var httpOptions = {
 					method : 'get',
@@ -710,12 +735,12 @@
 						title : "操作",
 						width : 150,
 						template : function(item) {
-							return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,"vm.isMonthReport('" +item.id+ "','"+item.isMonthReport+"')");
+							return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,"vm.isMonthReport('" +item.id+ "','"+item.isMonthReport+"')","vm.isInLibary('" +item.id+ "','"+item.isIncludLibrary+"')");
 						},
 						attributes: {  
 						      "class": "table-cell",  
 						      //style: "width:150px"
-						}  
+						}
 					}
 			];
 			// End:column
@@ -867,12 +892,12 @@
 						width : 120,
 						filterable : true
 					},
-					{
+					{//colums里的一个{}
 						field : "",
 						title : "操作",
 						width : 250,
 						template : function(item) {
-							return common.format($('#columnBtns').html(),item.id,item.projectInvestmentType,"vm.isMonthReport('" +item.id+ "','"+item.isMonthReport+"')");
+							return common.format($('#columnBtns').html(), item.id, item.projectInvestmentType,"vm.isMonthReport('" +item.id+ "','"+item.isMonthReport+"')","vm.isInLibary('" +item.id+ "','"+item.isIncludLibrary+"')");
 						}
 
 					}

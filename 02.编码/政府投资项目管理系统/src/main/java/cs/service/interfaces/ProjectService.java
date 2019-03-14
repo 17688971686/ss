@@ -16,8 +16,14 @@ import cs.repository.odata.ODataObj;
  * @author Administrator
  *项目管理服务层
  */
-public interface ProjectService extends IService<ProjectDto, Project, String> {		
-	
+public interface ProjectService extends IService<ProjectDto, Project, String> {
+
+	/**
+	 * 更新项目在项目库的状态
+	 * @param projectId 项目Id
+	 */
+	void updateProjectForLibary(String projectId, Boolean isIncludLibary);
+
 	/**
 	 * 更新项目是否月报
 	 * @param id
