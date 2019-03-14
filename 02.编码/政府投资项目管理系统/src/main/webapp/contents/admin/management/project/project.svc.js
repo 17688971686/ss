@@ -899,7 +899,6 @@
 						template : function(item) {
 							return common.format($('#columnBtns').html(), item.id, item.projectInvestmentType,"vm.isMonthReport('" +item.id+ "','"+item.isMonthReport+"')","vm.isInLibary('" +item.id+ "','"+item.isIncludLibrary+"')");
 						}
-
 					}
 
 			];

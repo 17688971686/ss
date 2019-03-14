@@ -20,9 +20,11 @@ public interface ProjectService extends IService<ProjectDto, Project, String> {
 
 	/**
 	 * 更新项目在项目库的状态
-	 * @param projectId 项目Id
+	 * @param odata
+	 * @param id
+	 * @param isIncludLibary
 	 */
-	void updateProjectForLibary(String projectId, Boolean isIncludLibary);
+	void updateProjectForLibary(ODataObj odata, String id, Boolean isIncludLibary);
 
 	/**
 	 * 更新项目是否月报
