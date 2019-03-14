@@ -98,19 +98,38 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
     }
 
     /**
-     * 更新项目在项目库的状态
-     * @param projectId 项目Id
+     * 修改项目库和申报信息的 isIncludLibrary 字段
+     * @param odata
+     * @param id
+     * @param isIncludLibary
      */
     @Override
-    public void updateProjectForLibary(String projectId, Boolean isIncludLibary) {
-        Project project = super.repository.findById(projectId);
-        if(project!=null){
+    public void updateProjectForLibary(ODataObj odata, String id, Boolean isIncludLibary) {
+        List<ShenBaoInfo> shenBaoInfos = shenBaoInfoRepo.findByOdata(odata);
+        Project project = super.repository.findById(id);
+        //如果shenbaoInfos数组不为空，修改申报表
+        if(!CollectionUtils.isEmpty(shenBaoInfos)){
+            ShenBaoInfo shenBaoInfo = shenBaoInfos.get(0);
+            if(shenBaoInfo != null){
+                //对比页面选择和申报表的isIncludLibrary,不同则修改后save
+                if(shenBaoInfo.getIsIncludLibrary() != isIncludLibary){
+                    shenBaoInfo.setIsIncludLibrary(isIncludLibary);
+                    shenBaoInfo.setModifiedBy(currentUser.getUserId());
+                    shenBaoInfo.setModifiedDate(new Date());
+                    shenBaoInfoRepo.save(shenBaoInfo);
+                }
+            } else {
+                throw  new IllegalArgumentException(String.format("没有查到对应的申报信息"));
+            }
+        }
+        if(project != null){
+            //对比页面选择和项目表的isIncludLibrary,不同则修改后save
             if(project.getIsIncludLibrary() != isIncludLibary){
                 project.setIsIncludLibrary(isIncludLibary);
                 project.setModifiedBy(currentUser.getUserId());
                 project.setModifiedDate(new Date());
                 super.repository.save(project);
-                logger.info(String.format("修改项目是否在项目库内,项目名称 %s", project.getProjectName()));
+                logger.info(String.format("======>修改项目纳出纳入,项目名称 %s", project.getProjectName()));
             }
         } else {
             throw new IllegalArgumentException(String.format("没有查找到对应的项目"));

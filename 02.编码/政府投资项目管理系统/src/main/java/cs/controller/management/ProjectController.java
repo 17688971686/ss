@@ -8,10 +8,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.sn.framework.odata.OdataFilter;
 import cs.controller.CommonController;
 import cs.excelHelper.PoiExcel2k3Helper;
 import cs.excelHelper.PoiExcel2k7Helper;
 import cs.model.project.UpdateDisbursedResultVO;
+import cs.repository.odata.ODataFilterItem;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,11 +145,25 @@ public class ProjectController {
 //	@RequiresPermissions("management/project#updateProjectToLibrary#post")
 	@RequestMapping(name="更新项目纳入/出项目库", path="updateProjectToLibray", method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public	void updateProjectToLibary(@RequestBody Map data){
+	public	void updateProjectToLibary(@RequestBody Map data, HttpServletRequest request) throws ParseException {
 		String id = data.get("id").toString();
 		Boolean isIncludLibary = Boolean.parseBoolean(data.get("isIncludLibary").toString());
-		ProjectService.updateProjectForLibary(id, isIncludLibary);
+        ODataObj odataObj = new ODataObj(request);
+		//传入项目id对比申报表的projectId
+        ODataFilterItem<String> oDataFilterItem = new ODataFilterItem<>();
+        oDataFilterItem.setField("projectId");
+        oDataFilterItem.setOperator("eq");
+        oDataFilterItem.setValue(id);
+        odataObj.getFilter().add(oDataFilterItem);
+		//直接传入projectShenBaoStage_7对比申报表的projectShenBaoStage
+        ODataFilterItem<String> oDataFilterItem2 = new ODataFilterItem<>();
+		oDataFilterItem2.setField("projectShenBaoStage");
+		oDataFilterItem2.setOperator("eq");
+		oDataFilterItem2.setValue("projectShenBaoStage_7");
+		odataObj.getFilter().add(oDataFilterItem2);
+        ProjectService.updateProjectForLibary(odataObj, id, isIncludLibary);
 	}
+
 
 
 	@RequiresPermissions("management/project#updateDisbursed#post")
