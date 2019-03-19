@@ -105,7 +105,7 @@
     <div class="grid" kendo-grid="grid" k-options="vm.shenBaoInfo_gridOptions_plan"></div>
 </div>
 <script type="text/template" id="columnBtns_button_2">
-    <button class="btn btn-xs btn-success" ng-if="{1}" ng-click="vm.startProcessOne('{0}')" ng-disabled="vm.isSubmit">
+    <button class="btn btn-xs btn-success" ng-if="{1} && vm.isCan" ng-click="vm.startProcessOne('{0}')" ng-disabled="vm.isSubmit">
         <span class="glyphicon glyphicon-pencil"></span>提交
     </button>
     <button class="btn btn-xs btn-success" ng-click="vm.deleteProcessOne('{0}')"><span

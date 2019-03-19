@@ -122,13 +122,18 @@
                 common.basicDataConfig().taskType_jihuaPort
             )).success(function (data) {
                 vm.sysconfig = data || {};
-                if (vm.sysconfig.configValue) {
-                    var time = vm.sysconfig.configValue.split("-");
-                    var nowTime = new Date();
-                    if (nowTime.getTime() > time[0] && nowTime.getTime() < time[1]) {
-                        vm.isCan = false;
+                if(vm.sysconfig.enable){
+                    vm.isCan = true
+                }else{
+                    if (vm.sysconfig.configValue) {
+                        var time = vm.sysconfig.configValue.split("-");
+                        var nowTime = new Date();
+                        if (nowTime.getTime() > time[0] && nowTime.getTime() < time[1]) {
+                            vm.isCan = true;
+                        }
                     }
                 }
+
             })
         }//end fun
 
@@ -484,7 +489,7 @@
                     title: "操作",
                     width: 150,
                     template: function (item) {
-                        return common.format($('#columnBtns_applications').html(), item.id, item.isStartProcess);
+                        return common.format($('#columnBtns_applications').html(), item.id, item.isStartProcess,vm.isCan,vm.sysconfig.enable);
                     }
                 }
             ];
@@ -1694,7 +1699,7 @@
                     title: "操作",
                     width: 260,
                     template: function (item) {
-                        return common.format($('#columnBtns_shenBaoInfo').html(), item.id, vm.isStartProcess);
+                        return common.format($('#columnBtns_shenBaoInfo').html(), item.id, vm.isStartProcess,vm.isCan);
                     },
                     attributes: {
                         style: "font-size: 14.5px"

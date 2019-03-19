@@ -12,7 +12,7 @@
 
     function planReachCtrl($state, planReachSvc, bsWin) {
         var vm = this;
-        vm.isCan = true;
+        vm.isCan = false;
         vm.model = {};
 
         planReachSvc.grid(vm);

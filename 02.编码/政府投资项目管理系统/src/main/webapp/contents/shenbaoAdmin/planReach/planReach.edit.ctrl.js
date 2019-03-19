@@ -3,7 +3,7 @@
 
     angular.module('app').config(["$stateProvider", function ($stateProvider) {
         $stateProvider.state('planReachEdit', {
-            url: '/planReachEdit/:id/:isStartProcess',
+            url: '/planReachEdit/:id/:isStartProcess/:isCan',
             params: {"id": null},
             templateUrl: '/shenbaoAdmin/planReach/html/edit',
             controller: 'planReachEditCtrl',
@@ -15,6 +15,7 @@
         var vm = this;
         vm.id = $state.params.id;//请求中的id参数
         vm.isStartProcess = $state.params.isStartProcess;//请求中的id参数
+        vm.isCan = $state.params.isCan;
         vm.model = {};
         vm.gg = {};
         vm.gt = {};
