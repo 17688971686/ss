@@ -931,7 +931,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
         dto.setReceiver(null);
         dto.setZong_processId(null);
         dto.setProcessStage("未开始");
-        dto.setProcessState(BasicDataConfig.processState_weikaishi);
+        dto.setProcessState(BasicDataConfig.processState_pass);
         dto.setItemOrder(entitys.size() + 1);
 
         dto.setCreatedDate(new Date());
