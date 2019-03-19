@@ -213,6 +213,23 @@
 								</div>
 							</td>
 						</tr>
+						<tr>
+							<td class="text-center" style="width:100px;">
+								<div class="uploadBox pull-left" data-type="shenpiFile">
+									<input type="file" name="files" kendo-upload
+										   k-options="vm.uploadFile"/>
+								</div>
+							</td>
+							<td>
+								<div style="margin: 3px;" ng-repeat="x in vm.model.shenBaoInfo.attachmentDtos">
+									<a href="/contents/upload/{{x.url}}" target="_blank"
+									   ng-bind="x.name"></a>
+									<button class="btn btn-xs btn-danger"
+											ng-click="vm.delFile($index)">删除
+									</button>
+								</div>
+							</td>
+						</tr>
 					</table>
 				</div>
 				<div class="modal-footer">
