@@ -49,8 +49,7 @@ public class SQLConfig {
                 "t1.thisTaskName,t1.zong_processId,t1.isIncludPack,t1.pifuZJSQBG_date,t1.pifuZJSQBG_wenhao," +
                 "t1.monitor_processId,t1.isSubShenBaoAtt,t1.isLeaderHasRead,t1.thisUser,t1.monitor_status,t1.xdPlanReach_gtzj,"
                 + "t1.pxzxBalanceTime,t1.tzkBalanceTime,t1.urgencyState,t1.xdPlanReach_ggys,t1.countryNumber,t1.pifuSCQQJFXD_wenhao,t1.isRecords,t1.pfProjectInvestSum,"+
-                "t1.pifuSCQQJFXD_date,t1.packPlanId,t1.planReachId,t1.planName,t1.isFaWen,t1.applyAPYearInvest,t1.plan_wenhao,t1.yearPlanRemark,t1.planReachConstructionContent,t1.shPlanReach_ggys,t1.shPlanReach_gtzj,t1.activeRelease"
-                + getYearPlanProjectForPageBase(exclude) + " order by t1.ProjectIndustry desc";
+                "t1.pifuSCQQJFXD_date,t1.packPlanId,t1.planReachId,t1.planName,t1.isFaWen,t1.applyAPYearInvest,t1.plan_wenhao,t1.yearPlanRemark,t1.planReachConstructionContent,t1.shPlanReach_ggys,t1.shPlanReach_gtzj,t1.activeRelease" ;
     }
     protected static String getYearPlanProjectForPageBase(boolean exclude) {
         return " FROM cs_shenbaoinfo t1 INNER JOIN cs_yearplancapital t2 " +
@@ -358,7 +357,7 @@ public class SQLConfig {
             + " ON t1.id=t2.shenBaoInfos_id"
             + " LEFT JOIN cs_planreachapplication t3"
             + " ON t2.PlanReachApplication_id=t3.id"
-            + " WHERE t3.id=:planReachId AND t1.projectShenBaoStage='projectShenBaoStage_5' ORDER BY t1.createdDate DESC";
+            + " WHERE t3.id=:planReachId AND t1.projectShenBaoStage='projectShenBaoStage_5' ";
 
     public static String shenBaoInfoOfPlanReachApplication = "SELECT"
             + " t1.id,t1.createdBy,t1.createdDate,t1.itemOrder,t1.modifiedBy,t1.modifiedDate,t1.thisUser,"
@@ -400,7 +399,7 @@ public class SQLConfig {
 
     private static String shenBaoInfoOfPackPlanOfPlanReach_base = " FROM cs_shenbaoinfo t1 " +
             "LEFT JOIN cs_packplan_cs_shenbaoinfo t2 ON t1.id=t2.shenBaoInfos_id " +
-            "LEFT JOIN cs_packplan t3 ON t2.PackPlan_id=t3.id WHERE t3.id=:packPlanId and t1.unitName=:unitName and t1.planReachId = :planReachId ORDER BY t1.createdDate DESC";
+            "LEFT JOIN cs_packplan t3 ON t2.PackPlan_id=t3.id WHERE t3.id=:packPlanId and t1.unitName=:unitName and t1.planReachId = :planReachId ";
 
     public static String shenBaoInfoOfPackPlanOfPlanReach_count = "SELECT count(1)" + shenBaoInfoOfPackPlanOfPlanReach_base;
 

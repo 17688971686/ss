@@ -189,6 +189,7 @@
 					
 			</tr>
 		</table>
+
 		 <script type="text/template" id="columnBtns_plan">
 			 <button class="btn btn-xs btn-success" ng-click="vm.dialog_addPlanReach('{0}','{1}')"><span class="glyphicon glyphicon-pencil"></span>主动下达</button>
 		 </script>
@@ -214,7 +215,7 @@
 	  	<script type="text/template" id="input">
 			<input style="width:100px" id="capitalSum_{0}" ng-click="vm.popOver($event,'{0}')" value="{1}"/>
 		</script>
-		<div ng-style="vm.popStyle" ng-show="vm.isPopOver" 
+		<div ng-style="vm.popStyle" ng-show="vm.isPopOver"
 		style="z-index:100;font-size:12px; 
 		border:1px solid #ccc; position:absolute; width:200px;  background:white;">
 			<div class="bg-info" style="padding:3px;text-align:right;">

@@ -116,6 +116,15 @@
 			}
         };
 
+        vm.doSearch_plan=function() {
+
+            yearPlanSvc.grid_yearPlan_shenbaoInfoList(vm);
+            // alert("======>2222");
+
+// $('#planGird').data('kendoGrid').refresh();
+			// alert("======>33333");
+        }
+
         vm.checkLength = function(obj,max,id){
             common.checkLength(obj,max,id);
         };

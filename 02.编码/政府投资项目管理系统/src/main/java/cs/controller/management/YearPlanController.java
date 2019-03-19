@@ -57,10 +57,10 @@ public class YearPlanController {
     }
 
     @RequiresPermissions("management/yearPlan#id/projectList#get")
-    @RequestMapping(name = "获取年度计划项目列表数据", path = "{id}/projectList", method = RequestMethod.GET)
+    @RequestMapping(name = "获取年度计划项目列表数据", path = "{id}/{projectName}/{unitName}/projectList", method = RequestMethod.GET)
     @ResponseBody
-    public PageModelDto<ShenBaoInfoDto> getShenBaoInfo(ODataObjNew odataObj, @PathVariable String id) {
-        PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = yearPlanService.getYearPlanShenBaoInfo(id, odataObj, false);
+    public PageModelDto<ShenBaoInfoDto> getShenBaoInfo(ODataObjNew odataObj,@PathVariable String id, @PathVariable String projectName, @PathVariable String unitName) {
+        PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = yearPlanService.getYearPlanShenBaoInfo(id,odataObj,false);
         return shenBaoInfoDtos;
     }
 

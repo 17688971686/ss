@@ -16,6 +16,7 @@ import cs.model.exportExcel.ExcelDataYS;
 import cs.model.exportExcel.YearPlanStatistics;
 import cs.repository.odata.ODataObj;
 import cs.repository.odata.ODataObjNew;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * @author Administrator
@@ -124,6 +125,7 @@ public interface YearPlanService extends IService<YearPlanDto, YearPlan, String>
 
 	void activeReleasePack(ODataObjNew odataObj,ShenBaoInfoDto dto);
 
+	PageModelDto<ShenBaoInfoDto> getYearPlanShenBaoInfoNew(ODataObjNew odataObj,String id, String projectName, String unitName);
 
 	ShenBaoInfoDto getShenBaoInfoById(String id);
 
