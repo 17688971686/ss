@@ -3,6 +3,7 @@ package cs.service.impl;
 import com.sn.framework.common.IdWorker;
 import com.sn.framework.common.ObjectUtils;
 import com.sn.framework.common.StringUtil;
+import com.sn.framework.odata.OdataFilter;
 import cs.common.BasicDataConfig;
 import cs.common.DoubleUtils;
 import cs.common.SQLConfig;
@@ -99,15 +100,15 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
     @Override
     @Transactional
     public YearPlan create(YearPlanDto dto) {
-    	Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), dto.getYear());
-    	List<YearPlan> entitys = super.repository.findByCriteria(criterion);
-    	for (int i = 0; i < entitys.size(); i++) {
-    		YearPlan yearPlan = entitys.get(i);
-    		if(dto.getYear().equals(yearPlan.getYear()) && dto.getIsDraftOrPlan() && yearPlan.getIsDraftOrPlan()){
-    			throw new IllegalArgumentException("当前年份："+yearPlan.getYear()+"已存在计划下达编制，其他编制信息只能用作草稿！");
-    		}
+        Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), dto.getYear());
+        List<YearPlan> entitys = super.repository.findByCriteria(criterion);
+        for (int i = 0; i < entitys.size(); i++) {
+            YearPlan yearPlan = entitys.get(i);
+            if (dto.getYear().equals(yearPlan.getYear()) && dto.getIsDraftOrPlan() && yearPlan.getIsDraftOrPlan()) {
+                throw new IllegalArgumentException("当前年份：" + yearPlan.getYear() + "已存在计划下达编制，其他编制信息只能用作草稿！");
+            }
 
-		}
+        }
 //        Criterion criterion = Restrictions.eq(YearPlan_.name.getName(), dto.getName());
 //        Criterion criterion2 = Restrictions.eq(YearPlan_.year.getName(), dto.getYear());
 //        Optional<YearPlan> yearPlan = repository.findByCriteria(criterion).stream().findFirst();
@@ -118,31 +119,31 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 //        if (yearPlan2.isPresent()) {
 //            throw new IllegalArgumentException(String.format("当前年份：%s 的编制已经存在,请创建其他年份！", dto.getYear()));
 //        } else {
-            YearPlan entity = super.create(dto);
-            //关联信息资金安排
-            dto.getYearPlanCapitalDtos().stream().forEach(x -> {
-                YearPlanCapital yearPlanCapital = new YearPlanCapital();
-                yearPlanCapitalMapper.buildEntity(x, yearPlanCapital);
-                entity.getYearPlanCapitals().add(yearPlanCapital);
-            });
-            logger.info(String.format("创建年度计划,名称：%s", dto.getName()));
-            super.repository.save(entity);
-            return entity;
+        YearPlan entity = super.create(dto);
+        //关联信息资金安排
+        dto.getYearPlanCapitalDtos().stream().forEach(x -> {
+            YearPlanCapital yearPlanCapital = new YearPlanCapital();
+            yearPlanCapitalMapper.buildEntity(x, yearPlanCapital);
+            entity.getYearPlanCapitals().add(yearPlanCapital);
+        });
+        logger.info(String.format("创建年度计划,名称：%s", dto.getName()));
+        super.repository.save(entity);
+        return entity;
 //        }
     }
 
     @Override
     @Transactional
     public YearPlan update(YearPlanDto dto, String id) {
-    	Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), dto.getYear());
-    	List<YearPlan> entitys = super.repository.findByCriteria(criterion);
-    	for (int i = 0; i < entitys.size(); i++) {
-    		YearPlan yearPlan = entitys.get(i);
-    		if(dto.getYear().equals(yearPlan.getYear()) && dto.getIsDraftOrPlan() && yearPlan.getIsDraftOrPlan()){
-    			throw new IllegalArgumentException("当前年份："+yearPlan.getYear()+"已存在计划下达编制，其他编制信息只能用作草稿！");
-    		}
+        Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), dto.getYear());
+        List<YearPlan> entitys = super.repository.findByCriteria(criterion);
+        for (int i = 0; i < entitys.size(); i++) {
+            YearPlan yearPlan = entitys.get(i);
+            if (dto.getYear().equals(yearPlan.getYear()) && dto.getIsDraftOrPlan() && yearPlan.getIsDraftOrPlan()) {
+                throw new IllegalArgumentException("当前年份：" + yearPlan.getYear() + "已存在计划下达编制，其他编制信息只能用作草稿！");
+            }
 
-		}
+        }
 
         YearPlan entity = super.update(dto, id);
         //关联信息资金安排
@@ -173,57 +174,142 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
         super.delete(id);
     }
 
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public PageModelDto<ShenBaoInfoDto> getYearPlanShenBaoInfoNew(ODataObjNew odataObj,String id, String projectName, String unitName) {
+        //查询总数
+        BigInteger countQuery = null;
+
+        StringBuffer sb = new StringBuffer();
+        StringBuffer sb2 = new StringBuffer();
+        sb.append("select count(1)");
+        sb2.append(" FROM cs_shenbaoinfo t1 INNER JOIN cs_yearplancapital t2 ");
+        sb2.append(" on t1.id = t2.shenbaoInfoId inner join ");
+        sb2.append(" cs_yearplan_cs_yearplancapital t3 on t2.id=t3.yearPlanCapitals_id ");
+        sb2.append("WHERE t3.yearplan_id=:yearPlanId ");
+
+        if (!StringUtils.isEmpty(projectName) && !"undefined".equals(projectName)) {
+            sb2.append(" and t1.projectName LIKE ");
+            sb2.append("'%");
+            sb2.append(projectName);
+            sb2.append("%'");
+        }
+        if (!StringUtils.isEmpty(unitName) && !"undefined".equals(unitName)) {
+            sb2.append(" and t1.unitName = ");
+            sb2.append("'");
+            sb2.append(unitName);
+            sb2.append("'");
+        }
+
+        sb.append(sb2);
+        countQuery = (BigInteger) shenbaoInfoRepo.getSession()
+                .createNativeQuery(sb.toString())
+                .setParameter("yearPlanId", id)
+                .getSingleResult();
+
+        int count = countQuery == null ? 0 : countQuery.intValue();
+        List<ShenBaoInfoDto> shenBaoInfoDtos = new ArrayList<>();
+        if (count > 0) {
+            int skip = odataObj.getSkip(), stop = odataObj.getTop();
+            StringBuffer sb_entity = new StringBuffer();
+
+
+            sb_entity.append(SQLConfig.getYearPlanProjectForPage(false));
+            sb_entity.append(sb2);
+
+            sb_entity.append(" order by t1.createdDate desc");
+            //分页查询数据
+            List<ShenBaoInfo> shenBaoInfos = shenbaoInfoRepo.getSession()
+                    .createNativeQuery(sb_entity.toString(), ShenBaoInfo.class)
+                    .setParameter("yearPlanId", id)
+                    .setFirstResult(skip).setMaxResults(stop)
+                    .getResultList();
+            shenBaoInfos.forEach(x -> shenBaoInfoDtos.add(shenbaoInfoMapper.toDto(x)));
+        }
+
+        return new PageModelDto<>(shenBaoInfoDtos, count);
+    }
+
     @Override
     @Transactional(rollbackOn = Exception.class)
     public PageModelDto<ShenBaoInfoDto> getYearPlanShenBaoInfo(String planId, ODataObjNew odataObj, boolean exclude) {
-//        YearPlan yearPlan = super.repository.findById(planId);
-//        if (yearPlan != null) {
-    	//查询总数
-	    	BigInteger countQuery= null;
-	    	 if(odataObj.getFilterList().size()>0){
-                 String projectName = odataObj.getFilterList().get(0).getValue().toString();
+        //查询总数
+        BigInteger countQuery = null;
 
-	    		 countQuery = (BigInteger) shenbaoInfoRepo.getSession()
-	                     .createNativeQuery(SQLConfig.getYearPlanProjectForPageCount(exclude))
-	                     .setParameter("yearPlanId", planId)
-	                     .setParameter("unitName", odataObj.getFilterList().get(0).getValue())
-	                     .getSingleResult();
-	    	 }else{
-	    		  countQuery = (BigInteger) shenbaoInfoRepo.getSession()
-	                      .createNativeQuery(getYearPlanProjectCount(exclude))
-	                      .setParameter("yearPlanId", planId)
-	                      .getSingleResult();
-	    	 }
+        StringBuffer sb = new StringBuffer();
+        StringBuffer sb2 = new StringBuffer();
+        sb.append("select count(1)");
+        sb2.append(" FROM cs_shenbaoinfo t1 INNER JOIN cs_yearplancapital t2 ");
+        sb2.append(" on t1.id = t2.shenbaoInfoId inner join ");
+        sb2.append(" cs_yearplan_cs_yearplancapital t3 on t2.id=t3.yearPlanCapitals_id ");
+        sb2.append("WHERE t3.yearplan_id=:yearPlanId ");
 
-
-            int count = countQuery == null ? 0 : countQuery.intValue();
-            List<ShenBaoInfoDto> shenBaoInfoDtos = new ArrayList<>();
-            if (count > 0) {
-                int skip = odataObj.getSkip(), stop = odataObj.getTop();
-                if(odataObj.getFilterList().size()>0){
-                	 //分页查询数据
-                    List<ShenBaoInfo> shenBaoInfos = shenbaoInfoRepo.getSession()
-                            .createNativeQuery(SQLConfig.getYearPlanProjectForPage(exclude), ShenBaoInfo.class)
-                            .setParameter("yearPlanId", planId)
-                            .setParameter("unitName", odataObj.getFilterList().get(0).getValue())
-                            .setFirstResult(skip).setMaxResults(stop)
-                            .getResultList();
-                    shenBaoInfos.forEach(x -> shenBaoInfoDtos.add(shenbaoInfoMapper.toDto(x)));
-                }else{
-                	 //分页查询数据
-                    List<ShenBaoInfo> shenBaoInfos = shenbaoInfoRepo.getSession()
-                            .createNativeQuery(getYearPlanProject(exclude), ShenBaoInfo.class)
-                            .setParameter("yearPlanId", planId)
-                            .setFirstResult(skip).setMaxResults(stop)
-                            .getResultList();
-                    shenBaoInfos.forEach(x -> shenBaoInfoDtos.add(shenbaoInfoMapper.toDto(x)));
+        if(!CollectionUtils.isEmpty(odataObj.getFilterList())){
+            if(!StringUtils.isEmpty(odataObj.getFilterList().get(0).getFiledName())){
+                String value = odataObj.getFilterList().get(0).getValue().toString();
+                String key = odataObj.getFilterList().get(0).getFiledName().toString();
+                if ("projectName".equals(key)) {
+                    sb2.append(" and t1.projectName LIKE ");
+                    sb2.append("'%");
+                    sb2.append(value);
+                    sb2.append("%'");
                 }
-
+                if ("constructionUnit".equals(key)) {
+                    sb2.append(" and t1.constructionUnit LIKE ");
+                    sb2.append("'%");
+                    sb2.append(value);
+                    sb2.append("%'");
+                }
+            }else{
+               ArrayList list = (ArrayList) odataObj.getFilterList().get(0).getValue();
+                for (int i = 0; i<list.size();i++){
+                    OdataFilter of = (OdataFilter) list.get(i);
+                    String value =of.getValue().toString();
+                    String key = of.getFiledName().toString();
+                    if ("projectName".equals(key)) {
+                        sb2.append(" and t1.projectName LIKE ");
+                        sb2.append("'%");
+                        sb2.append(value);
+                        sb2.append("%'");
+                    }
+                    if ("constructionUnit".equals(key)) {
+                        sb2.append(" and t1.constructionUnit LIKE ");
+                        sb2.append("'%");
+                        sb2.append(value);
+                        sb2.append("%'");
+                    }
+                }
             }
+        }
 
-            return new PageModelDto<>(shenBaoInfoDtos, count);
-//        }
-//        return null;
+        sb.append(sb2);
+        countQuery = (BigInteger) shenbaoInfoRepo.getSession()
+                .createNativeQuery(sb.toString())
+                .setParameter("yearPlanId", planId)
+                .getSingleResult();
+
+        int count = countQuery == null ? 0 : countQuery.intValue();
+        List<ShenBaoInfoDto> shenBaoInfoDtos = new ArrayList<>();
+        if (count > 0) {
+            int skip = odataObj.getSkip(), stop = odataObj.getTop();
+            StringBuffer sb_entity = new StringBuffer();
+
+
+            sb_entity.append(SQLConfig.getYearPlanProjectForPage(exclude));
+            sb_entity.append(sb2);
+
+            sb_entity.append(" order by t1.createdDate desc");
+            //分页查询数据
+            List<ShenBaoInfo> shenBaoInfos = shenbaoInfoRepo.getSession()
+                    .createNativeQuery(sb_entity.toString(), ShenBaoInfo.class)
+                    .setParameter("yearPlanId", planId)
+                    .setFirstResult(skip).setMaxResults(stop)
+                    .getResultList();
+            shenBaoInfos.forEach(x -> shenBaoInfoDtos.add(shenbaoInfoMapper.toDto(x)));
+        }
+
+        return new PageModelDto<>(shenBaoInfoDtos, count);
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -292,7 +378,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
                 //通过申报信息id获取项目名称
                 //String projectName = shenbaoInfoRepo.findById(shenBaoId).getProjectName();
 //                throw new IllegalArgumentException("已经存在编制计划中,请重新选择！");
-            	return;
+                return;
             } else {
                 //根据申报信息id创建年度计划资金
                 YearPlanCapital entity = new YearPlanCapital();
@@ -671,19 +757,20 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
         logger.info(String.format("移除年度计划资金,名称：%s", yearPlan.getName()));
 
     }
+
     @Override
-    public ShenBaoInfoDto getShenBaoInfoById(String id){
-       YearPlanCapital yc = yearPlanCapitalRepo.findById(id);
+    public ShenBaoInfoDto getShenBaoInfoById(String id) {
+        YearPlanCapital yc = yearPlanCapitalRepo.findById(id);
         ShenBaoInfoDto dto = shenbaoInfoMapper.toDto(shenbaoInfoRepo.findById(yc.getShenbaoInfoId()));
         return dto;
     }
 
     @Override
-    public ShenBaoInfoDto getProjectInfoById(String id){
+    public ShenBaoInfoDto getProjectInfoById(String id) {
         ProjectDto dto = projectMapper.toDto(projectRepo.findById(id));
         ShenBaoInfoDto shenbaoinfoDto = new ShenBaoInfoDto();
         try {
-            Copy(dto,shenbaoinfoDto);
+            Copy(dto, shenbaoinfoDto);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -695,10 +782,10 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 
     public static void Copy(Object source, Object to) throws Exception {
         // 获取属性
-        BeanInfo sourceBean = Introspector.getBeanInfo(source.getClass(),java.lang.Object.class);
+        BeanInfo sourceBean = Introspector.getBeanInfo(source.getClass(), java.lang.Object.class);
         PropertyDescriptor[] sourceProperty = sourceBean.getPropertyDescriptors();
 
-        BeanInfo destBean = Introspector.getBeanInfo(to.getClass(),java.lang.Object.class);
+        BeanInfo destBean = Introspector.getBeanInfo(to.getClass(), java.lang.Object.class);
         PropertyDescriptor[] destProperty = destBean.getPropertyDescriptors();
 
         try {
@@ -708,7 +795,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 
                     if (sourceProperty[i].getName().equals(destProperty[j].getName())) {
                         // 调用source的getter方法和dest的setter方法
-                        destProperty[j].getWriteMethod().invoke(to,sourceProperty[i].getReadMethod().invoke(source));
+                        destProperty[j].getWriteMethod().invoke(to, sourceProperty[i].getReadMethod().invoke(source));
                         break;
                     }
                 }
@@ -720,34 +807,34 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 
 
     @Override
-    public void activeRelease(ODataObjNew odataObj, ShenBaoInfoDto dto,String packid){
+    public void activeRelease(ODataObjNew odataObj, ShenBaoInfoDto dto, String packid) {
         List<ShenBaoInfo> entitys = new ArrayList<>();
-        if(ObjectUtils.isEmpty(dto.getPackPlanId())){
+        if (ObjectUtils.isEmpty(dto.getPackPlanId())) {
             dto.setPlanName("单列主动下达");
             ShenBaoInfo entity = shenbaoInfoRepo.findById(dto.getId());
 
             Assert.notNull(entity, "添加的项目不存在");
-            if(Double.doubleToLongBits(dto.getProjectInvestSum())<Double.doubleToLongBits(DoubleUtils.sum(dto.getXdPlanReach_ggys().doubleValue(),dto.getXdPlanReach_gtzj())+dto.getProjectInvestAccuSum())){
+            if (Double.doubleToLongBits(dto.getProjectInvestSum()) < Double.doubleToLongBits(DoubleUtils.sum(dto.getXdPlanReach_ggys().doubleValue(), dto.getXdPlanReach_gtzj()) + dto.getProjectInvestAccuSum())) {
                 throw new IllegalArgumentException("超过项目总投资，无法提交！！");
             }
-            if(Double.doubleToLongBits(dto.getProjectInvestSum())<Double.doubleToLongBits(DoubleUtils.sum(dto.getShPlanReach_ggys().doubleValue(),dto.getShPlanReach_gtzj())+dto.getProjectInvestAccuSum())){
+            if (Double.doubleToLongBits(dto.getProjectInvestSum()) < Double.doubleToLongBits(DoubleUtils.sum(dto.getShPlanReach_ggys().doubleValue(), dto.getShPlanReach_gtzj()) + dto.getProjectInvestAccuSum())) {
                 throw new IllegalArgumentException("超过项目总投资，无法提交！！");
             }
 
-            if(dto.getCapitalAP_ggys_TheYear()==null){
+            if (dto.getCapitalAP_ggys_TheYear() == null) {
                 dto.setCapitalAP_ggys_TheYear(0.0);
             }
-            if(dto.getCapitalAP_gtzj_TheYear()==null){
+            if (dto.getCapitalAP_gtzj_TheYear() == null) {
                 dto.setCapitalAP_gtzj_TheYear(0.0);
             }
-            if(Double.doubleToLongBits(dto.getXdPlanReach_ggys())>Double.doubleToLongBits(dto.getCapitalAP_ggys_TheYear())){
+            if (Double.doubleToLongBits(dto.getXdPlanReach_ggys()) > Double.doubleToLongBits(dto.getCapitalAP_ggys_TheYear())) {
                 throw new IllegalArgumentException("超过年度安排资金-公共预算,无法提交！");
             }
-            if(Double.doubleToLongBits(dto.getXdPlanReach_gtzj())>Double.doubleToLongBits(dto.getCapitalAP_gtzj_TheYear())){
+            if (Double.doubleToLongBits(dto.getXdPlanReach_gtzj()) > Double.doubleToLongBits(dto.getCapitalAP_gtzj_TheYear())) {
                 throw new IllegalArgumentException("超过年度安排资金-国土资金,无法提交！");
             }
 
-            if(Double.doubleToLongBits(dto.getApplyAPYearInvest())+Double.doubleToLongBits(dto.getXdPlanReach_ggys())+Double.doubleToLongBits(dto.getXdPlanReach_gtzj())>Double.doubleToLongBits(dto.getCapitalAP_gtzj_TheYear())+Double.doubleToLongBits(dto.getCapitalAP_ggys_TheYear())){
+            if (Double.doubleToLongBits(dto.getApplyAPYearInvest()) + Double.doubleToLongBits(dto.getXdPlanReach_ggys()) + Double.doubleToLongBits(dto.getXdPlanReach_gtzj()) > Double.doubleToLongBits(dto.getCapitalAP_gtzj_TheYear()) + Double.doubleToLongBits(dto.getCapitalAP_ggys_TheYear())) {
                 throw new IllegalArgumentException("超过年度安排总投资,无法提交！");
             }
 
@@ -793,9 +880,9 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
             entity.setPlanReachConstructionContent(null);
             shenbaoInfoRepo.save(entity);
 
-        }else{
+        } else {
             PackPlan pack = packPlanRepo.findById(packid);
-            dto.setPlanName("主动下达"+pack.getName());
+            dto.setPlanName("主动下达" + pack.getName());
             Criteria criteria = DetachedCriteria.forClass(ShenBaoInfo.class).getExecutableCriteria(repository.getSession())
                     .add(Restrictions.eq(ShenBaoInfo_.projectId.getName(), dto.getProjectId())).add(Restrictions
                             .eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach));
@@ -803,11 +890,12 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
             entitys = criteria.list();
 
             ShenBaoInfo shenbaoinfo = new ShenBaoInfo();
-            if(entitys.size()>0){
+            if (entitys.size() > 0) {
                 boolean isOk = false;
-                loop:for (int i=0;i<entitys.size();i++){
+                loop:
+                for (int i = 0; i < entitys.size(); i++) {
 
-                    if(!StringUtils.isEmpty(entitys.get(i).getItemOrder())&&entitys.get(i).getItemOrder()==entitys.size()){
+                    if (!StringUtils.isEmpty(entitys.get(i).getItemOrder()) && entitys.get(i).getItemOrder() == entitys.size()) {
                         shenbaoinfo = entitys.get(i);
 
                         break loop;
@@ -818,20 +906,20 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
             dto.setApInvestSum(shenbaoinfo.getApInvestSum() + dto.getXdPlanReach_gtzj() + dto.getXdPlanReach_ggys());
             AllocationCapital ac = allocationCapitalRepo.findById(dto.getPackPlanId());
 
-            if(Double.doubleToLongBits(dto.getShPlanReach_ggys().doubleValue())>Double.doubleToLongBits(DoubleUtils.sub(ac.getCapital_ggys(),ac.getCapital_ggys_surplus())) ){
-                            throw new IllegalArgumentException("超过建设资金预留-公共预算,无法提交！");
-                        }
-                        if(Double.doubleToLongBits(dto.getShPlanReach_gtzj())>Double.doubleToLongBits(DoubleUtils.sub(ac.getCapital_gtzj(),ac.getCapital_gtzj_surplus()))){
-                            throw new IllegalArgumentException("超过建设资金预留-国土资金，无法提交！！");
-                        }
-                        if(Double.doubleToLongBits(dto.getXdPlanReach_ggys().doubleValue())>Double.doubleToLongBits(DoubleUtils.sub(ac.getCapital_ggys(),ac.getCapital_ggys_surplus())) ){
-                            throw new IllegalArgumentException("超过建设资金预留-公共预算,无法提交！");
-                        }
-                        if(Double.doubleToLongBits(dto.getXdPlanReach_gtzj())>Double.doubleToLongBits(DoubleUtils.sub(ac.getCapital_gtzj(),ac.getCapital_gtzj_surplus()))){
-                            throw new IllegalArgumentException("超过建设资金预留-国土资金，无法提交！！");
-                        }
-                        ac.setCapital_ggys_surplus(DoubleUtils.sum(ac.getCapital_ggys_surplus() , dto.getXdPlanReach_ggys()));
-                        ac.setCapital_gtzj_surplus(DoubleUtils.sum(ac.getCapital_gtzj_surplus() , dto.getXdPlanReach_gtzj()));
+            if (Double.doubleToLongBits(dto.getShPlanReach_ggys().doubleValue()) > Double.doubleToLongBits(DoubleUtils.sub(ac.getCapital_ggys(), ac.getCapital_ggys_surplus()))) {
+                throw new IllegalArgumentException("超过建设资金预留-公共预算,无法提交！");
+            }
+            if (Double.doubleToLongBits(dto.getShPlanReach_gtzj()) > Double.doubleToLongBits(DoubleUtils.sub(ac.getCapital_gtzj(), ac.getCapital_gtzj_surplus()))) {
+                throw new IllegalArgumentException("超过建设资金预留-国土资金，无法提交！！");
+            }
+            if (Double.doubleToLongBits(dto.getXdPlanReach_ggys().doubleValue()) > Double.doubleToLongBits(DoubleUtils.sub(ac.getCapital_ggys(), ac.getCapital_ggys_surplus()))) {
+                throw new IllegalArgumentException("超过建设资金预留-公共预算,无法提交！");
+            }
+            if (Double.doubleToLongBits(dto.getXdPlanReach_gtzj()) > Double.doubleToLongBits(DoubleUtils.sub(ac.getCapital_gtzj(), ac.getCapital_gtzj_surplus()))) {
+                throw new IllegalArgumentException("超过建设资金预留-国土资金，无法提交！！");
+            }
+            ac.setCapital_ggys_surplus(DoubleUtils.sum(ac.getCapital_ggys_surplus(), dto.getXdPlanReach_ggys()));
+            ac.setCapital_gtzj_surplus(DoubleUtils.sum(ac.getCapital_gtzj_surplus(), dto.getXdPlanReach_gtzj()));
             allocationCapitalRepo.save(ac);
         }
 
@@ -844,7 +932,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
         dto.setZong_processId(null);
         dto.setProcessStage("未开始");
         dto.setProcessState(BasicDataConfig.processState_weikaishi);
-        dto.setItemOrder(entitys.size()+1);
+        dto.setItemOrder(entitys.size() + 1);
 
         dto.setCreatedDate(new Date());
         dto.setCreatedBy(currentUser.getUserId());
@@ -856,9 +944,9 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
     }
 
     @Override
-    public void activeReleasePack(ODataObjNew odataObj, ShenBaoInfoDto dto){
+    public void activeReleasePack(ODataObjNew odataObj, ShenBaoInfoDto dto) {
         Project project = projectRepo.findById(dto.getId());
-        Assert.notNull(project,"查询不到项目，请重新添加！");
+        Assert.notNull(project, "查询不到项目，请重新添加！");
 
         // 年度计划申报信息
         ShenBaoInfo shenbaoinfo = new ShenBaoInfo();

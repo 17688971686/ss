@@ -605,7 +605,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
                 throw new IllegalArgumentException("超过年度安排总投资,无法提交！");
             }
             //年度安排总投资
-            shenBaoInfo.setApplyAPYearInvest(shenBaoInfo.getApplyAPYearInvest() + shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
+            shenBaoInfo.setApplyAPYearInvest(shenbaoinfoDto.getApplyAPYearInvest() + shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
             //计划审核资金
             shenBaoInfo.setShPlanReach_gtzj(shenbaoinfoDto.getShPlanReach_gtzj());
             shenBaoInfo.setShPlanReach_ggys(shenbaoinfoDto.getShPlanReach_ggys());
@@ -620,7 +620,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
             Criterion criterion2 = Restrictions.and(criterion,criterion1,criterion3);
             List<ShenBaoInfo> nextyearplan = shenBaoInfoRepo.findByCriteria(criterion2);
             if(nextyearplan.size()>0){
-                nextyearplan.get(0).setApplyAPYearInvest(nextyearplan.get(0).getApplyAPYearInvest() + shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
+                nextyearplan.get(0).setApplyAPYearInvest(shenbaoinfoDto.getApplyAPYearInvest() + shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
+                shenBaoInfoRepo.save(nextyearplan.get(0));
             }
 
         }
@@ -662,7 +663,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
         shenBaoInfo.setPlan_wenhao(shenbaoinfoDto.getPlan_wenhao());
 
         //累计安排总资金累加
-        shenBaoInfo.setApInvestSum(shenBaoInfo.getApInvestSum() + shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
+        shenBaoInfo.setApInvestSum(shenbaoinfoDto.getApInvestSum() + shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
         if (shenBaoInfo.getThisTaskName().equals("usertask5") && "next".equals(str)) {
             shenBaoInfo.setThisTaskId("00000");
             shenBaoInfo.setProcessStage("已办结");

@@ -394,7 +394,7 @@
                     field: "projectName",
                     title: "项目名称",
                     width: 250,
-                    filterable: false
+                    filterable: true
                 },
                 {
                     field: "projectIndustry",
@@ -544,7 +544,7 @@
                     template: function (item) {
                         return common.format('<a href="#/project/projectInfo/{0}">{2}</a>', item.projectId, item.projectInvestmentType, item.projectName);
                     },
-                    filterable: false,
+                    filterable: true,
                     headerAttributes: {
                         "class": "table-header-cell",
                         style: "text-align: center;vertical-align: middle;",
@@ -1368,7 +1368,7 @@
                     template: function (item) {
                         return common.format('<a href="#/project/projectInfo/{0}">{2}</a>', item.projectId, item.projectInvestmentType, item.projectName);
                     },
-                    filterable: false,
+                    filterable: true,
                     headerAttributes: {
                         "class": "table-header-cell",
                         style: "text-align: center;vertical-align: middle;",
@@ -1396,7 +1396,7 @@
                     }
                 },
                 {
-                    field: "projectInvestAccuSum",
+                    field: "apInvestSum",
                     title: "累计完成投资",
                     width: 140,
                     filterable: false,
@@ -1733,11 +1733,8 @@
                 serverPaging: true,
                 serverSorting: true,
                 serverFiltering: true,
-                pageSize: 10,
-                sort: {
-                    field: "createdDate",
-                    dir: "desc"
-                }
+                pageSize: 10
+
             });
             // End:dataSource
 
@@ -1765,7 +1762,7 @@
                         return common.format('<a href="#/project/projectInfo/{0}" >{2}</a>', item.projectId, item.projectInvestmentType, item.projectName);
                     },
                     width: 300,
-                    filterable: false,
+                    filterable: true,
                     headerAttributes: {
                         "class": "table-header-cell",
                         style: "text-align: center;vertical-align: middle;",

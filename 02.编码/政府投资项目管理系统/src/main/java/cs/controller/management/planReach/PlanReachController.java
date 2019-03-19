@@ -136,6 +136,11 @@ public class PlanReachController {
         return ctrl + "/tabList";
     }
 
+    @RequestMapping(name = "计划下达批复列表页面", path = "html/activeTabList", method = RequestMethod.GET)
+    public String activeTabList() {
+        return ctrl + "/activeTabList";
+    }
+
     //@RequiresPermissions("management/planReachManage/planReach#html/tabEdit#get")
     @RequestMapping(name = "计划下达批复编辑页面", path = "html/tabEdit", method = RequestMethod.GET)
     public String tabEdit() {

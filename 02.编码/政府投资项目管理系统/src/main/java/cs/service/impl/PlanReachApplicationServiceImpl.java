@@ -243,8 +243,24 @@ public class PlanReachApplicationServiceImpl
 	public PageModelDto<ShenBaoInfoDto> getShenBaoInfo(String planReachId, ODataObj odataObj) {
 		Session session = planReachApplicationRepo.getSession();
 
+		StringBuffer sb = new StringBuffer();
+		StringBuffer sb1 = new StringBuffer();
+
+		sb.append("SELECT count(1) ");
+		sb.append(SQLConfig.shenBaoInfoOfPlanReachApplication_base);
+		if(!CollectionUtils.isEmpty(odataObj.getFilter())) {
+			String key = odataObj.getFilter().get(0).getField().toString();
+			String value = odataObj.getFilter().get(0).getValue().toString();
+			sb1.append(" and t1.projectName LIKE ");
+			sb1.append("'%");
+			sb1.append(value);
+			sb1.append("%'");
+
+		}
+		sb.append(sb1);
+
 		// 查询总数
-		BigInteger countQuery = (BigInteger) session.createNativeQuery(shenBaoInfoOfPlanReachApplication_count)
+		BigInteger countQuery = (BigInteger) session.createNativeQuery(sb.toString())
 				.setParameter("planReachId", planReachId).getSingleResult();
 
 		int count = countQuery == null ? 0 : countQuery.intValue();
@@ -252,9 +268,12 @@ public class PlanReachApplicationServiceImpl
 		List<ShenBaoInfoDto> shenBaoInfoDtos = null;
 		if (count > 0) {
 			int skip = odataObj.getSkip(), stop = odataObj.getTop();
+			StringBuffer sb_entity = new StringBuffer();
+			sb_entity.append(shenBaoInfoOfPlanReachApplication);
+			sb_entity.append(sb1);
 			// 分页查询数据
 			List<ShenBaoInfo> shenBaoInfos = session
-					.createNativeQuery(shenBaoInfoOfPlanReachApplication, ShenBaoInfo.class)
+					.createNativeQuery(sb_entity.toString(), ShenBaoInfo.class)
 					.setParameter("planReachId", planReachId)
 					.setFirstResult(skip).setMaxResults(stop)
 					.getResultList();
@@ -589,10 +608,26 @@ public class PlanReachApplicationServiceImpl
 
 	@Override
 	public PageModelDto<ShenBaoInfoDto> getShenBaoInfoFromPackPlan(String packId, String planReachId,ODataObj odataObj) {
+		StringBuffer sb = new StringBuffer();
+		StringBuffer sb1 = new StringBuffer();
+
+		sb.append(SQLConfig.shenBaoInfoOfPackPlanOfPlanReach_count);
+		if(!CollectionUtils.isEmpty(odataObj.getFilter())) {
+			String key = odataObj.getFilter().get(0).getField().toString();
+			String value = odataObj.getFilter().get(0).getValue().toString();
+			sb1.append(" and t1.projectName LIKE ");
+			sb1.append("'%");
+			sb1.append(value);
+			sb1.append("%'");
+
+		}
+
+		sb.append(sb1);
+
 		// 查询总数
 		UserUnitInfoDto userUnitInfoDto = userUnitInfoService.getByUserId(currentUser.getUserId());
 		BigInteger countQuer = (BigInteger) packPlanRepo.getSession()
-				.createNativeQuery(shenBaoInfoOfPackPlanOfPlanReach_count)
+				.createNativeQuery(sb.toString())
 				.setParameter("packPlanId", packId)
 				.setParameter("unitName", userUnitInfoDto.getId())
 				.setParameter("planReachId", planReachId)
@@ -603,9 +638,12 @@ public class PlanReachApplicationServiceImpl
 		if (count > 0) {
 			int skip = odataObj.getSkip(), stop = odataObj.getTop();
 
+			StringBuffer sb_entity = new StringBuffer();
+			sb_entity.append(shenBaoInfoOfPackPlanOfPlanReach);
+			sb_entity.append(sb1);
 			// 分页查询数据
 			List<ShenBaoInfo> shenBaoInfos = packPlanRepo.getSession()
-					.createNativeQuery(shenBaoInfoOfPackPlanOfPlanReach, ShenBaoInfo.class)
+					.createNativeQuery(sb_entity.toString(), ShenBaoInfo.class)
 					.setParameter("packPlanId", packId)
 					.setParameter("unitName", userUnitInfoDto.getId())
 					.setParameter("planReachId", planReachId)

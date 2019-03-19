@@ -208,6 +208,15 @@
 	            controller: 'planReachCtrl',
 	            controllerAs: 'vm'
 	        })
+			//主动下达统计页面
+            .state('active_planReach_tabList', {
+                url: '/active_planReach_tabList',
+                templateUrl: '/management/planReachManage/planReach/html/activeTabList.html',
+                controller: 'planReachCtrl',
+                controllerAs: 'vm'
+            })
+
+
 	        //计划下达批复--编辑页面
 	        .state('planReach_tabEdit', {
 	            url: '/planReach_tabEdit/:id',

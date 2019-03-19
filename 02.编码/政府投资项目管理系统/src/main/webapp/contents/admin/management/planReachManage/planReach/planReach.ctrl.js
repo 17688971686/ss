@@ -22,6 +22,9 @@
         	if(routeName == 'planReach_tabList'){
         		vm.page = 'tabList';
         	}
+            if(routeName == 'active_planReach_tabList'){
+                vm.page = 'activeTabList';
+            }
         	if(routeName == 'planReach_tabEdit'){
         		vm.page = 'tabEdit';
         	}
@@ -78,10 +81,14 @@
 	   			.toArray();//政府投资项目行业
         	vm.basicData.userUnit=common.getUserUnits();
         }//end fun init
-        
+
+		function activeTabList(){
+            planReachSvc.activeGrid(vm);
+		}
+
         function list(){
         	planReachSvc.grid(vm);
-        	
+
         	vm.addmoney = function (shenbaoId) {
                 if (vm.gg[shenbaoId] == undefined) {
                     vm.gg[shenbaoId] = 0;
@@ -304,6 +311,10 @@
         	if(vm.page == 'print'){
         		print();
         	}
+            if(vm.page == 'activeTabList'){
+                activeTabList();
+            }
+
         }//end fun active
     }
 })();

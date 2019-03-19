@@ -850,6 +850,7 @@
             var httpSuccess = function success(response) {
                 //查询年度计划统计数据--更新页面数据
                 getPlanStatisticsInfo(vm);
+                alert("======>编制申报信息列表");
                 vm.planGridOptions.dataSource.read();//编制申报信息列表数据刷新
             };
 
@@ -1152,6 +1153,7 @@
                     vm.model.plan = response.data.value[0] || {};
                     vm.planYear = vm.model.plan.year;//用于编制列表表头年份的绑定
                     grid_yearPlan_shenbaoInfoList(vm);//查询年度计划编制中的申报信息列表
+
                 }
                 if (vm.page == 'pack_update') {
                     vm.model = response.data.value[0] || {};
@@ -1202,10 +1204,10 @@
         function grid_yearPlan_shenbaoInfoList(vm) {
             var dataSource = new kendo.data.DataSource({
                 type: 'odata',
-                transport: common.kendoGridConfig().transport(url_planList + "/" + vm.id + "/projectList"),
+                transport: common.kendoGridConfig().transport(url_planList + "/" + vm.id +"/" + vm.search.projectName +"/" + vm.search.unitName + "/projectList"),
                 schema: common.kendoGridConfig().schema({
-                    id: "yearPlanCapitalId"
-                }),
+                id: "yearPlanCapitalId"
+            }),
                 serverPaging: true,
                 serverSorting: true,
                 serverFiltering: true,
@@ -1239,7 +1241,7 @@
                     field: "constructionUnit",
                     title: "建设单位",
                     width: 200,
-                    filterable: false,
+                    filterable: true,
                     headerAttributes: {
                         "class": "table-header-cell",
                         style: "text-align: center;vertical-align: middle;"
@@ -1252,7 +1254,7 @@
                         return common.format('<a href="#/projectDetails/{0}/{1}" >{2}</a>', item.projectId, item.projectInvestmentType, item.projectName);
                     },
                     width: 300,
-                    filterable: false,
+                    filterable: true,
                     headerAttributes: {
                         "class": "table-header-cell",
                         style: "text-align: center;vertical-align: middle;",
@@ -1618,7 +1620,6 @@
                     row.cells[7].value = timeFormat;
                 }
             };
-
             vm.planGridOptions = {
                 excel: {
                     fileName: "年度计划编制.xlsx"
@@ -1630,8 +1631,12 @@
                 columns: columns,
                 resizable: true,
                 scrollable: true,
+                columnMenu:true,
+                autoSync:true,
                 excelExport: excelExport
             };
+
+            vm.planGridOptions.dataSource.read();//编制申报信息列表数据刷新
         }//end grid_yearPlan_shenbaoInfoList
 
         /**
