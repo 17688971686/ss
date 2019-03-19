@@ -89,7 +89,7 @@
         function activeRelease(vm) {
             var httpOptions = {
                 method: 'post',
-                url: url_planList + "/activeRelease",
+                url: url_planList + "/activeRelease"+"/"+vm.packid,
                 data:vm.model.shenBaoInfo
             };
 

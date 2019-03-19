@@ -334,7 +334,7 @@
 	        })
 			//打包单位项目
             .state('packPlanShenbaoinfos', {
-                url: '/packPlanShenbaoinfos/:id/:unitid',
+                url: '/packPlanShenbaoinfos/:id/:unitid/:packid',
                 templateUrl: '/management/yearPlan/html/projectList',
                 controller: 'yearPlanCtrl',
                 controllerAs: 'vm'

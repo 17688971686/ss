@@ -631,6 +631,12 @@
                     title: "备注",
                     width: 150,
                     filterable: false
+                },
+                {
+                    field: "planName",
+                    title: "资金来源",
+                    width: 200,
+                    filterable: false
                 }
             ];
             vm.gridOptions_active = {
