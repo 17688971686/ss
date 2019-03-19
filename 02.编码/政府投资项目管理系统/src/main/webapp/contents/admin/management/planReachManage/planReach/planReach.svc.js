@@ -1535,7 +1535,13 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:[{//TODO 这里过滤条件是审批阶段为“秘书科发文”，与OA对接成功之后这里应该是与OA返回同意的那个阶段
+				filter:[
+					{
+						field:'projectShenBaoStage',
+						operator:'eq',
+						value:common.basicDataConfig().projectShenBaoStage_jihuaxiada
+					}
+				/*{//TODO 这里过滤条件是审批阶段为“秘书科发文”，与OA对接成功之后这里应该是与OA返回同意的那个阶段
 					field:'processState',
 					operator:'eq',
 					value:2
@@ -1544,7 +1550,7 @@
 					field:'projectShenBaoStage',
 					operator:'eq',
 					value:"projectShenBaoStage_5"
-				}
+				}*/
 				]
 			});
 			var columns = [	
@@ -1762,6 +1768,16 @@
                             "class": "table-header-cell",
                             style: "text-align: center;vertical-align: middle;"
                         }
+					},
+					{
+						field: "plan_wenhao",
+						title: "计划文号",
+						width: 140,
+						filterable: true,
+						headerAttributes: {
+							"class": "table-header-cell",
+							style: "text-align: center;vertical-align: middle;"
+						}
 					},
 					{
 						field : "planName",
