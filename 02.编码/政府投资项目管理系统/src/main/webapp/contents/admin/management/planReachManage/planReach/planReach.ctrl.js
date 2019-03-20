@@ -22,9 +22,6 @@
         	if(routeName == 'planReach_tabList'){
         		vm.page = 'tabList';
         	}
-            if(routeName == 'active_planReach_tabList'){
-                vm.page = 'activeTabList';
-            }
         	if(routeName == 'planReach_tabEdit'){
         		vm.page = 'tabEdit';
         	}
@@ -81,14 +78,10 @@
 	   			.toArray();//政府投资项目行业
         	vm.basicData.userUnit=common.getUserUnits();
         }//end fun init
-
-		function activeTabList(){
-            planReachSvc.activeGrid(vm);
-		}
-
+        
         function list(){
         	planReachSvc.grid(vm);
-
+        	
         	vm.addmoney = function (shenbaoId) {
                 if (vm.gg[shenbaoId] == undefined) {
                     vm.gg[shenbaoId] = 0;
@@ -113,7 +106,7 @@
     			var filters = [];
 				filters.push({field:'projectShenBaoStage',operator:'eq',value:common.basicDataConfig().projectShenBaoStage_jihuaxiada});//默认条件--申报阶段为"计划下达"
 				//filters.push({field:'processStage',operator:'eq',value:common.basicDataConfig().processState_mskfawen});//默认条件
-				filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_pass});//默认条件
+				// filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_pass});//默认条件
                 //filters.push({field:'processState',operator:'eq',value:Number(common.basicDataConfig().processState_jinxingzhong)});
 
 				if(vm.search.projectName !=null && vm.search.projectName !=''){//查询条件--项目名称
@@ -311,10 +304,6 @@
         	if(vm.page == 'print'){
         		print();
         	}
-            if(vm.page == 'activeTabList'){
-                activeTabList();
-            }
-
         }//end fun active
     }
 })();

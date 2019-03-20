@@ -44,8 +44,7 @@
 				updateShnebaoInfo:updateShnebaoInfo,
 				endProcess:endProcess,
 				endProcesss:endProcesss,
-				checkIsOnly:checkIsOnly,
-            	activeGrid:activeGrid
+				checkIsOnly:checkIsOnly
 		}
 		
 		return service;
@@ -378,6 +377,11 @@
 					dir : "desc"
 				},
 				filter:[
+//					{//过滤条件为审批状态不为退回状态
+//					field:'processState',
+//					operator:'eq',
+//					value:1
+//				},
 				{
 					field:'projectShenBaoStage',
 					operator:'eq',
@@ -388,6 +392,11 @@
 					operator:'eq',
 					value:"usertask5"
 				}
+//				{
+//					field:'isFaWen',
+//					operator:'eq',
+//					value:false
+//				}
 				]
 			});
 			var columns = [	
@@ -1526,16 +1535,22 @@
 					field : "createdDate",
 					dir : "desc"
 				},
-				filter:[{
+				filter:[
+					{
+						field:'projectShenBaoStage',
+						operator:'eq',
+						value:common.basicDataConfig().projectShenBaoStage_jihuaxiada
+					}
+				/*{//TODO 这里过滤条件是审批阶段为“秘书科发文”，与OA对接成功之后这里应该是与OA返回同意的那个阶段
 					field:'processState',
 					operator:'eq',
 					value:2
 				},
-				{
+				{//TODO 这里过滤条件是审批阶段为“秘书科发文”，与OA对接成功之后这里应该是与OA返回同意的那个阶段
 					field:'projectShenBaoStage',
 					operator:'eq',
 					value:"projectShenBaoStage_5"
-				}
+				}*/
 				]
 			});
 			var columns = [	
@@ -1755,6 +1770,16 @@
                         }
 					},
 					{
+						field: "plan_wenhao",
+						title: "计划文号",
+						width: 140,
+						filterable: true,
+						headerAttributes: {
+							"class": "table-header-cell",
+							style: "text-align: center;vertical-align: middle;"
+						}
+					},
+					{
 						field : "planName",
 						title : "单列/打包",	
 						width : 100,
@@ -1775,275 +1800,5 @@
 				resizable : true
 			};
 		}//end fun grid
-
-        function activeGrid(vm){
-            var dataSource = new kendo.data.DataSource({
-                type : 'odata',
-                transport: common.kendoGridConfig().transport(url_shenbao),
-                schema : common.kendoGridConfig().schema({
-                    id : "id",
-                    fields : {
-                        planYear:{
-                            type:"number",
-                            validation: { required: true, min: 1}
-                        }
-                    }
-                }),
-                serverPaging : true,
-                serverSorting : true,
-                serverFiltering : true,
-                pageSize : 10,
-                sort : {
-                    field : "createdDate",
-                    dir : "desc"
-                },
-                filter:[
-                    {
-                        field:'activeRelease',
-                        operator:'eq',
-                        value:true
-                    }
-                ]
-            });
-            var columns = [
-                {
-                    template : function(item) {
-                        return kendo
-                            .format(
-                                "<input type='checkbox'  relId='{0}' name='checkbox' class='checkbox'/>",
-                                item.id);
-                    },
-                    filterable : false,
-                    width : 40,
-                    title : "<input id='checkboxAll' type='checkbox'  class='checkbox'/>",
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
-                    field : "projectName",
-                    title : "项目名称",
-                    width:250,
-                    filterable : true,
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
-                    field : "constructionUnit",
-                    title : "建设单位",
-                    width : 150,
-                    filterable :true,
-                    template:function(item){
-                        return vm.getUnitName(item.unitName);
-                    },
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
-                    field : "projectIndustry",
-                    title : "项目行业",
-                    width : 100,
-                    filterable : {
-                        ui: function(element){
-                            element.kendoDropDownList({
-                                valuePrimitive: true,
-                                dataSource: vm.basicData.projectIndustry_ZF,
-                                dataTextField: "description",
-                                dataValueField: "id",
-                                filter:"startswith"
-                            });
-                        }
-                    },
-                    template:function(item){
-                        return vm.getBasicDataDesc(item.projectIndustry);
-                    },
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
-                    field : "planYear",
-                    title : "计划年度",
-                    width : 100,
-                    filterable : true,
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
-                    field:"projectInvestSum",
-                    title:"总投资",
-                    width:80,
-                    filterable : false,
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
-                    field: "apInvestSum",
-                    title: "累计安排资金",
-                    width: 140,
-                    filterable: false,
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
-                    title: "安排资金(万元)",
-                    columns: [
-                        {
-                            field : "apPlanReach_ggys",
-                            title : "公共预算",
-                            width:80,
-                            filterable : false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;vertical-align: middle;"
-                            }
-                        },
-                        {
-                            field : "apPlanReach_gtzj",
-                            title : "国土基金",
-                            width:80,
-                            filterable : false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;vertical-align: middle;"
-                            }
-                        }
-                    ],
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
-                    title: "计划下达申请(万元)",
-                    columns: [
-                        {
-                            field : "sqPlanReach_ggys",
-                            title : "公共预算",
-                            width:60,
-                            filterable : false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;vertical-align: middle;"
-                            }
-                        },
-                        {
-                            field : "sqPlanReach_gtzj",
-                            title : "国土基金",
-                            width:60,
-                            filterable : false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;vertical-align: middle;"
-                            }
-                        }
-                    ],
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
-                    title: "计划审核资金(万元)",
-                    columns: [
-                        {
-                            field : "shPlanReach_ggys",
-                            title : "公共预算",
-                            width:80,
-                            filterable : false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;vertical-align: middle;"
-                            }
-                        },
-                        {
-                            field : "shPlanReach_gtzj",
-                            title : "国土基金",
-                            width:80,
-                            filterable : false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;vertical-align: middle;"
-                            }
-                        }
-                    ],
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
-                    title: "计划下达资金(万元)",
-                    columns: [
-                        {
-                            field : "xdPlanReach_ggys",
-                            title : "公共预算",
-                            width:100,
-                            filterable : false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;vertical-align: middle;"
-                            }
-                        },
-                        {
-                            field : "xdPlanReach_gtzj",
-                            title : "国土基金",
-                            width:100,
-                            filterable : false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;vertical-align: middle;"
-                            }
-                        }
-                    ],
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
-                    field : "plan_wenhao",
-                    title : "计划文号",
-                    width : 100,
-                    filterable : true,
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
-                    field : "planName",
-                    title : "单列/打包",
-                    width : 100,
-                    filterable : true,
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                }
-
-            ];
-            vm.gridOptions_active = {
-                dataSource : common.gridDataSource(dataSource),
-                filterable : common.kendoGridConfig().filterable,
-                pageable : common.kendoGridConfig().pageable,
-                noRecords : common.kendoGridConfig().noRecordMessage,
-                columns : columns,
-                resizable : true,
-                sortable : true
-        };
-        }//end fun grid
 	}	
 })();
