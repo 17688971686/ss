@@ -871,9 +871,9 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
                 dto.setApPlanReach_gtzj(c + d);
             }
             dto.setApplyAPYearInvest(dto.getApplyAPYearInvest() + dto.getXdPlanReach_gtzj() + dto.getXdPlanReach_ggys());
-            dto.setApInvestSum(dto.getApInvestSum() + dto.getXdPlanReach_gtzj() + dto.getXdPlanReach_ggys());
             //累计安排总资金累加
-            entity.setApInvestSum(dto.getApInvestSum());
+            dto.setApInvestSum(dto.getApInvestSum() + dto.getXdPlanReach_gtzj() + dto.getXdPlanReach_ggys());
+
             entity.setXdPlanReach_gtzj(0.0);
             entity.setXdPlanReach_ggys(0.0);
             entity.setYearPlanRemark(null);

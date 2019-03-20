@@ -28,7 +28,9 @@
         	if(routeName == 'planReachApprovalPrint'){
         		vm.page = 'print';
         	}
-        	
+            if(routeName == 'active_planReach_tabList'){
+                vm.page = 'activeTabList';
+            }
         	vm.formatNumber=function(number){
         		number=(number==''||number==undefined||number==null?0:parseFloat(number));
         		return number;
@@ -288,6 +290,10 @@
                 location.href = common.format("/management/planReachManage/planReach/exportExcelForPlanReach?id={0}",vm.id);
 			}
         }//end fun print
+
+        function activeTabList(){
+            planReachSvc.activeGrid(vm);
+        }
         
         active();
         function active(){
@@ -304,6 +310,9 @@
         	if(vm.page == 'print'){
         		print();
         	}
+            if(vm.page == 'activeTabList'){
+                activeTabList();
+            }
         }//end fun active
     }
 })();

@@ -604,26 +604,28 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
             if(shenbaoinfoDto.getApplyAPYearInvest()+shenbaoinfoDto.getXdPlanReach_ggys()+shenbaoinfoDto.getXdPlanReach_gtzj()>shenbaoinfoDto.getCapitalAP_gtzj_TheYear()+shenbaoinfoDto.getCapitalAP_ggys_TheYear()){
                 throw new IllegalArgumentException("超过年度安排总投资,无法提交！");
             }
-            //年度安排总投资
-            shenBaoInfo.setApplyAPYearInvest(shenbaoinfoDto.getApplyAPYearInvest() + shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
             //计划审核资金
             shenBaoInfo.setShPlanReach_gtzj(shenbaoinfoDto.getShPlanReach_gtzj());
             shenBaoInfo.setShPlanReach_ggys(shenbaoinfoDto.getShPlanReach_ggys());
-            //实际下达资金
-            shenBaoInfo.setXdPlanReach_gtzj(shenbaoinfoDto.getXdPlanReach_gtzj());
-            shenBaoInfo.setXdPlanReach_ggys(shenbaoinfoDto.getXdPlanReach_ggys());
+            if(shenBaoInfo.getThisTaskName().equals("usertask5") && "next".equals(str)){
+                //年度安排总投资
+                shenBaoInfo.setApplyAPYearInvest(shenbaoinfoDto.getApplyAPYearInvest() + shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
 
-            //同时更新年度计划
-            Criterion criterion = Restrictions.eq(ShenBaoInfo_.planYear.getName(), shenBaoInfo.getPlanYear());
-            Criterion criterion1 = Restrictions.eq(ShenBaoInfo_.projectId.getName(), shenBaoInfo.getProjectId());
-            Criterion criterion3 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_nextYearPlan);
-            Criterion criterion2 = Restrictions.and(criterion,criterion1,criterion3);
-            List<ShenBaoInfo> nextyearplan = shenBaoInfoRepo.findByCriteria(criterion2);
-            if(nextyearplan.size()>0){
-                nextyearplan.get(0).setApplyAPYearInvest(shenbaoinfoDto.getApplyAPYearInvest() + shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
-                shenBaoInfoRepo.save(nextyearplan.get(0));
+                //实际下达资金
+                shenBaoInfo.setXdPlanReach_gtzj(shenbaoinfoDto.getXdPlanReach_gtzj());
+                shenBaoInfo.setXdPlanReach_ggys(shenbaoinfoDto.getXdPlanReach_ggys());
+
+                //同时更新年度计划
+                Criterion criterion = Restrictions.eq(ShenBaoInfo_.planYear.getName(), shenBaoInfo.getPlanYear());
+                Criterion criterion1 = Restrictions.eq(ShenBaoInfo_.projectId.getName(), shenBaoInfo.getProjectId());
+                Criterion criterion3 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_nextYearPlan);
+                Criterion criterion2 = Restrictions.and(criterion,criterion1,criterion3);
+                List<ShenBaoInfo> nextyearplan = shenBaoInfoRepo.findByCriteria(criterion2);
+                if(nextyearplan.size()>0){
+                    nextyearplan.get(0).setApplyAPYearInvest(shenbaoinfoDto.getApplyAPYearInvest() + shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
+                    shenBaoInfoRepo.save(nextyearplan.get(0));
+                }
             }
-
         }
 
         //建设资金预留判断
@@ -652,9 +654,12 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
                         //计划审核资金
                         shenBaoInfo.setShPlanReach_gtzj(shenbaoinfoDto.getShPlanReach_gtzj());
                         shenBaoInfo.setShPlanReach_ggys(shenbaoinfoDto.getShPlanReach_ggys());
-                        //实际下达资金
-                        shenBaoInfo.setXdPlanReach_gtzj(shenbaoinfoDto.getXdPlanReach_gtzj());
-                        shenBaoInfo.setXdPlanReach_ggys(shenbaoinfoDto.getXdPlanReach_ggys());
+                        if(shenBaoInfo.getThisTaskName().equals("usertask5") && "next".equals(str)){
+                            //实际下达资金
+                            shenBaoInfo.setXdPlanReach_gtzj(shenbaoinfoDto.getXdPlanReach_gtzj());
+                            shenBaoInfo.setXdPlanReach_ggys(shenbaoinfoDto.getXdPlanReach_ggys());
+                        }
+
                     }
                 };
                 packPlanRepo.save(pack);
