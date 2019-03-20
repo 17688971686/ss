@@ -362,7 +362,7 @@
             select:vm.onSelect
         };
         //备注模态框删除上传文件
-        vm.delFile=function(idx){
+        vm.fileDelete=function(idx){
             var file = vm.model.shenBaoInfo.attachmentDtos[idx];
             if(file){
                 vm.model.shenBaoInfo.attachmentDtos.splice(idx,1);
