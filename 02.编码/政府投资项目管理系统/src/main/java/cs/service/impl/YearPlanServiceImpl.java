@@ -255,6 +255,12 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
                     sb2.append(value);
                     sb2.append("%'");
                 }
+                if ("unitName".equals(key)) {
+                    sb2.append(" and t1.unitName = ");
+                    sb2.append("'");
+                    sb2.append(value);
+                    sb2.append("'");
+                }
                 if ("constructionUnit".equals(key)) {
                     sb2.append(" and t1.constructionUnit LIKE ");
                     sb2.append("'%");
@@ -272,6 +278,12 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
                         sb2.append("'%");
                         sb2.append(value);
                         sb2.append("%'");
+                    }
+                    if ("unitName".equals(key)) {
+                        sb2.append(" and t1.unitName = ");
+                        sb2.append("'");
+                        sb2.append(value);
+                        sb2.append("'");
                     }
                     if ("constructionUnit".equals(key)) {
                         sb2.append(" and t1.constructionUnit LIKE ");

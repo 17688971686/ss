@@ -921,59 +921,23 @@ public class PlanReachApplicationServiceImpl
 		
 		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = null;
 		if(!ObjectUtils.isEmpty(entity)){
-		
-			Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), entity.getYear());
-	    	List<YearPlan> entitys = yearRepo.findByCriteria(criterion);
-	    	loop:for (int i = 0; i < entitys.size(); i++) {
-	    		if(entitys.get(i).getIsDraftOrPlan()){
-	    			shenBaoInfoDtos = yearPlanService.getYearPlanShenBaoInfo(entitys.get(i).getId(), odataObj, false);
-	    			break loop;
-	    		}
-				
+
+			if(!StringUtils.isEmpty(entity.getYear())){
+				Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), entity.getYear());
+				List<YearPlan> entitys = yearRepo.findByCriteria(criterion);
+				loop:for (int i = 0; i < entitys.size(); i++) {
+					if(entitys.get(i).getIsDraftOrPlan()){
+						shenBaoInfoDtos = yearPlanService.getYearPlanShenBaoInfo(entitys.get(i).getId(), odataObj, false);
+						break loop;
+					}
+				}
+			}else{
+				throw new IllegalArgumentException("请在计划下达信息中选择计划年度！");
 			}
+
 		}
-//		if(!ObjectUtils.isEmpty(shenBaoInfoDtos)){
-//			UserUnitInfoDto userUnitInfoDto = userUnitInfoService.getByUserId(currentUser.getUserId());
-//			List<ShenBaoInfoDto> shenBaoInfoDtoList = new ArrayList<>();
-//			for (int i = 0; i < shenBaoInfoDtos.getValue().size(); i++) {
-//				ShenBaoInfoDto array_element = shenBaoInfoDtos.getValue().get(i);
-//				if(array_element.getUnitName().equals(userUnitInfoDto.getId())){
-//					shenBaoInfoDtoList.add(array_element);
-//				}
-//			}
-//			
-//			return new PageModelDto<>(shenBaoInfoDtoList,shenBaoInfoDtoList==null?0:shenBaoInfoDtoList.size());
-//		}
     	return shenBaoInfoDtos;
-		// TODO Auto-generated method stub
-//		List<String> projectsID = null;
-//		List<ShenBaoInfo> shenBaoInfos = null;
-//		if(!isPackPlan){
-//			shenBaoInfos = super.findById(planReachId).getShenBaoInfos();
-//		}else{
-//			shenBaoInfos = packPlanRepo.findById(planReachId).getShenBaoInfos();
-//		}
-//		
-//		projectsID = shenBaoInfos.stream().map(shenbaoinfo -> shenbaoinfo.getProjectId())
-//				.collect(Collectors.toList());
-//		List<ODataFilterItem> ODataFilterItemList = odataObj.getFilter();
-//		if (CollectionUtils.isEmpty(ODataFilterItemList)) {
-//			ODataFilterItemList = new ArrayList<ODataFilterItem>();
-//		}
-//
-//		if (!CollectionUtils.isEmpty(projectsID)) {
-//			for (int i = 0; i < projectsID.size(); i++) {
-//				String array_element = projectsID.get(i);
-//				ODataFilterItem item = new ODataFilterItem();
-//				item.setField(ShenBaoInfo_.projectId.getName());
-//				item.setOperator("notIn");
-//				item.setValue(array_element);
-//				ODataFilterItemList.add(item);
-//			}
-//		}
-//		odataObj.setFilter(ODataFilterItemList);
-//
-//		return shenBaoInfoService.get(odataObj);
+
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
