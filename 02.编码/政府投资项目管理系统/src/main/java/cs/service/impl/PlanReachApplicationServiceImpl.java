@@ -313,10 +313,12 @@ public class PlanReachApplicationServiceImpl
 						.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach));
 
 		List<ShenBaoInfo> entitys = criteria.list();
+
 		// 每次添加都创建一条新的计划下达申请，根据ItemOrder区分，根据同名项目数量累加
 		ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoMapper.toDto(entity);
 		shenBaoInfoDto.setId(IdWorker.get32UUID());
 		shenBaoInfoDto.setPlanReachId(planReachId);
+//		shenBaoInfoDto.setApInvestSum(entity.getProjectInvestAccuSum());
 		shenBaoInfoDto.setProjectShenBaoStage(BasicDataConfig.projectShenBaoStage_planReach);
 		shenBaoInfoDto.setThisTaskId(null);
 		shenBaoInfoDto.setThisTaskName(null);
@@ -328,29 +330,8 @@ public class PlanReachApplicationServiceImpl
 		shenBaoInfoDto.setYearPlanRemark(entity.getYearConstructionContentShenBao());
 		shenBaoInfoDto.setPlanReachConstructionContent(entity.getYearConstructionContent());
 
-		SimpleExpression criteria1 = Restrictions.eq(YearPlanCapital_.shenbaoInfoId.getName(), id);
-		List<YearPlanCapital> list = yearPlanCapitalRepo.findByCriteria(criteria1);
-		if (list.size() > 0) {
-			Double a = list.get(0).getCapitalQCZ_ggys();
-			Double b = list.get(0).getCapitalSCZ_ggys();
-			Double c = list.get(0).getCapitalQCZ_gtzj();
-			Double d = list.get(0).getCapitalSCZ_gtzj();
-			if (a == null) {
-				a = 0.0;
-			}
-			if (b == null) {
-				b = 0.0;
-			}
-			if (c == null) {
-				c = 0.0;
-			}
-			if (d == null) {
-				d = 0.0;
-			}
-
-			shenBaoInfoDto.setApPlanReach_ggys(a + b);
-			shenBaoInfoDto.setApPlanReach_gtzj(c + d);
-		}
+		shenBaoInfoDto.setApPlanReach_ggys(entity.getCapitalAP_ggys_TheYear());
+		shenBaoInfoDto.setApPlanReach_gtzj(entity.getCapitalAP_gtzj_TheYear());
 		shenBaoInfoDto.setPlanName("单列项目");
 		shenBaoInfoDto.setPlanReachId(planReachId);
 		shenBaoInfoDto.setCreatedDate(new Date());
@@ -501,7 +482,6 @@ public class PlanReachApplicationServiceImpl
 				try {
 					Copy(project,shenbaoinfo);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -510,7 +490,6 @@ public class PlanReachApplicationServiceImpl
 			try {
 				Copy(project,shenbaoinfo);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

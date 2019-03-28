@@ -435,7 +435,7 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
     @SuppressWarnings({"unchecked", "rawtypes", "unused"})
     @Override
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     public void taskComplete_plan(Map data) {
         String shenbaoInfoId = (String) data.get("id");
         String msg = (String) data.get("msg");
@@ -487,7 +487,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
             }
 
         } else {
-            if (!nextUsers.isEmpty()) {// 设置流程变量--下一任务处理人
+            // 设置流程变量--下一任务处理人
+            if (!nextUsers.isEmpty()) {
                 variables.put("userIds", taskUsers);
                 variables.put("nextUsers", nextUsers);
             } else if (nextUsers.isEmpty() && shenBaoInfo.getThisTaskName().equals("usertask4") && "next".equals(str)) {
@@ -536,7 +537,8 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
         // 如果有附件
         shenBaoInfo.getAttachments().clear();
         if (shenbaoinfoDto.getAttachmentDtos().size() > 0) {
-            shenbaoinfoDto.getAttachmentDtos().forEach(x -> {// 添加新附件
+            // 添加新附件
+            shenbaoinfoDto.getAttachmentDtos().forEach(x -> {
                 Attachment attachment = new Attachment();
                 attachmentMapper.buildEntity(x, attachment);
                 attachment.setCreatedBy(shenBaoInfo.getCreatedBy());
@@ -554,12 +556,12 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
         // 从配置文件中拿到短信模板并替换其中的占位符，若不能根据preTaskName拿到模板，则使用default模板
         final String content = String.format(shenbaoSMSContent.get(preTaskName) == null
                 ? shenbaoSMSContent.get("default") : shenbaoSMSContent.get(preTaskName), displayName, shenBaoInfo.getProjectName(), getStageType(shenBaoInfo.getProjectShenBaoStage()), shenBaoInfo.getProcessStage());
-
-        if ("usertask5".equalsIgnoreCase(preTaskName) || str.equals("next")) { // 到达最后一个节点的情况下，发送完结的短信给到编制单位负责人
+        // 到达最后一个节点的情况下，发送完结的短信给到编制单位负责人
+        if ("usertask5".equalsIgnoreCase(preTaskName) || str.equals("next")) {
             String banjieContent = String.format(shenbaoSMSContent.get("usertask16"), shenBaoInfo.getProjectName());
             msgs.add(new SendMsg(shenBaoInfo.getBianZhiUnitInfo().getResPersonMobile(), banjieContent));
-
-        } else if ("tuiwen".equalsIgnoreCase(str)) { // 退文的情况下，发送推文短信给到编制单位负责人
+        // 退文的情况下，发送推文短信给到编制单位负责人
+        } else if ("tuiwen".equalsIgnoreCase(str)) {
 
             String tuiwenCont = String.format(shenbaoSMSContent.get("tuiwen"), shenBaoInfo.getProjectName());
             msgs.add(new SendMsg(shenBaoInfo.getBianZhiUnitInfo().getResPersonMobile(), tuiwenCont));
@@ -570,9 +572,12 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
         } else {
             msgs = taskUsers.stream()
-                    .map(userId -> userService.findById(userId)) // 查询出用户对象
-                    .filter(user1 -> StringUtils.isNotBlank(user1.getMobilePhone())) // 过滤没有设置手机号的用户
-                    .map(user2 -> new SendMsg(user2.getMobilePhone(), content)) // 将用户对象转换成SendMsg对象
+                    // 查询出用户对象
+                    .map(userId -> userService.findById(userId))
+                    // 过滤没有设置手机号的用户
+                    .filter(user1 -> StringUtils.isNotBlank(user1.getMobilePhone()))
+                    // 将用户对象转换成SendMsg对象
+                    .map(user2 -> new SendMsg(user2.getMobilePhone(), content))
                     .collect(Collectors.toList());
         }
         if(Double.doubleToLongBits(shenbaoinfoDto.getProjectInvestSum())<Double.doubleToLongBits(DoubleUtils.sum(shenbaoinfoDto.getXdPlanReach_ggys().doubleValue(),shenbaoinfoDto.getXdPlanReach_gtzj())+shenbaoinfoDto.getProjectInvestAccuSum())){
@@ -604,28 +609,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
             if(shenbaoinfoDto.getApplyAPYearInvest()+shenbaoinfoDto.getXdPlanReach_ggys()+shenbaoinfoDto.getXdPlanReach_gtzj()>shenbaoinfoDto.getCapitalAP_gtzj_TheYear()+shenbaoinfoDto.getCapitalAP_ggys_TheYear()){
                 throw new IllegalArgumentException("超过年度安排总投资,无法提交！");
             }
-            //计划审核资金
-            shenBaoInfo.setShPlanReach_gtzj(shenbaoinfoDto.getShPlanReach_gtzj());
-            shenBaoInfo.setShPlanReach_ggys(shenbaoinfoDto.getShPlanReach_ggys());
-            if(shenBaoInfo.getThisTaskName().equals("usertask5") && "next".equals(str)){
-                //年度安排总投资
-                shenBaoInfo.setApplyAPYearInvest(shenbaoinfoDto.getApplyAPYearInvest() + shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
-
-                //实际下达资金
-                shenBaoInfo.setXdPlanReach_gtzj(shenbaoinfoDto.getXdPlanReach_gtzj());
-                shenBaoInfo.setXdPlanReach_ggys(shenbaoinfoDto.getXdPlanReach_ggys());
-
-                //同时更新年度计划
-                Criterion criterion = Restrictions.eq(ShenBaoInfo_.planYear.getName(), shenBaoInfo.getPlanYear());
-                Criterion criterion1 = Restrictions.eq(ShenBaoInfo_.projectId.getName(), shenBaoInfo.getProjectId());
-                Criterion criterion3 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_nextYearPlan);
-                Criterion criterion2 = Restrictions.and(criterion,criterion1,criterion3);
-                List<ShenBaoInfo> nextyearplan = shenBaoInfoRepo.findByCriteria(criterion2);
-                if(nextyearplan.size()>0){
-                    nextyearplan.get(0).setApplyAPYearInvest(shenbaoinfoDto.getApplyAPYearInvest() + shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
-                    shenBaoInfoRepo.save(nextyearplan.get(0));
-                }
-            }
         }
 
         //建设资金预留判断
@@ -651,28 +634,48 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
                         }
                         ac.setCapital_ggys_surplus(DoubleUtils.sum(ac.getCapital_ggys_surplus() , shenbaoinfoDto.getXdPlanReach_ggys()));
                         ac.setCapital_gtzj_surplus(DoubleUtils.sum(ac.getCapital_gtzj_surplus() , shenbaoinfoDto.getXdPlanReach_gtzj()));
-                        //计划审核资金
-                        shenBaoInfo.setShPlanReach_gtzj(shenbaoinfoDto.getShPlanReach_gtzj());
-                        shenBaoInfo.setShPlanReach_ggys(shenbaoinfoDto.getShPlanReach_ggys());
-                        if(shenBaoInfo.getThisTaskName().equals("usertask5") && "next".equals(str)){
-                            //实际下达资金
-                            shenBaoInfo.setXdPlanReach_gtzj(shenbaoinfoDto.getXdPlanReach_gtzj());
-                            shenBaoInfo.setXdPlanReach_ggys(shenbaoinfoDto.getXdPlanReach_ggys());
-                        }
-
                     }
-                };
+                }
                 packPlanRepo.save(pack);
+            }
+        }
+        //计划审核资金
+        shenBaoInfo.setShPlanReach_gtzj(shenbaoinfoDto.getShPlanReach_gtzj());
+        shenBaoInfo.setShPlanReach_ggys(shenbaoinfoDto.getShPlanReach_ggys());
+        if("usertask5".equals(shenBaoInfo.getThisTaskName()) && "next".equals(str)){
+            //年度安排总投资
+            shenBaoInfo.setApplyAPYearInvest(shenbaoinfoDto.getApplyAPYearInvest() + shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
+
+            //实际下达资金
+            shenBaoInfo.setXdPlanReach_gtzj(shenbaoinfoDto.getXdPlanReach_gtzj());
+            shenBaoInfo.setXdPlanReach_ggys(shenbaoinfoDto.getXdPlanReach_ggys());
+            //累计完成投资--来源于项目申报填写
+            //累计安排投资
+            //累计安排投资 = 累计完成投资 + 每次计划下达数额
+            //累计安排总资金累加
+            shenBaoInfo.setApInvestSum(shenBaoInfo.getApInvestSum()+ shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
+            //同时更新年度计划
+            Criterion criterion = Restrictions.eq(ShenBaoInfo_.planYear.getName(), shenBaoInfo.getPlanYear());
+            Criterion criterion1 = Restrictions.eq(ShenBaoInfo_.projectId.getName(), shenBaoInfo.getProjectId());
+            Criterion criterion3 = Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_nextYearPlan);
+            Criterion criterion2 = Restrictions.and(criterion,criterion1,criterion3);
+            List<ShenBaoInfo> nextyearplan = shenBaoInfoRepo.findByCriteria(criterion2);
+            if(nextyearplan.size()>0){
+                //年度累计批复资金总额--按年度计算
+                nextyearplan.get(0).setApplyAPYearInvest(nextyearplan.get(0).getApplyAPYearInvest() + shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
+                //累计完成投资--来源于项目申报填写
+                //累计安排投资
+                //累计安排投资 = 累计完成投资 + 每次计划下达数额
+                nextyearplan.get(0).setApInvestSum(nextyearplan.get(0).getApInvestSum() + shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
+                shenBaoInfoRepo.save(nextyearplan.get(0));
             }
         }
         shenBaoInfo.setPlan_wenhao(shenbaoinfoDto.getPlan_wenhao());
 
-        //累计安排总资金累加
-        shenBaoInfo.setApInvestSum(shenbaoinfoDto.getApInvestSum() + shenbaoinfoDto.getXdPlanReach_gtzj() + shenbaoinfoDto.getXdPlanReach_ggys());
-        if (shenBaoInfo.getThisTaskName().equals("usertask5") && "next".equals(str)) {
+
+        if ("usertask5".equals(shenBaoInfo.getThisTaskName()) && "next".equals(str)) {
             shenBaoInfo.setThisTaskId("00000");
             shenBaoInfo.setProcessStage("已办结");
-//			shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
             shenBaoInfo.setPifuDate(new Date());
             shenBaoInfo.setProcessState(BasicDataConfig.processState_pass);
             project.setIsIncludLibrary(true);
@@ -683,8 +686,6 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
             shenBaoInfo.setThisTaskName("已退文");
             shenBaoInfo.setProcessState(BasicDataConfig.processState_notpass);
             shenBaoInfo.setProcessStage("已退文");
-//			shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
-//			shenBaoInfo.setComplate(true);
         } else {
 
             shenBaoInfo.setThisTaskId(tasknew.get(0).getId());
