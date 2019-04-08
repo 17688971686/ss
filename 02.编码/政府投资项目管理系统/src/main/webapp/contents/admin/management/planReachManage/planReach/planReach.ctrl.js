@@ -93,7 +93,7 @@
                 }
                 planReachSvc.updateShnebaoInfo(vm, shenbaoId);
             }
-        	vm.basicData.userUnit=common.getUserUnits().value;//获取所有单位
+        	vm.basicData.userUnit=common.getUserUnits();//获取所有单位
 		   	 var keys = [];
 	    	 vm.output = [];
 	    	 angular.forEach(vm.basicData.userUnit, function(item) {

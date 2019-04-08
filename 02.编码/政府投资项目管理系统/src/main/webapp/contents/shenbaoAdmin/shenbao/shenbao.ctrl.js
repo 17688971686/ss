@@ -208,7 +208,7 @@
 						return x.identity == common.basicDataConfig().area
 								&& x.pId == common.basicDataConfig().area_GM;
 					}).toArray(); //行政区划街道
-			vm.basicData.userUnit = common.getUserUnits().value;//获取所有单位
+			vm.basicData.userUnit = common.getUserUnits();//获取所有单位
 			//国民经济行业分类
 			vm.basicData.nationalIndustry = common
 					.getBacicDataByIndectity(common.basicDataConfig().projectGoverEconClassify);

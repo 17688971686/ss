@@ -100,7 +100,7 @@
         }
     	
     	function init_list(){
-            vm.basicData.userUnit = common.getUserUnits().value;//获取所有单位
+            vm.basicData.userUnit = common.getUserUnits();//获取所有单位
 
     		if(vm.isZFInvestment){
     			projectSvc.grid(vm);

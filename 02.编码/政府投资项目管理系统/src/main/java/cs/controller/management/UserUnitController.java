@@ -1,6 +1,7 @@
 package cs.controller.management;
 
 import java.text.ParseException;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -32,6 +33,13 @@ public class UserUnitController {
 	public @ResponseBody PageModelDto<UserUnitInfoDto> getUserUnits(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<UserUnitInfoDto> userUnitInfoDtos = userUnitInfoService.get(odataObj);
+		return userUnitInfoDtos;
+	}
+
+//	@RequiresPermissions("management/userUnit##get")
+	@RequestMapping(name = "获取用户单位信息", path = "get",method=RequestMethod.GET)
+	public @ResponseBody List<UserUnitInfoDto> getUserUnitsAll(HttpServletRequest request) throws ParseException {
+		List<UserUnitInfoDto> userUnitInfoDtos = userUnitInfoService.Get();
 		return userUnitInfoDtos;
 	}
 }

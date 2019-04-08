@@ -165,7 +165,7 @@
         function init_todoAuditList_other(){
         	taskPlanSvc.otherGrid(vm);
         	
-        	vm.basicData.userUnit=common.getUserUnits().value;//获取所有单位
+        	vm.basicData.userUnit=common.getUserUnits();//获取所有单位
 		   	 var keys = [];
 	    	 vm.output = [];
 	    	 angular.forEach(vm.basicData.userUnit, function(item) {
@@ -247,7 +247,7 @@
                 search_All = vm.search;
         	};
         	
-        	vm.basicData.userUnit=common.getUserUnits().value;//获取所有单位
+        	vm.basicData.userUnit=common.getUserUnits();//获取所有单位
 		   	 var keys = [];
 	    	 vm.output = [];
 	    	 angular.forEach(vm.basicData.userUnit, function(item) {
@@ -683,7 +683,7 @@
         function init_complete_shenPiList(){
         	taskPlanSvc.complete_shenPiGird(vm);
         	
-        	vm.basicData.userUnit=common.getUserUnits().value;//获取所有单位
+        	vm.basicData.userUnit=common.getUserUnits();//获取所有单位
 		   	 var keys = [];
 	    	 vm.output = [];
 	    	 angular.forEach(vm.basicData.userUnit, function(item) {

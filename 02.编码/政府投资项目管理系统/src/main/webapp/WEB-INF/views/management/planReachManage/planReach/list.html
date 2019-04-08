@@ -23,7 +23,7 @@
 				<td class="formAlignRight">项目所属单位：</td>
 				<td><select style="height: 30px;" ng-model="vm.search.unitName">
 						<option value="">---请选择---</option>
-						<option ng-repeat="x in vm.basicData.userUnit | unique: 'id'"
+						<option ng-repeat="x in vm.basicData.userUnit"
 							value="{{x.id}}">{{x.unitName}}</option>
 				</select></td>
 				<td class="formAlignRight">项目行业：</td>

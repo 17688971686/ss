@@ -762,7 +762,7 @@
             return window.global_userUnits;
         }
         $.ajax({
-            url: '/common/userUnit',
+            url: '/management/userUnit/get',
             async: false,
             success: function (response) {
                 window.global_userUnits = response;
@@ -774,8 +774,8 @@
     function getUnitName(unitId) {
         getUserUnits();
         var unitName = '';
-        for (var i = 0; i < window.global_userUnits.value.length; i++) {
-            var obj = window.global_userUnits.value[i];
+        for (var i = 0; i < window.global_userUnits.length; i++) {
+            var obj = window.global_userUnits[i];
             if (unitId == obj.id) {
                 unitName = obj.unitName;
                 break;

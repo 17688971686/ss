@@ -187,10 +187,10 @@
 		function getUserUnits(vm){
 			var httpOptions = {
 					method : 'get',
-					url : url_userUnit
+					url : url_userUnit+"/get"
 				};
 				var httpSuccess = function success(response) {
-					vm.userUnits = response.data.value;
+					vm.userUnits = response.data;
 				};
 				common.http({
 					vm : vm,

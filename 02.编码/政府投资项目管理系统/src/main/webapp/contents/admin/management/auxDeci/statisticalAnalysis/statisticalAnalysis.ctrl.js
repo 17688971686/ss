@@ -30,7 +30,7 @@
     		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
     		vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别
     		vm.basicData.projectShenBaoStage=common.getBacicDataByIndectity(common.basicDataConfig().projectShenBaoStage);//项目申报阶段
-    		vm.basicData.userUnit=common.getUserUnits().value;//建设单位信息
+    		vm.basicData.userUnit=common.getUserUnits();//建设单位信息
     		vm.basicData.projectIndustry_ZF=$linq(common.getBasicData())
 	   			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_ZF;})
 	   			.toArray();//政府投资项目行业

@@ -47,7 +47,10 @@ public class UserUnitInfoServiceImpl extends AbstractServiceImpl<UserUnitInfoDto
 	@Transactional
 	public List<UserUnitInfoDto> Get() {
 		List<UserUnitInfoDto> dtos = new ArrayList<>();
-		List<UserUnitInfo> entitys = super.repository.findAll();
+		Criteria criteria = repository.getSession().createCriteria(UserUnitInfo.class);
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+//		List<UserUnitInfo> entitys = super.repository.findAll();
+		List<UserUnitInfo> entitys =criteria.list();
 		entitys.forEach(x -> {
 			UserUnitInfoDto dto = super.mapper.toDto(x);
 			dtos.add(dto);

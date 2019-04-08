@@ -194,7 +194,7 @@
         		yearPlanSvc.getPackPlanById(vm);//查询年度打包类型信息
         	}
         	
-        	vm.allUnit = common.getUserUnits().value;//获取所有单位信息
+        	vm.allUnit = common.getUserUnits();//获取所有单位信息
         	 var keys = [];
         	 vm.output = [];
         	 angular.forEach(vm.allUnit, function(item) {
@@ -241,7 +241,7 @@
         }//end#init_packEdit
         
         function init_packAdd(){
-        	vm.allUnit = common.getUserUnits().value;//获取所有单位信息
+        	vm.allUnit = common.getUserUnits();//获取所有单位信息
         	 var keys = [];
         	 vm.output = [];
         	 angular.forEach(vm.allUnit, function(item) {
@@ -369,12 +369,12 @@
   	   		vm.basicData.area_Street=$linq(common.getBasicData())
   	   			.where(function(x){return x.identity==common.basicDataConfig().area&&x.pId==common.basicDataConfig().area_GM;})
   	   			.toArray(); //行政区划街道
-  	   		vm.basicData.userUnit=common.getUserUnits().value;//建设单位信息
+  	   		vm.basicData.userUnit=common.getUserUnits();//建设单位信息
   	   		vm.basicData.users=[];
     	}
     	
     	function commonShenBaoListMethod(){
-    		vm.basicData.userUnit= common.getUserUnits().value;//获取所有单位
+    		vm.basicData.userUnit= common.getUserUnits();//获取所有单位
 		   	 var keys = [];
 	    	 vm.output = [];
 	    	 angular.forEach(vm.basicData.userUnit, function(item) {
@@ -837,7 +837,7 @@
     		yearPlanSvc.grid_yearPlan_packPlan(vm);//获取年度计划所关联的打包类型
     		yearPlanSvc.grid_packListForYeanPlan(vm);//查询所有可添加的打包类型
     		
-    		vm.basicData.userUnit=common.getUserUnits().value;//获取所有单位
+    		vm.basicData.userUnit=common.getUserUnits();//获取所有单位
 		   	 var keys = [];
 	    	 vm.output = [];
 	    	 angular.forEach(vm.basicData.userUnit, function(item) {
@@ -1064,7 +1064,7 @@
             vm.basicData.projectClassify_SH=$linq(common.getBasicData())
                 .where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
                 .toArray();//社会投资项目分类
-            vm.basicData.userUnit=common.getUserUnits().value;//获取所有单位
+            vm.basicData.userUnit=common.getUserUnits();//获取所有单位
             var keys = [];
             vm.output = [];
             angular.forEach(vm.basicData.userUnit, function(item) {

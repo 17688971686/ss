@@ -212,16 +212,8 @@
         function task_todo_audit_other() {
             taskNewAuditSvc.otherGrid(vm);
 
-            vm.basicData.userUnit = common.getUserUnits().value;//获取所有单位
-            var keys = [];
-            vm.output = [];
-            angular.forEach(vm.basicData.userUnit, function (item) {
-                var key = item["id"];
-                if (keys.indexOf(key) === -1) {
-                    keys.push(key);
-                    vm.output.push(item);
-                }
-            });
+            vm.basicData.userUnit = common.getUserUnits();//获取所有单位
+
             //查询
             vm.search = function () {
                 var filters = [];
@@ -249,16 +241,8 @@
             vm.yuepi = function (id) {
                 taskNewAuditSvc.yuepi(vm, id);
             }
-            vm.basicData.userUnit = common.getUserUnits().value;//获取所有单位
-            var keys = [];
-            vm.output = [];
-            angular.forEach(vm.basicData.userUnit, function (item) {
-                var key = item["id"];
-                if (keys.indexOf(key) === -1) {
-                    keys.push(key);
-                    vm.output.push(item);
-                }
-            });
+            vm.basicData.userUnit = common.getUserUnits();//获取所有单位
+
             //查询
             vm.search = function () {
                 var filters = [];
@@ -285,16 +269,8 @@
             //将全局变量查询条件的值赋给vm.search
             vm.search = search_All;
             taskNewAuditSvc.grid(vm);
-            vm.basicData.userUnit = common.getUserUnits().value;//获取所有单位
-            var keys = [];
-            vm.output = [];
-            angular.forEach(vm.basicData.userUnit, function (item) {
-                var key = item["id"];
-                if (keys.indexOf(key) === -1) {
-                    keys.push(key);
-                    vm.output.push(item);
-                }
-            });
+            vm.basicData.userUnit = common.getUserUnits();//获取所有单位
+
             //查询
             vm.doSearch = function () {
                 var filters = [];
@@ -763,7 +739,7 @@
         function init_complete_shenPiList() {
             taskNewAuditSvc.complete_shenPiGird(vm);
 
-            vm.basicData.userUnit = common.getUserUnits().value;//获取所有单位
+            vm.basicData.userUnit = common.getUserUnits();//获取所有单位
             var keys = [];
             vm.output = [];
             angular.forEach(vm.basicData.userUnit, function (item) {

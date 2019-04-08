@@ -78,16 +78,8 @@
 	  		vm.basicData.projectClassify_SH=$linq(common.getBasicData())
 	  			.where(function(x){return x.identity==common.basicDataConfig().projectClassify&&x.pId==common.basicDataConfig().projectClassify_SH;})
 	  			.toArray();//社会投资项目分类
-	   		vm.basicData.userUnit=common.getUserUnits().value;//获取所有单位
-		   	 var keys = [];
-	    	 vm.output = [];
-	    	 angular.forEach(vm.basicData.userUnit, function(item) {
-		          var key = item["id"];
-		          if(keys.indexOf(key) === -1) {
-		              keys.push(key);
-		              vm.output.push(item);
-		          }
-		      });
+	   		vm.basicData.userUnit=common.getUserUnits();//获取所有单位
+
 	   		//国民经济行业分类
 	   		vm.basicData.nationalIndustry=common.getBacicDataByIndectity(common.basicDataConfig().projectGoverEconClassify);
 	   		vm.nationalIndustryChange=function(){    		

@@ -37,7 +37,7 @@
         
         function page_index(){
         	deptInfoMaintainSvc.getDeptInfo(vm);//获取单位的基本信息
-        	vm.allUnit = common.getUserUnits().value;
+        	vm.allUnit = common.getUserUnits();
         	 var keys = [];
         	 vm.output = [];
         	 angular.forEach(vm.allUnit, function(item) {
