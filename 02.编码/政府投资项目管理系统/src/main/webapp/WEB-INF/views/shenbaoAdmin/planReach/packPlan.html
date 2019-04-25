@@ -1,12 +1,50 @@
 <style>
-    .k-grid tbody tr {
-        cursor: move;
+    .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th,
+    .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td,
+    .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+        border: 1px solid #ddd;
+        vertical-align: middle;
     }
 
-    .disabled {
-        cursor: default;
-        text-decoration: none;
-        pointer-events: none;
+    label {
+        font-weight: normal;
+    }
+
+    .uploadBox .k-upload-status {
+        display: none;
+    }
+
+    .uploadBox .k-header {
+        background: transparent;
+        border: 0px;
+    }
+
+    .uploadBox em {
+        display: none;
+    }
+
+    .uploadBox .k-dropzone {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .uploadBox .k-upload-files {
+        display: none;
+    }
+
+    input.input-sm {
+        height: 30px;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    textarea.form-control {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .tab_content {
+        padding: 20px;
     }
 </style>
 <div class="well well-sm" style="background: white;">
@@ -187,6 +225,23 @@
                                   ng-change="vm.checkLength(vm.model.shenBaoInfo.yearPlanRemark,200,'yearPlanRemark')"></textarea>
                             <div class="tipfont">您还可以输入<span id="yearPlanRemark"><font
                                     size="5">200</font></span>个字符!
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center" style="width:100px;">
+                            <div class="uploadBox pull-left" data-type="shenpiFile">
+                                <input type="file" name="files" kendo-upload
+                                       k-options="vm.uploadFile"/>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="margin: 3px;" ng-repeat="x in vm.model.shenBaoInfo.attachmentDtos">
+                                <a href="/contents/upload/{{x.url}}" target="_blank"
+                                   ng-bind="x.name"></a>
+                                <button class="btn btn-xs btn-danger"
+                                        ng-click="vm.fileDelete($index)">删除
+                                </button>
                             </div>
                         </td>
                     </tr>

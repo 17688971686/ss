@@ -9,9 +9,9 @@
             controller: 'planReachPackEditCtrl',
             controllerAs: 'vm'
         });
-    }]).controller('planReachPackEditCtrl', ["$state", "planReachSvc","bsWin", planReachPackEditCtrl]);
+    }]).controller('planReachPackEditCtrl', ["$state", "planReachSvc","bsWin",'$scope', planReachPackEditCtrl]);
 
-    function planReachPackEditCtrl($state, planReachSvc,bsWin) {
+    function planReachPackEditCtrl($state, planReachSvc,bsWin,$scope) {
         var vm = this;
         vm.id = $state.params.id;//请求中的id参数
         vm.planReachId = $state.params.planReachId;//请求中的id参数
@@ -130,6 +130,50 @@
     			}
     		}
         }
+
+        //备注模态框的上传成功
+        vm.uploadFileSuccess=function(e){
+            var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
+            if(e.XMLHttpRequest.status==200){
+                angular.forEach(eval("("+e.XMLHttpRequest.response+")").data, function (fileObj, index) {
+                    $scope.$apply(function() {
+                        if(vm.model.shenBaoInfo.attachmentDtos){
+                            vm.model.shenBaoInfo.attachmentDtos.push({
+                                name: fileObj.originalFilename,
+                                url: fileObj.randomName,
+                                type: type
+                            });
+                        } else {
+                            vm.model.shenBaoInfo.attachmentDtos = [{
+                                name: fileObj.originalFilename,
+                                url: fileObj.randomName,
+                                type: type
+                            }];
+                        }
+                    });
+                })
+            }
+        };
+        //备注模态框的上传
+        vm.uploadFile={
+            async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
+            error:vm.uploadError,
+            success:vm.uploadFileSuccess,
+            localization:{select:'上传文件'},
+            showFileList:false,
+            multiple:false,
+            validation: {
+                maxFileSize: common.basicDataConfig().uploadSize
+            },
+            select:vm.onSelect
+        };
+        //备注模态框删除上传文件
+        vm.fileDelete=function(idx){
+            var file = vm.model.shenBaoInfo.attachmentDtos[idx];
+            if(file){
+                vm.model.shenBaoInfo.attachmentDtos.splice(idx,1);
+            }
+        };
 
         $(".menu li a").removeClass("focus");
         $(".menu li a:eq(4)").addClass("focus");
