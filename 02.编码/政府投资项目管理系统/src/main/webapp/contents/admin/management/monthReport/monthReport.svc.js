@@ -126,7 +126,7 @@
 									$('.alertDialog').modal('hide');
 									$('.modal-backdrop').remove();
 									if(vm.isZFInvestment){
-										$location.path(url_backtToZFlist);//创建成功返回到列表页
+										$location.path(url_backToZFlist);//创建成功返回到列表页
 									}else if(vm.isSHInvestment){
 										$location.path(url_backToSHlist);//创建成功返回到列表页
 									}

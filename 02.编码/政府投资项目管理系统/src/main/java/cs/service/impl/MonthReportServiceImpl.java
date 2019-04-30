@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import cs.common.BasicDataConfig;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -101,7 +102,7 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 			monthReport.getMonthReportProblems().add(monthReportProblem);
 		});
 		//设置月报的状态
-//		monthReport.setProcessState(BasicDataConfig.processState_tianBao);
+		monthReport.setProcessState(BasicDataConfig.monthReport_type_tianbao);
 		
 		//从项目表进行保存
 		Project project = projectRepo.findById(monthReportDto.getProjectId());
@@ -139,7 +140,7 @@ public class MonthReportServiceImpl extends AbstractServiceImpl<MonthReportDto, 
 			monthReport.getMonthReportProblems().add(monthReportProblemMapper.buildEntity(x, monthReportProblem));
 		});
 		//设置月报的状态
-//		monthReport.setProcessState(BasicDataConfig.processState_tianBao);
+		monthReport.setProcessState(BasicDataConfig.monthReport_type_tianbao);
 		monthReportRepo.save(monthReport);
 		
 		logger.info("更新月报数据");

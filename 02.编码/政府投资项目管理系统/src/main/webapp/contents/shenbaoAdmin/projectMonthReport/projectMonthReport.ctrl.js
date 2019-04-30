@@ -147,17 +147,18 @@
         		
         		//获取项目当前年份现有月报
         		 var monthReports=$linq(vm.model.projectInfo.monthReportDtos)
-     		 		.where(function(x){return x.submitYear==vm.submitYear;});
+     		 		.where(function(x){return x.submitYear==vm.submitYear;}).toArray();
         		//设置按钮状态
-        		 monthReports.foreach(function(x){
-        			 if(x.processState != null){//有状态则代表已有填写月报
-        				 if(x.processState == common.basicDataConfig().processState_tuiWen){//如果为退文状态
-        					 vm.tuiwenYearMonth['m'+x.submitMonth]=true;
-        				 }else{//如果为其他状态
-        					 vm.submitYearMonth['m'+x.submitMonth]=true;
-        				 }
-        			 }
-        		 });
+                 //设置按钮状态
+                 monthReports.forEach(function(x){
+                     if(x.processState != null){//有状态则代表已有填写月报
+                         if(x.processState == common.basicDataConfig().processState_tuiWen){//如果为退文状态
+                             vm.tuiwenYearMonth['m' + x.submitMonth] = true;
+                         }else{//如果为其他状态
+                             vm.submitYearMonth['m'+x.submitMonth]=true;
+                         }
+                     }
+                 });
         	 };
         	 //月份按钮被触发
         	 vm.fillReport = function(month){

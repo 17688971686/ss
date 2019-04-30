@@ -66,8 +66,8 @@ public class BasicDataConfig {
 	public static String sh_projectClassify_sz="projectClassify_2_2";
 	public static String sh_projectClassify_sw="projectClassify_2_3";
 	public static String sh_projectClassify_qt="projectClassify_2_4";
-	
-	
+
+	public static String monthReport_type_tianbao = "monthReport_tianbao";//表示月报已填写
 	//申报阶段 projectShenBaoStage
 	public static String projectShenBaoStage_XMJYS="projectShenBaoStage_1";//项目建议书
 	public static String projectShenBaoStage_KXXYJBG="projectShenBaoStage_2";//可行性研究报告
