@@ -57,7 +57,7 @@ public class ExcelReportPlanReachView extends AbstractXlsView {
         createCell(workbook,row_2, 10,"单位：万元",HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,(short)14,"",null,false);
 
         String[] tData1 = {"序号","项目单位","项目名称","项目类别","建设规模","总投资","累计安排","计划审核资金","","主要内容","备注","计划文号","资金出处"};
-        String[] tData2 = {"","","","","","","","国土","公共预算","",""};
+        String[] tData2 = {"","","","","","","","公共预算","国土资金","",""};
 
         // 在sheet里创建第四行
         Row row_3 = sheet.createRow(3);
