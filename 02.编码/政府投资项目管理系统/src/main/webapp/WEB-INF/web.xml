@@ -71,7 +71,7 @@
         </init-param>
         <init-param>
         	<param-name>ignoreUrlPattern</param-name>
-        	<param-value>risesoft/todoNumber,mobile/verifyNum/login</param-value>
+        	<param-value>risesoft/todoNumber</param-value>
         </init-param>
     </filter>
     <filter-mapping>

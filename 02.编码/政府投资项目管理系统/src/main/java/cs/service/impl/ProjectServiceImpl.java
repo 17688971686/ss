@@ -282,7 +282,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
             //首先验证项目名称是否重复
             Criterion criterion = Restrictions.eq(Project_.projectName.getName(), projectDto.getProjectName());
             List<Project> findProjects = super.repository.findByCriteria(criterion);
-            if (findProjects.isEmpty()) {//如果为空集合
+            if ( projectDto.isNotHasType() || findProjects.isEmpty() ) {//如果为空集合
                 //判断是否存在项目代码--生成项目代码
                 if (Util.isNull(projectDto.getProjectNumber())) {
                     //根据行业类型id查询出基础数据

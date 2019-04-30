@@ -155,6 +155,7 @@ public class ShenBaoAdminProjectController {
 				//默认新增的项目为不填写月报
 				projectDto.setIsMonthReport(false);
 				//创建一条新数据
+				projectDto.setNotHasType(true);
 				projectService.create(projectDto);
 				//更新本条数据的版本
             	projectService.updateVersion(projectDto.getId(), false);

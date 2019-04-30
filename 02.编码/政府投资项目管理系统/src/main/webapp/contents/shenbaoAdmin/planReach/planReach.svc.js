@@ -16,6 +16,7 @@
         var url_getSysConfigs = "/sys/getSysConfig";
         var url_planList = "/management/yearPlan";
         var url_shenbaoInfoList = "/management/shenbao";
+        var url_taskAudit_new = "/management/task";
 
         return {
             getHasIncludYearPlan: getHasIncludYearPlan,
@@ -51,9 +52,28 @@
             deleteProcessOne: deleteProcessOne,//撤销流程
             getShenBaoInfoById:getShenBaoInfoById,//根据id查询项目申报信息
             updateShenBaoInfo:updateShenBaoInfo,
-            activeGrid:activeGrid//主动下达计划列表
+            activeGrid:activeGrid,//主动下达计划列表
+            getHistoryInfo:getHistoryInfo
         };
 
+        /*
+         * 流转信息
+         */
+        function getHistoryInfo(vm,id) {
+            var httpOptions = {
+                method: 'get',
+                url: common.format(url_taskAudit_new + "/his/" + id)
+            }
+            var httpSuccess = function success(response) {
+                vm.taskRecord = response.data;
+            }
+            common.http({
+                vm: vm,
+                $http: $http,
+                httpOptions: httpOptions,
+                success: httpSuccess
+            });
+        }
         /**
          * 更新申报信息
          */

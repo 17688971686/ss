@@ -35,6 +35,7 @@
         });
         planReachSvc.getShenBaoInfoFromPlanReachApplicationGrid(vm);//获取计划下达中的申报项目
         planReachSvc.getPackFromPlanGrid(vm);//获取计划下达中的打包计划
+
         //项目批量选择
         $(document).on('click', '#projects', function () {
             var isSelected = $(this).is(':checked');
@@ -243,6 +244,12 @@
         vm.editApplication = function () {
             planReachSvc.updateApplication(vm);
         };
+
+
+        vm.getTaskinfo = function(shenbaoId){
+            planReachSvc.getHistoryInfo(vm,shenbaoId);
+        }
+
 
         vm.getShenBaoInfo = function(shenbaoId){
             planReachSvc.getShenBaoInfoById(vm,shenbaoId);

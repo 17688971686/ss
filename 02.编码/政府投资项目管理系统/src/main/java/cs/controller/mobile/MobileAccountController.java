@@ -2,10 +2,7 @@ package cs.controller.mobile;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import cs.common.MobileResponse;
 import cs.model.framework.UserDto;
@@ -20,7 +17,8 @@ public class MobileAccountController {
 
 	@Autowired
 	private MobileUserService userService;
-	
+
+	@CrossOrigin(origins = "*",maxAge = 3600)
 	@RequestMapping(name = "手机登录", path = "login", method = RequestMethod.POST)
 	public @ResponseBody MobileResponse post(@RequestBody UserDto userDto) {
 		String roleName = "建设单位";

@@ -11,7 +11,8 @@ import cs.domain.Project;
  * @version：0.1
  */
 public class ProjectDto extends Project {
-	
+
+	private boolean notHasType =false;
 	//basicData描述信息
 	//项目阶段（前期、施工、竣工）
 	private String projectStageDesc;
@@ -145,6 +146,12 @@ public class ProjectDto extends Project {
 	public void setDivisionIdDesc(String divisionIdDesc) {
 		this.divisionIdDesc = divisionIdDesc;
 	}
-	
-	
+
+	public boolean isNotHasType() {
+		return notHasType;
+	}
+
+	public void setNotHasType(boolean notHasType) {
+		this.notHasType = notHasType;
+	}
 }

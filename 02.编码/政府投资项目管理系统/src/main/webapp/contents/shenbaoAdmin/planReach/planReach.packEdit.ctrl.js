@@ -9,9 +9,9 @@
             controller: 'planReachPackEditCtrl',
             controllerAs: 'vm'
         });
-    }]).controller('planReachPackEditCtrl', ["$state", "planReachSvc","bsWin",'$scope', planReachPackEditCtrl]);
+    }]).controller('planReachPackEditCtrl', ["$state", "planReachSvc", "bsWin", '$scope', planReachPackEditCtrl]);
 
-    function planReachPackEditCtrl($state, planReachSvc,bsWin,$scope) {
+    function planReachPackEditCtrl($state, planReachSvc, bsWin, $scope) {
         var vm = this;
         vm.id = $state.params.id;//请求中的id参数
         vm.planReachId = $state.params.planReachId;//请求中的id参数
@@ -32,16 +32,20 @@
 
         planReachSvc.getPackPlanById(vm);
         //获取建设单位名称
-        vm.getUnitName=function(unitId){
+        vm.getUnitName = function (unitId) {
             return common.getUnitName(unitId);
         };
 
+        vm.getTaskinfo = function (shenbaoId) {
+            planReachSvc.getHistoryInfo(vm, shenbaoId);
+        }
+
         //获取申报信息
-        vm.getShenBaoInfo = function(shenbaoId){
-            planReachSvc.getShenBaoInfoById(vm,shenbaoId);
+        vm.getShenBaoInfo = function (shenbaoId) {
+            planReachSvc.getShenBaoInfoById(vm, shenbaoId);
         }
         //更新申报信息
-        vm.editShenBaoInfo = function(shenbaoId){
+        vm.editShenBaoInfo = function (shenbaoId) {
             planReachSvc.updateShenBaoInfo(vm);
         }
         //项目批量选择
@@ -57,7 +61,7 @@
 //        	 common.initJqValidation();
 //             var isValid = $('form').valid();
 //             if (isValid) {
-            	 planReachSvc.startProcessOne(vm, id);
+            planReachSvc.startProcessOne(vm, id);
 //             }
         };
 
@@ -80,7 +84,7 @@
                 }
                 var idStr = ids.join(',');
                 $('#myModal').modal('toggle');//关闭模态框
-                planReachSvc.addShenBaoInfoToPack(vm, idStr,vm.planReachId);//添加申报信息到打包列表中
+                planReachSvc.addShenBaoInfoToPack(vm, idStr, vm.planReachId);//添加申报信息到打包列表中
             }
         };
 
@@ -101,43 +105,43 @@
                 planReachSvc.deletePlanShenBaoInfo(vm, idStr);//添加申报信息到打包列表中
             }
         };
-        
+
         function format(val) {
-    	    if (val == null || val == '' || val == 'undefined' || isNaN(val)) {
-    	        return 0;
-    	    }
-    	    return  val.toFixed("4");
+            if (val == null || val == '' || val == 'undefined' || isNaN(val)) {
+                return 0;
+            }
+            return val.toFixed("4");
         }
-        
-        vm.addmoney = function (shenbaoId ,num1,num2) {
-        	if(num1 == null ||
-        			num2 == null ){
-    			bsWin.success("请正确填写资金！");
-    		}else{
-    			for (var int = 0; int < vm.model.shenBaoInfoDtos.length; int++) {
-    				var array_element = vm.model.shenBaoInfoDtos[int];
-    				if(shenbaoId==array_element.id){
-    					array_element.sqPlanReach_ggys = num1;
-    					array_element.sqPlanReach_gtzj = num2;
-    					if(num1 + num2 +array_element.apInvestSum > array_element.projectInvestSum){
-    						vm.isSubmit = true;
-    						bsWin.success("申请资金+累计投资超过总投资,请重新填写！");
-    					}else{
-    						vm.isSubmit = false;
-    						planReachSvc.updateShnebaoInfo(vm,array_element);
-    					}
-    				}
-    			}
-    		}
+
+        vm.addmoney = function (shenbaoId, num1, num2) {
+            if (num1 == null ||
+                num2 == null) {
+                bsWin.success("请正确填写资金！");
+            } else {
+                for (var int = 0; int < vm.model.shenBaoInfoDtos.length; int++) {
+                    var array_element = vm.model.shenBaoInfoDtos[int];
+                    if (shenbaoId == array_element.id) {
+                        array_element.sqPlanReach_ggys = num1;
+                        array_element.sqPlanReach_gtzj = num2;
+                        if (num1 + num2 + array_element.apInvestSum > array_element.projectInvestSum) {
+                            vm.isSubmit = true;
+                            bsWin.success("申请资金+累计投资超过总投资,请重新填写！");
+                        } else {
+                            vm.isSubmit = false;
+                            planReachSvc.updateShnebaoInfo(vm, array_element);
+                        }
+                    }
+                }
+            }
         }
 
         //备注模态框的上传成功
-        vm.uploadFileSuccess=function(e){
-            var type=$(e.sender.element).parents('.uploadBox').attr('data-type');
-            if(e.XMLHttpRequest.status==200){
-                angular.forEach(eval("("+e.XMLHttpRequest.response+")").data, function (fileObj, index) {
-                    $scope.$apply(function() {
-                        if(vm.model.shenBaoInfo.attachmentDtos){
+        vm.uploadFileSuccess = function (e) {
+            var type = $(e.sender.element).parents('.uploadBox').attr('data-type');
+            if (e.XMLHttpRequest.status == 200) {
+                angular.forEach(eval("(" + e.XMLHttpRequest.response + ")").data, function (fileObj, index) {
+                    $scope.$apply(function () {
+                        if (vm.model.shenBaoInfo.attachmentDtos) {
                             vm.model.shenBaoInfo.attachmentDtos.push({
                                 name: fileObj.originalFilename,
                                 url: fileObj.randomName,
@@ -155,23 +159,23 @@
             }
         };
         //备注模态框的上传
-        vm.uploadFile={
-            async:{saveUrl:'/common/save',removeUrl:'/common/remove',autoUpload:true},
-            error:vm.uploadError,
-            success:vm.uploadFileSuccess,
-            localization:{select:'上传文件'},
-            showFileList:false,
-            multiple:false,
+        vm.uploadFile = {
+            async: {saveUrl: '/common/save', removeUrl: '/common/remove', autoUpload: true},
+            error: vm.uploadError,
+            success: vm.uploadFileSuccess,
+            localization: {select: '上传文件'},
+            showFileList: false,
+            multiple: false,
             validation: {
                 maxFileSize: common.basicDataConfig().uploadSize
             },
-            select:vm.onSelect
+            select: vm.onSelect
         };
         //备注模态框删除上传文件
-        vm.fileDelete=function(idx){
+        vm.fileDelete = function (idx) {
             var file = vm.model.shenBaoInfo.attachmentDtos[idx];
-            if(file){
-                vm.model.shenBaoInfo.attachmentDtos.splice(idx,1);
+            if (file) {
+                vm.model.shenBaoInfo.attachmentDtos.splice(idx, 1);
             }
         };
 
@@ -183,8 +187,8 @@
             $(this).addClass("focus");
         });
 
-        vm.exprotExcel =function(){
-            location.href = common.format("/shenbaoAdmin/planReach/exportExcelForDB?id={0}",vm.id);
+        vm.exprotExcel = function () {
+            location.href = common.format("/shenbaoAdmin/planReach/exportExcelForDB?id={0}", vm.id);
         };
     }
 
