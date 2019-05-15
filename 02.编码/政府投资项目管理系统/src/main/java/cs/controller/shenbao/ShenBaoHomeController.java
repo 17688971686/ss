@@ -121,7 +121,7 @@ public class ShenBaoHomeController {
 				currentUser.login(token);
 				if (!CollectionUtils.isEmpty(user2.getRoles())) {
 					loop2: for (Role x : user2.getRoles()) {
-						if (x.getRoleName().equals("管理员") || x.getRoleName().equals("超级管理员")) {// 如果有对应的角色则允许登录
+						if ("管理员".equals(x.getRoleName()) || "超级管理员".equals(x.getRoleName())) {// 如果有对应的角色则允许登录
 							hasRole = true;
 							break loop2;
 						} else {
