@@ -42,19 +42,18 @@
 							var beginDay = parseInt(vm.sysConfing.configValue.split("-")[0]);
 							var endDay = parseInt(vm.sysConfing.configValue.split("-")[1]);
 							var msg ="";
-							if(month == nowMonth){
-								if(nowDay<=endDay || nowDay>=beginDay){
-									//跳转到月报信息填写页面
-					               	location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+vm.model.projectInfo.projectInvestmentType+"/"+vm.submitYear+"/"+month;	 
+							//填报月直接跳转到月报信息填写页面
+							if(nowMonth == month){
+								location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+vm.model.projectInfo.projectInvestmentType+"/"+vm.submitYear+"/"+month;
+							}else if(nowMonth == month+1){
+								//次月如果日期是endDay前，还可以填报
+								if(nowDay<=endDay){
+									location.href = "#/projectMonthReportInfoFill/"+vm.projectId+"/"+vm.model.projectInfo.projectInvestmentType+"/"+vm.submitYear+"/"+month;
 								}else{
-									if(nowDay>endDay){
-										msg = "该月月报填报日期为上月"+beginDay+"日至本月"+endDay+"日";
-									}else if(nowDay<beginDay){
-										msg = "该月月报填报日期为本月"+beginDay+"日至下月"+endDay+"日";
-									}
+									msg = "该月月报填报日期为上月"+beginDay+"日至本月"+endDay+"日";
 									common.alert({
-					   					vm:vm,
-				   						msg:msg
+										vm:vm,
+										msg:msg
 									});
 								}
 							}else{
@@ -68,12 +67,12 @@
 				   					msg:msg
 								});
 							}
-			    		   }else{
-			    			   common.alert({
+						}else{
+							common.alert({
 			   					vm:vm,
 			   					msg:"月报端口已关闭,请联系管理人员!"
 			   				});
-			    		   }
+			    		}
 					}
 				});
 			};
