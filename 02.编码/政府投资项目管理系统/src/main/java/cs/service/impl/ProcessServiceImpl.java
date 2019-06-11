@@ -578,10 +578,10 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
                     .map(user2 -> new SendMsg(user2.getMobilePhone(), content))
                     .collect(Collectors.toList());
         }
-        if(Double.doubleToLongBits(shenbaoinfoDto.getProjectInvestSum())<Double.doubleToLongBits(DoubleUtils.sum(shenbaoinfoDto.getXdPlanReach_ggys().doubleValue(),shenbaoinfoDto.getXdPlanReach_gtzj())+shenbaoinfoDto.getProjectInvestAccuSum())){
+        if(Double.doubleToLongBits(shenbaoinfoDto.getProjectInvestSum())<Double.doubleToLongBits(DoubleUtils.sum3(shenbaoinfoDto.getXdPlanReach_ggys().doubleValue(),shenbaoinfoDto.getXdPlanReach_gtzj(),shenbaoinfoDto.getProjectInvestAccuSum()))){
             throw new IllegalArgumentException("超过项目总投资，无法提交！！");
         }
-        if(Double.doubleToLongBits(shenbaoinfoDto.getProjectInvestSum())<Double.doubleToLongBits(DoubleUtils.sum(shenbaoinfoDto.getShPlanReach_ggys().doubleValue(),shenbaoinfoDto.getShPlanReach_gtzj())+shenbaoinfoDto.getProjectInvestAccuSum())){
+        if(Double.doubleToLongBits(shenbaoinfoDto.getProjectInvestSum())<Double.doubleToLongBits(DoubleUtils.sum3(shenbaoinfoDto.getShPlanReach_ggys().doubleValue(),shenbaoinfoDto.getShPlanReach_gtzj(),shenbaoinfoDto.getProjectInvestAccuSum()))){
             throw new IllegalArgumentException("超过项目总投资，无法提交！！");
         }
         //单列项目
@@ -672,12 +672,13 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
 
 
         if ("usertask5".equals(shenBaoInfo.getThisTaskName()) && "next".equals(str)) {
+
             shenBaoInfo.setThisTaskId("00000");
             shenBaoInfo.setProcessStage("已办结");
             shenBaoInfo.setPifuDate(new Date());
             shenBaoInfo.setProcessState(BasicDataConfig.processState_pass);
             project.setIsIncludLibrary(true);
-
+            project.setIsMonthReport(true);
 
         } else if (str.equals("tuiwen")) {
             shenBaoInfo.setThisTaskId("00000");

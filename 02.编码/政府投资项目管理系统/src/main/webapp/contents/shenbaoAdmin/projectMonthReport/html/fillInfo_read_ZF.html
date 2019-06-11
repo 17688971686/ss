@@ -64,17 +64,21 @@
 		<td>
 			<span ng-bind="vm.model.monthReport.thisYearPlanInvestment | number:4"></span>&nbsp;（万元）
 		</td>
-		<td>本年度已下达计划：</td>
-		<td>
-			<span ng-bind="vm.model.monthReport.thisYearPlanHasInvestment | number:4"></span>&nbsp;（万元）
-		</td>
-	</tr>
-	<tr>
+		<!--<td>本年度已下达计划：</td>-->
+		<!--<td>-->
+			<!--<span ng-bind="vm.model.monthReport.thisYearPlanHasInvestment | number:4"></span>&nbsp;（万元）-->
+		<!--</td>-->
 		<td>累计完成投资：</td>
-		<td colspan="3">
+		<td>
 			<span ng-bind="vm.model.monthReport.actuallyFinishiInvestment | number:4"></span>&nbsp;（万元）
 		</td>
-	</tr>	
+	</tr>
+	<!--<tr>-->
+		<!--<td>累计完成投资：</td>-->
+		<!--<td colspan="3">-->
+			<!--<span ng-bind="vm.model.monthReport.actuallyFinishiInvestment | number:4"></span>&nbsp;（万元）-->
+		<!--</td>-->
+	<!--</tr>	-->
 	<tr>	
 		<td>本月计划完成投资：<span class="required">(*)</span></td>		
 		<td>

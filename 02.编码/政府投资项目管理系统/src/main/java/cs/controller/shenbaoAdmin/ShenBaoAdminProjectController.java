@@ -8,15 +8,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import cs.domain.ShenBaoInfo;
+import cs.model.DomainDto.ShenBaoInfoDto;
+import cs.service.interfaces.ShenBaoInfoService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import cs.common.ICurrentUser;
 import cs.common.ValidationSQLUtil;
@@ -44,7 +43,9 @@ public class ShenBaoAdminProjectController {
 	ICurrentUser currentUser;
 	@Autowired
 	private UserUnitInfoService userUnitInfoService;
-	
+	@Autowired
+	private ShenBaoInfoService shenBaoInfoService;
+
 	//@RequiresPermissions("shenbaoAdmin/project##get")
 	@RequestMapping(name = "获取项目信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> get(HttpServletRequest request) throws ParseException {
@@ -176,6 +177,16 @@ public class ShenBaoAdminProjectController {
 		}else{
 			projectService.delete(id);
 		}
+	}
+
+	@RequestMapping(name = "获取最新计划下达信息", path = "getPlanByProjectId/{projectId}",method=RequestMethod.GET)
+	public @ResponseBody
+	ShenBaoInfoDto getPlanByProjectId(HttpServletRequest request, @PathVariable String projectId) throws ParseException {
+		if(ValidationSQLUtil.BuildObj(request)){
+			return null;
+		};
+		ShenBaoInfoDto shenBaoInfoDto = shenBaoInfoService.getPlanByProjectId(projectId);
+		return shenBaoInfoDto;
 	}
 	
 	/*@RequestMapping(name = "附件集合", path = "getApprovalAtts",method=RequestMethod.GET)

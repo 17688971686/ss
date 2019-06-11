@@ -120,40 +120,12 @@
 									vm.model.monthReport=report[i];
 								}
 							}
-							
-							//TODO 此块用于月报的退文（暂时不需要）
-//							if(vm.model.monthReport.processState == common.basicDataConfig().processState_tuiWen){//如果是退文
-//								vm.isReportExist=false;
-//								vm.isReportTuiWen = true;
-//		        			}
 						}else{//没有月报
 							vm.isReportExist=false;
 						}
-						//关联上项目
-						vm.model.monthReport.projectId=vm.model.projectInfo.id;
-						vm.model.monthReport.projectNumber=vm.model.projectInfo.projectNumber;
-						vm.model.monthReport.projectRepName=vm.model.projectInfo.projectRepName;
-						vm.model.monthReport.projectRepMobile=vm.model.projectInfo.projectRepMobile;
-						//项目开工以及竣工日期的获取
-						vm.model.monthReport.beginDate=common.formatDate(vm.model.projectInfo.beginDate);
-						vm.model.monthReport.endDate=common.formatDate(vm.model.projectInfo.endDate);
-						
-						vm.model.monthReport.invertPlanTotal=common.toMoney(vm.model.projectInfo.projectInvestSum);//项目总投资
 						//项目相关资金获取 （TODO 资金处理这一块可以不用了）
 						if(vm.isZFInvestment){
-							vm.model.monthReport.actuallyFinishiInvestment=common.toMoney(vm.model.projectInfo.projectInvestAccuSum);//累计完成投资
-							//资金处理
-							vm.model.monthReport.releasePlanTotal = common.toMoney(vm.model.monthReport.releasePlanTotal);//截止上年底累计下达计划
-							vm.model.monthReport.thisYearPlanInvestment=common.toMoney(vm.model.monthReport.thisYearPlanInvestment);//本年度计划完成投资
-							vm.model.monthReport.thisYearPlanHasInvestment=common.toMoney(vm.model.monthReport.thisYearPlanHasInvestment);//本年度已下达计划
-							vm.model.monthReport.thisYearAccumulatedInvestment=common.toMoney(vm.model.monthReport.thisYearAccumulatedInvestment);				
-							vm.model.monthReport.thisMonthPlanInvestTotal=common.toMoney(vm.model.monthReport.thisMonthPlanInvestTotal);//本月计划完成投资
-							vm.model.monthReport.thisMonthInvestTotal=common.toMoney(vm.model.monthReport.thisMonthInvestTotal);//本月完成投资
-							vm.model.monthReport.thisYearAccumulatedInvestment=common.toMoney(vm.model.monthReport.thisYearAccumulatedInvestment);//本年度已完成投资						
-							vm.model.monthReport.firstQuarCompInvestment=common.toMoney(vm.model.monthReport.firstQuarCompInvestment);//1到3月份完成投资
-							vm.model.monthReport.secondQuarCompInvestment=common.toMoney(vm.model.monthReport.secondQuarCompInvestment);//1到6月份完成投资
-							vm.model.monthReport.thirdQuarCompInvestment=common.toMoney(vm.model.monthReport.thirdQuarCompInvestment);//1到9月份完成投资
-							vm.model.monthReport.fourthQuarCompInvestment=common.toMoney(vm.model.monthReport.fourthQuarCompInvestment);//1到12月份完成投资
+                            getPlanByProjectId(vm);
 						}
 					}		
 					
@@ -166,6 +138,52 @@
 					success:httpSuccess
 				});
 		}
+
+        function getPlanByProjectId(vm){
+            var httpOptions = {
+                method : 'get',
+                url : common.format(url_project + "/getPlanByProjectId/"+vm.projectId)
+            };
+            var httpSuccess = function success(response) {
+                vm.model.projectInfo = response.data ||{};
+                if(vm.page=='fillReport'){//如果为月报填报页面
+                    //关联上项目
+                    vm.model.monthReport.projectId=vm.model.projectInfo.id;
+                    vm.model.monthReport.projectNumber=vm.model.projectInfo.projectNumber;
+                    vm.model.monthReport.projectRepName=vm.model.projectInfo.projectRepName;
+                    vm.model.monthReport.projectRepMobile=vm.model.projectInfo.projectRepMobile;
+                    //项目开工以及竣工日期的获取
+                    vm.model.monthReport.beginDate=common.formatDate(vm.model.projectInfo.beginDate);
+                    vm.model.monthReport.endDate=common.formatDate(vm.model.projectInfo.endDate);
+
+                    vm.model.monthReport.invertPlanTotal=common.toMoney(vm.model.projectInfo.projectInvestSum);//项目总投资
+                    //项目相关资金获取 （TODO 资金处理这一块可以不用了）
+                    if(vm.isZFInvestment){
+                        vm.model.monthReport.actuallyFinishiInvestment=common.toMoney(vm.model.projectInfo.projectInvestAccuSum);//累计完成投资
+                        //资金处理
+                        vm.model.monthReport.releasePlanTotal = common.toMoney(vm.model.projectInfo.applyAPYearInvest);//截止上年底累计下达计划
+                        vm.model.monthReport.thisYearPlanInvestment=common.toMoney(vm.model.projectInfo.yearInvestApproval);//本年度计划完成投资
+                        vm.model.monthReport.thisYearPlanHasInvestment=common.toMoney(vm.model.monthReport.thisYearPlanHasInvestment);//本年度已下达计划
+                        vm.model.monthReport.thisYearAccumulatedInvestment=common.toMoney(vm.model.monthReport.thisYearAccumulatedInvestment);
+                        vm.model.monthReport.thisMonthPlanInvestTotal=common.toMoney(vm.model.monthReport.thisMonthPlanInvestTotal);//本月计划完成投资yearInvestApproval
+                        vm.model.monthReport.thisMonthInvestTotal=common.toMoney(vm.model.monthReport.thisMonthInvestTotal);//本月完成投资
+                        vm.model.monthReport.thisYearAccumulatedInvestment=common.toMoney(vm.model.monthReport.thisYearAccumulatedInvestment);//本年度已完成投资
+                        vm.model.monthReport.firstQuarCompInvestment=common.toMoney(vm.model.monthReport.firstQuarCompInvestment);//1到3月份完成投资
+                        vm.model.monthReport.secondQuarCompInvestment=common.toMoney(vm.model.monthReport.secondQuarCompInvestment);//1到6月份完成投资
+                        vm.model.monthReport.thirdQuarCompInvestment=common.toMoney(vm.model.monthReport.thirdQuarCompInvestment);//1到9月份完成投资
+                        vm.model.monthReport.fourthQuarCompInvestment=common.toMoney(vm.model.monthReport.fourthQuarCompInvestment);//1到12月份完成投资
+                    }
+                }
+
+            };
+
+            common.http({
+                vm:vm,
+                $http:$http,
+                httpOptions:httpOptions,
+                success:httpSuccess
+            });
+        }
 		
 		/**
 		 * 提交项目月报信息到数据库
@@ -331,25 +349,6 @@
 				}
 
 			];
-			// End:column
-			//TODO 此块用于月报的退文（暂时不需要）
-//			var dataBound = function(e){
-//				var dataSource = e.sender._data;
-//				for(var i=0;i<dataSource.length;i++){
-//					var model = dataSource[i];
-//					var monthReports = model.monthReportDtos;
-//					var number = 0;
-//					for(var j=0;j<monthReports.length;j++){
-//						var monthReport = monthReports[j];
-//						if(monthReport.processState == common.basicDataConfig().processState_tuiWen){//如果是退文
-//							number += 1;
-//						}
-//					}
-//					if(number>0){
-//						$("#tuiwenNumber"+model.id).html(number);//添加提示徽章
-//					}
-//				}
-//			}
 
 			vm.gridOptions = {
 				dataSource : common.gridDataSource(dataSource),

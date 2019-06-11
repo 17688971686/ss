@@ -21,6 +21,13 @@ public class DoubleUtils {
         return bd1.add(bd2).doubleValue();
     }
 
+    public static double sum3(double d1,double d2,double d3){
+        BigDecimal bd1 = new BigDecimal(Double.toString(d1));
+        BigDecimal bd2 = new BigDecimal(Double.toString(d2));
+        BigDecimal bd3 = new BigDecimal(Double.toString(d3));
+        return bd1.add(bd2).add(bd3).doubleValue();
+    }
+
 
     /**
      * double 相减

@@ -31,11 +31,12 @@
 	<tr>
 		<td>项目负责人：</td>
 		<td>
-			<span ng-bind="vm.model.monthReport.projectRepName"></span>
+			<input type="text" class="form-control input-sm" id="projectRepName" name="projectRepName" ng-model="vm.model.monthReport.projectRepName"/>
 		</td>
 		<td>项目负责人电话：</td>
 		<td>
-			<span ng-bind="vm.model.monthReport.projectRepMobile"></span>
+			<input type="text" class="form-control input-sm" id="projectRepMobile" name="projectRepMobile" ng-model="vm.model.monthReport.projectRepMobile"/>
+			<!--<span ng-bind="vm.model.monthReport.projectRepMobile"></span>-->
 		</td>
 	</tr>
 </table>
@@ -45,7 +46,10 @@
 	<tr>
 		<td width="20%">开工日期：<span class="required">(*)</span></td>
 		<td width="30%">	
-		 	<span ng-bind="vm.model.monthReport.beginDate | date:'yyyy-MM-dd'"></span>		
+			<input type="text" id="beginDate" name="beginDate" onkeydown="return false;"
+				   ng-model="vm.model.monthReport.beginDate"  kendo-date-picker  k-format="'yyyy-MM-dd'" k-culture="'zh-CN'"
+				   data-val="true" data-val-required="必填"
+			/>
 		</td>
 		<td width="20%">预计竣工日期：<span class="required">(*)</span></td>			
 		<td>
@@ -60,27 +64,31 @@
 		<td>
 			 <span ng-bind="vm.model.monthReport.invertPlanTotal | number:4"></span>&nbsp;（万元）
 		</td>
-		<td>截止上年底累计下达计划：</td>
+		<td>年度累计安排资金：</td>
 		<td>
 			<span ng-bind="vm.model.monthReport.releasePlanTotal | number:4"></span>&nbsp;（万元）
 		</td>
 	</tr>
 	<tr>
-		<td>本年度安排计划：</td>
+		<td>累计安排投资：</td>
 		<td>
 			<span ng-bind="vm.model.monthReport.thisYearPlanInvestment | number:4"></span>&nbsp;（万元）
 		</td>
-		<td>本年度已下达计划：</td>
-		<td>
-			<span ng-bind="vm.model.monthReport.thisYearPlanHasInvestment | number:4"></span>&nbsp;（万元）
-		</td>
-	</tr>
-	<tr>
+		<!--<td>本年度已下达计划：</td>applyAPYearInvest-->
+		<!--<td>-->
+			<!--<span ng-bind="vm.model.monthReport.thisYearPlanHasInvestment | number:4"></span>&nbsp;（万元）-->
+		<!--</td>-->
 		<td>累计完成投资：</td>
-		<td colspan="3">
+		<td>
 			<span ng-bind="vm.model.monthReport.actuallyFinishiInvestment | number:4"></span>&nbsp;（万元）
 		</td>
 	</tr>
+	<!--<tr>-->
+		<!--<td>累计完成投资：</td>-->
+		<!--<td colspan="3">-->
+			<!--<span ng-bind="vm.model.monthReport.actuallyFinishiInvestment | number:4"></span>&nbsp;（万元）-->
+		<!--</td>-->
+	<!--</tr>-->
 	<tr>
 		<td>本月计划完成投资：<span class="required">(*)</span></td>
 		<td>

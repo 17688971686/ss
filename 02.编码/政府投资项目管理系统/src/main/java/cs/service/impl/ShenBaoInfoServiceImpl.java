@@ -26,8 +26,11 @@ import org.activiti.spring.ProcessEngineFactoryBean;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
@@ -99,6 +102,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     private IRepository<SysConfig, String> sysConfigRepo;
     @Autowired
     private IMapper<AttachmentDto, Attachment> attachmentMapper;
+    @Autowired
+    private IMapper<ShenBaoInfoDto, ShenBaoInfo> shenBaoInfoMapper;
     @Autowired
     private IMapper<ShenBaoUnitInfoDto, ShenBaoUnitInfo> shenBaoUnitInfoMapper;
     @Autowired
@@ -1311,6 +1316,22 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             return projectShenBaoStage_6;
         }
         return "";
+    }
+
+    @Override
+    @Transactional
+    public ShenBaoInfoDto getPlanByProjectId(String id) {
+        Criteria criteria =  super.repository.getSession().createCriteria(ShenBaoInfo.class);
+        criteria.add(Restrictions.eq(ShenBaoInfo_.projectId.getName(), id));
+
+        criteria.add(Restrictions.eq(ShenBaoInfo_.projectShenBaoStage.getName(), BasicDataConfig.projectShenBaoStage_planReach));
+        Order order = Order.desc(ShenBaoInfo_.itemOrder.getName());
+        List<ShenBaoInfo> shenBaoInfos = criteria.list();
+        if(!CollectionUtils.isEmpty(shenBaoInfos)){
+            ShenBaoInfoDto dto = new ShenBaoInfoDto();
+            return shenBaoInfoMapper.toDto(shenBaoInfos.get(0));
+        }
+        return null;
     }
 }
 

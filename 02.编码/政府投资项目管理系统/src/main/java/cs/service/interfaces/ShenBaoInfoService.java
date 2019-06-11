@@ -7,6 +7,7 @@ import cs.domain.ShenBaoInfo;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.TaskRecordDto;
 import cs.model.Statistics.ProjectStatisticsBean;
+import cs.repository.odata.ODataObj;
 
 /**
  * @author Administrator
@@ -145,4 +146,11 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
      * @return
      */
 	Map isRecords(ShenBaoInfoDto dto);
+
+    /**
+     * 获取最新计划下达信息
+     * @param id
+     * @return
+     */
+    ShenBaoInfoDto getPlanByProjectId(String id);
 }
