@@ -58,11 +58,11 @@
         });
 
         vm.startProcessOne = function (id) {
-//        	 common.initJqValidation();
-//             var isValid = $('form').valid();
-//             if (isValid) {
-            planReachSvc.startProcessOne(vm, id);
-//             }
+       	 common.initJqValidation();
+            var isValid = $('form').valid();
+            if (isValid) {
+                planReachSvc.startProcessOne(vm, id);
+            }
         };
 
         vm.deleteProcessOne = function (id) {

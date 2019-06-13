@@ -157,7 +157,7 @@
     </button>
 </script>
 <script type="text/template" id="input_plan">
-    <input type="number" step="any" style="width:100px" id="capitalSum1" ng-if="{2}"
+    <input type="number" min="0" step="any" style="width:100px" id="capitalSum1" ng-if="{2}"
            data-val="true" data-val-regex="金额格式有误" data-val-regex-pattern="^\d+(\.\d+)?$"
            ng-model="dataItem.sqPlanReach_ggys" value="{1}"
            ng-blur="vm.addmoney('{0}',dataItem.sqPlanReach_ggys,dataItem.sqPlanReach_gtzj)"/>
@@ -165,7 +165,7 @@
     <span data-valmsg-for="capitalSum1" data-valmsg-replace="true" class="required"></span>
 </script>
 <script type="text/template" id="input2_plan">
-    <input type="number" step="any" style="width:100px" id="capitalSum2" ng-if="{2}"
+    <input type="number" min="0" step="any" style="width:100px" id="capitalSum2" ng-if="{2}"
            data-val="true" data-val-regex="金额格式有误" data-val-regex-pattern="^\d+(\.\d+)?$"
            ng-model="dataItem.sqPlanReach_gtzj" value="{1}"
            ng-blur="vm.addmoney('{0}',dataItem.sqPlanReach_ggys,dataItem.sqPlanReach_gtzj)"/>
