@@ -348,12 +348,14 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     public void updateVersion(String id, Boolean isLatestVersion) {
         Project project = super.repository.findById(id);
         if (project != null) {
             project.setIsLatestVersion(isLatestVersion);
-            project.setModifiedDate(new Date());//设置修改时间
+
+            //设置修改时间
+            project.setModifiedDate(new Date());
             //设置修改人
             project.setModifiedBy(currentUser.getUserId());
             super.repository.save(project);
@@ -365,7 +367,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
 
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     public void delete(String id) {
         //根据项目id查询到项目判断是否已纳入项目库
         Project entity = super.findById(id);
