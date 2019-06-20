@@ -45,7 +45,7 @@ public class XssFilter implements Filter{
                 URL url = new URL(referer);
                 String refererDomain = url.getHost();
                 //需要过滤的地址
-                String domain = "192.168.189.235,192.168.180.63,192.168.189.142,localhost,192.168.0.252,121.201.66.221,192.168.2.4";
+                String domain = "192.168.189.235,192.168.180.63,192.168.189.142,localhost,192.168.0.252,121.201.66.221,192.168.2.4,192.168.0.14";
                 if(domain != null&&!domain.isEmpty()){
                     //Referer要和domain一直才通过
                     boolean isExists = false;

@@ -200,7 +200,7 @@ public class SQLConfig {
             + " SUM( IFNULL(yc.capitalOther,0)) AS capitalOtherTotal"
             + " FROM cs_yearplan as yp,cs_yearplan_cs_yearplancapital as ypyc,cs_yearplancapital as yc,cs_shenbaoinfo as sbi"
             + " WHERE yp.id = ypyc.YearPlan_id AND yc.id = ypyc.yearPlanCapitals_id AND yc.shenbaoInfoId = sbi.id"
-            + " AND yp.id=:yearPlanId");
+            + " AND yp.id=:yearPlanId ");
 
     public static String projectByHY = String.format("SELECT"
             + " b.description AS projectIndustry,"
