@@ -44,7 +44,10 @@
 			var httpOptions = {
 	                method: 'post',
 	                url:url+"/getProjectCustomData",
-	                data:{"industry":vm.model.industry,
+	                data:{
+	                	"projectBegin":vm.model.projectBegin,
+						"projectEnd":vm.model.projectEnd,
+	                	"industry":vm.model.industry,
 	                	"unit":vm.model.unit,
 	                	"stage":vm.model.stage,
 	                	"category":vm.model.category,

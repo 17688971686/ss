@@ -111,9 +111,11 @@ public interface ProjectService extends IService<ProjectDto, Project, String> {
 	 */
 	List<ProjectStatisticsBean> getMoneyStatistics(String isIncludLibrary,String[] stageSelected,String[] projectStageSelected,String projectName,
 			 String[] unitSelected,String[] industrySelected,String[] categorySelected);
-	
+
 	/**
 	 * 自定义条件项目统计
+	 * @param projectBegin
+	 * @param projectEnd
 	 * @param industrySelected
 	 * @param stageSelected
 	 * @param categorySelected
@@ -123,8 +125,8 @@ public interface ProjectService extends IService<ProjectDto, Project, String> {
 	 * @param projectName
 	 * @return
 	 */
-	List<ProjectStatisticsBean> getProjectStatisticsByCustom(String[] industrySelected,String[] stageSelected,String[] categorySelected,
-			String[] unitSelected,Double investSumBegin,Double investSumEnd,String projectName);//自定义条件项目统计
+	List<ProjectStatisticsBean> getProjectStatisticsByCustom(String projectBegin, String projectEnd, String[] industrySelected,String[] stageSelected,
+				String[] categorySelected,String[] unitSelected,Double investSumBegin,Double investSumEnd,String projectName);//自定义条件项目统计
 
 	/**
 	 * 获取项目总库表格数据

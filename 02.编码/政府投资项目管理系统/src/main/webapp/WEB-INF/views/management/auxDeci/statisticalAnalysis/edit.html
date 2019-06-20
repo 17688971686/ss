@@ -47,6 +47,7 @@
 }
 </style>
 
+
 <div class="well well-sm" style="background:white;">
 	<ol class="breadcrumb">
 		<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
@@ -203,7 +204,7 @@
 		</div>
 		<!-- 计划类自定义条件类 -->
 		<div ng-if="vm.isPlanCustom">
-			<!--数据表格-->
+			<!--数据表格
             <div class="search">
                 <table class="table table-bordered" style="margin-bottom: 0px;">
                     <tr>
@@ -237,16 +238,16 @@
                 </table>
                 <div class="grid" kendo-grid="showPlanAllGrid" k-options="vm.gridOptions"></div>
             </div>
-			
+			-->
 			<form class="form-horizontal" role="form" style="margin-top: 10px;" ng-submit="vm.showPlanCustomData()">
 				<div class="form-group">
 					<div class="form-item">
 						<h4 class="title">计划下达时间范围：</h4>
-						<input type="number" class="Wdate form-control input-sm" style="width:180px;" ng-model="vm.planYearBegin"
-								onClick="WdatePicker({isShowClear:false,readOnly:false,dateFmt:'yyyy',onpicked: function(){$(this).trigger('change')}})" />
+						<input class="Wdate form-control input-sm" style="width:180px;" ng-model="vm.planYearBegin"
+								onClick="WdatePicker({isShowClear:false,readOnly:false,dateFmt:'yyyy-MM-dd',onpicked: function(){$(this).trigger('change')}})" />
 						<span>~</span>
-						<input type="number" min="{{vm.planYearBegin}}" class="Wdate form-control input-sm" style="width:180px;" ng-model="vm.planYearEnd"
-								onClick="WdatePicker({isShowClear:false,readOnly:false,dateFmt:'yyyy',onpicked: function(){$(this).trigger('change')}})" />
+						<input min={{vm.planYearBegin}} class="Wdate form-control input-sm" style="width:180px;" ng-model="vm.planYearEnd"
+								onClick="WdatePicker({isShowClear:false,readOnly:false,dateFmt:'yyyy-MM-dd',onpicked: function(){$(this).trigger('change')}})" />
 					</div>
 					<div class="form-item">
 						<h4 class="title">行业分类：</h4>
@@ -327,7 +328,7 @@
 		</div>
 		<!-- 项目总库自定义类 -->
 		<div ng-if="vm.isProjectCustom">
-            <!--项目表格-->
+            <!--项目表格
 		    <div class="search">
 		        <table class="table table-bordered" style="margin-bottom: 0px;">
                     <tr>
@@ -360,10 +361,19 @@
                     </tr>
                 </table>
                 <div class="grid" kendo-grid="showProjectAllGrid" k-options="vm.gridOptions"></div>
-            </div>
+            </div>-->
 
 			<form class="form-horizontal" role="form" style="margin-top: 10px;" ng-submit="vm.showProjectCustomData()">
 				<div class="form-group">
+				    <div class="form-item">
+                        <h4 class="title">项目创建时间范围：</h4>
+                        <input class="Wdate form-control input-sm" style="width:180px;" ng-model="vm.projectBegin"
+                                onClick="WdatePicker({isShowClear:false,readOnly:false,dateFmt:'yyyy-MM-dd',onpicked: function(){$(this).trigger('change')}})" />
+                        <span>~</span>
+                        <input min={{vm.projectBegin}} class="Wdate form-control input-sm" style="width:180px;" ng-model="vm.projectEnd"
+                                onClick="WdatePicker({isShowClear:false,readOnly:false,dateFmt:'yyyy-MM-dd',onpicked: function(){$(this).trigger('change')}})" />
+                    </div>
+                    
 					<div class="form-item">
 						<h4 class="title">行业分类</h4>
 						<label class="control-label" ng-repeat="x in vm.basicData.projectIndustry_ZF | orderBy:'itemOrder'">
@@ -443,11 +453,11 @@
                     <tr>
                         <td class="formAlignRight" style="vertical-align: middle;">时间：</td>
                         <td>
-                            <input id="beginDate" name="beginDate"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',readOnly:true})" 
+                            <input  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',readOnly:true})" 
                                     class="Wdate" onChange=""
                             		ng-model="vm.projectBeginDate" autocomplete="off" />
                             ~
-                            <input id="beginDate" name="beginDate"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',readOnly:true})" 
+                            <input  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',readOnly:true})" 
                                     class="Wdate" onChange=""
                                     ng-model="vm.projectEndDate" autocomplete="off" />
                         </td>
@@ -541,4 +551,6 @@
 	</div>
 </div>
 
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
 	

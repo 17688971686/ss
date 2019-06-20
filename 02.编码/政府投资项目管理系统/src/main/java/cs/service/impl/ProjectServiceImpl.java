@@ -650,6 +650,8 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
     }
 
     /**
+     * @param projectBegin     项目创建时间
+     * @param projectEnd       项目结束时间
      * @param industrySelected 选中的行业
      * @param stageSelected    选中的阶段
      * @param categorySelected 选中的类别
@@ -665,7 +667,7 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     @Override
     @Transactional
-    public List<ProjectStatisticsBean> getProjectStatisticsByCustom(String[] industrySelected,
+    public List<ProjectStatisticsBean> getProjectStatisticsByCustom(String projectBegin, String projectEnd, String[] industrySelected,
                                                                     String[] stageSelected, String[] categorySelected, String[] unitSelected, Double investSumBegin,
                                                                     Double investSumEnd, String projectName) {
 
@@ -724,6 +726,15 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
         } else if (investSumBegin == null && investSumEnd != null) {
             Sql += " p.projectInvestSum <= " + investSumBegin + " AND";
         }
+
+        if (projectBegin != null && projectEnd != null) {
+            Sql += " p.createdDate BETWEEN '" + projectBegin + "' AND '" + projectEnd + "' AND";
+        } else if (projectBegin != null && projectEnd == null) {
+            Sql += " p.createdDate >= '" + projectBegin + "' AND";
+        } else if (projectBegin == null && projectEnd != null) {
+            Sql += " p.createdDate <= '" + projectEnd + "' AND";
+        }
+        
 
         if (Util.isNotNull(projectName)) {
             Sql += " p.projectName like \'%" + projectName + "%\' AND";

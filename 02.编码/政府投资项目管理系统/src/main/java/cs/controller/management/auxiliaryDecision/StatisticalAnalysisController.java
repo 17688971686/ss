@@ -304,14 +304,10 @@ public class StatisticalAnalysisController {
 		String investSumEndStr= map.get("projectInvestSumEnd").toString();
 		String apPlanReachSumBeginStr=map.get("projectApPlanReachSumBegin").toString();
 		String apPlanReachSumEndStr=map.get("projectApPlanReachSumEnd").toString();
-		String planYearBeginStr=map.get("planYearBegin").toString();
-		String planYearEndStr=map.get("planYearEnd").toString();
 		String industrySelect=StringUtils.strip(map.get("industry").toString(),"[]");
 		String stageSelect=StringUtils.strip(map.get("stage").toString(),"[]");
 		String unitSelect=StringUtils.strip(map.get("unit").toString(),"[]");
 	   //处理请求参数
-		Integer planYearBegin=Util.isNotNull(planYearBeginStr)?Integer.parseInt(planYearBeginStr,10):null;
-		Integer planYearEnd=Util.isNotNull(planYearEndStr)?Integer.parseInt(planYearEndStr,10):null;
 		Double investSumBegin = Util.isNotNull(investSumBeginStr)?Double.valueOf(investSumBeginStr):null;
 		Double investSumEnd = Util.isNotNull(investSumEndStr)?Double.valueOf(investSumEndStr):null;
 		Double apPlanReachSumBegin=Util.isNotNull(apPlanReachSumBeginStr)?Double.valueOf(apPlanReachSumBeginStr):null;
@@ -320,6 +316,8 @@ public class StatisticalAnalysisController {
 		String[] stageSelected = Util.isNotNull(stageSelect)?stageSelect.split(","):null;
 		String[] unitSelected = Util.isNotNull(unitSelect)?unitSelect.split(","):null;
 		String projectName=Util.isNotNull(map.get("projectName").toString())?map.get("projectName").toString():null;
+		String planYearBegin=Util.isNotNull(map.get("planYearBegin").toString())?map.get("planYearBegin").toString():null;
+		String planYearEnd=Util.isNotNull(map.get("planYearEnd").toString())?map.get("planYearEnd").toString():null;
 	   //查询获取数据
  	   return shenBaoInfoService.getPlanStatisticsByCustom(planYearBegin,planYearEnd,industrySelected,stageSelected,
  			   unitSelected,investSumBegin,investSumEnd,apPlanReachSumBegin,apPlanReachSumEnd,projectName);
@@ -333,14 +331,12 @@ public class StatisticalAnalysisController {
 	   String investSumEndStr= request.getParameter("projectInvestSumEnd");
 	   String apPlanReachSumBeginStr=request.getParameter("projectApPlanReachSumBegin");
 	   String apPlanReachSumEndStr=request.getParameter("projectApPlanReachSumEnd");
-	   String planYearBeginStr=request.getParameter("planYearBegin");
-	   String planYearEndStr=request.getParameter("planYearEnd");
 	   String industrySelect=request.getParameter("industry");
 	   String stageSelect=request.getParameter("stage");
 	   String unitSelect=request.getParameter("unit");
 	   //处理请求参数
-	   Integer planYearBegin=Util.isNotNull(planYearBeginStr)?Integer.parseInt(planYearBeginStr,10):null;
-	   Integer planYearEnd=Util.isNotNull(planYearEndStr)?Integer.parseInt(planYearEndStr,10):null;
+	   /*Integer planYearBegin=Util.isNotNull(planYearBeginStr)?Integer.parseInt(planYearBeginStr,10):null;
+	   Integer planYearEnd=Util.isNotNull(planYearEndStr)?Integer.parseInt(planYearEndStr,10):null;*/
 	   Double investSumBegin = Util.isNotNull(investSumBeginStr)?Double.valueOf(investSumBeginStr):null;
 	   Double investSumEnd = Util.isNotNull(investSumEndStr)?Double.valueOf(investSumEndStr):null;
 	   Double apPlanReachSumBegin=Util.isNotNull(apPlanReachSumBeginStr)?Double.valueOf(apPlanReachSumBeginStr):null;
@@ -349,7 +345,9 @@ public class StatisticalAnalysisController {
 	   String[] stageSelected = Util.isNotNull(stageSelect)?stageSelect.split(","):null;
 	   String[] unitSelected = Util.isNotNull(unitSelect)?unitSelect.split(","):null;
 	   String projectName=Util.isNotNull(request.getParameter("projectName"))?new String(request.getParameter("projectName").getBytes("iso-8859-1"),"utf-8"):null;
-
+	   String planYearBegin=Util.isNotNull(request.getParameter("planYearBegin"))?request.getParameter("planYearBegin").toString():null;
+	   String planYearEnd=Util.isNotNull(request.getParameter("planYearEnd"))?request.getParameter("planYearEnd").toString():null;
+	   
 	   //查询获取数据
  	   List<ProjectStatisticsBean> data = shenBaoInfoService.getPlanStatisticsByCustom(planYearBegin,planYearEnd,industrySelected,stageSelected,
  			   unitSelected,investSumBegin,investSumEnd,apPlanReachSumBegin,apPlanReachSumEnd,projectName);
@@ -385,9 +383,11 @@ public class StatisticalAnalysisController {
 	   String[] categorySelected = Util.isNotNull(categorySelect)?categorySelect.split(","):null;
 	   String[] unitSelected = Util.isNotNull(unitSelect)?unitSelect.split(","):null;
 	   String projectName=Util.isNotNull(map.get("projectName").toString())?map.get("projectName").toString():null;
-
+	   String projectBegin = Util.isNotNull(map.get("projectBegin").toString())?map.get("projectBegin").toString():null;
+	   String projectEnd = Util.isNotNull(map.get("projectEnd").toString())?map.get("projectEnd").toString():null;
 	   //查询获取数据
- 	   return ProjectService.getProjectStatisticsByCustom(industrySelected,stageSelected,categorySelected,unitSelected,investSumBegin,investSumEnd,projectName);
+ 	   return ProjectService.getProjectStatisticsByCustom(projectBegin,projectEnd,industrySelected,stageSelected,
+			   							categorySelected,unitSelected,investSumBegin,investSumEnd,projectName);
 	}
 
 	@RequestMapping(name="获取审批类数据", path = "getApprovalAllData", method = RequestMethod.GET)
@@ -433,9 +433,10 @@ public class StatisticalAnalysisController {
 	   String[] categorySelected = Util.isNotNull(categorySelect)?categorySelect.split(","):null;
 	   String[] unitSelected = Util.isNotNull(unitSelect)?unitSelect.split(","):null;
 	   String projectName=Util.isNotNull(request.getParameter("projectName"))?new String(request.getParameter("projectName").getBytes("iso-8859-1"),"utf-8"):null;
-
+	   String projectBegin = Util.isNotNull(request.getParameter("projectBegin").toString())?request.getParameter("projectBegin").toString():null;
+	   String projectEnd = Util.isNotNull(request.getParameter("projectEnd").toString())?request.getParameter("projectEnd").toString():null;
 	   //查询获取数据
- 	   List<ProjectStatisticsBean> data = ProjectService.getProjectStatisticsByCustom(industrySelected,stageSelected,categorySelected,unitSelected,investSumBegin,investSumEnd,projectName);
+ 	   List<ProjectStatisticsBean> data = ProjectService.getProjectStatisticsByCustom(projectBegin,projectEnd,industrySelected,stageSelected,categorySelected,unitSelected,investSumBegin,investSumEnd,projectName);
  	  
  	   try {
  		   String fileName="光明区政府投资项目总库统计表.xls";

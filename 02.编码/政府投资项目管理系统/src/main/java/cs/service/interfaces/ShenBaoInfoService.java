@@ -123,7 +123,7 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
      * @param projectName
      * @return
      */
-    List<ProjectStatisticsBean> getPlanStatisticsByCustom(Integer planYearBegin, Integer planYearEnd, String[] industrySelected,
+    List<ProjectStatisticsBean> getPlanStatisticsByCustom(String planYearBegin, String planYearEnd, String[] industrySelected,
                                                           String[] stageSelected, String[] unitSelected, Double investSumBegin,
                                                           Double investSumEnd, Double apPlanReachSumBegin,
                                                           Double apPlanReachSumEnd, String projectName);

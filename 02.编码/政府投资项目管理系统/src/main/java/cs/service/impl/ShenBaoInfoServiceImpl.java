@@ -1108,7 +1108,7 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     @Override
     @Transactional
-    public List<ProjectStatisticsBean> getPlanStatisticsByCustom(Integer planYearBegin, Integer planYearEnd,
+    public List<ProjectStatisticsBean> getPlanStatisticsByCustom(String planYearBegin, String planYearEnd,
                                                                  String[] industrySelected, String[] stageSelected, String[] unitSelected, Double investSumBegin,
                                                                  Double investSumEnd, Double apPlanReachSumBegin, Double apPlanReachSumEnd, String projectName) {
         List<ProjectStatisticsBean> list = new ArrayList<>();
@@ -1168,11 +1168,11 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         }
 
         if (planYearBegin != null && planYearEnd != null) {
-            Sql += " YEAR(sbi.pifuDate) BETWEEN " + planYearBegin + " AND " + planYearEnd + " AND";
+            Sql += " sbi.pifuDate BETWEEN '" + planYearBegin + "' AND '" + planYearEnd + "' AND";
         } else if (planYearBegin != null && planYearEnd == null) {
-            Sql += " YEAR(sbi.pifuDate) >= " + planYearBegin + " AND";
+            Sql += " sbi.pifuDate >= '" + planYearBegin + "' AND";
         } else if (planYearBegin == null && planYearEnd != null) {
-            Sql += " YEAR(sbi.pifuDate) <= " + planYearEnd + " AND";
+            Sql += " sbi.pifuDate <= '" + planYearEnd + "' AND";
         }
 
         if (Util.isNotNull(projectName)) {

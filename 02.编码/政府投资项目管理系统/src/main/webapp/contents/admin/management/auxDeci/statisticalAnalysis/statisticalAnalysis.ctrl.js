@@ -552,22 +552,29 @@
         			//计划下达时间(没有填写、填写之后删除、结束时间小于开始时间(有验证))
         			vm.model.planYearBegin=vm.planYearBegin==undefined?"":vm.planYearBegin.toString();
         			vm.model.planYearEnd=vm.planYearEnd==undefined?"":vm.planYearEnd.toString();
-        			//总投资范围（没有填写、填写之后删除、结束范围小于开始范围（有验证））
-        			vm.model.projectInvestSumBegin=vm.projectInvestSumBegin==undefined?"":vm.projectInvestSumBegin.toString();
-        			vm.model.projectInvestSumEnd=vm.projectInvestSumEnd==undefined?"":vm.projectInvestSumEnd.toString();
-        			//下达资金范围（没有填写、填写之后删除、结束范围小于开始范围（有验证））
-        			vm.model.projectApPlanReachSumBegin=vm.projectApPlanReachSumBegin==undefined?"":vm.projectApPlanReachSumBegin.toString();
-        			vm.model.projectApPlanReachSumEnd=vm.projectApPlanReachSumEnd==undefined?"":vm.projectApPlanReachSumEnd.toString();
-        			//项目名称
-        			vm.model.projectName=vm.model.projectName==undefined?"":vm.model.projectName.toString();
-        			//多选
-        			vm.model.industry=vm.model.industry.length>0?vm.model.industry:"";
-        			vm.model.stage=vm.model.stage.length>0?vm.model.stage:"";
-        			vm.model.unit=vm.model.unit.length>0?vm.model.unit:"";
-        			var queryParams=[];
-        			queryParams.push(vm.model);//查询参数的封装
-        			//跳转页面
-        			$state.go('statisticalAnalysis_show',{what: vm.what,parameter:queryParams});
+        			if(vm.model.planYearBegin > vm.model.planYearEnd){
+						common.alert({
+							vm : vm,
+							msg : "计划下达的开始日期不能大于结束日期"
+						})
+					}else{
+						//总投资范围（没有填写、填写之后删除、结束范围小于开始范围（有验证））
+						vm.model.projectInvestSumBegin=vm.projectInvestSumBegin==undefined?"":vm.projectInvestSumBegin.toString();
+						vm.model.projectInvestSumEnd=vm.projectInvestSumEnd==undefined?"":vm.projectInvestSumEnd.toString();
+						//下达资金范围（没有填写、填写之后删除、结束范围小于开始范围（有验证））
+						vm.model.projectApPlanReachSumBegin=vm.projectApPlanReachSumBegin==undefined?"":vm.projectApPlanReachSumBegin.toString();
+						vm.model.projectApPlanReachSumEnd=vm.projectApPlanReachSumEnd==undefined?"":vm.projectApPlanReachSumEnd.toString();
+						//项目名称
+						vm.model.projectName=vm.model.projectName==undefined?"":vm.model.projectName.toString();
+						//多选
+						vm.model.industry=vm.model.industry.length>0?vm.model.industry:"";
+						vm.model.stage=vm.model.stage.length>0?vm.model.stage:"";
+						vm.model.unit=vm.model.unit.length>0?vm.model.unit:"";
+						var queryParams=[];
+						queryParams.push(vm.model);//查询参数的封装
+						//跳转页面
+						$state.go('statisticalAnalysis_show',{what: vm.what,parameter:queryParams});
+					}
         		};
         	}
         	/******项目总库******/
@@ -588,20 +595,30 @@
 				statisticalAnalysisSvc.showProjectAllGrid(vm);
         		
         		vm.showProjectCustomData=function(){
-        			//总投资范围（没有填写、填写之后删除、结束范围小于开始范围（有验证））
-        			vm.model.projectInvestSumBegin=vm.projectInvestSumBegin==undefined?"":vm.projectInvestSumBegin.toString();
-        			vm.model.projectInvestSumEnd=vm.projectInvestSumEnd==undefined?"":vm.projectInvestSumEnd.toString();
-        			//项目名称
-        			vm.model.projectName=vm.model.projectName==undefined?"":vm.model.projectName.toString();
-        			//多选
-        			vm.model.industry=vm.model.industry.length>0?vm.model.industry:"";
-        			vm.model.category=vm.model.category.length>0?vm.model.category:"";
-        			vm.model.stage=vm.model.stage.length>0?vm.model.stage:"";
-        			vm.model.unit=vm.model.unit.length>0?vm.model.unit:"";
-        			var queryParams=[];
-        			queryParams.push(vm.model);//查询参数的封装
-        			//跳转页面
-        			$state.go('statisticalAnalysis_show',{what: vm.what,parameter:queryParams});
+        			//项目创建时间范围
+					vm.model.projectBegin = vm.projectBegin==undefined?"":vm.projectBegin.toString();
+					vm.model.projectEnd = vm.projectEnd==undefined?"":vm.projectEnd.toString();
+					if(vm.model.projectBegin > vm.model.projectEnd){
+						common.alert({
+							vm : vm,
+							msg : "开始日期不能大于结束日期"
+						})
+					}else{
+						//总投资范围（没有填写、填写之后删除、结束范围小于开始范围（有验证））
+						vm.model.projectInvestSumBegin=vm.projectInvestSumBegin==undefined?"":vm.projectInvestSumBegin.toString();
+						vm.model.projectInvestSumEnd=vm.projectInvestSumEnd==undefined?"":vm.projectInvestSumEnd.toString();
+						//项目名称
+						vm.model.projectName=vm.model.projectName==undefined?"":vm.model.projectName.toString();
+						//多选
+						vm.model.industry=vm.model.industry.length>0?vm.model.industry:"";
+						vm.model.category=vm.model.category.length>0?vm.model.category:"";
+						vm.model.stage=vm.model.stage.length>0?vm.model.stage:"";
+						vm.model.unit=vm.model.unit.length>0?vm.model.unit:"";
+						var queryParams=[];
+						queryParams.push(vm.model);//查询参数的封装
+						//跳转页面
+						$state.go('statisticalAnalysis_show',{what: vm.what,parameter:queryParams});
+					}
         		};
         	}
 
@@ -846,11 +863,9 @@
 		vm.search = function(vm){
 			var filters = [];//封装查询条件
 			if(vm.projectEndDate < vm.projectBeginDate){
-				$scope.$apply(function(){
-					common.alert({
-						vm : vm,
-						msg : "上传文件过大！"
-					});
+				common.alert({
+					vm : vm,
+					msg : "开始日期不能大于结束日期！"
 				});
 			}else{
 				//列表默认查询条件
