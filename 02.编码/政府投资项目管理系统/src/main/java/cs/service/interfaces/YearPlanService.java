@@ -1,6 +1,7 @@
 package cs.service.interfaces;
 
 import java.util.List;
+import java.util.Map;
 
 import cs.domain.YearPlan;
 import cs.model.DomainDto.ProjectDto;
@@ -54,7 +55,7 @@ public interface YearPlanService extends IService<YearPlanDto, YearPlan, String>
 	 * @param planId
 	 * @return
 	 */
-	List<YearPlanStatistics> getStatistics(String planId);
+	List<YearPlanStatistics> getStatistics(String planId,Map map);
 	/**
 	 * 根据项目类别统计
 	 * @param planId

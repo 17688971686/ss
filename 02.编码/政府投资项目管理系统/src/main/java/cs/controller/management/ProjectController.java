@@ -89,7 +89,8 @@ public class ProjectController {
 	public void  update(@RequestBody ProjectDto ProjectDto){		
 		Project entity = ProjectService.findById(ProjectDto.getId());
 		if(entity !=null){
-			if(entity.getProjectStage().equals(ProjectDto.getProjectStage())){//项目阶段没有发生变化
+			//项目阶段没有发生变化
+			if(entity.getProjectStage().equals(ProjectDto.getProjectStage())){
 				ProjectService.update(ProjectDto,ProjectDto.getId());
 			}else{//项目阶段发生变化
 				//根据number查询
@@ -102,20 +103,24 @@ public class ProjectController {
 				Boolean hasProject = false;
 				Iterator<Map.Entry<String, ProjectDto>> it = map.entrySet().iterator();
 				while(it.hasNext()){
-					Map.Entry<String, ProjectDto> entry = it.next();  
-		            if(ProjectDto.getProjectStage().equals(entry.getKey())){//如果之前就存在更改后的阶段
+					Map.Entry<String, ProjectDto> entry = it.next();
+					//如果之前就存在更改后的阶段
+		            if(ProjectDto.getProjectStage().equals(entry.getKey())){
 		            	hasProject = true;
 		            	ProjectDto.setIsLatestVersion(entry.getValue().getIsLatestVersion());
 		            	ProjectDto.setIsMonthReport(entry.getValue().getIsMonthReport());
-		            	ProjectService.update(ProjectDto, entry.getValue().getId());//更新之前的数据
+						//更新之前的数据
+		            	ProjectService.update(ProjectDto, entry.getValue().getId());
 		            }
 				}
 				//如果之前不存在更改后的阶段
 				if(!hasProject){
 					//默认新增的项目为不填写月报
 					ProjectDto.setIsMonthReport(false);
-					ProjectService.create(ProjectDto);//创建一条新数据
-	            	ProjectService.updateVersion(ProjectDto.getId(), false);//更新本条数据的版本            	
+					//创建一条新数据
+					ProjectService.create(ProjectDto);
+					//更新本条数据的版本
+	            	ProjectService.updateVersion(ProjectDto.getId(), false);
 				}
 			}		
 		}

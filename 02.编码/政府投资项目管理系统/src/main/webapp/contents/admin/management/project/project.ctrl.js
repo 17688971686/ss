@@ -18,6 +18,7 @@
         vm.id=$state.params.id;
         vm.projectInvestmentType=$state.params.projectInvestmentType;
     	vm.page="list";
+        vm.isShenpiInfo = true;
 
 
     	function init(){
@@ -51,6 +52,10 @@
     		vm.html = function(val){
     			return $sce.trustAsHtml(val);
     		};
+
+            vm.getUnitName = function(id){
+                common.getUnitName(id);
+            };
     		
     		//用于查询、编辑、新增--基础数据
 	   		vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
@@ -101,7 +106,7 @@
     	
     	function init_list(){
             vm.basicData.userUnit = common.getUserUnits();//获取所有单位
-
+            projectSvc.findShenbaoinfoByProjectId(vm);
     		if(vm.isZFInvestment){
     			projectSvc.grid(vm);
 				// init_charts();
@@ -213,6 +218,29 @@
 				projectSvc.updateProjectToLibray(vm);
 			};
 
+			vm.recordinfos = function(shenbaoid){
+                //弹出申报详情模态框
+				$("#shenbaoInfo").modal({
+					backdrop: 'static',
+					keyboard:true
+				});
+                projectSvc.getShenBaoInfoById(vm,shenbaoid);
+                projectSvc.getHistoryInfo(vm,shenbaoid);
+			}
+            vm.shenBaoRecords = function(projectid){
+                $("#shenBaoRecords").modal({
+                    backdrop:'static',
+                    keyboard:false
+                });
+
+
+                vm.gridOptions_shenBaoRecords.dataSource.filter({
+                    field : 'projectId',
+                    operator : 'eq',
+                    value : projectid
+                });
+                vm.gridOptions_shenBaoRecords.dataSource.read();
+			}
 
 			vm.isMonthReports=function(){
 				var selectIds = common.getKendoCheckId('.grid');

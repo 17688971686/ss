@@ -34,9 +34,9 @@ public class AccountController {
 	
 	@RequestMapping(name = "登录", path = "login", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public @ResponseBody Response post(@RequestBody UserDto userDto,@RequestParam String role){
+	public @ResponseBody Response post(HttpServletRequest request,@RequestBody UserDto userDto,@RequestParam String role){
 		
-		Response loginResult= userService.Login(userDto.getLoginName(), userDto.getPassword(), role);
+		Response loginResult= userService.Login(request,userDto.getLoginName(), userDto.getPassword(), role);
 		
 		return loginResult;
 	}

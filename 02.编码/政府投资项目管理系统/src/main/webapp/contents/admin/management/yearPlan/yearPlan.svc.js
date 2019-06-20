@@ -1180,8 +1180,16 @@
          */
         function getPlanStatisticsInfo(vm) {
             var httpOptions = {
-                method: 'get',
-                url: common.format(url_planList + "/getStatistics?planId={0}", vm.id)
+                method: 'post',
+                url: common.format(url_planList + "/getStatistics?planId={0}", vm.id),
+                data :{
+                    "projectName":vm.search.projectName,
+                    "projectStage":vm.search.projectStage,
+                    "unitName":vm.search.unitName,
+                    "projectIndustry":vm.search.projectIndustry,
+                    "projectCategory":vm.search.projectCategory,
+                }
+
             };
 
             var httpSuccess = function success(response) {
@@ -1208,7 +1216,7 @@
         function grid_yearPlan_shenbaoInfoList(vm) {
             var dataSource = new kendo.data.DataSource({
                 type: 'odata',
-                transport: common.kendoGridConfig().transport(url_planList + "/" + vm.id +"/" + vm.search.projectName +"/" + vm.search.unitName + "/projectList"),
+                transport: common.kendoGridConfig().transport(url_planList + "/" + vm.id +"/projectList"),
                 schema: common.kendoGridConfig().schema({
                 id: "yearPlanCapitalId"
             }),
@@ -1245,7 +1253,7 @@
                     field: "constructionUnit",
                     title: "建设单位",
                     width: 200,
-                    filterable: true,
+                    filterable: false,
                     headerAttributes: {
                         "class": "table-header-cell",
                         style: "text-align: center;vertical-align: middle;"
@@ -1258,7 +1266,7 @@
                         return common.format('<a href="#/projectDetails/{0}/{1}" >{2}</a>', item.projectId, item.projectInvestmentType, item.projectName);
                     },
                     width: 300,
-                    filterable: true,
+                    filterable: false,
                     headerAttributes: {
                         "class": "table-header-cell",
                         style: "text-align: center;vertical-align: middle;",

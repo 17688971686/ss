@@ -831,6 +831,34 @@
     	}//init_planUpadte
     	
     	function init_planBZ(){
+
+            //查询
+            vm.doSearch=function(){
+                var filters = [];
+                filters.push({field:'projectInvestmentType',operator:'eq',value:common.basicDataConfig().projectInvestmentType_ZF});//默认条件--政府投资项目
+                if(vm.search.projectName !=null && vm.search.projectName !=''){//查询条件--项目名称
+                    filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
+                }
+                if(vm.search.projectStage !=null && vm.search.projectStage !=''){//查询条件--项目阶段
+                    filters.push({field:'projectStage',operator:'eq',value:vm.search.projectStage});
+                }
+                if(vm.search.unitName !=null && vm.search.unitName !=''){
+                    filters.push({field:'unitName',operator:'eq',value:vm.search.unitName});
+                }
+                if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){//查询条件--项目行业
+                    filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
+                }
+                if(vm.search.projectCategory !=null && vm.search.projectCategory !=''){//查询条件--项目行业
+                    filters.push({field:'projectCategory',operator:'eq',value:vm.search.projectCategory});
+                }
+                vm.planGridOptions.dataSource.filter(filters);
+                yearPlanSvc.getPlanStatisticsInfo(vm);
+            };
+            //清空查询条件
+            vm.filterClear=function(){
+                location.reload();
+            };
+
     		yearPlanSvc.getPlanById(vm);//查询年度信息
     		yearPlanSvc.getPlanStatisticsInfo(vm);//获取年度计划统计信息
     		yearPlanSvc.grid_yearPlan_addShenbaoInfoList(vm);//查询所有的可添加的申报信息列表 
@@ -1045,7 +1073,7 @@
 
             //用于查询、新增、编辑--基础数据初始化
             vm.basicData.projectStage=common.getBacicDataByIndectity(common.basicDataConfig().projectStage);//项目阶段
-            vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类型
+            // vm.basicData.projectType=common.getBacicDataByIndectity(common.basicDataConfig().projectType);//项目类型
             vm.basicData.projectCategory=common.getBacicDataByIndectity(common.basicDataConfig().projectCategory);//项目类别
             vm.basicData.investmentType=common.getBacicDataByIndectity(common.basicDataConfig().projectInvestmentType);//项目投资类型
             vm.basicData.area_Street=$linq(common.getBasicData())

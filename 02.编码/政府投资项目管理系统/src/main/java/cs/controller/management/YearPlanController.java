@@ -2,6 +2,7 @@ package cs.controller.management;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -57,9 +58,9 @@ public class YearPlanController {
     }
 
     @RequiresPermissions("management/yearPlan#id/projectList#get")
-    @RequestMapping(name = "获取年度计划项目列表数据", path = "{id}/{projectName}/{unitName}/projectList", method = RequestMethod.GET)
+    @RequestMapping(name = "获取年度计划项目列表数据", path = "{id}/projectList", method = RequestMethod.GET)
     @ResponseBody
-    public PageModelDto<ShenBaoInfoDto> getShenBaoInfo(ODataObjNew odataObj,@PathVariable String id, @PathVariable String projectName, @PathVariable String unitName) {
+    public PageModelDto<ShenBaoInfoDto> getShenBaoInfo(ODataObjNew odataObj,@PathVariable String id) {
         PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = yearPlanService.getYearPlanShenBaoInfo(id,odataObj,false);
         return shenBaoInfoDtos;
     }
@@ -155,10 +156,11 @@ public class YearPlanController {
     }
 
     @RequiresPermissions("management/yearPlan#getStatistics#get")
-    @RequestMapping(name = "获取年度计划统计信息", path = "getStatistics", method = RequestMethod.GET)
+    @RequestMapping(name = "获取年度计划统计信息", path = "getStatistics", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
     public @ResponseBody
-    List<YearPlanStatistics> getStatistics(@RequestParam String planId) {
-        return yearPlanService.getStatistics(planId);
+    List<YearPlanStatistics> getStatistics(@RequestBody Map map, @RequestParam String planId) {
+        return yearPlanService.getStatistics(planId,map);
     }
 
     @RequiresPermissions("management/yearPlan##post")

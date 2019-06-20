@@ -246,51 +246,32 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
         sb2.append("WHERE t3.yearplan_id=:yearPlanId ");
 
         if(!CollectionUtils.isEmpty(odataObj.getFilterList())){
-            if(!StringUtils.isEmpty(odataObj.getFilterList().get(0).getFiledName())){
-                String value = odataObj.getFilterList().get(0).getValue().toString();
-                String key = odataObj.getFilterList().get(0).getFiledName().toString();
+           ArrayList list = (ArrayList) odataObj.getFilterList().get(0).getValue();
+            for (int i = 0; i<list.size();i++){
+                OdataFilter of = (OdataFilter) list.get(i);
+                String value =of.getValue().toString();
+                String key = of.getFiledName().toString();
+
+                if ("unitName".equals(key) ||
+                        "projectInvestmentType".equals(key) || "projectCategory".equals(key) || "projectStage".equals(key) || "projectIndustry".equals(key)) {
+                    sb2.append(" and t1.");
+                    sb2.append(key);
+                    sb2.append(" = ");
+                    sb2.append("'");
+                    sb2.append(value);
+                    sb2.append("'");
+                }
                 if ("projectName".equals(key)) {
                     sb2.append(" and t1.projectName LIKE ");
                     sb2.append("'%");
                     sb2.append(value);
                     sb2.append("%'");
                 }
-                if ("unitName".equals(key)) {
-                    sb2.append(" and t1.unitName = ");
-                    sb2.append("'");
-                    sb2.append(value);
-                    sb2.append("'");
-                }
                 if ("constructionUnit".equals(key)) {
                     sb2.append(" and t1.constructionUnit LIKE ");
                     sb2.append("'%");
                     sb2.append(value);
                     sb2.append("%'");
-                }
-            }else{
-               ArrayList list = (ArrayList) odataObj.getFilterList().get(0).getValue();
-                for (int i = 0; i<list.size();i++){
-                    OdataFilter of = (OdataFilter) list.get(i);
-                    String value =of.getValue().toString();
-                    String key = of.getFiledName().toString();
-                    if ("projectName".equals(key)) {
-                        sb2.append(" and t1.projectName LIKE ");
-                        sb2.append("'%");
-                        sb2.append(value);
-                        sb2.append("%'");
-                    }
-                    if ("unitName".equals(key)) {
-                        sb2.append(" and t1.unitName = ");
-                        sb2.append("'");
-                        sb2.append(value);
-                        sb2.append("'");
-                    }
-                    if ("constructionUnit".equals(key)) {
-                        sb2.append(" and t1.constructionUnit LIKE ");
-                        sb2.append("'%");
-                        sb2.append(value);
-                        sb2.append("%'");
-                    }
                 }
             }
         }
@@ -471,10 +452,28 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
     @SuppressWarnings("unchecked")
     @Override
     @Transactional
-    public List<YearPlanStatistics> getStatistics(String planId) {
+    public List<YearPlanStatistics> getStatistics(String planId,Map map) {
+
+        StringBuffer sql = new StringBuffer(SQLConfig.yearPlanStatistics);
+        if(!StringUtils.isEmpty(map.get("projectName"))){
+            sql.append(" AND sbi.projectName=").append("'").append(map.get("projectName")).append("'");
+        }
+        if(!StringUtils.isEmpty(map.get("projectStage"))){
+            sql.append(" AND sbi.projectStage=").append("'").append(map.get("projectStage")).append("' ");
+        }
+        if(!StringUtils.isEmpty(map.get("unitName"))){
+            sql.append(" AND sbi.unitName=").append("'").append(map.get("unitName")).append(" '");
+        }
+        if(!StringUtils.isEmpty(map.get("projectIndustry"))){
+            sql.append(" AND sbi.projectIndustry=").append("'").append(map.get("projectIndustry")).append("' ");
+        }
+        if(!StringUtils.isEmpty(map.get("projectCategory"))){
+            sql.append(" AND sbi.projectCategory=").append("'").append(map.get("projectCategory")).append("' ");
+        }
+
         YearPlan yearPlan = super.repository.findById(planId);
         if (yearPlan != null) {
-            Query<YearPlanStatistics> query = repository.getSession().createNativeQuery(SQLConfig.yearPlanStatistics)
+            Query<YearPlanStatistics> query = repository.getSession().createNativeQuery(sql.toString())
                     .setParameter("yearPlanId", planId.trim())
                     .addScalar("total", new IntegerType())
                     .addScalar("qianQiTotal", new IntegerType())
