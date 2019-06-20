@@ -742,6 +742,127 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
     }
 
     /**
+     * 获取项目信息--项目总库统计分析
+     * @return
+     */
+    @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
+    @Override
+    @Transactional
+    public PageModelDto<ProjectStatisticsBean> getProjectAllData(ODataObj oDataObj){
+        String beginDate = "";
+        String endDate = "";
+        
+        String sql1 = "SELECT p.projectName, u.unitName, b1.description AS projectStageDesc, b2.description AS projectIndustryDesc, " +
+                " p.projectInvestSum, p.projectCategory, p.createdDate " +
+                " FROM cs_project AS p,cs_basicdata AS b1, cs_basicdata AS b2, cs_userunitinfo AS u " +
+                " WHERE p.projectStage = b1.id AND p.projectIndustry = b2.id AND p.unitName = u.id ";
+        String sql2 = "SELECT COUNT(*) FROM cs_project AS p,cs_basicdata AS b1,cs_basicdata AS b2,cs_userunitinfo AS u " +
+                " WHERE p.projectStage = b1.id AND p.projectIndustry = b2.id AND p.unitName = u.id ";
+        if(oDataObj.getFilter().size() == 2){
+            beginDate = oDataObj.getFilter().get(0).getValue().toString();
+            endDate = oDataObj.getFilter().get(1).getValue().toString();
+            sql1 += " AND p.createdDate BETWEEN '"+beginDate+"' AND '"+endDate+"' ";
+            sql2 += " AND p.createdDate BETWEEN '"+beginDate+"' AND '"+endDate+"' ";
+        }else if(oDataObj.getFilter().size() == 1){
+            if(oDataObj.getFilter().get(0).getOperator()=="ge"){
+                beginDate = oDataObj.getFilter().get(0).getValue().toString();
+                sql1 += " AND p.createdDate >= '" + beginDate + "' ";
+                sql2 += " AND p.createdDate >= '" + beginDate + "' ";
+            }else{
+                endDate = oDataObj.getFilter().get(0).getValue().toString();
+                sql1 += " AND p.createdDate <= '" + endDate + "' ";
+                sql2 += " AND p.createdDate >= '" + beginDate + "' ";
+            }
+        }
+        
+        NativeQuery query = super.repository.getSession().createNativeQuery(sql1);
+        query.addScalar("projectName", new StringType());           //项目名
+        query.addScalar("unitName", new StringType());              //申报单位
+        query.addScalar("projectStageDesc", new StringType());      //项目阶段
+        query.addScalar("projectIndustryDesc", new StringType());   //行业分类
+        query.addScalar("projectInvestSum", new DoubleType());      //项目总投资
+        query.addScalar("projectCategory", new StringType());       //项目类别
+        
+        //获取对应分页的信息
+        List<ProjectStatisticsBean> projectBean = query.setResultTransformer(Transformers.aliasToBean(ProjectStatisticsBean.class))
+                .setFirstResult(oDataObj.getSkip()).setMaxResults(oDataObj.getTop()).list();
+        //获取总数
+        int size = Integer.parseInt(projectRepoImpl.getSession().createNativeQuery(sql2).getSingleResult().toString());
+        PageModelDto<ProjectStatisticsBean> dto = new PageModelDto<ProjectStatisticsBean>();
+        dto.setValue(projectBean);
+        dto.setCount(size);
+        return dto;
+    }
+
+    /**
+     * 获取资金类表格数据
+     * @param oDataObj
+     * @return
+     */
+    @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
+    @Override
+    @Transactional
+    public PageModelDto<ProjectStatisticsBean> getProjectMoneyData(ODataObj oDataObj){
+        String beginDate = "";
+        String endDate = "";
+        String sql1 = "SELECT a.projectName, u.unitName, b.description as projectStageDesc, b2.description AS projectIndustryDesc, a.isIncludLibrary, " +
+                " IFNULL(a.projectInvestSum,0) AS projectInvestSum, IFNULL(a.pfProjectInvestSum,0) AS pfProjectInvestSum, " +
+                " p.projectCategory, a.createdDate " +
+                " FROM cs_shenbaoinfo a LEFT JOIN cs_basicdata b ON a.projectShenBaoStage = b.id " +
+                " LEFT JOIN cs_userunitinfo u ON a.unitName = u.id LEFT JOIN cs_project p ON a.projectId = p.id " +
+                " LEFT JOIN cs_basicdata b2 ON p.projectIndustry=b2.id WHERE 1=1 ";
+        String sql2 = "SELECT COUNT(*) FROM cs_shenbaoinfo a LEFT JOIN cs_basicdata b ON a.projectShenBaoStage = b.id " +
+                " LEFT JOIN cs_userunitinfo u ON a.unitName = u.id LEFT JOIN cs_project p ON a.projectId = p.id " +
+                " LEFT JOIN cs_basicdata b2 ON p.projectIndustry=b2.id WHERE 1=1 ";
+        if(oDataObj.getFilter().size() == 2){
+            beginDate = oDataObj.getFilter().get(0).getValue().toString();
+            endDate = oDataObj.getFilter().get(1).getValue().toString();
+            sql1 += " AND a.createdDate BETWEEN '"+beginDate+"' AND '"+endDate+"' ";
+            sql2 += " AND a.createdDate BETWEEN '"+beginDate+"' AND '"+endDate+"' ";
+        }else if(oDataObj.getFilter().size() == 1){
+            if(oDataObj.getFilter().get(0).getOperator()=="ge"){
+                beginDate = oDataObj.getFilter().get(0).getValue().toString();
+                sql1 += " AND a.createdDate >= '" + beginDate + "' ";
+                sql2 += " AND a.createdDate >= '" + beginDate + "' ";
+            }else{
+                endDate = oDataObj.getFilter().get(0).getValue().toString();
+                sql1 += " AND a.createdDate <= '" + endDate + "' ";
+                sql2 += " AND a.createdDate >= '" + beginDate + "' ";
+            }
+        }
+        
+        NativeQuery query = super.repository.getSession().createNativeQuery(sql1);
+        query.addScalar("projectName", new StringType());           //项目名
+        query.addScalar("unitName", new StringType());              //申报单位
+        query.addScalar("projectStageDesc", new StringType());      //项目阶段
+        query.addScalar("projectInvestSum", new DoubleType());      //项目总投资
+        query.addScalar("pfProjectInvestSum", new DoubleType());      //批复总投资
+        query.addScalar("isIncludLibrary", new BooleanType());      //是否纳入项目库
+        query.addScalar("projectIndustryDesc", new StringType());   //行业分类
+        query.addScalar("projectCategory", new StringType());       //项目类别
+
+        List<ProjectStatisticsBean> list = query.setResultTransformer(Transformers.aliasToBean(ProjectStatisticsBean.class))
+                .setFirstResult(oDataObj.getSkip()).setMaxResults(oDataObj.getTop()).list();
+        int size = Integer.parseInt(projectRepoImpl.getSession().createNativeQuery(sql2).uniqueResult().toString());
+
+        for (ProjectStatisticsBean bean : list) {
+            if(bean.getIncludLibrary()!=null){
+                if(bean.getIncludLibrary()){
+                    bean.setIsIncludLibraryString("是");
+                }else{
+                    bean.setIsIncludLibraryString("否");
+                }
+            }
+        }
+        
+        PageModelDto<ProjectStatisticsBean> dto = new PageModelDto<>();
+        dto.setValue(list);
+        dto.setCount(size);
+        return dto;
+    }
+
+
+    /**
      * 根据上传的Excel更新已拨付数
      *
      * @param filePath

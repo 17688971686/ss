@@ -9,7 +9,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sn.framework.odata.Odata;
+import cs.model.PageModelDto;
 import cs.model.Statistics.view.newEdition.GenerateExcelForMoney;
+import cs.repository.odata.ODataObj;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -386,6 +389,31 @@ public class StatisticalAnalysisController {
 	   //查询获取数据
  	   return ProjectService.getProjectStatisticsByCustom(industrySelected,stageSelected,categorySelected,unitSelected,investSumBegin,investSumEnd,projectName);
 	}
+
+	@RequestMapping(name="获取审批类数据", path = "getApprovalAllData", method = RequestMethod.GET)
+	public @ResponseBody PageModelDto<ProjectStatisticsBean> getApprovalAllData(ODataObj oDataObj){
+		PageModelDto<ProjectStatisticsBean> dto = shenBaoInfoService.getApprovalAllData(oDataObj);
+		return dto;
+	}
+
+	@RequestMapping(name="获取计划类数据", path = "getPlanAllData", method = RequestMethod.GET)
+	public @ResponseBody PageModelDto<ProjectStatisticsBean> getPlanAllData(ODataObj oDataObj){
+		PageModelDto<ProjectStatisticsBean> dto = shenBaoInfoService.getPlanAllData(oDataObj);
+		return dto;
+	}
+	
+	@RequestMapping(name="获取项目类数据", path = "getProjectAllData", method = RequestMethod.GET)
+	public @ResponseBody PageModelDto<ProjectStatisticsBean> getProjectAllData(ODataObj oDataObj){
+		PageModelDto<ProjectStatisticsBean> dto = ProjectService.getProjectAllData(oDataObj);
+		return dto;
+	}
+	
+	@RequestMapping(name = "获取资金类数据", path = "getProjectMoneyData", method = RequestMethod.GET)
+	public @ResponseBody PageModelDto<ProjectStatisticsBean> getProjectMoneyData(ODataObj oDataObj){
+		PageModelDto<ProjectStatisticsBean> dto = ProjectService.getProjectMoneyData(oDataObj);
+		return dto;
+	}
+	
 	
 	@RequestMapping(name="项目总库-自定义条件统计下载",path="exportExcelForProjectByCustom",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)

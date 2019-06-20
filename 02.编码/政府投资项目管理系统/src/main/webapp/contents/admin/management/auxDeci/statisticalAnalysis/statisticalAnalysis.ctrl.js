@@ -16,7 +16,9 @@
     	vm.parameter = $state.params.parameter;
     	vm.model={};
     	vm.basicData={};
-      
+		vm.projectBeginDate = "";
+		vm.projectEndDate = "";
+		
     	function init(){
     		if(routeName == 'statisticalAnalysis'){
     			vm.page = 'index';
@@ -506,7 +508,9 @@
         	if(vm.what=='isApprovalCustom'){
         		vm.isApprovalCustom=true;
         		vm.title="审批类自定义条件类";
-        		
+				//审批类数据表格
+        		statisticalAnalysisSvc.showApprovalAllGrid(vm);
+				
         		vm.showApprovalCustomData=function(){
         			//批复时间(没有填写、填写之后删除、结束时间小于开始时间(有验证))
         			vm.model.pifuDateBegin=vm.pifuDateBegin==undefined?"":vm.pifuDateBegin.toString();
@@ -541,6 +545,8 @@
         	if(vm.what == 'isPlanCustom'){
         		vm.isPlanCustom=true;
         		vm.title="计划类自定义类";
+        		//获取计划类表格数据
+				statisticalAnalysisSvc.showPlanAllGrid(vm);
         		
         		vm.showPlanCustomData=function(){
         			//计划下达时间(没有填写、填写之后删除、结束时间小于开始时间(有验证))
@@ -578,6 +584,8 @@
         	if(vm.what == 'isProjectCustom'){
         		vm.isProjectCustom=true;
         		vm.title="项目总库自定义条件类";
+        		//查询所有数据
+				statisticalAnalysisSvc.showProjectAllGrid(vm);
         		
         		vm.showProjectCustomData=function(){
         			//总投资范围（没有填写、填写之后删除、结束范围小于开始范围（有验证））
@@ -602,6 +610,8 @@
                 vm.isMoneyFixed=true;
                 vm.title="项目资金统计";
                 vm.isIncludLibrary="true";//初始化
+				//资金统计表格
+				statisticalAnalysisSvc.showProjectMoneyGrid(vm);
 
                 vm.showMoneyFixed=function(type,isIncludLibrary){
                     //项目名称
@@ -832,5 +842,32 @@
 					break;
         	};
         }//end fun show
+
+		vm.search = function(vm){
+			var filters = [];//封装查询条件
+			if(vm.projectEndDate < vm.projectBeginDate){
+				$scope.$apply(function(){
+					common.alert({
+						vm : vm,
+						msg : "上传文件过大！"
+					});
+				});
+			}else{
+				//列表默认查询条件
+				if(vm.projectBeginDate != ""){
+					filters.push({field:'createdDate',operator:'gte',value:vm.projectBeginDate});
+				}
+				if(vm.projectEndDate != "" ) {
+					filters.push({field: 'createdDate', operator: 'lte', value: vm.projectEndDate});
+				}
+				
+				vm.gridOptions.dataSource.filter(filters);
+			}
+		}
+		vm.filterClear = function () {
+			vm.projectBeginDate = "";
+			vm.projectEndDate = "";
+		}
+		
     }
 })();

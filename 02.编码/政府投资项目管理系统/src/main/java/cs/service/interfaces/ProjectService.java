@@ -126,6 +126,19 @@ public interface ProjectService extends IService<ProjectDto, Project, String> {
 	List<ProjectStatisticsBean> getProjectStatisticsByCustom(String[] industrySelected,String[] stageSelected,String[] categorySelected,
 			String[] unitSelected,Double investSumBegin,Double investSumEnd,String projectName);//自定义条件项目统计
 
+	/**
+	 * 获取项目总库表格数据
+	 * @return
+	 */
+	PageModelDto<ProjectStatisticsBean> getProjectAllData(ODataObj oDataObj);
+
+	/**
+	 * 获取资金类表格数据
+	 * @param oDataObj
+	 * @return
+	 */
+	PageModelDto<ProjectStatisticsBean> getProjectMoneyData(ODataObj oDataObj);
+	
 	 /**
      * 根据上传的Excel更新已拨付数
      *

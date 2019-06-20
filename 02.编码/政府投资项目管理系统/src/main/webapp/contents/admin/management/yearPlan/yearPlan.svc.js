@@ -978,8 +978,12 @@
                                     vm.model.shenBaoInfo.buidSafeInvestment || 0, vm.model.shenBaoInfo.capitalOther || 0]);
                                 return vm.model.shenBaoInfo.projectInvestSum;
                             };
+                            //相关附件文件上传文件种类
+                            // vm.relatedType=common.uploadFileTypeConfig().projectEdit_SH;
                         } else if (vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_ZF) {//政府投资
                             vm.isZFInvestment = true;
+                            //相关附件文件上传文件种类
+                            vm.relatedType=common.uploadFileTypeConfig().projectEdit;
                         }
 
                         if (vm.shenBaoInfoAdd) {//如果是新增页面

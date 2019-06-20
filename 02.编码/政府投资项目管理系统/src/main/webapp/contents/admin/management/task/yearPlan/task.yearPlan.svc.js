@@ -191,8 +191,12 @@
 						//判断项目的投资类型
 						if(vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_SH){//社会投资
 							vm.isSHInvestment = true;
+							//相关附件文件上传文件种类
+							vm.relatedType=common.uploadFileTypeConfig().projectEdit_SH;
 						}else if(vm.model.shenBaoInfo.projectInvestmentType == common.basicDataConfig().projectInvestmentType_ZF){//政府投资
 							vm.isZFInvestment = true;
+							//相关附件文件上传文件种类
+							vm.relatedType=common.uploadFileTypeConfig().projectEdit;
 						}
 						//日期展示
 						vm.model.shenBaoInfo.beginDate=common.formatDate(vm.model.shenBaoInfo.beginDate);//开工日期

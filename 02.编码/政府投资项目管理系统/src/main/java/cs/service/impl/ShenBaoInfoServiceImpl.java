@@ -15,6 +15,7 @@ import com.huasisoft.portal.model.Backlog;
 import com.sn.framework.common.IdWorker;
 import com.sn.framework.common.StringUtil;
 import cs.common.*;
+import cs.repository.impl.ShenBaoInfoRepoImpl;
 import cs.service.framework.UserService;
 import cs.service.sms.SmsService;
 import cs.service.sms.exception.SMSException;
@@ -34,6 +35,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
+import org.hibernate.type.DateType;
 import org.hibernate.type.DoubleType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
@@ -88,6 +90,8 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
 
     @Autowired
     private IRepository<ShenBaoInfo, String> shenbaoInfoRepo;
+    @Autowired
+    private ShenBaoInfoRepoImpl shenBaoInfoRepoImpl;
     @Autowired
     private IRepository<Attachment, String> attachmentRepo;
     @Autowired
@@ -975,6 +979,64 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
     }
 
     /**
+     * 获取审批类表格数据
+     * @param oDataObj
+     * @return
+     */
+    @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
+    @Override
+    @Transactional
+    public PageModelDto<ProjectStatisticsBean> getApprovalAllData(ODataObj oDataObj){
+        String beginDate = "";
+        String endDate = "";
+        String sql1 = "SELECT sbi.projectName,u.unitName,b1.description AS projectStageDesc, b2.description AS projectIndustryDesc, " +
+                " sbi.projectInvestSum, sbi.pifuDate, sbi.createdDate " +
+                " FROM cs_shenbaoinfo AS sbi,cs_basicdata AS b1,cs_basicdata AS b2,cs_userunitinfo AS u " +
+                " WHERE sbi.projectShenBaoStage " +
+                " IN ('projectShenBaoStage_1','projectShenBaoStage_2','projectShenBaoStage_3','projectShenBaoStage_4') " +
+                " AND sbi.projectShenBaoStage = b1.id AND sbi.projectIndustry = b2.id AND sbi.unitName = u.id ";
+        String sql2 = "SELECT COUNT(*) " +
+                " FROM cs_shenbaoinfo AS sbi,cs_basicdata AS b1,cs_basicdata AS b2,cs_userunitinfo AS u " +
+                " WHERE sbi.projectShenBaoStage " +
+                " IN ('projectShenBaoStage_1','projectShenBaoStage_2','projectShenBaoStage_3','projectShenBaoStage_4') " +
+                " AND sbi.projectShenBaoStage = b1.id AND sbi.projectIndustry = b2.id AND sbi.unitName = u.id ";
+        if(oDataObj.getFilter().size() == 2){
+            beginDate = oDataObj.getFilter().get(0).getValue().toString();
+            endDate = oDataObj.getFilter().get(1).getValue().toString();
+            sql1 += " AND sbi.createdDate BETWEEN '"+beginDate+"' AND '"+endDate+"' ";
+            sql2 += " AND sbi.createdDate BETWEEN '"+beginDate+"' AND '"+endDate+"' ";
+        }else if(oDataObj.getFilter().size() == 1){
+            if(oDataObj.getFilter().get(0).getOperator()=="ge"){
+                beginDate = oDataObj.getFilter().get(0).getValue().toString();
+                sql1 += " AND sbi.createdDate >= '" + beginDate + "' ";
+                sql2 += " AND sbi.createdDate >= '" + beginDate + "' ";
+            }else{
+                endDate = oDataObj.getFilter().get(0).getValue().toString();
+                sql1 += " AND sbi.createdDate <= '" + endDate + "' ";
+                sql2 += " AND sbi.createdDate >= '" + beginDate + "' ";
+            }
+        }
+        
+        NativeQuery query = super.repository.getSession().createSQLQuery(sql1);
+        query.addScalar("projectName", new StringType());           //项目名
+        query.addScalar("unitName", new StringType());              //申报单位
+        query.addScalar("projectStageDesc", new StringType());      //项目阶段
+        query.addScalar("projectIndustryDesc", new StringType());   //行业分类
+        query.addScalar("projectInvestSum", new DoubleType());      //总投资
+        query.addScalar("pifuDate", new DateType());                //批复时间
+        query.addScalar("createdDate", new DateType());             //创建时间
+        
+        List<ProjectStatisticsBean> list = query.setResultTransformer(Transformers.aliasToBean(ProjectStatisticsBean.class))
+                .setFirstResult(oDataObj.getSkip()).setMaxResults(oDataObj.getTop()).list();
+        int size = Integer.parseInt(shenBaoInfoRepoImpl.getSession().createNativeQuery(sql2).uniqueResult().toString());
+        
+        PageModelDto<ProjectStatisticsBean> dto = new PageModelDto<ProjectStatisticsBean>();
+        dto.setValue(list);
+        dto.setCount(size);
+        return dto;
+    }
+
+    /**
      * @param type     分类类型
      * @param planYear 批复时间
      * @return 查询到数据集合
@@ -1139,6 +1201,59 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
         logger.info("计划类信息自定义分类统计报表导出");
         return list;
     }
+
+    @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
+    @Override
+    @Transactional
+    public PageModelDto<ProjectStatisticsBean> getPlanAllData(ODataObj oDataObj){
+        String beginDate = "";
+        String endDate = "";
+        String sql1 = "SELECT sbi.projectName, u.unitName, sbi.projectInvestSum, sbi.createdDate, b.description AS projectStageDesc, " +
+                " sbi.pifuDate, sbi.apPlanReach_ggys, sbi.apPlanReach_gtzj " +
+                " FROM cs_shenbaoinfo AS sbi, cs_basicdata AS b,cs_userunitinfo AS u " +
+                " WHERE sbi.projectShenBaoStage = 'projectShenBaoStage_5' AND sbi.unitName = u.id AND sbi.projectConstrChar = b.id ";
+        String sql2 = "SELECT COUNT(*) " +
+                " FROM cs_shenbaoinfo AS sbi, cs_basicdata AS b,cs_userunitinfo AS u " +
+                " WHERE sbi.projectShenBaoStage = 'projectShenBaoStage_5' AND sbi.unitName = u.id AND sbi.projectConstrChar = b.id ";
+        if(oDataObj.getFilter().size() == 2){
+            beginDate = oDataObj.getFilter().get(0).getValue().toString();
+            endDate = oDataObj.getFilter().get(1).getValue().toString();
+            sql1 += " AND sbi.createdDate BETWEEN '"+beginDate+"' AND '"+endDate+"' ";
+            sql2 += " AND sbi.createdDate BETWEEN '"+beginDate+"' AND '"+endDate+"' ";
+        }else if(oDataObj.getFilter().size() == 1){
+            if(oDataObj.getFilter().get(0).getOperator()=="ge"){
+                beginDate = oDataObj.getFilter().get(0).getValue().toString();
+                sql1 += " AND sbi.createdDate >= '" + beginDate + "' ";
+                sql2 += " AND sbi.createdDate >= '" + beginDate + "' ";
+            }else{
+                endDate = oDataObj.getFilter().get(0).getValue().toString();
+                sql1 += " AND sbi.createdDate <= '" + endDate + "' ";
+                sql2 += " AND sbi.createdDate >= '" + beginDate + "' ";
+            }
+        }
+        
+        NativeQuery query = super.repository.getSession().createSQLQuery(sql1);
+        query.addScalar("projectName", new StringType());       //项目名
+        query.addScalar("unitName", new StringType());          //申报单位
+        query.addScalar("projectInvestSum", new DoubleType());  //总投资
+        
+        query.addScalar("createdDate", new DateType());         //创建时间
+        query.addScalar("projectStageDesc", new StringType());  //项目阶段
+        //query.addScalar("projectIndustryDesc", new StringType());   //行业分类
+        query.addScalar("apPlanReach_ggys", new DoubleType());   //公共预算资金
+        query.addScalar("apPlanReach_gtzj", new DoubleType());   //国土预算资金
+        query.addScalar("pifuDate", new DateType());           //项目下达时间
+        
+        List<ProjectStatisticsBean> list = query.setResultTransformer(Transformers.aliasToBean(ProjectStatisticsBean.class))
+                .setFirstResult(oDataObj.getSkip()).setMaxResults(oDataObj.getTop()).list();
+        int size = Integer.parseInt(shenBaoInfoRepoImpl.getSession().createNativeQuery(sql2).uniqueResult().toString());
+                
+        PageModelDto<ProjectStatisticsBean> dto = new PageModelDto<ProjectStatisticsBean>();
+        dto.setValue(list);
+        dto.setCount(size);
+        return dto;
+    }
+    
 
     @Override
     @Transactional

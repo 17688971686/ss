@@ -6,6 +6,7 @@ import java.util.Map;
 import cs.domain.ShenBaoInfo;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.TaskRecordDto;
+import cs.model.PageModelDto;
 import cs.model.Statistics.ProjectStatisticsBean;
 import cs.repository.odata.ODataObj;
 
@@ -92,6 +93,13 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
                                                               String[] stageSelected, String[] unitSelected, Double investSumBegin, Double investSumEnd, String projectName);
 
     /**
+     * 获取审批类表格数据
+     * @param oDataObj
+     * @return
+     */
+    PageModelDto<ProjectStatisticsBean> getApprovalAllData(ODataObj oDataObj);
+    
+    /**
      * 计划类分类统计
      *
      * @param type
@@ -120,6 +128,14 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
                                                           Double investSumEnd, Double apPlanReachSumBegin,
                                                           Double apPlanReachSumEnd, String projectName);
 
+    /**
+     * 计划类表格数据
+     * @param oDataObj
+     * @return
+     */
+    PageModelDto<ProjectStatisticsBean> getPlanAllData(ODataObj oDataObj);
+    
+    
     /**
      * 撤回审批
      * @param pricessId

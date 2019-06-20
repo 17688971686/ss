@@ -27,7 +27,13 @@
 
 			//项目资金统计与导出
             getMoneyFixedData:getMoneyFixedData,
-            exportExcelForMoneyByCondition:exportExcelForMoneyByCondition
+            exportExcelForMoneyByCondition:exportExcelForMoneyByCondition,
+
+			//表格展示数据
+			showApprovalAllGrid:showApprovalAllGrid,
+			showPlanAllGrid:showPlanAllGrid,
+			showProjectAllGrid:showProjectAllGrid,
+			showProjectMoneyGrid:showProjectMoneyGrid
 		};
 		return service;
 		
@@ -505,5 +511,335 @@
 				success:httpSuccess
 			});
 		}//end fun getyearPlanByUnitData
+		
+		function showApprovalAllGrid(vm){
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url+"/getApprovalAllData"), //获取数据
+				schema : common.kendoGridConfig().schema({ //返回的数据的处理
+					id : "id",
+					fields : {
+					}
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize: 10,
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+				{
+					field : "projectName",
+					title : "项目名称",
+					width : 350,
+				},
+				{
+					field : "unitName",
+					title : "申报单位",
+					width : 120,
+				},
+				{
+					field : "projectStageDesc",
+					title : "审批阶段",
+					width : 120,
+				},
+				{
+					field : "projectIndustryDesc",
+					title : "行业分类",
+					width : 120,
+				},
+				{
+					field : "projectInvestSum",
+					title : "总投资(万元)",
+					width : 120,
+				},
+				{
+					field : "pifuDate",
+					title : "批复时间",
+					width : 120,
+					template : function (tiem) {
+						var date = common.formatDate(tiem.pifuDate);
+						if(date==null){
+							return "";
+						}
+						return date;
+					}
+				},
+			];
+			// End:column
+
+			vm.gridOptions={
+				dataSource : common.gridDataSource(dataSource),
+				// filterable : common.kendoGridConfig().filterable,
+				pageable : common.kendoGridConfig().pageable,
+				noRecords:common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable: true,
+				// sortable:true,
+				// scrollable:true
+			};
+		}
+		
+		//计划类
+		function showPlanAllGrid(vm){
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url+"/getPlanAllData"), //获取数据
+				schema : common.kendoGridConfig().schema({ //返回的数据的处理
+					id : "id",
+					fields : {
+						// createdDate : {
+						// 	type : "date"
+						// }
+					}
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize: 10,
+				/*sort : {
+					field : "createdDate",
+					dir : "desc"
+				},*/
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+				{
+					field : "projectName",
+					title : "项目名称",
+					width : 350,
+				},
+				{
+					field : "unitName",
+					title : "申报单位",
+					width : 120,
+				},
+				{
+					field : "projectInvestSum",
+					title : "总投资(万元)",
+					width : 120,
+				},
+				{
+					field : "projectStageDesc",
+					title : "项目阶段",
+					width : 120,
+				},
+				/*{
+					field : "projectIndustryDesc",
+					title : "行业分类",
+					width : 120,
+				},*/
+				{
+					field : "apPlanReachSum",
+					title : "下达资金(万元)",
+					width : 130,
+					template : function (tiem) {
+						return tiem.apPlanReach_ggys+tiem.apPlanReach_gtzj;
+					}
+				},
+				{
+					field : "pifuDate",
+					title : "计划下达时间",
+					width : 120,
+					template : function (tiem) { 
+						var pifuDate = common.formatDate(tiem.pifuDate);
+						if(pifuDate == null){
+							return "";
+						}
+						return pifuDate;
+					} 
+				}
+			];
+			// End:column
+
+			vm.gridOptions={
+				dataSource : common.gridDataSource(dataSource),
+				pageable : common.kendoGridConfig().pageable,
+				noRecords:common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable: true,
+			};
+		}
+		
+		//项目类
+		function showProjectAllGrid(vm){
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url+"/getProjectAllData"), //获取数据
+				schema : common.kendoGridConfig().schema({ //返回的数据的处理
+					id : "id",
+					fields : {
+						// createdDate : {
+						// 	type : "date"
+						// }
+					}
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize: 10,
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+				{
+					field : "projectName",
+					title : "项目名称",
+					width:350,
+					// filterable : true
+				},
+				{
+					field : "projectIndustryDesc",
+					title : "行业分类",
+					width : 120,
+				},
+				{
+					field : "projectStageDesc",
+					title : "项目阶段",
+					width : 120,
+				},
+				{
+					field : "projectCategory",
+					title : "项目类别",
+					width : 80,
+					template : function (tiem) { 
+						var projectCategory="";
+						if(tiem.projectCategory!=null){
+							switch (tiem.projectCategory) {
+								case "projectCategory_1":
+									projectCategory = "A类";
+									break;
+								case "projectCategory_2":
+									projectCategory = "B类";
+									break;
+								case "projectCategory_3":
+									projectCategory = "C类";
+									break;
+								case "projectCategory_4":
+									projectCategory = "D类";
+									break;
+							}
+						}
+						return projectCategory;
+					}
+				},
+				{
+					field : "unitName",
+					title : "申报单位",
+					width : 150,
+				},
+				{
+					field : "projectInvestSum",
+					title : "总投资(万元)",
+					width : 120,
+				}
+			];
+			// End:column
+
+			vm.gridOptions={
+				dataSource : common.gridDataSource(dataSource),
+				pageable : common.kendoGridConfig().pageable,
+				noRecords:common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable: true,
+			};
+		}// end Projectgrid
+		
+		
+		//资金类
+		function showProjectMoneyGrid(vm){
+			// Begin:dataSource
+			var dataSource = new kendo.data.DataSource({
+				type : 'odata',
+				transport : common.kendoGridConfig().transport(url+"/getProjectMoneyData"), //获取数据
+				schema : common.kendoGridConfig().schema({ //返回的数据的处理
+					id : "id",
+					fields : {
+					}
+				}),
+				serverPaging : true,
+				serverSorting : true,
+				serverFiltering : true,
+				pageSize: 10,
+			});
+			// End:dataSource
+
+			// Begin:column
+			var columns = [
+				{
+					field : "projectName",
+					title : "项目名称",
+					width:350,
+				},
+				{
+					field : "projectIndustryDesc",
+					title : "行业分类",
+					width : 130,
+				},
+				{
+					field : "projectStageDesc",
+					title : "项目阶段",
+					width : 120,
+				},
+				{
+					field : "projectCategory",
+					title : "项目类别",
+					width : 80,
+					template : function (tiem) {
+						var projectCategory="";
+						if(tiem.projectCategory!=null){
+							switch (tiem.projectCategory) {
+								case "projectCategory_1":
+									projectCategory = "A类";
+									break;
+								case "projectCategory_2":
+									projectCategory = "B类";
+									break;
+								case "projectCategory_3":
+									projectCategory = "C类";
+									break;
+								case "projectCategory_4":
+									projectCategory = "D类";
+									break;
+							}
+						}
+						return projectCategory;
+					}
+				},
+				{
+					field : "unitName",
+					title : "申报单位",
+					width : 150,
+				},
+				{
+					field : "projectInvestSum",
+					title : "总投资(万元)",
+					width : 120,
+				},
+				{
+					field : "isIncludLibraryString",
+					title : "是否纳入项目库",
+					width : 120,
+				}
+			];
+			// End:column
+
+			vm.gridOptions={
+				dataSource : common.gridDataSource(dataSource),
+				pageable : common.kendoGridConfig().pageable,
+				noRecords:common.kendoGridConfig().noRecordMessage,
+				columns : columns,
+				resizable: true,
+			};
+		}// end Projectgrid
+		
 	}	
 })();

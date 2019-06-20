@@ -33,12 +33,15 @@ public class ProjectStatisticsBean implements Serializable{
 	private Integer fixedAssetsNumbers;//固定资产登记阶段项目数
 	private Double projectInvestSum;//项目总投资
 	private Double projectInvestAccuSum;//项目已拨付资金
+	private String projectCategory;//类别
+	private Date createdDate;//创建时间(用于页面排序)
 
 	//审批专用
 	private Integer approvalStageXMJYSNumbers;//立项数量
 	private Integer approvalStageKXXYJBGNumbers;//可研数量
 	private Integer approvalStageCBSJGSNumbers;//概算数量
 	private Integer approvalStageZJSQBGNumbers;//资金申请报告数量
+	private Date pifuDate;//批复时间
 	//计划专用
 	private Double apPlanReachTheYear;//本年度拨付金额
 	private String projectConstrCharDesc;//项目建设性质
@@ -55,7 +58,10 @@ public class ProjectStatisticsBean implements Serializable{
 	private String projectId;       //申报id
 	private Integer shenbaoStageNum; //申报类型个数
 	private Double pfProjectInvestSum; //批复资金
-	
+	private Boolean isIncludLibrary;  //是否纳入项目库
+	private String isIncludLibraryString;	  //是否纳入项目库
+
+
 	public String getProjectName() {
 		return projectName;
 	}
@@ -262,5 +268,45 @@ public class ProjectStatisticsBean implements Serializable{
 
 	public void setProjectId(String projectId) {
 		this.projectId = projectId;
+	}
+	
+	public String getProjectCategory() {
+		return projectCategory;
+	}
+
+	public void setProjectCategory(String projectCategory) {
+		this.projectCategory = projectCategory;
+	}
+
+	public Date getPifuDate() {
+		return pifuDate;
+	}
+
+	public void setPifuDate(Date pifuDate) {
+		this.pifuDate = pifuDate;
+	}
+	
+	public Boolean getIncludLibrary() {
+		return isIncludLibrary;
+	}
+
+	public void setIncludLibrary(Boolean includLibrary) {
+		isIncludLibrary = includLibrary;
+	}
+
+	public String getIsIncludLibraryString() {
+		return isIncludLibraryString;
+	}
+
+	public void setIsIncludLibraryString(String isIncludLibraryString) {
+		this.isIncludLibraryString = isIncludLibraryString;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 }
