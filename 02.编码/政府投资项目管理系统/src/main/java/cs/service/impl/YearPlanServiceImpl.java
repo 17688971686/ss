@@ -100,25 +100,24 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
     @Override
     @Transactional
     public YearPlan create(YearPlanDto dto) {
-        Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), dto.getYear());
-        List<YearPlan> entitys = super.repository.findByCriteria(criterion);
-        for (int i = 0; i < entitys.size(); i++) {
-            YearPlan yearPlan = entitys.get(i);
-            if (dto.getYear().equals(yearPlan.getYear()) && dto.getIsDraftOrPlan() && yearPlan.getIsDraftOrPlan()) {
-                throw new IllegalArgumentException("当前年份：" + yearPlan.getYear() + "已存在计划下达编制，其他编制信息只能用作草稿！");
-            }
+        YearPlan yearPlanOld = super.repository.findById(dto.getId());
+        if(!yearPlanOld.getIsDraftOrPlan() && dto.getIsDraftOrPlan()){
+            Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), dto.getYear());
+            List<YearPlan> entitys = super.repository.findByCriteria(criterion);
+            for (int i = 0; i < entitys.size(); i++) {
+                YearPlan yearPlan = entitys.get(i);
+                if (dto.getYear().equals(yearPlan.getYear()) && dto.getIsDraftOrPlan() && yearPlan.getIsDraftOrPlan()) {
+                    throw new IllegalArgumentException("当前年份：" + yearPlan.getYear() + "已存在计划下达编制，其他编制信息只能用作草稿！");
+                }
 
+            }
         }
-//        Criterion criterion = Restrictions.eq(YearPlan_.name.getName(), dto.getName());
-//        Criterion criterion2 = Restrictions.eq(YearPlan_.year.getName(), dto.getYear());
-//        Optional<YearPlan> yearPlan = repository.findByCriteria(criterion).stream().findFirst();
-//        Optional<YearPlan> yearPlan2 = repository.findByCriteria(criterion2).stream().findFirst();
-//        if (yearPlan.isPresent()) {
-//            throw new IllegalArgumentException(String.format("项目代码：%s 已经存在,请重新输入！", dto.getName()));
-//        }
-//        if (yearPlan2.isPresent()) {
-//            throw new IllegalArgumentException(String.format("当前年份：%s 的编制已经存在,请创建其他年份！", dto.getYear()));
-//        } else {
+        if(dto.getHasLock()){
+            dto.setLockName(currentUser.getUserId());
+        }else{
+            dto.setLockName("");
+        }
+
         YearPlan entity = super.create(dto);
         //关联信息资金安排
         dto.getYearPlanCapitalDtos().stream().forEach(x -> {
@@ -135,16 +134,29 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
     @Override
     @Transactional
     public YearPlan update(YearPlanDto dto, String id) {
-        Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), dto.getYear());
-        List<YearPlan> entitys = super.repository.findByCriteria(criterion);
-        for (int i = 0; i < entitys.size(); i++) {
-            YearPlan yearPlan = entitys.get(i);
-            if (dto.getYear().equals(yearPlan.getYear()) && dto.getIsDraftOrPlan() && yearPlan.getIsDraftOrPlan()) {
-                throw new IllegalArgumentException("当前年份：" + yearPlan.getYear() + "已存在计划下达编制，其他编制信息只能用作草稿！");
+
+        YearPlan yearPlanOld = super.repository.findById(dto.getId());
+        //如果原来是草稿，要改成计划下达，要检测是否同年度是否已存在计划下达
+        if(!yearPlanOld.getIsDraftOrPlan() && dto.getIsDraftOrPlan()){
+
+            Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), dto.getYear());
+            List<YearPlan> entitys = super.repository.findByCriteria(criterion);
+
+            for (int i = 0; i < entitys.size(); i++) {
+                YearPlan yearPlan = entitys.get(i);
+                if(!dto.getId().equals(yearPlan.getId())){
+                    if (dto.getYear().equals(yearPlan.getYear()) && yearPlan.getIsDraftOrPlan()) {
+                        throw new IllegalArgumentException("当前年份：" + yearPlan.getYear() + "已存在计划下达编制，其他编制信息只能用作草稿！");
+                    }
+                }
             }
 
         }
-
+        if(dto.getHasLock()){
+            dto.setLockName(currentUser.getUserId());
+        }else{
+            dto.setLockName("");
+        }
         YearPlan entity = super.update(dto, id);
         //关联信息资金安排
         entity.getYearPlanCapitals().forEach(x -> {//删除历史资金安排记录

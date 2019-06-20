@@ -2013,6 +2013,18 @@
                     }
                 },
                 {
+                    field: "hasLock",
+                    title: "是否锁定",
+                    filterable: false,
+                    template: function (item) {
+                        if(item.hasLock){
+                            return "是";
+                        }else{
+                            return "否";
+                        }
+                    }
+                },
+                {
                     field: "createdDate",
                     title: "创建日期",
                     width: 180,
@@ -2025,7 +2037,7 @@
                     title: "操作",
                     width: 200,
                     template: function (item) {
-                        return common.format($('#columnBtns').html(), item.id, item.projectInvestmentType, item.projectShenBaoStage, "vm.deletePlan('" + item.id + "')");
+                        return common.format($('#columnBtns').html(), item.id, item.hasLock, item.lockName, "vm.deletePlan('" + item.id + "')");
                     }
                 }
             ];

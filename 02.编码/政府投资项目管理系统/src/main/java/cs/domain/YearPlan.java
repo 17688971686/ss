@@ -19,6 +19,15 @@ public class YearPlan extends BaseEntity {
     @Column(columnDefinition = "varchar(255) NULL COMMENT '名称'")
     private String name;
 
+    /**
+     * 默认为未锁定
+     */
+    @Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '是否锁定'")
+    private Boolean hasLock = false;
+
+    @Column(columnDefinition = "varchar(255) NULL COMMENT '锁定人'")
+    private String lockName;
+
     @Column(columnDefinition = "int NULL COMMENT '年度'")
     private Integer year;
 
@@ -27,8 +36,12 @@ public class YearPlan extends BaseEntity {
 
     @Column(columnDefinition = "double(13,4) DEFAULT 0.0 COMMENT '总指标'")
     private Double totalMoney = 0.0;
+
+    /**
+     * 默认为草稿
+     */
     @Column(columnDefinition="bit(1) DEFAULT b'0' COMMENT '用途 ，作为：草稿或者计划下达。0：草稿，1：计划下达'")
-	private Boolean isDraftOrPlan = false;//默认为草稿
+	private Boolean isDraftOrPlan = false;
 
     //begin#关联信息
 
@@ -102,5 +115,19 @@ public class YearPlan extends BaseEntity {
 		this.isDraftOrPlan = isDraftOrPlan;
 	}
 
+    public Boolean getHasLock() {
+        return hasLock;
+    }
 
+    public void setHasLock(Boolean hasLock) {
+        this.hasLock = hasLock;
+    }
+
+    public String getLockName() {
+        return lockName;
+    }
+
+    public void setLockName(String lockName) {
+        this.lockName = lockName;
+    }
 }

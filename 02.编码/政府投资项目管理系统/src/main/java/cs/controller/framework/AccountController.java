@@ -36,7 +36,7 @@ public class AccountController {
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public @ResponseBody Response post(HttpServletRequest request,@RequestBody UserDto userDto,@RequestParam String role){
 		
-		Response loginResult= userService.Login(request,userDto.getLoginName(), userDto.getPassword(), role);
+		Response loginResult= userService.Login(userDto.getLoginName(), userDto.getPassword(), role);
 		
 		return loginResult;
 	}

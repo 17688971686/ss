@@ -9,8 +9,8 @@
 	  </ol>
 	  <script type="text/template" id="columnBtns">
 			<a class="btn btn-xs btn-primary" href="#/yearPlan/planEdit/{0}"><span class="glyphicon glyphicon-edit"></span>编辑</a> 
-			<a class="btn btn-xs btn-success" href="#/yearPlan/planBZ/{0}"><span class="glyphicon glyphicon-pencil"></span>编制计划</a>
-			<button class="btn btn-xs btn-danger" ng-click="{3}" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-remove"></span>删除</button> 
+			<a class="btn btn-xs btn-success" href="#/yearPlan/planBZ/{0}" ng-if="!{1}"><span class="glyphicon glyphicon-pencil"></span>编制计划</a>
+			<button class="btn btn-xs btn-danger" ng-click="{3}" ng-if="!{1}" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-remove"></span>删除</button>
 	  </script>
 	  <div class="toolbar">
 	  	<a class="btn btn-sm btn-primary" href="#/yearPlan/planEdit/"><span class="glyphicon glyphicon-plus"></span>&nbsp;新增计划</a>

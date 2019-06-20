@@ -12,6 +12,7 @@
 	  	<a class="btn btn-primary btn-sm"  href="#/yearPlan/planList"><span class="glyphicon glyphicon-chevron-left"></span>返回</a>
 		<button ng-hide="vm.isPlanEdit" class="btn btn-success btn-sm"  ng-click="vm.create()" ng-disabled="vm.isSubmit">确认提交</button>
 		<button ng-show="vm.isPlanEdit" class="btn btn-success btn-sm"  ng-click="vm.update()" ng-disabled="vm.isSubmit">确认更新</button>
+		  <button ng-show="vm.model.hasLock" class="btn btn-success btn-sm"  ng-click="vm.updateLock()">取消锁定</button>
 	  </div>
 	 
 	 <div class="row">
@@ -21,35 +22,47 @@
 				<tr>
 					<td class="formAlignRight" style="width:150px;">名称：<span class="required">(*)</span></td>
 					<td style="width:300px;">
-						<input type="text" autocomplete="off" class="form-control input-sm"  id="name" name="name" ng-model="vm.model.name" data-val="true" data-val-required="必填"/>
+						<input type="text" autocomplete="off" class="form-control input-sm"  id="name" name="name" ng-model="vm.model.name" ng-disabled="vm.model.hasLock" data-val="true" data-val-required="必填"/>
 						<span data-valmsg-for="name" data-valmsg-replace="true" class="required"></span>
 					</td>
 					<td class="formAlignRight" style="width:150px;">计划年度：<span class="required">(*)</span></td>
 					<td>
 					<input class="Wdate form-control input-sm" style="width:200px;" type="text" 
 						id="d15" onFocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy'})" onchange=""
-						ng-model="vm.model.year" data-val="true" data-val-required="必填" />
+						ng-model="vm.model.year" ng-disabled="vm.model.hasLock" data-val="true" data-val-required="必填" />
 						<span data-valmsg-for="year" data-valmsg-replace="true" class="required"></span>
 					</td>
 				</tr>
 				<tr>
 					<td class="formAlignRight">总指标：<span class="required">(*)</span></td>
 					<td>
-						<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm width120"  id="totalMoney" name="totalMoney" ng-model="vm.model.totalMoney" data-val="true" data-val-required="必填"/>&nbsp;(万元)
+						<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm width120"  id="totalMoney" name="totalMoney" ng-model="vm.model.totalMoney" data-val="true" data-val-required="必填" ng-disabled="vm.model.hasLock"/>&nbsp;(万元)
 						<span data-valmsg-for="totalMoney" data-valmsg-replace="true" class="required"></span>
 					</td>
 					<td class="formAlignRight">使用情况：<span class="required">(*)</span></td>
 					<td>
-						<label><input name="isDraftOrPlan" type="radio" ng-value="true" ng-model="vm.model.isDraftOrPlan" />计划下达 </label>
+						<label><input name="isDraftOrPlan" type="radio" ng-value="true" ng-model="vm.model.isDraftOrPlan" ng-disabled="vm.model.hasLock"/>计划下达 </label>
 		                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		                <label><input name="isDraftOrPlan" type="radio" ng-value="false" ng-checked="true" ng-model="vm.model.isDraftOrPlan" />草稿 </label>
+		                <label><input name="isDraftOrPlan" type="radio" ng-value="false" ng-checked="true" ng-model="vm.model.isDraftOrPlan" ng-disabled="vm.model.hasLock"/>草稿 </label>
 		                <span data-valmsg-for="isDraftOrPlan" data-valmsg-replace="true" class="required"></span>
+					</td>
+				</tr>
+				<tr>
+					<td class="formAlignRight">是否锁定：</td>
+					<td>
+						<label><input name="hasLock" type="radio" ng-value="true" ng-model="vm.model.hasLock" ng-disabled="vm.model.hasLock"/>是 </label>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<label><input name="hasLock" type="radio" ng-value="false" ng-checked="true" ng-model="vm.model.hasLock" ng-disabled="vm.model.hasLock"/>否 </label>
+					</td>
+					<td class="formAlignRight" ng-if="vm.model.hasLock">锁定人员：</td>
+					<td>
+						<span ng-bind="vm.getUserById(vm.model.lockName)"></span>
 					</td>
 				</tr>
 				<tr>
 				<td class="formAlignRight">备注：</td>
 				<td colspan="3">
-					<textarea rows="3" cols="" maxlength="500" class="form-control" data-val="false" id="remark" name="remark" ng-model="vm.model.remark" ng-change="vm.checkLength(vm.model.remark,500,'remarkTips')"></textarea>
+					<textarea rows="3" cols="" maxlength="500" class="form-control" data-val="false" id="remark" name="remark" ng-model="vm.model.remark" ng-change="vm.checkLength(vm.model.remark,500,'remarkTips')" ng-disabled="vm.model.hasLock"></textarea>
 					<div class="tipfont">您还可以输入<span id="remarkTips"><font size="5">500</font></span>个字符!</div>
 				</td>
 				</tr>

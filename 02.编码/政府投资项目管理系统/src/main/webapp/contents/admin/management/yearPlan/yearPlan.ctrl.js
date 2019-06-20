@@ -129,6 +129,12 @@
             common.checkLength(obj,max,id);
         };
 
+        vm.getUserById = function(id){
+        	if(id != null && id != undefined && id != ""){
+                return common.getUserById(id).value[0].displayName;
+			}
+		};
+
         vm.saveShenBaoInfo = function(){
             $('#myModal_plan').modal('hide');
             common.confirm({
@@ -770,6 +776,7 @@
 //     		vm.model.shenBaoInfo.auditState=common.basicDataConfig().auditState_noAudit;//后台修改保存申报信息之后默认为未审核状态
      		yearPlanSvc.updateShenBaoInfo(vm);
      	};
+
      	//更新审核状态
      	vm.updateAuditState=function(auditState){
      		vm.isAudit = true;//用于设置跳转到列表页面
@@ -786,6 +793,7 @@
     	
     	//init_planList
     	function init_planList(){
+
     		yearPlanSvc.grid_planList(vm);
     		//删除计划
     		vm.deletePlan=function(id){
@@ -828,6 +836,19 @@
     		vm.update=function(){
     			yearPlanSvc.plan_update(vm);
     		};
+
+            vm.updateLock = function(){
+                if(vm.model.lockName != window.profile_userId){
+                    common.alert({
+                        vm: vm,
+                        msg: "无法解锁非本人锁定的计划!",
+                    });
+                }else{
+                	vm.model.hasLock = false;
+                    yearPlanSvc.plan_update(vm);
+                }
+
+            }
     	}//init_planUpadte
     	
     	function init_planBZ(){
