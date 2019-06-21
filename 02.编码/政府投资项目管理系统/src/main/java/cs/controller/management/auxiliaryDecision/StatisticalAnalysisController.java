@@ -390,7 +390,7 @@ public class StatisticalAnalysisController {
 			   							categorySelected,unitSelected,investSumBegin,investSumEnd,projectName);
 	}
 
-	@RequestMapping(name="获取审批类数据", path = "getApprovalAllData", method = RequestMethod.GET)
+	/*@RequestMapping(name="获取审批类数据", path = "getApprovalAllData", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectStatisticsBean> getApprovalAllData(ODataObj oDataObj){
 		PageModelDto<ProjectStatisticsBean> dto = shenBaoInfoService.getApprovalAllData(oDataObj);
 		return dto;
@@ -406,7 +406,7 @@ public class StatisticalAnalysisController {
 	public @ResponseBody PageModelDto<ProjectStatisticsBean> getProjectAllData(ODataObj oDataObj){
 		PageModelDto<ProjectStatisticsBean> dto = ProjectService.getProjectAllData(oDataObj);
 		return dto;
-	}
+	}*/
 	
 	@RequestMapping(name = "获取资金类数据", path = "getProjectMoneyData", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectStatisticsBean> getProjectMoneyData(ODataObj oDataObj){

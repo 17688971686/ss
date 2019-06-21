@@ -16,9 +16,7 @@
     	vm.parameter = $state.params.parameter;
     	vm.model={};
     	vm.basicData={};
-		vm.projectBeginDate = "";
-		vm.projectEndDate = "";
-		
+
     	function init(){
     		if(routeName == 'statisticalAnalysis'){
     			vm.page = 'index';
@@ -509,7 +507,7 @@
         		vm.isApprovalCustom=true;
         		vm.title="审批类自定义条件类";
 				//审批类数据表格
-        		statisticalAnalysisSvc.showApprovalAllGrid(vm);
+        		// statisticalAnalysisSvc.showApprovalAllGrid(vm);
 				
         		vm.showApprovalCustomData=function(){
         			//批复时间(没有填写、填写之后删除、结束时间小于开始时间(有验证))
@@ -546,16 +544,16 @@
         		vm.isPlanCustom=true;
         		vm.title="计划类自定义类";
         		//获取计划类表格数据
-				statisticalAnalysisSvc.showPlanAllGrid(vm);
+				// statisticalAnalysisSvc.showPlanAllGrid(vm);
         		
         		vm.showPlanCustomData=function(){
         			//计划下达时间(没有填写、填写之后删除、结束时间小于开始时间(有验证))
         			vm.model.planYearBegin=vm.planYearBegin==undefined?"":vm.planYearBegin.toString();
         			vm.model.planYearEnd=vm.planYearEnd==undefined?"":vm.planYearEnd.toString();
-        			if(vm.model.planYearBegin > vm.model.planYearEnd){
+        			if(vm.model.planYearBegin!="" && vm.model.planYearEnd && vm.model.planYearBegin > vm.model.planYearEnd){
 						common.alert({
 							vm : vm,
-							msg : "计划下达的开始日期不能大于结束日期"
+							msg : "开始日期不能大于结束日期"
 						})
 					}else{
 						//总投资范围（没有填写、填写之后删除、结束范围小于开始范围（有验证））
@@ -592,13 +590,13 @@
         		vm.isProjectCustom=true;
         		vm.title="项目总库自定义条件类";
         		//查询所有数据
-				statisticalAnalysisSvc.showProjectAllGrid(vm);
+				// statisticalAnalysisSvc.showProjectAllGrid(vm);
         		
         		vm.showProjectCustomData=function(){
         			//项目创建时间范围
 					vm.model.projectBegin = vm.projectBegin==undefined?"":vm.projectBegin.toString();
 					vm.model.projectEnd = vm.projectEnd==undefined?"":vm.projectEnd.toString();
-					if(vm.model.projectBegin > vm.model.projectEnd){
+					if(vm.model.projectEnd!="" && vm.model.projectBegin!="" && vm.model.projectBegin > vm.model.projectEnd){
 						common.alert({
 							vm : vm,
 							msg : "开始日期不能大于结束日期"
@@ -862,7 +860,7 @@
 
 		vm.search = function(vm){
 			var filters = [];//封装查询条件
-			if(vm.projectEndDate < vm.projectBeginDate){
+			if(vm.projectEndDate!="" && vm.projectBeginDate!="" && vm.projectEndDate < vm.projectBeginDate){
 				common.alert({
 					vm : vm,
 					msg : "开始日期不能大于结束日期！"
