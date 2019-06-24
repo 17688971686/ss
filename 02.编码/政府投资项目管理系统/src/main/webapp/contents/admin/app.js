@@ -801,6 +801,13 @@
         controller: 'mediationManagementCtrl',
         controllerAs: 'vm'
         })
+
+		.state('shenbao_record', {
+			url: '/shenbao_record/:id',
+			templateUrl: '/management/yearPlan/html/shenBaoInfo.html',
+			controller: 'yearPlanCtrl',
+			controllerAs: 'vm'
+		})
         ;
         
     }]);

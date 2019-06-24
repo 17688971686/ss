@@ -257,7 +257,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
         sb2.append(" cs_yearplan_cs_yearplancapital t3 on t2.id=t3.yearPlanCapitals_id ");
         sb2.append("WHERE t3.yearplan_id=:yearPlanId ");
 
-        if(!CollectionUtils.isEmpty(odataObj.getFilterList())){
+        if(!CollectionUtils.isEmpty(odataObj.getFilterList()) && StringUtils.isEmpty(odataObj.getFilterList().get(0).getFiledName()) ){
            ArrayList list = (ArrayList) odataObj.getFilterList().get(0).getValue();
             for (int i = 0; i<list.size();i++){
                 OdataFilter of = (OdataFilter) list.get(i);

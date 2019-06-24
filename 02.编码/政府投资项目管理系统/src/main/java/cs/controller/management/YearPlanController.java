@@ -233,4 +233,9 @@ public class YearPlanController {
         return ctrl + "/pack/projectList";
     }
 
+    @RequestMapping(name = "年度计划详情页", path = "html/shenBaoInfo", method = RequestMethod.GET)
+    public String shenBaoInfo() {
+        return ctrl + "/shenBaoInfo";
+    }
+
 }

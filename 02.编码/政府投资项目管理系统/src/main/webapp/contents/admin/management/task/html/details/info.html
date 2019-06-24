@@ -1,0 +1,20 @@
+<style>
+.juzhong{
+	vertical-align: middle;
+	text-align:center;
+}
+</style>
+<div class="bg-info text-info" style="padding: 10px;">审批流转信息</div>
+<table class="table table-bordered table-striped ">
+	<tr ng-repeat="x in vm.taskRecord"
+	>
+		<td class="formAlignRight" style="width: 150px;" ng-bind="x.name"></td>
+		<td>
+			<div ng-bind="x.msg"></div>
+			<div class="text-right" ng-bind="x.id"></div>
+			<div class="text-right" ng-bind="x.endTime | date:'yyyy-MM-dd hh:mm:ss'"></div>
+		</td>
+	</tr>
+</table>
+
+</div>

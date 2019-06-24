@@ -1,0 +1,722 @@
+<style>
+.table-bordered>thead>tr>th, 
+.table-bordered>tbody>tr>th, 
+.table-bordered>tfoot>tr>th, 
+.table-bordered>thead>tr>td, 
+.table-bordered>tbody>tr>td, 
+.table-bordered>tfoot>tr>td {
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+label{font-weight:normal;}
+
+.uploadBox .k-upload-status {
+	display: none;
+}
+
+.uploadBox .k-header {
+	background: transparent;
+	border: 0px;
+}
+
+.uploadBox em {
+	display: none;
+}
+
+.uploadBox .k-dropzone {
+	padding: 0px;
+	margin: 0px;
+}
+.uploadBox .k-upload-files{
+display:none;
+}
+input.input-sm{height:30px; margin:0px; padding:0px;}
+textarea.form-control {
+	margin:0px; padding:0px;
+}
+.tab_content{
+	padding:20px;
+}
+.modal{
+	overflow-y:auto
+}
+.modal-open {
+   overflow: scroll !important;
+}
+overflow: scroll !important;
+</style>
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
+<div class="well well-sm" style="background:white;">
+	<ol class="breadcrumb">
+		<li style="color:#0b8d39;padding-left:15px;"> 当前位置：</li>
+		<li><a class="text-primary" href="#/managerCenter">首页</a></li>
+		<li><a class="text-primary" href="#/shenbao">项目申报</a></li>
+		<li><a class="text-primary" href="javascript:window.history.back(-1)"data-toggle="tooltip" data-placement="bottom" title="点击返回上一页面"><strong>返回</strong></a></li>	 
+		<li class="active">记录详情</li>
+	</ol>
+
+	<style>
+		.juzhong{
+			vertical-align: middle;
+			text-align:center;
+		}
+	</style>
+	<div class="bg-info text-info" style="padding: 10px;">项目基本信息</div>
+	<table class="table table-bordered table-striped ">
+		<tr>
+			<td class="formAlignRight" style="width:150px;">项目名称：</td>
+			<td  style="width:30%">
+				<span id="projectName" ng-bind="vm.model.shenBaoInfo.projectName"></span>
+			</td>
+			<td class="formAlignRight" style="width:180px;">项目阶段：</td>
+			<td>
+				<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectStage)"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight" style="width:150px;">项目负责人名称：</td>
+			<td>
+				<span ng-bind="vm.model.shenBaoInfo.projectRepName"></span>
+			</td>
+			<td class="formAlignRight" style="width:180px;">项目负责人电话：</td>
+			<td>
+				<span ng-bind="vm.model.shenBaoInfo.projectRepMobile"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">项目类别：</td>
+			<td>
+				<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectCategory)"></span>
+			</td>
+			<!--
+            <td class="formAlignRight">项目分类：</td>
+            <td>
+                <span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectClassify)"></span>
+            </td>
+            -->
+		</tr>
+		<tr>
+			<td class="formAlignRight">项目行业归口：</td>
+			<td>
+				<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectIndustry)"></span>
+			</td>
+			<td class="formAlignRight">项目类型：</td>
+			<td>
+				<span ng-repeat="x in vm.model.shenBaoInfo.projectType" ng-bind="vm.getBasicDataDesc(x)+' '"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">国民经济行业分类：</td>
+			<td colspan="3" style="width:450px;">
+				<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustryParent)"  style="margin-right:24px;"></span>
+				<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.nationalIndustry)"></span>
+			</td>
+		</tr>
+		<!-- 功能分类科目、政府经济分类科目仅仅年度计划含有 -->
+		<tr ng-if="vm.isYearPlan">
+			<td class="formAlignRight">功能分类科目：</td>
+			<td>
+				<span ng-bind="vm.model.shenBaoInfo.functionSubjects"></span>
+			</td>
+			<td class="formAlignRight">政府经济分类科目：</td>
+			<td>
+				<span ng-bind="vm.model.shenBaoInfo.econClassSubjects"></span>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="formAlignRight">项目建设地址：</td>
+			<td colspan="3">
+				光明区
+				<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.divisionId)"></span>
+				<span ng-bind="vm.model.shenBaoInfo.projectAddress"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">项目开工日期：</td>
+			<td>
+				<span ng-if="vm.isYearPlan" ng-bind="vm.model.shenBaoInfo.beginDate | date:'yyyy-MM'"></span>
+				<span ng-if="!vm.isYearPlan" ng-bind="vm.model.shenBaoInfo.beginDate | date:'yyyy-MM-dd'"></span>
+			</td>
+			<td class="formAlignRight">项目竣工日期：</td>
+			<td>
+				<span ng-if="vm.isYearPlan" ng-bind="vm.model.shenBaoInfo.endDate | date:'yyyy-MM'"></span>
+				<span ng-if="!vm.isYearPlan" ng-bind="vm.model.shenBaoInfo.endDate | date:'yyyy-MM-dd'"></span>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="formAlignRight"><span class="{{vm.getBasicDataComment(vm.model.shenBaoInfo.urgencyState)}}">申报文件缓急：</span></td>
+			<td colspan="3" style="width:450px;">
+				<span class="{{vm.getBasicDataComment(vm.model.shenBaoInfo.urgencyState)}}" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.urgencyState)"></span>
+			</td>
+		</tr>
+
+		<!-- 前期计划没有项目投资这一块 -->
+		<tr>
+			<td class="formAlignRight">项目总投资：</td>
+			<td>
+				<span id="projectInvestSum" ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:4"></span>&nbsp;(万元)
+			</td>
+			<td class="formAlignRight">累计完成投资：</td>
+			<td>
+				<span id="projectInvestAccuSum" ng-bind="vm.model.shenBaoInfo.projectInvestAccuSum | number:4"></span>&nbsp;(万元)
+			</td>
+		</tr>
+
+		<tr>
+			<td class="formAlignRight">批复总投资：</td>
+			<td colspan="3" >
+				<span id="pfProjectInvestSum" ng-bind="vm.model.shenBaoInfo.pfProjectInvestSum | number:4"></span>&nbsp;(万元)
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">资金来源：</td>
+			<td colspan="3" >
+				<table class="table table-bordered table-striped table-hover" >
+					<tr class="text-primary text-center">
+						<td>市投资</td>
+						<td>区投资</td>
+						<td>中央预算内投资</td>
+						<td>社会投资</td>
+						<td>其他</td>
+					</tr>
+					<tr class="text-center">
+						<td style="padding:0px;border: 0px;">
+							<table class="table table-bordered" style="margin:0px">
+								<tr>
+									<td>公共预算</td>
+									<td>国土基金</td>
+									<td>专项基金</td>
+								</tr>
+								<tr>
+									<td ng-bind="vm.model.shenBaoInfo.capitalSCZ_ggys | number:4"></td>
+									<td ng-bind="vm.model.shenBaoInfo.capitalSCZ_gtzj | number:4"></td>
+									<td ng-bind="vm.model.shenBaoInfo.capitalSCZ_zxzj | number:4"></td>
+								</tr>
+							</table>
+						</td>
+						<td style="padding:0px;border: 0px;">
+							<table class="table table-bordered " style="margin:0px">
+								<tr>
+									<td>公共预算</td>
+									<td>国土基金</td>
+
+								</tr>
+								<tr>
+									<td ng-bind="vm.model.shenBaoInfo.capitalQCZ_ggys | number:4"></td>
+									<td ng-bind="vm.model.shenBaoInfo.capitalQCZ_gtzj | number:4"></td>
+								</tr>
+							</table>
+						</td>
+						<td style="padding:0px;border: 0px;">
+							<table class="table table-bordered " style="margin:0px">
+								<tr>
+									<td>-</td>
+								</tr>
+								<tr>
+									<td ng-bind="vm.model.shenBaoInfo.capitalZYYS | number:4"></td>
+								</tr>
+							</table>
+						</td>
+						<td style="padding:0px;border: 0px;">
+							<table class="table table-bordered" style="margin:0px">
+								<tr>
+									<td>-</td>
+								</tr>
+								<tr>
+									<td ng-bind="vm.model.shenBaoInfo.capitalSHTZ | number:4"></td>
+								</tr>
+							</table>
+						</td>
+						<td style="padding:0px;border: 0px;">
+							<table class="table table-bordered" style="margin:0px">
+								<tr>
+									<td ng-if="vm.model.shenBaoInfo.capitalOtherType"><span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.capitalOtherType)"></span></td>
+									<td ng-if="!vm.model.shenBaoInfo.capitalOtherType">-</td>
+								</tr>
+								<tr>
+									<td ng-bind="vm.model.shenBaoInfo.capitalOther | number:4"></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				<table class="table table-bordered ">
+					<tr>
+						<td class="text-center" style="width:100px;" >"其他"的来源途径说明：</td>
+						<td>
+							<textarea class="form-control input-sm" maxlength="200" style="width:99%;" ng-model="vm.model.shenBaoInfo.capitalOtherDescription" placeholder="注：200字符以内" disabled></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td>资金总计：</td>
+						<td >
+							<span id="capitalTotal" ng-bind="vm.capitalTotal() | number:4"></span>&nbsp;(万元)
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="formAlignRight">项目简介：</td>
+			<td colspan="3" >
+				<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：项目简介（500字符以内）" ng-model="vm.model.shenBaoInfo.projectIntro" disabled></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">建设规模：</td>
+			<td colspan="3" >
+				<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：房建工程请填写建筑栋数、建筑面积或改造面积；学校、医院还需填写学位或床位。道路请填写道路等级、车道数、长度。管网请填写长度及处理能力。依次类推（200字符以内）" ng-model="vm.model.shenBaoInfo.projectGuiMo" disabled></textarea>
+			</td>
+		</tr>
+		<!-- 下一年度计划、计划下达没有 -->
+		<tr ng-hide="vm.isYearPlan || vm.isJihuaxiada">
+			<td class="formAlignRight">建设必要性和依据：</td>
+			<td colspan="3" >
+				<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明项目建设必要性和依据（500字符以内）" ng-model="vm.model.shenBaoInfo.projectConstrBasis" disabled></textarea>
+			</td>
+		</tr>
+		<!-- 可研、初步设计概算有 -->
+		<tr ng-show="vm.isKXXYJBG || vm.isCBSJYGS">
+			<td class="formAlignRight">推荐方案介绍：</td>
+			<td colspan="3" >
+				<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明推荐方案介绍（500字符以内）" ng-model="vm.model.shenBaoInfo.recomProgram" disabled></textarea>
+			</td>
+		</tr>
+		<!-- 可研、初步设计概算有 -->
+		<tr ng-show="vm.isKXXYJBG || vm.isCBSJYGS">
+			<td class="formAlignRight">社会及经济效益评价：</td>
+			<td colspan="3" >
+				<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：简要说明社会及经济效益评价（500字符以内）" ng-model="vm.model.shenBaoInfo.socialAndEconomic" disabled></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">项目基本信息备注：</td>
+			<td colspan="3" >
+				<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（200字符以内）" ng-model="vm.model.shenBaoInfo.remark" disabled></textarea>
+			</td>
+		</tr>
+	</table>
+
+	<div ng-show="vm.isYearPlan">
+		<div class="bg-info text-info" style="padding: 10px;">年度计划信息</div>
+		<table class="table table-bordered table-striped ">
+			<tr>
+				<td class="formAlignRight" style="width:150px;">项目建设性质</td>
+				<td style="width:30%">
+					<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectConstrChar)"></span>
+				</td>
+				<td class="formAlignRight" style="width:180px;">建设单位名称：</td>
+				<td>
+					<div ng-repeat="x in vm.model.shenBaoInfo.constructionUnit">
+						<span>单位{{$index+1}}：</span>
+						<span class="text-primary" ng-bind="vm.model.shenBaoInfo.constructionUnit[$index]"></span>
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<td class="formAlignRight">项目总投资：</td>
+				<td>
+					<span ng-bind="vm.model.shenBaoInfo.projectInvestSum | number:4"></span>&nbsp;(万元)
+				</td>
+				<td class="formAlignRight">累计安排投资：</td>
+				<td>
+					<span ng-bind="vm.model.shenBaoInfo.apInvestSum | number:4"></span>&nbsp;(万元)
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight" style="width:150px;">计划年度：</td>
+				<td style="width:250px;">
+					<span ng-bind="vm.model.shenBaoInfo.planYear"></span>
+				</td>
+				<td class="formAlignRight">是否申请标外资金：</td>
+				<td>
+					<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="true" ng-checked="vm.model.shenBaoInfo.isApplyOutsideCapital == true" disabled="disabled"/>&nbsp;是</label>
+					<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="false" ng-checked="vm.model.shenBaoInfo.isApplyOutsideCapital == false" disabled="disabled"/>&nbsp;否</label>
+					<label ng-if="vm.model.shenBaoInfo.isApplyOutsideCapital">
+						申请标外资金：
+						<span ng-bind="vm.model.shenBaoInfo.applyOutsideCapital"></span>
+						&nbsp;(万元)
+					</label>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">资金需求及来源：</td>
+				<td colspan="3">
+					<table class="table table-bordered table-striped table-hover">
+						<tr class="text-primary text-center">
+							<td colspan="2">申请年度投资：
+								<span ng-bind="vm.model.shenBaoInfo.applyYearInvest | number:4"></span>&nbsp;(万元)
+							</td>
+						</tr>
+						<tr>
+							<td style="padding:0px;border: 0px;" colspan="4">
+								<table class="table table-bordered" style="margin:0px;width:100%;">
+									<tr>
+										<td>公共预算</td>
+										<td>国土基金</td>
+										<td>其他</td>
+									</tr>
+									<tr>
+										<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_ggys_TheYear | number:4"></span></td>
+										<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_gtzj_TheYear | number:4"></span></td>
+										<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_qita | number:4"></span></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight" >"其他"的来源途径说明：</td>
+				<td colspan="3">
+					<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.shenBaoInfo.capitalOtherDescriptionShenBao" disabled></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">年度建设内容：</td>
+				<td colspan="3">
+					<textarea class="form-control" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.shenBaoInfo.yearConstructionContent" disabled></textarea>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div ng-show="vm.isYearPlan">
+		<div class="bg-info text-info" style="padding: 10px;">{{vm.model.shenBaoInfo.planYear +1}}年度计划信息</div>
+		<table class="table table-bordered table-striped ">
+			<tr>
+				<td class="formAlignRight" style="width:150px;">计划年度：</td>
+				<td style="width:250px;" colspan="3">
+					<span>{{vm.model.shenBaoInfo.planYear +1}}</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">资金需求及来源：</td>
+				<td colspan="3">
+					<table class="table table-bordered table-striped table-hover">
+						<tr class="text-primary text-center">
+							<td colspan="2">申请年度投资：
+								<span ng-bind="vm.model.shenBaoInfo.applyYearInvest_LastYear | number:4"></span>&nbsp;(万元)
+							</td>
+						</tr>
+						<tr>
+							<td style="padding:0px;border: 0px;" colspan="4">
+								<table class="table table-bordered" style="margin:0px;width:100%;">
+									<tr>
+										<td>公共预算</td>
+										<td>国土基金</td>
+										<td>其他</td>
+									</tr>
+									<tr>
+										<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_ggys_LastYear | number:4"></span></td>
+										<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_gtzj_LastYear | number:4"></span></td>
+										<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_qita_LastYear | number:4"></span></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight" >"其他"的来源途径说明：</td>
+				<td colspan="3">
+					<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.shenBaoInfo.capitalOtherDescriptionShenBao_LastYear" disabled></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">年度建设内容：</td>
+				<td colspan="3">
+					<textarea class="form-control" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.shenBaoInfo.yearConstructionContentLastYear" disabled></textarea>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div ng-show="vm.isYearPlan">
+		<div class="bg-info text-info" style="padding: 10px;">{{vm.model.shenBaoInfo.planYear +2}}年度计划信息</div>
+		<table class="table table-bordered table-striped ">
+			<tr>
+				<td class="formAlignRight" style="width:150px;">计划年度：</td>
+				<td style="width:250px;" colspan="3">
+					<span>{{vm.model.shenBaoInfo.planYear +2}}</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">资金需求及来源：</td>
+				<td colspan="3">
+					<table class="table table-bordered table-striped table-hover">
+						<tr class="text-primary text-center">
+							<td colspan="2">申请年度投资：
+								<span ng-bind="vm.model.shenBaoInfo.applyYearInvest_LastTwoYear | number:4"></span>&nbsp;(万元)
+							</td>
+						</tr>
+						<tr>
+							<td style="padding:0px;border: 0px;" colspan="4">
+								<table class="table table-bordered" style="margin:0px;width:100%;">
+									<tr>
+										<td>公共预算</td>
+										<td>国土基金</td>
+										<td>其他</td>
+									</tr>
+									<tr>
+										<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_ggys_LastTwoYear | number:4"/></span></td>
+										<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_gtzj_LastTwoYear | number:4"/></span></td>
+										<td><span ng-bind="vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear | number:4"/></span></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight" >"其他"的来源途径说明：</td>
+				<td colspan="3">
+					<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.shenBaoInfo.capitalOtherDescriptionShenBao_LastTwoYear" disabled></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">年度建设内容：</td>
+				<td colspan="3">
+					<textarea class="form-control" style="height:121px;width: 99%;" placeholder="请简要概述年度计划建设的内容：备注（500字符以内）" ng-model="vm.model.shenBaoInfo.yearConstructionContentLastTwoYear" disabled></textarea>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div ng-show="vm.isYearPlan">
+		<div class="bg-info text-info" style="padding: 10px;">年度计划申报备注</div>
+		<table style="width:100%;" class="table  table-bordered table-striped">
+			<tr>
+				<td class="formAlignRight" style="width:150px;">申报信息备注：</td>
+				<td colspan="3" >
+					<textarea class="form-control" maxlength="500" style="height:121px;width: 99%;" placeholder="注：备注（200字符以内）" ng-model="vm.model.shenBaoInfo.yearConstructionContentShenBao" disabled></textarea>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<!-- 只有计划下达特有的信息 -->
+	<div ng-show="vm.isJihuaxiada" class="well well-lg">
+		<table class="table table-bordered table-striped">
+			<tr>
+				<td class="formAlignRight" style="width:150px;">建设性质：<span class="required">(*)</span></td>
+				<td ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectConstrChar);"></td>
+				<td style="width:50%;">
+					<table class="table table-bordered table-striped" style="margin-bottom: 0;text-align: center;">
+						<tr>
+							<td colspan="2">
+								<label>申请资金：</label>
+								<span ng-bind="vm.sqPlanReachTotal()"></span>
+								<label class="pull-right" style="color:silver">单位：万元</label>
+							</td>
+						</tr>
+						<tr>
+							<td>公共预算</td>
+							<td>国土基金</td>
+						</tr>
+						<tr>
+							<td ng-bind="vm.model.shenBaoInfo.sqPlanReach_ggys"></td>
+							<td ng-bind="vm.model.shenBaoInfo.sqPlanReach_gtzj"></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr></tr>
+		</table>
+	</div>
+
+	<div class="bg-info text-info" style="padding: 10px;">单位基本信息</div>
+	<table style="width:100%;" class="table  table-bordered table-striped">
+		<tr>
+			<td width="150" class="formAlignRight">单位名称：</td>
+			<td colspan="4" class="RborderNone">
+				<span id="unitName" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitName"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">组织机构代码：</td>
+			<td colspan="2">
+				<span id="orgCode" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.orgCode"></span>
+			</td>
+			<td width="100" class="formAlignRight">电话号码：</td>
+			<td>
+				<span id="unitTel" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitTel"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">电子邮箱：</td>
+			<td colspan="2">
+				<span id="unitEmail" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitEmail"></span>
+			</td>
+			<td class="formAlignRight">传真号码：</td>
+			<td>
+				<span id="unitFax" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitFax"></span>
+			</td>
+		</tr>
+	</table>
+
+	<div class="bg-info text-info" style="padding: 10px;">常用申报信息</div>
+	<table style="width:100%;" class="table  table-bordered table-striped">
+		<tr>
+			<td width="150" class="formAlignRight">单位性质：</td>
+			<td colspan="4">
+				<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitProperty)"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formAlignRight">单位地址：</td>
+			<td colspan="4">
+				<span>光明区</span>
+				<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.shenBaoUnitInfoDto.divisionId)"></span>
+				<span id="unitAddress" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitAddress"></span>
+			</td>
+		</tr>
+		<tr>
+			<td rowspan="3" class="formAlignRight">单位负责人：</td>
+			<td width="100px;" class="juzhong">姓名：</td>
+			<td  width="275px;">
+				<span id="unitResPerson" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.unitResPerson"></span>
+			</td>
+			<td class="juzhong" width="100px;">电话号码：</td>
+			<td>
+				<span id="resPersonTel" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonTel"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="juzhong">手机：</td>
+			<td>
+				<span id="resPersonMobile" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonMobile"></span>
+			</td>
+			<td class="juzhong">传真号码：</td>
+			<td>
+				<span id="resPersonFax" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonFax"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="juzhong">Email：</td>
+			<td colspan="3">
+				<span id="resPersonEmail" ng-bind="vm.model.shenBaoInfo.shenBaoUnitInfoDto.resPersonEmail"></span>
+			</td>
+		</tr>
+	</table>
+
+	<!-- 下一年度计划、计划下达没有编制单位 -->
+	<div ng-hide="vm.isYearPlan || vm.isJihuaxiada">
+		<div class="bg-info text-info" style="padding: 10px;">编制单位信息</div>
+		<table width="100%" class="table  table-bordered table-striped">
+			<tr>
+				<td class="formAlignRight" width="150px;">单位名称：</td>
+				<td colspan="2">
+					<span ng-bind="vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitName"></span>
+				</td>
+				<td width="100px;" class="formAlignRight">单位性质：</td>
+				<td>
+					<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitProperty)"></span>
+				</td>
+			</tr>
+			<tr>
+				<td class="formAlignRight">单位地址：</td>
+				<td colspan="4">
+					<!-- 光明区
+                <span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.bianZhiUnitInfoDto.divisionId)"></span> -->
+					<span ng-bind="vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitAddress"></span>
+				</td>
+			</tr>
+			<tr>
+				<td rowspan="3" class="formAlignRight">单位负责人：</td>
+				<td width="100px;" class="juzhong">姓名：</td>
+				<td width="275px;">
+					<span ng-bind="vm.model.shenBaoInfo.bianZhiUnitInfoDto.unitResPerson"></span>
+				</td>
+				<td width="100px;" class="juzhong">电话号码：</td>
+				<td>
+					<span ng-bind="vm.model.shenBaoInfo.bianZhiUnitInfoDto.resPersonTel"></span>
+				</td>
+			</tr>
+			<tr>
+				<td class="juzhong">手机：</td>
+				<td>
+					<span ng-bind="vm.model.shenBaoInfo.bianZhiUnitInfoDto.resPersonMobile"></span>
+				</td>
+				<td class="juzhong">传真号码：</td>
+				<td>
+					<span ng-bind="vm.model.shenBaoInfo.bianZhiUnitInfoDto.resPersonFax"></span>
+				</td>
+			</tr>
+			<tr>
+				<td class="juzhong">Email：</td>
+				<td colspan="3">
+					<span ng-bind="vm.model.shenBaoInfo.bianZhiUnitInfoDto.resPersonEmail"></span>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<!-- 只有年度计划才有项目的批复信息 -->
+	<div ng-show="vm.isYearPlan">
+		<div class="bg-info text-info" style="padding: 10px;">项目批复信息</div>
+		<table class="table table-bordered table-striped ">
+			<tr>
+				<td style="width:180px;">批复名称</td>
+				<td style="width:180px;">批复时间</td>
+				<td style="width:180px;">批复文号</td>
+				<td >文件上传</td>
+			</tr>
+			<tr ng-repeat="x in vm.uploadType">
+				<td >{{x[1]}}</td>
+				<td >
+					<span ng-bind="vm.model.shenBaoInfo['pifu'+x[0]+'_date'] | date:'yyyy-MM-dd'"></span>
+				</td>
+				<td><span ng-bind="vm.model.shenBaoInfo['pifu'+x[0]+'_wenhao']"></span></td>
+				<td class="clearfix">
+					<div style="margin:3px;"  class="pull-left"
+						 ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos"
+						 ng-show="y.type=='{{x[0]}}'"
+					>
+						<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="bg-info text-info" style="padding: 10px;">相关附件</div>
+	<table class="table table-bordered table-striped ">
+		<tr>
+			<td style="width:350px">附件类型</td>
+			<td>文件上传</td>
+		</tr>
+		<tr ng-repeat="x in vm.materialsType">
+			<td ng-bind-html="vm.html(x[1])"></td>
+			<td>
+				<div style="margin:3px;"  class="pull-left"
+					 ng-repeat="y in vm.model.shenBaoInfo.attachmentDtos"
+					 ng-show="y.type=='{{x[0]}}'"
+				>
+					<a href="/contents/upload/{{y.url}}" target="_blank" ng-bind="y.name"></a>
+				</div>
+			</td>
+		</tr>
+	</table>
+	<div class="bg-info text-info" style="padding: 10px;">审批相关意见</div>
+	<table class="table table-bordered table-striped ">
+		<tr ng-repeat="x in vm.taskRecord"
+		>
+			<td class="formAlignRight" style="width: 150px;" ng-bind="x.name"></td>
+			<td>
+				<div ng-bind="x.msg"></div>
+				<div class="text-right" ng-bind="x.id"></div>
+				<div class="text-right" ng-bind="x.endTime | date:'yyyy-MM-dd hh:mm:ss'"></div>
+			</td>
+		</tr>
+	</table>
+
+
+</div>

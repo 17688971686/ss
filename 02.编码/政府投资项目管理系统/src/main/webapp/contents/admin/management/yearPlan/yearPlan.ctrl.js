@@ -22,6 +22,8 @@
         vm.isZhudongxiada = true;
         vm.unitId = $state.params.unitid;
         vm.packid = $state.params.packid;
+        vm.isZFInvestment = true;
+        vm.isYearPlan = true;
 
 
         vm.testtest = true;
@@ -38,7 +40,11 @@
     		}
     		if(routName=='yearPlan_shenbaoInfoEdit' && vm.id !=""){//申报信息编辑页面(政/社混用)
     			vm.page='shenbaoInfoEdit';
+
     		}
+    		if(routName=='shenbao_record'){
+                vm.page='shenbao_record';
+			}
     		if(routName=='yearPlan_planList'){//年度计划--政投列表页
     			vm.page='planList';
     		}
@@ -114,7 +120,15 @@
         	if(vm.page == 'projectList'){
         		init_projectList();
 			}
+			if(  vm.page='shenbao_record'){
+                init_shenbao_record();
+			}
         };
+
+        function init_shenbao_record(){
+            yearPlanSvc.getShenBaoInfoById(vm);
+		}
+
 
         vm.doSearch_plan=function() {
 
@@ -857,20 +871,20 @@
             vm.doSearch=function(){
                 var filters = [];
                 filters.push({field:'projectInvestmentType',operator:'eq',value:common.basicDataConfig().projectInvestmentType_ZF});//默认条件--政府投资项目
-                if(vm.search.projectName !=null && vm.search.projectName !=''){//查询条件--项目名称
-                    filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
+                if(vm.search.projectName_plan !=null && vm.search.projectName_plan !=''){//查询条件--项目名称
+                    filters.push({field:'projectName',operator:'contains',value:vm.search.projectName_plan});
                 }
-                if(vm.search.projectStage !=null && vm.search.projectStage !=''){//查询条件--项目阶段
-                    filters.push({field:'projectStage',operator:'eq',value:vm.search.projectStage});
+                if(vm.search.projectStage_plan !=null && vm.search.projectStage_plan !=''){//查询条件--项目阶段
+                    filters.push({field:'projectStage',operator:'eq',value:vm.search.projectStage_plan});
                 }
-                if(vm.search.unitName !=null && vm.search.unitName !=''){
-                    filters.push({field:'unitName',operator:'eq',value:vm.search.unitName});
+                if(vm.search.unitName_plan !=null && vm.search.unitName_plan !=''){
+                    filters.push({field:'unitName',operator:'eq',value:vm.search.unitName_plan});
                 }
-                if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){//查询条件--项目行业
-                    filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
+                if(vm.search.projectIndustry_plan !=null && vm.search.projectIndustry_plan !=''){//查询条件--项目行业
+                    filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry_plan});
                 }
-                if(vm.search.projectCategory !=null && vm.search.projectCategory !=''){//查询条件--项目行业
-                    filters.push({field:'projectCategory',operator:'eq',value:vm.search.projectCategory});
+                if(vm.search.projectCategory_plan !=null && vm.search.projectCategory_plan !=''){//查询条件--项目行业
+                    filters.push({field:'projectCategory',operator:'eq',value:vm.search.projectCategory_plan});
                 }
                 vm.planGridOptions.dataSource.filter(filters);
                 yearPlanSvc.getPlanStatisticsInfo(vm);

@@ -1263,7 +1263,7 @@
                     field: "projectName",
                     title: "项目名称",
                     template: function (item) {
-                        return common.format('<a href="#/projectDetails/{0}/{1}" >{2}</a>', item.projectId, item.projectInvestmentType, item.projectName);
+                        return common.format('<a href="#/shenbao_record/{0}" >{2}</a>', item.projectId, item.projectInvestmentType, item.projectName);
                     },
                     width: 300,
                     filterable: false,
@@ -1271,26 +1271,6 @@
                         "class": "table-header-cell",
                         style: "text-align: center;vertical-align: middle;",
                         rowspan: 2
-                    }
-                },
-                {
-                    field: "functionSubjects",
-                    title: "功能科目",
-                    width: 80,
-                    filterable: false,
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
-                    field: "econClassSubjects",
-                    title: "经济分类科目",
-                    width: 100,
-                    filterable: false,
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
                     }
                 },
                 {
@@ -1348,19 +1328,6 @@
                     }
                 },
                 {
-                    field: "projectGuiMo",
-                    title: "建设规模及主要建设内容",
-                    width: 200,
-                    template: function (item) {
-                        return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>', item.projectGuiMo || '');
-                    },
-                    filterable: false,
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
                     field: "projectInvestSum",
                     title: "总投资（万元）",
                     width: 120,
@@ -1391,58 +1358,6 @@
                     }
                 },
                 {
-                    field: "yearConstructionContent",
-                    width: 200,
-                    title: vm.planYear + "年度建设内容",
-                    template: function (item) {
-                        return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>', item.yearConstructionContent || '');
-                    },
-                    filterable: false,
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
-                    title: vm.planYear + "年资金来源及需求(万元)",
-                    columns: [
-                        {
-                            field: "capitalSCZ_ggys_TheYear",
-                            title: "公共预算",
-                            width: 100,
-                            filterable: false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;"
-                            }
-                        },
-                        {
-                            field: "capitalSCZ_gtzj_TheYear",
-                            title: "国土基金",
-                            width: 100,
-                            filterable: false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;"
-                            }
-                        },
-                        {
-                            field: "capitalSCZ_qita",
-                            title: "其他",
-                            width: 100,
-                            filterable: false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;"
-                            }
-                        }
-                    ],
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
                     field: "yearInvestApproval",
                     title: "安排资金合计",
                     template: function (item) {
@@ -1450,139 +1365,6 @@
                     },
                     width: 130,
                     filterable: false,
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
-                    title: "安排资金（万元）",
-                    columns: [
-                        {
-                            field: "capitalAP_ggys_TheYear",
-                            title: "公共预算",
-                            width: 130,
-                            filterable: false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;vertical-align: middle;"
-                            }
-                        },
-                        {
-                            field: "capitalAP_gtzj_TheYear",
-                            title: "国土基金",
-                            width: 130,
-                            filterable: false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;vertical-align: middle;"
-                            }
-                        }
-                    ],
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
-                    field: "yearConstructionContentLastYear",
-                    title: vm.planYear + 1 + "年度建设内容",
-                    width: 200,
-                    template: function (item) {
-                        return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>', item.yearConstructionContentLastYear || '');
-                    },
-                    filterable: false,
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
-                    title: vm.planYear + 1 + "年资金来源及需求(万元)",
-                    columns: [
-                        {
-                            field: "capitalSCZ_ggys_LastYear",
-                            title: "公共预算",
-                            width: 100,
-                            filterable: false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;vertical-align: middle;"
-                            }
-                        },
-                        {
-                            field: "capitalSCZ_gtzj_LastYear",
-                            title: "国土基金",
-                            width: 100,
-                            filterable: false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;vertical-align: middle;"
-                            }
-                        },
-                        {
-                            field: "capitalSCZ_qita_LastYear",
-                            title: "其他",
-                            width: 100,
-                            filterable: false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;vertical-align: middle;"
-                            }
-                        }
-                    ],
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
-                    field: "yearConstructionContentLastTwoYear",
-                    title: vm.planYear + 2 + "年度建设内容",
-                    width: 200,
-                    template: function (item) {
-                        return common.format('<span style="text-overflow:ellipsis;width:120px;overflow:hidden;white-space:nowrap;" title="{0}">{0}</span>', item.yearConstructionContentLastTwoYear || '');
-                    },
-                    filterable: false,
-                    headerAttributes: {
-                        "class": "table-header-cell",
-                        style: "text-align: center;vertical-align: middle;"
-                    }
-                },
-                {
-                    title: vm.planYear + 2 + "年资金来源及需求(万元)",
-                    columns: [
-                        {
-                            field: "capitalSCZ_ggys_LastTwoYear",
-                            title: "公共预算",
-                            width: 100,
-                            filterable: false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;vertical-align: middle;"
-                            }
-                        },
-                        {
-                            field: "capitalSCZ_gtzj_LastTwoYear",
-                            title: "国土基金",
-                            width: 100,
-                            filterable: false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;vertical-align: middle;"
-                            }
-                        },
-                        {
-                            field: "capitalSCZ_qita_LastTwoYear",
-                            title: "其他",
-                            width: 100,
-                            filterable: false,
-                            headerAttributes: {
-                                "class": "table-header-cell",
-                                style: "text-align: center;vertical-align: middle;"
-                            }
-                        }
-                    ],
                     headerAttributes: {
                         "class": "table-header-cell",
                         style: "text-align: center;vertical-align: middle;"
