@@ -30,9 +30,9 @@
             exportExcelForMoneyByCondition:exportExcelForMoneyByCondition,
 
 			//表格展示数据
-			showApprovalAllGrid:showApprovalAllGrid,
+			/*showApprovalAllGrid:showApprovalAllGrid,
 			showPlanAllGrid:showPlanAllGrid,
-			showProjectAllGrid:showProjectAllGrid,
+			showProjectAllGrid:showProjectAllGrid,*/
 			showProjectMoneyGrid:showProjectMoneyGrid
 		};
 		return service;
@@ -297,8 +297,8 @@
 		
 		function exportExcelForPlanByCustom(vm){
 			//计划下达时间(没有填写、填写之后删除、结束时间小于开始时间(有验证))
-			vm.model.planYearBegin=vm.planYearBegin==undefined?"":vm.planYearBegin.toString();
-			vm.model.planYearEnd=vm.planYearEnd==undefined?"":vm.planYearEnd.toString();
+			// vm.model.planYearBegin=vm.planYearBegin==undefined?"":vm.planYearBegin.toString();
+			// vm.model.planYearEnd=vm.planYearEnd==undefined?"":vm.planYearEnd.toString();
 			//总投资范围（没有填写、填写之后删除、结束范围小于开始范围（有验证））
 			vm.model.projectInvestSumBegin=vm.projectInvestSumBegin==undefined?"":vm.projectInvestSumBegin.toString();
 			vm.model.projectInvestSumEnd=vm.projectInvestSumEnd==undefined?"":vm.projectInvestSumEnd.toString();
@@ -515,7 +515,8 @@
 			});
 		}//end fun getyearPlanByUnitData
 		
-		function showApprovalAllGrid(vm){
+        //审批类
+		/*function showApprovalAllGrid(vm){
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
 				type : 'odata',
@@ -604,10 +605,10 @@
 				serverSorting : true,
 				serverFiltering : true,
 				pageSize: 10,
-				/*sort : {
+				/!*sort : {
 					field : "createdDate",
 					dir : "desc"
-				},*/
+				},*!/
 			});
 			// End:dataSource
 
@@ -633,11 +634,11 @@
 					title : "项目阶段",
 					width : 120,
 				},
-				/*{
+				/!*{
 					field : "projectIndustryDesc",
 					title : "行业分类",
 					width : 120,
-				},*/
+				},*!/
 				{
 					field : "apPlanReachSum",
 					title : "下达资金(万元)",
@@ -755,7 +756,7 @@
 				resizable: true,
 			};
 		}// end Projectgrid
-		
+		*/
 		
 		//资金类
 		function showProjectMoneyGrid(vm){
