@@ -15,7 +15,7 @@
 						<span class="glyphicon glyphicon-refresh"></span>清空筛选条件
 					</button></td>
 			</tr>
-			<tr>
+			<tr>                                                                                                                                                                                                                                                                      
 				<td class="formAlignRight">项目名称：</td>
 				<td style="width: 25%"><input type="text" style="width: 300px;"
 					placeholder="请输入项目名称（可少输不可输错）" ng-model="vm.search.projectName" />
@@ -35,6 +35,12 @@
 							value="{{x.id}}">{{x.description}}</option>
 				</select></td>
 			</tr>
+			<tr>
+			    <td class="formAlignRight">计划年度：</td>
+                <td>
+                    <input type="number" style="" placeholder="请输入计划年度" ng-model="vm.search.planYear"/>
+                </td>
+            </tr>
 			<tr>
 				<td colspan="6">
 					<button class="btn btn-success btn-sm pull-right"
@@ -64,6 +70,6 @@
 		   ui-sref="active_planReach_tabList">&nbsp;主动下达统计</a>
 	</div>
 	<div class="grid" kendo-grid="planReachGrid" k-options="vm.gridOptions"></div>
-
+</div>
 <div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>

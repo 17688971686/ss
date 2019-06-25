@@ -111,11 +111,42 @@
             };
             var httpSuccess = function success(response) {
                 vm.model.shenBaoInfo = response.data.value[0]||{};
-
+                getProjectAttachments(vm, vm.model.shenBaoInfo.projectId);
                 vm.planYear = vm.model.shenBaoInfo.planYear;//初始化申报年份（三年滚动）
             };
             common.http({
                 vm : vm,
+                $http : $http,
+                httpOptions : httpOptions,
+                success : httpSuccess
+            });
+            
+        }
+
+        /**
+         * 获取项目的附件信息
+         * @param vm
+         * @param id
+         */
+        function getProjectAttachments(vm, id){
+            var httpOptions = {
+                method : 'get',
+                url : common.format("/management/project" + "?$filter=id eq '{0}'", id)
+            }
+            var httpSuccess = function success(response){
+                vm.attachmentDtos = response.data.value[0].attachmentDtos||{};
+                //循环判断是否和申报的重复，去掉重复的
+                for(var j=0; j<vm.model.shenBaoInfo.attachmentDtos.length; j++){
+                    for(var i=0; i<vm.attachmentDtos.length; i++){
+                        if(vm.attachmentDtos[i].url == vm.model.shenBaoInfo.attachmentDtos[j].url){
+                            vm.attachmentDtos.splice(i,1);
+                            i--;
+                        }
+                    }
+                }
+            }
+            common.http({
+                vm:vm,
                 $http : $http,
                 httpOptions : httpOptions,
                 success : httpSuccess

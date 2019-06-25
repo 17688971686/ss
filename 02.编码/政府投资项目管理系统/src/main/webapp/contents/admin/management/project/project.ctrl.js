@@ -20,7 +20,6 @@
     	vm.page="list";
         vm.isShenpiInfo = true;
 
-
     	function init(){
     		if($state.current.name=='project'){
     			vm.isZFInvestment = true;
@@ -54,7 +53,7 @@
     		};
 
             vm.getUnitName = function(id){
-                common.getUnitName(id);
+                return common.getUnitName(id);
             };
     		
     		//用于查询、编辑、新增--基础数据

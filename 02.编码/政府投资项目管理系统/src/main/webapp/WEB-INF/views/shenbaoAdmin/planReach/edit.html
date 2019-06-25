@@ -250,6 +250,7 @@
 								</div>
 							</td>
 							<td>
+								<!--循环遍历申报表关联的附件信息以及项目表关联的附件信息-->
 								<div style="margin: 3px;" ng-repeat="x in vm.model.shenBaoInfo.attachmentDtos">
 									<a href="/contents/upload/{{x.url}}" target="_blank"
 									   ng-bind="x.name"></a>
@@ -257,6 +258,13 @@
 											ng-click="vm.fileDelete($index)">删除
 									</button>
 								</div>
+								<div style="margin: 3px;" ng-repeat="x in vm.attachmentDtos">
+                                    <a href="/contents/upload/{{x.url}}" target="_blank"
+                                       ng-bind="x.name"></a>
+                                    <button class="btn btn-xs btn-danger"
+                                            ng-click="vm.fileDelete($index)">删除
+                                    </button>
+                                </div>
 							</td>
 						</tr>
 					</table>

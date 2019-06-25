@@ -107,6 +107,7 @@
     		vm.search=function(){
     			var filters = [];
 				filters.push({field:'projectShenBaoStage',operator:'eq',value:common.basicDataConfig().projectShenBaoStage_jihuaxiada});//默认条件--申报阶段为"计划下达"
+				filters.push({field:'processState', operator:'eq', value:2});
 				//filters.push({field:'processStage',operator:'eq',value:common.basicDataConfig().processState_mskfawen});//默认条件
 				// filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_pass});//默认条件
                 //filters.push({field:'processState',operator:'eq',value:Number(common.basicDataConfig().processState_jinxingzhong)});
@@ -120,6 +121,9 @@
      		   if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){//查询条件--项目行业
      			  filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
      		   }
+     		   if(vm.search.planYear != null && vm.search.planYear != ''){
+     		   		filters.push({field:'planYear', operator:'eq', value:vm.search.planYear});
+			   }
  			  vm.gridOptions.dataSource.filter(filters);
     		};
     		 //清空查询条件
