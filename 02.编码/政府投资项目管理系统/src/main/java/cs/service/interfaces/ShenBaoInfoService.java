@@ -52,7 +52,7 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
 
     ShenBaoInfo create(ShenBaoInfoDto dto, Boolean isAdminCreate);
 
-    Map getPlanList(ODataObj oDataObj);
+    Map getPlanList(Map map);
 
     /**
      * 创建申报信息

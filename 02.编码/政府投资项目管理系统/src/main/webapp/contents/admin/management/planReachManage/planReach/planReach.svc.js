@@ -45,8 +45,7 @@
 				endProcess:endProcess,
 				endProcesss:endProcesss,
 				checkIsOnly:checkIsOnly,
-            	activeGrid:activeGrid,
-            	getPlanList:getPlanList
+            	activeGrid:activeGrid
 		}
 		
 		return service;

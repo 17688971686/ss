@@ -110,22 +110,16 @@
 				  			<option ng-repeat="x in vm.basicData.projectStage" value="{{x.id}}">{{x.description}}</option>
 				  		</select>
 	  				</td>
-	  				<td class="formAlignRight">是否需要填写月报：</td>
-	  				<td>
-	  					<select style="height:30px;" ng-model="vm.search.isMonthReport">
-				  			<option value="">-&#45;&#45;请选择-&#45;&#45;</option>
-				  			<option value="true">是</option>
-				  			<option value="false">否</option>
-				  		</select>
-	  				</td>
-					<td class="formAlignRight">是否纳入项目库：</td>
-					<td>
-						<select style="height:30px;" ng-model="vm.search.isIncludLibrary">
-							<option value="">---请选择---</option>
-							<option value="true" ng-selected="true">已纳入</option>
-							<option value="false">未纳入</option>
-						</select>
-					</td>
+					<td class="formAlignRight">项目类型：</td>
+                    <td>
+                        <select style="height:30px;" ng-model="vm.search.projectCategory">
+                            <option value="">-&#45;&#45;请选择-&#45;&#45;</option>
+                            <option value="projectCategory_1">A类</option>
+                            <option value="projectCategory_2">B类</option>
+                            <option value="projectCategory_3">C类</option>
+                            <option value="projectCategory_4">D类</option>
+                        </select>
+                    </td>
 	  			</tr>
 	  			<tr>
 	  				<td class="formAlignRight">项目所属单位：</td>
@@ -142,7 +136,16 @@
 				  			<option ng-repeat="x in vm.basicData.projectIndustry_ZF" value="{{x.id}}">{{x.description}}</option>
 				  		</select>
 	  				</td>
-
+                    <!--<td class="formAlignRight">时间</td>
+                    <td>
+                         <input id="beginDate" name="beginDate"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',readOnly:true})" 
+                                 class="Wdate" onChange=""
+                                 ng-model="vm.search.projectStartDate" autocomplete="off" />
+                         ~
+                         <input id="beginDate" name="beginDate"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',readOnly:true})" 
+                                 class="Wdate" onChange=""
+                                 ng-model="vm.search.projectEndDate" autocomplete="off" />
+                    </td>-->
 	  			</tr>
 	  			<tr>
 	  				<td colspan="8">
@@ -153,6 +156,8 @@
 	  </div>
 	  <div class="toolbar">
 	  	<button class="btn btn-sm btn-primary" ng-click="vm.addProject()"><span class="glyphicon glyphicon-plus"></span>新增项目</button>
+	  	<a class="btn btn-sm btn-primary" href="javascript:void(0);"
+                                      ng-click="vm.statistics()"><span class="glyphicon glyphicon-file"></span>&nbsp;统计报表</a>
 	  	<!--<button class="btn btn-sm btn-primary" ng-click="vm.isMonthReports()">批量设置是否填报</button>-->
 	  </div> 
      <form id="form" name="form">          
@@ -271,3 +276,75 @@
 	<!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
+
+<!-- 统计报表模态框 -->
+<div class="modal fade" id="myModal_statistics" tabindex="-1" role="dialog" >
+    <div class="modal-dialog" style="margin: 80px auto; width: 80%; max-width: 1000px;">
+        <div class="modal-content">
+            <div class="modal-header bg-primary"> 
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button> 
+                <h4 class="modal-title" id="myModalLabel">统计报表</h4> 
+            </div> 
+            <div class="modal-body">
+                <!--报表-->
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th width="80px"  style="text-align: center;">序号</th>
+                        <th width="300px" style="text-align: center;">项目类型</th>
+                        <th width="300px" style="text-align: center;">总投资</th>
+                        <th width="300px" style="text-align: center;">已安排投资</th>
+                        <th width="300px" style="text-align: center;">安排年度投资</th>
+                    </tr>
+                    <tr>
+                        <th align="center"></th>
+                        <th style="text-align: center;">合计</th>
+                        <th style="text-align: center;">{{vm.model.statisticsData.projectInvestSum}}</th>
+                        <th style="text-align: center;">{{vm.model.statisticsData.projectInvestAccuSum}}</th>
+                        <th style="text-align: center;">{{vm.model.statisticsData.applyAPYearInvest}}</th>
+                    </tr>
+                    <tr ng-repeat-start="x in vm.model.statisticsData.industry" ng-show="x.industry_projectInvestSum!=0 || 
+                                                                                        x.industry_projectInvestAccuSum!=0 ||
+                                                                                        x.industry_applyAPYearInvest!=0">
+                        <th></th>
+                        <th style="text-align: center;">{{x.projectIndustry}}</th>
+                        <th style="text-align: center;">{{x.industry_projectInvestSum}}</th>
+                        <th style="text-align: center;">{{x.industry_projectInvestAccuSum}}</th>
+                        <th style="text-align: center;">{{x.industry_applyAPYearInvest}}</th>
+                    </tr>
+                        <tr ng-repeat-start="y in x.projectCategory" ng-show="y.projectInvestSum!=0 ||
+                                                                              y.projectInvestAccuSum !=0 || 
+                                                                              y.applyAPYearInvest!=0">
+                            <th ></th>
+                            <th style="text-align: center;">{{y.categoryName}}</th>
+                            <th style="text-align: center;">{{y.projectInvestSum}}</th>
+                            <th style="text-align: center;">{{y.projectInvestAccuSum}}</th>
+                            <th style="text-align: center;">{{y.applyAPYearInvest}}</th>
+                        </tr>
+                            <tr ng-repeat-start="z in y.shenBaoInfoDtos">
+                                <td align="center">{{$index+1}}</td>
+                                <td align="center">
+                                {{z.projectName}}
+                                <br>
+                                {{z.countryNumber}}
+                                </td>
+                                <td align="center">{{z.projectInvestSum}}</td>
+                                <td align="center">{{z.projectInvestAccuSum}}</td>
+                                <td align="center">{{z.applyAPYearInvest}}</td>
+                            </tr>
+                            <tr ng-repeat-end></tr>
+                        <tr ng-repeat-end></tr>
+                    <tr ng-repeat-end></tr>
+                    
+                </table>
+            </div> 
+            <div class="modal-footer"> 
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>			
+            </div> 
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+

@@ -136,27 +136,31 @@
      		   if(vm.search.projectStage !=null && vm.search.projectStage !=''){//查询条件--项目阶段
      			   filters.push({field:'projectStage',operator:'eq',value:vm.search.projectStage});
      		   }
-     		   if(vm.search.isMonthReport !=null && vm.search.isMonthReport !=''){
-     			   if(vm.search.isMonthReport == "true"){
-     				  filters.push({field:'isMonthReport',operator:'eq',value:true});
-     			   }else if(vm.search.isMonthReport == "false"){
-     				  filters.push({field:'isMonthReport',operator:'eq',value:false});
-     			   }
-     		   }
      		   if(vm.search.unitName !=null && vm.search.unitName !=''){
      			  filters.push({field:'unitName',operator:'eq',value:vm.search.unitName});
      		   }
      		   if(vm.search.projectIndustry !=null && vm.search.projectIndustry !=''){//查询条件--项目行业
      			  filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
      		   }
-     		  if(vm.search.isIncludLibrary !=null && vm.search.isIncludLibrary !=''){
+     		   /*if(vm.search.isIncludLibrary !=null && vm.search.isIncludLibrary !=''){//查询条件--是否纳入项目库
     			   if(vm.search.isIncludLibrary == "true"){
     				  filters.push({field:'isIncludLibrary',operator:'eq',value:true});
     			   }else if(vm.search.isIncludLibrary == "false"){
     				  filters.push({field:'isIncludLibrary',operator:'eq',value:false});
     			   }
     		   }
+     		   if(vm.search.isMonthReport !=null && vm.search.isMonthReport !=''){//查询条件--是否需要填写月报
+					if(vm.search.isMonthReport == "true"){
+						filters.push({field:'isMonthReport',operator:'eq',value:true});
+					}else if(vm.search.isMonthReport == "false"){
+						filters.push({field:'isMonthReport',operator:'eq',value:false});
+					}
+     		   }*/
+     		   if(vm.search.projectCategory != null && vm.search.projectCategory != ''){//查询条件--项目类别
+     		   		filters.push({field:'projectCategory',operator:'eq',value:vm.search.projectCategory});
+			   }
      		   
+     		   	
      		   if(vm.isZFInvestment){
      			  vm.gridOptions.dataSource.filter(filters);
      		   }else if(vm.isSHInvestment){
@@ -178,7 +182,36 @@
 	   		vm.filterClear=function(){
 	   			location.reload();
 	   		};
-    		
+	   		
+	   		//弹出统计报表模态框
+	   		vm.statistics = function(){
+				/*"projectName":vm.search.projectName==null?"":vm.search.projectName,
+					"projectStage":vm.search.projectStage==null?"":vm.search.projectStage,
+					"projectCategory":vm.search.projectCategory==null?"":vm.search.projectCategory,
+					"unitName":vm.search.unitName==null?"":vm.search.unitName,
+					"projectIndusty":vm.search.projectIndustry==null?"":vm.search.projectIndustry*/
+				var filters = [];
+				if(vm.search.projectName!=null && vm.search.projectName !=''){//项目名
+					filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
+				}
+				if(vm.search.projectStage!=null && vm.search.projectStage !=''){//项目阶段
+					filters.push({field:'projectStage',operator:'eq',value:vm.search.projectStage});
+				}
+				if(vm.search.projectCategory!=null && vm.search.projectCategory !=''){//项目类型
+					filters.push({field:'projectCategory',operator:'eq',value:vm.search.projectCategory});
+				}
+				if(vm.search.unitName!=null && vm.search.unitName !=''){//项目所属单位
+					filters.push({field:'unitName',operator:'eq',value:vm.search.unitName});
+				}
+				if(vm.search.projectIndustry!=null && vm.search.projectIndustry !=''){//项目行业
+					filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
+				}
+	   			projectSvc.grid_statistics(vm,filters);
+				$("#myModal_statistics").modal({
+					backdrop: 'static',
+					keyboard:false
+				});
+			}
      	   //点击新增项目弹出模态框
      	   vm.addProject = function(){
      		  $("#myModal_add").modal({

@@ -17,6 +17,7 @@
 		var service = {
 			grid : grid,
 			grid_SH:grid_SH,
+            grid_statistics : grid_statistics,//项目管理--统计报表
 			getProjectById:getProjectById,
 			getUserUnits:getUserUnits,
 			updateProject:updateProject,
@@ -36,6 +37,29 @@
 
 		return service;
 
+        function grid_statistics(vm,filters){
+            var httpOptions = {
+                method: 'post',
+                url: common.format(url_shenbao + "/getPlanList"),
+                data : {"projectName":vm.search.projectName==null?"":vm.search.projectName,
+                        "projectStage":vm.search.projectStage==null?"":vm.search.projectStage,
+                        "projectCategory":vm.search.projectCategory==null?"":vm.search.projectCategory,
+                        "unitName":vm.search.unitName==null?"":vm.search.unitName,
+                        "projectIndustry":vm.search.projectIndustry==null?"":vm.search.projectIndustry,
+                        "projectStartDate":vm.search.projectStartDate==null?"":vm.search.projectStartDate,
+                        "projectEndDate":vm.search.projectEndDate==null?"":vm.search.projectEndDate}
+            }
+            var httpSuccess = function success(response) {
+                vm.model.statisticsData = response.data;
+            }
+            common.http({
+                vm: vm,
+                $http: $http,
+                httpOptions: httpOptions,
+                success: httpSuccess
+            });
+        }
+		
         /*
          * 流转信息
          */
@@ -783,11 +807,6 @@
 					},
 					{
 						field:"isLatestVersion",
-						operator:"eq",
-						value:true
-					}
-					,{
-						field:"isIncludLibrary",
 						operator:"eq",
 						value:true
 					}

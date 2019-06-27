@@ -41,11 +41,12 @@ public class ShenBaoController {
 		return shenbaoInfoDtos;
 	}
 
-	@RequestMapping(name = "获取计划下达数据", path = "/getPlanList",method=RequestMethod.GET)
-	public @ResponseBody Map getPlanList(HttpServletRequest request) throws ParseException {
-		ODataObj odataObj = new ODataObj(request);
-		Map map = shenBaoInfoService.getPlanList(odataObj);
-		return map;
+	@RequestMapping(name = "获取计划下达数据", path = "/getPlanList",method=RequestMethod.POST)
+	@ResponseBody
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public Map getPlanList(@RequestBody Map map) throws ParseException {
+		Map reMap = shenBaoInfoService.getPlanList(map);
+		return reMap;
 	}
 	
 	@RequiresPermissions("management/shenbao##post")
