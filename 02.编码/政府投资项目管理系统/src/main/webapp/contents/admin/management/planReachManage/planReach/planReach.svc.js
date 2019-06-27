@@ -45,10 +45,29 @@
 				endProcess:endProcess,
 				endProcesss:endProcesss,
 				checkIsOnly:checkIsOnly,
-            	activeGrid:activeGrid
+            	activeGrid:activeGrid,
+            	getPlanList:getPlanList
 		}
 		
 		return service;
+
+        function getPlanList(vm){
+            var httpOptions = {
+                method : 'get',
+                url : common.format(url_shenbao + "/getPlanList")
+            };
+            var httpSuccess = function success(response) {
+                vm.model = response.data || {};
+                //时间信息的展示
+
+            };
+            common.http({
+                vm : vm,
+                $http : $http,
+                httpOptions : httpOptions,
+                success : httpSuccess
+            });
+        }//end fun getApplicationById
 		
 		function checkIsOnly(vm,dataList){
 			var httpOptions = {

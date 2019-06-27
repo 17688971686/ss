@@ -3,6 +3,7 @@ package cs.service.interfaces;
 import java.util.List;
 import java.util.Map;
 
+import com.sn.framework.odata.Odata;
 import cs.domain.ShenBaoInfo;
 import cs.model.DomainDto.ShenBaoInfoDto;
 import cs.model.DomainDto.TaskRecordDto;
@@ -50,6 +51,8 @@ public interface ShenBaoInfoService extends IService<ShenBaoInfoDto, ShenBaoInfo
     void updateShenBaoInfo(ShenBaoInfoDto dto, Boolean isAdminUpdate);
 
     ShenBaoInfo create(ShenBaoInfoDto dto, Boolean isAdminCreate);
+
+    Map getPlanList(ODataObj oDataObj);
 
     /**
      * 创建申报信息

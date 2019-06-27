@@ -1,6 +1,7 @@
 package cs.controller.management;
 
 import java.text.ParseException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -38,6 +39,13 @@ public class ShenBaoController {
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<ShenBaoInfoDto>  shenbaoInfoDtos= shenBaoInfoService.get(odataObj);
 		return shenbaoInfoDtos;
+	}
+
+	@RequestMapping(name = "获取计划下达数据", path = "/getPlanList",method=RequestMethod.GET)
+	public @ResponseBody Map getPlanList(HttpServletRequest request) throws ParseException {
+		ODataObj odataObj = new ODataObj(request);
+		Map map = shenBaoInfoService.getPlanList(odataObj);
+		return map;
 	}
 	
 	@RequiresPermissions("management/shenbao##post")

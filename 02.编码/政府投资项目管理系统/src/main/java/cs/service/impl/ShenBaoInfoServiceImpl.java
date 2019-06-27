@@ -2,12 +2,7 @@ package cs.service.impl;
 
 import java.io.File;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
@@ -1447,6 +1442,158 @@ public class ShenBaoInfoServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, 
             return shenBaoInfoMapper.toDto(shenBaoInfos.get(0));
         }
         return null;
+    }
+
+    @Override
+    @Transactional
+    public Map getPlanList(ODataObj oDataObj) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT * FROM");
+        sb.append(" cs_shenbaoinfo s ");
+        sb.append(" WHERE s.projectShenBaoStage = 'projectShenBaoStage_5'");
+        sb.append("AND s.itemOrder = ");
+        sb.append("(SELECT s2.itemOrder FROM cs_shenbaoinfo s2 WHERE s2.projectId = s.projectId  AND s2.projectShenBaoStage = 'projectShenBaoStage_5'  GROUP BY s2.projectId)");
+        sb.append("AND s.processState ='2'");
+        sb.append("GROUP BY s.projectId");
+        List<ShenBaoInfoDto> shenBaoInfoDtos = null;
+        List<ShenBaoInfo> shenBaoInfos = shenbaoInfoRepo.getSession()
+                .createNativeQuery(sb.toString(), ShenBaoInfo.class)
+
+                .getResultList();
+//        shenBaoInfos.forEach(x -> shenBaoInfoDtos.add(shenBaoInfoMapper.toDto(x)));
+
+
+        List industryList = Arrays.asList("projectIndustry_1_10",
+                "projectIndustry_1_11",
+                "projectIndustry_1_12",
+                "projectIndustry_1_13",
+                "projectIndustry_1_14",
+                "projectIndustry_1_15",
+                "projectIndustry_1_16",
+                "projectIndustry_1_17",
+                "projectIndustry_1_2",
+                "projectIndustry_1_3",
+                "projectIndustry_1_4",
+                "projectIndustry_1_5",
+                "projectIndustry_1_6",
+                "projectIndustry_1_7",
+                "projectIndustry_1_8",
+                "projectIndustry_1_9");
+
+        Map map = new HashMap();
+
+
+        //行业统计
+        double industry_projectInvestSum =0.0;
+        double industry_projectInvestAccuSum =0.0;
+        double industry_applyAPYearInvest =0.0;
+
+//        List map_industry = new ArrayList();
+        for (int y=0;y<industryList.size();y++){
+            Map map_industry = new HashMap();
+            Map map_type_a = new HashMap();
+            Map map_type_b = new HashMap();
+            Map map_type_c = new HashMap();
+            Map map_type_d = new HashMap();
+            //初始化类型map
+            List aaa = new ArrayList();
+            List bbb = new ArrayList();
+            List ccc = new ArrayList();
+            List ddd = new ArrayList();
+            //类型统计
+            double projectInvestSum_a =0.0;
+            double projectInvestSum_b =0.0;
+            double projectInvestSum_c =0.0;
+            double projectInvestSum_d =0.0;
+            double projectInvestAccuSum_a =0.0;
+            double projectInvestAccuSum_b =0.0;
+            double projectInvestAccuSum_c =0.0;
+            double projectInvestAccuSum_d =0.0;
+            double applyAPYearInvest_a =0.0;
+            double applyAPYearInvest_b =0.0;
+            double applyAPYearInvest_c =0.0;
+            double applyAPYearInvest_d =0.0;
+
+//
+
+            for (int x=0;x<shenBaoInfos.size();x++){
+
+                if(industryList.get(y).equals(shenBaoInfos.get(x).getProjectIndustry())){
+                    //统计第三层数据
+                    if(BasicDataConfig.projectCategory_A.equals(shenBaoInfos.get(x).getProjectCategory())){
+                        projectInvestSum_a += shenBaoInfos.get(x).getProjectInvestSum();
+                        projectInvestAccuSum_a += shenBaoInfos.get(x).getProjectInvestAccuSum();
+                        applyAPYearInvest_a += shenBaoInfos.get(x).getApplyAPYearInvest();
+                        aaa.add(shenBaoInfos.get(x));
+                    }
+                    if(BasicDataConfig.projectCategory_B.equals(shenBaoInfos.get(x).getProjectCategory())){
+                        projectInvestSum_b += shenBaoInfos.get(x).getProjectInvestSum();
+                        projectInvestAccuSum_b += shenBaoInfos.get(x).getProjectInvestAccuSum();
+                        applyAPYearInvest_b += shenBaoInfos.get(x).getApplyAPYearInvest();
+                        bbb.add(shenBaoInfos.get(x));
+                    }
+                    if(BasicDataConfig.projectCategory_C.equals(shenBaoInfos.get(x).getProjectCategory())){
+                        projectInvestSum_c += shenBaoInfos.get(x).getProjectInvestSum();
+                        projectInvestAccuSum_c += shenBaoInfos.get(x).getProjectInvestAccuSum();
+                        applyAPYearInvest_c += shenBaoInfos.get(x).getApplyAPYearInvest();
+                        ccc.add(shenBaoInfos.get(x));
+                    }
+                    if(BasicDataConfig.projectCategory_D.equals(shenBaoInfos.get(x).getProjectCategory())){
+                        projectInvestSum_d += shenBaoInfos.get(x).getProjectInvestSum();
+                        projectInvestAccuSum_d += shenBaoInfos.get(x).getProjectInvestAccuSum();
+                        applyAPYearInvest_d += shenBaoInfos.get(x).getApplyAPYearInvest();
+                        ddd.add(shenBaoInfos.get(x));
+                    }
+
+                }
+
+                //最外层资金统计
+                industry_projectInvestSum += shenBaoInfos.get(x).getProjectInvestSum();
+                industry_projectInvestAccuSum += shenBaoInfos.get(x).getProjectInvestAccuSum();
+                industry_applyAPYearInvest += shenBaoInfos.get(x).getApplyAPYearInvest();
+            }
+
+            //封装第三层
+            map_type_a.put("shenBaoInfoDtos",aaa);
+            map_type_a.put("projectInvestSum",projectInvestSum_a);
+            map_type_a.put("projectInvestAccuSum",projectInvestAccuSum_a);
+            map_type_a.put("applyAPYearInvest",applyAPYearInvest_a);
+            map_type_b.put("shenBaoInfoDtos",bbb);
+            map_type_b.put("projectInvestSum",projectInvestSum_b);
+            map_type_b.put("projectInvestAccuSum",projectInvestAccuSum_b);
+            map_type_b.put("applyAPYearInvest",applyAPYearInvest_b);
+            map_type_c.put("shenBaoInfoDtos",ccc);
+            map_type_c.put("projectInvestSum",projectInvestSum_c);
+            map_type_c.put("projectInvestAccuSum",projectInvestAccuSum_c);
+            map_type_c.put("applyAPYearInvest",applyAPYearInvest_c);
+            map_type_d.put("shenBaoInfoDtos",ddd);
+            map_type_d.put("projectInvestSum",projectInvestSum_d);
+            map_type_d.put("projectInvestAccuSum",projectInvestAccuSum_d);
+            map_type_d.put("applyAPYearInvest",applyAPYearInvest_d);
+            Map typeList = new HashMap();
+            typeList.put("projectCategory_1",map_type_a);
+            typeList.put("projectCategory_2",map_type_b);
+            typeList.put("projectCategory_3",map_type_c);
+            typeList.put("projectCategory_4",map_type_d);
+
+            //封装第二层
+            map_industry.put("projectCategory",typeList );
+
+            //第二层资金统计
+            map_industry.put("industry_projectInvestSum",projectInvestAccuSum_a+projectInvestSum_b+projectInvestSum_c+projectInvestSum_d );
+            map_industry.put("industry_projectInvestAccuSum",projectInvestSum_a+projectInvestAccuSum_b+projectInvestAccuSum_c+projectInvestAccuSum_d );
+            map_industry.put("industry_applyAPYearInvest",applyAPYearInvest_a+applyAPYearInvest_b+applyAPYearInvest_c+applyAPYearInvest_d );
+
+            //封装第一层
+            map.put("name",industryList.get(y));
+            map.put("industry"+industryList.get(y),map_industry);
+        }
+
+        map.put("projectInvestSum",industry_projectInvestSum);
+        map.put("projectInvestAccuSum",industry_projectInvestAccuSum);
+        map.put("applyAPYearInvest",industry_applyAPYearInvest);
+
+        return map;
     }
 }
 

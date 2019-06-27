@@ -83,7 +83,7 @@
         
         function list(){
         	planReachSvc.grid(vm);
-        	
+            planReachSvc.getPlanList(vm);
         	vm.addmoney = function (shenbaoId) {
                 if (vm.gg[shenbaoId] == undefined) {
                     vm.gg[shenbaoId] = 0;
