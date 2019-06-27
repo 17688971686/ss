@@ -130,27 +130,29 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="formAlignRight">项目开工日期：</td>
+		<td class="formAlignRight">项目开工日期：<span class="required">(*)</span></td>
 		<td >
 			<input name="beginDate"
 				   ng-if="vm.isYearPlan" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM',readOnly:true})"
-				   class="Wdate" onChange=""
+				   class="Wdate" onChange=""  data-val="true" data-val-required="必选"
 				   ng-model="vm.model.beginDate" autocomplete="off" />
 			<input name="beginDate"
 				   ng-if="!vm.isYearPlan" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',readOnly:true})"
-				   class="Wdate" onChange=""
+				   class="Wdate" onChange=""  data-val="true" data-val-required="必选"
 				   ng-model="vm.model.beginDate" autocomplete="off" />
+		    <span data-valmsg-for="beginDate" data-valmsg-replace="true" class="required"></span>
 		</td>
-		<td class="formAlignRight">项目竣工日期：</td>
+		<td class="formAlignRight">项目竣工日期：<span class="required">(*)</span></td>
 		<td >
 			<input name="endDate"
 				   ng-if="vm.isYearPlan" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM',readOnly:true})"
-				   class="Wdate" onChange=""
+				   class="Wdate" onChange="" data-val="true" data-val-required="必选"
 				   ng-model="vm.model.endDate" autocomplete="off" />
 			<input name="endDate"
 				   ng-if="!vm.isYearPlan" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',readOnly:true})"
-				   class="Wdate" onChange=""
+				   class="Wdate" onChange="" data-val="true" data-val-required="必选"
 				   ng-model="vm.model.endDate" autocomplete="off" />
+		    <span data-valmsg-for="beginDate" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
 	<tr>

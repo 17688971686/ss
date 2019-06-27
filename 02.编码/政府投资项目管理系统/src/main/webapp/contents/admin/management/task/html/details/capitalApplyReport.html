@@ -21,3 +21,166 @@
 		</td>
 	</tr>
 </table>
+
+<!-- 年度计划 -->
+<div class="bg-info text-info" style="padding: 10px;">{{vm.model.shenBaoInfo.planYear}}年度计划信息</div>
+<table class="table table-bordered table-striped ">
+	<tr>
+		<td class="formAlignRight" style="width:150px;">项目建设性质：<span class="required">(*)</span></td>
+		<td>
+            {{vm.getBasicDataDesc(vm.model.shenBaoInfo.projectConstrChar)}}		
+        </td>
+		<td class="formAlignRight" style="width:150px;">建设单位名称：</td>
+		<td>
+            {{vm.model.shenBaoInfo.constructionUnit}}
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">项目总投资：<span class="required" >(*)</span></td>
+		<td>
+			{{vm.model.shenBaoInfo.projectInvestSum}}&nbsp;(万元)
+		</td>
+		<td class="formAlignRight">累计安排投资：<span class="required">(*)</span></td>
+		<td>
+			{{vm.model.shenBaoInfo.apInvestSum}}&nbsp;(万元)
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">计划年度：<span class="required">(*)</span></td>
+		<td style="width:250px;">
+			{{vm.model.shenBaoInfo.planYear}}年
+		</td>
+		<td class="formAlignRight" ng-show="vm.model.shenBaoInfo.isApplyOutsideCapital">标外资金：</td>
+		<td ng-show="vm.model.shenBaoInfo.isApplyOutsideCapital">
+			{{vm.model.shenBaoInfo.applyOutsideCapital}}&nbsp;(万元)
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">资金需求及来源：</td>
+		<td colspan="3">
+			<table class="table table-bordered table-striped table-hover">
+				<tr class="text-primary text-center">
+					<td colspan="2">申请年度投资：
+						{{vm.model.shenBaoInfo.applyYearInvest}}&nbsp;(万元)
+					</td>
+				</tr>
+				<tr>
+					<td style="padding:0px;border: 0px;" colspan="4">
+						<table class="table table-bordered" style="margin:0px;width:100%;">
+							<tr>
+								<td>公共预算：{{vm.model.shenBaoInfo.capitalSCZ_ggys_TheYear}}</td>
+								<td>国土基金：{{vm.model.shenBaoInfo.capitalSCZ_gtzj_TheYear}}</td>
+								<td>其他：{{vm.model.shenBaoInfo.capitalSCZ_qita}}</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight" >"其他"的来源途径说明：</td>
+		<td colspan="3">
+			<textarea class="form-control input-sm" style="width:99%; display: block;" ng-model="vm.model.shenBaoInfo.capitalOtherDescriptionShenBao" 
+			    maxlength="200" disabled ="disabled"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">年度建设内容：</td>
+		<td colspan="3">
+			<textarea rows="3" cols="20" maxlength="500" style="height:121px;width: 99%;" ng-model="vm.model.shenBaoInfo.yearConstructionContent" disabled ="disabled"></textarea>
+		</td>
+	</tr>
+</table>
+
+<div class="bg-info text-info" style="padding: 10px;">{{ vm.model.shenBaoInfo.planYear +1}}年度计划信息</div>
+<table class="table table-bordered table-striped ">
+	<tr>
+		<td class="formAlignRight" style="width:150px;">计划年度：</td>
+		<td >
+			<span>{{ vm.model.shenBaoInfo.planYear+1==1?"":vm.model.shenBaoInfo.planYear+1}}</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">资金需求及来源：</td>
+		<td colspan="3">
+			<table class="table table-bordered table-striped table-hover">
+				<tr class="text-primary text-center">
+					<td colspan="2">申请年度投资：
+						{{vm.model.shenBaoInfo.applyYearInvest_LastYear}}&nbsp;(万元)
+					</td>
+				</tr>
+				<tr>
+					<td style="padding:0px;border: 0px;" colspan="4">
+						<table class="table table-bordered" style="margin:0px;width:100%;">
+							<tr>
+								<td>公共预算：{{vm.model.shenBaoInfo.capitalSCZ_ggys_LastYear}}</td>
+								<td>国土基金：{{vm.model.shenBaoInfo.capitalSCZ_gtzj_LastYear}}</td>
+								<td>其他：{{vm.model.shenBaoInfo.capitalSCZ_qita_LastYear}}</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight" >"其他"的来源途径说明：</td>
+		<td colspan="3">
+			<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.shenBaoInfo.capitalOtherDescriptionShenBao_LastYear" 
+			    maxlength="200" disabled ="disabled"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">年度建设内容：</td>
+		<td colspan="3">
+			<textarea rows="3" cols="20" maxlength="500" style="height:121px;width: 99%;" ng-model="vm.model.shenBaoInfo.yearConstructionContentLastYear" disabled ="disabled"></textarea>
+		</td>
+	</tr>
+</table>
+
+<div class="bg-info text-info" style="padding: 10px;">{{ vm.model.shenBaoInfo.planYear +2}}年度计划信息</div>
+<table class="table table-bordered table-striped ">
+	<tr>
+		<td class="formAlignRight" style="width:150px;">计划年度：</td>
+		<td>
+			<span>{{ vm.model.shenBaoInfo.planYear +2}}</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">资金需求及来源：</td>
+		<td colspan="3">
+			<table class="table table-bordered table-striped table-hover">
+				<tr class="text-primary text-center">
+					<td colspan="2">申请年度投资：
+						{{vm.model.shenBaoInfo.applyYearInvest_LastTwoYear}}&nbsp;(万元)
+					</td>
+				</tr>
+				<tr>
+					<td style="padding:0px;border: 0px;" colspan="4">
+						<table class="table table-bordered" style="margin:0px;width:100%;">
+							<tr>
+								<td>公共预算：{{vm.model.shenBaoInfo.capitalSCZ_ggys_LastTwoYear}}</td>
+								<td>国土基金：{{vm.model.shenBaoInfo.capitalSCZ_gtzj_LastTwoYear}}</td>
+								<td>其他：{{vm.model.shenBaoInfo.capitalSCZ_qita_LastTwoYear}}</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight" >"其他"的来源途径说明：</td>
+		<td colspan="3">
+			<textarea class="form-control input-sm" style="width:99%;" ng-model="vm.model.shenBaoInfo.capitalOtherDescriptionShenBao_LastTwoYear" 
+			    maxlength="200" disabled ="disabled"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="formAlignRight">年度建设内容：</td>
+		<td colspan="3">
+			<textarea rows="3" cols="20" maxlength="500" style="height:121px;width: 99%;" ng-model="vm.model.shenBaoInfo.yearConstructionContentLastTwoYear" disabled ="disabled"></textarea>
+		</td>
+	</tr>
+</table>

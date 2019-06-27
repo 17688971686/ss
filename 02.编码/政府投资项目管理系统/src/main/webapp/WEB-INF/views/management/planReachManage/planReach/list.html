@@ -36,6 +36,12 @@
 				</select></td>
 			</tr>
 			<tr>
+			    <td class="formAlignRight">计划年度：</td>
+                <td>
+                    <input type="number" style="" placeholder="请输入计划年度" ng-model="vm.search.planYear"/>
+                </td>
+            </tr>
+			<tr>
 				<td colspan="6">
 					<button class="btn btn-success btn-sm pull-right"
 						ng-click="vm.search()">
@@ -54,6 +60,6 @@
 		   ui-sref="active_planReach_tabList">&nbsp;主动下达统计</a>
 	</div>
 	<div class="grid" kendo-grid="planReachGrid" k-options="vm.gridOptions"></div>
-
+</div>
 <div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
 <div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>

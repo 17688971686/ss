@@ -1826,6 +1826,7 @@
 				filterable : common.kendoGridConfig().filterable,
 				pageable : common.kendoGridConfig().pageable,
 				noRecords : common.kendoGridConfig().noRecordMessage,
+				sortable : true,
 				columns : columns,
 				resizable : true
 			};
