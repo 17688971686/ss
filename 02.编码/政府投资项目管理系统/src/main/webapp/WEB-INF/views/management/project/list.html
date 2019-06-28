@@ -157,7 +157,9 @@
 	  <div class="toolbar">
 	  	<button class="btn btn-sm btn-primary" ng-click="vm.addProject()"><span class="glyphicon glyphicon-plus"></span>新增项目</button>
 	  	<a class="btn btn-sm btn-primary" href="javascript:void(0);"
-                                      ng-click="vm.statistics()"><span class="glyphicon glyphicon-file"></span>&nbsp;统计报表</a>
+                                      ng-click="vm.statistics(1)"><span class="glyphicon glyphicon-file"></span>&nbsp;项目统计报表</a>
+        <a class="btn btn-sm btn-primary" href="javascript:void(0);"
+                                              ng-click="vm.statistics(2)"><span class="glyphicon glyphicon-file"></span>&nbsp;分类统计报表</a>                              
 	  	<!--<button class="btn btn-sm btn-primary" ng-click="vm.isMonthReports()">批量设置是否填报</button>-->
 	  </div> 
      <form id="form" name="form">          
@@ -278,13 +280,13 @@
 <!-- /.modal -->
 
 
-<!-- 统计报表模态框 -->
-<div class="modal fade" id="myModal_statistics" tabindex="-1" role="dialog" >
+<!-- 项目统计报表模态框 -->
+<div class="modal fade" id="project_statistics" tabindex="-1" role="dialog" >
     <div class="modal-dialog" style="margin: 80px auto; width: 80%; max-width: 1000px;">
         <div class="modal-content">
             <div class="modal-header bg-primary"> 
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button> 
-                <h4 class="modal-title" id="myModalLabel">统计报表</h4> 
+                <h4 class="modal-title" id="myModalLabel">项目统计报表</h4> 
             </div> 
             <div class="modal-body">
                 <!--报表-->
@@ -333,6 +335,68 @@
                                 <td align="center">{{z.applyAPYearInvest}}</td>
                             </tr>
                             <tr ng-repeat-end></tr>
+                        <tr ng-repeat-end></tr>
+                    <tr ng-repeat-end></tr>
+                    
+                </table>
+            </div> 
+            <div class="modal-footer"> 
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>			
+            </div> 
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- 统计报表模态框 -->
+<div class="modal fade" id="industry_statistics" tabindex="-1" role="dialog" >
+    <div class="modal-dialog" style="margin: 80px auto; width: 80%; max-width: 1000px;">
+        <div class="modal-content">
+            <div class="modal-header bg-primary"> 
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button> 
+                <h4 class="modal-title" id="myModalLabel">分类统计报表</h4> 
+            </div> 
+            <div class="modal-body">
+                <!--报表-->
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <td width="300px" style="text-align: center;">行业及合并系统</td>
+                        <td width="300px" style="text-align: center;">项目个数</td>
+                        <td width="300px" style="text-align: center;">项目总投资</td>
+                        <td width="300px" style="text-align: center;">已安排投资</td>
+                        <td width="300px" style="text-align: center;">安排年度投资</td>
+                        <td width="300px" style="text-align: center;">安排年度投资占比</td>
+                    </tr>
+                    <tr>
+                        <th style="text-align: center;">合计</th>
+                        <th style="text-align: center;">{{vm.model.statisticsData.projectNum}}</th>
+                        <th style="text-align: center;">{{vm.model.statisticsData.projectInvestSum}}</th>
+                        <th style="text-align: center;">{{vm.model.statisticsData.projectInvestAccuSum}}</th>
+                        <th style="text-align: center;">{{vm.model.statisticsData.applyAPYearInvest}}</th>
+                        <th style="text-align: center;"></th>
+                    </tr>
+                    <tr ng-repeat-start="x in vm.model.statisticsData.industry" ng-show="x.industry_projectInvestSum!=0 || 
+                                                                                        x.industry_projectInvestAccuSum!=0 ||
+                                                                                        x.industry_applyAPYearInvest!=0">
+                        <th style="text-align: center;">{{x.projectIndustry}}</th>
+                        <th style="text-align: center;">{{x.projectNum}}</th>
+                        <th style="text-align: center;">{{x.industry_projectInvestSum}}</th>
+                        <th style="text-align: center;">{{x.industry_projectInvestAccuSum}}</th>
+                        <th style="text-align: center;">{{x.industry_applyAPYearInvest}}</th>
+                        <th style="text-align: center;">{{x.industry_applyAPYearInvest_percentage}}%</th>
+                    </tr>
+                        <tr ng-repeat-start="y in x.projectCategory" ng-show="y.projectInvestSum!=0 ||
+                                                                              y.projectInvestAccuSum !=0 || 
+                                                                              y.applyAPYearInvest!=0">
+                            <td style="text-align: center;">{{y.categoryName}}</td>
+                            <td style="text-align: center;">{{y.shenBaoInfoDtos.length}}</td>
+                            <td style="text-align: center;">{{y.projectInvestSum}}</td>
+                            <td style="text-align: center;">{{y.projectInvestAccuSum}}</td>
+                            <td style="text-align: center;">{{y.applyAPYearInvest}}</td>
+                            <td></td>
+                        </tr>
                         <tr ng-repeat-end></tr>
                     <tr ng-repeat-end></tr>
                     

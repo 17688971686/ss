@@ -51,6 +51,11 @@
             }
             var httpSuccess = function success(response) {
                 vm.model.statisticsData = response.data;
+                vm.model.statisticsData.industry.map(function(x){
+                    if(x.industry_applyAPYearInvest!=0){
+                        x.industry_applyAPYearInvest_percentage = (((x.industry_applyAPYearInvest/vm.model.statisticsData.applyAPYearInvest)*10000).toFixed(2)/100);
+                    }
+                })
             }
             common.http({
                 vm: vm,

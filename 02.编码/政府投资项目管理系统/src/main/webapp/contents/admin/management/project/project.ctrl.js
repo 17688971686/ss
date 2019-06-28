@@ -184,7 +184,7 @@
 	   		};
 	   		
 	   		//弹出统计报表模态框
-	   		vm.statistics = function(){
+	   		vm.statistics = function(type){
 				/*"projectName":vm.search.projectName==null?"":vm.search.projectName,
 					"projectStage":vm.search.projectStage==null?"":vm.search.projectStage,
 					"projectCategory":vm.search.projectCategory==null?"":vm.search.projectCategory,
@@ -207,10 +207,17 @@
 					filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry});
 				}
 	   			projectSvc.grid_statistics(vm,filters);
-				$("#myModal_statistics").modal({
-					backdrop: 'static',
-					keyboard:false
-				});
+				if(type==1){//项目统计报表
+					$("#project_statistics").modal({
+						backdrop: 'static',
+						keyboard:false
+					});
+				}else{//分类统计报表
+					$("#industry_statistics").modal({
+						backdrop: 'static',
+						keyboard:false
+					});
+				}
 			}
      	   //点击新增项目弹出模态框
      	   vm.addProject = function(){
