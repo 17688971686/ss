@@ -1593,6 +1593,9 @@
 					title : "项目名称",
 					width:250,
 					filterable : true,
+					template:function(item){
+						return common.format('<a href="#/projectDetails/{0}/{1}">{2}</a>',item.projectId,item.projectInvestmentType,item.projectName);
+					},
 					headerAttributes: {
 					      "class": "table-header-cell",
 					       style: "text-align: center;vertical-align: middle;"
