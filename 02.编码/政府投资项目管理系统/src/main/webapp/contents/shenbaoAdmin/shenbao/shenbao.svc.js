@@ -247,11 +247,11 @@
 		   	           		}else if(projectInvestmentType == common.basicDataConfig().projectInvestmentType_SH){
 		   	           			vm.isSHInvestment=true;
 		   	           		}
-			   	   	   		//展示模态框
-				   	          $("#myModal").modal({
-						        backdrop: 'static',
-						        keyboard:true
-				        	   });
+			   	   	   	// 	//展示模态框
+				   	        //   $("#myModal").modal({
+						        // backdrop: 'static',
+						        // keyboard:true
+				        	   // });
 			    		   }else{
 			    			   common.alert({
 			   					vm:vm,
@@ -273,7 +273,7 @@
 		/**
 		 * 查询计划下达申报端口状态
 		 */
-		function getShenBaoPortStateForYearPlan(vm){
+		function getShenBaoPortStateForYearPlan(vm,id){
 			var httpOptions = {
 					method : 'get',
 					url : common.format(url_sysConfig + "?configName={0}", common.basicDataConfig().taskType_yearPlan)
@@ -282,9 +282,9 @@
 			var httpSuccess = function success(response) {
 				vm.sysConfing = response.data;
 				if(vm.sysConfing.enable){
-					location.href = "#/shenbao/" + vm.projectId + "/"
-					+ vm.projectInvestmentType + "/"
-					+ vm.projectShenBaoStage;//跳转申报信息编辑页面    
+					location.href = "#/shenbao/" + id + "/"
+					+ "projectInvestmentType_1" + "/"
+					+ "projectShenBaoStage_7";//跳转申报信息编辑页面
 	    		   }else{
 	    			   common.alert({
 							vm : vm,
@@ -337,7 +337,7 @@
 		function getShenBaoInfoByProjectId(vm){
 			var httpOptions = {
 					method : 'get',
-					url : common.format(url_shenbao + "?$filter=projectId eq '{0}'", vm.projectId)
+					url : common.format(url_shenbao + "?$filter=projectId eq '{0}'", vm.id)
 				};
 			
 			var httpSuccess = function success(response) {
@@ -347,26 +347,34 @@
 					fn:function(){
 						vm.model.shenBaoInfoRecords = response.data.value;
 						 //判断申报记录中的申报阶段，防止多次申报同一阶段
-			        	   if(vm.model.shenBaoInfoRecords.length >0){
-			        		   vm.isHased = false;
-			        		   vm.model.shenBaoInfoRecords.every(function(value,index){
-			        			   var shenBaoRecordStage = value.projectShenBaoStage;
-			        			   if(shenBaoRecordStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){
-			        				   var nowDate = new Date();
-			        				   var nowYear = nowDate.getFullYear();
-			        				   if(nowYear+1 == value.planYear){
-			        					   vm.isHased = vm.projectShenBaoStage==shenBaoRecordStage?true:false;
-			        				   }
-			        			   }else{
-			        				   vm.isHased = vm.projectShenBaoStage==shenBaoRecordStage?true:false;
-			        			   }
-			        			   if(vm.isHased){
-			        				   vm.massage=vm.getBasicDataDesc(shenBaoRecordStage)+"已申报!";
-			        				   return false;
-			        			   }
-		        				   return true;
-			        		   });
-			        	   }
+						vm.isHased = false;
+					   if(vm.model.shenBaoInfoRecords.length >0){
+
+						   vm.model.shenBaoInfoRecords.every(function(value,index){
+							   var shenBaoRecordStage = value.projectShenBaoStage;
+							   if(shenBaoRecordStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){
+								   // var nowDate = new Date();
+								   // var nowYear = nowDate.getFullYear();
+								   if(vm.model.planYear == value.planYear){
+									   vm.isHased = true;
+								   }
+							   }
+						   });
+
+					   }
+					   if(vm.isHased){
+						   vm.massage="当前年度的计划已申报，请重新选择计划年度后提交!";
+						   common.alert({
+							   vm : vm,
+							   msg : vm.massage,
+							   fn : function() {
+								   $('.alertDialog').modal('hide');
+							   }
+						   });
+					   }else{
+						   createShenBaoInfo(vm);
+					   }
+
 					}
 				});
 			};

@@ -152,8 +152,7 @@
 				
 			}
 			vm.basicData.projectShenBaoStage = vm.projectShenBaoStage;
-			debugger;
-			
+
 			vm.basicData.shenBaoStageForZF = [
 					common.basicDataConfig().projectShenBaoStage_projectProposal,
 					common.basicDataConfig().projectShenBaoStage_KXXYJBG,
@@ -349,9 +348,8 @@
 			};
 
 			//点击列表中的申报按钮
-			vm.shenbaoBtn = function(id, projectInvestmentType, name) {
-				shenbaoSvc.getShenBaoPortState(vm, id, projectInvestmentType,
-						name);//查询申报端口状态
+			vm.shenbaoBtn = function(id) {
+				shenbaoSvc.getShenBaoPortStateForYearPlan(vm,id);//查询申报端口状态
 			};
 
 			//判断是申报前修改还是提交走申报流程
@@ -503,19 +501,13 @@
 				}
 			}
 			//点击模态框的确认按钮
-			vm.confirm = function() {
-				$('#myModal').modal('hide');
-				$(".modal-backdrop").remove(); //去掉模态框背面的阴影
-				
-				if(vm.projectShenBaoStage == common.basicDataConfig().projectShenBaoStage_nextYearPlan){
-					shenbaoSvc.getShenBaoPortStateForYearPlan(vm);
-				}else{
-					location.href = "#/shenbao/" + vm.projectId + "/"
-					+ vm.projectInvestmentType + "/"
-					+ vm.projectShenBaoStage;//跳转申报信息编辑页面    
-				}
-				
-			};
+			// vm.confirm = function() {
+			// 	$('#myModal').modal('hide');
+			// 	$(".modal-backdrop").remove(); //去掉模态框背面的阴影
+			//
+			// 	shenbaoSvc.getShenBaoPortStateForYearPlan(vm);
+			//
+			// };
 			//点击列表中的申报记录按钮
 			vm.checkShenBaoRecords = function(id) {
 				//展示模态框
@@ -809,7 +801,21 @@
 				var isValid = $('form').valid();
 				var activeTab = $("#tab" + tabId);
 				if (isValid) {//通过则跳转到下一页面
-					vm.tabStrip.activateTab(activeTab);
+					if(tabId == '4' && vm.model.attachmentDtos.length == 0){
+
+                        common.confirm({
+                            vm : vm,
+                            msg : "确认不上传批复文件吗？",
+                            fn : function() {
+                                $('.confirmDialog').modal('hide');
+                                $(".modal-backdrop").remove();
+                                vm.tabStrip.activateTab(activeTab);
+                            }
+                        });
+					}else{
+                        vm.tabStrip.activateTab(activeTab);
+					}
+
 				}
 			};
 			//添加建设单位
@@ -890,7 +896,7 @@
 						}
 					});
 				}else{
-					shenbaoSvc.createShenBaoInfo(vm);
+					shenbaoSvc.getShenBaoInfoByProjectId(vm);
 				}
 			};
 		}//end#page_edit

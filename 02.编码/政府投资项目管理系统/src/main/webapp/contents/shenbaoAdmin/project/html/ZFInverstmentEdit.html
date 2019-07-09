@@ -1,3 +1,5 @@
+<div ng-include src="'/contents/common/dialog-alert.tmpl.html'"></div>
+<div ng-include src="'/contents/common/dialog-confirm.tmpl.html'"></div>
 <style>
 	.modal-open {
 		overflow: scroll !important;
@@ -76,19 +78,19 @@
 		<td class="formAlignRight">国民经济行业分类：</td>
 		<td style="width:450px;">
 			<select class="form-select" style="width:185px;height:25px;" id="nationalIndustry" name="nationalIndustry"
-					ng-model="vm.model.nationalIndustryParent" ng-change="vm.nationalIndustryChange()">
+					ng-model="vm.model.nationalIndustry">
 				<option value="">---请选择---</option>
 				<option ng-repeat="x in vm.basicData.nationalIndustry"
-						ng-selected="vm.model.nationalIndustryParent==x.id" value="{{x.id}}">{{x.description}}
-				</option>
-			</select>
-			<select style="width:185px;height:25px;" ng-model="vm.model.nationalIndustry"
-					ng-show="vm.basicData.nationalIndustryChildren.length>0">
-				<option value="">---请选择---</option>
-				<option ng-repeat="x in vm.basicData.nationalIndustryChildren"
 						ng-selected="vm.model.nationalIndustry==x.id" value="{{x.id}}">{{x.description}}
 				</option>
 			</select>
+			<!--<select style="width:185px;height:25px;" ng-model="vm.model.nationalIndustry"-->
+					<!--ng-show="vm.basicData.nationalIndustryChildren.length>0">-->
+				<!--<option value="">-&#45;&#45;请选择-&#45;&#45;</option>-->
+				<!--<option ng-repeat="x in vm.basicData.nationalIndustryChildren"-->
+						<!--ng-selected="vm.model.nationalIndustry==x.id" value="{{x.id}}">{{x.description}}-->
+				<!--</option>-->
+			<!--</select>-->
 		</td>
 		<td class="formAlignRight">项目行业归口：<span class="required">(*)</span></td>
 		<td>
@@ -102,7 +104,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="formAlignRight">项目类型：</td>
+		<td class="formAlignRight">项目类型：<span class="required">(*)</span></td>
 		<td colspan="3">
 			<label ng-repeat="x in vm.basicData.projectType">
 				<input type="checkbox" name="projectType" ng-checked="vm.model.projectType.indexOf(x.id) != -1"
@@ -129,17 +131,19 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="formAlignRight">项目开工日期：</td>
+		<td class="formAlignRight">项目开工日期：<span class="required">(*)</span></td>
 		<td>
 			<input id="beginDate" name="beginDate"
-				   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',readOnly:true})" class="Wdate" onChange=""
+				   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',readOnly:true})" class="Wdate" onChange="" data-val="true" data-val-required="必选"
 				   ng-model="vm.model.beginDate" autocomplete="off"/>
+			<span data-valmsg-for="beginDate" data-valmsg-replace="true" class="required"></span>
 		</td>
-		<td class="formAlignRight">项目竣工日期：</td>
+		<td class="formAlignRight">项目竣工日期：<span class="required">(*)</span></td>
 		<td>
 			<input id="endDate" name="endDate"
-				   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',readOnly:true})" class="Wdate" onChange=""
+				   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',readOnly:true})" class="Wdate" onChange="" data-val="true" data-val-required="必选"
 				   ng-model="vm.model.endDate" autocomplete="off"/>
+			<span data-valmsg-for="endDate" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
 	<tr>
@@ -160,7 +164,7 @@
 	</tr>
 
 	<tr>
-		<td class="formAlignRight">资金来源：</td>
+		<td class="formAlignRight">资金来源：<span class="required">(*)</span></td>
 		<td colspan="3">
 			<table class="table table-bordered table-striped table-hover">
 				<tr class="text-primary text-center">
@@ -249,11 +253,14 @@
 					<td class="text-center" style="width:100px;">"其他"的来源途径说明：</td>
 					<td>
                         <textarea class="form-control input-sm" style="width:99%;"
-								  ng-model="vm.model.capitalOtherDescription" placeholder="注：200字符以内" maxlength="200"
-								  ng-change="vm.checkLength(vm.model.capitalOtherDescription,200,'capitalOtherDescriptionTips')"></textarea>
+								  ng-model="vm.model.capitalOtherDescription" placeholder="注：200字符以内" maxlength="200" id="capitalOtherDescription" name="capitalOtherDescription"
+								  ng-change="vm.checkLength(vm.model.capitalOtherDescription,200,'capitalOtherDescriptionTips')" data-val="true"
+								  data-val-required="必填"></textarea>
 						<div class="tipfont">您还可以输入<span id="capitalOtherDescriptionTips"><font
 								size="5">200</font></span>个字符!
 						</div>
+						<span data-valmsg-for="capitalOtherDescription" data-valmsg-replace="true" class="required"></span>
+
 					</td>
 				</tr>
 				<tr>
