@@ -497,8 +497,8 @@
 			<properties>
 				<db.ip>localhost</db.ip>
 				<db.port>3306</db.port>
-				<db.username>root</db.username>
-				<db.password>Passw0rd</db.password>
+				<db.username>nativeUser</db.username>
+				<db.password>23456</db.password>
 				<db.name>gm_govinvestprojectmanagement</db.name>
 				<uploadPath>D:/gm_upload</uploadPath>
 				<isPushOA>false</isPushOA>
@@ -529,7 +529,7 @@
                 <db.username>root</db.username>
                 <db.password>Passw0rd</db.password>
                 <db.name>gm_test</db.name>
-                <uploadPath>D:/gm_upload</uploadPath>
+                <uploadPath>C:/gm_upload</uploadPath>
 				<isPushOA>false</isPushOA>
             </properties>
         </profile>

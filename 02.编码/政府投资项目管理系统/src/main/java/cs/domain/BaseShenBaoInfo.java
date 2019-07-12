@@ -75,33 +75,33 @@ public class BaseShenBaoInfo extends BaseProject {
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第一年申请年度投资累计'")
     private Double applyYearInvest = 0.0;
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第一年资金筹措方案(申请)-公共预算'")
-    private Double capitalSCZ_ggys_TheYear = 0.0;
+    private Double capitalSCZ_ggys_TheYear = null;
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第一年资金筹措方案(申请)-国土资金'")
-    private Double capitalSCZ_gtzj_TheYear = 0.0;
+    private Double capitalSCZ_gtzj_TheYear = null;
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第一年资金筹措方案(申请)-其他资金'")
-    private Double capitalSCZ_qita = 0.0;
+    private Double capitalSCZ_qita = null;
     @Column(columnDefinition = "varchar(500) NULL COMMENT '第一年其他资金来源'")
     private String capitalOtherDescriptionShenBao;
 
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第二年申请年度投资累计'")
     private Double applyYearInvest_LastYear = 0.0;
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第二年度资金筹措方案(申请)-公共预算'")
-    private Double capitalSCZ_ggys_LastYear = 0.0;
+    private Double capitalSCZ_ggys_LastYear = null;
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第二年度资金筹措方案(申请)-国土资金'")
-    private Double capitalSCZ_gtzj_LastYear = 0.0;
+    private Double capitalSCZ_gtzj_LastYear = null;
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第二年资金筹措方案(申请)-其他资金'")
-    private Double capitalSCZ_qita_LastYear = 0.0;
+    private Double capitalSCZ_qita_LastYear = null;
     @Column(columnDefinition = "varchar(500) NULL COMMENT '第二年其他资金来源'")
     private String capitalOtherDescriptionShenBao_LastYear;
 
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第三年申请年度投资累计'")
     private Double applyYearInvest_LastTwoYear = 0.0;
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第三年度资金筹措方案(申请)-公共预算'")
-    private Double capitalSCZ_ggys_LastTwoYear = 0.0;
+    private Double capitalSCZ_ggys_LastTwoYear = null;
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第三年度资金筹措方案(申请)-国土资金'")
-    private Double capitalSCZ_gtzj_LastTwoYear = 0.0;
+    private Double capitalSCZ_gtzj_LastTwoYear = null;
     @Column(columnDefinition = "double(11,4) DEFAULT 0 COMMENT '第三年度资金筹措方案(申请)-其他资金'")
-    private Double capitalSCZ_qita_LastTwoYear = 0.0;
+    private Double capitalSCZ_qita_LastTwoYear = null;
     @Column(columnDefinition = "varchar(500) NULL COMMENT '第三年其他资金来源'")
     private String capitalOtherDescriptionShenBao_LastTwoYear;
 

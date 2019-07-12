@@ -388,18 +388,19 @@
 						}
 					});
 	   			 }else{
-                     if(vm.model.attachmentDtos == ""){
-
-                         common.confirm({
-                             vm : vm,
-                             msg : "确认不上传批复文件吗？",
-                             fn : function() {
-                                 $('.confirmDialog').modal('hide');
-                                 $(".modal-backdrop").remove();
-                                 projectSvc.createProject(vm);
-                             }
-                         });
-                     }
+                     // if(vm.model.attachmentDtos == undefined || vm.model.attachmentDtos.length == 0){
+                     //
+                     //     common.confirm({
+                     //         vm : vm,
+                     //         msg : "确认不上传批复文件吗？",
+                     //         fn : function() {
+                     //             $('.confirmDialog').modal('hide');
+                     //             $(".modal-backdrop").remove();
+                     //             projectSvc.createProject(vm);
+                     //         }
+                     //     });
+                     // }
+                     projectSvc.createProject(vm);
 
 	   			 }
 	   		         
@@ -416,20 +417,7 @@
     	   	projectSvc.getProjectById(vm);
    		
 	   		vm.update = function(){
-                if(vm.model.attachmentDtos.length == 0){
-
-                    common.confirm({
-                        vm : vm,
-                        msg : "确认不上传批复文件吗？",
-                        fn : function() {
-                            $('.confirmDialog').modal('hide');
-                            $(".modal-backdrop").remove();
-                            projectSvc.updateProject(vm);
-                        }
-                    });
-                }else{
-                    projectSvc.updateProject(vm);
-				}
+				projectSvc.updateProject(vm);
 
 	   		};   	   		
        }//end#page_update

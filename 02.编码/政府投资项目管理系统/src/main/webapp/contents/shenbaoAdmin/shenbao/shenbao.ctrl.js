@@ -801,17 +801,64 @@
 				var isValid = $('form').valid();
 				var activeTab = $("#tab" + tabId);
 				if (isValid) {//通过则跳转到下一页面
-					if(tabId == '4' && vm.model.attachmentDtos.length == 0){
+					if(tabId == '4' ){
 
-                        common.confirm({
-                            vm : vm,
-                            msg : "确认不上传批复文件吗？",
-                            fn : function() {
-                                $('.confirmDialog').modal('hide');
-                                $(".modal-backdrop").remove();
-                                vm.tabStrip.activateTab(activeTab);
+                        if(vm.model.attachmentDtos == undefined ||
+                            vm.model.attachmentDtos.length == 0) {
+
+                            common.confirm({
+                                vm: vm,
+                                msg: "确认不上传批复文件吗？",
+                                fn: function () {
+                                    $('.confirmDialog').modal('hide');
+                                    $(".modal-backdrop").remove();
+                                    vm.tabStrip.activateTab(activeTab);
+                                }
+                            });
+                        }else{
+                        	var typelist = [];
+                        	var atts = vm.model.attachmentDtos;
+                        	for(var i=0;i<atts.length;i++){
+								typelist.push(atts[i].type);
+							}
+							if(typelist.indexOf("JYS") == -1){
+                                common.confirm({
+                                    vm: vm,
+                                    msg: "确认不上传项目建议书批复吗？",
+                                    fn: function () {
+                                        $('.confirmDialog').modal('hide');
+                                        $(".modal-backdrop").remove();
+                                        vm.tabStrip.activateTab(activeTab);
+                                    }
+                                });
+							}
+                            if(typelist.indexOf("CBSJYGS") == -1){
+                                common.confirm({
+                                    vm: vm,
+                                    msg: "确认不上传初步设计与概算批复吗？",
+                                    fn: function () {
+                                        $('.confirmDialog').modal('hide');
+                                        $(".modal-backdrop").remove();
+                                        vm.tabStrip.activateTab(activeTab);
+                                    }
+                                });
                             }
-                        });
+                            if(typelist.indexOf("KXXYJBG") == -1){
+                                common.confirm({
+                                    vm: vm,
+                                    msg: "确认不上传可行性研究报告批复吗？",
+                                    fn: function () {
+                                        $('.confirmDialog').modal('hide');
+                                        $(".modal-backdrop").remove();
+                                        vm.tabStrip.activateTab(activeTab);
+                                    }
+                                });
+                            }
+                            if(typelist.indexOf("KXXYJBG") != -1 && typelist.indexOf("CBSJYGS") != -1 && typelist.indexOf("JYS") != -1){
+                                vm.tabStrip.activateTab(activeTab);
+							}
+						}
+
 					}else{
                         vm.tabStrip.activateTab(activeTab);
 					}

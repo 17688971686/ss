@@ -101,10 +101,10 @@ overflow: scroll !important;
 			<td>
 				<span ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectIndustry)"></span>
 			</td>
-			<td class="formAlignRight">项目类型：</td>
-			<td>
-				<span ng-repeat="x in vm.model.shenBaoInfo.projectType" ng-bind="vm.getBasicDataDesc(x)+' '"></span>
-			</td>
+			<!--<td class="formAlignRight">项目类型：</td>-->
+			<!--<td>-->
+				<!--<span ng-repeat="x in vm.model.shenBaoInfo.projectType" ng-bind="vm.getBasicDataDesc(x)+' '"></span>-->
+			<!--</td>-->
 		</tr>
 		<tr>
 			<td class="formAlignRight">国民经济行业分类：</td>
@@ -146,12 +146,12 @@ overflow: scroll !important;
 			</td>
 		</tr>
 
-		<tr>
-			<td class="formAlignRight"><span class="{{vm.getBasicDataComment(vm.model.shenBaoInfo.urgencyState)}}">申报文件缓急：</span></td>
-			<td colspan="3" style="width:450px;">
-				<span class="{{vm.getBasicDataComment(vm.model.shenBaoInfo.urgencyState)}}" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.urgencyState)"></span>
-			</td>
-		</tr>
+		<!--<tr>-->
+			<!--<td class="formAlignRight"><span class="{{vm.getBasicDataComment(vm.model.shenBaoInfo.urgencyState)}}">申报文件缓急：</span></td>-->
+			<!--<td colspan="3" style="width:450px;">-->
+				<!--<span class="{{vm.getBasicDataComment(vm.model.shenBaoInfo.urgencyState)}}" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.urgencyState)"></span>-->
+			<!--</td>-->
+		<!--</tr>-->
 
 		<!-- 前期计划没有项目投资这一块 -->
 		<tr>
@@ -333,16 +333,16 @@ overflow: scroll !important;
 				<td style="width:250px;">
 					<span ng-bind="vm.model.shenBaoInfo.planYear"></span>
 				</td>
-				<td class="formAlignRight">是否申请标外资金：</td>
-				<td>
-					<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="true" ng-checked="vm.model.shenBaoInfo.isApplyOutsideCapital == true" disabled="disabled"/>&nbsp;是</label>
-					<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="false" ng-checked="vm.model.shenBaoInfo.isApplyOutsideCapital == false" disabled="disabled"/>&nbsp;否</label>
-					<label ng-if="vm.model.shenBaoInfo.isApplyOutsideCapital">
-						申请标外资金：
-						<span ng-bind="vm.model.shenBaoInfo.applyOutsideCapital"></span>
-						&nbsp;(万元)
-					</label>
-				</td>
+				<!--<td class="formAlignRight">是否申请标外资金：</td>-->
+				<!--<td>-->
+					<!--<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="true" ng-checked="vm.model.shenBaoInfo.isApplyOutsideCapital == true" disabled="disabled"/>&nbsp;是</label>-->
+					<!--<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="false" ng-checked="vm.model.shenBaoInfo.isApplyOutsideCapital == false" disabled="disabled"/>&nbsp;否</label>-->
+					<!--<label ng-if="vm.model.shenBaoInfo.isApplyOutsideCapital">-->
+						<!--申请标外资金：-->
+						<!--<span ng-bind="vm.model.shenBaoInfo.applyOutsideCapital"></span>-->
+						<!--&nbsp;(万元)-->
+					<!--</label>-->
+				<!--</td>-->
 			</tr>
 			<tr>
 				<td class="formAlignRight">资金需求及来源：</td>

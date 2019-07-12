@@ -85,13 +85,13 @@
 			<span data-valmsg-for="industry" data-valmsg-replace="true" class="required"></span>
 		</td>
 
-		<td class="formAlignRight">项目类型：</td>
-		<td colspan="3">
-			<label ng-repeat="x in vm.basicData.projectType" ng-hide="x.description == '海绵项目' || x.description == '治水项目'">
-				<input type="checkbox" name="projectType" ng-checked="vm.model.shenBaoInfo.projectType.indexOf(x.id) != -1" ng-click="vm.updateSelection(x.id)"
-				/>{{x.description}}&nbsp;&nbsp;
-			</label>
-		</td>
+		<!--<td class="formAlignRight">项目类型：</td>-->
+		<!--<td colspan="3">-->
+			<!--<label ng-repeat="x in vm.basicData.projectType" ng-hide="x.description == '海绵项目' || x.description == '治水项目'">-->
+				<!--<input type="checkbox" name="projectType" ng-checked="vm.model.shenBaoInfo.projectType.indexOf(x.id) != -1" ng-click="vm.updateSelection(x.id)"-->
+				<!--/>{{x.description}}&nbsp;&nbsp;-->
+			<!--</label>-->
+		<!--</td>-->
 
 	</tr>
 	<tr>

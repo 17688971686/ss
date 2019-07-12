@@ -71,28 +71,28 @@ public class BaseProject extends BaseEntity
 	private Double projectInvestAccuSum=0.0;
 	
 	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '资金来源方案-市财政-公共预算'")
-	private Double capitalSCZ_ggys=0.0;
+	private Double capitalSCZ_ggys=null;
 	
 	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '资金来源方案-市财政-国土资金'")
-	private Double capitalSCZ_gtzj=0.0;
+	private Double capitalSCZ_gtzj=null;
 	
 	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '资金来源方案-市财政-专项资金'")
-	private Double capitalSCZ_zxzj=0.0;
+	private Double capitalSCZ_zxzj=null;
 	
 	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '资金来源方案-区财政-公共预算'")
-	private Double capitalQCZ_ggys=0.0;
+	private Double capitalQCZ_ggys=null;
 	
 	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '资金来源方案-区财政-国土资金'")
-	private Double capitalQCZ_gtzj=0.0;
+	private Double capitalQCZ_gtzj=null;
 	
 	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '资金来源方案-中央预算'")
-	private Double capitalZYYS=0.0;
+	private Double capitalZYYS=null;
 	
 	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '资金来源方案-社会投资'")
-	private Double capitalSHTZ=0.0;
+	private Double capitalSHTZ=null;
 	
 	@Column(columnDefinition="double(11,4) DEFAULT 0 COMMENT '资金来源方案-其它'")
-	private Double capitalOther=0.0;
+	private Double capitalOther=null;
 	
 	@Column(columnDefinition="varchar(125) NULL COMMENT '资金来源方案-其它来源类型'")
 	private String capitalOtherType;

@@ -106,14 +106,14 @@
 			<span data-valmsg-for="projectIndustry" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
-	<tr>
-		<td class="formAlignRight">项目类型：</td>
-		<td colspan="3">
-			<label ng-repeat="x in vm.basicData.projectType">
-				<input type="checkbox" name="projectType" ng-checked="vm.model.projectType.indexOf(x.id) != -1" ng-click="vm.updateSelection(x.id)"/>{{x.description}}&nbsp;&nbsp;
-			</label>
-		</td>
-	</tr>
+	<!--<tr>-->
+		<!--<td class="formAlignRight">项目类型：</td>-->
+		<!--<td colspan="3">-->
+			<!--<label ng-repeat="x in vm.basicData.projectType">-->
+				<!--<input type="checkbox" name="projectType" ng-checked="vm.model.projectType.indexOf(x.id) != -1" ng-click="vm.updateSelection(x.id)"/>{{x.description}}&nbsp;&nbsp;-->
+			<!--</label>-->
+		<!--</td>-->
+	<!--</tr>-->
 	<tr>
 		<td class="formAlignRight">项目建设地址：<span class="required">(*)</span></td>
 		<td colspan="3">
@@ -168,16 +168,16 @@
 			<span data-valmsg-for="projectInvestAccuSum" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
-	<tr>
-		<td class="formAlignRight">申报文件缓急：<span class="required">(*)</span></td>
-		<td colspan="3">
-			<select style="height:30px;" id="urgencyState" name="urgencyState"  ng-model="vm.model.urgencyState" data-val="true" data-val-required="必选">
-				<option value="">---请选择---</option>
-				<option ng-repeat="x in vm.basicData.urgencyState" ng-selected="vm.model.urgencyState==x.id" value="{{x.id}}">{{x.description}}</option>
-			</select>
-			<span data-valmsg-for="urgencyState" data-valmsg-replace="true" class="required"></span>
-		</td>
-	</tr>
+	<!--<tr>-->
+		<!--<td class="formAlignRight">申报文件缓急：<span class="required">(*)</span></td>-->
+		<!--<td colspan="3">-->
+			<!--<select style="height:30px;" id="urgencyState" name="urgencyState"  ng-model="vm.model.urgencyState" data-val="true" data-val-required="必选">-->
+				<!--<option value="">-&#45;&#45;请选择-&#45;&#45;</option>-->
+				<!--<option ng-repeat="x in vm.basicData.urgencyState" ng-selected="vm.model.urgencyState==x.id" value="{{x.id}}">{{x.description}}</option>-->
+			<!--</select>-->
+			<!--<span data-valmsg-for="urgencyState" data-valmsg-replace="true" class="required"></span>-->
+		<!--</td>-->
+	<!--</tr>-->
 	<tr>
 		<td class="formAlignRight">资金来源：<span class="required">(*)</span></td>
 		<td colspan="3">
@@ -185,35 +185,43 @@
 				<tr class="text-primary text-center">
 					<td>市投资</td>
 					<td>区投资</td>
-					<td>中央预算内投资</td>
-					<td>社会投资</td>
-					<td>其他</td>
+					<td>中央预算内投资<span class="required">(*)</span></td>
+					<td>社会投资<span class="required">(*)</span></td>
+					<td>其他<span class="required">(*)</span></td>
 				</tr>
 				<tr class="text-center">
 					<td style="padding:0px;border: 0px;">
 						<table class="table table-bordered" style="margin:0px">
 							<tr>
-								<td>公共预算</td>
-								<td>国土基金</td>
-								<td>专项基金</td>
+								<td>公共预算<span class="required">(*)</span></td>
+								<td>国土基金<span class="required">(*)</span></td>
+								<td>专项基金<span class="required">(*)</span></td>
 							</tr>
 							<tr>
-								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys" /></td>
-								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalSCZ_gtzj"  /></td>
-								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalSCZ_zxzj" /></td>
+								<td><input type="number" min="0" step="any" id="capitalSCZ_ggys" value=" " name="capitalSCZ_ggys" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys" data-val="true" data-val-required="必填"/>
+									<span data-valmsg-for="capitalSCZ_ggys" data-valmsg-replace="true" class="required"></span>
+								</td>
+								<td><input type="number" min="0" step="any" id="capitalSCZ_gtzj" name="capitalSCZ_gtzj"onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalSCZ_gtzj" data-val="true" data-val-required="必填" />
+									<span data-valmsg-for="capitalSCZ_gtzj" data-valmsg-replace="true" class="required"></span>
+								</td>
+								<td><input type="number" min="0" step="any" id="capitalSCZ_zxzj" name="capitalSCZ_zxzj" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalSCZ_zxzj" data-val="true" data-val-required="必填"/>
+									<span data-valmsg-for="capitalSCZ_zxzj" data-valmsg-replace="true" class="required"></span>
+								</td>
 							</tr>
 						</table>
 					</td>
 					<td style="padding:0px;border: 0px;">
 						<table class="table table-bordered " style="margin:0px">
 							<tr>
-								<td>公共预算</td>
-								<td>国土基金</td>
+								<td>公共预算<span class="required">(*)</span></td>
+								<td>国土基金<span class="required">(*)</span></td>
 
 							</tr>
 							<tr>
-								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalQCZ_ggys"  /></td>
-								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalQCZ_gtzj"  /></td>
+								<td><input type="number" min="0" step="any" id="capitalQCZ_ggys" name="capitalQCZ_ggys" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalQCZ_ggys" data-val="true" data-val-required="必填" />
+									<span data-valmsg-for="capitalQCZ_ggys" data-valmsg-replace="true" class="required"></span></td>
+								<td><input type="number" min="0" step="any" id="capitalQCZ_gtzj" name="capitalQCZ_gtzj" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalQCZ_gtzj" data-val="true" data-val-required="必填" />
+									<span data-valmsg-for="capitalQCZ_gtzj" data-valmsg-replace="true" class="required"></span></td>
 							</tr>
 						</table>
 					</td>
@@ -223,7 +231,8 @@
 								<td>-</td>
 							</tr>
 							<tr>
-								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalZYYS"  /></td>
+								<td><input type="number" min="0" step="any" id="capitalZYYS" name="capitalZYYS" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalZYYS" data-val="true" data-val-required="必填" />
+									<span data-valmsg-for="capitalZYYS" data-valmsg-replace="true" class="required"></span></td>
 							</tr>
 						</table>
 					</td>
@@ -233,7 +242,8 @@
 								<td>-</td>
 							</tr>
 							<tr>
-								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalSHTZ"  /></td>
+								<td><input type="number" min="0" step="any" id="capitalSHTZ" name="capitalSHTZ"  onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalSHTZ" data-val="true" data-val-required="必填" />
+									<span data-valmsg-for="capitalSHTZ" data-valmsg-replace="true" class="required"></span></td>
 							</tr>
 						</table>
 					</td>
@@ -243,7 +253,8 @@
 								<td>-</td>
 							</tr>
 							<tr>
-								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalOther"/></td>
+								<td><input type="number" min="0" step="any" id="capitalOther" name="capitalOther"  onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalOther" data-val="true" data-val-required="必填"/>
+									<span data-valmsg-for="capitalOther" data-valmsg-replace="true" class="required"></span></td>
 							</tr>
 						</table>
 					</td>

@@ -42,16 +42,16 @@
 				   onFocus="WdatePicker({dateFmt:'yyyy'})" ng-change="vm.changeYear()" onChange="" ng-model="vm.model.planYear" data-val="true" data-val-required="必填"/>
 			<span data-valmsg-for="planYear" data-valmsg-replace="true" class="required"></span>
 		</td>
-		<td class="formAlignRight">是否申请标外资金：</td>
-		<td>
-			<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="true" ng-model="vm.model.isApplyOutsideCapital" ng-checked="vm.model.isApplyOutsideCapital == true"/>&nbsp;是</label>
-			<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="false" ng-model="vm.model.isApplyOutsideCapital" ng-checked="vm.model.isApplyOutsideCapital == false"/>&nbsp;否</label>
-			<label ng-if="vm.model.isApplyOutsideCapital">
-				申请标外资金：
-				<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:100px" class="form-control input-sm" ng-model="vm.model.applyOutsideCapital"/>
-				&nbsp;(万元)
-			</label>
-		</td>
+		<!--<td class="formAlignRight">是否申请标外资金：</td>-->
+		<!--<td>-->
+			<!--<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="true" ng-model="vm.model.isApplyOutsideCapital" ng-checked="vm.model.isApplyOutsideCapital == true"/>&nbsp;是</label>-->
+			<!--<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="false" ng-model="vm.model.isApplyOutsideCapital" ng-checked="vm.model.isApplyOutsideCapital == false"/>&nbsp;否</label>-->
+			<!--<label ng-if="vm.model.isApplyOutsideCapital">-->
+				<!--申请标外资金：-->
+				<!--<input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" style="width:100px" class="form-control input-sm" ng-model="vm.model.applyOutsideCapital"/>-->
+				<!--&nbsp;(万元)-->
+			<!--</label>-->
+		<!--</td>-->
 	</tr>
 	<tr>
 		<td class="formAlignRight">资金需求及来源：</td>
@@ -66,14 +66,17 @@
 					<td style="padding:0px;border: 0px;" colspan="4">
 						<table class="table table-bordered" style="margin:0px;width:100%;">
 							<tr>
-								<td>公共预算</td>
-								<td>国土基金</td>
-								<td>其他</td>
+								<td>公共预算<span class="required">(*)</span></td>
+								<td>国土基金<span class="required">(*)</span></td>
+								<td>其他<span class="required">(*)</span></td>
 							</tr>
 							<tr>
-								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys_TheYear"/></td>
-								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj_TheYear"/></td>
-								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_qita"/></td>
+								<td><input type="number" min="0" id="capitalSCZ_ggys_TheYear" value=" " name="capitalSCZ_ggys_TheYear" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys_TheYear" data-val="true" data-val-required="必填"/>
+									<span data-valmsg-for="capitalSCZ_ggys_TheYear" data-valmsg-replace="true" class="required"></span></td>
+								<td><input type="number" min="0" id="capitalSCZ_gtzj_TheYear" value=" " name="capitalSCZ_gtzj_TheYear" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj_TheYear" data-val="true" data-val-required="必填"/>
+									<span data-valmsg-for="capitalSCZ_gtzj_TheYear" data-valmsg-replace="true" class="required"></span></td>
+								<td><input type="number" min="0" id="capitalSCZ_qita" value=" " name="capitalSCZ_qita" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_qita" data-val="true" data-val-required="必填"/>
+									<span data-valmsg-for="capitalSCZ_qita" data-valmsg-replace="true" class="required"></span></td>
 							</tr>
 						</table>
 					</td>
@@ -121,14 +124,17 @@
 					<td style="padding:0px;border: 0px;" colspan="4">
 						<table class="table table-bordered" style="margin:0px;width:100%;">
 							<tr>
-								<td>公共预算</td>
-								<td>国土基金</td>
-								<td>其他</td>
+								<td>公共预算<span class="required">(*)</span></td>
+								<td>国土基金<span class="required">(*)</span></td>
+								<td>其他<span class="required">(*)</span></td>
 							</tr>
 							<tr>
-								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys_LastYear"/></td>
-								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj_LastYear"/></td>
-								<td><input type="number" min="0" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_qita_LastYear"/></td>
+								<td><input type="number" min="0" id="capitalSCZ_ggys_LastYear" value=" " name="capitalSCZ_ggys_LastYear" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys_LastYear" data-val="true" data-val-required="必填"/>
+									<span data-valmsg-for="capitalSCZ_ggys_LastYear" data-valmsg-replace="true" class="required"></span></td>
+								<td><input type="number" min="0" id="capitalSCZ_gtzj_LastYear" value=" " name="capitalSCZ_gtzj_LastYear" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj_LastYear" data-val="true" data-val-required="必填"/>
+									<span data-valmsg-for="capitalSCZ_gtzj_LastYear" data-valmsg-replace="true" class="required"></span></td>
+								<td><input type="number" min="0" id="capitalSCZ_qita_LastYear" value=" " name="capitalSCZ_qita_LastYear" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_qita_LastYear" data-val="true" data-val-required="必填"/>
+									<span data-valmsg-for="capitalSCZ_qita_LastYear" data-valmsg-replace="true" class="required"></span></td>
 							</tr>
 						</table>
 					</td>
@@ -178,14 +184,17 @@
 					<td style="padding:0px;border: 0px;" colspan="4">
 						<table class="table table-bordered" style="margin:0px;width:100%;">
 							<tr>
-								<td>公共预算</td>
-								<td>国土基金</td>
-								<td>其他</td>
+								<td>公共预算<span class="required">(*)</span></td>
+								<td>国土基金<span class="required">(*)</span></td>
+								<td>其他<span class="required">(*)</span></td>
 							</tr>
 							<tr>
-								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys_LastTwoYear"/></td>
-								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj_LastTwoYear"/></td>
-								<td><input type="number" min="0" step="any" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_qita_LastTwoYear"/></td>
+								<td><input type="number" min="0" id="capitalSCZ_ggys_LastTwoYear" value=" " name="capitalSCZ_ggys_LastTwoYear" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm" ng-model="vm.model.capitalSCZ_ggys_LastTwoYear" data-val="true" data-val-required="必填"/>
+									<span data-valmsg-for="capitalSCZ_ggys_LastYear" data-valmsg-replace="true" class="required"></span></td>
+								<td><input type="number" min="0" id="capitalSCZ_gtzj_LastTwoYear" value=" " name="capitalSCZ_gtzj_LastTwoYear" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_gtzj_LastTwoYear" data-val="true" data-val-required="必填"/>
+									<span data-valmsg-for="capitalSCZ_gtzj_LastTwoYear" data-valmsg-replace="true" class="required"></span></td>
+								<td><input type="number" min="0" id="capitalSCZ_qita_LastTwoYear" value=" " name="capitalSCZ_qita_LastTwoYear" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" step="any" class="form-control input-sm"  ng-model="vm.model.capitalSCZ_qita_LastTwoYear" data-val="true" data-val-required="必填"/>
+									<span data-valmsg-for="capitalSCZ_qita_LastTwoYear" data-valmsg-replace="true" class="required"></span></td>
 							</tr>
 						</table>
 					</td>

@@ -70,9 +70,9 @@ textarea.form-control {
 				<td><span
 					ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.projectStage)"></span>
 				</td>
-				<td class="formAlignRight">项目类型：</td>
-				<td><span ng-repeat="x in vm.projectTypes"
-					ng-bind="vm.getBasicDataDesc(x)+' '"></span></td>
+				<!--<td class="formAlignRight">项目类型：</td>-->
+				<!--<td><span ng-repeat="x in vm.projectTypes"-->
+					<!--ng-bind="vm.getBasicDataDesc(x)+' '"></span></td>-->
 			</tr>
 			<tr>
 				<td class="formAlignRight">项目行业归口：</td>
@@ -156,13 +156,13 @@ textarea.form-control {
 				<td colspan="3"><span
 					ng-bind="vm.model.shenBaoInfo.projectIntro"></span></td>
 			</tr>
-			<tr>
-				<td class="formAlignRight">
-					<span  class="{{vm.getBasicDataComment(vm.model.shenBaoInfo.urgencyState)}}">申报文件缓急：</span></td>
-				<td colspan="3" style="width:450px;">
-					<span  class="{{vm.getBasicDataComment(vm.model.shenBaoInfo.urgencyState)}}" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.urgencyState)"></span>
-				</td>
-			</tr>
+			<!--<tr>-->
+				<!--<td class="formAlignRight">-->
+					<!--<span  class="{{vm.getBasicDataComment(vm.model.shenBaoInfo.urgencyState)}}">申报文件缓急：</span></td>-->
+				<!--<td colspan="3" style="width:450px;">-->
+					<!--<span  class="{{vm.getBasicDataComment(vm.model.shenBaoInfo.urgencyState)}}" ng-bind="vm.getBasicDataDesc(vm.model.shenBaoInfo.urgencyState)"></span>-->
+				<!--</td>-->
+			<!--</tr>-->
 			<tr>
 				<td class="formAlignRight">详细信息：</td>
 				<td colspan="3">

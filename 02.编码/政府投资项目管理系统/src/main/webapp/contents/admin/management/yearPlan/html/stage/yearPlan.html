@@ -43,16 +43,16 @@
 			 onFocus="WdatePicker({dateFmt:'yyyy'})" ng-change="vm.changeYear()" onChange="" ng-model="vm.model.shenBaoInfo.planYear" data-val="true" data-val-required="必填"  required/>
 			<!--<span data-valmsg-for="planYear" data-valmsg-replace="true" class="required"></span>-->
 			<span class="required" ng-show="form.planYear.$dirty && form.planYear.$invalid">必填</span>
-			<div>
-				<span>是否申请标外资金：</span>
-				<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="true" ng-model="vm.model.shenBaoInfo.isApplyOutsideCapital" ng-checked="vm.model.shenBaoInfo.isApplyOutsideCapital == true"/>&nbsp;是</label>
-				<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="false" ng-model="vm.model.shenBaoInfo.isApplyOutsideCapital" ng-checked="vm.model.shenBaoInfo.isApplyOutsideCapital == false"/>&nbsp;否</label>
-				<label ng-if="vm.model.shenBaoInfo.isApplyOutsideCapital">
-					申请标外资金：
-					<input type="number" min="0" step="any" style="width:100px" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.applyOutsideCapital"/>
-					&nbsp;(万元)
-				</label>
-			</div>
+			<!--<div>-->
+				<!--<span>是否申请标外资金：</span>-->
+				<!--<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="true" ng-model="vm.model.shenBaoInfo.isApplyOutsideCapital" ng-checked="vm.model.shenBaoInfo.isApplyOutsideCapital == true"/>&nbsp;是</label>-->
+				<!--<label style="margin-right: 10px;"><input type="radio" name="isApplyOutsideCapital" value="false" ng-model="vm.model.shenBaoInfo.isApplyOutsideCapital" ng-checked="vm.model.shenBaoInfo.isApplyOutsideCapital == false"/>&nbsp;否</label>-->
+				<!--<label ng-if="vm.model.shenBaoInfo.isApplyOutsideCapital">-->
+					<!--申请标外资金：-->
+					<!--<input type="number" min="0" step="any" style="width:100px" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.applyOutsideCapital"/>-->
+					<!--&nbsp;(万元)-->
+				<!--</label>-->
+			<!--</div>-->
 		</td>
 		<td class="formAlignRight">打包类型：<span class="required">(*)</span></td>
 		<td>
