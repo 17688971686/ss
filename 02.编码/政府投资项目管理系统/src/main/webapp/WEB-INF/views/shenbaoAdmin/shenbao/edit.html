@@ -108,10 +108,9 @@ textarea.form-control {
                <!-- 下一年度计划申报信息页面 -->                   
               <div class="tab_content" ng-show="vm.isYearPlan">
                 <div ng-if="vm.isZFInvestment" ng-include  src="'/contents/shenbaoAdmin/shenbao/html/edit/stage/yearPlan.html'"></div>
-                <div ng-if="vm.isSHInvestment" ng-include  src="'/contents/shenbaoAdmin/shenbao/html/edit/stage/yearPlan_SH.html'"></div>
                  <div style="text-align: center">
                  	<button ng-if="vm.isZFInvestment" class="btn btn-sm btn-primary" ng-click="vm.tabReturn(3)"><span class="glyphicon glyphicon-backward">上一步 </span></button>
-                 	<button ng-if="vm.isSHInvestment" class="btn btn-sm btn-primary" ng-click="vm.tabReturn(2)"><span class="glyphicon glyphicon-backward">上一步 </span></button>
+
                  	
 					 <button class="btn btn-sm btn-success" ng-hide="vm.isRecordEdit" ng-click="vm.submit(1)" ng-disabled="vm.isSubmit">暂存 </button>
 					 <button class="btn btn-sm btn-success" ng-hide="vm.isRecordEdit" ng-click="vm.submit(2)" ng-disabled="vm.isSubmit">确认提交 </button>

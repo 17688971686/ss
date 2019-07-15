@@ -116,17 +116,18 @@
 //    	   projectSvc.grid(vm);
     	   //点击新增项目弹出模态框
     	   vm.addProject = function(){
-    		  $("#myModal").modal({
-			        backdrop: 'static',
-			        keyboard:true
-    		  });
+    		  // $("#myModal").modal({
+			   //      backdrop: 'static',
+			   //      keyboard:true
+    		  // });
     		  vm.model.projectInvestmentType = common.basicDataConfig().projectInvestmentType_ZF;//默认为政府投资项目
+               $location.path("/projectEdit//"+vm.model.projectInvestmentType);
     	   };
     	   //点击模态框确认按钮跳转不同的信息录入页面
-    	   vm.confirmInvestmentType=function(){
-    		   $(".modal-backdrop").remove();
-    		   $location.path("/projectEdit//"+vm.model.projectInvestmentType);
-    	   };
+    	   // vm.confirmInvestmentType=function(){
+    		   // $(".modal-backdrop").remove();
+
+    	   // };
     	   //条件查询
     	   vm.search=function(){
     		   var filters = [];
@@ -253,7 +254,7 @@
 	   		//end#基础数据
 	   		
 	   		//批复文件上传
-	   		vm.uploadType=[['SCQQJFXD', '首次前期经费下达批复'],['KXXYJBG','可行性研究报告批复'],['CBSJYGS','初步设计与概算批复'],['ZJSQBG','资金申请报告批复']];
+	   		vm.uploadType=[['JYS', '立项文件'],['KXXYJBG','可行性研究报告批复'],['CBSJYGS','初步设计与概算批复'],['ZJSQBG','资金申请报告批复']];
 	   		
 	   		vm.onSelect=function(e){
 	   			$.each(e.files, function (index, value) {

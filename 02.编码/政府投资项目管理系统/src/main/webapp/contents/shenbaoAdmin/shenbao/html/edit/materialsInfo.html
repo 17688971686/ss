@@ -6,7 +6,7 @@
 		<tr>
 			<td style="width:180px;">批复名称</td>
 			<td style="width:180px;">批复时间</td>
-			<td style="width:180px;">批复文号</td>
+			<td style="width:180px;">批复文号<span class="required">(*)</span></td>
 			<td>文件上传</td>
 		</tr>
 		<tr ng-repeat="x in vm.uploadType">
@@ -14,7 +14,10 @@
 			<td>
 				<input type="text" id="id" name="name" kendo-date-picker ng-model="vm.model['pifu'+x[0]+'_date']" k-format="'yyyy-MM-dd'" k-culture="'zh-CN'" onkeydown="return false;"/>
 			</td>
-			<td><input type="text" id="wenhao" name="wenhao" ng-model="vm.model['pifu'+x[0]+'_wenhao']" placeholder="格式：xxx〔xx〕xx号"/></td>
+			<td><input type="text" id="{{x[0]}}" name="{{x[0]}}" ng-model="vm.model['pifu'+x[0]+'_wenhao']" placeholder="格式：xxx〔xx〕xx号" data-val="true"
+					   data-val-required="必填,没有文号请填‘无’"/>
+				<span data-valmsg-for="{{x[0]}}" data-valmsg-replace="true" class="required"></span></td>
+			</td>
 			<td class="clearfix">
 				<div class="uploadBox pull-left"  data-type="{{x[0]}}">
 					<button class="btn btn-sm btn-primary" style="margin-right:10px;" data-toggle="modal" ng-click="vm.choseDocument($event)">选择文件</button>

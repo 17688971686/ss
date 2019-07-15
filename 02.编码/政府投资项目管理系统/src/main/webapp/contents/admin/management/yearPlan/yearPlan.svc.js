@@ -1153,7 +1153,7 @@
                     //刷新文字输入长度
                     vm.checkLength(vm.model.remark, 500, 'remarkTips');
                 }
-                if (vm.page == 'planBZ') {//用于年度计划的编制
+                if (vm.page == 'planBZ' || vm.page =='shenbao_record') {//用于年度计划的编制
                     vm.model.plan = response.data.value[0] || {};
                     vm.planYear = vm.model.plan.year;//用于编制列表表头年份的绑定
                     grid_yearPlan_shenbaoInfoList(vm);//查询年度计划编制中的申报信息列表
@@ -1183,11 +1183,11 @@
                 method: 'post',
                 url: common.format(url_planList + "/getStatistics?planId={0}", vm.id),
                 data :{
-                    "projectName":vm.search.projectName,
-                    "projectStage":vm.search.projectStage,
-                    "unitName":vm.search.unitName,
-                    "projectIndustry":vm.search.projectIndustry,
-                    "projectCategory":vm.search.projectCategory,
+                    "projectName":vm.search.projectName_plan,
+                    "projectStage":vm.search.projectStage_plan,
+                    "unitName":vm.search.unitName_plan,
+                    "projectIndustry":vm.search.projectIndustry_plan,
+                    "projectCategory":vm.search.projectCategory_plan,
                 }
 
             };
@@ -1224,6 +1224,7 @@
                 serverSorting: true,
                 serverFiltering: true,
                 pageSize: 10,
+                // filter:vm.filters,
                 sort: {
                     field: "createdDate",
                     dir: "desc"
@@ -1263,7 +1264,8 @@
                     field: "projectName",
                     title: "项目名称",
                     template: function (item) {
-                        return common.format('<a href="#/shenbao_record/{0}" >{2}</a>', item.projectId, item.projectInvestmentType, item.projectName);
+                        return common.format('<a href="#/projectDetails/{0}/{1}" >{2}</a>', item.projectId, item.projectInvestmentType, item.projectName);
+
                     },
                     width: 300,
                     filterable: false,
@@ -1430,7 +1432,7 @@
                 excelExport: excelExport
             };
 
-            vm.planGridOptions.dataSource.read();//编制申报信息列表数据刷新
+            // vm.planGridOptions.dataSource.read();//编制申报信息列表数据刷新
         }//end grid_yearPlan_shenbaoInfoList
 
         /**

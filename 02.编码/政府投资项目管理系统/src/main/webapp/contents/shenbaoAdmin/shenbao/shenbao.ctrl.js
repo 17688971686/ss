@@ -579,8 +579,8 @@
 														: vm.isYearPlan ? common
 																.uploadFileTypeConfig().projectShenBaoStage_YearPlan
 																: [];
-				vm.uploadType = vm.isYearPlan ? [ [ 'JYS', '项目建议书' ],
-						[ 'KXXYJBG', '可行性研究报告' ], [ 'CBSJYGS', '初步设计与概算' ] ]
+				vm.uploadType = vm.isYearPlan ? [ [ 'JYS', '立项文件' ],
+						[ 'KXXYJBG', '可行性研究报告' ], [ 'CBSJYGS', '初步设计与概算' ],['ZJSQBG','资金申请报告批复'] ]
 						: [];
 
 				//初始化tab--禁止点击Tab切换
@@ -808,7 +808,7 @@
 
                             common.confirm({
                                 vm: vm,
-                                msg: "确认不上传批复文件吗？",
+                                msg: "确认不再上传审批资料？",
                                 fn: function () {
                                     $('.confirmDialog').modal('hide');
                                     $(".modal-backdrop").remove();
@@ -854,7 +854,18 @@
                                     }
                                 });
                             }
-                            if(typelist.indexOf("KXXYJBG") != -1 && typelist.indexOf("CBSJYGS") != -1 && typelist.indexOf("JYS") != -1){
+                            if(typelist.indexOf("ZJSQBG") == -1){
+                                common.confirm({
+                                    vm: vm,
+                                    msg: "确认不上传资金申请报告批复吗？",
+                                    fn: function () {
+                                        $('.confirmDialog').modal('hide');
+                                        $(".modal-backdrop").remove();
+                                        vm.tabStrip.activateTab(activeTab);
+                                    }
+                                });
+                            }
+                            if(typelist.indexOf("KXXYJBG") != -1 && typelist.indexOf("CBSJYGS") != -1 && typelist.indexOf("JYS") != -1 && typelist.indexOf("ZJSQBG") != -1){
                                 vm.tabStrip.activateTab(activeTab);
 							}
 						}

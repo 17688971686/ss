@@ -77,7 +77,9 @@
         	initPage();
         	initPublicMethod();
         	initBasicData();
-        	
+
+
+
         	if(vm.page=='shenbaoInfoList'){
         		init_shenbaoInfoList();
         	}
@@ -133,10 +135,6 @@
         vm.doSearch_plan=function() {
 
             yearPlanSvc.grid_yearPlan_shenbaoInfoList(vm);
-            // alert("======>2222");
-
-// $('#planGird').data('kendoGrid').refresh();
-			// alert("======>33333");
         }
 
         vm.checkLength = function(obj,max,id){
@@ -866,27 +864,39 @@
     	}//init_planUpadte
     	
     	function init_planBZ(){
-
+            yearPlanSvc.grid_yearPlan_shenbaoInfoList(vm);
             //查询
             vm.doSearch=function(){
-                var filters = [];
-                filters.push({field:'projectInvestmentType',operator:'eq',value:common.basicDataConfig().projectInvestmentType_ZF});//默认条件--政府投资项目
+                vm.filters = [];
+                vm.filters.push({field:'projectInvestmentType',operator:'eq',value:common.basicDataConfig().projectInvestmentType_ZF});//默认条件--政府投资项目
                 if(vm.search.projectName_plan !=null && vm.search.projectName_plan !=''){//查询条件--项目名称
-                    filters.push({field:'projectName',operator:'contains',value:vm.search.projectName_plan});
+                    vm.filters.push({field:'projectName',operator:'contains',value:vm.search.projectName_plan});
                 }
                 if(vm.search.projectStage_plan !=null && vm.search.projectStage_plan !=''){//查询条件--项目阶段
-                    filters.push({field:'projectStage',operator:'eq',value:vm.search.projectStage_plan});
+                    vm.filters.push({field:'projectStage',operator:'eq',value:vm.search.projectStage_plan});
                 }
                 if(vm.search.unitName_plan !=null && vm.search.unitName_plan !=''){
-                    filters.push({field:'unitName',operator:'eq',value:vm.search.unitName_plan});
+                    vm.filters.push({field:'unitName',operator:'eq',value:vm.search.unitName_plan});
                 }
                 if(vm.search.projectIndustry_plan !=null && vm.search.projectIndustry_plan !=''){//查询条件--项目行业
-                    filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry_plan});
+                    vm.filters.push({field:'projectIndustry',operator:'eq',value:vm.search.projectIndustry_plan});
                 }
                 if(vm.search.projectCategory_plan !=null && vm.search.projectCategory_plan !=''){//查询条件--项目行业
-                    filters.push({field:'projectCategory',operator:'eq',value:vm.search.projectCategory_plan});
+                    vm.filters.push({field:'projectCategory',operator:'eq',value:vm.search.projectCategory_plan});
                 }
-                vm.planGridOptions.dataSource.filter(filters);
+                var dataSource = $("#planGird").data("kendoGrid").dataSource;
+                // yearPlanSvc.grid_yearPlan_shenbaoInfoList(vm);
+
+                var Grid = $("div[data-role=grid]");//获取grid对象
+                var Table = Grid.data("kendoGrid");//当前数据
+                var Data = Table.dataSource.data();
+                var aaa = vm.planGridOptions.dataSource.filter(vm.filters);
+                var fiData = new kendo.data.Query(Data).filter(vm.filters).data;//获取过滤后的数据,方式一
+                // var fiData = new kendo.data.Query.process(Data, { filter: filters }).data;//获取过滤后的数据，方式二
+                Table.dataSource.view(fiData);//将过滤后的信息传给视图
+                Table.dataSource._aggregateResult = new kendo.data.Query(fiData).aggregate(Table.dataSource.options.aggregate);//重新计算聚合列
+                Table.refresh();//刷新页面信息
+                // vm.planGridOptions.dataSource.filter(vm.filters);
                 yearPlanSvc.getPlanStatisticsInfo(vm);
             };
             //清空查询条件

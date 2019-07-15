@@ -676,7 +676,7 @@
                 ['GCGHXKZ_Scanning', '工程规划许可证扫描件'], ['IssuedReplyFile_Scanning', '全部已下达计划批复文件扫描件 <span class="required">(*)</span>'], ['other', '其他']],
             projectShenBaoStage_xuJian: [['ApplyReport_pdf', '申请报告（pdf版，加盖公章）<span class="required">(*)</span>'], ['ApplyReport_word', '申请报告（Word版）<span class="required">(*)</span>'], ['LastYearPlanReply_Copy', '上一年度计划批文复印件 <span class="required">(*)</span>'],
             	['other', '其他']],
-            projectShenBaoStage_YearPlan: [['XXJD', '项目工程形象进度及年度资金需求情况'], ['WCJSNR', '年度完成建设内容及各阶段工作内容完成时间表'], ['TTJH', '历年政府投资计划下达文件'],
+            projectShenBaoStage_YearPlan: [['XMYJWJ', '项目移交文件'],['XXJD', '项目工程形象进度及年度资金需求情况'], ['WCJSNR', '年度完成建设内容及各阶段工作内容完成时间表'], ['TTJH', '历年政府投资计划下达文件'],
                 ['GCXKZ', '建设工程规划许可证'], ['TDQK', '土地落实情况、征地拆迁有关情况'], ['XMJZ', '项目进展情况相关资料'], ['QQGZJH', '前期工作计划文件'], ['XMSSYJ', '项目实施依据文件'], ['HYJY', '会议纪要']],
             projectShenBaoStage_junGong: [['ApplyReport_pdf', '申请报告（pdf版，加盖公章）<span class="required">(*)</span>'], ['ApplyReport_word', '申请报告（Word版）<span class="required">(*)</span>'], ['LastYearPlanReply_Copy', '上一年度计划批文复印件 <span class="required">(*)</span>'],
                 ['IssuedReplyFile_Scanning', '全部已下达计划批复文件扫描件 <span class="required">(*)</span>'], ['other', '其他']],
