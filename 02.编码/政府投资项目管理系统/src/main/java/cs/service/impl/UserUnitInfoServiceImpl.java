@@ -18,6 +18,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,40 +62,47 @@ public class UserUnitInfoServiceImpl extends AbstractServiceImpl<UserUnitInfoDto
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void save(String unitName,UserUnitInfoDto unitInfoDto) {
 		UserUnitInfo userUnitInfo = null;
-		List<User> userList = unitInfoDto.getUsers();
 		List<String> useridList = new ArrayList<>();
 		User user = userRepo.findById(currentUser.getUserId());
 		//根据用户名来判断是有有该用户单位这条记录
 		Criterion criterion=Restrictions.eq(UserUnitInfo_.unitName.getName(), unitName);
-		UserUnitInfo query_userUnitInfo =super.repository.findByCriteria(criterion).stream().findFirst().get();
-		if(query_userUnitInfo != null){//如果存在更新这一条数据
-			if(query_userUnitInfo.getUsers().isEmpty()){//单位没人
-				query_userUnitInfo.getUsers().add(user);
+		Criteria criteria = super.repository.getSession().createCriteria(UserUnitInfo.class);
+		criteria.add(Restrictions.eq("unitName",unitName));
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		List<UserUnitInfo> query_userUnitInfo =criteria.list();
+		if(!CollectionUtils.isEmpty(query_userUnitInfo) && query_userUnitInfo.size()>1 ){
+			throw new IllegalArgumentException("单位名称已存在，请确认后提交");
+		}
+		if(!CollectionUtils.isEmpty(query_userUnitInfo) && query_userUnitInfo.size() == 1
+				&& !query_userUnitInfo.get(0).getId().equals(unitInfoDto.getId())){
+			throw new IllegalArgumentException("单位名称已存在，请确认后提交");
+		}
+
+		UserUnitInfo userUnit =super.repository.findById(unitInfoDto.getId());
+		//如果存在更新这一条数据
+		if(!ObjectUtils.isEmpty(userUnit)){
+			//单位没人
+			if(userUnit.getUsers().isEmpty()){
+				userUnit.getUsers().add(user);
 			}else{
-				query_userUnitInfo.getUsers().forEach(x->{
+				userUnit.getUsers().forEach(x->{
 				
 					useridList.add(x.getId());
 				});
 
 				if(useridList.indexOf(user.getId()) == -1){
-					query_userUnitInfo.getUsers().add(user);
+					userUnit.getUsers().add(user);
 				}
 			}
-			unitInfoDto.setUsers(query_userUnitInfo.getUsers());
-			userUnitInfo = super.update(unitInfoDto, query_userUnitInfo.getId());
+			unitInfoDto.setUsers(userUnit.getUsers());
+			userUnitInfo = super.update(unitInfoDto, userUnit.getId());
 			 
-		}else{//如果不存在创建一条新数据
-			unitInfoDto.setUserName(currentUser.getUserId());
-			unitInfoDto.setUnitName(unitName);
-			userList.add(user);
-			unitInfoDto.setUsers(userList);
-			userUnitInfo = super.create(unitInfoDto);
 		}
 		super.repository.save(userUnitInfo);
-		logger.info(String.format("创建单位信息:%s", unitName));
+		logger.info(String.format("更新单位信息:%s", unitName));
 	}
 
 	@Override

@@ -16,7 +16,9 @@
 
 	<form name="myForm" novalidate>
 		<div class="text-danger bg-danger" style="padding:10px; margin:5px 0;">
-			<strong>温馨提示：填写相关信息后，在项目申报时就不用重复填写了！</strong>
+			<strong>温馨提示：1.填写相关信息后，在项目申报时就不用重复填写了！</strong></br>
+			<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.用户首次绑定单位后无法变更单位信息，请谨慎选择！</strong></br>
+			<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.只能修改本单位信息，无法修改其他单位的信息！</strong></br>
 		</div>
 
 		<div class="panel panel-info">
@@ -29,7 +31,7 @@
 						<td width="150px;" class="formAlignRight">单位名称：<span class="required ">(*)</span></td>
 						<td colspan="4" class="RborderNone">
 							<input type="text" autocomplete="off" class="form-control input-sm" style="width:300px;"
-								   ng-model="vm.model.unitName" disabled="disabled"/>
+								   ng-model="vm.model.unitName"/>
 
 							<select id="unitName" name="unitName" class="form-select" ng-model="vm.model.unitName1"
 									ng-change="vm.changeUnit()">
