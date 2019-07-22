@@ -51,9 +51,26 @@
             }
             var httpSuccess = function success(response) {
                 vm.model.statisticsData = response.data;
+                //行业
                 vm.model.statisticsData.industry.map(function(x){
                     if(x.industry_applyAPYearInvest!=0){
+                        //计算年度投资
                         x.industry_applyAPYearInvest_percentage = (((x.industry_applyAPYearInvest/vm.model.statisticsData.applyAPYearInvest)*10000).toFixed(2)/100);
+                        //类别（ABCD）遍历
+                        for(var index in x.projectCategory){
+                            if(x.projectCategory[index].shenBaoInfoDtos.length>0){
+                                //遍历项目
+                                x.projectCategory[index].shenBaoInfoDtos.forEach( function(y){
+                                    switch (y.projectConstrChar) {
+                                        case "projectConstrChar_1" : y.projectConstrChar="前期";break;
+                                        case "projectConstrChar_2" : y.projectConstrChar="新开工";break;
+                                        case "projectConstrChar_3" : y.projectConstrChar="续建";break;
+                                        case "projectConstrChar_4" : y.projectConstrChar="储备类";break;
+                                        default : y.projectConstrChar="-"
+                                    }
+                                });
+                            }
+                        }
                     }
                 })
             }
