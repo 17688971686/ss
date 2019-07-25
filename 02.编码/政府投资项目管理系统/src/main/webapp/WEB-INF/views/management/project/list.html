@@ -289,6 +289,9 @@
                 <h4 class="modal-title" id="myModalLabel">项目统计报表</h4> 
             </div> 
             <div class="modal-body">
+                <a href="javascript:void(0)" class="btn btn-success btn-sm" ng-click="vm.exportExcelForProject()">
+                    <span class="glyphicon glyphicon-print"></span>&nbsp;导出excel
+                </a>
                 <!--报表-->
                 <table class="table table-bordered">
                     <!--表头-->
@@ -347,7 +350,7 @@
                             <th width="300px" style="vertical-align: middle;text-align: center;">{{y.projectInvestSum}}</th>
                             <th width="300px" style="vertical-align: middle;text-align: center;" rowspan="2">{{y.applyAPYearInvest}}</th>
                         </tr>
-                        <tr ng-show="y.projectInvestSum!=0 || y.projectInvestAccuSum!=0 || y.applyAPYearInvest!=0">>
+                        <tr ng-show="y.projectInvestSum!=0 || y.projectInvestAccuSum!=0 || y.applyAPYearInvest!=0">
                             <th width="300px" style="vertical-align: middle;text-align: center;">{{y.projectInvestAccuSum}}</th>
                         </tr>
                         
@@ -397,6 +400,9 @@
                 <h4 class="modal-title" id="myModalLabel">分类统计报表</h4> 
             </div> 
             <div class="modal-body">
+                <a href="javascript:void(0)" class="btn btn-success btn-sm" ng-click="vm.exportExcelForCategory()">
+                    <span class="glyphicon glyphicon-print"></span>&nbsp;导出excel
+                </a>
                 <!--报表-->
                 <table class="table table-bordered table-striped">
                     <tr>

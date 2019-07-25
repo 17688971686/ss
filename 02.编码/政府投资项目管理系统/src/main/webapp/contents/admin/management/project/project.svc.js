@@ -31,7 +31,9 @@
 			//统计分析
 			getProjects:getProjects,
             updateAlreadyDisbursedByExcel:updateAlreadyDisbursedByExcel,
-            getProjectUnit : getProjectUnit
+            getProjectUnit : getProjectUnit,
+            //Excel导出
+            postDownFile:postDownFile
 			
 		};
 
@@ -1200,6 +1202,14 @@
                 $http : $http,
                 httpOptions : httpOptions,
                 success : successCallBack
+            });
+        }
+        
+        //转为使用form表单提交
+        function postDownFile(vm, urlPath){
+            vm.postDownLoadFile({
+                url: urlPath,
+                method: 'post'
             });
         }
 

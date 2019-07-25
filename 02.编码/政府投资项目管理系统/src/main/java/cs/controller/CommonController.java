@@ -10,17 +10,15 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.alibaba.fastjson.JSONObject;
+import cs.model.exportExcel.*;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import cs.common.ICurrentUser;
@@ -29,14 +27,6 @@ import cs.common.Util;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.BasicDataDto;
 import cs.model.DomainDto.UserUnitInfoDto;
-import cs.model.exportExcel.ExcelDataYS;
-import cs.model.exportExcel.ExcelDataDWTJ;
-import cs.model.exportExcel.ExcelDataHYTJ;
-import cs.model.exportExcel.ExcelDataLBTJ;
-import cs.model.exportExcel.ExcelReportDWTJView;
-import cs.model.exportExcel.ExcelReportHYTJView;
-import cs.model.exportExcel.ExcelReportLBTJView;
-import cs.model.exportExcel.ExcelReportYSView;
 import cs.model.framework.RoleDto;
 import cs.repository.odata.ODataObj;
 import cs.service.common.BasicDataService;
@@ -272,5 +262,19 @@ public class CommonController {
 		excelDataDWTJList = yearPlanService.getYearPlanShenBaoInfoByDWTJ(planId);
 		int year = excelDataDWTJList.get(0).getPlanYear();
 		return new ModelAndView(new ExcelReportDWTJView(year), "excelDataDWTJList", excelDataDWTJList);
+	}
+
+	@RequestMapping(name="导出Excel-项目统计报表",path="exportPlanStatistics",method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void getExcelForPlanStatistics(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		ExcelReportPlanStatistics excelReportPlanStatistics = new ExcelReportPlanStatistics();
+		excelReportPlanStatistics.buildExcelDocument(request, response);
+	}
+
+	@RequestMapping(name="导出Excel-分类统计报表",path="exportCategoryStatistics",method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void getExcelForCategoryStatistics(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		ExcelReportCategoryStatistics excelReportCategoryStatistics = new ExcelReportCategoryStatistics();
+		excelReportCategoryStatistics.buildExcelDocument(request, response);
 	}
 }
