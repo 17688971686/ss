@@ -132,6 +132,14 @@
       <filter-name>XssFilter</filter-name>
       <url-pattern>/*</url-pattern>
   </filter-mapping>
+    <filter>
+        <filter-name>CSRFilter</filter-name>
+        <filter-class>cs.common.CSRFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CSRFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <!-- 防止跨域end -->
 
 	<!-- 文件上传 -->
