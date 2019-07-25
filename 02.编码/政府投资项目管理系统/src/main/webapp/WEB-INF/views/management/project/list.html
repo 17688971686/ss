@@ -290,54 +290,92 @@
             </div> 
             <div class="modal-body">
                 <!--报表-->
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered">
+                    <!--表头-->
                     <tr>
-                        <th width="80px"  style="text-align: center;">序号</th>
-                        <th width="300px" style="text-align: center;">项目类型</th>
-                        <th width="300px" style="text-align: center;">总投资</th>
-                        <th width="300px" style="text-align: center;">已安排投资</th>
-                        <th width="300px" style="text-align: center;">安排年度投资</th>
+                        <th width="80px"  style="vertical-align: middle;text-align: center;" rowspan="4">序号</th>
+                        <th width="300px" style="vertical-align: middle;text-align: center;" rowspan="4">建设单位、项目名称及国家编码</th>
+                        <th width="300px" style="vertical-align: middle;text-align: center;" rowspan="3">建设规模</th>
+                        <th width="300px" style="vertical-align: middle;text-align: center;">项目类型</th>
+                        <th width="300px" style="vertical-align: middle;text-align: center;" rowspan="2">总投资</th>
+                        <th width="300px" style="vertical-align: middle;text-align: center;" rowspan="3">安排年度投资</th>
                     </tr>
                     <tr>
-                        <th align="center"></th>
-                        <th style="text-align: center;">合计</th>
-                        <th style="text-align: center;">{{vm.model.statisticsData.projectInvestSum}}</th>
-                        <th style="text-align: center;">{{vm.model.statisticsData.projectInvestAccuSum}}</th>
-                        <th style="text-align: center;">{{vm.model.statisticsData.applyAPYearInvest}}</th>
+                        <th width="300px" style="vertical-align: middle;text-align: center;">建设性质</th>
                     </tr>
+                    <tr>
+                        <th width="300px" style="vertical-align: middle;text-align: center;">建设起止年月</th>
+                        <th width="300px" style="vertical-align: middle;text-align: center;">已安排投资</th>
+                    </tr>
+                    <tr>
+                        <th width="300px" style="vertical-align: middle;text-align: center;" colspan="4">主要建设内容</th>
+                    </tr>
+                    
+                    <!--合计-->
+                    <tr>
+                        <th width="80px"  rowspan="2"></th>
+                        <th width="300px" style="vertical-align: middle;text-align: center;" rowspan="2">合计</th>
+                        <th width="300px" style="vertical-align: middle;text-align: center;" rowspan="2" colspan="2">项目总数{{vm.model.statisticsData.projectNum}}个</th>
+                        <th width="300px" style="vertical-align: middle;text-align: center;">{{vm.model.statisticsData.projectInvestSum}}</th>
+                        <th width="300px" style="vertical-align: middle;text-align: center;" rowspan="2">{{vm.model.statisticsData.applyAPYearInvest}}</th>
+                    </tr>
+                    <tr>
+                        <th width="300px" style="vertical-align: middle;text-align: center;">{{vm.model.statisticsData.projectInvestAccuSum}}</th>
+                    </tr>
+                    
+                    <!--17个行业遍历-->
                     <tr ng-repeat-start="x in vm.model.statisticsData.industry" ng-show="x.industry_projectInvestSum!=0 || 
-                                                                                        x.industry_projectInvestAccuSum!=0 ||
-                                                                                        x.industry_applyAPYearInvest!=0">
-                        <th></th>
-                        <th style="text-align: center;">{{x.projectIndustry}}</th>
-                        <th style="text-align: center;">{{x.industry_projectInvestSum}}</th>
-                        <th style="text-align: center;">{{x.industry_projectInvestAccuSum}}</th>
-                        <th style="text-align: center;">{{x.industry_applyAPYearInvest}}</th>
+                                                                                         x.industry_projectInvestAccuSum!=0 ||
+                                                                                         x.industry_applyAPYearInvest!=0">
+                        <th width="80" rowspan="2"></th>
+                        <th width="300px" style="vertical-align: middle;text-align: center;" rowspan="2">{{x.projectIndustry}}</th>
+                        <th width="300px" style="vertical-align: middle;text-align: center;" rowspan="2" colspan="2">项目总数{{x.projectNum}}个</th>
+                        <th width="300px" style="vertical-align: middle;text-align: center;">{{x.industry_projectInvestSum}}</th>
+                        <th width="300px" style="vertical-align: middle;text-align: center;" rowspan="2">{{x.industry_applyAPYearInvest}}</th>
                     </tr>
+                    <tr ng-show="x.industry_projectInvestSum!=0 || x.industry_projectInvestAccuSum!=0 || x.industry_applyAPYearInvest!=0">
+                        <th width="300px" style="vertical-align: middle;text-align: center;">{{x.industry_projectInvestAccuSum}}</th>
+                    </tr>
+                    
+                        <!--ABCD类遍历-->
                         <tr ng-repeat-start="y in x.projectCategory" ng-show="y.projectInvestSum!=0 ||
-                                                                              y.projectInvestAccuSum !=0 || 
-                                                                              y.applyAPYearInvest!=0">
-                            <th ></th>
-                            <th style="text-align: center;">{{y.categoryName}}</th>
-                            <th style="text-align: center;">{{y.projectInvestSum}}</th>
-                            <th style="text-align: center;">{{y.projectInvestAccuSum}}</th>
-                            <th style="text-align: center;">{{y.applyAPYearInvest}}</th>
+                                                                               y.projectInvestAccuSum !=0 || 
+                                                                               y.applyAPYearInvest!=0">
+                            <th width="80" rowspan="2"></th>
+                            <th width="300px" style="vertical-align: middle;text-align: center;" rowspan="2">{{y.categoryName}}</th>
+                            <th width="300px" style="vertical-align: middle;text-align: center;" rowspan="2" colspan="2">项目总数{{y.shenBaoInfoDtos.length}}个</th>
+                            <th width="300px" style="vertical-align: middle;text-align: center;">{{y.projectInvestSum}}</th>
+                            <th width="300px" style="vertical-align: middle;text-align: center;" rowspan="2">{{y.applyAPYearInvest}}</th>
                         </tr>
+                        <tr ng-show="y.projectInvestSum!=0 || y.projectInvestAccuSum!=0 || y.applyAPYearInvest!=0">>
+                            <th width="300px" style="vertical-align: middle;text-align: center;">{{y.projectInvestAccuSum}}</th>
+                        </tr>
+                        
+                            <!--项目遍历-->
                             <tr ng-repeat-start="z in y.shenBaoInfoDtos">
-                                <td align="center">{{$index+1}}</td>
-                                <td align="center">
-                                {{z.projectName}}
-                                <br>
-                                {{z.countryNumber}}
-                                </td>
-                                <td align="center">{{z.projectInvestSum}}</td>
-                                <td align="center">{{z.projectInvestAccuSum}}</td>
-                                <td align="center">{{z.applyAPYearInvest}}</td>
+                                <tr>
+                                    <td width="80px"  style="vertical-align: middle;text-align: center;" rowspan="4">{{$index+1}}</td>
+                                    <td width="300px" style="vertical-align: middle;text-align: center;" rowspan="4">{{z.constructionUnit}}<br/>{{z.projectName}}<br/>{{z.countryNumber}}</td><!--建设单位、项目名、国家编码-->
+                                    <td width="300px" style="vertical-align: middle;text-align: center;" rowspan="3">{{z.projectGuiMo}}</td>
+                                    <td width="300px" style="vertical-align: middle;text-align: center;">{{y.categoryName}}</td>
+                                    <td width="300px" style="vertical-align: middle;text-align: center;" rowspan="2">{{z.projectInvestSum}}</td><!--总投资-->
+                                    <td width="300px" style="vertical-align: middle;text-align: center;" rowspan="3">{{z.applyAPYearInvest}}</td><!--年度安排投资-->
+                                </tr>
+                                <tr>
+                                    <td width="300px" style="vertical-align: middle;text-align: center;">{{z.projectConstrChar}}</td><!--建设性质-->
+                                </tr>
+                                <tr>
+                                    <td width="300px" style="vertical-align: middle;text-align: center;">{{z.beginDate}}~<br/>{{z.endDate}}</td><!--建设起止年月-->
+                                    <td width="300px" style="vertical-align: middle;text-align: center;">{{z.projectInvestAccuSum}}</td><!--已安排投资-->
+                                </tr>
+                                <tr>
+                                    <td width="300px" style="vertical-align: middle;text-align: center;" colspan="4">{{z.planReachConstructionContent==""?"-":z.planReachConstructionContent}}</td><!--主要内容-->
+                                </tr>
                             </tr>
+                            
                             <tr ng-repeat-end></tr>
                         <tr ng-repeat-end></tr>
                     <tr ng-repeat-end></tr>
-                    
                 </table>
             </div> 
             <div class="modal-footer"> 
