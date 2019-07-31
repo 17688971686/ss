@@ -10,6 +10,7 @@
 	  <script type="text/template" id="columnBtns">
 			<a style="{2}" class="btn btn-xs btn-primary" href="#/projectEdit/{0}/{1}"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
 			<button style="{2}" class="btn btn-xs btn-danger" ng-click="{3}" ng-disabled="vm.isSubmit"><span class="glyphicon glyphicon-remove"></span>删除</button>
+			<button class="btn btn-sm btn-warning" ng-click="vm.moveProjectModel('{0}')"><span class="glyphicon glyphicon-plus"></span>移交</button>
 	  </script>
 	  <div class="search">
 	  	<table class="table table-bordered" style="margin-bottom:0px;">
@@ -104,6 +105,27 @@
 			<div class="modal-footer"> 
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>			
 		 		<button type="button" class="btn btn-success" ng-click="vm.confirmInvestmentType()">确认</button> 
+			</div> 
+		</div><!-- /.modal-content --> 
+	</div><!-- /.modal --> 
+</div>
+<!-- 移交项目模态框 -->
+<div class="modal fade" id="moveProjectModal" tabindex="-1" role="dialog"> 
+	<div class="modal-dialog"> 
+		<div class="modal-content"> 
+			<div class="modal-header bg-primary"> 
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;	</button> 
+				<h4 class="modal-title" id="myModalLabel">选择项目接收单位</h4> 
+			</div>
+			<div class="modal-body">
+			    <select style="height:30px;" ng-model="vm.moveUnitId">
+                    <option value="">---请选择---</option>
+                    <option ng-repeat="x in vm.basicData.userUnit" value="{{x.id}}">{{x.unitName}}</option>
+                </select>
+			</div> 
+			<div class="modal-footer"> 
+		 		<button type="button" class="btn btn-success" ng-click="vm.submitMoveProject()">确认</button> 
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>			
 			</div> 
 		</div><!-- /.modal-content --> 
 	</div><!-- /.modal --> 

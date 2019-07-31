@@ -176,4 +176,11 @@ public interface ProjectService extends IService<ProjectDto, Project, String> {
 	 */
 	void handlePiFuFile(Project project);
 
+
+	/**
+	 * 移交项目到新单位
+	 * @param map
+	 */
+	void moveProject(Map<String, Object> map);
+	
 }

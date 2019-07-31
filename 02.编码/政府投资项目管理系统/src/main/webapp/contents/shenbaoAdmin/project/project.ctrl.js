@@ -17,7 +17,8 @@
         vm.basicData={};
         vm.search={};
         vm.page='list';
-
+		vm.moveUnitId = "";//移交项目的接收单位id
+        
         $(".menu li a").removeClass("focus");
         $(".menu li a:eq(2)").addClass("focus");
         $(".menu li a").click(function(){
@@ -427,5 +428,20 @@
     	   $(".modal-backdrop").remove();
     	   projectSvc.getProjectById(vm);
        }//end#page_projectInfo
+
+		
+		//移交项目模态框
+		vm.moveProjectModel = function(projectId){
+			vm.moveProjectId = projectId;
+        	$("#moveProjectModal").modal({
+				backdrop: 'static',
+				keyboard:true
+			});
+		}
+		//确认移交项目
+		vm.submitMoveProject = function(){
+        	projectSvc.submitMoveProject(vm);
+		}
+		
     }
 })();

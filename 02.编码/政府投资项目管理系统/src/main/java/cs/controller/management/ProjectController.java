@@ -197,6 +197,15 @@ public class ProjectController {
 	public void create(@RequestBody ProjectDto ProjectDto){		
 		ProjectService.create(ProjectDto);		
 	}
+
+
+	@RequestMapping(name="移交项目", path = "moveProject", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void moveProject(@RequestBody Map<String, Object> map){
+		ProjectService.moveProject(map);
+	}
+	
+	
 	
 	//begin#html
 	@RequiresPermissions("management/project#html/list#get")

@@ -24,6 +24,7 @@
 		var url_userUnit　= "/shenbaoAdmin/userUnitInfo";
 		var url_back = "/project";
 		var url_document="/shenbaoAdmin/replyFile";
+		var url_managementProject = "/management/project";
 		
 		var service = {
 			grid : grid,
@@ -32,7 +33,8 @@
 			deleteProject:deleteProject,
 			getUserUnit:getUserUnit,
 			getProjectById:getProjectById,
-			documentRecordsGird:documentRecordsGird
+			documentRecordsGird:documentRecordsGird,
+			submitMoveProject:submitMoveProject//移交项目
 		};		
 		return service;
 		
@@ -548,5 +550,38 @@
 
 		}// end fun grid
 
+		function submitMoveProject(vm){
+			var httpOptions = {
+				method : "post",
+				url : url_managementProject + "/moveProject",
+				data : {
+					"projectId":vm.moveProjectId,
+					"unitId":vm.moveUnitId
+				}
+			}
+			var httpSuccess = function success(response){
+				$("#moveProjectModal").modal('hide');
+				common.requestSuccess({
+					vm : vm,
+					response : response,
+					fn : function() {
+						common.alert({
+							vm : vm,
+							msg : "操作成功",
+							fn : function() {
+								$('.alertDialog').modal('hide');
+								vm.gridOptions.dataSource.read();
+							}
+						});
+					}
+				});
+			}
+			common.http({
+				vm : vm,
+				$http : $http,
+				success : httpSuccess,
+				httpOptions : httpOptions
+			})
+		}
 	}	
 })();

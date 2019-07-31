@@ -33,6 +33,7 @@ import org.hibernate.type.BooleanType;
 import org.hibernate.type.DoubleType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -1144,5 +1145,56 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
             }
         });
     }
+
+
+    /**
+     * 移交项目：将数据带到新项目，月报不带
+     * 旧的项目隐藏
+     * @param map
+     */
+    @Override
+    public void moveProject(Map<String, Object> map) {
+        String projectId = (String)map.get("projectId");
+        String unitId = (String)map.get("unitId");
+        Project entity = findById(projectId);
+        Project temp = new Project();
+        if(entity!=null) {
+            BeanUtils.copyProperties(entity, temp);
+
+            ProjectDto dto = super.mapper.toDto(temp);
+
+            dto.setId(UUID.randomUUID().toString());//项目ID
+            dto.setUnitName(unitId);//关联新的单位id
+            dto.setCreatedDate(new Date());
+            dto.setModifiedDate(new Date());
+            dto.setIsMonthReport(false);//是否填写月报
+            dto.setIsLatestVersion(true);//默认true
+            dto.setActiveRelease(false);//是否主动下达
+            dto.setMonthReportDtos(null);//月报
+            dto.setAttachmentDtos(null);//附件
+
+            Project project = super.create(dto);    //进行数据的转换
+            super.repository.save(project);
+
+            //重新设置附件
+            List<Attachment> atttList = new ArrayList<>();
+            entity.getAttachments().forEach(x -> {
+                Attachment att = new Attachment();
+                BeanUtils.copyProperties(x, att);
+                att.setId(UUID.randomUUID().toString());
+                atttList.add(att);
+            });
+            project.setAttachments(atttList);
+            super.repository.save(project);
+
+            //旧项目隐藏：单位为空
+            entity.setUnitName("");
+            entity.setProjectName(entity.getProjectName() + "(已移交)");
+            super.repository.save(entity);
+        }else{
+            throw new IllegalArgumentException("移交项目失败！");
+        }
+    }
+
 
 }
